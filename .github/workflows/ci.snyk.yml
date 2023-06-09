@@ -3,13 +3,11 @@ name: Snyk
 on:
   push:
     branches:
-      - 'main'
-      - 'main-mobile'
       - 'develop'
 
 jobs:
   test:
-    # Only run on push events or PRs from iotaledger/firefly, skip on PRs from forks
+    # Only run on push events or PRs from bloomwalletio/bloom, skip on PRs from forks
     # Secret variables cannot be exposed to PRs from forks
     if: github.event_name == 'push'
     runs-on: ubuntu-20.04
