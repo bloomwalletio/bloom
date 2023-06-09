@@ -26,14 +26,6 @@
   - [ ] MacOS
   - [ ] Linux
   - [ ] Windows
-- **Mobile**
-  - [ ] iOS
-  - [ ] Android
-- **Web**
-  - [ ] Chrome
-  - [ ] Firefox
-  - [ ] Brave
-  - [ ] Safari
 
 ## Checklist
 
