@@ -35,7 +35,7 @@
         "@ledgerhq/hw-app-eth": "^6.32.2",
         "@ledgerhq/hw-transport-node-hid": "^6.27.13",
         "@ledgerhq/logs": "^6.10.1",
-        "@sentry/electron": "^2.5.4",
+        "@sentry/electron": "^4.6.0",
         "@types/webpack-dev-server": "^4.7.2",
         "buffer": "^6.0.3",
         "dotenv": "^16.0.3",
