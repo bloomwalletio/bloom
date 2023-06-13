@@ -15,7 +15,7 @@
         "eslint-plugin-security": "^1.4.0",
         "eslint-plugin-svelte3": "^3.4.1",
         "husky": "^7.0.0",
-        "lint-staged": "^12.3.3",
+        "lint-staged": "^13.2.2",
         "node-hid": "^2.1.2",
         "patch-package": "^6.4.7",
         "prettier": "^2.3.2",
