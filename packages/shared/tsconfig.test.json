@@ -1,0 +1,21 @@
+{
+    "extends": "@tsconfig/svelte/tsconfig.json",
+    "compilerOptions": {
+        "baseUrl": "./",
+        "importsNotUsedAsValues": "remove",
+        "isolatedModules": true,
+        "lib": ["DOM", "ESNext"],
+        "paths": {
+            "@auxiliary/*": ["./lib/auxiliary/*"],
+            "@contexts/*": ["./lib/contexts/*"],
+            "@core/*": ["./lib/core/*"],
+            "@features/*": ["./lib/features/*"],
+            "@lib/*": ["./lib/*"],
+            "@mocks/*": ["./lib/tests/__mocks__/*"]
+        },
+        "types": ["jest", "node"],
+        "resolveJsonModule": true
+    },
+    "include": ["./lib/**/tests"],
+    "exclude": ["**/node_modules"]
+}
