@@ -11,9 +11,6 @@ const walletFeatures: IWalletFeatures = {
             enabled: true,
         },
     },
-    newSendFlow: {
-        enabled: true,
-    },
     assets: {
         enabled: true,
         burnAsset: {
