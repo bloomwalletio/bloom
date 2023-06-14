@@ -1,41 +1,54 @@
 <script lang="ts">
     import { formatTokenAmountBestMatch, IAsset } from '@core/wallet'
-    import { AssetIcon, Tile, Text, FontWeight, TextType } from '@ui'
+    import { AssetIcon, ClickableTile, Text, FontWeight, TextType } from '@ui'
     import { truncateString } from '@core/utils'
-    import { localize } from '@core/i18n'
+    import { formatCurrency } from '@core/i18n/utils'
+    import { getMarketAmountFromAssetValue } from '@core/market/utils/getMarketAmountFromAssetValue'
+    import { getMarketPriceForAsset } from '@core/market/utils'
 
     export let asset: IAsset
-    export let onMaxClick: () => unknown
+    export let onClick: (() => unknown) | undefined = undefined
+    export let selected = false
+    export let classes = ''
+    export let amount: number = 0
+    export let hideTokenInfo: boolean = false
 
-    $: availableBalance = asset?.balance?.available ?? 0
+    $: marketPrice = getMarketPriceForAsset(asset)
+    $: marketBalance = getMarketAmountFromAssetValue(amount, asset)
 </script>
 
-{#if asset && asset.metadata && asset.balance}
-    <Tile>
-        <div class="w-full flex flex-row justify-between items-center">
-            <div class="flex flex-row items-center text-left space-x-4">
-                <AssetIcon {asset} />
+<ClickableTile
+    {onClick}
+    classes="border-2 border-solid {selected ? 'border-blue-500 dark:border-gray-500' : 'border-transparent'} {classes}"
+    {...$$restProps}
+>
+    <div class="w-full flex flex-row justify-between items-center">
+        <div class="flex flex-row items-center text-left space-x-4">
+            <AssetIcon {asset} />
+            {#if !hideTokenInfo}
                 <div class="flex flex-col">
                     <Text type={TextType.p} fontWeight={FontWeight.semibold}>
-                        {asset.metadata.name
-                            ? truncateString(asset.metadata.name, 13, 0)
-                            : truncateString(asset.id, 6, 7)}
+                        {asset?.metadata?.name
+                            ? truncateString(asset?.metadata?.name, 13, 0)
+                            : truncateString(asset?.id, 6, 7)}
                     </Text>
                     <div class="flex flex-row justify-between items-center text-left">
-                        <Text type={TextType.p} secondary smaller>
-                            {formatTokenAmountBestMatch(availableBalance, asset.metadata)}
-                        </Text>
+                        <Text type={TextType.p} secondary smaller>{marketPrice ? formatCurrency(marketPrice) : ''}</Text
+                        >
+                        <slot name="subLabel" />
                     </div>
                 </div>
-            </div>
-            <div class="flex flex-col text-right">
-                <button
-                    on:click={onMaxClick}
-                    class="py-2 px-3 rounded-md text-13 bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-white"
-                >
-                    {localize('actions.useMax')}
-                </button>
+            {/if}
+        </div>
+        <div class="flex flex-col text-right">
+            <Text type={TextType.p} fontWeight={FontWeight.semibold}>
+                {formatTokenAmountBestMatch(amount, asset?.metadata)}
+            </Text>
+            <div class="flex flex-row justify-between items-center text-right">
+                <Text type={TextType.p} secondary smaller classes="flex-grow">
+                    {marketBalance ? `≈ ${formatCurrency(marketBalance)}` : ''}
+                </Text>
             </div>
         </div>
-    </Tile>
-{/if}
+    </div>
+</ClickableTile>
