@@ -1,8 +1,8 @@
 ---
-name: Found a bug?
-description: Fill in this form to report it, and help us improve
-title: '[Bug report]: '
-labels: 'bug report'
+name: Bug Report
+description: File a bug report to help improve the software
+title: '🐞 - '
+labels: 'bug-report'
 
 body:
     - type: markdown
@@ -11,12 +11,12 @@ body:
     - type: markdown
       attributes:
           value: |
-              Thank you for helping us make Firefly better, by reporting a bug you have found. This issue may already be reported! Please search on the [issue tracker](https://github.com/iotaledger/firefly/issues?q=is%3Aissue+is%3Aopen+label%3Atype%3Abug) before creating one. This form is for bugs only and not for help or support using this application. Please visit the [help and support discussions forum](https://github.com/iotaledger/firefly/discussions/categories/help-support) or join our [discord](https://discord.iota.org/) for help.
+              Thank you for helping us make Bloom better, by reporting a bug you have found. This issue may already be reported! Please search on the [issue tracker](https://github.com/iotaledger/firefly/issues?q=is%3Aissue+is%3Aopen+label%3Atype%3Abug) before creating one. This form is for bugs only and not for help or support using this application. Please visit the [help and support discussions forum](https://github.com/iotaledger/firefly/discussions/categories/help-support) or join our [discord](https://discord.iota.org/) for help.
 
     - type: markdown
       attributes:
-          value: '## Firefly application details'
-          
+          value: '## Bloom application details'
+
     - type: dropdown
       id: platform
       attributes:
@@ -27,13 +27,13 @@ body:
             - Desktop
             - Mobile
       validations:
-          required: true      
-    
+          required: true
+
     - type: input
       id: version
       attributes:
           label: Version
-          description: What version of Firefly are you using? (Select all that apply)
+          description: What version of Bloom are you using? (Select all that apply)
           placeholder: "1.4.0"
       validations:
           required: true
@@ -66,7 +66,7 @@ body:
           description: A concise description of what actually happened.
       validations:
           required: true
-    
+
     - type: dropdown
       id: can_repro
       attributes:
@@ -87,11 +87,11 @@ body:
               2.
               3.
               ...
-    
+
     - type: markdown
       attributes:
           value: '## Your machine'
-          
+
     - type: dropdown
       id: os
       attributes:
@@ -106,18 +106,18 @@ body:
             - Android
       validations:
           required: true
-          
+
     - type: textarea
       id: diagnostics
       attributes:
           label: Diagnostics
-          description: Paste the information from the Diagnostics popup accessible in the Firefly main menu or settings page.
+          description: Paste the information from the Diagnostics popup accessible in the Bloom main menu or settings page.
           render: shell
-          
+
     - type: markdown
       attributes:
-          value: '## Use of Firefly'
-          
+          value: '## Use of Bloom'
+
     - type: dropdown
       id: profile_role
       attributes:
@@ -129,7 +129,7 @@ body:
             - "Yes"
       validations:
           required: true
-          
+
     - type: dropdown
       id: profile_type
       attributes:
@@ -141,7 +141,7 @@ body:
             - Hardware (Ledger)
       validations:
           required: true
-          
+
     - type: dropdown
       id: staking_status
       attributes:
@@ -153,16 +153,16 @@ body:
             - Previously staked
             - Never staked
       validations:
-              
+
     - type: markdown
       attributes:
           value: '## Error information'
-          
+
     - type: dropdown
       id: crash_info
       attributes:
           label: Crash Status
-          description: Did Firefly crash, hang or freeze?
+          description: Did Bloom crash, hang or freeze?
           multiple: false
           options:
             - "None of the above"
@@ -172,7 +172,7 @@ body:
             - Application closed
       validations:
         required: true
-          
+
     - type: textarea
       id: error_messages
       attributes:
@@ -183,7 +183,7 @@ body:
       id: error_logs
       attributes:
           label: Error Logs
-          description: Paste the latest errors from the error log, accessible in the Firefly main menu or settings page
+          description: Paste the latest errors from the error log, accessible in the Bloom main menu or settings page
           render: shell
 
     - type: markdown
@@ -203,7 +203,7 @@ body:
       id: terms
       attributes:
           label: Code of Conduct
-          description: By submitting this issue, you agree to follow our [Code of Conduct](https://github.com/iotaledger/firefly/blob/53b11691345897703cc3b2cfd3caa830bc2ff949/.github/CODE_OF_CONDUCT.md).
+          description: By submitting this issue, you agree to follow our [Code of Conduct](https://github.com/bloomwalletio/bloom/blob/develop/.github/CODE_OF_CONDUCT.md).
           options:
               - label: I agree to follow this project's Code of Conduct
                 required: true

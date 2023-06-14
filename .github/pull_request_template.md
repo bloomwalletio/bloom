@@ -4,12 +4,6 @@
 
 ...
 
-## Changelog
-
-```
-- Please write a list of changes
-```
-
 ## Testing
 
 ### Platforms
@@ -20,9 +14,6 @@
     -   [ ] MacOS
     -   [ ] Linux
     -   [ ] Windows
--   **Mobile**
-    -   [ ] iOS
-    -   [ ] Android
 
 ### Instructions
 

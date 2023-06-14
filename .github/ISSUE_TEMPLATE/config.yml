@@ -1,16 +1,16 @@
 blank_issues_enabled: false
 contact_links:
     - name: Need help?
-      url: https://github.com/iotaledger/firefly/discussions/categories/help-support
+      url: https://github.com/bloomwalletio/bloom/discussions/categories/q-a
       about: Ask the community for help or support
     - name: Request a feature
-      url: https://github.com/iotaledger/firefly/discussions/categories/features-enhancements
+      url: https://github.com/bloomwalletio/bloom/discussions/categories/ideas
       about: Propose a feature or enhancement in GitHub discussions
     - name: General feedback
-      url: https://github.com/iotaledger/firefly/discussions/categories/feedback
+      url: https://github.com/bloomwalletio/bloom/discussions/categories/general
       about: Leave us some feedback
     - name: Translation issues
-      url: https://crowdin.com/project/iota-firefly
+      url: https://crowdin.com/project/bloom-wallet
       about: Issues with translations can be resolved on Crowdin
     - name: Join our Discord
       url: https://discord.iota.org/
