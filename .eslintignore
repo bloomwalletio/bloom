@@ -2,7 +2,6 @@
 .vscode/
 
 patches/
-specs/
 
 # Desktop (packages/desktop)
 packages/desktop/out/
