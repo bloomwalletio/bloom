@@ -82,6 +82,10 @@ gen-external-apklibs
 # NDK
 obj/
 
+# Visual Studio
+.vs/
+.vscode/
+
 # IntelliJ IDEA
 *.iml
 *.iws
