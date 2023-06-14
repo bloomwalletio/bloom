@@ -1,7 +1,7 @@
 ---
-name: New task
-description: Create a new work task
-title: '[Task]: '
+name: Task
+description: Create a new development task
+title: '️🛠 - '
 
 body:
     - type: markdown
