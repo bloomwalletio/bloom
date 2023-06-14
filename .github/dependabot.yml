@@ -10,25 +10,21 @@ updates:
     schedule:
       interval: "weekly"
     labels:
-      - "v2"
       - "scope:dependencies"
-    milestone: 5
-    
+    milestone: 14
+
   - package-ecosystem: "npm"
     directory: "/packages/desktop"
     schedule:
       interval: "weekly"
     labels:
-      - "v2"
       - "scope:dependencies"
-      - "platform:desktop"
-    milestone: 5
-      
+    milestone: 14
+
   - package-ecosystem: "npm"
     directory: "/packages/shared"
     schedule:
       interval: "weekly"
     labels:
-      - "v2"
       - "scope:dependencies"
-    milestone: 5
+    milestone: 14
