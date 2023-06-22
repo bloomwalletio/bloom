@@ -11,5 +11,5 @@
 </script>
 
 <div class="w-full overflow-y-auto flex flex-auto h-1">
-    <AssetList onAssetTileClick={onAssetClick} assets={$selectedAccountAssets} />
+    <AssetList onTokenAmountTileClick={onAssetClick} assets={$selectedAccountAssets} />
 </div>

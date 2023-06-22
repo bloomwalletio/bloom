@@ -1,6 +1,6 @@
 <script lang="ts">
     import { IAsset, visibleSelectedAccountAssets } from '@core/wallet'
-    import { AssetTile, Icon, Text, AssetIcon, FontWeight } from 'shared/components'
+    import { TokenAmountTile, Icon, Text, AssetIcon, FontWeight } from 'shared/components'
     import { clickOutside } from '@core/utils'
     import { activeProfile } from '@core/profile'
 
@@ -59,17 +59,19 @@
             >
                 <ul class="overflow-y-auto h-full -mr-2 pr-2">
                     <li>
-                        <AssetTile
+                        <TokenAmountTile
                             onClick={() => onAssetClick($visibleSelectedAccountAssets?.baseCoin)}
                             asset={$visibleSelectedAccountAssets?.baseCoin}
+                            amount={item.balance.total}
                             classes="bg-white hover:bg-gray-50 dark:bg-transparent"
                         />
                     </li>
                     {#each $visibleSelectedAccountAssets?.nativeTokens as nativeToken}
                         <li>
-                            <AssetTile
+                            <TokenAmountTile
                                 onClick={() => onAssetClick(nativeToken)}
                                 asset={nativeToken}
+                                amount={item.balance.total}
                                 classes="bg-white hover:bg-gray-50 dark:bg-transparent"
                             />
                         </li>

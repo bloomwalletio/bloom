@@ -5,11 +5,11 @@
 
     import { DrawerId, openDrawer } from '@/auxiliary/drawer'
 
-    function onAssetTileClick(asset: IAsset): void {
+    function onTokenAmountTileClick(asset: IAsset): void {
         openDrawer(DrawerId.SelectedToken, {
             asset,
         })
     }
 </script>
 
-<AssetList assets={$selectedAccountAssets} {onAssetTileClick} />
+<AssetList assets={$selectedAccountAssets} {onTokenAmountTileClick} />

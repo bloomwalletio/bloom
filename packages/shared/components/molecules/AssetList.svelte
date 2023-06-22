@@ -1,6 +1,6 @@
 <script lang="ts">
     import VirtualList from '@sveltejs/svelte-virtual-list'
-    import { AssetTile, Text, TextType } from 'shared/components'
+    import { TokenAmountTile, Text, TextType } from '@ui'
     import { Filter } from '../../../desktop/components' // TODO: refactor to match dependency platform
     import { localize } from '@core/i18n'
     import { assetFilter, AccountAssets, IAsset } from '@core/wallet'
@@ -38,7 +38,7 @@
         }
     }
 
-    function onAssetTileClick(asset: IAsset): void {
+    function onTokenAmountTileClick(asset: IAsset): void {
         openPopup({
             id: PopupId.TokenInformation,
             overflow: true,
@@ -58,7 +58,12 @@
         <div class="flex-auto h-full pb-10">
             {#if filteredAssetList.length > 0}
                 <VirtualList items={filteredAssetList} let:item>
-                    <AssetTile classes="mb-2" onClick={() => onAssetTileClick(item)} asset={item} />
+                    <TokenAmountTile
+                        onClick={() => onTokenAmountTileClick(item)}
+                        asset={item}
+                        amount={item.balance.total}
+                        classes="mb-2"
+                    />
                 </VirtualList>
             {:else}
                 <div class="h-full flex flex-col items-center justify-center text-center">
