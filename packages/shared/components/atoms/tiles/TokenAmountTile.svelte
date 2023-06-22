@@ -17,38 +17,43 @@
     $: marketBalance = getMarketAmountFromAssetValue(amount, asset)
 </script>
 
-<ClickableTile
-    {onClick}
-    classes="border-2 border-solid {selected ? 'border-blue-500 dark:border-gray-500' : 'border-transparent'} {classes}"
-    {...$$restProps}
->
-    <div class="w-full flex flex-row justify-between items-center">
-        <div class="flex flex-row items-center text-left space-x-4">
-            <AssetIcon {asset} />
-            {#if !hideTokenInfo}
-                <div class="flex flex-col">
-                    <Text type={TextType.p} fontWeight={FontWeight.semibold}>
-                        {asset?.metadata?.name
-                            ? truncateString(asset?.metadata?.name, 13, 0)
-                            : truncateString(asset?.id, 6, 7)}
-                    </Text>
-                    <div class="flex flex-row justify-between items-center text-left">
-                        <Text type={TextType.p} secondary smaller>{marketPrice ? formatCurrency(marketPrice) : ''}</Text
-                        >
-                        <slot name="subLabel" />
+{#if asset && asset.metadata && asset.balance}
+    <ClickableTile
+        {onClick}
+        classes="border-2 border-solid {selected
+            ? 'border-blue-500 dark:border-gray-500'
+            : 'border-transparent'} {classes}"
+        {...$$restProps}
+    >
+        <div class="w-full flex flex-row justify-between items-center">
+            <div class="flex flex-row items-center text-left space-x-4">
+                <AssetIcon {asset} chainId={asset.chainId} />
+                {#if !hideTokenInfo}
+                    <div class="flex flex-col">
+                        <Text type={TextType.p} fontWeight={FontWeight.semibold}>
+                            {asset?.metadata?.name
+                                ? truncateString(asset?.metadata?.name, 13, 0)
+                                : truncateString(asset?.id, 6, 7)}
+                        </Text>
+                        <div class="flex flex-row justify-between items-center text-left">
+                            <Text type={TextType.p} secondary smaller
+                                >{marketPrice ? formatCurrency(marketPrice) : ''}</Text
+                            >
+                            <slot name="subLabel" />
+                        </div>
                     </div>
-                </div>
-            {/if}
-        </div>
-        <div class="flex flex-col text-right">
-            <Text type={TextType.p} fontWeight={FontWeight.semibold}>
-                {formatTokenAmountBestMatch(amount, asset?.metadata)}
-            </Text>
-            <div class="flex flex-row justify-between items-center text-right">
-                <Text type={TextType.p} secondary smaller classes="flex-grow">
-                    {marketBalance ? `≈ ${formatCurrency(marketBalance)}` : ''}
+                {/if}
+            </div>
+            <div class="flex flex-col text-right">
+                <Text type={TextType.p} fontWeight={FontWeight.semibold}>
+                    {formatTokenAmountBestMatch(amount, asset?.metadata)}
                 </Text>
+                <div class="flex flex-row justify-between items-center text-right">
+                    <Text type={TextType.p} secondary smaller classes="flex-grow">
+                        {marketBalance ? `≈ ${formatCurrency(marketBalance)}` : ''}
+                    </Text>
+                </div>
             </div>
         </div>
-    </div>
-</ClickableTile>
+    </ClickableTile>
+{/if}
