@@ -1,4 +1,5 @@
 import type { ILayer2Parameters } from '@core/layer-2'
+import { INft } from '@core/nfts'
 import type { IAsset, Subject } from '@core/wallet'
 import { NewTransactionType } from '@core/wallet/stores'
 
@@ -28,5 +29,5 @@ export type NewTokenTransactionDetails = NewBaseTransactionDetails & {
 
 export type NewNftTransactionDetails = NewBaseTransactionDetails & {
     type: NewTransactionType.NftTransfer
-    nftId: string
+    nft: INft
 }

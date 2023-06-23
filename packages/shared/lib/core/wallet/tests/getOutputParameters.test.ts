@@ -37,8 +37,27 @@ const layer2Parameters = {
     networkAddress: 'rms1pp4kmrl9n9yy9n049x7kk8h4atm0tu76redhj5wrc2jsskk2vukwxvtgk9u',
     senderAddress,
 }
+
 const nftId = '0xcd9430ff870a22f81f92428e5c06975fa3ec1a993331aa3db9fb2298e931ade1'
 const surplus = '50000'
+
+const testNft = {
+    id: nftId,
+    address: 'rms1qqqp07ychhkc3u68ueug0zqq9g0wtfgeatynr6ksm9jwud30rvlkyqnhpl5',
+    name: 'testNft',
+    isSpendable: true,
+    timelockTime: 1678867475,
+    latestOutputId: 'testOutputId',
+    composedUrl: 'http://example.com',
+    downloadUrl: 'http://example.com/download',
+    storageDeposit: 100,
+    filePath: 'path/to/file',
+    downloadMetadata: {
+        format: 'jpg',
+        type: 'image/jpeg',
+        size: 12345,
+    },
+}
 
 const baseTransaction: NewTransactionDetails = {
     type: NewTransactionType.TokenTransfer,
@@ -236,7 +255,7 @@ describe('File: getOutputParameters.ts', () => {
         newTransactionDetails = {
             type: NewTransactionType.NftTransfer,
             recipient: baseTransaction.recipient,
-            nftId,
+            nft: testNft,
             layer2Parameters,
         }
         const output = await getOutputParameters(newTransactionDetails)
@@ -262,7 +281,7 @@ describe('File: getOutputParameters.ts', () => {
         newTransactionDetails = {
             type: NewTransactionType.NftTransfer,
             recipient: baseTransaction.recipient,
-            nftId,
+            nft: testNft,
             expirationDate,
         }
         const output = await getOutputParameters(newTransactionDetails)

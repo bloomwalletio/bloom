@@ -39,6 +39,7 @@
         Text,
     } from '@ui'
     import { FontWeight, TextType } from '@ui/enums'
+    import { SendFlowRoute, SendFlowRouter, sendFlowRouter } from '@views/dashboard/send-flow'
 
     let modal: Modal
 
@@ -120,12 +121,13 @@
     function onSendClick(): void {
         setNewTransactionDetails({
             type: NewTransactionType.NftTransfer,
-            nftId: id,
+            nft,
             recipient: undefined,
             disableAssetSelection: true,
         })
+        sendFlowRouter.set(new SendFlowRouter(undefined, SendFlowRoute.SelectRecipient))
         openPopup({
-            id: PopupId.SendForm,
+            id: PopupId.SendFlow,
             overflow: true,
         })
     }

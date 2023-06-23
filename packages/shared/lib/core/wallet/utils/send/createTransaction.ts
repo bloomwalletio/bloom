@@ -1,6 +1,6 @@
 import { getNetwork } from '@core/network'
 import { IAsset } from '../../interfaces'
-import { NewTokenTransactionDetails } from '../../types'
+import { NewTokenTransactionDetails, NewTransactionDetails } from '../../types'
 import { getOutputParameters } from '../getOutputParameters'
 import { prepareOutput, updateSelectedAccount } from '@core/account'
 import { DEFAULT_TRANSACTION_OPTIONS } from '../../constants'
@@ -10,12 +10,18 @@ import { signIscpTransferTransactionData } from '@core/layer-2'
 import { ledgerPreparedOutput } from '@core/ledger'
 import { sendOutput } from '../../actions'
 import { handleError } from '@core/error/handlers'
+import { NewTransactionType } from '@core/wallet/stores'
 
 export async function createTransaction(
-    transactionDetails: NewTokenTransactionDetails,
+    transactionDetails: NewTransactionDetails,
     accountIndex: number,
     callback: () => void
 ): Promise<void> {
+    if (transactionDetails.type === NewTransactionType.NftTransfer) {
+        await sendFromLayer1(transactionDetails, accountIndex, callback)
+        return
+    }
+
     const asset = transactionDetails.asset
     if (!asset) {
         return
@@ -30,7 +36,7 @@ export async function createTransaction(
 }
 
 async function sendFromLayer1(
-    transactionDetails: NewTokenTransactionDetails,
+    transactionDetails: NewTransactionDetails,
     accountIndex: number,
     callback: () => void
 ): Promise<void> {

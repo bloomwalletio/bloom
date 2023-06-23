@@ -9,8 +9,12 @@ import { processAndAddToActivities } from '../utils'
 
 export async function sendOutput(output: Output): Promise<void> {
     try {
-        updateSelectedAccount({ isTransferring: true })
         const account = get(selectedAccount)
+        if (!account) {
+            return
+        }
+
+        updateSelectedAccount({ isTransferring: true })
         const transaction = await account.sendOutputs([output], DEFAULT_TRANSACTION_OPTIONS)
         // Reset transaction details state, since the transaction has been sent
         if (output.type === OUTPUT_TYPE_NFT) {

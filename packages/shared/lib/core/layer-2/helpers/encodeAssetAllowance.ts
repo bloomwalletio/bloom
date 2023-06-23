@@ -60,6 +60,6 @@ function encodeNftTransfer(buffer: WriteStream, transactionDetails: NewNftTransa
     encodeBaseTokenTransfer(buffer, '0')
 
     buffer.writeUInt16('NftAmount', 1)
-    const nftIdBytes = Converter.hexToBytes(transactionDetails.nftId)
+    const nftIdBytes = Converter.hexToBytes(transactionDetails.nft.id)
     buffer.writeBytes('NftId', nftIdBytes.length, nftIdBytes)
 }

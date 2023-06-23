@@ -2,10 +2,14 @@ import { NewTokenTransactionDetails, NewTransactionDetails, getAddressFromSubjec
 import { getIscpTransferMethod } from './getIscpTransferMethod'
 import { GAS_BUDGET } from '../constants'
 
-export function getEstimatedGasForTransferFromTransactionDetails(
+export async function getEstimatedGasForTransferFromTransactionDetails(
     transactionDetails: NewTransactionDetails
 ): Promise<number> {
     const { recipient, layer2Parameters, rawAmount, asset } = (transactionDetails as NewTokenTransactionDetails) ?? {}
+
+    if (!layer2Parameters) {
+        return 0
+    }
 
     const address = layer2Parameters
         ? layer2Parameters.networkAddress
@@ -18,6 +22,6 @@ export function getEstimatedGasForTransferFromTransactionDetails(
             getIscpTransferMethod(address, asset, rawAmount)?.estimateGas() ?? Promise.resolve(GAS_BUDGET.toJSNumber())
         )
     } else {
-        return Promise.resolve(GAS_BUDGET.toJSNumber())
+        return GAS_BUDGET.toJSNumber()
     }
 }

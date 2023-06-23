@@ -69,7 +69,7 @@ function getAssetFromTransactionDetails(transactionDetails: NewTransactionDetail
     let assets: Assets | undefined
 
     if (transactionDetails.type === NewTransactionType.NftTransfer) {
-        assets = { nftId: transactionDetails.nftId }
+        assets = { nftId: transactionDetails.nft?.id }
     } else if (transactionDetails.type === NewTransactionType.TokenTransfer) {
         const assetId = transactionDetails.asset?.id
 

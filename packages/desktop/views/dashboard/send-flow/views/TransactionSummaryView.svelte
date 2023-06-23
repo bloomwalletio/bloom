@@ -15,7 +15,7 @@
         updateNewTransactionDetails,
     } from '@core/wallet/stores'
     import { Output } from '@core/wallet/types'
-    import { AddInputButton, ExpirationTimePicker, OptionalInput, TokenAmountTile } from '@ui'
+    import { AddInputButton, ExpirationTimePicker, NftTile, OptionalInput, TokenAmountTile } from '@ui'
     import { createTransaction, getOutputParameters, getStorageDepositFromOutput } from '@core/wallet/utils'
     import { onMount } from 'svelte'
     import { get } from 'svelte/store'
@@ -49,7 +49,6 @@
     let selectedTimelockPeriod: TimePeriod | undefined = timelockDate ? TimePeriod.Custom : undefined
 
     $: transactionDetails = get(newTransactionDetails)
-    $: asset = transactionDetails.type === NewTransactionType.TokenTransfer ? transactionDetails.asset : undefined
     $: recipient =
         transactionDetails.recipient.type === 'account'
             ? transactionDetails.recipient.account.name
@@ -121,9 +120,6 @@
     }
 
     async function onConfirmClick(): Promise<void> {
-        if (transactionDetails.type !== NewTransactionType.TokenTransfer) {
-            return
-        }
         try {
             await createTransaction(transactionDetails, $selectedAccount.index, () => closePopup())
         } catch (err) {
@@ -157,7 +153,9 @@
 >
     <div class="flex flex-row gap-2 justify-between">
         {#if transactionDetails.type === NewTransactionType.TokenTransfer}
-            <TokenAmountTile {asset} amount={Number(transactionDetails.rawAmount)} />
+            <TokenAmountTile asset={transactionDetails.asset} amount={Number(transactionDetails.rawAmount)} />
+        {:else if transactionDetails.type === NewTransactionType.NftTransfer}
+            <NftTile nft={transactionDetails.nft} />
         {/if}
         {#if visibleSurplus}
             <TokenAmountTile
