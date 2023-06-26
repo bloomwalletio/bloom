@@ -20,12 +20,11 @@
     import { Output } from '@core/wallet/types'
     import { getOutputParameters, getStorageDepositFromOutput, validateSendConfirmation } from '@core/wallet/utils'
     import type { OutputParams } from '@iota/wallet'
-    import { AddInputButton, ExpirationTimePicker, OptionalInput } from '@ui'
+    import { AddInputButton, ExpirationTimePicker, OptionalInput, TokenAmountTile } from '@ui'
     import { onMount } from 'svelte'
     import { get } from 'svelte/store'
     import { sendFlowRouter } from '../send-flow.router'
     import SendFlowTemplate from './SendFlowTemplate.svelte'
-    import TokenAmountTile from './components/TokenAmountTile.svelte'
     import TransactionDetails from './components/TransactionDetails.svelte'
 
     export let _onMount: (..._: any[]) => Promise<void> = async () => {}
@@ -169,13 +168,13 @@
 >
     <div class="flex flex-row gap-2 justify-between">
         {#if transactionDetails.type === NewTransactionType.TokenTransfer}
-            <TokenAmountTile asset={transactionDetails.asset} amount={transactionDetails.rawAmount} />
+            <TokenAmountTile asset={transactionDetails.asset} amount={Number(transactionDetails.rawAmount)} />
         {/if}
         {#if visibleSurplus}
             <TokenAmountTile
                 asset={$selectedAccountAssets?.[$activeProfile?.network?.id]?.baseCoin}
-                amount={String(visibleSurplus)}
-                showAssetInfo={false}
+                amount={visibleSurplus}
+                hideTokenInfo
             />
         {/if}
     </div>

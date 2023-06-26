@@ -2,7 +2,7 @@
     import VirtualList from '@sveltejs/svelte-virtual-list'
 
     import { Filter, SearchInput } from '@components'
-    import { AssetTile, Text } from '@ui'
+    import { TokenAmountTile, Text } from '@ui'
 
     import { localize } from '@core/i18n'
     import { AccountAssets, IAsset } from '@core/wallet'
@@ -12,7 +12,7 @@
     import { FilterType } from '@/contexts/wallet'
 
     export let assets: AccountAssets
-    export let onAssetTileClick: (asset: IAsset) => unknown = () => {}
+    export let onTokenAmountTileClick: (asset: IAsset) => unknown = () => {}
 
     let searchValue = ''
 
@@ -80,7 +80,12 @@
         </asset-list-header>
         {#if filteredAssetList.length > 0}
             <VirtualList items={filteredAssetList} let:item>
-                <AssetTile classes="mb-2" onClick={() => onAssetTileClick(item)} asset={item} />
+                <TokenAmountTile
+                    asset={item}
+                    onClick={() => onTokenAmountTileClick(item)}
+                    amount={item.balance.total}
+                    classes="mb-2"
+                />
             </VirtualList>
         {:else}
             <div class="h-full flex flex-col items-center justify-center text-center">

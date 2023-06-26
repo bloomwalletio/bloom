@@ -8,7 +8,7 @@
         newTransactionDetails,
         updateNewTransactionDetails,
     } from '@core/wallet'
-    import { TokenAmountInput, TokenAmountTile } from '@ui'
+    import { TokenAmountInput, TokenAvailableBalanceTile } from '@ui'
     import { get } from 'svelte/store'
     import { sendFlowRouter } from '../send-flow.router'
     import SendFlowTemplate from './SendFlowTemplate.svelte'
@@ -73,5 +73,5 @@
         {unit}
         {availableBalance}
     />
-    <TokenAmountTile {asset} onMaxClick={setToMax} />
+    <TokenAvailableBalanceTile {asset} onMaxClick={setToMax} />
 </SendFlowTemplate>

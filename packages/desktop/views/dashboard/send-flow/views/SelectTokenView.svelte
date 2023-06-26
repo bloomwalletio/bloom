@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { AssetTile, IconInput } from '@ui'
+    import { TokenAmountTile, IconInput } from '@ui'
     import { localize } from '@core/i18n'
     import { marketCoinPrices } from '@core/market'
     import {
@@ -84,8 +84,9 @@
     <div class="-mr-3">
         <div class="asset-list w-full flex flex-col -mr-1 pr-1.5 gap-2">
             {#each assetList as asset}
-                <AssetTile
+                <TokenAmountTile
                     {asset}
+                    amount={asset.balance.available}
                     onClick={() => (selectedAsset = asset)}
                     selected={selectedAsset?.id === asset.id && selectedAsset?.chainId === asset?.chainId}
                 />
