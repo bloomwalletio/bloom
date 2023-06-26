@@ -4,7 +4,7 @@
             "appSetup": {
                 "welcome": {
                     "title": "Send, Receive & Manage your {network} tokens",
-                    "body": "Firefly is the official wallet software for {network}."
+                    "body": "Bloom is the official wallet software for {network}."
                 },
                 "legal": {
                     "title": "Tietosuojakäytäntö ja käyttöehdot",
@@ -138,7 +138,7 @@
             "profileRecovery": {
                 "importMnemonicPhrase": {
                     "title": "Syötä palautuslausekkeesi",
-                    "body": "Palautuslauseke on pituudeltaan 24 sanaa, kaikki pienillä kirjaimilla ja välilyönnit sanojen välissä. Sitä käytetään olemassaolevien Firefly-profiilien palauttamiseen.",
+                    "body": "Palautuslauseke on pituudeltaan 24 sanaa, kaikki pienillä kirjaimilla ja välilyönnit sanojen välissä. Sitä käytetään olemassaolevien Bloom-profiilien palauttamiseen.",
                     "enter": "Syötä salainen palautuslausekkeesi",
                     "phraseDetected": "24 sanan palautuslauseke havaittu"
                 },
@@ -194,15 +194,15 @@
         },
         "importFromLedger": {
             "title": "Palauta tai siirrä Ledger-laitteesi",
-            "body": "Palauta olemassaoleva Firefly Ledger-profiili, tai siirrä varasi Trinity-lompakosta.",
-            "haveFireflyLedger": "Minulla on Firefly Ledger-varmuuskopio",
-            "haveFireflyLedgerDescription": "Palauta Firefly-profiili",
+            "body": "Palauta olemassaoleva Bloom Ledger-profiili, tai siirrä varasi Trinity-lompakosta.",
+            "haveFireflyLedger": "Minulla on Bloom Ledger-varmuuskopio",
+            "haveFireflyLedgerDescription": "Palauta Bloom-profiili",
             "haveTrinityLedger": "Minulla on Trinity Ledger-varmuuskopio",
             "haveTrinityLedgerDescription": "Siirrä Trinity-profiili"
         },
         "connectLedger": {
-            "title": "Yhdistä Ledger-laitteesi Fireflyhyn",
-            "body": "Jotta Ledger-laitteesi tunnistuu Fireflyssä, varmista, että virallinen Ledger Live -sovellus on suljettu.",
+            "title": "Yhdistä Ledger-laitteesi Bloomhyn",
+            "body": "Jotta Ledger-laitteesi tunnistuu Bloomssä, varmista, että virallinen Ledger Live -sovellus on suljettu.",
             "connect": "Yhdistä Ledger-laitteesi",
             "unlock": "Avaa Ledger-laitteesi sen PIN-koodilla",
             "openApp": "Avaa Shimmer-sovellus Ledger-laitteessasi",
@@ -214,18 +214,18 @@
             "restoring": "Palautetaan Ledgeristä..."
         },
         "legacyLedgerIntro": {
-            "title": "Aloita Ledger-migraatiosi käyttäen Fireflyä",
-            "body1": "Firefly auttaa sinua siirtämään tokenisi uuteen Chrysalis-verkkoon.",
-            "body2": "Migraation jälkeen, voit lähettää ja vastaanottaa tokeneita käyttäen Ledger-laitettasi Fireflyn kanssa.",
+            "title": "Aloita Ledger-migraatiosi käyttäen Bloomä",
+            "body1": "Bloom auttaa sinua siirtämään tokenisi uuteen Chrysalis-verkkoon.",
+            "body2": "Migraation jälkeen, voit lähettää ja vastaanottaa tokeneita käyttäen Ledger-laitettasi Bloomn kanssa.",
             "readMore": "Mitä migraatioprosessilta on odotettavissa"
         },
         "generateNewLedgerAddress": {
             "title": "Luo uusi osoite",
-            "body": "Sinun täytyy luoda uusi osoite siirtääksesi tokenisi Fireflyllä. Jatka napsauttamalla alla olevaa painiketta.",
+            "body": "Sinun täytyy luoda uusi osoite siirtääksesi tokenisi Bloomllä. Jatka napsauttamalla alla olevaa painiketta.",
             "confirmTitle": "Vahvista uusi osoite",
             "confirmBody": "Turvallisuussyistä, ole hyvä ja vertaa Ledger-laitteellasi luotua osoitetta alla näkyvään osoitteeseen. Jos ne täsmäävät, paina molempia painikkeita Ledger-laitteessasi kehotuksen mukaisesti.",
             "confirmedTitle": "Osoite vahvistettu",
-            "confirmedBody": "Olet varmistanut, että osoite Fireflyssä täsmää osoitteeseen Ledger-laitteessasi.",
+            "confirmedBody": "Olet varmistanut, että osoite Bloomssä täsmää osoitteeseen Ledger-laitteessasi.",
             "generating": "Luodaan osoitetta"
         },
         "switchLedgerApps": {
@@ -278,7 +278,7 @@
             "theme": {
                 "title": "Teema",
                 "description": "",
-                "advice": "Jos muutat järjestelmän teemaa, sinun on ehkä käynnistettävä Firefly uudelleen nähdäksesi vaikutukset"
+                "advice": "Jos muutat järjestelmän teemaa, sinun on ehkä käynnistettävä Bloom uudelleen nähdäksesi vaikutukset"
             },
             "language": {
                 "title": "Kieli",
@@ -334,7 +334,7 @@
             },
             "changeProfileName": {
                 "title": "Muuta profiilin nimi",
-                "description": "Muuta Firefly-profiilisi nimeä",
+                "description": "Muuta Bloom-profiilisi nimeä",
                 "success": "Olet muuttanut profiilisi nimeä"
             },
             "walletFinder": {
@@ -351,7 +351,7 @@
             },
             "deepLinks": {
                 "title": "Syvälinkit",
-                "description": "Täytä transaktion tiedot automaattisesti Fireflyssä, kun napsautat syvälinkkiä, joka alkaa {appProtocol}://"
+                "description": "Täytä transaktion tiedot automaattisesti Bloomssä, kun napsautat syvälinkkiä, joka alkaa {appProtocol}://"
             },
             "networkInformation": {
                 "title": "Network information",
@@ -382,9 +382,9 @@
             },
             "crashReporting": {
                 "title": "Kaatumisraportit",
-                "body": "Auta kehittäjiä parantamaan Fireflytä lähettämällä automaattisesti diagnostiikkatietoja virheen tai kaatumisen tapahtuessa",
+                "body": "Auta kehittäjiä parantamaan Bloomtä lähettämällä automaattisesti diagnostiikkatietoja virheen tai kaatumisen tapahtuessa",
                 "checkbox": "Lähetä kaatumisraportit",
-                "advice": "Ole hyvä ja käynnistä Firefly-ohjelma uudelleen {sendCrashReports, select, true {aloittaaksesi kaatumisraporttien jakamisen} false {lopettaaksesi kaatumisraporttien jakamisen} other {tehdäksesi tämän muutoksen}}"
+                "advice": "Ole hyvä ja käynnistä Bloom-ohjelma uudelleen {sendCrashReports, select, true {aloittaaksesi kaatumisraporttien jakamisen} false {lopettaaksesi kaatumisraporttien jakamisen} other {tehdäksesi tämän muutoksen}}"
             },
             "diagnostics": {
                 "title": "Diagnostiikka",
@@ -480,7 +480,7 @@
                 },
                 "version": {
                     "title": "Uusi päivitys saavatilla",
-                    "updateVersion": "Firefly v{version}",
+                    "updateVersion": "Bloom v{version}",
                     "button": "Päivitä"
                 }
             },
@@ -519,7 +519,7 @@
                     "connectLedgerDevice": {
                         "title": "Connect Ledger Device",
                         "header": "Open the Ethereum app",
-                        "body": "For your Ledger device to be found by Firefly, please ensure that the official Ledger Live application is closed before following these steps.",
+                        "body": "For your Ledger device to be found by Bloom, please ensure that the official Ledger Live application is closed before following these steps.",
                         "requirements": {
                             "connect": "Connect and unlock your Ledger",
                             "openApp": "Open the Ethereum app on your Ledger"
@@ -793,7 +793,7 @@
         "externalUrl": {
             "title": "Open URL in Browser",
             "body": "Are you sure you want to open \"{url}\" in the browser?",
-            "hint": "This URL is unknown to Firefly. Please double check the URL before opening it.",
+            "hint": "This URL is unknown to Bloom. Please double check the URL before opening it.",
             "action": "Open URL",
             "invalidProtocol": "Cannot open URL with invalid protocol"
         },
@@ -936,7 +936,7 @@
             "title": "Meneillään oleva verkkopäivitys",
             "body": "Chrysalis-verkkopäivitys on alkanut.",
             "bodyMigration": "Migraatio on poistettu käytöstä, kunnes se on valmis.",
-            "bodyFirefly": "Firefly on poistettu käytöstä, kunnes se on valmis. Tokenien migraatio on edelleen mahdollista jälkeenpäin."
+            "bodyFirefly": "Bloom on poistettu käytöstä, kunnes se on valmis. Tokenien migraatio on edelleen mahdollista jälkeenpäin."
         },
         "ledgerNotConnected": {
             "title": "Yhdistä Ledger-laitteesi",
@@ -955,7 +955,7 @@
                 "1": "Varmista, että Ledger-laitteesi on yhdistetty",
                 "2": "Etsi {legacy}-sovellusta. Saatat joutua ottamaan käyttöön Ledger Liven kehittäjätilan.",
                 "3": "Asenna {legacy} sovellus",
-                "4": "Muista, että on tärkeää sulkea Ledger Live ennen Fireflyhyn palaamista"
+                "4": "Muista, että on tärkeää sulkea Ledger Live ennen Bloomhyn palaamista"
             }
         },
         "ledgerConnectionGuide": {
@@ -1000,7 +1000,7 @@
             "totalFundsStaked": "Staketut varat yhteensä",
             "stakedSuccessfully": "Sinun varasi ovat stakettu tilille {account}.",
             "unstakedSuccessfully": "Sinun varasi eivät ole enää stakettu tilille {account}.",
-            "singleAccountHint": "Etsitkö lompakoitasi? Firefly on muuttunut. Vaihda lompakkojesi välillä ylävalikkopalkissa."
+            "singleAccountHint": "Etsitkö lompakoitasi? Bloom on muuttunut. Vaihda lompakkojesi välillä ylävalikkopalkissa."
         },
         "stakingConfirmation": {
             "title": "Vahvista osallistuminen",
@@ -1031,21 +1031,21 @@
         },
         "crashReporting": {
             "title": "Kaatumisraportointi",
-            "body": "Auta kehittäjiä parantamaan Fireflytä lähettämällä automaattisesti diagnostiikkatietoja virheen tai kaatumisen tapahtuessa. Jos tämä on valittuna, se tulee voimaan Fireflyn uudelleenkäynnistyksen jälkeen.",
+            "body": "Auta kehittäjiä parantamaan Bloomtä lähettämällä automaattisesti diagnostiikkatietoja virheen tai kaatumisen tapahtuessa. Jos tämä on valittuna, se tulee voimaan Fireflyn uudelleenkäynnistyksen jälkeen.",
             "checkbox": "Lähetä kaatumisraportit IOTA-säätiölle"
         },
         "legalUpdate": {
             "tosTitle": "Käyttöehdot",
             "privPolicyTitle": "Tietosuojakäytäntö",
-            "tosAndPrivPolicyBody": "Olemme päivittäneet Fireflyn käyttöehtoja ja tietosuojakäytäntöä.",
-            "tosBody": "Olemme päivittäneet Fireflyn käyttöehtoja.",
-            "privPolicyBody": "Olemme päivittäneet Fireflyn tietosuojakäytäntöä.",
+            "tosAndPrivPolicyBody": "Olemme päivittäneet Bloomn käyttöehtoja ja tietosuojakäytäntöä.",
+            "tosBody": "Olemme päivittäneet Bloomn käyttöehtoja.",
+            "privPolicyBody": "Olemme päivittäneet Bloomn tietosuojakäytäntöä.",
             "tosAndPrivPolicyCheckbox": "Olen lukenut ja hyväksyn päivitetyt käyttöehdot ja tietosuojakäytännön",
             "tosCheckbox": "Olen lukenut ja hyväksyn päivitetyt käyttöehdot",
             "privPolicyCheckbox": "Olen lukenut ja hyväksyn päivitetyn tietosuojakäytännön"
         },
         "singleAccountGuide": {
-            "title": "Tapa, jolla käytät Fireflyä, on muuttunut",
+            "title": "Tapa, jolla käytät Bloomä, on muuttunut",
             "body": "Kunkin välilehden sisältö on nyt yhden lompakon kontekstissa. Voit vaihtaa valittua lompakkoa mistä tahansa käyttämällä otsikkopalkin valitsinta.",
             "hint": "Etkö löydä lompakkoa? Käytä saldon etsijää asetuksista löytääksesi aiemmin käytetyt lompakot."
         },
@@ -1166,7 +1166,7 @@
         "revote": {
             "title": "Revote on proposals",
             "body": "Changing your voting power temporarily stops your votes for all proposals from being counted. Simply click \"Revote\" to resume voting.",
-            "hint": "Firefly remembers all of the proposals and answer options you previously voted for."
+            "hint": "Bloom remembers all of the proposals and answer options you previously voted for."
         },
         "removeProposal": {
             "title": "Remove proposal",
@@ -1285,7 +1285,7 @@
         "exportTransactionHistory": "Vie transaktiohistoria",
         "localProofOfWork": "Paikallinen todiste työstä (PoW)",
         "unlock": "Avaa",
-        "updateFirefly": "Päivitä Firefly",
+        "updateFirefly": "Päivitä Bloom",
         "restartNow": "Käynnistä uudelleen nyt",
         "refresh": "Refresh",
         "saveBackup": "Tallenna Stronghold-varmuuskopio",
@@ -1338,7 +1338,7 @@
         "search": "Etsi",
         "searching": "Etsitään",
         "searchAgain": "Hae uudelleen",
-        "closeFirefly": "Sulje Firefly",
+        "closeFirefly": "Sulje Bloom",
         "generateAddress": "Luo osoite",
         "migrateAgain": "Siirrä toinen indeksi",
         "visitWebsite": "Vieraile verkkosivulla",
@@ -1615,7 +1615,7 @@
         "giftStorageDeposit": "Lahjoita tallennusvakuus",
         "excluded": "Rajattu",
         "developerTools": "Kehittäjätyökalut",
-        "testDeepLinkDescription": "Simuloi syvälinkkipyyntöä, joka on lähetetty Fireflyhyn",
+        "testDeepLinkDescription": "Simuloi syvälinkkipyyntöä, joka on lähetetty Bloomhyn",
         "url": "URL",
         "hash": "Tarkiste",
         "creating": "Luodaan",

@@ -4,7 +4,7 @@
             "appSetup": {
                 "welcome": {
                     "title": "Send, Receive & Manage your {network} tokens",
-                    "body": "Firefly is the official wallet software for {network}."
+                    "body": "Bloom is the official wallet software for {network}."
                 },
                 "legal": {
                     "title": "Privacy Policy & Terms of Service",
@@ -138,7 +138,7 @@
             "profileRecovery": {
                 "importMnemonicPhrase": {
                     "title": "Enter your recovery phrase",
-                    "body": "A recovery phrase is 24 words long, all lower case, with spaces between. This is used to recover existing Firefly profiles.",
+                    "body": "A recovery phrase is 24 words long, all lower case, with spaces between. This is used to recover existing Bloom profiles.",
                     "enter": "Enter your secret recovery phrase",
                     "phraseDetected": "24 word recovery phrase detected"
                 },
@@ -194,15 +194,15 @@
         },
         "importFromLedger": {
             "title": "ඔබගේ ලෙජරය ප්‍රතිසාධනය කරන්න හෝ සංක්‍රමණය කරන්න",
-            "body": "පවතින Firefly Ledger පැතිකඩක් ප්‍රතිසාධනය කරන්න, නැතහොත් Trinity වෙතින් ඔබේ අරමුදල් සංක්‍රමණය කරන්න.",
-            "haveFireflyLedger": "මට Firefly Ledger උපස්ථයක් තියෙනවා",
-            "haveFireflyLedgerDescription": "Firefly පැතිකඩක් ප්‍රතිසාධනය කරන්න",
+            "body": "පවතින Bloom Ledger පැතිකඩක් ප්‍රතිසාධනය කරන්න, නැතහොත් Trinity වෙතින් ඔබේ අරමුදල් සංක්‍රමණය කරන්න.",
+            "haveFireflyLedger": "මට Bloom Ledger උපස්ථයක් තියෙනවා",
+            "haveFireflyLedgerDescription": "Bloom පැතිකඩක් ප්‍රතිසාධනය කරන්න",
             "haveTrinityLedger": "මට Trinity Ledger උපස්ථයක් තියෙනවා",
             "haveTrinityLedgerDescription": "ත්‍රිත්ව පැතිකඩක් සංක්‍රමණය කරන්න"
         },
         "connectLedger": {
-            "title": "ඔබේ ලෙජරය Firefly වෙත සම්බන්ධ කරන්න",
-            "body": "Firefly විසින් ඔබගේ Ledger උපාංගය සොයා ගැනීම සඳහා, කරුණාකර නිල Ledger Live යෙදුම වසා ඇති බව සහතික කර ගන්න.",
+            "title": "ඔබේ ලෙජරය Bloom වෙත සම්බන්ධ කරන්න",
+            "body": "Bloom විසින් ඔබගේ Ledger උපාංගය සොයා ගැනීම සඳහා, කරුණාකර නිල Ledger Live යෙදුම වසා ඇති බව සහතික කර ගන්න.",
             "connect": "Connect your Ledger device",
             "unlock": "Unlock your Ledger with its pin",
             "openApp": "Open the Shimmer app on your Ledger",
@@ -214,18 +214,18 @@
             "restoring": "ලෙජර් වෙතින් ප්‍රතිසාධනය කරමින්..."
         },
         "legacyLedgerIntro": {
-            "title": "Firefly භාවිතයෙන් ඔබේ Ledger සංක්‍රමණය ආරම්භ කරන්න",
-            "body1": "ඔබගේ ටෝකන නව Chrysalis ජාලයට මාරු කිරීමට Firefly ඔබට උපකාර කරනු ඇත.",
-            "body2": "සංක්‍රමණයෙන් පසුව, ඔබට Firefly සමඟ ඔබේ Ledger භාවිතයෙන් ඔබේ ටෝකන යැවීමට සහ ලබා ගැනීමට හැකි වනු ඇත.",
+            "title": "Bloom භාවිතයෙන් ඔබේ Ledger සංක්‍රමණය ආරම්භ කරන්න",
+            "body1": "ඔබගේ ටෝකන නව Chrysalis ජාලයට මාරු කිරීමට Bloom ඔබට උපකාර කරනු ඇත.",
+            "body2": "සංක්‍රමණයෙන් පසුව, ඔබට Bloom සමඟ ඔබේ Ledger භාවිතයෙන් ඔබේ ටෝකන යැවීමට සහ ලබා ගැනීමට හැකි වනු ඇත.",
             "readMore": "සංක්‍රමණ ක්‍රියාවලියෙන් අපේක්ෂා කළ යුතු දේ"
         },
         "generateNewLedgerAddress": {
             "title": "නව ලිපිනය උත්පාදනය කරන්න",
-            "body": "Firefly සමඟින් ඔබේ ටෝකන සංක්‍රමණය කිරීමට ඔබට නව ලිපිනයක් ජනනය කිරීමට අවශ්‍ය වේ. ඉදිරියට යාමට පහත බොත්තම ක්ලික් කරන්න.",
+            "body": "Bloom සමඟින් ඔබේ ටෝකන සංක්‍රමණය කිරීමට ඔබට නව ලිපිනයක් ජනනය කිරීමට අවශ්‍ය වේ. ඉදිරියට යාමට පහත බොත්තම ක්ලික් කරන්න.",
             "confirmTitle": "නව ලිපිනය තහවුරු කරන්න",
             "confirmBody": "ආරක්‍ෂාව සඳහා, කරුණාකර ඔබගේ ලෙජර් උපාංගයේ ජනනය කර ඇති ලිපිනය පහත සංදර්ශනය කර ඇති ලිපිනය සමඟ සසඳන්න. ඒවා ගැලපෙන්නේ නම්, විමසූ පරිදි ඔබේ ලෙජරයේ බොත්තම් දෙකම ඔබන්න.",
             "confirmedTitle": "ලිපිනය තහවුරු කර ඇත",
-            "confirmedBody": "Firefly හි ඇති ලිපිනය ඔබගේ Ledger උපාංගයේ ඇති ලිපිනයට ගැළපෙන බව ඔබ තහවුරු කර ඇත.",
+            "confirmedBody": "Bloom හි ඇති ලිපිනය ඔබගේ Ledger උපාංගයේ ඇති ලිපිනයට ගැළපෙන බව ඔබ තහවුරු කර ඇත.",
             "generating": "ලිපිනය උත්පාදනය කිරීම"
         },
         "switchLedgerApps": {
@@ -278,7 +278,7 @@
             "theme": {
                 "title": "තේමාව",
                 "description": "",
-                "advice": "ඔබ ඔබේ පද්ධති තේමාව වෙනස් කරන්නේ නම්, බලපෑම් බැලීමට ඔබට Firefly නැවත ආරම්භ කිරීමට අවශ්‍ය විය හැක"
+                "advice": "ඔබ ඔබේ පද්ධති තේමාව වෙනස් කරන්නේ නම්, බලපෑම් බැලීමට ඔබට Bloom නැවත ආරම්භ කිරීමට අවශ්‍ය විය හැක"
             },
             "language": {
                 "title": "භාෂාව",
@@ -334,7 +334,7 @@
             },
             "changeProfileName": {
                 "title": "පැතිකඩ නම වෙනස් කරන්න",
-                "description": "ඔබගේ Firefly පැතිකඩ නම වෙනස් කරන්න",
+                "description": "ඔබගේ Bloom පැතිකඩ නම වෙනස් කරන්න",
                 "success": "ඔබ ඔබේ පැතිකඩ නම වෙනස් කර ඇත"
             },
             "walletFinder": {
@@ -351,7 +351,7 @@
             },
             "deepLinks": {
                 "title": "Deep links",
-                "description": "Automatically fill transaction data in Firefly upon clicking a deep link starting with {appProtocol}://"
+                "description": "Automatically fill transaction data in Bloom upon clicking a deep link starting with {appProtocol}://"
             },
             "networkInformation": {
                 "title": "Network information",
@@ -382,9 +382,9 @@
             },
             "crashReporting": {
                 "title": "බිඳ වැටීම් වාර්තා",
-                "body": "දෝෂයක් හෝ බිඳවැටීමක් සිදු වූ විට ස්වයංක්‍රීයව රෝග විනිශ්චය දත්ත යැවීමෙන් Firefly වැඩිදියුණු කිරීමට සංවර්ධකයින්ට උදවු කරන්න",
+                "body": "දෝෂයක් හෝ බිඳවැටීමක් සිදු වූ විට ස්වයංක්‍රීයව රෝග විනිශ්චය දත්ත යැවීමෙන් Bloom වැඩිදියුණු කිරීමට සංවර්ධකයින්ට උදවු කරන්න",
                 "checkbox": "බිඳ වැටීම් වාර්තා යවන්න",
-                "advice": "කරුණාකර Firefly යෙදුම නැවත ආරම්භ කරන්න {sendCrashReports, select, true {බිඳ වැටීම් වාර්තා බෙදා ගැනීම ආරම්භ කරන්න} false {බිඳ වැටීම් වාර්තා බෙදා ගැනීම නවත්වන්න} other {මෙම වෙනස යොදන්න}}"
+                "advice": "කරුණාකර Bloom යෙදුම නැවත ආරම්භ කරන්න {sendCrashReports, select, true {බිඳ වැටීම් වාර්තා බෙදා ගැනීම ආරම්භ කරන්න} false {බිඳ වැටීම් වාර්තා බෙදා ගැනීම නවත්වන්න} other {මෙම වෙනස යොදන්න}}"
             },
             "diagnostics": {
                 "title": "රෝග විනිශ්චය",
@@ -519,7 +519,7 @@
                     "connectLedgerDevice": {
                         "title": "Connect Ledger Device",
                         "header": "Open the Ethereum app",
-                        "body": "For your Ledger device to be found by Firefly, please ensure that the official Ledger Live application is closed before following these steps.",
+                        "body": "For your Ledger device to be found by Bloom, please ensure that the official Ledger Live application is closed before following these steps.",
                         "requirements": {
                             "connect": "Connect and unlock your Ledger",
                             "openApp": "Open the Ethereum app on your Ledger"
@@ -793,7 +793,7 @@
         "externalUrl": {
             "title": "Open URL in Browser",
             "body": "Are you sure you want to open \"{url}\" in the browser?",
-            "hint": "This URL is unknown to Firefly. Please double check the URL before opening it.",
+            "hint": "This URL is unknown to Bloom. Please double check the URL before opening it.",
             "action": "Open URL",
             "invalidProtocol": "Cannot open URL with invalid protocol"
         },
@@ -936,7 +936,7 @@
             "title": "අඛණ්ඩ ජාල උත්ශ්‍රේණි කිරීම",
             "body": "Chrysalis ජාලය උත්ශ්‍රේණි කිරීම ආරම්භ කර ඇත.",
             "bodyMigration": "එය සම්පූර්ණ වන තුරු සංක්‍රමණය අක්‍රිය කර ඇත.",
-            "bodyFirefly": "එය සම්පූර්ණ වන තුරු Firefly අක්‍රීය කර ඇත. ටෝකන් සංක්‍රමණයට පසුවද හැකි වනු ඇත."
+            "bodyFirefly": "එය සම්පූර්ණ වන තුරු Bloom අක්‍රීය කර ඇත. ටෝකන් සංක්‍රමණයට පසුවද හැකි වනු ඇත."
         },
         "ledgerNotConnected": {
             "title": "Connect your Ledger",
@@ -955,7 +955,7 @@
                 "1": "ඔබගේ ලෙජරය සම්බන්ධ වී ඇති බව සහතික කර ගන්න",
                 "2": "Search for the {legacy} app. You may need to enable Ledger Live developer mode.",
                 "3": "Install the {legacy} app",
-                "4": "Firefly වෙත ආපසු යාමට පෙර Ledger Live වසා දැමීම වැදගත් බව මතක තබා ගන්න"
+                "4": "Bloom වෙත ආපසු යාමට පෙර Ledger Live වසා දැමීම වැදගත් බව මතක තබා ගන්න"
             }
         },
         "ledgerConnectionGuide": {
@@ -1000,7 +1000,7 @@
             "totalFundsStaked": "කොටස් කර ඇති මුළු අරමුදල්",
             "stakedSuccessfully": "ඔබේ අරමුදල් {account}සඳහා පරදුවට තබා ඇත.",
             "unstakedSuccessfully": "ඔබේ අරමුදල් {account}සඳහා වෙන් කර ඇත.",
-            "singleAccountHint": "Looking for your wallets? Firefly has changed. Toggle between your wallets in the top menu bar."
+            "singleAccountHint": "Looking for your wallets? Bloom has changed. Toggle between your wallets in the top menu bar."
         },
         "stakingConfirmation": {
             "title": "සහභාගීත්වය තහවුරු කරන්න",
@@ -1031,21 +1031,21 @@
         },
         "crashReporting": {
             "title": "බිඳ වැටීම වාර්තා කිරීම",
-            "body": "දෝෂයක් හෝ බිඳවැටීමක් සිදු වූ විට ස්වයංක්‍රීයව රෝග විනිශ්චය දත්ත යැවීමෙන් Firefly වැඩිදියුණු කිරීමට සංවර්ධකයින්ට උදවු කරන්න. තේරුවහොත්, Firefly නැවත ආරම්භ කිරීමෙන් පසුව මෙය ක්රියාත්මක වේ.",
+            "body": "දෝෂයක් හෝ බිඳවැටීමක් සිදු වූ විට ස්වයංක්‍රීයව රෝග විනිශ්චය දත්ත යැවීමෙන් Bloom වැඩිදියුණු කිරීමට සංවර්ධකයින්ට උදවු කරන්න. තේරුවහොත්, Firefly නැවත ආරම්භ කිරීමෙන් පසුව මෙය ක්රියාත්මක වේ.",
             "checkbox": "IOTA පදනමට බිඳ වැටීම් වාර්තා යවන්න"
         },
         "legalUpdate": {
             "tosTitle": "සේවා කොන්දේසි",
             "privPolicyTitle": "රහස්යතා ප්රතිපත්තිය",
-            "tosAndPrivPolicyBody": "අපි Firefly හි සේවා නියම සහ රහස්‍යතා ප්‍රතිපත්තිය යාවත්කාලීන කර ඇත.",
-            "tosBody": "අපි Firefly හි සේවා කොන්දේසි යාවත්කාලීන කර ඇත.",
-            "privPolicyBody": "අපි Firefly හි රහස්‍යතා ප්‍රතිපත්තිය යාවත්කාලීන කර ඇත.",
+            "tosAndPrivPolicyBody": "අපි Bloom හි සේවා නියම සහ රහස්‍යතා ප්‍රතිපත්තිය යාවත්කාලීන කර ඇත.",
+            "tosBody": "අපි Bloom හි සේවා කොන්දේසි යාවත්කාලීන කර ඇත.",
+            "privPolicyBody": "අපි Bloom හි රහස්‍යතා ප්‍රතිපත්තිය යාවත්කාලීන කර ඇත.",
             "tosAndPrivPolicyCheckbox": "මම යාවත්කාලීන කරන ලද සේවා නියම සහ රහස්‍යතා ප්‍රතිපත්තිය කියවා මම පිළිගනිමි",
             "tosCheckbox": "මම කියවා ඇති අතර මම යාවත්කාලීන සේවා නියම පිළිගනිමි",
             "privPolicyCheckbox": "මම යාවත්කාලීන කළ රහස්‍යතා ප්‍රතිපත්තිය කියවා මම පිළිගනිමි"
         },
         "singleAccountGuide": {
-            "title": "ඔබ Firefly භාවිතා කරන ආකාරය වෙනස් වී ඇත",
+            "title": "ඔබ Bloom භාවිතා කරන ආකාරය වෙනස් වී ඇත",
             "body": "එක් එක් පටිත්තෙහි අන්තර්ගතය දැන් තනි මුදල් පසුම්බියක සන්දර්භය තුළ ඇත. මාතෘකා තීරුවේ ඇති ස්විචය භාවිතයෙන් ඔබට ඕනෑම තැනක සිට තෝරාගත් මුදල් පසුම්බිය වෙනස් කළ හැකිය.",
             "hint": "මුදල් පසුම්බියක් සොයාගත නොහැකිද? කලින් භාවිතා කළ පසුම්බි සොයා ගැනීමට සැකසීම් තුළ ශේෂ සොයන්නා භාවිතා කරන්න."
         },
@@ -1166,7 +1166,7 @@
         "revote": {
             "title": "Revote on proposals",
             "body": "Changing your voting power temporarily stops your votes for all proposals from being counted. Simply click \"Revote\" to resume voting.",
-            "hint": "Firefly remembers all of the proposals and answer options you previously voted for."
+            "hint": "Bloom remembers all of the proposals and answer options you previously voted for."
         },
         "removeProposal": {
             "title": "Remove proposal",
@@ -1285,7 +1285,7 @@
         "exportTransactionHistory": "අපනයන ගනුදෙනු ඉතිහාසය",
         "localProofOfWork": "වැඩ පිළිබඳ දේශීය සාක්ෂි",
         "unlock": "අගුළු හරින්න",
-        "updateFirefly": "Firefly යාවත්කාලීන කරන්න",
+        "updateFirefly": "Bloom යාවත්කාලීන කරන්න",
         "restartNow": "දැන් නැවත ආරම්භ කරන්න",
         "refresh": "Refresh",
         "saveBackup": "Stronghold උපස්ථය සුරකින්න",
@@ -1615,7 +1615,7 @@
         "giftStorageDeposit": "Gift storage deposit",
         "excluded": "Excluded",
         "developerTools": "Developer tools",
-        "testDeepLinkDescription": "Simulate a deep link request sent to firefly",
+        "testDeepLinkDescription": "Simulate a deep link request sent to Bloom",
         "url": "URL",
         "hash": "Hash",
         "creating": "Creating",

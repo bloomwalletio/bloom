@@ -4,7 +4,7 @@
             "appSetup": {
                 "welcome": {
                     "title": "Send, Receive & Manage your {network} tokens",
-                    "body": "Firefly is the official wallet software for {network}."
+                    "body": "Bloom is the official wallet software for {network}."
                 },
                 "legal": {
                     "title": "Politika privatnosti i Uvjeti korištenja",
@@ -138,7 +138,7 @@
             "profileRecovery": {
                 "importMnemonicPhrase": {
                     "title": "Unesi frazu za oporavak",
-                    "body": "Fraza za oporavak sastoji se od 24 riječi, pisanih malim slovima, s razmakom između svake. Služi za oporavak postojećih Firefly profila.",
+                    "body": "Fraza za oporavak sastoji se od 24 riječi, pisanih malim slovima, s razmakom između svake. Služi za oporavak postojećih Bloom profila.",
                     "enter": "Unesi tajnu frazu za oporavak",
                     "phraseDetected": "Fraza od 24 riječi prepoznata"
                 },
@@ -194,15 +194,15 @@
         },
         "importFromLedger": {
             "title": "Oporavi ili migriraj svoj Ledger",
-            "body": "Oporavi postojeći Firefly Ledger profil ili migriraj sredstva s Trinitya.",
-            "haveFireflyLedger": "Imam Firefly Ledger sigurnosnu kopiju",
-            "haveFireflyLedgerDescription": "Oporavi Firefly profil",
+            "body": "Oporavi postojeći Bloom Ledger profil ili migriraj sredstva s Trinitya.",
+            "haveFireflyLedger": "Imam Bloom Ledger sigurnosnu kopiju",
+            "haveFireflyLedgerDescription": "Oporavi Bloom profil",
             "haveTrinityLedger": "Imam Trinity Ledger sigurnosnu kopiju",
             "haveTrinityLedgerDescription": "Migriraj Trinity profil"
         },
         "connectLedger": {
-            "title": "Spoji svoj Ledger s Firefly novčanikom",
-            "body": "Kako bi Firefly mogao pronaći tvoj Ledger uređaj, prvo se uvjeri da je službena Ledger Live aplikacija zatvorena.",
+            "title": "Spoji svoj Ledger s Bloom novčanikom",
+            "body": "Kako bi Bloom mogao pronaći tvoj Ledger uređaj, prvo se uvjeri da je službena Ledger Live aplikacija zatvorena.",
             "connect": "Spojite svoj Ledger uređaj",
             "unlock": "Otključajte svoj Ledger s pinom",
             "openApp": "Otvorite Shimmer aplikaciju na vašem Ledgeru",
@@ -214,18 +214,18 @@
             "restoring": "Oporavljam s Ledgera..."
         },
         "legacyLedgerIntro": {
-            "title": "Započni svoju Ledger migraciju pomoću Fireflya",
-            "body1": "Firefly će ti pomoći da prebaciš svoja sredstva na novu Chrysalis mrežu.",
-            "body2": "Nakon migracije moći ćete slati i primati tokene koristeći Ledger i Firefly.",
+            "title": "Započni svoju Ledger migraciju pomoću Blooma",
+            "body1": "Bloom će ti pomoći da prebaciš svoja sredstva na novu Chrysalis mrežu.",
+            "body2": "Nakon migracije moći ćete slati i primati tokene koristeći Ledger i Bloom.",
             "readMore": "Što očekivati od postupka migracije"
         },
         "generateNewLedgerAddress": {
             "title": "Generiraj novu adresu",
-            "body": "Za migraciju pomoću Fireflya prvo moraš generirati novu adresu. Klikni ispod za početak.",
+            "body": "Za migraciju pomoću Blooma prvo moraš generirati novu adresu. Klikni ispod za početak.",
             "confirmTitle": "Potvrdi novu adresu",
             "confirmBody": "Zbog sigurnosti te molimo da provjeriš adresu generiranu na tvojem Ledger uređaju s adresom koju ti prikazujemo ispod. Ukoliko su iste, pritisni oba gumba na svojem Ledgeru kada te uređaj to zatraži.",
             "confirmedTitle": "Adresa je potvrđena",
-            "confirmedBody": "Potvrdili ste da adresa u Fireflyu odgovara onoj prikazanoj na Ledger uređaju.",
+            "confirmedBody": "Potvrdili ste da adresa u Bloomu odgovara onoj prikazanoj na Ledger uređaju.",
             "generating": "Generiram adresu"
         },
         "switchLedgerApps": {
@@ -278,7 +278,7 @@
             "theme": {
                 "title": "Tema",
                 "description": "",
-                "advice": "Ako promijenite temu sustava, možda ćete morati ponovno pokrenuti Firefly da bi vidjeli promjene"
+                "advice": "Ako promijenite temu sustava, možda ćete morati ponovno pokrenuti Bloom da bi vidjeli promjene"
             },
             "language": {
                 "title": "Jezik",
@@ -334,7 +334,7 @@
             },
             "changeProfileName": {
                 "title": "Promijeni ime profila",
-                "description": "Promijeni ime svog Firefly profila",
+                "description": "Promijeni ime svog Bloom profila",
                 "success": "Promijenili ste ime profila"
             },
             "walletFinder": {
@@ -351,7 +351,7 @@
             },
             "deepLinks": {
                 "title": "Deep linkovi",
-                "description": "Automatski popunite podatke o transakciji u Fireflyu nakon klika na deep link koji počinje s {appProtocol}://"
+                "description": "Automatski popunite podatke o transakciji u Bloomu nakon klika na deep link koji počinje s {appProtocol}://"
             },
             "networkInformation": {
                 "title": "Network information",
@@ -382,9 +382,9 @@
             },
             "crashReporting": {
                 "title": "Izvješća o padu programa",
-                "body": "Pomozite developerima da poboljšaju Firefly automatskim slanjem dijagnostičkih podataka kada dođe do pogreške ili pada programa",
+                "body": "Pomozite developerima da poboljšaju Bloom automatskim slanjem dijagnostičkih podataka kada dođe do pogreške ili pada programa",
                 "checkbox": "Pošalji izvješća o padu programa",
-                "advice": "Molimo ponovno pokrenite Firefly aplikaciju da bi {sendCrashReports, select, true {započeli s dijeljenjem izvješća o padu programa} false {prestali s dijeljenjem izvješća o padu programa} other {omogućili ovu promjenu}}"
+                "advice": "Molimo ponovno pokrenite Bloom aplikaciju da bi {sendCrashReports, select, true {započeli s dijeljenjem izvješća o padu programa} false {prestali s dijeljenjem izvješća o padu programa} other {omogućili ovu promjenu}}"
             },
             "diagnostics": {
                 "title": "Dijagnostika",
@@ -480,7 +480,7 @@
                 },
                 "version": {
                     "title": "Dostupno je novo ažuriranje",
-                    "updateVersion": "Firefly v{version}",
+                    "updateVersion": "Bloom v{version}",
                     "button": "Ažuriraj"
                 }
             },
@@ -519,7 +519,7 @@
                     "connectLedgerDevice": {
                         "title": "Connect Ledger Device",
                         "header": "Open the Ethereum app",
-                        "body": "For your Ledger device to be found by Firefly, please ensure that the official Ledger Live application is closed before following these steps.",
+                        "body": "For your Ledger device to be found by Bloom, please ensure that the official Ledger Live application is closed before following these steps.",
                         "requirements": {
                             "connect": "Connect and unlock your Ledger",
                             "openApp": "Open the Ethereum app on your Ledger"
@@ -793,7 +793,7 @@
         "externalUrl": {
             "title": "Open URL in Browser",
             "body": "Are you sure you want to open \"{url}\" in the browser?",
-            "hint": "This URL is unknown to Firefly. Please double check the URL before opening it.",
+            "hint": "This URL is unknown to Bloom. Please double check the URL before opening it.",
             "action": "Open URL",
             "invalidProtocol": "Cannot open URL with invalid protocol"
         },
@@ -936,7 +936,7 @@
             "title": "Unaprijeđenje mreže u tijeku",
             "body": "Unaprijeđenje Chrysalis mreže je počelo.",
             "bodyMigration": "Migracije su onemogućene do završetka postupka.",
-            "bodyFirefly": "Firefly je onemogućen tijekom unaprijeđenja mreže. Migracija tokens opet će biti moguća po završetku."
+            "bodyFirefly": "Bloom je onemogućen tijekom unaprijeđenja mreže. Migracija tokens opet će biti moguća po završetku."
         },
         "ledgerNotConnected": {
             "title": "Spoji svoj Ledger",
@@ -955,7 +955,7 @@
                 "1": "Uvjeri se da je tvoj Ledger spojen",
                 "2": "Potražite {legacy} aplikaciju. Možda ćete morati omogućiti Ledger Live developer način rada.",
                 "3": "Instaliraj {legacy} aplikaciju",
-                "4": "Ne zaboravi da je važno zatvoriti Ledger Live prije povratka u Firefly"
+                "4": "Ne zaboravi da je važno zatvoriti Ledger Live prije povratka u Bloom"
             }
         },
         "ledgerConnectionGuide": {
@@ -1000,7 +1000,7 @@
             "totalFundsStaked": "Ukupna sredstva na stakingu",
             "stakedSuccessfully": "Vaša sredstva su stakeana za {account}.",
             "unstakedSuccessfully": "Vaša sredstva više nisu na stakeu za {account}.",
-            "singleAccountHint": "Tražite svoje novčanike? Firefly se promijenio. Možete mijenjati svoje novčanike u gornjoj traci izbornika."
+            "singleAccountHint": "Tražite svoje novčanike? Bloom se promijenio. Možete mijenjati svoje novčanike u gornjoj traci izbornika."
         },
         "stakingConfirmation": {
             "title": "Potvrdite sudjelovanje",
@@ -1031,21 +1031,21 @@
         },
         "crashReporting": {
             "title": "Izvješća o padu programa",
-            "body": "Pomozite developerima da poboljšaju Firefly automatskim slanjem dijagnostičkih podataka kada dođe do pogreške ili pada programa. Ako je ova opcija odabrana, stupiti će na snagu nakon ponovnog pokretanja Fireflya.",
+            "body": "Pomozite developerima da poboljšaju Bloom automatskim slanjem dijagnostičkih podataka kada dođe do pogreške ili pada programa. Ako je ova opcija odabrana, stupiti će na snagu nakon ponovnog pokretanja Fireflya.",
             "checkbox": "Pošalji izvješća o padu programa IOTA zakladi"
         },
         "legalUpdate": {
             "tosTitle": "Uvjeti korištenja",
             "privPolicyTitle": "Politika privatnosti",
-            "tosAndPrivPolicyBody": "Promijenili smo Firefly Uvjete korištenja i Pravila o privatnosti.",
-            "tosBody": "Promijenili smo Firefly Uvjete korištenja.",
-            "privPolicyBody": "Promijenili smo Firefly Pravila o privatnosti.",
-            "tosAndPrivPolicyCheckbox": "Pročitao sam i slažem se s Firefly Uvjetima korištenja i Pravilima o privatnosti",
-            "tosCheckbox": "Pročitao sam i slažem se s Firefly Uvjetima korištenja",
-            "privPolicyCheckbox": "Pročitao sam i slažem se s Firefly Pravilima o privatnosti"
+            "tosAndPrivPolicyBody": "Promijenili smo Bloom Uvjete korištenja i Pravila o privatnosti.",
+            "tosBody": "Promijenili smo Bloom Uvjete korištenja.",
+            "privPolicyBody": "Promijenili smo Bloom Pravila o privatnosti.",
+            "tosAndPrivPolicyCheckbox": "Pročitao sam i slažem se s Bloom Uvjetima korištenja i Pravilima o privatnosti",
+            "tosCheckbox": "Pročitao sam i slažem se s Bloom Uvjetima korištenja",
+            "privPolicyCheckbox": "Pročitao sam i slažem se s Bloom Pravilima o privatnosti"
         },
         "singleAccountGuide": {
-            "title": "Način na koji koristite Firefly se promijenio",
+            "title": "Način na koji koristite Bloom se promijenio",
             "body": "Svaka pojedina kartica sada prikazuje samo jedan novčanik. Odabrani novčanik možete promijeniti s bilo kojeg mjesta koristeći prekidač u naslovnoj traci.",
             "hint": "Ne možete pronaći novčanik? Upotrijebite \"Pronalazak sredstava\" u postavkama kako bi otkrili prethodno korištene novčanike."
         },
@@ -1166,7 +1166,7 @@
         "revote": {
             "title": "Revote on proposals",
             "body": "Changing your voting power temporarily stops your votes for all proposals from being counted. Simply click \"Revote\" to resume voting.",
-            "hint": "Firefly remembers all of the proposals and answer options you previously voted for."
+            "hint": "Bloom remembers all of the proposals and answer options you previously voted for."
         },
         "removeProposal": {
             "title": "Remove proposal",
@@ -1285,7 +1285,7 @@
         "exportTransactionHistory": "Izvezi povijest transakcija",
         "localProofOfWork": "Lokalni Proof of Work",
         "unlock": "Otključaj",
-        "updateFirefly": "Ažuriraj Firefly",
+        "updateFirefly": "Ažuriraj Bloom",
         "restartNow": "Ponovno pokreni",
         "refresh": "Refresh",
         "saveBackup": "Spremi Stronghold sigurnosnu kopiju",
@@ -1338,7 +1338,7 @@
         "search": "Traži",
         "searching": "Pretraga",
         "searchAgain": "Traži ponovno",
-        "closeFirefly": "Zatvori Firefly",
+        "closeFirefly": "Zatvori Bloom",
         "generateAddress": "Generiraj adresu",
         "migrateAgain": "Migriraj drugi index",
         "visitWebsite": "Posjeti web-stranicu",
@@ -1615,7 +1615,7 @@
         "giftStorageDeposit": "Pokloni depozit za pohranu",
         "excluded": "Izostavljeno",
         "developerTools": "Razvojni alati",
-        "testDeepLinkDescription": "Simuliraj deep link zahtjev poslan Fireflyu",
+        "testDeepLinkDescription": "Simuliraj deep link zahtjev poslan Bloomu",
         "url": "URL",
         "hash": "Hash",
         "creating": "Stvaranje",

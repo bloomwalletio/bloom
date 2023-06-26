@@ -4,7 +4,7 @@
             "appSetup": {
                 "welcome": {
                     "title": "Send, Receive & Manage your {network} tokens",
-                    "body": "Firefly is the official wallet software for {network}."
+                    "body": "Bloom is the official wallet software for {network}."
                 },
                 "legal": {
                     "title": "隐私政策和服务条款",
@@ -138,7 +138,7 @@
             "profileRecovery": {
                 "importMnemonicPhrase": {
                     "title": "输入您的恢复短语",
-                    "body": "一个恢复短语有24个字，全部为小写，中间有空格。这用于恢复现有的 Firefly 配置文件。",
+                    "body": "一个恢复短语有24个字，全部为小写，中间有空格。这用于恢复现有的 Bloom 配置文件。",
                     "enter": "输入您的恢复短语",
                     "phraseDetected": "检测到24个单词恢复密语"
                 },
@@ -194,15 +194,15 @@
         },
         "importFromLedger": {
             "title": "还原或迁移您的Ledger",
-            "body": "还原现有的Firefly Ledger 个人资料，或从Trinity迁移您的资金。",
-            "haveFireflyLedger": "我有一个Firefly Ledger备份",
-            "haveFireflyLedgerDescription": "还原一个Firefly 个人资料",
+            "body": "还原现有的Bloom Ledger 个人资料，或从Trinity迁移您的资金。",
+            "haveFireflyLedger": "我有一个Bloom Ledger备份",
+            "haveFireflyLedgerDescription": "还原一个Bloom 个人资料",
             "haveTrinityLedger": "我有一个 Trinity Ledger 备份",
             "haveTrinityLedgerDescription": "迁移一个 Trinity 档案"
         },
         "connectLedger": {
             "title": "将您的账单连接到Fifly",
-            "body": "为了让Firefly找到的您的Ledger设备，请确保官方的Ledger Live应用程序已关闭。",
+            "body": "为了让Bloom找到的您的Ledger设备，请确保官方的Ledger Live应用程序已关闭。",
             "connect": "连接您的 Ledger 设备",
             "unlock": "用密码解锁你的 Ledger",
             "openApp": "在您的Ledger上打开 Shimmer 应用",
@@ -215,13 +215,13 @@
         },
         "legacyLedgerIntro": {
             "title": "使用Fifly开始您的Ledger迁移",
-            "body1": "Firefly会协助您将代币转移到新的Chrysalis网络。",
-            "body2": "迁移后，您将能够使用Firefly通过Ledger设备来发送和接收您的代币。",
+            "body1": "Bloom会协助您将代币转移到新的Chrysalis网络。",
+            "body2": "迁移后，您将能够使用Bloom通过Ledger设备来发送和接收您的代币。",
             "readMore": "迁移过程中会发生什么"
         },
         "generateNewLedgerAddress": {
             "title": "生成新地址",
-            "body": "您需要生成一个新地址来使用 Firefly 迁移您的代币。请点击下面的按钮继续。",
+            "body": "您需要生成一个新地址来使用 Bloom 迁移您的代币。请点击下面的按钮继续。",
             "confirmTitle": "确认新地址",
             "confirmBody": "为了安全起见，请确认Ledger上生成的地址与下面显示的地址相同。如果地址相同，请同时按下您Ledger上的两个按钮。",
             "confirmedTitle": "地址已确认",
@@ -278,7 +278,7 @@
             "theme": {
                 "title": "主题",
                 "description": "",
-                "advice": "如果你改变了你的系统主题，你可能需要重新启动 Firefly 才能看到效果"
+                "advice": "如果你改变了你的系统主题，你可能需要重新启动 Bloom 才能看到效果"
             },
             "language": {
                 "title": "语言",
@@ -334,7 +334,7 @@
             },
             "changeProfileName": {
                 "title": "更改配置文件名称",
-                "description": "更改您的 Firefly 配置文件名称",
+                "description": "更改您的 Bloom 配置文件名称",
                 "success": "您更改了您的配置文件名称"
             },
             "walletFinder": {
@@ -382,9 +382,9 @@
             },
             "crashReporting": {
                 "title": "崩溃报告",
-                "body": "在发生错误或崩溃时自动发送诊断数据，帮助开发人员改进Firefly。",
+                "body": "在发生错误或崩溃时自动发送诊断数据，帮助开发人员改进Bloom。",
                 "checkbox": "发送崩溃报告",
-                "advice": "请重启Firefly应用程序后 {sendCrashReports, select, true {开始分享崩溃报告} false {停止分享崩溃报告} other {应用此更改}}"
+                "advice": "请重启Bloom应用程序后 {sendCrashReports, select, true {开始分享崩溃报告} false {停止分享崩溃报告} other {应用此更改}}"
             },
             "diagnostics": {
                 "title": "诊断程序",
@@ -480,7 +480,7 @@
                 },
                 "version": {
                     "title": "有新的更新可用",
-                    "updateVersion": "Firefly v{version}",
+                    "updateVersion": "Bloom v{version}",
                     "button": "更新"
                 }
             },
@@ -519,7 +519,7 @@
                     "connectLedgerDevice": {
                         "title": "Connect Ledger Device",
                         "header": "Open the Ethereum app",
-                        "body": "For your Ledger device to be found by Firefly, please ensure that the official Ledger Live application is closed before following these steps.",
+                        "body": "For your Ledger device to be found by Bloom, please ensure that the official Ledger Live application is closed before following these steps.",
                         "requirements": {
                             "connect": "Connect and unlock your Ledger",
                             "openApp": "Open the Ethereum app on your Ledger"
@@ -793,7 +793,7 @@
         "externalUrl": {
             "title": "在浏览器中打开",
             "body": "您确定要在浏览器中打开 \"{url}\" 吗？",
-            "hint": "此 URL 在Firefly未知。请在打开前重新检查URL。",
+            "hint": "此 URL 在Bloom未知。请在打开前重新检查URL。",
             "action": "打开 URL",
             "invalidProtocol": "无法打开含有无效协议的 URL"
         },
@@ -936,7 +936,7 @@
             "title": "正在进行网络升级",
             "body": "Chrysalis网络升级已经开始。",
             "bodyMigration": "在维护完成之前暂不支持迁移功能。",
-            "bodyFirefly": "在完成之前Firefly将被暂停使用。完成之后您仍然可以进行代币迁移。"
+            "bodyFirefly": "在完成之前Bloom将被暂停使用。完成之后您仍然可以进行代币迁移。"
         },
         "ledgerNotConnected": {
             "title": "连接您的Ledger",
@@ -1000,7 +1000,7 @@
             "totalFundsStaked": "总质押资金",
             "stakedSuccessfully": "您的资金已经为 {account} 进行质押。",
             "unstakedSuccessfully": "您已经为 {account} 的资金取消了质押。",
-            "singleAccountHint": "寻找您的钱包？Firefly 已经改版。请在顶部菜单栏中切换您的钱包。"
+            "singleAccountHint": "寻找您的钱包？Bloom 已经改版。请在顶部菜单栏中切换您的钱包。"
         },
         "stakingConfirmation": {
             "title": "确认参与",
@@ -1031,21 +1031,21 @@
         },
         "crashReporting": {
             "title": "崩溃报告",
-            "body": "当发生错误或崩溃时自动发送诊断数据，帮助开发者改进Firefly。如果选中，将在重新启动 Firefly 后生效。",
+            "body": "当发生错误或崩溃时自动发送诊断数据，帮助开发者改进Bloom。如果选中，将在重新启动 Firefly 后生效。",
             "checkbox": "发送崩溃报告给IOTA基金会"
         },
         "legalUpdate": {
             "tosTitle": "服务条款",
             "privPolicyTitle": "隐私政策",
-            "tosAndPrivPolicyBody": "我们更新了Firefly的服务条款和隐私政策。",
-            "tosBody": "我们更新了 Firefly 的服务条款。",
-            "privPolicyBody": "我们更新了 Firefly 的隐私政策。",
+            "tosAndPrivPolicyBody": "我们更新了Bloom的服务条款和隐私政策。",
+            "tosBody": "我们更新了 Bloom 的服务条款。",
+            "privPolicyBody": "我们更新了 Bloom 的隐私政策。",
             "tosAndPrivPolicyCheckbox": "我已阅读并接受更新后的服务条款和隐私政策",
             "tosCheckbox": "我已阅读并接受更新后的服务条款。",
             "privPolicyCheckbox": "我已阅读并接受更新后的隐私政策。"
         },
         "singleAccountGuide": {
-            "title": "您使用 Firefly 的方式已经改变。",
+            "title": "您使用 Bloom 的方式已经改变。",
             "body": "每个选项卡的内容现在都在一个钱包的环境中。 您可以从任何地方，通过标题栏中使用切换器来更改选中的钱包。",
             "hint": "找不到钱包？使用设置中的余额查找器来找回以前使用过的钱包。"
         },
@@ -1166,7 +1166,7 @@
         "revote": {
             "title": "对提案重新表决",
             "body": "更改您的投票权暂时停止您对所有建议的投票。只需点击“重新投票”即可继续投票。",
-            "hint": "Firefly 会记录你之前投票的所有提案和答案选项。"
+            "hint": "Bloom 会记录你之前投票的所有提案和答案选项。"
         },
         "removeProposal": {
             "title": "移除提案",
@@ -1285,7 +1285,7 @@
         "exportTransactionHistory": "导出交易历史记录",
         "localProofOfWork": "本地工作量证明",
         "unlock": "解锁",
-        "updateFirefly": "更新Firefly",
+        "updateFirefly": "更新Bloom",
         "restartNow": "立即重启",
         "refresh": "Refresh",
         "saveBackup": "保存Stronghold备份",
@@ -1338,7 +1338,7 @@
         "search": "搜索",
         "searching": "正在搜索...",
         "searchAgain": "重新搜索",
-        "closeFirefly": "关闭Firefly",
+        "closeFirefly": "关闭Bloom",
         "generateAddress": "生成地址",
         "migrateAgain": "迁移另一个Ledger索引",
         "visitWebsite": "访问网站",
@@ -1615,7 +1615,7 @@
         "giftStorageDeposit": "赠送存储押金",
         "excluded": "排除",
         "developerTools": "开发工具",
-        "testDeepLinkDescription": "模拟一个发送Firefly的深链接请求",
+        "testDeepLinkDescription": "模拟一个发送Bloom的深链接请求",
         "url": "URL",
         "hash": "Hash",
         "creating": "正在创建",

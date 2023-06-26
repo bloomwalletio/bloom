@@ -4,7 +4,7 @@
             "appSetup": {
                 "welcome": {
                     "title": "Send, Receive & Manage your {network} tokens",
-                    "body": "Firefly is the official wallet software for {network}."
+                    "body": "Bloom is the official wallet software for {network}."
                 },
                 "legal": {
                     "title": "Privacy Policy & Terms of Service",
@@ -138,7 +138,7 @@
             "profileRecovery": {
                 "importMnemonicPhrase": {
                     "title": "Enter your recovery phrase",
-                    "body": "A recovery phrase is 24 words long, all lower case, with spaces between. This is used to recover existing Firefly profiles.",
+                    "body": "A recovery phrase is 24 words long, all lower case, with spaces between. This is used to recover existing Bloom profiles.",
                     "enter": "Enter your secret recovery phrase",
                     "phraseDetected": "24 word recovery phrase detected"
                 },
@@ -194,15 +194,15 @@
         },
         "importFromLedger": {
             "title": "여러분의 Ledger를 복원하거나 마이그레이션하세요.",
-            "body": "기존의 Firefly Ledger 프로필을 복원하거나 여러분의 자금을 Trinity로부터 마이그레이션하세요.",
-            "haveFireflyLedger": "Firefly Ledger 백업을 갖고 있습니다.",
-            "haveFireflyLedgerDescription": "Firefly 프로필을 복원하세요.",
+            "body": "기존의 Bloom Ledger 프로필을 복원하거나 여러분의 자금을 Trinity로부터 마이그레이션하세요.",
+            "haveFireflyLedger": "Bloom Ledger 백업을 갖고 있습니다.",
+            "haveFireflyLedgerDescription": "Bloom 프로필을 복원하세요.",
             "haveTrinityLedger": "Trinity Ledger 백업을 갖고 있습니다.",
             "haveTrinityLedgerDescription": "Trinity 프로필을 마이그레이션하세요."
         },
         "connectLedger": {
-            "title": "Ledger를 Firefly에 연결하세요.",
-            "body": "Firefly가 Ledger 장치를 발견하려면, 공식 Ledger Live 애플리케이션이 반드시 종료된 상태여야 합니다.",
+            "title": "Ledger를 Bloom에 연결하세요.",
+            "body": "Bloom가 Ledger 장치를 발견하려면, 공식 Ledger Live 애플리케이션이 반드시 종료된 상태여야 합니다.",
             "connect": "Connect your Ledger device",
             "unlock": "Unlock your Ledger with its pin",
             "openApp": "Ledger에서 새로운 Shimmer 앱을 여세요.",
@@ -214,18 +214,18 @@
             "restoring": "Ledger로부터 복원중…"
         },
         "legacyLedgerIntro": {
-            "title": "Firefly를 이용해 Ledger 마이그레이션을 시작하세요.",
+            "title": "Bloom를 이용해 Ledger 마이그레이션을 시작하세요.",
             "body1": "Furefly는 여러분의 토큰들을 새로운 Chrysalis 네트워크로 전송하는 일을 도울 것입니다.",
-            "body2": "마이그레이션이 끝난 후, Firefly와 함께 Ledger를 이용해 토큰을 주고 받는 것이 가능해질 것입니다.",
+            "body2": "마이그레이션이 끝난 후, Bloom와 함께 Ledger를 이용해 토큰을 주고 받는 것이 가능해질 것입니다.",
             "readMore": "마이그레이션 과정에서 기대할 수 있는 것"
         },
         "generateNewLedgerAddress": {
             "title": "새 주소 생성",
-            "body": "Firefly와 함께 토큰을 마이그레이션하려면 새로운 주소를 생성해야 합니다. 계속하려면 아래의 버튼을 클릭하세요.",
+            "body": "Bloom와 함께 토큰을 마이그레이션하려면 새로운 주소를 생성해야 합니다. 계속하려면 아래의 버튼을 클릭하세요.",
             "confirmTitle": "새로운 주소를 확인하세요.",
             "confirmBody": "보안을 위해서 Ledger 장치에 생성된 주소를 아래에 표시된 주소와 비교해주세요. 만약 일치한다면, Ledger의 두 버튼을 안내된대로 누르세요.",
             "confirmedTitle": "주소 확인됨",
-            "confirmedBody": "Firefly의 주소가 Ledger 장치의 주소와 일치함을 확인하였습니다.",
+            "confirmedBody": "Bloom의 주소가 Ledger 장치의 주소와 일치함을 확인하였습니다.",
             "generating": "주소 생성 중"
         },
         "switchLedgerApps": {
@@ -278,7 +278,7 @@
             "theme": {
                 "title": "테마",
                 "description": "",
-                "advice": "시스템 테마를 변경하는 경우, 테마를 반영하려면 Firefly를 다시 시작해야 할 수도 있습니다"
+                "advice": "시스템 테마를 변경하는 경우, 테마를 반영하려면 Bloom를 다시 시작해야 할 수도 있습니다"
             },
             "language": {
                 "title": "언어",
@@ -334,7 +334,7 @@
             },
             "changeProfileName": {
                 "title": "프로필 이름 변경",
-                "description": "내 Firefly 프로필 이름을 바꿉니다",
+                "description": "내 Bloom 프로필 이름을 바꿉니다",
                 "success": "프로필 이름을 변경했습니다"
             },
             "walletFinder": {
@@ -351,7 +351,7 @@
             },
             "deepLinks": {
                 "title": "Deep links",
-                "description": "Automatically fill transaction data in Firefly upon clicking a deep link starting with {appProtocol}://"
+                "description": "Automatically fill transaction data in Bloom upon clicking a deep link starting with {appProtocol}://"
             },
             "networkInformation": {
                 "title": "Network information",
@@ -382,9 +382,9 @@
             },
             "crashReporting": {
                 "title": "충돌 보고",
-                "body": "오류 또는 충돌이 발생할 때 진단 데이터를 자동으로 보내면 개발자가 Firefly를 개선하는 데 도움이 됩니다",
+                "body": "오류 또는 충돌이 발생할 때 진단 데이터를 자동으로 보내면 개발자가 Bloom를 개선하는 데 도움이 됩니다",
                 "checkbox": "충돌 보고서 전송",
-                "advice": "{sendCrashReports, select, true {충돌 보고서 전송을 시작} false {충돌 보고서 전송을 중단} other {변경 사항을 적용}}하려면 Firefly 앱을 다시 시작하십시오"
+                "advice": "{sendCrashReports, select, true {충돌 보고서 전송을 시작} false {충돌 보고서 전송을 중단} other {변경 사항을 적용}}하려면 Bloom 앱을 다시 시작하십시오"
             },
             "diagnostics": {
                 "title": "진단",
@@ -480,7 +480,7 @@
                 },
                 "version": {
                     "title": "새 업데이트 있음",
-                    "updateVersion": "Firefly v{version}",
+                    "updateVersion": "Bloom v{version}",
                     "button": "업데이트"
                 }
             },
@@ -519,7 +519,7 @@
                     "connectLedgerDevice": {
                         "title": "Connect Ledger Device",
                         "header": "Open the Ethereum app",
-                        "body": "For your Ledger device to be found by Firefly, please ensure that the official Ledger Live application is closed before following these steps.",
+                        "body": "For your Ledger device to be found by Bloom, please ensure that the official Ledger Live application is closed before following these steps.",
                         "requirements": {
                             "connect": "Connect and unlock your Ledger",
                             "openApp": "Open the Ethereum app on your Ledger"
@@ -793,7 +793,7 @@
         "externalUrl": {
             "title": "Open URL in Browser",
             "body": "Are you sure you want to open \"{url}\" in the browser?",
-            "hint": "This URL is unknown to Firefly. Please double check the URL before opening it.",
+            "hint": "This URL is unknown to Bloom. Please double check the URL before opening it.",
             "action": "Open URL",
             "invalidProtocol": "Cannot open URL with invalid protocol"
         },
@@ -936,7 +936,7 @@
             "title": "지속적인 네트워크 업그레이드",
             "body": "Chrysalis 네트워크 업그레이드가 시작되었습니다.",
             "bodyMigration": "마이그레이션이 완료 될 때까지 비활성화됩니다.",
-            "bodyFirefly": "Firefly는 완료 될 때까지 비활성화됩니다. 이후에도 토큰 마이그레이션이 가능합니다."
+            "bodyFirefly": "Bloom는 완료 될 때까지 비활성화됩니다. 이후에도 토큰 마이그레이션이 가능합니다."
         },
         "ledgerNotConnected": {
             "title": "Connect your Ledger",
@@ -1000,7 +1000,7 @@
             "totalFundsStaked": "Staking 총 자금",
             "stakedSuccessfully": "Your funds have been staked for {account}.",
             "unstakedSuccessfully": "Your funds have been unstaked for {account}.",
-            "singleAccountHint": "Looking for your wallets? Firefly has changed. Toggle between your wallets in the top menu bar."
+            "singleAccountHint": "Looking for your wallets? Bloom has changed. Toggle between your wallets in the top menu bar."
         },
         "stakingConfirmation": {
             "title": "Confirm Participation",
@@ -1031,21 +1031,21 @@
         },
         "crashReporting": {
             "title": "충돌 보고",
-            "body": "오류 또는 충돌이 발생할 때 진단 데이터를 자동으로 보내면 개발자가 Firefly를 개선하는 데 도움이 됩니다. 설정은 Firefly가 다시 시작된 후에 적용됩니다.",
+            "body": "오류 또는 충돌이 발생할 때 진단 데이터를 자동으로 보내면 개발자가 Bloom를 개선하는 데 도움이 됩니다. 설정은 Firefly가 다시 시작된 후에 적용됩니다.",
             "checkbox": "Send crash reports to the IOTA Foundation"
         },
         "legalUpdate": {
             "tosTitle": "서비스 약관",
             "privPolicyTitle": "개인정보 보호 정책",
-            "tosAndPrivPolicyBody": "Firefly 서비스 약관 및 개인정보 보호 정책을 갱신했습니다.",
-            "tosBody": "Firefly 서비스 약관을 갱신했습니다.",
-            "privPolicyBody": "Firefly 개인정보 보호 정책을 갱신했습니다.",
+            "tosAndPrivPolicyBody": "Bloom 서비스 약관 및 개인정보 보호 정책을 갱신했습니다.",
+            "tosBody": "Bloom 서비스 약관을 갱신했습니다.",
+            "privPolicyBody": "Bloom 개인정보 보호 정책을 갱신했습니다.",
             "tosAndPrivPolicyCheckbox": "변경된 서비스 약관 및 개인정보 보호 정책을 읽었으며 이에 동의합니다",
             "tosCheckbox": "변경된 서비스 약관을 읽었으며 이에 동의합니다",
             "privPolicyCheckbox": "변경된 개인정보 보호 정책을 읽었으며 이에 동의합니다"
         },
         "singleAccountGuide": {
-            "title": "The way you use Firefly has changed",
+            "title": "The way you use Bloom has changed",
             "body": "The content of each tab is now in the context of a single wallet. You can change the selected wallet from anywhere by using the switcher in the title bar.",
             "hint": "Can't find a wallet? Use the balance finder in the settings to discover previously used wallets."
         },
@@ -1166,7 +1166,7 @@
         "revote": {
             "title": "Revote on proposals",
             "body": "Changing your voting power temporarily stops your votes for all proposals from being counted. Simply click \"Revote\" to resume voting.",
-            "hint": "Firefly remembers all of the proposals and answer options you previously voted for."
+            "hint": "Bloom remembers all of the proposals and answer options you previously voted for."
         },
         "removeProposal": {
             "title": "Remove proposal",
@@ -1285,7 +1285,7 @@
         "exportTransactionHistory": "Export transaction history",
         "localProofOfWork": "내 기기로 작업증명",
         "unlock": "잠금 해제",
-        "updateFirefly": "Firefly 업데이트",
+        "updateFirefly": "Bloom 업데이트",
         "restartNow": "지금 다시 시작",
         "refresh": "Refresh",
         "saveBackup": "Stronghold 백업 저장하기",
@@ -1338,7 +1338,7 @@
         "search": "Search",
         "searching": "Searching",
         "searchAgain": "다시 검색",
-        "closeFirefly": "Firefly 닫기",
+        "closeFirefly": "Bloom 닫기",
         "generateAddress": "Generate address",
         "migrateAgain": "다른 인덱스 마이그레이션",
         "visitWebsite": "웹 사이트 방문",
@@ -1615,7 +1615,7 @@
         "giftStorageDeposit": "Gift storage deposit",
         "excluded": "Excluded",
         "developerTools": "Developer tools",
-        "testDeepLinkDescription": "Simulate a deep link request sent to firefly",
+        "testDeepLinkDescription": "Simulate a deep link request sent to Bloom",
         "url": "URL",
         "hash": "해시",
         "creating": "Creating",

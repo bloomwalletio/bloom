@@ -4,7 +4,7 @@
             "appSetup": {
                 "welcome": {
                     "title": "Send, Receive & Manage your {network} tokens",
-                    "body": "Firefly is the official wallet software for {network}."
+                    "body": "Bloom is the official wallet software for {network}."
                 },
                 "legal": {
                     "title": "隱私政策和服務條款",
@@ -138,7 +138,7 @@
             "profileRecovery": {
                 "importMnemonicPhrase": {
                     "title": "輸入您的還原助記詞",
-                    "body": "助記詞長度為24單字，全小寫且有間隔。這是用於恢復既存的Firefly錢包。",
+                    "body": "助記詞長度為24單字，全小寫且有間隔。這是用於恢復既存的Bloom錢包。",
                     "enter": "輸入您的還原助記詞",
                     "phraseDetected": "檢測到 24 個單字的助記詞"
                 },
@@ -194,15 +194,15 @@
         },
         "importFromLedger": {
             "title": "還原或遷移您的Ledger",
-            "body": "還原現存的Firefly Ledger設定檔，或從Trinity遷移您的資金。",
-            "haveFireflyLedger": "我有Firefly的Ledger備份",
-            "haveFireflyLedgerDescription": "還原Firefly設定檔",
+            "body": "還原現存的Bloom Ledger設定檔，或從Trinity遷移您的資金。",
+            "haveFireflyLedger": "我有Bloom的Ledger備份",
+            "haveFireflyLedgerDescription": "還原Bloom設定檔",
             "haveTrinityLedger": "我有Trinity的Ledger備份",
             "haveTrinityLedgerDescription": "遷移Trinity設定檔"
         },
         "connectLedger": {
-            "title": "將您的Ledger連結至Firefly。",
-            "body": "請確定官方Ledger Live軟體已關閉，使Firefly能找到您的Ledger裝置。",
+            "title": "將您的Ledger連結至Bloom。",
+            "body": "請確定官方Ledger Live軟體已關閉，使Bloom能找到您的Ledger裝置。",
             "connect": "連接您的 Ledger 裝置",
             "unlock": "使用 Pin 碼解鎖你的 Ledger",
             "openApp": "在你的 Ledger 上啟動 Shimmer app",
@@ -214,18 +214,18 @@
             "restoring": "從Ledger還原中⋯⋯"
         },
         "legacyLedgerIntro": {
-            "title": "用Firefly啟動您的Ledger遷移程序",
-            "body1": "Firefly將協助您把代幣轉移至新的Chrysalis網路。",
-            "body2": "遷移完成後，您就能透過Firefly，在Ledger上發送或接收代幣。",
+            "title": "用Bloom啟動您的Ledger遷移程序",
+            "body1": "Bloom將協助您把代幣轉移至新的Chrysalis網路。",
+            "body2": "遷移完成後，您就能透過Bloom，在Ledger上發送或接收代幣。",
             "readMore": "遷移過程應該預期的事項"
         },
         "generateNewLedgerAddress": {
             "title": "產生新地址",
-            "body": "您必須產生一個新的地址以便用Firefly來遷移您的代幣。點選下方按鍵以繼續進行。",
+            "body": "您必須產生一個新的地址以便用Bloom來遷移您的代幣。點選下方按鍵以繼續進行。",
             "confirmTitle": "確認新的地址",
             "confirmBody": "安全起見，請把Ledger裝置產生的地址和下方顯示的地址交互比對。如果相同，依提示把Ledger上的兩個按鈕一起按下。",
             "confirmedTitle": "已確認地址",
-            "confirmedBody": "您已確認，Firefly內的地址和Ledger裝置上的相同。",
+            "confirmedBody": "您已確認，Bloom內的地址和Ledger裝置上的相同。",
             "generating": "地址產生中"
         },
         "switchLedgerApps": {
@@ -278,7 +278,7 @@
             "theme": {
                 "title": "佈景主題",
                 "description": "",
-                "advice": "當您變更系統佈景主題後，需重啟Firefly才會生效"
+                "advice": "當您變更系統佈景主題後，需重啟Bloom才會生效"
             },
             "language": {
                 "title": "語言",
@@ -334,7 +334,7 @@
             },
             "changeProfileName": {
                 "title": "變更設定檔名稱",
-                "description": "變更您的Firefly設定檔名稱",
+                "description": "變更您的Bloom設定檔名稱",
                 "success": "您已更換您的設定檔名稱"
             },
             "walletFinder": {
@@ -382,9 +382,9 @@
             },
             "crashReporting": {
                 "title": "當機報告",
-                "body": "發生錯誤當下自動回報診斷資訊來協助開發者改善Firefly",
+                "body": "發生錯誤當下自動回報診斷資訊來協助開發者改善Bloom",
                 "checkbox": "發送當機報告",
-                "advice": "請重啟Firefly來{sendCrashReports, select, true {開始分享當機報告} false {停止分享當機報告} other {啟用此更變}}"
+                "advice": "請重啟Bloom來{sendCrashReports, select, true {開始分享當機報告} false {停止分享當機報告} other {啟用此更變}}"
             },
             "diagnostics": {
                 "title": "應用診斷",
@@ -480,7 +480,7 @@
                 },
                 "version": {
                     "title": "有可用的更新",
-                    "updateVersion": "Firefly v{version}",
+                    "updateVersion": "Bloom v{version}",
                     "button": "更新"
                 }
             },
@@ -519,7 +519,7 @@
                     "connectLedgerDevice": {
                         "title": "Connect Ledger Device",
                         "header": "Open the Ethereum app",
-                        "body": "For your Ledger device to be found by Firefly, please ensure that the official Ledger Live application is closed before following these steps.",
+                        "body": "For your Ledger device to be found by Bloom, please ensure that the official Ledger Live application is closed before following these steps.",
                         "requirements": {
                             "connect": "Connect and unlock your Ledger",
                             "openApp": "Open the Ethereum app on your Ledger"
@@ -793,7 +793,7 @@
         "externalUrl": {
             "title": "以瀏覽器開啟網址",
             "body": "您確定要在瀏覽器中開啟 \"{url}\" 嗎？",
-            "hint": "This URL is unknown to Firefly. Please double check the URL before opening it.",
+            "hint": "This URL is unknown to Bloom. Please double check the URL before opening it.",
             "action": "開啟網址",
             "invalidProtocol": "無法用無效的協定開啟網址"
         },
@@ -936,7 +936,7 @@
             "title": "正在進行網路升級",
             "body": "Chrysalis 網絡升級已經開始。",
             "bodyMigration": "遷移被禁用，直到網路升級完成。",
-            "bodyFirefly": "Firefly 在網路更新完成前將無法使用。網路更新後仍可進行資金遷移。"
+            "bodyFirefly": "Bloom 在網路更新完成前將無法使用。網路更新後仍可進行資金遷移。"
         },
         "ledgerNotConnected": {
             "title": "連接你的 Ledger",
@@ -955,7 +955,7 @@
                 "1": "確保您的 Ledger 裝置已連上",
                 "2": "搜索 {legacy} 應用。您可能需要啟用 Ledger Live 開發者模式。",
                 "3": "安裝 {legacy} app",
-                "4": "重要：返回 Firefly 之前，記得先關閉 Ledger Live"
+                "4": "重要：返回 Bloom 之前，記得先關閉 Ledger Live"
             }
         },
         "ledgerConnectionGuide": {
@@ -1000,7 +1000,7 @@
             "totalFundsStaked": "質押資金總額",
             "stakedSuccessfully": "您的資金已爲 {account} 質押。",
             "unstakedSuccessfully": "您的資金已從 {account} 解除質押。",
-            "singleAccountHint": "正在尋找您的錢包嗎？Firefly已變更。在上方的菜單欄切換您的錢包。"
+            "singleAccountHint": "正在尋找您的錢包嗎？Bloom已變更。在上方的菜單欄切換您的錢包。"
         },
         "stakingConfirmation": {
             "title": "確認參與",
@@ -1031,21 +1031,21 @@
         },
         "crashReporting": {
             "title": "當機回報",
-            "body": "自動回報錯誤診斷資訊，以協助開發者改善Firefly。若選取，將於重啟Firefly後生效。",
+            "body": "自動回報錯誤診斷資訊，以協助開發者改善Bloom。若選取，將於重啟Firefly後生效。",
             "checkbox": "發送當機報告給IOTA基金會"
         },
         "legalUpdate": {
             "tosTitle": "服務條款",
             "privPolicyTitle": "隱私權政策",
-            "tosAndPrivPolicyBody": "我們更新了Firefly的服務條款和隱私權政策。",
-            "tosBody": "我們更新了Firefly的服務條款。",
-            "privPolicyBody": "我們更新了Firefly的隱私權政策。",
+            "tosAndPrivPolicyBody": "我們更新了Bloom的服務條款和隱私權政策。",
+            "tosBody": "我們更新了Bloom的服務條款。",
+            "privPolicyBody": "我們更新了Bloom的隱私權政策。",
             "tosAndPrivPolicyCheckbox": "我已閱讀並且接受更新後的服務條款和隱私權政策",
             "tosCheckbox": "我已閱讀並且接受更新後的服務條款",
             "privPolicyCheckbox": "我已閱讀並且接受更新後的隱私權政策"
         },
         "singleAccountGuide": {
-            "title": "您使用Firefly的方式已變更。",
+            "title": "您使用Bloom的方式已變更。",
             "body": "每個頁面的內容是歸屬於當前所選擇的錢包. 你可以隨時使用標題欄中的切換功能變更所選擇的錢包.",
             "hint": "無法找到錢包？使用設定裡的餘額查詢，搜尋之前使用的錢包。"
         },
@@ -1166,7 +1166,7 @@
         "revote": {
             "title": "為提案重新投票",
             "body": "Changing your voting power temporarily stops your votes for all proposals from being counted. Simply click \"Revote\" to resume voting.",
-            "hint": "Firefly remembers all of the proposals and answer options you previously voted for."
+            "hint": "Bloom remembers all of the proposals and answer options you previously voted for."
         },
         "removeProposal": {
             "title": "移除提案",
@@ -1285,7 +1285,7 @@
         "exportTransactionHistory": "匯出交易記錄",
         "localProofOfWork": "本地工作量證明",
         "unlock": "解鎖",
-        "updateFirefly": "更新 Firefly",
+        "updateFirefly": "更新 Bloom",
         "restartNow": "立即重新啟動",
         "refresh": "重新整理",
         "saveBackup": "保存 Stronghold 備份",
@@ -1338,7 +1338,7 @@
         "search": "搜尋",
         "searching": "搜尋中",
         "searchAgain": "重新搜尋",
-        "closeFirefly": "關閉 Firefly",
+        "closeFirefly": "關閉 Bloom",
         "generateAddress": "產生新地址",
         "migrateAgain": "遷移另一個索引",
         "visitWebsite": "前往網站",
@@ -1615,7 +1615,7 @@
         "giftStorageDeposit": "贈與存儲空間費用",
         "excluded": "排除",
         "developerTools": "開發人員工具",
-        "testDeepLinkDescription": "模擬將一個深度連結的請求傳送至 Firefly 錢包",
+        "testDeepLinkDescription": "模擬將一個深度連結的請求傳送至 Bloom 錢包",
         "url": "網址",
         "hash": "雜湊",
         "creating": "正在創建",
