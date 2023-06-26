@@ -1,4 +1,4 @@
-name: "Crowdin"
+name: Crowdin
 
 on:
   schedule:
@@ -8,8 +8,8 @@ on:
 
 jobs:
   sync:
+    name: Sync
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2

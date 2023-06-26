@@ -13,7 +13,7 @@ jobs:
         steps:
             - name: Assign issues with bug report label to Bloom - Bug Management project
               uses: srggrs/assign-one-project-github-action@4fc2b23bdaaac08e64dcc590a6e138d2f9b8c86e
-              if: contains(github.event.issue.labels.*.name, 'bug report')
+              if: contains(github.event.issue.labels.*.name, 'bug-report')
               with:
                   project: 'https://github.com/orgs/bloomwalletio/projects/3'
                   column_name: 'Needs triage'
