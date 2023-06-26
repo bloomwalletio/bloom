@@ -173,8 +173,6 @@
                 "body": "Your new profile will be ready once the dashboard has successfully loaded.",
                 "ledgerHint": "Do not disconnect your Ledger device until the dashboard has finished loading.",
                 "softwareMigratedBody": "You have successfully migrated your funds to the new network",
-                "fireflyLedgerBody": "Your Ledger profile was successfully recovered and you can now continue.",
-                "trinityLedgerBody": "You have successfully migrated your Ledger to the new network.",
                 "exportMigration": "Export migration log and finish setup"
             }
         },
@@ -192,14 +190,6 @@
             "body2": "Βεβαιωθείτε ότι το firmware του Ledger είναι ενημερωμένο. Οποιεσδήποτε προεγκατεστημένες εφαρμογές πρέπει να ενημερωθούν στις τελευταίες εκδόσεις τους.",
             "action": "Yes, I've installed the {network} app"
         },
-        "importFromLedger": {
-            "title": "Επαναφορά ή μεταγραφή του Ledger",
-            "body": "Επαναφορά ενός υπάρχοντος προφίλ του Bloom Ledger ή μεταφορά των κεφαλαίων σας από το Trinity.",
-            "haveFireflyLedger": "Έχω ένα αντίγραφο ασφαλείας του Bloom Ledger",
-            "haveFireflyLedgerDescription": "Επαναφορά ενός προφίλ Bloom",
-            "haveTrinityLedger": "Έχω ένα αντίγραφο ασφαλείας Trinity Ledger",
-            "haveTrinityLedgerDescription": "Μετεγκατάσταση προφίλ Trinity"
-        },
         "connectLedger": {
             "title": "Συνδέστε το Ledger σας στο Bloom",
             "body": "Για να βρείτε τη συσκευή Ledger από το Bloom, βεβαιωθείτε ότι η επίσημη εφαρμογή Ledger Live είναι κλειστή.",
@@ -207,11 +197,6 @@
             "unlock": "Unlock your Ledger with its pin",
             "openApp": "Open the Shimmer app on your Ledger",
             "tips": "Συμβουλές σε περίπτωση που το Ledger σας δεν συνδέεται"
-        },
-        "restoreFromFireflyLedger": {
-            "title": "Επαναφορά Του Προφίλ σας στο Ledger",
-            "body": "Πατήστε επαναφορά για να ολοκληρώσετε τη διαδικασία εγκατάστασης και να επαναφέρετε τα πορτοφόλια σας, τα υπόλοιπα και το ιστορικό συναλλαγών.",
-            "restoring": "Επαναφορά από το Ledger..."
         },
         "legacyLedgerIntro": {
             "title": "Ξεκινήστε τη μεταγραφή του Ledger χρησιμοποιώντας το Bloom",
@@ -932,12 +917,6 @@
             "learnMore": "Μάθετε περισσότερα σχετικά με τις εξαντλημένες διευθύνσεις",
             "proceed": "Κατανοώ τους κινδύνους"
         },
-        "snapshot": {
-            "title": "Συνεχής αναβάθμιση δικτύου",
-            "body": "Η αναβάθμιση του δικτύου Chrysalis έχει ξεκινήσει.",
-            "bodyMigration": "Η μετεγκατάσταση είναι απενεργοποιημένη μέχρι να ολοκληρωθεί.",
-            "bodyFirefly": "Το Bloom είναι απενεργοποιημένο μέχρι να ολοκληρωθεί. Η μετεγκατάσταση των κεφαλαίων θα είναι ακόμα δυνατή και αργότερα."
-        },
         "ledgerNotConnected": {
             "title": "Connect your Ledger",
             "notConnected": "Connect your Ledger device to continue.",
@@ -1031,7 +1010,7 @@
         },
         "crashReporting": {
             "title": "Αναφορές Σφαλμάτων",
-            "body": "Βοηθήστε τους προγραμματιστές να βελτιώσουν το Bloom στέλνοντας αυτόματα διαγνωστικά δεδομένα όταν προκύψει κάποιο σφάλμα ή κατάρρευση. Αν επιλεγεί, αυτό θα τεθεί σε ισχύ μετά την επανεκκίνηση του Firefly.",
+            "body": "Βοηθήστε τους προγραμματιστές να βελτιώσουν το Bloom στέλνοντας αυτόματα διαγνωστικά δεδομένα όταν προκύψει κάποιο σφάλμα ή κατάρρευση. Αν επιλεγεί, αυτό θα τεθεί σε ισχύ μετά την επανεκκίνηση του Bloom.",
             "checkbox": "Αποστολή αναφορών σφαλμάτων στο Ίδρυμα IOTA"
         },
         "legalUpdate": {
@@ -1285,7 +1264,7 @@
         "exportTransactionHistory": "Export transaction history",
         "localProofOfWork": "Τοπική απόδειξη εργασίας (proof of work)",
         "unlock": "Ξεκλείδωμα",
-        "updateFirefly": "Ενημέρωση Bloom",
+        "updateBloom": "Ενημέρωση Bloom",
         "restartNow": "Επανεκκίνηση τώρα",
         "refresh": "Refresh",
         "saveBackup": "Αποθήκευση αντιγράφου ασφαλείας Stronghold",
@@ -1338,7 +1317,7 @@
         "search": "Search",
         "searching": "Searching",
         "searchAgain": "Αναζήτηση Ξανά",
-        "closeFirefly": "Κλείσιμο Του Bloom",
+        "closeBloom": "Κλείσιμο Του Bloom",
         "generateAddress": "Generate address",
         "migrateAgain": "Μετεγκατάσταση άλλου δείκτη",
         "visitWebsite": "Μετάβαση στην Ιστοσελίδα",

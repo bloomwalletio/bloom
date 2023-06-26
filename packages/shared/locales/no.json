@@ -173,8 +173,6 @@
                 "body": "Your new profile will be ready once the dashboard has successfully loaded.",
                 "ledgerHint": "Do not disconnect your Ledger device until the dashboard has finished loading.",
                 "softwareMigratedBody": "You have successfully migrated your funds to the new network",
-                "fireflyLedgerBody": "Your Ledger profile was successfully recovered and you can now continue.",
-                "trinityLedgerBody": "You have successfully migrated your Ledger to the new network.",
                 "exportMigration": "Export migration log and finish setup"
             }
         },
@@ -192,14 +190,6 @@
             "body2": "Sørg for at din Ledger firmware er oppdatert. Alle forhåndsinstallerte apper skal oppdateres til sine siste versjoner.",
             "action": "Yes, I've installed the {network} app"
         },
-        "importFromLedger": {
-            "title": "Gjenopprett eller migrer din Ledger",
-            "body": "Gjenopprett en eksisterende Bloom Ledger profil eller migrerer midlene fra Trinity.",
-            "haveFireflyLedger": "Jeg har en Bloom Ledger sikkerhetskopi",
-            "haveFireflyLedgerDescription": "Gjenopprett en Bloom-profil",
-            "haveTrinityLedger": "Jeg har en Trinity Ledger sikkerhetskopi",
-            "haveTrinityLedgerDescription": "Migrer en Trinity-profil"
-        },
         "connectLedger": {
             "title": "Koble din Ledger til Bloom",
             "body": "For at Ledger-enheten din skal bli funnet av Bloom, vennligst sørg for at den offisielle Ledger Live-applikasjonen er lukket.",
@@ -207,11 +197,6 @@
             "unlock": "Unlock your Ledger with its pin",
             "openApp": "Open the Shimmer app on your Ledger",
             "tips": "Tips hvis din Ledger ikke kobler til"
-        },
-        "restoreFromFireflyLedger": {
-            "title": "Gjenopprett din Ledger-profil",
-            "body": "Trykk tilbakestill for å fullføre installasjonsprosessen og gjenopprette lommebøkene, saldoen og transaksjonshistorien.",
-            "restoring": "Gjenoppretter fra Ledger..."
         },
         "legacyLedgerIntro": {
             "title": "Start din Ledger-migrering med Bloom",
@@ -932,12 +917,6 @@
             "learnMore": "Lær mer om brukte adresser",
             "proceed": "Jeg forstår risikoen"
         },
-        "snapshot": {
-            "title": "Pågående nettverksoppgradering",
-            "body": "Chrysalis nettverksoppgradering har begynt.",
-            "bodyMigration": "Migrering er deaktivert inntil den er ferdig.",
-            "bodyFirefly": "Bloom er deaktivert til det er fullført. Token migrering vil fortsatt bli mulig etterpå."
-        },
         "ledgerNotConnected": {
             "title": "Connect your Ledger",
             "notConnected": "Connect your Ledger device to continue.",
@@ -1031,7 +1010,7 @@
         },
         "crashReporting": {
             "title": "Crash reporting",
-            "body": "Help the developers improve Bloom by automatically sending diagnostic data when an error or crash occurs. If selected, this will take effect after restarting Firefly.",
+            "body": "Help the developers improve Bloom by automatically sending diagnostic data when an error or crash occurs. If selected, this will take effect after restarting Bloom.",
             "checkbox": "Send crash reports to the IOTA Foundation"
         },
         "legalUpdate": {
@@ -1285,7 +1264,7 @@
         "exportTransactionHistory": "Eksporter transaksjonshistorie",
         "localProofOfWork": "Lokal proof of work",
         "unlock": "Lås opp",
-        "updateFirefly": "Oppdater Bloom",
+        "updateBloom": "Oppdater Bloom",
         "restartNow": "Start på nytt nå",
         "refresh": "Refresh",
         "saveBackup": "Lagre Stronghold sikkerhetskopi",
@@ -1338,7 +1317,7 @@
         "search": "Search",
         "searching": "Searching",
         "searchAgain": "Søk på nytt",
-        "closeFirefly": "Lukk Bloom",
+        "closeBloom": "Lukk Bloom",
         "generateAddress": "Generate address",
         "migrateAgain": "Migrer en annen indeks",
         "visitWebsite": "Besøk nettside",

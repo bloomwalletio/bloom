@@ -173,8 +173,6 @@
                 "body": "Your new profile will be ready once the dashboard has successfully loaded.",
                 "ledgerHint": "Do not disconnect your Ledger device until the dashboard has finished loading.",
                 "softwareMigratedBody": "You have successfully migrated your funds to the new network",
-                "fireflyLedgerBody": "Your Ledger profile was successfully recovered and you can now continue.",
-                "trinityLedgerBody": "You have successfully migrated your Ledger to the new network.",
                 "exportMigration": "Export migration log and finish setup"
             }
         },
@@ -192,14 +190,6 @@
             "body2": "Ledger yazılımının güncel olduğundan emin olun. Önceden yüklenmiş tüm uygulamalar en son sürümlerine güncellenmelidir.",
             "action": "Yes, I've installed the {network} app"
         },
-        "importFromLedger": {
-            "title": "Ledger'ınızı Geri Yükleyin veya Taşıyın",
-            "body": "Mevcut bir Bloom Ledger profilini geri yükleyin, veya Trinity'den bakiyenizi taşıyın.",
-            "haveFireflyLedger": "Bloom Ledger yedeğim var",
-            "haveFireflyLedgerDescription": "Bir Bloom profilini geri yükle",
-            "haveTrinityLedger": "Trinity Ledger yedeğim var",
-            "haveTrinityLedgerDescription": "Trinity profili taşı"
-        },
         "connectLedger": {
             "title": "Ledger'ınızı Bloom'a bağlayın",
             "body": "Ledger cihazınızın Bloom tarafından bulunabilmesi için lütfen resmi Ledger Live uygulamasının kapalı olduğundan emin olunuz.",
@@ -207,11 +197,6 @@
             "unlock": "Unlock your Ledger with its pin",
             "openApp": "Open the Shimmer app on your Ledger",
             "tips": "Ledger'ınız bağlanmadığı durumlar için ipuçları"
-        },
-        "restoreFromFireflyLedger": {
-            "title": "Ledger Profilinizi Geri Yükleyin",
-            "body": "Kurulum işlemini tamamlamak ve cüzdanlarınızı, bakiyelerinizi ve işlem geçmişinizi geri yüklemek için geri yükle'ye basın.",
-            "restoring": "Ledger'dan geri yükleniyor..."
         },
         "legacyLedgerIntro": {
             "title": "Bloom kullanarak Ledger geçişinizi başlatın",
@@ -932,12 +917,6 @@
             "learnMore": "Kullanılmış adresler hakkında daha fazla bilgi edinin",
             "proceed": "Riski göze alıyorum"
         },
-        "snapshot": {
-            "title": "Ağ güncellemesi devam etmekte",
-            "body": "Chrysalis ağ güncellemesi başladı.",
-            "bodyMigration": "İşlem tamamlanana kadar taşıma devre dışı bırakıldı.",
-            "bodyFirefly": "İşlem tamamlanana kadar Bloom devre dışı bırakıldı. Token taşıma daha sonra hala mümkün olacak."
-        },
         "ledgerNotConnected": {
             "title": "Connect your Ledger",
             "notConnected": "Connect your Ledger device to continue.",
@@ -1285,7 +1264,7 @@
         "exportTransactionHistory": "İşlem geçmişini dışa aktar",
         "localProofOfWork": "Lokal iş kanıtı",
         "unlock": "Kilidi Aç",
-        "updateFirefly": "Bloom'ı güncelle",
+        "updateBloom": "Bloom'ı güncelle",
         "restartNow": "Şimdi yeniden başlat",
         "refresh": "Refresh",
         "saveBackup": "Stronghold yedeklemeyi kaydet",
@@ -1338,7 +1317,7 @@
         "search": "Search",
         "searching": "Searching",
         "searchAgain": "Tekrar ara",
-        "closeFirefly": "Bloom'ı Kapat",
+        "closeBloom": "Bloom'ı Kapat",
         "generateAddress": "Generate address",
         "migrateAgain": "Başka bir indeks taşı",
         "visitWebsite": "Web sitesini ziyaret et",

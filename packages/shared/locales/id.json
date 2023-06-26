@@ -173,8 +173,6 @@
                 "body": "Your new profile will be ready once the dashboard has successfully loaded.",
                 "ledgerHint": "Do not disconnect your Ledger device until the dashboard has finished loading.",
                 "softwareMigratedBody": "You have successfully migrated your funds to the new network",
-                "fireflyLedgerBody": "Your Ledger profile was successfully recovered and you can now continue.",
-                "trinityLedgerBody": "You have successfully migrated your Ledger to the new network.",
                 "exportMigration": "Export migration log and finish setup"
             }
         },
@@ -192,14 +190,6 @@
             "body2": "Pastikan firmware Ledger Anda adalah versi terkini. Seluruh aplikasi yang sudah di-install sebelumnya harus diperbarui sampai versi terbarunya.",
             "action": "Yes, I've installed the {network} app"
         },
-        "importFromLedger": {
-            "title": "Memulihkan atau memigrasikan Ledger Anda",
-            "body": "Memulihkan profil Bloom Ledger yang ada, atau memigrasikan dana Anda dari Trinity.",
-            "haveFireflyLedger": "Saya punya file Bloom Ledger cadangan",
-            "haveFireflyLedgerDescription": "Memulihkan profil Bloom",
-            "haveTrinityLedger": "Saya punya file Trinity Ledger cadangan",
-            "haveTrinityLedgerDescription": "Memigrasikan profil Trinity"
-        },
         "connectLedger": {
             "title": "Hubungkan Ledger Anda ke Bloom",
             "body": "Agar perangkat Ledger Anda dapat terhubung Bloom, mohon pastikan bahwa aplikasi resmi Ledger Live telah tertutup.",
@@ -207,11 +197,6 @@
             "unlock": "Unlock your Ledger with its pin",
             "openApp": "Open the Shimmer app on your Ledger",
             "tips": "Tips apabila Ledger Anda tidak dapat terhubung"
-        },
-        "restoreFromFireflyLedger": {
-            "title": "Memulihkan Profil Ledger Anda",
-            "body": "Tekan tombol pemulihan untuk menyelesaikan proses persiapan dan pemulihan dompet Anda, saldo dan sejarah transaksi.",
-            "restoring": "Memulihkan dari Ledger..."
         },
         "legacyLedgerIntro": {
             "title": "Memulai migrasi Ledger Anda menggunakan Bloom",
@@ -932,12 +917,6 @@
             "learnMore": "Pelajari tentang alamat yang terpakai",
             "proceed": "Saya mengerti risikonya"
         },
-        "snapshot": {
-            "title": "Sedang meningkatkan jaringan",
-            "body": "Pembaruan jaringan Chrysalis telah dimulai.",
-            "bodyMigration": "Migrasi dinon-aktifkan sampai proses ini selesai.",
-            "bodyFirefly": "Bloom dinon-aktifkan sampai proses ini selesai. Migrasi token akan dapat dilakukan setelahnya."
-        },
         "ledgerNotConnected": {
             "title": "Connect your Ledger",
             "notConnected": "Connect your Ledger device to continue.",
@@ -1031,7 +1010,7 @@
         },
         "crashReporting": {
             "title": "Pelaporan kerusakan",
-            "body": "Bantu pengembang meningkatkan Bloom dengan mengirimkan data diagnostik secara otomatis saat terjadi kesalahan atau crash. Jika dipilih, ini akan berlaku setelah memulai ulang Firefly.",
+            "body": "Bantu pengembang meningkatkan Bloom dengan mengirimkan data diagnostik secara otomatis saat terjadi kesalahan atau crash. Jika dipilih, ini akan berlaku setelah memulai ulang Bloom.",
             "checkbox": "Send crash reports to the IOTA Foundation"
         },
         "legalUpdate": {
@@ -1285,7 +1264,7 @@
         "exportTransactionHistory": "Ekspor Riwayat Transaksi",
         "localProofOfWork": "Proof of work lokal",
         "unlock": "Buka",
-        "updateFirefly": "Memperbarui Bloom",
+        "updateBloom": "Memperbarui Bloom",
         "restartNow": "Start ulang sekarang",
         "refresh": "Refresh",
         "saveBackup": "Simpan cadangan Stronghold",
@@ -1338,7 +1317,7 @@
         "search": "Search",
         "searching": "Searching",
         "searchAgain": "Cari kembali",
-        "closeFirefly": "Tutup Bloom",
+        "closeBloom": "Tutup Bloom",
         "generateAddress": "Generate address",
         "migrateAgain": "Migrasi indeks Ledger",
         "visitWebsite": "Kunjungi situs web",

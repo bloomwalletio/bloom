@@ -173,8 +173,6 @@
                 "body": "Den nye profil vil være klar til brug, når kontrolpanelet er indlæst.",
                 "ledgerHint": "Frakobl ikke Ledger-enheden, før kontrolpanelet er fuldstændigt indlæst.",
                 "softwareMigratedBody": "Midler er nu migreret til det nye netværk",
-                "fireflyLedgerBody": "Ledger-kontoen er nu genoprettet, og man kan nu fortsætte.",
-                "trinityLedgerBody": "Ledger er nu migreret til det nye netværk.",
                 "exportMigration": "Eksportér migreringslog og afslut opsætning"
             }
         },
@@ -192,14 +190,6 @@
             "body2": "Sørg for, at Ledger-firmwaren er opdateret. Alle præinstallerede apps bør opdateres til seneste versioner.",
             "action": "Ja, {network}-appen er installeret"
         },
-        "importFromLedger": {
-            "title": "Gendan eller migrér din Ledger",
-            "body": "Gendan en eksisterende Bloom Ledger-profil, eller migrere dine midler fra Trinity.",
-            "haveFireflyLedger": "Jeg har en Bloom Ledger-sikkerhedskopi",
-            "haveFireflyLedgerDescription": "Gendan en Bloom-profil",
-            "haveTrinityLedger": "Jeg har en Trinity Ledger-sikkerhedskopi",
-            "haveTrinityLedgerDescription": "Migrere en Trinity-profil"
-        },
         "connectLedger": {
             "title": "Tilslut din Ledger til Bloom",
             "body": "For at Bloom kan finde Ledger-enheden, så sørg for, at den officielle Ledger Live-applikation er lukket.",
@@ -207,11 +197,6 @@
             "unlock": "Oplås Ledger-enheden PIN-koden",
             "openApp": "Åbn Shimmer-appen på Ledger-enheden",
             "tips": "Tips, hvis Ledger-enheden ikke tilsluttes"
-        },
-        "restoreFromFireflyLedger": {
-            "title": "Gendan Ledger-profilen",
-            "body": "Tryk på gendan for at fuldføre opsætningsprocessen og gendanne wallets, midler og transaktionshistorik.",
-            "restoring": "Gendanner fra Ledger..."
         },
         "legacyLedgerIntro": {
             "title": "Start Ledger-migrering via Bloom",
@@ -932,12 +917,6 @@
             "learnMore": "Læs mere om brugte adresser",
             "proceed": "Jeg forstår risikoen"
         },
-        "snapshot": {
-            "title": "Igangværende netværksopgradering",
-            "body": "Chrysalis netværksopgradering er begyndt.",
-            "bodyMigration": "Migration er deaktiveret indtil den er færdig.",
-            "bodyFirefly": "Bloom er deaktiveret, indtil den er færdig. Token migration vil stadig være mulig efterfølgende."
-        },
         "ledgerNotConnected": {
             "title": "Tilslut Ledger-enheden",
             "notConnected": "Tilslut Ledger-enheden for at fortsætte.",
@@ -1031,7 +1010,7 @@
         },
         "crashReporting": {
             "title": "Crash reporting",
-            "body": "Help the developers improve Bloom by automatically sending diagnostic data when an error or crash occurs. If selected, this will take effect after restarting Firefly.",
+            "body": "Help the developers improve Bloom by automatically sending diagnostic data when an error or crash occurs. If selected, this will take effect after restarting Bloom.",
             "checkbox": "Send crash reports to the IOTA Foundation"
         },
         "legalUpdate": {
@@ -1285,7 +1264,7 @@
         "exportTransactionHistory": "Eksportér transaktionshistorik",
         "localProofOfWork": "Lokal proof of work",
         "unlock": "Lås op",
-        "updateFirefly": "Opdater Bloom",
+        "updateBloom": "Opdater Bloom",
         "restartNow": "Genstart nu",
         "refresh": "Opdatér",
         "saveBackup": "Gem Stronghold sikkerhedskopi",
@@ -1338,7 +1317,7 @@
         "search": "Search",
         "searching": "Searching",
         "searchAgain": "Søg igen",
-        "closeFirefly": "Luk Bloom",
+        "closeBloom": "Luk Bloom",
         "generateAddress": "Generate address",
         "migrateAgain": "Migrate another index",
         "visitWebsite": "Visit website",

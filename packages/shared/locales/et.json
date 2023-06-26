@@ -173,8 +173,6 @@
                 "body": "Your new profile will be ready once the dashboard has successfully loaded.",
                 "ledgerHint": "Do not disconnect your Ledger device until the dashboard has finished loading.",
                 "softwareMigratedBody": "You have successfully migrated your funds to the new network",
-                "fireflyLedgerBody": "Your Ledger profile was successfully recovered and you can now continue.",
-                "trinityLedgerBody": "You have successfully migrated your Ledger to the new network.",
                 "exportMigration": "Export migration log and finish setup"
             }
         },
@@ -192,14 +190,6 @@
             "body2": "Make sure your Ledger firmware is up-to-date. Any pre-installed apps should be updated to their latest versions.",
             "action": "Yes, I've installed the {network} app"
         },
-        "importFromLedger": {
-            "title": "Restore or Migrate your Ledger",
-            "body": "Restore an existing Bloom Ledger profile, or migrate your funds from Trinity.",
-            "haveFireflyLedger": "I have a Bloom Ledger backup",
-            "haveFireflyLedgerDescription": "Taasta Bloom profiil",
-            "haveTrinityLedger": "Mul on Trinity Ledgeri tagavara",
-            "haveTrinityLedgerDescription": "Too üle Trinity profiil"
-        },
         "connectLedger": {
             "title": "Ühenda oma Ledger Bloom'ga",
             "body": "For your Ledger device to be found by Bloom, please ensure that the official Ledger Live application is closed.",
@@ -207,11 +197,6 @@
             "unlock": "Unlock your Ledger with its pin",
             "openApp": "Open the Shimmer app on your Ledger",
             "tips": "Tips if your Ledger isn’t connecting"
-        },
-        "restoreFromFireflyLedger": {
-            "title": "Taasta oma Ledgeri profiil",
-            "body": "Press restore to complete the setup process and restore your wallets, balances and transaction history.",
-            "restoring": "Taastamine Ledgerist..."
         },
         "legacyLedgerIntro": {
             "title": "Alusta oma Ledgeri ületoomist kasutades Bloom'd",
@@ -932,12 +917,6 @@
             "learnMore": "Learn more about spent addresses",
             "proceed": "Ma mõistan ohtu"
         },
-        "snapshot": {
-            "title": "Ongoing network upgrade",
-            "body": "The Chrysalis network upgrade has begun.",
-            "bodyMigration": "Migration is disabled until it is complete.",
-            "bodyFirefly": "Bloom is disabled until it is complete. Token migration will still be possible afterwards."
-        },
         "ledgerNotConnected": {
             "title": "Connect your Ledger",
             "notConnected": "Connect your Ledger device to continue.",
@@ -1031,7 +1010,7 @@
         },
         "crashReporting": {
             "title": "Crash reporting",
-            "body": "Help the developers improve Bloom by automatically sending diagnostic data when an error or crash occurs. If selected, this will take effect after restarting Firefly.",
+            "body": "Help the developers improve Bloom by automatically sending diagnostic data when an error or crash occurs. If selected, this will take effect after restarting Bloom.",
             "checkbox": "Send crash reports to the IOTA Foundation"
         },
         "legalUpdate": {
@@ -1285,7 +1264,7 @@
         "exportTransactionHistory": "Export transaction history",
         "localProofOfWork": "Local proof of work",
         "unlock": "Ava",
-        "updateFirefly": "Uuenda Bloom",
+        "updateBloom": "Uuenda Bloom",
         "restartNow": "Taaskäivita kohe",
         "refresh": "Refresh",
         "saveBackup": "Save Stronghold backup",
@@ -1338,7 +1317,7 @@
         "search": "Search",
         "searching": "Searching",
         "searchAgain": "Otsi uuesti",
-        "closeFirefly": "Sulge Bloom",
+        "closeBloom": "Sulge Bloom",
         "generateAddress": "Generate address",
         "migrateAgain": "Migrate another index",
         "visitWebsite": "Visit website",

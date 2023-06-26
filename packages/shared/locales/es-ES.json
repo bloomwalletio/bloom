@@ -173,8 +173,6 @@
                 "body": "Tu nuevo perfil estará listo una vez que el panel se haya cargado correctamente.",
                 "ledgerHint": "No desconecte su dispositivo Ledger hasta que el panel de control haya terminado de cargar.",
                 "softwareMigratedBody": "Has migrado correctamente tus fondos a la nueva red",
-                "fireflyLedgerBody": "Tu perfil de Ledger se ha recuperado con éxito y ahora puedes continuar.",
-                "trinityLedgerBody": "Has migrado con éxito tu Ledger a la nueva red.",
                 "exportMigration": "Exportar registro de migración y finalizar la configuración"
             }
         },
@@ -192,14 +190,6 @@
             "body2": "Asegúrese de que su firmware Ledger esté actualizado. Cualquier aplicación preinstalada debe actualizarse a sus últimas versiones.",
             "action": "Yes, I've installed the {network} app"
         },
-        "importFromLedger": {
-            "title": "Restaurar o Migrar tú Ledger",
-            "body": "Restaurar un perfil existente de Bloom Ledger o migrar tus fondos desde Trinity.",
-            "haveFireflyLedger": "Tengo una copia de seguridad de Bloom Ledger",
-            "haveFireflyLedgerDescription": "Restaurar un perfil de Bloom",
-            "haveTrinityLedger": "Tengo una copia de seguridad de Trinity Ledger",
-            "haveTrinityLedgerDescription": "Migrar un perfil de Trinity"
-        },
         "connectLedger": {
             "title": "Conecta tu Ledger a Bloom",
             "body": "Para que su dispositivo Ledger sea encontrado por Bloom, asegúrese de que la aplicación oficial de Ledger Live está cerrada.",
@@ -207,11 +197,6 @@
             "unlock": "Desbloquea tu Ledger con su pin",
             "openApp": "Abre la aplicación Shimmer en tu Ledger",
             "tips": "Sugerencias si tu Ledger no se conecta"
-        },
-        "restoreFromFireflyLedger": {
-            "title": "Restaurar tu perfil Ledger",
-            "body": "Pulse restaurar para completar el proceso de configuración y restaurar sus billeteras, balances y historial de transacciones.",
-            "restoring": "Restaurando desde el Ledger..."
         },
         "legacyLedgerIntro": {
             "title": "Comienza tu migración de Ledger usando Bloom",
@@ -932,12 +917,6 @@
             "learnMore": "Aprende más sobre las direcciones gastadas",
             "proceed": "Entiendo el riesgo"
         },
-        "snapshot": {
-            "title": "Mejora de red en marcha",
-            "body": "La mejora de la red Chrysalis ha empezado.",
-            "bodyMigration": "La migración está desactivada hasta que esté completada.",
-            "bodyFirefly": "Bloom está desactivado hasta que esté completado. La migración seguirá siendo posible después."
-        },
         "ledgerNotConnected": {
             "title": "Conecte su ledger",
             "notConnected": "Conecte su dispositivo Ledger para continuar.",
@@ -1031,7 +1010,7 @@
         },
         "crashReporting": {
             "title": "Informes de fallos",
-            "body": "Ayude a los desarrolladores a mejorar Bloom enviando automáticamente datos de diagnóstico cuando ocurra un error o cierre inesperado. Esto tomará efecto después de reiniciar Firefly.",
+            "body": "Ayude a los desarrolladores a mejorar Bloom enviando automáticamente datos de diagnóstico cuando ocurra un error o cierre inesperado. Esto tomará efecto después de reiniciar Bloom.",
             "checkbox": "Enviar informe de fallos a la Fundación IOTA"
         },
         "legalUpdate": {
@@ -1285,7 +1264,7 @@
         "exportTransactionHistory": "Exportar el historial de transacciones",
         "localProofOfWork": "Prueba de trabajo local",
         "unlock": "Desbloquear",
-        "updateFirefly": "Actualizar Bloom",
+        "updateBloom": "Actualizar Bloom",
         "restartNow": "Reiniciar ahora",
         "refresh": "Refresh",
         "saveBackup": "Guardar copia de seguridad de Stronghold",
@@ -1338,7 +1317,7 @@
         "search": "Buscar",
         "searching": "Buscando",
         "searchAgain": "Buscar de nuevo",
-        "closeFirefly": "Cerrar Bloom",
+        "closeBloom": "Cerrar Bloom",
         "generateAddress": "Generar dirección",
         "migrateAgain": "Migrar otro índice",
         "visitWebsite": "Visite el sitio web",

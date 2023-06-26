@@ -173,8 +173,6 @@
                 "body": "Din nya profil kommer att vara klar när översikten har laddats.",
                 "ledgerHint": "Koppla inte från Ledger-enheten förrän översikten har laddats klart.",
                 "softwareMigratedBody": "Du har framgångsrikt migrerat dina tillgångar till det nya nätverket",
-                "fireflyLedgerBody": "Din Ledger-profil har återställts och du kan nu fortsätta.",
-                "trinityLedgerBody": "Du har framgångsrikt migrerat din Ledger till det nya nätverket.",
                 "exportMigration": "Exportera migrationslogg och avsluta konfigurationen"
             }
         },
@@ -192,14 +190,6 @@
             "body2": "Se till att din firmware från Ledger är uppdaterad. Alla förinstallerade appar bör uppdateras till sina senaste versioner.",
             "action": "Yes, I've installed the {network} app"
         },
-        "importFromLedger": {
-            "title": "Återställ eller migrera din Ledger",
-            "body": "Återställ en befintlig Bloom Ledger profil eller migrera dina IOTA från Trinity.",
-            "haveFireflyLedger": "Jag har en Bloom Ledger backup",
-            "haveFireflyLedgerDescription": "Återställ en Bloom-profil",
-            "haveTrinityLedger": "Jag har en Trinity Ledger backup",
-            "haveTrinityLedgerDescription": "Migrera en Trinity-profil"
-        },
         "connectLedger": {
             "title": "Anslut din Ledger till Bloom",
             "body": "För att din Ledger enhet ska hittas av Bloom, se till att den officiella Ledger Live-applikationen är stängd.",
@@ -207,11 +197,6 @@
             "unlock": "Lås upp din Ledger med dess PIN-kod",
             "openApp": "Öppna Shimmer-appen på din Ledger",
             "tips": "Tips om din Ledger inte ansluter"
-        },
-        "restoreFromFireflyLedger": {
-            "title": "Återställ din Ledger profil",
-            "body": "Tryck på återställ för att slutföra installationsprocessen och återställa plånböcker, saldon och transaktionshistorik.",
-            "restoring": "Återställer från Ledger..."
         },
         "legacyLedgerIntro": {
             "title": "Starta din Ledger migrering med Bloom",
@@ -932,12 +917,6 @@
             "learnMore": "Läs mer om förbrukade adresser",
             "proceed": "Jag förstår riskerna"
         },
-        "snapshot": {
-            "title": "Pågående nätverksuppgradering",
-            "body": "Uppgraderingen av Chrysalis-nätverket har börjat.",
-            "bodyMigration": "Migrering är inaktiverad tills den är klar.",
-            "bodyFirefly": "Bloom är inaktiverad tills det är klart. Token-migrering kommer fortfarande att vara möjlig efteråt."
-        },
         "ledgerNotConnected": {
             "title": "Anslut din Ledger",
             "notConnected": "Anslut din Ledger-enhet för att fortsätta.",
@@ -1031,7 +1010,7 @@
         },
         "crashReporting": {
             "title": "Kraschrapportering",
-            "body": "Hjälp utvecklarna att förbättra Bloom genom att automatiskt skicka diagnostikdata när ett fel eller en krasch inträffar. Om detta är valt, kommer det att träda i kraft efter att Firefly startats om.",
+            "body": "Hjälp utvecklarna att förbättra Bloom genom att automatiskt skicka diagnostikdata när ett fel eller en krasch inträffar. Om detta är valt, kommer det att träda i kraft efter att Bloom startats om.",
             "checkbox": "Skicka kraschrapporter till IOTA Foundation"
         },
         "legalUpdate": {
@@ -1285,7 +1264,7 @@
         "exportTransactionHistory": "Exportera transaktionshistoriken",
         "localProofOfWork": "Lokalt proof of work",
         "unlock": "Lås upp",
-        "updateFirefly": "Uppdatera Bloom",
+        "updateBloom": "Uppdatera Bloom",
         "restartNow": "Starta om nu",
         "refresh": "Refresh",
         "saveBackup": "Spara Stronghold säkerhetskopia",
@@ -1338,7 +1317,7 @@
         "search": "Sök",
         "searching": "Söker",
         "searchAgain": "Sök igen",
-        "closeFirefly": "Stäng Bloom",
+        "closeBloom": "Stäng Bloom",
         "generateAddress": "Generera adress",
         "migrateAgain": "Migrera ett annat index",
         "visitWebsite": "Besök webbplats",

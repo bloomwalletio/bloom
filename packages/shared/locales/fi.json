@@ -173,8 +173,6 @@
                 "body": "Uusi profiilisi on valmis, kunhan kojelauta on ladattu onnistuneesti.",
                 "ledgerHint": "Älä katkaise yhteyttä Ledger-laitteeseesi ennen kuin kojelauta on ladannut loppuun.",
                 "softwareMigratedBody": "Olet onnistuneesti siirtänyt varasi uuteen verkkoon",
-                "fireflyLedgerBody": "Ledger-profiilisi palautettiin onnistuneesti ja voit nyt jatkaa.",
-                "trinityLedgerBody": "Olet onnistuneesti siirtänyt Ledger-laitteesi uuteen verkkoon.",
                 "exportMigration": "Vie migraatioloki ja viimeistele määritys"
             }
         },
@@ -192,14 +190,6 @@
             "body2": "Varmista, että Ledger-laitteesi laiteohjelmisto on ajan tasalla. Kaikki valmiiksi asennetut sovellukset tulee päivittää uusimpiin versioihin.",
             "action": "Yes, I've installed the {network} app"
         },
-        "importFromLedger": {
-            "title": "Palauta tai siirrä Ledger-laitteesi",
-            "body": "Palauta olemassaoleva Bloom Ledger-profiili, tai siirrä varasi Trinity-lompakosta.",
-            "haveFireflyLedger": "Minulla on Bloom Ledger-varmuuskopio",
-            "haveFireflyLedgerDescription": "Palauta Bloom-profiili",
-            "haveTrinityLedger": "Minulla on Trinity Ledger-varmuuskopio",
-            "haveTrinityLedgerDescription": "Siirrä Trinity-profiili"
-        },
         "connectLedger": {
             "title": "Yhdistä Ledger-laitteesi Bloomhyn",
             "body": "Jotta Ledger-laitteesi tunnistuu Bloomssä, varmista, että virallinen Ledger Live -sovellus on suljettu.",
@@ -207,11 +197,6 @@
             "unlock": "Avaa Ledger-laitteesi sen PIN-koodilla",
             "openApp": "Avaa Shimmer-sovellus Ledger-laitteessasi",
             "tips": "Vinkkejä, jos Ledger ei yhdistä"
-        },
-        "restoreFromFireflyLedger": {
-            "title": "Palauta Ledger-profiilisi",
-            "body": "Paina palauta suorittaaksesi määritysprosessin loppuun ja palauttaaksesi lompakkosi, saldosi ja transaktiohistoriasi.",
-            "restoring": "Palautetaan Ledgeristä..."
         },
         "legacyLedgerIntro": {
             "title": "Aloita Ledger-migraatiosi käyttäen Bloomä",
@@ -932,12 +917,6 @@
             "learnMore": "Lue lisää käytetyistä osoitteista",
             "proceed": "Ymmärrän riskin"
         },
-        "snapshot": {
-            "title": "Meneillään oleva verkkopäivitys",
-            "body": "Chrysalis-verkkopäivitys on alkanut.",
-            "bodyMigration": "Migraatio on poistettu käytöstä, kunnes se on valmis.",
-            "bodyFirefly": "Bloom on poistettu käytöstä, kunnes se on valmis. Tokenien migraatio on edelleen mahdollista jälkeenpäin."
-        },
         "ledgerNotConnected": {
             "title": "Yhdistä Ledger-laitteesi",
             "notConnected": "Yhdistä Ledger-laitteesi jatkaaksesi.",
@@ -1031,7 +1010,7 @@
         },
         "crashReporting": {
             "title": "Kaatumisraportointi",
-            "body": "Auta kehittäjiä parantamaan Bloomtä lähettämällä automaattisesti diagnostiikkatietoja virheen tai kaatumisen tapahtuessa. Jos tämä on valittuna, se tulee voimaan Fireflyn uudelleenkäynnistyksen jälkeen.",
+            "body": "Auta kehittäjiä parantamaan Bloomtä lähettämällä automaattisesti diagnostiikkatietoja virheen tai kaatumisen tapahtuessa. Jos tämä on valittuna, se tulee voimaan Bloomn uudelleenkäynnistyksen jälkeen.",
             "checkbox": "Lähetä kaatumisraportit IOTA-säätiölle"
         },
         "legalUpdate": {
@@ -1285,7 +1264,7 @@
         "exportTransactionHistory": "Vie transaktiohistoria",
         "localProofOfWork": "Paikallinen todiste työstä (PoW)",
         "unlock": "Avaa",
-        "updateFirefly": "Päivitä Bloom",
+        "updateBloom": "Päivitä Bloom",
         "restartNow": "Käynnistä uudelleen nyt",
         "refresh": "Refresh",
         "saveBackup": "Tallenna Stronghold-varmuuskopio",
@@ -1338,7 +1317,7 @@
         "search": "Etsi",
         "searching": "Etsitään",
         "searchAgain": "Hae uudelleen",
-        "closeFirefly": "Sulje Bloom",
+        "closeBloom": "Sulje Bloom",
         "generateAddress": "Luo osoite",
         "migrateAgain": "Siirrä toinen indeksi",
         "visitWebsite": "Vieraile verkkosivulla",

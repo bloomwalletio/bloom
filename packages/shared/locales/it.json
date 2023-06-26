@@ -173,8 +173,6 @@
                 "body": "Il tuo nuovo profilo sarà pronto una volta che il cruscotto sarà stato caricato con successo.",
                 "ledgerHint": "Non disconnettere il Ledger fino a quando la dashboard non sarà stata caricata correttamente.",
                 "softwareMigratedBody": "Hai migrato correttamente i tuoi fondi alla nuova rete",
-                "fireflyLedgerBody": "Il tuo profilo Ledger è stato recuperato con successo e ora puoi continuare.",
-                "trinityLedgerBody": "Hai migrato correttamente il tuo Ledger alla nuova rete.",
                 "exportMigration": "Esporta il registro di migrazione e termina la configurazione"
             }
         },
@@ -192,14 +190,6 @@
             "body2": "Assicurati che il tuo firmware Ledger sia aggiornato. Tutte le app preinstallate dovrebbero essere aggiornate alle loro ultime versioni.",
             "action": "Yes, I've installed the {network} app"
         },
-        "importFromLedger": {
-            "title": "Ripristina o Migra il tuo Ledger",
-            "body": "Ripristina un profilo di Ledger di Bloom esistente o migra i tuoi fondi da Trinity.",
-            "haveFireflyLedger": "Ho un backup di Bloom di Ledger",
-            "haveFireflyLedgerDescription": "Ripristina un profilo di Bloom",
-            "haveTrinityLedger": "Ho un backup Trinity di Ledger",
-            "haveTrinityLedgerDescription": "Migra un profilo di Trinity"
-        },
         "connectLedger": {
             "title": "Collega il tuo Ledger a Bloom",
             "body": "Per trovare il tuo dispositivo Ledger con Bloom, sei pregato di assicurarti che l'applicazione ufficiale Ledger Live sia chiusa.",
@@ -207,11 +197,6 @@
             "unlock": "Sblocca il tuo Ledger con il suo pin",
             "openApp": "Apri l'app Shimmer sul tuo Ledger",
             "tips": "Suggerimenti se il tuo Ledger non si connette"
-        },
-        "restoreFromFireflyLedger": {
-            "title": "Ripristina Il Tuo Profilo Ledger",
-            "body": "Premi ripristina per completare il processo di configurazione e ripristinare i tuoi portafogli, saldi e storico delle transazioni.",
-            "restoring": "Ripristinando da Ledger..."
         },
         "legacyLedgerIntro": {
             "title": "Avvia la tua migrazione di Ledger usando Bloom",
@@ -932,12 +917,6 @@
             "learnMore": "Informazioni sugli indirizzi spesi",
             "proceed": "Sono consapevole del rischio"
         },
-        "snapshot": {
-            "title": "Aggiornamento della rete in corso",
-            "body": "L'aggiornamento della rete Chrysalis è iniziato.",
-            "bodyMigration": "La migrazione è disabilitata fino al completamento.",
-            "bodyFirefly": "Bloom è disabilitato fino a quando non sarà completato. La migrazione del token sarà ancora possibile in seguito."
-        },
         "ledgerNotConnected": {
             "title": "Collega il tuo Ledger",
             "notConnected": "Collega il tuo dispositivo Ledger per continuare.",
@@ -1031,7 +1010,7 @@
         },
         "crashReporting": {
             "title": "Segnalazione di malfunzionamenti",
-            "body": "Aiuta gli sviluppatori a migliorare Bloom inviando automaticamente dati diagnostici quando si verifica un errore o un crash. Se selezionato, questo avrà effetto dopo il riavvio di Firefly.",
+            "body": "Aiuta gli sviluppatori a migliorare Bloom inviando automaticamente dati diagnostici quando si verifica un errore o un crash. Se selezionato, questo avrà effetto dopo il riavvio di Bloom.",
             "checkbox": "Invia segnalazioni di crash alla Fondazione IOTA"
         },
         "legalUpdate": {
@@ -1285,7 +1264,7 @@
         "exportTransactionHistory": "Esporta lo storico delle transazioni",
         "localProofOfWork": "Proof of work locale",
         "unlock": "Sblocca",
-        "updateFirefly": "Aggiorna Bloom",
+        "updateBloom": "Aggiorna Bloom",
         "restartNow": "Riavvia ora",
         "refresh": "Refresh",
         "saveBackup": "Salva un backup di Stronghold",
@@ -1338,7 +1317,7 @@
         "search": "Cerca",
         "searching": "Ricerca in corso...",
         "searchAgain": "Nuova ricerca",
-        "closeFirefly": "Chiudi Bloom",
+        "closeBloom": "Chiudi Bloom",
         "generateAddress": "Genera un indirizzo",
         "migrateAgain": "Migra un altro indice",
         "visitWebsite": "Visita il sito",

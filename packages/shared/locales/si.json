@@ -173,8 +173,6 @@
                 "body": "Your new profile will be ready once the dashboard has successfully loaded.",
                 "ledgerHint": "Do not disconnect your Ledger device until the dashboard has finished loading.",
                 "softwareMigratedBody": "You have successfully migrated your funds to the new network",
-                "fireflyLedgerBody": "Your Ledger profile was successfully recovered and you can now continue.",
-                "trinityLedgerBody": "You have successfully migrated your Ledger to the new network.",
                 "exportMigration": "Export migration log and finish setup"
             }
         },
@@ -192,14 +190,6 @@
             "body2": "ඔබගේ ලෙජර් ස්ථිරාංග යාවත්කාලීන බව සහතික කර ගන්න. ඕනෑම පෙර-ස්ථාපිත යෙදුම් ඒවායේ නවතම අනුවාදවලට යාවත්කාලීන කළ යුතුය.",
             "action": "Yes, I've installed the {network} app"
         },
-        "importFromLedger": {
-            "title": "ඔබගේ ලෙජරය ප්‍රතිසාධනය කරන්න හෝ සංක්‍රමණය කරන්න",
-            "body": "පවතින Bloom Ledger පැතිකඩක් ප්‍රතිසාධනය කරන්න, නැතහොත් Trinity වෙතින් ඔබේ අරමුදල් සංක්‍රමණය කරන්න.",
-            "haveFireflyLedger": "මට Bloom Ledger උපස්ථයක් තියෙනවා",
-            "haveFireflyLedgerDescription": "Bloom පැතිකඩක් ප්‍රතිසාධනය කරන්න",
-            "haveTrinityLedger": "මට Trinity Ledger උපස්ථයක් තියෙනවා",
-            "haveTrinityLedgerDescription": "ත්‍රිත්ව පැතිකඩක් සංක්‍රමණය කරන්න"
-        },
         "connectLedger": {
             "title": "ඔබේ ලෙජරය Bloom වෙත සම්බන්ධ කරන්න",
             "body": "Bloom විසින් ඔබගේ Ledger උපාංගය සොයා ගැනීම සඳහා, කරුණාකර නිල Ledger Live යෙදුම වසා ඇති බව සහතික කර ගන්න.",
@@ -207,11 +197,6 @@
             "unlock": "Unlock your Ledger with its pin",
             "openApp": "Open the Shimmer app on your Ledger",
             "tips": "ඔබේ ලෙජරය සම්බන්ධ නොවන්නේ නම් ඉඟි"
-        },
-        "restoreFromFireflyLedger": {
-            "title": "ඔබේ ලෙජර් පැතිකඩ ප්‍රතිසාධනය කරන්න",
-            "body": "පිහිටුවීම් ක්‍රියාවලිය සම්පූර්ණ කිරීමට ප්‍රතිසාධනය ඔබන්න සහ ඔබේ පසුම්බි, ශේෂයන් සහ ගනුදෙනු ඉතිහාසය ප්‍රතිසාධනය කරන්න.",
-            "restoring": "ලෙජර් වෙතින් ප්‍රතිසාධනය කරමින්..."
         },
         "legacyLedgerIntro": {
             "title": "Bloom භාවිතයෙන් ඔබේ Ledger සංක්‍රමණය ආරම්භ කරන්න",
@@ -932,12 +917,6 @@
             "learnMore": "වියදම් කළ ලිපින ගැන තව දැනගන්න",
             "proceed": "අවදානම මට තේරෙනවා"
         },
-        "snapshot": {
-            "title": "අඛණ්ඩ ජාල උත්ශ්‍රේණි කිරීම",
-            "body": "Chrysalis ජාලය උත්ශ්‍රේණි කිරීම ආරම්භ කර ඇත.",
-            "bodyMigration": "එය සම්පූර්ණ වන තුරු සංක්‍රමණය අක්‍රිය කර ඇත.",
-            "bodyFirefly": "එය සම්පූර්ණ වන තුරු Bloom අක්‍රීය කර ඇත. ටෝකන් සංක්‍රමණයට පසුවද හැකි වනු ඇත."
-        },
         "ledgerNotConnected": {
             "title": "Connect your Ledger",
             "notConnected": "Connect your Ledger device to continue.",
@@ -1031,7 +1010,7 @@
         },
         "crashReporting": {
             "title": "බිඳ වැටීම වාර්තා කිරීම",
-            "body": "දෝෂයක් හෝ බිඳවැටීමක් සිදු වූ විට ස්වයංක්‍රීයව රෝග විනිශ්චය දත්ත යැවීමෙන් Bloom වැඩිදියුණු කිරීමට සංවර්ධකයින්ට උදවු කරන්න. තේරුවහොත්, Firefly නැවත ආරම්භ කිරීමෙන් පසුව මෙය ක්රියාත්මක වේ.",
+            "body": "දෝෂයක් හෝ බිඳවැටීමක් සිදු වූ විට ස්වයංක්‍රීයව රෝග විනිශ්චය දත්ත යැවීමෙන් Bloom වැඩිදියුණු කිරීමට සංවර්ධකයින්ට උදවු කරන්න. තේරුවහොත්, Bloom නැවත ආරම්භ කිරීමෙන් පසුව මෙය ක්රියාත්මක වේ.",
             "checkbox": "IOTA පදනමට බිඳ වැටීම් වාර්තා යවන්න"
         },
         "legalUpdate": {
@@ -1285,7 +1264,7 @@
         "exportTransactionHistory": "අපනයන ගනුදෙනු ඉතිහාසය",
         "localProofOfWork": "වැඩ පිළිබඳ දේශීය සාක්ෂි",
         "unlock": "අගුළු හරින්න",
-        "updateFirefly": "Bloom යාවත්කාලීන කරන්න",
+        "updateBloom": "Bloom යාවත්කාලීන කරන්න",
         "restartNow": "දැන් නැවත ආරම්භ කරන්න",
         "refresh": "Refresh",
         "saveBackup": "Stronghold උපස්ථය සුරකින්න",
@@ -1338,7 +1317,7 @@
         "search": "Search",
         "searching": "Searching",
         "searchAgain": "නැවත සොයන්න",
-        "closeFirefly": "ෆයර්ෆ්ලයි වසන්න",
+        "closeBloom": "ෆයර්ෆ්ලයි වසන්න",
         "generateAddress": "ලිපිනය උත්පාදනය කරන්න",
         "migrateAgain": "වෙනත් දර්ශකයක් සංක්‍රමණය කරන්න",
         "visitWebsite": "වෙබ් අඩවියට පිවිසෙන්න",

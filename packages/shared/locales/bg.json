@@ -173,8 +173,6 @@
                 "body": "Your new profile will be ready once the dashboard has successfully loaded.",
                 "ledgerHint": "Do not disconnect your Ledger device until the dashboard has finished loading.",
                 "softwareMigratedBody": "You have successfully migrated your funds to the new network",
-                "fireflyLedgerBody": "Your Ledger profile was successfully recovered and you can now continue.",
-                "trinityLedgerBody": "You have successfully migrated your Ledger to the new network.",
                 "exportMigration": "Export migration log and finish setup"
             }
         },
@@ -192,14 +190,6 @@
             "body2": "Уверете се, че Ledger фърмуерът е обновен. Всички вече инсталирани приложения следва да са обновени до последна версия.",
             "action": "Yes, I've installed the {network} app"
         },
-        "importFromLedger": {
-            "title": "Възстановяване или миграране на Ledger",
-            "body": "Възстановяване на съществуващ Bloom Ledger профил или мигриране на средста от Trinity.",
-            "haveFireflyLedger": "Имам Bloom Ledger бекъп",
-            "haveFireflyLedgerDescription": "Възстановяване на Bloom профил",
-            "haveTrinityLedger": "Имам Trinity Ledger бекъп",
-            "haveTrinityLedgerDescription": "Мигриране на Trinity профил"
-        },
         "connectLedger": {
             "title": "Свързване на Ledger към Bloom",
             "body": "За да бъде Ledger устройството разпознато от Bloom, моля уверете се, че официалното Ledger Live приложение е затворено.",
@@ -207,11 +197,6 @@
             "unlock": "Unlock your Ledger with its pin",
             "openApp": "Open the Shimmer app on your Ledger",
             "tips": "Съвети, ако Вашият Ledger не се свързва"
-        },
-        "restoreFromFireflyLedger": {
-            "title": "Възстановяване на Ledger профил",
-            "body": "Изберете възстанови за да завършите процеса по настройка и възстановяване на портфейли, средства и история на транзакциите.",
-            "restoring": "Възстановяне от Ledger..."
         },
         "legacyLedgerIntro": {
             "title": "Стартирайте Ledger миграция чрез Bloom",
@@ -932,12 +917,6 @@
             "learnMore": "Научи повече за преизползваните адреси",
             "proceed": "Разбирам риска"
         },
-        "snapshot": {
-            "title": "Провежда се ъпгрейд на мрежата",
-            "body": "Превключване към мрежата Chrysalis започна.",
-            "bodyMigration": "Миграцията е изключена докато процесът не завърши.",
-            "bodyFirefly": "Bloom е неактивен, докато не завърши процеса. Миграцията на token монетите ще е възможна след това."
-        },
         "ledgerNotConnected": {
             "title": "Connect your Ledger",
             "notConnected": "Connect your Ledger device to continue.",
@@ -1031,7 +1010,7 @@
         },
         "crashReporting": {
             "title": "Докладване за сривове",
-            "body": "Help the developers improve Bloom by automatically sending diagnostic data when an error or crash occurs. If selected, this will take effect after restarting Firefly.",
+            "body": "Help the developers improve Bloom by automatically sending diagnostic data when an error or crash occurs. If selected, this will take effect after restarting Bloom.",
             "checkbox": "Send crash reports to the IOTA Foundation"
         },
         "legalUpdate": {
@@ -1285,7 +1264,7 @@
         "exportTransactionHistory": "Експортиране историята на транзакциите",
         "localProofOfWork": "Локално доказателство за работа PoW",
         "unlock": "Отключи",
-        "updateFirefly": "Обнови Bloom",
+        "updateBloom": "Обнови Bloom",
         "restartNow": "Рестартирай сега",
         "refresh": "Refresh",
         "saveBackup": "Запази резервно копие в Stronghold",
@@ -1338,7 +1317,7 @@
         "search": "Search",
         "searching": "Searching",
         "searchAgain": "Повторно търсене",
-        "closeFirefly": "Затвори Bloom",
+        "closeBloom": "Затвори Bloom",
         "generateAddress": "Generate address",
         "migrateAgain": "Мигриране на друг индекс",
         "visitWebsite": "Посети уебсайта",

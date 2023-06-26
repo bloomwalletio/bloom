@@ -173,8 +173,6 @@
                 "body": "Your new profile will be ready once the dashboard has successfully loaded.",
                 "ledgerHint": "Do not disconnect your Ledger device until the dashboard has finished loading.",
                 "softwareMigratedBody": "You have successfully migrated your funds to the new network",
-                "fireflyLedgerBody": "Your Ledger profile was successfully recovered and you can now continue.",
-                "trinityLedgerBody": "You have successfully migrated your Ledger to the new network.",
                 "exportMigration": "Export migration log and finish setup"
             }
         },
@@ -192,14 +190,6 @@
             "body2": "Ledger ファームウェアが最新であることを確認してください。すでに インストールされているアプリはすべて、最新バージョンに更新する必要があります。",
             "action": "Yes, I've installed the {network} app"
         },
-        "importFromLedger": {
-            "title": "Ledgerを復元または移行する",
-            "body": "既存のBloom Ledgerプロフィールを復元するか、Trinityから資金を移行します。",
-            "haveFireflyLedger": "Bloom Ledgerのバックアップがあります",
-            "haveFireflyLedgerDescription": "Bloom プロフィールを復元",
-            "haveTrinityLedger": "Trinity Ledgerのバックアップがあります",
-            "haveTrinityLedgerDescription": "Trinityプロフィールを移行"
-        },
         "connectLedger": {
             "title": "LedgerをBloomに接続する",
             "body": "BloomでLedgerデバイスを見つけるには、公式のLedger Liveアプリケーションが閉じていることを確認してください。",
@@ -207,11 +197,6 @@
             "unlock": "Unlock your Ledger with its pin",
             "openApp": "Open the Shimmer app on your Ledger",
             "tips": "Ledgerが接続されていない場合の 案内"
-        },
-        "restoreFromFireflyLedger": {
-            "title": "Ledgerプロフィールを復元する",
-            "body": "復元を押してセットアッププロセスを完了し、ウォレット、残高、取引履歴を復元します。",
-            "restoring": "Ledgerから復元中..."
         },
         "legacyLedgerIntro": {
             "title": "Bloom を使用して Ledger の移行を開始します",
@@ -932,12 +917,6 @@
             "learnMore": "使用済みアドレスについてもっと詳しく見る",
             "proceed": "はい 、リスクを理解しています。"
         },
-        "snapshot": {
-            "title": "ネットワークのアップグレード中",
-            "body": "Chrysalis のネットワークアップグレードが開始されました。",
-            "bodyMigration": "移行は、完了するまで無効になります。",
-            "bodyFirefly": "Bloom は完了するまで無効になります。トークンの移行はその後も可能です。"
-        },
         "ledgerNotConnected": {
             "title": "Connect your Ledger",
             "notConnected": "Connect your Ledger device to continue.",
@@ -1031,7 +1010,7 @@
         },
         "crashReporting": {
             "title": "クラッシュレポート",
-            "body": "エラーやクラッシュが発生したときに診断データを自動的に送信することで、Bloom の改善のため開発者を支援します。選択した場合は、Fireflyを再起動した後に有効になります。",
+            "body": "エラーやクラッシュが発生したときに診断データを自動的に送信することで、Bloom の改善のため開発者を支援します。選択した場合は、Bloomを再起動した後に有効になります。",
             "checkbox": "Send crash reports to the IOTA Foundation"
         },
         "legalUpdate": {
@@ -1285,7 +1264,7 @@
         "exportTransactionHistory": "取引履歴を出力する",
         "localProofOfWork": "ローカル・プルーフ・オブ・ワーク",
         "unlock": "ロック解除",
-        "updateFirefly": "Bloom を更新",
+        "updateBloom": "Bloom を更新",
         "restartNow": "今すぐ再起動",
         "refresh": "Refresh",
         "saveBackup": "Stronghold のバックアップを保存",
@@ -1338,7 +1317,7 @@
         "search": "Search",
         "searching": "Searching",
         "searchAgain": "再検索",
-        "closeFirefly": "Bloom を閉じる",
+        "closeBloom": "Bloom を閉じる",
         "generateAddress": "Generate address",
         "migrateAgain": "別のインデックスを移行",
         "visitWebsite": "ウェブサイトを開く",

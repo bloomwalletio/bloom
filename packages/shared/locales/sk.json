@@ -173,8 +173,6 @@
                 "body": "Your new profile will be ready once the dashboard has successfully loaded.",
                 "ledgerHint": "Do not disconnect your Ledger device until the dashboard has finished loading.",
                 "softwareMigratedBody": "Úspešne ste premigrovali vaše prostriedky do novej siete",
-                "fireflyLedgerBody": "Your Ledger profile was successfully recovered and you can now continue.",
-                "trinityLedgerBody": "Úspešne ste premigrovali váš Ledger do novej siete.",
                 "exportMigration": "Exportovať log migrácie a dokončiť nastavenie"
             }
         },
@@ -192,14 +190,6 @@
             "body2": "Uistite sa, že je firmware Ledger aktuálny. Všetky predinštalované aplikácie by mali byť aktualizované na najnovšiu verziu.",
             "action": "Yes, I've installed the {network} app"
         },
-        "importFromLedger": {
-            "title": "Obnoviť alebo Migrovať váš Ledger",
-            "body": "Obnoviť existujúci Bloom Ledger profil alebo premigrovať vaše prostriedky z Trinity.",
-            "haveFireflyLedger": "Mám Bloom Ledger zálohu",
-            "haveFireflyLedgerDescription": "Obnoviť Bloom profil",
-            "haveTrinityLedger": "Mám Trinity Ledger zálohu",
-            "haveTrinityLedgerDescription": "Migrovať Trinity profil"
-        },
         "connectLedger": {
             "title": "Pripojte váš Ledger k Bloom",
             "body": "Aby Bloom mohlo nájsť vaše zariadenie Ledger, uistite sa, že je oficiálna aplikácie Ledger Live zatvorená.",
@@ -207,11 +197,6 @@
             "unlock": "Unlock your Ledger with its pin",
             "openApp": "Open the Shimmer app on your Ledger",
             "tips": "Tipy, ak sa váš Ledger nepripája"
-        },
-        "restoreFromFireflyLedger": {
-            "title": "Obnoviť váš Ledger profil",
-            "body": "Stlačte tlačidlo obnovenia pre dokončenie procesu nastavenia a obnovenie vašich peňaženiek, zostatkov a histórie transakcii.",
-            "restoring": "Obnovujem z Ledgeru..."
         },
         "legacyLedgerIntro": {
             "title": "Spusťte Ledger migráciu pomocou Bloom",
@@ -932,12 +917,6 @@
             "learnMore": "Viac o použitých adresách",
             "proceed": "Rozumiem riziku"
         },
-        "snapshot": {
-            "title": "Prebiehajúci upgrade siete",
-            "body": "Upgrade siete Chrysalis bol započatý.",
-            "bodyMigration": "Pred dokončením nie je migrácia povolená.",
-            "bodyFirefly": "Bloom je do dokončenia odstavená. Migrácia tokenov bude stále možná aj potom."
-        },
         "ledgerNotConnected": {
             "title": "Connect your Ledger",
             "notConnected": "Connect your Ledger device to continue.",
@@ -1031,7 +1010,7 @@
         },
         "crashReporting": {
             "title": "Hlásenia o zlyhaní",
-            "body": "Help the developers improve Bloom by automatically sending diagnostic data when an error or crash occurs. If selected, this will take effect after restarting Firefly.",
+            "body": "Help the developers improve Bloom by automatically sending diagnostic data when an error or crash occurs. If selected, this will take effect after restarting Bloom.",
             "checkbox": "Send crash reports to the IOTA Foundation"
         },
         "legalUpdate": {
@@ -1285,7 +1264,7 @@
         "exportTransactionHistory": "Exportovať históriu transakcií",
         "localProofOfWork": "Miestny proof of work",
         "unlock": "Odomknúť",
-        "updateFirefly": "Aktualizovať Bloom",
+        "updateBloom": "Aktualizovať Bloom",
         "restartNow": "Reštartovať",
         "refresh": "Refresh",
         "saveBackup": "Uložiť Stronghold zálohu",
@@ -1338,7 +1317,7 @@
         "search": "Search",
         "searching": "Searching",
         "searchAgain": "Hľadať znova",
-        "closeFirefly": "Zavrieť Bloom",
+        "closeBloom": "Zavrieť Bloom",
         "generateAddress": "Generovať adresu",
         "migrateAgain": "Migrovať ďalší index",
         "visitWebsite": "Navštíviť webovú stránku",

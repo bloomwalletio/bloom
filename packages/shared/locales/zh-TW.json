@@ -173,8 +173,6 @@
                 "body": "當儀表成功加載後，你的新設定檔就會準備好",
                 "ledgerHint": "儀表板上顯示載入完成前，請勿中斷你的 Ledger 裝置。",
                 "softwareMigratedBody": "您已成功將資金遷移到新網路",
-                "fireflyLedgerBody": "您的 Ledgar 帳號已成功復原，現在可繼續使用。",
-                "trinityLedgerBody": "您已經成功把 Ledger 遷移到新網路。",
                 "exportMigration": "導出遷移紀錄檔並結束設定"
             }
         },
@@ -192,14 +190,6 @@
             "body2": "請確認您的Ledger韌體是最新版本。所有已安裝的軟體都必須更新至最新版本。",
             "action": "Yes, I've installed the {network} app"
         },
-        "importFromLedger": {
-            "title": "還原或遷移您的Ledger",
-            "body": "還原現存的Bloom Ledger設定檔，或從Trinity遷移您的資金。",
-            "haveFireflyLedger": "我有Bloom的Ledger備份",
-            "haveFireflyLedgerDescription": "還原Bloom設定檔",
-            "haveTrinityLedger": "我有Trinity的Ledger備份",
-            "haveTrinityLedgerDescription": "遷移Trinity設定檔"
-        },
         "connectLedger": {
             "title": "將您的Ledger連結至Bloom。",
             "body": "請確定官方Ledger Live軟體已關閉，使Bloom能找到您的Ledger裝置。",
@@ -207,11 +197,6 @@
             "unlock": "使用 Pin 碼解鎖你的 Ledger",
             "openApp": "在你的 Ledger 上啟動 Shimmer app",
             "tips": "Ledger無法連結時的處理技巧"
-        },
-        "restoreFromFireflyLedger": {
-            "title": "還原您的Ledger設定檔",
-            "body": "按「還原」以完成設置程序並還原您的錢包、餘額與交易紀錄。",
-            "restoring": "從Ledger還原中⋯⋯"
         },
         "legacyLedgerIntro": {
             "title": "用Bloom啟動您的Ledger遷移程序",
@@ -932,12 +917,6 @@
             "learnMore": "瞭解更多關於「已支出地址」",
             "proceed": "我了解此風險"
         },
-        "snapshot": {
-            "title": "正在進行網路升級",
-            "body": "Chrysalis 網絡升級已經開始。",
-            "bodyMigration": "遷移被禁用，直到網路升級完成。",
-            "bodyFirefly": "Bloom 在網路更新完成前將無法使用。網路更新後仍可進行資金遷移。"
-        },
         "ledgerNotConnected": {
             "title": "連接你的 Ledger",
             "notConnected": "連接你的 Ledger 裝置以繼續",
@@ -1031,7 +1010,7 @@
         },
         "crashReporting": {
             "title": "當機回報",
-            "body": "自動回報錯誤診斷資訊，以協助開發者改善Bloom。若選取，將於重啟Firefly後生效。",
+            "body": "自動回報錯誤診斷資訊，以協助開發者改善Bloom。若選取，將於重啟Bloom後生效。",
             "checkbox": "發送當機報告給IOTA基金會"
         },
         "legalUpdate": {
@@ -1285,7 +1264,7 @@
         "exportTransactionHistory": "匯出交易記錄",
         "localProofOfWork": "本地工作量證明",
         "unlock": "解鎖",
-        "updateFirefly": "更新 Bloom",
+        "updateBloom": "更新 Bloom",
         "restartNow": "立即重新啟動",
         "refresh": "重新整理",
         "saveBackup": "保存 Stronghold 備份",
@@ -1338,7 +1317,7 @@
         "search": "搜尋",
         "searching": "搜尋中",
         "searchAgain": "重新搜尋",
-        "closeFirefly": "關閉 Bloom",
+        "closeBloom": "關閉 Bloom",
         "generateAddress": "產生新地址",
         "migrateAgain": "遷移另一個索引",
         "visitWebsite": "前往網站",

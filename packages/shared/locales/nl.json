@@ -173,8 +173,6 @@
                 "body": "Je nieuwe profiel zal klaar zijn zodra het dashboard met succes geladen is.",
                 "ledgerHint": "Do not disconnect your Ledger device until the dashboard has finished loading.",
                 "softwareMigratedBody": "You have successfully migrated your funds to the new network",
-                "fireflyLedgerBody": "Your Ledger profile was successfully recovered and you can now continue.",
-                "trinityLedgerBody": "You have successfully migrated your Ledger to the new network.",
                 "exportMigration": "Export migration log and finish setup"
             }
         },
@@ -192,14 +190,6 @@
             "body2": "Zorg ervoor dat uw Ledger firmware up-to-date is. Alle vooraf geïnstalleerde apps moeten worden bijgewerkt naar de nieuwste versies.",
             "action": "Yes, I've installed the {network} app"
         },
-        "importFromLedger": {
-            "title": "Herstel of Migreer uw Ledger",
-            "body": "Herstel een bestaand Bloom Ledger profiel of migreer uw saldo vanaf Trinity.",
-            "haveFireflyLedger": "Ik heb een Bloom Ledger back-up",
-            "haveFireflyLedgerDescription": "Herstel een Bloom profiel",
-            "haveTrinityLedger": "Ik heb een Trinity Ledger back-up",
-            "haveTrinityLedgerDescription": "Migreer een Trinity profiel"
-        },
         "connectLedger": {
             "title": "Verbind uw Ledger met Bloom",
             "body": "Om Bloom uw Ledger apparaat te laten vinden, moet u ervoor zorgen dat de officiële Ledger Live app wordt gesloten.",
@@ -207,11 +197,6 @@
             "unlock": "Unlock your Ledger with its pin",
             "openApp": "Open the Shimmer app on your Ledger",
             "tips": "Tips als uw Ledger geen verbinding kan maken"
-        },
-        "restoreFromFireflyLedger": {
-            "title": "Herstel uw Ledger Profiel",
-            "body": "Druk op herstellen om het setup-proces te voltooien en uw wallets, saldi en transactiegeschiedenis te herstellen.",
-            "restoring": "Herstellen vanaf Ledger..."
         },
         "legacyLedgerIntro": {
             "title": "Start uw Ledger migratie met Bloom",
@@ -932,12 +917,6 @@
             "learnMore": "Leer meer over uitgegeven adressen",
             "proceed": "Ik begrijp het risico"
         },
-        "snapshot": {
-            "title": "Lopende netwerk upgrade",
-            "body": "De Chrysalisnetwerk upgrade is begonnen.",
-            "bodyMigration": "Migratie is uitgeschakeld totdat deze is voltooid.",
-            "bodyFirefly": "Bloom is uitgeschakeld totdat het is voltooid. Token migratie zal later nog steeds mogelijk zijn."
-        },
         "ledgerNotConnected": {
             "title": "Connect your Ledger",
             "notConnected": "Connect your Ledger device to continue.",
@@ -1031,7 +1010,7 @@
         },
         "crashReporting": {
             "title": "Crashrapportage",
-            "body": "Help de ontwikkelaars om Bloom te verbeteren door automatisch diagnostische gegevens te verzenden als er een fout of crash optreedt. Als dit is geselecteerd, zal dit van kracht worden na het herstarten van Firefly.",
+            "body": "Help de ontwikkelaars om Bloom te verbeteren door automatisch diagnostische gegevens te verzenden als er een fout of crash optreedt. Als dit is geselecteerd, zal dit van kracht worden na het herstarten van Bloom.",
             "checkbox": "Stuur crashrapporten naar de IOTA Foundation"
         },
         "legalUpdate": {
@@ -1285,7 +1264,7 @@
         "exportTransactionHistory": "Transactiegeschiedenis exporteren",
         "localProofOfWork": "Lokaal bewijs van werk",
         "unlock": "Ontgrendel",
-        "updateFirefly": "Bloom bijwerken",
+        "updateBloom": "Bloom bijwerken",
         "restartNow": "Herstart nu",
         "refresh": "Refresh",
         "saveBackup": "Sla Stronghold back-up op",
@@ -1338,7 +1317,7 @@
         "search": "Zoek",
         "searching": "Zoeken",
         "searchAgain": "Opnieuw zoeken",
-        "closeFirefly": "Sluit Bloom",
+        "closeBloom": "Sluit Bloom",
         "generateAddress": "Genereer adres",
         "migrateAgain": "Migreer een andere index",
         "visitWebsite": "Bezoek website",

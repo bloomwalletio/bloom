@@ -173,8 +173,6 @@
                 "body": "Your new profile will be ready once the dashboard has successfully loaded.",
                 "ledgerHint": "Do not disconnect your Ledger device until the dashboard has finished loading.",
                 "softwareMigratedBody": "You have successfully migrated your funds to the new network",
-                "fireflyLedgerBody": "Your Ledger profile was successfully recovered and you can now continue.",
-                "trinityLedgerBody": "You have successfully migrated your Ledger to the new network.",
                 "exportMigration": "Export migration log and finish setup"
             }
         },
@@ -192,14 +190,6 @@
             "body2": "Prepričajte se, da je vdelana programska oprema računalnika Ledger posodobljena. Vse prednameščene aplikacije je treba posodobiti na najnovejše različice.",
             "action": "Yes, I've installed the {network} app"
         },
-        "importFromLedger": {
-            "title": "Obnovitev ali migracija glavne knjige",
-            "body": "Obnovite obstoječi profil Bloom Ledger ali prenesite sredstva iz Trinityja.",
-            "haveFireflyLedger": "Imam varnostno kopijo Bloom Ledger",
-            "haveFireflyLedgerDescription": "Obnovitev profila Bloom",
-            "haveTrinityLedger": "Imam varnostno kopijo knjige Trinity Ledger",
-            "haveTrinityLedgerDescription": "Migracija profila Trinity"
-        },
         "connectLedger": {
             "title": "Povežite svojo knjigo Ledger z aplikacijo Bloom",
             "body": "Da bo Bloom našel vašo napravo Ledger, poskrbite, da bo uradna aplikacija Ledger Live zaprta.",
@@ -207,11 +197,6 @@
             "unlock": "Unlock your Ledger with its pin",
             "openApp": "Open the Shimmer app on your Ledger",
             "tips": "Nasveti, če se vaša knjiga Ledger ne poveže"
-        },
-        "restoreFromFireflyLedger": {
-            "title": "Obnovitev profila glavne knjige",
-            "body": "Pritisnite obnovi, da dokončate postopek nastavitve ter obnovite svoje denarnice, stanja in zgodovino transakcij.",
-            "restoring": "Obnovitev iz knjige Ledger..."
         },
         "legacyLedgerIntro": {
             "title": "Začnite migracijo Ledgerja z uporabo Bloomja",
@@ -932,12 +917,6 @@
             "learnMore": "Learn more about spent addresses",
             "proceed": "I understand the risk"
         },
-        "snapshot": {
-            "title": "Ongoing network upgrade",
-            "body": "The Chrysalis network upgrade has begun.",
-            "bodyMigration": "Migration is disabled until it is complete.",
-            "bodyFirefly": "Bloom is disabled until it is complete. Token migration will still be possible afterwards."
-        },
         "ledgerNotConnected": {
             "title": "Connect your Ledger",
             "notConnected": "Connect your Ledger device to continue.",
@@ -1031,7 +1010,7 @@
         },
         "crashReporting": {
             "title": "Crash reporting",
-            "body": "Help the developers improve Bloom by automatically sending diagnostic data when an error or crash occurs. If selected, this will take effect after restarting Firefly.",
+            "body": "Help the developers improve Bloom by automatically sending diagnostic data when an error or crash occurs. If selected, this will take effect after restarting Bloom.",
             "checkbox": "Send crash reports to the IOTA Foundation"
         },
         "legalUpdate": {
@@ -1285,7 +1264,7 @@
         "exportTransactionHistory": "Export transaction history",
         "localProofOfWork": "Local proof of work",
         "unlock": "Odkleni",
-        "updateFirefly": "Posodobi Bloom",
+        "updateBloom": "Posodobi Bloom",
         "restartNow": "Ponovno zaženi zdaj",
         "refresh": "Refresh",
         "saveBackup": "Save Stronghold backup",
@@ -1338,7 +1317,7 @@
         "search": "Search",
         "searching": "Searching",
         "searchAgain": "Search again",
-        "closeFirefly": "Close Bloom",
+        "closeBloom": "Close Bloom",
         "generateAddress": "Generate address",
         "migrateAgain": "Migrate another index",
         "visitWebsite": "Visit website",

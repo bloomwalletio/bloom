@@ -173,8 +173,6 @@
                 "body": "Your new profile will be ready once the dashboard has successfully loaded.",
                 "ledgerHint": "Do not disconnect your Ledger device until the dashboard has finished loading.",
                 "softwareMigratedBody": "You have successfully migrated your funds to the new network",
-                "fireflyLedgerBody": "Your Ledger profile was successfully recovered and you can now continue.",
-                "trinityLedgerBody": "You have successfully migrated your Ledger to the new network.",
                 "exportMigration": "Export migration log and finish setup"
             }
         },
@@ -192,14 +190,6 @@
             "body2": "सुनिश्चित करें कि आपका लेजर फर्मवेयर अप-टू-डेट है। किसी भी पहले से इंस्टॉल किए गए ऐप्स को उनके नवीनतम संस्करणों में अपडेट किया जाना चाहिए।",
             "action": "Yes, I've installed the {network} app"
         },
-        "importFromLedger": {
-            "title": "अपने लेजर को पुनर्स्थापित या माइग्रेट करें",
-            "body": "किसी मौजूदा Bloom Ledger प्रोफ़ाइल को पुनर्स्थापित करें, या ट्रिनिटी से अपने फंड माइग्रेट करें।",
-            "haveFireflyLedger": "मेरे पास एक लेजर बैकअप है",
-            "haveFireflyLedgerDescription": "एक फायरफ्लाई प्रोफ़ाइल पुनर्स्थापित करें",
-            "haveTrinityLedger": "मेरे पास ट्रिनिटी लेजर बैकअप है",
-            "haveTrinityLedgerDescription": "ट्रिनिटी प्रोफ़ाइल माइग्रेट करें"
-        },
         "connectLedger": {
             "title": "अपने लेजर को फायरफ्लाई से कनेक्ट करें",
             "body": "फायरफ्लाई द्वारा आपके लेजर डिवाइस को खोजने के लिए, कृपया सुनिश्चित करें कि आधिकारिक लेजर लाइव एप्लिकेशन बंद है।",
@@ -207,11 +197,6 @@
             "unlock": "Unlock your Ledger with its pin",
             "openApp": "Open the Shimmer app on your Ledger",
             "tips": "युक्तियाँ यदि आपका लेजर कनेक्ट नहीं हो रहा है"
-        },
-        "restoreFromFireflyLedger": {
-            "title": "अपने लेजर प्रोफाइल को पुनर्स्थापित करें",
-            "body": "सेटअप प्रक्रिया को पूरा करने के लिए पुनर्स्थापना दबाएं और अपने वॉलेट, शेष राशि और लेनदेन इतिहास को पुनर्स्थापित करें।",
-            "restoring": "लेजर से पुनर्स्थापित किया जा रहा है..."
         },
         "legacyLedgerIntro": {
             "title": "फायरफ्लाई का उपयोग करके अपना लेजर माइग्रेशन प्रारंभ करें",
@@ -932,12 +917,6 @@
             "learnMore": "खर्च किए गए पतों के बारे में जानें",
             "proceed": "मैं जोखिम को समझता हूं"
         },
-        "snapshot": {
-            "title": "चल रहे नेटवर्क का उन्नयन",
-            "body": "क्रिसलिस नेटवर्क अपग्रेड शुरू हो गया है",
-            "bodyMigration": "पूर्ण होने तक माइग्रेशन अक्षम है",
-            "bodyFirefly": "फायरफ्लाई पूर्ण होने तक अक्षम है। टोकन प्रवास अभी भी बाद में संभव होगा।"
-        },
         "ledgerNotConnected": {
             "title": "Connect your Ledger",
             "notConnected": "Connect your Ledger device to continue.",
@@ -1031,7 +1010,7 @@
         },
         "crashReporting": {
             "title": "Crash reporting",
-            "body": "Help the developers improve Bloom by automatically sending diagnostic data when an error or crash occurs. If selected, this will take effect after restarting Firefly.",
+            "body": "Help the developers improve Bloom by automatically sending diagnostic data when an error or crash occurs. If selected, this will take effect after restarting Bloom.",
             "checkbox": "Send crash reports to the IOTA Foundation"
         },
         "legalUpdate": {
@@ -1285,7 +1264,7 @@
         "exportTransactionHistory": "Export transaction history",
         "localProofOfWork": "स्थानीय प्रूफ ऑफ़ वर्क",
         "unlock": "अनलॉक करें",
-        "updateFirefly": "अपडेट फायरफ्लाई",
+        "updateBloom": "अपडेट फायरफ्लाई",
         "restartNow": "अभी रीस्टार्ट करें",
         "refresh": "Refresh",
         "saveBackup": "स्ट्रॉन्गहोल्ड बैकअप को सेव करे",
@@ -1338,7 +1317,7 @@
         "search": "Search",
         "searching": "Searching",
         "searchAgain": "फिर से सर्च करें",
-        "closeFirefly": "फायरफ्लाई बंद करे",
+        "closeBloom": "फायरफ्लाई बंद करे",
         "generateAddress": "Generate address",
         "migrateAgain": "एक और इंडेक्स माइग्रेट करें",
         "visitWebsite": "Visit website",

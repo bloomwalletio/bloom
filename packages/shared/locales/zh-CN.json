@@ -173,8 +173,6 @@
                 "body": "一旦仪表板成功加载，你的新配置文件就会准备就绪。",
                 "ledgerHint": "在仪表盘加载完成之前，请不要断开您的Ledger设备。",
                 "softwareMigratedBody": "您已成功地将您的资金迁移到新的网络",
-                "fireflyLedgerBody": "您的 Ledger 配置文件已成功恢复，您现在可以继续。",
-                "trinityLedgerBody": "您已成功地将 Ledger 迁移到新的网络。",
                 "exportMigration": "导出迁移日志并完成设置"
             }
         },
@@ -192,14 +190,6 @@
             "body2": "请确保您的Ledger固件是最新的。任何预安装的应用都应更新到他们的最新版本。",
             "action": "Yes, I've installed the {network} app"
         },
-        "importFromLedger": {
-            "title": "还原或迁移您的Ledger",
-            "body": "还原现有的Bloom Ledger 个人资料，或从Trinity迁移您的资金。",
-            "haveFireflyLedger": "我有一个Bloom Ledger备份",
-            "haveFireflyLedgerDescription": "还原一个Bloom 个人资料",
-            "haveTrinityLedger": "我有一个 Trinity Ledger 备份",
-            "haveTrinityLedgerDescription": "迁移一个 Trinity 档案"
-        },
         "connectLedger": {
             "title": "将您的账单连接到Fifly",
             "body": "为了让Bloom找到的您的Ledger设备，请确保官方的Ledger Live应用程序已关闭。",
@@ -207,11 +197,6 @@
             "unlock": "用密码解锁你的 Ledger",
             "openApp": "在您的Ledger上打开 Shimmer 应用",
             "tips": "Ledger无法连接时的处理技巧"
-        },
-        "restoreFromFireflyLedger": {
-            "title": "恢复您的Ledger用户资料",
-            "body": "按下恢复以完成设置并恢复您的钱包、余额和交易记录。",
-            "restoring": "正在从Ledger恢复..."
         },
         "legacyLedgerIntro": {
             "title": "使用Fifly开始您的Ledger迁移",
@@ -932,12 +917,6 @@
             "learnMore": "了解更多关于已花费的地址",
             "proceed": "我已经了解风险"
         },
-        "snapshot": {
-            "title": "正在进行网络升级",
-            "body": "Chrysalis网络升级已经开始。",
-            "bodyMigration": "在维护完成之前暂不支持迁移功能。",
-            "bodyFirefly": "在完成之前Bloom将被暂停使用。完成之后您仍然可以进行代币迁移。"
-        },
         "ledgerNotConnected": {
             "title": "连接您的Ledger",
             "notConnected": "连接您的Ledger设备以继续。",
@@ -1031,7 +1010,7 @@
         },
         "crashReporting": {
             "title": "崩溃报告",
-            "body": "当发生错误或崩溃时自动发送诊断数据，帮助开发者改进Bloom。如果选中，将在重新启动 Firefly 后生效。",
+            "body": "当发生错误或崩溃时自动发送诊断数据，帮助开发者改进Bloom。如果选中，将在重新启动 Bloom 后生效。",
             "checkbox": "发送崩溃报告给IOTA基金会"
         },
         "legalUpdate": {
@@ -1285,7 +1264,7 @@
         "exportTransactionHistory": "导出交易历史记录",
         "localProofOfWork": "本地工作量证明",
         "unlock": "解锁",
-        "updateFirefly": "更新Bloom",
+        "updateBloom": "更新Bloom",
         "restartNow": "立即重启",
         "refresh": "Refresh",
         "saveBackup": "保存Stronghold备份",
@@ -1338,7 +1317,7 @@
         "search": "搜索",
         "searching": "正在搜索...",
         "searchAgain": "重新搜索",
-        "closeFirefly": "关闭Bloom",
+        "closeBloom": "关闭Bloom",
         "generateAddress": "生成地址",
         "migrateAgain": "迁移另一个Ledger索引",
         "visitWebsite": "访问网站",

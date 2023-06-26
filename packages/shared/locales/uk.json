@@ -173,8 +173,6 @@
                 "body": "Your new profile will be ready once the dashboard has successfully loaded.",
                 "ledgerHint": "Do not disconnect your Ledger device until the dashboard has finished loading.",
                 "softwareMigratedBody": "You have successfully migrated your funds to the new network",
-                "fireflyLedgerBody": "Your Ledger profile was successfully recovered and you can now continue.",
-                "trinityLedgerBody": "You have successfully migrated your Ledger to the new network.",
                 "exportMigration": "Export migration log and finish setup"
             }
         },
@@ -192,14 +190,6 @@
             "body2": "Переконайтеся, що прошивка Ledger оновлена. Будь-які попередньо встановлені програми повинні бути оновлені до своєї останньої версії.",
             "action": "Yes, I've installed the {network} app"
         },
-        "importFromLedger": {
-            "title": "Відновлення або міграція Вашого Ledger",
-            "body": "Відновлення існуючого профілю Bloom Ledger або перенесення коштів з Trinity.",
-            "haveFireflyLedger": "Я маю резервну копію на Bloom Ledger",
-            "haveFireflyLedgerDescription": "Відновити профіль на Bloom",
-            "haveTrinityLedger": "Я маю резервну копію Trinity Ledger",
-            "haveTrinityLedgerDescription": "Перенесіть профіль Trinity"
-        },
         "connectLedger": {
             "title": "Під'єднайте ваш Ledger до Bloom",
             "body": "Щоб ваш пристрій Ledger був знайдений Bloom, переконайтесь, що офіційна програма Ledger Live закрита.",
@@ -207,11 +197,6 @@
             "unlock": "Unlock your Ledger with its pin",
             "openApp": "Open the Shimmer app on your Ledger",
             "tips": "Поради, якщо Ledger не підключається"
-        },
-        "restoreFromFireflyLedger": {
-            "title": "Відновити ваш профіль Ledger",
-            "body": "Натисніть відновити, щоб завершити процес налаштування та відновлення ваших гаманців, залишкив та історій транзакцій.",
-            "restoring": "Відновлення з Ledger..."
         },
         "legacyLedgerIntro": {
             "title": "Почніть міграцію Ledger за допомогою Bloom",
@@ -932,12 +917,6 @@
             "learnMore": "Дізнайся більше про витрачені адреси",
             "proceed": "Я розумію ризик"
         },
-        "snapshot": {
-            "title": "Оновлення активної мережі",
-            "body": "Почалося оновлення мережі Chrysalis.",
-            "bodyMigration": "Міграція вимкнена до завершення оновлення.",
-            "bodyFirefly": "Bloom автоматично вимкнено до завершення. Після цього міграцію жетонів можна продовжити."
-        },
         "ledgerNotConnected": {
             "title": "Connect your Ledger",
             "notConnected": "Connect your Ledger device to continue.",
@@ -1031,7 +1010,7 @@
         },
         "crashReporting": {
             "title": "Crash reporting",
-            "body": "Help the developers improve Bloom by automatically sending diagnostic data when an error or crash occurs. If selected, this will take effect after restarting Firefly.",
+            "body": "Help the developers improve Bloom by automatically sending diagnostic data when an error or crash occurs. If selected, this will take effect after restarting Bloom.",
             "checkbox": "Send crash reports to the IOTA Foundation"
         },
         "legalUpdate": {
@@ -1285,7 +1264,7 @@
         "exportTransactionHistory": "Export transaction history",
         "localProofOfWork": "Локальне доказ виконання роботи",
         "unlock": "Розблокувати",
-        "updateFirefly": "Оновити Bloom",
+        "updateBloom": "Оновити Bloom",
         "restartNow": "Перезавантажити зараз",
         "refresh": "Refresh",
         "saveBackup": "Зберегти резервну копію Stronghold",
@@ -1338,7 +1317,7 @@
         "search": "Search",
         "searching": "Searching",
         "searchAgain": "Шукати знову",
-        "closeFirefly": "Закрити Bloom",
+        "closeBloom": "Закрити Bloom",
         "generateAddress": "Generate address",
         "migrateAgain": "Перенести інший індекс",
         "visitWebsite": "Відвідати веб-сайт",

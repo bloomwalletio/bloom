@@ -173,8 +173,6 @@
                 "body": "Your new profile will be ready once the dashboard has successfully loaded.",
                 "ledgerHint": "Do not disconnect your Ledger device until the dashboard has finished loading.",
                 "softwareMigratedBody": "You have successfully migrated your funds to the new network",
-                "fireflyLedgerBody": "Your Ledger profile was successfully recovered and you can now continue.",
-                "trinityLedgerBody": "You have successfully migrated your Ledger to the new network.",
                 "exportMigration": "Export migration log and finish setup"
             }
         },
@@ -192,14 +190,6 @@
             "body2": "Assegureu-vos que el firmware del Ledger estigui actualitzat. Les aplicacions preinstal·lades s’han d’actualitzar a les seves darreres versions.",
             "action": "Yes, I've installed the {network} app"
         },
-        "importFromLedger": {
-            "title": "Restaurar o migrar el meu Ledger",
-            "body": "Restaurar un perfil de Bloom Ledger existent o migrar els vostres fons des de Trinity.",
-            "haveFireflyLedger": "Tinc una còpia de seguretat Bloom del Ledger",
-            "haveFireflyLedgerDescription": "Restaurar un perfil Bloom",
-            "haveTrinityLedger": "Tinc una còpia de seguretat Trinity del Ledger",
-            "haveTrinityLedgerDescription": "Migrar un perfil de Trinity"
-        },
         "connectLedger": {
             "title": "Conecta el teu Ledger a Bloom",
             "body": "Per a que el teu dispositiu Ledger pugui ser trobat per Bloom, assegura't que l'aplicació Ledger Live està tancada.",
@@ -207,11 +197,6 @@
             "unlock": "Unlock your Ledger with its pin",
             "openApp": "Open the Shimmer app on your Ledger",
             "tips": "Consells si el teu Ledger no pot connectar"
-        },
-        "restoreFromFireflyLedger": {
-            "title": "Restaura el teu profile de Ledger",
-            "body": "Prem restaurar per a completar la posada a punt i restaurar les teves carteres, balanços i historial de transacció.",
-            "restoring": "Restaurant des de Ledger..."
         },
         "legacyLedgerIntro": {
             "title": "Inicieu la migració del vostre Ledger usant Bloom",
@@ -932,12 +917,6 @@
             "learnMore": "Informa't sobre les adreces usades",
             "proceed": "Sí, entenc els riscos"
         },
-        "snapshot": {
-            "title": "Actualització de xarxa en marxa",
-            "body": "L'actualització de la xarxa Chrysalis ha començat.",
-            "bodyMigration": "La migració esta deshabilitada fins que s'hagi completat.",
-            "bodyFirefly": "Bloom està deshabilitat fins que s'hagi completat. La migració dels tokens, després encara serà possible."
-        },
         "ledgerNotConnected": {
             "title": "Connect your Ledger",
             "notConnected": "Connect your Ledger device to continue.",
@@ -1031,7 +1010,7 @@
         },
         "crashReporting": {
             "title": "Informe d'errors",
-            "body": "Ajudeu els desenvolupadors a millorar Bloom enviant automàticament dades de diagnòstic quan es produeix un error o un bloqueig. Si se selecciona, tindrà efecte després de reiniciar Firefly.",
+            "body": "Ajudeu els desenvolupadors a millorar Bloom enviant automàticament dades de diagnòstic quan es produeix un error o un bloqueig. Si se selecciona, tindrà efecte després de reiniciar Bloom.",
             "checkbox": "Envia informes d'error a la Fundació IOTA"
         },
         "legalUpdate": {
@@ -1285,7 +1264,7 @@
         "exportTransactionHistory": "Exporta l'historial de transaccions",
         "localProofOfWork": "Prova de treball local",
         "unlock": "Desbloqueja",
-        "updateFirefly": "Actualitza Bloom",
+        "updateBloom": "Actualitza Bloom",
         "restartNow": "Reiniciar ara",
         "refresh": "Refresh",
         "saveBackup": "Guarda una còpia de seguretat Stronghold",
@@ -1338,7 +1317,7 @@
         "search": "Search",
         "searching": "Searching",
         "searchAgain": "Cerca de nou",
-        "closeFirefly": "Tanca Bloom",
+        "closeBloom": "Tanca Bloom",
         "generateAddress": "Generar adreça",
         "migrateAgain": "Migrar un altre índex",
         "visitWebsite": "Visita el lloc web",

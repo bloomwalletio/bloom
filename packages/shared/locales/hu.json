@@ -173,8 +173,6 @@
                 "body": "Az új profilja elkészül, amint az irányítópult betöltődik.",
                 "ledgerHint": "Ne csatlakoztassa le hardver tárcáját amíg az irányítópult be nem töltődik.",
                 "softwareMigratedBody": "Sikeresen átköltöztette tokenjeit az új hálózatra",
-                "fireflyLedgerBody": "A Ledger profilja sikeresen helyreállt és továbbléphet a folyamatban.",
-                "trinityLedgerBody": "Sikeresen átköltöztette Ledger eszközét az új hálózatra.",
                 "exportMigration": "Költöztetési napló exportálása és beállítások véglegesítése"
             }
         },
@@ -192,14 +190,6 @@
             "body2": "Győződjön meg, hogy a Ledger firmware a legfrissebb verzióval rendelkezik. Minden előzetesen telepített alkalmazást a legújabb verzióra kell frissíteni.",
             "action": "Igen, telepítettem a(z) {network} appot"
         },
-        "importFromLedger": {
-            "title": "Ledger helyreállítása vagy migrálása",
-            "body": "Létező Bloom Ledger profil helyreállítása vagy tokenek migrálása Trinity-ből.",
-            "haveFireflyLedger": "Bloom Ledger biztonsági mentésem van",
-            "haveFireflyLedgerDescription": "Bloom profil helyreállítása",
-            "haveTrinityLedger": "Trinity Ledger biztonsági mentésem van",
-            "haveTrinityLedgerDescription": "Trinity profil migrálása"
-        },
         "connectLedger": {
             "title": "Ledger csatlakoztatása Bloom-hoz",
             "body": "Ahhoz, hogy a Ledger-t megtalálja a Bloom, kérem győződjön meg arról, hogy a Ledger Live applikáció be van zárva.",
@@ -207,11 +197,6 @@
             "unlock": "Nyissa ki hardver tárcáját a PIN-kód megadásával",
             "openApp": "Nyissa meg a Shimmer applikációt a hardver tárcáján",
             "tips": "Javaslatok, ha a Ledger nem csatlakozik"
-        },
-        "restoreFromFireflyLedger": {
-            "title": "Ledger profil helyreállítása",
-            "body": "Nyomja meg a helyreállítást a telepítés befejezéséhez valamint tárcái, egyenlegei és tranzakciós előzményei helyreállításához.",
-            "restoring": "Helyreállítás Ledger-ről..."
         },
         "legacyLedgerIntro": {
             "title": "Ledger migráció megkezdése Bloom segítségével",
@@ -932,12 +917,6 @@
             "learnMore": "Tudjon meg többet a címekről, amelyekről korábban már költött",
             "proceed": "Megértettem a kockázatokat"
         },
-        "snapshot": {
-            "title": "Hálózat frissítése folyamatban",
-            "body": "A Chrysalis hálózatra történő frissítés elkezdődött.",
-            "bodyMigration": "A migráció átmenetileg nem lehetséges, amíg a frissítés be nem fejeződik.",
-            "bodyFirefly": "A Bloom átmenetileg nem használható, amíg a hálózatfrissítés be nem fejeződik. A tokenek migrálására a frissítés után is lesz lehetőség."
-        },
         "ledgerNotConnected": {
             "title": "Hardver tárca csatlakoztatása",
             "notConnected": "A folytatáshoz csatlakoztassa hardver tárcáját.",
@@ -1031,7 +1010,7 @@
         },
         "crashReporting": {
             "title": "Hibajelentés",
-            "body": "Segítse a Bloom szoftver fejlesztését azzal, hogy automatikus diagnosztikai adatokat küld hiba vagy szoftverösszeomlás esetén. A beállítás csak a Firefly újraindítása után lép életbe.",
+            "body": "Segítse a Bloom szoftver fejlesztését azzal, hogy automatikus diagnosztikai adatokat küld hiba vagy szoftverösszeomlás esetén. A beállítás csak a Bloom újraindítása után lép életbe.",
             "checkbox": "Hibajelentések küldése az IOTA Foundation-nek"
         },
         "legalUpdate": {
@@ -1285,7 +1264,7 @@
         "exportTransactionHistory": "Tranzakciós előzmények exportálása",
         "localProofOfWork": "Számítás elvégzése helyben",
         "unlock": "Felold",
-        "updateFirefly": "Bloom frissítése",
+        "updateBloom": "Bloom frissítése",
         "restartNow": "Újraindítás most",
         "refresh": "Frissítés",
         "saveBackup": "Mentés Stronghold-ba",
@@ -1338,7 +1317,7 @@
         "search": "Keresés",
         "searching": "Keresés folyamatban",
         "searchAgain": "Keresés újra",
-        "closeFirefly": "Bloom bezárása",
+        "closeBloom": "Bloom bezárása",
         "generateAddress": "Új cím generálása",
         "migrateAgain": "Másik számlasorszám migrálása",
         "visitWebsite": "Weboldal megnyitása",

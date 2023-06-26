@@ -173,8 +173,6 @@
                 "body": "Vaš novi profil bit će spreman za korištenje nakon uspješnog učitavanja nadzorne ploče.",
                 "ledgerHint": "Nemojte odspajati svoj Ledger uređaj dok se nadzorna ploča uspješno ne učita.",
                 "softwareMigratedBody": "Uspješno ste migrirali svoja sredstva na novu mrežu",
-                "fireflyLedgerBody": "Vaš Ledger profil uspješno je oporavljen. Slobodno možete nastaviti.",
-                "trinityLedgerBody": "Uspješno ste migrirali svoj Ledger na novu mrežu.",
                 "exportMigration": "Izvezite detalje o migraciji i dovršite postupak"
             }
         },
@@ -192,14 +190,6 @@
             "body2": "Uvjeri se da je tvoj Ledger na najnovijoj verziji firmwarea. Sve predinstalirane aplikacije trebaju biti na najnovijim verzijama.",
             "action": "Yes, I've installed the {network} app"
         },
-        "importFromLedger": {
-            "title": "Oporavi ili migriraj svoj Ledger",
-            "body": "Oporavi postojeći Bloom Ledger profil ili migriraj sredstva s Trinitya.",
-            "haveFireflyLedger": "Imam Bloom Ledger sigurnosnu kopiju",
-            "haveFireflyLedgerDescription": "Oporavi Bloom profil",
-            "haveTrinityLedger": "Imam Trinity Ledger sigurnosnu kopiju",
-            "haveTrinityLedgerDescription": "Migriraj Trinity profil"
-        },
         "connectLedger": {
             "title": "Spoji svoj Ledger s Bloom novčanikom",
             "body": "Kako bi Bloom mogao pronaći tvoj Ledger uređaj, prvo se uvjeri da je službena Ledger Live aplikacija zatvorena.",
@@ -207,11 +197,6 @@
             "unlock": "Otključajte svoj Ledger s pinom",
             "openApp": "Otvorite Shimmer aplikaciju na vašem Ledgeru",
             "tips": "Savjeti u slučaju da se vaš Ledger ne želi spojiti"
-        },
-        "restoreFromFireflyLedger": {
-            "title": "Oporavi svoj Ledger profil",
-            "body": "Pritisni oporavi za završetak postupka postavljanja i oporavak svojih novčanika, sredstava i povijesti transakcija.",
-            "restoring": "Oporavljam s Ledgera..."
         },
         "legacyLedgerIntro": {
             "title": "Započni svoju Ledger migraciju pomoću Blooma",
@@ -932,12 +917,6 @@
             "learnMore": "Saznajte više o iskorištenim adresama",
             "proceed": "Da, razumijem rizike"
         },
-        "snapshot": {
-            "title": "Unaprijeđenje mreže u tijeku",
-            "body": "Unaprijeđenje Chrysalis mreže je počelo.",
-            "bodyMigration": "Migracije su onemogućene do završetka postupka.",
-            "bodyFirefly": "Bloom je onemogućen tijekom unaprijeđenja mreže. Migracija tokens opet će biti moguća po završetku."
-        },
         "ledgerNotConnected": {
             "title": "Spoji svoj Ledger",
             "notConnected": "Spoji svoj Ledger uređaj za nastavak.",
@@ -1031,7 +1010,7 @@
         },
         "crashReporting": {
             "title": "Izvješća o padu programa",
-            "body": "Pomozite developerima da poboljšaju Bloom automatskim slanjem dijagnostičkih podataka kada dođe do pogreške ili pada programa. Ako je ova opcija odabrana, stupiti će na snagu nakon ponovnog pokretanja Fireflya.",
+            "body": "Pomozite developerima da poboljšaju Bloom automatskim slanjem dijagnostičkih podataka kada dođe do pogreške ili pada programa. Ako je ova opcija odabrana, stupiti će na snagu nakon ponovnog pokretanja Blooma.",
             "checkbox": "Pošalji izvješća o padu programa IOTA zakladi"
         },
         "legalUpdate": {
@@ -1285,7 +1264,7 @@
         "exportTransactionHistory": "Izvezi povijest transakcija",
         "localProofOfWork": "Lokalni Proof of Work",
         "unlock": "Otključaj",
-        "updateFirefly": "Ažuriraj Bloom",
+        "updateBloom": "Ažuriraj Bloom",
         "restartNow": "Ponovno pokreni",
         "refresh": "Refresh",
         "saveBackup": "Spremi Stronghold sigurnosnu kopiju",
@@ -1338,7 +1317,7 @@
         "search": "Traži",
         "searching": "Pretraga",
         "searchAgain": "Traži ponovno",
-        "closeFirefly": "Zatvori Bloom",
+        "closeBloom": "Zatvori Bloom",
         "generateAddress": "Generiraj adresu",
         "migrateAgain": "Migriraj drugi index",
         "visitWebsite": "Posjeti web-stranicu",

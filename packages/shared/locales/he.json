@@ -173,8 +173,6 @@
                 "body": "Your new profile will be ready once the dashboard has successfully loaded.",
                 "ledgerHint": "Do not disconnect your Ledger device until the dashboard has finished loading.",
                 "softwareMigratedBody": "You have successfully migrated your funds to the new network",
-                "fireflyLedgerBody": "Your Ledger profile was successfully recovered and you can now continue.",
-                "trinityLedgerBody": "You have successfully migrated your Ledger to the new network.",
                 "exportMigration": "Export migration log and finish setup"
             }
         },
@@ -192,14 +190,6 @@
             "body2": "ודא כי קושחת הLedger מעודכנת. כל אפליקציה שהותקנה צריכה להיות מעודכנת בגירסתה.",
             "action": "Yes, I've installed the {network} app"
         },
-        "importFromLedger": {
-            "title": "שחזר או העבר את פרופיל הLedger שלך",
-            "body": "שחזר חשבון Bloom Ledger קיים, או העבר כסף מTrinty.",
-            "haveFireflyLedger": "יש ברשותי גיבוי של Bloom Ledger",
-            "haveFireflyLedgerDescription": "שחזר חשבון Bloom",
-            "haveTrinityLedger": "יש ברשותי גיבוי של Trinity Ledger",
-            "haveTrinityLedgerDescription": "העבר חשבון Trinity"
-        },
         "connectLedger": {
             "title": "חבר את הLedger ברשותך לBloom",
             "body": "על מנת שBloom ימצא את מכשיר הLedger שברשותך, ודא כי אפליקציית הLedger Live סגורה.",
@@ -207,11 +197,6 @@
             "unlock": "Unlock your Ledger with its pin",
             "openApp": "Open the Shimmer app on your Ledger",
             "tips": "טיפים במידה והLedger שברשותך לא מחובר"
-        },
-        "restoreFromFireflyLedger": {
-            "title": "שחזר את חשבון הLedger שלך",
-            "body": "לחץ שחזר כדי להשלים את תהליך ההתקנה ושחזר את הארנקים שלך, היתרות והטרנזאקציות שלך.",
-            "restoring": "משחזר מLedger..."
         },
         "legacyLedgerIntro": {
             "title": "התחל את ההגירה מהארנק הקר שלך באמצעות ארנק הפיירפליי",
@@ -932,12 +917,6 @@
             "learnMore": "Learn more about spent addresses",
             "proceed": "אני מבין את הסיכונים"
         },
-        "snapshot": {
-            "title": "שדרוג הרשת מתבצע",
-            "body": "עידכון רשת הקרסיליס מתבצע.",
-            "bodyMigration": "Migration is disabled until it is complete.",
-            "bodyFirefly": "ארנק הפיירפלי מושבת עד להשלמה. הגירת המטבעות עדיין תהא זמינה לאחר מכן."
-        },
         "ledgerNotConnected": {
             "title": "Connect your Ledger",
             "notConnected": "Connect your Ledger device to continue.",
@@ -1031,7 +1010,7 @@
         },
         "crashReporting": {
             "title": "דו\"ח קריסה",
-            "body": "Help the developers improve Bloom by automatically sending diagnostic data when an error or crash occurs. If selected, this will take effect after restarting Firefly.",
+            "body": "Help the developers improve Bloom by automatically sending diagnostic data when an error or crash occurs. If selected, this will take effect after restarting Bloom.",
             "checkbox": "Send crash reports to the IOTA Foundation"
         },
         "legalUpdate": {
@@ -1285,7 +1264,7 @@
         "exportTransactionHistory": "Export transaction history",
         "localProofOfWork": "Local proof of work",
         "unlock": "בטל נעילה",
-        "updateFirefly": "עדכן את הארנק",
+        "updateBloom": "עדכן את הארנק",
         "restartNow": "הפעל מחדש כעת",
         "refresh": "Refresh",
         "saveBackup": "Save Stronghold backup",
@@ -1338,7 +1317,7 @@
         "search": "Search",
         "searching": "Searching",
         "searchAgain": "חפש שוב",
-        "closeFirefly": "סגור ארנק פיירפלי",
+        "closeBloom": "סגור ארנק פיירפלי",
         "generateAddress": "Generate address",
         "migrateAgain": "Migrate another index",
         "visitWebsite": "בקר באתר",
