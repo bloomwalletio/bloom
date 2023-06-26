@@ -1,0 +1,31 @@
+name: Build
+
+on:
+  workflow_dispatch:
+    inputs:
+      os:
+        description: 'Operating system'
+        required: true
+        type: choice
+        options:
+          - macos-11
+          - ubuntu-20.04
+          - windows-2019
+      stage:
+        description: 'Environment to release the app for'
+        required: true
+        type: choice
+        options:
+          - alpha
+          - beta
+          - prod
+
+jobs:
+  trigger-build:
+    name: Build (Trigger) - ${{ inputs.os }}
+    uses: ./.github/workflows/reusable_build.yml
+    if: ${{ always() }}
+    with:
+      os: ${{ inputs.os }}
+      stage: ${{ inputs.stage }}
+    secrets: inherit

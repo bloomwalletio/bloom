@@ -1,0 +1,17 @@
+name: Build Test
+
+on:
+  schedule:
+    # 12:00AM (UTC) Sunday
+    - cron: '0 0 * * SUN'
+
+jobs:
+  trigger-build:
+    name: Build (Trigger) - ${{ inputs.os }}
+    uses: ./.github/workflows/reusable_build.yml
+    if: ${{ always() }}
+    with:
+      os: ubuntu-20.04
+      stage: prod
+      test: true
+    secrets: inherit

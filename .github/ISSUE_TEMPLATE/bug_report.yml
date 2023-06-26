@@ -1,0 +1,58 @@
+name: 🐞 Bug Report
+description: File a bug report to help improve the software
+title: '🐞 - '
+labels: 'bug-report'
+
+body:
+  - type: markdown
+    attributes:
+      value: '## Reporting a Bug'
+
+  - type: markdown
+    attributes:
+      value: |
+        Thank you helping this project by reporting a bug. Please check existing bug reports before filling this one out to prevent duplicates.
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: Please describe the bug that is occurring.
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected-behavior
+    attributes:
+      label: Expected Behavior
+      description: Please explain what you expected to happen.
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual-behavior
+    attributes:
+      label: Actual Behavior
+      description: Please explain what actually happened.
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction-steps
+    attributes:
+      label: Reproduction Steps
+      description: Please list steps to reproduce the bug.
+      placeholder: |
+        1.
+        2.
+        3.
+        ...
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Checklist
+      description: Please tick the following boxes before filing this bug report.
+      options:
+        - label: I have confirmed that there is no existing bug report for this particular bug.
+          required: true

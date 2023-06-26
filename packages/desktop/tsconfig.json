@@ -1,0 +1,27 @@
+{
+    "extends": "@tsconfig/svelte/tsconfig.json",
+    "compilerOptions": {
+        "allowJs": true,
+        "baseUrl": ".",
+        "isolatedModules": false,
+        "resolveJsonModule": true,
+        "importsNotUsedAsValues": "remove",
+        "lib": ["DOM", "ESNext"],
+        "paths": {
+            "@auxiliary/*": ["../shared/lib/auxiliary/*"],
+            "@contexts/*": ["../shared/lib/contexts/*"],
+            "@components": ["./components"],
+            "@core/*": ["../shared/lib/core/*"],
+            "@features/*": ["./features/*"],
+            "@lib/*": ["../shared/lib/*"],
+            "@desktop/*": ["./lib/*"],
+            "@ui": ["../shared/components"],
+            "@ui/*": ["../shared/components/*"],
+            "@views": ["./views"],
+            "@views/*": ["./views/*"]
+        },
+        "types": ["node"]
+    },
+    "include": ["./lib/**/*.ts", "../shared/lib/**/*.ts"],
+    "exclude": ["../**/tests"]
+}
