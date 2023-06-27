@@ -1,8 +1,6 @@
-const { ipcRenderer } = require('electron')
+import { ipcRenderer } from 'electron'
 
-/** Pincode Manager  */
-// Runs in renderer process
-const PincodeManager = {
+class PincodeManager {
     /**
      * Sets pincode in keychain
      *
@@ -13,9 +11,9 @@ const PincodeManager = {
      *
      * @returns {Promise}
      */
-    set(key, pincode) {
+    public async set(key: string, pincode: string): Promise<unknown> {
         return ipcRenderer.invoke('keychain-set', key, pincode)
-    },
+    }
     /**
      * Verifies user entered pincode against the one stored in keychain
      *
@@ -26,9 +24,10 @@ const PincodeManager = {
      *
      * @returns {Promise}
      */
-    verify(key, pincode) {
-        return ipcRenderer.invoke('keychain-get', key).then((storedPincode) => storedPincode === pincode)
-    },
+    public async verify(key: string, pincode: string): Promise<boolean> {
+        const storedPincode = await ipcRenderer.invoke('keychain-get', key)
+        return storedPincode === pincode
+    }
 
     /**
      * Removes pincode entry from the keychain
@@ -39,9 +38,9 @@ const PincodeManager = {
      *
      * @returns {Promise}
      */
-    remove(key) {
+    public async remove(key: string): Promise<unknown> {
         return ipcRenderer.invoke('keychain-remove', key)
-    },
+    }
 }
 
-module.exports = PincodeManager
+export default new PincodeManager()
