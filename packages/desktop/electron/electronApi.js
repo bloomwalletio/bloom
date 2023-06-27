@@ -2,7 +2,7 @@ const { ipcRenderer } = require('electron')
 
 const fs = require('fs')
 const { DeepLinkManager, NotificationManager, PincodeManager } = require('./lib/managers')
-const { MENU_STATE } = require('./lib/menu-state.constant')
+const { MENU_STATE } = require('./lib/menu/menu-state.constant')
 const features = require('../features/features').default
 
 let activeProfileId = null
