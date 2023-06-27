@@ -10,6 +10,7 @@ import {
     getIrc30TransferSmartContractData,
     signTransactionWithLedger,
 } from '.'
+import { ISC_MAGIC_CONTRACT_ADDRESS } from '../constants'
 
 export async function signLayer2TransferTransactionData(
     chain: IChain,
@@ -30,11 +31,12 @@ export async function signLayer2TransferTransactionData(
     }
 
     const data = getTransactionData(chain, recipientAddress, asset, amount)
-    if (!data) {
+    const contractAddress = getRecipientAddress(asset)
+    if (!data || !contractAddress) {
         return
     }
 
-    const transaction = await getCommonEvmTransactionData(provider, originAddress, data)
+    const transaction = await getCommonEvmTransactionData(provider, originAddress, contractAddress, data)
     const bip32 = buildBip32Path(60, index)
     /* eslint-disable no-console */
     console.log('TRANSACTION: ', transaction)
@@ -56,5 +58,16 @@ function getTransactionData(
             return getIrc30TransferSmartContractData(recipientAddress, asset, amount)
         case TokenStandard.Erc20:
             return getErc20TransferSmartContractData(recipientAddress, asset, amount, chain)
+    }
+}
+
+function getRecipientAddress(asset: IAsset): string | undefined {
+    const standard = asset.metadata?.standard
+    switch (standard) {
+        case TokenStandard.BaseToken:
+        case TokenStandard.Irc30:
+            return ISC_MAGIC_CONTRACT_ADDRESS
+        case TokenStandard.Erc20:
+            return asset.id
     }
 }
