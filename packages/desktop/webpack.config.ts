@@ -228,7 +228,7 @@ const webpackConfig: Configuration[] = [
     {
         target: 'electron-main',
         entry: {
-            'build/main': ['./electron/main.js'],
+            'build/main': ['./electron/main.ts'],
             'build/lib/ledger.js': ['./electron/lib/ledger.js'],
         },
         externals: {
