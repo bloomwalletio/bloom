@@ -1,11 +1,11 @@
 {
     "name": "desktop",
-    "productName": "Firefly Shimmer",
-    "version": "2.1.3",
-    "description": "Official wallet application of Shimmer",
+    "productName": "Bloom",
+    "version": "1.0.0",
+    "description": "Simple and secure web3 wallet centered around IOTA and Shimmer",
     "main": "public/build/main.js",
-    "repository": "git@github.com:iotaledger/firefly.git",
-    "author": "IOTA Foundation <contact@iota.org>",
+    "repository": "git@github.com:bloomwalletio/bloom.git",
+    "author": "Charlie Varley <charlie@bloomwallet.io>",
     "license": "Apache-2.0",
     "scripts": {
         "start": "npm-run-all -p start:dev start:electron",
