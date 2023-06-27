@@ -1,6 +1,6 @@
 // Modules to control application life and create native browser window
 import features from '@features/features'
-import { initAutoUpdate } from './lib/appUpdater'
+import { AutoUpdateManager } from './lib/managers'
 import { initNftDownloadHandlers } from './lib/nftDownloadHandlers'
 import { shouldReportError } from './lib/errorHandling'
 import { initialiseAnalytics } from './lib/analytics'
@@ -217,7 +217,7 @@ function createWindow() {
 
         windows.main.loadURL('http://localhost:8080')
     } else {
-        initAutoUpdate()
+        new AutoUpdateManager()
 
         // load the index.html of the app.
         windows.main.loadFile(paths.html)

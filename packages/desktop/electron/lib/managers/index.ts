@@ -1,3 +1,4 @@
+export { default as AutoUpdateManager } from './auto-update.manager'
 export { default as DeepLinkManager } from './deep-link.manager'
 export { default as KeychainManager } from './keychain.manager'
 export { default as NotificationManager } from './notification.manager'
