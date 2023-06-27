@@ -7,7 +7,7 @@ const { ipcRenderer } = require('electron')
  */
 const NotificationManager = {
     notify(message, contextData) {
-        const notification = new Notification('Bloom', {
+        const notification = new Notification('Firefly', {
             body: message,
             data: contextData,
         })

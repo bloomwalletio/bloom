@@ -24,13 +24,14 @@ const hardcodeNodeEnv = typeof process.env.HARDCODE_NODE_ENV !== 'undefined'
 const SENTRY = process.env.SENTRY === 'true'
 const stage = process.env.STAGE || 'alpha'
 /**
- * If stage = 'prod' -> 'Bloom'
- * If stage = 'alpha' -> 'Bloom Alpha'
+ * If stage = 'prod' -> 'Firefly'
+ * If stage = 'alpha' -> 'Firefly Alpha'
  */
-const appName = stage === 'prod' ? 'Bloom' : `Bloom - ${stage.replace(/^\w/, (c) => c.toUpperCase())}`
-const appId = stage === 'prod' ? 'org.bloom-labs.bloom' : `org.bloom-labs.bloom.${stage}`
+const appName =
+    stage === 'prod' ? 'Firefly Shimmer' : `Firefly Shimmer - ${stage.replace(/^\w/, (c) => c.toUpperCase())}`
+const appId = stage === 'prod' ? 'org.iota.firefly-shimmer' : `org.iota.firefly-shimmer.${stage}`
 
-const appProtocol = stage === 'prod' ? 'bloom' : `bloom-${stage.toLowerCase()}`
+const appProtocol = stage === 'prod' ? 'firefly' : `firefly-${stage.toLowerCase()}`
 
 // / ------------------------ Resolve ------------------------
 
@@ -209,10 +210,10 @@ const sentryPlugins = [
     new SentryWebpackPlugin({
         authToken: process.env.SENTRY_AUTH_TOKEN,
         include: '.',
-        release: `Bloom@${version}`,
+        release: `Firefly@${version}`,
         ignoreFile: '.sentrycliignore',
-        org: 'bloom-labs',
-        project: 'bloom-desktop',
+        org: 'iota-foundation-h4',
+        project: 'firefly-desktop',
         finalize: false,
         deploy: {
             env: stage,
