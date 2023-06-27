@@ -1,7 +1,6 @@
 // Modules to control application life and create native browser window
 import features from '@features/features'
-import { AnalyticsManager, AutoUpdateManager } from './lib/managers'
-import { initNftDownloadHandlers } from './lib/nftDownloadHandlers'
+import { AnalyticsManager, AutoUpdateManager, NftDownloadManager } from './lib/managers'
 import { shouldReportError } from './lib/errorHandling'
 import { getMachineId } from './lib/machineId'
 import { getDiagnostics } from './lib/diagnostics'
@@ -222,7 +221,7 @@ function createWindow() {
         windows.main.loadFile(paths.html)
     }
 
-    initNftDownloadHandlers()
+    new NftDownloadManager()
 
     /**
      * Right click context menu for inputs
