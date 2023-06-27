@@ -416,10 +416,10 @@
   resolved "https://registry.npmjs.org/@capacitor/splash-screen/-/splash-screen-1.2.2.tgz"
   integrity sha512-iGh9gc0rdS3R+Wr+bD/+tJl3qbmJZ5xVQAP5UsD6U6Y3ydCBo9KpA8DEqxaBZVsCDaLt67009hK5nxKBwjRn7Q==
 
-"@capacitor/status-bar@^1.0.8":
-  version "1.0.8"
-  resolved "https://registry.yarnpkg.com/@capacitor/status-bar/-/status-bar-1.0.8.tgz#a783561fb5815b30f3e75dd95c87e00aaff5450b"
-  integrity sha512-lhxa70K6vg0QjdddbT9RqFLfQ9a0Fk1OVE54MhUH30DWymv4h2LrC+mJgH6JS46WQbR2UCHRymfmVCq1PS2Qiw==
+"@capacitor/status-bar@^5.0.4":
+  version "5.0.4"
+  resolved "https://registry.yarnpkg.com/@capacitor/status-bar/-/status-bar-5.0.4.tgz#48b89f8a5822d6c16a966e4ebaa2b42656649662"
+  integrity sha512-6gvkUTotpzHlfn5KoIglbIqdaEWV/crLtCYXebtFtRAPofCU8EWcljGeeISKBYPE99xqsk3M66vRUY4OzsAYyA==
 
 "@chainsafe/as-sha256@^0.4.1":
   version "0.4.1"
@@ -7664,9 +7664,9 @@ nice-try@^1.0.4:
   integrity sha512-1nh45deeb5olNY7eX82BkPO7SSxR5SSYJiPTrTdFUVYwAl8CKMA5N9PjTYkHiRjisVcxcQ1HXdLhx2qxxJzLNQ==
 
 node-abi@^3.0.0, node-abi@^3.3.0, node-abi@^3.8.0:
-  version "3.43.0"
-  resolved "https://registry.yarnpkg.com/node-abi/-/node-abi-3.43.0.tgz#468dc09af3c262ef2fb3a0d2ff34cf8fba61952a"
-  integrity sha512-QB0MMv+tn9Ur2DtJrc8y09n0n6sw88CyDniWSX2cHW10goQXYPK9ZpFJOktDS4ron501edPX6h9i7Pg+RnH5nQ==
+  version "3.45.0"
+  resolved "https://registry.yarnpkg.com/node-abi/-/node-abi-3.45.0.tgz#f568f163a3bfca5aacfce1fbeee1fa2cc98441f5"
+  integrity sha512-iwXuFrMAcFVi/ZoZiqq8BzAdsLw9kxDfTC0HMyjXfSL/6CSDAGD5UmR7azrAgWV1zKYq7dUUMj4owusBWKLsiQ==
   dependencies:
     semver "^7.3.5"
 
