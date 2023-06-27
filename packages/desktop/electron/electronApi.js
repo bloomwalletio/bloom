@@ -2,7 +2,7 @@ const { ipcRenderer } = require('electron')
 
 const fs = require('fs')
 const { DeepLinkManager, NotificationManager, PincodeManager } = require('./lib/managers')
-const { menuState } = require('./lib/menuState')
+const { MENU_STATE } = require('./lib/menu-state.constant')
 const features = require('../features/features').default
 
 let activeProfileId = null
@@ -199,7 +199,7 @@ const ElectronApi = {
      * @returns {undefined}
      */
     updateMenu(attribute, value) {
-        if (Object.keys(menuState).includes(attribute)) {
+        if (Object.keys(MENU_STATE).includes(attribute)) {
             return ipcRenderer.invoke('menu-update', {
                 [attribute]: value,
             })

@@ -2,9 +2,9 @@ import { app, ipcMain, Menu, shell } from 'electron'
 import { DISCORD_URL, DOCUMENTATION_URL, FAQ_URL, ISSUE_REPORT_URL } from '@contexts/settings/constants'
 import features from '@features/features'
 import { closeAboutWindow, getOrInitWindow, openAboutWindow } from '../main'
-import { menuState } from './menuState'
+import { MENU_STATE } from './menu-state.constant'
 
-let state = menuState
+let state = MENU_STATE
 
 /**
  * Creates a native menu tree and applies it to the application window
