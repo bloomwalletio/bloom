@@ -13,17 +13,8 @@
         getUnitFromTokenMetadata,
     } from '@core/wallet'
     import { openPopup, PopupId, updatePopupProps } from '@desktop/auxiliary/popup'
-    import {
-        AssetIcon,
-        Button,
-        Text,
-        TextHint,
-        AssetActionsButton,
-        KeyValueBox,
-        FontWeight,
-        TextType,
-    } from 'shared/components'
     import features from '@features/features'
+    import { AssetIcon, Button, Text, TextHint, AssetActionsButton, KeyValueBox, FontWeight, TextType } from '@ui'
     import { SendFlowRoute, SendFlowRouter, sendFlowRouter } from '@views/dashboard/send-flow'
 
     export let asset: IAsset

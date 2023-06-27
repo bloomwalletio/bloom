@@ -1,6 +1,6 @@
 <script lang="ts">
     import { onMount } from 'svelte'
-    import { Button, Checkbox, CopyableBox, Spinner, Text } from 'shared/components'
+    import { Button, Checkbox, CopyableBox, Spinner, Text } from '@ui'
     import { localize } from '@core/i18n'
     import { INode, INodeInfo } from '@core/network'
     import { closePopup } from '@desktop/auxiliary/popup'

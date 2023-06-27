@@ -1,6 +1,6 @@
 <script lang="ts">
-    import { QR, Text, FontWeight } from 'shared/components'
-    import { AddressBox } from 'shared/components/atoms'
+    import { QR, Text, FontWeight } from '@ui'
+    import { AddressBox } from '@ui/atoms'
     import { localize } from '@core/i18n'
     import { selectedAccount } from '@core/account'
 

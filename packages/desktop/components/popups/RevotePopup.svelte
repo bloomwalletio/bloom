@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { Button, Text, TextHint, HTMLButtonType, TextType } from 'shared/components'
+    import { Button, Text, TextHint, HTMLButtonType, TextType } from '@ui'
     import { selectedAccount } from '@core/account/stores'
     import { localize } from '@core/i18n'
     import { closePopup } from '@desktop/auxiliary/popup'

@@ -1,6 +1,6 @@
 <script lang="ts">
     import { onMount } from 'svelte'
-    import { Button, Text, FontWeight, NftImageOrIconBox, Tabs, KeyValueBox } from 'shared/components'
+    import { Button, Text, FontWeight, NftImageOrIconBox, Tabs, KeyValueBox } from '@ui'
     import { localize } from '@core/i18n'
     import { selectedAccount } from '@core/account'
     import { buildNftOutputData, formatTokenAmountPrecise, mintNft, mintNftDetails } from '@core/wallet'

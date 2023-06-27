@@ -5,7 +5,7 @@
 
 // TODO: create a better logic for locales with parameters
 
-import json from '../../locales/en.json'
+import json from '../../src/locales/en.json'
 
 function flattenObject(object: object, parent?: string, result = {}) {
     for (const key of Object.keys(object)) {
@@ -49,7 +49,7 @@ function getLocaleData(values?: unknown): unknown {
     return locales
 }
 
-jest.mock('../../lib/core/i18n', () => ({
+jest.mock('../../src/lib/core/i18n', () => ({
     __esModule: true,
     locale: (key: string, optional?: { values: { [key in unknown]: number | string } }): string =>
         getLocaleData(optional?.values)[key] || '',

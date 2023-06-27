@@ -13,8 +13,8 @@
         NftActivityDetails,
         BasicActivityDetails,
         ActivityInformation,
-    } from 'shared/components'
-    import { Tab } from 'shared/components/enums'
+    } from '@ui'
+    import { Tab } from '@ui/enums'
     import { prepareOutput, selectedAccount } from '@core/account'
     import { localize } from '@core/i18n'
     import { activeProfile, checkActiveProfileAuth, isActiveLedgerProfile } from '@core/profile'

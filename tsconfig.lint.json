@@ -8,8 +8,7 @@
     "include": [
         "packages/desktop",
         "packages/mobile",
-        "packages/shared/components",
-        "packages/shared/lib",
+        "packages/shared/src",
         "packages/shared/test",
         "packages/shared/lib/auxiliary/wordlists",
         "packages/shared/locales/en.json",
