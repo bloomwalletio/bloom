@@ -6,6 +6,8 @@ import { shouldReportError } from './lib/errorHandling'
 import { initialiseAnalytics } from './lib/analytics'
 import { getMachineId } from './lib/machineId'
 import { getDiagnostics } from './lib/diagnostics'
+import { initialiseDeepLinks } from './lib/deepLinks'
+import { windows } from './lib/windows'
 const {
     app,
     dialog,
@@ -23,6 +25,7 @@ const Keychain = require('./lib/keychain')
 const { initMenu, contextMenu } = require('./lib/menu')
 
 initialiseAnalytics()
+initialiseDeepLinks()
 
 const canSendCrashReports = () => {
     let sendCrashReports = loadJsonConfig('settings.json')?.sendCrashReports
@@ -119,11 +122,6 @@ process.on('unhandledRejection', (error) => {
 /**
  * Define wallet windows
  */
-const windows = {
-    main: null,
-    about: null,
-    error: null,
-}
 
 const paths = {
     preload: '',
@@ -486,11 +484,6 @@ ipcMain.handle('update-app-settings', (_e, settings) => updateSettings(settings)
 ipcMain.handle('update-theme', (_e, theme) => (nativeTheme.themeSource = theme))
 
 /**
- * Define deep link state
- */
-let deepLinkUrl = null
-
-/**
  * Create a single instance only
  */
 const isFirstInstance = app.requestSingleInstanceLock()
@@ -499,63 +492,13 @@ if (!isFirstInstance) {
     app.quit()
 }
 
-app.on('second-instance', (_e, args) => {
+app.on('second-instance', (_e) => {
     if (windows.main) {
-        if (args.length > 1) {
-            const params = args.find((arg) => arg.startsWith(`${process.env.APP_PROTOCOL}://`))
-
-            if (params) {
-                windows.main.webContents.send('deep-link-params', params)
-            }
-        }
         if (windows.main.isMinimized()) {
             windows.main.restore()
         }
         windows.main.focus()
     }
-})
-
-/**
- * Register firefly:// protocol for deep links
- * Set Firefly as the default handler for firefly:// protocol
- */
-protocol.registerSchemesAsPrivileged([
-    { scheme: process.env.APP_PROTOCOL, privileges: { secure: true, standard: true } },
-])
-if (process.defaultApp) {
-    if (process.argv.length >= 2) {
-        app.setAsDefaultProtocolClient(process.env.APP_PROTOCOL, process.execPath, [path.resolve(process.argv[1])])
-    }
-} else {
-    app.setAsDefaultProtocolClient(process.env.APP_PROTOCOL)
-}
-
-/**
- * Proxy deep link event to the wallet application
- */
-app.on('open-url', (event, url) => {
-    event.preventDefault()
-    deepLinkUrl = url
-    if (windows.main) {
-        windows.main.webContents.send('deep-link-params', deepLinkUrl)
-        windows.main.webContents.send('deep-link-request')
-    }
-})
-
-/**
- * Check if a deep link request/event currently exists and has not been cleared
- */
-ipcMain.on('check-deep-link-request-exists', () => {
-    if (deepLinkUrl) {
-        windows.main.webContents.send('deep-link-params', deepLinkUrl)
-    }
-})
-
-/**
- * Clear deep link request/event
- */
-ipcMain.on('clear-deep-link-request', () => {
-    deepLinkUrl = null
 })
 
 /**
