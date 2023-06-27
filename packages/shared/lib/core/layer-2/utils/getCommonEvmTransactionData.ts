@@ -2,7 +2,7 @@ import Web3 from 'web3'
 import { GAS_MULTIPLIER, ISC_MAGIC_CONTRACT_ADDRESS } from '@core/layer-2/constants'
 import { EvmTransactionData } from '@core/layer-2'
 
-export async function getCommonTransactionData(
+export async function getCommonEvmTransactionData(
     provider: Web3,
     originAddress: string,
     data: string
@@ -18,5 +18,5 @@ export async function getCommonTransactionData(
     const to = ISC_MAGIC_CONTRACT_ADDRESS
     const value = provider.utils.toHex(0)
 
-    return { nonce, gasPrice, gasLimit, to, value }
+    return { nonce, gasPrice, gasLimit, to, value, data }
 }
