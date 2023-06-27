@@ -1,6 +1,4 @@
-# Firefly - Desktop
-
-This is the directory for the desktop application of Firefly - IOTA's new official wallet.
+# Bloom Desktop
 
 ## Setup
 
@@ -22,7 +20,7 @@ to install and configure. Read installation steps [here](https://chocolatey.org/
 
 PowerShell in **administrator mode** is recommended for the following steps.
 
--   Install dependencies for [`wallet.rs`](https://github.com/iotaledger/wallet.rs):
+-   Install dependencies for [`iota-sdk`](https://github.com/iotaledger/iota-sdk):
 
 ```bash
 choco install cmake llvm openssl
@@ -69,49 +67,47 @@ export LIBCLANG_PATH="C:\Program Files\LLVM\bin"
 
 ## Building
 
-Install yarn dependencies:
-
-```bash
-## in the root directory
-yarn
-```
-
-Build desktop app:
-
-```bash
-## in packages/desktop
-yarn build
-```
-
 ### Development
 
 ```bash
-# in packages/desktop
+# Install dependencies
+yarn
+
+# Building local files
+yarn build
+
+# Running dev server 
 yarn start
 ```
 
 ### Production
 
 ```bash
-# in packages/desktop
-yarn compile:<platform>
+# Install dependencies
+yarn
+
+# Building local files
+yarn build:<stage>
+
+# Compiling and packaging application
+yarn compile:<stage>:<platform>
 ```
 
 Change `<platform>` as necessary (`win`, `mac`, and `linux`).
 MacOS users **must** set an environment variable in order to skip notarization (`MACOS_SKIP_NOTARIZATION=true`).
 
-## Running the Firefly Snap
+## Bloom Snap
 
-To run the Firefly snap properly on Linux, you may need to run the following commands:
+To run the Bloom snap properly on Linux, you may need to run the following commands:
 
 Install the snap when built locally:
 
 ```bash
-snap install --dangerous path/to/firefly-desktop-0.0.1.snap
+snap install --dangerous path/to/bloom-desktop-x.y.z.snap
 ```
 
 Connect the `password-manager-service` interface:
 
 ```bash
-snap connect firefly-wallet:password-manager-service
+snap connect bloom-wallet:password-manager-service
 ```

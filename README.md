@@ -34,7 +34,7 @@ There are a few options to install Bloom:
 
 -   Download from [official Bloom website](https://bloomwallet.io)
 -   Download from the latest [GitHub release](https://github.com/bloomwalletio/bloom/releases/tag/desktop-2.0.0)
--   Build from the source code within this repository 
+-   Build from the source code within this repository (see [here](https://github.com/bloomwalletio/bloom/blob/develop/packages/desktop/README.md))
 
 ## Contributing
 
