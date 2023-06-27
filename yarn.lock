@@ -345,10 +345,10 @@
   resolved "https://registry.npmjs.org/@capacitor-community/barcode-scanner/-/barcode-scanner-2.1.1.tgz"
   integrity sha512-K9qwYtQK4yn5cX+2datFXEf43uI/nl5tmaqEhBQ9vDr3eTQ6hgAqQI4z5mnSsTIBHx5QaPVD8C9MqkMGNG3V1A==
 
-"@capacitor-community/privacy-screen@^2.1.1":
-  version "2.1.1"
-  resolved "https://registry.npmjs.org/@capacitor-community/privacy-screen/-/privacy-screen-2.1.1.tgz"
-  integrity sha512-KhUyMNOSHPXKpDF4HBU4T8mfLnbq6owMCZHt6Q2SAHn2zT7Zsl9Nkv6paFrgUD+WUD+iHERqsFJNbpmWzkdBtg==
+"@capacitor-community/privacy-screen@^4.1.0":
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/@capacitor-community/privacy-screen/-/privacy-screen-4.1.0.tgz#71c57b81d533fa571e5423b1b3efb9455c3341ba"
+  integrity sha512-vTBVVnGZSfT7BMeLwQ2Ukc9xsT9Rb6J10hUb8cwpy3LtuPRh6YTcE9+O6hBtx+KmvZsXrTskp5zOryNqBU1IYw==
 
 "@capacitor/android@3.4.1":
   version "3.4.1"
@@ -7664,9 +7664,9 @@ nice-try@^1.0.4:
   integrity sha512-1nh45deeb5olNY7eX82BkPO7SSxR5SSYJiPTrTdFUVYwAl8CKMA5N9PjTYkHiRjisVcxcQ1HXdLhx2qxxJzLNQ==
 
 node-abi@^3.0.0, node-abi@^3.3.0, node-abi@^3.8.0:
-  version "3.43.0"
-  resolved "https://registry.yarnpkg.com/node-abi/-/node-abi-3.43.0.tgz#468dc09af3c262ef2fb3a0d2ff34cf8fba61952a"
-  integrity sha512-QB0MMv+tn9Ur2DtJrc8y09n0n6sw88CyDniWSX2cHW10goQXYPK9ZpFJOktDS4ron501edPX6h9i7Pg+RnH5nQ==
+  version "3.45.0"
+  resolved "https://registry.yarnpkg.com/node-abi/-/node-abi-3.45.0.tgz#f568f163a3bfca5aacfce1fbeee1fa2cc98441f5"
+  integrity sha512-iwXuFrMAcFVi/ZoZiqq8BzAdsLw9kxDfTC0HMyjXfSL/6CSDAGD5UmR7azrAgWV1zKYq7dUUMj4owusBWKLsiQ==
   dependencies:
     semver "^7.3.5"
 
