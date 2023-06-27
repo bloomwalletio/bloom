@@ -252,7 +252,7 @@ const webpackConfig: Configuration[] = [
         entry: {
             'build/preload': ['./electron/preload.js'],
             'build/lib/aboutPreload': ['./electron/lib/aboutPreload.ts'],
-            'build/lib/errorPreload': ['./electron/lib/errorPreload.js'],
+            'build/lib/errorPreload': ['./electron/lib/errorPreload.ts'],
         },
         resolve,
         output,
