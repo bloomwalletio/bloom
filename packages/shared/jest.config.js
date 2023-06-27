@@ -12,9 +12,9 @@ const config = {
         '@core/(.*)': '<rootDir>/lib/core/$1',
         '@features/features': '<rootDir>/lib/features/features',
         '@lib/(.*)': '<rootDir>/lib/$1',
-        '@mocks/(.*)': '<rootDir>/lib/tests/__mocks__/$1',
+        '@mocks/(.*)': '<rootDir>/test/mocks/$1',
     },
-    setupFilesAfterEnv: ['./lib/tests/setup.ts'],
+    setupFilesAfterEnv: ['./test/setup.ts'],
     testEnvironment: 'jsdom',
     testPathIgnorePatterns: ['./node_modules/'],
     transform: {

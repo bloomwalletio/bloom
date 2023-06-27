@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+
 import { AccountMock } from './account.mock'
 import { ProfileManagerMock } from './profile-manager.mock'
 
@@ -9,12 +11,12 @@ import { IAccount } from '@core/account'
 const profileManagers = {}
 
 const api: IApi = {
-    async createAccountManager(id: string, _: AccountManagerOptions): Promise<ProfileManagerMock> {
+    createAccountManager(id: string, _: AccountManagerOptions): Promise<ProfileManagerMock> {
         const manager = new ProfileManagerMock(id)
 
         profileManagers[id] = manager
 
-        return manager
+        return Promise.resolve(manager)
     },
     createAccount(_: string, __: CreateAccountPayload): Promise<IAccount> {
         return new Promise((resolve) => {

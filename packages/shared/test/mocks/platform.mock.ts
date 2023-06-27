@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+
 import { IAppSettings, IAppVersionDetails, IPlatform, IPlatformEventMap } from '@core/app'
 import { IError } from '@core/error'
 

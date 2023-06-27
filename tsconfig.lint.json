@@ -10,6 +10,7 @@
         "packages/mobile",
         "packages/shared/components",
         "packages/shared/lib",
+        "packages/shared/test",
         "packages/shared/lib/auxiliary/wordlists",
         "packages/shared/locales/en.json",
         "packages/shared/tailwind.config.js"

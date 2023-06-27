@@ -5,7 +5,7 @@
 
 // TODO: create a better logic for locales with parameters
 
-import json from 'shared/locales/en.json'
+import json from '../../locales/en.json'
 
 function flattenObject(object: object, parent?: string, result = {}) {
     for (const key of Object.keys(object)) {
@@ -19,10 +19,10 @@ function flattenObject(object: object, parent?: string, result = {}) {
     return result
 }
 
-function getLocaleData(values?: any) {
+function getLocaleData(values?: unknown): unknown {
     const locales = flattenObject(json)
 
-    if (values?.time != undefined) {
+    if (values?.time !== undefined) {
         const timeLocales = {
             'times.day': 'day',
             'times.hour': 'hour',
@@ -39,7 +39,7 @@ function getLocaleData(values?: any) {
         })
     }
 
-    if (values?.prefix != undefined) {
+    if (values?.prefix !== undefined) {
         locales['error.send.wrongAddressPrefix'] = locales['error.send.wrongAddressPrefix'].replace(
             '{prefix}',
             values.prefix
@@ -49,10 +49,10 @@ function getLocaleData(values?: any) {
     return locales
 }
 
-jest.mock('../../core/i18n', () => ({
+jest.mock('../../lib/core/i18n', () => ({
     __esModule: true,
-    locale: (key: string, optional?: { values: { [key in any]: number | string } }): string =>
+    locale: (key: string, optional?: { values: { [key in unknown]: number | string } }): string =>
         getLocaleData(optional?.values)[key] || '',
-    localize: (key: string, optional?: { values: { [key in any]: number | string } }): string =>
+    localize: (key: string, optional?: { values: { [key in unknown]: number | string } }): string =>
         getLocaleData(optional?.values)[key] || '',
 }))

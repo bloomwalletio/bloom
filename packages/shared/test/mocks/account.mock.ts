@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+
 import type { IAliasOutput, IBasicOutput, IFoundryOutput, INftOutput, OutputTypes } from '@iota/types'
 import {
     AccountBalance,
@@ -26,9 +28,13 @@ import {
     SignedTransactionEssence,
     Transaction,
     TransactionOptions,
+    AccountSyncOptions,
+    SyncOptions,
+    MintNativeTokenParams,
+    MintNftParams,
 } from '@iota/wallet'
 
-import { IAccount } from '../../core/account'
+import { IAccount } from '@core/account'
 
 import { MOCK_ACCOUNT_BALANCE } from './account-balance.mock'
 import { MOCK_ADDRESS } from './address.mock'
@@ -223,11 +229,14 @@ export class AccountMock implements IAccount {
         return Promise.resolve([MOCK_ADDRESS])
     }
 
-    mintNativeToken(params, transferOptions): Promise<MintTokenTransaction> {
+    mintNativeToken(
+        params: MintNativeTokenParams,
+        transferOptions?: TransactionOptions
+    ): Promise<MintTokenTransaction> {
         throw new Error('Method not implemented.')
     }
 
-    mintNfts(params, transferOptions): Promise<Transaction> {
+    mintNfts(params: MintNftParams[], transferOptions?: TransactionOptions): Promise<Transaction> {
         throw new Error('Method not implemented.')
     }
 
@@ -289,7 +298,7 @@ export class AccountMock implements IAccount {
         throw new Error('Method not implemented.')
     }
 
-    sync(options?): Promise<AccountBalance> {
+    sync(options?: SyncOptions): Promise<AccountBalance> {
         throw new Error('Method not implemented.')
     }
 

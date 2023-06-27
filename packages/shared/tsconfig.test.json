@@ -11,11 +11,11 @@
             "@core/*": ["./lib/core/*"],
             "@features/*": ["./lib/features/*"],
             "@lib/*": ["./lib/*"],
-            "@mocks/*": ["./lib/tests/__mocks__/*"]
+            "@mocks/*": ["./test/mocks/*"]
         },
         "types": ["jest", "node"],
         "resolveJsonModule": true
     },
-    "include": ["./lib/**/tests"],
+    "include": ["./test", "./src/**/*.test.ts"],
     "exclude": ["**/node_modules"]
 }

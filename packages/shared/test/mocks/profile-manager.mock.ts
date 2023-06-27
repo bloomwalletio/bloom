@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+
 import { AccountMock } from './account.mock'
 
 import type {
@@ -154,8 +156,8 @@ export class ProfileManagerMock implements IProfileManager {
         return Promise.resolve(true)
     }
 
-    async listen(_eventTypes: EventType[], _callback: WalletApiEventHandler): Promise<void> {
-        return
+    listen(_eventTypes: EventType[], _callback: WalletApiEventHandler): Promise<void> {
+        return Promise.resolve()
     }
 
     recoverAccounts(
