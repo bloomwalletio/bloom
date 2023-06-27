@@ -1,6 +1,6 @@
 {
     "name": "shared",
-    "version": "1.0.0",
+    "version": "0.1.0",
     "description": "TypeScript library for the Bloom application",
     "author": "Charlie Varley <charlie@bloomwallet.io>",
     "license": "Apache-2.0",
