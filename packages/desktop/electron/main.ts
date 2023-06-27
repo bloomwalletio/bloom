@@ -1,9 +1,8 @@
 // Modules to control application life and create native browser window
 import features from '@features/features'
-import { AutoUpdateManager } from './lib/managers'
+import { AnalyticsManager, AutoUpdateManager } from './lib/managers'
 import { initNftDownloadHandlers } from './lib/nftDownloadHandlers'
 import { shouldReportError } from './lib/errorHandling'
-import { initialiseAnalytics } from './lib/analytics'
 import { getMachineId } from './lib/machineId'
 import { getDiagnostics } from './lib/diagnostics'
 const {
@@ -22,7 +21,7 @@ const fs = require('fs')
 const { KeychainManager } = require('./lib/managers')
 const { initMenu, contextMenu } = require('./lib/menu')
 
-initialiseAnalytics()
+new AnalyticsManager()
 
 /**
  * Set AppUserModelID for Windows notifications functionality
