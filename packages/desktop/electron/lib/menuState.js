@@ -1,7 +1,7 @@
 export const menuState = {
     enabled: true,
     strings: {
-        about: 'About Bloom',
+        about: 'About Firefly',
         checkForUpdates: 'Check for Updates',
         settings: 'Settings',
         general: 'General',

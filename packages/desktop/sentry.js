@@ -3,7 +3,7 @@
 /* eslint-disable-next-line no-undef */
 const Sentry = SENTRY_MAIN_PROCESS ? require('@sentry/electron/dist/main') : require('@sentry/electron/dist/renderer')
 
-const appName = 'Bloom'
+const appName = 'Firefly'
 const debug = true
 /* eslint-disable no-undef */
 const dsn = SENTRY_DSN || ''

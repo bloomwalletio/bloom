@@ -20,7 +20,7 @@
         "patch-package": "^6.4.7",
         "prettier": "^2.3.2",
         "prettier-plugin-svelte": "^2.7.0",
-        "retypeapp": "^2.3.0"
+        "retypeapp": "^3.0.0"
     },
     "scripts": {
         "check-strict": "yarn check-strict:desktop && yarn check-strict:shared",

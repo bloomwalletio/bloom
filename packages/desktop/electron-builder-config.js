@@ -9,21 +9,21 @@ const APP_PROTOCOL = getAppProtocol()
 const CHANNEL_NAME = getChannelName()
 
 /**
- * If stage = 'prod' -> 'Bloom'
- * If stage = 'alpha' -> 'Bloom Alpha'
+ * If stage = 'prod' -> 'Firefly'
+ * If stage = 'alpha' -> 'Firefly Alpha'
  * @param {string} stage
  * @returns
  */
 function getAppName() {
-    return STAGE === 'prod' ? 'Bloom' : `Bloom - ${STAGE.replace(/^\w/, (c) => c.toUpperCase())}`
+    return STAGE === 'prod' ? 'Firefly Shimmer' : `Firefly Shimmer - ${STAGE.replace(/^\w/, (c) => c.toUpperCase())}`
 }
 
 function getAppProtocol() {
-    return STAGE === 'prod' ? 'bloom' : `bloom-${STAGE.toLowerCase()}`
+    return STAGE === 'prod' ? 'firefly' : `firefly-${STAGE.toLowerCase()}`
 }
 
 function getAppId() {
-    const defaultAppId = 'org.bloom-labs.bloom'
+    const defaultAppId = 'org.iota.firefly-shimmer'
     if (STAGE === 'prod') {
         return defaultAppId
     }
@@ -43,7 +43,7 @@ function getChannelName() {
 
 const prodConfig = () => ({
     productName: APP_NAME,
-    artifactName: 'bloom-desktop-${version}.${ext}',
+    artifactName: 'firefly-desktop-${version}.${ext}',
     copyright: 'IOTA Foundation',
     directories: { buildResources: './public', output: './out' },
     files: ['public/', 'package.json', '!node_modules/@iota/wallet/target/*'],
@@ -58,7 +58,7 @@ const prodConfig = () => ({
         }
     },
     asar: true,
-    protocols: [{ name: 'Bloom URL Scheme', schemes: [APP_PROTOCOL] }],
+    protocols: [{ name: 'Firefly URL Scheme', schemes: [APP_PROTOCOL] }],
     dmg: {
         iconSize: 120,
         title: '${productName}',

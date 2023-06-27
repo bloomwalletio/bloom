@@ -202,7 +202,7 @@ const handleNavigation = (e, url) => {
  */
 function createWindow() {
     /**
-     * Register Bloom file protocol
+     * Register firefly file protocol
      */
     try {
         protocol.registerFileProtocol(process.env.APP_PROTOCOL, (request, callback) => {
@@ -516,8 +516,8 @@ app.on('second-instance', (_e, args) => {
 })
 
 /**
- * Register bloom:// protocol for deep links
- * Set Bloom as the default handler for bloom:// protocol
+ * Register firefly:// protocol for deep links
+ * Set Firefly as the default handler for firefly:// protocol
  */
 protocol.registerSchemesAsPrivileged([
     { scheme: process.env.APP_PROTOCOL, privileges: { secure: true, standard: true } },
