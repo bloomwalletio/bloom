@@ -5,14 +5,16 @@ import { getMachineId } from './machineId'
 import { getPlatformVersion } from './diagnostics'
 import os from 'os'
 
-export async function initialiseAnalytics() {
+export function initialiseAnalytics(): void {
     if (features.analytics.enabled && process.env.AMPLITUDE_API_KEY) {
         // Initialise Amplitude with API key
         init(process.env.AMPLITUDE_API_KEY, { logLevel: 0 })
         // Set initial identify
         setInitialIdentify()
         // Register event handlers
-        ipcMain.handle('track-event', (_e, event, properties) => handleTrackEvent(event, properties))
+        ipcMain.handle('track-event', (_e: unknown, event: string, properties: unknown) =>
+            handleTrackEvent(event, properties)
+        )
     } else {
         if (features.analytics.enabled && !process.env.AMPLITUDE_API_KEY) {
             console.warn('Analytics is enabled but no API key is set')
@@ -21,11 +23,11 @@ export async function initialiseAnalytics() {
     }
 }
 
-function handleTrackEvent(event, properties) {
+function handleTrackEvent(event: string, properties: unknown): void {
     track(event, properties, { device_id: getMachineId() })
 }
 
-function setInitialIdentify() {
+function setInitialIdentify(): void {
     const identifyObj = new Identify()
 
     // Application Information
