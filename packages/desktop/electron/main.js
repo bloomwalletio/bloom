@@ -199,17 +199,6 @@ const handleNavigation = (e, url) => {
  * @returns {BrowserWindow} Main window
  */
 function createWindow() {
-    /**
-     * Register firefly file protocol
-     */
-    try {
-        protocol.registerFileProtocol(process.env.APP_PROTOCOL, (request, callback) => {
-            callback(request.url.replace(`${process.env.APP_PROTOCOL}:/`, app.getAppPath()).split('?')[0].split('#')[0])
-        })
-    } catch (err) {
-        console.error(err)
-    }
-
     const mainWindowState = windowStateKeeper('main', 'settings.json')
 
     // Create the browser window
