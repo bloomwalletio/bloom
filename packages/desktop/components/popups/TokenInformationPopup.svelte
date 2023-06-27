@@ -13,8 +13,19 @@
     } from '@core/wallet'
     import { openPopup, PopupId, updatePopupProps } from '@desktop/auxiliary/popup'
     import features from '@features/features'
-    import { Button, Text, TextHint, AssetActionsButton, KeyValueBox, FontWeight, TextType, TokenAmountTile } from '@ui'
+    import {
+        Button,
+        Text,
+        TextHint,
+        AssetActionsButton,
+        KeyValueBox,
+        FontWeight,
+        TextType,
+        TokenAmountTile,
+        TooltipIcon,
+    } from '@ui'
     import { SendFlowRoute, SendFlowRouter, sendFlowRouter } from '@views/dashboard/send-flow'
+    import { Icon as IconEnum } from '@lib/auxiliary/icon'
 
     export let asset: IAsset
     export let activityId: string = undefined
@@ -65,15 +76,25 @@
 {#if asset}
     <div class="space-y-6">
         <div class="flex flex-row justify-between items-center space-x-3 mr-8">
-            <Text
-                type={TextType.h4}
-                fontSize="18"
-                lineHeight="6"
-                fontWeight={FontWeight.semibold}
-                classes="overflow-hidden whitespace-nowrap text-ellipsis"
-            >
-                {asset.metadata?.name}
-            </Text>
+            <div class="flex flex-row items-center space-x-2">
+                <Text
+                    type={TextType.h4}
+                    fontSize="18"
+                    lineHeight="6"
+                    fontWeight={FontWeight.semibold}
+                    classes="overflow-hidden whitespace-nowrap text-ellipsis"
+                >
+                    {asset.metadata?.name}
+                </Text>
+                {#if !asset.verification?.verified}
+                    <TooltipIcon
+                        title={localize('tooltips.tokenIsNotVerified.title')}
+                        text={localize('tooltips.tokenIsNotVerified.text')}
+                        icon={IconEnum.Info}
+                        iconClasses="text-yellow-700"
+                    />
+                {/if}
+            </div>
             {#if asset.standard === TokenStandard.Irc30}
                 <AssetActionsButton {asset} />
             {/if}
