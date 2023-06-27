@@ -1,9 +1,7 @@
 const { ipcRenderer } = require('electron')
 
 const fs = require('fs')
-const PincodeManager = require('./lib/pincodeManager')
-const DeepLinkManager = require('./lib/deepLinkManager')
-const NotificationManager = require('./lib/notificationManager')
+const { DeepLinkManager, NotificationManager, PincodeManager } = require('./lib/managers')
 const { menuState } = require('./lib/menuState')
 const features = require('../features/features').default
 

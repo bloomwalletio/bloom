@@ -9,7 +9,7 @@ interface Credential {
 /**
  * Service for interacting with the system's native keychain
  */
-export class KeychainManager {
+class KeychainManager {
     private serviceName: string;
 
     constructor() {

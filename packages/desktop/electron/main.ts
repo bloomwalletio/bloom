@@ -19,7 +19,7 @@ const {
 } = require('electron')
 const path = require('path')
 const fs = require('fs')
-const KeychainManager = require('./lib/keychainManager')
+const { KeychainManager } = require('./lib/managers')
 const { initMenu, contextMenu } = require('./lib/menu')
 
 initialiseAnalytics()
