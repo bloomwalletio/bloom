@@ -66,11 +66,11 @@ export async function setupI18n(options: LocaleOptions = { fallbackLocale: 'en',
  * Translates a given dictionary path into the appropriate locale.
  */
 export function localize(path: string, options?: unknown): string {
-    if (options) {
-        if (options.values) {
-            return get(_)(path, options)
+    if (options && typeof options === 'object') {
+        if ('values' in options && options.values && typeof options.values === 'object') {
+            return get(_)(path, options as Record<string, string>)
         } else {
-            return get(_)(path, { values: options })
+            return get(_)(path, { values: options as Record<string, string> })
         }
     } else {
         return get(_)(path)
