@@ -6,14 +6,14 @@
  * https://www.electronjs.org/docs/latest/tutorial/process-model#the-utility-process
  */
 
-const TransportNodeHid = require('@ledgerhq/hw-transport-node-hid').default
-const AppEth = require('@ledgerhq/hw-app-eth').default
-const { listen } = require('@ledgerhq/logs')
+import TransportNodeHid from '@ledgerhq/hw-transport-node-hid'
+import AppEth from '@ledgerhq/hw-app-eth'
+import { listen } from '@ledgerhq/logs'
 
-const { Common } = require('@ethereumjs/common')
-const { RLP } = require('@ethereumjs/rlp')
-const { Transaction } = require('@ethereumjs/tx')
-const { bufArrToArr } = require('@ethereumjs/util')
+import { Common } from '@ethereumjs/common'
+import { RLP } from '@ethereumjs/rlp'
+import { Transaction } from '@ethereumjs/tx'
+import { bufArrToArr } from '@ethereumjs/util'
 
 let transport
 

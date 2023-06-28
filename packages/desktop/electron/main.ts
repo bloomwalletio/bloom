@@ -18,7 +18,7 @@ const {
 const path = require('path')
 const fs = require('fs')
 const { KeychainManager } = require('./lib/managers')
-const { initMenu } = require('./lib/menu')
+const { initMenu } = require('./lib/menu/menu')
 const { contextMenu } = require('./lib/menu/context.menu')
 
 new AnalyticsManager()

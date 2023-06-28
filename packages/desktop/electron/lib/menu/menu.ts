@@ -16,54 +16,56 @@ interface MenuState {
 
 let state: MenuState = MENU_STATE
 
-function createMenu(): Electron.Menu {
-    const template = buildTemplate()
-    const applicationMenu = Menu.buildFromTemplate(template)
-    Menu.setApplicationMenu(applicationMenu)
+export function initMenu() {
+    function createMenu(): Electron.Menu {
+        const template = buildTemplate()
+        const applicationMenu = Menu.buildFromTemplate(template)
+        Menu.setApplicationMenu(applicationMenu)
 
-    closeAboutWindow()
+        closeAboutWindow()
 
-    return applicationMenu
-}
+        return applicationMenu
+    }
 
-app.once('ready', () => {
-    ipcMain.handle('menu-update', (e, args) => {
-        state = { ...state, ...args }
+    app.once('ready', () => {
+        ipcMain.handle('menu-update', (e, args) => {
+            state = { ...state, ...args }
+            createMenu()
+        })
+
+        ipcMain.handle('menu-popup', () => {
+            const mainWindow = getOrInitWindow('main')
+            mainWindow.popup()
+        })
+
+        ipcMain.handle('menu-data', () => state)
+
+        ipcMain.handle('maximize', () => {
+            const mainWindow = getOrInitWindow('main')
+            const isMaximized = mainWindow.isMaximized()
+            if (isMaximized) {
+                mainWindow.restore()
+            } else {
+                mainWindow.maximize()
+            }
+            return !isMaximized
+        })
+
+        ipcMain.handle('isMaximized', () => getOrInitWindow('main').isMaximized())
+
+        ipcMain.handle('minimize', () => {
+            const mainWindow = getOrInitWindow('main')
+            mainWindow.minimize()
+        })
+
+        ipcMain.handle('close', () => {
+            const mainWindow = getOrInitWindow('main')
+            mainWindow.close()
+        })
+
         createMenu()
     })
-
-    ipcMain.handle('menu-popup', () => {
-        const mainWindow = getOrInitWindow('main')
-        mainWindow.popup()
-    })
-
-    ipcMain.handle('menu-data', () => state)
-
-    ipcMain.handle('maximize', () => {
-        const mainWindow = getOrInitWindow('main')
-        const isMaximized = mainWindow.isMaximized()
-        if (isMaximized) {
-            mainWindow.restore()
-        } else {
-            mainWindow.maximize()
-        }
-        return !isMaximized
-    })
-
-    ipcMain.handle('isMaximized', () => getOrInitWindow('main').isMaximized())
-
-    ipcMain.handle('minimize', () => {
-        const mainWindow = getOrInitWindow('main')
-        mainWindow.minimize()
-    })
-
-    ipcMain.handle('close', () => {
-        const mainWindow = getOrInitWindow('main')
-        mainWindow.close()
-    })
-
-    createMenu()
-})
+}
 
 /**
  * Builds menu template
