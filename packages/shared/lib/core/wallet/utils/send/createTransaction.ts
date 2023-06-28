@@ -6,7 +6,7 @@ import { prepareOutput, updateSelectedAccount } from '@core/account'
 import { DEFAULT_TRANSACTION_OPTIONS } from '../../constants'
 import { validateSendConfirmation } from '.'
 import { checkActiveProfileAuth, getIsActiveLedgerProfile } from '@core/profile'
-import { signIscpTransferTransactionData } from '@core/layer-2'
+import { signLayer2TransferTransactionData } from '@core/layer-2'
 import { ledgerPreparedOutput } from '@core/ledger'
 import { sendOutput } from '../../actions'
 import { handleError } from '@core/error/handlers'
@@ -66,21 +66,21 @@ async function sendFromLayer2(
     const chain = asset.chainId ? getNetwork()?.getChain(asset.chainId) : undefined
     const provider = chain?.getProvider()
 
-    if (!chain || !provider || transactionDetails.recipient?.type !== 'address') {
+    if (!chain || !provider || transactionDetails.recipient?.type !== 'address' || !asset.metadata) {
         return
     }
 
     const recipient = transactionDetails.recipient.address
     const amount = transactionDetails.rawAmount
 
-    // TODO: For ERC 20 Tokens we need to invoke its specific smartcontract
     updateSelectedAccount({ isTransferring: true })
     try {
-        const signature = await signIscpTransferTransactionData(recipient, asset, amount)
-
+        const signature = await signLayer2TransferTransactionData(chain, recipient, asset, amount)
         if (signature) {
             await provider?.eth.sendSignedTransaction(signature)
             callback()
+        } else {
+            throw Error('No Signature provided')
         }
     } catch (err) {
         handleError(err)
