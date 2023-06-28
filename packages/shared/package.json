@@ -1,6 +1,7 @@
 {
     "name": "shared",
-    "version": "0.0.0",
+    "version": "0.1.0",
+    "description": "TypeScript library for the Bloom application",
     "author": "Charlie Varley <charlie@bloomwallet.io>",
     "license": "Apache-2.0",
     "dependencies": {
@@ -15,7 +16,7 @@
         "@sveltejs/svelte-virtual-list": "^3.0.1",
         "big-integer": "^1.6.51",
         "big.js": "^6.0.3",
-        "lottie-web": "^5.7.8",
+        "lottie-web": "^5.12.2",
         "qrious": "^4.0.2",
         "sha3": "^2.1.4",
         "svelte": "^3.49.0",
