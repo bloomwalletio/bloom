@@ -35,7 +35,6 @@
         "@ledgerhq/hw-app-eth": "^6.32.2",
         "@ledgerhq/hw-transport-node-hid": "^6.27.13",
         "@ledgerhq/logs": "^6.10.1",
-        "@sentry/electron": "^2.5.4",
         "@types/webpack-dev-server": "^4.7.2",
         "buffer": "^6.0.3",
         "dotenv": "^16.0.3",
@@ -49,7 +48,6 @@
         "url": "^0.11.0"
     },
     "devDependencies": {
-        "@sentry/webpack-plugin": "^1.18.5",
         "@tsconfig/svelte": "^1.0.10",
         "@types/webpack": "^5.28.1",
         "copy-webpack-plugin": "^11.0.0",

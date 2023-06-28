@@ -12,13 +12,6 @@ const LedgerApi = require('./ledgerApi')
 const WalletApi = require('@iota/wallet')
 const fs = require('fs')
 
-const SEND_CRASH_REPORTS = window.process.argv.includes('--send-crash-reports=true')
-let captureException = (..._) => {}
-
-if (SEND_CRASH_REPORTS) {
-    captureException = require('../sentry')(true).captureException
-}
-
 const profileManagers = {}
 
 // Hook the error handlers as early as possible
@@ -28,16 +21,8 @@ window.addEventListener('error', (event) => {
             message: event.error.message,
             stack: event.error.stack,
         })
-
-        if (SEND_CRASH_REPORTS) {
-            captureException(event.error)
-        }
     } else {
         ipcRenderer.invoke('handle-error', '[Preload Context] Error', event.error || event)
-
-        if (SEND_CRASH_REPORTS) {
-            captureException(event)
-        }
     }
     event.preventDefault()
     console.error(event.error || event)

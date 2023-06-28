@@ -80,11 +80,6 @@ jobs:
         # Increase network timeout threshold to reduce build failures on Windows
         run: yarn --network-timeout 1000000
 
-      - name: Install Sentry CLI
-        # Yarn has issues putting binaries in the PATH on Windows
-        run: npm i -g @sentry/cli
-        if: ${{ startsWith(github.ref, 'refs/tags/desktop') && inputs.os == 'windows-2019' }}
-
       - name: Set productName
         run: node scripts/fix-productName.js
         working-directory: packages/desktop
@@ -95,9 +90,6 @@ jobs:
         shell: bash
         env:
           HARDCODE_NODE_ENV: true
-          SENTRY: ${{ startsWith(github.ref, 'refs/tags/desktop') }}
-          SENTRY_DSN: ${{ secrets.SENTRY_DSN_PROD_DESKTOP }}
-          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
           AMPLITUDE_API_KEY: ${{ secrets.AMPLITUDE_API_KEY }}
 
       - name: Build Electron app (macOS)
