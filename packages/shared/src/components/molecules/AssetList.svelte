@@ -6,6 +6,7 @@
     import { assetFilter, AccountAssets, IAsset } from '@core/wallet'
     import { isVisibleAsset } from '@core/wallet/utils/isVisibleAsset'
     import { openPopup, PopupId } from '../../../../desktop/lib/auxiliary/popup'
+    import { AssetListMenuButton } from '../../../../desktop/components'
 
     export let assets: AccountAssets
 
@@ -53,7 +54,10 @@
     <div class="asset-list h-full p-6 flex flex-auto flex-col flex-grow shrink-0">
         <div class="w-full flex flex-row justify-between items-center mb-4">
             <Text classes="text-left" type={TextType.h5}>{localize('general.assets')}</Text>
-            <Filter filterStore={assetFilter} />
+            <div class="flex flex-row gap-1">
+                <Filter filterStore={assetFilter} />
+                <AssetListMenuButton />
+            </div>
         </div>
         <div class="flex-auto h-full pb-10">
             {#if filteredAssetList.length > 0}
