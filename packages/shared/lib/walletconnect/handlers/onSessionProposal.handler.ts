@@ -2,8 +2,7 @@ import { Web3WalletTypes } from '@walletconnect/web3wallet'
 import { SUPPORTED_EVENTS, SUPPORTED_METHODS } from '../constants'
 import { getAllEvmAddresses } from '../utils'
 import { buildApprovedNamespaces } from '@walletconnect/utils'
-import { get } from 'svelte/store'
-import { walletClient } from '../stores'
+import { getWalletClient } from '../stores'
 
 export function onSessionProposal(sessionProposal: Web3WalletTypes.SessionProposal): void {
     const { id, params } = sessionProposal
@@ -23,5 +22,5 @@ export function onSessionProposal(sessionProposal: Web3WalletTypes.SessionPropos
         },
     })
 
-    void get(walletClient)?.approveSession({ id, namespaces: approvedNamespaces })
+    void getWalletClient()?.approveSession({ id, namespaces: approvedNamespaces })
 }

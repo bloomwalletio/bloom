@@ -1,8 +1,7 @@
-import { get } from 'svelte/store'
-import { walletClient } from '../stores'
+import { getWalletClient } from '../stores'
 
 export async function pairWithNewApp(uri: string): Promise<void> {
-    const client = get(walletClient)
+    const client = getWalletClient()
     if (!client) {
         return
     }
