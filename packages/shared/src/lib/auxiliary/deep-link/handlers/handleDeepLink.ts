@@ -12,6 +12,7 @@ import { isDeepLinkRequestActive } from '../stores'
 import { handleDeepLinkGovernanceContext } from './governance/handleDeepLinkGovernanceContext'
 import { handleDeepLinkWalletContext } from './wallet/handleDeepLinkWalletContext'
 import { handleError } from '@core/error/handlers'
+import { pairWithNewApp } from '@lib/walletconnect/utils'
 
 /**
  * Parses an IOTA deep link, i.e. a URL that begins with the app protocol i.e "firefly://".
@@ -63,7 +64,20 @@ function handleDeepLinkForHostname(url: URL): void {
             get(dashboardRouter).goTo(DashboardRoute.Governance)
             handleDeepLinkGovernanceContext(url)
             break
+        case DeepLinkContext.Connect:
+            handleConnect(url)
+            break
         default:
-            throw new Error(`Unrecognized context '${url.host}'`)
+            throw new Error(`Unrecognized context '${url.hostname}'`)
+    }
+}
+
+function handleConnect(url: URL): void {
+    const walletConnectUri = url.pathname.split('/')[1] + url.search
+    if (walletConnectUri) {
+        openPopup({
+            id: PopupId.Confirmation,
+            props: { title: walletConnectUri, onConfirm: () => pairWithNewApp(walletConnectUri) },
+        })
     }
 }
