@@ -1,6 +1,6 @@
 <script lang="ts">
     import { localize } from '@core/i18n'
-    import { Text, Button, AccountInput, FontWeight } from 'shared/components'
+    import { Text, Button, AccountInput, FontWeight } from '@ui'
     import { closePopup } from '@desktop/auxiliary/popup'
     import { IAccountState, setSelectedAccount } from '@core/account'
 

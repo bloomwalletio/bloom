@@ -51,14 +51,14 @@ const fallback: { [index: string]: string | false | string[] } = {
 const resolve = {
     alias: {
         svelte: path.dirname(require.resolve('svelte/package.json')),
-        '@auxiliary': path.resolve(__dirname, '../shared/lib/auxiliary'),
-        '@contexts': path.resolve(__dirname, '../shared/lib/contexts'),
+        '@auxiliary': path.resolve(__dirname, '../shared/src/lib/auxiliary'),
+        '@contexts': path.resolve(__dirname, '../shared/src/lib/contexts'),
         '@components': path.resolve(__dirname, './components/'),
-        '@core': path.resolve(__dirname, '../shared/lib/core'),
+        '@core': path.resolve(__dirname, '../shared/src/lib/core'),
         '@features': path.resolve(__dirname, './features'),
-        '@lib': path.resolve(__dirname, '../shared/lib'),
+        '@lib': path.resolve(__dirname, '../shared/src/lib'),
         '@desktop': path.resolve(__dirname, './lib'),
-        '@ui': path.resolve(__dirname, '../shared/components/'),
+        '@ui': path.resolve(__dirname, '../shared/src/components/'),
         '@views': path.resolve(__dirname, './views/'),
     },
     conditionNames: ['svelte', 'module', 'import', 'require', 'node', 'default'],
@@ -164,7 +164,7 @@ const rendererPlugins = [
                 },
             },
             {
-                from: '../shared/locales/*',
+                from: '../shared/src/locales/*',
                 to() {
                     return 'locales/[name][ext]'
                 },

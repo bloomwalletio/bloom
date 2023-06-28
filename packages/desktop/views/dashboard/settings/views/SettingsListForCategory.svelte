@@ -3,7 +3,7 @@
     import { activeProfile, isActiveLedgerProfile } from '@core/profile'
     import { SettingsRoute } from '@core/router'
     import features from '@features/features'
-    import { HR } from 'shared/components'
+    import { HR } from '@ui'
     import { SETTINGS } from './settings.constant'
 
     export let category: SettingsRoute

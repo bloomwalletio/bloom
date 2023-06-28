@@ -1,6 +1,6 @@
 <script lang="ts">
     import { onDestroy } from 'svelte'
-    import { Button, KeyValueBox, Text, TextHint, FontWeight, TextType } from 'shared/components'
+    import { Button, KeyValueBox, Text, TextHint, FontWeight, TextType } from '@ui'
     import { closePopup, openPopup, PopupId } from '@desktop/auxiliary/popup'
     import { showAppNotification } from '@auxiliary/notification'
     import { displayNotificationForLedgerProfile, ledgerNanoStatus } from '@core/ledger'

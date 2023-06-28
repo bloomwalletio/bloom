@@ -1,7 +1,7 @@
 <script lang="ts">
     import { Platform } from '@core/app'
     import features from '@features/features'
-    import { Transition } from 'shared/components'
+    import { Transition } from '@ui'
     import { EncryptMnemonicView } from '../shared'
     import { RestoreFromMnemonicRoute } from './restore-from-mnemonic-route.enum'
     import { restoreFromMnemonicRoute, restoreFromMnemonicRouter } from './restore-from-mnemonic-router'
