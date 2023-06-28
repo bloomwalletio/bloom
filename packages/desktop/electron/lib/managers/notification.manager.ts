@@ -1,6 +1,6 @@
 import { ipcRenderer } from 'electron'
 
-class NotificationManager {
+export default class NotificationManager {
     /**
      * Create and show a native notification
      * @param message - the notification message
@@ -18,5 +18,3 @@ class NotificationManager {
         }
     }
 }
-
-export default new NotificationManager()

@@ -1,6 +1,6 @@
 import { ipcRenderer } from 'electron'
 
-class PincodeManager {
+export default class PincodeManager {
     /**
      * Sets pincode in keychain
      *
@@ -42,5 +42,3 @@ class PincodeManager {
         return ipcRenderer.invoke('keychain-remove', key)
     }
 }
-
-export default new PincodeManager()

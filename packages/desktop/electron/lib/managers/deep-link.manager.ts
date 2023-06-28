@@ -2,7 +2,7 @@ import { ipcRenderer } from 'electron'
 
 /** Deep link manager */
 // Runs in renderer process
-class DeepLinkManager {
+export default class DeepLinkManager {
     public static checkDeepLinkRequestExists(): void {
         ipcRenderer.send('check-deep-link-request-exists')
     }
@@ -11,5 +11,3 @@ class DeepLinkManager {
         ipcRenderer.send('clear-deep-link-request')
     }
 }
-
-export default new DeepLinkManager()

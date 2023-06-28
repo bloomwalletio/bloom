@@ -10,7 +10,7 @@ interface VersionDetails {
     changelog: string
 }
 
-export class AutoUpdateManager {
+export default class AutoUpdateManager {
     private downloadCancellation?: CancellationToken
     private ipcHandlersRegistered = false
 
@@ -90,5 +90,3 @@ export class AutoUpdateManager {
         }
     }
 }
-
-export default AutoUpdateManager

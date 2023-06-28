@@ -5,12 +5,13 @@ import { getMachineId } from '../machineId'
 import { getPlatformVersion } from '../diagnostics'
 import os from 'os'
 
-export class AnalyticsManager {
+export default class AnalyticsManager {
     constructor() {
         this.init()
     }
 
     private init(): void {
+        console.log('IPC Main', ipcMain)
         if (features.analytics.enabled && process.env.AMPLITUDE_API_KEY) {
             // Initialise Amplitude with API key
             init(process.env.AMPLITUDE_API_KEY, { logLevel: 0 })
@@ -45,5 +46,3 @@ export class AnalyticsManager {
         identify(identifyObj, { device_id: getMachineId() })
     }
 }
-
-export default AnalyticsManager

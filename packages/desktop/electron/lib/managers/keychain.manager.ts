@@ -1,19 +1,19 @@
-import keytar from 'keytar';
-import { app } from 'electron';
+import keytar from 'keytar'
+import { app } from 'electron'
 
 interface Credential {
-    account: string;
-    password: string;
+    account: string
+    password: string
 }
 
 /**
  * Service for interacting with the system's native keychain
  */
-class KeychainManager {
-    private serviceName: string;
+export default class KeychainManager {
+    private serviceName: string
 
     constructor() {
-        this.serviceName = app.isPackaged ? app.getName() : 'Bloom — Dev';
+        this.serviceName = app?.isPackaged ? app.getName() : 'Bloom — Dev'
     }
 
     /**
@@ -22,7 +22,7 @@ class KeychainManager {
      * @returns Promise of array with credentials
      */
     public getAll(): Promise<Credential[]> {
-        return keytar.findCredentials(this.serviceName);
+        return keytar.findCredentials(this.serviceName)
     }
 
     /**
@@ -33,7 +33,7 @@ class KeychainManager {
      * @returns Promise of password string or null if not found
      */
     public get(key: string): Promise<string | null> {
-        return keytar.getPassword(this.serviceName, key);
+        return keytar.getPassword(this.serviceName, key)
     }
 
     /**
@@ -45,7 +45,7 @@ class KeychainManager {
      * @returns Promise of a void return
      */
     public set(key: string, content: string): Promise<void> {
-        return keytar.setPassword(this.serviceName, key, content);
+        return keytar.setPassword(this.serviceName, key, content)
     }
 
     /**
@@ -56,8 +56,6 @@ class KeychainManager {
      * @returns Promise of a boolean that shows whether the password was deleted
      */
     public remove(key: string): Promise<boolean> {
-        return keytar.deletePassword(this.serviceName, key);
+        return keytar.deletePassword(this.serviceName, key)
     }
 }
-
-export default new KeychainManager()
