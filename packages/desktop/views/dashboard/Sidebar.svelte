@@ -12,8 +12,6 @@
 
     let profileModal: Modal
 
-    const profileColor = 'blue' // TODO: each profile has a different color
-
     const { shouldOpenProfileModal } = $activeProfile
 
     $: lastStrongholdBackupTime = $activeProfile?.lastStrongholdBackupTime
@@ -111,10 +109,7 @@
             {/each}
         </div>
         <div class="flex flex-col items-center">
-            <button
-                class="w-10 h-10 relative flex items-center justify-center rounded-full bg-{profileColor}-500 leading-100"
-                on:click={profileModal?.open}
-            >
+            <button class="flex items-center justify-center rounded-full" on:click={profileModal?.open}>
                 <ProfilePicture profile={$activeProfile} size="medium" />
                 {#if !$shouldOpenProfileModal && (!isBackupSafe || !$appVersionDetails.upToDate)}
                     <NotificationBadge />
