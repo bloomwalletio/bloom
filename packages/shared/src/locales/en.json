@@ -1385,7 +1385,8 @@
         "stopVoting": "Stop voting",
         "revote": "Revote",
         "skipAndKeep": "Skip and keep old password",
-        "addChain": "Add chain"
+        "addChain": "Add chain",
+        "untrackToken": "Untrack token"
     },
     "general": {
         "recipient": "Recipient",

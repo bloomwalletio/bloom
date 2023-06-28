@@ -20,6 +20,8 @@
     export let asset: IAsset
     export let activityId: string = undefined
 
+    const showAssetActionsMenuButton = asset.standard === TokenStandard.Irc30 || asset.standard === TokenStandard.Erc20
+
     function onSkipClick(): void {
         unverifyAsset(asset.id, NotVerifiedStatus.Skipped)
         if (activityId) {
@@ -77,7 +79,7 @@
                     ? localize('popups.tokenInformation.newTokenTitle')
                     : asset.metadata?.name}
             </Text>
-            {#if asset.standard === TokenStandard.Irc30}
+            {#if showAssetActionsMenuButton}
                 <AssetActionsButton {asset} />
             {/if}
         </div>

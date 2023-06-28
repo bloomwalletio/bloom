@@ -9,14 +9,28 @@
         hideActivitiesForHiddenAssets,
         NotVerifiedStatus,
         VerifiedStatus,
+        removeTokenFromActiveAccountTrackedTokens,
     } from '@core/wallet'
     import { Icon } from '@lib/auxiliary/icon'
-    import { openPopup, PopupId, updatePopupProps } from '../../../../desktop/lib/auxiliary/popup'
+    import { closePopup, openPopup, PopupId, updatePopupProps } from '../../../../desktop/lib/auxiliary/popup'
     import { MenuItem, Modal } from '@ui'
     import features from '@features/features'
 
+    import { getActiveProfilePersistedTrackedTokensByAccountIndex } from '@core/profile/stores'
+    import { selectedAccountIndex } from '@core/account/stores'
+
     export let modal: Modal = undefined
     export let asset: IAsset
+
+    $: isTrackedToken = getActiveProfilePersistedTrackedTokensByAccountIndex($selectedAccountIndex)[
+        asset?.chainId
+    ]?.includes(asset?.id)
+
+    function handleUntrackToken(): void {
+        removeTokenFromActiveAccountTrackedTokens(asset?.id, asset?.chainId)
+        modal.close()
+        closePopup()
+    }
 
     function handleUnverify(): void {
         unverifyAsset(asset.id, NotVerifiedStatus.Skipped)
@@ -60,6 +74,9 @@
 
 <Modal bind:this={modal} {...$$restProps}>
     <div class="flex flex-col">
+        {#if isTrackedToken}
+            <MenuItem icon={Icon.Search} title={localize('actions.untrackToken')} onClick={handleUntrackToken} />
+        {/if}
         {#if asset?.verification?.status === VerifiedStatus.SelfVerified}
             <MenuItem
                 icon={Icon.NotVerified}
