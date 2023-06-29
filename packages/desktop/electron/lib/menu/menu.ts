@@ -16,125 +16,85 @@ interface MenuState {
 
 let state: MenuState = MENU_STATE
 
-export function initMenu() {
-    function createMenu(): Electron.Menu {
-        const template = buildTemplate()
-        const applicationMenu = Menu.buildFromTemplate(template)
-        Menu.setApplicationMenu(applicationMenu)
+function createMenu(): Electron.Menu {
+    const template = buildTemplate()
+    const applicationMenu = Menu.buildFromTemplate(template)
+    Menu.setApplicationMenu(applicationMenu)
 
-        closeAboutWindow()
+    closeAboutWindow()
 
-        return applicationMenu
-    }
+    return applicationMenu
+}
+
+function handleWindowControls(): void {
+    ipcMain.handle('maximize', () => toggleMaximize())
+    ipcMain.handle('isMaximized', () => getOrInitWindow('main').isMaximized())
+    ipcMain.handle('minimize', () => getOrInitWindow('main').minimize())
+    ipcMain.handle('close', () => getOrInitWindow('main').close())
+}
+
+function toggleMaximize(): boolean {
+    const mainWindow = getOrInitWindow('main')
+    const isMaximized = mainWindow.isMaximized()
+    isMaximized ? mainWindow.restore() : mainWindow.maximize()
+    return !isMaximized
+}
+
+export function initMenu(): void {
+    let mainMenu = null
 
     app.once('ready', () => {
         ipcMain.handle('menu-update', (e, args) => {
             state = { ...state, ...args }
-            createMenu()
+            mainMenu = createMenu()
         })
 
         ipcMain.handle('menu-popup', () => {
-            const mainWindow = getOrInitWindow('main')
-            mainWindow.popup()
+            mainMenu.popup(getOrInitWindow('main'))
         })
-
         ipcMain.handle('menu-data', () => state)
-
-        ipcMain.handle('maximize', () => {
-            const mainWindow = getOrInitWindow('main')
-            const isMaximized = mainWindow.isMaximized()
-            if (isMaximized) {
-                mainWindow.restore()
-            } else {
-                mainWindow.maximize()
-            }
-            return !isMaximized
-        })
-
-        ipcMain.handle('isMaximized', () => getOrInitWindow('main').isMaximized())
-
-        ipcMain.handle('minimize', () => {
-            const mainWindow = getOrInitWindow('main')
-            mainWindow.minimize()
-        })
-
-        ipcMain.handle('close', () => {
-            const mainWindow = getOrInitWindow('main')
-            mainWindow.close()
-        })
-
-        createMenu()
+        handleWindowControls()
+        mainMenu = createMenu()
     })
 }
 
-/**
- * Builds menu template
- * @returns {Array} Menu template
- */
-function buildTemplate(): Electron.MenuItemConstructorOptions[] {
-    const template: Electron.MenuItemConstructorOptions[] = [
-        {
-            label: app.name,
-            submenu: [
-                {
-                    label: `${state.strings.about} ${app.name}`,
-                    click: () => openAboutWindow(),
-                    enabled: state.enabled,
-                },
-                {
-                    label: `${state.strings.checkForUpdates}...`,
-                    click: () => getOrInitWindow('main').webContents.send('menu-check-for-update'),
-                    enabled: app.isPackaged ? state.enabled : false,
-                },
-                { type: 'separator' },
+function commandMenuItem(label: string, command: string, enabled: boolean = true): Electron.MenuItemConstructorOptions {
+    return {
+        label,
+        enabled,
+        click: () => getOrInitWindow('main').webContents.send(command),
+    }
+}
 
-                {
-                    label: state.strings.settings,
-                    click: () => getOrInitWindow('main').webContents.send('menu-navigate-settings'),
-                },
-                { type: 'separator' },
-                {
-                    label: state.strings.diagnostics,
-                    click: () => getOrInitWindow('main').webContents.send('menu-diagnostics'),
-                },
-            ],
-        },
-    ]
+function roleMenuItem(
+    label: string,
+    role: NonNullable<Electron.MenuItemConstructorOptions['role']>
+): Electron.MenuItemConstructorOptions {
+    return {
+        label,
+        role,
+    }
+}
+
+function buildTemplate(): Electron.MenuItemConstructorOptions[] {
+    let firstMenuSubmenu: Electron.MenuItemConstructorOptions[] = getFirstSubmenuItems()
 
     if (!app.isPackaged || features?.electron?.developerTools?.enabled) {
-        template[0].submenu.push({
-            label: 'Developer Tools',
-            role: 'toggleDevTools',
-        })
+        firstMenuSubmenu = [...firstMenuSubmenu, roleMenuItem('Developer Tools', 'toggleDevTools')]
     }
 
-    template[0].submenu = template[0].submenu.concat([
-        {
-            label: state.strings.errorLog,
-            click: () => getOrInitWindow('main').webContents.send('menu-error-log'),
-        },
+    firstMenuSubmenu = [
+        ...firstMenuSubmenu,
+        commandMenuItem(state.strings.errorLog, 'menu-error-log'),
         { type: 'separator' },
-    ])
+    ]
 
     if (process.platform === 'darwin') {
-        template[0].submenu = template[0].submenu.concat([
-            {
-                label: `${state.strings.hide} ${app.name}`,
-                role: 'hide',
-            },
-            {
-                label: state.strings.hideOthers,
-                role: 'hideothers',
-            },
-            {
-                label: state.strings.showAll,
-                role: 'unhide',
-            },
-            { type: 'separator' },
-        ])
+        firstMenuSubmenu = [...firstMenuSubmenu, ...getDarwinSubmenuItems(), { type: 'separator' }]
     }
 
-    template[0].submenu = template[0].submenu.concat([
+    firstMenuSubmenu = [
+        ...firstMenuSubmenu,
         {
             label: state.strings.quit,
             accelerator: process.platform === 'win32' ? 'Alt+F4' : 'CmdOrCtrl+Q',
@@ -142,14 +102,47 @@ function buildTemplate(): Electron.MenuItemConstructorOptions[] {
                 app.quit()
             },
         },
-    ])
+    ]
 
-    template.push(editMenu)
+    const firstMenu: Electron.MenuItemConstructorOptions = {
+        label: app.name,
+        submenu: firstMenuSubmenu,
+    }
+
+    const template: Electron.MenuItemConstructorOptions[] = [firstMenu, editMenu]
 
     if (state.loggedIn) {
         template.push(walletMenu)
     }
 
     template.push(helpMenu)
+
     return template
+}
+
+function getFirstSubmenuItems(): Electron.MenuItemConstructorOptions[] {
+    return [
+        {
+            label: `${state.strings.about} ${app.name}`,
+            click: openAboutWindow,
+            enabled: state.enabled,
+        },
+        commandMenuItem(
+            `${state.strings.checkForUpdates}...`,
+            'menu-check-for-update',
+            app.isPackaged && state.enabled
+        ),
+        { type: 'separator' },
+        commandMenuItem(state.strings.settings, 'menu-navigate-settings'),
+        { type: 'separator' },
+        commandMenuItem(state.strings.diagnostics, 'menu-diagnostics'),
+    ]
+}
+
+function getDarwinSubmenuItems(): Electron.MenuItemConstructorOptions[] {
+    return [
+        roleMenuItem(`${state.strings.hide} ${app.name}`, 'hide'),
+        roleMenuItem(state.strings.hideOthers, 'hideothers' as Electron.MenuItemConstructorOptions['role']),
+        roleMenuItem(state.strings.showAll, 'unhide'),
+    ]
 }
