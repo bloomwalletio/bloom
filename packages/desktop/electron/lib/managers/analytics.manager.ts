@@ -12,11 +12,8 @@ export default class AnalyticsManager {
 
     private init(): void {
         if (features.analytics.enabled && process.env.AMPLITUDE_API_KEY) {
-            // Initialise Amplitude with API key
             init(process.env.AMPLITUDE_API_KEY, { logLevel: 0 })
-            // Set initial identify
             this.setInitialIdentify()
-            // Register event handlers
             ipcMain.handle('track-event', this.handleTrackEvent.bind(this))
         } else {
             if (features.analytics.enabled && !process.env.AMPLITUDE_API_KEY) {
@@ -33,11 +30,9 @@ export default class AnalyticsManager {
     private setInitialIdentify(): void {
         const identifyObj = new Identify()
 
-        // Application Information
         identifyObj.set('app_name', app.getName())
         identifyObj.set('app_version', app.getVersion())
 
-        // Platform Information
         identifyObj.setOnce('platform', os.platform())
         identifyObj.setOnce('platform_architecture', os.arch())
         identifyObj.set('platform_version', getPlatformVersion())
