@@ -7,7 +7,8 @@ import { getWalletClient } from '../stores'
 export function onSessionProposal(sessionProposal: Web3WalletTypes.SessionProposal): void {
     const { id, params } = sessionProposal
 
-    const chains = ['eip155:1']
+    // EIP155: 1 is for Ethereum main chain and EIP155:5 is for the Goerli testnet
+    const chains = ['eip155:1', 'eip155:5']
 
     const accounts = getAllEvmAddresses(chains)
     const approvedNamespaces = buildApprovedNamespaces({
