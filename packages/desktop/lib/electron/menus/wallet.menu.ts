@@ -1,4 +1,4 @@
-import { getOrInitWindow } from '../../main'
+import { getOrInitWindow } from '../main'
 import { MENU_STATE } from './menu-state.constant'
 
 export const walletMenu: Electron.MenuItemConstructorOptions = {

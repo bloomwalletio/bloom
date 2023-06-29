@@ -1,9 +1,10 @@
-import features from '@features/features'
-import { Identify, identify, init, track } from '@amplitude/analytics-node'
 import { app, ipcMain, IpcMainInvokeEvent } from 'electron'
-import { getMachineId } from '../machineId'
-import { getPlatformVersion } from '../diagnostics'
 import os from 'os'
+import { Identify, identify, init, track } from '@amplitude/analytics-node'
+
+import features from '@features/features'
+
+import { getMachineId, getPlatformVersion } from '../utils'
 
 export default class AnalyticsManager {
     constructor() {

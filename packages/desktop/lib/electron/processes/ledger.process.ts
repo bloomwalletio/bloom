@@ -24,17 +24,34 @@ const TX_OPTIONS = {
     }),
 }
 
-process.parentPort.on('message', async (message) => {
+process.parentPort.on('message', void messageHandler)
+
+export interface ILedgerProcessMessage {
+    error?: string | Error | unknown
+    data: ILedgerProcessMessageData
+}
+
+export interface ILedgerProcessMessageData {
+    method: LedgerMethod
+    parameters: string[]
+}
+
+export enum LedgerMethod {
+    GenerateEvmAddress = 'generate-evm-address',
+    SignEvmTransaction = ' sign-evm-transaction',
+}
+
+async function messageHandler(message: ILedgerProcessMessage): Promise<void> {
     try {
         await openTransport()
 
         let data
         switch (message.data.method) {
-            case 'generate-evm-address': {
+            case LedgerMethod.GenerateEvmAddress: {
                 data = await getEvmAddress(...message.data.parameters)
                 break
             }
-            case 'sign-evm-transaction': {
+            case LedgerMethod.SignEvmTransaction: {
                 data = await signTransactionData(...message.data.parameters)
                 break
             }
@@ -48,9 +65,9 @@ process.parentPort.on('message', async (message) => {
     } catch (error) {
         process.parentPort.postMessage({ error })
     }
-})
+}
 
-async function openTransport() {
+async function openTransport(): Promise<void> {
     if (!transport) {
         transport = await TransportNodeHid.open('')
         listen((log) => {
@@ -59,21 +76,21 @@ async function openTransport() {
     }
 }
 
-async function closeTransport() {
+async function closeTransport(): Promise<void> {
     if (transport) {
         await transport.close()
         transport = undefined
     }
 }
 
-async function getEvmAddress(bip32Path, verify) {
+async function getEvmAddress(bip32Path: string): Promise<{ evmAddress: string; bip32Path: string }> {
     const appEth = new AppEth(transport)
     const data = await appEth.getAddress(bip32Path)
 
     return { evmAddress: data.address, bip32Path }
 }
 
-async function signTransactionData(data, bip32Path) {
+async function signTransactionData(data: object, bip32Path: string): Promise<{ signedTransaction: string }> {
     const appEth = new AppEth(transport)
 
     const transactionData = Transaction.fromTxData(data, TX_OPTIONS)

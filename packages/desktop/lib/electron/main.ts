@@ -1,9 +1,4 @@
 // Modules to control application life and create native browser window
-import features from '@features/features'
-
-import { shouldReportError } from './lib/errorHandling'
-import { getMachineId } from './lib/machineId'
-import { getDiagnostics } from './lib/diagnostics'
 import {
     app,
     dialog,
@@ -17,12 +12,13 @@ import {
 } from 'electron'
 import path from 'path'
 import fs from 'fs'
-import { initMenu } from './lib/menu/menu'
-import { contextMenu } from './lib/menu/context.menu'
-import AnalyticsManager from './lib/managers/analytics.manager'
-import AutoUpdateManager from './lib/managers/auto-update.manager'
-import KeychainManager from './lib/managers/keychain.manager'
-import NftDownloadManager from './lib/managers/nft-download.manager'
+
+import features from '@features/features'
+
+import { contextMenu, initMenu } from './menus'
+import { getDiagnostics, getMachineId, shouldReportError } from './utils'
+import { AnalyticsManager, AutoUpdateManager, KeychainManager, NftDownloadManager } from './managers'
+import { ILedgerProcessMessage, LedgerMethod } from './processes'
 
 new AnalyticsManager()
 
@@ -294,16 +290,17 @@ let ledgerProcess
 ipcMain.on('start-ledger-process', () => {
     ledgerProcess = utilityProcess.fork(paths.ledger)
     ledgerProcess.on('spawn', () => {
-        ledgerProcess.on('message', (message) => {
+        // Handler for message from Ledger process
+        ledgerProcess.on('message', (message: ILedgerProcessMessage) => {
             const { error, data } = message
             if (error) {
                 windows.main.webContents.send('ledger-error', error)
             } else {
                 switch (data?.method) {
-                    case 'generate-evm-address':
+                    case LedgerMethod.GenerateEvmAddress:
                         windows.main.webContents.send('evm-address', data)
                         break
-                    case 'sign-evm-transaction':
+                    case LedgerMethod.SignEvmTransaction:
                         windows.main.webContents.send('evm-signed-transaction', data)
                         break
                     default:
@@ -320,12 +317,12 @@ ipcMain.on('kill-ledger-process', () => {
     ledgerProcess?.kill()
 })
 
-ipcMain.on('generate-evm-address', (_e, bip32Path, verify) => {
+ipcMain.on(LedgerMethod.GenerateEvmAddress, (_e, bip32Path, verify) => {
     ledgerProcess?.postMessage({ method: 'generate-evm-address', parameters: [bip32Path, verify] })
 })
 
-ipcMain.on('sign-evm-transaction', (_e, data, bip32Path) => {
-    ledgerProcess?.postMessage({ method: 'sign-evm-transaction', parameters: [data, bip32Path] })
+ipcMain.on(LedgerMethod.SignEvmTransaction, (_e, data, bip32Path) => {
+    ledgerProcess?.postMessage({ method: LedgerMethod.SignEvmTransaction, parameters: [data, bip32Path] })
 })
 
 /**

@@ -1,6 +1,6 @@
 import { ipcRenderer } from 'electron'
 
-const LedgerApi = {
+export default {
     generateEvmAddress: (bip32Path: string, verify: boolean = false): void => {
         ipcRenderer.send('generate-evm-address', bip32Path, verify)
     },
@@ -8,5 +8,3 @@ const LedgerApi = {
         ipcRenderer.send('sign-evm-transaction', data, bip32Path)
     },
 }
-
-export default LedgerApi

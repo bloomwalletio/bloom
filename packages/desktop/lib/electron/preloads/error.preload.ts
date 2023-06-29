@@ -1,5 +1,5 @@
 import { contextBridge, ipcRenderer } from 'electron'
-import packageJson from '../../package.json'
+import packageJson from '../../../package.json'
 
 const { version } = packageJson
 

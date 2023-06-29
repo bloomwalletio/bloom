@@ -1,11 +1,9 @@
 import { ipcRenderer } from 'electron'
-
 import fs from 'fs'
-import { MENU_STATE } from './lib/menu/menu-state.constant'
-import features from '../features/features'
-import DeepLinkManager from './lib/managers/deep-link.manager'
-import NotificationManager from './lib/managers/notification.manager'
-import PincodeManager from './lib/managers/pincode.manager'
+
+import features from '@features/features'
+import { MENU_STATE } from '../menus'
+import { DeepLinkManager, NotificationManager, PincodeManager } from '../managers'
 
 import type { IAppSettings } from '@core/app/interfaces'
 

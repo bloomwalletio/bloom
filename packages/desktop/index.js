@@ -1,6 +1,5 @@
 import App from './App.svelte'
-import { Electron } from './lib/electron'
-import { shouldReportError } from './electron/lib/errorHandling'
+import { Electron, shouldReportError } from './lib/electron'
 
 window.addEventListener('error', (event) => {
     const errorType = '[Render Context] Error'
