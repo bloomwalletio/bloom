@@ -1,7 +1,7 @@
 <script lang="ts">
     import { localize } from '@core/i18n'
     import { closePopup } from '@desktop/auxiliary/popup'
-    import { pairWithNewApp } from '@lib/walletconnect/utils'
+    import { pairWithNewApp } from '@auxiliary/wallet-connect/utils'
     import { Button, Text, TextInput, FontWeight, TextType } from '@ui'
 
     let walletConnectUri: string

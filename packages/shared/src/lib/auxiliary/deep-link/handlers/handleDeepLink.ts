@@ -12,7 +12,7 @@ import { isDeepLinkRequestActive } from '../stores'
 import { handleDeepLinkGovernanceContext } from './governance/handleDeepLinkGovernanceContext'
 import { handleDeepLinkWalletContext } from './wallet/handleDeepLinkWalletContext'
 import { handleError } from '@core/error/handlers'
-import { pairWithNewApp } from '@lib/walletconnect/utils'
+import { pairWithNewApp } from '@auxiliary/wallet-connect/utils'
 
 /**
  * Parses an IOTA deep link, i.e. a URL that begins with the app protocol i.e "firefly://".

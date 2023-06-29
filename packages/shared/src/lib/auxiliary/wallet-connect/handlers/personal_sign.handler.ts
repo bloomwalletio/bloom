@@ -1,5 +1,5 @@
 import { Converter } from '@iota/util.js'
-import { closePopup, openPopup, PopupId } from '../../../../desktop/lib/auxiliary/popup'
+import { closePopup, openPopup, PopupId } from '../../../../../../desktop/lib/auxiliary/popup'
 import { JsonRpcResponse } from '@walletconnect/jsonrpc-types'
 
 export function handlePersonalSign(
