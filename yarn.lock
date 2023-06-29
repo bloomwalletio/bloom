@@ -7806,13 +7806,6 @@ node-fetch@^2.6.1:
   dependencies:
     whatwg-url "^5.0.0"
 
-node-fetch@^2.6.7:
-  version "2.6.9"
-  resolved "https://registry.npmjs.org/node-fetch/-/node-fetch-2.6.9.tgz"
-  integrity sha512-DJm/CJkZkRjKKj4Zi4BsKVZh3ValV5IR5s7LVZnW+6YMh0W1BfNA8XSs6DLMGYlId5F3KnA70uu2qepcR08Qqg==
-  dependencies:
-    whatwg-url "^5.0.0"
-
 node-forge@^1:
   version "1.3.1"
   resolved "https://registry.npmjs.org/node-forge/-/node-forge-1.3.1.tgz"
@@ -8947,11 +8940,6 @@ retry@^0.13.1:
   version "0.13.1"
   resolved "https://registry.npmjs.org/retry/-/retry-0.13.1.tgz"
   integrity sha512-XQBQ3I8W1Cge0Seh+6gjj03LbmRFWuoszgK9ooCpwYIrhhoO80pfq4cUkU5DkknwfOfFteRwlZ56PYOGYyFWdg==
-
-retypeapp@^3.0.0:
-  version "3.0.3"
-  resolved "https://registry.yarnpkg.com/retypeapp/-/retypeapp-3.0.3.tgz#2d3b33bc56087a11804e29ab0519b8b23daf8e67"
-  integrity sha512-W5gNDz+a5uYvckyujfUytu6IjqX0t+Wih9cR7Mf2U8PQBdvcq0X+Dmda2kUut3dSqfeefgS9ffOVJgf58ZRQbw==
 
 reusify@^1.0.4:
   version "1.0.4"
@@ -10235,7 +10223,7 @@ ts-node@^10.9.1:
     v8-compile-cache-lib "^3.0.1"
     yn "3.1.1"
 
-tslib@1.14.1, tslib@^1.8.1, tslib@^1.9.0, tslib@^1.9.3:
+tslib@1.14.1, tslib@^1.8.1, tslib@^1.9.0:
   version "1.14.1"
   resolved "https://registry.npmjs.org/tslib/-/tslib-1.14.1.tgz"
   integrity sha512-Xni35NKzjgMrwevysHTCArtLDpPvye8zV/0E4EyYn43P7/7qvQwPh9BGkHewbMulVntbigmcT7rdX3BNo9wRJg==
