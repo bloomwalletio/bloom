@@ -19,7 +19,7 @@ const {
 } = require('electron')
 const path = require('path')
 const fs = require('fs')
-const Keychain = require('./lib/keychain')
+const KeychainManager = require('./lib/keychainManager')
 const { initMenu, contextMenu } = require('./lib/menu')
 
 initialiseAnalytics()
@@ -390,10 +390,10 @@ ipcMain.handle('open-url', (_e, url) => {
 })
 
 // Keychain
-ipcMain.handle('keychain-getAll', (_e) => Keychain.getAll())
-ipcMain.handle('keychain-get', (_e, key) => Keychain.get(key))
-ipcMain.handle('keychain-set', (_e, key, content) => Keychain.set(key, content))
-ipcMain.handle('keychain-remove', (_e, key) => Keychain.remove(key))
+ipcMain.handle('keychain-getAll', (_e) => KeychainManager.getAll())
+ipcMain.handle('keychain-get', (_e, key) => KeychainManager.get(key))
+ipcMain.handle('keychain-set', (_e, key, content) => KeychainManager.set(key, content))
+ipcMain.handle('keychain-remove', (_e, key) => KeychainManager.remove(key))
 
 // Dialogs
 ipcMain.handle('show-open-dialog', (_e, options) => dialog.showOpenDialog(options))
