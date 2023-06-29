@@ -8941,11 +8941,6 @@ retry@^0.13.1:
   resolved "https://registry.npmjs.org/retry/-/retry-0.13.1.tgz"
   integrity sha512-XQBQ3I8W1Cge0Seh+6gjj03LbmRFWuoszgK9ooCpwYIrhhoO80pfq4cUkU5DkknwfOfFteRwlZ56PYOGYyFWdg==
 
-retypeapp@^3.0.0:
-  version "3.0.3"
-  resolved "https://registry.yarnpkg.com/retypeapp/-/retypeapp-3.0.3.tgz#2d3b33bc56087a11804e29ab0519b8b23daf8e67"
-  integrity sha512-W5gNDz+a5uYvckyujfUytu6IjqX0t+Wih9cR7Mf2U8PQBdvcq0X+Dmda2kUut3dSqfeefgS9ffOVJgf58ZRQbw==
-
 reusify@^1.0.4:
   version "1.0.4"
   resolved "https://registry.npmjs.org/reusify/-/reusify-1.0.4.tgz"
