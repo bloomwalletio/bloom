@@ -33,6 +33,8 @@
         <Button outline classes="w-full" onClick={onCancelClick}>
             {localize('actions.cancel')}
         </Button>
-        <Button classes="w-full" onClick={onConnectClick}>Connect</Button>
+        <Button classes="w-full" onClick={onConnectClick}>
+            {localize('actions.connect')}
+        </Button>
     </div>
 </div>

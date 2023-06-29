@@ -83,7 +83,9 @@
 
     <div class="right-button flex justify-end gap-2">
         {#if features?.wallet?.walletConnect?.enabled}
-            <Button onClick={onConnectClick} size={ButtonSize.Small}>Connect</Button>
+            <Button onClick={onConnectClick} size={ButtonSize.Small}>
+                {localize('actions.connect')}
+            </Button>
         {/if}
         {#if features?.network?.config?.enabled}
             <NetworkDrawerButton />
