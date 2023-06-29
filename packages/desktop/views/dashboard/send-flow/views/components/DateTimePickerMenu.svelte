@@ -1,7 +1,7 @@
 <script lang="ts">
     import { formatDate, localize } from '@core/i18n'
     import { TimePeriod } from '@core/utils'
-    import { HR, Modal, MenuItem, ExpirationDateTimePicker } from 'shared/components'
+    import { HR, Modal, MenuItem, ExpirationDateTimePicker } from '@ui'
     import { fade } from 'svelte/transition'
 
     export let value: Date

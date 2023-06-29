@@ -8,20 +8,20 @@
         "importsNotUsedAsValues": "remove",
         "lib": ["DOM", "ESNext"],
         "paths": {
-            "@auxiliary/*": ["../shared/lib/auxiliary/*"],
-            "@contexts/*": ["../shared/lib/contexts/*"],
+            "@auxiliary/*": ["../shared/src/lib/auxiliary/*"],
+            "@contexts/*": ["../shared/src/lib/contexts/*"],
             "@components": ["./components"],
-            "@core/*": ["../shared/lib/core/*"],
+            "@core/*": ["../shared/src/lib/core/*"],
             "@features/*": ["./features/*"],
-            "@lib/*": ["../shared/lib/*"],
+            "@lib/*": ["../shared/src/lib/*"],
             "@desktop/*": ["./lib/*"],
-            "@ui": ["../shared/components"],
-            "@ui/*": ["../shared/components/*"],
+            "@ui": ["../shared/src/components"],
+            "@ui/*": ["../shared/src/components/*"],
             "@views": ["./views"],
             "@views/*": ["./views/*"]
         },
         "types": ["node"]
     },
-    "include": ["./lib/**/*.ts", "../shared/lib/**/*.ts"],
+    "include": ["./lib/**/*.ts", "../shared/src/lib/**/*.ts"],
     "exclude": ["../**/tests"]
 }

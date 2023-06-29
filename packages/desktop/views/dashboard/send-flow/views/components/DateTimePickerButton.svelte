@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { Text, Icon } from 'shared/components'
+    import { Text, Icon } from '@ui'
     import { Icon as IconEnum } from '@auxiliary/icon'
     import { formatDate, localize } from '@core/i18n'
     import { TimePeriod } from '@core/utils'

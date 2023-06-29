@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { KeyValueBox, Text, TextHint, LedgerAnimation } from 'shared/components'
+    import { KeyValueBox, Text, TextHint, LedgerAnimation } from '@ui'
     import { localize } from '@core/i18n'
     import { formatHexString } from '@core/utils'
     import { onDestroy } from 'svelte'

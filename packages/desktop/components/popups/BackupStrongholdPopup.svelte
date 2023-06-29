@@ -1,6 +1,6 @@
 <script lang="ts">
     import { localize } from '@core/i18n'
-    import { Button, Logo, Text, ExportStrongholdButton, TextType } from 'shared/components'
+    import { Button, Logo, Text, ExportStrongholdButton, TextType } from '@ui'
     import { closePopup } from '@desktop/auxiliary/popup'
 
     const busy = false

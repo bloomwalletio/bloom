@@ -23,7 +23,7 @@
         Tabs,
         Text,
         TextType,
-    } from 'shared/components'
+    } from '@ui'
     import features from '@features/features'
 
     enum SendForm {

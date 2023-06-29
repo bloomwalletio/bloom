@@ -14,7 +14,7 @@ const settingsFeatures: ISettingsFeatures = {
             enabled: true,
         },
         crashReporting: {
-            enabled: true,
+            enabled: false,
         },
         deepLinks: {
             enabled: true,

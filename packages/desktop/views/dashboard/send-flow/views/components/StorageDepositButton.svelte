@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { Text, Icon, Modal, Toggle, FontWeight } from 'shared/components'
+    import { Text, Icon, Modal, Toggle, FontWeight } from '@ui'
     import { Icon as IconEnum } from '@auxiliary/icon'
     import { fade } from 'svelte/transition'
     import { formatTokenAmountPrecise } from '@core/wallet'

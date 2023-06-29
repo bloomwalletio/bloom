@@ -2,7 +2,7 @@
     import { Platform } from '@core/app'
     import { LoginRoute, loginRoute } from '@core/router'
     import { UpdateStrongholdRouterView } from '@views'
-    import { Transition } from 'shared/components'
+    import { Transition } from '@ui'
     import { EnterPinView, LoadProfileView, SelectProfileView } from './views'
     import features from '@features/features'
 

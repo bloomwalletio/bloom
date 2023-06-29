@@ -54,19 +54,23 @@
             ? transactionDetails.recipient.account.name
             : truncateString(transactionDetails.recipient?.address, 6, 6)
     $: expirationTimePicker?.setNull(giftStorageDeposit)
-    $: expirationDate, timelockDate, giftStorageDeposit, refreshSendConfirmationState()
     $: isTransferring = !!$selectedAccount.isTransferring
     $: isLayer2 = !!layer2Parameters?.networkAddress
+    $: isFromLayer2 =
+        transactionDetails.type === NewTransactionType.TokenTransfer ? !!transactionDetails.asset.chainId : false
+    $: expirationDate, timelockDate, giftStorageDeposit, refreshSendConfirmationState()
 
     function refreshSendConfirmationState(): void {
-        updateNewTransactionDetails({
-            type: transactionDetails.type,
-            expirationDate,
-            timelockDate,
-            giftStorageDeposit,
-            surplus,
-        })
-        void prepareTransactionOutput()
+        if (!isFromLayer2) {
+            updateNewTransactionDetails({
+                type: transactionDetails.type,
+                expirationDate,
+                timelockDate,
+                giftStorageDeposit,
+                surplus,
+            })
+            void prepareTransactionOutput()
+        }
     }
 
     function getInitialExpirationDate(): TimePeriod {
@@ -133,7 +137,9 @@
 
     onMount(async () => {
         try {
-            await calculateInitialOutput()
+            if (!isFromLayer2) {
+                await calculateInitialOutput()
+            }
             await _onMount()
         } catch (err) {
             handleError(err)
