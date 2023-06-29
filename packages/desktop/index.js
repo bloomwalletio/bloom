@@ -2,8 +2,6 @@ import App from './App.svelte'
 import { Electron } from './lib/electron'
 import { shouldReportError } from './electron/lib/errorHandling'
 
-const captureException = require('./sentry')(false).captureException || function (..._) {}
-
 window.addEventListener('error', (event) => {
     const errorType = '[Render Context] Error'
     const hasErrorMessage = event.error && event.error.message
@@ -11,7 +9,6 @@ window.addEventListener('error', (event) => {
 
     if (shouldReportError(error)) {
         Electron.unhandledException(errorType, error)
-        captureException(error)
     }
 
     event.preventDefault()
@@ -23,8 +20,7 @@ window.addEventListener('unhandledrejection', (event) => {
     const error = event.reason || event
 
     if (shouldReportError(error)) {
-        // Electron.unhandledException(errorType, event.reason || event)
-        captureException(error)
+        Electron.unhandledException(errorType, event.reason || event)
     }
 
     event.preventDefault()

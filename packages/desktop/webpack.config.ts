@@ -3,8 +3,6 @@ import CopyPlugin from 'copy-webpack-plugin'
 import { DefinePlugin, NormalModuleReplacementPlugin, ProvidePlugin } from 'webpack'
 import path from 'path'
 import sveltePreprocess from 'svelte-preprocess'
-import SentryWebpackPlugin from '@sentry/webpack-plugin'
-import { version } from './package.json'
 import features from './features/features'
 import { Configuration as WebpackConfiguration } from 'webpack'
 import { Configuration as WebpackDevServerConfiguration } from 'webpack-dev-server'
@@ -21,17 +19,15 @@ interface Configuration extends WebpackConfiguration {
 const mode: Mode = (process.env.NODE_ENV as Mode) || 'development'
 const prod = mode === 'production'
 const hardcodeNodeEnv = typeof process.env.HARDCODE_NODE_ENV !== 'undefined'
-const SENTRY = process.env.SENTRY === 'true'
 const stage = process.env.STAGE || 'alpha'
 /**
- * If stage = 'prod' -> 'Firefly'
- * If stage = 'alpha' -> 'Firefly Alpha'
+ * If stage = 'prod' -> 'Bloom'
+ * If stage = 'alpha' -> 'Bloom Alpha'
  */
-const appName =
-    stage === 'prod' ? 'Firefly Shimmer' : `Firefly Shimmer - ${stage.replace(/^\w/, (c) => c.toUpperCase())}`
-const appId = stage === 'prod' ? 'org.iota.firefly-shimmer' : `org.iota.firefly-shimmer.${stage}`
+const appName = stage === 'prod' ? 'Bloom' : `Bloom - ${stage.replace(/^\w/, (c) => c.toUpperCase())}`
+const appId = stage === 'prod' ? 'org.bloom-labs.bloom' : `org.bloom-labs.bloom.${stage}`
 
-const appProtocol = stage === 'prod' ? 'firefly' : `firefly-${stage.toLowerCase()}`
+const appProtocol = stage === 'prod' ? 'bloom' : `bloom-${stage.toLowerCase()}`
 
 // / ------------------------ Resolve ------------------------
 
@@ -139,9 +135,6 @@ const rendererRules = [
 const mainPlugins = [
     new DefinePlugin({
         PLATFORM_LINUX: JSON.stringify(process.platform === 'linux'),
-        SENTRY_DSN: JSON.stringify(process.env.SENTRY_DSN || ''),
-        SENTRY_MAIN_PROCESS: JSON.stringify(true),
-        SENTRY_ENVIRONMENT: JSON.stringify(stage),
         PRELOAD_SCRIPT: JSON.stringify(false),
         APP_NAME: JSON.stringify(appName),
         APP_ID: JSON.stringify(appId),
@@ -178,9 +171,6 @@ const rendererPlugins = [
         'process.env.PLATFORM': JSON.stringify(process.env.PLATFORM || 'desktop'),
         'process.env.STAGE': JSON.stringify(stage),
         features: JSON.stringify(features),
-        SENTRY_DSN: JSON.stringify(process.env.SENTRY_DSN || ''),
-        SENTRY_MAIN_PROCESS: JSON.stringify(false),
-        SENTRY_ENVIRONMENT: JSON.stringify(stage),
         PRELOAD_SCRIPT: JSON.stringify(false),
         'process.env.APP_PROTOCOL': JSON.stringify(appProtocol),
         'process.env.WALLETCONNECT_PROJECT_ID': JSON.stringify(process.env.WALLETCONNECT_PROJECT_ID),
@@ -197,28 +187,10 @@ const rendererPlugins = [
 const preloadPlugins = [
     new DefinePlugin({
         PLATFORM_LINUX: JSON.stringify(process.platform === 'linux'),
-        SENTRY_DSN: JSON.stringify(process.env.SENTRY_DSN || ''),
-        SENTRY_MAIN_PROCESS: JSON.stringify(false),
-        SENTRY_ENVIRONMENT: JSON.stringify(stage),
         PRELOAD_SCRIPT: JSON.stringify(true),
         APP_NAME: JSON.stringify(appName),
         'process.env.STAGE': JSON.stringify(stage),
         'process.env.APP_PROTOCOL': JSON.stringify(appProtocol),
-    }),
-]
-
-const sentryPlugins = [
-    new SentryWebpackPlugin({
-        authToken: process.env.SENTRY_AUTH_TOKEN,
-        include: '.',
-        release: `Firefly@${version}`,
-        ignoreFile: '.sentrycliignore',
-        org: 'iota-foundation-h4',
-        project: 'firefly-desktop',
-        finalize: false,
-        deploy: {
-            env: stage,
-        },
     }),
 ]
 
@@ -235,8 +207,8 @@ const webpackConfig: Configuration[] = [
             rules: rendererRules,
         },
         mode,
-        plugins: [...rendererPlugins, ...(SENTRY ? sentryPlugins : [])],
-        devtool: prod ? (SENTRY ? 'source-map' : false) : 'cheap-module-source-map',
+        plugins: rendererPlugins,
+        devtool: prod ? false : 'cheap-module-source-map',
         devServer: {
             hot: true,
             static: {
@@ -269,8 +241,8 @@ const webpackConfig: Configuration[] = [
             rules: mainRules,
         },
         mode,
-        plugins: [...mainPlugins, ...(SENTRY ? sentryPlugins : [])],
-        devtool: prod ? (SENTRY ? 'source-map' : false) : 'cheap-module-source-map',
+        plugins: mainPlugins,
+        devtool: prod ? false : 'cheap-module-source-map',
         optimization: {
             nodeEnv: hardcodeNodeEnv ? mode : false,
             minimize: true,
@@ -289,8 +261,8 @@ const webpackConfig: Configuration[] = [
             rules: mainRules,
         },
         mode,
-        plugins: [...preloadPlugins, ...(SENTRY ? sentryPlugins : [])],
-        devtool: prod ? (SENTRY ? 'source-map' : false) : 'cheap-module-source-map',
+        plugins: preloadPlugins,
+        devtool: prod ? false : 'cheap-module-source-map',
         optimization: {
             nodeEnv: hardcodeNodeEnv ? mode : false,
             minimize: true,
