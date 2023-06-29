@@ -229,7 +229,7 @@ const webpackConfig: Configuration[] = [
         target: 'electron-main',
         entry: {
             'build/main': ['./electron/main.ts'],
-            'build/lib/ledger.js': ['./electron/lib/ledger.js'],
+            'build/lib/ledger': ['./electron/lib/ledger.ts'],
         },
         externals: {
             '@ledgerhq/hw-transport-node-hid': 'commonjs @ledgerhq/hw-transport-node-hid',

@@ -12,25 +12,12 @@ import LedgerApi from './ledgerApi'
 import * as WalletApi from '@iota/wallet'
 import type { CreateAccountPayload, SyncOptions } from '@iota/wallet/out/types'
 import fs from 'fs'
-import SentryConstructor from '../sentry'
-import { CaptureContext } from '@sentry/types'
 
 interface PayloadType {
     accountStartIndex: number
     accountGapLimit: number
     addressGapLimit: number
     syncOptions: SyncOptions
-}
-
-const SEND_CRASH_REPORTS = process.argv.includes('--send-crash-reports=true')
-
-let captureException: (exception: unknown, captureContext?: CaptureContext) => string = () => {
-    throw new Error('Function not implemented')
-}
-
-if (SEND_CRASH_REPORTS) {
-    const Sentry = SentryConstructor(true)
-    captureException = Sentry.captureException
 }
 
 const profileManagers: { [id: string]: WalletApi.AccountManager } = {}
@@ -43,7 +30,7 @@ window.addEventListener('error', (event) => {
             stack: event.error.stack,
         })
     } else {
-        ipcRenderer.invoke('handle-error', '[Preload Context] Error', event.error || event)
+        void ipcRenderer.invoke('handle-error', '[Preload Context] Error', event.error || event)
     }
     event.preventDefault()
     console.error(event.error || event)

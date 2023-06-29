@@ -11,7 +11,6 @@ export default class AnalyticsManager {
     }
 
     private init(): void {
-        console.log('IPC Main', ipcMain)
         if (features.analytics.enabled && process.env.AMPLITUDE_API_KEY) {
             // Initialise Amplitude with API key
             init(process.env.AMPLITUDE_API_KEY, { logLevel: 0 })

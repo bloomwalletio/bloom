@@ -1,10 +1,10 @@
 // Modules to control application life and create native browser window
 import features from '@features/features'
-import { AnalyticsManager, AutoUpdateManager, NftDownloadManager } from './lib/managers'
+
 import { shouldReportError } from './lib/errorHandling'
 import { getMachineId } from './lib/machineId'
 import { getDiagnostics } from './lib/diagnostics'
-const {
+import {
     app,
     dialog,
     ipcMain,
@@ -14,12 +14,15 @@ const {
     session,
     utilityProcess,
     nativeTheme,
-} = require('electron')
-const path = require('path')
-const fs = require('fs')
-const { KeychainManager } = require('./lib/managers')
-const { initMenu } = require('./lib/menu/menu')
-const { contextMenu } = require('./lib/menu/context.menu')
+} from 'electron'
+import path from 'path'
+import fs from 'fs'
+import { initMenu } from './lib/menu/menu'
+import { contextMenu } from './lib/menu/context.menu'
+import AnalyticsManager from './lib/managers/analytics.manager'
+import AutoUpdateManager from './lib/managers/auto-update.manager'
+import KeychainManager from './lib/managers/keychain.manager'
+import NftDownloadManager from './lib/managers/nft-download.manager'
 
 new AnalyticsManager()
 
@@ -102,6 +105,7 @@ const paths = {
     aboutPreload: '',
     errorHtml: '',
     errorPreload: '',
+    ledger: '',
 }
 
 let versionDetails = {

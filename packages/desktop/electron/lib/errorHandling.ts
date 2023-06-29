@@ -4,11 +4,6 @@ const IGNORED_ERROR_REGEXES: RegExp[] = [
     /.*neon::event::Channel::send*/,
 ]
 
-/**
- *
- * @param error Error message
- * @returns boolean
- */
 export function shouldReportError(error: string): boolean {
     for (const regex of IGNORED_ERROR_REGEXES) {
         if (regex.test(error)) {

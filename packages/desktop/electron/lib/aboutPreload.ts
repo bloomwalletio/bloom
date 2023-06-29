@@ -1,5 +1,7 @@
 import { contextBridge, ipcRenderer } from 'electron'
-import { version, productName } from '../../package.json'
+import packageJson from '../../package.json'
+
+const { version, productName } = packageJson
 
 interface AboutData {
     appName: string
