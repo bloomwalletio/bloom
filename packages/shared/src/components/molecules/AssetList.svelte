@@ -1,12 +1,11 @@
 <script lang="ts">
     import VirtualList from '@sveltejs/svelte-virtual-list'
     import { TokenAmountTile, Text, TextType } from '@ui'
-    import { Filter } from '../../../../desktop/components' // TODO: refactor to match dependency platform
+    import { AssetListMenuButton, Filter } from '../../../../desktop/components' // TODO: refactor to match dependency platform
     import { localize } from '@core/i18n'
     import { assetFilter, AccountAssets, IAsset } from '@core/wallet'
     import { isVisibleAsset } from '@core/wallet/utils/isVisibleAsset'
     import { openPopup, PopupId } from '../../../../desktop/lib/auxiliary/popup'
-    import { AssetListMenuButton } from '../../../../desktop/components'
 
     export let assets: AccountAssets
 
