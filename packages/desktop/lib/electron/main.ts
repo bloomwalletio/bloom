@@ -189,7 +189,6 @@ function createMainWindow(): BrowserWindow {
     }
 
     const mainWindowState = windowStateKeeper('main', 'settings.json')
-    const window = new BrowserWindow({})
 
     // Create the browser window
     windows[Window.Main] = new BrowserWindow({
@@ -383,7 +382,6 @@ app.once('ready', () => {
 ipcMain.handle('open-url', (_e, url) => {
     handleNavigation(_e, url)
 })
-
 
 // Keychain
 const keychainManager = new KeychainManager()
@@ -629,7 +627,7 @@ export function closeErrorWindow(): void {
 }
 
 function windowStateKeeper(windowName: string, settingsFilename: string): IAppState {
-    let window
+    let window: BrowserWindow
     let windowState: IAppState
 
     function setBounds(): void {
@@ -641,7 +639,7 @@ function windowStateKeeper(windowName: string, settingsFilename: string): IAppSt
         }
 
         // Default
-        windowState = {
+        windowState = <IAppState>{
             x: undefined,
             y: undefined,
             width: 1280,
@@ -652,7 +650,7 @@ function windowStateKeeper(windowName: string, settingsFilename: string): IAppSt
     function saveState(): void {
         windowState.isMaximized = window.isMaximized()
         if (!windowState.isMaximized) {
-            windowState = window.getBounds()
+            windowState = window.getBounds() as IAppState
         }
 
         let settings = loadJsonConfig(settingsFilename)
@@ -664,9 +662,8 @@ function windowStateKeeper(windowName: string, settingsFilename: string): IAppSt
         saveJsonConfig(settingsFilename, settings)
     }
 
-    function track(win: unknown): void {
-        window = win
-        ;['resize', 'move', 'close'].forEach((event) => {
+    function track(win: BrowserWindow): void {
+        window = win[('resize', 'move', 'close')].forEach((event) => {
             win.on(event, saveState)
         })
     }
@@ -689,7 +686,8 @@ interface IAppState {
     width: number
     height: number
     isMaximized: boolean
-    track: boolean
+
+    track(window: BrowserWindow): void
 }
 
 function updateSettings(data: object): void {
