@@ -250,7 +250,7 @@ const webpackConfig: Configuration[] = [
     {
         target: 'electron-renderer',
         entry: {
-            'build/preload': ['./electron/preload.js'],
+            'build/preload': ['./electron/preload.ts'],
             'build/lib/aboutPreload': ['./electron/lib/aboutPreload.ts'],
             'build/lib/errorPreload': ['./electron/lib/errorPreload.ts'],
         },

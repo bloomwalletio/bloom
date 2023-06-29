@@ -6,18 +6,39 @@
  * https://www.electronjs.org/docs/latest/tutorial/sandbox
  */
 
-const { ipcRenderer, contextBridge } = require('electron')
-const ElectronApi = require('./electronApi')
-const LedgerApi = require('./ledgerApi')
-const WalletApi = require('@iota/wallet')
-const fs = require('fs')
+import { ipcRenderer, contextBridge } from 'electron'
+import ElectronApi from './electronApi'
+import LedgerApi from './ledgerApi'
+import * as WalletApi from '@iota/wallet'
+import type { CreateAccountPayload, SyncOptions } from '@iota/wallet/out/types'
+import fs from 'fs'
+import SentryConstructor from '../sentry'
+import { CaptureContext } from '@sentry/types'
 
-const profileManagers = {}
+interface PayloadType {
+    accountStartIndex: number
+    accountGapLimit: number
+    addressGapLimit: number
+    syncOptions: SyncOptions
+}
+
+const SEND_CRASH_REPORTS = process.argv.includes('--send-crash-reports=true')
+
+let captureException: (exception: unknown, captureContext?: CaptureContext) => string = () => {
+    throw new Error('Function not implemented')
+}
+
+if (SEND_CRASH_REPORTS) {
+    const Sentry = SentryConstructor(true)
+    captureException = Sentry.captureException
+}
+
+const profileManagers: { [id: string]: WalletApi.AccountManager } = {}
 
 // Hook the error handlers as early as possible
 window.addEventListener('error', (event) => {
     if (event.error && event.error.message) {
-        ipcRenderer.invoke('handle-error', '[Preload Context] Error', {
+        void ipcRenderer.invoke('handle-error', '[Preload Context] Error', {
             message: event.error.message,
             stack: event.error.stack,
         })
@@ -29,7 +50,7 @@ window.addEventListener('error', (event) => {
 })
 
 window.addEventListener('unhandledrejection', (event) => {
-    ipcRenderer.invoke('handle-error', '[Preload Context] Unhandled Rejection', event.reason)
+    void ipcRenderer.invoke('handle-error', '[Preload Context] Unhandled Rejection', event.reason)
     event.preventDefault()
     console.error(event.reason)
 })
@@ -38,7 +59,7 @@ try {
     if (process.env.STAGE === 'prod') {
         // empty
     } else {
-        ipcRenderer.invoke('get-path', 'userData').then(async (baseDir) => {
+        void ipcRenderer.invoke('get-path', 'userData').then(async (baseDir) => {
             const logDir = `${baseDir}/logs`
             if (!fs.existsSync(logDir)) {
                 fs.mkdirSync(logDir)
@@ -60,7 +81,7 @@ try {
     console.error('[Preload Context] Error:', err)
 }
 
-function deleteOldLogs(path, currentVersion) {
+function deleteOldLogs(path: string, currentVersion: string): void {
     const files = fs.readdirSync(path)
     const dayInMilliSeconds = 1000 * 60 * 60 * 24
 
@@ -68,7 +89,7 @@ function deleteOldLogs(path, currentVersion) {
         const filePath = path + '/' + file
         const stat = fs.statSync(filePath)
 
-        const isOlderThan30Days = new Date() - new Date(stat.mtime) > 30 * dayInMilliSeconds
+        const isOlderThan30Days = new Date().getTime() - new Date(stat.mtime).getTime() > 30 * dayInMilliSeconds
         const version = file.match(/wallet-v((\w*.)*)-d((\w*.)*).log/)?.[1]
         const isDifferentVersion = version !== currentVersion
         if (isDifferentVersion || isOlderThan30Days) {
@@ -90,7 +111,7 @@ try {
             bindMethodsAcrossContextBridge(WalletApi.AccountManager.prototype, manager)
             return manager
         },
-        async createAccount(managerId, payload) {
+        async createAccount(managerId: string, payload: CreateAccountPayload) {
             const manager = profileManagers[managerId]
             const account = await manager.createAccount(payload)
             bindMethodsAcrossContextBridge(WalletApi.Account.prototype, account)
@@ -101,35 +122,40 @@ try {
                 delete profileManagers[id]
             }
         },
-        async getAccount(managerId, index) {
+        async getAccount(managerId: string, index: number) {
             const manager = profileManagers[managerId]
             const account = await manager.getAccount(index)
             bindMethodsAcrossContextBridge(WalletApi.Account.prototype, account)
             return account
         },
-        async getAccounts(managerId) {
+        async getAccounts(managerId: string) {
             const manager = profileManagers[managerId]
             const accounts = await manager.getAccounts()
             accounts.forEach((account) => bindMethodsAcrossContextBridge(WalletApi.Account.prototype, account))
             return accounts
         },
-        async recoverAccounts(managerId, payload) {
+        async recoverAccounts(managerId: string, payload: PayloadType) {
             const manager = profileManagers[managerId]
-            const accounts = await manager.recoverAccounts(...Object.values(payload))
+            const accounts = await manager.recoverAccounts(
+                payload.accountStartIndex,
+                payload.accountGapLimit,
+                payload.addressGapLimit,
+                payload.syncOptions
+            )
             accounts.forEach((account) => bindMethodsAcrossContextBridge(WalletApi.Account.prototype, account))
             return accounts
         },
-        async migrateStrongholdSnapshotV2ToV3(currentPath, newPath, currentPassword, newPassword) {
+        migrateStrongholdSnapshotV2ToV3(currentPath, newPath, currentPassword, newPassword) {
             return WalletApi.migrateStrongholdSnapshotV2ToV3(currentPath, newPath, currentPassword, newPassword)
         },
     })
     contextBridge.exposeInMainWorld('__ELECTRON__', ElectronApi)
     contextBridge.exposeInMainWorld('__LEDGER__', LedgerApi)
 } catch (err) {
-    ipcRenderer.invoke('handle-error', '[Preload Context] Error', err)
+    void ipcRenderer.invoke('handle-error', '[Preload Context] Error', err)
 }
 
-function bindMethodsAcrossContextBridge(prototype, object) {
+function bindMethodsAcrossContextBridge(prototype: unknown, object: object): void {
     const prototypeProperties = Object.getOwnPropertyNames(prototype)
     prototypeProperties.forEach((key) => {
         if (key !== 'constructor') {
