@@ -9,14 +9,26 @@
 
     export let drawerRouter: Router<unknown>
 
-    const contact = { ...$selectedContact }
-    const contactErrors = {
+    let contactName = $selectedContact.name
+    let contactNote = $selectedContact.note
+    let contactErrors = {
         name: '',
         note: '',
     }
 
+    $: contactName, contactNote, resetErrors()
+
+    function resetErrors(): void {
+        contactErrors = {
+            name: '',
+            note: '',
+        }
+    }
+
     function updateContact(): void {
+        resetErrors()
         try {
+            const contact = { ...$selectedContact, name: contactName, note: contactNote }
             ContactManager.validateContact(contact)
             ContactManager.updateContact($selectedContact.id, contact)
             showAppNotification({
@@ -39,8 +51,8 @@
 >
     <div class="h-full flex flex-col justify-between">
         <div class="flex flex-col justify-between gap-4">
-            <TextInput bind:value={contact.name} placeholder={localize('general.name')} error={contactErrors.name} />
-            <TextInput bind:value={contact.note} placeholder={localize('general.note')} error={contactErrors.note} />
+            <TextInput bind:value={contactName} placeholder={localize('general.name')} error={contactErrors.name} />
+            <TextInput bind:value={contactNote} placeholder={localize('general.note')} error={contactErrors.note} />
         </div>
         <Button onClick={updateContact}>{localize('actions.save')}</Button>
     </div>
