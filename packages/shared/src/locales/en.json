@@ -536,7 +536,8 @@
                 },
                 "contactBook": {
                     "contactList": {
-                        "title": "Contact list"
+                        "title": "Contact list",
+                        "addContact": "Add contact"
                     },
                     "contact": {
                         "title": "Contact Information"

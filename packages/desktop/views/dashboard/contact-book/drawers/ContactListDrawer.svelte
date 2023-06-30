@@ -24,8 +24,8 @@
     title={localize(`views.dashboard.drawers.contactBook.${ContactBookRoute.ContactList}.title`)}
     {drawerRouter}
 >
-    <div class="flex flex-col justify-between">
-        <div class="flex flex-col justify-between mb-6">
+    <div class="h-full flex flex-col justify-between">
+        <div class="flex flex-col justify-between gap-4 mb-6">
             {#each contacts as contact}
                 <ContactCard {contact} onCardClick={onContactClick} />
             {/each}
@@ -37,7 +37,7 @@
             on:click|stopPropagation={onAddContactClick}
         >
             <Icon icon={IconEnum.Plus} height={12} />
-            {localize(`views.dashboard.drawers.contactBook.${ContactBookRoute.ContactList}.title`)}
+            {localize(`views.dashboard.drawers.contactBook.${ContactBookRoute.ContactList}.addContact`)}
         </button>
     </div>
 </DrawerTemplate>
