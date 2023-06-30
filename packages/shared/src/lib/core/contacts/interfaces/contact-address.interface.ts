@@ -3,8 +3,7 @@
  */
 
 export interface IContactAddress {
-    id: string
-    contactId: string
-    alias: string
     address: string
+    addressName: string
+    contactId: string
 }

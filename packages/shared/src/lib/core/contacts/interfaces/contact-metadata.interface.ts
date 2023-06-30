@@ -6,6 +6,5 @@ export interface IContactMetadata {
     id: string
     name: string
     color: string
-    contactAddressIds: string[]
     note?: string
 }
