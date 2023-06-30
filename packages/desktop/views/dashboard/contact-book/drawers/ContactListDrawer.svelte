@@ -1,25 +1,30 @@
 <script lang="ts">
+    import { onMount } from 'svelte'
     import { localize } from '@core/i18n'
     import { DrawerTemplate, ContactCard } from '@components'
     import { Router } from '@core/router'
     import { ContactBookRoute } from '../contact-book-route.enum'
-    import { ContactManager, IContact, selectedContact } from '@core/contacts'
+    import { ContactManager, clearSelectedContact } from '@core/contacts'
     import { Icon } from '@ui'
     import { Icon as IconEnum } from '@auxiliary/icon'
+    import { IContact, setSelectedContact } from '@core/contacts'
 
     export let drawerRouter: Router<unknown>
 
     const contacts = ContactManager.listContacts()
 
     function onContactClick(contact: IContact): void {
-        selectedContact.set(contact)
-        // TODO: Replace this with ContactInformation once we can access the edit view through that
-        drawerRouter.goTo(ContactBookRoute.UpdateContact)
+        setSelectedContact(contact)
+        drawerRouter.goTo(ContactBookRoute.ContactInformation)
     }
 
     function onAddContactClick(): void {
         drawerRouter.goTo(ContactBookRoute.AddContact)
     }
+
+    onMount(() => {
+        clearSelectedContact()
+    })
 </script>
 
 <DrawerTemplate

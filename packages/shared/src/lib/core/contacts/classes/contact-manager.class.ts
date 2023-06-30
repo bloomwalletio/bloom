@@ -82,7 +82,7 @@ export class ContactManager {
             if (!profile.networkContactAddresses[networkId]) {
                 profile.networkContactAddresses[networkId] = {}
             }
-            profile.networkContactAddresses[networkId][contact.id] = contactAddress
+            profile.networkContactAddresses[networkId][contactAddress.address] = contactAddress
         }
         updateActiveProfile(profile)
     }

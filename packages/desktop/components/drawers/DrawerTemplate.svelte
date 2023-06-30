@@ -26,9 +26,13 @@
             </button>
         {/if}
 
-        <Text type={TextType.h4} classes="text-center">
-            {title}
-        </Text>
+        {#if $$slots.header}
+            <slot name="header" />
+        {:else}
+            <Text type={TextType.h4} classes="text-center">
+                {title}
+            </Text>
+        {/if}
     </drawer-header>
     <drawer-body class="flex-grow">
         <slot />

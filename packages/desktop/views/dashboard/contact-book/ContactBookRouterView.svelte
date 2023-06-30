@@ -8,17 +8,18 @@
         UpdateContactDrawer,
         RemoveContactDrawer,
     } from './drawers'
-    import { clearSelectedChain } from '@core/network'
     import { ContactBookRoute } from './contact-book-route.enum'
     import { ContactBookRouter, contactBookRouter, contactBookRoute } from './contact-book-router'
+    import { clearSelectedContact } from '@core/contacts'
 
     onMount(() => {
         $contactBookRouter = new ContactBookRouter()
     })
 
     onDestroy(() => {
+        $contactBookRouter.reset()
         $contactBookRouter = null
-        clearSelectedChain()
+        clearSelectedContact()
     })
 </script>
 
