@@ -665,7 +665,10 @@ function windowStateKeeper(windowName: string, settingsFilename: string): IAppSt
     }
 
     function track(win: BrowserWindow): void {
-        window = win[('resize', 'move', 'close')].forEach((event) => {
+        window = win
+        Array.from(['resized', 'moved', 'closed']).forEach((event) => {
+            /* eslint-disable @typescript-eslint/ban-ts-comment */
+            // @ts-ignore
             win.on(event, saveState)
         })
     }
