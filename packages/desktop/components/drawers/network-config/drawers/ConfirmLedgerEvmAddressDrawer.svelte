@@ -7,8 +7,8 @@
     import { Router } from '@core/router'
     import { DrawerRoute, NetworkConfigRoute, networkConfigRouter } from '@desktop/routers'
     import { Animation, Button, CopyableBox, FontWeight, Pane, Text, TextType } from '@ui'
+    import { DrawerTemplate } from '@components'
     import { onDestroy, onMount } from 'svelte'
-    import DrawerTemplate from './DrawerTemplate.svelte'
 
     export let drawerRouter: Router<DrawerRoute>
 

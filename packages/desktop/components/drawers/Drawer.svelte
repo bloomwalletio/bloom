@@ -6,6 +6,7 @@
     import { DrawerRoute } from '@desktop/routers'
     import { Icon as IconEnum } from '@auxiliary/icon'
     import { Icon } from '@ui'
+    import { ContactBookRouterView } from '@views/dashboard/contact-book'
 
     export let onClose: () => unknown = () => {}
 
@@ -71,6 +72,8 @@
             <div class="flex flex-col h-full">
                 {#if $drawerState.id === DrawerId.NetworkConfig}
                     <NetworkConfigDrawerRouter bind:drawerRoute bind:drawerRouter />
+                {:else if $drawerState.id === DrawerId.ContactBook}
+                    <ContactBookRouterView />
                 {/if}
             </div>
 

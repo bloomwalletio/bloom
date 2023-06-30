@@ -12,7 +12,7 @@ const walletFeatures: IWalletFeatures = {
         },
     },
     walletConnect: {
-        enabled: true,
+        enabled: false,
     },
     contactBook: {
         enabled: true,

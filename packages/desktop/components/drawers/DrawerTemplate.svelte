@@ -2,10 +2,9 @@
     import { Icon, Text, TextType } from '@ui'
     import { Router } from '@core/router'
     import { Icon as IconEnum } from '@auxiliary/icon'
-    import { DrawerRoute } from '@desktop/routers'
 
     export let title: string
-    export let drawerRouter: Router<DrawerRoute>
+    export let drawerRouter: Router<unknown>
 
     $: showBackButton = drawerRouter?.hasHistory()
 
