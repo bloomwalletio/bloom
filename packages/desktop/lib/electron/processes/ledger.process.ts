@@ -6,7 +6,7 @@
  * https://www.electronjs.org/docs/latest/tutorial/process-model#the-utility-process
  */
 
-import { closeTransport, getEvmAddress, openTransport, signTransactionData } from '../utils'
+import { closeTransport, getEvmAddress, openTransport, signTransactionData } from '../utils/ledger.utils'
 
 export interface ILedgerProcessMessage {
     error?: string | Error | unknown

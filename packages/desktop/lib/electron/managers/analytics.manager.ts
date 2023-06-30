@@ -4,7 +4,8 @@ import { Identify, identify, init, track } from '@amplitude/analytics-node'
 
 import features from '@features/features'
 
-import { getMachineId, getPlatformVersion } from '../utils'
+import { getPlatformVersion } from '../utils/diagnostics.utils'
+import { getMachineId } from '../utils/os.utils'
 
 export default class AnalyticsManager {
     constructor() {

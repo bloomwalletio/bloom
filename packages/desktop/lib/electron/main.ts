@@ -11,16 +11,22 @@ import {
     nativeTheme,
     PopupOptions,
 } from 'electron'
+import { WebPreferences } from 'electron/main'
 import path from 'path'
 import fs from 'fs'
 
 import features from '@features/features'
 
-import { contextMenu, initMenu } from './menus'
-import { getDiagnostics, getMachineId, shouldReportError } from './utils'
-import { AnalyticsManager, AutoUpdateManager, KeychainManager, NftDownloadManager } from './managers'
-import { ILedgerProcessMessage, LedgerMethod } from './processes'
-import { WebPreferences } from 'electron/main'
+import AnalyticsManager from './managers/analytics.manager'
+import AutoUpdateManager from './managers/auto-update.manager'
+import KeychainManager from './managers/keychain.manager'
+import NftDownloadManager from './managers/nft-download.manager'
+import { contextMenu } from './menus/context.menu'
+import { initMenu } from './menus/menu'
+import { ILedgerProcessMessage, LedgerMethod } from './processes/ledger.process'
+import { getDiagnostics } from './utils/diagnostics.utils'
+import { shouldReportError } from './utils/error.utils'
+import { getMachineId } from './utils/os.utils'
 
 new AnalyticsManager()
 
@@ -223,12 +229,12 @@ function createMainWindow(): BrowserWindow {
         // Enable dev tools only in developer mode
         windows[Window.Main].webContents.openDevTools()
 
-        windows[Window.Main].loadURL('http://localhost:8080')
+        void windows[Window.Main].loadURL('http://localhost:8080')
     } else {
         new AutoUpdateManager()
 
         // load the index.html of the app.
-        windows[Window.Main].loadFile(paths.html)
+        void windows[Window.Main].loadFile(paths.html)
     }
 
     new NftDownloadManager()

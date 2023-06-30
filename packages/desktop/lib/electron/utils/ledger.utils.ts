@@ -1,11 +1,11 @@
-import AppEth from '@ledgerhq/hw-app-eth'
-import TransportNodeHid from '@ledgerhq/hw-transport-node-hid'
-import { listen } from '@ledgerhq/logs'
-
 import { Common } from '@ethereumjs/common'
 import { RLP } from '@ethereumjs/rlp'
 import { Transaction, TxData } from '@ethereumjs/tx'
 import { bufArrToArr } from '@ethereumjs/util'
+
+import AppEth from '@ledgerhq/hw-app-eth'
+import TransportNodeHid from '@ledgerhq/hw-transport-node-hid'
+import { listen } from '@ledgerhq/logs'
 
 let transport: TransportNodeHid
 

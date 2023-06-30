@@ -22,6 +22,6 @@
         },
         "types": ["node"]
     },
-    "include": ["./lib/**/*.ts", "../shared/src/lib/**/*.ts", "./electron/**/*.ts"],
+    "include": ["./lib/**/*.ts", "../shared/src/lib/**/*.ts"],
     "exclude": ["../**/tests"]
 }
