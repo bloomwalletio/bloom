@@ -9,6 +9,7 @@
 import fs from 'fs'
 import { ipcRenderer, contextBridge } from 'electron'
 import * as IotaWalletApi from '@iota/wallet'
+import { LoggerConfig } from '@iota/wallet/types'
 
 import { ElectronApi, LedgerApi, WalletApi } from '../apis'
 
@@ -16,8 +17,8 @@ const dayInMilliSeconds = 1000 * 60 * 60 * 24
 const DAYS_TO_KEEP_LOGS = 30
 
 // Hook the error handlers as early as possible
-window.addEventListener('error', handleErrorEvent);
-window.addEventListener('unhandledrejection', handleUnhandledRejectionEvent);
+window.addEventListener('error', handleErrorEvent)
+window.addEventListener('unhandledrejection', handleUnhandledRejectionEvent)
 
 try {
     if (process.env.STAGE !== 'prod') {
@@ -72,7 +73,7 @@ function prepareLogDirectory(baseDir): string {
 async function getVersionAndInitLogger(logDir: string): Promise<void> {
     const versionDetails = await ipcRenderer.invoke('get-version-details')
     const today = new Date().toISOString().slice(0, 16).replace('T', '-').replace(':', '-')
-    const loggerOptions = {
+    const loggerOptions: LoggerConfig = {
         colorEnabled: true,
         name: `${logDir}/wallet-v${versionDetails.currentVersion}-d${today}.log`,
         levelFilter: 'debug',
@@ -89,7 +90,8 @@ function deleteOldLogs(path: string, currentVersion: string): void {
         const filePath = path + '/' + file
         const stat = fs.statSync(filePath)
 
-        const isOlderThan30Days = new Date().getTime() - new Date(stat.mtime).getTime() > DAYS_TO_KEEP_LOGS * dayInMilliSeconds
+        const isOlderThan30Days =
+            new Date().getTime() - new Date(stat.mtime).getTime() > DAYS_TO_KEEP_LOGS * dayInMilliSeconds
         const version = file.match(/wallet-v((\w*.)*)-d((\w*.)*).log/)?.[1]
         const isDifferentVersion = version !== currentVersion
         if (isDifferentVersion || isOlderThan30Days) {

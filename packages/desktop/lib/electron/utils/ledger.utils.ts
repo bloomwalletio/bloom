@@ -4,7 +4,7 @@ import { listen } from '@ledgerhq/logs'
 
 import { Common } from '@ethereumjs/common'
 import { RLP } from '@ethereumjs/rlp'
-import { Transaction } from '@ethereumjs/tx'
+import { Transaction, TxData } from '@ethereumjs/tx'
 import { bufArrToArr } from '@ethereumjs/util'
 
 let transport: TransportNodeHid
@@ -46,7 +46,7 @@ export async function signTransactionData(data: TxData, bip32Path: string): Prom
     const serializedUnsignedTransaction = Buffer.from(RLP.encode(bufArrToArr(unsignedTransaction)))
 
     try {
-        const signature = await appEth.signTransaction(bip32Path, serializedUnsignedTransaction, null)
+        const signature = await appEth.signTransaction(bip32Path, serializedUnsignedTransaction.toString('hex'), null)
         const signedTransactionObject = Transaction.fromTxData(
             {
                 ...data,

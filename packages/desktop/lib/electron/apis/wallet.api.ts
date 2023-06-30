@@ -13,7 +13,7 @@ const profileManagers: { [id: string]: WalletApi.AccountManager } = {}
 export default {
     createAccountManager(id: string, options: unknown): unknown {
         const manager = new WalletApi.AccountManager(options)
-        manager.id = id
+        manager['id'] = id
         profileManagers[id] = manager
         bindMethodsAcrossContextBridge(WalletApi.AccountManager.prototype, manager)
         return manager
@@ -52,7 +52,17 @@ export default {
         accounts.forEach((account) => bindMethodsAcrossContextBridge(WalletApi.Account.prototype, account))
         return accounts
     },
-    migrateStrongholdSnapshotV2ToV3(currentPath: string, newPath: string, currentPassword: string, newPassword: string): unknown {
+    migrateStrongholdSnapshotV2ToV3(
+        currentPath: string,
+        newPath: string,
+        currentPassword: string,
+        newPassword: string
+    ): unknown {
+        /*
+         * NOTE: Ignored because code not released yet.
+         */
+        /* eslint-disable @typescript-eslint/ban-ts-comment */
+        // @ts-ignore
         return WalletApi.migrateStrongholdSnapshotV2ToV3(currentPath, newPath, currentPassword, newPassword)
     },
 }

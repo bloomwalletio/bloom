@@ -24,11 +24,11 @@ import { WebPreferences } from 'electron/main'
 
 new AnalyticsManager()
 
-/**
- * Set AppUserModelID for Windows notifications functionality
+/*
+ * NOTE: Ignored because defined by Webpack.
  */
-// APP_ID is replaced by Webpack
-// eslint-disable-next-line no-undef
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+// @ts-ignore
 app.setAppUserModelId(APP_ID)
 
 /**
@@ -39,6 +39,8 @@ const flagBlocklist = ['inspect', 'inspect-brk', 'remote-debugging-port']
 if (
     argv.includes('inspect') ||
     argv.includes('remote') ||
+    /* eslint-disable @typescript-eslint/ban-ts-comment */
+    // @ts-ignore
     typeof v8debug !== 'undefined' ||
     flagBlocklist.some((flag) => app.commandLine.hasSwitch(flag))
 ) {
@@ -631,7 +633,7 @@ function windowStateKeeper(windowName: string, settingsFilename: string): IAppSt
     let windowState: IAppState
 
     function setBounds(): void {
-        const settings = loadJsonConfig(settingsFilename)
+        const settings = <ISettings>loadJsonConfig(settingsFilename)
 
         if (settings && settings.windowState && settings.windowState[windowName]) {
             windowState = settings.windowState[windowName]
@@ -653,10 +655,10 @@ function windowStateKeeper(windowName: string, settingsFilename: string): IAppSt
             windowState = window.getBounds() as IAppState
         }
 
-        let settings = loadJsonConfig(settingsFilename)
+        let settings = loadJsonConfig(settingsFilename) as ISettings
 
-        settings = settings || {}
-        settings.windowState = settings.windowState || {}
+        settings = settings || <ISettings>{}
+        settings.windowState = settings.windowState || <IAppState>{}
         settings.windowState[windowName] = windowState
 
         saveJsonConfig(settingsFilename, settings)
@@ -678,6 +680,10 @@ function windowStateKeeper(windowName: string, settingsFilename: string): IAppSt
         isMaximized: windowState.isMaximized,
         track,
     }
+}
+
+interface ISettings {
+    windowState: IAppState
 }
 
 interface IAppState {
