@@ -1,6 +1,6 @@
 export { default as AddContactDrawer } from './AddContactDrawer.svelte'
 export { default as AddNetworkAddressDrawer } from './AddNetworkAddressDrawer.svelte'
-export { default as ContactDrawer } from './ContactDrawer.svelte'
+export { default as ContactInformationDrawer } from './ContactInformationDrawer.svelte'
 export { default as ContactListDrawer } from './ContactListDrawer.svelte'
 export { default as RemoveContactDrawer } from './RemoveContactDrawer.svelte'
 export { default as UpdateContactDrawer } from './UpdateContactDrawer.svelte'

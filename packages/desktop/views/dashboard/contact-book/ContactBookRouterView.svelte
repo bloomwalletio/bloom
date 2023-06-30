@@ -1,8 +1,8 @@
 <script lang="ts">
     import { onDestroy, onMount } from 'svelte'
     import {
+        ContactInformationDrawer,
         ContactListDrawer,
-        ContactDrawer,
         AddContactDrawer,
         AddNetworkAddressDrawer,
         UpdateContactDrawer,
@@ -28,8 +28,8 @@
     <AddContactDrawer drawerRouter={$contactBookRouter} />
 {:else if $contactBookRoute === ContactBookRoute.AddNetworkAddress}
     <AddNetworkAddressDrawer drawerRouter={$contactBookRouter} />
-{:else if $contactBookRoute === ContactBookRoute.Contact}
-    <ContactDrawer drawerRouter={$contactBookRouter} />
+{:else if $contactBookRoute === ContactBookRoute.ContactInformation}
+    <ContactInformationDrawer drawerRouter={$contactBookRouter} />
 {:else if $contactBookRoute === ContactBookRoute.UpdateContact}
     <UpdateContactDrawer drawerRouter={$contactBookRouter} />
 {:else if $contactBookRoute === ContactBookRoute.RemoveContact}

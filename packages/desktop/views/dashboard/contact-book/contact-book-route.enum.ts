@@ -1,6 +1,6 @@
 export enum ContactBookRoute {
     ContactList = 'contactList',
-    Contact = 'contact',
+    ContactInformation = 'contactInformation',
     AddContact = 'addContact',
     UpdateContact = 'updateContact',
     RemoveContact = 'removeContact',

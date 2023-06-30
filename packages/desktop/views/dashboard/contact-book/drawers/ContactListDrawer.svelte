@@ -12,7 +12,7 @@
     const contacts = ContactManager.listContacts()
 
     function onContactClick(): void {
-        drawerRouter.goTo(ContactBookRoute.Contact)
+        drawerRouter.goTo(ContactBookRoute.ContactInformation)
     }
 
     function onAddContactClick(): void {

@@ -539,7 +539,7 @@
                         "title": "Contact list",
                         "addContact": "Add contact"
                     },
-                    "contact": {
+                    "contactInformation": {
                         "title": "Contact Information"
                     },
                     "addContact": {
