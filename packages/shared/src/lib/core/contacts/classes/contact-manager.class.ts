@@ -1,7 +1,13 @@
 import { getActiveProfile, updateActiveProfile } from '@core/profile/stores'
 import { generateRandomId } from '@core/utils'
 import { getIconColorFromString } from '@core/account/utils'
-import type { IContactAddress, IContact, IContactMetadata } from '../interfaces'
+import type {
+    IContactAddress,
+    IContact,
+    IContactMetadata,
+    IContactAddressMap,
+    INetworkContactAddressMap,
+} from '../interfaces'
 
 export class ContactManager {
     static getContact(contactId: string): IContact {
@@ -30,6 +36,7 @@ export class ContactManager {
     }
 
     static updateContact(contactId: string, payload: Partial<IContactMetadata>): void {
+        const profile = getActiveProfile()
         const contact = ContactManager.getContact(contactId)
 
         if (contact) {
@@ -40,30 +47,28 @@ export class ContactManager {
     }
 
     static deleteContact(contactId: string): void {
+        const profile = getActiveProfile()
         const contact = ContactManager.getContact(contactId)
 
         if (contact) {
             Object.keys(profile.networkContactAddresses).forEach((networkId) => {
-                ContactManager.deleteContractAddresses(contact, networkId)
+                ContactManager.deleteContactAddresses(contactId, networkId)
             })
         }
         delete profile.contacts?.[contactId]
     }
 
-    static listContacts(): IContactMetadata[] {
-        return Object.entries(profile.contacts)
+    static listContacts(): IContact[] {
+        const profile = getActiveProfile()
+        return Object.values(profile.contacts)
     }
 
-    static addContactAddress(
-        contactId: string,
-        networkId: string,
-        addressName: string,
-        address: string
-    ): IContactAddress {
+    static addContactAddress(contactId: string, networkId: string, addressName: string, address: string): void {
+        const profile = getActiveProfile()
         const contact = ContactManager.getContact(contactId)
 
         if (contact) {
-            contact.address.push(address)
+            contact.addresses.push(address)
             const contactAddress: IContactAddress = {
                 address,
                 contactId: contact.id,
@@ -82,19 +87,48 @@ export class ContactManager {
 
     // TODO: do we need to expose this?
     static deleteContactAddresses(contactId: string, networkId: string): void {
+        const profile = getActiveProfile()
         const contact = ContactManager.getContact(contactId)
 
         contact.addresses.forEach((address) => {
             delete profile.networkContactAddresses?.[networkId]?.[address]
         })
     }
-    static listContactAddresses(contactId: string): string[] {
+
+    static getNetworkContactAddressMapForContact(contactId: string): INetworkContactAddressMap {
+        const profile = getActiveProfile()
         const contact = ContactManager.getContact(contactId)
-        return contact.addresses ?? []
+        const addresses = contact.addresses
+        const filteredMap = filterNetworkContactAddressMap(profile.networkContactAddresses, addresses)
+        return filteredMap
     }
 
-    static listContactAddressesForNetwork(networkId: string): IContactAddressMap {
+    static listContactAddressesForNetwork(networkId: string): IContactAddress[] {
         const profile = getActiveProfile()
-        return profile.networkContactAddresses[networkId]
+        return Object.values(profile.networkContactAddresses[networkId] ?? {})
     }
+}
+
+function filterNetworkContactAddressMap(
+    networkContactAddressMap: INetworkContactAddressMap,
+    addresses: string[]
+): INetworkContactAddressMap {
+    const filteredNetworkContactAddressMap: INetworkContactAddressMap = {}
+
+    for (const networkId in networkContactAddressMap) {
+        const contactAddressMap: IContactAddressMap = networkContactAddressMap[networkId]
+        const filteredContactAddressMap: IContactAddressMap = {}
+
+        for (const address in contactAddressMap) {
+            if (addresses.includes(address)) {
+                filteredContactAddressMap[address] = contactAddressMap[address]
+            }
+        }
+
+        if (Object.keys(filteredContactAddressMap).length > 0) {
+            filteredNetworkContactAddressMap[networkId] = filteredContactAddressMap
+        }
+    }
+
+    return filteredNetworkContactAddressMap
 }
