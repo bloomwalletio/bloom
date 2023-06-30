@@ -5,6 +5,8 @@
     import { isIscpChain } from '@core/network'
     import type { ChainConfiguration } from '@core/network'
 
+    export let networkSelection: { networkId: string; address?: string } | undefined
+
     export let iscpChainAddress: string | undefined = undefined
     export let showLayer2: boolean = false
 
@@ -23,6 +25,7 @@
     let selected: IOption = networkOptions?.find((option) => option.value === iscpChainAddress) ?? layer1Network
 
     $: iscpChainAddress = selected?.value
+    $: networkSelection = selected?.key ? { networkId: selected.key, address: selected.value } : undefined
 
     function getNetworkOptions(showLayer2: boolean): IOption[] {
         let layer2Networks: IOption[] = []
