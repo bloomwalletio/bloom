@@ -14,6 +14,9 @@ const walletFeatures: IWalletFeatures = {
     walletConnect: {
         enabled: true,
     },
+    contactBook: {
+        enabled: true,
+    },
     assets: {
         enabled: true,
         burnAsset: {
