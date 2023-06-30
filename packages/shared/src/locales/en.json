@@ -1625,6 +1625,7 @@
         "metadata": "Metadata",
         "amountConsolidatedInputs": "Consolidated outputs",
         "name": "Name",
+        "note": "Note",
         "tag": "Tag",
         "nodeList": "Node list",
         "claimedIn": "Claimed in",
@@ -1884,6 +1885,9 @@
         },
         "stopVoting": {
             "success": "Voting successfully stopped"
+        },
+        "updateContact": {
+            "success": "Contact successfully updated"
         }
     },
     "error": {
@@ -2117,6 +2121,11 @@
         "erc20Token": {
             "invalidAddressFormat": "Must be hexadecimal format",
             "invalidAddressLength": "Length is invalid"
+        },
+        "contacts": {
+            "nameRequired": "Name is required",
+            "nameTooLong": "Name must be less than 20 characters long",
+            "noteTooLong": "Note must be less than 1000 characters long"
         }
     },
     "warning": {

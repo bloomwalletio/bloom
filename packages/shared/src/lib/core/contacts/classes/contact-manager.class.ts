@@ -8,6 +8,7 @@ import type {
     IContactAddressMap,
     INetworkContactAddressMap,
 } from '../interfaces'
+import { localize } from '@core/i18n'
 
 export class ContactManager {
     static getContact(contactId: string): IContact {
@@ -45,6 +46,7 @@ export class ContactManager {
         } else {
             throw new Error(`Profile with contact ID ${contactId} doesn't exist!`)
         }
+        updateActiveProfile(profile)
     }
 
     static deleteContact(contactId: string): void {
@@ -57,6 +59,7 @@ export class ContactManager {
             })
         }
         delete profile.contacts?.[contactId]
+        updateActiveProfile(profile)
     }
 
     static listContacts(): IContact[] {
@@ -81,6 +84,7 @@ export class ContactManager {
             }
             profile.networkContactAddresses[networkId][contact.id] = contactAddress
         }
+        updateActiveProfile(profile)
     }
 
     // TODO: This requires previous address information to be submitted.
@@ -94,6 +98,7 @@ export class ContactManager {
         contact.addresses.forEach((address) => {
             delete profile.networkContactAddresses?.[networkId]?.[address]
         })
+        updateActiveProfile(profile)
     }
 
     static getNetworkContactAddressMapForContact(contactId: string): INetworkContactAddressMap {
@@ -107,6 +112,29 @@ export class ContactManager {
     static listContactAddressesForNetwork(networkId: string): IContactAddress[] {
         const profile = getActiveProfile()
         return Object.values(profile.networkContactAddresses[networkId] ?? {})
+    }
+
+    static validateContact(contact: IContactMetadata): void {
+        const errors = {
+            name: '',
+            note: '',
+        }
+
+        if (!contact.name) {
+            errors.name = localize('error.contacts.nameRequired')
+        } else if (contact.name.length >= 20) {
+            errors.name = localize('error.contacts.nameTooLong')
+        }
+
+        if (contact.note && contact.note.length > 1000) {
+            errors.note = localize('error.contacts.noteTooLong')
+        }
+
+        const hasAnyErrors = Object.values(errors).some((error) => !!error)
+
+        if (hasAnyErrors) {
+            throw errors
+        }
     }
 }
 

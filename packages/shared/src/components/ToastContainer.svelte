@@ -12,7 +12,7 @@
 </script>
 
 {#if $notifications?.length > 0}
-    <toast-container class={`flex flex-col z-20 ${classes}`} transition:fade|local={{ duration: fadeDuration }}>
+    <toast-container class={`flex flex-col z-50 ${classes}`} transition:fade|local={{ duration: fadeDuration }}>
         <ul class="space-y-2">
             {#each $notifications as toast (toast.id)}
                 <li transition:fade|local={{ duration: fadeDuration }}>

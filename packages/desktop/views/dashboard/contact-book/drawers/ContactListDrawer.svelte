@@ -3,7 +3,7 @@
     import { DrawerTemplate, ContactCard } from '@components'
     import { Router } from '@core/router'
     import { ContactBookRoute } from '../contact-book-route.enum'
-    import { ContactManager } from '@core/contacts'
+    import { ContactManager, IContact, selectedContact } from '@core/contacts'
     import { Icon } from '@ui'
     import { Icon as IconEnum } from '@auxiliary/icon'
 
@@ -11,8 +11,10 @@
 
     const contacts = ContactManager.listContacts()
 
-    function onContactClick(): void {
-        drawerRouter.goTo(ContactBookRoute.ContactInformation)
+    function onContactClick(contact: IContact): void {
+        selectedContact.set(contact)
+        // TODO: Replace this with ContactInformation once we can access the edit view through that
+        drawerRouter.goTo(ContactBookRoute.UpdateContact)
     }
 
     function onAddContactClick(): void {
@@ -27,7 +29,7 @@
     <div class="h-full flex flex-col justify-between">
         <div class="flex flex-col justify-between gap-4 mb-6">
             {#each contacts as contact}
-                <ContactCard {contact} onCardClick={onContactClick} />
+                <ContactCard {contact} onCardClick={() => onContactClick(contact)} />
             {/each}
         </div>
 

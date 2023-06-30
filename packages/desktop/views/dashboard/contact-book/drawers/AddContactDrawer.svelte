@@ -19,6 +19,8 @@
         const networkAddress = { networkId: networkSelection?.networkId, addressName, address }
 
         ContactManager.addContact(contact, networkAddress)
+
+        drawerRouter.previous()
     }
 </script>
 
