@@ -9,6 +9,8 @@ export const DEFAULT_PERSISTED_PROFILE_OBJECT: IPersistedProfile = {
     name: '',
     type: ProfileType.Software,
     network: undefined,
+    contacts: {},
+    networkContactAddresses: {},
     lastStrongholdBackupTime: undefined,
     settings: {
         marketCurrency: DEFAULT_MARKET_CURRENCY,

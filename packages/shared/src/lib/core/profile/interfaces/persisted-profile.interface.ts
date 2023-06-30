@@ -4,7 +4,7 @@ import { INft } from '@core/nfts'
 import { StrongholdVersion } from '@core/stronghold/enums'
 import { ProfileType } from '../enums'
 import { IProfileSettings } from './profile-settings.interface'
-import { IContactMetadataMap, INetworkContactAddressMap } from '@core/contacts/interfaces'
+import { IContactMap, INetworkContactAddressMap } from '@core/contacts/interfaces'
 
 export interface IPersistedProfile {
     id: string
@@ -16,7 +16,7 @@ export interface IPersistedProfile {
     accountPersistedData: {
         [accountId: string]: IPersistedAccountData
     }
-    contacts: IContactMetadataMap
+    contacts: IContactMap
     networkContactAddresses: INetworkContactAddressMap
     isDeveloperProfile: boolean
     hasVisitedDashboard?: boolean
