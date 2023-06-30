@@ -21,10 +21,11 @@ export class ContactManager {
     ): void {
         const profile = getActiveProfile()
 
+        const id = generateRandomId()
         const contact: IContact = {
-            id: generateRandomId(),
+            id,
             name,
-            color: getIconColorFromString(),
+            color: getIconColorFromString(id),
             addresses: [],
             note,
         }
