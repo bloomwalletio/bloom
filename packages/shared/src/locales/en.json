@@ -453,6 +453,7 @@
                 "referencedRate": "Referenced rate"
             },
             "profileModal": {
+                "contactBook": "Contact book",
                 "allSettings": "All settings",
                 "profileApplication": "Profile, application, security",
                 "logout": "Log out",
@@ -531,6 +532,26 @@
                     },
                     "removeChain": {
                         "title": "Remove chain"
+                    }
+                },
+                "contactBook": {
+                    "contactList": {
+                        "title": "Contact list"
+                    },
+                    "contact": {
+                        "title": "Contact Information"
+                    },
+                    "addContact": {
+                        "title": "Add contact"
+                    },
+                    "updateContact": {
+                        "title": "Update contact"
+                    },
+                    "removeContact": {
+                        "title": "Remove contact"
+                    },
+                    "addNetworkAddress": {
+                        "title": "Add network address"
                     }
                 }
             }

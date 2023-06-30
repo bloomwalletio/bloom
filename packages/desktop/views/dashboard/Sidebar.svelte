@@ -1,6 +1,6 @@
 <script lang="ts">
     import { Icon as IconEnum, NETWORK_ICON_SVG } from '@auxiliary/icon'
-    import { SidebarTab } from '@components'
+    import { ProfileActions, SidebarTab } from '@components'
     import { appVersionDetails } from '@core/app/stores'
     import { localize } from '@core/i18n'
     import { activeProfile } from '@core/profile/stores'
@@ -8,7 +8,7 @@
     import { isRecentDate } from '@core/utils'
     import { ISidebarTab } from '@desktop/routers'
     import features from '@features/features'
-    import { Icon, Modal, NotificationBadge, ProfileActionsModal, ProfilePicture } from '@ui'
+    import { Icon, Modal, NotificationBadge, ProfilePicture } from '@ui'
 
     let profileModal: Modal
 
@@ -122,7 +122,7 @@
             </button>
         </div>
     </nav>
-    <ProfileActionsModal bind:modal={profileModal} />
+    <ProfileActions bind:modal={profileModal} />
 </aside>
 
 <style type="text/scss">
