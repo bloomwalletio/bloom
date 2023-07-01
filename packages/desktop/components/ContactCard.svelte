@@ -9,7 +9,7 @@
 
 <ClickableTile classes="bg-white border border-solid border-gray-200 dark:border-transparent" onClick={onCardClick}>
     <div class="w-full flex flex-col gap-5">
-        <Text type={TextType.h4} fontWeight={FontWeight.semibold}>
+        <Text type={TextType.h4} fontWeight={FontWeight.semibold} classes="truncate">
             {contact.name}
         </Text>
     </div>

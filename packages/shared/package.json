@@ -5,7 +5,7 @@
     "author": "Charlie Varley <charlie@bloomwallet.io>",
     "license": "Apache-2.0",
     "dependencies": {
-        "@bloom-labs/ui": "^0.1.12",
+        "@bloom-labs/ui": "^0.1.15",
         "@iota/bundle": "^1.0.0-beta.30",
         "@iota/converter": "^1.0.0-beta.30",
         "@iota/crypto.js": "^1.8.6",
