@@ -87,15 +87,33 @@ export class ContactManager {
         updateActiveProfile(profile)
     }
 
-    // TODO: This requires previous address information to be submitted.
-    // static updateContactAddress(contactId: string, networkId: string, payload: Partial<IContactAddress>): void {}
-
-    // TODO: do we need to expose this?
-    static deleteContactAddresses(contactId: string, networkId: string): void {
+    static updateContactAddresses(contactId: string, networkId: string, addresses: { contactId: string, addressName: string, address: string }[]): void {
         const profile = getActiveProfile()
         const contact = ContactManager.getContact(contactId)
 
-        contact.addresses.forEach((address) => {
+        if (contact) {
+            addresses.forEach(({ addressName, address }) => {
+                const contactAddress: IContactAddress = {
+                    address,
+                    contactId: contact.id,
+                    addressName,
+                }
+
+                if (!profile.networkContactAddresses[networkId]) {
+                    profile.networkContactAddresses[networkId] = {}
+                }
+                profile.networkContactAddresses[networkId][contactAddress.address] = contactAddress
+            })
+        }
+        updateActiveProfile(profile)
+    }
+
+    static deleteContactAddresses(contactId: string, networkId: string, addresses?: string[]): void {
+        const profile = getActiveProfile()
+        const contact = ContactManager.getContact(contactId)
+        const addressesToDelete = addresses ?? contact.addresses
+
+        addressesToDelete.forEach((address) => {
             delete profile.networkContactAddresses?.[networkId]?.[address]
         })
         updateActiveProfile(profile)
