@@ -104,6 +104,7 @@ export class ContactManager {
                 }
                 profile.networkContactAddresses[networkId][contactAddress.address] = contactAddress
             })
+            contact.addresses = addresses.map(({ address }) => address)
         }
         updateActiveProfile(profile)
     }
@@ -114,6 +115,7 @@ export class ContactManager {
         const addressesToDelete = addresses ?? contact.addresses
 
         addressesToDelete.forEach((address) => {
+            contact.addresses.splice(contact.addresses.indexOf(address), 1)
             delete profile.networkContactAddresses?.[networkId]?.[address]
         })
         updateActiveProfile(profile)
