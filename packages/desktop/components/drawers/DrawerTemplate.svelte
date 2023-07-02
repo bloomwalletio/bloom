@@ -15,7 +15,7 @@
     }
 </script>
 
-<drawer-template class="flex flex-col h-full space-y-6">
+<drawer-template class="flex flex-col h-full space-y-6 overflow-hidden">
     <drawer-header class="flex flex-row items-center gap-2">
         {#if showBackButton}
             <button on:click={onBackClick} class=" focus:text-blue-500">
@@ -34,7 +34,10 @@
             </Text>
         {/if}
     </drawer-header>
-    <drawer-body class="flex-grow">
+    <drawer-body class="flex-grow overflow-auto">
         <slot />
     </drawer-body>
+    <drawer-footer class="w-full self-end">
+        <slot name="footer" />
+    </drawer-footer>
 </drawer-template>
