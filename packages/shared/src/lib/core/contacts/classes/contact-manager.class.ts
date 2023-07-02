@@ -9,6 +9,7 @@ import type {
     INetworkContactAddressMap,
 } from '../interfaces'
 import { localize } from '@core/i18n'
+import { selectedContact } from '../stores'
 
 export class ContactManager {
     static getContact(contactId: string): IContact {
@@ -43,6 +44,12 @@ export class ContactManager {
 
         if (contact) {
             profile.contacts[contactId] = { ...contact, ...payload }
+            selectedContact.update((selectedContact) => {
+                if (selectedContact) {
+                    return { ...selectedContact, ...payload }
+                }
+                return selectedContact
+            })
         } else {
             throw new Error(`Profile with contact ID ${contactId} doesn't exist!`)
         }
