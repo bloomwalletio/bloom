@@ -1,13 +1,17 @@
 <script lang="ts">
     import { onMount } from 'svelte'
-    import { localize } from '@core/i18n'
-    import { DrawerTemplate, ContactCard } from '@components'
-    import { Router } from '@core/router'
+
     import { ContactBookRoute } from '../contact-book-route.enum'
-    import { ContactManager, clearSelectedContact } from '@core/contacts'
-    import { Icon } from '@ui'
+
+    import { Icon, Text } from '@ui'
+    import { FontWeight } from '@ui/enums'
+    import { DrawerTemplate, ContactCard } from '@components'
+
+    import { clearSelectedContact, ContactManager, IContact, setSelectedContact } from '@core/contacts'
+    import { localize } from '@core/i18n'
+    import { Router } from '@core/router'
+
     import { Icon as IconEnum } from '@auxiliary/icon'
-    import { IContact, setSelectedContact } from '@core/contacts'
 
     export let drawerRouter: Router<unknown>
 
@@ -31,20 +35,20 @@
     title={localize(`views.dashboard.drawers.contactBook.${ContactBookRoute.ContactList}.title`)}
     {drawerRouter}
 >
-    <div class="h-full flex flex-col justify-between">
-        <div class="flex flex-col justify-between gap-4 mb-6">
-            {#each contacts as contact}
-                <ContactCard {contact} onCardClick={() => onContactClick(contact)} />
-            {/each}
-        </div>
-
-        <button
-            type="button"
-            class="flex flex-row items-center justify-center w-full space-x-2 bg-transparent text-blue-500 px-8 py-3 text-15 rounded-lg"
-            on:click|stopPropagation={onAddContactClick}
-        >
-            <Icon icon={IconEnum.Plus} height={12} />
+    <contact-list class="flex flex-col justify-between gap-4 mb-6">
+        {#each contacts as contact}
+            <ContactCard {contact} onCardClick={() => onContactClick(contact)} />
+        {/each}
+    </contact-list>
+    <button
+        slot="footer"
+        type="button"
+        on:click={onAddContactClick}
+        class="w-full flex justify-center items-center text-blue-500 gap-2"
+    >
+        <Icon icon={IconEnum.Plus} width={12} height={12} />
+        <Text fontSize="14" fontWeight={FontWeight.semibold} classes="text-blue-500" overrideColor>
             {localize(`views.dashboard.drawers.contactBook.${ContactBookRoute.ContactList}.addContact`)}
-        </button>
-    </div>
+        </Text>
+    </button>
 </DrawerTemplate>
