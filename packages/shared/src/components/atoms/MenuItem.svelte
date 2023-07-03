@@ -86,7 +86,7 @@
 
             @each $variant, $color in $variants {
                 &.#{$variant} {
-                    @apply hover:bg-#{$color}-50;
+                    @apply hover:bg-#{$color}-50 hover:bg-#{$color}-800 dark:hover:bg-opacity-20;
                 }
             }
         }

@@ -30,7 +30,7 @@
         setSelectedNetworkId(networkId)
         drawerRouter.goTo(ContactBookRoute.UpdateNetworkAddresses)
     }
-    
+
     function onRemoveNetworkClick(networkId: string): void {
         setSelectedNetworkId(networkId)
         drawerRouter.goTo(ContactBookRoute.RemoveNetworkAddresses)
@@ -53,7 +53,9 @@
     }
 </script>
 
-<contact-address-card class="flex flex-col justify-between bg-white p-6 gap-4 border border-solid border-gray-200 rounded-xl">
+<contact-address-card
+    class="flex flex-col justify-between bg-gray-50 dark:bg-gray-900 p-6 gap-4 border border-solid border-gray-200 dark:border-transparent rounded-xl"
+>
     <contact-address-head class="flex justify-between">
         <div class="flex items-center gap-2">
             <NetworkIcon networkId={NetworkId.Testnet} />
@@ -63,15 +65,28 @@
             <MeatballMenuButton onClick={modal?.toggle} />
             <Modal bind:this={modal} position={{ right: '0' }} classes="mt-1.5">
                 <div class="flex flex-col">
-                    <MenuItem icon={IconEnum.Edit} title={'Edit network addresses'} onClick={() => onEditNetworkAddressesClick(networkId)} />
-                    <MenuItem icon={IconEnum.Delete} title={'Remove network'} onClick={() => onRemoveNetworkClick(networkId)} variant="error" />
+                    <MenuItem
+                        icon={IconEnum.Edit}
+                        title={'Edit network addresses'}
+                        onClick={() => onEditNetworkAddressesClick(networkId)}
+                    />
+                    <MenuItem
+                        icon={IconEnum.Delete}
+                        title={'Remove network'}
+                        onClick={() => onRemoveNetworkClick(networkId)}
+                        variant="error"
+                    />
                 </div>
             </Modal>
         </contact-address-menu>
     </contact-address-head>
     {#each Object.values(contactAddressMap) as contactAddress}
         <contact-address-item class="flex justify-between items-center gap-4">
-            <button type="button" class="flex flex-col flex-1 min-w-0 truncate" on:click={() => onAddressClick(contactAddress.address)}>
+            <button
+                type="button"
+                class="flex flex-col flex-1 min-w-0 truncate"
+                on:click={() => onAddressClick(contactAddress.address)}
+            >
                 <Text overrideColor classes="text-gray-600 text-left w-full truncate" fontWeight={FontWeight.medium}>
                     {contactAddress.addressName}
                 </Text>

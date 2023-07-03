@@ -16,7 +16,7 @@
 
     export let drawerRouter: Router<unknown>
 
-    let addresses: { contactId: string, addressName: string; address: string }[] = []
+    let addresses: { contactId: string; addressName: string; address: string }[] = []
     let addressesToRemove: string[] = []
 
     function updateNetworkAddresses(): void {
@@ -37,12 +37,12 @@
     }
 
     function onRemoveClick(indexToRemove: number): void {
-        addressesToRemove = [ ...addressesToRemove, addresses[indexToRemove].address ]
+        addressesToRemove = [...addressesToRemove, addresses[indexToRemove].address]
         addresses = addresses.filter((_, index) => index !== indexToRemove)
     }
 
     function onAddAddressClick(): void {
-        addresses = [ ...addresses, { contactId: $selectedContact.id, addressName: '', address: '' } ]
+        addresses = [...addresses, { contactId: $selectedContact.id, addressName: '', address: '' }]
     }
 
     onMount(() => {
@@ -57,7 +57,9 @@
 >
     <update-addresses class="flex flex-col gap-4">
         {#each addresses as _, index}
-            <div class="flex flex-col justify-between gap-2 p-4 border border-solid border-gray-300 rounded-lg">
+            <div
+                class="flex flex-col justify-between gap-2 p-4 border border-solid border-gray-300 rounded-lg dark:border-transparent dark:bg-gray-900"
+            >
                 <TextInput
                     bind:value={addresses[index].addressName}
                     placeholder={localize('general.addressName')}
@@ -68,7 +70,13 @@
                     placeholder={localize('general.address')}
                     label={localize('general.address')}
                 />
-                <Button outline size={ButtonSize.Small} variant={ButtonVariant.Warning} classes="flex-1" onClick={() => onRemoveClick(index)}>
+                <Button
+                    outline
+                    size={ButtonSize.Small}
+                    variant={ButtonVariant.Warning}
+                    classes="flex-1"
+                    onClick={() => onRemoveClick(index)}
+                >
                     {localize('actions.remove')}
                 </Button>
             </div>
