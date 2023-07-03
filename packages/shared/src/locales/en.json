@@ -540,19 +540,33 @@
                         "addContact": "Add contact"
                     },
                     "contactInformation": {
-                        "title": "Contact Information"
+                        "title": "Contact Information",
+                        "editContact": "Edit contact",
+                        "removeContact": "Remove contact",
+                        "addNetworkAddress": "Add network address"
                     },
                     "addContact": {
                         "title": "Add contact"
                     },
                     "updateContact": {
-                        "title": "Update contact"
+                        "title": "Update contact",
+                        "addAddress": "Add Address"
                     },
                     "removeContact": {
-                        "title": "Remove contact"
+                        "title": "Remove contact",
+                        "body": "Are you sure you want to remove this contact?",
+                        "hint": "Please note after removing a contact Bloom will show its actual addresses."
                     },
                     "addNetworkAddress": {
                         "title": "Add network address"
+                    },
+                    "updateNetworkAddresses": {
+                        "title": "Update network addresses"
+                    },
+                    "removeNetworkAddresses": {
+                        "title": "Remove network addresses",
+                        "body": "Are you sure you want to remove the contact’s {network} network addresses?",
+                        "hint": "Please note after removing a contact’s network addresses Bloom will no longer associate it with them in transactions or activities."
                     }
                 }
             }
@@ -1482,6 +1496,7 @@
         "and": "and",
         "receiveFunds": "Receive funds",
         "address": "Address",
+        "addressName": "Address name",
         "myAddress": "My address",
         "myNetworkAddress": "My {networkName} address",
         "shareAddress": "Share an address",
@@ -1888,6 +1903,9 @@
         },
         "updateContact": {
             "success": "Contact successfully updated"
+        },
+        "updateNetworkAddresses": {
+            "success": "Contact addresses successfully updated"
         }
     },
     "error": {
