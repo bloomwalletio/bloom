@@ -1,6 +1,6 @@
 <script lang="ts">
     import { Button, Text, MeatballMenuButton, MenuItem, Modal, NetworkIcon } from '@ui'
-    import { ButtonSize, FontWeight } from '@ui/enums'
+    import { ButtonSize, FontWeight, TextType } from '@ui/enums'
 
     import { IContactAddressMap, setSelectedNetworkId } from '@core/contacts'
     import { NetworkId } from '@core/network'
@@ -62,11 +62,12 @@
             <Text fontSize="text-16" fontWeight={FontWeight.semibold}>{networkId}</Text>
         </div>
         <contact-address-menu class="block relative">
-            <MeatballMenuButton onClick={modal?.toggle} />
+            <MeatballMenuButton onClick={modal?.toggle} classes="py-2" />
             <Modal bind:this={modal} position={{ right: '0' }} classes="mt-1.5">
                 <div class="flex flex-col">
                     <MenuItem
                         icon={IconEnum.Edit}
+                        iconProps={{ height: 18 }}
                         title={'Edit network addresses'}
                         onClick={() => onEditNetworkAddressesClick(networkId)}
                     />
@@ -90,7 +91,7 @@
                 <Text overrideColor classes="text-gray-600 text-left w-full truncate" fontWeight={FontWeight.medium}>
                     {contactAddress.addressName}
                 </Text>
-                <Text fontSize="text-16" fontWeight={FontWeight.medium}>
+                <Text fontSize="text-16" fontWeight={FontWeight.medium} type={TextType.pre}>
                     {truncateString(contactAddress.address, 9, 9)}
                 </Text>
             </button>

@@ -30,16 +30,17 @@
     <div slot="header" class="flex justify-between flex-1">
         <div class="flex items-center gap-2">
             <span class="h-5 w-5 rounded-full" style="background-color: {$selectedContact?.color}" />
-            <Text fontSize={'text-16'} fontWeight={FontWeight.semibold} classes="w-64 truncate">
+            <Text fontSize={'text-16'} fontWeight={FontWeight.semibold} classes="w-48 truncate">
                 {$selectedContact?.name}
             </Text>
         </div>
-        <contact-information-menu class="block relative mr-8">
+        <contact-information-menu class="block relative mr-4">
             <MeatballMenuButton onClick={modal?.toggle} />
             <Modal bind:this={modal} position={{ right: '0' }} classes="mt-1.5">
                 <div class="flex flex-col">
                     <MenuItem
                         icon={IconEnum.Edit}
+                        iconProps={{ height: 18 }}
                         title={localize(
                             `views.dashboard.drawers.contactBook.${ContactBookRoute.ContactInformation}.editContact`
                         )}

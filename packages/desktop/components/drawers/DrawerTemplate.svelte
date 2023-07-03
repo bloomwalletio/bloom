@@ -16,7 +16,7 @@
 </script>
 
 <drawer-template class="flex flex-col h-full space-y-6 overflow-hidden">
-    <drawer-header class="flex flex-row items-center gap-2">
+    <drawer-header class="flex flex-row items-center gap-2 mr-8">
         {#if showBackButton}
             <button on:click={onBackClick} class=" focus:text-blue-500">
                 <Icon
