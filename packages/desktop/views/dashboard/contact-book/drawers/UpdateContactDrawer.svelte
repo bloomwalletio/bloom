@@ -1,10 +1,13 @@
 <script lang="ts">
-    import { localize } from '@core/i18n'
-    import { DrawerTemplate } from '@components'
-    import { Router } from '@core/router'
     import { ContactBookRoute } from '../contact-book-route.enum'
-    import { ContactManager, selectedContact } from '@core/contacts'
+
     import { Button, TextInput } from '@ui'
+    import { DrawerTemplate } from '@components'
+
+    import { ContactManager, selectedContact } from '@core/contacts'
+    import { localize } from '@core/i18n'
+    import { Router } from '@core/router'
+
     import { showAppNotification } from '@auxiliary/notification'
 
     export let drawerRouter: Router<unknown>
@@ -49,11 +52,21 @@
     title={localize(`views.dashboard.drawers.contactBook.${ContactBookRoute.UpdateContact}.title`)}
     {drawerRouter}
 >
-    <div class="h-full flex flex-col justify-between">
-        <div class="flex flex-col justify-between gap-4">
-            <TextInput bind:value={contactName} placeholder={localize('general.name')} error={contactErrors.name} />
-            <TextInput bind:value={contactNote} placeholder={localize('general.note')} error={contactErrors.note} />
-        </div>
-        <Button onClick={updateContact}>{localize('actions.save')}</Button>
+    <update-contact class="flex flex-col justify-between gap-4">
+        <TextInput
+            bind:value={contactName}
+            placeholder={localize('general.name')}
+            label={localize('general.name')}
+            error={contactErrors.name}
+        />
+        <TextInput
+            bind:value={contactNote}
+            placeholder={localize('general.note')}
+            label={localize('general.note')}
+            error={contactErrors.note}
+        />
+    </update-contact>
+    <div slot="footer">
+        <Button onClick={updateContact} classes="w-full">{localize('actions.save')}</Button>
     </div>
 </DrawerTemplate>
