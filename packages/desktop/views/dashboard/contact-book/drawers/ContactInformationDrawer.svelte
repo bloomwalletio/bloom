@@ -1,11 +1,9 @@
 <script lang="ts">
-    import { Table } from '@bloom-labs/ui'
-
     import { ContactBookRoute } from '../contact-book-route.enum'
 
     import { Icon, Modal, MeatballMenuButton, MenuItem, Text } from '@ui'
     import { FontWeight } from '@ui/enums'
-    import { ContactAddressCard, DrawerTemplate } from '@components'
+    import { ContactAddressCard, DrawerTemplate, ContactMetadataTable } from '@components'
 
     import { ContactManager, selectedContact } from '@core/contacts'
     import { localize } from '@core/i18n'
@@ -16,13 +14,6 @@
     export let drawerRouter: Router<unknown>
 
     let modal: Modal
-
-    let contactMetadataValues: { key: string; value: string }[]
-
-    $: $selectedContact?.name, contactMetadataValues = [
-        { key: 'Name', value: $selectedContact?.name },
-        { key: 'Note', value: $selectedContact?.note },
-    ]
 
     function onEditContactClick(): void {
         drawerRouter.goTo(ContactBookRoute.UpdateContact)
@@ -40,7 +31,7 @@
 <DrawerTemplate title={''} {drawerRouter}>
     <div slot="header" class="flex justify-between flex-1">
         <div class="flex items-center gap-2">
-            <span class="h-5 w-5 rounded-full" style="background-color: {$selectedContact?.color}"></span>
+            <span class="h-5 w-5 rounded-full" style="background-color: {$selectedContact?.color}" />
             <Text fontSize={'text-16'} fontWeight={FontWeight.semibold} classes="w-64 truncate">
                 {$selectedContact?.name}
             </Text>
@@ -51,12 +42,16 @@
                 <div class="flex flex-col">
                     <MenuItem
                         icon={IconEnum.Edit}
-                        title={localize(`views.dashboard.drawers.contactBook.${ContactBookRoute.ContactInformation}.editContact`)}
+                        title={localize(
+                            `views.dashboard.drawers.contactBook.${ContactBookRoute.ContactInformation}.editContact`
+                        )}
                         onClick={onEditContactClick}
                     />
                     <MenuItem
                         icon={IconEnum.Delete}
-                        title={localize(`views.dashboard.drawers.contactBook.${ContactBookRoute.ContactInformation}.removeContact`)}
+                        title={localize(
+                            `views.dashboard.drawers.contactBook.${ContactBookRoute.ContactInformation}.removeContact`
+                        )}
                         onClick={onRemoveContactClick}
                         variant="error"
                     />
@@ -65,7 +60,7 @@
         </contact-information-menu>
     </div>
     <div class="flex flex-col gap-3">
-        <Table orientation="vertical" items={contactMetadataValues} />
+        <ContactMetadataTable contactMetadata={$selectedContact} />
         <contact-addresses class="flex flex-col gap-4">
             {#each Object.entries(ContactManager.getNetworkContactAddressMapForContact($selectedContact.id)) as [networkId, contactAddressMap]}
                 <ContactAddressCard {networkId} {contactAddressMap} {drawerRouter} />
