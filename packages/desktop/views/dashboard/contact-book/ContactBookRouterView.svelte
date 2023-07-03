@@ -7,6 +7,8 @@
         AddNetworkAddressDrawer,
         UpdateContactDrawer,
         RemoveContactDrawer,
+        UpdateNetworkAddressesDrawer,
+        RemoveNetworkAddressesDrawer,
     } from './drawers'
     import { ContactBookRoute } from './contact-book-route.enum'
     import { ContactBookRouter, contactBookRouter, contactBookRoute } from './contact-book-router'
@@ -35,4 +37,8 @@
     <UpdateContactDrawer drawerRouter={$contactBookRouter} />
 {:else if $contactBookRoute === ContactBookRoute.RemoveContact}
     <RemoveContactDrawer drawerRouter={$contactBookRouter} />
+{:else if $contactBookRoute === ContactBookRoute.UpdateNetworkAddresses}
+    <UpdateNetworkAddressesDrawer drawerRouter={$contactBookRouter} />
+{:else if $contactBookRoute === ContactBookRoute.RemoveNetworkAddresses}
+    <RemoveNetworkAddressesDrawer drawerRouter={$contactBookRouter} />
 {/if}
