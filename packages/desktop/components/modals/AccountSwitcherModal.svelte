@@ -1,13 +1,13 @@
 <script lang="ts">
-    import { Icon as IconEnum } from '@auxiliary/icon'
-    import { openPopup, PopupId } from '@desktop/auxiliary/popup'
+    import { Button, IconName } from '@bloom-labs/ui'
     import { sumBalanceForAccounts } from '@core/account'
     import { selectedAccount } from '@core/account/stores'
     import { formatCurrency, localize } from '@core/i18n'
     import { getMarketAmountFromAssetValue } from '@core/market/utils'
     import { activeProfile, getBaseToken, visibleActiveAccounts } from '@core/profile'
     import { formatTokenAmountBestMatch, selectedAccountAssets } from '@core/wallet'
-    import { AccountSwitcherMenuItem, FontWeight, HR, Icon, Modal, Text, TextType } from '@ui'
+    import { openPopup, PopupId } from '@desktop/auxiliary/popup'
+    import { AccountSwitcherMenuItem, FontWeight, HR, Modal, Text, TextType } from '@ui'
     import { tick } from 'svelte'
 
     export let modal: Modal = undefined
@@ -47,10 +47,7 @@
         class=" flex flex-row justify-between w-full p-8 hover:bg-gray-50 dark:hover:bg-gray-800"
         on:click={onCreateAccountClick}
     >
-        <div class="flex flex-row items-center text-right space-x-4">
-            <Icon icon={IconEnum.Plus} height="12" width="12" classes="text-blue-500" />
-            <Text highlighted type={TextType.h5} classes="text-14">{localize('general.addAWallet')}</Text>
-        </div>
+        <Button slot="footer" icon={IconName.Plus} text={localize('general.addAWallet')} />
         <div class="flex flex-col items-end text-right space-y-1">
             <Text type={TextType.h5}>
                 {formatTokenAmountBestMatch(totalBalance, getBaseToken())}

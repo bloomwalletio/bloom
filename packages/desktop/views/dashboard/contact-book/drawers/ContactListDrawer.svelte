@@ -1,17 +1,11 @@
 <script lang="ts">
-    import { onMount } from 'svelte'
-
-    import { ContactBookRoute } from '../contact-book-route.enum'
-
-    import { Icon, Text } from '@ui'
-    import { FontWeight } from '@ui/enums'
-    import { DrawerTemplate, ContactCard } from '@components'
-
-    import { clearSelectedContact, ContactManager, IContact, setSelectedContact } from '@core/contacts'
+    import { Button, IconName } from '@bloom-labs/ui'
+    import { ContactCard, DrawerTemplate } from '@components'
+    import { ContactManager, IContact, clearSelectedContact, setSelectedContact } from '@core/contacts'
     import { localize } from '@core/i18n'
     import { Router } from '@core/router'
-
-    import { Icon as IconEnum } from '@auxiliary/icon'
+    import { onMount } from 'svelte'
+    import { ContactBookRoute } from '../contact-book-route.enum'
 
     export let drawerRouter: Router<unknown>
 
@@ -40,15 +34,11 @@
             <ContactCard {contact} onCardClick={() => onContactClick(contact)} />
         {/each}
     </contact-list>
-    <button
+    <Button
         slot="footer"
-        type="button"
+        class="w-full"
         on:click={onAddContactClick}
-        class="w-full flex justify-center items-center text-blue-500 gap-2"
-    >
-        <Icon icon={IconEnum.Plus} width={12} height={12} />
-        <Text fontSize="14" fontWeight={FontWeight.semibold} classes="text-blue-500" overrideColor>
-            {localize(`views.dashboard.drawers.contactBook.${ContactBookRoute.ContactList}.addContact`)}
-        </Text>
-    </button>
+        icon={IconName.Plus}
+        text={localize(`views.dashboard.drawers.contactBook.${ContactBookRoute.ContactList}.addContact`)}
+    />
 </DrawerTemplate>

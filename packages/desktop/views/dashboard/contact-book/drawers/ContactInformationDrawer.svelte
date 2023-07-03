@@ -1,15 +1,13 @@
 <script lang="ts">
-    import { ContactBookRoute } from '../contact-book-route.enum'
-
-    import { Icon, Modal, MeatballMenuButton, MenuItem, Text } from '@ui'
-    import { FontWeight } from '@ui/enums'
-    import { ContactAddressCard, DrawerTemplate, ContactMetadataTable } from '@components'
-
+    import { Icon as IconEnum } from '@auxiliary/icon'
+    import { Button, IconName } from '@bloom-labs/ui'
+    import { ContactAddressCard, ContactMetadataTable, DrawerTemplate } from '@components'
     import { ContactManager, selectedContact } from '@core/contacts'
     import { localize } from '@core/i18n'
     import { Router } from '@core/router'
-
-    import { Icon as IconEnum } from '@auxiliary/icon'
+    import { MeatballMenuButton, MenuItem, Modal, Text } from '@ui'
+    import { FontWeight } from '@ui/enums'
+    import { ContactBookRoute } from '../contact-book-route.enum'
 
     export let drawerRouter: Router<unknown>
 
@@ -67,15 +65,11 @@
             {/each}
         </contact-addresses>
     </div>
-    <button
+    <Button
         slot="footer"
-        type="button"
+        class="w-full"
         on:click={onAddNetworkAddressClick}
-        class="w-full flex justify-center items-center text-blue-500 gap-2"
-    >
-        <Icon icon={IconEnum.Plus} width={12} height={12} />
-        <Text fontSize="14" fontWeight={FontWeight.semibold} classes="text-blue-500" overrideColor>
-            {localize(`views.dashboard.drawers.contactBook.${ContactBookRoute.ContactInformation}.addNetworkAddress`)}
-        </Text>
-    </button>
+        icon={IconName.Plus}
+        text={localize(`views.dashboard.drawers.contactBook.${ContactBookRoute.ContactInformation}.addNetworkAddress`)}
+    />
 </DrawerTemplate>
