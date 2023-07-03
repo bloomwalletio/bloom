@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { Button, IconName } from '@bloom-labs/ui'
+    import { FlatIconName, Button } from '@bloom-labs/ui'
     import { ContactCard, DrawerTemplate } from '@components'
     import { ContactManager, IContact, clearSelectedContact, setSelectedContact } from '@core/contacts'
     import { localize } from '@core/i18n'
@@ -38,7 +38,7 @@
         slot="footer"
         class="w-full"
         on:click={onAddContactClick}
-        icon={IconName.Plus}
+        flatIcon={FlatIconName.Add}
         text={localize(`views.dashboard.drawers.contactBook.${ContactBookRoute.ContactList}.addContact`)}
     />
 </DrawerTemplate>

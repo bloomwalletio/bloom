@@ -20,7 +20,7 @@
         Toggle,
     } from '@ui'
     import { fade } from 'svelte/transition'
-    import { Icon as NewIcon, IconName } from '@bloom-labs/ui'
+    import { FlatIcon, FlatIconName } from '@bloom-labs/ui'
     import features from '@features/features'
     import { DrawerId, openDrawer } from '@desktop/auxiliary/drawer'
 
@@ -204,7 +204,7 @@
                 on:click={onContactBookClick}
                 class="group flex flex-row space-x-3 justify-start items-center hover:bg-blue-50 dark:hover:bg-gray-800 dark:hover:bg-opacity-20 py-3 px-3 w-full"
             >
-                <NewIcon icon={IconName.AddressBook} color="blue" shade="500" />
+                <FlatIcon icon={FlatIconName.AddressBook} color="slate-400" />
                 <Text smaller classes="group-hover:text-blue-500">
                     {localize('views.dashboard.profileModal.contactBook')}
                 </Text>

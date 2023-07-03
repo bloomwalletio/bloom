@@ -1,6 +1,6 @@
 <script lang="ts">
     import { Icon as IconEnum } from '@auxiliary/icon'
-    import { Button, IconName } from '@bloom-labs/ui'
+    import { Button, FlatIconName } from '@bloom-labs/ui'
     import { ContactAddressCard, ContactMetadataTable, DrawerTemplate } from '@components'
     import { ContactManager, selectedContact } from '@core/contacts'
     import { localize } from '@core/i18n'
@@ -70,7 +70,7 @@
         slot="footer"
         class="w-full"
         on:click={onAddNetworkAddressClick}
-        icon={IconName.Plus}
+        flatIcon={FlatIconName.Add}
         text={localize(`views.dashboard.drawers.contactBook.${ContactBookRoute.ContactInformation}.addNetworkAddress`)}
     />
 </DrawerTemplate>
