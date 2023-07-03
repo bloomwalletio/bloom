@@ -10,12 +10,22 @@
         NotVerifiedStatus,
         VerifiedStatus,
         NewTransactionType,
-        getUnitFromTokenMetadata,
     } from '@core/wallet'
     import { openPopup, PopupId, updatePopupProps } from '@desktop/auxiliary/popup'
     import features from '@features/features'
-    import { AssetIcon, Button, Text, TextHint, AssetActionsButton, KeyValueBox, FontWeight, TextType } from '@ui'
+    import {
+        Button,
+        Text,
+        TextHint,
+        AssetActionsButton,
+        KeyValueBox,
+        FontWeight,
+        TextType,
+        TokenAmountTile,
+        TooltipIcon,
+    } from '@ui'
     import { SendFlowRoute, SendFlowRouter, sendFlowRouter } from '@views/dashboard/send-flow'
+    import { Icon as IconEnum } from '@lib/auxiliary/icon'
 
     export let asset: IAsset
     export let activityId: string = undefined
@@ -66,33 +76,33 @@
 {#if asset}
     <div class="space-y-6">
         <div class="flex flex-row justify-between items-center space-x-3 mr-8">
-            <Text
-                type={TextType.h4}
-                fontSize="18"
-                lineHeight="6"
-                fontWeight={FontWeight.semibold}
-                classes="overflow-hidden whitespace-nowrap text-ellipsis"
-            >
-                {asset.verification?.status === NotVerifiedStatus.New
-                    ? localize('popups.tokenInformation.newTokenTitle')
-                    : asset.metadata?.name}
-            </Text>
+            <div class="flex flex-row items-center space-x-2">
+                <Text
+                    type={TextType.h4}
+                    fontSize="18"
+                    lineHeight="6"
+                    fontWeight={FontWeight.semibold}
+                    classes="overflow-hidden whitespace-nowrap text-ellipsis"
+                >
+                    {asset.metadata?.name}
+                </Text>
+                {#if !asset.verification?.verified}
+                    <TooltipIcon
+                        title={localize('tooltips.tokenIsNotVerified.title')}
+                        text={localize('tooltips.tokenIsNotVerified.text')}
+                        icon={IconEnum.Info}
+                        iconClasses="text-yellow-700"
+                    />
+                {/if}
+            </div>
             {#if asset.standard === TokenStandard.Irc30}
                 <AssetActionsButton {asset} />
             {/if}
         </div>
 
-        <div class="space-y-3 flex flex-col items-center justify-center">
-            <AssetIcon {asset} chainId={asset.chainId} large />
-            <Text type={TextType.h2} fontWeight={FontWeight.bold}>
-                {getUnitFromTokenMetadata(asset.metadata)}
-            </Text>
-        </div>
+        <TokenAmountTile {asset} amount={asset.balance.available} />
 
         <div class="space-y-4 flex flex-col items-center justify-center">
-            {#if !asset.verification?.verified}
-                <TextHint warning text={localize('popups.tokenInformation.verificationWarning')} />
-            {/if}
             <div class="w-full flex flex-col space-y-2">
                 <KeyValueBox
                     keyText={localize('popups.tokenInformation.tokenMetadata.standard')}
@@ -117,6 +127,10 @@
                 {/if}
             </div>
         </div>
+
+        {#if !asset.verification?.verified && asset.verification?.status === NotVerifiedStatus.New}
+            <TextHint warning text={localize('popups.tokenInformation.verificationWarning')} />
+        {/if}
 
         <div class="flex flex-row flex-nowrap w-full space-x-4">
             {#if asset.verification?.status === NotVerifiedStatus.New}
