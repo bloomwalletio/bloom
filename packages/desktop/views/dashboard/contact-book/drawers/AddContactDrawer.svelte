@@ -1,11 +1,13 @@
 <script lang="ts">
-    import { localize } from '@core/i18n'
-    import { DrawerTemplate } from '@components'
-    import { Router } from '@core/router'
     import { ContactBookRoute } from '../contact-book-route.enum'
-    import { Button, NetworkInput, TextInput, HR } from '@ui'
-    import { ContactManager } from '@core/contacts'
 
+    import { Button, NetworkInput, TextInput, HR } from '@ui'
+    import { DrawerTemplate } from '@components'
+
+    import { ContactManager } from '@core/contacts'
+    import { localize } from '@core/i18n'
+    import { Router } from '@core/router'
+    
     export let drawerRouter: Router<unknown>
 
     let name: string = ''
@@ -28,15 +30,15 @@
     title={localize(`views.dashboard.drawers.contactBook.${ContactBookRoute.AddContact}.title`)}
     {drawerRouter}
 >
-    <div class="h-full flex flex-col justify-between">
-        <div class="flex flex-col gap-4">
-            <TextInput bind:value={name} placeholder={localize('general.name')} />
-            <TextInput bind:value={note} placeholder={localize('general.note')} />
-            <HR />
-            <NetworkInput bind:networkSelection showLayer2={true} />
-            <TextInput bind:value={addressName} placeholder={localize('general.addressName')} />
-            <TextInput bind:value={address} placeholder={localize('general.address')} />
-        </div>
-        <Button onClick={onSaveClick}>{localize('actions.save')}</Button>
+    <add-contact class="flex flex-col gap-4">
+        <TextInput bind:value={name} placeholder={localize('general.name')} label={localize('general.name')} />
+        <TextInput bind:value={note} placeholder={localize('general.note')} label={localize('general.note')} />
+        <HR />
+        <NetworkInput bind:networkSelection showLayer2={true} />
+        <TextInput bind:value={addressName} placeholder={localize('general.addressName')} label={localize('general.addressName')} />
+        <TextInput bind:value={address} placeholder={localize('general.address')} label={localize('general.address')} />
+    </add-contact>
+    <div slot="footer">
+        <Button onClick={onSaveClick} classes="w-full">{localize('actions.save')}</Button>
     </div>
 </DrawerTemplate>
