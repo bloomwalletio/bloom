@@ -12,16 +12,34 @@ import { localize } from '@core/i18n'
 import { selectedContact } from '../stores'
 
 export class ContactManager {
-    static getContact(contactId: string): IContact {
+    static getContact(contactId: string): IContact | null {
         const profile = getActiveProfile()
-        return profile.contacts?.[contactId]
+        return profile && profile.contacts ? profile.contacts[contactId] : null
     }
 
     static addContact(
-        { name, note }: { name: string; note?: string },
-        { networkId, addressName, address }: { networkId: string; addressName: string; address: string }
+        {
+            name,
+            note,
+        }: {
+            name: string
+            note?: string
+        },
+        {
+            networkId,
+            addressName,
+            address,
+        }: {
+            networkId: string
+            addressName: string
+            address: string
+        }
     ): void {
         const profile = getActiveProfile()
+
+        if (!profile) {
+            throw new Error('Profile is not available.')
+        }
 
         const id = generateRandomId()
         const contact: IContact = {
@@ -31,24 +49,35 @@ export class ContactManager {
             addresses: [],
             note,
         }
-        profile.contacts[contact.id] = contact
+        profile.contacts[id] = contact
 
-        ContactManager.addContactAddress(contact.id, networkId, addressName, address)
+        ContactManager.addContactAddress(id, networkId, addressName, address)
 
         updateActiveProfile(profile)
     }
 
     static updateContact(contactId: string, payload: Partial<IContactMetadata>): void {
         const profile = getActiveProfile()
+
+        if (!profile) {
+            throw new Error('Profile is not available.')
+        }
+
         const contact = ContactManager.getContact(contactId)
 
         if (contact) {
-            profile.contacts[contactId] = { ...contact, ...payload }
-            selectedContact.update((selectedContact) => {
-                if (selectedContact) {
-                    return { ...selectedContact, ...payload }
+            profile.contacts[contactId] = {
+                ...contact,
+                ...payload,
+            }
+            selectedContact.update((value) => {
+                if (value && value.id === contactId) {
+                    return {
+                        ...value,
+                        ...payload,
+                    }
                 }
-                return selectedContact
+                return value
             })
         } else {
             throw new Error(`Profile with contact ID ${contactId} doesn't exist!`)
@@ -58,24 +87,34 @@ export class ContactManager {
 
     static deleteContact(contactId: string): void {
         const profile = getActiveProfile()
+
+        if (!profile || !profile.contacts || !profile.networkContactAddresses) {
+            throw new Error('Profile is not available or incorrectly formed.')
+        }
+
         const contact = ContactManager.getContact(contactId)
 
         if (contact) {
             Object.keys(profile.networkContactAddresses).forEach((networkId) => {
                 ContactManager.deleteContactAddresses(contactId, networkId)
             })
+            delete profile.contacts[contactId]
         }
-        delete profile.contacts?.[contactId]
         updateActiveProfile(profile)
     }
 
     static listContacts(): IContact[] {
         const profile = getActiveProfile()
-        return Object.values(profile.contacts)
+        return profile && profile.contacts ? Object.values(profile.contacts) : []
     }
 
     static addContactAddress(contactId: string, networkId: string, addressName: string, address: string): void {
         const profile = getActiveProfile()
+
+        if (!profile) {
+            throw new Error('Profile is not available.')
+        }
+
         const contact = ContactManager.getContact(contactId)
 
         if (contact) {
@@ -94,8 +133,21 @@ export class ContactManager {
         updateActiveProfile(profile)
     }
 
-    static updateContactAddresses(contactId: string, networkId: string, addresses: { contactId: string, addressName: string, address: string }[]): void {
+    static updateContactAddresses(
+        contactId: string,
+        networkId: string,
+        addresses: {
+            contactId: string
+            addressName: string
+            address: string
+        }[]
+    ): void {
         const profile = getActiveProfile()
+
+        if (!profile) {
+            throw new Error('Profile is not available.')
+        }
+
         const contact = ContactManager.getContact(contactId)
 
         if (contact) {
@@ -118,19 +170,42 @@ export class ContactManager {
 
     static deleteContactAddresses(contactId: string, networkId: string, addresses?: string[]): void {
         const profile = getActiveProfile()
+
+        if (!profile) {
+            throw new Error('Profile is not available.')
+        }
+
         const contact = ContactManager.getContact(contactId)
-        const addressesToDelete = addresses ?? contact.addresses
+
+        if (!contact) {
+            throw new Error(`Contact with ID ${contactId} doesn't exist!`)
+        }
+
+        const addressesToDelete = addresses || contact.addresses
 
         addressesToDelete.forEach((address) => {
-            contact.addresses.splice(contact.addresses.indexOf(address), 1)
-            delete profile.networkContactAddresses?.[networkId]?.[address]
+            const index = contact.addresses.indexOf(address)
+            if (index > -1) {
+                contact.addresses.splice(index, 1)
+                delete profile.networkContactAddresses[networkId][address]
+            }
         })
         updateActiveProfile(profile)
     }
 
     static getNetworkContactAddressMapForContact(contactId: string): INetworkContactAddressMap {
         const profile = getActiveProfile()
+
+        if (!profile) {
+            throw new Error('Profile is not available.')
+        }
+
         const contact = ContactManager.getContact(contactId)
+
+        if (!contact) {
+            throw new Error(`Contact with ID ${contactId} doesn't exist!`)
+        }
+
         const addresses = contact.addresses
         const filteredMap = filterNetworkContactAddressMap(profile.networkContactAddresses, addresses)
         return filteredMap
@@ -138,7 +213,9 @@ export class ContactManager {
 
     static listContactAddressesForNetwork(networkId: string): IContactAddress[] {
         const profile = getActiveProfile()
-        return Object.values(profile.networkContactAddresses[networkId] ?? {})
+        return profile && profile.networkContactAddresses && profile.networkContactAddresses[networkId]
+            ? Object.values(profile.networkContactAddresses[networkId])
+            : []
     }
 
     static validateContact(contact: IContactMetadata): void {
