@@ -12,6 +12,8 @@ updates:
     labels:
       - "scope:dependencies"
     milestone: 14
+    # Disable rebasing to save GHA minutes
+    rebase-strategy: "disabled"
 
   - package-ecosystem: "npm"
     directory: "/packages/desktop"
@@ -20,6 +22,7 @@ updates:
     labels:
       - "scope:dependencies"
     milestone: 14
+    rebase-strategy: "disabled"
 
   - package-ecosystem: "npm"
     directory: "/packages/shared"
@@ -28,3 +31,4 @@ updates:
     labels:
       - "scope:dependencies"
     milestone: 14
+    rebase-strategy: "disabled"

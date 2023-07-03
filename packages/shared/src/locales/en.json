@@ -493,7 +493,7 @@
                         "chainId": "Chain ID",
                         "aliasAddress": "Alias Address",
                         "iscpEndpoint": "ISCP Endpoint",
-                        "explorerEndpoint": "Explorer Endpoint (optional)",
+                        "explorerUrl": "Explorer URL (optional)",
                         "errors": {
                             "cannotBeEmpty": "Name cannot be empty",
                             "nameTooLong": "Name is too long",
@@ -1204,6 +1204,7 @@
         "previous": "Previous",
         "next": "Next",
         "cancel": "Cancel",
+        "connect": "Connect",
         "close": "Close",
         "dismiss": "Dismiss",
         "claim": "Claim",
@@ -1657,8 +1658,7 @@
         "custom": "Custom",
         "evmAddress": "EVM address",
         "chain": "Chain",
-        "importErc20Token": "Import ERC20 token",
-        "importErc20TokenDescription": "Import an ERC20 token from an EVM chain"
+        "importErc20Token": "Import ERC20 token"
     },
     "filters":{
         "title": "Filters",
@@ -2201,6 +2201,10 @@
         },
         "updateStronghold": {
             "profileBadge": "Your Stronghold is out of date. Log in to update Stronghold."
+        },
+        "tokenIsNotVerified": {
+            "title": "Token is not verified",
+            "text": "Compare the token metadata against the relevant team’s official website. Only verify tokens that you trust."
         }
     },
     "exports": {
