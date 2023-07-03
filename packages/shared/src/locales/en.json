@@ -549,8 +549,7 @@
                         "title": "Add contact"
                     },
                     "updateContact": {
-                        "title": "Update contact",
-                        "addAddress": "Add Address"
+                        "title": "Update contact"
                     },
                     "removeContact": {
                         "title": "Remove contact",
@@ -561,7 +560,8 @@
                         "title": "Add network address"
                     },
                     "updateNetworkAddresses": {
-                        "title": "Update network addresses"
+                        "title": "Update network addresses",
+                        "addAddress": "Add Address"
                     },
                     "removeNetworkAddresses": {
                         "title": "Remove network addresses",
