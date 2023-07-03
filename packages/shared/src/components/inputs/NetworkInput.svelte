@@ -6,7 +6,7 @@
     import type { ChainConfiguration } from '@core/network'
 
     export let networkSelection: { networkId: string; address?: string } | undefined
-
+    export let error: string
     export let iscpChainAddress: string | undefined = undefined
     export let showLayer2: boolean = false
 
@@ -18,7 +18,6 @@
 
     let inputElement: HTMLInputElement
     let modal: Modal
-    let error: string
 
     $: networkOptions = getNetworkOptions(showLayer2)
 
