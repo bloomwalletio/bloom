@@ -177,7 +177,7 @@
             @apply bg-gray-900;
 
             &::after {
-                @apply bg-gray-1000;
+                @apply bg-gray-950;
             }
 
             answer-index {

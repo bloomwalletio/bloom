@@ -3,7 +3,42 @@ import resolveConfig from 'tailwindcss/resolveConfig'
 
 const configColors = resolveConfig(tailwindConfig).theme.colors as Record<string, Record<string, string>>
 
-type Colors = 'blue' | 'lightblue' | 'purple' | 'turquoise' | 'green' | 'yellow' | 'orange' | 'red' | 'pink' | 'gray'
+type Colors =
+    | 'red'
+    | 'orange'
+    | 'amber'
+    | 'yellow'
+    | 'lime'
+    | 'green'
+    | 'emerald'
+    | 'teal'
+    | 'cyan'
+    | 'sky'
+    | 'blue'
+    | 'indigo'
+    | 'violet'
+    | 'purple'
+    | 'fuchsia'
+    | 'pink'
+    | 'rose'
+    | 'gray'
+    | 'coolgray'
+    | 'truegray'
+    | 'warmgray'
+    | 'bluegray'
+    | 'primary'
+    | 'secondary'
+    | 'success'
+    | 'info'
+    | 'warning'
+    | 'danger'
+    | 'light'
+    | 'dark'
+    | 'muted'
+    | 'white'
+    | 'black'
+    | 'transparent'
+    | 'current'
 type Shades = '50' | '100' | '200' | '300' | '400' | '500' | '600' | '700' | '800' | '900' | '1000'
 
 interface IColourOptions {
@@ -14,16 +49,23 @@ interface IColourOptions {
 }
 
 const DEFAULT_COLORS: Colors[] = [
-    'blue',
-    'lightblue',
-    'purple',
-    'turquoise',
-    'green',
-    'yellow',
-    'orange',
     'red',
+    'orange',
+    'amber',
+    'yellow',
+    'lime',
+    'green',
+    'emerald',
+    'teal',
+    'cyan',
+    'sky',
+    'blue',
+    'indigo',
+    'violet',
+    'purple',
+    'fuchsia',
     'pink',
-    'gray',
+    'rose',
 ]
 
 const DEFAULT_SHADES: Shades[] = ['50', '100', '200', '300', '400', '500', '600', '700', '800', '900', '1000']
