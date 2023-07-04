@@ -20,7 +20,9 @@
             const { x, y, width, height } = svg.getBBox()
             viewBox = { x, y, width, height }
         } else {
-            viewBox = { x: 0, y: 0, width: selected.width, height: selected.height }
+            if (selected) {
+                viewBox = { x: 0, y: 0, width: selected.width, height: selected.height }
+            }
         }
     }
 
