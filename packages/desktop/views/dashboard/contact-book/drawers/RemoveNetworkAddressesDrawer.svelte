@@ -26,7 +26,9 @@
 >
     <remove-addresses class="flex flex-col gap-4">
         <Text>
-            {localize(`views.dashboard.drawers.contactBook.${ContactBookRoute.RemoveNetworkAddresses}.body`, { values: { network: $selectedNetworkId } })}
+            {localize(`views.dashboard.drawers.contactBook.${ContactBookRoute.RemoveNetworkAddresses}.body`, {
+                values: { network: $selectedNetworkId },
+            })}
         </Text>
         <TextHint
             icon="exclamation"

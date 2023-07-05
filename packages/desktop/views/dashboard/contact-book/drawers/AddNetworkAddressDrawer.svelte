@@ -15,12 +15,7 @@
     let networkSelection: { networkId: string; address?: string } | undefined
 
     function onSaveClick(): void {
-        ContactManager.addContactAddress(
-            $selectedContact?.id,
-            networkSelection?.networkId,
-            addressName,
-            address
-        )
+        ContactManager.addContactAddress($selectedContact?.id, networkSelection?.networkId, addressName, address)
 
         drawerRouter.previous()
     }
