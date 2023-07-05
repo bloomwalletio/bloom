@@ -4,6 +4,7 @@
     import { ContactManager, IContact, clearSelectedContact, setSelectedContact } from '@core/contacts'
     import { localize } from '@core/i18n'
     import { Router } from '@core/router'
+    import features from '@features/features'
     import { onMount } from 'svelte'
     import { ContactBookRoute } from '../contact-book-route.enum'
 
@@ -34,11 +35,13 @@
             <ContactCard {contact} onCardClick={() => onContactClick(contact)} />
         {/each}
     </contact-list>
-    <Button
-        slot="footer"
-        class="w-full"
-        on:click={onAddContactClick}
-        flatIcon={FlatIconName.Add}
-        text={localize(`views.dashboard.drawers.contactBook.${ContactBookRoute.ContactList}.addContact`)}
-    />
+    {#if features.wallet.contacts.addContact.enabled}
+        <Button
+            slot="footer"
+            class="w-full"
+            on:click={onAddContactClick}
+            flatIcon={FlatIconName.Add}
+            text={localize(`views.dashboard.drawers.contactBook.${ContactBookRoute.ContactList}.addContact`)}
+        />
+    {/if}
 </DrawerTemplate>

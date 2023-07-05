@@ -7,6 +7,7 @@
     import { Router } from '@core/router'
     import { MeatballMenuButton, MenuItem, Modal, Text } from '@ui'
     import { FontWeight } from '@ui/enums'
+    import features from '@features/features'
     import { ContactBookRoute } from '../contact-book-route.enum'
 
     export let drawerRouter: Router<unknown>
@@ -38,22 +39,26 @@
             <MeatballMenuButton onClick={modal?.toggle} />
             <Modal bind:this={modal} position={{ right: '0' }} classes="mt-1.5">
                 <div class="flex flex-col">
-                    <MenuItem
-                        icon={IconEnum.Edit}
-                        iconProps={{ height: 18 }}
-                        title={localize(
-                            `views.dashboard.drawers.contactBook.${ContactBookRoute.ContactInformation}.editContact`
-                        )}
-                        onClick={onEditContactClick}
-                    />
-                    <MenuItem
-                        icon={IconEnum.Delete}
-                        title={localize(
-                            `views.dashboard.drawers.contactBook.${ContactBookRoute.ContactInformation}.removeContact`
-                        )}
-                        onClick={onRemoveContactClick}
-                        variant="error"
-                    />
+                    {#if features.wallet.contacts.editContact.enabled}
+                        <MenuItem
+                            icon={IconEnum.Edit}
+                            iconProps={{ height: 18 }}
+                            title={localize(
+                                `views.dashboard.drawers.contactBook.${ContactBookRoute.ContactInformation}.editContact`
+                            )}
+                            onClick={onEditContactClick}
+                        />
+                    {/if}
+                    {#if features.wallet.contacts.removeContact.enabled}
+                        <MenuItem
+                            icon={IconEnum.Delete}
+                            title={localize(
+                                `views.dashboard.drawers.contactBook.${ContactBookRoute.ContactInformation}.removeContact`
+                            )}
+                            onClick={onRemoveContactClick}
+                            variant="error"
+                        />
+                    {/if}
                 </div>
             </Modal>
         </contact-information-menu>
@@ -66,11 +71,15 @@
             {/each}
         </contact-addresses>
     </div>
-    <Button
-        slot="footer"
-        class="w-full"
-        on:click={onAddNetworkAddressClick}
-        flatIcon={FlatIconName.Add}
-        text={localize(`views.dashboard.drawers.contactBook.${ContactBookRoute.ContactInformation}.addNetworkAddress`)}
-    />
+    {#if features.wallet.contacts.addNetworkAddress.enabled}
+        <Button
+            slot="footer"
+            class="w-full"
+            on:click={onAddNetworkAddressClick}
+            flatIcon={FlatIconName.Add}
+            text={localize(
+                `views.dashboard.drawers.contactBook.${ContactBookRoute.ContactInformation}.addNetworkAddress`
+            )}
+        />
+    {/if}
 </DrawerTemplate>
