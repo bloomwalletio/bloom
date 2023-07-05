@@ -1,6 +1,6 @@
 import { INITIAL_ACTIVE_PROFILE } from '@core/profile/constants/initial-active-profile.constant'
 import { getActiveProfile, updateActiveProfile } from '@core/profile/stores/active-profile.store'
-import { ContactManager } from '@core/contacts/classes'
+import { ContactManager } from '../contact-manager.class'
 
 jest.mock('../../../profile/stores/active-profile.store', () => ({
     getActiveProfile: jest.fn(() => INITIAL_ACTIVE_PROFILE),
@@ -40,7 +40,8 @@ describe('File: contact-manager.test.ts', () => {
         expect(getActiveProfile).toHaveBeenCalledTimes(3)
 
         // Expect the updateActiveProfile function to be called once with the modified profile
-        expect(updateActiveProfile).toHaveBeenCalledTimes(1)
+        // CAUTION: It will have been called twice by now since this is used in addContact
+        expect(updateActiveProfile).toHaveBeenCalledTimes(2)
         // expect(updateActiveProfile).toHaveBeenCalledWith({});
 
         // Expect the contact to be added to the contacts object in the profile
