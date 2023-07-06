@@ -86,7 +86,7 @@ const prodConfig = () => ({
         target: ['AppImage'],
         desktop: {
             Name: APP_NAME,
-            Comment: 'Web3 wallet for IOTA/Shimmer eco-system',
+            Comment: 'Web3 wallet for the IOTA/Shimmer ecosystem',
             Categories: 'Office;Network;Finance',
             MimeType: `x-scheme-handler/${APP_PROTOCOL}`,
         },
