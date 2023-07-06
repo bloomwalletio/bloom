@@ -1,10 +1,11 @@
 import { ipcRenderer } from 'electron'
+import { LedgerMethod } from '../enums/ledger-method.enum'
 
 export default {
     generateEvmAddress: (bip32Path: string, verify: boolean = false): void => {
-        ipcRenderer.send('generate-evm-address', bip32Path, verify)
+        ipcRenderer.send(LedgerMethod.GenerateEvmAddress, bip32Path, verify)
     },
     signEvmTransaction: (data: unknown, bip32Path: string): void => {
-        ipcRenderer.send('sign-evm-transaction', data, bip32Path)
+        ipcRenderer.send(LedgerMethod.SignEvmTransaction, data, bip32Path)
     },
 }

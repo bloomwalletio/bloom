@@ -26,6 +26,8 @@ import { initMenu } from './menus/menu'
 import { getDiagnostics } from './utils/diagnostics.utils'
 import { shouldReportError } from './utils/error.utils'
 import { getMachineId } from './utils/os.utils'
+import { LedgerMethod } from './enums/ledger-method.enum'
+import type { ILedgerProcessMessage } from './interfaces/ledger-process-message.interface'
 
 new AnalyticsManager()
 
@@ -306,17 +308,16 @@ ipcMain.on('start-ledger-process', () => {
     ledgerProcess = utilityProcess.fork(paths.ledger)
     ledgerProcess.on('spawn', () => {
         // Handler for message from Ledger process
-        /* eslint-disable-next-line */
-        ledgerProcess.on('message', (message: any) => {
+        ledgerProcess.on('message', (message: ILedgerProcessMessage) => {
             const { error, data } = message
             if (error) {
                 windows[Window.Main].webContents.send('ledger-error', error)
             } else {
                 switch (data?.method) {
-                    case 'generate-evm-address':
+                    case LedgerMethod.GenerateEvmAddress:
                         windows[Window.Main].webContents.send('evm-address', data)
                         break
-                    case 'sign-evm-transaction':
+                    case LedgerMethod.SignEvmTransaction:
                         windows[Window.Main].webContents.send('evm-signed-transaction', data)
                         break
                     default:
@@ -333,12 +334,12 @@ ipcMain.on('kill-ledger-process', () => {
     ledgerProcess?.kill()
 })
 
-ipcMain.on('generate-evm-address', (_e, bip32Path, verify) => {
-    ledgerProcess?.postMessage({ method: 'generate-evm-address', parameters: [bip32Path, verify] })
+ipcMain.on(LedgerMethod.GenerateEvmAddress, (_e, bip32Path, verify) => {
+    ledgerProcess?.postMessage({ method: LedgerMethod.GenerateEvmAddress, parameters: [bip32Path, verify] })
 })
 
-ipcMain.on('sign-evm-transaction', (_e, data, bip32Path) => {
-    ledgerProcess?.postMessage({ method: 'sign-evm-transaction', parameters: [data, bip32Path] })
+ipcMain.on(LedgerMethod.SignEvmTransaction, (_e, data, bip32Path) => {
+    ledgerProcess?.postMessage({ method: LedgerMethod.SignEvmTransaction, parameters: [data, bip32Path] })
 })
 
 export const getWindow = (windowName: string): BrowserWindow => windows[windowName]

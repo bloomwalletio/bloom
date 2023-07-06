@@ -62,7 +62,7 @@ function handleUnhandledRejectionEvent(event: PromiseRejectionEvent): void {
     console.error(event.reason)
 }
 
-function prepareLogDirectory(baseDir): string {
+function prepareLogDirectory(baseDir: string): string {
     const logDir = `${baseDir}/logs`
     if (!fs.existsSync(logDir)) {
         fs.mkdirSync(logDir)

@@ -6,23 +6,12 @@
  * https://www.electronjs.org/docs/latest/tutorial/process-model#the-utility-process
  */
 
+import { LedgerMethod } from '../enums/ledger-method.enum'
+import type { ILedgerProcessMessage } from '../interfaces/ledger-process-message.interface'
 import { closeTransport, getEvmAddress, openTransport, signTransactionData } from '../utils/ledger.utils'
 
-export interface ILedgerProcessMessage {
-    error?: string | Error | unknown
-    data: ILedgerProcessMessageData
-}
-
-export interface ILedgerProcessMessageData {
-    method: LedgerMethod
-    parameters: (string | unknown)[]
-}
-
-export enum LedgerMethod {
-    GenerateEvmAddress = 'generate-evm-address',
-    SignEvmTransaction = 'sign-evm-transaction',
-}
-
+// CAUTION: process is initialized by utilityProcess.fork().
+// Don't export anything from this file, since process could be undefined.
 process.parentPort.on('message', void messageHandler)
 
 async function messageHandler(message: ILedgerProcessMessage): Promise<void> {
