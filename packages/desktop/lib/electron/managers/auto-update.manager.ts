@@ -1,7 +1,7 @@
 import { ipcMain } from 'electron'
 import { autoUpdater, CancellationToken, UpdateInfo, ProgressInfo } from 'electron-updater'
 import * as electronLog from 'electron-log'
-import { getOrInitWindow, updateAppVersionDetails } from '../main'
+import { getOrInitWindow, updateAppVersionDetails } from '../processes/main.process'
 
 interface VersionDetails {
     upToDate: boolean

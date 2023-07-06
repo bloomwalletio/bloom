@@ -1,6 +1,6 @@
 import { app, ipcMain, Menu } from 'electron'
 import features from '@features/features'
-import { closeAboutWindow, getOrInitWindow, openAboutWindow } from '../main'
+import { closeAboutWindow, getOrInitWindow, openAboutWindow } from '../processes/main.process'
 import { MENU_STATE } from './menu-state.constant'
 import { editMenu } from './edit.menu'
 import { helpMenu } from './help.menu'

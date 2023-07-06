@@ -17,17 +17,17 @@ import fs from 'fs'
 
 import features from '@features/features'
 
-import AnalyticsManager from './managers/analytics.manager'
-import AutoUpdateManager from './managers/auto-update.manager'
-import KeychainManager from './managers/keychain.manager'
-import NftDownloadManager from './managers/nft-download.manager'
-import { contextMenu } from './menus/context.menu'
-import { initMenu } from './menus/menu'
-import { getDiagnostics } from './utils/diagnostics.utils'
-import { shouldReportError } from './utils/error.utils'
-import { getMachineId } from './utils/os.utils'
-import { LedgerMethod } from './enums/ledger-method.enum'
-import type { ILedgerProcessMessage } from './interfaces/ledger-process-message.interface'
+import AnalyticsManager from '../managers/analytics.manager'
+import AutoUpdateManager from '../managers/auto-update.manager'
+import KeychainManager from '../managers/keychain.manager'
+import NftDownloadManager from '../managers/nft-download.manager'
+import { contextMenu } from '../menus/context.menu'
+import { initMenu } from '../menus/menu'
+import { getDiagnostics } from '../utils/diagnostics.utils'
+import { shouldReportError } from '../utils/error.utils'
+import { getMachineId } from '../utils/os.utils'
+import { LedgerMethod } from '../enums/ledger-method.enum'
+import type { ILedgerProcessMessage } from '../interfaces/ledger-process-message.interface'
 
 new AnalyticsManager()
 

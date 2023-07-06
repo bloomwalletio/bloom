@@ -229,7 +229,7 @@ const webpackConfig: Configuration[] = [
     {
         target: 'electron-main',
         entry: {
-            'build/main.process': ['./lib/electron/main.ts'],
+            'build/main.process': ['./lib/electron/processes/main.process.ts'],
             'build/ledger.process': ['./lib/electron/processes/ledger.process.ts'],
         },
         externals: {

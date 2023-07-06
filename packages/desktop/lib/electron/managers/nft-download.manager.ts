@@ -1,4 +1,4 @@
-import { getOrInitWindow } from '../main'
+import { getOrInitWindow } from '../processes/main.process'
 import { app, ipcMain, IpcMainInvokeEvent } from 'electron'
 import { download } from 'electron-dl'
 
