@@ -56,6 +56,6 @@ export interface IPlatform {
     getLanguageCode(): Promise<string>
     updateTheme(theme: AppTheme): void
 
-    startLedgerProcess(): Promise<void>
-    killLedgerProcess(): Promise<void>
+    startLedgerProcess(): void
+    killLedgerProcess(): void
 }
