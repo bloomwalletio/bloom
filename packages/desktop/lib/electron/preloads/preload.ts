@@ -16,8 +16,6 @@ import ElectronApi from '../apis/electron.api'
 import LedgerApi from '../apis/ledger.api'
 import WalletApi from '../apis/wallet.api'
 
-console.log('ELECTRON API: ', ElectronApi)
-
 const DAY_IN_MILLISECONDS = 1000 * 60 * 60 * 24
 const DAYS_TO_KEEP_LOGS = 30
 

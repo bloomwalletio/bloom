@@ -1,6 +1,8 @@
 import * as WalletApi from '@iota/wallet'
 import type { CreateAccountPayload, SyncOptions } from '@iota/wallet/out/types'
 
+import { bindObjectAcrossContextBridge } from '../utils/context-bridge.utils'
+
 interface PayloadType {
     accountStartIndex: number
     accountGapLimit: number
@@ -15,14 +17,12 @@ export default {
         const manager = new WalletApi.AccountManager(options)
         manager['id'] = id
         profileManagers[id] = manager
-        bindMethodsAcrossContextBridge(WalletApi.AccountManager.prototype, manager)
-        return manager
+        return bindObjectAcrossContextBridge(WalletApi.AccountManager.prototype, manager)
     },
     async createAccount(managerId: string, payload: CreateAccountPayload): Promise<unknown> {
         const manager = profileManagers[managerId]
         const account = await manager.createAccount(payload)
-        bindMethodsAcrossContextBridge(WalletApi.Account.prototype, account)
-        return account
+        return bindObjectAcrossContextBridge(WalletApi.Account.prototype, account)
     },
     deleteAccountManager(id: string): void {
         if (id && id in profileManagers) {
@@ -32,14 +32,12 @@ export default {
     async getAccount(managerId: string, index: number): Promise<unknown> {
         const manager = profileManagers[managerId]
         const account = await manager.getAccount(index)
-        bindMethodsAcrossContextBridge(WalletApi.Account.prototype, account)
-        return account
+        return bindObjectAcrossContextBridge(WalletApi.Account.prototype, account)
     },
     async getAccounts(managerId: string): Promise<unknown> {
         const manager = profileManagers[managerId]
         const accounts = await manager.getAccounts()
-        accounts.forEach((account) => bindMethodsAcrossContextBridge(WalletApi.Account.prototype, account))
-        return accounts
+        return accounts.map((account) => bindObjectAcrossContextBridge(WalletApi.Account.prototype, account))
     },
     async recoverAccounts(managerId: string, payload: PayloadType): Promise<unknown> {
         const manager = profileManagers[managerId]
@@ -49,8 +47,7 @@ export default {
             payload.addressGapLimit,
             payload.syncOptions
         )
-        accounts.forEach((account) => bindMethodsAcrossContextBridge(WalletApi.Account.prototype, account))
-        return accounts
+        return accounts.map((account) => bindObjectAcrossContextBridge(WalletApi.Account.prototype, account))
     },
     migrateStrongholdSnapshotV2ToV3(
         currentPath: string,
@@ -65,13 +62,4 @@ export default {
         // @ts-ignore
         return WalletApi.migrateStrongholdSnapshotV2ToV3(currentPath, newPath, currentPassword, newPassword)
     },
-}
-
-function bindMethodsAcrossContextBridge(prototype: unknown, object: object): void {
-    const prototypeProperties = Object.getOwnPropertyNames(prototype)
-    prototypeProperties.forEach((key) => {
-        if (key !== 'constructor') {
-            object[key] = object[key].bind(object)
-        }
-    })
 }

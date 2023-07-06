@@ -77,6 +77,7 @@
             handleDeepLinkRequest(data)
         })
 
+        console.log('PLATFORM (dashboard): ', Platform)
         Platform.DeepLinkManager.checkDeepLinkRequestExists()
 
         if ($activeProfile?.isDeveloperProfile && !developerProfileNotificationId && $nodeInfo) {

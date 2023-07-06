@@ -6,8 +6,7 @@ import { MENU_STATE } from '../menus/menu-state.constant'
 import DeepLinkManager from '../managers/deep-link.manager'
 import NotificationManager from '../managers/notification.manager'
 import PincodeManager from '../managers/pincode.manager'
-
-console.log('PINCODE MANAGER IMPORT: ', PincodeManager)
+import { bindObjectAcrossContextBridge } from '../utils/context-bridge.utils'
 
 import type { IAppSettings } from '@core/app/interfaces'
 import type { IFeatureFlag } from '@lib/features/interfaces'
@@ -69,9 +68,9 @@ export default {
             }
         })
     },
-    PincodeManager: new PincodeManager(),
-    DeepLinkManager: new DeepLinkManager(),
-    NotificationManager: new NotificationManager(),
+    DeepLinkManager: bindObjectAcrossContextBridge(DeepLinkManager.prototype, new DeepLinkManager()),
+    NotificationManager: bindObjectAcrossContextBridge(NotificationManager.prototype, new NotificationManager()),
+    PincodeManager: bindObjectAcrossContextBridge(PincodeManager.prototype, new PincodeManager()),
     async getStrongholdBackupDestination(defaultPath: unknown): Promise<unknown> {
         return ipcRenderer
             .invoke('show-save-dialog', {
