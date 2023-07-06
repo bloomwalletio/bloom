@@ -51,6 +51,6 @@
         backgroundColor="green-600"
         borderColor="green-600"
         body={localize('general.copiedToClipboard')}
-        textColor="white"
+        bodyColor="white"
     />
 {/if}

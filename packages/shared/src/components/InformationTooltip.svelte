@@ -9,12 +9,12 @@
 <Tooltip {...$$restProps}>
     <div class="flex flex-col text-left space-y-2">
         {#if title}
-            <Text type={TextType.h4} color={$$restProps?.textColor ?? undefined}>
+            <Text type={TextType.h4} color={$$restProps?.titleColor ?? undefined}>
                 {title}
             </Text>
         {/if}
         {#if body}
-            <Text type={TextType.p} color={$$restProps?.textColor ?? undefined}>
+            <Text type={TextType.p} color={$$restProps?.bodyColor ?? undefined}>
                 {body}
             </Text>
         {/if}

@@ -72,7 +72,14 @@
         />
         {#if isTooltipVisible}
             <tooltip-container transition:fade={{ duration: 100 }}>
-                <InformationTooltip anchor={buttonElement} position={Position.Right} title={label} body={description} />
+                <InformationTooltip
+                    anchor={buttonElement}
+                    position={Position.Right}
+                    title={label}
+                    titleColor="gray-900"
+                    body={description}
+                    bodyColor="gray-700"
+                />
             </tooltip-container>
         {/if}
     {/if}
