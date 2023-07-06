@@ -27,23 +27,6 @@ const { initMenu, contextMenu } = require('./lib/menu')
 initialiseAnalytics()
 initialiseDeepLinks()
 
-const canSendCrashReports = () => {
-    let sendCrashReports = loadJsonConfig('settings.json')?.sendCrashReports
-    if (typeof sendCrashReports === 'undefined') {
-        sendCrashReports = false
-        updateSettings({ sendCrashReports })
-    }
-
-    return sendCrashReports
-}
-const CAN_LOAD_SENTRY = app.isPackaged
-const SEND_CRASH_REPORTS = CAN_LOAD_SENTRY && canSendCrashReports()
-
-let captureException = (..._) => {}
-if (SEND_CRASH_REPORTS) {
-    captureException = require('../sentry')(true).captureException
-}
-
 /**
  * Set AppUserModelID for Windows notifications functionality
  */
@@ -87,18 +70,6 @@ const handleError = (errorType, error, isRenderProcessError) => {
             diagnostics: getDiagnostics(),
             error,
             errorType,
-        }
-
-        /**
-         * NOTE: We do NOT need to capture the exception unless it is from
-         * the main process.
-         */
-        if (SEND_CRASH_REPORTS) {
-            const sentryError = new Error(`${errorType} - ${errorMessage}`)
-            if (error.stack) {
-                sentryError.stack = error.stack
-            }
-            captureException(sentryError)
         }
 
         openErrorWindow()
@@ -151,7 +122,6 @@ const defaultWebPreferences = {
     webviewTag: false,
     enableWebSQL: false,
     devTools: !app.isPackaged || features?.electron?.developerTools?.enabled,
-    additionalArguments: [`--send-crash-reports=${SEND_CRASH_REPORTS}`],
 }
 
 if (app.isPackaged) {

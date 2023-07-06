@@ -13,7 +13,7 @@
         NftActivityDetails,
         ConsolidationActivityDetails,
         ActivityInformation,
-    } from 'shared/components'
+    } from '@ui'
     import { openUrlInBrowser } from '@core/app'
     import {
         ActivityAsyncStatus,

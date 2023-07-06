@@ -1,6 +1,6 @@
 <script lang="ts">
     import { localize } from '@core/i18n'
-    import { Text, Button, TextHint, FontWeight } from 'shared/components'
+    import { Text, Button, TextHint, FontWeight } from '@ui'
     import { closePopup } from '@desktop/auxiliary/popup'
 
     export let error: Error

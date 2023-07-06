@@ -7,14 +7,16 @@
         "moduleResolution": "node",
         "outDir": "out",
         "paths": {
-            "@auxiliary/*": ["./lib/auxiliary/*"],
-            "@contexts/*": ["./lib/contexts/*"],
-            "@core/*": ["./lib/core/*"],
-            "@features/*": ["./lib/features/*"],
-            "@lib/*": ["./lib/*"]
+            "@auxiliary/*": ["src/lib/auxiliary/*"],
+            "@contexts/*": ["src/lib/contexts/*"],
+            "@core/*": ["src/lib/core/*"],
+            "@features/*": ["src/lib/features/*"],
+            "@lib/*": ["src/lib/*"],
+            "@ui": ["src/components"],
+            "@ui/*": ["src/components/*"]
         },
         "types": ["node"]
     },
-    "include": ["./lib"],
-    "exclude": ["**/node_modules", "**/tests"]
+    "include": ["src/lib"],
+    "exclude": ["**/node_modules", "test", "src/lib/**/tests"]
 }

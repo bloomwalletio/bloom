@@ -1,7 +1,6 @@
 {
     "private": true,
     "workspaces": [
-        "packages/mobile",
         "packages/desktop",
         "packages/shared"
     ],
@@ -19,8 +18,7 @@
         "node-hid": "^2.1.2",
         "patch-package": "^6.4.7",
         "prettier": "^2.3.2",
-        "prettier-plugin-svelte": "^2.7.0",
-        "retypeapp": "^3.0.0"
+        "prettier-plugin-svelte": "^2.7.0"
     },
     "scripts": {
         "check-strict": "yarn check-strict:desktop && yarn check-strict:shared",
@@ -30,7 +28,6 @@
         "check-types": "yarn check-types:shared && yarn check-types:desktop",
         "check-types:desktop": "cd packages/desktop && tsc --pretty --noEmit",
         "check-types:shared": "cd packages/shared && tsc --project tsconfig.base.json --pretty --noEmit",
-        "docs:start": "cd docs/ && retype watch",
         "format": "yarn format:write",
         "format:check": "prettier -c \"**/*.{ts,js,json,scss,css,svelte}\"",
         "format:write": "prettier -w \"**/*.{ts,js,json,scss,css,svelte}\"",
@@ -47,8 +44,8 @@
     },
     "resolutions": {
         "ansi-regex": "5.0.1",
-        "glob-parent": " >=5.1.2",
         "eip55": "2.1.1",
+        "glob-parent": " >=5.1.2",
         "lodash": ">=4.17.21",
         "nanoid": "^3.1.31",
         "node-abi": "^3.8.0",

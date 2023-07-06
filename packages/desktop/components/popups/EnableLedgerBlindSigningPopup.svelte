@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { Text, Icon, TextType } from 'shared/components'
+    import { Text, Icon, TextType } from '@ui'
     import { Icon as IconEnum } from '@auxiliary/icon'
     import { localize } from '@core/i18n'
     import {

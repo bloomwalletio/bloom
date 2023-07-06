@@ -8,23 +8,27 @@ updates:
   - package-ecosystem: "npm"
     directory: "/" # Top level
     schedule:
-      interval: "weekly"
+      interval: "monthly"
     labels:
       - "scope:dependencies"
     milestone: 14
+    # Disable rebasing to save GHA minutes
+    rebase-strategy: "disabled"
 
   - package-ecosystem: "npm"
     directory: "/packages/desktop"
     schedule:
-      interval: "weekly"
+      interval: "monthly"
     labels:
       - "scope:dependencies"
     milestone: 14
+    rebase-strategy: "disabled"
 
   - package-ecosystem: "npm"
     directory: "/packages/shared"
     schedule:
-      interval: "weekly"
+      interval: "monthly"
     labels:
       - "scope:dependencies"
     milestone: 14
+    rebase-strategy: "disabled"

@@ -1,7 +1,7 @@
 <script lang="ts">
     import { Platform } from '@core/app'
     import features from '@features/features'
-    import { Transition } from 'shared/components'
+    import { Transition } from '@ui'
     import { CompleteOnboardingRoute } from './complete-onboarding-route.enum'
     import { completeOnboardingRoute } from './complete-onboarding-router'
     import EnterNameView from './views/EnterNameView.svelte'

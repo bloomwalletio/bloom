@@ -1,7 +1,7 @@
 <script lang="ts">
     import { onMount } from 'svelte'
     import { get } from 'svelte/store'
-    import { Button, KeyValueBox, Text, TextType, TextHint } from 'shared/components'
+    import { Button, KeyValueBox, Text, TextType, TextHint } from '@ui'
     import {
         appUpdateBusy,
         checkForAppUpdate,

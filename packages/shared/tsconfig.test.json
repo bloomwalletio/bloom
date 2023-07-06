@@ -6,16 +6,16 @@
         "isolatedModules": true,
         "lib": ["DOM", "ESNext"],
         "paths": {
-            "@auxiliary/*": ["./lib/auxiliary/*"],
-            "@contexts/*": ["./lib/contexts/*"],
-            "@core/*": ["./lib/core/*"],
-            "@features/*": ["./lib/features/*"],
-            "@lib/*": ["./lib/*"],
-            "@mocks/*": ["./lib/tests/__mocks__/*"]
+            "@auxiliary/*": ["src/lib/auxiliary/*"],
+            "@contexts/*": ["src/lib/contexts/*"],
+            "@core/*": ["src/lib/core/*"],
+            "@features/*": ["src/lib/features/*"],
+            "@lib/*": ["src/lib/*"],
+            "@mocks/*": ["test/mocks/*"]
         },
         "types": ["jest", "node"],
         "resolveJsonModule": true
     },
-    "include": ["./lib/**/tests"],
+    "include": ["test", "src/**/*.test.ts"],
     "exclude": ["**/node_modules"]
 }

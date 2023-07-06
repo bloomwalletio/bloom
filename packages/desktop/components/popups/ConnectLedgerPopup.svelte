@@ -2,7 +2,7 @@
     import { localize } from '@core/i18n'
     import { LedgerConnectionState, ledgerConnectionState } from '@core/ledger'
     import { isFunction } from '@core/utils'
-    import { Button, LedgerAnimation, Text, TextHint, FontWeight, TextType } from 'shared/components'
+    import { Button, LedgerAnimation, Text, TextHint, FontWeight, TextType } from '@ui'
     import { closePopup } from '@desktop/auxiliary/popup'
 
     export let onCancel: () => void

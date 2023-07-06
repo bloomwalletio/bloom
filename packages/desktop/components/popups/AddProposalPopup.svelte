@@ -8,8 +8,8 @@
     import { activeAccounts, updateActiveAccountPersistedData } from '@core/profile'
     import { truncateString } from '@core/utils/string'
     import type { Auth } from '@iota/wallet'
-    import { Button, Checkbox, NodeInput, Text, TextInput, TextType } from 'shared/components'
-    import { HTMLButtonType } from 'shared/components/enums'
+    import { Button, Checkbox, NodeInput, Text, TextInput, TextType } from '@ui'
+    import { HTMLButtonType } from '@ui/enums'
 
     export let initialEventId: string
     export let initialNodeUrl: string
