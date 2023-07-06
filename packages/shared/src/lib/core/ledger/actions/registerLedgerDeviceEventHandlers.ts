@@ -12,7 +12,6 @@ export function registerLedgerDeviceEventHandlers(): void {
     })
 
     Platform.onEvent('evm-address', ({ evmAddress, bip32Path }) => {
-        console.log('got evm address: ', evmAddress, bip32Path)
         const { coinType, accountIndex } = deconstructBip32Path(bip32Path)
         if (coinType === undefined || !evmAddress || accountIndex === undefined) {
             return

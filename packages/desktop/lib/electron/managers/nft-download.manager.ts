@@ -21,7 +21,13 @@ export default class NftDownloadManager {
         ipcMain.handle('cancel-nft-download', this.handleNftDownloadCancel.bind(this))
     }
 
-    private async handleNftDownload(_event: IpcMainInvokeEvent, url: string, destination: string, nftId: string, accountIndex: number): Promise<void> {
+    private async handleNftDownload(
+        _event: IpcMainInvokeEvent,
+        url: string,
+        destination: string,
+        nftId: string,
+        accountIndex: number
+    ): Promise<void> {
         const userPath = app.getPath('userData')
         const directory = app.isPackaged ? userPath : __dirname
 

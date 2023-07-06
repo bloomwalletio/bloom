@@ -16,7 +16,9 @@ import { closeTransport, getEvmAddress, openTransport, signTransactionData } fro
  * CAUTION: `process` is initialized using `utilityProcess.fork()`.
  * Do NOT export anything from this file, since `process` may be undefined.
  */
-process.parentPort.on('message', messageHandler)
+process.parentPort.on('message', (msg) => {
+    void messageHandler(msg)
+})
 
 async function messageHandler(message: ILedgerProcessMessage): Promise<void> {
     try {
