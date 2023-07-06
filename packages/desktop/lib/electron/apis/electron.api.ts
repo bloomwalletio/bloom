@@ -7,8 +7,10 @@ import DeepLinkManager from '../managers/deep-link.manager'
 import NotificationManager from '../managers/notification.manager'
 import PincodeManager from '../managers/pincode.manager'
 
+console.log('PINCODE MANAGER IMPORT: ', PincodeManager)
+
 import type { IAppSettings } from '@core/app/interfaces'
-import { IFeatureFlag } from '@lib/features/interfaces'
+import type { IFeatureFlag } from '@lib/features/interfaces'
 
 let activeProfileId = null
 const eventListeners = {}

@@ -8,12 +8,17 @@
 
 import fs from 'fs'
 import { ipcRenderer, contextBridge } from 'electron'
+
 import * as IotaWalletApi from '@iota/wallet'
-import { LoggerConfig } from '@iota/wallet/types'
+import type { LoggerConfig } from '@iota/wallet/types'
 
-import { ElectronApi, LedgerApi, WalletApi } from '../apis'
+import ElectronApi from '../apis/electron.api'
+import LedgerApi from '../apis/ledger.api'
+import WalletApi from '../apis/wallet.api'
 
-const dayInMilliSeconds = 1000 * 60 * 60 * 24
+console.log('ELECTRON API: ', ElectronApi)
+
+const DAY_IN_MILLISECONDS = 1000 * 60 * 60 * 24
 const DAYS_TO_KEEP_LOGS = 30
 
 // Hook the error handlers as early as possible
@@ -91,7 +96,7 @@ function deleteOldLogs(path: string, currentVersion: string): void {
         const stat = fs.statSync(filePath)
 
         const isOlderThan30Days =
-            new Date().getTime() - new Date(stat.mtime).getTime() > DAYS_TO_KEEP_LOGS * dayInMilliSeconds
+            new Date().getTime() - new Date(stat.mtime).getTime() > DAYS_TO_KEEP_LOGS * DAY_IN_MILLISECONDS
         const version = file.match(/wallet-v((\w*.)*)-d((\w*.)*).log/)?.[1]
         const isDifferentVersion = version !== currentVersion
         if (isDifferentVersion || isOlderThan30Days) {

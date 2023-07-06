@@ -92,6 +92,8 @@
     async function onSubmit(): Promise<void> {
         if (!hasReachedMaxAttempts) {
             isBusy = true
+            console.log('PLATFORM: ', Platform)
+            console.log('PINCODE MANAGER: ', Platform.PincodeManager)
             const isVerified = await Platform.PincodeManager.verify($activeProfile?.id, pinCode)
             if (isVerified) {
                 if (!updateRequired) {

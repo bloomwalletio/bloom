@@ -147,21 +147,21 @@ const DEFAULT_WEB_PREFERENCES: WebPreferences = {
 
 if (app.isPackaged) {
     paths.html = path.join(app.getAppPath(), '/public/index.html')
-    paths.aboutHtml = path.join(app.getAppPath(), '/public/about.html')
-    paths.errorHtml = path.join(app.getAppPath(), '/public/error.html')
     paths.preload = path.join(app.getAppPath(), '/public/build/preload.js')
-    paths.aboutPreload = path.join(app.getAppPath(), '/public/build/lib/aboutPreload.js')
-    paths.errorPreload = path.join(app.getAppPath(), '/public/build/lib/errorPreload.js')
-    paths.ledger = path.join(app.getAppPath(), '/public/build/lib/ledger.js')
+    paths.aboutHtml = path.join(app.getAppPath(), '/public/about.html')
+    paths.aboutPreload = path.join(app.getAppPath(), '/public/build/about.preload.js')
+    paths.errorHtml = path.join(app.getAppPath(), '/public/error.html')
+    paths.errorPreload = path.join(app.getAppPath(), '/public/build/error.preload.js')
+    paths.ledger = path.join(app.getAppPath(), '/public/build/ledger.process.js')
 } else {
     // __dirname is desktop/public/build
     paths.html = path.join(__dirname, '../index.html')
-    paths.aboutHtml = path.join(__dirname, '../about.html')
-    paths.errorHtml = path.join(__dirname, '../error.html')
     paths.preload = path.join(__dirname, 'preload.js')
-    paths.aboutPreload = path.join(__dirname, 'lib/aboutPreload.js')
-    paths.errorPreload = path.join(__dirname, 'lib/errorPreload.js')
-    paths.ledger = path.join(__dirname, 'lib/ledger.js')
+    paths.aboutHtml = path.join(__dirname, '../about.html')
+    paths.aboutPreload = path.join(__dirname, 'about.preload.js')
+    paths.errorHtml = path.join(__dirname, '../error.html')
+    paths.errorPreload = path.join(__dirname, 'error.preload.js')
+    paths.ledger = path.join(__dirname, 'ledger.process.js')
 }
 
 /**
