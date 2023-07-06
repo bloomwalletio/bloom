@@ -23,7 +23,6 @@ import KeychainManager from './managers/keychain.manager'
 import NftDownloadManager from './managers/nft-download.manager'
 import { contextMenu } from './menus/context.menu'
 import { initMenu } from './menus/menu'
-import { ILedgerProcessMessage, LedgerMethod } from './processes/ledger.process'
 import { getDiagnostics } from './utils/diagnostics.utils'
 import { shouldReportError } from './utils/error.utils'
 import { getMachineId } from './utils/os.utils'
@@ -63,7 +62,7 @@ let lastError = {}
 /**
  * Setup the error handlers early so they catch any issues
  */
-const handleError = (errorType, error, isRenderProcessError?) => {
+const handleError = (errorType, error, isRenderProcessError?): void => {
     if (app.isPackaged) {
         const errorMessage = error.message || error.reason || error
         if (!shouldReportError(errorMessage)) {
@@ -177,7 +176,7 @@ function handleNavigation(e: Event, url: string): void {
         e.preventDefault()
 
         try {
-            shell.openExternal(url)
+            void shell.openExternal(url)
         } catch (err) {
             console.error(err)
         }
@@ -307,16 +306,17 @@ ipcMain.on('start-ledger-process', () => {
     ledgerProcess = utilityProcess.fork(paths.ledger)
     ledgerProcess.on('spawn', () => {
         // Handler for message from Ledger process
-        ledgerProcess.on('message', (message: ILedgerProcessMessage) => {
+        /* eslint-disable-next-line */
+        ledgerProcess.on('message', (message: any) => {
             const { error, data } = message
             if (error) {
                 windows[Window.Main].webContents.send('ledger-error', error)
             } else {
                 switch (data?.method) {
-                    case LedgerMethod.GenerateEvmAddress:
+                    case 'generate-evm-address':
                         windows[Window.Main].webContents.send('evm-address', data)
                         break
-                    case LedgerMethod.SignEvmTransaction:
+                    case 'sign-evm-transaction':
                         windows[Window.Main].webContents.send('evm-signed-transaction', data)
                         break
                     default:
@@ -333,12 +333,12 @@ ipcMain.on('kill-ledger-process', () => {
     ledgerProcess?.kill()
 })
 
-ipcMain.on(LedgerMethod.GenerateEvmAddress, (_e, bip32Path, verify) => {
+ipcMain.on('generate-evm-address', (_e, bip32Path, verify) => {
     ledgerProcess?.postMessage({ method: 'generate-evm-address', parameters: [bip32Path, verify] })
 })
 
-ipcMain.on(LedgerMethod.SignEvmTransaction, (_e, data, bip32Path) => {
-    ledgerProcess?.postMessage({ method: LedgerMethod.SignEvmTransaction, parameters: [data, bip32Path] })
+ipcMain.on('sign-evm-transaction', (_e, data, bip32Path) => {
+    ledgerProcess?.postMessage({ method: 'sign-evm-transaction', parameters: [data, bip32Path] })
 })
 
 export const getWindow = (windowName: string): BrowserWindow => windows[windowName]

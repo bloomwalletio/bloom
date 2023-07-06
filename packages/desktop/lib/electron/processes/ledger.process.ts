@@ -20,7 +20,7 @@ export interface ILedgerProcessMessageData {
 
 export enum LedgerMethod {
     GenerateEvmAddress = 'generate-evm-address',
-    SignEvmTransaction = ' sign-evm-transaction',
+    SignEvmTransaction = 'sign-evm-transaction',
 }
 
 process.parentPort.on('message', void messageHandler)
