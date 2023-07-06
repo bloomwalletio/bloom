@@ -53,7 +53,6 @@ function handleOpenUrl(event, url) {
 }
 
 function checkArgsForDeepLink(_e, args) {
-    process.stdout.write(`check Args for deep link: \nEvent ${_e} \nArgs: ${args}`)
     if (windows.main) {
         if (args.length > 1) {
             const params = args.find((arg) => arg.startsWith(`${process.env.APP_PROTOCOL}://`))
