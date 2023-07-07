@@ -88,10 +88,8 @@ const prodConfig = () => ({
             Name: APP_NAME,
             Comment: 'Web3 wallet for the IOTA/Shimmer ecosystem',
             Categories: 'Office;Network;Finance',
-            MimeType: `x-scheme-handler/${APP_PROTOCOL}`,
         },
         icon: './public/assets/icons/prod/icon1024x1024.png',
-        mimeTypes: [`x-scheme-handler/${APP_PROTOCOL}`],
     },
     mac: {
         icon: './public/assets/icons/prod/icon1024x1024.png',
