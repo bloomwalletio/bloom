@@ -2,7 +2,7 @@
     import { Icon as IconEnum } from '@auxiliary/icon'
     import { Button, FlatIconName } from '@bloom-labs/ui'
     import { ContactAddressCard, ContactMetadataTable, DrawerTemplate } from '@components'
-    import { ContactManager, selectedContact } from '@core/contacts'
+    import { ContactManager, selectedContact } from '@core/contact'
     import { localize } from '@core/i18n'
     import { Router } from '@core/router'
     import { MeatballMenuButton, MenuItem, Modal, Text } from '@ui'

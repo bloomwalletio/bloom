@@ -1,5 +1,5 @@
-import { IContactMetadata } from '@core/contacts/interfaces'
 import { get, writable } from 'svelte/store'
+import { IContactMetadata } from '../interfaces'
 
 export const selectedContact = writable<IContactMetadata | undefined>(undefined)
 

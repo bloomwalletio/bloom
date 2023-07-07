@@ -12,7 +12,7 @@
     } from './drawers'
     import { ContactBookRoute } from './contact-book-route.enum'
     import { ContactBookRouter, contactBookRouter, contactBookRoute } from './contact-book-router'
-    import { clearSelectedContact } from '@core/contacts'
+    import { clearSelectedContact } from '@core/contact'
 
     onMount(() => {
         $contactBookRouter = new ContactBookRouter()

@@ -1,7 +1,7 @@
 <script lang="ts">
     import { FlatIconName, Button } from '@bloom-labs/ui'
     import { ContactCard, DrawerTemplate } from '@components'
-    import { ContactManager, IContact, clearSelectedContact, setSelectedContact } from '@core/contacts'
+    import { ContactManager, IContact, clearSelectedContact, setSelectedContact } from '@core/contact'
     import { localize } from '@core/i18n'
     import { Router } from '@core/router'
     import features from '@features/features'

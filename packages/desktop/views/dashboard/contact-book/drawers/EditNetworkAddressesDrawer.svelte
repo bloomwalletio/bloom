@@ -7,7 +7,7 @@
     import { ButtonSize, ButtonVariant, FontWeight } from '@ui/enums'
     import { DrawerTemplate } from '@components'
 
-    import { ContactManager, selectedContact, selectedNetworkId } from '@core/contacts'
+    import { ContactManager, IContactAddress, selectedContact, selectedContactNetworkId } from '@core/contact'
     import { localize } from '@core/i18n'
     import { Router } from '@core/router'
 
@@ -16,7 +16,7 @@
 
     export let drawerRouter: Router<unknown>
 
-    let addresses: { contactId: string; addressName: string; address: string }[] = []
+    let addresses: IContactAddress[] = []
     let addressesToRemove: string[] = []
 
     function updateNetworkAddresses(): void {
@@ -26,9 +26,9 @@
                 message: localize('notifications.updateNetworkAddresses.success'),
                 alert: true,
             })
-            ContactManager.updateContactAddresses($selectedContact.id, $selectedNetworkId, addresses)
+            ContactManager.updateContactAddresses($selectedContact.id, addresses)
             if (addressesToRemove.length) {
-                ContactManager.deleteContactAddresses($selectedContact.id, $selectedNetworkId, addressesToRemove)
+                ContactManager.deleteContactAddresses($selectedContact.id, $selectedContactNetworkId, addressesToRemove)
             }
             drawerRouter.previous()
         } catch (err) {
@@ -42,12 +42,15 @@
     }
 
     function onAddAddressClick(): void {
-        addresses = [...addresses, { contactId: $selectedContact.id, addressName: '', address: '' }]
+        addresses = [
+            ...addresses,
+            { contactId: $selectedContact.id, networkId: $selectedContactNetworkId, addressName: '', address: '' },
+        ]
     }
 
     onMount(() => {
         const contactAddresses = ContactManager.getNetworkContactAddressMapForContact($selectedContact?.id)
-        addresses = Object.values(contactAddresses?.[$selectedNetworkId] ?? {}) || []
+        addresses = Object.values(contactAddresses?.[$selectedContactNetworkId] ?? {}) || []
     })
 </script>
 

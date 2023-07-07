@@ -1,7 +1,7 @@
 <script lang="ts">
     import { ClickableTile, FontWeight, Icon, Text, TextType } from '@ui'
     import { UiEventFunction } from '@core/utils'
-    import { IContact } from '@core/contacts'
+    import { IContact } from '@core/contact'
     import { Icon as IconEnum } from '@auxiliary/icon'
 
     export let contact: IContact | undefined = undefined

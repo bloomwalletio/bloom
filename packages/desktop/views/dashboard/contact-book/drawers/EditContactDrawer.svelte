@@ -4,7 +4,7 @@
     import { Button, TextInput } from '@ui'
     import { DrawerTemplate } from '@components'
 
-    import { ContactManager, selectedContact } from '@core/contacts'
+    import { ContactManager, selectedContact } from '@core/contact'
     import { localize } from '@core/i18n'
     import { Router } from '@core/router'
 

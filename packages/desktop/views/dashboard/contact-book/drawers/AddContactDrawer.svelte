@@ -4,7 +4,7 @@
     import { Button, NetworkInput, TextInput, HR } from '@ui'
     import { DrawerTemplate } from '@components'
 
-    import { ContactManager } from '@core/contacts'
+    import { ContactManager } from '@core/contact'
     import { localize } from '@core/i18n'
     import { Router } from '@core/router'
     import { DestinationNetwork } from '@core/layer-2'

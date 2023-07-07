@@ -4,7 +4,7 @@
     import { Button, ButtonVariant, Text, TextHint } from '@ui'
     import { DrawerTemplate } from '@components'
 
-    import { ContactManager, selectedContact, selectedNetworkId } from '@core/contacts'
+    import { ContactManager, selectedContact, selectedContactNetworkId } from '@core/contact'
     import { localize } from '@core/i18n'
     import { Router } from '@core/router'
 
@@ -15,7 +15,7 @@
     }
 
     function onRemoveClick(): void {
-        ContactManager.deleteContactAddresses($selectedContact.id, $selectedNetworkId)
+        ContactManager.deleteContactAddresses($selectedContact.id, $selectedContactNetworkId)
         drawerRouter.previous()
     }
 </script>
@@ -27,7 +27,7 @@
     <remove-addresses class="flex flex-col gap-4">
         <Text>
             {localize(`views.dashboard.drawers.contactBook.${ContactBookRoute.RemoveNetworkAddresses}.body`, {
-                values: { network: $selectedNetworkId },
+                values: { network: $selectedContactNetworkId },
             })}
         </Text>
         <TextHint

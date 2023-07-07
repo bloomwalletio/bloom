@@ -4,7 +4,7 @@
 
     import features from '@features/features'
 
-    import { IContactAddressMap, setSelectedNetworkId } from '@core/contacts'
+    import { IContactAddressMap, setSelectedContactNetworkId } from '@core/contact'
     import { NetworkId } from '@core/network'
     import { setClipboard, truncateString } from '@core/utils'
     import { Icon as IconEnum } from '@auxiliary/icon'
@@ -29,12 +29,12 @@
     }
 
     function onEditNetworkAddressesClick(networkId: string): void {
-        setSelectedNetworkId(networkId)
+        setSelectedContactNetworkId(networkId)
         drawerRouter.goTo(ContactBookRoute.EditNetworkAddresses)
     }
 
     function onRemoveNetworkClick(networkId: string): void {
-        setSelectedNetworkId(networkId)
+        setSelectedContactNetworkId(networkId)
         drawerRouter.goTo(ContactBookRoute.RemoveNetworkAddresses)
     }
 

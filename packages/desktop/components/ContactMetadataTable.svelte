@@ -1,6 +1,6 @@
 <script lang="ts">
     import { Table } from '@bloom-labs/ui'
-    import { IContactMetadata } from '@core/contacts'
+    import { IContactMetadata } from '@core/contact'
     import { localize } from '@core/i18n'
 
     export let contactMetadata: IContactMetadata
