@@ -50,7 +50,7 @@
 
 <proposal-question
     class="flex flex-col px-5 py-4 rounded-xl border border-solid border-gray-200
-    cursor-pointer dark:border-transparent dark:bg-gray-850"
+    cursor-pointer dark:border-transparent dark:bg-gray-900"
     class:animate-pulse={isLoading}
 >
     <button on:click={() => onQuestionClick(questionIndex)} class="flex justify-between items-center">
