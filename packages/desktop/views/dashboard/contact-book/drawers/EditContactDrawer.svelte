@@ -49,7 +49,7 @@
 </script>
 
 <DrawerTemplate
-    title={localize(`views.dashboard.drawers.contactBook.${ContactBookRoute.UpdateContact}.title`)}
+    title={localize(`views.dashboard.drawers.contactBook.${ContactBookRoute.EditContact}.title`)}
     {drawerRouter}
 >
     <update-contact class="flex flex-col justify-between gap-4">

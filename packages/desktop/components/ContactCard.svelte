@@ -4,7 +4,7 @@
     import { IContact } from '@core/contacts'
     import { Icon as IconEnum } from '@auxiliary/icon'
 
-    export let contact: IContact = undefined
+    export let contact: IContact | undefined = undefined
     export let onCardClick: UiEventFunction
 </script>
 

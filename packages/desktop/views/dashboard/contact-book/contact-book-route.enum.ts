@@ -2,9 +2,9 @@ export enum ContactBookRoute {
     ContactList = 'contactList',
     ContactInformation = 'contactInformation',
     AddContact = 'addContact',
-    UpdateContact = 'updateContact',
+    EditContact = 'editContact',
     RemoveContact = 'removeContact',
     AddNetworkAddress = 'addNetworkAddress',
-    UpdateNetworkAddresses = 'updateNetworkAddresses',
+    EditNetworkAddresses = 'editNetworkAddresses',
     RemoveNetworkAddresses = 'removeNetworkAddresses',
 }

@@ -52,7 +52,7 @@
 </script>
 
 <DrawerTemplate
-    title={localize(`views.dashboard.drawers.contactBook.${ContactBookRoute.UpdateNetworkAddresses}.title`)}
+    title={localize(`views.dashboard.drawers.contactBook.${ContactBookRoute.EditNetworkAddresses}.title`)}
     {drawerRouter}
 >
     <update-addresses class="flex flex-col gap-4">
@@ -88,7 +88,7 @@
         >
             <Icon icon={IconEnum.Plus} width={12} height={12} />
             <Text fontSize="14" fontWeight={FontWeight.semibold} classes="text-blue-500" overrideColor>
-                {localize(`views.dashboard.drawers.contactBook.${ContactBookRoute.UpdateNetworkAddresses}.addAddress`)}
+                {localize(`views.dashboard.drawers.contactBook.${ContactBookRoute.EditNetworkAddresses}.addAddress`)}
             </Text>
         </button>
     </update-addresses>

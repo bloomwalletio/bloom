@@ -1,6 +1,6 @@
 <script lang="ts">
     import { Icon as IconEnum, NETWORK_ICON_SVG } from '@auxiliary/icon'
-    import { ProfileActions, SidebarTab } from '@components'
+    import { ProfileActionsMenuModal, SidebarTab } from '@components'
     import { appVersionDetails } from '@core/app/stores'
     import { localize } from '@core/i18n'
     import { activeProfile } from '@core/profile/stores'
@@ -122,7 +122,7 @@
             </button>
         </div>
     </nav>
-    <ProfileActions bind:modal={profileModal} />
+    <ProfileActionsMenuModal bind:modal={profileModal} />
 </aside>
 
 <style type="text/scss">

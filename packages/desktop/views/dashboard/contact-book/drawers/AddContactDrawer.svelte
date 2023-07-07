@@ -7,12 +7,12 @@
     import { ContactManager } from '@core/contacts'
     import { localize } from '@core/i18n'
     import { Router } from '@core/router'
-    import { DestinationNetwork } from 'shared/src/lib/core/layer-2'
-    import { isValidBech32AddressAndPrefix, validateEthereumAddress } from 'shared/src/lib/core/utils'
-    import { getActiveProfilePersistedAccountData, getNetworkHrp } from 'shared/src/lib/core/profile'
-    import { selectedAccount, selectedAccountIndex } from 'shared/src/lib/core/account'
-    import { DEFAULT_CHAIN_CONFIGURATIONS } from 'shared/src/lib/core/network'
-    import { getActiveNetworkId } from 'shared/src/lib/core/network/utils/getNetworkId'
+    import { DestinationNetwork } from '@core/layer-2'
+    import { isValidBech32AddressAndPrefix, validateEthereumAddress } from '@core/utils'
+    import { getActiveProfilePersistedAccountData, getNetworkHrp } from '@core/profile'
+    import { selectedAccount, selectedAccountIndex } from '@core/account'
+    import { DEFAULT_CHAIN_CONFIGURATIONS } from '@core/network'
+    import { getActiveNetworkId } from '@core/network/utils/getNetworkId'
 
     export let drawerRouter: Router<unknown>
 

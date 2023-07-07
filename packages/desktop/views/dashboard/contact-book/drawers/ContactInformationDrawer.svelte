@@ -15,7 +15,7 @@
     let modal: Modal
 
     function onEditContactClick(): void {
-        drawerRouter.goTo(ContactBookRoute.UpdateContact)
+        drawerRouter.goTo(ContactBookRoute.EditContact)
     }
 
     function onRemoveContactClick(): void {

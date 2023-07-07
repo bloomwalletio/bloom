@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { PopupId, closePopup, openPopup, popupState } from '../../lib/auxiliary/popup'
+    import { PopupId, closePopup, openPopup, popupState } from '@desktop/auxiliary/popup'
     import { appVersionDetails } from '@core/app'
     import { localize } from '@core/i18n'
     import { LedgerConnectionState, ledgerConnectionState } from '@core/ledger'

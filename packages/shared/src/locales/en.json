@@ -548,8 +548,8 @@
                     "addContact": {
                         "title": "Add contact"
                     },
-                    "updateContact": {
-                        "title": "Update contact"
+                    "editContact": {
+                        "title": "Edit contact"
                     },
                     "removeContact": {
                         "title": "Remove contact",
@@ -559,8 +559,8 @@
                     "addNetworkAddress": {
                         "title": "Add network address"
                     },
-                    "updateNetworkAddresses": {
-                        "title": "Update network addresses",
+                    "editNetworkAddresses": {
+                        "title": "Edit network addresses",
                         "addAddress": "Add Address"
                     },
                     "removeNetworkAddresses": {

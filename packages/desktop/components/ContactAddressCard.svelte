@@ -30,7 +30,7 @@
 
     function onEditNetworkAddressesClick(networkId: string): void {
         setSelectedNetworkId(networkId)
-        drawerRouter.goTo(ContactBookRoute.UpdateNetworkAddresses)
+        drawerRouter.goTo(ContactBookRoute.EditNetworkAddresses)
     }
 
     function onRemoveNetworkClick(networkId: string): void {
