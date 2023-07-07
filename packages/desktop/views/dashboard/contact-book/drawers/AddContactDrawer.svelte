@@ -83,7 +83,8 @@
                     addressError = 'Invalid Bech32 format'
                 }
                 if (address === getActiveProfilePersistedAccountData($selectedAccountIndex)?.depositAddress) {
-                    addressError = 'Cannot be this account\'s address'
+                    /* eslint-disable quotes */
+                    addressError = `Cannot be this account's address`
                 }
                 if (
                     ContactManager.listContactAddressesForNetwork(networkSelection.networkId)
@@ -102,7 +103,8 @@
                 }
                 const coinType = DEFAULT_CHAIN_CONFIGURATIONS[getActiveNetworkId()]?.coinType
                 if (address === $selectedAccount.evmAddresses[coinType]) {
-                    addressError = 'Cannot be this account\'s address'
+                    /* eslint-disable quotes */
+                    addressError = `Cannot be this account's address`
                 }
 
                 if (
