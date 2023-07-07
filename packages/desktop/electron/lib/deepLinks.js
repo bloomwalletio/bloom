@@ -26,11 +26,9 @@ export function initialiseDeepLinks() {
     }
 
     /**
-     * Proxy deep link event to the wallet application
+     * macOS proxy deep link event to the wallet application
      */
     app.on('open-url', handleOpenUrl)
-
-    app.on('second-instance', checkArgsForDeepLink)
 
     /**
      * Check if a deep link request/event currently exists and has not been cleared
@@ -47,26 +45,24 @@ function handleOpenUrl(event, url) {
     event.preventDefault()
     deepLinkUrl = url
     if (windows.main) {
-        windows.main.webContents.send('deep-link-params', deepLinkUrl)
-        windows.main.webContents.send('deep-link-request')
+        windows.main.webContents.send('deep-link-request', deepLinkUrl)
     }
 }
 
-function checkArgsForDeepLink(_e, args) {
-    if (windows.main) {
-        if (args.length > 1) {
-            const params = args.find((arg) => arg.startsWith(`${process.env.APP_PROTOCOL}://`))
+export function checkArgsForDeepLink(_e, args) {
+    if (args.length > 1) {
+        const url = args.find((arg) => arg.startsWith(`${process.env.APP_PROTOCOL}://`))
 
-            if (params) {
-                windows.main.webContents.send('deep-link-params', params)
-            }
+        if (url) {
+            deepLinkUrl = url
+            windows.main.webContents.send('deep-link-request', url)
         }
     }
 }
 
 function checkDeepLinkRequestExists() {
     if (deepLinkUrl) {
-        windows.main.webContents.send('deep-link-params', deepLinkUrl)
+        windows.main.webContents.send('deep-link-request', deepLinkUrl)
     }
 }
 

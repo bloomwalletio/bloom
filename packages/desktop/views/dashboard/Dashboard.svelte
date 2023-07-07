@@ -73,7 +73,7 @@
             logout()
         })
 
-        Platform.onEvent('deep-link-params', (data: string) => {
+        Platform.onEvent('deep-link-request', (data: string) => {
             handleDeepLinkRequest(data)
         })
 
@@ -94,7 +94,7 @@
 
     onDestroy(() => {
         Platform.DeepLinkManager.clearDeepLinkRequest()
-        Platform.removeListenersForEvent('deep-link-params')
+        Platform.removeListenersForEvent('deep-link-request')
 
         if (fundsSoonNotificationId) {
             removeDisplayNotification(fundsSoonNotificationId)

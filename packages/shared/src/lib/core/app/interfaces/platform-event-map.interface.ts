@@ -8,8 +8,7 @@ export interface IPlatformEventMap {
     'menu-error-log': void
     'menu-diagnostics': void
     'log-error': void
-    'deep-link-request': void
-    'deep-link-params': string
+    'deep-link-request': string
     'version-details': IAppVersionDetails
     'version-progress': IAppUpdateDownloadProgress
     'version-complete': void
