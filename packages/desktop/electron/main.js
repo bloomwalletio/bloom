@@ -6,19 +6,9 @@ import { shouldReportError } from './lib/errorHandling'
 import { initialiseAnalytics } from './lib/analytics'
 import { getMachineId } from './lib/machineId'
 import { getDiagnostics } from './lib/diagnostics'
-import { initialiseDeepLinks } from './lib/deepLinks'
+import { checkArgsForDeepLink, initialiseDeepLinks } from './lib/deepLinks'
 import { windows } from './lib/windows'
-const {
-    app,
-    dialog,
-    ipcMain,
-    protocol,
-    shell,
-    BrowserWindow,
-    session,
-    utilityProcess,
-    nativeTheme,
-} = require('electron')
+const { app, dialog, ipcMain, shell, BrowserWindow, session, utilityProcess, nativeTheme } = require('electron')
 const path = require('path')
 const fs = require('fs')
 const Keychain = require('./lib/keychain')
@@ -369,7 +359,7 @@ app.once('ready', () => {
     })
 })
 
-// IPC handlers for APIs exposed from main proces
+// IPC handlers for APIs exposed from main process
 
 // URLs
 ipcMain.handle('open-url', (_e, url) => {
@@ -449,16 +439,21 @@ const isFirstInstance = app.requestSingleInstanceLock()
 
 if (!isFirstInstance) {
     app.quit()
-}
+} else {
+    app.on('second-instance', (_e, commandLine) => {
+        if (windows.main) {
+            if (windows.main.isMinimized()) {
+                windows.main.restore()
+            }
+            windows.main.focus()
 
-app.on('second-instance', (_e) => {
-    if (windows.main) {
-        if (windows.main.isMinimized()) {
-            windows.main.restore()
+            // Deep linking for when the app is already running (Windows, Linux)
+            if (process.platform === 'win32' || process.platform === 'linux') {
+                checkArgsForDeepLink(_e, commandLine)
+            }
         }
-        windows.main.focus()
-    }
-})
+    })
+}
 
 /**
  * Proxy notification activated to the wallet application
@@ -506,10 +501,6 @@ export const openAboutWindow = () => {
 
     windows.about.loadFile(paths.aboutHtml)
 
-    windows.about.once('ready-to-show', () => {
-        windows.about.show()
-    })
-
     windows.about.setMenu(null)
 
     return windows.about
@@ -550,10 +541,6 @@ export const openErrorWindow = () => {
     })
 
     windows.error.loadFile(paths.errorHtml)
-
-    windows.error.once('ready-to-show', () => {
-        windows.error.show()
-    })
 
     windows.error.setMenu(null)
 

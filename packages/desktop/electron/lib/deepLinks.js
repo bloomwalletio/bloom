@@ -30,6 +30,16 @@ export function initialiseDeepLinks() {
      */
     app.on('open-url', handleOpenUrl)
 
+    // Deep linking for when the app is not running already (Windows, Linux)
+    ipcMain.on('ready-to-show', (event) => {
+        if (windows.main) {
+            // windows.main.show()
+            if (process.platform === 'win32' || process.platform === 'linux') {
+                checkArgsForDeepLink(event, process.argv)
+            }
+        }
+    })
+
     /**
      * Check if a deep link request/event currently exists and has not been cleared
      */

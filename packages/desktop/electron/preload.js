@@ -34,6 +34,13 @@ window.addEventListener('unhandledrejection', (event) => {
     console.error(event.reason)
 })
 
+// Triggers the check if a deep link was passed.
+window.addEventListener('DOMContentLoaded', () => {
+    setTimeout(() => {
+        ipcRenderer.send('ready-to-show')
+    }, 200)
+})
+
 try {
     if (process.env.STAGE === 'prod') {
         // empty
