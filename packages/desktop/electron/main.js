@@ -262,7 +262,12 @@ function createWindow() {
     return windows.main
 }
 
-app.whenReady().then(createWindow)
+app.whenReady().then(() => {
+    // Doesn't open & close a new window when the app is already open
+    if (app.requestSingleInstanceLock()) {
+        createWindow()
+    }
+})
 
 let ledgerProcess
 ipcMain.on('start-ledger-process', () => {
