@@ -1,9 +1,18 @@
-import { selectedAccount } from '@core/account'
-import { updateActiveAccountPersistedData } from '@core/profile'
-import { updateActiveAccount } from '@core/profile/stores'
 import { get } from 'svelte/store'
 
-export function updateActiveAccountTrackedTokens(tokenAddress: string, chainId: number): void {
+import { selectedAccount } from '@core/account/stores'
+import { updateActiveAccountPersistedData } from '@core/profile/actions'
+import { updateActiveAccount } from '@core/profile/stores'
+
+import { buildPersistedAssetFromMetadata } from '../helpers'
+import { IErc20Metadata } from '../interfaces'
+import { updatePersistedAsset } from '../stores'
+
+export function updateActiveAccountTrackedTokens(
+    chainId: number,
+    tokenAddress: string,
+    tokenMetadata: IErc20Metadata
+): void {
     const account = get(selectedAccount)
     if (!account) {
         return
@@ -17,5 +26,6 @@ export function updateActiveAccountTrackedTokens(tokenAddress: string, chainId: 
 
         updateActiveAccount(account.index, { trackedTokens })
         updateActiveAccountPersistedData(account.index, { trackedTokens })
+        updatePersistedAsset(buildPersistedAssetFromMetadata(tokenAddress, tokenMetadata))
     }
 }

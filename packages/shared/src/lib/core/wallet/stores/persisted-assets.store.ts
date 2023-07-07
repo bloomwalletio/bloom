@@ -44,6 +44,18 @@ export function updatePersistedAsset(partialPersistedAsset: Partial<IPersistedAs
     }
 }
 
+export function removePersistedAsset(assetId: string): void {
+    const profileId = get(activeProfile)?.id
+    if (assetId && profileId) {
+        persistedAssets.update((_persistedAssets) => {
+            if (_persistedAssets?.[profileId]?.[assetId]) {
+                delete _persistedAssets[profileId][assetId]
+            }
+            return _persistedAssets
+        })
+    }
+}
+
 export function verifyAsset(assetId: string, status: VerifiedStatus): void {
     updatePersistedAsset({ id: assetId, verification: { verified: true, status } })
 }

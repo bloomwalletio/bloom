@@ -29,7 +29,7 @@
             try {
                 const erc20TokenMetadata = await getErc20TokenMetadata(tokenAddress, chainId)
                 if (erc20TokenMetadata) {
-                    updateActiveAccountTrackedTokens(tokenAddress, chainId)
+                    updateActiveAccountTrackedTokens(chainId, tokenAddress, erc20TokenMetadata)
                     showAppNotification({
                         type: 'success',
                         alert: true,
