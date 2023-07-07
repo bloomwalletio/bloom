@@ -8,7 +8,7 @@
     export let textColor: string = 'gray-600'
     export let darkTextColor: string = 'gray-500'
     export let backgroundColor: string = 'gray-50'
-    export let darkBackgroundColor: string = 'gray-850'
+    export let darkBackgroundColor: string = 'gray-900'
     export let padding: string = 'px-4 py-2.5'
     export let classes: string = ''
     export let copyValue: string = ''
