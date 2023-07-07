@@ -41,7 +41,7 @@
     class:dark
     class:ended={proposal?.status === ProposalStatus.Ended}
     class="flex flex-col p-6 border border-solid border-gray-200 dark:border-transparent rounded-xl cursor-pointer h-fit shadow-elevation-1 focus:shadow-inner
-    {proposal?.status === ProposalStatus.Ended ? 'bg-transparent dark:bg-gray-850' : 'bg-white dark:bg-gray-800'}"
+    {proposal?.status === ProposalStatus.Ended ? 'bg-transparent dark:bg-gray-900' : 'bg-white dark:bg-gray-800'}"
 >
     <div class="flex items-center gap-1.5 mb-4">
         {#if proposal.organization}
