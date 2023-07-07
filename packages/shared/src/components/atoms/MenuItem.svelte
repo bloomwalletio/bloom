@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { Icon, Text, Spinner, Position, Tooltip } from '@ui'
+    import { Icon, Text, Spinner, Position, InformationTooltip } from '@ui'
     import { Icon as IconEnum } from '@auxiliary/icon'
 
     export let icon: string = ''
@@ -66,9 +66,7 @@
 </button>
 
 {#if showTooltip}
-    <Tooltip anchor={menuItem} position={Position.Right}>
-        <Text smaller>{tooltip}</Text>
-    </Tooltip>
+    <InformationTooltip anchor={menuItem} position={Position.Right} body={tooltip} />
 {/if}
 
 <style lang="scss">
@@ -78,7 +76,7 @@
         @apply w-full flex flex-row justify-between items-center p-3;
 
         &:disabled {
-            @apply bg-gray-100 dark:bg-gray-850 cursor-default;
+            @apply bg-gray-100 dark:bg-gray-900 cursor-default;
         }
 
         &:not(:disabled) {
