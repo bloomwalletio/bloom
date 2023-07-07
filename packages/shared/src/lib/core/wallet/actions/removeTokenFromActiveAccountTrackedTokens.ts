@@ -1,7 +1,7 @@
 import { get } from 'svelte/store'
 import { selectedAccount } from '@core/account/stores'
+import { updateActiveAccountPersistedData } from '@core/profile/actions'
 import { updateActiveAccount } from '@core/profile/stores'
-import { updateActiveAccountPersistedData } from '@core/profile'
 
 export function removeTokenFromActiveAccountTrackedTokens(tokenAddress: string, chainId: number): void {
     const account = get(selectedAccount)

@@ -26,13 +26,13 @@
         asset?.chainId
     ]?.includes(asset?.id)
 
-    function handleUntrackToken(): void {
+    function onUntrackTokenClick(): void {
         removeTokenFromActiveAccountTrackedTokens(asset?.id, asset?.chainId)
         modal.close()
         closePopup()
     }
 
-    function handleUnverify(): void {
+    function onUnverifyClick(): void {
         unverifyAsset(asset.id, NotVerifiedStatus.Skipped)
         updatePopupProps({
             asset: { ...asset, verification: { verified: false, status: NotVerifiedStatus.Skipped } },
@@ -40,7 +40,7 @@
         modal.close()
     }
 
-    function handleVerify(): void {
+    function onVerifyClick(): void {
         verifyAsset(asset.id, VerifiedStatus.SelfVerified)
         updatePopupProps({
             asset: { ...asset, verification: { verified: true, status: VerifiedStatus.SelfVerified } },
@@ -48,7 +48,7 @@
         modal.close()
     }
 
-    function handleUnhide(): void {
+    function onUnhideClick(): void {
         unhideAsset(asset.id)
         hideActivitiesForHiddenAssets()
         updatePopupProps({
@@ -57,7 +57,7 @@
         modal.close()
     }
 
-    function handleHide(): void {
+    function onHideClick(): void {
         hideAsset(asset.id)
         hideActivitiesForHiddenAssets()
         updatePopupProps({
@@ -66,7 +66,7 @@
         modal.close()
     }
 
-    function handleBurnToken(): void {
+    function onBurnTokenClick(): void {
         modal.close()
         openPopup({ id: PopupId.BurnNativeTokens, props: { asset } })
     }
@@ -75,33 +75,33 @@
 <Modal bind:this={modal} {...$$restProps}>
     <div class="flex flex-col">
         {#if isTrackedToken}
-            <MenuItem icon={Icon.Search} title={localize('actions.untrackToken')} onClick={handleUntrackToken} />
+            <MenuItem icon={Icon.Search} title={localize('actions.untrackToken')} onClick={onUntrackTokenClick} />
         {/if}
         {#if asset?.verification?.status === VerifiedStatus.SelfVerified}
             <MenuItem
                 icon={Icon.NotVerified}
                 iconProps={{ secondaryColor: 'white' }}
                 title={localize('actions.unverifyToken')}
-                onClick={handleUnverify}
+                onClick={onUnverifyClick}
             />
         {:else}
             <MenuItem
                 icon={Icon.NotVerified}
                 iconProps={{ secondaryColor: 'white' }}
                 title={localize('actions.verifyToken')}
-                onClick={handleVerify}
+                onClick={onVerifyClick}
             />
         {/if}
         {#if asset?.hidden}
-            <MenuItem icon={Icon.View} title={localize('actions.unhideToken')} onClick={handleUnhide} />
+            <MenuItem icon={Icon.View} title={localize('actions.unhideToken')} onClick={onUnhideClick} />
         {:else}
-            <MenuItem icon={Icon.Hide} title={localize('actions.hideToken')} onClick={handleHide} />
+            <MenuItem icon={Icon.Hide} title={localize('actions.hideToken')} onClick={onHideClick} />
         {/if}
         <MenuItem
             icon={Icon.Delete}
             disabled={!features?.wallet?.assets?.burnAsset?.enabled}
             title={localize('actions.burnToken')}
-            onClick={handleBurnToken}
+            onClick={onBurnTokenClick}
         />
     </div>
 </Modal>

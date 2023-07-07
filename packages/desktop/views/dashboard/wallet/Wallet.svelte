@@ -4,6 +4,8 @@
     import { selectedAccountAssets } from '@core/wallet'
     import { selectedAccount } from '@core/account/stores'
     import features from '@features/features'
+
+    $: $selectedAccountAssets
 </script>
 
 {#if $selectedAccount}
