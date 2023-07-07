@@ -84,6 +84,6 @@
 
     nav.with-borders {
         @apply bg-gray-200 border-b border-gray-300 border-solid;
-        @apply dark:bg-gray-1000 dark:border-gray-1000;
+        @apply dark:bg-gray-950 dark:border-gray-950;
     }
 </style>
