@@ -41,6 +41,9 @@ module.exports = {
         {
             pattern: /^p-/,
         },
+        {
+            pattern: /^divide-/,
+        },
     ],
     theme: {
         extend: {
