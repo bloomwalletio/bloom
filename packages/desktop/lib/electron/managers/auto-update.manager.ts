@@ -42,6 +42,7 @@ export default class AutoUpdateManager {
     }
 
     private handleUpdateAvailable(info: UpdateInfo): void {
+        // release notes from GH are HTML so strip tags out
         let releaseNotes = info.releaseNotes || ''
         if (typeof releaseNotes === 'string') {
             releaseNotes = releaseNotes.replace(/<[^>]*>?/gm, '')

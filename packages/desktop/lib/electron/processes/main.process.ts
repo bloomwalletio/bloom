@@ -64,7 +64,7 @@ let lastError = {}
 /**
  * Setup the error handlers early so they catch any issues
  */
-const handleError = (errorType, error, isRenderProcessError?): void => {
+function handleError(errorType, error, isRenderProcessError?): void {
     if (app.isPackaged) {
         const errorMessage = error.message || error.reason || error
         if (!shouldReportError(errorMessage)) {

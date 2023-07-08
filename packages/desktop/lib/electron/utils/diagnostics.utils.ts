@@ -28,7 +28,6 @@ interface Diagnostic {
     value: string | number
 }
 
-// Diagnostics
 export function getDiagnostics(): Diagnostic[] {
     const labelPrefix = 'popups.diagnostics.'
 
