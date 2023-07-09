@@ -1,9 +1,9 @@
 <script lang="ts">
     import { setClipboard } from '@core/utils'
-    import Box from './Box.svelte'
-    import { Text, Tooltip, FontWeight } from '@ui'
+    import { InformationTooltip } from '@ui'
     import { localize } from '@core/i18n'
     import { onDestroy } from 'svelte'
+    import Box from './Box.svelte'
 
     export let value = ''
     export let isCopyable = true
@@ -12,7 +12,7 @@
     export let offset: number = undefined
     export let classes = ''
 
-    let tooltipAnchor
+    let tooltipAnchor: HTMLElement
     let showTooltip = false
 
     export function onClick(): void {
@@ -44,16 +44,13 @@
     </button>
 {/if}
 {#if isCopyable && showTooltip}
-    <Tooltip
+    <InformationTooltip
         anchor={tooltipAnchor}
         offset={clearPadding ? offset ?? 25 : offset ?? 15}
-        position="top"
         size="small"
         backgroundColor="green-600"
         borderColor="green-600"
-    >
-        <Text type="p" fontSize="14" fontWeight={FontWeight.semibold} color="white"
-            >{localize('general.copiedToClipboard')}</Text
-        >
-    </Tooltip>
+        body={localize('general.copiedToClipboard')}
+        bodyColor="white"
+    />
 {/if}
