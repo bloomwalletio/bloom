@@ -33,11 +33,11 @@ function getAppId() {
 function getChannelName() {
     switch (STAGE) {
         case 'alpha':
-            return 'shimmer-alpha'
+            return 'alpha'
         case 'beta':
-            return 'shimmer-beta'
+            return 'beta'
         default:
-            return 'shimmer'
+            return 'latest'
     }
 }
 
@@ -77,7 +77,7 @@ const prodConfig = () => ({
     },
     win: {
         icon: './public/assets/icons/prod/icon1024x1024.png',
-        publisherName: 'Bloom Labs Ltd',
+        publisherName: 'Bloom Labs',
         target: 'nsis',
         timeStampServer: 'http://timestamp.sectigo.com',
         rfc3161TimeStampServer: 'http://timestamp.sectigo.com',
@@ -104,10 +104,14 @@ const prodConfig = () => ({
         asarUnpack: ['**/*.node'],
     },
     publish: {
-        provider: 'generic',
-        url: 'https://dl.firefly.iota.org/',
-        publishAutoUpdate: true,
+        provider: 'github',
+        repo: 'bloom',
+        owner: 'bloomwalletio',
+        vPrefixedTagName: false,
+        private: true,
+        token: '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',
         channel: CHANNEL_NAME,
+        publishAutoUpdate: true,
     },
 })
 

@@ -1,137 +1,151 @@
 name: Release (Reusable)
 
 on:
-  workflow_call:
-    inputs:
-      version:
-        required: true
-        type: string
-      stage:
-        required: true
-        type: string
-      release_name:
-        required: true
-        type: string
-
+    workflow_call:
+        inputs:
+            version:
+                required: true
+                type: string
+            stage:
+                required: true
+                type: string
+            release_name:
+                required: true
+                type: string
+  
 jobs:
-  release:
-    name: Release - ${{ inputs.version }} (${{ inputs.stage }})
-    if: ${{ always() }}
-    runs-on: ubuntu-latest
-    env:
-      STAGE: ${{ github.event.inputs.stage }}
-      VERSION: ${{ github.event.inputs.version }}
-      RELEASE_NAME: ${{ github.event.inputs.release_name }}
-    steps:
-      - run: echo ${{ github.ref }}
-
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Downloading artifacts
-        uses: actions/download-artifact@v2
-        with:
-          name: bloom-desktop-windows-2019
-          path: assets
-
-      - name: Downloading artifacts
-        uses: actions/download-artifact@v2
-        with:
-          name: bloom-desktop-macos-11
-          path: assets
-
-      - name: Downloading artifacts
-        uses: actions/download-artifact@v2
-        with:
-          name: bloom-desktop-ubuntu-20.04
-          path: assets
-
-      - name: Preparing release body
-        run: |
-          sed -i 's/\r$//' ../../assets/*.sha256 && sed -i '/^$/d' ../../assets/*.sha256 && sed -i -e 's/\(.*\)/\L\1/' ../../assets/*.sha256
-          WIN_SHA256=$(cat ../../assets/bloom-desktop-${{ env.VERSION }}.exe.sha256)
-          LIN_SHA256=$(cat ../../assets/bloom-desktop-${{ env.VERSION }}.AppImage.sha256)
-          MAC_SHA256=$(cat ../../assets/bloom-desktop-${{ env.VERSION }}.dmg.sha256)
-          echo $WIN_SHA256 $LIN_SHA256 $MAC_SHA256
-          touch CHANGELOG.md
-          echo '### Changelog' >> CHANGELOG.md
-          echo '------' >> CHANGELOG.md
-          echo '### File Hashes' >> CHANGELOG.md
-          echo '[How to verify the authenticity of your Bloom Desktop download](https://wiki.iota.org/shimmer/introduction/how_tos/verify_download/#verify-your-firefly-desktop-download)' >> CHANGELOG.md
-          echo '| File | Platform | SHA256 Hash |' >> CHANGELOG.md
-          echo '| --- | --- | --- |' >> CHANGELOG.md
-          echo '| bloom-desktop-${{ env.VERSION }}.exe | Windows |' $WIN_SHA256 '|' >> CHANGELOG.md
-          echo '| bloom-desktop-${{ env.VERSION }}.AppImage | Linux |' $LIN_SHA256 '|' >> CHANGELOG.md
-          echo '| bloom-desktop-${{ env.VERSION }}.dmg | MacOS | ' $MAC_SHA256 '|' >> CHANGELOG.md
-          cat CHANGELOG.md
-        working-directory: packages/desktop
-
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1.1.2
+    release:
+        name: Release - ${{ inputs.version }} (${{ inputs.stage }})
+        if: ${{ always() }}
+        runs-on: ubuntu-latest
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ github.ref }}
-          release_name: Bloom Desktop ${{ env.RELEASE_NAME }}
-          body_path: packages/desktop/CHANGELOG.md
-          draft: true
-          prerelease: true
+            STAGE: ${{ inputs.stage }}
+            VERSION: ${{ inputs.version }}
+            RELEASE_NAME: ${{ inputs.release_name }}
+        steps:
+            - run: echo ${{ github.ref }}
 
-      - name: Upload macOS binary asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: assets/bloom-desktop-${{ env.VERSION }}.dmg
-          asset_name: bloom-desktop-${{ env.VERSION }}.dmg
-          asset_content_type: application/octet-stream
+            - name: Checkout code
+              uses: actions/checkout@v2
 
-      - name: Upload Windows binary asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: assets/bloom-desktop-${{ env.VERSION }}.exe
-          asset_name: bloom-desktop-${{ env.VERSION }}.exe
-          asset_content_type: application/octet-stream
+            - name: Downloading artifacts
+              uses: actions/download-artifact@v2
+              with:
+                  name: bloom-desktop-windows-2019
+                  path: assets
 
-      - name: Upload Linux binary asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: assets/bloom-desktop-${{ env.VERSION }}.AppImage
-          asset_name: bloom-desktop-${{ env.VERSION }}.AppImage
-          asset_content_type: application/octet-stream
+            - name: Downloading artifacts
+              uses: actions/download-artifact@v2
+              with:
+                  name: bloom-desktop-macos-11
+                  path: assets
 
-      - name: Upload Linux code signature asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: assets/bloom-desktop-${{ env.VERSION }}.AppImage.asc
-          asset_name: bloom-desktop-${{ env.VERSION }}.AppImage.asc
-          asset_content_type: application/pgp-signature
+            - name: Downloading artifacts
+              uses: actions/download-artifact@v2
+              with:
+                  name: bloom-desktop-ubuntu-20.04
+                  path: assets
 
-      - name: Listing artifacts
-        run: ls -al assets
+            - name: Preparing release body
+              run: |
+                  sed -i 's/\r$//' ../../assets/*.sha256 && sed -i '/^$/d' ../../assets/*.sha256 && sed -i -e 's/\(.*\)/\L\1/' ../../assets/*.sha256
+                  LIN_SHA256=$(cat ../../assets/bloom-desktop-${{ env.VERSION }}.AppImage.sha256)
+                  echo $LIN_SHA256
+                  touch CHANGELOG.md
+                  echo '### Changelog' >> CHANGELOG.md
+                  echo '------' >> CHANGELOG.md
+                  echo '### File Hashes' >> CHANGELOG.md
+                  echo '[How to verify the authenticity of your Bloom Desktop download](https://wiki.iota.org/shimmer/introduction/how_tos/verify_download/#verify-your-firefly-desktop-download)' >> CHANGELOG.md
+                  echo '| File | Platform | SHA256 Hash |' >> CHANGELOG.md
+                  echo '| --- | --- | --- |' >> CHANGELOG.md
+                  echo '| bloom-desktop-${{ env.VERSION }}.AppImage | Linux |' $LIN_SHA256 '|' >> CHANGELOG.md
+                  cat CHANGELOG.md
+              working-directory: packages/desktop
 
-      - name: Upload to S3
-        run: |
-          aws s3 cp assets/ s3://bloom-files/releases/ --recursive --include "*" --exclude "*.sha256" --exclude "*.blockmap" --exclude "*.asc"
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_DEFAULT_REGION: eu-central-1
+            - name: Create Release
+              id: create_release
+              uses: actions/create-release@v1.1.2
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              with:
+                  tag_name: ${{ github.ref }}
+                  release_name: Bloom Desktop ${{ env.RELEASE_NAME }}
+                  body_path: packages/desktop/CHANGELOG.md
+                  draft: true
+                  prerelease: true
 
-      - name: Invalidate CloudFront cache for auto-update files
-        run: aws cloudfront create-invalidation --distribution-id E32G4HRED4PO65 --paths "/shimmer*"
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_DEFAULT_REGION: eu-central-1
+            - name: Upload macOS binary asset
+              uses: actions/upload-release-asset@v1
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              with:
+                  upload_url: ${{ steps.create_release.outputs.upload_url }}
+                  asset_path: assets/bloom-desktop-${{ env.VERSION }}.dmg
+                  asset_name: bloom-desktop-${{ env.VERSION }}.dmg
+                  asset_content_type: application/octet-stream
+
+            - name: Upload Windows binary asset
+              uses: actions/upload-release-asset@v1
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              with:
+                  upload_url: ${{ steps.create_release.outputs.upload_url }}
+                  asset_path: assets/bloom-desktop-${{ env.VERSION }}.exe
+                  asset_name: bloom-desktop-${{ env.VERSION }}.exe
+                  asset_content_type: application/octet-stream
+
+            - name: Upload Linux binary asset
+              uses: actions/upload-release-asset@v1
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              with:
+                  upload_url: ${{ steps.create_release.outputs.upload_url }}
+                  asset_path: assets/bloom-desktop-${{ env.VERSION }}.AppImage
+                  asset_name: bloom-desktop-${{ env.VERSION }}.AppImage
+                  asset_content_type: application/octet-stream
+
+            - name: Upload Linux updater yml
+              uses: actions/upload-release-asset@v1
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              with:
+                  upload_url: ${{ steps.create_release.outputs.upload_url }}
+                  asset_path: assets/latest-linux.yml
+                  asset_name: latest-linux.yml
+                  asset_content_type: application/octet-stream
+              if: inputs.stage == 'prod'
+
+            - name: Upload Windows updater yml
+              uses: actions/upload-release-asset@v1
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              with:
+                  upload_url: ${{ steps.create_release.outputs.upload_url }}
+                  asset_path: assets/latest.yml
+                  asset_name: latest.yml
+                  asset_content_type: application/octet-stream
+              if: inputs.stage == 'prod'
+
+            - name: Upload MacOs updater yml
+              uses: actions/upload-release-asset@v1
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              with:
+                  upload_url: ${{ steps.create_release.outputs.upload_url }}
+                  asset_path: assets/latest-mac.yml
+                  asset_name: latest-mac.yml
+                  asset_content_type: application/octet-stream
+              if: inputs.stage == 'prod'
+
+            - name: Upload Linux code signature asset
+              uses: actions/upload-release-asset@v1
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              with:
+                  upload_url: ${{ steps.create_release.outputs.upload_url }}
+                  asset_path: assets/bloom-desktop-${{ env.VERSION }}.AppImage.asc
+                  asset_name: bloom-desktop-${{ env.VERSION }}.AppImage.asc
+                  asset_content_type: application/pgp-signature
+
+            - name: Listing artifacts
+              run: ls -al
