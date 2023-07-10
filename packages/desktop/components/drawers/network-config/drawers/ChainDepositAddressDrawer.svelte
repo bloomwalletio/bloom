@@ -63,7 +63,7 @@
     {/key}
 </DrawerTemplate>
 
-<style type="text/scss">
+<style lang="scss">
     button {
         &:hover {
             @apply bg-blue-50;
