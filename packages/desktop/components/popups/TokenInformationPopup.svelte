@@ -13,22 +13,39 @@
     } from '@core/wallet'
     import { openPopup, PopupId, updatePopupProps } from '@desktop/auxiliary/popup'
     import features from '@features/features'
-    import {
-        Button,
-        Text,
-        TextHint,
-        AssetActionsButton,
-        KeyValueBox,
-        FontWeight,
-        TextType,
-        TokenAmountTile,
-        TooltipIcon,
-    } from '@ui'
+    import { Button, Text, TextHint, AssetActionsButton, FontWeight, TextType, TokenAmountTile, TooltipIcon } from '@ui'
     import { SendFlowRoute, SendFlowRouter, sendFlowRouter } from '@views/dashboard/send-flow'
     import { Icon as IconEnum } from '@lib/auxiliary/icon'
+    import { Table } from '@bloom-labs/ui'
 
     export let asset: IAsset
     export let activityId: string = undefined
+
+    function getTableItems(asset: IAsset) {
+        const items = [
+            {
+                key: localize('popups.tokenInformation.tokenMetadata.standard'),
+                value: asset.standard,
+            },
+            {
+                key: localize('popups.tokenInformation.tokenMetadata.name'),
+                value: asset.metadata?.name,
+            },
+            {
+                key: localize('popups.tokenInformation.tokenMetadata.tokenId'),
+                value: asset.id,
+            },
+        ]
+
+        if (asset.metadata?.standard === TokenStandard.Irc30 && asset.metadata.url) {
+            items.push({
+                key: localize('popups.tokenInformation.tokenMetadata.url'),
+                value: asset.metadata.url,
+            })
+        }
+
+        return items
+    }
 
     function onSkipClick(): void {
         unverifyAsset(asset.id, NotVerifiedStatus.Skipped)
@@ -102,31 +119,7 @@
 
         <TokenAmountTile {asset} amount={asset.balance.available} />
 
-        <div class="space-y-4 flex flex-col items-center justify-center">
-            <div class="w-full flex flex-col space-y-2">
-                <KeyValueBox
-                    keyText={localize('popups.tokenInformation.tokenMetadata.standard')}
-                    valueText={asset.standard}
-                />
-                <KeyValueBox
-                    keyText={localize('popups.tokenInformation.tokenMetadata.name')}
-                    valueText={asset.metadata?.name}
-                />
-                <KeyValueBox
-                    keyText={localize('popups.tokenInformation.tokenMetadata.tokenId')}
-                    valueText={asset.id}
-                    isCopyable={asset.standard === TokenStandard.Irc30}
-                    copyValue={asset.id}
-                />
-                {#if asset.metadata?.standard === TokenStandard.Irc30 && asset.metadata.url}
-                    <KeyValueBox
-                        keyText={localize('popups.tokenInformation.tokenMetadata.url')}
-                        valueText={asset.metadata.url}
-                        isCopyable
-                    />
-                {/if}
-            </div>
-        </div>
+        <Table orientation="vertical" items={getTableItems(asset)} />
 
         {#if !asset.verification?.verified && asset.verification?.status === NotVerifiedStatus.New}
             <TextHint warning text={localize('popups.tokenInformation.verificationWarning')} />
