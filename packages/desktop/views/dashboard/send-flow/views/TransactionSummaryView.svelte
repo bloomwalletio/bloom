@@ -142,9 +142,6 @@
             }
             await _onMount()
         } catch (err) {
-            const a = 2
-            console.error(a)
-
             handleError(err)
         }
     })
