@@ -1,7 +1,7 @@
-export const menuState = {
+export const MENU_STATE = {
     enabled: true,
     strings: {
-        about: 'About Firefly',
+        about: 'About Bloom',
         checkForUpdates: 'Check for Updates',
         settings: 'Settings',
         general: 'General',
