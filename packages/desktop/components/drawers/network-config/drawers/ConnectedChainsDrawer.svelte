@@ -9,7 +9,7 @@
     import { onMount } from 'svelte'
     import { closeDrawer } from '@desktop/auxiliary/drawer'
     import { Router, routerManager, SettingsRoute, settingsRouter } from '@core/router'
-    import DrawerTemplate from './DrawerTemplate.svelte'
+    import { DrawerTemplate } from '@components'
     import {
         determineLedgerConnectionState,
         LedgerAppName,

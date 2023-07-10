@@ -127,7 +127,7 @@
     {/if}
 {/if}
 
-<style type="text/scss">
+<style lang="scss">
     .boxed {
         border-radius: 0.625rem; // TODO: add to tailwind
     }

@@ -34,8 +34,8 @@ export interface IPlatform {
     cancelNftDownload(nftId: string): Promise<void>
     checkIfFileExists(filePath: string): Promise<boolean>
 
-    NotificationManager: INotificationManager | undefined
     DeepLinkManager: IDeepLinkManager | undefined
+    NotificationManager: INotificationManager | undefined
     PincodeManager: IPincodeManager | undefined
 
     getAppVersionDetails(): Promise<IAppVersionDetails>
@@ -56,6 +56,6 @@ export interface IPlatform {
     getLanguageCode(): Promise<string>
     updateTheme(theme: AppTheme): void
 
-    startLedgerProcess(): Promise<void>
-    killLedgerProcess(): Promise<void>
+    startLedgerProcess(): void
+    killLedgerProcess(): void
 }

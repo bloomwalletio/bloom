@@ -1,6 +1,6 @@
 <script lang="ts">
     import { localize } from '@core/i18n'
-    import { DrawerTemplate } from '.'
+    import { DrawerTemplate } from '@components'
     import { Router } from '@core/router'
     import { DrawerRoute } from '@desktop/routers'
 
