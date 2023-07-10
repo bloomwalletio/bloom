@@ -9,7 +9,7 @@
         hideActivitiesForHiddenAssets,
         NotVerifiedStatus,
         VerifiedStatus,
-        removeTokenFromActiveAccountTrackedTokens,
+        removeTokenFromActiveProfileTrackedTokens,
     } from '@core/wallet'
     import { Icon } from '@lib/auxiliary/icon'
     import { closePopup, openPopup, PopupId, updatePopupProps } from '../../../../desktop/lib/auxiliary/popup'
@@ -27,7 +27,7 @@
     ]?.includes(asset?.id)
 
     function onUntrackTokenClick(): void {
-        removeTokenFromActiveAccountTrackedTokens(asset?.id, asset?.chainId)
+        removeTokenFromActiveProfileTrackedTokens(asset?.id, asset?.chainId)
         modal.close()
         closePopup()
     }

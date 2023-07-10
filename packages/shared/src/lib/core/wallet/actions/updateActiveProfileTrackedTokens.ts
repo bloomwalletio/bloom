@@ -1,4 +1,4 @@
-import { saveActiveProfile } from '@core/profile'
+import { updateActiveProfile } from '@core/profile'
 import { getActiveProfile } from '@core/profile/stores'
 
 import { buildPersistedAssetFromMetadata } from '../helpers'
@@ -21,7 +21,6 @@ export function updateActiveProfileTrackedTokens(
         chainIdTrackedTokens.push(tokenAddress)
         profile.trackedTokens = { ...trackedTokens, [chainId]: chainIdTrackedTokens }
         updatePersistedAsset(buildPersistedAssetFromMetadata(tokenAddress, tokenMetadata))
-
-        saveActiveProfile()
+        updateActiveProfile(profile)
     }
 }
