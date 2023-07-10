@@ -12,7 +12,6 @@
         NewTransactionType,
     } from '@core/wallet'
     import { openPopup, PopupId, updatePopupProps } from '@desktop/auxiliary/popup'
-    import features from '@features/features'
     import {
         Button,
         Text,
@@ -67,7 +66,7 @@
         })
         sendFlowRouter.set(new SendFlowRouter(undefined, SendFlowRoute.SelectRecipient))
         openPopup({
-            id: features.wallet.newSendFlow.enabled ? PopupId.SendFlow : PopupId.SendForm,
+            id: PopupId.SendFlow,
             overflow: true,
         })
     }

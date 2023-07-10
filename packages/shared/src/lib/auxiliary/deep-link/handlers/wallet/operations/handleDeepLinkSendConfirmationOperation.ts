@@ -1,4 +1,9 @@
 import { PopupId, openPopup } from '../../../../../../../../desktop/lib/auxiliary/popup'
+import {
+    sendFlowRouter,
+    SendFlowRouter,
+    SendFlowRoute,
+} from '../../../../../../../../desktop/views/dashboard/send-flow'
 import { getByteLengthOfString, isStringTrue, isValidBech32AddressAndPrefix, validateAssetId } from '@core/utils'
 import {
     NewTransactionDetails,
@@ -29,8 +34,9 @@ export function handleDeepLinkSendConfirmationOperation(searchParams: URLSearchP
 
     if (transactionDetails) {
         setNewTransactionDetails(transactionDetails)
+        sendFlowRouter.set(new SendFlowRouter(undefined, SendFlowRoute.TransactionSummary))
         openPopup({
-            id: PopupId.SendConfirmation,
+            id: PopupId.SendFlow,
             overflow: true,
             props: {
                 disableBack: true,

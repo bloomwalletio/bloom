@@ -8,6 +8,7 @@ import {
     getUnitFromTokenMetadata,
 } from '@core/wallet'
 import { openPopup, PopupId } from '../../../../../../../../desktop/lib/auxiliary/popup'
+import { sendFlowRouter, SendFlowRouter } from '../../../../../../../../desktop/views/dashboard/send-flow'
 import { get } from 'svelte/store'
 
 import { SendOperationParameter } from '../../../enums'
@@ -20,8 +21,9 @@ export function handleDeepLinkSendFormOperation(searchParams: URLSearchParams): 
 
     if (transactionDetails) {
         setNewTransactionDetails(transactionDetails)
+        sendFlowRouter.set(new SendFlowRouter(undefined))
         openPopup({
-            id: PopupId.SendForm,
+            id: PopupId.SendFlow,
             overflow: true,
         })
     }
