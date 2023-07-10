@@ -1,6 +1,6 @@
 <script lang="ts">
     import { localize } from '@core/i18n'
-    import DrawerTemplate from './DrawerTemplate.svelte'
+    import { DrawerTemplate } from '@components'
     import { AddIscpChainForm } from './components'
     import { Router } from '@core/router'
     import { DrawerRoute } from '@desktop/routers'

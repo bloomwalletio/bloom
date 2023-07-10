@@ -5,7 +5,7 @@
     import { Pane } from '@ui'
     import { Router } from '@core/router'
     import { DrawerRoute } from '@desktop/routers'
-    import { DrawerTemplate } from '.'
+    import { DrawerTemplate } from '@components'
     import { localize } from '@core/i18n'
 
     export let drawerRouter: Router<DrawerRoute>
