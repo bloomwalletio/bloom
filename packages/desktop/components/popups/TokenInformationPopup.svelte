@@ -62,7 +62,6 @@
         updateNewTransactionDetails({
             type: NewTransactionType.TokenTransfer,
             asset: asset,
-            disableAssetSelection: true,
         })
         sendFlowRouter.set(new SendFlowRouter(undefined, SendFlowRoute.SelectRecipient))
         openPopup({
