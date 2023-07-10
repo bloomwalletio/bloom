@@ -27,7 +27,7 @@
     <knob class="absolute top-1/2 transform -translate-y-1/2 left-1 h-4 w-4 rounded-full bg-white dark:bg-gray-800" />
 </button>
 
-<style type="text/scss">
+<style lang="scss">
     .toggle {
         knob {
             transition: all 0.1s cubic-bezier(0.4, 0, 0.2, 1);
