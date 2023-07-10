@@ -24,5 +24,6 @@ export const DEFAULT_PERSISTED_PROFILE_OBJECT: IPersistedProfile = {
     isDeveloperProfile: false,
     forceAssetRefresh: false,
     strongholdVersion: undefined,
+    trackedTokens: {},
     clientOptions: {},
 }

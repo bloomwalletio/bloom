@@ -6,7 +6,6 @@
     import { getMarketAmountFromAssetValue } from '@core/market/utils'
     import { validateTokenAmount } from '@core/wallet/utils/validateTokenAmount'
     import { activeProfile } from '@core/profile'
-    import { getBaseToken } from '@core/profile'
 
     export let asset: IAsset | undefined = $visibleSelectedAccountAssets?.[$activeProfile?.network?.id]?.baseCoin
     export let rawAmount: string | undefined = undefined
@@ -31,7 +30,7 @@
     $: allowedDecimals = asset?.metadata && unit ? getMaxDecimalsFromTokenMetadata(asset.metadata, unit) : 0
     $: bigAmount = inputtedAmount && asset?.metadata ? convertToRawAmount(inputtedAmount, asset.metadata, unit) : 0
     $: marketAmount = asset ? getMarketAmountFromAssetValue(bigAmount, asset) : undefined
-    $: rawAmount = bigAmount.toString()
+    $: rawAmount = bigAmount?.toString()
 
     function getInputLength(): number {
         const length = inputtedAmount?.length || 1
@@ -41,21 +40,25 @@
     }
 
     function getMaxAmountOfDigits(): number {
-        const baseCoin = getBaseToken()
+        const metadata = asset?.metadata
+        if (!metadata) {
+            return 32
+        }
+
         const decimalSeparator = getDecimalSeparator()
 
         const decimalPlacesAmount = inputtedAmount?.includes(decimalSeparator)
             ? inputtedAmount.split(decimalSeparator)[1].length || 1
             : 0
-        const allowedDecimalAmount = Math.min(decimalPlacesAmount, baseCoin.decimals)
+        const allowedDecimalAmount = Math.min(decimalPlacesAmount, metadata.decimals)
 
         const integerLengthOfBalance =
-            formatTokenAmountDefault(availableBalance, baseCoin).split(decimalSeparator)?.[0]?.length ?? 0
+            formatTokenAmountDefault(availableBalance, metadata).split(decimalSeparator)?.[0]?.length ?? 0
 
         return (
             allowedDecimalAmount +
             integerLengthOfBalance +
-            (baseCoin.decimals ? 1 : 0) +
+            (metadata.decimals ? 1 : 0) +
             (inputtedAmount?.includes(decimalSeparator) ? 1 : 0)
         )
     }
@@ -86,7 +89,7 @@
 </script>
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
-<div class="flex flex-col items-center w-full" on:click={() => amountInputElement.focus()}>
+<div class="flex flex-col items-center w-full" on:click={() => amountInputElement?.focus()}>
     <InputContainer {error} clearBackground clearPadding clearBorder classes="w-full flex flex-col items-center">
         <div class="flex flex-row items-end space-x-0.5">
             <div class="flex flex-row w-full items-center">

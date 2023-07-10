@@ -89,7 +89,7 @@
     </drawer>
 {/if}
 
-<style type="text/scss">
+<style lang="scss">
     overlay,
     panel {
         height: calc(100% - 3rem);

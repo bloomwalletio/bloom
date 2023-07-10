@@ -82,7 +82,7 @@
     {/if}
 </button>
 
-<style type="text/scss">
+<style lang="scss">
     button {
         @apply flex flex-row items-center justify-center;
         @apply text-center font-500 text-15 leading-4;
