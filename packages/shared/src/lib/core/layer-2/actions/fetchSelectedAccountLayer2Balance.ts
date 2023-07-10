@@ -7,8 +7,7 @@ import { Converter } from '@core/utils/convert'
 import { TOKEN_ID_BYTE_LENGTH } from '@core/token/constants'
 import { setLayer2AccountBalanceForChain } from '../stores'
 import { getSelectedAccount } from '@core/account/stores'
-import { get } from 'svelte/store'
-import { selectedAccount } from '@core/account/stores'
+import { getActiveProfile } from '@core/profile'
 
 export function fetchSelectedAccountLayer2Balance(): void {
     const account = getSelectedAccount()
@@ -34,7 +33,7 @@ export function fetchSelectedAccountLayer2Balance(): void {
 
         for (const { balance, tokenId } of balances) {
             const isNativeToken = Converter.hexToBytes(tokenId).length === TOKEN_ID_BYTE_LENGTH
-            const isErc20TrackedToken = get(selectedAccount)?.trackedTokens?.[chainId]?.includes(tokenId)
+            const isErc20TrackedToken = getActiveProfile()?.trackedTokens?.[chainId]?.includes(tokenId)
             if (isNativeToken || isErc20TrackedToken) {
                 const asset = await getOrRequestAssetFromPersistedAssets(tokenId, chainId)
                 if (asset) {
@@ -89,7 +88,7 @@ async function getSelectedAccountLayer2Erc20BalancesForAddress(
     chain: IChain
 ): Promise<{ balance: number; tokenId: string }[]> {
     const chainId = chain.getConfiguration().chainId
-    const trackedTokens = get(selectedAccount)?.trackedTokens?.[chainId] ?? []
+    const trackedTokens = getActiveProfile()?.trackedTokens?.[chainId] ?? []
     const erc20TokenBalances = []
     for (const erc20Address of trackedTokens) {
         try {

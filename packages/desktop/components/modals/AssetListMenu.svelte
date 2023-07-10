@@ -9,6 +9,7 @@
     function onImportErc20TokenClick(): void {
         openPopup({
             id: PopupId.ImportErc20Token,
+            overflow: true,
         })
     }
 </script>
