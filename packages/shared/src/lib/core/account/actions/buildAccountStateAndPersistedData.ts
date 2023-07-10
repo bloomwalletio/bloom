@@ -16,7 +16,6 @@ export async function buildAccountStateAndPersistedData(
         shouldRevote: false,
         evmAddresses: {},
         depositAddress: await getDepositAddress(account),
-        trackedTokens: {},
     }
     const accountState = await buildAccountState(account, persistedAccountData)
     return [accountState, persistedAccountData]
