@@ -46,8 +46,10 @@
         developer: Developer,
     }
 
-    let fundsSoonNotificationId
-    let developerProfileNotificationId
+    const { hasLoadedAccounts } = $activeProfile
+
+    let fundsSoonNotificationId: string
+    let developerProfileNotificationId: string
 
     $: $hasStrongholdLocked && reflectLockedStronghold()
     $: $nftDownloadQueue, downloadNextNftInQueue()
@@ -63,7 +65,7 @@
     }
 
     function handleDeepLinkRequest(data: string): void {
-        if ($activeProfile?.hasLoadedAccounts) {
+        if ($hasLoadedAccounts) {
             handleDeepLink(data)
         }
     }
@@ -94,7 +96,6 @@
 
     onDestroy(() => {
         Platform.DeepLinkManager.clearDeepLinkRequest()
-        Platform.removeListenersForEvent('deep-link-request')
 
         if (fundsSoonNotificationId) {
             removeDisplayNotification(fundsSoonNotificationId)

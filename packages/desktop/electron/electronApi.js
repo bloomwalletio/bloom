@@ -286,7 +286,7 @@ const ElectronApi = {
         }
         listeners.push(callback)
         ipcRenderer.removeAllListeners(event)
-        ipcRenderer.on(event, (e, args) => {
+        ipcRenderer.on(event, (_e, args) => {
             listeners.forEach((call) => {
                 call(args)
             })

@@ -264,7 +264,7 @@ function createWindow() {
 
 app.whenReady().then(() => {
     // Doesn't open & close a new window when the app is already open
-    if (app.requestSingleInstanceLock()) {
+    if (isFirstInstance) {
         createWindow()
     }
 })
@@ -445,7 +445,7 @@ const isFirstInstance = app.requestSingleInstanceLock()
 if (!isFirstInstance) {
     app.quit()
 } else {
-    app.on('second-instance', (_e, commandLine) => {
+    app.on('second-instance', (_e, argv) => {
         if (windows.main) {
             if (windows.main.isMinimized()) {
                 windows.main.restore()
@@ -454,7 +454,7 @@ if (!isFirstInstance) {
 
             // Deep linking for when the app is already running (Windows, Linux)
             if (process.platform === 'win32' || process.platform === 'linux') {
-                checkArgsForDeepLink(_e, commandLine)
+                checkArgsForDeepLink(_e, argv)
             }
         }
     })
