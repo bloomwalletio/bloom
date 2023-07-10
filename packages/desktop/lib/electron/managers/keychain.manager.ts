@@ -1,20 +1,11 @@
 import keytar from 'keytar'
 import { app } from 'electron'
 
-interface Credential {
-    account: string
-    password: string
-}
-
 export default class KeychainManager {
     private serviceName: string
 
     constructor() {
         this.serviceName = app?.isPackaged ? app.getName() : 'Bloom — Dev'
-    }
-
-    public getAll(): Promise<Credential[]> {
-        return keytar.findCredentials(this.serviceName)
     }
 
     public get(key: string): Promise<string | null> {

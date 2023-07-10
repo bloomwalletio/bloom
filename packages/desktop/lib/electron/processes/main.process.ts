@@ -394,7 +394,6 @@ ipcMain.handle('open-url', (_e, url) => {
 
 // Keychain
 const keychainManager = new KeychainManager()
-ipcMain.handle('keychain-getAll', () => keychainManager.getAll())
 ipcMain.handle('keychain-get', (_e, key) => keychainManager.get(key))
 ipcMain.handle('keychain-set', (_e, key, content) => keychainManager.set(key, content))
 ipcMain.handle('keychain-remove', (_e, key) => keychainManager.remove(key))
