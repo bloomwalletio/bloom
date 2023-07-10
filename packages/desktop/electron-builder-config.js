@@ -108,8 +108,9 @@ const prodConfig = () => ({
         repo: 'bloom',
         owner: 'bloomwalletio',
         vPrefixedTagName: false,
-        private: true,
-        token: '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',
+        // Following lines are required as long as we're closed source
+        // private: true,
+        // token: 'SOME_PRIVATE_GITHUB_ACCESS_TOKEN',
         channel: CHANNEL_NAME,
         publishAutoUpdate: true,
     },
