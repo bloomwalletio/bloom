@@ -1,5 +1,5 @@
 import { IPersistedAccountData } from '@core/account'
-import { IClientOptions, IPersistedNetwork } from '@core/network'
+import { IClientOptions, IPersistedNetwork, ITrackedTokens } from '@core/network'
 import { INft } from '@core/nfts'
 import { StrongholdVersion } from '@core/stronghold/enums'
 import { ProfileType } from '../enums'
@@ -21,5 +21,6 @@ export interface IPersistedProfile {
     clientOptions: IClientOptions
     forceAssetRefresh: boolean
     strongholdVersion: StrongholdVersion
+    trackedTokens: ITrackedTokens
     pfp?: INft
 }

@@ -1,4 +1,4 @@
-import { IEvmAddresses, ITrackedTokens } from '@core/network/interfaces'
+import { IEvmAddresses } from '@core/network/interfaces'
 import { ParticipationEventId } from '@iota/wallet/types'
 
 export interface IPersistedAccountData {
@@ -9,5 +9,4 @@ export interface IPersistedAccountData {
     removedProposalIds?: ParticipationEventId[]
     evmAddresses: IEvmAddresses
     depositAddress: string
-    trackedTokens: ITrackedTokens
 }
