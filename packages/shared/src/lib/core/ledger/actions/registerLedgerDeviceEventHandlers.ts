@@ -1,8 +1,10 @@
 import { get } from 'svelte/store'
+
+import { deconstructBip32Path } from '@core/account/utils'
 import { Platform } from '@core/app/classes'
-import { addError } from '@core/error'
-import { activeAccounts, updateActiveAccount, updateActiveAccountPersistedData } from '@core/profile'
-import { deconstructBip32Path } from '@core/account'
+import { addError } from '@core/error/stores'
+import { updateActiveAccountPersistedData } from '@core/profile/actions'
+import { activeAccounts, updateActiveAccount } from '@core/profile/stores'
 
 export function registerLedgerDeviceEventHandlers(): void {
     Platform.onEvent('ledger-error', (error) => {

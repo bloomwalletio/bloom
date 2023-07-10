@@ -8,7 +8,7 @@
 
     import { closePopup } from '@desktop/auxiliary/popup'
     import { showAppNotification } from '@auxiliary/notification'
-    import { updateActiveAccountTrackedTokens } from '@core/wallet'
+    import { updateActiveProfileTrackedTokens } from '@core/wallet'
 
     let busy = false
 
@@ -29,7 +29,7 @@
             try {
                 const erc20TokenMetadata = await getErc20TokenMetadata(tokenAddress, chainId)
                 if (erc20TokenMetadata) {
-                    updateActiveAccountTrackedTokens(tokenAddress, chainId)
+                    updateActiveProfileTrackedTokens(tokenAddress, chainId)
                     showAppNotification({
                         type: 'success',
                         alert: true,
@@ -76,7 +76,7 @@
         {localize('popups.importErc20Token.title')}
     </Text>
 
-    <div class="space-y-4 max-h-100 scrollable-y flex-1">
+    <div class="space-y-4 max-h-100 flex-1">
         <ChainInput bind:chainId />
         <TextInput
             bind:value={tokenAddress}

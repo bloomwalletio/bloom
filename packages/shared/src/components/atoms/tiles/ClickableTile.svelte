@@ -8,7 +8,7 @@
 
 <Tile
     classes="
-        {onClick ? 'hover:bg-gray-100 dark:hover:bg-gray-1000 cursor-pointer' : 'pointer-events-none'}
+        {onClick ? 'hover:bg-gray-100 dark:hover:bg-gray-950 cursor-pointer' : 'pointer-events-none'}
         {disabled ? 'opacity-50' : ''}
         {classes}
     "
