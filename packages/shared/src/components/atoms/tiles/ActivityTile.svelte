@@ -1,31 +1,31 @@
 <script lang="ts">
+    import { time } from '@core/app'
     import {
+        Activity,
+        ActivityAsyncStatus,
+        ActivityType,
         InclusionState,
+        NotVerifiedStatus,
         selectedAccountAssets,
         getAssetFromPersistedAssets,
         IPersistedAsset,
-        Activity,
-        ActivityType,
-        NotVerifiedStatus,
-        ActivityAsyncStatus,
     } from '@core/wallet'
-    import { openPopup, PopupId } from '../../../../../desktop/lib/auxiliary/popup'
     import {
-        ClickableTile,
-        TransactionActivityTileContent,
-        FoundryActivityTileContent,
-        ConsolidationActivityTileContent,
         AliasActivityTileContent,
-        TimelockActivityTileFooter,
         AsyncActivityTileFooter,
-        NftActivityTileContent,
+        ClickableTile,
+        ConsolidationActivityTileContent,
+        FoundryActivityTileContent,
         GovernanceActivityTileContent,
+        NftActivityTileContent,
+        TimelockActivityTileFooter,
+        TransactionActivityTileContent,
     } from '@ui'
-    import { time } from '@core/app'
+    import { PopupId, openPopup } from '../../../../../desktop/lib/auxiliary/popup'
 
     export let activity: Activity
 
-    let asset: IPersistedAsset
+    let asset: IPersistedAsset | undefined
     $: $selectedAccountAssets,
         (asset =
             activity.type === ActivityType.Basic || activity.type === ActivityType.Foundry
