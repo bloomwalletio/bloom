@@ -1,28 +1,32 @@
-const { ipcRenderer } = require('electron')
+import { ipcRenderer } from 'electron'
+import fs from 'fs'
 
-const fs = require('fs')
-const PincodeManager = require('./lib/pincodeManager')
-const DeepLinkManager = require('./lib/deepLinkManager')
-const NotificationManager = require('./lib/notificationManager')
-const { menuState } = require('./lib/menuState')
-const features = require('../features/features').default
+import features from '@features/features'
+import { MENU_STATE } from '../menus/menu-state.constant'
+import DeepLinkManager from '../managers/deep-link.manager'
+import NotificationManager from '../managers/notification.manager'
+import PincodeManager from '../managers/pincode.manager'
+import { bindObjectAcrossContextBridge } from '../utils/context-bridge.utils'
+
+import type { IAppSettings } from '@core/app/interfaces'
+import type { IFeatureFlag } from '@lib/features/interfaces'
 
 let activeProfileId = null
 const eventListeners = {}
 
-const ElectronApi = {
-    updateAppSettings(settings) {
+export default {
+    updateAppSettings(settings: Partial<IAppSettings>): Promise<void> {
         return ipcRenderer.invoke('update-app-settings', settings)
     },
-    getActiveProfile() {
+    getActiveProfile(): string {
         return activeProfileId
     },
-    updateActiveProfile(id) {
+    updateActiveProfile(id: string): void {
         activeProfileId = id
     },
-    async renameProfileFolder(oldPath, newPath) {
+    async renameProfileFolder(oldPath: fs.PathLike, newPath: fs.PathLike): Promise<unknown> {
         return ipcRenderer.invoke('get-path', 'userData').then((userDataPath) => {
-            if (oldPath.startsWith(userDataPath)) {
+            if ((oldPath as string).startsWith(userDataPath)) {
                 try {
                     fs.renameSync(oldPath, newPath)
                 } catch (err) {
@@ -31,11 +35,11 @@ const ElectronApi = {
             }
         })
     },
-    async removeProfileFolder(profilePath) {
+    async removeProfileFolder(profilePath: fs.PathLike): Promise<unknown> {
         return ipcRenderer.invoke('get-path', 'userData').then((userDataPath) => {
             // Check that the removing profile path matches the user data path
             // so that we don't try and remove things outside our scope
-            if (profilePath.startsWith(userDataPath)) {
+            if ((profilePath as string).startsWith(userDataPath)) {
                 try {
                     // Sometime the DB can still be locked while it is flushing
                     // so retry if we receive a busy exception
@@ -46,11 +50,11 @@ const ElectronApi = {
             }
         })
     },
-    async listProfileFolders(profileStoragePath) {
+    async listProfileFolders(profileStoragePath: fs.PathLike): Promise<unknown> {
         return ipcRenderer.invoke('get-path', 'userData').then((userDataPath) => {
             // Check that the profile path matches the user data path
             // so that we don't try and remove things outside our scope
-            if (profileStoragePath.startsWith(userDataPath)) {
+            if ((profileStoragePath as string).startsWith(userDataPath)) {
                 try {
                     // Get a list of all the profile folders in storage
                     return fs.readdirSync(profileStoragePath)
@@ -64,10 +68,10 @@ const ElectronApi = {
             }
         })
     },
-    PincodeManager: PincodeManager,
-    DeepLinkManager: DeepLinkManager,
-    NotificationManager: NotificationManager,
-    async getStrongholdBackupDestination(defaultPath) {
+    DeepLinkManager: bindObjectAcrossContextBridge(DeepLinkManager.prototype, new DeepLinkManager()),
+    NotificationManager: bindObjectAcrossContextBridge(NotificationManager.prototype, new NotificationManager()),
+    PincodeManager: bindObjectAcrossContextBridge(PincodeManager.prototype, new PincodeManager()),
+    async getStrongholdBackupDestination(defaultPath: unknown): Promise<unknown> {
         return ipcRenderer
             .invoke('show-save-dialog', {
                 properties: ['createDirectory', 'showOverwriteConfirmation'],
@@ -82,8 +86,10 @@ const ElectronApi = {
                 return result.filePath
             })
     },
-    saveStrongholdBackup: ({ allowAccess }) => null,
-    async exportTransactionHistory(defaultPath, contents) {
+    saveStrongholdBackup(): null {
+        return null
+    },
+    async exportTransactionHistory(defaultPath: unknown, contents: string | NodeJS.ArrayBufferView): Promise<unknown> {
         return ipcRenderer
             .invoke('show-save-dialog', {
                 properties: ['createDirectory', 'showOverwriteConfirmation'],
@@ -104,182 +110,77 @@ const ElectronApi = {
                 })
             })
     },
-    /**
-     * Gets directory for app's configuration files
-     *
-     * @method getUserDataPath
-     *
-     * @returns {Promise}
-     */
-    getUserDataPath() {
+    getUserDataPath(): Promise<unknown> {
         return ipcRenderer.invoke('get-path', 'userData')
     },
-    /**
-     * Gets diagnostics information for the system
-     *
-     * @method getDiagnostics
-     *
-     * @returns {Promise}
-     */
-    getDiagnostics() {
+    getDiagnostics(): Promise<unknown> {
         return ipcRenderer.invoke('diagnostics')
     },
-    /**
-     * Gets os information for the system
-     *
-     * @method getOS
-     *
-     * @returns {Promise}
-     */
-    getOS() {
+    getOS(): Promise<unknown> {
         return ipcRenderer.invoke('get-os')
     },
-    /**
-     * Gets machine ID
-     *
-     * @method getMachineId
-     *
-     * @returns {Promise}
-     */
-    getMachineId() {
+    getMachineId(): Promise<unknown> {
         return ipcRenderer.invoke('get-machine-id')
     },
-    /**
-     * Starts an update of the application
-     *
-     * @method downloadAppUpdate
-     *
-     * @returns void
-     */
-    downloadAppUpdate() {
+    downloadAppUpdate(): Promise<unknown> {
         return ipcRenderer.invoke('update-download')
     },
-    /**
-     * Cancels an update of the application
-     *
-     * @method cancelAppUpdateDownload
-     *
-     * @returns void
-     */
-    cancelAppUpdateDownload() {
+    cancelAppUpdateDownload(): Promise<unknown> {
         return ipcRenderer.invoke('update-cancel')
     },
-    /**
-     * Install an update of the application
-     *
-     * @method installAppUpdate
-     *
-     * @returns void
-     */
-    installAppUpdate() {
+    installAppUpdate(): Promise<unknown> {
         return ipcRenderer.invoke('update-install')
     },
-    /**
-     * Check for an update of the application
-     *
-     * @method checkForAppUpdate
-     *
-     * @returns void
-     */
-    checkForAppUpdate() {
+    checkForAppUpdate(): Promise<unknown> {
         return ipcRenderer.invoke('update-check')
     },
-    /**
-     * Get version details
-     *
-     * @method getAppVersionDetails
-     *
-     * @returns void
-     */
-    getAppVersionDetails() {
+    getAppVersionDetails(): Promise<unknown> {
         return ipcRenderer.invoke('get-version-details')
     },
-    /**
-     * Change menu state to determine what menu items to display
-     * @param {string} Attribute - Target attribute
-     * @param {any} Value - Target attribute value
-     * @returns {undefined}
-     */
-    updateMenu(attribute, value) {
-        if (Object.keys(menuState).includes(attribute)) {
+    updateMenu(attribute: string, value: unknown): Promise<unknown> {
+        if (Object.keys(MENU_STATE).includes(attribute)) {
             return ipcRenderer.invoke('menu-update', {
                 [attribute]: value,
             })
         }
     },
-    /**
-     * Show the popup menu
-     * @returns {undefined}
-     */
-    popupMenu() {
+    popupMenu(): Promise<unknown> {
         return ipcRenderer.invoke('menu-popup')
     },
-    /**
-     * Minimize the app
-     * @returns {undefined}
-     */
-    minimize() {
+    minimize(): Promise<unknown> {
         return ipcRenderer.invoke('minimize')
     },
-    /**
-     * Maximize the app
-     * @returns {undefined}
-     */
-    maximize() {
+    maximize(): Promise<unknown> {
         return ipcRenderer.invoke('maximize')
     },
-    /**
-     * Is the app maximized
-     * @returns {boolean}
-     */
-    isMaximized() {
+    isMaximized(): Promise<unknown> {
         return ipcRenderer.invoke('isMaximized')
     },
-    /**
-     * Close the app
-     * @returns {undefined}
-     */
-    close() {
+    close(): Promise<unknown> {
         return ipcRenderer.invoke('close')
     },
-    downloadNft(url, destinationFilePath, nftId, accountIndex) {
+    downloadNft(url: unknown, destinationFilePath: unknown, nftId: unknown, accountIndex: unknown): Promise<unknown> {
         return ipcRenderer.invoke('nft-download', url, destinationFilePath, nftId, accountIndex)
     },
-    cancelNftDownload(nftId) {
+    cancelNftDownload(nftId: unknown): Promise<unknown> {
         return ipcRenderer.invoke('cancel-nft-download', nftId)
     },
-    checkIfFileExists(filePath) {
+    checkIfFileExists(filePath: unknown): Promise<unknown> {
         return ipcRenderer.invoke('check-if-file-exists', filePath)
     },
-    /*
-     * Opens url and checks against acceptlist
-     * @param {string} url - Target url
-     * @returns {undefined}
-     */
-    openUrl(url) {
+    openUrl(url: unknown): Promise<unknown> {
         return ipcRenderer.invoke('open-url', url)
     },
-    copyFile(sourceFilePath, destinationFilePath) {
+    copyFile(sourceFilePath: unknown, destinationFilePath: unknown): Promise<unknown> {
         return ipcRenderer.invoke('copy-file', sourceFilePath, destinationFilePath)
     },
-    deleteFile(filePath) {
+    deleteFile(filePath: unknown): Promise<unknown> {
         return ipcRenderer.invoke('delete-file', filePath)
     },
-    /**
-     * Log unhandled exception
-     * @param {string} errorType The type of eerror
-     * @param {Errir} error The error
-     */
-    unhandledException(errorType, error) {
+    unhandledException(errorType: unknown, error: unknown): Promise<unknown> {
         return ipcRenderer.invoke('handle-error', errorType, error)
     },
-    /**
-     * Add native window wallet event listener
-     * @param {string} event - Target event name
-     * @param {function} callback - Event trigger callback
-     * @returns {undefined}
-     */
-    onEvent(event, callback) {
+    onEvent(event: string, callback: unknown): void {
         let listeners = eventListeners[event]
         if (!listeners) {
             listeners = eventListeners[event] = []
@@ -287,26 +188,16 @@ const ElectronApi = {
         listeners.push(callback)
         ipcRenderer.removeAllListeners(event)
         ipcRenderer.on(event, (e, args) => {
-            listeners.forEach((call) => {
+            listeners.forEach((call: (arg0: unknown) => void) => {
                 call(args)
             })
         })
     },
-    /**
-     * Remove native window wallet event listener
-     * @param {string} event - Target event name
-     * @param {function} callback - Event trigger callback
-     * @returns {undefined}
-     */
-    removeListenersForEvent(event) {
+    removeListenersForEvent(event: string): Electron.IpcRenderer {
         eventListeners[event] = []
         return ipcRenderer.removeAllListeners(event)
     },
-    /**
-     * Save the recovery kit
-     * @returns
-     */
-    async saveRecoveryKit(recoverKitData) {
+    async saveRecoveryKit(recoverKitData: WithImplicitCoercion<ArrayBuffer | SharedArrayBuffer>): Promise<unknown> {
         return ipcRenderer
             .invoke('show-save-dialog', {
                 properties: ['createDirectory', 'showOverwriteConfirmation'],
@@ -328,21 +219,25 @@ const ElectronApi = {
                 }
             })
     },
-    trackEvent(eventName, eventProperties) {
+    trackEvent(eventName: string, eventProperties: unknown): Promise<unknown> {
         return ipcRenderer.invoke('track-event', eventName, eventProperties)
     },
-    isFeatureFlagEnabled(keyPath) {
-        return keyPath?.split('.').reduce((prev, cur) => prev && prev[cur], features)?.enabled ?? false
+    isFeatureFlagEnabled(keyPath: string): boolean {
+        const feature = keyPath
+            ?.split('.')
+            .reduce(
+                (prev: { [x: string]: unknown }, cur: string | number) => prev && prev[cur],
+                features
+            ) as IFeatureFlag
+        return feature?.enabled ?? false
     },
-    updateTheme(theme) {
+    updateTheme(theme: string): Promise<void> {
         return ipcRenderer.invoke('update-theme', theme)
     },
-    startLedgerProcess() {
+    startLedgerProcess(): void {
         return ipcRenderer.send('start-ledger-process')
     },
-    killLedgerProcess() {
+    killLedgerProcess(): void {
         return ipcRenderer.send('kill-ledger-process')
     },
 }
-
-module.exports = ElectronApi
