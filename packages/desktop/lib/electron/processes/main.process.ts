@@ -99,20 +99,16 @@ process.on('unhandledRejection', (error) => {
 /**
  * Define wallet windows
  */
-const windows: WindowMap = {
+const windows: Window = {
     main: null,
     about: null,
     error: null,
 }
 
-type WindowMap = {
-    [key in Window]: BrowserWindow | null
-}
-
-enum Window {
-    About = 'about',
-    Error = 'error',
-    Main = 'main',
+type Window = {
+    main: BrowserWindow | null
+    about: BrowserWindow | null
+    error: BrowserWindow | null
 }
 
 const paths = {
@@ -200,7 +196,7 @@ function createMainWindow(): BrowserWindow {
     const mainWindowState = windowStateKeeper('main', 'settings.json')
 
     // Create the browser window
-    windows[Window.Main] = new BrowserWindow({
+    windows.main = new BrowserWindow({
         width: mainWindowState.width,
         height: mainWindowState.height,
         minWidth: 1280,
@@ -221,21 +217,21 @@ function createMainWindow(): BrowserWindow {
     })
 
     if (mainWindowState.isMaximized) {
-        windows[Window.Main].maximize()
+        windows.main.maximize()
     }
 
-    mainWindowState.track(windows[Window.Main])
+    mainWindowState.track(windows.main)
 
     if (!app.isPackaged) {
         // Enable dev tools only in developer mode
-        windows[Window.Main].webContents.openDevTools()
+        windows.main.webContents.openDevTools()
 
-        void windows[Window.Main].loadURL('http://localhost:8080')
+        void windows.main.loadURL('http://localhost:8080')
     } else {
         new AutoUpdateManager()
 
         // load the index.html of the app.
-        void windows[Window.Main].loadFile(paths.html)
+        void windows.main.loadFile(paths.html)
     }
 
     new NftDownloadManager()
@@ -243,10 +239,10 @@ function createMainWindow(): BrowserWindow {
     /**
      * Right click context menu for inputs
      */
-    windows[Window.Main].webContents.on('context-menu', (_e, props) => {
+    windows.main.webContents.on('context-menu', (_e, props) => {
         const { isEditable } = props
         if (isEditable) {
-            const options = windows[Window.Main] as PopupOptions
+            const options = windows.main as PopupOptions
             contextMenu().popup(options)
         }
     })
@@ -256,22 +252,22 @@ function createMainWindow(): BrowserWindow {
      *  This happens e.g. when clicking on a link (<a href="www.iota.org").
      *  The handler only allows navigation to an external browser.
      */
-    windows[Window.Main].webContents.on('will-navigate', (a, b) => {
+    windows.main.webContents.on('will-navigate', (a, b) => {
         handleNavigation(a, b)
     })
 
-    windows[Window.Main].on('close', () => {
+    windows.main.on('close', () => {
         closeAboutWindow()
         closeErrorWindow()
     })
 
-    windows[Window.Main].on('closed', () => {
+    windows.main.on('closed', () => {
         ledgerProcess?.kill()
-        windows[Window.Main] = null
+        windows.main = null
     })
 
-    windows[Window.Main].webContents.on('did-finish-load', () => {
-        windows[Window.Main].webContents.send('version-details', versionDetails)
+    windows.main.webContents.on('did-finish-load', () => {
+        windows.main.webContents.send('version-details', versionDetails)
     })
 
     /**
@@ -279,7 +275,7 @@ function createMainWindow(): BrowserWindow {
      * Remove when updating to Electron 13.6.6 or later
      * https://github.com/advisories/GHSA-3p22-ghq8-v749
      */
-    windows[Window.Main].webContents.on('select-bluetooth-device', (event, _devices, cb) => {
+    windows.main.webContents.on('select-bluetooth-device', (event, _devices, cb) => {
         event.preventDefault()
         // Cancel the request
         cb('')
@@ -298,7 +294,7 @@ function createMainWindow(): BrowserWindow {
         return cb(permissionAllowlist.indexOf(permission) > -1)
     })
 
-    return windows[Window.Main]
+    return windows.main
 }
 
 void app.whenReady().then(createMainWindow)
@@ -311,14 +307,14 @@ ipcMain.on('start-ledger-process', () => {
         ledgerProcess.on('message', (message: ILedgerProcessMessage) => {
             const { error, data } = message
             if (error) {
-                windows[Window.Main].webContents.send('ledger-error', error)
+                windows.main.webContents.send('ledger-error', error)
             } else {
                 switch (data?.method) {
                     case LedgerMethod.GenerateEvmAddress:
-                        windows[Window.Main].webContents.send('evm-address', data)
+                        windows.main.webContents.send('evm-address', data)
                         break
                     case LedgerMethod.SignEvmTransaction:
-                        windows[Window.Main].webContents.send('evm-signed-transaction', data)
+                        windows.main.webContents.send('evm-signed-transaction', data)
                         break
                     default:
                         /* eslint-disable-next-line no-console */
@@ -473,18 +469,18 @@ if (!isFirstInstance) {
 }
 
 app.on('second-instance', (_e, args) => {
-    if (windows[Window.Main]) {
+    if (windows.main) {
         if (args.length > 1) {
             const params = args.find((arg) => arg.startsWith(`${process.env.APP_PROTOCOL}://`))
 
             if (params) {
-                windows[Window.Main].webContents.send('deep-link-params', params)
+                windows.main.webContents.send('deep-link-params', params)
             }
         }
-        if (windows[Window.Main].isMinimized()) {
-            windows[Window.Main].restore()
+        if (windows.main.isMinimized()) {
+            windows.main.restore()
         }
-        windows[Window.Main].focus()
+        windows.main.focus()
     }
 })
 
@@ -509,9 +505,9 @@ if (process.defaultApp) {
 app.on('open-url', (event, url) => {
     event.preventDefault()
     deepLinkUrl = url
-    if (windows[Window.Main]) {
-        windows[Window.Main].webContents.send('deep-link-params', deepLinkUrl)
-        windows[Window.Main].webContents.send('deep-link-request')
+    if (windows.main) {
+        windows.main.webContents.send('deep-link-params', deepLinkUrl)
+        windows.main.webContents.send('deep-link-request')
     }
 })
 
@@ -520,7 +516,7 @@ app.on('open-url', (event, url) => {
  */
 ipcMain.on('check-deep-link-request-exists', () => {
     if (deepLinkUrl) {
-        windows[Window.Main].webContents.send('deep-link-params', deepLinkUrl)
+        windows.main.webContents.send('deep-link-params', deepLinkUrl)
     }
 })
 
@@ -535,8 +531,8 @@ ipcMain.on('clear-deep-link-request', () => {
  * Proxy notification activated to the wallet application
  */
 ipcMain.on('notification-activated', (ev, contextData) => {
-    windows[Window.Main].focus()
-    windows[Window.Main].webContents.send('notification-activated', contextData)
+    windows.main.focus()
+    windows.main.webContents.send('notification-activated', contextData)
 })
 
 /**
@@ -544,12 +540,12 @@ ipcMain.on('notification-activated', (ev, contextData) => {
  * @returns {BrowserWindow} About window
  */
 export function openAboutWindow(): BrowserWindow {
-    if (windows[Window.About] !== null) {
-        windows[Window.About].focus()
-        return windows[Window.About]
+    if (windows.about !== null) {
+        windows.about.focus()
+        return windows.about
     }
 
-    windows[Window.About] = new BrowserWindow({
+    windows.about = new BrowserWindow({
         width: 380,
         height: 230,
         useContentSize: true,
@@ -571,35 +567,35 @@ export function openAboutWindow(): BrowserWindow {
         },
     })
 
-    windows[Window.About].once('closed', () => {
-        windows[Window.About] = null
+    windows.about.once('closed', () => {
+        windows.about = null
     })
 
-    void windows[Window.About].loadFile(paths.aboutHtml)
+    void windows.about.loadFile(paths.aboutHtml)
 
-    windows[Window.About].once('ready-to-show', () => {
-        windows[Window.About].show()
+    windows.about.once('ready-to-show', () => {
+        windows.about.show()
     })
 
-    windows[Window.About].setMenu(null)
+    windows.about.setMenu(null)
 
-    return windows[Window.About]
+    return windows.about
 }
 
 export function closeAboutWindow(): void {
-    if (windows[Window.About]) {
-        windows[Window.About].close()
-        windows[Window.About] = null
+    if (windows.about) {
+        windows.about.close()
+        windows.about = null
     }
 }
 
 export function openErrorWindow(): BrowserWindow {
-    if (windows[Window.Error] !== null) {
-        windows[Window.Error].focus()
-        return windows[Window.Error]
+    if (windows.error !== null) {
+        windows.error.focus()
+        return windows.error
     }
 
-    windows[Window.Error] = new BrowserWindow({
+    windows.error = new BrowserWindow({
         useContentSize: true,
         titleBarStyle: process.platform === 'darwin' ? 'hiddenInset' : 'hidden',
         show: false,
@@ -612,25 +608,25 @@ export function openErrorWindow(): BrowserWindow {
         },
     })
 
-    windows[Window.Error].once('closed', () => {
-        windows[Window.Error] = null
+    windows.error.once('closed', () => {
+        windows.error = null
     })
 
-    void windows[Window.Error].loadFile(paths.errorHtml)
+    void windows.error.loadFile(paths.errorHtml)
 
-    windows[Window.Error].once('ready-to-show', () => {
-        windows[Window.Error].show()
+    windows.error.once('ready-to-show', () => {
+        windows.error.show()
     })
 
-    windows[Window.Error].setMenu(null)
+    windows.error.setMenu(null)
 
-    return windows[Window.Error]
+    return windows.error
 }
 
 export function closeErrorWindow(): void {
-    if (windows[Window.Error]) {
-        windows[Window.Error].close()
-        windows[Window.Error] = null
+    if (windows.error) {
+        windows.error.close()
+        windows.error = null
     }
 }
 
