@@ -1810,10 +1810,10 @@
   resolved "https://registry.npmjs.org/@tsconfig/node16/-/node16-1.0.3.tgz"
   integrity sha512-yOlFc+7UtL/89t2ZhjPvvB/DeAr3r+Dq58IgzsFkOAvVC6NMJXmCGjbptdXdR9qsX7pKcTL+s87FtYREi2dEEQ==
 
-"@tsconfig/svelte@^1.0.10":
-  version "1.0.13"
-  resolved "https://registry.npmjs.org/@tsconfig/svelte/-/svelte-1.0.13.tgz"
-  integrity sha512-5lYJP45Xllo4yE/RUBccBT32eBlRDbqN8r1/MIvQbKxW3aFqaYPCNgm8D5V20X4ShHcwvYWNlKg3liDh1MlBoA==
+"@tsconfig/svelte@4.0.1":
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/@tsconfig/svelte/-/svelte-4.0.1.tgz#f36c1085fbdd868c10fb0426141956483dd4867b"
+  integrity sha512-B+XlGpmuAQzJqDoBATNCvEPqQg0HkO7S8pM14QDI5NsmtymzRexQ1N+nX2H6RTtFbuFgaZD4I8AAi8voGg0GLg==
 
 "@types/babel__core@^7.1.14":
   version "7.20.0"
@@ -9904,10 +9904,10 @@ svelte-i18n@3.6.0:
     sade "^1.8.1"
     tiny-glob "^0.2.9"
 
-svelte-loader@^3.0.0:
-  version "3.1.7"
-  resolved "https://registry.npmjs.org/svelte-loader/-/svelte-loader-3.1.7.tgz"
-  integrity sha512-YVg5gQaUdV26uaA5SEGj1VOUX0YQicD9PezKvVlkQ2JI644silWtJZ3hkxHtXSfjnlFr0OTNoyOgeINIODdT+A==
+svelte-loader@^3.1.9:
+  version "3.1.9"
+  resolved "https://registry.yarnpkg.com/svelte-loader/-/svelte-loader-3.1.9.tgz#950015ad5b30fb205fceee0dd6d37f228237605c"
+  integrity sha512-RITPqze3TppOhaZF8SEFTDTwFHov17k3UkOjpxyL/No/YVrvckKmXWOEj7QEpsZZZSNQPb28tMZbHEI2xLhJMQ==
   dependencies:
     loader-utils "^2.0.4"
     svelte-dev-helper "^1.1.9"
@@ -10364,12 +10364,12 @@ typedarray-to-buffer@^3.1.5:
   dependencies:
     is-typedarray "^1.0.0"
 
-typescript@*, typescript@^5.0.3:
+typescript@*, typescript@5.0.3:
   version "5.0.3"
   resolved "https://registry.npmjs.org/typescript/-/typescript-5.0.3.tgz"
   integrity sha512-xv8mOEDnigb/tN9PSMTwSEqAnUvkoXMQlicOb0IUVDBSQCgBSaAAROUZYy2IcUy5qU6XajK5jjjO7TMWqBTKZA==
 
-typescript@^4.0.2, typescript@^4.9.4, typescript@^4.9.5:
+typescript@^4.0.2, typescript@^4.9.4:
   version "4.9.5"
   resolved "https://registry.npmjs.org/typescript/-/typescript-4.9.5.tgz"
   integrity sha512-1FXk9E2Hm+QzZQ7z+McJiHL4NW1F2EzMu9Nq9i3zAaGqibafqYwCVU6WyWAuyQRRzOlxou8xZSyXLEN8oKj24g==
