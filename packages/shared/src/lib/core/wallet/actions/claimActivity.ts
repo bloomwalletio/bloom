@@ -11,6 +11,9 @@ import { Activity } from '../types'
 
 export async function claimActivity(activity: Activity): Promise<void> {
     const account = get(selectedAccount)
+    if (!account) {
+        return
+    }
     try {
         if (isActivityHiddenForAccountIndex(account.index, activity.id)) {
             removeActivityFromHiddenActivities(account.index, activity.id)

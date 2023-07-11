@@ -8,7 +8,7 @@
 
     import { closePopup } from '@desktop/auxiliary/popup'
     import { showAppNotification } from '@auxiliary/notification'
-    import { updateActiveProfileTrackedTokens } from '@core/wallet'
+    import { addNewTrackedTokenToActiveProfile } from '@core/wallet'
 
     let busy = false
 
@@ -29,7 +29,7 @@
             try {
                 const erc20TokenMetadata = await getErc20TokenMetadata(tokenAddress, chainId)
                 if (erc20TokenMetadata) {
-                    updateActiveProfileTrackedTokens(tokenAddress, chainId)
+                    addNewTrackedTokenToActiveProfile(chainId, tokenAddress, erc20TokenMetadata)
                     showAppNotification({
                         type: 'success',
                         alert: true,
