@@ -3,7 +3,7 @@
     "productName": "Bloom",
     "version": "0.1.0",
     "description": "Simple and secure web3 wallet for the IOTA and Shimmer ecosystem",
-    "main": "public/build/main.js",
+    "main": "public/build/main.process.js",
     "repository": "git@github.com:bloomwalletio/bloom.git",
     "author": "Charlie Varley <charlie@bloomwallet.io>",
     "license": "Apache-2.0",
