@@ -2,15 +2,16 @@ import { OutputParams, Assets } from '@iota/wallet/out/types'
 import { convertDateToUnixTimestamp, Converter } from '@core/utils'
 import { NewTransactionType } from '../stores'
 import { getEstimatedGasForTransferFromTransactionDetails, getLayer2MetadataForTransfer } from '@core/layer-2/utils'
-import { NewTransactionDetails } from '@core/wallet/types'
+import { NewTransactionDetails, Subject } from '@core/wallet/types'
 import { getAddressFromSubject } from '@core/wallet/utils'
 import { ReturnStrategy } from '../enums'
 import { getCoinType } from '@core/profile'
+import { ILayer2Parameters } from '@core/layer-2'
 
 export async function getOutputParameters(transactionDetails: NewTransactionDetails): Promise<OutputParams> {
     const { recipient, expirationDate, timelockDate, giftStorageDeposit, layer2Parameters } = transactionDetails ?? {}
 
-    const recipientAddress = layer2Parameters ? layer2Parameters.networkAddress : getAddressFromSubject(recipient)
+    const recipientAddress = getDestinationAddress(recipient, layer2Parameters)
 
     const estimatedGas = await getEstimatedGasForTransferFromTransactionDetails(transactionDetails)
 
@@ -42,6 +43,19 @@ export async function getOutputParameters(transactionDetails: NewTransactionDeta
         storageDeposit: {
             returnStrategy: giftStorageDeposit ? ReturnStrategy.Gift : ReturnStrategy.Return,
         },
+    }
+}
+
+function getDestinationAddress(
+    recipient: Subject | undefined,
+    layer2Parameters: ILayer2Parameters | undefined
+): string {
+    if (layer2Parameters) {
+        return layer2Parameters.networkAddress
+    } else if (recipient) {
+        return getAddressFromSubject(recipient)
+    } else {
+        return ''
     }
 }
 
@@ -101,6 +115,6 @@ function getMetadata(transactionDetails: NewTransactionDetails): Promise<string>
     if (transactionDetails.layer2Parameters) {
         return getLayer2MetadataForTransfer(transactionDetails)
     } else {
-        return Promise.resolve(Converter.utf8ToHex(transactionDetails?.metadata))
+        return Promise.resolve(Converter.utf8ToHex(transactionDetails?.metadata ?? ''))
     }
 }

@@ -3,7 +3,10 @@
     import { prepareOutput, selectedAccount } from '@core/account'
     import { handleError } from '@core/error/handlers'
     import { localize } from '@core/i18n'
-    import { getDestinationNetworkFromAddress } from '@core/layer-2/utils'
+    import {
+        getDestinationNetworkFromAddress,
+        getEstimatedGasForTransferFromTransactionDetails,
+    } from '@core/layer-2/utils'
     import { activeProfile } from '@core/profile/stores'
     import { truncateString } from '@core/utils'
     import { TimePeriod } from '@core/utils/enums'
@@ -40,6 +43,7 @@
     const destinationNetwork = getDestinationNetworkFromAddress(layer2Parameters?.networkAddress)
     let storageDeposit = 0
     let visibleSurplus = 0
+    let estimatedGas = 0
     let preparedOutput: Output
     let expirationTimePicker: ExpirationTimePicker
     let metadataInput: OptionalInput
@@ -56,6 +60,7 @@
     $: expirationTimePicker?.setNull(giftStorageDeposit)
     $: isTransferring = !!$selectedAccount.isTransferring
     $: isLayer2 = !!layer2Parameters?.networkAddress
+    $: transactionDetails, setEstimatedGas()
     $: isFromLayer2 =
         transactionDetails.type === NewTransactionType.TokenTransfer ? !!transactionDetails.asset.chainId : false
     $: expirationDate, timelockDate, giftStorageDeposit, refreshSendConfirmationState()
@@ -83,7 +88,11 @@
         }
     }
 
-    async function calculateInitialOutput() {
+    async function setEstimatedGas(): Promise<void> {
+        estimatedGas = await getEstimatedGasForTransferFromTransactionDetails(transactionDetails)
+    }
+
+    async function calculateInitialOutput(): Promise<void> {
         await prepareTransactionOutput()
         selectedExpirationPeriod = getInitialExpirationDate()
     }
@@ -91,10 +100,14 @@
     async function prepareTransactionOutput(): Promise<void> {
         const transactionDetails = get(newTransactionDetails)
 
-        const outputParams = await getOutputParameters(transactionDetails)
-        preparedOutput = await prepareOutput($selectedAccount.index, outputParams, DEFAULT_TRANSACTION_OPTIONS)
+        try {
+            const outputParams = await getOutputParameters(transactionDetails)
+            preparedOutput = await prepareOutput($selectedAccount.index, outputParams, DEFAULT_TRANSACTION_OPTIONS)
 
-        setStorageDeposit(preparedOutput, Number(surplus))
+            setStorageDeposit(preparedOutput, Number(surplus))
+        } catch (error) {
+            console.error(error)
+        }
     }
 
     function setStorageDeposit(preparedOutput: Output, surplus?: number): void {
@@ -185,6 +198,7 @@
         bind:selectedExpirationPeriod
         bind:selectedTimelockPeriod
         bind:giftStorageDeposit
+        gasBudget={estimatedGas}
         {storageDeposit}
         {destinationNetwork}
         {disableChangeExpiration}

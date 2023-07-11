@@ -16,12 +16,21 @@ export async function getEstimatedGasForTransferFromTransactionDetails(
         : recipient
         ? getAddressFromSubject(recipient)
         : ''
+    const chainId = layer2Parameters.chainId
 
-    if (asset) {
-        return (
-            getIscpTransferMethod(address, asset, rawAmount)?.estimateGas() ?? Promise.resolve(GAS_BUDGET.toJSNumber())
-        )
+    const fallbackGas = GAS_BUDGET.toJSNumber()
+    if (asset && chainId) {
+        try {
+            const iscpTransferMethod = getIscpTransferMethod(address, asset, chainId, rawAmount)
+            if (iscpTransferMethod) {
+                const gas = await iscpTransferMethod.estimateGas()
+                return gas
+            }
+            return Promise.resolve(fallbackGas)
+        } catch (error) {
+            return Promise.resolve(fallbackGas)
+        }
     } else {
-        return GAS_BUDGET.toJSNumber()
+        return fallbackGas
     }
 }

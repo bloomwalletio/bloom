@@ -8,6 +8,7 @@
 
     export let destinationNetwork: string
     export let storageDeposit: number
+    export let gasBudget: number
     export let giftStorageDeposit: boolean
     export let expirationDate: Date
     export let selectedExpirationPeriod: TimePeriod
@@ -47,6 +48,21 @@
                 {storageDeposit}
                 disabled={disableGiftStorageDeposit || disableAll}
             />
+        </section>
+    {/if}
+    {#if gasBudget}
+        <section class="key-value-box border-gray-200 dark:border-gray-700">
+            <div class="flex flex-row">
+                <Text>{localize('general.gasBudget')}</Text>
+                <TooltipIcon
+                    title={localize('general.gasBudget')}
+                    text={localize('tooltips.transactionDetails.outgoing.gasBudget')}
+                    width={15}
+                    height={15}
+                    classes="ml-1"
+                />
+            </div>
+            <Text color="gray-600">{gasBudget}</Text>
         </section>
     {/if}
     {#if selectedExpirationPeriod}

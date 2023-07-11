@@ -62,7 +62,11 @@
 
     function onContinueClick(): void {
         const layer2Parameters = isLayer2
-            ? { networkAddress: selectedOption?.networkAddress, senderAddress: $selectedAccount.depositAddress }
+            ? {
+                  chainId: selectedOption.chainId,
+                  networkAddress: selectedOption?.networkAddress,
+                  senderAddress: $selectedAccount.depositAddress,
+              }
             : null
         updateNewTransactionDetails({
             type: $newTransactionDetails?.type,
@@ -104,6 +108,7 @@
             const asset = $newTransactionDetails.asset
             // L1 network
             const layer1Network = {
+                id: $network.getMetadata().id,
                 name: $network.getMetadata().name,
                 networkAddress: '',
             }
@@ -138,6 +143,7 @@
     function getSelectorOptionFromChain(chain: IChain): INetworkRecipientSelectorOption {
         const chainConfig = chain.getConfiguration() as IIscpChainConfiguration
         return {
+            chainId: chainConfig.chainId,
             name: chainConfig.name,
             networkAddress: chainConfig.aliasAddress,
         }

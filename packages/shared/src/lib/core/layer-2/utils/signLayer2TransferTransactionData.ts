@@ -55,7 +55,7 @@ function getTransactionData(
     switch (standard) {
         case TokenStandard.BaseToken:
         case TokenStandard.Irc30:
-            return getIrc30TransferSmartContractData(recipientAddress, asset, amount)
+            return getIrc30TransferSmartContractData(recipientAddress, asset, chain.getConfiguration().chainId, amount)
         case TokenStandard.Erc20:
             return getErc20TransferSmartContractData(recipientAddress, asset, amount, chain)
     }

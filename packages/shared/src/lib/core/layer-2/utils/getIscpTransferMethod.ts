@@ -11,10 +11,11 @@ import { ContractSendMethod } from 'web3-eth-contract'
 export function getIscpTransferMethod(
     recipientAddress: string,
     asset: IAsset,
+    chainId: number,
     amount: string
 ): ContractSendMethod | undefined {
     try {
-        const chain = getNetwork()?.getChain(asset.chainId)
+        const chain = getNetwork()?.getChain(chainId)
         const provider = chain?.getProvider()
         const evmAddress = getSelectedAccount()?.evmAddresses?.[ETH_COIN_TYPE]
 
