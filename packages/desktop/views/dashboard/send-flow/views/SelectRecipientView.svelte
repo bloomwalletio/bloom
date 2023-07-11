@@ -14,7 +14,6 @@
     let selectorOptions: INetworkRecipientSelectorOption[] = []
     let selectedIndex = -1
 
-    const disableAssetSelection = $newTransactionDetails.disableAssetSelection
     const assetName = getAssetName()
 
     $: selectedOption = selectorOptions[selectedIndex]
@@ -79,7 +78,7 @@
             recipient: undefined,
             layer2Parameters: undefined,
         })
-        if (disableAssetSelection) {
+        if (!$sendFlowRouter.hasHistory()) {
             closePopup()
         } else {
             $sendFlowRouter.previous()
@@ -149,7 +148,10 @@
     title={localize('popups.transaction.selectRecipient', {
         values: { assetName },
     })}
-    leftButton={{ text: localize(disableAssetSelection ? 'actions.cancel' : 'actions.back'), onClick: onBackClick }}
+    leftButton={{
+        text: localize($sendFlowRouter.hasHistory() ? 'actions.back' : 'actions.cancel'),
+        onClick: onBackClick,
+    }}
     rightButton={{
         text: localize('actions.continue'),
         onClick: onContinueClick,

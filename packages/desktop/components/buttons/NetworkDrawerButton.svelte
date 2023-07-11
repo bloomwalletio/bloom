@@ -33,7 +33,7 @@
     {/if}
 </button>
 
-<style type="text/scss">
+<style lang="scss">
     .network-button {
         @apply flex items-center border border-solid rounded-md text-14;
         @apply pl-2 pr-3 py-1 gap-2;

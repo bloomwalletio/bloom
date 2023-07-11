@@ -43,7 +43,6 @@
     import RemoveNode from './RemoveNode.svelte'
     import RemoveProposalPopup from './RemoveProposalPopup.svelte'
     import RevotePopup from './RevotePopup.svelte'
-    import { SendConfirmationPopup, SendFormPopup } from './send'
     import SendFlowPopup from './SendFlowPopup.svelte'
     import StopVotingPopup from './StopVotingPopup.svelte'
     import BalanceBreakdownPopup from './BalanceBreakdownPopup.svelte'
@@ -127,9 +126,7 @@
         [PopupId.RemoveNode]: RemoveNode,
         [PopupId.RemoveProposal]: RemoveProposalPopup,
         [PopupId.Revote]: RevotePopup,
-        [PopupId.SendConfirmation]: SendConfirmationPopup,
         [PopupId.SendFlow]: SendFlowPopup,
-        [PopupId.SendForm]: SendFormPopup,
         [PopupId.StopVoting]: StopVotingPopup,
         [PopupId.BalanceBreakdown]: BalanceBreakdownPopup,
         [PopupId.TestDeepLinkForm]: TestDeepLinkFormPopup,
@@ -224,7 +221,7 @@
     <button type="button" tabindex="0" on:focus={onFocusLast} />
 </popup>
 
-<style type="text/scss">
+<style lang="scss">
     popup {
         popup-content {
             width: 100%;

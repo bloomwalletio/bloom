@@ -123,7 +123,6 @@
             type: NewTransactionType.NftTransfer,
             nft,
             recipient: undefined,
-            disableAssetSelection: true,
         })
         sendFlowRouter.set(new SendFlowRouter(undefined, SendFlowRoute.SelectRecipient))
         openPopup({

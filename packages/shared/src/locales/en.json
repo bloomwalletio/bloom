@@ -453,6 +453,7 @@
                 "referencedRate": "Referenced rate"
             },
             "profileModal": {
+                "contactBook": "Contact book",
                 "allSettings": "All settings",
                 "profileApplication": "Profile, application, security",
                 "logout": "Log out",
@@ -531,6 +532,41 @@
                     },
                     "removeChain": {
                         "title": "Remove chain"
+                    }
+                },
+                "contactBook": {
+                    "contactList": {
+                        "title": "Contact list",
+                        "addContact": "Add contact"
+                    },
+                    "contactInformation": {
+                        "title": "Contact Information",
+                        "editContact": "Edit contact",
+                        "removeContact": "Remove contact",
+                        "addNetworkAddress": "Add network address"
+                    },
+                    "addContact": {
+                        "title": "Add contact"
+                    },
+                    "editContact": {
+                        "title": "Edit contact"
+                    },
+                    "removeContact": {
+                        "title": "Remove contact",
+                        "body": "Are you sure you want to remove this contact?",
+                        "hint": "Please note after removing a contact Bloom will show its actual addresses."
+                    },
+                    "addNetworkAddress": {
+                        "title": "Add network address"
+                    },
+                    "editNetworkAddresses": {
+                        "title": "Edit network addresses",
+                        "addAddress": "Add Address"
+                    },
+                    "removeNetworkAddresses": {
+                        "title": "Remove network addresses",
+                        "body": "Are you sure you want to remove the contact’s {network} network addresses?",
+                        "hint": "Please note after removing a contact’s network addresses Bloom will no longer associate it with them in transactions or activities."
                     }
                 }
             }
@@ -1386,7 +1422,8 @@
         "stopVoting": "Stop voting",
         "revote": "Revote",
         "skipAndKeep": "Skip and keep old password",
-        "addChain": "Add chain"
+        "addChain": "Add chain",
+        "untrackToken": "Untrack token"
     },
     "general": {
         "recipient": "Recipient",
@@ -1460,6 +1497,7 @@
         "and": "and",
         "receiveFunds": "Receive funds",
         "address": "Address",
+        "addressName": "Address name",
         "myAddress": "My address",
         "myNetworkAddress": "My {networkName} address",
         "shareAddress": "Share an address",
@@ -1603,6 +1641,7 @@
         "metadata": "Metadata",
         "amountConsolidatedInputs": "Consolidated outputs",
         "name": "Name",
+        "note": "Note",
         "tag": "Tag",
         "nodeList": "Node list",
         "claimedIn": "Claimed in",
@@ -1862,6 +1901,12 @@
         },
         "stopVoting": {
             "success": "Voting successfully stopped"
+        },
+        "updateContact": {
+            "success": "Contact successfully updated"
+        },
+        "updateNetworkAddresses": {
+            "success": "Contact addresses successfully updated"
         }
     },
     "error": {
@@ -2095,6 +2140,11 @@
         "erc20Token": {
             "invalidAddressFormat": "Must be hexadecimal format",
             "invalidAddressLength": "Length is invalid"
+        },
+        "contacts": {
+            "nameRequired": "Name is required",
+            "nameTooLong": "Name must be less than 20 characters long",
+            "noteTooLong": "Note must be less than 1000 characters long"
         }
     },
     "warning": {

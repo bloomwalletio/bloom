@@ -11,6 +11,8 @@ export function saveActiveProfile(): void {
             name: _activeProfile.name,
             type: _activeProfile.type,
             network: _activeProfile.network,
+            contacts: _activeProfile.contacts,
+            networkContactAddresses: _activeProfile.networkContactAddresses,
             lastStrongholdBackupTime: _activeProfile.lastStrongholdBackupTime,
             settings: _activeProfile.settings,
             isDeveloperProfile: _activeProfile.isDeveloperProfile,

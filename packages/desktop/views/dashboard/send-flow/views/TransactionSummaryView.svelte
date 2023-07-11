@@ -132,7 +132,11 @@
     }
 
     function onBackClick(): void {
-        $sendFlowRouter.previous()
+        if (!$sendFlowRouter.hasHistory()) {
+            closePopup()
+        } else {
+            $sendFlowRouter.previous()
+        }
     }
 
     onMount(async () => {
@@ -149,7 +153,10 @@
 
 <SendFlowTemplate
     title={localize('popups.transaction.transactionSummary', { values: { recipient } })}
-    leftButton={{ text: localize('actions.back'), onClick: onBackClick }}
+    leftButton={{
+        text: localize($sendFlowRouter.hasHistory() ? 'actions.back' : 'actions.cancel'),
+        onClick: onBackClick,
+    }}
     rightButton={{
         text: localize('actions.confirm'),
         onClick: onConfirmClick,
