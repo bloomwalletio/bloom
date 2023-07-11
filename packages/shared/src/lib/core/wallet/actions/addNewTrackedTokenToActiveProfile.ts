@@ -5,7 +5,7 @@ import { buildPersistedAssetFromMetadata } from '../helpers'
 import type { IErc20Metadata } from '../interfaces'
 import { updatePersistedAsset } from '../stores'
 
-export function updateActiveProfileTrackedTokens(
+export function addNewTrackedTokenToActiveProfile(
     chainId: number,
     tokenAddress: string,
     tokenMetadata: IErc20Metadata

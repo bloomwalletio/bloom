@@ -5,6 +5,9 @@ import { processAndAddToActivities } from '../utils'
 
 export async function consolidateOutputs(): Promise<void> {
     const account = get(selectedAccount)
+    if (!account) {
+        return
+    }
     try {
         updateSelectedAccount({ isTransferring: true })
 

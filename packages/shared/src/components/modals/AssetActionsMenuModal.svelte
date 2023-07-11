@@ -9,26 +9,22 @@
         hideActivitiesForHiddenAssets,
         NotVerifiedStatus,
         VerifiedStatus,
-        removeTokenFromActiveProfileTrackedTokens,
+        removeTrackedTokenFromActiveProfile,
     } from '@core/wallet'
     import { Icon } from '@lib/auxiliary/icon'
     import { closePopup, openPopup, PopupId, updatePopupProps } from '../../../../desktop/lib/auxiliary/popup'
     import { MenuItem, Modal } from '@ui'
     import features from '@features/features'
+    import { activeProfile } from '@core/profile/stores'
 
-    import { getActiveProfilePersistedTrackedTokensByAccountIndex } from '@core/profile/stores'
-    import { selectedAccountIndex } from '@core/account/stores'
-
-    export let modal: Modal = undefined
+    export let modal: Modal | undefined = undefined
     export let asset: IAsset
 
-    $: isTrackedToken = getActiveProfilePersistedTrackedTokensByAccountIndex($selectedAccountIndex)[
-        asset?.chainId
-    ]?.includes(asset?.id)
+    $: isTrackedToken = $activeProfile?.trackedTokens?.[asset?.chainId]?.includes(asset?.id)
 
     function onUntrackTokenClick(): void {
-        removeTokenFromActiveProfileTrackedTokens(asset?.id, asset?.chainId)
-        modal.close()
+        removeTrackedTokenFromActiveProfile(asset?.id, asset?.chainId)
+        modal?.close()
         closePopup()
     }
 
@@ -37,7 +33,7 @@
         updatePopupProps({
             asset: { ...asset, verification: { verified: false, status: NotVerifiedStatus.Skipped } },
         })
-        modal.close()
+        modal?.close()
     }
 
     function onVerifyClick(): void {
@@ -45,7 +41,7 @@
         updatePopupProps({
             asset: { ...asset, verification: { verified: true, status: VerifiedStatus.SelfVerified } },
         })
-        modal.close()
+        modal?.close()
     }
 
     function onUnhideClick(): void {
@@ -54,7 +50,7 @@
         updatePopupProps({
             asset: { ...asset, hidden: false },
         })
-        modal.close()
+        modal?.close()
     }
 
     function onHideClick(): void {
@@ -63,11 +59,11 @@
         updatePopupProps({
             asset: { ...asset, hidden: true },
         })
-        modal.close()
+        modal?.close()
     }
 
     function onBurnTokenClick(): void {
-        modal.close()
+        modal?.close()
         openPopup({ id: PopupId.BurnNativeTokens, props: { asset } })
     }
 </script>

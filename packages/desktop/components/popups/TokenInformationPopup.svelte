@@ -12,7 +12,6 @@
         NewTransactionType,
     } from '@core/wallet'
     import { openPopup, PopupId, updatePopupProps } from '@desktop/auxiliary/popup'
-    import features from '@features/features'
     import {
         Button,
         Text,
@@ -30,7 +29,7 @@
     export let asset: IAsset
     export let activityId: string = undefined
 
-    const showAssetActionsMenuButton = asset.standard === TokenStandard.Irc30 || asset.standard === TokenStandard.Erc20
+    $: showAssetActionsMenuButton = asset.standard === TokenStandard.Irc30 || asset.standard === TokenStandard.Erc20
 
     function onSkipClick(): void {
         unverifyAsset(asset.id, NotVerifiedStatus.Skipped)
@@ -69,7 +68,7 @@
         })
         sendFlowRouter.set(new SendFlowRouter(undefined, SendFlowRoute.SelectRecipient))
         openPopup({
-            id: features.wallet.newSendFlow.enabled ? PopupId.SendFlow : PopupId.SendForm,
+            id: PopupId.SendFlow,
             overflow: true,
         })
     }

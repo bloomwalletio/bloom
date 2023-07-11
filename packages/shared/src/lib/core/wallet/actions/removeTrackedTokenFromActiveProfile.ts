@@ -1,7 +1,7 @@
 import { getActiveProfile, updateActiveProfile } from '@core/profile/stores'
 import { removePersistedAsset } from '@core/wallet/stores'
 
-export function removeTokenFromActiveProfileTrackedTokens(tokenAddress: string, chainId: number): void {
+export function removeTrackedTokenFromActiveProfile(tokenAddress: string, chainId: number): void {
     const profile = getActiveProfile()
     if (!profile) {
         return
@@ -9,7 +9,7 @@ export function removeTokenFromActiveProfileTrackedTokens(tokenAddress: string, 
 
     const trackedTokens = profile.trackedTokens ?? {}
     trackedTokens[chainId] = trackedTokens[chainId]?.filter(
-        (trackedTokenAddress: string) => tokenAddress !== trackedTokenAddress
+        (trackedTokenAddress) => tokenAddress !== trackedTokenAddress
     )
     profile.trackedTokens = trackedTokens
     updateActiveProfile(profile)
