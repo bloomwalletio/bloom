@@ -4,23 +4,29 @@
     import { Button, NetworkInput, TextInput, HR } from '@ui'
     import { DrawerTemplate } from '@components'
 
-    import { ContactManager, validateContactName } from '@core/contact'
+    import {
+        ContactManager,
+        validateContactAddress,
+        validateContactAddressName,
+        validateContactName,
+        validateContactNote,
+    } from '@core/contact'
     import { localize } from '@core/i18n'
     import { Router } from '@core/router'
 
     export let drawerRouter: Router<unknown>
 
-    let name: string = ''
-    let nameInput: TextInput
-    let nameError: string = ''
-    let note: string = ''
-    let noteError: string = ''
-    let address: string = ''
-    let addressError: string = ''
-    let addressName: string = ''
-    let addressNameError: string = ''
+    let name,
+        note,
+        address,
+        addressName: string = ''
     let networkSelection: { networkId: string; address?: string } | undefined
-    let networkSelectionError: string = ''
+    let nameInput, noteInput, addressNameInput, addressInput: TextInput
+    let nameError,
+        noteError,
+        addressError,
+        addressNameError,
+        networkSelectionError: string = ''
 
     function onSaveClick(): void {
         const contact = { name, note }
@@ -33,12 +39,15 @@
     }
 
     function validate(): boolean {
-        try {
-            nameInput.validate()
-            return true
-        } catch (err) {
-            return false
+        let handledError = false
+        for (const input of [nameInput, noteInput, addressNameInput, addressInput]) {
+            try {
+                input.validate()
+            } catch (err) {
+                handledError = true
+            }
         }
+        return !handledError
     }
 </script>
 
@@ -56,24 +65,30 @@
             validationFunction={validateContactName}
         />
         <TextInput
+            bind:this={noteInput}
             bind:value={note}
             bind:error={noteError}
             placeholder={localize('general.note')}
             label={localize('general.note')}
+            validationFunction={validateContactNote}
         />
         <HR />
         <NetworkInput bind:networkSelection bind:error={networkSelectionError} showLayer2={true} />
         <TextInput
+            bind:this={addressNameInput}
             bind:value={addressName}
             bind:error={addressNameError}
             placeholder={localize('general.addressName')}
             label={localize('general.addressName')}
+            validationFunction={validateContactAddressName}
         />
         <TextInput
+            bind:this={addressInput}
             bind:value={address}
             bind:error={addressError}
             placeholder={localize('general.address')}
             label={localize('general.address')}
+            validationFunction={() => validateContactAddress(address, networkSelection?.networkId)}
         />
     </add-contact>
     <div slot="footer">
