@@ -77,7 +77,7 @@ const prodConfig = () => ({
     },
     win: {
         icon: './public/assets/icons/prod/icon1024x1024.png',
-        publisherName: 'Bloom Labs',
+        publisherName: 'Bloom Labs Ltd',
         target: 'nsis',
         timeStampServer: 'http://timestamp.sectigo.com',
         rfc3161TimeStampServer: 'http://timestamp.sectigo.com',
