@@ -8,7 +8,10 @@ import {
     getUnitFromTokenMetadata,
 } from '@core/wallet'
 import { openPopup, PopupId } from '../../../../../../../../desktop/lib/auxiliary/popup'
-import { sendFlowRouter, SendFlowRouter } from '../../../../../../../../desktop/views/dashboard/send-flow'
+import {
+    sendFlowRouter,
+    SendFlowRouter,
+} from '../../../../../../../../desktop/views/dashboard/send-flow/send-flow.router'
 import { get } from 'svelte/store'
 
 import { SendOperationParameter } from '../../../enums'

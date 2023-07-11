@@ -2,8 +2,9 @@ import { PopupId, openPopup } from '../../../../../../../../desktop/lib/auxiliar
 import {
     sendFlowRouter,
     SendFlowRouter,
-    SendFlowRoute,
-} from '../../../../../../../../desktop/views/dashboard/send-flow'
+} from '../../../../../../../../desktop/views/dashboard/send-flow/send-flow.router'
+import { SendFlowRoute } from '../../../../../../../../desktop/views/dashboard/send-flow/send-flow-route.enum'
+
 import { getByteLengthOfString, isStringTrue, isValidBech32AddressAndPrefix, validateAssetId } from '@core/utils'
 import {
     NewTransactionDetails,
