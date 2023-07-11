@@ -16,6 +16,14 @@
     // If the attribute is set to false, HTML interprets it as a readonly field.
     export let readonly: boolean = null
 
+    export function validate(): void {
+        /* eslint-disable @typescript-eslint/ban-ts-comment */
+        // @ts-ignore
+        input?.validate()
+    }
+
+    let input: TextInput
+
     let value: string = selected?.key ?? selected?.value
     let previousValue: string = value
     let hasFocus: boolean
@@ -60,6 +68,7 @@
 
 <selector-input class="w-full relative">
     <TextInput
+        bind:this={input}
         bind:inputElement
         bind:value
         bind:hasFocus

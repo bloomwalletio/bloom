@@ -42,27 +42,37 @@
         return isIscpChain(chainConfiguration) ? chainConfiguration?.aliasAddress : undefined
     }
 
+    let input: SelectorInput
+
     export function validate(): Promise<void> {
-        try {
-            if (iscpChainAddress !== undefined) {
-                validateBech32Address(getNetworkHrp(), iscpChainAddress)
+        if ($$restProps?.validationFunction) {
+            /* eslint-disable @typescript-eslint/ban-ts-comment */
+            // @ts-ignore
+            input?.validate()
+        } else {
+            try {
+                if (iscpChainAddress !== undefined) {
+                    validateBech32Address(getNetworkHrp(), iscpChainAddress)
+                }
+                return Promise.resolve()
+            } catch (err) {
+                error = err?.message ?? err
+                return Promise.reject(error)
             }
-            return Promise.resolve()
-        } catch (err) {
-            error = err?.message ?? err
-            return Promise.reject(error)
         }
     }
 </script>
 
 <SelectorInput
     labelLocale="general.destinationNetwork"
+    bind:this={input}
     bind:selected
     bind:inputElement
     bind:modal
     bind:error
     options={networkOptions}
-    {...readonlyAttribute}
     inputClasses="cursor-pointer"
     containerClasses="cursor-pointer"
+    {...readonlyAttribute}
+    {...$$restProps}
 />

@@ -32,7 +32,7 @@
     export let validationFunction: (arg: string) => void
 
     export function validate(): void {
-        if (validationFunction) {
+        if (validationFunction && typeof validationFunction === 'function') {
             try {
                 validationFunction(value)
             } catch (err) {

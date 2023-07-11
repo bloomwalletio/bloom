@@ -9,6 +9,7 @@
         validateContactAddress,
         validateContactAddressName,
         validateContactName,
+        validateContactNetworkSelection,
         validateContactNote,
     } from '@core/contact'
     import { localize } from '@core/i18n'
@@ -22,6 +23,7 @@
         addressName: string = ''
     let networkSelection: { networkId: string; address?: string } | undefined
     let nameInput, noteInput, addressNameInput, addressInput: TextInput
+    let networkSelectionInput: NetworkInput
     let nameError,
         noteError,
         addressError,
@@ -40,7 +42,7 @@
 
     function validate(): boolean {
         let handledError = false
-        for (const input of [nameInput, noteInput, addressNameInput, addressInput]) {
+        for (const input of [nameInput, noteInput, networkSelectionInput, addressNameInput, addressInput]) {
             try {
                 input.validate()
             } catch (err) {
@@ -73,7 +75,13 @@
             validationFunction={validateContactNote}
         />
         <HR />
-        <NetworkInput bind:networkSelection bind:error={networkSelectionError} showLayer2={true} />
+        <NetworkInput
+            bind:this={networkSelectionInput}
+            bind:networkSelection
+            bind:error={networkSelectionError}
+            showLayer2={true}
+            validationFunction={validateContactNetworkSelection}
+        />
         <TextInput
             bind:this={addressNameInput}
             bind:value={addressName}
