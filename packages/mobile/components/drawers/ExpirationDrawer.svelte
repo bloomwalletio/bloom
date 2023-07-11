@@ -3,7 +3,7 @@
 
     import { localize } from '@core/i18n'
     import { TimePeriod } from '@core/utils'
-    import { newTransactionDetails, updateNewTransactionDetails } from '@core/wallet'
+    import { newTransactionData, updateNewTransactionData } from '@core/wallet'
 
     import { closeDrawer, DrawerId } from '@/auxiliary/drawer'
 
@@ -37,7 +37,7 @@
             default:
                 break
         }
-        updateNewTransactionDetails({ type: $newTransactionDetails.type, expirationDate })
+        updateNewTransactionData({ type: $newTransactionData.type, expirationDate })
         closeDrawer(DrawerId.Expiration)
     }
 </script>

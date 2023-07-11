@@ -1,7 +1,7 @@
 import { get } from 'svelte/store'
 
 import { localize } from '@core/i18n/i18n'
-import { resetNewTokenTransactionDetails, resetMintTokenDetails, resetMintNftDetails } from '@core/wallet/stores'
+import { resetNewTokenTransactionData, resetMintTokenDetails, resetMintNftDetails } from '@core/wallet/stores'
 import { IError } from '@core/error/interfaces'
 import { handleGenericError } from '@core/error/handlers'
 import { showAppNotification } from '@auxiliary/notification'
@@ -24,7 +24,7 @@ export function handleLedgerError(error: IError, resetConfirmationPropsOnDenial 
          * on the device.
          */
         if (wasDeniedByUser && resetConfirmationPropsOnDenial) {
-            resetNewTokenTransactionDetails()
+            resetNewTokenTransactionData()
             resetMintTokenDetails()
             resetMintNftDetails()
         }

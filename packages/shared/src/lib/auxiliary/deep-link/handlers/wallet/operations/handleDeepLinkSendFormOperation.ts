@@ -1,7 +1,7 @@
 import {
-    NewTransactionDetails,
+    TransactionData,
     Subject,
-    setNewTransactionDetails,
+    setNewTransactionData,
     selectedAccountAssets,
     getAssetById,
     NewTransactionType,
@@ -20,10 +20,10 @@ import { getRawAmountFromSearchParam } from '../../../utils'
 import { getActiveNetworkId } from '@core/network/utils/getNetworkId'
 
 export function handleDeepLinkSendFormOperation(searchParams: URLSearchParams): void {
-    const transactionDetails = parseSendFormOperation(searchParams)
+    const transactionData = parseSendFormOperation(searchParams)
 
-    if (transactionDetails) {
-        setNewTransactionDetails(transactionDetails)
+    if (transactionData) {
+        setNewTransactionData(transactionData)
         sendFlowRouter.set(new SendFlowRouter(undefined))
         openPopup({
             id: PopupId.SendFlow,
@@ -39,9 +39,9 @@ export function handleDeepLinkSendFormOperation(searchParams: URLSearchParams): 
  *
  * @param {URLSearchParams} searchParams The query parameters of the deep link URL.
  *
- * @return {NewTransactionDetails} The formatted parameters for the send operation.
+ * @return {TransactionData} The formatted parameters for the send operation.
  */
-function parseSendFormOperation(searchParams: URLSearchParams): NewTransactionDetails {
+function parseSendFormOperation(searchParams: URLSearchParams): TransactionData {
     const assetId = searchParams.get(SendOperationParameter.AssetId)
 
     const networkId = getActiveNetworkId()
