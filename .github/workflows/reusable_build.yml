@@ -12,19 +12,18 @@ on:
       version:
         required: false
         type: string
-      test:
+      release:
         required: false
         type: boolean
-        default: false
-
+        default: false  
 jobs:
   build:
     name: Build - ${{ inputs.os }}
     if: ${{ always() }}
     runs-on: ${{ inputs.os }}
     env:
-      VERSION: ${{ github.event.inputs.version }}
-      STAGE: ${{ github.event.inputs.stage }}
+      VERSION: ${{ inputs.version }}
+      STAGE: ${{ inputs.stage }}
     steps:
       - uses: actions/checkout@v2
 
@@ -99,6 +98,7 @@ jobs:
           CSC_KEY_PASSWORD: ${{ secrets.MAC_CERT_PASSWORD }}
           BLOOM_APPLE_ID: ${{ secrets.APPLE_ID }}
           BLOOM_APPLE_ID_PASSWORD: ${{ secrets.APPLE_ID_PASSWORD }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         working-directory: packages/desktop
         if: inputs.os == 'macos-11'
 
@@ -107,6 +107,7 @@ jobs:
         env:
           CSC_LINK: ${{ secrets.WIN_CERT_BASE64 }}
           CSC_KEY_PASSWORD: ${{ secrets.WIN_CERT_PASSWORD }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         working-directory: packages/desktop
         if: inputs.os == 'windows-2019'
 
@@ -114,6 +115,8 @@ jobs:
         run: yarn compile:${STAGE}:linux
         working-directory: packages/desktop
         if: inputs.os == 'ubuntu-20.04'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Import GPG key (Linux)
         run: |
@@ -146,6 +149,7 @@ jobs:
         working-directory: packages/desktop/out
         if: inputs.release == true && inputs.os == 'windows-2019'
 
+
       - name: Upload artifacts
         if: inputs.release == true
         uses: actions/upload-artifact@v2
@@ -153,4 +157,4 @@ jobs:
           name: bloom-desktop-${{ inputs.os }}
           path: |
             packages/desktop/out/bloom-desktop*
-            packages/desktop/out/shimmer*
+            packages/desktop/out/latest*
