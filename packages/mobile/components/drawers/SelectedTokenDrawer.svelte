@@ -12,7 +12,7 @@
         TokenStandard,
         unhideAsset,
         unverifyAsset,
-        updateNewTransactionDetails,
+        updateNewTransactionData,
         VerifiedStatus,
         verifyAsset,
     } from '@core/wallet'
@@ -76,7 +76,7 @@
         })
     }
     function onSendClick(): void {
-        updateNewTransactionDetails({ type: NewTransactionType.TokenTransfer, asset })
+        updateNewTransactionData({ type: NewTransactionType.TokenTransfer, asset })
         _closeDrawer()
         openDrawer(DrawerId.Send, { fullScreen: true })
     }

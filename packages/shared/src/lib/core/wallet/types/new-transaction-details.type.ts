@@ -3,9 +3,9 @@ import { INft } from '@core/nfts'
 import type { IAsset, Subject } from '@core/wallet'
 import { NewTransactionType } from '@core/wallet/stores'
 
-export type NewTransactionDetails = NewNftTransactionDetails | NewTokenTransactionDetails
+export type NewTransactionData = NewNftTransactionData | NewTokenTransactionData
 
-type NewBaseTransactionDetails = {
+type NewBaseTransactionData = {
     recipient?: Subject
     tag?: string
     metadata?: string
@@ -19,14 +19,14 @@ type NewBaseTransactionDetails = {
     disableChangeExpiration?: boolean
 }
 
-export type NewTokenTransactionDetails = NewBaseTransactionDetails & {
+export type NewTokenTransactionData = NewBaseTransactionData & {
     type: NewTransactionType.TokenTransfer
     rawAmount: string
     asset: IAsset
     unit: string
 }
 
-export type NewNftTransactionDetails = NewBaseTransactionDetails & {
+export type NewNftTransactionData = NewBaseTransactionData & {
     type: NewTransactionType.NftTransfer
     nft: INft
 }

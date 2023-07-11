@@ -8,9 +8,9 @@
         formatTokenAmountDefault,
         IAsset,
         TokenMetadata,
-        newTransactionDetails,
+        newTransactionData,
         NewTransactionType,
-        updateNewTransactionDetails,
+        updateNewTransactionData,
         TokenStandard,
         getUnitFromTokenMetadata,
     } from '@core/wallet'
@@ -37,11 +37,11 @@
     $: marketAmount = getMarketAmountFromAssetValue(bigAmount, asset)
 
     onMount(() => {
-        if ($newTransactionDetails?.type === NewTransactionType.TokenTransfer) {
-            const storedRawAmount = $newTransactionDetails?.rawAmount
-            asset = $newTransactionDetails.asset
+        if ($newTransactionData?.type === NewTransactionType.TokenTransfer) {
+            const storedRawAmount = $newTransactionData?.rawAmount
+            asset = $newTransactionData.asset
             tokenMetadata = asset?.metadata
-            unit = $newTransactionDetails.unit ?? getUnitFromTokenMetadata(asset?.metadata)
+            unit = $newTransactionData.unit ?? getUnitFromTokenMetadata(asset?.metadata)
             amount = storedRawAmount
                 ? formatTokenAmountDefault(Number(storedRawAmount), asset?.metadata, unit, false)
                 : ''
@@ -96,8 +96,8 @@
     }
 
     function onContinueClick(): void {
-        updateNewTransactionDetails({
-            type: $newTransactionDetails.type,
+        updateNewTransactionData({
+            type: $newTransactionData.type,
             rawAmount,
             unit,
         })
@@ -134,7 +134,7 @@
         <Text color="gray-600" darkColor="gray-500" fontSize="xs">{formatCurrency(marketAmount) ?? ''}</Text>
     </div>
     <div class="flex flex-col space-y-8 w-full">
-        {#if $newTransactionDetails?.type === NewTransactionType.TokenTransfer}
+        {#if $newTransactionData?.type === NewTransactionType.TokenTransfer}
             <HR overrideColor classes="border-gray-200 dark:border-gray-700" />
             <TokenWithMax {asset} onMaxClick={onClickAvailableBalance} />
         {/if}

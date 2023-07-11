@@ -3,8 +3,8 @@
     import {
         TokenStandard,
         IAsset,
-        resetNewTokenTransactionDetails,
-        updateNewTransactionDetails,
+        resetNewTokenTransactionData,
+        updateNewTransactionData,
         unverifyAsset,
         verifyAsset,
         NotVerifiedStatus,
@@ -60,8 +60,8 @@
     }
 
     function onSendClick(): void {
-        resetNewTokenTransactionDetails()
-        updateNewTransactionDetails({
+        resetNewTokenTransactionData()
+        updateNewTransactionData({
             type: NewTransactionType.TokenTransfer,
             asset: asset,
         })
