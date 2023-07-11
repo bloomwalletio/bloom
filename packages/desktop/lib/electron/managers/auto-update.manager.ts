@@ -27,10 +27,8 @@ export default class AutoUpdateManager {
             this.ipcHandlersRegistered = true
         }
 
-        /* eslint-disable @typescript-eslint/ban-ts-comment */
-        // @ts-ignore
-        autoUpdater.logger.transports.file.level = 'info'
         autoUpdater.logger = electronLog
+        autoUpdater.logger.transports.file.level = 'info'
         autoUpdater.autoDownload = false
 
         autoUpdater.on('update-available', this.handleUpdateAvailable.bind(this))
