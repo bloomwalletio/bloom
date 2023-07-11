@@ -1,6 +1,6 @@
 import { getNetwork } from '@core/network'
 import { IAsset } from '../../interfaces'
-import { NewTokenTransactionData, NewTransactionData } from '../../types'
+import { TokenTransactionData, TransactionData } from '../../types'
 import { getOutputParameters } from '../getOutputParameters'
 import { prepareOutput, updateSelectedAccount } from '@core/account'
 import { DEFAULT_TRANSACTION_OPTIONS } from '../../constants'
@@ -13,7 +13,7 @@ import { handleError } from '@core/error/handlers'
 import { NewTransactionType } from '@core/wallet/stores'
 
 export async function createTransaction(
-    transactionData: NewTransactionData,
+    transactionData: TransactionData,
     accountIndex: number,
     callback: () => void
 ): Promise<void> {
@@ -36,7 +36,7 @@ export async function createTransaction(
 }
 
 async function sendFromLayer1(
-    transactionData: NewTransactionData,
+    transactionData: TransactionData,
     accountIndex: number,
     callback: () => void
 ): Promise<void> {
@@ -59,7 +59,7 @@ async function sendFromLayer1(
 }
 
 async function sendFromLayer2(
-    transactionData: NewTokenTransactionData,
+    transactionData: TokenTransactionData,
     asset: IAsset,
     callback: () => void
 ): Promise<void> {
@@ -71,7 +71,7 @@ async function sendFromLayer2(
     }
 
     const recipient = transactionData.recipient.address
-    const amount = transactionDetails.rawAmount
+    const amount = transactionData.rawAmount
 
     updateSelectedAccount({ isTransferring: true })
     try {

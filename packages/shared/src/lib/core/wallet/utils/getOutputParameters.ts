@@ -2,12 +2,12 @@ import { OutputParams, Assets } from '@iota/wallet/out/types'
 import { convertDateToUnixTimestamp, Converter } from '@core/utils'
 import { NewTransactionType } from '../stores'
 import { getEstimatedGasForTransferFromTransactionData, getLayer2MetadataForTransfer } from '@core/layer-2/utils'
-import { NewTransactionData } from '@core/wallet/types'
+import { TransactionData } from '@core/wallet/types'
 import { getAddressFromSubject } from '@core/wallet/utils'
 import { ReturnStrategy } from '../enums'
 import { getCoinType } from '@core/profile'
 
-export async function getOutputParameters(transactionData: NewTransactionData): Promise<OutputParams> {
+export async function getOutputParameters(transactionData: TransactionData): Promise<OutputParams> {
     const { recipient, expirationDate, timelockDate, giftStorageDeposit, layer2Parameters } = transactionData ?? {}
 
     const recipientAddress = layer2Parameters ? layer2Parameters.networkAddress : getAddressFromSubject(recipient)
@@ -45,7 +45,7 @@ export async function getOutputParameters(transactionData: NewTransactionData): 
     }
 }
 
-function getAmountFromTransactionData(transactionData: NewTransactionData): string {
+function getAmountFromTransactionData(transactionData: TransactionData): string {
     let rawAmount: string
     if (transactionData.type === NewTransactionType.TokenTransfer) {
         const asset = transactionData.asset
@@ -65,7 +65,7 @@ function getAmountFromTransactionData(transactionData: NewTransactionData): stri
     return rawAmount
 }
 
-function getAssetFromTransactionData(transactionData: NewTransactionData): Assets | undefined {
+function getAssetFromTransactionData(transactionData: TransactionData): Assets | undefined {
     let assets: Assets | undefined
 
     if (transactionData.type === NewTransactionType.NftTransfer) {
@@ -97,7 +97,7 @@ function getAssetFromTransactionData(transactionData: NewTransactionData): Asset
     return assets
 }
 
-function getMetadata(transactionData: NewTransactionData): Promise<string> {
+function getMetadata(transactionData: TransactionData): Promise<string> {
     if (transactionData.layer2Parameters) {
         return getLayer2MetadataForTransfer(transactionData)
     } else {

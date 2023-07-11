@@ -6,13 +6,13 @@ import { Allowance } from '../enums'
 import {
     NewTransactionType,
     TokenStandard,
-    NewTokenTransactionData,
+    TokenTransactionData,
     IPersistedAsset,
-    NewNftTransactionData,
-    NewTransactionData,
+    NftTransactionData,
+    TransactionData,
 } from '@core/wallet'
 
-export function encodeAssetAllowance(transactionData: NewTransactionData): Uint8Array {
+export function encodeAssetAllowance(transactionData: TransactionData): Uint8Array {
     const allowance = new WriteStream()
     allowance.writeUInt8('encodedAllowance', Allowance.Set)
 
@@ -40,7 +40,7 @@ function encodeBaseTokenTransfer(buffer: WriteStream, rawAmount: string): void {
 function encodeNativeTokenTransfer(
     buffer: WriteStream,
     asset: IPersistedAsset,
-    transactionData: NewTokenTransactionData
+    transactionData: TokenTransactionData
 ): void {
     const { surplus, rawAmount } = transactionData
     const tokenBuffer = new WriteStream()
@@ -56,7 +56,7 @@ function encodeNativeTokenTransfer(
     buffer.writeBytes('tokenBuffer', tokenBufferBytes.length, tokenBufferBytes)
 }
 
-function encodeNftTransfer(buffer: WriteStream, transactionData: NewNftTransactionData): void {
+function encodeNftTransfer(buffer: WriteStream, transactionData: NftTransactionData): void {
     encodeBaseTokenTransfer(buffer, '0')
 
     buffer.writeUInt16('NftAmount', 1)

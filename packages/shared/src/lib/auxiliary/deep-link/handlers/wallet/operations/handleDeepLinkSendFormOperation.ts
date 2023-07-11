@@ -1,5 +1,5 @@
 import {
-    NewTransactionData,
+    TransactionData,
     Subject,
     setNewTransactionData,
     selectedAccountAssets,
@@ -39,9 +39,9 @@ export function handleDeepLinkSendFormOperation(searchParams: URLSearchParams): 
  *
  * @param {URLSearchParams} searchParams The query parameters of the deep link URL.
  *
- * @return {NewTransactionData} The formatted parameters for the send operation.
+ * @return {TransactionData} The formatted parameters for the send operation.
  */
-function parseSendFormOperation(searchParams: URLSearchParams): NewTransactionData {
+function parseSendFormOperation(searchParams: URLSearchParams): TransactionData {
     const assetId = searchParams.get(SendOperationParameter.AssetId)
 
     const networkId = getActiveNetworkId()

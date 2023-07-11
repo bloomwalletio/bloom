@@ -1,11 +1,9 @@
-import { NewTokenTransactionData, NewTransactionData, getAddressFromSubject } from '@core/wallet'
+import { TokenTransactionData, TransactionData, getAddressFromSubject } from '@core/wallet'
 import { getIscpTransferMethod } from './getIscpTransferMethod'
 import { GAS_BUDGET } from '../constants'
 
-export async function getEstimatedGasForTransferFromTransactionData(
-    transactionData: NewTransactionData
-): Promise<number> {
-    const { recipient, layer2Parameters, rawAmount, asset } = (transactionData as NewTokenTransactionData) ?? {}
+export async function getEstimatedGasForTransferFromTransactionData(transactionData: TransactionData): Promise<number> {
+    const { recipient, layer2Parameters, rawAmount, asset } = (transactionData as TokenTransactionData) ?? {}
 
     if (!layer2Parameters) {
         return 0

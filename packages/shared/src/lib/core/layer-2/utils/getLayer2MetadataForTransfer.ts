@@ -2,12 +2,12 @@ import { encodeAddress, encodeAssetAllowance, encodeSmartContractParameters } fr
 
 import { WriteStream } from '@iota/util.js'
 import { getAddressFromSubject } from '@core/wallet/utils'
-import type { NewTransactionData } from '@core/wallet/types'
+import type { TransactionData } from '@core/wallet/types'
 import { ACCOUNTS_CONTRACT, EXTERNALLY_OWNED_ACCOUNT, GAS_BUDGET, TRANSFER_ALLOWANCE } from '../constants'
 import BigInteger from 'big-integer'
 import { getEstimatedGasForTransferFromTransactionData } from './getEstimatedGasForTransferFromTransactionData'
 
-export async function getLayer2MetadataForTransfer(transactionData: NewTransactionData): Promise<string> {
+export async function getLayer2MetadataForTransfer(transactionData: TransactionData): Promise<string> {
     const metadataStream = new WriteStream()
 
     const address = getAddressFromSubject(transactionData.recipient)

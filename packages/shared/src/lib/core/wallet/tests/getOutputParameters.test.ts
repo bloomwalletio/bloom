@@ -7,7 +7,7 @@ import { getOutputParameters } from '../utils'
 import { ReturnStrategy, TokenStandard, VerifiedStatus } from '../enums'
 import { IAsset, IPersistedAsset } from '../interfaces'
 import { NewTransactionType } from '../stores'
-import { NewTransactionData } from '../types'
+import { TransactionData } from '../types'
 
 const PERSISTED_ASSET_SHIMMER: IPersistedAsset = {
     id: '1',
@@ -59,7 +59,7 @@ const testNft = {
     },
 }
 
-const baseTransaction: NewTransactionData = {
+const baseTransaction: TransactionData = {
     type: NewTransactionType.TokenTransfer,
     asset: PERSISTED_ASSET_SHIMMER,
     recipient: {
@@ -95,7 +95,7 @@ jest.mock('../../layer-2/utils/getEstimatedGasForTransferFromTransactionData', (
 }))
 
 describe('File: getOutputParameters.ts', () => {
-    let newTransactionData: NewTransactionData
+    let newTransactionData: TransactionData
 
     beforeAll(() => {
         // TODO: refactor getOutputParameters to not rely on this store

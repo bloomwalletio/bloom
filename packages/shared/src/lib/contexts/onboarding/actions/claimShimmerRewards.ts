@@ -6,7 +6,7 @@ import {
     resetNewTokenTransactionData,
     setNewTransactionData,
     NewTransactionType,
-    NewTokenTransactionData,
+    TokenTransactionData,
     getAssetById,
 } from '@core/wallet'
 import { logAndNotifyError } from '@core/error/actions'
@@ -73,7 +73,7 @@ async function claimShimmerRewardsForShimmerClaimingAccount(
         return
     }
 
-    const newTransactionData: NewTokenTransactionData = {
+    const newTransactionData: TokenTransactionData = {
         recipient: {
             type: 'address',
             address: recipientAddress,

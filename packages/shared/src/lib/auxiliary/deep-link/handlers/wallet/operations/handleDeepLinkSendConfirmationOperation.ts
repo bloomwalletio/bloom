@@ -7,7 +7,7 @@ import { SendFlowRoute } from '../../../../../../../../desktop/views/dashboard/s
 
 import { getByteLengthOfString, isStringTrue, isValidBech32AddressAndPrefix, validateAssetId } from '@core/utils'
 import {
-    NewTransactionData,
+    TransactionData,
     NewTransactionType,
     Subject,
     getAssetById,
@@ -53,9 +53,9 @@ export function handleDeepLinkSendConfirmationOperation(searchParams: URLSearchP
  *
  * @param {URLSearchParams} searchParams The query parameters of the deep link URL.
  *
- * @return {NewTransactionData} The formatted parameters for the send operation.
+ * @return {TransactionData} The formatted parameters for the send operation.
  */
-function parseSendConfirmationOperation(searchParams: URLSearchParams): NewTransactionData {
+function parseSendConfirmationOperation(searchParams: URLSearchParams): TransactionData {
     // Check address exists and is valid this is not optional.
     const address = searchParams.get(SendOperationParameter.Address)
     if (!address) {
