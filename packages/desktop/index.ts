@@ -1,3 +1,5 @@
+// / <reference types="svelte" />
+
 import App from './App.svelte'
 import { Electron } from './lib/electron'
 import { shouldReportError } from './lib/electron/utils/error.utils'

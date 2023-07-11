@@ -23,6 +23,6 @@
         "types": ["node", "svelte"],
         "verbatimModuleSyntax": false
     },
-    "include": ["./lib/**/*.ts", "../shared/src/lib/**/*.ts"],
+    "include": ["./index.ts", "./lib/**/*.ts", "../shared/src/lib/**/*.ts"],
     "exclude": ["../**/tests"]
 }
