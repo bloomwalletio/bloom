@@ -7,7 +7,7 @@ import { getOutputParameters } from '../utils'
 import { ReturnStrategy, TokenStandard, VerifiedStatus } from '../enums'
 import { IAsset, IPersistedAsset } from '../interfaces'
 import { NewTransactionType } from '../stores'
-import { NewTransactionDetails } from '../types'
+import { TransactionData } from '../types'
 
 const PERSISTED_ASSET_SHIMMER: IPersistedAsset = {
     id: '1',
@@ -59,7 +59,7 @@ const testNft = {
     },
 }
 
-const baseTransaction: NewTransactionDetails = {
+const baseTransaction: TransactionData = {
     type: NewTransactionType.TokenTransfer,
     asset: PERSISTED_ASSET_SHIMMER,
     recipient: {
@@ -90,12 +90,12 @@ jest.mock('../../profile/actions/active-profile/getCoinType', () => ({
     getCoinType: jest.fn((_) => '1'),
 }))
 
-jest.mock('../../layer-2/utils/getEstimatedGasForTransferFromTransactionDetails', () => ({
-    getEstimatedGasForTransferFromTransactionDetails: jest.fn(() => GAS_BUDGET.toJSNumber()),
+jest.mock('../../layer-2/utils/getEstimatedGasForTransferFromTransactionData', () => ({
+    getEstimatedGasForTransferFromTransactionData: jest.fn(() => GAS_BUDGET.toJSNumber()),
 }))
 
 describe('File: getOutputParameters.ts', () => {
-    let newTransactionDetails: NewTransactionDetails
+    let newTransactionData: TransactionData
 
     beforeAll(() => {
         // TODO: refactor getOutputParameters to not rely on this store
@@ -103,12 +103,12 @@ describe('File: getOutputParameters.ts', () => {
     })
 
     it('should return output parameters for base token with metadata and tag', async () => {
-        newTransactionDetails = {
+        newTransactionData = {
             ...baseTransaction,
             metadata,
             tag,
         }
-        const output = await getOutputParameters(newTransactionDetails)
+        const output = await getOutputParameters(newTransactionData)
 
         const expectedOutput = {
             recipientAddress,
@@ -121,11 +121,11 @@ describe('File: getOutputParameters.ts', () => {
     })
 
     it('should return output parameters for base token with expiration date', async () => {
-        newTransactionDetails = {
+        newTransactionData = {
             ...baseTransaction,
             expirationDate,
         }
-        const output = await getOutputParameters(newTransactionDetails)
+        const output = await getOutputParameters(newTransactionData)
 
         const expectedOutput = {
             recipientAddress,
@@ -138,11 +138,11 @@ describe('File: getOutputParameters.ts', () => {
     })
 
     it('should return output parameters for base token with timelock date', async () => {
-        newTransactionDetails = {
+        newTransactionData = {
             ...baseTransaction,
             timelockDate,
         }
-        const output = await getOutputParameters(newTransactionDetails)
+        const output = await getOutputParameters(newTransactionData)
 
         const expectedOutput = {
             recipientAddress,
@@ -155,12 +155,12 @@ describe('File: getOutputParameters.ts', () => {
     })
 
     it('should return output parameters for base token with timelock and expiration date', async () => {
-        newTransactionDetails = {
+        newTransactionData = {
             ...baseTransaction,
             expirationDate,
             timelockDate,
         }
-        const output = await getOutputParameters(newTransactionDetails)
+        const output = await getOutputParameters(newTransactionData)
 
         const expectedOutput = {
             recipientAddress,
@@ -173,12 +173,12 @@ describe('File: getOutputParameters.ts', () => {
     })
 
     it('should return output parameters for native token without surplus', async () => {
-        newTransactionDetails = {
+        newTransactionData = {
             ...baseTransaction,
             expirationDate,
             asset: nativeTokenAsset,
         }
-        const output = await getOutputParameters(newTransactionDetails)
+        const output = await getOutputParameters(newTransactionData)
 
         const expectedOutput = {
             recipientAddress,
@@ -199,12 +199,12 @@ describe('File: getOutputParameters.ts', () => {
     })
 
     it('should return output parameters for base token to layer 2', async () => {
-        newTransactionDetails = {
+        newTransactionData = {
             ...baseTransaction,
             expirationDate,
             layer2Parameters,
         }
-        const output = await getOutputParameters(newTransactionDetails)
+        const output = await getOutputParameters(newTransactionData)
 
         const expectedOutput = {
             recipientAddress: layer2Parameters.networkAddress,
@@ -221,13 +221,13 @@ describe('File: getOutputParameters.ts', () => {
     })
 
     it('should return output parameters for native token to layer 2', async () => {
-        newTransactionDetails = {
+        newTransactionData = {
             ...baseTransaction,
             expirationDate,
             asset: nativeTokenAsset,
             layer2Parameters,
         }
-        const output = await getOutputParameters(newTransactionDetails)
+        const output = await getOutputParameters(newTransactionData)
 
         const expectedOutput = {
             recipientAddress: layer2Parameters.networkAddress,
@@ -252,13 +252,13 @@ describe('File: getOutputParameters.ts', () => {
     })
 
     it('should return output parameters for nft to layer 2', async () => {
-        newTransactionDetails = {
+        newTransactionData = {
             type: NewTransactionType.NftTransfer,
             recipient: baseTransaction.recipient,
             nft: testNft,
             layer2Parameters,
         }
-        const output = await getOutputParameters(newTransactionDetails)
+        const output = await getOutputParameters(newTransactionData)
 
         const expectedOutput = {
             recipientAddress: layer2Parameters.networkAddress,
@@ -278,13 +278,13 @@ describe('File: getOutputParameters.ts', () => {
     })
 
     it('should return output parameters for nft transfer', async () => {
-        newTransactionDetails = {
+        newTransactionData = {
             type: NewTransactionType.NftTransfer,
             recipient: baseTransaction.recipient,
             nft: testNft,
             expirationDate,
         }
-        const output = await getOutputParameters(newTransactionDetails)
+        const output = await getOutputParameters(newTransactionData)
 
         const expectedOutput = {
             recipientAddress,
@@ -300,13 +300,13 @@ describe('File: getOutputParameters.ts', () => {
     })
 
     it('should return output parameters for native token with surplus', async () => {
-        newTransactionDetails = {
+        newTransactionData = {
             ...baseTransaction,
             expirationDate,
             asset: nativeTokenAsset,
             surplus,
         }
-        const output = await getOutputParameters(newTransactionDetails)
+        const output = await getOutputParameters(newTransactionData)
 
         const expectedOutput = {
             recipientAddress,
@@ -327,12 +327,12 @@ describe('File: getOutputParameters.ts', () => {
     })
 
     it('should return output parameters for base token with surplus', async () => {
-        newTransactionDetails = {
+        newTransactionData = {
             ...baseTransaction,
             expirationDate,
             surplus,
         }
-        const output = await getOutputParameters(newTransactionDetails)
+        const output = await getOutputParameters(newTransactionData)
 
         const expectedOutput = {
             recipientAddress,
@@ -345,13 +345,13 @@ describe('File: getOutputParameters.ts', () => {
     })
 
     it('should return output parameters for transfer with gifted storage deposit', async () => {
-        newTransactionDetails = {
+        newTransactionData = {
             ...baseTransaction,
             expirationDate,
             surplus,
             giftStorageDeposit: true,
         }
-        const output = await getOutputParameters(newTransactionDetails)
+        const output = await getOutputParameters(newTransactionData)
 
         const expectedOutput = {
             recipientAddress,

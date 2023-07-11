@@ -10,9 +10,9 @@
     import { DEFAULT_TRANSACTION_OPTIONS } from '@core/wallet/constants'
     import {
         NewTransactionType,
-        newTransactionDetails,
+        newTransactionData,
         selectedAccountAssets,
-        updateNewTransactionDetails,
+        updateNewTransactionData,
     } from '@core/wallet/stores'
     import { Output } from '@core/wallet/types'
     import { AddInputButton, ExpirationTimePicker, NftTile, OptionalInput, TokenAmountTile } from '@ui'
@@ -35,7 +35,7 @@
         tag,
         metadata,
         disableToggleGift,
-    } = get(newTransactionDetails)
+    } = get(newTransactionData)
 
     const destinationNetwork = getDestinationNetworkFromAddress(layer2Parameters?.networkAddress)
     let storageDeposit = 0
@@ -48,22 +48,22 @@
     let selectedExpirationPeriod: TimePeriod | undefined = expirationDate ? TimePeriod.Custom : undefined
     let selectedTimelockPeriod: TimePeriod | undefined = timelockDate ? TimePeriod.Custom : undefined
 
-    $: transactionDetails = get(newTransactionDetails)
+    $: transactionData = get(newTransactionData)
     $: recipient =
-        transactionDetails.recipient.type === 'account'
-            ? transactionDetails.recipient.account.name
-            : truncateString(transactionDetails.recipient?.address, 6, 6)
+        transactionData.recipient.type === 'account'
+            ? transactionData.recipient.account.name
+            : truncateString(transactionData.recipient?.address, 6, 6)
     $: expirationTimePicker?.setNull(giftStorageDeposit)
     $: isTransferring = !!$selectedAccount.isTransferring
     $: isLayer2 = !!layer2Parameters?.networkAddress
     $: isFromLayer2 =
-        transactionDetails.type === NewTransactionType.TokenTransfer ? !!transactionDetails.asset.chainId : false
+        transactionData.type === NewTransactionType.TokenTransfer ? !!transactionData.asset.chainId : false
     $: expirationDate, timelockDate, giftStorageDeposit, refreshSendConfirmationState()
 
     function refreshSendConfirmationState(): void {
         if (!isFromLayer2) {
-            updateNewTransactionDetails({
-                type: transactionDetails.type,
+            updateNewTransactionData({
+                type: transactionData.type,
                 expirationDate,
                 timelockDate,
                 giftStorageDeposit,
@@ -89,17 +89,16 @@
     }
 
     async function prepareTransactionOutput(): Promise<void> {
-        const transactionDetails = get(newTransactionDetails)
+        const transactionData = get(newTransactionData)
 
-        const outputParams = await getOutputParameters(transactionDetails)
+        const outputParams = await getOutputParameters(transactionData)
         preparedOutput = await prepareOutput($selectedAccount.index, outputParams, DEFAULT_TRANSACTION_OPTIONS)
 
         setStorageDeposit(preparedOutput, Number(surplus))
     }
 
     function setStorageDeposit(preparedOutput: Output, surplus?: number): void {
-        const rawAmount =
-            transactionDetails.type === NewTransactionType.TokenTransfer ? transactionDetails.rawAmount : '0'
+        const rawAmount = transactionData.type === NewTransactionType.TokenTransfer ? transactionData.rawAmount : '0'
 
         const { storageDeposit: _storageDeposit, giftedStorageDeposit: _giftedStorageDeposit } =
             getStorageDepositFromOutput(preparedOutput, rawAmount)
@@ -125,7 +124,7 @@
 
     async function onConfirmClick(): Promise<void> {
         try {
-            await createTransaction(transactionDetails, $selectedAccount.index, () => closePopup())
+            await createTransaction(transactionData, $selectedAccount.index, () => closePopup())
         } catch (err) {
             handleError(err)
         }
@@ -165,10 +164,10 @@
     }}
 >
     <div class="flex flex-row gap-2 justify-between">
-        {#if transactionDetails.type === NewTransactionType.TokenTransfer}
-            <TokenAmountTile asset={transactionDetails.asset} amount={Number(transactionDetails.rawAmount)} />
-        {:else if transactionDetails.type === NewTransactionType.NftTransfer}
-            <NftTile nft={transactionDetails.nft} />
+        {#if transactionData.type === NewTransactionType.TokenTransfer}
+            <TokenAmountTile asset={transactionData.asset} amount={Number(transactionData.rawAmount)} />
+        {:else if transactionData.type === NewTransactionType.NftTransfer}
+            <NftTile nft={transactionData.nft} />
         {/if}
         {#if visibleSurplus}
             <TokenAmountTile
