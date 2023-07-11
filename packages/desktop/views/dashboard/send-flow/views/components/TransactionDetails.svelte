@@ -5,6 +5,8 @@
     import { NetworkId } from '@core/network'
     import DateTimePickerButton from './DateTimePickerButton.svelte'
     import StorageDepositButton from './StorageDepositButton.svelte'
+    import { getBaseToken } from '@core/profile'
+    import { formatTokenAmountDefault } from '@core/wallet'
 
     export let destinationNetwork: string
     export let storageDeposit: number
@@ -62,7 +64,7 @@
                     classes="ml-1"
                 />
             </div>
-            <Text color="gray-600">{gasBudget}</Text>
+            <Text color="gray-600">{formatTokenAmountDefault(gasBudget, getBaseToken())}</Text>
         </section>
     {/if}
     {#if selectedExpirationPeriod}
