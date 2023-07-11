@@ -1,4 +1,5 @@
-// / <reference types="svelte" />
+/* eslint-disable spaced-comment */
+/// <reference types="svelte" />
 
 import App from './App.svelte'
 import { Electron } from './lib/electron'
