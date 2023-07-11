@@ -1,7 +1,6 @@
 <script lang="ts">
     import { ButtonSize, ButtonVariant, HTMLButtonType, Icon, Spinner } from '@ui'
     import { onMount } from 'svelte'
-    import { appSettings } from '@core/app'
     import { debounce } from '@core/utils'
     import { Icon as IconEnum } from '@lib/auxiliary/icon'
 
@@ -44,8 +43,6 @@
         [ButtonSize.Small]: 12,
     }
 
-    $: dark = $appSettings.darkMode
-
     onMount(() => {
         if (autofocus) {
             buttonElement?.focus()
@@ -60,7 +57,6 @@
     {form}
     style={inlineStyle}
     class={`${size} ${variant} ${classes}`}
-    class:dark
     class:outlined={outline}
     class:is-busy={isBusy}
     on:click|stopPropagation={debounce(onClick, 100)}
@@ -86,19 +82,11 @@
     {/if}
 </button>
 
-<style type="text/scss">
+<style lang="scss">
     button {
-        @apply flex;
-        @apply flex-row;
-        @apply items-center;
-        @apply justify-center;
-        @apply cursor-pointer;
-        @apply box-border;
-        @apply text-center;
-        @apply font-500;
-        @apply text-15;
-        @apply leading-4;
-        @apply rounded-lg;
+        @apply flex flex-row items-center justify-center;
+        @apply text-center font-500 text-15 leading-4;
+        @apply box-border cursor-pointer rounded-lg;
 
         &.is-busy {
             @apply text-left;
@@ -106,24 +94,17 @@
     }
 
     button:disabled {
+        @apply bg-gray-200 text-gray-500;
+        @apply dark:bg-gray-700 dark:bg-opacity-10 dark:text-gray-700;
         @apply pointer-events-none;
-        @apply bg-gray-200;
-        @apply text-gray-500;
 
         :global(spinner-container svg) {
             @apply text-gray-500;
         }
     }
 
-    button.dark:disabled {
-        @apply bg-gray-700;
-        @apply bg-opacity-10;
-        @apply text-gray-700;
-    }
-
     .lg {
-        @apply px-8;
-        @apply py-4;
+        @apply px-8 py-4;
 
         &.outlined {
             padding-top: calc(1rem - 1px);
@@ -132,8 +113,7 @@
     }
 
     .md {
-        @apply px-8;
-        @apply py-3;
+        @apply px-8 py-3;
 
         &.outlined {
             padding-top: calc(0.75rem - 1px);
@@ -142,9 +122,7 @@
     }
 
     .sm {
-        @apply px-3;
-        @apply py-2;
-        @apply text-13;
+        @apply px-3 py-2 text-13;
 
         &.outlined {
             padding-top: calc(0.5rem - 1px);
@@ -153,8 +131,7 @@
     }
 
     @mixin button-variant($color) {
-        @apply bg-#{$color}-500;
-        @apply text-white;
+        @apply bg-#{$color}-500 text-white;
 
         :global(spinner-container svg) {
             @apply text-white;
@@ -167,35 +144,31 @@
         &:active,
         &:focus {
             @apply bg-#{$color}-700;
-            @apply ring-4;
-            @apply ring-#{$color}-400;
-            @apply ring-opacity-20;
+            @apply ring-4 ring-#{$color}-400 ring-opacity-20;
         }
 
         &.outlined {
             @apply bg-white;
             @apply text-#{$color}-500;
-            @apply border;
-            @apply border-solid;
-            @apply border-gray-300;
+            @apply border border-solid border-gray-300;
+            @apply dark:bg-gray-700 dark:bg-opacity-20;
+            @apply dark:border-gray-600 dark:border-opacity-40;
+            @apply dark:text-gray-400;
 
             &:hover {
-                @apply bg-#{$color}-50;
-                @apply border-#{$color}-200;
+                @apply bg-#{$color}-50 border-#{$color}-200;
+                @apply dark:bg-#{$color}-800 dark:bg-opacity-20 dark:border-opacity-60 dark:text-white;
             }
 
             &:active,
             &:focus {
-                @apply bg-#{$color}-100;
-                @apply border-#{$color}-400;
-                @apply text-#{$color}-600;
+                @apply bg-#{$color}-100 border-#{$color}-400 text-#{$color}-600;
+                @apply dark:bg-opacity-40 dark:border-opacity-100 dark:text-white;
             }
 
             &:disabled {
-                @apply text-gray-500;
-                @apply bg-gray-50;
-                @apply bg-opacity-50;
-                @apply border-opacity-50;
+                @apply text-gray-500 bg-gray-50 bg-opacity-50 border-opacity-50;
+                @apply dark:bg-transparent dark:border-gray-700 dark:text-opacity-50;
             }
 
             :global(spinner-container svg) {
@@ -214,35 +187,5 @@
 
     .warning {
         @include button-variant('red');
-    }
-
-    .dark.outlined.primary {
-        @apply bg-gray-700;
-        @apply bg-opacity-20;
-        @apply border-gray-600;
-        @apply border-opacity-40;
-        @apply text-gray-400;
-
-        &:hover {
-            @apply bg-opacity-40;
-            @apply border-opacity-60;
-            @apply text-white;
-        }
-
-        &:active,
-        &:focus {
-            @apply bg-opacity-40;
-            @apply border-blue-400;
-            @apply border-opacity-100;
-            @apply text-white;
-        }
-
-        &:disabled {
-            @apply bg-transparent;
-            @apply border-gray-700;
-            @apply border-opacity-50;
-            @apply text-gray-500;
-            @apply text-opacity-50;
-        }
     }
 </style>

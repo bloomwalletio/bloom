@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { PopupId, closePopup, openPopup, popupState } from '../../../../desktop/lib/auxiliary/popup'
+    import { PopupId, closePopup, openPopup, popupState } from '@desktop/auxiliary/popup'
     import { appVersionDetails } from '@core/app'
     import { localize } from '@core/i18n'
     import { LedgerConnectionState, ledgerConnectionState } from '@core/ledger'
@@ -20,6 +20,9 @@
         Toggle,
     } from '@ui'
     import { fade } from 'svelte/transition'
+    import { FlatIcon, FlatIconName } from '@bloom-labs/ui'
+    import features from '@features/features'
+    import { DrawerId, openDrawer } from '@desktop/auxiliary/drawer'
 
     export let modal: Modal = undefined
 
@@ -58,6 +61,10 @@
         } else {
             lockStronghold()
         }
+    }
+
+    function onContactBookClick(): void {
+        openDrawer({ id: DrawerId.ContactBook })
     }
 
     function updateLedgerConnectionText(): void {
@@ -192,8 +199,20 @@
             </div>
             <HR />
         {/if}
+        {#if features.wallet.contacts.enabled}
+            <button
+                on:click={onContactBookClick}
+                class="group flex flex-row space-x-3 justify-start items-center hover:bg-blue-50 dark:hover:bg-gray-800 dark:hover:bg-opacity-20 py-3 px-3 w-full"
+            >
+                <FlatIcon icon={FlatIconName.AddressBook} color="slate-400" />
+                <Text smaller classes="group-hover:text-blue-500">
+                    {localize('views.dashboard.profileModal.contactBook')}
+                </Text>
+            </button>
+        {/if}
+
         <button
-            on:click={() => onSettingsClick()}
+            on:click={onSettingsClick}
             class="group flex flex-row space-x-3 justify-start items-center hover:bg-blue-50 dark:hover:bg-gray-800 dark:hover:bg-opacity-20 py-3 px-3 w-full"
         >
             <Icon icon="settings" classes="text-gray-500 group-hover:text-blue-500" />
@@ -202,7 +221,7 @@
             </Text>
         </button>
         <button
-            on:click={() => onLogoutClick()}
+            on:click={onLogoutClick}
             class="group flex flex-row space-x-3 justify-start items-center hover:bg-blue-50 dark:hover:bg-gray-800 dark:hover:bg-opacity-20 py-3 px-3 w-full"
         >
             <Icon icon="logout" classes="text-gray-500 group-hover:text-blue-500" />
