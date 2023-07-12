@@ -1,9 +1,8 @@
 import { TokenTransactionData, TransactionData, getAddressFromSubject } from '@core/wallet'
-import { GAS_BUDGET, ISC_MAGIC_CONTRACT_ADDRESS } from '../constants'
-import { getNetwork } from '@core/network'
-import { handleError } from '@core/error/handlers'
-import { IError } from '@core/error'
-import { getIscpTransferSmartContractData } from '@core/layer-2/utils'
+import { ETH_COIN_TYPE, getNetwork } from '@core/network'
+import { getSelectedAccount } from '@core/account'
+import { FALLBACK_GAS_BUDGET, ISC_MAGIC_CONTRACT_ADDRESS } from '../constants'
+import { getIscpTransferSmartContractData } from '../utils'
 
 export async function estimateGasForLayer1ToLayer2Transaction(transactionData: TransactionData): Promise<number> {
     const { recipient, layer2Parameters, rawAmount, asset } = (transactionData as TokenTransactionData) ?? {}
@@ -22,16 +21,17 @@ export async function estimateGasForLayer1ToLayer2Transaction(transactionData: T
     const chain = chainId ? getNetwork()?.getChain(chainId) : undefined
     const provider = chain?.getProvider()
 
-    const fallbackGas = GAS_BUDGET.toJSNumber()
+    const fallbackGas = FALLBACK_GAS_BUDGET.toJSNumber()
     if (!asset || !chain || !provider) {
         return fallbackGas
     }
 
     try {
+        const evmAddress = getSelectedAccount()?.evmAddresses?.[ETH_COIN_TYPE]
         const data = getIscpTransferSmartContractData(address, asset, rawAmount, chain)
         if (data) {
             const gas = await provider.eth.estimateGas({
-                from: '0xfAeE0E0A64D6dC1cf64634d086c7C355250597aE',
+                from: evmAddress,
                 to: ISC_MAGIC_CONTRACT_ADDRESS,
                 data,
             })
@@ -40,7 +40,8 @@ export async function estimateGasForLayer1ToLayer2Transaction(transactionData: T
             return Promise.resolve(fallbackGas)
         }
     } catch (err) {
-        handleError(err as IError)
+        // If the from in estimateGas doesn't have funds,  the node throw an error.
+        console.error(err)
         return Promise.resolve(fallbackGas)
     }
 }

@@ -1,4 +1,3 @@
-export * from './addGasBudget'
 export * from './evmAddressToAgentID'
 export * from './getAbiForContractType'
 export * from './getAgentBalanceParameters'
