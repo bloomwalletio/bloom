@@ -5,25 +5,25 @@
         NewTransactionType,
         formatTokenAmountDefault,
         getUnitFromTokenMetadata,
-        newTransactionDetails,
-        updateNewTransactionDetails,
+        newTransactionData,
+        updateNewTransactionData,
     } from '@core/wallet'
     import { TokenAmountInput, TokenAvailableBalanceTile } from '@ui'
     import { get } from 'svelte/store'
     import { sendFlowRouter } from '../send-flow.router'
     import SendFlowTemplate from './SendFlowTemplate.svelte'
 
-    const transactionDetails = get(newTransactionDetails)
+    const transactionData = get(newTransactionData)
     let assetAmountInput: TokenAmountInput
     let asset: IAsset
     let rawAmount: string
     let amount: string
     let unit: string
 
-    if (transactionDetails.type === NewTransactionType.TokenTransfer) {
-        asset = transactionDetails.asset
-        rawAmount = transactionDetails.rawAmount
-        unit = transactionDetails.unit || getUnitFromTokenMetadata(asset?.metadata)
+    if (transactionData.type === NewTransactionType.TokenTransfer) {
+        asset = transactionData.asset
+        rawAmount = transactionData.rawAmount
+        unit = transactionData.unit || getUnitFromTokenMetadata(asset?.metadata)
     }
 
     $: availableBalance = asset?.balance?.available
@@ -39,7 +39,7 @@
     async function onContinueClick(): Promise<void> {
         try {
             await assetAmountInput?.validate()
-            updateNewTransactionDetails({
+            updateNewTransactionData({
                 type: NewTransactionType.TokenTransfer,
                 rawAmount,
             })
@@ -50,7 +50,7 @@
     }
 
     function onBackClick(): void {
-        updateNewTransactionDetails({
+        updateNewTransactionData({
             type: NewTransactionType.TokenTransfer,
             rawAmount: undefined,
         })

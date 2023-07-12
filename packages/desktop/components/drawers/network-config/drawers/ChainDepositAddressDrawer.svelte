@@ -7,7 +7,7 @@
     import { selectedAccount } from '@core/account'
     import { Router } from '@core/router'
     import { DrawerRoute } from '@desktop/routers'
-    import { DrawerTemplate } from '.'
+    import { DrawerTemplate } from '@components'
 
     export let drawerRouter: Router<DrawerRoute>
 
@@ -63,7 +63,7 @@
     {/key}
 </DrawerTemplate>
 
-<style type="text/scss">
+<style lang="scss">
     button {
         &:hover {
             @apply bg-blue-50;

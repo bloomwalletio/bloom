@@ -62,7 +62,7 @@
 
     function toggleTooltip(event: KeyboardEvent | MouseEvent): void {
         const isEnterKeyPressed = event.type === 'keypress' && (event as KeyboardEvent).key === 'Enter'
-        if (event.type === 'click' || isEnterKeyPressed) {
+        if (event.type === 'click' || event.type === 'clickOutside' || isEnterKeyPressed) {
             isTooltipVisible = !isTooltipVisible
         }
         inputValue = cachedColor

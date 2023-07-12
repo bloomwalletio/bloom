@@ -8,7 +8,7 @@
         ledgerNanoStatus,
     } from '@core/ledger'
     import { DrawerRoute, NetworkConfigRoute, networkConfigRouter } from '@desktop/routers'
-    import DrawerTemplate from './DrawerTemplate.svelte'
+    import { DrawerTemplate } from '@components'
     import { Router } from '@core/router'
 
     export let drawerRouter: Router<DrawerRoute>

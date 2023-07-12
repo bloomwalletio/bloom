@@ -229,8 +229,8 @@ const webpackConfig: Configuration[] = [
     {
         target: 'electron-main',
         entry: {
-            'build/main': ['./electron/main.js'],
-            'build/lib/ledger.js': ['./electron/lib/ledger.js'],
+            'build/main.process': ['./lib/electron/processes/main.process.ts'],
+            'build/ledger.process': ['./lib/electron/processes/ledger.process.ts'],
         },
         externals: {
             '@ledgerhq/hw-transport-node-hid': 'commonjs @ledgerhq/hw-transport-node-hid',
@@ -251,9 +251,9 @@ const webpackConfig: Configuration[] = [
     {
         target: 'electron-renderer',
         entry: {
-            'build/preload': ['./electron/preload.js'],
-            'build/lib/aboutPreload': ['./electron/lib/aboutPreload.js'],
-            'build/lib/errorPreload': ['./electron/lib/errorPreload.js'],
+            'build/preload': ['./lib/electron/preloads/preload.ts'],
+            'build/about.preload': ['./lib/electron/preloads/about.preload.ts'],
+            'build/error.preload': ['./lib/electron/preloads/error.preload.ts'],
         },
         resolve,
         output,

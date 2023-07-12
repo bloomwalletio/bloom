@@ -22,11 +22,11 @@
 
     function getAssetList(): IAsset[] {
         const list = []
-        for (const assetsPernetwork of Object.values(assets)) {
-            if (assetsPernetwork?.baseCoin) {
-                list.push(assetsPernetwork.baseCoin)
+        for (const networkAssets of Object.values(assets)) {
+            if (networkAssets?.baseCoin) {
+                list.push(networkAssets.baseCoin)
             }
-            list.push(...(assetsPernetwork?.nativeTokens ?? []))
+            list.push(...(networkAssets?.nativeTokens ?? []))
         }
         return list
     }

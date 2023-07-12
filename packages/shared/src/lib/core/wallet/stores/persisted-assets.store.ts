@@ -1,6 +1,6 @@
 import { get } from 'svelte/store'
 
-import { activeProfile } from '@core/profile/stores'
+import { activeProfile, activeProfileId } from '@core/profile/stores'
 import { persistent } from '@core/utils/store'
 
 import { NotVerifiedStatus, VerifiedStatus } from '../enums'
@@ -42,6 +42,19 @@ export function updatePersistedAsset(partialPersistedAsset: Partial<IPersistedAs
             return state
         })
     }
+}
+
+export function removePersistedAsset(assetId: string): void {
+    const profileId = get(activeProfileId)
+    if (!profileId) {
+        return
+    }
+    persistedAssets.update((_persistedAssets) => {
+        if (_persistedAssets?.[profileId]?.[assetId]) {
+            delete _persistedAssets[profileId][assetId]
+        }
+        return _persistedAssets
+    })
 }
 
 export function verifyAsset(assetId: string, status: VerifiedStatus): void {

@@ -1,13 +1,17 @@
 import {
-    NewTransactionDetails,
+    TransactionData,
     Subject,
-    setNewTransactionDetails,
+    setNewTransactionData,
     selectedAccountAssets,
     getAssetById,
     NewTransactionType,
     getUnitFromTokenMetadata,
 } from '@core/wallet'
 import { openPopup, PopupId } from '../../../../../../../../desktop/lib/auxiliary/popup'
+import {
+    sendFlowRouter,
+    SendFlowRouter,
+} from '../../../../../../../../desktop/views/dashboard/send-flow/send-flow.router'
 import { get } from 'svelte/store'
 
 import { SendOperationParameter } from '../../../enums'
@@ -16,12 +20,13 @@ import { getRawAmountFromSearchParam } from '../../../utils'
 import { getActiveNetworkId } from '@core/network/utils/getNetworkId'
 
 export function handleDeepLinkSendFormOperation(searchParams: URLSearchParams): void {
-    const transactionDetails = parseSendFormOperation(searchParams)
+    const transactionData = parseSendFormOperation(searchParams)
 
-    if (transactionDetails) {
-        setNewTransactionDetails(transactionDetails)
+    if (transactionData) {
+        setNewTransactionData(transactionData)
+        sendFlowRouter.set(new SendFlowRouter(undefined))
         openPopup({
-            id: PopupId.SendForm,
+            id: PopupId.SendFlow,
             overflow: true,
         })
     }
@@ -34,9 +39,9 @@ export function handleDeepLinkSendFormOperation(searchParams: URLSearchParams): 
  *
  * @param {URLSearchParams} searchParams The query parameters of the deep link URL.
  *
- * @return {NewTransactionDetails} The formatted parameters for the send operation.
+ * @return {TransactionData} The formatted parameters for the send operation.
  */
-function parseSendFormOperation(searchParams: URLSearchParams): NewTransactionDetails {
+function parseSendFormOperation(searchParams: URLSearchParams): TransactionData {
     const assetId = searchParams.get(SendOperationParameter.AssetId)
 
     const networkId = getActiveNetworkId()

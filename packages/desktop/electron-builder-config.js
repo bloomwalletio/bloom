@@ -33,11 +33,11 @@ function getAppId() {
 function getChannelName() {
     switch (STAGE) {
         case 'alpha':
-            return 'shimmer-alpha'
+            return 'alpha'
         case 'beta':
-            return 'shimmer-beta'
+            return 'beta'
         default:
-            return 'shimmer'
+            return 'latest'
     }
 }
 
@@ -102,10 +102,15 @@ const prodConfig = () => ({
         asarUnpack: ['**/*.node'],
     },
     publish: {
-        provider: 'generic',
-        url: 'https://dl.firefly.iota.org/',
-        publishAutoUpdate: true,
+        provider: 'github',
+        repo: 'bloom',
+        owner: 'bloomwalletio',
+        vPrefixedTagName: false,
+        // Following lines are required as long as we're closed source
+        // private: true,
+        // token: 'SOME_PRIVATE_GITHUB_ACCESS_TOKEN',
         channel: CHANNEL_NAME,
+        publishAutoUpdate: true,
     },
 })
 

@@ -20,7 +20,8 @@
             "@views": ["./views"],
             "@views/*": ["./views/*"]
         },
-        "types": ["node"]
+        "types": ["node", "svelte"],
+        "verbatimModuleSyntax": false
     },
     "include": ["./lib/**/*.ts", "../shared/src/lib/**/*.ts"],
     "exclude": ["../**/tests"]
