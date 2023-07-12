@@ -23,6 +23,13 @@ const DAYS_TO_KEEP_LOGS = 30
 window.addEventListener('error', handleErrorEvent)
 window.addEventListener('unhandledrejection', handleUnhandledRejectionEvent)
 
+// Triggers the check if a deep link was passed.
+window.addEventListener('DOMContentLoaded', () => {
+    setTimeout(() => {
+        ipcRenderer.send('ready-to-show')
+    }, 200)
+})
+
 try {
     if (process.env.STAGE !== 'prod') {
         void ipcRenderer.invoke('get-path', 'userData').then(async (baseDir) => {

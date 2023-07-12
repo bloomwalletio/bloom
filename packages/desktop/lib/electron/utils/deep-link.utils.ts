@@ -1,13 +1,13 @@
-const { app, ipcMain, protocol } = require('electron')
-const path = require('path')
-const { windows } = require('./windows')
+import { app, ipcMain, protocol } from 'electron'
+import path from 'path'
+import { windows } from '../constants/windows.constant'
 
 /**
  * Define deep link state
  */
-let deepLinkUrl = null
+let deepLinkUrl: string | null = null
 
-export function initialiseDeepLinks() {
+export function initialiseDeepLinks(): void {
     /**
      * Register bloom:// protocol for deep links
      * Set Bloom as the default handler for bloom:// protocol
@@ -33,7 +33,7 @@ export function initialiseDeepLinks() {
     // Deep linking for when the app is not running already (Windows, Linux)
     ipcMain.on('ready-to-show', (event) => {
         if (windows.main) {
-            // windows.main.show()
+            // TODO: check if required: windows.main.show()
             if (process.platform === 'win32' || process.platform === 'linux') {
                 checkArgsForDeepLink(event, process.argv)
             }
@@ -51,7 +51,7 @@ export function initialiseDeepLinks() {
     ipcMain.on('clear-deep-link-request', clearDeepLinkRequest)
 }
 
-function handleOpenUrl(event, url) {
+function handleOpenUrl(event: Electron.Event, url: string): void {
     event.preventDefault()
     deepLinkUrl = url
     if (windows.main) {
@@ -59,7 +59,7 @@ function handleOpenUrl(event, url) {
     }
 }
 
-export function checkArgsForDeepLink(_e, args) {
+export function checkArgsForDeepLink(_e: Electron.Event, args: string[]): void {
     if (args.length > 1) {
         const url = args.find((arg) => arg.startsWith(`${process.env.APP_PROTOCOL}://`))
 
@@ -70,12 +70,12 @@ export function checkArgsForDeepLink(_e, args) {
     }
 }
 
-function checkDeepLinkRequestExists() {
+function checkDeepLinkRequestExists(): void {
     if (deepLinkUrl) {
         windows.main.webContents.send('deep-link-request', deepLinkUrl)
     }
 }
 
-function clearDeepLinkRequest() {
+function clearDeepLinkRequest(): void {
     deepLinkUrl = null
 }
