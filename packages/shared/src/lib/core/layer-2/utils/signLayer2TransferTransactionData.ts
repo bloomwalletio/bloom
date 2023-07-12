@@ -6,7 +6,7 @@ import { IAsset } from '@core/wallet/interfaces'
 import {
     buildEvmTransactionData,
     getErc20TransferSmartContractData,
-    getIrc30TransferSmartContractData,
+    getIscpTransferSmartContractData,
     signTransactionWithLedger,
 } from '.'
 import { ISC_MAGIC_CONTRACT_ADDRESS } from '../constants'
@@ -58,7 +58,7 @@ function getDataForTransaction(
     const standard = asset.metadata?.standard
     switch (standard) {
         case TokenStandard.Irc30:
-            return getIrc30TransferSmartContractData(recipientAddress, asset, chain.getConfiguration().chainId, amount)
+            return getIscpTransferSmartContractData(recipientAddress, asset, amount, chain)
         case TokenStandard.Erc20:
             return getErc20TransferSmartContractData(recipientAddress, asset, amount, chain)
         default:

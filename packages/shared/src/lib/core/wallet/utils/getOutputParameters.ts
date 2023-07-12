@@ -1,7 +1,7 @@
 import { OutputParams, Assets } from '@iota/wallet/out/types'
 import { convertDateToUnixTimestamp, Converter } from '@core/utils'
 import { NewTransactionType } from '../stores'
-import { getEstimatedGasForTransferFromTransactionData, getLayer2MetadataForTransfer } from '@core/layer-2/utils'
+import { estimateGasForLayer1ToLayer2Transaction, getLayer2MetadataForTransfer } from '@core/layer-2/utils'
 import { Subject, TransactionData } from '@core/wallet/types'
 import { getAddressFromSubject } from '@core/wallet/utils'
 import { ReturnStrategy } from '../enums'
@@ -13,7 +13,7 @@ export async function getOutputParameters(transactionData: TransactionData): Pro
 
     const recipientAddress = getDestinationAddress(recipient, layer2Parameters)
 
-    const estimatedGas = await getEstimatedGasForTransferFromTransactionData(transactionData)
+    const estimatedGas = await estimateGasForLayer1ToLayer2Transaction(transactionData)
 
     let amount = getAmountFromTransactionData(transactionData)
     amount = layer2Parameters ? (estimatedGas + parseInt(amount, 10)).toString() : amount

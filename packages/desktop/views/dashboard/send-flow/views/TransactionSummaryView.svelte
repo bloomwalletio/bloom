@@ -3,10 +3,7 @@
     import { prepareOutput, selectedAccount } from '@core/account'
     import { handleError } from '@core/error/handlers'
     import { localize } from '@core/i18n'
-    import {
-        getDestinationNetworkFromAddress,
-        getEstimatedGasForTransferFromTransactionData,
-    } from '@core/layer-2/utils'
+    import { getDestinationNetworkFromAddress, estimateGasForLayer1ToLayer2Transaction } from '@core/layer-2/utils'
     import { activeProfile } from '@core/profile/stores'
     import { truncateString } from '@core/utils'
     import { TimePeriod } from '@core/utils/enums'
@@ -60,7 +57,7 @@
     $: expirationTimePicker?.setNull(giftStorageDeposit)
     $: isTransferring = !!$selectedAccount.isTransferring
     $: isLayer2 = !!layer2Parameters?.networkAddress
-    $: transactionData, setEstimatedGas()
+    $: transactionData, void setEstimatedGas()
     $: isFromLayer2 =
         transactionData.type === NewTransactionType.TokenTransfer ? !!transactionData.asset.chainId : false
     $: expirationDate, timelockDate, giftStorageDeposit, refreshSendConfirmationState()
@@ -89,7 +86,7 @@
     }
 
     async function setEstimatedGas(): Promise<void> {
-        estimatedGas = await getEstimatedGasForTransferFromTransactionData(transactionData)
+        estimatedGas = await estimateGasForLayer1ToLayer2Transaction(transactionData)
     }
 
     async function calculateInitialOutput(): Promise<void> {
