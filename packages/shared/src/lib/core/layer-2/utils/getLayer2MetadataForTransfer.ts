@@ -4,7 +4,7 @@ import type { TransactionData } from '@core/wallet/types'
 import { getAddressFromSubject } from '@core/wallet/utils'
 import { SpecialStream } from '../classes'
 import { ACCOUNTS_CONTRACT, EXTERNALLY_OWNED_ACCOUNT, GAS_BUDGET, TRANSFER_ALLOWANCE } from '../constants'
-import { getEstimatedGasForTransferFromTransactionData } from './getEstimatedGasForTransferFromTransactionData'
+import { estimateGasForLayer1ToLayer2Transaction } from './estimateGasForLayer1ToLayer2Transaction'
 
 export async function getLayer2MetadataForTransfer(transactionData: TransactionData): Promise<string> {
     const metadataStream = new SpecialStream()
@@ -12,7 +12,7 @@ export async function getLayer2MetadataForTransfer(transactionData: TransactionD
     const address = getAddressFromSubject(transactionData.recipient)
     const encodedAddress = encodeAddress(address.toLowerCase())
 
-    const estimatedGas = await getEstimatedGasForTransferFromTransactionData(transactionData)
+    const estimatedGas = await estimateGasForLayer1ToLayer2Transaction(transactionData)
 
     metadataStream.writeUInt32('senderContract', EXTERNALLY_OWNED_ACCOUNT)
     metadataStream.writeUInt32('targetContract', ACCOUNTS_CONTRACT)

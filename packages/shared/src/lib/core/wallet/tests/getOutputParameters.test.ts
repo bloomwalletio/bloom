@@ -90,8 +90,8 @@ jest.mock('../../profile/actions/active-profile/getCoinType', () => ({
     getCoinType: jest.fn((_) => '1'),
 }))
 
-jest.mock('../../layer-2/utils/getEstimatedGasForTransferFromTransactionData', () => ({
-    getEstimatedGasForTransferFromTransactionData: jest.fn(() => GAS_BUDGET.toJSNumber()),
+jest.mock('../../layer-2/utils/estimateGasForLayer1ToLayer2Transaction', () => ({
+    estimateGasForLayer1ToLayer2Transaction: jest.fn(() => GAS_BUDGET.toJSNumber()),
 }))
 
 describe('File: getOutputParameters.ts', () => {

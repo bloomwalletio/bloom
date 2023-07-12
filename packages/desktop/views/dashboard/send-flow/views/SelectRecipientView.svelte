@@ -107,9 +107,10 @@
 
             const asset = $newTransactionData.asset
             // L1 network
+            const { id, name } = $network.getMetadata()
             const layer1Network = {
-                id: $network.getMetadata().id,
-                name: $network.getMetadata().name,
+                id,
+                name,
                 networkAddress: '',
             }
             // L2 chains, ISCP only for now
