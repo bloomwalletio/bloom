@@ -1,18 +1,19 @@
 import { OutputParams, Assets } from '@iota/wallet/out/types'
 import { convertDateToUnixTimestamp, Converter } from '@core/utils'
 import { NewTransactionType } from '../stores'
-import { getEstimatedGasForTransferFromTransactionData, getLayer2MetadataForTransfer } from '@core/layer-2/utils'
-import { TransactionData } from '@core/wallet/types'
+import { estimateGasForLayer1ToLayer2Transaction, getLayer2MetadataForTransfer } from '@core/layer-2/utils'
+import { Subject, TransactionData } from '@core/wallet/types'
 import { getAddressFromSubject } from '@core/wallet/utils'
 import { ReturnStrategy } from '../enums'
 import { getCoinType } from '@core/profile'
+import { ILayer2Parameters } from '@core/layer-2'
 
 export async function getOutputParameters(transactionData: TransactionData): Promise<OutputParams> {
     const { recipient, expirationDate, timelockDate, giftStorageDeposit, layer2Parameters } = transactionData ?? {}
 
-    const recipientAddress = layer2Parameters ? layer2Parameters.networkAddress : getAddressFromSubject(recipient)
+    const recipientAddress = getDestinationAddress(recipient, layer2Parameters)
 
-    const estimatedGas = await getEstimatedGasForTransferFromTransactionData(transactionData)
+    const estimatedGas = await estimateGasForLayer1ToLayer2Transaction(transactionData)
 
     let amount = getAmountFromTransactionData(transactionData)
     amount = layer2Parameters ? (estimatedGas + parseInt(amount, 10)).toString() : amount
@@ -42,6 +43,19 @@ export async function getOutputParameters(transactionData: TransactionData): Pro
         storageDeposit: {
             returnStrategy: giftStorageDeposit ? ReturnStrategy.Gift : ReturnStrategy.Return,
         },
+    }
+}
+
+function getDestinationAddress(
+    recipient: Subject | undefined,
+    layer2Parameters: ILayer2Parameters | undefined
+): string {
+    if (layer2Parameters) {
+        return layer2Parameters.networkAddress
+    } else if (recipient) {
+        return getAddressFromSubject(recipient)
+    } else {
+        return ''
     }
 }
 
@@ -101,6 +115,6 @@ function getMetadata(transactionData: TransactionData): Promise<string> {
     if (transactionData.layer2Parameters) {
         return getLayer2MetadataForTransfer(transactionData)
     } else {
-        return Promise.resolve(Converter.utf8ToHex(transactionData?.metadata))
+        return Promise.resolve(Converter.utf8ToHex(transactionData?.metadata ?? ''))
     }
 }
