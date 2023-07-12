@@ -3,7 +3,7 @@
     import { FontWeight, TextPropTypes, TextType } from '@ui'
 
     export let value: string = ''
-    export let inputElement: HTMLInputElement = undefined
+    export let inputElement: HTMLInputElement | undefined = undefined
     export let hasFocus: boolean = false
     export let error: string = ''
     export let inputType: 'text' | 'number' | 'password' = 'text'

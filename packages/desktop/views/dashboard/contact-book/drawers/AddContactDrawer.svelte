@@ -24,11 +24,6 @@
     let networkSelection: { networkId: string; address?: string } | undefined
     let nameInput, noteInput, addressNameInput, addressInput: TextInput
     let networkSelectionInput: NetworkInput
-    let nameError,
-        noteError,
-        addressError,
-        addressNameError,
-        networkSelectionError: string = ''
 
     function onSaveClick(): void {
         const contact = { name, note }
@@ -61,7 +56,6 @@
         <TextInput
             bind:this={nameInput}
             bind:value={name}
-            bind:error={nameError}
             placeholder={localize('general.name')}
             label={localize('general.name')}
             validationFunction={validateContactName}
@@ -69,7 +63,6 @@
         <TextInput
             bind:this={noteInput}
             bind:value={note}
-            bind:error={noteError}
             placeholder={localize('general.note')}
             label={localize('general.note')}
             validationFunction={validateContactNote}
@@ -78,14 +71,12 @@
         <NetworkInput
             bind:this={networkSelectionInput}
             bind:networkSelection
-            bind:error={networkSelectionError}
             showLayer2={true}
             validationFunction={validateContactNetworkSelection}
         />
         <TextInput
             bind:this={addressNameInput}
             bind:value={addressName}
-            bind:error={addressNameError}
             placeholder={localize('general.addressName')}
             label={localize('general.addressName')}
             validationFunction={validateContactAddressName}
@@ -93,7 +84,6 @@
         <TextInput
             bind:this={addressInput}
             bind:value={address}
-            bind:error={addressError}
             placeholder={localize('general.address')}
             label={localize('general.address')}
             validationFunction={() => validateContactAddress(address, networkSelection?.networkId)}

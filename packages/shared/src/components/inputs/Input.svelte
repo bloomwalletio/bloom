@@ -29,7 +29,7 @@
     export let alignment: 'left' | 'right' | 'center' | 'justify' = 'left'
     export let textProps: TextPropTypes = { type: TextType.p, fontSize: '11', lineHeight: '140' }
     export let hasFocus = false
-    export let validationFunction: (arg: string) => void
+    export let validationFunction: ((arg: string) => void) | undefined = undefined
 
     export function validate(): void {
         if (validationFunction && typeof validationFunction === 'function') {
