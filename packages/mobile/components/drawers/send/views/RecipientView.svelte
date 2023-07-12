@@ -8,7 +8,7 @@
     import { localize } from '@core/i18n'
     import { visibleActiveAccounts } from '@core/profile/stores'
     import { truncateString } from '@core/utils'
-    import { IAccountSubject, IAddressSubject, newTransactionDetails, updateNewTransactionDetails } from '@core/wallet'
+    import { IAccountSubject, IAddressSubject, newTransactionData, updateNewTransactionData } from '@core/wallet'
     import { getSubjectFromAddress } from '@core/wallet/utils'
 
     import { sendRouter } from '@/routers'
@@ -33,11 +33,11 @@
         recipientInputElement?.focus()
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
-        recipient = $newTransactionDetails?.recipient
+        recipient = $newTransactionData?.recipient
     })
 
     function onContinueClick(): void {
-        updateNewTransactionDetails({ type: $newTransactionDetails.type, recipient })
+        updateNewTransactionData({ type: $newTransactionData.type, recipient })
         $sendRouter.next()
     }
 

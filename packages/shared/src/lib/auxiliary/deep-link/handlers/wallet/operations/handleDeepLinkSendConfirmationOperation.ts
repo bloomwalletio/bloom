@@ -7,13 +7,13 @@ import { SendFlowRoute } from '../../../../../../../../desktop/views/dashboard/s
 
 import { getByteLengthOfString, isStringTrue, isValidBech32AddressAndPrefix, validateAssetId } from '@core/utils'
 import {
-    NewTransactionDetails,
+    TransactionData,
     NewTransactionType,
     Subject,
     getAssetById,
     getUnitFromTokenMetadata,
     selectedAccountAssets,
-    setNewTransactionDetails,
+    setNewTransactionData,
 } from '@core/wallet'
 import { get } from 'svelte/store'
 import { SendOperationParameter } from '../../../enums'
@@ -31,10 +31,10 @@ import { getNetworkHrp } from '@core/profile/actions'
 import { getActiveNetworkId } from '@core/network/utils/getNetworkId'
 
 export function handleDeepLinkSendConfirmationOperation(searchParams: URLSearchParams): void {
-    const transactionDetails = parseSendConfirmationOperation(searchParams)
+    const transactionData = parseSendConfirmationOperation(searchParams)
 
-    if (transactionDetails) {
-        setNewTransactionDetails(transactionDetails)
+    if (transactionData) {
+        setNewTransactionData(transactionData)
         sendFlowRouter.set(new SendFlowRouter(undefined, SendFlowRoute.TransactionSummary))
         openPopup({
             id: PopupId.SendFlow,
@@ -53,9 +53,9 @@ export function handleDeepLinkSendConfirmationOperation(searchParams: URLSearchP
  *
  * @param {URLSearchParams} searchParams The query parameters of the deep link URL.
  *
- * @return {NewTransactionDetails} The formatted parameters for the send operation.
+ * @return {TransactionData} The formatted parameters for the send operation.
  */
-function parseSendConfirmationOperation(searchParams: URLSearchParams): NewTransactionDetails {
+function parseSendConfirmationOperation(searchParams: URLSearchParams): TransactionData {
     // Check address exists and is valid this is not optional.
     const address = searchParams.get(SendOperationParameter.Address)
     if (!address) {

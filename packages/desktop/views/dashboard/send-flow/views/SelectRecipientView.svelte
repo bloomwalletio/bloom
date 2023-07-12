@@ -2,7 +2,7 @@
     import { selectedAccount } from '@core/account/stores'
     import { localize } from '@core/i18n'
     import { ChainType, IChain, IIscpChainConfiguration, network } from '@core/network'
-    import { NewTransactionType, TokenStandard, newTransactionDetails, updateNewTransactionDetails } from '@core/wallet'
+    import { NewTransactionType, TokenStandard, newTransactionData, updateNewTransactionData } from '@core/wallet'
     import { closePopup } from '@desktop/auxiliary/popup'
     import features from '@features/features'
     import { INetworkRecipientSelectorOption, NetworkRecipientSelector } from '@ui'
@@ -10,7 +10,7 @@
     import { sendFlowRouter } from '../send-flow.router'
     import SendFlowTemplate from './SendFlowTemplate.svelte'
 
-    let networkAddress = $newTransactionDetails?.layer2Parameters?.networkAddress
+    let networkAddress = $newTransactionData?.layer2Parameters?.networkAddress
     let selectorOptions: INetworkRecipientSelectorOption[] = []
     let selectedIndex = -1
 
@@ -19,18 +19,18 @@
     $: selectedOption = selectorOptions[selectedIndex]
     $: isLayer2 = !!networkAddress
 
-    $: networkAddress = selectedOption?.networkAddress ?? $newTransactionDetails?.layer2Parameters?.networkAddress
-    $: recipient = selectedOption?.recipient ?? $newTransactionDetails?.recipient
+    $: networkAddress = selectedOption?.networkAddress ?? $newTransactionData?.layer2Parameters?.networkAddress
+    $: recipient = selectedOption?.recipient ?? $newTransactionData?.recipient
 
     onMount(() => {
         buildNetworkRecipientOptions()
     })
 
     function getAssetName(): string | undefined {
-        if ($newTransactionDetails?.type === NewTransactionType.TokenTransfer) {
-            return $newTransactionDetails.asset?.metadata.name
-        } else if ($newTransactionDetails?.type === NewTransactionType.NftTransfer) {
-            return $newTransactionDetails.nft.name
+        if ($newTransactionData?.type === NewTransactionType.TokenTransfer) {
+            return $newTransactionData.asset?.metadata.name
+        } else if ($newTransactionData?.type === NewTransactionType.NftTransfer) {
+            return $newTransactionData.nft.name
         } else {
             return ''
         }
@@ -47,7 +47,7 @@
                 ? selectorOptions.findIndex((option) => option.networkAddress === networkAddress)
                 : 0
 
-        const recipient = $newTransactionDetails?.recipient
+        const recipient = $newTransactionData?.recipient
         if (recipient) {
             selectorOptions = selectorOptions.map((option, index) =>
                 index === selectedIndex
@@ -68,8 +68,8 @@
                   senderAddress: $selectedAccount.depositAddress,
               }
             : null
-        updateNewTransactionDetails({
-            type: $newTransactionDetails?.type,
+        updateNewTransactionData({
+            type: $newTransactionData?.type,
             recipient,
             layer2Parameters,
         })
@@ -77,8 +77,8 @@
     }
 
     function onBackClick(): void {
-        updateNewTransactionDetails({
-            type: $newTransactionDetails?.type,
+        updateNewTransactionData({
+            type: $newTransactionData?.type,
             recipient: undefined,
             layer2Parameters: undefined,
         })
@@ -90,11 +90,11 @@
     }
 
     function getCompatibleTransferNetworks(): INetworkRecipientSelectorOption[] {
-        if (!$network || !$newTransactionDetails) {
+        if (!$network || !$newTransactionData) {
             return []
         }
 
-        if ($newTransactionDetails.type === NewTransactionType.NftTransfer) {
+        if ($newTransactionData.type === NewTransactionType.NftTransfer) {
             // TODO: Currently we only support L1 NFTs
             return [
                 {
@@ -105,7 +105,7 @@
         } else {
             let compatibleNetworks: INetworkRecipientSelectorOption[] = []
 
-            const asset = $newTransactionDetails.asset
+            const asset = $newTransactionData.asset
             // L1 network
             const layer1Network = {
                 id: $network.getMetadata().id,

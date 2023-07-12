@@ -26,7 +26,7 @@
         getHexAddressFromAddressTypes,
         getTimeDifference,
     } from '@core/wallet'
-    import { NewTransactionType, setNewTransactionDetails } from '@core/wallet/stores'
+    import { NewTransactionType, setNewTransactionData } from '@core/wallet/stores'
     import {
         Alert,
         Button,
@@ -119,7 +119,7 @@
     }
 
     function onSendClick(): void {
-        setNewTransactionDetails({
+        setNewTransactionData({
             type: NewTransactionType.NftTransfer,
             nft,
             recipient: undefined,

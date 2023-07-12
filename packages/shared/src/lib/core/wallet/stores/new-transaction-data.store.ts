@@ -1,15 +1,15 @@
 import { writable, Writable } from 'svelte/store'
-import type { NewTransactionDetails } from '../types'
+import type { TransactionData } from '../types'
 
 export enum NewTransactionType {
     TokenTransfer = 'TokenTransfer',
     NftTransfer = 'NftTransfer',
 }
 
-export const newTransactionDetails: Writable<NewTransactionDetails | undefined> = writable(undefined)
+export const newTransactionData: Writable<TransactionData | undefined> = writable(undefined)
 
-export function resetNewTokenTransactionDetails(): void {
-    newTransactionDetails.set({
+export function resetNewTokenTransactionData(): void {
+    newTransactionData.set({
         type: NewTransactionType.TokenTransfer,
         recipient: undefined,
         rawAmount: undefined,
@@ -18,14 +18,12 @@ export function resetNewTokenTransactionDetails(): void {
     })
 }
 
-export function resetNewTransactionDetails(): void {
-    newTransactionDetails.set(undefined)
+export function resetNewTransactionData(): void {
+    newTransactionData.set(undefined)
 }
 
-export function updateNewTransactionDetails(
-    payload: Partial<NewTransactionDetails> & Pick<NewTransactionDetails, 'type'>
-): void {
-    newTransactionDetails.update((state) => {
+export function updateNewTransactionData(payload: Partial<TransactionData> & Pick<TransactionData, 'type'>): void {
+    newTransactionData.update((state) => {
         if (payload.type === NewTransactionType.TokenTransfer && state.type === NewTransactionType.TokenTransfer) {
             state = { ...state, ...payload }
         } else if (payload.type === NewTransactionType.NftTransfer && state.type === NewTransactionType.NftTransfer) {
@@ -35,6 +33,6 @@ export function updateNewTransactionDetails(
     })
 }
 
-export function setNewTransactionDetails(payload: NewTransactionDetails): void {
-    newTransactionDetails.set(payload)
+export function setNewTransactionData(payload: TransactionData): void {
+    newTransactionData.set(payload)
 }
