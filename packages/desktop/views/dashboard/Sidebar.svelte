@@ -109,7 +109,7 @@
             {/each}
         </div>
         <div class="flex flex-col items-center">
-            <button class="flex items-center justify-center rounded-full" on:click={profileModal?.open}>
+            <button class="relative flex items-center justify-center rounded-full" on:click={profileModal?.open}>
                 <ProfilePicture profile={$activeProfile} size="medium" />
                 {#if !$shouldOpenProfileModal && (!isBackupSafe || !$appVersionDetails.upToDate)}
                     <NotificationBadge />
