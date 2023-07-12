@@ -1,6 +1,6 @@
 <script lang="ts">
     import { IAsset } from '@core/wallet'
-    import { Modal, AssetActionsMenu, MeatballMenuButton } from '@ui'
+    import { Modal, AssetActionsMenuModal, MeatballMenuButton } from '@ui'
 
     export let asset: IAsset
 
@@ -9,5 +9,5 @@
 
 <div class="max-h-7 max-w-9 flex-none flex-initial overflow-visible relative">
     <MeatballMenuButton onClick={modal?.toggle} />
-    <AssetActionsMenu bind:modal {asset} position={{ right: '0' }} classes="mt-1.5" />
+    <AssetActionsMenuModal bind:modal {asset} position={{ right: '0' }} classes="mt-1.5" />
 </div>

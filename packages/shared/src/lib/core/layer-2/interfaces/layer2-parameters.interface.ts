@@ -4,4 +4,5 @@ export interface ILayer2Parameters {
     networkAddress: string
     senderAddress: string
     gasBudget?: BigInteger
+    chainId?: number
 }

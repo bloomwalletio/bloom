@@ -1,11 +1,11 @@
 <script lang="ts">
-    import { IAsset, newTransactionDetails, selectedAccountAssets, updateNewTransactionDetails } from '@core/wallet'
+    import { IAsset, newTransactionData, selectedAccountAssets, updateNewTransactionData } from '@core/wallet'
 
     import { AssetList } from '@components'
     import { sendRouter } from '@/routers'
 
     function onAssetClick(asset: IAsset) {
-        updateNewTransactionDetails({ type: $newTransactionDetails.type, asset })
+        updateNewTransactionData({ type: $newTransactionData.type, asset })
         $sendRouter.next()
     }
 </script>

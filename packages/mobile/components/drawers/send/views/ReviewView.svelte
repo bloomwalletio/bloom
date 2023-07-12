@@ -13,7 +13,7 @@
         ActivityDirection,
         ActivityType,
         InclusionState,
-        newTransactionDetails,
+        newTransactionData,
         NewTransactionType,
         selectedAccountAssets,
     } from '@core/wallet'
@@ -30,27 +30,27 @@
     export let visibleSurplus: number = 0
 
     const { recipient, giftStorageDeposit, surplus, disableChangeExpiration, disableToggleGift, layer2Parameters } =
-        get(newTransactionDetails)
+        get(newTransactionData)
 
     let loading: boolean = false
 
-    // need to store the newTransactionDetails to avoid errors
-    let transactionDetails = get(newTransactionDetails)
-    // need to update the variable only when newTransactionDetails is not reset
-    $: if ($newTransactionDetails.recipient) {
-        transactionDetails = $newTransactionDetails
+    // need to store the newTransactionData to avoid errors
+    let transactionData = get(newTransactionData)
+    // need to update the variable only when newTransactionData is not reset
+    $: if ($newTransactionData.recipient) {
+        transactionData = $newTransactionData
     }
 
     $: isInternal = recipient?.type === 'account'
     $: isTransferring = $selectedAccount.isTransferring
     $: hideGiftToggle =
-        (transactionDetails.type === NewTransactionType.TokenTransfer &&
-            transactionDetails.asset.id === $selectedAccountAssets[$activeProfile?.network?.id]?.baseCoin?.id) ||
+        (transactionData.type === NewTransactionType.TokenTransfer &&
+            transactionData.asset.id === $selectedAccountAssets[$activeProfile?.network?.id]?.baseCoin?.id) ||
         (disableToggleGift && !giftStorageDeposit) ||
         layer2Parameters !== undefined
 
     $: activity = {
-        ...transactionDetails,
+        ...transactionData,
         storageDeposit,
         subject: recipient,
         isInternal,
@@ -96,7 +96,7 @@
     }
 
     function toggleGiftStorageDeposit(): void {
-        newTransactionDetails.update((details) => ({ ...details, giftStorageDeposit: !details.giftStorageDeposit }))
+        newTransactionData.update((details) => ({ ...details, giftStorageDeposit: !details.giftStorageDeposit }))
     }
 </script>
 
@@ -111,8 +111,8 @@
                         <Toggle
                             slot="value"
                             color="green"
-                            disabled={$newTransactionDetails.disableToggleGift}
-                            active={$newTransactionDetails.giftStorageDeposit}
+                            disabled={$newTransactionData.disableToggleGift}
+                            active={$newTransactionData.giftStorageDeposit}
                             onClick={toggleGiftStorageDeposit}
                         />
                     </KeyValueBox>

@@ -13,7 +13,7 @@
     })()
 </script>
 
-<input-container class="flex items-center py-2 px-4 rounded-lg bg-gray-50 dark:bg-gray-850">
+<input-container class="flex items-center py-2 px-4 rounded-lg bg-gray-50 dark:bg-gray-900">
     <Icon icon={IconEnum.Search} classes="mr-2 text-gray-500 dark:text-white" width={21} height={21} />
     <input
         bind:value={searchValue}

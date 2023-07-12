@@ -12,29 +12,29 @@
     import {
         DEFAULT_TRANSACTION_OPTIONS,
         getOutputParameters,
-        newTransactionDetails,
+        newTransactionData,
         NewTransactionType,
         Output,
         sendOutput,
-        updateNewTransactionDetails,
+        updateNewTransactionData,
         validateSendConfirmation,
     } from '@core/wallet'
     import { getStorageDepositFromOutput } from '@core/wallet/utils/generateActivity/helper'
 
     import { sendRoute, SendRoute, sendRouter } from '@/routers'
 
-    $: ({ expirationDate, giftStorageDeposit, surplus } = $newTransactionDetails)
+    $: ({ expirationDate, giftStorageDeposit, surplus } = $newTransactionData)
 
     let storageDeposit = 0
     let visibleSurplus = 0
     let preparedOutput: Output
     let initialExpirationDate = getInitialExpirationDate()
 
-    $: transactionDetails = get(newTransactionDetails)
+    $: transactionData = get(newTransactionData)
     $: expirationDate, giftStorageDeposit, refreshSendConfirmationState()
 
     onMount(() => {
-        if (transactionDetails.type === NewTransactionType.TokenTransfer && transactionDetails.asset) {
+        if (transactionData.type === NewTransactionType.TokenTransfer && transactionData.asset) {
             $sendRouter.next()
         }
     })
@@ -44,8 +44,8 @@
             await prepareTransactionOutput()
             validateSendConfirmation(preparedOutput)
 
-            updateNewTransactionDetails({
-                type: $newTransactionDetails.type,
+            updateNewTransactionData({
+                type: $newTransactionData.type,
                 expirationDate,
                 giftStorageDeposit,
                 surplus,
@@ -62,10 +62,10 @@
     }
 
     async function prepareTransactionOutput(): Promise<void> {
-        if (!transactionDetails.recipient) {
+        if (!transactionData.recipient) {
             return
         }
-        const outputParams = await getOutputParameters(transactionDetails)
+        const outputParams = await getOutputParameters(transactionData)
         preparedOutput = await prepareOutput($selectedAccount.index, outputParams, DEFAULT_TRANSACTION_OPTIONS)
         setStorageDeposit(preparedOutput, Number(surplus))
         if (!initialExpirationDate) {
@@ -74,8 +74,7 @@
     }
 
     function setStorageDeposit(preparedOutput: Output, surplus?: number): void {
-        const rawAmount =
-            transactionDetails.type === NewTransactionType.TokenTransfer ? transactionDetails.rawAmount : '0'
+        const rawAmount = transactionData.type === NewTransactionType.TokenTransfer ? transactionData.rawAmount : '0'
         const { storageDeposit: _storageDeposit, giftedStorageDeposit: _giftedStorageDeposit } =
             getStorageDepositFromOutput(preparedOutput, rawAmount)
         if (surplus > _storageDeposit) {
@@ -97,7 +96,7 @@
     }
 
     function refreshSendConfirmationState(): void {
-        updateNewTransactionDetails({ type: transactionDetails.type, expirationDate, giftStorageDeposit, surplus })
+        updateNewTransactionData({ type: transactionData.type, expirationDate, giftStorageDeposit, surplus })
         void prepareTransactionOutput()
     }
 

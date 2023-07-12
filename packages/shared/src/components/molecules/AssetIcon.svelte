@@ -22,29 +22,32 @@
 
     $: $network, chainId, (chainName = getTooltipText())
     $: isAnimation = asset.id in ANIMATED_TOKEN_IDS
-    switch (asset.id) {
-        case String(COIN_TYPE[NetworkId.Iota]):
-            assetInitials = ''
-            assetIconBackgroundColor = '#6E82A4'
-            assetIconColor = isBright(assetIconBackgroundColor) ? 'gray-800' : 'white'
-            icon = NETWORK_ICON_SVG[NetworkId.Iota]
-            break
-        case String(COIN_TYPE[NetworkId.Shimmer]):
-        case String(COIN_TYPE[NetworkId.Testnet]):
-            assetInitials = ''
-            assetIconBackgroundColor = '#25DFCA'
-            assetIconColor = isBright(assetIconBackgroundColor) ? 'gray-800' : 'white'
-            icon = NETWORK_ICON_SVG[NetworkId.Shimmer]
-            break
-        default:
-            assetInitials = getAssetInitials(asset)
-            assetIconBackgroundColor = getIconColorFromString(asset.metadata?.name, {
-                shades: ['500', '600', '700', '800'],
-                colorsToExclude: ['gray'],
-            })
-            assetIconColor = isBright(assetIconBackgroundColor) ? 'gray-800' : 'white'
-            assetLogoUrl = asset.metadata?.standard === TokenStandard.Irc30 ? asset.metadata?.logoUrl ?? '' : ''
-            icon = null
+
+    $: {
+        switch (asset.id) {
+            case String(COIN_TYPE[NetworkId.Iota]):
+                assetInitials = ''
+                assetIconBackgroundColor = '#6E82A4'
+                assetIconColor = isBright(assetIconBackgroundColor) ? 'gray-800' : 'white'
+                icon = NETWORK_ICON_SVG[NetworkId.Iota]
+                break
+            case String(COIN_TYPE[NetworkId.Shimmer]):
+            case String(COIN_TYPE[NetworkId.Testnet]):
+                assetInitials = ''
+                assetIconBackgroundColor = '#25DFCA'
+                assetIconColor = isBright(assetIconBackgroundColor) ? 'gray-800' : 'white'
+                icon = NETWORK_ICON_SVG[NetworkId.Shimmer]
+                break
+            default:
+                assetInitials = getAssetInitials(asset)
+                assetIconBackgroundColor = getIconColorFromString(asset.metadata?.name, {
+                    shades: ['500', '600', '700', '800'],
+                    colorsToExclude: ['gray'],
+                })
+                assetIconColor = isBright(assetIconBackgroundColor) ? 'gray-800' : 'white'
+                assetLogoUrl = asset.metadata?.standard === TokenStandard.Irc30 ? asset.metadata?.logoUrl ?? '' : ''
+                icon = null
+        }
     }
 
     function getTooltipText(): string | undefined {
@@ -111,7 +114,7 @@
     </span>
 </div>
 
-<style type="text/scss">
+<style lang="scss">
     .icon-bg {
         background-color: var(--icon-bg-color);
     }

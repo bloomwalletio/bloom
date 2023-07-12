@@ -9,21 +9,21 @@ const APP_PROTOCOL = getAppProtocol()
 const CHANNEL_NAME = getChannelName()
 
 /**
- * If stage = 'prod' -> 'Firefly'
- * If stage = 'alpha' -> 'Firefly Alpha'
+ * If stage = 'prod' -> 'Bloom'
+ * If stage = 'alpha' -> 'Bloom Alpha'
  * @param {string} stage
  * @returns
  */
 function getAppName() {
-    return STAGE === 'prod' ? 'Firefly Shimmer' : `Firefly Shimmer - ${STAGE.replace(/^\w/, (c) => c.toUpperCase())}`
+    return STAGE === 'prod' ? 'Bloom' : `Bloom - ${STAGE.replace(/^\w/, (c) => c.toUpperCase())}`
 }
 
 function getAppProtocol() {
-    return STAGE === 'prod' ? 'firefly' : `firefly-${STAGE.toLowerCase()}`
+    return STAGE === 'prod' ? 'bloom' : `bloom-${STAGE.toLowerCase()}`
 }
 
 function getAppId() {
-    const defaultAppId = 'org.iota.firefly-shimmer'
+    const defaultAppId = 'org.bloom-labs.bloom'
     if (STAGE === 'prod') {
         return defaultAppId
     }
@@ -33,18 +33,18 @@ function getAppId() {
 function getChannelName() {
     switch (STAGE) {
         case 'alpha':
-            return 'shimmer-alpha'
+            return 'alpha'
         case 'beta':
-            return 'shimmer-beta'
+            return 'beta'
         default:
-            return 'shimmer'
+            return 'latest'
     }
 }
 
 const prodConfig = () => ({
     productName: APP_NAME,
-    artifactName: 'firefly-desktop-${version}.${ext}',
-    copyright: 'IOTA Foundation',
+    artifactName: 'bloom-desktop-${version}.${ext}',
+    copyright: 'Bloom Labs Ltd',
     directories: { buildResources: './public', output: './out' },
     files: ['public/', 'package.json', '!node_modules/@iota/wallet/target/*'],
     appId: APP_ID,
@@ -58,7 +58,7 @@ const prodConfig = () => ({
         }
     },
     asar: true,
-    protocols: [{ name: 'Firefly URL Scheme', schemes: [APP_PROTOCOL] }],
+    protocols: [{ name: 'Bloom URL Scheme', schemes: [APP_PROTOCOL] }],
     dmg: {
         iconSize: 120,
         title: '${productName}',
@@ -77,7 +77,7 @@ const prodConfig = () => ({
     },
     win: {
         icon: './public/assets/icons/prod/icon1024x1024.png',
-        publisherName: 'IOTA Stiftung',
+        publisherName: 'Bloom Labs Ltd',
         target: 'nsis',
         timeStampServer: 'http://timestamp.sectigo.com',
         rfc3161TimeStampServer: 'http://timestamp.sectigo.com',
@@ -86,7 +86,7 @@ const prodConfig = () => ({
         target: ['AppImage'],
         desktop: {
             Name: APP_NAME,
-            Comment: 'Desktop wallet for IOTA',
+            Comment: 'Web3 wallet for the IOTA/Shimmer ecosystem',
             Categories: 'Office;Network;Finance',
             MimeType: `x-scheme-handler/${APP_PROTOCOL}`,
         },
@@ -104,10 +104,15 @@ const prodConfig = () => ({
         asarUnpack: ['**/*.node'],
     },
     publish: {
-        provider: 'generic',
-        url: 'https://dl.firefly.iota.org/',
-        publishAutoUpdate: true,
+        provider: 'github',
+        repo: 'bloom',
+        owner: 'bloomwalletio',
+        vPrefixedTagName: false,
+        // Following lines are required as long as we're closed source
+        // private: true,
+        // token: 'SOME_PRIVATE_GITHUB_ACCESS_TOKEN',
         channel: CHANNEL_NAME,
+        publishAutoUpdate: true,
     },
 })
 

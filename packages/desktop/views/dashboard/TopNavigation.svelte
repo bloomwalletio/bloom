@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { Icon, Text } from '@ui'
+    import { Button, ButtonSize, Icon, Text } from '@ui'
     import { AccountSwitcher, NetworkDrawerButton } from '@components'
     import { PlatformOption } from '@core/app'
     import { platform } from '@core/app/stores'
@@ -18,7 +18,7 @@
         settingsRouter,
     } from '@core/router'
     import { Icon as IconEnum } from '@auxiliary/icon'
-    import { popupState } from '@desktop/auxiliary/popup'
+    import { PopupId, openPopup, popupState } from '@desktop/auxiliary/popup'
     import features from '@features/features'
     import { closeDrawer } from '@desktop/auxiliary/drawer'
 
@@ -61,6 +61,12 @@
                 break
         }
     }
+
+    function onConnectClick(): void {
+        openPopup({
+            id: PopupId.InitWalletConnect,
+        })
+    }
 </script>
 
 <top-navigation class:disabled={isWindows && isPopupVisible} class:is-windows={isWindows}>
@@ -75,14 +81,19 @@
 
     <AccountSwitcher />
 
-    <div class="right-button flex justify-end">
+    <div class="right-button flex justify-end gap-2">
+        {#if features?.wallet?.walletConnect?.enabled}
+            <Button onClick={onConnectClick} size={ButtonSize.Small}>
+                {localize('actions.connect')}
+            </Button>
+        {/if}
         {#if features?.network?.config?.enabled}
             <NetworkDrawerButton />
         {/if}
     </div>
 </top-navigation>
 
-<style type="text/scss">
+<style lang="scss">
     top-navigation {
         @apply absolute flex flex-row justify-between items-center z-10 -top-12 left-18 h-12 px-8 py-1;
         width: calc(100% - 4.5rem);

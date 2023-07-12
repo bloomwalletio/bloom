@@ -11,8 +11,32 @@ const walletFeatures: IWalletFeatures = {
             enabled: true,
         },
     },
-    newSendFlow: {
+    walletConnect: {
         enabled: true,
+    },
+    contacts: {
+        enabled: false,
+        sendTo: {
+            enabled: true,
+        },
+        addContact: {
+            enabled: true,
+        },
+        editContact: {
+            enabled: true,
+        },
+        removeContact: {
+            enabled: true,
+        },
+        addNetworkAddress: {
+            enabled: true,
+        },
+        editNetworkAddresses: {
+            enabled: true,
+        },
+        removeNetwork: {
+            enabled: true,
+        },
     },
     assets: {
         enabled: true,

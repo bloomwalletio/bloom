@@ -1,7 +1,7 @@
 import { Router, Subrouter } from '@core/router'
 import { get, writable } from 'svelte/store'
 import { SendFlowRoute } from './send-flow-route.enum'
-import { NewTransactionType, newTransactionDetails } from '@core/wallet'
+import { NewTransactionType, newTransactionData } from '@core/wallet'
 
 export const sendFlowRoute = writable<SendFlowRoute>(undefined)
 export const sendFlowRouter = writable<SendFlowRouter>(undefined)
@@ -9,7 +9,7 @@ export const sendFlowRouter = writable<SendFlowRouter>(undefined)
 export class SendFlowRouter extends Subrouter<SendFlowRoute> {
     constructor(parentRouter: Router<unknown>, initialRoute: SendFlowRoute = SendFlowRoute.SelectToken) {
         if (
-            get(newTransactionDetails)?.type === NewTransactionType.NftTransfer &&
+            get(newTransactionData)?.type === NewTransactionType.NftTransfer &&
             initialRoute === SendFlowRoute.SelectToken
         ) {
             initialRoute = SendFlowRoute.SelectRecipient
@@ -26,7 +26,7 @@ export class SendFlowRouter extends Subrouter<SendFlowRoute> {
                 nextRoute = SendFlowRoute.SelectRecipient
                 break
             case SendFlowRoute.SelectRecipient:
-                if (get(newTransactionDetails)?.type === NewTransactionType.NftTransfer) {
+                if (get(newTransactionData)?.type === NewTransactionType.NftTransfer) {
                     nextRoute = SendFlowRoute.TransactionSummary
                 } else {
                     nextRoute = SendFlowRoute.InputTokenAmount

@@ -3,11 +3,10 @@ import { buildBip32Path } from '@core/account/utils'
 import { IChain } from '@core/network/interfaces'
 import { TokenStandard } from '@core/wallet/enums'
 import { IAsset } from '@core/wallet/interfaces'
-
 import {
-    getCommonEvmTransactionData,
+    buildEvmTransactionData,
     getErc20TransferSmartContractData,
-    getIrc30TransferSmartContractData,
+    getIscpTransferSmartContractData,
     signTransactionWithLedger,
 } from '.'
 import { ISC_MAGIC_CONTRACT_ADDRESS } from '../constants'
@@ -30,22 +29,27 @@ export async function signLayer2TransferTransactionData(
         return
     }
 
-    const data = getTransactionData(chain, recipientAddress, asset, amount)
-    const contractAddress = getRecipientAddress(asset)
-    if (!data || !contractAddress) {
-        return
+    const destinationAddress = getDestinationAddress(asset, recipientAddress)
+
+    let data
+    if (asset.metadata?.standard === TokenStandard.BaseToken) {
+        data = undefined
+    } else {
+        data = getDataForTransaction(chain, recipientAddress, asset, amount)
+        // set amount to zero after using it to build the smart contract data,
+        // as we do not want to send any base token
+        amount = '0'
+        if (!data) {
+            return
+        }
     }
 
-    const transaction = await getCommonEvmTransactionData(provider, originAddress, contractAddress, data)
+    const transaction = await buildEvmTransactionData(provider, originAddress, destinationAddress, amount, data)
     const bip32 = buildBip32Path(60, index)
-    /* eslint-disable no-console */
-    console.log('TRANSACTION: ', transaction)
-    /* eslint-disable no-console */
-    console.log('BIP PATH: ', bip32)
     return signTransactionWithLedger(transaction, bip32)
 }
 
-function getTransactionData(
+function getDataForTransaction(
     chain: IChain,
     recipientAddress: string,
     asset: IAsset,
@@ -53,21 +57,25 @@ function getTransactionData(
 ): string | undefined {
     const standard = asset.metadata?.standard
     switch (standard) {
-        case TokenStandard.BaseToken:
         case TokenStandard.Irc30:
-            return getIrc30TransferSmartContractData(recipientAddress, asset, amount)
+            return getIscpTransferSmartContractData(recipientAddress, asset, amount, chain)
         case TokenStandard.Erc20:
             return getErc20TransferSmartContractData(recipientAddress, asset, amount, chain)
+        default:
+            return undefined
     }
 }
 
-function getRecipientAddress(asset: IAsset): string | undefined {
+function getDestinationAddress(asset: IAsset, recipientAddress: string): string {
     const standard = asset.metadata?.standard
     switch (standard) {
         case TokenStandard.BaseToken:
+            return recipientAddress
         case TokenStandard.Irc30:
             return ISC_MAGIC_CONTRACT_ADDRESS
         case TokenStandard.Erc20:
             return asset.id
+        default:
+            return recipientAddress
     }
 }

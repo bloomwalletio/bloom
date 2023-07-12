@@ -18,7 +18,7 @@ body:
           label: Task description
           description: Describe the task that needs to be completed.
       validations:
-          required: true
+          required: false
 
     - type: textarea
       id: requirements
@@ -26,17 +26,4 @@ body:
           label: Requirements
           description: What are the requirements for this task, this could be a checklist of subtasks.
       validations:
-          required: true
-
-    - type: checkboxes
-      id: checklist
-      attributes:
-          label: Creation checklist
-          description: 'Before submitting this task please ensure you have done the following if necessary:'
-          options:
-              - label: I have assigned this task to the correct people
-                required: false
-              - label: I have added the most appropriate labels
-                required: false
-              - label: I have linked the correct milestone and/or project
-                required: false
+          required: false
