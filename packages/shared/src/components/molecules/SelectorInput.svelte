@@ -15,6 +15,7 @@
     // HTML checks whether this value is absent to determine whether the field is readonly
     // If the attribute is set to false, HTML interprets it as a readonly field.
     export let readonly: boolean = null
+    export let overrideShowOptions: boolean = false
 
     export function validate(): void {
         /* eslint-disable @typescript-eslint/ban-ts-comment */
@@ -89,7 +90,7 @@
         </div>
     </TextInput>
 
-    {#if filteredOptions.length > 0 && !readonly}
+    {#if filteredOptions.length > 0 && (!readonly || overrideShowOptions)}
         <Modal
             bind:this={modal}
             position={{ left: '0', top: '100%' }}

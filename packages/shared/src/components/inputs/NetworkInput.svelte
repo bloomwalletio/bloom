@@ -10,7 +10,7 @@
     export let iscpChainAddress: string | undefined = undefined
     export let showLayer2: boolean = false
 
-    const readonlyAttribute = $activeProfile?.isDeveloperProfile ? {} : { readonly: true }
+    const inputAttributes = { readonly: true, overrideShowOptions: true }
     const layer1Network = {
         key: $activeProfile?.network.name,
         value: undefined,
@@ -73,6 +73,6 @@
     options={networkOptions}
     inputClasses="cursor-pointer"
     containerClasses="cursor-pointer"
-    {...readonlyAttribute}
+    {...inputAttributes}
     {...$$restProps}
 />
