@@ -63,8 +63,8 @@
         <TextInput
             bind:this={noteInput}
             bind:value={note}
-            placeholder={localize('general.note')}
-            label={localize('general.note')}
+            placeholder={localize('views.dashboard.drawers.contactBook.addContact.optionalNote')}
+            label={localize('views.dashboard.drawers.contactBook.addContact.optionalNote')}
             validationFunction={validateContactNote}
         />
         <HR />

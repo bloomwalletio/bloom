@@ -1,12 +1,18 @@
+import { localize } from '@core/i18n'
 import { CONTACT_NAME_MAX_LENGTH } from '../constants'
 
 export function validateContactAddressName(name: string): void {
     if (!name) {
-        throw new Error('Invalid address name input')
+        throw new Error(localize('error.input.required', { field: localize('general.addressName') }))
     }
 
     if (name.length > CONTACT_NAME_MAX_LENGTH) {
-        throw new Error('Address name too long')
+        throw new Error(
+            localize('error.input.tooLong', {
+                field: localize('general.addressName'),
+                numCharacters: CONTACT_NAME_MAX_LENGTH,
+            })
+        )
     }
 
     /**
