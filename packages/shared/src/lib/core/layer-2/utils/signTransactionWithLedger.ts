@@ -19,11 +19,11 @@ export async function signTransactionWithLedger(transaction: EvmTransactionData,
         signingFinished(signedTransaction)
     })
 
-    const pollingInterval = 100
-    const timeoutInSeconds = 10
-    const loopIterations = (timeoutInSeconds * MILLISECONDS_PER_SECOND) / pollingInterval
+    const POLLING_INTERVAL = 100
+    const TIMEOUT_IN_SECONDS = 60
+    const LOOP_ITERATIONS = (TIMEOUT_IN_SECONDS * MILLISECONDS_PER_SECOND) / POLLING_INTERVAL
 
-    for (let count = 0; count < loopIterations; count++) {
+    for (let count = 0; count < LOOP_ITERATIONS; count++) {
         if (!isSigning) {
             if (signedTransaction) {
                 return Promise.resolve(signedTransaction)
@@ -31,7 +31,7 @@ export async function signTransactionWithLedger(transaction: EvmTransactionData,
                 return Promise.reject('Signing was rejected by the Ledger device')
             }
         }
-        await sleep(pollingInterval)
+        await sleep(POLLING_INTERVAL)
     }
     return Promise.reject(localize('error.ledger.timeout'))
 }
