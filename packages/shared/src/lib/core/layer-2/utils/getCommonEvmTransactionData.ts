@@ -6,7 +6,8 @@ export async function getCommonEvmTransactionData(
     provider: Web3,
     originAddress: string,
     destinationAddress: string,
-    data: string
+    value: string,
+    data: string | undefined
 ): Promise<EvmTransactionData> {
     const nonce = provider.utils.toHex(await provider.eth.getTransactionCount(originAddress))
 
@@ -17,7 +18,6 @@ export async function getCommonEvmTransactionData(
     const gasLimit = provider.utils.toHex(GAS_MULTIPLIER * estimatedGas) // Double to ensure we have enough gas
 
     const to = destinationAddress
-    const value = provider.utils.toHex(0)
 
-    return { nonce, gasPrice, gasLimit, to, value, data }
+    return { nonce, gasPrice, gasLimit, to, value: provider.utils.toHex(value + '000000000000'), data }
 }
