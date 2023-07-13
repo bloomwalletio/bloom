@@ -7,7 +7,7 @@ import { DEFAULT_TRANSACTION_OPTIONS } from '../../constants'
 import { validateSendConfirmation } from '.'
 import { checkActiveProfileAuth, getIsActiveLedgerProfile } from '@core/profile'
 import { signLayer2TransferTransactionData } from '@core/layer-2'
-import { ledgerPreparedOutput } from '@core/ledger'
+import { ledgerPreparedOutput, LedgerAppName } from '@core/ledger'
 import { sendOutput } from '../../actions'
 import { handleError } from '@core/error/handlers'
 import { NewTransactionType } from '@core/wallet/stores'
@@ -73,18 +73,24 @@ async function sendFromLayer2(
     const recipient = transactionData.recipient.address
     const amount = transactionData.rawAmount
 
-    updateSelectedAccount({ isTransferring: true })
-    try {
-        const signature = await signLayer2TransferTransactionData(chain, recipient, asset, amount)
-        if (signature) {
-            await provider?.eth.sendSignedTransaction(signature)
-            callback()
-        } else {
-            throw Error('No Signature provided')
-        }
-    } catch (err) {
-        handleError(err)
-    } finally {
-        updateSelectedAccount({ isTransferring: false })
-    }
+    await checkActiveProfileAuth(
+        async () => {
+            try {
+                updateSelectedAccount({ isTransferring: true })
+                const signature = await signLayer2TransferTransactionData(chain, recipient, asset, amount)
+                if (signature) {
+                    await provider?.eth.sendSignedTransaction(signature)
+                    callback()
+                } else {
+                    throw Error('No Signature provided')
+                }
+            } catch (err) {
+                handleError(err)
+            } finally {
+                updateSelectedAccount({ isTransferring: false })
+            }
+        },
+        { stronghold: true, ledger: true },
+        LedgerAppName.Ethereum
+    )
 }
