@@ -2146,11 +2146,6 @@
             "invalidAddressFormat": "Must be hexadecimal format",
             "invalidAddressLength": "Length is invalid"
         },
-        "contacts": {
-            "nameRequired": "Name is required",
-            "nameTooLong": "Name must be {numCharacters} characters or less",
-            "noteTooLong": "Note must be {numCharacters} characters or less"
-        },
         "input": {
             "invalid": "{field} input is invalid",
             "required": "{field} is required",
