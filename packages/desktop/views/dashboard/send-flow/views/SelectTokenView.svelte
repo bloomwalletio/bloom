@@ -6,9 +6,9 @@
         getAccountAssetsForSelectedAccount,
         AccountAssets,
         IAsset,
-        newTransactionDetails,
+        newTransactionData,
         NewTransactionType,
-        updateNewTransactionDetails,
+        updateNewTransactionData,
         TokenStandard,
     } from '@core/wallet'
     import { closePopup } from '@desktop/auxiliary/popup'
@@ -17,10 +17,10 @@
     import { sendFlowRouter } from '../send-flow.router'
     import SendFlowTemplate from './SendFlowTemplate.svelte'
 
-    const transactionDetails = get(newTransactionDetails)
+    const transactionData = get(newTransactionData)
 
     let selectedAsset: IAsset =
-        transactionDetails?.type === NewTransactionType.TokenTransfer ? transactionDetails.asset : undefined
+        transactionData?.type === NewTransactionType.TokenTransfer ? transactionData.asset : undefined
     let assetList: IAsset[]
     let searchValue: string = ''
 
@@ -66,7 +66,7 @@
     }
 
     function onContinueClick(): void {
-        updateNewTransactionDetails({
+        updateNewTransactionData({
             type: NewTransactionType.TokenTransfer,
             asset: selectedAsset,
         })

@@ -46,7 +46,7 @@
             </div>
             <div class="flex flex-col text-right">
                 <Text type={TextType.p} fontWeight={FontWeight.semibold}>
-                    {asset.metadata ? formatTokenAmountBestMatch(asset.balance?.total, asset.metadata) : '-'}
+                    {asset.metadata ? formatTokenAmountBestMatch(amount, asset.metadata) : '-'}
                 </Text>
                 <div class="flex flex-row justify-between items-center text-right">
                     <Text type={TextType.p} secondary smaller classes="flex-grow">

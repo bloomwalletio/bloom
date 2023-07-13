@@ -36,8 +36,6 @@ export enum PopupId {
     RemoveProposal = 'removeProposal',
     Revote = 'revote',
     SendFlow = 'sendFlow',
-    SendConfirmation = 'sendConfirmation',
-    SendForm = 'sendForm',
     StopVoting = 'stopVoting',
     BalanceBreakdown = 'balanceBreakdown',
     TestDeepLinkForm = 'testDeepLinkForm',

@@ -1,15 +1,17 @@
-import { checkOrConnectLedger } from '@core/ledger'
+import { LedgerAppName, checkOrConnectLedger } from '@core/ledger'
 import { isActiveLedgerProfile, isSoftwareProfile } from '@core/profile'
 import { checkOrUnlockStronghold } from '@core/stronghold'
 import { get } from 'svelte/store'
 
 export function checkActiveProfileAuth(
     callback: () => Promise<unknown> = async () => {},
-    reopenPopup?: { stronghold?: boolean; ledger?: boolean }
+    reopenPopup?: { stronghold?: boolean; ledger?: boolean },
+    ledgerAppName: LedgerAppName = LedgerAppName.Shimmer
 ): Promise<unknown> {
     if (get(isSoftwareProfile)) {
         return checkOrUnlockStronghold(callback, reopenPopup?.stronghold)
     } else if (get(isActiveLedgerProfile)) {
-        return checkOrConnectLedger(callback, reopenPopup?.ledger)
+        return checkOrConnectLedger(callback, reopenPopup?.ledger, ledgerAppName)
     }
+    return Promise.resolve()
 }

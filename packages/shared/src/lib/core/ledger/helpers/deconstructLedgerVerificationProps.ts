@@ -1,24 +1,24 @@
 import { get } from 'svelte/store'
 
-import { formatTokenAmountDefault, newTransactionDetails, NewTransactionType } from '@core/wallet'
+import { formatTokenAmountDefault, newTransactionData, NewTransactionType } from '@core/wallet'
 import { PopupProps } from '../../../../../../desktop/lib/auxiliary/popup/types'
 
 export function deconstructLedgerVerificationProps(): PopupProps {
-    const transactionDetails = get(newTransactionDetails)
+    const transactionData = get(newTransactionData)
 
     // TODO: Add ledger support for NFTs
 
     /* eslint-disable @typescript-eslint/no-unnecessary-type-assertion */
     const toAddress =
-        transactionDetails?.recipient?.type === 'account'
-            ? transactionDetails?.recipient?.account?.depositAddress
-            : transactionDetails?.recipient?.address
+        transactionData?.recipient?.type === 'account'
+            ? transactionData?.recipient?.account?.depositAddress
+            : transactionData?.recipient?.address
     let toAmount = '0'
-    if (transactionDetails?.type === NewTransactionType.TokenTransfer) {
+    if (transactionData?.type === NewTransactionType.TokenTransfer) {
         toAmount = `${formatTokenAmountDefault(
-            Number(transactionDetails?.rawAmount),
-            transactionDetails?.asset?.metadata,
-            transactionDetails?.unit
+            Number(transactionData?.rawAmount),
+            transactionData?.asset?.metadata,
+            transactionData?.unit
         )}`
     }
 

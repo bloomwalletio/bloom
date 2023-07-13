@@ -3,16 +3,16 @@
     import { prepareOutput, selectedAccount } from '@core/account'
     import { handleError } from '@core/error/handlers'
     import { localize } from '@core/i18n'
-    import { getDestinationNetworkFromAddress } from '@core/layer-2/utils'
+    import { getDestinationNetworkFromAddress, estimateGasForLayer1ToLayer2Transaction } from '@core/layer-2/utils'
     import { activeProfile } from '@core/profile/stores'
     import { truncateString } from '@core/utils'
     import { TimePeriod } from '@core/utils/enums'
     import { DEFAULT_TRANSACTION_OPTIONS } from '@core/wallet/constants'
     import {
         NewTransactionType,
-        newTransactionDetails,
+        newTransactionData,
         selectedAccountAssets,
-        updateNewTransactionDetails,
+        updateNewTransactionData,
     } from '@core/wallet/stores'
     import { Output } from '@core/wallet/types'
     import { AddInputButton, ExpirationTimePicker, NftTile, OptionalInput, TokenAmountTile } from '@ui'
@@ -35,11 +35,12 @@
         tag,
         metadata,
         disableToggleGift,
-    } = get(newTransactionDetails)
+    } = get(newTransactionData)
 
     const destinationNetwork = getDestinationNetworkFromAddress(layer2Parameters?.networkAddress)
     let storageDeposit = 0
     let visibleSurplus = 0
+    let estimatedGas = 0
     let preparedOutput: Output
     let expirationTimePicker: ExpirationTimePicker
     let metadataInput: OptionalInput
@@ -48,22 +49,23 @@
     let selectedExpirationPeriod: TimePeriod | undefined = expirationDate ? TimePeriod.Custom : undefined
     let selectedTimelockPeriod: TimePeriod | undefined = timelockDate ? TimePeriod.Custom : undefined
 
-    $: transactionDetails = get(newTransactionDetails)
+    $: transactionData = get(newTransactionData)
     $: recipient =
-        transactionDetails.recipient.type === 'account'
-            ? transactionDetails.recipient.account.name
-            : truncateString(transactionDetails.recipient?.address, 6, 6)
+        transactionData.recipient.type === 'account'
+            ? transactionData.recipient.account.name
+            : truncateString(transactionData.recipient?.address, 6, 6)
     $: expirationTimePicker?.setNull(giftStorageDeposit)
     $: isTransferring = !!$selectedAccount.isTransferring
     $: isLayer2 = !!layer2Parameters?.networkAddress
+    $: transactionData, void setEstimatedGas()
     $: isFromLayer2 =
-        transactionDetails.type === NewTransactionType.TokenTransfer ? !!transactionDetails.asset.chainId : false
+        transactionData.type === NewTransactionType.TokenTransfer ? !!transactionData.asset.chainId : false
     $: expirationDate, timelockDate, giftStorageDeposit, refreshSendConfirmationState()
 
     function refreshSendConfirmationState(): void {
         if (!isFromLayer2) {
-            updateNewTransactionDetails({
-                type: transactionDetails.type,
+            updateNewTransactionData({
+                type: transactionData.type,
                 expirationDate,
                 timelockDate,
                 giftStorageDeposit,
@@ -83,23 +85,30 @@
         }
     }
 
-    async function calculateInitialOutput() {
+    async function setEstimatedGas(): Promise<void> {
+        estimatedGas = await estimateGasForLayer1ToLayer2Transaction(transactionData)
+    }
+
+    async function calculateInitialOutput(): Promise<void> {
         await prepareTransactionOutput()
         selectedExpirationPeriod = getInitialExpirationDate()
     }
 
     async function prepareTransactionOutput(): Promise<void> {
-        const transactionDetails = get(newTransactionDetails)
+        const transactionData = get(newTransactionData)
 
-        const outputParams = await getOutputParameters(transactionDetails)
-        preparedOutput = await prepareOutput($selectedAccount.index, outputParams, DEFAULT_TRANSACTION_OPTIONS)
+        try {
+            const outputParams = await getOutputParameters(transactionData)
+            preparedOutput = await prepareOutput($selectedAccount.index, outputParams, DEFAULT_TRANSACTION_OPTIONS)
 
-        setStorageDeposit(preparedOutput, Number(surplus))
+            setStorageDeposit(preparedOutput, Number(surplus))
+        } catch (error) {
+            console.error(error)
+        }
     }
 
     function setStorageDeposit(preparedOutput: Output, surplus?: number): void {
-        const rawAmount =
-            transactionDetails.type === NewTransactionType.TokenTransfer ? transactionDetails.rawAmount : '0'
+        const rawAmount = transactionData.type === NewTransactionType.TokenTransfer ? transactionData.rawAmount : '0'
 
         const { storageDeposit: _storageDeposit, giftedStorageDeposit: _giftedStorageDeposit } =
             getStorageDepositFromOutput(preparedOutput, rawAmount)
@@ -125,14 +134,18 @@
 
     async function onConfirmClick(): Promise<void> {
         try {
-            await createTransaction(transactionDetails, $selectedAccount.index, () => closePopup())
+            await createTransaction(transactionData, $selectedAccount.index, () => closePopup())
         } catch (err) {
             handleError(err)
         }
     }
 
     function onBackClick(): void {
-        $sendFlowRouter.previous()
+        if (!$sendFlowRouter.hasHistory()) {
+            closePopup()
+        } else {
+            $sendFlowRouter.previous()
+        }
     }
 
     onMount(async () => {
@@ -149,7 +162,10 @@
 
 <SendFlowTemplate
     title={localize('popups.transaction.transactionSummary', { values: { recipient } })}
-    leftButton={{ text: localize('actions.back'), onClick: onBackClick }}
+    leftButton={{
+        text: localize($sendFlowRouter.hasHistory() ? 'actions.back' : 'actions.cancel'),
+        onClick: onBackClick,
+    }}
     rightButton={{
         text: localize('actions.confirm'),
         onClick: onConfirmClick,
@@ -158,10 +174,10 @@
     }}
 >
     <div class="flex flex-row gap-2 justify-between">
-        {#if transactionDetails.type === NewTransactionType.TokenTransfer}
-            <TokenAmountTile asset={transactionDetails.asset} amount={Number(transactionDetails.rawAmount)} />
-        {:else if transactionDetails.type === NewTransactionType.NftTransfer}
-            <NftTile nft={transactionDetails.nft} />
+        {#if transactionData.type === NewTransactionType.TokenTransfer}
+            <TokenAmountTile asset={transactionData.asset} amount={Number(transactionData.rawAmount)} />
+        {:else if transactionData.type === NewTransactionType.NftTransfer}
+            <NftTile nft={transactionData.nft} />
         {/if}
         {#if visibleSurplus}
             <TokenAmountTile
@@ -178,6 +194,7 @@
         bind:selectedExpirationPeriod
         bind:selectedTimelockPeriod
         bind:giftStorageDeposit
+        gasBudget={estimatedGas}
         {storageDeposit}
         {destinationNetwork}
         {disableChangeExpiration}

@@ -1,7 +1,7 @@
 import { get, writable } from 'svelte/store'
 
 import { Router } from '@core/router'
-import { resetNewTokenTransactionDetails } from '@core/wallet'
+import { resetNewTokenTransactionData } from '@core/wallet'
 
 import { closeDrawer, DrawerId } from '@/auxiliary/drawer'
 import { SendRoute } from '../../enums'
@@ -43,7 +43,7 @@ export class SendRouter extends Router<SendRoute> {
 
     reset(): void {
         super.reset()
-        resetNewTokenTransactionDetails()
+        resetNewTokenTransactionData()
     }
 
     previous(): void {

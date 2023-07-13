@@ -5,7 +5,7 @@
 
     import { localize } from '@core/i18n'
     import { getByteLengthOfString, MAX_METADATA_BYTES, MAX_TAG_BYTES } from '@core/utils'
-    import { newTransactionDetails, updateNewTransactionDetails } from '@core/wallet'
+    import { newTransactionData, updateNewTransactionData } from '@core/wallet'
 
     import { closeDrawer, DrawerId } from '@/auxiliary/drawer'
 
@@ -15,12 +15,12 @@
     $: tag, metadata, validate()
 
     onMount(() => {
-        metadata = $newTransactionDetails?.metadata ?? ''
-        tag = $newTransactionDetails?.tag ?? ''
+        metadata = $newTransactionData?.metadata ?? ''
+        tag = $newTransactionData?.tag ?? ''
     })
 
     function handleConfirm(): void {
-        updateNewTransactionDetails({ type: $newTransactionDetails.type, tag, metadata })
+        updateNewTransactionData({ type: $newTransactionData.type, tag, metadata })
         closeDrawer(DrawerId.References)
     }
 

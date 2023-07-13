@@ -1,20 +1,28 @@
 <script lang="ts">
     import { localize } from '@core/i18n'
-    import { LedgerConnectionState, ledgerConnectionState } from '@core/ledger'
+    import {
+        LedgerConnectionState,
+        LedgerAppName,
+        determineLedgerConnectionState,
+        ledgerNanoStatus,
+    } from '@core/ledger'
     import { isFunction } from '@core/utils'
     import { Button, LedgerAnimation, Text, TextHint, FontWeight, TextType } from '@ui'
     import { closePopup } from '@desktop/auxiliary/popup'
 
+    export let ledgerAppName: LedgerAppName
     export let onCancel: () => void
     export let onContinue: () => void
 
-    $: isNotConnected = $ledgerConnectionState === LedgerConnectionState.NotConnected
-    $: isLocked = $ledgerConnectionState === LedgerConnectionState.Locked
-    $: isAppNotOpen = $ledgerConnectionState === LedgerConnectionState.AppNotOpen
-    $: isCorrectAppOpen = $ledgerConnectionState === LedgerConnectionState.CorrectAppOpen
+    $: ledgerConnectionState = determineLedgerConnectionState($ledgerNanoStatus, ledgerAppName)
+
+    $: isNotConnected = ledgerConnectionState === LedgerConnectionState.NotConnected
+    $: isLocked = ledgerConnectionState === LedgerConnectionState.Locked
+    $: isAppNotOpen = ledgerConnectionState === LedgerConnectionState.AppNotOpen
+    $: isCorrectAppOpen = ledgerConnectionState === LedgerConnectionState.CorrectAppOpen
 
     let animation: string
-    $: $ledgerConnectionState, setAnimation()
+    $: ledgerConnectionState, setAnimation()
     function setAnimation(): void {
         if (isNotConnected) {
             animation = 'ledger-disconnected-desktop'
@@ -57,7 +65,7 @@
     {:else if isLocked}
         <TextHint warning text={localize('popups.ledgerNotConnected.locked')} />
     {:else if isAppNotOpen}
-        <TextHint info text={localize('popups.ledgerNotConnected.appNotOpen')} />
+        <TextHint info text={localize('popups.ledgerNotConnected.appNotOpen', { appName: ledgerAppName })} />
     {:else if isCorrectAppOpen}
         <TextHint success text={localize('popups.ledgerNotConnected.correctAppOpen')} />
     {/if}

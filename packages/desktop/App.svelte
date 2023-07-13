@@ -1,6 +1,6 @@
 <script lang="ts">
     import { onDestroy, onMount } from 'svelte'
-    import { _, isLocaleLoaded, Locale, localeDirection, setupI18n } from '@core/i18n'
+    import { isLocaleLoaded, localeDirection, setupI18n } from '@core/i18n'
     import { activeProfile, checkAndMigrateProfiles, cleanupEmptyProfiles, saveActiveProfile } from '@core/profile'
     import {
         AppRoute,
@@ -24,7 +24,6 @@
         setAppVersionDetails,
         setPlatform,
     } from '@core/app'
-    import { showAppNotification } from '@auxiliary/notification'
     import { closePopup, openPopup, PopupId, popupState } from '@desktop/auxiliary/popup'
     import { getLocalisedMenuItems } from './lib/helpers'
     import { ToastContainer, Transition } from '@ui'
@@ -44,10 +43,11 @@
     import features from '@features/features'
     import { OnboardingRouterView } from '@views/onboarding'
     import { registerLedgerDeviceEventHandlers } from '@core/ledger'
+    import { handleDeepLink } from '@auxiliary/deep-link/handlers'
 
     appStage.set(AppStage[process.env.STAGE.toUpperCase()] ?? AppStage.ALPHA)
 
-    const { loggedIn, hasLoadedAccounts } = $activeProfile
+    const { loggedIn } = $activeProfile
 
     $: if ($activeProfile && !$loggedIn) {
         closePopup(true)
@@ -63,15 +63,13 @@
 
     $: {
         if ($isLocaleLoaded) {
-            Platform.updateMenu('strings', getLocalisedMenuItems($_ as Locale))
+            Platform.updateMenu('strings', getLocalisedMenuItems())
         }
     }
 
     $: if (document.dir !== $localeDirection) {
         document.dir = $localeDirection
     }
-
-    $: isDashboardVisible = $appRoute === AppRoute.Dashboard && $hasLoadedAccounts && $popupState.id !== 'busy'
 
     $: $nftDownloadQueue, downloadNextNftInQueue()
 
@@ -147,7 +145,7 @@
             openPopup({ id: PopupId.Diagnostics })
         })
 
-        Platform.onEvent('deep-link-request', showDeepLinkNotification)
+        Platform.onEvent('deep-link-request', handleDeepLink)
 
         registerLedgerDeviceEventHandlers()
 
@@ -159,22 +157,13 @@
         Platform.removeListenersForEvent('deep-link-request')
         Platform.DeepLinkManager.clearDeepLinkRequest()
     })
-
-    function showDeepLinkNotification(): void {
-        if (!$loggedIn) {
-            showAppNotification({
-                type: 'info',
-                message: $_('notifications.deepLinkingRequest.receivedWhileLoggedOut'),
-            })
-        }
-    }
 </script>
 
 <app-container class="block w-full h-full">
     <TitleBar />
     <app-body
         class="block fixed left-0 right-0 bottom-0 z-50 top-0"
-        class:top-placement={isWindows || isDashboardVisible}
+        class:top-placement={isWindows || $appRoute === AppRoute.Dashboard}
     >
         {#if !$isLocaleLoaded || splash}
             <Splash />
