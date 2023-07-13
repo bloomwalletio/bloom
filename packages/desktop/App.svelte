@@ -1,6 +1,6 @@
 <script lang="ts">
     import { onDestroy, onMount } from 'svelte'
-    import { _, isLocaleLoaded, Locale, localeDirection, setupI18n } from '@core/i18n'
+    import { localize, isLocaleLoaded, localeDirection, setupI18n } from '@core/i18n'
     import { activeProfile, checkAndMigrateProfiles, cleanupEmptyProfiles, saveActiveProfile } from '@core/profile'
     import {
         AppRoute,
@@ -47,7 +47,7 @@
 
     appStage.set(AppStage[process.env.STAGE.toUpperCase()] ?? AppStage.ALPHA)
 
-    const { loggedIn, hasLoadedAccounts } = $activeProfile
+    const { loggedIn } = $activeProfile
 
     $: if ($activeProfile && !$loggedIn) {
         closePopup(true)
@@ -63,15 +63,13 @@
 
     $: {
         if ($isLocaleLoaded) {
-            Platform.updateMenu('strings', getLocalisedMenuItems($_ as Locale))
+            Platform.updateMenu('strings', getLocalisedMenuItems())
         }
     }
 
     $: if (document.dir !== $localeDirection) {
         document.dir = $localeDirection
     }
-
-    $: isDashboardVisible = $appRoute === AppRoute.Dashboard && $hasLoadedAccounts && $popupState.id !== 'busy'
 
     $: $nftDownloadQueue, downloadNextNftInQueue()
 
@@ -164,7 +162,7 @@
         if (!$loggedIn) {
             showAppNotification({
                 type: 'info',
-                message: $_('notifications.deepLinkingRequest.receivedWhileLoggedOut'),
+                message: localize('notifications.deepLinkingRequest.receivedWhileLoggedOut'),
             })
         }
     }
@@ -174,7 +172,7 @@
     <TitleBar />
     <app-body
         class="block fixed left-0 right-0 bottom-0 z-50 top-0"
-        class:top-placement={isWindows || isDashboardVisible}
+        class:top-placement={isWindows || $appRoute === AppRoute.Dashboard}
     >
         {#if !$isLocaleLoaded || splash}
             <Splash />
