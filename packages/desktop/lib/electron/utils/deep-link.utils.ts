@@ -33,7 +33,6 @@ export function initialiseDeepLinks(): void {
     // Deep linking for when the app is not running already (Windows, Linux)
     ipcMain.on('ready-to-show', (event) => {
         if (windows.main) {
-            // TODO: check if required: windows.main.show()
             if (process.platform === 'win32' || process.platform === 'linux') {
                 checkArgsForDeepLink(event, process.argv)
             }

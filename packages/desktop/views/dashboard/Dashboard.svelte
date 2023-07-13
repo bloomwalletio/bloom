@@ -1,5 +1,4 @@
 <script lang="ts">
-    import { handleDeepLink } from '@auxiliary/deep-link'
     import { localize } from '@core/i18n'
     import { nodeInfo } from '@core/network'
     import {
@@ -46,8 +45,6 @@
         developer: Developer,
     }
 
-    const { hasLoadedAccounts } = $activeProfile
-
     let fundsSoonNotificationId: string
     let developerProfileNotificationId: string
 
@@ -64,19 +61,9 @@
         void addNftsToDownloadQueue(accountIndex, $selectedAccountNfts)
     }
 
-    function handleDeepLinkRequest(data: string): void {
-        if ($hasLoadedAccounts) {
-            handleDeepLink(data)
-        }
-    }
-
     onMount(() => {
         Platform.onEvent('menu-logout', () => {
             logout()
-        })
-
-        Platform.onEvent('deep-link-request', (data: string) => {
-            handleDeepLinkRequest(data)
         })
 
         Platform.DeepLinkManager.checkDeepLinkRequestExists()

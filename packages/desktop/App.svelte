@@ -24,7 +24,6 @@
         setAppVersionDetails,
         setPlatform,
     } from '@core/app'
-    import { showAppNotification } from '@auxiliary/notification'
     import { closePopup, openPopup, PopupId, popupState } from '@desktop/auxiliary/popup'
     import { getLocalisedMenuItems } from './lib/helpers'
     import { ToastContainer, Transition } from '@ui'
@@ -44,6 +43,7 @@
     import features from '@features/features'
     import { OnboardingRouterView } from '@views/onboarding'
     import { registerLedgerDeviceEventHandlers } from '@core/ledger'
+    import { handleDeepLink } from '@auxiliary/deep-link/handlers'
 
     appStage.set(AppStage[process.env.STAGE.toUpperCase()] ?? AppStage.ALPHA)
 
@@ -71,7 +71,7 @@
         document.dir = $localeDirection
     }
 
-    $: isDashboardVisible = $appRoute === AppRoute.Dashboard && $hasLoadedAccounts && $popupState.id !== 'busy'
+    $: isDashboardVisible = $appRoute === AppRoute.Dashboard && $hasLoadedAccounts
 
     $: $nftDownloadQueue, downloadNextNftInQueue()
 
@@ -147,7 +147,7 @@
             openPopup({ id: PopupId.Diagnostics })
         })
 
-        Platform.onEvent('deep-link-request', showDeepLinkNotification)
+        Platform.onEvent('deep-link-request', handleDeepLink)
 
         registerLedgerDeviceEventHandlers()
 
@@ -159,15 +159,6 @@
         Platform.removeListenersForEvent('deep-link-request')
         Platform.DeepLinkManager.clearDeepLinkRequest()
     })
-
-    function showDeepLinkNotification(): void {
-        if (!$loggedIn) {
-            showAppNotification({
-                type: 'info',
-                message: $_('notifications.deepLinkingRequest.receivedWhileLoggedOut'),
-            })
-        }
-    }
 </script>
 
 <app-container class="block w-full h-full">
