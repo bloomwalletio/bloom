@@ -3,13 +3,13 @@ import {
     app,
     dialog,
     ipcMain,
-    protocol,
     shell,
     BrowserWindow,
     session,
     utilityProcess,
     nativeTheme,
     PopupOptions,
+    UtilityProcess,
 } from 'electron'
 import { WebPreferences } from 'electron/main'
 import path from 'path'
@@ -17,20 +17,22 @@ import fs from 'fs'
 
 import features from '@features/features'
 
-import AnalyticsManager from '../managers/analytics.manager'
+import { windows } from '../constants/windows.constant'
 import AutoUpdateManager from '../managers/auto-update.manager'
 import KeychainManager from '../managers/keychain.manager'
 import NftDownloadManager from '../managers/nft-download.manager'
 import { contextMenu } from '../menus/context.menu'
 import { initMenu } from '../menus/menu'
+import { initialiseAnalytics } from '../utils/analytics.utils'
+import { checkArgsForDeepLink, initialiseDeepLinks } from '../utils/deep-link.utils'
 import { getDiagnostics } from '../utils/diagnostics.utils'
 import { shouldReportError } from '../utils/error.utils'
 import { getMachineId } from '../utils/os.utils'
 import { LedgerMethod } from '../enums/ledger-method.enum'
 import type { ILedgerProcessMessage } from '../interfaces/ledger-process-message.interface'
 
-new AnalyticsManager()
-
+initialiseAnalytics()
+initialiseDeepLinks()
 /*
  * NOTE: Ignored because defined by Webpack.
  */
@@ -95,21 +97,6 @@ process.on('uncaughtException', (error) => {
 process.on('unhandledRejection', (error) => {
     handleError('[Main Context] Unhandled Rejection', error)
 })
-
-/**
- * Define wallet windows
- */
-const windows: Window = {
-    main: null,
-    about: null,
-    error: null,
-}
-
-type Window = {
-    main: BrowserWindow | null
-    about: BrowserWindow | null
-    error: BrowserWindow | null
-}
 
 const paths = {
     html: '',
@@ -182,17 +169,6 @@ function handleNavigation(e: Event, url: string): void {
 }
 
 function createMainWindow(): BrowserWindow {
-    /**
-     * Register firefly file protocol
-     */
-    try {
-        protocol.registerFileProtocol(process.env.APP_PROTOCOL, (request, callback) => {
-            callback(request.url.replace(`${process.env.APP_PROTOCOL}:/`, app.getAppPath()).split('?')[0].split('#')[0])
-        })
-    } catch (err) {
-        console.error(err)
-    }
-
     const mainWindowState = windowStateKeeper('main', 'settings.json')
 
     // Create the browser window
@@ -297,9 +273,14 @@ function createMainWindow(): BrowserWindow {
     return windows.main
 }
 
-void app.whenReady().then(createMainWindow)
+void app.whenReady().then(() => {
+    // Doesn't open & close a new window when the app is already open
+    if (isFirstInstance) {
+        createMainWindow()
+    }
+})
 
-let ledgerProcess
+let ledgerProcess: UtilityProcess
 ipcMain.on('start-ledger-process', () => {
     ledgerProcess = utilityProcess.fork(paths.ledger)
     ledgerProcess.on('spawn', () => {
@@ -381,7 +362,7 @@ app.once('ready', () => {
     })
 })
 
-// IPC handlers for APIs exposed from main proces
+// IPC handlers for APIs exposed from main process
 
 // URLs
 ipcMain.handle('open-url', (_e, url) => {
@@ -455,77 +436,27 @@ ipcMain.handle('update-app-settings', (_e, settings) => updateSettings(settings)
 ipcMain.handle('update-theme', (_e, theme) => (nativeTheme.themeSource = theme))
 
 /**
- * Define deep link state
- */
-let deepLinkUrl = null
-
-/**
  * Create a single instance only
  */
 const isFirstInstance = app.requestSingleInstanceLock()
 
 if (!isFirstInstance) {
     app.quit()
-}
+} else {
+    app.on('second-instance', (_e, argv) => {
+        if (windows.main) {
+            if (windows.main.isMinimized()) {
+                windows.main.restore()
+            }
+            windows.main.focus()
 
-app.on('second-instance', (_e, args) => {
-    if (windows.main) {
-        if (args.length > 1) {
-            const params = args.find((arg) => arg.startsWith(`${process.env.APP_PROTOCOL}://`))
-
-            if (params) {
-                windows.main.webContents.send('deep-link-params', params)
+            // Deep linking for when the app is already running (Windows, Linux)
+            if (process.platform === 'win32' || process.platform === 'linux') {
+                checkArgsForDeepLink(_e, argv)
             }
         }
-        if (windows.main.isMinimized()) {
-            windows.main.restore()
-        }
-        windows.main.focus()
-    }
-})
-
-/**
- * Register firefly:// protocol for deep links
- * Set Firefly as the default handler for firefly:// protocol
- */
-protocol.registerSchemesAsPrivileged([
-    { scheme: process.env.APP_PROTOCOL, privileges: { secure: true, standard: true } },
-])
-if (process.defaultApp) {
-    if (process.argv.length >= 2) {
-        app.setAsDefaultProtocolClient(process.env.APP_PROTOCOL, process.execPath, [path.resolve(process.argv[1])])
-    }
-} else {
-    app.setAsDefaultProtocolClient(process.env.APP_PROTOCOL)
+    })
 }
-
-/**
- * Proxy deep link event to the wallet application
- */
-app.on('open-url', (event, url) => {
-    event.preventDefault()
-    deepLinkUrl = url
-    if (windows.main) {
-        windows.main.webContents.send('deep-link-params', deepLinkUrl)
-        windows.main.webContents.send('deep-link-request')
-    }
-})
-
-/**
- * Check if a deep link request/event currently exists and has not been cleared
- */
-ipcMain.on('check-deep-link-request-exists', () => {
-    if (deepLinkUrl) {
-        windows.main.webContents.send('deep-link-params', deepLinkUrl)
-    }
-})
-
-/**
- * Clear deep link request/event
- */
-ipcMain.on('clear-deep-link-request', () => {
-    deepLinkUrl = null
-})
 
 /**
  * Proxy notification activated to the wallet application
@@ -573,10 +504,6 @@ export function openAboutWindow(): BrowserWindow {
 
     void windows.about.loadFile(paths.aboutHtml)
 
-    windows.about.once('ready-to-show', () => {
-        windows.about.show()
-    })
-
     windows.about.setMenu(null)
 
     return windows.about
@@ -613,10 +540,6 @@ export function openErrorWindow(): BrowserWindow {
     })
 
     void windows.error.loadFile(paths.errorHtml)
-
-    windows.error.once('ready-to-show', () => {
-        windows.error.show()
-    })
 
     windows.error.setMenu(null)
 

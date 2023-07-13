@@ -1,42 +1,40 @@
-import { Locale } from '@core/i18n'
+import { localize } from '@core/i18n'
 
 /**
  * Returns localised Electron menu items
  *
  * @method getLocalisedMenuItems
  *
- * @param {function} locale
- *
  * @returns {object}
  */
-export const getLocalisedMenuItems = (locale: Locale): unknown => ({
-    about: locale('views.settings.about.title'),
-    checkForUpdates: locale('actions.checkForUpdates'),
-    settings: locale('views.settings.settings'),
-    general: locale('views.settings.general.title'),
-    security: locale('views.settings.security.title'),
-    advanced: locale('views.settings.advanced.title'),
-    errorLog: locale('views.settings.errorLog.title'),
-    diagnostics: locale('views.settings.diagnostics.title'),
-    logout: locale('views.dashboard.profileModal.logout'),
-    hide: locale('actions.hide'),
-    hideOthers: locale('actions.hideOthers'),
-    showAll: locale('actions.showAll'),
-    quit: locale('actions.quit'),
-    edit: locale('actions.edit'),
-    undo: locale('actions.undo'),
-    redo: locale('actions.redo'),
-    cut: locale('actions.cut'),
-    copy: locale('actions.copy'),
-    paste: locale('actions.paste'),
-    selectAll: locale('actions.selectAll'),
-    wallet: locale('general.wallet'),
-    addAccount: locale('actions.addAccount'),
-    help: locale('general.help'),
-    troubleshoot: locale('views.settings.troubleshoot.title'),
-    faq: locale('views.settings.faq.title'),
-    documentation: locale('views.settings.documentation.title'),
-    discord: locale('views.settings.discord.title'),
-    reportAnIssue: locale('actions.reportAnIssue'),
-    version: locale('general.version'),
+export const getLocalisedMenuItems = (): unknown => ({
+    about: localize('views.settings.about.title'),
+    checkForUpdates: localize('actions.checkForUpdates'),
+    settings: localize('views.settings.settings'),
+    general: localize('views.settings.general.title'),
+    security: localize('views.settings.security.title'),
+    advanced: localize('views.settings.advanced.title'),
+    errorLog: localize('views.settings.errorLog.title'),
+    diagnostics: localize('views.settings.diagnostics.title'),
+    logout: localize('views.dashboard.profileModal.logout'),
+    hide: localize('actions.hide'),
+    hideOthers: localize('actions.hideOthers'),
+    showAll: localize('actions.showAll'),
+    quit: localize('actions.quit'),
+    edit: localize('actions.edit'),
+    undo: localize('actions.undo'),
+    redo: localize('actions.redo'),
+    cut: localize('actions.cut'),
+    copy: localize('actions.copy'),
+    paste: localize('actions.paste'),
+    selectAll: localize('actions.selectAll'),
+    wallet: localize('general.wallet'),
+    addAccount: localize('actions.addAccount'),
+    help: localize('general.help'),
+    troubleshoot: localize('views.settings.troubleshoot.title'),
+    faq: localize('views.settings.faq.title'),
+    documentation: localize('views.settings.documentation.title'),
+    discord: localize('views.settings.discord.title'),
+    reportAnIssue: localize('actions.reportAnIssue'),
+    version: localize('general.version'),
 })
