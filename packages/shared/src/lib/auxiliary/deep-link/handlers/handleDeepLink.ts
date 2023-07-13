@@ -1,7 +1,7 @@
 import { get } from 'svelte/store'
 
 import { closePopup, openPopup, PopupId } from '../../../../../../desktop/lib/auxiliary/popup'
-import { visibleActiveAccounts } from '@core/profile/stores'
+import { getActiveProfile, visibleActiveAccounts } from '@core/profile/stores'
 import { dashboardRouter } from '@core/router/routers'
 import { DashboardRoute } from '@core/router/enums'
 
@@ -13,6 +13,8 @@ import { handleDeepLinkGovernanceContext } from './governance/handleDeepLinkGove
 import { handleDeepLinkWalletContext } from './wallet/handleDeepLinkWalletContext'
 import { handleError } from '@core/error/handlers'
 import { pairWithNewApp } from '@auxiliary/wallet-connect/utils'
+import { showAppNotification } from '@auxiliary/notification'
+import { localize } from '@core/i18n'
 
 /**
  * Parses an IOTA deep link, i.e. a URL that begins with the app protocol i.e "firefly://".
@@ -21,6 +23,16 @@ import { pairWithNewApp } from '@auxiliary/wallet-connect/utils'
  * @returns {void}
  */
 export function handleDeepLink(input: string): void {
+    const { loggedIn } = getActiveProfile()
+
+    if (!get(loggedIn)) {
+        showAppNotification({
+            type: 'info',
+            message: localize('notifications.deepLinkingRequest.receivedWhileLoggedOut'),
+        })
+        return
+    }
+
     isDeepLinkRequestActive.set(true)
     if (!input || typeof input !== 'string') {
         resetDeepLink()
