@@ -24,6 +24,7 @@ window.addEventListener('error', handleErrorEvent)
 window.addEventListener('unhandledrejection', handleUnhandledRejectionEvent)
 
 // Triggers the check if a deep link was passed.
+// This is required in case the app wasn't open when the user clicks the deep link
 window.addEventListener('DOMContentLoaded', () => {
     setTimeout(() => {
         ipcRenderer.send('ready-to-show')
