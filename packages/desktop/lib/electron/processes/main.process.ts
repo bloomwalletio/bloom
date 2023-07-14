@@ -10,6 +10,7 @@ import {
     nativeTheme,
     PopupOptions,
     UtilityProcess,
+    powerMonitor,
 } from 'electron'
 import { WebPreferences } from 'electron/main'
 import path from 'path'
@@ -360,6 +361,16 @@ app.once('ready', () => {
             createMainWindow()
         }
     })
+})
+
+powerMonitor.on('suspend', () => {
+    // MacOS, Windows and Linux
+    windows.main.webContents.send('lock-screen')
+})
+
+powerMonitor.on('lock-screen', () => {
+    // MacOS and Windows
+    windows.main.webContents.send('lock-screen')
 })
 
 // IPC handlers for APIs exposed from main process
