@@ -1,5 +1,5 @@
 <script lang="typescript">
-    import { Text, FontWeight, NftMedia, TooltipIcon, Position } from '@ui'
+    import { Text, FontWeight, NftMedia, TooltipIcon, Position, TooltipType } from '@ui'
 
     import { time } from '@core/app'
     import { localize } from '@core/i18n'
@@ -20,13 +20,13 @@
         tooltipIconProps = {
             icon: Icon.ErrorFilled,
             iconClasses: 'fill-current text-red-700',
-            text: getTooltipText('error'),
+            text: getTooltipText(TooltipType.Error),
         }
     } else if (nft.downloadMetadata.warning) {
         tooltipIconProps = {
             icon: Icon.ExclamationFilled,
             iconClasses: 'fill-current text-yellow-700',
-            text: getTooltipText('warning'),
+            text: getTooltipText(TooltipType.Warning),
         }
     }
 
@@ -35,7 +35,7 @@
         $collectiblesRouter.goTo(CollectiblesRoute.Details)
     }
 
-    function getTooltipText(key: 'error' | 'warning'): string {
+    function getTooltipText(key: TooltipType): string | undefined {
         const { type, message } = nft?.downloadMetadata?.[key] ?? {}
         return type === 'generic' ? message : localize(`error.nft.${type}.short`)
     }

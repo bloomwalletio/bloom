@@ -203,13 +203,13 @@ export class ContactManager {
         }
 
         if (!contact.name) {
-            errors.name = localize('error.contacts.nameRequired')
+            errors.name = localize('error.input.required', { field: localize('general.name') })
         } else if (contact.name.length >= 20) {
-            errors.name = localize('error.contacts.nameTooLong')
+            errors.name = localize('error.input.tooLong', { field: localize('general.name'), numCharacters: 20 })
         }
 
         if (contact.note && contact.note.length > 1000) {
-            errors.note = localize('error.contacts.noteTooLong')
+            errors.note = localize('error.input.tooLong', { field: localize('general.note'), numCharacters: 1000 })
         }
 
         const hasAnyErrors = Object.values(errors).some((error) => !!error)
