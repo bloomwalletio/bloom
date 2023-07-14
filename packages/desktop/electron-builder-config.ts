@@ -1,5 +1,6 @@
-import notarize from './scripts/notarize.macos.js'
 import type { Configuration } from 'electron-builder'
+import path from 'path'
+import { notarize } from 'electron-notarize'
 
 const STAGE = process.env.STAGE || 'alpha'
 
@@ -49,6 +50,31 @@ function getIconPath(): string {
     return `${PATH}/${STAGE}/${NAME}.${EXTENSION}`
 }
 
+async function notarizeMacos(appBundleId, appName): Promise<void> {
+    if (process.platform !== 'darwin' || process.env.MACOS_SKIP_NOTARIZATION) {
+        return
+    }
+
+    const APPLE_ID = process.env.BLOOM_APPLE_ID
+    const APPLE_ID_PASSWORD = process.env.BLOOM_APPLE_ID_PASSWORD
+
+    if (!APPLE_ID) {
+        throw Error('Notarization failed: Environment variable "BLOOM_APPLE_ID" is not defined')
+    }
+
+    if (!APPLE_ID_PASSWORD) {
+        throw Error('Notarization failed: Environment variable "BLOOM_APPLE_ID_PASSWORD" is not defined')
+    }
+
+    await notarize({
+        appBundleId: appBundleId,
+        appPath: path.resolve(__dirname, `../out/mac/${appName}.app`),
+        appleId: APPLE_ID,
+        appleIdPassword: APPLE_ID_PASSWORD,
+        ascProvider: 'UG77RJKZHH',
+    })
+}
+
 const prodConfig: Configuration = {
     productName: APP_NAME,
     artifactName: 'bloom-desktop-${version}.${ext}',
@@ -59,7 +85,7 @@ const prodConfig: Configuration = {
     afterSign: async () => {
         // eslint-disable-next-line no-useless-catch
         try {
-            await notarize(APP_ID, APP_NAME)
+            await notarizeMacos(APP_ID, APP_NAME)
         } catch (err) {
             // This catch is necessary or the promise rejection is swallowed
             throw err
