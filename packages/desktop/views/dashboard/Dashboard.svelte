@@ -66,6 +66,10 @@
             logout()
         })
 
+        Platform.onEvent('lock-screen', () => {
+            logout()
+        })
+
         Platform.DeepLinkManager.checkDeepLinkRequestExists()
 
         if ($activeProfile?.isDeveloperProfile && !developerProfileNotificationId && $nodeInfo) {
