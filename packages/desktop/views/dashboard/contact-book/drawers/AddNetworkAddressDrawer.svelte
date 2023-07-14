@@ -22,6 +22,21 @@
     let addressName: string = ''
     let networkSelection: { networkId: string; address?: string } | undefined
 
+    /**
+     * NOTE: This improves UX slightly by forcing the address-related input errors
+     * to be reset when the network selection changes.
+     */
+    $: networkSelection?.networkId, resetErrors()
+
+    let addressError,
+        addressNameError,
+        networkSelectionError = ''
+    function resetErrors(): void {
+        addressError = ''
+        addressNameError = ''
+        networkSelectionError = ''
+    }
+
     function onSaveClick(): void {
         if (validate()) {
             ContactManager.addContactAddress($selectedContact?.id, networkSelection?.networkId, addressName, address)
@@ -50,12 +65,14 @@
         <NetworkInput
             bind:this={networkSelectionInput}
             bind:networkSelection
+            bind:error={networkSelectionError}
             showLayer2={true}
             validationFunction={() => validateContactNetworkSelection(networkSelection?.networkId)}
         />
         <TextInput
             bind:this={addressNameInput}
             bind:value={addressName}
+            bind:error={addressNameError}
             placeholder={localize('general.addressName')}
             validationFunction={() =>
                 validateContactAddressName(
@@ -67,6 +84,7 @@
         <TextInput
             bind:this={addressInput}
             bind:value={address}
+            bind:error={addressError}
             placeholder={localize('general.address')}
             validationFunction={() =>
                 validateContactAddress(

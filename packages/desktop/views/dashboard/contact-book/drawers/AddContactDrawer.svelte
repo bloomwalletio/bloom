@@ -25,6 +25,21 @@
     let nameInput, noteInput, addressNameInput, addressInput: TextInput
     let networkSelectionInput: NetworkInput
 
+    /**
+     * NOTE: This improves UX slightly by forcing the address-related input errors
+     * to be reset when the network selection changes.
+     */
+    $: networkSelection?.networkId, resetErrors()
+
+    let addressError,
+        addressNameError,
+        networkSelectionError = ''
+    function resetErrors(): void {
+        addressError = ''
+        addressNameError = ''
+        networkSelectionError = ''
+    }
+
     function onSaveClick(): void {
         const contact = { name, note }
         const networkAddress = { networkId: networkSelection?.networkId, addressName, address }
@@ -71,12 +86,14 @@
         <NetworkInput
             bind:this={networkSelectionInput}
             bind:networkSelection
+            bind:error={networkSelectionError}
             showLayer2={true}
             validationFunction={validateContactNetworkSelection}
         />
         <TextInput
             bind:this={addressNameInput}
             bind:value={addressName}
+            bind:error={addressNameError}
             placeholder={localize('general.addressName')}
             label={localize('general.addressName')}
             validationFunction={() =>
@@ -85,6 +102,7 @@
         <TextInput
             bind:this={addressInput}
             bind:value={address}
+            bind:error={addressError}
             placeholder={localize('general.address')}
             label={localize('general.address')}
             validationFunction={() =>
