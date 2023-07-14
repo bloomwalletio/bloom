@@ -2,7 +2,7 @@
     import { MimeType, ParentMimeType } from '@core/nfts'
     import { onMount } from 'svelte'
 
-    export let Media: HTMLImageElement | HTMLVideoElement = undefined
+    export let Media: HTMLImageElement | HTMLVideoElement | undefined = undefined
     export let src: string
     export let expectedType: MimeType
     export let alt: string = ''
@@ -13,10 +13,9 @@
     export let classes: string = ''
     export let isLoaded: boolean
 
-    const htmlTag: string = convertMimeTypeToHtmlTag(expectedType)
-
     let isMounted = false
 
+    $: parentMimeType = getParentMimeType(expectedType)
     $: isLoaded && muteVideo()
 
     function muteVideo() {
@@ -37,16 +36,8 @@
         }
     }
 
-    function convertMimeTypeToHtmlTag(mimeType: MimeType): string {
-        const parentMimeType = mimeType?.split('/', 1)?.[0]
-        switch (parentMimeType) {
-            case ParentMimeType.Image:
-                return 'img'
-            case ParentMimeType.Video:
-                return 'video'
-            default:
-                return undefined
-        }
+    function getParentMimeType(mimeType: MimeType): string | undefined {
+        return mimeType?.split('/', 1)?.[0]
     }
 
     onMount(() => {
@@ -56,19 +47,21 @@
 
 {#if isMounted}
     {#key isLoaded && src}
-        <svelte:element
-            this={htmlTag}
-            bind:this={Media}
-            {src}
-            {alt}
-            autoplay={autoplay ? true : undefined}
-            controls={controls ? true : undefined}
-            loop={loop ? true : undefined}
-            muted
-            class={classes}
-            preload="metadata"
-            on:mouseenter={startPlaying}
-            on:mouseleave={stopPlaying}
-        />
+        {#if parentMimeType === ParentMimeType.Image}
+            <img {src} {alt} class={classes} />
+        {:else if parentMimeType === ParentMimeType.Video}
+            <video
+                bind:this={Media}
+                {src}
+                class={classes}
+                autoplay={autoplay ? true : undefined}
+                controls={controls ? true : undefined}
+                loop={loop ? true : undefined}
+                muted
+                preload="metadata"
+                on:mouseenter={startPlaying}
+                on:mouseleave={stopPlaying}
+            />
+        {/if}
     {/key}
 {/if}

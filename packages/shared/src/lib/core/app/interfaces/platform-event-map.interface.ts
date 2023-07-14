@@ -19,4 +19,5 @@ export interface IPlatformEventMap {
     'evm-address': IEvmAddress
     'evm-signed-transaction': ISignedTransaction
     'ledger-error': Error
+    'lock-screen': void
 }
