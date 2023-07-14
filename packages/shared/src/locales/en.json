@@ -1948,8 +1948,7 @@
         "address": {
             "wrongAddressType": "Wrong address type",
             "invalidBech32Format": "Invalid Bech32 format",
-            "belongsToAccount": "Cannot belong to any of your accounts",
-            "alreadyBeingUsed": "Address already being used"
+            "belongsToAccount": "Cannot belong to any of your accounts"
         },
         "account": {
             "addressNotFound": "The address cannot be found in your account.",

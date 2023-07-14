@@ -60,6 +60,7 @@
             validationFunction={() =>
                 validateContactAddressName(
                     { value: addressName, isRequired: true, checkLength: true, mustBeUnique: true },
+                    $selectedContact?.id,
                     networkSelection.networkId
                 )}
         />
@@ -67,7 +68,11 @@
             bind:this={addressInput}
             bind:value={address}
             placeholder={localize('general.address')}
-            validationFunction={() => validateContactAddress(address, networkSelection?.networkId)}
+            validationFunction={() =>
+                validateContactAddress(
+                    { value: address, isRequired: true, mustBeUnique: true },
+                    networkSelection?.networkId
+                )}
         />
     </add-address>
     <div slot="footer">

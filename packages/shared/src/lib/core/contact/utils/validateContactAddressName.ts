@@ -3,8 +3,9 @@ import { IValidationOptions } from '@core/utils/interfaces'
 
 import { ContactManager } from '../classes'
 import { CONTACT_NAME_MAX_LENGTH } from '../constants'
+import { IContactAddress } from '../interfaces'
 
-export function validateContactAddressName(options: IValidationOptions, networkId: string): void {
+export function validateContactAddressName(options: IValidationOptions, contactId?: string, networkId?: string): void {
     const { isRequired, mustBeUnique, checkLength } = options
 
     const name = options?.value as string
@@ -21,16 +22,12 @@ export function validateContactAddressName(options: IValidationOptions, networkI
         )
     }
 
-    /**
-     * NOTE: We do not need to validate that the name is unique and not being used b/c the user
-     * is adding a contact for the first time when they are in this drawer.
-     */
     if (mustBeUnique) {
-        if (
-            ContactManager.listContactAddressesForNetwork(networkId).some(
-                (contactAddress) => contactAddress.addressName === name
-            )
-        ) {
+        const contactAddressMap = ContactManager.getNetworkContactAddressMapForContact(contactId )?.[networkId]
+        const isAlreadyBeingUsed = Object.values(contactAddressMap).some(
+            (contactAddress: IContactAddress) => contactAddress.addressName === name
+        )
+        if (isAlreadyBeingUsed) {
             throw new Error(localize('error.input.alreadyUsed', { field: localize('general.addressName') }))
         }
     }

@@ -80,17 +80,18 @@
             placeholder={localize('general.addressName')}
             label={localize('general.addressName')}
             validationFunction={() =>
-                validateContactAddressName(
-                    { value: addressName, isRequired: true, checkLength: true },
-                    networkSelection.networkId
-                )}
+                validateContactAddressName({ value: addressName, isRequired: true, checkLength: true })}
         />
         <TextInput
             bind:this={addressInput}
             bind:value={address}
             placeholder={localize('general.address')}
             label={localize('general.address')}
-            validationFunction={() => validateContactAddress(address, networkSelection?.networkId)}
+            validationFunction={() =>
+                validateContactAddress(
+                    { value: address, isRequired: true, mustBeUnique: true },
+                    networkSelection?.networkId
+                )}
         />
     </add-contact>
     <div slot="footer">
