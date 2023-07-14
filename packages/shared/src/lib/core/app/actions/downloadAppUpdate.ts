@@ -1,12 +1,12 @@
 import { localize } from '@core/i18n'
 import {
-    NOTIFICATION_TIMEOUT_NEVER,
+    NOTIFICATION_DURATION_NONE,
     removeDisplayNotification,
     showAppNotification,
     updateDisplayNotification,
     updateDisplayNotificationProgress,
 } from '@auxiliary/notification'
-import { INotificationData } from '@auxiliary/notification'
+import { INotification } from '@auxiliary/notification'
 
 import { Platform } from '../classes'
 import { installAppUpdate } from '../utils'
@@ -110,7 +110,7 @@ export function downloadAppUpdate(): void {
         unsubscribeMinutesRemaining()
     }
 
-    const downloadingNotification: INotificationData = {
+    const downloadingNotification: INotification = {
         type: 'info',
         message: localize('notifications.downloadingUpdate'),
         progress: 0,
@@ -124,7 +124,7 @@ export function downloadAppUpdate(): void {
                 },
             },
         ],
-        timeout: NOTIFICATION_TIMEOUT_NEVER,
+        timeout: NOTIFICATION_DURATION_NONE,
     }
 
     notificationId = showAppNotification(downloadingNotification)

@@ -1,39 +1,53 @@
-import { get } from 'svelte/store'
-
 import { appSettings, Platform } from '@core/app'
-import { generateRandomId } from '@core/utils'
-
-import { DEFAULT_NOTIFICATION_TIMEOUT, NOTIFICATION_TIMEOUT_NEVER } from '../constants'
-import { INotificationData } from '../interfaces'
+import { generateRandomId, PartiallyOptional } from '@core/utils'
+import { get } from 'svelte/store'
+import { DEFAULT_NOTIFICATION_DURATION, NOTIFICATION_DURATION_NONE } from '../constants'
+import { INotification } from '../interfaces'
 import { notifications, removeDisplayNotification } from '../stores'
 
-export function showNotification(notificationData: INotificationData, showSystemNotification: boolean): string {
-    notificationData.id = generateRandomId()
-    notificationData.ts = Date.now()
-    notificationData.actions = notificationData.actions ?? []
-    notificationData.timeout = notificationData.timeout ?? DEFAULT_NOTIFICATION_TIMEOUT
-    if (notificationData.progress !== undefined) {
-        notificationData.progress = Math.min(Math.max(notificationData.progress, 0), 100)
+type optionalDataKeys = 'duration'
+type omittedDataKeys = 'id' | 'creationTime'
+
+type NotificationData = Omit<PartiallyOptional<INotification, optionalDataKeys>, omittedDataKeys>
+
+export function showNotification(
+    notificationData: NotificationData,
+    appNotification: boolean,
+    systemNotification: boolean
+): string {
+    const notification: INotification = {
+        id: generateRandomId(),
+        creationTime: Date.now(),
+        variant: notificationData.variant,
+        text: notificationData.text,
+        duration: notificationData.duration ?? DEFAULT_NOTIFICATION_DURATION,
+        action: notificationData.action,
     }
 
-    if (showSystemNotification && get(appSettings).notifications && Platform.NotificationManager) {
-        Platform.NotificationManager.notify(notificationData.message, notificationData.contextData)
-    } else {
-        for (const action of notificationData.actions) {
-            if (!action.callback) {
-                action.callback = (notificationData): void => removeDisplayNotification(notificationData.id)
-            }
-        }
-
-        notifications.update((_currentNotifications) => {
-            _currentNotifications.push(notificationData)
-            return _currentNotifications
-        })
+    if (systemNotification) {
+        showSystemNotification(notification)
     }
 
-    if (notificationData.timeout !== NOTIFICATION_TIMEOUT_NEVER) {
-        setTimeout(() => removeDisplayNotification(notificationData.id), notificationData.timeout)
+    if (appNotification) {
+        showAppNotification(notification)
     }
 
-    return notificationData.id
+    return notification.id
+}
+
+function showAppNotification(notification: INotification): void {
+    notifications.update((_currentNotifications) => {
+        _currentNotifications.push(notification)
+        return _currentNotifications
+    })
+
+    if (notification.duration !== NOTIFICATION_DURATION_NONE) {
+        setTimeout(() => removeDisplayNotification(notification.id), notification.duration)
+    }
+}
+
+function showSystemNotification(notification: INotification): void {
+    if (get(appSettings).notifications && Platform.NotificationManager) {
+        Platform.NotificationManager.notify(notification.text, {})
+    }
 }

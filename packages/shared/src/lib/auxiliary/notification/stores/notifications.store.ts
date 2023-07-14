@@ -1,9 +1,9 @@
 import { writable } from 'svelte/store'
 
-import { DEFAULT_NOTIFICATION_TIMEOUT, NOTIFICATION_TIMEOUT_NEVER } from '../constants'
-import { INotificationData } from '../interfaces'
+import { DEFAULT_NOTIFICATION_DURATION, NOTIFICATION_DURATION_NONE } from '../constants'
+import { INotification } from '../interfaces'
 
-export const notifications = writable<INotificationData[]>([])
+export const notifications = writable<INotification[]>([])
 
 export function removeDisplayNotification(id: string): void {
     notifications.update((_currentNotifications) => {
@@ -25,7 +25,7 @@ export function updateDisplayNotificationProgress(id: string, progress: number):
     })
 }
 
-export function updateDisplayNotification(id: string, updateData: INotificationData): void {
+export function updateDisplayNotification(id: string, updateData: INotification): void {
     notifications.update((_currentNotifications) => {
         const notification = _currentNotifications.find((n) => n.id === id)
         if (notification) {
@@ -33,9 +33,9 @@ export function updateDisplayNotification(id: string, updateData: INotificationD
             notification.subMessage = updateData.subMessage
             notification.progress = updateData.progress
             notification.actions = updateData.actions
-            notification.timeout = updateData.timeout ?? DEFAULT_NOTIFICATION_TIMEOUT
+            notification.timeout = updateData.timeout ?? DEFAULT_NOTIFICATION_DURATION
 
-            if (notification.timeout !== NOTIFICATION_TIMEOUT_NEVER) {
+            if (notification.timeout !== NOTIFICATION_DURATION_NONE) {
                 setTimeout(() => removeDisplayNotification(notification.id), notification.timeout)
             }
         }
