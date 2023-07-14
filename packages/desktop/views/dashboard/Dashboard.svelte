@@ -11,7 +11,7 @@
     import { appRouter, dashboardRoute } from '@core/router'
     import { Idle } from '@ui'
     import { stopPollingLedgerNanoStatus } from '@core/ledger'
-    import { removeDisplayNotification, showNotification } from '@auxiliary/notification'
+    import { removeAppNotification, showNotification } from '@auxiliary/notification'
     import { Platform } from '@core/app'
     import { Developer } from './developer'
     import { Settings } from './settings'
@@ -85,10 +85,10 @@
         Platform.DeepLinkManager.clearDeepLinkRequest()
 
         if (fundsSoonNotificationId) {
-            removeDisplayNotification(fundsSoonNotificationId)
+            removeAppNotification(fundsSoonNotificationId)
         }
         if (developerProfileNotificationId) {
-            removeDisplayNotification(developerProfileNotificationId)
+            removeAppNotification(developerProfileNotificationId)
         }
         if ($isActiveLedgerProfile) {
             stopPollingLedgerNanoStatus()

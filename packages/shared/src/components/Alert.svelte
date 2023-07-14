@@ -1,7 +1,7 @@
 <script lang="ts">
     import { Icon, Text, FontWeight, TextType } from '@ui'
     import { localize } from '@core/i18n'
-    import { removeDisplayNotification } from '@auxiliary/notification/stores'
+    import { removeAppNotification } from '@auxiliary/notification/stores'
 
     export let type: string
     export let message: string
@@ -37,7 +37,7 @@
     }
 
     function onDismissClick(): void {
-        removeDisplayNotification(id)
+        removeAppNotification(id)
     }
 </script>
 

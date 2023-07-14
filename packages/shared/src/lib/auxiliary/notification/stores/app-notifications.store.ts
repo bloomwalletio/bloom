@@ -3,10 +3,17 @@ import { writable } from 'svelte/store'
 import { DEFAULT_NOTIFICATION_DURATION, NOTIFICATION_DURATION_NONE } from '../constants'
 import { INotification } from '../interfaces'
 
-export const notifications = writable<INotification[]>([])
+export const appNotifications = writable<INotification[]>([])
 
-export function removeDisplayNotification(id: string): void {
-    notifications.update((_currentNotifications) => {
+export function addAppNotification(notification: INotification): void {
+    appNotifications.update((_currentNotifications) => {
+        _currentNotifications.push(notification)
+        return _currentNotifications
+    })
+}
+
+export function removeAppNotification(id: string): void {
+    appNotifications.update((_currentNotifications) => {
         const idx = _currentNotifications.findIndex((n) => n.id === id)
         if (idx >= 0) {
             _currentNotifications.splice(idx, 1)
@@ -16,7 +23,7 @@ export function removeDisplayNotification(id: string): void {
 }
 
 export function updateDisplayNotificationProgress(id: string, progress: number): void {
-    notifications.update((_currentNotifications) => {
+    appNotifications.update((_currentNotifications) => {
         const notification = _currentNotifications.find((n) => n.id === id)
         if (notification) {
             notification.progress = Math.min(Math.max(progress, 0), 100)
@@ -26,7 +33,7 @@ export function updateDisplayNotificationProgress(id: string, progress: number):
 }
 
 export function updateDisplayNotification(id: string, updateData: INotification): void {
-    notifications.update((_currentNotifications) => {
+    appNotifications.update((_currentNotifications) => {
         const notification = _currentNotifications.find((n) => n.id === id)
         if (notification) {
             notification.message = updateData.message
@@ -36,7 +43,7 @@ export function updateDisplayNotification(id: string, updateData: INotification)
             notification.timeout = updateData.timeout ?? DEFAULT_NOTIFICATION_DURATION
 
             if (notification.timeout !== NOTIFICATION_DURATION_NONE) {
-                setTimeout(() => removeDisplayNotification(notification.id), notification.timeout)
+                setTimeout(() => removeAppNotification(notification.id), notification.timeout)
             }
         }
         return _currentNotifications

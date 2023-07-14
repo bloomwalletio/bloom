@@ -3,7 +3,7 @@
 
     import { localize } from '@core/i18n'
 
-    import { removeDisplayNotification } from '@auxiliary/notification/stores'
+    import { removeAppNotification } from '@auxiliary/notification/stores'
 
     import Logo from './Logo.svelte'
     import { INotificationData } from '@auxiliary/notification'
@@ -44,7 +44,7 @@
     $: style = TOAST_STYLE[toast.type]
 
     function onDismissClick(): void {
-        removeDisplayNotification(toast.id)
+        removeAppNotification(toast.id)
     }
 </script>
 

@@ -3,7 +3,7 @@ import { generateRandomId, PartiallyOptional } from '@core/utils'
 import { get } from 'svelte/store'
 import { DEFAULT_NOTIFICATION_DURATION, NOTIFICATION_DURATION_NONE } from '../constants'
 import { INotification } from '../interfaces'
-import { notifications, removeDisplayNotification } from '../stores'
+import { addAppNotification, removeAppNotification } from '../stores'
 
 type optionalDataKeys = 'duration'
 type omittedDataKeys = 'id' | 'creationTime'
@@ -36,13 +36,10 @@ export function showNotification(
 }
 
 function showAppNotification(notification: INotification): void {
-    notifications.update((_currentNotifications) => {
-        _currentNotifications.push(notification)
-        return _currentNotifications
-    })
+    addAppNotification(notification)
 
     if (notification.duration !== NOTIFICATION_DURATION_NONE) {
-        setTimeout(() => removeDisplayNotification(notification.id), notification.duration)
+        setTimeout(() => removeAppNotification(notification.id), notification.duration)
     }
 }
 

@@ -3,7 +3,7 @@
 
     import { Swiper, Toast } from './'
 
-    import { notifications } from '@auxiliary/notification/stores'
+    import { appNotifications } from '@auxiliary/notification/stores'
 
     export let classes: string = ''
     export let swipe: boolean = false
@@ -11,10 +11,10 @@
     export let showDismiss = false
 </script>
 
-{#if $notifications?.length > 0}
+{#if $appNotifications?.length > 0}
     <toast-container class={`flex flex-col z-50 ${classes}`} transition:fade|local={{ duration: fadeDuration }}>
         <ul class="space-y-2">
-            {#each $notifications as toast (toast.id)}
+            {#each $appNotifications as toast (toast.id)}
                 <li transition:fade|local={{ duration: fadeDuration }}>
                     {#if swipe}
                         <Swiper toastId={toast.id}>
