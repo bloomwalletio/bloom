@@ -79,7 +79,11 @@
             bind:value={addressName}
             placeholder={localize('general.addressName')}
             label={localize('general.addressName')}
-            validationFunction={validateContactAddressName}
+            validationFunction={() =>
+                validateContactAddressName(
+                    { value: addressName, isRequired: true, checkLength: true },
+                    networkSelection.networkId
+                )}
         />
         <TextInput
             bind:this={addressInput}

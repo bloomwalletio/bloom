@@ -30,9 +30,9 @@ export function validateContactAddress(address: string, networkId: string): void
     }
 
     if (
-        ContactManager.listContactAddressesForNetwork(networkId)
-            .map((contactAddress) => contactAddress.address)
-            .includes(address)
+        ContactManager.listContactAddressesForNetwork(networkId).some(
+            (contactAddress) => contactAddress.address === address
+        )
     ) {
         throw new Error(localize('error.address.alreadyBeingUsed'))
     }
