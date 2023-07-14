@@ -12,8 +12,8 @@ type NotificationData = Omit<PartiallyOptional<INotification, optionalDataKeys>,
 
 export function showNotification(
     notificationData: NotificationData,
-    appNotification: boolean,
-    systemNotification: boolean
+    systemNotification?: boolean,
+    appNotification: boolean = true
 ): string {
     const notification: INotification = {
         id: generateRandomId(),
