@@ -1,110 +1,69 @@
 <script lang="ts">
-    import { Alert, Icon } from '@ui'
-
+    import { Icon, Text, FontWeight, TextType } from '@ui'
     import { localize } from '@core/i18n'
-
     import { removeAppNotification } from '@auxiliary/notification/stores'
 
-    import Logo from './Logo.svelte'
-    import { INotificationData } from '@auxiliary/notification'
-
-    export let toast: INotificationData
-    export let classes: string = ''
+    export let id: string = ''
+    export let variant: string
+    export let text: string
     export let showDismiss: boolean = false
+    export let classes: string = ''
 
     const TOAST_STYLE = {
         info: {
-            backgroundColor: 'blue-500',
-            iconBackgroundColor: 'white',
-            logo: 'logo-firefly',
-            messageColor: 'white',
-            subMessageColor: 'blue-300',
-            buttonSecondary: 'white',
+            backgroundColor: 'blue-100',
+            iconColor: 'blue-700',
+            icon: 'info-filled',
+            messageColor: 'blue-700',
+        },
+        success: {
+            backgroundColor: 'green-100',
+            iconColor: 'green-800',
+            icon: 'checkmark-filled',
+            messageColor: 'green-800',
         },
         warning: {
             backgroundColor: 'yellow-100',
-            iconBackgroundColor: 'yellow-500',
-            icon: 'info',
-            iconColor: 'white',
-            messageColor: 'gray-800',
-            subMessageColor: 'gray-600',
-            buttonSecondary: 'black',
+            iconColor: 'yellow-800',
+            icon: 'exclamation-filled',
+            messageColor: 'yellow-800',
         },
         error: {
-            backgroundColor: 'red-50',
-            iconBackgroundColor: 'red-500',
-            icon: 'warning',
-            iconColor: 'white',
-            messageColor: 'red-500',
-            subMessageColor: 'gray-600',
-            buttonSecondary: 'black',
+            backgroundColor: 'red-100',
+            iconColor: 'red-700',
+            icon: 'error-filled',
+            messageColor: 'red-700',
         },
     }
 
-    $: style = TOAST_STYLE[toast.type]
-
     function onDismissClick(): void {
-        removeAppNotification(toast.id)
+        removeAppNotification(id)
     }
 </script>
 
-{#if toast.alert}
-    <Alert type={toast.type} message={toast.message} id={toast.id} {showDismiss} />
-{:else}
-    <div class="{classes} flex flex-row items-center bg-{style?.backgroundColor} rounded-lg px-6 py-4">
-        <div
-            style={'width:40px;height:40px'}
-            class="flex shrink-0 justify-center items-center bg-{style?.iconBackgroundColor} rounded-lg text-{style?.iconColor}"
+<div class="{classes} flex flex-row items-center rounded-xl p-4 bg-{TOAST_STYLE[variant].backgroundColor}">
+    <Icon
+        height={24}
+        width={24}
+        primaryColor="white"
+        icon={TOAST_STYLE?.[variant]?.icon}
+        classes="fill-current text-{TOAST_STYLE?.[variant]?.iconColor}"
+    />
+    <div class="flex flex-auto flex-col px-4">
+        <Text
+            type={TextType.p}
+            fontWeight={FontWeight.semibold}
+            class="flex text-13 text text-{TOAST_STYLE[variant].messageColor}">{text}</Text
         >
-            {#if style?.logo}
-                <Logo logo={style?.logo} overrideStage="prod" />
-            {:else}
-                <Icon icon={style?.icon} />
-            {/if}
-        </div>
-        <div class="flex flex-auto flex-col px-4">
-            <span class="flex text-12 text-{style?.messageColor}">{toast.message}</span>
-            {#if toast.progress !== undefined}
-                <span class="block bg-{style?.subMessageColor}" style={'width:100%;height:2px;margin:4px 0'}>
-                    <span class="block bg-{style?.messageColor}" style={`width:${toast.progress}%;height:2px`} />
-                </span>
-            {/if}
-            {#if toast.subMessage}
-                <span class="flex text-11 text-{style?.subMessageColor}">
-                    {toast.subMessage}
-                </span>
-            {/if}
-        </div>
-        {#if toast.actions && toast.actions.length > 0}
-            <div class="flex flex-col" style="min-width:90px">
-                {#each toast.actions as action, actionIndex}
-                    <button
-                        class="cursor-pointer text-center rounded-lg font-bold text-11 {action.isPrimary
-                            ? 'bg-white'
-                            : ''} text-{action.isPrimary ? 'black' : style?.buttonSecondary}"
-                        style={'min-width:90px;min-height:32px'}
-                        on:click={() => action.callback(toast, actionIndex)}
-                    >
-                        {action.label}
-                    </button>
-                {/each}
-            </div>
-        {:else if showDismiss}
-            <button
-                type="button"
-                on:click={onDismissClick}
-                class="dismiss-min-wh cursor-pointer text-center rounded-lg
-                font-bold text-11 text-{style?.messageColor}"
-            >
-                {localize('actions.dismiss')}
-            </button>
-        {/if}
     </div>
-{/if}
-
-<style lang="scss">
-    .dismiss-min-wh {
-        min-width: 90px;
-        min-height: 32px;
-    }
-</style>
+    {#if showDismiss}
+        <button
+            type="button"
+            on:click={onDismissClick}
+            class="dismiss-min-wh cursor-pointer text-center rounded-lg
+            font-bold text-11 text-{TOAST_STYLE[variant].messageColor}"
+        >
+            {localize('actions.dismiss')}
+        </button>
+    {/if}
+</div>
