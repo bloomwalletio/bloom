@@ -14,7 +14,7 @@ try {
     execSync('tsc --esModuleInterop electron-builder-config.ts', { stdio: 'inherit' })
 
     // Build the command based on the stage and OS flag
-    const command = `cross-env STAGE=${stage} electron-builder ${osFlag} --x64 --config electron-builder-config.js`
+    const command = `cross-env STAGE=${stage} electron-builder --${osFlag} --x64 --config electron-builder-config.js`
 
     // Run the electron-builder command
     execSync(command, { stdio: 'inherit' })
