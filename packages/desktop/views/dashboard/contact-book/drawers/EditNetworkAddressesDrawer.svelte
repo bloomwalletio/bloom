@@ -19,26 +19,12 @@
     let addresses: IContactAddress[] = []
     let addressesToRemove: string[] = []
 
-    function updateNetworkAddresses(): void {
-        try {
-            showAppNotification({
-                type: 'success',
-                message: localize('notifications.updateNetworkAddresses.success'),
-                alert: true,
-            })
-            ContactManager.updateContactAddresses($selectedContact.id, addresses)
-            if (addressesToRemove.length) {
-                ContactManager.deleteContactAddresses($selectedContact.id, $selectedContactNetworkId, addressesToRemove)
-            }
-            drawerRouter.previous()
-        } catch (err) {
-            console.error(err)
-        }
-    }
+    let inputs: TextInput[][] = []
 
-    function onRemoveClick(indexToRemove: number): void {
+    function onRemoveAddressClick(indexToRemove: number): void {
         addressesToRemove = [...addressesToRemove, addresses[indexToRemove].address]
         addresses = addresses.filter((_, index) => index !== indexToRemove)
+        inputs = inputs.filter((_, index) => index !== indexToRemove)
     }
 
     function onAddAddressClick(): void {
@@ -46,11 +32,71 @@
             ...addresses,
             { contactId: $selectedContact.id, networkId: $selectedContactNetworkId, addressName: '', address: '' },
         ]
+        inputs = [...inputs, [undefined, undefined]]
+    }
+
+    function onSaveClick(): void {
+        try {
+            if (validate()) {
+                ContactManager.updateContactAddresses($selectedContact.id, addresses)
+                if (addressesToRemove.length) {
+                    ContactManager.deleteContactAddresses(
+                        $selectedContact.id,
+                        $selectedContactNetworkId,
+                        addressesToRemove
+                    )
+                }
+                showAppNotification({
+                    type: 'success',
+                    message: localize('notifications.updateNetworkAddresses.success'),
+                    alert: true,
+                })
+                drawerRouter.previous()
+            }
+        } catch (err) {
+            console.error(err)
+        }
+    }
+
+    function validate(): boolean {
+        let handledError = false
+        for (const [index, addressInputs] of Object.values(inputs).entries()) {
+            for (const input of Object.values(addressInputs)) {
+                try {
+                    input.validate()
+                } catch (err) {
+                    handledError = true
+                }
+            }
+            const isUniqueAddress = !addresses.some((address) => address.address === addresses[index].address)
+            if (!isUniqueAddress) {
+                showAppNotification({
+                    type: 'error',
+                    alert: true,
+                    message: localize('error.input.alreadyUsed', { field: localize('general.address') }),
+                })
+                return false
+            }
+
+            const isUniqueAddressName = !addresses.some(
+                (address) => address.addressName === addresses[index].addressName
+            )
+            if (!isUniqueAddressName) {
+                showAppNotification({
+                    type: 'error',
+                    alert: true,
+                    message: localize('error.input.alreadyUsed', { field: localize('general.addressName') }),
+                })
+                return false
+            }
+        }
+        return !handledError
     }
 
     onMount(() => {
         const contactAddresses = ContactManager.getNetworkContactAddressMapForContact($selectedContact?.id)
         addresses = Object.values(contactAddresses?.[$selectedContactNetworkId] ?? {}) || []
+        inputs = addresses.map(() => [undefined, undefined])
     })
 </script>
 
@@ -64,11 +110,13 @@
                 class="flex flex-col justify-between gap-2 p-4 border border-solid border-gray-300 rounded-lg dark:border-transparent dark:bg-gray-900"
             >
                 <TextInput
+                    bind:this={inputs[index][0]}
                     bind:value={addresses[index].addressName}
                     placeholder={localize('general.addressName')}
                     label={localize('general.addressName')}
                 />
                 <TextInput
+                    bind:this={inputs[index][1]}
                     bind:value={addresses[index].address}
                     placeholder={localize('general.address')}
                     label={localize('general.address')}
@@ -78,7 +126,7 @@
                     size={ButtonSize.Small}
                     variant={ButtonVariant.Warning}
                     classes="flex-1"
-                    onClick={() => onRemoveClick(index)}
+                    onClick={() => onRemoveAddressClick(index)}
                 >
                     {localize('actions.remove')}
                 </Button>
@@ -96,6 +144,6 @@
         </button>
     </update-addresses>
     <div slot="footer">
-        <Button onClick={updateNetworkAddresses} classes="w-full">{localize('actions.save')}</Button>
+        <Button onClick={onSaveClick} classes="w-full">{localize('actions.save')}</Button>
     </div>
 </DrawerTemplate>
