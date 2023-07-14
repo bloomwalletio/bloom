@@ -39,7 +39,7 @@
             <MeatballMenuButton onClick={modal?.toggle} />
             <Modal bind:this={modal} position={{ right: '0' }} classes="mt-1.5">
                 <div class="flex flex-col">
-                    {#if features.wallet.contacts.editContact.enabled}
+                    {#if features.contact.editContact.enabled}
                         <MenuItem
                             icon={IconEnum.Edit}
                             iconProps={{ height: 18 }}
@@ -49,7 +49,7 @@
                             onClick={onEditContactClick}
                         />
                     {/if}
-                    {#if features.wallet.contacts.removeContact.enabled}
+                    {#if features.contact.removeContact.enabled}
                         <MenuItem
                             icon={IconEnum.Delete}
                             title={localize(

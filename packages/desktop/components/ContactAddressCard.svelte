@@ -67,7 +67,7 @@
             <MeatballMenuButton onClick={modal?.toggle} classes="py-2" />
             <Modal bind:this={modal} position={{ right: '0' }} classes="mt-1.5">
                 <div class="flex flex-col">
-                    {#if features.wallet.contacts.editNetworkAddresses.enabled}
+                    {#if features.contact.editNetworkAddresses.enabled}
                         <MenuItem
                             icon={IconEnum.Edit}
                             iconProps={{ height: 18 }}

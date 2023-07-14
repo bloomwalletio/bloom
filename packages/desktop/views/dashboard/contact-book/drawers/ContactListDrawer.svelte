@@ -35,7 +35,7 @@
             <ContactCard {contact} onCardClick={() => onContactClick(contact)} />
         {/each}
     </contact-list>
-    {#if features.wallet.contacts.addContact.enabled}
+    {#if features.contact.addContact.enabled}
         <Button
             slot="footer"
             class="w-full"
