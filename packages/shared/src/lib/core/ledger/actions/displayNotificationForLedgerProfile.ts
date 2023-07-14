@@ -2,7 +2,7 @@ import { get } from 'svelte/store'
 
 import { localize } from '@core/i18n'
 import { NotificationType } from '@auxiliary/notification'
-import { isNewNotification, showAppNotification } from '@auxiliary/notification'
+import { isNewNotification, showNotification } from '@auxiliary/notification'
 
 import { ledgerConnectionState } from '../stores'
 import { getLedgerDeviceStatus } from './getLedgerDeviceStatus'
@@ -25,10 +25,9 @@ export function displayNotificationForLedgerProfile(
             const stateErrorMessage = localize(`error.ledger.${_ledgerConnectionState}`)
             const errorMessage = error?.error ? localize(error.error) : error
             const message = error ? errorMessage : stateErrorMessage
-            notificationId = showAppNotification({
-                type: notificationType,
-                alert: true,
-                message,
+            notificationId = showNotification({
+                variant: notificationType,
+                text: message,
             })
         }
     }

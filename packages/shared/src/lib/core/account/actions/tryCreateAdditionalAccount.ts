@@ -1,6 +1,6 @@
 import { get } from 'svelte/store'
 
-import { showAppNotification } from '@auxiliary/notification/actions'
+import { showNotification } from '@auxiliary/notification/actions'
 import { registerProposalsFromNodes } from '@contexts/governance/actions'
 import { Platform } from '@core/app/classes'
 import { localize } from '@core/i18n'
@@ -27,9 +27,9 @@ export async function tryCreateAdditionalAccount(alias: string, color: string): 
             if (get(isActiveLedgerProfile)) {
                 displayNotificationForLedgerProfile('error', true, false, err)
             } else {
-                showAppNotification({
-                    type: 'error',
-                    message: localize(errorMessage) ?? errorMessage,
+                showNotification({
+                    variant: 'error',
+                    text: localize(errorMessage) ?? errorMessage,
                 })
             }
         }

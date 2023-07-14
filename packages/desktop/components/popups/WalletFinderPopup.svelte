@@ -2,7 +2,7 @@
     import { onDestroy } from 'svelte'
     import { Button, KeyValueBox, Text, TextHint, FontWeight, TextType } from '@ui'
     import { closePopup, openPopup, PopupId } from '@desktop/auxiliary/popup'
-    import { showAppNotification } from '@auxiliary/notification'
+    import { showNotification } from '@auxiliary/notification'
     import { displayNotificationForLedgerProfile, ledgerNanoStatus } from '@core/ledger'
     import { sumBalanceForAccounts } from '@core/account'
     import { localize } from '@core/i18n'
@@ -92,9 +92,9 @@
                 if ($isActiveLedgerProfile) {
                     displayNotificationForLedgerProfile('error', true, true, err)
                 } else {
-                    showAppNotification({
-                        type: 'error',
-                        message: localize(err.error),
+                    showNotification({
+                        variant: 'error',
+                        text: localize(err.error),
                     })
                 }
             } finally {

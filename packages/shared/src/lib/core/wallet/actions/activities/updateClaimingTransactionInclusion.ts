@@ -1,6 +1,6 @@
 import { ActivityAsyncStatus, ActivityType, InclusionState } from '@core/wallet/enums'
 import { addClaimedActivity, allAccountActivities } from '@core/wallet/stores'
-import { showAppNotification } from '@auxiliary/notification'
+import { showNotification } from '@auxiliary/notification'
 import { localize } from '@core/i18n'
 import { updateActivityFromPartialActivity } from '@core/wallet/utils/generateActivity/helper'
 
@@ -31,10 +31,9 @@ export function updateClaimingTransactionInclusion(
                     claimedTimestamp: new Date().getTime(),
                 })
 
-                showAppNotification({
-                    type: 'success',
-                    alert: true,
-                    message: localize('notifications.claimed.success'),
+                showNotification({
+                    variant: 'success',
+                    text: localize('notifications.claimed.success'),
                 })
             } else if (inclusionState === InclusionState.Conflicting) {
                 updateActivityFromPartialActivity(activity, {
@@ -46,10 +45,9 @@ export function updateClaimingTransactionInclusion(
                         asyncStatus: ActivityAsyncStatus.Unclaimed,
                     },
                 })
-                showAppNotification({
-                    type: 'error',
-                    alert: true,
-                    message: localize('notifications.claimed.error'),
+                showNotification({
+                    variant: 'error',
+                    text: localize('notifications.claimed.error'),
                 })
             }
         }

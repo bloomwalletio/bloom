@@ -12,7 +12,7 @@
     import { Router } from '@core/router'
 
     import { Icon as IconEnum } from '@auxiliary/icon'
-    import { showAppNotification } from '@auxiliary/notification'
+    import { showNotification } from '@auxiliary/notification'
 
     export let drawerRouter: Router<unknown>
 
@@ -21,10 +21,9 @@
 
     function updateNetworkAddresses(): void {
         try {
-            showAppNotification({
-                type: 'success',
-                message: localize('notifications.updateNetworkAddresses.success'),
-                alert: true,
+            showNotification({
+                variant: 'success',
+                text: localize('notifications.updateNetworkAddresses.success'),
             })
             ContactManager.updateContactAddresses($selectedContact.id, addresses)
             if (addressesToRemove.length) {

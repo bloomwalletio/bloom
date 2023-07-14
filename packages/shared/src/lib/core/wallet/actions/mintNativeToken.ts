@@ -1,5 +1,5 @@
 import { get } from 'svelte/store'
-import { showAppNotification } from '@auxiliary/notification'
+import { showNotification } from '@auxiliary/notification'
 import { selectedAccount, updateSelectedAccount } from '@core/account'
 import { localize } from '@core/i18n'
 import { Converter } from '@core/utils'
@@ -37,10 +37,9 @@ export async function mintNativeToken(
 
         await processAndAddToActivities(mintTokenTransaction.transaction, account)
 
-        showAppNotification({
-            type: 'success',
-            message: localize('notifications.mintNativeToken.success'),
-            alert: true,
+        showNotification({
+            variant: 'success',
+            text: localize('notifications.mintNativeToken.success'),
         })
         resetMintTokenDetails()
     } catch (err) {

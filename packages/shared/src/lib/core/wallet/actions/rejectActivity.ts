@@ -3,7 +3,7 @@ import { get } from 'svelte/store'
 import { updateAsyncDataByActivityId } from '../stores'
 import { hiddenActivities } from '../stores/hidden-activities.store'
 import { localize } from '@core/i18n'
-import { showAppNotification } from '@auxiliary/notification'
+import { showNotification } from '@auxiliary/notification'
 import { activeProfileId } from '@core/profile'
 
 export function rejectActivity(id: string): void {
@@ -25,9 +25,8 @@ export function rejectActivity(id: string): void {
     })
 
     updateAsyncDataByActivityId(accountIndex, id, { isRejected: true })
-    showAppNotification({
-        type: 'success',
-        alert: true,
-        message: localize('notifications.hideActivity.success'),
+    showNotification({
+        variant: 'success',
+        text: localize('notifications.hideActivity.success'),
     })
 }

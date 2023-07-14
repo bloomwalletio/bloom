@@ -1,6 +1,6 @@
 <script lang="ts">
     import { Icon as IconEnum } from '@auxiliary/icon'
-    import { showAppNotification } from '@auxiliary/notification'
+    import { showNotification } from '@auxiliary/notification'
     import { OnboardingLayout } from '@components'
     import { updateOnboardingProfile } from '@contexts/onboarding/stores'
     import { exportStronghold } from '@contexts/settings/actions'
@@ -47,14 +47,14 @@
     function handleExportStrongholdResponse(cancelled: boolean, error: string): void {
         if (!cancelled) {
             if (error) {
-                showAppNotification({
-                    type: 'error',
-                    message: localize(error),
+                showNotification({
+                    variant: 'error',
+                    text: localize(error),
                 })
             } else {
-                showAppNotification({
-                    type: 'info',
-                    message: localize('general.exportingStrongholdSuccess'),
+                showNotification({
+                    variant: 'info',
+                    text: localize('general.exportingStrongholdSuccess'),
                 })
             }
         }

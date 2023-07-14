@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { showAppNotification } from '@auxiliary/notification'
+    import { showNotification } from '@auxiliary/notification'
     import { OnboardingLayout } from '@components'
     import { handleError } from '@core/error/handlers'
     import { localize } from '@core/i18n'
@@ -64,10 +64,9 @@
             try {
                 isSubmitBusy = true
                 await changeStrongholdPassword(oldPassword, newPassword)
-                showAppNotification({
-                    alert: true,
-                    type: 'success',
-                    message: localize('general.passwordSuccess'),
+                showNotification({
+                    variant: 'success',
+                    text: localize('general.passwordSuccess'),
                 })
                 $updateStrongholdRouter.next()
             } catch (err) {

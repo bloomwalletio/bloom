@@ -11,7 +11,7 @@
     import { appRouter, dashboardRoute } from '@core/router'
     import { Idle } from '@ui'
     import { stopPollingLedgerNanoStatus } from '@core/ledger'
-    import { removeDisplayNotification, showAppNotification } from '@auxiliary/notification'
+    import { removeDisplayNotification, showNotification } from '@auxiliary/notification'
     import { Platform } from '@core/app'
     import { Developer } from './developer'
     import { Settings } from './settings'
@@ -70,9 +70,9 @@
 
         if ($activeProfile?.isDeveloperProfile && !developerProfileNotificationId && $nodeInfo) {
             // Show developer profile warning
-            developerProfileNotificationId = showAppNotification({
-                type: 'warning',
-                message: localize('indicators.developerProfileIndicator.warningText', {
+            developerProfileNotificationId = showNotification({
+                variant: 'warning',
+                text: localize('indicators.developerProfileIndicator.warningText', {
                     values: { networkName: $nodeInfo.protocol.networkName },
                 }),
             })

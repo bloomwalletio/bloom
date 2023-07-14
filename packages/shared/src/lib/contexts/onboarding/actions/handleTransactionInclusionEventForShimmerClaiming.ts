@@ -3,7 +3,7 @@ import { get } from 'svelte/store'
 import { localize } from '@core/i18n'
 import { ITransactionInclusionEventPayload, validateWalletApiEvent, WalletApiEvent } from '@core/profile-manager'
 import { InclusionState, MissingTransactionIdError } from '@core/wallet'
-import { showAppNotification } from '@auxiliary/notification'
+import { showNotification } from '@auxiliary/notification'
 
 import { ShimmerClaimingAccountState } from '../enums'
 import { MissingShimmerClaimingAccountError } from '../errors'
@@ -36,10 +36,9 @@ export function handleTransactionInclusionEventForShimmerClaimingInternal(
                     ...shimmerClaimingAccount,
                     state: ShimmerClaimingAccountState.FullyClaimed,
                 })
-                showAppNotification({
-                    type: 'success',
-                    alert: true,
-                    message: localize('notifications.claimShimmerRewards.success', {
+                showNotification({
+                    variant: 'success',
+                    text: localize('notifications.claimShimmerRewards.success', {
                         values: { accountAlias: shimmerClaimingAccount?.getMetadata()?.alias },
                     }),
                 })
@@ -73,10 +72,9 @@ function handleShimmerClaimingTransactionInclusionEventFailure(
         state: ShimmerClaimingAccountState.Failed,
     })
     if (displayNotification) {
-        showAppNotification({
-            type: 'error',
-            alert: true,
-            message: localize('notifications.claimShimmerRewards.error'),
+        showNotification({
+            variant: 'error',
+            text: localize('notifications.claimShimmerRewards.error'),
         })
     }
 }

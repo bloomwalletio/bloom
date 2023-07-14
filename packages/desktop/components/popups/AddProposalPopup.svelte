@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { showAppNotification } from '@auxiliary/notification/actions'
+    import { showNotification } from '@auxiliary/notification/actions'
     import { closePopup, openPopup, PopupId } from '@desktop/auxiliary/popup'
     import { registerProposalsForAccounts, registeredProposalsForSelectedAccount } from '@contexts/governance'
     import { selectedAccount } from '@core/account'
@@ -51,18 +51,16 @@
             if (isAuthenticationError) {
                 openNodeAuthRequiredPopup()
             } else if (isEventError) {
-                showAppNotification({
-                    type: 'error',
-                    alert: true,
-                    message: localize('error.governance.unableToAddProposal.long', {
+                showNotification({
+                    variant: 'error',
+                    text: localize('error.governance.unableToAddProposal.long', {
                         values: { proposalId: truncateString(eventId) },
                     }),
                 })
             } else if (isNodeError) {
-                showAppNotification({
-                    type: 'error',
-                    alert: true,
-                    message: localize('error.node.dns'),
+                showNotification({
+                    variant: 'error',
+                    text: localize('error.node.dns'),
                 })
             } else if (!nodeInputError && !eventIdError) {
                 handleError(err)
@@ -84,10 +82,9 @@
         }
         const accounts = isAddingForAllAccounts ? $activeAccounts : [$selectedAccount]
         await registerProposalsForAccounts(options, accounts)
-        showAppNotification({
-            type: 'success',
-            message: generateSuccessMessage(),
-            alert: true,
+        showNotification({
+            variant: 'success',
+            text: generateSuccessMessage(),
         })
         closePopup()
     }

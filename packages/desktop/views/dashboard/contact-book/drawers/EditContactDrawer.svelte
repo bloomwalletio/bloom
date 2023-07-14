@@ -8,7 +8,7 @@
     import { localize } from '@core/i18n'
     import { Router } from '@core/router'
 
-    import { showAppNotification } from '@auxiliary/notification'
+    import { showNotification } from '@auxiliary/notification'
 
     export let drawerRouter: Router<unknown>
 
@@ -34,10 +34,9 @@
             const contact = { ...$selectedContact, name: contactName, note: contactNote }
             ContactManager.validateContact(contact)
             ContactManager.updateContact($selectedContact.id, contact)
-            showAppNotification({
-                type: 'success',
-                message: localize('notifications.updateContact.success'),
-                alert: true,
+            showNotification({
+                variant: 'success',
+                text: localize('notifications.updateContact.success'),
             })
 
             drawerRouter.previous()
