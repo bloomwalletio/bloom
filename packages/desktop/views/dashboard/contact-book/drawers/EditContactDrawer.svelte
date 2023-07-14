@@ -4,47 +4,49 @@
     import { Button, TextInput } from '@ui'
     import { DrawerTemplate } from '@components'
 
-    import { ContactManager, selectedContact } from '@core/contact'
+    import { ContactManager, selectedContact, validateContactName, validateContactNote } from '@core/contact'
     import { localize } from '@core/i18n'
     import { Router } from '@core/router'
-
     import { showAppNotification } from '@auxiliary/notification'
 
     export let drawerRouter: Router<unknown>
 
+    let nameInput, noteInput: TextInput
     let contactName = $selectedContact.name
     let contactNote = $selectedContact.note
-    let contactErrors = {
-        name: '',
-        note: '',
-    }
-
-    $: contactName, contactNote, resetErrors()
-
-    function resetErrors(): void {
-        contactErrors = {
-            name: '',
-            note: '',
-        }
-    }
 
     function updateContact(): void {
-        resetErrors()
         try {
-            const contact = { ...$selectedContact, name: contactName, note: contactNote }
-            ContactManager.validateContact(contact)
-            ContactManager.updateContact($selectedContact.id, contact)
-            showAppNotification({
-                type: 'success',
-                message: localize('notifications.updateContact.success'),
-                alert: true,
-            })
+            if (validate()) {
+                const contact = { ...$selectedContact, name: contactName, note: contactNote }
+                ContactManager.updateContact($selectedContact.id, contact)
+                showAppNotification({
+                    type: 'success',
+                    message: localize('notifications.updateContact.success'),
+                    alert: true,
+                })
 
-            drawerRouter.previous()
+                drawerRouter.previous()
+            }
         } catch (error) {
-            contactErrors.name = error.name
-            contactErrors.note = error.note
+            showAppNotification({
+                type: 'error',
+                alert: true,
+                message: error?.message ?? error,
+            })
         }
+    }
+
+    function validate(): boolean {
+        let handledError = false
+        for (const input of [nameInput, noteInput]) {
+            try {
+                input.validate()
+            } catch (err) {
+                handledError = true
+            }
+        }
+        return !handledError
     }
 </script>
 
@@ -54,16 +56,18 @@
 >
     <update-contact class="flex flex-col justify-between gap-4">
         <TextInput
+            bind:this={nameInput}
             bind:value={contactName}
             placeholder={localize('general.name')}
             label={localize('general.name')}
-            error={contactErrors.name}
+            validationFunction={validateContactName}
         />
         <TextInput
+            bind:this={noteInput}
             bind:value={contactNote}
             placeholder={localize('general.note')}
             label={localize('general.note')}
-            error={contactErrors.note}
+            validationFunction={validateContactNote}
         />
     </update-contact>
     <div slot="footer">
