@@ -1,45 +1,20 @@
-import { localize } from '@core/i18n'
-import {
-    NOTIFICATION_DURATION_NONE,
-    removeAppNotification,
-    showNotification,
-    updateDisplayNotification,
-    updateDisplayNotificationProgress,
-} from '@auxiliary/notification'
-import { INotification } from '@auxiliary/notification'
-
 import { Platform } from '../classes'
-import { installAppUpdate } from '../utils'
-import {
-    appUpdateBusy,
-    appUpdateComplete,
-    appUpdateError,
-    appUpdateMinutesRemaining,
-    appUpdateProgress,
-} from '../stores'
-import { cancelAppUpdateDownload } from './cancelAppUpdateDownload'
-
-function resetAppUpdateStores(): void {
-    appUpdateProgress.set(0)
-    appUpdateMinutesRemaining.set(-1)
-    appUpdateBusy.set(true)
-    appUpdateComplete.set(false)
-    appUpdateError.set(false)
-}
+import { resetAppUpdateState } from '../stores'
 
 /**
  * Initializes the download for an application update.
  */
 export function downloadAppUpdate(): void {
-    resetAppUpdateStores()
+    resetAppUpdateState()
+    void Platform.downloadAppUpdate()
 
-    let notificationId = undefined
+    // let notificationId = undefined
 
-    const unsubscribeProgress = appUpdateProgress.subscribe((progress) => {
+    /*     const unsubscribeProgress = appUpdateProgress.subscribe((progress) => {
         updateDisplayNotificationProgress(notificationId, progress)
     })
-
-    const unsubscribeMinutesRemaining = appUpdateMinutesRemaining.subscribe((minutesRemaining) => {
+ */
+    /*     const unsubscribeMinutesRemaining = appUpdateMinutesRemaining.subscribe((minutesRemaining) => {
         if (minutesRemaining > 0) {
             updateDisplayNotification(notificationId, {
                 ...downloadingNotification,
@@ -54,9 +29,9 @@ export function downloadAppUpdate(): void {
                           }),
             })
         }
-    })
+    }) */
 
-    const unsubscribeUpdateComplete = appUpdateComplete.subscribe((isComplete) => {
+    /*     const unsubscribeUpdateComplete = appUpdateComplete.subscribe((isComplete) => {
         if (isComplete) {
             updateDisplayNotification(notificationId, {
                 ...downloadingNotification,
@@ -76,9 +51,9 @@ export function downloadAppUpdate(): void {
                 ],
             })
         }
-    })
+    }) */
 
-    const unsubscribeErrors = appUpdateError.subscribe((isError) => {
+    /*     const unsubscribeErrors = appUpdateError.subscribe((isError) => {
         if (isError) {
             updateDisplayNotification(notificationId, {
                 ...downloadingNotification,
@@ -94,23 +69,23 @@ export function downloadAppUpdate(): void {
                 ],
             })
         }
-    })
+    }) */
 
-    function restartNow(): void {
+    /* function restartNow(): void {
         cleanup()
         installAppUpdate()
-    }
+    } */
 
-    function cleanup(): void {
+    /*     function cleanup(): void {
         removeAppNotification(notificationId)
 
         unsubscribeProgress()
         unsubscribeUpdateComplete()
         unsubscribeErrors()
         unsubscribeMinutesRemaining()
-    }
+    } */
 
-    const downloadingNotification: INotification = {
+    /*     const downloadingNotification: INotification = {
         variant: 'info',
         text: localize('notifications.downloadingUpdate'),
         progress: 0,
@@ -125,9 +100,7 @@ export function downloadAppUpdate(): void {
             },
         ],
         timeout: NOTIFICATION_DURATION_NONE,
-    }
+    } */
 
-    notificationId = showNotification(downloadingNotification)
-
-    void Platform.downloadAppUpdate()
+    // notificationId = showNotification(downloadingNotification)
 }

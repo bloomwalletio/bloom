@@ -1,6 +1,6 @@
 export * from './app-stage.store'
 export * from './app-settings.store'
-export * from './app-update.store'
+export * from './app-update-state.store'
 export * from './app-version-details.store'
 export * from './has-completed-app-setup.store'
 export * from './mobile.store'
