@@ -15,7 +15,7 @@
     import { getStorageDepositFromOutput, prepareOutputFromTransactionData } from '@core/wallet/utils'
     import { onMount } from 'svelte'
     import { get } from 'svelte/store'
-    import TransactionDetails from './TransactionDetails.svelte'
+    import StardustTransactionDetails from './StardustTransactionDetails.svelte'
     import { Output } from '@core/wallet'
 
     export let _onMount: (..._: any[]) => Promise<void> = async () => {}
@@ -94,8 +94,6 @@
     }
 
     function setStorageDeposit(output: Output, surplus?: number): void {
-        // const storageDepositInfo = getStorageDepositInfoFromTransactionData()
-
         const rawAmount = transactionData.type === NewTransactionType.TokenTransfer ? transactionData.rawAmount : '0'
 
         const { storageDeposit: _storageDeposit, giftedStorageDeposit: _giftedStorageDeposit } =
@@ -130,7 +128,7 @@
     })
 </script>
 
-<div>
+<div class="w-full space-y-4">
     <div class="flex flex-row gap-2 justify-between">
         {#if transactionData.type === NewTransactionType.TokenTransfer}
             <TokenAmountTile asset={transactionData.asset} amount={Number(transactionData.rawAmount)} />
@@ -146,7 +144,7 @@
         {/if}
     </div>
 
-    <TransactionDetails
+    <StardustTransactionDetails
         bind:expirationDate
         bind:timelockDate
         bind:selectedExpirationPeriod
