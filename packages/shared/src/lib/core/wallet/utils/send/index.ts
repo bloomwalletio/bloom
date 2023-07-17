@@ -1,2 +1,5 @@
-export * from './createTransaction'
+export * from './createEvmTransaction'
+export * from './createStardustTransaction'
+export * from './signAndSendEvmTransaction'
+export * from './signAndSendStardustTransaction'
 export * from './validateSendConfirmation'

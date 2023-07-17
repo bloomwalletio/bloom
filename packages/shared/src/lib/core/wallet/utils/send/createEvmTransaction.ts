@@ -1,5 +1,3 @@
-import { getSelectedAccount } from '@core/account/stores'
-import { buildBip32Path } from '@core/account/utils'
 import { IChain } from '@core/network/interfaces'
 import { TokenStandard } from '@core/wallet/enums'
 import { IAsset } from '@core/wallet/interfaces'
@@ -7,30 +5,37 @@ import {
     buildEvmTransactionData,
     getErc20TransferSmartContractData,
     getIscpTransferSmartContractData,
-    signTransactionWithLedger,
-} from '.'
-import { ISC_MAGIC_CONTRACT_ADDRESS } from '../constants'
+} from '@core/layer-2/utils'
+import { ISC_MAGIC_CONTRACT_ADDRESS } from '@core/layer-2/constants'
+import { EvmTransactionData } from '@core/layer-2/types'
+import { NewTransactionType, newTransactionData } from '@core/wallet/stores'
+import { get } from 'svelte/store'
+import { IAccountState } from '@core/account'
 
-export async function signLayer2TransferTransactionData(
-    chain: IChain,
-    recipientAddress: string,
-    asset: IAsset,
-    amount: string
-): Promise<string | undefined> {
-    const provider = chain.getProvider()
-    const account = getSelectedAccount()
-    if (!provider || !account) {
-        return
+export function createEvmTransaction(chain: IChain, account: IAccountState): Promise<EvmTransactionData | undefined> {
+    const transactionData = get(newTransactionData)
+    if (!transactionData || transactionData.type === NewTransactionType.NftTransfer) {
+        return Promise.resolve(undefined)
     }
 
-    const { evmAddresses, index } = account
-    const originAddress = evmAddresses[chain?.getConfiguration().coinType]
+    const provider = chain?.getProvider()
+    const asset = transactionData.asset
+
+    if (transactionData.recipient?.type !== 'address' || !asset?.metadata) {
+        return Promise.resolve(undefined)
+    }
+
+    const recipientAddress = transactionData.recipient.address
+
+    const { evmAddresses } = account
+    const originAddress = evmAddresses[chain.getConfiguration().coinType]
     if (!originAddress) {
-        return
+        return Promise.resolve(undefined)
     }
 
     const destinationAddress = getDestinationAddress(asset, recipientAddress)
 
+    let amount = transactionData.rawAmount
     let data
     if (asset.metadata?.standard === TokenStandard.BaseToken) {
         data = undefined
@@ -40,13 +45,11 @@ export async function signLayer2TransferTransactionData(
         // as we do not want to send any base token
         amount = '0'
         if (!data) {
-            return
+            return Promise.resolve(undefined)
         }
     }
 
-    const transaction = await buildEvmTransactionData(provider, originAddress, destinationAddress, amount, data)
-    const bip32 = buildBip32Path(60, index)
-    return signTransactionWithLedger(transaction, bip32)
+    return buildEvmTransactionData(provider, originAddress, destinationAddress, amount, data)
 }
 
 function getDataForTransaction(

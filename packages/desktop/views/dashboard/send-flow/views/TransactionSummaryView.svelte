@@ -1,15 +1,24 @@
 <script lang="ts">
     import { closePopup } from '@desktop/auxiliary/popup'
-    import { selectedAccount } from '@core/account'
+    import { getSelectedAccount, selectedAccount, selectedAccountIndex } from '@core/account'
     import { handleError } from '@core/error/handlers'
     import { localize } from '@core/i18n'
     import { NewTransactionType, newTransactionData } from '@core/wallet/stores'
-    import { createTransaction } from '@core/wallet/utils'
+    import {
+        createEvmTransaction,
+        prepareOutputFromTransactionData,
+        signAndSendEvmTransaction,
+        validateSendConfirmation,
+    } from '@core/wallet/utils'
     import { get } from 'svelte/store'
     import { sendFlowRouter } from '../send-flow.router'
     import SendFlowTemplate from './SendFlowTemplate.svelte'
     import { EvmTransactionSummary, StardustTransactionSummary } from './components'
     import { truncateString } from '@core/utils'
+    import { checkActiveProfileAuth, getIsActiveLedgerProfile } from '@core/profile'
+    import { ledgerPreparedOutput } from '@core/ledger'
+    import { sendOutput } from '@core/wallet'
+    import { getNetwork } from '@core/network'
 
     export let _onMount: (..._: any[]) => Promise<void> = async () => {}
 
@@ -22,9 +31,49 @@
     $: isAssetFromLayer2 =
         transactionData.type === NewTransactionType.TokenTransfer ? !!transactionData.asset.chainId : false
 
+    async function sendL1(): Promise<void> {
+        const preparedOutput = await prepareOutputFromTransactionData($selectedAccountIndex)
+        validateSendConfirmation(preparedOutput)
+
+        if (getIsActiveLedgerProfile()) {
+            ledgerPreparedOutput.set(preparedOutput)
+        }
+
+        await checkActiveProfileAuth(
+            async () => {
+                await sendOutput(preparedOutput)
+                closePopup()
+            },
+            { stronghold: true, ledger: false }
+        )
+        return
+    }
+
+    async function sendL2(): Promise<void> {
+        const chainId =
+            transactionData?.type === NewTransactionType.TokenTransfer ? transactionData.asset.chainId : undefined
+        if (!chainId) {
+            return
+        }
+
+        const chain = getNetwork()?.getChain(chainId)
+        const provider = chain?.getProvider()
+        const account = getSelectedAccount()
+        if (!chain || !provider || !account) {
+            return Promise.resolve(undefined)
+        }
+
+        const transation = await createEvmTransaction(chain, account)
+        await signAndSendEvmTransaction(transation, provider, account.index, closePopup)
+    }
+
     async function onConfirmClick(): Promise<void> {
         try {
-            await createTransaction(transactionData, $selectedAccount.index, () => closePopup())
+            if (isAssetFromLayer2) {
+                await sendL2()
+            } else {
+                await sendL1()
+            }
         } catch (err) {
             handleError(err)
         }
