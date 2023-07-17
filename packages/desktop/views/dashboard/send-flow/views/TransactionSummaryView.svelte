@@ -7,17 +7,14 @@
     import {
         createEvmTransaction,
         prepareOutputFromTransactionData,
-        signAndSendEvmTransaction,
-        validateSendConfirmation,
+        sendFromStardust,
+        sendTransactionFromEvm,
     } from '@core/wallet/utils'
-    import { get } from 'svelte/store'
     import { sendFlowRouter } from '../send-flow.router'
     import SendFlowTemplate from './SendFlowTemplate.svelte'
     import { EvmTransactionSummary, StardustTransactionSummary } from './components'
     import { truncateString } from '@core/utils'
-    import { checkActiveProfileAuth, getIsActiveLedgerProfile } from '@core/profile'
-    import { LedgerAppName, ledgerPreparedOutput } from '@core/ledger'
-    import { Output, TransactionData, sendOutput } from '@core/wallet'
+    import { Output, TransactionData } from '@core/wallet'
     import { IChain, getNetwork } from '@core/network'
     import { EvmTransactionData } from '@core/layer-2'
 
@@ -33,13 +30,16 @@
     let chain: IChain | undefined
 
     async function updateSendFlow(transactionData: TransactionData): Promise<void> {
-        recipient = transactionData.recipient.type === 'account'
-            ? transactionData.recipient.account.name
-            : truncateString(transactionData.recipient?.address, 6, 6)
+        recipient =
+            transactionData.recipient.type === 'account'
+                ? transactionData.recipient.account.name
+                : truncateString(transactionData.recipient?.address, 6, 6)
 
-        isAssetFromLayer2 = transactionData.type === NewTransactionType.TokenTransfer ? !!transactionData.asset.chainId : false
+        isAssetFromLayer2 =
+            transactionData.type === NewTransactionType.TokenTransfer ? !!transactionData.asset.chainId : false
         if (isAssetFromLayer2) {
-            const chainId = transactionData?.type === NewTransactionType.TokenTransfer ? transactionData.asset.chainId : undefined
+            const chainId =
+                transactionData?.type === NewTransactionType.TokenTransfer ? transactionData.asset.chainId : undefined
             chain = getNetwork()?.getChain(chainId)
             const account = getSelectedAccount()
 
@@ -49,43 +49,12 @@
         }
     }
 
-    async function sendFromStardust(output: Output): Promise<void> {
-        validateSendConfirmation(output)
-
-        if (getIsActiveLedgerProfile()) {
-            ledgerPreparedOutput.set(output)
-        }
-
-        await checkActiveProfileAuth(
-            async () => {
-                await sendOutput(output)
-                closePopup()
-            },
-            { stronghold: true, ledger: false }
-        )
-        return
-    }
-
-    async function sendTransactionFromEvm(transaction: EvmTransactionData, chain: IChain): Promise<void> {
-        const account = getSelectedAccount()
-        const provider = chain.getProvider()
-
-        await checkActiveProfileAuth(
-            async () => {
-                await signAndSendEvmTransaction(transaction, provider, account.index)
-                closePopup()
-            },
-            { stronghold: true, ledger: true },
-            LedgerAppName.Ethereum
-        )
-    }
-
     async function onConfirmClick(): Promise<void> {
         try {
             if (isAssetFromLayer2) {
-                await sendTransactionFromEvm(preparedTransaction, chain)
+                await sendTransactionFromEvm(preparedTransaction, chain, closePopup)
             } else {
-                await sendFromStardust(preparedOutput)
+                await sendFromStardust(preparedOutput, closePopup)
             }
         } catch (err) {
             handleError(err)
@@ -116,8 +85,8 @@
     }}
 >
     {#if isAssetFromLayer2}
-        <EvmTransactionSummary {_onMount} />
+        <EvmTransactionSummary transaction={preparedTransaction} {_onMount} />
     {:else}
-        <StardustTransactionSummary {_onMount} />
+        <StardustTransactionSummary output="{preparedOutput}{_onMount}" />
     {/if}
 </SendFlowTemplate>

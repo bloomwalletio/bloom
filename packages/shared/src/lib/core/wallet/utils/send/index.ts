@@ -1,4 +1,6 @@
 export * from './createEvmTransaction'
+export * from './sendFromStardust'
+export * from './sendTransactionFromEvm'
 export * from './signAndSendEvmTransaction'
 export * from './signAndSendStardustTransaction'
 export * from './validateSendConfirmation'

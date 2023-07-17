@@ -6,7 +6,7 @@
     import { TimePeriod } from '@core/utils/enums'
     import { NewTransactionType, newTransactionData, updateNewTransactionData } from '@core/wallet/stores'
     import { AddInputButton, ExpirationTimePicker, OptionalInput } from '@ui'
-    import { getStorageDepositFromOutput, prepareOutputFromTransactionData } from '@core/wallet/utils'
+    import { getStorageDepositFromOutput } from '@core/wallet/utils'
     import { onMount } from 'svelte'
     import { get } from 'svelte/store'
     import StardustTransactionDetails from './StardustTransactionDetails.svelte'
@@ -14,6 +14,7 @@
     import TransactionAssetSection from './TransactionAssetSection.svelte'
 
     export let _onMount: (..._: any[]) => Promise<void> = async () => {}
+    export let output: Output
 
     let {
         expirationDate,
@@ -32,8 +33,8 @@
     let visibleSurplus = 0
     let estimatedGas = 0
     let expirationTimePicker: ExpirationTimePicker
-    let metadataInput: OptionalInput
     let tagInput: OptionalInput
+    let metadataInput: OptionalInput
 
     let selectedExpirationPeriod: TimePeriod | undefined = expirationDate ? TimePeriod.Custom : undefined
     let selectedTimelockPeriod: TimePeriod | undefined = timelockDate ? TimePeriod.Custom : undefined
@@ -53,7 +54,7 @@
             giftStorageDeposit,
             surplus,
         })
-        void prepareTransactionOutput()
+        setStorageDeposit(output, Number(surplus))
     }
 
     function getInitialExpirationDate(): TimePeriod {
@@ -70,22 +71,9 @@
         estimatedGas = await estimateGasForLayer1ToLayer2Transaction(transactionData)
     }
 
-    async function calculateInitialOutput(): Promise<void> {
-        await prepareTransactionOutput()
+    function initializeExpirationInput(): void {
+        setStorageDeposit(output, Number(surplus))
         selectedExpirationPeriod = getInitialExpirationDate()
-    }
-
-    async function prepareTransactionOutput(): Promise<void> {
-        if ($selectedAccount.index === undefined) {
-            return
-        }
-
-        try {
-            const preparedOutput = await prepareOutputFromTransactionData($selectedAccount.index)
-            setStorageDeposit(preparedOutput, Number(surplus))
-        } catch (error) {
-            console.error(error)
-        }
     }
 
     function setStorageDeposit(output: Output, surplus?: number): void {
@@ -115,7 +103,7 @@
 
     onMount(async () => {
         try {
-            await calculateInitialOutput()
+            initializeExpirationInput()
             await _onMount()
         } catch (err) {
             handleError(err)
