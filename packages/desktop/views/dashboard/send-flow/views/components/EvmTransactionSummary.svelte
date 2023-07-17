@@ -1,12 +1,11 @@
 <script lang="ts">
     import { handleError } from '@core/error/handlers'
     import { getDestinationNetworkFromAddress, estimateGasForLayer1ToLayer2Transaction } from '@core/layer-2/utils'
-    import { activeProfile } from '@core/profile/stores'
-    import { NewTransactionType, newTransactionData, selectedAccountAssets } from '@core/wallet/stores'
-    import { NftTile, TokenAmountTile } from '@ui'
+    import { newTransactionData } from '@core/wallet/stores'
     import { onMount } from 'svelte'
     import { get } from 'svelte/store'
     import EvmTransactionDetails from './EvmTransactionDetails.svelte'
+    import TransactionAssetSection from './TransactionAssetSection.svelte'
 
     export let _onMount: (..._: any[]) => Promise<void> = async () => {}
 
@@ -33,20 +32,7 @@
 </script>
 
 <div class="w-full space-y-4">
-    <div class="flex flex-row gap-2 justify-between">
-        {#if transactionData.type === NewTransactionType.TokenTransfer}
-            <TokenAmountTile asset={transactionData.asset} amount={Number(transactionData.rawAmount)} />
-        {:else if transactionData.type === NewTransactionType.NftTransfer}
-            <NftTile nft={transactionData.nft} />
-        {/if}
-        {#if visibleSurplus}
-            <TokenAmountTile
-                asset={$selectedAccountAssets?.[$activeProfile?.network?.id]?.baseCoin}
-                amount={visibleSurplus}
-                hideTokenInfo
-            />
-        {/if}
-    </div>
+    <TransactionAssetSection {transactionData} {visibleSurplus} />
 
     <EvmTransactionDetails gasBudget={estimatedGas} {destinationNetwork} />
 </div>
