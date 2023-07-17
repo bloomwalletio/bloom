@@ -16,7 +16,7 @@
     import { EvmTransactionSummary, StardustTransactionSummary } from './components'
     import { truncateString } from '@core/utils'
     import { checkActiveProfileAuth, getIsActiveLedgerProfile } from '@core/profile'
-    import { ledgerPreparedOutput } from '@core/ledger'
+    import { LedgerAppName, ledgerPreparedOutput } from '@core/ledger'
     import { sendOutput } from '@core/wallet'
     import { getNetwork } from '@core/network'
 
@@ -64,7 +64,15 @@
         }
 
         const transation = await createEvmTransaction(chain, account)
-        await signAndSendEvmTransaction(transation, provider, account.index, closePopup)
+
+        await checkActiveProfileAuth(
+            async () => {
+                await signAndSendEvmTransaction(transation, provider, account.index)
+                closePopup()
+            },
+            { stronghold: true, ledger: true },
+            LedgerAppName.Ethereum
+        )
     }
 
     async function onConfirmClick(): Promise<void> {
