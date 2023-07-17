@@ -45,15 +45,14 @@
     }
 
     function validate(): boolean {
-        let handledError = false
         for (const input of [addressInput, addressNameInput, networkSelectionInput]) {
             try {
                 input.validate()
             } catch (err) {
-                handledError = true
+                return false
             }
         }
-        return !handledError
+        return true
     }
 </script>
 

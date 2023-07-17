@@ -8,7 +8,7 @@ import { IContactAddress } from '../interfaces'
 export function validateContactAddressName(options: IValidationOptions, contactId?: string, networkId?: string): void {
     const { isRequired, mustBeUnique, checkLength } = options
 
-    const name = options?.value as string
+    const name = options.value as string
     if (isRequired && !name) {
         throw new Error(localize('error.input.required', { field: localize('general.addressName') }))
     }
@@ -23,7 +23,7 @@ export function validateContactAddressName(options: IValidationOptions, contactI
     }
 
     if (mustBeUnique) {
-        const contactAddressMap = ContactManager.getNetworkContactAddressMapForContact(contactId )?.[networkId]
+        const contactAddressMap = ContactManager.getNetworkContactAddressMapForContact(contactId)?.[networkId]
         const isAlreadyBeingUsed = Object.values(contactAddressMap).some(
             (contactAddress: IContactAddress) => contactAddress.addressName === name
         )
