@@ -51,15 +51,14 @@
     }
 
     function validate(): boolean {
-        let handledError = false
         for (const input of [nameInput, noteInput, networkSelectionInput, addressNameInput, addressInput]) {
             try {
                 input.validate()
             } catch (err) {
-                handledError = true
+                return false
             }
         }
-        return !handledError
+        return true
     }
 </script>
 
