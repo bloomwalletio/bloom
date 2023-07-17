@@ -93,6 +93,7 @@
     leftButton={{
         text: localize($sendFlowRouter.hasHistory() ? 'actions.back' : 'actions.cancel'),
         onClick: onBackClick,
+        disabled: isTransferring,
     }}
     rightButton={{
         text: localize('actions.confirm'),

@@ -160,30 +160,30 @@
     />
 
     <optional-inputs class="flex flex-row flex-wrap gap-4">
-        {#if !isTransferring}
-            <AddInputButton
-                open={!!selectedExpirationPeriod}
-                text={localize('general.expirationTime')}
-                onClick={() => (selectedExpirationPeriod = TimePeriod.OneDay)}
-            />
-            <AddInputButton
-                open={!!selectedTimelockPeriod}
-                text={localize('general.timelockDate')}
-                onClick={() => (selectedTimelockPeriod = TimePeriod.OneDay)}
-            />
-        {/if}
+        <AddInputButton
+            open={!!selectedExpirationPeriod}
+            disabled={isTransferring}
+            text={localize('general.expirationTime')}
+            onClick={() => (selectedExpirationPeriod = TimePeriod.OneDay)}
+        />
+        <AddInputButton
+            open={!!selectedTimelockPeriod}
+            disabled={isTransferring}
+            text={localize('general.timelockDate')}
+            onClick={() => (selectedTimelockPeriod = TimePeriod.OneDay)}
+        />
         <OptionalInput
             bind:this={tagInput}
-            disabled={isTransferring}
             bind:value={tag}
+            disabled={isTransferring}
             label={localize('general.tag')}
             description={localize('tooltips.optionalInput')}
         />
         {#if !isToLayer2}
             <OptionalInput
                 bind:this={metadataInput}
-                disabled={isTransferring}
                 bind:value={metadata}
+                disabled={isTransferring}
                 label={localize('general.metadata')}
                 description={localize('tooltips.optionalInput')}
             />
