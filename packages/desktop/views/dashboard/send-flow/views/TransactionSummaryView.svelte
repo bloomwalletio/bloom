@@ -17,31 +17,48 @@
     import { truncateString } from '@core/utils'
     import { checkActiveProfileAuth, getIsActiveLedgerProfile } from '@core/profile'
     import { LedgerAppName, ledgerPreparedOutput } from '@core/ledger'
-    import { sendOutput } from '@core/wallet'
-    import { getNetwork } from '@core/network'
+    import { Output, TransactionData, sendOutput } from '@core/wallet'
+    import { IChain, getNetwork } from '@core/network'
+    import { EvmTransactionData } from '@core/layer-2'
 
     export let _onMount: (..._: any[]) => Promise<void> = async () => {}
 
-    $: transactionData = get(newTransactionData)
-    $: recipient =
-        transactionData.recipient.type === 'account'
+    $: isTransferring = !!$selectedAccount.isTransferring
+    $: void updateSendFlow($newTransactionData)
+
+    let isAssetFromLayer2 = false
+    let recipient: string
+    let preparedOutput: Output | undefined
+    let preparedTransaction: EvmTransactionData | undefined
+    let chain: IChain | undefined
+
+    async function updateSendFlow(transactionData: TransactionData): Promise<void> {
+        recipient = transactionData.recipient.type === 'account'
             ? transactionData.recipient.account.name
             : truncateString(transactionData.recipient?.address, 6, 6)
-    $: isTransferring = !!$selectedAccount.isTransferring
-    $: isAssetFromLayer2 =
-        transactionData.type === NewTransactionType.TokenTransfer ? !!transactionData.asset.chainId : false
 
-    async function sendL1(): Promise<void> {
-        const preparedOutput = await prepareOutputFromTransactionData($selectedAccountIndex)
-        validateSendConfirmation(preparedOutput)
+        isAssetFromLayer2 = transactionData.type === NewTransactionType.TokenTransfer ? !!transactionData.asset.chainId : false
+        if (isAssetFromLayer2) {
+            const chainId = transactionData?.type === NewTransactionType.TokenTransfer ? transactionData.asset.chainId : undefined
+            chain = getNetwork()?.getChain(chainId)
+            const account = getSelectedAccount()
+
+            preparedTransaction = await createEvmTransaction(chain, account)
+        } else {
+            preparedOutput = await prepareOutputFromTransactionData($selectedAccountIndex)
+        }
+    }
+
+    async function sendFromStardust(output: Output): Promise<void> {
+        validateSendConfirmation(output)
 
         if (getIsActiveLedgerProfile()) {
-            ledgerPreparedOutput.set(preparedOutput)
+            ledgerPreparedOutput.set(output)
         }
 
         await checkActiveProfileAuth(
             async () => {
-                await sendOutput(preparedOutput)
+                await sendOutput(output)
                 closePopup()
             },
             { stronghold: true, ledger: false }
@@ -49,25 +66,13 @@
         return
     }
 
-    async function sendL2(): Promise<void> {
-        const chainId =
-            transactionData?.type === NewTransactionType.TokenTransfer ? transactionData.asset.chainId : undefined
-        if (!chainId) {
-            return
-        }
-
-        const chain = getNetwork()?.getChain(chainId)
-        const provider = chain?.getProvider()
+    async function sendTransactionFromEvm(transaction: EvmTransactionData, chain: IChain): Promise<void> {
         const account = getSelectedAccount()
-        if (!chain || !provider || !account) {
-            return Promise.resolve(undefined)
-        }
-
-        const transation = await createEvmTransaction(chain, account)
+        const provider = chain.getProvider()
 
         await checkActiveProfileAuth(
             async () => {
-                await signAndSendEvmTransaction(transation, provider, account.index)
+                await signAndSendEvmTransaction(transaction, provider, account.index)
                 closePopup()
             },
             { stronghold: true, ledger: true },
@@ -78,9 +83,9 @@
     async function onConfirmClick(): Promise<void> {
         try {
             if (isAssetFromLayer2) {
-                await sendL2()
+                await sendTransactionFromEvm(preparedTransaction, chain)
             } else {
-                await sendL1()
+                await sendFromStardust(preparedOutput)
             }
         } catch (err) {
             handleError(err)

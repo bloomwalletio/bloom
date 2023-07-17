@@ -6,21 +6,16 @@
     import { get } from 'svelte/store'
     import EvmTransactionDetails from './EvmTransactionDetails.svelte'
     import TransactionAssetSection from './TransactionAssetSection.svelte'
+    import { EvmTransactionData } from '@core/layer-2'
+
 
     export let _onMount: (..._: any[]) => Promise<void> = async () => {}
+    export let transaction: EvmTransactionData
 
     const { layer2Parameters } = get(newTransactionData)
 
     const destinationNetwork = getDestinationNetworkFromAddress(layer2Parameters?.networkAddress)
     const visibleSurplus = 0
-    let estimatedGas = 0
-
-    $: transactionData = get(newTransactionData)
-    $: transactionData, void setEstimatedGas()
-
-    async function setEstimatedGas(): Promise<void> {
-        estimatedGas = await estimateGasForLayer1ToLayer2Transaction(transactionData)
-    }
 
     onMount(async () => {
         try {
@@ -33,6 +28,5 @@
 
 <div class="w-full space-y-4">
     <TransactionAssetSection {transactionData} {visibleSurplus} />
-
-    <EvmTransactionDetails gasBudget={estimatedGas} {destinationNetwork} />
+    <EvmTransactionDetails gasBudget={Number(transaction.gasLimit)} {destinationNetwork} />
 </div>
