@@ -1,6 +1,6 @@
-import { IFeatureFlag } from '@features/interfaces/feature-flag.interface'
+import { IFeatureFlag } from './feature-flag.interface'
 
-export interface IContactFeatures extends IFeatureFlag {
+export interface IContactsFeatures extends IFeatureFlag {
     sendTo: IFeatureFlag
     addContact: IFeatureFlag
     editContact: IFeatureFlag

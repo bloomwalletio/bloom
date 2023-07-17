@@ -1,5 +1,5 @@
 import { ICollectiblesFeatures } from './collectibles-features.interface'
-import { IContactFeatures } from './contact-features.interface'
+import { IContactsFeatures } from './contacts-features.interface'
 import { IDeveloperFeatures } from './developer-features.interface'
 import { IGovernanceFeatures } from './governance-features.interface'
 import { INetworkFeatures } from './network-features.interface'
@@ -9,7 +9,7 @@ import { IWalletFeatures } from './wallet-features.interface'
 
 export interface IFeatures {
     collectibles: ICollectiblesFeatures
-    contact: IContactFeatures
+    contacts: IContactsFeatures
     developerTools: IDeveloperFeatures
     network: INetworkFeatures
     governance: IGovernanceFeatures

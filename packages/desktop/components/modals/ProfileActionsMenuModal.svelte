@@ -199,7 +199,7 @@
             </div>
             <HR />
         {/if}
-        {#if features.contact.enabled}
+        {#if features.contacts.enabled}
             <button
                 on:click={onContactBookClick}
                 class="group flex flex-row space-x-3 justify-start items-center hover:bg-blue-50 dark:hover:bg-gray-800 dark:hover:bg-opacity-20 py-3 px-3 w-full"

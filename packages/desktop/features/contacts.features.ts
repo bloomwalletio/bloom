@@ -1,6 +1,6 @@
-import { IContactFeatures } from '@lib/features/interfaces'
+import { IContactsFeatures } from '@lib/features/interfaces'
 
-const contactFeatures: IContactFeatures = {
+const contactsFeatures: IContactsFeatures = {
     enabled: false,
     sendTo: {
         enabled: true,
@@ -25,4 +25,4 @@ const contactFeatures: IContactFeatures = {
     },
 }
 
-export default contactFeatures
+export default contactsFeatures
