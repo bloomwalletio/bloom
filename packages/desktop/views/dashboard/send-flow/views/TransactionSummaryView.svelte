@@ -36,9 +36,7 @@
             recipient.type === 'account' ? recipient.account.name : truncateString(recipient?.address, 6, 6)
 
         const chainId = type === NewTransactionType.TokenTransfer ? transactionData.asset.chainId : undefined
-
         if (chainId) {
-            const chainId = type === NewTransactionType.TokenTransfer ? transactionData.asset.chainId : undefined
             chain = getNetwork()?.getChain(chainId)
             const account = getSelectedAccount()
 
