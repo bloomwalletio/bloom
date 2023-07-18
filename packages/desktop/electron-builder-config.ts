@@ -1,5 +1,6 @@
-const notarize = require('./scripts/notarize.macos.js')
-const merge = require('lodash.merge')
+import type { Configuration } from 'electron-builder'
+import path from 'path'
+import { notarize } from 'electron-notarize'
 
 const STAGE = process.env.STAGE || 'alpha'
 
@@ -14,15 +15,15 @@ const CHANNEL_NAME = getChannelName()
  * @param {string} stage
  * @returns
  */
-function getAppName() {
+function getAppName(): string {
     return STAGE === 'prod' ? 'Bloom' : `Bloom - ${STAGE.replace(/^\w/, (c) => c.toUpperCase())}`
 }
 
-function getAppProtocol() {
+function getAppProtocol(): string {
     return STAGE === 'prod' ? 'bloom' : `bloom-${STAGE.toLowerCase()}`
 }
 
-function getAppId() {
+function getAppId(): string {
     const defaultAppId = 'org.bloom-labs.bloom'
     if (STAGE === 'prod') {
         return defaultAppId
@@ -30,7 +31,7 @@ function getAppId() {
     return `${defaultAppId}.${STAGE}`
 }
 
-function getChannelName() {
+function getChannelName(): string {
     switch (STAGE) {
         case 'alpha':
             return 'alpha'
@@ -41,7 +42,40 @@ function getChannelName() {
     }
 }
 
-const prodConfig = () => ({
+function getIconPath(): string {
+    const PATH = './public/assets/icons'
+    const NAME = 'icon1024x1024'
+    const EXTENSION = 'png'
+
+    return `${PATH}/${STAGE}/${NAME}.${EXTENSION}`
+}
+
+async function notarizeMacos(appBundleId, appName): Promise<void> {
+    if (process.platform !== 'darwin' || process.env.MACOS_SKIP_NOTARIZATION) {
+        return
+    }
+
+    const APPLE_ID = process.env.BLOOM_APPLE_ID
+    const APPLE_ID_PASSWORD = process.env.BLOOM_APPLE_ID_PASSWORD
+
+    if (!APPLE_ID) {
+        throw Error('Notarization failed: Environment variable "BLOOM_APPLE_ID" is not defined')
+    }
+
+    if (!APPLE_ID_PASSWORD) {
+        throw Error('Notarization failed: Environment variable "BLOOM_APPLE_ID_PASSWORD" is not defined')
+    }
+
+    await notarize({
+        appBundleId: appBundleId,
+        appPath: path.resolve(__dirname, `../out/mac/${appName}.app`),
+        appleId: APPLE_ID,
+        appleIdPassword: APPLE_ID_PASSWORD,
+        ascProvider: 'UG77RJKZHH',
+    })
+}
+
+const prodConfig: Configuration = {
     productName: APP_NAME,
     artifactName: 'bloom-desktop-${version}.${ext}',
     copyright: 'Bloom Labs Ltd',
@@ -51,7 +85,7 @@ const prodConfig = () => ({
     afterSign: async () => {
         // eslint-disable-next-line no-useless-catch
         try {
-            await notarize(APP_ID, APP_NAME)
+            await notarizeMacos(APP_ID, APP_NAME)
         } catch (err) {
             // This catch is necessary or the promise rejection is swallowed
             throw err
@@ -76,7 +110,7 @@ const prodConfig = () => ({
         include: 'public/installer.nsh',
     },
     win: {
-        icon: './public/assets/icons/prod/icon1024x1024.png',
+        icon: getIconPath(),
         publisherName: 'Bloom Labs Ltd',
         target: 'nsis',
         timeStampServer: 'http://timestamp.sectigo.com',
@@ -89,10 +123,10 @@ const prodConfig = () => ({
             Comment: 'Web3 wallet for the IOTA/Shimmer ecosystem',
             Categories: 'Office;Network;Finance',
         },
-        icon: './public/assets/icons/prod/icon1024x1024.png',
+        icon: getIconPath(),
     },
     mac: {
-        icon: './public/assets/icons/prod/icon1024x1024.png',
+        icon: getIconPath(),
         category: 'public.app-category.finance',
         target: ['dmg', 'zip'],
         entitlements: './entitlements.mac.plist',
@@ -112,44 +146,25 @@ const prodConfig = () => ({
         channel: CHANNEL_NAME,
         publishAutoUpdate: true,
     },
-})
-
-function getIconPaths() {
-    const PATH = './public/assets/icons'
-    const NAME = 'icon1024x1024'
-    const EXTENSION = 'png'
-
-    return {
-        linux: {
-            icon: `${PATH}/${STAGE}/${NAME}.${EXTENSION}`,
-        },
-        mac: {
-            icon: `${PATH}/${STAGE}/${NAME}.${EXTENSION}`,
-        },
-        win: {
-            icon: `${PATH}/${STAGE}/${NAME}.${EXTENSION}`,
-        },
-    }
 }
 
-const prereleaseNsisOptions = {
+const testConfig: Configuration = {
+    ...prodConfig,
     nsis: {
         oneClick: false,
         allowToChangeInstallationDirectory: true,
+        deleteAppDataOnUninstall: false,
+        perMachine: true,
+        include: 'public/installer.nsh',
     },
-}
-
-const testConfig = () => {
-    const icons = getIconPaths()
-    return merge({}, prodConfig(), icons, { appId: APP_ID }, prereleaseNsisOptions)
 }
 
 const build = () => {
     switch (STAGE) {
         case 'prod':
-            return prodConfig()
+            return prodConfig
         default:
-            return testConfig()
+            return testConfig
     }
 }
 
