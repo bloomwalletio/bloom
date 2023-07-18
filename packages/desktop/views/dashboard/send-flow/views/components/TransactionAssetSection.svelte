@@ -5,7 +5,7 @@
     import { DisplayedAsset } from '../types'
 
     export let displayedAsset: DisplayedAsset
-    export let visibleSurplus: number
+    export let visibleSurplus: number | undefined
 
     $: baseCoin = $selectedAccountAssets?.[$activeProfile?.network?.id]?.baseCoin
 </script>

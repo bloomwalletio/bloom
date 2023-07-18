@@ -7,7 +7,7 @@
     import {
         createEvmTransaction,
         prepareOutputFromTransactionData,
-        sendFromStardust,
+        sendOutputFromStardust,
         sendTransactionFromEvm,
     } from '@core/wallet/utils'
     import { sendFlowRouter } from '../send-flow.router'
@@ -20,9 +20,9 @@
 
     export let _onMount: (..._: any[]) => Promise<void> = async () => {}
 
+    $: void updateSendFlow($newTransactionData)
     $: isAssetFromLayer2 = !!chain
     $: isTransferring = !!$selectedAccount.isTransferring
-    $: void updateSendFlow($newTransactionData)
 
     let recipientAddress: string
     let preparedOutput: Output | undefined
@@ -51,7 +51,7 @@
             if (isAssetFromLayer2) {
                 await sendTransactionFromEvm(preparedTransaction, chain, closePopup)
             } else {
-                await sendFromStardust(preparedOutput, closePopup)
+                await sendOutputFromStardust(preparedOutput, closePopup)
             }
         } catch (err) {
             handleError(err)
@@ -65,6 +65,14 @@
             $sendFlowRouter.previous()
         }
     }
+
+    onMount(async () => {
+        try {
+            await _onMount()
+        } catch (err) {
+            handleError(err)
+        }
+    })
 </script>
 
 <SendFlowTemplate
@@ -82,8 +90,8 @@
     }}
 >
     {#if isAssetFromLayer2 && preparedTransaction}
-        <EvmTransactionSummary transaction={preparedTransaction} {_onMount} />
+        <EvmTransactionSummary transaction={preparedTransaction} />
     {:else if !isAssetFromLayer2 && preparedOutput}
-        <StardustTransactionSummary output={preparedOutput} {_onMount} />
+        <StardustTransactionSummary output={preparedOutput} />
     {/if}
 </SendFlowTemplate>

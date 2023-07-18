@@ -4,7 +4,7 @@ import { checkActiveProfileAuth, getIsActiveLedgerProfile } from '@core/profile'
 import { ledgerPreparedOutput } from '@core/ledger'
 import { sendOutput } from '@core/wallet/actions'
 
-export async function sendFromStardust(output: Output, callback: () => void): Promise<void> {
+export async function sendOutputFromStardust(output: Output, callback: () => void): Promise<void> {
     validateSendConfirmation(output)
 
     if (getIsActiveLedgerProfile()) {
