@@ -90,8 +90,8 @@
     }}
 >
     {#if isAssetFromLayer2 && preparedTransaction}
-        <EvmTransactionSummary transaction={preparedTransaction} />
+        <EvmTransactionSummary transaction={preparedTransaction} transactionData={$newTransactionData} />
     {:else if !isAssetFromLayer2 && preparedOutput}
-        <StardustTransactionSummary output={preparedOutput} />
+        <StardustTransactionSummary output={preparedOutput} transactionData={$newTransactionData} />
     {/if}
 </SendFlowTemplate>

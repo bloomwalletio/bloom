@@ -1,21 +1,19 @@
 <script lang="ts">
     import { selectedAccount } from '@core/account'
-    import { handleError } from '@core/error/handlers'
     import { localize } from '@core/i18n'
     import { getDestinationNetworkFromAddress, estimateGasForLayer1ToLayer2Transaction } from '@core/layer-2/utils'
     import { TimePeriod } from '@core/utils/enums'
-    import { NewTransactionType, newTransactionData, updateNewTransactionData } from '@core/wallet/stores'
+    import { NewTransactionType, updateNewTransactionData } from '@core/wallet/stores'
     import { AddInputButton, ExpirationTimePicker, OptionalInput } from '@ui'
     import { getStorageDepositFromOutput } from '@core/wallet/utils'
     import { onMount } from 'svelte'
-    import { get } from 'svelte/store'
     import StardustTransactionDetails from './StardustTransactionDetails.svelte'
     import { Output, TransactionData } from '@core/wallet'
     import TransactionAssetSection from './TransactionAssetSection.svelte'
     import { DisplayedAsset } from '../types'
 
-    export let _onMount: (..._: any[]) => Promise<void> = async () => {}
     export let output: Output
+    export let transactionData: TransactionData
 
     let {
         expirationDate,
@@ -27,7 +25,7 @@
         tag,
         metadata,
         disableToggleGift,
-    } = get(newTransactionData)
+    } = transactionData
 
     const destinationNetwork = getDestinationNetworkFromAddress(layer2Parameters?.networkAddress)
     let storageDeposit = 0
@@ -40,13 +38,11 @@
     let selectedExpirationPeriod: TimePeriod | undefined = expirationDate ? TimePeriod.Custom : undefined
     let selectedTimelockPeriod: TimePeriod | undefined = timelockDate ? TimePeriod.Custom : undefined
 
-    $: transactionData = get(newTransactionData)
     $: expirationTimePicker?.setNull(giftStorageDeposit)
     $: isTransferring = !!$selectedAccount.isTransferring
     $: isToLayer2 = !!layer2Parameters?.networkAddress
     $: transactionData, void setEstimatedGas()
     $: expirationDate, timelockDate, giftStorageDeposit, refreshSendConfirmationState()
-    $: displayedAsset = getDisplayedAsset(transactionData)
 
     function refreshSendConfirmationState(): void {
         updateNewTransactionData({
@@ -71,11 +67,6 @@
 
     async function setEstimatedGas(): Promise<void> {
         estimatedGas = await estimateGasForLayer1ToLayer2Transaction(transactionData)
-    }
-
-    function initializeExpirationInput(): void {
-        setStorageDeposit(output, Number(surplus))
-        selectedExpirationPeriod = getInitialExpirationDate()
     }
 
     function setStorageDeposit(output: Output, surplus?: number): void {
@@ -103,28 +94,27 @@
         }
     }
 
-    function getDisplayedAsset(transactionData: TransactionData): DisplayedAsset {
+    function getTransactionAssets(transactionData: TransactionData): {
+        displayedAsset: DisplayedAsset
+        visibleSurplus: number
+    } {
+        let displayedAsset: DisplayedAsset
         if (transactionData.type === NewTransactionType.TokenTransfer) {
-            return { type: 'token', asset: transactionData.asset, rawAmount: transactionData.rawAmount }
+            displayedAsset = { type: 'token', asset: transactionData.asset, rawAmount: transactionData.rawAmount }
         } else {
-            return { type: 'nft', nft: transactionData.nft }
+            displayedAsset = { type: 'nft', nft: transactionData.nft }
         }
+        return { displayedAsset, visibleSurplus }
     }
 
-    onMount(async () => {
-        try {
-            initializeExpirationInput()
-            await _onMount()
-        } catch (err) {
-            handleError(err)
-        }
+    onMount(() => {
+        setStorageDeposit(output, Number(surplus))
+        selectedExpirationPeriod = getInitialExpirationDate()
     })
 </script>
 
 <div class="w-full space-y-4">
-    {#if displayedAsset}
-        <TransactionAssetSection {displayedAsset} {visibleSurplus} />
-    {/if}
+    <TransactionAssetSection {...getTransactionAssets(transactionData)} />
 
     <StardustTransactionDetails
         bind:expirationDate
