@@ -2,9 +2,14 @@ import { Output } from '@core/wallet/types'
 import { validateSendConfirmation } from './validateSendConfirmation'
 import { checkActiveProfileAuth, getIsActiveLedgerProfile } from '@core/profile'
 import { ledgerPreparedOutput } from '@core/ledger'
-import { sendOutput } from '@core/wallet/actions'
+import { signAndSendStardustTransaction } from './signAndSendStardustTransaction'
+import { IAccountState } from '@core/account/interfaces'
 
-export async function sendOutputFromStardust(output: Output, callback: () => void): Promise<void> {
+export async function sendOutputFromStardust(
+    output: Output,
+    account: IAccountState,
+    callback: () => void
+): Promise<void> {
     validateSendConfirmation(output)
 
     if (getIsActiveLedgerProfile()) {
@@ -13,7 +18,7 @@ export async function sendOutputFromStardust(output: Output, callback: () => voi
 
     await checkActiveProfileAuth(
         async () => {
-            await sendOutput(output)
+            await signAndSendStardustTransaction(output, account)
             callback()
         },
         { stronghold: true, ledger: false }

@@ -52,7 +52,7 @@
             if (isAssetFromLayer2) {
                 await sendTransactionFromEvm(preparedTransaction, chain, closePopup)
             } else {
-                await sendOutputFromStardust(preparedOutput, closePopup)
+                await sendOutputFromStardust(preparedOutput, $selectedAccount, closePopup)
             }
         } catch (err) {
             handleError(err)
