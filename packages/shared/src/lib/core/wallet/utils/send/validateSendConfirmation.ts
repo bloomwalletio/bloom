@@ -10,7 +10,7 @@ export function validateSendConfirmation(output: Output): void {
     const parseNumber: (value: string) => number = (value: string) => parseInt(value, 10) ?? 0
     const amount = parseNumber(output?.amount)
     const balance = parseNumber(getSelectedAccount()?.balances?.baseCoin.available ?? '0')
-    const { storageDeposit, giftedStorageDeposit } = getStorageDepositFromOutput(output)
+    const storageDeposit = getStorageDepositFromOutput(output)
 
     const expirationUnlockCondition = output.unlockConditions.find(
         (c) => c.type === UNLOCK_CONDITION_EXPIRATION
@@ -19,7 +19,7 @@ export function validateSendConfirmation(output: Output): void {
     const expirationDateTime = expirationUnixTime ? convertUnixTimestampToDate(expirationUnixTime) : undefined
 
     const isNft = output.type === OUTPUT_TYPE_NFT
-    if (!isNft && (balance < amount + storageDeposit || balance < amount + giftedStorageDeposit)) {
+    if (!isNft && balance < amount + storageDeposit) {
         throw new InsufficientFundsForStorageDepositError()
     } else if (expirationDateTime && !isValidExpirationDateTime(expirationDateTime)) {
         throw new InvalidExpirationDateTimeError()

@@ -5,7 +5,7 @@ import { FALLBACK_GAS_BUDGET, ISC_MAGIC_CONTRACT_ADDRESS } from '../constants'
 import { getIscpTransferSmartContractData } from '../utils'
 
 export async function estimateGasForLayer1ToLayer2Transaction(transactionData: TransactionData): Promise<number> {
-    const { recipient, layer2Parameters, rawAmount, asset } = (transactionData as TokenTransactionData) ?? {}
+    const { recipient, layer2Parameters, rawAssetAmount, asset } = (transactionData as TokenTransactionData) ?? {}
 
     if (!layer2Parameters) {
         return 0
@@ -28,7 +28,7 @@ export async function estimateGasForLayer1ToLayer2Transaction(transactionData: T
 
     try {
         const evmAddress = getSelectedAccount()?.evmAddresses?.[ETH_COIN_TYPE]
-        const data = getIscpTransferSmartContractData(address, asset, rawAmount, chain)
+        const data = getIscpTransferSmartContractData(address, asset, rawAssetAmount, chain)
         if (data) {
             const gas = await provider.eth.estimateGas({
                 from: evmAddress,

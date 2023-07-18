@@ -11,7 +11,7 @@ type BaseTransactionData = {
     metadata?: string
     expirationDate?: Date
     timelockDate?: Date
-    surplus?: string
+    rawBaseCoinAmount?: string
     giftStorageDeposit?: boolean
     layer2Parameters?: ILayer2Parameters
     addSenderFeature?: boolean
@@ -21,7 +21,7 @@ type BaseTransactionData = {
 
 export type TokenTransactionData = BaseTransactionData & {
     type: NewTransactionType.TokenTransfer
-    rawAmount: string
+    rawAssetAmount: string
     asset: IAsset
     unit: string
 }

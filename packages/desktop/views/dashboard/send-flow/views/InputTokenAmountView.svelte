@@ -22,7 +22,7 @@
 
     if (transactionData.type === NewTransactionType.TokenTransfer) {
         asset = transactionData.asset
-        rawAmount = transactionData.rawAmount
+        rawAmount = transactionData.rawAssetAmount
         unit = transactionData.unit || getUnitFromTokenMetadata(asset?.metadata)
     }
 
@@ -41,7 +41,7 @@
             await assetAmountInput?.validate()
             updateNewTransactionData({
                 type: NewTransactionType.TokenTransfer,
-                rawAmount,
+                rawAssetAmount: rawAmount,
             })
             $sendFlowRouter.next()
         } catch (err) {
@@ -52,7 +52,7 @@
     function onBackClick(): void {
         updateNewTransactionData({
             type: NewTransactionType.TokenTransfer,
-            rawAmount: undefined,
+            rawAssetAmount: undefined,
         })
         $sendFlowRouter.previous()
     }

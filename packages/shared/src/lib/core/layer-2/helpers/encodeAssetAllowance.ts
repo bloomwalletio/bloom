@@ -19,7 +19,7 @@ export function encodeAssetAllowance(transactionData: TransactionData): Uint8Arr
         const asset = transactionData.asset
         if (asset?.standard === TokenStandard.BaseToken) {
             allowance.writeUInt8('encodedAllowance', Allowance.HasBaseTokens)
-            encodeBaseTokenTransfer(allowance, transactionData.rawAmount)
+            encodeBaseTokenTransfer(allowance, transactionData.rawAssetAmount)
         } else if (asset) {
             allowance.writeUInt8('encodedAllowance', Allowance.HasNativeTokens)
             encodeNativeTokenTransfer(allowance, asset, transactionData)
@@ -40,12 +40,12 @@ function encodeNativeTokenTransfer(
     asset: IPersistedAsset,
     transactionData: TokenTransactionData
 ): void {
-    const { rawAmount } = transactionData
+    const { rawAssetAmount } = transactionData
     buffer.writeUInt32SpecialEncoding('amountOfDifferentTokens', 1)
     const tokenIdBytes = Converter.hexToBytes(asset.id)
     buffer.writeBytes('tokenId', tokenIdBytes.length, tokenIdBytes)
 
-    const encodedAmount = specialNativeTokenAmountEncoding(BigInt(rawAmount))
+    const encodedAmount = specialNativeTokenAmountEncoding(BigInt(rawAssetAmount))
     buffer.writeUInt32SpecialEncoding('nativeTokenAmountLength', encodedAmount.length)
     buffer.writeBytes('nativeTokenAmount', encodedAmount.length, encodedAmount)
 }

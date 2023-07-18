@@ -1,11 +1,11 @@
 import { IAccountState } from '@core/account'
-import { ISC_MAGIC_CONTRACT_ADDRESS } from '@core/layer-2/constants'
-import { EvmTransactionData } from '@core/layer-2/types'
 import {
     buildEvmTransactionData,
     getErc20TransferSmartContractData,
     getIscpTransferSmartContractData,
 } from '@core/layer-2/utils'
+import { ISC_MAGIC_CONTRACT_ADDRESS } from '@core/layer-2/constants'
+import { EvmTransactionData } from '@core/layer-2/types'
 import { IChain } from '@core/network/interfaces'
 import { TokenStandard } from '@core/wallet/enums'
 import { IAsset } from '@core/wallet/interfaces'
@@ -38,7 +38,7 @@ export function createEvmTransactionFromTransactionData(
 
     const destinationAddress = getDestinationAddress(asset, recipientAddress)
 
-    let amount = transactionData.rawAmount
+    let amount = transactionData.rawAssetAmount
     let data
     if (asset.metadata?.standard === TokenStandard.BaseToken) {
         data = undefined

@@ -33,7 +33,7 @@
             </div>
         </section>
     {/if}
-    {#if storageDeposit}
+    {#if storageDeposit || giftStorageDeposit}
         <section class="key-value-box border-gray-200 dark:border-gray-700">
             <div class="flex flex-row">
                 <Text>{localize(giftStorageDeposit ? 'general.giftedStorageDeposit' : 'general.storageDeposit')}</Text>

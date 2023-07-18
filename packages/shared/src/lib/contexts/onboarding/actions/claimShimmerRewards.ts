@@ -80,7 +80,7 @@ async function claimShimmerRewardsForShimmerClaimingAccount(
         },
         type: NewTransactionType.TokenTransfer,
         asset,
-        rawAmount: rawAmount.toString(),
+        rawAssetAmount: rawAmount.toString(),
         unit: '',
     }
     setNewTransactionData(newTransactionData)

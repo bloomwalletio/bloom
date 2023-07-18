@@ -62,17 +62,13 @@ function getDestinationAddress(
 function getAmountFromTransactionData(transactionData: TransactionData): string {
     let rawAmount: string
     if (transactionData.type === NewTransactionType.TokenTransfer) {
-        const asset = transactionData.asset
-
-        const nativeTokenId = asset?.id === getCoinType() ? undefined : asset?.id
-
-        if (nativeTokenId) {
-            rawAmount = transactionData?.surplus ?? '0'
+        if (transactionData.asset && transactionData.asset.id !== getCoinType()) {
+            rawAmount = transactionData?.rawBaseCoinAmount ?? '0'
         } else {
-            rawAmount = BigInt(transactionData.rawAmount).toString()
+            rawAmount = BigInt(transactionData.rawAssetAmount).toString()
         }
     } else if (transactionData.type === NewTransactionType.NftTransfer) {
-        rawAmount = transactionData?.surplus ?? '0'
+        rawAmount = transactionData?.rawBaseCoinAmount ?? '0'
     } else {
         rawAmount = '0'
     }
@@ -90,7 +86,7 @@ function getAssetFromTransactionData(transactionData: TransactionData): Assets |
         const nativeTokenId = assetId === getCoinType() ? undefined : assetId
 
         if (nativeTokenId) {
-            const bigAmount = BigInt(transactionData.rawAmount)
+            const bigAmount = BigInt(transactionData.rawAssetAmount)
             assets = {
                 nativeTokens: [
                     {

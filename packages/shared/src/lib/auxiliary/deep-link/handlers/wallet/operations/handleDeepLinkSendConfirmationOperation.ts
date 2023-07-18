@@ -77,12 +77,12 @@ function parseSendConfirmationOperation(searchParams: URLSearchParams): Transact
         throw new UnknownAssetError()
     }
 
-    const rawAmount = getRawAmountFromSearchParam(searchParams)
+    const rawAssetAmount = getRawAmountFromSearchParam(searchParams)
 
     const surplus = searchParams.get(SendOperationParameter.Surplus)
     if (surplus && parseInt(surplus).toString() !== surplus) {
         throw new SurplusNotANumberError(surplus)
-    } else if (surplus && asset.id === baseAsset.id) {
+    } else if (surplus && baseAsset && asset.id === baseAsset?.id) {
         throw new SurplusNotSupportedError()
     }
 
@@ -105,12 +105,12 @@ function parseSendConfirmationOperation(searchParams: URLSearchParams): Transact
         type: NewTransactionType.TokenTransfer,
         ...(asset && { asset }),
         ...(recipient && { recipient }),
-        ...(rawAmount && { rawAmount }),
+        ...(rawAssetAmount && { rawAssetAmount }),
         ...(unit && { unit }),
         ...(metadata && { metadata }),
         ...(tag && { tag }),
         ...(giftStorageDeposit && { giftStorageDeposit }),
-        ...(surplus && { surplus }),
+        ...(surplus && { rawBaseCoinAmount: surplus }),
         ...(disableToggleGift && { disableToggleGift }),
         ...(disableChangeExpiration && { disableChangeExpiration }),
     }

@@ -12,7 +12,7 @@ export function resetNewTokenTransactionData(): void {
     newTransactionData.set({
         type: NewTransactionType.TokenTransfer,
         recipient: undefined,
-        rawAmount: undefined,
+        rawAssetAmount: undefined,
         asset: undefined,
         unit: undefined,
     })
