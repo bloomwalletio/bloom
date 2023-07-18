@@ -17,14 +17,15 @@
     export let drawerRouter: Router<unknown>
 
     let addresses: IContactAddress[] = []
+    let initialAddresses: IContactAddress[] = []
     let addressesToRemove: string[] = []
 
-    let inputs: TextInput[][] = []
+    let inputs: TextInput[] = []
 
     function onRemoveAddressClick(indexToRemove: number): void {
         addressesToRemove = [...addressesToRemove, addresses[indexToRemove].address]
-        addresses = addresses.filter((_, index) => index !== indexToRemove)
         inputs = inputs.filter((_, index) => index !== indexToRemove)
+        addresses = addresses.filter((_, index) => index !== indexToRemove)
     }
 
     function onAddAddressClick(): void {
@@ -32,7 +33,7 @@
             ...addresses,
             { contactId: $selectedContact.id, networkId: $selectedContactNetworkId, addressName: '', address: '' },
         ]
-        inputs = [...inputs, [undefined, undefined]]
+        inputs = [...inputs, undefined]
     }
 
     function onSaveClick(): void {
@@ -59,14 +60,11 @@
     }
 
     function validate(): boolean {
-        let handledError = false
-        for (const [index, addressInputs] of Object.values(inputs).entries()) {
-            for (const input of Object.values(addressInputs)) {
-                try {
-                    input.validate()
-                } catch (err) {
-                    handledError = true
-                }
+        for (const [input, index] of inputs.map((input, idx) => [input, idx])) {
+            try {
+                input.validate()
+            } catch (err) {
+                return false
             }
             const isUniqueAddress = !addresses.some((address) => address.address === addresses[index].address)
             if (!isUniqueAddress) {
@@ -90,13 +88,18 @@
                 return false
             }
         }
-        return !handledError
+        return true
+    }
+
+    function isInitialAddress(address: IContactAddress): boolean {
+        return initialAddresses.some((_address) => _address.address === address.address)
     }
 
     onMount(() => {
         const contactAddresses = ContactManager.getNetworkContactAddressMapForContact($selectedContact?.id)
         addresses = Object.values(contactAddresses?.[$selectedContactNetworkId] ?? {}) || []
-        inputs = addresses.map(() => [undefined, undefined])
+        initialAddresses = [...addresses]
+        inputs = addresses.map(() => undefined)
     })
 </script>
 
@@ -105,27 +108,28 @@
     {drawerRouter}
 >
     <update-addresses class="flex flex-col gap-4">
-        {#each addresses as _, index}
+        {#each addresses as address, index}
             <div
                 class="flex flex-col justify-between gap-2 p-4 border border-solid border-gray-300 rounded-lg dark:border-transparent dark:bg-gray-900"
             >
                 <TextInput
-                    bind:this={inputs[index][0]}
+                    bind:value={addresses[index].address}
+                    disabled={isInitialAddress(address)}
+                    placeholder={localize('general.address')}
+                    label={localize('general.address')}
+                />
+                <TextInput
+                    bind:this={inputs[index]}
                     bind:value={addresses[index].addressName}
                     placeholder={localize('general.addressName')}
                     label={localize('general.addressName')}
-                />
-                <TextInput
-                    bind:this={inputs[index][1]}
-                    bind:value={addresses[index].address}
-                    placeholder={localize('general.address')}
-                    label={localize('general.address')}
                 />
                 <Button
                     outline
                     size={ButtonSize.Small}
                     variant={ButtonVariant.Warning}
                     classes="flex-1"
+                    disabled={addresses.length === 1}
                     onClick={() => onRemoveAddressClick(index)}
                 >
                     {localize('actions.remove')}
