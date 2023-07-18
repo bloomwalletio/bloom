@@ -9,7 +9,7 @@
         createStardustOutputFromTransactionData,
         sendOutputFromStardust,
         sendTransactionFromEvm,
-    } from '@core/wallet/utils'
+    } from '@core/wallet/actions'
     import { sendFlowRouter } from '../send-flow.router'
     import SendFlowTemplate from './SendFlowTemplate.svelte'
     import { EvmTransactionSummary, StardustTransactionSummary } from './components'

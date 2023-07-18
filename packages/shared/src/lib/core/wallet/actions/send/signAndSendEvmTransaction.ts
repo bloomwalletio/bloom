@@ -1,6 +1,6 @@
 import { buildBip32Path, updateSelectedAccount } from '@core/account'
-import { EvmTransactionData, signTransactionWithLedger } from '@core/layer-2'
 import { handleError } from '@core/error/handlers'
+import { EvmTransactionData, signTransactionWithLedger } from '@core/layer-2'
 import Web3 from 'web3'
 
 export async function signAndSendEvmTransaction(

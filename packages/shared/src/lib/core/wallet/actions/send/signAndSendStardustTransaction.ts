@@ -1,9 +1,9 @@
 import { IAccountState, updateSelectedAccount } from '@core/account'
 import { updateNftInAllAccountNfts } from '@core/nfts/actions'
-import { Output } from '../../types'
-import { resetNewTokenTransactionData } from '@core/wallet/stores'
 import { DEFAULT_TRANSACTION_OPTIONS, OUTPUT_TYPE_NFT } from '@core/wallet/constants'
-import { processAndAddToActivities } from '../processAndAddToActivities'
+import { resetNewTokenTransactionData } from '@core/wallet/stores'
+import { Output } from '@core/wallet/types'
+import { processAndAddToActivities } from '@core/wallet/utils'
 
 export async function signAndSendStardustTransaction(output: Output, account: IAccountState): Promise<void> {
     try {

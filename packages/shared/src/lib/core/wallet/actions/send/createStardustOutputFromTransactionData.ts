@@ -1,7 +1,7 @@
 import { prepareOutput } from '@core/account'
-import { getOutputParameters } from './getOutputParameters'
-import { DEFAULT_TRANSACTION_OPTIONS } from '../constants'
-import { Output, TransactionData } from '../types'
+import { DEFAULT_TRANSACTION_OPTIONS } from '@core/wallet/constants'
+import { Output, TransactionData } from '@core/wallet/types'
+import { getOutputParameters } from '@core/wallet/utils'
 
 export async function createStardustOutputFromTransactionData(
     transactionData: TransactionData,
