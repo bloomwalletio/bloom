@@ -10,8 +10,9 @@
     import { onMount } from 'svelte'
     import { get } from 'svelte/store'
     import StardustTransactionDetails from './StardustTransactionDetails.svelte'
-    import { Output } from '@core/wallet'
+    import { Output, TransactionData } from '@core/wallet'
     import TransactionAssetSection from './TransactionAssetSection.svelte'
+    import { DisplayedAsset } from '../types'
 
     export let _onMount: (..._: any[]) => Promise<void> = async () => {}
     export let output: Output
@@ -45,6 +46,7 @@
     $: isToLayer2 = !!layer2Parameters?.networkAddress
     $: transactionData, void setEstimatedGas()
     $: expirationDate, timelockDate, giftStorageDeposit, refreshSendConfirmationState()
+    $: displayedAsset = getDisplayedAsset(transactionData)
 
     function refreshSendConfirmationState(): void {
         updateNewTransactionData({
@@ -101,6 +103,14 @@
         }
     }
 
+    function getDisplayedAsset(transactionData: TransactionData): DisplayedAsset {
+        if (transactionData.type === NewTransactionType.TokenTransfer) {
+            return { type: 'token', asset: transactionData.asset, rawAmount: transactionData.rawAmount }
+        } else {
+            return { type: 'nft', nft: transactionData.nft }
+        }
+    }
+
     onMount(async () => {
         try {
             initializeExpirationInput()
@@ -112,7 +122,9 @@
 </script>
 
 <div class="w-full space-y-4">
-    <TransactionAssetSection {transactionData} {visibleSurplus} />
+    {#if displayedAsset}
+        <TransactionAssetSection {displayedAsset} {visibleSurplus} />
+    {/if}
 
     <StardustTransactionDetails
         bind:expirationDate

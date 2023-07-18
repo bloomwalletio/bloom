@@ -1,19 +1,20 @@
 <script lang="ts">
     import { activeProfile } from '@core/profile'
-    import { NewTransactionType, TransactionData, selectedAccountAssets } from '@core/wallet'
+    import { selectedAccountAssets } from '@core/wallet'
     import { NftTile, TokenAmountTile } from '@ui'
+    import { DisplayedAsset } from '../types'
 
-    export let transactionData: TransactionData
+    export let displayedAsset: DisplayedAsset
     export let visibleSurplus: number
 
     $: baseCoin = $selectedAccountAssets?.[$activeProfile?.network?.id]?.baseCoin
 </script>
 
 <asset-section class="flex flex-row gap-2 justify-between">
-    {#if transactionData.type === NewTransactionType.TokenTransfer}
-        <TokenAmountTile asset={transactionData.asset} amount={Number(transactionData.rawAmount)} />
-    {:else if transactionData.type === NewTransactionType.NftTransfer}
-        <NftTile nft={transactionData.nft} />
+    {#if displayedAsset.type === 'token'}
+        <TokenAmountTile asset={displayedAsset.asset} amount={Number(displayedAsset.rawAmount)} />
+    {:else}
+        <NftTile nft={displayedAsset.nft} />
     {/if}
     {#if visibleSurplus}
         <TokenAmountTile asset={baseCoin} amount={visibleSurplus} hideTokenInfo />

@@ -20,26 +20,25 @@
 
     export let _onMount: (..._: any[]) => Promise<void> = async () => {}
 
+    $: isAssetFromLayer2 = !!chain
     $: isTransferring = !!$selectedAccount.isTransferring
     $: void updateSendFlow($newTransactionData)
 
-    let isAssetFromLayer2 = false
-    let recipient: string
+    let recipientAddress: string
     let preparedOutput: Output | undefined
     let preparedTransaction: EvmTransactionData | undefined
     let chain: IChain | undefined
 
     async function updateSendFlow(transactionData: TransactionData): Promise<void> {
-        recipient =
-            transactionData.recipient.type === 'account'
-                ? transactionData.recipient.account.name
-                : truncateString(transactionData.recipient?.address, 6, 6)
+        const { recipient, type } = transactionData
 
-        isAssetFromLayer2 =
-            transactionData.type === NewTransactionType.TokenTransfer ? !!transactionData.asset.chainId : false
-        if (isAssetFromLayer2) {
-            const chainId =
-                transactionData?.type === NewTransactionType.TokenTransfer ? transactionData.asset.chainId : undefined
+        recipientAddress =
+            recipient.type === 'account' ? recipient.account.name : truncateString(recipient?.address, 6, 6)
+
+        const chainId = type === NewTransactionType.TokenTransfer ? transactionData.asset.chainId : undefined
+
+        if (chainId) {
+            const chainId = type === NewTransactionType.TokenTransfer ? transactionData.asset.chainId : undefined
             chain = getNetwork()?.getChain(chainId)
             const account = getSelectedAccount()
 
@@ -71,7 +70,7 @@
 </script>
 
 <SendFlowTemplate
-    title={localize('popups.transaction.transactionSummary', { values: { recipient } })}
+    title={localize('popups.transaction.transactionSummary', { values: { recipient: recipientAddress } })}
     leftButton={{
         text: localize($sendFlowRouter.hasHistory() ? 'actions.back' : 'actions.cancel'),
         onClick: onBackClick,
@@ -84,9 +83,9 @@
         isBusy: isTransferring,
     }}
 >
-    {#if isAssetFromLayer2}
+    {#if isAssetFromLayer2 && preparedTransaction}
         <EvmTransactionSummary transaction={preparedTransaction} {_onMount} />
-    {:else}
-        <StardustTransactionSummary output="{preparedOutput}{_onMount}" />
+    {:else if !isAssetFromLayer2 && preparedOutput}
+        <StardustTransactionSummary output={preparedOutput} {_onMount} />
     {/if}
 </SendFlowTemplate>
