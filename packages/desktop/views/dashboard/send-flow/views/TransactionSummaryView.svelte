@@ -5,8 +5,8 @@
     import { localize } from '@core/i18n'
     import { NewTransactionType, newTransactionData } from '@core/wallet/stores'
     import {
-        createEvmTransaction,
-        prepareOutputFromTransactionData,
+        createEvmTransactionFromTransactionData,
+        createStardustOutputFromTransactionData,
         sendOutputFromStardust,
         sendTransactionFromEvm,
     } from '@core/wallet/utils'
@@ -17,6 +17,7 @@
     import { Output, TransactionData } from '@core/wallet'
     import { IChain, getNetwork } from '@core/network'
     import { EvmTransactionData } from '@core/layer-2'
+    import { onMount } from 'svelte'
 
     export let _onMount: (..._: any[]) => Promise<void> = async () => {}
 
@@ -40,9 +41,9 @@
             chain = getNetwork()?.getChain(chainId)
             const account = getSelectedAccount()
 
-            preparedTransaction = await createEvmTransaction(chain, account)
+            preparedTransaction = await createEvmTransactionFromTransactionData($newTransactionData, chain, account)
         } else {
-            preparedOutput = await prepareOutputFromTransactionData($selectedAccountIndex)
+            preparedOutput = await createStardustOutputFromTransactionData($newTransactionData, $selectedAccountIndex)
         }
     }
 

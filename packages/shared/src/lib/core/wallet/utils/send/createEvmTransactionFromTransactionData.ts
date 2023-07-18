@@ -8,12 +8,15 @@ import {
 } from '@core/layer-2/utils'
 import { ISC_MAGIC_CONTRACT_ADDRESS } from '@core/layer-2/constants'
 import { EvmTransactionData } from '@core/layer-2/types'
-import { NewTransactionType, newTransactionData } from '@core/wallet/stores'
-import { get } from 'svelte/store'
+import { NewTransactionType } from '@core/wallet/stores'
 import { IAccountState } from '@core/account'
+import { TransactionData } from '@core/wallet/types'
 
-export function createEvmTransaction(chain: IChain, account: IAccountState): Promise<EvmTransactionData | undefined> {
-    const transactionData = get(newTransactionData)
+export function createEvmTransactionFromTransactionData(
+    transactionData: TransactionData,
+    chain: IChain,
+    account: IAccountState
+): Promise<EvmTransactionData | undefined> {
     if (!transactionData || transactionData.type === NewTransactionType.NftTransfer) {
         return Promise.resolve(undefined)
     }
