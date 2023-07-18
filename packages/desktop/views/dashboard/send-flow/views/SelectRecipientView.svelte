@@ -166,6 +166,7 @@
             networkAddress === undefined ||
             !recipient ||
             (recipient.type === 'address' && !recipient.address) ||
+            (recipient.type === 'contact' && !recipient.address && !recipient.contact) ||
             (recipient.type === 'account' && !recipient.account),
     }}
 >

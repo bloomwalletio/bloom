@@ -170,6 +170,16 @@ export class ContactManager {
         }
     }
 
+    static getContactForAddress(networkId: string, address: string): IContact | undefined {
+        const profile = getActiveProfile()
+        if (!profile) {
+            return undefined
+        }
+
+        const contactId = profile.networkContactAddresses[networkId]?.[address]?.contactId
+        return contactId ? profile.contacts[contactId] : undefined
+    }
+
     static getNetworkContactAddressMapForContact(contactId: string): INetworkContactAddressMap {
         const profile = getActiveProfile()
 

@@ -29,7 +29,7 @@
 
     export function validate(): Promise<void> {
         try {
-            if (recipient?.type === 'address') {
+            if (recipient?.type === 'address' || recipient?.type === 'contact') {
                 if (!recipient.address) {
                     throw new Error(localize('error.send.recipientRequired'))
                 }
@@ -39,7 +39,8 @@
                 } else {
                     validateBech32Address(getNetworkHrp(), recipient?.address)
                 }
-            } else if (recipient?.type === 'account') {
+            }
+            if (recipient?.type === 'account') {
                 if (isLayer2) {
                     throw new Layer1RecipientError()
                 }

@@ -80,6 +80,10 @@ function getFieldsToSearchFromActivity(activity: Activity): string[] {
 
     if (activity.subject?.type === 'account') {
         fieldsToSearch.push(activity.subject?.account?.name)
+        fieldsToSearch.push(activity.subject?.account?.depositAddress)
+    } else if (activity.subject?.type === 'contact') {
+        fieldsToSearch.push(activity.subject?.contact.name)
+        fieldsToSearch.push(activity.subject?.address)
     } else if (activity.subject?.type === 'address') {
         fieldsToSearch.push(activity.subject?.address)
     }

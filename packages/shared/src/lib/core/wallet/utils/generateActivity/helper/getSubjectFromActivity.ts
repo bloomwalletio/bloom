@@ -26,9 +26,11 @@ export function getSubjectLocaleFromActivity(activity: Activity): string {
     if (activity.type === ActivityType.Basic && activity?.isShimmerClaiming) {
         return localize('general.shimmerGenesis')
     } else if (subject?.type === 'account') {
-        return truncateString(subject?.account?.name, 13, 0)
+        return truncateString(subject.account?.name, 13, 0)
+    } else if (subject?.type === 'contact') {
+        return truncateString(subject.contact?.name, 13, 0)
     } else if (subject?.type === 'address') {
-        const address = activity?.parsedLayer2Metadata?.ethereumAddress ?? subject?.address
+        const address = activity?.parsedLayer2Metadata?.ethereumAddress ?? subject.address
         const network = getLayer2NetworkFromAddress(address)
 
         return network ?? truncateString(address, 6, 6)
