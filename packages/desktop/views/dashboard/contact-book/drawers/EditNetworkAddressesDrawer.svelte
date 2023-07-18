@@ -17,9 +17,7 @@
     export let drawerRouter: Router<unknown>
 
     let addresses: IContactAddress[] = []
-    let initialAddresses: IContactAddress[] = []
     let addressesToRemove: string[] = []
-
     let inputs: TextInput[] = []
 
     function onRemoveAddressClick(indexToRemove: number): void {
@@ -60,31 +58,10 @@
     }
 
     function validate(): boolean {
-        for (const [input, index] of inputs.map((input, idx) => [input, idx])) {
+        for (const input of inputs) {
             try {
                 input.validate()
             } catch (err) {
-                return false
-            }
-            const isUniqueAddress = !addresses.some((address) => address.address === addresses[index].address)
-            if (!isUniqueAddress) {
-                showAppNotification({
-                    type: 'error',
-                    alert: true,
-                    message: localize('error.input.alreadyUsed', { field: localize('general.address') }),
-                })
-                return false
-            }
-
-            const isUniqueAddressName = !addresses.some(
-                (address) => address.addressName === addresses[index].addressName
-            )
-            if (!isUniqueAddressName) {
-                showAppNotification({
-                    type: 'error',
-                    alert: true,
-                    message: localize('error.input.alreadyUsed', { field: localize('general.addressName') }),
-                })
                 return false
             }
         }
@@ -92,13 +69,14 @@
     }
 
     function isInitialAddress(address: IContactAddress): boolean {
-        return initialAddresses.some((_address) => _address.address === address.address)
+        return ContactManager.getContact($selectedContact?.id).addresses.some(
+            (_address) => _address === address.address
+        )
     }
 
     onMount(() => {
         const contactAddresses = ContactManager.getNetworkContactAddressMapForContact($selectedContact?.id)
         addresses = Object.values(contactAddresses?.[$selectedContactNetworkId] ?? {}) || []
-        initialAddresses = [...addresses]
         inputs = addresses.map(() => undefined)
     })
 </script>
