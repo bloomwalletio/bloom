@@ -13,4 +13,6 @@ export * from './setOutgoingAsyncActivitiesToClaimed'
 export * from './mintNft'
 export * from './mintNativeToken'
 export * from './getOrRequestAssetFromPersistedAssets'
+
 export * from './activities'
+export * from './send'

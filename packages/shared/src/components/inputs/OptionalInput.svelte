@@ -12,6 +12,7 @@
     export let classes: string = null
     export let isOpen: boolean = false
     export let isTooltipVisible: boolean = false
+    export let disabled: boolean = false
 
     let buttonElement: HTMLButtonElement
 
@@ -59,6 +60,7 @@
         placeholder={label}
         {fontSize}
         fontWeight={FontWeight.medium}
+        {disabled}
         {...$$restProps}
     />
     {#if !isOpen}
@@ -66,6 +68,7 @@
             bind:buttonElement
             bind:open={isOpen}
             text={label}
+            {disabled}
             onClick={open}
             {onMouseEnter}
             {onMouseLeave}
