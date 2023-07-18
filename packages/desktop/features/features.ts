@@ -1,4 +1,5 @@
 import collectiblesFeatures from './collectibles.features'
+import contactsFeatures from './contacts.features'
 import developerToolsFeatures from './developer-tools.features'
 import electronFeatures from './electron.features'
 import governanceFeatures from './governance.features'
@@ -11,6 +12,7 @@ import { IDesktopFeatures } from './interfaces'
 
 const features: IDesktopFeatures = {
     collectibles: collectiblesFeatures,
+    contacts: contactsFeatures,
     developerTools: developerToolsFeatures,
     electron: electronFeatures,
     governance: governanceFeatures,
