@@ -15,7 +15,7 @@ const walletFeatures: IWalletFeatures = {
         enabled: true,
     },
     contacts: {
-        enabled: false,
+        enabled: true,
         sendTo: {
             enabled: true,
         },
