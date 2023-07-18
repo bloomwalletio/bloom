@@ -546,7 +546,8 @@
                         "addNetworkAddress": "Add network address"
                     },
                     "addContact": {
-                        "title": "Add contact"
+                        "title": "Add contact",
+                        "optionalNote": "Note (optional)"
                     },
                     "editContact": {
                         "title": "Edit contact"
@@ -1536,6 +1537,7 @@
         "security": "Security",
         "accountAddress": "Wallet Address",
         "network": "Network",
+        "networkSelection": "Network selection",
         "destinationNetwork": "Destination network",
         "nodes": "Nodes",
         "wallet": "Wallet",
@@ -1944,7 +1946,9 @@
             "invalid": "Invalid PIN code."
         },
         "address": {
-            "wrongAddressType": "Wrong address type"
+            "wrongAddressType": "Wrong address type",
+            "invalidBech32Format": "Invalid Bech32 format",
+            "belongsToAccount": "Cannot belong to any of your accounts"
         },
         "account": {
             "addressNotFound": "The address cannot be found in your account.",
@@ -2141,10 +2145,12 @@
             "invalidAddressFormat": "Must be hexadecimal format",
             "invalidAddressLength": "Length is invalid"
         },
-        "contacts": {
-            "nameRequired": "Name is required",
-            "nameTooLong": "Name must be less than 20 characters long",
-            "noteTooLong": "Note must be less than 1000 characters long"
+        "input": {
+            "invalid": "{field} input is invalid",
+            "required": "{field} is required",
+            "unique": "{field} must be unique",
+            "alreadyUsed": "{field} is already being used",
+            "tooLong": "{field} must be {numCharacters} or less characters"
         }
     },
     "warning": {

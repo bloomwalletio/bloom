@@ -201,7 +201,7 @@ export class AccountMock implements IAccount {
         throw new Error('Method not implemented.')
     }
 
-    minimumRequiredStorageDeposit(outputs: OutputTypes[]): Promise<string> {
+    minimumRequiredStorageDeposit(output: OutputTypes): Promise<string> {
         throw new Error('Method not implemented.')
     }
 

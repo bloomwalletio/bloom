@@ -12,10 +12,10 @@ const walletFeatures: IWalletFeatures = {
         },
     },
     walletConnect: {
-        enabled: true,
+        enabled: false,
     },
     contacts: {
-        enabled: false,
+        enabled: true,
         sendTo: {
             enabled: true,
         },

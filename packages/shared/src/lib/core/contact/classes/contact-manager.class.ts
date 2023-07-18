@@ -8,7 +8,6 @@ import type {
     IContactAddressMap,
     INetworkContactAddressMap,
 } from '../interfaces'
-import { localize } from '@core/i18n'
 import { selectedContact } from '../stores'
 
 export class ContactManager {
@@ -194,29 +193,6 @@ export class ContactManager {
         return profile && profile.networkContactAddresses && profile.networkContactAddresses[networkId]
             ? Object.values(profile.networkContactAddresses[networkId])
             : []
-    }
-
-    static validateContact(contact: IContactMetadata): void {
-        const errors = {
-            name: '',
-            note: '',
-        }
-
-        if (!contact.name) {
-            errors.name = localize('error.contacts.nameRequired')
-        } else if (contact.name.length >= 20) {
-            errors.name = localize('error.contacts.nameTooLong')
-        }
-
-        if (contact.note && contact.note.length > 1000) {
-            errors.note = localize('error.contacts.noteTooLong')
-        }
-
-        const hasAnyErrors = Object.values(errors).some((error) => !!error)
-
-        if (hasAnyErrors) {
-            throw errors
-        }
     }
 }
 

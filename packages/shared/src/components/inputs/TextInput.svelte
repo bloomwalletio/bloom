@@ -3,7 +3,7 @@
     import { FontWeight, TextPropTypes, TextType } from '@ui'
 
     export let value: string = ''
-    export let inputElement: HTMLInputElement = undefined
+    export let inputElement: HTMLInputElement | undefined = undefined
     export let hasFocus: boolean = false
     export let error: string = ''
     export let inputType: 'text' | 'number' | 'password' = 'text'
@@ -15,11 +15,29 @@
     export let fontSize = 'sm'
     export let lineHeight = '140'
 
+    export function validate(): void {
+        /* eslint-disable @typescript-eslint/ban-ts-comment */
+        // @ts-ignore
+        input?.validate()
+    }
+
     let textProps: TextPropTypes
     $: textProps = { type: textType, fontSize, lineHeight, fontWeight }
+
+    let input: Input
 </script>
 
-<Input bind:inputElement bind:value bind:hasFocus bind:error type={inputType} {textProps} {alignment} {...$$restProps}>
+<Input
+    bind:this={input}
+    bind:inputElement
+    bind:value
+    bind:hasFocus
+    bind:error
+    type={inputType}
+    {textProps}
+    {alignment}
+    {...$$restProps}
+>
     <slot name="left" slot="left" />
     <slot name="right" slot="right" />
     <slot name="right-full-h" slot="right-full-h" />
