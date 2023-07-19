@@ -20,7 +20,7 @@
         timelockDate,
         disableChangeExpiration,
         giftStorageDeposit,
-        surplus,
+        rawBaseCoinAmount,
         layer2Parameters,
         tag,
         metadata,
@@ -42,6 +42,7 @@
     $: isTransferring = !!$selectedAccount.isTransferring
     $: isToLayer2 = !!layer2Parameters?.networkAddress
     $: transactionData, void setEstimatedGas()
+    $: setStorageDeposit(output)
     $: expirationDate, timelockDate, giftStorageDeposit, refreshSendConfirmationState()
 
     function refreshSendConfirmationState(): void {
@@ -50,9 +51,8 @@
             expirationDate,
             timelockDate,
             giftStorageDeposit,
-            surplus,
+            rawBaseCoinAmount,
         })
-        setStorageDeposit(output, Number(surplus))
     }
 
     function getInitialExpirationDate(): TimePeriod {
@@ -69,28 +69,15 @@
         estimatedGas = await estimateGasForLayer1ToLayer2Transaction(transactionData)
     }
 
-    function setStorageDeposit(output: Output, surplus?: number): void {
-        const rawAmount = transactionData.type === NewTransactionType.TokenTransfer ? transactionData.rawAmount : '0'
+    function setStorageDeposit(output: Output): void {
+        storageDeposit = getStorageDepositFromOutput(output)
 
-        const { storageDeposit: _storageDeposit, giftedStorageDeposit: _giftedStorageDeposit } =
-            getStorageDepositFromOutput(output, rawAmount)
-
-        if (surplus > _storageDeposit) {
-            visibleSurplus = Number(surplus)
-        }
-
-        if (giftStorageDeposit) {
-            // Only giftedStorageDeposit needs adjusting, since that is derived
-            // from the amount property instead of the unlock condition
-            if (!surplus) {
-                storageDeposit = _giftedStorageDeposit
-            } else if (surplus >= _giftedStorageDeposit) {
-                storageDeposit = 0
-            } else {
-                storageDeposit = _giftedStorageDeposit - surplus
-            }
+        if (Number(output.amount) > Number(storageDeposit)) {
+            visibleSurplus = Number(output.amount) - Number(storageDeposit)
+        } else if (Number(output.amount) === Number(storageDeposit)) {
+            visibleSurplus = 0
         } else {
-            storageDeposit = _storageDeposit
+            visibleSurplus = Number(output.amount)
         }
     }
 
@@ -100,7 +87,7 @@
     } {
         let displayedAsset: DisplayedAsset
         if (transactionData.type === NewTransactionType.TokenTransfer) {
-            displayedAsset = { type: 'token', asset: transactionData.asset, rawAmount: transactionData.rawAmount }
+            displayedAsset = { type: 'token', asset: transactionData.asset, rawAmount: transactionData.rawAssetAmount }
         } else {
             displayedAsset = { type: 'nft', nft: transactionData.nft }
         }
@@ -108,7 +95,7 @@
     }
 
     onMount(() => {
-        setStorageDeposit(output, Number(surplus))
+        setStorageDeposit(output)
         selectedExpirationPeriod = getInitialExpirationDate()
     })
 </script>
