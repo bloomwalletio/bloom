@@ -1,16 +1,15 @@
-import { get } from 'svelte/store'
-
 import { formatTokenAmountDefault, sendFlowParameters, SendFlowType } from '@core/wallet'
+import { get } from 'svelte/store'
 import { PopupProps } from '../../../../../../desktop/lib/auxiliary/popup/types'
 
 export function deconstructLedgerVerificationProps(): PopupProps | undefined {
-    const transactionData = get(sendFlowParameters)
+    const _sendFlowParameters = get(sendFlowParameters)
 
-    if (!transactionData) {
+    if (!_sendFlowParameters) {
         return
     }
 
-    const { type, recipient } = transactionData
+    const { type, recipient } = _sendFlowParameters
 
     // TODO: Add ledger support for NFTs
 
@@ -18,12 +17,12 @@ export function deconstructLedgerVerificationProps(): PopupProps | undefined {
     const toAddress = recipient?.type === 'account' ? recipient?.account?.depositAddress : recipient?.address
     let toAmount = '0'
     if (type === SendFlowType.BaseCoinTransfer) {
-        const { rawAmount, asset, unit } = transactionData.baseCoinTransfer || {}
+        const { rawAmount, asset, unit } = _sendFlowParameters.baseCoinTransfer || {}
         toAmount = asset?.metadata
             ? formatTokenAmountDefault(Number(rawAmount), asset.metadata, unit)
             : String(rawAmount)
     } else if (type === SendFlowType.TokenTransfer) {
-        const { rawAmount, asset, unit } = transactionData.tokenTransfer || {}
+        const { rawAmount, asset, unit } = _sendFlowParameters.tokenTransfer || {}
         toAmount = asset?.metadata
             ? formatTokenAmountDefault(Number(rawAmount), asset.metadata, unit)
             : String(rawAmount)

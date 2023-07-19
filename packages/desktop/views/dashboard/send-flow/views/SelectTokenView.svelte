@@ -82,23 +82,18 @@
             disableChangeExpiration: $sendFlowParameters?.disableChangeExpiration,
             disableToggleGift: $sendFlowParameters?.disableToggleGift,
         }
-        if (selectedAsset.id === getCoinType()) {
-            setSendFlowParameters({
-                ...previousSharedParameters,
-                type: SendFlowType.BaseCoinTransfer,
-                baseCoinTransfer: {
-                    asset: selectedAsset,
-                },
-            })
-        } else {
-            setSendFlowParameters({
-                ...previousSharedParameters,
-                type: SendFlowType.TokenTransfer,
-                tokenTransfer: {
-                    asset: selectedAsset,
-                },
-            })
-        }
+
+        const sendFlowType =
+            selectedAsset.id === getCoinType() ? SendFlowType.BaseCoinTransfer : SendFlowType.TokenTransfer
+
+        setSendFlowParameters({
+            ...previousSharedParameters,
+            type: sendFlowType,
+            [sendFlowType === SendFlowType.BaseCoinTransfer ? 'baseCoinTransfer' : 'tokenTransfer']: {
+                asset: selectedAsset,
+            },
+        })
+
         $sendFlowRouter.next()
     }
 </script>

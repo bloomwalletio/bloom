@@ -60,21 +60,13 @@
     }
 
     function onSendClick(): void {
-        if (asset.id === getCoinType()) {
-            setSendFlowParameters({
-                type: SendFlowType.BaseCoinTransfer,
-                baseCoinTransfer: {
-                    asset: asset,
-                },
-            })
-        } else {
-            setSendFlowParameters({
-                type: SendFlowType.TokenTransfer,
-                tokenTransfer: {
-                    asset: asset,
-                },
-            })
-        }
+        const sendFlowType = asset.id === getCoinType() ? SendFlowType.BaseCoinTransfer : SendFlowType.TokenTransfer
+        setSendFlowParameters({
+            type: sendFlowType,
+            [sendFlowType === SendFlowType.BaseCoinTransfer ? 'baseCoinTransfer' : 'tokenTransfer']: {
+                asset: asset,
+            },
+        })
 
         sendFlowRouter.set(new SendFlowRouter(undefined, SendFlowRoute.SelectRecipient))
         openPopup({
