@@ -58,7 +58,7 @@ const testNft = {
 }
 
 const baseTransaction: SendFlowParameters = {
-    type: SendFlowType.TokenTransfer,
+    type: SendFlowType.BaseCoinTransfer,
     baseCoinTransfer: {
         asset: PERSISTED_ASSET_SHIMMER,
         rawAmount: amount,
@@ -175,6 +175,7 @@ describe('File: getOutputParameters.ts', () => {
     it('should return output parameters for native token without surplus', async () => {
         sendFlowParameters = {
             ...baseTransaction,
+            type: SendFlowType.TokenTransfer,
             expirationDate,
             baseCoinTransfer: {
                 asset: PERSISTED_ASSET_SHIMMER,
@@ -231,6 +232,7 @@ describe('File: getOutputParameters.ts', () => {
     it('should return output parameters for native token to layer 2', async () => {
         sendFlowParameters = {
             ...baseTransaction,
+            type: SendFlowType.TokenTransfer,
             expirationDate,
             baseCoinTransfer: {
                 asset: PERSISTED_ASSET_SHIMMER,
@@ -318,6 +320,7 @@ describe('File: getOutputParameters.ts', () => {
     it('should return output parameters for native token with surplus', async () => {
         sendFlowParameters = {
             ...baseTransaction,
+            type: SendFlowType.TokenTransfer,
             expirationDate,
             baseCoinTransfer: {
                 asset: PERSISTED_ASSET_SHIMMER,
