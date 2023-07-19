@@ -1,10 +1,10 @@
 import {
-    TransactionData,
+    SendFlowParameters,
     Subject,
-    setNewTransactionData,
+    setSendFlowParameters,
     selectedAccountAssets,
     getAssetById,
-    NewTransactionType,
+    SendFlowType,
     getUnitFromTokenMetadata,
 } from '@core/wallet'
 import { openPopup, PopupId } from '../../../../../../../../desktop/lib/auxiliary/popup'
@@ -23,7 +23,7 @@ export function handleDeepLinkSendFormOperation(searchParams: URLSearchParams): 
     const transactionData = parseSendFormOperation(searchParams)
 
     if (transactionData) {
-        setNewTransactionData(transactionData)
+        setSendFlowParameters(transactionData)
         sendFlowRouter.set(new SendFlowRouter(undefined))
         openPopup({
             id: PopupId.SendFlow,
@@ -39,9 +39,9 @@ export function handleDeepLinkSendFormOperation(searchParams: URLSearchParams): 
  *
  * @param {URLSearchParams} searchParams The query parameters of the deep link URL.
  *
- * @return {TransactionData} The formatted parameters for the send operation.
+ * @return {SendFlowParameters} The formatted parameters for the send operation.
  */
-function parseSendFormOperation(searchParams: URLSearchParams): TransactionData {
+function parseSendFormOperation(searchParams: URLSearchParams): SendFlowParameters {
     const assetId = searchParams.get(SendOperationParameter.AssetId)
 
     const networkId = getActiveNetworkId()
@@ -59,7 +59,7 @@ function parseSendFormOperation(searchParams: URLSearchParams): TransactionData 
     const recipient: Subject | undefined = address ? { type: 'address', address } : undefined
 
     return {
-        type: NewTransactionType.TokenTransfer,
+        type: SendFlowType.TokenTransfer,
         ...(asset && { asset }),
         ...(recipient && { recipient }),
         ...(rawAssetAmount && { rawAssetAmount }),

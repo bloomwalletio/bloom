@@ -3,13 +3,13 @@
     import {
         TokenStandard,
         IAsset,
-        resetNewTokenTransactionData,
-        updateNewTransactionData,
+        resetSendFlowParameters,
+        setSendFlowParameters,
         unverifyAsset,
         verifyAsset,
         NotVerifiedStatus,
         VerifiedStatus,
-        NewTransactionType,
+        SendFlowType,
     } from '@core/wallet'
     import { openPopup, PopupId, updatePopupProps } from '@desktop/auxiliary/popup'
     import {
@@ -25,6 +25,7 @@
     } from '@ui'
     import { SendFlowRoute, SendFlowRouter, sendFlowRouter } from '@views/dashboard/send-flow'
     import { Icon as IconEnum } from '@lib/auxiliary/icon'
+    import { getCoinType } from '@core/profile'
 
     export let asset: IAsset
     export let activityId: string = undefined
@@ -60,11 +61,23 @@
     }
 
     function onSendClick(): void {
-        resetNewTokenTransactionData()
-        updateNewTransactionData({
-            type: NewTransactionType.TokenTransfer,
-            asset: asset,
-        })
+        resetSendFlowParameters()
+        if (asset.id === getCoinType()) {
+            setSendFlowParameters({
+                type: SendFlowType.BaseCoinTransfer,
+                baseCoinTransfer: {
+                    asset: asset,
+                },
+            })
+        } else {
+            setSendFlowParameters({
+                type: SendFlowType.TokenTransfer,
+                tokenTransfer: {
+                    asset: asset,
+                },
+            })
+        }
+
         sendFlowRouter.set(new SendFlowRouter(undefined, SendFlowRoute.SelectRecipient))
         openPopup({
             id: PopupId.SendFlow,

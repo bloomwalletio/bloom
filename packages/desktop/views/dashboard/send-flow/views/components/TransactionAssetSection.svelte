@@ -1,22 +1,24 @@
 <script lang="ts">
-    import { activeProfile } from '@core/profile'
-    import { selectedAccountAssets } from '@core/wallet'
+    import { TokenTransferData } from '@core/wallet'
     import { NftTile, TokenAmountTile } from '@ui'
-    import { DisplayedAsset } from '../types'
+    import { INft } from '@core/nfts'
 
-    export let displayedAsset: DisplayedAsset
-    export let visibleSurplus: number | undefined
-
-    $: baseCoin = $selectedAccountAssets?.[$activeProfile?.network?.id]?.baseCoin
+    export let baseCoinTransfer: TokenTransferData | undefined = undefined
+    export let tokenTransfer: TokenTransferData | undefined = undefined
+    export let nft: INft | undefined = undefined
 </script>
 
 <asset-section class="flex flex-row gap-2 justify-between">
-    {#if displayedAsset.type === 'token'}
-        <TokenAmountTile asset={displayedAsset.asset} amount={Number(displayedAsset.rawAmount)} />
-    {:else}
-        <NftTile nft={displayedAsset.nft} />
+    {#if tokenTransfer}
+        <TokenAmountTile asset={tokenTransfer.asset} amount={Number(tokenTransfer.rawAmount)} />
+    {:else if nft}
+        <NftTile {nft} />
     {/if}
-    {#if visibleSurplus}
-        <TokenAmountTile asset={baseCoin} amount={visibleSurplus} hideTokenInfo />
+    {#if baseCoinTransfer}
+        <TokenAmountTile
+            asset={baseCoinTransfer.asset}
+            amount={Number(baseCoinTransfer.rawAmount)}
+            hideTokenInfo={!!tokenTransfer}
+        />
     {/if}
 </asset-section>

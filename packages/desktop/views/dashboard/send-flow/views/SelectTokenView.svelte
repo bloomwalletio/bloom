@@ -6,9 +6,9 @@
         getAccountAssetsForSelectedAccount,
         AccountAssets,
         IAsset,
-        newTransactionData,
-        NewTransactionType,
-        updateNewTransactionData,
+        sendFlowParameters,
+        SendFlowType,
+        updateSendFlowParameters,
         TokenStandard,
     } from '@core/wallet'
     import { closePopup } from '@desktop/auxiliary/popup'
@@ -16,11 +16,12 @@
     import { Icon as IconEnum } from '@auxiliary/icon'
     import { sendFlowRouter } from '../send-flow.router'
     import SendFlowTemplate from './SendFlowTemplate.svelte'
+    import { getCoinType } from '@core/profile'
 
-    const transactionData = get(newTransactionData)
+    const transactionData = get(sendFlowParameters)
 
     let selectedAsset: IAsset =
-        transactionData?.type === NewTransactionType.TokenTransfer ? transactionData.asset : undefined
+        transactionData?.type === SendFlowType.TokenTransfer ? transactionData.tokenTransfer.asset : undefined
     let assetList: IAsset[]
     let searchValue: string = ''
 
@@ -66,11 +67,21 @@
     }
 
     function onContinueClick(): void {
-        updateNewTransactionData({
-            type: NewTransactionType.TokenTransfer,
-            asset: selectedAsset,
-        })
-
+        if (selectedAsset.id === getCoinType()) {
+            updateSendFlowParameters({
+                type: SendFlowType.BaseCoinTransfer,
+                baseCoinTransfer: {
+                    asset: selectedAsset,
+                },
+            })
+        } else {
+            updateSendFlowParameters({
+                type: SendFlowType.TokenTransfer,
+                tokenTransfer: {
+                    asset: selectedAsset,
+                },
+            })
+        }
         $sendFlowRouter.next()
     }
 </script>

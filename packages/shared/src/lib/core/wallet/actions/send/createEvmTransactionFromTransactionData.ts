@@ -9,26 +9,30 @@ import { EvmTransactionData } from '@core/layer-2/types'
 import { IChain } from '@core/network/interfaces'
 import { TokenStandard } from '@core/wallet/enums'
 import { IAsset } from '@core/wallet/interfaces'
-import { NewTransactionType } from '@core/wallet/stores'
-import { TransactionData } from '@core/wallet/types'
+import { SendFlowType } from '@core/wallet/stores'
+import { SendFlowParameters } from '@core/wallet/types'
 
 export function createEvmTransactionFromTransactionData(
-    transactionData: TransactionData,
+    sendFlowParameters: SendFlowParameters,
     chain: IChain,
     account: IAccountState
 ): Promise<EvmTransactionData | undefined> {
-    if (!transactionData || transactionData.type === NewTransactionType.NftTransfer) {
+    if (
+        !sendFlowParameters ||
+        sendFlowParameters.type === SendFlowType.BaseCoinTransfer ||
+        sendFlowParameters.type === SendFlowType.NftTransfer
+    ) {
         return Promise.resolve(undefined)
     }
 
     const provider = chain?.getProvider()
-    const asset = transactionData.asset
+    const asset = sendFlowParameters.tokenTransfer?.asset
 
-    if (transactionData.recipient?.type !== 'address' || !asset?.metadata) {
+    if (sendFlowParameters.recipient?.type !== 'address' || !asset?.metadata) {
         return Promise.resolve(undefined)
     }
 
-    const recipientAddress = transactionData.recipient.address
+    const recipientAddress = sendFlowParameters.recipient.address
 
     const { evmAddresses } = account
     const originAddress = evmAddresses[chain.getConfiguration().coinType]
@@ -38,9 +42,10 @@ export function createEvmTransactionFromTransactionData(
 
     const destinationAddress = getDestinationAddress(asset, recipientAddress)
 
-    let amount = transactionData.rawAssetAmount
+    let amount = sendFlowParameters.tokenTransfer?.rawAmount ?? '0'
+
     let data
-    if (asset.metadata?.standard === TokenStandard.BaseToken) {
+    if (!asset || asset.metadata?.standard === TokenStandard.BaseToken) {
         data = undefined
     } else {
         data = getDataForTransaction(chain, recipientAddress, asset, amount)

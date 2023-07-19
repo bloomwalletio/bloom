@@ -1,10 +1,10 @@
 import { get } from 'svelte/store'
 
-import { formatTokenAmountDefault, newTransactionData, NewTransactionType } from '@core/wallet'
+import { formatTokenAmountDefault, sendFlowParameters, SendFlowType } from '@core/wallet'
 import { PopupProps } from '../../../../../../desktop/lib/auxiliary/popup/types'
 
 export function deconstructLedgerVerificationProps(): PopupProps | undefined {
-    const transactionData = get(newTransactionData)
+    const transactionData = get(sendFlowParameters)
 
     if (!transactionData) {
         return
@@ -17,11 +17,16 @@ export function deconstructLedgerVerificationProps(): PopupProps | undefined {
     /* eslint-disable @typescript-eslint/no-unnecessary-type-assertion */
     const toAddress = recipient?.type === 'account' ? recipient?.account?.depositAddress : recipient?.address
     let toAmount = '0'
-    if (type === NewTransactionType.TokenTransfer) {
-        const { rawAssetAmount, asset, unit } = transactionData
-        toAmount = `${
-            asset?.metadata ? formatTokenAmountDefault(Number(rawAssetAmount), asset.metadata, unit) : rawAssetAmount
-        }`
+    if (type === SendFlowType.BaseCoinTransfer) {
+        const { rawAmount, asset, unit } = transactionData.baseCoinTransfer || {}
+        toAmount = asset?.metadata
+            ? formatTokenAmountDefault(Number(rawAmount), asset.metadata, unit)
+            : String(rawAmount)
+    } else if (type === SendFlowType.TokenTransfer) {
+        const { rawAmount, asset, unit } = transactionData.tokenTransfer || {}
+        toAmount = asset?.metadata
+            ? formatTokenAmountDefault(Number(rawAmount), asset.metadata, unit)
+            : String(rawAmount)
     }
 
     return {

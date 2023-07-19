@@ -7,13 +7,13 @@ import { SendFlowRoute } from '../../../../../../../../desktop/views/dashboard/s
 
 import { getByteLengthOfString, isStringTrue, isValidBech32AddressAndPrefix, validateAssetId } from '@core/utils'
 import {
-    TransactionData,
-    NewTransactionType,
+    SendFlowParameters,
+    SendFlowType,
     Subject,
     getAssetById,
     getUnitFromTokenMetadata,
     selectedAccountAssets,
-    setNewTransactionData,
+    setSendFlowParameters,
 } from '@core/wallet'
 import { get } from 'svelte/store'
 import { SendOperationParameter } from '../../../enums'
@@ -34,7 +34,7 @@ export function handleDeepLinkSendConfirmationOperation(searchParams: URLSearchP
     const transactionData = parseSendConfirmationOperation(searchParams)
 
     if (transactionData) {
-        setNewTransactionData(transactionData)
+        setSendFlowParameters(transactionData)
         sendFlowRouter.set(new SendFlowRouter(undefined, SendFlowRoute.TransactionSummary))
         openPopup({
             id: PopupId.SendFlow,
@@ -53,9 +53,9 @@ export function handleDeepLinkSendConfirmationOperation(searchParams: URLSearchP
  *
  * @param {URLSearchParams} searchParams The query parameters of the deep link URL.
  *
- * @return {TransactionData} The formatted parameters for the send operation.
+ * @return {SendFlowParameters} The formatted parameters for the send operation.
  */
-function parseSendConfirmationOperation(searchParams: URLSearchParams): TransactionData {
+function parseSendConfirmationOperation(searchParams: URLSearchParams): SendFlowParameters {
     // Check address exists and is valid this is not optional.
     const address = searchParams.get(SendOperationParameter.Address)
     if (!address) {
@@ -102,7 +102,7 @@ function parseSendConfirmationOperation(searchParams: URLSearchParams): Transact
     const disableChangeExpiration = isStringTrue(searchParams.get(SendOperationParameter.DisableChangeExpiration))
 
     return {
-        type: NewTransactionType.TokenTransfer,
+        type: SendFlowType.TokenTransfer,
         ...(asset && { asset }),
         ...(recipient && { recipient }),
         ...(rawAssetAmount && { rawAssetAmount }),
