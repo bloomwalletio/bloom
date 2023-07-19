@@ -51,14 +51,19 @@
     }
 
     function validate(): boolean {
+        /**
+         * NOTE: This variable allows us to run all the input validation functions,
+         * displaying all errors at once rather than one by one.
+         */
+        let handledError = false
         for (const input of [nameInput, noteInput, networkSelectionInput, addressNameInput, addressInput]) {
             try {
                 input.validate()
             } catch (err) {
-                return false
+                handledError = true
             }
         }
-        return true
+        return !handledError
     }
 </script>
 
