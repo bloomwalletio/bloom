@@ -14,7 +14,7 @@
     {:else if nft}
         <NftTile {nft} />
     {/if}
-    {#if baseCoinTransfer}
+    {#if Number(baseCoinTransfer?.rawAmount) > 0}
         <TokenAmountTile
             asset={baseCoinTransfer.asset}
             amount={Number(baseCoinTransfer.rawAmount)}

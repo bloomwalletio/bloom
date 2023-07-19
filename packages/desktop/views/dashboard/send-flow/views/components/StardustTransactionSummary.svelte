@@ -3,7 +3,7 @@
     import { localize } from '@core/i18n'
     import { getDestinationNetworkFromAddress, estimateGasForLayer1ToLayer2Transaction } from '@core/layer-2/utils'
     import { TimePeriod } from '@core/utils/enums'
-    import { SendFlowType, updateSendFlowParameters } from '@core/wallet/stores'
+    import { SendFlowType, selectedAccountAssets, updateSendFlowParameters } from '@core/wallet/stores'
     import { AddInputButton, ExpirationTimePicker, OptionalInput } from '@ui'
     import { getStorageDepositFromOutput } from '@core/wallet/utils'
     import { onMount } from 'svelte'
@@ -11,6 +11,7 @@
     import { Output, SendFlowParameters, TokenTransferData } from '@core/wallet'
     import TransactionAssetSection from './TransactionAssetSection.svelte'
     import { INft } from '@core/nfts/interfaces'
+    import { getNetwork } from '@core/network'
 
     export let output: Output
     export let sendFlowParameters: SendFlowParameters
@@ -66,19 +67,14 @@
         estimatedGas = await estimateGasForLayer1ToLayer2Transaction(sendFlowParameters)
     }
 
-    function setBaseCoinAndStorageDeposit(sendFlowParameters: SendFlowParameters, output: Output): void {
+    function setBaseCoinAndStorageDeposit(output: Output): void {
         storageDeposit = getStorageDepositFromOutput(output)
-        baseCoinTransfer = sendFlowParameters.baseCoinTransfer
-
-        // if (Number(output.amount) > Number(storageDeposit)) {
-        //     baseTokenAmount = Number(output.amount) - Number(storageDeposit)
-        // } else if (Number(output.amount) === Number(storageDeposit)) {
-        //     visibleSurplus = 0
-        // } else {
-        //     visibleSurplus = Number(output.amount)
-        // }
+        baseCoinTransfer = {
+            asset: $selectedAccountAssets?.[getNetwork().getMetadata().id].baseCoin,
+            rawAmount: String(Number(output.amount) - storageDeposit),
+        }
     }
-    $: setBaseCoinAndStorageDeposit(sendFlowParameters, output)
+    $: setBaseCoinAndStorageDeposit(output)
 
     function getTransactionAsset(sendFlowParameters: SendFlowParameters): {
         tokenTransfer?: TokenTransferData
@@ -93,16 +89,13 @@
     }
 
     onMount(() => {
-        setBaseCoinAndStorageDeposit(sendFlowParameters, output)
+        setBaseCoinAndStorageDeposit(output)
         selectedExpirationPeriod = getInitialExpirationDate(!!expirationDate, !!storageDeposit, giftStorageDeposit)
     })
 </script>
 
 <div class="w-full space-y-4">
-    <TransactionAssetSection
-        baseCoinTransfer={sendFlowParameters.baseCoinTransfer}
-        {...getTransactionAsset(sendFlowParameters)}
-    />
+    <TransactionAssetSection {baseCoinTransfer} {...getTransactionAsset(sendFlowParameters)} />
 
     <StardustTransactionDetails
         bind:expirationDate
