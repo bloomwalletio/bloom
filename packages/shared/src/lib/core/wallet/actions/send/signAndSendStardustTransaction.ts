@@ -1,7 +1,6 @@
 import { IAccountState, updateSelectedAccount } from '@core/account'
 import { updateNftInAllAccountNfts } from '@core/nfts/actions'
 import { DEFAULT_TRANSACTION_OPTIONS, OUTPUT_TYPE_NFT } from '@core/wallet/constants'
-import { resetSendFlowParameters } from '@core/wallet/stores'
 import { Output } from '@core/wallet/types'
 import { processAndAddToActivities } from '@core/wallet/utils'
 
@@ -13,8 +12,6 @@ export async function signAndSendStardustTransaction(output: Output, account: IA
         if (output.type === OUTPUT_TYPE_NFT) {
             updateNftInAllAccountNfts(account.index, output.nftId, { isSpendable: false })
         }
-
-        resetSendFlowParameters()
 
         await processAndAddToActivities(transaction, account)
         updateSelectedAccount({ isTransferring: false })

@@ -8,27 +8,30 @@
         IAsset,
         sendFlowParameters,
         SendFlowType,
-        updateSendFlowParameters,
         TokenStandard,
+        setSendFlowParameters,
+        selectedAccountAssets,
     } from '@core/wallet'
     import { closePopup } from '@desktop/auxiliary/popup'
-    import { get } from 'svelte/store'
     import { Icon as IconEnum } from '@auxiliary/icon'
     import { sendFlowRouter } from '../send-flow.router'
     import SendFlowTemplate from './SendFlowTemplate.svelte'
     import { getCoinType } from '@core/profile'
+    import { getNetwork } from '@core/network'
 
-    const transactionData = get(sendFlowParameters)
-
-    let selectedAsset: IAsset =
-        transactionData?.type === SendFlowType.TokenTransfer ? transactionData.tokenTransfer.asset : undefined
-    let assetList: IAsset[]
     let searchValue: string = ''
+    let selectedAsset: IAsset =
+        $sendFlowParameters?.type === SendFlowType.BaseCoinTransfer
+            ? $sendFlowParameters.baseCoinTransfer.asset
+            : $sendFlowParameters?.type === SendFlowType.TokenTransfer
+            ? $sendFlowParameters.tokenTransfer.asset
+            : $selectedAccountAssets?.[getNetwork().getMetadata().id].baseCoin
 
     let assets: AccountAssets
     $: assets = getAccountAssetsForSelectedAccount($marketCoinPrices)
     $: assets, searchValue, setFilteredAssetList()
 
+    let assetList: IAsset[]
     function getAssetList(): IAsset[] {
         const list = []
         for (const assetsPerNetwork of Object.values(assets)) {
@@ -67,15 +70,29 @@
     }
 
     function onContinueClick(): void {
+        const previousSharedParameters = {
+            recipient: $sendFlowParameters?.recipient,
+            tag: $sendFlowParameters?.tag,
+            metadata: $sendFlowParameters?.metadata,
+            expirationDate: $sendFlowParameters?.expirationDate,
+            timelockDate: $sendFlowParameters?.timelockDate,
+            giftStorageDeposit: $sendFlowParameters?.giftStorageDeposit,
+            layer2Parameters: $sendFlowParameters?.layer2Parameters,
+            addSenderFeature: $sendFlowParameters?.addSenderFeature,
+            disableChangeExpiration: $sendFlowParameters?.disableChangeExpiration,
+            disableToggleGift: $sendFlowParameters?.disableToggleGift,
+        }
         if (selectedAsset.id === getCoinType()) {
-            updateSendFlowParameters({
+            setSendFlowParameters({
+                ...previousSharedParameters,
                 type: SendFlowType.BaseCoinTransfer,
                 baseCoinTransfer: {
                     asset: selectedAsset,
                 },
             })
         } else {
-            updateSendFlowParameters({
+            setSendFlowParameters({
+                ...previousSharedParameters,
                 type: SendFlowType.TokenTransfer,
                 tokenTransfer: {
                     asset: selectedAsset,

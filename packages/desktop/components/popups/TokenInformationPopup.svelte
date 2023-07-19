@@ -3,7 +3,6 @@
     import {
         TokenStandard,
         IAsset,
-        resetSendFlowParameters,
         setSendFlowParameters,
         unverifyAsset,
         verifyAsset,
@@ -61,7 +60,6 @@
     }
 
     function onSendClick(): void {
-        resetSendFlowParameters()
         if (asset.id === getCoinType()) {
             setSendFlowParameters({
                 type: SendFlowType.BaseCoinTransfer,

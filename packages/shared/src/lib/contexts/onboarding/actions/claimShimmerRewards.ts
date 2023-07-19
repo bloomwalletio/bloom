@@ -3,7 +3,6 @@ import { get } from 'svelte/store'
 import {
     DEFAULT_TRANSACTION_OPTIONS,
     getOutputParameters,
-    resetSendFlowParameters,
     setSendFlowParameters,
     SendFlowType,
     getAssetById,
@@ -73,7 +72,7 @@ async function claimShimmerRewardsForShimmerClaimingAccount(
         return
     }
 
-    const newTransactionData: SendFlowParameters = {
+    const sendFlowParameters: SendFlowParameters = {
         recipient: {
             type: 'address',
             address: recipientAddress,
@@ -85,13 +84,12 @@ async function claimShimmerRewardsForShimmerClaimingAccount(
             unit: '',
         },
     }
-    setSendFlowParameters(newTransactionData)
+    setSendFlowParameters(sendFlowParameters)
 
-    const outputParams = await getOutputParameters(newTransactionData)
+    const outputParams = await getOutputParameters(sendFlowParameters)
     const preparedOutput = await shimmerClaimingAccount?.prepareOutput(outputParams, DEFAULT_TRANSACTION_OPTIONS)
 
     const claimingTransaction = await shimmerClaimingAccount?.sendOutputs([preparedOutput])
-    resetSendFlowParameters()
 
     persistShimmerClaimingTransaction(claimingTransaction?.transactionId)
 
