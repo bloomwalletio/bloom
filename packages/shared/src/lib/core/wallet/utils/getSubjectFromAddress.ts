@@ -8,9 +8,7 @@ export function getSubjectFromAddress(address: string, networkId?: string): Subj
 
     // TODO: update network name to network id once that is updated in the contact book
     const networkName = networkId ?? getNetwork()?.getMetadata().name
-
-    const contact = ContactManager.getContactForAddress(networkName, address)
-
+    const contact = networkName ? ContactManager.getContactForAddress(networkName, address) : undefined
     if (account) {
         return { type: 'account', account }
     } else if (contact) {
