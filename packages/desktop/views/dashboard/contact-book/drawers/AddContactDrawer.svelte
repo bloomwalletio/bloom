@@ -77,8 +77,8 @@
         <TextInput
             bind:this={noteInput}
             bind:value={note}
-            placeholder={localize('views.dashboard.drawers.contactBook.addContact.optionalNote')}
-            label={localize('views.dashboard.drawers.contactBook.addContact.optionalNote')}
+            placeholder={localize('general.optionalField', { field: localize('general.note') })}
+            label={localize('general.note')}
             validationFunction={validateContactNote}
         />
         <HR />

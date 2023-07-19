@@ -546,8 +546,7 @@
                         "addNetworkAddress": "Add network address"
                     },
                     "addContact": {
-                        "title": "Add contact",
-                        "optionalNote": "Note (optional)"
+                        "title": "Add contact"
                     },
                     "editContact": {
                         "title": "Edit contact"
@@ -1698,7 +1697,8 @@
         "custom": "Custom",
         "evmAddress": "EVM address",
         "chain": "Chain",
-        "importErc20Token": "Import ERC20 token"
+        "importErc20Token": "Import ERC20 token",
+        "optionalField": "{field} (optional)"
     },
     "filters":{
         "title": "Filters",

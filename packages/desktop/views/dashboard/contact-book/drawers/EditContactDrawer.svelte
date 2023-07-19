@@ -64,7 +64,7 @@
         <TextInput
             bind:this={noteInput}
             bind:value={contactNote}
-            placeholder={localize('general.note')}
+            placeholder={localize('general.optionalField', { field: localize('general.note') })}
             label={localize('general.note')}
             validationFunction={validateContactNote}
         />
