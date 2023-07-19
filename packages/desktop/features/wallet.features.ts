@@ -12,31 +12,7 @@ const walletFeatures: IWalletFeatures = {
         },
     },
     walletConnect: {
-        enabled: true,
-    },
-    contacts: {
-        enabled: true,
-        sendTo: {
-            enabled: true,
-        },
-        addContact: {
-            enabled: true,
-        },
-        editContact: {
-            enabled: true,
-        },
-        removeContact: {
-            enabled: true,
-        },
-        addNetworkAddress: {
-            enabled: true,
-        },
-        editNetworkAddresses: {
-            enabled: true,
-        },
-        removeNetwork: {
-            enabled: true,
-        },
+        enabled: false,
     },
     assets: {
         enabled: true,
