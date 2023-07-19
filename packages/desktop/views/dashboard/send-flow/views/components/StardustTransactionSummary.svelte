@@ -61,7 +61,7 @@
         storageDeposit = getStorageDepositFromOutput(output)
         baseCoinTransfer = {
             asset: $selectedAccountAssets?.[getNetwork().getMetadata().id].baseCoin,
-            rawAmount: String(Number(output.amount) - storageDeposit),
+            rawAmount: String(Number(output.amount) - storageDeposit - estimatedGas),
         }
     }
     $: setBaseCoinAndStorageDeposit(output)
