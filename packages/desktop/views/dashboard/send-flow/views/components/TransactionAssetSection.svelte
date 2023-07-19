@@ -6,19 +6,21 @@
     export let baseCoinTransfer: TokenTransferData | undefined = undefined
     export let tokenTransfer: TokenTransferData | undefined = undefined
     export let nft: INft | undefined = undefined
+
+    $: hasBaseCoinAmount = Number(baseCoinTransfer?.rawAmount) > 0
 </script>
 
-<asset-section class="flex flex-row gap-2 justify-between">
+<asset-section class="w-full flex flex-row gap-2 justify-between overflow-hidden">
     {#if tokenTransfer}
         <TokenAmountTile asset={tokenTransfer.asset} amount={Number(tokenTransfer.rawAmount)} />
     {:else if nft}
-        <NftTile {nft} />
+        <NftTile {nft} fullWidth={!hasBaseCoinAmount} />
     {/if}
-    {#if Number(baseCoinTransfer?.rawAmount) > 0}
+    {#if hasBaseCoinAmount}
         <TokenAmountTile
             asset={baseCoinTransfer.asset}
             amount={Number(baseCoinTransfer.rawAmount)}
-            hideTokenInfo={!!tokenTransfer}
+            hideTokenInfo={!!tokenTransfer || !!nft}
         />
     {/if}
 </asset-section>
