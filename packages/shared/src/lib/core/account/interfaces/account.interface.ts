@@ -1,6 +1,6 @@
 import type { HexEncodedAmount, IAliasOutput, IBasicOutput, IFoundryOutput, INftOutput, OutputTypes } from '@iota/types'
 import type {
-    AccountBalance,
+    Balance,
     AccountMetadata,
     Address,
     AddressWithUnspentOutputs,
@@ -61,7 +61,7 @@ export interface IAccount {
     destroyFoundry(foundryId: string, transactionOptions?: TransactionOptions): Promise<Transaction>
     generateAddress(options?: GenerateAddressOptions): Promise<Address>
     generateAddresses(amount: number, options?: GenerateAddressOptions): Promise<Address[]>
-    getBalance(): Promise<AccountBalance>
+    getBalance(): Promise<Balance>
     getFoundryOutput(tokenId: string): Promise<IFoundryOutput>
     getMetadata(): AccountMetadata
     getOutput(outputId: string): Promise<OutputData>
@@ -106,7 +106,7 @@ export interface IAccount {
     signTransactionEssence(preparedTransactionData: PreparedTransactionData): Promise<SignedTransactionEssence>
     stopParticipating(eventId: string): Promise<Transaction>
     submitAndStoreTransaction(signedTransactionData: SignedTransactionEssence): Promise<Transaction>
-    sync(options?: SyncOptions): Promise<AccountBalance>
+    sync(options?: SyncOptions): Promise<Balance>
     transactions(): Promise<Transaction[]>
     unspentOutputs(filterOptions?: FilterOptions): Promise<OutputData[]>
     vote(eventId?: string, answers?: number[]): Promise<Transaction>

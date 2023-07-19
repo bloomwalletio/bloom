@@ -2,7 +2,7 @@
 
 import type { IAliasOutput, IBasicOutput, IFoundryOutput, INftOutput, OutputTypes } from '@iota/types'
 import {
-    AccountBalance,
+    Balance,
     AccountMetadata,
     Address,
     SendNativeTokensParams,
@@ -114,7 +114,7 @@ export class AccountMock implements IAccount {
         throw new Error('Method not implemented.')
     }
 
-    getBalance(): Promise<AccountBalance> {
+    getBalance(): Promise<Balance> {
         return Promise.resolve(MOCK_ACCOUNT_BALANCE)
     }
 
@@ -298,7 +298,7 @@ export class AccountMock implements IAccount {
         throw new Error('Method not implemented.')
     }
 
-    sync(options?: SyncOptions): Promise<AccountBalance> {
+    sync(options?: SyncOptions): Promise<Balance> {
         throw new Error('Method not implemented.')
     }
 
