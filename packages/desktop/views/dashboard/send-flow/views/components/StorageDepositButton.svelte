@@ -14,6 +14,7 @@
 
     function toggleGiftStorageDeposit(): void {
         giftStorageDeposit = !giftStorageDeposit
+        modal?.close()
     }
 </script>
 
