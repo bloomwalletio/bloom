@@ -14,8 +14,8 @@
     export let disabled = false
     export let isLayer2 = false
 
-    let inputElement: HTMLInputElement = undefined
-    let modal: Modal = undefined
+    let inputElement: HTMLInputElement | undefined = undefined
+    let modal: Modal | undefined = undefined
 
     let error: string
     let selected: IOption =
@@ -39,8 +39,7 @@
                 } else {
                     validateBech32Address(getNetworkHrp(), recipient?.address)
                 }
-            }
-            if (recipient?.type === 'account') {
+            } else if (recipient?.type === 'account') {
                 if (isLayer2) {
                     throw new Layer1RecipientError()
                 }
