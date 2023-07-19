@@ -1,9 +1,8 @@
-import { get } from 'svelte/store'
 import { showAppNotification } from '@auxiliary/notification'
-import { selectedAccount, updateSelectedAccount } from '@core/account'
+import { getSelectedAccount, updateSelectedAccount } from '@core/account'
 import { localize } from '@core/i18n'
 import { Converter } from '@core/utils'
-import { MintNativeTokenParams } from '@iota/wallet'
+import { CreateNativeTokenParams } from '@iota/wallet'
 import { DEFAULT_TRANSACTION_OPTIONS } from '../constants'
 import { VerifiedStatus } from '../enums'
 import { buildPersistedAssetFromMetadata } from '../helpers'
@@ -19,23 +18,26 @@ export async function mintNativeToken(
 ): Promise<void> {
     try {
         updateSelectedAccount({ isTransferring: true })
-        const account = get(selectedAccount)
+        const account = getSelectedAccount()
+        if (!account) {
+            throw new Error('Account is undefined!')
+        }
 
-        const params: MintNativeTokenParams = {
+        const params: CreateNativeTokenParams = {
             maximumSupply: Converter.decimalToHex(maximumSupply),
             circulatingSupply: Converter.decimalToHex(circulatingSupply),
             foundryMetadata: Converter.utf8ToHex(JSON.stringify(metadata)),
         }
 
-        const mintTokenTransaction = await account.mintNativeToken(params, DEFAULT_TRANSACTION_OPTIONS)
+        const createTokenTransaction = await account.mintNativeToken(params, DEFAULT_TRANSACTION_OPTIONS)
         const persistedAsset: IPersistedAsset = buildPersistedAssetFromMetadata(
-            mintTokenTransaction.tokenId,
+            createTokenTransaction.tokenId,
             metadata,
             { verified: true, status: VerifiedStatus.SelfVerified }
         )
         addPersistedAsset(persistedAsset)
 
-        await processAndAddToActivities(mintTokenTransaction.transaction, account)
+        await processAndAddToActivities(createTokenTransaction.transaction, account)
 
         showAppNotification({
             type: 'success',
