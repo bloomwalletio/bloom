@@ -12,9 +12,9 @@
 
 <asset-section class="w-full flex flex-row gap-2 justify-between overflow-hidden">
     {#if tokenTransfer}
-        <TokenAmountTile asset={tokenTransfer.asset} amount={Number(tokenTransfer.rawAmount)} />
+        <TokenAmountTile asset={tokenTransfer.asset} amount={Number(tokenTransfer.rawAmount)} classes="flex-grow" />
     {:else if nft}
-        <NftTile {nft} fullWidth={!hasBaseCoinAmount} />
+        <NftTile {nft} fullWidth={!hasBaseCoinAmount} classes="flex-grow" />
     {/if}
     {#if hasBaseCoinAmount}
         <TokenAmountTile

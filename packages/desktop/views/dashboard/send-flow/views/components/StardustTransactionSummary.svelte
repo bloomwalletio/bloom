@@ -41,7 +41,6 @@
     $: expirationTimePicker?.setNull(giftStorageDeposit)
     $: isTransferring = !!$selectedAccount.isTransferring
     $: isToLayer2 = !!layer2Parameters?.networkAddress
-    $: sendFlowParameters, void setEstimatedGas()
     $: expirationDate, timelockDate, giftStorageDeposit, refreshSendConfirmationState()
 
     function refreshSendConfirmationState(): void {
@@ -53,19 +52,10 @@
         })
     }
 
-    function getInitialExpirationDate(hasExpirationDate, hasStorageDeposit, giftStorageDeposit): TimePeriod {
-        if (hasExpirationDate) {
-            return TimePeriod.Custom
-        } else if (hasStorageDeposit && !giftStorageDeposit) {
-            return TimePeriod.OneDay
-        } else {
-            return TimePeriod.None
-        }
-    }
-
-    async function setEstimatedGas(): Promise<void> {
+    async function setEstimatedGas(sendFlowParameters: SendFlowParameters): Promise<void> {
         estimatedGas = await estimateGasForLayer1ToLayer2Transaction(sendFlowParameters)
     }
+    $: void setEstimatedGas(sendFlowParameters)
 
     function setBaseCoinAndStorageDeposit(output: Output): void {
         storageDeposit = getStorageDepositFromOutput(output)
@@ -85,6 +75,16 @@
                 tokenTransfer: sendFlowParameters.tokenTransfer,
             }),
             ...(sendFlowParameters.type === SendFlowType.NftTransfer && { nft: sendFlowParameters.nft }),
+        }
+    }
+
+    function getInitialExpirationDate(hasExpirationDate, hasStorageDeposit, giftStorageDeposit): TimePeriod {
+        if (hasExpirationDate) {
+            return TimePeriod.Custom
+        } else if (hasStorageDeposit && !giftStorageDeposit) {
+            return TimePeriod.OneDay
+        } else {
+            return TimePeriod.None
         }
     }
 
