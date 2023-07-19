@@ -9,25 +9,23 @@
         updateSendFlowParameters,
     } from '@core/wallet'
     import { TokenAmountInput, TokenAvailableBalanceTile } from '@ui'
-    import { get } from 'svelte/store'
     import { sendFlowRouter } from '../send-flow.router'
     import SendFlowTemplate from './SendFlowTemplate.svelte'
 
-    const transactionData = get(sendFlowParameters)
     let assetAmountInput: TokenAmountInput
     let asset: IAsset
     let rawAmount: string
     let amount: string
     let unit: string
 
-    if (transactionData.type === SendFlowType.BaseCoinTransfer) {
-        asset = transactionData.baseCoinTransfer.asset
-        rawAmount = transactionData.baseCoinTransfer.rawAmount
-        unit = transactionData.baseCoinTransfer.unit || getUnitFromTokenMetadata(asset?.metadata)
-    } else if (transactionData.type === SendFlowType.TokenTransfer) {
-        asset = transactionData.tokenTransfer.asset
-        rawAmount = transactionData.tokenTransfer.rawAmount
-        unit = transactionData.tokenTransfer.unit || getUnitFromTokenMetadata(asset?.metadata)
+    if ($sendFlowParameters.type === SendFlowType.BaseCoinTransfer) {
+        asset = $sendFlowParameters.baseCoinTransfer.asset
+        rawAmount = $sendFlowParameters.baseCoinTransfer.rawAmount
+        unit = $sendFlowParameters.baseCoinTransfer.unit || getUnitFromTokenMetadata(asset?.metadata)
+    } else if ($sendFlowParameters.type === SendFlowType.TokenTransfer) {
+        asset = $sendFlowParameters.tokenTransfer.asset
+        rawAmount = $sendFlowParameters.tokenTransfer.rawAmount
+        unit = $sendFlowParameters.tokenTransfer.unit || getUnitFromTokenMetadata(asset?.metadata)
     }
 
     $: availableBalance = asset?.balance?.available
@@ -43,7 +41,7 @@
     async function onContinueClick(): Promise<void> {
         try {
             await assetAmountInput?.validate()
-            if (transactionData.type === SendFlowType.BaseCoinTransfer) {
+            if ($sendFlowParameters.type === SendFlowType.BaseCoinTransfer) {
                 updateSendFlowParameters({
                     type: SendFlowType.BaseCoinTransfer,
                     baseCoinTransfer: {
@@ -52,7 +50,7 @@
                         unit,
                     },
                 })
-            } else if (transactionData.type === SendFlowType.TokenTransfer) {
+            } else if ($sendFlowParameters.type === SendFlowType.TokenTransfer) {
                 updateSendFlowParameters({
                     type: SendFlowType.TokenTransfer,
                     tokenTransfer: {
@@ -69,7 +67,7 @@
     }
 
     function onBackClick(): void {
-        if (transactionData.type === SendFlowType.BaseCoinTransfer) {
+        if ($sendFlowParameters.type === SendFlowType.BaseCoinTransfer) {
             updateSendFlowParameters({
                 type: SendFlowType.BaseCoinTransfer,
                 baseCoinTransfer: {
@@ -78,7 +76,7 @@
                     unit,
                 },
             })
-        } else if (transactionData.type === SendFlowType.TokenTransfer) {
+        } else if ($sendFlowParameters.type === SendFlowType.TokenTransfer) {
             updateSendFlowParameters({
                 type: SendFlowType.TokenTransfer,
                 tokenTransfer: {

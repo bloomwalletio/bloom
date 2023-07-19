@@ -31,10 +31,10 @@ import { getNetworkHrp } from '@core/profile/actions'
 import { getActiveNetworkId } from '@core/network/utils/getNetworkId'
 
 export function handleDeepLinkSendConfirmationOperation(searchParams: URLSearchParams): void {
-    const transactionData = parseSendConfirmationOperation(searchParams)
+    const sendFlowParameters = parseSendConfirmationOperation(searchParams)
 
-    if (transactionData) {
-        setSendFlowParameters(transactionData)
+    if (sendFlowParameters) {
+        setSendFlowParameters(sendFlowParameters)
         sendFlowRouter.set(new SendFlowRouter(undefined, SendFlowRoute.TransactionSummary))
         openPopup({
             id: PopupId.SendFlow,
