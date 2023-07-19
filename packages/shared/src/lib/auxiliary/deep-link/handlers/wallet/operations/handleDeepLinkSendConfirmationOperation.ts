@@ -1,21 +1,22 @@
-import { PopupId, openPopup } from '../../../../../../../../desktop/lib/auxiliary/popup'
-import {
-    sendFlowRouter,
-    SendFlowRouter,
-} from '../../../../../../../../desktop/views/dashboard/send-flow/send-flow.router'
-import { SendFlowRoute } from '../../../../../../../../desktop/views/dashboard/send-flow/send-flow-route.enum'
-
+import { getActiveNetworkId } from '@core/network/utils/getNetworkId'
+import { getNetworkHrp } from '@core/profile/actions'
 import { getByteLengthOfString, isStringTrue, isValidBech32AddressAndPrefix, validateAssetId } from '@core/utils'
 import {
     SendFlowParameters,
     SendFlowType,
-    Subject,
+    TokenTransferData,
     getAssetById,
     getUnitFromTokenMetadata,
     selectedAccountAssets,
     setSendFlowParameters,
 } from '@core/wallet'
 import { get } from 'svelte/store'
+import { PopupId, openPopup } from '../../../../../../../../desktop/lib/auxiliary/popup'
+import { SendFlowRoute } from '../../../../../../../../desktop/views/dashboard/send-flow/send-flow-route.enum'
+import {
+    SendFlowRouter,
+    sendFlowRouter,
+} from '../../../../../../../../desktop/views/dashboard/send-flow/send-flow.router'
 import { SendOperationParameter } from '../../../enums'
 import {
     InvalidAddressError,
@@ -27,8 +28,6 @@ import {
     UnknownAssetError,
 } from '../../../errors'
 import { getRawAmountFromSearchParam } from '../../../utils'
-import { getNetworkHrp } from '@core/profile/actions'
-import { getActiveNetworkId } from '@core/network/utils/getNetworkId'
 
 export function handleDeepLinkSendConfirmationOperation(searchParams: URLSearchParams): void {
     const sendFlowParameters = parseSendConfirmationOperation(searchParams)
@@ -56,6 +55,53 @@ export function handleDeepLinkSendConfirmationOperation(searchParams: URLSearchP
  * @return {SendFlowParameters} The formatted parameters for the send operation.
  */
 function parseSendConfirmationOperation(searchParams: URLSearchParams): SendFlowParameters {
+    const networkId = getActiveNetworkId()
+    if (!networkId) {
+        throw new Error('No active network')
+    }
+
+    const assetId = searchParams.get(SendOperationParameter.AssetId)
+    if (assetId) {
+        validateAssetId(assetId)
+    }
+
+    const type = assetId ? SendFlowType.TokenTransfer : SendFlowType.BaseCoinTransfer
+
+    const surplus = searchParams.get(SendOperationParameter.Surplus)
+    if (surplus && parseInt(surplus).toString() !== surplus) {
+        throw new SurplusNotANumberError(surplus)
+    } else if (surplus && type === SendFlowType.TokenTransfer) {
+        throw new SurplusNotSupportedError()
+    }
+
+    let baseCoinTransfer: TokenTransferData | undefined
+    let tokenTransfer: TokenTransferData | undefined
+    if (type === SendFlowType.BaseCoinTransfer) {
+        baseCoinTransfer = {
+            asset: get(selectedAccountAssets)?.[networkId]?.baseCoin,
+            rawAmount: getRawAmountFromSearchParam(searchParams),
+            unit: searchParams.get(SendOperationParameter.Unit) ?? 'glow',
+        }
+    } else if (type === SendFlowType.TokenTransfer && assetId) {
+        const asset = getAssetById(assetId, networkId)
+        if (asset?.metadata) {
+            tokenTransfer = {
+                asset,
+                rawAmount: getRawAmountFromSearchParam(searchParams),
+                unit: searchParams.get(SendOperationParameter.Unit) ?? getUnitFromTokenMetadata(asset.metadata),
+            }
+            if (surplus) {
+                baseCoinTransfer = {
+                    asset: get(selectedAccountAssets)?.[networkId]?.baseCoin,
+                    rawAmount: surplus,
+                    unit: 'glow',
+                }
+            }
+        } else {
+            throw new UnknownAssetError()
+        }
+    }
+
     // Check address exists and is valid this is not optional.
     const address = searchParams.get(SendOperationParameter.Address)
     if (!address) {
@@ -63,27 +109,6 @@ function parseSendConfirmationOperation(searchParams: URLSearchParams): SendFlow
     }
     if (!isValidBech32AddressAndPrefix(address, getNetworkHrp())) {
         throw new InvalidAddressError()
-    }
-
-    const recipient: Subject = { type: 'address', address }
-
-    const assetId = searchParams.get(SendOperationParameter.AssetId)
-    assetId && validateAssetId(assetId)
-
-    const networkId = getActiveNetworkId()
-    const baseAsset = networkId ? get(selectedAccountAssets)[networkId].baseCoin : undefined
-    const asset = assetId && networkId ? getAssetById(assetId, networkId) : baseAsset
-    if (!asset) {
-        throw new UnknownAssetError()
-    }
-
-    const rawAssetAmount = getRawAmountFromSearchParam(searchParams)
-
-    const surplus = searchParams.get(SendOperationParameter.Surplus)
-    if (surplus && parseInt(surplus).toString() !== surplus) {
-        throw new SurplusNotANumberError(surplus)
-    } else if (surplus && baseAsset && asset.id === baseAsset?.id) {
-        throw new SurplusNotSupportedError()
     }
 
     const metadata = searchParams.get(SendOperationParameter.Metadata)
@@ -96,21 +121,18 @@ function parseSendConfirmationOperation(searchParams: URLSearchParams): SendFlow
         throw new TagLengthError()
     }
 
-    const unit = searchParams.get(SendOperationParameter.Unit) ?? getUnitFromTokenMetadata(asset.metadata)
-    const giftStorageDeposit = isStringTrue(searchParams.get(SendOperationParameter.GiftStorageDeposit))
-    const disableToggleGift = isStringTrue(searchParams.get(SendOperationParameter.DisableToggleGift))
-    const disableChangeExpiration = isStringTrue(searchParams.get(SendOperationParameter.DisableChangeExpiration))
+    const giftStorageDeposit = isStringTrue(searchParams.get(SendOperationParameter.GiftStorageDeposit) ?? '')
+    const disableToggleGift = isStringTrue(searchParams.get(SendOperationParameter.DisableToggleGift) ?? '')
+    const disableChangeExpiration = isStringTrue(searchParams.get(SendOperationParameter.DisableChangeExpiration) ?? '')
 
     return {
-        type: SendFlowType.TokenTransfer,
-        ...(asset && { asset }),
-        ...(recipient && { recipient }),
-        ...(rawAssetAmount && { rawAssetAmount }),
-        ...(unit && { unit }),
+        type,
+        ...(baseCoinTransfer && { baseCoinTransfer }),
+        ...(tokenTransfer && { tokenTransfer }),
+        ...(address && { recipient: { type: 'address', address } }),
         ...(metadata && { metadata }),
         ...(tag && { tag }),
         ...(giftStorageDeposit && { giftStorageDeposit }),
-        ...(surplus && { rawBaseCoinAmount: surplus }),
         ...(disableToggleGift && { disableToggleGift }),
         ...(disableChangeExpiration && { disableChangeExpiration }),
     }

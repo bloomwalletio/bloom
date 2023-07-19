@@ -1,23 +1,22 @@
+import { getActiveNetworkId } from '@core/network/utils/getNetworkId'
 import {
     SendFlowParameters,
-    setSendFlowParameters,
-    selectedAccountAssets,
-    getAssetById,
     SendFlowType,
-    getUnitFromTokenMetadata,
     TokenTransferData,
+    getAssetById,
+    getUnitFromTokenMetadata,
+    selectedAccountAssets,
+    setSendFlowParameters,
 } from '@core/wallet'
-import { openPopup, PopupId } from '../../../../../../../../desktop/lib/auxiliary/popup'
-import {
-    sendFlowRouter,
-    SendFlowRouter,
-} from '../../../../../../../../desktop/views/dashboard/send-flow/send-flow.router'
 import { get } from 'svelte/store'
-
+import { PopupId, openPopup } from '../../../../../../../../desktop/lib/auxiliary/popup'
+import {
+    SendFlowRouter,
+    sendFlowRouter,
+} from '../../../../../../../../desktop/views/dashboard/send-flow/send-flow.router'
 import { SendOperationParameter } from '../../../enums'
 import { UnknownAssetError } from '../../../errors'
 import { getRawAmountFromSearchParam } from '../../../utils'
-import { getActiveNetworkId } from '@core/network/utils/getNetworkId'
 
 export function handleDeepLinkSendFormOperation(searchParams: URLSearchParams): void {
     const sendFlowParameters = parseSendFormOperation(searchParams)
@@ -54,7 +53,7 @@ function parseSendFormOperation(searchParams: URLSearchParams): SendFlowParamete
     let tokenTransfer: TokenTransferData | undefined
     if (type === SendFlowType.BaseCoinTransfer) {
         baseCoinTransfer = {
-            asset: networkId ? get(selectedAccountAssets)?.[networkId]?.baseCoin : undefined,
+            asset: get(selectedAccountAssets)?.[networkId]?.baseCoin,
             rawAmount: getRawAmountFromSearchParam(searchParams),
             unit: searchParams.get(SendOperationParameter.Unit) ?? 'glow',
         }
