@@ -9,34 +9,34 @@
     export let width = 22
     export let outlined = true
 
-    let backgroundColor: string
-    let iconColor: string
+    $: backgroundColor = classesMap[networkId]?.backgroundColor ?? ''
+    $: iconColor = classesMap[networkId]?.iconColor ?? ''
 
-    $: {
-        switch (networkId) {
-            case NetworkId.Iota:
-                backgroundColor = 'black'
-                iconColor = 'white'
-                break
-            case NetworkId.Shimmer:
-                backgroundColor = 'shimmer-highlight'
-                iconColor = 'black'
-                break
-            case NetworkId.Testnet:
-                backgroundColor = 'gray-400'
-                iconColor = 'black'
-                break
-            default:
-                backgroundColor = ''
-                iconColor = ''
-        }
+    const classesMap: { [key in NetworkId]?: Record<string, string> } = {
+        [NetworkId.Iota]: {
+            backgroundColor: 'bg-black',
+            iconColor: 'text-white',
+        },
+        [NetworkId.Shimmer]: {
+            backgroundColor: 'bg-shimmer-highlight',
+            iconColor: 'text-black',
+        },
+        [NetworkId.Testnet]: {
+            backgroundColor: 'bg-gray-400',
+            iconColor: 'text-black',
+        },
     }
 </script>
 
-<network-icon
-    class="flex items-center justify-center p-0.5 rounded-full bg-{backgroundColor} {outlined
-        ? 'ring-2 ring-white dark:ring-gray-900'
-        : ''}"
->
-    <Icon {height} {width} icon={NETWORK_ICON_SVG[chainId || networkId]} classes="text-{iconColor}" />
+<network-icon class={backgroundColor} class:outlined>
+    <Icon {height} {width} icon={NETWORK_ICON_SVG[chainId || networkId]} classes={iconColor} />
 </network-icon>
+
+<style lang="scss">
+    network-icon {
+        @apply flex items-center justify-center p-0.5 rounded-full;
+        &.outlined {
+            @apply ring-2 ring-white dark:ring-gray-900;
+        }
+    }
+</style>
