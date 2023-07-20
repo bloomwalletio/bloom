@@ -37,11 +37,11 @@
     </contact-list>
     {#if features.contacts.addContact.enabled}
         <Button
-            slot="footer"
             class="w-full"
-            on:click={onAddContactClick}
-            flatIcon={FlatIconName.Add}
+            variant="info"
+            icon={FlatIconName.Add}
             text={localize(`views.dashboard.drawers.contactBook.${ContactBookRoute.ContactList}.addContact`)}
+            on:click={onAddContactClick}
         />
     {/if}
 </DrawerTemplate>

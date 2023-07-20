@@ -1,38 +1,27 @@
 <script lang="ts">
-    import { Modal, SelectorInput, IOption } from '@ui'
-    import { activeProfile, getNetworkHrp } from '@core/profile'
-    import { validateBech32Address } from '@core/utils'
+    import { IOption, SelectInput } from '@bloom-labs/ui'
+    import { activeProfile } from '@core/profile'
     import { isIscpChain } from '@core/network'
     import type { ChainConfiguration } from '@core/network'
 
-    export let networkSelection: { networkId: string; address?: string } | undefined
-    export let error: string
     export let iscpChainAddress: string | undefined = undefined
     export let showLayer2: boolean = false
 
-    const inputAttributes = { readonly: true, overrideShowOptions: true }
-    const layer1Network = {
-        key: $activeProfile?.network.name,
-        value: undefined,
+    const layer1Network: IOption = {
+        label: $activeProfile?.network.name,
+        value: '',
     }
 
-    let inputElement: HTMLInputElement
-    let modal: Modal
-
     $: networkOptions = getNetworkOptions(showLayer2)
-
-    let selected: IOption = networkOptions?.find((option) => option.value === iscpChainAddress) ?? layer1Network
-
-    $: iscpChainAddress = selected?.value
-    $: networkSelection = selected?.key ? { networkId: selected.key, address: selected.value } : undefined
+    $: selected = networkOptions?.find((option) => option.value === iscpChainAddress) ?? layer1Network
 
     function getNetworkOptions(showLayer2: boolean): IOption[] {
         let layer2Networks: IOption[] = []
         if (showLayer2) {
             layer2Networks =
                 $activeProfile.network?.chainConfigurations?.map((chain) => ({
-                    key: chain.name,
                     value: getNetworkValue(chain),
+                    label: chain.name,
                 })) ?? []
         }
         return [layer1Network, ...layer2Networks]
@@ -41,38 +30,6 @@
     function getNetworkValue(chainConfiguration: ChainConfiguration): string | undefined {
         return isIscpChain(chainConfiguration) ? chainConfiguration?.aliasAddress : undefined
     }
-
-    let input: SelectorInput
-
-    export function validate(): Promise<void> {
-        if ($$restProps?.validationFunction) {
-            /* eslint-disable @typescript-eslint/ban-ts-comment */
-            // @ts-ignore
-            input?.validate()
-        } else {
-            try {
-                if (iscpChainAddress !== undefined) {
-                    validateBech32Address(getNetworkHrp(), iscpChainAddress)
-                }
-                return Promise.resolve()
-            } catch (err) {
-                error = err?.message ?? err
-                return Promise.reject(error)
-            }
-        }
-    }
 </script>
 
-<SelectorInput
-    labelLocale="general.destinationNetwork"
-    bind:this={input}
-    bind:selected
-    bind:inputElement
-    bind:modal
-    bind:error
-    options={networkOptions}
-    inputClasses="cursor-pointer"
-    containerClasses="cursor-pointer"
-    {...inputAttributes}
-    {...$$restProps}
-/>
+<SelectInput {selected} options={networkOptions} />
