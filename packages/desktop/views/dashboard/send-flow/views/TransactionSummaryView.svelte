@@ -37,7 +37,9 @@
             recipient.type === 'account' ? recipient.account.name : truncateString(recipient?.address, 6, 6)
 
         const chainId =
-            type === SendFlowType.TokenTransfer ? sendFlowParameters.tokenTransfer.asset?.chainId : undefined
+            type === SendFlowType.TokenTransfer
+                ? sendFlowParameters.tokenTransfer.asset?.chainId
+                : sendFlowParameters.baseCoinTransfer.asset?.chainId
         if (chainId) {
             chain = getNetwork()?.getChain(chainId)
             const account = getSelectedAccount()
@@ -92,6 +94,7 @@
     }}
 >
     {#if isAssetFromLayer2 && preparedTransaction}
+        sdadasd
         <EvmTransactionSummary transaction={preparedTransaction} sendFlowParameters={$sendFlowParameters} />
     {:else if !isAssetFromLayer2 && preparedOutput}
         <StardustTransactionSummary output={preparedOutput} sendFlowParameters={$sendFlowParameters} />

@@ -17,18 +17,23 @@ export function createEvmTransactionFromTransactionData(
     chain: IChain,
     account: IAccountState
 ): Promise<EvmTransactionData | undefined> {
-    if (
-        !sendFlowParameters ||
-        sendFlowParameters.type === SendFlowType.BaseCoinTransfer ||
-        sendFlowParameters.type === SendFlowType.NftTransfer
-    ) {
+    if (!sendFlowParameters || sendFlowParameters.type === SendFlowType.NftTransfer) {
         return Promise.resolve(undefined)
     }
 
     const provider = chain?.getProvider()
-    const asset = sendFlowParameters.tokenTransfer?.asset
 
-    if (sendFlowParameters.recipient?.type !== 'address' || !asset?.metadata) {
+    let asset
+    let amount
+    if (sendFlowParameters.type === SendFlowType.BaseCoinTransfer) {
+        asset = sendFlowParameters.baseCoinTransfer?.asset
+        amount = sendFlowParameters.baseCoinTransfer?.rawAmount ?? '0'
+    } else if (sendFlowParameters.type === SendFlowType.TokenTransfer) {
+        asset = sendFlowParameters.tokenTransfer?.asset
+        amount = sendFlowParameters.tokenTransfer?.rawAmount ?? '0'
+    }
+
+    if (sendFlowParameters.recipient?.type !== 'address' || !asset?.metadata || !amount) {
         return Promise.resolve(undefined)
     }
 
@@ -41,8 +46,6 @@ export function createEvmTransactionFromTransactionData(
     }
 
     const destinationAddress = getDestinationAddress(asset, recipientAddress)
-
-    let amount = sendFlowParameters.tokenTransfer?.rawAmount ?? '0'
 
     let data
     if (!asset || asset.metadata?.standard === TokenStandard.BaseToken) {
