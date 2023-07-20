@@ -5,7 +5,7 @@
     "author": "Charlie Varley <charlie@bloomwallet.io>",
     "license": "Apache-2.0",
     "dependencies": {
-        "@bloom-labs/ui": "0.1.18",
+        "@bloom-labs/ui": "0.3.10",
         "@iota/bundle": "1.0.0-beta.30",
         "@iota/converter": "1.0.0-beta.30",
         "@iota/crypto.js": "1.8.6",
@@ -24,7 +24,7 @@
         "qrious": "4.0.2",
         "sha3": "2.1.4",
         "svelte": "3.58.0",
-        "svelte-i18n": "3.6.0",
+        "svelte-i18n": "3.7.0",
         "svelte-markdown": "0.2.3",
         "svelty-picker": "3.5.0",
         "web3": "1.10.0",

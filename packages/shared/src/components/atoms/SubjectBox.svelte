@@ -3,14 +3,14 @@
     import { Subject } from '@core/wallet'
     import { Box, AddressBox, Text, AccountLabel, TextType, FontWeight } from '@ui'
 
-    export let subject: Subject = null
+    export let subject: Subject | null = null
 </script>
 
-{#if subject.type === 'account'}
+{#if subject?.type === 'account'}
     <Box row clearBackground clearPadding classes="justify-center">
         <AccountLabel account={subject.account} />
     </Box>
-{:else if subject.type === 'address'}
+{:else if subject?.type === 'address'}
     <AddressBox clearBackground clearPadding isCopyable address={subject.address} />
 {:else}
     <Box row clearBackground clearPadding classes="justify-center">
