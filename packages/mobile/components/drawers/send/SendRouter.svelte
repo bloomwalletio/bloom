@@ -74,9 +74,9 @@
     }
 
     function setStorageDeposit(preparedOutput: Output, surplus?: number): void {
-        const _storageDeposit = getStorageDepositFromOutput(preparedOutput)
-        const _giftedStorageDeposit = 0
-
+        const rawAmount = transactionData.type === NewTransactionType.TokenTransfer ? transactionData.rawAmount : '0'
+        const { storageDeposit: _storageDeposit, giftedStorageDeposit: _giftedStorageDeposit } =
+            getStorageDepositFromOutput(preparedOutput, rawAmount)
         if (surplus > _storageDeposit) {
             visibleSurplus = Number(surplus)
         }
