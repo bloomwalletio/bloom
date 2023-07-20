@@ -55,13 +55,14 @@
     </div>
     {#if expanded}
         {#each Object.keys(subBreakdown ?? {}) as breakdownKey}
-            <BalanceSummaryRow
-                title={localize(`popups.balanceBreakdown.${breakdownKey}.title`)}
-                subtitle={localize(`popups.balanceBreakdown.${breakdownKey}.subtitle`)}
-                amount={getAmount(subBreakdown[breakdownKey].amount)}
-                convertedAmount={getCurrencyAmount(subBreakdown[breakdownKey].amount)}
-                classes="ml-8"
-            />
+            <balance-summary-row-expanded class="ml-8">
+                <BalanceSummaryRow
+                    title={localize(`popups.balanceBreakdown.${breakdownKey}.title`)}
+                    subtitle={localize(`popups.balanceBreakdown.${breakdownKey}.subtitle`)}
+                    amount={getAmount(subBreakdown[breakdownKey].amount)}
+                    convertedAmount={getCurrencyAmount(subBreakdown[breakdownKey].amount)}
+                />
+            </balance-summary-row-expanded>
         {/each}
     {/if}
 </div>

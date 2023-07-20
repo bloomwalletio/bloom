@@ -6,7 +6,6 @@
     export let bold: boolean = false
     export let amount: string
     export let convertedAmount: string
-    export let classes: string = ''
 
     const PRIMARY_TEXT_CONFIG = {
         color: 'gray-800',
@@ -24,7 +23,7 @@
     }
 </script>
 
-<div class="flex flex-row justify-between flex-grow {classes}">
+<div class="flex flex-row justify-between flex-grow">
     <div class={title ? 'flex flex-col space-y-0.5' : null}>
         <Text {...PRIMARY_TEXT_CONFIG}>{title}</Text>
         {#if subtitle}
