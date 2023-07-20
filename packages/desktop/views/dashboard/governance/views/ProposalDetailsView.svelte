@@ -210,11 +210,11 @@
 </script>
 
 <proposal-details class="w-full h-full flex flex-nowrap p-8 relative flex-1 space-x-4 bg-gray-50 dark:bg-gray-900">
-    <div class="w-2/5 flex flex-col space-y-4 relative">
+    <div class="w-2/5 flex flex-col space-y-4">
         <Pane classes="p-6 flex flex-col h-fit overflow-hidden">
-            <header-container class="flex justify-between items-center mb-4">
+            <header-container class="flex justify-between items-center mb-4 relative">
                 <ProposalStatusPill proposal={$selectedProposal} />
-                <ProposalDetailsButton proposal={$selectedProposal} modalPosition={{ right: '24px', top: '54px' }} />
+                <ProposalDetailsButton proposal={$selectedProposal} modalPosition={{ right: '0px', top: '34px' }} />
             </header-container>
             <div class="flex flex-1 flex-col space-y-4 justify-between scrollable-y">
                 <Text type={TextType.h2}>{$selectedProposal?.title}</Text>

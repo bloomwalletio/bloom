@@ -12,7 +12,6 @@
     import features from '@features/features'
 
     export let proposal: IProposal
-    export let modal: Modal = undefined
     export let modalPosition:
         | {
               top?: string
@@ -22,6 +21,7 @@
           }
         | undefined = undefined
 
+    let modal: Modal = undefined
     let isVotingForProposal: boolean
     let isBusy = true // starts in a busy state because data needs to be fetched before displaying selectable options
 
