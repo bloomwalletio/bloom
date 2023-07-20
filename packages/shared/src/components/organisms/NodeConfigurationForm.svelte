@@ -1,6 +1,6 @@
 <script lang="ts">
     import { localize } from '@core/i18n'
-    import { NetworkId } from '@core/network'
+    import { IAuth, NetworkId } from '@core/network'
     import { EMPTY_NODE } from '@core/network/constants'
     import { IClientOptions, INode, INodeInfoResponse } from '@core/network/interfaces'
     import { nodeInfo } from '@core/network/stores'
@@ -52,16 +52,23 @@
 
     $: networkId, (coinType = undefined)
     $: networkId, coinType, node.url, (formError = '')
-    $: node = {
-        url: node.url,
-        auth: {
-            ...([username, password].every((val) => val !== '') && {
-                basicAuthNamePwd: [username, password],
-            }),
-            ...(jwt !== '' && {
-                jwt,
-            }),
-        },
+    $: jwt,
+        username,
+        password,
+        (node = {
+            url: node.url,
+            auth: getAuth(),
+        })
+
+    function getAuth(): IAuth {
+        const auth: IAuth = {}
+        if ([username, password].every((value) => value !== '')) {
+            auth.basicAuthNamePwd = [username, password]
+        }
+        if (jwt !== '') {
+            auth.jwt = jwt
+        }
+        return auth
     }
 
     function cleanNodeUrl(): void {
