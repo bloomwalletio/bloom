@@ -94,7 +94,6 @@
     }}
 >
     {#if isAssetFromLayer2 && preparedTransaction}
-        sdadasd
         <EvmTransactionSummary transaction={preparedTransaction} sendFlowParameters={$sendFlowParameters} />
     {:else if !isAssetFromLayer2 && preparedOutput}
         <StardustTransactionSummary output={preparedOutput} sendFlowParameters={$sendFlowParameters} />
