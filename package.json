@@ -18,7 +18,7 @@
         "lint-staged": "12.5.0",
         "node-hid": "2.1.2",
         "patch-package": "6.5.1",
-        "prettier": "2.8.7",
+        "prettier": "3.0.0",
         "prettier-plugin-svelte": "2.10.0",
         "typescript": "5.0.3"
     },
