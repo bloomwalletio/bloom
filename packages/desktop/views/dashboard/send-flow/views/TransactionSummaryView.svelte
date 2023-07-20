@@ -39,7 +39,7 @@
         const chainId =
             type === SendFlowType.TokenTransfer
                 ? sendFlowParameters.tokenTransfer.asset?.chainId
-                : sendFlowParameters.baseCoinTransfer.asset?.chainId
+                : sendFlowParameters.baseCoinTransfer?.asset?.chainId
         if (chainId) {
             chain = getNetwork()?.getChain(chainId)
             const account = getSelectedAccount()
