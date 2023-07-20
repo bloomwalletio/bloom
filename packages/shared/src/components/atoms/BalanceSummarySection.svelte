@@ -8,7 +8,7 @@
 
     export let titleKey: string
     export let subtitleKey: string = ''
-    export let subBreakdown: { [key: string]: { amount: number } } = undefined
+    export let subBreakdown: { [key: string]: { amount: number } } = {}
     export let amount: number
     export let bold: boolean = false
 
@@ -18,11 +18,11 @@
     $: ({ baseCoin } = $selectedAccountAssets?.[$activeProfile?.network?.id] ?? {})
 
     function getAmount(amount: number): string {
-        return formatTokenAmountBestMatch(amount, baseCoin.metadata)
+        return baseCoin?.metadata ? formatTokenAmountBestMatch(amount, baseCoin.metadata) : ''
     }
 
     function getCurrencyAmount(amount: number): string {
-        return formatCurrency(getMarketAmountFromAssetValue(amount, baseCoin))
+        return baseCoin ? formatCurrency(getMarketAmountFromAssetValue(amount, baseCoin)) : ''
     }
 
     function toggleExpandedView(): void {
@@ -32,7 +32,8 @@
 
 <div class="flex flex-col space-y-8">
     <div
-        class="w-full flex flex-row flex-grow justify-between space-x-2 {hasChildren ? 'cursor-pointer ' : ''}"
+        class="w-full flex flex-row flex-grow justify-between space-x-2"
+        class:cursor-pointer={hasChildren}
         on:click={toggleExpandedView}
         on:keydown={() => {}}
     >
