@@ -12,7 +12,7 @@ import { IAsset } from '@core/wallet/interfaces'
 import { SendFlowType } from '@core/wallet/stores'
 import { SendFlowParameters } from '@core/wallet/types'
 
-export function createEvmTransactionFromTransactionData(
+export function createEvmTransactionFromSendFlowParameters(
     sendFlowParameters: SendFlowParameters,
     chain: IChain,
     account: IAccountState

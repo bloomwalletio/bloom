@@ -3,7 +3,7 @@ import { DEFAULT_TRANSACTION_OPTIONS } from '@core/wallet/constants'
 import { Output, SendFlowParameters } from '@core/wallet/types'
 import { getOutputParameters } from '@core/wallet/utils'
 
-export async function createStardustOutputFromTransactionData(
+export async function createStardustOutputFromSendFlowParameters(
     sendFlowParameters: SendFlowParameters,
     accountIndex: number
 ): Promise<Output | undefined> {

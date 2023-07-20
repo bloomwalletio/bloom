@@ -5,8 +5,8 @@
     import { localize } from '@core/i18n'
     import { SendFlowType, sendFlowParameters } from '@core/wallet/stores'
     import {
-        createEvmTransactionFromTransactionData,
-        createStardustOutputFromTransactionData,
+        createEvmTransactionFromSendFlowParameters,
+        createStardustOutputFromSendFlowParameters,
         sendOutputFromStardust,
         sendTransactionFromEvm,
     } from '@core/wallet/actions'
@@ -44,9 +44,9 @@
             chain = getNetwork()?.getChain(chainId)
             const account = getSelectedAccount()
 
-            preparedTransaction = await createEvmTransactionFromTransactionData(sendFlowParameters, chain, account)
+            preparedTransaction = await createEvmTransactionFromSendFlowParameters(sendFlowParameters, chain, account)
         } else {
-            preparedOutput = await createStardustOutputFromTransactionData(sendFlowParameters, $selectedAccountIndex)
+            preparedOutput = await createStardustOutputFromSendFlowParameters(sendFlowParameters, $selectedAccountIndex)
         }
     }
 
