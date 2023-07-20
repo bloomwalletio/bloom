@@ -63,11 +63,11 @@
 
     onMount(() => {
         Platform.onEvent('menu-logout', () => {
-            logout()
+            void logout()
         })
 
         Platform.onEvent('lock-screen', () => {
-            logout()
+            void logout()
         })
 
         Platform.DeepLinkManager.checkDeepLinkRequestExists()
