@@ -17,15 +17,15 @@
     let rawAmount: string
     let amount: string
     let unit: string
+    const assetKey = $sendFlowParameters.type === SendFlowType.TokenTransfer ? 'tokenTransfer' : 'baseCoinTransfer'
 
-    if ($sendFlowParameters.type === SendFlowType.BaseCoinTransfer) {
-        asset = $sendFlowParameters.baseCoinTransfer.asset
-        rawAmount = $sendFlowParameters.baseCoinTransfer.rawAmount
-        unit = $sendFlowParameters.baseCoinTransfer.unit || getUnitFromTokenMetadata(asset?.metadata)
-    } else if ($sendFlowParameters.type === SendFlowType.TokenTransfer) {
-        asset = $sendFlowParameters.tokenTransfer.asset
-        rawAmount = $sendFlowParameters.tokenTransfer.rawAmount
-        unit = $sendFlowParameters.tokenTransfer.unit || getUnitFromTokenMetadata(asset?.metadata)
+    if (
+        $sendFlowParameters.type === SendFlowType.BaseCoinTransfer ||
+        $sendFlowParameters.type === SendFlowType.TokenTransfer
+    ) {
+        asset = $sendFlowParameters[assetKey].asset
+        rawAmount = $sendFlowParameters[assetKey].rawAmount
+        unit = $sendFlowParameters[assetKey].unit || getUnitFromTokenMetadata(asset?.metadata)
     }
 
     $: availableBalance = asset?.balance?.available
@@ -41,25 +41,15 @@
     async function onContinueClick(): Promise<void> {
         try {
             await assetAmountInput?.validate()
-            if ($sendFlowParameters.type === SendFlowType.BaseCoinTransfer) {
-                updateSendFlowParameters({
-                    type: SendFlowType.BaseCoinTransfer,
-                    baseCoinTransfer: {
-                        asset,
-                        rawAmount,
-                        unit,
-                    },
-                })
-            } else if ($sendFlowParameters.type === SendFlowType.TokenTransfer) {
-                updateSendFlowParameters({
-                    type: SendFlowType.TokenTransfer,
-                    tokenTransfer: {
-                        asset,
-                        rawAmount,
-                        unit,
-                    },
-                })
-            }
+
+            updateSendFlowParameters({
+                type: $sendFlowParameters.type,
+                [assetKey]: {
+                    asset,
+                    rawAmount,
+                    unit,
+                },
+            })
             $sendFlowRouter.next()
         } catch (err) {
             console.error(err)
@@ -67,25 +57,14 @@
     }
 
     function onBackClick(): void {
-        if ($sendFlowParameters.type === SendFlowType.BaseCoinTransfer) {
-            updateSendFlowParameters({
-                type: SendFlowType.BaseCoinTransfer,
-                baseCoinTransfer: {
-                    asset,
-                    rawAmount: undefined,
-                    unit,
-                },
-            })
-        } else if ($sendFlowParameters.type === SendFlowType.TokenTransfer) {
-            updateSendFlowParameters({
-                type: SendFlowType.TokenTransfer,
-                tokenTransfer: {
-                    asset,
-                    rawAmount: undefined,
-                    unit,
-                },
-            })
-        }
+        updateSendFlowParameters({
+            type: $sendFlowParameters.type,
+            [assetKey]: {
+                asset,
+                rawAmount: undefined,
+                unit,
+            },
+        })
         $sendFlowRouter.previous()
     }
 </script>
