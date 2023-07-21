@@ -1,0 +1,555 @@
+diff --git a/node_modules/@iota/wallet/out/types/event.d.ts b/node_modules/@iota/wallet/out/types/event.d.ts
+index cbc7c67..16bbb64 100644
+--- a/node_modules/@iota/wallet/out/types/event.d.ts
++++ b/node_modules/@iota/wallet/out/types/event.d.ts
+@@ -4,17 +4,15 @@ import type { InclusionState } from './transaction';
+ import type { InputSigningData, RemainderData } from './preparedTransactionData';
+ export type TransactionId = string;
+ declare class Event {
+-    private accountIndex;
+-    private event;
+-    constructor(accountIndex: number, event: WalletEvent);
+     /**
+      * The account index for which the event was emitted.
+      */
+-    getAccountIndex(): number;
++    accountIndex: number;
+     /**
+      * The wallet event.
+      */
+-    getEvent(): WalletEvent;
++    event: WalletEvent;
++    constructor(accountIndex: number, event: WalletEvent);
+ }
+ /**
+  * All of the wallet event types.
+@@ -28,62 +26,33 @@ declare enum WalletEventType {
+     TransactionProgress = 5
+ }
+ declare abstract class WalletEvent {
+-    private type;
+-    constructor(type: WalletEventType);
+     /**
+      * The type of the wallet event.
+      */
+-    getType(): WalletEventType;
++    type: WalletEventType;
++    constructor(type: WalletEventType);
+ }
+ declare class ConsolidationRequiredWalletEvent extends WalletEvent {
+     constructor();
+ }
+ declare class LedgerAddressGenerationWalletEvent extends WalletEvent {
+-    private address;
++    address: string;
+     constructor(address: string);
+-    /**
+-     * The address.
+-     */
+-    getAddress(): string;
+ }
+ declare class NewOutputWalletEvent extends WalletEvent {
+     output: OutputData;
+     transaction?: ITransactionPayload;
+-    transactionInputs?: [IOutputResponse];
+-    constructor(output: OutputData, transaction?: ITransactionPayload, transactionInputs?: [IOutputResponse]);
+-    /**
+-     * The output.
+-     */
+-    getOutput(): OutputData;
+-    /**
+-     * The transaction.
+-     */
+-    getTransaction(): ITransactionPayload | undefined;
+-    /**
+-     * The transaction inputs.
+-     */
+-    getTransactionInputs(): [IOutputResponse] | undefined;
++    transactionInputs?: IOutputResponse[];
++    constructor(output: OutputData, transaction?: ITransactionPayload, transactionInputs?: IOutputResponse[]);
+ }
+ declare class SpentOutputWalletEvent extends WalletEvent {
+     output: OutputData;
+     constructor(output: OutputData);
+-    /**
+-     * The output.
+-     */
+-    getOutput(): OutputData;
+ }
+ declare class TransactionInclusionWalletEvent extends WalletEvent {
+     transactionId: TransactionId;
+     inclusionState: InclusionState;
+     constructor(transactionId: TransactionId, inclusionState: InclusionState);
+-    /**
+-     * The transaction ID.
+-     */
+-    getTransactionId(): TransactionId;
+-    /**
+-     * The transaction inclusion state
+-     */
+-    getInclusionState(): InclusionState;
+ }
+ /**
+  * All of the transaction progress types.
+@@ -98,27 +67,19 @@ declare enum TransactionProgressType {
+     Broadcasting = 6
+ }
+ declare class TransactionProgressWalletEvent extends WalletEvent {
+-    private progress;
++    progress: TransactionProgress;
+     constructor(progress: TransactionProgress);
+ }
+ declare abstract class TransactionProgress {
+-    private type;
++    type: TransactionProgressType;
+     constructor(type: TransactionProgressType);
+-    /**
+-     * The type of the transaction progress.
+-     */
+-    getProgressType(): TransactionProgressType;
+ }
+ declare class SelectingInputsProgress extends TransactionProgress {
+     constructor();
+ }
+ declare class GeneratingRemainderDepositAddressProgress extends TransactionProgress {
+-    private address;
++    address: string;
+     constructor(address: string);
+-    /**
+-     * The address.
+-     */
+-    getAddress(): string;
+ }
+ declare class PreparedTransactionProgress extends TransactionProgress {
+     essence: ITransactionEssence;
+@@ -127,12 +88,8 @@ declare class PreparedTransactionProgress extends TransactionProgress {
+     constructor(essence: ITransactionEssence, inputsData: InputSigningData[], remainder?: RemainderData);
+ }
+ declare class PreparedTransactionEssenceHashProgress extends TransactionProgress {
+-    private hash;
++    hash: string;
+     constructor(hash: string);
+-    /**
+-     * The address.
+-     */
+-    getHash(): string;
+ }
+ declare class SigningTransactionProgress extends TransactionProgress {
+     constructor();
+@@ -143,5 +100,5 @@ declare class PerformingPowProgress extends TransactionProgress {
+ declare class BroadcastingProgress extends TransactionProgress {
+     constructor();
+ }
+-export { Event, WalletEventType, WalletEvent, ConsolidationRequiredWalletEvent, LedgerAddressGenerationWalletEvent, NewOutputWalletEvent, SpentOutputWalletEvent, TransactionInclusionWalletEvent, TransactionProgressWalletEvent, TransactionProgress, SelectingInputsProgress, GeneratingRemainderDepositAddressProgress, PreparedTransactionProgress, PreparedTransactionEssenceHashProgress, SigningTransactionProgress, PerformingPowProgress, BroadcastingProgress, };
++export { Event, WalletEventType, WalletEvent, ConsolidationRequiredWalletEvent, LedgerAddressGenerationWalletEvent, NewOutputWalletEvent, SpentOutputWalletEvent, TransactionInclusionWalletEvent, TransactionProgressWalletEvent, TransactionProgress, SelectingInputsProgress, GeneratingRemainderDepositAddressProgress, PreparedTransactionProgress, PreparedTransactionEssenceHashProgress, SigningTransactionProgress, PerformingPowProgress, BroadcastingProgress, TransactionProgressType, };
+ //# sourceMappingURL=event.d.ts.map
+\ No newline at end of file
+diff --git a/node_modules/@iota/wallet/out/types/event.d.ts.map b/node_modules/@iota/wallet/out/types/event.d.ts.map
+index 91de98a..7a72283 100644
+--- a/node_modules/@iota/wallet/out/types/event.d.ts.map
++++ b/node_modules/@iota/wallet/out/types/event.d.ts.map
+@@ -1 +1 @@
+-{"version":3,"file":"event.d.ts","sourceRoot":"","sources":["../../types/event.ts"],"names":[],"mappings":"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"}
+\ No newline at end of file
++{"version":3,"file":"event.d.ts","sourceRoot":"","sources":["../../types/event.ts"],"names":[],"mappings":"AAAA,OAAO,KAAK,EACR,eAAe,EACf,mBAAmB,EACnB,mBAAmB,EACtB,MAAM,aAAa,CAAC;AACrB,OAAO,KAAK,EAAE,UAAU,EAAE,MAAM,UAAU,CAAC;AAC3C,OAAO,KAAK,EAAE,cAAc,EAAE,MAAM,eAAe,CAAC;AACpD,OAAO,KAAK,EACR,gBAAgB,EAChB,aAAa,EAChB,MAAM,2BAA2B,CAAC;AAEnC,MAAM,MAAM,aAAa,GAAG,MAAM,CAAC;AAEnC,cAAM,KAAK;IACP;;OAEG;IACH,YAAY,EAAE,MAAM,CAAC;IACrB;;OAEG;IACH,KAAK,EAAE,WAAW,CAAC;gBAEP,YAAY,EAAE,MAAM,EAAE,KAAK,EAAE,WAAW;CAIvD;AAED;;GAEG;AACH,aAAK,eAAe;IAChB,qBAAqB,IAAI;IACzB,uBAAuB,IAAI;IAC3B,SAAS,IAAI;IACb,WAAW,IAAI;IACf,oBAAoB,IAAI;IACxB,mBAAmB,IAAI;CAC1B;AAED,uBAAe,WAAW;IACtB;;OAEG;IACH,IAAI,EAAE,eAAe,CAAC;gBAEV,IAAI,EAAE,eAAe;CAGpC;AAED,cAAM,gCAAiC,SAAQ,WAAW;;CAIzD;AAED,cAAM,kCAAmC,SAAQ,WAAW;IACxD,OAAO,EAAE,MAAM,CAAC;gBAEJ,OAAO,EAAE,MAAM;CAI9B;AAED,cAAM,oBAAqB,SAAQ,WAAW;IAC1C,MAAM,EAAE,UAAU,CAAC;IACnB,WAAW,CAAC,EAAE,mBAAmB,CAAC;IAClC,iBAAiB,CAAC,EAAE,eAAe,EAAE,CAAC;gBAGlC,MAAM,EAAE,UAAU,EAClB,WAAW,CAAC,EAAE,mBAAmB,EACjC,iBAAiB,CAAC,EAAE,eAAe,EAAE;CAO5C;AAED,cAAM,sBAAuB,SAAQ,WAAW;IAC5C,MAAM,EAAE,UAAU,CAAC;gBAEP,MAAM,EAAE,UAAU;CAIjC;AAED,cAAM,+BAAgC,SAAQ,WAAW;IACrD,aAAa,EAAE,aAAa,CAAC;IAC7B,cAAc,EAAE,cAAc,CAAC;gBAEnB,aAAa,EAAE,aAAa,EAAE,cAAc,EAAE,cAAc;CAK3E;AAED;;GAEG;AACH,aAAK,uBAAuB;IACxB,eAAe,IAAI;IACnB,iCAAiC,IAAI;IACrC,mBAAmB,IAAI;IACvB,8BAA8B,IAAI;IAClC,kBAAkB,IAAI;IACtB,aAAa,IAAI;IACjB,YAAY,IAAI;CACnB;AAED,cAAM,8BAA+B,SAAQ,WAAW;IACpD,QAAQ,EAAE,mBAAmB,CAAC;gBAElB,QAAQ,EAAE,mBAAmB;CAI5C;AAED,uBAAe,mBAAmB;IAC9B,IAAI,EAAE,uBAAuB,CAAC;gBAElB,IAAI,EAAE,uBAAuB;CAG5C;AAED,cAAM,uBAAwB,SAAQ,mBAAmB;;CAIxD;AAED,cAAM,yCAA0C,SAAQ,mBAAmB;IACvE,OAAO,EAAE,MAAM,CAAC;gBAEJ,OAAO,EAAE,MAAM;CAI9B;AAED,cAAM,2BAA4B,SAAQ,mBAAmB;IACzD,OAAO,EAAE,mBAAmB,CAAC;IAC7B,UAAU,EAAE,gBAAgB,EAAE,CAAC;IAC/B,SAAS,CAAC,EAAE,aAAa,CAAC;gBAGtB,OAAO,EAAE,mBAAmB,EAC5B,UAAU,EAAE,gBAAgB,EAAE,EAC9B,SAAS,CAAC,EAAE,aAAa;CAOhC;AAED,cAAM,sCAAuC,SAAQ,mBAAmB;IACpE,IAAI,EAAE,MAAM,CAAC;gBAED,IAAI,EAAE,MAAM;CAI3B;AAED,cAAM,0BAA2B,SAAQ,mBAAmB;;CAI3D;AAED,cAAM,qBAAsB,SAAQ,mBAAmB;;CAItD;AAED,cAAM,oBAAqB,SAAQ,mBAAmB;;CAIrD;AAED,OAAO,EACH,KAAK,EACL,eAAe,EACf,WAAW,EACX,gCAAgC,EAChC,kCAAkC,EAClC,oBAAoB,EACpB,sBAAsB,EACtB,+BAA+B,EAC/B,8BAA8B,EAC9B,mBAAmB,EACnB,uBAAuB,EACvB,yCAAyC,EACzC,2BAA2B,EAC3B,sCAAsC,EACtC,0BAA0B,EAC1B,qBAAqB,EACrB,oBAAoB,EACpB,uBAAuB,GAC1B,CAAC"}
+\ No newline at end of file
+diff --git a/node_modules/@iota/wallet/out/types/event.js b/node_modules/@iota/wallet/out/types/event.js
+index fe79a82..a47fbd9 100644
+--- a/node_modules/@iota/wallet/out/types/event.js
++++ b/node_modules/@iota/wallet/out/types/event.js
+@@ -1,23 +1,11 @@
+ "use strict";
+ Object.defineProperty(exports, "__esModule", { value: true });
+-exports.BroadcastingProgress = exports.PerformingPowProgress = exports.SigningTransactionProgress = exports.PreparedTransactionEssenceHashProgress = exports.PreparedTransactionProgress = exports.GeneratingRemainderDepositAddressProgress = exports.SelectingInputsProgress = exports.TransactionProgress = exports.TransactionProgressWalletEvent = exports.TransactionInclusionWalletEvent = exports.SpentOutputWalletEvent = exports.NewOutputWalletEvent = exports.LedgerAddressGenerationWalletEvent = exports.ConsolidationRequiredWalletEvent = exports.WalletEvent = exports.WalletEventType = exports.Event = void 0;
++exports.TransactionProgressType = exports.BroadcastingProgress = exports.PerformingPowProgress = exports.SigningTransactionProgress = exports.PreparedTransactionEssenceHashProgress = exports.PreparedTransactionProgress = exports.GeneratingRemainderDepositAddressProgress = exports.SelectingInputsProgress = exports.TransactionProgress = exports.TransactionProgressWalletEvent = exports.TransactionInclusionWalletEvent = exports.SpentOutputWalletEvent = exports.NewOutputWalletEvent = exports.LedgerAddressGenerationWalletEvent = exports.ConsolidationRequiredWalletEvent = exports.WalletEvent = exports.WalletEventType = exports.Event = void 0;
+ class Event {
+     constructor(accountIndex, event) {
+         this.accountIndex = accountIndex;
+         this.event = event;
+     }
+-    /**
+-     * The account index for which the event was emitted.
+-     */
+-    getAccountIndex() {
+-        return this.accountIndex;
+-    }
+-    /**
+-     * The wallet event.
+-     */
+-    getEvent() {
+-        return this.event;
+-    }
+ }
+ exports.Event = Event;
+ /**
+@@ -37,12 +25,6 @@ class WalletEvent {
+     constructor(type) {
+         this.type = type;
+     }
+-    /**
+-     * The type of the wallet event.
+-     */
+-    getType() {
+-        return this.type;
+-    }
+ }
+ exports.WalletEvent = WalletEvent;
+ class ConsolidationRequiredWalletEvent extends WalletEvent {
+@@ -56,12 +38,6 @@ class LedgerAddressGenerationWalletEvent extends WalletEvent {
+         super(WalletEventType.LedgerAddressGeneration);
+         this.address = address;
+     }
+-    /**
+-     * The address.
+-     */
+-    getAddress() {
+-        return this.address;
+-    }
+ }
+ exports.LedgerAddressGenerationWalletEvent = LedgerAddressGenerationWalletEvent;
+ class NewOutputWalletEvent extends WalletEvent {
+@@ -71,24 +47,6 @@ class NewOutputWalletEvent extends WalletEvent {
+         this.transaction = transaction;
+         this.transactionInputs = transactionInputs;
+     }
+-    /**
+-     * The output.
+-     */
+-    getOutput() {
+-        return this.output;
+-    }
+-    /**
+-     * The transaction.
+-     */
+-    getTransaction() {
+-        return this.transaction;
+-    }
+-    /**
+-     * The transaction inputs.
+-     */
+-    getTransactionInputs() {
+-        return this.transactionInputs;
+-    }
+ }
+ exports.NewOutputWalletEvent = NewOutputWalletEvent;
+ class SpentOutputWalletEvent extends WalletEvent {
+@@ -96,12 +54,6 @@ class SpentOutputWalletEvent extends WalletEvent {
+         super(WalletEventType.SpentOutput);
+         this.output = output;
+     }
+-    /**
+-     * The output.
+-     */
+-    getOutput() {
+-        return this.output;
+-    }
+ }
+ exports.SpentOutputWalletEvent = SpentOutputWalletEvent;
+ class TransactionInclusionWalletEvent extends WalletEvent {
+@@ -110,18 +62,6 @@ class TransactionInclusionWalletEvent extends WalletEvent {
+         this.transactionId = transactionId;
+         this.inclusionState = inclusionState;
+     }
+-    /**
+-     * The transaction ID.
+-     */
+-    getTransactionId() {
+-        return this.transactionId;
+-    }
+-    /**
+-     * The transaction inclusion state
+-     */
+-    getInclusionState() {
+-        return this.inclusionState;
+-    }
+ }
+ exports.TransactionInclusionWalletEvent = TransactionInclusionWalletEvent;
+ /**
+@@ -137,6 +77,7 @@ var TransactionProgressType;
+     TransactionProgressType[TransactionProgressType["PerformingPow"] = 5] = "PerformingPow";
+     TransactionProgressType[TransactionProgressType["Broadcasting"] = 6] = "Broadcasting";
+ })(TransactionProgressType || (TransactionProgressType = {}));
++exports.TransactionProgressType = TransactionProgressType;
+ class TransactionProgressWalletEvent extends WalletEvent {
+     constructor(progress) {
+         super(WalletEventType.TransactionProgress);
+@@ -148,12 +89,6 @@ class TransactionProgress {
+     constructor(type) {
+         this.type = type;
+     }
+-    /**
+-     * The type of the transaction progress.
+-     */
+-    getProgressType() {
+-        return this.type;
+-    }
+ }
+ exports.TransactionProgress = TransactionProgress;
+ class SelectingInputsProgress extends TransactionProgress {
+@@ -167,12 +102,6 @@ class GeneratingRemainderDepositAddressProgress extends TransactionProgress {
+         super(TransactionProgressType.GeneratingRemainderDepositAddress);
+         this.address = address;
+     }
+-    /**
+-     * The address.
+-     */
+-    getAddress() {
+-        return this.address;
+-    }
+ }
+ exports.GeneratingRemainderDepositAddressProgress = GeneratingRemainderDepositAddressProgress;
+ class PreparedTransactionProgress extends TransactionProgress {
+@@ -189,12 +118,6 @@ class PreparedTransactionEssenceHashProgress extends TransactionProgress {
+         super(TransactionProgressType.PreparedTransactionEssenceHash);
+         this.hash = hash;
+     }
+-    /**
+-     * The address.
+-     */
+-    getHash() {
+-        return this.hash;
+-    }
+ }
+ exports.PreparedTransactionEssenceHashProgress = PreparedTransactionEssenceHashProgress;
+ class SigningTransactionProgress extends TransactionProgress {
+diff --git a/node_modules/@iota/wallet/out/types/event.js.map b/node_modules/@iota/wallet/out/types/event.js.map
+index 98fefb9..bf62627 100644
+--- a/node_modules/@iota/wallet/out/types/event.js.map
++++ b/node_modules/@iota/wallet/out/types/event.js.map
+@@ -1 +1 @@
+-{"version":3,"file":"event.js","sourceRoot":"","sources":["../../types/event.ts"],"names":[],"mappings":"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"}
+\ No newline at end of file
++{"version":3,"file":"event.js","sourceRoot":"","sources":["../../types/event.ts"],"names":[],"mappings":"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"}
+\ No newline at end of file
+diff --git a/node_modules/@iota/wallet/types/event.ts b/node_modules/@iota/wallet/types/event.ts
+index 57d0129..ade6c36 100644
+--- a/node_modules/@iota/wallet/types/event.ts
++++ b/node_modules/@iota/wallet/types/event.ts
+@@ -13,26 +13,18 @@ import type {
+ export type TransactionId = string;
+ 
+ class Event {
+-    private accountIndex: number;
+-    private event: WalletEvent;
+-
+-    constructor(accountIndex: number, event: WalletEvent) {
+-        this.accountIndex = accountIndex;
+-        this.event = event;
+-    }
+-
+     /**
+      * The account index for which the event was emitted.
+      */
+-    getAccountIndex(): number {
+-        return this.accountIndex;
+-    }
+-
++    accountIndex: number;
+     /**
+      * The wallet event.
+      */
+-    getEvent(): WalletEvent {
+-        return this.event;
++    event: WalletEvent;
++
++    constructor(accountIndex: number, event: WalletEvent) {
++        this.accountIndex = accountIndex;
++        this.event = event;
+     }
+ }
+ 
+@@ -49,17 +41,13 @@ enum WalletEventType {
+ }
+ 
+ abstract class WalletEvent {
+-    private type: WalletEventType;
+-
+-    constructor(type: WalletEventType) {
+-        this.type = type;
+-    }
+-
+     /**
+      * The type of the wallet event.
+      */
+-    getType(): WalletEventType {
+-        return this.type;
++    type: WalletEventType;
++
++    constructor(type: WalletEventType) {
++        this.type = type;
+     }
+ }
+ 
+@@ -70,57 +58,29 @@ class ConsolidationRequiredWalletEvent extends WalletEvent {
+ }
+ 
+ class LedgerAddressGenerationWalletEvent extends WalletEvent {
+-    private address: string;
++    address: string;
+ 
+     constructor(address: string) {
+         super(WalletEventType.LedgerAddressGeneration);
+         this.address = address;
+     }
+-
+-    /**
+-     * The address.
+-     */
+-    getAddress(): string {
+-        return this.address;
+-    }
+ }
+ 
+ class NewOutputWalletEvent extends WalletEvent {
+     output: OutputData;
+     transaction?: ITransactionPayload;
+-    transactionInputs?: [IOutputResponse];
++    transactionInputs?: IOutputResponse[];
+ 
+     constructor(
+         output: OutputData,
+         transaction?: ITransactionPayload,
+-        transactionInputs?: [IOutputResponse],
++        transactionInputs?: IOutputResponse[],
+     ) {
+         super(WalletEventType.NewOutput);
+         this.output = output;
+         this.transaction = transaction;
+         this.transactionInputs = transactionInputs;
+     }
+-
+-    /**
+-     * The output.
+-     */
+-    getOutput(): OutputData {
+-        return this.output;
+-    }
+-
+-    /**
+-     * The transaction.
+-     */
+-    getTransaction(): ITransactionPayload | undefined {
+-        return this.transaction;
+-    }
+-
+-    /**
+-     * The transaction inputs.
+-     */
+-    getTransactionInputs(): [IOutputResponse] | undefined {
+-        return this.transactionInputs;
+-    }
+ }
+ 
+ class SpentOutputWalletEvent extends WalletEvent {
+@@ -130,13 +90,6 @@ class SpentOutputWalletEvent extends WalletEvent {
+         super(WalletEventType.SpentOutput);
+         this.output = output;
+     }
+-
+-    /**
+-     * The output.
+-     */
+-    getOutput(): OutputData {
+-        return this.output;
+-    }
+ }
+ 
+ class TransactionInclusionWalletEvent extends WalletEvent {
+@@ -148,20 +101,6 @@ class TransactionInclusionWalletEvent extends WalletEvent {
+         this.transactionId = transactionId;
+         this.inclusionState = inclusionState;
+     }
+-
+-    /**
+-     * The transaction ID.
+-     */
+-    getTransactionId(): TransactionId {
+-        return this.transactionId;
+-    }
+-
+-    /**
+-     * The transaction inclusion state
+-     */
+-    getInclusionState(): InclusionState {
+-        return this.inclusionState;
+-    }
+ }
+ 
+ /**
+@@ -178,7 +117,7 @@ enum TransactionProgressType {
+ }
+ 
+ class TransactionProgressWalletEvent extends WalletEvent {
+-    private progress: TransactionProgress;
++    progress: TransactionProgress;
+ 
+     constructor(progress: TransactionProgress) {
+         super(WalletEventType.TransactionProgress);
+@@ -187,18 +126,11 @@ class TransactionProgressWalletEvent extends WalletEvent {
+ }
+ 
+ abstract class TransactionProgress {
+-    private type: TransactionProgressType;
++    type: TransactionProgressType;
+ 
+     constructor(type: TransactionProgressType) {
+         this.type = type;
+     }
+-
+-    /**
+-     * The type of the transaction progress.
+-     */
+-    getProgressType(): TransactionProgressType {
+-        return this.type;
+-    }
+ }
+ 
+ class SelectingInputsProgress extends TransactionProgress {
+@@ -208,19 +140,12 @@ class SelectingInputsProgress extends TransactionProgress {
+ }
+ 
+ class GeneratingRemainderDepositAddressProgress extends TransactionProgress {
+-    private address: string;
++    address: string;
+ 
+     constructor(address: string) {
+         super(TransactionProgressType.GeneratingRemainderDepositAddress);
+         this.address = address;
+     }
+-
+-    /**
+-     * The address.
+-     */
+-    getAddress(): string {
+-        return this.address;
+-    }
+ }
+ 
+ class PreparedTransactionProgress extends TransactionProgress {
+@@ -241,19 +166,12 @@ class PreparedTransactionProgress extends TransactionProgress {
+ }
+ 
+ class PreparedTransactionEssenceHashProgress extends TransactionProgress {
+-    private hash: string;
++    hash: string;
+ 
+     constructor(hash: string) {
+         super(TransactionProgressType.PreparedTransactionEssenceHash);
+         this.hash = hash;
+     }
+-
+-    /**
+-     * The address.
+-     */
+-    getHash(): string {
+-        return this.hash;
+-    }
+ }
+ 
+ class SigningTransactionProgress extends TransactionProgress {
+@@ -292,4 +210,5 @@ export {
+     SigningTransactionProgress,
+     PerformingPowProgress,
+     BroadcastingProgress,
++    TransactionProgressType,
+ };
