@@ -3,7 +3,7 @@
     import { getSelectedAccount, selectedAccount, selectedAccountIndex } from '@core/account'
     import { handleError } from '@core/error/handlers'
     import { localize } from '@core/i18n'
-    import { SendFlowType, sendFlowParameters } from '@core/wallet/stores'
+    import { sendFlowParameters } from '@core/wallet/stores'
     import {
         createEvmTransactionFromSendFlowParameters,
         createStardustOutputFromSendFlowParameters,
@@ -18,6 +18,7 @@
     import { IChain, getNetwork } from '@core/network'
     import { EvmTransactionData } from '@core/layer-2'
     import { onMount } from 'svelte'
+    import { getChainIdFromSendFlowParameters } from '@core/wallet/actions/getChainIdFromSendFlowParameters'
 
     export let _onMount: (..._: any[]) => Promise<void> = async () => {}
 
@@ -31,15 +32,12 @@
     let chain: IChain | undefined
 
     async function updateSendFlow(sendFlowParameters: SendFlowParameters): Promise<void> {
-        const { recipient, type } = sendFlowParameters
+        const { recipient } = sendFlowParameters
 
         recipientAddress =
             recipient.type === 'account' ? recipient.account.name : truncateString(recipient?.address, 6, 6)
 
-        const chainId =
-            type === SendFlowType.TokenTransfer
-                ? sendFlowParameters.tokenTransfer.asset?.chainId
-                : sendFlowParameters.baseCoinTransfer?.asset?.chainId
+        const chainId = getChainIdFromSendFlowParameters(sendFlowParameters)
         if (chainId) {
             chain = getNetwork()?.getChain(chainId)
             const account = getSelectedAccount()

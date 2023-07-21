@@ -1,8 +1,15 @@
 <script lang="ts">
     import { selectedAccount } from '@core/account/stores'
     import { localize } from '@core/i18n'
-    import { ChainType, IChain, IIscpChainConfiguration, network } from '@core/network'
-    import { SendFlowType, TokenStandard, sendFlowParameters, updateSendFlowParameters } from '@core/wallet'
+    import { IChain, IIscpChainConfiguration, network } from '@core/network'
+    import {
+        SendFlowParameters,
+        SendFlowType,
+        TokenStandard,
+        sendFlowParameters,
+        updateSendFlowParameters,
+        getChainIdFromSendFlowParameters,
+    } from '@core/wallet'
     import { closePopup } from '@desktop/auxiliary/popup'
     import features from '@features/features'
     import { INetworkRecipientSelectorOption, NetworkRecipientSelector } from '@ui'
@@ -91,59 +98,56 @@
         }
     }
 
+    function getAssetStandard(params: SendFlowParameters): string {
+        if (params.type === SendFlowType.NftTransfer) {
+            return params.nft?.parsedMetadata.standard
+        } else if (params.type === SendFlowType.TokenTransfer) {
+            return params.tokenTransfer?.asset.standard
+        } else {
+            return params.baseCoinTransfer?.asset.standard
+        }
+    }
+
     function getCompatibleTransferNetworks(): INetworkRecipientSelectorOption[] {
         if (!$network || !$sendFlowParameters) {
             return []
         }
 
-        if ($sendFlowParameters.type === SendFlowType.NftTransfer) {
-            // TODO: Currently we only support L1 NFTs
-            return [
-                {
-                    name: $network.getMetadata().name,
-                    networkAddress: '',
-                },
-            ]
-        } else {
-            let compatibleNetworks: INetworkRecipientSelectorOption[] = []
-
-            const asset =
-                $sendFlowParameters?.type === SendFlowType.BaseCoinTransfer
-                    ? $sendFlowParameters.baseCoinTransfer.asset
-                    : $sendFlowParameters.tokenTransfer.asset
-            // L1 network
-            const { id, name } = $network.getMetadata()
-            const layer1Network = {
-                id,
-                name,
-                networkAddress: '',
-            }
-            // L2 chains, ISCP only for now
-            const iscpChains = features?.network?.layer2?.enabled
-                ? $network.getChains().filter((chain) => chain.getConfiguration().type === ChainType.Iscp)
-                : []
-            const chainMatchingAssetChainId = iscpChains.find(
-                (chain) => chain.getConfiguration().chainId === asset.chainId
-            )
-
-            switch (asset.standard) {
-                case TokenStandard.Irc27:
-                case TokenStandard.Irc30:
-                case TokenStandard.BaseToken:
-                    if (!asset.chainId) {
-                        compatibleNetworks = [layer1Network, ...iscpChains.map(getSelectorOptionFromChain)]
-                    } else if (chainMatchingAssetChainId) {
-                        compatibleNetworks = [getSelectorOptionFromChain(chainMatchingAssetChainId), layer1Network]
-                    }
-                    break
-                case TokenStandard.Erc20:
-                    if (chainMatchingAssetChainId) {
-                        compatibleNetworks = [getSelectorOptionFromChain(chainMatchingAssetChainId)]
-                    }
-                    break
-            }
-            return compatibleNetworks
+        // L1 network
+        const { id, name } = $network.getMetadata()
+        const layer1Network = {
+            id,
+            name,
+            networkAddress: '',
         }
+
+        if (!features?.network?.layer2?.enabled) {
+            return [layer1Network]
+        }
+
+        let compatibleNetworks: INetworkRecipientSelectorOption[] = []
+
+        const chainId = getChainIdFromSendFlowParameters($sendFlowParameters)
+        const assetStandard = getAssetStandard($sendFlowParameters)
+        const sourceChain = $network.getChain(chainId)
+
+        switch (assetStandard) {
+            case TokenStandard.Irc27:
+            case TokenStandard.Irc30:
+            case TokenStandard.BaseToken:
+                if (!chainId) {
+                    compatibleNetworks = [layer1Network, ...$network.getIscpChains().map(getSelectorOptionFromChain)]
+                } else if (sourceChain) {
+                    compatibleNetworks = [getSelectorOptionFromChain(sourceChain), layer1Network]
+                }
+                break
+            case TokenStandard.Erc20:
+                if (sourceChain) {
+                    compatibleNetworks = [getSelectorOptionFromChain(sourceChain)]
+                }
+                break
+        }
+        return compatibleNetworks
     }
 
     function getSelectorOptionFromChain(chain: IChain): INetworkRecipientSelectorOption {
