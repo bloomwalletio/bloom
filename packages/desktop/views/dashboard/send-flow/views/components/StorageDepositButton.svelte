@@ -14,6 +14,7 @@
 
     function toggleGiftStorageDeposit(): void {
         giftStorageDeposit = !giftStorageDeposit
+        modal?.close()
     }
 </script>
 
@@ -30,7 +31,9 @@
                 darkColor="gray-500"
                 classes={disabled ? '' : 'hover:text-blue-600'}
             >
-                {formatTokenAmountPrecise(storageDeposit, getBaseToken())}
+                {giftStorageDeposit
+                    ? localize('general.gifted')
+                    : formatTokenAmountPrecise(storageDeposit, getBaseToken())}
             </Text>
             {#if !disabled}
                 <Icon icon={IconEnum.ChevronDown} width="10" height="13" classes="text-blue-500 ml-1" />

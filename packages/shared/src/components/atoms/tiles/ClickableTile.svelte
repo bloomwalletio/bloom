@@ -12,6 +12,7 @@
         {disabled ? 'opacity-50' : ''}
         {classes}
     "
+    {...$$restProps}
     on:click={onClick}
 >
     <slot />

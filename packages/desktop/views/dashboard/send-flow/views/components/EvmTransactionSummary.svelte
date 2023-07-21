@@ -1,30 +1,35 @@
 <script lang="ts">
     import { getDestinationNetworkFromAddress } from '@core/layer-2/utils'
-    import { NewTransactionType } from '@core/wallet/stores'
+    import { SendFlowType } from '@core/wallet/stores'
     import EvmTransactionDetails from './EvmTransactionDetails.svelte'
     import TransactionAssetSection from './TransactionAssetSection.svelte'
     import { EvmTransactionData } from '@core/layer-2'
-    import { TransactionData } from '@core/wallet'
-    import { DisplayedAsset } from '../types'
+    import { SendFlowParameters, TokenTransferData } from '@core/wallet'
+    import { INft } from '@core/nfts'
 
     export let transaction: EvmTransactionData
-    export let transactionData: TransactionData
+    export let sendFlowParameters: SendFlowParameters
 
-    $: displayedAsset = getDisplayedAsset(transactionData)
-    $: destinationNetwork = getDestinationNetworkFromAddress(transactionData?.layer2Parameters?.networkAddress)
+    $: destinationNetwork = getDestinationNetworkFromAddress(sendFlowParameters?.layer2Parameters?.networkAddress)
 
-    function getDisplayedAsset(transactionData: TransactionData): DisplayedAsset {
-        if (transactionData.type === NewTransactionType.TokenTransfer) {
-            return { type: 'token', asset: transactionData.asset, rawAmount: transactionData.rawAmount }
-        } else {
-            return { type: 'nft', nft: transactionData.nft }
+    function getTransactionAsset(sendFlowParameters: SendFlowParameters): {
+        tokenTransfer?: TokenTransferData
+        nft?: INft
+    } {
+        return {
+            ...(sendFlowParameters.type === SendFlowType.TokenTransfer && {
+                tokenTransfer: sendFlowParameters.tokenTransfer,
+            }),
+            ...(sendFlowParameters.type === SendFlowType.NftTransfer && { nft: sendFlowParameters.nft }),
         }
     }
 </script>
 
 <div class="w-full space-y-4">
-    {#if displayedAsset}
-        <TransactionAssetSection {displayedAsset} />
-    {/if}
+    <TransactionAssetSection
+        baseCoinTransfer={sendFlowParameters.baseCoinTransfer}
+        {...getTransactionAsset(sendFlowParameters)}
+    />
+
     <EvmTransactionDetails gasBudget={Number(transaction.gasLimit)} {destinationNetwork} />
 </div>

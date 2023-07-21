@@ -26,7 +26,7 @@
         getHexAddressFromAddressTypes,
         getTimeDifference,
     } from '@core/wallet'
-    import { NewTransactionType, setNewTransactionData } from '@core/wallet/stores'
+    import { SendFlowType, setSendFlowParameters } from '@core/wallet/stores'
     import {
         Alert,
         Button,
@@ -119,8 +119,8 @@
     }
 
     function onSendClick(): void {
-        setNewTransactionData({
-            type: NewTransactionType.NftTransfer,
+        setSendFlowParameters({
+            type: SendFlowType.NftTransfer,
             nft,
             recipient: undefined,
         })
