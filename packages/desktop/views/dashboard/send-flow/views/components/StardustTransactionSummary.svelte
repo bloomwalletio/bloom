@@ -41,30 +41,24 @@
     $: expirationTimePicker?.setNull(giftStorageDeposit)
     $: isTransferring = !!$selectedAccount.isTransferring
     $: isToLayer2 = !!layer2Parameters?.networkAddress
-    $: expirationDate, timelockDate, giftStorageDeposit, refreshSendConfirmationState()
-
-    function refreshSendConfirmationState(): void {
-        updateSendFlowParameters({
-            type: sendFlowParameters.type,
-            expirationDate,
-            timelockDate,
-            giftStorageDeposit,
-        })
-    }
+    $: expirationDate,
+        timelockDate,
+        giftStorageDeposit,
+        updateSendFlowParameters({ type: sendFlowParameters.type, expirationDate, timelockDate, giftStorageDeposit })
 
     async function setEstimatedGas(sendFlowParameters: SendFlowParameters): Promise<void> {
         estimatedGas = await estimateGasForLayer1ToLayer2Transaction(sendFlowParameters)
     }
     $: void setEstimatedGas(sendFlowParameters)
 
-    function setBaseCoinAndStorageDeposit(output: Output): void {
+    function setBaseCoinAndStorageDeposit(output: Output, estimatedGas: number): void {
         storageDeposit = getStorageDepositFromOutput(output)
         baseCoinTransfer = {
             asset: $selectedAccountAssets?.[getNetwork().getMetadata().id].baseCoin,
             rawAmount: String(Number(output.amount) - storageDeposit - estimatedGas),
         }
     }
-    $: setBaseCoinAndStorageDeposit(output)
+    $: setBaseCoinAndStorageDeposit(output, estimatedGas)
 
     function getTransactionAsset(sendFlowParameters: SendFlowParameters): {
         tokenTransfer?: TokenTransferData
@@ -89,7 +83,7 @@
     }
 
     onMount(() => {
-        setBaseCoinAndStorageDeposit(output)
+        setBaseCoinAndStorageDeposit(output, estimatedGas)
         selectedExpirationPeriod = getInitialExpirationDate(!!expirationDate, !!storageDeposit, giftStorageDeposit)
     })
 </script>
@@ -104,7 +98,7 @@
         bind:selectedTimelockPeriod
         bind:giftStorageDeposit
         gasBudget={estimatedGas}
-        storageDeposit={getStorageDepositFromOutput(output)}
+        {storageDeposit}
         {destinationNetwork}
         {disableChangeExpiration}
         disableChangeTimelock={disableChangeExpiration}

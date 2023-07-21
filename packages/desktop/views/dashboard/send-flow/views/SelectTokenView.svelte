@@ -70,6 +70,8 @@
     }
 
     function onContinueClick(): void {
+        // Store previous parameters as sometimes we enter this flow with parameters already set
+        // Such as recipient when coming from address book or when we click back in the flow
         const previousSharedParameters = {
             recipient: $sendFlowParameters?.recipient,
             tag: $sendFlowParameters?.tag,
@@ -86,6 +88,8 @@
         const sendFlowType =
             selectedAsset.id === getCoinType() ? SendFlowType.BaseCoinTransfer : SendFlowType.TokenTransfer
 
+        // Set called because we need to update the type, and update function only updates the properties
+        // if the type is the same
         setSendFlowParameters({
             ...previousSharedParameters,
             type: sendFlowType,
