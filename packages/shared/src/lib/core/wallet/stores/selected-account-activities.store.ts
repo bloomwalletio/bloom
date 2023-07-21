@@ -3,7 +3,7 @@ import { isValidIrc30Token } from '@core/token'
 
 import { selectedAccount } from '../../account/stores/selected-account.store'
 import { Activity } from '../types/activity.type'
-import { ActivityType } from '../enums'
+import { ActivityType, SubjectType } from '../enums'
 import { ActivityFilter } from '../interfaces/activity-filter.interface'
 import { getAssetFromPersistedAssets, getFormattedAmountFromActivity } from '../utils'
 import { isVisibleActivity } from '../utils/isVisibleActivity'
@@ -78,14 +78,14 @@ function getFieldsToSearchFromActivity(activity: Activity): string[] {
         fieldsToSearch.push(getFormattedAmountFromActivity(activity, false)?.toLowerCase())
     }
 
-    if (activity.subject?.type === 'account') {
-        fieldsToSearch.push(activity.subject?.account?.name)
-        fieldsToSearch.push(activity.subject?.account?.depositAddress)
-    } else if (activity.subject?.type === 'contact') {
-        fieldsToSearch.push(activity.subject?.contact.name)
-        fieldsToSearch.push(activity.subject?.address)
-    } else if (activity.subject?.type === 'address') {
-        fieldsToSearch.push(activity.subject?.address)
+    if (activity.subject?.type === SubjectType.Account) {
+        fieldsToSearch.push(activity.subject.account?.name)
+        fieldsToSearch.push(activity.subject.account?.depositAddress)
+    } else if (activity.subject?.type === SubjectType.Contact) {
+        fieldsToSearch.push(activity.subject.contact.name)
+        fieldsToSearch.push(activity.subject.address)
+    } else if (activity.subject?.type === SubjectType.Address) {
+        fieldsToSearch.push(activity.subject.address)
     }
 
     if (activity?.asyncData?.claimingTransactionId) {

@@ -8,6 +8,7 @@ import {
     NewTransactionType,
     TokenTransactionData,
     getAssetById,
+    SubjectType,
 } from '@core/wallet'
 import { logAndNotifyError } from '@core/error/actions'
 
@@ -75,7 +76,7 @@ async function claimShimmerRewardsForShimmerClaimingAccount(
 
     const newTransactionData: TokenTransactionData = {
         recipient: {
-            type: 'address',
+            type: SubjectType.Address,
             address: recipientAddress,
         },
         type: NewTransactionType.TokenTransfer,

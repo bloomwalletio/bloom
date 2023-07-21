@@ -14,6 +14,7 @@ import {
     getUnitFromTokenMetadata,
     selectedAccountAssets,
     setNewTransactionData,
+    SubjectType,
 } from '@core/wallet'
 import { get } from 'svelte/store'
 import { SendOperationParameter } from '../../../enums'
@@ -65,7 +66,7 @@ function parseSendConfirmationOperation(searchParams: URLSearchParams): Transact
         throw new InvalidAddressError()
     }
 
-    const recipient: Subject = { type: 'address', address }
+    const recipient: Subject = { type: SubjectType.Address, address }
 
     const assetId = searchParams.get(SendOperationParameter.AssetId)
     assetId && validateAssetId(assetId)

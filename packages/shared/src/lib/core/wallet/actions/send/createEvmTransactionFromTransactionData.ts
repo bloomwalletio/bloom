@@ -7,7 +7,7 @@ import {
     getIscpTransferSmartContractData,
 } from '@core/layer-2/utils'
 import { IChain } from '@core/network/interfaces'
-import { TokenStandard } from '@core/wallet/enums'
+import { SubjectType, TokenStandard } from '@core/wallet/enums'
 import { IAsset } from '@core/wallet/interfaces'
 import { NewTransactionType } from '@core/wallet/stores'
 import { TransactionData } from '@core/wallet/types'
@@ -24,7 +24,7 @@ export function createEvmTransactionFromTransactionData(
     const provider = chain?.getProvider()
     const asset = transactionData.asset
 
-    if (transactionData.recipient?.type !== 'address' || !asset?.metadata) {
+    if (transactionData.recipient?.type !== SubjectType.Address || !asset?.metadata) {
         return Promise.resolve(undefined)
     }
 

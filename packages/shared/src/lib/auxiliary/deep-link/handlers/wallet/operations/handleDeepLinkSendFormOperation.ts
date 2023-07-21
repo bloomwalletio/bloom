@@ -6,6 +6,7 @@ import {
     getAssetById,
     NewTransactionType,
     getUnitFromTokenMetadata,
+    SubjectType,
 } from '@core/wallet'
 import { openPopup, PopupId } from '../../../../../../../../desktop/lib/auxiliary/popup'
 import {
@@ -56,7 +57,7 @@ function parseSendFormOperation(searchParams: URLSearchParams): TransactionData 
     const rawAmount = getRawAmountFromSearchParam(searchParams)
     const metadata = searchParams.get(SendOperationParameter.Metadata)
     const tag = searchParams.get(SendOperationParameter.Tag)
-    const recipient: Subject = address ? { type: 'address', address } : undefined
+    const recipient: Subject | undefined = address ? { type: SubjectType.Address, address } : undefined
 
     return {
         type: NewTransactionType.TokenTransfer,
