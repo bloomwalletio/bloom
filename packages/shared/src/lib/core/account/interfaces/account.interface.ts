@@ -59,6 +59,10 @@ export interface IAccount {
     ): Promise<Transaction>
     burnNft(nftId: string, transactionOptions?: TransactionOptions): Promise<Transaction>
     claimOutputs(outputIds: string[]): Promise<Transaction>
+    createNativeToken(
+        params: CreateNativeTokenParams,
+        transactionOptions?: TransactionOptions
+    ): Promise<CreateNativeTokenTransaction>
     consolidateOutputs(force: boolean, outputConsolidationThreshold?: number): Promise<Transaction>
     createAliasOutput(params?: AliasOutputParams, transactionOptions?: TransactionOptions): Promise<Transaction>
     meltNativeToken(

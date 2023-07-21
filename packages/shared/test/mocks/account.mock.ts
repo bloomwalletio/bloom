@@ -93,6 +93,13 @@ export class AccountMock implements IAccount {
         throw new Error('Method not implemented.')
     }
 
+    createNativeTokens(
+        params?: CreateNativeTokenParams,
+        transactionOptions?: TransactionOptions
+    ): Promise<CreateNativeTokenTransaction> {
+        throw new Error('Method not implemented.')
+    }
+
     meltNativeToken(
         tokenId: string,
         meltAmount: string,

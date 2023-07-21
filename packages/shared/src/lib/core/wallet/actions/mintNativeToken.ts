@@ -29,7 +29,7 @@ export async function mintNativeToken(
             foundryMetadata: Converter.utf8ToHex(JSON.stringify(metadata)),
         }
 
-        const createTokenTransaction = await account.mintNativeToken(params, DEFAULT_TRANSACTION_OPTIONS)
+        const createTokenTransaction = await account.createNativeToken(params, DEFAULT_TRANSACTION_OPTIONS)
         const persistedAsset: IPersistedAsset = buildPersistedAssetFromMetadata(
             createTokenTransaction.tokenId,
             metadata,
