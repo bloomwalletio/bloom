@@ -2,9 +2,7 @@ name: Test
 
 on:
   pull_request:
-  push:
-    branches:
-      - 'develop'
+    types: [ ready_for_review, synchronize ]
 
 jobs:
   shared:
