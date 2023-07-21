@@ -39,7 +39,6 @@ export function generateSingleFoundryActivity(
     const assetId = nativeToken?.id ?? getCoinType()
 
     const storageDeposit = getAmountFromOutput(output)
-    const giftedStorageDeposit = 0
     const rawAmount = Number(nativeToken?.amount ?? 0)
     const metadata = getMetadataFromOutput(output)
     const tag = getTagFromOutput(output)
@@ -60,7 +59,6 @@ export function generateSingleFoundryActivity(
         meltedTokens,
         maximumSupply,
         storageDeposit,
-        giftedStorageDeposit,
         rawAmount,
         time,
         inclusionState,

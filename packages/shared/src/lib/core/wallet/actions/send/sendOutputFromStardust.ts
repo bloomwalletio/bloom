@@ -4,7 +4,7 @@ import { checkActiveProfileAuth, getIsActiveLedgerProfile } from '@core/profile'
 import { Output } from '@core/wallet/types'
 import { validateSendConfirmation } from '@core/wallet/utils'
 import { signAndSendStardustTransaction } from './signAndSendStardustTransaction'
-import { resetNewTokenTransactionData } from '@core/wallet/stores'
+import { resetSendFlowParameters } from '@core/wallet/stores'
 
 export async function sendOutputFromStardust(
     output: Output,
@@ -21,7 +21,7 @@ export async function sendOutputFromStardust(
         async () => {
             await signAndSendStardustTransaction(output, account)
             callback()
-            resetNewTokenTransactionData()
+            resetSendFlowParameters()
         },
         { stronghold: true, ledger: false }
     )
