@@ -5,7 +5,6 @@ import type { IBasicOutput } from '@iota/types'
 import { ActivityType } from '../../enums'
 import { activityOutputContainsValue } from '..'
 import {
-    getAmountFromOutput,
     getGovernanceInfo,
     getMetadataFromOutput,
     getSendingInformation,
@@ -33,8 +32,7 @@ export function generateSingleGovernanceActivity(
 
     const sendingInfo = getSendingInformation(processedTransaction, output, account)
 
-    const { storageDeposit } = getStorageDepositFromOutput(output)
-    const votingPower = getAmountFromOutput(output)
+    const storageDeposit = getStorageDepositFromOutput(output)
     const governanceInfo = getGovernanceInfo(output, wrappedInputs, metadata)
 
     return {
@@ -50,8 +48,6 @@ export function generateSingleGovernanceActivity(
         containsValue,
         outputId,
         storageDeposit,
-        giftedStorageDeposit: 0,
-        votingPower,
         metadata,
         tag,
         asyncData: null,
