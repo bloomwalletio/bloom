@@ -16,21 +16,16 @@ import {
 import { getBech32AddressFromAddressTypes } from '@core/wallet/utils/getBech32AddressFromAddressTypes'
 import { preprocessGroupedOutputs } from '@core/wallet/utils/outputs/preprocessGroupedOutputs'
 import { get } from 'svelte/store'
-import { WalletApiEvent } from '../../enums'
-import { INewOutputEventPayload } from '../../interfaces'
 import { validateWalletApiEvent } from '../../utils'
 import { checkAndRemoveProfilePicture } from '@core/profile/actions'
+import { Event, NewOutputWalletEvent, WalletEventType } from '@iota/wallet/out/types'
 
-export function handleNewOutputEvent(error: Error, rawEvent: string): void {
-    const { accountIndex, payload } = validateWalletApiEvent(error, rawEvent, WalletApiEvent.NewOutput)
-    /* eslint-disable @typescript-eslint/no-unnecessary-type-assertion */
-    void handleNewOutputEventInternal(accountIndex, payload as INewOutputEventPayload)
+export function handleNewOutputEvent(error: Error, walletEvent: Event): void {
+    const { accountIndex, event } = validateWalletApiEvent(error, walletEvent, WalletEventType.NewOutput)
+    void handleNewOutputEventInternal(accountIndex, event as NewOutputWalletEvent)
 }
 
-export async function handleNewOutputEventInternal(
-    accountIndex: number,
-    payload: INewOutputEventPayload
-): Promise<void> {
+export async function handleNewOutputEventInternal(accountIndex: number, payload: NewOutputWalletEvent): Promise<void> {
     const account = get(activeAccounts)?.find((account) => account.index === accountIndex)
     const output = payload?.output
 
