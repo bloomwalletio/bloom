@@ -4,7 +4,7 @@ import { NetworkId } from '@core/network/enums'
 import { FALLBACK_GAS_BUDGET } from '@core/layer-2/constants'
 
 import { getOutputParameters } from '../utils'
-import { ReturnStrategy, TokenStandard, VerifiedStatus } from '../enums'
+import { ReturnStrategy, SubjectType, TokenStandard, VerifiedStatus } from '../enums'
 import { IAsset, IPersistedAsset } from '../interfaces'
 import { NewTransactionType } from '../stores'
 import { TransactionData } from '../types'
@@ -63,7 +63,7 @@ const baseTransaction: TransactionData = {
     type: NewTransactionType.TokenTransfer,
     asset: PERSISTED_ASSET_SHIMMER,
     recipient: {
-        type: 'address',
+        type: SubjectType.Address,
         address: recipientAddress,
     },
     rawAmount: amount,

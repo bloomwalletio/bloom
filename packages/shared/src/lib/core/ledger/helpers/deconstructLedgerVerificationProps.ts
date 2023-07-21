@@ -8,11 +8,7 @@ export function deconstructLedgerVerificationProps(): PopupProps {
 
     // TODO: Add ledger support for NFTs
 
-    /* eslint-disable @typescript-eslint/no-unnecessary-type-assertion */
-    const toAddress =
-        transactionData?.recipient?.type === 'account'
-            ? transactionData?.recipient?.account?.depositAddress
-            : transactionData?.recipient?.address
+    const toAddress = transactionData?.recipient?.address
     let toAmount = '0'
     if (transactionData?.type === NewTransactionType.TokenTransfer) {
         toAmount = `${formatTokenAmountDefault(

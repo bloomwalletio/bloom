@@ -11,7 +11,7 @@ export function getSubjectFromAddress(address: string, networkId?: string): Subj
     const networkName = networkId ?? getNetwork()?.getMetadata().name
     const contact = networkName ? ContactManager.getContactForAddress(networkName, address) : undefined
     if (account) {
-        return { type: SubjectType.Account, account }
+        return { type: SubjectType.Account, account, address: account.depositAddress }
     } else if (contact) {
         return { type: SubjectType.Contact, contact, address }
     } else {

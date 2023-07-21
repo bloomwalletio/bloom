@@ -9,6 +9,7 @@
     import { getSubjectFromAddress } from '@core/wallet/utils'
     import { Layer1RecipientError } from '@core/layer-2/errors'
     import { getNetworkHrp } from '@core/profile'
+    import { SubjectType } from '@core/wallet'
 
     export let recipient: Subject
     export let disabled = false
@@ -19,7 +20,7 @@
 
     let error: string
     let selected: IOption =
-        recipient?.type === 'account'
+        recipient?.type === SubjectType.Account
             ? { key: recipient.account.name, value: recipient.account.depositAddress }
             : { value: recipient?.address }
 
@@ -29,7 +30,7 @@
 
     export function validate(): Promise<void> {
         try {
-            if (recipient?.type === 'address' || recipient?.type === 'contact') {
+            if (recipient?.type === SubjectType.Address || recipient?.type === SubjectType.Contact) {
                 if (!recipient.address) {
                     throw new Error(localize('error.send.recipientRequired'))
                 }
@@ -39,7 +40,7 @@
                 } else {
                     validateBech32Address(getNetworkHrp(), recipient?.address)
                 }
-            } else if (recipient?.type === 'account') {
+            } else if (recipient?.type === SubjectType.Account) {
                 if (isLayer2) {
                     throw new Layer1RecipientError()
                 }
@@ -47,7 +48,7 @@
                 throw new Error(localize('error.send.recipientRequired'))
             }
 
-            Promise.resolve()
+            return Promise.resolve()
         } catch (err) {
             error = err?.message ?? err
             return Promise.reject(error)

@@ -1,7 +1,6 @@
 import { encodeAddress, encodeAssetAllowance, encodeSmartContractParameters } from '../helpers'
 import BigInteger from 'big-integer'
 import type { TransactionData } from '@core/wallet/types'
-import { getAddressFromSubject } from '@core/wallet/utils'
 import { SpecialStream } from '../classes'
 import { ACCOUNTS_CONTRACT, EXTERNALLY_OWNED_ACCOUNT, FALLBACK_GAS_BUDGET, TRANSFER_ALLOWANCE } from '../constants'
 import { estimateGasForLayer1ToLayer2Transaction } from './estimateGasForLayer1ToLayer2Transaction'
@@ -9,8 +8,8 @@ import { estimateGasForLayer1ToLayer2Transaction } from './estimateGasForLayer1T
 export async function getLayer2MetadataForTransfer(transactionData: TransactionData): Promise<string> {
     const metadataStream = new SpecialStream()
 
-    const address = getAddressFromSubject(transactionData.recipient)
-    const encodedAddress = encodeAddress(address.toLowerCase())
+    const address = transactionData.recipient?.address
+    const encodedAddress = address ? encodeAddress(address.toLowerCase()) : ''
 
     const estimatedGas = await estimateGasForLayer1ToLayer2Transaction(transactionData)
 

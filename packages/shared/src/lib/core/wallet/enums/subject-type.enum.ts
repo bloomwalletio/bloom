@@ -1,5 +1,5 @@
 export enum SubjectType {
-    Address = 'aAddress',
+    Address = 'address',
     Contact = 'contact',
     Account = 'account',
 }

@@ -4,4 +4,5 @@ import { SubjectType } from '../enums'
 export interface IAccountSubject {
     type: SubjectType.Account
     account: IAccountState
+    address: string
 }

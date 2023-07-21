@@ -177,7 +177,7 @@ export class ContactManager {
         }
 
         const contactId = profile.networkContactAddresses[networkId]?.[address]?.contactId
-        return contactId ? profile.contacts[contactId] : undefined
+        return ContactManager.getContact(contactId)
     }
 
     static getNetworkContactAddressMapForContact(contactId: string): INetworkContactAddressMap {
