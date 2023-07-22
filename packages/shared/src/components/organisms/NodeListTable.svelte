@@ -7,7 +7,7 @@
 
     import { openPopup, PopupId } from '../../../../desktop/lib/auxiliary/popup'
 
-    export let nodesContainer: HTMLElement = undefined
+    export let nodesContainer: HTMLElement | undefined = undefined
 
     $: clientOptions = $activeProfile?.clientOptions
 
