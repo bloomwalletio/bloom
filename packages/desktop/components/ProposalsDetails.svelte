@@ -32,7 +32,7 @@
 
     $: isOverviewLoaded = !!$participationOverviewForSelectedAccount
     $: $registeredProposalsForSelectedAccount, $participationOverviewForSelectedAccount, updateProposalsDetails()
-    $: $selectedAccount, setParticipationOverview()
+    $: $selectedAccount, void setParticipationOverview()
 
     function updateProposalsDetails(): void {
         if ($activeProfileId) {
