@@ -17,12 +17,12 @@
     export let darkColor = ''
     export let overrideLeading = false
     export let classes = '' // ISSUE: https://github.com/tailwindlabs/tailwindcss/discussions/1446
-    export let whitespace: 'normal' | 'nowrap' | 'pre' | 'pre-line' | 'pre-wrap' = undefined
+    export let whitespace: 'normal' | 'nowrap' | 'pre' | 'pre-line' | 'pre-wrap' | undefined = undefined
 
     const DARKMODE_PREFIX = 'dark:'
     const TEXT_PREFIX = 'text-'
     const LEADING_PREFIX = 'leading-'
-    const WHITESPACE_PREFIX = 'whiteSpace'
+    const WHITESPACE_PREFIX = 'whitespace-'
     const DEFAULT_TEXT_COLOUR = TEXT_PREFIX + 'gray-800'
     const DEFAULT_TEXT_DARK_COLOUR = DARKMODE_PREFIX + TEXT_PREFIX + 'white'
     const ERROR_TEXT_COLOUR = TEXT_PREFIX + 'red-500'
