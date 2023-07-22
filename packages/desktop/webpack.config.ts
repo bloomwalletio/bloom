@@ -225,6 +225,9 @@ const webpackConfig: Configuration[] = [
                 },
             },
         },
+        snapshot: {
+            managedPaths: [/node_modules\/(?!@bloom-labs\/ui)/],
+        },
     },
     {
         target: 'electron-main',
