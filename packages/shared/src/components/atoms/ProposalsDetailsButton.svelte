@@ -1,17 +1,10 @@
 <script lang="typescript">
-    import { Modal, MeatballMenuButton, MenuItem } from '@ui'
+    import { Modal, MeatballMenuButton, MenuItem, ModalPosition } from '@ui'
     import { Icon } from '@auxiliary/icon'
     import { openPopup, PopupId } from '../../../../desktop/lib/auxiliary/popup'
     import { localize } from '@core/i18n'
 
-    export let modalPosition:
-        | {
-              top?: string
-              bottom?: string
-              left?: string
-              right?: string
-          }
-        | undefined = undefined
+    export let modalPosition: ModalPosition | undefined = undefined
 
     let modal: Modal | undefined
 

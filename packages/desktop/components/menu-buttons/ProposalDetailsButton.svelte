@@ -1,6 +1,6 @@
 <script lang="ts">
     import { onMount } from 'svelte'
-    import { Modal, MenuItem, MeatballMenuButton } from '@ui'
+    import { Modal, MenuItem, MeatballMenuButton, ModalPosition } from '@ui'
     import { selectedAccount } from '@core/account/stores'
     import { handleError } from '@core/error/handlers'
     import { localize } from '@core/i18n'
@@ -12,14 +12,7 @@
     import features from '@features/features'
 
     export let proposal: IProposal
-    export let modalPosition:
-        | {
-              top?: string
-              bottom?: string
-              left?: string
-              right?: string
-          }
-        | undefined = undefined
+    export let modalPosition: ModalPosition | undefined = undefined
 
     let modal: Modal = undefined
     let isVotingForProposal: boolean
