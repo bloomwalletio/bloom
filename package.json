@@ -23,6 +23,10 @@
         "svelte-preprocess": "5.0.4",
         "typescript": "5.0.3"
     },
+    "peerDependencies": {
+        "@babel/core": "7.21.3",
+        "svelte": "3.58.0"
+    },
     "scripts": {
         "check-strict": "yarn check-strict:desktop && yarn check-strict:shared",
         "check-strict:desktop": "cd packages/desktop && tsc --project tsconfig.strict.json --pretty --noEmit",
