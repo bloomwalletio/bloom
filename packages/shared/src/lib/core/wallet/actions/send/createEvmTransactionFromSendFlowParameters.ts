@@ -1,34 +1,43 @@
 import { IAccountState } from '@core/account'
-import { ISC_MAGIC_CONTRACT_ADDRESS } from '@core/layer-2/constants'
-import { EvmTransactionData } from '@core/layer-2/types'
 import {
     buildEvmTransactionData,
     getErc20TransferSmartContractData,
     getIscpTransferSmartContractData,
 } from '@core/layer-2/utils'
+import { ISC_MAGIC_CONTRACT_ADDRESS } from '@core/layer-2/constants'
+import { EvmTransactionData } from '@core/layer-2/types'
 import { IChain } from '@core/network/interfaces'
 import { TokenStandard } from '@core/wallet/enums'
 import { IAsset } from '@core/wallet/interfaces'
-import { NewTransactionType } from '@core/wallet/stores'
-import { TransactionData } from '@core/wallet/types'
+import { SendFlowType } from '@core/wallet/stores'
+import { SendFlowParameters } from '@core/wallet/types'
 
-export function createEvmTransactionFromTransactionData(
-    transactionData: TransactionData,
+export function createEvmTransactionFromSendFlowParameters(
+    sendFlowParameters: SendFlowParameters,
     chain: IChain,
     account: IAccountState
 ): Promise<EvmTransactionData | undefined> {
-    if (!transactionData || transactionData.type === NewTransactionType.NftTransfer) {
+    if (!sendFlowParameters || sendFlowParameters.type === SendFlowType.NftTransfer) {
         return Promise.resolve(undefined)
     }
 
     const provider = chain?.getProvider()
-    const asset = transactionData.asset
 
-    if (transactionData.recipient?.type !== 'address' || !asset?.metadata) {
+    let asset
+    let amount
+    if (sendFlowParameters.type === SendFlowType.BaseCoinTransfer) {
+        asset = sendFlowParameters.baseCoinTransfer?.asset
+        amount = sendFlowParameters.baseCoinTransfer?.rawAmount ?? '0'
+    } else if (sendFlowParameters.type === SendFlowType.TokenTransfer) {
+        asset = sendFlowParameters.tokenTransfer?.asset
+        amount = sendFlowParameters.tokenTransfer?.rawAmount ?? '0'
+    }
+
+    if (sendFlowParameters.recipient?.type !== 'address' || !asset?.metadata || !amount) {
         return Promise.resolve(undefined)
     }
 
-    const recipientAddress = transactionData.recipient.address
+    const recipientAddress = sendFlowParameters.recipient.address
 
     const { evmAddresses } = account
     const originAddress = evmAddresses[chain.getConfiguration().coinType]
@@ -38,9 +47,8 @@ export function createEvmTransactionFromTransactionData(
 
     const destinationAddress = getDestinationAddress(asset, recipientAddress)
 
-    let amount = transactionData.rawAmount
     let data
-    if (asset.metadata?.standard === TokenStandard.BaseToken) {
+    if (!asset || asset.metadata?.standard === TokenStandard.BaseToken) {
         data = undefined
     } else {
         data = getDataForTransaction(chain, recipientAddress, asset, amount)
