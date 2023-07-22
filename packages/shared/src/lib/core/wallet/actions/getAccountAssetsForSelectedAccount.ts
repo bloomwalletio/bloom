@@ -11,25 +11,29 @@ import { sortAssets } from '../utils/sortAssets'
 import { getLayer2AccountBalance } from '@core/layer-2/stores'
 
 export function getAccountAssetsForSelectedAccount(marketCoinPrices: MarketCoinPrices): AccountAssets {
-    const accountAssets = {} as AccountAssets
+    try {
+        const accountAssets = {} as AccountAssets
 
-    const networkId = getActiveNetworkId()
-    if (!networkId) {
+        const networkId = getActiveNetworkId()
+        if (!networkId) {
+            return {}
+        }
+
+        accountAssets[networkId] = getAccountAssetForNetwork(marketCoinPrices, networkId)
+        const chains = getNetwork()?.getChains() ?? []
+
+        for (const chain of chains) {
+            const chainId = chain.getConfiguration().chainId
+            const chainAssets = getAccountAssetForChain(chainId)
+            if (chainAssets) {
+                accountAssets[chainId] = chainAssets
+            }
+        }
+
+        return accountAssets
+    } catch (err) {
         return {}
     }
-
-    accountAssets[networkId] = getAccountAssetForNetwork(marketCoinPrices, networkId)
-    const chains = getNetwork()?.getChains() ?? []
-
-    for (const chain of chains) {
-        const chainId = chain.getConfiguration().chainId
-        const chainAssets = getAccountAssetForChain(chainId)
-        if (chainAssets) {
-            accountAssets[chainId] = chainAssets
-        }
-    }
-
-    return accountAssets
 }
 
 function getAccountAssetForNetwork(marketCoinPrices: MarketCoinPrices, networkId: NetworkId): IAccountAssetsPerNetwork {
