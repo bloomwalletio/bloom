@@ -7,7 +7,11 @@ export function pollLayer2Tokens(): void {
     clearLayer2TokensPoll()
     fetchSelectedAccountLayer2Balance()
     pollInterval = window.setInterval(() => {
-        fetchSelectedAccountLayer2Balance()
+        try {
+            fetchSelectedAccountLayer2Balance()
+        } catch (err) {
+            console.error(err)
+        }
     }, LAYER2_TOKENS_POLL_INTERVAL)
 }
 

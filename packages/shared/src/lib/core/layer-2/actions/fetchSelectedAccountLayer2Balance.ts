@@ -11,9 +11,6 @@ import { getActiveProfile } from '@core/profile'
 
 export function fetchSelectedAccountLayer2Balance(): void {
     const account = getSelectedAccount()
-    if (!account) {
-        return
-    }
 
     const { evmAddresses, index } = account
     const chains = getNetwork()?.getChains() ?? []
