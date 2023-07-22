@@ -1,10 +1,9 @@
 import { showAppNotification } from '@auxiliary/notification'
-import { selectedAccount, updateSelectedAccount } from '@core/account'
+import { getSelectedAccount, updateSelectedAccount } from '@core/account'
 import { localize } from '@core/i18n'
 import { addOrUpdateNftInAllAccountNfts, buildNftFromNftOutput, IIrc27Metadata } from '@core/nfts'
 import { Converter } from '@core/utils'
 import { MintNftParams } from '@iota/wallet'
-import { get } from 'svelte/store'
 import { DEFAULT_TRANSACTION_OPTIONS, OUTPUT_TYPE_NFT } from '../constants'
 import { ActivityAction } from '../enums'
 import { addActivityToAccountActivitiesInAllAccountActivities, resetMintNftDetails } from '../stores'
@@ -14,7 +13,7 @@ import { generateSingleNftActivity } from '../utils/generateActivity/generateSin
 
 export async function mintNft(metadata: IIrc27Metadata, quantity: number): Promise<void> {
     try {
-        const account = get(selectedAccount)
+        const account = getSelectedAccount()
         updateSelectedAccount({ isTransferring: true })
 
         const mintNftParams: MintNftParams = {

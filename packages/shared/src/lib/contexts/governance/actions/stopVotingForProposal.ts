@@ -1,16 +1,15 @@
-import { get } from 'svelte/store'
 import type { Transaction } from '@iota/wallet'
-import { selectedAccount, updateSelectedAccount } from '@core/account/stores'
+import { getSelectedAccount, updateSelectedAccount } from '@core/account/stores'
 import { showAppNotification } from '@auxiliary/notification/actions'
 import { localize } from '@core/i18n'
 import { handleError } from '@core/error/handlers'
 import { processAndAddToActivities } from '@core/wallet/utils'
 
-export async function stopVotingForProposal(eventId: string): Promise<Transaction> {
-    const account = get(selectedAccount)
+export async function stopVotingForProposal(eventId: string): Promise<Transaction | undefined> {
+    const account = getSelectedAccount()
     try {
         updateSelectedAccount({ hasVotingTransactionInProgress: true })
-        const transaction = await account?.stopParticipating(eventId)
+        const transaction = await account.stopParticipating(eventId)
 
         await processAndAddToActivities(transaction, account)
 

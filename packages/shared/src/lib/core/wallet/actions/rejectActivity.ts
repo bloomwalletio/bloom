@@ -1,4 +1,4 @@
-import { selectedAccount } from '@core/account'
+import { getSelectedAccount } from '@core/account'
 import { get } from 'svelte/store'
 import { updateAsyncDataByActivityId } from '../stores'
 import { hiddenActivities } from '../stores/hidden-activities.store'
@@ -7,7 +7,7 @@ import { showAppNotification } from '@auxiliary/notification'
 import { activeProfileId } from '@core/profile'
 
 export function rejectActivity(id: string): void {
-    const accountIndex = get(selectedAccount).index
+    const accountIndex = getSelectedAccount().index
     hiddenActivities.update((state) => {
         const profileId = get(activeProfileId)
         if (Array.isArray(state)) {

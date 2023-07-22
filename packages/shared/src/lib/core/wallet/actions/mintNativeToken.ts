@@ -1,6 +1,5 @@
-import { get } from 'svelte/store'
 import { showAppNotification } from '@auxiliary/notification'
-import { selectedAccount, updateSelectedAccount } from '@core/account'
+import { getSelectedAccount, updateSelectedAccount } from '@core/account'
 import { localize } from '@core/i18n'
 import { Converter } from '@core/utils'
 import { MintNativeTokenParams } from '@iota/wallet'
@@ -19,7 +18,7 @@ export async function mintNativeToken(
 ): Promise<void> {
     try {
         updateSelectedAccount({ isTransferring: true })
-        const account = get(selectedAccount)
+        const account = getSelectedAccount()
 
         const params: MintNativeTokenParams = {
             maximumSupply: Converter.decimalToHex(maximumSupply),

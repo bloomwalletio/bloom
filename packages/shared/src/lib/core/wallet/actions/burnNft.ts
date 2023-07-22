@@ -1,13 +1,12 @@
 import { showAppNotification } from '@auxiliary/notification'
-import { selectedAccount, updateSelectedAccount } from '@core/account/stores/selected-account.store'
+import { getSelectedAccount, updateSelectedAccount } from '@core/account/stores'
 import { localize } from '@core/i18n'
 import { updateNftInAllAccountNfts } from '@core/nfts'
 import { handleError } from '@core/error/handlers'
-import { get } from 'svelte/store'
 import { processAndAddToActivities } from '../utils'
 
 export async function burnNft(nftId: string): Promise<void> {
-    const account = get(selectedAccount)
+    const account = getSelectedAccount()
     try {
         updateSelectedAccount({ isTransferring: true })
         const burnNftTransaction = await account.burnNft(nftId)
