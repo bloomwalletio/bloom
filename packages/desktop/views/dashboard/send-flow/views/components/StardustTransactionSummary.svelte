@@ -98,7 +98,7 @@
         bind:selectedTimelockPeriod
         bind:giftStorageDeposit
         gasBudget={estimatedGas}
-        {storageDeposit}
+        storageDeposit={getStorageDepositFromOutput(output)}
         {destinationNetwork}
         {disableChangeExpiration}
         disableChangeTimelock={disableChangeExpiration}

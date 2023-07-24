@@ -3,6 +3,7 @@ import { NftDownloadMetadata, IIrc27Metadata } from '../interfaces'
 
 export interface INft {
     id: string
+    chainId?: number
     address: string
     name: string
     metadata?: string
