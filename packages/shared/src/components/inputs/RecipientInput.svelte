@@ -1,6 +1,6 @@
 <script lang="ts">
     import { Modal, SelectorInput, IOption, ColoredCircle } from '@ui'
-    import { getAccountColorById } from '@core/account/utils'
+    import { getAccountColorById, getRandomAccountColor } from '@core/account/utils'
     import { localize } from '@core/i18n'
     import { validateBech32Address, validateEthereumAddress } from '@core/utils/crypto'
     import { Subject } from '@core/wallet/types'
@@ -54,7 +54,7 @@
     }
 
     function getRecipientColor(option: IOption): string {
-        return getAccountColorById(option?.id)
+        return option.color ?? getAccountColorById(option?.id) ?? getRandomAccountColor()
     }
 </script>
 

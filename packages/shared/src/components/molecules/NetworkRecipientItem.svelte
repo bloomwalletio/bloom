@@ -26,12 +26,14 @@
                         id: r.account.index,
                         key: r.account.name,
                         value: r.account.depositAddress,
+                        color: r.account.color,
                     }
                 case SubjectType.Contact:
                     return {
                         id: r.contact.id,
                         key: r.contact.name,
                         value: r.address,
+                        color: r.contact.color,
                     }
             }
         })
