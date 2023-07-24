@@ -214,7 +214,6 @@ describe('File: getOutputParameters.ts', () => {
             layer2Parameters,
         }
         const output = await getOutputParameters(sendFlowParameters)
-        console.log((Number(FALLBACK_GAS_BUDGET) + Number(amount)).toString())
         const expectedOutput = {
             recipientAddress: layer2Parameters.networkAddress,
             amount: (Number(FALLBACK_GAS_BUDGET) + Number(amount)).toString(),
