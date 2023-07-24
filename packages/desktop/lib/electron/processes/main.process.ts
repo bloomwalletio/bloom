@@ -230,7 +230,7 @@ function createMainWindow(): BrowserWindow {
      *  The handler only allows navigation to an external browser.
      */
     windows.main.webContents.on('will-navigate', (a, b) => {
-        handleNavigation(a, b)
+        handleNavigation(a as unknown as Event, b)
     })
 
     windows.main.on('close', () => {
@@ -377,7 +377,7 @@ powerMonitor.on('lock-screen', () => {
 
 // URLs
 ipcMain.handle('open-url', (_e, url) => {
-    handleNavigation(_e, url)
+    handleNavigation(_e as unknown as Event, url)
 })
 
 // Keychain

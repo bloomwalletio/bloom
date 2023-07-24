@@ -1,24 +1,20 @@
 <script lang="ts">
     import { onMount } from 'svelte'
-
-    import { Modal, MenuItem, MeatballMenuButton } from '@ui'
-
+    import { Modal, MenuItem, MeatballMenuButton, ModalPosition } from '@ui'
     import { selectedAccount } from '@core/account/stores'
     import { handleError } from '@core/error/handlers'
     import { localize } from '@core/i18n'
-
     import { IProposal } from '@contexts/governance'
     import { participationOverviewForSelectedAccount } from '@contexts/governance/stores'
     import { isVotingForSelectedProposal } from '@contexts/governance/utils'
-
     import { Icon } from '@auxiliary/icon'
     import { openPopup, PopupId } from '@desktop/auxiliary/popup'
-
     import features from '@features/features'
 
     export let proposal: IProposal
-    export let modal: Modal = undefined
+    export let modalPosition: ModalPosition | undefined = undefined
 
+    let modal: Modal = undefined
     let isVotingForProposal: boolean
     let isBusy = true // starts in a busy state because data needs to be fetched before displaying selectable options
 
@@ -86,13 +82,11 @@
     onMount(() => void updateIsVoting())
 </script>
 
-<div class="max-h-7 max-w-9 flex-none flex-initial overflow-visible relative">
-    <MeatballMenuButton onClick={modal?.toggle} />
-    <Modal bind:this={modal} position={{ right: '0' }} classes="mt-1.5">
-        <div class="flex flex-col">
-            {#each buttons as button}
-                <MenuItem {...button} />
-            {/each}
-        </div>
-    </Modal>
-</div>
+<MeatballMenuButton onClick={modal?.toggle} />
+<Modal bind:this={modal} position={modalPosition} classes="mt-1.5">
+    <div class="flex flex-col">
+        {#each buttons as button}
+            <MenuItem {...button} />
+        {/each}
+    </div>
+</Modal>

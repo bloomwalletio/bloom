@@ -5,8 +5,10 @@ import {
     TokenTransferData,
     getAssetById,
     getUnitFromTokenMetadata,
+    SubjectType,
     selectedAccountAssets,
     setSendFlowParameters,
+    Subject,
 } from '@core/wallet'
 import { get } from 'svelte/store'
 import { PopupId, openPopup } from '../../../../../../../../desktop/lib/auxiliary/popup'
@@ -73,12 +75,13 @@ function parseSendFormOperation(searchParams: URLSearchParams): SendFlowParamete
     const address = searchParams.get(SendOperationParameter.Address)
     const metadata = searchParams.get(SendOperationParameter.Metadata)
     const tag = searchParams.get(SendOperationParameter.Tag)
+    const recipient: Subject | undefined = address ? { type: SubjectType.Address, address } : undefined
 
     return {
         type,
         ...(baseCoinTransfer && { baseCoinTransfer }),
         ...(tokenTransfer && { tokenTransfer }),
-        ...(address && { recipient: { type: 'address', address } }),
+        ...(address && { recipient }),
         ...(metadata && { metadata }),
         ...(tag && { tag }),
     }
