@@ -12,21 +12,18 @@ export function deconstructLedgerVerificationProps(): PopupProps | undefined {
     const { type, recipient } = _sendFlowParameters
 
     // TODO: Add ledger support for NFTs
-
-    /* eslint-disable @typescript-eslint/no-unnecessary-type-assertion */
-    const toAddress = recipient?.type === 'account' ? recipient?.account?.depositAddress : recipient?.address
-    let toAmount = '0'
-    if (type === SendFlowType.BaseCoinTransfer) {
-        const { rawAmount, asset, unit } = _sendFlowParameters.baseCoinTransfer || {}
-        toAmount = asset?.metadata
-            ? formatTokenAmountDefault(Number(rawAmount), asset.metadata, unit)
-            : String(rawAmount)
-    } else if (type === SendFlowType.TokenTransfer) {
-        const { rawAmount, asset, unit } = _sendFlowParameters.tokenTransfer || {}
-        toAmount = asset?.metadata
-            ? formatTokenAmountDefault(Number(rawAmount), asset.metadata, unit)
-            : String(rawAmount)
+    if (type === SendFlowType.NftTransfer) {
+        return
     }
+
+    const toAddress = recipient?.type === 'account' ? recipient?.account?.depositAddress : recipient?.address
+    const { rawAmount, asset, unit } =
+        (type === SendFlowType.BaseCoinTransfer
+            ? _sendFlowParameters.baseCoinTransfer
+            : _sendFlowParameters.tokenTransfer) ?? {}
+    const toAmount = asset?.metadata
+        ? formatTokenAmountDefault(Number(rawAmount), asset.metadata, unit)
+        : String(rawAmount)
 
     return {
         toAddress,

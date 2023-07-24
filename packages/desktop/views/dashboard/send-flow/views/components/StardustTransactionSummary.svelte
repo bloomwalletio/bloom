@@ -41,15 +41,21 @@
     $: expirationTimePicker?.setNull(giftStorageDeposit)
     $: isTransferring = !!$selectedAccount.isTransferring
     $: isToLayer2 = !!layer2Parameters?.networkAddress
-    $: expirationDate, timelockDate, giftStorageDeposit, refreshSendConfirmationState()
+    $: updateSendFlowOnChange(expirationDate, timelockDate, giftStorageDeposit)
 
-    function refreshSendConfirmationState(): void {
-        updateSendFlowParameters({
-            type: sendFlowParameters.type,
-            expirationDate,
-            timelockDate,
-            giftStorageDeposit,
-        })
+    function updateSendFlowOnChange(expirationDate: Date, timelockDate: Date, giftStorageDeposit: boolean): void {
+        const hasChanged =
+            expirationDate !== sendFlowParameters.expirationDate &&
+            timelockDate !== sendFlowParameters.timelockDate &&
+            giftStorageDeposit !== sendFlowParameters.giftStorageDeposit
+        if (hasChanged) {
+            updateSendFlowParameters({
+                type: sendFlowParameters.type,
+                expirationDate,
+                timelockDate,
+                giftStorageDeposit,
+            })
+        }
     }
 
     async function setEstimatedGas(sendFlowParameters: SendFlowParameters): Promise<void> {
@@ -57,14 +63,14 @@
     }
     $: void setEstimatedGas(sendFlowParameters)
 
-    function setBaseCoinAndStorageDeposit(output: Output): void {
+    function setBaseCoinAndStorageDeposit(output: Output, estimatedGas: number): void {
         storageDeposit = getStorageDepositFromOutput(output)
         baseCoinTransfer = {
             asset: $selectedAccountAssets?.[getNetwork().getMetadata().id].baseCoin,
             rawAmount: String(Number(output.amount) - storageDeposit - estimatedGas),
         }
     }
-    $: setBaseCoinAndStorageDeposit(output)
+    $: setBaseCoinAndStorageDeposit(output, estimatedGas)
 
     function getTransactionAsset(sendFlowParameters: SendFlowParameters): {
         tokenTransfer?: TokenTransferData
@@ -89,7 +95,7 @@
     }
 
     onMount(() => {
-        setBaseCoinAndStorageDeposit(output)
+        setBaseCoinAndStorageDeposit(output, estimatedGas)
         selectedExpirationPeriod = getInitialExpirationDate(!!expirationDate, !!storageDeposit, giftStorageDeposit)
     })
 </script>
