@@ -29,10 +29,6 @@
     $: networkAddress = selectedOption?.networkAddress ?? $sendFlowParameters?.layer2Parameters?.networkAddress
     $: recipient = selectedOption?.recipient ?? $sendFlowParameters?.recipient
 
-    onMount(() => {
-        buildNetworkRecipientOptions()
-    })
-
     function getAssetName(): string | undefined {
         if ($sendFlowParameters?.type === SendFlowType.BaseCoinTransfer) {
             return $sendFlowParameters.baseCoinTransfer.asset?.metadata.name
@@ -56,6 +52,10 @@
                 ? selectorOptions.findIndex((option) => option.networkAddress === networkAddress)
                 : 0
 
+        setInitialRecipient()
+    }
+
+    function setInitialRecipient(): void {
         const recipient = $sendFlowParameters?.recipient
         if (recipient) {
             selectorOptions = selectorOptions.map((option, index) =>
@@ -66,6 +66,67 @@
                       }
                     : option
             )
+        }
+    }
+
+    function getAssetStandard(params: SendFlowParameters): string {
+        if (params.type === SendFlowType.NftTransfer) {
+            return params.nft?.parsedMetadata.standard
+        } else if (params.type === SendFlowType.TokenTransfer) {
+            return params.tokenTransfer?.asset.standard
+        } else {
+            return params.baseCoinTransfer?.asset.standard
+        }
+    }
+
+    function getCompatibleTransferNetworks(): INetworkRecipientSelectorOption[] {
+        if (!$network || !$sendFlowParameters) {
+            return []
+        }
+
+        // L1 network
+        const { id, name } = $network.getMetadata()
+        const layer1Network = {
+            id,
+            name,
+            networkAddress: '',
+        }
+
+        if (!features?.network?.layer2?.enabled) {
+            return [layer1Network]
+        }
+
+        let compatibleNetworks: INetworkRecipientSelectorOption[] = []
+
+        const chainId = getChainIdFromSendFlowParameters($sendFlowParameters)
+        const assetStandard = getAssetStandard($sendFlowParameters)
+        const sourceChain = $network.getChain(chainId)
+
+        switch (assetStandard) {
+            case TokenStandard.Irc27:
+            case TokenStandard.Irc30:
+            case TokenStandard.BaseToken:
+                if (!chainId) {
+                    compatibleNetworks = [layer1Network, ...$network.getIscpChains().map(getSelectorOptionFromChain)]
+                } else if (sourceChain) {
+                    compatibleNetworks = [getSelectorOptionFromChain(sourceChain), layer1Network]
+                }
+                break
+            case TokenStandard.Erc20:
+                if (sourceChain) {
+                    compatibleNetworks = [getSelectorOptionFromChain(sourceChain)]
+                }
+                break
+        }
+        return compatibleNetworks
+    }
+
+    function getSelectorOptionFromChain(chain: IChain): INetworkRecipientSelectorOption {
+        const chainConfig = chain.getConfiguration() as IIscpChainConfiguration
+        return {
+            chainId: chainConfig.chainId,
+            name: chainConfig.name,
+            networkAddress: chainConfig.aliasAddress,
         }
     }
 
