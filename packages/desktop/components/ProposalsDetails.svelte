@@ -32,7 +32,7 @@
 
     $: isOverviewLoaded = !!$participationOverviewForSelectedAccount
     $: $registeredProposalsForSelectedAccount, $participationOverviewForSelectedAccount, updateProposalsDetails()
-    $: $selectedAccount, setParticipationOverview()
+    $: $selectedAccount, void setParticipationOverview()
 
     function updateProposalsDetails(): void {
         if ($activeProfileId) {
@@ -62,11 +62,11 @@
 </script>
 
 <proposals-details class="space-y-4">
-    <header-container class="flex justify-between items-center">
+    <header-container class="flex justify-between items-center relative">
         <Text fontSize="14" fontWeight={FontWeight.semibold}>
             {localize('views.governance.proposalsDetails.title')}
         </Text>
-        <ProposalsDetailsButton />
+        <ProposalsDetailsButton modalPosition={{ right: '0px', top: '34px' }} />
     </header-container>
     <ul class="space-y-2">
         {#each Object.keys(details) as detailKey}
