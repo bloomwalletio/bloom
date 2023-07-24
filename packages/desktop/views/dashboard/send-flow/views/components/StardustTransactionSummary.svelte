@@ -41,22 +41,10 @@
     $: expirationTimePicker?.setNull(giftStorageDeposit)
     $: isTransferring = !!$selectedAccount.isTransferring
     $: isToLayer2 = !!layer2Parameters?.networkAddress
-    $: updateSendFlowOnChange(expirationDate, timelockDate, giftStorageDeposit)
-
-    function updateSendFlowOnChange(expirationDate: Date, timelockDate: Date, giftStorageDeposit: boolean): void {
-        const hasChanged =
-            expirationDate !== sendFlowParameters.expirationDate &&
-            timelockDate !== sendFlowParameters.timelockDate &&
-            giftStorageDeposit !== sendFlowParameters.giftStorageDeposit
-        if (hasChanged) {
-            updateSendFlowParameters({
-                type: sendFlowParameters.type,
-                expirationDate,
-                timelockDate,
-                giftStorageDeposit,
-            })
-        }
-    }
+    $: expirationDate,
+        timelockDate,
+        giftStorageDeposit,
+        updateSendFlowParameters({ type: sendFlowParameters.type, expirationDate, timelockDate, giftStorageDeposit })
 
     async function setEstimatedGas(sendFlowParameters: SendFlowParameters): Promise<void> {
         estimatedGas = await estimateGasForLayer1ToLayer2Transaction(sendFlowParameters)
