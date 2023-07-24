@@ -2,6 +2,7 @@ import * as WalletApi from '@iota/wallet'
 import type { CreateAccountPayload, SyncOptions } from '@iota/wallet/out/types'
 
 import { bindObjectAcrossContextBridge } from '../utils/context-bridge.utils'
+import { STRONGHOLD_V2_HASHING_ROUNDS, STRONGHOLD_V2_SALT } from '../constants/stronghold-v2-migration.constants'
 
 interface PayloadType {
     accountStartIndex: number
@@ -55,13 +56,11 @@ export default {
         currentPassword: string,
         newPassword: string
     ): unknown {
-        const salt = 'wallet.rs'
-        const round = 100
         return WalletApi.migrateStrongholdSnapshotV2ToV3(
             currentPath,
             newPath,
-            salt,
-            round,
+            STRONGHOLD_V2_SALT,
+            STRONGHOLD_V2_HASHING_ROUNDS,
             currentPassword,
             newPassword
         )
