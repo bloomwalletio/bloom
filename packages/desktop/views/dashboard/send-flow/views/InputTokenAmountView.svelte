@@ -2,28 +2,30 @@
     import { localize } from '@core/i18n'
     import {
         IAsset,
-        NewTransactionType,
+        SendFlowType,
         formatTokenAmountDefault,
         getUnitFromTokenMetadata,
-        newTransactionData,
-        updateNewTransactionData,
+        sendFlowParameters,
+        updateSendFlowParameters,
     } from '@core/wallet'
     import { TokenAmountInput, TokenAvailableBalanceTile } from '@ui'
-    import { get } from 'svelte/store'
     import { sendFlowRouter } from '../send-flow.router'
     import SendFlowTemplate from './SendFlowTemplate.svelte'
 
-    const transactionData = get(newTransactionData)
     let assetAmountInput: TokenAmountInput
     let asset: IAsset
     let rawAmount: string
     let amount: string
     let unit: string
+    const assetKey = $sendFlowParameters.type === SendFlowType.TokenTransfer ? 'tokenTransfer' : 'baseCoinTransfer'
 
-    if (transactionData.type === NewTransactionType.TokenTransfer) {
-        asset = transactionData.asset
-        rawAmount = transactionData.rawAmount
-        unit = transactionData.unit || getUnitFromTokenMetadata(asset?.metadata)
+    if (
+        $sendFlowParameters.type === SendFlowType.BaseCoinTransfer ||
+        $sendFlowParameters.type === SendFlowType.TokenTransfer
+    ) {
+        asset = $sendFlowParameters[assetKey].asset
+        rawAmount = $sendFlowParameters[assetKey].rawAmount
+        unit = $sendFlowParameters[assetKey].unit || getUnitFromTokenMetadata(asset?.metadata)
     }
 
     $: availableBalance = asset?.balance?.available
@@ -39,9 +41,14 @@
     async function onContinueClick(): Promise<void> {
         try {
             await assetAmountInput?.validate()
-            updateNewTransactionData({
-                type: NewTransactionType.TokenTransfer,
-                rawAmount,
+
+            updateSendFlowParameters({
+                type: $sendFlowParameters.type,
+                [assetKey]: {
+                    asset,
+                    rawAmount,
+                    unit,
+                },
             })
             $sendFlowRouter.next()
         } catch (err) {
@@ -50,9 +57,13 @@
     }
 
     function onBackClick(): void {
-        updateNewTransactionData({
-            type: NewTransactionType.TokenTransfer,
-            rawAmount: undefined,
+        updateSendFlowParameters({
+            type: $sendFlowParameters.type,
+            [assetKey]: {
+                asset,
+                rawAmount: undefined,
+                unit,
+            },
         })
         $sendFlowRouter.previous()
     }

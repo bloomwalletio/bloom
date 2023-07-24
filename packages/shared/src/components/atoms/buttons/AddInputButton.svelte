@@ -5,6 +5,7 @@
     export let buttonElement: HTMLButtonElement | undefined = undefined
     export let text: string
     export let open = false
+    export let disabled = false
     export let onClick: () => void
     export let onMouseEnter: () => void = () => {}
     export let onMouseLeave: () => void = () => {}
@@ -13,7 +14,12 @@
 {#if !open}
     <button
         bind:this={buttonElement}
-        class="py-1.5 px-3 w-max bg-gray-100 hover:bg-gray-200 focus:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-900 dark:focus:bg-gray-900 text-gray-600 dark:text-gray-500 rounded-md"
+        class="py-1.5 px-3 w-max bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-500 rounded-md
+            {!disabled
+            ? 'hover:bg-gray-200 focus:bg-gray-200 dark:hover:bg-gray-900 dark:focus:bg-gray-900'
+            : 'bg-gray-200 dark:bg-gray-700 dark:bg-opacity-10 cursor-default'}
+        "
+        {disabled}
         on:click={onClick}
         on:mouseenter={onMouseEnter}
         on:mouseleave={onMouseLeave}

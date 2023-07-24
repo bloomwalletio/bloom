@@ -8,7 +8,6 @@ import type {
     IContactAddressMap,
     INetworkContactAddressMap,
 } from '../interfaces'
-import { localize } from '@core/i18n'
 import { selectedContact } from '../stores'
 
 export class ContactManager {
@@ -181,9 +180,7 @@ export class ContactManager {
                 throw new Error(`Contact with ID ${contactId} doesn't exist!`)
             }
 
-            const addresses = contact.addresses
-            const filteredMap = filterNetworkContactAddressMap(profile.networkContactAddresses, addresses)
-            return filteredMap
+            return filterNetworkContactAddressMap(profile.networkContactAddresses, contact.addresses)
         } else {
             throw new Error('Profile is not available.')
         }
@@ -195,29 +192,6 @@ export class ContactManager {
             ? Object.values(profile.networkContactAddresses[networkId])
             : []
     }
-
-    static validateContact(contact: IContactMetadata): void {
-        const errors = {
-            name: '',
-            note: '',
-        }
-
-        if (!contact.name) {
-            errors.name = localize('error.input.required', { field: localize('general.name') })
-        } else if (contact.name.length >= 20) {
-            errors.name = localize('error.input.tooLong', { field: localize('general.name'), numCharacters: 20 })
-        }
-
-        if (contact.note && contact.note.length > 1000) {
-            errors.note = localize('error.input.tooLong', { field: localize('general.note'), numCharacters: 1000 })
-        }
-
-        const hasAnyErrors = Object.values(errors).some((error) => !!error)
-
-        if (hasAnyErrors) {
-            throw errors
-        }
-    }
 }
 
 function filterNetworkContactAddressMap(
@@ -227,12 +201,15 @@ function filterNetworkContactAddressMap(
     const filteredNetworkContactAddressMap: INetworkContactAddressMap = {}
 
     for (const networkId in networkContactAddressMap) {
-        const contactAddressMap: IContactAddressMap = networkContactAddressMap[networkId]
+        const contactAddressMap: IContactAddressMap = { ...networkContactAddressMap[networkId] }
         const filteredContactAddressMap: IContactAddressMap = {}
 
         for (const address in contactAddressMap) {
             if (addresses.includes(address)) {
-                filteredContactAddressMap[address] = contactAddressMap[address]
+                /**
+                 * NOTE: This is a shallow copy, so we do not edit the stored contactAddress by accident.
+                 */
+                filteredContactAddressMap[address] = { ...contactAddressMap[address] }
             }
         }
 

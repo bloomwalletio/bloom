@@ -3,7 +3,6 @@ import { selectedAccount, updateSelectedAccount } from '@core/account'
 import { updateNftInAllAccountNfts } from '@core/nfts/actions'
 
 import { DEFAULT_TRANSACTION_OPTIONS, OUTPUT_TYPE_NFT } from '../constants'
-import { resetNewTokenTransactionData } from '../stores'
 import { Output } from '../types'
 import { processAndAddToActivities } from '../utils'
 
@@ -20,8 +19,6 @@ export async function sendOutput(output: Output): Promise<void> {
         if (output.type === OUTPUT_TYPE_NFT) {
             updateNftInAllAccountNfts(account.index, output.nftId, { isSpendable: false })
         }
-
-        resetNewTokenTransactionData()
 
         await processAndAddToActivities(transaction, account)
         updateSelectedAccount({ isTransferring: false })

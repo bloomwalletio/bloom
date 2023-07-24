@@ -38,6 +38,10 @@
     }
 
     function validate(): boolean {
+        /**
+         * NOTE: This variable allows us to run all the input validation functions,
+         * displaying all errors at once rather than one by one.
+         */
         let handledError = false
         for (const input of [nameInput, noteInput]) {
             try {
@@ -65,7 +69,7 @@
         <TextInput
             bind:this={noteInput}
             bind:value={contactNote}
-            placeholder={localize('general.note')}
+            placeholder={localize('general.optionalField', { field: localize('general.note') })}
             label={localize('general.note')}
             validationFunction={validateContactNote}
         />

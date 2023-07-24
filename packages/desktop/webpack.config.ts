@@ -199,7 +199,7 @@ const preloadPlugins = [
 const webpackConfig: Configuration[] = [
     {
         entry: {
-            'build/index': ['./index.js'],
+            'build/index': ['./index.ts'],
         },
         resolve,
         output,

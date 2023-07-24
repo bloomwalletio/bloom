@@ -4,20 +4,60 @@
     import { Button, TextInput, NetworkInput } from '@ui'
     import { DrawerTemplate } from '@components'
 
-    import { ContactManager, selectedContact } from '@core/contact'
+    import {
+        ContactManager,
+        selectedContact,
+        validateContactAddress,
+        validateContactAddressName,
+        validateContactNetworkSelection,
+    } from '@core/contact'
     import { localize } from '@core/i18n'
     import { Router } from '@core/router'
 
     export let drawerRouter: Router<unknown>
 
+    let addressInput, addressNameInput: TextInput
+    let networkSelectionInput: NetworkInput
     let address: string = ''
     let addressName: string = ''
     let networkSelection: { networkId: string; address?: string } | undefined
 
-    function onSaveClick(): void {
-        ContactManager.addContactAddress($selectedContact?.id, networkSelection?.networkId, addressName, address)
+    /**
+     * NOTE: This improves UX slightly by forcing the address-related input errors
+     * to be reset when the network selection changes.
+     */
+    $: networkSelection?.networkId, resetErrors()
 
-        drawerRouter.previous()
+    let addressError,
+        addressNameError,
+        networkSelectionError = ''
+    function resetErrors(): void {
+        addressError = ''
+        addressNameError = ''
+        networkSelectionError = ''
+    }
+
+    function onSaveClick(): void {
+        if (validate()) {
+            ContactManager.addContactAddress($selectedContact?.id, networkSelection?.networkId, addressName, address)
+            drawerRouter.previous()
+        }
+    }
+
+    function validate(): boolean {
+        /**
+         * NOTE: This variable allows us to run all the input validation functions,
+         * displaying all errors at once rather than one by one.
+         */
+        let handledError = false
+        for (const input of [addressInput, addressNameInput, networkSelectionInput]) {
+            try {
+                input.validate()
+            } catch (err) {
+                handledError = true
+            }
+        }
+        return !handledError
     }
 </script>
 
@@ -26,9 +66,36 @@
     {drawerRouter}
 >
     <add-address class="flex flex-col gap-4">
-        <NetworkInput bind:networkSelection showLayer2={true} />
-        <TextInput bind:value={addressName} placeholder={localize('general.addressName')} />
-        <TextInput bind:value={address} placeholder={localize('general.address')} />
+        <NetworkInput
+            bind:this={networkSelectionInput}
+            bind:networkSelection
+            bind:error={networkSelectionError}
+            showLayer2={true}
+            validationFunction={() => validateContactNetworkSelection(networkSelection?.networkId)}
+        />
+        <TextInput
+            bind:this={addressNameInput}
+            bind:value={addressName}
+            bind:error={addressNameError}
+            placeholder={localize('general.addressName')}
+            validationFunction={() =>
+                validateContactAddressName(
+                    { value: addressName, isRequired: true, checkLength: true, mustBeUnique: true },
+                    $selectedContact?.id,
+                    networkSelection.networkId
+                )}
+        />
+        <TextInput
+            bind:this={addressInput}
+            bind:value={address}
+            bind:error={addressError}
+            placeholder={localize('general.address')}
+            validationFunction={() =>
+                validateContactAddress(
+                    { value: address, isRequired: true, mustBeUnique: true },
+                    networkSelection?.networkId
+                )}
+        />
     </add-address>
     <div slot="footer">
         <Button onClick={onSaveClick} classes="w-full">{localize('actions.save')}</Button>
