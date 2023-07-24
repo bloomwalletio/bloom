@@ -1,13 +1,13 @@
 <script lang="ts">
     import { localize } from '@core/i18n'
     import { resetLedgerPreparedOutput, resetShowInternalVerificationPopup } from '@core/ledger'
-    import { resetNewTokenTransactionData } from '@core/wallet'
+    import { resetSendFlowParameters } from '@core/wallet'
     import { openPopup, PopupId } from '@desktop/auxiliary/popup'
     import { OnboardingButton } from '@ui'
     import { SendFlowRouter, sendFlowRouter } from '@views/dashboard/send-flow'
 
     function onSendClick(): void {
-        resetNewTokenTransactionData()
+        resetSendFlowParameters()
         resetLedgerPreparedOutput()
         resetShowInternalVerificationPopup()
         sendFlowRouter.set(new SendFlowRouter(undefined))

@@ -36,7 +36,7 @@ export function generateSingleConsolidationActivity(
     const sendingInfo = getSendingInformation(processedTransaction, output, account)
     const asyncData = getAsyncDataFromOutput(output, outputId, claimingData, account)
 
-    const { storageDeposit, giftedStorageDeposit } = getStorageDepositFromOutput(output)
+    const storageDeposit = getStorageDepositFromOutput(output)
     return {
         type: ActivityType.Consolidation,
         isHidden,
@@ -50,7 +50,6 @@ export function generateSingleConsolidationActivity(
         containsValue,
         outputId,
         storageDeposit,
-        giftedStorageDeposit,
         metadata,
         tag,
         asyncData,
