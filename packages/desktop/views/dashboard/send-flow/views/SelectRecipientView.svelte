@@ -1,12 +1,13 @@
 <script lang="ts">
-    import { selectedAccount } from '@core/account/stores'
+    import { selectedAccount, selectedAccountIndex } from '@core/account/stores'
     import { localize } from '@core/i18n'
     import { ChainType, IChain, IIscpChainConfiguration, network } from '@core/network'
     import {
+        sendFlowParameters,
         SendFlowType,
+        Subject,
         SubjectType,
         TokenStandard,
-        sendFlowParameters,
         updateSendFlowParameters,
     } from '@core/wallet'
     import { closePopup } from '@desktop/auxiliary/popup'
@@ -15,6 +16,8 @@
     import { onMount } from 'svelte'
     import { sendFlowRouter } from '../send-flow.router'
     import SendFlowTemplate from './SendFlowTemplate.svelte'
+    import { visibleActiveAccounts } from 'shared/src/lib/core/profile'
+    import { ContactManager } from 'shared/src/lib/core/contact'
 
     let networkAddress = $sendFlowParameters?.layer2Parameters?.networkAddress
     let selectorOptions: INetworkRecipientSelectorOption[] = []
@@ -26,7 +29,7 @@
     $: isLayer2 = !!networkAddress
 
     $: networkAddress = selectedOption?.networkAddress ?? $sendFlowParameters?.layer2Parameters?.networkAddress
-    $: recipient = selectedOption?.recipient ?? $sendFlowParameters?.recipient
+    $: recipient = selectedOption?.selectedRecipient ?? $sendFlowParameters?.recipient
 
     onMount(() => {
         buildNetworkRecipientOptions()
@@ -55,17 +58,42 @@
                 ? selectorOptions.findIndex((option) => option.networkAddress === networkAddress)
                 : 0
 
-        const recipient = $sendFlowParameters?.recipient
-        if (recipient) {
-            selectorOptions = selectorOptions.map((option, index) =>
-                index === selectedIndex
-                    ? {
-                          ...option,
-                          recipient,
-                      }
-                    : option
-            )
+        const recipients = selectorOptions.map((options) => getRecipients(options.name, options.networkAddress))
+        if (recipients.length) {
+            selectorOptions = selectorOptions.map((option, index) => ({
+                ...option,
+                recipients: recipients[index],
+            }))
         }
+    }
+
+    function getRecipients(networkId: string, networkAddress?: string): Subject[] {
+        return [...(networkAddress ? [] : getLayer1AccountRecipients()), ...getContactRecipients(networkId)]
+    }
+
+    function getLayer1AccountRecipients(): Subject[] {
+        return $visibleActiveAccounts
+            .filter((account) => account.index !== $selectedAccountIndex)
+            .map(
+                (account) =>
+                    <Subject>{
+                        type: SubjectType.Account,
+                        account,
+                        address: account.depositAddress,
+                    }
+            )
+    }
+
+    function getContactRecipients(networkId: string): Subject[] {
+        const recipients = ContactManager.listContactAddressesForNetwork(networkId).map((address) => {
+            const contact = ContactManager.getContact(address.contactId)
+            return <Subject>{
+                type: SubjectType.Contact,
+                address: address.address,
+                contact,
+            }
+        })
+        return [...new Map(recipients.map((recipient) => [recipient?.['contact']?.['contactId'], recipient])).values()]
     }
 
     function onContinueClick(): void {

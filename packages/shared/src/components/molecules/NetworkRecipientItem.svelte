@@ -1,7 +1,8 @@
 <script lang="ts">
     import { Icon as IconEnum } from '@auxiliary/icon'
     import { NetworkId } from '@core/network'
-    import { FontWeight, Icon, NetworkIcon, RecipientInput, Text, TextType } from '@ui'
+    import { SubjectType } from '@core/wallet'
+    import { FontWeight, Icon, IOption, NetworkIcon, RecipientInput, Text, TextType } from '@ui'
     import { INetworkRecipientSelectorOption } from '../interfaces'
 
     export let item: INetworkRecipientSelectorOption
@@ -11,8 +12,30 @@
 
     let recipientInputElement: HTMLInputElement
 
+    let isLayer2
     $: isLayer2 = !!item?.networkAddress
     $: onChange && selected && onChange(item)
+
+    const options = getOptionsFromItem(item)
+
+    function getOptionsFromItem(item: INetworkRecipientSelectorOption): IOption[] {
+        return item?.recipients?.map((r) => {
+            switch (r.type) {
+                case SubjectType.Account:
+                    return {
+                        id: r.account.index,
+                        key: r.account.name,
+                        value: r.account.depositAddress,
+                    }
+                case SubjectType.Contact:
+                    return {
+                        id: r.contact.id,
+                        key: r.contact.name,
+                        value: r.address,
+                    }
+            }
+        })
+    }
 
     function onItemClick(): void {
         recipientInputElement?.focus()
@@ -39,7 +62,12 @@
     </network-recipient-item-name>
     {#if selected}
         <network-recipient-item-address>
-            <RecipientInput bind:inputElement={recipientInputElement} bind:recipient={item.recipient} {isLayer2} />
+            <RecipientInput
+                bind:inputElement={recipientInputElement}
+                bind:recipient={item.selectedRecipient}
+                {options}
+                {isLayer2}
+            />
         </network-recipient-item-address>
     {/if}
 </network-recipient-item>
