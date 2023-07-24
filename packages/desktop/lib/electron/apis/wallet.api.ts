@@ -55,11 +55,15 @@ export default {
         currentPassword: string,
         newPassword: string
     ): unknown {
-        /*
-         * NOTE: Ignored because code not released yet.
-         */
-        /* eslint-disable @typescript-eslint/ban-ts-comment */
-        // @ts-ignore
-        return WalletApi.migrateStrongholdSnapshotV2ToV3(currentPath, newPath, currentPassword, newPassword)
+        const salt = 'wallet.rs'
+        const round = 100
+        return WalletApi.migrateStrongholdSnapshotV2ToV3(
+            currentPath,
+            newPath,
+            salt,
+            round,
+            currentPassword,
+            newPassword
+        )
     },
 }
