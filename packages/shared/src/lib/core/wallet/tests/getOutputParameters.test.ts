@@ -2,7 +2,7 @@ import { activeProfileId } from '@core/profile/stores/active-profile-id.store'
 import { NetworkId } from '@core/network/enums'
 import { FALLBACK_GAS_BUDGET } from '@core/layer-2/constants'
 import { getOutputParameters } from '../utils'
-import { ReturnStrategy, TokenStandard, VerifiedStatus } from '../enums'
+import { ReturnStrategy, SubjectType, TokenStandard, VerifiedStatus } from '../enums'
 import { IAsset, IPersistedAsset } from '../interfaces'
 import { SendFlowType } from '../stores'
 import { SendFlowParameters } from '../types'
@@ -65,7 +65,7 @@ const baseTransaction: SendFlowParameters = {
         unit: 'glow',
     },
     recipient: {
-        type: 'address',
+        type: SubjectType.Address,
         address: recipientAddress,
     },
 }
