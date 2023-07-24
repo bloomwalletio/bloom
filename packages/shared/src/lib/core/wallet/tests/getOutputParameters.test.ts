@@ -1,13 +1,11 @@
 import { activeProfileId } from '@core/profile/stores/active-profile-id.store'
 import { NetworkId } from '@core/network/enums'
-
 import { FALLBACK_GAS_BUDGET } from '@core/layer-2/constants'
-
 import { getOutputParameters } from '../utils'
 import { ReturnStrategy, SubjectType, TokenStandard, VerifiedStatus } from '../enums'
 import { IAsset, IPersistedAsset } from '../interfaces'
-import { NewTransactionType } from '../stores'
-import { TransactionData } from '../types'
+import { SendFlowType } from '../stores'
+import { SendFlowParameters } from '../types'
 
 const PERSISTED_ASSET_SHIMMER: IPersistedAsset = {
     id: '1',
@@ -59,15 +57,17 @@ const testNft = {
     },
 }
 
-const baseTransaction: TransactionData = {
-    type: NewTransactionType.TokenTransfer,
-    asset: PERSISTED_ASSET_SHIMMER,
+const baseTransaction: SendFlowParameters = {
+    type: SendFlowType.BaseCoinTransfer,
+    baseCoinTransfer: {
+        asset: PERSISTED_ASSET_SHIMMER,
+        rawAmount: amount,
+        unit: 'glow',
+    },
     recipient: {
         type: SubjectType.Address,
         address: recipientAddress,
     },
-    rawAmount: amount,
-    unit: 'glow',
 }
 
 jest.mock('../stores/persisted-assets.store', () => ({
@@ -95,7 +95,7 @@ jest.mock('../../layer-2/utils/estimateGasForLayer1ToLayer2Transaction', () => (
 }))
 
 describe('File: getOutputParameters.ts', () => {
-    let newTransactionData: TransactionData
+    let sendFlowParameters: SendFlowParameters
 
     beforeAll(() => {
         // TODO: refactor getOutputParameters to not rely on this store
@@ -103,12 +103,12 @@ describe('File: getOutputParameters.ts', () => {
     })
 
     it('should return output parameters for base token with metadata and tag', async () => {
-        newTransactionData = {
+        sendFlowParameters = {
             ...baseTransaction,
             metadata,
             tag,
         }
-        const output = await getOutputParameters(newTransactionData)
+        const output = await getOutputParameters(sendFlowParameters)
 
         const expectedOutput = {
             recipientAddress,
@@ -121,11 +121,11 @@ describe('File: getOutputParameters.ts', () => {
     })
 
     it('should return output parameters for base token with expiration date', async () => {
-        newTransactionData = {
+        sendFlowParameters = {
             ...baseTransaction,
             expirationDate,
         }
-        const output = await getOutputParameters(newTransactionData)
+        const output = await getOutputParameters(sendFlowParameters)
 
         const expectedOutput = {
             recipientAddress,
@@ -138,11 +138,11 @@ describe('File: getOutputParameters.ts', () => {
     })
 
     it('should return output parameters for base token with timelock date', async () => {
-        newTransactionData = {
+        sendFlowParameters = {
             ...baseTransaction,
             timelockDate,
         }
-        const output = await getOutputParameters(newTransactionData)
+        const output = await getOutputParameters(sendFlowParameters)
 
         const expectedOutput = {
             recipientAddress,
@@ -155,12 +155,12 @@ describe('File: getOutputParameters.ts', () => {
     })
 
     it('should return output parameters for base token with timelock and expiration date', async () => {
-        newTransactionData = {
+        sendFlowParameters = {
             ...baseTransaction,
             expirationDate,
             timelockDate,
         }
-        const output = await getOutputParameters(newTransactionData)
+        const output = await getOutputParameters(sendFlowParameters)
 
         const expectedOutput = {
             recipientAddress,
@@ -173,12 +173,21 @@ describe('File: getOutputParameters.ts', () => {
     })
 
     it('should return output parameters for native token without surplus', async () => {
-        newTransactionData = {
+        sendFlowParameters = {
             ...baseTransaction,
+            type: SendFlowType.TokenTransfer,
             expirationDate,
-            asset: nativeTokenAsset,
+            baseCoinTransfer: {
+                asset: PERSISTED_ASSET_SHIMMER,
+                rawAmount: '0',
+                unit: 'glow',
+            },
+            tokenTransfer: {
+                asset: nativeTokenAsset,
+                rawAmount: amount,
+            },
         }
-        const output = await getOutputParameters(newTransactionData)
+        const output = await getOutputParameters(sendFlowParameters)
 
         const expectedOutput = {
             recipientAddress,
@@ -199,12 +208,12 @@ describe('File: getOutputParameters.ts', () => {
     })
 
     it('should return output parameters for base token to layer 2', async () => {
-        newTransactionData = {
+        sendFlowParameters = {
             ...baseTransaction,
             expirationDate,
             layer2Parameters,
         }
-        const output = await getOutputParameters(newTransactionData)
+        const output = await getOutputParameters(sendFlowParameters)
         console.log((Number(FALLBACK_GAS_BUDGET) + Number(amount)).toString())
         const expectedOutput = {
             recipientAddress: layer2Parameters.networkAddress,
@@ -221,13 +230,22 @@ describe('File: getOutputParameters.ts', () => {
     })
 
     it('should return output parameters for native token to layer 2', async () => {
-        newTransactionData = {
+        sendFlowParameters = {
             ...baseTransaction,
+            type: SendFlowType.TokenTransfer,
             expirationDate,
-            asset: nativeTokenAsset,
+            baseCoinTransfer: {
+                asset: PERSISTED_ASSET_SHIMMER,
+                rawAmount: '0',
+                unit: 'glow',
+            },
+            tokenTransfer: {
+                asset: nativeTokenAsset,
+                rawAmount: amount,
+            },
             layer2Parameters,
         }
-        const output = await getOutputParameters(newTransactionData)
+        const output = await getOutputParameters(sendFlowParameters)
 
         const expectedOutput = {
             recipientAddress: layer2Parameters.networkAddress,
@@ -252,13 +270,13 @@ describe('File: getOutputParameters.ts', () => {
     })
 
     it('should return output parameters for nft to layer 2', async () => {
-        newTransactionData = {
-            type: NewTransactionType.NftTransfer,
+        sendFlowParameters = {
+            type: SendFlowType.NftTransfer,
             recipient: baseTransaction.recipient,
             nft: testNft,
             layer2Parameters,
         }
-        const output = await getOutputParameters(newTransactionData)
+        const output = await getOutputParameters(sendFlowParameters)
 
         const expectedOutput = {
             recipientAddress: layer2Parameters.networkAddress,
@@ -278,13 +296,13 @@ describe('File: getOutputParameters.ts', () => {
     })
 
     it('should return output parameters for nft transfer', async () => {
-        newTransactionData = {
-            type: NewTransactionType.NftTransfer,
+        sendFlowParameters = {
+            type: SendFlowType.NftTransfer,
             recipient: baseTransaction.recipient,
             nft: testNft,
             expirationDate,
         }
-        const output = await getOutputParameters(newTransactionData)
+        const output = await getOutputParameters(sendFlowParameters)
 
         const expectedOutput = {
             recipientAddress,
@@ -300,13 +318,21 @@ describe('File: getOutputParameters.ts', () => {
     })
 
     it('should return output parameters for native token with surplus', async () => {
-        newTransactionData = {
+        sendFlowParameters = {
             ...baseTransaction,
+            type: SendFlowType.TokenTransfer,
             expirationDate,
-            asset: nativeTokenAsset,
-            surplus,
+            baseCoinTransfer: {
+                asset: PERSISTED_ASSET_SHIMMER,
+                rawAmount: surplus,
+                unit: 'glow',
+            },
+            tokenTransfer: {
+                asset: nativeTokenAsset,
+                rawAmount: amount,
+            },
         }
-        const output = await getOutputParameters(newTransactionData)
+        const output = await getOutputParameters(sendFlowParameters)
 
         const expectedOutput = {
             recipientAddress,
@@ -326,32 +352,13 @@ describe('File: getOutputParameters.ts', () => {
         expect(output).toStrictEqual(expectedOutput)
     })
 
-    it('should return output parameters for base token with surplus', async () => {
-        newTransactionData = {
-            ...baseTransaction,
-            expirationDate,
-            surplus,
-        }
-        const output = await getOutputParameters(newTransactionData)
-
-        const expectedOutput = {
-            recipientAddress,
-            amount,
-            features: {},
-            unlocks: { expirationUnixTime: 1680163475 },
-            storageDeposit: { returnStrategy: ReturnStrategy.Return },
-        }
-        expect(output).toStrictEqual(expectedOutput)
-    })
-
     it('should return output parameters for transfer with gifted storage deposit', async () => {
-        newTransactionData = {
+        sendFlowParameters = {
             ...baseTransaction,
             expirationDate,
-            surplus,
             giftStorageDeposit: true,
         }
-        const output = await getOutputParameters(newTransactionData)
+        const output = await getOutputParameters(sendFlowParameters)
 
         const expectedOutput = {
             recipientAddress,

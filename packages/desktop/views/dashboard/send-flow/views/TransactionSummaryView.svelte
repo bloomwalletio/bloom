@@ -3,10 +3,10 @@
     import { getSelectedAccount, selectedAccount, selectedAccountIndex } from '@core/account'
     import { handleError } from '@core/error/handlers'
     import { localize } from '@core/i18n'
-    import { NewTransactionType, newTransactionData } from '@core/wallet/stores'
+    import { SendFlowType, sendFlowParameters } from '@core/wallet/stores'
     import {
-        createEvmTransactionFromTransactionData,
-        createStardustOutputFromTransactionData,
+        createEvmTransactionFromSendFlowParameters,
+        createStardustOutputFromSendFlowParameters,
         sendOutputFromStardust,
         sendTransactionFromEvm,
     } from '@core/wallet/actions'
@@ -14,14 +14,14 @@
     import SendFlowTemplate from './SendFlowTemplate.svelte'
     import { EvmTransactionSummary, StardustTransactionSummary } from './components'
     import { truncateString } from '@core/utils'
-    import { Output, SubjectType, TransactionData } from '@core/wallet'
+    import { Output, SubjectType, SendFlowParameters } from '@core/wallet'
     import { IChain, getNetwork } from '@core/network'
     import { EvmTransactionData } from '@core/layer-2'
     import { onMount } from 'svelte'
 
     export let _onMount: (..._: any[]) => Promise<void> = async () => {}
 
-    $: void updateSendFlow($newTransactionData)
+    $: void updateSendFlow($sendFlowParameters)
     $: isAssetFromLayer2 = !!chain
     $: isTransferring = !!$selectedAccount.isTransferring
 
@@ -30,20 +30,23 @@
     let preparedTransaction: EvmTransactionData | undefined
     let chain: IChain | undefined
 
-    async function updateSendFlow(transactionData: TransactionData): Promise<void> {
-        const { recipient, type } = transactionData
+    async function updateSendFlow(sendFlowParameters: SendFlowParameters): Promise<void> {
+        const { recipient, type } = sendFlowParameters
 
         recipientAddress =
             recipient.type === SubjectType.Account ? recipient.account.name : truncateString(recipient?.address, 6, 6)
 
-        const chainId = type === NewTransactionType.TokenTransfer ? transactionData.asset.chainId : undefined
+        const chainId =
+            type === SendFlowType.TokenTransfer
+                ? sendFlowParameters.tokenTransfer.asset?.chainId
+                : sendFlowParameters.baseCoinTransfer?.asset?.chainId
         if (chainId) {
             chain = getNetwork()?.getChain(chainId)
             const account = getSelectedAccount()
 
-            preparedTransaction = await createEvmTransactionFromTransactionData($newTransactionData, chain, account)
+            preparedTransaction = await createEvmTransactionFromSendFlowParameters(sendFlowParameters, chain, account)
         } else {
-            preparedOutput = await createStardustOutputFromTransactionData($newTransactionData, $selectedAccountIndex)
+            preparedOutput = await createStardustOutputFromSendFlowParameters(sendFlowParameters, $selectedAccountIndex)
         }
     }
 
@@ -91,8 +94,8 @@
     }}
 >
     {#if isAssetFromLayer2 && preparedTransaction}
-        <EvmTransactionSummary transaction={preparedTransaction} transactionData={$newTransactionData} />
+        <EvmTransactionSummary transaction={preparedTransaction} sendFlowParameters={$sendFlowParameters} />
     {:else if !isAssetFromLayer2 && preparedOutput}
-        <StardustTransactionSummary output={preparedOutput} transactionData={$newTransactionData} />
+        <StardustTransactionSummary output={preparedOutput} sendFlowParameters={$sendFlowParameters} />
     {/if}
 </SendFlowTemplate>

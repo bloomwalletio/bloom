@@ -3,11 +3,11 @@
     import { localize } from '@core/i18n'
     import { ChainType, IChain, IIscpChainConfiguration, network } from '@core/network'
     import {
-        NewTransactionType,
+        SendFlowType,
         SubjectType,
         TokenStandard,
-        newTransactionData,
-        updateNewTransactionData,
+        sendFlowParameters,
+        updateSendFlowParameters,
     } from '@core/wallet'
     import { closePopup } from '@desktop/auxiliary/popup'
     import features from '@features/features'
@@ -16,7 +16,7 @@
     import { sendFlowRouter } from '../send-flow.router'
     import SendFlowTemplate from './SendFlowTemplate.svelte'
 
-    let networkAddress = $newTransactionData?.layer2Parameters?.networkAddress
+    let networkAddress = $sendFlowParameters?.layer2Parameters?.networkAddress
     let selectorOptions: INetworkRecipientSelectorOption[] = []
     let selectedIndex = -1
 
@@ -25,18 +25,20 @@
     $: selectedOption = selectorOptions[selectedIndex]
     $: isLayer2 = !!networkAddress
 
-    $: networkAddress = selectedOption?.networkAddress ?? $newTransactionData?.layer2Parameters?.networkAddress
-    $: recipient = selectedOption?.recipient ?? $newTransactionData?.recipient
+    $: networkAddress = selectedOption?.networkAddress ?? $sendFlowParameters?.layer2Parameters?.networkAddress
+    $: recipient = selectedOption?.recipient ?? $sendFlowParameters?.recipient
 
     onMount(() => {
         buildNetworkRecipientOptions()
     })
 
     function getAssetName(): string | undefined {
-        if ($newTransactionData?.type === NewTransactionType.TokenTransfer) {
-            return $newTransactionData.asset?.metadata.name
-        } else if ($newTransactionData?.type === NewTransactionType.NftTransfer) {
-            return $newTransactionData.nft.name
+        if ($sendFlowParameters?.type === SendFlowType.BaseCoinTransfer) {
+            return $sendFlowParameters.baseCoinTransfer.asset?.metadata.name
+        } else if ($sendFlowParameters?.type === SendFlowType.TokenTransfer) {
+            return $sendFlowParameters.tokenTransfer.asset?.metadata.name
+        } else if ($sendFlowParameters?.type === SendFlowType.NftTransfer) {
+            return $sendFlowParameters.nft.name
         } else {
             return ''
         }
@@ -53,7 +55,7 @@
                 ? selectorOptions.findIndex((option) => option.networkAddress === networkAddress)
                 : 0
 
-        const recipient = $newTransactionData?.recipient
+        const recipient = $sendFlowParameters?.recipient
         if (recipient) {
             selectorOptions = selectorOptions.map((option, index) =>
                 index === selectedIndex
@@ -74,8 +76,8 @@
                   senderAddress: $selectedAccount.depositAddress,
               }
             : null
-        updateNewTransactionData({
-            type: $newTransactionData?.type,
+        updateSendFlowParameters({
+            type: $sendFlowParameters?.type,
             recipient,
             layer2Parameters,
         })
@@ -83,8 +85,8 @@
     }
 
     function onBackClick(): void {
-        updateNewTransactionData({
-            type: $newTransactionData?.type,
+        updateSendFlowParameters({
+            type: $sendFlowParameters?.type,
             recipient: undefined,
             layer2Parameters: undefined,
         })
@@ -96,11 +98,11 @@
     }
 
     function getCompatibleTransferNetworks(): INetworkRecipientSelectorOption[] {
-        if (!$network || !$newTransactionData) {
+        if (!$network || !$sendFlowParameters) {
             return []
         }
 
-        if ($newTransactionData.type === NewTransactionType.NftTransfer) {
+        if ($sendFlowParameters.type === SendFlowType.NftTransfer) {
             // TODO: Currently we only support L1 NFTs
             return [
                 {
@@ -111,7 +113,10 @@
         } else {
             let compatibleNetworks: INetworkRecipientSelectorOption[] = []
 
-            const asset = $newTransactionData.asset
+            const asset =
+                $sendFlowParameters?.type === SendFlowType.BaseCoinTransfer
+                    ? $sendFlowParameters.baseCoinTransfer.asset
+                    : $sendFlowParameters.tokenTransfer.asset
             // L1 network
             const { id, name } = $network.getMetadata()
             const layer1Network = {

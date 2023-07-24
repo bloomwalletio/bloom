@@ -21,7 +21,7 @@ export function getAsyncDataFromOutput(
 
         const expirationDate = getExpirationDateFromOutput(output)
         const timelockDate = getTimelockDateFromOutput(output)
-        const { storageDeposit } = getStorageDepositFromOutput(output)
+        const storageDeposit = getStorageDepositFromOutput(output)
 
         const asyncStatus = getAsyncStatus(
             !!claimingTransactionId,

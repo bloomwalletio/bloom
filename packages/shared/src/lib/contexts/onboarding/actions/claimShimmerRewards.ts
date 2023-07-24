@@ -3,12 +3,11 @@ import { get } from 'svelte/store'
 import {
     DEFAULT_TRANSACTION_OPTIONS,
     getOutputParameters,
-    resetNewTokenTransactionData,
-    setNewTransactionData,
-    NewTransactionType,
-    TokenTransactionData,
+    setSendFlowParameters,
+    SendFlowType,
     getAssetById,
     SubjectType,
+    SendFlowParameters,
 } from '@core/wallet'
 import { logAndNotifyError } from '@core/error/actions'
 
@@ -74,23 +73,24 @@ async function claimShimmerRewardsForShimmerClaimingAccount(
         return
     }
 
-    const newTransactionData: TokenTransactionData = {
+    const sendFlowParameters: SendFlowParameters = {
         recipient: {
             type: SubjectType.Address,
             address: recipientAddress,
         },
-        type: NewTransactionType.TokenTransfer,
-        asset,
-        rawAmount: rawAmount.toString(),
-        unit: '',
+        type: SendFlowType.BaseCoinTransfer,
+        baseCoinTransfer: {
+            asset,
+            rawAmount: rawAmount.toString(),
+            unit: '',
+        },
     }
-    setNewTransactionData(newTransactionData)
+    setSendFlowParameters(sendFlowParameters)
 
-    const outputParams = await getOutputParameters(newTransactionData)
+    const outputParams = await getOutputParameters(sendFlowParameters)
     const preparedOutput = await shimmerClaimingAccount?.prepareOutput(outputParams, DEFAULT_TRANSACTION_OPTIONS)
 
     const claimingTransaction = await shimmerClaimingAccount?.sendOutputs([preparedOutput])
-    resetNewTokenTransactionData()
 
     persistShimmerClaimingTransaction(claimingTransaction?.transactionId)
 

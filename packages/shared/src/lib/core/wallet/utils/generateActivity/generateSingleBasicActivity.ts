@@ -6,7 +6,7 @@ import { TransactionActivity } from '@core/wallet/types'
 import { IBasicOutput } from '@iota/types'
 import { get } from 'svelte/store'
 import { activityOutputContainsValue, getNativeTokenFromOutput } from '..'
-import { ActivityAction, ActivityType } from '../../enums'
+import { ActivityType } from '../../enums'
 import {
     getAmountFromOutput,
     getAsyncDataFromOutput,
@@ -46,9 +46,7 @@ export function generateSingleBasicActivity(
     const { parsedLayer2Metadata, destinationNetwork } = getLayer2ActivityInformation(metadata, sendingInfo)
     const gasBudget = Number(parsedLayer2Metadata?.gasBudget ?? '0')
 
-    let { storageDeposit, giftedStorageDeposit } = getStorageDepositFromOutput(output)
-    giftedStorageDeposit = action === ActivityAction.Burn ? 0 : giftedStorageDeposit
-    giftedStorageDeposit = gasBudget === 0 ? giftedStorageDeposit : 0
+    const storageDeposit = getStorageDepositFromOutput(output)
 
     const baseTokenAmount = getAmountFromOutput(output) - storageDeposit - gasBudget
 
@@ -75,7 +73,6 @@ export function generateSingleBasicActivity(
         containsValue,
         outputId,
         storageDeposit,
-        giftedStorageDeposit,
         rawAmount,
         isShimmerClaiming,
         publicNote,
