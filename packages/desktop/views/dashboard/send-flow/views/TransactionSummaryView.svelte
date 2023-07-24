@@ -14,7 +14,7 @@
     import SendFlowTemplate from './SendFlowTemplate.svelte'
     import { EvmTransactionSummary, StardustTransactionSummary } from './components'
     import { truncateString } from '@core/utils'
-    import { Output, SendFlowParameters } from '@core/wallet'
+    import { Output, SubjectType, SendFlowParameters } from '@core/wallet'
     import { IChain, getNetwork } from '@core/network'
     import { EvmTransactionData } from '@core/layer-2'
     import { onMount } from 'svelte'
@@ -34,7 +34,7 @@
         const { recipient, type } = sendFlowParameters
 
         recipientAddress =
-            recipient.type === 'account' ? recipient.account.name : truncateString(recipient?.address, 6, 6)
+            recipient.type === SubjectType.Account ? recipient.account.name : truncateString(recipient?.address, 6, 6)
 
         const chainId =
             type === SendFlowType.TokenTransfer

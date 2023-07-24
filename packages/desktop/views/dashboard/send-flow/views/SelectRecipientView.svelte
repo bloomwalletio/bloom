@@ -2,7 +2,13 @@
     import { selectedAccount } from '@core/account/stores'
     import { localize } from '@core/i18n'
     import { ChainType, IChain, IIscpChainConfiguration, network } from '@core/network'
-    import { SendFlowType, TokenStandard, sendFlowParameters, updateSendFlowParameters } from '@core/wallet'
+    import {
+        SendFlowType,
+        SubjectType,
+        TokenStandard,
+        sendFlowParameters,
+        updateSendFlowParameters,
+    } from '@core/wallet'
     import { closePopup } from '@desktop/auxiliary/popup'
     import features from '@features/features'
     import { INetworkRecipientSelectorOption, NetworkRecipientSelector } from '@ui'
@@ -170,8 +176,9 @@
         disabled:
             networkAddress === undefined ||
             !recipient ||
-            (recipient.type === 'address' && !recipient.address) ||
-            (recipient.type === 'account' && !recipient.account),
+            (recipient.type === SubjectType.Address && !recipient.address) ||
+            (recipient.type === SubjectType.Contact && !recipient.address && !recipient.contact) ||
+            (recipient.type === SubjectType.Account && !recipient.account),
     }}
 >
     <NetworkRecipientSelector bind:options={selectorOptions} bind:selectedIndex />
