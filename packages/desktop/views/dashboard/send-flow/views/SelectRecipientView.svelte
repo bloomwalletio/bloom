@@ -93,7 +93,7 @@
                 contact,
             }
         })
-        return [...new Map(recipients.map((recipient) => [recipient?.['contact']?.['contactId'], recipient])).values()]
+        return [...new Map(recipients.map((recipient) => [recipient?.['contact']?.['id'], recipient])).values()]
     }
 
     function onContinueClick(): void {
