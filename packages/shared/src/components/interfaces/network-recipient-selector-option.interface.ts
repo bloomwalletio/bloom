@@ -4,7 +4,7 @@ export interface INetworkRecipientSelectorOption {
     name: string
     networkAddress: string
     chainId?: number
-    recipients?: Subject[]
+    recipients: Subject[]
     selectedRecipient?: Subject
     disabled?: boolean
 }

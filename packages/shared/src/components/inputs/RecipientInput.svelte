@@ -9,7 +9,7 @@
     import { getNetworkHrp } from '@core/profile'
     import { SubjectType } from '@core/wallet'
 
-    export let recipient: Subject
+    export let recipient: Subject | undefined
     export let options: IOption[]
     export let disabled = false
     export let isLayer2 = false

@@ -1,7 +1,7 @@
 <script lang="ts">
     import { Icon as IconEnum } from '@auxiliary/icon'
     import { NetworkId } from '@core/network'
-    import { SubjectType } from '@core/wallet'
+    import { Subject, SubjectType } from '@core/wallet'
     import { FontWeight, Icon, IOption, NetworkIcon, RecipientInput, Text, TextType } from '@ui'
     import { INetworkRecipientSelectorOption } from '../interfaces'
 
@@ -12,31 +12,31 @@
 
     let recipientInputElement: HTMLInputElement
 
-    let isLayer2
+    let isLayer2 = false
     $: isLayer2 = !!item?.networkAddress
     $: onChange && selected && onChange(item)
 
-    const options = getOptionsFromItem(item)
+    const options = item.recipients.map((r) => getOptionFromRecipient(r)).filter((r) => !!r) as IOption[]
 
-    function getOptionsFromItem(item: INetworkRecipientSelectorOption): IOption[] {
-        return item?.recipients?.map((r) => {
-            switch (r.type) {
-                case SubjectType.Account:
-                    return {
-                        id: r.account.index,
-                        key: r.account.name,
-                        value: r.account.depositAddress,
-                        color: r.account.color,
-                    }
-                case SubjectType.Contact:
-                    return {
-                        id: r.contact.id,
-                        key: r.contact.name,
-                        value: r.address,
-                        color: r.contact.color,
-                    }
-            }
-        })
+    function getOptionFromRecipient(recipient: Subject): IOption | undefined {
+        switch (recipient.type) {
+            case SubjectType.Account:
+                return {
+                    id: recipient.account.index,
+                    key: recipient.account.name,
+                    value: recipient.account.depositAddress,
+                    color: recipient.account.color,
+                }
+            case SubjectType.Contact:
+                return {
+                    id: recipient.contact.id,
+                    key: recipient.contact.name,
+                    value: recipient.address,
+                    color: recipient.contact.color,
+                }
+            default:
+                return undefined
+        }
     }
 
     function onItemClick(): void {
