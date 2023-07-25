@@ -2,7 +2,7 @@ import { showAppNotification } from '@auxiliary/notification'
 import { getSelectedAccount, updateSelectedAccount } from '@core/account'
 import { localize } from '@core/i18n'
 import { Converter } from '@core/utils'
-import { CreateNativeTokenParams } from '@iota/wallet'
+import { CreateNativeTokenParams } from '@iota/sdk'
 import { DEFAULT_TRANSACTION_OPTIONS } from '../constants'
 import { VerifiedStatus } from '../enums'
 import { buildPersistedAssetFromMetadata } from '../helpers'
@@ -24,8 +24,8 @@ export async function mintNativeToken(
         }
 
         const params: CreateNativeTokenParams = {
-            maximumSupply: Converter.decimalToHex(maximumSupply),
-            circulatingSupply: Converter.decimalToHex(circulatingSupply),
+            maximumSupply: BigInt(maximumSupply),
+            circulatingSupply: BigInt(circulatingSupply),
             foundryMetadata: Converter.utf8ToHex(JSON.stringify(metadata)),
         }
 
