@@ -41,11 +41,8 @@ export async function signTransactionWithLedger(transaction: EvmTransactionData,
 
     for (let count = 0; count < LOOP_ITERATIONS; count++) {
         if (!isSigning) {
-            if (transactionSignature) {
-                const { r, v, s } = transactionSignature
-                if (!r || !v || !s) {
-                    return Promise.reject('Ledger process returned invalid signature')
-                }
+            const { r, v, s } = transactionSignature
+            if (r && v && s) {
                 const signedTransactionData: EvmTransactionData = {
                     ...transaction,
                     r,
