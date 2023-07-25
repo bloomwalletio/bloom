@@ -9,8 +9,8 @@
 import fs from 'fs'
 import { ipcRenderer, contextBridge } from 'electron'
 
-import * as IotaWalletApi from '@iota/wallet'
-import type { LoggerConfig } from '@iota/wallet/types'
+import * as IotaSdk from '@iota/sdk'
+import type { ILoggerConfig } from '@iota/sdk/out/types/logger-config'
 
 import ElectronApi from '../apis/electron.api'
 import LedgerApi from '../apis/ledger.api'
@@ -84,13 +84,13 @@ function prepareLogDirectory(baseDir: string): string {
 async function getVersionAndInitLogger(logDir: string): Promise<void> {
     const versionDetails = await ipcRenderer.invoke('get-version-details')
     const today = new Date().toISOString().slice(0, 16).replace('T', '-').replace(':', '-')
-    const loggerOptions: LoggerConfig = {
+    const loggerOptions: ILoggerConfig = {
         colorEnabled: true,
         name: `${logDir}/wallet-v${versionDetails.currentVersion}-d${today}.log`,
         levelFilter: 'debug',
         targetExclusions: ['h2', 'hyper', 'rustls', 'message_handler'],
     }
-    IotaWalletApi.initLogger(loggerOptions)
+    IotaSdk.initLogger(loggerOptions)
 
     deleteOldLogs(logDir, versionDetails.currentVersion)
 }
