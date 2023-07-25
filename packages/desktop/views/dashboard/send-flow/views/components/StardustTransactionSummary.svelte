@@ -41,18 +41,28 @@
     $: expirationTimePicker?.setNull(giftStorageDeposit)
     $: isTransferring = !!$selectedAccount.isTransferring
     $: isToLayer2 = !!layer2Parameters?.networkAddress
-    $: updateSendFlowOnChange(expirationDate, timelockDate, giftStorageDeposit)
+    $: updateSendFlowOnChange(expirationDate, timelockDate, giftStorageDeposit, tag, metadata)
 
-    function updateSendFlowOnChange(expirationDate: Date, timelockDate: Date, giftStorageDeposit: boolean): void {
+    function updateSendFlowOnChange(
+        expirationDate: Date,
+        timelockDate: Date,
+        giftStorageDeposit: boolean,
+        tag: string,
+        metadata: string
+    ): void {
         const hasChanged =
-            expirationDate !== sendFlowParameters.expirationDate &&
-            timelockDate !== sendFlowParameters.timelockDate &&
+            expirationDate !== sendFlowParameters.expirationDate ||
+            timelockDate !== sendFlowParameters.timelockDate ||
+            tag !== sendFlowParameters.tag ||
+            metadata !== sendFlowParameters.metadata ||
             giftStorageDeposit !== sendFlowParameters.giftStorageDeposit
         if (hasChanged) {
             updateSendFlowParameters({
                 type: sendFlowParameters.type,
                 expirationDate,
                 timelockDate,
+                tag,
+                metadata,
                 giftStorageDeposit,
             })
         }
