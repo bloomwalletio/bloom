@@ -1,14 +1,9 @@
 <script lang="ts">
     import { IAccountState } from '@core/account'
-    import { Text, FontWeight, ColoredCircle } from '@ui/'
+    import ColorLabel from './ColorLabel.svelte'
 
     export let account: IAccountState
     export let selected = true
 </script>
 
-<div class="flex flex-row items-center space-x-3">
-    <ColoredCircle color={account?.color} />
-    <Text fontSize="14" fontWeight={FontWeight.semibold} classes={selected ? '' : 'opacity-50'}>
-        {account?.name}
-    </Text>
-</div>
+<ColorLabel color={account?.color} text={account?.name} {selected} />

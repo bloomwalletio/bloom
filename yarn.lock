@@ -1032,10 +1032,10 @@
   dependencies:
     big-integer "^1.6.51"
 
-"@iota/wallet@2.0.3-rc.35":
-  version "2.0.3-rc.35"
-  resolved "https://registry.yarnpkg.com/@iota/wallet/-/wallet-2.0.3-rc.35.tgz#ec1d6cd74a1ad00d1c66edc53a11e13f74d77a24"
-  integrity sha512-acTmzXEEaaJ7FbiLkhRdNHcYc0P7x4h34Ci4KFWNTaIR+BHyMxKEJeLetKjrsz4xyvEZVlE7/MjML9xPTeXeEQ==
+"@iota/wallet@2.0.3-rc.41":
+  version "2.0.3-rc.41"
+  resolved "https://registry.yarnpkg.com/@iota/wallet/-/wallet-2.0.3-rc.41.tgz#3e819cacab6d4501823efe7d8cabe06409bbbd74"
+  integrity sha512-4OVoGyzG9ukZaazXyz0i+qHyHqB3ELqyxX90PCSo6Eyt5XauDU0QfVtWnyUEE+SmkG/6eTrNYt3B5piCe9LQHg==
   dependencies:
     "@iota/types" "^1.0.0-beta.15"
     cargo-cp-artifact "^0.1.6"
@@ -2106,10 +2106,10 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-12.20.55.tgz#c329cbd434c42164f846b909bd6f85b5537f6240"
   integrity sha512-J8xLz7q2OFulZ2cyGTLE1TbbZcjpno7FaN6zdJNrgAdrJ+DZzh/uFR6YrTb4C+nXakvud8Q4+rbhoIWlYQbUFQ==
 
-"@types/node@^16.11.26":
-  version "16.18.23"
-  resolved "https://registry.npmjs.org/@types/node/-/node-16.18.23.tgz"
-  integrity sha512-XAMpaw1s1+6zM+jn2tmw8MyaRDIJfXxqmIQIS0HfoGYPuf7dUWeiUKopwq13KFX9lEp1+THGtlaaYx39Nxr58g==
+"@types/node@^18.11.18":
+  version "18.16.19"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-18.16.19.tgz#cb03fca8910fdeb7595b755126a8a78144714eea"
+  integrity sha512-IXl7o+R9iti9eBW4Wg2hx1xQDig183jj7YLn8F7udNceyfkbn1ZxmzZXuak20gR40D7pIkIY1kYGx5VIGbaHKA==
 
 "@types/pbkdf2@^3.0.0":
   version "3.1.0"
@@ -2957,10 +2957,15 @@ ansi-html-community@^0.0.8:
   resolved "https://registry.npmjs.org/ansi-html-community/-/ansi-html-community-0.0.8.tgz"
   integrity sha512-1APHAyr3+PCamwNw3bXCPp4HFLONZt/yIH0sZp0/469KWNTEy+qN5jQ3GVX6DMZ1UXAi34yVwtTeaG/HpBuuzw==
 
-ansi-regex@5.0.1, ansi-regex@^5.0.1, ansi-regex@^6.0.1:
+ansi-regex@^5.0.1:
   version "5.0.1"
   resolved "https://registry.yarnpkg.com/ansi-regex/-/ansi-regex-5.0.1.tgz#082cb2c89c9fe8659a311a53bd6a4dc5301db304"
   integrity sha512-quJQXlTSUGL2LH9SUXo8VwsY4soanhgo6LNSm84E1LBcE8s3O0wpdiRzyR9z/ZZJMlMWv37qOOb9pdJlMUEKFQ==
+
+ansi-regex@^6.0.1:
+  version "6.0.1"
+  resolved "https://registry.yarnpkg.com/ansi-regex/-/ansi-regex-6.0.1.tgz#3183e38fae9a65d7cb5e53945cd5897d0260a06a"
+  integrity sha512-n5M855fKb2SsfMIiFFoVrABHJC8QtHwVx+mHWP3QcEqBHYienj5dHSgjbxtC0WEZXYt4wcD6zrQElDPhFuZgfA==
 
 ansi-styles@^3.2.1:
   version "3.2.1"
@@ -4539,13 +4544,13 @@ electron-updater@6.1.1:
     semver "^7.3.8"
     typed-emitter "^2.1.0"
 
-electron@22.3.13:
-  version "22.3.13"
-  resolved "https://registry.yarnpkg.com/electron/-/electron-22.3.13.tgz#ce1de257a3f17dc44c8954789ada0ac31dec1120"
-  integrity sha512-SDqQM3zSNiiiHIaxhx9yshWwgkqhyYMEH7XfWQhnvtI3N+5bnC6Po7Uz7p2jVqHWaBYTatdbBwB0flhvlDtBuQ==
+electron@25.3.1:
+  version "25.3.1"
+  resolved "https://registry.yarnpkg.com/electron/-/electron-25.3.1.tgz#898cbb5e54d17ad0014123a10f5febc17638c6a9"
+  integrity sha512-t0QXXqgf0/P0OJ9LU3qpcBMK+wL0FRwTQfooBaaG08v5hywPzc1yplfb3l4tS1xC0Ttw8IBaKLBeEoRgxBRHjg==
   dependencies:
     "@electron/get" "^2.0.0"
-    "@types/node" "^16.11.26"
+    "@types/node" "^18.11.18"
     extract-zip "^2.0.1"
 
 elliptic@6.5.4, elliptic@^6.4.0, elliptic@^6.5.4:
