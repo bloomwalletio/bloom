@@ -1,7 +1,11 @@
 <script lang="ts">
+    import { onMount } from 'svelte'
+    import features from '@features/features'
     import { selectedAccount, selectedAccountIndex } from '@core/account/stores'
+    import { ContactManager } from '@core/contact'
     import { localize } from '@core/i18n'
     import { ChainType, IChain, IIscpChainConfiguration, network } from '@core/network'
+    import { visibleActiveAccounts } from '@core/profile'
     import {
         sendFlowParameters,
         SendFlowType,
@@ -11,13 +15,9 @@
         updateSendFlowParameters,
     } from '@core/wallet'
     import { closePopup } from '@desktop/auxiliary/popup'
-    import features from '@features/features'
     import { INetworkRecipientSelectorOption, NetworkRecipientSelector } from '@ui'
-    import { onMount } from 'svelte'
     import { sendFlowRouter } from '../send-flow.router'
     import SendFlowTemplate from './SendFlowTemplate.svelte'
-    import { visibleActiveAccounts } from 'shared/src/lib/core/profile'
-    import { ContactManager } from 'shared/src/lib/core/contact'
 
     let networkAddress = $sendFlowParameters?.layer2Parameters?.networkAddress
     let selectorOptions: INetworkRecipientSelectorOption[] = []
