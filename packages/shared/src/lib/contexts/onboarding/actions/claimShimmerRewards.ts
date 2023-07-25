@@ -6,6 +6,7 @@ import {
     setSendFlowParameters,
     SendFlowType,
     getAssetById,
+    SubjectType,
     SendFlowParameters,
 } from '@core/wallet'
 import { logAndNotifyError } from '@core/error/actions'
@@ -74,7 +75,7 @@ async function claimShimmerRewardsForShimmerClaimingAccount(
 
     const sendFlowParameters: SendFlowParameters = {
         recipient: {
-            type: 'address',
+            type: SubjectType.Address,
             address: recipientAddress,
         },
         type: SendFlowType.BaseCoinTransfer,

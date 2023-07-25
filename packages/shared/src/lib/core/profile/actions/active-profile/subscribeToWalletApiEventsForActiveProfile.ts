@@ -1,23 +1,22 @@
-import { get } from 'svelte/store'
+import { WalletEventType } from '@iota/wallet/types'
 
 import {
+    getProfileManager,
     handleNewOutputEvent,
     handleSpentOutputEvent,
     handleTransactionInclusionEvent,
     handleTransactionProgressEvent,
-    profileManager as _profileManager,
     subscribeToWalletApiEvents,
-    WalletApiEvent,
     WalletApiEventMap,
 } from '@core/profile-manager'
 
 export function subscribeToWalletApiEventsForActiveProfile(): void {
-    const profileManager = get(_profileManager)
+    const profileManager = getProfileManager()
     const eventMap: WalletApiEventMap = {
-        [WalletApiEvent.NewOutput]: handleNewOutputEvent,
-        [WalletApiEvent.SpentOutput]: handleSpentOutputEvent,
-        [WalletApiEvent.TransactionInclusion]: handleTransactionInclusionEvent,
-        [WalletApiEvent.TransactionProgress]: handleTransactionProgressEvent,
+        [WalletEventType.NewOutput]: handleNewOutputEvent,
+        [WalletEventType.SpentOutput]: handleSpentOutputEvent,
+        [WalletEventType.TransactionInclusion]: handleTransactionInclusionEvent,
+        [WalletEventType.TransactionProgress]: handleTransactionProgressEvent,
     }
     subscribeToWalletApiEvents({
         eventMap,

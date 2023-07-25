@@ -10,7 +10,7 @@
     import { Icon as IconEnum } from '@auxiliary/icon'
     import { Router } from '@core/router'
     import { resetLedgerPreparedOutput, resetShowInternalVerificationPopup } from '@core/ledger'
-    import { SendFlowType, setSendFlowParameters } from '@core/wallet'
+    import { SendFlowType, setSendFlowParameters, SubjectType } from '@core/wallet'
 
     import { openPopup, PopupId } from '@desktop/auxiliary/popup'
     import { closeDrawer } from '@desktop/auxiliary/drawer'
@@ -41,7 +41,7 @@
     function onSendClick(address: string): void {
         setSendFlowParameters({
             type: SendFlowType.BaseCoinTransfer,
-            recipient: { type: 'address', address },
+            recipient: { type: SubjectType.Address, address },
         })
         resetLedgerPreparedOutput()
         resetShowInternalVerificationPopup()
