@@ -1,4 +1,4 @@
-import { SendFlowParameters, SendFlowType, getAddressFromSubject } from '@core/wallet'
+import { SendFlowParameters, SendFlowType } from '@core/wallet'
 import { ETH_COIN_TYPE, getNetwork } from '@core/network'
 import { getSelectedAccount } from '@core/account'
 import { FALLBACK_GAS_BUDGET, ISC_MAGIC_CONTRACT_ADDRESS } from '../constants'
@@ -24,11 +24,7 @@ export async function estimateGasForLayer1ToLayer2Transaction(sendFlowParameters
             ? sendFlowParameters.tokenTransfer?.rawAmount
             : sendFlowParameters.baseCoinTransfer?.rawAmount
 
-    const address = layer2Parameters
-        ? layer2Parameters.networkAddress
-        : recipient
-        ? getAddressFromSubject(recipient)
-        : ''
+    const address = layer2Parameters ? layer2Parameters.networkAddress : recipient?.address ?? ''
     const chainId = layer2Parameters.chainId
 
     const chain = chainId ? getNetwork()?.getChain(chainId) : undefined

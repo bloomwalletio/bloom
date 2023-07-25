@@ -1,1 +1,3 @@
-export type WalletApiEventHandler = (error: Error, rawEvent: string) => void | Promise<void>
+import type { Event } from '@iota/wallet'
+
+export type WalletApiEventHandler = (error: Error, event: Event) => void | Promise<void>
