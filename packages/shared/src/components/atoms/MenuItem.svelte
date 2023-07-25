@@ -70,7 +70,7 @@
 {/if}
 
 <style lang="scss">
-    $variants: info blue, success green, warning yellow, error red;
+    $variants: info 'blue', success 'green', warning 'yellow', error 'red';
 
     button {
         @apply w-full flex flex-row justify-between items-center p-3;
