@@ -21,7 +21,7 @@ export interface IProfileManager {
     clearStrongholdPassword(): Promise<void>
     destroy(): Promise<void>
     emitTestEvent(event: WalletEvent): Promise<void>
-    generateAddress(
+    generateEd25519Address(
         accountIndex: number,
         addressIndex: number,
         options?: GenerateAddressOptions,
