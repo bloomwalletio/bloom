@@ -7,7 +7,7 @@ import {
 import { ISC_MAGIC_CONTRACT_ADDRESS } from '@core/layer-2/constants'
 import { EvmTransactionData } from '@core/layer-2/types'
 import { IChain } from '@core/network/interfaces'
-import { TokenStandard } from '@core/wallet/enums'
+import { SubjectType, TokenStandard } from '@core/wallet/enums'
 import { IAsset } from '@core/wallet/interfaces'
 import { SendFlowType } from '@core/wallet/stores'
 import { SendFlowParameters } from '@core/wallet/types'
@@ -33,7 +33,7 @@ export function createEvmTransactionFromSendFlowParameters(
         amount = sendFlowParameters.tokenTransfer?.rawAmount ?? '0'
     }
 
-    if (sendFlowParameters.recipient?.type !== 'address' || !asset?.metadata || !amount) {
+    if (sendFlowParameters.recipient?.type !== SubjectType.Address || !asset?.metadata || amount === undefined) {
         return Promise.resolve(undefined)
     }
 

@@ -6,36 +6,42 @@ import { isOnboardingLedgerProfile } from '@contexts/onboarding'
 import { closePopup, openPopup, PopupId } from '../../../../../../../desktop/lib/auxiliary/popup'
 import { deconstructLedgerVerificationProps } from '@core/ledger/helpers'
 
-import { WalletApiEvent } from '../../enums'
 import { MissingTransactionProgressEventPayloadError } from '../../errors'
-import { isPreparedTransaction, isPreparedTransactionEssenceHash } from '../../helpers'
-import { TransactionProgressEventPayload } from '../../types'
 import { validateWalletApiEvent } from '../../utils'
+import {
+    Event,
+    TransactionProgress,
+    TransactionProgressType,
+    TransactionProgressWalletEvent,
+    WalletEventType,
+    PreparedTransactionEssenceHashProgress,
+} from '@iota/wallet/out/types'
 
-export function handleTransactionProgressEvent(error: Error, rawEvent: string): void {
-    const { accountIndex, payload } = validateWalletApiEvent(error, rawEvent, WalletApiEvent.TransactionProgress)
-    /* eslint-disable @typescript-eslint/no-unnecessary-type-assertion */
-    handleTransactionProgressEventInternal(accountIndex, payload as TransactionProgressEventPayload)
+export function handleTransactionProgressEvent(error: Error, walletEvent: Event): void {
+    const { accountIndex, event } = validateWalletApiEvent(error, walletEvent, WalletEventType.TransactionProgress)
+    handleTransactionProgressEventInternal(accountIndex, event as TransactionProgressWalletEvent)
 }
 
 export function handleTransactionProgressEventInternal(
     accountIndex: number,
-    payload: TransactionProgressEventPayload
+    event: TransactionProgressWalletEvent
 ): void {
+    const { progress } = event
     if (get(isActiveLedgerProfile)) {
         if (get(selectedAccountIndex) === accountIndex) {
-            openPopupIfVerificationNeeded(payload)
+            openPopupIfVerificationNeeded(progress)
         }
     } else if (get(isOnboardingLedgerProfile)) {
-        openPopupIfVerificationNeeded(payload)
+        openPopupIfVerificationNeeded(progress)
     } else {
-        console.warn('Transaction progress handler unimplemented: ', payload)
+        console.warn('Transaction progress handler unimplemented for TransactionProgressType ', progress)
     }
 }
 
-function openPopupIfVerificationNeeded(payload: TransactionProgressEventPayload): void {
-    if (payload) {
-        if (isPreparedTransaction(payload)) {
+function openPopupIfVerificationNeeded(progress: TransactionProgress): void {
+    const { type } = progress
+    if (type) {
+        if (type === TransactionProgressType.PreparedTransaction) {
             openPopup({
                 id: PopupId.VerifyLedgerTransaction,
                 hideClose: true,
@@ -44,14 +50,14 @@ function openPopupIfVerificationNeeded(payload: TransactionProgressEventPayload)
                     ...deconstructLedgerVerificationProps(),
                 },
             })
-        } else if (isPreparedTransactionEssenceHash(payload)) {
+        } else if (type === TransactionProgressType.PreparedTransactionEssenceHash) {
             if (get(ledgerNanoStatus)?.blindSigningEnabled) {
                 openPopup({
                     id: PopupId.VerifyLedgerTransaction,
                     hideClose: true,
                     preventClose: true,
                     props: {
-                        hash: payload?.['PreparedTransactionEssenceHash'],
+                        hash: (progress as PreparedTransactionEssenceHashProgress).hash,
                     },
                 })
             } else {
@@ -61,7 +67,7 @@ function openPopupIfVerificationNeeded(payload: TransactionProgressEventPayload)
                     preventClose: true,
                 })
             }
-        } else if (payload === 'PerformingPow') {
+        } else if (type === TransactionProgressType.PerformingPow) {
             closePopup(true)
         }
     } else {

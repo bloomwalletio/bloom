@@ -4,19 +4,17 @@ import { activeAccounts } from '@core/profile/stores'
 import { ActivityAsyncStatus, ActivityType } from '@core/wallet'
 import { allAccountActivities, updateAsyncDataByTransactionId } from '@core/wallet/stores/all-account-activities.store'
 import { get } from 'svelte/store'
-import { WalletApiEvent } from '../../enums'
-import { ISpentOutputEventPayload } from '../../interfaces'
 import { validateWalletApiEvent } from '../../utils'
+import { Event, SpentOutputWalletEvent, WalletEventType } from '@iota/wallet/out/types'
 
-export async function handleSpentOutputEvent(error: Error, rawEvent: string): Promise<void> {
-    const { accountIndex, payload } = validateWalletApiEvent(error, rawEvent, WalletApiEvent.SpentOutput)
-    /* eslint-disable @typescript-eslint/no-unnecessary-type-assertion */
-    await handleSpentOutputEventInternal(accountIndex, payload as ISpentOutputEventPayload)
+export async function handleSpentOutputEvent(error: Error, walletEvent: Event): Promise<void> {
+    const { accountIndex, event } = validateWalletApiEvent(error, walletEvent, WalletEventType.SpentOutput)
+    await handleSpentOutputEventInternal(accountIndex, event as SpentOutputWalletEvent)
 }
 
 export async function handleSpentOutputEventInternal(
     accountIndex: number,
-    payload: ISpentOutputEventPayload
+    payload: SpentOutputWalletEvent
 ): Promise<void> {
     const account = get(activeAccounts)?.find((account) => account.index === accountIndex)
     const output = payload?.output
@@ -33,8 +31,11 @@ export async function handleSpentOutputEventInternal(
 
     if (activity?.type === ActivityType.Nft) {
         const previousOutputId = getNftByIdFromAllAccountNfts(accountIndex, activity.nftId)?.latestOutputId
-        const previousOutput = await account.getOutput(previousOutputId)
-        if (output.metadata.milestoneTimestampBooked > previousOutput.metadata.milestoneTimestampBooked) {
+        const previousOutput = await account?.getOutput(previousOutputId)
+        if (
+            previousOutput &&
+            output.metadata.milestoneTimestampBooked > previousOutput.metadata.milestoneTimestampBooked
+        ) {
             updateNftInAllAccountNfts(accountIndex, activity.nftId, { isSpendable: false })
         }
     }
