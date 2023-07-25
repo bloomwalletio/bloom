@@ -1,12 +1,21 @@
 <script lang="ts">
-    import { selectedAccount } from '@core/account/stores'
+    import { onMount } from 'svelte'
+    import features from '@features/features'
+    import { selectedAccount, selectedAccountIndex } from '@core/account/stores'
+    import { ContactManager } from '@core/contact'
     import { localize } from '@core/i18n'
     import { ChainType, IChain, IIscpChainConfiguration, network } from '@core/network'
-    import { SendFlowType, TokenStandard, sendFlowParameters, updateSendFlowParameters } from '@core/wallet'
+    import { visibleActiveAccounts } from '@core/profile'
+    import {
+        sendFlowParameters,
+        SendFlowType,
+        Subject,
+        SubjectType,
+        TokenStandard,
+        updateSendFlowParameters,
+    } from '@core/wallet'
     import { closePopup } from '@desktop/auxiliary/popup'
-    import features from '@features/features'
     import { INetworkRecipientSelectorOption, NetworkRecipientSelector } from '@ui'
-    import { onMount } from 'svelte'
     import { sendFlowRouter } from '../send-flow.router'
     import SendFlowTemplate from './SendFlowTemplate.svelte'
 
@@ -20,7 +29,7 @@
     $: isLayer2 = !!networkAddress
 
     $: networkAddress = selectedOption?.networkAddress ?? $sendFlowParameters?.layer2Parameters?.networkAddress
-    $: recipient = selectedOption?.recipient ?? $sendFlowParameters?.recipient
+    $: recipient = selectedOption?.selectedRecipient ?? $sendFlowParameters?.recipient
 
     onMount(() => {
         buildNetworkRecipientOptions()
@@ -48,47 +57,6 @@
             networkAddress && selectorOptions.length
                 ? selectorOptions.findIndex((option) => option.networkAddress === networkAddress)
                 : 0
-
-        const recipient = $sendFlowParameters?.recipient
-        if (recipient) {
-            selectorOptions = selectorOptions.map((option, index) =>
-                index === selectedIndex
-                    ? {
-                          ...option,
-                          recipient,
-                      }
-                    : option
-            )
-        }
-    }
-
-    function onContinueClick(): void {
-        const layer2Parameters = isLayer2
-            ? {
-                  chainId: selectedOption.chainId,
-                  networkAddress: selectedOption?.networkAddress,
-                  senderAddress: $selectedAccount.depositAddress,
-              }
-            : null
-        updateSendFlowParameters({
-            type: $sendFlowParameters?.type,
-            recipient,
-            layer2Parameters,
-        })
-        $sendFlowRouter.next()
-    }
-
-    function onBackClick(): void {
-        updateSendFlowParameters({
-            type: $sendFlowParameters?.type,
-            recipient: undefined,
-            layer2Parameters: undefined,
-        })
-        if (!$sendFlowRouter.hasHistory()) {
-            closePopup()
-        } else {
-            $sendFlowRouter.previous()
-        }
     }
 
     function getCompatibleTransferNetworks(): INetworkRecipientSelectorOption[] {
@@ -96,14 +64,19 @@
             return []
         }
 
+        // L1 network
+        const { id, name } = $network.getMetadata()
+        const l1AccountsAndContacts = [...getLayer1AccountRecipients(), ...getContactRecipientsForNetwork(name)]
+        const layer1Network = {
+            id,
+            name,
+            networkAddress: '',
+            recipients: l1AccountsAndContacts,
+        }
+
         if ($sendFlowParameters.type === SendFlowType.NftTransfer) {
             // TODO: Currently we only support L1 NFTs
-            return [
-                {
-                    name: $network.getMetadata().name,
-                    networkAddress: '',
-                },
-            ]
+            return [layer1Network]
         } else {
             let compatibleNetworks: INetworkRecipientSelectorOption[] = []
 
@@ -111,13 +84,7 @@
                 $sendFlowParameters?.type === SendFlowType.BaseCoinTransfer
                     ? $sendFlowParameters.baseCoinTransfer.asset
                     : $sendFlowParameters.tokenTransfer.asset
-            // L1 network
-            const { id, name } = $network.getMetadata()
-            const layer1Network = {
-                id,
-                name,
-                networkAddress: '',
-            }
+
             // L2 chains, ISCP only for now
             const iscpChains = features?.network?.layer2?.enabled
                 ? $network.getChains().filter((chain) => chain.getConfiguration().type === ChainType.Iscp)
@@ -152,6 +119,58 @@
             chainId: chainConfig.chainId,
             name: chainConfig.name,
             networkAddress: chainConfig.aliasAddress,
+            recipients: getContactRecipientsForNetwork(chainConfig.name), // TODO: We use the name here, because we use that currently as the key for the network addresses. This should be updated
+        }
+    }
+
+    function getLayer1AccountRecipients(): Subject[] {
+        return $visibleActiveAccounts
+            .filter((account) => account.index !== $selectedAccountIndex)
+            .map((account) => ({
+                type: SubjectType.Account,
+                account,
+                address: account.depositAddress,
+            }))
+    }
+
+    function getContactRecipientsForNetwork(networkId: string): Subject[] {
+        const recipients: Subject[] = ContactManager.listContactAddressesForNetwork(networkId).map((address) => {
+            const contact = ContactManager.getContact(address.contactId)
+            return {
+                type: SubjectType.Contact,
+                address: address.address,
+                contact,
+            }
+        })
+        return [...new Map(recipients.map((recipient) => [recipient?.['contact']?.['id'], recipient])).values()]
+    }
+
+    function onContinueClick(): void {
+        const layer2Parameters = isLayer2
+            ? {
+                  chainId: selectedOption.chainId,
+                  networkAddress: selectedOption?.networkAddress,
+                  senderAddress: $selectedAccount.depositAddress,
+              }
+            : null
+        updateSendFlowParameters({
+            type: $sendFlowParameters?.type,
+            recipient,
+            layer2Parameters,
+        })
+        $sendFlowRouter.next()
+    }
+
+    function onBackClick(): void {
+        updateSendFlowParameters({
+            type: $sendFlowParameters?.type,
+            recipient: undefined,
+            layer2Parameters: undefined,
+        })
+        if (!$sendFlowRouter.hasHistory()) {
+            closePopup()
+        } else {
+            $sendFlowRouter.previous()
         }
     }
 </script>
@@ -170,8 +189,9 @@
         disabled:
             networkAddress === undefined ||
             !recipient ||
-            (recipient.type === 'address' && !recipient.address) ||
-            (recipient.type === 'account' && !recipient.account),
+            (recipient.type === SubjectType.Address && !recipient.address) ||
+            (recipient.type === SubjectType.Contact && !recipient.address && !recipient.contact) ||
+            (recipient.type === SubjectType.Account && !recipient.account),
     }}
 >
     <NetworkRecipientSelector bind:options={selectorOptions} bind:selectedIndex />
