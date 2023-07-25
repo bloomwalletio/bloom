@@ -28,7 +28,7 @@
 
 <nft-transaction-details class="w-full space-y-6 flex flex-auto flex-col shrink-0">
     {#if nft}
-        <NftTile {nft} {onClick} />
+        <NftTile {nft} onClick={nftIsOwned ? onClick : undefined} />
     {/if}
     <main-content class="flex flex-auto w-full flex-col items-center justify-center space-y-3 overflow-hidden">
         <transaction-status class="flex flex-row w-full space-x-2 justify-center">
