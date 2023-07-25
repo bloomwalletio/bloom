@@ -8,6 +8,7 @@ import {
     getAssetById,
     getUnitFromTokenMetadata,
     selectedAccountAssets,
+    SubjectType,
     setSendFlowParameters,
 } from '@core/wallet'
 import { get } from 'svelte/store'
@@ -129,7 +130,7 @@ function parseSendConfirmationOperation(searchParams: URLSearchParams): SendFlow
         type,
         ...(baseCoinTransfer && { baseCoinTransfer }),
         ...(tokenTransfer && { tokenTransfer }),
-        ...(address && { recipient: { type: 'address', address } }),
+        ...(address && { recipient: { type: SubjectType.Address, address } }),
         ...(metadata && { metadata }),
         ...(tag && { tag }),
         ...(giftStorageDeposit && { giftStorageDeposit }),
