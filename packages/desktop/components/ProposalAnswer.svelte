@@ -1,12 +1,10 @@
 <script lang="ts">
-    import type { Answer } from '@iota/wallet'
+    import { Answer, EventStatus } from '@iota/sdk/out/types'
 
     import { Icon, PingingBadge, Text, TooltipIcon } from '@ui'
     import { FontWeight, Position } from '@ui/enums'
 
     import { appSettings } from '@core/app/stores'
-
-    import { ProposalStatus } from '@contexts/governance'
 
     import { Icon as IconEnum } from '@auxiliary/icon'
 
@@ -65,11 +63,11 @@
         {#if answerIndex !== undefined}
             {#if isVotedFor}
                 <status-icon class="flex justify-center items-center w-5 h-5">
-                    {#if proposalStatus === ProposalStatus.Ended}
+                    {#if proposalStatus === EventStatus.Ended}
                         <Icon icon={IconEnum.Voted} width={20} height={20} />
-                    {:else if proposalStatus === ProposalStatus.Commencing}
+                    {:else if proposalStatus === EventStatus.Commencing}
                         <Icon icon={IconEnum.History} width={20} height={20} />
-                    {:else if proposalStatus === ProposalStatus.Holding}
+                    {:else if proposalStatus === EventStatus.Holding}
                         <PingingBadge classes="relative" />
                     {/if}
                 </status-icon>

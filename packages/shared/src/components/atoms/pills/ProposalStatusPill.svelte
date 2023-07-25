@@ -1,8 +1,8 @@
 <script lang="ts">
+    import { EventStatus } from '@iota/sdk/out/types'
     import { Icon, Pill } from '@ui'
     import { Icon as _Icon } from '@auxiliary/icon'
     import { localize } from '@core/i18n'
-    import { ProposalStatus } from '@contexts/governance/enums'
     import { IProposal } from '@contexts/governance/interfaces'
 
     export let proposal: IProposal
@@ -10,11 +10,11 @@
     $: status = proposal?.status
     $: error = proposal?.error
 
-    const STATUS_COLORS: Record<ProposalStatus, string> = {
-        [ProposalStatus.Upcoming]: 'purple-200',
-        [ProposalStatus.Commencing]: 'blue-200',
-        [ProposalStatus.Holding]: 'green-300',
-        [ProposalStatus.Ended]: 'gray-200',
+    const STATUS_COLORS: Record<EventStatus, string> = {
+        [EventStatus.Upcoming]: 'purple-200',
+        [EventStatus.Commencing]: 'blue-200',
+        [EventStatus.Holding]: 'green-300',
+        [EventStatus.Ended]: 'gray-200',
     }
 </script>
 

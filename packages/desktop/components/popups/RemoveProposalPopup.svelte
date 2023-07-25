@@ -1,6 +1,6 @@
 <script lang="ts">
     import { showAppNotification } from '@auxiliary/notification'
-    import { ProposalStatus } from '@contexts/governance/enums'
+    import { EventStatus } from '@iota/sdk/out/types'
     import {
         clearSelectedParticipationEventStatus,
         removePersistedProposal,
@@ -47,7 +47,7 @@
 
     // TODO: User can only remove a proposal when he is not voting for it
     $: isTextHintVisible =
-        $selectedProposal?.status === ProposalStatus.Commencing || $selectedProposal?.status === ProposalStatus.Holding
+        $selectedProposal?.status === EventStatus.Commencing || $selectedProposal?.status === EventStatus.Holding
 </script>
 
 <remove-proposal>
