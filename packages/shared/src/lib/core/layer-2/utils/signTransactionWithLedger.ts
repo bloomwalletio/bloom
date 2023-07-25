@@ -1,22 +1,15 @@
-import { RLP } from '@ethereumjs/rlp'
-import { Transaction } from '@ethereumjs/tx'
-import { bufArrToArr } from '@ethereumjs/util'
-
 import { Platform } from '@core/app/classes'
 import { localize } from '@core/i18n'
 import { Ledger } from '@core/ledger/classes'
 import { MILLISECONDS_PER_SECOND, sleep } from '@core/utils'
 
-import { DEFAULT_EVM_TRANSACTION_OPTIONS } from '../constants'
 import { IEvmTransactionSignature } from '../interfaces'
 import { EvmTransactionData } from '../types'
 
+import { prepareEvmTransaction } from './prepareEvmTransaction'
+
 export async function signTransactionWithLedger(transaction: EvmTransactionData, bip32Path: string): Promise<string> {
-    const unsignedTransaction = Transaction.fromTxData(transaction, DEFAULT_EVM_TRANSACTION_OPTIONS)
-    const unsignedTransactionMessage = unsignedTransaction.getMessageToSign(false)
-    const unsignedTransactionMessageHex = Buffer.from(RLP.encode(bufArrToArr(unsignedTransactionMessage))).toString(
-        'hex'
-    )
+    const unsignedTransactionMessageHex = prepareEvmTransaction(transaction)
     Ledger.signEvmTransaction(unsignedTransactionMessageHex, bip32Path)
 
     let isSigning = true
@@ -43,16 +36,7 @@ export async function signTransactionWithLedger(transaction: EvmTransactionData,
         if (!isSigning) {
             const { r, v, s } = transactionSignature
             if (r && v && s) {
-                const signedTransactionData: EvmTransactionData = {
-                    ...transaction,
-                    r,
-                    v,
-                    s,
-                }
-                const signedTransaction = Transaction.fromTxData(signedTransactionData, DEFAULT_EVM_TRANSACTION_OPTIONS)
-                const serializedSignedTransaction = Buffer.from(RLP.encode(bufArrToArr(signedTransaction.raw())))
-                const serializedSignedTransactionHex = '0x' + serializedSignedTransaction.toString('hex')
-
+                const serializedSignedTransactionHex = prepareEvmTransaction(transaction, transactionSignature)
                 return Promise.resolve(serializedSignedTransactionHex)
             } else {
                 return Promise.reject('Signing was rejected by the Ledger device')
