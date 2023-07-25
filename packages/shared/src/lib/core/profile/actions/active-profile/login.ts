@@ -1,24 +1,21 @@
+import { initializeWalletConnect } from '@auxiliary/wallet-connect'
 import { initializeRegisteredProposals, registerProposalsFromNodes } from '@contexts/governance/actions'
 import { cleanupOnboarding } from '@contexts/onboarding/actions'
 import { createNewAccount, setSelectedAccount } from '@core/account/actions'
-import { DEFAULT_SYNC_OPTIONS } from '@core/account/constants'
-import { IAccount } from '@core/account/interfaces'
 import { Platform } from '@core/app/classes'
 import { AppContext } from '@core/app/enums'
 import { handleError } from '@core/error/handlers'
 import { pollLedgerNanoStatus } from '@core/ledger/actions'
 import { pollMarketPrices } from '@core/market/actions'
 import { pollChainStatuses, pollNetworkStatus } from '@core/network/actions'
-import { initialiseProfileManager } from '@core/profile-manager/actions'
 import { loadNftsForActiveProfile } from '@core/nfts'
+import { initialiseProfileManager } from '@core/profile-manager/actions'
 import {
     getAccounts,
     isStrongholdUnlocked,
-    recoverAccounts,
     setStrongholdPasswordClearInterval,
     startBackgroundSync,
 } from '@core/profile-manager/api'
-import { RecoverAccountsPayload } from '@core/profile-manager/interfaces'
 import { profileManager } from '@core/profile-manager/stores'
 import { buildProfileManagerOptionsFromProfileData } from '@core/profile-manager/utils'
 import { routerManager } from '@core/router/stores'
@@ -29,7 +26,6 @@ import { get } from 'svelte/store'
 import {
     CHECK_PREVIOUS_MANAGER_IS_DESTROYED_INTERVAL,
     CHECK_PREVIOUS_MANAGER_IS_DESTROYED_MAX_COUNT,
-    DEFAULT_ACCOUNT_RECOVERY_CONFIGURATION,
 } from '../../constants'
 import { ProfileType } from '../../enums'
 import { ILoginOptions } from '../../interfaces'
@@ -43,12 +39,11 @@ import {
     updateActiveProfile,
 } from '../../stores'
 import { isLedgerProfile } from '../../utils'
+import { checkAndRemoveProfilePicture } from './checkAndRemoveProfilePicture'
+import { checkAndUpdateActiveProfileNetwork } from './checkAndUpdateActiveProfileNetwork'
 import { loadAccounts } from './loadAccounts'
 import { logout } from './logout'
 import { subscribeToWalletApiEventsForActiveProfile } from './subscribeToWalletApiEventsForActiveProfile'
-import { checkAndUpdateActiveProfileNetwork } from './checkAndUpdateActiveProfileNetwork'
-import { checkAndRemoveProfilePicture } from './checkAndRemoveProfilePicture'
-import { initializeWalletConnect } from '@auxiliary/wallet-connect'
 
 export async function login(loginOptions?: ILoginOptions): Promise<void> {
     const loginRouter = get(routerManager).getRouterForAppContext(AppContext.Login)
@@ -76,29 +71,11 @@ export async function login(loginOptions?: ILoginOptions): Promise<void> {
 
             // Step 3: load and build all the profile data
             incrementLoginProgress()
-            let accounts: IAccount[]
-            if (loginOptions?.isFromOnboardingFlow && loginOptions?.shouldRecoverAccounts) {
-                const { initialAccountRange, addressGapLimit } = DEFAULT_ACCOUNT_RECOVERY_CONFIGURATION[type]
-                const recoverAccountsPayload: RecoverAccountsPayload = {
-                    accountStartIndex: 0,
-                    accountGapLimit: initialAccountRange,
-                    addressGapLimit,
-                    syncOptions: DEFAULT_SYNC_OPTIONS,
-                }
-                accounts = await recoverAccounts(recoverAccountsPayload)
-            } else {
-                accounts = await getAccounts()
-            }
-            /**
-             * NOTE: In the case no accounts with funds were recovered, we must
-             * create one for the new profile.
-             */
+            incrementLoginProgress()
+            const accounts = await getAccounts()
             if (accounts?.length === 0) {
                 await createNewAccount()
             }
-
-            // Step 4: load accounts
-            incrementLoginProgress()
             await loadAccounts()
 
             // Step 5: load assets

@@ -9,7 +9,7 @@ export async function restoreBackupFromStrongholdFile(strongholdPassword: string
     const { id, importFilePath, clientOptions, network } = get(onboardingProfile)
     try {
         await restoreBackup(importFilePath, strongholdPassword, network.protocol.bech32Hrp)
-        if (mobile) {
+        if (get(mobile)) {
             await validateStrongholdCoinType(profileManager, network?.id)
             updateOnboardingProfile({ lastStrongholdBackupTime: new Date() })
         }
