@@ -969,6 +969,18 @@
   resolved "https://registry.npmjs.org/@iota/pad/-/pad-1.0.0-beta.30.tgz"
   integrity sha512-fnhPMPul18WunLq9Ni4rxzBFmhna6eaG8WroDg6GdQqSK/eN62uFHV8tpspJHXuCqwgCUVp6NpuUna7+B2OV9g==
 
+"@iota/sdk@1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@iota/sdk/-/sdk-1.0.0.tgz#79bd2a89ba0867c67f4083acf6da811ce0e97739"
+  integrity sha512-aP8eZMosY6ppAkB3Ume+Lspp9mGaQJ7NhBZcPxNqO7lkfZ7IsoKwDUq0aROeM/osprPrBFwR8hHjS+VFMNaHTQ==
+  dependencies:
+    "@types/node" "^18.15.12"
+    cargo-cp-artifact "^0.1.6"
+    class-transformer "^0.5.1"
+    prebuild-install "^7.1.1"
+    reflect-metadata "^0.1.13"
+    typescript "^4.9.4"
+
 "@iota/signing@^1.0.0-beta.30":
   version "1.0.0-beta.30"
   resolved "https://registry.npmjs.org/@iota/signing/-/signing-1.0.0-beta.30.tgz"
@@ -1000,16 +1012,6 @@
     "@types/warning" "^3.0.0"
     warning "^4.0.3"
 
-"@iota/types@2.0.0-rc.2":
-  version "2.0.0-rc.2"
-  resolved "https://registry.yarnpkg.com/@iota/types/-/types-2.0.0-rc.2.tgz#a4b8e5c3423a2afd322fc05ebfaa6b27587d9a96"
-  integrity sha512-huL+171zMQgGYV4/zhHLFcE8heTLRJhtlqLEJaM1Q+klb2KxNqFX0EySU8pxZ/nslh0Dem3QQ+Jmwv1FdBmpFQ==
-
-"@iota/types@^1.0.0-beta.15":
-  version "1.0.0-beta.15"
-  resolved "https://registry.npmjs.org/@iota/types/-/types-1.0.0-beta.15.tgz"
-  integrity sha512-67DrzDO5bl2c7RIMpOdtjdOa27Bv1EmX/BHPTQD8c3RtPPAzJpSIpuI8JsIDl3U6Qe4zdLX3kRv9zGBXcr0fZA==
-
 "@iota/unit-converter@1.0.0-beta.30":
   version "1.0.0-beta.30"
   resolved "https://registry.yarnpkg.com/@iota/unit-converter/-/unit-converter-1.0.0-beta.30.tgz#a29b80e46ae935c69175f68121faec81adcea90e"
@@ -1031,16 +1033,6 @@
   integrity sha512-vQRYU0bDKORGFzeoN2zn7tO4Kjqv+h2P/J//MRspg9Kyy1TKgtGkn0j0M2ZSwJjScH6Cn2BQmRLet/ZBpg6osA==
   dependencies:
     big-integer "^1.6.51"
-
-"@iota/wallet@2.0.3-rc.41":
-  version "2.0.3-rc.41"
-  resolved "https://registry.yarnpkg.com/@iota/wallet/-/wallet-2.0.3-rc.41.tgz#3e819cacab6d4501823efe7d8cabe06409bbbd74"
-  integrity sha512-4OVoGyzG9ukZaazXyz0i+qHyHqB3ELqyxX90PCSo6Eyt5XauDU0QfVtWnyUEE+SmkG/6eTrNYt3B5piCe9LQHg==
-  dependencies:
-    "@iota/types" "^1.0.0-beta.15"
-    cargo-cp-artifact "^0.1.6"
-    prebuild-install "^7.1.1"
-    typescript "^4.9.4"
 
 "@istanbuljs/load-nyc-config@^1.0.0":
   version "1.1.0"
@@ -2110,6 +2102,11 @@
   version "18.16.19"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-18.16.19.tgz#cb03fca8910fdeb7595b755126a8a78144714eea"
   integrity sha512-IXl7o+R9iti9eBW4Wg2hx1xQDig183jj7YLn8F7udNceyfkbn1ZxmzZXuak20gR40D7pIkIY1kYGx5VIGbaHKA==
+
+"@types/node@^18.15.12":
+  version "18.17.0"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-18.17.0.tgz#35d44267a33dd46b49ee0f73d31b05fd7407e290"
+  integrity sha512-GXZxEtOxYGFchyUzxvKI14iff9KZ2DI+A6a37o6EQevtg6uO9t+aUZKcaC1Te5Ng1OnLM7K9NVVj+FbecD9cJg==
 
 "@types/pbkdf2@^3.0.0":
   version "3.1.0"
@@ -3759,6 +3756,11 @@ class-is@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/class-is/-/class-is-1.1.0.tgz#9d3c0fba0440d211d843cec3dedfa48055005825"
   integrity sha512-rhjH9AG1fvabIDoGRVH587413LPjTZgmDF9fOFCbFJQV4yuocX1mHxxvXI4g3cGwbVY9wAYIoKlg1N79frJKQw==
+
+class-transformer@^0.5.1:
+  version "0.5.1"
+  resolved "https://registry.yarnpkg.com/class-transformer/-/class-transformer-0.5.1.tgz#24147d5dffd2a6cea930a3250a677addf96ab336"
+  integrity sha512-SQa1Ws6hUbfC98vKGxZH3KFY0Y1lm5Zm0SY8XX9zbK7FJCyVEac3ATW0RIpwzW+oOfmHE5PMPufDG9hCfoEOMw==
 
 clean-stack@^2.0.0:
   version "2.2.0"
@@ -8949,6 +8951,11 @@ rechoir@^0.8.0:
   integrity sha512-/vxpCXddiX8NGfGO/mTafwjq4aFa/71pvamip0++IQk3zG8cbCj0fifNPrjjF1XMXUne91jL9OoxmdykoEtifQ==
   dependencies:
     resolve "^1.20.0"
+
+reflect-metadata@^0.1.13:
+  version "0.1.13"
+  resolved "https://registry.yarnpkg.com/reflect-metadata/-/reflect-metadata-0.1.13.tgz#67ae3ca57c972a2aa1642b10fe363fe32d49dc08"
+  integrity sha512-Ts1Y/anZELhSsjMcU605fU9RE4Oi3p5ORujwbIKXfWa+0Zxs510Qrmrce5/Jowq3cHSZSJqBjypxmHarc+vEWg==
 
 regexp-tree@~0.1.1:
   version "0.1.24"

@@ -6,7 +6,6 @@
     ],
     "devDependencies": {
         "@babel/eslint-parser": "7.21.3",
-        "@iota/types": "2.0.0-rc.2",
         "@tsconfig/svelte": "4.0.1",
         "@typescript-eslint/eslint-plugin": "5.58.0",
         "@typescript-eslint/parser": "5.57.1",
