@@ -7,7 +7,7 @@
     import { localize } from '@core/i18n'
     import { activeAccounts, updateActiveAccountPersistedData } from '@core/profile'
     import { truncateString } from '@core/utils/string'
-    import type { Auth } from '@iota/wallet'
+    import type { IAuth } from '@iota/sdk'
     import { Button, Checkbox, NodeInput, Text, TextInput, TextType } from '@ui'
     import { HTMLButtonType } from '@ui/enums'
 
@@ -77,7 +77,7 @@
         })
     }
 
-    async function registerParticipationWrapper(auth?: Auth): Promise<void> {
+    async function registerParticipationWrapper(auth?: IAuth): Promise<void> {
         const options = {
             node: { url: nodeUrl, auth },
             eventsToRegister: isRegisteringAllProposals ? [] : [eventId],
