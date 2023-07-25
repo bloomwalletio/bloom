@@ -1,6 +1,6 @@
 import { Common } from '@ethereumjs/common'
 import { RLP } from '@ethereumjs/rlp'
-import { Transaction, TxData } from '@ethereumjs/tx'
+import { Transaction } from '@ethereumjs/tx'
 import { bufArrToArr } from '@ethereumjs/util'
 
 import AppEth from '@ledgerhq/hw-app-eth'
@@ -38,15 +38,13 @@ export async function getEvmAddress(bip32Path: string): Promise<{ evmAddress: st
     return { evmAddress: data.address, bip32Path }
 }
 
-export async function signTransactionData(data: TxData, bip32Path: string): Promise<{ signedTransaction: string }> {
-    const appEth = new AppEth(transport)
-
-    const transactionData = Transaction.fromTxData(data, TX_OPTIONS)
-    const unsignedTransaction = transactionData.getMessageToSign(false)
-    const serializedUnsignedTransaction = Buffer.from(RLP.encode(bufArrToArr(unsignedTransaction)))
-
+export async function signTransactionData(
+    transactionHex: string,
+    bip32Path: string
+): Promise<{ signedTransaction: string }> {
     try {
-        const signature = await appEth.signTransaction(bip32Path, serializedUnsignedTransaction.toString('hex'), null)
+        const appEth = new AppEth(transport)
+        const signature = await appEth.signTransaction(bip32Path, transactionHex, null)
         const signedTransactionObject = Transaction.fromTxData(
             {
                 ...data,

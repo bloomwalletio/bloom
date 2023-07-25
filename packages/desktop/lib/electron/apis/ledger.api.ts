@@ -5,7 +5,7 @@ export default {
     generateEvmAddress: (bip32Path: string, verify: boolean = false): void => {
         ipcRenderer.send(LedgerMethod.GenerateEvmAddress, bip32Path, verify)
     },
-    signEvmTransaction: (data: unknown, bip32Path: string): void => {
-        ipcRenderer.send(LedgerMethod.SignEvmTransaction, data, bip32Path)
+    signEvmTransaction: (transactionHex: string, bip32Path: string): void => {
+        ipcRenderer.send(LedgerMethod.SignEvmTransaction, transactionHex, bip32Path)
     },
 }

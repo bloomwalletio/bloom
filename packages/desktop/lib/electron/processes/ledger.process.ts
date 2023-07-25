@@ -6,8 +6,6 @@
  * https://www.electronjs.org/docs/latest/tutorial/process-model#the-utility-process
  */
 
-import type { TxData } from '@ethereumjs/tx'
-
 import { LedgerMethod } from '../enums/ledger-method.enum'
 import type { ILedgerProcessMessage } from '../interfaces/ledger-process-message.interface'
 import { closeTransport, getEvmAddress, openTransport, signTransactionData } from '../utils/ledger.utils'
@@ -32,7 +30,7 @@ async function messageHandler(message: ILedgerProcessMessage): Promise<void> {
                 break
             }
             case LedgerMethod.SignEvmTransaction: {
-                data = await signTransactionData(parameters[0] as TxData, parameters[1] as string)
+                data = await signTransactionData(parameters[0] as string, parameters[1] as string)
                 break
             }
             default:

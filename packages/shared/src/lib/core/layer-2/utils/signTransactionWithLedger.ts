@@ -1,11 +1,23 @@
-import { Ledger } from '@core/ledger'
-import { EvmTransactionData } from '../types'
-import { Platform } from '@core/app'
-import { MILLISECONDS_PER_SECOND, sleep } from '@core/utils'
+import { RLP } from '@ethereumjs/rlp'
+import { Transaction } from '@ethereumjs/tx'
+import { bufArrToArr } from '@ethereumjs/util'
+
+import { Platform } from '@core/app/classes'
 import { localize } from '@core/i18n'
+import { Ledger } from '@core/ledger/classes'
+import { MILLISECONDS_PER_SECOND, sleep } from '@core/utils'
+
+import { DEFAULT_EVM_TRANSACTION_OPTIONS } from '../constants'
+import { EvmTransactionData } from '../types'
 
 export async function signTransactionWithLedger(transaction: EvmTransactionData, bip32Path: string): Promise<string> {
-    Ledger.signEvmTransaction(transaction, bip32Path)
+    const unsignedTransaction = Transaction.fromTxData(transaction, DEFAULT_EVM_TRANSACTION_OPTIONS)
+
+    const unsignedTransactionMessage = unsignedTransaction.getMessageToSign(false)
+    const unsignedTransactionMessageHex = Buffer.from(RLP.encode(bufArrToArr(unsignedTransactionMessage))).toString(
+        'hex'
+    )
+    Ledger.signEvmTransaction(unsignedTransactionMessageHex, bip32Path)
 
     let isSigning = true
     let signedTransaction = ''

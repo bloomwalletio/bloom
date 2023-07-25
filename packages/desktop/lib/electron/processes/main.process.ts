@@ -316,8 +316,8 @@ ipcMain.on(LedgerMethod.GenerateEvmAddress, (_e, bip32Path, verify) => {
     ledgerProcess?.postMessage({ method: LedgerMethod.GenerateEvmAddress, parameters: [bip32Path, verify] })
 })
 
-ipcMain.on(LedgerMethod.SignEvmTransaction, (_e, data, bip32Path) => {
-    ledgerProcess?.postMessage({ method: LedgerMethod.SignEvmTransaction, parameters: [data, bip32Path] })
+ipcMain.on(LedgerMethod.SignEvmTransaction, (_e, transactionHex, bip32Path) => {
+    ledgerProcess?.postMessage({ method: LedgerMethod.SignEvmTransaction, parameters: [transactionHex, bip32Path] })
 })
 
 export const getWindow = (windowName: string): BrowserWindow => windows[windowName]

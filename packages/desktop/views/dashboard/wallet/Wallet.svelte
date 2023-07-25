@@ -4,6 +4,22 @@
     import { selectedAccountAssets } from '@core/wallet'
     import { selectedAccount } from '@core/account/stores'
     import features from '@features/features'
+    import { onMount } from 'svelte'
+    import { signTransactionWithLedger } from 'shared/src/lib/core/layer-2'
+    import { buildBip32Path } from 'shared/src/lib/core/account'
+
+    onMount(() => {
+        const tx = {
+            nonce: '0x27',
+            gasPrice: '0x48',
+            gasLimit: '0x10e14',
+            to: '0x68194a729C2450ad26072b3D33ADaCbcef39D574',
+            value: '0x0',
+            data: '0xa9059cbb0000000000000000000000001bf171563b2642bb6e93081a7a1f2e6b16a54c93000000000000000000000000000000000000000000000000002386f26fc10000',
+        }
+
+        void signTransactionWithLedger(tx, buildBip32Path(60, 0))
+    })
 </script>
 
 {#if $selectedAccount}
