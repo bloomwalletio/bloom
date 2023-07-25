@@ -1,8 +1,8 @@
+import { UnlockConditionType } from '@iota/sdk/out/types'
 import { getSelectedAccount } from '@core/account'
 import { InsufficientFundsForStorageDepositError, InvalidExpirationDateTimeError } from '@contexts/wallet'
 import { convertUnixTimestampToDate, isValidExpirationDateTime } from '@core/utils'
 import { Output } from '@core/wallet/types'
-import { UNLOCK_CONDITION_EXPIRATION } from '@core/wallet/constants'
 import { IExpirationUnlockCondition } from '@iota/types'
 
 export function validateSendConfirmation(output: Output): void {
@@ -11,7 +11,7 @@ export function validateSendConfirmation(output: Output): void {
     const balance = parseNumber(getSelectedAccount()?.balances?.baseCoin.available ?? '0')
 
     const expirationUnlockCondition = output.unlockConditions.find(
-        (c) => c.type === UNLOCK_CONDITION_EXPIRATION
+        (c) => c.type === UnlockConditionType.Expiration
     ) as IExpirationUnlockCondition
     const expirationUnixTime = expirationUnlockCondition?.unixTime
     const expirationDateTime = expirationUnixTime ? convertUnixTimestampToDate(expirationUnixTime) : undefined

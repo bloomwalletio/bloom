@@ -1,7 +1,7 @@
-import type { FeatureTypes, TokenSchemeTypes, UnlockConditionTypes } from '@iota/types'
-import type { BuildFoundryOutputData } from '@iota/wallet'
+import { FeatureTypes, TokenSchemeTypes } from '@iota/types'
+import { BuildFoundryOutputData, UnlockConditionType } from '@iota/sdk/out/types'
 import { Converter } from '@core/utils'
-import { ADDRESS_TYPE_ALIAS, FEATURE_TYPE_METADATA, UNLOCK_CONDITION_IMMUTABLE_ALIAS } from '../constants'
+import { ADDRESS_TYPE_ALIAS, FEATURE_TYPE_METADATA } from '../constants'
 import { IIrc30Metadata } from '../interfaces'
 import { convertBech32ToHexAddress } from './convertBech32ToHexAddress'
 import { getSerialNumberFromAliasOutput } from '@core/wallet/utils/outputs/getSerialNumberFromAliasOutput'
@@ -14,7 +14,7 @@ export async function buildFoundryOutputData(
 ): Promise<BuildFoundryOutputData> {
     const unlockConditions: UnlockConditionTypes[] = [
         {
-            type: UNLOCK_CONDITION_IMMUTABLE_ALIAS,
+            type: UnlockConditionType.ImmutableAliasAddress,
             address: {
                 type: ADDRESS_TYPE_ALIAS,
                 aliasId: convertBech32ToHexAddress(aliasId),

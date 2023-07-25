@@ -1,12 +1,12 @@
 import type {
     HexEncodedAmount,
     HexEncodedString,
-    IAliasOutput,
-    IBasicOutput,
-    IFoundryOutput,
-    INftOutput,
-    OutputTypes,
-} from '@iota/types'
+    AliasOutput,
+    BasicOutput,
+    FoundryOutput,
+    NftOutput,
+    Output,
+} from '@iota/sdk'
 import type {
     Balance,
     AccountMetadata,
@@ -20,7 +20,7 @@ import type {
     FilterOptions,
     GenerateAddressOptions,
     MintNftParams,
-    Node,
+    INode,
     OutputData,
     OutputParams,
     OutputsToClaim,
@@ -43,15 +43,15 @@ import type {
     Secp256k1EcdsaSignature,
     Bip44,
     Ed25519Signature,
-} from '@iota/wallet'
+} from '@iota/sdk'
 
 export interface IAccount {
     addresses(): Promise<Address[]>
     addressesWithUnspentOutputs(): Promise<AddressWithUnspentOutputs[]>
-    buildAliasOutput(data: BuildAliasOutputData): Promise<IAliasOutput>
-    buildBasicOutput(data: BuildBasicOutputData): Promise<IBasicOutput>
-    buildFoundryOutput(data: BuildFoundryOutputData): Promise<IFoundryOutput>
-    buildNftOutput(data: BuildNftOutputData): Promise<INftOutput>
+    buildAliasOutput(data: BuildAliasOutputData): Promise<AliasOutput>
+    buildBasicOutput(data: BuildBasicOutputData): Promise<BasicOutput>
+    buildFoundryOutput(data: BuildFoundryOutputData): Promise<FoundryOutput>
+    buildNftOutput(data: BuildNftOutputData): Promise<NftOutput>
     burnNativeToken(
         tokenId: string,
         burnAmount: HexEncodedAmount,
@@ -78,13 +78,13 @@ export interface IAccount {
     generateEd25519Addresses(amount: number, options?: GenerateAddressOptions): Promise<Address[]>
     generateEvmAddresses(generateAddressesOptions: GenerateAddressOptions): Promise<string[]>
     getBalance(): Promise<Balance>
-    getFoundryOutput(tokenId: string): Promise<IFoundryOutput>
+    getFoundryOutput(tokenId: string): Promise<FoundryOutput>
     getIncomingTransaction(transactionId: string): Promise<Transaction>
     getMetadata(): AccountMetadata
     getOutput(outputId: string): Promise<OutputData>
     claimableOutputs(outputs: OutputsToClaim): Promise<string[]>
     getParticipationEvent(eventId: string): Promise<ParticipationEventWithNodes>
-    getParticipationEventIds(node: Node, eventType?: ParticipationEventType): Promise<string[]>
+    getParticipationEventIds(node: INode, eventType?: ParticipationEventType): Promise<string[]>
     getParticipationEvents(): Promise<{ [eventId: string]: ParticipationEventWithNodes }>
     getParticipationEventStatus(eventId: string): Promise<ParticipationEventStatus>
     getParticipationOverview(eventIds?: string[]): Promise<ParticipationOverview>
@@ -96,17 +96,17 @@ export interface IAccount {
         transactionOptions?: TransactionOptions
     ): Promise<CreateNativeTokenTransaction>
     increaseVotingPower(amount: string): Promise<Transaction>
-    minimumRequiredStorageDeposit(output: OutputTypes): Promise<string>
+    minimumRequiredStorageDeposit(output: Output): Promise<string>
     mintNativeToken(
         params: CreateNativeTokenParams,
         transactionOptions?: TransactionOptions
     ): Promise<CreateNativeTokenTransaction>
     mintNfts(params: MintNftParams[], transactionOptions?: TransactionOptions): Promise<Transaction>
     outputs(filterOptions?: FilterOptions): Promise<OutputData[]>
-    prepareOutput(params: OutputParams, transactionOptions?: TransactionOptions): Promise<OutputTypes>
+    prepareOutput(params: OutputParams, transactionOptions?: TransactionOptions): Promise<Output>
     pendingTransactions(): Promise<Transaction[]>
     prepareSend(params: SendParams[], options?: TransactionOptions): Promise<PreparedTransactionData>
-    prepareTransaction(outputs: OutputTypes[], options?: TransactionOptions): Promise<PreparedTransactionData>
+    prepareTransaction(outputs: Output[], options?: TransactionOptions): Promise<PreparedTransactionData>
     registerParticipationEvents(options: ParticipationEventRegistrationOptions): Promise<ParticipationEventMap>
     retryTransactionUntilIncluded(
         transactionId: string,
@@ -117,7 +117,7 @@ export interface IAccount {
     send(params: SendParams[], transactionOptions?: TransactionOptions): Promise<Transaction>
     sendNativeTokens(params: SendNativeTokensParams[], transactionOptions?: TransactionOptions): Promise<Transaction>
     sendNft(params: SendNftParams[], transactionOptions?: TransactionOptions): Promise<Transaction>
-    sendOutputs(outputs: OutputTypes[], transactionOptions?: TransactionOptions): Promise<Transaction>
+    sendOutputs(outputs: Output[], transactionOptions?: TransactionOptions): Promise<Transaction>
     setAlias(alias: string): Promise<void>
     setDefaultSyncOptions(options: SyncOptions): Promise<void>
     signTransactionEssence(preparedTransactionData: PreparedTransactionData): Promise<SignedTransactionEssence>

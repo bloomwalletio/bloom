@@ -6,12 +6,12 @@ import type {
     AccountId,
     CreateAccountPayload,
     SyncOptions,
-    ClientOptions,
+    IClientOptions,
     WalletEventType,
     WalletEvent,
     LedgerNanoStatus,
     GenerateAddressOptions,
-} from '@iota/wallet'
+} from '@iota/sdk'
 
 import { IAccount } from '@core/account'
 import { IAuth, INodeInfoResponse } from '@core/network'
@@ -181,7 +181,7 @@ export class ProfileManagerMock implements IProfileManager {
         return Promise.resolve()
     }
 
-    setClientOptions(options: ClientOptions): Promise<void> {
+    setClientOptions(options: IClientOptions): Promise<void> {
         return Promise.resolve()
     }
 

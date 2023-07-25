@@ -1,4 +1,4 @@
-import { RequiredStorageDeposit } from '@iota/wallet'
+import { RequiredStorageDeposit } from '@iota/sdk'
 
 export interface IAccountBalances {
     aliases: unknown[]

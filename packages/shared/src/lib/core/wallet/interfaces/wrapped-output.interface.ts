@@ -1,4 +1,4 @@
-import { OutputData } from '@iota/wallet'
+import { OutputData } from '@iota/sdk'
 import { Output } from '../types'
 
 export interface IWrappedOutput extends Omit<Partial<OutputData>, 'output'> {

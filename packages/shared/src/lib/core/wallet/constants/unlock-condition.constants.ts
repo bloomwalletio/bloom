@@ -1,13 +1,7 @@
-export const UNLOCK_CONDITION_ADDRESS = 0
-export const UNLOCK_CONDITION_STORAGE_DEPOSIT_RETURN = 1
-export const UNLOCK_CONDITION_TIMELOCK = 2
-export const UNLOCK_CONDITION_EXPIRATION = 3
-export const UNLOCK_CONDITION_STATE_CONTROLLER_ADDRESS = 4
-export const UNLOCK_CONDITION_GOVERNOR_ADDRESS = 5
-export const UNLOCK_CONDITION_IMMUTABLE_ALIAS = 6
+import { UnlockConditionType } from '@iota/sdk/out/types'
 
 export const ASYNC_UNLOCK_CONDITION_TYPES = [
-    UNLOCK_CONDITION_STORAGE_DEPOSIT_RETURN,
-    UNLOCK_CONDITION_EXPIRATION,
-    UNLOCK_CONDITION_TIMELOCK,
+    UnlockConditionType.StorageDepositReturn,
+    UnlockConditionType.Expiration,
+    UnlockConditionType.Timelock,
 ]

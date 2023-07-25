@@ -3,7 +3,7 @@
 import { AccountMock } from './account.mock'
 import { ProfileManagerMock } from './profile-manager.mock'
 
-import { AccountManagerOptions, CreateAccountPayload } from '@iota/wallet'
+import type { WalletOptions, CreateAccountPayload } from '@iota/sdk'
 
 import { IApi, RecoverAccountsPayload } from '@core/profile-manager'
 import { IAccount } from '@core/account'
@@ -11,7 +11,7 @@ import { IAccount } from '@core/account'
 const profileManagers = {}
 
 const api: IApi = {
-    createAccountManager(id: string, _: AccountManagerOptions): Promise<ProfileManagerMock> {
+    createAccountManager(id: string, _: WalletOptions): Promise<ProfileManagerMock> {
         const manager = new ProfileManagerMock(id)
 
         profileManagers[id] = manager

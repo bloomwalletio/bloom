@@ -1,5 +1,5 @@
 import '@mocks/i18n.mock'
-import type { AnswerStatus } from '@iota/wallet'
+import type { AnswerStatus } from '@iota/sdk'
 
 import { getPercentagesFromAnswerStatuses } from '../getPercentagesFromAnswerStatuses'
 

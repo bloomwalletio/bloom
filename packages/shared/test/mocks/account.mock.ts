@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
-import type { HexEncodedString, IAliasOutput, IBasicOutput, IFoundryOutput, INftOutput, OutputTypes } from '@iota/types'
+import type { HexEncodedString, AliasOutput, BasicOutput, FoundryOutput, NftOutput, Output } from '@iota/sdk'
 import {
     Balance,
     AccountMetadata,
@@ -14,7 +14,7 @@ import {
     BuildFoundryOutputData,
     BuildNftOutputData,
     FilterOptions,
-    Node,
+    INode,
     OutputData,
     OutputParams,
     OutputsToClaim,
@@ -35,9 +35,9 @@ import {
     Bip44,
     Ed25519Signature,
     Secp256k1EcdsaSignature,
-} from '@iota/wallet'
+} from '@iota/sdk'
 
-import { IAccount } from '@core/account'
+import { IAccount } from '@core/account/interfaces'
 
 import { MOCK_ACCOUNT_BALANCE } from './account-balance.mock'
 import { MOCK_ADDRESS } from './address.mock'
@@ -53,19 +53,19 @@ export class AccountMock implements IAccount {
         return Promise.resolve([])
     }
 
-    buildAliasOutput(data: BuildAliasOutputData): Promise<IAliasOutput> {
+    buildAliasOutput(data: BuildAliasOutputData): Promise<AliasOutput> {
         throw new Error('Method not implemented.')
     }
 
-    buildBasicOutput(data: BuildBasicOutputData): Promise<IBasicOutput> {
+    buildBasicOutput(data: BuildBasicOutputData): Promise<BasicOutput> {
         throw new Error('Method not implemented.')
     }
 
-    buildFoundryOutput(data: BuildFoundryOutputData): Promise<IFoundryOutput> {
+    buildFoundryOutput(data: BuildFoundryOutputData): Promise<FoundryOutput> {
         throw new Error('Method not implemented.')
     }
 
-    buildNftOutput(data: BuildNftOutputData): Promise<INftOutput> {
+    buildNftOutput(data: BuildNftOutputData): Promise<NftOutput> {
         throw new Error('Method not implemented.')
     }
 
@@ -128,7 +128,7 @@ export class AccountMock implements IAccount {
         return Promise.resolve(MOCK_ACCOUNT_BALANCE)
     }
 
-    getFoundryOutput(tokenId: string): Promise<IFoundryOutput> {
+    getFoundryOutput(tokenId: string): Promise<FoundryOutput> {
         throw new Error('Method not implemented.')
     }
 
@@ -179,7 +179,7 @@ export class AccountMock implements IAccount {
         throw new Error('Method not implemented.')
     }
 
-    getParticipationEventIds(node: Node, eventType?: ParticipationEventType): Promise<string[]> {
+    getParticipationEventIds(node: INode, eventType?: ParticipationEventType): Promise<string[]> {
         throw new Error('Method not implemented.')
     }
 
@@ -211,7 +211,7 @@ export class AccountMock implements IAccount {
         throw new Error('Method not implemented.')
     }
 
-    minimumRequiredStorageDeposit(output: OutputTypes): Promise<string> {
+    minimumRequiredStorageDeposit(output: Output): Promise<string> {
         throw new Error('Method not implemented.')
     }
 
@@ -227,7 +227,7 @@ export class AccountMock implements IAccount {
         throw new Error('Method not implemented.')
     }
 
-    prepareTransaction(outputs: OutputTypes[], options?: TransactionOptions): Promise<PreparedTransactionData> {
+    prepareTransaction(outputs: Output[], options?: TransactionOptions): Promise<PreparedTransactionData> {
         throw new Error('Method not implemented.')
     }
 
@@ -258,7 +258,7 @@ export class AccountMock implements IAccount {
         throw new Error('Method not implemented.')
     }
 
-    prepareOutput(options: OutputParams, transactionOptions?: TransactionOptions): Promise<OutputTypes> {
+    prepareOutput(options: OutputParams, transactionOptions?: TransactionOptions): Promise<Output> {
         throw new Error('Method not implemented.')
     }
 
@@ -296,7 +296,7 @@ export class AccountMock implements IAccount {
         throw new Error('Method not implemented.')
     }
 
-    sendOutputs(outputs: OutputTypes[], transactionOptions?: TransactionOptions): Promise<Transaction> {
+    sendOutputs(outputs: Output[], transactionOptions?: TransactionOptions): Promise<Transaction> {
         throw new Error('Method not implemented.')
     }
 

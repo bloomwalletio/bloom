@@ -1,5 +1,5 @@
 import { IProcessedTransaction, IWrappedOutput } from '../../interfaces'
-import { Transaction } from '@iota/wallet'
+import { Transaction } from '@iota/sdk'
 import { getOutputIdFromTransactionIdAndIndex } from './getOutputIdFromTransactionIdAndIndex'
 import { OUTPUT_TYPE_TREASURY } from '@core/wallet/constants'
 import { getDirectionFromTransaction } from '../transactions'

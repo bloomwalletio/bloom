@@ -1,4 +1,4 @@
-import { OutputData } from '@iota/wallet'
+import { OutputData } from '@iota/sdk'
 import { IOutputResponse, IUTXOInput } from '@iota/types'
 import { MILLISECONDS_PER_SECOND } from '@core/utils/constants'
 import { IAccountState } from '@core/account/interfaces'

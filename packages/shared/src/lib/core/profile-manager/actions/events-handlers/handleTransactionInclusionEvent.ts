@@ -13,7 +13,7 @@ import {
 } from '@core/wallet/stores/all-account-activities.store'
 import { get } from 'svelte/store'
 import { validateWalletApiEvent } from '../../utils'
-import { Event, TransactionInclusionWalletEvent, WalletEventType } from '@iota/wallet/out/types'
+import { Event, TransactionInclusionWalletEvent, WalletEventType } from '@iota/sdk/out/types'
 
 export function handleTransactionInclusionEvent(error: Error, walletEvent: Event): void {
     const { accountIndex, event } = validateWalletApiEvent(error, walletEvent, WalletEventType.TransactionInclusion)

@@ -1,4 +1,4 @@
-import { AccountManagerOptions, CreateAccountPayload } from '@iota/wallet'
+import { WalletOptions, CreateAccountPayload } from '@iota/sdk'
 
 import { IAccount } from '@core/account'
 
@@ -6,7 +6,7 @@ import { IProfileManager } from './profile-manager.interface'
 import { RecoverAccountsPayload } from './recover-account-payload.interface'
 
 export interface IApi {
-    createAccountManager(id: string, options: AccountManagerOptions): Promise<IProfileManager>
+    createAccountManager(id: string, options: WalletOptions): Promise<IProfileManager>
     createAccount(managerId: string, payload: CreateAccountPayload): Promise<IAccount>
     deleteAccountManager(id: string): void
     getAccount(profileManagerId: string, index: number): Promise<IAccount>

@@ -1,4 +1,4 @@
-import { OutputData } from '@iota/wallet/types/output'
+import { OutputData } from '@iota/sdk/types/output'
 import { IBasicOutput } from '@iota/types'
 
 import { OUTPUT_TYPE_BASIC } from '@core/wallet'

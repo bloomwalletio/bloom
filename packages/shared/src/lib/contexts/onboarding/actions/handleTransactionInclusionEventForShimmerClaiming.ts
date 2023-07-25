@@ -9,7 +9,7 @@ import { ShimmerClaimingAccountState } from '../enums'
 import { MissingShimmerClaimingAccountError } from '../errors'
 import { IShimmerClaimingAccount } from '../interfaces'
 import { onboardingProfile, shimmerClaimingTransactions, updateShimmerClaimingAccount } from '../stores'
-import { Event, TransactionInclusionWalletEvent, WalletEventType } from '@iota/wallet/out/types'
+import { Event, TransactionInclusionWalletEvent, WalletEventType } from '@iota/sdk/out/types'
 
 export function handleTransactionInclusionEventForShimmerClaiming(error: Error, walletEvent: Event): void {
     const { accountIndex, event } = validateWalletApiEvent(error, walletEvent, WalletEventType.TransactionInclusion)
