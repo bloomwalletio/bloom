@@ -87,8 +87,15 @@
 
             // L2 chains, ISCP only for now
             const iscpChains = features?.network?.layer2?.enabled
-                ? $network.getChains().filter((chain) => chain.getConfiguration().type === ChainType.Iscp)
+                ? $network.getChains().filter((chain) => {
+                      const configuration = chain.getConfiguration()
+                      return (
+                          configuration.type === ChainType.Iscp &&
+                          $selectedAccount?.evmAddresses?.[configuration.coinType]
+                      )
+                  })
                 : []
+
             const chainMatchingAssetChainId = iscpChains.find(
                 (chain) => chain.getConfiguration().chainId === asset.chainId
             )
@@ -119,7 +126,10 @@
             chainId: chainConfig.chainId,
             name: chainConfig.name,
             networkAddress: chainConfig.aliasAddress,
-            recipients: getContactRecipientsForNetwork(chainConfig.name), // TODO: We use the name here, because we use that currently as the key for the network addresses. This should be updated
+            recipients: [
+                ...getContactRecipientsForNetwork(chainConfig.name),
+                ...getLayer2AccountRecipients(chainConfig.coinType),
+            ], // TODO: We use the name here, because we use that currently as the key for the network addresses. This should be updated
         }
     }
 
@@ -130,6 +140,18 @@
                 type: SubjectType.Account,
                 account,
                 address: account.depositAddress,
+            }))
+    }
+
+    function getLayer2AccountRecipients(coinType: number): Subject[] {
+        return $visibleActiveAccounts
+            .filter(
+                (account) => account.index !== $selectedAccountIndex && account.evmAddresses?.[coinType] !== undefined
+            )
+            .map((account) => ({
+                type: SubjectType.Account,
+                account,
+                address: account.evmAddresses?.[coinType],
             }))
     }
 
