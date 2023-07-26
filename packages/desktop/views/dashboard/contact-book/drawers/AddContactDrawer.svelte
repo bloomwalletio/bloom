@@ -46,7 +46,12 @@
 
         if (validate()) {
             ContactManager.addContact(contact, networkAddress)
-            drawerRouter.previous()
+            if (drawerRouter.hasHistory()) {
+                drawerRouter.previous()
+            } else {
+                drawerRouter.goTo(ContactBookRoute.ContactList)
+                drawerRouter.resetHistory()
+            }
         }
     }
 
