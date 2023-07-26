@@ -1,3 +1,4 @@
 export * from './fetchSelectedAccountLayer2Balance'
-export * from './loadEvmAddressForSelectedAccount'
+export * from './generateAndStoreEvmAddressForAccount'
+export * from './generateEvmAddressForSelectedAccountOnLedger'
 export * from './pollLayer2Tokens'

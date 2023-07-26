@@ -1,7 +1,7 @@
 <script lang="ts">
     import { selectedAccount } from '@core/account'
     import { localize } from '@core/i18n'
-    import { loadEvmAddressForSelectedAccount } from '@core/layer-2'
+    import { generateAndStoreEvmAddressForAccount } from '@core/layer-2'
     import { selectedChain } from '@core/network'
     import { updateActiveAccountPersistedData } from '@core/profile/actions'
     import { Router } from '@core/router'
@@ -9,6 +9,7 @@
     import { Animation, Button, CopyableBox, FontWeight, Pane, Text, TextType } from '@ui'
     import { DrawerTemplate } from '@components'
     import { onDestroy, onMount } from 'svelte'
+    import { activeProfile } from '@core/profile'
 
     export let drawerRouter: Router<DrawerRoute>
 
@@ -26,7 +27,7 @@
     onMount(() => {
         coinType = $selectedChain?.getConfiguration()?.coinType
         if (coinType !== undefined) {
-            loadEvmAddressForSelectedAccount(coinType)
+            void generateAndStoreEvmAddressForAccount($activeProfile.type, $selectedAccount, coinType)
         }
     })
 
