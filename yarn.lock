@@ -340,10 +340,10 @@
   resolved "https://registry.npmjs.org/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
-"@bloom-labs/ui@0.3.10":
-  version "0.3.10"
-  resolved "https://registry.yarnpkg.com/@bloom-labs/ui/-/ui-0.3.10.tgz#890e6e7b5d77270cc0a1c37ad309a169fa862649"
-  integrity sha512-g/8j6xieKJTE3Lxz5Ak0mov3r233cfyQu9LaK2NmUhpgw1nHCyh713r9+oAOR2g+FBaNuaHkrBWz9mTR6E6dIg==
+"@bloom-labs/ui@0.3.15":
+  version "0.3.15"
+  resolved "https://registry.yarnpkg.com/@bloom-labs/ui/-/ui-0.3.15.tgz#c2dd35a975f28a842628e2bcae3736313b2f0331"
+  integrity sha512-5WBwPUtUzl7kE1PX/kuXv3erKFsXJjVM+E/t8T+LbfQ2OlUTZ2MfHRk8VXP1N5SfIX6KzSCQFAz3LlX10Eq0oQ==
   dependencies:
     "@floating-ui/dom" "1.4.3"
     "@popperjs/core" "2.11.8"

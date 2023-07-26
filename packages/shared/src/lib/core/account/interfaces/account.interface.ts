@@ -8,17 +8,22 @@ import type {
     OutputTypes,
 } from '@iota/types'
 import type {
-    Balance,
     AccountMetadata,
     Address,
     AddressWithUnspentOutputs,
     AliasOutputParams,
+    Balance,
+    Bip44,
     BuildAliasOutputData,
     BuildBasicOutputData,
     BuildFoundryOutputData,
     BuildNftOutputData,
+    CreateNativeTokenParams,
+    CreateNativeTokenTransaction,
+    Ed25519Signature,
     FilterOptions,
     GenerateAddressOptions,
+    GenerateAddressesOptions,
     MintNftParams,
     Node,
     OutputData,
@@ -31,18 +36,14 @@ import type {
     ParticipationEventWithNodes,
     ParticipationOverview,
     PreparedTransactionData,
+    Secp256k1EcdsaSignature,
     SendNativeTokensParams,
     SendNftParams,
+    SendParams,
     SignedTransactionEssence,
     SyncOptions,
     Transaction,
     TransactionOptions,
-    CreateNativeTokenTransaction,
-    CreateNativeTokenParams,
-    SendParams,
-    Secp256k1EcdsaSignature,
-    Bip44,
-    Ed25519Signature,
 } from '@iota/wallet'
 
 export interface IAccount {
@@ -75,8 +76,8 @@ export interface IAccount {
     destroyAlias(aliasId: string, transactionOptions?: TransactionOptions): Promise<Transaction>
     destroyFoundry(foundryId: string, transactionOptions?: TransactionOptions): Promise<Transaction>
     generateEd25519Address(options?: GenerateAddressOptions): Promise<Address>
-    generateEd25519Addresses(amount: number, options?: GenerateAddressOptions): Promise<Address[]>
-    generateEvmAddresses(generateAddressesOptions: GenerateAddressOptions): Promise<string[]>
+    generateEd25519Addresses(amount: number, options?: GenerateAddressesOptions): Promise<Address[]>
+    generateEvmAddresses(generateAddressesOptions: GenerateAddressesOptions): Promise<string[]>
     getBalance(): Promise<Balance>
     getFoundryOutput(tokenId: string): Promise<IFoundryOutput>
     getIncomingTransaction(transactionId: string): Promise<Transaction>

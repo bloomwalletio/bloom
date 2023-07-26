@@ -1,31 +1,31 @@
 <script lang="ts">
-    import { onMount } from 'svelte'
-
-    import { ClickableTile, FontWeight, Icon, NetworkIcon, NetworkStatusPill, Text, TextType } from '@ui'
-
+    import { Icon as IconEnum } from '@auxiliary/icon'
     import { selectedAccount } from '@core/account'
     import { localize } from '@core/i18n'
-    import { truncateString, UiEventFunction } from '@core/utils'
+    import { generateAndStoreEvmAddressForAccount } from '@core/layer-2'
+    import { LedgerAppName } from '@core/ledger'
     import {
-        chainStatuses,
         IChain,
         IIscpChainConfiguration,
         INetwork,
         NetworkHealth,
         NetworkId,
+        chainStatuses,
         networkStatus,
+        setSelectedChain,
     } from '@core/network'
-    import { Icon as IconEnum } from '@auxiliary/icon'
-    import { isActiveLedgerProfile } from '@core/profile'
+    import { ProfileType, activeProfile, checkActiveProfileAuth } from '@core/profile'
+    import { UiEventFunction, truncateString } from '@core/utils'
+    import { NetworkConfigRoute, networkConfigRouter } from '@desktop/routers'
+    import { ClickableTile, FontWeight, Icon, NetworkIcon, NetworkStatusPill, Text, TextType } from '@ui'
+    import { onMount } from 'svelte'
 
     export let network: INetwork = undefined
     export let chain: IChain = undefined
     export let onCardClick: UiEventFunction
-    export let onGenerateAddressClick: UiEventFunction | undefined = undefined
     export let onQrCodeIconClick: UiEventFunction
 
-    const ADDRESS_PLACEHOLDER = '---'
-
+    let configuration: IIscpChainConfiguration = undefined
     let name = ''
     let address = ''
     let status: NetworkHealth
@@ -38,10 +38,30 @@
             address = $selectedAccount.depositAddress
             status = $networkStatus.health
         } else if (chain) {
-            const configuration = chain.getConfiguration() as IIscpChainConfiguration
+            configuration = chain.getConfiguration() as IIscpChainConfiguration
             name = configuration.name
             address = $selectedAccount.evmAddresses[configuration.coinType]
             status = chain.getStatus().health
+        }
+    }
+
+    function onGenerateAddressClick(): void {
+        setSelectedChain(chain)
+        if (chain) {
+            checkActiveProfileAuth(
+                async () => {
+                    await generateAndStoreEvmAddressForAccount(
+                        $activeProfile.type,
+                        $selectedAccount,
+                        configuration.coinType
+                    )
+                    if ($activeProfile.type === ProfileType.Ledger) {
+                        $networkConfigRouter.goTo(NetworkConfigRoute.ConfirmLedgerEvmAddress)
+                    }
+                },
+                {},
+                LedgerAppName.Ethereum
+            )
         }
     }
 
@@ -72,16 +92,12 @@
                     <Text type={TextType.pre} fontSize="16" fontWeight={FontWeight.medium}>
                         {truncateString(address, 8, 8)}
                     </Text>
-                {:else if $isActiveLedgerProfile && onGenerateAddressClick}
+                {:else}
                     <button on:click|stopPropagation={onGenerateAddressClick}>
                         <Text type={TextType.p} fontWeight={FontWeight.medium} highlighted>
                             {localize('actions.generateAddress')}
                         </Text>
                     </button>
-                {:else}
-                    <Text type={TextType.pre} fontSize="16" fontWeight={FontWeight.medium}>
-                        {ADDRESS_PLACEHOLDER}
-                    </Text>
                 {/if}
             </div>
             {#if address}
