@@ -4,7 +4,7 @@ on:
   pull_request:
     types: [ ready_for_review ]
   pull_request_review:
-    types: [ submit ]
+    types: [ submitted ]
 
 jobs:
   format:
