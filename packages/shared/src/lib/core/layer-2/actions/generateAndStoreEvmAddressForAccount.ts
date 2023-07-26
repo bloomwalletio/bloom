@@ -9,7 +9,12 @@ export async function generateAndStoreEvmAddressForAccount(
 ): Promise<string> {
     let evmAddress: string | undefined
     if (profileType === ProfileType.Software) {
-        evmAddress = (await account.generateEvmAddresses({}))[0]
+        evmAddress = (
+            await account.generateEvmAddresses({
+                coinType,
+                accountIndex: account.index,
+            })
+        )[0]
     } else {
         evmAddress = await generateEvmAddressOnLedger(account.index, coinType)
     }
