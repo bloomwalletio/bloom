@@ -25,7 +25,7 @@ export async function callLedgerFunctionAsync<T>(
             if (returnValue && Object.keys(returnValue).length !== 0) {
                 return Promise.resolve(returnValue)
             } else {
-                return Promise.reject('Signing was rejected by the Ledger device')
+                return Promise.reject('error.ledger.rejected')
             }
         }
         await sleep(POLLING_INTERVAL)
