@@ -2,7 +2,9 @@ name: Test
 
 on:
   pull_request:
-    types: [ ready_for_review, synchronize ]
+    types: [ ready_for_review ]
+  pull_request_review:
+    types: [ submit ]
 
 jobs:
   shared:
