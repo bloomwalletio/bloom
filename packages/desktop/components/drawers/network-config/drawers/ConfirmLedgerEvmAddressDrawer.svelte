@@ -1,43 +1,22 @@
 <script lang="ts">
+    import { DrawerTemplate } from '@components'
     import { selectedAccount } from '@core/account'
     import { localize } from '@core/i18n'
-    import { generateAndStoreEvmAddressForAccount } from '@core/layer-2'
-    import { selectedChain } from '@core/network'
-    import { updateActiveAccountPersistedData } from '@core/profile/actions'
+    import { IIscpChainConfiguration } from '@core/network/interfaces'
+    import { selectedChain } from '@core/network/stores'
     import { Router } from '@core/router'
     import { DrawerRoute, NetworkConfigRoute, networkConfigRouter } from '@desktop/routers'
     import { Animation, Button, CopyableBox, FontWeight, Pane, Text, TextType } from '@ui'
-    import { DrawerTemplate } from '@components'
-    import { onDestroy, onMount } from 'svelte'
-    import { activeProfile } from '@core/profile'
 
     export let drawerRouter: Router<DrawerRoute>
 
-    let coinType: number | undefined
-    $: address = $selectedAccount?.evmAddresses?.[coinType]
-
-    let continued = false
+    $: configuration = $selectedChain.getConfiguration() as IIscpChainConfiguration
+    $: address = $selectedAccount?.evmAddresses?.[configuration.coinType]
 
     function onContinueClick(): void {
-        continued = true
         $networkConfigRouter.reset()
         $networkConfigRouter.goTo(NetworkConfigRoute.ConnectedChains)
     }
-
-    onMount(() => {
-        coinType = $selectedChain?.getConfiguration()?.coinType
-        if (coinType !== undefined) {
-            void generateAndStoreEvmAddressForAccount($activeProfile.type, $selectedAccount, coinType)
-        }
-    })
-
-    onDestroy(() => {
-        if (!continued) {
-            const evmAddresses = $selectedAccount?.evmAddresses ?? {}
-            delete evmAddresses[coinType]
-            updateActiveAccountPersistedData($selectedAccount?.index, { evmAddresses })
-        }
-    })
 </script>
 
 <DrawerTemplate title={localize('views.dashboard.drawers.networkConfig.confirmLedgerEvmAddress.title')} {drawerRouter}>
