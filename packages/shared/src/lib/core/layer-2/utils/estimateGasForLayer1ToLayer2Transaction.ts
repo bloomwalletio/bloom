@@ -5,10 +5,6 @@ import { FALLBACK_GAS_BUDGET, ISC_MAGIC_CONTRACT_ADDRESS } from '../constants'
 import { getIscpTransferSmartContractData } from '../utils'
 
 export async function estimateGasForLayer1ToLayer2Transaction(sendFlowParameters: SendFlowParameters): Promise<number> {
-    if (sendFlowParameters.type === SendFlowType.NftTransfer) {
-        return 0
-    }
-
     const { recipient, layer2Parameters } = sendFlowParameters ?? {}
 
     if (!layer2Parameters) {
