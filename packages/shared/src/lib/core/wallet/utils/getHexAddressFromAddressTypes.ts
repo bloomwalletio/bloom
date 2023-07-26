@@ -1,14 +1,12 @@
-import type { AddressTypes } from '@iota/types'
+import { Address, AddressType } from '@iota/sdk/out/types'
 
-import { ADDRESS_TYPE_ALIAS, ADDRESS_TYPE_ED25519, ADDRESS_TYPE_NFT } from '../constants'
-
-export function getHexAddressFromAddressTypes(address: AddressTypes): string {
+export function getHexAddressFromAddressTypes(address: Address): string | undefined {
     switch (address?.type) {
-        case ADDRESS_TYPE_ED25519:
+        case AddressType.Ed25519:
             return address.pubKeyHash
-        case ADDRESS_TYPE_ALIAS:
+        case AddressType.Alias:
             return address.aliasId
-        case ADDRESS_TYPE_NFT:
+        case AddressType.Nft:
             return address.nftId
     }
 }

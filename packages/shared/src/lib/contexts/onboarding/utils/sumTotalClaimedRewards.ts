@@ -1,4 +1,4 @@
-import { OutputTypes } from '@iota/types'
+import { Output } from '@iota/sdk'
 
 import { tryNumberOrZero } from '@core/utils'
 
@@ -10,7 +10,7 @@ export function sumTotalClaimedRewards(shimmerClaimingAccounts: IShimmerClaiming
             total +
             tryNumberOrZero(
                 curr?.claimingTransaction?.payload?.essence?.outputs?.reduce(
-                    (outputsTotal: number, currentOutput: OutputTypes) =>
+                    (outputsTotal: number, currentOutput: Output) =>
                         outputsTotal + tryNumberOrZero(currentOutput?.amount),
                     0
                 )

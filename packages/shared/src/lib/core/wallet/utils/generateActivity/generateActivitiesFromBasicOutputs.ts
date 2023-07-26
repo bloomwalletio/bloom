@@ -11,7 +11,7 @@ import {
     OUTPUT_TYPE_NFT,
 } from '@core/wallet'
 import { Activity } from '@core/wallet/types'
-import { INftOutput } from '@iota/types'
+import { NftOutput } from '@iota/sdk'
 import { generateSingleBasicActivity } from './generateSingleBasicActivity'
 import { generateSingleConsolidationActivity } from './generateSingleConsolidationActivity'
 import { generateSingleNftActivity } from './generateSingleNftActivity'
@@ -40,7 +40,7 @@ export function generateActivitiesFromBasicOutputs(
 
         if (isSelfTransaction && burnedNftInputIndex >= 0) {
             const wrappedInput = burnedNftInputs[burnedNftInputIndex]
-            const nftInput = wrappedInput.output as INftOutput
+            const nftInput = wrappedInput.output as NftOutput
             activity = generateSingleNftActivity(
                 account,
                 {

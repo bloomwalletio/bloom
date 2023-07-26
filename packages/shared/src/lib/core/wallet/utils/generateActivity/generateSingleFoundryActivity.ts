@@ -1,10 +1,15 @@
 import { IAccountState } from '@core/account'
 import { getCoinType } from '@core/profile'
-import { ADDRESS_TYPE_ALIAS, UNLOCK_CONDITION_IMMUTABLE_ALIAS } from '@core/wallet/constants'
 import { ActivityType } from '@core/wallet/enums'
 import { IActivityGenerationParameters } from '@core/wallet/interfaces'
 import { FoundryActivity } from '@core/wallet/types'
-import type { IAliasAddress, IFoundryOutput, IImmutableAliasUnlockCondition } from '@iota/types'
+import {
+    AddressType,
+    AliasAddress,
+    FoundryOutput,
+    ImmutableAliasAddressUnlockCondition,
+    UnlockConditionType,
+} from '@iota/sdk/out/types'
 import { convertHexAddressToBech32, getNativeTokenFromOutput } from '..'
 import {
     getAmountFromOutput,
@@ -20,15 +25,15 @@ export function generateSingleFoundryActivity(
 ): FoundryActivity {
     const { transactionId, claimingData, time, direction, inclusionState } = processedTransaction
 
-    const output = wrappedOutput.output as IFoundryOutput
+    const output = wrappedOutput.output as FoundryOutput
     const outputId = wrappedOutput.outputId
     const { mintedTokens, meltedTokens, maximumSupply } = output.tokenScheme
 
     const addressUnlockCondition = output.unlockConditions.find(
-        (unlockCondition) => unlockCondition.type === UNLOCK_CONDITION_IMMUTABLE_ALIAS
-    ) as IImmutableAliasUnlockCondition
-    const aliasId = (addressUnlockCondition?.address as IAliasAddress)?.aliasId
-    const aliasAddress = aliasId ? convertHexAddressToBech32(ADDRESS_TYPE_ALIAS, aliasId) : undefined
+        (unlockCondition) => unlockCondition.type === UnlockConditionType.ImmutableAliasAddress
+    ) as ImmutableAliasAddressUnlockCondition
+    const aliasId = (addressUnlockCondition?.address as AliasAddress)?.aliasId
+    const aliasAddress = aliasId ? convertHexAddressToBech32(AddressType.Alias, aliasId) : undefined
 
     const isHidden = false
     const isAssetHidden = false

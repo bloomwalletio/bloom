@@ -1,7 +1,7 @@
 import { IAccountState } from '@core/account'
 import { ActivityAction, EMPTY_HEX_ID, IProcessedTransaction, OUTPUT_TYPE_ALIAS } from '@core/wallet'
 import { Activity } from '@core/wallet/types'
-import type { IAliasOutput } from '@iota/types'
+import type { AliasOutput } from '@iota/sdk'
 import { generateSingleAliasActivity } from './generateSingleAliasActivity'
 
 export function generateActivitiesFromAliasOutputs(
@@ -13,7 +13,7 @@ export function generateActivitiesFromAliasOutputs(
 
     const aliasOutputs = outputs.filter((output) => output.output.type === OUTPUT_TYPE_ALIAS)
     for (const aliasOutput of aliasOutputs) {
-        const output = aliasOutput.output as IAliasOutput
+        const output = aliasOutput.output as AliasOutput
         activities.push(
             generateSingleAliasActivity(account, {
                 action: output.aliasId === EMPTY_HEX_ID ? ActivityAction.Mint : ActivityAction.Send,

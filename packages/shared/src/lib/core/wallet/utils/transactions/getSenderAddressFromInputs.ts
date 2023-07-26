@@ -1,7 +1,6 @@
 import { UnlockConditionType } from '@iota/sdk/out/types'
 import { IWrappedOutput } from '@core/wallet/interfaces'
-import { ADDRESS_TYPE_ALIAS } from '@core/wallet/constants'
-import { IAddressUnlockCondition, IAliasOutput, IExpirationUnlockCondition } from '@iota/types'
+import { AddressUnlockCondition, AddressType, AliasOutput, ExpirationUnlockCondition } from '@iota/sdk'
 import { getBech32AddressFromAddressTypes } from '../getBech32AddressFromAddressTypes'
 
 export function getSenderAddressFromInputs(inputs: IWrappedOutput[]): string {
@@ -15,22 +14,22 @@ export function getSenderAddressFromInputs(inputs: IWrappedOutput[]): string {
         const expirationUnlockCondition = unlockConditions.find(
             (unlockCondition) =>
                 unlockCondition.type === UnlockConditionType.Expiration && unlockCondition.unixTime < spentDate
-        ) as IExpirationUnlockCondition
+        ) as ExpirationUnlockCondition
         if (expirationUnlockCondition) {
             return getBech32AddressFromAddressTypes(expirationUnlockCondition.returnAddress)
         }
 
         const addressUnlockCondition = unlockConditions.find(
             ({ type }) => type === UnlockConditionType.Address
-        ) as IAddressUnlockCondition
+        ) as AddressUnlockCondition
         if (addressUnlockCondition) {
             return getBech32AddressFromAddressTypes(addressUnlockCondition.address)
         }
 
         // TODO: if additional metadata is added to an aliasOutput, we could use it to determine the EVM Sender.
-        const aliasId = (output as IAliasOutput)?.aliasId
+        const aliasId = (output as AliasOutput)?.aliasId
         if (aliasId) {
-            return getBech32AddressFromAddressTypes({ type: ADDRESS_TYPE_ALIAS, aliasId })
+            return getBech32AddressFromAddressTypes({ type: AddressType.Alias, aliasId })
         }
     }
     return undefined

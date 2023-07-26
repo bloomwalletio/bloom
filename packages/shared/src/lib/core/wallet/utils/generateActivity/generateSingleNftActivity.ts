@@ -2,7 +2,7 @@ import { IAccountState } from '@core/account'
 import { ActivityType } from '@core/wallet/enums'
 import { IActivityGenerationParameters } from '@core/wallet/interfaces'
 import { NftActivity } from '@core/wallet/types'
-import type { INftOutput } from '@iota/types'
+import type { NftOutput } from '@iota/sdk'
 import { getNftId } from '../outputs/getNftId'
 import {
     getAsyncDataFromOutput,
@@ -19,7 +19,7 @@ export function generateSingleNftActivity(
 ): NftActivity {
     const { claimingData, time, inclusionState, transactionId, direction } = processedTransaction
     const outputId = wrappedOutput.outputId
-    const output = wrappedOutput.output as INftOutput
+    const output = wrappedOutput.output as NftOutput
     const id = outputId || transactionId
 
     const isHidden = false

@@ -1,7 +1,7 @@
 import { IAccountState } from '@core/account'
 import { ActivityAction, EMPTY_HEX_ID, IProcessedTransaction, OUTPUT_TYPE_NFT } from '@core/wallet'
 import { Activity } from '@core/wallet/types'
-import type { INftOutput } from '@iota/types'
+import type { NftOutput } from '@iota/sdk'
 import { generateSingleNftActivity } from './generateSingleNftActivity'
 
 export function generateActivitiesFromNftOutputs(
@@ -13,7 +13,7 @@ export function generateActivitiesFromNftOutputs(
 
     const nftOutputs = outputs.filter((output) => output.output.type === OUTPUT_TYPE_NFT)
     for (const nftOutput of nftOutputs) {
-        const output = nftOutput.output as INftOutput
+        const output = nftOutput.output as NftOutput
         activities.push(
             generateSingleNftActivity(account, {
                 action: output.nftId === EMPTY_HEX_ID ? ActivityAction.Mint : ActivityAction.Send,

@@ -1,15 +1,14 @@
-import type { AddressTypes } from '@iota/types'
+import { Address, AddressType } from '@iota/sdk/out/types'
 
 import { convertHexAddressToBech32 } from './convertHexAddressToBech32'
-import { ADDRESS_TYPE_ALIAS, ADDRESS_TYPE_ED25519, ADDRESS_TYPE_NFT } from '../constants'
 
-export function getBech32AddressFromAddressTypes(address: AddressTypes): string {
+export function getBech32AddressFromAddressTypes(address: Address): string | undefined {
     switch (address?.type) {
-        case ADDRESS_TYPE_ED25519:
-            return convertHexAddressToBech32(ADDRESS_TYPE_ED25519, address.pubKeyHash)
-        case ADDRESS_TYPE_ALIAS:
-            return convertHexAddressToBech32(ADDRESS_TYPE_ALIAS, address.aliasId)
-        case ADDRESS_TYPE_NFT:
-            return convertHexAddressToBech32(ADDRESS_TYPE_NFT, address.nftId)
+        case AddressType.Ed25519:
+            return convertHexAddressToBech32(AddressType.Ed25519, address.pubKeyHash)
+        case AddressType.Alias:
+            return convertHexAddressToBech32(AddressType.Alias, address.aliasId)
+        case AddressType.Nft:
+            return convertHexAddressToBech32(AddressType.Nft, address.nftId)
     }
 }

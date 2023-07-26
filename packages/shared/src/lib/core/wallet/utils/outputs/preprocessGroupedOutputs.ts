@@ -1,5 +1,5 @@
 import { OutputData } from '@iota/sdk'
-import { IOutputResponse, IUTXOInput } from '@iota/types'
+import { OutputResponse, UTXOInput } from '@iota/sdk'
 import { MILLISECONDS_PER_SECOND } from '@core/utils/constants'
 import { IAccountState } from '@core/account/interfaces'
 import { InclusionState, ActivityDirection } from '../../enums'
@@ -11,7 +11,7 @@ import { getOutputIdFromTransactionIdAndIndex } from './getOutputIdFromTransacti
 
 export function preprocessGroupedOutputs(
     outputDatas: OutputData[],
-    transactionInputs: IOutputResponse[],
+    transactionInputs: OutputResponse[],
     account: IAccountState
 ): IProcessedTransaction {
     const transactionMetadata = outputDatas[0]?.metadata
@@ -64,7 +64,7 @@ function getDirectionForOutputs(
 
 function convertTransactionOutputResponsesToWrappedOutputs(
     transactionId: string,
-    outputResponses: IOutputResponse[]
+    outputResponses: OutputResponse[]
 ): IWrappedOutput[] {
     return outputResponses.map((outputResponse) =>
         convertTransactionOutputResponseToWrappedOutput(transactionId, outputResponse)
@@ -73,7 +73,7 @@ function convertTransactionOutputResponsesToWrappedOutputs(
 
 function convertTransactionOutputResponseToWrappedOutput(
     transactionId: string,
-    outputResponse: IOutputResponse
+    outputResponse: OutputResponse
 ): IWrappedOutput {
     if (outputResponse.output.type === OUTPUT_TYPE_TREASURY) {
         return undefined
@@ -83,15 +83,8 @@ function convertTransactionOutputResponseToWrappedOutput(
     }
 }
 
-function getUtxoInputsFromWrappedInputs(wrappedInputs: IWrappedOutput[]): IUTXOInput[] {
+function getUtxoInputsFromWrappedInputs(wrappedInputs: IWrappedOutput[]): UTXOInput[] {
     return (
-        wrappedInputs?.map(
-            (input) =>
-                ({
-                    type: 0,
-                    transactionId: input.metadata?.transactionId,
-                    transactionOutputIndex: input.metadata.outputIndex,
-                } as IUTXOInput)
-        ) ?? []
+        wrappedInputs?.map((input) => new UTXOInput(input?.metadata?.transactionId, input?.metadata?.outputIndex)) ?? []
     )
 }

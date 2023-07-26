@@ -4,7 +4,7 @@ import { getOutputIdFromTransactionIdAndIndex } from './getOutputIdFromTransacti
 import { OUTPUT_TYPE_TREASURY } from '@core/wallet/constants'
 import { getDirectionFromTransaction } from '../transactions'
 import { IAccountState } from '@core/account'
-import { OutputTypes } from '@iota/types'
+import { OutputTypes } from '@iota/sdk'
 
 export async function preprocessTransaction(
     transaction: Transaction,

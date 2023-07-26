@@ -1,10 +1,9 @@
-import { OUTPUT_TYPE_FOUNDRY } from '@core/wallet/constants'
 import { Output } from '@core/wallet/types'
-import type { INativeToken } from '@iota/types'
+import { INativeToken, OutputType } from '@iota/sdk'
 import { buildFoundryId } from './getFoundryId'
 
 export function getNativeTokenFromOutput(output: Output): INativeToken {
-    if (output?.type === OUTPUT_TYPE_FOUNDRY) {
+    if (output?.type === OutputType.Foundry) {
         return { id: buildFoundryId(output), amount: output.tokenScheme.mintedTokens }
     }
     return output?.nativeTokens?.[0]

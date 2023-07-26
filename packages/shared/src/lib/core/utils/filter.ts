@@ -1,5 +1,4 @@
-import { OutputData } from '@iota/sdk/types/output'
-import { IBasicOutput } from '@iota/types'
+import type { OutputData, BasicOutput } from '@iota/sdk'
 
 import { OUTPUT_TYPE_BASIC } from '@core/wallet'
 
@@ -8,7 +7,7 @@ export function filterBasicOutput(outputData: OutputData): boolean {
 }
 
 export function filterShimmerClaimingOutputs(outputData: OutputData): boolean {
-    const output = outputData?.output as IBasicOutput
+    const output = outputData?.output as BasicOutput
 
     const isBasicOutput = filterBasicOutput(outputData)
     const hasOneUnlockCondition = output?.unlockConditions?.length === 1

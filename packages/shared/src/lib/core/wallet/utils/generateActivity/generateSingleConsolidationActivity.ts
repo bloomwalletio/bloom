@@ -1,7 +1,7 @@
 import { IAccountState } from '@core/account'
 import { IActivityGenerationParameters, IWrappedOutput } from '@core/wallet/interfaces'
 import { ConsolidationActivity } from '@core/wallet/types'
-import { IBasicOutput } from '@iota/types'
+import { BasicOutput } from '@iota/sdk'
 import { ActivityType } from '../../enums'
 import { activityOutputContainsValue } from '..'
 import {
@@ -26,7 +26,7 @@ export function generateSingleConsolidationActivity(
     const outputId = wrappedOutput.outputId
     const id = outputId || transactionId
 
-    const output = wrappedOutput.output as IBasicOutput
+    const output = wrappedOutput.output as BasicOutput
 
     const amountConsolidatedInputs = getAmountOfConsolidationInputs(wrappedInputs)
 

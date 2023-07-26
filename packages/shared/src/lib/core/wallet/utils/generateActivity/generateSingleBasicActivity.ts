@@ -3,7 +3,7 @@ import { IAccountState } from '@core/account'
 import { activeProfileId, getCoinType } from '@core/profile'
 import { IActivityGenerationParameters } from '@core/wallet/interfaces'
 import { TransactionActivity } from '@core/wallet/types'
-import { IBasicOutput } from '@iota/types'
+import { BasicOutput } from '@iota/sdk'
 import { get } from 'svelte/store'
 import { activityOutputContainsValue, getNativeTokenFromOutput } from '..'
 import { ActivityType } from '../../enums'
@@ -32,7 +32,7 @@ export function generateSingleBasicActivity(
     const outputId = wrappedOutput.outputId
     const id = outputId || transactionId
 
-    const output = wrappedOutput.output as IBasicOutput
+    const output = wrappedOutput.output as BasicOutput
 
     const isShimmerClaiming = isShimmerClaimingTransaction(transactionId, get(activeProfileId))
 
