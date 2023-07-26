@@ -1,5 +1,8 @@
 <script lang="ts">
-    import { selectedAccount } from '@core/account/stores'
+    import { onMount } from 'svelte'
+    import features from '@features/features'
+    import { selectedAccount, selectedAccountIndex } from '@core/account/stores'
+    import { ContactManager } from '@core/contact'
     import { localize } from '@core/i18n'
     import { IChain, IIscpChainConfiguration, network } from '@core/network'
     import {
@@ -11,9 +14,7 @@
         getChainIdFromSendFlowParameters,
     } from '@core/wallet'
     import { closePopup } from '@desktop/auxiliary/popup'
-    import features from '@features/features'
     import { INetworkRecipientSelectorOption, NetworkRecipientSelector } from '@ui'
-    import { onMount } from 'svelte'
     import { sendFlowRouter } from '../send-flow.router'
     import SendFlowTemplate from './SendFlowTemplate.svelte'
 
@@ -27,7 +28,7 @@
     $: isLayer2 = !!networkAddress
 
     $: networkAddress = selectedOption?.networkAddress ?? $sendFlowParameters?.layer2Parameters?.networkAddress
-    $: recipient = selectedOption?.recipient ?? $sendFlowParameters?.recipient
+    $: recipient = selectedOption?.selectedRecipient ?? $sendFlowParameters?.recipient
 
     function getAssetName(): string | undefined {
         if ($sendFlowParameters?.type === SendFlowType.BaseCoinTransfer) {
@@ -177,8 +178,9 @@
         disabled:
             networkAddress === undefined ||
             !recipient ||
-            (recipient.type === 'address' && !recipient.address) ||
-            (recipient.type === 'account' && !recipient.account),
+            (recipient.type === SubjectType.Address && !recipient.address) ||
+            (recipient.type === SubjectType.Contact && !recipient.address && !recipient.contact) ||
+            (recipient.type === SubjectType.Account && !recipient.account),
     }}
 >
     <NetworkRecipientSelector bind:options={selectorOptions} bind:selectedIndex />

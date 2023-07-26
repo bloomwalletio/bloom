@@ -1,3 +1,4 @@
+export * from './doesProfileHaveContacts'
 export * from './validateContactAddress'
 export * from './validateContactAddressName'
 export * from './validateContactName'

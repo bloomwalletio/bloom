@@ -3,7 +3,6 @@ import { convertDateToUnixTimestamp, Converter } from '@core/utils'
 import { SendFlowType } from '../stores'
 import { estimateGasForLayer1ToLayer2Transaction, getLayer2MetadataForTransfer } from '@core/layer-2/utils'
 import { Subject, SendFlowParameters } from '@core/wallet/types'
-import { getAddressFromSubject } from '@core/wallet/utils'
 import { ReturnStrategy } from '../enums'
 import { getCoinType } from '@core/profile'
 import { ILayer2Parameters } from '@core/layer-2'
@@ -53,7 +52,7 @@ function getDestinationAddress(
     if (layer2Parameters) {
         return layer2Parameters.networkAddress
     } else if (recipient) {
-        return getAddressFromSubject(recipient)
+        return recipient.address
     } else {
         return ''
     }
