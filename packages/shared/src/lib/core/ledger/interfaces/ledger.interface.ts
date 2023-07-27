@@ -1,4 +1,6 @@
+import { EvmTransactionData } from '@core/layer-2/types'
+
 export interface ILedger {
-    generateEvmAddress(bip32Path: string, verify?: boolean): void
-    signEvmTransaction(transactionHex: string, bip32Path: string): void
+    generateEvmAddress(accountIndex: number, coinType: number, verify?: boolean): Promise<string>
+    signEvmTransaction(transactionData: EvmTransactionData, bip32Path: string): Promise<string>
 }
