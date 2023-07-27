@@ -56,17 +56,14 @@
     }
 
     function setInitialRecipient(): void {
-        const recipient = $sendFlowParameters?.recipient
-        if (recipient) {
-            selectorOptions = selectorOptions.map((option, index) =>
-                index === selectedIndex
-                    ? {
-                          ...option,
-                          recipient,
-                      }
-                    : option
-            )
-        }
+        selectorOptions = selectorOptions.map((option, index) =>
+            index === selectedIndex
+                ? {
+                      ...option,
+                      recipient: $sendFlowParameters?.recipient,
+                  }
+                : option
+        )
     }
 
     function getLayer1AccountRecipients(accountIndexToExclude?: number): Subject[] {

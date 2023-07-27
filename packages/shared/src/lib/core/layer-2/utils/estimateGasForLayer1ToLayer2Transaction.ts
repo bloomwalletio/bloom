@@ -28,7 +28,6 @@ export async function estimateGasForLayer1ToLayer2Transaction(sendFlowParameters
     try {
         const evmAddress = getSelectedAccount()?.evmAddresses?.[ETH_COIN_TYPE]
         const data = getIscpTransferSmartContractData(address, transferredAsset, chain)
-        console.error(data)
         if (data) {
             const gas = await provider.eth.estimateGas({
                 from: evmAddress,
@@ -46,30 +45,35 @@ export async function estimateGasForLayer1ToLayer2Transaction(sendFlowParameters
     }
 }
 
-
 function getTransferredAsset(sendFlowParameters: SendFlowParameters): TransferredAsset | undefined {
     if (sendFlowParameters.type === SendFlowType.NftTransfer) {
-        return sendFlowParameters.nft ? {
-            type: AssetType.Nft,
-            nft: sendFlowParameters.nft
-        } : undefined
+        return sendFlowParameters.nft
+            ? {
+                  type: AssetType.Nft,
+                  nft: sendFlowParameters.nft,
+              }
+            : undefined
     } else if (sendFlowParameters.type === SendFlowType.TokenTransfer) {
         const asset = sendFlowParameters.tokenTransfer?.asset
         const amount = sendFlowParameters.tokenTransfer?.rawAmount ?? '0'
 
-        return asset ? {
-            type: AssetType.BaseCoin,
-            asset,
-            amount
-        } : undefined
+        return asset
+            ? {
+                  type: AssetType.BaseCoin,
+                  asset,
+                  amount,
+              }
+            : undefined
     } else {
-        const asset =  sendFlowParameters.baseCoinTransfer?.asset
+        const asset = sendFlowParameters.baseCoinTransfer?.asset
         const amount = sendFlowParameters.baseCoinTransfer?.rawAmount ?? '0'
 
-        return asset ? {
-            type: AssetType.BaseCoin,
-            asset,
-            amount
-        } : undefined
+        return asset
+            ? {
+                  type: AssetType.BaseCoin,
+                  asset,
+                  amount,
+              }
+            : undefined
     }
 }
