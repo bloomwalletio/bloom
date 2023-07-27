@@ -1,7 +1,7 @@
 import { get } from 'svelte/store'
 
 import { localize } from '@core/i18n'
-import { ITransactionInclusionEventPayload, validateWalletApiEvent, WalletApiEvent } from '@core/profile-manager'
+import { validateWalletApiEvent } from '@core/profile-manager'
 import { InclusionState, MissingTransactionIdError } from '@core/wallet'
 import { showAppNotification } from '@auxiliary/notification'
 
@@ -9,23 +9,20 @@ import { ShimmerClaimingAccountState } from '../enums'
 import { MissingShimmerClaimingAccountError } from '../errors'
 import { IShimmerClaimingAccount } from '../interfaces'
 import { onboardingProfile, shimmerClaimingTransactions, updateShimmerClaimingAccount } from '../stores'
+import { Event, TransactionInclusionWalletEvent, WalletEventType } from '@iota/wallet/out/types'
 
-export function handleTransactionInclusionEventForShimmerClaiming(error: Error, rawEvent: string): void {
-    const { accountIndex, payload } = validateWalletApiEvent(error, rawEvent, WalletApiEvent.TransactionInclusion)
-    /* eslint-disable @typescript-eslint/no-unnecessary-type-assertion */
-    handleTransactionInclusionEventForShimmerClaimingInternal(
-        accountIndex,
-        payload as ITransactionInclusionEventPayload
-    )
+export function handleTransactionInclusionEventForShimmerClaiming(error: Error, walletEvent: Event): void {
+    const { accountIndex, event } = validateWalletApiEvent(error, walletEvent, WalletEventType.TransactionInclusion)
+    handleTransactionInclusionEventForShimmerClaimingInternal(accountIndex, event as TransactionInclusionWalletEvent)
 }
 
 export function handleTransactionInclusionEventForShimmerClaimingInternal(
     accountIndex: number,
-    payload: ITransactionInclusionEventPayload
+    event: TransactionInclusionWalletEvent
 ): void {
     const _shimmerClaimingTransactions = get(shimmerClaimingTransactions)
     const profileId = get(onboardingProfile)?.id
-    const { transactionId, inclusionState } = payload
+    const { transactionId, inclusionState } = event
     const shimmerClaimingAccount = get(onboardingProfile)?.shimmerClaimingAccounts?.find(
         (_shimmerClaimingAccount) => _shimmerClaimingAccount?.getMetadata()?.index === accountIndex
     )

@@ -1,5 +1,6 @@
 export interface IOption {
-    id?: number
+    id?: number | string
     key?: string
     value?: string
+    color?: string
 }

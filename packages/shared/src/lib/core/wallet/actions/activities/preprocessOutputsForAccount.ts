@@ -41,19 +41,17 @@ export async function preprocessOutputsForAccount(account: IAccountState): Promi
 }
 
 function getTransactionsMapFromList(transactions: Transaction[]): { [transactionId: string]: boolean } {
-    const transactionMap = {}
+    const transactionMap: { [transactionId: string]: boolean } = {}
     for (const transaction of transactions) {
-        transactionMap[transaction?.transactionId] = true
+        transactionMap[transaction.transactionId] = true
     }
     return transactionMap
 }
 
-function getMapFromList(transactions: [string, Transaction][]): {
-    [transactionId: string]: Transaction
-} {
-    const transactionMap = {}
-    for (const [transactionId, payload] of transactions) {
-        transactionMap[transactionId] = payload
+function getMapFromList(transactions: Transaction[]): { [transactionId: string]: Transaction } {
+    const transactionMap: { [key: string]: Transaction } = {}
+    for (const transaction of transactions) {
+        transactionMap[transaction.transactionId] = transaction
     }
     return transactionMap
 }

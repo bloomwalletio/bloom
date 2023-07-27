@@ -10,7 +10,7 @@
     import { Icon as IconEnum } from '@auxiliary/icon'
     import { Router } from '@core/router'
     import { resetLedgerPreparedOutput, resetShowInternalVerificationPopup } from '@core/ledger'
-    import { NewTransactionType, resetNewTokenTransactionData, updateNewTransactionData } from '@core/wallet'
+    import { SendFlowType, setSendFlowParameters, SubjectType } from '@core/wallet'
 
     import { openPopup, PopupId } from '@desktop/auxiliary/popup'
     import { closeDrawer } from '@desktop/auxiliary/drawer'
@@ -39,10 +39,9 @@
     }
 
     function onSendClick(address: string): void {
-        resetNewTokenTransactionData()
-        updateNewTransactionData({
-            type: NewTransactionType.TokenTransfer,
-            recipient: { type: 'address', address },
+        setSendFlowParameters({
+            type: SendFlowType.BaseCoinTransfer,
+            recipient: { type: SubjectType.Address, address },
         })
         resetLedgerPreparedOutput()
         resetShowInternalVerificationPopup()

@@ -1,6 +1,6 @@
 import type {
     ClientOptions,
-    EventType,
+    WalletEventType,
     GenerateAddressOptions,
     LedgerNanoStatus,
     NodeInfoWrapper,
@@ -35,8 +35,8 @@ export interface IProfileManager {
     getLedgerNanoStatus(): Promise<LedgerNanoStatus>
     hexToBech32(hex: string, bech32Hrp?: string): Promise<string>
     isStrongholdPasswordAvailable(): Promise<boolean>
-    listen(eventTypes: EventType[], callback: WalletApiEventHandler): Promise<void>
-    clearListeners(eventTypes: EventType[]): Promise<void>
+    listen(eventTypes: WalletEventType[], callback: WalletApiEventHandler): Promise<void>
+    clearListeners(eventTypes: WalletEventType[]): Promise<void>
     removeLatestAccount(): Promise<void>
     restoreBackup(
         source: string,

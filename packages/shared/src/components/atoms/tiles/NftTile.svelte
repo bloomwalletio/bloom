@@ -1,10 +1,12 @@
 <script lang="ts">
     import { ClickableTile, Text, FontWeight, NftImageOrIconBox } from '@ui'
     import { INft } from '@core/nfts'
+    import { truncateString } from '@core/utils'
 
     export let nft: INft
     export let onClick: (() => unknown) | undefined = undefined
     export let selected = false
+    export let fullWidth = true
     export let classes = ''
 </script>
 
@@ -19,7 +21,9 @@
             <Text classes="text-ellipsis overflow-hidden whitespace-nowrap" fontWeight={FontWeight.semibold}>
                 {nft.name}
             </Text>
-            <Text secondary classes="text-ellipsis overflow-hidden" smaller>{nft.address}</Text>
+            <Text secondary classes="text-ellipsis overflow-hidden" smaller
+                >{fullWidth ? nft.address : truncateString(nft.address, 7, 7)}</Text
+            >
         </div>
     </div>
 </ClickableTile>

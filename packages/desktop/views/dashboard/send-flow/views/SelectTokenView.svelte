@@ -6,28 +6,32 @@
         getAccountAssetsForSelectedAccount,
         AccountAssets,
         IAsset,
-        newTransactionData,
-        NewTransactionType,
-        updateNewTransactionData,
+        sendFlowParameters,
+        SendFlowType,
         TokenStandard,
+        setSendFlowParameters,
+        selectedAccountAssets,
     } from '@core/wallet'
     import { closePopup } from '@desktop/auxiliary/popup'
-    import { get } from 'svelte/store'
     import { Icon as IconEnum } from '@auxiliary/icon'
     import { sendFlowRouter } from '../send-flow.router'
     import SendFlowTemplate from './SendFlowTemplate.svelte'
+    import { getCoinType } from '@core/profile'
+    import { getNetwork } from '@core/network'
 
-    const transactionData = get(newTransactionData)
-
-    let selectedAsset: IAsset =
-        transactionData?.type === NewTransactionType.TokenTransfer ? transactionData.asset : undefined
-    let assetList: IAsset[]
     let searchValue: string = ''
+    let selectedAsset: IAsset =
+        $sendFlowParameters?.type === SendFlowType.BaseCoinTransfer
+            ? $sendFlowParameters.baseCoinTransfer.asset
+            : $sendFlowParameters?.type === SendFlowType.TokenTransfer
+            ? $sendFlowParameters.tokenTransfer.asset
+            : $selectedAccountAssets?.[getNetwork().getMetadata().id].baseCoin
 
     let assets: AccountAssets
     $: assets = getAccountAssetsForSelectedAccount($marketCoinPrices)
     $: assets, searchValue, setFilteredAssetList()
 
+    let assetList: IAsset[]
     function getAssetList(): IAsset[] {
         const list = []
         for (const assetsPerNetwork of Object.values(assets)) {
@@ -66,9 +70,32 @@
     }
 
     function onContinueClick(): void {
-        updateNewTransactionData({
-            type: NewTransactionType.TokenTransfer,
-            asset: selectedAsset,
+        // Store previous parameters as sometimes we enter this flow with parameters already set
+        // Such as recipient when coming from address book or when we click back in the flow
+        const previousSharedParameters = {
+            recipient: $sendFlowParameters?.recipient,
+            tag: $sendFlowParameters?.tag,
+            metadata: $sendFlowParameters?.metadata,
+            expirationDate: $sendFlowParameters?.expirationDate,
+            timelockDate: $sendFlowParameters?.timelockDate,
+            giftStorageDeposit: $sendFlowParameters?.giftStorageDeposit,
+            layer2Parameters: $sendFlowParameters?.layer2Parameters,
+            addSenderFeature: $sendFlowParameters?.addSenderFeature,
+            disableChangeExpiration: $sendFlowParameters?.disableChangeExpiration,
+            disableToggleGift: $sendFlowParameters?.disableToggleGift,
+        }
+
+        const sendFlowType =
+            selectedAsset.id === getCoinType() ? SendFlowType.BaseCoinTransfer : SendFlowType.TokenTransfer
+
+        // Set called because we need to update the type, and update function only updates the properties
+        // if the type is the same
+        setSendFlowParameters({
+            ...previousSharedParameters,
+            type: sendFlowType,
+            [sendFlowType === SendFlowType.BaseCoinTransfer ? 'baseCoinTransfer' : 'tokenTransfer']: {
+                asset: selectedAsset,
+            },
         })
 
         $sendFlowRouter.next()
