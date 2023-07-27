@@ -2,9 +2,9 @@ name: Type Check
 
 on:
   pull_request:
-  push:
-    branches:
-      - 'develop'
+    types: [ ready_for_review ]
+  pull_request_review:
+    types: [ submitted ]
 
 jobs:
   check:

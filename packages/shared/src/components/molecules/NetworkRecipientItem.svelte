@@ -24,7 +24,7 @@
                 return {
                     id: recipient.account.index,
                     key: recipient.account.name,
-                    value: recipient.account.depositAddress,
+                    value: recipient.address,
                     color: recipient.account.color,
                 }
             case SubjectType.Contact:
