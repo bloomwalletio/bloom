@@ -1,7 +1,8 @@
 import { buildBip32Path } from '@core/account/utils'
-import { IEvmAddress, IPlatformEventMap, Platform } from '@core/app'
+import { Platform } from '@core/app/classes'
+import { IPlatformEventMap } from '@core/app/interfaces'
 import { localize } from '@core/i18n'
-import { IEvmTransactionSignature } from '@core/layer-2/interfaces'
+import { IEvmAddress, IEvmTransactionSignature } from '@core/layer-2/interfaces'
 import { EvmTransactionData } from '@core/layer-2/types'
 import { prepareEvmTransaction } from '@core/layer-2/utils'
 import { MILLISECONDS_PER_SECOND, sleep } from '@core/utils'
@@ -13,7 +14,7 @@ import { LedgerApiRequestResponse } from '../types'
 
 declare global {
     interface Window {
-        __LEDGER__: ILedgerApi
+        __LEDGER__: ILedgerApiBridge
     }
 }
 
