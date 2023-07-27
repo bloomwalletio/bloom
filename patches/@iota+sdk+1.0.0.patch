@@ -1,0 +1,689 @@
+diff --git a/node_modules/@iota/sdk/out/types/block/address.d.ts b/node_modules/@iota/sdk/out/types/block/address.d.ts
+index cc28166..af75bec 100644
+--- a/node_modules/@iota/sdk/out/types/block/address.d.ts
++++ b/node_modules/@iota/sdk/out/types/block/address.d.ts
+@@ -6,7 +6,7 @@ declare enum AddressType {
+     Nft = 16
+ }
+ declare abstract class Address {
+-    private type;
++    readonly type: AddressType;
+     constructor(type: AddressType);
+     /**
+      * The type of address.
+@@ -19,7 +19,7 @@ declare abstract class Address {
+  * Ed25519 Address.
+  */
+ declare class Ed25519Address extends Address {
+-    private pubKeyHash;
++    readonly pubKeyHash: HexEncodedString;
+     constructor(address: HexEncodedString);
+     /**
+      * The public key hash.
+@@ -28,7 +28,7 @@ declare class Ed25519Address extends Address {
+     toString(): string;
+ }
+ declare class AliasAddress extends Address {
+-    private aliasId;
++    readonly aliasId: AliasId;
+     constructor(address: AliasId);
+     /**
+      * The alias id.
+@@ -40,7 +40,7 @@ declare class AliasAddress extends Address {
+  * NFT address.
+  */
+ declare class NftAddress extends Address {
+-    private nftId;
++    readonly nftId: NftId;
+     constructor(address: NftId);
+     /**
+      * The NFT Id.
+diff --git a/node_modules/@iota/sdk/out/types/block/address.d.ts.map b/node_modules/@iota/sdk/out/types/block/address.d.ts.map
+index f927768..127a5c5 100644
+--- a/node_modules/@iota/sdk/out/types/block/address.d.ts.map
++++ b/node_modules/@iota/sdk/out/types/block/address.d.ts.map
+@@ -1 +1 @@
+-{"version":3,"file":"address.d.ts","sourceRoot":"","sources":["../../../lib/types/block/address.ts"],"names":[],"mappings":"AAIA,OAAO,EAAE,gBAAgB,EAAE,MAAM,UAAU,CAAC;AAC5C,OAAO,EAAE,OAAO,EAAE,KAAK,EAAE,MAAM,MAAM,CAAC;AAEtC,aAAK,WAAW;IACZ,OAAO,IAAI;IACX,KAAK,IAAI;IACT,GAAG,KAAK;CACX;AAED,uBAAe,OAAO;IAClB,OAAO,CAAC,IAAI,CAAc;gBAEd,IAAI,EAAE,WAAW;IAG7B;;OAEG;IACH,OAAO,IAAI,WAAW;IAItB,QAAQ,CAAC,QAAQ,IAAI,MAAM;WAEb,KAAK,CAAC,IAAI,EAAE,GAAG,GAAG,OAAO;CAa1C;AACD;;GAEG;AACH,cAAM,cAAe,SAAQ,OAAO;IAChC,OAAO,CAAC,UAAU,CAAmB;gBAEzB,OAAO,EAAE,gBAAgB;IAIrC;;OAEG;IACH,aAAa,IAAI,gBAAgB;IAIjC,QAAQ,IAAI,MAAM;CAGrB;AAED,cAAM,YAAa,SAAQ,OAAO;IAC9B,OAAO,CAAC,OAAO,CAAU;gBACb,OAAO,EAAE,OAAO;IAI5B;;OAEG;IACH,UAAU,IAAI,OAAO;IAIrB,QAAQ,IAAI,MAAM;CAGrB;AACD;;GAEG;AACH,cAAM,UAAW,SAAQ,OAAO;IAC5B,OAAO,CAAC,KAAK,CAAQ;gBACT,OAAO,EAAE,KAAK;IAI1B;;OAEG;IACH,QAAQ,IAAI,KAAK;IAIjB,QAAQ,IAAI,MAAM;CAGrB;AAED,QAAA,MAAM,oBAAoB;;;;;;;;;;;;CAOzB,CAAC;AAEF,OAAO,EACH,oBAAoB,EACpB,OAAO,EACP,WAAW,EACX,cAAc,EACd,YAAY,EACZ,UAAU,GACb,CAAC"}
+\ No newline at end of file
++{"version":3,"file":"address.d.ts","sourceRoot":"","sources":["../../../lib/types/block/address.ts"],"names":[],"mappings":"AAIA,OAAO,EAAE,gBAAgB,EAAE,MAAM,UAAU,CAAC;AAC5C,OAAO,EAAE,OAAO,EAAE,KAAK,EAAE,MAAM,MAAM,CAAC;AAEtC,aAAK,WAAW;IACZ,OAAO,IAAI;IACX,KAAK,IAAI;IACT,GAAG,KAAK;CACX;AAED,uBAAe,OAAO;IAClB,QAAQ,CAAC,IAAI,EAAE,WAAW,CAAC;gBAEf,IAAI,EAAE,WAAW;IAG7B;;OAEG;IACH,OAAO,IAAI,WAAW;IAItB,QAAQ,CAAC,QAAQ,IAAI,MAAM;WAEb,KAAK,CAAC,IAAI,EAAE,GAAG,GAAG,OAAO;CAa1C;AACD;;GAEG;AACH,cAAM,cAAe,SAAQ,OAAO;IAChC,QAAQ,CAAC,UAAU,EAAE,gBAAgB,CAAC;gBAE1B,OAAO,EAAE,gBAAgB;IAIrC;;OAEG;IACH,aAAa,IAAI,gBAAgB;IAIjC,QAAQ,IAAI,MAAM;CAGrB;AAED,cAAM,YAAa,SAAQ,OAAO;IAC9B,QAAQ,CAAC,OAAO,EAAE,OAAO,CAAC;gBACd,OAAO,EAAE,OAAO;IAI5B;;OAEG;IACH,UAAU,IAAI,OAAO;IAIrB,QAAQ,IAAI,MAAM;CAGrB;AACD;;GAEG;AACH,cAAM,UAAW,SAAQ,OAAO;IAC5B,QAAQ,CAAC,KAAK,EAAE,KAAK,CAAC;gBACV,OAAO,EAAE,KAAK;IAI1B;;OAEG;IACH,QAAQ,IAAI,KAAK;IAIjB,QAAQ,IAAI,MAAM;CAGrB;AAED,QAAA,MAAM,oBAAoB;;;;;;;;;;;;CAOzB,CAAC;AAEF,OAAO,EACH,oBAAoB,EACpB,OAAO,EACP,WAAW,EACX,cAAc,EACd,YAAY,EACZ,UAAU,GACb,CAAC"}
+\ No newline at end of file
+diff --git a/node_modules/@iota/sdk/out/types/block/input/input.d.ts b/node_modules/@iota/sdk/out/types/block/input/input.d.ts
+index 24d82c7..ff4172f 100644
+--- a/node_modules/@iota/sdk/out/types/block/input/input.d.ts
++++ b/node_modules/@iota/sdk/out/types/block/input/input.d.ts
+@@ -8,7 +8,7 @@ declare enum InputType {
+     Treasury = 1
+ }
+ declare abstract class Input {
+-    private type;
++    readonly type: InputType;
+     constructor(type: InputType);
+     /**
+      * The type of input.
+@@ -22,7 +22,7 @@ declare class TreasuryInput extends Input {
+     /**
+      * The milestone id of the input.
+      */
+-    milestoneId: HexEncodedString;
++    readonly milestoneId: HexEncodedString;
+     constructor(milestoneId: HexEncodedString);
+ }
+ /**
+@@ -32,11 +32,11 @@ declare class UTXOInput extends Input {
+     /**
+      * The transaction Id.
+      */
+-    transactionId: HexEncodedString;
++    readonly transactionId: HexEncodedString;
+     /**
+      * The output index.
+      */
+-    transactionOutputIndex: number;
++    readonly transactionOutputIndex: number;
+     constructor(transactionId: HexEncodedString, transactionOutputIndex: number);
+     /**
+      * Creates a `UTXOInput` from an output id.
+diff --git a/node_modules/@iota/sdk/out/types/block/input/input.d.ts.map b/node_modules/@iota/sdk/out/types/block/input/input.d.ts.map
+index 3f92c73..a817e41 100644
+--- a/node_modules/@iota/sdk/out/types/block/input/input.d.ts.map
++++ b/node_modules/@iota/sdk/out/types/block/input/input.d.ts.map
+@@ -1 +1 @@
+-{"version":3,"file":"input.d.ts","sourceRoot":"","sources":["../../../../lib/types/block/input/input.ts"],"names":[],"mappings":"AAIA,OAAO,EAAE,gBAAgB,EAAE,MAAM,aAAa,CAAC;AAC/C,OAAO,EAAE,QAAQ,EAAE,MAAM,WAAW,CAAC;AAErC;;GAEG;AACH,aAAK,SAAS;IACV,IAAI,IAAI;IACR,QAAQ,IAAI;CACf;AAED,uBAAe,KAAK;IAChB,OAAO,CAAC,IAAI,CAAY;gBAEZ,IAAI,EAAE,SAAS;IAI3B;;OAEG;IACH,OAAO,IAAI,SAAS;CAGvB;AAED;;GAEG;AACH,cAAM,aAAc,SAAQ,KAAK;IAC7B;;OAEG;IACH,WAAW,EAAE,gBAAgB,CAAC;gBAElB,WAAW,EAAE,gBAAgB;CAI5C;AAED;;GAEG;AACH,cAAM,SAAU,SAAQ,KAAK;IACzB;;OAEG;IACH,aAAa,EAAE,gBAAgB,CAAC;IAChC;;OAEG;IACH,sBAAsB,EAAE,MAAM,CAAC;gBAG3B,aAAa,EAAE,gBAAgB,EAC/B,sBAAsB,EAAE,MAAM;IAOlC;;OAEG;IACH,MAAM,CAAC,YAAY,CAAC,QAAQ,EAAE,QAAQ,GAAG,SAAS;CASrD;AAED,QAAA,MAAM,kBAAkB;;;;;;;;;CAMvB,CAAC;AAEF,OAAO,EAAE,kBAAkB,EAAE,SAAS,EAAE,KAAK,EAAE,aAAa,EAAE,SAAS,EAAE,CAAC"}
+\ No newline at end of file
++{"version":3,"file":"input.d.ts","sourceRoot":"","sources":["../../../../lib/types/block/input/input.ts"],"names":[],"mappings":"AAIA,OAAO,EAAE,gBAAgB,EAAE,MAAM,aAAa,CAAC;AAC/C,OAAO,EAAE,QAAQ,EAAE,MAAM,WAAW,CAAC;AAErC;;GAEG;AACH,aAAK,SAAS;IACV,IAAI,IAAI;IACR,QAAQ,IAAI;CACf;AAED,uBAAe,KAAK;IAChB,QAAQ,CAAC,IAAI,EAAE,SAAS,CAAC;gBAEb,IAAI,EAAE,SAAS;IAI3B;;OAEG;IACH,OAAO,IAAI,SAAS;CAGvB;AAED;;GAEG;AACH,cAAM,aAAc,SAAQ,KAAK;IAC7B;;OAEG;IACH,QAAQ,CAAC,WAAW,EAAE,gBAAgB,CAAC;gBAE3B,WAAW,EAAE,gBAAgB;CAI5C;AAED;;GAEG;AACH,cAAM,SAAU,SAAQ,KAAK;IACzB;;OAEG;IACH,QAAQ,CAAC,aAAa,EAAE,gBAAgB,CAAC;IACzC;;OAEG;IACH,QAAQ,CAAC,sBAAsB,EAAE,MAAM,CAAC;gBAGpC,aAAa,EAAE,gBAAgB,EAC/B,sBAAsB,EAAE,MAAM;IAOlC;;OAEG;IACH,MAAM,CAAC,YAAY,CAAC,QAAQ,EAAE,QAAQ,GAAG,SAAS;CASrD;AAED,QAAA,MAAM,kBAAkB;;;;;;;;;CAMvB,CAAC;AAEF,OAAO,EAAE,kBAAkB,EAAE,SAAS,EAAE,KAAK,EAAE,aAAa,EAAE,SAAS,EAAE,CAAC"}
+\ No newline at end of file
+diff --git a/node_modules/@iota/sdk/out/types/block/output/feature.d.ts b/node_modules/@iota/sdk/out/types/block/output/feature.d.ts
+index 37b3c07..1840d21 100644
+--- a/node_modules/@iota/sdk/out/types/block/output/feature.d.ts
++++ b/node_modules/@iota/sdk/out/types/block/output/feature.d.ts
+@@ -9,7 +9,7 @@ declare enum FeatureType {
+     Tag = 3
+ }
+ declare abstract class Feature {
+-    private type;
++    readonly type: FeatureType;
+     constructor(type: FeatureType);
+     /**
+      * The type of feature.
+@@ -20,7 +20,7 @@ declare abstract class Feature {
+  * Sender feature.
+  */
+ declare class SenderFeature extends Feature {
+-    private address;
++    readonly address: Address;
+     constructor(sender: Address);
+     /**
+      * The address.
+@@ -31,7 +31,7 @@ declare class SenderFeature extends Feature {
+  * Issuer feature.
+  */
+ declare class IssuerFeature extends Feature {
+-    private address;
++    readonly address: Address;
+     constructor(issuer: Address);
+     /**
+      * The address.
+@@ -42,7 +42,7 @@ declare class IssuerFeature extends Feature {
+  * Metadata feature.
+  */
+ declare class MetadataFeature extends Feature {
+-    private data;
++    readonly data: string;
+     constructor(data: string);
+     /**
+      * Defines metadata (arbitrary binary data) that will be stored in the output.
+@@ -53,7 +53,7 @@ declare class MetadataFeature extends Feature {
+  * Tag feature.
+  */
+ declare class TagFeature extends Feature {
+-    private tag;
++    readonly tag: string;
+     constructor(tag: string);
+     /**
+      * Defines a tag for the data.
+diff --git a/node_modules/@iota/sdk/out/types/block/output/feature.d.ts.map b/node_modules/@iota/sdk/out/types/block/output/feature.d.ts.map
+index c815d74..b8081dc 100644
+--- a/node_modules/@iota/sdk/out/types/block/output/feature.d.ts.map
++++ b/node_modules/@iota/sdk/out/types/block/output/feature.d.ts.map
+@@ -1 +1 @@
+-{"version":3,"file":"feature.d.ts","sourceRoot":"","sources":["../../../../lib/types/block/output/feature.ts"],"names":[],"mappings":"AAGA,OAAO,EAAE,OAAO,EAAE,MAAM,YAAY,CAAC;AAErC;;GAEG;AACH,aAAK,WAAW;IACZ,MAAM,IAAI;IACV,MAAM,IAAI;IACV,QAAQ,IAAI;IACZ,GAAG,IAAI;CACV;AAED,uBAAe,OAAO;IAClB,OAAO,CAAC,IAAI,CAAc;gBACd,IAAI,EAAE,WAAW;IAG7B;;OAEG;IACH,OAAO,IAAI,WAAW;CAGzB;AACD;;GAEG;AACH,cAAM,aAAc,SAAQ,OAAO;IAC/B,OAAO,CAAC,OAAO,CAAU;gBACb,MAAM,EAAE,OAAO;IAI3B;;OAEG;IACH,SAAS,IAAI,OAAO;CAGvB;AACD;;GAEG;AACH,cAAM,aAAc,SAAQ,OAAO;IAC/B,OAAO,CAAC,OAAO,CAAU;gBACb,MAAM,EAAE,OAAO;IAI3B;;OAEG;IACH,SAAS,IAAI,OAAO;CAGvB;AACD;;GAEG;AACH,cAAM,eAAgB,SAAQ,OAAO;IACjC,OAAO,CAAC,IAAI,CAAS;gBACT,IAAI,EAAE,MAAM;IAIxB;;OAEG;IACH,OAAO,IAAI,MAAM;CAGpB;AACD;;GAEG;AACH,cAAM,UAAW,SAAQ,OAAO;IAC5B,OAAO,CAAC,GAAG,CAAS;gBACR,GAAG,EAAE,MAAM;IAIvB;;OAEG;IACH,MAAM,IAAI,MAAM;CAGnB;AACD,QAAA,MAAM,oBAAoB;;;;;;;;;;;;;;;CAQzB,CAAC;AACF,OAAO,EACH,oBAAoB,EACpB,OAAO,EACP,WAAW,EACX,aAAa,EACb,aAAa,EACb,eAAe,EACf,UAAU,GACb,CAAC"}
+\ No newline at end of file
++{"version":3,"file":"feature.d.ts","sourceRoot":"","sources":["../../../../lib/types/block/output/feature.ts"],"names":[],"mappings":"AAGA,OAAO,EAAE,OAAO,EAAE,MAAM,YAAY,CAAC;AAErC;;GAEG;AACH,aAAK,WAAW;IACZ,MAAM,IAAI;IACV,MAAM,IAAI;IACV,QAAQ,IAAI;IACZ,GAAG,IAAI;CACV;AAED,uBAAe,OAAO;IAClB,QAAQ,CAAC,IAAI,EAAE,WAAW,CAAC;gBAEf,IAAI,EAAE,WAAW;IAG7B;;OAEG;IACH,OAAO,IAAI,WAAW;CAGzB;AACD;;GAEG;AACH,cAAM,aAAc,SAAQ,OAAO;IAC/B,QAAQ,CAAC,OAAO,EAAE,OAAO,CAAC;gBAEd,MAAM,EAAE,OAAO;IAI3B;;OAEG;IACH,SAAS,IAAI,OAAO;CAGvB;AACD;;GAEG;AACH,cAAM,aAAc,SAAQ,OAAO;IAC/B,QAAQ,CAAC,OAAO,EAAE,OAAO,CAAC;gBAEd,MAAM,EAAE,OAAO;IAI3B;;OAEG;IACH,SAAS,IAAI,OAAO;CAGvB;AACD;;GAEG;AACH,cAAM,eAAgB,SAAQ,OAAO;IACjC,QAAQ,CAAC,IAAI,EAAE,MAAM,CAAC;gBAEV,IAAI,EAAE,MAAM;IAIxB;;OAEG;IACH,OAAO,IAAI,MAAM;CAGpB;AACD;;GAEG;AACH,cAAM,UAAW,SAAQ,OAAO;IAC5B,QAAQ,CAAC,GAAG,EAAE,MAAM,CAAC;gBAET,GAAG,EAAE,MAAM;IAIvB;;OAEG;IACH,MAAM,IAAI,MAAM;CAGnB;AACD,QAAA,MAAM,oBAAoB;;;;;;;;;;;;;;;CAQzB,CAAC;AACF,OAAO,EACH,oBAAoB,EACpB,OAAO,EACP,WAAW,EACX,aAAa,EACb,aAAa,EACb,eAAe,EACf,UAAU,GACb,CAAC"}
+\ No newline at end of file
+diff --git a/node_modules/@iota/sdk/out/types/block/output/feature.js.map b/node_modules/@iota/sdk/out/types/block/output/feature.js.map
+index 0fc0366..f288554 100644
+--- a/node_modules/@iota/sdk/out/types/block/output/feature.js.map
++++ b/node_modules/@iota/sdk/out/types/block/output/feature.js.map
+@@ -1 +1 @@
+-{"version":3,"file":"feature.js","sourceRoot":"","sources":["../../../../lib/types/block/output/feature.ts"],"names":[],"mappings":";AAAA,+BAA+B;AAC/B,sCAAsC;;;AAItC;;GAEG;AACH,IAAK,WAKJ;AALD,WAAK,WAAW;IACZ,iDAAU,CAAA;IACV,iDAAU,CAAA;IACV,qDAAY,CAAA;IACZ,2CAAO,CAAA;AACX,CAAC,EALI,WAAW,KAAX,WAAW,QAKf;AA0FG,kCAAW;AAxFf,MAAe,OAAO;IAElB,YAAY,IAAiB;QACzB,IAAI,CAAC,IAAI,GAAG,IAAI,CAAC;IACrB,CAAC;IACD;;OAEG;IACH,OAAO;QACH,OAAO,IAAI,CAAC,IAAI,CAAC;IACrB,CAAC;CACJ;AA4EG,0BAAO;AA3EX;;GAEG;AACH,MAAM,aAAc,SAAQ,OAAO;IAE/B,YAAY,MAAe;QACvB,KAAK,CAAC,WAAW,CAAC,MAAM,CAAC,CAAC;QAC1B,IAAI,CAAC,OAAO,GAAG,MAAM,CAAC;IAC1B,CAAC;IACD;;OAEG;IACH,SAAS;QACL,OAAO,IAAI,CAAC,OAAO,CAAC;IACxB,CAAC;CACJ;AA8DG,sCAAa;AA7DjB;;GAEG;AACH,MAAM,aAAc,SAAQ,OAAO;IAE/B,YAAY,MAAe;QACvB,KAAK,CAAC,WAAW,CAAC,MAAM,CAAC,CAAC;QAC1B,IAAI,CAAC,OAAO,GAAG,MAAM,CAAC;IAC1B,CAAC;IACD;;OAEG;IACH,SAAS;QACL,OAAO,IAAI,CAAC,OAAO,CAAC;IACxB,CAAC;CACJ;AA+CG,sCAAa;AA9CjB;;GAEG;AACH,MAAM,eAAgB,SAAQ,OAAO;IAEjC,YAAY,IAAY;QACpB,KAAK,CAAC,WAAW,CAAC,QAAQ,CAAC,CAAC;QAC5B,IAAI,CAAC,IAAI,GAAG,IAAI,CAAC;IACrB,CAAC;IACD;;OAEG;IACH,OAAO;QACH,OAAO,IAAI,CAAC,IAAI,CAAC;IACrB,CAAC;CACJ;AAgCG,0CAAe;AA/BnB;;GAEG;AACH,MAAM,UAAW,SAAQ,OAAO;IAE5B,YAAY,GAAW;QACnB,KAAK,CAAC,WAAW,CAAC,GAAG,CAAC,CAAC;QACvB,IAAI,CAAC,GAAG,GAAG,GAAG,CAAC;IACnB,CAAC;IACD;;OAEG;IACH,MAAM;QACF,OAAO,IAAI,CAAC,GAAG,CAAC;IACpB,CAAC;CACJ;AAiBG,gCAAU;AAhBd,MAAM,oBAAoB,GAAG;IACzB,QAAQ,EAAE,MAAM;IAChB,QAAQ,EAAE;QACN,EAAE,KAAK,EAAE,aAAa,EAAE,IAAI,EAAE,WAAW,CAAC,MAAa,EAAE;QACzD,EAAE,KAAK,EAAE,aAAa,EAAE,IAAI,EAAE,WAAW,CAAC,MAAa,EAAE;QACzD,EAAE,KAAK,EAAE,eAAe,EAAE,IAAI,EAAE,WAAW,CAAC,QAAe,EAAE;QAC7D,EAAE,KAAK,EAAE,UAAU,EAAE,IAAI,EAAE,WAAW,CAAC,GAAU,EAAE;KACtD;CACJ,CAAC;AAEE,oDAAoB"}
+\ No newline at end of file
++{"version":3,"file":"feature.js","sourceRoot":"","sources":["../../../../lib/types/block/output/feature.ts"],"names":[],"mappings":";AAAA,+BAA+B;AAC/B,sCAAsC;;;AAItC;;GAEG;AACH,IAAK,WAKJ;AALD,WAAK,WAAW;IACZ,iDAAU,CAAA;IACV,iDAAU,CAAA;IACV,qDAAY,CAAA;IACZ,2CAAO,CAAA;AACX,CAAC,EALI,WAAW,KAAX,WAAW,QAKf;AA+FG,kCAAW;AA7Ff,MAAe,OAAO;IAGlB,YAAY,IAAiB;QACzB,IAAI,CAAC,IAAI,GAAG,IAAI,CAAC;IACrB,CAAC;IACD;;OAEG;IACH,OAAO;QACH,OAAO,IAAI,CAAC,IAAI,CAAC;IACrB,CAAC;CACJ;AAgFG,0BAAO;AA/EX;;GAEG;AACH,MAAM,aAAc,SAAQ,OAAO;IAG/B,YAAY,MAAe;QACvB,KAAK,CAAC,WAAW,CAAC,MAAM,CAAC,CAAC;QAC1B,IAAI,CAAC,OAAO,GAAG,MAAM,CAAC;IAC1B,CAAC;IACD;;OAEG;IACH,SAAS;QACL,OAAO,IAAI,CAAC,OAAO,CAAC;IACxB,CAAC;CACJ;AAiEG,sCAAa;AAhEjB;;GAEG;AACH,MAAM,aAAc,SAAQ,OAAO;IAG/B,YAAY,MAAe;QACvB,KAAK,CAAC,WAAW,CAAC,MAAM,CAAC,CAAC;QAC1B,IAAI,CAAC,OAAO,GAAG,MAAM,CAAC;IAC1B,CAAC;IACD;;OAEG;IACH,SAAS;QACL,OAAO,IAAI,CAAC,OAAO,CAAC;IACxB,CAAC;CACJ;AAiDG,sCAAa;AAhDjB;;GAEG;AACH,MAAM,eAAgB,SAAQ,OAAO;IAGjC,YAAY,IAAY;QACpB,KAAK,CAAC,WAAW,CAAC,QAAQ,CAAC,CAAC;QAC5B,IAAI,CAAC,IAAI,GAAG,IAAI,CAAC;IACrB,CAAC;IACD;;OAEG;IACH,OAAO;QACH,OAAO,IAAI,CAAC,IAAI,CAAC;IACrB,CAAC;CACJ;AAiCG,0CAAe;AAhCnB;;GAEG;AACH,MAAM,UAAW,SAAQ,OAAO;IAG5B,YAAY,GAAW;QACnB,KAAK,CAAC,WAAW,CAAC,GAAG,CAAC,CAAC;QACvB,IAAI,CAAC,GAAG,GAAG,GAAG,CAAC;IACnB,CAAC;IACD;;OAEG;IACH,MAAM;QACF,OAAO,IAAI,CAAC,GAAG,CAAC;IACpB,CAAC;CACJ;AAiBG,gCAAU;AAhBd,MAAM,oBAAoB,GAAG;IACzB,QAAQ,EAAE,MAAM;IAChB,QAAQ,EAAE;QACN,EAAE,KAAK,EAAE,aAAa,EAAE,IAAI,EAAE,WAAW,CAAC,MAAa,EAAE;QACzD,EAAE,KAAK,EAAE,aAAa,EAAE,IAAI,EAAE,WAAW,CAAC,MAAa,EAAE;QACzD,EAAE,KAAK,EAAE,eAAe,EAAE,IAAI,EAAE,WAAW,CAAC,QAAe,EAAE;QAC7D,EAAE,KAAK,EAAE,UAAU,EAAE,IAAI,EAAE,WAAW,CAAC,GAAU,EAAE;KACtD;CACJ,CAAC;AAEE,oDAAoB"}
+\ No newline at end of file
+diff --git a/node_modules/@iota/sdk/out/types/block/output/output.d.ts b/node_modules/@iota/sdk/out/types/block/output/output.d.ts
+index d1027b4..2c309f2 100644
+--- a/node_modules/@iota/sdk/out/types/block/output/output.d.ts
++++ b/node_modules/@iota/sdk/out/types/block/output/output.d.ts
+@@ -15,8 +15,8 @@ declare enum OutputType {
+     Nft = 6
+ }
+ declare abstract class Output {
+-    private amount;
+-    private type;
++    readonly amount: string;
++    readonly type: OutputType;
+     constructor(type: OutputType, amount: bigint | string);
+     /**
+      * The type of output.
+@@ -32,9 +32,9 @@ declare abstract class Output {
+  * Common output properties.
+  */
+ declare abstract class CommonOutput extends Output {
+-    private unlockConditions;
+-    private nativeTokens?;
+-    private features?;
++    readonly unlockConditions: UnlockCondition[];
++    readonly nativeTokens?: INativeToken[];
++    readonly features?: Feature[];
+     constructor(type: OutputType, amount: bigint, unlockConditions: UnlockCondition[]);
+     /**
+      * The unlock conditions for the output.
+@@ -62,7 +62,7 @@ declare class BasicOutput extends CommonOutput {
+     constructor(amount: bigint, unlockConditions: UnlockCondition[]);
+ }
+ declare abstract class ImmutableFeaturesOutput extends CommonOutput {
+-    private immutableFeatures?;
++    readonly immutableFeatures?: Feature[];
+     constructor(type: OutputType, amount: bigint, unlockConditions: UnlockCondition[]);
+     /**
+      * Immutable features contained by the output.
+@@ -70,7 +70,7 @@ declare abstract class ImmutableFeaturesOutput extends CommonOutput {
+     getImmutableFeatures(): Feature[] | undefined;
+ }
+ declare abstract class StateMetadataOutput extends ImmutableFeaturesOutput {
+-    private stateMetadata?;
++    readonly stateMetadata?: HexEncodedString;
+     constructor(type: OutputType, amount: bigint, unlockConditions: UnlockCondition[]);
+     /**
+      * Metadata that can only be changed by the state controller.
+@@ -78,9 +78,9 @@ declare abstract class StateMetadataOutput extends ImmutableFeaturesOutput {
+     getStateMetadata(): HexEncodedString | undefined;
+ }
+ declare class AliasOutput extends StateMetadataOutput {
+-    private aliasId;
+-    private stateIndex;
+-    private foundryCounter;
++    readonly aliasId: HexEncodedString;
++    readonly stateIndex: number;
++    readonly foundryCounter: number;
+     constructor(unlockConditions: UnlockCondition[], amount: bigint, aliasId: HexEncodedString, stateIndex: number, foundryCounter: number);
+     /**
+      * Unique identifier of the alias, which is the BLAKE2b-160 hash of the Output ID that created it.
+@@ -100,7 +100,7 @@ declare class AliasOutput extends StateMetadataOutput {
+  * NFT output.
+  */
+ declare class NftOutput extends ImmutableFeaturesOutput {
+-    private nftId;
++    readonly nftId: HexEncodedString;
+     constructor(amount: bigint, nftId: HexEncodedString, unlockConditions: UnlockCondition[]);
+     /**
+      * Unique identifier of the NFT, which is the BLAKE2b-160 hash of the Output ID that created it.
+@@ -112,8 +112,8 @@ declare class NftOutput extends ImmutableFeaturesOutput {
+  * Foundry output.
+  */
+ declare class FoundryOutput extends ImmutableFeaturesOutput {
+-    private serialNumber;
+-    private tokenScheme;
++    readonly serialNumber: number;
++    readonly tokenScheme: TokenScheme;
+     constructor(amount: bigint, serialNumber: number, unlockConditions: UnlockCondition[], tokenScheme: TokenScheme);
+     /**
+      * The serial number of the foundry with respect to the controlling alias.
+diff --git a/node_modules/@iota/sdk/out/types/block/output/output.d.ts.map b/node_modules/@iota/sdk/out/types/block/output/output.d.ts.map
+index 4ffb402..b5e59c0 100644
+--- a/node_modules/@iota/sdk/out/types/block/output/output.d.ts.map
++++ b/node_modules/@iota/sdk/out/types/block/output/output.d.ts.map
+@@ -1 +1 @@
+-{"version":3,"file":"output.d.ts","sourceRoot":"","sources":["../../../../lib/types/block/output/output.ts"],"names":[],"mappings":"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"}
+\ No newline at end of file
++{"version":3,"file":"output.d.ts","sourceRoot":"","sources":["../../../../lib/types/block/output/output.ts"],"names":[],"mappings":"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"}
+\ No newline at end of file
+diff --git a/node_modules/@iota/sdk/out/types/block/output/output.js.map b/node_modules/@iota/sdk/out/types/block/output/output.js.map
+index 22f4bce..09bd4c1 100644
+--- a/node_modules/@iota/sdk/out/types/block/output/output.js.map
++++ b/node_modules/@iota/sdk/out/types/block/output/output.js.map
+@@ -1 +1 @@
+-{"version":3,"file":"output.js","sourceRoot":"","sources":["../../../../lib/types/block/output/output.ts"],"names":[],"mappings":"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"}
+\ No newline at end of file
++{"version":3,"file":"output.js","sourceRoot":"","sources":["../../../../lib/types/block/output/output.ts"],"names":[],"mappings":";AAAA,+BAA+B;AAC/B,sCAAsC;;;;;;;;;;;;AAEtC,yDAG4B;AAC5B,uCAA0D;AAE1D,4CAA4C;AAC5C,yDAA0D;AAC1D,uCAA4D;AAC5D,iDAAuE;AAKvE;;GAEG;AACH,IAAK,UAMJ;AAND,WAAK,UAAU;IACX,mDAAY,CAAA;IACZ,6CAAS,CAAA;IACT,6CAAS,CAAA;IACT,iDAAW,CAAA;IACX,yCAAO,CAAA;AACX,CAAC,EANI,UAAU,KAAV,UAAU,QAMd;AA4QG,gCAAU;AA1Qd,MAAe,MAAM,CAAC,4BAA4B;IAK9C,YAAY,IAAgB,EAAE,MAAuB;QACjD,IAAI,CAAC,IAAI,GAAG,IAAI,CAAC;QACjB,IAAI,OAAO,MAAM,IAAI,QAAQ,EAAE;YAC3B,IAAI,CAAC,MAAM,GAAG,MAAM,CAAC,QAAQ,CAAC,EAAE,CAAC,CAAC;SACrC;aAAM;YACH,IAAI,CAAC,MAAM,GAAG,MAAM,CAAC;SACxB;IACL,CAAC;IAED;;OAEG;IACH,OAAO;QACH,OAAO,IAAI,CAAC,IAAI,CAAC;IACrB,CAAC;IAED;;OAEG;IACH,SAAS;QACL,OAAO,MAAM,CAAC,IAAI,CAAC,MAAM,CAAC,CAAC;IAC/B,CAAC;IAEM,MAAM,CAAC,KAAK,CAAC,IAAS;QACzB,IAAI,IAAI,CAAC,IAAI,IAAI,UAAU,CAAC,QAAQ,EAAE;YAClC,OAAO,IAAA,mCAAe,EAClB,cAAc,EACd,IAAI,CACkB,CAAC;SAC9B;aAAM,IAAI,IAAI,CAAC,IAAI,IAAI,UAAU,CAAC,KAAK,EAAE;YACtC,OAAO,IAAA,mCAAe,EAAC,WAAW,EAAE,IAAI,CAAuB,CAAC;SACnE;aAAM,IAAI,IAAI,CAAC,IAAI,IAAI,UAAU,CAAC,KAAK,EAAE;YACtC,OAAO,IAAA,mCAAe,EAAC,WAAW,EAAE,IAAI,CAAuB,CAAC;SACnE;aAAM,IAAI,IAAI,CAAC,IAAI,IAAI,UAAU,CAAC,OAAO,EAAE;YACxC,OAAO,IAAA,mCAAe,EAAC,aAAa,EAAE,IAAI,CAAyB,CAAC;SACvE;aAAM,IAAI,IAAI,CAAC,IAAI,IAAI,UAAU,CAAC,GAAG,EAAE;YACpC,OAAO,IAAA,mCAAe,EAAC,SAAS,EAAE,IAAI,CAAqB,CAAC;SAC/D;QACD,MAAM,IAAI,KAAK,CAAC,cAAc,CAAC,CAAC;IACpC,CAAC;CACJ;AA4NG,wBAAM;AA1NV;;GAEG;AACH,MAAe,YAAa,SAAQ,MAAM,CAAC,4BAA4B;IAanE,YACI,IAAgB,EAChB,MAAc,EACd,gBAAmC;QAEnC,KAAK,CAAC,IAAI,EAAE,MAAM,CAAC,CAAC;QACpB,IAAI,CAAC,gBAAgB,GAAG,gBAAgB,CAAC;IAC7C,CAAC;IACD;;OAEG;IACH,mBAAmB;QACf,OAAO,IAAI,CAAC,gBAAgB,CAAC;IACjC,CAAC;IACD;;OAEG;IACH,eAAe;QACX,IAAI,CAAC,IAAI,CAAC,YAAY,EAAE;YACpB,OAAO,IAAI,CAAC,YAAY,CAAC;SAC5B;QAED,4DAA4D;QAC5D,KAAK,IAAI,CAAC,GAAG,CAAC,EAAE,CAAC,GAAG,IAAI,CAAC,YAAY,CAAC,MAAM,EAAE,CAAC,EAAE,EAAE;YAC/C,MAAM,KAAK,GAAG,IAAI,CAAC,YAAY,CAAC,CAAC,CAAC,CAAC;YACnC,IAAI,OAAO,KAAK,CAAC,MAAM,KAAK,QAAQ,EAAE;gBAClC,IAAI,CAAC,YAAY,CAAC,CAAC,CAAC,CAAC,MAAM,GAAG,IAAA,mBAAW,EAAC,KAAK,CAAC,MAAM,CAAC,CAAC;aAC3D;SACJ;QACD,OAAO,IAAI,CAAC,YAAY,CAAC;IAC7B,CAAC;IAED;;OAEG;IACH,WAAW;QACP,OAAO,IAAI,CAAC,QAAQ,CAAC;IACzB,CAAC;CACJ;AAlDG;IAAC,IAAA,wBAAI,EAAC,GAAG,EAAE,CAAC,kCAAe,EAAE;QACzB,aAAa,EAAE,+CAA4B;KAC9C,CAAC;;sDAC2C;AAI7C;IAAC,IAAA,wBAAI,EAAC,GAAG,EAAE,CAAC,iBAAO,EAAE;QACjB,aAAa,EAAE,8BAAoB;KACtC,CAAC;;8CAC4B;AA8M9B,oCAAY;AArKhB;;GAEG;AACH,MAAM,cAAe,SAAQ,MAAM,CAAC,+BAA+B;IAC/D,YAAY,MAAc;QACtB,KAAK,CAAC,UAAU,CAAC,QAAQ,EAAE,MAAM,CAAC,CAAC;IACvC,CAAC;CACJ;AA+JG,wCAAc;AA9JlB;;GAEG;AACH,MAAM,WAAY,SAAQ,YAAY,CAAC,2BAA2B;IAC9D,YAAY,MAAc,EAAE,gBAAmC;QAC3D,KAAK,CAAC,UAAU,CAAC,KAAK,EAAE,MAAM,EAAE,gBAAgB,CAAC,CAAC;IACtD,CAAC;CACJ;AAwJG,kCAAW;AAtJf,MAAe,uBAAwB,SAAQ,YAAY;IAMvD,YACI,IAAgB,EAChB,MAAc,EACd,gBAAmC;QAEnC,KAAK,CAAC,IAAI,EAAE,MAAM,EAAE,gBAAgB,CAAC,CAAC;IAC1C,CAAC;IACD;;OAEG;IACH,oBAAoB;QAChB,OAAO,IAAI,CAAC,iBAAiB,CAAC;IAClC,CAAC;CACJ;AAlBG;IAAC,IAAA,wBAAI,EAAC,GAAG,EAAE,CAAC,iBAAO,EAAE;QACjB,aAAa,EAAE,8BAAoB;KACtC,CAAC;;kEACqC;AAiB3C,MAAe,mBAAoB,SAAQ,uBAAuB,CAAC,2BAA2B;IAG1F,YACI,IAAgB,EAChB,MAAc,EACd,gBAAmC;QAEnC,KAAK,CAAC,IAAI,EAAE,MAAM,EAAE,gBAAgB,CAAC,CAAC;IAC1C,CAAC;IACD;;OAEG;IACH,gBAAgB;QACZ,OAAO,IAAI,CAAC,aAAa,CAAC;IAC9B,CAAC;CACJ;AAED,MAAM,WAAY,SAAQ,mBAAmB,CAAC,2BAA2B;IAKrE,YACI,gBAAmC,EACnC,MAAc,EACd,OAAyB,EACzB,UAAkB,EAClB,cAAsB;QAEtB,KAAK,CAAC,UAAU,CAAC,KAAK,EAAE,MAAM,EAAE,gBAAgB,CAAC,CAAC;QAClD,IAAI,CAAC,OAAO,GAAG,OAAO,CAAC;QACvB,IAAI,CAAC,UAAU,GAAG,UAAU,CAAC;QAC7B,IAAI,CAAC,cAAc,GAAG,cAAc,CAAC;IACzC,CAAC;IACD;;;OAGG;IACH,UAAU;QACN,OAAO,IAAI,CAAC,OAAO,CAAC;IACxB,CAAC;IACD;;OAEG;IACH,aAAa;QACT,OAAO,IAAI,CAAC,UAAU,CAAC;IAC3B,CAAC;IACD;;OAEG;IACH,iBAAiB;QACb,OAAO,IAAI,CAAC,cAAc,CAAC;IAC/B,CAAC;CACJ;AA4EG,kCAAW;AA3Ef;;GAEG;AACH,MAAM,SAAU,SAAQ,uBAAuB,CAAC,yBAAyB;IAGrE,YACI,MAAc,EACd,KAAuB,EACvB,gBAAmC;QAEnC,KAAK,CAAC,UAAU,CAAC,GAAG,EAAE,MAAM,EAAE,gBAAgB,CAAC,CAAC;QAChD,IAAI,CAAC,KAAK,GAAG,KAAK,CAAC;IACvB,CAAC;IACD;;;OAGG;IACH,QAAQ;QACJ,OAAO,IAAI,CAAC,KAAK,CAAC;IACtB,CAAC;CACJ;AAuDG,8BAAS;AAtDb;;GAEG;AACH,MAAM,aAAc,SAAQ,uBAAuB,CAAC,6BAA6B;IAQ7E,YACI,MAAc,EACd,YAAoB,EACpB,gBAAmC,EACnC,WAAwB;QAExB,KAAK,CAAC,UAAU,CAAC,OAAO,EAAE,MAAM,EAAE,gBAAgB,CAAC,CAAC;QACpD,IAAI,CAAC,YAAY,GAAG,YAAY,CAAC;QACjC,IAAI,CAAC,WAAW,GAAG,WAAW,CAAC;IACnC,CAAC;IACD;;OAEG;IACH,eAAe;QACX,OAAO,IAAI,CAAC,YAAY,CAAC;IAC7B,CAAC;IACD;;OAEG;IACH,cAAc;QACV,OAAO,IAAI,CAAC,WAAW,CAAC;IAC5B,CAAC;CACJ;AA3BG;IAAC,IAAA,wBAAI,EAAC,GAAG,EAAE,CAAC,0BAAW,EAAE;QACrB,aAAa,EAAE,uCAAwB;KAC1C,CAAC;8BACoB,0BAAW;kDAAC;AA8ClC,sCAAa;AApBjB,MAAM,mBAAmB,GAAG;IACxB,QAAQ,EAAE,MAAM;IAChB,QAAQ,EAAE;QACN,EAAE,KAAK,EAAE,cAAc,EAAE,IAAI,EAAE,UAAU,CAAC,QAAe,EAAE;QAC3D,EAAE,KAAK,EAAE,WAAW,EAAE,IAAI,EAAE,UAAU,CAAC,KAAY,EAAE;QACrD,EAAE,KAAK,EAAE,WAAW,EAAE,IAAI,EAAE,UAAU,CAAC,KAAY,EAAE;QACrD,EAAE,KAAK,EAAE,SAAS,EAAE,IAAI,EAAE,UAAU,CAAC,GAAU,EAAE;QACjD,EAAE,KAAK,EAAE,aAAa,EAAE,IAAI,EAAE,UAAU,CAAC,OAAc,EAAE;KAC5D;CACJ,CAAC;AAGE,kDAAmB"}
+\ No newline at end of file
+diff --git a/node_modules/@iota/sdk/out/types/block/output/token-scheme.d.ts b/node_modules/@iota/sdk/out/types/block/output/token-scheme.d.ts
+index 825cd9b..98e364e 100644
+--- a/node_modules/@iota/sdk/out/types/block/output/token-scheme.d.ts
++++ b/node_modules/@iota/sdk/out/types/block/output/token-scheme.d.ts
+@@ -2,7 +2,7 @@ declare enum TokenSchemeType {
+     Simple = 0
+ }
+ declare abstract class TokenScheme {
+-    private type;
++    readonly type: TokenSchemeType;
+     constructor(type: TokenSchemeType);
+     /**
+      * The type of token scheme.
+@@ -13,9 +13,9 @@ declare abstract class TokenScheme {
+  * Simple token scheme.
+  */
+ declare class SimpleTokenScheme extends TokenScheme {
+-    private mintedTokens;
+-    private meltedTokens;
+-    private maximumSupply;
++    readonly mintedTokens: bigint;
++    readonly meltedTokens: bigint;
++    readonly maximumSupply: bigint;
+     constructor(mintedTokens: bigint, meltedTokens: bigint, maximumSupply: bigint);
+     /**
+      * Amount of tokens minted.
+diff --git a/node_modules/@iota/sdk/out/types/block/output/token-scheme.d.ts.map b/node_modules/@iota/sdk/out/types/block/output/token-scheme.d.ts.map
+index 9abe8a1..2819679 100644
+--- a/node_modules/@iota/sdk/out/types/block/output/token-scheme.d.ts.map
++++ b/node_modules/@iota/sdk/out/types/block/output/token-scheme.d.ts.map
+@@ -1 +1 @@
+-{"version":3,"file":"token-scheme.d.ts","sourceRoot":"","sources":["../../../../lib/types/block/output/token-scheme.ts"],"names":[],"mappings":"AAKA,aAAK,eAAe;IAChB,MAAM,IAAI;CACb;AAED,uBAAe,WAAW;IACtB,OAAO,CAAC,IAAI,CAAkB;gBAElB,IAAI,EAAE,eAAe;IAIjC;;OAEG;IACH,OAAO,IAAI,eAAe;CAG7B;AAED;;GAEG;AACH,cAAM,iBAAkB,SAAQ,WAAW;IACvC,OAAO,CAAC,YAAY,CAAS;IAC7B,OAAO,CAAC,YAAY,CAAS;IAC7B,OAAO,CAAC,aAAa,CAAS;gBAG1B,YAAY,EAAE,MAAM,EACpB,YAAY,EAAE,MAAM,EACpB,aAAa,EAAE,MAAM;IA4BzB;;OAEG;IACH,eAAe,IAAI,MAAM;IAIzB;;OAEG;IACH,eAAe,IAAI,MAAM;IAIzB;;OAEG;IACH,gBAAgB,IAAI,MAAM;CAG7B;AAED,QAAA,MAAM,wBAAwB;;;;;;CAK7B,CAAC;AAEF,OAAO,EACH,wBAAwB,EACxB,WAAW,EACX,eAAe,EACf,iBAAiB,GACpB,CAAC"}
+\ No newline at end of file
++{"version":3,"file":"token-scheme.d.ts","sourceRoot":"","sources":["../../../../lib/types/block/output/token-scheme.ts"],"names":[],"mappings":"AAKA,aAAK,eAAe;IAChB,MAAM,IAAI;CACb;AAED,uBAAe,WAAW;IACtB,QAAQ,CAAC,IAAI,EAAE,eAAe,CAAC;gBAEnB,IAAI,EAAE,eAAe;IAIjC;;OAEG;IACH,OAAO,IAAI,eAAe;CAG7B;AAED;;GAEG;AACH,cAAM,iBAAkB,SAAQ,WAAW;IACvC,QAAQ,CAAC,YAAY,EAAE,MAAM,CAAC;IAC9B,QAAQ,CAAC,YAAY,EAAE,MAAM,CAAC;IAC9B,QAAQ,CAAC,aAAa,EAAE,MAAM,CAAC;gBAG3B,YAAY,EAAE,MAAM,EACpB,YAAY,EAAE,MAAM,EACpB,aAAa,EAAE,MAAM;IA4BzB;;OAEG;IACH,eAAe,IAAI,MAAM;IAIzB;;OAEG;IACH,eAAe,IAAI,MAAM;IAIzB;;OAEG;IACH,gBAAgB,IAAI,MAAM;CAG7B;AAED,QAAA,MAAM,wBAAwB;;;;;;CAK7B,CAAC;AAEF,OAAO,EACH,wBAAwB,EACxB,WAAW,EACX,eAAe,EACf,iBAAiB,GACpB,CAAC"}
+\ No newline at end of file
+diff --git a/node_modules/@iota/sdk/out/types/block/output/unlock-condition.d.ts b/node_modules/@iota/sdk/out/types/block/output/unlock-condition.d.ts
+index b06970e..d177d45 100644
+--- a/node_modules/@iota/sdk/out/types/block/output/unlock-condition.d.ts
++++ b/node_modules/@iota/sdk/out/types/block/output/unlock-condition.d.ts
+@@ -12,7 +12,7 @@ declare enum UnlockConditionType {
+     ImmutableAliasAddress = 6
+ }
+ declare abstract class UnlockCondition {
+-    private type;
++    readonly type: UnlockConditionType;
+     constructor(type: UnlockConditionType);
+     /**
+      * The type of unlock condition.
+@@ -21,7 +21,7 @@ declare abstract class UnlockCondition {
+     static parse(data: any): UnlockCondition;
+ }
+ declare class AddressUnlockCondition extends UnlockCondition {
+-    private address;
++    readonly address: Address;
+     constructor(address: Address);
+     /**
+      * The address.
+@@ -32,8 +32,8 @@ declare class AddressUnlockCondition extends UnlockCondition {
+  * Storage Deposit Return Unlock Condition.
+  */
+ declare class StorageDepositReturnUnlockCondition extends UnlockCondition {
+-    private amount;
+-    private returnAddress;
++    readonly amount: string;
++    readonly returnAddress: Address;
+     constructor(returnAddress: Address, amount: bigint | string);
+     /**
+      * Amount of tokens the consuming transaction must deposit to the address defined in return address.
+@@ -48,7 +48,7 @@ declare class StorageDepositReturnUnlockCondition extends UnlockCondition {
+  * Timelock Unlock Condition.
+  */
+ declare class TimelockUnlockCondition extends UnlockCondition {
+-    private unixTime;
++    readonly unixTime: number;
+     constructor(unixTime: number);
+     /**
+      * Unix time (seconds since Unix epoch) starting from which the output can be consumed.
+@@ -56,8 +56,8 @@ declare class TimelockUnlockCondition extends UnlockCondition {
+     getUnixTime(): number;
+ }
+ declare class ExpirationUnlockCondition extends UnlockCondition {
+-    private returnAddress;
+-    private unixTime;
++    readonly returnAddress: Address;
++    readonly unixTime: number;
+     constructor(returnAddress: Address, unixTime: number);
+     /**
+      * Before this unix time, the condition is allowed to unlock the output,
+@@ -73,7 +73,7 @@ declare class ExpirationUnlockCondition extends UnlockCondition {
+  * State Controller Address Unlock Condition.
+  */
+ declare class StateControllerAddressUnlockCondition extends UnlockCondition {
+-    private address;
++    readonly address: Address;
+     constructor(address: Address);
+     /**
+      * The address.
+@@ -84,7 +84,7 @@ declare class StateControllerAddressUnlockCondition extends UnlockCondition {
+  * Governor Unlock Condition.
+  */
+ declare class GovernorAddressUnlockCondition extends UnlockCondition {
+-    private address;
++    readonly address: Address;
+     constructor(address: Address);
+     /**
+      * The address.
+@@ -95,7 +95,7 @@ declare class GovernorAddressUnlockCondition extends UnlockCondition {
+  * Immutable Alias Unlock Condition.
+  */
+ declare class ImmutableAliasAddressUnlockCondition extends UnlockCondition {
+-    private address;
++    readonly address: Address;
+     constructor(address: AliasAddress);
+     /**
+      * The address.
+@@ -116,15 +116,6 @@ declare const UnlockConditionDiscriminator: {
+     } | {
+         value: typeof ExpirationUnlockCondition;
+         name: any;
+-    } | {
+-        value: typeof StateControllerAddressUnlockCondition;
+-        name: any;
+-    } | {
+-        value: typeof GovernorAddressUnlockCondition;
+-        name: any;
+-    } | {
+-        value: typeof ImmutableAliasAddressUnlockCondition;
+-        name: any;
+     })[];
+ };
+ export { UnlockConditionDiscriminator, UnlockCondition, UnlockConditionType, AddressUnlockCondition, StorageDepositReturnUnlockCondition, TimelockUnlockCondition, ExpirationUnlockCondition, StateControllerAddressUnlockCondition, GovernorAddressUnlockCondition, ImmutableAliasAddressUnlockCondition, };
+diff --git a/node_modules/@iota/sdk/out/types/block/output/unlock-condition.d.ts.map b/node_modules/@iota/sdk/out/types/block/output/unlock-condition.d.ts.map
+index 9e6a3e5..ff4fb8c 100644
+--- a/node_modules/@iota/sdk/out/types/block/output/unlock-condition.d.ts.map
++++ b/node_modules/@iota/sdk/out/types/block/output/unlock-condition.d.ts.map
+@@ -1 +1 @@
+-{"version":3,"file":"unlock-condition.d.ts","sourceRoot":"","sources":["../../../../lib/types/block/output/unlock-condition.ts"],"names":[],"mappings":"AAIA,OAAO,EAAE,OAAO,EAAwB,YAAY,EAAE,MAAM,YAAY,CAAC;AAEzE;;GAEG;AACH,aAAK,mBAAmB;IACpB,OAAO,IAAI;IACX,oBAAoB,IAAI;IACxB,QAAQ,IAAI;IACZ,UAAU,IAAI;IACd,sBAAsB,IAAI;IAC1B,eAAe,IAAI;IACnB,qBAAqB,IAAI;CAC5B;AAED,uBAAe,eAAe;IAC1B,OAAO,CAAC,IAAI,CAAsB;gBAEtB,IAAI,EAAE,mBAAmB;IAGrC;;OAEG;IACH,OAAO,IAAI,mBAAmB;WAIhB,KAAK,CAAC,IAAI,EAAE,GAAG,GAAG,eAAe;CAuClD;AAED,cAAM,sBAAuB,SAAQ,eAAe;IAIhD,OAAO,CAAC,OAAO,CAAU;gBACb,OAAO,EAAE,OAAO;IAK5B;;OAEG;IACH,UAAU,IAAI,OAAO;CAGxB;AACD;;GAEG;AACH,cAAM,mCAAoC,SAAQ,eAAe;IAC7D,OAAO,CAAC,MAAM,CAAS;IAKvB,OAAO,CAAC,aAAa,CAAU;gBAEnB,aAAa,EAAE,OAAO,EAAE,MAAM,EAAE,MAAM,GAAG,MAAM;IAS3D;;OAEG;IACH,SAAS,IAAI,MAAM;IAInB;;OAEG;IACH,gBAAgB,IAAI,OAAO;CAG9B;AACD;;GAEG;AACH,cAAM,uBAAwB,SAAQ,eAAe;IACjD,OAAO,CAAC,QAAQ,CAAS;gBAEb,QAAQ,EAAE,MAAM;IAI5B;;OAEG;IACH,WAAW,IAAI,MAAM;CAGxB;AAED,cAAM,yBAA0B,SAAQ,eAAe;IAInD,OAAO,CAAC,aAAa,CAAU;IAC/B,OAAO,CAAC,QAAQ,CAAS;gBAEb,aAAa,EAAE,OAAO,EAAE,QAAQ,EAAE,MAAM;IAKpD;;;OAGG;IACH,WAAW,IAAI,MAAM;IAIrB;;OAEG;IACH,gBAAgB,IAAI,OAAO;CAG9B;AACD;;GAEG;AACH,cAAM,qCAAsC,SAAQ,eAAe;IAI/D,OAAO,CAAC,OAAO,CAAU;gBACb,OAAO,EAAE,OAAO;IAK5B;;OAEG;IACH,UAAU,IAAI,OAAO;CAGxB;AACD;;GAEG;AACH,cAAM,8BAA+B,SAAQ,eAAe;IAIxD,OAAO,CAAC,OAAO,CAAU;gBACb,OAAO,EAAE,OAAO;IAK5B;;OAEG;IACH,UAAU,IAAI,OAAO;CAGxB;AACD;;GAEG;AACH,cAAM,oCAAqC,SAAQ,eAAe;IAI9D,OAAO,CAAC,OAAO,CAAU;gBACb,OAAO,EAAE,YAAY;IAKjC;;OAEG;IACH,UAAU,IAAI,OAAO;CAGxB;AAED,QAAA,MAAM,4BAA4B;;;;;;;;;;;;;;;;;;;;;;;;CAgCjC,CAAC;AAEF,OAAO,EACH,4BAA4B,EAC5B,eAAe,EACf,mBAAmB,EACnB,sBAAsB,EACtB,mCAAmC,EACnC,uBAAuB,EACvB,yBAAyB,EACzB,qCAAqC,EACrC,8BAA8B,EAC9B,oCAAoC,GACvC,CAAC"}
+\ No newline at end of file
++{"version":3,"file":"unlock-condition.d.ts","sourceRoot":"","sources":["../../../../lib/types/block/output/unlock-condition.ts"],"names":[],"mappings":"AAIA,OAAO,EAAE,OAAO,EAAwB,YAAY,EAAE,MAAM,YAAY,CAAC;AAEzE;;GAEG;AACH,aAAK,mBAAmB;IACpB,OAAO,IAAI;IACX,oBAAoB,IAAI;IACxB,QAAQ,IAAI;IACZ,UAAU,IAAI;IACd,sBAAsB,IAAI;IAC1B,eAAe,IAAI;IACnB,qBAAqB,IAAI;CAC5B;AAED,uBAAe,eAAe;IAC1B,QAAQ,CAAC,IAAI,EAAE,mBAAmB,CAAC;gBAEvB,IAAI,EAAE,mBAAmB;IAGrC;;OAEG;IACH,OAAO,IAAI,mBAAmB;WAIhB,KAAK,CAAC,IAAI,EAAE,GAAG,GAAG,eAAe;CAuClD;AAED,cAAM,sBAAuB,SAAQ,eAAe;IAIhD,QAAQ,CAAC,OAAO,EAAE,OAAO,CAAC;gBAEd,OAAO,EAAE,OAAO;IAK5B;;OAEG;IACH,UAAU,IAAI,OAAO;CAGxB;AACD;;GAEG;AACH,cAAM,mCAAoC,SAAQ,eAAe;IAC7D,QAAQ,CAAC,MAAM,EAAE,MAAM,CAAC;IAKxB,QAAQ,CAAC,aAAa,EAAE,OAAO,CAAC;gBAEpB,aAAa,EAAE,OAAO,EAAE,MAAM,EAAE,MAAM,GAAG,MAAM;IAS3D;;OAEG;IACH,SAAS,IAAI,MAAM;IAInB;;OAEG;IACH,gBAAgB,IAAI,OAAO;CAG9B;AACD;;GAEG;AACH,cAAM,uBAAwB,SAAQ,eAAe;IACjD,QAAQ,CAAC,QAAQ,EAAE,MAAM,CAAC;gBAEd,QAAQ,EAAE,MAAM;IAI5B;;OAEG;IACH,WAAW,IAAI,MAAM;CAGxB;AAED,cAAM,yBAA0B,SAAQ,eAAe;IAInD,QAAQ,CAAC,aAAa,EAAE,OAAO,CAAC;IAChC,QAAQ,CAAC,QAAQ,EAAE,MAAM,CAAC;gBAEd,aAAa,EAAE,OAAO,EAAE,QAAQ,EAAE,MAAM;IAKpD;;;OAGG;IACH,WAAW,IAAI,MAAM;IAIrB;;OAEG;IACH,gBAAgB,IAAI,OAAO;CAG9B;AACD;;GAEG;AACH,cAAM,qCAAsC,SAAQ,eAAe;IAI/D,QAAQ,CAAC,OAAO,EAAE,OAAO,CAAC;gBACd,OAAO,EAAE,OAAO;IAK5B;;OAEG;IACH,UAAU,IAAI,OAAO;CAGxB;AACD;;GAEG;AACH,cAAM,8BAA+B,SAAQ,eAAe;IAIxD,QAAQ,CAAC,OAAO,EAAE,OAAO,CAAC;gBACd,OAAO,EAAE,OAAO;IAK5B;;OAEG;IACH,UAAU,IAAI,OAAO;CAGxB;AACD;;GAEG;AACH,cAAM,oCAAqC,SAAQ,eAAe;IAI9D,QAAQ,CAAC,OAAO,EAAE,OAAO,CAAC;gBAEd,OAAO,EAAE,YAAY;IAKjC;;OAEG;IACH,UAAU,IAAI,OAAO;CAGxB;AAED,QAAA,MAAM,4BAA4B;;;;;;;;;;;;;;;CAgCjC,CAAC;AAEF,OAAO,EACH,4BAA4B,EAC5B,eAAe,EACf,mBAAmB,EACnB,sBAAsB,EACtB,mCAAmC,EACnC,uBAAuB,EACvB,yBAAyB,EACzB,qCAAqC,EACrC,8BAA8B,EAC9B,oCAAoC,GACvC,CAAC"}
+\ No newline at end of file
+diff --git a/node_modules/@iota/sdk/out/types/block/output/unlock-condition.js.map b/node_modules/@iota/sdk/out/types/block/output/unlock-condition.js.map
+index 50992d8..08b4f69 100644
+--- a/node_modules/@iota/sdk/out/types/block/output/unlock-condition.js.map
++++ b/node_modules/@iota/sdk/out/types/block/output/unlock-condition.js.map
+@@ -1 +1 @@
+-{"version":3,"file":"unlock-condition.js","sourceRoot":"","sources":["../../../../lib/types/block/output/unlock-condition.ts"],"names":[],"mappings":"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"}
+\ No newline at end of file
++{"version":3,"file":"unlock-condition.js","sourceRoot":"","sources":["../../../../lib/types/block/output/unlock-condition.ts"],"names":[],"mappings":"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"}
+\ No newline at end of file
+diff --git a/node_modules/@iota/sdk/out/types/block/payload/payload.d.ts b/node_modules/@iota/sdk/out/types/block/payload/payload.d.ts
+index 0733dd0..62dc431 100644
+--- a/node_modules/@iota/sdk/out/types/block/payload/payload.d.ts
++++ b/node_modules/@iota/sdk/out/types/block/payload/payload.d.ts
+@@ -8,7 +8,7 @@ declare enum PayloadType {
+     TreasuryTransaction = 4
+ }
+ declare abstract class Payload {
+-    private type;
++    readonly type: PayloadType;
+     constructor(type: PayloadType);
+     /**
+      * The type of payload.
+diff --git a/node_modules/@iota/sdk/out/types/block/payload/payload.d.ts.map b/node_modules/@iota/sdk/out/types/block/payload/payload.d.ts.map
+index 69e4c68..f385f6d 100644
+--- a/node_modules/@iota/sdk/out/types/block/payload/payload.d.ts.map
++++ b/node_modules/@iota/sdk/out/types/block/payload/payload.d.ts.map
+@@ -1 +1 @@
+-{"version":3,"file":"payload.d.ts","sourceRoot":"","sources":["../../../../lib/types/block/payload/payload.ts"],"names":[],"mappings":"AAGA;;GAEG;AACH,aAAK,WAAW;IAEZ,SAAS,IAAI;IAEb,UAAU,IAAI;IAEd,WAAW,IAAI;IAEf,mBAAmB,IAAI;CAC1B;AAED,uBAAe,OAAO;IAClB,OAAO,CAAC,IAAI,CAAc;gBAEd,IAAI,EAAE,WAAW;IAI7B;;OAEG;IACH,OAAO,IAAI,WAAW;CAGzB;AAED,OAAO,EAAE,WAAW,EAAE,OAAO,EAAE,CAAC"}
+\ No newline at end of file
++{"version":3,"file":"payload.d.ts","sourceRoot":"","sources":["../../../../lib/types/block/payload/payload.ts"],"names":[],"mappings":"AAGA;;GAEG;AACH,aAAK,WAAW;IAEZ,SAAS,IAAI;IAEb,UAAU,IAAI;IAEd,WAAW,IAAI;IAEf,mBAAmB,IAAI;CAC1B;AAED,uBAAe,OAAO;IAClB,QAAQ,CAAC,IAAI,EAAE,WAAW,CAAC;gBAEf,IAAI,EAAE,WAAW;IAI7B;;OAEG;IACH,OAAO,IAAI,WAAW;CAGzB;AAED,OAAO,EAAE,WAAW,EAAE,OAAO,EAAE,CAAC"}
+\ No newline at end of file
+diff --git a/node_modules/@iota/sdk/out/types/block/payload/transaction/essence.d.ts b/node_modules/@iota/sdk/out/types/block/payload/transaction/essence.d.ts
+index f8854a5..eaa709e 100644
+--- a/node_modules/@iota/sdk/out/types/block/payload/transaction/essence.d.ts
++++ b/node_modules/@iota/sdk/out/types/block/payload/transaction/essence.d.ts
+@@ -9,7 +9,7 @@ declare enum TransactionEssenceType {
+     Regular = 1
+ }
+ declare abstract class TransactionEssence {
+-    private type;
++    readonly type: TransactionEssenceType;
+     constructor(type: TransactionEssenceType);
+     /**
+      * The type of essence.
+@@ -20,11 +20,11 @@ declare abstract class TransactionEssence {
+  * RegularTransactionEssence transaction essence.
+  */
+ declare class RegularTransactionEssence extends TransactionEssence {
+-    networkId: number;
+-    inputsCommitment: HexEncodedString;
+-    inputs: [Input];
+-    outputs: [Output];
+-    payload: Payload | undefined;
++    readonly networkId: number;
++    readonly inputsCommitment: HexEncodedString;
++    readonly inputs: [Input];
++    readonly outputs: [Output];
++    readonly payload: Payload | undefined;
+     constructor(networkId: number, inputsCommitment: HexEncodedString, inputs: [Input], outputs: [Output], payload: Payload | undefined);
+ }
+ declare const TransactionEssenceDiscriminator: {
+diff --git a/node_modules/@iota/sdk/out/types/block/payload/transaction/essence.d.ts.map b/node_modules/@iota/sdk/out/types/block/payload/transaction/essence.d.ts.map
+index 0e56a39..e990e7a 100644
+--- a/node_modules/@iota/sdk/out/types/block/payload/transaction/essence.d.ts.map
++++ b/node_modules/@iota/sdk/out/types/block/payload/transaction/essence.d.ts.map
+@@ -1 +1 @@
+-{"version":3,"file":"essence.d.ts","sourceRoot":"","sources":["../../../../../lib/types/block/payload/transaction/essence.ts"],"names":[],"mappings":"AAKA,OAAO,EAAE,gBAAgB,EAAE,MAAM,gBAAgB,CAAC;AAClD,OAAO,EAAE,KAAK,EAAsB,MAAM,aAAa,CAAC;AACxD,OAAO,EAAE,MAAM,EAAuB,MAAM,cAAc,CAAC;AAC3D,OAAO,EAAE,OAAO,EAAE,MAAM,YAAY,CAAC;AAErC;;GAEG;AACH,aAAK,sBAAsB;IACvB,OAAO,IAAI;CACd;AAED,uBAAe,kBAAkB;IAC7B,OAAO,CAAC,IAAI,CAAyB;gBAEzB,IAAI,EAAE,sBAAsB;IAIxC;;OAEG;IACH,OAAO,IAAI,sBAAsB;CAGpC;AAED;;GAEG;AACH,cAAM,yBAA0B,SAAQ,kBAAkB;IAEtD,SAAS,EAAE,MAAM,CAAC;IAClB,gBAAgB,EAAE,gBAAgB,CAAC;IAKnC,MAAM,EAAE,CAAC,KAAK,CAAC,CAAC;IAKhB,OAAO,EAAE,CAAC,MAAM,CAAC,CAAC;IAKlB,OAAO,EAAE,OAAO,GAAG,SAAS,CAAC;gBAGzB,SAAS,EAAE,MAAM,EACjB,gBAAgB,EAAE,gBAAgB,EAClC,MAAM,EAAE,CAAC,KAAK,CAAC,EACf,OAAO,EAAE,CAAC,MAAM,CAAC,EACjB,OAAO,EAAE,OAAO,GAAG,SAAS;CASnC;AAED,QAAA,MAAM,+BAA+B;;;;;;CAQpC,CAAC;AAEF,OAAO,EACH,+BAA+B,EAC/B,kBAAkB,EAClB,sBAAsB,EACtB,yBAAyB,GAC5B,CAAC"}
+\ No newline at end of file
++{"version":3,"file":"essence.d.ts","sourceRoot":"","sources":["../../../../../lib/types/block/payload/transaction/essence.ts"],"names":[],"mappings":"AAKA,OAAO,EAAE,gBAAgB,EAAE,MAAM,gBAAgB,CAAC;AAClD,OAAO,EAAE,KAAK,EAAsB,MAAM,aAAa,CAAC;AACxD,OAAO,EAAE,MAAM,EAAuB,MAAM,cAAc,CAAC;AAC3D,OAAO,EAAE,OAAO,EAAE,MAAM,YAAY,CAAC;AAErC;;GAEG;AACH,aAAK,sBAAsB;IACvB,OAAO,IAAI;CACd;AAED,uBAAe,kBAAkB;IAC7B,QAAQ,CAAC,IAAI,EAAE,sBAAsB,CAAC;gBAE1B,IAAI,EAAE,sBAAsB;IAIxC;;OAEG;IACH,OAAO,IAAI,sBAAsB;CAGpC;AAED;;GAEG;AACH,cAAM,yBAA0B,SAAQ,kBAAkB;IAEtD,QAAQ,CAAC,SAAS,EAAE,MAAM,CAAC;IAC3B,QAAQ,CAAC,gBAAgB,EAAE,gBAAgB,CAAC;IAK5C,QAAQ,CAAC,MAAM,EAAE,CAAC,KAAK,CAAC,CAAC;IAKzB,QAAQ,CAAC,OAAO,EAAE,CAAC,MAAM,CAAC,CAAC;IAK3B,QAAQ,CAAC,OAAO,EAAE,OAAO,GAAG,SAAS,CAAC;gBAGlC,SAAS,EAAE,MAAM,EACjB,gBAAgB,EAAE,gBAAgB,EAClC,MAAM,EAAE,CAAC,KAAK,CAAC,EACf,OAAO,EAAE,CAAC,MAAM,CAAC,EACjB,OAAO,EAAE,OAAO,GAAG,SAAS;CASnC;AAED,QAAA,MAAM,+BAA+B;;;;;;CAQpC,CAAC;AAEF,OAAO,EACH,+BAA+B,EAC/B,kBAAkB,EAClB,sBAAsB,EACtB,yBAAyB,GAC5B,CAAC"}
+\ No newline at end of file
+diff --git a/node_modules/@iota/sdk/out/types/block/payload/transaction/essence.js.map b/node_modules/@iota/sdk/out/types/block/payload/transaction/essence.js.map
+index 453c31d..bbaf5c5 100644
+--- a/node_modules/@iota/sdk/out/types/block/payload/transaction/essence.js.map
++++ b/node_modules/@iota/sdk/out/types/block/payload/transaction/essence.js.map
+@@ -1 +1 @@
+-{"version":3,"file":"essence.js","sourceRoot":"","sources":["../../../../../lib/types/block/payload/transaction/essence.ts"],"names":[],"mappings":";AAAA,+BAA+B;AAC/B,sCAAsC;;;;;;;;;;;;AAEtC,yDAAyC;AACzC,0BAA0C;AAE1C,uCAAwD;AACxD,yCAA2D;AAC3D,wCAAqC;AAErC;;GAEG;AACH,IAAK,sBAEJ;AAFD,WAAK,sBAAsB;IACvB,yEAAW,CAAA;AACf,CAAC,EAFI,sBAAsB,KAAtB,sBAAsB,QAE1B;AAqEG,wDAAsB;AAnE1B,MAAe,kBAAkB;IAG7B,YAAY,IAA4B;QACpC,IAAI,CAAC,IAAI,GAAG,IAAI,CAAC;IACrB,CAAC;IAED;;OAEG;IACH,OAAO;QACH,OAAO,IAAI,CAAC,IAAI,CAAC;IACrB,CAAC;CACJ;AAqDG,gDAAkB;AAnDtB;;GAEG;AACH,MAAM,yBAA0B,SAAQ,kBAAkB;IAoBtD,YACI,SAAiB,EACjB,gBAAkC,EAClC,MAAe,EACf,OAAiB,EACjB,OAA4B;QAE5B,KAAK,CAAC,sBAAsB,CAAC,OAAO,CAAC,CAAC;QACtC,IAAI,CAAC,SAAS,GAAG,SAAS,CAAC;QAC3B,IAAI,CAAC,gBAAgB,GAAG,gBAAgB,CAAC;QACzC,IAAI,CAAC,MAAM,GAAG,MAAM,CAAC;QACrB,IAAI,CAAC,OAAO,GAAG,OAAO,CAAC;QACvB,IAAI,CAAC,OAAO,GAAG,OAAO,CAAC;IAC3B,CAAC;CACJ;AA7BG;IAAC,IAAA,wBAAI,EAAC,GAAG,EAAE,CAAC,aAAK,EAAE;QACf,aAAa,EAAE,0BAAkB;KACpC,CAAC;;yDACc;AAEhB;IAAC,IAAA,wBAAI,EAAC,GAAG,EAAE,CAAC,eAAM,EAAE;QAChB,aAAa,EAAE,4BAAmB;KACrC,CAAC;;0DACgB;AAElB;IAAC,IAAA,wBAAI,EAAC,GAAG,EAAE,CAAC,iBAAO,EAAE;QACjB,aAAa,EAAE,wBAAoB;KACtC,CAAC;;0DAC2B;AAgC7B,8DAAyB;AAd7B,MAAM,+BAA+B,GAAG;IACpC,QAAQ,EAAE,MAAM;IAChB,QAAQ,EAAE;QACN;YACI,KAAK,EAAE,yBAAyB;YAChC,IAAI,EAAE,sBAAsB,CAAC,OAAc;SAC9C;KACJ;CACJ,CAAC;AAGE,0EAA+B"}
+\ No newline at end of file
++{"version":3,"file":"essence.js","sourceRoot":"","sources":["../../../../../lib/types/block/payload/transaction/essence.ts"],"names":[],"mappings":";AAAA,+BAA+B;AAC/B,sCAAsC;;;;;;;;;;;;AAEtC,yDAAyC;AACzC,0BAA0C;AAE1C,uCAAwD;AACxD,yCAA2D;AAC3D,wCAAqC;AAErC;;GAEG;AACH,IAAK,sBAEJ;AAFD,WAAK,sBAAsB;IACvB,yEAAW,CAAA;AACf,CAAC,EAFI,sBAAsB,KAAtB,sBAAsB,QAE1B;AAqEG,wDAAsB;AAnE1B,MAAe,kBAAkB;IAG7B,YAAY,IAA4B;QACpC,IAAI,CAAC,IAAI,GAAG,IAAI,CAAC;IACrB,CAAC;IAED;;OAEG;IACH,OAAO;QACH,OAAO,IAAI,CAAC,IAAI,CAAC;IACrB,CAAC;CACJ;AAqDG,gDAAkB;AAnDtB;;GAEG;AACH,MAAM,yBAA0B,SAAQ,kBAAkB;IAoBtD,YACI,SAAiB,EACjB,gBAAkC,EAClC,MAAe,EACf,OAAiB,EACjB,OAA4B;QAE5B,KAAK,CAAC,sBAAsB,CAAC,OAAO,CAAC,CAAC;QACtC,IAAI,CAAC,SAAS,GAAG,SAAS,CAAC;QAC3B,IAAI,CAAC,gBAAgB,GAAG,gBAAgB,CAAC;QACzC,IAAI,CAAC,MAAM,GAAG,MAAM,CAAC;QACrB,IAAI,CAAC,OAAO,GAAG,OAAO,CAAC;QACvB,IAAI,CAAC,OAAO,GAAG,OAAO,CAAC;IAC3B,CAAC;CACJ;AA7BG;IAAC,IAAA,wBAAI,EAAC,GAAG,EAAE,CAAC,aAAK,EAAE;QACf,aAAa,EAAE,0BAAkB;KACpC,CAAC;;yDACuB;AAEzB;IAAC,IAAA,wBAAI,EAAC,GAAG,EAAE,CAAC,eAAM,EAAE;QAChB,aAAa,EAAE,4BAAmB;KACrC,CAAC;;0DACyB;AAE3B;IAAC,IAAA,wBAAI,EAAC,GAAG,EAAE,CAAC,iBAAO,EAAE;QACjB,aAAa,EAAE,wBAAoB;KACtC,CAAC;;0DACoC;AAgCtC,8DAAyB;AAd7B,MAAM,+BAA+B,GAAG;IACpC,QAAQ,EAAE,MAAM;IAChB,QAAQ,EAAE;QACN;YACI,KAAK,EAAE,yBAAyB;YAChC,IAAI,EAAE,sBAAsB,CAAC,OAAc;SAC9C;KACJ;CACJ,CAAC;AAGE,0EAA+B"}
+\ No newline at end of file
+diff --git a/node_modules/@iota/sdk/out/types/block/payload/transaction/unlock.d.ts b/node_modules/@iota/sdk/out/types/block/payload/transaction/unlock.d.ts
+index 523e94a..8a35e47 100644
+--- a/node_modules/@iota/sdk/out/types/block/payload/transaction/unlock.d.ts
++++ b/node_modules/@iota/sdk/out/types/block/payload/transaction/unlock.d.ts
+@@ -9,7 +9,7 @@ declare enum UnlockType {
+     Nft = 3
+ }
+ declare abstract class Unlock {
+-    private type;
++    readonly type: UnlockType;
+     constructor(type: UnlockType);
+     /**
+      * The type of unlock.
+@@ -23,7 +23,7 @@ declare class SignatureUnlock extends Unlock {
+     /**
+      * The signature.
+      */
+-    signature: Ed25519Signature;
++    readonly signature: Ed25519Signature;
+     constructor(signature: Ed25519Signature);
+ }
+ /**
+diff --git a/node_modules/@iota/sdk/out/types/block/payload/transaction/unlock.d.ts.map b/node_modules/@iota/sdk/out/types/block/payload/transaction/unlock.d.ts.map
+index 35185a0..de069e4 100644
+--- a/node_modules/@iota/sdk/out/types/block/payload/transaction/unlock.d.ts.map
++++ b/node_modules/@iota/sdk/out/types/block/payload/transaction/unlock.d.ts.map
+@@ -1 +1 @@
+-{"version":3,"file":"unlock.d.ts","sourceRoot":"","sources":["../../../../../lib/types/block/payload/transaction/unlock.ts"],"names":[],"mappings":"AAIA,OAAO,EAAE,gBAAgB,EAAE,MAAM,iBAAiB,CAAC;AAEnD;;GAEG;AACH,aAAK,UAAU;IACX,SAAS,IAAI;IACb,SAAS,IAAI;IACb,KAAK,IAAI;IACT,GAAG,IAAI;CACV;AAED,uBAAe,MAAM;IACjB,OAAO,CAAC,IAAI,CAAa;gBAEb,IAAI,EAAE,UAAU;IAI5B;;OAEG;IACH,OAAO,IAAI,UAAU;CAGxB;AAED;;GAEG;AACH,cAAM,eAAgB,SAAQ,MAAM;IAChC;;OAEG;IAEH,SAAS,EAAE,gBAAgB,CAAC;gBAEhB,SAAS,EAAE,gBAAgB;CAI1C;AAED;;;GAGG;AACH,cAAM,eAAgB,SAAQ,MAAM;IAChC;;OAEG;IACH,SAAS,EAAE,MAAM,CAAC;gBAEN,SAAS,EAAE,MAAM;CAIhC;AAED;;GAEG;AACH,cAAM,WAAY,SAAQ,MAAM;IAC5B;;OAEG;IACH,SAAS,EAAE,MAAM,CAAC;gBAEN,SAAS,EAAE,MAAM;CAIhC;AAED;;GAEG;AACH,cAAM,SAAU,SAAQ,MAAM;IAC1B;;OAEG;IACH,SAAS,EAAE,MAAM,CAAC;gBAEN,SAAS,EAAE,MAAM;CAIhC;AAED,QAAA,MAAM,mBAAmB;;;;;;;;;CAoBxB,CAAC;AAEF,OAAO,EACH,UAAU,EACV,MAAM,EACN,eAAe,EACf,eAAe,EACf,WAAW,EACX,SAAS,EACT,mBAAmB,GACtB,CAAC"}
+\ No newline at end of file
++{"version":3,"file":"unlock.d.ts","sourceRoot":"","sources":["../../../../../lib/types/block/payload/transaction/unlock.ts"],"names":[],"mappings":"AAIA,OAAO,EAAE,gBAAgB,EAAE,MAAM,iBAAiB,CAAC;AAEnD;;GAEG;AACH,aAAK,UAAU;IACX,SAAS,IAAI;IACb,SAAS,IAAI;IACb,KAAK,IAAI;IACT,GAAG,IAAI;CACV;AAED,uBAAe,MAAM;IACjB,QAAQ,CAAC,IAAI,EAAE,UAAU,CAAC;gBAEd,IAAI,EAAE,UAAU;IAI5B;;OAEG;IACH,OAAO,IAAI,UAAU;CAGxB;AAED;;GAEG;AACH,cAAM,eAAgB,SAAQ,MAAM;IAChC;;OAEG;IAEH,QAAQ,CAAC,SAAS,EAAE,gBAAgB,CAAC;gBAEzB,SAAS,EAAE,gBAAgB;CAI1C;AAED;;;GAGG;AACH,cAAM,eAAgB,SAAQ,MAAM;IAChC;;OAEG;IACH,SAAS,EAAE,MAAM,CAAC;gBAEN,SAAS,EAAE,MAAM;CAIhC;AAED;;GAEG;AACH,cAAM,WAAY,SAAQ,MAAM;IAC5B;;OAEG;IACH,SAAS,EAAE,MAAM,CAAC;gBAEN,SAAS,EAAE,MAAM;CAIhC;AAED;;GAEG;AACH,cAAM,SAAU,SAAQ,MAAM;IAC1B;;OAEG;IACH,SAAS,EAAE,MAAM,CAAC;gBAEN,SAAS,EAAE,MAAM;CAIhC;AAED,QAAA,MAAM,mBAAmB;;;;;;;;;CAoBxB,CAAC;AAEF,OAAO,EACH,UAAU,EACV,MAAM,EACN,eAAe,EACf,eAAe,EACf,WAAW,EACX,SAAS,EACT,mBAAmB,GACtB,CAAC"}
+\ No newline at end of file
+diff --git a/node_modules/@iota/sdk/out/types/block/payload/transaction/unlock.js.map b/node_modules/@iota/sdk/out/types/block/payload/transaction/unlock.js.map
+index 827ef91..24af6ca 100644
+--- a/node_modules/@iota/sdk/out/types/block/payload/transaction/unlock.js.map
++++ b/node_modules/@iota/sdk/out/types/block/payload/transaction/unlock.js.map
+@@ -1 +1 @@
+-{"version":3,"file":"unlock.js","sourceRoot":"","sources":["../../../../../lib/types/block/payload/transaction/unlock.ts"],"names":[],"mappings":";AAAA,+BAA+B;AAC/B,sCAAsC;;;;;;;;;;;;AAEtC,yDAAyC;AACzC,+CAAmD;AAEnD;;GAEG;AACH,IAAK,UAKJ;AALD,WAAK,UAAU;IACX,qDAAa,CAAA;IACb,qDAAa,CAAA;IACb,6CAAS,CAAA;IACT,yCAAO,CAAA;AACX,CAAC,EALI,UAAU,KAAV,UAAU,QAKd;AAsGG,gCAAU;AApGd,MAAe,MAAM;IAGjB,YAAY,IAAgB;QACxB,IAAI,CAAC,IAAI,GAAG,IAAI,CAAC;IACrB,CAAC;IAED;;OAEG;IACH,OAAO;QACH,OAAO,IAAI,CAAC,IAAI,CAAC;IACrB,CAAC;CACJ;AAwFG,wBAAM;AAtFV;;GAEG;AACH,MAAM,eAAgB,SAAQ,MAAM;IAOhC,YAAY,SAA2B;QACnC,KAAK,CAAC,UAAU,CAAC,SAAS,CAAC,CAAC;QAC5B,IAAI,CAAC,SAAS,GAAG,SAAS,CAAC;IAC/B,CAAC;CACJ;AAPG;IAAC,IAAA,wBAAI,EAAC,GAAG,EAAE,CAAC,4BAAgB,CAAC;8BAClB,4BAAgB;kDAAC;AA+E5B,0CAAe;AAvEnB;;;GAGG;AACH,MAAM,eAAgB,SAAQ,MAAM;IAMhC,YAAY,SAAiB;QACzB,KAAK,CAAC,UAAU,CAAC,SAAS,CAAC,CAAC;QAC5B,IAAI,CAAC,SAAS,GAAG,SAAS,CAAC;IAC/B,CAAC;CACJ;AA0DG,0CAAe;AAxDnB;;GAEG;AACH,MAAM,WAAY,SAAQ,MAAM;IAM5B,YAAY,SAAiB;QACzB,KAAK,CAAC,UAAU,CAAC,KAAK,CAAC,CAAC;QACxB,IAAI,CAAC,SAAS,GAAG,SAAS,CAAC;IAC/B,CAAC;CACJ;AA4CG,kCAAW;AA1Cf;;GAEG;AACH,MAAM,SAAU,SAAQ,MAAM;IAM1B,YAAY,SAAiB;QACzB,KAAK,CAAC,UAAU,CAAC,GAAG,CAAC,CAAC;QACtB,IAAI,CAAC,SAAS,GAAG,SAAS,CAAC;IAC/B,CAAC;CACJ;AA8BG,8BAAS;AA5Bb,MAAM,mBAAmB,GAAG;IACxB,QAAQ,EAAE,MAAM;IAChB,QAAQ,EAAE;QACN;YACI,KAAK,EAAE,eAAe;YACtB,IAAI,EAAE,UAAU,CAAC,SAAgB;SACpC;QACD;YACI,KAAK,EAAE,eAAe;YACtB,IAAI,EAAE,UAAU,CAAC,SAAgB;SACpC;QACD;YACI,KAAK,EAAE,WAAW;YAClB,IAAI,EAAE,UAAU,CAAC,KAAY;SAChC;QACD;YACI,KAAK,EAAE,SAAS;YAChB,IAAI,EAAE,UAAU,CAAC,GAAU;SAC9B;KACJ;CACJ,CAAC;AASE,kDAAmB"}
+\ No newline at end of file
++{"version":3,"file":"unlock.js","sourceRoot":"","sources":["../../../../../lib/types/block/payload/transaction/unlock.ts"],"names":[],"mappings":";AAAA,+BAA+B;AAC/B,sCAAsC;;;;;;;;;;;;AAEtC,yDAAyC;AACzC,+CAAmD;AAEnD;;GAEG;AACH,IAAK,UAKJ;AALD,WAAK,UAAU;IACX,qDAAa,CAAA;IACb,qDAAa,CAAA;IACb,6CAAS,CAAA;IACT,yCAAO,CAAA;AACX,CAAC,EALI,UAAU,KAAV,UAAU,QAKd;AAsGG,gCAAU;AApGd,MAAe,MAAM;IAGjB,YAAY,IAAgB;QACxB,IAAI,CAAC,IAAI,GAAG,IAAI,CAAC;IACrB,CAAC;IAED;;OAEG;IACH,OAAO;QACH,OAAO,IAAI,CAAC,IAAI,CAAC;IACrB,CAAC;CACJ;AAwFG,wBAAM;AAtFV;;GAEG;AACH,MAAM,eAAgB,SAAQ,MAAM;IAOhC,YAAY,SAA2B;QACnC,KAAK,CAAC,UAAU,CAAC,SAAS,CAAC,CAAC;QAC5B,IAAI,CAAC,SAAS,GAAG,SAAS,CAAC;IAC/B,CAAC;CACJ;AAPG;IAAC,IAAA,wBAAI,EAAC,GAAG,EAAE,CAAC,4BAAgB,CAAC;8BACT,4BAAgB;kDAAC;AA+ErC,0CAAe;AAvEnB;;;GAGG;AACH,MAAM,eAAgB,SAAQ,MAAM;IAMhC,YAAY,SAAiB;QACzB,KAAK,CAAC,UAAU,CAAC,SAAS,CAAC,CAAC;QAC5B,IAAI,CAAC,SAAS,GAAG,SAAS,CAAC;IAC/B,CAAC;CACJ;AA0DG,0CAAe;AAxDnB;;GAEG;AACH,MAAM,WAAY,SAAQ,MAAM;IAM5B,YAAY,SAAiB;QACzB,KAAK,CAAC,UAAU,CAAC,KAAK,CAAC,CAAC;QACxB,IAAI,CAAC,SAAS,GAAG,SAAS,CAAC;IAC/B,CAAC;CACJ;AA4CG,kCAAW;AA1Cf;;GAEG;AACH,MAAM,SAAU,SAAQ,MAAM;IAM1B,YAAY,SAAiB;QACzB,KAAK,CAAC,UAAU,CAAC,GAAG,CAAC,CAAC;QACtB,IAAI,CAAC,SAAS,GAAG,SAAS,CAAC;IAC/B,CAAC;CACJ;AA8BG,8BAAS;AA5Bb,MAAM,mBAAmB,GAAG;IACxB,QAAQ,EAAE,MAAM;IAChB,QAAQ,EAAE;QACN;YACI,KAAK,EAAE,eAAe;YACtB,IAAI,EAAE,UAAU,CAAC,SAAgB;SACpC;QACD;YACI,KAAK,EAAE,eAAe;YACtB,IAAI,EAAE,UAAU,CAAC,SAAgB;SACpC;QACD;YACI,KAAK,EAAE,WAAW;YAClB,IAAI,EAAE,UAAU,CAAC,KAAY;SAChC;QACD;YACI,KAAK,EAAE,SAAS;YAChB,IAAI,EAAE,UAAU,CAAC,GAAU;SAC9B;KACJ;CACJ,CAAC;AASE,kDAAmB"}
+\ No newline at end of file
+diff --git a/node_modules/@iota/sdk/out/types/block/signature.d.ts b/node_modules/@iota/sdk/out/types/block/signature.d.ts
+index 5f1df6e..4524df6 100644
+--- a/node_modules/@iota/sdk/out/types/block/signature.d.ts
++++ b/node_modules/@iota/sdk/out/types/block/signature.d.ts
+@@ -6,7 +6,7 @@ declare enum SignatureType {
+     Ed25519 = 0
+ }
+ declare abstract class Signature {
+-    private type;
++    readonly type: SignatureType;
+     constructor(type: SignatureType);
+     /**
+      * The type of signature.
+@@ -20,11 +20,11 @@ declare class Ed25519Signature extends Signature {
+     /**
+      * The public key.
+      */
+-    publicKey: HexEncodedString;
++    readonly publicKey: HexEncodedString;
+     /**
+      * The signature.
+      */
+-    signature: HexEncodedString;
++    readonly signature: HexEncodedString;
+     constructor(publicKey: HexEncodedString, signature: HexEncodedString);
+ }
+ export { SignatureType, Ed25519Signature, Signature };
+diff --git a/node_modules/@iota/sdk/out/types/block/signature.d.ts.map b/node_modules/@iota/sdk/out/types/block/signature.d.ts.map
+index 0a2ae33..043b66e 100644
+--- a/node_modules/@iota/sdk/out/types/block/signature.d.ts.map
++++ b/node_modules/@iota/sdk/out/types/block/signature.d.ts.map
+@@ -1 +1 @@
+-{"version":3,"file":"signature.d.ts","sourceRoot":"","sources":["../../../lib/types/block/signature.ts"],"names":[],"mappings":"AAIA,OAAO,EAAE,gBAAgB,EAAE,MAAM,UAAU,CAAC;AAE5C;;GAEG;AACH,aAAK,aAAa;IACd,OAAO,IAAI;CACd;AAED,uBAAe,SAAS;IACpB,OAAO,CAAC,IAAI,CAAgB;gBAEhB,IAAI,EAAE,aAAa;IAI/B;;OAEG;IACH,OAAO,IAAI,aAAa;CAG3B;AAED;;GAEG;AACH,cAAM,gBAAiB,SAAQ,SAAS;IACpC;;OAEG;IACH,SAAS,EAAE,gBAAgB,CAAC;IAC5B;;OAEG;IACH,SAAS,EAAE,gBAAgB,CAAC;gBAEhB,SAAS,EAAE,gBAAgB,EAAE,SAAS,EAAE,gBAAgB;CAKvE;AAED,OAAO,EAAE,aAAa,EAAE,gBAAgB,EAAE,SAAS,EAAE,CAAC"}
+\ No newline at end of file
++{"version":3,"file":"signature.d.ts","sourceRoot":"","sources":["../../../lib/types/block/signature.ts"],"names":[],"mappings":"AAIA,OAAO,EAAE,gBAAgB,EAAE,MAAM,UAAU,CAAC;AAE5C;;GAEG;AACH,aAAK,aAAa;IACd,OAAO,IAAI;CACd;AAED,uBAAe,SAAS;IACpB,QAAQ,CAAC,IAAI,EAAE,aAAa,CAAC;gBAEjB,IAAI,EAAE,aAAa;IAI/B;;OAEG;IACH,OAAO,IAAI,aAAa;CAG3B;AAED;;GAEG;AACH,cAAM,gBAAiB,SAAQ,SAAS;IACpC;;OAEG;IACH,QAAQ,CAAC,SAAS,EAAE,gBAAgB,CAAC;IACrC;;OAEG;IACH,QAAQ,CAAC,SAAS,EAAE,gBAAgB,CAAC;gBAEzB,SAAS,EAAE,gBAAgB,EAAE,SAAS,EAAE,gBAAgB;CAKvE;AAED,OAAO,EAAE,aAAa,EAAE,gBAAgB,EAAE,SAAS,EAAE,CAAC"}
+\ No newline at end of file
+diff --git a/node_modules/@iota/sdk/out/types/models/milestone_options/milestone-options.d.ts b/node_modules/@iota/sdk/out/types/models/milestone_options/milestone-options.d.ts
+index a2269c7..38a0f96 100644
+--- a/node_modules/@iota/sdk/out/types/models/milestone_options/milestone-options.d.ts
++++ b/node_modules/@iota/sdk/out/types/models/milestone_options/milestone-options.d.ts
+@@ -6,7 +6,7 @@ declare enum MilestoneOptionType {
+     ProtocolParams = 1
+ }
+ declare abstract class MilestoneOption {
+-    private type;
++    readonly type: MilestoneOptionType;
+     constructor(type: MilestoneOptionType);
+     /**
+      * The type of milestone option.
+diff --git a/node_modules/@iota/sdk/out/types/models/milestone_options/milestone-options.d.ts.map b/node_modules/@iota/sdk/out/types/models/milestone_options/milestone-options.d.ts.map
+index 5d897eb..626ac88 100644
+--- a/node_modules/@iota/sdk/out/types/models/milestone_options/milestone-options.d.ts.map
++++ b/node_modules/@iota/sdk/out/types/models/milestone_options/milestone-options.d.ts.map
+@@ -1 +1 @@
+-{"version":3,"file":"milestone-options.d.ts","sourceRoot":"","sources":["../../../../lib/types/models/milestone_options/milestone-options.ts"],"names":[],"mappings":"AAGA;;GAEG;AACH,aAAK,mBAAmB;IACpB,OAAO,IAAI;IACX,cAAc,IAAI;CACrB;AAED,uBAAe,eAAe;IAC1B,OAAO,CAAC,IAAI,CAAsB;gBAEtB,IAAI,EAAE,mBAAmB;IAIrC;;OAEG;IACH,OAAO,IAAI,mBAAmB;CAGjC;AAED,OAAO,EAAE,mBAAmB,EAAE,eAAe,EAAE,CAAC"}
+\ No newline at end of file
++{"version":3,"file":"milestone-options.d.ts","sourceRoot":"","sources":["../../../../lib/types/models/milestone_options/milestone-options.ts"],"names":[],"mappings":"AAGA;;GAEG;AACH,aAAK,mBAAmB;IACpB,OAAO,IAAI;IACX,cAAc,IAAI;CACrB;AAED,uBAAe,eAAe;IAC1B,QAAQ,CAAC,IAAI,EAAE,mBAAmB,CAAC;gBAEvB,IAAI,EAAE,mBAAmB;IAIrC;;OAEG;IACH,OAAO,IAAI,mBAAmB;CAGjC;AAED,OAAO,EAAE,mBAAmB,EAAE,eAAe,EAAE,CAAC"}
+\ No newline at end of file
+diff --git a/node_modules/@iota/sdk/out/types/utils/bridge/utils.d.ts b/node_modules/@iota/sdk/out/types/utils/bridge/utils.d.ts
+index 9a1394d..2b65e33 100644
+--- a/node_modules/@iota/sdk/out/types/utils/bridge/utils.d.ts
++++ b/node_modules/@iota/sdk/out/types/utils/bridge/utils.d.ts
+@@ -20,7 +20,7 @@ export interface __ComputeFoundryIdMethod__ {
+     data: {
+         aliasId: AliasId;
+         serialNumber: number;
+-        tokenSchemeType: number;
++        tokenSchemeKind: number;
+     };
+ }
+ export interface __ComputeInputsCommitmentMethod__ {
+diff --git a/node_modules/@iota/sdk/out/types/wallet/prepared-create-token-transaction.d.ts b/node_modules/@iota/sdk/out/types/wallet/prepared-create-token-transaction.d.ts
+index d5d3bd7..282b8c4 100644
+--- a/node_modules/@iota/sdk/out/types/wallet/prepared-create-token-transaction.d.ts
++++ b/node_modules/@iota/sdk/out/types/wallet/prepared-create-token-transaction.d.ts
+@@ -1,7 +1,7 @@
+ import { Account, PreparedCreateNativeTokenTransactionData } from '../..';
+ import { PreparedTransaction } from './prepared-transaction';
+ export declare class PreparedCreateNativeTokenTransaction extends PreparedTransaction {
+-    private _tokenId;
++    readonly _tokenId: string;
+     constructor(preparedData: PreparedCreateNativeTokenTransactionData, account: Account);
+     /**
+      * The function returns the tokenId as a string.
+diff --git a/node_modules/@iota/sdk/out/types/wallet/prepared-create-token-transaction.d.ts.map b/node_modules/@iota/sdk/out/types/wallet/prepared-create-token-transaction.d.ts.map
+index 18abae4..c136d4e 100644
+--- a/node_modules/@iota/sdk/out/types/wallet/prepared-create-token-transaction.d.ts.map
++++ b/node_modules/@iota/sdk/out/types/wallet/prepared-create-token-transaction.d.ts.map
+@@ -1 +1 @@
+-{"version":3,"file":"prepared-create-token-transaction.d.ts","sourceRoot":"","sources":["../../../lib/types/wallet/prepared-create-token-transaction.ts"],"names":[],"mappings":"AAGA,OAAO,EAAE,OAAO,EAAE,wCAAwC,EAAE,MAAM,OAAO,CAAC;AAE1E,OAAO,EAAE,mBAAmB,EAAE,MAAM,wBAAwB,CAAC;AAK7D,qBAAa,oCAAqC,SAAQ,mBAAmB;IACzE,OAAO,CAAC,QAAQ,CAAS;gBAGrB,YAAY,EAAE,wCAAwC,EACtD,OAAO,EAAE,OAAO;IAMpB;;;;;;OAMG;IACI,OAAO,IAAI,MAAM;CAG3B"}
+\ No newline at end of file
++{"version":3,"file":"prepared-create-token-transaction.d.ts","sourceRoot":"","sources":["../../../lib/types/wallet/prepared-create-token-transaction.ts"],"names":[],"mappings":"AAGA,OAAO,EAAE,OAAO,EAAE,wCAAwC,EAAE,MAAM,OAAO,CAAC;AAE1E,OAAO,EAAE,mBAAmB,EAAE,MAAM,wBAAwB,CAAC;AAK7D,qBAAa,oCAAqC,SAAQ,mBAAmB;IACzE,QAAQ,CAAC,QAAQ,EAAE,MAAM,CAAC;gBAGtB,YAAY,EAAE,wCAAwC,EACtD,OAAO,EAAE,OAAO;IAMpB;;;;;;OAMG;IACI,OAAO,IAAI,MAAM;CAG3B"}
+\ No newline at end of file
+diff --git a/node_modules/@iota/sdk/out/types/wallet/prepared-transaction.d.ts b/node_modules/@iota/sdk/out/types/wallet/prepared-transaction.d.ts
+index b399db1..2b3ebc7 100644
+--- a/node_modules/@iota/sdk/out/types/wallet/prepared-transaction.d.ts
++++ b/node_modules/@iota/sdk/out/types/wallet/prepared-transaction.d.ts
+@@ -6,8 +6,8 @@ import { Account, PreparedTransactionData, SignedTransactionEssence, Transaction
+  * the transaction and sign+submit/send the transaction.
+  */
+ export declare class PreparedTransaction {
+-    private _preparedData;
+-    private _account;
++    readonly _preparedData: PreparedTransactionData;
++    readonly _account: Account;
+     constructor(preparedData: PreparedTransactionData, account: Account);
+     /**
+      * The function returns the prepared transaction data.
+@@ -29,7 +29,7 @@ export declare class PreparedTransaction {
+      */
+     send(): Promise<Transaction>;
+     /**
+-     * This function signs a prepared transaction essence using the account's private key and returns
++     * This function signs a prepared transaction essence using the account's readonly key and returns
+      * the signed transaction essence.
+      *
+      * Returns:
+diff --git a/node_modules/@iota/sdk/out/types/wallet/prepared-transaction.d.ts.map b/node_modules/@iota/sdk/out/types/wallet/prepared-transaction.d.ts.map
+index 2867b76..94f5a7e 100644
+--- a/node_modules/@iota/sdk/out/types/wallet/prepared-transaction.d.ts.map
++++ b/node_modules/@iota/sdk/out/types/wallet/prepared-transaction.d.ts.map
+@@ -1 +1 @@
+-{"version":3,"file":"prepared-transaction.d.ts","sourceRoot":"","sources":["../../../lib/types/wallet/prepared-transaction.ts"],"names":[],"mappings":"AAGA,OAAO,EACH,OAAO,EACP,uBAAuB,EACvB,wBAAwB,EACxB,WAAW,EACd,MAAM,OAAO,CAAC;AAEf;;;;;GAKG;AACH,qBAAa,mBAAmB;IAC5B,OAAO,CAAC,aAAa,CAA0B;IAC/C,OAAO,CAAC,QAAQ,CAAU;gBAEd,YAAY,EAAE,uBAAuB,EAAE,OAAO,EAAE,OAAO;IAKnE;;;;;;;OAOG;IACI,uBAAuB,IAAI,uBAAuB;IAIzD;;;;;;;;OAQG;IACU,IAAI,IAAI,OAAO,CAAC,WAAW,CAAC;IAIzC;;;;;;;OAOG;IACU,IAAI,IAAI,OAAO,CAAC,wBAAwB,CAAC;IAMtD;;;;;;OAMG;IACU,wBAAwB,IAAI,OAAO,CAAC,WAAW,CAAC;CAKhE"}
+\ No newline at end of file
++{"version":3,"file":"prepared-transaction.d.ts","sourceRoot":"","sources":["../../../lib/types/wallet/prepared-transaction.ts"],"names":[],"mappings":"AAGA,OAAO,EACH,OAAO,EACP,uBAAuB,EACvB,wBAAwB,EACxB,WAAW,EACd,MAAM,OAAO,CAAC;AAEf;;;;;GAKG;AACH,qBAAa,mBAAmB;IAC5B,QAAQ,CAAC,aAAa,EAAE,uBAAuB,CAAC;IAChD,QAAQ,CAAC,QAAQ,EAAE,OAAO,CAAC;gBAEf,YAAY,EAAE,uBAAuB,EAAE,OAAO,EAAE,OAAO;IAKnE;;;;;;;OAOG;IACI,uBAAuB,IAAI,uBAAuB;IAIzD;;;;;;;;OAQG;IACU,IAAI,IAAI,OAAO,CAAC,WAAW,CAAC;IAIzC;;;;;;;OAOG;IACU,IAAI,IAAI,OAAO,CAAC,wBAAwB,CAAC;IAMtD;;;;;;OAMG;IACU,wBAAwB,IAAI,OAAO,CAAC,WAAW,CAAC;CAKhE"}
+\ No newline at end of file
+diff --git a/node_modules/@iota/sdk/out/types/wallet/prepared-transaction.js b/node_modules/@iota/sdk/out/types/wallet/prepared-transaction.js
+index 8e46aa5..0fdc5a8 100644
+--- a/node_modules/@iota/sdk/out/types/wallet/prepared-transaction.js
++++ b/node_modules/@iota/sdk/out/types/wallet/prepared-transaction.js
+@@ -38,7 +38,7 @@ class PreparedTransaction {
+         return this.signAndSubmitTransaction();
+     }
+     /**
+-     * This function signs a prepared transaction essence using the account's private key and returns
++     * This function signs a prepared transaction essence using the account's readonly key and returns
+      * the signed transaction essence.
+      *
+      * Returns:
+diff --git a/node_modules/@iota/sdk/out/utils/utils.d.ts b/node_modules/@iota/sdk/out/utils/utils.d.ts
+index 9329cf7..d473c99 100644
+--- a/node_modules/@iota/sdk/out/utils/utils.d.ts
++++ b/node_modules/@iota/sdk/out/utils/utils.d.ts
+@@ -17,7 +17,7 @@ export declare class Utils {
+     /**
+      * Computes the foundry id.
+      */
+-    static computeFoundryId(aliasId: AliasId, serialNumber: number, tokenSchemeType: number): FoundryId;
++    static computeFoundryId(aliasId: AliasId, serialNumber: number, tokenSchemeKind: number): FoundryId;
+     /**
+      * Computes the NFT id for the given NFT output id.
+      */
+diff --git a/node_modules/@iota/sdk/out/utils/utils.js b/node_modules/@iota/sdk/out/utils/utils.js
+index 2876955..9690db8 100644
+--- a/node_modules/@iota/sdk/out/utils/utils.js
++++ b/node_modules/@iota/sdk/out/utils/utils.js
+@@ -40,13 +40,13 @@ class Utils {
+     /**
+      * Computes the foundry id.
+      */
+-    static computeFoundryId(aliasId, serialNumber, tokenSchemeType) {
++    static computeFoundryId(aliasId, serialNumber, tokenSchemeKind) {
+         return (0, bindings_1.callUtilsMethod)({
+             name: 'computeFoundryId',
+             data: {
+                 aliasId,
+                 serialNumber,
+-                tokenSchemeType,
++                tokenSchemeKind,
+             },
+         });
+     }
