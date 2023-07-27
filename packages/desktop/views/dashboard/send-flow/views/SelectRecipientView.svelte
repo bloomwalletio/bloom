@@ -1,8 +1,7 @@
 <script lang="ts">
     import { onMount } from 'svelte'
     import features from '@features/features'
-    import { selectedAccount, selectedAccountIndex } from '@core/account/stores'
-    import { ContactManager } from '@core/contact'
+    import { selectedAccount } from '@core/account/stores'
     import { localize } from '@core/i18n'
     import { IChain, IIscpChainConfiguration, network } from '@core/network'
     import {
