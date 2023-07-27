@@ -8,7 +8,9 @@ export async function destroyProfileManager(
     _profileManager: Writable<IProfileManager> = profileManager
 ): Promise<void> {
     const manager = get(_profileManager)
-    if (!manager) return
+    if (!manager) {
+        return
+    }
 
     _profileManager.set(null)
     api.deleteAccountManager(manager?.id)
