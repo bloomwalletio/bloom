@@ -19,6 +19,7 @@
         "patch-package": "6.5.1",
         "prettier": "2.8.7",
         "prettier-plugin-svelte": "2.10.0",
+        "svelte-check": "3.4.6",
         "svelte-preprocess": "5.0.4",
         "typescript": "5.0.3"
     },
@@ -34,6 +35,7 @@
         "check-types": "yarn check-types:shared && yarn check-types:desktop",
         "check-types:desktop": "cd packages/desktop && tsc --pretty --noEmit",
         "check-types:shared": "cd packages/shared && tsc --project tsconfig.base.json --pretty --noEmit",
+        "check-svelte": "svelte-check --ignore packages/mobile",
         "format": "yarn format:write",
         "format:check": "prettier -c \"**/*.{ts,js,json,scss,css,svelte}\"",
         "format:write": "prettier -w \"**/*.{ts,js,json,scss,css,svelte}\"",

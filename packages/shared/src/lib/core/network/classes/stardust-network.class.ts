@@ -50,6 +50,10 @@ export class StardustNetwork implements INetwork {
         return this._chains
     }
 
+    getIscpChains(): IChain[] {
+        return this._chains.filter((chain) => chain.getConfiguration().type === ChainType.Iscp)
+    }
+
     addChain(chainConfiguration: ChainConfiguration): IChain {
         if (this.isChainAlreadyAdded(chainConfiguration)) {
             throw new Error('This chain has already been added.')

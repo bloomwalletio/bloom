@@ -13,8 +13,6 @@
     import features from '@features/features'
     import { Animation, Button, Checkbox, Link, Text, TextType } from '@ui'
     import { onboardingRouter } from '../onboarding-router'
-    import { initialiseOnboardingProfile } from '@contexts/onboarding/actions'
-    import { shouldBeDeveloperProfile } from '@contexts/onboarding/utils'
 
     let termsAccepted: boolean = false
 
@@ -26,11 +24,10 @@
         openUrlInBrowser(PRIVACY_POLICY_URL)
     }
 
-    async function onContinueClick(): Promise<void> {
+    function onContinueClick(): void {
         lastAcceptedTermsOfService.set(TERMS_OF_SERVICE_VERSION)
         lastAcceptedPrivacyPolicy.set(PRIVACY_POLICY_VERSION)
         hasCompletedAppSetup.set(true)
-        await initialiseOnboardingProfile(shouldBeDeveloperProfile())
         $onboardingRouter.next()
     }
 </script>

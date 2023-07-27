@@ -1,7 +1,8 @@
 <script lang="ts">
     import { Icon as IconEnum } from '@auxiliary/icon'
     import { NetworkId } from '@core/network'
-    import { FontWeight, Icon, NetworkIcon, RecipientInput, Text, TextType } from '@ui'
+    import { Subject, SubjectType } from '@core/wallet'
+    import { FontWeight, Icon, IOption, NetworkIcon, RecipientInput, Text, TextType } from '@ui'
     import { INetworkRecipientSelectorOption } from '../interfaces'
 
     export let item: INetworkRecipientSelectorOption
@@ -11,8 +12,32 @@
 
     let recipientInputElement: HTMLInputElement
 
+    let isLayer2 = false
     $: isLayer2 = !!item?.networkAddress
     $: onChange && selected && onChange(item)
+
+    const options = item.recipients.map((r) => getOptionFromRecipient(r)).filter((r) => !!r) as IOption[]
+
+    function getOptionFromRecipient(recipient: Subject): IOption | undefined {
+        switch (recipient.type) {
+            case SubjectType.Account:
+                return {
+                    id: recipient.account.index,
+                    key: recipient.account.name,
+                    value: recipient.address,
+                    color: recipient.account.color,
+                }
+            case SubjectType.Contact:
+                return {
+                    id: recipient.contact.id,
+                    key: recipient.contact.name,
+                    value: recipient.address,
+                    color: recipient.contact.color,
+                }
+            default:
+                return undefined
+        }
+    }
 
     function onItemClick(): void {
         recipientInputElement?.focus()
@@ -39,7 +64,12 @@
     </network-recipient-item-name>
     {#if selected}
         <network-recipient-item-address>
-            <RecipientInput bind:inputElement={recipientInputElement} bind:recipient={item.recipient} {isLayer2} />
+            <RecipientInput
+                bind:inputElement={recipientInputElement}
+                bind:recipient={item.selectedRecipient}
+                {options}
+                {isLayer2}
+            />
         </network-recipient-item-address>
     {/if}
 </network-recipient-item>
