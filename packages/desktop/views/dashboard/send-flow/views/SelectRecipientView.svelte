@@ -12,6 +12,7 @@
         sendFlowParameters,
         updateSendFlowParameters,
         getChainIdFromSendFlowParameters,
+        SubjectType,
     } from '@core/wallet'
     import { closePopup } from '@desktop/auxiliary/popup'
     import { INetworkRecipientSelectorOption, NetworkRecipientSelector } from '@ui'
