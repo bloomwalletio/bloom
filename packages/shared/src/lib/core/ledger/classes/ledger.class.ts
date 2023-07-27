@@ -7,7 +7,7 @@ import { EvmTransactionData } from '@core/layer-2/types'
 import { prepareEvmTransaction } from '@core/layer-2/utils'
 import { MILLISECONDS_PER_SECOND, sleep } from '@core/utils'
 
-import { DEFAULT_LEDGER_API_REQUEST_CONFIGURATION } from '../constants'
+import { DEFAULT_LEDGER_API_REQUEST_OPTIONS } from '../constants'
 import { LedgerApiMethod } from '../enums'
 import { ILedgerApiBridge, ILedgerApiRequestOptions } from '../interfaces'
 import { LedgerApiRequestResponse } from '../types'
@@ -24,7 +24,7 @@ export class Ledger {
     private readonly _apiRequestOptions: ILedgerApiRequestOptions
 
     constructor(apiRequestOptions?: ILedgerApiRequestOptions) {
-        this._apiRequestOptions = apiRequestOptions ?? DEFAULT_LEDGER_API_REQUEST_CONFIGURATION
+        this._apiRequestOptions = apiRequestOptions ?? DEFAULT_LEDGER_API_REQUEST_OPTIONS
     }
 
     static async generateEvmAddress(accountIndex: number, coinType: number, verify?: boolean): Promise<string> {
