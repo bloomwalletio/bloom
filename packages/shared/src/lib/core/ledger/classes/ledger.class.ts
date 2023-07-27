@@ -38,7 +38,12 @@ export class LedgerApi implements ILedgerApi {
     async signEvmTransaction(transactionData: EvmTransactionData, bip32Path: string): Promise<string> {
         const unsignedTransactionMessageHex = prepareEvmTransaction(transactionData)
         const transactionSignature = await this.callLedgerApiAsync<IEvmTransactionSignature>(
-            () => ledgerApiBridge.makeRequest(LedgerApiMethod.SignEvmTransaction, unsignedTransactionMessageHex, bip32Path),
+            () =>
+                ledgerApiBridge.makeRequest(
+                    LedgerApiMethod.SignEvmTransaction,
+                    unsignedTransactionMessageHex,
+                    bip32Path
+                ),
             'evm-signed-transaction'
         )
         const { r, v, s } = transactionSignature
@@ -47,7 +52,10 @@ export class LedgerApi implements ILedgerApi {
         }
     }
 
-    private async callLedgerApiAsync<R extends LedgerApiRequestResponse>(callback: () => void, responseEvent: keyof IPlatformEventMap): Promise<R> {
+    private async callLedgerApiAsync<R extends LedgerApiRequestResponse>(
+        callback: () => void,
+        responseEvent: keyof IPlatformEventMap
+    ): Promise<R> {
         const { timeout, pollingInterval } = this._apiRequestOptions
         const iterationCount = (timeout * MILLISECONDS_PER_SECOND) / pollingInterval
 
@@ -63,7 +71,7 @@ export class LedgerApi implements ILedgerApi {
 
         for (let count = 0; count < iterationCount; count++) {
             if (!isGenerating) {
-                if (returnValue && (Object.keys(returnValue).length !== 0)) {
+                if (returnValue && Object.keys(returnValue).length !== 0) {
                     return returnValue
                 } else {
                     return Promise.reject('error.ledger.rejected')

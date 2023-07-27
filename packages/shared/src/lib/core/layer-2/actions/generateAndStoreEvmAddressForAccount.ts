@@ -18,7 +18,6 @@ export async function generateAndStoreEvmAddressForAccount(
         )[0]
     } else {
         evmAddress = await get(ledger).generateEvmAddress(account.index, coinType)
-        console.log('evm address: ', evmAddress)
     }
     const evmAddresses = account?.evmAddresses ?? {}
     evmAddresses[coinType] = evmAddress
