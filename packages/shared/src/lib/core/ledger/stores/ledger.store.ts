@@ -1,7 +1,6 @@
 import { writable } from 'svelte/store'
 
-import { Ledger } from '../classes'
-import { ILedger } from '../interfaces'
+import { LedgerApi } from '../classes'
+import { ILedgerApi } from '../interfaces'
 
-console.log('init ledger')
-export const ledger = writable<ILedger>(new Ledger())
+export const ledger = writable<ILedgerApi>(new LedgerApi())

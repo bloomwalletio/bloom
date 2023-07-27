@@ -1,21 +1,25 @@
-import { ILedger } from '../interfaces'
+import { buildBip32Path } from '@core/account/utils'
 import { IEvmAddress, IPlatformEventMap, Platform } from '@core/app'
-import { MILLISECONDS_PER_SECOND, sleep } from '@core/utils'
 import { localize } from '@core/i18n'
-import { EvmTransactionData, IEvmTransactionSignature, prepareEvmTransaction } from '@core/layer-2'
-import { buildBip32Path } from '@core/account'
-import { LedgerMethod } from 'desktop/lib/electron/enums/ledger-method.enum'
-import { ILedgerApiBridge } from 'desktop/lib/electron/apis/ledger.api'
+import { IEvmTransactionSignature } from '@core/layer-2/interfaces'
+import { EvmTransactionData } from '@core/layer-2/types'
+import { prepareEvmTransaction } from '@core/layer-2/utils'
+import { MILLISECONDS_PER_SECOND, sleep } from '@core/utils'
+
+import { DEFAULT_LEDGER_API_REQUEST_CONFIGURATION } from '../constants'
+import { LedgerApiMethod } from '../enums'
+import { ILedgerApi, ILedgerApiBridge, ILedgerApiRequestOptions } from '../interfaces'
+import { LedgerApiRequestResponse } from '../types'
 
 declare global {
     interface Window {
-        __LEDGER__: ILedger
+        __LEDGER__: ILedgerApi
     }
 }
 
-export const LedgerApiBridge: ILedgerApiBridge = window['__LEDGER__']
+const ledgerApiBridge: ILedgerApiBridge = window['__LEDGER__']
 
-export class Ledger implements ILedger {
+export class LedgerApi implements ILedgerApi {
     private readonly _apiRequestOptions: ILedgerApiRequestOptions
 
     constructor(apiRequestOptions?: ILedgerApiRequestOptions) {
@@ -25,7 +29,7 @@ export class Ledger implements ILedger {
     async generateEvmAddress(accountIndex: number, coinType: number, verify?: boolean): Promise<string> {
         const bip32Path = buildBip32Path(coinType, accountIndex)
         const response = await this.callLedgerApiAsync<IEvmAddress>(
-            () => LedgerApiBridge.makeRequest(LedgerMethod.GenerateEvmAddress, bip32Path, verify ?? false),
+            () => ledgerApiBridge.makeRequest(LedgerApiMethod.GenerateEvmAddress, bip32Path, verify ?? false),
             'evm-address'
         )
         return response.evmAddress
@@ -34,7 +38,7 @@ export class Ledger implements ILedger {
     async signEvmTransaction(transactionData: EvmTransactionData, bip32Path: string): Promise<string> {
         const unsignedTransactionMessageHex = prepareEvmTransaction(transactionData)
         const transactionSignature = await this.callLedgerApiAsync<IEvmTransactionSignature>(
-            () => LedgerApiBridge.makeRequest(LedgerMethod.SignEvmTransaction, unsignedTransactionMessageHex, bip32Path),
+            () => ledgerApiBridge.makeRequest(LedgerApiMethod.SignEvmTransaction, unsignedTransactionMessageHex, bip32Path),
             'evm-signed-transaction'
         )
         const { r, v, s } = transactionSignature
@@ -71,15 +75,3 @@ export class Ledger implements ILedger {
         return Promise.reject(localize('error.ledger.timeout'))
     }
 }
-
-export interface ILedgerApiRequestOptions {
-    timeout: number
-    pollingInterval: number
-}
-
-export const DEFAULT_LEDGER_API_REQUEST_CONFIGURATION: ILedgerApiRequestOptions = {
-    timeout: 60,
-    pollingInterval: 100,
-}
-
-export type LedgerApiRequestResponse = IEvmAddress | IEvmTransactionSignature
