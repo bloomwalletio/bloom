@@ -114,6 +114,7 @@
             form="password-form"
             classes="w-full"
             disabled={!strongholdPassword || !confirmedStrongholdPassword || busy}
+            isBusy={busy}
         >
             {localize('actions.continue')}
         </Button>
