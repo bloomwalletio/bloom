@@ -1,6 +1,5 @@
 <script lang="ts">
     import { onMount } from 'svelte'
-    import { get } from 'svelte/store'
     import { Button, KeyValueBox, Text, TextType, TextHint } from '@ui'
     import {
         appUpdateBusy,
@@ -8,8 +7,8 @@
         downloadAppUpdate,
         appVersionDetails,
         platform,
-        appStage,
         openUrlInBrowser,
+        APP_STAGE,
     } from '@core/app'
     import { formatDate, localize } from '@core/i18n'
     import { closePopup } from '@desktop/auxiliary/popup'
@@ -47,7 +46,7 @@
         />
         <KeyValueBox
             keyText={localize('popups.appUpdate.stage')}
-            valueText={localize(`popups.appUpdate.${get(appStage)}`)}
+            valueText={localize(`popups.appUpdate.${APP_STAGE}`)}
         />
         {#if $appVersionDetails.upToDate}
             <TextHint success classes="w-full" text={localize('popups.appUpdate.latestInstalled')} />

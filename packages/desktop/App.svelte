@@ -13,8 +13,6 @@
     } from '@core/router'
     import {
         appSettings,
-        appStage,
-        AppStage,
         appVersionDetails,
         initAppSettings,
         platform,
@@ -44,8 +42,6 @@
     import { OnboardingRouterView } from '@views/onboarding'
     import { registerLedgerDeviceEventHandlers } from '@core/ledger'
     import { handleDeepLink } from '@auxiliary/deep-link/handlers'
-
-    appStage.set(AppStage[process.env.STAGE.toUpperCase()] ?? AppStage.ALPHA)
 
     const { loggedIn } = $activeProfile
 
