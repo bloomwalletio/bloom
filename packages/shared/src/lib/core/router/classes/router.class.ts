@@ -50,7 +50,7 @@ export abstract class Router<R> implements IRouter {
     }
 
     reset(): void {
-        this.history = []
+        this.resetHistory()
         this.setRoute(this.initialRoute)
     }
 
@@ -62,5 +62,9 @@ export abstract class Router<R> implements IRouter {
         if (this.history.length && route !== get(this.routeStore)) {
             this.history = this.history.filter((_route) => _route !== route)
         }
+    }
+
+    resetHistory(): void {
+        this.history = []
     }
 }

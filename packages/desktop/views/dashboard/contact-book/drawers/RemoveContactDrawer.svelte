@@ -4,9 +4,11 @@
     import { Button, ButtonVariant, Text, TextHint } from '@ui'
     import { DrawerTemplate } from '@components'
 
-    import { ContactManager, selectedContact } from '@core/contact'
+    import { ContactManager, doesProfileHaveContacts, selectedContact } from '@core/contact'
     import { localize } from '@core/i18n'
     import { Router } from '@core/router'
+    import { activeProfile } from '@core/profile'
+    import { closeDrawer } from '@desktop/auxiliary/drawer'
 
     export let drawerRouter: Router<unknown>
 
@@ -16,7 +18,11 @@
 
     function onRemoveClick(): void {
         ContactManager.deleteContact($selectedContact.id)
-        drawerRouter.goTo(ContactBookRoute.ContactList)
+        if (doesProfileHaveContacts($activeProfile)) {
+            drawerRouter.goTo(ContactBookRoute.ContactList)
+        } else {
+            closeDrawer()
+        }
     }
 </script>
 

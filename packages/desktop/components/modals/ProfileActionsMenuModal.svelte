@@ -65,6 +65,7 @@
 
     function onContactBookClick(): void {
         openDrawer({ id: DrawerId.ContactBook })
+        modal?.close()
     }
 
     function updateLedgerConnectionText(): void {
