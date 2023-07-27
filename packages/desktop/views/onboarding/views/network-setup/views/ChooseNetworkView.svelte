@@ -1,12 +1,7 @@
 <script lang="ts">
     import { Icon } from '@auxiliary/icon'
     import { OnboardingLayout } from '@components'
-    import {
-        initialiseOnboardingProfile,
-        shouldBeDeveloperProfile,
-        updateOnboardingProfile,
-        onboardingProfile,
-    } from '@contexts/onboarding'
+    import { initialiseOnboardingProfile, updateOnboardingProfile, onboardingProfile } from '@contexts/onboarding'
     import { mobile } from '@core/app'
     import { localize } from '@core/i18n'
     import { NetworkId, getDefaultClientOptions, getDefaultPersistedNetwork } from '@core/network'
@@ -55,7 +50,7 @@
         updateOnboardingProfile({ network: undefined, clientOptions: undefined })
         // If coming from this view with no profiles, initialise a new profile
         if (!$onboardingProfile?.id) {
-            await initialiseOnboardingProfile(shouldBeDeveloperProfile())
+            await initialiseOnboardingProfile()
         }
     })
 </script>
