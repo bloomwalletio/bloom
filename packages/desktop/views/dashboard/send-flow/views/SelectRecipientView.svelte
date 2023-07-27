@@ -2,7 +2,7 @@
     import { selectedAccount, selectedAccountIndex } from '@core/account/stores'
     import { ContactManager } from '@core/contact'
     import { localize } from '@core/i18n'
-    import { ChainType, IChain, IIscpChainConfiguration, INetwork, network } from '@core/network'
+    import { IChain, IIscpChainConfiguration, INetwork, network } from '@core/network'
     import { visibleActiveAccounts } from '@core/profile'
     import {
         SendFlowType,
@@ -18,6 +18,8 @@
     import { onMount } from 'svelte'
     import { sendFlowRouter } from '../send-flow.router'
     import SendFlowTemplate from './SendFlowTemplate.svelte'
+    import { getAssetStandard } from '@core/wallet/actions/getTokenStandartFromSendFlowParameters'
+    import { getChainIdFromSendFlowParameters } from '@core/wallet/actions/getChainIdFromSendFlowParameters'
 
     let networkAddress = $sendFlowParameters?.layer2Parameters?.networkAddress
     let selectorOptions: INetworkRecipientSelectorOption[] = []
@@ -48,10 +50,6 @@
     }
 
     function buildNetworkRecipientOptions(): void {
-        if (!$network) {
-            return
-        }
-
         selectorOptions = getRecipientOptions()
         selectedIndex =
             networkAddress && selectorOptions.length
@@ -121,62 +119,45 @@
         }
     }
 
-    function getLayer2RecipientOptions(
-        sourceNetwork: INetwork,
-        sourceChainToInclude: number,
-        accountIndexToExclude?: number
-    ): INetworkRecipientSelectorOption[] {
-        if (features?.network?.layer2?.enabled) {
-            const compatibleIscpChains = sourceNetwork.getChains().filter((chain) => {
-                const chainConfiguration = chain.getConfiguration()
-                return (
-                    ((sourceChainToInclude && chainConfiguration.chainId === sourceChainToInclude) ||
-                        !sourceChainToInclude) &&
-                    chainConfiguration.type === ChainType.Iscp &&
-                    $selectedAccount?.evmAddresses?.[chainConfiguration.coinType]
-                )
-            })
-            return compatibleIscpChains.map((chain) => getRecipientOptionFromChain(chain, accountIndexToExclude))
-        } else {
-            return []
-        }
-    }
-
     function getRecipientOptions(): INetworkRecipientSelectorOption[] {
         if (!$network || !$sendFlowParameters) {
             return []
         }
 
-        // Define data to determine pathway
-        const asset =
-            $sendFlowParameters?.type === SendFlowType.BaseCoinTransfer
-                ? $sendFlowParameters.baseCoinTransfer.asset
-                : $sendFlowParameters?.type === SendFlowType.TokenTransfer
-                ? $sendFlowParameters.tokenTransfer.asset
-                : undefined
-        const sourceChainId = asset?.chainId
-
-        const networkRecipientOptions = []
-
-        // If sending from L1
-        if (sourceChainId === 0) {
-            networkRecipientOptions.push(getLayer1RecipientOption($network, $selectedAccountIndex))
-        } else if (
-            asset.standard === TokenStandard.Irc27 ||
-            asset.standard === TokenStandard.Irc30 ||
-            asset.standard === TokenStandard.BaseToken
-        ) {
-            networkRecipientOptions.push(getLayer1RecipientOption($network))
+        const layer1Network = getLayer1RecipientOption($network, $selectedAccountIndex)
+        if (!features?.network?.layer2?.enabled) {
+            return [layer1Network]
         }
 
-        if ($sendFlowParameters?.type !== SendFlowType.NftTransfer) {
-            networkRecipientOptions.push(
-                ...getLayer2RecipientOptions(
-                    $network,
-                    sourceChainId,
-                    sourceChainId !== 0 ? $selectedAccountIndex : undefined
-                )
-            )
+        const assetStandard = getAssetStandard($sendFlowParameters)
+        const sourceChainId = getChainIdFromSendFlowParameters($sendFlowParameters)
+        const sourceChain = $network.getChain(sourceChainId)
+
+        let networkRecipientOptions = []
+
+        switch (assetStandard) {
+            case TokenStandard.Irc27:
+            case TokenStandard.Irc30:
+            case TokenStandard.BaseToken:
+                if (!sourceChainId) {
+                    networkRecipientOptions = [
+                        layer1Network,
+                        ...$network
+                            .getIscpChains()
+                            .map((chain) => getRecipientOptionFromChain(chain, $selectedAccountIndex)),
+                    ]
+                } else if (sourceChain) {
+                    networkRecipientOptions = [
+                        getRecipientOptionFromChain(sourceChain, $selectedAccountIndex),
+                        layer1Network,
+                    ]
+                }
+                break
+            case TokenStandard.Erc20:
+                if (sourceChain) {
+                    networkRecipientOptions = [getRecipientOptionFromChain(sourceChain, $selectedAccountIndex)]
+                }
+                break
         }
 
         return networkRecipientOptions
