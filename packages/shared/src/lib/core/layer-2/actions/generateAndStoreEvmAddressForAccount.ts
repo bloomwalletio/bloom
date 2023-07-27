@@ -1,7 +1,6 @@
-import { get } from 'svelte/store'
 import { IAccountState } from '@core/account/interfaces'
 import { ProfileType, updateActiveAccount, updateActiveAccountPersistedData } from '@core/profile'
-import { ledger } from '@core/ledger/stores'
+import { Ledger } from '@core/ledger/classes'
 
 export async function generateAndStoreEvmAddressForAccount(
     profileType: ProfileType,
@@ -17,7 +16,7 @@ export async function generateAndStoreEvmAddressForAccount(
             })
         )[0]
     } else {
-        evmAddress = await get(ledger).generateEvmAddress(account.index, coinType)
+        evmAddress = await Ledger.generateEvmAddress(account.index, coinType)
     }
     const evmAddresses = account?.evmAddresses ?? {}
     evmAddresses[coinType] = evmAddress

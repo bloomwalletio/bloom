@@ -9,7 +9,7 @@ import { MILLISECONDS_PER_SECOND, sleep } from '@core/utils'
 
 import { DEFAULT_LEDGER_API_REQUEST_CONFIGURATION } from '../constants'
 import { LedgerApiMethod } from '../enums'
-import { ILedgerApi, ILedgerApiBridge, ILedgerApiRequestOptions } from '../interfaces'
+import { ILedgerApiBridge, ILedgerApiRequestOptions } from '../interfaces'
 import { LedgerApiRequestResponse } from '../types'
 
 declare global {
@@ -20,14 +20,14 @@ declare global {
 
 const ledgerApiBridge: ILedgerApiBridge = window['__LEDGER__']
 
-export class LedgerApi implements ILedgerApi {
+export class Ledger {
     private readonly _apiRequestOptions: ILedgerApiRequestOptions
 
     constructor(apiRequestOptions?: ILedgerApiRequestOptions) {
         this._apiRequestOptions = apiRequestOptions ?? DEFAULT_LEDGER_API_REQUEST_CONFIGURATION
     }
 
-    async generateEvmAddress(accountIndex: number, coinType: number, verify?: boolean): Promise<string> {
+    static async generateEvmAddress(accountIndex: number, coinType: number, verify?: boolean): Promise<string> {
         const bip32Path = buildBip32Path(coinType, accountIndex)
         const response = await this.callLedgerApiAsync<IEvmAddress>(
             () => ledgerApiBridge.makeRequest(LedgerApiMethod.GenerateEvmAddress, bip32Path, verify ?? false),
@@ -36,7 +36,7 @@ export class LedgerApi implements ILedgerApi {
         return response.evmAddress
     }
 
-    async signEvmTransaction(transactionData: EvmTransactionData, bip32Path: string): Promise<string> {
+    static async signEvmTransaction(transactionData: EvmTransactionData, bip32Path: string): Promise<string> {
         const unsignedTransactionMessageHex = prepareEvmTransaction(transactionData)
         const transactionSignature = await this.callLedgerApiAsync<IEvmTransactionSignature>(
             () =>
@@ -53,7 +53,7 @@ export class LedgerApi implements ILedgerApi {
         }
     }
 
-    private async callLedgerApiAsync<R extends LedgerApiRequestResponse>(
+    private static async callLedgerApiAsync<R extends LedgerApiRequestResponse>(
         callback: () => void,
         responseEvent: keyof IPlatformEventMap
     ): Promise<R> {
