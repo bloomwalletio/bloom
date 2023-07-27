@@ -1,7 +1,10 @@
-import { buildBip32Path, updateSelectedAccount } from '@core/account'
-import { handleError } from '@core/error/handlers'
-import { EvmTransactionData, signTransactionWithLedger } from '@core/layer-2'
 import Web3 from 'web3'
+
+import { updateSelectedAccount } from '@core/account/stores'
+import { buildBip32Path } from '@core/account/utils'
+import { handleError } from '@core/error/handlers'
+import { EvmTransactionData } from '@core/layer-2/types'
+import { signTransactionWithLedger } from '@core/layer-2/utils'
 
 export async function signAndSendEvmTransaction(
     transaction: EvmTransactionData,
@@ -17,7 +20,7 @@ export async function signAndSendEvmTransaction(
         if (signedTransaction) {
             await provider?.eth.sendSignedTransaction(signedTransaction)
         } else {
-            throw Error('No Signature provided')
+            throw new Error('No signature provided')
         }
     } catch (err) {
         handleError(err)

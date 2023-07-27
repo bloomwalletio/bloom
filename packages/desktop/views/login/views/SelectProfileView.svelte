@@ -1,6 +1,6 @@
 <script lang="ts">
     import { PopupId, openPopup } from '@desktop/auxiliary/popup'
-    import { initialiseOnboardingProfile, onboardingProfile, shouldBeDeveloperProfile } from '@contexts/onboarding'
+    import { initialiseOnboardingProfile, onboardingProfile } from '@contexts/onboarding'
     import {
         AppContext,
         isLatestStrongholdVersion,
@@ -25,7 +25,7 @@
 
     async function onAddProfileClick(): Promise<void> {
         onboardingRouter.set(new OnboardingRouter())
-        await initialiseOnboardingProfile(shouldBeDeveloperProfile())
+        await initialiseOnboardingProfile()
         $routerManager.goToAppContext(AppContext.Onboarding)
     }
 

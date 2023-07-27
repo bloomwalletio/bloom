@@ -15,7 +15,7 @@ import { closeTransport, getEvmAddress, openTransport, signTransactionData } fro
  * Do NOT export anything from this file, since `process` may be undefined.
  */
 process.parentPort.on('message', (msg) => {
-    void messageHandler(msg)
+    void messageHandler(msg.data)
 })
 
 async function messageHandler(message: ILedgerProcessMessage): Promise<void> {
@@ -23,14 +23,14 @@ async function messageHandler(message: ILedgerProcessMessage): Promise<void> {
         await openTransport()
 
         let data
-        const { method, parameters } = message.data
+        const { method, payload } = message
         switch (method) {
             case LedgerMethod.GenerateEvmAddress: {
-                data = await getEvmAddress(parameters[0] as string)
+                data = await getEvmAddress(payload[0] as string)
                 break
             }
             case LedgerMethod.SignEvmTransaction: {
-                data = await signTransactionData(parameters[0] as string, parameters[1] as string)
+                data = await signTransactionData(payload[0] as string, payload[1] as string)
                 break
             }
             default:
@@ -39,7 +39,7 @@ async function messageHandler(message: ILedgerProcessMessage): Promise<void> {
 
         await closeTransport()
 
-        process.parentPort.postMessage({ data: { ...data, method: message.data.method } })
+        process.parentPort.postMessage({ method, payload: data })
     } catch (error) {
         process.parentPort.postMessage({ error })
     }

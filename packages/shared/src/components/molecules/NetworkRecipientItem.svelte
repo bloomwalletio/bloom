@@ -16,7 +16,7 @@
     $: isLayer2 = !!item?.networkAddress
     $: onChange && selected && onChange(item)
 
-    const options = item.recipients.map((r) => getOptionFromRecipient(r)).filter((r) => !!r) as IOption[]
+    const options = item.recipients?.map((r) => getOptionFromRecipient(r)).filter((r) => !!r) as IOption[]
 
     function getOptionFromRecipient(recipient: Subject): IOption | undefined {
         switch (recipient.type) {
@@ -24,7 +24,7 @@
                 return {
                     id: recipient.account.index,
                     key: recipient.account.name,
-                    value: recipient.account.depositAddress,
+                    value: recipient.address,
                     color: recipient.account.color,
                 }
             case SubjectType.Contact:
