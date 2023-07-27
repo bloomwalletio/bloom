@@ -1,7 +1,7 @@
 <script lang="ts">
     import { Error, Icon, Text } from '@ui'
     import { createEventDispatcher, onMount } from 'svelte'
-    import { mobile, PlatformOption, platform } from '@core/app'
+    import { IS_MOBILE, PlatformOption, platform } from '@core/app'
     import { isValidPin, PIN_LENGTH } from '@core/utils'
 
     const dispatch = createEventDispatcher()
@@ -149,7 +149,7 @@
         <div class="flex flex-row inputs-wrapper">
             <div class="input-wrapper absolute items-center w-full flex flex-row flex-no-wrap justify-between">
                 {#each inputs as input, i}
-                    {#if $mobile}
+                    {#if IS_MOBILE}
                         <input
                             bind:value={input}
                             maxLength="1"

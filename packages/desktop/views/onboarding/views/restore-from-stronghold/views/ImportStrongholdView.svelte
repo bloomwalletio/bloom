@@ -1,7 +1,7 @@
 <script lang="ts">
     import { OnboardingLayout } from '@components'
     import { ImportFile, updateOnboardingProfile, validateBackupFile, onboardingProfile } from '@contexts/onboarding'
-    import { mobile } from '@core/app'
+    import { IS_MOBILE } from '@core/app'
     import { CLIENT_ERROR_REGEXES } from '@core/error/constants'
     import { ClientError } from '@core/error/enums'
     import { localize } from '@core/i18n'
@@ -72,7 +72,7 @@
 
         reader.onload = (e): void => {
             setFile(e.target.result, fileWithPath)
-            if ($mobile) {
+            if (IS_MOBILE) {
                 void onContinueClick()
             }
         }
@@ -102,7 +102,7 @@
         <Text type="p" secondary classes="mb-8"
             >{localize('views.onboarding.profileRecovery.importStrongholdBackup.body')}</Text
         >
-        {#if !$mobile}
+        {#if !IS_MOBILE}
             <Dropzone
                 fileName={importFileName}
                 {allowedExtensions}
@@ -113,7 +113,7 @@
         {/if}
     </div>
     <div slot="leftpane__action" class="flex flex-row flex-wrap justify-between items-center space-x-4">
-        {#if $mobile}
+        {#if IS_MOBILE}
             <input
                 class="absolute opacity-0 w-full h-full"
                 type="file"
@@ -123,13 +123,13 @@
         {/if}
         <Button
             classes="flex-1"
-            disabled={!$mobile && !importFile}
-            onClick={$mobile ? onFileSelection : onContinueClick}
+            disabled={!IS_MOBILE && !importFile}
+            onClick={IS_MOBILE ? onFileSelection : onContinueClick}
         >
-            {localize(`actions.${$mobile ? 'chooseFile' : 'continue'}`)}
+            {localize(`actions.${IS_MOBILE ? 'chooseFile' : 'continue'}`)}
         </Button>
     </div>
-    <div slot="rightpane" class="w-full h-full flex justify-center {!$mobile && 'bg-pastel-blue dark:bg-gray-900'}">
+    <div slot="rightpane" class="w-full h-full flex justify-center {!IS_MOBILE && 'bg-pastel-blue dark:bg-gray-900'}">
         <Animation classes="setup-anim-aspect-ratio" animation="import-from-file-desktop" />
     </div>
 </OnboardingLayout>
