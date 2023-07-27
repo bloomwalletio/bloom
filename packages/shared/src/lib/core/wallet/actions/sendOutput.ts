@@ -14,13 +14,14 @@ export async function sendOutput(output: Output): Promise<void> {
         }
 
         updateSelectedAccount({ isTransferring: true })
-        const transaction = await account.sendOutputs([output], DEFAULT_TRANSACTION_OPTIONS)
+        console.log(output)
+        // const transaction = await account.sendOutputs([output], DEFAULT_TRANSACTION_OPTIONS)
         // Reset transaction details state, since the transaction has been sent
         if (output.type === OUTPUT_TYPE_NFT) {
             updateNftInAllAccountNfts(account.index, output.nftId, { isSpendable: false })
         }
 
-        await processAndAddToActivities(transaction, account)
+        // await processAndAddToActivities(transaction, account)
         updateSelectedAccount({ isTransferring: false })
         return
     } catch (err) {
