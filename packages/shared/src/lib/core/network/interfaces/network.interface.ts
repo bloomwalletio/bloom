@@ -8,6 +8,7 @@ export interface INetwork {
 
     getChain(chainId: number): IChain | undefined
     getChains(): IChain[]
+    getIscpChains(): IChain[]
     addChain(chainConfiguration: ChainConfiguration): IChain
     editChain(chainId: number, payload: Partial<ChainConfiguration>): Promise<void>
     removeChain(chainId: number): void
