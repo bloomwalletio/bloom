@@ -15,11 +15,13 @@ export async function unwrapIrc30Token(recipientAddress: string): Promise<void> 
     console.log('RESULT: ', result)
 }
 
+
 export function buildUnwrapIrc30TokenParameters(recipientAddress: string): UnwrapIrc30Parameter[] {
     // 1. Build target address parameter
     // 1. Convert L1 bech32 address to Ed25519 in bytes with prepended `0` byte
     const hrp = get(network)?.getMetadata().protocol.bech32Hrp ?? ''
     const { addressBytes } = Bech32Helper.fromBech32(recipientAddress, hrp)
+    console.log({addressBytes})
     const targetAddressParameter: IUnwrapIrc30TargetAddressParameter = {
         data: new Uint8Array([0, ...addressBytes]),
     }
@@ -33,8 +35,14 @@ export function buildUnwrapIrc30TokenParameters(recipientAddress: string): Unwra
     const sendMetadataParameter: IUnwrapIrc30SendMetadataParameter = {
         targetContract: 0,
         entrypoint: 0,
-        params: [],
-        allowance: [],
+        params: {
+            items: [],
+        },
+        allowance: {
+            baseTokens: 0,
+            nativeTokens: [],
+            nfts: [],
+        },
         gasBudget: 0,
     }
 
@@ -48,7 +56,22 @@ export function buildUnwrapIrc30TokenParameters(recipientAddress: string): Unwra
         },
     }
 
-    return [targetAddressParameter, assetParameters, false, sendMetadataParameter, sendOptionsParameter]
+    return [
+        {
+            ...targetAddressParameter,
+        },
+        {
+            ...assetParameters,
+        },
+        false,
+        {
+            ...sendMetadataParameter,
+        },
+        {
+            ...sendOptionsParameter,
+        },
+    ]
+
 }
 
 export type UnwrapIrc30Parameter =
@@ -78,8 +101,8 @@ export type UnwrapIrc30AdjustMinimumStorageDepositParameter = boolean
 export interface IUnwrapIrc30SendMetadataParameter {
     targetContract: number
     entrypoint: number
-    params: IUnwrapIrc30SendMetadataParamsParameter[]
-    allowance: IUnwrapIrc30AssetParameters[]
+    params: IUnwrapIrc30SendMetadataParamsParameter
+    allowance: IUnwrapIrc30AssetParameters
     gasBudget: number
 }
 
@@ -87,7 +110,7 @@ export interface IUnwrapIrc30SendMetadataParamsParameter {
     items: {
         key: Uint8Array
         value: Uint8Array
-    }
+    } | []
 }
 
 export interface IUnwrapIrc30SendOptionsParameter {
