@@ -21,7 +21,7 @@
                 proposalName = (await getVotingEvent(activity.participation.eventId)).data.name
             }
         } catch (err) {
-            proposalName = truncateString(activity.participation.eventId, 6, 6)
+            proposalName = truncateString(activity.participation?.eventId, 6, 6)
         }
     }
 </script>
