@@ -1,41 +1,58 @@
-import { buildBip32Path, getSelectedAccount } from '@core/account'
+import { get } from 'svelte/store'
+
+import Web3 from 'web3'
+
+import { getSelectedAccount } from '@core/account'
 import { ContractType, ISC_MAGIC_CONTRACT_ADDRESS, buildEvmTransactionData } from '@core/layer-2'
 import { ChainId, network } from '@core/network'
 import { Bech32Helper } from '@core/utils'
-import { get } from 'svelte/store'
-import Web3 from 'web3'
 
-export async function unwrapIrc30Token(amount: number, originAddress: string, recipientAddress: string): Promise<void> {
-    // 1. Build send parameters
-    const parameters = buildUnwrapIrc30TokenParameters(amount, recipientAddress)
+import { signAndSendEvmTransaction } from '../actions/send'
 
-    // 2. Encode data from send parameters with the Contract object
-    const chain = get(network)?.getChain(ChainId.ShimmerEVM)
-    const contract = chain?.getContract(ContractType.IscMagic, ISC_MAGIC_CONTRACT_ADDRESS)
-    const data = await contract?.methods.send(...parameters).encodeABI() ?? ''
-    /* eslint-disable no-console */
-    console.log('raw tx data: ', data)
+export async function unwrapIrc30Token(amount: number, recipientAddress: string): Promise<void> {
+    try {
+        // 1. Build send parameters
+        const parameters = buildUnwrapIrc30TokenParameters(amount, recipientAddress)
 
-    const transactionData = await buildEvmTransactionData(chain?.getProvider() as Web3, originAddress, ISC_MAGIC_CONTRACT_ADDRESS, amount.toString(), data)
-    console.log('tx data: ', transactionData)
-    
-    const bip32Path = buildBip32Path(chain?.getConfiguration().coinType, getSelectedAccount()?.index, 0, false)
-    const signedTransactionHex = await signTransactionWithLedger(transactionData, bip32Path)
-    console.log('signed tx: ', signedTransactionHex)
+        // 2. Encode data from send parameters with the Contract object
+        const chain = get(network)?.getChain(ChainId.ShimmerEVM)
+        const contract = chain?.getContract(ContractType.IscMagic, ISC_MAGIC_CONTRACT_ADDRESS)
+        const data = (await contract?.methods.send(...parameters).encodeABI()) ?? ''
+        /* eslint-disable no-console */
+        console.log('raw tx data: ', data)
+
+        const provider = chain?.getProvider() as Web3
+        const transactionData = await buildEvmTransactionData(
+            provider,
+            '0x09f5562cA14Ef108d1E035980dC9f435Ca923d53',
+            ISC_MAGIC_CONTRACT_ADDRESS,
+            amount.toString(),
+            data
+        )
+        /* eslint-disable no-console */
+        console.log('tx data: ', transactionData)
+
+        await signAndSendEvmTransaction(transactionData, provider, getSelectedAccount()?.index)
+    } catch (err) {
+        console.error(err)
+    }
 }
-
 
 export function buildUnwrapIrc30TokenParameters(amount: number, recipientAddress: string): UnwrapIrc30Parameter[] {
     // 1. Build target address parameter
     // 1. Convert L1 bech32 address to Ed25519 in bytes with prepended `0` byte
     const hrp = get(network)?.getMetadata().protocol.bech32Hrp ?? ''
     const { addressBytes } = Bech32Helper.fromBech32(recipientAddress, hrp) ?? {}
-    console.log({addressBytes})
     const targetAddressParameter: IUnwrapIrc30TargetAddressParameter = {
         data: new Uint8Array([0, ...(addressBytes ?? [])]),
     }
 
     const assetParameters: IUnwrapIrc30AssetParameters = {
+        /**
+         * CAUTION: The amount specified here MUST be greater than or
+         * equal to the minimum storage deposit requirements or else
+         * the transaction will not go through.
+         */
         baseTokens: amount,
         nativeTokens: [],
         nfts: [],
@@ -80,7 +97,6 @@ export function buildUnwrapIrc30TokenParameters(amount: number, recipientAddress
             ...sendOptionsParameter,
         },
     ]
-
 }
 
 export type UnwrapIrc30Parameter =
@@ -116,10 +132,12 @@ export interface IUnwrapIrc30SendMetadataParameter {
 }
 
 export interface IUnwrapIrc30SendMetadataParamsParameter {
-    items: {
-        key: Uint8Array
-        value: Uint8Array
-    } | []
+    items:
+        | {
+              key: Uint8Array
+              value: Uint8Array
+          }
+        | []
 }
 
 export interface IUnwrapIrc30SendOptionsParameter {

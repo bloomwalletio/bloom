@@ -9,7 +9,8 @@ export async function buildEvmTransactionData(
     amount: string,
     data: string | undefined
 ): Promise<EvmTransactionData> {
-    const nonce = provider.utils.toHex(await provider.eth.getTransactionCount(originAddress))
+    const transactionCount = await provider.eth.getTransactionCount(originAddress)
+    const nonce = provider.utils.toHex(transactionCount || 1)
 
     const _gasPrice = await provider.eth.getGasPrice()
     const gasPrice = '0x' + _gasPrice

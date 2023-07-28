@@ -7,10 +7,13 @@
     import { onMount } from 'svelte'
 
     onMount(() => {
-        const amount = 1
-        const originAddress = '0x0326af5ae579ee1980eb56895c3109ad99f27f90'
+        /**
+         * NOTE: The amount has to be greater than or equal to the minimum required
+         * storage deposit.
+         */
+        const amount = 1_000_000 - 47800
         const recipientAddress = $selectedAccount.depositAddress
-        void unwrapIrc30Token(amount, originAddress, recipientAddress)
+        void unwrapIrc30Token(amount, recipientAddress)
     })
 </script>
 
