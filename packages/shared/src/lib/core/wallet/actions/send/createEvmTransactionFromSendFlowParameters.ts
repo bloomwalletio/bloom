@@ -5,12 +5,13 @@ import {
     getIscpTransferSmartContractData,
 } from '@core/layer-2/utils'
 import { ISC_MAGIC_CONTRACT_ADDRESS } from '@core/layer-2/constants'
-import { EvmTransactionData } from '@core/layer-2/types'
+import { EvmTransactionData, TransferredAsset } from '@core/layer-2/types'
 import { IChain } from '@core/network/interfaces'
 import { SubjectType, TokenStandard } from '@core/wallet/enums'
 import { IAsset } from '@core/wallet/interfaces'
 import { SendFlowType } from '@core/wallet/stores'
 import { SendFlowParameters } from '@core/wallet/types'
+import { AssetType } from '@core/layer-2'
 
 export function createEvmTransactionFromSendFlowParameters(
     sendFlowParameters: SendFlowParameters,
@@ -52,7 +53,8 @@ export function createEvmTransactionFromSendFlowParameters(
         data = undefined
     } else {
         data = getDataForTransaction(chain, recipientAddress, asset, amount)
-        // set amount to zero after using it to build the smart contract data,
+        // set amount to zero after using it to bui
+        // ld the smart contract data,
         // as we do not want to send any base token
         amount = '0'
         if (!data) {
@@ -71,8 +73,12 @@ function getDataForTransaction(
 ): string | undefined {
     const standard = asset.metadata?.standard
     switch (standard) {
-        case TokenStandard.Irc30:
-            return getIscpTransferSmartContractData(recipientAddress, asset, amount, chain)
+        case TokenStandard.Irc30: {
+            const isBaseCoin = asset.standard === TokenStandard.BaseToken
+            const assetType = isBaseCoin ? AssetType.BaseCoin : AssetType.Token
+            const transferredAsset = { type: assetType, asset, amount } as TransferredAsset
+            return getIscpTransferSmartContractData(recipientAddress, transferredAsset, chain)
+        }
         case TokenStandard.Erc20:
             return getErc20TransferSmartContractData(recipientAddress, asset, amount, chain)
         default:

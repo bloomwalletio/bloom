@@ -17,7 +17,7 @@
     $: marketBalance = getMarketAmountFromAssetValue(amount, asset)
 </script>
 
-{#if asset && asset.metadata && asset.balance}
+{#if asset && asset.metadata}
     <ClickableTile
         {onClick}
         classes="border-2 border-solid {selected
