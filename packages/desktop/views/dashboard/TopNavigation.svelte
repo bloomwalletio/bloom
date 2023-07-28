@@ -19,6 +19,7 @@
     import { PopupId, openPopup, popupState } from '@desktop/auxiliary/popup'
     import features from '@features/features'
     import { closeDrawer } from '@desktop/auxiliary/drawer'
+    import { IS_WINDOWS } from '@core/app/constants'
 
     let isBackButtonVisible = false
 
