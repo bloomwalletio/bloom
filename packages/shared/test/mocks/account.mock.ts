@@ -1,7 +1,12 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
-import type { HexEncodedString, AliasOutput, BasicOutput, FoundryOutput, NftOutput, Output } from '@iota/sdk'
-import {
+import type {
+    HexEncodedString,
+    AliasOutput,
+    BasicOutput,
+    FoundryOutput,
+    NftOutput,
+    Output,
     Balance,
     AccountMetadata,
     Address,
@@ -14,6 +19,7 @@ import {
     BuildFoundryOutputData,
     BuildNftOutputData,
     FilterOptions,
+    IGenerateAddressesOptions,
     INode,
     OutputData,
     OutputParams,
@@ -235,11 +241,7 @@ export class AccountMock implements IAccount {
         return Promise.resolve(MOCK_ADDRESS)
     }
 
-    generateEd25519Addresses(amount: number, options?: GenerateAddressOptions): Promise<Address[]> {
-        return Promise.resolve([MOCK_ADDRESS])
-    }
-
-    generateEvmAddresses(generateAddressesOptions: GenerateAddressOptions): Promise<string[]> {
+    generateEvmAddresses(generateAddressesOptions: IGenerateAddressesOptions): Promise<string[]> {
         throw new Error('Method not implemented.')
     }
 
