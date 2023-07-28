@@ -1,5 +1,6 @@
-import type { BuildNftOutputData } from '@iota/sdk'
-import { Feature, AddressUnlockCondition, Ed25519Address, MetadataFeature } from '@iota/sdk'
+import type { BuildNftOutputData, Feature } from '@iota/sdk'
+import { Ed25519Address } from '@iota/sdk/out/types/block/address'
+import { AddressUnlockCondition, MetadataFeature } from '@iota/sdk/out/types/block/output'
 import { Converter } from '@core/utils'
 import { EMPTY_HEX_ID } from '../constants'
 import { convertBech32ToHexAddress } from './convertBech32ToHexAddress'

@@ -1,4 +1,8 @@
-import { UnlockConditionType, CommonOutput, StorageDepositReturnUnlockCondition } from '@iota/sdk'
+import {
+    UnlockConditionType,
+    CommonOutput,
+    StorageDepositReturnUnlockCondition,
+} from '@iota/sdk/out/types/block/output'
 
 export function getStorageDepositFromOutput(output: CommonOutput): number {
     const storageDepositReturnUnlockCondition = <StorageDepositReturnUnlockCondition>(

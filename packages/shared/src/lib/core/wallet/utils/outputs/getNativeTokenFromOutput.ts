@@ -1,5 +1,6 @@
-import { Output } from '@core/wallet/types'
-import { INativeToken, OutputType } from '@iota/sdk'
+import type { INativeToken } from '@iota/sdk'
+import { OutputType } from '@iota/sdk/out/types/block/output'
+import { Output } from '@core/wallet/'
 import { buildFoundryId } from './getFoundryId'
 
 export function getNativeTokenFromOutput(output: Output): INativeToken {

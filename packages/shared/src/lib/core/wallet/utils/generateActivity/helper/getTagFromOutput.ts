@@ -1,10 +1,9 @@
-import { FEATURE_TYPE_TAG } from '../../../constants'
-import { TagFeature } from '@iota/sdk'
+import { FeatureType, TagFeature } from '@iota/sdk/out/types/block/output'
 import { Converter } from '@core/utils'
 import { Output } from '@core/wallet/types'
 
 export function getTagFromOutput(output: Output): string {
-    const { tag } = <TagFeature>output?.features?.find((feature) => feature.type === FEATURE_TYPE_TAG) ?? {
+    const { tag } = <TagFeature>output?.features?.find((feature) => feature.type === FeatureType.Tag) ?? {
         tag: undefined,
     }
     if (tag) {

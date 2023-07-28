@@ -1,11 +1,11 @@
 import {
     SimpleTokenScheme,
     ImmutableAliasAddressUnlockCondition,
-    AliasAddress,
     UnlockCondition,
-    BuildFoundryOutputData,
     MetadataFeature,
-} from '@iota/sdk/out/types'
+} from '@iota/sdk/out/types/block/output'
+import { AliasAddress } from '@iota/sdk/out/types/block/address'
+import { BuildFoundryOutputData } from '@iota/sdk/out/types/wallet'
 import { IIrc30Metadata } from '../interfaces'
 import { getSerialNumberFromAliasOutput } from '@core/wallet/utils/outputs/getSerialNumberFromAliasOutput'
 import { Feature } from '@core/wallet/types'

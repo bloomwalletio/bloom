@@ -1,4 +1,4 @@
-import { FeatureType, TagFeature } from '@iota/sdk/out/types'
+import { FeatureType, TagFeature } from '@iota/sdk/out/types/block/output'
 
 import { Output } from '@core/wallet'
 

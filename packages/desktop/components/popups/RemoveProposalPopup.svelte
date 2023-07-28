@@ -1,6 +1,6 @@
 <script lang="ts">
     import { showAppNotification } from '@auxiliary/notification'
-    import { EventStatus } from '@iota/sdk/out/types'
+    import { EventStatus } from '@iota/sdk/out/types/wallet'
     import {
         clearSelectedParticipationEventStatus,
         removePersistedProposal,

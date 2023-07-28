@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { Answer, EventStatus } from '@iota/sdk/out/types'
+    import { Answer, EventStatus } from '@iota/sdk/out/types/wallet'
 
     import { Icon, PingingBadge, Text, TooltipIcon } from '@ui'
     import { FontWeight, Position } from '@ui/enums'

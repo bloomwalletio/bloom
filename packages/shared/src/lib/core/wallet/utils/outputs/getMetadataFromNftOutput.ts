@@ -1,4 +1,4 @@
-import { FeatureType, MetadataFeature, NftOutput } from '@iota/sdk/out/types'
+import { FeatureType, MetadataFeature, NftOutput } from '@iota/sdk/out/types/block/output'
 
 export function getMetadataFromNftOutput(output: NftOutput): string {
     const metadata = output.immutableFeatures?.find(

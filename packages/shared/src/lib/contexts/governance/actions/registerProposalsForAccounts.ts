@@ -1,4 +1,4 @@
-import { ParticipationEventRegistrationOptions } from '@iota/sdk/out/types'
+import type { ParticipationEventRegistrationOptions } from '@iota/sdk'
 
 import { IAccountState } from '@core/account/interfaces'
 

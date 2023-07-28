@@ -1,4 +1,4 @@
-import { WalletEventType } from '@iota/sdk/types'
+import { WalletEventType } from '@iota/sdk/out/types/wallet'
 
 import {
     getProfileManager,

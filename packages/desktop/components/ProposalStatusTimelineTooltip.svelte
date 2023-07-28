@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { EventStatus } from '@iota/sdk/out/types'
+    import { EventStatus } from '@iota/sdk/out/types/wallet'
     import { Text, Tooltip } from '@ui'
     import { Position, TextType } from '@ui/enums'
 

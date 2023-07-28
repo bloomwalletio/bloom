@@ -1,4 +1,4 @@
-import { UnlockConditionType } from '@iota/sdk/out/types'
+import { UnlockConditionType } from '@iota/sdk/out/types/block/output'
 import { IWrappedOutput } from '@core/wallet/interfaces'
 import { AddressUnlockCondition, AddressType, AliasOutput, ExpirationUnlockCondition } from '@iota/sdk'
 import { getBech32AddressFromAddressTypes } from '../getBech32AddressFromAddressTypes'

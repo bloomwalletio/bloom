@@ -1,4 +1,4 @@
-import { EventStatus, ParticipationEventWithNodes, VotingEventPayload } from '@iota/sdk/out/types'
+import { EventStatus, ParticipationEventWithNodes, VotingEventPayload } from '@iota/sdk/out/types/wallet'
 import { OFFICIAL_NODE_URLS } from '@core/network/constants'
 import { IProposalMetadata } from '../interfaces'
 import { ProposalType } from '../enums'

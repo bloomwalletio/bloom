@@ -1,5 +1,5 @@
 import { get } from 'svelte/store'
-import { EventStatus } from '@iota/sdk/out/types'
+import { EventStatus } from '@iota/sdk/out/types/wallet'
 import { networkStatus } from '@core/network/stores'
 import { ProposalError } from '../enums'
 import { IProposal, IProposalMetadata } from '../interfaces'

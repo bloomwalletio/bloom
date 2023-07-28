@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { UnlockCondition, UnlockConditionType, CommonOutput } from '@iota/sdk/out/types/block/output'
     import { closePopup, openPopup, PopupId } from '@desktop/auxiliary/popup'
     import { selectedAccount } from '@core/account'
     import { localize } from '@core/i18n'
@@ -6,7 +7,6 @@
     import { OUTPUT_TYPE_TREASURY } from '@core/wallet'
     import { consolidateOutputs } from '@core/wallet/actions/consolidateOutputs'
     import { getStorageDepositFromOutput } from '@core/wallet/utils/generateActivity/helper'
-    import { UnlockCondition, UnlockConditionType, CommonOutput } from '@iota/sdk/out/types'
     import { BalanceSummarySection, Button, FontWeight, Text, TextType } from '@ui'
 
     interface BalanceBreakdown {

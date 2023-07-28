@@ -1,5 +1,5 @@
 import * as IotaSdk from '@iota/sdk'
-import type { CreateAccountPayload, SyncOptions } from '@iota/sdk/out/types'
+import type { CreateAccountPayload, SyncOptions } from '@iota/sdk'
 
 import { bindObjectAcrossContextBridge } from '../utils/context-bridge.utils'
 import { STRONGHOLD_V2_HASHING_ROUNDS, STRONGHOLD_V2_SALT } from '../constants/stronghold-v2-migration.constants'

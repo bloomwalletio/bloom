@@ -1,4 +1,4 @@
-import { ParticipationEventMap, ParticipationEventRegistrationOptions } from '@iota/sdk/out/types'
+import type { ParticipationEventMap, ParticipationEventRegistrationOptions } from '@iota/sdk'
 
 import { get } from 'svelte/store'
 

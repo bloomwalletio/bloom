@@ -1,4 +1,4 @@
-import { EventStatus } from '@iota/sdk/out/types'
+import { EventStatus } from '@iota/sdk/out/types/wallet'
 import { ProposalPhaseOrdering } from '../types'
 
 export const PROPOSAL_PHASE_ORDERING: ProposalPhaseOrdering = {

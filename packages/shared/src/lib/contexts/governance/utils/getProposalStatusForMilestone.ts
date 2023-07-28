@@ -1,4 +1,4 @@
-import { EventStatus } from '@iota/sdk/out/types'
+import { EventStatus } from '@iota/sdk/out/types/wallet'
 
 export function getProposalStatusForMilestone(
     milestone: number,

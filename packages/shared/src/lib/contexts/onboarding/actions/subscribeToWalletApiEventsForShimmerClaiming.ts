@@ -5,7 +5,7 @@ import { handleTransactionProgressEvent, subscribeToWalletApiEvents, WalletApiEv
 
 import { shimmerClaimingProfileManager } from '../stores'
 
-import { WalletEventType } from '@iota/sdk/out/types'
+import { WalletEventType } from '@iota/sdk/out/types/wallet'
 
 export function subscribeToWalletApiEventsForShimmerClaiming(): void {
     const profileManager = get(shimmerClaimingProfileManager)

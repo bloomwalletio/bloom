@@ -1,4 +1,4 @@
-import { EventStatus } from '@iota/sdk/out/types'
+import { EventStatus } from '@iota/sdk/out/types/wallet'
 
 export function isProposalVotable(status: EventStatus): boolean {
     switch (status) {

@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { AddressType } from '@iota/sdk/out/types/block/address'
     import { openPopup, PopupId } from '@desktop/auxiliary/popup'
     import { selectedAccountIndex } from '@core/account/stores'
     import { time } from '@core/app'
@@ -18,9 +19,6 @@
     import { collectiblesRouter } from '@core/router/routers'
     import { truncateString } from '@core/utils'
     import {
-        ADDRESS_TYPE_ALIAS,
-        ADDRESS_TYPE_ED25519,
-        ADDRESS_TYPE_NFT,
         formatTokenAmountPrecise,
         getBech32AddressFromAddressTypes,
         getHexAddressFromAddressTypes,
@@ -89,13 +87,13 @@
         ...(issuerName && {
             issuer: { data: issuerName },
         }),
-        ...(issuer?.type === ADDRESS_TYPE_ED25519 && {
+        ...(issuer?.type === AddressType.Ed25519 && {
             issuerAddress: { data: truncateString(issuerAddress, 20, 20), copyValue: issuerAddress, isCopyable: true },
         }),
         ...(collectionName && {
             collection: { data: collectionName },
         }),
-        ...((issuer?.type === ADDRESS_TYPE_NFT || issuer?.type === ADDRESS_TYPE_ALIAS) && {
+        ...((issuer?.type === AddressType.Nft || issuer?.type === AddressType.Alias) && {
             collectionId: { data: truncateString(collectionId, 20, 20), copyValue: collectionId, isCopyable: true },
         }),
         ...(!nft?.parsedMetadata &&

@@ -1,6 +1,6 @@
 import { getExpirationUnixTimeFromOutput, getRecipientAddressFromOutput, isOutputAsync } from '@core/wallet/utils'
 import { getTimelockDateFromOutput } from '@core/wallet/utils/generateActivity/helper'
-import { NftOutput, UnlockConditionType } from '@iota/sdk/out/types'
+import { NftOutput, UnlockConditionType } from '@iota/sdk/out/types/block/output'
 
 export function getSpendableStatusFromUnspentNftOutput(
     accountAddress: string,

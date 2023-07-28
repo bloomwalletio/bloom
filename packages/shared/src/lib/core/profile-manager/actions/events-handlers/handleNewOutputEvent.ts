@@ -18,7 +18,7 @@ import { preprocessGroupedOutputs } from '@core/wallet/utils/outputs/preprocessG
 import { get } from 'svelte/store'
 import { validateWalletApiEvent } from '../../utils'
 import { checkAndRemoveProfilePicture } from '@core/profile/actions'
-import { Event, NewOutputWalletEvent, WalletEventType } from '@iota/sdk/out/types'
+import { Event, NewOutputWalletEvent, WalletEventType } from '@iota/sdk/out/types/wallet'
 
 export function handleNewOutputEvent(error: Error, walletEvent: Event): void {
     const { accountIndex, event } = validateWalletApiEvent(error, walletEvent, WalletEventType.NewOutput)

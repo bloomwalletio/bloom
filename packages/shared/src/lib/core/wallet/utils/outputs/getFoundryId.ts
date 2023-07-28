@@ -1,4 +1,5 @@
-import { AddressType, FoundryOutput } from '@iota/sdk/out/types'
+import { AddressType } from '@iota/sdk/out/types/block/address'
+import { FoundryOutput } from '@iota/sdk/out/types/block/output'
 import { HexHelper, WriteStream } from '@iota/util.js'
 
 export function buildFoundryId(foundry: FoundryOutput): string {

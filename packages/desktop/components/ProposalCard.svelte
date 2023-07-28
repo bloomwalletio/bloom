@@ -1,6 +1,6 @@
 <script lang="ts">
     import { onMount } from 'svelte'
-    import { EventStatus } from '@iota/sdk/out/types'
+    import { EventStatus } from '@iota/sdk/out/types/wallet'
 
     import { ProposalStatusInfo } from '@components'
     import { Text, TooltipIcon } from '@ui'

@@ -1,4 +1,4 @@
-import { Address, AddressType } from '@iota/sdk/out/types'
+import { Address, AddressType } from '@iota/sdk/out/types/block/address'
 
 import { convertHexAddressToBech32 } from './convertHexAddressToBech32'
 
