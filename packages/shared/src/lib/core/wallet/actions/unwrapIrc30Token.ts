@@ -1,22 +1,31 @@
-import { ContractType, ISC_MAGIC_CONTRACT_ADDRESS } from '@core/layer-2'
+import { buildBip32Path, getSelectedAccount } from '@core/account'
+import { ContractType, ISC_MAGIC_CONTRACT_ADDRESS, buildEvmTransactionData } from '@core/layer-2'
 import { ChainId, network } from '@core/network'
 import { Bech32Helper } from '@core/utils'
 import { get } from 'svelte/store'
+import Web3 from 'web3'
 
-export async function unwrapIrc30Token(recipientAddress: string): Promise<void> {
+export async function unwrapIrc30Token(amount: number, originAddress: string, recipientAddress: string): Promise<void> {
     // 1. Build send parameters
-    const parameters = buildUnwrapIrc30TokenParameters(recipientAddress)
+    const parameters = buildUnwrapIrc30TokenParameters(amount, recipientAddress)
 
     // 2. Encode data from send parameters with the Contract object
     const chain = get(network)?.getChain(ChainId.ShimmerEVM)
     const contract = chain?.getContract(ContractType.IscMagic, ISC_MAGIC_CONTRACT_ADDRESS)
-    const result = await contract?.methods.send(...parameters).send()
+    const data = await contract?.methods.send(...parameters).encodeABI() ?? ''
     /* eslint-disable no-console */
-    console.log('RESULT: ', result)
+    console.log('raw tx data: ', data)
+
+    const transactionData = await buildEvmTransactionData(chain?.getProvider() as Web3, originAddress, ISC_MAGIC_CONTRACT_ADDRESS, amount.toString(), data)
+    console.log('tx data: ', transactionData)
+    
+    const bip32Path = buildBip32Path(chain?.getConfiguration().coinType, getSelectedAccount()?.index, 0, false)
+    const signedTransactionHex = await signTransactionWithLedger(transactionData, bip32Path)
+    console.log('signed tx: ', signedTransactionHex)
 }
 
 
-export function buildUnwrapIrc30TokenParameters(recipientAddress: string): UnwrapIrc30Parameter[] {
+export function buildUnwrapIrc30TokenParameters(amount: number, recipientAddress: string): UnwrapIrc30Parameter[] {
     // 1. Build target address parameter
     // 1. Convert L1 bech32 address to Ed25519 in bytes with prepended `0` byte
     const hrp = get(network)?.getMetadata().protocol.bech32Hrp ?? ''
@@ -27,7 +36,7 @@ export function buildUnwrapIrc30TokenParameters(recipientAddress: string): Unwra
     }
 
     const assetParameters: IUnwrapIrc30AssetParameters = {
-        baseTokens: 1,
+        baseTokens: amount,
         nativeTokens: [],
         nfts: [],
     }

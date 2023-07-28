@@ -7,7 +7,10 @@
     import { onMount } from 'svelte'
 
     onMount(() => {
-        void unwrapIrc30Token($selectedAccount.depositAddress)
+        const amount = 1
+        const originAddress = '0x0326af5ae579ee1980eb56895c3109ad99f27f90'
+        const recipientAddress = $selectedAccount.depositAddress
+        void unwrapIrc30Token(amount, originAddress, recipientAddress)
     })
 </script>
 
