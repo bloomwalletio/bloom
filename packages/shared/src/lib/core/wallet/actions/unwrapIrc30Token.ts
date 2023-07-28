@@ -29,10 +29,10 @@ export function buildUnwrapIrc30TokenParameters(amount: number, recipientAddress
     // 1. Build target address parameter
     // 1. Convert L1 bech32 address to Ed25519 in bytes with prepended `0` byte
     const hrp = get(network)?.getMetadata().protocol.bech32Hrp ?? ''
-    const { addressBytes } = Bech32Helper.fromBech32(recipientAddress, hrp)
+    const { addressBytes } = Bech32Helper.fromBech32(recipientAddress, hrp) ?? {}
     console.log({addressBytes})
     const targetAddressParameter: IUnwrapIrc30TargetAddressParameter = {
-        data: new Uint8Array([0, ...addressBytes]),
+        data: new Uint8Array([0, ...(addressBytes ?? [])]),
     }
 
     const assetParameters: IUnwrapIrc30AssetParameters = {
