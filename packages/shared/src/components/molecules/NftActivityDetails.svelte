@@ -3,19 +3,26 @@
     import { selectedAccountIndex } from '@core/account/stores'
     import { time } from '@core/app'
     import { localize } from '@core/i18n'
-    import { getNftByIdFromAllAccountNfts, ownedNfts, selectedNftId } from '@core/nfts'
+    import { INft, getNftByIdFromAllAccountNfts, ownedNfts, selectedNftId } from '@core/nfts'
+    import { getCoinType } from '@core/profile'
     import { CollectiblesRoute, collectiblesRouter, DashboardRoute, dashboardRouter } from '@core/router'
-    import { ActivityAsyncStatus, NftActivity } from '@core/wallet'
+    import { ActivityAsyncStatus, NftActivity, TokenTransferData, getAssetById } from '@core/wallet'
     import { getSubjectFromActivity } from '@core/wallet/utils/generateActivity/helper'
-    import { ActivityAsyncStatusPill, NftTile, Pill, SubjectBox, TransactionActivityStatusPill } from '@ui'
+    import {
+        ActivityAsyncStatusPill,
+        Pill,
+        SubjectBox,
+        TransactionActivityStatusPill,
+        TransactionAssetSection,
+    } from '@ui'
     import { tick } from 'svelte'
 
     export let activity: NftActivity
 
-    $: nft = getNftByIdFromAllAccountNfts($selectedAccountIndex, activity.nftId)
     $: nftIsOwned = $ownedNfts.some((nft) => nft.id === activity.nftId)
     $: isTimelocked = activity?.asyncData?.timelockDate > $time
     $: subject = getSubjectFromActivity(activity)
+    $: transactionAssets = getTransactionAssets(activity)
 
     async function onClick(): Promise<void> {
         closePopup()
@@ -24,12 +31,26 @@
         await tick()
         $collectiblesRouter.goTo(CollectiblesRoute.Details)
     }
+
+    function getTransactionAssets(_activity: NftActivity): {
+        nft?: INft
+        baseCoinTransfer?: TokenTransferData
+    } {
+        const baseCoin = getAssetById(getCoinType(), activity.networkId)
+        const nft = getNftByIdFromAllAccountNfts($selectedAccountIndex, activity.nftId)
+        return {
+            nft,
+            baseCoinTransfer: {
+                rawAmount: String((_activity.rawBaseCoinAmount ?? 0) - _activity.storageDeposit),
+                asset: baseCoin,
+            },
+        }
+    }
 </script>
 
 <nft-transaction-details class="w-full space-y-6 flex flex-auto flex-col shrink-0">
-    {#if nft}
-        <NftTile {nft} onClick={nftIsOwned ? onClick : undefined} />
-    {/if}
+    <TransactionAssetSection {...transactionAssets} onNftClick={nftIsOwned ? onClick : undefined} />
+
     <main-content class="flex flex-auto w-full flex-col items-center justify-center space-y-3 overflow-hidden">
         <transaction-status class="flex flex-row w-full space-x-2 justify-center">
             {#if activity?.inclusionState && activity?.direction}

@@ -1,22 +1,54 @@
 <script lang="ts">
-    import { TransactionActivityStatusPill, ActivityAsyncStatusPill, Pill, SubjectBox, TokenAmountTile } from '@ui'
+    import {
+        TransactionActivityStatusPill,
+        ActivityAsyncStatusPill,
+        Pill,
+        SubjectBox,
+        TransactionAssetSection,
+    } from '@ui'
     import { localize } from '@core/i18n'
-    import { TransactionActivity, ActivityAsyncStatus, getAssetById } from '@core/wallet'
+    import { TransactionActivity, ActivityAsyncStatus, getAssetById, TokenTransferData } from '@core/wallet'
     import { time } from '@core/app'
     import { getSubjectFromActivity } from '@core/wallet/utils/generateActivity/helper'
+    import { getCoinType } from '@core/profile'
 
     export let activity: TransactionActivity
 
     $: asset = getAssetById(activity.assetId, activity.networkId)
-    $: amount = activity?.rawAmount
     $: isTimelocked = activity.asyncData?.timelockDate > $time
     $: subject = getSubjectFromActivity(activity)
+    $: transactionAssets = getTransactionAssets(activity)
+
+    function getTransactionAssets(_activity: TransactionActivity): {
+        tokenTransfer?: TokenTransferData
+        baseCoinTransfer?: TokenTransferData
+    } {
+        if (_activity.assetId === getCoinType()) {
+            return {
+                baseCoinTransfer: {
+                    rawAmount: String(_activity.rawBaseCoinAmount),
+                    asset,
+                },
+            }
+        } else {
+            const baseCoin = getAssetById(getCoinType(), activity.networkId)
+            return {
+                tokenTransfer: {
+                    rawAmount: String(_activity.rawAmount),
+                    asset,
+                },
+                baseCoinTransfer: {
+                    rawAmount: String((_activity.rawBaseCoinAmount ?? 0) - _activity.storageDeposit),
+                    asset: baseCoin,
+                },
+            }
+        }
+    }
 </script>
 
 <main-content class="flex flex-auto w-full flex-col items-center justify-center space-y-6">
-    {#if asset}
-        <TokenAmountTile {asset} {amount} />
-    {/if}
+    <TransactionAssetSection {...transactionAssets} />
+
     <div class="flex flex-col space-y-3">
         <transaction-status class="flex flex-row w-full space-x-2 justify-center">
             {#if activity.inclusionState && activity.direction}
