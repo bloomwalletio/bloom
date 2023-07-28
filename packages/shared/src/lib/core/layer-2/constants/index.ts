@@ -1,5 +1,6 @@
 export * from './accounts-contract.constant'
 export * from './contract-functions.constant'
+export * from './default-evm-transaction-options.constant'
 export * from './empty-buffer.constants'
 export * from './erc20-tokens-poll-interval.constant'
 export * from './erc-20-token-address-length.constant'
