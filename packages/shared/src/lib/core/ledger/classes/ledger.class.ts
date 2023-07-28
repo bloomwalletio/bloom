@@ -9,7 +9,7 @@ import { MILLISECONDS_PER_SECOND, sleep } from '@core/utils'
 
 import { DEFAULT_LEDGER_API_REQUEST_OPTIONS } from '../constants'
 import { LedgerApiMethod } from '../enums'
-import { ILedgerApiBridge, ILedgerApiRequestOptions } from '../interfaces'
+import { ILedgerApiBridge } from '../interfaces'
 import { LedgerApiRequestResponse } from '../types'
 
 declare global {
@@ -21,12 +21,6 @@ declare global {
 const ledgerApiBridge: ILedgerApiBridge = window['__LEDGER__']
 
 export class Ledger {
-    private readonly _apiRequestOptions: ILedgerApiRequestOptions
-
-    constructor(apiRequestOptions?: ILedgerApiRequestOptions) {
-        this._apiRequestOptions = apiRequestOptions ?? DEFAULT_LEDGER_API_REQUEST_OPTIONS
-    }
-
     static async generateEvmAddress(accountIndex: number, coinType: number, verify?: boolean): Promise<string> {
         const bip32Path = buildBip32Path(coinType, accountIndex)
         const response = await this.callLedgerApiAsync<IEvmAddress>(
@@ -57,7 +51,7 @@ export class Ledger {
         callback: () => void,
         responseEvent: keyof IPlatformEventMap
     ): Promise<R> {
-        const { timeout, pollingInterval } = this._apiRequestOptions
+        const { timeout, pollingInterval } = DEFAULT_LEDGER_API_REQUEST_OPTIONS
         const iterationCount = (timeout * MILLISECONDS_PER_SECOND) / pollingInterval
 
         callback()
