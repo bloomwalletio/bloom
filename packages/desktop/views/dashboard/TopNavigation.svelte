@@ -1,8 +1,6 @@
 <script lang="ts">
     import { Button, ButtonSize, Icon, Text } from '@ui'
     import { AccountSwitcher, NetworkDrawerButton } from '@components'
-    import { PlatformOption } from '@core/app'
-    import { platform } from '@core/app/stores'
     import { localize } from '@core/i18n'
     import {
         collectiblesRoute,
@@ -24,13 +22,12 @@
 
     let isBackButtonVisible = false
 
-    $: isWindows = $platform === PlatformOption.Windows
     $: {
         if ($settingsRoute || $collectiblesRoute || $governanceRoute) {
             isBackButtonVisible = isCorrectRoute()
         }
     }
-    $: isPopupVisible = $popupState?.active && $popupState?.id !== 'busy'
+    $: isPopupVisible = $popupState?.active
 
     function isCorrectRoute(): boolean {
         switch ($dashboardRoute) {
@@ -69,8 +66,8 @@
     }
 </script>
 
-<top-navigation class:disabled={isWindows && isPopupVisible} class:is-windows={isWindows}>
-    <div class="left-button" class:large={isWindows}>
+<top-navigation class:disabled={IS_WINDOWS && isPopupVisible} class:is-windows={IS_WINDOWS}>
+    <div class="left-button" class:large={IS_WINDOWS}>
         {#if isBackButtonVisible}
             <button type="button" on:click={onBackClick}>
                 <Icon width="18" icon={IconEnum.ArrowLeft} classes="text-gray-800 dark:text-gray-500" />

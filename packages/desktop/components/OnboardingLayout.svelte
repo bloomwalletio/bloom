@@ -1,7 +1,7 @@
 <script lang="ts">
     import { Icon } from '@ui'
     import { localize } from '@core/i18n'
-    import { platform, PlatformOption } from '@core/app'
+    import { IS_MAC } from '@core/app/constants'
     import { Icon as IconEnum } from '@auxiliary/icon'
 
     export let busy = false
@@ -13,7 +13,7 @@
     <leftpane-container data-label="leftpane" class="h-full flex justify-center p-12 pt-8 bg-white dark:bg-gray-800">
         <div class="w-full h-full flex flex-col justify-between">
             <div class="flex flex-col h-full">
-                <action-placeholder class="block mb-8" class:mt-9={$platform === PlatformOption.MacOs}>
+                <action-placeholder class="block mb-8" class:mt-9={IS_MAC}>
                     {#if allowBack}
                         <button
                             on:click={onBackClick}

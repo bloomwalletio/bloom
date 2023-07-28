@@ -6,7 +6,7 @@
         checkForAppUpdate,
         downloadAppUpdate,
         appVersionDetails,
-        platform,
+        OS,
         openUrlInBrowser,
         APP_STAGE,
     } from '@core/app'
@@ -33,7 +33,7 @@
         if (process.env.NODE_ENV !== 'development') {
             checkForAppUpdate()
         }
-        hasAutoUpdate = features.electron.autoUpdate[$platform]?.enabled
+        hasAutoUpdate = features.electron.autoUpdate[OS]?.enabled
     })
 </script>
 
