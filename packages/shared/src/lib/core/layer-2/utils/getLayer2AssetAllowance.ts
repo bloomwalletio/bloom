@@ -1,10 +1,17 @@
-import { IAsset, TokenStandard } from '@core/wallet'
+import { AssetType } from '../enums'
 import { ILayer2AssetAllowance } from '../interfaces'
+import { TransferredAsset } from '../types'
 
-export function getLayer2Allowance(asset: IAsset, amount: string): ILayer2AssetAllowance {
-    if (asset.metadata?.standard === (TokenStandard.BaseToken as unknown as string)) {
+export function getLayer2AssetAllowance(transferredAsset: TransferredAsset): ILayer2AssetAllowance {
+    if (transferredAsset.type === AssetType.Nft) {
         return {
-            baseTokens: amount,
+            baseTokens: '0',
+            nativeTokens: [],
+            nfts: [transferredAsset.nft.id],
+        }
+    } else if (transferredAsset.type === AssetType.BaseCoin) {
+        return {
+            baseTokens: transferredAsset.amount,
             nativeTokens: [],
             nfts: [],
         }
@@ -13,8 +20,8 @@ export function getLayer2Allowance(asset: IAsset, amount: string): ILayer2AssetA
             baseTokens: '0',
             nativeTokens: [
                 {
-                    ID: [asset.id],
-                    amount,
+                    ID: [transferredAsset.asset.id],
+                    amount: transferredAsset.amount,
                 },
             ],
             nfts: [],
