@@ -1,6 +1,5 @@
 <script lang="ts">
-    import { appSettings, appStage } from '@core/app'
-    import { get } from 'svelte/store'
+    import { APP_STAGE, appSettings } from '@core/app'
 
     export let logo = undefined
     export let width = undefined
@@ -9,7 +8,7 @@
     export let overrideStage: undefined | 'alpha' | 'beta' | 'prod' = undefined
 
     $: darkModeEnabled = $appSettings.darkMode
-    $: selected = logos[logo]?.[overrideStage ?? get(appStage)]
+    $: selected = logos[logo]?.[overrideStage ?? APP_STAGE]
 
     const logos = {
         'logo-firefly-full': {

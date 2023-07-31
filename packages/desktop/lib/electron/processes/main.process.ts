@@ -440,7 +440,6 @@ ipcMain.handle('handle-error', (_e, errorType, error) => {
 })
 
 // System
-ipcMain.handle('get-os', () => process.platform)
 ipcMain.handle('get-machine-id', () => getMachineId())
 
 // Settings
