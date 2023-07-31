@@ -4,7 +4,7 @@
 
 The following **must** be installed on all platforms:
 
--   [Node.js](https://nodejs.org/en/) 14+ (NOTE: There may be issues with Node.js 15 on Windows)
+-   [Node.js](https://nodejs.org/en/) 18.15.0+
 -   [Yarn](https://classic.yarnpkg.com/en/docs/install)
 -   [Rust](https://www.rust-lang.org/tools/install)
 
@@ -66,6 +66,12 @@ export LIBCLANG_PATH="C:\Program Files\LLVM\bin"
 -   `gnome-keyring`, `keepassxc`, or another secrets manager that implements the [freedesktop.org Secrets API](https://www.freedesktop.org/wiki/Specifications/secret-storage-spec/)
 
 ## Building
+
+### Private packages
+
+Copy `.npmrc.example` and rename as `.npmrc`
+
+Change `YOUR_PERSONAL_ACCESS_TOKEN` to your [GitHub personal access token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens).
 
 ### Development
 
