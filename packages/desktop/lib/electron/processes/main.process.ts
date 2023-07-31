@@ -287,16 +287,16 @@ ipcMain.on('start-ledger-process', () => {
     ledgerProcess.on('spawn', () => {
         // Handler for message from Ledger process
         ledgerProcess.on('message', (message: ILedgerProcessMessage) => {
-            const { error, data } = message
+            const { method, payload, error } = message
             if (error) {
                 windows.main.webContents.send('ledger-error', error)
             } else {
-                switch (data?.method) {
+                switch (method) {
                     case LedgerMethod.GenerateEvmAddress:
-                        windows.main.webContents.send('evm-address', data)
+                        windows.main.webContents.send('evm-address', payload)
                         break
                     case LedgerMethod.SignEvmTransaction:
-                        windows.main.webContents.send('evm-signed-transaction', data)
+                        windows.main.webContents.send('evm-signed-transaction', payload)
                         break
                     default:
                         /* eslint-disable-next-line no-console */
@@ -313,11 +313,11 @@ ipcMain.on('kill-ledger-process', () => {
 })
 
 ipcMain.on(LedgerMethod.GenerateEvmAddress, (_e, bip32Path, verify) => {
-    ledgerProcess?.postMessage({ method: LedgerMethod.GenerateEvmAddress, parameters: [bip32Path, verify] })
+    ledgerProcess?.postMessage({ method: LedgerMethod.GenerateEvmAddress, payload: [bip32Path, verify] })
 })
 
-ipcMain.on(LedgerMethod.SignEvmTransaction, (_e, data, bip32Path) => {
-    ledgerProcess?.postMessage({ method: LedgerMethod.SignEvmTransaction, parameters: [data, bip32Path] })
+ipcMain.on(LedgerMethod.SignEvmTransaction, (_e, transactionHex, bip32Path) => {
+    ledgerProcess?.postMessage({ method: LedgerMethod.SignEvmTransaction, payload: [transactionHex, bip32Path] })
 })
 
 export const getWindow = (windowName: string): BrowserWindow => windows[windowName]
@@ -439,7 +439,6 @@ ipcMain.handle('handle-error', (_e, errorType, error) => {
 })
 
 // System
-ipcMain.handle('get-os', () => process.platform)
 ipcMain.handle('get-machine-id', () => getMachineId())
 
 // Settings

@@ -1,10 +1,19 @@
-import { Ledger, callLedgerFunctionAsync } from '@core/ledger'
+import { callLedgerFunctionAsync } from '@core/ledger/actions'
+import { Ledger } from '@core/ledger/classes'
+
+import { IEvmTransactionSignature } from '../interfaces'
 import { EvmTransactionData } from '../types'
 
+import { prepareEvmTransaction } from './prepareEvmTransaction'
+
 export async function signTransactionWithLedger(transaction: EvmTransactionData, bip32Path: string): Promise<string> {
-    const response = await callLedgerFunctionAsync<{ signedTransaction: string }>(
-        () => Ledger.signEvmTransaction(transaction, bip32Path),
+    const unsignedTransactionMessageHex = prepareEvmTransaction(transaction)
+    const transactionSignature = await callLedgerFunctionAsync<IEvmTransactionSignature>(
+        () => Ledger.signEvmTransaction(unsignedTransactionMessageHex, bip32Path),
         'evm-signed-transaction'
     )
-    return response.signedTransaction
+    const { r, v, s } = transactionSignature
+    if (r && v && s) {
+        return prepareEvmTransaction(transaction, { r, v, s })
+    }
 }

@@ -20,9 +20,6 @@ const Platform: IPlatform = {
     getMachineId(): Promise<string> {
         return Promise.resolve('')
     },
-    getOS(): Promise<string> {
-        return Promise.resolve('')
-    },
     getStrongholdBackupDestination(defaultPath: string): Promise<string | null> {
         return Promise.resolve(null)
     },

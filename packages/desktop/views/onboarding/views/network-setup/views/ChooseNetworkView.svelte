@@ -2,7 +2,7 @@
     import { Icon } from '@auxiliary/icon'
     import { OnboardingLayout } from '@components'
     import { initialiseOnboardingProfile, updateOnboardingProfile, onboardingProfile } from '@contexts/onboarding'
-    import { mobile } from '@core/app'
+    import { IS_MOBILE } from '@core/app'
     import { localize } from '@core/i18n'
     import { NetworkId, getDefaultClientOptions, getDefaultPersistedNetwork } from '@core/network'
     import { profiles } from '@core/profile'
@@ -66,7 +66,7 @@
         {#each Object.values(NetworkId) as networkId}
             <OnboardingButton
                 primaryText={localize(`views.onboarding.networkSetup.chooseNetwork.${networkId}.title`)}
-                secondaryText={!$mobile
+                secondaryText={!IS_MOBILE
                     ? localize(`views.onboarding.networkSetup.chooseNetwork.${networkId}.body`)
                     : ''}
                 icon={networkIcon[networkId]}
@@ -77,7 +77,7 @@
             />
         {/each}
     </div>
-    <div slot="rightpane" class="w-full h-full flex justify-center {!$mobile && 'bg-pastel-yellow dark:bg-gray-900'}">
+    <div slot="rightpane" class="w-full h-full flex justify-center {!IS_MOBILE && 'bg-pastel-yellow dark:bg-gray-900'}">
         <Animation classes="setup-anim-aspect-ratio" animation="onboarding-network-desktop" />
     </div>
 </OnboardingLayout>
