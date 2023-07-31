@@ -12,7 +12,6 @@ export interface IPlatform {
     exportTransactionHistory(defaultPath: string, contents: string): Promise<string | null>
     getUserDataPath(): Promise<string>
     getDiagnostics(): Promise<{ label: string; value: string }[]>
-    getOS(): Promise<string>
     getMachineId(): Promise<string>
     updateAppSettings(settings: Partial<IAppSettings>): Promise<void>
     getActiveProfile(): string

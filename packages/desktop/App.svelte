@@ -13,16 +13,12 @@
     } from '@core/router'
     import {
         appSettings,
-        appStage,
-        AppStage,
         appVersionDetails,
         initAppSettings,
-        platform,
+        IS_WINDOWS,
         Platform,
-        PlatformOption,
         registerAppEvents,
         setAppVersionDetails,
-        setPlatform,
     } from '@core/app'
     import { closePopup, openPopup, PopupId, popupState } from '@desktop/auxiliary/popup'
     import { getLocalisedMenuItems } from './lib/helpers'
@@ -45,14 +41,11 @@
     import { registerLedgerDeviceEventHandlers } from '@core/ledger'
     import { handleDeepLink } from '@auxiliary/deep-link/handlers'
 
-    appStage.set(AppStage[process.env.STAGE.toUpperCase()] ?? AppStage.ALPHA)
-
     const { loggedIn } = $activeProfile
 
     $: if ($activeProfile && !$loggedIn) {
         closePopup(true)
     }
-    $: isWindows = $platform === PlatformOption.Windows
     $: $activeProfile, saveActiveProfile()
 
     async function handleCrashReporting(sendCrashReports: boolean): Promise<void> {
@@ -148,9 +141,6 @@
         Platform.onEvent('deep-link-request', handleDeepLink)
 
         registerLedgerDeviceEventHandlers()
-
-        const platform = await Platform.getOS()
-        setPlatform(platform)
     })
 
     onDestroy(() => {
@@ -163,7 +153,7 @@
     <TitleBar />
     <app-body
         class="block fixed left-0 right-0 bottom-0 z-50 top-0"
-        class:top-placement={isWindows || $appRoute === AppRoute.Dashboard}
+        class:top-placement={IS_WINDOWS || $appRoute === AppRoute.Dashboard}
     >
         {#if !$isLocaleLoaded || splash}
             <Splash />
