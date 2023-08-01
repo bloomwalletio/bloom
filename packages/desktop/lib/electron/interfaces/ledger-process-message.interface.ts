@@ -1,7 +1,7 @@
-import { LedgerMethod } from '../enums/ledger-method.enum'
+import { LedgerApiMethod } from '@core/ledger/enums'
 
 export interface ILedgerProcessMessage {
-    method: LedgerMethod
+    method: LedgerApiMethod
     payload: (number | string | unknown)[] | unknown
     error?: string | Error | unknown
 }
