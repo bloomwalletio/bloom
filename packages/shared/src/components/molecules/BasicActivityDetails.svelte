@@ -4,12 +4,13 @@
     import { TransactionActivity, ActivityAsyncStatus, getAssetById } from '@core/wallet'
     import { time } from '@core/app'
     import { getSubjectFromActivity } from '@core/wallet/utils/generateActivity/helper'
+    import { getCoinType } from '@core/profile'
 
     export let activity: TransactionActivity
 
-    $: asset = getAssetById(activity.assetId, activity.networkId)
+    $: asset = getAssetById(activity.assetId, activity.chainId ?? getCoinType())
     $: amount = activity?.rawAmount
-    $: isTimelocked = activity.asyncData?.timelockDate > $time
+    $: isTimelocked = activity.asyncData?.timelockDate && activity.asyncData.timelockDate > $time
     $: subject = getSubjectFromActivity(activity)
 </script>
 
