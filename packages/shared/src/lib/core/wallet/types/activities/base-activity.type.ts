@@ -4,8 +4,8 @@ import { Layer2Metadata } from '@core/layer-2'
 
 export type BaseActivity = {
     id: string
-    outputId: string
-    transactionId: string
+    outputId?: string
+    transactionId?: string
     time: Date
     inclusionState: InclusionState
     isHidden?: boolean

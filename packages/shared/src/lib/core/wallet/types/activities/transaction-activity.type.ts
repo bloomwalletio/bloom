@@ -5,7 +5,7 @@ export type TransactionActivity = BaseActivity & {
     type: ActivityType.Basic
     rawAmount: number
     assetId: string
-    networkId: string
+    chainId: number | undefined
     publicNote?: string
     isShimmerClaiming?: boolean
 }

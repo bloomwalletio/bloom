@@ -5,7 +5,7 @@ import { generateRandomId } from '@core/utils'
 import { getCoinType } from '@core/profile/actions'
 
 export function generateBalanceChangeActivity(
-    chainId: number | string,
+    chainId: number,
     assetId: string,
     balanceChange: IAssetBalanceChange
 ): TransactionActivity {
@@ -26,6 +26,6 @@ export function generateBalanceChangeActivity(
         subject: undefined,
         rawAmount: Math.abs(difference),
         assetId: assetId === '0x' ? getCoinType() : assetId,
-        networkId: chainId,
+        chainId,
     }
 }
