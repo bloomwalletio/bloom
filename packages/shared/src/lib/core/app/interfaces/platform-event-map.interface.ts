@@ -1,5 +1,5 @@
-import { IAppUpdateDownloadProgress, IAppVersionDetails, IEvmAddress, INFTDownloadState } from '.'
-import { IEvmTransactionSignature } from '@core/layer-2/interfaces'
+import { IAppUpdateDownloadProgress, IAppVersionDetails, INFTDownloadState } from '.'
+import { IEvmAddress, IEvmTransactionSignature } from '@core/layer-2/interfaces'
 
 export interface IPlatformEventMap {
     'menu-logout': void
