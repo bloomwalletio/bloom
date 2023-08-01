@@ -19,9 +19,12 @@ export async function sendTransactionFromEvm(
 
     await checkActiveProfileAuth(
         async () => {
-            const sentTransaction = await signAndSendEvmTransaction(transaction, provider, account.index)
-            if (sentTransaction) {
-                addPersistedTransaction(account.index, chain.getConfiguration().chainId, sentTransaction)
+            const transactionReceipt = await signAndSendEvmTransaction(transaction, provider, account.index)
+            if (transactionReceipt) {
+                addPersistedTransaction(account.index, chain.getConfiguration().chainId, {
+                    ...transaction,
+                    ...transactionReceipt,
+                })
             }
             callback()
         },

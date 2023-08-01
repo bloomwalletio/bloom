@@ -1,26 +1,26 @@
 import { persistent } from '@core/utils/store'
 import { get } from 'svelte/store'
 import { activeProfileId } from '@core/profile'
-import { TransactionReceipt } from 'web3-core'
+import { PersistedEvmTransaction } from '../types'
 
 interface IPersistedEvmTransactions {
     [profileId: string]: {
         [accountId: string]: {
-            [chainId: string | number]: TransactionReceipt[]
+            [chainId: string | number]: PersistedEvmTransaction[]
         }
     }
 }
 
 export const persistedEvmTransactions = persistent<IPersistedEvmTransactions>('evmTransactions', {})
 
-export function getBalanceChanges(accountIndex: number, chainId: string | number): TransactionReceipt[] {
+export function getBalanceChanges(accountIndex: number, chainId: string | number): PersistedEvmTransaction[] {
     return get(persistedEvmTransactions)?.[get(activeProfileId)]?.[accountIndex]?.[chainId]
 }
 
 export function addPersistedTransaction(
     accountIndex: number,
     chainId: string | number,
-    ...newTransactions: TransactionReceipt[]
+    ...newTransactions: PersistedEvmTransaction[]
 ): void {
     persistedEvmTransactions.update((state) => {
         if (!state[get(activeProfileId)]) {
