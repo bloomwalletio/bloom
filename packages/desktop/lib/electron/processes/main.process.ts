@@ -18,6 +18,8 @@ import fs from 'fs'
 
 import features from '@features/features'
 
+import { LedgerApiMethod } from '@core/ledger/enums'
+
 import { windows } from '../constants/windows.constant'
 import AutoUpdateManager from '../managers/auto-update.manager'
 import KeychainManager from '../managers/keychain.manager'
@@ -29,7 +31,6 @@ import { checkArgsForDeepLink, initialiseDeepLinks } from '../utils/deep-link.ut
 import { getDiagnostics } from '../utils/diagnostics.utils'
 import { shouldReportError } from '../utils/error.utils'
 import { getMachineId } from '../utils/os.utils'
-import { LedgerMethod } from '../enums/ledger-method.enum'
 import type { ILedgerProcessMessage } from '../interfaces/ledger-process-message.interface'
 
 initialiseAnalytics()
@@ -292,10 +293,10 @@ ipcMain.on('start-ledger-process', () => {
                 windows.main.webContents.send('ledger-error', error)
             } else {
                 switch (method) {
-                    case LedgerMethod.GenerateEvmAddress:
+                    case LedgerApiMethod.GenerateEvmAddress:
                         windows.main.webContents.send('evm-address', payload)
                         break
-                    case LedgerMethod.SignEvmTransaction:
+                    case LedgerApiMethod.SignEvmTransaction:
                         windows.main.webContents.send('evm-signed-transaction', payload)
                         break
                     default:
@@ -312,12 +313,12 @@ ipcMain.on('kill-ledger-process', () => {
     ledgerProcess?.kill()
 })
 
-ipcMain.on(LedgerMethod.GenerateEvmAddress, (_e, bip32Path, verify) => {
-    ledgerProcess?.postMessage({ method: LedgerMethod.GenerateEvmAddress, payload: [bip32Path, verify] })
+ipcMain.on(LedgerApiMethod.GenerateEvmAddress, (_e, bip32Path, verify) => {
+    ledgerProcess?.postMessage({ method: LedgerApiMethod.GenerateEvmAddress, payload: [bip32Path, verify] })
 })
 
-ipcMain.on(LedgerMethod.SignEvmTransaction, (_e, transactionHex, bip32Path) => {
-    ledgerProcess?.postMessage({ method: LedgerMethod.SignEvmTransaction, payload: [transactionHex, bip32Path] })
+ipcMain.on(LedgerApiMethod.SignEvmTransaction, (_e, transactionHex, bip32Path) => {
+    ledgerProcess?.postMessage({ method: LedgerApiMethod.SignEvmTransaction, payload: [transactionHex, bip32Path] })
 })
 
 export const getWindow = (windowName: string): BrowserWindow => windows[windowName]
@@ -439,7 +440,6 @@ ipcMain.handle('handle-error', (_e, errorType, error) => {
 })
 
 // System
-ipcMain.handle('get-os', () => process.platform)
 ipcMain.handle('get-machine-id', () => getMachineId())
 
 // Settings

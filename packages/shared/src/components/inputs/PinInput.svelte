@@ -1,7 +1,7 @@
 <script lang="ts">
     import { Error, Icon, Text } from '@ui'
     import { createEventDispatcher, onMount } from 'svelte'
-    import { mobile, PlatformOption, platform } from '@core/app'
+    import { IS_MOBILE, IS_ANDROID } from '@core/app/constants'
     import { isValidPin, PIN_LENGTH } from '@core/utils'
 
     const dispatch = createEventDispatcher()
@@ -23,7 +23,6 @@
         }
     }
     $: value.length === PIN_LENGTH && dispatch('filled')
-    $: isAndroid = $platform === PlatformOption.Android
 
     let root: HTMLElement
     const inputElements: HTMLElement[] = []
@@ -149,7 +148,7 @@
         <div class="flex flex-row inputs-wrapper">
             <div class="input-wrapper absolute items-center w-full flex flex-row flex-no-wrap justify-between">
                 {#each inputs as input, i}
-                    {#if $mobile}
+                    {#if IS_MOBILE}
                         <input
                             bind:value={input}
                             maxLength="1"
@@ -159,7 +158,7 @@
                             class:active={!input || input.length === 0}
                             class:glimpse
                             {disabled}
-                            on:input={(event) => (isAndroid ? changeHandlerHelper(event, i) : undefined)}
+                            on:input={(event) => (IS_ANDROID ? changeHandlerHelper(event, i) : undefined)}
                             on:keydown={changeHandler}
                             on:contextmenu|preventDefault
                         />
