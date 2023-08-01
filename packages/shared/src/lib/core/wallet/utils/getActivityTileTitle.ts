@@ -31,6 +31,8 @@ export function getActivityTileTitle(activity: Activity): string {
         return isConfirmed ? 'general.minted' : 'general.minting'
     } else if (action === ActivityAction.Burn) {
         return isConfirmed ? 'general.burned' : 'general.burning'
+    } else if (action === ActivityAction.BalanceChange) {
+        return 'general.balanceChanged'
     } else if (action === ActivityAction.Send) {
         if (isInternal) {
             return isConfirmed ? 'general.transfer' : 'general.transferring'

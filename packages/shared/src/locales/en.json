@@ -1470,6 +1470,7 @@
         "minting": "Minting",
         "burned": "Burned",
         "burning": "Burning",
+        "balanceChanged": "Balance changed",
         "consolidated": "Outputs consolidated",
         "consolidating": "Consolidating outputs",
         "aliasCreated": "Alias created",
