@@ -20,7 +20,9 @@ export async function sendTransactionFromEvm(
     await checkActiveProfileAuth(
         async () => {
             const sentTransaction = await signAndSendEvmTransaction(transaction, provider, account.index)
-            addPersistedTransaction(account.index, chain.getConfiguration().chainId, sentTransaction)
+            if (sentTransaction) {
+                addPersistedTransaction(account.index, chain.getConfiguration().chainId, sentTransaction)
+            }
             callback()
         },
         { stronghold: true, ledger: true },
