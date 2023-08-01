@@ -1,0 +1,13 @@
+diff --git a/node_modules/@ledgerhq/hw-app-eth/lib-es/modules/EIP712/index.js b/node_modules/@ledgerhq/hw-app-eth/lib-es/modules/EIP712/index.js
+index 8927e45..88c2f85 100644
+--- a/node_modules/@ledgerhq/hw-app-eth/lib-es/modules/EIP712/index.js
++++ b/node_modules/@ledgerhq/hw-app-eth/lib-es/modules/EIP712/index.js
+@@ -7,7 +7,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
+         step((generator = generator.apply(thisArg, _arguments || [])).next());
+     });
+ };
+-import { getFiltersForMessage, sortObjectAlphabetically, } from "@ledgerhq/evm-tools/message/EIP712/index";
++import { getFiltersForMessage, sortObjectAlphabetically, } from "@ledgerhq/evm-tools/src/message/EIP712/index";
+ import { hexBuffer, intAsHexBytes, splitPath } from "../../utils";
+ import { getLoadConfig } from "../../services/ledger/loadConfig";
+ import { destructTypeFromString, EIP712_TYPE_ENCODERS, EIP712_TYPE_PROPERTIES, makeTypeEntryStructBuffer, } from "./utils";
