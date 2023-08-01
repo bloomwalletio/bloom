@@ -1,4 +1,3 @@
-export * from './callLedgerFunctionAsync'
 export * from './checkOrConnectLedger'
 export * from './displayNotificationForLedgerProfile'
 export * from './getLedgerDeviceStatus'
