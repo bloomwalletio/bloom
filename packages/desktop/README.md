@@ -73,6 +73,8 @@ Copy `.npmrc.example` and rename as `.npmrc`
 
 Change `YOUR_PERSONAL_ACCESS_TOKEN` to your [GitHub personal access token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens).
 
+Make sure that your token has `repo` and `write:packages` permissions checked.
+
 ### Development
 
 ```bash
