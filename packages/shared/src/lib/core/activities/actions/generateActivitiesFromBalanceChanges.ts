@@ -15,9 +15,7 @@ export function generateActivitiesFromBalanceChanges(account: IAccountState): Ac
         const assetIds = Object.keys(balanceChanges)
 
         for (const assetId of assetIds) {
-            const balanceChangesForAsset = balanceChanges[assetId]
-
-            for (const balanceChangeForAsset of balanceChangesForAsset) {
+            for (const balanceChangeForAsset of balanceChanges[assetId]) {
                 const activity = generateBalanceChangeActivity(chainId, assetId, balanceChangeForAsset)
                 activities.push(activity)
             }
