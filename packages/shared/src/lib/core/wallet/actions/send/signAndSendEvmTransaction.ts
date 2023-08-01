@@ -5,7 +5,7 @@ import { updateSelectedAccount } from '@core/account/stores'
 import { buildBip32Path } from '@core/account/utils'
 import { handleError } from '@core/error/handlers'
 import { EvmTransactionData } from '@core/layer-2/types'
-import { signTransactionWithLedger } from '@core/layer-2/utils'
+import { Ledger } from '@core/ledger/classes'
 
 export async function signAndSendEvmTransaction(
     transaction: EvmTransactionData,
@@ -16,7 +16,7 @@ export async function signAndSendEvmTransaction(
         updateSelectedAccount({ isTransferring: true })
 
         const bip32 = buildBip32Path(60, accountIndex)
-        const signedTransaction = await signTransactionWithLedger(transaction, bip32)
+        const signedTransaction = await Ledger.signEvmTransaction(transaction, bip32)
 
         if (signedTransaction) {
             return await provider?.eth.sendSignedTransaction(signedTransaction)
