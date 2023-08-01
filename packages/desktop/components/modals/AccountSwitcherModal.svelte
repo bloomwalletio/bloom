@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { Button, FlatIconName } from '@bloom-labs/ui'
+    import { Button, FlatIconName } from '@bloomwalletio/ui'
     import { sumBalanceForAccounts } from '@core/account'
     import { selectedAccount } from '@core/account/stores'
     import { formatCurrency, localize } from '@core/i18n'
