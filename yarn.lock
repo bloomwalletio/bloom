@@ -1014,10 +1014,10 @@
     "@types/bignumber.js" "^5.0.0"
     bignumber.js "^7.2.1"
 
-"@iota/util.js@2.0.0-rc.1":
-  version "2.0.0-rc.1"
-  resolved "https://registry.yarnpkg.com/@iota/util.js/-/util.js-2.0.0-rc.1.tgz#444c47cf7a236489ca118d7dc0e8468e856a5c5d"
-  integrity sha512-tG+qsCHhztGuthUPqLlckih3Ump+IcKCDEl+Sb7ACOOR7JM73KOGaRud8NlLu4GNqQyQh7s9Gn2GRkXBJ1apiA==
+"@iota/util.js@2.0.0-rc.2":
+  version "2.0.0-rc.2"
+  resolved "https://registry.yarnpkg.com/@iota/util.js/-/util.js-2.0.0-rc.2.tgz#488392e5a05a85703e3a611c2e0f11fb5db850f7"
+  integrity sha512-c6n5LPiimwkz5aCKsMjRg3GKWzcK+zELmJK1AVaziLneJ8BsdZBKvWJyQGNqjREQjOhRaixizmZc3nGuihldnQ==
   dependencies:
     big-integer "^1.6.51"
 
