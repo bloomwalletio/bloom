@@ -33,7 +33,7 @@
         "@ethereumjs/tx": "4.1.2",
         "@ethereumjs/util": "8.0.6",
         "@ledgerhq/hw-app-eth": "6.33.0",
-        "@ledgerhq/hw-transport-node-hid": "6.27.13",
+        "@ledgerhq/hw-transport-node-hid": "6.27.19",
         "@ledgerhq/logs": "6.10.1",
         "@types/webpack-dev-server": "4.7.2",
         "buffer": "6.0.3",
