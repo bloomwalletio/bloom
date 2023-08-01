@@ -20,7 +20,7 @@
         Toggle,
     } from '@ui'
     import { fade } from 'svelte/transition'
-    import { FlatIcon, FlatIconName } from '@bloom-labs/ui'
+    import { FlatIcon, FlatIconName } from '@bloomwalletio/ui'
     import features from '@features/features'
     import { DrawerId, openDrawer } from '@desktop/auxiliary/drawer'
 

@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { Table } from '@bloom-labs/ui'
+    import { Table } from '@bloomwalletio/ui'
     import { IContactMetadata } from '@core/contact'
     import { localize } from '@core/i18n'
 
