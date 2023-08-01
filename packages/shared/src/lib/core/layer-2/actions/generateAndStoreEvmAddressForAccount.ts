@@ -1,6 +1,6 @@
-import { IAccountState } from '@core/account'
-import { generateEvmAddressOnLedger } from '@core/ledger/actions/generateEvmAddressOnLedger'
+import { IAccountState } from '@core/account/interfaces'
 import { ProfileType, updateActiveAccount, updateActiveAccountPersistedData } from '@core/profile'
+import { Ledger } from '@core/ledger/classes'
 
 export async function generateAndStoreEvmAddressForAccount(
     profileType: ProfileType,
@@ -16,7 +16,7 @@ export async function generateAndStoreEvmAddressForAccount(
             })
         )[0]
     } else {
-        evmAddress = await generateEvmAddressOnLedger(account.index, coinType)
+        evmAddress = await Ledger.generateEvmAddress(account.index, coinType)
     }
     const evmAddresses = account?.evmAddresses ?? {}
     evmAddresses[coinType] = evmAddress
