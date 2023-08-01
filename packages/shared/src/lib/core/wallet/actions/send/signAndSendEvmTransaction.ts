@@ -1,4 +1,5 @@
 import Web3 from 'web3'
+import { TransactionReceipt } from 'web3-core'
 
 import { updateSelectedAccount } from '@core/account/stores'
 import { buildBip32Path } from '@core/account/utils'
@@ -10,7 +11,7 @@ export async function signAndSendEvmTransaction(
     transaction: EvmTransactionData,
     provider: Web3,
     accountIndex: number
-): Promise<void> {
+): Promise<TransactionReceipt | undefined> {
     try {
         updateSelectedAccount({ isTransferring: true })
 
@@ -18,7 +19,7 @@ export async function signAndSendEvmTransaction(
         const signedTransaction = await signTransactionWithLedger(transaction, bip32)
 
         if (signedTransaction) {
-            await provider?.eth.sendSignedTransaction(signedTransaction)
+            return await provider?.eth.sendSignedTransaction(signedTransaction)
         } else {
             throw new Error('No signature provided')
         }

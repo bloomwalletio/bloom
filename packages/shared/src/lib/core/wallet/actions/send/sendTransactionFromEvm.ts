@@ -4,6 +4,7 @@ import { LedgerAppName } from '@core/ledger'
 import { IChain } from '@core/network'
 import { checkActiveProfileAuth } from '@core/profile'
 import { signAndSendEvmTransaction } from './signAndSendEvmTransaction'
+import { addPersistedTransaction } from '@core/activities/stores'
 
 export async function sendTransactionFromEvm(
     transaction: EvmTransactionData,
@@ -18,7 +19,8 @@ export async function sendTransactionFromEvm(
 
     await checkActiveProfileAuth(
         async () => {
-            await signAndSendEvmTransaction(transaction, provider, account.index)
+            const sentTransaction = await signAndSendEvmTransaction(transaction, provider, account.index)
+            addPersistedTransaction(account.index, chain.getConfiguration().chainId, sentTransaction)
             callback()
         },
         { stronghold: true, ledger: true },
