@@ -1,4 +1,5 @@
 export * from './erc20-evm-transaction-options.interface'
+export * from './evm-address.interface'
 export * from './evm-transaction-data.interface'
 export * from './evm-transaction-signature.interface'
 export * from './layer2-account-balance.interface'
