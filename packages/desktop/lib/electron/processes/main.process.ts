@@ -499,7 +499,7 @@ export function openAboutWindow(): BrowserWindow {
             symbolColor: '#ffffff',
         },
 
-        show: false,
+        show: true,
         fullscreenable: false,
         resizable: false,
         minimizable: false,
@@ -536,7 +536,7 @@ export function openErrorWindow(): BrowserWindow {
     windows.error = new BrowserWindow({
         useContentSize: true,
         titleBarStyle: process.platform === 'darwin' ? 'hiddenInset' : 'hidden',
-        show: false,
+        show: true,
         fullscreenable: false,
         resizable: true,
         minimizable: false,
