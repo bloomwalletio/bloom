@@ -11,6 +11,7 @@ import { DEFAULT_LEDGER_API_REQUEST_OPTIONS } from '../constants'
 import { LedgerApiMethod } from '../enums'
 import { ILedgerApiBridge } from '../interfaces'
 import { LedgerApiRequestResponse } from '../types'
+import { CustomError, ErrorType } from '@core/error'
 
 declare global {
     interface Window {
@@ -44,6 +45,11 @@ export class Ledger {
         const { r, v, s } = transactionSignature
         if (r && v && s) {
             return prepareEvmTransaction(transactionData, { r, v, s })
+        } else {
+            throw CustomError.new({
+                type: ErrorType.LedgerError,
+                message: localize('error.ledger.sign-transaction'),
+            })
         }
     }
 
@@ -56,12 +62,20 @@ export class Ledger {
 
         callback()
 
+        let error: Error | undefined = undefined
         let isGenerating = true
         let returnValue: R | undefined = undefined
 
         Platform.onEvent(responseEvent, (value) => {
             isGenerating = false
             returnValue = <R>value
+            Platform.removeListenersForEvent(responseEvent)
+        })
+
+        Platform.onEvent('ledger-error', (_error) => {
+            isGenerating = false
+            error = _error
+            Platform.removeListenersForEvent('ledger-error')
         })
 
         for (let count = 0; count < iterationCount; count++) {
@@ -69,12 +83,39 @@ export class Ledger {
                 if (returnValue && Object.keys(returnValue).length !== 0) {
                     return returnValue
                 } else {
-                    return Promise.reject('error.ledger.rejected')
+                    if (error) {
+                        throw CustomError.new({
+                            type: ErrorType.LedgerError,
+                            localizationKey: 'error.ledger.generic',
+                            cause: JSON.stringify(error),
+                        })
+                    } else {
+                        throw CustomError.new(
+                            {
+                                type: ErrorType.LedgerError,
+                                localizationKey: 'error.ledger.rejected',
+                            },
+                            {
+                                logToConsole: false,
+                                saveToErrorLog: false,
+                                showNotification: true,
+                            }
+                        )
+                    }
                 }
             }
             await sleep(pollingInterval)
         }
-
-        return Promise.reject(localize('error.ledger.timeout'))
+        throw CustomError.new(
+            {
+                type: ErrorType.LedgerError,
+                localizationKey: 'error.ledger.timeout',
+            },
+            {
+                logToConsole: false,
+                saveToErrorLog: false,
+                showNotification: true,
+            }
+        )
     }
 }
