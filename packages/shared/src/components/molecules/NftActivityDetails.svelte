@@ -7,16 +7,7 @@
     import { CollectiblesRoute, collectiblesRouter, DashboardRoute, dashboardRouter } from '@core/router'
     import { ActivityAsyncStatus, NftActivity } from '@core/wallet'
     import { getSubjectFromActivity } from '@core/wallet/utils/generateActivity/helper'
-    import {
-        ActivityAsyncStatusPill,
-        FontWeight,
-        NftImageOrIconBox,
-        Pill,
-        SubjectBox,
-        Text,
-        TextType,
-        TransactionActivityStatusPill,
-    } from '@ui'
+    import { ActivityAsyncStatusPill, NftTile, Pill, SubjectBox, TransactionActivityStatusPill } from '@ui'
     import { tick } from 'svelte'
 
     export let activity: NftActivity
@@ -36,17 +27,10 @@
 </script>
 
 <nft-transaction-details class="w-full space-y-6 flex flex-auto flex-col shrink-0">
+    {#if nft}
+        <NftTile {nft} onClick={nftIsOwned ? onClick : undefined} />
+    {/if}
     <main-content class="flex flex-auto w-full flex-col items-center justify-center space-y-3 overflow-hidden">
-        <button
-            on:click|preventDefault={onClick}
-            disabled={!nftIsOwned}
-            class="flex w-full items-start justify-center space-x-2 cursor-{nftIsOwned ? 'pointer' : 'default'}"
-        >
-            <NftImageOrIconBox nftId={activity.nftId} size="small" />
-            <Text type={TextType.h3} fontWeight={FontWeight.semibold} classes="whitespace-normal text-left">
-                {nft?.name}
-            </Text>
-        </button>
         <transaction-status class="flex flex-row w-full space-x-2 justify-center">
             {#if activity?.inclusionState && activity?.direction}
                 <TransactionActivityStatusPill

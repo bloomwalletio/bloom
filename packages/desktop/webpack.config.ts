@@ -134,7 +134,6 @@ const rendererRules = [
 
 const mainPlugins = [
     new DefinePlugin({
-        PLATFORM_LINUX: JSON.stringify(process.platform === 'linux'),
         PRELOAD_SCRIPT: JSON.stringify(false),
         APP_NAME: JSON.stringify(appName),
         APP_ID: JSON.stringify(appId),
@@ -169,6 +168,7 @@ const rendererPlugins = [
     }),
     new DefinePlugin({
         'process.env.PLATFORM': JSON.stringify(process.env.PLATFORM || 'desktop'),
+        'process.platform': JSON.stringify(process.platform),
         'process.env.STAGE': JSON.stringify(stage),
         features: JSON.stringify(features),
         PRELOAD_SCRIPT: JSON.stringify(false),
@@ -186,7 +186,6 @@ const rendererPlugins = [
 
 const preloadPlugins = [
     new DefinePlugin({
-        PLATFORM_LINUX: JSON.stringify(process.platform === 'linux'),
         PRELOAD_SCRIPT: JSON.stringify(true),
         APP_NAME: JSON.stringify(appName),
         'process.env.STAGE': JSON.stringify(stage),
@@ -224,6 +223,9 @@ const webpackConfig: Configuration[] = [
                     warnings: false,
                 },
             },
+        },
+        snapshot: {
+            managedPaths: [/^(.+?[\\/]node_modules[\\/](?!(@bloom-labs[\\/]ui))(@.+?[\\/])?.+?)[\\/]/],
         },
     },
     {

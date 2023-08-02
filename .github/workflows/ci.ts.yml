@@ -1,25 +1,30 @@
 name: Type Check
 
 on:
-  pull_request:
-  push:
-    branches:
-      - 'develop'
+    pull_request:
+        types: [ready_for_review]
+    pull_request_review:
+        types: [submitted]
 
 jobs:
-  check:
-    name: Check
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
+    check:
+        name: Check
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v3
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 18.x
+            - name: Setup Node.js
+              uses: actions/setup-node@v3
+              with:
+                  node-version: 18.x
 
-      - name: Install Dependencies
-        run: yarn --ignore-scripts
+            - name: Set up .npmrc file to use GitHub Packages
+              run: |
+                  echo "@bloomwalletio:registry=https://npm.pkg.github.com/" >> .npmrc
+                  echo "//npm.pkg.github.com/:_authToken=${{ secrets.PACKAGES_PERSONAL_ACCESS_TOKEN }}" >> .npmrc
 
-      - name: Check types
-        run: yarn check-types
+            - name: Install Dependencies
+              run: yarn --ignore-scripts
+
+            - name: Check types
+              run: yarn check-types
