@@ -86,11 +86,38 @@ const typescriptEslintRules = {
     '@typescript-eslint/no-namespace': 'off', // OFF b/c used in Svelte components for exporting types inside of a namespace
 }
 
+const internalPathGroups = [
+    "@auxiliary/*",
+    "@bloom-labs/*",
+    "@bloomwalletio/*",
+    "@components/*",
+    "@contexts/*",
+    "@core/*",
+    "@desktop/*",
+    "@features/*",
+    "@lib/*",
+    "@ui/*",
+    "@views/*",
+].map((pattern) => ({ pattern, group: "internal" }))
+
+const externalPathGroups = [
+    "@amplitude*",
+    "@ethereumjs*",
+    "@iota*",
+    "@ledgerhq*",
+    "@svelte*",
+    "@walletconnect*",
+    "svelte*",
+].map((pattern) => ({ pattern, group: "external" }))
+
 const importRules = {
     'import/order': [
         "error",
         {
-            "groups": [
+            alphabetize: {
+                order: "asc",
+            },
+            groups: [
                 "builtin",
                 "external",
                 "internal",
@@ -100,6 +127,11 @@ const importRules = {
                 "object",
                 "type",
             ],
+            pathGroups: [
+                ...internalPathGroups,
+                // ...externalPathGroups,
+            ],
+            pathGroupsExcludedImportTypes: [],
         },
     ],
 }

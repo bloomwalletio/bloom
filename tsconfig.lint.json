@@ -7,12 +7,11 @@
     },
     "include": [
         "packages/desktop",
-        "packages/mobile",
         "packages/shared/src",
         "packages/shared/test",
         "packages/shared/lib/auxiliary/wordlists",
         "packages/shared/locales/en.json",
         "packages/shared/tailwind.config.js"
     ],
-    "exclude": [".eslintrc.js", "**/node_modules", "**/tests"]
+    "exclude": [".eslintrc.js", "**/node_modules", "**/tests", "packages/mobile"]
 }

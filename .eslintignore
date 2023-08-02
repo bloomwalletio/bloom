@@ -9,12 +9,10 @@ packages/desktop/public/
 packages/desktop/electron/lib/keychain.js
 
 # Mobile (packages/mobile)
-packages/mobile/android/
-packages/mobile/ios/
-packages/mobile/public/
+packages/mobile/
 
 # Shared (packages/shared)
-packages/shared/src/assets/
+packages/shared/assets/
 !packages/shared/src/lib/tests/
 packages/shared/src/locales/
 !packages/shared/src/locales/en.json
