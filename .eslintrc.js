@@ -86,33 +86,33 @@ const typescriptEslintRules = {
     '@typescript-eslint/no-namespace': 'off', // OFF b/c used in Svelte components for exporting types inside of a namespace
 }
 
+const uiPathGroups = [
+    "@components{,/**/*}",
+    "@ui{,/**/*}",
+    "@views{,/**/*}",
+].map((pattern) => ({ pattern, group: 'internal', position: 'before' }))
+
 const internalPathGroups = [
-    "@/auxiliary/*",
-    "@auxiliary/*",
-    "@bloom-labs/*",
-    "@bloomwalletio/*",
-    "@components",
-    "@components/*",
-    "@contexts/*",
-    "@core/*",
-    "@desktop/*",
-    "@features/*",
-    "@lib/*",
-    "@ui",
-    "@ui/*",
-    "@views",
-    "@views/*",
+    "@/auxiliary{,/**/*}",
+    "@auxiliary{,/**/*}",
+    "@bloom-labs{,/**/*}",
+    "@bloomwalletio{,/**/*}",
+    "@contexts{,/**/*}",
+    "@core{,/**/*}",
+    "@desktop{,/**/*}",
+    "@features{,/**/*}",
+    "@lib{,/**/*}",
 ].map((pattern) => ({ pattern, group: "internal" }))
+.concat(...uiPathGroups)
 
 const externalPathGroups = [
-    "@amplitude/*",
-    "@ethereumjs/*",
-    "@iota/*",
-    "@ledgerhq/*",
-    "@sveltejs/*",
-    "@walletconnect/*",
-    "svelte",
-    "svelte/*",
+    "@amplitude{,/**/*}",
+    "@ethereumjs{,/**/*}",
+    "@iota{,/**/*}",
+    "@ledgerhq{,/**/*}",
+    "@sveltejs{,/**/*}",
+    "@walletconnect{,/**/*}",
+    "svelte{,/**/*}",
 ].map((pattern) => ({ pattern, group: "external" }))
 
 const importRules = {
