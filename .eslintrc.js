@@ -86,10 +86,29 @@ const typescriptEslintRules = {
     '@typescript-eslint/no-namespace': 'off', // OFF b/c used in Svelte components for exporting types inside of a namespace
 }
 
+const importRules = {
+    'import/order': [
+        "error",
+        {
+            "groups": [
+                "builtin",
+                "external",
+                "internal",
+                "parent",
+                "sibling",
+                "index",
+                "object",
+                "type",
+            ],
+        },
+    ],
+}
+
 const linterRules = {
     ...eslintRules,
     ...eslintRulesOnlyTypescript,
     ...typescriptEslintRules,
+    ...importRules,
 }
 
 const svelteRules = {
@@ -124,7 +143,7 @@ module.exports = {
                 project: './tsconfig.lint.json',
                 tsconfigRootDir: './',
             },
-            plugins: ['@typescript-eslint', 'svelte3'],
+            plugins: ['@typescript-eslint', 'svelte3', 'import'],
             rules: linterRules,
             settings: svelteSettings,
         },
