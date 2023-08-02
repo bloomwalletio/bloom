@@ -91,7 +91,6 @@ const uiPathGroups = [
     '@ui{,/**/*}',
     '@views{,/**/*}',
 ].map((pattern) => ({ pattern, group: 'internal', position: 'before' }))
-
 const internalPathGroups = [
     '@/auxiliary{,/**/*}',
     '@auxiliary{,/**/*}',
@@ -103,17 +102,20 @@ const internalPathGroups = [
     '@features{,/**/*}',
     '@lib{,/**/*}',
 ].map((pattern) => ({ pattern, group: 'internal' }))
-.concat(...uiPathGroups)
+    .concat(...uiPathGroups)
 
+const iotaLibPathGroups = [
+    '@iota{,/**/*}',
+].map((pattern) => ({ pattern, group: 'external', position: 'after' }))
 const externalPathGroups = [
     '@amplitude{,/**/*}',
     '@ethereumjs{,/**/*}',
-    '@iota{,/**/*}',
     '@ledgerhq{,/**/*}',
     '@sveltejs{,/**/*}',
     '@walletconnect{,/**/*}',
     'svelte{,/**/*}',
 ].map((pattern) => ({ pattern, group: 'external' }))
+    .concat(...iotaLibPathGroups)
 
 const importRules = {
     'import/order': [
