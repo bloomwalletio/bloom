@@ -6,7 +6,7 @@
  * https://www.electronjs.org/docs/latest/tutorial/process-model#the-utility-process
  */
 
-import { LedgerMethod } from '../enums/ledger-method.enum'
+import { LedgerApiMethod } from '@core/ledger/enums'
 import type { ILedgerProcessMessage } from '../interfaces/ledger-process-message.interface'
 import { closeTransport, getEvmAddress, openTransport, signTransactionData } from '../utils/ledger.utils'
 
@@ -25,11 +25,11 @@ async function messageHandler(message: ILedgerProcessMessage): Promise<void> {
         let data
         const { method, payload } = message
         switch (method) {
-            case LedgerMethod.GenerateEvmAddress: {
+            case LedgerApiMethod.GenerateEvmAddress: {
                 data = await getEvmAddress(payload[0] as string)
                 break
             }
-            case LedgerMethod.SignEvmTransaction: {
+            case LedgerApiMethod.SignEvmTransaction: {
                 data = await signTransactionData(payload[0] as string, payload[1] as string)
                 break
             }
