@@ -1188,10 +1188,10 @@
   dependencies:
     big-integer "^1.6.51"
 
-"@iota/wallet@2.0.3-rc.41":
-  version "2.0.3-rc.41"
-  resolved "https://registry.yarnpkg.com/@iota/wallet/-/wallet-2.0.3-rc.41.tgz#3e819cacab6d4501823efe7d8cabe06409bbbd74"
-  integrity sha512-4OVoGyzG9ukZaazXyz0i+qHyHqB3ELqyxX90PCSo6Eyt5XauDU0QfVtWnyUEE+SmkG/6eTrNYt3B5piCe9LQHg==
+"@iota/wallet@2.0.3-rc.44":
+  version "2.0.3-rc.44"
+  resolved "https://registry.yarnpkg.com/@iota/wallet/-/wallet-2.0.3-rc.44.tgz#5d724638a23c68e5f0f61861660ac4ed321a0a54"
+  integrity sha512-/o1o9yH83nY16nvqLfcMtSZPy92Ca0m5+MtKjnR2V0u5UCwUu6GH3cSauIuWrT4rFJoaKZF3CAPcc2raJ/5YDg==
   dependencies:
     "@iota/types" "^1.0.0-beta.15"
     cargo-cp-artifact "^0.1.6"
@@ -1525,7 +1525,7 @@
   resolved "https://registry.yarnpkg.com/@ledgerhq/errors/-/errors-6.13.0.tgz#f6d335d6f5c4267a1a8b20668df956a99dfb23ad"
   integrity sha512-cMFNX2AN6Gdj4RVIizI/7vWb+JYRu5na0rQSjybf7xGW5MSVdFVRcOg90VvqnDRsNfgFBbJzhpf7o4D7S3yFgg==
 
-"@ledgerhq/evm-tools@^1.0.1":
+"@ledgerhq/evm-tools@1.0.1":
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/@ledgerhq/evm-tools/-/evm-tools-1.0.1.tgz#650e2b529c9831168a14b7bb93f1fbdf7f3693e0"
   integrity sha512-R/6fHHpkqBC5sDlQ7X+rmCG517UEuz41omlmkxrh5ugTOYOrrl2E/+Xp2jc4crJArpFR92oMIjw+jMvjSolG7g==
