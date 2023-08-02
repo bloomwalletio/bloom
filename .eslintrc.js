@@ -87,50 +87,50 @@ const typescriptEslintRules = {
 }
 
 const uiPathGroups = [
-    "@components{,/**/*}",
-    "@ui{,/**/*}",
-    "@views{,/**/*}",
+    '@components{,/**/*}',
+    '@ui{,/**/*}',
+    '@views{,/**/*}',
 ].map((pattern) => ({ pattern, group: 'internal', position: 'before' }))
 
 const internalPathGroups = [
-    "@/auxiliary{,/**/*}",
-    "@auxiliary{,/**/*}",
-    "@bloom-labs{,/**/*}",
-    "@bloomwalletio{,/**/*}",
-    "@contexts{,/**/*}",
-    "@core{,/**/*}",
-    "@desktop{,/**/*}",
-    "@features{,/**/*}",
-    "@lib{,/**/*}",
-].map((pattern) => ({ pattern, group: "internal" }))
+    '@/auxiliary{,/**/*}',
+    '@auxiliary{,/**/*}',
+    '@bloom-labs{,/**/*}',
+    '@bloomwalletio{,/**/*}',
+    '@contexts{,/**/*}',
+    '@core{,/**/*}',
+    '@desktop{,/**/*}',
+    '@features{,/**/*}',
+    '@lib{,/**/*}',
+].map((pattern) => ({ pattern, group: 'internal' }))
 .concat(...uiPathGroups)
 
 const externalPathGroups = [
-    "@amplitude{,/**/*}",
-    "@ethereumjs{,/**/*}",
-    "@iota{,/**/*}",
-    "@ledgerhq{,/**/*}",
-    "@sveltejs{,/**/*}",
-    "@walletconnect{,/**/*}",
-    "svelte{,/**/*}",
-].map((pattern) => ({ pattern, group: "external" }))
+    '@amplitude{,/**/*}',
+    '@ethereumjs{,/**/*}',
+    '@iota{,/**/*}',
+    '@ledgerhq{,/**/*}',
+    '@sveltejs{,/**/*}',
+    '@walletconnect{,/**/*}',
+    'svelte{,/**/*}',
+].map((pattern) => ({ pattern, group: 'external' }))
 
 const importRules = {
     'import/order': [
-        "error",
+        'error',
         {
             alphabetize: {
-                order: "asc",
+                order: 'asc',
             },
             groups: [
-                "builtin",
-                "external",
-                "internal",
-                "parent",
-                "sibling",
-                "index",
-                "object",
-                "type",
+                'builtin',
+                'external',
+                'internal',
+                'parent',
+                'sibling',
+                'index',
+                'object',
+                'type',
             ],
             pathGroups: [
                 ...internalPathGroups,
