@@ -76,9 +76,9 @@ jobs:
         if: inputs.os == 'windows-2019'
 
       - name: Set up .npmrc file to use GitHub Packages
-      run: |
-        echo "@bloomwalletio:registry=https://npm.pkg.github.com/" >> .npmrc
-        echo "//npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}" >> .npmrc
+        run: |
+          echo "@bloomwalletio:registry=https://npm.pkg.github.com/" >> .npmrc
+          echo "//npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}" >> .npmrc
 
       - name: Install dependencies
         # Increase network timeout threshold to reduce build failures on Windows
