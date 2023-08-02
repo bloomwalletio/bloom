@@ -78,7 +78,7 @@ jobs:
       - name: Set up .npmrc file to use GitHub Packages
         run: |
           echo "@bloomwalletio:registry=https://npm.pkg.github.com/" >> .npmrc
-          echo "//npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}" >> .npmrc
+          echo "//npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_PACKAGES_TOKEN }}" >> .npmrc
 
       - name: Install dependencies
         # Increase network timeout threshold to reduce build failures on Windows
