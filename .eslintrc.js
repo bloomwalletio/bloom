@@ -87,27 +87,32 @@ const typescriptEslintRules = {
 }
 
 const internalPathGroups = [
+    "@/auxiliary/*",
     "@auxiliary/*",
     "@bloom-labs/*",
     "@bloomwalletio/*",
+    "@components",
     "@components/*",
     "@contexts/*",
     "@core/*",
     "@desktop/*",
     "@features/*",
     "@lib/*",
+    "@ui",
     "@ui/*",
+    "@views",
     "@views/*",
 ].map((pattern) => ({ pattern, group: "internal" }))
 
 const externalPathGroups = [
-    "@amplitude*",
-    "@ethereumjs*",
-    "@iota*",
-    "@ledgerhq*",
-    "@svelte*",
-    "@walletconnect*",
-    "svelte*",
+    "@amplitude/*",
+    "@ethereumjs/*",
+    "@iota/*",
+    "@ledgerhq/*",
+    "@sveltejs/*",
+    "@walletconnect/*",
+    "svelte",
+    "svelte/*",
 ].map((pattern) => ({ pattern, group: "external" }))
 
 const importRules = {
@@ -129,7 +134,7 @@ const importRules = {
             ],
             pathGroups: [
                 ...internalPathGroups,
-                // ...externalPathGroups,
+                ...externalPathGroups,
             ],
             pathGroupsExcludedImportTypes: [],
         },
