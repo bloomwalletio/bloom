@@ -1,7 +1,7 @@
 <script lang="ts">
     import { OnboardingLayout } from '@components'
     import { OnboardingType, onboardingProfile, updateOnboardingProfile } from '@contexts/onboarding'
-    import { mobile } from '@core/app'
+    import { IS_MOBILE } from '@core/app'
     import { localize } from '@core/i18n'
     import { getNetworkNameFromNetworkId } from '@core/network'
     import { profiles } from '@core/profile'
@@ -53,7 +53,7 @@
                     network: getNetworkNameFromNetworkId(networkId),
                 },
             })}
-            secondaryText={!$mobile
+            secondaryText={!IS_MOBILE
                 ? localize('actions.createWalletDescription', {
                       values: { network: networkId },
                   })
@@ -67,7 +67,7 @@
         />
         <OnboardingButton
             primaryText={localize(`actions.restoreWallet.${networkId}`)}
-            secondaryText={!$mobile ? localize(`actions.restoreWalletDescription.${networkId}`) : ''}
+            secondaryText={!IS_MOBILE ? localize(`actions.restoreWalletDescription.${networkId}`) : ''}
             icon="transfer"
             hidden={features?.onboarding?.[networkId]?.restoreProfile?.hidden}
             disabled={!features?.onboarding?.[networkId]?.restoreProfile?.enabled}
@@ -75,7 +75,7 @@
         />
         <OnboardingButton
             primaryText={localize('actions.claimShimmer')}
-            secondaryText={!$mobile ? localize('actions.claimShimmerDescription') : ''}
+            secondaryText={!IS_MOBILE ? localize('actions.claimShimmerDescription') : ''}
             icon="tokens"
             iconHeight="24"
             iconWidth="24"
@@ -84,7 +84,7 @@
             onClick={() => onProfileSetupSelectionClick(OnboardingType.Claim)}
         />
     </div>
-    <div slot="rightpane" class="w-full h-full flex justify-center {!$mobile && 'bg-pastel-green dark:bg-gray-900'}">
+    <div slot="rightpane" class="w-full h-full flex justify-center {!IS_MOBILE && 'bg-pastel-green dark:bg-gray-900'}">
         <Animation classes="setup-anim-aspect-ratio" animation="setup-desktop" />
     </div>
 </OnboardingLayout>

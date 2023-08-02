@@ -27,7 +27,6 @@ export function generateSingleNftActivity(
     const containsValue = true
 
     const nftId = nftIdFromInput ? nftIdFromInput : getNftId(output.nftId, outputId)
-    const giftedStorageDeposit = 0
     const metadata = getMetadataFromOutput(output)
     const tag = getTagFromOutput(output)
 
@@ -48,7 +47,7 @@ export function generateSingleNftActivity(
         time,
         isHidden,
         action,
-        giftedStorageDeposit,
+        rawBaseCoinAmount: Number(wrappedOutput.output.amount),
         isAssetHidden,
         containsValue,
         inclusionState,

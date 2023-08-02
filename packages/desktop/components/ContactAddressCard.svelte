@@ -10,7 +10,7 @@
     import { Icon as IconEnum } from '@auxiliary/icon'
     import { Router } from '@core/router'
     import { resetLedgerPreparedOutput, resetShowInternalVerificationPopup } from '@core/ledger'
-    import { NewTransactionType, resetNewTokenTransactionData, updateNewTransactionData } from '@core/wallet'
+    import { SendFlowType, setSendFlowParameters, SubjectType } from '@core/wallet'
 
     import { openPopup, PopupId } from '@desktop/auxiliary/popup'
     import { closeDrawer } from '@desktop/auxiliary/drawer'
@@ -39,10 +39,9 @@
     }
 
     function onSendClick(address: string): void {
-        resetNewTokenTransactionData()
-        updateNewTransactionData({
-            type: NewTransactionType.TokenTransfer,
-            recipient: { type: 'address', address },
+        setSendFlowParameters({
+            type: SendFlowType.BaseCoinTransfer,
+            recipient: { type: SubjectType.Address, address },
         })
         resetLedgerPreparedOutput()
         resetShowInternalVerificationPopup()
@@ -67,7 +66,7 @@
             <MeatballMenuButton onClick={modal?.toggle} classes="py-2" />
             <Modal bind:this={modal} position={{ right: '0' }} classes="mt-1.5">
                 <div class="flex flex-col">
-                    {#if features.wallet.contacts.editNetworkAddresses.enabled}
+                    {#if features.contacts.editNetworkAddresses.enabled}
                         <MenuItem
                             icon={IconEnum.Edit}
                             iconProps={{ height: 18 }}
@@ -75,7 +74,7 @@
                             onClick={() => onEditNetworkAddressesClick(networkId)}
                         />
                     {/if}
-                    {#if features.wallet.contacts.removeNetwork.enabled}
+                    {#if features.contacts.removeNetwork.enabled}
                         <MenuItem
                             icon={IconEnum.Delete}
                             title={'Remove network'}
@@ -101,7 +100,7 @@
                     {truncateString(contactAddress.address, 9, 9)}
                 </Text>
             </button>
-            {#if features.wallet.contacts.sendTo.enabled}
+            {#if features.contacts.sendTo.enabled}
                 <Button size={ButtonSize.Small} onClick={() => onSendClick(contactAddress.address)}>Send</Button>
             {/if}
         </contact-address-item>

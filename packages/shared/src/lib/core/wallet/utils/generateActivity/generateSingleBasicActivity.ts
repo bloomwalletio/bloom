@@ -6,7 +6,7 @@ import { TransactionActivity } from '@core/wallet/types'
 import { IBasicOutput } from '@iota/types'
 import { get } from 'svelte/store'
 import { activityOutputContainsValue, getNativeTokenFromOutput } from '..'
-import { ActivityAction, ActivityType } from '../../enums'
+import { ActivityType } from '../../enums'
 import {
     getAmountFromOutput,
     getAsyncDataFromOutput,
@@ -16,6 +16,7 @@ import {
     getStorageDepositFromOutput,
     getTagFromOutput,
 } from './helper'
+import { network } from '@core/network'
 
 export function generateSingleBasicActivity(
     account: IAccountState,
@@ -46,14 +47,14 @@ export function generateSingleBasicActivity(
     const { parsedLayer2Metadata, destinationNetwork } = getLayer2ActivityInformation(metadata, sendingInfo)
     const gasBudget = Number(parsedLayer2Metadata?.gasBudget ?? '0')
 
-    let { storageDeposit, giftedStorageDeposit } = getStorageDepositFromOutput(output)
-    giftedStorageDeposit = action === ActivityAction.Burn ? 0 : giftedStorageDeposit
-    giftedStorageDeposit = gasBudget === 0 ? giftedStorageDeposit : 0
+    const storageDeposit = getStorageDepositFromOutput(output)
 
     const baseTokenAmount = getAmountFromOutput(output) - storageDeposit - gasBudget
 
     const nativeToken = getNativeTokenFromOutput(output)
     const assetId = fallbackAssetId ?? nativeToken?.id ?? getCoinType()
+
+    const networkId = get(network)?.getMetadata().id as string // Currently we only support L1 activities
 
     let rawAmount: number
     if (fallbackAmount === undefined) {
@@ -75,13 +76,13 @@ export function generateSingleBasicActivity(
         containsValue,
         outputId,
         storageDeposit,
-        giftedStorageDeposit,
         rawAmount,
         isShimmerClaiming,
         publicNote,
         metadata,
         tag,
         assetId,
+        networkId,
         asyncData,
         destinationNetwork,
         parsedLayer2Metadata,

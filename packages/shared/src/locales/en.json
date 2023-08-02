@@ -546,8 +546,7 @@
                         "addNetworkAddress": "Add network address"
                     },
                     "addContact": {
-                        "title": "Add contact",
-                        "optionalNote": "Note (optional)"
+                        "title": "Add contact"
                     },
                     "editContact": {
                         "title": "Edit contact"
@@ -1698,7 +1697,9 @@
         "custom": "Custom",
         "evmAddress": "EVM address",
         "chain": "Chain",
-        "importErc20Token": "Import ERC20 token"
+        "importErc20Token": "Import ERC20 token",
+        "optionalField": "{field} (optional)",
+        "gifted": "Gifted"
     },
     "filters":{
         "title": "Filters",
@@ -2059,7 +2060,8 @@
             "generateAddress": "There was an error generating an address.",
             "timeout": "Your Ledger device timed out.",
             "disconnected": "Your Ledger device was disconnected.",
-            "noStronghold": "Unable to use Stronghold with Ledger profile."
+            "noStronghold": "Unable to use Stronghold with Ledger profile.",
+            "rejected": "Action was rejected on the Ledger device"
         },
         "popup": {
             "preventClose": "This popup is unable to be closed."

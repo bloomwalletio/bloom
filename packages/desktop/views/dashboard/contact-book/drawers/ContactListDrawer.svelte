@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { FlatIconName, Button } from '@bloom-labs/ui'
+    import { FlatIconName, Button } from '@bloomwalletio/ui'
     import { ContactCard, DrawerTemplate } from '@components'
     import { ContactManager, IContact, clearSelectedContact, setSelectedContact } from '@core/contact'
     import { localize } from '@core/i18n'
@@ -35,7 +35,7 @@
             <ContactCard {contact} onCardClick={() => onContactClick(contact)} />
         {/each}
     </contact-list>
-    {#if features.wallet.contacts.addContact.enabled}
+    {#if features.contacts.addContact.enabled}
         <Button
             slot="footer"
             class="w-full"

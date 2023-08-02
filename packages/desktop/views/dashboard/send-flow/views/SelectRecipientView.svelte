@@ -1,16 +1,27 @@
 <script lang="ts">
-    import { selectedAccount } from '@core/account/stores'
+    import { selectedAccount, selectedAccountIndex } from '@core/account/stores'
+    import { ContactManager } from '@core/contact'
     import { localize } from '@core/i18n'
-    import { ChainType, IChain, IIscpChainConfiguration, network } from '@core/network'
-    import { NewTransactionType, TokenStandard, newTransactionData, updateNewTransactionData } from '@core/wallet'
+    import { IChain, IIscpChainConfiguration, INetwork, network } from '@core/network'
+    import { visibleActiveAccounts } from '@core/profile'
+    import {
+        SendFlowType,
+        TokenStandard,
+        sendFlowParameters,
+        updateSendFlowParameters,
+        getChainIdFromSendFlowParameters,
+        SubjectType,
+        Subject,
+    } from '@core/wallet'
     import { closePopup } from '@desktop/auxiliary/popup'
     import features from '@features/features'
     import { INetworkRecipientSelectorOption, NetworkRecipientSelector } from '@ui'
     import { onMount } from 'svelte'
     import { sendFlowRouter } from '../send-flow.router'
     import SendFlowTemplate from './SendFlowTemplate.svelte'
+    import { getAssetStandard } from '@core/wallet/actions/getTokenStandartFromSendFlowParameters'
 
-    let networkAddress = $newTransactionData?.layer2Parameters?.networkAddress
+    let networkAddress = $sendFlowParameters?.layer2Parameters?.networkAddress
     let selectorOptions: INetworkRecipientSelectorOption[] = []
     let selectedIndex = -1
 
@@ -19,45 +30,146 @@
     $: selectedOption = selectorOptions[selectedIndex]
     $: isLayer2 = !!networkAddress
 
-    $: networkAddress = selectedOption?.networkAddress ?? $newTransactionData?.layer2Parameters?.networkAddress
-    $: recipient = selectedOption?.recipient ?? $newTransactionData?.recipient
-
-    onMount(() => {
-        buildNetworkRecipientOptions()
-    })
+    $: networkAddress = selectedOption?.networkAddress ?? $sendFlowParameters?.layer2Parameters?.networkAddress
+    $: recipient = selectedOption?.selectedRecipient ?? $sendFlowParameters?.recipient
 
     function getAssetName(): string | undefined {
-        if ($newTransactionData?.type === NewTransactionType.TokenTransfer) {
-            return $newTransactionData.asset?.metadata.name
-        } else if ($newTransactionData?.type === NewTransactionType.NftTransfer) {
-            return $newTransactionData.nft.name
+        if ($sendFlowParameters?.type === SendFlowType.BaseCoinTransfer) {
+            return $sendFlowParameters.baseCoinTransfer.asset?.metadata.name
+        } else if ($sendFlowParameters?.type === SendFlowType.TokenTransfer) {
+            return $sendFlowParameters.tokenTransfer.asset?.metadata.name
+        } else if ($sendFlowParameters?.type === SendFlowType.NftTransfer) {
+            return $sendFlowParameters.nft.name
         } else {
             return ''
         }
     }
 
     function buildNetworkRecipientOptions(): void {
-        if (!$network) {
-            return
-        }
-
-        selectorOptions = getCompatibleTransferNetworks()
+        selectorOptions = getRecipientOptions()
         selectedIndex =
             networkAddress && selectorOptions.length
                 ? selectorOptions.findIndex((option) => option.networkAddress === networkAddress)
                 : 0
 
-        const recipient = $newTransactionData?.recipient
-        if (recipient) {
-            selectorOptions = selectorOptions.map((option, index) =>
-                index === selectedIndex
-                    ? {
-                          ...option,
-                          recipient,
-                      }
-                    : option
-            )
+        setInitialRecipient()
+    }
+
+    function setInitialRecipient(): void {
+        selectorOptions = selectorOptions.map((option, index) =>
+            index === selectedIndex
+                ? {
+                      ...option,
+                      recipient: $sendFlowParameters?.recipient,
+                  }
+                : option
+        )
+    }
+
+    function getLayer1AccountRecipients(accountIndexToExclude?: number): Subject[] {
+        return $visibleActiveAccounts
+            .filter((account) => account.index !== accountIndexToExclude)
+            .map((account) => ({
+                type: SubjectType.Account,
+                account,
+                address: account.depositAddress,
+            }))
+    }
+
+    function getContactRecipientsForNetwork(networkId: string): Subject[] {
+        const recipients: Subject[] = ContactManager.listContactAddressesForNetwork(networkId).map((address) => {
+            const contact = ContactManager.getContact(address.contactId)
+            return {
+                type: SubjectType.Contact,
+                address: address.address,
+                contact,
+            }
+        })
+        return [...new Map(recipients.map((recipient) => [recipient?.['contact']?.['id'], recipient])).values()]
+    }
+
+    function getLayer1RecipientOption(
+        sourceNetwork: INetwork,
+        accountIndexToExclude?: number
+    ): INetworkRecipientSelectorOption {
+        const name = sourceNetwork.getMetadata().name
+        return {
+            name,
+            networkAddress: '',
+            recipients: [...getLayer1AccountRecipients(accountIndexToExclude), ...getContactRecipientsForNetwork(name)],
         }
+    }
+
+    function getLayer2AccountRecipients(coinType: number, accountIndexToExclude?: number): Subject[] {
+        return $visibleActiveAccounts
+            .filter(
+                (account) => account.index !== accountIndexToExclude && account.evmAddresses?.[coinType] !== undefined
+            )
+            .map((account) => ({
+                type: SubjectType.Account,
+                account,
+                address: account.evmAddresses?.[coinType],
+            }))
+    }
+
+    function getRecipientOptionFromChain(
+        chain: IChain,
+        accountIndexToExclude?: number
+    ): INetworkRecipientSelectorOption {
+        const chainConfig = chain.getConfiguration() as IIscpChainConfiguration
+        return {
+            chainId: chainConfig.chainId,
+            name: chainConfig.name,
+            networkAddress: chainConfig.aliasAddress,
+            recipients: [
+                ...getLayer2AccountRecipients(chainConfig.coinType, accountIndexToExclude),
+                ...getContactRecipientsForNetwork(chainConfig.name),
+            ], // TODO: We use the name here, because we use that currently as the key for the network addresses. This should be updated
+        }
+    }
+
+    function getRecipientOptions(): INetworkRecipientSelectorOption[] {
+        if (!$network || !$sendFlowParameters) {
+            return []
+        }
+
+        const layer1Network = getLayer1RecipientOption($network, $selectedAccountIndex)
+        if (!features?.network?.layer2?.enabled) {
+            return [layer1Network]
+        }
+
+        const assetStandard = getAssetStandard($sendFlowParameters)
+        const sourceChainId = getChainIdFromSendFlowParameters($sendFlowParameters)
+        const sourceChain = $network.getChain(sourceChainId)
+
+        let networkRecipientOptions = []
+
+        switch (assetStandard) {
+            case TokenStandard.Irc27:
+            case TokenStandard.Irc30:
+            case TokenStandard.BaseToken:
+                if (!sourceChainId) {
+                    networkRecipientOptions = [
+                        layer1Network,
+                        ...$network
+                            .getIscpChains()
+                            .map((chain) => getRecipientOptionFromChain(chain, $selectedAccountIndex)),
+                    ]
+                } else if (sourceChain) {
+                    networkRecipientOptions = [
+                        getRecipientOptionFromChain(sourceChain, $selectedAccountIndex),
+                        layer1Network,
+                    ]
+                }
+                break
+            case TokenStandard.Erc20:
+                if (sourceChain) {
+                    networkRecipientOptions = [getRecipientOptionFromChain(sourceChain, $selectedAccountIndex)]
+                }
+                break
+        }
+
+        return networkRecipientOptions
     }
 
     function onContinueClick(): void {
@@ -68,8 +180,8 @@
                   senderAddress: $selectedAccount.depositAddress,
               }
             : null
-        updateNewTransactionData({
-            type: $newTransactionData?.type,
+        updateSendFlowParameters({
+            type: $sendFlowParameters?.type,
             recipient,
             layer2Parameters,
         })
@@ -77,8 +189,8 @@
     }
 
     function onBackClick(): void {
-        updateNewTransactionData({
-            type: $newTransactionData?.type,
+        updateSendFlowParameters({
+            type: $sendFlowParameters?.type,
             recipient: undefined,
             layer2Parameters: undefined,
         })
@@ -88,67 +200,9 @@
             $sendFlowRouter.previous()
         }
     }
-
-    function getCompatibleTransferNetworks(): INetworkRecipientSelectorOption[] {
-        if (!$network || !$newTransactionData) {
-            return []
-        }
-
-        if ($newTransactionData.type === NewTransactionType.NftTransfer) {
-            // TODO: Currently we only support L1 NFTs
-            return [
-                {
-                    name: $network.getMetadata().name,
-                    networkAddress: '',
-                },
-            ]
-        } else {
-            let compatibleNetworks: INetworkRecipientSelectorOption[] = []
-
-            const asset = $newTransactionData.asset
-            // L1 network
-            const { id, name } = $network.getMetadata()
-            const layer1Network = {
-                id,
-                name,
-                networkAddress: '',
-            }
-            // L2 chains, ISCP only for now
-            const iscpChains = features?.network?.layer2?.enabled
-                ? $network.getChains().filter((chain) => chain.getConfiguration().type === ChainType.Iscp)
-                : []
-            const chainMatchingAssetChainId = iscpChains.find(
-                (chain) => chain.getConfiguration().chainId === asset.chainId
-            )
-
-            switch (asset.standard) {
-                case TokenStandard.Irc27:
-                case TokenStandard.Irc30:
-                case TokenStandard.BaseToken:
-                    if (!asset.chainId) {
-                        compatibleNetworks = [layer1Network, ...iscpChains.map(getSelectorOptionFromChain)]
-                    } else if (chainMatchingAssetChainId) {
-                        compatibleNetworks = [getSelectorOptionFromChain(chainMatchingAssetChainId), layer1Network]
-                    }
-                    break
-                case TokenStandard.Erc20:
-                    if (chainMatchingAssetChainId) {
-                        compatibleNetworks = [getSelectorOptionFromChain(chainMatchingAssetChainId)]
-                    }
-                    break
-            }
-            return compatibleNetworks
-        }
-    }
-
-    function getSelectorOptionFromChain(chain: IChain): INetworkRecipientSelectorOption {
-        const chainConfig = chain.getConfiguration() as IIscpChainConfiguration
-        return {
-            chainId: chainConfig.chainId,
-            name: chainConfig.name,
-            networkAddress: chainConfig.aliasAddress,
-        }
-    }
+    onMount(() => {
+        buildNetworkRecipientOptions()
+    })
 </script>
 
 <SendFlowTemplate
@@ -165,8 +219,9 @@
         disabled:
             networkAddress === undefined ||
             !recipient ||
-            (recipient.type === 'address' && !recipient.address) ||
-            (recipient.type === 'account' && !recipient.account),
+            (recipient.type === SubjectType.Address && !recipient.address) ||
+            (recipient.type === SubjectType.Contact && !recipient.address && !recipient.contact) ||
+            (recipient.type === SubjectType.Account && !recipient.account),
     }}
 >
     <NetworkRecipientSelector bind:options={selectorOptions} bind:selectedIndex />

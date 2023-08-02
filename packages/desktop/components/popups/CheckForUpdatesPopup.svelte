@@ -1,15 +1,14 @@
 <script lang="ts">
     import { onMount } from 'svelte'
-    import { get } from 'svelte/store'
     import { Button, KeyValueBox, Text, TextType, TextHint } from '@ui'
     import {
         appUpdateBusy,
         checkForAppUpdate,
         downloadAppUpdate,
         appVersionDetails,
-        platform,
-        appStage,
+        OS,
         openUrlInBrowser,
+        APP_STAGE,
     } from '@core/app'
     import { formatDate, localize } from '@core/i18n'
     import { closePopup } from '@desktop/auxiliary/popup'
@@ -34,7 +33,7 @@
         if (process.env.NODE_ENV !== 'development') {
             checkForAppUpdate()
         }
-        hasAutoUpdate = features.electron.autoUpdate[$platform]?.enabled
+        hasAutoUpdate = features.electron.autoUpdate[OS]?.enabled
     })
 </script>
 
@@ -47,7 +46,7 @@
         />
         <KeyValueBox
             keyText={localize('popups.appUpdate.stage')}
-            valueText={localize(`popups.appUpdate.${get(appStage)}`)}
+            valueText={localize(`popups.appUpdate.${APP_STAGE}`)}
         />
         {#if $appVersionDetails.upToDate}
             <TextHint success classes="w-full" text={localize('popups.appUpdate.latestInstalled')} />

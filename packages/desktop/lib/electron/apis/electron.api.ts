@@ -116,9 +116,6 @@ export default {
     getDiagnostics(): Promise<unknown> {
         return ipcRenderer.invoke('diagnostics')
     },
-    getOS(): Promise<unknown> {
-        return ipcRenderer.invoke('get-os')
-    },
     getMachineId(): Promise<unknown> {
         return ipcRenderer.invoke('get-machine-id')
     },

@@ -26,7 +26,7 @@ export function generateSingleAliasActivity(
     const outputId = wrappedOutput.outputId
     const id = outputId || transactionId
 
-    const { storageDeposit: _storageDeposit, giftedStorageDeposit } = getStorageDepositFromOutput(output)
+    const _storageDeposit = getStorageDepositFromOutput(output)
     const storageDeposit = getAmountFromOutput(output) + _storageDeposit
     const governorAddress = getGovernorAddressFromAliasOutput(output)
     const stateControllerAddress = getStateControllerAddressFromAliasOutput(output)
@@ -50,7 +50,6 @@ export function generateSingleAliasActivity(
         action,
         aliasId,
         storageDeposit,
-        giftedStorageDeposit,
         governorAddress,
         stateControllerAddress,
         isHidden,

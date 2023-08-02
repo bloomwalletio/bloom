@@ -20,7 +20,7 @@
         Toggle,
     } from '@ui'
     import { fade } from 'svelte/transition'
-    import { FlatIcon, FlatIconName } from '@bloom-labs/ui'
+    import { FlatIcon, FlatIconName } from '@bloomwalletio/ui'
     import features from '@features/features'
     import { DrawerId, openDrawer } from '@desktop/auxiliary/drawer'
 
@@ -65,6 +65,7 @@
 
     function onContactBookClick(): void {
         openDrawer({ id: DrawerId.ContactBook })
+        modal?.close()
     }
 
     function updateLedgerConnectionText(): void {
@@ -199,7 +200,7 @@
             </div>
             <HR />
         {/if}
-        {#if features.wallet.contacts.enabled}
+        {#if features.contacts.enabled}
             <button
                 on:click={onContactBookClick}
                 class="group flex flex-row space-x-3 justify-start items-center hover:bg-blue-50 dark:hover:bg-gray-800 dark:hover:bg-opacity-20 py-3 px-3 w-full"

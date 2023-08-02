@@ -46,19 +46,29 @@
 
         if (validate()) {
             ContactManager.addContact(contact, networkAddress)
-            drawerRouter.previous()
+            if (drawerRouter.hasHistory()) {
+                drawerRouter.previous()
+            } else {
+                drawerRouter.goTo(ContactBookRoute.ContactList)
+                drawerRouter.resetHistory()
+            }
         }
     }
 
     function validate(): boolean {
+        /**
+         * NOTE: This variable allows us to run all the input validation functions,
+         * displaying all errors at once rather than one by one.
+         */
+        let handledError = false
         for (const input of [nameInput, noteInput, networkSelectionInput, addressNameInput, addressInput]) {
             try {
                 input.validate()
             } catch (err) {
-                return false
+                handledError = true
             }
         }
-        return true
+        return !handledError
     }
 </script>
 
@@ -77,8 +87,8 @@
         <TextInput
             bind:this={noteInput}
             bind:value={note}
-            placeholder={localize('views.dashboard.drawers.contactBook.addContact.optionalNote')}
-            label={localize('views.dashboard.drawers.contactBook.addContact.optionalNote')}
+            placeholder={localize('general.optionalField', { field: localize('general.note') })}
+            label={localize('general.note')}
             validationFunction={validateContactNote}
         />
         <HR />

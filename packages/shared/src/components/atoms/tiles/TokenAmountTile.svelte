@@ -17,15 +17,16 @@
     $: marketBalance = getMarketAmountFromAssetValue(amount, asset)
 </script>
 
-{#if asset && asset.metadata && asset.balance}
+{#if asset && asset.metadata}
     <ClickableTile
         {onClick}
         classes="border-2 border-solid {selected
             ? 'border-blue-500 dark:border-gray-500'
             : 'border-transparent'} {classes}"
+        fullWidth={!hideTokenInfo}
         {...$$restProps}
     >
-        <div class="w-full flex flex-row justify-between items-center">
+        <div class="w-full flex flex-row justify-between items-center gap-2">
             <div class="flex flex-row items-center text-left space-x-4">
                 <AssetIcon {asset} chainId={asset.chainId} />
                 {#if !hideTokenInfo}
@@ -45,7 +46,7 @@
                 {/if}
             </div>
             <div class="flex flex-col text-right">
-                <Text type={TextType.p} fontWeight={FontWeight.semibold}>
+                <Text type={TextType.p} fontWeight={FontWeight.semibold} whitespace="nowrap">
                     {asset.metadata ? formatTokenAmountBestMatch(amount, asset.metadata) : '-'}
                 </Text>
                 <div class="flex flex-row justify-between items-center text-right">

@@ -1,5 +1,5 @@
-export * from './createEvmTransactionFromTransactionData'
-export * from './createStardustOutputFromTransactionData'
+export * from './createEvmTransactionFromSendFlowParameters'
+export * from './createStardustOutputFromSendFlowParameters'
 export * from './sendOutputFromStardust'
 export * from './sendTransactionFromEvm'
 export * from './signAndSendEvmTransaction'
