@@ -18,6 +18,11 @@ jobs:
         with:
           node-version: 18.x
 
+      - name: Set up .npmrc file to use GitHub Packages
+        run: |
+          echo "@bloomwalletio:registry=https://npm.pkg.github.com/" >> .npmrc
+          echo "//npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}" >> .npmrc
+
       - name: Install Dependencies
         run: yarn --ignore-scripts
 
@@ -34,6 +39,11 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 18.x
+
+      - name: Set up .npmrc file to use GitHub Packages
+        run: |
+          echo "@bloomwalletio:registry=https://npm.pkg.github.com/" >> .npmrc
+          echo "//npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}" >> .npmrc
 
       - name: Install Dependencies
         run: yarn --ignore-scripts
