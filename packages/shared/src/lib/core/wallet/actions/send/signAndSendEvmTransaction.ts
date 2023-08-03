@@ -1,4 +1,5 @@
 import Web3 from 'web3'
+import { TransactionReceipt } from 'web3-core'
 
 import { updateSelectedAccount } from '@core/account/stores'
 import { handleError } from '@core/error/handlers'
@@ -15,7 +16,7 @@ export async function signAndSendEvmTransaction(
     chainId: number,
     provider: Web3,
     account: IAccountState
-): Promise<void> {
+): Promise<TransactionReceipt | undefined> {
     try {
         updateSelectedAccount({ isTransferring: true })
 
@@ -33,7 +34,7 @@ export async function signAndSendEvmTransaction(
         }
 
         if (signedTransaction) {
-            await provider?.eth.sendSignedTransaction(signedTransaction)
+            return await provider?.eth.sendSignedTransaction(signedTransaction)
         } else {
             throw new Error('No signature provided')
         }
