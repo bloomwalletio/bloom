@@ -3,7 +3,7 @@ import { INotificationAction } from './notification-action.interface'
 
 export interface INotification {
     id: string
-    variant: NotificationVariant
+    variant: NotificationVariant | 'appUpdate'
     text: string
     creationTime: number
     duration: number

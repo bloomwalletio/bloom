@@ -4,7 +4,7 @@
     import { removeAppNotification } from '@auxiliary/notification/stores'
 
     export let id: string = ''
-    export let variant: string
+    export let variant: 'info' | 'success' | 'warning' | 'error' = 'info'
     export let text: string
     export let showDismiss: boolean = false
     export let classes: string = ''
@@ -53,8 +53,10 @@
         <Text
             type={TextType.p}
             fontWeight={FontWeight.semibold}
-            class="flex text-13 text text-{TOAST_STYLE[variant].messageColor}">{text}</Text
+            class="flex text-13 text text-{TOAST_STYLE[variant].messageColor}"
         >
+            {text}
+        </Text>
     </div>
     {#if showDismiss}
         <button

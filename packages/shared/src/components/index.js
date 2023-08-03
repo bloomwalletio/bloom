@@ -1,3 +1,4 @@
+export { default as AppUpdateToast } from './AppUpdateToast.svelte'
 export { default as Animation } from './Animation.svelte'
 export { default as Button } from './Button.svelte'
 export { default as ButtonRadio } from './ButtonRadio.svelte'
@@ -21,6 +22,7 @@ export { default as Text } from './Text.svelte'
 export { default as TextHint } from './TextHint.svelte'
 export { default as Toast } from './Toast.svelte'
 export { default as ToastContainer } from './ToastContainer.svelte'
+export { default as ToastWrapper } from './ToastWrapper.svelte'
 export { default as Tooltip } from './Tooltip.svelte'
 export { default as Transition } from './Transition.svelte'
 

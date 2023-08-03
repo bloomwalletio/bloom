@@ -1,6 +1,6 @@
 <script lang="ts">
     import { fade } from 'svelte/transition'
-    import { Swiper, Toast } from './'
+    import { Swiper, ToastWrapper } from './'
     import { appNotifications } from '@auxiliary/notification/stores'
 
     export let classes: string = ''
@@ -15,10 +15,10 @@
                 <li transition:fade|local={{ duration: fadeDuration }}>
                     {#if swipe}
                         <Swiper toastId={notification.id}>
-                            <Toast {...notification} />
+                            <ToastWrapper {notification} />
                         </Swiper>
                     {:else}
-                        <Toast {...notification} />
+                        <ToastWrapper {notification} />
                     {/if}
                 </li>
             {/each}
