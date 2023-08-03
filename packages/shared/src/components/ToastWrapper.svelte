@@ -1,13 +1,13 @@
 <script lang="ts">
-    import { INotification } from '@auxiliary/notification'
+    import { Notification } from '@auxiliary/notification'
     import { AppUpdateToast, Toast } from './'
 
-    export let notification: INotification
+    export let notification: Notification
 </script>
 
 {#if notification.variant === 'appUpdate'}
     <AppUpdateToast />
 {:else}
     <!-- Specify variant explicitly for type narrowing -->
-    <Toast {...notification} variant={notification.variant} />
+    <Toast {...notification} />
 {/if}
