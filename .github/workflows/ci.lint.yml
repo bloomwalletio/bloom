@@ -1,52 +1,52 @@
 name: Format & Lint
 
 on:
-  pull_request:
-    types: [ ready_for_review ]
-  pull_request_review:
-    types: [ submitted ]
+    pull_request:
+        types: [ready_for_review]
+    pull_request_review:
+        types: [submitted]
 
 jobs:
-  format:
-    name: Format
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
+    format:
+        name: Format
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v3
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 18.x
+            - name: Setup Node.js
+              uses: actions/setup-node@v3
+              with:
+                  node-version: 18.x
 
-      - name: Set up .npmrc file to use GitHub Packages
-      run: |
-        echo "@bloomwalletio:registry=https://npm.pkg.github.com/" >> .npmrc
-        echo "//npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}" >> .npmrc
+            - name: Set up .npmrc file to use GitHub Packages
+              run: |
+                  echo "@bloomwalletio:registry=https://npm.pkg.github.com/" >> .npmrc
+                  echo "//npm.pkg.github.com/:_authToken=${{ secrets.PACKAGES_PERSONAL_ACCESS_TOKEN }}" >> .npmrc
 
-      - name: Install Dependencies
-        run: yarn --ignore-scripts
+            - name: Install Dependencies
+              run: yarn --ignore-scripts
 
-      - name: Format
-        run: yarn format:check
+            - name: Format
+              run: yarn format:check
 
-  lint:
-    name: Lint
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
+    lint:
+        name: Lint
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v3
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 18.x
+            - name: Setup Node.js
+              uses: actions/setup-node@v3
+              with:
+                  node-version: 18.x
 
-      - name: Set up .npmrc file to use GitHub Packages
-      run: |
-        echo "@bloomwalletio:registry=https://npm.pkg.github.com/" >> .npmrc
-        echo "//npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}" >> .npmrc
+            - name: Set up .npmrc file to use GitHub Packages
+              run: |
+                  echo "@bloomwalletio:registry=https://npm.pkg.github.com/" >> .npmrc
+                  echo "//npm.pkg.github.com/:_authToken=${{ secrets.PACKAGES_PERSONAL_ACCESS_TOKEN }}" >> .npmrc
 
-      - name: Install Dependencies
-        run: yarn --ignore-scripts
+            - name: Install Dependencies
+              run: yarn --ignore-scripts
 
-      - name: Lint
-        run: yarn lint:check
+            - name: Lint
+              run: yarn lint:check
