@@ -4,8 +4,7 @@
     import { getMarketAmountFromAssetValue } from '@core/market/utils'
     import { activeProfile, getBaseToken } from '@core/profile'
     import { formatTokenAmountBestMatch, selectedAccountAssets } from '@core/wallet'
-    import { FontWeight, Text } from '@ui'
-    import { AccountLabel } from '@ui/atoms'
+    import { AccountLabel, FontWeight, Text } from '@ui'
 
     export let account: IAccountState
     export let onClick: () => unknown
