@@ -13,7 +13,7 @@ interface IPersistedEvmTransactions {
 
 export const persistedEvmTransactions = persistent<IPersistedEvmTransactions>('evmTransactions', {})
 
-export function getBalanceChanges(accountIndex: number, chainId: string | number): PersistedEvmTransaction[] {
+export function getPersistedEvmTransactions(accountIndex: number, chainId: string | number): PersistedEvmTransaction[] {
     return get(persistedEvmTransactions)?.[get(activeProfileId)]?.[accountIndex]?.[chainId]
 }
 
