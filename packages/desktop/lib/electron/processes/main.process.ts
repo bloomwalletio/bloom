@@ -492,14 +492,14 @@ export function openAboutWindow(): BrowserWindow {
         height: 230,
         useContentSize: true,
         titleBarStyle: process.platform === 'darwin' ? 'hiddenInset' : 'hidden',
-
-        // affects only WindowsOS
+        /**
+         * NOTE: This only affects Windows.
+         */
         titleBarOverlay: {
             color: '#192742',
             symbolColor: '#ffffff',
         },
-
-        show: false,
+        show: true,
         fullscreenable: false,
         resizable: false,
         minimizable: false,
@@ -536,7 +536,7 @@ export function openErrorWindow(): BrowserWindow {
     windows.error = new BrowserWindow({
         useContentSize: true,
         titleBarStyle: process.platform === 'darwin' ? 'hiddenInset' : 'hidden',
-        show: false,
+        show: true,
         fullscreenable: false,
         resizable: true,
         minimizable: false,
