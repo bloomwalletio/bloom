@@ -342,10 +342,10 @@
   resolved "https://registry.yarnpkg.com/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
-"@bloomwalletio/ui@0.6.1":
-  version "0.6.1"
-  resolved "https://npm.pkg.github.com/download/@bloomwalletio/ui/0.6.1/feeb205142a68ebf5507870f18a72f04ed70d3be#feeb205142a68ebf5507870f18a72f04ed70d3be"
-  integrity sha512-SoQ2/v9pmLLvLsSswG6L91c9thN7EUA4RrBU/SfmYRxjNZUzZG9QdztvuZnTbIjKLPSC4oVzZzBfsjQJUEF7ow==
+"@bloomwalletio/ui@0.6.2":
+  version "0.6.2"
+  resolved "https://npm.pkg.github.com/download/@bloomwalletio/ui/0.6.2/80441362b72dbb6dba8563cf2968d774f3dd43f1#80441362b72dbb6dba8563cf2968d774f3dd43f1"
+  integrity sha512-W61OIDpDVwjN4orjfuNQk20ZPnTUfWxXKDKmCTXNI9Zedjh7hNYBPTz9haq/g2TG9aRlFTKcM0+xa63AasVKYw==
   dependencies:
     "@floating-ui/dom" "1.4.3"
     "@popperjs/core" "2.11.8"
@@ -1525,7 +1525,7 @@
   resolved "https://registry.yarnpkg.com/@ledgerhq/errors/-/errors-6.13.0.tgz#f6d335d6f5c4267a1a8b20668df956a99dfb23ad"
   integrity sha512-cMFNX2AN6Gdj4RVIizI/7vWb+JYRu5na0rQSjybf7xGW5MSVdFVRcOg90VvqnDRsNfgFBbJzhpf7o4D7S3yFgg==
 
-"@ledgerhq/evm-tools@^1.0.1":
+"@ledgerhq/evm-tools@1.0.1":
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/@ledgerhq/evm-tools/-/evm-tools-1.0.1.tgz#650e2b529c9831168a14b7bb93f1fbdf7f3693e0"
   integrity sha512-R/6fHHpkqBC5sDlQ7X+rmCG517UEuz41omlmkxrh5ugTOYOrrl2E/+Xp2jc4crJArpFR92oMIjw+jMvjSolG7g==
