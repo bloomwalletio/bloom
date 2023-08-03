@@ -1,7 +1,6 @@
 import Web3 from 'web3'
 
 import { updateSelectedAccount } from '@core/account/stores'
-import { buildBip32Path } from '@core/account/utils'
 import { handleError } from '@core/error/handlers'
 import { EvmTransactionData } from '@core/layer-2/types'
 import { Ledger } from '@core/ledger/classes'
@@ -20,12 +19,17 @@ export async function signAndSendEvmTransaction(
     try {
         updateSelectedAccount({ isTransferring: true })
 
+        const bip44Path = {
+            coinType: ETHEREUM_COIN_TYPE,
+            account: account.index,
+            change: 0,
+            addressIndex: 0,
+        }
         let signedTransaction: string | undefined
         if (get(isSoftwareProfile)) {
-            signedTransaction = await signEvmTransactionWithStronghold(transaction, chainId, account)
+            signedTransaction = await signEvmTransactionWithStronghold(transaction, bip44Path, chainId, account)
         } else if (get(isActiveLedgerProfile)) {
-            const bip32 = buildBip32Path(ETHEREUM_COIN_TYPE, account.index)
-            signedTransaction = await Ledger.signEvmTransaction(transaction, bip32)
+            signedTransaction = await Ledger.signEvmTransaction(transaction, bip44Path)
         }
 
         if (signedTransaction) {

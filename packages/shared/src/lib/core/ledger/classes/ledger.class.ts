@@ -1,4 +1,4 @@
-import { buildBip32Path } from '@core/account/utils'
+import { buildBip32PathFromBip44 } from '@core/account/utils'
 import { Platform } from '@core/app/classes'
 import { IPlatformEventMap } from '@core/app/interfaces'
 import { localize } from '@core/i18n'
@@ -11,6 +11,7 @@ import { DEFAULT_LEDGER_API_REQUEST_OPTIONS } from '../constants'
 import { LedgerApiMethod } from '../enums'
 import { ILedgerApiBridge } from '../interfaces'
 import { LedgerApiRequestResponse } from '../types'
+import type { Bip44 } from '@iota/wallet/types'
 
 declare global {
     interface Window {
@@ -22,7 +23,10 @@ const ledgerApiBridge: ILedgerApiBridge = window['__LEDGER__']
 
 export class Ledger {
     static async generateEvmAddress(accountIndex: number, coinType: number, verify?: boolean): Promise<string> {
-        const bip32Path = buildBip32Path(coinType, accountIndex)
+        const bip32Path = buildBip32PathFromBip44({
+            coinType,
+            account: accountIndex,
+        })
         const response = await this.callLedgerApiAsync<IEvmAddress>(
             () => ledgerApiBridge.makeRequest(LedgerApiMethod.GenerateEvmAddress, bip32Path, verify ?? false),
             'evm-address'
@@ -30,8 +34,12 @@ export class Ledger {
         return response.evmAddress
     }
 
-    static async signEvmTransaction(transactionData: EvmTransactionData, bip32Path: string): Promise<string> {
+    static async signEvmTransaction(
+        transactionData: EvmTransactionData,
+        bip44Path: Bip44
+    ): Promise<string | undefined> {
         const unsignedTransactionMessageHex = prepareEvmTransaction(transactionData)
+        const bip32Path = buildBip32PathFromBip44(bip44Path)
         const transactionSignature = await this.callLedgerApiAsync<IEvmTransactionSignature>(
             () =>
                 ledgerApiBridge.makeRequest(
