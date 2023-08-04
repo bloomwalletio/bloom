@@ -5,4 +5,3 @@ export { default as EvmTransactionDetails } from './EvmTransactionDetails.svelte
 export { default as EvmTransactionSummary } from './EvmTransactionSummary.svelte'
 export { default as StardustTransactionSummary } from './StardustTransactionSummary.svelte'
 export { default as StardustTransactionDetails } from './StardustTransactionDetails.svelte'
-export { default as TransactionAssetSection } from './TransactionAssetSection.svelte'
