@@ -13,7 +13,7 @@ import {
     getStorageDepositFromOutput,
     getTagFromOutput,
 } from './helper'
-import { network } from '@core/network'
+import { network } from '@core/network/stores'
 import { get } from 'svelte/store'
 
 export function generateSingleNftActivity(

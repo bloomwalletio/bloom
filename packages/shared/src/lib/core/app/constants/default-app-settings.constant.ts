@@ -1,6 +1,6 @@
-import { AppTheme } from '../enums/app-theme.enum'
+import { AppTheme } from '../enums'
 import { IAppSettings } from '../interfaces'
-import { shouldBeDarkMode } from '../utils/shouldBeDarkMode'
+import { shouldBeDarkMode } from '../utils'
 
 export const DEFAULT_APP_SETTINGS: IAppSettings = {
     deepLinking: false,
