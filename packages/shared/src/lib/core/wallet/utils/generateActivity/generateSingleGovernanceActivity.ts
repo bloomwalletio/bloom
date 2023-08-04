@@ -50,6 +50,7 @@ export function generateSingleGovernanceActivity(
         storageDeposit,
         metadata,
         tag,
+        chainId: undefined, // Currently we only support L1 activities
         asyncData: null,
         ...governanceInfo,
         ...sendingInfo,

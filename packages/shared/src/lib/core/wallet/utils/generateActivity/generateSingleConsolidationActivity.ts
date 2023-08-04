@@ -52,6 +52,7 @@ export function generateSingleConsolidationActivity(
         storageDeposit,
         metadata,
         tag,
+        chainId: undefined,
         asyncData,
         amountConsolidatedInputs,
         ...sendingInfo,

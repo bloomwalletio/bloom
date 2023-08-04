@@ -16,7 +16,6 @@ import {
     getStorageDepositFromOutput,
     getTagFromOutput,
 } from './helper'
-import { network } from '@core/network/stores'
 
 export function generateSingleBasicActivity(
     account: IAccountState,
@@ -53,7 +52,6 @@ export function generateSingleBasicActivity(
 
     const nativeToken = getNativeTokenFromOutput(output)
     const assetId = fallbackAssetId ?? nativeToken?.id ?? getCoinType()
-    const networkId = get(network)?.getMetadata().id as string // Currently we only support L1 activities
 
     let rawAmount: number
     if (fallbackAmount === undefined) {
@@ -82,7 +80,7 @@ export function generateSingleBasicActivity(
         metadata,
         tag,
         assetId,
-        networkId,
+        chainId: undefined,
         asyncData,
         destinationNetwork,
         parsedLayer2Metadata,

@@ -6,20 +6,18 @@
         Button,
         FontWeight,
         TextType,
-        BasicActivityDetails,
         AliasActivityDetails,
-        FoundryActivityDetails,
-        GovernanceActivityDetails,
-        NftActivityDetails,
-        ConsolidationActivityDetails,
         ActivityInformation,
+        TransactionAssetSection,
     } from '@ui'
     import { openUrlInBrowser } from '@core/app'
     import {
+        Activity,
         ActivityAsyncStatus,
         ActivityDirection,
         ActivityType,
         claimActivity,
+        getActivityDetailsTitle,
         rejectActivity,
         selectedAccountActivities,
     } from '@core/wallet'
@@ -29,6 +27,9 @@
     import { closePopup, openPopup, PopupId } from '@desktop/auxiliary/popup'
     import { onMount } from 'svelte'
     import { ExplorerEndpoint } from '@core/network'
+    import { getTransactionAssets } from '@core/activities/utils'
+    import { selectedAccountIndex } from '@core/account/stores'
+    import ActivityStatusPills from '@ui/molecules/ActivityStatusPills.svelte'
 
     export let activityId: string
     export let _onMount: (..._: any[]) => Promise<void> = async () => {}
@@ -42,6 +43,14 @@
         (activity?.direction === ActivityDirection.Incoming ||
             activity?.direction === ActivityDirection.SelfTransaction) &&
         activity?.asyncData?.asyncStatus === ActivityAsyncStatus.Unclaimed
+    $: setTitle(activity)
+    $: transactionAssets = getTransactionAssets(activity, $selectedAccountIndex)
+
+    let title: string | undefined = localize('popups.activityDetails.title.fallback')
+    $: void setTitle(activity)
+    async function setTitle(_activity: Activity): Promise<void> {
+        title = await getActivityDetailsTitle(_activity)
+    }
 
     function onExplorerClick(): void {
         openUrlInBrowser(`${explorerUrl}/${ExplorerEndpoint.Transaction}/${activity?.transactionId}`)
@@ -98,7 +107,7 @@
 <activity-details-popup class="w-full h-full space-y-6 flex flex-auto flex-col shrink-0">
     <div class="flex flex-col">
         <Text type={TextType.h3} fontWeight={FontWeight.semibold} classes="text-left">
-            {localize('popups.transactionDetails.title')}
+            {title}
         </Text>
         {#if explorerUrl && activity?.transactionId}
             <button
@@ -117,17 +126,12 @@
         {/if}
     </div>
     <activity-details class="w-full h-full space-y-6 flex flex-auto flex-col shrink-0">
-        {#if activity.type === ActivityType.Basic}
-            <BasicActivityDetails {activity} />
-        {:else if activity.type === ActivityType.Foundry}
-            <FoundryActivityDetails {activity} />
-        {:else if activity.type === ActivityType.Governance}
-            <GovernanceActivityDetails {activity} />
-        {:else if activity.type === ActivityType.Consolidation}
-            <ConsolidationActivityDetails {activity} />
-        {:else if activity.type === ActivityType.Nft}
-            <NftActivityDetails {activity} />
-        {:else if activity.type === ActivityType.Alias}
+        <ActivityStatusPills {activity} />
+
+        <!-- <TransactionAssetSection {...transactionAssets} onNftClick={nftIsOwned ? onClick : undefined} /> -->
+        <TransactionAssetSection {...transactionAssets} />
+
+        {#if activity.type === ActivityType.Alias}
             <AliasActivityDetails {activity} />
         {/if}
         <ActivityInformation {activity} />
