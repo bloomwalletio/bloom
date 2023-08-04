@@ -7,7 +7,6 @@
     },
     "include": [
         "packages/desktop",
-        "packages/mobile",
         "packages/shared/src",
         "packages/shared/test",
         "packages/shared/lib/auxiliary/wordlists",
