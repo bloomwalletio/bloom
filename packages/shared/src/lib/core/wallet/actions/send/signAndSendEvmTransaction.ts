@@ -8,7 +8,7 @@ import { Ledger } from '@core/ledger/classes'
 import { isActiveLedgerProfile, isSoftwareProfile } from '@core/profile'
 import { get } from 'svelte/store'
 import { IAccountState } from '@core/account'
-import { signEvmTransactionWithStronghold } from './signEvmTransactionWithStronghold'
+import { signEvmTransactionWithStronghold } from '../../../layer-2/utils/signEvmTransactionWithStronghold'
 import { ETH_COIN_TYPE } from '@core/network/constants'
 
 export async function signAndSendEvmTransaction(
