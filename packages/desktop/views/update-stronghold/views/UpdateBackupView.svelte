@@ -53,7 +53,7 @@
                 })
             } else {
                 showNotification({
-                    variant: 'info',
+                    variant: 'success',
                     text: localize('general.exportingStrongholdSuccess'),
                 })
             }

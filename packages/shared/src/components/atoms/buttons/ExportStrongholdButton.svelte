@@ -30,7 +30,7 @@
                 message = localize('general.exportingStrongholdSuccess')
                 showNotification &&
                     _showNotification({
-                        variant: 'info',
+                        variant: 'success',
                         text: localize('general.exportingStrongholdSuccess'),
                     })
             }

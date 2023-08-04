@@ -16,7 +16,7 @@
             validateProfileName(trimmedProfileName)
             updateActiveProfile({ name: trimmedProfileName })
             showNotification({
-                variant: 'info',
+                variant: 'success',
                 text: localize('views.settings.changeProfileName.success'),
             })
         } catch (err) {
