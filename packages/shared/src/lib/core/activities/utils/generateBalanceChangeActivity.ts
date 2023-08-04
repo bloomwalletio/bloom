@@ -26,6 +26,6 @@ export function generateBalanceChangeActivity(
         subject: undefined,
         rawAmount: Math.abs(difference),
         assetId: assetId === '0x' ? getCoinType() : assetId,
-        chainId,
+        networkId: chainId.toString(),
     }
 }
