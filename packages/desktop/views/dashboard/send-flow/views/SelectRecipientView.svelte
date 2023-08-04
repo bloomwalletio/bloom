@@ -149,17 +149,14 @@
             case TokenStandard.Irc30:
             case TokenStandard.BaseToken:
                 if (!sourceChainId) {
+                    // if we are on layer 1
                     networkRecipientOptions = [
                         layer1Network,
-                        ...$network
-                            .getIscpChains()
-                            .map((chain) => getRecipientOptionFromChain(chain, $selectedAccountIndex)),
+                        ...$network.getIscpChains().map((chain) => getRecipientOptionFromChain(chain)),
                     ]
                 } else if (sourceChain) {
-                    networkRecipientOptions = [
-                        getRecipientOptionFromChain(sourceChain, $selectedAccountIndex),
-                        layer1Network,
-                    ]
+                    // if we are on layer 2
+                    networkRecipientOptions = [getRecipientOptionFromChain(sourceChain, $selectedAccountIndex)]
                 }
                 break
             case TokenStandard.Erc20:
