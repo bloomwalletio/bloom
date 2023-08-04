@@ -11,7 +11,6 @@
         Button,
         ButtonSize,
         DeveloperIndicatorPill,
-        HR,
         Icon,
         Modal,
         ProfilePicture,
@@ -20,7 +19,7 @@
         Toggle,
     } from '@ui'
     import { fade } from 'svelte/transition'
-    import { FlatIcon, FlatIconName } from '@bloom-labs/ui'
+    import { FlatIcon, FlatIconName } from '@bloomwalletio/ui'
     import features from '@features/features'
     import { DrawerId, openDrawer } from '@desktop/auxiliary/drawer'
 
@@ -105,7 +104,7 @@
                 <Icon icon="ledger" classes="text-gray-900 dark:text-gray-100 w-4 h-4" />
             {/if}
         </div>
-        <HR />
+        <hr />
         {#if !isUpToDate}
             <div class="items-center p-3">
                 <div class="flex items-center justify-between bg-blue-50 dark:bg-gray-800 p-3 rounded-lg">
@@ -125,7 +124,7 @@
                     </Button>
                 </div>
             </div>
-            <HR />
+            <hr />
         {/if}
         {#if $isSoftwareProfile}
             {#if !isBackupSafe}
@@ -155,7 +154,7 @@
                         </Button>
                     </div>
                 </div>
-                <HR />
+                <hr />
             {/if}
             <div class="flex justify-between items-center p-3">
                 <div class="flex flex-row items-center space-x-3">
@@ -176,7 +175,7 @@
                 </div>
                 <Toggle active={$isStrongholdLocked} onClick={onStrongholdToggleClick} />
             </div>
-            <HR />
+            <hr />
         {:else}
             <div class="flex justify-between items-center p-3">
                 <div class="flex flex-row items-center space-x-3">
@@ -198,7 +197,7 @@
                     </div>
                 </div>
             </div>
-            <HR />
+            <hr />
         {/if}
         {#if features.contacts.enabled}
             <button

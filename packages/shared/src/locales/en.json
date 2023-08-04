@@ -1470,6 +1470,8 @@
         "minting": "Minting",
         "burned": "Burned",
         "burning": "Burning",
+        "balanceChanged": "Balance changed",
+        "initialBalance": "Initial balance",
         "consolidated": "Outputs consolidated",
         "consolidating": "Consolidating outputs",
         "aliasCreated": "Alias created",
@@ -2060,7 +2062,8 @@
             "generateAddress": "There was an error generating an address.",
             "timeout": "Your Ledger device timed out.",
             "disconnected": "Your Ledger device was disconnected.",
-            "noStronghold": "Unable to use Stronghold with Ledger profile."
+            "noStronghold": "Unable to use Stronghold with Ledger profile.",
+            "rejected": "Action was rejected on the Ledger device"
         },
         "popup": {
             "preventClose": "This popup is unable to be closed."

@@ -20,25 +20,19 @@ import { profileManager } from '@core/profile-manager/stores'
 import { buildProfileManagerOptionsFromProfileData } from '@core/profile-manager/utils'
 import { routerManager } from '@core/router/stores'
 import { SECONDS_PER_MINUTE } from '@core/utils'
-import { sleep } from '@core/utils/os'
 import { generateAndStoreActivitiesForAllAccounts, refreshAccountAssetsForActiveProfile } from '@core/wallet/actions'
 import { get } from 'svelte/store'
-import {
-    CHECK_PREVIOUS_MANAGER_IS_DESTROYED_INTERVAL,
-    CHECK_PREVIOUS_MANAGER_IS_DESTROYED_MAX_COUNT,
-} from '../../constants'
 import { ProfileType } from '../../enums'
 import { ILoginOptions } from '../../interfaces'
 import {
     activeAccounts,
     activeProfile,
     incrementLoginProgress,
-    isDestroyingManager,
     resetLoginProgress,
     setTimeStrongholdLastUnlocked,
     updateActiveProfile,
 } from '../../stores'
-import { isLedgerProfile } from '../../utils'
+import { isLedgerProfile, waitForPreviousManagerToBeDestroyed } from '../../utils'
 import { checkAndRemoveProfilePicture } from './checkAndRemoveProfilePicture'
 import { checkAndUpdateActiveProfileNetwork } from './checkAndUpdateActiveProfileNetwork'
 import { loadAccounts } from './loadAccounts'
@@ -145,14 +139,4 @@ export async function login(loginOptions?: ILoginOptions): Promise<void> {
         loginRouter?.previous()
         resetLoginProgress()
     }
-}
-
-async function waitForPreviousManagerToBeDestroyed(): Promise<void> {
-    for (let count = 0; count < CHECK_PREVIOUS_MANAGER_IS_DESTROYED_MAX_COUNT; count++) {
-        if (!get(isDestroyingManager)) {
-            return Promise.resolve()
-        }
-        await sleep(CHECK_PREVIOUS_MANAGER_IS_DESTROYED_INTERVAL)
-    }
-    return Promise.reject()
 }

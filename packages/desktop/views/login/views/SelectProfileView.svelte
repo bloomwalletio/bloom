@@ -1,10 +1,10 @@
 <script lang="ts">
     import { PopupId, openPopup } from '@desktop/auxiliary/popup'
-    import { initialiseOnboardingProfile, onboardingProfile, shouldBeDeveloperProfile } from '@contexts/onboarding'
+    import { initialiseOnboardingProfile, onboardingProfile } from '@contexts/onboarding'
     import {
         AppContext,
         isLatestStrongholdVersion,
-        mobile,
+        IS_MOBILE,
         needsToAcceptLatestPrivacyPolicy,
         needsToAcceptLatestTermsOfService,
     } from '@core/app'
@@ -25,7 +25,7 @@
 
     async function onAddProfileClick(): Promise<void> {
         onboardingRouter.set(new OnboardingRouter())
-        await initialiseOnboardingProfile(shouldBeDeveloperProfile())
+        await initialiseOnboardingProfile()
         $routerManager.goToAppContext(AppContext.Onboarding)
     }
 
@@ -52,7 +52,7 @@
 <section class="flex flex-col justify-center items-center h-full bg-white dark:bg-gray-900 px-40 pt-48 pb-20">
     <Logo width="64px" logo="logo-firefly" classes="absolute top-20" />
     <div
-        class="profiles-wrapper h-auto items-start justify-center w-full {!$mobile &&
+        class="profiles-wrapper h-auto items-start justify-center w-full {!IS_MOBILE &&
             'overlay-scrollbar'} flex flex-row flex-wrap"
     >
         {#each $profiles as profile}

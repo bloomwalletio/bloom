@@ -4,12 +4,11 @@
     import { getDestinationNetworkFromAddress, estimateGasForLayer1ToLayer2Transaction } from '@core/layer-2/utils'
     import { TimePeriod } from '@core/utils/enums'
     import { SendFlowType, selectedAccountAssets, updateSendFlowParameters } from '@core/wallet/stores'
-    import { AddInputButton, ExpirationTimePicker, OptionalInput } from '@ui'
+    import { AddInputButton, ExpirationTimePicker, OptionalInput, TransactionAssetSection } from '@ui'
     import { getStorageDepositFromOutput } from '@core/wallet/utils'
     import { onMount } from 'svelte'
     import StardustTransactionDetails from './StardustTransactionDetails.svelte'
     import { Output, SendFlowParameters, TokenTransferData } from '@core/wallet'
-    import TransactionAssetSection from './TransactionAssetSection.svelte'
     import { INft } from '@core/nfts/interfaces'
     import { getNetwork } from '@core/network'
 
@@ -120,7 +119,7 @@
         bind:selectedTimelockPeriod
         bind:giftStorageDeposit
         gasBudget={estimatedGas}
-        {storageDeposit}
+        storageDeposit={getStorageDepositFromOutput(output)}
         {destinationNetwork}
         {disableChangeExpiration}
         disableChangeTimelock={disableChangeExpiration}
