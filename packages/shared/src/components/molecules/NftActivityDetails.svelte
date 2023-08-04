@@ -1,12 +1,12 @@
 <script lang="ts">
+    import { getTransactionAssets } from '@core/activities/utils'
     import { closePopup } from '../../../../desktop/lib/auxiliary/popup'
     import { selectedAccountIndex } from '@core/account/stores'
     import { time } from '@core/app'
     import { localize } from '@core/i18n'
-    import { INft, getNftByIdFromAllAccountNfts, ownedNfts, selectedNftId } from '@core/nfts'
-    import { getCoinType } from '@core/profile'
+    import { ownedNfts, selectedNftId } from '@core/nfts'
     import { CollectiblesRoute, collectiblesRouter, DashboardRoute, dashboardRouter } from '@core/router'
-    import { ActivityAsyncStatus, NftActivity, TokenTransferData, getAssetById } from '@core/wallet'
+    import { ActivityAsyncStatus, NftActivity } from '@core/wallet'
     import { getSubjectFromActivity } from '@core/wallet/utils/generateActivity/helper'
     import {
         ActivityAsyncStatusPill,
@@ -22,7 +22,7 @@
     $: nftIsOwned = $ownedNfts.some((nft) => nft.id === activity.nftId)
     $: isTimelocked = activity?.asyncData?.timelockDate > $time
     $: subject = getSubjectFromActivity(activity)
-    $: transactionAssets = getTransactionAssets(activity)
+    $: transactionAssets = getTransactionAssets(activity, $selectedAccountIndex)
 
     async function onClick(): Promise<void> {
         closePopup()
@@ -30,21 +30,6 @@
         $dashboardRouter.goTo(DashboardRoute.Collectibles)
         await tick()
         $collectiblesRouter.goTo(CollectiblesRoute.Details)
-    }
-
-    function getTransactionAssets(_activity: NftActivity): {
-        nft?: INft
-        baseCoinTransfer?: TokenTransferData
-    } {
-        const baseCoin = getAssetById(getCoinType(), activity.networkId)
-        const nft = getNftByIdFromAllAccountNfts($selectedAccountIndex, activity.nftId)
-        return {
-            nft,
-            baseCoinTransfer: {
-                rawAmount: String((_activity.rawBaseCoinAmount ?? 0) - _activity.storageDeposit),
-                asset: baseCoin,
-            },
-        }
     }
 </script>
 

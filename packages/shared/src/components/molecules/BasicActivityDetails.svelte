@@ -7,43 +7,17 @@
         TransactionAssetSection,
     } from '@ui'
     import { localize } from '@core/i18n'
-    import { TransactionActivity, ActivityAsyncStatus, getAssetById, TokenTransferData } from '@core/wallet'
+    import { TransactionActivity, ActivityAsyncStatus } from '@core/wallet'
     import { time } from '@core/app'
     import { getSubjectFromActivity } from '@core/wallet/utils/generateActivity/helper'
-    import { getCoinType } from '@core/profile'
+    import { getTransactionAssets } from '@core/activities/utils'
+    import { selectedAccountIndex } from '@core/account'
 
     export let activity: TransactionActivity
 
-    $: asset = getAssetById(activity.assetId, activity.networkId)
     $: isTimelocked = activity.asyncData?.timelockDate > $time
     $: subject = getSubjectFromActivity(activity)
-    $: transactionAssets = getTransactionAssets(activity)
-
-    function getTransactionAssets(_activity: TransactionActivity): {
-        tokenTransfer?: TokenTransferData
-        baseCoinTransfer?: TokenTransferData
-    } {
-        if (_activity.assetId === getCoinType()) {
-            return {
-                baseCoinTransfer: {
-                    rawAmount: String(_activity.rawBaseCoinAmount),
-                    asset,
-                },
-            }
-        } else {
-            const baseCoin = getAssetById(getCoinType(), activity.networkId)
-            return {
-                tokenTransfer: {
-                    rawAmount: String(_activity.rawAmount),
-                    asset,
-                },
-                baseCoinTransfer: {
-                    rawAmount: String((_activity.rawBaseCoinAmount ?? 0) - _activity.storageDeposit),
-                    asset: baseCoin,
-                },
-            }
-        }
-    }
+    $: transactionAssets = getTransactionAssets(activity, $selectedAccountIndex)
 </script>
 
 <main-content class="flex flex-auto w-full flex-col items-center justify-center space-y-6">
