@@ -1,21 +1,21 @@
 <script lang="ts">
+    import { selectedAccountIndex } from '@core/account'
+    import { getTransactionAssets } from '@core/activities/utils'
+    import { time } from '@core/app'
+    import { localize } from '@core/i18n'
+    import { ActivityAsyncStatus, TransactionActivity } from '@core/wallet'
+    import { getSubjectFromActivity } from '@core/wallet/utils/generateActivity/helper'
     import {
-        TransactionActivityStatusPill,
         ActivityAsyncStatusPill,
         Pill,
         SubjectBox,
+        TransactionActivityStatusPill,
         TransactionAssetSection,
     } from '@ui'
-    import { localize } from '@core/i18n'
-    import { TransactionActivity, ActivityAsyncStatus } from '@core/wallet'
-    import { time } from '@core/app'
-    import { getSubjectFromActivity } from '@core/wallet/utils/generateActivity/helper'
-    import { getTransactionAssets } from '@core/activities/utils'
-    import { selectedAccountIndex } from '@core/account'
 
     export let activity: TransactionActivity
 
-    $: isTimelocked = activity.asyncData?.timelockDate > $time
+    $: isTimelocked = activity.asyncData?.timelockDate && activity.asyncData?.timelockDate > $time
     $: subject = getSubjectFromActivity(activity)
     $: transactionAssets = getTransactionAssets(activity, $selectedAccountIndex)
 </script>
