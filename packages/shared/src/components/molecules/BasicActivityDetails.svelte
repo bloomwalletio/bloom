@@ -1,23 +1,28 @@
 <script lang="ts">
-    import { TransactionActivityStatusPill, ActivityAsyncStatusPill, Pill, SubjectBox, TokenAmountTile } from '@ui'
-    import { localize } from '@core/i18n'
-    import { TransactionActivity, ActivityAsyncStatus, getAssetById } from '@core/wallet'
+    import { selectedAccountIndex } from '@core/account'
+    import { getTransactionAssets } from '@core/activities/utils'
     import { time } from '@core/app'
+    import { localize } from '@core/i18n'
+    import { ActivityAsyncStatus, TransactionActivity } from '@core/wallet'
     import { getSubjectFromActivity } from '@core/wallet/utils/generateActivity/helper'
-    import { getCoinType } from '@core/profile'
+    import {
+        ActivityAsyncStatusPill,
+        Pill,
+        SubjectBox,
+        TransactionActivityStatusPill,
+        TransactionAssetSection,
+    } from '@ui'
 
     export let activity: TransactionActivity
 
-    $: asset = getAssetById(activity.assetId, activity.chainId ?? getCoinType())
-    $: amount = activity?.rawAmount
-    $: isTimelocked = activity.asyncData?.timelockDate && activity.asyncData.timelockDate > $time
+    $: isTimelocked = activity.asyncData?.timelockDate && activity.asyncData?.timelockDate > $time
     $: subject = getSubjectFromActivity(activity)
+    $: transactionAssets = getTransactionAssets(activity, $selectedAccountIndex)
 </script>
 
 <main-content class="flex flex-auto w-full flex-col items-center justify-center space-y-6">
-    {#if asset}
-        <TokenAmountTile {asset} {amount} />
-    {/if}
+    <TransactionAssetSection {...transactionAssets} />
+
     <div class="flex flex-col space-y-3">
         <transaction-status class="flex flex-row w-full space-x-2 justify-center">
             {#if activity.inclusionState && activity.direction}

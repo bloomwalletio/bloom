@@ -2,10 +2,10 @@
     import { getDestinationNetworkFromAddress } from '@core/layer-2/utils'
     import { SendFlowType } from '@core/wallet/stores'
     import EvmTransactionDetails from './EvmTransactionDetails.svelte'
-    import TransactionAssetSection from './TransactionAssetSection.svelte'
     import { EvmTransactionData } from '@core/layer-2'
     import { SendFlowParameters, TokenTransferData } from '@core/wallet'
     import { INft } from '@core/nfts'
+    import { TransactionAssetSection } from '@ui'
 
     export let transaction: EvmTransactionData
     export let sendFlowParameters: SendFlowParameters
