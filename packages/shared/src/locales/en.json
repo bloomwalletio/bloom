@@ -1471,6 +1471,7 @@
         "burned": "Burned",
         "burning": "Burning",
         "balanceChanged": "Balance changed",
+        "initialBalance": "Initial balance",
         "consolidated": "Outputs consolidated",
         "consolidating": "Consolidating outputs",
         "aliasCreated": "Alias created",
