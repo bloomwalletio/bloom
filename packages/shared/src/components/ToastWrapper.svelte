@@ -1,6 +1,7 @@
 <script lang="ts">
     import { Notification } from '@auxiliary/notification'
-    import { AppUpdateToast, Toast } from './'
+    import { AppUpdateToast } from './'
+    import { Toast } from '@bloomwalletio/ui'
 
     export let notification: Notification
 </script>

@@ -1,7 +1,6 @@
 import { NotificationCallback } from '../types'
 
 export interface INotificationAction {
-    label: string
+    text: string
     callback: NotificationCallback
-    isSecondary?: boolean
 }
