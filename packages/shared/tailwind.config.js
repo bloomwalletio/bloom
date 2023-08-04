@@ -48,6 +48,9 @@ module.exports = {
         {
             pattern: /^sr-only/,
         },
+        {
+            pattern: /^h-/,
+        },
     ],
     theme: {
         extend: {

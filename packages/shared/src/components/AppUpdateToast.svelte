@@ -11,7 +11,7 @@
     <Toast
         variant="success"
         text={localize('notifications.updateReady')}
-        action={{ text: localize('actions.restartNow'), callback: Platform.installAppUpdate }}
+        action={{ text: localize('actions.restart'), callback: Platform.installAppUpdate }}
     />
 {:else if error}
     <Toast variant="danger" text={localize('notifications.updateError')} />
