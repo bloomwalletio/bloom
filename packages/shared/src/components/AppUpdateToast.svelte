@@ -18,8 +18,6 @@
     <Toast variant="danger" text={localize('notifications.updateError')} />
 {:else if busy}
     <Toast variant="info" text={localize('notifications.downloadingUpdate')} dismissable={false}>
-        <div slot="content">
-            <Progress {progress} />
-        </div>
+        <Progress slot="content" {progress} />
     </Toast>
 {/if}

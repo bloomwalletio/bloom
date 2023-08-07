@@ -3,7 +3,6 @@
     import { appRouter, dashboardRoute } from '@core/router'
     import { Idle } from '@ui'
     import { stopPollingLedgerNanoStatus } from '@core/ledger'
-    import { removeAppNotification } from '@auxiliary/notification'
     import { Platform } from '@core/app'
     import { Developer } from './developer'
     import { Settings } from './settings'
@@ -37,8 +36,6 @@
         developer: Developer,
     }
 
-    let fundsSoonNotificationId: string
-
     $: $hasStrongholdLocked && reflectLockedStronghold()
     $: $nftDownloadQueue, downloadNextNftInQueue()
     $: $downloadingNftId && interruptNftDownloadAfterTimeout(get(selectedAccountIndex))
@@ -68,10 +65,6 @@
 
     onDestroy(() => {
         Platform.DeepLinkManager.clearDeepLinkRequest()
-
-        if (fundsSoonNotificationId) {
-            removeAppNotification(fundsSoonNotificationId)
-        }
         if ($isActiveLedgerProfile) {
             stopPollingLedgerNanoStatus()
         }
