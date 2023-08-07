@@ -9,6 +9,7 @@ import { linkTransactionsWithClaimingTransactions } from './linkTransactionsWith
 import { hideActivitiesForFoundries } from './hideActivitiesForFoundries'
 import { generateActivitiesFromProcessedTransactions } from './generateActivitiesFromProcessedTransactions'
 import { loadAssetsForAllActivities } from './loadAssetsForAllAccounts'
+import { generateActivitiesFromBalanceChanges } from '@core/activities/actions'
 
 export async function generateAndStoreActivitiesForAccount(account: IAccountState): Promise<void> {
     // Step 1: process account transactions and outputs into processed transactions
@@ -22,6 +23,9 @@ export async function generateAndStoreActivitiesForAccount(account: IAccountStat
 
     // Step 3: generate activities from processed transactions
     const activities = generateActivitiesFromProcessedTransactions(linkedProcessedTransactions, account)
+    const balanceChangeActivities = generateActivitiesFromBalanceChanges(account)
+
+    activities.push(...balanceChangeActivities)
 
     // Step 4: set account activities with generated activities
     setAccountActivitiesInAllAccountActivities(account.index, activities)

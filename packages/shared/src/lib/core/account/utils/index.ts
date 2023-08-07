@@ -1,4 +1,4 @@
-export * from './buildBip32Path'
+export * from './buildBip32PathFromBip44'
 export * from './deconstructBip32Path'
 export * from './getAccountColorById'
 export * from './getBoundAccount'
