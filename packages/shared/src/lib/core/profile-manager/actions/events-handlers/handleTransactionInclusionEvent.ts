@@ -1,4 +1,3 @@
-import { closePopup, openPopup, PopupId } from '../../../../../../../desktop/lib/auxiliary/popup'
 import { updateParticipationOverview } from '@contexts/governance/stores'
 import { isAccountVoting } from '@contexts/governance/utils/isAccountVoting'
 import { syncVotingPower } from '@core/account'
@@ -11,20 +10,25 @@ import {
     getActivityByTransactionId,
     updateActivityByTransactionId,
 } from '@core/wallet/stores/all-account-activities.store'
-import { get } from 'svelte/store'
-import { validateWalletApiEvent } from '../../utils'
 import { Event, TransactionInclusionWalletEvent, WalletEventType } from '@iota/wallet/out/types'
+import { get } from 'svelte/store'
+import { closePopup, openPopup, PopupId } from '../../../../../../../desktop/lib/auxiliary/popup'
+import { validateWalletApiEvent } from '../../utils'
 
-export function handleTransactionInclusionEvent(error: Error, walletEvent: Event): void {
-    const { accountIndex, event } = validateWalletApiEvent(error, walletEvent, WalletEventType.TransactionInclusion)
-    handleTransactionInclusionEventInternal(accountIndex, event as TransactionInclusionWalletEvent)
+export function handleTransactionInclusionEvent(error: Error, event: Event): void {
+    const walletEvent = validateWalletApiEvent<TransactionInclusionWalletEvent>(
+        error,
+        event,
+        WalletEventType.TransactionInclusion
+    )
+    handleTransactionInclusionEventInternal(event.accountIndex, walletEvent)
 }
 
 export function handleTransactionInclusionEventInternal(
     accountIndex: number,
-    payload: TransactionInclusionWalletEvent
+    walletEvent: TransactionInclusionWalletEvent
 ): void {
-    const { inclusionState, transactionId } = payload
+    const { inclusionState, transactionId } = walletEvent
     updateActivityByTransactionId(accountIndex, transactionId, { inclusionState })
 
     const activity = getActivityByTransactionId(accountIndex, transactionId)

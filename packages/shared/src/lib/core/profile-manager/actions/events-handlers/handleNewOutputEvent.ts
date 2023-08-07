@@ -1,5 +1,6 @@
 import { syncBalance } from '@core/account/actions/syncBalance'
-import { addOrUpdateNftInAllAccountNfts, buildNftFromNftOutput, addNftsToDownloadQueue } from '@core/nfts'
+import { addNftsToDownloadQueue, addOrUpdateNftInAllAccountNfts, buildNftFromNftOutput } from '@core/nfts'
+import { checkAndRemoveProfilePicture } from '@core/profile/actions'
 import { activeAccounts } from '@core/profile/stores'
 import {
     ActivityType,
@@ -15,19 +16,21 @@ import {
 } from '@core/wallet/stores/all-account-activities.store'
 import { getBech32AddressFromAddressTypes } from '@core/wallet/utils/getBech32AddressFromAddressTypes'
 import { preprocessGroupedOutputs } from '@core/wallet/utils/outputs/preprocessGroupedOutputs'
+import { Event, NewOutputWalletEvent, WalletEventType } from '@iota/wallet/out/types'
 import { get } from 'svelte/store'
 import { validateWalletApiEvent } from '../../utils'
-import { checkAndRemoveProfilePicture } from '@core/profile/actions'
-import { Event, NewOutputWalletEvent, WalletEventType } from '@iota/wallet/out/types'
 
-export function handleNewOutputEvent(error: Error, walletEvent: Event): void {
-    const { accountIndex, event } = validateWalletApiEvent(error, walletEvent, WalletEventType.NewOutput)
-    void handleNewOutputEventInternal(accountIndex, event as NewOutputWalletEvent)
+export function handleNewOutputEvent(error: Error, event: Event): void {
+    const walletEvent = validateWalletApiEvent<NewOutputWalletEvent>(error, event, WalletEventType.NewOutput)
+    void handleNewOutputEventInternal(event.accountIndex, walletEvent)
 }
 
-export async function handleNewOutputEventInternal(accountIndex: number, payload: NewOutputWalletEvent): Promise<void> {
+export async function handleNewOutputEventInternal(
+    accountIndex: number,
+    walletEvent: NewOutputWalletEvent
+): Promise<void> {
     const account = get(activeAccounts)?.find((account) => account.index === accountIndex)
-    const output = payload?.output
+    const output = walletEvent?.output
 
     if (!account || !output) return
 
@@ -41,7 +44,7 @@ export async function handleNewOutputEventInternal(accountIndex: number, payload
     if ((account?.depositAddress === address && !output?.remainder) || isNewAliasOutput) {
         await syncBalance(account.index)
 
-        const processedOutput = preprocessGroupedOutputs([output], payload?.transactionInputs ?? [], account)
+        const processedOutput = preprocessGroupedOutputs([output], walletEvent?.transactionInputs ?? [], account)
 
         const activities = generateActivities(processedOutput, account)
         for (const activity of activities) {
