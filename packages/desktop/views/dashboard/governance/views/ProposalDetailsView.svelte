@@ -3,9 +3,10 @@
 
     import { onMount, onDestroy } from 'svelte'
 
-    import { Button, KeyValueBox, MarkdownBlock, Pane, ProposalStatusPill, Text, TextHint, TextType } from '@ui'
+    import { Button, MarkdownBlock, Pane, ProposalStatusPill, Text, TextHint, TextType } from '@ui'
     import { ProposalDetailsButton, ProposalInformationPane, ProposalQuestion } from '@components'
-
+    import { Table } from '@bloomwalletio/ui'
+    
     import { selectedAccount } from '@core/account/stores'
     import { handleError } from '@core/error/handlers'
     import { localize } from '@core/i18n'
@@ -91,6 +92,17 @@
             isUpdatingVotedAnswerValues = hasGovernanceTransactionInProgress
         }
     }
+
+    const items = [
+        {
+            key: localize('views.governance.details.yourVote.total'),
+            value: formatTokenAmountBestMatch(totalVotes, metadata),
+        },
+        {
+            key: localize('views.governance.details.yourVote.power'),
+            value: formatTokenAmountBestMatch(parseInt($selectedAccount?.votingPower), metadata),
+        },
+    ]
 
     function hasSelectedNoAnswers(_selectedAnswerValues: number[]): boolean {
         return (
@@ -227,21 +239,7 @@
             <Text smaller classes="mb-5">
                 {localize('views.governance.details.yourVote.title')}
             </Text>
-            <ul class="space-y-2">
-                <li>
-                    <KeyValueBox
-                        keyText={localize('views.governance.details.yourVote.total')}
-                        valueText={formatTokenAmountBestMatch(totalVotes, metadata)}
-                        isLoading={!overviewLoaded}
-                    />
-                </li>
-                <li>
-                    <KeyValueBox
-                        keyText={localize('views.governance.details.yourVote.power')}
-                        valueText={formatTokenAmountBestMatch(parseInt($selectedAccount?.votingPower), metadata)}
-                    />
-                </li>
-            </ul>
+            <Table {items} />
         </Pane>
         <ProposalInformationPane classes="shrink-0" />
     </div>

@@ -62,6 +62,7 @@
         },
         nodeUrl: { data: $selectedProposal?.nodeUrl, isCopyable: true },
     }
+    
     $: items, setProposalDetailValues()
 
     function setProposalDetailValues(): void {
