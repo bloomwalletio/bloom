@@ -10,7 +10,7 @@
     export let showNotification = false
     export let overrideTitle = ''
 
-    function handleExportStrongholdResponse(cancelled, error): void {
+    function handleExportStrongholdResponse(cancelled: boolean, error?: string | undefined): void {
         setTimeout(
             () => {
                 message = ''
