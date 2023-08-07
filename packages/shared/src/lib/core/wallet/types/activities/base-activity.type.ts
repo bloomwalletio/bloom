@@ -4,8 +4,8 @@ import { Layer2Metadata } from '@core/layer-2'
 
 export type BaseActivity = {
     id: string
-    outputId: string
-    transactionId: string
+    outputId?: string
+    transactionId?: string
     time: Date
     inclusionState: InclusionState
     isHidden?: boolean
@@ -19,7 +19,7 @@ export type BaseActivity = {
     subject: Subject | undefined
     metadata?: string
     tag?: string
-    asyncData: AsyncData
+    asyncData?: AsyncData
     destinationNetwork?: string
     parsedLayer2Metadata?: Layer2Metadata
 }

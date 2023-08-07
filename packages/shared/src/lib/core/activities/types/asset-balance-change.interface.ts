@@ -1,5 +1,5 @@
 export interface IAssetBalanceChange {
-    changedAt: Date
+    changedAt: number
     oldBalance?: number
     newBalance: number
 }
