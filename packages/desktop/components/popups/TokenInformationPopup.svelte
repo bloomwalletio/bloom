@@ -16,7 +16,6 @@
         Text,
         TextHint,
         AssetActionsButton,
-        KeyValueBox,
         FontWeight,
         TextType,
         TokenAmountTile,
