@@ -22,6 +22,7 @@
         TokenAmountTile,
         TooltipIcon,
     } from '@ui'
+    import { Table } from '@bloomwalletio/ui'
     import { SendFlowRoute, SendFlowRouter, sendFlowRouter } from '@views/dashboard/send-flow'
     import { Icon as IconEnum } from '@lib/auxiliary/icon'
     import { getCoinType } from '@core/profile'
@@ -29,6 +30,28 @@
     export let asset: IAsset
     export let activityId: string = undefined
 
+    const items = [
+        {
+            key: localize('popups.tokenInformation.tokenMetadata.standard'),
+            value: asset.standard,
+        },
+        {
+            key: localize('popups.tokenInformation.tokenMetadata.name'),
+            value: asset.metadata?.name,
+        },
+        {
+            key: localize('popups.tokenInformation.tokenMetadata.tokenId'),
+            value: asset.id,
+        },
+    ]
+
+    $: if (asset.metadata?.standard === TokenStandard.Irc30 && asset.metadata.url) {
+        items.push({
+            key: localize('popups.tokenInformation.tokenMetadata.url'),
+            value: asset.metadata?.url
+        })
+    }
+    
     $: showAssetActionsMenuButton = asset.standard === TokenStandard.Irc30 || asset.standard === TokenStandard.Erc20
 
     function onSkipClick(): void {
@@ -104,30 +127,9 @@
         </div>
 
         <TokenAmountTile {asset} amount={asset.balance.available} />
-
         <div class="space-y-4 flex flex-col items-center justify-center">
             <div class="w-full flex flex-col space-y-2">
-                <KeyValueBox
-                    keyText={localize('popups.tokenInformation.tokenMetadata.standard')}
-                    valueText={asset.standard}
-                />
-                <KeyValueBox
-                    keyText={localize('popups.tokenInformation.tokenMetadata.name')}
-                    valueText={asset.metadata?.name}
-                />
-                <KeyValueBox
-                    keyText={localize('popups.tokenInformation.tokenMetadata.tokenId')}
-                    valueText={asset.id}
-                    isCopyable={asset.standard === TokenStandard.Irc30}
-                    copyValue={asset.id}
-                />
-                {#if asset.metadata?.standard === TokenStandard.Irc30 && asset.metadata.url}
-                    <KeyValueBox
-                        keyText={localize('popups.tokenInformation.tokenMetadata.url')}
-                        valueText={asset.metadata.url}
-                        isCopyable
-                    />
-                {/if}
+                <Table {items} />
             </div>
         </div>
 
