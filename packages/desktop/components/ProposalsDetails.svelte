@@ -1,8 +1,9 @@
 <script lang="ts">
     import { onMount } from 'svelte'
 
-    import { Button, KeyValueBox, Text, ProposalsDetailsButton } from '@ui'
+    import { Button, Text, ProposalsDetailsButton } from '@ui'
     import { ButtonSize, FontWeight } from '@ui/enums'
+    import { Table } from '@bloomwalletio/ui'
 
     import { selectedAccount } from '@core/account'
     import { localize } from '@core/i18n'
@@ -30,9 +31,22 @@
         votedProposals: null,
     }
 
+    let items: { key: string; value: string }[]
+
     $: isOverviewLoaded = !!$participationOverviewForSelectedAccount
     $: $registeredProposalsForSelectedAccount, $participationOverviewForSelectedAccount, updateProposalsDetails()
     $: $selectedAccount, void setParticipationOverview()
+    $: items, setProposalDetailValues()
+
+    function setProposalDetailValues(): void {
+        items = []
+        for (const key in details) {
+            items.push({
+                key: localize(`views.governance.proposalsDetails.${key}`),
+                value: details[key] ?? 0,
+            })
+        }
+    }
 
     function updateProposalsDetails(): void {
         if ($activeProfileId) {
@@ -68,17 +82,7 @@
         </Text>
         <ProposalsDetailsButton modalPosition={{ right: '0px', top: '34px' }} />
     </header-container>
-    <ul class="space-y-2">
-        {#each Object.keys(details) as detailKey}
-            <li>
-                <KeyValueBox
-                    keyText={localize(`views.governance.proposalsDetails.${detailKey}`)}
-                    valueText={details[detailKey]?.toString() ?? '-'}
-                    isLoading={details[detailKey] === undefined}
-                />
-            </li>
-        {/each}
-    </ul>
+    <Table {items} />
     <Button size={ButtonSize.Medium} outline onClick={onAddProposalClick} classes="w-full">
         {localize('actions.addProposal')}
     </Button>
