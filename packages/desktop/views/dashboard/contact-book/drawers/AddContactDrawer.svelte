@@ -1,7 +1,7 @@
 <script lang="ts">
     import { ContactBookRoute } from '../contact-book-route.enum'
 
-    import { Button, NetworkInput, TextInput, HR } from '@ui'
+    import { Button, NetworkInput, TextInput } from '@ui'
     import { DrawerTemplate } from '@components'
 
     import {
@@ -91,7 +91,7 @@
             label={localize('general.note')}
             validationFunction={validateContactNote}
         />
-        <HR />
+        <hr />
         <NetworkInput
             bind:this={networkSelectionInput}
             bind:networkSelection
