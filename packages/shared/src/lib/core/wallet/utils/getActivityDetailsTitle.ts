@@ -24,6 +24,8 @@ export async function getActivityDetailsTitle(activity: Activity): Promise<strin
         }
         const key = `${localizationPrefix}.governance.${activity.governanceAction}.${activity.inclusionState}`
         return localize(key, { proposalName })
+    } else if (activity.action === ActivityAction.BalanceChange) {
+        return localize('general.balanceChanged')
     } else if (activity.action === ActivityAction.Send) {
         const key = `${localizationPrefix}.${(activity.isInternal ? 'internal.' : 'external.') + activity.direction}.${
             activity.inclusionState

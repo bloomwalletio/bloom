@@ -6,7 +6,7 @@
     export let baseCoinTransfer: TokenTransferData | undefined = undefined
     export let tokenTransfer: TokenTransferData | undefined = undefined
     export let nft: INft | undefined = undefined
-    export let onNftClick: (() => unknown) | undefined = undefined
+    export let onNftClick: (() => void) | undefined = undefined
 
     $: hasBaseCoinAmount = Number(baseCoinTransfer?.rawAmount) > 0
 </script>

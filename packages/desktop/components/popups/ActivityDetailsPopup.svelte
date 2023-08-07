@@ -9,6 +9,7 @@
         AliasActivityDetails,
         ActivityInformation,
         TransactionAssetSection,
+        ActivityStatusPills,
     } from '@ui'
     import { openUrlInBrowser } from '@core/app'
     import {
@@ -29,7 +30,9 @@
     import { ExplorerEndpoint } from '@core/network'
     import { getTransactionAssets } from '@core/activities/utils'
     import { selectedAccountIndex } from '@core/account/stores'
-    import ActivityStatusPills from '@ui/molecules/ActivityStatusPills.svelte'
+    import { getNftByIdFromAllAccountNfts, ownedNfts, selectedNftId } from '@core/nfts'
+    import { CollectiblesRoute, collectiblesRouter, DashboardRoute, dashboardRouter } from '@core/router'
+    import { tick } from 'svelte'
 
     export let activityId: string
     export let _onMount: (..._: any[]) => Promise<void> = async () => {}
@@ -45,11 +48,24 @@
         activity?.asyncData?.asyncStatus === ActivityAsyncStatus.Unclaimed
     $: setTitle(activity)
     $: transactionAssets = getTransactionAssets(activity, $selectedAccountIndex)
+    $: nft =
+        activity.type === ActivityType.Nft
+            ? getNftByIdFromAllAccountNfts($selectedAccountIndex, activity.nftId)
+            : undefined
+    $: nftIsOwned = nft ? $ownedNfts.some((_onMountnft) => _onMountnft.id === nft?.id) : false
 
     let title: string | undefined = localize('popups.activityDetails.title.fallback')
     $: void setTitle(activity)
     async function setTitle(_activity: Activity): Promise<void> {
         title = await getActivityDetailsTitle(_activity)
+    }
+
+    async function onNftClick(): Promise<void> {
+        closePopup()
+        $selectedNftId = nft?.id
+        $dashboardRouter.goTo(DashboardRoute.Collectibles)
+        await tick()
+        $collectiblesRouter.goTo(CollectiblesRoute.Details)
     }
 
     function onExplorerClick(): void {
@@ -60,16 +76,17 @@
         setClipboard(activity?.transactionId)
     }
 
-    async function claim(): Promise<void> {
-        await claimActivity(activity)
-        openPopup({
-            id: PopupId.ActivityDetails,
-            props: { activityId },
-        })
-    }
-
     async function onClaimClick(): Promise<void> {
-        await checkActiveProfileAuth(claim, { stronghold: true, ledger: false })
+        await checkActiveProfileAuth(
+            async () => {
+                await claimActivity(activity)
+                openPopup({
+                    id: PopupId.ActivityDetails,
+                    props: { activityId },
+                })
+            },
+            { stronghold: true, ledger: false }
+        )
     }
 
     function onRejectClick(): void {
@@ -128,8 +145,7 @@
     <activity-details class="w-full h-full space-y-6 flex flex-auto flex-col shrink-0">
         <ActivityStatusPills {activity} />
 
-        <!-- <TransactionAssetSection {...transactionAssets} onNftClick={nftIsOwned ? onClick : undefined} /> -->
-        <TransactionAssetSection {...transactionAssets} />
+        <TransactionAssetSection {...transactionAssets} onNftClick={nftIsOwned ? onNftClick : undefined} />
 
         {#if activity.type === ActivityType.Alias}
             <AliasActivityDetails {activity} />
