@@ -1,13 +1,11 @@
 <script lang="ts">
-    import { HR, MenuItem, Modal, ToggleHiddenAccountMenuItem } from '@ui'
-
+    import { Icon } from '@auxiliary/icon/enums'
     import { selectedAccount } from '@core/account/stores'
     import { localize } from '@core/i18n'
-    import { activeAccounts, visibleActiveAccounts } from '@core/profile/stores'
     import { deleteAccount } from '@core/profile-manager/actions'
-
-    import { Icon } from '@auxiliary/icon/enums'
-    import { openPopup, PopupId } from '@desktop/auxiliary/popup'
+    import { activeAccounts, visibleActiveAccounts } from '@core/profile/stores'
+    import { PopupId, openPopup } from '@desktop/auxiliary/popup'
+    import { MenuItem, Modal, ToggleHiddenAccountMenuItem } from '@ui'
 
     export let modal: Modal = undefined
 
@@ -41,7 +39,7 @@
         <MenuItem icon={Icon.Doc} title={localize('actions.viewBalanceBreakdown')} onClick={onViewBalanceClick} />
         <MenuItem icon={Icon.Customize} title={localize('actions.customizeAcount')} onClick={onCustomiseAccountClick} />
         <ToggleHiddenAccountMenuItem onClick={modal?.close} />
-        <HR />
+        <hr />
         {#if showDeleteAccount}
             <MenuItem
                 icon={Icon.Delete}

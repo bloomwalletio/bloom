@@ -13,7 +13,6 @@
     import Sidebar from './Sidebar.svelte'
     import TopNavigation from './TopNavigation.svelte'
     import { Drawer } from '@components'
-
     import {
         addNftsToDownloadQueue,
         downloadingNftId,
@@ -23,7 +22,7 @@
         resetNftDownloadQueue,
         selectedAccountNfts,
     } from '@core/nfts'
-    import { selectedAccountIndex } from '@core/account'
+    import { selectedAccount, selectedAccountIndex } from '@core/account'
     import { get } from 'svelte/store'
     import features from '@features/features'
     import { pollLayer2Tokens, clearLayer2TokensPoll } from '@core/layer-2'
@@ -60,7 +59,7 @@
 
         Platform.DeepLinkManager.checkDeepLinkRequestExists()
 
-        void pollLayer2Tokens()
+        void pollLayer2Tokens($selectedAccount)
     })
 
     onDestroy(() => {

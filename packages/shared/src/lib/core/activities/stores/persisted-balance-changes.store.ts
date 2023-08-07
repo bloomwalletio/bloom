@@ -48,24 +48,3 @@ export function addPersistedBalanceChange(
         return state
     })
 }
-
-export function calculateAndAddPersistedBalanceChange(
-    accountIndex: number,
-    chainId: string | number,
-    assetId: string,
-    newBalance: number
-): void {
-    const balanceChangesForAsset = getBalanceChanges(accountIndex, chainId)?.[assetId]
-
-    const lastBalanceChange = balanceChangesForAsset?.at(-1)
-
-    if (!lastBalanceChange || lastBalanceChange.newBalance !== newBalance) {
-        const newBalanceChange: IAssetBalanceChange = {
-            changedAt: new Date(),
-            oldBalance: lastBalanceChange?.newBalance,
-            newBalance,
-        }
-
-        addPersistedBalanceChange(accountIndex, chainId, assetId, newBalanceChange)
-    }
-}
