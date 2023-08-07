@@ -46,7 +46,6 @@
         (activity?.direction === ActivityDirection.Incoming ||
             activity?.direction === ActivityDirection.SelfTransaction) &&
         activity?.asyncData?.asyncStatus === ActivityAsyncStatus.Unclaimed
-    $: setTitle(activity)
     $: transactionAssets = getTransactionAssets(activity, $selectedAccountIndex)
     $: nft =
         activity.type === ActivityType.Nft

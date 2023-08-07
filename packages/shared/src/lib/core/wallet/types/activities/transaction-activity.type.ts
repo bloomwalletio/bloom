@@ -5,6 +5,6 @@ export type TransactionActivity = BaseActivity & {
     type: ActivityType.Basic
     rawAmount: number
     assetId: string
-    publicNote: string
-    isShimmerClaiming: boolean
+    publicNote?: string
+    isShimmerClaiming?: boolean
 }
