@@ -61,7 +61,7 @@ jobs:
             version: ${{ needs.setup.outputs.version }}
             stage: ${{ inputs.stage || needs.setup.outputs.stage }}
             sign: true
-            release: true
+            upload: true
         secrets: inherit
 
     trigger-release:

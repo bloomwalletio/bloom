@@ -24,7 +24,7 @@ on:
         required: false
         type: boolean
         default: false
-      release:
+      upload:
         description: 'Upload artifacts'
         required: false
         type: boolean
@@ -39,5 +39,5 @@ jobs:
       os: ${{ inputs.os }}
       stage: ${{ inputs.stage }}
       sign: ${{ inputs.sign }}
-      release: ${{ inputs.release }}
+      upload: ${{ inputs.upload }}
     secrets: inherit
