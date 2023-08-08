@@ -19,6 +19,11 @@ on:
           - alpha
           - beta
           - prod
+      sign:
+        description: 'Sign the binaries'
+        required: false
+        type: boolean
+        default: false
       release:
         description: 'Upload build artifacts'
         required: false
@@ -33,5 +38,6 @@ jobs:
     with:
       os: ${{ inputs.os }}
       stage: ${{ inputs.stage }}
+      sign: ${{ inputs.sign }}
       release: ${{ inputs.release }}
     secrets: inherit
