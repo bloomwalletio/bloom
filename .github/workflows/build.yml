@@ -3,16 +3,6 @@ name: Build
 on:
   workflow_dispatch:
     inputs:
-      sign:
-        description: 'Sign code'
-        required: false
-        type: boolean
-        default: false
-      release:
-        description: 'Upload artifacts'
-        required: false
-        type: boolean
-        default: false
       os:
         description: 'OS'
         required: true
@@ -29,6 +19,16 @@ on:
           - alpha
           - beta
           - prod
+      sign:
+        description: 'Sign code'
+        required: false
+        type: boolean
+        default: false
+      release:
+        description: 'Upload artifacts'
+        required: false
+        type: boolean
+        default: false
 
 jobs:
   trigger-build:
