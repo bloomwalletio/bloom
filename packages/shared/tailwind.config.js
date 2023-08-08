@@ -15,7 +15,7 @@ const NODE_MODULES_ROUTES = [
 module.exports = {
     content: [
         ...SHARED_CONTENT_ROUTES,
-        NODE_MODULES_ROUTES,
+        ...NODE_MODULES_ROUTES,
         ...(IS_DESKTOP ? DESKTOP_CONTENT_ROUTES : MOBILE_CONTENT_ROUTES),
     ],
     presets: [require('@bloomwalletio/ui/tailwind-preset')],
