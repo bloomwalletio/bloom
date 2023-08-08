@@ -1,5 +1,4 @@
 export * from './all-account-activities.store'
-export * from './hidden-activities.store'
 export * from './mint-nft-details.store'
 export * from './mint-token-details.store'
 export * from './send-flow-parameter.store'

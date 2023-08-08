@@ -3,7 +3,7 @@ import { get } from 'svelte/store'
 import { activeProfileId } from '@core/profile'
 import { persistent } from '@core/utils/store'
 
-import type { IHiddenActivities } from '../interfaces'
+import type { IHiddenActivities } from '../types'
 
 export const hiddenActivities = persistent<IHiddenActivities>('hiddenActivities', {})
 
