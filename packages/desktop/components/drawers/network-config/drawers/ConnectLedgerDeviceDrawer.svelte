@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { Animation, Button, FontWeight, HR, Icon, Pane, Text, TextType } from '@ui'
+    import { Animation, Button, FontWeight, Icon, Pane, Text, TextType } from '@ui'
     import { localize } from '@core/i18n'
     import {
         determineLedgerConnectionState,
@@ -55,7 +55,7 @@
                         >
                     </div>
                     {#if idx < requirements.length - 1}
-                        <HR />
+                        <hr />
                     {/if}
                 {/each}
             </Pane>

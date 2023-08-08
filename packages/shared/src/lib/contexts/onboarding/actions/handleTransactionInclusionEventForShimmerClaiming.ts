@@ -12,9 +12,13 @@ import { onboardingProfile, shimmerClaimingTransactions, updateShimmerClaimingAc
 import { Event, TransactionInclusionWalletEvent, WalletEventType } from '@iota/wallet/out/types'
 import { InclusionState } from '@core/activities/enums'
 
-export function handleTransactionInclusionEventForShimmerClaiming(error: Error, walletEvent: Event): void {
-    const { accountIndex, event } = validateWalletApiEvent(error, walletEvent, WalletEventType.TransactionInclusion)
-    handleTransactionInclusionEventForShimmerClaimingInternal(accountIndex, event as TransactionInclusionWalletEvent)
+export function handleTransactionInclusionEventForShimmerClaiming(error: Error, event: Event): void {
+    const walletEvent = validateWalletApiEvent<TransactionInclusionWalletEvent>(
+        error,
+        event,
+        WalletEventType.TransactionInclusion
+    )
+    handleTransactionInclusionEventForShimmerClaimingInternal(event.accountIndex, walletEvent)
 }
 
 export function handleTransactionInclusionEventForShimmerClaimingInternal(
