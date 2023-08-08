@@ -1,5 +1,5 @@
 import { IAccountState } from '@core/account'
-import { IActivityGenerationParameters, IWrappedOutput } from '@core/wallet/interfaces'
+import { IWrappedOutput } from '@core/wallet/interfaces'
 import { IBasicOutput } from '@iota/types'
 import { ActivityType } from '../enums'
 import { activityOutputContainsValue } from '..'
@@ -11,7 +11,7 @@ import {
     getTagFromOutput,
 } from './helper'
 import { OUTPUT_TYPE_BASIC } from '@core/wallet/constants'
-import { ConsolidationActivity } from '../types'
+import { ConsolidationActivity, IActivityGenerationParameters } from '../types'
 
 export function generateSingleConsolidationActivity(
     account: IAccountState,

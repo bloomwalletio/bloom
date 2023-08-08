@@ -1,6 +1,6 @@
 import { IAccountState } from '@core/account'
-import { IProcessedTransaction, OUTPUT_TYPE_FOUNDRY } from '@core/wallet'
-import { Activity } from '../types'
+import { OUTPUT_TYPE_FOUNDRY } from '@core/wallet'
+import { Activity, IProcessedTransaction } from '../types'
 import { generateSingleFoundryActivity } from './generateSingleFoundryActivity'
 import { ActivityAction } from '../enums'
 

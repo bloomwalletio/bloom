@@ -2,7 +2,7 @@ import { get } from 'svelte/store'
 
 import { localize } from '@core/i18n'
 import { validateWalletApiEvent } from '@core/profile-manager'
-import { InclusionState, MissingTransactionIdError } from '@core/wallet'
+import { MissingTransactionIdError } from '@core/wallet'
 import { showAppNotification } from '@auxiliary/notification'
 
 import { ShimmerClaimingAccountState } from '../enums'
@@ -10,6 +10,7 @@ import { MissingShimmerClaimingAccountError } from '../errors'
 import { IShimmerClaimingAccount } from '../interfaces'
 import { onboardingProfile, shimmerClaimingTransactions, updateShimmerClaimingAccount } from '../stores'
 import { Event, TransactionInclusionWalletEvent, WalletEventType } from '@iota/wallet/out/types'
+import { InclusionState } from '@core/activities/enums'
 
 export function handleTransactionInclusionEventForShimmerClaiming(error: Error, walletEvent: Event): void {
     const { accountIndex, event } = validateWalletApiEvent(error, walletEvent, WalletEventType.TransactionInclusion)

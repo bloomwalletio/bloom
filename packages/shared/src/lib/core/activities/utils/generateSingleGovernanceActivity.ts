@@ -1,5 +1,5 @@
 import { IAccountState } from '@core/account'
-import { IActivityGenerationParameters } from '@core/wallet/interfaces'
+import { IActivityGenerationParameters } from '@core/activities/types'
 import { GovernanceActivity } from '../types'
 import type { IBasicOutput } from '@iota/types'
 import { ActivityType } from '../enums'

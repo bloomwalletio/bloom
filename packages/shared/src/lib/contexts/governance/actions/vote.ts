@@ -3,7 +3,7 @@ import { selectedAccount, updateSelectedAccount } from '@core/account/stores'
 import { showAppNotification } from '@auxiliary/notification/actions'
 import { localize } from '@core/i18n'
 import { handleError } from '@core/error/handlers'
-import { processAndAddToActivities } from '@core/wallet'
+import { processAndAddToActivities } from '@core/activities/utils'
 
 export async function vote(eventId?: string, answers?: number[]): Promise<void> {
     const account = get(selectedAccount)

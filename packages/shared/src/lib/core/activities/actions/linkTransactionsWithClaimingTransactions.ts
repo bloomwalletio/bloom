@@ -1,10 +1,10 @@
 import { IAccountState } from '@core/account'
 import { addClaimedActivity, claimedActivities } from '@core/activities/stores'
 import { activeProfileId } from '@core/profile'
-import { IProcessedTransaction } from '@core/wallet'
 import { get } from 'svelte/store'
 import { ActivityDirection } from '../enums'
 import { isOutputAsync } from '../utils/outputs'
+import { IProcessedTransaction } from '../types'
 
 /**
  * It takes a list of transactions and links the transactions that are claiming async transactions

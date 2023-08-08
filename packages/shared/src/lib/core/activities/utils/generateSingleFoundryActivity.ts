@@ -2,7 +2,7 @@ import { IAccountState } from '@core/account'
 import { getCoinType } from '@core/profile'
 import { ADDRESS_TYPE_ALIAS, UNLOCK_CONDITION_IMMUTABLE_ALIAS } from '@core/wallet/constants'
 import { ActivityType } from '../enums'
-import { IActivityGenerationParameters } from '@core/wallet/interfaces'
+import { IActivityGenerationParameters } from '@core/activities/types'
 import { FoundryActivity } from '../types'
 import type { IAliasAddress, IFoundryOutput, IImmutableAliasUnlockCondition } from '@iota/types'
 import {

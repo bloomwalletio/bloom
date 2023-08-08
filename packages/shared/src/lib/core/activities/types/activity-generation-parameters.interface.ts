@@ -1,5 +1,6 @@
-import { IProcessedTransaction, IWrappedOutput } from '@core/wallet/interfaces'
+import { IWrappedOutput } from '@core/wallet/interfaces'
 import { ActivityAction } from '../enums'
+import { IProcessedTransaction } from './processed-transaction.interface'
 
 export interface IActivityGenerationParameters {
     action: ActivityAction

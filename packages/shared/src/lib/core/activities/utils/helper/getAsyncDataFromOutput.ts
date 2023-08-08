@@ -1,11 +1,11 @@
 import { IAccountState } from '@core/account'
-import { IClaimData, Output } from '@core/wallet'
+import { Output } from '@core/wallet'
 import { getTimelockDateFromOutput } from './getTimelockDateFromOutput'
 import { getAsyncStatus } from './getAsyncStatus'
 import { getStorageDepositFromOutput } from './getStorageDepositFromOutput'
 import { isActivityHiddenForAccountIndex } from '@core/activities/stores'
 import { getExpirationDateFromOutput, isOutputAsync } from '../outputs'
-import { AsyncData } from '@core/activities/types'
+import { AsyncData, IClaimData } from '@core/activities/types'
 
 export function getAsyncDataFromOutput(
     output: Output,

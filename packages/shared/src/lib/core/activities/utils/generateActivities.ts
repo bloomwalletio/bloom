@@ -1,6 +1,6 @@
 import { IAccountState } from '@core/account'
-import { IProcessedTransaction, OUTPUT_TYPE_ALIAS, OUTPUT_TYPE_FOUNDRY, OUTPUT_TYPE_NFT } from '@core/wallet'
-import { Activity } from '../types'
+import { OUTPUT_TYPE_ALIAS, OUTPUT_TYPE_FOUNDRY, OUTPUT_TYPE_NFT } from '@core/wallet'
+import { Activity, IProcessedTransaction } from '../types'
 import { isParticipationOutput } from '@contexts/governance/utils'
 import { generateSingleAliasActivity } from './generateSingleAliasActivity'
 import { generateSingleFoundryActivity } from './generateSingleFoundryActivity'

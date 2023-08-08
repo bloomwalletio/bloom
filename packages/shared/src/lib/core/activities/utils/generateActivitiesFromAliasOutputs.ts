@@ -1,6 +1,6 @@
 import { IAccountState } from '@core/account'
-import { EMPTY_HEX_ID, IProcessedTransaction, OUTPUT_TYPE_ALIAS } from '@core/wallet'
-import { Activity } from '../types'
+import { EMPTY_HEX_ID, OUTPUT_TYPE_ALIAS } from '@core/wallet'
+import { Activity, IProcessedTransaction } from '../types'
 import type { IAliasOutput } from '@iota/types'
 import { generateSingleAliasActivity } from './generateSingleAliasActivity'
 import { ActivityAction } from '../enums'

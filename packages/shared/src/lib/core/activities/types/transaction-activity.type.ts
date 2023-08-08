@@ -1,4 +1,4 @@
-import { ActivityType } from '@core/wallet/enums'
+import { ActivityType } from '../enums'
 import { BaseActivity } from './base-activity.type'
 
 export type TransactionActivity = BaseActivity & {

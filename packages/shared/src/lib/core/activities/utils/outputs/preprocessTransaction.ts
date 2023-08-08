@@ -5,6 +5,7 @@ import { IAccountState } from '@core/account'
 import { OutputTypes } from '@iota/types'
 import { getDirectionFromTransaction } from '../getDirectionFromTransaction'
 import { IProcessedTransaction } from '@core/activities/types'
+import { IWrappedOutput } from '@core/wallet/interfaces'
 
 export async function preprocessTransaction(
     transaction: Transaction,

@@ -1,7 +1,7 @@
 import { ActivityAction, ActivityDirection, ActivityType, GovernanceAction, InclusionState } from '../enums'
 import { Activity } from '../types'
 
-export function getActivityTileTitle(activity: Activity): string {
+export function getActivityTileTitle(activity: Activity): string | undefined {
     const { type, isInternal, direction, inclusionState, action } = activity
     const isConfirmed = inclusionState === InclusionState.Confirmed
 

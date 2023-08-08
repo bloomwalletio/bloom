@@ -1,4 +1,4 @@
-import { InclusionState } from '@core/wallet'
+import { InclusionState } from '@core/activities'
 
 export interface ITransactionInclusionEventPayload {
     transactionId: string
