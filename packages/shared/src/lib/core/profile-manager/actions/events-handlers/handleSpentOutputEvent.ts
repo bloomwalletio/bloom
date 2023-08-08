@@ -7,17 +7,17 @@ import { get } from 'svelte/store'
 import { validateWalletApiEvent } from '../../utils'
 import { Event, SpentOutputWalletEvent, WalletEventType } from '@iota/sdk/out/types/wallet'
 
-export async function handleSpentOutputEvent(error: Error, walletEvent: Event): Promise<void> {
-    const { accountIndex, event } = validateWalletApiEvent(error, walletEvent, WalletEventType.SpentOutput)
-    await handleSpentOutputEventInternal(accountIndex, event as SpentOutputWalletEvent)
+export async function handleSpentOutputEvent(error: Error, event: Event): Promise<void> {
+    const walletEvent = validateWalletApiEvent<SpentOutputWalletEvent>(error, event, WalletEventType.SpentOutput)
+    await handleSpentOutputEventInternal(event.accountIndex, walletEvent)
 }
 
 export async function handleSpentOutputEventInternal(
     accountIndex: number,
-    payload: SpentOutputWalletEvent
+    walletEvent: SpentOutputWalletEvent
 ): Promise<void> {
     const account = get(activeAccounts)?.find((account) => account.index === accountIndex)
-    const output = payload?.output
+    const output = walletEvent?.output
     await syncBalance(accountIndex)
     const outputId = output?.outputId
     const activity = get(allAccountActivities)?.[accountIndex]?.find((_activity) => _activity.outputId === outputId)

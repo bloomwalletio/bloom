@@ -2,7 +2,7 @@ import { encodeAddress, encodeAssetAllowance, encodeSmartContractParameters } fr
 import BigInteger from 'big-integer'
 import type { SendFlowParameters, TokenSendFlowParameters } from '@core/wallet/types'
 import { SpecialStream } from '../classes'
-import { ACCOUNTS_CONTRACT, EXTERNALLY_OWNED_ACCOUNT, FALLBACK_GAS_BUDGET, TRANSFER_ALLOWANCE } from '../constants'
+import { ACCOUNTS_CONTRACT, EXTERNALLY_OWNED_ACCOUNT, TRANSFER_ALLOWANCE } from '../constants'
 import { estimateGasForLayer1ToLayer2Transaction } from './estimateGasForLayer1ToLayer2Transaction'
 
 export async function getLayer2MetadataForTransfer(sendFlowParameters: SendFlowParameters): Promise<string> {
@@ -16,7 +16,7 @@ export async function getLayer2MetadataForTransfer(sendFlowParameters: SendFlowP
     metadataStream.writeUInt32('senderContract', EXTERNALLY_OWNED_ACCOUNT)
     metadataStream.writeUInt32('targetContract', ACCOUNTS_CONTRACT)
     metadataStream.writeUInt32('contractFunction', TRANSFER_ALLOWANCE)
-    metadataStream.writeUInt64SpecialEncoding('gasBudget', BigInteger(estimatedGas) ?? FALLBACK_GAS_BUDGET)
+    metadataStream.writeUInt64SpecialEncoding('gasBudget', BigInteger(estimatedGas))
 
     const smartContractParameters = Object.entries({ a: encodedAddress })
     const parameters = encodeSmartContractParameters(smartContractParameters)

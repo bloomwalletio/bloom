@@ -16,6 +16,7 @@ import {
     getStorageDepositFromOutput,
     getTagFromOutput,
 } from './helper'
+import { network } from '@core/network/stores'
 
 export function generateSingleBasicActivity(
     account: IAccountState,
@@ -48,14 +49,15 @@ export function generateSingleBasicActivity(
 
     const storageDeposit = getStorageDepositFromOutput(output)
 
-    const baseTokenAmount = getAmountFromOutput(output) - storageDeposit - gasBudget
+    const rawBaseCoinAmount = getAmountFromOutput(output)
 
     const nativeToken = getNativeTokenFromOutput(output)
     const assetId = fallbackAssetId ?? nativeToken?.id ?? getCoinType()
+    const networkId = get(network)?.getMetadata().id as string // Currently we only support L1 activities
 
     let rawAmount: number
     if (fallbackAmount === undefined) {
-        rawAmount = nativeToken ? Number(nativeToken?.amount) : baseTokenAmount
+        rawAmount = nativeToken ? Number(nativeToken?.amount) : rawBaseCoinAmount - storageDeposit - gasBudget
     } else {
         rawAmount = fallbackAmount
     }
@@ -73,12 +75,14 @@ export function generateSingleBasicActivity(
         containsValue,
         outputId,
         storageDeposit,
+        rawBaseCoinAmount,
         rawAmount,
         isShimmerClaiming,
         publicNote,
         metadata,
         tag,
         assetId,
+        networkId,
         asyncData,
         destinationNetwork,
         parsedLayer2Metadata,

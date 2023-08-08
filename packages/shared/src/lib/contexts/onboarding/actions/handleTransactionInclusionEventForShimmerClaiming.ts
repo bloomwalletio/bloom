@@ -11,9 +11,13 @@ import { IShimmerClaimingAccount } from '../interfaces'
 import { onboardingProfile, shimmerClaimingTransactions, updateShimmerClaimingAccount } from '../stores'
 import { Event, TransactionInclusionWalletEvent, WalletEventType } from '@iota/sdk/out/types'
 
-export function handleTransactionInclusionEventForShimmerClaiming(error: Error, walletEvent: Event): void {
-    const { accountIndex, event } = validateWalletApiEvent(error, walletEvent, WalletEventType.TransactionInclusion)
-    handleTransactionInclusionEventForShimmerClaimingInternal(accountIndex, event as TransactionInclusionWalletEvent)
+export function handleTransactionInclusionEventForShimmerClaiming(error: Error, event: Event): void {
+    const walletEvent = validateWalletApiEvent<TransactionInclusionWalletEvent>(
+        error,
+        event,
+        WalletEventType.TransactionInclusion
+    )
+    handleTransactionInclusionEventForShimmerClaimingInternal(event.accountIndex, walletEvent)
 }
 
 export function handleTransactionInclusionEventForShimmerClaimingInternal(

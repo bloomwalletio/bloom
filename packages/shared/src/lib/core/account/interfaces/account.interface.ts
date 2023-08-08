@@ -16,6 +16,7 @@ import type {
     BuildBasicOutputData,
     BuildFoundryOutputData,
     BuildNftOutputData,
+    ConsolidationParams,
     CreateNativeTokenParams,
     CreateNativeTokenTransaction,
     Ed25519Signature,
@@ -62,7 +63,7 @@ export interface IAccount {
         params: CreateNativeTokenParams,
         transactionOptions?: TransactionOptions
     ): Promise<CreateNativeTokenTransaction>
-    consolidateOutputs(force: boolean, outputConsolidationThreshold?: number): Promise<Transaction>
+    consolidateOutputs(params: ConsolidationParams): Promise<Transaction>
     createAliasOutput(params?: AliasOutputParams, transactionOptions?: TransactionOptions): Promise<Transaction>
     meltNativeToken(
         tokenId: string,
@@ -88,15 +89,11 @@ export interface IAccount {
     getParticipationOverview(eventIds?: string[]): Promise<ParticipationOverview>
     getTransaction(transactionId: string): Promise<Transaction>
     incomingTransactions(): Promise<Transaction[]>
-    increaseNativeTokenSupply(
-        tokenId: string,
-        mintAmount: HexEncodedAmount,
-        transactionOptions?: TransactionOptions
-    ): Promise<CreateNativeTokenTransaction>
     increaseVotingPower(amount: string): Promise<Transaction>
     minimumRequiredStorageDeposit(output: Output): Promise<string>
     mintNativeToken(
-        params: CreateNativeTokenParams,
+        tokenId: string,
+        mintAmount: HexEncodedAmount,
         transactionOptions?: TransactionOptions
     ): Promise<CreateNativeTokenTransaction>
     mintNfts(params: MintNftParams[], transactionOptions?: TransactionOptions): Promise<Transaction>

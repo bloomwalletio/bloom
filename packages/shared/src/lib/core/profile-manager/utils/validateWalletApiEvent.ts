@@ -3,23 +3,23 @@ import { localize } from '@core/i18n'
 import { WalletApiEventError, WalletApiEventValidationError } from '../errors'
 import type { Event, WalletEventType } from '@iota/sdk'
 
-export function validateWalletApiEvent(error: Error, walletEvent: Event, eventType: WalletEventType): Event {
+export function validateWalletApiEvent<T>(error: Error, event: Event, walletEventType: WalletEventType): T {
     if (error) {
         throw new WalletApiEventError(error)
     } else {
-        const { accountIndex, event } = walletEvent
+        const { accountIndex, event: walletEvent } = event
         if (Number.isNaN(accountIndex)) {
             throw new WalletApiEventValidationError(
-                localize('error.walletApiEvent.invalidAccountIndex', { values: { eventName: eventType } })
+                localize('error.walletApiEvent.invalidAccountIndex', { values: { eventName: walletEventType } })
             )
         }
 
-        if (event.type !== eventType) {
+        if (walletEvent.type !== walletEventType) {
             throw new WalletApiEventValidationError(
-                localize('error.walletApiEvent.invalidPayload', { values: { eventName: eventType } })
+                localize('error.walletApiEvent.invalidPayload', { values: { eventName: walletEventType } })
             )
         }
 
-        return walletEvent
+        return walletEvent as T
     }
 }

@@ -6,11 +6,12 @@
     import { visibleActiveAccounts } from '@core/profile'
     import {
         SendFlowType,
-        Subject,
-        SubjectType,
         TokenStandard,
         sendFlowParameters,
         updateSendFlowParameters,
+        getChainIdFromSendFlowParameters,
+        SubjectType,
+        Subject,
     } from '@core/wallet'
     import { closePopup } from '@desktop/auxiliary/popup'
     import features from '@features/features'
@@ -19,7 +20,6 @@
     import { sendFlowRouter } from '../send-flow.router'
     import SendFlowTemplate from './SendFlowTemplate.svelte'
     import { getAssetStandard } from '@core/wallet/actions/getTokenStandartFromSendFlowParameters'
-    import { getChainIdFromSendFlowParameters } from '@core/wallet/actions/getChainIdFromSendFlowParameters'
 
     let networkAddress = $sendFlowParameters?.layer2Parameters?.networkAddress
     let selectorOptions: INetworkRecipientSelectorOption[] = []
@@ -32,10 +32,6 @@
 
     $: networkAddress = selectedOption?.networkAddress ?? $sendFlowParameters?.layer2Parameters?.networkAddress
     $: recipient = selectedOption?.selectedRecipient ?? $sendFlowParameters?.recipient
-
-    onMount(() => {
-        buildNetworkRecipientOptions()
-    })
 
     function getAssetName(): string | undefined {
         if ($sendFlowParameters?.type === SendFlowType.BaseCoinTransfer) {
@@ -55,6 +51,19 @@
             networkAddress && selectorOptions.length
                 ? selectorOptions.findIndex((option) => option.networkAddress === networkAddress)
                 : 0
+
+        setInitialRecipient()
+    }
+
+    function setInitialRecipient(): void {
+        selectorOptions = selectorOptions.map((option, index) =>
+            index === selectedIndex
+                ? {
+                      ...option,
+                      recipient: $sendFlowParameters?.recipient,
+                  }
+                : option
+        )
     }
 
     function getLayer1AccountRecipients(accountIndexToExclude?: number): Subject[] {
@@ -140,17 +149,14 @@
             case TokenStandard.Irc30:
             case TokenStandard.BaseToken:
                 if (!sourceChainId) {
+                    // if we are on layer 1
                     networkRecipientOptions = [
                         layer1Network,
-                        ...$network
-                            .getIscpChains()
-                            .map((chain) => getRecipientOptionFromChain(chain, $selectedAccountIndex)),
+                        ...$network.getIscpChains().map((chain) => getRecipientOptionFromChain(chain)),
                     ]
                 } else if (sourceChain) {
-                    networkRecipientOptions = [
-                        getRecipientOptionFromChain(sourceChain, $selectedAccountIndex),
-                        layer1Network,
-                    ]
+                    // if we are on layer 2
+                    networkRecipientOptions = [getRecipientOptionFromChain(sourceChain, $selectedAccountIndex)]
                 }
                 break
             case TokenStandard.Erc20:
@@ -191,6 +197,9 @@
             $sendFlowRouter.previous()
         }
     }
+    onMount(() => {
+        buildNetworkRecipientOptions()
+    })
 </script>
 
 <SendFlowTemplate

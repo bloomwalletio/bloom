@@ -10,7 +10,7 @@ const MOBILE_CONTENT_ROUTES = ['../mobile/**/*.svelte']
 
 module.exports = {
     content: [...SHARED_CONTENT_ROUTES, ...(IS_DESKOP ? DESKTOP_CONTENT_ROUTES : MOBILE_CONTENT_ROUTES)],
-    presets: [require('@bloom-labs/ui/tailwind-preset')],
+    presets: [require('@bloomwalletio/ui/tailwind-preset')],
     safelist: [
         {
             pattern: /^from-/,

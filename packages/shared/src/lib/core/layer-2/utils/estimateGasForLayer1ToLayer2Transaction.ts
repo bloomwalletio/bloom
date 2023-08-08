@@ -3,41 +3,31 @@ import { ETH_COIN_TYPE, getNetwork } from '@core/network'
 import { getSelectedAccount } from '@core/account'
 import { FALLBACK_GAS_BUDGET, ISC_MAGIC_CONTRACT_ADDRESS } from '../constants'
 import { getIscpTransferSmartContractData } from '../utils'
+import { TransferredAsset } from '../types'
+import { AssetType } from '../enums'
 
 export async function estimateGasForLayer1ToLayer2Transaction(sendFlowParameters: SendFlowParameters): Promise<number> {
-    if (sendFlowParameters.type === SendFlowType.NftTransfer) {
-        return 0
-    }
-
     const { recipient, layer2Parameters } = sendFlowParameters ?? {}
 
     if (!layer2Parameters) {
         return 0
     }
 
-    const asset =
-        sendFlowParameters.type === SendFlowType.TokenTransfer
-            ? sendFlowParameters.tokenTransfer?.asset
-            : sendFlowParameters.baseCoinTransfer?.asset
-    const rawAmount =
-        sendFlowParameters.type === SendFlowType.TokenTransfer
-            ? sendFlowParameters.tokenTransfer?.rawAmount
-            : sendFlowParameters.baseCoinTransfer?.rawAmount
-
     const address = layer2Parameters ? layer2Parameters.networkAddress : recipient?.address ?? ''
     const chainId = layer2Parameters.chainId
 
     const chain = chainId ? getNetwork()?.getChain(chainId) : undefined
     const provider = chain?.getProvider()
+    const transferredAsset = getTransferredAsset(sendFlowParameters)
 
     const fallbackGas = FALLBACK_GAS_BUDGET.toJSNumber()
-    if (!asset || !chain || !provider) {
+    if (!chain || !provider || !transferredAsset) {
         return fallbackGas
     }
 
     try {
         const evmAddress = getSelectedAccount()?.evmAddresses?.[ETH_COIN_TYPE]
-        const data = getIscpTransferSmartContractData(address, asset, rawAmount ?? '0', chain)
+        const data = getIscpTransferSmartContractData(address, transferredAsset, chain)
         if (data) {
             const gas = await provider.eth.estimateGas({
                 from: evmAddress,
@@ -52,5 +42,38 @@ export async function estimateGasForLayer1ToLayer2Transaction(sendFlowParameters
         // If the from in estimateGas doesn't have funds,  the node throw an error.
         console.error(err)
         return Promise.resolve(fallbackGas)
+    }
+}
+
+function getTransferredAsset(sendFlowParameters: SendFlowParameters): TransferredAsset | undefined {
+    if (sendFlowParameters.type === SendFlowType.NftTransfer) {
+        return sendFlowParameters.nft
+            ? {
+                  type: AssetType.Nft,
+                  nft: sendFlowParameters.nft,
+              }
+            : undefined
+    } else if (sendFlowParameters.type === SendFlowType.TokenTransfer) {
+        const asset = sendFlowParameters.tokenTransfer?.asset
+        const amount = sendFlowParameters.tokenTransfer?.rawAmount ?? '0'
+
+        return asset
+            ? {
+                  type: AssetType.BaseCoin,
+                  asset,
+                  amount,
+              }
+            : undefined
+    } else {
+        const asset = sendFlowParameters.baseCoinTransfer?.asset
+        const amount = sendFlowParameters.baseCoinTransfer?.rawAmount ?? '0'
+
+        return asset
+            ? {
+                  type: AssetType.BaseCoin,
+                  asset,
+                  amount,
+              }
+            : undefined
     }
 }
