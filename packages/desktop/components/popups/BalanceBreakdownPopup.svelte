@@ -10,7 +10,7 @@
         UNLOCK_CONDITION_TIMELOCK,
     } from '@core/wallet'
     import { consolidateOutputs } from '@core/wallet/actions/consolidateOutputs'
-    import { getStorageDepositFromOutput } from '@core/activities/utils/helper'
+    import { getStorageDepositFromOutput } from '@core/activity/utils/helper'
     import type { UnlockConditionTypes } from '@iota/types'
     import { BalanceSummarySection, Button, FontWeight, Text, TextType } from '@ui'
 

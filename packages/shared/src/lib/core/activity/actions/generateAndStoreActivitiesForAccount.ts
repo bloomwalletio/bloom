@@ -8,7 +8,7 @@ import { linkTransactionsWithClaimingTransactions } from './linkTransactionsWith
 import { hideActivitiesForFoundries } from './hideActivitiesForFoundries'
 import { generateActivitiesFromProcessedTransactions } from './generateActivitiesFromProcessedTransactions'
 import { loadAssetsForAllActivities } from './loadAssetsForAllAccounts'
-import { generateActivitiesFromBalanceChanges, setOutgoingAsyncActivitiesToClaimed } from '@core/activities/actions'
+import { generateActivitiesFromBalanceChanges, setOutgoingAsyncActivitiesToClaimed } from '@core/activity/actions'
 
 export async function generateAndStoreActivitiesForAccount(account: IAccountState): Promise<void> {
     // Step 1: process account transactions and outputs into processed transactions

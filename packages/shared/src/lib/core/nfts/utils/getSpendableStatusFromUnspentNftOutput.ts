@@ -1,9 +1,9 @@
-import { getTimelockDateFromOutput } from '@core/activities/utils'
+import { getTimelockDateFromOutput } from '@core/activity/utils'
 import {
     getExpirationUnixTimeFromOutput,
     getRecipientAddressFromOutput,
     isOutputAsync,
-} from '@core/activities/utils/outputs'
+} from '@core/activity/utils/outputs'
 import { UNLOCK_CONDITION_STORAGE_DEPOSIT_RETURN } from '@core/wallet/constants'
 import { INftOutput } from '@iota/types'
 

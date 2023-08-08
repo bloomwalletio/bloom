@@ -3,7 +3,7 @@ import { IParticipation, IWrappedOutput } from '@core/wallet/interfaces'
 import { Output } from '@core/wallet/types'
 import { getAmountFromOutput } from './getAmountFromOutput'
 import { getMetadataFromOutput } from './getMetadataFromOutput'
-import { GovernanceAction } from '@core/activities/enums'
+import { GovernanceAction } from '@core/activity/enums'
 import { parseGovernanceMetadata } from '@core/wallet/utils'
 
 interface IGovernanceInfo {

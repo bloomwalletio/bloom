@@ -1,6 +1,6 @@
 import { IAccountState } from '@core/account/interfaces'
 import { activeAccounts } from '@core/profile/stores'
-import { getNftId } from '@core/activities/utils/outputs'
+import { getNftId } from '@core/activity/utils/outputs'
 import { IWrappedOutput } from '@core/wallet/interfaces'
 import { get } from 'svelte/store'
 import { OUTPUT_TYPE_NFT } from '../../wallet/constants'

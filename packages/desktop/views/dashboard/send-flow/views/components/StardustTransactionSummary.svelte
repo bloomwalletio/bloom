@@ -10,7 +10,7 @@
     import { Output, SendFlowParameters, TokenTransferData } from '@core/wallet'
     import { INft } from '@core/nfts/interfaces'
     import { getNetwork } from '@core/network'
-    import { getStorageDepositFromOutput } from '@core/activities/utils/helper'
+    import { getStorageDepositFromOutput } from '@core/activity/utils/helper'
 
     export let output: Output
     export let sendFlowParameters: SendFlowParameters

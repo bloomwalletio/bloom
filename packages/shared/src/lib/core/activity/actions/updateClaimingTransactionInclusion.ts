@@ -3,7 +3,7 @@ import { allAccountActivities } from '../stores'
 import { showAppNotification } from '@auxiliary/notification'
 import { localize } from '@core/i18n'
 import { updateActivityFromPartialActivity } from '../utils/helper'
-import { addClaimedActivity } from '@core/activities/stores'
+import { addClaimedActivity } from '@core/activity/stores'
 
 export function updateClaimingTransactionInclusion(
     transactionId: string,

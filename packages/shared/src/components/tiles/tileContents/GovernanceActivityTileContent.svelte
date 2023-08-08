@@ -5,7 +5,7 @@
         getActivityTileTitle,
         GovernanceAction,
         getFormattedVotingPowerFromGovernanceActivity,
-    } from '@core/activities'
+    } from '@core/activity'
     import { ActivityTileContent } from '@ui'
     import { Icon } from '@lib/auxiliary/icon'
 

@@ -1,6 +1,6 @@
 <script lang="ts">
     import { localize } from '@core/i18n'
-    import { ActivityAsyncStatus } from '@core/activities'
+    import { ActivityAsyncStatus } from '@core/activity'
     import Pill from './Pill.svelte'
 
     export let asyncStatus: ActivityAsyncStatus

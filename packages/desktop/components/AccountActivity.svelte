@@ -7,7 +7,7 @@
         queriedActivities,
         selectedAccountActivities,
         setAsyncStatusOfAccountActivities,
-    } from '@core/activities'
+    } from '@core/activity'
     import { ActivityTile, Text, TextInput, TogglableButton, FontWeight } from '@ui'
     import { Filter } from '@components'
     import features from '@features/features'

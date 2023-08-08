@@ -1,5 +1,5 @@
-import { ActivityType } from '@core/activities/enums'
-import { Activity } from '@core/activities/types'
+import { ActivityType } from '@core/activity/enums'
+import { Activity } from '@core/activity/types'
 import { localize } from '@core/i18n'
 import { getLayer2NetworkFromAddress } from '@core/layer-2/utils'
 import { truncateString } from '@core/utils'

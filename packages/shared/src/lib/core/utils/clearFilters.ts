@@ -1,6 +1,6 @@
 import { proposalFilter } from '@contexts/governance/stores'
 import { assetFilter } from '@core/wallet'
-import { activityFilter } from '@core/activities'
+import { activityFilter } from '@core/activity'
 
 export function clearFilters(): void {
     proposalFilter.update((state) => {

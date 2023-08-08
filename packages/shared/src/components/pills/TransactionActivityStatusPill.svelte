@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { ActivityAction, ActivityDirection, ActivityType, InclusionState } from '@core/activities'
+    import { ActivityAction, ActivityDirection, ActivityType, InclusionState } from '@core/activity'
     import { ActivityInclusionStatusPill } from '.'
 
     export let isInternal: boolean

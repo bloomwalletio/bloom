@@ -1,7 +1,7 @@
 <script lang="ts">
     import { AmountBox, ActivityInclusionStatusPill, Text, FontWeight } from '@ui'
     import { getAssetFromPersistedAssets } from '@core/wallet'
-    import { GovernanceActivity } from '@core/activities'
+    import { GovernanceActivity } from '@core/activity'
     import { getCoinType } from '@core/profile'
     import { getVotingEvent } from '@contexts/governance/actions'
     import { truncateString } from '@core/utils'

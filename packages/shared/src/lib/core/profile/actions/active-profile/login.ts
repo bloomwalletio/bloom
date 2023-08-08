@@ -43,7 +43,7 @@ import { subscribeToWalletApiEventsForActiveProfile } from './subscribeToWalletA
 import { checkAndUpdateActiveProfileNetwork } from './checkAndUpdateActiveProfileNetwork'
 import { checkAndRemoveProfilePicture } from './checkAndRemoveProfilePicture'
 import { initializeWalletConnect } from '@auxiliary/wallet-connect'
-import { generateAndStoreActivitiesForAllAccounts } from '@core/activities/actions'
+import { generateAndStoreActivitiesForAllAccounts } from '@core/activity/actions'
 
 export async function login(loginOptions?: ILoginOptions): Promise<void> {
     const loginRouter = get(routerManager).getRouterForAppContext(AppContext.Login)

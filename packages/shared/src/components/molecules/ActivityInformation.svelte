@@ -12,7 +12,7 @@
         SmartContractActivityInformation,
     } from '@ui'
     import { Tab } from '@ui/enums'
-    import { ActivityType, Activity } from '@core/activities'
+    import { ActivityType, Activity } from '@core/activity'
     import { getNftByIdFromAllAccountNfts } from '@core/nfts'
     import { selectedAccountIndex } from '@core/account'
 

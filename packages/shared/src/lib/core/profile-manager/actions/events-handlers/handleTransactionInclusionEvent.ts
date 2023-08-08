@@ -12,12 +12,12 @@ import {
     getActivityByTransactionId,
     updateActivityByTransactionId,
     updateClaimingTransactionInclusion,
-} from '@core/activities'
+} from '@core/activity'
 import { Event, TransactionInclusionWalletEvent, WalletEventType } from '@iota/wallet/out/types'
 import { get } from 'svelte/store'
 import { closePopup, openPopup, PopupId } from '../../../../../../../desktop/lib/auxiliary/popup'
 import { validateWalletApiEvent } from '../../utils'
-import { GovernanceActivity } from '@core/activities/types'
+import { GovernanceActivity } from '@core/activity/types'
 
 export function handleTransactionInclusionEvent(error: Error, event: Event): void {
     const walletEvent = validateWalletApiEvent<TransactionInclusionWalletEvent>(

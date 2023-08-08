@@ -2,9 +2,9 @@
     import { selectedAccountIndex } from '@core/account'
     import { localize } from '@core/i18n'
     import { getNftByIdFromAllAccountNfts } from '@core/nfts'
-    import { ActivityDirection } from '@core/activities/enums'
-    import { getActivityTileTitle, getSubjectLocaleFromActivity } from '@core/activities/utils'
-    import { NftActivity } from '@core/activities/types'
+    import { ActivityDirection } from '@core/activity/enums'
+    import { getActivityTileTitle, getSubjectLocaleFromActivity } from '@core/activity/utils'
+    import { NftActivity } from '@core/activity/types'
     import { ActivityTileContent, NftImageOrIconBox } from '@ui'
 
     export let activity: NftActivity

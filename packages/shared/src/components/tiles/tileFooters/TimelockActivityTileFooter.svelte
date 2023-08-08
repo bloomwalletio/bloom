@@ -4,7 +4,7 @@
     import { Icon as IconEnum } from '@lib/auxiliary/icon'
     import { Position } from '@ui/enums'
     import { localize } from '@core/i18n'
-    import { Activity, ActivityAsyncStatus } from '@core/activities'
+    import { Activity, ActivityAsyncStatus } from '@core/activity'
     import { getTimeDifference } from '@core/utils'
 
     export let activity: Activity

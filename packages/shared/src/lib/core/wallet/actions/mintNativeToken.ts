@@ -9,7 +9,7 @@ import { buildPersistedAssetFromMetadata } from '../helpers'
 import { IIrc30Metadata, IPersistedAsset } from '../interfaces'
 import { resetMintTokenDetails } from '../stores'
 import { addPersistedAsset } from '../stores/persisted-assets.store'
-import { processAndAddToActivities } from '@core/activities/utils'
+import { processAndAddToActivities } from '@core/activity/utils'
 
 export async function mintNativeToken(
     maximumSupply: number,

@@ -1,7 +1,7 @@
 import { isShimmerClaimingTransaction } from '@contexts/onboarding/stores'
 import { IAccountState } from '@core/account'
 import { activeProfileId, getCoinType } from '@core/profile'
-import { IActivityGenerationParameters } from '@core/activities/types'
+import { IActivityGenerationParameters } from '@core/activity/types'
 import { TransactionActivity } from '../types'
 import { IBasicOutput } from '@iota/types'
 import { get } from 'svelte/store'

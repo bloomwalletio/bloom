@@ -4,7 +4,7 @@ import { localize } from '@core/i18n'
 import { updateNftInAllAccountNfts } from '@core/nfts'
 import { handleError } from '@core/error/handlers'
 import { get } from 'svelte/store'
-import { processAndAddToActivities } from '@core/activities/utils'
+import { processAndAddToActivities } from '@core/activity/utils'
 
 export async function burnNft(nftId: string): Promise<void> {
     const account = get(selectedAccount)

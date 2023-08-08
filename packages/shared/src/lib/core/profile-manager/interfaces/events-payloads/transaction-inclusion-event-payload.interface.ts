@@ -1,4 +1,4 @@
-import { InclusionState } from '@core/activities'
+import { InclusionState } from '@core/activity'
 
 export interface ITransactionInclusionEventPayload {
     transactionId: string

@@ -1,7 +1,7 @@
 import { IAccountState } from '@core/account'
 import { ADDRESS_TYPE_ALIAS, EMPTY_HEX_ID } from '@core/wallet/constants'
 import { ActivityType } from '../enums'
-import { IActivityGenerationParameters } from '@core/activities/types'
+import { IActivityGenerationParameters } from '@core/activity/types'
 import { AliasActivity } from '../types'
 import { IAliasOutput } from '@iota/types'
 import {

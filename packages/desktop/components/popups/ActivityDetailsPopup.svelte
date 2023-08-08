@@ -16,7 +16,7 @@
     } from '@ui'
     import { openUrlInBrowser } from '@core/app'
     import { claimActivity, rejectActivity } from '@core/wallet'
-    import { ActivityAsyncStatus, ActivityDirection, ActivityType, selectedAccountActivities } from '@core/activities'
+    import { ActivityAsyncStatus, ActivityDirection, ActivityType, selectedAccountActivities } from '@core/activity'
     import { activeProfile, checkActiveProfileAuth } from '@core/profile'
     import { setClipboard } from '@core/utils'
     import { truncateString } from '@core/utils'

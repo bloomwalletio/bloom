@@ -10,7 +10,7 @@ import { MissingShimmerClaimingAccountError } from '../errors'
 import { IShimmerClaimingAccount } from '../interfaces'
 import { onboardingProfile, shimmerClaimingTransactions, updateShimmerClaimingAccount } from '../stores'
 import { Event, TransactionInclusionWalletEvent, WalletEventType } from '@iota/wallet/out/types'
-import { InclusionState } from '@core/activities/enums'
+import { InclusionState } from '@core/activity/enums'
 
 export function handleTransactionInclusionEventForShimmerClaiming(error: Error, event: Event): void {
     const walletEvent = validateWalletApiEvent<TransactionInclusionWalletEvent>(

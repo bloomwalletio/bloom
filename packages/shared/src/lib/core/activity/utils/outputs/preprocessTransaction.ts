@@ -4,7 +4,7 @@ import { OUTPUT_TYPE_TREASURY } from '@core/wallet/constants'
 import { IAccountState } from '@core/account'
 import { OutputTypes } from '@iota/types'
 import { getDirectionFromTransaction } from '../getDirectionFromTransaction'
-import { IProcessedTransaction } from '@core/activities/types'
+import { IProcessedTransaction } from '@core/activity/types'
 import { IWrappedOutput } from '@core/wallet/interfaces'
 
 export async function preprocessTransaction(

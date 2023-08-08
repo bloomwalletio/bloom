@@ -1,5 +1,5 @@
 import { IAccountState } from '@core/account'
-import { addClaimedActivity, claimedActivities } from '@core/activities/stores'
+import { addClaimedActivity, claimedActivities } from '@core/activity/stores'
 import { activeProfileId } from '@core/profile'
 import { get } from 'svelte/store'
 import { ActivityDirection } from '../enums'

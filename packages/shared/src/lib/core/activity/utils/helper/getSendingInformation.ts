@@ -4,8 +4,8 @@ import { getRecipientFromOutput } from '../outputs'
 import { getSubjectFromAddress, isSubjectInternal } from '@core/wallet/utils'
 import { getSenderAddressFromInputs } from '../getSenderAddressFromInputs'
 import { getSenderFromTransaction } from '../getSenderFromTransaction'
-import { ActivityDirection } from '@core/activities/enums'
-import { IProcessedTransaction } from '@core/activities/types'
+import { ActivityDirection } from '@core/activity/enums'
+import { IProcessedTransaction } from '@core/activity/types'
 
 export function getSendingInformation(
     processedTransaction: IProcessedTransaction,

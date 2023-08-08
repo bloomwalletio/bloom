@@ -8,7 +8,7 @@ import { parseNftMetadata } from './parseNftMetadata'
 import { composeUrlFromNftUri } from './composeUrlFromNftUri'
 import { getSpendableStatusFromUnspentNftOutput } from './getSpendableStatusFromUnspentNftOutput'
 import { ADDRESS_TYPE_NFT } from '@core/wallet/constants'
-import { getIssuerFromNftOutput, getMetadataFromNftOutput, getNftId } from '@core/activities/utils/outputs'
+import { getIssuerFromNftOutput, getMetadataFromNftOutput, getNftId } from '@core/activity/utils/outputs'
 import { getBech32AddressFromAddressTypes } from '@core/wallet/utils'
 
 export function buildNftFromNftOutput(

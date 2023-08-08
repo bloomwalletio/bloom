@@ -7,14 +7,14 @@ import { OUTPUT_TYPE_ALIAS, OUTPUT_TYPE_NFT } from '@core/wallet/constants'
 import {
     addActivitiesToAccountActivitiesInAllAccountActivities,
     allAccountActivities,
-} from '@core/activities/stores/all-account-activities.store'
+} from '@core/activity/stores/all-account-activities.store'
 import { getBech32AddressFromAddressTypes } from '@core/wallet/utils/getBech32AddressFromAddressTypes'
 import { Event, NewOutputWalletEvent, WalletEventType } from '@iota/wallet/out/types'
 import { get } from 'svelte/store'
 import { validateWalletApiEvent } from '../../utils'
-import { preprocessGroupedOutputs } from '@core/activities/utils/outputs'
-import { generateActivities } from '@core/activities/utils'
-import { ActivityType } from '@core/activities/enums'
+import { preprocessGroupedOutputs } from '@core/activity/utils/outputs'
+import { generateActivities } from '@core/activity/utils'
+import { ActivityType } from '@core/activity/enums'
 
 export function handleNewOutputEvent(error: Error, event: Event): void {
     const walletEvent = validateWalletApiEvent<NewOutputWalletEvent>(error, event, WalletEventType.NewOutput)

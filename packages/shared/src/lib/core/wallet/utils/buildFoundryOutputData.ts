@@ -4,7 +4,7 @@ import { Converter } from '@core/utils'
 import { ADDRESS_TYPE_ALIAS, FEATURE_TYPE_METADATA, UNLOCK_CONDITION_IMMUTABLE_ALIAS } from '../constants'
 import { IIrc30Metadata } from '../interfaces'
 import { convertBech32ToHexAddress } from './convertBech32ToHexAddress'
-import { getSerialNumberFromAliasOutput } from '@core/activities/utils/outputs/getSerialNumberFromAliasOutput'
+import { getSerialNumberFromAliasOutput } from '@core/activity/utils/outputs/getSerialNumberFromAliasOutput'
 
 export async function buildFoundryOutputData(
     totalSupply: number,

@@ -1,8 +1,8 @@
 <script lang="ts">
     import { selectedAccountIndex } from '@core/account'
-    import { ActivityAsyncStatus } from '@core/activities/enums'
-    import { TransactionActivity } from '@core/activities/types'
-    import { getSubjectFromActivity, getTransactionAssets } from '@core/activities/utils'
+    import { ActivityAsyncStatus } from '@core/activity/enums'
+    import { TransactionActivity } from '@core/activity/types'
+    import { getSubjectFromActivity, getTransactionAssets } from '@core/activity/utils'
     import { time } from '@core/app'
     import { localize } from '@core/i18n'
     import {

@@ -1,5 +1,5 @@
-import { ActivityType } from '@core/activities/enums'
-import { Activity } from '@core/activities/types'
+import { ActivityType } from '@core/activity/enums'
+import { Activity } from '@core/activity/types'
 
 export function updateActivityFromPartialActivity(activity: Activity, partialData: Partial<Activity>): void {
     if (partialData.type === ActivityType.Basic && activity.type === ActivityType.Basic) {

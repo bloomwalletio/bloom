@@ -7,7 +7,7 @@
         getFormattedAmountFromActivity,
         getSubjectLocaleFromActivity,
         TransactionActivity,
-    } from '@core/activities'
+    } from '@core/activity'
     import { ActivityTileContent, AssetIcon } from '@ui'
 
     export let activity: TransactionActivity

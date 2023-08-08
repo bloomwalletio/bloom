@@ -7,7 +7,7 @@ import { DEFAULT_SYNC_OPTIONS } from '../constants'
 import { IAccountState } from '../interfaces'
 
 import { buildAccountStateAndPersistedData } from './buildAccountStateAndPersistedData'
-import { addEmptyAccountActivitiesToAllAccountActivities } from '@core/activities/stores'
+import { addEmptyAccountActivitiesToAllAccountActivities } from '@core/activity/stores'
 
 export async function createNewAccount(name?: string, color?: string): Promise<IAccountState> {
     const account = await createAccount({

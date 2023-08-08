@@ -1,4 +1,4 @@
-import { ActivityAsyncStatus } from '@core/activities/enums'
+import { ActivityAsyncStatus } from '@core/activity/enums'
 
 export function getAsyncStatus(
     isClaimed: boolean,

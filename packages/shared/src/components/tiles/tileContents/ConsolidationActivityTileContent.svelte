@@ -1,6 +1,6 @@
 <script lang="ts">
     import { localize } from '@core/i18n'
-    import { ConsolidationActivity, getActivityTileTitle } from '@core/activities'
+    import { ConsolidationActivity, getActivityTileTitle } from '@core/activity'
     import { ActivityTileContent } from '@ui'
     import { Icon } from '@lib/auxiliary/icon'
 
