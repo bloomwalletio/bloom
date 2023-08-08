@@ -135,32 +135,32 @@ jobs:
               env:
                   GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
                   GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
-              if: inputs.sign == 'true' && inputs.os == 'ubuntu-20.04'
+              if: ${{ inputs.sign == 'true' && inputs.os == 'ubuntu-20.04' }}
 
             - name: Sign AppImage (Linux)
               run: echo $GPG_PASSPHRASE | gpg --pinentry-mode loopback --batch --passphrase-fd 0 --armor --detach-sign --default-key contact@iota.org bloom-desktop*.AppImage
               working-directory: packages/desktop/out
               env:
                   GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
-              if: inputs.sign == 'true' && inputs.os == 'ubuntu-20.04'
+              if: ${{ inputs.sign == 'true' && inputs.os == 'ubuntu-20.04' }}
 
             - name: Compute checksums (Linux)
               run: for i in `ls | grep 'bloom-desktop*'` ; do sha256sum $i | awk {'print $1'} > $i.sha256 ; done
               working-directory: packages/desktop/out
-              if: inputs.sign == 'true' && inputs.os == 'ubuntu-20.04'
+              if: ${{ inputs.sign == 'true' && inputs.os == 'ubuntu-20.04' }}
 
             - name: Compute checksums (macOS)
               run: for i in `ls | grep 'bloom-desktop*'` ; do shasum -a 256 $i | awk {'print $1'} > $i.sha256 ; done
               working-directory: packages/desktop/out
-              if: inputs.sign == 'true' && inputs.os == 'macos-11'
+              if: ${{ inputs.sign == 'true' && inputs.os == 'macos-11' }}
 
             - name: Compute checksums (Windows)
               run: Get-ChildItem "." -Filter bloom-desktop* | Foreach-Object { $(Get-FileHash -Path $_.FullName -Algorithm SHA256).Hash | Set-Content ($_.FullName + '.sha256') }
               working-directory: packages/desktop/out
-              if: inputs.sign == 'true' && inputs.os == 'windows-2019'
+              if: ${{ inputs.sign == 'true' && inputs.os == 'windows-2019' }}
 
             - name: Upload artifacts
-              if: inputs.release == 'true'
+              if: ${{ inputs.release == 'true' }}
               uses: actions/upload-artifact@v2
               with:
                   name: bloom-desktop-${{ inputs.os }}
