@@ -13,6 +13,4 @@ jobs:
     with:
       os: ubuntu-20.04
       stage: prod
-      sign: false
-      release: false
     secrets: inherit

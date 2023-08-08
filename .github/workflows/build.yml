@@ -33,6 +33,5 @@ jobs:
     with:
       os: ${{ inputs.os }}
       stage: ${{ inputs.stage }}
-      sign: false
       release: ${{ inputs.release }}
     secrets: inherit
