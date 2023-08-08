@@ -60,6 +60,7 @@ jobs:
             os: ${{ matrix.os }}
             version: ${{ needs.setup.outputs.version }}
             stage: ${{ inputs.stage || needs.setup.outputs.stage }}
+            sign: true
             release: true
         secrets: inherit
 
