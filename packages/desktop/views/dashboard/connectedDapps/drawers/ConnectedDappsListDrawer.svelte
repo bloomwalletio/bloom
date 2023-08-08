@@ -19,7 +19,7 @@
     })
 </script>
 
-<DrawerTemplate title={localize('views.dashboard.drawers.connectedDapps.connectedDapps.title')} {drawerRouter}>
+<DrawerTemplate title={localize('views.dashboard.drawers.connectedDapps.connectedDappsList.title')} {drawerRouter}>
     <connected-chains-drawer class="h-full flex flex-col justify-between">
         <div class="flex flex-col gap-4">
             <!-- add list here -->
