@@ -7,7 +7,7 @@
     import { Icon as IconEnum } from '@auxiliary/icon'
     import { Icon } from '@ui'
     import { ContactBookRouterView } from '@views/dashboard/contact-book'
-    import { ConnectedDappsRouterView } from '@views/dashboard/connectedDapps'
+    import { DAppsRouterView } from '@views/dashboard/dApps'
 
     export let onClose: () => unknown = () => {}
 
@@ -73,8 +73,8 @@
             <div class="flex flex-col h-full">
                 {#if $drawerState.id === DrawerId.NetworkConfig}
                     <NetworkConfigDrawerRouter bind:drawerRoute bind:drawerRouter />
-                {:else if $drawerState.id === DrawerId.ConnectedDapps}
-                    <ConnectedDappsRouterView />
+                {:else if $drawerState.id === DrawerId.DApps}
+                    <DAppsRouterView />
                 {:else if $drawerState.id === DrawerId.ContactBook}
                     <ContactBookRouterView />
                 {/if}

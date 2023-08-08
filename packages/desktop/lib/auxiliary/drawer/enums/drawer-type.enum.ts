@@ -1,5 +1,5 @@
 export enum DrawerId {
     NetworkConfig = 'networkConfig',
-    ConnectedDapps = 'connectedDapps',
+    DApps = 'dApps',
     ContactBook = 'contactBook',
 }
