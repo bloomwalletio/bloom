@@ -1,14 +1,9 @@
 <script lang="ts">
     import { localize } from '@core/i18n'
-    import {
-        FoundryActivity,
-        getActivityTileTitle,
-        getAssetFromPersistedAssets,
-        getFormattedAmountFromActivity,
-        IPersistedAsset,
-        selectedAccountAssets,
-    } from '@core/wallet'
+    import { getAssetFromPersistedAssets, IPersistedAsset, selectedAccountAssets } from '@core/wallet'
+    import { FoundryActivity, getActivityTileTitle } from '@core/activities'
     import { AssetIcon, ActivityTileContent } from '@ui'
+    import { getFormattedAmountFromActivity } from '@core/activities/utils/outputs'
 
     export let activity: FoundryActivity
 

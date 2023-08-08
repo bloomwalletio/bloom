@@ -4,7 +4,7 @@ import { updateNftInAllAccountNfts } from '@core/nfts/actions'
 
 import { DEFAULT_TRANSACTION_OPTIONS, OUTPUT_TYPE_NFT } from '../constants'
 import { Output } from '../types'
-import { processAndAddToActivities } from '../utils'
+import { processAndAddToActivities } from '@core/activities/utils'
 
 export async function sendOutput(output: Output): Promise<void> {
     try {

@@ -1,5 +1,8 @@
-import { addActivityToAccountActivitiesInAllAccountActivities } from '@core/wallet/stores/all-account-activities.store'
-import { addPersistedBalanceChange, getBalanceChanges } from '../stores'
+import {
+    addPersistedBalanceChange,
+    getBalanceChanges,
+    addActivityToAccountActivitiesInAllAccountActivities,
+} from '../stores'
 import { generateBalanceChangeActivity } from '../utils/generateBalanceChangeActivity'
 import { IAssetBalanceChange } from '../types'
 

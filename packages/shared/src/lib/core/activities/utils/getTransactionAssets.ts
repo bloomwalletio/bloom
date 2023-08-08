@@ -1,8 +1,9 @@
 import { INft, getNftByIdFromAllAccountNfts } from '@core/nfts'
 import { getCoinType } from '@core/profile/actions'
-import { ActivityType } from '@core/wallet/enums'
+import { ActivityType } from '../enums'
 import { getAssetById } from '@core/wallet/stores'
-import { Activity, TokenTransferData } from '@core/wallet/types'
+import { Activity } from '../types'
+import { TokenTransferData } from '@core/wallet/types'
 
 export function getTransactionAssets(
     activity: Activity,

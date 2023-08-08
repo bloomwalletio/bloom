@@ -1,6 +1,6 @@
 <script lang="ts">
-    import { ActivityAction, ActivityDirection, ActivityType, InclusionState } from '@core/wallet'
-    import ActivityInclusionStatusPill from './ActivityInclusionStatusPill.svelte'
+    import { ActivityAction, ActivityDirection, ActivityType, InclusionState } from '@core/activities'
+    import { ActivityInclusionStatusPill } from '.'
 
     export let isInternal: boolean
     export let type: ActivityType

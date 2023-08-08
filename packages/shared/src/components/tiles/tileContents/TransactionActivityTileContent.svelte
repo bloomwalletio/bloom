@@ -1,15 +1,13 @@
 <script lang="ts">
     import { localize } from '@core/i18n'
+    import { getAssetFromPersistedAssets, IPersistedAsset, selectedAccountAssets } from '@core/wallet'
     import {
         ActivityDirection,
         getActivityTileTitle,
-        getAssetFromPersistedAssets,
         getFormattedAmountFromActivity,
         getSubjectLocaleFromActivity,
-        IPersistedAsset,
-        selectedAccountAssets,
         TransactionActivity,
-    } from '@core/wallet'
+    } from '@core/activities'
     import { ActivityTileContent, AssetIcon } from '@ui'
 
     export let activity: TransactionActivity

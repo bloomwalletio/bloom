@@ -1,6 +1,6 @@
 <script lang="ts">
     import { localize } from '@core/i18n'
-    import { AliasActivity, getActivityTileTitle } from '@core/wallet'
+    import { AliasActivity, getActivityTileTitle } from '@core/activities'
     import { truncateString } from '@core/utils'
     import { ActivityTileContent } from '@ui'
     import { Icon } from '@lib/auxiliary/icon'

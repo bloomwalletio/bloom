@@ -1,6 +1,6 @@
 <script lang="ts">
     import { localize } from '@core/i18n'
-    import { InclusionState } from '@core/wallet'
+    import { InclusionState } from '@core/activities'
     import Pill from './Pill.svelte'
 
     export let localizationKey: string

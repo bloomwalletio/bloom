@@ -1,6 +1,6 @@
 <script lang="ts">
     import { AddressBox, ActivityInclusionStatusPill } from '@ui'
-    import { AliasActivity } from '@core/wallet'
+    import { AliasActivity } from '@core/activities'
 
     export let activity: AliasActivity
 </script>

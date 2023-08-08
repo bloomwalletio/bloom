@@ -1,7 +1,7 @@
 <script lang="ts">
     import { SubjectBox, TokenAmountTile, TransactionActivityStatusPill } from '@ui'
     import { getAssetById } from '@core/wallet'
-    import { FoundryActivity } from '@core/wallet'
+    import { FoundryActivity } from '@core/activities'
     import { network } from '@core/network'
 
     export let activity: FoundryActivity

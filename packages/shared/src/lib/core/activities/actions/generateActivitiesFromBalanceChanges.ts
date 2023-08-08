@@ -1,5 +1,5 @@
 import { IAccountState } from '@core/account'
-import { Activity } from '@core/wallet/types'
+import { Activity } from '../types'
 import { getBalanceChanges } from '../stores'
 import { get } from 'svelte/store'
 import { network } from '@core/network'

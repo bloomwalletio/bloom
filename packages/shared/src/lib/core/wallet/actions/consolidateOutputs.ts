@@ -1,7 +1,7 @@
 import { get } from 'svelte/store'
 import { selectedAccount, updateSelectedAccount } from '@core/account'
 import { handleError } from '@core/error/handlers'
-import { processAndAddToActivities } from '../utils'
+import { processAndAddToActivities } from '@core/activities/utils'
 
 export async function consolidateOutputs(): Promise<void> {
     const account = get(selectedAccount)

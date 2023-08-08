@@ -1,6 +1,6 @@
-import { TransactionActivity } from '@core/wallet/types'
+import { TransactionActivity } from '../types'
 import { IAssetBalanceChange } from '../types'
-import { ActivityAction, ActivityDirection, ActivityType, InclusionState } from '@core/wallet/enums'
+import { ActivityAction, ActivityDirection, ActivityType, InclusionState } from '../enums'
 import { generateRandomId } from '@core/utils'
 import { getCoinType } from '@core/profile/actions'
 

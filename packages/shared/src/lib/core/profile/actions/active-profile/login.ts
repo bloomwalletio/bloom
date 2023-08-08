@@ -23,7 +23,7 @@ import { profileManager } from '@core/profile-manager/stores'
 import { buildProfileManagerOptionsFromProfileData } from '@core/profile-manager/utils'
 import { routerManager } from '@core/router/stores'
 import { SECONDS_PER_MINUTE } from '@core/utils'
-import { generateAndStoreActivitiesForAllAccounts, refreshAccountAssetsForActiveProfile } from '@core/wallet/actions'
+import { refreshAccountAssetsForActiveProfile } from '@core/wallet/actions'
 import { get } from 'svelte/store'
 import { DEFAULT_ACCOUNT_RECOVERY_CONFIGURATION } from '../../constants'
 import { ProfileType } from '../../enums'
@@ -43,6 +43,7 @@ import { subscribeToWalletApiEventsForActiveProfile } from './subscribeToWalletA
 import { checkAndUpdateActiveProfileNetwork } from './checkAndUpdateActiveProfileNetwork'
 import { checkAndRemoveProfilePicture } from './checkAndRemoveProfilePicture'
 import { initializeWalletConnect } from '@auxiliary/wallet-connect'
+import { generateAndStoreActivitiesForAllAccounts } from '@core/activities/actions'
 
 export async function login(loginOptions?: ILoginOptions): Promise<void> {
     const loginRouter = get(routerManager).getRouterForAppContext(AppContext.Login)
