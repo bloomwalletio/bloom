@@ -7,7 +7,7 @@
     import { Icon as IconEnum } from '@auxiliary/icon'
     import { Icon } from '@ui'
     import { ContactBookRouterView } from '@views/dashboard/contact-book'
-    import { ConnectedDappsRouterView } from '@views/dashboard/wallet-connect'
+    import { ConnectedDappsRouterView } from '@views/dashboard/connectedDapps'
 
     export let onClose: () => unknown = () => {}
 
