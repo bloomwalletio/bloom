@@ -108,7 +108,7 @@ jobs:
                   BLOOM_APPLE_ID: ${{ secrets.APPLE_ID }}
                   BLOOM_APPLE_ID_PASSWORD: ${{ secrets.APPLE_ID_PASSWORD }}
                   GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-                  MACOS_SKIP_NOTARIZATION: ${{ inputs.sign != true }}
+                  MACOS_SKIP_NOTARIZATION: ${{ inputs.sign != 'true' }}
               working-directory: packages/desktop
               if: inputs.os == 'macos-11'
 
