@@ -3,22 +3,6 @@ name: Build
 on:
   workflow_dispatch:
     inputs:
-      os:
-        description: 'Operating system'
-        required: true
-        type: choice
-        options:
-          - macos-11
-          - ubuntu-20.04
-          - windows-2019
-      stage:
-        description: 'Environment to release the app for'
-        required: true
-        type: choice
-        options:
-          - alpha
-          - beta
-          - prod
       sign:
         description: 'Sign code'
         required: false
@@ -29,6 +13,22 @@ on:
         required: false
         type: boolean
         default: false
+      os:
+        description: 'OS'
+        required: true
+        type: choice
+        options:
+          - macos-11
+          - ubuntu-20.04
+          - windows-2019
+      stage:
+        description: 'Stage'
+        required: true
+        type: choice
+        options:
+          - alpha
+          - beta
+          - prod
 
 jobs:
   trigger-build:
