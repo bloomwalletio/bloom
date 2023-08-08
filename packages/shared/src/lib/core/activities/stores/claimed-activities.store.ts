@@ -2,8 +2,7 @@ import { get } from 'svelte/store'
 
 import { activeProfileId } from '@core/profile'
 import { persistent } from '@core/utils/store'
-
-import { IClaimedActivities, IClaimedActivitiesPerProfile } from '../interfaces'
+import { IClaimedActivities, IClaimedActivitiesPerProfile } from '../types'
 
 export const claimedActivities = persistent<IClaimedActivitiesPerProfile>('claimedActivities', {})
 

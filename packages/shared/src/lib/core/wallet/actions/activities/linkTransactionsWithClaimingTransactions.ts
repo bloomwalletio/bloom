@@ -1,9 +1,9 @@
 import { IAccountState } from '@core/account'
+import { addClaimedActivity, claimedActivities } from '@core/activities/stores'
 import { activeProfileId } from '@core/profile'
 import { ActivityDirection, IProcessedTransaction } from '@core/wallet'
 import { isOutputAsync } from '@core/wallet/utils/outputs/isOutputAsync'
 import { get } from 'svelte/store'
-import { addClaimedActivity, claimedActivities } from '../../stores'
 
 /**
  * It takes a list of transactions and links the transactions that are claiming async transactions
@@ -17,7 +17,7 @@ export function linkTransactionsWithClaimingTransactions(
     account: IAccountState
 ): IProcessedTransaction[] {
     const resultingTransactions = []
-    const transactionsIncludedAsClaimingTransactions = []
+    const transactionsIncludedAsClaimingTransactions: string[] = []
 
     const claimedAccountActivities = get(claimedActivities)?.[get(activeProfileId)]?.[account.index]
     const sortedTransactions = transactions.sort((t1, t2) => (t1.time > t2.time ? 1 : -1))
