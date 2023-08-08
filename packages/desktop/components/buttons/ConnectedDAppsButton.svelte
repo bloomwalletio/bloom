@@ -23,7 +23,7 @@
         class="connected-dapps-button hover:bg-gray-300 dark:hover:bg-gray-900 border-gray-400 dark:border-gray-700"
         on:click={onConnectedDappsClick}
     >
-        <Icon height={20} width={20} icon={IconEnum.Collectibles} classes="dark:text-white" />
+        <Icon height={20} width={20} icon={IconEnum.Alias} classes="dark:text-white" />
     </button>
 </connected-dapps-button>
 
