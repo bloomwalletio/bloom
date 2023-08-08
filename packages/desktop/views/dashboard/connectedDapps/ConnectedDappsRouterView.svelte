@@ -1,16 +1,8 @@
 <script lang="ts">
-    import { onDestroy, onMount } from 'svelte'
+    import { onDestroy } from 'svelte'
     import { ConnectedDappsListDrawer } from './drawers'
     import { ConnectedDappsDrawerRoute } from './connected-dapps-route.enum'
-    import {
-        connectedDappsDrawerRoute,
-        ConnectedDappsDrawerRouter,
-        connectedDappsDrawerRouter,
-    } from './connected-dapps.router'
-
-    onMount(() => {
-        $connectedDappsDrawerRouter = new ConnectedDappsDrawerRouter(ConnectedDappsDrawerRoute.List)
-    })
+    import { connectedDappsDrawerRoute, connectedDappsDrawerRouter } from './connected-dapps.router'
 
     onDestroy(() => {
         $connectedDappsDrawerRouter.reset()
