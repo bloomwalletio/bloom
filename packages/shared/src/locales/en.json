@@ -571,7 +571,8 @@
                 },
                 "connectedDapps": {
                     "connectedDappsList": {
-                        "title": "Connected dApps"
+                        "title": "Connected dApps",
+                        "connectDapp": "Connect dApp"
                     }
                 }
             }

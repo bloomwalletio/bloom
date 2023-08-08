@@ -4,11 +4,14 @@
     import { localize } from '@core/i18n'
     import { Router } from '@core/router'
     import { DrawerTemplate } from '@components'
+    import { PopupId, openPopup } from '@desktop/auxiliary/popup'
 
     export let drawerRouter: Router<unknown>
 
     function onConnectDappClick(): void {
-        // TODO
+        openPopup({
+            id: PopupId.InitWalletConnect,
+        })
     }
 </script>
 
