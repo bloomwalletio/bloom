@@ -20,12 +20,12 @@ on:
           - beta
           - prod
       sign:
-        description: 'Sign the binaries'
+        description: 'Sign code'
         required: false
         type: boolean
         default: false
       release:
-        description: 'Upload build artifacts'
+        description: 'Upload artifacts'
         required: false
         type: boolean
         default: false
