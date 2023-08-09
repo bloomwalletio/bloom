@@ -1,6 +1,6 @@
 import { localize } from '@core/i18n'
-import { ActivityAction, ActivityType, SubjectType } from '../enums'
-import { Activity } from '../types'
+import { ActivityAction, ActivityType, SubjectType } from '../../wallet/enums'
+import { Activity } from '../../wallet/types'
 import { getVotingEvent } from '@contexts/governance/actions'
 import { truncateString } from '@core/utils'
 import { getSubjectFromActivity } from './generateActivity'

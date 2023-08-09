@@ -12,12 +12,13 @@
         ActivityStatusPills,
     } from '@ui'
     import { openUrlInBrowser } from '@core/app'
-    import { claimActivity, getActivityDetailsTitle, rejectActivity } from '@core/wallet'
+    import { claimActivity, rejectActivity } from '@core/wallet'
     import {
         Activity,
         ActivityAsyncStatus,
         ActivityDirection,
         ActivityType,
+        getActivityDetailsTitle,
         selectedAccountActivities,
     } from '@core/activity'
     import { activeProfile, checkActiveProfileAuth } from '@core/profile'
