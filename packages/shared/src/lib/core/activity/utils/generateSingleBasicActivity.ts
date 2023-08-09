@@ -1,22 +1,20 @@
 import { isShimmerClaimingTransaction } from '@contexts/onboarding/stores'
 import { IAccountState } from '@core/account'
-import { activeProfileId, getCoinType } from '@core/profile'
 import { IActivityGenerationParameters } from '@core/activity/types'
-import { TransactionActivity } from '../types'
+import { activeProfileId, getCoinType } from '@core/profile'
 import { IBasicOutput } from '@iota/types'
 import { get } from 'svelte/store'
 import { activityOutputContainsValue } from '..'
 import { ActivityType } from '../enums'
+import { TransactionActivity } from '../types'
 import {
     getAmountFromOutput,
     getAsyncDataFromOutput,
-    getLayer2ActivityInformation,
     getMetadataFromOutput,
     getSendingInformation,
     getStorageDepositFromOutput,
     getTagFromOutput,
 } from './helper'
-import { network } from '@core/network/stores'
 import { getNativeTokenFromOutput } from './outputs'
 
 export function generateSingleBasicActivity(
@@ -45,8 +43,9 @@ export function generateSingleBasicActivity(
     const sendingInfo = getSendingInformation(processedTransaction, output, account)
     const asyncData = getAsyncDataFromOutput(output, outputId, claimingData, account)
 
-    const { parsedLayer2Metadata, destinationNetwork } = getLayer2ActivityInformation(metadata, sendingInfo)
-    const gasBudget = Number(parsedLayer2Metadata?.gasBudget ?? '0')
+    // const { parsedLayer2Metadata, destinationNetwork } = getLayer2ActivityInformation(metadata, sendingInfo)
+    // const gasBudget = Number(parsedLayer2Metadata?.gasBudget ?? '0')
+    const gasBudget = 0
 
     const storageDeposit = getStorageDepositFromOutput(output)
 
@@ -54,7 +53,6 @@ export function generateSingleBasicActivity(
 
     const nativeToken = getNativeTokenFromOutput(output)
     const assetId = fallbackAssetId ?? nativeToken?.id ?? getCoinType()
-    const networkId = get(network)?.getMetadata().id as string // Currently we only support L1 activities
 
     let rawAmount: number
     if (fallbackAmount === undefined) {
@@ -83,10 +81,10 @@ export function generateSingleBasicActivity(
         metadata,
         tag,
         assetId,
-        networkId,
+        chainId: undefined,
         asyncData,
-        destinationNetwork,
-        parsedLayer2Metadata,
+        // destinationNetwork,
+        // parsedLayer2Metadata,
         ...sendingInfo,
     }
 }

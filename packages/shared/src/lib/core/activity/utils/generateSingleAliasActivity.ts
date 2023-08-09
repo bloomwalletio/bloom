@@ -57,6 +57,7 @@ export function generateSingleAliasActivity(
         time,
         metadata,
         tag,
+        chainId: undefined,
         inclusionState,
         containsValue,
         asyncData,

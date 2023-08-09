@@ -68,6 +68,7 @@ export function generateSingleFoundryActivity(
         isHidden,
         metadata,
         tag,
+        chainId: undefined,
         asyncData,
         ...sendingInfo,
     }

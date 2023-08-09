@@ -11,8 +11,6 @@ import {
     getStorageDepositFromOutput,
     getTagFromOutput,
 } from './helper'
-import { network } from '@core/network/stores'
-import { get } from 'svelte/store'
 import { IActivityGenerationParameters } from '../types/activity-generation-parameters.interface'
 import { getNftId } from './outputs'
 
@@ -39,7 +37,6 @@ export function generateSingleNftActivity(
 
     const rawBaseCoinAmount = getAmountFromOutput(output)
     const storageDeposit = getStorageDepositFromOutput(output)
-    const networkId = get(network)?.getMetadata().id as string // Currently we only support L1 activities
 
     const layer2ActivityInformation = getLayer2ActivityInformation(metadata, sendingInfo)
 
@@ -51,7 +48,7 @@ export function generateSingleNftActivity(
         transactionId,
         outputId,
         nftId,
-        networkId,
+        chainId: undefined, // Currently we only support L1 activities
         time,
         isHidden,
         action,

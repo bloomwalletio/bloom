@@ -19,6 +19,7 @@ export type BaseActivity = {
     subject: Subject | undefined
     metadata?: string
     tag?: string
+    chainId: number | undefined
     asyncData?: AsyncData
     destinationNetwork?: string
     parsedLayer2Metadata?: Layer2Metadata
