@@ -7,7 +7,7 @@
     import { activeProfile } from '@core/profile/stores'
     import { IToken, NotVerifiedStatus, VerifiedStatus } from '@core/token'
     import { removeTrackedTokenFromActiveProfile } from '@core/token/actions'
-    import { hideAsset, unhideAsset, unverifyAsset, verifyAsset } from '@core/token/stores'
+    import { hideToken, unhideToken, unverifyToken, verifyToken } from '@core/token/stores'
     import { hideActivitiesForHiddenAssets } from '@core/activity/actions'
 
     export let modal: Modal | undefined = undefined
@@ -22,7 +22,7 @@
     }
 
     function onUnverifyClick(): void {
-        unverifyAsset(token.id, NotVerifiedStatus.Skipped)
+        unverifyToken(token.id, NotVerifiedStatus.Skipped)
         updatePopupProps({
             token: { ...token, verification: { verified: false, status: NotVerifiedStatus.Skipped } },
         })
@@ -30,7 +30,7 @@
     }
 
     function onVerifyClick(): void {
-        verifyAsset(token.id, VerifiedStatus.SelfVerified)
+        verifyToken(token.id, VerifiedStatus.SelfVerified)
         updatePopupProps({
             token: { ...token, verification: { verified: true, status: VerifiedStatus.SelfVerified } },
         })
@@ -38,7 +38,7 @@
     }
 
     function onUnhideClick(): void {
-        unhideAsset(token.id)
+        unhideToken(token.id)
         hideActivitiesForHiddenAssets()
         updatePopupProps({
             token: { ...token, hidden: false },
@@ -47,7 +47,7 @@
     }
 
     function onHideClick(): void {
-        hideAsset(token.id)
+        hideToken(token.id)
         hideActivitiesForHiddenAssets()
         updatePopupProps({
             token: { ...token, hidden: true },

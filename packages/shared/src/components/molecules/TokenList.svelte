@@ -1,7 +1,7 @@
 <script lang="ts">
     import VirtualList from '@sveltejs/svelte-virtual-list'
     import { Text, TextType, TokenAmountTile } from '@ui'
-    import { AssetListMenuButton, Filter } from '../../../../desktop/components'
+    import { TokenListMenuButton, Filter } from '../../../../desktop/components'
     import { localize } from '@core/i18n'
     import { AccountTokens, IToken } from '@core/token'
     import { tokenFilter } from '@core/token/stores'
@@ -56,7 +56,7 @@
             <Text classes="text-left" type={TextType.h5}>{localize('general.accountTokens')}</Text>
             <div class="flex flex-row gap-1">
                 <Filter filterStore={tokenFilter} />
-                <AssetListMenuButton />
+                <TokenListMenuButton />
             </div>
         </div>
         <div class="flex-auto h-full pb-10">

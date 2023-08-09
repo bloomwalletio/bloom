@@ -7,7 +7,7 @@
         Button,
         Text,
         TextHint,
-        AssetActionsButton,
+        TokenActionsButton,
         KeyValueBox,
         FontWeight,
         TextType,
@@ -92,7 +92,7 @@
                 {/if}
             </div>
             {#if showAssetActionsMenuButton}
-                <AssetActionsButton {token} />
+                <TokenActionsButton {token} />
             {/if}
         </div>
 
