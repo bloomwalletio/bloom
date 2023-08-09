@@ -1,7 +1,7 @@
 import { getActiveNetworkId } from '@core/network/utils/getNetworkId'
 import { INft, getNftByIdFromAllAccountNfts } from '@core/nfts'
 import { getCoinType } from '@core/profile/actions'
-import { IToken } from '@core/token'
+import { IToken } from '@core/token/interfaces'
 import { getAssetById, getPersistedAsset } from '@core/token/stores'
 import { TokenTransferData } from '@core/wallet/types'
 import { ActivityType } from '../enums'

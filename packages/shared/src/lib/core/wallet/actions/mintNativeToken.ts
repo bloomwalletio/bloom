@@ -7,8 +7,9 @@ import { DEFAULT_TRANSACTION_OPTIONS } from '../constants'
 import { resetMintTokenDetails } from '../stores'
 import { processAndAddToActivities } from '@core/activity/utils'
 import { buildPersistedTokenFromMetadata } from '@core/token/utils'
-import { IIrc30Metadata, IPersistedToken, VerifiedStatus } from '@core/token'
 import { addPersistedAsset } from '@core/token/stores'
+import { IIrc30Metadata, IPersistedToken } from '@core/token/interfaces'
+import { VerifiedStatus } from '@core/token/enums'
 
 export async function mintNativeToken(
     maximumSupply: number,

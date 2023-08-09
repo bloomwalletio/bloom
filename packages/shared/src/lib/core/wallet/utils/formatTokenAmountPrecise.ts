@@ -1,5 +1,6 @@
 import { formatNumber } from '@core/i18n'
-import { TokenMetadata, TokenStandard } from '@core/token'
+import { TokenStandard } from '@core/token/enums'
+import { TokenMetadata } from '@core/token/types'
 
 export function formatTokenAmountPrecise(amount: number, tokenMetadata: TokenMetadata): string {
     const formattedAmount = formatNumber(amount, 0, 0, 0, true)

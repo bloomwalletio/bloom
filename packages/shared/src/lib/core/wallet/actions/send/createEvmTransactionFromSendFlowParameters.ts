@@ -8,7 +8,8 @@ import {
     getIscpTransferSmartContractData,
 } from '@core/layer-2/utils'
 import { IChain } from '@core/network/interfaces'
-import { IToken, TokenStandard } from '@core/token'
+import { IToken } from '@core/token/interfaces'
+import { TokenStandard } from '@core/token/enums'
 import { SubjectType } from '@core/wallet/enums'
 import { SendFlowType } from '@core/wallet/stores'
 import { SendFlowParameters } from '@core/wallet/types'

@@ -1,4 +1,4 @@
-import { IToken } from '@core/token'
+import { IToken } from '@core/token/interfaces'
 import { getMarketPriceForToken } from './getMarketPriceForToken'
 
 export function getMarketAmountFromTokenValue(amount: number, token: IToken): number | undefined {

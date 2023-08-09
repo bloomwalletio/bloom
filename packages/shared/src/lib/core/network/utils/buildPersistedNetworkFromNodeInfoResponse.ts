@@ -1,4 +1,4 @@
-import { TokenStandard } from '@core/token'
+import { TokenStandard } from '@core/token/enums'
 import { COIN_TYPE, DEFAULT_NETWORK_METADATA } from '../constants'
 import { NetworkId } from '../enums'
 import { INodeInfoResponse, IPersistedNetwork } from '../interfaces'

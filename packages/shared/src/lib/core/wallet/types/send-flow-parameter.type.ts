@@ -1,6 +1,6 @@
 import type { ILayer2Parameters } from '@core/layer-2'
 import { INft } from '@core/nfts'
-import { IToken } from '@core/token'
+import { IToken } from '@core/token/interfaces'
 import type { Subject } from '@core/wallet'
 import { SendFlowType } from '@core/wallet/stores'
 

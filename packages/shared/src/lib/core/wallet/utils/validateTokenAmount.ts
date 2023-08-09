@@ -1,7 +1,8 @@
 import { localize, parseCurrency } from '@core/i18n'
 import { convertToRawAmount } from './convertToRawAmount'
 import Big from 'big.js'
-import { IToken, TokenStandard } from '@core/token'
+import { TokenStandard } from '@core/token/enums'
+import { IToken } from '@core/token/interfaces'
 
 export function validateTokenAmount(
     amount: string,

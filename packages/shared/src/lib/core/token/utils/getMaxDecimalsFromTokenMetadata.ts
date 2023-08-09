@@ -1,4 +1,4 @@
-import { IOTA_UNIT_MAP } from '@core/utils'
+import { IOTA_UNIT_MAP } from '@core/utils/constants'
 import { TokenMetadata } from '../types'
 import { TokenStandard } from '../enums'
 

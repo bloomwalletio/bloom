@@ -1,5 +1,5 @@
 import { IAccountState } from '@core/account'
-import { IPersistedToken } from '@core/token'
+import { IPersistedToken } from '@core/token/interfaces'
 import { getOrRequestTokenFromPersistedTokens } from '@core/token/actions'
 import { addPersistedAsset } from '@core/token/stores'
 import { get } from 'svelte/store'

@@ -1,4 +1,4 @@
-import { MarketPrices } from '@core/market'
+import { MarketPrices } from '@core/market/types'
 import { ITokenBalance } from './token-balance.interface'
 import { IPersistedToken } from './persisted-token.interface'
 

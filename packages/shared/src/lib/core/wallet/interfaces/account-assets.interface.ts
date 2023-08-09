@@ -1,4 +1,4 @@
-import { IToken } from '@core/token'
+import { IToken } from '@core/token/interfaces'
 
 export type AccountTokens = {
     // [networkId: string] | [chainId: number]

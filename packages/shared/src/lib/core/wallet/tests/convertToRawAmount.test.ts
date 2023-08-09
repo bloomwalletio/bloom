@@ -1,5 +1,6 @@
 import { DEFAULT_BASE_TOKEN, NetworkId } from '@core/network'
-import { TokenMetadata, TokenStandard } from '@core/token'
+import { TokenMetadata } from '@core/token/types'
+import { TokenStandard } from '@core/token/enums'
 import { IotaUnit } from '@core/utils'
 import Big from 'big.js'
 import { MAX_SUPPORTED_DECIMALS } from '../constants'

@@ -5,7 +5,7 @@ import { SpecialStream } from '../classes'
 import { Allowance } from '../enums'
 import { specialNativeTokenAmountEncoding } from '../utils'
 import { INft } from '@core/nfts/interfaces'
-import { IPersistedToken } from '@core/token'
+import { IPersistedToken } from '@core/token/interfaces'
 
 export function encodeAssetAllowance(sendFlowParameters: SendFlowParameters): Uint8Array {
     const allowance = new SpecialStream()

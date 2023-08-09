@@ -3,11 +3,12 @@ import { MarketCoinPrices } from '@core/market'
 import { getActiveNetworkId } from '@core/network/utils/getNetworkId'
 import { ChainId, NetworkId, getNetwork } from '@core/network'
 import { getCoinType } from '@core/profile'
-import { IToken, isValidIrc30Token, isValidToken } from '@core/token'
 import { AccountTokens, IAccountTokensPerNetwork } from '../interfaces/account-tokens.interface'
 import { getLayer2AccountBalance } from '@core/layer-2/stores'
 import { getPersistedAsset } from '../stores'
 import { sortTokens } from '@core/wallet/utils/sortAssets'
+import { IToken } from '../interfaces'
+import { isValidIrc30Token } from '../utils'
 
 export function getAccountTokensForSelectedAccount(marketCoinPrices: MarketCoinPrices): AccountTokens {
     const accountAssets = {} as AccountTokens

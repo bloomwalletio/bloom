@@ -1,5 +1,4 @@
 import { getActiveNetworkId } from '@core/network/utils/getNetworkId'
-import { getUnitFromTokenMetadata } from '@core/token'
 import { getAssetById, selectedAccountTokens } from '@core/token/stores'
 import {
     SendFlowParameters,
@@ -18,6 +17,7 @@ import {
 import { SendOperationParameter } from '../../../enums'
 import { UnknownAssetError } from '../../../errors'
 import { getRawAmountFromSearchParam } from '../../../utils'
+import { getUnitFromTokenMetadata } from '@core/token/utils'
 
 export function handleDeepLinkSendFormOperation(searchParams: URLSearchParams): void {
     const sendFlowParameters = parseSendFormOperation(searchParams)

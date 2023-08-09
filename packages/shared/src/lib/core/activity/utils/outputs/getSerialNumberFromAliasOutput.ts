@@ -1,4 +1,4 @@
-import { getSelectedAccount } from '@core/account'
+import { getSelectedAccount } from '@core/account/stores/selected-account.store'
 import { convertBech32ToHexAddress } from '@core/wallet/utils/convertBech32ToHexAddress'
 import { IAliasOutput } from '@iota/types'
 

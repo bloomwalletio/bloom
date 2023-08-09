@@ -1,7 +1,8 @@
 import { network } from '@core/network/stores'
-import { IErc20Metadata, TokenStandard } from '@core/token'
 import { get } from 'svelte/store'
 import { ContractType } from '../enums'
+import { IErc20Metadata } from '@core/token/interfaces'
+import { TokenStandard } from '@core/token/enums'
 
 export async function getErc20TokenMetadata(
     tokenAddress: string,

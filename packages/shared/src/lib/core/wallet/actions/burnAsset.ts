@@ -4,7 +4,7 @@ import { selectedAccount, updateSelectedAccount } from '@core/account/stores'
 import { localize } from '@core/i18n'
 import { Converter } from '@core/utils'
 import { handleError } from '@core/error/handlers'
-import { processAndAddToActivities } from '@core/activity/utils'
+import { processAndAddToActivities } from '@core/activity/utils/processAndAddToActivities'
 
 export async function burnAsset(assetId: string, rawAmount: string): Promise<void> {
     const account = get(selectedAccount)

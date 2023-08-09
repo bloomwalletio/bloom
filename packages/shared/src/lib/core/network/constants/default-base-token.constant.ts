@@ -1,5 +1,6 @@
 import { NetworkId } from '@core/network/enums'
-import { IBaseToken, TokenStandard } from '@core/token'
+import { TokenStandard } from '@core/token/enums'
+import { IBaseToken } from '@core/token/interfaces'
 
 const DEFAULT_IOTA_BASE_TOKEN: IBaseToken = {
     standard: TokenStandard.BaseToken,

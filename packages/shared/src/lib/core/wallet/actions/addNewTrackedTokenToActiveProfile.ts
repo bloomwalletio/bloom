@@ -1,6 +1,6 @@
 import { updateActiveProfile } from '@core/profile'
 import { getActiveProfile } from '@core/profile/stores'
-import { IErc20Metadata } from '@core/token'
+import { IErc20Metadata } from '@core/token/interfaces'
 import { updatePersistedAsset } from '@core/token/stores'
 import { buildPersistedTokenFromMetadata } from '@core/token/utils'
 

@@ -1,6 +1,6 @@
 import { IChain } from '@core/network/interfaces'
-import { IToken } from '@core/token'
 import { ContractType } from '../enums'
+import { IToken } from '@core/token/interfaces'
 
 export function getErc20TransferSmartContractData(
     recipientAddress: string,

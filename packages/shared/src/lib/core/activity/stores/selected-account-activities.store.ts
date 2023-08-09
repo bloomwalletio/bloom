@@ -1,4 +1,3 @@
-import { isValidIrc30Token } from '@core/token'
 import { getPersistedAsset } from '@core/token/stores'
 import { SubjectType } from '@core/wallet/enums'
 import { derived, Readable, writable, Writable } from 'svelte/store'
@@ -10,6 +9,7 @@ import { Activity } from '../types/activity.type'
 import { isVisibleActivity } from '../utils/isVisibleActivity'
 import { getFormattedAmountFromActivity } from '../utils/outputs'
 import { allAccountActivities } from './all-account-activities.store'
+import { isValidIrc30Token } from '@core/token/utils'
 
 export const selectedAccountActivities: Readable<Activity[]> = derived(
     [selectedAccount, allAccountActivities],

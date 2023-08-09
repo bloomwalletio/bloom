@@ -1,6 +1,7 @@
 import { get } from 'svelte/store'
 
-import { activeProfile, activeProfileId } from '@core/profile/stores'
+import { activeProfileId } from '@core/profile/stores/active-profile-id.store'
+import { activeProfile } from '@core/profile/stores/active-profile.store'
 import { persistent } from '@core/utils/store'
 
 import { NotVerifiedStatus, VerifiedStatus } from '../enums'

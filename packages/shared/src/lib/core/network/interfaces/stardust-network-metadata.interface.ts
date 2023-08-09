@@ -1,4 +1,4 @@
-import { IBaseToken } from '@core/token'
+import { IBaseToken } from '@core/token/interfaces'
 import { NetworkId } from '../enums'
 import { IProtocol } from './protocol.interface'
 

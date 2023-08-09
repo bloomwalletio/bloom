@@ -1,4 +1,4 @@
-import { IToken, TokenFilter } from '@core/token'
+import { IToken, TokenFilter } from '@core/token/interfaces'
 import { tokenFilter } from '@core/token/stores'
 import { BooleanFilterOption } from '@core/utils/enums/filters'
 import { get } from 'svelte/store'

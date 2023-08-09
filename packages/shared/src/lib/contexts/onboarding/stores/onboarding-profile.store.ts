@@ -1,5 +1,5 @@
 import { isLedgerProfile } from '@core/profile'
-import { IBaseToken } from '@core/token'
+import { IBaseToken } from '@core/token/interfaces'
 import { derived, get, Readable, writable } from 'svelte/store'
 import { IOnboardingProfile, IShimmerClaimingAccount } from '../interfaces'
 

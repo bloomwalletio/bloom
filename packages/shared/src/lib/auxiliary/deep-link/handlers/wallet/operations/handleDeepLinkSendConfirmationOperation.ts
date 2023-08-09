@@ -1,6 +1,5 @@
 import { getActiveNetworkId } from '@core/network/utils/getNetworkId'
 import { getNetworkHrp } from '@core/profile/actions'
-import { getUnitFromTokenMetadata } from '@core/token'
 import { getAssetById, selectedAccountTokens } from '@core/token/stores'
 import { getByteLengthOfString, isStringTrue, isValidBech32AddressAndPrefix, validateAssetId } from '@core/utils'
 import { SendFlowParameters, SendFlowType, SubjectType, TokenTransferData, setSendFlowParameters } from '@core/wallet'
@@ -22,6 +21,7 @@ import {
     UnknownAssetError,
 } from '../../../errors'
 import { getRawAmountFromSearchParam } from '../../../utils'
+import { getUnitFromTokenMetadata } from '@core/token/utils'
 
 export function handleDeepLinkSendConfirmationOperation(searchParams: URLSearchParams): void {
     const sendFlowParameters = parseSendConfirmationOperation(searchParams)

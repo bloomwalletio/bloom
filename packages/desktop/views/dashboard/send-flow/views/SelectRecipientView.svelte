@@ -18,7 +18,7 @@
     import { onMount } from 'svelte'
     import { sendFlowRouter } from '../send-flow.router'
     import SendFlowTemplate from './SendFlowTemplate.svelte'
-    import { getAssetStandard } from '@core/wallet/actions/getTokenStandartFromSendFlowParameters'
+    import { getTokenStandartFromSendFlowParameters } from '@core/wallet/actions/getTokenStandartFromSendFlowParameters'
     import { TokenStandard } from '@core/token'
 
     let networkAddress = $sendFlowParameters?.layer2Parameters?.networkAddress
@@ -138,7 +138,7 @@
             return [layer1Network]
         }
 
-        const assetStandard = getAssetStandard($sendFlowParameters)
+        const assetStandard = getTokenStandartFromSendFlowParameters($sendFlowParameters)
         const sourceChainId = getChainIdFromSendFlowParameters($sendFlowParameters)
         const sourceChain = $network.getChain(sourceChainId)
 

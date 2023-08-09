@@ -1,11 +1,11 @@
-import { getErc20TokenMetadata } from '@core/layer-2'
 import { validateEthereumAddress } from '@core/utils/crypto/utils'
 import { OFFICIAL_TOKEN_IDS } from '../constants'
 import { NotVerifiedStatus, VerifiedStatus } from '../enums'
 import { IErc20Metadata, IIrc30Metadata, IPersistedToken } from '../interfaces'
 import { TokenVerification } from '../types'
 import { buildPersistedTokenFromMetadata } from '../utils'
-import { getIrc30MetadataFromFoundryOutput } from '@core/wallet'
+import { getIrc30MetadataFromFoundryOutput } from '@core/wallet/utils/getIrc30MetadataFromFoundryOutput'
+import { getErc20TokenMetadata } from '@core/layer-2/utils/getErc20TokenMetadata'
 
 export async function requestPersistedToken(tokenId: string, chainId?: number): Promise<IPersistedToken | undefined> {
     let tokenMetadata: IIrc30Metadata | IErc20Metadata | undefined
