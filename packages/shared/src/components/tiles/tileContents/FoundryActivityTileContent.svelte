@@ -9,7 +9,7 @@
     export let activity: FoundryActivity
 
     let token: IPersistedToken | undefined
-    $: $selectedAccountTokens, (token = getPersistedToken(activity.assetId))
+    $: $selectedAccountTokens, (token = getPersistedToken(activity.tokenId))
     $: action = localize(getActivityTileTitle(activity))
     $: amount = getFormattedAmountFromActivity(activity)
     $: formattedAsset = {

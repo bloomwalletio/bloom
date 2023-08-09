@@ -1101,7 +1101,7 @@
                 "logoUrl": "URL del Logo",
                 "logo": "Logo",
                 "alias": "Alias",
-                "assetId": "Asset Id"
+                "tokenId": "Token Id"
             }
         },
         "importErc20Token": {

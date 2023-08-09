@@ -1101,7 +1101,7 @@
                 "logoUrl": "Logo URL",
                 "logo": "Logo",
                 "alias": "别名",
-                "assetId": "资产 Id"
+                "tokenId": "资产 Id"
             }
         },
         "importErc20Token": {

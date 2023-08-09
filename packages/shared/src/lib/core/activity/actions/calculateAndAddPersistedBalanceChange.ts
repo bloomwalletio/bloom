@@ -9,12 +9,12 @@ import { IAssetBalanceChange } from '../types'
 export function calculateAndAddPersistedBalanceChange(
     accountIndex: number,
     chainId: string | number,
-    assetId: string,
+    tokenId: string,
     newBalance: number
 ): void {
     newBalance = newBalance || 0
 
-    const balanceChangesForAsset = getBalanceChanges(accountIndex, chainId)?.[assetId]
+    const balanceChangesForAsset = getBalanceChanges(accountIndex, chainId)?.[tokenId]
     const lastBalanceChange = balanceChangesForAsset?.at(-1)
 
     if (!lastBalanceChange || lastBalanceChange.newBalance !== newBalance) {
@@ -24,8 +24,8 @@ export function calculateAndAddPersistedBalanceChange(
             newBalance,
         }
 
-        const activity = generateBalanceChangeActivity(Number(chainId), assetId, newBalanceChange)
+        const activity = generateBalanceChangeActivity(Number(chainId), tokenId, newBalanceChange)
         addActivityToAccountActivitiesInAllAccountActivities(accountIndex, activity)
-        addPersistedBalanceChange(accountIndex, chainId, assetId, newBalanceChange)
+        addPersistedBalanceChange(accountIndex, chainId, tokenId, newBalanceChange)
     }
 }

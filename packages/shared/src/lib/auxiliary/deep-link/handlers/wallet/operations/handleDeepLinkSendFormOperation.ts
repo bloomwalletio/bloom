@@ -47,8 +47,8 @@ function parseSendFormOperation(searchParams: URLSearchParams): SendFlowParamete
         return
     }
 
-    const assetId = searchParams.get(SendOperationParameter.AssetId)
-    const type = assetId ? SendFlowType.TokenTransfer : SendFlowType.BaseCoinTransfer
+    const tokenId = searchParams.get(SendOperationParameter.TokenId)
+    const type = tokenId ? SendFlowType.TokenTransfer : SendFlowType.BaseCoinTransfer
 
     let baseCoinTransfer: TokenTransferData | undefined
     let tokenTransfer: TokenTransferData | undefined
@@ -58,8 +58,8 @@ function parseSendFormOperation(searchParams: URLSearchParams): SendFlowParamete
             rawAmount: getRawAmountFromSearchParam(searchParams),
             unit: searchParams.get(SendOperationParameter.Unit) ?? 'glow',
         }
-    } else if (type === SendFlowType.TokenTransfer && assetId) {
-        const token = getTokenFromSelectedAccountTokens(assetId, networkId)
+    } else if (type === SendFlowType.TokenTransfer && tokenId) {
+        const token = getTokenFromSelectedAccountTokens(tokenId, networkId)
         if (token?.metadata) {
             tokenTransfer = {
                 token,

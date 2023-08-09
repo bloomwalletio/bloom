@@ -14,7 +14,7 @@
     export let activity: TransactionActivity
 
     let token: IPersistedToken
-    $: $selectedAccountTokens, (token = getPersistedToken(activity.assetId))
+    $: $selectedAccountTokens, (token = getPersistedToken(activity.tokenId))
     $: action = localize(getActivityTileTitle(activity))
     $: subject =
         activity.direction === ActivityDirection.SelfTransaction

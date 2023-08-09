@@ -1,9 +1,7 @@
-import { get } from 'svelte/store'
-
 import { activeProfileId } from '@core/profile/stores/active-profile-id.store'
 import { activeProfile } from '@core/profile/stores/active-profile.store'
 import { persistent } from '@core/utils/store'
-
+import { get } from 'svelte/store'
 import { NotVerifiedStatus, VerifiedStatus } from '../enums'
 import { IPersistedToken, IPersistedTokens } from '../interfaces'
 
@@ -32,44 +30,44 @@ export function clearPersistedTokensForActiveProfile(): void {
     })
 }
 
-export function updatePersistedToken(partialPersistedAsset: Partial<IPersistedToken>): void {
-    const asssetId = partialPersistedAsset?.id
-    if (asssetId) {
+export function updatePersistedToken(partialPersistedToken: Partial<IPersistedToken>): void {
+    const tokenId = partialPersistedToken?.id
+    if (tokenId) {
         persistedTokens.update((state) => {
-            state[get(activeProfile).id][asssetId] = {
-                ...state[get(activeProfile).id][asssetId],
-                ...partialPersistedAsset,
+            state[get(activeProfile).id][tokenId] = {
+                ...state[get(activeProfile).id][tokenId],
+                ...partialPersistedToken,
             }
             return state
         })
     }
 }
 
-export function removePersistedToken(assetId: string): void {
+export function removePersistedToken(tokenId: string): void {
     const profileId = get(activeProfileId)
     if (!profileId) {
         return
     }
-    persistedTokens.update((_persistedAssets) => {
-        if (_persistedAssets?.[profileId]?.[assetId]) {
-            delete _persistedAssets[profileId][assetId]
+    persistedTokens.update((_persistedTokens) => {
+        if (_persistedTokens?.[profileId]?.[tokenId]) {
+            delete _persistedTokens[profileId][tokenId]
         }
-        return _persistedAssets
+        return _persistedTokens
     })
 }
 
-export function verifyToken(assetId: string, status: VerifiedStatus): void {
-    updatePersistedToken({ id: assetId, verification: { verified: true, status } })
+export function verifyToken(tokenId: string, status: VerifiedStatus): void {
+    updatePersistedToken({ id: tokenId, verification: { verified: true, status } })
 }
 
-export function unverifyToken(assetId: string, status: NotVerifiedStatus): void {
-    updatePersistedToken({ id: assetId, verification: { verified: false, status } })
+export function unverifyToken(tokenId: string, status: NotVerifiedStatus): void {
+    updatePersistedToken({ id: tokenId, verification: { verified: false, status } })
 }
 
-export function hideToken(assetId: string): void {
-    updatePersistedToken({ id: assetId, hidden: true })
+export function hideToken(tokenId: string): void {
+    updatePersistedToken({ id: tokenId, hidden: true })
 }
 
-export function unhideToken(assetId: string): void {
-    updatePersistedToken({ id: assetId, hidden: false })
+export function unhideToken(tokenId: string): void {
+    updatePersistedToken({ id: tokenId, hidden: false })
 }

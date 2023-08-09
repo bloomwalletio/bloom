@@ -12,11 +12,11 @@ export function generateActivitiesFromBalanceChanges(account: IAccountState): Ac
     for (const chain of chains) {
         const chainId = chain.getConfiguration().chainId
         const balanceChanges = getBalanceChanges(account.index, chainId)
-        const assetIds = balanceChanges ? Object.keys(balanceChanges) : []
+        const tokenIds = balanceChanges ? Object.keys(balanceChanges) : []
 
-        for (const assetId of assetIds) {
-            for (const balanceChangeForAsset of balanceChanges[assetId]) {
-                const activity = generateBalanceChangeActivity(chainId, assetId, balanceChangeForAsset)
+        for (const tokenId of tokenIds) {
+            for (const balanceChangeForAsset of balanceChanges[tokenId]) {
+                const activity = generateBalanceChangeActivity(chainId, tokenId, balanceChangeForAsset)
                 activities.push(activity)
             }
         }

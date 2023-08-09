@@ -37,7 +37,7 @@ export const queriedActivities: Readable<Activity[]> = derived(
 
             const token =
                 _activity.type === ActivityType.Basic || _activity.type === ActivityType.Foundry
-                    ? getPersistedToken(_activity.assetId)
+                    ? getPersistedToken(_activity.tokenId)
                     : undefined
             const hasValidAsset = token?.metadata && isValidIrc30Token(token.metadata)
             return !_activity.isHidden && hasValidAsset
@@ -65,10 +65,10 @@ function getFieldsToSearchFromActivity(activity: Activity): string[] {
         fieldsToSearch.push(activity.transactionId)
     }
 
-    if ((activity.type === ActivityType.Basic || activity.type === ActivityType.Foundry) && activity.assetId) {
-        fieldsToSearch.push(activity.assetId)
+    if ((activity.type === ActivityType.Basic || activity.type === ActivityType.Foundry) && activity.tokenId) {
+        fieldsToSearch.push(activity.tokenId)
 
-        const assetName = getPersistedToken(activity.assetId)?.metadata?.name
+        const assetName = getPersistedToken(activity.tokenId)?.metadata?.name
         if (assetName) {
             fieldsToSearch.push(assetName)
         }

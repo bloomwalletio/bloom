@@ -9,7 +9,7 @@
     export let activity: FoundryActivity
 
     let metadata: IIrc30Metadata
-    $: metadata = <IIrc30Metadata>getPersistedToken(activity.assetId)?.metadata
+    $: metadata = <IIrc30Metadata>getPersistedToken(activity.tokenId)?.metadata
 
     let detailsList: IKeyValueBoxList
     $: detailsList = {

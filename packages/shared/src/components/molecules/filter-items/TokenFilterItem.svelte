@@ -19,11 +19,11 @@
 
     let value: string
     $: {
-        const assetId = filterUnit.selected
-        if (assetId === baseCoin.id) {
+        const tokenId = filterUnit.selected
+        if (tokenId === baseCoin.id) {
             value = baseCoin?.metadata.name
         } else {
-            value = nativeTokens.find((_nativeToken) => _nativeToken.id === assetId)?.metadata?.name
+            value = nativeTokens.find((_nativeToken) => _nativeToken.id === tokenId)?.metadata?.name
         }
     }
 

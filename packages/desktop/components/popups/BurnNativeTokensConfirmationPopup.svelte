@@ -54,7 +54,7 @@
         })}
     </Text>
     <div class="space-y-4">
-        <KeyValueBox keyText={localize('popups.nativeToken.property.assetId')} valueText={token.id} isCopyable />
+        <KeyValueBox keyText={localize('popups.nativeToken.property.tokenId')} valueText={token.id} isCopyable />
         <KeyValueBox keyText={localize('general.amount')} valueText={formattedAmount} />
         <TextHint warning text={localize('actions.confirmTokenBurn.hint')} />
     </div>

@@ -6,7 +6,7 @@ import { getCoinType } from '@core/profile/actions'
 
 export function generateBalanceChangeActivity(
     chainId: number,
-    assetId: string,
+    tokenId: string,
     balanceChange: IAssetBalanceChange
 ): TransactionActivity {
     const difference = balanceChange.newBalance - (balanceChange.oldBalance ?? 0)
@@ -26,7 +26,7 @@ export function generateBalanceChangeActivity(
         subject: undefined,
         rawBaseCoinAmount: Math.abs(difference),
         rawAmount: Math.abs(difference),
-        assetId: assetId === '0x' ? getCoinType() : assetId,
+        tokenId: tokenId === '0x' ? getCoinType() : tokenId,
         chainId,
     }
 }

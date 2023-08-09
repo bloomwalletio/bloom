@@ -88,7 +88,7 @@ function isVisibleWithActiveTokenFilter(activity: Activity, filter: ActivityFilt
         if (activity.type !== ActivityType.Basic && activity.type !== ActivityType.Foundry) {
             return false
         }
-        if (filter.asset.selected && activity.assetId !== filter.asset.selected) {
+        if (filter.asset.selected && activity.tokenId !== filter.asset.selected) {
             return false
         }
     }
@@ -97,7 +97,7 @@ function isVisibleWithActiveTokenFilter(activity: Activity, filter: ActivityFilt
 
 function isVisibleWithActiveAmountFilter(activity: Activity, filter: ActivityFilter): boolean {
     if (filter.amount.active && (activity.type === ActivityType.Basic || activity.type === ActivityType.Foundry)) {
-        const token = getPersistedToken(activity.assetId)
+        const token = getPersistedToken(activity.tokenId)
         const activityAmount = Big(activity.rawAmount)
 
         if (

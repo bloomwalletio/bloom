@@ -1101,7 +1101,7 @@
                 "logoUrl": "標誌 URL",
                 "logo": "標誌",
                 "alias": "別名",
-                "assetId": "資產 ID"
+                "tokenId": "資產 ID"
             }
         },
         "importErc20Token": {

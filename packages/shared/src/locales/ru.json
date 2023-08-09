@@ -1101,7 +1101,7 @@
                 "logoUrl": "URL Логотипа",
                 "logo": "Логотип",
                 "alias": "Псевдоним",
-                "assetId": "Id Актива"
+                "tokenId": "Id Актива"
             }
         },
         "importErc20Token": {

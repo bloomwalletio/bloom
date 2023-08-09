@@ -48,7 +48,7 @@ export async function handleNewOutputEventInternal(
         const activities = generateActivities(processedOutput, account)
         for (const activity of activities) {
             if (activity.type === ActivityType.Basic || activity.type === ActivityType.Foundry) {
-                const token = await getOrRequestTokenFromPersistedTokens(activity.assetId)
+                const token = await getOrRequestTokenFromPersistedTokens(activity.tokenId)
                 addPersistedToken(token)
             }
         }

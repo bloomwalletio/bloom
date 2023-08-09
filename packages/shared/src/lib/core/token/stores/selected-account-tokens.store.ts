@@ -37,12 +37,12 @@ export const visibleSelectedAccountTokens: Readable<AccountTokens> = derived(
     }
 )
 
-export function getTokenFromSelectedAccountTokens(assetId: string, networkId: string | number): IToken | undefined {
-    const assets = get(selectedAccountTokens)[networkId]
-    const { baseCoin, nativeTokens } = assets ?? {}
-    if (assetId === baseCoin?.id) {
+export function getTokenFromSelectedAccountTokens(tokenId: string, networkId: string | number): IToken | undefined {
+    const tokens = get(selectedAccountTokens)[networkId]
+    const { baseCoin, nativeTokens } = tokens ?? {}
+    if (tokenId === baseCoin?.id) {
         return baseCoin
     } else {
-        return nativeTokens?.find((token) => token.id === assetId)
+        return nativeTokens?.find((token) => token.id === tokenId)
     }
 }

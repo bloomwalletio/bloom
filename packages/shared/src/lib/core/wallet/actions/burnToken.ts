@@ -6,11 +6,11 @@ import { Converter } from '@core/utils'
 import { handleError } from '@core/error/handlers'
 import { processAndAddToActivities } from '@core/activity/utils/processAndAddToActivities'
 
-export async function burnToken(assetId: string, rawAmount: string): Promise<void> {
+export async function burnToken(tokenId: string, rawAmount: string): Promise<void> {
     const account = get(selectedAccount)
     try {
         updateSelectedAccount({ isTransferring: true })
-        const burnTokenTransaction = await account.burnNativeToken(assetId, Converter.decimalToHex(Number(rawAmount)))
+        const burnTokenTransaction = await account.burnNativeToken(tokenId, Converter.decimalToHex(Number(rawAmount)))
 
         await processAndAddToActivities(burnTokenTransaction, account)
 

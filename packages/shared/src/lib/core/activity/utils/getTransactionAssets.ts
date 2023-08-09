@@ -33,8 +33,8 @@ export function getTransactionAssets(
             },
         }
     } else if (activity.type === ActivityType.Basic || activity.type === ActivityType.Foundry) {
-        const tokenWithBalance = getTokenFromSelectedAccountTokens(activity.assetId, networkId)
-        const persistedToken = getPersistedToken(activity.assetId)
+        const tokenWithBalance = getTokenFromSelectedAccountTokens(activity.tokenId, networkId)
+        const persistedToken = getPersistedToken(activity.tokenId)
         const token: IToken = {
             chainId: activity.chainId ?? 0,
             balance: {
@@ -44,7 +44,7 @@ export function getTransactionAssets(
             ...tokenWithBalance,
             ...persistedToken,
         }
-        if (activity.assetId === getCoinType()) {
+        if (activity.tokenId === getCoinType()) {
             return {
                 baseCoinTransfer: {
                     rawAmount: String(activity.rawBaseCoinAmount),

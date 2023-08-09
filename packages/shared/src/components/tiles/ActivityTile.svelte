@@ -22,7 +22,7 @@
     $: $selectedAccountTokens,
         (persistedToken =
             activity.type === ActivityType.Basic || activity.type === ActivityType.Foundry
-                ? getPersistedToken(activity.assetId)
+                ? getPersistedToken(activity.tokenId)
                 : undefined)
     $: isTimelocked = activity?.asyncData?.timelockDate ? activity?.asyncData?.timelockDate > $time : false
     $: shouldShowAsyncFooter = activity.asyncData && activity.asyncData.asyncStatus !== ActivityAsyncStatus.Claimed
