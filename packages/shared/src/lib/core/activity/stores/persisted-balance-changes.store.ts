@@ -1,5 +1,5 @@
 import { persistent } from '@core/utils/store'
-import { IAssetBalanceChange } from '../types/asset-balance-change.interface'
+import { ITokenBalanceChange } from '../types/token-balance-change.interface'
 import { get } from 'svelte/store'
 import { activeProfileId } from '@core/profile'
 
@@ -7,7 +7,7 @@ interface IPersistedBalanceChangesStore {
     [profileId: string]: {
         [accountId: string]: {
             [chainId: string | number]: {
-                [tokenId: string]: IAssetBalanceChange[]
+                [tokenId: string]: ITokenBalanceChange[]
             }
         }
     }
@@ -19,7 +19,7 @@ export function getBalanceChanges(
     accountIndex: number,
     chainId: string | number
 ): {
-    [tokenId: string]: IAssetBalanceChange[]
+    [tokenId: string]: ITokenBalanceChange[]
 } {
     return get(persistedBalanceChanges)?.[get(activeProfileId)]?.[accountIndex]?.[chainId]
 }
@@ -28,7 +28,7 @@ export function addPersistedBalanceChange(
     accountIndex: number,
     chainId: string | number,
     tokenId: string,
-    ...newPersistedAssets: IAssetBalanceChange[]
+    ...newPersistedAssets: ITokenBalanceChange[]
 ): void {
     persistedBalanceChanges.update((state) => {
         if (!state[get(activeProfileId)]) {

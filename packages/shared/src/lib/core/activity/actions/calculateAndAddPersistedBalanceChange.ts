@@ -4,7 +4,7 @@ import {
     addActivityToAccountActivitiesInAllAccountActivities,
 } from '../stores'
 import { generateBalanceChangeActivity } from '../utils/generateBalanceChangeActivity'
-import { IAssetBalanceChange } from '../types'
+import { ITokenBalanceChange } from '../types'
 
 export function calculateAndAddPersistedBalanceChange(
     accountIndex: number,
@@ -18,7 +18,7 @@ export function calculateAndAddPersistedBalanceChange(
     const lastBalanceChange = balanceChangesForAsset?.at(-1)
 
     if (!lastBalanceChange || lastBalanceChange.newBalance !== newBalance) {
-        const newBalanceChange: IAssetBalanceChange = {
+        const newBalanceChange: ITokenBalanceChange = {
             changedAt: Date.now(),
             oldBalance: lastBalanceChange?.newBalance,
             newBalance,
