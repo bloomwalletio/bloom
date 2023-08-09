@@ -569,8 +569,8 @@
                         "hint": "Please note after removing a contact’s network addresses Bloom will no longer associate it with them in transactions or activities."
                     }
                 },
-                "connectedDapps": {
-                    "connectedDappsList": {
+                "dApps": {
+                    "dAppsList": {
                         "title": "Connected dApps",
                         "connectDapp": "Connect dApp"
                     }

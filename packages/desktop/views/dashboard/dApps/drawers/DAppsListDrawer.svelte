@@ -15,7 +15,7 @@
     }
 </script>
 
-<DrawerTemplate title={localize('views.dashboard.drawers.connectedDapps.connectedDappsList.title')} {drawerRouter}>
+<DrawerTemplate title={localize('views.dashboard.drawers.dApps.dAppsList.title')} {drawerRouter}>
     <connected-dapps-drawer class="h-full flex flex-col justify-between">
         <div class="flex flex-col gap-4">
             <!-- add list here -->
