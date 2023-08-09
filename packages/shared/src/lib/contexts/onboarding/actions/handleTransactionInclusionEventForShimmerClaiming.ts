@@ -3,7 +3,7 @@ import { get } from 'svelte/store'
 import { localize } from '@core/i18n'
 import { validateWalletApiEvent } from '@core/profile-manager'
 import { MissingTransactionIdError } from '@core/wallet'
-import { showAppNotification } from '@auxiliary/notification'
+import { showNotification } from '@auxiliary/notification'
 
 import { ShimmerClaimingAccountState } from '../enums'
 import { MissingShimmerClaimingAccountError } from '../errors'
@@ -32,16 +32,19 @@ export function handleTransactionInclusionEventForShimmerClaimingInternal(
         (_shimmerClaimingAccount) => _shimmerClaimingAccount?.getMetadata()?.index === accountIndex
     )
     if (shimmerClaimingAccount) {
-        if (profileId in _shimmerClaimingTransactions && transactionId in _shimmerClaimingTransactions[profileId]) {
+        if (
+            profileId &&
+            profileId in _shimmerClaimingTransactions &&
+            transactionId in _shimmerClaimingTransactions[profileId]
+        ) {
             if (inclusionState === InclusionState.Confirmed) {
                 updateShimmerClaimingAccount({
                     ...shimmerClaimingAccount,
                     state: ShimmerClaimingAccountState.FullyClaimed,
                 })
-                showAppNotification({
-                    type: 'success',
-                    alert: true,
-                    message: localize('notifications.claimShimmerRewards.success', {
+                showNotification({
+                    variant: 'success',
+                    text: localize('notifications.claimShimmerRewards.success', {
                         values: { accountAlias: shimmerClaimingAccount?.getMetadata()?.alias },
                     }),
                 })
@@ -75,10 +78,9 @@ function handleShimmerClaimingTransactionInclusionEventFailure(
         state: ShimmerClaimingAccountState.Failed,
     })
     if (displayNotification) {
-        showAppNotification({
-            type: 'error',
-            alert: true,
-            message: localize('notifications.claimShimmerRewards.error'),
+        showNotification({
+            variant: 'error',
+            text: localize('notifications.claimShimmerRewards.error'),
         })
     }
 }

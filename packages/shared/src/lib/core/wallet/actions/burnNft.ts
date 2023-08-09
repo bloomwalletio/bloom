@@ -1,4 +1,4 @@
-import { showAppNotification } from '@auxiliary/notification'
+import { showNotification } from '@auxiliary/notification'
 import { selectedAccount, updateSelectedAccount } from '@core/account/stores/selected-account.store'
 import { localize } from '@core/i18n'
 import { updateNftInAllAccountNfts } from '@core/nfts'
@@ -18,10 +18,9 @@ export async function burnNft(nftId: string): Promise<void> {
         // Update NFT
         updateNftInAllAccountNfts(account.index, nftId, { isSpendable: false })
 
-        showAppNotification({
-            type: 'success',
-            message: localize('notifications.burnNft.success'),
-            alert: true,
+        showNotification({
+            variant: 'success',
+            text: localize('notifications.burnNft.success'),
         })
     } catch (err) {
         handleError(err)

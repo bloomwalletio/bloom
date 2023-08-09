@@ -1,5 +1,5 @@
 import { get } from 'svelte/store'
-import { showAppNotification } from '@auxiliary/notification'
+import { showNotification } from '@auxiliary/notification'
 import { selectedAccount, updateSelectedAccount } from '@core/account/stores'
 import { localize } from '@core/i18n'
 import { Converter } from '@core/utils'
@@ -14,10 +14,9 @@ export async function burnAsset(assetId: string, rawAmount: string): Promise<voi
 
         await processAndAddToActivities(burnTokenTransaction, account)
 
-        showAppNotification({
-            type: 'success',
-            message: localize('notifications.burnNativeToken.success'),
-            alert: true,
+        showNotification({
+            variant: 'success',
+            text: localize('notifications.burnNativeToken.success'),
         })
     } catch (err) {
         handleError(err)

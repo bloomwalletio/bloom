@@ -1,7 +1,7 @@
 <script lang="ts">
     import { Button, Input, Text, HTMLButtonType, ButtonSize, TextType } from '@ui'
     import { localize } from '@core/i18n'
-    import { showAppNotification } from '@auxiliary/notification'
+    import { showNotification } from '@auxiliary/notification'
     import { activeProfile, updateActiveProfile, validateProfileName } from '@core/profile'
 
     let newName = $activeProfile?.name
@@ -15,9 +15,9 @@
         try {
             validateProfileName(trimmedProfileName)
             updateActiveProfile({ name: trimmedProfileName })
-            showAppNotification({
-                type: 'info',
-                message: localize('views.settings.changeProfileName.success'),
+            showNotification({
+                variant: 'success',
+                text: localize('views.settings.changeProfileName.success'),
             })
         } catch (err) {
             return (error = err.message)
