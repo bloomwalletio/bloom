@@ -1,7 +1,7 @@
 import { SendFlowType } from '../stores'
 import { SendFlowParameters } from '../types'
 
-export function getTokenStandartFromSendFlowParameters(params: SendFlowParameters): string | undefined {
+export function getTokenStandardFromSendFlowParameters(params: SendFlowParameters): string | undefined {
     if (params.type === SendFlowType.NftTransfer) {
         return params.nft?.parsedMetadata?.standard
     } else if (params.type === SendFlowType.TokenTransfer) {
