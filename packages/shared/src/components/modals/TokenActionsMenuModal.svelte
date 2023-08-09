@@ -8,7 +8,7 @@
     import { IToken, NotVerifiedStatus, VerifiedStatus } from '@core/token'
     import { removeTrackedTokenFromActiveProfile } from '@core/token/actions'
     import { hideToken, unhideToken, unverifyToken, verifyToken } from '@core/token/stores'
-    import { hideActivitiesForHiddenAssets } from '@core/activity/actions'
+    import { hideActivitiesForHiddenTokens } from '@core/activity/actions'
 
     export let modal: Modal | undefined = undefined
     export let token: IToken
@@ -39,7 +39,7 @@
 
     function onUnhideClick(): void {
         unhideToken(token.id)
-        hideActivitiesForHiddenAssets()
+        hideActivitiesForHiddenTokens()
         updatePopupProps({
             token: { ...token, hidden: false },
         })
@@ -48,7 +48,7 @@
 
     function onHideClick(): void {
         hideToken(token.id)
-        hideActivitiesForHiddenAssets()
+        hideActivitiesForHiddenTokens()
         updatePopupProps({
             token: { ...token, hidden: true },
         })
