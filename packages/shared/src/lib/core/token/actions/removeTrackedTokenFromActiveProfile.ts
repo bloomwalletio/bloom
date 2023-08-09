@@ -1,5 +1,5 @@
 import { getActiveProfile, updateActiveProfile } from '@core/profile/stores'
-import { removePersistedAsset } from '../stores'
+import { removePersistedToken } from '../stores'
 
 export function removeTrackedTokenFromActiveProfile(tokenAddress: string, chainId: number): void {
     const profile = getActiveProfile()
@@ -13,5 +13,5 @@ export function removeTrackedTokenFromActiveProfile(tokenAddress: string, chainI
     )
     profile.trackedTokens = trackedTokens
     updateActiveProfile(profile)
-    removePersistedAsset(tokenAddress)
+    removePersistedToken(tokenAddress)
 }

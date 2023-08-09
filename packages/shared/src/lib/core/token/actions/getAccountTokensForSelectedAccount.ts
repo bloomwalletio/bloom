@@ -5,7 +5,7 @@ import { ChainId, NetworkId, getNetwork } from '@core/network'
 import { getCoinType } from '@core/profile'
 import { AccountTokens, IAccountTokensPerNetwork } from '../interfaces/account-tokens.interface'
 import { getLayer2AccountBalance } from '@core/layer-2/stores'
-import { getPersistedAsset } from '../stores'
+import { getPersistedToken } from '../stores'
 import { sortTokens } from '@core/token/utils/sortTokens'
 import { IToken } from '../interfaces'
 import { isValidIrc30Token } from '../utils'
@@ -36,7 +36,7 @@ function getAccountAssetForNetwork(marketCoinPrices: MarketCoinPrices, networkId
     const account = getSelectedAccount()
 
     const shouldCalculateFiatPrice = networkId === NetworkId.Shimmer || networkId === NetworkId.Testnet
-    const persistedBaseCoin = getPersistedAsset(getCoinType())
+    const persistedBaseCoin = getPersistedToken(getCoinType())
     const baseCoin: IToken = {
         ...persistedBaseCoin,
         chainId: ChainId.Layer1,
@@ -50,7 +50,7 @@ function getAccountAssetForNetwork(marketCoinPrices: MarketCoinPrices, networkId
     const nativeTokens: IToken[] = []
     const tokens = account?.balances?.nativeTokens ?? []
     for (const token of tokens) {
-        const persistedAsset = getPersistedAsset(token.tokenId)
+        const persistedAsset = getPersistedToken(token.tokenId)
         if (persistedAsset && persistedAsset?.metadata && isValidIrc30Token(persistedAsset.metadata)) {
             nativeTokens.push({
                 ...persistedAsset,
@@ -88,14 +88,14 @@ function getAccountAssetForChain(chainId: number): IAccountTokensPerNetwork | un
         }
 
         if (tokenId === '0x') {
-            const persistedBaseCoin = getPersistedAsset(getCoinType()) // we use the L1 coin type for now because we assume that the basecoin for L2 is SMR
+            const persistedBaseCoin = getPersistedToken(getCoinType()) // we use the L1 coin type for now because we assume that the basecoin for L2 is SMR
             baseCoin = {
                 ...persistedBaseCoin,
                 balance: _balance,
                 chainId,
             }
         } else {
-            const persistedAsset = getPersistedAsset(tokenId)
+            const persistedAsset = getPersistedToken(tokenId)
             if (persistedAsset && persistedAsset?.metadata && isValidToken(persistedAsset.metadata)) {
                 nativeTokens.push({
                     ...persistedAsset,

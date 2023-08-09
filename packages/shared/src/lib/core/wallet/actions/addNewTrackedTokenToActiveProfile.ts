@@ -1,7 +1,7 @@
 import { updateActiveProfile } from '@core/profile'
 import { getActiveProfile } from '@core/profile/stores'
 import { IErc20Metadata } from '@core/token/interfaces'
-import { updatePersistedAsset } from '@core/token/stores'
+import { updatePersistedToken } from '@core/token/stores'
 import { buildPersistedTokenFromMetadata } from '@core/token/utils'
 
 export function addNewTrackedTokenToActiveProfile(
@@ -19,7 +19,7 @@ export function addNewTrackedTokenToActiveProfile(
     if (!chainIdTrackedTokens.includes(tokenAddress)) {
         chainIdTrackedTokens.push(tokenAddress)
         profile.trackedTokens = { ...trackedTokens, [chainId]: chainIdTrackedTokens }
-        updatePersistedAsset(buildPersistedTokenFromMetadata(tokenAddress, tokenMetadata))
+        updatePersistedToken(buildPersistedTokenFromMetadata(tokenAddress, tokenMetadata))
         updateActiveProfile(profile)
     }
 }

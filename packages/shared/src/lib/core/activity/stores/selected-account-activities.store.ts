@@ -1,4 +1,4 @@
-import { getPersistedAsset } from '@core/token/stores'
+import { getPersistedToken } from '@core/token/stores'
 import { SubjectType } from '@core/wallet/enums'
 import { derived, Readable, writable, Writable } from 'svelte/store'
 import { selectedAccount } from '../../account/stores/selected-account.store'
@@ -37,7 +37,7 @@ export const queriedActivities: Readable<Activity[]> = derived(
 
             const token =
                 _activity.type === ActivityType.Basic || _activity.type === ActivityType.Foundry
-                    ? getPersistedAsset(_activity.assetId)
+                    ? getPersistedToken(_activity.assetId)
                     : undefined
             const hasValidAsset = token?.metadata && isValidIrc30Token(token.metadata)
             return !_activity.isHidden && hasValidAsset
@@ -68,7 +68,7 @@ function getFieldsToSearchFromActivity(activity: Activity): string[] {
     if ((activity.type === ActivityType.Basic || activity.type === ActivityType.Foundry) && activity.assetId) {
         fieldsToSearch.push(activity.assetId)
 
-        const assetName = getPersistedAsset(activity.assetId)?.metadata?.name
+        const assetName = getPersistedToken(activity.assetId)?.metadata?.name
         if (assetName) {
             fieldsToSearch.push(assetName)
         }

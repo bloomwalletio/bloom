@@ -8,7 +8,7 @@ import { getActiveProfile } from '@core/profile'
 import { IAccountState } from '@core/account'
 import { calculateAndAddPersistedBalanceChange } from '@core/activity/actions'
 import { getOrRequestTokenFromPersistedTokens } from '@core/token/actions'
-import { addPersistedAsset } from '@core/token/stores'
+import { addPersistedToken } from '@core/token/stores'
 
 export function fetchSelectedAccountLayer2Balance(account: IAccountState): void {
     const { evmAddresses, index } = account
@@ -33,7 +33,7 @@ export function fetchSelectedAccountLayer2Balance(account: IAccountState): void 
             if (isNativeToken || isErc20TrackedToken) {
                 const token = await getOrRequestTokenFromPersistedTokens(tokenId, chainId)
                 if (token) {
-                    addPersistedAsset(token)
+                    addPersistedToken(token)
                 }
             }
             calculateAndAddPersistedBalanceChange(account.index, chainId, tokenId, balance)

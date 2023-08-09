@@ -15,7 +15,7 @@ import { preprocessGroupedOutputs } from '@core/activity/utils/outputs'
 import { generateActivities } from '@core/activity/utils'
 import { ActivityType } from '@core/activity/enums'
 import { getOrRequestTokenFromPersistedTokens } from '@core/token/actions'
-import { addPersistedAsset } from '@core/token/stores'
+import { addPersistedToken } from '@core/token/stores'
 import { buildNftFromNftOutput } from '@core/nfts/utils'
 import { addNftsToDownloadQueue, addOrUpdateNftInAllAccountNfts } from '@core/nfts/actions'
 
@@ -49,7 +49,7 @@ export async function handleNewOutputEventInternal(
         for (const activity of activities) {
             if (activity.type === ActivityType.Basic || activity.type === ActivityType.Foundry) {
                 const token = await getOrRequestTokenFromPersistedTokens(activity.assetId)
-                addPersistedAsset(token)
+                addPersistedToken(token)
             }
         }
         addActivitiesToAccountActivitiesInAllAccountActivities(account.index, activities)

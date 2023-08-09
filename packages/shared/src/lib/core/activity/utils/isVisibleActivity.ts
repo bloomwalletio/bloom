@@ -1,4 +1,4 @@
-import { getPersistedAsset } from '@core/token/stores'
+import { getPersistedToken } from '@core/token/stores'
 import { dateIsAfterOtherDate, dateIsBeforeOtherDate, datesOnSameDay } from '@core/utils'
 import {
     BooleanFilterOption,
@@ -97,7 +97,7 @@ function isVisibleWithActiveTokenFilter(activity: Activity, filter: ActivityFilt
 
 function isVisibleWithActiveAmountFilter(activity: Activity, filter: ActivityFilter): boolean {
     if (filter.amount.active && (activity.type === ActivityType.Basic || activity.type === ActivityType.Foundry)) {
-        const token = getPersistedAsset(activity.assetId)
+        const token = getPersistedToken(activity.assetId)
         const activityAmount = Big(activity.rawAmount)
 
         if (

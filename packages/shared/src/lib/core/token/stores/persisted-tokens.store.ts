@@ -9,11 +9,11 @@ import { IPersistedToken, IPersistedTokens } from '../interfaces'
 
 export const persistedTokens = persistent<IPersistedTokens>('persistedTokens', {})
 
-export function getPersistedAsset(tokenId: string): IPersistedToken {
+export function getPersistedToken(tokenId: string): IPersistedToken {
     return get(persistedTokens)?.[get(activeProfile)?.id]?.[tokenId]
 }
 
-export function addPersistedAsset(...newPersistedTokens: IPersistedToken[]): void {
+export function addPersistedToken(...newPersistedTokens: IPersistedToken[]): void {
     persistedTokens.update((state) => {
         if (!state[get(activeProfile).id]) {
             state[get(activeProfile).id] = {}
@@ -25,14 +25,14 @@ export function addPersistedAsset(...newPersistedTokens: IPersistedToken[]): voi
     })
 }
 
-export function clearPersistedAssetForActiveProfile(): void {
+export function clearPersistedTokensForActiveProfile(): void {
     persistedTokens.update((state) => {
         state[get(activeProfile).id] = {}
         return state
     })
 }
 
-export function updatePersistedAsset(partialPersistedAsset: Partial<IPersistedToken>): void {
+export function updatePersistedToken(partialPersistedAsset: Partial<IPersistedToken>): void {
     const asssetId = partialPersistedAsset?.id
     if (asssetId) {
         persistedTokens.update((state) => {
@@ -45,7 +45,7 @@ export function updatePersistedAsset(partialPersistedAsset: Partial<IPersistedTo
     }
 }
 
-export function removePersistedAsset(assetId: string): void {
+export function removePersistedToken(assetId: string): void {
     const profileId = get(activeProfileId)
     if (!profileId) {
         return
@@ -58,18 +58,18 @@ export function removePersistedAsset(assetId: string): void {
     })
 }
 
-export function verifyAsset(assetId: string, status: VerifiedStatus): void {
-    updatePersistedAsset({ id: assetId, verification: { verified: true, status } })
+export function verifyToken(assetId: string, status: VerifiedStatus): void {
+    updatePersistedToken({ id: assetId, verification: { verified: true, status } })
 }
 
-export function unverifyAsset(assetId: string, status: NotVerifiedStatus): void {
-    updatePersistedAsset({ id: assetId, verification: { verified: false, status } })
+export function unverifyToken(assetId: string, status: NotVerifiedStatus): void {
+    updatePersistedToken({ id: assetId, verification: { verified: false, status } })
 }
 
-export function hideAsset(assetId: string): void {
-    updatePersistedAsset({ id: assetId, hidden: true })
+export function hideToken(assetId: string): void {
+    updatePersistedToken({ id: assetId, hidden: true })
 }
 
-export function unhideAsset(assetId: string): void {
-    updatePersistedAsset({ id: assetId, hidden: false })
+export function unhideToken(assetId: string): void {
+    updatePersistedToken({ id: assetId, hidden: false })
 }

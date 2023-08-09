@@ -4,8 +4,8 @@ import { getOrRequestTokenFromPersistedTokens } from '../actions'
 import { TokenStandard, VerifiedStatus } from '../enums'
 import { IPersistedToken } from '../interfaces'
 import {
-    addPersistedAsset,
-    clearPersistedAssetForActiveProfile,
+    addPersistedToken,
+    clearPersistedTokensForActiveProfile,
     persistedTokens,
 } from '../stores/persisted-tokens.store'
 
@@ -20,7 +20,7 @@ export async function refreshAccountTokensForActiveProfile(
             storedVerificationStates[id] = asset.verification
         }
     }
-    clearPersistedAssets && clearPersistedAssetForActiveProfile()
+    clearPersistedAssets && clearPersistedTokensForActiveProfile()
 
     const persistedBaseCoin: IPersistedToken = {
         id: getCoinType(),
@@ -49,5 +49,5 @@ export async function refreshAccountTokensForActiveProfile(
             }
         }
     }
-    addPersistedAsset(persistedBaseCoin, ...assets)
+    addPersistedToken(persistedBaseCoin, ...assets)
 }
