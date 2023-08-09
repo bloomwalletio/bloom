@@ -2,7 +2,7 @@ import { getDepositAddress } from '@core/account/utils/getDepositAddress'
 import { logAndNotifyError } from '@core/error/actions'
 import { handleLedgerError } from '@core/ledger/utils'
 import { getActiveNetworkId } from '@core/network/utils/getNetworkId'
-import { getAssetById } from '@core/token/stores'
+import { getTokenFromSelectedAccountTokens } from '@core/token/stores'
 import {
     DEFAULT_TRANSACTION_OPTIONS,
     SendFlowParameters,
@@ -66,7 +66,7 @@ async function claimShimmerRewardsForShimmerClaimingAccount(
 
     const networkId = getActiveNetworkId()
     const coinType = String(get(onboardingProfile)?.network?.coinType)
-    const token = networkId && coinType ? getAssetById(coinType, networkId) : undefined
+    const token = networkId && coinType ? getTokenFromSelectedAccountTokens(coinType, networkId) : undefined
     if (!token) {
         return
     }

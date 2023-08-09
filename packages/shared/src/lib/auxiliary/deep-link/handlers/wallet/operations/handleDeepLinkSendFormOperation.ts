@@ -1,5 +1,5 @@
 import { getActiveNetworkId } from '@core/network/utils/getNetworkId'
-import { getAssetById, selectedAccountTokens } from '@core/token/stores'
+import { getTokenFromSelectedAccountTokens, selectedAccountTokens } from '@core/token/stores'
 import {
     SendFlowParameters,
     SendFlowType,
@@ -59,7 +59,7 @@ function parseSendFormOperation(searchParams: URLSearchParams): SendFlowParamete
             unit: searchParams.get(SendOperationParameter.Unit) ?? 'glow',
         }
     } else if (type === SendFlowType.TokenTransfer && assetId) {
-        const token = getAssetById(assetId, networkId)
+        const token = getTokenFromSelectedAccountTokens(assetId, networkId)
         if (token?.metadata) {
             tokenTransfer = {
                 token,

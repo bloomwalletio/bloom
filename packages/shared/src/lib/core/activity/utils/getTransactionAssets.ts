@@ -2,7 +2,7 @@ import { getActiveNetworkId } from '@core/network/utils/getNetworkId'
 import { INft, getNftByIdFromAllAccountNfts } from '@core/nfts'
 import { getCoinType } from '@core/profile/actions'
 import { IToken } from '@core/token/interfaces'
-import { getAssetById, getPersistedToken } from '@core/token/stores'
+import { getTokenFromSelectedAccountTokens, getPersistedToken } from '@core/token/stores'
 import { TokenTransferData } from '@core/wallet/types'
 import { ActivityType } from '../enums'
 import { Activity } from '../types'
@@ -23,7 +23,7 @@ export function getTransactionAssets(
     }
 
     if (activity.type === ActivityType.Nft) {
-        const baseCoin = getAssetById(getCoinType(), networkId)
+        const baseCoin = getTokenFromSelectedAccountTokens(getCoinType(), networkId)
         const nft = getNftByIdFromAllAccountNfts(accountIndex, activity.nftId)
         return {
             nft,
@@ -33,7 +33,7 @@ export function getTransactionAssets(
             },
         }
     } else if (activity.type === ActivityType.Basic || activity.type === ActivityType.Foundry) {
-        const tokenWithBalance = getAssetById(activity.assetId, networkId)
+        const tokenWithBalance = getTokenFromSelectedAccountTokens(activity.assetId, networkId)
         const persistedToken = getPersistedToken(activity.assetId)
         const token: IToken = {
             chainId: activity.chainId ?? 0,
@@ -52,7 +52,7 @@ export function getTransactionAssets(
                 },
             }
         } else {
-            const baseCoin = getAssetById(getCoinType(), networkId)
+            const baseCoin = getTokenFromSelectedAccountTokens(getCoinType(), networkId)
             return {
                 tokenTransfer: {
                     rawAmount: String(activity.rawAmount),

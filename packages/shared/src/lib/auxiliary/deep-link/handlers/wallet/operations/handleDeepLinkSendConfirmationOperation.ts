@@ -1,6 +1,6 @@
 import { getActiveNetworkId } from '@core/network/utils/getNetworkId'
 import { getNetworkHrp } from '@core/profile/actions'
-import { getAssetById, selectedAccountTokens } from '@core/token/stores'
+import { getTokenFromSelectedAccountTokens, selectedAccountTokens } from '@core/token/stores'
 import { getByteLengthOfString, isStringTrue, isValidBech32AddressAndPrefix, validateAssetId } from '@core/utils'
 import { SendFlowParameters, SendFlowType, SubjectType, TokenTransferData, setSendFlowParameters } from '@core/wallet'
 import { get } from 'svelte/store'
@@ -77,7 +77,7 @@ function parseSendConfirmationOperation(searchParams: URLSearchParams): SendFlow
             unit: searchParams.get(SendOperationParameter.Unit) ?? 'glow',
         }
     } else if (type === SendFlowType.TokenTransfer && assetId) {
-        const token = getAssetById(assetId, networkId)
+        const token = getTokenFromSelectedAccountTokens(assetId, networkId)
         if (token?.metadata) {
             tokenTransfer = {
                 token,

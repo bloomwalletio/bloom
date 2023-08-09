@@ -37,7 +37,7 @@ export const visibleSelectedAccountTokens: Readable<AccountTokens> = derived(
     }
 )
 
-export function getAssetById(assetId: string, networkId: string | number): IToken | undefined {
+export function getTokenFromSelectedAccountTokens(assetId: string, networkId: string | number): IToken | undefined {
     const assets = get(selectedAccountTokens)[networkId]
     const { baseCoin, nativeTokens } = assets ?? {}
     if (assetId === baseCoin?.id) {
