@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { AssetIcon, Text, FontWeight, TextType, InformationTooltip } from '@ui'
+    import { TokenIcon, Text, FontWeight, TextType, InformationTooltip } from '@ui'
     import { getNthOccurrenceIndex } from '@core/utils'
     import { IPersistedToken, formatTokenAmountDefault } from '@core/wallet'
     import { getDecimalSeparator, getGroupSeparator } from '@core/i18n'
@@ -103,7 +103,7 @@
             on:mouseenter={showTooltip}
             on:mouseleave={hideTooltip}
         >
-            <AssetIcon {asset} chainId={asset.chainId} />
+            <TokenIcon {asset} chainId={asset.chainId} />
             <Text type={TextType.h1} fontWeight={FontWeight.semibold} classes="whitespace-pre">
                 {displayedAmount.join('\n')}
                 {#if unit}

@@ -9,7 +9,7 @@
     import { localize } from '@core/i18n'
     import { IPersistedToken } from '@core/token'
     import { getPersistedAsset, selectedAccountTokens } from '@core/token/stores'
-    import { ActivityTileContent, AssetIcon } from '@ui'
+    import { ActivityTileContent, TokenIcon } from '@ui'
 
     export let activity: TransactionActivity
 
@@ -34,6 +34,6 @@
 
 {#if asset}
     <ActivityTileContent {action} {subject} {formattedAsset}>
-        <AssetIcon slot="icon" {token} chainId={activity.chainId} />
+        <TokenIcon slot="icon" {token} chainId={activity.chainId} />
     </ActivityTileContent>
 {/if}

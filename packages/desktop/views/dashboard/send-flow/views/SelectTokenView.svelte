@@ -14,39 +14,39 @@
     import { getAccountTokensForSelectedAccount } from '@core/token/actions'
 
     let searchValue: string = ''
-    let selectedAsset: IToken =
+    let selectedToken: IToken =
         $sendFlowParameters?.type === SendFlowType.BaseCoinTransfer
             ? $sendFlowParameters.baseCoinTransfer.token
             : $sendFlowParameters?.type === SendFlowType.TokenTransfer
             ? $sendFlowParameters.tokenTransfer.token
             : $selectedAccountTokens?.[getNetwork().getMetadata().id].baseCoin
 
-    let assets: AccountTokens
-    $: assets = getAccountTokensForSelectedAccount($marketCoinPrices)
-    $: assets, searchValue, setFilteredAssetList()
+    let accountTokens: AccountTokens
+    $: accountTokens = getAccountTokensForSelectedAccount($marketCoinPrices)
+    $: accountTokens, searchValue, setFilteredTokenList()
 
-    let assetList: IToken[]
-    function getAssetList(): IToken[] {
+    let tokenList: IToken[]
+    function getTokenList(): IToken[] {
         const list = []
-        for (const assetsPerNetwork of Object.values(assets)) {
-            if (assetsPerNetwork?.baseCoin) {
-                list.push(assetsPerNetwork.baseCoin)
+        for (const tokensPerNetwork of Object.values(accountTokens)) {
+            if (tokensPerNetwork?.baseCoin) {
+                list.push(tokensPerNetwork.baseCoin)
             }
-            list.push(...(assetsPerNetwork?.nativeTokens ?? []))
+            list.push(...(tokensPerNetwork?.nativeTokens ?? []))
         }
         return list
     }
 
-    function setFilteredAssetList(): void {
-        const list = getAssetList()
+    function setFilteredTokenList(): void {
+        const list = getTokenList()
 
-        assetList = list.filter(isVisibleAsset)
-        if (!assetList.some((token) => token.id === selectedAsset?.id)) {
-            selectedAsset = undefined
+        tokenList = list.filter(isVisibleToken)
+        if (!tokenList.some((token) => token.id === selectedToken?.id)) {
+            selectedToken = undefined
         }
     }
 
-    function isVisibleAsset(token: IToken): boolean {
+    function isVisibleToken(token: IToken): boolean {
         const _searchValue = searchValue.toLowerCase()
         const name = token?.metadata?.name
         const ticker =
@@ -80,7 +80,7 @@
         }
 
         const sendFlowType =
-            selectedAsset.id === getCoinType() ? SendFlowType.BaseCoinTransfer : SendFlowType.TokenTransfer
+            selectedToken.id === getCoinType() ? SendFlowType.BaseCoinTransfer : SendFlowType.TokenTransfer
 
         // Set called because we need to update the type, and update function only updates the properties
         // if the type is the same
@@ -88,7 +88,7 @@
             ...previousSharedParameters,
             type: sendFlowType,
             [sendFlowType === SendFlowType.BaseCoinTransfer ? 'baseCoinTransfer' : 'tokenTransfer']: {
-                token: selectedAsset,
+                token: selectedToken,
             },
         })
 
@@ -99,17 +99,17 @@
 <SendFlowTemplate
     title={localize('popups.transaction.selectToken')}
     leftButton={{ text: localize('actions.cancel'), onClick: onCancelClick }}
-    rightButton={{ text: localize('actions.continue'), onClick: onContinueClick, disabled: !selectedAsset }}
+    rightButton={{ text: localize('actions.continue'), onClick: onContinueClick, disabled: !selectedToken }}
 >
     <IconInput bind:value={searchValue} icon={IconEnum.Search} placeholder={localize('general.search')} />
     <div class="-mr-3">
         <div class="token-list w-full flex flex-col -mr-1 pr-1.5 gap-2">
-            {#each assetList as token}
+            {#each tokenList as token}
                 <TokenAmountTile
                     {token}
                     amount={token.balance.available}
-                    onClick={() => (selectedAsset = token)}
-                    selected={selectedAsset?.id === token.id && selectedAsset?.chainId === token?.chainId}
+                    onClick={() => (selectedToken = token)}
+                    selected={selectedToken?.id === token.id && selectedToken?.chainId === token?.chainId}
                 />
             {/each}
         </div>

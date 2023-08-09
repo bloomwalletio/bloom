@@ -2,7 +2,7 @@
     import { localize } from '@core/i18n'
     import { IPersistedToken } from '@core/token'
     import { FoundryActivity, getActivityTileTitle } from '@core/activity'
-    import { AssetIcon, ActivityTileContent } from '@ui'
+    import { TokenIcon, ActivityTileContent } from '@ui'
     import { getFormattedAmountFromActivity } from '@core/activity/utils/outputs'
     import { getPersistedAsset, selectedAccountTokens } from '@core/token/stores'
 
@@ -22,6 +22,6 @@
 {#if token}
     <ActivityTileContent {action} subject={localize('general.internalTransaction')} {formattedAsset}>
         <!-- Once the activity contains the chainId, add that here -->
-        <AssetIcon slot="icon" {token} chainId={undefined} />
+        <TokenIcon slot="icon" {token} chainId={undefined} />
     </ActivityTileContent>
 {/if}

@@ -3,7 +3,7 @@
     import { IToken } from '@core/token'
     import { truncateString } from '@core/utils'
     import { formatTokenAmountBestMatch } from '@core/wallet'
-    import { AssetIcon, FontWeight, Text, TextType, Tile } from '@ui'
+    import { TokenIcon, FontWeight, Text, TextType, Tile } from '@ui'
 
     export let token: IToken
     export let onMaxClick: () => unknown
@@ -15,7 +15,7 @@
     <Tile>
         <div class="w-full flex flex-row justify-between items-center">
             <div class="flex flex-row items-center text-left space-x-4">
-                <AssetIcon {token} />
+                <TokenIcon {token} />
                 <div class="flex flex-col">
                     <Text type={TextType.p} fontWeight={FontWeight.semibold}>
                         {token.metadata.name

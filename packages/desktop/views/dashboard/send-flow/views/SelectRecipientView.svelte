@@ -6,7 +6,6 @@
     import { visibleActiveAccounts } from '@core/profile'
     import {
         SendFlowType,
-        TokenStandard,
         sendFlowParameters,
         updateSendFlowParameters,
         getChainIdFromSendFlowParameters,
@@ -20,6 +19,7 @@
     import { sendFlowRouter } from '../send-flow.router'
     import SendFlowTemplate from './SendFlowTemplate.svelte'
     import { getAssetStandard } from '@core/wallet/actions/getTokenStandartFromSendFlowParameters'
+    import { TokenStandard } from '@core/token'
 
     let networkAddress = $sendFlowParameters?.layer2Parameters?.networkAddress
     let selectorOptions: INetworkRecipientSelectorOption[] = []
@@ -35,9 +35,9 @@
 
     function getAssetName(): string | undefined {
         if ($sendFlowParameters?.type === SendFlowType.BaseCoinTransfer) {
-            return $sendFlowParameters.baseCoinTransfer.asset?.metadata.name
+            return $sendFlowParameters.baseCoinTransfer.token?.metadata.name
         } else if ($sendFlowParameters?.type === SendFlowType.TokenTransfer) {
-            return $sendFlowParameters.tokenTransfer.asset?.metadata.name
+            return $sendFlowParameters.tokenTransfer.token?.metadata.name
         } else if ($sendFlowParameters?.type === SendFlowType.NftTransfer) {
             return $sendFlowParameters.nft.name
         } else {

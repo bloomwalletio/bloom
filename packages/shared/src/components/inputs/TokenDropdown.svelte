@@ -1,7 +1,7 @@
 <script lang="ts">
     import { IToken } from '@core/token'
     import { visibleSelectedAccountTokens } from '@core/token/stores'
-    import { TokenAmountTile, Icon, Text, AssetIcon, FontWeight } from '@ui'
+    import { TokenAmountTile, Icon, Text, TokenIcon, FontWeight } from '@ui'
     import { clickOutside } from '@core/utils'
     import { activeProfile } from '@core/profile'
 
@@ -49,7 +49,7 @@
             class:cursor-pointer={!isReadonly}
             on:click={onDropdownClick}
         >
-            <AssetIcon small {token} chainId={token.chainId} />
+            <TokenIcon small {token} chainId={token.chainId} />
             <div class="w-full relative" style="max-width: 75px;">
                 <Text
                     color="gray-600"

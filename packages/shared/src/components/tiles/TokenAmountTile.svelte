@@ -1,6 +1,6 @@
 <script lang="ts">
     import { formatTokenAmountBestMatch } from '@core/wallet'
-    import { AssetIcon, ClickableTile, Text, FontWeight, TextType } from '@ui'
+    import { TokenIcon, ClickableTile, Text, FontWeight, TextType } from '@ui'
     import { truncateString } from '@core/utils'
     import { formatCurrency } from '@core/i18n/utils'
     import { getMarketAmountFromTokenValue } from '@core/market/utils/getMarketAmountFromTokenValue'
@@ -29,7 +29,7 @@
     >
         <div class="w-full flex flex-row justify-between items-center gap-2">
             <div class="flex flex-row items-center text-left space-x-4">
-                <AssetIcon {token} chainId={token.chainId} />
+                <TokenIcon {token} chainId={token.chainId} />
                 {#if !hideTokenInfo}
                     <div class="flex flex-col">
                         <Text type={TextType.p} fontWeight={FontWeight.semibold}>
