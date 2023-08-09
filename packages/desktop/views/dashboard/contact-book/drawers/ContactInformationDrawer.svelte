@@ -63,7 +63,7 @@
             </Modal>
         </contact-information-menu>
     </div>
-    <div class="flex flex-col gap-3 mb-3">
+    <div class="flex flex-col gap-3">
         <ContactMetadataTable contactMetadata={$selectedContact} />
         <contact-addresses class="flex flex-col gap-4">
             {#each Object.entries(ContactManager.getNetworkContactAddressMapForContact($selectedContact.id)) as [networkId, contactAddressMap]}
@@ -73,13 +73,13 @@
     </div>
     {#if features.contacts.addNetworkAddress.enabled}
         <Button
+            slot="footer"
             class="w-full"
-            variant="info"
-            icon={FlatIconName.Add}
+            on:click={onAddNetworkAddressClick}
+            flatIcon={FlatIconName.Add}
             text={localize(
                 `views.dashboard.drawers.contactBook.${ContactBookRoute.ContactInformation}.addNetworkAddress`
             )}
-            on:click={onAddNetworkAddressClick}
         />
     {/if}
 </DrawerTemplate>
