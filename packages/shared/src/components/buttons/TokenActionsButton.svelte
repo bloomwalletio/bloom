@@ -1,6 +1,6 @@
 <script lang="ts">
     import { IToken } from '@core/token'
-    import { Modal, AssetActionsMenuModal, MeatballMenuButton } from '@ui'
+    import { Modal, TokenActionsMenuModal, MeatballMenuButton } from '@ui'
 
     export let token: IToken
 
@@ -9,5 +9,5 @@
 
 <div class="max-h-7 max-w-9 flex-none flex-initial overflow-visible relative">
     <MeatballMenuButton onClick={modal?.toggle} />
-    <AssetActionsMenuModal bind:modal {token} position={{ right: '0' }} classes="mt-1.5" />
+    <TokenActionsMenuModal bind:modal {token} position={{ right: '0' }} classes="mt-1.5" />
 </div>
