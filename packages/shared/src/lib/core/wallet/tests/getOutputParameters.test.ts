@@ -72,7 +72,7 @@ const baseTransaction: SendFlowParameters = {
 }
 
 jest.mock('@core/token/stores/persisted-tokens.store', () => ({
-    getPersistedAsset: jest.fn(() => PERSISTED_ASSET_SHIMMER),
+    getPersistedToken: jest.fn(() => PERSISTED_ASSET_SHIMMER),
     getAssetById: jest.fn((id) => (id === PERSISTED_ASSET_SHIMMER.id ? PERSISTED_ASSET_SHIMMER : nativeTokenAsset)),
 }))
 

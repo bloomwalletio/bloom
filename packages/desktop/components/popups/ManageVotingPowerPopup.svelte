@@ -83,8 +83,6 @@
             bind:rawAmount
             bind:amount
             {token}
-            containsSlider
-            disableAssetSelection
             disabled={hasTransactionInProgress}
             {votingPower}
         />

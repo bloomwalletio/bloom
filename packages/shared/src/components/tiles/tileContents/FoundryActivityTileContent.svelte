@@ -4,12 +4,12 @@
     import { FoundryActivity, getActivityTileTitle } from '@core/activity'
     import { TokenIcon, ActivityTileContent } from '@ui'
     import { getFormattedAmountFromActivity } from '@core/activity/utils/outputs'
-    import { getPersistedAsset, selectedAccountTokens } from '@core/token/stores'
+    import { getPersistedToken, selectedAccountTokens } from '@core/token/stores'
 
     export let activity: FoundryActivity
 
     let token: IPersistedToken | undefined
-    $: $selectedAccountTokens, (token = getPersistedAsset(activity.assetId))
+    $: $selectedAccountTokens, (token = getPersistedToken(activity.assetId))
     $: action = localize(getActivityTileTitle(activity))
     $: amount = getFormattedAmountFromActivity(activity)
     $: formattedAsset = {

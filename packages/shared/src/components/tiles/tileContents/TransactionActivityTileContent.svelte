@@ -8,13 +8,13 @@
     } from '@core/activity'
     import { localize } from '@core/i18n'
     import { IPersistedToken } from '@core/token'
-    import { getPersistedAsset, selectedAccountTokens } from '@core/token/stores'
+    import { getPersistedToken, selectedAccountTokens } from '@core/token/stores'
     import { ActivityTileContent, TokenIcon } from '@ui'
 
     export let activity: TransactionActivity
 
     let token: IPersistedToken
-    $: $selectedAccountTokens, (token = getPersistedAsset(activity.assetId))
+    $: $selectedAccountTokens, (token = getPersistedToken(activity.assetId))
     $: action = localize(getActivityTileTitle(activity))
     $: subject =
         activity.direction === ActivityDirection.SelfTransaction
@@ -32,7 +32,7 @@
     }
 </script>
 
-{#if asset}
+{#if token}
     <ActivityTileContent {action} {subject} {formattedAsset}>
         <TokenIcon slot="icon" {token} chainId={activity.chainId} />
     </ActivityTileContent>

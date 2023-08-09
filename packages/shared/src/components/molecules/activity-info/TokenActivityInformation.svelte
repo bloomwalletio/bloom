@@ -3,13 +3,13 @@
     import { localize } from '@core/i18n'
     import { IIrc30Metadata } from '@core/token'
     import { IKeyValueBoxList } from '@core/utils'
-    import { getPersistedAsset } from '@core/token/stores'
+    import { getPersistedToken } from '@core/token/stores'
     import { FoundryActivity } from '@core/activity'
 
     export let activity: FoundryActivity
 
     let metadata: IIrc30Metadata
-    $: metadata = <IIrc30Metadata>getPersistedAsset(activity.assetId)?.metadata
+    $: metadata = <IIrc30Metadata>getPersistedToken(activity.assetId)?.metadata
 
     let detailsList: IKeyValueBoxList
     $: detailsList = {

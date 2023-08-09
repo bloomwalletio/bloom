@@ -68,7 +68,7 @@
 
 <InputContainer bind:this={inputElement} bind:inputElement={amountInputElement} col {isFocused} {error}>
     <div class="flex flex-row w-full items-center space-x-0.5 relative">
-        <TokenDropdown bind:token readonly={disableAssetSelection} />
+        <TokenDropdown bind:token readonly={true} />
         <AmountInput
             bind:inputElement={amountInputElement}
             bind:amount

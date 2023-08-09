@@ -53,7 +53,7 @@
 {#if accountTokens}
     <div class="token-list h-full p-6 flex flex-auto flex-col flex-grow shrink-0">
         <div class="w-full flex flex-row justify-between items-center mb-4">
-            <Text classes="text-left" type={TextType.h5}>{localize('general.accountTokens')}</Text>
+            <Text classes="text-left" type={TextType.h5}>{localize('tabs.tokens')}</Text>
             <div class="flex flex-row gap-1">
                 <Filter filterStore={tokenFilter} />
                 <TokenListMenuButton />

@@ -2,8 +2,7 @@
     import { Activity, ActivityAsyncStatus, ActivityType, InclusionState } from '@core/activity'
     import { time } from '@core/app'
     import { IPersistedToken, IToken, NotVerifiedStatus } from '@core/token'
-    import { selectedAccountTokens } from '@core/token/stores'
-    import { getAssetFromPersistedAssets } from '@core/wallet'
+    import { getPersistedToken, selectedAccountTokens } from '@core/token/stores'
     import {
         AliasActivityTileContent,
         AsyncActivityTileFooter,
@@ -23,7 +22,7 @@
     $: $selectedAccountTokens,
         (persistedToken =
             activity.type === ActivityType.Basic || activity.type === ActivityType.Foundry
-                ? getAssetFromPersistedAssets(activity.assetId)
+                ? getPersistedToken(activity.assetId)
                 : undefined)
     $: isTimelocked = activity?.asyncData?.timelockDate ? activity?.asyncData?.timelockDate > $time : false
     $: shouldShowAsyncFooter = activity.asyncData && activity.asyncData.asyncStatus !== ActivityAsyncStatus.Claimed

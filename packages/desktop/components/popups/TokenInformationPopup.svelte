@@ -17,15 +17,15 @@
     import { SendFlowRoute, SendFlowRouter, sendFlowRouter } from '@views/dashboard/send-flow'
     import { Icon as IconEnum } from '@lib/auxiliary/icon'
     import { getCoinType } from '@core/profile'
-    import { unverifyAsset, verifyAsset } from '@core/token/stores'
+    import { unverifyToken, verifyToken } from '@core/token/stores'
 
     export let token: IToken
     export let activityId: string = undefined
 
-    $: showAssetActionsMenuButton = token.standard === TokenStandard.Irc30 || token.standard === TokenStandard.Erc20
+    $: showTokenActionsMenuButton = token.standard === TokenStandard.Irc30 || token.standard === TokenStandard.Erc20
 
     function onSkipClick(): void {
-        unverifyAsset(token.id, NotVerifiedStatus.Skipped)
+        unverifyToken(token.id, NotVerifiedStatus.Skipped)
         if (activityId) {
             openPopup({
                 id: PopupId.ActivityDetails,
@@ -39,7 +39,7 @@
     }
 
     function onVerifyClick(): void {
-        verifyAsset(token.id, VerifiedStatus.SelfVerified)
+        verifyToken(token.id, VerifiedStatus.SelfVerified)
         if (activityId) {
             openPopup({
                 id: PopupId.ActivityDetails,
@@ -91,7 +91,7 @@
                     />
                 {/if}
             </div>
-            {#if showAssetActionsMenuButton}
+            {#if showTokenActionsMenuButton}
                 <TokenActionsButton {token} />
             {/if}
         </div>
