@@ -1,27 +1,27 @@
 <script lang="ts">
-    import { setVotingPower } from '@contexts/governance/actions'
-    import { isAccountVoting } from '@contexts/governance/utils'
+    import { Button, Text, TextHint, AssetAmountInput } from '@ui'
+    import { HTMLButtonType, TextType } from '@ui/enums'
     import { selectedAccount } from '@core/account/stores'
     import { handleError } from '@core/error/handlers'
+    import { setVotingPower } from '@contexts/governance/actions'
     import { localize } from '@core/i18n'
-    import { activeProfile } from '@core/profile'
     import { checkActiveProfileAuth } from '@core/profile/actions'
-    import { visibleSelectedAccountTokens } from '@core/token/stores'
     import { convertToRawAmount } from '@core/wallet'
-    import { PopupId, closePopup, openPopup, popupState } from '@desktop/auxiliary/popup'
-    import { Button, Text, TextHint, TokenAmountWithSliderInput } from '@ui'
-    import { HTMLButtonType, TextType } from '@ui/enums'
+    import { closePopup, openPopup, PopupId, popupState } from '@desktop/auxiliary/popup'
     import { onMount } from 'svelte'
+    import { isAccountVoting } from '@contexts/governance/utils'
+    import { activeProfile } from '@core/profile'
+    import { visibleSelectedAccountTokens } from '@core/token/stores'
 
     export let _onMount: (..._: any[]) => Promise<void> = async () => {}
     export let newVotingPower: string = undefined
 
-    let tokenAmountInput: TokenAmountWithSliderInput
+    let assetAmountInput: AssetAmountInput
     let amount: string
     let rawAmount = newVotingPower ?? $selectedAccount?.votingPower
     let confirmDisabled = false
 
-    $: token = $visibleSelectedAccountTokens[$activeProfile?.network.id].baseCoin
+    $: asset = $visibleSelectedAccountTokens[$activeProfile?.network.id].baseCoin
     $: votingPower = parseInt($selectedAccount?.votingPower, 10)
     $: hasTransactionInProgress =
         $selectedAccount?.hasVotingPowerTransactionInProgress ||
@@ -34,7 +34,7 @@
             confirmDisabled = true
             return
         }
-        const convertedSliderAmount = convertToRawAmount(amount, token?.metadata)?.toString()
+        const convertedSliderAmount = convertToRawAmount(amount, asset?.metadata)?.toString()
         confirmDisabled = convertedSliderAmount === $selectedAccount?.votingPower || hasTransactionInProgress
     }
 
@@ -44,7 +44,7 @@
 
     async function onSubmit(): Promise<void> {
         try {
-            await tokenAmountInput?.validate(true)
+            await assetAmountInput?.validate(true)
 
             if (amount === '0' && isAccountVoting($selectedAccount.index)) {
                 openPopup({ id: PopupId.VotingPowerToZero })
@@ -78,11 +78,13 @@
     <Text type={TextType.h4} classes="mb-3">{localize('popups.manageVotingPower.title')}</Text>
     <Text type={TextType.p} classes="mb-5">{localize('popups.manageVotingPower.body')}</Text>
     <div class="space-y-4 mb-6">
-        <TokenAmountWithSliderInput
-            bind:this={tokenAmountInput}
+        <AssetAmountInput
+            bind:this={assetAmountInput}
             bind:rawAmount
             bind:amount
-            {token}
+            {asset}
+            containsSlider
+            disableAssetSelection
             disabled={hasTransactionInProgress}
             {votingPower}
         />

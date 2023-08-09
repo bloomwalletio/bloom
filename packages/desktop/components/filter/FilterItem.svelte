@@ -6,7 +6,7 @@
         DateFilterItem,
         NumberFilterItem,
         SelectionFilterItem,
-        TokenFilterItem,
+        AssetFilterItem,
         OrderFilterItem,
         NetworkFilterItem,
     } from '@ui'
@@ -59,7 +59,7 @@
             {:else if filterUnit.type === 'order'}
                 <OrderFilterItem bind:filterUnit />
             {:else if filterUnit.type === 'asset'}
-                <TokenFilterItem bind:filterUnit />
+                <AssetFilterItem bind:filterUnit />
             {:else if filterUnit.type === 'network'}
                 <NetworkFilterItem bind:filterUnit />
             {/if}

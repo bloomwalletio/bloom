@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { Button, Text, TextHint, FontWeight, TextType, TokenAmountWithSliderInput } from '@ui'
+    import { Button, Text, TextHint, FontWeight, TextType, AssetAmountInput } from '@ui'
     import { localize } from '@core/i18n'
     import { closePopup, openPopup, PopupId } from '@desktop/auxiliary/popup'
     import { IToken } from '@core/token'
@@ -7,11 +7,11 @@
     export let token: IToken
     export let rawAmount: string = '0'
 
-    let tokenAmountInput: TokenAmountWithSliderInput
+    let assetAmountInput: AssetAmountInput
 
     async function onContinueClick(): Promise<void> {
         try {
-            await tokenAmountInput.validate()
+            await assetAmountInput.validate()
             openPopup({
                 id: PopupId.BurnNativeTokensConfirmation,
                 props: { token, rawAmount },
@@ -31,7 +31,7 @@
         })}
     </Text>
     <div class="space-y-4">
-        <TokenAmountWithSliderInput bind:this={tokenAmountInput} bind:rawAmount {token} />
+        <AssetAmountInput bind:this={assetAmountInput} bind:rawAmount {token} containsSlider disableAssetSelection />
         <TextHint warning text={localize('actions.confirmTokenBurn.hint')} />
     </div>
     <popup-buttons class="flex flex-row flex-nowrap w-full space-x-4">

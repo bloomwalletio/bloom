@@ -1,7 +1,7 @@
 <script lang="ts">
     import { Dropdown } from '@ui'
     import type { IDropdownItem } from '@core/utils'
-    import { visibleSelectedAccountTokens } from '@core/token/stores'
+    import { visibleSelectedAccountTokens } from '@core/wallet'
     import { AssetFilterUnit } from '@core/utils/interfaces/filter'
     import { activeProfile } from '@core/profile'
 
