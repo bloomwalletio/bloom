@@ -1,4 +1,4 @@
-import { showAppNotification } from '@auxiliary/notification/actions'
+import { showNotification } from '@auxiliary/notification/actions'
 import { closePopup, openPopup, PopupId } from '../../../../../../../../desktop/lib/auxiliary/popup'
 import { isValidUrl } from '@core/utils/validation'
 import { isProposalAlreadyAddedForSelectedAccount, isValidProposalId } from '@contexts/governance/utils'
@@ -23,10 +23,9 @@ export function handleDeepLinkAddProposalOperation(searchParams: URLSearchParams
             selectedProposalId.set(eventId)
             get(governanceRouter).goTo(GovernanceRoute.Details)
 
-            showAppNotification({
-                type: 'warning',
-                alert: true,
-                message: 'This proposal has already been added',
+            showNotification({
+                variant: 'warning',
+                text: 'This proposal has already been added',
             })
             closePopup()
             return

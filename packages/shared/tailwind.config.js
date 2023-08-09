@@ -50,6 +50,15 @@ module.exports = {
         {
             pattern: /^divide-/,
         },
+        {
+            pattern: /^shadow/,
+        },
+        {
+            pattern: /^sr-only/,
+        },
+        {
+            pattern: /^h-/,
+        },
     ],
     theme: {
         extend: {

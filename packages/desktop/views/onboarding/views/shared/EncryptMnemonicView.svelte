@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { showAppNotification } from '@auxiliary/notification'
+    import { showNotification } from '@auxiliary/notification'
     import { OnboardingLayout } from '@components'
     import { updateOnboardingProfile, verifyAndStoreMnemonic } from '@contexts/onboarding'
     import { IS_MOBILE } from '@core/app'
@@ -50,9 +50,9 @@
                 router.next()
             } catch (err) {
                 console.error(err)
-                showAppNotification({
-                    type: 'error',
-                    message: localize(err?.error),
+                showNotification({
+                    variant: 'error',
+                    text: localize(err?.error),
                 })
             } finally {
                 busy = false
