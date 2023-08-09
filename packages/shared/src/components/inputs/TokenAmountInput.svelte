@@ -2,10 +2,14 @@
     import { formatCurrency, getDecimalSeparator } from '@core/i18n'
     import { getMarketAmountFromTokenValue } from '@core/market/utils'
     import { activeProfile } from '@core/profile'
-    import { IToken, formatTokenAmountDefault, getMaxDecimalsFromTokenMetadata } from '@core/token'
+    import {
+        IToken,
+        convertToRawAmount,
+        formatTokenAmountDefault,
+        getMaxDecimalsFromTokenMetadata,
+        validateTokenAmount,
+    } from '@core/token'
     import { visibleSelectedAccountTokens } from '@core/token/stores'
-    import { convertToRawAmount } from '@core/wallet'
-    import { validateTokenAmount } from '@core/wallet/utils/validateTokenAmount'
     import { AmountInput, FontWeight, InputContainer, Text } from '@ui'
 
     export let token: IToken | undefined = $visibleSelectedAccountTokens?.[$activeProfile?.network?.id]?.baseCoin

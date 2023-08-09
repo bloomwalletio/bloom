@@ -1,10 +1,15 @@
 <script lang="ts">
     import { localize, parseCurrency } from '@core/i18n'
     import { activeProfile } from '@core/profile'
-    import { IToken, TokenStandard, getUnitFromTokenMetadata, formatTokenAmountDefault } from '@core/token'
+    import {
+        IToken,
+        TokenStandard,
+        convertToRawAmount,
+        formatTokenAmountDefault,
+        getUnitFromTokenMetadata,
+    } from '@core/token'
     import { visibleSelectedAccountTokens } from '@core/token/stores'
     import { getMaxDecimalsFromTokenMetadata } from '@core/token/utils'
-    import { convertToRawAmount } from '@core/wallet'
     import { AmountInput, InputContainer, SliderInput, Text, TokenDropdown } from '@ui'
     import Big from 'big.js'
     import UnitInput from './UnitInput.svelte'

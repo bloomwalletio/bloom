@@ -1,17 +1,17 @@
 <script lang="ts">
-    import { Button, Text, TextHint, TokenAmountWithSliderInput } from '@ui'
-    import { HTMLButtonType, TextType } from '@ui/enums'
+    import { setVotingPower } from '@contexts/governance/actions'
+    import { isAccountVoting } from '@contexts/governance/utils'
     import { selectedAccount } from '@core/account/stores'
     import { handleError } from '@core/error/handlers'
-    import { setVotingPower } from '@contexts/governance/actions'
     import { localize } from '@core/i18n'
-    import { checkActiveProfileAuth } from '@core/profile/actions'
-    import { convertToRawAmount } from '@core/wallet'
-    import { closePopup, openPopup, PopupId, popupState } from '@desktop/auxiliary/popup'
-    import { onMount } from 'svelte'
-    import { isAccountVoting } from '@contexts/governance/utils'
     import { activeProfile } from '@core/profile'
+    import { checkActiveProfileAuth } from '@core/profile/actions'
     import { visibleSelectedAccountTokens } from '@core/token/stores'
+    import { convertToRawAmount } from '@core/token'
+    import { PopupId, closePopup, openPopup, popupState } from '@desktop/auxiliary/popup'
+    import { Button, Text, TextHint, TokenAmountWithSliderInput } from '@ui'
+    import { HTMLButtonType, TextType } from '@ui/enums'
+    import { onMount } from 'svelte'
 
     export let _onMount: (..._: any[]) => Promise<void> = async () => {}
     export let newVotingPower: string = undefined

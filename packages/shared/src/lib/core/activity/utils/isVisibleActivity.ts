@@ -1,3 +1,4 @@
+import { convertToRawAmount } from '@core/token'
 import { getPersistedToken } from '@core/token/stores'
 import { dateIsAfterOtherDate, dateIsBeforeOtherDate, datesOnSameDay } from '@core/utils'
 import {
@@ -8,7 +9,6 @@ import {
     NumberFilterOption,
     StatusFilterOption,
 } from '@core/utils/enums/filters'
-import { convertToRawAmount } from '@core/wallet/utils'
 import Big from 'big.js'
 import { get } from 'svelte/store'
 import { ActivityAsyncStatus, ActivityType, InclusionState } from '../enums'
