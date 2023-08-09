@@ -18,8 +18,8 @@ export function addPersistedAsset(...newPersistedTokens: IPersistedToken[]): voi
         if (!state[get(activeProfile).id]) {
             state[get(activeProfile).id] = {}
         }
-        for (const asset of newPersistedTokens) {
-            state[get(activeProfile).id][asset.id] = asset
+        for (const token of newPersistedTokens) {
+            state[get(activeProfile).id][token.id] = token
         }
         return state
     })

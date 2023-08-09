@@ -13,9 +13,9 @@ export async function loadAssetsForAllActivities(account: IAccountState): Promis
     for (const activity of accountActivities) {
         try {
             if (activity.type === ActivityType.Basic || activity.type === ActivityType.Foundry) {
-                const asset = await getOrRequestTokenFromPersistedTokens(activity.assetId)
-                if (asset) {
-                    persistedTokens.push(asset)
+                const token = await getOrRequestTokenFromPersistedTokens(activity.assetId)
+                if (token) {
+                    persistedTokens.push(token)
                 }
             }
         } catch (err) {

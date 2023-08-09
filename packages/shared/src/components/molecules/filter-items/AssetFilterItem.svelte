@@ -28,13 +28,13 @@
     }
 
     function onSelect(item: IDropdownItem<string>): void {
-        let asset = undefined
+        let token = undefined
         if (item.value === baseCoin.metadata.name) {
-            asset = baseCoin
+            token = baseCoin
         } else {
-            asset = nativeTokens.find((_nativeToken) => _nativeToken.metadata?.name === item.value)
+            token = nativeTokens.find((_nativeToken) => _nativeToken.metadata?.name === item.value)
         }
-        filterUnit.selected = asset?.id || ''
+        filterUnit.selected = token?.id || ''
     }
 </script>
 

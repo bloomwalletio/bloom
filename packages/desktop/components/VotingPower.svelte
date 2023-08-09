@@ -1,20 +1,19 @@
 <script lang="ts">
+    import { selectedAccount } from '@core/account'
+    import { localize } from '@core/i18n'
+    import { activeProfile } from '@core/profile'
+    import { visibleSelectedAccountTokens } from '@core/token/stores'
+    import { formatTokenAmountBestMatch } from '@core/wallet'
+    import { PopupId, openPopup } from '@desktop/auxiliary/popup'
     import { Button, Text } from '@ui'
     import { ButtonSize, FontWeight, TextType } from '@ui/enums'
 
-    import { selectedAccount } from '@core/account'
-    import { localize } from '@core/i18n'
-    import { formatTokenAmountBestMatch } from '@core/wallet'
-    import { openPopup, PopupId } from '@desktop/auxiliary/popup'
-    import { activeProfile } from '@core/profile'
-    import { visibleSelectedAccountTokens } from '@core/token/stores'
-
-    const asset = $visibleSelectedAccountTokens?.[$activeProfile?.network.id]?.baseCoin
+    const token = $visibleSelectedAccountTokens?.[$activeProfile?.network.id]?.baseCoin
 
     $: votingPower = parseInt($selectedAccount?.votingPower, 10)
     $: maxVotingPower = parseInt($selectedAccount?.balances?.baseCoin?.available) + votingPower
-    $: formattedVotingPower = formatTokenAmountBestMatch(votingPower, asset?.metadata)
-    $: formattedMaxVotingPower = formatTokenAmountBestMatch(maxVotingPower, asset?.metadata)
+    $: formattedVotingPower = formatTokenAmountBestMatch(votingPower, token?.metadata)
+    $: formattedMaxVotingPower = formatTokenAmountBestMatch(maxVotingPower, token?.metadata)
     $: hasTransactionInProgress =
         $selectedAccount?.hasVotingPowerTransactionInProgress ||
         $selectedAccount?.hasVotingTransactionInProgress ||

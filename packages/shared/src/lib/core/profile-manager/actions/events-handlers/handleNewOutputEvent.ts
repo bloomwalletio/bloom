@@ -48,8 +48,8 @@ export async function handleNewOutputEventInternal(
         const activities = generateActivities(processedOutput, account)
         for (const activity of activities) {
             if (activity.type === ActivityType.Basic || activity.type === ActivityType.Foundry) {
-                const asset = await getOrRequestTokenFromPersistedTokens(activity.assetId)
-                addPersistedAsset(asset)
+                const token = await getOrRequestTokenFromPersistedTokens(activity.assetId)
+                addPersistedAsset(token)
             }
         }
         addActivitiesToAccountActivitiesInAllAccountActivities(account.index, activities)
