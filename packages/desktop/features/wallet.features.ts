@@ -16,7 +16,7 @@ const walletFeatures: IWalletFeatures = {
     },
     assets: {
         enabled: true,
-        burnAsset: {
+        burnToken: {
             enabled: true,
         },
     },

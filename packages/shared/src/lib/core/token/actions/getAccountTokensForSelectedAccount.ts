@@ -6,7 +6,7 @@ import { getCoinType } from '@core/profile'
 import { AccountTokens, IAccountTokensPerNetwork } from '../interfaces/account-tokens.interface'
 import { getLayer2AccountBalance } from '@core/layer-2/stores'
 import { getPersistedAsset } from '../stores'
-import { sortTokens } from '@core/wallet/utils/sortAssets'
+import { sortTokens } from '@core/token/utils/sortTokens'
 import { IToken } from '../interfaces'
 import { isValidIrc30Token } from '../utils'
 

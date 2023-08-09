@@ -1,5 +1,5 @@
 export * from './addNewTrackedTokenToActiveProfile'
-export * from './burnAsset'
+export * from './burnToken'
 export * from './burnNft'
 export * from './claimActivity'
 export * from './getChainIdFromSendFlowParameters'

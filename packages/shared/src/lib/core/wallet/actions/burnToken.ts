@@ -6,7 +6,7 @@ import { Converter } from '@core/utils'
 import { handleError } from '@core/error/handlers'
 import { processAndAddToActivities } from '@core/activity/utils/processAndAddToActivities'
 
-export async function burnAsset(assetId: string, rawAmount: string): Promise<void> {
+export async function burnToken(assetId: string, rawAmount: string): Promise<void> {
     const account = get(selectedAccount)
     try {
         updateSelectedAccount({ isTransferring: true })

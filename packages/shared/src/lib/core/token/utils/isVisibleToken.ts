@@ -4,7 +4,7 @@ import { BooleanFilterOption } from '@core/utils/enums/filters'
 import { get } from 'svelte/store'
 
 // Filters assets based on token properties. If none of the conditionals are valid, then token is shown.
-export function isVisibleAsset(token: IToken): boolean {
+export function isVisibleToken(token: IToken): boolean {
     const filter = get(tokenFilter)
     if (!isVisibleWithActiveHiddenFilter(token, filter)) {
         return false
