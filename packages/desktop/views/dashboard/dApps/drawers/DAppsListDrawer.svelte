@@ -29,6 +29,6 @@
         on:click|stopPropagation={onConnectDappClick}
     >
         <Icon icon={IconEnum.Plus} height={12} />
-        {localize('actions.connectDapp')}
+        {localize('views.dashboard.drawers.dApps.dAppsList.connectDapp')}
     </button>
 </DrawerTemplate>
