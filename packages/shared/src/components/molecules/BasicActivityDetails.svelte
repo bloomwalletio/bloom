@@ -1,10 +1,10 @@
 <script lang="ts">
     import { selectedAccountIndex } from '@core/account'
-    import { getTransactionAssets } from '@core/activities/utils'
+    import { ActivityAsyncStatus } from '@core/activity/enums'
+    import { TransactionActivity } from '@core/activity/types'
+    import { getSubjectFromActivity, getTransactionAssets } from '@core/activity/utils'
     import { time } from '@core/app'
     import { localize } from '@core/i18n'
-    import { ActivityAsyncStatus, TransactionActivity } from '@core/wallet'
-    import { getSubjectFromActivity } from '@core/wallet/utils/generateActivity/helper'
     import {
         ActivityAsyncStatusPill,
         Pill,
