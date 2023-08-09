@@ -4,20 +4,20 @@ import { activeProfile, activeProfileId } from '@core/profile/stores'
 import { persistent } from '@core/utils/store'
 
 import { NotVerifiedStatus, VerifiedStatus } from '../enums'
-import { IPersistedAsset, IPersistedAssets } from '../interfaces'
+import { IPersistedToken, IPersistedTokens } from '../interfaces'
 
-export const persistedAssets = persistent<IPersistedAssets>('persistedAssets', {})
+export const persistedTokens = persistent<IPersistedTokens>('persistedTokens', {})
 
-export function getPersistedAsset(tokenId: string): IPersistedAsset {
-    return get(persistedAssets)?.[get(activeProfile)?.id]?.[tokenId]
+export function getPersistedAsset(tokenId: string): IPersistedToken {
+    return get(persistedTokens)?.[get(activeProfile)?.id]?.[tokenId]
 }
 
-export function addPersistedAsset(...newPersistedAssets: IPersistedAsset[]): void {
-    persistedAssets.update((state) => {
+export function addPersistedAsset(...newPersistedTokens: IPersistedToken[]): void {
+    persistedTokens.update((state) => {
         if (!state[get(activeProfile).id]) {
             state[get(activeProfile).id] = {}
         }
-        for (const asset of newPersistedAssets) {
+        for (const asset of newPersistedTokens) {
             state[get(activeProfile).id][asset.id] = asset
         }
         return state
@@ -25,16 +25,16 @@ export function addPersistedAsset(...newPersistedAssets: IPersistedAsset[]): voi
 }
 
 export function clearPersistedAssetForActiveProfile(): void {
-    persistedAssets.update((state) => {
+    persistedTokens.update((state) => {
         state[get(activeProfile).id] = {}
         return state
     })
 }
 
-export function updatePersistedAsset(partialPersistedAsset: Partial<IPersistedAsset>): void {
+export function updatePersistedAsset(partialPersistedAsset: Partial<IPersistedToken>): void {
     const asssetId = partialPersistedAsset?.id
     if (asssetId) {
-        persistedAssets.update((state) => {
+        persistedTokens.update((state) => {
             state[get(activeProfile).id][asssetId] = {
                 ...state[get(activeProfile).id][asssetId],
                 ...partialPersistedAsset,
@@ -49,7 +49,7 @@ export function removePersistedAsset(assetId: string): void {
     if (!profileId) {
         return
     }
-    persistedAssets.update((_persistedAssets) => {
+    persistedTokens.update((_persistedAssets) => {
         if (_persistedAssets?.[profileId]?.[assetId]) {
             delete _persistedAssets[profileId][assetId]
         }

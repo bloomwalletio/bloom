@@ -3,7 +3,7 @@
     import { localize } from '@core/i18n'
     import { getDestinationNetworkFromAddress, estimateGasForLayer1ToLayer2Transaction } from '@core/layer-2/utils'
     import { TimePeriod } from '@core/utils/enums'
-    import { SendFlowType, selectedAccountAssets, updateSendFlowParameters } from '@core/wallet/stores'
+    import { SendFlowType, selectedAccountTokens, updateSendFlowParameters } from '@core/wallet/stores'
     import { AddInputButton, ExpirationTimePicker, OptionalInput, TransactionAssetSection } from '@ui'
     import { onMount } from 'svelte'
     import StardustTransactionDetails from './StardustTransactionDetails.svelte'
@@ -75,7 +75,7 @@
     function setBaseCoinAndStorageDeposit(output: Output, estimatedGas: number): void {
         storageDeposit = getStorageDepositFromOutput(output)
         baseCoinTransfer = {
-            asset: $selectedAccountAssets?.[getNetwork().getMetadata().id].baseCoin,
+            asset: $selectedAccountTokens?.[getNetwork().getMetadata().id].baseCoin,
             rawAmount: String(Number(output.amount) - storageDeposit - estimatedGas),
         }
     }

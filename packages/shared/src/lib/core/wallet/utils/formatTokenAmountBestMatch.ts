@@ -1,10 +1,7 @@
 import { formatNumber } from '@core/i18n'
+import { getUnitFromTokenMetadata, TokenMetadata, TokenStandard } from '@core/token'
 import { getIotaUnit, IOTA_UNIT_MAP } from '@core/utils'
-
-import { TokenMetadata } from '../types'
 import { formatTokenAmountDefault } from './formatTokenAmountDefault'
-import { TokenStandard } from '../enums'
-import { getUnitFromTokenMetadata } from './getUnitFromTokenMetadata'
 
 export function formatTokenAmountBestMatch(
     amount: number,

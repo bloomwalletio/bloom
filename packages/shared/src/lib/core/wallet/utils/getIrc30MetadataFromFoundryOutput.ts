@@ -1,4 +1,4 @@
-import { IIrc30Metadata } from '../interfaces'
+import { IIrc30Metadata } from '@core/token'
 import { get } from 'svelte/store'
 import { Converter } from '@core/utils'
 import { validateIrc30Metadata } from './validateIrc30Metadata'

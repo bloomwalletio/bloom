@@ -1,5 +1,5 @@
 import { getActiveProfile, updateActiveProfile } from '@core/profile/stores'
-import { removePersistedAsset } from '@core/wallet/stores'
+import { removePersistedAsset } from '@core/token/stores'
 
 export function removeTrackedTokenFromActiveProfile(tokenAddress: string, chainId: number): void {
     const profile = getActiveProfile()

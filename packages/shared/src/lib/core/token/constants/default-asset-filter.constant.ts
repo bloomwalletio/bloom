@@ -1,8 +1,8 @@
 import { AssetOrderOption, BooleanFilterOption, OrderOption } from '@core/utils/enums/filters'
 import { NotVerifiedStatus, VerifiedStatus } from '../enums'
-import { AssetFilter } from '../interfaces'
+import { TokenFilter } from '../interfaces'
 
-export const DEFAULT_ASSET_FILTER: AssetFilter = {
+export const DEFAULT_ASSET_FILTER: TokenFilter = {
     verificationStatus: {
         active: false,
         type: 'selection',

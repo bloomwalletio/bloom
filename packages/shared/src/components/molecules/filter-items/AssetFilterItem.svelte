@@ -1,12 +1,12 @@
 <script lang="ts">
     import { Dropdown } from '@ui'
     import type { IDropdownItem } from '@core/utils'
-    import { visibleSelectedAccountAssets } from '@core/wallet'
+    import { visibleSelectedAccountTokens } from '@core/wallet'
     import { AssetFilterUnit } from '@core/utils/interfaces/filter'
     import { activeProfile } from '@core/profile'
 
     export let filterUnit: AssetFilterUnit
-    const { baseCoin, nativeTokens } = $visibleSelectedAccountAssets[$activeProfile?.network?.id]
+    const { baseCoin, nativeTokens } = $visibleSelectedAccountTokens[$activeProfile?.network?.id]
 
     const choices: IDropdownItem<string>[] = [baseCoin, ...nativeTokens].map((choice) => ({
         label: choice.metadata.name,

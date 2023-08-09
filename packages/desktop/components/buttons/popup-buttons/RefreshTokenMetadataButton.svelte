@@ -2,13 +2,13 @@
     import { OnboardingButton } from '@ui'
 
     import { localize } from '@core/i18n'
-    import { refreshAccountAssetsForActiveProfile } from '@core/wallet'
+    import { refreshAccountTokensForActiveProfile } from '@core/wallet'
 
     import { showNotification } from '@auxiliary/notification'
     import { closePopup, openPopup, PopupId } from '@desktop/auxiliary/popup'
 
     function refreshTokenMetadata(): void {
-        refreshAccountAssetsForActiveProfile(true)
+        refreshAccountTokensForActiveProfile(true)
         showNotification({
             variant: 'success',
             text: localize('notifications.refreshTokenMetadata.success'),

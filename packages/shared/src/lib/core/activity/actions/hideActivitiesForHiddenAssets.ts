@@ -3,11 +3,11 @@ import { allAccountActivities } from '../stores'
 import { activeProfile } from '@core/profile'
 import { selectedAccountIndex } from '@core/account'
 import { ActivityType } from '../enums'
-import { persistedAssets } from '@core/wallet/stores'
+import { persistedTokens } from '@core/token/stores'
 import { updateActivityFromPartialActivity } from '../utils'
 
 export function hideActivitiesForHiddenAssets(): void {
-    const assets = get(persistedAssets)?.[get(activeProfile)?.id]
+    const assets = get(persistedTokens)?.[get(activeProfile)?.id]
     allAccountActivities.update((state) => {
         state[get(selectedAccountIndex)].forEach((_activity) => {
             if (_activity.type === ActivityType.Basic || _activity.type === ActivityType.Foundry) {

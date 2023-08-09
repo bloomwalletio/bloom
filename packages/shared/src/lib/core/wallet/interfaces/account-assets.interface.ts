@@ -1,11 +1,11 @@
-import { IAsset } from './asset.interface'
+import { IToken } from '@core/token'
 
-export type AccountAssets = {
+export type AccountTokens = {
     // [networkId: string] | [chainId: number]
-    [id: number | string]: IAccountAssetsPerNetwork
+    [id: number | string]: IAccountTokensPerNetwork
 }
 
-export interface IAccountAssetsPerNetwork {
-    baseCoin: IAsset | undefined
-    nativeTokens: IAsset[]
+export interface IAccountTokensPerNetwork {
+    baseCoin: IToken | undefined
+    nativeTokens: IToken[]
 }

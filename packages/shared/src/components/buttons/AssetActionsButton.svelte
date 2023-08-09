@@ -1,13 +1,13 @@
 <script lang="ts">
-    import { IAsset } from '@core/wallet'
+    import { IToken } from '@core/token'
     import { Modal, AssetActionsMenuModal, MeatballMenuButton } from '@ui'
 
-    export let asset: IAsset
+    export let token: IToken
 
     let modal: Modal
 </script>
 
 <div class="max-h-7 max-w-9 flex-none flex-initial overflow-visible relative">
     <MeatballMenuButton onClick={modal?.toggle} />
-    <AssetActionsMenuModal bind:modal {asset} position={{ right: '0' }} classes="mt-1.5" />
+    <AssetActionsMenuModal bind:modal {token} position={{ right: '0' }} classes="mt-1.5" />
 </div>

@@ -68,8 +68,8 @@ function getAssetsFromTransactionData(sendFlowParameters: SendFlowParameters): A
     if (sendFlowParameters.type === SendFlowType.NftTransfer) {
         assets = { nftId: sendFlowParameters.nft?.id }
     } else if (sendFlowParameters.type === SendFlowType.TokenTransfer) {
-        const assetId = sendFlowParameters.tokenTransfer?.asset?.id
-        const nativeTokenId = assetId === getCoinType() ? undefined : assetId
+        const tokenId = sendFlowParameters.tokenTransfer?.token?.id
+        const nativeTokenId = tokenId === getCoinType() ? undefined : tokenId
 
         if (nativeTokenId) {
             const bigAmount = BigInt(sendFlowParameters.tokenTransfer?.rawAmount ?? '0')

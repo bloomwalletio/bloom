@@ -1,11 +1,11 @@
 import { getActiveNetworkId } from '@core/network/utils/getNetworkId'
 import { INft, getNftByIdFromAllAccountNfts } from '@core/nfts'
 import { getCoinType } from '@core/profile/actions'
-import { ActivityType } from '../enums'
-import { getAssetById } from '@core/wallet/stores'
-import { Activity } from '../types'
+import { IToken } from '@core/token'
+import { getAssetById, getPersistedAsset } from '@core/token/stores'
 import { TokenTransferData } from '@core/wallet/types'
-import { IAsset, getAssetFromPersistedAssets } from '@core/wallet'
+import { ActivityType } from '../enums'
+import { Activity } from '../types'
 
 export function getTransactionAssets(
     activity: Activity,
@@ -29,26 +29,26 @@ export function getTransactionAssets(
             nft,
             baseCoinTransfer: {
                 rawAmount: String((activity.rawBaseCoinAmount ?? 0) - activity.storageDeposit),
-                asset: baseCoin,
+                token: baseCoin,
             },
         }
     } else if (activity.type === ActivityType.Basic || activity.type === ActivityType.Foundry) {
-        const assetWithBalance = getAssetById(activity.assetId, networkId)
-        const persistedAsset = getAssetFromPersistedAssets(activity.assetId)
-        const asset: IAsset = {
+        const tokenWithBalance = getAssetById(activity.assetId, networkId)
+        const persistedToken = getPersistedAsset(activity.assetId)
+        const token: IToken = {
             chainId: activity.chainId ?? 0,
             balance: {
                 total: 0,
                 available: 0,
             },
-            ...assetWithBalance,
-            ...persistedAsset,
+            ...tokenWithBalance,
+            ...persistedToken,
         }
         if (activity.assetId === getCoinType()) {
             return {
                 baseCoinTransfer: {
                     rawAmount: String(activity.rawBaseCoinAmount),
-                    asset,
+                    token,
                 },
             }
         } else {
@@ -56,11 +56,11 @@ export function getTransactionAssets(
             return {
                 tokenTransfer: {
                     rawAmount: String(activity.rawAmount),
-                    asset,
+                    token,
                 },
                 baseCoinTransfer: {
                     rawAmount: String((activity.rawBaseCoinAmount ?? 0) - activity.storageDeposit),
-                    asset: baseCoin,
+                    token: baseCoin,
                 },
             }
         }

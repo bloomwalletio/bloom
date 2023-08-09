@@ -1,10 +1,10 @@
+import { IToken } from '@core/token'
+import { tokenFilter } from '@core/token/stores'
 import { AssetOrderOption, OrderOption } from '@core/utils/enums/filters'
 import { get } from 'svelte/store'
-import { IAsset } from '../interfaces'
-import { assetFilter } from '../stores'
 
-export function sortAssets(assets: IAsset[]): IAsset[] {
-    const filter = get(assetFilter)
+export function sortTokens(assets: IToken[]): IToken[] {
+    const filter = get(tokenFilter)
     let orderFunction = sortByName
     let isAscending = true
 
@@ -23,7 +23,7 @@ export function sortAssets(assets: IAsset[]): IAsset[] {
     return assets?.sort((asset1, asset2) => orderFunction(asset1, asset2, isAscending)) ?? []
 }
 
-function sortByName(asset1: IAsset, asset2: IAsset, asc: boolean): number {
+function sortByName(asset1: IToken, asset2: IToken, asc: boolean): number {
     const name1 = asset1?.metadata?.name
     const name2 = asset2?.metadata?.name
     if (!name1) {
@@ -35,6 +35,6 @@ function sortByName(asset1: IAsset, asset2: IAsset, asc: boolean): number {
     return name1.toLowerCase() > name2.toLowerCase() ? (asc ? 1 : -1) : asc ? -1 : 1
 }
 
-function sortByAmount(asset1: IAsset, asset2: IAsset, asc: boolean): number {
+function sortByAmount(asset1: IToken, asset2: IToken, asc: boolean): number {
     return asset1.balance.total > asset2.balance.total ? (asc ? 1 : -1) : asc ? -1 : 1
 }

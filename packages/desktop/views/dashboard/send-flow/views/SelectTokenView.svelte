@@ -2,37 +2,31 @@
     import { TokenAmountTile, IconInput } from '@ui'
     import { localize } from '@core/i18n'
     import { marketCoinPrices } from '@core/market'
-    import {
-        getAccountAssetsForSelectedAccount,
-        AccountAssets,
-        IAsset,
-        sendFlowParameters,
-        SendFlowType,
-        TokenStandard,
-        setSendFlowParameters,
-        selectedAccountAssets,
-    } from '@core/wallet'
+    import { sendFlowParameters, SendFlowType, setSendFlowParameters } from '@core/wallet'
     import { closePopup } from '@desktop/auxiliary/popup'
     import { Icon as IconEnum } from '@auxiliary/icon'
     import { sendFlowRouter } from '../send-flow.router'
     import SendFlowTemplate from './SendFlowTemplate.svelte'
     import { getCoinType } from '@core/profile'
     import { getNetwork } from '@core/network'
+    import { AccountTokens, IToken, TokenStandard } from '@core/token'
+    import { selectedAccountTokens } from '@core/token/stores'
+    import { getAccountTokensForSelectedAccount } from '@core/token/actions'
 
     let searchValue: string = ''
-    let selectedAsset: IAsset =
+    let selectedAsset: IToken =
         $sendFlowParameters?.type === SendFlowType.BaseCoinTransfer
-            ? $sendFlowParameters.baseCoinTransfer.asset
+            ? $sendFlowParameters.baseCoinTransfer.token
             : $sendFlowParameters?.type === SendFlowType.TokenTransfer
-            ? $sendFlowParameters.tokenTransfer.asset
-            : $selectedAccountAssets?.[getNetwork().getMetadata().id].baseCoin
+            ? $sendFlowParameters.tokenTransfer.token
+            : $selectedAccountTokens?.[getNetwork().getMetadata().id].baseCoin
 
-    let assets: AccountAssets
-    $: assets = getAccountAssetsForSelectedAccount($marketCoinPrices)
+    let assets: AccountTokens
+    $: assets = getAccountTokensForSelectedAccount($marketCoinPrices)
     $: assets, searchValue, setFilteredAssetList()
 
-    let assetList: IAsset[]
-    function getAssetList(): IAsset[] {
+    let assetList: IToken[]
+    function getAssetList(): IToken[] {
         const list = []
         for (const assetsPerNetwork of Object.values(assets)) {
             if (assetsPerNetwork?.baseCoin) {
@@ -47,16 +41,16 @@
         const list = getAssetList()
 
         assetList = list.filter(isVisibleAsset)
-        if (!assetList.some((asset) => asset.id === selectedAsset?.id)) {
+        if (!assetList.some((token) => token.id === selectedAsset?.id)) {
             selectedAsset = undefined
         }
     }
 
-    function isVisibleAsset(asset: IAsset): boolean {
+    function isVisibleAsset(token: IToken): boolean {
         const _searchValue = searchValue.toLowerCase()
-        const name = asset?.metadata?.name
+        const name = token?.metadata?.name
         const ticker =
-            asset?.metadata?.standard === TokenStandard.BaseToken ? asset?.metadata.unit : asset?.metadata.symbol
+            token?.metadata?.standard === TokenStandard.BaseToken ? token?.metadata.unit : token?.metadata.symbol
 
         return (
             (name && name.toLowerCase().includes(_searchValue)) ||
@@ -94,7 +88,7 @@
             ...previousSharedParameters,
             type: sendFlowType,
             [sendFlowType === SendFlowType.BaseCoinTransfer ? 'baseCoinTransfer' : 'tokenTransfer']: {
-                asset: selectedAsset,
+                token: selectedAsset,
             },
         })
 
@@ -109,13 +103,13 @@
 >
     <IconInput bind:value={searchValue} icon={IconEnum.Search} placeholder={localize('general.search')} />
     <div class="-mr-3">
-        <div class="asset-list w-full flex flex-col -mr-1 pr-1.5 gap-2">
-            {#each assetList as asset}
+        <div class="token-list w-full flex flex-col -mr-1 pr-1.5 gap-2">
+            {#each assetList as token}
                 <TokenAmountTile
-                    {asset}
-                    amount={asset.balance.available}
-                    onClick={() => (selectedAsset = asset)}
-                    selected={selectedAsset?.id === asset.id && selectedAsset?.chainId === asset?.chainId}
+                    {token}
+                    amount={token.balance.available}
+                    onClick={() => (selectedAsset = token)}
+                    selected={selectedAsset?.id === token.id && selectedAsset?.chainId === token?.chainId}
                 />
             {/each}
         </div>
@@ -123,7 +117,7 @@
 </SendFlowTemplate>
 
 <style lang="scss">
-    .asset-list {
+    .token-list {
         max-height: 400px;
         overflow-y: scroll;
     }

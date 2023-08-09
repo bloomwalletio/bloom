@@ -1,14 +1,13 @@
 import { getActiveNetworkId } from '@core/network/utils/getNetworkId'
+import { getUnitFromTokenMetadata } from '@core/token'
+import { getAssetById, selectedAccountTokens } from '@core/token/stores'
 import {
     SendFlowParameters,
     SendFlowType,
-    TokenTransferData,
-    getAssetById,
-    getUnitFromTokenMetadata,
-    SubjectType,
-    selectedAccountAssets,
-    setSendFlowParameters,
     Subject,
+    SubjectType,
+    TokenTransferData,
+    setSendFlowParameters,
 } from '@core/wallet'
 import { get } from 'svelte/store'
 import { PopupId, openPopup } from '../../../../../../../../desktop/lib/auxiliary/popup'
@@ -55,17 +54,17 @@ function parseSendFormOperation(searchParams: URLSearchParams): SendFlowParamete
     let tokenTransfer: TokenTransferData | undefined
     if (type === SendFlowType.BaseCoinTransfer) {
         baseCoinTransfer = {
-            asset: get(selectedAccountAssets)?.[networkId]?.baseCoin,
+            token: get(selectedAccountTokens)?.[networkId]?.baseCoin,
             rawAmount: getRawAmountFromSearchParam(searchParams),
             unit: searchParams.get(SendOperationParameter.Unit) ?? 'glow',
         }
     } else if (type === SendFlowType.TokenTransfer && assetId) {
-        const asset = getAssetById(assetId, networkId)
-        if (asset?.metadata) {
+        const token = getAssetById(assetId, networkId)
+        if (token?.metadata) {
             tokenTransfer = {
-                asset,
+                token,
                 rawAmount: getRawAmountFromSearchParam(searchParams),
-                unit: searchParams.get(SendOperationParameter.Unit) ?? getUnitFromTokenMetadata(asset.metadata),
+                unit: searchParams.get(SendOperationParameter.Unit) ?? getUnitFromTokenMetadata(token.metadata),
             }
         } else {
             throw new UnknownAssetError()

@@ -15,7 +15,7 @@
         visibleActiveAccounts,
     } from '@core/profile'
     import { RecoverAccountsPayload, recoverAccounts } from '@core/profile-manager'
-    import { formatTokenAmountBestMatch, refreshAccountAssetsForActiveProfile } from '@core/wallet'
+    import { formatTokenAmountBestMatch, refreshAccountTokensForActiveProfile } from '@core/wallet'
     import { closePopup } from '@desktop/auxiliary/popup'
     import { Button, FontWeight, KeyValueBox, Text, TextHint, TextType } from '@ui'
     import { onDestroy, onMount } from 'svelte'
@@ -82,7 +82,7 @@
 
     onDestroy(async () => {
         if (hasUsedWalletFinder) {
-            await refreshAccountAssetsForActiveProfile()
+            await refreshAccountTokensForActiveProfile()
             await generateAndStoreActivitiesForAllAccounts()
             loadNftsForActiveProfile()
         }

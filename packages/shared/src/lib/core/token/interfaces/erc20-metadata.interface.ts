@@ -1,4 +1,4 @@
-import { TokenStandard } from '@core/wallet/enums'
+import { TokenStandard } from '../enums'
 
 export interface IErc20Metadata {
     standard: TokenStandard.Erc20

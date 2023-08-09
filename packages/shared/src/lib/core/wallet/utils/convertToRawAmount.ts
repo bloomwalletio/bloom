@@ -1,11 +1,8 @@
-import Big from 'big.js'
-
 import { parseCurrency } from '@core/i18n'
+import { TokenMetadata, TokenStandard } from '@core/token'
 import { IOTA_UNIT_MAP, IotaUnit } from '@core/utils'
-
-import { TokenMetadata } from '../types'
+import Big from 'big.js'
 import { MAX_SUPPORTED_DECIMALS } from '../constants/max-supported-decimals.constants'
-import { TokenStandard } from '../enums'
 
 export function convertToRawAmount(amount: string, tokenMetadata: TokenMetadata, unit?: string): Big | undefined {
     if (amount) {

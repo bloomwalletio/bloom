@@ -4,7 +4,7 @@ import {
     SelectionFilterUnit,
 } from '@core/utils/interfaces/filter/filter-unit.interface'
 
-export interface AssetFilter {
+export interface TokenFilter {
     verificationStatus: SelectionFilterUnit
     network: NetworkFilterUnit
     showHidden: SelectionFilterUnit

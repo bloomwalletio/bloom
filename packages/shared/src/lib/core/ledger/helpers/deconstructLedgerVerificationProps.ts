@@ -17,12 +17,12 @@ export function deconstructLedgerVerificationProps(): PopupProps | undefined {
     }
 
     const toAddress = recipient?.type === 'account' ? recipient?.account?.depositAddress : recipient?.address
-    const { rawAmount, asset, unit } =
+    const { rawAmount, token, unit } =
         (type === SendFlowType.BaseCoinTransfer
             ? _sendFlowParameters.baseCoinTransfer
             : _sendFlowParameters.tokenTransfer) ?? {}
-    const toAmount = asset?.metadata
-        ? formatTokenAmountDefault(Number(rawAmount), asset.metadata, unit)
+    const toAmount = token?.metadata
+        ? formatTokenAmountDefault(Number(rawAmount), token.metadata, unit)
         : String(rawAmount)
 
     return {

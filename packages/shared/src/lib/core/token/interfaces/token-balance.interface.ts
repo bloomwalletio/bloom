@@ -1,4 +1,4 @@
-export interface IAssetBalance {
+export interface ITokenBalance {
     total: number
     available?: number
 }

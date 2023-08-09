@@ -1,38 +1,32 @@
 <script lang="ts">
     import { localize } from '@core/i18n'
-    import {
-        IAsset,
-        SendFlowType,
-        formatTokenAmountDefault,
-        getUnitFromTokenMetadata,
-        sendFlowParameters,
-        updateSendFlowParameters,
-    } from '@core/wallet'
+    import { SendFlowType, formatTokenAmountDefault, sendFlowParameters, updateSendFlowParameters } from '@core/wallet'
     import { TokenAmountInput, TokenAvailableBalanceTile } from '@ui'
     import { sendFlowRouter } from '../send-flow.router'
     import SendFlowTemplate from './SendFlowTemplate.svelte'
+    import { IToken, getUnitFromTokenMetadata } from '@core/token'
 
-    let assetAmountInput: TokenAmountInput
-    let asset: IAsset
+    let tokenAmountInput: TokenAmountInput
+    let token: IToken
     let rawAmount: string
     let amount: string
     let unit: string
-    const assetKey = $sendFlowParameters.type === SendFlowType.TokenTransfer ? 'tokenTransfer' : 'baseCoinTransfer'
+    const tokenKey = $sendFlowParameters.type === SendFlowType.TokenTransfer ? 'tokenTransfer' : 'baseCoinTransfer'
 
     if (
         $sendFlowParameters.type === SendFlowType.BaseCoinTransfer ||
         $sendFlowParameters.type === SendFlowType.TokenTransfer
     ) {
-        asset = $sendFlowParameters[assetKey].asset
-        rawAmount = $sendFlowParameters[assetKey].rawAmount
-        unit = $sendFlowParameters[assetKey].unit || getUnitFromTokenMetadata(asset?.metadata)
+        token = $sendFlowParameters[tokenKey].token
+        rawAmount = $sendFlowParameters[tokenKey].rawAmount
+        unit = $sendFlowParameters[tokenKey].unit || getUnitFromTokenMetadata(token?.metadata)
     }
 
-    $: availableBalance = asset?.balance?.available
+    $: availableBalance = token?.balance?.available
 
     function setToMax(): void {
-        if (asset?.metadata?.decimals) {
-            amount = formatTokenAmountDefault(availableBalance, asset?.metadata, unit, false)
+        if (token?.metadata?.decimals) {
+            amount = formatTokenAmountDefault(availableBalance, token?.metadata, unit, false)
         } else {
             amount = availableBalance.toString() ?? '0'
         }
@@ -40,12 +34,12 @@
 
     async function onContinueClick(): Promise<void> {
         try {
-            await assetAmountInput?.validate()
+            await tokenAmountInput?.validate()
 
             updateSendFlowParameters({
                 type: $sendFlowParameters.type,
-                [assetKey]: {
-                    asset,
+                [tokenKey]: {
+                    token,
                     rawAmount,
                     unit,
                 },
@@ -59,8 +53,8 @@
     function onBackClick(): void {
         updateSendFlowParameters({
             type: $sendFlowParameters.type,
-            [assetKey]: {
-                asset,
+            [tokenKey]: {
+                token,
                 rawAmount: undefined,
                 unit,
             },
@@ -71,18 +65,18 @@
 
 <SendFlowTemplate
     title={localize('popups.transaction.selectAmount', {
-        values: { tokenName: asset.metadata.name },
+        values: { tokenName: token.metadata.name },
     })}
     leftButton={{ text: localize('actions.back'), onClick: onBackClick }}
     rightButton={{ text: localize('actions.continue'), onClick: onContinueClick, disabled: !amount }}
 >
     <TokenAmountInput
-        bind:this={assetAmountInput}
-        bind:asset
+        bind:this={tokenAmountInput}
+        bind:token
         bind:rawAmount
         bind:inputtedAmount={amount}
         {unit}
         {availableBalance}
     />
-    <TokenAvailableBalanceTile {asset} onMaxClick={setToMax} />
+    <TokenAvailableBalanceTile {token} onMaxClick={setToMax} />
 </SendFlowTemplate>

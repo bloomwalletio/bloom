@@ -1,11 +1,9 @@
-import Big from 'big.js'
-
-import { convertToRawAmount } from '../utils'
-import { TokenMetadata } from '../types'
-import { TokenStandard } from '../enums'
-import { MAX_SUPPORTED_DECIMALS } from '../constants'
 import { DEFAULT_BASE_TOKEN, NetworkId } from '@core/network'
+import { TokenMetadata, TokenStandard } from '@core/token'
 import { IotaUnit } from '@core/utils'
+import Big from 'big.js'
+import { MAX_SUPPORTED_DECIMALS } from '../constants'
+import { convertToRawAmount } from '../utils'
 
 const WEB3_TOKEN_METADATA: TokenMetadata = {
     name: 'RAWR',

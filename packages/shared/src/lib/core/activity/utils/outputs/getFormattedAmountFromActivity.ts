@@ -1,4 +1,5 @@
-import { formatTokenAmountBestMatch, getAssetFromPersistedAssets } from '@core/wallet/utils'
+import { getPersistedAsset } from '@core/token/stores'
+import { formatTokenAmountBestMatch } from '@core/wallet/utils'
 import { ActivityAction, ActivityDirection, ActivityType } from '../../enums'
 import { FoundryActivity, TransactionActivity } from '../../types'
 
@@ -8,7 +9,7 @@ export function getFormattedAmountFromActivity(
 ): string {
     if (!activity) return ''
 
-    const metadata = getAssetFromPersistedAssets(activity.assetId)?.metadata
+    const metadata = getPersistedAsset(activity.assetId)?.metadata
     const amount = formatTokenAmountBestMatch(activity.rawAmount, metadata, 2)
     if (activity.type === ActivityType.Basic) {
         return `${

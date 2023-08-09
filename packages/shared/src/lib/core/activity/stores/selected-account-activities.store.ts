@@ -1,16 +1,15 @@
-import { derived, Readable, writable, Writable } from 'svelte/store'
 import { isValidIrc30Token } from '@core/token'
-
-import { selectedAccount } from '../../account/stores/selected-account.store'
-import { Activity } from '../types/activity.type'
-import { ActivityFilter } from '../types'
-import { isVisibleActivity } from '../utils/isVisibleActivity'
-import { allAccountActivities } from './all-account-activities.store'
-import { ActivityType } from '../enums'
-import { DEFAULT_ACTIVITY_FILTER } from '../constants'
+import { getPersistedAsset } from '@core/token/stores'
 import { SubjectType } from '@core/wallet/enums'
-import { getAssetFromPersistedAssets } from '@core/wallet/utils'
+import { derived, Readable, writable, Writable } from 'svelte/store'
+import { selectedAccount } from '../../account/stores/selected-account.store'
+import { DEFAULT_ACTIVITY_FILTER } from '../constants'
+import { ActivityType } from '../enums'
+import { ActivityFilter } from '../types'
+import { Activity } from '../types/activity.type'
+import { isVisibleActivity } from '../utils/isVisibleActivity'
 import { getFormattedAmountFromActivity } from '../utils/outputs'
+import { allAccountActivities } from './all-account-activities.store'
 
 export const selectedAccountActivities: Readable<Activity[]> = derived(
     [selectedAccount, allAccountActivities],
@@ -38,7 +37,7 @@ export const queriedActivities: Readable<Activity[]> = derived(
 
             const asset =
                 _activity.type === ActivityType.Basic || _activity.type === ActivityType.Foundry
-                    ? getAssetFromPersistedAssets(_activity.assetId)
+                    ? getPersistedAsset(_activity.assetId)
                     : undefined
             const hasValidAsset = asset?.metadata && isValidIrc30Token(asset.metadata)
             return !_activity.isHidden && hasValidAsset
@@ -69,7 +68,7 @@ function getFieldsToSearchFromActivity(activity: Activity): string[] {
     if ((activity.type === ActivityType.Basic || activity.type === ActivityType.Foundry) && activity.assetId) {
         fieldsToSearch.push(activity.assetId)
 
-        const assetName = getAssetFromPersistedAssets(activity.assetId)?.metadata?.name
+        const assetName = getPersistedAsset(activity.assetId)?.metadata?.name
         if (assetName) {
             fieldsToSearch.push(assetName)
         }

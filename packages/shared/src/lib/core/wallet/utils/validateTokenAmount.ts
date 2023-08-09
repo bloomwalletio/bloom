@@ -1,24 +1,23 @@
 import { localize, parseCurrency } from '@core/i18n'
 import { convertToRawAmount } from './convertToRawAmount'
-import { TokenStandard } from '../enums'
 import Big from 'big.js'
-import { IAsset } from '..'
+import { IToken, TokenStandard } from '@core/token'
 
 export function validateTokenAmount(
     amount: string,
-    asset: IAsset,
+    token: IToken,
     unit: string,
     allowZeroOrNull = false
 ): Promise<string> {
-    if (amount === undefined || asset?.metadata === undefined) {
+    if (amount === undefined || token?.metadata === undefined) {
         return Promise.reject()
     }
     const amountAsFloat = parseCurrency(amount)
     const isAmountZeroOrNull = !Number(amountAsFloat)
     const requiresRawAmount =
-        (asset.metadata.standard === TokenStandard.BaseToken && unit === asset.metadata.subunit) ||
-        asset.metadata.decimals === 0
-    const bigAmount = convertToRawAmount(amount, asset.metadata, unit)
+        (token.metadata.standard === TokenStandard.BaseToken && unit === token.metadata.subunit) ||
+        token.metadata.decimals === 0
+    const bigAmount = convertToRawAmount(amount, token.metadata, unit)
 
     // Zero value transactions can still contain metadata/tags
     let error = ''
@@ -28,7 +27,7 @@ export function validateTokenAmount(
         error = localize('error.send.amountInvalidFormat')
     } else if (requiresRawAmount && Number.parseInt(amount, 10).toString() !== amount) {
         error = localize('error.send.amountNoFloat')
-    } else if (bigAmount.gt(Big(asset?.balance?.available ?? 0))) {
+    } else if (bigAmount.gt(Big(token?.balance?.available ?? 0))) {
         error = localize('error.send.amountTooHigh')
     } else if (bigAmount.lte(Big(0))) {
         error = localize('error.send.amountZero')

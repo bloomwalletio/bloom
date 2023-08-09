@@ -3,15 +3,14 @@ import { MarketCoinPrices } from '@core/market'
 import { getActiveNetworkId } from '@core/network/utils/getNetworkId'
 import { ChainId, NetworkId, getNetwork } from '@core/network'
 import { getCoinType } from '@core/profile'
-import { isValidIrc30Token, isValidToken } from '@core/token'
-import { IAsset } from '../interfaces'
-import { AccountAssets, IAccountAssetsPerNetwork } from '../interfaces/account-assets.interface'
-import { getAssetFromPersistedAssets } from '../utils'
-import { sortAssets } from '../utils/sortAssets'
+import { IToken, isValidIrc30Token, isValidToken } from '@core/token'
+import { AccountTokens, IAccountTokensPerNetwork } from '../interfaces/account-tokens.interface'
 import { getLayer2AccountBalance } from '@core/layer-2/stores'
+import { getPersistedAsset } from '../stores'
+import { sortTokens } from '@core/wallet/utils/sortAssets'
 
-export function getAccountAssetsForSelectedAccount(marketCoinPrices: MarketCoinPrices): AccountAssets {
-    const accountAssets = {} as AccountAssets
+export function getAccountTokensForSelectedAccount(marketCoinPrices: MarketCoinPrices): AccountTokens {
+    const accountAssets = {} as AccountTokens
 
     const networkId = getActiveNetworkId()
     if (!networkId) {
@@ -32,12 +31,12 @@ export function getAccountAssetsForSelectedAccount(marketCoinPrices: MarketCoinP
     return accountAssets
 }
 
-function getAccountAssetForNetwork(marketCoinPrices: MarketCoinPrices, networkId: NetworkId): IAccountAssetsPerNetwork {
+function getAccountAssetForNetwork(marketCoinPrices: MarketCoinPrices, networkId: NetworkId): IAccountTokensPerNetwork {
     const account = getSelectedAccount()
 
     const shouldCalculateFiatPrice = networkId === NetworkId.Shimmer || networkId === NetworkId.Testnet
-    const persistedBaseCoin = getAssetFromPersistedAssets(getCoinType())
-    const baseCoin: IAsset = {
+    const persistedBaseCoin = getPersistedAsset(getCoinType())
+    const baseCoin: IToken = {
         ...persistedBaseCoin,
         chainId: ChainId.Layer1,
         balance: {
@@ -47,10 +46,10 @@ function getAccountAssetForNetwork(marketCoinPrices: MarketCoinPrices, networkId
         ...(shouldCalculateFiatPrice && { marketPrices: marketCoinPrices?.shimmer }),
     }
 
-    const nativeTokens: IAsset[] = []
+    const nativeTokens: IToken[] = []
     const tokens = account?.balances?.nativeTokens ?? []
     for (const token of tokens) {
-        const persistedAsset = getAssetFromPersistedAssets(token.tokenId)
+        const persistedAsset = getPersistedAsset(token.tokenId)
         if (persistedAsset && persistedAsset?.metadata && isValidIrc30Token(persistedAsset.metadata)) {
             nativeTokens.push({
                 ...persistedAsset,
@@ -65,11 +64,11 @@ function getAccountAssetForNetwork(marketCoinPrices: MarketCoinPrices, networkId
 
     return {
         baseCoin,
-        nativeTokens: sortAssets(nativeTokens),
+        nativeTokens: sortTokens(nativeTokens),
     }
 }
 
-function getAccountAssetForChain(chainId: number): IAccountAssetsPerNetwork | undefined {
+function getAccountAssetForChain(chainId: number): IAccountTokensPerNetwork | undefined {
     const index = getSelectedAccount()?.index
     const balanceForChainId = index !== undefined ? getLayer2AccountBalance(index)?.[chainId] : undefined
 
@@ -77,8 +76,8 @@ function getAccountAssetForChain(chainId: number): IAccountAssetsPerNetwork | un
         return undefined
     }
 
-    let baseCoin: IAsset | undefined
-    const nativeTokens: IAsset[] = []
+    let baseCoin: IToken | undefined
+    const nativeTokens: IToken[] = []
     const tokens = Object.entries(balanceForChainId) ?? []
 
     for (const [tokenId, balance] of tokens) {
@@ -88,14 +87,14 @@ function getAccountAssetForChain(chainId: number): IAccountAssetsPerNetwork | un
         }
 
         if (tokenId === '0x') {
-            const persistedBaseCoin = getAssetFromPersistedAssets(getCoinType()) // we use the L1 coin type for now because we assume that the basecoin for L2 is SMR
+            const persistedBaseCoin = getPersistedAsset(getCoinType()) // we use the L1 coin type for now because we assume that the basecoin for L2 is SMR
             baseCoin = {
                 ...persistedBaseCoin,
                 balance: _balance,
                 chainId,
             }
         } else {
-            const persistedAsset = getAssetFromPersistedAssets(tokenId)
+            const persistedAsset = getPersistedAsset(tokenId)
             if (persistedAsset && persistedAsset?.metadata && isValidToken(persistedAsset.metadata)) {
                 nativeTokens.push({
                     ...persistedAsset,
@@ -108,6 +107,6 @@ function getAccountAssetForChain(chainId: number): IAccountAssetsPerNetwork | un
 
     return {
         baseCoin,
-        nativeTokens: sortAssets(nativeTokens),
+        nativeTokens: sortTokens(nativeTokens),
     }
 }

@@ -1,10 +1,10 @@
 <script lang="ts">
     import { AssetIcon, Text, FontWeight, TextType, InformationTooltip } from '@ui'
     import { getNthOccurrenceIndex } from '@core/utils'
-    import { IPersistedAsset, formatTokenAmountDefault } from '@core/wallet'
+    import { IPersistedToken, formatTokenAmountDefault } from '@core/wallet'
     import { getDecimalSeparator, getGroupSeparator } from '@core/i18n'
 
-    export let asset: IPersistedAsset
+    export let asset: IPersistedToken
     export let amount: number
     export let unit: string | undefined = undefined
 

@@ -1,5 +1,5 @@
 import { network } from '@core/network/stores'
-import { IErc20Metadata, TokenStandard } from '@core/wallet'
+import { IErc20Metadata, TokenStandard } from '@core/token'
 import { get } from 'svelte/store'
 import { ContractType } from '../enums'
 

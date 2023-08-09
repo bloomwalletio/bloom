@@ -1,4 +1,4 @@
-import { IIrc30Metadata } from '../interfaces'
+import { IIrc30Metadata } from '@core/token'
 
 export function validateIrc30Metadata(metadata: IIrc30Metadata): boolean {
     if (!metadata?.standard || typeof metadata?.standard !== 'string') {

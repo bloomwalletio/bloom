@@ -1,6 +1,4 @@
 <script lang="ts">
-    import { localize } from '@core/i18n'
-    import { getAssetFromPersistedAssets, IPersistedAsset, selectedAccountAssets } from '@core/wallet'
     import {
         ActivityDirection,
         getActivityTileTitle,
@@ -8,12 +6,15 @@
         getSubjectLocaleFromActivity,
         TransactionActivity,
     } from '@core/activity'
+    import { localize } from '@core/i18n'
+    import { IPersistedToken } from '@core/token'
+    import { getPersistedAsset, selectedAccountTokens } from '@core/token/stores'
     import { ActivityTileContent, AssetIcon } from '@ui'
 
     export let activity: TransactionActivity
 
-    let asset: IPersistedAsset
-    $: $selectedAccountAssets, (asset = getAssetFromPersistedAssets(activity.assetId))
+    let token: IPersistedToken
+    $: $selectedAccountTokens, (token = getPersistedAsset(activity.assetId))
     $: action = localize(getActivityTileTitle(activity))
     $: subject =
         activity.direction === ActivityDirection.SelfTransaction
@@ -33,6 +34,6 @@
 
 {#if asset}
     <ActivityTileContent {action} {subject} {formattedAsset}>
-        <AssetIcon slot="icon" {asset} chainId={activity.chainId} />
+        <AssetIcon slot="icon" {token} chainId={activity.chainId} />
     </ActivityTileContent>
 {/if}

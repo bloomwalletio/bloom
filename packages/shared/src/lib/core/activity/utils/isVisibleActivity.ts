@@ -1,9 +1,5 @@
-import { get } from 'svelte/store'
-import { Activity, ActivityFilter } from '../types'
-import { activityFilter } from '../stores'
-import { ActivityAsyncStatus, InclusionState, ActivityType } from '../enums'
+import { getPersistedAsset } from '@core/token/stores'
 import { dateIsAfterOtherDate, dateIsBeforeOtherDate, datesOnSameDay } from '@core/utils'
-import Big from 'big.js'
 import {
     BooleanFilterOption,
     DateFilterOption,
@@ -12,7 +8,12 @@ import {
     NumberFilterOption,
     StatusFilterOption,
 } from '@core/utils/enums/filters'
-import { convertToRawAmount, getAssetFromPersistedAssets } from '@core/wallet/utils'
+import { convertToRawAmount } from '@core/wallet/utils'
+import Big from 'big.js'
+import { get } from 'svelte/store'
+import { ActivityAsyncStatus, ActivityType, InclusionState } from '../enums'
+import { activityFilter } from '../stores'
+import { Activity, ActivityFilter } from '../types'
 
 // Filters activities based on activity properties. If none of the conditionals are valid, then activity is shown.
 export function isVisibleActivity(activity: Activity): boolean {
@@ -27,7 +28,7 @@ export function isVisibleActivity(activity: Activity): boolean {
     if (!isVisibleWithActiveRejectedFilter(activity, filter)) {
         return false
     }
-    if (!isVisibleWithActiveAssetFilter(activity, filter)) {
+    if (!isVisibleWithActiveTokenFilter(activity, filter)) {
         return false
     }
     if (!isVisibleWithActiveAmountFilter(activity, filter)) {
@@ -82,7 +83,7 @@ function isVisibleWithActiveRejectedFilter(activity: Activity, filter: ActivityF
     return true
 }
 
-function isVisibleWithActiveAssetFilter(activity: Activity, filter: ActivityFilter): boolean {
+function isVisibleWithActiveTokenFilter(activity: Activity, filter: ActivityFilter): boolean {
     if (filter.asset.active && filter.asset.selected) {
         if (activity.type !== ActivityType.Basic && activity.type !== ActivityType.Foundry) {
             return false
@@ -96,7 +97,7 @@ function isVisibleWithActiveAssetFilter(activity: Activity, filter: ActivityFilt
 
 function isVisibleWithActiveAmountFilter(activity: Activity, filter: ActivityFilter): boolean {
     if (filter.amount.active && (activity.type === ActivityType.Basic || activity.type === ActivityType.Foundry)) {
-        const asset = getAssetFromPersistedAssets(activity.assetId)
+        const asset = getPersistedAsset(activity.assetId)
         const activityAmount = Big(activity.rawAmount)
 
         if (

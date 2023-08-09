@@ -1,5 +1,5 @@
 import { NotVerifiedStatus, VerifiedStatus } from '../enums'
 
-export type AssetVerification =
+export type TokenVerification =
     | { verified: true; status: VerifiedStatus }
     | { verified: false; status: NotVerifiedStatus }

@@ -1,69 +1,70 @@
 <script lang="ts">
     import VirtualList from '@sveltejs/svelte-virtual-list'
-    import { TokenAmountTile, Text, TextType } from '@ui'
-    import { AssetListMenuButton, Filter } from '../../../../desktop/components' // TODO: refactor to match dependency platform
+    import { Text, TextType, TokenAmountTile } from '@ui'
+    import { AssetListMenuButton, Filter } from '../../../../desktop/components'
     import { localize } from '@core/i18n'
-    import { assetFilter, AccountAssets, IAsset } from '@core/wallet'
+    import { AccountTokens, IToken } from '@core/token'
+    import { tokenFilter } from '@core/token/stores'
     import { isVisibleAsset } from '@core/wallet/utils/isVisibleAsset'
-    import { openPopup, PopupId } from '../../../../desktop/lib/auxiliary/popup'
+    import { PopupId, openPopup } from '../../../../desktop/lib/auxiliary/popup'
 
-    export let assets: AccountAssets
+    export let accountTokens: AccountTokens
 
-    let filteredAssetList: IAsset[]
-    $: $assetFilter, assets, (filteredAssetList = getFilteredAssetList()), scrollToTop()
+    let filteredTokenList: IToken[]
+    $: $tokenFilter, accountTokens, (filteredTokenList = getFilteredTokenList()), scrollToTop()
 
     let isEmptyBecauseOfFilter: boolean = false
-    $: assets, (isEmptyBecauseOfFilter = getAssetList().length > 0 && filteredAssetList.length === 0)
+    $: accountTokens, (isEmptyBecauseOfFilter = getTokenList().length > 0 && filteredTokenList.length === 0)
 
-    function getFilteredAssetList(): IAsset[] {
-        const list = getAssetList()
+    function getFilteredTokenList(): IToken[] {
+        const list = getTokenList()
         return list.filter((_nativeToken) => isVisibleAsset(_nativeToken))
     }
 
-    function getAssetList(): IAsset[] {
+    function getTokenList(): IToken[] {
         const list = []
-        for (const networkAssets of Object.values(assets)) {
-            if (networkAssets?.baseCoin) {
-                list.push(networkAssets.baseCoin)
+        for (const networkTokens of Object.values(accountTokens)) {
+            if (networkTokens?.baseCoin) {
+                list.push(networkTokens.baseCoin)
             }
-            list.push(...(networkAssets?.nativeTokens ?? []))
+            list.push(...(networkTokens?.nativeTokens ?? []))
         }
         return list
     }
 
     function scrollToTop() {
-        const listElement = document.querySelector('.asset-list')?.querySelector('svelte-virtual-list-viewport')
+        const listElement = document.querySelector('.token-list')?.querySelector('svelte-virtual-list-viewport')
         if (listElement) {
             listElement.scroll(0, 0)
         }
     }
 
-    function onTokenAmountTileClick(asset: IAsset): void {
+    function onTokenAmountTileClick(token: IToken): void {
         openPopup({
             id: PopupId.TokenInformation,
             overflow: true,
             props: {
-                asset,
+                token,
             },
         })
     }
 </script>
 
-{#if assets}
-    <div class="asset-list h-full p-6 flex flex-auto flex-col flex-grow shrink-0">
+{#if accountTokens}
+    <div class="token-list h-full p-6 flex flex-auto flex-col flex-grow shrink-0">
         <div class="w-full flex flex-row justify-between items-center mb-4">
-            <Text classes="text-left" type={TextType.h5}>{localize('general.assets')}</Text>
+            <Text classes="text-left" type={TextType.h5}>{localize('general.accountTokens')}</Text>
             <div class="flex flex-row gap-1">
-                <Filter filterStore={assetFilter} />
+                <Filter filterStore={tokenFilter} />
                 <AssetListMenuButton />
             </div>
         </div>
         <div class="flex-auto h-full pb-10">
-            {#if filteredAssetList.length > 0}
-                <VirtualList items={filteredAssetList} let:item>
+            {#if filteredTokenList.length > 0}
+                <VirtualList items={filteredTokenList} let:item>
                     <TokenAmountTile
                         onClick={() => onTokenAmountTileClick(item)}
-                        asset={item}
+                        token={item}
                         amount={item.balance.total}
                         classes="mb-2"
                     />
@@ -80,13 +81,13 @@
 {/if}
 
 <style lang="scss">
-    .asset-list :global(svelte-virtual-list-viewport) {
+    .token-list :global(svelte-virtual-list-viewport) {
         margin-right: -1rem !important;
         flex: auto;
         overflow-y: scroll;
         padding-right: 1.5rem !important;
     }
-    .asset-list :global(svelte-virtual-list-contents) {
+    .token-list :global(svelte-virtual-list-contents) {
         margin-right: -1rem !important;
     }
 </style>

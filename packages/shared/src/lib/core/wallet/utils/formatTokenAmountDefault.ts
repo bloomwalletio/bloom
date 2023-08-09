@@ -1,6 +1,5 @@
 import { formatNumber } from '@core/i18n'
-import { TokenStandard } from '../enums'
-import { TokenMetadata } from '../types'
+import { TokenMetadata, TokenStandard } from '@core/token'
 
 export function formatTokenAmountDefault(
     amount: number,

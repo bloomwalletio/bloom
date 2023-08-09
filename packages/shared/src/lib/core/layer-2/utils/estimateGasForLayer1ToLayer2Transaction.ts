@@ -54,24 +54,24 @@ function getTransferredAsset(sendFlowParameters: SendFlowParameters): Transferre
               }
             : undefined
     } else if (sendFlowParameters.type === SendFlowType.TokenTransfer) {
-        const asset = sendFlowParameters.tokenTransfer?.asset
+        const token = sendFlowParameters.tokenTransfer?.token
         const amount = sendFlowParameters.tokenTransfer?.rawAmount ?? '0'
 
-        return asset
+        return token
             ? {
                   type: AssetType.BaseCoin,
-                  asset,
+                  token,
                   amount,
               }
             : undefined
     } else {
-        const asset = sendFlowParameters.baseCoinTransfer?.asset
+        const token = sendFlowParameters.baseCoinTransfer?.token
         const amount = sendFlowParameters.baseCoinTransfer?.rawAmount ?? '0'
 
-        return asset
+        return token
             ? {
                   type: AssetType.BaseCoin,
-                  asset,
+                  token,
                   amount,
               }
             : undefined

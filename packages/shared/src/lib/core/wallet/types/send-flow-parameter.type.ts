@@ -1,6 +1,7 @@
 import type { ILayer2Parameters } from '@core/layer-2'
 import { INft } from '@core/nfts'
-import type { IAsset, Subject } from '@core/wallet'
+import { IToken } from '@core/token'
+import type { Subject } from '@core/wallet'
 import { SendFlowType } from '@core/wallet/stores'
 
 export type SendFlowParameters = TokenSendFlowParameters | NftSendFlowParameters | BaseSendFlowParameters
@@ -32,6 +33,6 @@ export interface NftSendFlowParameters extends Omit<BaseSendFlowParameters, 'typ
 
 export type TokenTransferData = {
     rawAmount?: string
-    asset?: IAsset
+    token?: IToken
     unit?: string
 }

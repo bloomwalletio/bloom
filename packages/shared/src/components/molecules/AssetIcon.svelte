@@ -4,48 +4,48 @@
     import { COIN_TYPE, NetworkId, network } from '@core/network'
     import { activeProfile } from '@core/profile'
     import { isBright } from '@core/utils'
-    import { ANIMATED_TOKEN_IDS, getAssetInitials, IPersistedAsset, TokenStandard } from '@core/wallet'
+    import { ANIMATED_TOKEN_IDS, getTokenInitials, IPersistedToken, TokenStandard } from '@core/token'
     import { Animation, Icon, NetworkIconBadge, VerificationBadge } from '@ui'
 
-    export let asset: IPersistedAsset
+    export let token: IPersistedToken
     export let chainId: number | undefined
     export let large = false
     export let small = false
 
     let icon: IconEnum | null
-    let assetIconColor: string
-    let assetIconBackgroundColor: string
-    let assetInitials: string
-    let assetIconWrapperWidth: number
-    let assetLogoUrl: string
+    let tokenIconColor: string
+    let tokenIconBackgroundColor: string
+    let tokenInitials: string
+    let tokenIconWrapperWidth: number
+    let tokenLogoUrl: string
     let chainName: string | undefined
 
     $: $network, chainId, (chainName = getTooltipText())
-    $: isAnimation = asset.id in ANIMATED_TOKEN_IDS
+    $: isAnimation = token.id in ANIMATED_TOKEN_IDS
 
     $: {
-        switch (asset.id) {
+        switch (token.id) {
             case String(COIN_TYPE[NetworkId.Iota]):
-                assetInitials = ''
-                assetIconBackgroundColor = '#6E82A4'
-                assetIconColor = isBright(assetIconBackgroundColor) ? 'gray-800' : 'white'
+                tokenInitials = ''
+                tokenIconBackgroundColor = '#6E82A4'
+                tokenIconColor = isBright(tokenIconBackgroundColor) ? 'gray-800' : 'white'
                 icon = NETWORK_ICON_SVG[NetworkId.Iota]
                 break
             case String(COIN_TYPE[NetworkId.Shimmer]):
             case String(COIN_TYPE[NetworkId.Testnet]):
-                assetInitials = ''
-                assetIconBackgroundColor = '#25DFCA'
-                assetIconColor = isBright(assetIconBackgroundColor) ? 'gray-800' : 'white'
+                tokenInitials = ''
+                tokenIconBackgroundColor = '#25DFCA'
+                tokenIconColor = isBright(tokenIconBackgroundColor) ? 'gray-800' : 'white'
                 icon = NETWORK_ICON_SVG[NetworkId.Shimmer]
                 break
             default:
-                assetInitials = getAssetInitials(asset)
-                assetIconBackgroundColor = getIconColorFromString(asset.metadata?.name, {
+                tokenInitials = getTokenInitials(token)
+                tokenIconBackgroundColor = getIconColorFromString(token.metadata?.name, {
                     shades: ['500', '600', '700', '800'],
                     colorsToExclude: ['gray'],
                 })
-                assetIconColor = isBright(assetIconBackgroundColor) ? 'gray-800' : 'white'
-                assetLogoUrl = asset.metadata?.standard === TokenStandard.Irc30 ? asset.metadata?.logoUrl ?? '' : ''
+                tokenIconColor = isBright(tokenIconBackgroundColor) ? 'gray-800' : 'white'
+                tokenLogoUrl = token.metadata?.standard === TokenStandard.Irc30 ? token.metadata?.logoUrl ?? '' : ''
                 icon = null
         }
     }
@@ -72,35 +72,35 @@
         rounded-full flex justify-center items-center transition-none
         {isAnimation ? 'p-0' : 'p-1'}
         {large ? 'w-12 h-12' : small ? 'w-6 h-6' : 'w-8 h-8'}
-        {assetIconBackgroundColor ? 'icon-bg' : 'bg-blue-500'}
+        {tokenIconBackgroundColor ? 'icon-bg' : 'bg-blue-500'}
     "
-        style={assetIconBackgroundColor ? `--icon-bg-color: ${assetIconBackgroundColor}` : ''}
-        bind:clientWidth={assetIconWrapperWidth}
+        style={tokenIconBackgroundColor ? `--icon-bg-color: ${tokenIconBackgroundColor}` : ''}
+        bind:clientWidth={tokenIconWrapperWidth}
     >
         {#if isAnimation}
             <Animation
                 classes={large ? 'w-12 h-12' : small ? 'w-6 h-6' : 'w-8 h-8'}
-                animation={ANIMATED_TOKEN_IDS[asset.id]}
+                animation={ANIMATED_TOKEN_IDS[token.id]}
                 loop={true}
                 renderer="canvas"
             />
         {:else if icon}
-            <Icon {icon} width="80%" height="80%" classes="text-{assetIconColor ?? 'blue-500'} text-center" />
-        {:else if assetLogoUrl}
-            <img src={assetLogoUrl} on:error={() => (assetLogoUrl = '')} alt="" class="w-full h-full" />
+            <Icon {icon} width="80%" height="80%" classes="text-{tokenIconColor ?? 'blue-500'} text-center" />
+        {:else if tokenLogoUrl}
+            <img src={tokenLogoUrl} on:error={() => (tokenLogoUrl = '')} alt="" class="w-full h-full" />
         {:else}
             <p
                 style={`font-size: ${Math.floor(
-                    Math.min(large ? 20 : 12, assetIconWrapperWidth / assetInitials?.length)
+                    Math.min(large ? 20 : 12, tokenIconWrapperWidth / tokenInitials?.length)
                 )}px;`}
-                class="transition-none font-600 text-{assetIconColor ?? 'blue-500'} text-center"
+                class="transition-none font-600 text-{tokenIconColor ?? 'blue-500'} text-center"
             >
-                {assetInitials?.toUpperCase() ?? '-'}
+                {tokenInitials?.toUpperCase() ?? '-'}
             </p>
         {/if}
     </div>
     <span class="absolute flex justify-center items-center bottom-0 right-0">
-        {#if asset.verification.verified === true}
+        {#if token.verification.verified === true}
             <NetworkIconBadge
                 width={10}
                 height={10}
@@ -109,7 +109,7 @@
                 tooltipText={chainName}
             />
         {:else}
-            <VerificationBadge status={asset.verification?.status} width={14} height={14} />
+            <VerificationBadge status={token.verification?.status} width={14} height={14} />
         {/if}
     </span>
 </div>

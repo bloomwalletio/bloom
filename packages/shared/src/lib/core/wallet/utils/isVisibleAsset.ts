@@ -1,43 +1,43 @@
+import { IToken, TokenFilter } from '@core/token'
+import { tokenFilter } from '@core/token/stores'
 import { BooleanFilterOption } from '@core/utils/enums/filters'
 import { get } from 'svelte/store'
-import { AssetFilter, IAsset } from '../interfaces'
-import { assetFilter } from '../stores'
 
-// Filters assets based on asset properties. If none of the conditionals are valid, then asset is shown.
-export function isVisibleAsset(asset: IAsset): boolean {
-    const filter = get(assetFilter)
-    if (!isVisibleWithActiveHiddenFilter(asset, filter)) {
+// Filters assets based on token properties. If none of the conditionals are valid, then token is shown.
+export function isVisibleAsset(token: IToken): boolean {
+    const filter = get(tokenFilter)
+    if (!isVisibleWithActiveHiddenFilter(token, filter)) {
         return false
     }
-    if (!isVisibleWithActiveVerificationStatusFilter(asset, filter)) {
+    if (!isVisibleWithActiveVerificationStatusFilter(token, filter)) {
         return false
     }
-    if (!isVisibleWithNetworkFilter(asset, filter)) {
+    if (!isVisibleWithNetworkFilter(token, filter)) {
         return false
     }
     return true
 }
 
-function isVisibleWithActiveHiddenFilter(asset: IAsset, filter: AssetFilter): boolean {
-    if ((!filter.showHidden.active || filter.showHidden.selected === BooleanFilterOption.No) && asset.hidden) {
+function isVisibleWithActiveHiddenFilter(token: IToken, filter: TokenFilter): boolean {
+    if ((!filter.showHidden.active || filter.showHidden.selected === BooleanFilterOption.No) && token.hidden) {
         return false
     }
     return true
 }
 
-function isVisibleWithActiveVerificationStatusFilter(asset: IAsset, filter: AssetFilter): boolean {
+function isVisibleWithActiveVerificationStatusFilter(token: IToken, filter: TokenFilter): boolean {
     if (
         filter.verificationStatus.active &&
         filter.verificationStatus.selected &&
-        asset.verification?.status !== filter.verificationStatus.selected
+        token.verification?.status !== filter.verificationStatus.selected
     ) {
         return false
     }
     return true
 }
 
-function isVisibleWithNetworkFilter(asset: IAsset, filter: AssetFilter): boolean {
-    const assetChainId = asset.chainId
+function isVisibleWithNetworkFilter(token: IToken, filter: TokenFilter): boolean {
+    const assetChainId = token.chainId
     if (filter.network.active && filter.network.selected >= 0 && assetChainId !== filter.network.selected) {
         return false
     }

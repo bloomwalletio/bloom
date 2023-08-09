@@ -3,7 +3,7 @@ import { updateNftInAllAccountNfts } from '@core/nfts'
 import { ActivityAsyncStatus, ActivityDirection, ActivityType } from '../enums'
 import { allAccountActivities } from '../stores'
 import { getAsyncStatus } from '../utils/helper'
-import { refreshAccountAssetsForActiveProfile } from '@core/wallet/actions'
+import { refreshAccountTokensForActiveProfile } from '@core/token/actions'
 
 export function setAsyncStatusOfAccountActivities(time: Date): void {
     const balancesToUpdate: number[] = []
@@ -42,6 +42,6 @@ export function setAsyncStatusOfAccountActivities(time: Date): void {
         syncBalance(accountIndex)
     }
     if (balancesToUpdate.length) {
-        void refreshAccountAssetsForActiveProfile()
+        void refreshAccountTokensForActiveProfile()
     }
 }

@@ -1,25 +1,26 @@
 <script lang="ts">
-    import { IAsset, visibleSelectedAccountAssets } from '@core/wallet'
+    import { IToken } from '@core/token'
+    import { visibleSelectedAccountTokens } from '@core/token/stores'
     import { TokenAmountTile, Icon, Text, AssetIcon, FontWeight } from '@ui'
     import { clickOutside } from '@core/utils'
     import { activeProfile } from '@core/profile'
 
-    export let asset = $visibleSelectedAccountAssets?.[$activeProfile?.network?.id]?.baseCoin
+    export let token = $visibleSelectedAccountTokens?.[$activeProfile?.network?.id]?.baseCoin
     export let readonly: boolean = false
 
     let isDropdownOpen = false
-    let assetList: IAsset[] = []
+    let tokenList: IToken[] = []
 
-    $: isReadonly = readonly || $visibleSelectedAccountAssets?.[$activeProfile?.network?.id]?.nativeTokens.length === 0
-    $: $visibleSelectedAccountAssets, (assetList = getAssetList())
+    $: isReadonly = readonly || $visibleSelectedAccountTokens?.[$activeProfile?.network?.id]?.nativeTokens.length === 0
+    $: $visibleSelectedAccountTokens, (tokenList = getTokenList())
 
-    function getAssetList(): IAsset[] {
+    function getTokenList(): IToken[] {
         const list = []
-        for (const assetsPernetwork of Object.values($visibleSelectedAccountAssets)) {
-            if (assetsPernetwork?.baseCoin) {
-                list.push(assetsPernetwork.baseCoin)
+        for (const tokensPerNetwork of Object.values($visibleSelectedAccountTokens)) {
+            if (tokensPerNetwork?.baseCoin) {
+                list.push(tokensPerNetwork.baseCoin)
             }
-            list.push(...(assetsPernetwork?.nativeTokens ?? []))
+            list.push(...(tokensPerNetwork?.nativeTokens ?? []))
         }
         return list
     }
@@ -30,8 +31,8 @@
         }
     }
 
-    function onAssetClick(_asset: IAsset): void {
-        asset = _asset
+    function onTokenClick(_asset: IToken): void {
+        token = _asset
         isDropdownOpen = false
     }
 
@@ -40,7 +41,7 @@
     }
 </script>
 
-{#if asset}
+{#if token}
     <div class="flex flex-col" use:clickOutside on:clickOutside={onOutsideClick}>
         <button
             type="button"
@@ -48,7 +49,7 @@
             class:cursor-pointer={!isReadonly}
             on:click={onDropdownClick}
         >
-            <AssetIcon small {asset} chainId={asset.chainId} />
+            <AssetIcon small {token} chainId={token.chainId} />
             <div class="w-full relative" style="max-width: 75px;">
                 <Text
                     color="gray-600"
@@ -57,7 +58,7 @@
                     fontSize="15"
                     classes="overflow-hidden whitespace-nowrap text-ellipsis"
                 >
-                    {asset?.metadata?.name ?? asset?.id}
+                    {token?.metadata?.name ?? token?.id}
                 </Text>
             </div>
             {#if !isReadonly}
@@ -71,12 +72,12 @@
                 class="dropdown bg-white dark:bg-gray-800 absolute flex flex-col top-12 -left-5 -right-5 border border-solid border-blue-500 rounded-xl z-10 p-4 max-h-96"
             >
                 <ul class="overflow-y-auto h-full -mr-2 pr-2">
-                    {#each assetList as asset}
+                    {#each tokenList as token}
                         <li>
                             <TokenAmountTile
-                                onClick={() => onAssetClick(asset)}
-                                {asset}
-                                amount={asset.balance.total}
+                                onClick={() => onTokenClick(token)}
+                                {token}
+                                amount={token.balance.total}
                                 classes="bg-white hover:bg-gray-50 dark:bg-transparent"
                             />
                         </li>
