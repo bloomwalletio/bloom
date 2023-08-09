@@ -2,6 +2,7 @@
     import { showNotification } from '@auxiliary/notification'
     import { sumBalanceForAccounts } from '@core/account'
     import { DEFAULT_SYNC_OPTIONS } from '@core/account/constants'
+    import { generateAndStoreActivitiesForAllAccounts } from '@core/activity/actions'
     import { localize } from '@core/i18n'
     import { loadNftsForActiveProfile } from '@core/nfts'
     import {
@@ -14,19 +15,12 @@
         visibleActiveAccounts,
     } from '@core/profile'
     import { RecoverAccountsPayload, recoverAccounts } from '@core/profile-manager'
-    import {
-        formatTokenAmountBestMatch,
-        generateAndStoreActivitiesForAllAccounts,
-        refreshAccountAssetsForActiveProfile,
-    } from '@core/wallet'
+    import { formatTokenAmountBestMatch, refreshAccountAssetsForActiveProfile } from '@core/wallet'
     import { closePopup } from '@desktop/auxiliary/popup'
     import { Button, FontWeight, KeyValueBox, Text, TextHint, TextType } from '@ui'
     import { onDestroy, onMount } from 'svelte'
 
-    export let _onMount: (..._: any[]) => Promise<void> = async () => {}
     export let searchForBalancesOnLoad = false
-
-    $: searchForBalancesOnLoad && onFindBalancesClick()
 
     const { type } = $activeProfile
 
@@ -71,19 +65,19 @@
     }
 
     async function onFindBalancesClick(): Promise<void> {
-        await checkActiveProfileAuth(searchForBalance, { stronghold: true, ledger: true })
+        await checkActiveProfileAuth(searchForBalance, {
+            stronghold: true,
+            ledger: true,
+            props: { searchForBalancesOnLoad: true },
+        })
     }
 
     function onCancelClick(): void {
         closePopup()
     }
 
-    onMount(async () => {
-        try {
-            await _onMount()
-        } catch (err) {
-            console.error(err)
-        }
+    onMount(() => {
+        searchForBalancesOnLoad && void searchForBalance()
     })
 
     onDestroy(async () => {
