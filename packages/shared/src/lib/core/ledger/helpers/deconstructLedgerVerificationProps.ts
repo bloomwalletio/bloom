@@ -1,7 +1,7 @@
+import { formatTokenAmountDefault } from '@core/token'
+import { SendFlowType, sendFlowParameters } from '@core/wallet/stores'
 import { get } from 'svelte/store'
 import { PopupProps } from '../../../../../../desktop/lib/auxiliary/popup/types'
-import { SendFlowType, sendFlowParameters } from '@core/wallet/stores'
-import { formatTokenAmountDefault } from '@core/wallet/utils'
 
 export function deconstructLedgerVerificationProps(): PopupProps | undefined {
     const _sendFlowParameters = get(sendFlowParameters)

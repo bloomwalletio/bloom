@@ -8,7 +8,7 @@ import { getLayer2AccountBalance } from '@core/layer-2/stores'
 import { getPersistedToken } from '../stores'
 import { sortTokens } from '@core/token/utils/sortTokens'
 import { IToken } from '../interfaces'
-import { isValidIrc30Token } from '../utils'
+import { isValidIrc30Token, isValidToken } from '../utils'
 
 export function getAccountTokensForSelectedAccount(marketCoinPrices: MarketCoinPrices): AccountTokens {
     const accountAssets = {} as AccountTokens
