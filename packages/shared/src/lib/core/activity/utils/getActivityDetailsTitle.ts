@@ -3,8 +3,7 @@ import { ActivityAction, ActivityType } from '../enums'
 import { Activity } from '../types'
 import { getVotingEvent } from '@contexts/governance/actions'
 import { truncateString } from '@core/utils'
-import { getSubjectFromActivity } from './helper'
-import { SubjectType } from '@core/wallet/enums'
+import { getSubjectLocaleFromActivity } from './helper'
 
 export async function getActivityDetailsTitle(activity: Activity): Promise<string> {
     const localizationPrefix = 'popups.activityDetails.title'
@@ -31,31 +30,16 @@ export async function getActivityDetailsTitle(activity: Activity): Promise<strin
         const key = `${localizationPrefix}.${(activity.isInternal ? 'internal.' : 'external.') + activity.direction}.${
             activity.inclusionState
         }`
-        const displayedSubject = getDisplayedSubject(activity)
+        const displayedSubject = getSubjectLocaleFromActivity(activity)
 
         return localize(key, { subject: displayedSubject })
     } else if (activity.action === ActivityAction.Mint || activity.action === ActivityAction.Burn) {
         const key = `${localizationPrefix}.${activity.action}.${activity.inclusionState}`
-        const displayedSubject = getDisplayedSubject(activity)
+        const displayedSubject = getSubjectLocaleFromActivity(activity)
 
         return localize(key, { subject: displayedSubject })
     } else {
         const key = `${localizationPrefix}.unknown`
         return localize(key)
-    }
-}
-
-function getDisplayedSubject(_activity: Activity): string {
-    const subject = getSubjectFromActivity(_activity)
-    if (!subject) {
-        return ''
-    }
-
-    if (subject.type === SubjectType.Contact) {
-        return subject.contact.name
-    } else if (subject.type === SubjectType.Account) {
-        return subject.account.name
-    } else {
-        return truncateString(subject.address, 6, 6)
     }
 }
