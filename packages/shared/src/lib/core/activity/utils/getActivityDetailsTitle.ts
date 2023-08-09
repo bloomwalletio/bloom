@@ -1,9 +1,10 @@
 import { localize } from '@core/i18n'
-import { ActivityAction, ActivityType, SubjectType } from '../../wallet/enums'
-import { Activity } from '../../wallet/types'
+import { ActivityAction, ActivityType } from '../enums'
+import { Activity } from '../types'
 import { getVotingEvent } from '@contexts/governance/actions'
 import { truncateString } from '@core/utils'
-import { getSubjectFromActivity } from './generateActivity'
+import { getSubjectFromActivity } from './helper'
+import { SubjectType } from '@core/wallet/enums'
 
 export async function getActivityDetailsTitle(activity: Activity): Promise<string> {
     const localizationPrefix = 'popups.activityDetails.title'
