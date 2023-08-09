@@ -1,12 +1,7 @@
 <script lang="ts">
-    import {
-        ActivityAsyncStatus,
-        ActivityDirection,
-        claimActivity,
-        rejectActivity,
-        getTimeDifference,
-        Activity,
-    } from '@core/wallet'
+    import { ActivityAsyncStatus, ActivityDirection, Activity } from '@core/activity'
+    import { claimActivity, rejectActivity } from '@core/wallet'
+    import { getTimeDifference } from '@core/utils'
     import { ActivityAsyncStatusPill, TooltipIcon, Text, Button, TileFooter, FontWeight, ButtonSize } from '@ui'
     import { time } from '@core/app'
     import { Icon as IconEnum } from '@lib/auxiliary/icon'

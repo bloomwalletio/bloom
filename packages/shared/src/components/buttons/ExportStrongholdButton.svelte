@@ -1,16 +1,16 @@
 <script lang="ts">
+    import { showNotification as _showNotification } from '@auxiliary/notification'
     import { exportStronghold } from '@contexts/settings'
     import { localize } from '@core/i18n'
-    import { showAppNotification } from '@auxiliary/notification'
-    import { openPopup, PopupId } from '../../../../desktop/lib/auxiliary/popup'
     import { Button, ButtonSize } from '@ui'
+    import { openPopup, PopupId } from '../../../../desktop/lib/auxiliary/popup'
 
     export let isBusy = false
     export let message = ''
     export let showNotification = false
     export let overrideTitle = ''
 
-    function handleExportStrongholdResponse(cancelled, error): void {
+    function handleExportStrongholdResponse(cancelled: boolean, error?: string | undefined): void {
         setTimeout(
             () => {
                 message = ''
@@ -22,16 +22,16 @@
             if (error) {
                 message = localize('general.exportingStrongholdFailed')
                 showNotification &&
-                    showAppNotification({
-                        type: 'error',
-                        message: localize(error),
+                    _showNotification({
+                        variant: 'error',
+                        text: localize(error),
                     })
             } else {
                 message = localize('general.exportingStrongholdSuccess')
                 showNotification &&
-                    showAppNotification({
-                        type: 'info',
-                        message: localize('general.exportingStrongholdSuccess'),
+                    _showNotification({
+                        variant: 'success',
+                        text: localize('general.exportingStrongholdSuccess'),
                     })
             }
         }

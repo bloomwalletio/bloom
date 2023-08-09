@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { showAppNotification } from '@auxiliary/notification'
+    import { showNotification } from '@auxiliary/notification'
     import { OnboardingLayout } from '@components'
     import { restoreBackupFromStrongholdFile, updateOnboardingProfile } from '@contexts/onboarding'
     import { IS_MOBILE } from '@core/app'
@@ -27,10 +27,9 @@
                     error = localize('error.password.incorrect')
                 } else {
                     console.error(err)
-                    showAppNotification({
-                        type: 'error',
-                        alert: true,
-                        message: localize('error.global.generic'),
+                    showNotification({
+                        variant: 'error',
+                        text: localize('error.global.generic'),
                     })
                 }
             } finally {

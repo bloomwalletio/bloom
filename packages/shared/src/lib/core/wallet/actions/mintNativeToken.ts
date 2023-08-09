@@ -1,4 +1,4 @@
-import { showAppNotification } from '@auxiliary/notification'
+import { showNotification } from '@auxiliary/notification'
 import { getSelectedAccount, updateSelectedAccount } from '@core/account'
 import { localize } from '@core/i18n'
 import { Converter } from '@core/utils'
@@ -9,7 +9,7 @@ import { buildPersistedAssetFromMetadata } from '../helpers'
 import { IIrc30Metadata, IPersistedAsset } from '../interfaces'
 import { resetMintTokenDetails } from '../stores'
 import { addPersistedAsset } from '../stores/persisted-assets.store'
-import { processAndAddToActivities } from '../utils'
+import { processAndAddToActivities } from '@core/activity/utils'
 
 export async function mintNativeToken(
     maximumSupply: number,
@@ -39,10 +39,9 @@ export async function mintNativeToken(
 
         await processAndAddToActivities(createTokenTransaction.transaction, account)
 
-        showAppNotification({
-            type: 'success',
-            message: localize('notifications.mintNativeToken.success'),
-            alert: true,
+        showNotification({
+            variant: 'success',
+            text: localize('notifications.mintNativeToken.success'),
         })
         resetMintTokenDetails()
     } catch (err) {
