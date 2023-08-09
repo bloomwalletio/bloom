@@ -1,8 +1,7 @@
 <script lang="ts">
     import { formatCurrency, localize } from '@core/i18n'
     import { getMarketAmountFromTokenValue } from '@core/market/utils'
-    import { IToken } from '@core/token'
-    import { formatTokenAmountBestMatch } from '@core/wallet'
+    import { IToken, formatTokenAmountBestMatch } from '@core/token'
     import { FontWeight, Text, TextType } from '@ui'
 
     export let token: IToken

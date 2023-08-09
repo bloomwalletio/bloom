@@ -5,7 +5,6 @@
     import { checkActiveProfileAuth, getBaseToken } from '@core/profile'
     import {
         convertBech32ToHexAddress,
-        formatTokenAmountPrecise,
         EMPTY_HEX_ID,
         UNLOCK_CONDITION_GOVERNOR_ADDRESS,
         UNLOCK_CONDITION_STATE_CONTROLLER_ADDRESS,
@@ -14,6 +13,7 @@
     import { onMount } from 'svelte'
     import { handleError } from '@core/error/handlers/handleError'
     import { processAndAddToActivities } from '@core/activity/utils'
+    import { formatTokenAmountPrecise } from '@core/token'
 
     export let _onMount: (..._: any[]) => Promise<void> = async () => {}
 

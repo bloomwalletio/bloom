@@ -1,12 +1,12 @@
 <script lang="ts">
     import { localize } from '@core/i18n'
+    import { NetworkId } from '@core/network'
+    import { getBaseToken } from '@core/profile'
+    import { formatTokenAmountBestMatch } from '@core/token'
     import { TimePeriod } from '@core/utils'
     import { NetworkIcon, Text, TooltipIcon } from '@ui'
-    import { NetworkId } from '@core/network'
     import DateTimePickerButton from './DateTimePickerButton.svelte'
     import StorageDepositButton from './StorageDepositButton.svelte'
-    import { getBaseToken } from '@core/profile'
-    import { formatTokenAmountBestMatch } from '@core/wallet'
 
     export let destinationNetwork: string
     export let storageDeposit: number

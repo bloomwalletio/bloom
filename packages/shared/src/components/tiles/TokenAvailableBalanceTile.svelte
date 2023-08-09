@@ -1,9 +1,8 @@
 <script lang="ts">
     import { localize } from '@core/i18n'
-    import { IToken } from '@core/token'
+    import { IToken, formatTokenAmountBestMatch } from '@core/token'
     import { truncateString } from '@core/utils'
-    import { formatTokenAmountBestMatch } from '@core/wallet'
-    import { TokenIcon, FontWeight, Text, TextType, Tile } from '@ui'
+    import { FontWeight, Text, TextType, Tile, TokenIcon } from '@ui'
 
     export let token: IToken
     export let onMaxClick: () => unknown

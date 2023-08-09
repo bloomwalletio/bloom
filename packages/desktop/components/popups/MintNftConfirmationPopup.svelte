@@ -1,13 +1,14 @@
 <script lang="ts">
-    import { onMount } from 'svelte'
-    import { Button, Text, FontWeight, NftImageOrIconBox, Tabs, KeyValueBox } from '@ui'
-    import { localize } from '@core/i18n'
     import { selectedAccount } from '@core/account'
-    import { buildNftOutputData, formatTokenAmountPrecise, mintNft, mintNftDetails } from '@core/wallet'
-    import { getBaseToken, checkActiveProfileAuth } from '@core/profile'
     import { handleError } from '@core/error/handlers/handleError'
-    import { closePopup, openPopup, PopupId } from '@desktop/auxiliary/popup'
+    import { localize } from '@core/i18n'
     import { CURRENT_IRC27_VERSION } from '@core/nfts'
+    import { checkActiveProfileAuth, getBaseToken } from '@core/profile'
+    import { formatTokenAmountPrecise } from '@core/token'
+    import { buildNftOutputData, mintNft, mintNftDetails } from '@core/wallet'
+    import { PopupId, closePopup, openPopup } from '@desktop/auxiliary/popup'
+    import { Button, FontWeight, KeyValueBox, NftImageOrIconBox, Tabs, Text } from '@ui'
+    import { onMount } from 'svelte'
 
     export let _onMount: (..._: any[]) => Promise<void> = async () => {}
 

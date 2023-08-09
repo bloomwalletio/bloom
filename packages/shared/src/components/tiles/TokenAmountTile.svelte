@@ -1,11 +1,10 @@
 <script lang="ts">
-    import { formatTokenAmountBestMatch } from '@core/wallet'
-    import { TokenIcon, ClickableTile, Text, FontWeight, TextType } from '@ui'
-    import { truncateString } from '@core/utils'
     import { formatCurrency } from '@core/i18n/utils'
+    import { getMarketPriceForToken } from '@core/market/utils'
     import { getMarketAmountFromTokenValue } from '@core/market/utils/getMarketAmountFromTokenValue'
-    import { getMarketPriceForAsset } from '@core/market/utils'
-    import { IToken } from '@core/token'
+    import { IToken, formatTokenAmountBestMatch } from '@core/token'
+    import { truncateString } from '@core/utils'
+    import { ClickableTile, FontWeight, Text, TextType, TokenIcon } from '@ui'
 
     export let token: IToken
     export let onClick: (() => unknown) | undefined = undefined
@@ -14,7 +13,7 @@
     export let amount: number = 0
     export let hideTokenInfo: boolean = false
 
-    $: marketPrice = getMarketPriceForAsset(token)
+    $: marketPrice = getMarketPriceForToken(token)
     $: marketBalance = getMarketAmountFromTokenValue(amount, token)
 </script>
 

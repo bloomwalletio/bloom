@@ -15,8 +15,8 @@
         visibleActiveAccounts,
     } from '@core/profile'
     import { RecoverAccountsPayload, recoverAccounts } from '@core/profile-manager'
+    import { formatTokenAmountBestMatch } from '@core/token'
     import { refreshAccountTokensForActiveProfile } from '@core/token/actions'
-    import { formatTokenAmountBestMatch } from '@core/wallet'
     import { closePopup } from '@desktop/auxiliary/popup'
     import { Button, FontWeight, KeyValueBox, Text, TextHint, TextType } from '@ui'
     import { onDestroy, onMount } from 'svelte'

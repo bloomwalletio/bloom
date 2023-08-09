@@ -3,7 +3,8 @@
     import { formatCurrency } from '@core/i18n'
     import { getMarketAmountFromTokenValue } from '@core/market/utils'
     import { activeProfile, getBaseToken } from '@core/profile'
-    import { formatTokenAmountBestMatch, selectedAccountTokens } from '@core/wallet'
+    import { formatTokenAmountBestMatch } from '@core/token'
+    import { selectedAccountTokens } from '@core/token/stores'
     import { AccountLabel, FontWeight, Text } from '@ui'
 
     export let account: IAccountState

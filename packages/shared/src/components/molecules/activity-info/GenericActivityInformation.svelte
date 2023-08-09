@@ -1,13 +1,13 @@
 <script lang="ts">
-    import { KeyValueBox } from '@ui'
+    import { Activity } from '@core/activity'
+    import { openUrlInBrowser } from '@core/app'
     import { getFormattedTimeStamp, localize } from '@core/i18n'
-    import { activeProfile, getBaseToken } from '@core/profile'
-    import { Activity, formatTokenAmountPrecise } from '@core/wallet'
     import { ExplorerEndpoint } from '@core/network'
     import { getOfficialExplorerUrl } from '@core/network/utils'
-    import { openUrlInBrowser } from '@core/app'
-    import { IKeyValueBoxList, truncateString } from '@core/utils'
-    import { setClipboard } from '@core/utils'
+    import { activeProfile, getBaseToken } from '@core/profile'
+    import { formatTokenAmountPrecise } from '@core/token'
+    import { IKeyValueBoxList, setClipboard, truncateString } from '@core/utils'
+    import { KeyValueBox } from '@ui'
 
     export let activity: Activity
 

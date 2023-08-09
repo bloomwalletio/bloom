@@ -1,4 +1,7 @@
 export * from './buildPersistedTokenFromMetadata'
+export * from './formatTokenAmountBestMatch'
+export * from './formatTokenAmountDefault'
+export * from './formatTokenAmountPrecise'
 export * from './getMaxDecimalsFromTokenMetadata'
 export * from './getTokenInitials'
 export * from './getUnitFromTokenMetadata'

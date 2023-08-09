@@ -1,5 +1,5 @@
+import { formatTokenAmountBestMatch } from '@core/token'
 import { getPersistedToken } from '@core/token/stores'
-import { formatTokenAmountBestMatch } from '@core/wallet/utils'
 import { ActivityAction, ActivityDirection, ActivityType } from '../../enums'
 import { FoundryActivity, TransactionActivity } from '../../types'
 

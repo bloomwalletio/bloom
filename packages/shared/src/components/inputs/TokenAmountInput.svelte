@@ -2,10 +2,9 @@
     import { formatCurrency, getDecimalSeparator } from '@core/i18n'
     import { getMarketAmountFromTokenValue } from '@core/market/utils'
     import { activeProfile } from '@core/profile'
-    import { IToken } from '@core/token'
+    import { IToken, formatTokenAmountDefault, getMaxDecimalsFromTokenMetadata } from '@core/token'
     import { visibleSelectedAccountTokens } from '@core/token/stores'
-    import { getMaxDecimalsFromTokenMetadata } from '@core/token/utils'
-    import { convertToRawAmount, formatTokenAmountDefault } from '@core/wallet'
+    import { convertToRawAmount } from '@core/wallet'
     import { validateTokenAmount } from '@core/wallet/utils/validateTokenAmount'
     import { AmountInput, FontWeight, InputContainer, Text } from '@ui'
 

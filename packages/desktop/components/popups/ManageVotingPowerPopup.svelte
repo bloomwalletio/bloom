@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { Button, Text, TextHint, AssetAmountInput } from '@ui'
+    import { Button, Text, TextHint, TokenAmountWithSliderInput } from '@ui'
     import { HTMLButtonType, TextType } from '@ui/enums'
     import { selectedAccount } from '@core/account/stores'
     import { handleError } from '@core/error/handlers'
@@ -16,12 +16,12 @@
     export let _onMount: (..._: any[]) => Promise<void> = async () => {}
     export let newVotingPower: string = undefined
 
-    let assetAmountInput: AssetAmountInput
+    let tokenAmountInput: TokenAmountWithSliderInput
     let amount: string
     let rawAmount = newVotingPower ?? $selectedAccount?.votingPower
     let confirmDisabled = false
 
-    $: asset = $visibleSelectedAccountTokens[$activeProfile?.network.id].baseCoin
+    $: token = $visibleSelectedAccountTokens[$activeProfile?.network.id].baseCoin
     $: votingPower = parseInt($selectedAccount?.votingPower, 10)
     $: hasTransactionInProgress =
         $selectedAccount?.hasVotingPowerTransactionInProgress ||
@@ -34,7 +34,7 @@
             confirmDisabled = true
             return
         }
-        const convertedSliderAmount = convertToRawAmount(amount, asset?.metadata)?.toString()
+        const convertedSliderAmount = convertToRawAmount(amount, token?.metadata)?.toString()
         confirmDisabled = convertedSliderAmount === $selectedAccount?.votingPower || hasTransactionInProgress
     }
 
@@ -44,7 +44,7 @@
 
     async function onSubmit(): Promise<void> {
         try {
-            await assetAmountInput?.validate(true)
+            await tokenAmountInput?.validate(true)
 
             if (amount === '0' && isAccountVoting($selectedAccount.index)) {
                 openPopup({ id: PopupId.VotingPowerToZero })
@@ -78,11 +78,11 @@
     <Text type={TextType.h4} classes="mb-3">{localize('popups.manageVotingPower.title')}</Text>
     <Text type={TextType.p} classes="mb-5">{localize('popups.manageVotingPower.body')}</Text>
     <div class="space-y-4 mb-6">
-        <AssetAmountInput
-            bind:this={assetAmountInput}
+        <TokenAmountWithSliderInput
+            bind:this={tokenAmountInput}
             bind:rawAmount
             bind:amount
-            {asset}
+            {token}
             containsSlider
             disableAssetSelection
             disabled={hasTransactionInProgress}

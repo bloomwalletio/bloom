@@ -1,10 +1,10 @@
 <script lang="ts">
     import { localize } from '@core/i18n'
-    import { SendFlowType, formatTokenAmountDefault, sendFlowParameters, updateSendFlowParameters } from '@core/wallet'
+    import { IToken, formatTokenAmountDefault, getUnitFromTokenMetadata } from '@core/token'
+    import { SendFlowType, sendFlowParameters, updateSendFlowParameters } from '@core/wallet'
     import { TokenAmountInput, TokenAvailableBalanceTile } from '@ui'
     import { sendFlowRouter } from '../send-flow.router'
     import SendFlowTemplate from './SendFlowTemplate.svelte'
-    import { IToken, getUnitFromTokenMetadata } from '@core/token'
 
     let tokenAmountInput: TokenAmountInput
     let token: IToken

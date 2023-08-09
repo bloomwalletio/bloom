@@ -1,13 +1,13 @@
 <script lang="ts">
-    import { Button, Text, TextHint, FontWeight, TextType, ButtonVariant, KeyValueBox } from '@ui'
-    import { localize } from '@core/i18n'
-    import { closePopup, openPopup, PopupId } from '@desktop/auxiliary/popup'
-    import { burnToken, formatTokenAmountBestMatch } from '@core/wallet'
-    import { checkActiveProfileAuth } from '@core/profile'
-    import { handleError } from '@core/error/handlers'
-    import { onMount } from 'svelte'
     import { selectedAccount } from '@core/account'
-    import { IToken } from '@core/token'
+    import { handleError } from '@core/error/handlers'
+    import { localize } from '@core/i18n'
+    import { checkActiveProfileAuth } from '@core/profile'
+    import { IToken, formatTokenAmountBestMatch } from '@core/token'
+    import { burnToken } from '@core/wallet'
+    import { PopupId, closePopup, openPopup } from '@desktop/auxiliary/popup'
+    import { Button, ButtonVariant, FontWeight, KeyValueBox, Text, TextHint, TextType } from '@ui'
+    import { onMount } from 'svelte'
 
     export let token: IToken
     export let rawAmount: string
