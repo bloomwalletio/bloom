@@ -100,7 +100,7 @@ jobs:
                   HARDCODE_NODE_ENV: true
                   AMPLITUDE_API_KEY: ${{ secrets.AMPLITUDE_API_KEY }}
 
-            - name: Build Electron app (MacOS)
+            - name: Build signed Electron app (MacOS)
               run: yarn compile:${STAGE}:mac
               env:
                   CSC_LINK: ${{ secrets.MAC_CERT_BASE64 }}
@@ -108,18 +108,33 @@ jobs:
                   BLOOM_APPLE_ID: ${{ secrets.APPLE_ID }}
                   BLOOM_APPLE_ID_PASSWORD: ${{ secrets.APPLE_ID_PASSWORD }}
                   GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-                  MACOS_SKIP_NOTARIZATION: ${{ inputs.sign != 'true' }}
+                  MACOS_SKIP_NOTARIZATION: false
               working-directory: packages/desktop
-              if: inputs.os == 'macos-11'
+              if: ${{ inputs.sign && inputs.os == 'macos-11' }}
 
-            - name: Build Electron app (Windows)
+            - name: Build unsigned Electron app (MacOS)
+              run: yarn compile:${STAGE}:mac
+              env:
+                GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                MACOS_SKIP_NOTARIZATION: true
+              working-directory: packages/desktop
+              if: ${{ ! inputs.sign && inputs.os == 'macos-11' }}
+
+            - name: Build signed Electron app (Windows)
               run: yarn compile:${env:STAGE}:win
               env:
                   CSC_LINK: ${{ secrets.WIN_CERT_BASE64 }}
                   CSC_KEY_PASSWORD: ${{ secrets.WIN_CERT_PASSWORD }}
                   GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
               working-directory: packages/desktop
-              if: inputs.os == 'windows-2019'
+              if: ${{ inputs.sign && inputs.os == 'windows-2019' }}
+
+            - name: Build unsigned Electron app (Windows)
+              run: yarn compile:${env:STAGE}:win
+              env:
+                GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              working-directory: packages/desktop
+              if: ${{ ! inputs.sign && inputs.os == 'windows-2019' }}
 
             - name: Build Electron app (Linux)
               run: yarn compile:${STAGE}:linux
