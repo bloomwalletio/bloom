@@ -1,8 +1,8 @@
 <script lang="ts">
     import { ActivityAsyncStatusPill, Pill } from '@ui'
     import { localize } from '@core/i18n'
-    import { Activity, ActivityAsyncStatus } from '@core/wallet'
     import { time } from '@core/app'
+    import { Activity, ActivityAsyncStatus } from '@core/activity'
 
     export let activity: Activity
 
