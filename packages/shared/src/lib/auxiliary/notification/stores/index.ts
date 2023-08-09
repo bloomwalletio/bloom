@@ -1,1 +1,1 @@
-export * from './notifications.store'
+export * from './app-notifications.store'

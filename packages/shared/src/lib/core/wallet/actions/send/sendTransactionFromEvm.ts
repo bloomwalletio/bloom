@@ -4,7 +4,7 @@ import { LedgerAppName } from '@core/ledger'
 import { IChain } from '@core/network'
 import { checkActiveProfileAuth } from '@core/profile'
 import { signAndSendEvmTransaction } from './signAndSendEvmTransaction'
-import { addPersistedTransaction } from '@core/activities/stores'
+import { addPersistedTransaction } from '@core/activity/stores'
 
 export async function sendTransactionFromEvm(
     transaction: EvmTransactionData,

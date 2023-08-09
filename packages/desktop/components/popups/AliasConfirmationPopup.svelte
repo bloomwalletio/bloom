@@ -9,11 +9,11 @@
         EMPTY_HEX_ID,
         UNLOCK_CONDITION_GOVERNOR_ADDRESS,
         UNLOCK_CONDITION_STATE_CONTROLLER_ADDRESS,
-        processAndAddToActivities,
     } from '@core/wallet'
     import { closePopup } from '@desktop/auxiliary/popup'
     import { onMount } from 'svelte'
     import { handleError } from '@core/error/handlers/handleError'
+    import { processAndAddToActivities } from '@core/activity/utils'
 
     export let _onMount: (..._: any[]) => Promise<void> = async () => {}
 

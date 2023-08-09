@@ -7,7 +7,7 @@
     import { HEXADECIMAL_PREFIX, HEXADECIMAL_REGEXP } from '@core/utils'
 
     import { closePopup } from '@desktop/auxiliary/popup'
-    import { showAppNotification } from '@auxiliary/notification'
+    import { showNotification } from '@auxiliary/notification'
     import { addNewTrackedTokenToActiveProfile } from '@core/wallet'
 
     let busy = false
@@ -30,10 +30,9 @@
                 const erc20TokenMetadata = await getErc20TokenMetadata(tokenAddress, chainId)
                 if (erc20TokenMetadata) {
                     addNewTrackedTokenToActiveProfile(chainId, tokenAddress, erc20TokenMetadata)
-                    showAppNotification({
-                        type: 'success',
-                        alert: true,
-                        message: localize('popups.importErc20Token.success', {
+                    showNotification({
+                        variant: 'success',
+                        text: localize('popups.importErc20Token.success', {
                             values: { tokenSymbol: erc20TokenMetadata.symbol },
                         }),
                     })
@@ -41,10 +40,9 @@
                 }
             } catch (err) {
                 console.error(err)
-                showAppNotification({
-                    type: 'error',
-                    alert: true,
-                    message: localize('popups.importErc20Token.error'),
+                showNotification({
+                    variant: 'error',
+                    text: localize('popups.importErc20Token.error'),
                 })
             }
         }

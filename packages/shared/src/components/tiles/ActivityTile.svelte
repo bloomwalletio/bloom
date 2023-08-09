@@ -1,14 +1,12 @@
 <script lang="ts">
     import { time } from '@core/app'
+    import { Activity, ActivityAsyncStatus, ActivityType, InclusionState } from '@core/activity'
     import {
-        Activity,
-        ActivityAsyncStatus,
-        ActivityType,
-        InclusionState,
         NotVerifiedStatus,
         selectedAccountAssets,
         getAssetFromPersistedAssets,
         IPersistedAsset,
+        IAsset,
     } from '@core/wallet'
     import {
         AliasActivityTileContent,
@@ -25,17 +23,25 @@
 
     export let activity: Activity
 
-    let asset: IPersistedAsset | undefined
+    let persistedAsset: IPersistedAsset | undefined
     $: $selectedAccountAssets,
-        (asset =
+        (persistedAsset =
             activity.type === ActivityType.Basic || activity.type === ActivityType.Foundry
                 ? getAssetFromPersistedAssets(activity.assetId)
                 : undefined)
-    $: isTimelocked = activity?.asyncData?.timelockDate > $time
+    $: isTimelocked = activity?.asyncData?.timelockDate ? activity?.asyncData?.timelockDate > $time : false
     $: shouldShowAsyncFooter = activity.asyncData && activity.asyncData.asyncStatus !== ActivityAsyncStatus.Claimed
 
     function onTransactionClick(): void {
-        if (asset?.verification?.status === NotVerifiedStatus.New) {
+        if (persistedAsset?.verification?.status === NotVerifiedStatus.New) {
+            const asset: IAsset = {
+                ...persistedAsset,
+                chainId: activity.chainId ?? 0,
+                balance: {
+                    total: 0,
+                    available: 0,
+                },
+            }
             openPopup({
                 id: PopupId.TokenInformation,
                 overflow: true,

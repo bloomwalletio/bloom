@@ -12,9 +12,9 @@ export function modifyPopupState(state: IPopupState, forceClose: boolean = false
      * be closed at some point though so we have the argument forceClose.
      */
     if (get(popupState).preventClose && !forceClose) {
-        /* showAppNotification({
-            type: 'error',
-            message: localize('error.popup.preventClose'),
+        /* showNotification({
+            variant: 'error',
+            text: localize('error.popup.preventClose'),
         }) */
     } else {
         popupState.set({ ...state })

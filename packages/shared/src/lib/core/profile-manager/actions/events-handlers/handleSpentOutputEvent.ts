@@ -1,8 +1,11 @@
 import { syncBalance } from '@core/account/actions/syncBalance'
 import { getNftByIdFromAllAccountNfts, updateNftInAllAccountNfts } from '@core/nfts'
 import { activeAccounts } from '@core/profile/stores'
-import { ActivityAsyncStatus, ActivityType } from '@core/wallet'
-import { allAccountActivities, updateAsyncDataByTransactionId } from '@core/wallet/stores/all-account-activities.store'
+import { ActivityAsyncStatus, ActivityType } from '@core/activity'
+import {
+    allAccountActivities,
+    updateAsyncDataByTransactionId,
+} from '@core/activity/stores/all-account-activities.store'
 import { get } from 'svelte/store'
 import { validateWalletApiEvent } from '../../utils'
 import { Event, SpentOutputWalletEvent, WalletEventType } from '@iota/wallet/out/types'
