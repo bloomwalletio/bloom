@@ -12,23 +12,20 @@
         ActivityStatusPills,
     } from '@ui'
     import { openUrlInBrowser } from '@core/app'
+    import { claimActivity, getActivityDetailsTitle, rejectActivity } from '@core/wallet'
     import {
         Activity,
         ActivityAsyncStatus,
         ActivityDirection,
         ActivityType,
-        claimActivity,
-        getActivityDetailsTitle,
-        rejectActivity,
         selectedAccountActivities,
-    } from '@core/wallet'
+    } from '@core/activity'
     import { activeProfile, checkActiveProfileAuth } from '@core/profile'
-    import { setClipboard } from '@core/utils'
-    import { truncateString } from '@core/utils'
+    import { setClipboard, truncateString } from '@core/utils'
     import { closePopup, openPopup, PopupId } from '@desktop/auxiliary/popup'
     import { onMount } from 'svelte'
     import { ExplorerEndpoint } from '@core/network'
-    import { getTransactionAssets } from '@core/activities/utils'
+    import { getTransactionAssets } from '@core/activity/utils'
     import { selectedAccountIndex } from '@core/account/stores'
     import { getNftByIdFromAllAccountNfts, ownedNfts, selectedNftId } from '@core/nfts'
     import { CollectiblesRoute, collectiblesRouter, DashboardRoute, dashboardRouter } from '@core/router'

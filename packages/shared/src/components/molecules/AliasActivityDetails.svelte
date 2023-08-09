@@ -1,6 +1,6 @@
 <script lang="ts">
     import { AddressBox } from '@ui'
-    import { AliasActivity } from '@core/wallet'
+    import { AliasActivity } from '@core/activity'
 
     export let activity: AliasActivity
 </script>
