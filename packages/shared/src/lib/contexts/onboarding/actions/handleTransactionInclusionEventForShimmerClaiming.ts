@@ -2,7 +2,7 @@ import { get } from 'svelte/store'
 
 import { localize } from '@core/i18n'
 import { validateWalletApiEvent } from '@core/profile-manager'
-import { InclusionState, MissingTransactionIdError } from '@core/wallet'
+import { MissingTransactionIdError } from '@core/wallet'
 import { showNotification } from '@auxiliary/notification'
 
 import { ShimmerClaimingAccountState } from '../enums'
@@ -10,10 +10,15 @@ import { MissingShimmerClaimingAccountError } from '../errors'
 import { IShimmerClaimingAccount } from '../interfaces'
 import { onboardingProfile, shimmerClaimingTransactions, updateShimmerClaimingAccount } from '../stores'
 import { Event, TransactionInclusionWalletEvent, WalletEventType } from '@iota/wallet/out/types'
+import { InclusionState } from '@core/activity/enums'
 
-export function handleTransactionInclusionEventForShimmerClaiming(error: Error, walletEvent: Event): void {
-    const { accountIndex, event } = validateWalletApiEvent(error, walletEvent, WalletEventType.TransactionInclusion)
-    handleTransactionInclusionEventForShimmerClaimingInternal(accountIndex, event as TransactionInclusionWalletEvent)
+export function handleTransactionInclusionEventForShimmerClaiming(error: Error, event: Event): void {
+    const walletEvent = validateWalletApiEvent<TransactionInclusionWalletEvent>(
+        error,
+        event,
+        WalletEventType.TransactionInclusion
+    )
+    handleTransactionInclusionEventForShimmerClaimingInternal(event.accountIndex, walletEvent)
 }
 
 export function handleTransactionInclusionEventForShimmerClaimingInternal(
@@ -27,7 +32,11 @@ export function handleTransactionInclusionEventForShimmerClaimingInternal(
         (_shimmerClaimingAccount) => _shimmerClaimingAccount?.getMetadata()?.index === accountIndex
     )
     if (shimmerClaimingAccount) {
-        if (profileId in _shimmerClaimingTransactions && transactionId in _shimmerClaimingTransactions[profileId]) {
+        if (
+            profileId &&
+            profileId in _shimmerClaimingTransactions &&
+            transactionId in _shimmerClaimingTransactions[profileId]
+        ) {
             if (inclusionState === InclusionState.Confirmed) {
                 updateShimmerClaimingAccount({
                     ...shimmerClaimingAccount,

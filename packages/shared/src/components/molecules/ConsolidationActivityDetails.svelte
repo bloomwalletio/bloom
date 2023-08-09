@@ -1,6 +1,6 @@
 <script lang="ts">
     import { TransactionActivityStatusPill } from '@ui'
-    import { ConsolidationActivity } from '@core/wallet'
+    import { ConsolidationActivity } from '@core/activity'
 
     export let activity: ConsolidationActivity
 </script>

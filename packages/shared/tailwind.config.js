@@ -3,13 +3,21 @@ const colors = require('tailwindcss/colors')
 /* Utilities */
 const pxToRem = (px, base = 16) => `${px / base}rem`
 
-const IS_DESKOP = process.env.PLATFORM === 'desktop'
+const IS_DESKTOP = process.env.PLATFORM === 'desktop'
 const SHARED_CONTENT_ROUTES = ['../shared/**/*.svelte', '../shared/**/*.scss']
 const DESKTOP_CONTENT_ROUTES = ['../desktop/**/*.svelte']
 const MOBILE_CONTENT_ROUTES = ['../mobile/**/*.svelte']
+const NODE_MODULES_ROUTES = [
+    '../../node_modules/flowbite-svelte/**/*.{html,js,svelte,ts}',
+    '../../node_modules/@bloomwalletio/ui/**/*.{html,js,svelte,ts}',
+]
 
 module.exports = {
-    content: [...SHARED_CONTENT_ROUTES, ...(IS_DESKOP ? DESKTOP_CONTENT_ROUTES : MOBILE_CONTENT_ROUTES)],
+    content: [
+        ...SHARED_CONTENT_ROUTES,
+        ...NODE_MODULES_ROUTES,
+        ...(IS_DESKTOP ? DESKTOP_CONTENT_ROUTES : MOBILE_CONTENT_ROUTES),
+    ],
     presets: [require('@bloomwalletio/ui/tailwind-preset')],
     safelist: [
         {

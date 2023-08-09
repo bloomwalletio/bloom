@@ -1,10 +1,11 @@
 <script lang="ts">
-    import { ActivityAsyncStatus, getTimeDifference, Activity } from '@core/wallet'
     import { TooltipIcon, Text, Pill, TileFooter, FontWeight } from '@ui'
     import { time } from '@core/app'
     import { Icon as IconEnum } from '@lib/auxiliary/icon'
     import { Position } from '@ui/enums'
     import { localize } from '@core/i18n'
+    import { Activity, ActivityAsyncStatus } from '@core/activity'
+    import { getTimeDifference } from '@core/utils'
 
     export let activity: Activity
 

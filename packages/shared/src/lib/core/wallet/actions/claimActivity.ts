@@ -6,8 +6,8 @@ import {
     isActivityHiddenForAccountIndex,
     removeActivityFromHiddenActivities,
     updateAsyncDataByActivityId,
-} from '../stores'
-import { Activity } from '../types'
+} from '@core/activity/stores'
+import { Activity } from '@core/activity/types'
 
 export async function claimActivity(activity: Activity): Promise<void> {
     const account = get(selectedAccount)

@@ -8,7 +8,7 @@ import { TOKEN_ID_BYTE_LENGTH } from '@core/token/constants'
 import { setLayer2AccountBalanceForChain } from '../stores'
 import { getActiveProfile } from '@core/profile'
 import { IAccountState } from '@core/account'
-import { calculateAndAddPersistedBalanceChange } from '@core/activities/actions'
+import { calculateAndAddPersistedBalanceChange } from '@core/activity/actions'
 
 export function fetchSelectedAccountLayer2Balance(account: IAccountState): void {
     const { evmAddresses, index } = account

@@ -1,10 +1,7 @@
 <script lang="ts">
     import { time } from '@core/app'
+    import { Activity, ActivityAsyncStatus, ActivityType, InclusionState } from '@core/activity'
     import {
-        Activity,
-        ActivityAsyncStatus,
-        ActivityType,
-        InclusionState,
         NotVerifiedStatus,
         selectedAccountAssets,
         getAssetFromPersistedAssets,
