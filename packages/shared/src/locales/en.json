@@ -1074,11 +1074,6 @@
         "activityDetails": {
             "title": {
                 "fallback": "Activity details",
-                "stake": {
-                    "Pending": "Staking for",
-                    "Confirmed": "Staked for",
-                    "Conflicting": "Failed to stake"
-                },
                 "external": {
                     "incoming": {
                         "Pending": "Receiving from {subject}",
@@ -1095,7 +1090,7 @@
                     "incoming": {
                         "Pending": "Transferring from {subject}",
                         "Confirmed": "Transferred from {subject}",
-                        "Conflicting": "failed to transfer"
+                        "Conflicting": "Failed to transfer"
                     },
                     "outgoing": {
                         "Pending": "Transferring to {subject}",
