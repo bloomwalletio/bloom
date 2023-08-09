@@ -11,17 +11,19 @@
     $: hasBaseCoinAmount = Number(baseCoinTransfer?.rawAmount) > 0
 </script>
 
-<asset-section class="w-full flex flex-row gap-2 justify-between overflow-hidden">
-    {#if tokenTransfer?.asset}
-        <TokenAmountTile asset={tokenTransfer.asset} amount={Number(tokenTransfer.rawAmount)} classes="flex-grow" />
-    {:else if nft}
-        <NftTile {nft} fullWidth={!hasBaseCoinAmount} onClick={onNftClick} classes="flex-grow" />
-    {/if}
-    {#if baseCoinTransfer?.asset && Number(baseCoinTransfer?.rawAmount) > 0}
-        <TokenAmountTile
-            asset={baseCoinTransfer.asset}
-            amount={Number(baseCoinTransfer.rawAmount)}
-            hideTokenInfo={!!tokenTransfer || !!nft}
-        />
-    {/if}
-</asset-section>
+{#if baseCoinTransfer || tokenTransfer || nft}
+    <asset-section class="w-full flex flex-row gap-2 justify-between overflow-hidden">
+        {#if tokenTransfer?.asset}
+            <TokenAmountTile asset={tokenTransfer.asset} amount={Number(tokenTransfer.rawAmount)} classes="flex-grow" />
+        {:else if nft}
+            <NftTile {nft} fullWidth={!hasBaseCoinAmount} onClick={onNftClick} classes="flex-grow" />
+        {/if}
+        {#if baseCoinTransfer?.asset && Number(baseCoinTransfer?.rawAmount) > 0}
+            <TokenAmountTile
+                asset={baseCoinTransfer.asset}
+                amount={Number(baseCoinTransfer.rawAmount)}
+                hideTokenInfo={!!tokenTransfer || !!nft}
+            />
+        {/if}
+    </asset-section>
+{/if}

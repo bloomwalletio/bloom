@@ -5,6 +5,7 @@ import { ActivityType } from '../enums'
 import { getAssetById } from '@core/wallet/stores'
 import { Activity } from '../types'
 import { TokenTransferData } from '@core/wallet/types'
+import { IAsset, getAssetFromPersistedAssets } from '@core/wallet'
 
 export function getTransactionAssets(
     activity: Activity,
@@ -32,7 +33,17 @@ export function getTransactionAssets(
             },
         }
     } else if (activity.type === ActivityType.Basic || activity.type === ActivityType.Foundry) {
-        const asset = getAssetById(activity.assetId, networkId)
+        const assetWithBalance = getAssetById(activity.assetId, networkId)
+        const persistedAsset = getAssetFromPersistedAssets(activity.assetId)
+        const asset: IAsset = {
+            chainId: activity.chainId ?? 0,
+            balance: {
+                total: 0,
+                available: 0,
+            },
+            ...assetWithBalance,
+            ...persistedAsset,
+        }
         if (activity.assetId === getCoinType()) {
             return {
                 baseCoinTransfer: {
