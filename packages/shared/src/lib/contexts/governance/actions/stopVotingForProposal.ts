@@ -1,7 +1,7 @@
 import { get } from 'svelte/store'
 import type { Transaction } from '@iota/wallet'
 import { selectedAccount, updateSelectedAccount } from '@core/account/stores'
-import { showAppNotification } from '@auxiliary/notification/actions'
+import { showNotification } from '@auxiliary/notification/actions'
 import { localize } from '@core/i18n'
 import { handleError } from '@core/error/handlers'
 import { processAndAddToActivities } from '@core/activity/utils'
@@ -14,10 +14,9 @@ export async function stopVotingForProposal(eventId: string): Promise<Transactio
 
         await processAndAddToActivities(transaction, account)
 
-        showAppNotification({
-            type: 'success',
-            message: localize('notifications.stopVoting.success'),
-            alert: true,
+        showNotification({
+            variant: 'success',
+            text: localize('notifications.stopVoting.success'),
         })
         return transaction
     } catch (err) {

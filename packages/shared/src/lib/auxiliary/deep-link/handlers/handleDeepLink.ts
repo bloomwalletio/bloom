@@ -13,7 +13,7 @@ import { handleDeepLinkGovernanceContext } from './governance/handleDeepLinkGove
 import { handleDeepLinkWalletContext } from './wallet/handleDeepLinkWalletContext'
 import { handleError } from '@core/error/handlers'
 import { pairWithNewApp } from '@auxiliary/wallet-connect/utils'
-import { showAppNotification } from '@auxiliary/notification'
+import { showNotification } from '@auxiliary/notification'
 import { localize } from '@core/i18n'
 
 /**
@@ -26,9 +26,9 @@ export function handleDeepLink(input: string): void {
     const { loggedIn } = getActiveProfile()
 
     if (!get(loggedIn)) {
-        showAppNotification({
-            type: 'info',
-            message: localize('notifications.deepLinkingRequest.receivedWhileLoggedOut'),
+        showNotification({
+            variant: 'info',
+            text: localize('notifications.deepLinkingRequest.receivedWhileLoggedOut'),
         })
         return
     }

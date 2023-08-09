@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { showAppNotification } from '@auxiliary/notification'
+    import { showNotification } from '@auxiliary/notification'
     import { Platform } from '@core/app'
     import { localize } from '@core/i18n'
     import { activeProfile } from '@core/profile'
@@ -36,20 +36,18 @@
 
     function onSuccess(_message: string): void {
         busy = false
-        showAppNotification({
-            type: 'success',
-            alert: true,
-            message: _message,
+        showNotification({
+            variant: 'success',
+            text: _message,
         })
         resetForm()
     }
 
     function onError(_message: string): void {
         busy = false
-        showAppNotification({
-            type: 'error',
-            alert: true,
-            message: _message,
+        showNotification({
+            variant: 'error',
+            text: _message,
         })
     }
 

@@ -1,4 +1,4 @@
-import { showAppNotification } from '@auxiliary/notification'
+import { showNotification } from '@auxiliary/notification'
 import { selectedAccount, updateSelectedAccount } from '@core/account'
 import { localize } from '@core/i18n'
 import { addOrUpdateNftInAllAccountNfts, buildNftFromNftOutput, IIrc27Metadata } from '@core/nfts'
@@ -31,10 +31,9 @@ export async function mintNft(metadata: IIrc27Metadata, quantity: number): Promi
         // Mint NFT
         const mintNftTransaction = await account.mintNfts(allNftParams, DEFAULT_TRANSACTION_OPTIONS)
         resetMintNftDetails()
-        showAppNotification({
-            type: 'success',
-            message: localize('notifications.mintNft.success'),
-            alert: true,
+        showNotification({
+            variant: 'success',
+            text: localize('notifications.mintNft.success'),
         })
 
         const processedTransaction = await preprocessTransaction(mintNftTransaction, account)

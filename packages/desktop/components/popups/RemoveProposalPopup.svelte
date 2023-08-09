@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { showAppNotification } from '@auxiliary/notification'
+    import { showNotification } from '@auxiliary/notification'
     import { ProposalStatus } from '@contexts/governance/enums'
     import {
         clearSelectedParticipationEventStatus,
@@ -29,10 +29,9 @@
             $governanceRouter.previous()
             clearEvent()
             closePopup()
-            showAppNotification({
-                type: 'success',
-                message: localize('views.governance.proposals.successRemove'),
-                alert: true,
+            showNotification({
+                variant: 'success',
+                text: localize('views.governance.proposals.successRemove'),
             })
         } catch (err) {
             handleError(err)
