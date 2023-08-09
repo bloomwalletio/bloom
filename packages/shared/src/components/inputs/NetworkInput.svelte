@@ -15,8 +15,8 @@
                 validationFunction(selectedString)
             }
         } catch (err) {
-            error = err?.message ?? err 
-            throw err 
+            error = err?.message ?? err
+            throw err
         }
     }
 
@@ -35,8 +35,4 @@
     }
 </script>
 
-<SelectInput
-    bind:error
-    bind:value={selectedString}
-    options={networkOptions}
-/>
+<SelectInput bind:error bind:value={selectedString} options={networkOptions} />
