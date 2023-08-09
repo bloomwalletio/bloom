@@ -1931,7 +1931,7 @@
             "wrongAddressPrefix": "ලිපින {prefix}උපසර්ගයෙන් ආරම්භ වේ.",
             "wrongAddressFormat": "ලිපිනය නිවැරදිව හැඩගස්වා නොමැත.",
             "invalidAddress": "ලිපිනය වලංගු නැත.",
-            "invalidAssetId": "The asset id is not valid.",
+            "invalidTokenId": "The token id is not valid.",
             "unknownAsset": "The asset is not known to this account.",
             "insufficientFunds": "මෙම මුදල් පසුම්බියට ප්‍රමාණවත් අරමුදල් නොමැත.",
             "insufficientFundsStorageDeposit": "Insufficient funds to cover the storage deposit.",

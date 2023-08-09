@@ -1931,7 +1931,7 @@
             "wrongAddressPrefix": "Адресите започват с {prefix}.",
             "wrongAddressFormat": "Адресът е в некоректен формат.",
             "invalidAddress": "Адресът е невалиден.",
-            "invalidAssetId": "The asset id is not valid.",
+            "invalidTokenId": "The token id is not valid.",
             "unknownAsset": "The asset is not known to this account.",
             "insufficientFunds": "Портфейлът няма достатъчно средства.",
             "insufficientFundsStorageDeposit": "Insufficient funds to cover the storage deposit.",

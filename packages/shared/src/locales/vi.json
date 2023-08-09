@@ -1931,7 +1931,7 @@
             "wrongAddressPrefix": "Địa chỉ bắt đầu bằng tiền tố {prefix}.",
             "wrongAddressFormat": "Địa chỉ không được định dạng đúng.",
             "invalidAddress": "Địa chỉ không hợp lệ.",
-            "invalidAssetId": "The asset id is not valid.",
+            "invalidTokenId": "The token id is not valid.",
             "unknownAsset": "The asset is not known to this account.",
             "insufficientFunds": "Ví này không đủ tiền.",
             "insufficientFundsStorageDeposit": "Insufficient funds to cover the storage deposit.",

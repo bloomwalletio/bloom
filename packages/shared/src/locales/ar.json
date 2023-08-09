@@ -1931,7 +1931,7 @@
             "wrongAddressPrefix": "تبدأ الحسابات بالبادئة {prefix}.",
             "wrongAddressFormat": "الحساب غير منسق بشكل صحيح.",
             "invalidAddress": "الحساب غير صحيح.",
-            "invalidAssetId": "The asset id is not valid.",
+            "invalidTokenId": "The token id is not valid.",
             "unknownAsset": "The asset is not known to this account.",
             "insufficientFunds": "أرصدة هذه المحفظة غير كافية.",
             "insufficientFundsStorageDeposit": "Insufficient funds to cover the storage deposit.",

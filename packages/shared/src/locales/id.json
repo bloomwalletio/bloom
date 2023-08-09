@@ -1931,7 +1931,7 @@
             "wrongAddressPrefix": "Alamat dimulai dengan awalan {prefix}.",
             "wrongAddressFormat": "Alamat tidak diformat dengan benar.",
             "invalidAddress": "Alamatnya tidak valid.",
-            "invalidAssetId": "The asset id is not valid.",
+            "invalidTokenId": "The token id is not valid.",
             "unknownAsset": "The asset is not known to this account.",
             "insufficientFunds": "Dompet/akun ini tidak mempunyai cukup dana.",
             "insufficientFundsStorageDeposit": "Insufficient funds to cover the storage deposit.",

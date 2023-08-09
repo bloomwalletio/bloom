@@ -1931,7 +1931,7 @@
             "wrongAddressPrefix": "ایڈریسز {prefix} سابقہ کے ساتھ شروع ہوتے ہیں.",
             "wrongAddressFormat": "ایڈریس درست شکل میں نہیں ہے.",
             "invalidAddress": "یہ ایڈریس درست نہیں ہے.",
-            "invalidAssetId": "The asset id is not valid.",
+            "invalidTokenId": "The token id is not valid.",
             "unknownAsset": "The asset is not known to this account.",
             "insufficientFunds": "اس والیٹ میں موجود فنڈز ناکافی ہیں.",
             "insufficientFundsStorageDeposit": "Insufficient funds to cover the storage deposit.",

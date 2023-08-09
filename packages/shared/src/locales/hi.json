@@ -1931,7 +1931,7 @@
             "wrongAddressPrefix": "पते {prefix} उपसर्ग से शुरू होते हैं",
             "wrongAddressFormat": "पता सही रूप से स्वरूपित नहीं है।",
             "invalidAddress": "पता मान्य नहीं है",
-            "invalidAssetId": "The asset id is not valid.",
+            "invalidTokenId": "The token id is not valid.",
             "unknownAsset": "The asset is not known to this account.",
             "insufficientFunds": "इस वॉलेट में अपर्याप्त राशि है।",
             "insufficientFundsStorageDeposit": "Insufficient funds to cover the storage deposit.",

@@ -1931,7 +1931,7 @@
             "wrongAddressPrefix": "Endereços começam com o prefixo {prefix}.",
             "wrongAddressFormat": "O endereço não está formatado corretamente.",
             "invalidAddress": "O endereço não é válido.",
-            "invalidAssetId": "The asset id is not valid.",
+            "invalidTokenId": "The token id is not valid.",
             "unknownAsset": "The asset is not known to this account.",
             "insufficientFunds": "Esta carteira tem fundos insuficientes.",
             "insufficientFundsStorageDeposit": "Insufficient funds to cover the storage deposit.",
