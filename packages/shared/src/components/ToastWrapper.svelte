@@ -10,5 +10,5 @@
     <AppUpdateToast />
 {:else}
     <!-- Specify variant explicitly for type narrowing -->
-    <Toast {...notification} />
+    <Toast {...notification} variant={notification?.variant === 'error' ? 'danger' : notification?.variant} />
 {/if}
