@@ -1,27 +1,25 @@
 import { Keccak } from 'sha3'
-import { KECCAK_HASH_SIZE } from '../constants'
-import { validateBech32Address } from './validateBech32Address'
-import { Layer1RecipientError } from '@core/layer-2/errors'
-import { InvalidAddressError } from '@auxiliary/deep-link'
 import { localize } from '@core/i18n'
-import { getNetworkHrp } from '@core/profile'
+import { HEXADECIMAL_PREFIX } from '../../constants'
+import { KECCAK_HASH_SIZE } from '../constants'
 
 export function validateEthereumAddress(address: string): void {
-    throwIfBech32Address(address)
-
-    // Check if it has the basic requirements of an address
-    if (!/^(0x)?[0-9a-f]{40}$/i.test(address)) {
-        throw new InvalidAddressError()
-        // Check if it's all small caps or all large caps
-    } else if (/^(0x)?[0-9a-f]{40}$/.test(address) || /^(0x)?[0-9A-F]{40}$/.test(address)) {
-        return
-    } else {
-        // Otherwise check EIP-55 checksum
+    // 1. Check prefix
+    if (!/^(0x)*/i.test(address)) {
+        throw new Error(localize('error.send.wrongAddressPrefix', { prefix: HEXADECIMAL_PREFIX }))
+        // 2. Check hex format
+    } else if (!/^(0x)?[0-9a-f]*/i.test(address)) {
+        throw new Error(localize('error.send.wrongAddressFormat'))
+        // 3. Check character length
+    } else if (!/^(0x)?[0-9a-f]{40}$/i.test(address)) {
+        throw new Error(localize('error.send.addressLength', { length: 42 }))
+        // 4. If not consistent capitalization then check EIP 55 checksum
+    } else if (!/^(0x)?[0-9a-f]{40}$/.test(address) || !/^(0x)?[0-9A-F]{40}$/.test(address)) {
         validateEthereumAddressChecksum(address)
     }
 }
 
-// Check if EIP-55 mixed-case checksum address encoding is followed (https://eips.ethereum.org/EIPS/eip-55)
+// Check if EIP-55 mixed-c0xe6bb6847ae56ea15941b106248ab7b463b3178abase checksum address encoding is followed (https://eips.ethereum.org/EIPS/eip-55)
 function validateEthereumAddressChecksum(address: string): void {
     address = address.replace('0x', '')
     const keccak256 = new Keccak(KECCAK_HASH_SIZE)
@@ -32,18 +30,7 @@ function validateEthereumAddressChecksum(address: string): void {
             (parseInt(addressHash[i], 16) > 7 && address[i].toUpperCase() !== address[i]) ||
             (parseInt(addressHash[i], 16) <= 7 && address[i].toLowerCase() !== address[i])
         ) {
-            throw new InvalidAddressError()
-        }
-    }
-}
-
-function throwIfBech32Address(address: string): void {
-    try {
-        validateBech32Address(getNetworkHrp(), address)
-        throw new Layer1RecipientError()
-    } catch (err) {
-        if (err.message === localize('error.layer2.layer1Recipient')) {
-            throw err
+            throw new Error(localize('error.address.checksum'))
         }
     }
 }
