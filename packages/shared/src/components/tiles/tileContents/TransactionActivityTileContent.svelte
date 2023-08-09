@@ -1,0 +1,38 @@
+<script lang="ts">
+    import { localize } from '@core/i18n'
+    import { getAssetFromPersistedAssets, IPersistedAsset, selectedAccountAssets } from '@core/wallet'
+    import {
+        ActivityDirection,
+        getActivityTileTitle,
+        getFormattedAmountFromActivity,
+        getSubjectLocaleFromActivity,
+        TransactionActivity,
+    } from '@core/activity'
+    import { ActivityTileContent, AssetIcon } from '@ui'
+
+    export let activity: TransactionActivity
+
+    let asset: IPersistedAsset
+    $: $selectedAccountAssets, (asset = getAssetFromPersistedAssets(activity.assetId))
+    $: action = localize(getActivityTileTitle(activity))
+    $: subject =
+        activity.direction === ActivityDirection.SelfTransaction
+            ? localize('general.internalTransaction')
+            : localize(isIncoming ? 'general.fromAddress' : 'general.toAddress', {
+                  values: { account: getSubjectLocaleFromActivity(activity) },
+              })
+
+    $: amount = getFormattedAmountFromActivity(activity)
+    $: isIncoming = activity.direction === ActivityDirection.Incoming
+    $: formattedAsset = {
+        text: amount,
+        color: isIncoming || activity.direction === ActivityDirection.SelfTransaction ? 'blue-700' : '',
+        classes: 'shrink-0',
+    }
+</script>
+
+{#if asset}
+    <ActivityTileContent {action} {subject} {formattedAsset}>
+        <AssetIcon slot="icon" {asset} chainId={activity.chainId} />
+    </ActivityTileContent>
+{/if}

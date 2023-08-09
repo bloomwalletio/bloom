@@ -6,16 +6,11 @@ import { addPersistedAsset } from '@core/wallet/stores'
 import { Converter } from '@core/utils/convert'
 import { TOKEN_ID_BYTE_LENGTH } from '@core/token/constants'
 import { setLayer2AccountBalanceForChain } from '../stores'
-import { getSelectedAccount } from '@core/account/stores'
 import { getActiveProfile } from '@core/profile'
-import { calculateAndAddPersistedBalanceChange } from '@core/activities/actions'
+import { IAccountState } from '@core/account'
+import { calculateAndAddPersistedBalanceChange } from '@core/activity/actions'
 
-export function fetchSelectedAccountLayer2Balance(): void {
-    const account = getSelectedAccount()
-    if (!account) {
-        return
-    }
-
+export function fetchSelectedAccountLayer2Balance(account: IAccountState): void {
     const { evmAddresses, index } = account
     const chains = getNetwork()?.getChains() ?? []
     chains.forEach(async (chain) => {

@@ -1,8 +1,8 @@
 import { get } from 'svelte/store'
 import { Transaction } from '@iota/wallet/out/types'
 import { selectedAccount, updateSelectedAccount } from '@core/account/stores'
-import { processAndAddToActivities } from '@core/wallet/utils'
 import { handleError } from '@core/error/handlers'
+import { processAndAddToActivities } from '@core/activity/utils/processAndAddToActivities'
 
 export async function setVotingPower(rawAmount: string): Promise<void> {
     const account = get(selectedAccount)

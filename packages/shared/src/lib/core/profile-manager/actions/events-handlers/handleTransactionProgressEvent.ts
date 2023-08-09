@@ -1,32 +1,35 @@
-import { get } from 'svelte/store'
+import { isOnboardingLedgerProfile } from '@contexts/onboarding'
 import { selectedAccountIndex } from '@core/account'
 import { ledgerNanoStatus } from '@core/ledger'
-import { isActiveLedgerProfile } from '@core/profile'
-import { isOnboardingLedgerProfile } from '@contexts/onboarding'
-import { closePopup, openPopup, PopupId } from '../../../../../../../desktop/lib/auxiliary/popup'
 import { deconstructLedgerVerificationProps } from '@core/ledger/helpers'
-
-import { MissingTransactionProgressEventPayloadError } from '../../errors'
-import { validateWalletApiEvent } from '../../utils'
+import { isActiveLedgerProfile } from '@core/profile'
 import {
     Event,
+    PreparedTransactionEssenceHashProgress,
     TransactionProgress,
     TransactionProgressType,
     TransactionProgressWalletEvent,
     WalletEventType,
-    PreparedTransactionEssenceHashProgress,
 } from '@iota/wallet/out/types'
+import { get } from 'svelte/store'
+import { closePopup, openPopup, PopupId } from '../../../../../../../desktop/lib/auxiliary/popup'
+import { MissingTransactionProgressEventPayloadError } from '../../errors'
+import { validateWalletApiEvent } from '../../utils'
 
-export function handleTransactionProgressEvent(error: Error, walletEvent: Event): void {
-    const { accountIndex, event } = validateWalletApiEvent(error, walletEvent, WalletEventType.TransactionProgress)
-    handleTransactionProgressEventInternal(accountIndex, event as TransactionProgressWalletEvent)
+export function handleTransactionProgressEvent(error: Error, event: Event): void {
+    const walletEvent = validateWalletApiEvent<TransactionProgressWalletEvent>(
+        error,
+        event,
+        WalletEventType.TransactionProgress
+    )
+    handleTransactionProgressEventInternal(event.accountIndex, walletEvent)
 }
 
 export function handleTransactionProgressEventInternal(
     accountIndex: number,
-    event: TransactionProgressWalletEvent
+    walletEvent: TransactionProgressWalletEvent
 ): void {
-    const { progress } = event
+    const { progress } = walletEvent
     if (get(isActiveLedgerProfile)) {
         if (get(selectedAccountIndex) === accountIndex) {
             openPopupIfVerificationNeeded(progress)

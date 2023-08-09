@@ -1,13 +1,12 @@
 <script lang="ts">
-    import { getTransactionAssets } from '@core/activities/utils'
+    import { getSubjectFromActivity, getTransactionAssets } from '@core/activity/utils'
     import { closePopup } from '../../../../desktop/lib/auxiliary/popup'
     import { selectedAccountIndex } from '@core/account/stores'
     import { time } from '@core/app'
     import { localize } from '@core/i18n'
     import { ownedNfts, selectedNftId } from '@core/nfts'
     import { CollectiblesRoute, collectiblesRouter, DashboardRoute, dashboardRouter } from '@core/router'
-    import { ActivityAsyncStatus, NftActivity } from '@core/wallet'
-    import { getSubjectFromActivity } from '@core/wallet/utils/generateActivity/helper'
+    import { ActivityAsyncStatus, NftActivity } from '@core/activity'
     import {
         ActivityAsyncStatusPill,
         Pill,
