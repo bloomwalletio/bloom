@@ -6,11 +6,12 @@
     import { setVotingPower } from '@contexts/governance/actions'
     import { localize } from '@core/i18n'
     import { checkActiveProfileAuth } from '@core/profile/actions'
-    import { convertToRawAmount, visibleSelectedAccountTokens } from '@core/wallet'
+    import { convertToRawAmount } from '@core/wallet'
     import { closePopup, openPopup, PopupId, popupState } from '@desktop/auxiliary/popup'
     import { onMount } from 'svelte'
     import { isAccountVoting } from '@contexts/governance/utils'
     import { activeProfile } from '@core/profile'
+    import { visibleSelectedAccountTokens } from '@core/token/stores'
 
     export let _onMount: (..._: any[]) => Promise<void> = async () => {}
     export let newVotingPower: string = undefined

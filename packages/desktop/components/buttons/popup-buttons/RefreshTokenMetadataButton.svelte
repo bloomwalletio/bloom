@@ -2,10 +2,10 @@
     import { OnboardingButton } from '@ui'
 
     import { localize } from '@core/i18n'
-    import { refreshAccountTokensForActiveProfile } from '@core/wallet'
 
     import { showNotification } from '@auxiliary/notification'
     import { closePopup, openPopup, PopupId } from '@desktop/auxiliary/popup'
+    import { refreshAccountTokensForActiveProfile } from '@core/token/actions'
 
     function refreshTokenMetadata(): void {
         refreshAccountTokensForActiveProfile(true)

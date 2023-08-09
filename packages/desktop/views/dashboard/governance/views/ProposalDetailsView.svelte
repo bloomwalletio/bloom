@@ -11,7 +11,7 @@
     import { localize } from '@core/i18n'
     import { networkStatus } from '@core/network/stores'
     import { getBestTimeDuration, milestoneToDate } from '@core/utils'
-    import { visibleSelectedAccountTokens } from '@core/wallet/stores'
+    import { visibleSelectedAccountTokens } from '@core/token/stores'
     import { formatTokenAmountBestMatch } from '@core/wallet/utils'
 
     import { getVotingEvent } from '@contexts/governance/actions'

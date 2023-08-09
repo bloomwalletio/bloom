@@ -1,4 +1,4 @@
-import { buildBip32PathFromBip44 } from '@core/account/utils'
+import { buildBip32PathFromBip44 } from '@core/account/utils/buildBip32PathFromBip44'
 import { Platform } from '@core/app/classes'
 import { IPlatformEventMap } from '@core/app/interfaces'
 import { localize } from '@core/i18n'

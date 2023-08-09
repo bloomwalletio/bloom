@@ -2,7 +2,7 @@
     import { Button, Text, TextHint, FontWeight, TextType, ButtonVariant, KeyValueBox } from '@ui'
     import { localize } from '@core/i18n'
     import { closePopup, openPopup, PopupId } from '@desktop/auxiliary/popup'
-    import { burnAsset, formatTokenAmountBestMatch } from '@core/wallet'
+    import { burnToken, formatTokenAmountBestMatch } from '@core/wallet'
     import { checkActiveProfileAuth } from '@core/profile'
     import { handleError } from '@core/error/handlers'
     import { onMount } from 'svelte'
@@ -26,7 +26,7 @@
         try {
             await checkActiveProfileAuth(
                 async () => {
-                    await burnAsset(token.id, rawAmount)
+                    await burnToken(token.id, rawAmount)
                     closePopup()
                 },
                 { stronghold: true }

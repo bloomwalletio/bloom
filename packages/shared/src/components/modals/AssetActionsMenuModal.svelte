@@ -88,7 +88,7 @@
         {/if}
         <MenuItem
             icon={Icon.Delete}
-            disabled={!features?.wallet?.assets?.burnAsset?.enabled}
+            disabled={!features?.wallet?.assets?.burnToken?.enabled}
             title={localize('actions.burnToken')}
             onClick={onBurnTokenClick}
         />

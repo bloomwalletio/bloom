@@ -1,8 +1,7 @@
 import { syncBalance } from '@core/account/actions/syncBalance'
-import { addNftsToDownloadQueue, addOrUpdateNftInAllAccountNfts, buildNftFromNftOutput } from '@core/nfts'
 import { checkAndRemoveProfilePicture } from '@core/profile/actions'
 import { activeAccounts } from '@core/profile/stores'
-import { IWrappedOutput } from '@core/wallet'
+import { IWrappedOutput } from '@core/wallet/interfaces'
 import { OUTPUT_TYPE_ALIAS, OUTPUT_TYPE_NFT } from '@core/wallet/constants'
 import {
     addActivitiesToAccountActivitiesInAllAccountActivities,
@@ -17,6 +16,8 @@ import { generateActivities } from '@core/activity/utils'
 import { ActivityType } from '@core/activity/enums'
 import { getOrRequestTokenFromPersistedTokens } from '@core/token/actions'
 import { addPersistedAsset } from '@core/token/stores'
+import { buildNftFromNftOutput } from '@core/nfts/utils'
+import { addNftsToDownloadQueue, addOrUpdateNftInAllAccountNfts } from '@core/nfts/actions'
 
 export function handleNewOutputEvent(error: Error, event: Event): void {
     const walletEvent = validateWalletApiEvent<NewOutputWalletEvent>(error, event, WalletEventType.NewOutput)

@@ -4,7 +4,7 @@ import { FALLBACK_GAS_BUDGET } from '@core/layer-2/constants'
 import { getOutputParameters } from '../utils'
 import { ReturnStrategy, SubjectType } from '../enums'
 import { IToken, IPersistedToken } from '@core/token/interfaces'
-import { TokenStandard, VerifiedStatus } from '@core/token/enum'
+import { TokenStandard, VerifiedStatus } from '@core/token/enums'
 import { SendFlowType } from '../stores'
 import { SendFlowParameters } from '../types'
 
