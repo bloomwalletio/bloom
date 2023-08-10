@@ -1,7 +1,7 @@
 import { derived, get, Readable } from 'svelte/store'
 import type { IAccountState } from '../interfaces'
 import { selectedAccountIndex } from '../stores'
-import { activeAccounts, updateActiveAccount } from '@core/profile/stores'
+import { activeAccounts, updateActiveAccount } from '@core/profile/stores/active-accounts.store'
 
 export const selectedAccount: Readable<IAccountState | undefined> = derived(
     [selectedAccountIndex, activeAccounts],

@@ -1,9 +1,9 @@
-import { selectedAccount } from '@core/account'
-import { localize } from '@core/i18n'
-import { FAUCET_URLS } from '@core/network'
-import { showNotification } from '@auxiliary/notification'
 import { get } from 'svelte/store'
-import { getActiveNetworkId } from '@core/network/utils/getNetworkId'
+import { selectedAccount } from '@core/account/stores'
+import { localize } from '@core/i18n'
+import { FAUCET_URLS } from '@core/network/constants'
+import { getActiveNetworkId } from '@core/network/utils'
+import { showNotification } from '@auxiliary/notification/actions'
 
 export async function requestTokensFromFaucet(): Promise<void> {
     const networkId = getActiveNetworkId()

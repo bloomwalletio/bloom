@@ -1,6 +1,6 @@
 <script lang="ts">
     import { localize } from '@core/i18n'
-    import { MAX_CHAIN_NAME_LENGTH, ChainType, IIscpChainConfiguration, ETH_COIN_TYPE } from '@core/network'
+    import { MAX_CHAIN_NAME_LENGTH, ChainType, IIscpChainConfiguration, ETHEREUM_COIN_TYPE } from '@core/network'
     import { activeProfile, getNetworkHrp } from '@core/profile'
     import { isValidHexAddress, isValidHttpsUrl, validateBech32Address } from '@core/utils'
     import { ADDRESS_TYPE_ALIAS } from '@core/wallet'
@@ -22,7 +22,7 @@
         name: '',
         aliasAddress: '',
         iscpEndpoint: '',
-        coinType: ETH_COIN_TYPE,
+        coinType: ETHEREUM_COIN_TYPE,
     }
 
     function validateName(): void {

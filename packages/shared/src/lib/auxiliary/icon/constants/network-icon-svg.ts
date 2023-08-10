@@ -1,10 +1,11 @@
-import { EvmChainId, NetworkId } from '@core/network'
+import { buildEthereumNetworkId, buildTangleNetworkId, EvmChainId, NetworkIdType, TangleNetworkId } from '@core/network'
 
 import { Icon } from '../enums'
 
-export const NETWORK_ICON_SVG: { [key in string]: Icon } = {
-    [NetworkId.Iota]: Icon.Iota,
-    [NetworkId.Shimmer]: Icon.Shimmer,
-    [NetworkId.Testnet]: Icon.Shimmer,
-    [EvmChainId.ShimmerEvmTestnet]: Icon.ShimmerEvm,
+export const NETWORK_ICON_SVG: { [id: NetworkIdType]: Icon } = {
+    [buildTangleNetworkId(TangleNetworkId.Iota)]: Icon.Iota,
+    [buildTangleNetworkId(TangleNetworkId.Shimmer)]: Icon.Shimmer,
+    [buildTangleNetworkId(TangleNetworkId.Testnet)]: Icon.Shimmer,
+    [buildEthereumNetworkId(EvmChainId.ShimmerEvm)]: Icon.ShimmerEvm,
+    [buildEthereumNetworkId(EvmChainId.ShimmerEvmTestnet)]: Icon.ShimmerEvm,
 }

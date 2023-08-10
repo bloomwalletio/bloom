@@ -1,7 +1,7 @@
 <script lang="ts">
     import { Icon as IconEnum, NETWORK_ICON_SVG } from '@auxiliary/icon'
     import { getIconColorFromString } from '@core/account'
-    import { COIN_TYPE, NetworkId, network } from '@core/network'
+    import { COIN_TYPE, network, TangleNetworkId, buildTangleNetworkId } from '@core/network'
     import { activeProfile } from '@core/profile'
     import { isBright } from '@core/utils'
     import { ANIMATED_TOKEN_IDS, getAssetInitials, IPersistedAsset, TokenStandard } from '@core/wallet'
@@ -22,22 +22,18 @@
 
     $: $network, chainId, (chainName = getTooltipText())
     $: isAnimation = asset.id in ANIMATED_TOKEN_IDS
+    $: networkId = $activeProfile?.network?.id ?? ''
 
     $: {
         switch (asset.id) {
-            case String(COIN_TYPE[NetworkId.Iota]):
+            case String(COIN_TYPE[networkId]): {
+                const isIotaNetwork = networkId === buildTangleNetworkId(TangleNetworkId.Iota)
                 assetInitials = ''
-                assetIconBackgroundColor = '#6E82A4'
+                assetIconBackgroundColor = isIotaNetwork ? '#6E82A4' : '#25DFCA'
                 assetIconColor = isBright(assetIconBackgroundColor) ? 'gray-800' : 'white'
-                icon = NETWORK_ICON_SVG[NetworkId.Iota]
+                icon = NETWORK_ICON_SVG[networkId]
                 break
-            case String(COIN_TYPE[NetworkId.Shimmer]):
-            case String(COIN_TYPE[NetworkId.Testnet]):
-                assetInitials = ''
-                assetIconBackgroundColor = '#25DFCA'
-                assetIconColor = isBright(assetIconBackgroundColor) ? 'gray-800' : 'white'
-                icon = NETWORK_ICON_SVG[NetworkId.Shimmer]
-                break
+            }
             default:
                 assetInitials = getAssetInitials(asset)
                 assetIconBackgroundColor = getIconColorFromString(asset.metadata?.name, {

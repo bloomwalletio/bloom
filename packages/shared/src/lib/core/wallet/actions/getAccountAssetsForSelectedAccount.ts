@@ -1,7 +1,7 @@
 import { getSelectedAccount } from '@core/account/stores'
 import { MarketCoinPrices } from '@core/market'
-import { getActiveNetworkId } from '@core/network/utils/getNetworkId'
-import { EvmChainId, NetworkId, getNetwork } from '@core/network'
+import { getActiveNetworkId } from '@core/network/utils'
+import { EvmChainId, getNetwork, NetworkIdType, NetworkNamespace } from '@core/network'
 import { getCoinType } from '@core/profile'
 import { isValidIrc30Token, isValidToken } from '@core/token'
 import { IAsset } from '../interfaces'
@@ -9,6 +9,7 @@ import { AccountAssets, IAccountAssetsPerNetwork } from '../interfaces/account-a
 import { getAssetFromPersistedAssets } from '../utils'
 import { sortAssets } from '../utils/sortAssets'
 import { getLayer2AccountBalance } from '@core/layer-2/stores'
+import { parseNetworkId } from '@core/network/utils/parseNetworkId'
 
 export function getAccountAssetsForSelectedAccount(marketCoinPrices: MarketCoinPrices): AccountAssets {
     const accountAssets = {} as AccountAssets
@@ -32,10 +33,14 @@ export function getAccountAssetsForSelectedAccount(marketCoinPrices: MarketCoinP
     return accountAssets
 }
 
-function getAccountAssetForNetwork(marketCoinPrices: MarketCoinPrices, networkId: NetworkId): IAccountAssetsPerNetwork {
+function getAccountAssetForNetwork(
+    marketCoinPrices: MarketCoinPrices,
+    networkId: NetworkIdType
+): IAccountAssetsPerNetwork {
     const account = getSelectedAccount()
 
-    const shouldCalculateFiatPrice = networkId === NetworkId.Shimmer || networkId === NetworkId.Testnet
+    // TODO: Write isTangleNetworkId function that uses this logic? Or generic isNetworkIdOfNetworkNamespace
+    const shouldCalculateFiatPrice = parseNetworkId(networkId)?.namespace === NetworkNamespace.Tangle
     const persistedBaseCoin = getAssetFromPersistedAssets(getCoinType())
     const baseCoin: IAsset = {
         ...persistedBaseCoin,

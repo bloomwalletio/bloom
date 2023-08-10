@@ -1,6 +1,7 @@
-import { getOfficialNodes, updateClientOptions } from '@core/network'
-import { activeProfile } from '@core/profile'
 import { get } from 'svelte/store'
+import { updateClientOptions } from '@core/network/actions'
+import { getOfficialNodes } from '@core/network/utils'
+import { activeProfile } from '@core/profile/stores'
 
 export function addOfficialNodesToClientOptions(): void {
     const { clientOptions, network } = get(activeProfile)

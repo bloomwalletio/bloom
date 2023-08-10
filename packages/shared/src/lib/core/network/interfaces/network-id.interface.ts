@@ -1,8 +1,8 @@
 import { NetworkNamespace } from '../enums'
-import { NetworkProtocolId } from '../types'
+import { NetworkIdType, NetworkProtocolId } from '../types'
 
 export interface INetworkId {
-    id: string
+    id: NetworkIdType
     namespace: NetworkNamespace
     protocolId: NetworkProtocolId
 }

@@ -4,7 +4,7 @@ import { convertToRawAmount } from '../utils'
 import { TokenMetadata } from '../types'
 import { TokenStandard } from '../enums'
 import { MAX_SUPPORTED_DECIMALS } from '../constants'
-import { DEFAULT_BASE_TOKEN, NetworkId } from '@core/network'
+import { buildNetworkId, DEFAULT_BASE_TOKEN, NetworkNamespace, TangleNetworkId } from '@core/network'
 import { IotaUnit } from '@core/utils'
 
 const WEB3_TOKEN_METADATA: TokenMetadata = {
@@ -43,6 +43,7 @@ describe('File: convertToRawAmount.ts', () => {
 
     describe('given the tokenMetadata standard is BaseToken', () => {
         describe("given useMetricPrefix is true (currently IOTA's case)", () => {
+            const networkId = buildNetworkId(NetworkNamespace.Tangle, TangleNetworkId.Iota)
             it.each([
                 { amount: '1', unit: IotaUnit._, expected: Big('1').mul(Big(10).pow(0)) },
                 { amount: '1', unit: IotaUnit.K, expected: Big('1').mul(Big(10).pow(3)) },
@@ -51,32 +52,33 @@ describe('File: convertToRawAmount.ts', () => {
                 { amount: '1', unit: IotaUnit.T, expected: Big('1').mul(Big(10).pow(12)) },
                 { amount: '1', unit: IotaUnit.P, expected: Big('1').mul(Big(10).pow(15)) },
             ])('should return amount * $expected when unit is $unit', ({ amount, unit, expected }) => {
-                expect(convertToRawAmount(amount, DEFAULT_BASE_TOKEN[NetworkId.Iota], unit)).toStrictEqual(expected)
+                expect(convertToRawAmount(amount, DEFAULT_BASE_TOKEN[networkId], unit)).toStrictEqual(expected)
             })
             it("should treat unit as 'i' and return Big(amount) if the unit provided isn't in the IotaUnit enum", () => {
-                expect(convertToRawAmount('1', DEFAULT_BASE_TOKEN[NetworkId.Iota], 'test')).toStrictEqual(Big('1'))
+                expect(convertToRawAmount('1', DEFAULT_BASE_TOKEN[networkId], 'test')).toStrictEqual(Big('1'))
             })
             it("should treat unit as 'i' and return Big(amount) if a unit isn't provided", () => {
-                expect(convertToRawAmount('1', DEFAULT_BASE_TOKEN[NetworkId.Iota])).toStrictEqual(Big('1'))
+                expect(convertToRawAmount('1', DEFAULT_BASE_TOKEN[networkId])).toStrictEqual(Big('1'))
             })
         })
         describe("given useMetricPrefix is false (currently Shimmer's case)", () => {
+            const networkId = buildNetworkId(NetworkNamespace.Tangle, TangleNetworkId.Shimmer)
             it("should return Big(amount) * decimal property if selectedUnit is unit and baseToken's decimal is less than MAX_SUPPORTED_DECIMALS", () => {
-                let value = convertToRawAmount('1', DEFAULT_BASE_TOKEN[NetworkId.Shimmer], 'SMR')
-                expect(value).toStrictEqual(Big('1').mul(Big(10).pow(DEFAULT_BASE_TOKEN[NetworkId.Shimmer].decimals)))
+                let value = convertToRawAmount('1', DEFAULT_BASE_TOKEN[networkId], 'SMR')
+                expect(value).toStrictEqual(Big('1').mul(Big(10).pow(DEFAULT_BASE_TOKEN[networkId].decimals)))
             })
             it("should return XXX if selectedUnit is unit and baseToken's decimals property is greater than MAX_SUPPORTED_DECIMALS", () => {
                 let value = convertToRawAmount('1', WEB3_TOKEN_METADATA, 'RAWR')
                 expect(value).toStrictEqual(Big('1').mul(Big(10).pow(MAX_SUPPORTED_DECIMALS)))
             })
             it('should return same Big(amount) if selectedUnit is subunit', () => {
-                expect(convertToRawAmount('1', DEFAULT_BASE_TOKEN[NetworkId.Shimmer], 'glow')).toStrictEqual(Big('1'))
+                expect(convertToRawAmount('1', DEFAULT_BASE_TOKEN[networkId], 'glow')).toStrictEqual(Big('1'))
             })
             it('should return undefined if a unit is not provided', () => {
-                expect(convertToRawAmount('1', DEFAULT_BASE_TOKEN[NetworkId.Shimmer])).toStrictEqual(undefined)
+                expect(convertToRawAmount('1', DEFAULT_BASE_TOKEN[networkId])).toStrictEqual(undefined)
             })
             it('should return undefined if provided unit does not match the tokenMetadata unit or subunit', () => {
-                expect(convertToRawAmount('1', DEFAULT_BASE_TOKEN[NetworkId.Shimmer], 'test')).toStrictEqual(undefined)
+                expect(convertToRawAmount('1', DEFAULT_BASE_TOKEN[networkId], 'test')).toStrictEqual(undefined)
             })
         })
     })

@@ -9,7 +9,7 @@ import { isActiveLedgerProfile, isSoftwareProfile } from '@core/profile'
 import { get } from 'svelte/store'
 import { IAccountState } from '@core/account'
 import { signEvmTransactionWithStronghold } from '../../../layer-2/utils/signEvmTransactionWithStronghold'
-import { ETH_COIN_TYPE } from '@core/network/constants'
+import { ETHEREUM_COIN_TYPE } from '@core/network/constants'
 
 export async function signAndSendEvmTransaction(
     transaction: EvmTransactionData,
@@ -21,7 +21,7 @@ export async function signAndSendEvmTransaction(
         updateSelectedAccount({ isTransferring: true })
 
         const bip44Path = {
-            coinType: ETH_COIN_TYPE,
+            coinType: ETHEREUM_COIN_TYPE,
             account: account.index,
             change: 0,
             addressIndex: 0,

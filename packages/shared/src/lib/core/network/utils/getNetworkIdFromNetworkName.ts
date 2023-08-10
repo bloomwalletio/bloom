@@ -1,14 +1,28 @@
-import { NetworkId } from '../enums'
+import { NetworkNamespace, TangleNetworkId } from '../enums'
+import { INetworkId } from '../interfaces'
+import { NetworkProtocolId } from '../types'
+import { buildNetworkId } from './buildNetworkId'
 
-export function getNetworkIdFromNetworkName(networkName: string): NetworkId {
-    switch (networkName) {
+export function getNetworkIdFromNetworkName(name: string): INetworkId {
+    const namespace = NetworkNamespace.Tangle
+    const protocolId = getProtocolIdFromNetworkName(name)
+    const id = buildNetworkId(namespace, protocolId)
+    return {
+        id,
+        namespace,
+        protocolId,
+    }
+}
+
+function getProtocolIdFromNetworkName(name: string): NetworkProtocolId {
+    switch (name) {
         case 'shimmer':
-            return NetworkId.Shimmer
+            return TangleNetworkId.Shimmer
         case 'testnet':
-            return NetworkId.Testnet
         case 'testnet-1':
-            return NetworkId.Testnet
+            return TangleNetworkId.Testnet
         default:
-            return NetworkId.Custom
+            // TODO: https://github.com/iotaledger/tips/blob/main/tips/TIP-0020/tip-0020.md#network-id
+            return 'custom'
     }
 }

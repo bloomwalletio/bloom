@@ -1,4 +1,4 @@
-import { getActiveNetworkId } from '@core/network/utils/getNetworkId'
+import { getActiveNetworkId } from '@core/network/utils'
 import { INft, getNftByIdFromAllAccountNfts } from '@core/nfts'
 import { getCoinType } from '@core/profile/actions'
 import { ActivityType } from '../enums'
