@@ -20,8 +20,9 @@ contextBridge.exposeInMainWorld('error', {
     getData: async (): Promise<ErrorData> => {
         const data = await ipcRenderer.invoke('error-data')
 
+        const stage = process.env.STAGE
         const errorData: ErrorData = {
-            iconPath: './assets/logos/firefly_logo.svg',
+            iconPath: `./assets/logos/darkmode/${stage}_firefly_logo.svg`,
             version,
             diagnostics: data.diagnostics
                 .map((d: DiagnosticData) => `${d.label.replace('popups.diagnostics.', '')}: ${d.value}`)
