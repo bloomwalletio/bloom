@@ -2,7 +2,7 @@
     import { IAsset, visibleSelectedAccountAssets } from '@core/wallet'
     import { TokenAmountTile, Icon, Text, AssetIcon, FontWeight } from '@ui'
     import { clickOutside } from '@core/utils'
-    import { activeProfile } from '@core/profile'
+    import { activeProfile } from '@core/profile/stores'
 
     export let asset = $visibleSelectedAccountAssets?.[$activeProfile?.network?.id]?.baseCoin
     export let readonly: boolean = false

@@ -2,7 +2,8 @@
     import { IAccountState, selectedAccount, setSelectedAccount } from '@core/account'
     import { formatCurrency } from '@core/i18n'
     import { getMarketAmountFromAssetValue } from '@core/market/utils'
-    import { activeProfile, getBaseToken } from '@core/profile'
+    import { getBaseToken } from '@core/profile/actions'
+    import { activeProfile } from '@core/profile/stores'
     import { formatTokenAmountBestMatch, selectedAccountAssets } from '@core/wallet'
     import { AccountLabel, FontWeight, Text } from '@ui'
 

@@ -1,9 +1,10 @@
 <script lang="ts">
     import { IAccountState, selectedAccount } from '@core/account'
-    import { visibleActiveAccounts, getBaseToken } from '@core/profile'
+    import { getBaseToken } from '@core/profile/actions'
+    import { visibleActiveAccounts } from '@core/profile/stores'
+    import { truncateString } from '@core/utils'
     import { formatTokenAmountBestMatch } from '@core/wallet'
     import { AccountLabel, Modal, Text, TextType } from '@ui'
-    import { truncateString } from '@core/utils'
     import { fade } from 'svelte/transition'
 
     export let modal: Modal = undefined
