@@ -19,7 +19,7 @@ export function validateEthereumAddress(address: string): void {
     }
 }
 
-// Check if EIP-55 mixed-c0xe6bb6847ae56ea15941b106248ab7b463b3178abase checksum address encoding is followed (https://eips.ethereum.org/EIPS/eip-55)
+// Check if EIP-55 mixed-case checksum address encoding is followed (https://eips.ethereum.org/EIPS/eip-55)
 function validateEthereumAddressChecksum(address: string): void {
     address = address.replace('0x', '')
     const keccak256 = new Keccak(KECCAK_HASH_SIZE)
