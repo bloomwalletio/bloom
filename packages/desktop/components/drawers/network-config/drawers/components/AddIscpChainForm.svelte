@@ -4,7 +4,8 @@
     import { activeProfile, getNetworkHrp } from '@core/profile'
     import { isValidHexAddress, isValidHttpsUrl, validateBech32Address } from '@core/utils'
     import { ADDRESS_TYPE_ALIAS } from '@core/wallet'
-    import { Button, HTMLButtonType, Input } from '@ui'
+    import { Button } from '@bloomwalletio/ui'
+    import { Input } from '@ui'
 
     const localeKey = 'views.dashboard.drawers.networkConfig.chain'
 
@@ -110,12 +111,11 @@
         />
     </form>
     <Button
-        type={HTMLButtonType.Submit}
+        type="submit"
         form="add-chain-form"
-        classes="w-full"
+        width="full"
         disabled={submitDisabled || isBusy}
-        {isBusy}
-    >
-        {localize('actions.addChain')}
-    </Button>
+        busy={isBusy}
+        text={localize('actions.addChain')}
+    />
 </add-iscp-chain>
