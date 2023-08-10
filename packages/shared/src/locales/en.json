@@ -572,6 +572,10 @@
                 "dApps": {
                     "dAppsList": {
                         "title": "Connected dApps",
+                        "state": {
+                            "connected": "Connected",
+                            "disconnected": "Disconnected"
+                        },
                         "connectDapp": "Connect dApp"
                     }
                 }
