@@ -56,7 +56,7 @@ export type NumberFilterUnit = {
 }
 
 export type TokenFilterUnit = {
-    type: 'asset'
+    type: 'token'
     active: boolean
     labelKey?: string
     localeKey: string

@@ -58,7 +58,7 @@
                 <SelectionFilterItem bind:filterUnit />
             {:else if filterUnit.type === 'order'}
                 <OrderFilterItem bind:filterUnit />
-            {:else if filterUnit.type === 'asset'}
+            {:else if filterUnit.type === 'token'}
                 <TokenFilterItem bind:filterUnit />
             {:else if filterUnit.type === 'network'}
                 <NetworkFilterItem bind:filterUnit />
