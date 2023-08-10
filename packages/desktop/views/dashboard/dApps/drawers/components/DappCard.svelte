@@ -8,7 +8,7 @@
     function onCardClick(): void {
         // TODO
     }
-    const localeKey = 'views.dashboard.drawers.connectedDapps.connectedDappsList.state.'
+    const localeKey = 'views.dashboard.drawers.dApps.dAppsList.state.'
     $: pill = pairing.active
         ? {
               data: '• ' + localize(localeKey + 'connected'),
