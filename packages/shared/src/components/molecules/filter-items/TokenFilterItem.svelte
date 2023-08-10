@@ -9,18 +9,18 @@
     const { baseCoin, nativeTokens } = $visibleSelectedAccountTokens[$activeProfile?.network?.id]
 
     const choices: IDropdownItem<string>[] = [baseCoin, ...nativeTokens].map((choice) => ({
-        label: choice.metadata.name,
-        value: choice.metadata.name,
+        label: choice.metadata?.name ?? '',
+        value: choice.metadata?.name ?? '',
     }))
 
     if (!filterUnit.selected) {
         filterUnit.selected = baseCoin.id
     }
 
-    let value: string
+    let value: string | undefined
     $: {
         const tokenId = filterUnit.selected
-        if (tokenId === baseCoin.id) {
+        if (tokenId === baseCoin?.id) {
             value = baseCoin?.metadata.name
         } else {
             value = nativeTokens.find((_nativeToken) => _nativeToken.id === tokenId)?.metadata?.name

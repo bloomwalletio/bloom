@@ -11,7 +11,7 @@ export interface ActivityFilter {
     type: SelectionFilterUnit
     direction: SelectionFilterUnit
     internalExternal: SelectionFilterUnit
-    asset: TokenFilterUnit
+    token: TokenFilterUnit
     date: DateFilterUnit
     showRejected: SelectionFilterUnit
     showHidden: SelectionFilterUnit

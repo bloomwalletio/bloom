@@ -8,13 +8,13 @@
     import { MimeType } from '@core/nfts/types'
     import { isValidUri } from '@core/utils/validation'
     import { validateBech32Address } from '@core/utils/crypto'
-    import { TokenStandard } from '@core/wallet/enums'
     import { mintNftDetails, setMintNftDetails } from '@core/wallet/stores'
     import { IMintNftDetails } from '@core/wallet'
     import { fetchWithTimeout } from '@core/nfts/utils/fetchWithTimeout'
     import { composeUrlFromNftUri } from '@core/nfts'
     import { HttpHeader } from '@core/utils'
     import { getNetworkHrp } from '@core/profile'
+    import { TokenStandard } from '@core/token/enums'
 
     export let _onMount: (..._: any[]) => Promise<void> = async () => {}
 

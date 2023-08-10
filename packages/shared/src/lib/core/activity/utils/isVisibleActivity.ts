@@ -84,11 +84,11 @@ function isVisibleWithActiveRejectedFilter(activity: Activity, filter: ActivityF
 }
 
 function isVisibleWithActiveTokenFilter(activity: Activity, filter: ActivityFilter): boolean {
-    if (filter.asset.active && filter.asset.selected) {
+    if (filter.token.active && filter.token.selected) {
         if (activity.type !== ActivityType.Basic && activity.type !== ActivityType.Foundry) {
             return false
         }
-        if (filter.asset.selected && activity.tokenId !== filter.asset.selected) {
+        if (filter.token.selected && activity.tokenId !== filter.token.selected) {
             return false
         }
     }
