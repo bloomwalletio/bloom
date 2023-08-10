@@ -1,10 +1,10 @@
 <script lang="ts">
     import { Icon } from '@ui'
     import { NETWORK_ICON_SVG } from '@auxiliary/icon'
-    import { ChainId, NetworkId } from '@core/network'
+    import { EvmChainId, NetworkId } from '@core/network'
 
     export let networkId: NetworkId
-    export let chainId: ChainId | undefined = undefined
+    export let chainId: EvmChainId | undefined = undefined
     export let height = 22
     export let width = 22
     export let outlined = true
