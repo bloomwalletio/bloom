@@ -1,8 +1,7 @@
-import { NetworkNamespace, TangleNetworkId } from '../enums'
+import { TangleNetworkId } from '../enums'
 import { NetworkIdType } from '../types'
-import { buildNetworkId } from '../utils'
+import { buildTangleNetworkId } from '../utils'
 
 export const FAUCET_URLS: Readonly<{ [id: NetworkIdType]: string }> = {
-    [buildNetworkId(NetworkNamespace.Tangle, TangleNetworkId.Testnet)]:
-        'https://faucet.testnet.shimmer.network/api/enqueue',
+    [buildTangleNetworkId(TangleNetworkId.Testnet)]: 'https://faucet.testnet.shimmer.network/api/enqueue',
 }

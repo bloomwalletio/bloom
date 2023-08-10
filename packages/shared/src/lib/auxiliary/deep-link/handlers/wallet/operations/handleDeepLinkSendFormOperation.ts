@@ -1,4 +1,4 @@
-import { getActiveNetworkId } from '@core/network/utils/getNetworkId'
+import { getActiveNetworkId } from '@core/network/utils'
 import {
     SendFlowParameters,
     SendFlowType,

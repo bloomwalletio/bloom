@@ -1,4 +1,4 @@
-import { getActiveNetworkId } from '@core/network/utils/getNetworkId'
+import { getActiveNetworkId } from '@core/network/utils'
 import { getNetworkHrp } from '@core/profile/actions'
 import { getByteLengthOfString, isStringTrue, isValidBech32AddressAndPrefix, validateAssetId } from '@core/utils'
 import {
