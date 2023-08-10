@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { Icon } from '@ui'
+    import { Icon, TextHint } from '@ui'
     import { Icon as IconEnum } from '@auxiliary/icon'
     import { localize } from '@core/i18n'
     import { Router } from '@core/router'
@@ -18,11 +18,15 @@
 </script>
 
 <DrawerTemplate title={localize('views.dashboard.drawers.dApps.dAppsList.title')} {drawerRouter}>
-    <pairing-list class="flex flex-col max-h-96 scrollable-y">
-        {#each $dAppPairings as pairing}
-            <DappCard {pairing} />
-        {/each}
-    </pairing-list>
+    {#if $dAppPairings.length}
+        <pairing-list class="flex flex-col scrollable">
+            {#each $dAppPairings as pairing}
+                <DappCard {pairing} />
+            {/each}
+        </pairing-list>
+    {:else}
+        <TextHint info text={localize('views.dashboard.drawers.dApps.dAppsList.hint')} />
+    {/if}
 
     <button
         type="button"

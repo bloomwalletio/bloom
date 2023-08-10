@@ -576,7 +576,8 @@
                             "connected": "Connected",
                             "disconnected": "Disconnected"
                         },
-                        "connectDapp": "Connect dApp"
+                        "connectDapp": "Connect dApp",
+                        "hint": "WalletConnect allows you to connect Bloom with dApps directly or with a connection code."
                     }
                 }
             }
