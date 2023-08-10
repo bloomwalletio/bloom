@@ -1,13 +1,15 @@
-import { ITokenMetadata } from '../interfaces'
+import { TokenStandard } from '../enums'
+import { TokenMetadata } from '../types'
 import { formatTokenAmountDefault } from '../utils'
 import { appSettings } from '@core/app'
 
 describe('File: formatTokenAmountDefault.ts', () => {
-    let decimalToken: ITokenMetadata
+    let decimalToken: TokenMetadata
 
     beforeEach(() => {
         decimalToken = {
-            name: 'Hoi',
+            standard: TokenStandard.BaseToken,
+            name: 'Shimmer',
             unit: 'SMR',
             subunit: 'glow',
             decimals: 0,

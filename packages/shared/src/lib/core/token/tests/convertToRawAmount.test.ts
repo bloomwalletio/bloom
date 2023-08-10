@@ -1,10 +1,10 @@
 import { DEFAULT_BASE_TOKEN, NetworkId } from '@core/network'
-import { TokenStandard } from '@core/token/enums'
-import { TokenMetadata } from '@core/token/types'
-import { convertToRawAmount } from '@core/token/utils'
+import { TokenStandard } from '../enums'
+import { TokenMetadata } from '../types'
+import { convertToRawAmount } from '../utils'
 import { IotaUnit } from '@core/utils'
 import Big from 'big.js'
-import { MAX_SUPPORTED_DECIMALS } from '../constants'
+import { MAX_SUPPORTED_DECIMALS } from '@core//wallet/constants'
 
 const WEB3_TOKEN_METADATA: TokenMetadata = {
     name: 'RAWR',
