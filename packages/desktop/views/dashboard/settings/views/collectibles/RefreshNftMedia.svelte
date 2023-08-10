@@ -1,5 +1,6 @@
 <script lang="ts">
-    import { Button, Text, ButtonSize, TextType } from '@ui'
+    import { Button } from '@bloomwalletio/ui'
+    import { Text, TextType } from '@ui'
     import { localize } from '@core/i18n'
     import { closePopup, openPopup, PopupId } from '@desktop/auxiliary/popup'
     import {
@@ -49,13 +50,5 @@
 <Text type={TextType.h4} classes="mb-3">{localize('views.settings.refreshNftMedia.title')}</Text>
 <Text secondary classes="mb-5">{localize('views.settings.refreshNftMedia.description')}</Text>
 <div class="flex flex-row items-center">
-    <Button
-        size={ButtonSize.Medium}
-        inlineStyle="min-width: 156px;"
-        isBusy={isLoading}
-        disabled={isLoading}
-        onClick={onRefreshClick}
-    >
-        {localize('actions.refresh')}
-    </Button>
+    <Button busy={isLoading} disabled={isLoading} text={localize('actions.refresh')} on:click={onRefreshClick} />
 </div>
