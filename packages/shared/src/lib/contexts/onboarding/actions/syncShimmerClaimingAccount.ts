@@ -9,7 +9,7 @@ import { prepareShimmerClaimingAccount } from '../helpers'
 import { getOnboardingBaseToken, shimmerClaimingProfileManager, updateShimmerClaimingAccount } from '../stores'
 import { setTotalUnclaimedShimmerRewards } from '@contexts/onboarding'
 import { formatTokenAmountBestMatch } from '@core/wallet/utils'
-import { showAppNotification } from '@auxiliary/notification'
+import { showNotification } from '@auxiliary/notification'
 
 export async function syncShimmerClaimingAccount(account: IAccount): Promise<void> {
     const _shimmerClaimingProfileManager = get(shimmerClaimingProfileManager)
@@ -30,10 +30,9 @@ export async function syncShimmerClaimingAccount(account: IAccount): Promise<voi
         const foundRewardsAmount = syncedShimmerClaimingAccount?.unclaimedRewards
         const foundRewardsAmountFormatted = formatTokenAmountBestMatch(foundRewardsAmount, getOnboardingBaseToken())
 
-        showAppNotification({
-            type: 'success',
-            alert: true,
-            message: localize('views.onboarding.shimmerClaiming.success.successfullyFound', {
+        showNotification({
+            variant: 'success',
+            text: localize('views.onboarding.shimmerClaiming.success.successfullyFound', {
                 values: { amount: foundRewardsAmountFormatted },
             }),
         })

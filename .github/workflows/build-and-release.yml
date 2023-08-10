@@ -60,7 +60,8 @@ jobs:
             os: ${{ matrix.os }}
             version: ${{ needs.setup.outputs.version }}
             stage: ${{ inputs.stage || needs.setup.outputs.stage }}
-            release: true
+            sign: true
+            upload: true
         secrets: inherit
 
     trigger-release:

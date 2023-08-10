@@ -5,10 +5,10 @@ import { get } from 'svelte/store'
 
 export async function checkAndUpdateActiveProfileNetwork(): Promise<void> {
     const $activeProfile = get(activeProfile)
-    const existingNetworkId = $activeProfile?.network?.id
+    const existingNetwork = $activeProfile?.network
     const nodeInfoResponse = await getAndUpdateNodeInfo(true)
-    const network = buildPersistedNetworkFromNodeInfoResponse(nodeInfoResponse)
-    if (existingNetworkId === NetworkId.Custom || existingNetworkId === network.id) {
+    const network = buildPersistedNetworkFromNodeInfoResponse(nodeInfoResponse, existingNetwork.coinType)
+    if (existingNetwork?.id === NetworkId.Custom || existingNetwork?.id === network.id) {
         network.chainConfigurations = $activeProfile.network?.chainConfigurations || []
         updateActiveProfile({ network })
     } else {

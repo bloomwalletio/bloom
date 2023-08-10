@@ -1,10 +1,10 @@
-import { showAppNotification } from '@auxiliary/notification'
+import { showNotification } from '@auxiliary/notification'
 import { selectedAccount, updateSelectedAccount } from '@core/account/stores/selected-account.store'
 import { localize } from '@core/i18n'
 import { updateNftInAllAccountNfts } from '@core/nfts'
 import { handleError } from '@core/error/handlers'
 import { get } from 'svelte/store'
-import { processAndAddToActivities } from '../utils'
+import { processAndAddToActivities } from '@core/activity/utils'
 
 export async function burnNft(nftId: string): Promise<void> {
     const account = get(selectedAccount)
@@ -18,10 +18,9 @@ export async function burnNft(nftId: string): Promise<void> {
         // Update NFT
         updateNftInAllAccountNfts(account.index, nftId, { isSpendable: false })
 
-        showAppNotification({
-            type: 'success',
-            message: localize('notifications.burnNft.success'),
-            alert: true,
+        showNotification({
+            variant: 'success',
+            text: localize('notifications.burnNft.success'),
         })
     } catch (err) {
         handleError(err)

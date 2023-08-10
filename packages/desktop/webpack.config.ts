@@ -225,7 +225,7 @@ const webpackConfig: Configuration[] = [
             },
         },
         snapshot: {
-            managedPaths: [/^(.+?[\\/]node_modules[\\/](?!(@bloom-labs[\\/]ui))(@.+?[\\/])?.+?)[\\/]/],
+            managedPaths: [/^(.+?[\\/]node_modules[\\/](?!(@bloomwalletio[\\/]ui))(@.+?[\\/])?.+?)[\\/]/],
         },
     },
     {
