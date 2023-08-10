@@ -3,9 +3,9 @@
 
     import { onMount } from 'svelte'
 
-    import { Button, Icon, Text, TextInput } from '@ui'
-    import { ButtonSize, ButtonVariant, FontWeight } from '@ui/enums'
+    import { Button, FlatIconName } from '@bloomwalletio/ui'
     import { DrawerTemplate } from '@components'
+    import { TextInput } from '@ui'
 
     import {
         ContactManager,
@@ -18,7 +18,6 @@
     import { localize } from '@core/i18n'
     import { Router } from '@core/router'
 
-    import { Icon as IconEnum } from '@auxiliary/icon'
     import { showNotification } from '@auxiliary/notification'
 
     export let drawerRouter: Router<unknown>
@@ -203,29 +202,25 @@
                     />
                 {/if}
                 <Button
-                    outline
-                    size={ButtonSize.Small}
-                    variant={ButtonVariant.Warning}
-                    classes="flex-1"
+                    variant="outline"
+                    color="red"
+                    text={localize('actions.remove')}
+                    size="sm"
+                    width="full"
                     disabled={[...savedAddresses, ...newAddresses].length === 1}
-                    onClick={() => onRemoveAddressClick(index)}
-                >
-                    {localize('actions.remove')}
-                </Button>
+                    on:click={() => onRemoveAddressClick(index)}
+                />
             </div>
         {/each}
-        <button
-            type="button"
+        <Button
+            variant="text"
+            text={localize(`views.dashboard.drawers.contactBook.${ContactBookRoute.EditNetworkAddresses}.addAddress`)}
+            icon={FlatIconName.Plus}
+            width="full"
             on:click={onAddNewAddressClick}
-            class="w-full flex justify-center items-center text-blue-500 gap-2"
-        >
-            <Icon icon={IconEnum.Plus} width={12} height={12} />
-            <Text fontSize="14" fontWeight={FontWeight.semibold} classes="text-blue-500" overrideColor>
-                {localize(`views.dashboard.drawers.contactBook.${ContactBookRoute.EditNetworkAddresses}.addAddress`)}
-            </Text>
-        </button>
+        />
     </update-addresses>
     <div slot="footer">
-        <Button onClick={onSaveClick} classes="w-full">{localize('actions.save')}</Button>
+        <Button on:click={onSaveClick} width="full" text={localize('actions.save')} />
     </div>
 </DrawerTemplate>

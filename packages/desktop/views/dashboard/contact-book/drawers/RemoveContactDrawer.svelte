@@ -1,7 +1,8 @@
 <script lang="ts">
     import { ContactBookRoute } from '../contact-book-route.enum'
 
-    import { Button, ButtonVariant, Text, TextHint } from '@ui'
+    import { Button } from '@bloomwalletio/ui'
+    import { Text, TextHint } from '@ui'
     import { DrawerTemplate } from '@components'
 
     import { ContactManager, doesProfileHaveContacts, selectedContact } from '@core/contact'
@@ -41,11 +42,7 @@
         />
     </remove-contact>
     <div slot="footer" class="flex gap-4">
-        <Button outline onClick={onCancelClick} classes="flex-1">
-            {localize('actions.cancel')}
-        </Button>
-        <Button variant={ButtonVariant.Warning} onClick={onRemoveClick} classes="flex-1">
-            {localize('actions.remove')}
-        </Button>
+        <Button variant="outline" text={localize('actions.cancel')} width="half" on:click={onCancelClick} />
+        <Button color="red" text={localize('actions.remove')} width="half" on:click={onRemoveClick} />
     </div>
 </DrawerTemplate>
