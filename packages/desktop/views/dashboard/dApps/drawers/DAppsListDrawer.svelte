@@ -19,9 +19,11 @@
 
 <DrawerTemplate title={localize('views.dashboard.drawers.dApps.dAppsList.title')} {drawerRouter}>
     {#if $dAppPairings.length}
-        <pairing-list class="flex flex-col scrollable">
+        <pairing-list class="flex flex-col gap-4 scrollable">
             {#each $dAppPairings as pairing}
-                <DappCard {pairing} />
+                {#if pairing.peerMetadata}
+                    <DappCard {pairing} />
+                {/if}
             {/each}
         </pairing-list>
     {:else}
