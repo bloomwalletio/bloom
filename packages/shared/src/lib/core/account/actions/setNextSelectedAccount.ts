@@ -1,5 +1,5 @@
 import { selectedAccount, setSelectedAccount } from '@core/account'
-import { nonHiddenActiveAccounts } from '@core/profile'
+import { nonHiddenActiveAccounts } from '@core/profile/stores'
 import { get } from 'svelte/store'
 
 export function setNextSelectedAccount(): void {

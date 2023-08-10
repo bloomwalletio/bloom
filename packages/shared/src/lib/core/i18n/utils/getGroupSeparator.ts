@@ -1,5 +1,5 @@
 import { appSettings } from '@core/app'
-import { activeProfile } from '@core/profile'
+import { activeProfile } from '@core/profile/stores'
 import { get } from 'svelte/store'
 
 export function getGroupSeparator(currency: string | undefined = undefined): string {

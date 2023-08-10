@@ -1,10 +1,10 @@
 import { getSelectedAccount } from '@core/account'
+import { addPersistedTransaction } from '@core/activity/stores'
 import { EvmTransactionData } from '@core/layer-2'
 import { LedgerAppName } from '@core/ledger'
 import { IChain } from '@core/network'
-import { checkActiveProfileAuth } from '@core/profile'
+import { checkActiveProfileAuth } from '@core/profile/actions'
 import { signAndSendEvmTransaction } from './signAndSendEvmTransaction'
-import { addPersistedTransaction } from '@core/activity/stores'
 
 export async function sendTransactionFromEvm(
     transaction: EvmTransactionData,

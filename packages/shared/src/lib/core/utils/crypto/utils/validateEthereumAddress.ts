@@ -1,10 +1,10 @@
+import { InvalidAddressError } from '@auxiliary/deep-link'
+import { localize } from '@core/i18n'
+import { Layer1RecipientError } from '@core/layer-2/errors'
+import { getNetworkHrp } from '@core/profile/actions'
 import { Keccak } from 'sha3'
 import { KECCAK_HASH_SIZE } from '../constants'
 import { validateBech32Address } from './validateBech32Address'
-import { Layer1RecipientError } from '@core/layer-2/errors'
-import { InvalidAddressError } from '@auxiliary/deep-link'
-import { localize } from '@core/i18n'
-import { getNetworkHrp } from '@core/profile'
 
 export function validateEthereumAddress(address: string): void {
     throwIfBech32Address(address)

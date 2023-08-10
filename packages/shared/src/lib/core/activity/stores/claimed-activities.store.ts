@@ -1,6 +1,6 @@
 import { get } from 'svelte/store'
 
-import { activeProfileId } from '@core/profile'
+import { activeProfileId } from '@core/profile/stores'
 import { persistent } from '@core/utils/store'
 import { IClaimedActivities, IClaimedActivitiesPerProfile } from '../types'
 

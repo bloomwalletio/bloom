@@ -1,6 +1,4 @@
-import { updateActiveProfile } from '@core/profile'
-import { getActiveProfile } from '@core/profile/stores'
-
+import { getActiveProfile, updateActiveProfile } from '@core/profile/stores'
 import { buildPersistedAssetFromMetadata } from '../helpers'
 import type { IErc20Metadata } from '../interfaces'
 import { updatePersistedAsset } from '../stores'

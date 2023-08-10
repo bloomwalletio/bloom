@@ -1,7 +1,7 @@
 import { selectedAccount } from '@core/account/stores/selected-account.store'
 import { layer2Balances } from '@core/layer-2/stores'
 import { marketCoinPrices } from '@core/market'
-import { activeProfileId } from '@core/profile'
+import { activeProfileId } from '@core/profile/stores'
 import { derived, get, Readable, writable, Writable } from 'svelte/store'
 import { getAccountAssetsForSelectedAccount } from '../actions/getAccountAssetsForSelectedAccount'
 import { DEFAULT_ASSET_FILTER } from '../constants'

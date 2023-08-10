@@ -1,9 +1,9 @@
-import { IIrc30Metadata } from '../interfaces'
-import { get } from 'svelte/store'
+import { activeAccounts } from '@core/profile/stores'
 import { Converter } from '@core/utils'
-import { validateIrc30Metadata } from './validateIrc30Metadata'
+import { get } from 'svelte/store'
+import { IIrc30Metadata } from '../interfaces'
 import { getMetadataFromFoundryOutput } from './getMetadataFromFoundryOutput'
-import { activeAccounts } from '@core/profile'
+import { validateIrc30Metadata } from './validateIrc30Metadata'
 
 export async function getIrc30MetadataFromFoundryOutput(tokenId: string): Promise<IIrc30Metadata | undefined> {
     try {

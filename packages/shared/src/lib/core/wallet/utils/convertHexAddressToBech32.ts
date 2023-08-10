@@ -1,4 +1,4 @@
-import { getNetworkHrp } from '@core/profile'
+import { getNetworkHrp } from '@core/profile/actions'
 import { Converter } from '@core/utils/convert'
 import { Bech32Helper } from '@core/utils/crypto'
 

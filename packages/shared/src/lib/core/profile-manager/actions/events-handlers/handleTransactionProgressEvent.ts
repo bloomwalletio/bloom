@@ -2,7 +2,7 @@ import { isOnboardingLedgerProfile } from '@contexts/onboarding'
 import { selectedAccountIndex } from '@core/account'
 import { ledgerNanoStatus } from '@core/ledger'
 import { deconstructLedgerVerificationProps } from '@core/ledger/helpers'
-import { isActiveLedgerProfile } from '@core/profile'
+import { isActiveLedgerProfile } from '@core/profile/stores'
 import {
     Event,
     PreparedTransactionEssenceHashProgress,
@@ -12,7 +12,7 @@ import {
     WalletEventType,
 } from '@iota/wallet/out/types'
 import { get } from 'svelte/store'
-import { closePopup, openPopup, PopupId } from '../../../../../../../desktop/lib/auxiliary/popup'
+import { PopupId, closePopup, openPopup } from '../../../../../../../desktop/lib/auxiliary/popup'
 import { MissingTransactionProgressEventPayloadError } from '../../errors'
 import { validateWalletApiEvent } from '../../utils'
 

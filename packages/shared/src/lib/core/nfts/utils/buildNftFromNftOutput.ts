@@ -1,4 +1,3 @@
-import { activeProfileId } from '@core/profile/stores/active-profile-id.store'
 import { IWrappedOutput } from '@core/wallet/interfaces'
 import type { INftOutput } from '@iota/types'
 import { get } from 'svelte/store'
@@ -10,6 +9,7 @@ import { getSpendableStatusFromUnspentNftOutput } from './getSpendableStatusFrom
 import { ADDRESS_TYPE_NFT } from '@core/wallet/constants'
 import { getIssuerFromNftOutput, getMetadataFromNftOutput, getNftId } from '@core/activity/utils/outputs'
 import { getBech32AddressFromAddressTypes } from '@core/wallet/utils'
+import { activeProfileId } from '@core/profile/stores/active-profile-id.store'
 
 export function buildNftFromNftOutput(
     wrappedOutput: IWrappedOutput,
