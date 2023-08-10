@@ -1,7 +1,8 @@
 <script lang="ts">
     import { selectedAccountIndex } from '@core/account'
     import { localize } from '@core/i18n'
-    import { convertAndFormatNftMetadata, getNftByIdFromAllAccountNfts, IIrc27Metadata } from '@core/nfts'
+    import { IIrc27Metadata, convertAndFormatNftMetadata } from '@core/nfts'
+    import { getNftByIdFromAllAccountNfts } from '@core/nfts/actions'
     import { NftActivity } from '@core/wallet'
     import { KeyValueBox } from '@ui'
 

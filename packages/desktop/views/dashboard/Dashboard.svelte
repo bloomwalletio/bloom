@@ -7,12 +7,9 @@
     import {
         addNftsToDownloadQueue,
         downloadNextNftInQueue,
-        downloadingNftId,
         interruptNftDownloadAfterTimeout,
-        nftDownloadQueue,
-        resetNftDownloadQueue,
-        selectedAccountNfts,
-    } from '@core/nfts'
+    } from '@core/nfts/actions'
+    import { downloadingNftId, nftDownloadQueue, resetNftDownloadQueue, selectedAccountNfts } from '@core/nfts/stores'
     import { logout, reflectLockedStronghold } from '@core/profile/actions'
     import { hasStrongholdLocked, isActiveLedgerProfile } from '@core/profile/stores'
     import { appRouter, dashboardRoute } from '@core/router'

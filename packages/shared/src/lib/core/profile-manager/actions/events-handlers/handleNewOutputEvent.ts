@@ -1,20 +1,20 @@
 import { syncBalance } from '@core/account/actions/syncBalance'
-import { addNftsToDownloadQueue, addOrUpdateNftInAllAccountNfts, buildNftFromNftOutput } from '@core/nfts'
-import { checkAndRemoveProfilePicture } from '@core/profile/actions'
-import { activeAccounts } from '@core/profile/stores'
-import { IWrappedOutput, addPersistedAsset, getOrRequestAssetFromPersistedAssets } from '@core/wallet'
-import { OUTPUT_TYPE_ALIAS, OUTPUT_TYPE_NFT } from '@core/wallet/constants'
+import { ActivityType } from '@core/activity/enums'
 import {
     addActivitiesToAccountActivitiesInAllAccountActivities,
     allAccountActivities,
 } from '@core/activity/stores/all-account-activities.store'
+import { generateActivities } from '@core/activity/utils'
+import { preprocessGroupedOutputs } from '@core/activity/utils/outputs'
+import { addNftsToDownloadQueue, addOrUpdateNftInAllAccountNfts, buildNftFromNftOutput } from '@core/nfts/actions'
+import { checkAndRemoveProfilePicture } from '@core/profile/actions'
+import { activeAccounts } from '@core/profile/stores'
+import { IWrappedOutput, addPersistedAsset, getOrRequestAssetFromPersistedAssets } from '@core/wallet'
+import { OUTPUT_TYPE_ALIAS, OUTPUT_TYPE_NFT } from '@core/wallet/constants'
 import { getBech32AddressFromAddressTypes } from '@core/wallet/utils/getBech32AddressFromAddressTypes'
 import { Event, NewOutputWalletEvent, WalletEventType } from '@iota/wallet/out/types'
 import { get } from 'svelte/store'
 import { validateWalletApiEvent } from '../../utils'
-import { preprocessGroupedOutputs } from '@core/activity/utils/outputs'
-import { generateActivities } from '@core/activity/utils'
-import { ActivityType } from '@core/activity/enums'
 
 export function handleNewOutputEvent(error: Error, event: Event): void {
     const walletEvent = validateWalletApiEvent<NewOutputWalletEvent>(error, event, WalletEventType.NewOutput)

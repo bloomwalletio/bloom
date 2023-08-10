@@ -1,15 +1,15 @@
 <script lang="ts">
-    import { Button, Text, ButtonSize, TextType } from '@ui'
+    import { selectedAccountIndex } from '@core/account'
+    import { Platform } from '@core/app'
     import { localize } from '@core/i18n'
-    import { closePopup, openPopup, PopupId } from '@desktop/auxiliary/popup'
     import {
         addNftsToDownloadQueue,
-        selectedAccountNfts,
         stopDownloadingNftMediaFromQueue,
         updateNftInAllAccountNfts,
-    } from '@core/nfts'
-    import { Platform } from '@core/app'
-    import { selectedAccountIndex } from '@core/account'
+    } from '@core/nfts/actions'
+    import { selectedAccountNfts } from '@core/nfts/stores'
+    import { PopupId, closePopup, openPopup } from '@desktop/auxiliary/popup'
+    import { Button, ButtonSize, Text, TextType } from '@ui'
 
     let isLoading = false
 

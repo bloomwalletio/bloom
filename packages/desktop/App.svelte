@@ -12,7 +12,8 @@
     } from '@core/app'
     import { isLocaleLoaded, localeDirection, setupI18n } from '@core/i18n'
     import { registerLedgerDeviceEventHandlers } from '@core/ledger'
-    import { downloadNextNftInQueue, nftDownloadQueue } from '@core/nfts'
+    import { downloadNextNftInQueue } from '@core/nfts/actions'
+    import { nftDownloadQueue } from '@core/nfts/stores'
     import { checkAndMigrateProfiles, cleanupEmptyProfiles, saveActiveProfile } from '@core/profile/actions'
     import { activeProfile } from '@core/profile/stores'
     import {

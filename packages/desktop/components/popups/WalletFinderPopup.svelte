@@ -4,7 +4,7 @@
     import { DEFAULT_SYNC_OPTIONS } from '@core/account/constants'
     import { generateAndStoreActivitiesForAllAccounts } from '@core/activity/actions'
     import { localize } from '@core/i18n'
-    import { loadNftsForActiveProfile } from '@core/nfts'
+    import { loadNftsForActiveProfile } from '@core/nfts/actions'
     import { DEFAULT_ACCOUNT_RECOVERY_CONFIGURATION } from '@core/profile'
     import { RecoverAccountsPayload, recoverAccounts } from '@core/profile-manager'
     import { checkActiveProfileAuth, getBaseToken, loadAccounts } from '@core/profile/actions'

@@ -1,7 +1,7 @@
 <script lang="ts">
     import { selectedAccountIndex } from '@core/account'
     import { localize } from '@core/i18n'
-    import { getNftByIdFromAllAccountNfts } from '@core/nfts'
+    import { getNftByIdFromAllAccountNfts } from '@core/nfts/actions'
     import { IKeyValueBoxList } from '@core/utils'
     import {
         ADDRESS_TYPE_ALIAS,
