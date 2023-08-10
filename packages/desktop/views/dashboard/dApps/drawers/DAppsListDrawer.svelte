@@ -1,10 +1,11 @@
 <script lang="ts">
-    import { Icon } from '@ui'
+    import { FontWeight, Icon, Text } from '@ui'
     import { Icon as IconEnum } from '@auxiliary/icon'
     import { localize } from '@core/i18n'
     import { Router } from '@core/router'
     import { DrawerTemplate } from '@components'
     import { PopupId, openPopup } from '@desktop/auxiliary/popup'
+    import { dAppPairings } from '@auxiliary/wallet-connect/stores'
 
     export let drawerRouter: Router<unknown>
 
@@ -16,11 +17,16 @@
 </script>
 
 <DrawerTemplate title={localize('views.dashboard.drawers.dApps.dAppsList.title')} {drawerRouter}>
-    <connected-dapps-drawer class="h-full flex flex-col justify-between">
-        <div class="flex flex-col gap-4">
-            <!-- add list here -->
-        </div>
-    </connected-dapps-drawer>
+    <pairing-list class="flex flex-col max-h-96 scrollable-y">
+        {#each $dAppPairings as pairing}
+            <div class="flex flex-row justify-start items-center p-4 gap-2">
+                <img class="pairing-image" src={pairing.peerMetadata?.icons?.[0]} alt={pairing.peerMetadata?.name} />
+                <Text fontSize="14" fontWeight={FontWeight.semibold}>
+                    {pairing.peerMetadata?.name}
+                </Text>
+            </div>
+        {/each}
+    </pairing-list>
 
     <button
         type="button"
@@ -32,3 +38,11 @@
         {localize('views.dashboard.drawers.dApps.dAppsList.connectDapp')}
     </button>
 </DrawerTemplate>
+
+<style lang="scss">
+    .pairing-image {
+        width: 30px;
+        height: 30px;
+        border-radius: 10px;
+    }
+</style>

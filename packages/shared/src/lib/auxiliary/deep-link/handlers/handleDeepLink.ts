@@ -89,7 +89,13 @@ function handleConnect(url: URL): void {
     if (walletConnectUri) {
         openPopup({
             id: PopupId.Confirmation,
-            props: { title: walletConnectUri, onConfirm: () => pairWithNewApp(walletConnectUri) },
+            props: {
+                title: walletConnectUri,
+                onConfirm: () => {
+                    pairWithNewApp(walletConnectUri)
+                    closePopup()
+                },
+            },
         })
     }
 }
