@@ -2,7 +2,7 @@
     import { selectedAccountIndex } from '@core/account'
     import { localize } from '@core/i18n'
     import { convertAndFormatNftMetadata, getNftByIdFromAllAccountNfts, IIrc27Metadata } from '@core/nfts'
-    import { NftActivity } from '@core/wallet'
+    import { NftActivity } from '@core/activity'
     import { KeyValueBox } from '@ui'
 
     export let activity: NftActivity
