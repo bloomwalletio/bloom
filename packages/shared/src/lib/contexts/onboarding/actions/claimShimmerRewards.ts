@@ -1,8 +1,6 @@
 import { getDepositAddress } from '@core/account/utils/getDepositAddress'
 import { logAndNotifyError } from '@core/error/actions'
 import { handleLedgerError } from '@core/ledger/utils'
-import { getActiveNetworkId } from '@core/network/utils/getNetworkId'
-import { getTokenFromSelectedAccountTokens } from '@core/token/stores'
 import {
     DEFAULT_TRANSACTION_OPTIONS,
     SendFlowParameters,
@@ -64,13 +62,6 @@ async function claimShimmerRewardsForShimmerClaimingAccount(
     const recipientAddress = await getDepositAddress(shimmerClaimingAccount?.twinAccount)
     const rawAmount = shimmerClaimingAccount?.unclaimedRewards
 
-    const networkId = getActiveNetworkId()
-    const coinType = String(get(onboardingProfile)?.network?.coinType)
-    const token = networkId && coinType ? getTokenFromSelectedAccountTokens(coinType, networkId) : undefined
-    if (!token) {
-        return
-    }
-
     const sendFlowParameters: SendFlowParameters = {
         recipient: {
             type: SubjectType.Address,
@@ -78,9 +69,7 @@ async function claimShimmerRewardsForShimmerClaimingAccount(
         },
         type: SendFlowType.BaseCoinTransfer,
         baseCoinTransfer: {
-            token,
             rawAmount: rawAmount.toString(),
-            unit: '',
         },
     }
     setSendFlowParameters(sendFlowParameters)
