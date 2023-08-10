@@ -1,14 +1,12 @@
 <script lang="ts">
-    import { ContactBookRoute } from '../contact-book-route.enum'
-
-    import { Button, ButtonVariant, Text, TextHint } from '@ui'
-    import { DrawerTemplate } from '@components'
-
+    import { DrawerTemplate } from '@component'
     import { ContactManager, doesProfileHaveContacts, selectedContact } from '@core/contact'
     import { localize } from '@core/i18n'
+    import { activeProfile } from '@core/profile/stores'
     import { Router } from '@core/router'
-    import { activeProfile } from '@core/profile'
     import { closeDrawer } from '@desktop/auxiliary/drawer'
+    import { Button, ButtonVariant, Text, TextHint } from '@ui'
+    import { ContactBookRoute } from '../contact-book-route.enum'
 
     export let drawerRouter: Router<unknown>
 

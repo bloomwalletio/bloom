@@ -4,7 +4,8 @@
     import { IS_MOBILE } from '@core/app'
     import { localize } from '@core/i18n'
     import { getNetworkNameFromNetworkId } from '@core/network'
-    import { profiles, validateProfileName } from '@core/profile'
+    import { validateProfileName } from '@core/profile'
+    import { profiles } from '@core/profile/stores'
     import { Animation, Button, Input, Text } from '@ui'
     import { completeOnboardingRouter } from '../complete-onboarding-router'
 

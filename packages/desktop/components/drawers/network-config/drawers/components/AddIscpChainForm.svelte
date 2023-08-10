@@ -1,7 +1,8 @@
 <script lang="ts">
     import { localize } from '@core/i18n'
     import { IIscpChainMetadata, MAX_CHAIN_NAME_LENGTH, ChainType } from '@core/network'
-    import { activeProfile, getNetworkHrp } from '@core/profile'
+    import { activeProfile } from '@core/profile/stores'
+    import { getNetworkHrp } from '@core/profile/actions'
     import { isValidHexAddress, isValidHttpsUrl, validateBech32Address } from '@core/utils'
     import { ADDRESS_TYPE_ALIAS } from '@core/wallet'
     import { Button, HTMLButtonType, Input } from '@ui'

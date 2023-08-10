@@ -3,23 +3,23 @@
     import { ContactManager } from '@core/contact'
     import { localize } from '@core/i18n'
     import { IChain, IIscpChainConfiguration, INetwork, network } from '@core/network'
-    import { visibleActiveAccounts } from '@core/profile'
+    import { visibleActiveAccounts } from '@core/profile/stores'
     import {
         SendFlowType,
+        Subject,
+        SubjectType,
         TokenStandard,
+        getChainIdFromSendFlowParameters,
         sendFlowParameters,
         updateSendFlowParameters,
-        getChainIdFromSendFlowParameters,
-        SubjectType,
-        Subject,
     } from '@core/wallet'
+    import { getAssetStandard } from '@core/wallet/actions/getTokenStandartFromSendFlowParameters'
     import { closePopup } from '@desktop/auxiliary/popup'
     import features from '@features/features'
     import { INetworkRecipientSelectorOption, NetworkRecipientSelector } from '@ui'
     import { onMount } from 'svelte'
     import { sendFlowRouter } from '../send-flow.router'
     import SendFlowTemplate from './SendFlowTemplate.svelte'
-    import { getAssetStandard } from '@core/wallet/actions/getTokenStandartFromSendFlowParameters'
 
     let networkAddress = $sendFlowParameters?.layer2Parameters?.networkAddress
     let selectorOptions: INetworkRecipientSelectorOption[] = []

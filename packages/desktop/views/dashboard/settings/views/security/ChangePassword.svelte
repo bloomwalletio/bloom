@@ -1,11 +1,11 @@
 <script lang="ts">
-    import { Button, Checkbox, PasswordInput, Spinner, Text, TextType, ButtonSize, HTMLButtonType } from '@ui'
+    import { exportStronghold } from '@contexts/settings'
     import { localize } from '@core/i18n'
     import { MAX_STRONGHOLD_PASSWORD_LENGTH } from '@core/profile'
     import { changePasswordAndUnlockStronghold } from '@core/profile-manager'
-    import zxcvbn from 'zxcvbn'
-    import { exportStronghold } from '@contexts/settings'
     import { PASSWORD_REASON_MAP } from '@core/stronghold'
+    import { Button, ButtonSize, Checkbox, HTMLButtonType, PasswordInput, Spinner, Text, TextType } from '@ui'
+    import zxcvbn from 'zxcvbn'
 
     let exportStrongholdChecked: boolean
     let startOfPasswordChange: number

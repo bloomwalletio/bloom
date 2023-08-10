@@ -1,5 +1,5 @@
 import { ETH_COIN_TYPE } from '@core/network'
-import { activeAccounts } from '@core/profile'
+import { activeAccounts } from '@core/profile/stores'
 import { get } from 'svelte/store'
 
 export function getAllEvmAddresses(chains: string[]): string[] {

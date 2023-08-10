@@ -1,8 +1,8 @@
 <script lang="ts">
-    import { Checkbox, Text } from '@ui'
-    import { localize } from '@core/i18n'
-    import { activeProfile, updateActiveProfile } from '@core/profile'
     import { setNextSelectedAccount } from '@core/account'
+    import { localize } from '@core/i18n'
+    import { activeProfile, updateActiveProfile } from '@core/profile/stores'
+    import { Checkbox, Text } from '@ui'
 
     let showHiddenAccounts = $activeProfile?.showHiddenAccounts
     $: updateActiveProfile({ showHiddenAccounts: showHiddenAccounts })

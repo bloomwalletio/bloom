@@ -5,16 +5,10 @@
     import { generateAndStoreActivitiesForAllAccounts } from '@core/activity/actions'
     import { localize } from '@core/i18n'
     import { loadNftsForActiveProfile } from '@core/nfts'
-    import {
-        DEFAULT_ACCOUNT_RECOVERY_CONFIGURATION,
-        activeAccounts,
-        activeProfile,
-        checkActiveProfileAuth,
-        getBaseToken,
-        loadAccounts,
-        visibleActiveAccounts,
-    } from '@core/profile'
+    import { DEFAULT_ACCOUNT_RECOVERY_CONFIGURATION } from '@core/profile'
     import { RecoverAccountsPayload, recoverAccounts } from '@core/profile-manager'
+    import { checkActiveProfileAuth, getBaseToken, loadAccounts } from '@core/profile/actions'
+    import { activeAccounts, activeProfile, visibleActiveAccounts } from '@core/profile/stores'
     import { formatTokenAmountBestMatch, refreshAccountAssetsForActiveProfile } from '@core/wallet'
     import { closePopup } from '@desktop/auxiliary/popup'
     import { Button, FontWeight, KeyValueBox, Text, TextHint, TextType } from '@ui'

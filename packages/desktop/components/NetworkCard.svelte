@@ -14,7 +14,9 @@
         networkStatus,
         setSelectedChain,
     } from '@core/network'
-    import { ProfileType, activeProfile, checkActiveProfileAuth } from '@core/profile'
+    import { ProfileType } from '@core/profile'
+    import { checkActiveProfileAuth } from '@core/profile/actions'
+    import { activeProfile } from '@core/profile/stores'
     import { UiEventFunction, truncateString } from '@core/utils'
     import { NetworkConfigRoute, networkConfigRouter } from '@desktop/routers'
     import { ClickableTile, FontWeight, Icon, NetworkIcon, NetworkStatusPill, Text, TextType } from '@ui'

@@ -1,12 +1,11 @@
 <script lang="ts">
-    import { Button, Text } from '@ui'
-    import { ButtonSize, FontWeight, TextType } from '@ui/enums'
-
     import { selectedAccount } from '@core/account'
     import { localize } from '@core/i18n'
+    import { activeProfile } from '@core/profile/stores'
     import { formatTokenAmountBestMatch, visibleSelectedAccountAssets } from '@core/wallet'
-    import { openPopup, PopupId } from '@desktop/auxiliary/popup'
-    import { activeProfile } from '@core/profile'
+    import { PopupId, openPopup } from '@desktop/auxiliary/popup'
+    import { Button, Text } from '@ui'
+    import { ButtonSize, FontWeight, TextType } from '@ui/enums'
 
     const asset = $visibleSelectedAccountAssets?.[$activeProfile?.network.id]?.baseCoin
 

@@ -1,7 +1,7 @@
 import { persistent } from '@core/utils/store'
 import { IAssetBalanceChange } from '../types/asset-balance-change.interface'
 import { get } from 'svelte/store'
-import { activeProfileId } from '@core/profile'
+import { activeProfileId } from '@core/profile/stores'
 
 interface IPersistedBalanceChangesStore {
     [profileId: string]: {

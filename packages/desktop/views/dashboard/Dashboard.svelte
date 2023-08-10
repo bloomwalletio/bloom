@@ -1,31 +1,32 @@
 <script lang="ts">
-    import { hasStrongholdLocked, isActiveLedgerProfile, logout, reflectLockedStronghold } from '@core/profile'
-    import { appRouter, dashboardRoute } from '@core/router'
-    import { Idle } from '@ui'
-    import { stopPollingLedgerNanoStatus } from '@core/ledger'
-    import { Platform } from '@core/app'
-    import { Developer } from './developer'
-    import { Settings } from './settings'
-    import { Wallet } from './wallet'
-    import { onDestroy, onMount } from 'svelte'
-    import Collectibles from './collectibles/Collectibles.svelte'
-    import { Governance } from './governance'
-    import Sidebar from './Sidebar.svelte'
-    import TopNavigation from './TopNavigation.svelte'
     import { Drawer } from '@components'
+    import { selectedAccount, selectedAccountIndex } from '@core/account'
+    import { Platform } from '@core/app'
+    import { clearLayer2TokensPoll, pollLayer2Tokens } from '@core/layer-2'
+    import { stopPollingLedgerNanoStatus } from '@core/ledger'
     import {
         addNftsToDownloadQueue,
-        downloadingNftId,
         downloadNextNftInQueue,
+        downloadingNftId,
         interruptNftDownloadAfterTimeout,
         nftDownloadQueue,
         resetNftDownloadQueue,
         selectedAccountNfts,
     } from '@core/nfts'
-    import { selectedAccount, selectedAccountIndex } from '@core/account'
-    import { get } from 'svelte/store'
+    import { logout, reflectLockedStronghold } from '@core/profile/actions'
+    import { hasStrongholdLocked, isActiveLedgerProfile } from '@core/profile/stores'
+    import { appRouter, dashboardRoute } from '@core/router'
     import features from '@features/features'
-    import { pollLayer2Tokens, clearLayer2TokensPoll } from '@core/layer-2'
+    import { Idle } from '@ui'
+    import { onDestroy, onMount } from 'svelte'
+    import { get } from 'svelte/store'
+    import Sidebar from './Sidebar.svelte'
+    import TopNavigation from './TopNavigation.svelte'
+    import Collectibles from './collectibles/Collectibles.svelte'
+    import { Developer } from './developer'
+    import { Governance } from './governance'
+    import { Settings } from './settings'
+    import { Wallet } from './wallet'
 
     const tabs = {
         wallet: Wallet,

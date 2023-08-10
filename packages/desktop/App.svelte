@@ -1,45 +1,46 @@
 <script lang="ts">
-    import { onDestroy, onMount } from 'svelte'
-    import { isLocaleLoaded, localeDirection, setupI18n } from '@core/i18n'
-    import { activeProfile, checkAndMigrateProfiles, cleanupEmptyProfiles, saveActiveProfile } from '@core/profile'
+    import { handleDeepLink } from '@auxiliary/deep-link/handlers'
+    import { Popup, TitleBar } from '@components'
     import {
-        AppRoute,
-        appRoute,
-        DashboardRoute,
-        dashboardRouter,
-        initialiseRouterManager,
-        routerManager,
-        RouterManagerExtensionName,
-    } from '@core/router'
-    import {
+        IS_WINDOWS,
+        Platform,
         appSettings,
         appVersionDetails,
         initAppSettings,
-        IS_WINDOWS,
-        Platform,
         registerAppEvents,
         setAppVersionDetails,
     } from '@core/app'
-    import { closePopup, openPopup, PopupId, popupState } from '@desktop/auxiliary/popup'
-    import { getLocalisedMenuItems } from './lib/helpers'
-    import { ToastContainer, Transition } from '@ui'
-    import { TitleBar, Popup } from '@components'
-    import { Dashboard, LoginRouter, Settings, Splash } from '@views'
+    import { isLocaleLoaded, localeDirection, setupI18n } from '@core/i18n'
+    import { registerLedgerDeviceEventHandlers } from '@core/ledger'
+    import { downloadNextNftInQueue, nftDownloadQueue } from '@core/nfts'
+    import { checkAndMigrateProfiles, cleanupEmptyProfiles, saveActiveProfile } from '@core/profile/actions'
+    import { activeProfile } from '@core/profile/stores'
+    import {
+        AppRoute,
+        DashboardRoute,
+        RouterManagerExtensionName,
+        appRoute,
+        dashboardRouter,
+        initialiseRouterManager,
+        routerManager,
+    } from '@core/router'
+    import { closeDrawer } from '@desktop/auxiliary/drawer'
+    import { PopupId, closePopup, openPopup, popupState } from '@desktop/auxiliary/popup'
     import {
         getAppRouter,
         getRouterForAppContext,
         goToAppContext,
         initialiseRouters,
+        openSettings,
         resetRouterForAppContext,
         resetRouters,
-        openSettings,
     } from '@desktop/routers'
-    import { downloadNextNftInQueue, nftDownloadQueue } from '@core/nfts'
-    import { closeDrawer } from '@desktop/auxiliary/drawer'
     import features from '@features/features'
+    import { ToastContainer, Transition } from '@ui'
+    import { Dashboard, LoginRouter, Settings, Splash } from '@views'
     import { OnboardingRouterView } from '@views/onboarding'
-    import { registerLedgerDeviceEventHandlers } from '@core/ledger'
-    import { handleDeepLink } from '@auxiliary/deep-link/handlers'
+    import { onDestroy, onMount } from 'svelte'
+    import { getLocalisedMenuItems } from './lib/helpers'
 
     const { loggedIn } = $activeProfile
 

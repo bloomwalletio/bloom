@@ -1,11 +1,11 @@
 <script lang="ts">
-    import { Button, PasswordInput, Text, Error, ButtonVariant, HTMLButtonType, TextHint, TextType } from '@ui'
-    import { closePopup } from '@desktop/auxiliary/popup'
-    import { localize } from '@core/i18n'
-    import { setStrongholdPassword } from '@core/profile-manager'
-    import { isSoftwareProfile } from '@core/profile'
     import { selectedAccount } from '@core/account'
     import { handleError } from '@core/error/handlers/handleError'
+    import { localize } from '@core/i18n'
+    import { setStrongholdPassword } from '@core/profile-manager'
+    import { isSoftwareProfile } from '@core/profile/stores'
+    import { closePopup } from '@desktop/auxiliary/popup'
+    import { Button, ButtonVariant, Error, HTMLButtonType, PasswordInput, Text, TextHint, TextType } from '@ui'
 
     export let deleteAccount: (index: number) => Promise<void> = async () => {}
 

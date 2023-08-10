@@ -1,7 +1,7 @@
 <script lang="ts">
     import { appSettings, appVersionDetails, Platform } from '@core/app'
     import { localize } from '@core/i18n'
-    import { activeProfile } from '@core/profile'
+    import { activeProfile } from '@core/profile/stores'
     import { Button, Text } from '@ui'
     import { setClipboard } from '@core/utils'
     import { onMount } from 'svelte'

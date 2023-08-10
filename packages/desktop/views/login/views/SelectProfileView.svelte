@@ -1,20 +1,22 @@
 <script lang="ts">
-    import { PopupId, openPopup } from '@desktop/auxiliary/popup'
+    import { Icon as IconEnum } from '@auxiliary/icon'
     import { initialiseOnboardingProfile, onboardingProfile } from '@contexts/onboarding'
     import {
         AppContext,
-        isLatestStrongholdVersion,
         IS_MOBILE,
+        isLatestStrongholdVersion,
         needsToAcceptLatestPrivacyPolicy,
         needsToAcceptLatestTermsOfService,
     } from '@core/app'
     import { localize } from '@core/i18n'
-    import { ProfileType, loadPersistedProfileIntoActiveProfile, profiles, removeProfileFolder } from '@core/profile'
+    import { ProfileType, removeProfileFolder } from '@core/profile'
     import { destroyProfileManager } from '@core/profile-manager/actions'
+    import { loadPersistedProfileIntoActiveProfile } from '@core/profile/actions'
+    import { profiles } from '@core/profile/stores'
     import { loginRouter, routerManager } from '@core/router'
+    import { PopupId, openPopup } from '@desktop/auxiliary/popup'
     import features from '@features/features'
     import { Icon, Logo, Profile } from '@ui'
-    import { Icon as IconEnum } from '@auxiliary/icon'
     import { OnboardingRouter, onboardingRouter } from '@views/onboarding'
     import { onMount } from 'svelte'
 
