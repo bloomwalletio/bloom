@@ -1,6 +1,6 @@
 <script lang="ts">
     import { localize } from '@core/i18n'
-    import { IIscpChainMetadata, MAX_CHAIN_NAME_LENGTH, ChainType } from '@core/network'
+    import { MAX_CHAIN_NAME_LENGTH, ChainType, IIscpChainConfiguration, ETH_COIN_TYPE } from '@core/network'
     import { activeProfile, getNetworkHrp } from '@core/profile'
     import { isValidHexAddress, isValidHttpsUrl, validateBech32Address } from '@core/utils'
     import { ADDRESS_TYPE_ALIAS } from '@core/wallet'
@@ -15,13 +15,14 @@
     let explorerUrlError = ''
     $: submitDisabled = !chain.name || !chain.aliasAddress || !chain.iscpEndpoint
 
-    const chain: IIscpChainMetadata = {
+    // TODO: This should be IIscpChainConfiguration
+    const chain: IIscpChainConfiguration = {
         type: ChainType.Iscp,
-        chainId: undefined,
+        chainId: -1,
         name: '',
-        explorerUrl: undefined,
         aliasAddress: '',
         iscpEndpoint: '',
+        coinType: ETH_COIN_TYPE,
     }
 
     function validateName(): void {
