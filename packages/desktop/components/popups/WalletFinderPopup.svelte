@@ -1,33 +1,28 @@
 <script lang="ts">
-    import { onDestroy } from 'svelte'
-    import { Button, KeyValueBox, Text, TextHint, FontWeight, TextType } from '@ui'
-    import { closePopup, openPopup, PopupId } from '@desktop/auxiliary/popup'
-    import { showAppNotification } from '@auxiliary/notification'
-    import { displayNotificationForLedgerProfile, ledgerNanoStatus } from '@core/ledger'
+    import { showNotification } from '@auxiliary/notification'
     import { sumBalanceForAccounts } from '@core/account'
+    import { DEFAULT_SYNC_OPTIONS } from '@core/account/constants'
+    import { generateAndStoreActivitiesForAllAccounts } from '@core/activity/actions'
     import { localize } from '@core/i18n'
+    import { loadNftsForActiveProfile } from '@core/nfts'
     import {
+        DEFAULT_ACCOUNT_RECOVERY_CONFIGURATION,
         activeAccounts,
         activeProfile,
+        checkActiveProfileAuth,
         getBaseToken,
-        DEFAULT_ACCOUNT_RECOVERY_CONFIGURATION,
-        isActiveLedgerProfile,
-        isSoftwareProfile,
         loadAccounts,
         visibleActiveAccounts,
     } from '@core/profile'
     import { RecoverAccountsPayload, recoverAccounts } from '@core/profile-manager'
-    import {
-        formatTokenAmountBestMatch,
-        generateAndStoreActivitiesForAllAccounts,
-        refreshAccountAssetsForActiveProfile,
-    } from '@core/wallet'
-    import { loadNftsForActiveProfile } from '@core/nfts'
-    import { DEFAULT_SYNC_OPTIONS } from '@core/account/constants'
+    import { formatTokenAmountBestMatch, refreshAccountAssetsForActiveProfile } from '@core/wallet'
+    import { closePopup } from '@desktop/auxiliary/popup'
+    import { Button, FontWeight, KeyValueBox, Text, TextHint, TextType } from '@ui'
+    import { onDestroy, onMount } from 'svelte'
 
     export let searchForBalancesOnLoad = false
 
-    const { isStrongholdLocked, type } = $activeProfile
+    const { type } = $activeProfile
 
     const initialAccountRange = DEFAULT_ACCOUNT_RECOVERY_CONFIGURATION[type].initialAccountRange
     const addressGapLimitIncrement = DEFAULT_ACCOUNT_RECOVERY_CONFIGURATION[type].addressGapLimit
@@ -39,73 +34,51 @@
     let isBusy = false
     let hasUsedWalletFinder = false
 
-    $: searchForBalancesOnLoad && !$isStrongholdLocked && onFindBalancesClick()
     $: totalBalance = sumBalanceForAccounts($visibleActiveAccounts)
 
-    async function onFindBalancesClick(): Promise<void> {
-        if ($isSoftwareProfile && $isStrongholdLocked) {
-            openPopup({
-                id: PopupId.UnlockStronghold,
-                props: {
-                    onSuccess: function () {
-                        openPopup({
-                            id: PopupId.WalletFinder,
-                            props: { searchForBalancesOnLoad: true },
-                        })
-                    },
-                    onCancelled: function () {
-                        openPopup({
-                            id: PopupId.WalletFinder,
-                        })
-                    },
-                },
-            })
-        } else {
-            try {
-                error = ''
-                isBusy = true
-
-                if ($isActiveLedgerProfile && !$ledgerNanoStatus.connected) {
-                    isBusy = false
-                    displayNotificationForLedgerProfile('warning')
-                    return
-                }
-
-                const recoverAccountsPayload: RecoverAccountsPayload = {
-                    accountStartIndex: 0,
-                    accountGapLimit: currentAccountGapLimit,
-                    addressGapLimit: currentAddressGapLimit,
-                    syncOptions: DEFAULT_SYNC_OPTIONS,
-                }
-                await recoverAccounts(recoverAccountsPayload)
-                await loadAccounts()
-
-                previousAccountGapLimit = currentAccountGapLimit
-                previousAddressGapLimit = currentAddressGapLimit
-                currentAccountGapLimit += initialAccountRange
-                currentAddressGapLimit += addressGapLimitIncrement
-
-                hasUsedWalletFinder = true
-            } catch (err) {
-                error = localize(err.error)
-
-                if ($isActiveLedgerProfile) {
-                    displayNotificationForLedgerProfile('error', true, true, err)
-                } else {
-                    showAppNotification({
-                        type: 'error',
-                        message: localize(err.error),
-                    })
-                }
-            } finally {
-                isBusy = false
+    async function searchForBalance(): Promise<void> {
+        try {
+            error = ''
+            isBusy = true
+            const recoverAccountsPayload: RecoverAccountsPayload = {
+                accountStartIndex: 0,
+                accountGapLimit: currentAccountGapLimit,
+                addressGapLimit: currentAddressGapLimit,
+                syncOptions: DEFAULT_SYNC_OPTIONS,
             }
+            await recoverAccounts(recoverAccountsPayload)
+            await loadAccounts()
+            previousAccountGapLimit = currentAccountGapLimit
+            previousAddressGapLimit = currentAddressGapLimit
+            currentAccountGapLimit += initialAccountRange
+            currentAddressGapLimit += addressGapLimitIncrement
+            hasUsedWalletFinder = true
+        } catch (err) {
+            error = localize(err.error)
+            showNotification({
+                variant: 'error',
+                text: localize(err.error),
+            })
+        } finally {
+            isBusy = false
         }
+    }
+
+    async function onFindBalancesClick(): Promise<void> {
+        await checkActiveProfileAuth(searchForBalance, {
+            stronghold: true,
+            ledger: true,
+            props: { searchForBalancesOnLoad: true },
+        })
     }
 
     function onCancelClick(): void {
         closePopup()
     }
+
+    onMount(() => {
+        searchForBalancesOnLoad && void searchForBalance()
+    })
 
     onDestroy(async () => {
         if (hasUsedWalletFinder) {

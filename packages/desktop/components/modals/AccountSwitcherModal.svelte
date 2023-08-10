@@ -6,8 +6,8 @@
     import { getMarketAmountFromAssetValue } from '@core/market/utils'
     import { activeProfile, getBaseToken, visibleActiveAccounts } from '@core/profile'
     import { formatTokenAmountBestMatch, selectedAccountAssets } from '@core/wallet'
-    import { openPopup, PopupId } from '@desktop/auxiliary/popup'
-    import { AccountSwitcherMenuItem, FontWeight, HR, Modal, Text, TextType } from '@ui'
+    import { PopupId, openPopup } from '@desktop/auxiliary/popup'
+    import { AccountSwitcherMenuItem, FontWeight, Modal, Text, TextType } from '@ui'
     import { tick } from 'svelte'
 
     export let modal: Modal = undefined
@@ -41,7 +41,7 @@
             {/each}
         </account-list>
     </account-list-container>
-    <HR />
+    <hr />
     <button
         type="button"
         class=" flex flex-row justify-between w-full p-8 hover:bg-gray-50 dark:hover:bg-gray-800"

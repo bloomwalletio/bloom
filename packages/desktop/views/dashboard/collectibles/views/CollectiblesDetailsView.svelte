@@ -16,7 +16,7 @@
     import { getBaseToken } from '@core/profile/actions'
     import { activeProfile } from '@core/profile/stores'
     import { collectiblesRouter } from '@core/router/routers'
-    import { truncateString } from '@core/utils'
+    import { getTimeDifference, truncateString } from '@core/utils'
     import {
         ADDRESS_TYPE_ALIAS,
         ADDRESS_TYPE_ED25519,
@@ -24,7 +24,6 @@
         formatTokenAmountPrecise,
         getBech32AddressFromAddressTypes,
         getHexAddressFromAddressTypes,
-        getTimeDifference,
     } from '@core/wallet'
     import { SendFlowType, setSendFlowParameters } from '@core/wallet/stores'
     import {

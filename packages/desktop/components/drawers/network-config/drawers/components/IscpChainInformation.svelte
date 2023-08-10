@@ -1,7 +1,7 @@
 <script lang="ts">
     import { localize } from '@core/i18n'
     import { IIscpChainConfiguration } from '@core/network'
-    import { Text, HR, FontWeight, CopyableBox } from '@ui'
+    import { Text, FontWeight, CopyableBox } from '@ui'
 
     export let chainConfiguration: IIscpChainConfiguration
 
@@ -30,5 +30,5 @@
             <Text fontWeight={FontWeight.semibold} fontSize="15" classes="break-words">{info[key]}</Text>
         </div>
     </CopyableBox>
-    <HR />
+    <hr />
 {/each}
