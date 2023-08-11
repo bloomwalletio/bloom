@@ -2,14 +2,14 @@ import { get } from 'svelte/store'
 
 import Web3 from 'web3'
 
-import { getSelectedAccount } from '@core/account'
 import { ContractType, ISC_MAGIC_CONTRACT_ADDRESS, buildEvmTransactionData } from '@core/layer-2'
-import { ChainId, network } from '@core/network'
+import { ChainId, IChain, network } from '@core/network'
 import { Bech32Helper } from '@core/utils'
 
-import { signAndSendEvmTransaction } from '../actions/send'
+import { sendTransactionFromEvm } from '../actions/send'
+import { TransactionReceipt } from 'web3-core'
 
-export async function unwrapIrc30Token(amount: number, recipientAddress: string): Promise<void> {
+export async function unwrapIrc30Token(amount: number, recipientAddress: string): Promise<TransactionReceipt> {
     try {
         // 1. Build send parameters
         const parameters = buildUnwrapIrc30TokenParameters(amount, recipientAddress)
@@ -32,7 +32,7 @@ export async function unwrapIrc30Token(amount: number, recipientAddress: string)
         /* eslint-disable no-console */
         console.log('tx data: ', transactionData)
 
-        await signAndSendEvmTransaction(transactionData, provider, getSelectedAccount()?.index)
+        return (await sendTransactionFromEvm(transactionData, chain as IChain))
     } catch (err) {
         console.error(err)
     }

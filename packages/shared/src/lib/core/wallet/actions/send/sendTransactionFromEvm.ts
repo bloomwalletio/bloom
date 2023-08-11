@@ -5,21 +5,23 @@ import { LedgerAppName } from '@core/ledger'
 import { IChain } from '@core/network'
 import { checkActiveProfileAuth } from '@core/profile/actions'
 import { signAndSendEvmTransaction } from './signAndSendEvmTransaction'
+import { TransactionReceipt } from 'web3-core'
 
 export async function sendTransactionFromEvm(
     transaction: EvmTransactionData,
     chain: IChain,
-    callback: () => void
-): Promise<void> {
+    callback?: () => void
+): Promise<TransactionReceipt | undefined> {
     const account = getSelectedAccount()
     const provider = chain.getProvider()
     if (!account) {
         return
     }
 
+    let transactionReceipt: TransactionReceipt | undefined
     await checkActiveProfileAuth(
         async () => {
-            const transactionReceipt = await signAndSendEvmTransaction(
+            transactionReceipt = await signAndSendEvmTransaction(
                 transaction,
                 chain.getConfiguration().chainId,
                 provider,
@@ -31,9 +33,12 @@ export async function sendTransactionFromEvm(
                     ...transactionReceipt,
                 })
             }
-            callback()
+            if (callback && typeof callback === 'function') {
+                callback()
+            }
         },
-        { stronghold: true, ledger: true },
+        { stronghold: false, ledger: true },
         LedgerAppName.Ethereum
     )
+    return transactionReceipt
 }

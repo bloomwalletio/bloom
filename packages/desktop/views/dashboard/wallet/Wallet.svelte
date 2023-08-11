@@ -6,14 +6,19 @@
     import features from '@features/features'
     import { onMount } from 'svelte'
 
-    onMount(() => {
+    async function onMountHelper(): Promise<void> {
         /**
          * NOTE: The amount has to be greater than or equal to the minimum required
          * storage deposit.
          */
         const amount = 1_000_000 - 47800
         const recipientAddress = $selectedAccount.depositAddress
-        void unwrapIrc30Token(amount, recipientAddress)
+        await unwrapIrc30Token(amount, recipientAddress)
+        // console.log('receipt: ', receipt)
+    }
+
+    onMount(() => {
+        void onMountHelper()
     })
 </script>
 
