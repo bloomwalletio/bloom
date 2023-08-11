@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { DrawerTemplate } from '@component'
+    import { DrawerTemplate } from '@components'
     import { ContactManager, doesProfileHaveContacts, selectedContact } from '@core/contact'
     import { localize } from '@core/i18n'
     import { activeProfile } from '@core/profile/stores'
