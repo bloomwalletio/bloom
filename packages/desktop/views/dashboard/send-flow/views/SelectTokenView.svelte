@@ -1,7 +1,7 @@
 <script lang="ts">
     import { Icon as IconEnum } from '@auxiliary/icon'
     import { localize } from '@core/i18n'
-    import { marketCoinPrices } from '@core/market'
+    import { marketCoinPrices } from '@core/market/stores'
     import { getNetwork } from '@core/network'
     import { getCoinType } from '@core/profile/actions'
     import {
