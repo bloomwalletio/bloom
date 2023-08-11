@@ -8,13 +8,14 @@ import { AssetVerification } from '../types'
 import { getIrc30MetadataFromFoundryOutput } from '../utils'
 import { activeAccounts } from '@core/profile/stores'
 import { get } from 'svelte/store'
+import { network } from '@core/network/stores'
 
 export async function requestPersistedAsset(tokenId: string, chainId?: number): Promise<IPersistedAsset | undefined> {
     let tokenMetadata: IIrc30Metadata | IErc20Metadata | undefined
     if (chainId) {
         try {
             validateEthereumAddress(tokenId)
-            tokenMetadata = await getErc20TokenMetadata(tokenId, chainId)
+            tokenMetadata = await getErc20TokenMetadata(tokenId, chainId, get(network))
         } catch {
             // do nothing
         }
