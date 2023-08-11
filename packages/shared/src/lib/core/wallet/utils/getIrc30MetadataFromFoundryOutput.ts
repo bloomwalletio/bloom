@@ -1,13 +1,16 @@
-import { activeAccounts } from '@core/profile/stores'
+import { IAccountState } from '@core/account/interfaces'
 import { Converter } from '@core/utils'
-import { get } from 'svelte/store'
+
 import { IIrc30Metadata } from '../interfaces'
 import { getMetadataFromFoundryOutput } from './getMetadataFromFoundryOutput'
 import { validateIrc30Metadata } from './validateIrc30Metadata'
 
-export async function getIrc30MetadataFromFoundryOutput(tokenId: string): Promise<IIrc30Metadata | undefined> {
+export async function getIrc30MetadataFromFoundryOutput(
+    tokenId: string,
+    account: IAccountState
+): Promise<IIrc30Metadata | undefined> {
     try {
-        const foundry = await get(activeAccounts)?.[0]?.getFoundryOutput(tokenId)
+        const foundry = await account?.getFoundryOutput(tokenId)
         const data = getMetadataFromFoundryOutput(foundry)
         if (data) {
             const metadata = JSON.parse(Converter.hexToUtf8(data))
