@@ -1,10 +1,10 @@
 <script lang="ts">
     import { localize } from '@core/i18n'
-    import { IAuth, NetworkId } from '@core/network'
+    import { IAuth, NetworkName } from '@core/network'
     import { EMPTY_NODE } from '@core/network/constants'
     import { IClientOptions, INode, INodeInfoResponse } from '@core/network/interfaces'
     import { nodeInfo } from '@core/network/stores'
-    import { checkNetworkId, checkNodeUrlValidity, getNetworkNameFromNetworkId } from '@core/network/utils'
+    import { checkNetworkName, checkNodeUrlValidity, getDisplayedNameFromNetworkName } from '@core/network/utils'
     import { activeProfile } from '@core/profile'
     import { getNodeInfo } from '@core/profile-manager'
     import { IDropdownItem, cleanUrl } from '@core/utils'
@@ -19,7 +19,7 @@
     }
 
     export let node: INode = structuredClone(EMPTY_NODE)
-    export let networkId: NetworkId | undefined = undefined
+    export let networkName: NetworkName | undefined = undefined
     export let coinType: string | undefined
     export let isBusy = false
     export let formError = ''
@@ -28,30 +28,30 @@
     export let onSubmit: () => void = () => {}
     export let showNetworkFields: boolean = false
 
-    const networkItems: IDropdownItem<NetworkId>[] = [
+    const networkItems: IDropdownItem<NetworkName>[] = [
         {
-            label: getNetworkNameFromNetworkId(NetworkId.Iota),
-            value: NetworkId.Iota,
+            label: getDisplayedNameFromNetworkName(NetworkName.Iota),
+            value: NetworkName.Iota,
         },
         {
-            label: getNetworkNameFromNetworkId(NetworkId.Shimmer),
-            value: NetworkId.Shimmer,
+            label: getDisplayedNameFromNetworkName(NetworkName.Shimmer),
+            value: NetworkName.Shimmer,
         },
         {
-            label: getNetworkNameFromNetworkId(NetworkId.Testnet),
-            value: NetworkId.Testnet,
+            label: getDisplayedNameFromNetworkName(NetworkName.Testnet),
+            value: NetworkName.Testnet,
         },
         {
             label: localize('general.custom'),
-            value: NetworkId.Custom,
+            value: NetworkName.Custom,
         },
     ].filter((item) => features.onboarding?.[item.value]?.enabled)
 
     let [username, password] = node.auth?.basicAuthNamePwd ?? ['', '']
     let jwt = node.auth?.jwt
 
-    $: networkId, (coinType = '')
-    $: networkId, coinType, node.url, (formError = '')
+    $: networkName, (coinType = '')
+    $: networkName, coinType, node.url, (formError = '')
     $: jwt,
         username,
         password,
@@ -75,12 +75,12 @@
         node.url = cleanUrl(node?.url)
     }
 
-    function onNetworkIdChanges(selected: IDropdownItem<NetworkId>): void {
-        networkId = selected.value
+    function onNetworkNameChanges(selected: IDropdownItem<NetworkName>): void {
+        networkName = selected.value
     }
 
     export async function validate(options: INodeValidationOptions): Promise<void> {
-        if (networkId === NetworkId.Custom && !coinType) {
+        if (networkName === NetworkName.Custom && !coinType) {
             formError = localize('error.node.noCoinType')
             return Promise.reject({ type: 'validationError', error: formError })
         }
@@ -119,9 +119,9 @@
         }
 
         if (options.validateClientOptions && currentClientOptions) {
-            const errorNetworkId = checkNetworkId(networkName, currentClientOptions.network, isDeveloperProfile)
-            if (errorNetworkId) {
-                formError = localize(errorNetworkId?.locale, errorNetworkId?.values) ?? ''
+            const errorNetworkName = checkNetworkName(networkName, currentClientOptions.network, isDeveloperProfile)
+            if (errorNetworkName) {
+                formError = localize(errorNetworkName?.locale, errorNetworkName?.values) ?? ''
                 return Promise.reject({ type: 'validationError', error: formError })
             }
         }
@@ -133,12 +133,12 @@
         <Dropdown
             label={localize('general.network')}
             placeholder={localize('general.network')}
-            value={networkId}
+            value={networkName}
             items={networkItems}
             disabled={isBusy}
-            onSelect={onNetworkIdChanges}
+            onSelect={onNetworkNameChanges}
         />
-        {#if networkId === NetworkId.Custom}
+        {#if networkName === NetworkName.Custom}
             <NumberInput
                 bind:value={coinType}
                 placeholder={localize('general.coinType')}

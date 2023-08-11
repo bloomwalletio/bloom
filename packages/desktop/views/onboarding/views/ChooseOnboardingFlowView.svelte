@@ -3,7 +3,7 @@
     import { OnboardingType, onboardingProfile, updateOnboardingProfile } from '@contexts/onboarding'
     import { IS_MOBILE } from '@core/app'
     import { localize } from '@core/i18n'
-    import { getNetworkNameFromNetworkId } from '@core/network'
+    import { getDisplayedNameFromNetworkName } from '@core/network'
     import { profiles } from '@core/profile'
     import features from '@features/features'
     import { Animation, OnboardingButton, Text } from '@ui'
@@ -32,7 +32,7 @@
         <Text type="h2"
             >{localize('views.onboarding.profileSetup.setup.title', {
                 values: {
-                    network: getNetworkNameFromNetworkId(networkId),
+                    network: getDisplayedNameFromNetworkName(networkId),
                 },
             })}</Text
         >
@@ -41,7 +41,7 @@
         <Text type="p" secondary classes="mb-8"
             >{localize('views.onboarding.profileSetup.setup.body', {
                 values: {
-                    network: getNetworkNameFromNetworkId(networkId),
+                    network: getDisplayedNameFromNetworkName(networkId),
                 },
             })}</Text
         >
@@ -50,7 +50,7 @@
         <OnboardingButton
             primaryText={localize('actions.createWallet', {
                 values: {
-                    network: getNetworkNameFromNetworkId(networkId),
+                    network: getDisplayedNameFromNetworkName(networkId),
                 },
             })}
             secondaryText={!IS_MOBILE

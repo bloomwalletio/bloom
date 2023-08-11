@@ -1,5 +1,5 @@
 import { COIN_TYPE } from '@core/network/constants'
-import { NetworkId } from '@core/network/enums'
+import { SupportedNetworkId } from '@core/network/enums'
 import { getSecretManagerFromProfileType, initialiseProfileManager } from '@core/profile-manager'
 import { generateRandomId } from '@core/utils'
 import { get } from 'svelte/store'
@@ -14,7 +14,7 @@ export async function createShimmerClaimingProfileManager(): Promise<void> {
     }
 
     const storagePath = await getTemporaryProfileManagerStorageDirectory()
-    const coinType = COIN_TYPE[NetworkId.Iota]
+    const coinType = COIN_TYPE[SupportedNetworkId.Iota]
     const clientOptions = $onboardingProfile?.clientOptions
     const secretManager = getSecretManagerFromProfileType($onboardingProfile?.type, storagePath)
 

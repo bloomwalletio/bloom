@@ -1,5 +1,5 @@
 import { activeProfileId } from '@core/profile/stores/active-profile-id.store'
-import { NetworkId } from '@core/network/enums'
+import { SupportedNetworkId } from '@core/network/enums'
 import { FALLBACK_GAS_BUDGET } from '@core/layer-2/constants'
 import { getOutputParameters } from '../utils'
 import { ReturnStrategy, SubjectType, TokenStandard, VerifiedStatus } from '../enums'
@@ -78,7 +78,7 @@ jest.mock('../stores/persisted-assets.store', () => ({
 jest.mock('../actions/getAccountAssetsForSelectedAccount', () => ({
     getAccountAssetsForSelectedAccount: jest.fn((_) => {
         return {
-            [NetworkId.Testnet]: {
+            [SupportedNetworkId.Testnet]: {
                 baseCoin: PERSISTED_ASSET_SHIMMER,
                 nativeTokens: [nativeTokenAsset],
             },

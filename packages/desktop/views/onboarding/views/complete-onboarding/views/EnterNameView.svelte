@@ -3,7 +3,7 @@
     import { onboardingProfile, updateOnboardingProfile } from '@contexts/onboarding'
     import { IS_MOBILE } from '@core/app'
     import { localize } from '@core/i18n'
-    import { getNetworkNameFromNetworkId } from '@core/network'
+    import { getDisplayedNameFromNetworkName } from '@core/network'
     import { profiles, validateProfileName } from '@core/profile'
     import { Animation, Button, Input, Text } from '@ui'
     import { completeOnboardingRouter } from '../complete-onboarding-router'
@@ -29,7 +29,7 @@
     <div slot="title">
         <Text type="h2"
             >{localize('views.onboarding.profileSetup.enterName.title', {
-                values: { network: getNetworkNameFromNetworkId($onboardingProfile?.network?.id) },
+                values: { network: getDisplayedNameFromNetworkName($onboardingProfile?.network?.id) },
             })}</Text
         >
     </div>

@@ -4,36 +4,42 @@
     import { initialiseOnboardingProfile, updateOnboardingProfile, onboardingProfile } from '@contexts/onboarding'
     import { IS_MOBILE } from '@core/app'
     import { localize } from '@core/i18n'
-    import { NetworkId, getDefaultClientOptions, getDefaultPersistedNetwork } from '@core/network'
+    import {
+        NetworkName,
+        getDefaultClientOptions,
+        getDefaultPersistedNetwork,
+        getNetworkIdFromNetworkName,
+    } from '@core/network'
     import { profiles } from '@core/profile'
     import features from '@features/features'
     import { Animation, OnboardingButton, Text, TextType } from '@ui'
     import { onMount } from 'svelte'
     import { networkSetupRouter } from '../network-setup-router'
 
-    let networkIcon: { [key in NetworkId]: string }
+    let networkIcon: { [key in NetworkName]: string }
     $: networkIcon = {
-        [NetworkId.Iota]: Icon.Iota,
-        [NetworkId.Shimmer]: Icon.Shimmer,
-        [NetworkId.Testnet]: 'settings',
-        [NetworkId.Custom]: 'settings',
+        [NetworkName.Iota]: Icon.Iota,
+        [NetworkName.Shimmer]: Icon.Shimmer,
+        [NetworkName.Testnet]: 'settings',
+        [NetworkName.Custom]: 'settings',
     }
 
-    function getIconColor(networkId: NetworkId): string {
-        switch (networkId) {
-            case NetworkId.Iota:
+    function getIconColor(networkName: NetworkName): string {
+        switch (networkName) {
+            case NetworkName.Iota:
                 return 'iota-highlight'
-            case NetworkId.Shimmer:
+            case NetworkName.Shimmer:
                 return 'shimmer-highlight'
-            case NetworkId.Testnet:
+            case NetworkName.Testnet:
                 return 'blue-500'
-            case NetworkId.Custom:
+            case NetworkName.Custom:
                 return 'blue-500'
         }
     }
 
-    function onNetworkSelectionClick(networkId: NetworkId): void {
-        if (networkId !== NetworkId.Custom) {
+    function onNetworkSelectionClick(networkName: NetworkName): void {
+        if (networkName !== NetworkName.Custom) {
+            const networkId = getNetworkIdFromNetworkName(networkName)?.id
             const network = getDefaultPersistedNetwork(networkId)
             const clientOptions = getDefaultClientOptions(networkId)
             updateOnboardingProfile({ network, clientOptions })
@@ -63,17 +69,17 @@
         <Text secondary classes="mb-8">{localize('views.onboarding.networkSetup.chooseNetwork.body')}</Text>
     </div>
     <div slot="leftpane__action" class="flex flex-col space-y-4">
-        {#each Object.values(NetworkId) as networkId}
+        {#each Object.values(NetworkName) as networkName}
             <OnboardingButton
-                primaryText={localize(`views.onboarding.networkSetup.chooseNetwork.${networkId}.title`)}
+                primaryText={localize(`views.onboarding.networkSetup.chooseNetwork.${networkName}.title`)}
                 secondaryText={!IS_MOBILE
-                    ? localize(`views.onboarding.networkSetup.chooseNetwork.${networkId}.body`)
+                    ? localize(`views.onboarding.networkSetup.chooseNetwork.${networkName}.body`)
                     : ''}
-                icon={networkIcon[networkId]}
-                iconColor={getIconColor(networkId)}
-                hidden={features?.onboarding?.[networkId]?.hidden}
-                disabled={!features?.onboarding?.[networkId]?.enabled}
-                onClick={() => onNetworkSelectionClick(networkId)}
+                icon={networkIcon[networkName]}
+                iconColor={getIconColor(networkName)}
+                hidden={features?.onboarding?.[networkName]?.hidden}
+                disabled={!features?.onboarding?.[networkName]?.enabled}
+                onClick={() => onNetworkSelectionClick(networkName)}
             />
         {/each}
     </div>

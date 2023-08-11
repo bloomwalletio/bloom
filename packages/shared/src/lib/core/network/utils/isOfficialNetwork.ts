@@ -1,12 +1,13 @@
-import { NetworkId } from '../enums'
+import { SupportedNetworkId } from '../enums'
+import { NetworkIdType } from '../types'
 
 /**
  * Determines whether the network id is 'official', meaning
  * the IOTA Foundation hosts nodes publicly for that network.
  * @method isOfficialNetwork
- * @param {NetworkId} networkId
+ * @param {NetworkIdType} networkId
  * @returns {boolean}
  */
-export function isOfficialNetwork(networkId: NetworkId): boolean {
-    return networkId !== NetworkId.Custom && Object.values(NetworkId).some((_networkId) => _networkId === networkId)
+export function isOfficialNetwork(networkId: NetworkIdType): boolean {
+    return Object.values(SupportedNetworkId).some((_networkId) => _networkId === networkId)
 }

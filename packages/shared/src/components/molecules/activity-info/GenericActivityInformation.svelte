@@ -2,12 +2,13 @@
     import { KeyValueBox } from '@ui'
     import { getFormattedTimeStamp, localize } from '@core/i18n'
     import { activeProfile, getBaseToken } from '@core/profile'
-    import { Activity, formatTokenAmountPrecise } from '@core/wallet'
+    import { formatTokenAmountPrecise } from '@core/wallet'
     import { ExplorerEndpoint } from '@core/network'
     import { getOfficialExplorerUrl } from '@core/network/utils'
     import { openUrlInBrowser } from '@core/app'
     import { IKeyValueBoxList, truncateString } from '@core/utils'
     import { setClipboard } from '@core/utils'
+    import { Activity } from '@core/activity'
 
     export let activity: Activity
 

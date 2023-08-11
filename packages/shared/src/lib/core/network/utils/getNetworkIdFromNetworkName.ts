@@ -14,6 +14,7 @@ export function getNetworkIdFromNetworkName(name: string): INetworkId {
     }
 }
 
+//  TODO: Type this correctly to NetworkName
 function getProtocolIdFromNetworkName(name: string): NetworkProtocolId {
     switch (name) {
         case 'shimmer':

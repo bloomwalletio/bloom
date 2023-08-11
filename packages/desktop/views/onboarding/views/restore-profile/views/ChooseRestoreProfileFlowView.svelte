@@ -7,7 +7,7 @@
         updateOnboardingProfile,
     } from '@contexts/onboarding'
     import { localize } from '@core/i18n'
-    import { getNetworkNameFromNetworkId } from '@core/network'
+    import { getDisplayedNameFromNetworkName } from '@core/network'
     import { ProfileType, removeProfileFolder } from '@core/profile'
     import features from '@features/features'
     import { Animation, OnboardingButton, Text } from '@ui'
@@ -51,7 +51,7 @@
     <div slot="title">
         <Text type="h2"
             >{localize('views.onboarding.profileSetup.setupRecovered.title', {
-                values: { network: getNetworkNameFromNetworkId(networkId) },
+                values: { network: getDisplayedNameFromNetworkName(networkId) },
             })}</Text
         >
     </div>

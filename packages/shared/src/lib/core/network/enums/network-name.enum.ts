@@ -1,4 +1,4 @@
-export enum NetworkId {
+export enum NetworkName {
     Iota = 'iota',
     Shimmer = 'shimmer',
     Testnet = 'testnet',
