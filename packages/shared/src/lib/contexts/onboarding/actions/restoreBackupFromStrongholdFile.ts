@@ -8,6 +8,10 @@ import { IS_MOBILE } from '@core/app'
 export async function restoreBackupFromStrongholdFile(strongholdPassword: string): Promise<void> {
     const { id, importFilePath, clientOptions, network } = get(onboardingProfile)
     try {
+        if (!importFilePath || !network) {
+            throw new Error()
+        }
+
         await restoreBackup(importFilePath, strongholdPassword, network.protocol.bech32Hrp)
         if (IS_MOBILE) {
             await validateStrongholdCoinType(profileManager, network?.id)

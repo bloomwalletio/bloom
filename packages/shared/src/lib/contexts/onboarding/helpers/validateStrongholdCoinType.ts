@@ -1,5 +1,5 @@
 import { localize } from '@core/i18n'
-import { COIN_TYPE, NetworkId } from '@core/network'
+import { COIN_TYPE, NetworkIdType } from '@core/network'
 import { createAccount, getAccounts, IProfileManager } from '@core/profile-manager'
 import { get, Writable } from 'svelte/store'
 import { OnboardingType } from '../enums'
@@ -8,7 +8,7 @@ import { onboardingProfile } from '../stores'
 
 export async function validateStrongholdCoinType(
     profileManager: Writable<IProfileManager>,
-    networkId: NetworkId
+    networkId: NetworkIdType
 ): Promise<void> {
     const accounts = await getAccounts(profileManager)
     if (accounts?.length === 0) {

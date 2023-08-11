@@ -8,11 +8,11 @@ export function buildPersistedNetworkFromNodeInfoResponse(
     nodeInfoResponse: INodeInfoResponse,
     coinType?: number
 ): IPersistedNetwork {
-    const networkId = getNetworkIdFromNetworkName(nodeInfoResponse?.nodeInfo?.protocol.networkName)
-    const name = DEFAULT_TANGLE_NETWORK_METADATA[networkId.protocolId]?.name ?? localize('general.unknown')
-    const _coinType = coinType ?? COIN_TYPE[networkId.id] ?? TEST_COIN_TYPE
+    const networkWithId = getNetworkIdFromNetworkName(nodeInfoResponse?.nodeInfo?.protocol.networkName)
+    const name = DEFAULT_TANGLE_NETWORK_METADATA[networkWithId.id]?.name ?? localize('general.unknown')
+    const _coinType = coinType ?? COIN_TYPE[networkWithId.id] ?? TEST_COIN_TYPE
     return {
-        ...networkId,
+        ...networkWithId,
         name,
         coinType: _coinType,
         protocol: nodeInfoResponse?.nodeInfo?.protocol,

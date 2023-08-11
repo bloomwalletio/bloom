@@ -1,7 +1,7 @@
 <script lang="ts">
     import { Icon as IconEnum, NETWORK_ICON_SVG } from '@auxiliary/icon'
     import { getIconColorFromString } from '@core/account'
-    import { COIN_TYPE, network, TangleNetworkId, buildTangleNetworkId } from '@core/network'
+    import { COIN_TYPE, network, SupportedNetworkId } from '@core/network'
     import { activeProfile } from '@core/profile'
     import { isBright } from '@core/utils'
     import { ANIMATED_TOKEN_IDS, getAssetInitials, IPersistedAsset, TokenStandard } from '@core/wallet'
@@ -22,16 +22,16 @@
 
     $: $network, chainId, (chainName = getTooltipText())
     $: isAnimation = asset.id in ANIMATED_TOKEN_IDS
-    $: networkId = $activeProfile?.network?.id ?? ''
+    $: baseNetworkId = $activeProfile?.network?.id ?? ''
 
     $: {
         switch (asset.id) {
-            case String(COIN_TYPE[networkId]): {
-                const isIotaNetwork = networkId === buildTangleNetworkId(TangleNetworkId.Iota)
+            case String(COIN_TYPE[baseNetworkId]): {
+                const isIotaNetwork = baseNetworkId === SupportedNetworkId.Iota
                 assetInitials = ''
                 assetIconBackgroundColor = isIotaNetwork ? '#6E82A4' : '#25DFCA'
                 assetIconColor = isBright(assetIconBackgroundColor) ? 'gray-800' : 'white'
-                icon = NETWORK_ICON_SVG[networkId]
+                icon = NETWORK_ICON_SVG[baseNetworkId]
                 break
             }
             default:

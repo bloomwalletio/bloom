@@ -9,7 +9,7 @@
         IIscpChainConfiguration,
         INetwork,
         NetworkHealth,
-        NetworkId,
+        SupportedNetworkId,
         chainStatuses,
         networkStatus,
         setSelectedChain,
@@ -74,7 +74,7 @@
     <div class="w-full flex flex-col gap-5">
         <div class="flex flex-row justify-between items-center">
             <div class="flex flex-row gap-2 items-center">
-                <NetworkIcon networkId={NetworkId.Testnet} />
+                <NetworkIcon networkId={SupportedNetworkId.Testnet} />
                 <Text type={TextType.h4} fontWeight={FontWeight.semibold}>
                     {name}
                 </Text>

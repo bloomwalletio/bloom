@@ -1,7 +1,7 @@
 <script lang="ts">
     import { localize } from '@core/i18n'
     import { NetworkIcon, Text, TooltipIcon } from '@ui'
-    import { NetworkId } from '@core/network'
+    import { SupportedNetworkId } from '@core/network'
     import { getBaseToken } from '@core/profile'
     import { formatTokenAmountBestMatch } from '@core/wallet'
 
@@ -15,7 +15,7 @@
             <Text>{localize('general.destinationNetwork')}</Text>
             <div class="flex flex-row gap-2">
                 <!-- TODO: Add correct icon for L2 -->
-                <NetworkIcon networkId={NetworkId.Testnet} height={16} width={16} outlined={false} />
+                <NetworkIcon networkId={SupportedNetworkId.Testnet} height={16} width={16} outlined={false} />
                 <Text color="gray-600">{destinationNetwork}</Text>
             </div>
         </section>

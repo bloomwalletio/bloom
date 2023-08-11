@@ -1,6 +1,6 @@
 <script lang="ts">
     import { Icon as IconEnum } from '@auxiliary/icon'
-    import { NetworkId } from '@core/network'
+    import { SupportedNetworkId } from '@core/network'
     import { Subject, SubjectType } from '@core/wallet'
     import { FontWeight, Icon, IOption, NetworkIcon, RecipientInput, Text, TextType } from '@ui'
     import { INetworkRecipientSelectorOption } from '../interfaces'
@@ -50,7 +50,7 @@
     <network-recipient-item-name>
         <div class="flex flex-row justify-between items-center space-x-4">
             <div class="flex flex-row space-x-3 items-center">
-                <NetworkIcon networkId={NetworkId.Testnet} />
+                <NetworkIcon networkId={SupportedNetworkId.Testnet} />
                 <Text type={TextType.h4} fontWeight={FontWeight.semibold}>
                     {item?.name}
                 </Text>

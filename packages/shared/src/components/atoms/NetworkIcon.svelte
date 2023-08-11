@@ -1,10 +1,9 @@
 <script lang="ts">
     import { Icon } from '@ui'
     import { NETWORK_ICON_SVG } from '@auxiliary/icon'
-    import { buildTangleNetworkId, EvmChainId, NetworkIdType, TangleNetworkId } from '@core/network'
+    import { NetworkIdType, SupportedNetworkId } from '@core/network'
 
     export let networkId: NetworkIdType
-    export let chainId: EvmChainId | undefined = undefined
     export let height = 22
     export let width = 22
     export let outlined = true
@@ -13,15 +12,15 @@
     $: iconColor = classesMap[networkId]?.iconColor ?? ''
 
     const classesMap: { [id: NetworkIdType]: Record<string, string> } = {
-        [buildTangleNetworkId(TangleNetworkId.Iota)]: {
+        [SupportedNetworkId.Iota]: {
             backgroundColor: 'bg-black',
             iconColor: 'text-white',
         },
-        [buildTangleNetworkId(TangleNetworkId.Shimmer)]: {
+        [SupportedNetworkId.Shimmer]: {
             backgroundColor: 'bg-shimmer-highlight',
             iconColor: 'text-black',
         },
-        [buildTangleNetworkId(TangleNetworkId.Testnet)]: {
+        [SupportedNetworkId.Testnet]: {
             backgroundColor: 'bg-gray-400',
             iconColor: 'text-black',
         },

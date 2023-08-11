@@ -1,16 +1,16 @@
-import { COIN_TYPE, DEFAULT_BASE_TOKEN, SHIMMER_NETWORK_ID, TESTNET_NETWORK_ID } from '../constants'
-import { NetworkNamespace, TangleNetworkId, TokenSupply } from '../enums'
+import { COIN_TYPE, DEFAULT_BASE_TOKEN } from '../constants'
+import { NetworkNamespace, SupportedNetworkId, TokenSupply } from '../enums'
 import { IStardustNetworkMetadata } from '../interfaces'
-import { NetworkMetadata } from '../types'
+import { NetworkIdType, NetworkMetadata } from '../types'
 
 // TODO: Should this be reverted back to a object with all metadata for any network (or chain?)
-export const DEFAULT_TANGLE_NETWORK_METADATA: Readonly<{ [key in TangleNetworkId]?: NetworkMetadata }> = {
-    [TangleNetworkId.Shimmer]: <IStardustNetworkMetadata>{
-        id: SHIMMER_NETWORK_ID,
+export const DEFAULT_TANGLE_NETWORK_METADATA: Readonly<{ [key in NetworkIdType]?: NetworkMetadata }> = {
+    [SupportedNetworkId.Shimmer]: <IStardustNetworkMetadata>{
+        id: SupportedNetworkId.Shimmer,
         namespace: NetworkNamespace.Tangle,
-        protocolId: TangleNetworkId.Shimmer,
+        protocolId: SupportedNetworkId.Shimmer,
         name: 'Shimmer',
-        coinType: COIN_TYPE[SHIMMER_NETWORK_ID],
+        coinType: COIN_TYPE[SupportedNetworkId.Shimmer],
         protocol: {
             version: 2,
             networkName: 'shimmer',
@@ -24,14 +24,14 @@ export const DEFAULT_TANGLE_NETWORK_METADATA: Readonly<{ [key in TangleNetworkId
             },
             tokenSupply: TokenSupply.Shimmer,
         },
-        baseToken: DEFAULT_BASE_TOKEN[SHIMMER_NETWORK_ID],
+        baseToken: DEFAULT_BASE_TOKEN[SupportedNetworkId.Shimmer],
     },
-    [TangleNetworkId.Testnet]: <IStardustNetworkMetadata>{
-        id: TESTNET_NETWORK_ID,
+    [SupportedNetworkId.Testnet]: <IStardustNetworkMetadata>{
+        id: SupportedNetworkId.Testnet,
         namespace: NetworkNamespace.Tangle,
-        protocolId: TangleNetworkId.Testnet,
+        protocolId: SupportedNetworkId.Testnet,
         name: 'Testnet',
-        coinType: COIN_TYPE[TESTNET_NETWORK_ID],
+        coinType: COIN_TYPE[SupportedNetworkId.Testnet],
         protocol: {
             version: 2,
             networkName: 'testnet',
@@ -45,6 +45,6 @@ export const DEFAULT_TANGLE_NETWORK_METADATA: Readonly<{ [key in TangleNetworkId
             },
             tokenSupply: TokenSupply.Testnet,
         },
-        baseToken: DEFAULT_BASE_TOKEN[TESTNET_NETWORK_ID],
+        baseToken: DEFAULT_BASE_TOKEN[SupportedNetworkId.Testnet],
     },
 }

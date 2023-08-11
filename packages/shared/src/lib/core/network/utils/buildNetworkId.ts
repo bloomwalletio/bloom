@@ -10,8 +10,6 @@ export function buildEthereumNetworkId(protocolId: EvmChainId): NetworkIdType {
 }
 
 export function buildNetworkId(namespace: NetworkNamespace, protocolId: NetworkProtocolId): NetworkIdType {
-    if (namespace && protocolId) {
-        /* eslint-disable @typescript-eslint/no-unnecessary-type-assertion */
-        return `${namespace}:${protocolId}` as NetworkIdType
-    }
+    /* eslint-disable @typescript-eslint/no-unnecessary-type-assertion */
+    return `${namespace}:${protocolId}` as NetworkIdType
 }

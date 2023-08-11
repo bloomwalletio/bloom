@@ -1,6 +1,6 @@
 import { getSelectedAccount } from '@core/account/stores'
 import { MarketCoinPrices } from '@core/market'
-import { getActiveNetworkId } from '@core/network/utils'
+import { getActiveNetworkId, getNamespaceFromNetworkId } from '@core/network/utils'
 import { EvmChainId, getNetwork, NetworkIdType, NetworkNamespace } from '@core/network'
 import { getCoinType } from '@core/profile'
 import { isValidIrc30Token, isValidToken } from '@core/token'
@@ -9,7 +9,6 @@ import { AccountAssets, IAccountAssetsPerNetwork } from '../interfaces/account-a
 import { getAssetFromPersistedAssets } from '../utils'
 import { sortAssets } from '../utils/sortAssets'
 import { getLayer2AccountBalance } from '@core/layer-2/stores'
-import { parseNetworkId } from '@core/network/utils/parseNetworkId'
 
 export function getAccountAssetsForSelectedAccount(marketCoinPrices: MarketCoinPrices): AccountAssets {
     const accountAssets = {} as AccountAssets
@@ -40,7 +39,7 @@ function getAccountAssetForNetwork(
     const account = getSelectedAccount()
 
     // TODO: Write isTangleNetworkId function that uses this logic? Or generic isNetworkIdOfNetworkNamespace
-    const shouldCalculateFiatPrice = parseNetworkId(networkId)?.namespace === NetworkNamespace.Tangle
+    const shouldCalculateFiatPrice = getNamespaceFromNetworkId(networkId) === NetworkNamespace.Tangle
     const persistedBaseCoin = getAssetFromPersistedAssets(getCoinType())
     const baseCoin: IAsset = {
         ...persistedBaseCoin,

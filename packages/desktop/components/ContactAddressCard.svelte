@@ -5,7 +5,7 @@
     import features from '@features/features'
 
     import { IContactAddressMap, setSelectedContactNetworkId } from '@core/contact'
-    import { NetworkId } from '@core/network'
+    import { SupportedNetworkId } from '@core/network'
     import { setClipboard, truncateString } from '@core/utils'
     import { Icon as IconEnum } from '@auxiliary/icon'
     import { Router } from '@core/router'
@@ -59,7 +59,7 @@
 >
     <contact-address-head class="flex justify-between">
         <div class="flex items-center gap-2">
-            <NetworkIcon networkId={NetworkId.Testnet} />
+            <NetworkIcon networkId={SupportedNetworkId.Testnet} />
             <Text fontSize="text-16" fontWeight={FontWeight.semibold}>{networkId}</Text>
         </div>
         <contact-address-menu class="block relative">

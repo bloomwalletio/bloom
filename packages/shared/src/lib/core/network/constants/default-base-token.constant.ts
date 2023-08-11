@@ -1,4 +1,4 @@
-import { NetworkNamespace, TangleNetworkId } from '@core/network/enums'
+import { SupportedNetworkId } from '@core/network/enums'
 import { NetworkIdType } from '@core/network/types'
 import { IBaseToken } from '@core/wallet/interfaces'
 import { TokenStandard } from '@core/wallet/enums'
@@ -34,7 +34,7 @@ const DEFAULT_TESTNET_BASE_TOKEN: IBaseToken = {
 }
 
 export const DEFAULT_BASE_TOKEN: Readonly<{ [id: NetworkIdType]: IBaseToken }> = {
-    [`${NetworkNamespace.Tangle}:${TangleNetworkId.Iota}`]: DEFAULT_IOTA_BASE_TOKEN,
-    [`${NetworkNamespace.Tangle}:${TangleNetworkId.Shimmer}`]: DEFAULT_SHIMMER_BASE_TOKEN,
-    [`${NetworkNamespace.Tangle}:${TangleNetworkId.Testnet}`]: DEFAULT_TESTNET_BASE_TOKEN,
+    [SupportedNetworkId.Iota]: DEFAULT_IOTA_BASE_TOKEN,
+    [SupportedNetworkId.Shimmer]: DEFAULT_SHIMMER_BASE_TOKEN,
+    [SupportedNetworkId.Testnet]: DEFAULT_TESTNET_BASE_TOKEN,
 }
