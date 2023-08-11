@@ -1,18 +1,12 @@
 <script lang="ts">
-    import { onMount } from 'svelte'
-    import { Button, KeyValueBox, Text, TextType, TextHint } from '@ui'
-    import {
-        checkForAppUpdate,
-        downloadAppUpdate,
-        appVersionDetails,
-        OS,
-        openUrlInBrowser,
-        APP_STAGE,
-        appUpdateState,
-    } from '@core/app'
+    import { APP_STAGE, OS, checkForAppUpdate, openUrlInBrowser } from '@core/app'
+    import { downloadAppUpdate } from '@core/app/actions'
+    import { appUpdateState, appVersionDetails } from '@core/app/stores'
     import { formatDate, localize } from '@core/i18n'
     import { closePopup } from '@desktop/auxiliary/popup'
     import features from '@features/features'
+    import { Button, KeyValueBox, Text, TextHint, TextType } from '@ui'
+    import { onMount } from 'svelte'
 
     let hasAutoUpdate = false
 

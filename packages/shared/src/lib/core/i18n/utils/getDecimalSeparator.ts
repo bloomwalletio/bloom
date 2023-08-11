@@ -1,4 +1,4 @@
-import { appSettings } from '@core/app'
+import { appSettings } from '@core/app/stores'
 import { activeProfile } from '@core/profile/stores'
 import { get } from 'svelte/store'
 

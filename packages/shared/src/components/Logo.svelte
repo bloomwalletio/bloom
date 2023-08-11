@@ -1,5 +1,6 @@
 <script lang="ts">
-    import { APP_STAGE, appSettings } from '@core/app'
+    import { APP_STAGE } from '@core/app'
+    import { appSettings } from '@core/app/stores'
 
     export let logo = undefined
     export let width = undefined

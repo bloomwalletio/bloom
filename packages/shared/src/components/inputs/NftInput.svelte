@@ -1,6 +1,6 @@
 <script lang="ts">
     import { selectedAccountIndex } from '@core/account'
-    import { time } from '@core/app'
+    import { time } from '@core/app/stores'
     import { localize } from '@core/i18n'
     import { getNftByIdFromAllAccountNfts } from '@core/nfts/actions'
     import { ownedNfts } from '@core/nfts/stores'

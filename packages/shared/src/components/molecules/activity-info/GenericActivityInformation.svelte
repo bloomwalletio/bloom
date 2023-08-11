@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { Activity } from '@core/activity'
     import { openUrlInBrowser } from '@core/app'
     import { getFormattedTimeStamp, localize } from '@core/i18n'
     import { ExplorerEndpoint } from '@core/network'
@@ -6,7 +7,7 @@
     import { getBaseToken } from '@core/profile/actions'
     import { activeProfile } from '@core/profile/stores'
     import { IKeyValueBoxList, setClipboard, truncateString } from '@core/utils'
-    import { Activity, formatTokenAmountPrecise } from '@core/wallet'
+    import { formatTokenAmountPrecise } from '@core/wallet'
     import { KeyValueBox } from '@ui'
 
     export let activity: Activity

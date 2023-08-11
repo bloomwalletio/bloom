@@ -1,6 +1,6 @@
 <script lang="ts">
     import { FlatIcon, FlatIconName } from '@bloomwalletio/ui'
-    import { appVersionDetails } from '@core/app'
+    import { appVersionDetails } from '@core/app/stores'
     import { localize } from '@core/i18n'
     import { LedgerConnectionState, ledgerConnectionState } from '@core/ledger'
     import { lockStronghold, logout } from '@core/profile/actions'

@@ -1,6 +1,6 @@
 <script lang="ts">
     import { selectedAccountIndex } from '@core/account/stores'
-    import { time } from '@core/app'
+    import { time } from '@core/app/stores'
     import { openUrlInBrowser } from '@core/app/utils'
     import { localize } from '@core/i18n'
     import { ExplorerEndpoint, getOfficialExplorerUrl } from '@core/network'

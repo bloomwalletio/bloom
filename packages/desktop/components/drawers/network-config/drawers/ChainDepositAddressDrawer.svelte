@@ -1,6 +1,6 @@
 <script lang="ts">
     import { IIscpChainConfiguration, selectedChain } from '@core/network'
-    import { appSettings } from '@core/app'
+    import { appSettings } from '@core/app/stores'
     import { QR, AddressBox, FontWeight } from '@ui'
     import { Text } from '@ui'
     import { localize } from '@core/i18n'

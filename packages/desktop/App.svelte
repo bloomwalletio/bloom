@@ -1,15 +1,9 @@
 <script lang="ts">
     import { handleDeepLink } from '@auxiliary/deep-link/handlers'
     import { Popup, TitleBar } from '@components'
-    import {
-        IS_WINDOWS,
-        Platform,
-        appSettings,
-        appVersionDetails,
-        initAppSettings,
-        registerAppEvents,
-        setAppVersionDetails,
-    } from '@core/app'
+    import { IS_WINDOWS, Platform } from '@core/app'
+    import { registerAppEvents } from '@core/app/actions'
+    import { appSettings, appVersionDetails, initAppSettings, setAppVersionDetails } from '@core/app/stores'
     import { isLocaleLoaded, localeDirection, setupI18n } from '@core/i18n'
     import { registerLedgerDeviceEventHandlers } from '@core/ledger'
     import { downloadNextNftInQueue } from '@core/nfts/actions'

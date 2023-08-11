@@ -1,6 +1,6 @@
 <script lang="ts">
     import { Activity, ActivityAsyncStatus, ActivityDirection } from '@core/activity'
-    import { time } from '@core/app'
+    import { time } from '@core/app/stores'
     import { localize } from '@core/i18n'
     import { showInternalVerificationPopup } from '@core/ledger'
     import { checkActiveProfileAuth } from '@core/profile/actions'
