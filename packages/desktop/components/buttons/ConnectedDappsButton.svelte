@@ -2,14 +2,14 @@
     import { Icon } from '@ui'
     import { Icon as IconEnum } from '@auxiliary/icon'
     import { DrawerId, closeDrawer, drawerState, openDrawer } from '@desktop/auxiliary/drawer'
-    import { DAppsDrawerRouter, dAppsDrawerRouter, DAppsDrawerRoute } from '@views/dashboard/dApps'
+    import { DappsDrawerRouter, dappsDrawerRouter, DappsDrawerRoute } from '@views/dashboard/dapps'
 
     function onConnectedDappsClick(): void {
         if ($drawerState.active) {
             closeDrawer()
         } else {
-            $dAppsDrawerRouter = new DAppsDrawerRouter(DAppsDrawerRoute.List)
-            openDrawer({ id: DrawerId.DApps })
+            $dappsDrawerRouter = new DappsDrawerRouter(DappsDrawerRoute.List)
+            openDrawer({ id: DrawerId.Dapps })
         }
     }
 </script>

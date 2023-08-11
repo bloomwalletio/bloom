@@ -1,3 +1,3 @@
 export * from './getAllEvmAddresses'
 export * from './initializeWalletConnect'
-export * from './pairWithNewDApp'
+export * from './pairWithNewDapp'
