@@ -3,7 +3,7 @@ import { INetworkId } from '../interfaces'
 import { NetworkProtocolId } from '../types'
 import { buildNetworkId } from './buildNetworkId'
 
-export function getNetworkIdFromNetworkName(name: string): INetworkId {
+export function getNetworkWithIdFromNetworkName(name: string): INetworkId {
     const namespace = NetworkNamespace.Tangle
     const protocolId = getProtocolIdFromNetworkName(name)
     const id = buildNetworkId(namespace, protocolId)

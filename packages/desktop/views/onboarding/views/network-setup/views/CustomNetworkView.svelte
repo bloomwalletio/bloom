@@ -93,7 +93,7 @@
         <NodeConfigurationForm
             onSubmit={onContinueClick}
             bind:this={nodeConfigurationForm}
-            bind:networkId={networkName}
+            bind:networkName
             bind:coinType
             bind:node
             bind:formError

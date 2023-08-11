@@ -20,7 +20,7 @@
 
     export let node: INode = structuredClone(EMPTY_NODE)
     export let networkName: NetworkName | undefined = undefined
-    export let coinType: string | undefined
+    export let coinType: string = ''
     export let isBusy = false
     export let formError = ''
     export let currentClientOptions: IClientOptions | undefined = undefined
@@ -101,10 +101,10 @@
                 return Promise.reject({ type: 'validationError', error: formError })
             }
         }
-        const networkName = nodeInfoResponse?.nodeInfo?.protocol.networkName
+        const _networkName = nodeInfoResponse?.nodeInfo?.protocol.networkName
 
         if (options.checkSameNetwork) {
-            const isInSameNetwork = !!$nodeInfo && $nodeInfo.protocol.networkName === networkName
+            const isInSameNetwork = !!$nodeInfo && $nodeInfo.protocol.networkName === _networkName
             if (!isInSameNetwork) {
                 formError = localize('error.node.differentNetwork')
                 return Promise.reject({ type: 'validationError', error: formError })
@@ -119,7 +119,7 @@
         }
 
         if (options.validateClientOptions && currentClientOptions) {
-            const errorNetworkName = checkNetworkName(networkName, currentClientOptions.network, isDeveloperProfile)
+            const errorNetworkName = checkNetworkName(_networkName, currentClientOptions.network, isDeveloperProfile)
             if (errorNetworkName) {
                 formError = localize(errorNetworkName?.locale, errorNetworkName?.values) ?? ''
                 return Promise.reject({ type: 'validationError', error: formError })

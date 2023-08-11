@@ -4,17 +4,13 @@
     import { initialiseOnboardingProfile, updateOnboardingProfile, onboardingProfile } from '@contexts/onboarding'
     import { IS_MOBILE } from '@core/app'
     import { localize } from '@core/i18n'
-    import {
-        NetworkName,
-        getDefaultClientOptions,
-        getDefaultPersistedNetwork,
-        getNetworkIdFromNetworkName,
-    } from '@core/network'
+    import { NetworkName, getDefaultClientOptions, getDefaultPersistedNetwork } from '@core/network'
     import { profiles } from '@core/profile'
     import features from '@features/features'
     import { Animation, OnboardingButton, Text, TextType } from '@ui'
     import { onMount } from 'svelte'
     import { networkSetupRouter } from '../network-setup-router'
+    import { getNetworkWithIdFromNetworkName } from '@core/network/utils/getNetworkWithIdFromNetworkName'
 
     let networkIcon: { [key in NetworkName]: string }
     $: networkIcon = {
@@ -39,7 +35,7 @@
 
     function onNetworkSelectionClick(networkName: NetworkName): void {
         if (networkName !== NetworkName.Custom) {
-            const networkId = getNetworkIdFromNetworkName(networkName)?.id
+            const networkId = getNetworkWithIdFromNetworkName(networkName)?.id
             const network = getDefaultPersistedNetwork(networkId)
             const clientOptions = getDefaultClientOptions(networkId)
             updateOnboardingProfile({ network, clientOptions })
