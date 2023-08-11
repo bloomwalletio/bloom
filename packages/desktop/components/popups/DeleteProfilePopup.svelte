@@ -1,6 +1,6 @@
 <script lang="ts">
     import { Button, PasswordInput, Text, ButtonVariant } from '@ui'
-    import { isSoftwareProfile } from '@core/profile'
+    import { isSoftwareProfile } from '@core/profile/stores'
     import { localize } from '@core/i18n'
     import { setStrongholdPassword } from '@core/profile-manager'
     import { closePopup } from '@desktop/auxiliary/popup'

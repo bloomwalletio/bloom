@@ -1,13 +1,13 @@
 <script lang="ts">
-    import { Modal, SelectorInput, IOption, ColoredCircle } from '@ui'
     import { getAccountColorById, getRandomAccountColor } from '@core/account/utils'
     import { localize } from '@core/i18n'
+    import { Layer1RecipientError } from '@core/layer-2/errors'
+    import { getNetworkHrp } from '@core/profile/actions'
     import { validateBech32Address, validateEthereumAddress } from '@core/utils/crypto'
+    import { SubjectType } from '@core/wallet'
     import { Subject } from '@core/wallet/types'
     import { getSubjectFromAddress } from '@core/wallet/utils'
-    import { Layer1RecipientError } from '@core/layer-2/errors'
-    import { getNetworkHrp } from '@core/profile'
-    import { SubjectType } from '@core/wallet'
+    import { ColoredCircle, IOption, Modal, SelectorInput } from '@ui'
 
     export let recipient: Subject | undefined
     export let options: IOption[]

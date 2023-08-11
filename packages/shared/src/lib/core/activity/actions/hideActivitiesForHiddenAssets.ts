@@ -1,9 +1,9 @@
-import { get } from 'svelte/store'
-import { allAccountActivities } from '../stores'
-import { activeProfile } from '@core/profile'
-import { selectedAccountIndex } from '@core/account'
-import { ActivityType } from '../enums'
+import { selectedAccountIndex } from '@core/account/stores'
+import { activeProfile } from '@core/profile/stores'
 import { persistedAssets } from '@core/wallet/stores'
+import { get } from 'svelte/store'
+import { ActivityType } from '../enums'
+import { allAccountActivities } from '../stores'
 import { updateActivityFromPartialActivity } from '../utils'
 
 export function hideActivitiesForHiddenAssets(): void {

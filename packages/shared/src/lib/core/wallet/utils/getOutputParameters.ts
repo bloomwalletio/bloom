@@ -1,11 +1,11 @@
-import { OutputParams, Assets } from '@iota/wallet/out/types'
-import { convertDateToUnixTimestamp, Converter } from '@core/utils'
-import { SendFlowType } from '../stores'
-import { estimateGasForLayer1ToLayer2Transaction, getLayer2MetadataForTransfer } from '@core/layer-2/utils'
-import { Subject, SendFlowParameters } from '@core/wallet/types'
-import { ReturnStrategy } from '../enums'
-import { getCoinType } from '@core/profile'
 import { ILayer2Parameters } from '@core/layer-2'
+import { estimateGasForLayer1ToLayer2Transaction, getLayer2MetadataForTransfer } from '@core/layer-2/utils'
+import { getCoinType } from '@core/profile/actions'
+import { Converter, convertDateToUnixTimestamp } from '@core/utils'
+import { SendFlowParameters, Subject } from '@core/wallet/types'
+import { Assets, OutputParams } from '@iota/wallet/out/types'
+import { ReturnStrategy } from '../enums'
+import { SendFlowType } from '../stores'
 
 export async function getOutputParameters(sendFlowParameters: SendFlowParameters): Promise<OutputParams> {
     const { recipient, expirationDate, timelockDate, giftStorageDeposit, layer2Parameters } = sendFlowParameters ?? {}

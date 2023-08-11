@@ -1,11 +1,12 @@
 import { getActiveNetworkId } from '@core/network/utils/getNetworkId'
-import { INft, getNftByIdFromAllAccountNfts } from '@core/nfts'
+import { INft } from '@core/nfts'
+import { getNftByIdFromAllAccountNfts } from '@core/nfts/actions'
 import { getCoinType } from '@core/profile/actions'
-import { ActivityType } from '../enums'
-import { getAssetById } from '@core/wallet/stores'
-import { Activity } from '../types'
-import { TokenTransferData } from '@core/wallet/types'
 import { IAsset, getAssetFromPersistedAssets } from '@core/wallet'
+import { getAssetById } from '@core/wallet/stores'
+import { TokenTransferData } from '@core/wallet/types'
+import { ActivityType } from '../enums'
+import { Activity } from '../types'
 
 export function getTransactionAssets(
     activity: Activity,

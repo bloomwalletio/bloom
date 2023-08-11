@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { selectedAccount } from '@core/account'
+    import { selectedAccount } from '@core/account/stores'
     import { localize } from '@core/i18n'
     import { getDestinationNetworkFromAddress, estimateGasForLayer1ToLayer2Transaction } from '@core/layer-2/utils'
     import { TimePeriod } from '@core/utils/enums'

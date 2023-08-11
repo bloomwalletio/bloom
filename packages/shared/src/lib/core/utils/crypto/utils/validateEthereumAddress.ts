@@ -1,5 +1,5 @@
-import { Keccak } from 'sha3'
 import { localize } from '@core/i18n'
+import { Keccak } from 'sha3'
 import { HEXADECIMAL_PREFIX } from '../../constants'
 import { KECCAK_HASH_SIZE } from '../constants'
 

@@ -1,10 +1,10 @@
 <script lang="ts">
-    import { Modal, SelectorInput, IOption, NftImageOrIconBox } from '@ui'
-    import { ownedNfts } from '@core/nfts'
-    import { getNftByIdFromAllAccountNfts } from '@core/nfts'
-    import { selectedAccountIndex } from '@core/account'
+    import { selectedAccountIndex } from '@core/account/stores'
+    import { time } from '@core/app/stores'
     import { localize } from '@core/i18n'
-    import { time } from '@core/app'
+    import { getNftByIdFromAllAccountNfts } from '@core/nfts/actions'
+    import { ownedNfts } from '@core/nfts/stores'
+    import { IOption, Modal, NftImageOrIconBox, SelectorInput } from '@ui'
 
     export let nftId: string = ''
     export let error: string = ''
