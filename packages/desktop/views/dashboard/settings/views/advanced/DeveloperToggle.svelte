@@ -1,6 +1,6 @@
 <script lang="ts">
     import { localize } from '@core/i18n'
-    import { activeProfile, updateActiveProfile } from '@core/profile'
+    import { activeProfile, updateActiveProfile } from '@core/profile/stores'
     import { Checkbox, Text, TextType } from '@ui'
 
     let isDeveloperProfile = $activeProfile?.isDeveloperProfile

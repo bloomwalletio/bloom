@@ -1,7 +1,7 @@
 import { TokenStandard } from '../enums'
 import { TokenMetadata } from '../types'
 import { formatTokenAmountDefault } from '../utils'
-import { appSettings } from '@core/app'
+import { appSettings } from '@core/app/stores'
 
 describe('File: formatTokenAmountDefault.ts', () => {
     let decimalToken: TokenMetadata

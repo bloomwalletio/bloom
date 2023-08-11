@@ -1,17 +1,12 @@
 <script lang="ts">
     import { selectedAccountIndex } from '@core/account/stores'
-    import { time } from '@core/app'
+    import { time } from '@core/app/stores'
     import { openUrlInBrowser } from '@core/app/utils'
     import { localize } from '@core/i18n'
     import { ExplorerEndpoint, getOfficialExplorerUrl } from '@core/network'
-    import {
-        allAccountNfts,
-        convertAndFormatNftMetadata,
-        getNftByIdFromAllAccountNfts,
-        INft,
-        NftDownloadMetadata,
-        selectedNftId,
-    } from '@core/nfts'
+    import { convertAndFormatNftMetadata, INft, NftDownloadMetadata } from '@core/nfts'
+    import { getNftByIdFromAllAccountNfts } from '@core/nfts/actions'
+    import { allAccountNfts, selectedNftId } from '@core/nfts/stores'
     import { getBaseToken } from '@core/profile/actions'
     import { activeProfile } from '@core/profile/stores'
     import { collectiblesRouter } from '@core/router/routers'

@@ -4,7 +4,7 @@
     import { IS_MOBILE } from '@core/app'
     import { localize } from '@core/i18n'
     import { getNetworkNameFromNetworkId } from '@core/network'
-    import { profiles } from '@core/profile'
+    import { profiles } from '@core/profile/stores'
     import features from '@features/features'
     import { Animation, OnboardingButton, Text } from '@ui'
     import { onMount } from 'svelte'

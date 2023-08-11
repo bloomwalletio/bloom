@@ -5,7 +5,7 @@
     import { composeUrlFromNftUri } from '@core/nfts'
     import { MimeType } from '@core/nfts/types'
     import { fetchWithTimeout } from '@core/nfts/utils/fetchWithTimeout'
-    import { getNetworkHrp } from '@core/profile'
+    import { getNetworkHrp } from '@core/profile/actions'
     import { TokenStandard } from '@core/token'
     import { HttpHeader } from '@core/utils'
     import { validateBech32Address } from '@core/utils/crypto'

@@ -1,16 +1,18 @@
+import { initializeWalletConnect } from '@auxiliary/wallet-connect'
 import { initializeRegisteredProposals, registerProposalsFromNodes } from '@contexts/governance/actions'
 import { cleanupOnboarding } from '@contexts/onboarding/actions'
 import { createNewAccount, setSelectedAccount } from '@core/account/actions'
 import { DEFAULT_SYNC_OPTIONS } from '@core/account/constants'
 import { IAccount } from '@core/account/interfaces'
+import { generateAndStoreActivitiesForAllAccounts } from '@core/activity/actions'
 import { Platform } from '@core/app/classes'
 import { AppContext } from '@core/app/enums'
 import { handleError } from '@core/error/handlers'
 import { pollLedgerNanoStatus } from '@core/ledger/actions'
 import { pollMarketPrices } from '@core/market/actions'
 import { pollChainStatuses, pollNetworkStatus } from '@core/network/actions'
+import { loadNftsForActiveProfile } from '@core/nfts/actions'
 import { initialiseProfileManager } from '@core/profile-manager/actions'
-import { loadNftsForActiveProfile } from '@core/nfts'
 import {
     getAccounts,
     isStrongholdUnlocked,
@@ -36,13 +38,11 @@ import {
     updateActiveProfile,
 } from '../../stores'
 import { isLedgerProfile, waitForPreviousManagerToBeDestroyed } from '../../utils'
+import { checkAndRemoveProfilePicture } from './checkAndRemoveProfilePicture'
+import { checkAndUpdateActiveProfileNetwork } from './checkAndUpdateActiveProfileNetwork'
 import { loadAccounts } from './loadAccounts'
 import { logout } from './logout'
 import { subscribeToWalletApiEventsForActiveProfile } from './subscribeToWalletApiEventsForActiveProfile'
-import { checkAndUpdateActiveProfileNetwork } from './checkAndUpdateActiveProfileNetwork'
-import { checkAndRemoveProfilePicture } from './checkAndRemoveProfilePicture'
-import { initializeWalletConnect } from '@auxiliary/wallet-connect'
-import { generateAndStoreActivitiesForAllAccounts } from '@core/activity/actions'
 import { refreshAccountTokensForActiveProfile } from '@core/token/actions'
 
 export async function login(loginOptions?: ILoginOptions): Promise<void> {

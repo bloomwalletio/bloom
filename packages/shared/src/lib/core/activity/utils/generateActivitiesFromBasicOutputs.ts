@@ -1,13 +1,13 @@
 import { IAccountState } from '@core/account'
-import { addOrUpdateNftInAllAccountNfts, buildNftFromNftOutput } from '@core/nfts'
+import { addOrUpdateNftInAllAccountNfts, buildNftFromNftOutput } from '@core/nfts/actions'
 import { IWrappedOutput, OUTPUT_TYPE_BASIC, OUTPUT_TYPE_NFT } from '@core/wallet'
-import { Activity, IProcessedTransaction } from '../types'
 import { INftOutput } from '@iota/types'
+import { ActivityAction, ActivityDirection } from '../enums'
+import { Activity, IProcessedTransaction } from '../types'
 import { generateSingleBasicActivity } from './generateSingleBasicActivity'
 import { generateSingleConsolidationActivity } from './generateSingleConsolidationActivity'
 import { generateSingleNftActivity } from './generateSingleNftActivity'
 import { getNonRemainderBasicOutputsFromTransaction } from './getNonRemainderBasicOutputsFromTransaction'
-import { ActivityAction, ActivityDirection } from '../enums'
 import { getNftId } from './outputs'
 
 export function generateActivitiesFromBasicOutputs(

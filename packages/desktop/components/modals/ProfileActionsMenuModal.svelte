@@ -1,12 +1,16 @@
 <script lang="ts">
-    import { PopupId, closePopup, openPopup, popupState } from '@desktop/auxiliary/popup'
-    import { appVersionDetails } from '@core/app'
+    import { FlatIcon, FlatIconName } from '@bloomwalletio/ui'
+    import { appVersionDetails } from '@core/app/stores'
     import { localize } from '@core/i18n'
     import { LedgerConnectionState, ledgerConnectionState } from '@core/ledger'
-    import { activeProfile, isActiveLedgerProfile, isSoftwareProfile, lockStronghold, logout } from '@core/profile'
+    import { lockStronghold, logout } from '@core/profile/actions'
+    import { activeProfile, isActiveLedgerProfile, isSoftwareProfile } from '@core/profile/stores'
     import { routerManager } from '@core/router'
     import { checkOrUnlockStronghold } from '@core/stronghold'
     import { diffDates, getBackupWarningColor, isRecentDate } from '@core/utils'
+    import { DrawerId, openDrawer } from '@desktop/auxiliary/drawer'
+    import { PopupId, closePopup, openPopup, popupState } from '@desktop/auxiliary/popup'
+    import features from '@features/features'
     import {
         Button,
         ButtonSize,
@@ -19,9 +23,6 @@
         Toggle,
     } from '@ui'
     import { fade } from 'svelte/transition'
-    import { FlatIcon, FlatIconName } from '@bloomwalletio/ui'
-    import features from '@features/features'
-    import { DrawerId, openDrawer } from '@desktop/auxiliary/drawer'
 
     export let modal: Modal = undefined
 

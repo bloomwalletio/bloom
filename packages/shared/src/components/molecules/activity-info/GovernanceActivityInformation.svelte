@@ -1,6 +1,6 @@
 <script lang="ts">
     import { getFormattedTimeStamp, localize } from '@core/i18n'
-    import { getBaseToken } from '@core/profile'
+    import { getBaseToken } from '@core/profile/actions'
     import { formatTokenAmountBestMatch } from '@core/token'
     import { IKeyValueBoxList } from '@core/utils'
     import { GovernanceAction, GovernanceActivity } from '@core/activity'

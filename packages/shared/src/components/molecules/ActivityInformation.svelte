@@ -1,20 +1,20 @@
 <script lang="ts">
+    import { selectedAccountIndex } from '@core/account/stores'
+    import { Activity, ActivityType } from '@core/activity'
+    import { getNftByIdFromAllAccountNfts } from '@core/nfts/actions'
     import {
-        Tabs,
-        GenericActivityInformation,
         AliasActivityInformation,
+        ConsolidationActivityInformation,
+        FoundryActivityInformation,
+        GenericActivityInformation,
         GovernanceActivityInformation,
         NftActivityInformation,
-        FoundryActivityInformation,
-        TokenActivityInformation,
-        ConsolidationActivityInformation,
         NftMetadataInformation,
         SmartContractActivityInformation,
+        Tabs,
+        TokenActivityInformation,
     } from '@ui'
     import { Tab } from '@ui/enums'
-    import { ActivityType, Activity } from '@core/activity'
-    import { getNftByIdFromAllAccountNfts } from '@core/nfts'
-    import { selectedAccountIndex } from '@core/account'
 
     export let activity: Activity
     export let activeTab: Tab = Tab.Transaction

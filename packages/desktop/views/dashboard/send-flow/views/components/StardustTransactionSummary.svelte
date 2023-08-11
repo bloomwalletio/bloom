@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { selectedAccount } from '@core/account'
+    import { selectedAccount } from '@core/account/stores'
     import { getStorageDepositFromOutput } from '@core/activity/utils/helper'
     import { localize } from '@core/i18n'
     import { estimateGasForLayer1ToLayer2Transaction, getDestinationNetworkFromAddress } from '@core/layer-2/utils'

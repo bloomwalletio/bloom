@@ -1,5 +1,6 @@
 import { getActiveNetworkId } from '@core/network/utils/getNetworkId'
-import { INft, getNftByIdFromAllAccountNfts } from '@core/nfts'
+import { INft } from '@core/nfts'
+import { getNftByIdFromAllAccountNfts } from '@core/nfts/actions'
 import { getCoinType } from '@core/profile/actions'
 import { IToken } from '@core/token/interfaces'
 import { getTokenFromSelectedAccountTokens, getPersistedToken } from '@core/token/stores'
@@ -13,6 +14,7 @@ export function getTransactionAssets(
 ):
     | {
           nft?: INft
+          aliasId?: string
           tokenTransfer?: TokenTransferData
           baseCoinTransfer?: TokenTransferData
       }

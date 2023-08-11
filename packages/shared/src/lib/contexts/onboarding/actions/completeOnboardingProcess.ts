@@ -1,4 +1,5 @@
-import { activeProfile, login } from '@core/profile'
+import { login } from '@core/profile/actions'
+import { activeProfile } from '@core/profile/stores'
 import { get } from 'svelte/store'
 import { OnboardingType } from '../enums'
 import { onboardingProfile } from '../stores'

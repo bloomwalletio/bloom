@@ -1,5 +1,4 @@
-import { updateActiveProfile } from '@core/profile'
-import { getActiveProfile } from '@core/profile/stores'
+import { getActiveProfile, updateActiveProfile } from '@core/profile/stores'
 import { IErc20Metadata } from '@core/token/interfaces'
 import { updatePersistedToken } from '@core/token/stores'
 import { buildPersistedTokenFromMetadata } from '@core/token/utils'

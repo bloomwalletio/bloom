@@ -2,7 +2,7 @@
     import { Icon as IconEnum } from '@auxiliary/icon'
     import { formatCurrency, localize } from '@core/i18n'
     import { getMarketAmountFromTokenValue } from '@core/market/utils'
-    import { activeProfile } from '@core/profile'
+    import { activeProfile } from '@core/profile/stores'
     import { formatTokenAmountBestMatch } from '@core/token'
     import { selectedAccountTokens } from '@core/token/stores'
     import { BalanceSummaryRow, Icon } from '@ui'

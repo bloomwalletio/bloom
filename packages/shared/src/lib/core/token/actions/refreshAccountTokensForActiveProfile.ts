@@ -1,4 +1,5 @@
-import { activeAccounts, activeProfile, getBaseToken, getCoinType } from '@core/profile'
+import { getBaseToken, getCoinType } from '@core/profile/actions'
+import { activeAccounts, activeProfile } from '@core/profile/stores'
 import { get } from 'svelte/store'
 import { getOrRequestTokenFromPersistedTokens } from '../actions'
 import { TokenStandard, VerifiedStatus } from '../enums'

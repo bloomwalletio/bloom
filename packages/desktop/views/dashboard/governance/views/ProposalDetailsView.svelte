@@ -24,7 +24,7 @@
     import { handleError } from '@core/error/handlers'
     import { localize } from '@core/i18n'
     import { networkStatus } from '@core/network/stores'
-    import { activeProfile } from '@core/profile'
+    import { activeProfile } from '@core/profile/stores'
     import { formatTokenAmountBestMatch } from '@core/token'
     import { visibleSelectedAccountTokens } from '@core/token/stores'
     import { getBestTimeDuration, milestoneToDate } from '@core/utils'

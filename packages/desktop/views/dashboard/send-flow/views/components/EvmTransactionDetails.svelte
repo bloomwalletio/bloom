@@ -1,7 +1,7 @@
 <script lang="ts">
     import { localize } from '@core/i18n'
     import { NetworkId } from '@core/network'
-    import { getBaseToken } from '@core/profile'
+    import { getBaseToken } from '@core/profile/actions'
     import { formatTokenAmountBestMatch } from '@core/token'
     import { NetworkIcon, Text, TooltipIcon } from '@ui'
 

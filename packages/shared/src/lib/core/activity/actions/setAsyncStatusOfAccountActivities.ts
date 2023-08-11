@@ -1,9 +1,9 @@
 import { syncBalance } from '@core/account/actions/syncBalance'
-import { updateNftInAllAccountNfts } from '@core/nfts'
+import { updateNftInAllAccountNfts } from '@core/nfts/actions'
+import { refreshAccountTokensForActiveProfile } from '@core/token/actions'
 import { ActivityAsyncStatus, ActivityDirection, ActivityType } from '../enums'
 import { allAccountActivities } from '../stores'
 import { getAsyncStatus } from '../utils/helper'
-import { refreshAccountTokensForActiveProfile } from '@core/token/actions'
 
 export function setAsyncStatusOfAccountActivities(time: Date): void {
     const balancesToUpdate: number[] = []

@@ -7,17 +7,16 @@ import {
     addActivitiesToAccountActivitiesInAllAccountActivities,
     allAccountActivities,
 } from '@core/activity/stores/all-account-activities.store'
+import { generateActivities } from '@core/activity/utils'
+import { preprocessGroupedOutputs } from '@core/activity/utils/outputs'
 import { getBech32AddressFromAddressTypes } from '@core/wallet/utils/getBech32AddressFromAddressTypes'
 import { Event, NewOutputWalletEvent, WalletEventType } from '@iota/wallet/out/types'
 import { get } from 'svelte/store'
 import { validateWalletApiEvent } from '../../utils'
-import { preprocessGroupedOutputs } from '@core/activity/utils/outputs'
-import { generateActivities } from '@core/activity/utils'
 import { ActivityType } from '@core/activity/enums'
 import { getOrRequestTokenFromPersistedTokens } from '@core/token/actions'
 import { addPersistedToken } from '@core/token/stores'
-import { buildNftFromNftOutput } from '@core/nfts/utils'
-import { addNftsToDownloadQueue, addOrUpdateNftInAllAccountNfts } from '@core/nfts/actions'
+import { addNftsToDownloadQueue, addOrUpdateNftInAllAccountNfts, buildNftFromNftOutput } from '@core/nfts/actions'
 
 export function handleNewOutputEvent(error: Error, event: Event): void {
     const walletEvent = validateWalletApiEvent<NewOutputWalletEvent>(error, event, WalletEventType.NewOutput)

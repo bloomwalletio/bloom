@@ -5,18 +5,18 @@
     import { openPopup, PopupId, updatePopupProps } from '@desktop/auxiliary/popup'
     import {
         Button,
+        FontWeight,
+        KeyValueBox,
         Text,
         TextHint,
         TokenActionsButton,
-        KeyValueBox,
-        FontWeight,
         TextType,
         TokenAmountTile,
         TooltipIcon,
     } from '@ui'
     import { SendFlowRoute, SendFlowRouter, sendFlowRouter } from '@views/dashboard/send-flow'
     import { Icon as IconEnum } from '@lib/auxiliary/icon'
-    import { getCoinType } from '@core/profile'
+    import { getCoinType } from '@core/profile/actions'
     import { unverifyToken, verifyToken } from '@core/token/stores'
 
     export let token: IToken

@@ -3,7 +3,7 @@
     import { visibleSelectedAccountTokens } from '@core/token/stores'
     import { TokenAmountTile, Icon, Text, TokenIcon, FontWeight } from '@ui'
     import { clickOutside } from '@core/utils'
-    import { activeProfile } from '@core/profile'
+    import { activeProfile } from '@core/profile/stores'
 
     export let token = $visibleSelectedAccountTokens?.[$activeProfile?.network?.id]?.baseCoin
     export let readonly: boolean = false

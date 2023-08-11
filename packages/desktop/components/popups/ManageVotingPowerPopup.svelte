@@ -4,7 +4,7 @@
     import { selectedAccount } from '@core/account/stores'
     import { handleError } from '@core/error/handlers'
     import { localize } from '@core/i18n'
-    import { activeProfile } from '@core/profile'
+    import { activeProfile } from '@core/profile/stores'
     import { checkActiveProfileAuth } from '@core/profile/actions'
     import { visibleSelectedAccountTokens } from '@core/token/stores'
     import { convertToRawAmount } from '@core/token'

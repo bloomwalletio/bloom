@@ -1,4 +1,4 @@
-import { activeProfile } from '@core/profile'
+import { activeProfile } from '@core/profile/stores'
 import { IToken } from '@core/token/interfaces'
 import { get } from 'svelte/store'
 

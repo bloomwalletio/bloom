@@ -1,8 +1,8 @@
 <script lang="ts">
-    import { selectedAccount } from '@core/account'
+    import { selectedAccount } from '@core/account/stores'
     import { handleError } from '@core/error/handlers'
     import { localize } from '@core/i18n'
-    import { checkActiveProfileAuth } from '@core/profile'
+    import { checkActiveProfileAuth } from '@core/profile/actions'
     import { IToken, formatTokenAmountBestMatch } from '@core/token'
     import { burnToken } from '@core/wallet'
     import { PopupId, closePopup, openPopup } from '@desktop/auxiliary/popup'

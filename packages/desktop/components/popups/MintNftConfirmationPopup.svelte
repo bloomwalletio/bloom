@@ -1,9 +1,9 @@
 <script lang="ts">
-    import { selectedAccount } from '@core/account'
+    import { selectedAccount } from '@core/account/stores'
     import { handleError } from '@core/error/handlers/handleError'
     import { localize } from '@core/i18n'
     import { CURRENT_IRC27_VERSION } from '@core/nfts'
-    import { checkActiveProfileAuth, getBaseToken } from '@core/profile'
+    import { checkActiveProfileAuth, getBaseToken } from '@core/profile/actions'
     import { formatTokenAmountPrecise } from '@core/token'
     import { buildNftOutputData, mintNft, mintNftDetails } from '@core/wallet'
     import { PopupId, closePopup, openPopup } from '@desktop/auxiliary/popup'

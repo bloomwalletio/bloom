@@ -3,8 +3,8 @@
     import { Text, TogglableTokenBalanceLabel } from '@ui'
     import { TextType } from '@ui/enums'
     import { localize } from '@core/i18n'
-    import { nodeInfo } from '@core/network'
-    import { activeProfile } from '@core/profile'
+    import { nodeInfo } from '@core/network/stores'
+    import { activeProfile } from '@core/profile/stores'
     import { selectedAccountTokens } from '@core/token/stores'
 
     $: formattedNetworkName = $nodeInfo?.protocol.networkName

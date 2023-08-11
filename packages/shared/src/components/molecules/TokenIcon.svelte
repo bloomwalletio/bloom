@@ -2,7 +2,7 @@
     import { Icon as IconEnum, NETWORK_ICON_SVG } from '@auxiliary/icon'
     import { getIconColorFromString } from '@core/account'
     import { COIN_TYPE, NetworkId, network } from '@core/network'
-    import { activeProfile } from '@core/profile'
+    import { activeProfile } from '@core/profile/stores'
     import { isBright } from '@core/utils'
     import { ANIMATED_TOKEN_IDS, getTokenInitials, IPersistedToken, TokenStandard } from '@core/token'
     import { Animation, Icon, NetworkIconBadge, VerificationBadge } from '@ui'

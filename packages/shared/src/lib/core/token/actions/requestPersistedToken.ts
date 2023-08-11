@@ -12,12 +12,15 @@ export async function requestPersistedToken(tokenId: string, chainId?: number): 
     if (chainId) {
         try {
             validateEthereumAddress(tokenId)
-            tokenMetadata = await getErc20TokenMetadata(tokenId, chainId)
+            tokenMetadata = await getErc20TokenMetadata(tokenId, chainId, get(network))
         } catch {
             // do nothing
         }
     } else {
-        tokenMetadata = await getIrc30MetadataFromFoundryOutput(tokenId)
+        const account = get(activeAccounts)?.[0]
+        if (account) {
+            tokenMetadata = await getIrc30MetadataFromFoundryOutput(tokenId, account)
+        }
     }
     if (tokenMetadata) {
         const verification: TokenVerification = OFFICIAL_TOKEN_IDS.includes(tokenId)
