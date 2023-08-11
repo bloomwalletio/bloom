@@ -1,14 +1,14 @@
 import { getSelectedAccount } from '@core/account/stores'
+import { getLayer2AccountBalance } from '@core/layer-2/stores'
 import { MarketCoinPrices } from '@core/market'
-import { getActiveNetworkId } from '@core/network/utils/getNetworkId'
 import { ChainId, NetworkId, getNetwork } from '@core/network'
-import { getCoinType } from '@core/profile'
+import { getActiveNetworkId } from '@core/network/utils/getNetworkId'
+import { getCoinType } from '@core/profile/actions'
 import { isValidIrc30Token, isValidToken } from '@core/token'
 import { IAsset } from '../interfaces'
 import { AccountAssets, IAccountAssetsPerNetwork } from '../interfaces/account-assets.interface'
 import { getAssetFromPersistedAssets } from '../utils'
 import { sortAssets } from '../utils/sortAssets'
-import { getLayer2AccountBalance } from '@core/layer-2/stores'
 
 export function getAccountAssetsForSelectedAccount(marketCoinPrices: MarketCoinPrices): AccountAssets {
     const accountAssets = {} as AccountAssets

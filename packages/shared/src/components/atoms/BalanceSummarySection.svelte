@@ -1,10 +1,10 @@
 <script lang="ts">
+    import { Icon as IconEnum } from '@auxiliary/icon'
     import { formatCurrency, localize } from '@core/i18n'
     import { getMarketAmountFromAssetValue } from '@core/market/utils'
+    import { activeProfile } from '@core/profile/stores'
     import { formatTokenAmountBestMatch, selectedAccountAssets } from '@core/wallet'
     import { BalanceSummaryRow, Icon } from '@ui'
-    import { Icon as IconEnum } from '@auxiliary/icon'
-    import { activeProfile } from '@core/profile'
 
     export let titleKey: string
     export let subtitleKey: string = ''

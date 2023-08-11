@@ -1,6 +1,6 @@
 import { ITokenMetadata } from '../interfaces'
 import { formatTokenAmountDefault } from '../utils'
-import { appSettings } from '@core/app'
+import { appSettings } from '@core/app/stores'
 
 describe('File: formatTokenAmountDefault.ts', () => {
     let decimalToken: ITokenMetadata

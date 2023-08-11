@@ -1,10 +1,10 @@
-import { SendFlowParameters, SendFlowType } from '@core/wallet'
+import { getSelectedAccount } from '@core/account/stores'
 import { ETH_COIN_TYPE, getNetwork } from '@core/network'
-import { getSelectedAccount } from '@core/account'
+import { SendFlowParameters, SendFlowType } from '@core/wallet'
 import { FALLBACK_GAS_BUDGET, ISC_MAGIC_CONTRACT_ADDRESS } from '../constants'
-import { getIscpTransferSmartContractData } from '../utils'
-import { TransferredAsset } from '../types'
 import { AssetType } from '../enums'
+import { TransferredAsset } from '../types'
+import { getIscpTransferSmartContractData } from '../utils'
 
 export async function estimateGasForLayer1ToLayer2Transaction(sendFlowParameters: SendFlowParameters): Promise<number> {
     const { recipient, layer2Parameters } = sendFlowParameters ?? {}

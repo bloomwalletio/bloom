@@ -2,13 +2,12 @@
     import { ContactBookRoute } from '../contact-book-route.enum'
 
     import { Button } from '@bloomwalletio/ui'
-    import { Text, TextHint } from '@ui'
     import { DrawerTemplate } from '@components'
-
+    import { Text, TextHint } from '@ui'
     import { ContactManager, doesProfileHaveContacts, selectedContact } from '@core/contact'
     import { localize } from '@core/i18n'
+    import { activeProfile } from '@core/profile/stores'
     import { Router } from '@core/router'
-    import { activeProfile } from '@core/profile'
     import { closeDrawer } from '@desktop/auxiliary/drawer'
 
     export let drawerRouter: Router<unknown>

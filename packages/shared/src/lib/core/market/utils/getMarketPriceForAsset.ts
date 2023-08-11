@@ -1,4 +1,4 @@
-import { activeProfile } from '@core/profile'
+import { activeProfile } from '@core/profile/stores'
 import { IAsset } from '@core/wallet'
 import { get } from 'svelte/store'
 

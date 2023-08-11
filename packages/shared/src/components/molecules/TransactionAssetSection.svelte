@@ -1,11 +1,12 @@
 <script lang="ts">
     import { TokenTransferData } from '@core/wallet'
-    import { NftTile, TokenAmountTile } from '@ui'
+    import { NftTile, TokenAmountTile, AliasTile } from '@ui'
     import { INft } from '@core/nfts'
 
     export let baseCoinTransfer: TokenTransferData | undefined = undefined
     export let tokenTransfer: TokenTransferData | undefined = undefined
     export let nft: INft | undefined = undefined
+    export let aliasId: string | undefined = undefined
     export let onNftClick: (() => void) | undefined = undefined
 
     $: hasBaseCoinAmount = Number(baseCoinTransfer?.rawAmount) > 0
@@ -17,6 +18,8 @@
             <TokenAmountTile asset={tokenTransfer.asset} amount={Number(tokenTransfer.rawAmount)} classes="flex-grow" />
         {:else if nft}
             <NftTile {nft} fullWidth={!hasBaseCoinAmount} onClick={onNftClick} classes="flex-grow" />
+        {:else if aliasId}
+            <AliasTile {aliasId} fullWidth={!hasBaseCoinAmount} classes="flex-grow" />
         {/if}
         {#if baseCoinTransfer?.asset && Number(baseCoinTransfer?.rawAmount) > 0}
             <TokenAmountTile

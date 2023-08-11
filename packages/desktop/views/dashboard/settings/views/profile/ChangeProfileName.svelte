@@ -2,7 +2,8 @@
     import { showNotification } from '@auxiliary/notification'
     import { Button } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
-    import { activeProfile, updateActiveProfile, validateProfileName } from '@core/profile'
+    import { activeProfile, updateActiveProfile } from '@core/profile/stores'
+    import { validateProfileName } from '@core/profile'
     import { Input, Text, TextType } from '@ui'
 
     let newName = $activeProfile?.name

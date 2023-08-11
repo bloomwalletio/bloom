@@ -1,7 +1,7 @@
 <script lang="ts">
     import { Button } from '@bloomwalletio/ui'
     import { DrawerTemplate } from '@components'
-    import { selectedAccount } from '@core/account'
+    import { selectedAccount } from '@core/account/stores'
     import { localize } from '@core/i18n'
     import { IIscpChainConfiguration } from '@core/network/interfaces'
     import { selectedChain } from '@core/network/stores'

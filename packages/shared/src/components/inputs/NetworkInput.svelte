@@ -1,9 +1,10 @@
 <script lang="ts">
-    import { Modal, SelectorInput, IOption } from '@ui'
-    import { activeProfile, getNetworkHrp } from '@core/profile'
-    import { validateBech32Address } from '@core/utils'
-    import { isIscpChain } from '@core/network'
     import type { ChainConfiguration } from '@core/network'
+    import { isIscpChain } from '@core/network'
+    import { getNetworkHrp } from '@core/profile/actions'
+    import { activeProfile } from '@core/profile/stores'
+    import { validateBech32Address } from '@core/utils'
+    import { IOption, Modal, SelectorInput } from '@ui'
 
     export let networkSelection: { networkId: string; address?: string } | undefined
     export let error: string

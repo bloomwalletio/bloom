@@ -1,11 +1,9 @@
 <script lang="ts">
-    import { NodeActionsButton, Pill, Text } from '@ui'
-
     import { localize } from '@core/i18n'
-    import { getOfficialNodes, INode, isOfficialNetwork } from '@core/network'
-    import { activeProfile } from '@core/profile'
-
-    import { openPopup, PopupId } from '../../../../desktop/lib/auxiliary/popup'
+    import { INode, getOfficialNodes, isOfficialNetwork } from '@core/network'
+    import { activeProfile } from '@core/profile/stores'
+    import { NodeActionsButton, Pill, Text } from '@ui'
+    import { PopupId, openPopup } from '../../../../desktop/lib/auxiliary/popup'
 
     export let nodesContainer: HTMLElement | undefined = undefined
 

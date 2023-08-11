@@ -3,7 +3,7 @@
 
     import { localize } from '@core/i18n'
     import { FAUCET_URLS, nodeInfo } from '@core/network'
-    import { activeProfile } from '@core/profile'
+    import { activeProfile } from '@core/profile/stores'
 
     import { openPopup, PopupId } from '@desktop/auxiliary/popup'
 

@@ -1,18 +1,5 @@
 <script lang="ts">
-    import { localize } from '@core/i18n'
-    import { getOfficialExplorerUrl } from '@core/network/utils'
-    import {
-        Text,
-        Button,
-        FontWeight,
-        TextType,
-        AliasActivityDetails,
-        ActivityInformation,
-        TransactionAssetSection,
-        ActivityStatusPills,
-    } from '@ui'
-    import { openUrlInBrowser } from '@core/app'
-    import { claimActivity, rejectActivity } from '@core/wallet'
+    import { selectedAccountIndex } from '@core/account/stores'
     import {
         Activity,
         ActivityAsyncStatus,
@@ -21,16 +8,29 @@
         getActivityDetailsTitle,
         selectedAccountActivities,
     } from '@core/activity'
-    import { activeProfile, checkActiveProfileAuth } from '@core/profile'
-    import { setClipboard, truncateString } from '@core/utils'
-    import { closePopup, openPopup, PopupId } from '@desktop/auxiliary/popup'
-    import { onMount } from 'svelte'
-    import { ExplorerEndpoint } from '@core/network'
     import { getTransactionAssets } from '@core/activity/utils'
-    import { selectedAccountIndex } from '@core/account/stores'
-    import { getNftByIdFromAllAccountNfts, ownedNfts, selectedNftId } from '@core/nfts'
-    import { CollectiblesRoute, collectiblesRouter, DashboardRoute, dashboardRouter } from '@core/router'
-    import { tick } from 'svelte'
+    import { openUrlInBrowser } from '@core/app'
+    import { localize } from '@core/i18n'
+    import { ExplorerEndpoint } from '@core/network'
+    import { getOfficialExplorerUrl } from '@core/network/utils'
+    import { getNftByIdFromAllAccountNfts } from '@core/nfts/actions'
+    import { ownedNfts, selectedNftId } from '@core/nfts/stores'
+    import { checkActiveProfileAuth } from '@core/profile/actions'
+    import { activeProfile } from '@core/profile/stores'
+    import { CollectiblesRoute, DashboardRoute, collectiblesRouter, dashboardRouter } from '@core/router'
+    import { setClipboard, truncateString } from '@core/utils'
+    import { claimActivity, rejectActivity } from '@core/wallet'
+    import { PopupId, closePopup, openPopup } from '@desktop/auxiliary/popup'
+    import {
+        ActivityInformation,
+        ActivityStatusPills,
+        Button,
+        FontWeight,
+        Text,
+        TextType,
+        TransactionAssetSection,
+    } from '@ui'
+    import { onMount, tick } from 'svelte'
 
     export let activityId: string
     export let _onMount: (..._: any[]) => Promise<void> = async () => {}
@@ -144,9 +144,6 @@
 
         <TransactionAssetSection {...transactionAssets} onNftClick={nftIsOwned ? onNftClick : undefined} />
 
-        {#if activity.type === ActivityType.Alias}
-            <AliasActivityDetails {activity} />
-        {/if}
         <ActivityInformation {activity} />
     </activity-details>
     {#if !isTimelocked && isActivityIncomingAndUnclaimed}

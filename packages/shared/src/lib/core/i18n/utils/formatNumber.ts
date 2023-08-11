@@ -1,6 +1,6 @@
 import { get } from 'svelte/store'
 
-import { appSettings } from '@core/app'
+import { appSettings } from '@core/app/stores'
 
 import { ensureZeroes } from './ensureZeroes'
 

@@ -1,13 +1,14 @@
 <script lang="ts">
-    import { MenuItem, Modal } from '@ui'
-    import { openUrlInBrowser, time } from '@core/app'
+    import { openUrlInBrowser } from '@core/app'
+    import { time } from '@core/app/stores'
     import { localize } from '@core/i18n'
     import { INft, rewriteIpfsUri } from '@core/nfts'
     import { checkActiveProfileAuth } from '@core/profile/actions'
+    import { activeProfile, updateActiveProfile } from '@core/profile/stores'
     import { CollectiblesRoute, collectiblesRouter } from '@core/router'
     import { burnNft } from '@core/wallet'
-    import { closePopup, openPopup, PopupId } from '../../../../desktop/lib/auxiliary/popup'
-    import { activeProfile, updateActiveProfile } from '@core/profile/stores'
+    import { MenuItem, Modal } from '@ui'
+    import { PopupId, closePopup, openPopup } from '../../../../desktop/lib/auxiliary/popup'
 
     export let modal: Modal = undefined
     export let nft: INft

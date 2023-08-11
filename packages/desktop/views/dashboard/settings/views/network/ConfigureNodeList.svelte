@@ -1,11 +1,11 @@
 <script lang="ts">
     import { Button } from '@bloomwalletio/ui'
-    import { closePopup, openPopup, PopupId } from '@desktop/auxiliary/popup'
     import { localize } from '@core/i18n'
-    import { addOfficialNodesToClientOptions as onAddOfficialNodesClick, NetworkId } from '@core/network'
-    import { activeProfile } from '@core/profile'
+    import { NetworkId, addOfficialNodesToClientOptions as onAddOfficialNodesClick } from '@core/network'
+    import { activeProfile } from '@core/profile/stores'
     import { NetworkSettingsRoute } from '@core/router'
     import { NodeListTable } from '@ui'
+    import { closePopup, openPopup, PopupId } from '@desktop/auxiliary/popup'
     import SettingsSection from '../SettingsSection.svelte'
 
     let nodesContainer: HTMLElement
