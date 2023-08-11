@@ -147,7 +147,7 @@ const linterRules = {
     ...eslintRules,
     ...eslintRulesOnlyTypescript,
     ...typescriptEslintRules,
-    // ...importRules,
+    ...importRules,
 }
 
 const svelteRules = {
