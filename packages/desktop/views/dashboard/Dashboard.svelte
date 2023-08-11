@@ -1,17 +1,8 @@
 <script lang="ts">
-    import { localize } from '@core/i18n'
-    import { nodeInfo } from '@core/network'
-    import {
-        activeProfile,
-        hasStrongholdLocked,
-        isActiveLedgerProfile,
-        logout,
-        reflectLockedStronghold,
-    } from '@core/profile'
+    import { hasStrongholdLocked, isActiveLedgerProfile, logout, reflectLockedStronghold } from '@core/profile'
     import { appRouter, dashboardRoute } from '@core/router'
     import { Idle } from '@ui'
     import { stopPollingLedgerNanoStatus } from '@core/ledger'
-    import { removeDisplayNotification, showAppNotification } from '@auxiliary/notification'
     import { Platform } from '@core/app'
     import { Developer } from './developer'
     import { Settings } from './settings'
@@ -22,7 +13,6 @@
     import Sidebar from './Sidebar.svelte'
     import TopNavigation from './TopNavigation.svelte'
     import { Drawer } from '@components'
-
     import {
         addNftsToDownloadQueue,
         downloadingNftId,
@@ -32,7 +22,7 @@
         resetNftDownloadQueue,
         selectedAccountNfts,
     } from '@core/nfts'
-    import { selectedAccountIndex } from '@core/account'
+    import { selectedAccount, selectedAccountIndex } from '@core/account'
     import { get } from 'svelte/store'
     import features from '@features/features'
     import { pollLayer2Tokens, clearLayer2TokensPoll } from '@core/layer-2'
@@ -44,9 +34,6 @@
         governance: Governance,
         developer: Developer,
     }
-
-    let fundsSoonNotificationId: string
-    let developerProfileNotificationId: string
 
     $: $hasStrongholdLocked && reflectLockedStronghold()
     $: $nftDownloadQueue, downloadNextNftInQueue()
@@ -72,28 +59,11 @@
 
         Platform.DeepLinkManager.checkDeepLinkRequestExists()
 
-        if ($activeProfile?.isDeveloperProfile && !developerProfileNotificationId && $nodeInfo) {
-            // Show developer profile warning
-            developerProfileNotificationId = showAppNotification({
-                type: 'warning',
-                message: localize('indicators.developerProfileIndicator.warningText', {
-                    values: { networkName: $nodeInfo.protocol.networkName },
-                }),
-            })
-        }
-
-        void pollLayer2Tokens()
+        void pollLayer2Tokens($selectedAccount)
     })
 
     onDestroy(() => {
         Platform.DeepLinkManager.clearDeepLinkRequest()
-
-        if (fundsSoonNotificationId) {
-            removeDisplayNotification(fundsSoonNotificationId)
-        }
-        if (developerProfileNotificationId) {
-            removeDisplayNotification(developerProfileNotificationId)
-        }
         if ($isActiveLedgerProfile) {
             stopPollingLedgerNanoStatus()
         }

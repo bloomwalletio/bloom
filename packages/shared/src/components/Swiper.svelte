@@ -4,7 +4,7 @@
 
     import { slidable } from '@core/utils'
 
-    import { removeDisplayNotification } from '@auxiliary/notification/stores'
+    import { removeAppNotification } from '@auxiliary/notification/stores'
 
     export let toastId: string = undefined
 
@@ -26,7 +26,7 @@
         if (isVelocityReached || isThresholdUnreached) {
             const offscreenX = $positionX < 0 ? -viewportLength : viewportLength * 2
             await positionX.update(() => offscreenX)
-            removeDisplayNotification(toastId)
+            removeAppNotification(toastId)
         } else {
             await positionX.update(() => 0)
         }

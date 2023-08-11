@@ -19,7 +19,7 @@
     import { Router } from '@core/router'
 
     import { Icon as IconEnum } from '@auxiliary/icon'
-    import { showAppNotification } from '@auxiliary/notification'
+    import { showNotification } from '@auxiliary/notification'
 
     export let drawerRouter: Router<unknown>
 
@@ -75,10 +75,9 @@
                     )
                 }
                 ContactManager.updateContactAddresses($selectedContact.id, [...savedAddresses, ...newAddresses])
-                showAppNotification({
-                    type: 'success',
-                    message: localize('notifications.updateNetworkAddresses.success'),
-                    alert: true,
+                showNotification({
+                    variant: 'success',
+                    text: localize('notifications.updateNetworkAddresses.success'),
                 })
                 drawerRouter.previous()
             }

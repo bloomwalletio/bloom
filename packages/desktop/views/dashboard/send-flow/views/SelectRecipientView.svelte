@@ -22,6 +22,7 @@
     import { getAssetStandard } from '@core/wallet/actions/getTokenStandartFromSendFlowParameters'
 
     let networkAddress = $sendFlowParameters?.layer2Parameters?.networkAddress
+    let selector: NetworkRecipientSelector
     let selectorOptions: INetworkRecipientSelectorOption[] = []
     let selectedIndex = -1
 
@@ -149,17 +150,14 @@
             case TokenStandard.Irc30:
             case TokenStandard.BaseToken:
                 if (!sourceChainId) {
+                    // if we are on layer 1
                     networkRecipientOptions = [
                         layer1Network,
-                        ...$network
-                            .getIscpChains()
-                            .map((chain) => getRecipientOptionFromChain(chain, $selectedAccountIndex)),
+                        ...$network.getIscpChains().map((chain) => getRecipientOptionFromChain(chain)),
                     ]
                 } else if (sourceChain) {
-                    networkRecipientOptions = [
-                        getRecipientOptionFromChain(sourceChain, $selectedAccountIndex),
-                        layer1Network,
-                    ]
+                    // if we are on layer 2
+                    networkRecipientOptions = [getRecipientOptionFromChain(sourceChain, $selectedAccountIndex)]
                 }
                 break
             case TokenStandard.Erc20:
@@ -173,19 +171,30 @@
     }
 
     function onContinueClick(): void {
-        const layer2Parameters = isLayer2
-            ? {
-                  chainId: selectedOption.chainId,
-                  networkAddress: selectedOption?.networkAddress,
-                  senderAddress: $selectedAccount.depositAddress,
-              }
-            : null
-        updateSendFlowParameters({
-            type: $sendFlowParameters?.type,
-            recipient,
-            layer2Parameters,
-        })
-        $sendFlowRouter.next()
+        if (validate()) {
+            const layer2Parameters = isLayer2
+                ? {
+                      chainId: selectedOption.chainId,
+                      networkAddress: selectedOption?.networkAddress,
+                      senderAddress: $selectedAccount.depositAddress,
+                  }
+                : null
+            updateSendFlowParameters({
+                type: $sendFlowParameters?.type,
+                recipient,
+                layer2Parameters,
+            })
+            $sendFlowRouter.next()
+        }
+    }
+
+    function validate(): boolean {
+        try {
+            selector?.validate()
+            return true
+        } catch (err) {
+            return false
+        }
     }
 
     function onBackClick(): void {
@@ -224,5 +233,5 @@
             (recipient.type === SubjectType.Account && !recipient.account),
     }}
 >
-    <NetworkRecipientSelector bind:options={selectorOptions} bind:selectedIndex />
+    <NetworkRecipientSelector bind:this={selector} bind:options={selectorOptions} bind:selectedIndex />
 </SendFlowTemplate>

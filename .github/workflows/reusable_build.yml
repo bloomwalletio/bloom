@@ -12,7 +12,11 @@ on:
             version:
                 required: false
                 type: string
-            release:
+            sign:
+              required: false
+              type: boolean
+              default: false
+            upload:
                 required: false
                 type: boolean
                 default: false
@@ -27,7 +31,7 @@ jobs:
         steps:
             - uses: actions/checkout@v2
 
-            - name: Set up Node.js
+            - name: Setup NodeJS
               uses: actions/setup-node@v1
               with:
                   node-version: 18.15.0
@@ -55,7 +59,7 @@ jobs:
               run: echo "LIBCLANG_PATH=$((gcm clang).source -replace "clang.exe")" >> $env:GITHUB_ENV
               if: inputs.os == 'windows-2019'
 
-            - name: Set deployment target (macOS)
+            - name: Set deployment target (MacOS)
               run: echo "MACOSX_DEPLOYMENT_TARGET=10.14" >> $GITHUB_ENV # TODO: set this to 10.12 once rocksDB issue is fixed
               if: inputs.os == 'macos-11'
 
@@ -96,7 +100,7 @@ jobs:
                   HARDCODE_NODE_ENV: true
                   AMPLITUDE_API_KEY: ${{ secrets.AMPLITUDE_API_KEY }}
 
-            - name: Build Electron app (macOS)
+            - name: Build signed Electron app (MacOS)
               run: yarn compile:${STAGE}:mac
               env:
                   CSC_LINK: ${{ secrets.MAC_CERT_BASE64 }}
@@ -104,17 +108,33 @@ jobs:
                   BLOOM_APPLE_ID: ${{ secrets.APPLE_ID }}
                   BLOOM_APPLE_ID_PASSWORD: ${{ secrets.APPLE_ID_PASSWORD }}
                   GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                  MACOS_SKIP_NOTARIZATION: false
               working-directory: packages/desktop
-              if: inputs.os == 'macos-11'
+              if: ${{ inputs.sign && inputs.os == 'macos-11' }}
 
-            - name: Build Electron app (Windows)
+            - name: Build unsigned Electron app (MacOS)
+              run: yarn compile:${STAGE}:mac
+              env:
+                GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                MACOS_SKIP_NOTARIZATION: true
+              working-directory: packages/desktop
+              if: ${{ ! inputs.sign && inputs.os == 'macos-11' }}
+
+            - name: Build signed Electron app (Windows)
               run: yarn compile:${env:STAGE}:win
               env:
                   CSC_LINK: ${{ secrets.WIN_CERT_BASE64 }}
                   CSC_KEY_PASSWORD: ${{ secrets.WIN_CERT_PASSWORD }}
                   GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
               working-directory: packages/desktop
-              if: inputs.os == 'windows-2019'
+              if: ${{ inputs.sign && inputs.os == 'windows-2019' }}
+
+            - name: Build unsigned Electron app (Windows)
+              run: yarn compile:${env:STAGE}:win
+              env:
+                GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              working-directory: packages/desktop
+              if: ${{ ! inputs.sign && inputs.os == 'windows-2019' }}
 
             - name: Build Electron app (Linux)
               run: yarn compile:${STAGE}:linux
@@ -130,32 +150,32 @@ jobs:
               env:
                   GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
                   GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
-              if: inputs.release == true && inputs.os == 'ubuntu-20.04'
+              if: inputs.sign && inputs.os == 'ubuntu-20.04'
 
             - name: Sign AppImage (Linux)
               run: echo $GPG_PASSPHRASE | gpg --pinentry-mode loopback --batch --passphrase-fd 0 --armor --detach-sign --default-key contact@iota.org bloom-desktop*.AppImage
               working-directory: packages/desktop/out
               env:
                   GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
-              if: inputs.release == true && inputs.os == 'ubuntu-20.04'
+              if: inputs.sign && inputs.os == 'ubuntu-20.04'
 
             - name: Compute checksums (Linux)
               run: for i in `ls | grep 'bloom-desktop*'` ; do sha256sum $i | awk {'print $1'} > $i.sha256 ; done
               working-directory: packages/desktop/out
-              if: inputs.release == true && inputs.os == 'ubuntu-20.04'
+              if: inputs.sign && inputs.os == 'ubuntu-20.04'
 
-            - name: Compute checksums (macOS)
+            - name: Compute checksums (MacOS)
               run: for i in `ls | grep 'bloom-desktop*'` ; do shasum -a 256 $i | awk {'print $1'} > $i.sha256 ; done
               working-directory: packages/desktop/out
-              if: inputs.release == true && inputs.os == 'macos-11'
+              if: inputs.sign && inputs.os == 'macos-11'
 
             - name: Compute checksums (Windows)
               run: Get-ChildItem "." -Filter bloom-desktop* | Foreach-Object { $(Get-FileHash -Path $_.FullName -Algorithm SHA256).Hash | Set-Content ($_.FullName + '.sha256') }
               working-directory: packages/desktop/out
-              if: inputs.release == true && inputs.os == 'windows-2019'
+              if: inputs.sign && inputs.os == 'windows-2019'
 
             - name: Upload artifacts
-              if: inputs.release == true
+              if: inputs.upload
               uses: actions/upload-artifact@v2
               with:
                   name: bloom-desktop-${{ inputs.os }}

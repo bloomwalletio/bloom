@@ -35,6 +35,7 @@ import {
     Bip44,
     Ed25519Signature,
     Secp256k1EcdsaSignature,
+    ConsolidationParams,
 } from '@iota/wallet'
 
 import { IAccount } from '@core/account'
@@ -81,7 +82,7 @@ export class AccountMock implements IAccount {
         throw new Error('Method not implemented.')
     }
 
-    consolidateOutputs(force: boolean, outputConsolidationThreshold?: number): Promise<Transaction> {
+    consolidateOutputs(params: ConsolidationParams): Promise<Transaction> {
         throw new Error('Method not implemented.')
     }
 

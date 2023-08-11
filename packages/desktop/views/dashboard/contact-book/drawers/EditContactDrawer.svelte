@@ -1,13 +1,11 @@
 <script lang="ts">
     import { ContactBookRoute } from '../contact-book-route.enum'
-
     import { Button, TextInput } from '@ui'
     import { DrawerTemplate } from '@components'
-
     import { ContactManager, selectedContact, validateContactName, validateContactNote } from '@core/contact'
     import { localize } from '@core/i18n'
     import { Router } from '@core/router'
-    import { showAppNotification } from '@auxiliary/notification'
+    import { showNotification } from '@auxiliary/notification'
 
     export let drawerRouter: Router<unknown>
 
@@ -20,19 +18,16 @@
             if (validate()) {
                 const contact = { ...$selectedContact, name: contactName, note: contactNote }
                 ContactManager.updateContact($selectedContact.id, contact)
-                showAppNotification({
-                    type: 'success',
-                    message: localize('notifications.updateContact.success'),
-                    alert: true,
+                showNotification({
+                    variant: 'success',
+                    text: localize('notifications.updateContact.success'),
                 })
-
                 drawerRouter.previous()
             }
         } catch (error) {
-            showAppNotification({
-                type: 'error',
-                alert: true,
-                message: error?.message ?? error,
+            showNotification({
+                variant: 'error',
+                text: error?.message ?? error,
             })
         }
     }

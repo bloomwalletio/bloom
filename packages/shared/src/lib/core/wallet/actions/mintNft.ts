@@ -1,4 +1,4 @@
-import { showAppNotification } from '@auxiliary/notification'
+import { showNotification } from '@auxiliary/notification'
 import { selectedAccount, updateSelectedAccount } from '@core/account'
 import { localize } from '@core/i18n'
 import { addOrUpdateNftInAllAccountNfts, buildNftFromNftOutput, IIrc27Metadata } from '@core/nfts'
@@ -6,15 +6,20 @@ import { Converter } from '@core/utils'
 import { MintNftParams } from '@iota/wallet'
 import { get } from 'svelte/store'
 import { DEFAULT_TRANSACTION_OPTIONS, OUTPUT_TYPE_NFT } from '../constants'
-import { ActivityAction } from '../enums'
-import { addActivityToAccountActivitiesInAllAccountActivities, resetMintNftDetails } from '../stores'
-import { NftActivity } from '../types'
-import { preprocessTransaction } from '../utils'
-import { generateSingleNftActivity } from '../utils/generateActivity/generateSingleNftActivity'
+import { resetMintNftDetails } from '../stores'
+import { preprocessTransaction } from '@core/activity/utils/outputs'
+import { generateSingleNftActivity } from '@core/activity/utils/generateSingleNftActivity'
+import { NftActivity } from '@core/activity/types'
+import { addActivityToAccountActivitiesInAllAccountActivities } from '@core/activity/stores'
+import { ActivityAction } from '@core/activity/enums'
 
 export async function mintNft(metadata: IIrc27Metadata, quantity: number): Promise<void> {
     try {
         const account = get(selectedAccount)
+        if (!account) {
+            return
+        }
+
         updateSelectedAccount({ isTransferring: true })
 
         const mintNftParams: MintNftParams = {
@@ -26,10 +31,9 @@ export async function mintNft(metadata: IIrc27Metadata, quantity: number): Promi
         // Mint NFT
         const mintNftTransaction = await account.mintNfts(allNftParams, DEFAULT_TRANSACTION_OPTIONS)
         resetMintNftDetails()
-        showAppNotification({
-            type: 'success',
-            message: localize('notifications.mintNft.success'),
-            alert: true,
+        showNotification({
+            variant: 'success',
+            text: localize('notifications.mintNft.success'),
         })
 
         const processedTransaction = await preprocessTransaction(mintNftTransaction, account)

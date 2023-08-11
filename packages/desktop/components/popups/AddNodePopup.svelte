@@ -2,7 +2,7 @@
     import { Text, NodeConfigurationForm, Button, HTMLButtonType, TextType } from '@ui'
     import { localize } from '@core/i18n'
     import { INode, addNodeToClientOptions, editNodeInClientOptions, EMPTY_NODE } from '@core/network'
-    import { showAppNotification } from '@auxiliary/notification'
+    import { showNotification } from '@auxiliary/notification'
     import { closePopup } from '@desktop/auxiliary/popup'
     import { Platform } from '@core/app'
     import { activeAccounts, activeProfile } from '@core/profile'
@@ -39,9 +39,9 @@
             onSuccess()
         } catch (err) {
             if (err.type !== 'validationError') {
-                showAppNotification({
-                    type: 'error',
-                    message: localize(err?.error ?? 'error.global.generic'),
+                showNotification({
+                    variant: 'error',
+                    text: localize(err?.error ?? 'error.global.generic'),
                 })
             }
         } finally {
