@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { validateAccountName } from '@core/account'
+    import { validateAccountName } from '@core/account/actions'
     import { selectedAccount } from '@core/account/stores'
     import { localize } from '@core/i18n'
     import { updateActiveAccountPersistedData } from '@core/profile/actions'
