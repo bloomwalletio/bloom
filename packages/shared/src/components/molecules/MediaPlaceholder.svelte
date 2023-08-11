@@ -2,7 +2,7 @@
     import { MimeType, ParentMimeType } from '@core/nfts'
     import { Icon } from '@ui'
     import { Icon as IconEnum } from '@auxiliary/icon'
-    import { appSettings } from '@core/app'
+    import { appSettings } from '@core/app/stores'
 
     export let type: MimeType = undefined
     export let isDownloading = false

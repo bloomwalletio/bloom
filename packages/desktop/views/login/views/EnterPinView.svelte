@@ -1,6 +1,5 @@
 <script lang="ts">
     import { Icon as IconEnum } from '@auxiliary/icon'
-    import { PopupId, openPopup, popupState } from '@desktop/auxiliary/popup'
     import {
         Platform,
         isLatestStrongholdVersion,
@@ -8,9 +7,12 @@
         needsToAcceptLatestTermsOfService,
     } from '@core/app'
     import { localize } from '@core/i18n'
-    import { ProfileType, activeProfile, login, resetActiveProfile } from '@core/profile'
+    import { ProfileType } from '@core/profile'
+    import { login, resetActiveProfile } from '@core/profile/actions'
+    import { activeProfile } from '@core/profile/stores'
     import { loginRouter } from '@core/router'
     import { isValidPin } from '@core/utils'
+    import { PopupId, openPopup, popupState } from '@desktop/auxiliary/popup'
     import features from '@features/features'
     import { Icon, PinInput, Profile, Text, TextHint } from '@ui'
     import { onDestroy } from 'svelte'

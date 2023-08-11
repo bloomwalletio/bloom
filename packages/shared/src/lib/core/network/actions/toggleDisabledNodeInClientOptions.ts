@@ -1,5 +1,5 @@
 import { INode, updateClientOptions } from '@core/network'
-import { activeProfile } from '@core/profile'
+import { activeProfile } from '@core/profile/stores'
 import { get } from 'svelte/store'
 
 export async function toggleDisabledNodeInClientOptions(node: INode): Promise<void> {

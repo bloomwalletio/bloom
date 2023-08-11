@@ -4,7 +4,7 @@
     import { closePopup } from '@desktop/auxiliary/popup'
     import { handleError } from '@core/error/handlers'
     import { onMount } from 'svelte'
-    import { selectedAccount } from '@core/account'
+    import { selectedAccount } from '@core/account/stores'
 
     export let title: string
     export let description: string = ''

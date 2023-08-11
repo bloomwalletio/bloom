@@ -1,10 +1,10 @@
 <script lang="ts">
-    import { VotingEventPayload, ParticipationEventType, TrackedParticipationOverview } from '@iota/wallet/out/types'
+    import { ParticipationEventType, TrackedParticipationOverview, VotingEventPayload } from '@iota/wallet/out/types'
 
-    import { onMount, onDestroy } from 'svelte'
+    import { onDestroy, onMount } from 'svelte'
 
-    import { Button, KeyValueBox, MarkdownBlock, Pane, ProposalStatusPill, Text, TextHint, TextType } from '@ui'
     import { ProposalDetailsButton, ProposalInformationPane, ProposalQuestion } from '@components'
+    import { Button, KeyValueBox, MarkdownBlock, Pane, ProposalStatusPill, Text, TextHint, TextType } from '@ui'
 
     import { selectedAccount } from '@core/account/stores'
     import { handleError } from '@core/error/handlers'
@@ -34,8 +34,8 @@
         isProposalVotable,
         isVotingForSelectedProposal,
     } from '@contexts/governance/utils'
-    import { openPopup, PopupId } from '@desktop/auxiliary/popup'
-    import { activeProfile } from '@core/profile'
+    import { activeProfile } from '@core/profile/stores'
+    import { PopupId, openPopup } from '@desktop/auxiliary/popup'
 
     const { metadata } = $visibleSelectedAccountAssets?.[$activeProfile?.network?.id]?.baseCoin ?? {}
 

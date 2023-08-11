@@ -1,5 +1,6 @@
 <script lang="ts">
-    import { INft, NFT_MEDIA_FILE_NAME, nftDownloadQueue } from '@core/nfts'
+    import { INft, NFT_MEDIA_FILE_NAME } from '@core/nfts'
+    import { nftDownloadQueue } from '@core/nfts/stores'
     import { DEV_STORAGE_DIRECTORY } from '@core/profile/constants'
     import { getStorageDirectoryOfProfiles } from '@core/profile/utils'
     import features from '@features/features'

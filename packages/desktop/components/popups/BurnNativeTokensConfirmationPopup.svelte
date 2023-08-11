@@ -1,12 +1,12 @@
 <script lang="ts">
-    import { Button, Text, TextHint, FontWeight, TextType, ButtonVariant, KeyValueBox } from '@ui'
-    import { localize } from '@core/i18n'
-    import { closePopup, openPopup, PopupId } from '@desktop/auxiliary/popup'
-    import { burnAsset, formatTokenAmountBestMatch, IAsset } from '@core/wallet'
-    import { checkActiveProfileAuth } from '@core/profile'
+    import { selectedAccount } from '@core/account/stores'
     import { handleError } from '@core/error/handlers'
+    import { localize } from '@core/i18n'
+    import { checkActiveProfileAuth } from '@core/profile/actions'
+    import { IAsset, burnAsset, formatTokenAmountBestMatch } from '@core/wallet'
+    import { PopupId, closePopup, openPopup } from '@desktop/auxiliary/popup'
+    import { Button, ButtonVariant, FontWeight, KeyValueBox, Text, TextHint, TextType } from '@ui'
     import { onMount } from 'svelte'
-    import { selectedAccount } from '@core/account'
 
     export let asset: IAsset
     export let rawAmount: string

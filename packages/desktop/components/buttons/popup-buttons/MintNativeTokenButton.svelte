@@ -1,7 +1,7 @@
 <script lang="ts">
     import { OnboardingButton } from '@ui'
 
-    import { selectedAccount } from '@core/account'
+    import { selectedAccount } from '@core/account/stores'
     import { localize } from '@core/i18n'
     import { resetMintTokenDetails } from '@core/wallet'
 

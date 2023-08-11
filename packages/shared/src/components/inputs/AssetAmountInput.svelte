@@ -1,6 +1,7 @@
 <script lang="ts">
     import { formatCurrency, localize, parseCurrency } from '@core/i18n'
     import { getMarketAmountFromAssetValue } from '@core/market/utils'
+    import { activeProfile } from '@core/profile/stores'
     import { getMaxDecimalsFromTokenMetadata } from '@core/token/utils'
     import {
         IAsset,
@@ -11,10 +12,9 @@
         getUnitFromTokenMetadata,
         visibleSelectedAccountAssets,
     } from '@core/wallet'
-    import Big from 'big.js'
     import { AmountInput, AssetDropdown, InputContainer, SliderInput, Text, TooltipIcon } from '@ui'
+    import Big from 'big.js'
     import UnitInput from './UnitInput.svelte'
-    import { activeProfile } from '@core/profile'
 
     export let inputElement: HTMLInputElement = undefined
     export let disabled = false

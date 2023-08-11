@@ -1,9 +1,9 @@
 <script lang="ts">
-    import { Dropdown } from '@ui'
+    import { activeProfile } from '@core/profile/stores'
     import type { IDropdownItem } from '@core/utils'
-    import { visibleSelectedAccountAssets } from '@core/wallet'
     import { AssetFilterUnit } from '@core/utils/interfaces/filter'
-    import { activeProfile } from '@core/profile'
+    import { visibleSelectedAccountAssets } from '@core/wallet'
+    import { Dropdown } from '@ui'
 
     export let filterUnit: AssetFilterUnit
     const { baseCoin, nativeTokens } = $visibleSelectedAccountAssets[$activeProfile?.network?.id]

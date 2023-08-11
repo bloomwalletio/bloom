@@ -1,9 +1,10 @@
 <script lang="ts">
-    import { Dropdown, Text, TextType } from '@ui'
     import { localize } from '@core/i18n'
-    import { activeProfile, DEFAULT_PERSISTED_PROFILE_OBJECT, updateActiveProfileSettings } from '@core/profile'
-    import { IDropdownItem, SECONDS_PER_MINUTE } from '@core/utils'
+    import { DEFAULT_PERSISTED_PROFILE_OBJECT } from '@core/profile'
     import { setStrongholdPasswordClearInterval } from '@core/profile-manager'
+    import { activeProfile, updateActiveProfileSettings } from '@core/profile/stores'
+    import { IDropdownItem, SECONDS_PER_MINUTE } from '@core/utils'
+    import { Dropdown, Text, TextType } from '@ui'
 
     function onStrongholdPasswordTimeoutChange(option: IDropdownItem<number>): void {
         const strongholdPasswordTimeoutInMinutes = option.value

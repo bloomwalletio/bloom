@@ -2,9 +2,9 @@
     import { Icon as IconEnum, NETWORK_ICON_SVG } from '@auxiliary/icon'
     import { getIconColorFromString } from '@core/account'
     import { COIN_TYPE, NetworkId, network } from '@core/network'
-    import { activeProfile } from '@core/profile'
+    import { activeProfile } from '@core/profile/stores'
     import { isBright } from '@core/utils'
-    import { ANIMATED_TOKEN_IDS, getAssetInitials, IPersistedAsset, TokenStandard } from '@core/wallet'
+    import { ANIMATED_TOKEN_IDS, IPersistedAsset, TokenStandard, getAssetInitials } from '@core/wallet'
     import { Animation, Icon, NetworkIconBadge, VerificationBadge } from '@ui'
 
     export let asset: IPersistedAsset

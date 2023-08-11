@@ -1,12 +1,11 @@
 <script lang="ts">
     import { AccountActionsButton } from '@components'
-    import { Text, TogglableAssetBalanceLabel } from '@ui'
-    import { TextType } from '@ui/enums'
-
     import { localize } from '@core/i18n'
     import { nodeInfo } from '@core/network'
+    import { activeProfile } from '@core/profile/stores'
     import { selectedAccountAssets } from '@core/wallet'
-    import { activeProfile } from '@core/profile'
+    import { Text, TogglableAssetBalanceLabel } from '@ui'
+    import { TextType } from '@ui/enums'
 
     $: fomattedNetworkName = $nodeInfo?.protocol.networkName
         .split(' ')

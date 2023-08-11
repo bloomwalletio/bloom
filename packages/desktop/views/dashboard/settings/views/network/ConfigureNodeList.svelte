@@ -1,9 +1,9 @@
 <script lang="ts">
-    import { closePopup, openPopup, PopupId } from '@desktop/auxiliary/popup'
     import { localize } from '@core/i18n'
-    import { addOfficialNodesToClientOptions as onAddOfficialNodesClick, NetworkId } from '@core/network'
-    import { activeProfile } from '@core/profile'
+    import { NetworkId, addOfficialNodesToClientOptions as onAddOfficialNodesClick } from '@core/network'
+    import { activeProfile } from '@core/profile/stores'
     import { NetworkSettingsRoute } from '@core/router'
+    import { closePopup, openPopup, PopupId } from '@desktop/auxiliary/popup'
     import { Button, ButtonSize, NodeListTable } from '@ui'
     import SettingsSection from '../SettingsSection.svelte'
 

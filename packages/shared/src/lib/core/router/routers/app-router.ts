@@ -1,6 +1,6 @@
 import { get, writable } from 'svelte/store'
 
-import { profiles } from '@core/profile'
+import { profiles } from '@core/profile/stores'
 
 import { Router } from '../classes'
 import { AppRoute, LoginRoute } from '../enums'
