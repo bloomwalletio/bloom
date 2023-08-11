@@ -1,4 +1,4 @@
-import { getSelectedAccount } from '@core/account'
+import { getSelectedAccount } from '@core/account/stores'
 import { addPersistedTransaction } from '@core/activity/stores'
 import { EvmTransactionData } from '@core/layer-2'
 import { LedgerAppName } from '@core/ledger'

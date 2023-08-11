@@ -1,7 +1,7 @@
 <script lang="ts">
     import { showNotification } from '@auxiliary/notification/actions'
     import { registeredProposalsForSelectedAccount, registerProposalsForAccounts } from '@contexts/governance'
-    import { selectedAccount } from '@core/account'
+    import { selectedAccount } from '@core/account/stores'
     import { handleError } from '@core/error/handlers/handleError'
     import { localize } from '@core/i18n'
     import { updateActiveAccountPersistedData } from '@core/profile/actions'

@@ -11,7 +11,7 @@
         getNumberOfVotedProposals,
         getNumberOfVotingProposals,
     } from '@contexts/governance/utils'
-    import { selectedAccount } from '@core/account'
+    import { selectedAccount } from '@core/account/stores'
     import { localize } from '@core/i18n'
     import { activeProfileId } from '@core/profile/stores'
     import { PopupId, openPopup } from '@desktop/auxiliary/popup'

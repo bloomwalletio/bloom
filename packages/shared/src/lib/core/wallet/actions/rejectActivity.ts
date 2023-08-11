@@ -1,5 +1,5 @@
 import { showNotification } from '@auxiliary/notification'
-import { selectedAccount } from '@core/account'
+import { selectedAccount } from '@core/account/stores'
 import { hiddenActivities, updateAsyncDataByActivityId } from '@core/activity/stores'
 import { localize } from '@core/i18n'
 import { activeProfileId } from '@core/profile/stores'

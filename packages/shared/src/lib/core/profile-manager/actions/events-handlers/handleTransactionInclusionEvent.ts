@@ -1,6 +1,6 @@
 import { updateParticipationOverview } from '@contexts/governance/stores'
 import { isAccountVoting } from '@contexts/governance/utils/isAccountVoting'
-import { syncVotingPower } from '@core/account'
+import { syncVotingPower } from '@core/account/actions'
 import {
     ActivityAction,
     ActivityDirection,

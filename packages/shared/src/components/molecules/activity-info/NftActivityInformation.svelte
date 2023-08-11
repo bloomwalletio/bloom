@@ -1,5 +1,6 @@
 <script lang="ts">
-    import { selectedAccountIndex } from '@core/account'
+    import { selectedAccountIndex } from '@core/account/stores'
+    import { NftActivity } from '@core/activity'
     import { localize } from '@core/i18n'
     import { getNftByIdFromAllAccountNfts } from '@core/nfts/actions'
     import { IKeyValueBoxList } from '@core/utils'
@@ -9,7 +10,6 @@
         ADDRESS_TYPE_NFT,
         getBech32AddressFromAddressTypes,
         getHexAddressFromAddressTypes,
-        NftActivity,
     } from '@core/wallet'
     import { KeyValueBox } from '@ui'
 

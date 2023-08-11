@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { setNextSelectedAccount } from '@core/account'
+    import { setNextSelectedAccount } from '@core/account/actions'
     import { localize } from '@core/i18n'
     import { activeProfile, updateActiveProfile } from '@core/profile/stores'
     import { Checkbox, Text } from '@ui'

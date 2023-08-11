@@ -1,5 +1,7 @@
 <script lang="ts">
-    import { IAccountState, selectedAccount, setSelectedAccount } from '@core/account'
+    import { IAccountState } from '@core/account'
+    import { setSelectedAccount } from '@core/account/actions'
+    import { selectedAccount } from '@core/account/stores'
     import { formatCurrency } from '@core/i18n'
     import { getMarketAmountFromAssetValue } from '@core/market/utils'
     import { getBaseToken } from '@core/profile/actions'

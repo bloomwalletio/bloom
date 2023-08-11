@@ -1,5 +1,5 @@
 import { showNotification } from '@auxiliary/notification'
-import { selectedAccount, updateSelectedAccount } from '@core/account'
+import { selectedAccount, updateSelectedAccount } from '@core/account/stores'
 import { ActivityAction } from '@core/activity/enums'
 import { addActivityToAccountActivitiesInAllAccountActivities } from '@core/activity/stores'
 import { NftActivity } from '@core/activity/types'

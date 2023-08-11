@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { selectedAccountIndex } from '@core/account'
+    import { selectedAccountIndex } from '@core/account/stores'
     import { Activity, ActivityType } from '@core/activity'
     import { getNftByIdFromAllAccountNfts } from '@core/nfts/actions'
     import {

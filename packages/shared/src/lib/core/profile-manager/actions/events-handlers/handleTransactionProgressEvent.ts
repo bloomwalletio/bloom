@@ -1,5 +1,5 @@
 import { isOnboardingLedgerProfile } from '@contexts/onboarding'
-import { selectedAccountIndex } from '@core/account'
+import { selectedAccountIndex } from '@core/account/stores'
 import { ledgerNanoStatus } from '@core/ledger'
 import { deconstructLedgerVerificationProps } from '@core/ledger/helpers'
 import { isActiveLedgerProfile } from '@core/profile/stores'

@@ -4,7 +4,7 @@
     import { QR, AddressBox, FontWeight } from '@ui'
     import { Text } from '@ui'
     import { localize } from '@core/i18n'
-    import { selectedAccount } from '@core/account'
+    import { selectedAccount } from '@core/account/stores'
     import { Router } from '@core/router'
     import { DrawerRoute } from '@desktop/routers'
     import { DrawerTemplate } from '@components'

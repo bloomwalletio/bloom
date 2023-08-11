@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { selectedAccountIndex } from '@core/account'
+    import { selectedAccountIndex } from '@core/account/stores'
     import { ActivityDirection } from '@core/activity/enums'
     import { NftActivity } from '@core/activity/types'
     import { getActivityTileTitle, getSubjectLocaleFromActivity } from '@core/activity/utils'

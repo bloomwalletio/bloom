@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { selectedAccount } from '@core/account'
+    import { selectedAccount } from '@core/account/stores'
     import { handleError } from '@core/error/handlers/handleError'
     import { localize } from '@core/i18n'
     import { CURRENT_IRC27_VERSION } from '@core/nfts'

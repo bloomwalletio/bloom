@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { selectedAccount } from '@core/account'
+    import { selectedAccount } from '@core/account/stores'
     import { localize } from '@core/i18n'
     import { activeProfile } from '@core/profile/stores'
     import { formatTokenAmountBestMatch, visibleSelectedAccountAssets } from '@core/wallet'

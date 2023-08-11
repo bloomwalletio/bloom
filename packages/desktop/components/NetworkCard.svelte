@@ -1,6 +1,6 @@
 <script lang="ts">
     import { Icon as IconEnum } from '@auxiliary/icon'
-    import { selectedAccount } from '@core/account'
+    import { selectedAccount } from '@core/account/stores'
     import { localize } from '@core/i18n'
     import { generateAndStoreEvmAddressForAccount } from '@core/layer-2'
     import { LedgerAppName } from '@core/ledger'

@@ -1,6 +1,6 @@
 <script lang="ts">
     import { Drawer } from '@components'
-    import { selectedAccount, selectedAccountIndex } from '@core/account'
+    import { selectedAccount, selectedAccountIndex } from '@core/account/stores'
     import { Platform } from '@core/app'
     import { clearLayer2TokensPoll, pollLayer2Tokens } from '@core/layer-2'
     import { stopPollingLedgerNanoStatus } from '@core/ledger'

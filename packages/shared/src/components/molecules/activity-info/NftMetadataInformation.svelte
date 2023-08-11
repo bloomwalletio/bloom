@@ -1,9 +1,9 @@
 <script lang="ts">
-    import { selectedAccountIndex } from '@core/account'
+    import { selectedAccountIndex } from '@core/account/stores'
+    import { NftActivity } from '@core/activity'
     import { localize } from '@core/i18n'
     import { IIrc27Metadata, convertAndFormatNftMetadata } from '@core/nfts'
     import { getNftByIdFromAllAccountNfts } from '@core/nfts/actions'
-    import { NftActivity } from '@core/wallet'
     import { KeyValueBox } from '@ui'
 
     export let activity: NftActivity

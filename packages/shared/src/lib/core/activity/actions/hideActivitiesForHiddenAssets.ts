@@ -1,4 +1,4 @@
-import { selectedAccountIndex } from '@core/account'
+import { selectedAccountIndex } from '@core/account/stores'
 import { activeProfile } from '@core/profile/stores'
 import { persistedAssets } from '@core/wallet/stores'
 import { get } from 'svelte/store'
