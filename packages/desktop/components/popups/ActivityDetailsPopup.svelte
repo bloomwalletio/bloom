@@ -24,7 +24,6 @@
     import {
         ActivityInformation,
         ActivityStatusPills,
-        AliasActivityDetails,
         Button,
         FontWeight,
         Text,
@@ -145,9 +144,6 @@
 
         <TransactionAssetSection {...transactionAssets} onNftClick={nftIsOwned ? onNftClick : undefined} />
 
-        {#if activity.type === ActivityType.Alias}
-            <AliasActivityDetails {activity} />
-        {/if}
         <ActivityInformation {activity} />
     </activity-details>
     {#if !isTimelocked && isActivityIncomingAndUnclaimed}

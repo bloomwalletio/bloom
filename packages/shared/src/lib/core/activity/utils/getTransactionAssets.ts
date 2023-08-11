@@ -14,6 +14,7 @@ export function getTransactionAssets(
 ):
     | {
           nft?: INft
+          aliasId?: string
           tokenTransfer?: TokenTransferData
           baseCoinTransfer?: TokenTransferData
       }
@@ -23,15 +24,24 @@ export function getTransactionAssets(
         return
     }
 
-    if (activity.type === ActivityType.Nft) {
+    if (activity.type === ActivityType.Nft || activity.type === ActivityType.Alias) {
         const baseCoin = getAssetById(getCoinType(), networkId)
-        const nft = getNftByIdFromAllAccountNfts(accountIndex, activity.nftId)
-        return {
-            nft,
-            baseCoinTransfer: {
-                rawAmount: String((activity.rawBaseCoinAmount ?? 0) - activity.storageDeposit),
-                asset: baseCoin,
-            },
+        const baseCoinTransfer = {
+            rawAmount: String((activity.rawBaseCoinAmount ?? 0) - activity.storageDeposit),
+            asset: baseCoin,
+        }
+
+        if (activity.type === ActivityType.Nft) {
+            const nft = getNftByIdFromAllAccountNfts(accountIndex, activity.nftId)
+            return {
+                nft,
+                baseCoinTransfer,
+            }
+        } else {
+            return {
+                aliasId: activity.aliasId,
+                baseCoinTransfer,
+            }
         }
     } else if (activity.type === ActivityType.Basic || activity.type === ActivityType.Foundry) {
         const assetWithBalance = getAssetById(activity.assetId, networkId)
