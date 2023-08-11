@@ -1,11 +1,16 @@
+import { get } from 'svelte/store'
+
 import { validateEthereumAddress } from '@core/utils/crypto/utils'
+import { getIrc30MetadataFromFoundryOutput } from '@core/wallet/utils/getIrc30MetadataFromFoundryOutput'
+import { getErc20TokenMetadata } from '@core/layer-2/utils/getErc20TokenMetadata'
+import { activeAccounts } from '@core/profile/stores'
+import { network } from '@core/network/stores'
+
 import { OFFICIAL_TOKEN_IDS } from '../constants'
 import { NotVerifiedStatus, VerifiedStatus } from '../enums'
 import { IErc20Metadata, IIrc30Metadata, IPersistedToken } from '../interfaces'
 import { TokenVerification } from '../types'
 import { buildPersistedTokenFromMetadata } from '../utils'
-import { getIrc30MetadataFromFoundryOutput } from '@core/wallet/utils/getIrc30MetadataFromFoundryOutput'
-import { getErc20TokenMetadata } from '@core/layer-2/utils/getErc20TokenMetadata'
 
 export async function requestPersistedToken(tokenId: string, chainId?: number): Promise<IPersistedToken | undefined> {
     let tokenMetadata: IIrc30Metadata | IErc20Metadata | undefined
@@ -26,7 +31,6 @@ export async function requestPersistedToken(tokenId: string, chainId?: number): 
         const verification: TokenVerification = OFFICIAL_TOKEN_IDS.includes(tokenId)
             ? { verified: true, status: VerifiedStatus.Official }
             : { verified: false, status: NotVerifiedStatus.New }
-        const persistedAsset: IPersistedToken = buildPersistedTokenFromMetadata(tokenId, tokenMetadata, verification)
-        return persistedAsset
+        return buildPersistedTokenFromMetadata(tokenId, tokenMetadata, verification)
     }
 }
