@@ -5,7 +5,6 @@ import { getIrc30MetadataFromFoundryOutput } from '@core/wallet/utils/getIrc30Me
 import { getErc20TokenMetadata } from '@core/layer-2/utils/getErc20TokenMetadata'
 import { activeAccounts } from '@core/profile/stores'
 import { network } from '@core/network/stores'
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import type { INetwork } from '@core/network/interfaces'
 
 import { OFFICIAL_TOKEN_IDS } from '../constants'
@@ -19,7 +18,8 @@ export async function requestPersistedToken(tokenId: string, chainId?: number): 
     if (chainId) {
         try {
             validateEthereumAddress(tokenId)
-            tokenMetadata = await getErc20TokenMetadata(tokenId, chainId, get(network) )
+            /* eslint-disable @typescript-eslint/no-unnecessary-type-assertion */
+            tokenMetadata = await getErc20TokenMetadata(tokenId, chainId, get(network) as INetwork)
         } catch {
             // do nothing
         }
