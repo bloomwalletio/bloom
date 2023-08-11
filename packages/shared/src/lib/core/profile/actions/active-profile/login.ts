@@ -50,7 +50,7 @@ export async function login(loginOptions?: ILoginOptions): Promise<void> {
     try {
         const _activeProfile = get(activeProfile)
         const { loggedIn, lastActiveAt, id, isStrongholdLocked, type, lastUsedAccountIndex } = _activeProfile
-        if (id) {
+        if (!id) {
             throw Error('No active profile error')
         }
 

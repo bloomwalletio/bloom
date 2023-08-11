@@ -1,7 +1,7 @@
 import { NetworkName } from '../enums'
 
-export function getDisplayedNameFromNetworkName(networkId: NetworkName): string {
-    switch (networkId) {
+export function getDisplayedNameFromNetworkName(networkName: NetworkName): string {
+    switch (networkName) {
         case NetworkName.Iota:
             return 'IOTA'
         case NetworkName.Shimmer:

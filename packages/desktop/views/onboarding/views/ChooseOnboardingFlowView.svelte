@@ -3,14 +3,15 @@
     import { OnboardingType, onboardingProfile, updateOnboardingProfile } from '@contexts/onboarding'
     import { IS_MOBILE } from '@core/app'
     import { localize } from '@core/i18n'
-    import { getDisplayedNameFromNetworkName } from '@core/network'
+    import { getDisplayedNameFromNetworkName, getNetworkNameFromNetworkId } from '@core/network'
     import { profiles } from '@core/profile'
     import features from '@features/features'
-    import { Animation, OnboardingButton, Text } from '@ui'
+    import { Animation, OnboardingButton, Text, TextType } from '@ui'
     import { onMount } from 'svelte'
     import { onboardingRouter } from '../onboarding-router'
 
-    const networkId = $onboardingProfile?.network?.id
+    $: networkId = $onboardingProfile?.network?.id
+    $: networkName = getNetworkNameFromNetworkId(networkId)
 
     function onProfileSetupSelectionClick(onboardingType: OnboardingType): void {
         updateOnboardingProfile({ onboardingType })
@@ -29,19 +30,19 @@
 
 <OnboardingLayout allowBack={$profiles.length > 0 || $onboardingProfile?.isDeveloperProfile} {onBackClick}>
     <div slot="title">
-        <Text type="h2"
+        <Text type={TextType.h2}
             >{localize('views.onboarding.profileSetup.setup.title', {
                 values: {
-                    network: getDisplayedNameFromNetworkName(networkId),
+                    network: getDisplayedNameFromNetworkName(networkName),
                 },
             })}</Text
         >
     </div>
     <div slot="leftpane__content">
-        <Text type="p" secondary classes="mb-8"
+        <Text secondary classes="mb-8"
             >{localize('views.onboarding.profileSetup.setup.body', {
                 values: {
-                    network: getDisplayedNameFromNetworkName(networkId),
+                    network: getDisplayedNameFromNetworkName(networkName),
                 },
             })}</Text
         >
@@ -50,27 +51,27 @@
         <OnboardingButton
             primaryText={localize('actions.createWallet', {
                 values: {
-                    network: getDisplayedNameFromNetworkName(networkId),
+                    network: getDisplayedNameFromNetworkName(networkName),
                 },
             })}
             secondaryText={!IS_MOBILE
                 ? localize('actions.createWalletDescription', {
-                      values: { network: networkId },
+                      values: { network: networkName },
                   })
                 : ''}
             icon="plus"
             iconHeight="11"
             iconWidth="11"
-            hidden={features?.onboarding?.[networkId]?.newProfile?.hidden}
-            disabled={!features?.onboarding?.[networkId]?.newProfile?.enabled}
+            hidden={features?.onboarding?.[networkName]?.newProfile?.hidden}
+            disabled={!features?.onboarding?.[networkName]?.newProfile?.enabled}
             onClick={() => onProfileSetupSelectionClick(OnboardingType.Create)}
         />
         <OnboardingButton
-            primaryText={localize(`actions.restoreWallet.${networkId}`)}
-            secondaryText={!IS_MOBILE ? localize(`actions.restoreWalletDescription.${networkId}`) : ''}
+            primaryText={localize(`actions.restoreWallet.${networkName}`)}
+            secondaryText={!IS_MOBILE ? localize(`actions.restoreWalletDescription.${networkName}`) : ''}
             icon="transfer"
-            hidden={features?.onboarding?.[networkId]?.restoreProfile?.hidden}
-            disabled={!features?.onboarding?.[networkId]?.restoreProfile?.enabled}
+            hidden={features?.onboarding?.[networkName]?.restoreProfile?.hidden}
+            disabled={!features?.onboarding?.[networkName]?.restoreProfile?.enabled}
             onClick={() => onProfileSetupSelectionClick(OnboardingType.Restore)}
         />
         <OnboardingButton
@@ -79,8 +80,8 @@
             icon="tokens"
             iconHeight="24"
             iconWidth="24"
-            hidden={features?.onboarding?.[networkId]?.claimRewards?.hidden}
-            disabled={!features?.onboarding?.[networkId]?.claimRewards?.enabled}
+            hidden={features?.onboarding?.[networkName]?.claimRewards?.hidden}
+            disabled={!features?.onboarding?.[networkName]?.claimRewards?.enabled}
             onClick={() => onProfileSetupSelectionClick(OnboardingType.Claim)}
         />
     </div>

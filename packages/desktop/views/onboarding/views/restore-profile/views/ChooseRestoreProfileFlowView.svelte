@@ -7,10 +7,10 @@
         updateOnboardingProfile,
     } from '@contexts/onboarding'
     import { localize } from '@core/i18n'
-    import { getDisplayedNameFromNetworkName } from '@core/network'
+    import { getDisplayedNameFromNetworkName, getNetworkNameFromNetworkId } from '@core/network'
     import { ProfileType, removeProfileFolder } from '@core/profile'
     import features from '@features/features'
-    import { Animation, OnboardingButton, Text } from '@ui'
+    import { Animation, OnboardingButton, Text, TextType } from '@ui'
     import { onMount } from 'svelte'
     import { restoreProfileRouter } from '../restore-profile-router'
     import { destroyProfileManager } from '@core/profile-manager/actions'
@@ -23,7 +23,8 @@
 
     $: isDisabled = Object.values(isBusy).some((busy) => busy)
 
-    const networkId = $onboardingProfile?.network?.id
+    $: networkId = $onboardingProfile?.network?.id
+    $: networkName = getNetworkNameFromNetworkId(networkId)
 
     async function onProfileTypeClick(restoreProfileType: RestoreProfileType): Promise<void> {
         isBusy = { ...isBusy, [restoreProfileType]: true }
@@ -49,14 +50,14 @@
 
 <OnboardingLayout {onBackClick}>
     <div slot="title">
-        <Text type="h2"
+        <Text type={TextType.h2}
             >{localize('views.onboarding.profileSetup.setupRecovered.title', {
-                values: { network: getDisplayedNameFromNetworkName(networkId) },
+                values: { network: getDisplayedNameFromNetworkName(networkName) },
             })}</Text
         >
     </div>
     <div slot="leftpane__content">
-        <Text type="p" secondary classes="mb-8">{localize('views.onboarding.profileSetup.setupRecovered.body')}</Text>
+        <Text secondary classes="mb-8">{localize('views.onboarding.profileSetup.setupRecovered.body')}</Text>
     </div>
     <div slot="leftpane__action" class="flex flex-col space-y-4">
         <OnboardingButton
@@ -64,8 +65,8 @@
             secondaryText={localize('views.onboarding.profileSetup.setupRecovered.importMnemonicDescription')}
             icon="language"
             busy={isBusy[RestoreProfileType.Mnemonic]}
-            hidden={features?.onboarding?.[networkId]?.restoreProfile?.recoveryPhrase?.hidden}
-            disabled={!features?.onboarding?.[networkId]?.restoreProfile?.recoveryPhrase?.enabled || isDisabled}
+            hidden={features?.onboarding?.[networkName]?.restoreProfile?.recoveryPhrase?.hidden}
+            disabled={!features?.onboarding?.[networkName]?.restoreProfile?.recoveryPhrase?.enabled || isDisabled}
             onClick={() => onProfileTypeClick(RestoreProfileType.Mnemonic)}
         />
         <OnboardingButton
@@ -73,8 +74,8 @@
             secondaryText={localize('views.onboarding.profileSetup.setupRecovered.importFileDescription')}
             icon="file"
             busy={isBusy[RestoreProfileType.Stronghold]}
-            hidden={features?.onboarding?.[networkId]?.restoreProfile?.strongholdBackup?.hidden}
-            disabled={!features?.onboarding?.[networkId]?.restoreProfile?.strongholdBackup?.enabled || isDisabled}
+            hidden={features?.onboarding?.[networkName]?.restoreProfile?.strongholdBackup?.hidden}
+            disabled={!features?.onboarding?.[networkName]?.restoreProfile?.strongholdBackup?.enabled || isDisabled}
             onClick={() => onProfileTypeClick(RestoreProfileType.Stronghold)}
         />
         <OnboardingButton
@@ -82,8 +83,8 @@
             secondaryText={localize('views.onboarding.profileSetup.setupRecovered.importLedgerDescription')}
             icon="chip"
             busy={isBusy[RestoreProfileType.Ledger]}
-            hidden={features?.onboarding?.[networkId]?.restoreProfile?.ledgerBackup?.hidden}
-            disabled={!features?.onboarding?.[networkId]?.restoreProfile?.ledgerBackup?.enabled || isDisabled}
+            hidden={features?.onboarding?.[networkName]?.restoreProfile?.ledgerBackup?.hidden}
+            disabled={!features?.onboarding?.[networkName]?.restoreProfile?.ledgerBackup?.enabled || isDisabled}
             onClick={() => onProfileTypeClick(RestoreProfileType.Ledger)}
         />
     </div>
