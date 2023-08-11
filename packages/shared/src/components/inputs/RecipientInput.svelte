@@ -26,7 +26,7 @@
     $: isLayer2, (error = '')
     $: recipient = getSubjectFromAddress(selected?.value)
 
-    export function validate(): Promise<void> {
+    export function validate(): void {
         try {
             if (recipient?.type === SubjectType.Address || recipient?.type === SubjectType.Contact) {
                 if (!recipient.address) {
@@ -45,11 +45,9 @@
             } else {
                 throw new Error(localize('error.send.recipientRequired'))
             }
-
-            return Promise.resolve()
         } catch (err) {
             error = err?.message ?? err
-            return Promise.reject(error)
+            throw err
         }
     }
 

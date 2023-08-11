@@ -22,6 +22,7 @@
     import { getAssetStandard } from '@core/wallet/actions/getTokenStandartFromSendFlowParameters'
 
     let networkAddress = $sendFlowParameters?.layer2Parameters?.networkAddress
+    let selector: NetworkRecipientSelector
     let selectorOptions: INetworkRecipientSelectorOption[] = []
     let selectedIndex = -1
 
@@ -170,19 +171,30 @@
     }
 
     function onContinueClick(): void {
-        const layer2Parameters = isLayer2
-            ? {
-                  chainId: selectedOption.chainId,
-                  networkAddress: selectedOption?.networkAddress,
-                  senderAddress: $selectedAccount.depositAddress,
-              }
-            : null
-        updateSendFlowParameters({
-            type: $sendFlowParameters?.type,
-            recipient,
-            layer2Parameters,
-        })
-        $sendFlowRouter.next()
+        if (validate()) {
+            const layer2Parameters = isLayer2
+                ? {
+                      chainId: selectedOption.chainId,
+                      networkAddress: selectedOption?.networkAddress,
+                      senderAddress: $selectedAccount.depositAddress,
+                  }
+                : null
+            updateSendFlowParameters({
+                type: $sendFlowParameters?.type,
+                recipient,
+                layer2Parameters,
+            })
+            $sendFlowRouter.next()
+        }
+    }
+
+    function validate(): boolean {
+        try {
+            selector?.validate()
+            return true
+        } catch (err) {
+            return false
+        }
     }
 
     function onBackClick(): void {
@@ -221,5 +233,5 @@
             (recipient.type === SubjectType.Account && !recipient.account),
     }}
 >
-    <NetworkRecipientSelector bind:options={selectorOptions} bind:selectedIndex />
+    <NetworkRecipientSelector bind:this={selector} bind:options={selectorOptions} bind:selectedIndex />
 </SendFlowTemplate>
