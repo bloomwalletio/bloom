@@ -1,4 +1,5 @@
-import { appSettings, Platform } from '@core/app'
+import { Platform } from '@core/app'
+import { appSettings } from '@core/app/stores'
 import { generateRandomId, PartiallyOptional } from '@core/utils'
 import { get } from 'svelte/store'
 import { DEFAULT_NOTIFICATION_DURATION, NOTIFICATION_DURATION_NONE } from '../constants'

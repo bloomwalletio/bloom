@@ -1,23 +1,23 @@
 <script lang="ts">
-    import { TokenAmountTile, IconInput } from '@ui'
+    import { Icon as IconEnum } from '@auxiliary/icon'
     import { localize } from '@core/i18n'
-    import { marketCoinPrices } from '@core/market'
+    import { marketCoinPrices } from '@core/market/stores'
+    import { getNetwork } from '@core/network'
+    import { getCoinType } from '@core/profile/actions'
     import {
-        getAccountAssetsForSelectedAccount,
         AccountAssets,
         IAsset,
-        sendFlowParameters,
         SendFlowType,
         TokenStandard,
-        setSendFlowParameters,
+        getAccountAssetsForSelectedAccount,
         selectedAccountAssets,
+        sendFlowParameters,
+        setSendFlowParameters,
     } from '@core/wallet'
     import { closePopup } from '@desktop/auxiliary/popup'
-    import { Icon as IconEnum } from '@auxiliary/icon'
+    import { IconInput, TokenAmountTile } from '@ui'
     import { sendFlowRouter } from '../send-flow.router'
     import SendFlowTemplate from './SendFlowTemplate.svelte'
-    import { getCoinType } from '@core/profile'
-    import { getNetwork } from '@core/network'
 
     let searchValue: string = ''
     let selectedAsset: IAsset =

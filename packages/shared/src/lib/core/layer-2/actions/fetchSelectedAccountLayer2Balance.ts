@@ -1,14 +1,14 @@
-import { ContractType, evmAddressToAgentID, getAgentBalanceParameters, getSmartContractHexName } from '@core/layer-2'
-import { IChain, getNetwork } from '@core/network'
-import { ISC_MAGIC_CONTRACT_ADDRESS } from '../constants'
-import { getOrRequestAssetFromPersistedAssets } from '@core/wallet/actions'
-import { addPersistedAsset } from '@core/wallet/stores'
-import { Converter } from '@core/utils/convert'
-import { TOKEN_ID_BYTE_LENGTH } from '@core/token/constants'
-import { setLayer2AccountBalanceForChain } from '../stores'
-import { getActiveProfile } from '@core/profile'
 import { IAccountState } from '@core/account'
 import { calculateAndAddPersistedBalanceChange } from '@core/activity/actions'
+import { ContractType, evmAddressToAgentID, getAgentBalanceParameters, getSmartContractHexName } from '@core/layer-2'
+import { IChain, getNetwork } from '@core/network'
+import { getActiveProfile } from '@core/profile/stores'
+import { TOKEN_ID_BYTE_LENGTH } from '@core/token/constants'
+import { Converter } from '@core/utils/convert'
+import { getOrRequestAssetFromPersistedAssets } from '@core/wallet/actions'
+import { addPersistedAsset } from '@core/wallet/stores'
+import { ISC_MAGIC_CONTRACT_ADDRESS } from '../constants'
+import { setLayer2AccountBalanceForChain } from '../stores'
 
 export function fetchSelectedAccountLayer2Balance(account: IAccountState): void {
     const { evmAddresses, index } = account

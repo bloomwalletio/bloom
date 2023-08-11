@@ -1,9 +1,9 @@
-import { selectedAccount } from '@core/account'
-import { get } from 'svelte/store'
-import { localize } from '@core/i18n'
 import { showNotification } from '@auxiliary/notification'
-import { activeProfileId } from '@core/profile'
+import { selectedAccount } from '@core/account/stores'
 import { hiddenActivities, updateAsyncDataByActivityId } from '@core/activity/stores'
+import { localize } from '@core/i18n'
+import { activeProfileId } from '@core/profile/stores'
+import { get } from 'svelte/store'
 
 export function rejectActivity(id: string): void {
     const accountIndex = get(selectedAccount).index

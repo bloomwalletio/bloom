@@ -2,7 +2,7 @@
     import { showNotification } from '@auxiliary/notification'
     import { Platform } from '@core/app'
     import { localize } from '@core/i18n'
-    import { activeProfile } from '@core/profile'
+    import { activeProfile } from '@core/profile/stores'
     import { PIN_LENGTH } from '@core/utils'
     import { Button, ButtonSize, HTMLButtonType, PinInput, Text, TextType } from '@ui'
     import { get } from 'svelte/store'

@@ -1,30 +1,30 @@
 <script lang="ts">
     import { localize } from '@core/i18n'
+    import { getCoinType } from '@core/profile/actions'
     import {
-        TokenStandard,
         IAsset,
+        NotVerifiedStatus,
+        SendFlowType,
+        TokenStandard,
+        VerifiedStatus,
         setSendFlowParameters,
         unverifyAsset,
         verifyAsset,
-        NotVerifiedStatus,
-        VerifiedStatus,
-        SendFlowType,
     } from '@core/wallet'
-    import { openPopup, PopupId, updatePopupProps } from '@desktop/auxiliary/popup'
+    import { PopupId, openPopup, updatePopupProps } from '@desktop/auxiliary/popup'
+    import { Icon as IconEnum } from '@lib/auxiliary/icon'
     import {
+        AssetActionsButton,
         Button,
+        FontWeight,
+        KeyValueBox,
         Text,
         TextHint,
-        AssetActionsButton,
-        KeyValueBox,
-        FontWeight,
         TextType,
         TokenAmountTile,
         TooltipIcon,
     } from '@ui'
     import { SendFlowRoute, SendFlowRouter, sendFlowRouter } from '@views/dashboard/send-flow'
-    import { Icon as IconEnum } from '@lib/auxiliary/icon'
-    import { getCoinType } from '@core/profile'
 
     export let asset: IAsset
     export let activityId: string = undefined

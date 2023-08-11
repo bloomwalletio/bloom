@@ -1,14 +1,14 @@
 import { syncBalance } from '@core/account/actions/syncBalance'
-import { getNftByIdFromAllAccountNfts, updateNftInAllAccountNfts } from '@core/nfts'
-import { activeAccounts } from '@core/profile/stores'
 import { ActivityAsyncStatus, ActivityType } from '@core/activity'
 import {
     allAccountActivities,
     updateAsyncDataByTransactionId,
 } from '@core/activity/stores/all-account-activities.store'
+import { getNftByIdFromAllAccountNfts, updateNftInAllAccountNfts } from '@core/nfts/actions'
+import { activeAccounts } from '@core/profile/stores'
+import { Event, SpentOutputWalletEvent, WalletEventType } from '@iota/wallet/out/types'
 import { get } from 'svelte/store'
 import { validateWalletApiEvent } from '../../utils'
-import { Event, SpentOutputWalletEvent, WalletEventType } from '@iota/wallet/out/types'
 
 export async function handleSpentOutputEvent(error: Error, event: Event): Promise<void> {
     const walletEvent = validateWalletApiEvent<SpentOutputWalletEvent>(error, event, WalletEventType.SpentOutput)

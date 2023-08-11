@@ -1,6 +1,5 @@
 export { default as ActivityInformation } from './ActivityInformation.svelte'
 export { default as ActivityStatusPills } from './ActivityStatusPills.svelte'
-export { default as AliasActivityDetails } from './AliasActivityDetails.svelte'
 export { default as AssetIcon } from './AssetIcon.svelte'
 export { default as AssetList } from './AssetList.svelte'
 export { default as ConditionsOfUse } from './ConditionsOfUse.svelte'

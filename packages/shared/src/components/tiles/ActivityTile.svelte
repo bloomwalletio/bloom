@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { time } from '@core/app'
+    import { time } from '@core/app/stores'
     import { Activity, ActivityAsyncStatus, ActivityType, InclusionState } from '@core/activity'
     import {
         NotVerifiedStatus,

@@ -1,11 +1,11 @@
 <script lang="ts">
     import { formatCurrency, getDecimalSeparator } from '@core/i18n'
+    import { getMarketAmountFromAssetValue } from '@core/market/utils'
+    import { activeProfile } from '@core/profile/stores'
     import { getMaxDecimalsFromTokenMetadata } from '@core/token/utils'
     import { IAsset, convertToRawAmount, formatTokenAmountDefault, visibleSelectedAccountAssets } from '@core/wallet'
-    import { AmountInput, FontWeight, InputContainer, Text } from '@ui'
-    import { getMarketAmountFromAssetValue } from '@core/market/utils'
     import { validateTokenAmount } from '@core/wallet/utils/validateTokenAmount'
-    import { activeProfile } from '@core/profile'
+    import { AmountInput, FontWeight, InputContainer, Text } from '@ui'
 
     export let asset: IAsset | undefined = $visibleSelectedAccountAssets?.[$activeProfile?.network?.id]?.baseCoin
     export let rawAmount: string | undefined = undefined

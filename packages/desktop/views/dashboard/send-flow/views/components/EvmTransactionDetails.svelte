@@ -1,9 +1,9 @@
 <script lang="ts">
     import { localize } from '@core/i18n'
-    import { NetworkIcon, Text, TooltipIcon } from '@ui'
     import { NetworkId } from '@core/network'
-    import { getBaseToken } from '@core/profile'
+    import { getBaseToken } from '@core/profile/actions'
     import { formatTokenAmountBestMatch } from '@core/wallet'
+    import { NetworkIcon, Text, TooltipIcon } from '@ui'
 
     export let destinationNetwork: string
     export let gasBudget: number

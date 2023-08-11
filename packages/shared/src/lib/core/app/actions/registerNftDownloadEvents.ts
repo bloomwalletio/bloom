@@ -1,4 +1,5 @@
-import { downloadingNftId, removeNftFromDownloadQueue, updateNftInAllAccountNfts } from '@core/nfts'
+import { updateNftInAllAccountNfts } from '@core/nfts/actions'
+import { downloadingNftId, removeNftFromDownloadQueue } from '@core/nfts/stores'
 import { Platform } from '../classes'
 
 /**

@@ -1,11 +1,12 @@
 import { getActiveNetworkId } from '@core/network/utils/getNetworkId'
-import { INft, getNftByIdFromAllAccountNfts } from '@core/nfts'
+import { INft } from '@core/nfts'
+import { getNftByIdFromAllAccountNfts } from '@core/nfts/actions'
 import { getCoinType } from '@core/profile/actions'
-import { ActivityType } from '../enums'
-import { getAssetById } from '@core/wallet/stores'
-import { Activity } from '../types'
-import { TokenTransferData } from '@core/wallet/types'
 import { IAsset, getAssetFromPersistedAssets } from '@core/wallet'
+import { getAssetById } from '@core/wallet/stores'
+import { TokenTransferData } from '@core/wallet/types'
+import { ActivityType } from '../enums'
+import { Activity } from '../types'
 
 export function getTransactionAssets(
     activity: Activity,
@@ -13,6 +14,7 @@ export function getTransactionAssets(
 ):
     | {
           nft?: INft
+          aliasId?: string
           tokenTransfer?: TokenTransferData
           baseCoinTransfer?: TokenTransferData
       }
@@ -22,15 +24,24 @@ export function getTransactionAssets(
         return
     }
 
-    if (activity.type === ActivityType.Nft) {
+    if (activity.type === ActivityType.Nft || activity.type === ActivityType.Alias) {
         const baseCoin = getAssetById(getCoinType(), networkId)
-        const nft = getNftByIdFromAllAccountNfts(accountIndex, activity.nftId)
-        return {
-            nft,
-            baseCoinTransfer: {
-                rawAmount: String((activity.rawBaseCoinAmount ?? 0) - activity.storageDeposit),
-                asset: baseCoin,
-            },
+        const baseCoinTransfer = {
+            rawAmount: String((activity.rawBaseCoinAmount ?? 0) - activity.storageDeposit),
+            asset: baseCoin,
+        }
+
+        if (activity.type === ActivityType.Nft) {
+            const nft = getNftByIdFromAllAccountNfts(accountIndex, activity.nftId)
+            return {
+                nft,
+                baseCoinTransfer,
+            }
+        } else {
+            return {
+                aliasId: activity.aliasId,
+                baseCoinTransfer,
+            }
         }
     } else if (activity.type === ActivityType.Basic || activity.type === ActivityType.Foundry) {
         const assetWithBalance = getAssetById(activity.assetId, networkId)
