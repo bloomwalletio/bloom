@@ -15,6 +15,7 @@ import { validateWalletApiEvent } from '../../utils'
 import { preprocessGroupedOutputs } from '@core/activity/utils/outputs'
 import { generateActivities } from '@core/activity/utils'
 import { ActivityType } from '@core/activity/enums'
+import { network } from '@core/network'
 
 export function handleNewOutputEvent(error: Error, event: Event): void {
     const walletEvent = validateWalletApiEvent<NewOutputWalletEvent>(error, event, WalletEventType.NewOutput)
@@ -26,9 +27,10 @@ export async function handleNewOutputEventInternal(
     walletEvent: NewOutputWalletEvent
 ): Promise<void> {
     const account = get(activeAccounts)?.find((account) => account.index === accountIndex)
+    const networkId = get(network)?.getMetadata()?.id
     const output = walletEvent?.output
 
-    if (!account || !output) return
+    if (!account || !output || !networkId) return
 
     const address = getBech32AddressFromAddressTypes(output?.address)
     const isNewAliasOutput =
@@ -42,7 +44,7 @@ export async function handleNewOutputEventInternal(
 
         const processedOutput = preprocessGroupedOutputs([output], walletEvent?.transactionInputs ?? [], account)
 
-        const activities = generateActivities(processedOutput, account)
+        const activities = generateActivities(processedOutput, account, networkId)
         for (const activity of activities) {
             if (activity.type === ActivityType.Basic || activity.type === ActivityType.Foundry) {
                 const asset = await getOrRequestAssetFromPersistedAssets(activity.assetId)

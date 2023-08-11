@@ -15,9 +15,11 @@ import {
     getTagFromOutput,
 } from './helper'
 import { convertHexAddressToBech32, hashOutputId } from '@core/wallet/utils'
+import { NetworkIdType } from '@core/network/types'
 
 export function generateSingleAliasActivity(
     account: IAccountState,
+    networkId: NetworkIdType,
     { action, processedTransaction, wrappedOutput }: IActivityGenerationParameters
 ): AliasActivity {
     const { transactionId, claimingData, direction, time, inclusionState } = processedTransaction
@@ -57,7 +59,7 @@ export function generateSingleAliasActivity(
         time,
         metadata,
         tag,
-        chainId: undefined,
+        networkId,
         inclusionState,
         containsValue,
         asyncData,

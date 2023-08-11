@@ -1,4 +1,5 @@
 import { ChainType } from '../enums'
+import { NetworkIdType } from '../types'
 
 export interface IIscpChainConfiguration extends IBaseChainConfiguration {
     type: ChainType.Iscp
@@ -15,6 +16,7 @@ export interface IEvmChainConfiguration extends IBaseChainConfiguration {
 
 export interface IBaseChainConfiguration {
     type: ChainType
+    networkId: NetworkIdType
     chainId: number
     coinType: number
     name: string

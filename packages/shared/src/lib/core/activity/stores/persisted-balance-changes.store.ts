@@ -2,11 +2,12 @@ import { persistent } from '@core/utils/store'
 import { IAssetBalanceChange } from '../types/asset-balance-change.interface'
 import { get } from 'svelte/store'
 import { activeProfileId } from '@core/profile'
+import { NetworkIdType } from '@core/network'
 
 interface IPersistedBalanceChangesStore {
     [profileId: string]: {
         [accountId: string]: {
-            [chainId: string | number]: {
+            [networkId: NetworkIdType]: {
                 [assetId: string]: IAssetBalanceChange[]
             }
         }
@@ -17,16 +18,16 @@ export const persistedBalanceChanges = persistent<IPersistedBalanceChangesStore>
 
 export function getBalanceChanges(
     accountIndex: number,
-    chainId: string | number
+    networkId: NetworkIdType
 ): {
     [assetId: string]: IAssetBalanceChange[]
 } {
-    return get(persistedBalanceChanges)?.[get(activeProfileId)]?.[accountIndex]?.[chainId]
+    return get(persistedBalanceChanges)?.[get(activeProfileId)]?.[accountIndex]?.[networkId]
 }
 
 export function addPersistedBalanceChange(
     accountIndex: number,
-    chainId: string | number,
+    networkId: NetworkIdType,
     assetId: string,
     ...newPersistedAssets: IAssetBalanceChange[]
 ): void {
@@ -37,14 +38,14 @@ export function addPersistedBalanceChange(
         if (!state[get(activeProfileId)][accountIndex]) {
             state[get(activeProfileId)][accountIndex] = {}
         }
-        if (!state[get(activeProfileId)][accountIndex][chainId]) {
-            state[get(activeProfileId)][accountIndex][chainId] = {}
+        if (!state[get(activeProfileId)][accountIndex][networkId]) {
+            state[get(activeProfileId)][accountIndex][networkId] = {}
         }
-        if (!state[get(activeProfileId)][accountIndex][chainId][assetId]) {
-            state[get(activeProfileId)][accountIndex][chainId][assetId] = []
+        if (!state[get(activeProfileId)][accountIndex][networkId][assetId]) {
+            state[get(activeProfileId)][accountIndex][networkId][assetId] = []
         }
 
-        state[get(activeProfileId)][accountIndex][chainId][assetId].push(...newPersistedAssets)
+        state[get(activeProfileId)][accountIndex][networkId][assetId].push(...newPersistedAssets)
         return state
     })
 }

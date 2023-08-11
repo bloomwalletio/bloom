@@ -1,3 +1,4 @@
+import { NetworkIdType } from '@core/network'
 import { ILayer2AccountBalance, ILayer2ProfileBalances } from '../interfaces'
 import { get, writable } from 'svelte/store'
 
@@ -9,7 +10,7 @@ export function getLayer2AccountBalance(accountIndex: number): ILayer2AccountBal
 
 export function setLayer2AccountBalanceForChain(
     accountIndex: number,
-    chainId: number,
+    networkId: NetworkIdType,
     chainBalance: { [tokenId: string]: number }
 ): void {
     layer2Balances.update((balance) => {
@@ -19,7 +20,7 @@ export function setLayer2AccountBalanceForChain(
         if (!balance[accountIndex]) {
             balance[accountIndex] = {}
         }
-        balance[accountIndex] = { ...balance[accountIndex], [chainId]: chainBalance }
+        balance[accountIndex] = { ...balance[accountIndex], [networkId]: chainBalance }
         return balance
     })
 }

@@ -10,6 +10,8 @@ import { IIrc30Metadata, IPersistedAsset } from '../interfaces'
 import { resetMintTokenDetails } from '../stores'
 import { addPersistedAsset } from '../stores/persisted-assets.store'
 import { processAndAddToActivities } from '@core/activity/utils'
+import { network } from '@core/network'
+import { get } from 'svelte/store'
 
 export async function mintNativeToken(
     maximumSupply: number,
@@ -17,11 +19,13 @@ export async function mintNativeToken(
     metadata: IIrc30Metadata
 ): Promise<void> {
     try {
-        updateSelectedAccount({ isTransferring: true })
         const account = getSelectedAccount()
-        if (!account) {
-            throw new Error('Account is undefined!')
+        const networkId = get(network)?.getMetadata()?.id
+
+        if (!account || !networkId) {
+            throw new Error('Account or network undefined')
         }
+        updateSelectedAccount({ isTransferring: true })
 
         const params: CreateNativeTokenParams = {
             maximumSupply: Converter.decimalToHex(maximumSupply),
@@ -37,7 +41,7 @@ export async function mintNativeToken(
         )
         addPersistedAsset(persistedAsset)
 
-        await processAndAddToActivities(createTokenTransaction.transaction, account)
+        await processAndAddToActivities(createTokenTransaction.transaction, account, networkId)
 
         showNotification({
             variant: 'success',

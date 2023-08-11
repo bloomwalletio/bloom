@@ -13,38 +13,44 @@ import { generateActivitiesFromAliasOutputs } from './generateActivitiesFromAlia
 import { generateActivitiesFromFoundryOutputs } from './generateActivitiesFromFoundryOutputs'
 import { generateActivitiesFromBasicOutputs } from './generateActivitiesFromBasicOutputs'
 import { ActivityAction, ActivityType } from '../enums'
+import { NetworkIdType } from '@core/network/types'
 
-export function generateActivities(processedTransaction: IProcessedTransaction, account: IAccountState): Activity[] {
+export function generateActivities(
+    processedTransaction: IProcessedTransaction,
+    account: IAccountState,
+    networkId: NetworkIdType
+): Activity[] {
     if (processedTransaction.wrappedInputs?.length > 0) {
-        return generateActivitiesFromProcessedTransactionsWithInputs(processedTransaction, account)
+        return generateActivitiesFromProcessedTransactionsWithInputs(processedTransaction, account, networkId)
     } else {
-        return generateActivitiesFromProcessedTransactionsWithoutInputs(processedTransaction, account)
+        return generateActivitiesFromProcessedTransactionsWithoutInputs(processedTransaction, account, networkId)
     }
 }
 
 function generateActivitiesFromProcessedTransactionsWithInputs(
     processedTransaction: IProcessedTransaction,
-    account: IAccountState
+    account: IAccountState,
+    networkId: NetworkIdType
 ): Activity[] {
     const { outputs, wrappedInputs } = processedTransaction
     const activities: Activity[] = []
 
     const containsFoundryActivity = outputs.some((output) => output.output.type === OUTPUT_TYPE_FOUNDRY)
     if (containsFoundryActivity) {
-        const foundryActivities = generateActivitiesFromFoundryOutputs(processedTransaction, account)
+        const foundryActivities = generateActivitiesFromFoundryOutputs(processedTransaction, account, networkId)
         activities.push(...foundryActivities)
     }
 
     const containsNftActivity = outputs.some((output) => output.output.type === OUTPUT_TYPE_NFT)
     if (containsNftActivity) {
-        const nftActivities = generateActivitiesFromNftOutputs(processedTransaction, account)
+        const nftActivities = generateActivitiesFromNftOutputs(processedTransaction, account, networkId)
         activities.push(...nftActivities)
     }
 
     const containsAliasActivity =
         outputs.some((output) => output.output.type === OUTPUT_TYPE_ALIAS) && !containsFoundryActivity
     if (containsAliasActivity) {
-        const aliasActivities = generateActivitiesFromAliasOutputs(processedTransaction, account)
+        const aliasActivities = generateActivitiesFromAliasOutputs(processedTransaction, account, networkId)
         activities.push(...aliasActivities)
     }
 
@@ -53,7 +59,7 @@ function generateActivitiesFromProcessedTransactionsWithInputs(
         ? processedTransaction?.outputs[0]
         : outputs.find((output) => isParticipationOutput(output.output))
     if (governanceOutput) {
-        const governanceActivity = generateSingleGovernanceActivity(account, {
+        const governanceActivity = generateSingleGovernanceActivity(account, networkId, {
             processedTransaction,
             wrappedOutput: governanceOutput,
             action: null,
@@ -62,7 +68,7 @@ function generateActivitiesFromProcessedTransactionsWithInputs(
     }
 
     if (!containsFoundryActivity && !containsNftActivity && !containsAliasActivity && !governanceOutput) {
-        const basicActivities = generateActivitiesFromBasicOutputs(processedTransaction, account)
+        const basicActivities = generateActivitiesFromBasicOutputs(processedTransaction, account, networkId)
         activities.push(...basicActivities)
     }
 
@@ -75,7 +81,8 @@ function generateActivitiesFromProcessedTransactionsWithInputs(
  */
 function generateActivitiesFromProcessedTransactionsWithoutInputs(
     processedTransaction: IProcessedTransaction,
-    account: IAccountState
+    account: IAccountState,
+    networkId: NetworkIdType
 ): Activity[] {
     const nonRemainderOutputs = processedTransaction.outputs.filter((wrappedOutput) => !wrappedOutput.remainder)
     return nonRemainderOutputs.map((wrappedOutput) => {
@@ -87,15 +94,15 @@ function generateActivitiesFromProcessedTransactionsWithoutInputs(
         }
         switch (params.type) {
             case ActivityType.Basic:
-                return generateSingleBasicActivity(account, params)
+                return generateSingleBasicActivity(account, networkId, params)
             case ActivityType.Governance:
-                return generateSingleGovernanceActivity(account, params)
+                return generateSingleGovernanceActivity(account, networkId, params)
             case ActivityType.Foundry:
-                return generateSingleFoundryActivity(account, params)
+                return generateSingleFoundryActivity(account, networkId, params)
             case ActivityType.Alias:
-                return generateSingleAliasActivity(account, params)
+                return generateSingleAliasActivity(account, networkId, params)
             case ActivityType.Nft:
-                return generateSingleNftActivity(account, params)
+                return generateSingleNftActivity(account, networkId, params)
         }
     })
 }

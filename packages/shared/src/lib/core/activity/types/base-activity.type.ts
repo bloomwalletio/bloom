@@ -1,6 +1,7 @@
 import { Subject } from '@core/wallet/types'
 import { ActivityAsyncStatus, ActivityDirection, InclusionState, ActivityAction } from '../enums'
 import { Layer2Metadata } from '@core/layer-2'
+import { NetworkIdType } from '@core/network'
 
 export type BaseActivity = {
     id: string
@@ -19,7 +20,7 @@ export type BaseActivity = {
     subject: Subject | undefined
     metadata?: string
     tag?: string
-    chainId: number | undefined
+    networkId: NetworkIdType
     asyncData?: AsyncData
     destinationNetwork?: string
     parsedLayer2Metadata?: Layer2Metadata

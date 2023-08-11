@@ -1,3 +1,5 @@
+import { NetworkIdType } from '../types'
+
 export interface ITrackedTokens {
-    [chainId: number]: string[] | undefined
+    [networkId: NetworkIdType]: string[] | undefined
 }

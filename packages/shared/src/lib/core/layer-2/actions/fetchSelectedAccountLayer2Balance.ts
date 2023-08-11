@@ -14,7 +14,7 @@ export function fetchSelectedAccountLayer2Balance(account: IAccountState): void 
     const { evmAddresses, index } = account
     const chains = getNetwork()?.getChains() ?? []
     chains.forEach(async (chain) => {
-        const { coinType, chainId } = chain.getConfiguration()
+        const { coinType, networkId } = chain.getConfiguration()
         const evmAddress = evmAddresses?.[coinType]
         if (!evmAddress) {
             return
@@ -29,17 +29,17 @@ export function fetchSelectedAccountLayer2Balance(account: IAccountState): void 
 
         for (const { balance, tokenId } of balances) {
             const isNativeToken = Converter.hexToBytes(tokenId).length === TOKEN_ID_BYTE_LENGTH
-            const isErc20TrackedToken = getActiveProfile()?.trackedTokens?.[chainId]?.includes(tokenId)
+            const isErc20TrackedToken = getActiveProfile()?.trackedTokens?.[networkId]?.includes(tokenId)
             if (isNativeToken || isErc20TrackedToken) {
-                const asset = await getOrRequestAssetFromPersistedAssets(tokenId, chainId)
+                const asset = await getOrRequestAssetFromPersistedAssets(tokenId, networkId)
                 if (asset) {
                     addPersistedAsset(asset)
                 }
             }
-            calculateAndAddPersistedBalanceChange(account.index, chainId, tokenId, balance)
+            calculateAndAddPersistedBalanceChange(account.index, networkId, tokenId, balance)
             layer2Balance[tokenId] = balance
         }
-        setLayer2AccountBalanceForChain(index, chainId, layer2Balance)
+        setLayer2AccountBalanceForChain(index, networkId, layer2Balance)
     })
 }
 

@@ -9,10 +9,12 @@ import { generateSingleNftActivity } from './generateSingleNftActivity'
 import { getNonRemainderBasicOutputsFromTransaction } from './getNonRemainderBasicOutputsFromTransaction'
 import { ActivityAction, ActivityDirection } from '../enums'
 import { getNftId } from './outputs'
+import { NetworkIdType } from '@core/network/types'
 
 export function generateActivitiesFromBasicOutputs(
     processedTransaction: IProcessedTransaction,
-    account: IAccountState
+    account: IAccountState,
+    networkId: NetworkIdType
 ): Activity[] {
     const activities = []
 
@@ -37,6 +39,7 @@ export function generateActivitiesFromBasicOutputs(
             const nftInput = wrappedInput.output as INftOutput
             activity = generateSingleNftActivity(
                 account,
+                networkId,
                 {
                     action: ActivityAction.Burn,
                     processedTransaction,
@@ -51,6 +54,7 @@ export function generateActivitiesFromBasicOutputs(
         } else if (isSelfTransaction && burnedNativeToken) {
             activity = generateSingleBasicActivity(
                 account,
+                networkId,
                 {
                     action: ActivityAction.Burn,
                     processedTransaction,
@@ -60,13 +64,13 @@ export function generateActivitiesFromBasicOutputs(
                 burnedNativeToken.amount
             )
         } else if (isSelfTransaction && isConsolidation(basicOutput, processedTransaction)) {
-            activity = generateSingleConsolidationActivity(account, {
+            activity = generateSingleConsolidationActivity(account, networkId, {
                 action: ActivityAction.Send,
                 processedTransaction,
                 wrappedOutput: basicOutput,
             })
         } else {
-            activity = generateSingleBasicActivity(account, {
+            activity = generateSingleBasicActivity(account, networkId, {
                 action: ActivityAction.Send,
                 processedTransaction,
                 wrappedOutput: basicOutput,

@@ -11,9 +11,11 @@ import {
     getStorageDepositFromOutput,
     getTagFromOutput,
 } from './helper'
+import { NetworkIdType } from '@core/network/types'
 
 export function generateSingleGovernanceActivity(
     account: IAccountState,
+    networkId: NetworkIdType,
     { action, processedTransaction, wrappedOutput }: IActivityGenerationParameters
 ): GovernanceActivity {
     const { transactionId, direction, time, inclusionState, wrappedInputs } = processedTransaction
@@ -50,8 +52,8 @@ export function generateSingleGovernanceActivity(
         storageDeposit,
         metadata,
         tag,
-        chainId: undefined, // Currently we only support L1 activities
-        asyncData: null,
+        networkId,
+        asyncData: undefined,
         ...governanceInfo,
         ...sendingInfo,
     }

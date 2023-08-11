@@ -10,13 +10,13 @@ export function generateActivitiesFromBalanceChanges(account: IAccountState): Ac
 
     const chains = get(network)?.getChains() ?? []
     for (const chain of chains) {
-        const chainId = chain.getConfiguration().chainId
-        const balanceChanges = getBalanceChanges(account.index, chainId)
+        const networkId = chain.getConfiguration().networkId
+        const balanceChanges = getBalanceChanges(account.index, networkId)
         const assetIds = balanceChanges ? Object.keys(balanceChanges) : []
 
         for (const assetId of assetIds) {
             for (const balanceChangeForAsset of balanceChanges[assetId]) {
-                const activity = generateBalanceChangeActivity(chainId, assetId, balanceChangeForAsset)
+                const activity = generateBalanceChangeActivity(networkId, assetId, balanceChangeForAsset)
                 activities.push(activity)
             }
         }

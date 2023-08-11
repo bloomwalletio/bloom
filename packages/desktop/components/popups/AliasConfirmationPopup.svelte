@@ -14,6 +14,8 @@
     import { onMount } from 'svelte'
     import { handleError } from '@core/error/handlers/handleError'
     import { processAndAddToActivities } from '@core/activity/utils'
+    import { network } from '@core/network/stores'
+    import Error from '@ui/Error.svelte'
 
     export let _onMount: (..._: any[]) => Promise<void> = async () => {}
 
@@ -53,9 +55,15 @@
 
     async function createAlias(): Promise<void> {
         try {
+            const account = $selectedAccount
+            const networkId = $network?.getMetadata()?.id
+            if (!account || !networkId) {
+                throw new Error('Account or network undefined')
+            }
+
             updateSelectedAccount({ isTransferring: true })
-            const transaction = await $selectedAccount.createAliasOutput()
-            await processAndAddToActivities(transaction, $selectedAccount)
+            const transaction = await account.createAliasOutput()
+            await processAndAddToActivities(transaction, account, networkId)
             closePopup()
         } catch (err) {
             handleError(err)

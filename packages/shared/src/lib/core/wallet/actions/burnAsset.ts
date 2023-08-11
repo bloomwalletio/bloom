@@ -5,14 +5,21 @@ import { localize } from '@core/i18n'
 import { Converter } from '@core/utils'
 import { handleError } from '@core/error/handlers'
 import { processAndAddToActivities } from '@core/activity/utils'
+import { network } from '@core/network/stores'
 
 export async function burnAsset(assetId: string, rawAmount: string): Promise<void> {
-    const account = get(selectedAccount)
     try {
+        const account = get(selectedAccount)
+        const networkId = get(network)?.getMetadata()?.id
+
+        if (!account || !networkId) {
+            throw new Error('Account or network undefined')
+        }
+
         updateSelectedAccount({ isTransferring: true })
         const burnTokenTransaction = await account.burnNativeToken(assetId, Converter.decimalToHex(Number(rawAmount)))
 
-        await processAndAddToActivities(burnTokenTransaction, account)
+        await processAndAddToActivities(burnTokenTransaction, account, networkId)
 
         showNotification({
             variant: 'success',
