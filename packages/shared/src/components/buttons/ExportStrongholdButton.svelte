@@ -1,8 +1,8 @@
 <script lang="ts">
     import { showNotification as _showNotification } from '@auxiliary/notification'
+    import { Button } from '@bloomwalletio/ui'
     import { exportStronghold } from '@contexts/settings'
     import { localize } from '@core/i18n'
-    import { Button, ButtonSize } from '@ui'
     import { openPopup, PopupId } from '../../../../desktop/lib/auxiliary/popup'
 
     export let isBusy = false
@@ -57,11 +57,8 @@
 </script>
 
 <Button
-    size={ButtonSize.Medium}
-    inlineStyle="min-width: 156px;"
-    onClick={onExportClick}
+    text={overrideTitle || localize('actions.export')}
     disabled={isBusy}
+    on:click={onExportClick}
     {...$$restProps}
->
-    {overrideTitle || localize('actions.export')}
-</Button>
+/>

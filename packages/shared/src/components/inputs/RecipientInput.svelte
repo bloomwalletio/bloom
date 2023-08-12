@@ -1,13 +1,14 @@
 <script lang="ts">
-    import { getAccountColorById, getRandomAccountColor } from '@core/account/utils'
+    import { Modal, SelectorInput, IOption, ColoredCircle } from '@ui'
+    import { getRandomAccountColor } from '@core/account/utils'
     import { localize } from '@core/i18n'
     import { Layer1RecipientError } from '@core/layer-2/errors'
     import { getNetworkHrp } from '@core/profile/actions'
+    import { visibleActiveAccounts } from '@core/profile/stores'
     import { validateBech32Address, validateEthereumAddress } from '@core/utils/crypto'
     import { SubjectType } from '@core/wallet'
     import { Subject } from '@core/wallet/types'
     import { getSubjectFromAddress } from '@core/wallet/utils'
-    import { ColoredCircle, IOption, Modal, SelectorInput } from '@ui'
 
     export let recipient: Subject | undefined
     export let options: IOption[]
@@ -49,6 +50,10 @@
             error = err?.message ?? err
             throw err
         }
+    }
+
+    export function getAccountColorById(id: number): string | undefined {
+        return $visibleActiveAccounts?.find((account) => account.index === id)?.color
     }
 
     function getRecipientColor(option: IOption): string {

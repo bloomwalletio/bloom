@@ -2,8 +2,8 @@ import { getActiveNetworkId } from '@core/network/utils/getNetworkId'
 import { INft } from '@core/nfts'
 import { getNftByIdFromAllAccountNfts } from '@core/nfts/actions'
 import { getCoinType } from '@core/profile/actions'
-import { IAsset, getAssetFromPersistedAssets } from '@core/wallet'
-import { getAssetById } from '@core/wallet/stores'
+import { IToken } from '@core/token/interfaces'
+import { getTokenFromSelectedAccountTokens, getPersistedToken } from '@core/token/stores'
 import { TokenTransferData } from '@core/wallet/types'
 import { ActivityType } from '../enums'
 import { Activity } from '../types'
@@ -24,54 +24,45 @@ export function getTransactionAssets(
         return
     }
 
-    if (activity.type === ActivityType.Nft || activity.type === ActivityType.Alias) {
-        const baseCoin = getAssetById(getCoinType(), networkId)
-        const baseCoinTransfer = {
-            rawAmount: String((activity.rawBaseCoinAmount ?? 0) - activity.storageDeposit),
-            asset: baseCoin,
-        }
-
-        if (activity.type === ActivityType.Nft) {
-            const nft = getNftByIdFromAllAccountNfts(accountIndex, activity.nftId)
-            return {
-                nft,
-                baseCoinTransfer,
-            }
-        } else {
-            return {
-                aliasId: activity.aliasId,
-                baseCoinTransfer,
-            }
+    if (activity.type === ActivityType.Nft) {
+        const baseCoin = getTokenFromSelectedAccountTokens(getCoinType(), networkId)
+        const nft = getNftByIdFromAllAccountNfts(accountIndex, activity.nftId)
+        return {
+            nft,
+            baseCoinTransfer: {
+                rawAmount: String((activity.rawBaseCoinAmount ?? 0) - activity.storageDeposit),
+                token: baseCoin,
+            },
         }
     } else if (activity.type === ActivityType.Basic || activity.type === ActivityType.Foundry) {
-        const assetWithBalance = getAssetById(activity.assetId, networkId)
-        const persistedAsset = getAssetFromPersistedAssets(activity.assetId)
-        const asset: IAsset = {
+        const tokenWithBalance = getTokenFromSelectedAccountTokens(activity.tokenId, networkId)
+        const persistedToken = getPersistedToken(activity.tokenId)
+        const token: IToken = {
             chainId: activity.chainId ?? 0,
             balance: {
                 total: 0,
                 available: 0,
             },
-            ...assetWithBalance,
-            ...persistedAsset,
+            ...tokenWithBalance,
+            ...persistedToken,
         }
-        if (activity.assetId === getCoinType()) {
+        if (activity.tokenId === getCoinType()) {
             return {
                 baseCoinTransfer: {
                     rawAmount: String(activity.rawBaseCoinAmount),
-                    asset,
+                    token,
                 },
             }
         } else {
-            const baseCoin = getAssetById(getCoinType(), networkId)
+            const baseCoin = getTokenFromSelectedAccountTokens(getCoinType(), networkId)
             return {
                 tokenTransfer: {
                     rawAmount: String(activity.rawAmount),
-                    asset,
+                    token,
                 },
                 baseCoinTransfer: {
                     rawAmount: String((activity.rawBaseCoinAmount ?? 0) - activity.storageDeposit),
-                    asset: baseCoin,
+                    token: baseCoin,
                 },
             }
         }

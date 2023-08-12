@@ -1101,7 +1101,7 @@
                 "logoUrl": "Logo URL",
                 "logo": "Logo",
                 "alias": "Alias",
-                "assetId": "Asset Id"
+                "tokenId": "Token Id"
             }
         },
         "importErc20Token": {
@@ -1931,7 +1931,7 @@
             "wrongAddressPrefix": "Aadressid algavad eesliitega {prefix}.",
             "wrongAddressFormat": "Aadress ei ole korrektses vormingus.",
             "invalidAddress": "See aadress pole korrektne.",
-            "invalidAssetId": "The asset id is not valid.",
+            "invalidTokenId": "The token id is not valid.",
             "unknownAsset": "The asset is not known to this account.",
             "insufficientFunds": "Selles rahakotis pole piisavalt vahendeid.",
             "insufficientFundsStorageDeposit": "Insufficient funds to cover the storage deposit.",

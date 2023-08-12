@@ -25,7 +25,6 @@ import { profileManager } from '@core/profile-manager/stores'
 import { buildProfileManagerOptionsFromProfileData } from '@core/profile-manager/utils'
 import { routerManager } from '@core/router/stores'
 import { SECONDS_PER_MINUTE } from '@core/utils'
-import { refreshAccountAssetsForActiveProfile } from '@core/wallet/actions'
 import { get } from 'svelte/store'
 import { DEFAULT_ACCOUNT_RECOVERY_CONFIGURATION } from '../../constants'
 import { ProfileType } from '../../enums'
@@ -44,6 +43,7 @@ import { checkAndUpdateActiveProfileNetwork } from './checkAndUpdateActiveProfil
 import { loadAccounts } from './loadAccounts'
 import { logout } from './logout'
 import { subscribeToWalletApiEventsForActiveProfile } from './subscribeToWalletApiEventsForActiveProfile'
+import { refreshAccountTokensForActiveProfile } from '@core/token/actions'
 
 export async function login(loginOptions?: ILoginOptions): Promise<void> {
     const loginRouter = get(routerManager).getRouterForAppContext(AppContext.Login)
@@ -98,7 +98,7 @@ export async function login(loginOptions?: ILoginOptions): Promise<void> {
 
             // Step 5: load assets
             incrementLoginProgress()
-            await refreshAccountAssetsForActiveProfile(
+            await refreshAccountTokensForActiveProfile(
                 _activeProfile.forceAssetRefresh,
                 _activeProfile.forceAssetRefresh
             )
