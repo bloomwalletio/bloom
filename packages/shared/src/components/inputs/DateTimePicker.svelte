@@ -92,31 +92,27 @@
 </Tooltip>
 
 <style lang="scss">
-    @media (prefers-color-scheme: dark) {
-        :global(.datetime-picker-colors) {
-            --sdt-color: theme('colors.white');
-            --sdt-btn-bg-hover: theme('colors.gray.800');
-            --sdt-btn-bg-hover: theme('colors.gray.800');
-            --sdt-btn-header-bg-hover: theme('colors.gray.800');
-            --sdt-clock-bg: theme('colors.gray.800');
-            --sdt-clock-bg-minute: theme('colors.gray.800');
-        }
+    :global(.dark .datetime-picker-colors) {
+        --sdt-color: theme('colors.white');
+        --sdt-btn-bg-hover: theme('colors.gray.800');
+        --sdt-btn-bg-hover: theme('colors.gray.800');
+        --sdt-btn-header-bg-hover: theme('colors.gray.800');
+        --sdt-clock-bg: theme('colors.gray.800');
+        --sdt-clock-bg-minute: theme('colors.gray.800');
     }
 
-    @media (prefers-color-scheme: light) {
-        :global(.datetime-picker-colors) {
-            --sdt-primary: theme('colors.blue.500');
-            --sdt-color: theme('colors.gray.600');
-            --sdt-color-selected: theme('colors.white');
-            --sdt-bg-main: none;
-            --sdt-bg-today: var(--sdt-primary);
-            --sdt-today-color: theme('colors.white');
-            --sdt-btn-bg-hover: theme('colors.gray.200');
-            --sdt-btn-header-bg-hover: theme('colors.gray.200');
-            --sdt-clock-bg: theme('colors.gray.200');
-            --sdt-clock-bg-minute: theme('colors.gray.200');
-            --sdt-clock-bg-shadow: none;
-            --sdt-shadow: none;
-        }
+    :global(.datetime-picker-colors) {
+        --sdt-primary: theme('colors.blue.500');
+        --sdt-color: theme('colors.gray.600');
+        --sdt-color-selected: theme('colors.white');
+        --sdt-bg-main: none;
+        --sdt-bg-today: var(--sdt-primary);
+        --sdt-today-color: theme('colors.white');
+        --sdt-btn-bg-hover: theme('colors.gray.200');
+        --sdt-btn-header-bg-hover: theme('colors.gray.200');
+        --sdt-clock-bg: theme('colors.gray.200');
+        --sdt-clock-bg-minute: theme('colors.gray.200');
+        --sdt-clock-bg-shadow: none;
+        --sdt-shadow: none;
     }
 </style>

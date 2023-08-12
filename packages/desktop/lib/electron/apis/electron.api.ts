@@ -228,9 +228,6 @@ export default {
             ) as IFeatureFlag
         return feature?.enabled ?? false
     },
-    updateTheme(theme: string): Promise<void> {
-        return ipcRenderer.invoke('update-theme', theme)
-    },
     startLedgerProcess(): void {
         return ipcRenderer.send('start-ledger-process')
     },

@@ -13,6 +13,7 @@ const NODE_MODULES_ROUTES = [
 ]
 
 module.exports = {
+    darkMode: 'class',
     content: [
         ...SHARED_CONTENT_ROUTES,
         ...NODE_MODULES_ROUTES,

@@ -62,7 +62,11 @@
 
     $: $nftDownloadQueue, downloadNextNftInQueue()
 
-    $: Platform.updateTheme($appSettings.theme)
+    $: if ($appSettings.darkMode) {
+        document.documentElement.classList.add('dark')
+    } else {
+        document.documentElement.classList.remove('dark')
+    }
 
     let splash = true
     let settings = false
