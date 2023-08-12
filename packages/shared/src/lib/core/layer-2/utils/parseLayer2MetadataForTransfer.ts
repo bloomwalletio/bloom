@@ -1,10 +1,10 @@
 import { Converter } from '@core/utils'
-import { TOKEN_ID_BYTE_LENGTH } from '@core/token'
 import { NFT_ID_BYTE_LENGTH } from '@core/nfts/constants'
 import { ILayer2AssetAllowance, ILayer2TransferAllowanceMetadata } from '../interfaces'
 import { CONTRACT_FUNCTIONS, TARGET_CONTRACTS } from '../constants'
 import { Allowance } from '@core/layer-2/enums'
 import { ReadSpecialStream } from '@core/layer-2/classes'
+import { TOKEN_ID_BYTE_LENGTH } from '@core/token/constants'
 
 // Function to parse data from the L1 metadata, using the new encoding where the shimmer chainId is 1072
 export function parseLayer2MetadataForTransfer(metadata: Uint8Array): ILayer2TransferAllowanceMetadata {

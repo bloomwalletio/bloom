@@ -1,7 +1,7 @@
 <script lang="ts">
     import { KeyValueBox } from '@ui'
     import { localize } from '@core/i18n'
-    import { FoundryActivity } from '@core/wallet'
+    import { FoundryActivity } from '@core/activity'
     import { IKeyValueBoxList } from '@core/utils'
 
     export let activity: FoundryActivity
@@ -9,7 +9,7 @@
     let detailsList: IKeyValueBoxList
     $: detailsList = {
         aliasAddress: { data: activity.aliasAddress, isCopyable: true },
-        assetId: { data: activity.assetId, isCopyable: true },
+        tokenId: { data: activity.tokenId, isCopyable: true },
         maximumSupply: { data: String(parseInt(activity.maximumSupply, 16)) },
         mintedTokens: { data: String(parseInt(activity.mintedTokens, 16)) },
         meltedTokens: { data: String(parseInt(activity.meltedTokens, 16)) },

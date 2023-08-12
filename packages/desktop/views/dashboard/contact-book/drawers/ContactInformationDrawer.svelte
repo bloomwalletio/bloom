@@ -71,15 +71,17 @@
             {/each}
         </contact-addresses>
     </div>
-    {#if features.contacts.addNetworkAddress.enabled}
-        <Button
-            slot="footer"
-            class="w-full"
-            on:click={onAddNetworkAddressClick}
-            flatIcon={FlatIconName.Add}
-            text={localize(
-                `views.dashboard.drawers.contactBook.${ContactBookRoute.ContactInformation}.addNetworkAddress`
-            )}
-        />
-    {/if}
+    <div slot="footer" class="flex justify-center">
+        {#if features.contacts.addNetworkAddress.enabled}
+            <Button
+                variant="text"
+                icon={FlatIconName.Plus}
+                text={localize(
+                    `views.dashboard.drawers.contactBook.${ContactBookRoute.ContactInformation}.addNetworkAddress`
+                )}
+                width="full"
+                on:click={onAddNetworkAddressClick}
+            />
+        {/if}
+    </div>
 </DrawerTemplate>

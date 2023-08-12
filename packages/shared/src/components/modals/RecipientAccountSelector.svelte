@@ -3,8 +3,8 @@
     import { selectedAccount } from '@core/account/stores'
     import { getBaseToken } from '@core/profile/actions'
     import { visibleActiveAccounts } from '@core/profile/stores'
+    import { formatTokenAmountBestMatch } from '@core/token'
     import { truncateString } from '@core/utils'
-    import { formatTokenAmountBestMatch } from '@core/wallet'
     import { AccountLabel, Modal, Text, TextType } from '@ui'
     import { fade } from 'svelte/transition'
 

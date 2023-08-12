@@ -1,6 +1,7 @@
 <script lang="ts">
-    import { Button, Text, MeatballMenuButton, MenuItem, Modal, NetworkIcon } from '@ui'
-    import { ButtonSize, FontWeight, TextType } from '@ui/enums'
+    import { Button } from '@bloomwalletio/ui'
+    import { Text, MeatballMenuButton, MenuItem, Modal, NetworkIcon } from '@ui'
+    import { FontWeight, TextType } from '@ui/enums'
 
     import features from '@features/features'
 
@@ -17,6 +18,7 @@
 
     import { ContactBookRoute } from '@views/dashboard/contact-book/contact-book-route.enum'
     import { SendFlowRouter, sendFlowRouter } from '@views/dashboard/send-flow'
+    import { localize } from '@core/i18n'
 
     export let drawerRouter: Router<unknown>
     export let networkId: string
@@ -101,7 +103,11 @@
                 </Text>
             </button>
             {#if features.contacts.sendTo.enabled}
-                <Button size={ButtonSize.Small} onClick={() => onSendClick(contactAddress.address)}>Send</Button>
+                <Button
+                    size="sm"
+                    text={localize('actions.send')}
+                    on:click={() => onSendClick(contactAddress.address)}
+                />
             {/if}
         </contact-address-item>
     {/each}

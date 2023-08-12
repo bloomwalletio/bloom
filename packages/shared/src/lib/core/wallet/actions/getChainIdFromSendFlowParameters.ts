@@ -5,8 +5,8 @@ export function getChainIdFromSendFlowParameters(params: SendFlowParameters): nu
     if (params.type === SendFlowType.NftTransfer) {
         return params.nft?.chainId
     } else if (params.type === SendFlowType.TokenTransfer) {
-        return params.tokenTransfer?.asset?.chainId
+        return params.tokenTransfer?.token?.chainId
     } else {
-        return params.baseCoinTransfer?.asset?.chainId
+        return params.baseCoinTransfer?.token?.chainId
     }
 }

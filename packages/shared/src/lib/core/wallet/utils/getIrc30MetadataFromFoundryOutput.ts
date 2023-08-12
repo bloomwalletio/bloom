@@ -1,7 +1,7 @@
 import { IAccountState } from '@core/account/interfaces'
+import { IIrc30Metadata } from '@core/token/interfaces'
 import { Converter } from '@core/utils'
 
-import { IIrc30Metadata } from '../interfaces'
 import { getMetadataFromFoundryOutput } from './getMetadataFromFoundryOutput'
 import { validateIrc30Metadata } from './validateIrc30Metadata'
 

@@ -35,13 +35,14 @@
             <ContactCard {contact} onCardClick={() => onContactClick(contact)} />
         {/each}
     </contact-list>
-    {#if features.contacts.addContact.enabled}
-        <Button
-            slot="footer"
-            class="w-full"
-            on:click={onAddContactClick}
-            flatIcon={FlatIconName.Add}
-            text={localize(`views.dashboard.drawers.contactBook.${ContactBookRoute.ContactList}.addContact`)}
-        />
-    {/if}
+    <div slot="footer" class="flex justify-center">
+        {#if features.contacts.addContact.enabled}
+            <Button
+                variant="text"
+                icon={FlatIconName.Plus}
+                text={localize(`views.dashboard.drawers.contactBook.${ContactBookRoute.ContactList}.addContact`)}
+                on:click={onAddContactClick}
+            />
+        {/if}
+    </div>
 </DrawerTemplate>
