@@ -1,6 +1,7 @@
 <script lang="ts">
     import { ContactBookRoute } from '../contact-book-route.enum'
-    import { Button, TextInput } from '@ui'
+    import { Button } from '@bloomwalletio/ui'
+    import { TextInput } from '@ui'
     import { DrawerTemplate } from '@components'
     import { ContactManager, selectedContact, validateContactName, validateContactNote } from '@core/contact'
     import { localize } from '@core/i18n'
@@ -70,6 +71,6 @@
         />
     </update-contact>
     <div slot="footer">
-        <Button onClick={updateContact} classes="w-full">{localize('actions.save')}</Button>
+        <Button text={localize('actions.save')} width="full" on:click={updateContact} />
     </div>
 </DrawerTemplate>

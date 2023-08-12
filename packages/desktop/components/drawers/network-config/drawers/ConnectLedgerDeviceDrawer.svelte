@@ -1,15 +1,16 @@
 <script lang="ts">
-    import { Animation, Button, FontWeight, Icon, Pane, Text, TextType } from '@ui'
+    import { Button } from '@bloomwalletio/ui'
+    import { DrawerTemplate } from '@components'
     import { localize } from '@core/i18n'
     import {
-        determineLedgerConnectionState,
         LedgerAppName,
         LedgerConnectionState,
+        determineLedgerConnectionState,
         ledgerNanoStatus,
     } from '@core/ledger'
-    import { DrawerRoute, NetworkConfigRoute, networkConfigRouter } from '@desktop/routers'
-    import { DrawerTemplate } from '@components'
     import { Router } from '@core/router'
+    import { DrawerRoute, NetworkConfigRoute, networkConfigRouter } from '@desktop/routers'
+    import { Animation, FontWeight, Icon, Pane, Text, TextType } from '@ui'
 
     export let drawerRouter: Router<DrawerRoute>
 
@@ -60,6 +61,8 @@
                 {/each}
             </Pane>
         </div>
-        <Button outline onClick={onCancelClick}>{localize('actions.cancel')}</Button>
     </connect-ledger-device-drawer>
+    <svelte:fragment slot="footer">
+        <Button variant="outline" text={localize('actions.cancel')} width="full" on:click={onCancelClick} />
+    </svelte:fragment>
 </DrawerTemplate>

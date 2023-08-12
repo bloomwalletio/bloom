@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { Button } from '@bloomwalletio/ui'
     import { selectedAccountIndex } from '@core/account/stores'
     import { Platform } from '@core/app'
     import { localize } from '@core/i18n'
@@ -9,7 +10,7 @@
     } from '@core/nfts/actions'
     import { selectedAccountNfts } from '@core/nfts/stores'
     import { PopupId, closePopup, openPopup } from '@desktop/auxiliary/popup'
-    import { Button, ButtonSize, Text, TextType } from '@ui'
+    import { Text, TextType } from '@ui'
 
     let isLoading = false
 
@@ -49,13 +50,5 @@
 <Text type={TextType.h4} classes="mb-3">{localize('views.settings.refreshNftMedia.title')}</Text>
 <Text secondary classes="mb-5">{localize('views.settings.refreshNftMedia.description')}</Text>
 <div class="flex flex-row items-center">
-    <Button
-        size={ButtonSize.Medium}
-        inlineStyle="min-width: 156px;"
-        isBusy={isLoading}
-        disabled={isLoading}
-        onClick={onRefreshClick}
-    >
-        {localize('actions.refresh')}
-    </Button>
+    <Button busy={isLoading} disabled={isLoading} text={localize('actions.refresh')} on:click={onRefreshClick} />
 </div>
