@@ -2,9 +2,10 @@ import { getNetworkHrp } from '@core/profile/actions'
 import { Converter } from '@core/utils/convert'
 import { validateBech32Address } from '@core/utils/crypto'
 import { isValidUri } from '@core/utils/validation'
-import { Irc27Version, TokenStandard } from '@core/wallet/enums'
+import { Irc27Version } from '@core/wallet/enums'
 import { IIrc27Attribute, IIrc27Metadata, ISoonaverseAttribute, ISoonaverseAttributes } from '../interfaces'
 import { MimeType } from '../types'
+import { TokenStandard } from '@core/token/enums'
 
 export function parseNftMetadata(metadata: string): IIrc27Metadata | undefined {
     try {

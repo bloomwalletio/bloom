@@ -6,8 +6,8 @@
     import { getOfficialExplorerUrl } from '@core/network/utils'
     import { getBaseToken } from '@core/profile/actions'
     import { activeProfile } from '@core/profile/stores'
+    import { formatTokenAmountPrecise } from '@core/token'
     import { IKeyValueBoxList, setClipboard, truncateString } from '@core/utils'
-    import { formatTokenAmountPrecise } from '@core/wallet'
     import { KeyValueBox } from '@ui'
 
     export let activity: Activity

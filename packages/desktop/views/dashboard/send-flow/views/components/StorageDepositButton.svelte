@@ -2,7 +2,7 @@
     import { Icon as IconEnum } from '@auxiliary/icon'
     import { localize } from '@core/i18n'
     import { getBaseToken } from '@core/profile/actions'
-    import { formatTokenAmountPrecise } from '@core/wallet'
+    import { formatTokenAmountPrecise } from '@core/token'
     import { FontWeight, Icon, Modal, Text, Toggle } from '@ui'
     import { fade } from 'svelte/transition'
 

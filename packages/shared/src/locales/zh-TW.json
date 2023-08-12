@@ -1101,7 +1101,7 @@
                 "logoUrl": "標誌 URL",
                 "logo": "標誌",
                 "alias": "別名",
-                "assetId": "資產 ID"
+                "tokenId": "資產 ID"
             }
         },
         "importErc20Token": {
@@ -1931,7 +1931,7 @@
             "wrongAddressPrefix": "地址必須以 {prefix} 開頭。",
             "wrongAddressFormat": "地址格式不正確。",
             "invalidAddress": "此地址無效。",
-            "invalidAssetId": "此資產 ID 無效。",
+            "invalidTokenId": "此資產 ID 無效。",
             "unknownAsset": "此帳號不清楚該資產",
             "insufficientFunds": "這個錢包資金不足。",
             "insufficientFundsStorageDeposit": "Insufficient funds to cover the storage deposit.",

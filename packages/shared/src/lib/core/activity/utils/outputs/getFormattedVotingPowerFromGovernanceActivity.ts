@@ -1,7 +1,7 @@
 import { GovernanceAction } from '@core/activity/enums'
 import { GovernanceActivity } from '@core/activity/types'
 import { getBaseToken } from '@core/profile/actions'
-import { formatTokenAmountBestMatch } from '@core/wallet/utils'
+import { formatTokenAmountBestMatch } from '@core/token'
 
 export function getFormattedVotingPowerFromGovernanceActivity(activity: GovernanceActivity): string {
     if (

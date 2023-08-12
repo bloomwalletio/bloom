@@ -1,15 +1,13 @@
-import { get } from 'svelte/store'
-
-import { localize } from '@core/i18n'
+import { showNotification } from '@auxiliary/notification'
+import { setTotalUnclaimedShimmerRewards } from '@contexts/onboarding'
 import { IAccount } from '@core/account'
+import { localize } from '@core/i18n'
 import { getAccount, profileManager } from '@core/profile-manager'
-
+import { formatTokenAmountBestMatch } from '@core/token'
+import { get } from 'svelte/store'
 import { MissingShimmerClaimingProfileManagerError } from '../errors'
 import { prepareShimmerClaimingAccount } from '../helpers'
 import { getOnboardingBaseToken, shimmerClaimingProfileManager, updateShimmerClaimingAccount } from '../stores'
-import { setTotalUnclaimedShimmerRewards } from '@contexts/onboarding'
-import { formatTokenAmountBestMatch } from '@core/wallet/utils'
-import { showNotification } from '@auxiliary/notification'
 
 export async function syncShimmerClaimingAccount(account: IAccount): Promise<void> {
     const _shimmerClaimingProfileManager = get(shimmerClaimingProfileManager)

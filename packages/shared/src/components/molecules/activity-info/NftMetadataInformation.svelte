@@ -2,7 +2,7 @@
     import { selectedAccountIndex } from '@core/account/stores'
     import { NftActivity } from '@core/activity'
     import { localize } from '@core/i18n'
-    import { IIrc27Metadata, convertAndFormatNftMetadata } from '@core/nfts'
+    import { convertAndFormatNftMetadata, IIrc27Metadata } from '@core/nfts'
     import { getNftByIdFromAllAccountNfts } from '@core/nfts/actions'
     import { KeyValueBox } from '@ui'
 
