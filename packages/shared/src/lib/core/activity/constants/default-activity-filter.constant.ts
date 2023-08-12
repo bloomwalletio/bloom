@@ -20,9 +20,9 @@ export const DEFAULT_ACTIVITY_FILTER: ActivityFilter = {
             amount: '',
         },
     },
-    asset: {
+    token: {
         active: false,
-        type: 'asset',
+        type: 'token',
         localeKey: 'filters.asset',
         selected: '',
     },

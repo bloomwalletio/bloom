@@ -1101,7 +1101,7 @@
                 "logoUrl": "Logo URL",
                 "logo": "Logo",
                 "alias": "Alias",
-                "assetId": "Asset Id"
+                "tokenId": "Token Id"
             }
         },
         "importErc20Token": {
@@ -1931,7 +1931,7 @@
             "wrongAddressPrefix": "Adresy začínají předponou {prefix}.",
             "wrongAddressFormat": "Adresa nemá správný formát.",
             "invalidAddress": "Adresa je neplatná.",
-            "invalidAssetId": "The asset id is not valid.",
+            "invalidTokenId": "The token id is not valid.",
             "unknownAsset": "The asset is not known to this account.",
             "insufficientFunds": "Tato peněženka nemá dostatek prostředků.",
             "insufficientFundsStorageDeposit": "Insufficient funds to cover the storage deposit.",

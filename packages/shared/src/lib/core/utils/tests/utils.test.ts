@@ -1,6 +1,6 @@
 import '@mocks/i18n.mock'
 
-import { range } from '@core/utils'
+import { range } from '..'
 
 type Simple = {
     prop1?: string

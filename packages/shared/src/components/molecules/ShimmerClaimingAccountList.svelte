@@ -1,7 +1,7 @@
 <script lang="ts">
     import { ShimmerClaimingAccountTile } from '@ui'
     import { IShimmerClaimingAccount } from '@contexts/onboarding'
-    import { IBaseToken } from '@core/wallet/interfaces'
+    import { IBaseToken } from '@core/token'
 
     export let shimmerClaimingAccounts: IShimmerClaimingAccount[]
     export let baseToken: IBaseToken

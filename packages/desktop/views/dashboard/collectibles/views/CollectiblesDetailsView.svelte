@@ -10,12 +10,12 @@
     import { getBaseToken } from '@core/profile/actions'
     import { activeProfile } from '@core/profile/stores'
     import { collectiblesRouter } from '@core/router/routers'
+    import { formatTokenAmountPrecise } from '@core/token'
     import { getTimeDifference, truncateString } from '@core/utils'
     import {
         ADDRESS_TYPE_ALIAS,
         ADDRESS_TYPE_ED25519,
         ADDRESS_TYPE_NFT,
-        formatTokenAmountPrecise,
         getBech32AddressFromAddressTypes,
         getHexAddressFromAddressTypes,
     } from '@core/wallet'

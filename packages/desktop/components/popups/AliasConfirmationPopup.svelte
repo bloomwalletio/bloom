@@ -9,11 +9,11 @@
         UNLOCK_CONDITION_GOVERNOR_ADDRESS,
         UNLOCK_CONDITION_STATE_CONTROLLER_ADDRESS,
         convertBech32ToHexAddress,
-        formatTokenAmountPrecise,
     } from '@core/wallet'
     import { closePopup } from '@desktop/auxiliary/popup'
     import { Button, FontWeight, KeyValueBox, Text, TextType } from '@ui'
     import { onMount } from 'svelte'
+    import { formatTokenAmountPrecise } from '@core/token'
 
     export let _onMount: (..._: any[]) => Promise<void> = async () => {}
 

@@ -37,7 +37,7 @@ export function generateSingleFoundryActivity(
 
     const id = outputId || transactionId
     const nativeToken = getNativeTokenFromOutput(output)
-    const assetId = nativeToken?.id ?? getCoinType()
+    const tokenId = nativeToken?.id ?? getCoinType()
 
     const storageDeposit = getAmountFromOutput(output)
     const rawAmount = Number(nativeToken?.amount ?? 0)
@@ -54,7 +54,7 @@ export function generateSingleFoundryActivity(
         transactionId,
         direction,
         action,
-        assetId,
+        tokenId,
         aliasAddress,
         mintedTokens,
         meltedTokens,

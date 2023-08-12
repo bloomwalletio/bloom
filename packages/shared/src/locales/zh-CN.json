@@ -1101,7 +1101,7 @@
                 "logoUrl": "Logo URL",
                 "logo": "Logo",
                 "alias": "别名",
-                "assetId": "资产 Id"
+                "tokenId": "资产 Id"
             }
         },
         "importErc20Token": {
@@ -1931,7 +1931,7 @@
             "wrongAddressPrefix": "地址以前缀 {prefix} 开始。",
             "wrongAddressFormat": "地址格式不正确。",
             "invalidAddress": "地址无效的",
-            "invalidAssetId": "The asset id is not valid.",
+            "invalidTokenId": "The token id is not valid.",
             "unknownAsset": "该资产在这个账户中未知。",
             "insufficientFunds": "该账户资金不足。",
             "insufficientFundsStorageDeposit": "Insufficient funds to cover the storage deposit.",

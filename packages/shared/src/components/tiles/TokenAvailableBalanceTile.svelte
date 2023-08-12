@@ -1,29 +1,29 @@
 <script lang="ts">
-    import { formatTokenAmountBestMatch, IAsset } from '@core/wallet'
-    import { AssetIcon, Tile, Text, FontWeight, TextType } from '@ui'
-    import { truncateString } from '@core/utils'
     import { localize } from '@core/i18n'
+    import { IToken, formatTokenAmountBestMatch } from '@core/token'
+    import { truncateString } from '@core/utils'
+    import { FontWeight, Text, TextType, Tile, TokenIcon } from '@ui'
 
-    export let asset: IAsset
+    export let token: IToken
     export let onMaxClick: () => unknown
 
-    $: availableBalance = asset?.balance?.available ?? 0
+    $: availableBalance = token?.balance?.available ?? 0
 </script>
 
-{#if asset && asset.metadata && asset.balance}
+{#if token && token.metadata && token.balance}
     <Tile>
         <div class="w-full flex flex-row justify-between items-center">
             <div class="flex flex-row items-center text-left space-x-4">
-                <AssetIcon {asset} />
+                <TokenIcon {token} />
                 <div class="flex flex-col">
                     <Text type={TextType.p} fontWeight={FontWeight.semibold}>
-                        {asset.metadata.name
-                            ? truncateString(asset.metadata.name, 13, 0)
-                            : truncateString(asset.id, 6, 7)}
+                        {token.metadata.name
+                            ? truncateString(token.metadata.name, 13, 0)
+                            : truncateString(token.id, 6, 7)}
                     </Text>
                     <div class="flex flex-row justify-between items-center text-left">
                         <Text type={TextType.p} secondary smaller>
-                            {formatTokenAmountBestMatch(availableBalance, asset.metadata)}
+                            {formatTokenAmountBestMatch(availableBalance, token.metadata)}
                         </Text>
                     </div>
                 </div>

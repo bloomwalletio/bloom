@@ -5,11 +5,11 @@ import { localize } from '@core/i18n'
 import { Converter } from '@core/utils'
 import { CreateNativeTokenParams } from '@iota/wallet'
 import { DEFAULT_TRANSACTION_OPTIONS } from '../constants'
-import { VerifiedStatus } from '../enums'
-import { buildPersistedAssetFromMetadata } from '../helpers'
-import { IIrc30Metadata, IPersistedAsset } from '../interfaces'
 import { resetMintTokenDetails } from '../stores'
-import { addPersistedAsset } from '../stores/persisted-assets.store'
+import { buildPersistedTokenFromMetadata } from '@core/token/utils'
+import { addPersistedToken } from '@core/token/stores'
+import { IIrc30Metadata, IPersistedToken } from '@core/token/interfaces'
+import { VerifiedStatus } from '@core/token/enums'
 
 export async function mintNativeToken(
     maximumSupply: number,
@@ -30,12 +30,12 @@ export async function mintNativeToken(
         }
 
         const createTokenTransaction = await account.createNativeToken(params, DEFAULT_TRANSACTION_OPTIONS)
-        const persistedAsset: IPersistedAsset = buildPersistedAssetFromMetadata(
+        const persistedAsset: IPersistedToken = buildPersistedTokenFromMetadata(
             createTokenTransaction.tokenId,
             metadata,
             { verified: true, status: VerifiedStatus.SelfVerified }
         )
-        addPersistedAsset(persistedAsset)
+        addPersistedToken(persistedAsset)
 
         await processAndAddToActivities(createTokenTransaction.transaction, account)
 

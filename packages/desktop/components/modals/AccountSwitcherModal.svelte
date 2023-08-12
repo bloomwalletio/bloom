@@ -3,10 +3,11 @@
     import { sumBalanceForAccounts } from '@core/account'
     import { selectedAccount } from '@core/account/stores'
     import { formatCurrency, localize } from '@core/i18n'
-    import { getMarketAmountFromAssetValue } from '@core/market/utils'
-    import { activeProfile, visibleActiveAccounts } from '@core/profile/stores'
+    import { getMarketAmountFromTokenValue } from '@core/market/utils'
     import { getBaseToken } from '@core/profile/actions'
-    import { formatTokenAmountBestMatch, selectedAccountAssets } from '@core/wallet'
+    import { activeProfile, visibleActiveAccounts } from '@core/profile/stores'
+    import { formatTokenAmountBestMatch } from '@core/token'
+    import { selectedAccountTokens } from '@core/token/stores'
     import { PopupId, openPopup } from '@desktop/auxiliary/popup'
     import { AccountSwitcherMenuItem, FontWeight, Modal, Text, TextType } from '@ui'
     import { tick } from 'svelte'
@@ -14,7 +15,7 @@
     export let modal: Modal = undefined
 
     $: totalBalance = sumBalanceForAccounts($visibleActiveAccounts)
-    $: ({ baseCoin } = $selectedAccountAssets[$activeProfile?.network.id])
+    $: ({ baseCoin } = $selectedAccountTokens[$activeProfile?.network.id])
 
     async function scrollToSelectedAccount(): Promise<void> {
         await tick()
@@ -54,7 +55,7 @@
                 {formatTokenAmountBestMatch(totalBalance, getBaseToken())}
             </Text>
             <Text fontSize="12" fontWeight={FontWeight.semibold} lineHeight="20" color="blue-500">
-                {formatCurrency(getMarketAmountFromAssetValue(totalBalance, baseCoin))}
+                {formatCurrency(getMarketAmountFromTokenValue(totalBalance, baseCoin))}
             </Text>
         </div>
     </button>

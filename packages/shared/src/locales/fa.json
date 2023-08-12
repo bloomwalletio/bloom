@@ -1101,7 +1101,7 @@
                 "logoUrl": "Logo URL",
                 "logo": "Logo",
                 "alias": "Alias",
-                "assetId": "Asset Id"
+                "tokenId": "Token Id"
             }
         },
         "importErc20Token": {
@@ -1931,7 +1931,7 @@
             "wrongAddressPrefix": "آدرس ها با پیشوند {prefix} شروع میشوند.",
             "wrongAddressFormat": "این آدرس به درستی فرمت نشده.",
             "invalidAddress": "آدرس معتبر نیست.",
-            "invalidAssetId": "The asset id is not valid.",
+            "invalidTokenId": "The token id is not valid.",
             "unknownAsset": "The asset is not known to this account.",
             "insufficientFunds": "این کیف پول موجودی کافی ندارد.",
             "insufficientFundsStorageDeposit": "Insufficient funds to cover the storage deposit.",
