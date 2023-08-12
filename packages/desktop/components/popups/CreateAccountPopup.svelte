@@ -1,6 +1,6 @@
 <script lang="ts">
-    import { getRandomAccountColor, validateAccountName } from '@core/account'
-    import { tryCreateAdditionalAccount } from '@core/account/actions'
+    import { getRandomAccountColor } from '@core/account'
+    import { tryCreateAdditionalAccount, validateAccountName } from '@core/account/actions'
     import { handleError } from '@core/error/handlers/handleError'
     import { localize } from '@core/i18n'
     import { checkActiveProfileAuth } from '@core/profile/actions'
