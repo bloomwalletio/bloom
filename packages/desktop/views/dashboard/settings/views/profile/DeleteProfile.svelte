@@ -1,8 +1,9 @@
 <script lang="ts">
-    import { Button, Text, ButtonVariant, ButtonSize } from '@ui'
-    import { localize } from '@core/i18n'
-    import { openPopup, PopupId } from '@desktop/auxiliary/popup'
+    import { Button } from '@bloomwalletio/ui'
     import { deleteProfile } from '@contexts/settings'
+    import { localize } from '@core/i18n'
+    import { PopupId, openPopup } from '@desktop/auxiliary/popup'
+    import { Text } from '@ui'
 
     function onDeleteClick(): void {
         openPopup({
@@ -20,11 +21,4 @@
 
 <Text type="h4" classes="mb-3">{localize('views.settings.deleteProfile.title')}</Text>
 <Text type="p" secondary classes="mb-5">{localize('views.settings.deleteProfile.description')}</Text>
-<Button
-    size={ButtonSize.Medium}
-    inlineStyle="min-width: 156px;"
-    variant={ButtonVariant.Warning}
-    onClick={onDeleteClick}
->
-    {localize('views.settings.deleteProfile.title')}
-</Button>
+<Button color="red" text={localize('views.settings.deleteProfile.title')} on:click={onDeleteClick} />

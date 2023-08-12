@@ -49,7 +49,7 @@
         class=" flex flex-row justify-between w-full p-8 hover:bg-gray-50 dark:hover:bg-gray-800"
         on:click={onCreateAccountClick}
     >
-        <Button slot="footer" flatIcon={FlatIconName.Add} text={localize('general.addAWallet')} />
+        <Button icon={FlatIconName.Plus} variant="text" text={localize('general.addAWallet')} />
         <div class="flex flex-col items-end text-right space-y-1">
             <Text type={TextType.h5}>
                 {formatTokenAmountBestMatch(totalBalance, getBaseToken())}
