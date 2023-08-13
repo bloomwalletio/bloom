@@ -1,5 +1,7 @@
+import { NetworkId } from '@core/network/types'
+
 export interface ILayer2AccountBalance {
-    [chainId: number]: {
+    [networkId: NetworkId]: {
         [tokenId: string]: number
     }
 }

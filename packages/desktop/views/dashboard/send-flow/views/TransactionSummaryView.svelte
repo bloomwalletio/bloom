@@ -12,7 +12,7 @@
         sendOutputFromStardust,
         sendTransactionFromEvm,
     } from '@core/wallet/actions'
-    import { getChainIdFromSendFlowParameters } from '@core/wallet/actions/getChainIdFromSendFlowParameters'
+    import { getNetworkIdFromSendFlowParameters } from '@core/wallet/actions/getNetworkIdFromSendFlowParameters'
     import { sendFlowParameters } from '@core/wallet/stores'
     import { closePopup } from '@desktop/auxiliary/popup'
     import { onMount } from 'svelte'
@@ -37,9 +37,9 @@
         recipientAddress =
             recipient.type === SubjectType.Account ? recipient.account.name : truncateString(recipient?.address, 6, 6)
 
-        const chainId = getChainIdFromSendFlowParameters(sendFlowParameters)
-        if (chainId) {
-            chain = getNetwork()?.getChain(chainId)
+        const networkId = getNetworkIdFromSendFlowParameters(sendFlowParameters)
+        if (networkId) {
+            chain = getNetwork()?.getChain(networkId)
             const account = getSelectedAccount()
 
             preparedTransaction = await createEvmTransactionFromSendFlowParameters(sendFlowParameters, chain, account)

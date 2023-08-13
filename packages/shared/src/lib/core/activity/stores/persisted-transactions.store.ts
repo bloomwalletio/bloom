@@ -2,24 +2,25 @@ import { activeProfileId } from '@core/profile/stores'
 import { persistent } from '@core/utils/store'
 import { get } from 'svelte/store'
 import { PersistedEvmTransaction } from '../types'
+import { NetworkId } from '@core/network/types'
 
 interface IPersistedEvmTransactions {
     [profileId: string]: {
         [accountId: string]: {
-            [chainId: string | number]: PersistedEvmTransaction[]
+            [networkId: NetworkId]: PersistedEvmTransaction[]
         }
     }
 }
 
 export const persistedEvmTransactions = persistent<IPersistedEvmTransactions>('evmTransactions', {})
 
-export function getPersistedEvmTransactions(accountIndex: number, chainId: string | number): PersistedEvmTransaction[] {
-    return get(persistedEvmTransactions)?.[get(activeProfileId)]?.[accountIndex]?.[chainId]
+export function getPersistedEvmTransactions(accountIndex: number, networkId: NetworkId): PersistedEvmTransaction[] {
+    return get(persistedEvmTransactions)?.[get(activeProfileId)]?.[accountIndex]?.[networkId]
 }
 
 export function addPersistedTransaction(
     accountIndex: number,
-    chainId: string | number,
+    networkId: NetworkId,
     ...newTransactions: PersistedEvmTransaction[]
 ): void {
     persistedEvmTransactions.update((state) => {
@@ -29,11 +30,11 @@ export function addPersistedTransaction(
         if (!state[get(activeProfileId)][accountIndex]) {
             state[get(activeProfileId)][accountIndex] = {}
         }
-        if (!state[get(activeProfileId)][accountIndex][chainId]) {
-            state[get(activeProfileId)][accountIndex][chainId] = []
+        if (!state[get(activeProfileId)][accountIndex][networkId]) {
+            state[get(activeProfileId)][accountIndex][networkId] = []
         }
 
-        state[get(activeProfileId)][accountIndex][chainId].push(...newTransactions)
+        state[get(activeProfileId)][accountIndex][networkId].push(...newTransactions)
         return state
     })
 }

@@ -10,7 +10,7 @@
         updateSendFlowParameters,
         SubjectType,
         Subject,
-        getChainIdFromSendFlowParameters,
+        getNetworkIdFromSendFlowParameters,
     } from '@core/wallet'
     import { closePopup } from '@desktop/auxiliary/popup'
     import features from '@features/features'
@@ -140,8 +140,8 @@
         }
 
         const assetStandard = getTokenStandardFromSendFlowParameters($sendFlowParameters)
-        const sourceChainId = getChainIdFromSendFlowParameters($sendFlowParameters)
-        const sourceChain = $network.getChain(sourceChainId)
+        const sourceNetworkId = getNetworkIdFromSendFlowParameters($sendFlowParameters)
+        const sourceChain = $network.getChain(sourceNetworkId)
 
         let networkRecipientOptions = []
 
@@ -149,7 +149,7 @@
             case TokenStandard.Irc27:
             case TokenStandard.Irc30:
             case TokenStandard.BaseToken:
-                if (!sourceChainId) {
+                if (!sourceNetworkId) {
                     // if we are on layer 1
                     networkRecipientOptions = [
                         layer1Network,

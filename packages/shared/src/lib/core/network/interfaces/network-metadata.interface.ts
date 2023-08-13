@@ -1,6 +1,6 @@
 import { IBaseToken } from '@core/token/interfaces'
-import { NetworkId } from '../enums'
 import { IProtocol } from './protocol.interface'
+import { NetworkId } from '../types'
 
 /**
  * Holds relevant data

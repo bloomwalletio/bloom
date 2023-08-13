@@ -81,8 +81,8 @@ async function getLayer2Erc20BalancesForAddress(
     evmAddress: string,
     chain: IChain
 ): Promise<{ balance: number; tokenId: string }[]> {
-    const chainId = chain.getConfiguration().chainId
-    const trackedTokens = getActiveProfile()?.trackedTokens?.[chainId] ?? []
+    const networkId = chain.getConfiguration().id
+    const trackedTokens = getActiveProfile()?.trackedTokens?.[networkId] ?? []
     const erc20TokenBalances = []
     for (const erc20Address of trackedTokens) {
         try {

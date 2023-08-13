@@ -1,7 +1,7 @@
 import { getSelectedAccount } from '@core/account/stores'
 import { MarketCoinPrices } from '@core/market'
 import { getNamespaceFromNetworkId } from '@core/network/utils'
-import { EvmChainId, getNetwork, NetworkId, NetworkNamespace } from '@core/network'
+import { getNetwork, NetworkId, NetworkNamespace } from '@core/network'
 import { getCoinType } from '@core/profile/actions'
 import { AccountTokens, IAccountTokensPerNetwork } from '../interfaces/account-tokens.interface'
 import { getLayer2AccountBalance } from '@core/layer-2/stores'
@@ -23,10 +23,10 @@ export function getAccountTokensForSelectedAccount(marketCoinPrices: MarketCoinP
     const chains = getNetwork()?.getChains() ?? []
 
     for (const chain of chains) {
-        const chainId = chain.getConfiguration().chainId
-        const chainAssets = getAccountAssetForChain(chainId)
+        const id = chain.getConfiguration().id
+        const chainAssets = getAccountAssetForChain(id)
         if (chainAssets) {
-            accountAssets[chainId] = chainAssets
+            accountAssets[id] = chainAssets
         }
     }
 
@@ -41,7 +41,7 @@ function getAccountAssetForNetwork(marketCoinPrices: MarketCoinPrices, networkId
     const persistedBaseCoin = getPersistedToken(getCoinType())
     const baseCoin: IToken = {
         ...persistedBaseCoin,
-        chainId: EvmChainId.Layer1,
+        networkId,
         balance: {
             total: Number(account?.balances?.baseCoin?.total),
             available: Number(account?.balances?.baseCoin?.available),
@@ -56,7 +56,7 @@ function getAccountAssetForNetwork(marketCoinPrices: MarketCoinPrices, networkId
         if (persistedAsset && persistedAsset?.metadata && isValidIrc30Token(persistedAsset.metadata)) {
             nativeTokens.push({
                 ...persistedAsset,
-                chainId: EvmChainId.Layer1,
+                networkId,
                 balance: {
                     total: Number(token.total),
                     available: Number(token.available),
@@ -71,17 +71,17 @@ function getAccountAssetForNetwork(marketCoinPrices: MarketCoinPrices, networkId
     }
 }
 
-function getAccountAssetForChain(chainId: number): IAccountTokensPerNetwork | undefined {
+function getAccountAssetForChain(networkId: NetworkId): IAccountTokensPerNetwork | undefined {
     const index = getSelectedAccount()?.index
-    const balanceForChainId = index !== undefined ? getLayer2AccountBalance(index)?.[chainId] : undefined
+    const balanceForNetworkId = index !== undefined ? getLayer2AccountBalance(index)?.[networkId] : undefined
 
-    if (!balanceForChainId) {
+    if (!balanceForNetworkId) {
         return undefined
     }
 
     let baseCoin: IToken | undefined
     const nativeTokens: IToken[] = []
-    const tokens = Object.entries(balanceForChainId) ?? []
+    const tokens = Object.entries(balanceForNetworkId) ?? []
 
     for (const [tokenId, balance] of tokens) {
         const _balance = {
@@ -94,7 +94,7 @@ function getAccountAssetForChain(chainId: number): IAccountTokensPerNetwork | un
             baseCoin = {
                 ...persistedBaseCoin,
                 balance: _balance,
-                chainId,
+                networkId,
             }
         } else {
             const persistedAsset = getPersistedToken(tokenId)
@@ -102,7 +102,7 @@ function getAccountAssetForChain(chainId: number): IAccountTokensPerNetwork | un
                 nativeTokens.push({
                     ...persistedAsset,
                     balance: _balance,
-                    chainId,
+                    networkId,
                 })
             }
         }

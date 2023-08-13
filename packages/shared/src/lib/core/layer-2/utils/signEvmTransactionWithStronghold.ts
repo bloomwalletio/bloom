@@ -5,11 +5,13 @@ import { Transaction } from '@ethereumjs/tx'
 import { fromRpcSig, ECDSASignature } from '@ethereumjs/util'
 import { DEFAULT_EVM_TRANSACTION_OPTIONS } from '@core/layer-2'
 import type { Bip44 } from '@iota/wallet/types'
+import { NetworkId } from '@core/network/types'
+import { getProtocolIdFromNetworkId } from '@core/network/utils'
 
 export async function signEvmTransactionWithStronghold(
     txData: EvmTransactionData,
     bip44Path: Bip44,
-    chainId: number,
+    networkId: NetworkId,
     account: IAccountState
 ): Promise<string> {
     const unsignedTransactionMessageHex = '0x' + prepareEvmTransaction(txData)
@@ -18,6 +20,7 @@ export async function signEvmTransactionWithStronghold(
     const { signature } = await account.signSecp256k1Ecdsa(unsignedTransactionMessageHex, bip44Path)
 
     // Make Secp256k1Ecdsa into an Eip155Compatible Signature
+    const chainId = Number(getProtocolIdFromNetworkId(networkId))
     const ecdsaSignature = fromRpcSig(signature)
     ecdsaSignature.v = convertsVToEip155Compatible(ecdsaSignature.v, chainId)
 

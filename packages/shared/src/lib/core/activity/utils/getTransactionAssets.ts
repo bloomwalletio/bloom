@@ -32,7 +32,7 @@ export function getTransactionAssets(
         const tokenWithBalance = getTokenFromSelectedAccountTokens(activity.tokenId, activity.networkId)
         const persistedToken = getPersistedToken(activity.tokenId)
         const token: IToken = {
-            chainId: activity.networkId ?? 0,
+            networkId: activity.networkId,
             balance: {
                 total: 0,
                 available: 0,

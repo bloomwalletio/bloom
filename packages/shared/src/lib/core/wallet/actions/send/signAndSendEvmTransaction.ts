@@ -4,6 +4,7 @@ import { handleError } from '@core/error/handlers'
 import { EvmTransactionData } from '@core/layer-2/types'
 import { signEvmTransactionWithStronghold } from '@core/layer-2/utils'
 import { Ledger } from '@core/ledger/classes'
+import { NetworkId } from '@core/network/types'
 import { ETHEREUM_COIN_TYPE } from '@core/network/constants'
 import { isActiveLedgerProfile, isSoftwareProfile } from '@core/profile/stores'
 import { get } from 'svelte/store'
@@ -12,7 +13,7 @@ import { TransactionReceipt } from 'web3-core'
 
 export async function signAndSendEvmTransaction(
     transaction: EvmTransactionData,
-    chainId: number,
+    networkId: NetworkId,
     provider: Web3,
     account: IAccountState
 ): Promise<TransactionReceipt | undefined> {
@@ -27,7 +28,7 @@ export async function signAndSendEvmTransaction(
         }
         let signedTransaction: string | undefined
         if (get(isSoftwareProfile)) {
-            signedTransaction = await signEvmTransactionWithStronghold(transaction, bip44Path, chainId, account)
+            signedTransaction = await signEvmTransactionWithStronghold(transaction, bip44Path, networkId, account)
         } else if (get(isActiveLedgerProfile)) {
             signedTransaction = await Ledger.signEvmTransaction(transaction, bip44Path)
         }
