@@ -9,12 +9,12 @@ import { generateSingleNftActivity } from './generateSingleNftActivity'
 import { getNonRemainderBasicOutputsFromTransaction } from './getNonRemainderBasicOutputsFromTransaction'
 import { ActivityAction, ActivityDirection } from '../enums'
 import { getNftId } from './outputs'
-import { NetworkIdType } from '@core/network/types'
+import { NetworkId } from '@core/network/types'
 
 export function generateActivitiesFromBasicOutputs(
     processedTransaction: IProcessedTransaction,
     account: IAccountState,
-    networkId: NetworkIdType
+    networkId: NetworkId
 ): Activity[] {
     const activities = []
 

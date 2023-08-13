@@ -1,9 +1,9 @@
 <script lang="ts">
     import { Icon } from '@ui'
     import { NETWORK_ICON_SVG } from '@auxiliary/icon'
-    import { NetworkIdType, SupportedNetworkId } from '@core/network'
+    import { NetworkId, SupportedNetworkId } from '@core/network'
 
-    export let networkId: NetworkIdType
+    export let networkId: NetworkId
     export let height = 22
     export let width = 22
     export let outlined = true
@@ -11,7 +11,7 @@
     $: backgroundColor = classesMap[networkId]?.backgroundColor ?? ''
     $: iconColor = classesMap[networkId]?.iconColor ?? ''
 
-    const classesMap: { [id: NetworkIdType]: Record<string, string> } = {
+    const classesMap: { [id: NetworkId]: Record<string, string> } = {
         [SupportedNetworkId.Iota]: {
             backgroundColor: 'bg-black',
             iconColor: 'text-white',

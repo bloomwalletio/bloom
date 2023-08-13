@@ -11,11 +11,11 @@ import {
     getStorageDepositFromOutput,
     getTagFromOutput,
 } from './helper'
-import { NetworkIdType } from '@core/network/types'
+import { NetworkId } from '@core/network/types'
 
 export function generateSingleGovernanceActivity(
     account: IAccountState,
-    networkId: NetworkIdType,
+    networkId: NetworkId,
     { action, processedTransaction, wrappedOutput }: IActivityGenerationParameters
 ): GovernanceActivity {
     const { transactionId, direction, time, inclusionState, wrappedInputs } = processedTransaction

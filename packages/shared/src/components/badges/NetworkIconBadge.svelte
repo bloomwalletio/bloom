@@ -1,9 +1,9 @@
 <script lang="ts">
-    import { NetworkIdType } from '@core/network'
+    import { NetworkId } from '@core/network'
     import { NetworkIcon, InformationTooltip } from '@ui'
     import { Position } from '@ui/enums'
 
-    export let networkId: NetworkIdType
+    export let networkId: NetworkId
     export let chainId: number | undefined = undefined
     export let tooltipText: string = ''
     export let width: number | undefined = undefined

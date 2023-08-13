@@ -1,7 +1,7 @@
 import { getSelectedAccount } from '@core/account/stores'
 import { MarketCoinPrices } from '@core/market'
 import { getActiveNetworkId, getNamespaceFromNetworkId } from '@core/network/utils'
-import { EvmChainId, getNetwork, NetworkIdType, NetworkNamespace } from '@core/network'
+import { EvmChainId, getNetwork, NetworkId, NetworkNamespace } from '@core/network'
 import { getCoinType } from '@core/profile'
 import { isValidIrc30Token, isValidToken } from '@core/token'
 import { IAsset } from '../interfaces'
@@ -32,10 +32,7 @@ export function getAccountAssetsForSelectedAccount(marketCoinPrices: MarketCoinP
     return accountAssets
 }
 
-function getAccountAssetForNetwork(
-    marketCoinPrices: MarketCoinPrices,
-    networkId: NetworkIdType
-): IAccountAssetsPerNetwork {
+function getAccountAssetForNetwork(marketCoinPrices: MarketCoinPrices, networkId: NetworkId): IAccountAssetsPerNetwork {
     const account = getSelectedAccount()
 
     // TODO: Write isTangleNetworkId function that uses this logic? Or generic isNetworkIdOfNetworkNamespace

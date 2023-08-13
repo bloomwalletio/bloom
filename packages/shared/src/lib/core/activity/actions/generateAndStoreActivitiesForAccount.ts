@@ -9,12 +9,9 @@ import { hideActivitiesForFoundries } from './hideActivitiesForFoundries'
 import { generateActivitiesFromProcessedTransactions } from './generateActivitiesFromProcessedTransactions'
 import { loadAssetsForAllActivities } from './loadAssetsForAllAccounts'
 import { generateActivitiesFromBalanceChanges, setOutgoingAsyncActivitiesToClaimed } from '@core/activity/actions'
-import { NetworkIdType } from '@core/network'
+import { NetworkId } from '@core/network'
 
-export async function generateAndStoreActivitiesForAccount(
-    account: IAccountState,
-    network: NetworkIdType
-): Promise<void> {
+export async function generateAndStoreActivitiesForAccount(account: IAccountState, network: NetworkId): Promise<void> {
     // Step 1: process account transactions and outputs into processed transactions
     const processedTransactions = [
         ...(await preprocessTransactionsForAccount(account)),

@@ -14,11 +14,11 @@ import {
 } from './helper'
 import { getNativeTokenFromOutput } from './outputs'
 import { convertHexAddressToBech32 } from '@core/wallet/utils'
-import { NetworkIdType } from '@core/network/types'
+import { NetworkId } from '@core/network/types'
 
 export function generateSingleFoundryActivity(
     account: IAccountState,
-    networkId: NetworkIdType,
+    networkId: NetworkId,
     { action, processedTransaction, wrappedOutput }: IActivityGenerationParameters
 ): FoundryActivity {
     const { transactionId, claimingData, time, direction, inclusionState } = processedTransaction

@@ -1,5 +1,5 @@
-import { NetworkIdType } from '../types'
+import { NetworkId } from '../types'
 
 export interface ITrackedTokens {
-    [networkId: NetworkIdType]: string[] | undefined
+    [networkId: NetworkId]: string[] | undefined
 }

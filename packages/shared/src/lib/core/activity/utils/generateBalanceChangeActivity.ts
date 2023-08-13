@@ -3,10 +3,10 @@ import { IAssetBalanceChange } from '../types'
 import { ActivityAction, ActivityDirection, ActivityType, InclusionState } from '../enums'
 import { generateRandomId } from '@core/utils'
 import { getCoinType } from '@core/profile/actions'
-import { NetworkIdType } from '@core/network'
+import { NetworkId } from '@core/network'
 
 export function generateBalanceChangeActivity(
-    networkId: NetworkIdType,
+    networkId: NetworkId,
     assetId: string,
     balanceChange: IAssetBalanceChange
 ): TransactionActivity {

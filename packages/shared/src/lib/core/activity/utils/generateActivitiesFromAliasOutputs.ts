@@ -4,12 +4,12 @@ import { Activity, IProcessedTransaction } from '../types'
 import type { IAliasOutput } from '@iota/types'
 import { generateSingleAliasActivity } from './generateSingleAliasActivity'
 import { ActivityAction } from '../enums'
-import { NetworkIdType } from '@core/network/types'
+import { NetworkId } from '@core/network/types'
 
 export function generateActivitiesFromAliasOutputs(
     processedTransaction: IProcessedTransaction,
     account: IAccountState,
-    networkId: NetworkIdType
+    networkId: NetworkId
 ): Activity[] {
     const outputs = processedTransaction.outputs
     const activities = []

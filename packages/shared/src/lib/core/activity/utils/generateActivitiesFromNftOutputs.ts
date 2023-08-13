@@ -4,12 +4,12 @@ import { Activity, IProcessedTransaction } from '../types'
 import type { INftOutput } from '@iota/types'
 import { generateSingleNftActivity } from './generateSingleNftActivity'
 import { ActivityAction } from '../enums'
-import { NetworkIdType } from '@core/network/types'
+import { NetworkId } from '@core/network/types'
 
 export function generateActivitiesFromNftOutputs(
     processedTransaction: IProcessedTransaction,
     account: IAccountState,
-    networkId: NetworkIdType
+    networkId: NetworkId
 ): Activity[] {
     const outputs = processedTransaction.outputs
     const activities = []

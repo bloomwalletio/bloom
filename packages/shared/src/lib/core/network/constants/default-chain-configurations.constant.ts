@@ -2,9 +2,9 @@ import { DestinationNetwork } from '@core/layer-2/enums'
 
 import { COIN_TYPE } from '../constants'
 import { EvmChainId, ChainType, SupportedNetworkId } from '../enums'
-import { ChainConfiguration, NetworkIdType } from '../types'
+import { ChainConfiguration, NetworkId } from '../types'
 
-export const DEFAULT_CHAIN_CONFIGURATIONS: Readonly<{ [id in NetworkIdType]?: ChainConfiguration }> = {
+export const DEFAULT_CHAIN_CONFIGURATIONS: Readonly<{ [id in NetworkId]?: ChainConfiguration }> = {
     [SupportedNetworkId.Shimmer]: {
         id: SupportedNetworkId.ShimmerEvm,
         type: ChainType.Iscp,

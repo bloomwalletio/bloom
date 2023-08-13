@@ -1,7 +1,7 @@
 import { SupportedNetworkId } from '../enums'
-import { NetworkIdType } from '../types'
+import { NetworkId } from '../types'
 
-export const OFFICIAL_NODE_URLS: Readonly<{ [id: NetworkIdType]: string[] }> = {
+export const OFFICIAL_NODE_URLS: Readonly<{ [id: NetworkId]: string[] }> = {
     [SupportedNetworkId.Iota]: [
         'https://chrysalis-nodes.iota.org',
         'https://chrysalis-nodes.iota.cafe',

@@ -16,11 +16,11 @@ import {
     getTagFromOutput,
 } from './helper'
 import { getNativeTokenFromOutput } from './outputs'
-import { NetworkIdType } from '@core/network/types'
+import { NetworkId } from '@core/network/types'
 
 export function generateSingleBasicActivity(
     account: IAccountState,
-    networkId: NetworkIdType,
+    networkId: NetworkId,
     { action, processedTransaction, wrappedOutput }: IActivityGenerationParameters,
     fallbackAssetId?: string,
     fallbackAmount?: number

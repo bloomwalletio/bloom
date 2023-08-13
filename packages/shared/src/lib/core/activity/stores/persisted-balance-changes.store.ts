@@ -2,12 +2,12 @@ import { persistent } from '@core/utils/store'
 import { IAssetBalanceChange } from '../types/asset-balance-change.interface'
 import { get } from 'svelte/store'
 import { activeProfileId } from '@core/profile'
-import { NetworkIdType } from '@core/network'
+import { NetworkId } from '@core/network'
 
 interface IPersistedBalanceChangesStore {
     [profileId: string]: {
         [accountId: string]: {
-            [networkId: NetworkIdType]: {
+            [networkId: NetworkId]: {
                 [assetId: string]: IAssetBalanceChange[]
             }
         }
@@ -18,7 +18,7 @@ export const persistedBalanceChanges = persistent<IPersistedBalanceChangesStore>
 
 export function getBalanceChanges(
     accountIndex: number,
-    networkId: NetworkIdType
+    networkId: NetworkId
 ): {
     [assetId: string]: IAssetBalanceChange[]
 } {
@@ -27,7 +27,7 @@ export function getBalanceChanges(
 
 export function addPersistedBalanceChange(
     accountIndex: number,
-    networkId: NetworkIdType,
+    networkId: NetworkId,
     assetId: string,
     ...newPersistedAssets: IAssetBalanceChange[]
 ): void {

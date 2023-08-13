@@ -5,11 +5,11 @@ import {
 } from '../stores'
 import { generateBalanceChangeActivity } from '../utils/generateBalanceChangeActivity'
 import { IAssetBalanceChange } from '../types'
-import { NetworkIdType } from '@core/network'
+import { NetworkId } from '@core/network'
 
 export function calculateAndAddPersistedBalanceChange(
     accountIndex: number,
-    networkId: NetworkIdType,
+    networkId: NetworkId,
     assetId: string,
     newBalance: number
 ): void {

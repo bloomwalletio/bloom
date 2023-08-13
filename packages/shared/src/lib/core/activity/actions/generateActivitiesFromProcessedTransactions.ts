@@ -1,12 +1,12 @@
 import { IAccountState } from '@core/account'
 import { Activity, IProcessedTransaction } from '../types'
 import { generateActivities } from '../utils'
-import { NetworkIdType } from '@core/network/types'
+import { NetworkId } from '@core/network/types'
 
 export function generateActivitiesFromProcessedTransactions(
     processedTransactions: IProcessedTransaction[],
     account: IAccountState,
-    networkId: NetworkIdType
+    networkId: NetworkId
 ): Activity[] {
     const activities: Activity[] = []
     for (const _preparedActivity of processedTransactions) {

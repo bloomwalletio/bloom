@@ -13,12 +13,12 @@ import { generateActivitiesFromAliasOutputs } from './generateActivitiesFromAlia
 import { generateActivitiesFromFoundryOutputs } from './generateActivitiesFromFoundryOutputs'
 import { generateActivitiesFromBasicOutputs } from './generateActivitiesFromBasicOutputs'
 import { ActivityAction, ActivityType } from '../enums'
-import { NetworkIdType } from '@core/network/types'
+import { NetworkId } from '@core/network/types'
 
 export function generateActivities(
     processedTransaction: IProcessedTransaction,
     account: IAccountState,
-    networkId: NetworkIdType
+    networkId: NetworkId
 ): Activity[] {
     if (processedTransaction.wrappedInputs?.length > 0) {
         return generateActivitiesFromProcessedTransactionsWithInputs(processedTransaction, account, networkId)
@@ -30,7 +30,7 @@ export function generateActivities(
 function generateActivitiesFromProcessedTransactionsWithInputs(
     processedTransaction: IProcessedTransaction,
     account: IAccountState,
-    networkId: NetworkIdType
+    networkId: NetworkId
 ): Activity[] {
     const { outputs, wrappedInputs } = processedTransaction
     const activities: Activity[] = []
@@ -82,7 +82,7 @@ function generateActivitiesFromProcessedTransactionsWithInputs(
 function generateActivitiesFromProcessedTransactionsWithoutInputs(
     processedTransaction: IProcessedTransaction,
     account: IAccountState,
-    networkId: NetworkIdType
+    networkId: NetworkId
 ): Activity[] {
     const nonRemainderOutputs = processedTransaction.outputs.filter((wrappedOutput) => !wrappedOutput.remainder)
     return nonRemainderOutputs.map((wrappedOutput) => {

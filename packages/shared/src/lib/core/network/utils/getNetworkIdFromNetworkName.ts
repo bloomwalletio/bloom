@@ -1,8 +1,8 @@
 import { NetworkNamespace, TangleNetworkId } from '../enums'
-import { NetworkIdType, NetworkProtocolId } from '../types'
+import { NetworkId, NetworkProtocolId } from '../types'
 import { buildNetworkId } from './buildNetworkId'
 
-export function getNetworkIdFromNetworkName(name: string): NetworkIdType {
+export function getNetworkIdFromNetworkName(name: string): NetworkId {
     const namespace = NetworkNamespace.Tangle
     const protocolId = getProtocolIdFromNetworkName(name)
     return buildNetworkId(namespace, protocolId)

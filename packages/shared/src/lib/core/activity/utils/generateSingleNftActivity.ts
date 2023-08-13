@@ -13,11 +13,11 @@ import {
 } from './helper'
 import { IActivityGenerationParameters } from '../types/activity-generation-parameters.interface'
 import { getNftId } from './outputs'
-import { NetworkIdType } from '@core/network/types'
+import { NetworkId } from '@core/network/types'
 
 export function generateSingleNftActivity(
     account: IAccountState,
-    networkId: NetworkIdType,
+    networkId: NetworkId,
     { action, processedTransaction, wrappedOutput }: IActivityGenerationParameters,
     nftIdFromInput?: string
 ): NftActivity {

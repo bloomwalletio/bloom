@@ -12,11 +12,11 @@ import {
 } from './helper'
 import { OUTPUT_TYPE_BASIC } from '@core/wallet/constants'
 import { ConsolidationActivity, IActivityGenerationParameters } from '../types'
-import { NetworkIdType } from '@core/network/types'
+import { NetworkId } from '@core/network/types'
 
 export function generateSingleConsolidationActivity(
     account: IAccountState,
-    networkId: NetworkIdType,
+    networkId: NetworkId,
     { action, processedTransaction, wrappedOutput }: IActivityGenerationParameters
 ): ConsolidationActivity {
     const { transactionId, direction, claimingData, time, inclusionState, wrappedInputs } = processedTransaction

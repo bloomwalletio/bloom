@@ -1,10 +1,10 @@
 import { COIN_TYPE, DEFAULT_BASE_TOKEN } from '../constants'
 import { SupportedNetworkId, TokenSupply } from '../enums'
 import { IStardustNetworkMetadata } from '../interfaces'
-import { NetworkIdType, NetworkMetadata } from '../types'
+import { NetworkId, NetworkMetadata } from '../types'
 
 // TODO: Should this be reverted back to a object with all metadata for any network (or chain?)
-export const DEFAULT_NETWORK_METADATA: Readonly<{ [key in NetworkIdType]?: NetworkMetadata }> = {
+export const DEFAULT_NETWORK_METADATA: Readonly<{ [key in NetworkId]?: NetworkMetadata }> = {
     [SupportedNetworkId.Shimmer]: <IStardustNetworkMetadata>{
         id: SupportedNetworkId.Shimmer,
         name: 'Shimmer',

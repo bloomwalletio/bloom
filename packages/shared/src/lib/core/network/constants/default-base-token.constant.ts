@@ -1,5 +1,5 @@
 import { SupportedNetworkId } from '@core/network/enums'
-import { NetworkIdType } from '@core/network/types'
+import { NetworkId } from '@core/network/types'
 import { IBaseToken } from '@core/wallet/interfaces'
 import { TokenStandard } from '@core/wallet/enums'
 
@@ -33,7 +33,7 @@ const DEFAULT_TESTNET_BASE_TOKEN: IBaseToken = {
     useMetricPrefix: false,
 }
 
-export const DEFAULT_BASE_TOKEN: Readonly<{ [id: NetworkIdType]: IBaseToken }> = {
+export const DEFAULT_BASE_TOKEN: Readonly<{ [id: NetworkId]: IBaseToken }> = {
     [SupportedNetworkId.Iota]: DEFAULT_IOTA_BASE_TOKEN,
     [SupportedNetworkId.Shimmer]: DEFAULT_SHIMMER_BASE_TOKEN,
     [SupportedNetworkId.Testnet]: DEFAULT_TESTNET_BASE_TOKEN,

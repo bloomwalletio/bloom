@@ -1,6 +1,6 @@
 import { EXPLORER_URLS } from '../constants'
-import { NetworkIdType } from '../types'
+import { NetworkId } from '../types'
 
-export function getOfficialExplorerUrl(networkId: NetworkIdType): string {
+export function getOfficialExplorerUrl(networkId: NetworkId): string {
     return EXPLORER_URLS?.[networkId] ?? ''
 }

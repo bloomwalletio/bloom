@@ -3,12 +3,12 @@ import { OUTPUT_TYPE_FOUNDRY } from '@core/wallet'
 import { Activity, IProcessedTransaction } from '../types'
 import { generateSingleFoundryActivity } from './generateSingleFoundryActivity'
 import { ActivityAction } from '../enums'
-import { NetworkIdType } from '@core/network/types'
+import { NetworkId } from '@core/network/types'
 
 export function generateActivitiesFromFoundryOutputs(
     processedTransaction: IProcessedTransaction,
     account: IAccountState,
-    networkId: NetworkIdType
+    networkId: NetworkId
 ): Activity[] {
     const outputs = processedTransaction.outputs
     const activities = []

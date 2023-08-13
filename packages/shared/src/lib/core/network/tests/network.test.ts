@@ -1,6 +1,6 @@
 import { SupportedNetworkId } from '../enums'
 import { IClientOptions, INode } from '../interfaces'
-import { NetworkIdType } from '../types'
+import { NetworkId } from '../types'
 import { checkNodeUrlValidity, getDefaultClientOptions, getOfficialNodes, isOfficialNetwork } from '../utils'
 
 describe('File: network.ts', () => {
@@ -15,12 +15,12 @@ describe('File: network.ts', () => {
         }
     }
 
-    function _buildNodes(networkId: NetworkIdType): INode[] | undefined {
+    function _buildNodes(networkId: NetworkId): INode[] | undefined {
         const nodes = (EXPECTED_NODE_URLS?.[networkId] ?? []).map((url) => _buildNode(url))
         return nodes?.filter((node) => node !== undefined) as INode[]
     }
 
-    const EXPECTED_NODE_URLS: Readonly<{ [key in NetworkIdType]?: string[] }> = {
+    const EXPECTED_NODE_URLS: Readonly<{ [key in NetworkId]?: string[] }> = {
         [SupportedNetworkId.Iota]: [
             'https://chrysalis-nodes.iota.org',
             'https://chrysalis-nodes.iota.cafe',
@@ -30,7 +30,7 @@ describe('File: network.ts', () => {
         [SupportedNetworkId.Testnet]: ['https://api.testnet.shimmer.network'],
     }
 
-    function getExpectedNodes(networkId: NetworkIdType): INode[] | undefined {
+    function getExpectedNodes(networkId: NetworkId): INode[] | undefined {
         return _buildNodes(networkId)
     }
 
@@ -54,7 +54,7 @@ describe('File: network.ts', () => {
             })
         })
         it('should return no official nodes given an invalid network type', () => {
-            expect(getOfficialNodes('undefined' as NetworkIdType)).toEqual([])
+            expect(getOfficialNodes('undefined' as NetworkId)).toEqual([])
         })
     })
 
@@ -65,7 +65,7 @@ describe('File: network.ts', () => {
             })
         })
         it('should return false given an invalid network type', () => {
-            expect(isOfficialNetwork('undefined' as NetworkIdType)).toBe(false)
+            expect(isOfficialNetwork('undefined' as NetworkId)).toBe(false)
         })
     })
 
