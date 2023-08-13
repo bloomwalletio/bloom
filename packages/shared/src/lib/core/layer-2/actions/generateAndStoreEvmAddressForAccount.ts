@@ -1,6 +1,8 @@
 import { IAccountState } from '@core/account/interfaces'
-import { ProfileType, updateActiveAccount, updateActiveAccountPersistedData } from '@core/profile'
 import { Ledger } from '@core/ledger/classes'
+import { ProfileType } from '@core/profile'
+import { updateActiveAccountPersistedData } from '@core/profile/actions'
+import { updateActiveAccount } from '@core/profile/stores'
 
 export async function generateAndStoreEvmAddressForAccount(
     profileType: ProfileType,

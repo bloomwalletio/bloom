@@ -1,16 +1,20 @@
 <script lang="ts">
-    import { IAccountState, selectedAccount, setSelectedAccount } from '@core/account'
+    import { IAccountState } from '@core/account'
+    import { setSelectedAccount } from '@core/account/actions'
+    import { selectedAccount } from '@core/account/stores'
     import { formatCurrency } from '@core/i18n'
-    import { getMarketAmountFromAssetValue } from '@core/market/utils'
-    import { activeProfile, getBaseToken } from '@core/profile'
-    import { formatTokenAmountBestMatch, selectedAccountAssets } from '@core/wallet'
+    import { getMarketAmountFromTokenValue } from '@core/market/utils'
+    import { getBaseToken } from '@core/profile/actions'
+    import { activeProfile } from '@core/profile/stores'
+    import { formatTokenAmountBestMatch } from '@core/token'
+    import { selectedAccountTokens } from '@core/token/stores'
     import { AccountLabel, FontWeight, Text } from '@ui'
 
     export let account: IAccountState
     export let onClick: () => unknown
     export let id: string = ''
 
-    $: ({ baseCoin } = $selectedAccountAssets[$activeProfile?.network?.id])
+    $: ({ baseCoin } = $selectedAccountTokens[$activeProfile?.network?.id])
 
     function onAccountClick(accountIndex: number): void {
         setSelectedAccount(accountIndex)
@@ -42,7 +46,7 @@
             color="blue-500"
             classes="{account.index === $selectedAccount?.index ? '' : 'opacity-50'} text-right"
         >
-            {formatCurrency(getMarketAmountFromAssetValue(Number(account.balances.baseCoin.total), baseCoin))}
+            {formatCurrency(getMarketAmountFromTokenValue(Number(account.balances.baseCoin.total), baseCoin))}
         </Text>
     </div>
 </button>

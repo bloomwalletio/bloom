@@ -5,7 +5,7 @@ import { IWrappedOutput } from '@core/wallet/interfaces'
 import { get } from 'svelte/store'
 import { OUTPUT_TYPE_NFT } from '../../wallet/constants'
 import { INft } from '../interfaces'
-import { buildNftFromNftOutput } from '../utils'
+import { buildNftFromNftOutput } from './buildNftFromNftOutput'
 import { setAccountNftsInAllAccountNfts } from './setAccountNftsInAllAccountNfts'
 
 export async function loadNftsForActiveProfile(): Promise<void> {

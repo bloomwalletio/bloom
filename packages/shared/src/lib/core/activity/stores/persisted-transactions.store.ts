@@ -1,6 +1,6 @@
+import { activeProfileId } from '@core/profile/stores'
 import { persistent } from '@core/utils/store'
 import { get } from 'svelte/store'
-import { activeProfileId } from '@core/profile'
 import { PersistedEvmTransaction } from '../types'
 
 interface IPersistedEvmTransactions {

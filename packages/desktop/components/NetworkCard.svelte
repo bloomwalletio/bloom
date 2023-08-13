@@ -1,6 +1,5 @@
 <script lang="ts">
-    import { Icon as IconEnum } from '@auxiliary/icon'
-    import { selectedAccount } from '@core/account'
+    import { selectedAccount } from '@core/account/stores'
     import { localize } from '@core/i18n'
     import { generateAndStoreEvmAddressForAccount } from '@core/layer-2'
     import { LedgerAppName } from '@core/ledger'
@@ -14,11 +13,14 @@
         networkStatus,
         setSelectedChain,
     } from '@core/network'
-    import { ProfileType, activeProfile, checkActiveProfileAuth } from '@core/profile'
+    import { ProfileType } from '@core/profile'
+    import { checkActiveProfileAuth } from '@core/profile/actions'
+    import { activeProfile } from '@core/profile/stores'
     import { UiEventFunction, truncateString } from '@core/utils'
     import { NetworkConfigRoute, networkConfigRouter } from '@desktop/routers'
-    import { ClickableTile, FontWeight, Icon, NetworkIcon, NetworkStatusPill, Text, TextType } from '@ui'
+    import { ClickableTile, FontWeight, NetworkIcon, NetworkStatusPill, Text, TextType } from '@ui'
     import { onMount } from 'svelte'
+    import { Button, FlatIconName } from '@bloomwalletio/ui'
 
     export let network: INetwork = undefined
     export let chain: IChain = undefined
@@ -93,17 +95,16 @@
                         {truncateString(address, 8, 8)}
                     </Text>
                 {:else}
-                    <button on:click|stopPropagation={onGenerateAddressClick}>
-                        <Text type={TextType.p} fontWeight={FontWeight.medium} highlighted>
-                            {localize('actions.generateAddress')}
-                        </Text>
-                    </button>
+                    <Button
+                        variant="text"
+                        size="sm"
+                        text={localize('actions.generateAddress')}
+                        on:click={onGenerateAddressClick}
+                    />
                 {/if}
             </div>
             {#if address}
-                <button on:click|stopPropagation={onQrCodeIconClick}>
-                    <Icon icon={IconEnum.Qr} classes="text-gray-500" />
-                </button>
+                <Button variant="text" icon={FlatIconName.Qrcode} on:click={onQrCodeIconClick} />
             {/if}
         </div>
     </div>

@@ -1101,7 +1101,7 @@
                 "logoUrl": "Logo URL",
                 "logo": "Logo",
                 "alias": "Alias",
-                "assetId": "Asset Id"
+                "tokenId": "Token Id"
             }
         },
         "importErc20Token": {
@@ -1931,7 +1931,7 @@
             "wrongAddressPrefix": "Las direcciones comienzan con el prefijo {prefix}.",
             "wrongAddressFormat": "La dirección no tiene el formato correcto.",
             "invalidAddress": "La dirección no es válida.",
-            "invalidAssetId": "The asset id is not valid.",
+            "invalidTokenId": "The token id is not valid.",
             "unknownAsset": "The asset is not known to this account.",
             "insufficientFunds": "Esta billetera tiene fondos insuficientes.",
             "insufficientFundsStorageDeposit": "Insufficient funds to cover the storage deposit.",

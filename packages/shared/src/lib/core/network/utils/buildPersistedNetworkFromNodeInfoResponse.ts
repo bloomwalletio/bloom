@@ -1,6 +1,6 @@
 import { localize } from '@core/i18n'
-import { TokenStandard } from '@core/wallet/enums'
 import { COIN_TYPE, DEFAULT_NETWORK_METADATA, TEST_COIN_TYPE } from '../constants'
+import { TokenStandard } from '@core/token/enums'
 import { INodeInfoResponse, IPersistedNetwork } from '../interfaces'
 import { getNetworkIdFromNetworkName } from './getNetworkIdFromNetworkName'
 

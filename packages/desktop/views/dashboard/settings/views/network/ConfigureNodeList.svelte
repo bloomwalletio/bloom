@@ -1,10 +1,11 @@
 <script lang="ts">
-    import { closePopup, openPopup, PopupId } from '@desktop/auxiliary/popup'
+    import { Button } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
     import { addOfficialNodesToClientOptions as onAddOfficialNodesClick, NetworkName } from '@core/network'
-    import { activeProfile } from '@core/profile'
+    import { activeProfile } from '@core/profile/stores'
     import { NetworkSettingsRoute } from '@core/router'
-    import { Button, ButtonSize, NodeListTable } from '@ui'
+    import { NodeListTable } from '@ui'
+    import { closePopup, openPopup, PopupId } from '@desktop/auxiliary/popup'
     import SettingsSection from '../SettingsSection.svelte'
 
     let nodesContainer: HTMLElement
@@ -35,22 +36,16 @@
     <div class="flex flex-row justify-between space-x-3 w-full mt-4">
         {#if networkId !== NetworkName.Custom}
             <Button
-                outline
-                size={ButtonSize.Medium}
-                inlineStyle="min-width: 156px;"
-                classes="w-1/2"
-                onClick={onAddOfficialNodesClick}
-            >
-                {localize('actions.addOfficialNodes')}
-            </Button>
+                variant="outline"
+                width="half"
+                on:click={onAddOfficialNodesClick}
+                text={localize('actions.addOfficialNodes')}
+            />
         {/if}
         <Button
-            inlineStyle="min-width: 156px;"
-            size={ButtonSize.Medium}
-            classes={networkId === NetworkName.Custom ? '' : 'w-1/2'}
-            onClick={onAddNodeClick}
-        >
-            {localize('actions.addNode')}
-        </Button>
+            width={networkId === NetworkName.Custom ? 'auto' : 'half'}
+            on:click={onAddNodeClick}
+            text={localize('actions.addNode')}
+        />
     </div>
 </SettingsSection>

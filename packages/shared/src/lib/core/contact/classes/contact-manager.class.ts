@@ -1,6 +1,6 @@
 import { getActiveProfile, updateActiveProfile } from '@core/profile/stores'
 import { generateRandomId } from '@core/utils'
-import { getIconColorFromString } from '@core/account/utils'
+import { getIconColorFromString } from '@core/account/utils/getIconColorFromString'
 import type {
     IContactAddress,
     IContact,

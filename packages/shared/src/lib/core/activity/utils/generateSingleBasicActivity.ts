@@ -1,7 +1,8 @@
 import { isShimmerClaimingTransaction } from '@contexts/onboarding/stores'
 import { IAccountState } from '@core/account'
 import { IActivityGenerationParameters } from '@core/activity/types'
-import { activeProfileId, getCoinType } from '@core/profile'
+import { getCoinType } from '@core/profile/actions'
+import { activeProfileId } from '@core/profile/stores'
 import { IBasicOutput } from '@iota/types'
 import { get } from 'svelte/store'
 import { activityOutputContainsValue } from '..'
@@ -22,13 +23,13 @@ export function generateSingleBasicActivity(
     account: IAccountState,
     networkId: NetworkId,
     { action, processedTransaction, wrappedOutput }: IActivityGenerationParameters,
-    fallbackAssetId?: string,
+    fallbackTokenId?: string,
     fallbackAmount?: number
 ): TransactionActivity {
     const { transactionId, direction, claimingData, time, inclusionState } = processedTransaction
 
     const isHidden = false
-    const isAssetHidden = false
+    const isTokenHidden = false
     const containsValue = activityOutputContainsValue(wrappedOutput)
 
     const outputId = wrappedOutput.outputId
@@ -54,7 +55,7 @@ export function generateSingleBasicActivity(
     const rawBaseCoinAmount = getAmountFromOutput(output)
 
     const nativeToken = getNativeTokenFromOutput(output)
-    const assetId = fallbackAssetId ?? nativeToken?.id ?? getCoinType()
+    const tokenId = fallbackTokenId ?? nativeToken?.id ?? getCoinType()
 
     let rawAmount: number
     if (fallbackAmount === undefined) {
@@ -71,7 +72,7 @@ export function generateSingleBasicActivity(
         time,
         direction,
         action,
-        isAssetHidden,
+        isAssetHidden: isTokenHidden,
         inclusionState,
         containsValue,
         outputId,
@@ -82,8 +83,8 @@ export function generateSingleBasicActivity(
         publicNote,
         metadata,
         tag,
-        assetId,
         networkId,
+        tokenId,
         asyncData,
         // destinationNetwork,
         // parsedLayer2Metadata,

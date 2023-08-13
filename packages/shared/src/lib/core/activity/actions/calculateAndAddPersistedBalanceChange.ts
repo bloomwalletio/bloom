@@ -4,29 +4,29 @@ import {
     addActivityToAccountActivitiesInAllAccountActivities,
 } from '../stores'
 import { generateBalanceChangeActivity } from '../utils/generateBalanceChangeActivity'
-import { IAssetBalanceChange } from '../types'
+import { ITokenBalanceChange } from '../types'
 import { NetworkId } from '@core/network'
 
 export function calculateAndAddPersistedBalanceChange(
     accountIndex: number,
     networkId: NetworkId,
-    assetId: string,
+    tokenId: string,
     newBalance: number
 ): void {
     newBalance = newBalance || 0
 
-    const balanceChangesForAsset = getBalanceChanges(accountIndex, networkId)?.[assetId]
+    const balanceChangesForAsset = getBalanceChanges(accountIndex, networkId)?.[tokenId]
     const lastBalanceChange = balanceChangesForAsset?.at(-1)
 
     if (!lastBalanceChange || lastBalanceChange.newBalance !== newBalance) {
-        const newBalanceChange: IAssetBalanceChange = {
+        const newBalanceChange: ITokenBalanceChange = {
             changedAt: Date.now(),
             oldBalance: lastBalanceChange?.newBalance,
             newBalance,
         }
 
-        const activity = generateBalanceChangeActivity(networkId, assetId, newBalanceChange)
+        const activity = generateBalanceChangeActivity(networkId, tokenId, newBalanceChange)
         addActivityToAccountActivitiesInAllAccountActivities(accountIndex, activity)
-        addPersistedBalanceChange(accountIndex, networkId, assetId, newBalanceChange)
+        addPersistedBalanceChange(accountIndex, networkId, tokenId, newBalanceChange)
     }
 }

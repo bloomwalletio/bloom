@@ -1,13 +1,8 @@
 <script lang="ts">
-    import { time } from '@core/app'
     import { Activity, ActivityAsyncStatus, ActivityType, InclusionState } from '@core/activity'
-    import {
-        NotVerifiedStatus,
-        selectedAccountAssets,
-        getAssetFromPersistedAssets,
-        IPersistedAsset,
-        IAsset,
-    } from '@core/wallet'
+    import { time } from '@core/app/stores'
+    import { IPersistedToken, IToken, NotVerifiedStatus } from '@core/token'
+    import { getPersistedToken, selectedAccountTokens } from '@core/token/stores'
     import {
         AliasActivityTileContent,
         AsyncActivityTileFooter,
@@ -23,19 +18,19 @@
 
     export let activity: Activity
 
-    let persistedAsset: IPersistedAsset | undefined
-    $: $selectedAccountAssets,
-        (persistedAsset =
+    let persistedToken: IPersistedToken | undefined
+    $: $selectedAccountTokens,
+        (persistedToken =
             activity.type === ActivityType.Basic || activity.type === ActivityType.Foundry
-                ? getAssetFromPersistedAssets(activity.assetId)
+                ? getPersistedToken(activity.tokenId)
                 : undefined)
     $: isTimelocked = activity?.asyncData?.timelockDate ? activity?.asyncData?.timelockDate > $time : false
     $: shouldShowAsyncFooter = activity.asyncData && activity.asyncData.asyncStatus !== ActivityAsyncStatus.Claimed
 
     function onTransactionClick(): void {
-        if (persistedAsset?.verification?.status === NotVerifiedStatus.New) {
-            const asset: IAsset = {
-                ...persistedAsset,
+        if (persistedToken?.verification?.status === NotVerifiedStatus.New) {
+            const token: IToken = {
+                ...persistedToken,
                 chainId: activity.chainId ?? 0,
                 balance: {
                     total: 0,
@@ -47,7 +42,7 @@
                 overflow: true,
                 props: {
                     activityId: activity.id,
-                    asset,
+                    token,
                 },
             })
         } else {

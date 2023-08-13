@@ -1,7 +1,7 @@
 <script lang="ts">
     import { localize } from '@core/i18n'
     import { MarketCurrency } from '@core/market'
-    import { activeProfile, updateActiveProfileSettings } from '@core/profile'
+    import { activeProfile, updateActiveProfileSettings } from '@core/profile/stores'
     import type { IDropdownItem } from '@core/utils'
     import { Dropdown, Text } from '@ui'
 

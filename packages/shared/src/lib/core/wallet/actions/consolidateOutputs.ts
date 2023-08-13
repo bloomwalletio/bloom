@@ -1,8 +1,8 @@
-import { get } from 'svelte/store'
-import { selectedAccount, updateSelectedAccount } from '@core/account'
-import { handleError } from '@core/error/handlers'
+import { selectedAccount, updateSelectedAccount } from '@core/account/stores'
 import { processAndAddToActivities } from '@core/activity/utils'
 import { network } from '@core/network/stores'
+import { handleError } from '@core/error/handlers'
+import { get } from 'svelte/store'
 
 export async function consolidateOutputs(): Promise<void> {
     try {

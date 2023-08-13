@@ -1,11 +1,11 @@
 import { showNotification } from '@auxiliary/notification'
 import { selectedAccount, updateSelectedAccount } from '@core/account/stores/selected-account.store'
-import { localize } from '@core/i18n'
-import { updateNftInAllAccountNfts } from '@core/nfts'
-import { handleError } from '@core/error/handlers'
-import { get } from 'svelte/store'
 import { processAndAddToActivities } from '@core/activity/utils'
 import { network } from '@core/network'
+import { handleError } from '@core/error/handlers'
+import { localize } from '@core/i18n'
+import { updateNftInAllAccountNfts } from '@core/nfts/actions'
+import { get } from 'svelte/store'
 
 export async function burnNft(nftId: string): Promise<void> {
     try {

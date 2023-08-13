@@ -1,6 +1,6 @@
 <script lang="ts">
     import { ISetting, isSettingVisible } from '@contexts/settings'
-    import { activeProfile, isActiveLedgerProfile } from '@core/profile'
+    import { activeProfile, isActiveLedgerProfile } from '@core/profile/stores'
     import { SettingsRoute } from '@core/router'
     import features from '@features/features'
     import { SETTINGS } from './settings.constant'

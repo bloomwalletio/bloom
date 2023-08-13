@@ -1101,7 +1101,7 @@
                 "logoUrl": "URL Логотипа",
                 "logo": "Логотип",
                 "alias": "Псевдоним",
-                "assetId": "Id Актива"
+                "tokenId": "Id Актива"
             }
         },
         "importErc20Token": {
@@ -1931,7 +1931,7 @@
             "wrongAddressPrefix": "Адреса начинаются с префикса {prefix}.",
             "wrongAddressFormat": "Адрес неверно отформатирован.",
             "invalidAddress": "Адрес недействителен.",
-            "invalidAssetId": "The asset id is not valid.",
+            "invalidTokenId": "The token id is not valid.",
             "unknownAsset": "Актив не известен для данного счета.",
             "insufficientFunds": "На этом кошельке недостаточно средств.",
             "insufficientFundsStorageDeposit": "Insufficient funds to cover the storage deposit.",

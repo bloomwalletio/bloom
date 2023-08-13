@@ -1,8 +1,9 @@
 <script lang="ts">
+    import { IAccountState } from '@core/account'
+    import { setSelectedAccount } from '@core/account/actions'
     import { localize } from '@core/i18n'
-    import { Text, Button, AccountInput, FontWeight } from '@ui'
     import { closePopup } from '@desktop/auxiliary/popup'
-    import { IAccountState, setSelectedAccount } from '@core/account'
+    import { AccountInput, Button, FontWeight, Text } from '@ui'
 
     export let onCancel: () => void
     export let onConfirm: () => void

@@ -10,6 +10,12 @@
     export let onClick: (item: INetworkRecipientSelectorOption) => void = () => {}
     export let onChange: (item: INetworkRecipientSelectorOption) => void = () => {}
 
+    let recipientInput: RecipientInput
+
+    export function validate(): void {
+        recipientInput?.validate()
+    }
+
     let recipientInputElement: HTMLInputElement
 
     let isLayer2 = false
@@ -65,6 +71,7 @@
     {#if selected}
         <network-recipient-item-address>
             <RecipientInput
+                bind:this={recipientInput}
                 bind:inputElement={recipientInputElement}
                 bind:recipient={item.selectedRecipient}
                 {options}

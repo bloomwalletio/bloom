@@ -1,10 +1,11 @@
 import { IAccountState } from '@core/account'
-import { getCoinType } from '@core/profile'
-import { ADDRESS_TYPE_ALIAS, UNLOCK_CONDITION_IMMUTABLE_ALIAS } from '@core/wallet/constants'
-import { ActivityType } from '../enums'
 import { IActivityGenerationParameters } from '@core/activity/types'
-import { FoundryActivity } from '../types'
+import { getCoinType } from '@core/profile/actions'
+import { ADDRESS_TYPE_ALIAS, UNLOCK_CONDITION_IMMUTABLE_ALIAS } from '@core/wallet/constants'
+import { convertHexAddressToBech32 } from '@core/wallet/utils'
 import type { IAliasAddress, IFoundryOutput, IImmutableAliasUnlockCondition } from '@iota/types'
+import { ActivityType } from '../enums'
+import { FoundryActivity } from '../types'
 import {
     getAmountFromOutput,
     getAsyncDataFromOutput,
@@ -13,7 +14,6 @@ import {
     getTagFromOutput,
 } from './helper'
 import { getNativeTokenFromOutput } from './outputs'
-import { convertHexAddressToBech32 } from '@core/wallet/utils'
 import { NetworkId } from '@core/network/types'
 
 export function generateSingleFoundryActivity(
@@ -39,7 +39,7 @@ export function generateSingleFoundryActivity(
 
     const id = outputId || transactionId
     const nativeToken = getNativeTokenFromOutput(output)
-    const assetId = nativeToken?.id ?? getCoinType()
+    const tokenId = nativeToken?.id ?? getCoinType()
 
     const storageDeposit = getAmountFromOutput(output)
     const rawAmount = Number(nativeToken?.amount ?? 0)
@@ -56,7 +56,7 @@ export function generateSingleFoundryActivity(
         transactionId,
         direction,
         action,
-        assetId,
+        tokenId,
         aliasAddress,
         mintedTokens,
         meltedTokens,

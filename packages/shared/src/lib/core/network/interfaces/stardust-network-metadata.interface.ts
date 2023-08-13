@@ -1,4 +1,4 @@
-import { IBaseToken } from '@core/wallet/interfaces'
+import { IBaseToken } from '@core/token/interfaces'
 import { IProtocol } from './protocol.interface'
 import { NetworkId } from '../types'
 

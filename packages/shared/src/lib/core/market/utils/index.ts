@@ -1,2 +1,2 @@
-export * from './getMarketAmountFromAssetValue'
-export * from './getMarketPriceForAsset'
+export * from './getMarketAmountFromTokenValue'
+export * from './getMarketPriceForToken'

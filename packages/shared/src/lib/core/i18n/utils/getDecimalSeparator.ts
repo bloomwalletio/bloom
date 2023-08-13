@@ -1,7 +1,6 @@
+import { appSettings } from '@core/app/stores'
+import { activeProfile } from '@core/profile/stores'
 import { get } from 'svelte/store'
-
-import { appSettings } from '@core/app'
-import { activeProfile } from '@core/profile'
 
 export function getDecimalSeparator(currency: string | undefined = undefined): string {
     const appLanguage = get(appSettings).language

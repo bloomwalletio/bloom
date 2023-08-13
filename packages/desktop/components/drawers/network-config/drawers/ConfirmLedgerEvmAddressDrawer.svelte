@@ -1,12 +1,13 @@
 <script lang="ts">
+    import { Button } from '@bloomwalletio/ui'
     import { DrawerTemplate } from '@components'
-    import { selectedAccount } from '@core/account'
+    import { selectedAccount } from '@core/account/stores'
     import { localize } from '@core/i18n'
     import { IIscpChainConfiguration } from '@core/network/interfaces'
     import { selectedChain } from '@core/network/stores'
     import { Router } from '@core/router'
     import { DrawerRoute, NetworkConfigRoute, networkConfigRouter } from '@desktop/routers'
-    import { Animation, Button, CopyableBox, FontWeight, Pane, Text, TextType } from '@ui'
+    import { Animation, CopyableBox, FontWeight, Pane, Text, TextType } from '@ui'
 
     export let drawerRouter: Router<DrawerRoute>
 
@@ -41,8 +42,15 @@
                 </Pane>
             {/if}
         </div>
-        <Button outline disabled={!address} isBusy={!address} onClick={onContinueClick}>
-            {localize('actions.continue')}
-        </Button>
     </confirm-ledger-evm-address-drawer>
+    <svelte:fragment slot="footer">
+        <Button
+            variant="outline"
+            text={localize('actions.continue')}
+            disabled={!address}
+            busy={!address}
+            width="full"
+            on:click={onContinueClick}
+        />
+    </svelte:fragment>
 </DrawerTemplate>

@@ -1,5 +1,5 @@
 import { TransactionActivity } from '../types'
-import { IAssetBalanceChange } from '../types'
+import { ITokenBalanceChange } from '../types'
 import { ActivityAction, ActivityDirection, ActivityType, InclusionState } from '../enums'
 import { generateRandomId } from '@core/utils'
 import { getCoinType } from '@core/profile/actions'
@@ -7,8 +7,8 @@ import { NetworkId } from '@core/network'
 
 export function generateBalanceChangeActivity(
     networkId: NetworkId,
-    assetId: string,
-    balanceChange: IAssetBalanceChange
+    tokenId: string,
+    balanceChange: ITokenBalanceChange
 ): TransactionActivity {
     const difference = balanceChange.newBalance - (balanceChange.oldBalance ?? 0)
     const direction = difference >= 0 ? ActivityDirection.Incoming : ActivityDirection.Outgoing
@@ -27,7 +27,7 @@ export function generateBalanceChangeActivity(
         subject: undefined,
         rawBaseCoinAmount: Math.abs(difference),
         rawAmount: Math.abs(difference),
-        assetId: assetId === '0x' ? getCoinType() : assetId,
+        tokenId: tokenId === '0x' ? getCoinType() : tokenId,
         networkId,
     }
 }
