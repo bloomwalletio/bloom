@@ -15,8 +15,8 @@ export interface IEvmChainConfiguration extends IBaseChainConfiguration {
 }
 
 export interface IBaseChainConfiguration {
+    id: NetworkIdType
     type: ChainType
-    networkId: NetworkIdType
     chainId: number
     coinType: number
     name: string

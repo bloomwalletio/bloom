@@ -10,7 +10,7 @@
     import { Animation, OnboardingButton, Text, TextType } from '@ui'
     import { onMount } from 'svelte'
     import { networkSetupRouter } from '../network-setup-router'
-    import { getNetworkWithIdFromNetworkName } from '@core/network/utils/getNetworkWithIdFromNetworkName'
+    import { getNetworkIdFromNetworkName } from '@core/network/utils/getNetworkIdFromNetworkName'
 
     let networkIcon: { [key in NetworkName]: string }
     $: networkIcon = {
@@ -35,7 +35,7 @@
 
     function onNetworkSelectionClick(networkName: NetworkName): void {
         if (networkName !== NetworkName.Custom) {
-            const networkId = getNetworkWithIdFromNetworkName(networkName)?.id
+            const networkId = getNetworkIdFromNetworkName(networkName)
             const network = getDefaultPersistedNetwork(networkId)
             const clientOptions = getDefaultClientOptions(networkId)
             updateOnboardingProfile({ network, clientOptions })

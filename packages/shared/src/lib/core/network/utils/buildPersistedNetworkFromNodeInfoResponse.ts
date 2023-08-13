@@ -1,18 +1,18 @@
 import { localize } from '@core/i18n'
 import { TokenStandard } from '@core/wallet/enums'
-import { COIN_TYPE, DEFAULT_TANGLE_NETWORK_METADATA, TEST_COIN_TYPE } from '../constants'
+import { COIN_TYPE, DEFAULT_NETWORK_METADATA, TEST_COIN_TYPE } from '../constants'
 import { INodeInfoResponse, IPersistedNetwork } from '../interfaces'
-import { getNetworkWithIdFromNetworkName } from './getNetworkWithIdFromNetworkName'
+import { getNetworkIdFromNetworkName } from './getNetworkIdFromNetworkName'
 
 export function buildPersistedNetworkFromNodeInfoResponse(
     nodeInfoResponse: INodeInfoResponse,
     coinType?: number
 ): IPersistedNetwork {
-    const networkWithId = getNetworkWithIdFromNetworkName(nodeInfoResponse?.nodeInfo?.protocol.networkName)
-    const name = DEFAULT_TANGLE_NETWORK_METADATA[networkWithId.id]?.name ?? localize('general.unknown')
-    const _coinType = coinType ?? COIN_TYPE[networkWithId.id] ?? TEST_COIN_TYPE
+    const id = getNetworkIdFromNetworkName(nodeInfoResponse?.nodeInfo?.protocol.networkName)
+    const name = DEFAULT_NETWORK_METADATA[id]?.name ?? localize('general.unknown')
+    const _coinType = coinType ?? COIN_TYPE[id] ?? TEST_COIN_TYPE
     return {
-        ...networkWithId,
+        id,
         name,
         coinType: _coinType,
         protocol: nodeInfoResponse?.nodeInfo?.protocol,

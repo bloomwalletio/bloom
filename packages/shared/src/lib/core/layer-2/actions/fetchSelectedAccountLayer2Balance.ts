@@ -14,7 +14,7 @@ export function fetchSelectedAccountLayer2Balance(account: IAccountState): void 
     const { evmAddresses, index } = account
     const chains = getNetwork()?.getChains() ?? []
     chains.forEach(async (chain) => {
-        const { coinType, networkId } = chain.getConfiguration()
+        const { coinType, id: networkId } = chain.getConfiguration()
         const evmAddress = evmAddresses?.[coinType]
         if (!evmAddress) {
             return

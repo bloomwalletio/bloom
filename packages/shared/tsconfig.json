@@ -14,7 +14,7 @@
         "./src/lib/core/network/utils/doesNodeHavePlugin.ts",
         "./src/lib/core/network/utils/getDefaultClientOptions.ts",
         "./src/lib/core/network/utils/getDefaultPersistedNetwork.ts",
-        "src/lib/core/network/utils/getNetworkWithIdFromNetworkName.ts",
+        "src/lib/core/network/utils/getNetworkIdFromNetworkName.ts",
         "./src/lib/core/network/utils/getOfficialExplorerUrl.ts",
         "./src/lib/core/network/utils/getOfficialNodes.ts",
         "./src/lib/core/network/utils/isOfficialNetwork.ts",

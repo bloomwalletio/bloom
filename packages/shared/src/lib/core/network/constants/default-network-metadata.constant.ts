@@ -1,14 +1,12 @@
 import { COIN_TYPE, DEFAULT_BASE_TOKEN } from '../constants'
-import { NetworkNamespace, SupportedNetworkId, TokenSupply } from '../enums'
+import { SupportedNetworkId, TokenSupply } from '../enums'
 import { IStardustNetworkMetadata } from '../interfaces'
 import { NetworkIdType, NetworkMetadata } from '../types'
 
 // TODO: Should this be reverted back to a object with all metadata for any network (or chain?)
-export const DEFAULT_TANGLE_NETWORK_METADATA: Readonly<{ [key in NetworkIdType]?: NetworkMetadata }> = {
+export const DEFAULT_NETWORK_METADATA: Readonly<{ [key in NetworkIdType]?: NetworkMetadata }> = {
     [SupportedNetworkId.Shimmer]: <IStardustNetworkMetadata>{
         id: SupportedNetworkId.Shimmer,
-        namespace: NetworkNamespace.Tangle,
-        protocolId: SupportedNetworkId.Shimmer,
         name: 'Shimmer',
         coinType: COIN_TYPE[SupportedNetworkId.Shimmer],
         protocol: {
@@ -28,8 +26,6 @@ export const DEFAULT_TANGLE_NETWORK_METADATA: Readonly<{ [key in NetworkIdType]?
     },
     [SupportedNetworkId.Testnet]: <IStardustNetworkMetadata>{
         id: SupportedNetworkId.Testnet,
-        namespace: NetworkNamespace.Tangle,
-        protocolId: SupportedNetworkId.Testnet,
         name: 'Testnet',
         coinType: COIN_TYPE[SupportedNetworkId.Testnet],
         protocol: {

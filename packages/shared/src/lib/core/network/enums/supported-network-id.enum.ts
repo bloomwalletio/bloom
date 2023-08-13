@@ -1,7 +1,11 @@
+import { EvmChainId } from './evm-chain-id.enum'
+import { NetworkNamespace } from './network-namespace.enum'
+import { TangleNetworkId } from './tangle-network-id.enum'
+
 export enum SupportedNetworkId {
-    Iota = 'tip20:9374574019616453254',
-    Shimmer = 'tip20:14364762045254553490',
-    Testnet = 'tip20:1856588631910923207',
-    ShimmerEvm = 'eip155:1073', // we don't know the final chainId for the prpd network
-    ShimmerEvmTestnet = 'eip155:1072',
+    Iota = `${NetworkNamespace.Tangle}:${TangleNetworkId.Iota}`,
+    Shimmer = `${NetworkNamespace.Tangle}:${TangleNetworkId.Shimmer}`,
+    Testnet = `${NetworkNamespace.Tangle}:${TangleNetworkId.Testnet}`,
+    ShimmerEvm = `${NetworkNamespace.Ethereum}:${EvmChainId.ShimmerEvm}`,
+    ShimmerEvmTestnet = `${NetworkNamespace.Ethereum}:${EvmChainId.ShimmerEvmTestnet}`,
 }
