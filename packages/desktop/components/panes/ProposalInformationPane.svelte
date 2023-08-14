@@ -62,7 +62,7 @@
         },
         nodeUrl: { data: $selectedProposal?.nodeUrl, isCopyable: true },
     }
-    
+
     $: items, setProposalDetailValues()
 
     function setProposalDetailValues(): void {
@@ -71,10 +71,14 @@
             items.push({
                 key: localize(`views.governance.details.proposalInformation.${key}`),
                 value: proposalInformation[key]?.data,
+                copyable: {
+                    popover: {
+                        content: localize('general.copiedToClipboard'),
+                    },
+                },
             })
         }
     }
-
 </script>
 
 <Pane classes="p-6 h-fit {classes}">
