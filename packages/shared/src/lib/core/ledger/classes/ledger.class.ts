@@ -46,22 +46,18 @@ export class Ledger {
 
         // TODO: https://github.com/bloomwalletio/bloom/issues/432
         if (promptVerification) {
-            try {
-                openPopup({
-                    id: PopupId.VerifyLedgerTransaction,
-                    hideClose: true,
-                    preventClose: true,
-                    props: {
-                        isEvmTransaction: true,
-                        toAmount: getAmountFromEvmTransactionValue(transactionData.value?.toString()),
-                        toAddress: transactionData.to,
-                        chainId,
-                        maxFees: BigInt(transactionData.gasLimit).toString(10),
-                    },
-                })
-            } catch (err) {
-                console.error(err)
-            }
+            openPopup({
+                id: PopupId.VerifyLedgerTransaction,
+                hideClose: true,
+                preventClose: true,
+                props: {
+                    isEvmTransaction: true,
+                    toAmount: getAmountFromEvmTransactionValue(transactionData.value?.toString()),
+                    toAddress: transactionData.to,
+                    chainId,
+                    maxFees: BigInt(transactionData.gasLimit).toString(10),
+                },
+            })
         }
 
         const transactionSignature = await this.callLedgerApiAsync<IEvmTransactionSignature>(
