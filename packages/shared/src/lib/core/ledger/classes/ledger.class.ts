@@ -52,10 +52,10 @@ export class Ledger {
                 preventClose: true,
                 props: {
                     isEvmTransaction: true,
-                    toAmount: getAmountFromEvmTransactionValue(transactionData.value?.toString()),
+                    toAmount: getAmountFromEvmTransactionValue(transactionData.value.toString()),
                     toAddress: transactionData.to,
                     chainId,
-                    maxFees: BigInt(transactionData.gasLimit).toString(10),
+                    maxFees: BigInt(transactionData.gasLimit.toString()).toString(10),
                 },
             })
         }
