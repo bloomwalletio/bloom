@@ -8,9 +8,13 @@
     import { onMount } from 'svelte'
     import { Ledger } from 'shared/src/lib/core/ledger'
     onMount(async () => {
-        const settings = await Ledger.getEthereumAppSettings()
-        /* eslint-disable no-console */
-        console.log('settings: ', settings)
+        try {
+            const settings = await Ledger.getEthereumAppSettings()
+            /* eslint-disable no-console */
+            console.log('settings: ', settings)
+        } catch (err) {
+            console.error(err)
+        }
     })
 </script>
 

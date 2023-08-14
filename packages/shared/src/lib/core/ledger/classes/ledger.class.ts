@@ -52,7 +52,6 @@ export class Ledger {
         const unsignedTransactionMessageHex = prepareEvmTransaction(transactionData)
         const bip32Path = buildBip32PathFromBip44(bip44)
 
-        // TODO: https://github.com/bloomwalletio/bloom/issues/432
         if (promptVerification) {
             openPopup({
                 id: PopupId.VerifyLedgerTransaction,

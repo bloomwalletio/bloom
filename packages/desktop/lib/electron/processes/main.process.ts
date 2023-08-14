@@ -321,7 +321,7 @@ ipcMain.on(LedgerApiMethod.GenerateEvmAddress, (_e, bip32Path, verify) => {
 })
 
 ipcMain.on(LedgerApiMethod.GetEthereumAppSettings, () => {
-    ledgerProcess?.postMessage({ method: LedgerApiMethod.GenerateEvmAddress })
+    ledgerProcess?.postMessage({ method: LedgerApiMethod.GetEthereumAppSettings })
 })
 
 ipcMain.on(LedgerApiMethod.SignEvmTransaction, (_e, transactionHex, bip32Path) => {
