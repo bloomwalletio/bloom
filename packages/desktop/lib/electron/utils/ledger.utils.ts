@@ -3,6 +3,7 @@ import TransportNodeHid from '@ledgerhq/hw-transport-node-hid'
 import { listen } from '@ledgerhq/logs'
 
 import { IEvmTransactionSignature } from '@core/layer-2/interfaces'
+import { ILedgerEthereumAppSettings } from '@core/ledger'
 
 let transport: TransportNodeHid
 
@@ -19,6 +20,18 @@ export async function closeTransport(): Promise<void> {
     if (transport) {
         await transport.close()
         transport = undefined
+    }
+}
+
+export async function getEthereumAppSettings(): Promise<ILedgerEthereumAppSettings> {
+    const appEth = new AppEth(transport)
+    const settings = await appEth.getAppConfiguration()
+    return {
+        version: settings.version,
+        arbitraryDataEnabled: Boolean(settings.arbitraryDataEnabled),
+        erc20ProvisioningNecessary: Boolean(settings.erc20ProvisioningNecessary),
+        starkEnabled: Boolean(settings.starkEnabled),
+        starkv2Supported: Boolean(settings.starkv2Supported),
     }
 }
 

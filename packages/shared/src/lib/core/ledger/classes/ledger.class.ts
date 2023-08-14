@@ -9,7 +9,7 @@ import { MILLISECONDS_PER_SECOND, sleep } from '@core/utils'
 
 import { DEFAULT_LEDGER_API_REQUEST_OPTIONS } from '../constants'
 import { LedgerApiMethod } from '../enums'
-import { ILedgerApiBridge } from '../interfaces'
+import { ILedgerApiBridge, ILedgerEthereumAppSettings } from '../interfaces'
 import { LedgerApiRequestResponse } from '../types'
 import type { Bip44 } from '@iota/wallet/types'
 import { closePopup, openPopup, PopupId } from 'desktop/lib/auxiliary/popup'
@@ -33,6 +33,14 @@ export class Ledger {
             'evm-address'
         )
         return response.evmAddress
+    }
+
+    static async getEthereumAppSettings(): Promise<ILedgerEthereumAppSettings> {
+        /* eslint-disable no-return-await */
+        return await this.callLedgerApiAsync<ILedgerEthereumAppSettings>(
+            () => ledgerApiBridge.makeRequest(LedgerApiMethod.GetEthereumAppSettings),
+            'ethereum-app-settings'
+        )
     }
 
     static async signEvmTransaction(
