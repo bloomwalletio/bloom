@@ -2,8 +2,8 @@ import AppEth from '@ledgerhq/hw-app-eth'
 import TransportNodeHid from '@ledgerhq/hw-transport-node-hid'
 import { listen } from '@ledgerhq/logs'
 
-import { IEvmTransactionSignature } from '@core/layer-2/interfaces'
-import { ILedgerEthereumAppSettings } from '@core/ledger'
+import type { IEvmTransactionSignature } from '@core/layer-2/interfaces'
+import type { ILedgerEthereumAppSettings } from '@core/ledger/interfaces'
 
 let transport: TransportNodeHid
 
