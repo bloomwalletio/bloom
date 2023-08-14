@@ -1101,7 +1101,7 @@
                 "logoUrl": "Logo URL",
                 "logo": "Logo",
                 "alias": "Alias",
-                "assetId": "Asset Id"
+                "tokenId": "Token Id"
             }
         },
         "importErc20Token": {
@@ -1931,7 +1931,7 @@
             "wrongAddressPrefix": "כתובות מתחילות את התחילית {prefix}.",
             "wrongAddressFormat": "הפורמט שהוזן אינו תקין.",
             "invalidAddress": "הכתובת אינה תקינה.",
-            "invalidAssetId": "The asset id is not valid.",
+            "invalidTokenId": "The token id is not valid.",
             "unknownAsset": "The asset is not known to this account.",
             "insufficientFunds": "לארנק זה אין מספיק כספים.",
             "insufficientFundsStorageDeposit": "Insufficient funds to cover the storage deposit.",

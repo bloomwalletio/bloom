@@ -1,7 +1,7 @@
-import { INetwork } from '@core/network/interfaces'
-import { TokenStandard } from '@core/wallet/enums'
-import { IErc20Metadata } from '@core/wallet/interfaces'
 import { ContractType } from '../enums'
+import { IErc20Metadata } from '@core/token/interfaces'
+import { TokenStandard } from '@core/token/enums'
+import { INetwork } from '@core/network/interfaces'
 
 export async function getErc20TokenMetadata(
     tokenAddress: string,

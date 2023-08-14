@@ -1,4 +1,5 @@
-import { TokenMetadata, TokenStandard } from '@core/wallet'
+import { TokenStandard } from '../enums'
+import { TokenMetadata } from '../types'
 import { isValidErc20Token, isValidIrc30Token } from './'
 
 export function isValidToken(tokenMetadata: TokenMetadata): boolean {

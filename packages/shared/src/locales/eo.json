@@ -1101,7 +1101,7 @@
                 "logoUrl": "Logo URL",
                 "logo": "Logo",
                 "alias": "Alias",
-                "assetId": "Asset Id"
+                "tokenId": "Token Id"
             }
         },
         "importErc20Token": {
@@ -1931,7 +1931,7 @@
             "wrongAddressPrefix": "Adresoj komenciĝas per la prefikso {prefix}.",
             "wrongAddressFormat": "La adreso ne estas ĝuste formatita.",
             "invalidAddress": "La adreso ne validas.",
-            "invalidAssetId": "The asset id is not valid.",
+            "invalidTokenId": "The token id is not valid.",
             "unknownAsset": "The asset is not known to this account.",
             "insufficientFunds": "Ĉi tiu monujo havas nesufiĉajn fondusojn.",
             "insufficientFundsStorageDeposit": "Insufficient funds to cover the storage deposit.",

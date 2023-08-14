@@ -1,9 +1,10 @@
 <script lang="ts">
     import { showNotification } from '@auxiliary/notification'
+    import { Button } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
-    import { validateProfileName } from '@core/profile'
     import { activeProfile, updateActiveProfile } from '@core/profile/stores'
-    import { Button, ButtonSize, HTMLButtonType, Input, Text, TextType } from '@ui'
+    import { validateProfileName } from '@core/profile'
+    import { Input, Text, TextType } from '@ui'
 
     let newName = $activeProfile?.name
     let error = ''
@@ -40,7 +41,5 @@
         {localize('views.settings.changeProfileName.description')}
     </Text>
     <Input {error} placeholder={$activeProfile?.name} bind:value={newName} classes="mb-5" />
-    <Button size={ButtonSize.Medium} type={HTMLButtonType.Submit} {disabled}>
-        {localize('views.settings.changeProfileName.title')}
-    </Button>
+    <Button text={localize('views.settings.changeProfileName.title')} type="submit" {disabled} />
 </form>

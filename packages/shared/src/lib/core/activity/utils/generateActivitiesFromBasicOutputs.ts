@@ -56,7 +56,7 @@ export function generateActivitiesFromBasicOutputs(
                     processedTransaction,
                     wrappedOutput: basicOutput,
                 },
-                burnedNativeToken.assetId,
+                burnedNativeToken.tokenId,
                 burnedNativeToken.amount
             )
         } else if (isSelfTransaction && isConsolidation(basicOutput, processedTransaction)) {
@@ -101,7 +101,7 @@ function getBurnedNftInputs(processedTransaction: IProcessedTransaction): IWrapp
 function getBurnedNativeTokens(
     output: IWrappedOutput,
     processedTransaction: IProcessedTransaction
-): { assetId: string; amount: number } | undefined {
+): { tokenId: string; amount: number } | undefined {
     if (processedTransaction.direction !== ActivityDirection.SelfTransaction) {
         return undefined
     }
@@ -112,12 +112,12 @@ function getBurnedNativeTokens(
     const outputNativeTokens: { [key: string]: number } = getAllNativeTokensFromOutputs([output])
     for (const inputNativeTokenId of Object.keys(inputNativeTokens)) {
         if (!outputNativeTokens[inputNativeTokenId]) {
-            return { assetId: inputNativeTokenId, amount: inputNativeTokens[inputNativeTokenId] }
+            return { tokenId: inputNativeTokenId, amount: inputNativeTokens[inputNativeTokenId] }
         }
 
         if (inputNativeTokens[inputNativeTokenId] > Number(outputNativeTokens[inputNativeTokenId])) {
             const burnedAmount = inputNativeTokens[inputNativeTokenId] - Number(outputNativeTokens[inputNativeTokenId])
-            return { assetId: inputNativeTokenId, amount: burnedAmount }
+            return { tokenId: inputNativeTokenId, amount: burnedAmount }
         }
     }
 }

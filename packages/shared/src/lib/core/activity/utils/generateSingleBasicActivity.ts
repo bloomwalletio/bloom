@@ -21,13 +21,13 @@ import { getNativeTokenFromOutput } from './outputs'
 export function generateSingleBasicActivity(
     account: IAccountState,
     { action, processedTransaction, wrappedOutput }: IActivityGenerationParameters,
-    fallbackAssetId?: string,
+    fallbackTokenId?: string,
     fallbackAmount?: number
 ): TransactionActivity {
     const { transactionId, direction, claimingData, time, inclusionState } = processedTransaction
 
     const isHidden = false
-    const isAssetHidden = false
+    const isTokenHidden = false
     const containsValue = activityOutputContainsValue(wrappedOutput)
 
     const outputId = wrappedOutput.outputId
@@ -53,7 +53,7 @@ export function generateSingleBasicActivity(
     const rawBaseCoinAmount = getAmountFromOutput(output)
 
     const nativeToken = getNativeTokenFromOutput(output)
-    const assetId = fallbackAssetId ?? nativeToken?.id ?? getCoinType()
+    const tokenId = fallbackTokenId ?? nativeToken?.id ?? getCoinType()
 
     let rawAmount: number
     if (fallbackAmount === undefined) {
@@ -70,7 +70,7 @@ export function generateSingleBasicActivity(
         time,
         direction,
         action,
-        isAssetHidden,
+        isAssetHidden: isTokenHidden,
         inclusionState,
         containsValue,
         outputId,
@@ -81,7 +81,7 @@ export function generateSingleBasicActivity(
         publicNote,
         metadata,
         tag,
-        assetId,
+        tokenId,
         chainId: undefined,
         asyncData,
         // destinationNetwork,

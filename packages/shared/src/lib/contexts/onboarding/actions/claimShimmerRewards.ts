@@ -1,4 +1,4 @@
-import { getDepositAddress } from '@core/account/utils'
+import { getDepositAddress } from '@core/account/utils/getDepositAddress'
 import { logAndNotifyError } from '@core/error/actions'
 import { handleLedgerError } from '@core/ledger/utils'
 import {

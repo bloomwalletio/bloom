@@ -1,5 +1,6 @@
-import { IOTA_UNIT_MAP } from '@core/utils'
-import { TokenMetadata, TokenStandard } from '@core/wallet'
+import { IOTA_UNIT_MAP } from '@core/utils/constants'
+import { TokenMetadata } from '../types'
+import { TokenStandard } from '../enums'
 
 export function getMaxDecimalsFromTokenMetadata(metadata: TokenMetadata, selectedUnit: string): number {
     let maxDecimals = 0

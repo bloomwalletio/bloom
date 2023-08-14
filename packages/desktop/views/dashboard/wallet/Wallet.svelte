@@ -1,10 +1,11 @@
 <script lang="ts">
-    import { AssetList, Pane, ReceiveAddressButton } from '@ui'
+    import { TokenList, Pane, ReceiveAddressButton } from '@ui'
     import { AccountSummary, AccountActivity, SendButton } from '@components'
-    import { selectedAccountAssets, unwrapIrc30Token } from '@core/wallet'
+    import { selectedAccountTokens } from '@core/token/stores'
     import { selectedAccount } from '@core/account/stores'
     import features from '@features/features'
     import { onMount } from 'svelte'
+    import { unwrapIrc30Token } from '@core/wallet'
 
     async function onMountHelper(): Promise<void> {
         /**
@@ -44,7 +45,7 @@
                 </div>
                 <Pane classes="h-full">
                     {#if features?.wallet?.assets?.enabled}
-                        <AssetList assets={$selectedAccountAssets} />
+                        <TokenList accountTokens={$selectedAccountTokens} />
                     {/if}
                 </Pane>
                 <Pane classes="h-full">

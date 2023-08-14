@@ -1,11 +1,11 @@
 import { IAccountState } from '@core/account'
-import { Output, SenderInfo } from '@core/wallet/types'
+import { Output } from '@core/wallet/types'
 import { getRecipientFromOutput } from '../outputs'
 import { getSubjectFromAddress, isSubjectInternal } from '@core/wallet/utils'
 import { getSenderAddressFromInputs } from '../getSenderAddressFromInputs'
 import { getSenderFromTransaction } from '../getSenderFromTransaction'
 import { ActivityDirection } from '@core/activity/enums'
-import { IProcessedTransaction } from '@core/activity/types'
+import { IProcessedTransaction, SenderInfo } from '@core/activity/types'
 
 export function getSendingInformation(
     processedTransaction: IProcessedTransaction,

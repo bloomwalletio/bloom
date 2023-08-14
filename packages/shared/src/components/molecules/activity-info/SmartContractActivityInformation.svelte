@@ -1,7 +1,7 @@
 <script lang="ts">
     import { KeyValueBox } from '@ui'
     import { localize } from '@core/i18n'
-    import { TransactionActivity } from '@core/wallet'
+    import { TransactionActivity } from '@core/activity'
     import { Layer2Metadata } from '@core/layer-2'
 
     export let activity: TransactionActivity

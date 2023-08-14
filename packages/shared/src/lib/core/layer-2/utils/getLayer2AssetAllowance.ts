@@ -20,7 +20,7 @@ export function getLayer2AssetAllowance(transferredAsset: TransferredAsset): ILa
             baseTokens: '0',
             nativeTokens: [
                 {
-                    ID: [transferredAsset.asset.id],
+                    ID: [transferredAsset.token.id],
                     amount: transferredAsset.amount,
                 },
             ],
