@@ -1,6 +1,7 @@
 export * from './evmAddressToAgentID'
 export * from './getAbiForContractType'
 export * from './getAgentBalanceParameters'
+export * from './getAmountFromEvmTransactionValue'
 export * from './getDestinationNetworkFromAddress'
 export * from './buildEvmTransactionData'
 export * from './estimateGasForLayer1ToLayer2Transaction'

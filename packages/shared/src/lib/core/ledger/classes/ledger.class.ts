@@ -4,7 +4,7 @@ import { IPlatformEventMap } from '@core/app/interfaces'
 import { localize } from '@core/i18n'
 import { IEvmAddress, IEvmTransactionSignature } from '@core/layer-2/interfaces'
 import { EvmTransactionData } from '@core/layer-2/types'
-import { prepareEvmTransaction } from '@core/layer-2/utils'
+import { getAmountFromEvmTransactionValue, prepareEvmTransaction } from '@core/layer-2/utils'
 import { MILLISECONDS_PER_SECOND, sleep } from '@core/utils'
 
 import { DEFAULT_LEDGER_API_REQUEST_OPTIONS } from '../constants'
@@ -12,6 +12,7 @@ import { LedgerApiMethod } from '../enums'
 import { ILedgerApiBridge } from '../interfaces'
 import { LedgerApiRequestResponse } from '../types'
 import type { Bip44 } from '@iota/wallet/types'
+import { closePopup, openPopup, PopupId } from 'desktop/lib/auxiliary/popup'
 
 declare global {
     interface Window {
@@ -36,10 +37,33 @@ export class Ledger {
 
     static async signEvmTransaction(
         transactionData: EvmTransactionData,
-        bip44Path: Bip44
+        chainId: number,
+        bip44: Bip44,
+        promptVerification = true
     ): Promise<string | undefined> {
         const unsignedTransactionMessageHex = prepareEvmTransaction(transactionData)
-        const bip32Path = buildBip32PathFromBip44(bip44Path)
+        const bip32Path = buildBip32PathFromBip44(bip44)
+
+        // TODO: https://github.com/bloomwalletio/bloom/issues/432
+        if (promptVerification) {
+            try {
+                openPopup({
+                    id: PopupId.VerifyLedgerTransaction,
+                    hideClose: true,
+                    preventClose: true,
+                    props: {
+                        isEvmTransaction: true,
+                        toAmount: getAmountFromEvmTransactionValue(transactionData.value?.toString()),
+                        toAddress: transactionData.to,
+                        chainId,
+                        maxFees: BigInt(transactionData.gasLimit).toString(10),
+                    },
+                })
+            } catch (err) {
+                console.error(err)
+            }
+        }
+
         const transactionSignature = await this.callLedgerApiAsync<IEvmTransactionSignature>(
             () =>
                 ledgerApiBridge.makeRequest(
@@ -51,6 +75,10 @@ export class Ledger {
         )
         const { r, v, s } = transactionSignature
         if (r && v && s) {
+            if (promptVerification) {
+                closePopup(true)
+            }
+
             return prepareEvmTransaction(transactionData, { r, v, s })
         }
     }
