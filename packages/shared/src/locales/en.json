@@ -568,6 +568,12 @@
                         "body": "Are you sure you want to remove the contact’s {network} network addresses?",
                         "hint": "Please note after removing a contact’s network addresses Bloom will no longer associate it with them in transactions or activities."
                     }
+                },
+                "dApps": {
+                    "dAppsList": {
+                        "title": "Connected dApps",
+                        "connectDapp": "Connect dApp"
+                    }
                 }
             }
         },
