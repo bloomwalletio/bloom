@@ -1,6 +1,6 @@
 <script lang="ts">
     import { onDestroy } from 'svelte'
-    import { DappsListDrawer } from './drawers'
+    import { ConnectedDappsDrawer } from './drawers'
     import { DappsDrawerRoute } from './dapps-route.enum'
     import { dappsDrawerRoute, dappsDrawerRouter } from './dapps.router'
 
@@ -10,6 +10,6 @@
     })
 </script>
 
-{#if $dappsDrawerRoute === DappsDrawerRoute.List}
-    <DappsListDrawer drawerRouter={$dappsDrawerRouter} />
+{#if $dappsDrawerRoute === DappsDrawerRoute.ConnectedDapps}
+    <ConnectedDappsDrawer drawerRouter={$dappsDrawerRouter} />
 {/if}

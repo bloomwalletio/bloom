@@ -1,3 +1,3 @@
 export enum DappsDrawerRoute {
-    List = 'list',
+    ConnectedDapps = 'connectedDapps',
 }

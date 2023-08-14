@@ -1,24 +1,12 @@
+import { writable } from 'svelte/store'
 import { Router } from '@core/router'
-import { get, writable } from 'svelte/store'
 import { DappsDrawerRoute } from './dapps-route.enum'
 
-export const dappsDrawerRoute = writable<DappsDrawerRoute>(undefined)
-export const dappsDrawerRouter = writable<DappsDrawerRouter>(undefined)
+export const dappsDrawerRoute = writable<DappsDrawerRoute | null>(null)
+export const dappsDrawerRouter = writable<DappsDrawerRouter | null>(null)
 
 export class DappsDrawerRouter extends Router<DappsDrawerRoute> {
-    constructor(initialRoute: DappsDrawerRoute) {
-        super(initialRoute, dappsDrawerRoute)
-    }
-
-    next(): void {
-        let nextRoute: DappsDrawerRoute
-
-        const currentRoute = get(this.routeStore)
-        switch (currentRoute) {
-            case DappsDrawerRoute.List:
-                return
-        }
-
-        this.setNext(nextRoute)
+    constructor() {
+        super(DappsDrawerRoute.ConnectedDapps, dappsDrawerRoute)
     }
 }

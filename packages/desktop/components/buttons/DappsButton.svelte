@@ -2,13 +2,13 @@
     import { Icon } from '@ui'
     import { Icon as IconEnum } from '@auxiliary/icon'
     import { DrawerId, closeDrawer, drawerState, openDrawer } from '@desktop/auxiliary/drawer'
-    import { DappsDrawerRouter, dappsDrawerRouter, DappsDrawerRoute } from '@views/dashboard/dapps'
+    import { DappsDrawerRouter, dappsDrawerRouter } from '@views/dashboard/dapps'
 
     function onDappsClick(): void {
         if ($drawerState.active) {
             closeDrawer()
         } else {
-            $dappsDrawerRouter = new DappsDrawerRouter(DappsDrawerRoute.List)
+            $dappsDrawerRouter = new DappsDrawerRouter()
             openDrawer({ id: DrawerId.Dapps })
         }
     }
