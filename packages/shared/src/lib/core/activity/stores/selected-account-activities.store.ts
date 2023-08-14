@@ -1,16 +1,15 @@
-import { derived, Readable, writable, Writable } from 'svelte/store'
-import { isValidIrc30Token } from '@core/token'
-
-import { selectedAccount } from '../../account/stores/selected-account.store'
-import { Activity } from '../types/activity.type'
-import { ActivityFilter } from '../types'
-import { isVisibleActivity } from '../utils/isVisibleActivity'
-import { allAccountActivities } from './all-account-activities.store'
-import { ActivityType } from '../enums'
-import { DEFAULT_ACTIVITY_FILTER } from '../constants'
+import { getPersistedToken } from '@core/token/stores'
 import { SubjectType } from '@core/wallet/enums'
-import { getAssetFromPersistedAssets } from '@core/wallet/utils'
+import { derived, Readable, writable, Writable } from 'svelte/store'
+import { selectedAccount } from '../../account/stores/selected-account.store'
+import { DEFAULT_ACTIVITY_FILTER } from '../constants'
+import { ActivityType } from '../enums'
+import { ActivityFilter } from '../types'
+import { Activity } from '../types/activity.type'
+import { isVisibleActivity } from '../utils/isVisibleActivity'
 import { getFormattedAmountFromActivity } from '../utils/outputs'
+import { allAccountActivities } from './all-account-activities.store'
+import { isValidIrc30Token } from '@core/token/utils'
 
 export const selectedAccountActivities: Readable<Activity[]> = derived(
     [selectedAccount, allAccountActivities],
@@ -36,11 +35,11 @@ export const queriedActivities: Readable<Activity[]> = derived(
                 return true
             }
 
-            const asset =
+            const token =
                 _activity.type === ActivityType.Basic || _activity.type === ActivityType.Foundry
-                    ? getAssetFromPersistedAssets(_activity.assetId)
+                    ? getPersistedToken(_activity.tokenId)
                     : undefined
-            const hasValidAsset = asset?.metadata && isValidIrc30Token(asset.metadata)
+            const hasValidAsset = token?.metadata && isValidIrc30Token(token.metadata)
             return !_activity.isHidden && hasValidAsset
         })
 
@@ -66,10 +65,10 @@ function getFieldsToSearchFromActivity(activity: Activity): string[] {
         fieldsToSearch.push(activity.transactionId)
     }
 
-    if ((activity.type === ActivityType.Basic || activity.type === ActivityType.Foundry) && activity.assetId) {
-        fieldsToSearch.push(activity.assetId)
+    if ((activity.type === ActivityType.Basic || activity.type === ActivityType.Foundry) && activity.tokenId) {
+        fieldsToSearch.push(activity.tokenId)
 
-        const assetName = getAssetFromPersistedAssets(activity.assetId)?.metadata?.name
+        const assetName = getPersistedToken(activity.tokenId)?.metadata?.name
         if (assetName) {
             fieldsToSearch.push(assetName)
         }

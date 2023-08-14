@@ -1,6 +1,3 @@
 export * from './irc27-version.enum'
-export * from './not-verified-status.enum'
 export * from './return-strategy.enum'
 export * from './subject-type.enum'
-export * from './token-standard.enum'
-export * from './verified-status.enum'

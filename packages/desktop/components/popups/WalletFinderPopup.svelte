@@ -4,18 +4,11 @@
     import { DEFAULT_SYNC_OPTIONS } from '@core/account/constants'
     import { generateAndStoreActivitiesForAllAccounts } from '@core/activity/actions'
     import { localize } from '@core/i18n'
-    import { loadNftsForActiveProfile } from '@core/nfts'
-    import {
-        DEFAULT_ACCOUNT_RECOVERY_CONFIGURATION,
-        activeAccounts,
-        activeProfile,
-        checkActiveProfileAuth,
-        getBaseToken,
-        loadAccounts,
-        visibleActiveAccounts,
-    } from '@core/profile'
+    import { loadNftsForActiveProfile } from '@core/nfts/actions'
+    import { DEFAULT_ACCOUNT_RECOVERY_CONFIGURATION } from '@core/profile'
     import { RecoverAccountsPayload, recoverAccounts } from '@core/profile-manager'
-    import { formatTokenAmountBestMatch, refreshAccountAssetsForActiveProfile } from '@core/wallet'
+    import { formatTokenAmountBestMatch } from '@core/token'
+    import { refreshAccountTokensForActiveProfile } from '@core/token/actions'
     import { closePopup } from '@desktop/auxiliary/popup'
     import { Button, FontWeight, KeyValueBox, Text, TextHint, TextType } from '@ui'
     import { onDestroy, onMount } from 'svelte'
@@ -82,7 +75,7 @@
 
     onDestroy(async () => {
         if (hasUsedWalletFinder) {
-            await refreshAccountAssetsForActiveProfile()
+            await refreshAccountTokensForActiveProfile()
             await generateAndStoreActivitiesForAllAccounts()
             loadNftsForActiveProfile()
         }

@@ -1,20 +1,13 @@
 <script lang="ts">
+    import { onMount } from 'svelte'
+    import { selectedAccount } from '@core/account/stores'
+    import { handleError } from '@core/error/handlers/handleError'
     import { localize } from '@core/i18n'
-    import { getBaseToken, checkActiveProfileAuth } from '@core/profile'
-    import {
-        mintNativeToken,
-        mintTokenDetails,
-        TokenStandard,
-        buildFoundryOutputData,
-        formatTokenAmountPrecise,
-        IIrc30Metadata,
-        IMintTokenDetails,
-    } from '@core/wallet'
+    import { getBaseToken, checkActiveProfileAuth } from '@core/profile/actions'
+    import { mintNativeToken, mintTokenDetails, buildFoundryOutputData, IMintTokenDetails } from '@core/wallet'
     import { closePopup, openPopup, PopupId } from '@desktop/auxiliary/popup'
     import { Button, KeyValueBox, Text, FontWeight, TextType } from '@ui'
-    import { onMount } from 'svelte'
-    import { selectedAccount } from '@core/account'
-    import { handleError } from '@core/error/handlers/handleError'
+    import { IIrc30Metadata, TokenStandard, formatTokenAmountPrecise } from '@core/token'
 
     export let _onMount: (..._: any[]) => Promise<void> = async () => {}
 

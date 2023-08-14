@@ -1,20 +1,14 @@
 <script lang="ts">
-    import { Dropdown, Text } from '@ui'
-    import { TextType } from '@ui/enums'
-
     import { selectedAccountIndex } from '@core/account/stores'
     import { Platform } from '@core/app'
     import { localize } from '@core/i18n'
-    import {
-        addNftsToDownloadQueue,
-        DownloadWarningType,
-        INft,
-        persistedNftForActiveProfile,
-        selectedAccountNfts,
-        updateNftInAllAccountNfts,
-    } from '@core/nfts'
+    import { DownloadWarningType, INft } from '@core/nfts'
+    import { addNftsToDownloadQueue, updateNftInAllAccountNfts } from '@core/nfts/actions'
+    import { persistedNftForActiveProfile, selectedAccountNfts } from '@core/nfts/stores'
     import { activeProfile, updateActiveProfileSettings } from '@core/profile/stores'
     import type { IDropdownItem } from '@core/utils'
+    import { Dropdown, Text } from '@ui'
+    import { TextType } from '@ui/enums'
 
     function onMaxMediaSizeChange(option: IDropdownItem<number>): void {
         const maxMediaSizeInMegaBytes = option.value

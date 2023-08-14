@@ -1,7 +1,8 @@
 <script lang="ts">
-    import { LoadingScreen } from '@ui'
     import { localize } from '@core/i18n'
-    import { loginProgress, LOGIN_STEPS } from '@core/profile'
+    import { LOGIN_STEPS } from '@core/profile'
+    import { loginProgress } from '@core/profile/stores'
+    import { LoadingScreen } from '@ui'
 
     let percent = 0
 

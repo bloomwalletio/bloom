@@ -1,14 +1,4 @@
 <script lang="ts">
-    import { onMount } from 'svelte'
-
-    import { Button, Text, ProposalsDetailsButton } from '@ui'
-    import { ButtonSize, FontWeight } from '@ui/enums'
-    import { Table } from '@bloomwalletio/ui'
-
-    import { selectedAccount } from '@core/account'
-    import { localize } from '@core/i18n'
-    import { activeProfileId } from '@core/profile'
-
     import { IProposalsDetails } from '@contexts/governance/interfaces'
     import {
         participationOverviewForSelectedAccount,
@@ -21,8 +11,14 @@
         getNumberOfVotedProposals,
         getNumberOfVotingProposals,
     } from '@contexts/governance/utils'
-
-    import { openPopup, PopupId } from '@desktop/auxiliary/popup'
+    import { selectedAccount } from '@core/account/stores'
+    import { localize } from '@core/i18n'
+    import { activeProfileId } from '@core/profile/stores'
+    import { PopupId, openPopup } from '@desktop/auxiliary/popup'
+    import { Button, ProposalsDetailsButton, Text } from '@ui'
+    import { Table } from '@bloomwalletio/ui'
+    import { ButtonSize, FontWeight } from '@ui/enums'
+    import { onMount } from 'svelte'
 
     let details = <IProposalsDetails>{
         totalProposals: null,

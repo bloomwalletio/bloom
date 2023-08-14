@@ -1,60 +1,49 @@
 <script lang="ts">
     import { localize } from '@core/i18n'
-    import {
-        TokenStandard,
-        IAsset,
-        setSendFlowParameters,
-        unverifyAsset,
-        verifyAsset,
-        NotVerifiedStatus,
-        VerifiedStatus,
-        SendFlowType,
-    } from '@core/wallet'
+    import { setSendFlowParameters, SendFlowType } from '@core/wallet'
+    import { TokenStandard, IToken, NotVerifiedStatus, VerifiedStatus } from '@core/token'
     import { openPopup, PopupId, updatePopupProps } from '@desktop/auxiliary/popup'
-    import {
-        Button,
-        Text,
-        TextHint,
-        AssetActionsButton,
-        FontWeight,
-        TextType,
-        TokenAmountTile,
-        TooltipIcon,
-    } from '@ui'
+    import { Button, FontWeight, Text, TextHint, TokenActionsButton, TextType, TokenAmountTile, TooltipIcon } from '@ui'
     import { Table } from '@bloomwalletio/ui'
     import { SendFlowRoute, SendFlowRouter, sendFlowRouter } from '@views/dashboard/send-flow'
     import { Icon as IconEnum } from '@lib/auxiliary/icon'
-    import { getCoinType } from '@core/profile'
+    import { getCoinType } from '@core/profile/actions'
+    import { unverifyToken, verifyToken } from '@core/token/stores'
 
-    export let asset: IAsset
+    export let token: IToken
     export let activityId: string = undefined
 
     const items = [
         {
             key: localize('popups.tokenInformation.tokenMetadata.standard'),
-            value: asset.standard,
+            value: token.standard,
         },
         {
             key: localize('popups.tokenInformation.tokenMetadata.name'),
-            value: asset.metadata?.name,
+            value: token.metadata?.name,
         },
         {
             key: localize('popups.tokenInformation.tokenMetadata.tokenId'),
-            value: asset.id,
+            value: token.id,
+            copyable: {
+                popover: {
+                    content: localize('general.copiedToClipboard'),
+                },
+            },
         },
     ]
 
-    $: if (asset.metadata?.standard === TokenStandard.Irc30 && asset.metadata.url) {
+    $: if (token.metadata?.standard === TokenStandard.Irc30 && token.metadata.url) {
         items.push({
             key: localize('popups.tokenInformation.tokenMetadata.url'),
-            value: asset.metadata?.url
+            value: token.metadata?.url,
         })
     }
-    
-    $: showAssetActionsMenuButton = asset.standard === TokenStandard.Irc30 || asset.standard === TokenStandard.Erc20
+
+    $: showAssetActionsMenuButton = token.standard === TokenStandard.Irc30 || token.standard === TokenStandard.Erc20
 
     function onSkipClick(): void {
-        unverifyAsset(asset.id, NotVerifiedStatus.Skipped)
+        unverifyToken(token.id, NotVerifiedStatus.Skipped)
         if (activityId) {
             openPopup({
                 id: PopupId.ActivityDetails,
@@ -62,13 +51,13 @@
             })
         } else {
             updatePopupProps({
-                asset: { ...asset, verification: { verified: false, status: NotVerifiedStatus.Skipped } },
+                token: { ...token, verification: { verified: false, status: NotVerifiedStatus.Skipped } },
             })
         }
     }
 
     function onVerifyClick(): void {
-        verifyAsset(asset.id, VerifiedStatus.SelfVerified)
+        verifyToken(token.id, VerifiedStatus.SelfVerified)
         if (activityId) {
             openPopup({
                 id: PopupId.ActivityDetails,
@@ -76,17 +65,17 @@
             })
         } else {
             updatePopupProps({
-                asset: { ...asset, verification: { verified: true, status: VerifiedStatus.SelfVerified } },
+                token: { ...token, verification: { verified: true, status: VerifiedStatus.SelfVerified } },
             })
         }
     }
 
     function onSendClick(): void {
-        const sendFlowType = asset.id === getCoinType() ? SendFlowType.BaseCoinTransfer : SendFlowType.TokenTransfer
+        const sendFlowType = token.id === getCoinType() ? SendFlowType.BaseCoinTransfer : SendFlowType.TokenTransfer
         setSendFlowParameters({
             type: sendFlowType,
             [sendFlowType === SendFlowType.BaseCoinTransfer ? 'baseCoinTransfer' : 'tokenTransfer']: {
-                asset: asset,
+                token: token,
             },
         })
 
@@ -98,7 +87,7 @@
     }
 </script>
 
-{#if asset}
+{#if token}
     <div class="space-y-6">
         <div class="flex flex-row justify-between items-center space-x-3 mr-8">
             <div class="flex flex-row items-center space-x-2">
@@ -109,9 +98,9 @@
                     fontWeight={FontWeight.semibold}
                     classes="overflow-hidden whitespace-nowrap text-ellipsis"
                 >
-                    {asset.metadata?.name}
+                    {token.metadata?.name}
                 </Text>
-                {#if !asset.verification?.verified}
+                {#if !token.verification?.verified}
                     <TooltipIcon
                         title={localize('tooltips.tokenIsNotVerified.title')}
                         text={localize('tooltips.tokenIsNotVerified.text')}
@@ -121,23 +110,19 @@
                 {/if}
             </div>
             {#if showAssetActionsMenuButton}
-                <AssetActionsButton {asset} />
+                <TokenActionsButton {token} />
             {/if}
         </div>
 
-        <TokenAmountTile {asset} amount={asset.balance.available} />
-        <div class="space-y-4 flex flex-col items-center justify-center">
-            <div class="w-full flex flex-col space-y-2">
-                <Table {items} />
-            </div>
-        </div>
+        <TokenAmountTile {token} amount={token.balance.available} />
+        <Table {items} />
 
-        {#if !asset.verification?.verified && asset.verification?.status === NotVerifiedStatus.New}
+        {#if !token.verification?.verified && token.verification?.status === NotVerifiedStatus.New}
             <TextHint warning text={localize('popups.tokenInformation.verificationWarning')} />
         {/if}
 
         <div class="flex flex-row flex-nowrap w-full space-x-4">
-            {#if asset.verification?.status === NotVerifiedStatus.New}
+            {#if token.verification?.status === NotVerifiedStatus.New}
                 <Button outline classes="w-full" onClick={onSkipClick}>
                     {localize('actions.skip')}
                 </Button>

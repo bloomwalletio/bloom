@@ -1,7 +1,7 @@
 <script lang="typescript">
     import { Text, FontWeight, NftMedia, TooltipIcon, Position, TooltipType } from '@ui'
 
-    import { time } from '@core/app'
+    import { time } from '@core/app/stores'
     import { localize } from '@core/i18n'
     import { INft } from '@core/nfts'
     import { selectedNftId } from '@core/nfts/stores'

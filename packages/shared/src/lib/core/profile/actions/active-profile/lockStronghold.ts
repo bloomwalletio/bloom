@@ -1,5 +1,5 @@
-import { activeProfile } from '@core/profile'
 import { clearStrongholdPassword } from '@core/profile-manager'
+import { activeProfile } from '@core/profile/stores'
 import { get } from 'svelte/store'
 import { reflectLockedStronghold } from './reflectLockedStronghold'
 

@@ -1,16 +1,16 @@
-import { INft } from '@core/nfts'
-import { IAsset } from '@core/wallet'
+import { INft } from '@core/nfts/interfaces'
+import { IToken } from '@core/token/interfaces'
 import { AssetType } from '../enums'
 
 export type TransferredAsset =
     | {
           type: AssetType.Token
-          asset: IAsset
+          token: IToken
           amount: string
       }
     | {
           type: AssetType.BaseCoin
-          asset: IAsset
+          token: IToken
           amount: string
       }
     | {

@@ -1,4 +1,4 @@
-import { NativeTokenAmount } from '@core/token'
+import { NativeTokenAmount } from '@core/token/types'
 
 export interface ILayer2AssetAllowance {
     baseTokens: string

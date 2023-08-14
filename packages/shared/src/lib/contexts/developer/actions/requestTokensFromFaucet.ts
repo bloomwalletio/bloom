@@ -1,4 +1,4 @@
-import { selectedAccount } from '@core/account'
+import { selectedAccount } from '@core/account/stores'
 import { localize } from '@core/i18n'
 import { FAUCET_URLS } from '@core/network'
 import { showNotification } from '@auxiliary/notification'

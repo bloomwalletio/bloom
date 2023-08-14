@@ -1,18 +1,17 @@
 <script lang="ts">
-    import { Button, Checkbox, Text, Link } from '@ui'
+    import {
+        PRIVACY_POLICY_URL,
+        PRIVACY_POLICY_VERSION,
+        TERMS_OF_SERVICE_URL,
+        TERMS_OF_SERVICE_VERSION,
+        needsToAcceptLatestPrivacyPolicy,
+        needsToAcceptLatestTermsOfService,
+        openUrlInBrowser,
+    } from '@core/app'
+    import { lastAcceptedPrivacyPolicy, lastAcceptedTermsOfService } from '@core/app/stores'
     import { localize } from '@core/i18n'
     import { closePopup } from '@desktop/auxiliary/popup'
-    import {
-        lastAcceptedTermsOfService,
-        lastAcceptedPrivacyPolicy,
-        needsToAcceptLatestTermsOfService,
-        needsToAcceptLatestPrivacyPolicy,
-        TERMS_OF_SERVICE_VERSION,
-        PRIVACY_POLICY_VERSION,
-        openUrlInBrowser,
-        TERMS_OF_SERVICE_URL,
-        PRIVACY_POLICY_URL,
-    } from '@core/app'
+    import { Button, Checkbox, Link, Text } from '@ui'
 
     let checked = false
     const tos = needsToAcceptLatestTermsOfService()
