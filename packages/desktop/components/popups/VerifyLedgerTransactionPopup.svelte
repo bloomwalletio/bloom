@@ -44,8 +44,8 @@
             {/if}
         {:else if isEvmTransaction}
             <KeyValueBox keyText={localize('general.amount')} valueText={toAmount} />
-            <KeyValueBox keyText={localize('general.sendTo')} valueText={toAddress} />
-            <KeyValueBox keyText={localize('general.chainId')} valueText={chainId} />
+            <KeyValueBox keyText={localize('general.address')} valueText={toAddress} />
+            <KeyValueBox keyText={localize('general.network')} valueText={chainId} />
             <KeyValueBox keyText={localize('general.maxFees')} valueText={maxFees} />
         {:else}
             <KeyValueBox keyText={localize('general.sendTo')} valueText={toAddress} />
