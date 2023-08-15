@@ -16,7 +16,7 @@
     }
 </script>
 
-<DrawerTemplate title={localize('views.dashboard.drawers.dapps.connectedDapps.title')} {drawerRouter}>
+<DrawerTemplate title={localize('views.dashboard.drawers.dApps.dAppsList.title')} {drawerRouter}>
     <connected-dapps-drawer class="h-full flex flex-col justify-between">
         <div class="flex flex-col gap-4">
             <!-- add list here -->
@@ -30,6 +30,6 @@
         on:click|stopPropagation={onConnectDappClick}
     >
         <Icon icon={IconEnum.Plus} height={12} />
-        {localize('views.dashboard.drawers.dapps.connectedDapps.connectDapp')}
+        {localize('views.dashboard.drawers.dApps.dAppsList.connectDapp')}
     </button>
 </DrawerTemplate>
