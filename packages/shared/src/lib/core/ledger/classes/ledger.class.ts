@@ -12,7 +12,7 @@ import { LedgerApiMethod } from '../enums'
 import { ILedgerApiBridge, ILedgerEthereumAppSettings } from '../interfaces'
 import { LedgerApiRequestResponse } from '../types'
 import type { Bip44 } from '@iota/wallet/types'
-import { closePopup, openPopup, PopupId } from 'desktop/lib/auxiliary/popup'
+import { closePopup, openPopup, PopupId } from '../../../../../../desktop/lib/auxiliary/popup'
 
 declare global {
     interface Window {
@@ -76,12 +76,13 @@ export class Ledger {
                 ),
             'evm-signed-transaction'
         )
+
+        if (promptVerification) {
+            closePopup(true)
+        }
+
         const { r, v, s } = transactionSignature
         if (r && v && s) {
-            if (promptVerification) {
-                closePopup(true)
-            }
-
             return prepareEvmTransaction(transactionData, { r, v, s })
         }
     }
