@@ -6,10 +6,10 @@
     import { IIscpChainConfiguration } from '@core/network/interfaces'
     import { selectedChain } from '@core/network/stores'
     import { Router } from '@core/router'
-    import { DrawerRoute, NetworkConfigRoute, networkConfigRouter } from '@desktop/routers'
     import { Animation, CopyableBox, FontWeight, Pane, Text, TextType } from '@ui'
+    import { NetworkConfigRoute, networkConfigRouter } from '../'
 
-    export let drawerRouter: Router<DrawerRoute>
+    export let drawerRouter: Router<NetworkConfigRoute>
 
     $: configuration = $selectedChain.getConfiguration() as IIscpChainConfiguration
     $: address = $selectedAccount?.evmAddresses?.[configuration.coinType]

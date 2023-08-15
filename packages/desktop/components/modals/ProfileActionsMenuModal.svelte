@@ -1,5 +1,4 @@
 <script lang="ts">
-    import { FlatIcon, FlatIconName } from '@bloomwalletio/ui'
     import { appVersionDetails } from '@core/app/stores'
     import { localize } from '@core/i18n'
     import { LedgerConnectionState, ledgerConnectionState } from '@core/ledger'
@@ -8,9 +7,7 @@
     import { routerManager } from '@core/router'
     import { checkOrUnlockStronghold } from '@core/stronghold'
     import { diffDates, getBackupWarningColor, isRecentDate } from '@core/utils'
-    import { DrawerId, openDrawer } from '@desktop/auxiliary/drawer'
     import { PopupId, closePopup, openPopup, popupState } from '@desktop/auxiliary/popup'
-    import features from '@features/features'
     import {
         Button,
         ButtonSize,
@@ -61,11 +58,6 @@
         } else {
             lockStronghold()
         }
-    }
-
-    function onContactBookClick(): void {
-        openDrawer({ id: DrawerId.ContactBook })
-        modal?.close()
     }
 
     function updateLedgerConnectionText(): void {
@@ -200,18 +192,6 @@
             </div>
             <hr />
         {/if}
-        {#if features.contacts.enabled}
-            <button
-                on:click={onContactBookClick}
-                class="group flex flex-row space-x-3 justify-start items-center hover:bg-blue-50 dark:hover:bg-gray-800 dark:hover:bg-opacity-20 py-3 px-3 w-full"
-            >
-                <FlatIcon icon={FlatIconName.AddressBook} color="slate-400" />
-                <Text smaller classes="group-hover:text-blue-500">
-                    {localize('views.dashboard.profileModal.contactBook')}
-                </Text>
-            </button>
-        {/if}
-
         <button
             on:click={onSettingsClick}
             class="group flex flex-row space-x-3 justify-start items-center hover:bg-blue-50 dark:hover:bg-gray-800 dark:hover:bg-opacity-20 py-3 px-3 w-full"

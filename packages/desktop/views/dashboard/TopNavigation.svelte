@@ -1,22 +1,23 @@
 <script lang="ts">
-    import { Button, ButtonSize, Icon, Text } from '@ui'
-    import { AccountSwitcher, NetworkDrawerButton } from '@components'
+    import { Icon as IconEnum } from '@auxiliary/icon'
+    import { AccountSwitcher } from '@components'
+    import { IS_WINDOWS } from '@core/app/constants'
     import { localize } from '@core/i18n'
     import {
-        collectiblesRoute,
         CollectiblesRoute,
+        DashboardRoute,
+        GovernanceRoute,
+        collectiblesRoute,
         collectiblesRouter,
         dashboardRoute,
-        DashboardRoute,
         governanceRoute,
-        GovernanceRoute,
         governanceRouter,
     } from '@core/router'
-    import { Icon as IconEnum } from '@auxiliary/icon'
-    import { PopupId, openPopup, popupState } from '@desktop/auxiliary/popup'
-    import features from '@features/features'
     import { closeDrawer } from '@desktop/auxiliary/drawer'
-    import { IS_WINDOWS } from '@core/app/constants'
+    import { popupState } from '@desktop/auxiliary/popup'
+    import features from '@features/features'
+    import { Icon, Text } from '@ui'
+    import { OpenContactBookButton, OpenDappConfigButton, OpenNetworkConfigButton } from './components'
 
     let isBackButtonVisible = false
 
@@ -51,12 +52,6 @@
                 break
         }
     }
-
-    function onConnectClick(): void {
-        openPopup({
-            id: PopupId.InitWalletConnect,
-        })
-    }
 </script>
 
 <top-navigation class:disabled={IS_WINDOWS && isPopupVisible} class:is-windows={IS_WINDOWS}>
@@ -72,13 +67,14 @@
     <AccountSwitcher />
 
     <div class="right-button flex justify-end gap-2">
+        {#if features.contacts.enabled}
+            <OpenContactBookButton />
+        {/if}
         {#if features?.wallet?.walletConnect?.enabled}
-            <Button onClick={onConnectClick} size={ButtonSize.Small}>
-                {localize('actions.connect')}
-            </Button>
+            <OpenDappConfigButton />
         {/if}
         {#if features?.network?.config?.enabled}
-            <NetworkDrawerButton />
+            <OpenNetworkConfigButton />
         {/if}
     </div>
 </top-navigation>

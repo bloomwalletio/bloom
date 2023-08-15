@@ -1,19 +1,14 @@
 <script lang="ts">
-    import { fade, fly } from 'svelte/transition'
-    import { NetworkConfigDrawerRouter } from '@components'
-    import { Router } from '@core/router'
-    import { closeDrawer, DrawerDirection, DrawerId, drawerState } from '@desktop/auxiliary/drawer'
-    import { DrawerRoute } from '@desktop/routers'
     import { Icon as IconEnum } from '@auxiliary/icon'
+    import { DrawerDirection, closeDrawer, drawerState } from '@desktop/auxiliary/drawer'
     import { Icon } from '@ui'
-    import { ContactBookRouterView } from '@views/dashboard/contact-book'
+    import { ContactBookRouterView, NetworkConfigRouterView, DappConfigRouterView } from '.'
+    import { fade, fly } from 'svelte/transition'
+    import { DashboardDrawerRoute } from './'
 
     export let onClose: () => unknown = () => {}
 
     const DRAWER_ANIMATION_DURATION_MS = 200
-
-    let drawerRoute: DrawerRoute
-    let drawerRouter: Router<DrawerRoute>
 
     let direction: { x: number; y: number }
     let position: string
@@ -70,9 +65,11 @@
                 : 'horizontal'}"
         >
             <div class="flex flex-col h-full">
-                {#if $drawerState.id === DrawerId.NetworkConfig}
-                    <NetworkConfigDrawerRouter bind:drawerRoute bind:drawerRouter />
-                {:else if $drawerState.id === DrawerId.ContactBook}
+                {#if $drawerState.id === DashboardDrawerRoute.NetworkConfig}
+                    <NetworkConfigRouterView />
+                {:else if $drawerState.id === DashboardDrawerRoute.DappConfig}
+                    <DappConfigRouterView />
+                {:else if $drawerState.id === DashboardDrawerRoute.ContactBook}
                     <ContactBookRouterView />
                 {/if}
             </div>

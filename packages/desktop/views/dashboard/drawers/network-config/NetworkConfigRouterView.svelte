@@ -1,7 +1,7 @@
 <script lang="ts">
     import { onDestroy, onMount } from 'svelte'
     import { Router } from '@core/router'
-    import { NetworkConfigRoute, networkConfigRoute, NetworkConfigRouter, networkConfigRouter } from '@desktop/routers'
+    import { NetworkConfigRoute, networkConfigRoute, NetworkConfigRouter, networkConfigRouter } from '../'
     import {
         AddChainDrawer,
         ChainDepositAddressDrawer,
@@ -11,13 +11,10 @@
         ConnectLedgerDeviceDrawer,
         EditChainDrawer,
         RemoveChainDrawer,
-    } from './drawers'
+    } from './views'
     import { clearSelectedChain } from '@core/network'
 
-    export let drawerRoute: NetworkConfigRoute
-    export let drawerRouter: Router<NetworkConfigRoute>
-
-    $: drawerRoute = $networkConfigRoute
+    let drawerRouter: Router<NetworkConfigRoute>
 
     onMount(() => {
         $networkConfigRouter = new NetworkConfigRouter()

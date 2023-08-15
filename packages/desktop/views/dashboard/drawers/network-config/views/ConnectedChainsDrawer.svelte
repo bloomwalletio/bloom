@@ -1,17 +1,16 @@
 <script lang="ts">
-    import { Icon } from '@ui'
-    import { DrawerRoute, NetworkConfigRoute, networkConfigRouter } from '@desktop/routers'
-    import { clearSelectedChain, IChain, network, networkStatus, setSelectedChain } from '@core/network'
     import { Icon as IconEnum } from '@auxiliary/icon'
-    import { NetworkCard } from '@components'
+    import { DrawerTemplate, NetworkCard } from '@components'
     import { localize } from '@core/i18n'
-    import networkFeatures from '@features/network.features'
-    import { onMount } from 'svelte'
+    import { IChain, clearSelectedChain, network, networkStatus, setSelectedChain } from '@core/network'
+    import { Router, SettingsRoute, routerManager, settingsRouter } from '@core/router'
     import { closeDrawer } from '@desktop/auxiliary/drawer'
-    import { Router, routerManager, SettingsRoute, settingsRouter } from '@core/router'
-    import { DrawerTemplate } from '@components'
+    import networkFeatures from '@features/network.features'
+    import { Icon } from '@ui'
+    import { onMount } from 'svelte'
+    import { NetworkConfigRoute, networkConfigRouter } from '../'
 
-    export let drawerRouter: Router<DrawerRoute>
+    export let drawerRouter: Router<NetworkConfigRoute>
 
     function onL1NetworkCardClick(): void {
         closeDrawer()

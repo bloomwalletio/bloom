@@ -1,15 +1,14 @@
 <script lang="ts">
-    import { IIscpChainConfiguration, selectedChain } from '@core/network'
-    import { appSettings } from '@core/app/stores'
-    import { QR, AddressBox, FontWeight } from '@ui'
-    import { Text } from '@ui'
-    import { localize } from '@core/i18n'
-    import { selectedAccount } from '@core/account/stores'
-    import { Router } from '@core/router'
-    import { DrawerRoute } from '@desktop/routers'
     import { DrawerTemplate } from '@components'
+    import { selectedAccount } from '@core/account/stores'
+    import { appSettings } from '@core/app/stores'
+    import { localize } from '@core/i18n'
+    import { IIscpChainConfiguration, selectedChain } from '@core/network'
+    import { Router } from '@core/router'
+    import { NetworkConfigRoute } from '../'
+    import { AddressBox, FontWeight, QR, Text } from '@ui'
 
-    export let drawerRouter: Router<DrawerRoute>
+    export let drawerRouter: Router<NetworkConfigRoute>
 
     let addressBoxElement: AddressBox
 

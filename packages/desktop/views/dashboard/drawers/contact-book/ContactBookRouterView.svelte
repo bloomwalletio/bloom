@@ -9,7 +9,7 @@
         EditNetworkAddressesDrawer,
         RemoveContactDrawer,
         RemoveNetworkAddressesDrawer,
-    } from './drawers'
+    } from './views'
     import { ContactBookRoute } from './contact-book-route.enum'
     import { ContactBookRouter, contactBookRouter, contactBookRoute } from './contact-book-router'
     import { clearSelectedContact } from '@core/contact'

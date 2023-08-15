@@ -1,14 +1,14 @@
 <script lang="ts">
-    import { onMount } from 'svelte'
-    import { ChainType, IscpChain, selectedChain } from '@core/network'
-    import { EvmChainInformation, IscpChainInformation } from './components'
-    import { Pane } from '@ui'
-    import { Router } from '@core/router'
-    import { DrawerRoute } from '@desktop/routers'
     import { DrawerTemplate } from '@components'
     import { localize } from '@core/i18n'
+    import { ChainType, IscpChain, selectedChain } from '@core/network'
+    import { Router } from '@core/router'
+    import { Pane } from '@ui'
+    import { onMount } from 'svelte'
+    import { NetworkConfigRoute } from '../'
+    import { EvmChainInformation, IscpChainInformation } from './components'
 
-    export let drawerRouter: Router<DrawerRoute>
+    export let drawerRouter: Router<NetworkConfigRoute>
 
     let chainConfiguration
 

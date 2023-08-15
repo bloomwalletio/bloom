@@ -2,7 +2,8 @@
     import { Icon as IconEnum } from '@auxiliary/icon'
     import { NetworkHealth, chainStatuses, networkStatus } from '@core/network'
     import { activeProfile } from '@core/profile/stores'
-    import { DrawerId, closeDrawer, drawerState, openDrawer } from '@desktop/auxiliary/drawer'
+    import { closeDrawer, drawerState, openDrawer } from '@desktop/auxiliary/drawer'
+    import { DashboardDrawerRoute } from '@views/dashboard/drawers'
     import { FontWeight, Icon, NetworkIcon, Text } from '@ui'
 
     $: isAnyChainDisconnected = Object.values($chainStatuses ?? [])?.some(
@@ -14,10 +15,10 @@
         $networkStatus?.health === NetworkHealth.Disconnected
 
     function onNetworkClick(): void {
-        if ($drawerState.active) {
+        if ($drawerState.active && $drawerState.id === DashboardDrawerRoute.NetworkConfig) {
             closeDrawer()
         } else {
-            openDrawer({ id: DrawerId.NetworkConfig })
+            openDrawer({ id: DashboardDrawerRoute.NetworkConfig })
         }
     }
 </script>
