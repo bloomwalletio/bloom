@@ -1,5 +1,4 @@
 <script lang="ts">
-    import { Drawer } from '@components'
     import { selectedAccount, selectedAccountIndex } from '@core/account/stores'
     import { Platform } from '@core/app'
     import { clearLayer2TokensPoll, pollLayer2Tokens } from '@core/layer-2'
@@ -24,6 +23,7 @@
     import { Governance } from './governance'
     import { Settings } from './settings'
     import { Wallet } from './wallet'
+    import { DashboardDrawerRouterView } from './drawers'
 
     const tabs = {
         wallet: Wallet,
@@ -77,7 +77,7 @@
         <!-- Dashboard Pane -->
         <div class="flex flex-col h-full dashboard-w">
             <svelte:component this={tabs[$dashboardRoute]} on:next={$appRouter.next} />
-            <Drawer />
+            <DashboardDrawerRouterView />
         </div>
     </div>
 </div>
