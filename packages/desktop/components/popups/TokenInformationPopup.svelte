@@ -4,7 +4,7 @@
     import { TokenStandard, IToken, NotVerifiedStatus, VerifiedStatus } from '@core/token'
     import { openPopup, PopupId, updatePopupProps } from '@desktop/auxiliary/popup'
     import { Button, FontWeight, Text, TextHint, TokenActionsButton, TextType, TokenAmountTile, TooltipIcon } from '@ui'
-    import { Table } from '@bloomwalletio/ui'
+    import { Table, IItems } from '@bloomwalletio/ui'
     import { SendFlowRoute, SendFlowRouter, sendFlowRouter } from '@views/dashboard/send-flow'
     import { Icon as IconEnum } from '@lib/auxiliary/icon'
     import { getCoinType } from '@core/profile/actions'
@@ -13,7 +13,7 @@
     export let token: IToken
     export let activityId: string = undefined
 
-    const items = [
+    const items: IItems[] = [
         {
             key: localize('popups.tokenInformation.tokenMetadata.standard'),
             value: token.standard,
@@ -21,6 +21,10 @@
         {
             key: localize('popups.tokenInformation.tokenMetadata.name'),
             value: token.metadata?.name,
+            popover: {
+                title: 'test title',
+                content: 'test content',
+            },
         },
         {
             key: localize('popups.tokenInformation.tokenMetadata.tokenId'),
