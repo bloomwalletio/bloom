@@ -14,7 +14,7 @@
         $networkStatus?.health === NetworkHealth.Disconnected
 
     function onNetworkClick(): void {
-        if ($drawerState.active) {
+        if ($drawerState.active && $drawerState.id === DashboardDrawerRoute.NetworkConfig) {
             closeDrawer()
         } else {
             openDrawer({ id: DashboardDrawerRoute.NetworkConfig })

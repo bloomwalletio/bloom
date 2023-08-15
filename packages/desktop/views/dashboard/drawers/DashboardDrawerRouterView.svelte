@@ -67,7 +67,7 @@
             <div class="flex flex-col h-full">
                 {#if $drawerState.id === DashboardDrawerRoute.NetworkConfig}
                     <NetworkConfigRouterView />
-                {:else if $drawerState.id === DashboardDrawerRoute.Dapps}
+                {:else if $drawerState.id === DashboardDrawerRoute.DappConfig}
                     <DappConfigRouterView />
                 {:else if $drawerState.id === DashboardDrawerRoute.ContactBook}
                     <ContactBookRouterView />

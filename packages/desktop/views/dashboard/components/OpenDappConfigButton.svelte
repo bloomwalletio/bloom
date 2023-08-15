@@ -5,11 +5,11 @@
     import { DappConfigRouter, dappConfigRouter } from '@views/dashboard/drawers/dapp-config'
 
     function onDappsClick(): void {
-        if ($drawerState.active) {
+        if ($drawerState.active && $drawerState.id === DashboardDrawerRoute.DappConfig) {
             closeDrawer()
         } else {
             $dappConfigRouter = new DappConfigRouter()
-            openDrawer({ id: DashboardDrawerRoute.Dapps })
+            openDrawer({ id: DashboardDrawerRoute.DappConfig })
         }
     }
 </script>

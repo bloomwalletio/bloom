@@ -1,5 +1,5 @@
 export enum DashboardDrawerRoute {
     NetworkConfig = 'networkConfig',
-    Dapps = 'dapps',
+    DappConfig = 'dappConfig',
     ContactBook = 'contactBook',
 }

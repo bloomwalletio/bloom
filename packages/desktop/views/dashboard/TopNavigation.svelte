@@ -17,7 +17,7 @@
     import { popupState } from '@desktop/auxiliary/popup'
     import features from '@features/features'
     import { Icon, Text } from '@ui'
-    import { OpenDappConfigButton, OpenNetworkConfigButton } from './components'
+    import { OpenContactBookButton, OpenDappConfigButton, OpenNetworkConfigButton } from './components'
 
     let isBackButtonVisible = false
 
@@ -67,6 +67,9 @@
     <AccountSwitcher />
 
     <div class="right-button flex justify-end gap-2">
+        {#if features.contacts.enabled}
+            <OpenContactBookButton />
+        {/if}
         {#if features?.wallet?.walletConnect?.enabled}
             <OpenDappConfigButton />
         {/if}
