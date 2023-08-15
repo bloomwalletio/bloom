@@ -13,7 +13,8 @@ import { ILedgerApiBridge, ILedgerEthereumAppSettings } from '../interfaces'
 import { LedgerApiRequestResponse } from '../types'
 import type { Bip44 } from '@iota/wallet/types'
 import { closePopup, openPopup, PopupId } from '../../../../../../desktop/lib/auxiliary/popup'
-import { isBlindSigningRequiredForEvmTransaction } from '@core/ledger'
+import { isBlindSigningRequiredForEvmTransaction, ledgerEthereumAppSettings } from '@core/ledger'
+import { get } from 'svelte/store'
 
 declare global {
     interface Window {
@@ -32,9 +33,8 @@ export class Ledger {
         )
     }
 
-    static async isBlindSigningEnabledForEvm(): Promise<boolean> {
-        const settings = await this.getEthereumAppSettings()
-        return Boolean(settings?.arbitraryDataEnabled)
+    static isBlindSigningEnabledForEvm(): boolean {
+        return Boolean(get(ledgerEthereumAppSettings)?.arbitraryDataEnabled)
     }
 
     static async generateEvmAddress(accountIndex: number, coinType: number, verify?: boolean): Promise<string> {
@@ -64,7 +64,7 @@ export class Ledger {
         const bip32Path = buildBip32PathFromBip44(bip44)
 
         const mustEnableBlindSigning =
-            isBlindSigningRequiredForEvmTransaction(transactionData) && !(await this.isBlindSigningEnabledForEvm())
+            isBlindSigningRequiredForEvmTransaction(transactionData) && !this.isBlindSigningEnabledForEvm()
         if (mustEnableBlindSigning) {
             openPopup({
                 id: PopupId.EnableLedgerBlindSigning,
@@ -111,6 +111,9 @@ export class Ledger {
         callback: () => void,
         responseEvent: keyof IPlatformEventMap
     ): Promise<R> {
+        // TODO: Do we need to stop / start polling here? Get's slightly complicated in that
+        // the Ethereum app settings polling uses this function.
+
         const { timeout, pollingInterval } = DEFAULT_LEDGER_API_REQUEST_OPTIONS
         const iterationCount = (timeout * MILLISECONDS_PER_SECOND) / pollingInterval
 

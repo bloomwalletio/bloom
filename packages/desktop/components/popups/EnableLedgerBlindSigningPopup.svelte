@@ -1,15 +1,16 @@
 <script lang="ts">
-    import { Text, Icon, TextType } from '@ui'
+    import { Icon, Text, TextType } from '@ui'
     import { Icon as IconEnum } from '@auxiliary/icon'
     import { localize } from '@core/i18n'
     import {
         checkOrConnectLedger,
         LedgerAppName,
+        ledgerEthereumAppSettings,
         ledgerNanoStatus,
         ledgerPreparedOutput,
         resetLedgerPreparedOutput,
     } from '@core/ledger'
-    import { closePopup } from '@desktop/auxiliary/popup'
+    import { closePopup, openPopup, PopupId } from '@desktop/auxiliary/popup'
     import { sendOutput } from '@core/wallet'
     import { handleError } from '@core/error/handlers'
 
@@ -17,18 +18,29 @@
 
     const STEPS = [1, 2, 3, 4]
 
-    $: if ($ledgerNanoStatus.blindSigningEnabled) {
-        closePopup()
-        checkOrConnectLedger(async () => {
-            try {
-                if ($ledgerPreparedOutput) {
-                    await sendOutput($ledgerPreparedOutput)
-                    resetLedgerPreparedOutput()
+    $: if (appName === LedgerAppName.Shimmer) {
+        if ($ledgerNanoStatus.blindSigningEnabled) {
+            closePopup()
+            checkOrConnectLedger(async () => {
+                try {
+                    if ($ledgerPreparedOutput) {
+                        await sendOutput($ledgerPreparedOutput)
+                        resetLedgerPreparedOutput()
+                    }
+                } catch (err) {
+                    handleError(err)
                 }
-            } catch (err) {
-                handleError(err)
-            }
-        })
+            })
+        }
+    } else if (appName === LedgerAppName.Ethereum) {
+        if ($ledgerEthereumAppSettings?.arbitraryDataEnabled) {
+            openPopup(
+                {
+                    id: PopupId.SendFlow,
+                },
+                true
+            )
+        }
     }
 </script>
 

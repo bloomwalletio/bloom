@@ -1,5 +1,7 @@
 export * from './checkOrConnectLedger'
 export * from './getLedgerDeviceStatus'
+export * from './pollEthereumAppSettings'
 export * from './pollLedgerNanoStatus'
 export * from './promptUserToConnectLedger'
 export * from './registerLedgerDeviceEventHandlers'
+export * from './updateLedgerEthereumAppSettings'
