@@ -2,9 +2,9 @@
     import { localize } from '@core/i18n'
     import { DrawerTemplate } from '@components'
     import { Router } from '@core/router'
-    import { DrawerRoute } from '@desktop/routers'
+    import { NetworkConfigRoute } from '../'
 
-    export let drawerRouter: Router<DrawerRoute>
+    export let drawerRouter: Router<NetworkConfigRoute>
 </script>
 
 <DrawerTemplate title={localize('views.dashboard.drawers.networkConfig.editChain.title')} {drawerRouter}>

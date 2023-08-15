@@ -2,7 +2,7 @@
     import { Icon } from '@ui'
     import { Icon as IconEnum } from '@auxiliary/icon'
     import { DrawerId, closeDrawer, drawerState, openDrawer } from '@desktop/auxiliary/drawer'
-    import { DappsDrawerRouter, dappsDrawerRouter } from '@views/dashboard/dapps'
+    import { DappsDrawerRouter, dappsDrawerRouter } from '@views/dashboard/drawers/dapps'
 
     function onDappsClick(): void {
         if ($drawerState.active) {

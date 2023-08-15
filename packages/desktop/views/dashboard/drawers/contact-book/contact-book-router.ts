@@ -1,8 +1,6 @@
-import { writable } from 'svelte/store'
-
 import { doesProfileHaveContacts } from '@core/contact'
 import { Router } from '@core/router'
-
+import { writable } from 'svelte/store'
 import { ContactBookRoute } from './contact-book-route.enum'
 
 export const contactBookRoute = writable<ContactBookRoute | null>(null)
