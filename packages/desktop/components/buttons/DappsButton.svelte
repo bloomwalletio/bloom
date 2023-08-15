@@ -1,7 +1,7 @@
 <script lang="ts">
     import { Icon } from '@ui'
     import { Icon as IconEnum } from '@auxiliary/icon'
-    import { DrawerId, closeDrawer, drawerState, openDrawer } from '@desktop/auxiliary/drawer'
+    import { DashboardDrawerRoute, closeDrawer, drawerState, openDrawer } from '@desktop/auxiliary/drawer'
     import { DappConfigRouter, dappsDrawerRouter } from '@views/dashboard/drawers/dapp-config'
 
     function onDappsClick(): void {
@@ -9,7 +9,7 @@
             closeDrawer()
         } else {
             $dappsDrawerRouter = new DappConfigRouter()
-            openDrawer({ id: DrawerId.Dapps })
+            openDrawer({ id: DashboardDrawerRoute.Dapps })
         }
     }
 </script>

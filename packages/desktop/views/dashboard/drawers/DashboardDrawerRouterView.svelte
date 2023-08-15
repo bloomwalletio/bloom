@@ -1,9 +1,10 @@
 <script lang="ts">
     import { Icon as IconEnum } from '@auxiliary/icon'
-    import { DrawerDirection, DrawerId, closeDrawer, drawerState } from '@desktop/auxiliary/drawer'
+    import { DrawerDirection, closeDrawer, drawerState } from '@desktop/auxiliary/drawer'
     import { Icon } from '@ui'
-    import { ContactBookRouterView, NetworkConfigRouterView, DappConfigRouterView } from './drawers'
+    import { ContactBookRouterView, NetworkConfigRouterView, DappConfigRouterView } from '.'
     import { fade, fly } from 'svelte/transition'
+    import { DashboardDrawerRoute } from './'
 
     export let onClose: () => unknown = () => {}
 
@@ -64,11 +65,11 @@
                 : 'horizontal'}"
         >
             <div class="flex flex-col h-full">
-                {#if $drawerState.id === DrawerId.NetworkConfig}
+                {#if $drawerState.id === DashboardDrawerRoute.NetworkConfig}
                     <NetworkConfigRouterView />
-                {:else if $drawerState.id === DrawerId.Dapps}
+                {:else if $drawerState.id === DashboardDrawerRoute.Dapps}
                     <DappConfigRouterView />
-                {:else if $drawerState.id === DrawerId.ContactBook}
+                {:else if $drawerState.id === DashboardDrawerRoute.ContactBook}
                     <ContactBookRouterView />
                 {/if}
             </div>

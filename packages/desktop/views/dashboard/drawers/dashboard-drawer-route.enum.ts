@@ -1,4 +1,4 @@
-export enum DrawerId {
+export enum DashboardDrawerRoute {
     NetworkConfig = 'networkConfig',
     Dapps = 'dapps',
     ContactBook = 'contactBook',

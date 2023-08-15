@@ -8,7 +8,7 @@
     import { routerManager } from '@core/router'
     import { checkOrUnlockStronghold } from '@core/stronghold'
     import { diffDates, getBackupWarningColor, isRecentDate } from '@core/utils'
-    import { DrawerId, openDrawer } from '@desktop/auxiliary/drawer'
+    import { DashboardDrawerRoute, openDrawer } from '@desktop/auxiliary/drawer'
     import { PopupId, closePopup, openPopup, popupState } from '@desktop/auxiliary/popup'
     import features from '@features/features'
     import {
@@ -64,7 +64,7 @@
     }
 
     function onContactBookClick(): void {
-        openDrawer({ id: DrawerId.ContactBook })
+        openDrawer({ id: DashboardDrawerRoute.ContactBook })
         modal?.close()
     }
 

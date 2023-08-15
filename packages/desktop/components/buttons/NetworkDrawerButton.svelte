@@ -2,7 +2,7 @@
     import { Icon as IconEnum } from '@auxiliary/icon'
     import { NetworkHealth, chainStatuses, networkStatus } from '@core/network'
     import { activeProfile } from '@core/profile/stores'
-    import { DrawerId, closeDrawer, drawerState, openDrawer } from '@desktop/auxiliary/drawer'
+    import { DashboardDrawerRoute, closeDrawer, drawerState, openDrawer } from '@desktop/auxiliary/drawer'
     import { FontWeight, Icon, NetworkIcon, Text } from '@ui'
 
     $: isAnyChainDisconnected = Object.values($chainStatuses ?? [])?.some(
@@ -17,7 +17,7 @@
         if ($drawerState.active) {
             closeDrawer()
         } else {
-            openDrawer({ id: DrawerId.NetworkConfig })
+            openDrawer({ id: DashboardDrawerRoute.NetworkConfig })
         }
     }
 </script>

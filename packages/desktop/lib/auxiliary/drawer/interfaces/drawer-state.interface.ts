@@ -1,8 +1,8 @@
-import { DrawerDirection, DrawerId } from '../enums'
+import { DrawerDirection, DashboardDrawerRoute } from '../enums'
 
 export interface IDrawerState {
     active: boolean
-    id: DrawerId
+    id: DashboardDrawerRoute
     hideClose?: boolean
     preventClose?: boolean
     direction?: DrawerDirection
