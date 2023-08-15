@@ -2,7 +2,7 @@
     import { Icon as IconEnum } from '@auxiliary/icon'
     import { DrawerDirection, DrawerId, closeDrawer, drawerState } from '@desktop/auxiliary/drawer'
     import { Icon } from '@ui'
-    import { ContactBookRouterView, NetworkConfigDrawerRouter, DappsRouterView } from './drawers'
+    import { ContactBookRouterView, NetworkConfigRouterView, DappConfigRouterView } from './drawers'
     import { fade, fly } from 'svelte/transition'
 
     export let onClose: () => unknown = () => {}
@@ -65,9 +65,9 @@
         >
             <div class="flex flex-col h-full">
                 {#if $drawerState.id === DrawerId.NetworkConfig}
-                    <NetworkConfigDrawerRouter />
+                    <NetworkConfigRouterView />
                 {:else if $drawerState.id === DrawerId.Dapps}
-                    <DappsRouterView />
+                    <DappConfigRouterView />
                 {:else if $drawerState.id === DrawerId.ContactBook}
                     <ContactBookRouterView />
                 {/if}

@@ -1,3 +1,3 @@
 export * from './contact-book'
-export * from './dapps'
-export * from './network-drawer'
+export * from './dapp-config'
+export * from './network-config'

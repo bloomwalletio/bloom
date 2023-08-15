@@ -1,3 +1,3 @@
-export enum DappsDrawerRoute {
+export enum DappConfigRoute {
     ConnectedDapps = 'connectedDapps',
 }

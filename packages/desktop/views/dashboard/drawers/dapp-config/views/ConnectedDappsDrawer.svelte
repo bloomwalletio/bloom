@@ -5,8 +5,9 @@
     import { Router } from '@core/router'
     import { DrawerTemplate } from '@components'
     import { PopupId, openPopup } from '@desktop/auxiliary/popup'
+    import { DappConfigRoute } from '../dapp-config-route.enum'
 
-    export let drawerRouter: Router<unknown>
+    export let drawerRouter: Router<DappConfigRoute>
 
     function onConnectDappClick(): void {
         openPopup({
