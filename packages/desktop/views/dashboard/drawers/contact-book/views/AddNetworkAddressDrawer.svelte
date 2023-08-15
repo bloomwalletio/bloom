@@ -1,10 +1,6 @@
 <script lang="ts">
-    import { ContactBookRoute } from '../contact-book-route.enum'
-
     import { Button } from '@bloomwalletio/ui'
-    import { TextInput, NetworkInput } from '@ui'
     import { DrawerTemplate } from '@components'
-
     import {
         ContactManager,
         selectedContact,
@@ -14,6 +10,8 @@
     } from '@core/contact'
     import { localize } from '@core/i18n'
     import { Router } from '@core/router'
+    import { NetworkInput, TextInput } from '@ui'
+    import { ContactBookRoute } from '../contact-book-route.enum'
 
     export let drawerRouter: Router<unknown>
 
@@ -79,6 +77,7 @@
             bind:value={addressName}
             bind:error={addressNameError}
             placeholder={localize('general.addressName')}
+            label={localize('general.addressName')}
             validationFunction={() =>
                 validateContactAddressName(
                     { value: addressName, isRequired: true, checkLength: true, mustBeUnique: true },
@@ -91,6 +90,7 @@
             bind:value={address}
             bind:error={addressError}
             placeholder={localize('general.address')}
+            label={localize('general.address')}
             validationFunction={() =>
                 validateContactAddress(
                     { value: address, isRequired: true, mustBeUnique: true },
