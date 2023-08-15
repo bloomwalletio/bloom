@@ -2,7 +2,7 @@
     import { Icon as IconEnum } from '@auxiliary/icon'
     import { DashboardDrawerRoute, closeDrawer, drawerState, openDrawer } from '@desktop/auxiliary/drawer'
     import { Icon } from '@ui'
-    import { ContactBookRouter, contactBookRouter } from '@views/dashboard/drawers'
+    import { ContactBookRouter, contactBookRouter } from '@routes/dashboard/drawers'
 
     function onContactBookClick(): void {
         if ($drawerState.active && $drawerState.id === DashboardDrawerRoute.ContactBook) {

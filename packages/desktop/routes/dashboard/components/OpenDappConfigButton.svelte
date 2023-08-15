@@ -2,7 +2,7 @@
     import { Icon } from '@ui'
     import { Icon as IconEnum } from '@auxiliary/icon'
     import { DashboardDrawerRoute, closeDrawer, drawerState, openDrawer } from '@desktop/auxiliary/drawer'
-    import { DappConfigRouter, dappConfigRouter } from '@views/dashboard/drawers/dapp-config'
+    import { DappConfigRouter, dappConfigRouter } from '@routes/dashboard/drawers/dapp-config'
 
     function onDappsClick(): void {
         if ($drawerState.active && $drawerState.id === DashboardDrawerRoute.DappConfig) {

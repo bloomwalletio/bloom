@@ -33,7 +33,7 @@
         Text,
     } from '@ui'
     import { FontWeight, TextType } from '@ui/enums'
-    import { SendFlowRoute, SendFlowRouter, sendFlowRouter } from '@views/dashboard/send-flow'
+    import { SendFlowRoute, SendFlowRouter, sendFlowRouter } from '@routes/dashboard/send-flow'
 
     let modal: Modal
 

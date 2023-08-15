@@ -5,7 +5,7 @@
     import { localize } from '@core/i18n'
     import { checkOrConnectLedger } from '@core/ledger'
     import { Animation, Button, Icon, Text, TextHint } from '@ui'
-    import { onboardingRouter } from '@views/onboarding/onboarding-router'
+    import { onboardingRouter } from '@routes/onboarding/onboarding-router'
 
     function onContinueClick(): void {
         if ($isOnboardingLedgerProfile) {

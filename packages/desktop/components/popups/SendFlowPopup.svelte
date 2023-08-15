@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { SendFlowRouterView } from '@views/dashboard/send-flow'
+    import { SendFlowRouterView } from '@routes/dashboard/send-flow'
 
     export let _onMount: (..._: any[]) => Promise<void> = async () => {}
 </script>

@@ -17,7 +17,7 @@
     import { PopupId, openPopup } from '@desktop/auxiliary/popup'
     import features from '@features/features'
     import { Icon, Logo, Profile } from '@ui'
-    import { OnboardingRouter, onboardingRouter } from '@views/onboarding'
+    import { OnboardingRouter, onboardingRouter } from '@routes/onboarding'
     import { onMount } from 'svelte'
 
     function onContinueClick(profileId: string): void {

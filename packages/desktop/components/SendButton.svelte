@@ -4,7 +4,7 @@
     import { resetSendFlowParameters } from '@core/wallet'
     import { openPopup, PopupId } from '@desktop/auxiliary/popup'
     import { OnboardingButton } from '@ui'
-    import { SendFlowRouter, sendFlowRouter } from '@views/dashboard/send-flow'
+    import { SendFlowRouter, sendFlowRouter } from '@routes/dashboard/send-flow'
 
     function onSendClick(): void {
         resetSendFlowParameters()

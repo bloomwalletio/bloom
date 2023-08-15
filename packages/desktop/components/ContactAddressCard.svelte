@@ -16,8 +16,8 @@
     import { openPopup, PopupId } from '@desktop/auxiliary/popup'
     import { closeDrawer } from '@desktop/auxiliary/drawer'
 
-    import { ContactBookRoute } from '@views/dashboard/drawers/contact-book/contact-book-route.enum'
-    import { SendFlowRouter, sendFlowRouter } from '@views/dashboard/send-flow'
+    import { ContactBookRoute } from '@routes/dashboard/drawers/contact-book/contact-book-route.enum'
+    import { SendFlowRouter, sendFlowRouter } from '@routes/dashboard/send-flow'
     import { localize } from '@core/i18n'
 
     export let drawerRouter: Router<unknown>

@@ -55,7 +55,7 @@ const resolve = {
         '@lib': path.resolve(__dirname, '../shared/src/lib'),
         '@desktop': path.resolve(__dirname, './lib'),
         '@ui': path.resolve(__dirname, '../shared/src/components/'),
-        '@views': path.resolve(__dirname, './views/'),
+        '@routes': path.resolve(__dirname, './views/'),
     },
     conditionNames: ['svelte', 'module', 'import', 'require', 'node', 'default'],
     extensions: ['.mjs', '.js', '.ts', '.svelte'],

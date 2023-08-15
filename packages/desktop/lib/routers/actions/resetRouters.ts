@@ -6,7 +6,7 @@ import {
     loginRouter,
     settingsRouter,
 } from '@core/router'
-import { onboardingRouter } from '@views/onboarding'
+import { onboardingRouter } from '@routes/onboarding'
 import { get } from 'svelte/store'
 
 export function resetRouters(): void {

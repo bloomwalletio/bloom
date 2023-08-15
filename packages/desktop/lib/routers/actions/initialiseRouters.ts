@@ -11,7 +11,7 @@ import {
     settingsRouter,
 } from '@core/router/routers'
 import { loginRouter, LoginRouter } from '@core/router/subrouters'
-import { OnboardingRouter, onboardingRouter } from '@views/onboarding'
+import { OnboardingRouter, onboardingRouter } from '@routes/onboarding'
 
 export function initialiseRouters(): void {
     /**

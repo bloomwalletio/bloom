@@ -1,7 +1,7 @@
 <script lang="ts">
     import { Platform } from '@core/app'
     import features from '@features/features'
-    import { UpdateStrongholdRouterView } from '@views/update-stronghold'
+    import { UpdateStrongholdRouterView } from '@routes/update-stronghold'
     import { Transition } from '@ui'
     import { RestoreFromStrongholdRoute } from './restore-from-stronghold-route.enum'
     import { restoreFromStrongholdRoute } from './restore-from-stronghold-router'

@@ -17,8 +17,8 @@
             "@desktop/*": ["./lib/*"],
             "@ui": ["../shared/src/components"],
             "@ui/*": ["../shared/src/components/*"],
-            "@views": ["./views"],
-            "@views/*": ["./views/*"]
+            "@routes": ["./routes"],
+            "@routes/*": ["./routes/*"]
         },
         "types": ["node", "svelte"],
         "verbatimModuleSyntax": false

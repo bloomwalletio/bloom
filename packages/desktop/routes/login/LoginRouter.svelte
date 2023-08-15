@@ -1,7 +1,7 @@
 <script lang="ts">
     import { Platform } from '@core/app'
     import { LoginRoute, loginRoute } from '@core/router'
-    import { UpdateStrongholdRouterView } from '@views'
+    import { UpdateStrongholdRouterView } from '@routes'
     import { Transition } from '@ui'
     import { EnterPinView, LoadProfileView, SelectProfileView } from './views'
     import features from '@features/features'

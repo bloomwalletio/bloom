@@ -32,8 +32,8 @@
     } from '@desktop/routers'
     import features from '@features/features'
     import { ToastContainer, Transition } from '@ui'
-    import { Dashboard, LoginRouter, Settings, Splash } from '@views'
-    import { OnboardingRouterView } from '@views/onboarding'
+    import { Dashboard, LoginRouter, Settings, Splash } from '@routes'
+    import { OnboardingRouterView } from '@routes/onboarding'
     import { onDestroy, onMount } from 'svelte'
     import { getLocalisedMenuItems } from './lib/helpers'
 
