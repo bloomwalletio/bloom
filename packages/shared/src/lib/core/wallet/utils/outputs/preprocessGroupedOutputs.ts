@@ -1,5 +1,4 @@
-import { OutputData } from '@iota/sdk'
-import { OutputResponse, UTXOInput } from '@iota/sdk'
+import { OutputResponse, OutputData, UTXOInput } from '@iota/sdk/out/types'
 import { MILLISECONDS_PER_SECOND } from '@core/utils/constants'
 import { IAccountState } from '@core/account/interfaces'
 import { InclusionState, ActivityDirection } from '../../enums'
