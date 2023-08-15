@@ -12,7 +12,7 @@ import { LedgerApiMethod } from '../enums'
 import { ILedgerApiBridge } from '../interfaces'
 import { LedgerApiRequestResponse } from '../types'
 import type { Bip44 } from '@iota/wallet/types'
-import { closePopup, openPopup, PopupId } from 'desktop/lib/auxiliary/popup'
+import { closePopup, openPopup, PopupId } from '../../../../../../desktop/lib/auxiliary/popup'
 
 declare global {
     interface Window {
