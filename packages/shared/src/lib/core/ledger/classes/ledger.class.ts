@@ -69,12 +69,13 @@ export class Ledger {
                 ),
             'evm-signed-transaction'
         )
+
+        if (promptVerification) {
+            closePopup(true)
+        }
+
         const { r, v, s } = transactionSignature
         if (r && v && s) {
-            if (promptVerification) {
-                closePopup(true)
-            }
-
             return prepareEvmTransaction(transactionData, { r, v, s })
         }
     }
