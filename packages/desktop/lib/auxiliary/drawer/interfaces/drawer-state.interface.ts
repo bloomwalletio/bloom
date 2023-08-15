@@ -1,4 +1,5 @@
-import { DrawerDirection, DashboardDrawerRoute } from '../enums'
+import { DashboardDrawerRoute } from '@views/dashboard/drawers'
+import { DrawerDirection } from '../enums'
 
 export interface IDrawerState {
     active: boolean
