@@ -4,6 +4,7 @@
     import { localize } from '@core/i18n'
     import {
         checkOrConnectLedger,
+        LedgerAppName,
         ledgerNanoStatus,
         ledgerPreparedOutput,
         resetLedgerPreparedOutput,
@@ -11,6 +12,8 @@
     import { closePopup } from '@desktop/auxiliary/popup'
     import { sendOutput } from '@core/wallet'
     import { handleError } from '@core/error/handlers'
+
+    export let appName = LedgerAppName.Shimmer
 
     const STEPS = [1, 2, 3, 4]
 
@@ -43,7 +46,11 @@
     <div>
         {#each STEPS as step}
             <Text type={TextType.p} fontSize="15" color="gray-600" classes="my-2">
-                {step}. {localize(`popups.enableLedgerBlindSigning.step_${step}`)}
+                {#if step === 2}
+                    {step}. {localize(`popups.enableLedgerBlindSigning.step_${step}`, { appName })}
+                {:else}
+                    {step}. {localize(`popups.enableLedgerBlindSigning.step_${step}`)}
+                {/if}
             </Text>
         {/each}
     </div>

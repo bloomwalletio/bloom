@@ -8,11 +8,12 @@ import { getAmountFromEvmTransactionValue, prepareEvmTransaction } from '@core/l
 import { MILLISECONDS_PER_SECOND, sleep } from '@core/utils'
 
 import { DEFAULT_LEDGER_API_REQUEST_OPTIONS } from '../constants'
-import { LedgerApiMethod } from '../enums'
+import { LedgerApiMethod, LedgerAppName } from '../enums'
 import { ILedgerApiBridge, ILedgerEthereumAppSettings } from '../interfaces'
 import { LedgerApiRequestResponse } from '../types'
 import type { Bip44 } from '@iota/wallet/types'
 import { closePopup, openPopup, PopupId } from '../../../../../../desktop/lib/auxiliary/popup'
+import { isBlindSigningRequiredForEvmTransaction } from '@core/ledger'
 
 declare global {
     interface Window {
@@ -23,6 +24,19 @@ declare global {
 const ledgerApiBridge: ILedgerApiBridge = window['__LEDGER__']
 
 export class Ledger {
+    static async getEthereumAppSettings(): Promise<ILedgerEthereumAppSettings> {
+        /* eslint-disable no-return-await */
+        return await this.callLedgerApiAsync<ILedgerEthereumAppSettings>(
+            () => ledgerApiBridge.makeRequest(LedgerApiMethod.GetEthereumAppSettings),
+            'ethereum-app-settings'
+        )
+    }
+
+    static async isBlindSigningEnabledForEvm(): Promise<boolean> {
+        const settings = await this.getEthereumAppSettings()
+        return Boolean(settings?.arbitraryDataEnabled)
+    }
+
     static async generateEvmAddress(accountIndex: number, coinType: number, verify?: boolean): Promise<string> {
         const bip32Path = buildBip32PathFromBip44({
             coinType,
@@ -35,24 +49,32 @@ export class Ledger {
         return response.evmAddress
     }
 
-    static async getEthereumAppSettings(): Promise<ILedgerEthereumAppSettings> {
-        /* eslint-disable no-return-await */
-        return await this.callLedgerApiAsync<ILedgerEthereumAppSettings>(
-            () => ledgerApiBridge.makeRequest(LedgerApiMethod.GetEthereumAppSettings),
-            'ethereum-app-settings'
-        )
-    }
-
     static async signEvmTransaction(
         transactionData: EvmTransactionData,
         chainId: number,
-        bip44: Bip44,
-        promptVerification = true
+        bip44: Bip44
     ): Promise<string | undefined> {
+        // TEST CODE
+        if (!transactionData.data) {
+            transactionData.data = '0x00'
+        }
+        // TEST CODE
+
         const unsignedTransactionMessageHex = prepareEvmTransaction(transactionData)
         const bip32Path = buildBip32PathFromBip44(bip44)
 
-        if (promptVerification) {
+        const mustEnableBlindSigning =
+            isBlindSigningRequiredForEvmTransaction(transactionData) && !(await this.isBlindSigningEnabledForEvm())
+        if (mustEnableBlindSigning) {
+            openPopup({
+                id: PopupId.EnableLedgerBlindSigning,
+                hideClose: true,
+                preventClose: true,
+                props: {
+                    appName: LedgerAppName.Ethereum,
+                },
+            })
+        } else {
             openPopup({
                 id: PopupId.VerifyLedgerTransaction,
                 hideClose: true,
@@ -65,25 +87,23 @@ export class Ledger {
                     maxFees: BigInt(transactionData.gasLimit.toString()).toString(10),
                 },
             })
-        }
 
-        const transactionSignature = await this.callLedgerApiAsync<IEvmTransactionSignature>(
-            () =>
-                ledgerApiBridge.makeRequest(
-                    LedgerApiMethod.SignEvmTransaction,
-                    unsignedTransactionMessageHex,
-                    bip32Path
-                ),
-            'evm-signed-transaction'
-        )
+            const transactionSignature = await this.callLedgerApiAsync<IEvmTransactionSignature>(
+                () =>
+                    ledgerApiBridge.makeRequest(
+                        LedgerApiMethod.SignEvmTransaction,
+                        unsignedTransactionMessageHex,
+                        bip32Path
+                    ),
+                'evm-signed-transaction'
+            )
 
-        if (promptVerification) {
             closePopup(true)
-        }
 
-        const { r, v, s } = transactionSignature
-        if (r && v && s) {
-            return prepareEvmTransaction(transactionData, { r, v, s })
+            const { r, v, s } = transactionSignature
+            if (r && v && s) {
+                return prepareEvmTransaction(transactionData, { r, v, s })
+            }
         }
     }
 

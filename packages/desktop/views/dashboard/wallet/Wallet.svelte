@@ -4,18 +4,6 @@
     import { selectedAccountTokens } from '@core/token/stores'
     import { selectedAccount } from '@core/account/stores'
     import features from '@features/features'
-
-    import { onMount } from 'svelte'
-    import { Ledger } from 'shared/src/lib/core/ledger'
-    onMount(async () => {
-        try {
-            const settings = await Ledger.getEthereumAppSettings()
-            /* eslint-disable no-console */
-            console.log('settings: ', settings)
-        } catch (err) {
-            console.error(err)
-        }
-    })
 </script>
 
 {#if $selectedAccount}
