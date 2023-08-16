@@ -1,4 +1,4 @@
-import type { ParticipationEventMap, ParticipationEventRegistrationOptions } from '@iota/sdk'
+import { ParticipationEventMap, ParticipationEventRegistrationOptions } from '@iota/sdk/out/types'
 
 import { get } from 'svelte/store'
 
@@ -13,7 +13,7 @@ export async function registerParticipationEvents(
 ): Promise<ParticipationEventMap> {
     let newRegistrationOptions = registrationOptions
     const { removedProposalIds } = get(selectedAccount) ?? {}
-    if (removedProposalIds?.length > 0) {
+    if (removedProposalIds && removedProposalIds?.length > 0) {
         newRegistrationOptions = {
             ...registrationOptions,
             eventsToIgnore: removedProposalIds ?? [],

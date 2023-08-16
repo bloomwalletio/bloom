@@ -1,4 +1,4 @@
-import type { ParticipationEventMap, ParticipationEventWithNodes } from '@iota/sdk'
+import { ParticipationEventMap, ParticipationEventWithNodes } from '@iota/sdk/out/types'
 
 import { IAccountState } from '@core/account/interfaces'
 

@@ -44,7 +44,7 @@ export interface IProfileManager {
         ignoreIfCoinTypeMismatch: boolean,
         ignoreIfBech32Mismatch: string
     ): Promise<void>
-    setIClientOptions(options: IClientOptions): Promise<void>
+    setClientOptions(options: IClientOptions): Promise<void>
     setStrongholdPassword(password: string): Promise<void>
     setStrongholdPasswordClearInterval(intervalInMilliseconds?: number): Promise<void>
     startBackgroundSync(options?: SyncOptions, intervalInMilliseconds?: number): Promise<void>

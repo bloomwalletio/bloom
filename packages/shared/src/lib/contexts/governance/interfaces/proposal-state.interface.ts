@@ -1,4 +1,4 @@
-import type { EventStatus, ParticipationEventStatus, Question } from '@iota/sdk'
+import { EventStatus, ParticipationEventStatus, Question } from '@iota/sdk/out/types'
 import { IOrganization, ProposalError } from '..'
 import { ProposalType } from '../enums'
 

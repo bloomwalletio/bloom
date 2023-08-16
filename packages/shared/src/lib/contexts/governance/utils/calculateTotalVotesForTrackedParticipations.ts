@@ -1,5 +1,5 @@
 import { get } from 'svelte/store'
-import { TrackedParticipationOverview } from '@iota/sdk'
+import { TrackedParticipationOverview } from '@iota/sdk/out/types'
 import { networkStatus } from '@core/network/stores'
 import { MILESTONE_NOT_FOUND } from '@core/network/constants'
 

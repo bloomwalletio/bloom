@@ -1,6 +1,6 @@
 import { get } from 'svelte/store'
 
-import type { ParticipationEventId, ParticipationEventType } from '@iota/sdk'
+import { ParticipationEventId, ParticipationEventType } from '@iota/sdk/out/types'
 
 import { selectedAccount } from '@core/account/stores'
 import { INode } from '@core/network/interfaces'

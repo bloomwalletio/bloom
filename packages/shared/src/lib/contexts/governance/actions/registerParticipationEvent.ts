@@ -1,9 +1,9 @@
-import type {
+import {
     INode,
     ParticipationEventWithNodes,
     ParticipationEventId,
     ParticipationEventRegistrationOptions,
-} from '@iota/sdk'
+} from '@iota/sdk/out/types'
 import { IAccountState } from '@core/account'
 import { addOrUpdateProposalToRegisteredProposals } from '../stores'
 import { createProposalFromEvent } from '@contexts/governance'
