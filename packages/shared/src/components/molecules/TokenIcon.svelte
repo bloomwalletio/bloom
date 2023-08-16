@@ -1,7 +1,7 @@
 <script lang="ts">
     import { Icon as IconEnum, NETWORK_ICON_SVG } from '@auxiliary/icon'
     import { getIconColorFromString } from '@core/account'
-    import { COIN_TYPE, network, NetworkId, SupportedNetworkId } from '@core/network'
+    import { COIN_TYPE, getActiveNetworkId, network, NetworkId, SupportedNetworkId } from '@core/network'
     import { activeProfile } from '@core/profile/stores'
     import { isBright } from '@core/utils'
     import { ANIMATED_TOKEN_IDS, getTokenInitials, IPersistedToken, TokenStandard } from '@core/token'
@@ -22,9 +22,9 @@
               logoUrl?: string
           }
         | undefined
-    let chainName: string | undefined
+    let networkName: string | undefined
 
-    $: $network, networkId, (chainName = getTooltipText())
+    $: $network, networkId, (networkName = getTooltipText())
     $: isAnimation = persistedToken.id in ANIMATED_TOKEN_IDS
     $: baseNetworkId = $activeProfile?.network?.id ?? ''
 
@@ -62,12 +62,12 @@
     }
 
     function getTooltipText(): string | undefined {
-        const networkName = $network?.getMetadata().name
-        if (networkId) {
+        const l1NetworkName = $network?.getMetadata().name
+        if (networkId === getActiveNetworkId()) {
+            return l1NetworkName
+        } else if (networkId) {
             const chain = $network?.getChain(networkId)
-            return chain?.getConfiguration().name ?? networkName
-        } else {
-            return networkName
+            return chain?.getConfiguration().name ?? l1NetworkName
         }
     }
 </script>
@@ -100,24 +100,31 @@
                 icon={iconInfo.icon}
                 width="80%"
                 height="80%"
-                classes="text-{iconInfo?.iconColor ?? 'blue-500'} text-center"
+                classes="text-{iconInfo.iconColor ?? 'blue-500'} text-center"
             />
         {:else if iconInfo?.logoUrl}
-            <img src={iconInfo.logoUrl} on:error={() => (iconInfo.logoUrl = '')} alt="" class="w-full h-full" />
-        {:else}
+            <img
+                src={iconInfo.logoUrl}
+                on:error={() => {
+                    if (iconInfo) iconInfo.logoUrl = ''
+                }}
+                alt=""
+                class="w-full h-full"
+            />
+        {:else if iconInfo}
             <p
                 style={`font-size: ${Math.floor(
                     Math.min(large ? 20 : 12, iconWrapperWidth / iconInfo?.initials?.length)
                 )}px;`}
                 class="transition-none font-600 text-{iconInfo?.iconColor ?? 'blue-500'} text-center"
             >
-                {iconInfo?.initials?.toUpperCase() ?? '-'}
+                {iconInfo.initials?.toUpperCase() ?? '-'}
             </p>
         {/if}
     </div>
     <span class="absolute flex justify-center items-center bottom-0 right-0">
         {#if persistedToken.verification.verified === true && networkId}
-            <NetworkIconBadge width={10} height={10} {networkId} tooltipText={chainName} />
+            <NetworkIconBadge width={10} height={10} {networkId} tooltipText={networkName} />
         {:else}
             <VerificationBadge status={persistedToken.verification?.status} width={14} height={14} />
         {/if}
