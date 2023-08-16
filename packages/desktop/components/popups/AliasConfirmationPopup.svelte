@@ -3,17 +3,12 @@
     import { selectedAccount, updateSelectedAccount } from '@core/account'
     import { localize } from '@core/i18n'
     import { checkActiveProfileAuth, getBaseToken } from '@core/profile'
-    import {
-        convertBech32ToHexAddress,
-        formatTokenAmountPrecise,
-        EMPTY_HEX_ID,
-        UNLOCK_CONDITION_GOVERNOR_ADDRESS,
-        UNLOCK_CONDITION_STATE_CONTROLLER_ADDRESS,
-        processAndAddToActivities,
-    } from '@core/wallet'
+    import { formatTokenAmountPrecise, EMPTY_HEX_ID, processAndAddToActivities } from '@core/wallet'
+    import { UnlockConditionType } from '@iota/sdk/out/types'
     import { closePopup } from '@desktop/auxiliary/popup'
     import { onMount } from 'svelte'
     import { handleError } from '@core/error/handlers/handleError'
+    import { api } from '@core/profile-manager'
 
     export let _onMount: (..._: any[]) => Promise<void> = async () => {}
 
@@ -21,23 +16,23 @@
 
     $: address = {
         type: 0,
-        pubKeyHash: convertBech32ToHexAddress($selectedAccount.depositAddress),
+        pubKeyHash: api.bech32ToHex($selectedAccount.depositAddress),
     }
     $: aliasOutput = address
         ? {
               aliasId: EMPTY_HEX_ID,
               unlockConditions: [
                   {
-                      type: UNLOCK_CONDITION_GOVERNOR_ADDRESS,
+                      type: UnlockConditionType.GovernorAddress,
                       address,
                   },
                   {
-                      type: UNLOCK_CONDITION_STATE_CONTROLLER_ADDRESS,
+                      type: UnlockConditionType.StateControllerAddress,
                       address,
                   },
               ],
           }
-        : ''
+        : undefined
 
     $: void setStorageDeposit(aliasOutput)
     $: isTransferring = $selectedAccount.isTransferring
