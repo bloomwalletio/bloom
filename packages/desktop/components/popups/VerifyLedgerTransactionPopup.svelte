@@ -18,7 +18,7 @@
     export let hash: string
     export let bipPath: string
 
-    $: hasSendConfirmationProps = (toAddress && toAmount) || hash
+    const hasSendConfirmationProps = (toAddress && toAmount) || hash
 
     const locale = $showInternalVerificationPopup
         ? 'popups.verifyInternalLedgerTransaction'
