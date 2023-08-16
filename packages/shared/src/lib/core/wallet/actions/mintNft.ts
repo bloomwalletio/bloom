@@ -3,9 +3,9 @@ import { selectedAccount, updateSelectedAccount } from '@core/account'
 import { localize } from '@core/i18n'
 import { addOrUpdateNftInAllAccountNfts, buildNftFromNftOutput, IIrc27Metadata } from '@core/nfts'
 import { Converter } from '@core/utils'
-import { MintNftParams } from '@iota/sdk'
+import { MintNftParams, OutputType } from '@iota/sdk/out/types'
 import { get } from 'svelte/store'
-import { DEFAULT_TRANSACTION_OPTIONS, OUTPUT_TYPE_NFT } from '../constants'
+import { DEFAULT_TRANSACTION_OPTIONS } from '../constants'
 import { ActivityAction } from '../enums'
 import { addActivityToAccountActivitiesInAllAccountActivities, resetMintNftDetails } from '../stores'
 import { NftActivity } from '../types'
@@ -37,7 +37,7 @@ export async function mintNft(metadata: IIrc27Metadata, quantity: number): Promi
 
         // Generate Activities
         for (const output of outputs) {
-            if (output.output.type === OUTPUT_TYPE_NFT) {
+            if (output.output.type === OutputType.Nft) {
                 // For each minted NFT, generate a new activity
                 const activity: NftActivity = generateSingleNftActivity(account, {
                     action: ActivityAction.Mint,

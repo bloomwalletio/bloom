@@ -1,10 +1,8 @@
 import { IProcessedTransaction, IWrappedOutput } from '../../interfaces'
-import { Transaction } from '@iota/sdk'
+import { Output, OutputType, Transaction } from '@iota/sdk/out/types'
 import { getOutputIdFromTransactionIdAndIndex } from './getOutputIdFromTransactionIdAndIndex'
-import { OUTPUT_TYPE_TREASURY } from '@core/wallet/constants'
 import { getDirectionFromTransaction } from '../transactions'
 import { IAccountState } from '@core/account'
-import { OutputTypes } from '@iota/sdk'
 
 export async function preprocessTransaction(
     transaction: Transaction,
@@ -31,11 +29,8 @@ export async function preprocessTransaction(
     }
 }
 
-function convertTransactionsOutputTypesToWrappedOutputs(
-    transactionId: string,
-    outputTypes: OutputTypes[]
-): IWrappedOutput[] {
-    return outputTypes.map((outputType, index) =>
+function convertTransactionsOutputTypesToWrappedOutputs(transactionId: string, outputs: Output[]): IWrappedOutput[] {
+    return outputs.map((outputType, index) =>
         convertTransactionOutputTypeToWrappedOutput(transactionId, index, outputType)
     )
 }
@@ -43,12 +38,12 @@ function convertTransactionsOutputTypesToWrappedOutputs(
 function convertTransactionOutputTypeToWrappedOutput(
     transactionId: string,
     index: number,
-    outputType: OutputTypes
+    output: Output
 ): IWrappedOutput {
     const outputId = getOutputIdFromTransactionIdAndIndex(transactionId, index)
     return {
         outputId,
-        output: outputType.type !== OUTPUT_TYPE_TREASURY ? outputType : undefined,
+        output: output.type !== OutputType.Foundry ? output : undefined,
         remainder: false,
     }
 }

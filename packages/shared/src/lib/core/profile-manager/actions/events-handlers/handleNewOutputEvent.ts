@@ -1,4 +1,4 @@
-import { Event, NewOutputWalletEvent, WalletEventType } from '@iota/sdk/out/types'
+import { Event, NewOutputWalletEvent, WalletEventType, OutputType } from '@iota/sdk/out/types'
 import { syncBalance } from '@core/account/actions/syncBalance'
 import { addNftsToDownloadQueue, addOrUpdateNftInAllAccountNfts, buildNftFromNftOutput } from '@core/nfts'
 import { checkAndRemoveProfilePicture } from '@core/profile/actions'
@@ -10,7 +10,6 @@ import {
     generateActivities,
     getOrRequestAssetFromPersistedAssets,
 } from '@core/wallet'
-import { OUTPUT_TYPE_ALIAS, OUTPUT_TYPE_NFT } from '@core/wallet/constants'
 import {
     addActivitiesToAccountActivitiesInAllAccountActivities,
     allAccountActivities,
@@ -36,10 +35,10 @@ export async function handleNewOutputEventInternal(
 
     const address = getBech32AddressFromAddressTypes(output?.address)
     const isNewAliasOutput =
-        output.output.type === OUTPUT_TYPE_ALIAS &&
+        output.output.type === OutputType.Alias &&
         output.output.stateIndex === 0 &&
         !get(allAccountActivities)[accountIndex].find((_activity) => _activity.id === output.outputId)
-    const isNftOutput = output.output.type === OUTPUT_TYPE_NFT
+    const isNftOutput = output.output.type === OutputType.Nft
 
     if ((account?.depositAddress === address && !output?.remainder) || isNewAliasOutput) {
         await syncBalance(account.index)

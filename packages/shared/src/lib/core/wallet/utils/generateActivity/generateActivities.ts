@@ -1,12 +1,6 @@
+import { OutputType } from '@iota/sdk/out/types'
 import { IAccountState } from '@core/account'
-import {
-    ActivityAction,
-    ActivityType,
-    IProcessedTransaction,
-    OUTPUT_TYPE_ALIAS,
-    OUTPUT_TYPE_FOUNDRY,
-    OUTPUT_TYPE_NFT,
-} from '@core/wallet'
+import { ActivityAction, ActivityType, IProcessedTransaction } from '@core/wallet'
 import { Activity } from '@core/wallet/types'
 import { isParticipationOutput } from '@contexts/governance/utils'
 import { generateSingleAliasActivity } from './generateSingleAliasActivity'
@@ -35,20 +29,20 @@ function generateActivitiesFromProcessedTransactionsWithInputs(
     const { outputs, wrappedInputs } = processedTransaction
     const activities: Activity[] = []
 
-    const containsFoundryActivity = outputs.some((output) => output.output.type === OUTPUT_TYPE_FOUNDRY)
+    const containsFoundryActivity = outputs.some((output) => output.output.type === OutputType.Foundry)
     if (containsFoundryActivity) {
         const foundryActivities = generateActivitiesFromFoundryOutputs(processedTransaction, account)
         activities.push(...foundryActivities)
     }
 
-    const containsNftActivity = outputs.some((output) => output.output.type === OUTPUT_TYPE_NFT)
+    const containsNftActivity = outputs.some((output) => output.output.type === OutputType.Nft)
     if (containsNftActivity) {
         const nftActivities = generateActivitiesFromNftOutputs(processedTransaction, account)
         activities.push(...nftActivities)
     }
 
     const containsAliasActivity =
-        outputs.some((output) => output.output.type === OUTPUT_TYPE_ALIAS) && !containsFoundryActivity
+        outputs.some((output) => output.output.type === OutputType.Alias) && !containsFoundryActivity
     if (containsAliasActivity) {
         const aliasActivities = generateActivitiesFromAliasOutputs(processedTransaction, account)
         activities.push(...aliasActivities)

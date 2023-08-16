@@ -1,8 +1,9 @@
 import { get } from 'svelte/store'
+import { OutputType } from '@iota/sdk/out/types'
 import { selectedAccount, updateSelectedAccount } from '@core/account'
 import { updateNftInAllAccountNfts } from '@core/nfts/actions'
 
-import { DEFAULT_TRANSACTION_OPTIONS, OUTPUT_TYPE_NFT } from '../constants'
+import { DEFAULT_TRANSACTION_OPTIONS } from '../constants'
 import { Output } from '../types'
 import { processAndAddToActivities } from '../utils'
 
@@ -16,7 +17,7 @@ export async function sendOutput(output: Output): Promise<void> {
         updateSelectedAccount({ isTransferring: true })
         const transaction = await account.sendOutputs([output], DEFAULT_TRANSACTION_OPTIONS)
         // Reset transaction details state, since the transaction has been sent
-        if (output.type === OUTPUT_TYPE_NFT) {
+        if (output.type === OutputType.Nft) {
             updateNftInAllAccountNfts(account.index, output.nftId, { isSpendable: false })
         }
 

@@ -1,8 +1,8 @@
+import { OutputType } from '@iota/sdk/out/types'
 import { OutputResponse, OutputData, UTXOInput } from '@iota/sdk/out/types'
 import { MILLISECONDS_PER_SECOND } from '@core/utils/constants'
 import { IAccountState } from '@core/account/interfaces'
 import { InclusionState, ActivityDirection } from '../../enums'
-import { OUTPUT_TYPE_TREASURY } from '../../constants'
 import { IProcessedTransaction, IWrappedOutput } from '../../interfaces'
 import { getRecipientAddressFromOutput } from './getRecipientAddressFromOutput'
 import { getSenderAddressFromInputs } from '../transactions'
@@ -23,7 +23,7 @@ export function preprocessGroupedOutputs(
     const wrappedOutputs = outputDatas.map((outputData) => ({
         outputId: outputData.outputId,
         remainder: outputData.remainder,
-        output: outputData.output.type !== OUTPUT_TYPE_TREASURY ? outputData.output : undefined,
+        output: outputData.output.type !== OutputType.Treasury ? outputData.output : undefined,
     }))
 
     return {
@@ -47,7 +47,7 @@ function getDirectionForOutputs(
         return ActivityDirection.Outgoing
     }
     const output =
-        nonRemainderOutputs[0].output.type !== OUTPUT_TYPE_TREASURY ? nonRemainderOutputs[0].output : undefined
+        nonRemainderOutputs[0].output.type !== OutputType.Treasury ? nonRemainderOutputs[0].output : undefined
     const recipientAddress = getRecipientAddressFromOutput(output)
     const senderAddress = wrappedInputs ? getSenderAddressFromInputs(wrappedInputs) : ''
 
@@ -73,8 +73,8 @@ function convertTransactionOutputResponsesToWrappedOutputs(
 function convertTransactionOutputResponseToWrappedOutput(
     transactionId: string,
     outputResponse: OutputResponse
-): IWrappedOutput {
-    if (outputResponse.output.type === OUTPUT_TYPE_TREASURY) {
+): IWrappedOutput | undefined {
+    if (outputResponse.output.type === OutputType.Treasury) {
         return undefined
     } else {
         const outputId = getOutputIdFromTransactionIdAndIndex(transactionId, outputResponse.metadata.outputIndex)

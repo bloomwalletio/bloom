@@ -1,7 +1,7 @@
 import { IAccountState } from '@core/account'
 import { IActivityGenerationParameters, IWrappedOutput } from '@core/wallet/interfaces'
 import { ConsolidationActivity } from '@core/wallet/types'
-import { BasicOutput } from '@iota/sdk'
+import { BasicOutput, OutputType } from '@iota/sdk/out/types'
 import { ActivityType } from '../../enums'
 import { activityOutputContainsValue } from '..'
 import {
@@ -11,7 +11,6 @@ import {
     getStorageDepositFromOutput,
     getTagFromOutput,
 } from './helper'
-import { OUTPUT_TYPE_BASIC } from '@core/wallet/constants'
 
 export function generateSingleConsolidationActivity(
     account: IAccountState,
@@ -59,5 +58,5 @@ export function generateSingleConsolidationActivity(
 }
 
 function getAmountOfConsolidationInputs(inputs: IWrappedOutput[]): number {
-    return inputs.filter((input) => input.output.type === OUTPUT_TYPE_BASIC).length
+    return inputs.filter((input) => input.output.type === OutputType.Basic).length
 }
