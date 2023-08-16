@@ -8,7 +8,7 @@ import { generateAndStoreActivitiesForAllAccounts } from '@core/activity/actions
 import { Platform } from '@core/app/classes'
 import { AppContext } from '@core/app/enums'
 import { handleError } from '@core/error/handlers'
-import { pollLedgerEthereumAppSettings, pollLedgerNanoStatus } from '@core/ledger/actions'
+import { pollLedgerNanoStatus } from '@core/ledger/actions'
 import { pollMarketPrices } from '@core/market/actions'
 import { pollChainStatuses, pollNetworkStatus } from '@core/network/actions'
 import { loadNftsForActiveProfile } from '@core/nfts/actions'
@@ -135,7 +135,6 @@ export async function login(loginOptions?: ILoginOptions): Promise<void> {
             incrementLoginProgress()
             if (isLedgerProfile(type)) {
                 pollLedgerNanoStatus()
-                pollLedgerEthereumAppSettings()
             }
 
             setSelectedAccount(lastUsedAccountIndex ?? get(activeAccounts)?.[0]?.index ?? null)

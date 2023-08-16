@@ -2,7 +2,7 @@
     import { selectedAccount, selectedAccountIndex } from '@core/account/stores'
     import { Platform } from '@core/app'
     import { clearLayer2TokensPoll, pollLayer2Tokens } from '@core/layer-2'
-    import { stopPollingLedgerEthereumAppSettings, stopPollingLedgerNanoStatus } from '@core/ledger'
+    import { stopPollingLedgerNanoStatus } from '@core/ledger'
     import {
         addNftsToDownloadQueue,
         downloadNextNftInQueue,
@@ -64,7 +64,6 @@
         Platform.DeepLinkManager.clearDeepLinkRequest()
         if ($isActiveLedgerProfile) {
             stopPollingLedgerNanoStatus()
-            stopPollingLedgerEthereumAppSettings()
         }
         clearLayer2TokensPoll()
     })

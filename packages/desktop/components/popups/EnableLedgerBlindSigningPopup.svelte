@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { onMount } from 'svelte'
     import { Icon, Text, TextType } from '@ui'
     import { Icon as IconEnum } from '@auxiliary/icon'
     import { localize } from '@core/i18n'
@@ -8,6 +9,7 @@
         ledgerEthereumAppSettings,
         ledgerNanoStatus,
         ledgerPreparedOutput,
+        pollLedgerEthereumAppSettings,
         resetLedgerPreparedOutput,
     } from '@core/ledger'
     import { closePopup, openPopup, PopupId } from '@desktop/auxiliary/popup'
@@ -42,6 +44,10 @@
             )
         }
     }
+
+    onMount(() => {
+        void pollLedgerEthereumAppSettings()
+    })
 </script>
 
 <Text type={TextType.h3} classes="mb-6">{localize('popups.enableLedgerBlindSigning.title')}</Text>
