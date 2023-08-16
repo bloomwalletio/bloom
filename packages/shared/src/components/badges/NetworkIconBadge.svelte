@@ -4,7 +4,6 @@
     import { Position } from '@ui/enums'
 
     export let networkId: NetworkId
-    export let chainId: number | undefined = undefined
     export let tooltipText: string = ''
     export let width: number | undefined = undefined
     export let height: number | undefined = undefined

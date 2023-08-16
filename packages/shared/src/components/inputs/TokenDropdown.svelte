@@ -49,7 +49,7 @@
             class:cursor-pointer={!isReadonly}
             on:click={onDropdownClick}
         >
-            <TokenIcon small {token} chainId={token.chainId} />
+            <TokenIcon small persistedToken={token} networkId={token.networkId} />
             <div class="w-full relative" style="max-width: 75px;">
                 <Text
                     color="gray-600"
@@ -58,7 +58,7 @@
                     fontSize="15"
                     classes="overflow-hidden whitespace-nowrap text-ellipsis"
                 >
-                    {token?.metadata?.name ?? token?.id}
+                    {token.metadata?.name ?? token.id}
                 </Text>
             </div>
             {#if !isReadonly}

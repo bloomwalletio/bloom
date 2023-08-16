@@ -8,8 +8,8 @@
     export let width = 22
     export let outlined = true
 
-    $: backgroundColor = classesMap[networkId]?.backgroundColor ?? ''
-    $: iconColor = classesMap[networkId]?.iconColor ?? ''
+    $: backgroundColor = classesMap[networkId]?.backgroundColor ?? 'bg-gray-400'
+    $: iconColor = classesMap[networkId]?.iconColor ?? 'text-black'
 
     const classesMap: { [id: NetworkId]: Record<string, string> } = {
         [SupportedNetworkId.Iota]: {
