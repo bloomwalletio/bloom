@@ -1,5 +1,6 @@
 <script lang="ts">
     import { SelectInput } from '@bloomwalletio/ui'
+    import { localize } from '@core/i18n'
     import { activeProfile } from '@core/profile'
 
     export let networkSelection: { networkId: string; address?: string } | undefined
@@ -35,4 +36,4 @@
     }
 </script>
 
-<SelectInput bind:error bind:value={selectedString} options={networkOptions} />
+<SelectInput bind:error bind:value={selectedString} options={networkOptions} label={localize('general.network')} />
