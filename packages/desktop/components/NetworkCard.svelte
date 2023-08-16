@@ -17,10 +17,10 @@
     import { checkActiveProfileAuth } from '@core/profile/actions'
     import { activeProfile } from '@core/profile/stores'
     import { UiEventFunction, truncateString } from '@core/utils'
-    import { NetworkConfigRoute, networkConfigRouter } from '@desktop/routers'
     import { ClickableTile, FontWeight, NetworkIcon, NetworkStatusPill, Text, TextType } from '@ui'
     import { onMount } from 'svelte'
     import { Button, FlatIconName } from '@bloomwalletio/ui'
+    import { NetworkConfigRoute, networkConfigRouter } from '@views/dashboard/drawers'
 
     export let network: INetwork = undefined
     export let chain: IChain = undefined
