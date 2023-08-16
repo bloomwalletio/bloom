@@ -4,7 +4,12 @@
     import { EMPTY_NODE } from '@core/network/constants'
     import { IClientOptions, INode, INodeInfoResponse } from '@core/network/interfaces'
     import { nodeInfo } from '@core/network/stores'
-    import { checkNetworkName, checkNodeUrlValidity, getDisplayedNameFromNetworkId } from '@core/network/utils'
+    import {
+        checkNetworkName,
+        checkNodeUrlValidity,
+        getDisplayedNameFromNetworkId,
+        getOnboardingNetworkNameFromNetworkId,
+    } from '@core/network/utils'
     import { getNodeInfo } from '@core/profile-manager'
     import { activeProfile } from '@core/profile/stores'
     import { IDropdownItem, cleanUrl } from '@core/utils'
@@ -26,26 +31,9 @@
     export let currentClientOptions: IClientOptions | undefined = undefined
     export let isDeveloperProfile: boolean = false
     export let onSubmit: () => void = () => {}
-    export let showNetworkFields: boolean = false
+    export let networkEditable: boolean = false
 
-    const networkItems: IDropdownItem<OnboardingNetworkType>[] = [
-        {
-            label: getDisplayedNameFromNetworkId(SupportedNetworkId.Iota),
-            value: OnboardingNetworkType.Iota,
-        },
-        {
-            label: getDisplayedNameFromNetworkId(SupportedNetworkId.Shimmer),
-            value: OnboardingNetworkType.Shimmer,
-        },
-        {
-            label: getDisplayedNameFromNetworkId(SupportedNetworkId.Testnet),
-            value: OnboardingNetworkType.Testnet,
-        },
-        {
-            label: localize('general.custom'),
-            value: OnboardingNetworkType.Custom,
-        },
-    ].filter((item) => features.onboarding?.[item.value]?.enabled)
+    const networkItems: IDropdownItem<OnboardingNetworkType>[] = getNetworkTypeOptions()
 
     let [username, password] = node.auth?.basicAuthNamePwd ?? ['', '']
     let jwt = node.auth?.jwt
@@ -60,6 +48,23 @@
             auth: getAuth(),
         })
 
+    function getNetworkTypeOptions(): IDropdownItem<OnboardingNetworkType>[] {
+        const options = Object.values([
+            SupportedNetworkId.Iota,
+            SupportedNetworkId.Shimmer,
+            SupportedNetworkId.Testnet,
+        ]).map((networkId) => ({
+            label: getDisplayedNameFromNetworkId(networkId),
+            value: getOnboardingNetworkNameFromNetworkId(networkId),
+        }))
+        options.push({
+            label: localize('general.custom'),
+            value: OnboardingNetworkType.Custom,
+        })
+
+        return options.filter((item) => features.onboarding?.[item.value]?.enabled)
+    }
+
     function getAuth(): IAuth {
         const auth: IAuth = {}
         if ([username, password].every((value) => value !== '')) {
@@ -73,10 +78,6 @@
 
     function cleanNodeUrl(): void {
         node.url = cleanUrl(node?.url)
-    }
-
-    function onNetworkTypeChanges(selected: IDropdownItem<OnboardingNetworkType>): void {
-        networkType = selected.value
     }
 
     export async function validate(options: INodeValidationOptions): Promise<void> {
@@ -129,14 +130,13 @@
 </script>
 
 <form id="node-configuration-form" class="w-full h-full flex-col space-y-3" on:submit|preventDefault={onSubmit}>
-    {#if showNetworkFields}
+    {#if networkEditable}
         <Dropdown
+            bind:value={networkType}
             label={localize('general.network')}
             placeholder={localize('general.network')}
-            value={networkType}
             items={networkItems}
             disabled={isBusy}
-            onSelect={onNetworkTypeChanges}
         />
         {#if networkType === OnboardingNetworkType.Custom}
             <NumberInput

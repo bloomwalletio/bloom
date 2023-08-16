@@ -16,17 +16,21 @@
     import { networkSetupRouter } from '../network-setup-router'
 
     let nodeConfigurationForm: NodeConfigurationForm
-    let networkType: OnboardingNetworkType = features?.onboarding?.iota?.enabled
-        ? OnboardingNetworkType.Iota
-        : features?.onboarding?.shimmer?.enabled
-        ? OnboardingNetworkType.Shimmer
-        : features?.onboarding?.testnet?.enabled
-        ? OnboardingNetworkType.Testnet
-        : OnboardingNetworkType.Custom
     let coinType: string
     let node: INode
     let isBusy = false
     let formError = ''
+    let networkType: OnboardingNetworkType = getInitialSelectedNetworkType()
+
+    function getInitialSelectedNetworkType(): OnboardingNetworkType {
+        return features?.onboarding?.iota?.enabled
+            ? OnboardingNetworkType.Iota
+            : features?.onboarding?.shimmer?.enabled
+            ? OnboardingNetworkType.Shimmer
+            : features?.onboarding?.testnet?.enabled
+            ? OnboardingNetworkType.Testnet
+            : OnboardingNetworkType.Custom
+    }
 
     function onBackClick(): void {
         $networkSetupRouter.previous()
@@ -99,7 +103,7 @@
             bind:formError
             {isBusy}
             isDeveloperProfile
-            showNetworkFields
+            networkEditable
         />
     </div>
     <div slot="leftpane__action">
