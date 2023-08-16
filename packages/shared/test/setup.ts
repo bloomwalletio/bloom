@@ -3,6 +3,7 @@
  * environment as needed (e.g. a particular object must be mocked or is mocked
  * everywhere).
  */
+import 'reflect-metadata'
 import './mocks/api.mock'
 import './mocks/match-media.mock'
 import './mocks/platform.mock'
