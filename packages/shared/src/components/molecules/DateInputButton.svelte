@@ -1,7 +1,7 @@
 <script lang="ts">
     import { formatDate } from '@core/i18n'
     import { Text, DateTimePicker, Icon } from '@ui'
-    import { appSettings } from '@core/app'
+    import { appSettings } from '@core/app/stores'
 
     export let value: string = undefined
 

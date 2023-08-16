@@ -1,9 +1,10 @@
 <script lang="ts">
-    import { appSettings, appVersionDetails, Platform } from '@core/app'
+    import { Platform } from '@core/app'
+    import { appSettings, appVersionDetails } from '@core/app/stores'
     import { localize } from '@core/i18n'
-    import { activeProfile } from '@core/profile'
-    import { Button, Text } from '@ui'
+    import { activeProfile } from '@core/profile/stores'
     import { setClipboard } from '@core/utils'
+    import { Button, Text } from '@ui'
     import { onMount } from 'svelte'
 
     const { loggedIn } = $activeProfile ?? {}

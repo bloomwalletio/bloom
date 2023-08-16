@@ -1,15 +1,14 @@
-import Web3 from 'web3'
-import { TransactionReceipt } from 'web3-core'
-
+import { IAccountState } from '@core/account'
 import { updateSelectedAccount } from '@core/account/stores'
 import { handleError } from '@core/error/handlers'
 import { EvmTransactionData } from '@core/layer-2/types'
 import { Ledger } from '@core/ledger/classes'
-import { isActiveLedgerProfile, isSoftwareProfile } from '@core/profile'
-import { get } from 'svelte/store'
-import { IAccountState } from '@core/account'
-import { signEvmTransactionWithStronghold } from '../../../layer-2/utils/signEvmTransactionWithStronghold'
 import { ETH_COIN_TYPE } from '@core/network/constants'
+import { isActiveLedgerProfile, isSoftwareProfile } from '@core/profile/stores'
+import { get } from 'svelte/store'
+import Web3 from 'web3'
+import { TransactionReceipt } from 'web3-core'
+import { signEvmTransactionWithStronghold } from '../../../layer-2/utils/signEvmTransactionWithStronghold'
 
 export async function signAndSendEvmTransaction(
     transaction: EvmTransactionData,

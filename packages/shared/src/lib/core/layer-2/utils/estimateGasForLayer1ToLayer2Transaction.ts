@@ -1,10 +1,10 @@
-import { SendFlowParameters, SendFlowType } from '@core/wallet'
+import { getSelectedAccount } from '@core/account/stores'
 import { ETH_COIN_TYPE, getNetwork } from '@core/network'
-import { getSelectedAccount } from '@core/account'
+import { SendFlowParameters, SendFlowType } from '@core/wallet'
 import { FALLBACK_GAS_BUDGET, ISC_MAGIC_CONTRACT_ADDRESS } from '../constants'
-import { getIscpTransferSmartContractData } from '../utils'
-import { TransferredAsset } from '../types'
 import { AssetType } from '../enums'
+import { TransferredAsset } from '../types'
+import { getIscpTransferSmartContractData } from '../utils'
 
 export async function estimateGasForLayer1ToLayer2Transaction(sendFlowParameters: SendFlowParameters): Promise<number> {
     const { recipient, layer2Parameters } = sendFlowParameters ?? {}
@@ -54,24 +54,24 @@ function getTransferredAsset(sendFlowParameters: SendFlowParameters): Transferre
               }
             : undefined
     } else if (sendFlowParameters.type === SendFlowType.TokenTransfer) {
-        const asset = sendFlowParameters.tokenTransfer?.asset
+        const token = sendFlowParameters.tokenTransfer?.token
         const amount = sendFlowParameters.tokenTransfer?.rawAmount ?? '0'
 
-        return asset
+        return token
             ? {
                   type: AssetType.BaseCoin,
-                  asset,
+                  token,
                   amount,
               }
             : undefined
     } else {
-        const asset = sendFlowParameters.baseCoinTransfer?.asset
+        const token = sendFlowParameters.baseCoinTransfer?.token
         const amount = sendFlowParameters.baseCoinTransfer?.rawAmount ?? '0'
 
-        return asset
+        return token
             ? {
                   type: AssetType.BaseCoin,
-                  asset,
+                  token,
                   amount,
               }
             : undefined

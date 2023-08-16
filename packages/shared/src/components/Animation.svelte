@@ -1,6 +1,6 @@
 <script lang="ts">
     import lottie, { AnimationItem, AnimationSegment } from 'lottie-web'
-    import { appSettings } from '@core/app'
+    import { appSettings } from '@core/app/stores'
     import { onDestroy } from 'svelte'
 
     export let animation: string | undefined = undefined

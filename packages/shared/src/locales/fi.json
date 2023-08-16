@@ -1101,7 +1101,7 @@
                 "logoUrl": "Logo URL",
                 "logo": "Logo",
                 "alias": "Alias",
-                "assetId": "Asset Id"
+                "tokenId": "Token Id"
             }
         },
         "importErc20Token": {
@@ -1931,7 +1931,7 @@
             "wrongAddressPrefix": "Osoitteet alkavat etuliitteellä {prefix}.",
             "wrongAddressFormat": "Osoite on muotoiltu virheellisesti.",
             "invalidAddress": "Osoite ei ole kelvollinen.",
-            "invalidAssetId": "The asset id is not valid.",
+            "invalidTokenId": "The token id is not valid.",
             "unknownAsset": "Tämä nimike ei ole tämän tilin tiedossa.",
             "insufficientFunds": "Tässä lompakossa ei ole riittävästi varoja.",
             "insufficientFundsStorageDeposit": "Insufficient funds to cover the storage deposit.",

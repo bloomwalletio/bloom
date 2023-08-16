@@ -3,7 +3,7 @@ import { DestinationNetwork } from '@core/layer-2/enums'
 import { getNetworkHrp } from '@core/profile/actions'
 import { isValidBech32AddressAndPrefix, validateEthereumAddress } from '@core/utils/crypto'
 import { IValidationOptions } from '@core/utils/interfaces'
-import { isAccountAddress } from '@core/wallet/utils'
+import { isAccountAddress } from '@core/account/actions'
 
 import { ContactManager } from '../classes'
 

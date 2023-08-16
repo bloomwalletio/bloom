@@ -1,0 +1,104 @@
+<script lang="ts">
+    import { Button } from '@bloomwalletio/ui'
+    import { DrawerTemplate } from '@components'
+    import {
+        ContactManager,
+        selectedContact,
+        validateContactAddress,
+        validateContactAddressName,
+        validateContactNetworkSelection,
+    } from '@core/contact'
+    import { localize } from '@core/i18n'
+    import { Router } from '@core/router'
+    import { NetworkInput, TextInput } from '@ui'
+    import { ContactBookRoute } from '../contact-book-route.enum'
+
+    export let drawerRouter: Router<unknown>
+
+    let addressInput, addressNameInput: TextInput
+    let networkSelectionInput: NetworkInput
+    let address: string = ''
+    let addressName: string = ''
+    let networkSelection: { networkId: string; address?: string } | undefined
+
+    /**
+     * NOTE: This improves UX slightly by forcing the address-related input errors
+     * to be reset when the network selection changes.
+     */
+    $: networkSelection?.networkId, resetErrors()
+
+    let addressError,
+        addressNameError,
+        networkSelectionError = ''
+    function resetErrors(): void {
+        addressError = ''
+        addressNameError = ''
+        networkSelectionError = ''
+    }
+
+    function onSaveClick(): void {
+        if (validate()) {
+            ContactManager.addContactAddress($selectedContact?.id, networkSelection?.networkId, addressName, address)
+            drawerRouter.previous()
+        }
+    }
+
+    function validate(): boolean {
+        /**
+         * NOTE: This variable allows us to run all the input validation functions,
+         * displaying all errors at once rather than one by one.
+         */
+        let handledError = false
+        for (const input of [addressInput, addressNameInput, networkSelectionInput]) {
+            try {
+                input.validate()
+            } catch (err) {
+                handledError = true
+            }
+        }
+        return !handledError
+    }
+</script>
+
+<DrawerTemplate
+    title={localize(`views.dashboard.drawers.contactBook.${ContactBookRoute.AddNetworkAddress}.title`)}
+    {drawerRouter}
+>
+    <add-address class="flex flex-col gap-4">
+        <NetworkInput
+            bind:this={networkSelectionInput}
+            bind:networkSelection
+            bind:error={networkSelectionError}
+            showLayer2={true}
+            validationFunction={() => validateContactNetworkSelection(networkSelection?.networkId)}
+        />
+        <TextInput
+            bind:this={addressNameInput}
+            bind:value={addressName}
+            bind:error={addressNameError}
+            placeholder={localize('general.addressName')}
+            label={localize('general.addressName')}
+            validationFunction={() =>
+                validateContactAddressName(
+                    { value: addressName, isRequired: true, checkLength: true, mustBeUnique: true },
+                    $selectedContact?.id,
+                    networkSelection.networkId
+                )}
+        />
+        <TextInput
+            bind:this={addressInput}
+            bind:value={address}
+            bind:error={addressError}
+            placeholder={localize('general.address')}
+            label={localize('general.address')}
+            validationFunction={() =>
+                validateContactAddress(
+                    { value: address, isRequired: true, mustBeUnique: true },
+                    networkSelection?.networkId
+                )}
+        />
+    </add-address>
+    <div slot="footer">
+        <Button text={localize('actions.save')} width="full" on:click={onSaveClick} />
+    </div>
+</DrawerTemplate>
