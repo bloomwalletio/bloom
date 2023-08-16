@@ -14,7 +14,7 @@ export async function initialiseProfileManager(
 ): Promise<IProfileManager> {
     id = id ?? generateRandomId()
 
-    const profileManager = await api.createAccountManager(id, {
+    const profileManager = await api.createWallet(id, {
         storagePath,
         ...(clientOptions &&
             ((clientOptions?.nodes && clientOptions?.nodes?.length > 0) || clientOptions?.primaryNode) && {

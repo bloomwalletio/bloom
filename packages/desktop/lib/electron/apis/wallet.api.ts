@@ -1,8 +1,9 @@
 import * as IotaSdk from '@iota/sdk'
-import type { CreateAccountPayload, SyncOptions } from '@iota/sdk'
+import type { CreateAccountPayload, IAuth, SyncOptions } from '@iota/sdk'
 
 import { bindObjectAcrossContextBridge } from '../utils/context-bridge.utils'
 import { STRONGHOLD_V2_HASHING_ROUNDS, STRONGHOLD_V2_SALT } from '../constants/stronghold-v2-migration.constants'
+import type { INodeInfoResponse } from '@core/network'
 
 interface PayloadType {
     accountStartIndex: number
@@ -14,7 +15,19 @@ interface PayloadType {
 const profileManagers: { [id: string]: IotaSdk.Wallet } = {}
 
 export default {
-    createAccountManager(id: string, options: unknown): IotaSdk.Wallet {
+    async getNodeInfo(managerId: number, url: string, auth: IAuth): Promise<INodeInfoResponse> {
+        const manager = profileManagers[managerId]
+        const client = await manager.getClient()
+
+        const nodeUrl = url ?? (await client.getNode()).url
+        const nodeInfo = await client.getNodeInfo(nodeUrl, auth)
+
+        return {
+            url: nodeUrl,
+            nodeInfo,
+        }
+    },
+    createWallet(id: string, options: unknown): IotaSdk.Wallet {
         const manager = new IotaSdk.Wallet(options)
         manager['id'] = id
         profileManagers[id] = manager
@@ -25,7 +38,7 @@ export default {
         const account = await manager.createAccount(payload)
         return bindObjectAcrossContextBridge(IotaSdk.Account.prototype, account)
     },
-    deleteAccountManager(id: string): void {
+    deleteWallet(id: string): void {
         if (id && id in profileManagers) {
             delete profileManagers[id]
         }
