@@ -23,13 +23,12 @@
                 ping = false
                 break
         }
-        c
     }
 </script>
 
 <Pill {color}>
     <div class="flex flex-row space-x-1 items-center">
-        <Indicator {color} {ping} />
+        <Indicator {color} {ping} size="sm" />
         <div>
             {localize(`pills.networkHealth.${status}`)}
         </div>
