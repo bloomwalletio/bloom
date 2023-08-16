@@ -5,7 +5,7 @@
     import { ContactManager, selectedContact } from '@core/contact'
     import { localize } from '@core/i18n'
     import { Router } from '@core/router'
-    import { MeatballMenuButton, MenuItem, Modal, Text } from '@ui'
+    import { MeatballMenuButton, MenuItem, Modal, ProfilePicture, Text } from '@ui'
     import { FontWeight } from '@ui/enums'
     import features from '@features/features'
     import { ContactBookRoute } from '../contact-book-route.enum'
@@ -29,8 +29,8 @@
 
 <DrawerTemplate title={''} {drawerRouter}>
     <div slot="header" class="flex justify-between flex-1">
-        <div class="flex items-center gap-2">
-            <span class="h-5 w-5 rounded-full" style="background-color: {$selectedContact?.color}" />
+        <div class="flex flex-row items-center gap-2">
+            <ProfilePicture contact={$selectedContact} size="small" backgroundColor={$selectedContact.color} />
             <Text fontSize={'text-16'} fontWeight={FontWeight.semibold} classes="w-48 truncate">
                 {$selectedContact?.name}
             </Text>

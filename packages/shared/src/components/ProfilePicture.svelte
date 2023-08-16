@@ -4,8 +4,10 @@
     import { getInitials } from '@core/utils'
     import { NftMedia, Text } from '@ui'
     import { FontWeight } from './enums'
+    import { IContact } from '../lib/core/contact'
 
     export let profile: IPersistedProfile
+    export let contact: IContact
     export let size: 'large' | 'medium' | 'small' = 'large'
     export let backgroundColor: string | undefined = undefined
 
@@ -54,6 +56,10 @@
     {:else if profile?.name}
         <Text {fontSize} {lineHeight} fontWeight={FontWeight.bold} classes="text-white"
             >{getInitials(profile.name, 3)}</Text
+        >
+    {:else if contact?.name}
+        <Text {fontSize} {lineHeight} fontWeight={FontWeight.bold} classes="text-white"
+            >{getInitials(contact.name, 2)}</Text
         >
     {/if}
 </profile-picture>
