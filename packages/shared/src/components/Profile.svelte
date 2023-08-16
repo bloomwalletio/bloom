@@ -1,7 +1,7 @@
 <script lang="ts">
     import { Icon as IconEnum } from '@auxiliary/icon/enums'
     import { IPersistedProfile, ProfileType } from '@core/profile'
-    import { DeveloperIndicatorPill, Icon, NetworkIconBadge, Avatar, StrongholdBadge, Text, TextType } from '@ui'
+    import { DeveloperIndicatorPill, Icon, NetworkIconBadge, ProfileAvatar, StrongholdBadge, Text, TextType } from '@ui'
 
     export let profile: IPersistedProfile
     export let updateRequired: boolean = false
@@ -20,7 +20,7 @@
             disabled={!onClick}
             class="relative mb-3 {onClick ? 'cursor-pointer' : 'cursor-default'}"
         >
-            <Avatar {profile} size="large" />
+            <ProfileAvatar {profile} />
             {#if !updateRequired}
                 <NetworkIconBadge networkId={profile?.network?.id} tooltipText={profile?.network?.name} />
             {:else}
