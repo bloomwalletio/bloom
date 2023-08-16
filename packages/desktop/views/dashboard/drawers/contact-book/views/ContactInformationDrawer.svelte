@@ -67,7 +67,7 @@
         <ContactMetadataTable contactMetadata={$selectedContact} />
         <contact-addresses class="flex flex-col gap-4">
             {#each Object.entries(ContactManager.getNetworkContactAddressMapForContact($selectedContact.id)) as [networkId, contactAddressMap]}
-                <ContactAddressCard {networkId} {contactAddressMap} {drawerRouter} />
+                <ContactAddressCard contact={$selectedContact} {networkId} {contactAddressMap} {drawerRouter} />
             {/each}
         </contact-addresses>
     </div>
