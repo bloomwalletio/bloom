@@ -11,10 +11,9 @@
         convertBech32ToHexAddress,
     } from '@core/wallet'
     import { closePopup } from '@desktop/auxiliary/popup'
-    import { Button, FontWeight, KeyValueBox, Text, TextType } from '@ui'
+    import { Button, FontWeight, KeyValueBox, Text, TextType, Error } from '@ui'
     import { onMount } from 'svelte'
     import { network } from '@core/network/stores'
-    import Error from '@ui/Error.svelte'
     import { formatTokenAmountPrecise } from '@core/token'
 
     export let _onMount: (..._: any[]) => Promise<void> = async () => {}

@@ -76,7 +76,7 @@
     </Text>
 
     <div class="space-y-4 max-h-100 flex-1">
-        <ChainInput bind:chainId={networkId} />
+        <ChainInput bind:networkId />
         <TextInput
             bind:value={tokenAddress}
             label={localize('popups.importErc20Token.property.tokenAddress')}

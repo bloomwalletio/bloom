@@ -37,7 +37,7 @@ function isVisibleWithActiveVerificationStatusFilter(token: IToken, filter: Toke
 }
 
 function isVisibleWithNetworkFilter(token: IToken, filter: TokenFilter): boolean {
-    if (filter.network.active && filter.network.selected >= 0 && token.networkId !== filter.network.selected) {
+    if (filter.network.active && filter.network.selected && token.networkId !== filter.network.selected) {
         return false
     }
     return true

@@ -17,10 +17,10 @@
     let explorerUrlError = ''
     $: submitDisabled = !chain.name || !chain.aliasAddress || !chain.iscpEndpoint
 
-    // TODO: This should be IIscpChainConfiguration
     const chain: IIscpChainConfiguration = {
         type: ChainType.Iscp,
-        chainId: -1,
+        id: '',
+        networkName: '',
         name: '',
         aliasAddress: '',
         iscpEndpoint: '',
