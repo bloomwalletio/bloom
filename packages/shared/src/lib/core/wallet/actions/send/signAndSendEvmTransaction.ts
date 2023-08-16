@@ -10,6 +10,7 @@ import { isActiveLedgerProfile, isSoftwareProfile } from '@core/profile/stores'
 import { get } from 'svelte/store'
 import Web3 from 'web3'
 import { TransactionReceipt } from 'web3-core'
+import { closePopup } from '../../../../../../../desktop/lib/auxiliary/popup'
 
 export async function signAndSendEvmTransaction(
     transaction: EvmTransactionData,
@@ -30,12 +31,15 @@ export async function signAndSendEvmTransaction(
         if (get(isSoftwareProfile)) {
             signedTransaction = await signEvmTransactionWithStronghold(transaction, bip44Path, networkId, account)
         } else if (get(isActiveLedgerProfile)) {
-            signedTransaction = await Ledger.signEvmTransaction(transaction, bip44Path)
+            signedTransaction = await Ledger.signEvmTransaction(transaction, networkId, bip44Path)
         }
 
         if (signedTransaction) {
             return await provider?.eth.sendSignedTransaction(signedTransaction)
         } else {
+            if (get(isActiveLedgerProfile)) {
+                closePopup(true)
+            }
             throw new Error('No signature provided')
         }
     } catch (err) {
