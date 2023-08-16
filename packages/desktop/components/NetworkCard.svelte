@@ -17,7 +17,7 @@
     import { checkActiveProfileAuth } from '@core/profile/actions'
     import { activeProfile } from '@core/profile/stores'
     import { UiEventFunction, truncateString } from '@core/utils'
-    import { ClickableTile, FontWeight, NetworkIcon, NetworkStatusPill, Text, TextType } from '@ui'
+    import { ClickableTile, FontWeight, NetworkIcon, NetworkStatusPill, Text, TextType, Copyable } from '@ui'
     import { onMount } from 'svelte'
     import { Button, FlatIconName } from '@bloomwalletio/ui'
     import { NetworkConfigRoute, networkConfigRouter } from '@views/dashboard/drawers'
@@ -91,9 +91,11 @@
                     {localize('general.myAddress')}
                 </Text>
                 {#if address}
-                    <Text type={TextType.pre} fontSize="16" fontWeight={FontWeight.medium}>
-                        {truncateString(address, 8, 8)}
-                    </Text>
+                    <Copyable value={address}>
+                        <Text type={TextType.pre} fontSize="16" fontWeight={FontWeight.medium}>
+                            {truncateString(address, 8, 8)}
+                        </Text>
+                    </Copyable>
                 {:else}
                     <Button
                         variant="text"
