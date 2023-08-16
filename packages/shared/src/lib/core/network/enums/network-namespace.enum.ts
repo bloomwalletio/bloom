@@ -1,4 +1,5 @@
 export enum NetworkNamespace {
-    Tangle = 'tip20',
-    Ethereum = 'eip155',
+    Chrysalis = 'tip22',
+    Stardust = 'tip32',
+    Evm = 'eip155',
 }

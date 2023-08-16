@@ -1,5 +1,5 @@
 import { COIN_TYPE, DEFAULT_BASE_TOKEN } from '../constants'
-import { SupportedNetworkId, TokenSupply } from '../enums'
+import { NetworkNamespace, SupportedNetworkId, TangleNetworkName, TokenSupply } from '../enums'
 import { IStardustNetworkMetadata } from '../interfaces'
 import { NetworkId, NetworkMetadata } from '../types'
 
@@ -8,6 +8,8 @@ export const DEFAULT_NETWORK_METADATA: Readonly<{ [key in NetworkId]?: NetworkMe
     [SupportedNetworkId.Shimmer]: <IStardustNetworkMetadata>{
         id: SupportedNetworkId.Shimmer,
         name: 'Shimmer',
+        networkName: TangleNetworkName.Shimmer,
+        namespace: NetworkNamespace.Stardust,
         coinType: COIN_TYPE[SupportedNetworkId.Shimmer],
         protocol: {
             version: 2,
@@ -27,6 +29,8 @@ export const DEFAULT_NETWORK_METADATA: Readonly<{ [key in NetworkId]?: NetworkMe
     [SupportedNetworkId.Testnet]: <IStardustNetworkMetadata>{
         id: SupportedNetworkId.Testnet,
         name: 'Testnet',
+        networkName: TangleNetworkName.Testnet,
+        namespace: NetworkNamespace.Stardust,
         coinType: COIN_TYPE[SupportedNetworkId.Testnet],
         protocol: {
             version: 2,

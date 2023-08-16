@@ -1,11 +1,11 @@
 import { EvmChainId } from './evm-chain-id.enum'
 import { NetworkNamespace } from './network-namespace.enum'
-import { TangleNetworkId } from './tangle-network-id.enum'
+import { TangleNetworkName } from './tangle-network-name.enum'
 
 export enum SupportedNetworkId {
-    Iota = `${NetworkNamespace.Tangle}:${TangleNetworkId.Iota}`,
-    Shimmer = `${NetworkNamespace.Tangle}:${TangleNetworkId.Shimmer}`,
-    Testnet = `${NetworkNamespace.Tangle}:${TangleNetworkId.Testnet}`,
-    ShimmerEvm = `${NetworkNamespace.Ethereum}:${EvmChainId.ShimmerEvm}`,
-    ShimmerEvmTestnet = `${NetworkNamespace.Ethereum}:${EvmChainId.ShimmerEvmTestnet}`,
+    Iota = `${NetworkNamespace.Chrysalis}:${TangleNetworkName.Iota}`,
+    Shimmer = `${NetworkNamespace.Stardust}:${TangleNetworkName.Shimmer}`,
+    Testnet = `${NetworkNamespace.Stardust}:${TangleNetworkName.Testnet}`,
+    ShimmerEvm = `${NetworkNamespace.Evm}:${EvmChainId.ShimmerEvm}`,
+    ShimmerEvmTestnet = `${NetworkNamespace.Evm}:${EvmChainId.ShimmerEvmTestnet}`,
 }

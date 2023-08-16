@@ -1,4 +1,4 @@
-import { buildTangleNetworkId, DEFAULT_BASE_TOKEN, TangleNetworkId } from '@core/network'
+import { DEFAULT_BASE_TOKEN, SupportedNetworkId } from '@core/network'
 import { TokenStandard } from '../enums'
 import { TokenMetadata } from '../types'
 import { convertToRawAmount } from '../utils'
@@ -42,7 +42,7 @@ describe('File: convertToRawAmount.ts', () => {
 
     describe('given the tokenMetadata standard is BaseToken', () => {
         describe("given useMetricPrefix is true (currently IOTA's case)", () => {
-            const networkId = buildTangleNetworkId(TangleNetworkId.Iota)
+            const networkId = SupportedNetworkId.Iota
             it.each([
                 { amount: '1', unit: IotaUnit._, expected: Big('1').mul(Big(10).pow(0)) },
                 { amount: '1', unit: IotaUnit.K, expected: Big('1').mul(Big(10).pow(3)) },
@@ -61,7 +61,7 @@ describe('File: convertToRawAmount.ts', () => {
             })
         })
         describe("given useMetricPrefix is false (currently Shimmer's case)", () => {
-            const networkId = buildTangleNetworkId(TangleNetworkId.Shimmer)
+            const networkId = SupportedNetworkId.Shimmer
             it("should return Big(amount) * decimal property if selectedUnit is unit and baseToken's decimal is less than MAX_SUPPORTED_DECIMALS", () => {
                 let value = convertToRawAmount('1', DEFAULT_BASE_TOKEN[networkId], 'SMR')
                 expect(value).toStrictEqual(Big('1').mul(Big(10).pow(DEFAULT_BASE_TOKEN[networkId].decimals)))
