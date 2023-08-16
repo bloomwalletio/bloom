@@ -1,3 +1,3 @@
-export { default as OpenContactBookButton } from './OpenContactBookButton.svelte'
-export { default as OpenDappConfigButton } from './OpenDappConfigButton.svelte'
-export { default as OpenNetworkConfigButton } from './OpenNetworkConfigButton.svelte'
+export { default as ToggleContactBookButton } from './ToggleContactBookButton.svelte'
+export { default as ToggleDappConfigButton } from './ToggleDappConfigButton.svelte'
+export { default as ToggleNetworkConfigButton } from './ToggleNetworkConfigButton.svelte'
