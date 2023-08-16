@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { Button, FlatIconName } from '@bloomwalletio/ui'
     import { selectedAccount } from '@core/account/stores'
     import { localize } from '@core/i18n'
     import { generateAndStoreEvmAddressForAccount } from '@core/layer-2'
@@ -17,10 +18,9 @@
     import { checkActiveProfileAuth } from '@core/profile/actions'
     import { activeProfile } from '@core/profile/stores'
     import { UiEventFunction, truncateString } from '@core/utils'
-    import { ClickableTile, FontWeight, NetworkIcon, NetworkStatusPill, Text, TextType, Copyable } from '@ui'
-    import { onMount } from 'svelte'
-    import { Button, FlatIconName } from '@bloomwalletio/ui'
+    import { ClickableTile, Copyable, FontWeight, NetworkIcon, NetworkStatusPill, Text, TextType } from '@ui'
     import { NetworkConfigRoute, networkConfigRouter } from '@views/dashboard/drawers'
+    import { onMount } from 'svelte'
 
     export let network: INetwork = undefined
     export let chain: IChain = undefined

@@ -15,9 +15,9 @@
 
     let searchValue: string = ''
     let selectedToken: IToken =
-        $sendFlowParameters?.type === SendFlowType.BaseCoinTransfer
+        $sendFlowParameters?.type === SendFlowType.BaseCoinTransfer && $sendFlowParameters.baseCoinTransfer?.token
             ? $sendFlowParameters.baseCoinTransfer.token
-            : $sendFlowParameters?.type === SendFlowType.TokenTransfer
+            : $sendFlowParameters?.type === SendFlowType.TokenTransfer && $sendFlowParameters.tokenTransfer?.token
             ? $sendFlowParameters.tokenTransfer.token
             : $selectedAccountTokens?.[getNetwork().getMetadata().id].baseCoin
 
