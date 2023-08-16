@@ -30,7 +30,7 @@
 <DrawerTemplate title={''} {drawerRouter}>
     <div slot="header" class="flex justify-between flex-1">
         <div class="flex flex-row items-center gap-2">
-            <ProfilePicture contact={$selectedContact} size="small" backgroundColor={$selectedContact.color} />
+            <ProfilePicture contact={$selectedContact} size="tiny" backgroundColor={$selectedContact.color} />
             <Text fontSize={'text-16'} fontWeight={FontWeight.semibold} classes="w-48 truncate">
                 {$selectedContact?.name}
             </Text>

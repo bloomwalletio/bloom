@@ -8,7 +8,7 @@
 
     export let profile: IPersistedProfile
     export let contact: IContact
-    export let size: 'large' | 'medium' | 'small' = 'large'
+    export let size: 'large' | 'medium' | 'small' | 'tiny' = 'large'
     export let backgroundColor: string | undefined = undefined
 
     let height: number
@@ -34,6 +34,12 @@
                 width = 8
                 fontSize = 11
                 lineHeight = '110'
+                break
+            case 'tiny':
+                height = 6
+                width = 6
+                fontSize = 9
+                lineHeight = '100'
                 break
             default:
                 break

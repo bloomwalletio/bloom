@@ -13,7 +13,7 @@
     onClick={onCardClick}
 >
     <div class="w-full flex flex-row items-center gap-2">
-        <ProfilePicture {contact} size="small" backgroundColor={contact.color} />
+        <ProfilePicture {contact} size="tiny" backgroundColor={contact.color} />
         <Text type={TextType.h4} fontWeight={FontWeight.semibold} classes="truncate">
             {contact.name}
         </Text>
