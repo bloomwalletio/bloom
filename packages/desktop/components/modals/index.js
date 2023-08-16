@@ -1,5 +1,5 @@
 export { default as AccountActionsMenu } from './AccountActionsMenu.svelte'
 export { default as AccountSwitcherModal } from './AccountSwitcherModal.svelte'
-export { default as AssetListMenu } from './AssetListMenu.svelte'
+export { default as TokenListMenu } from './TokenListMenu.svelte'
 export { default as FilterModal } from './FilterModal.svelte'
 export { default as ProfileActionsMenuModal } from './ProfileActionsMenuModal.svelte'

@@ -1,7 +1,7 @@
 <script lang="ts">
-    import { Checkbox, Text } from '@ui'
     import { localize } from '@core/i18n'
-    import { activeProfile, updateActiveProfileSettings } from '@core/profile'
+    import { activeProfile, updateActiveProfileSettings } from '@core/profile/stores'
+    import { Checkbox, Text } from '@ui'
 
     let hideNetworkStatistics = $activeProfile?.settings.hideNetworkStatistics
 

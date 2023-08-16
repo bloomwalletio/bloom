@@ -1,10 +1,11 @@
 <script lang="ts">
     import { showNotification } from '@auxiliary/notification'
+    import { Button } from '@bloomwalletio/ui'
     import { Platform } from '@core/app'
     import { localize } from '@core/i18n'
-    import { activeProfile } from '@core/profile'
+    import { activeProfile } from '@core/profile/stores'
     import { PIN_LENGTH } from '@core/utils'
-    import { Button, ButtonSize, HTMLButtonType, PinInput, Text, TextType } from '@ui'
+    import { PinInput, Text, TextType } from '@ui'
     import { get } from 'svelte/store'
 
     let currentPincode: string = ''
@@ -130,15 +131,13 @@
     />
     <div class="flex flex-row items-center">
         <Button
-            size={ButtonSize.Medium}
-            type={HTMLButtonType.Submit}
+            text={localize('views.settings.changePincode.action')}
+            type="submit"
             disabled={busy ||
                 currentPincode?.length < PIN_LENGTH ||
                 newPincode?.length < PIN_LENGTH ||
                 confirmedPincode?.length < PIN_LENGTH}
-            isBusy={busy}
-        >
-            {localize('views.settings.changePincode.action')}
-        </Button>
+            {busy}
+        />
     </div>
 </form>

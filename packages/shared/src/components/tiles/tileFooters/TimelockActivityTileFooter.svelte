@@ -1,6 +1,6 @@
 <script lang="ts">
     import { TooltipIcon, Text, Pill, TileFooter, FontWeight } from '@ui'
-    import { time } from '@core/app'
+    import { time } from '@core/app/stores'
     import { Icon as IconEnum } from '@lib/auxiliary/icon'
     import { Position } from '@ui/enums'
     import { localize } from '@core/i18n'

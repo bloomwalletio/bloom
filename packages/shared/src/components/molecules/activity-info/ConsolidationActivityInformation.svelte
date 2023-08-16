@@ -1,7 +1,7 @@
 <script lang="ts">
     import { KeyValueBox } from '@ui'
     import { getFormattedTimeStamp, localize } from '@core/i18n'
-    import { ConsolidationActivity } from '@core/wallet'
+    import { ConsolidationActivity } from '@core/activity'
     import { IKeyValueBoxList } from '@core/utils'
 
     export let activity: ConsolidationActivity

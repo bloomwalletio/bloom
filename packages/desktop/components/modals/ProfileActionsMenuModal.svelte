@@ -1,12 +1,13 @@
 <script lang="ts">
-    import { PopupId, closePopup, openPopup, popupState } from '@desktop/auxiliary/popup'
-    import { appVersionDetails } from '@core/app'
+    import { appVersionDetails } from '@core/app/stores'
     import { localize } from '@core/i18n'
     import { LedgerConnectionState, ledgerConnectionState } from '@core/ledger'
-    import { activeProfile, isActiveLedgerProfile, isSoftwareProfile, lockStronghold, logout } from '@core/profile'
+    import { lockStronghold, logout } from '@core/profile/actions'
+    import { activeProfile, isActiveLedgerProfile, isSoftwareProfile } from '@core/profile/stores'
     import { routerManager } from '@core/router'
     import { checkOrUnlockStronghold } from '@core/stronghold'
     import { diffDates, getBackupWarningColor, isRecentDate } from '@core/utils'
+    import { PopupId, closePopup, openPopup, popupState } from '@desktop/auxiliary/popup'
     import {
         Button,
         ButtonSize,
@@ -19,9 +20,6 @@
         Toggle,
     } from '@ui'
     import { fade } from 'svelte/transition'
-    import { FlatIcon, FlatIconName } from '@bloomwalletio/ui'
-    import features from '@features/features'
-    import { DrawerId, openDrawer } from '@desktop/auxiliary/drawer'
 
     export let modal: Modal = undefined
 
@@ -60,11 +58,6 @@
         } else {
             lockStronghold()
         }
-    }
-
-    function onContactBookClick(): void {
-        openDrawer({ id: DrawerId.ContactBook })
-        modal?.close()
     }
 
     function updateLedgerConnectionText(): void {
@@ -199,18 +192,6 @@
             </div>
             <hr />
         {/if}
-        {#if features.contacts.enabled}
-            <button
-                on:click={onContactBookClick}
-                class="group flex flex-row space-x-3 justify-start items-center hover:bg-blue-50 dark:hover:bg-gray-800 dark:hover:bg-opacity-20 py-3 px-3 w-full"
-            >
-                <FlatIcon icon={FlatIconName.AddressBook} color="slate-400" />
-                <Text smaller classes="group-hover:text-blue-500">
-                    {localize('views.dashboard.profileModal.contactBook')}
-                </Text>
-            </button>
-        {/if}
-
         <button
             on:click={onSettingsClick}
             class="group flex flex-row space-x-3 justify-start items-center hover:bg-blue-50 dark:hover:bg-gray-800 dark:hover:bg-opacity-20 py-3 px-3 w-full"

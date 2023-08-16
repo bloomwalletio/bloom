@@ -1,9 +1,8 @@
 <script lang="ts">
-    import { Icon, Text, Tile, FontWeight, TextType } from '@ui'
-    import { localize } from '@core/i18n'
-    import { formatTokenAmountBestMatch } from '@core/wallet/utils'
     import { IShimmerClaimingAccount, ShimmerClaimingAccountState } from '@contexts/onboarding'
-    import { IBaseToken } from '@core/wallet/interfaces'
+    import { localize } from '@core/i18n'
+    import { IBaseToken, formatTokenAmountBestMatch } from '@core/token'
+    import { FontWeight, Icon, Text, TextType, Tile } from '@ui'
 
     export let shimmerClaimingAccount: IShimmerClaimingAccount
     export let baseToken: IBaseToken

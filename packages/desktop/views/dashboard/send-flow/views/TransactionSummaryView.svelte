@@ -1,24 +1,24 @@
 <script lang="ts">
-    import { closePopup } from '@desktop/auxiliary/popup'
-    import { getSelectedAccount, selectedAccount, selectedAccountIndex } from '@core/account'
+    import { getSelectedAccount, selectedAccount, selectedAccountIndex } from '@core/account/stores'
     import { handleError } from '@core/error/handlers'
     import { localize } from '@core/i18n'
-    import { sendFlowParameters } from '@core/wallet/stores'
+    import { EvmTransactionData } from '@core/layer-2'
+    import { IChain, getNetwork } from '@core/network'
+    import { truncateString } from '@core/utils'
+    import { Output, SendFlowParameters, SubjectType } from '@core/wallet'
     import {
         createEvmTransactionFromSendFlowParameters,
         createStardustOutputFromSendFlowParameters,
         sendOutputFromStardust,
         sendTransactionFromEvm,
     } from '@core/wallet/actions'
+    import { getChainIdFromSendFlowParameters } from '@core/wallet/actions/getChainIdFromSendFlowParameters'
+    import { sendFlowParameters } from '@core/wallet/stores'
+    import { closePopup } from '@desktop/auxiliary/popup'
+    import { onMount } from 'svelte'
     import { sendFlowRouter } from '../send-flow.router'
     import SendFlowTemplate from './SendFlowTemplate.svelte'
     import { EvmTransactionSummary, StardustTransactionSummary } from './components'
-    import { truncateString } from '@core/utils'
-    import { Output, SubjectType, SendFlowParameters } from '@core/wallet'
-    import { IChain, getNetwork } from '@core/network'
-    import { EvmTransactionData } from '@core/layer-2'
-    import { onMount } from 'svelte'
-    import { getChainIdFromSendFlowParameters } from '@core/wallet/actions/getChainIdFromSendFlowParameters'
 
     export let _onMount: (..._: any[]) => Promise<void> = async () => {}
 

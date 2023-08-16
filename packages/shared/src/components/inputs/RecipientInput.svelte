@@ -1,13 +1,14 @@
 <script lang="ts">
     import { Modal, SelectorInput, IOption, ColoredCircle } from '@ui'
-    import { getAccountColorById, getRandomAccountColor } from '@core/account/utils'
+    import { getRandomAccountColor } from '@core/account/utils'
     import { localize } from '@core/i18n'
+    import { Layer1RecipientError } from '@core/layer-2/errors'
+    import { getNetworkHrp } from '@core/profile/actions'
+    import { visibleActiveAccounts } from '@core/profile/stores'
     import { validateBech32Address, validateEthereumAddress } from '@core/utils/crypto'
+    import { SubjectType } from '@core/wallet'
     import { Subject } from '@core/wallet/types'
     import { getSubjectFromAddress } from '@core/wallet/utils'
-    import { Layer1RecipientError } from '@core/layer-2/errors'
-    import { getNetworkHrp } from '@core/profile'
-    import { SubjectType } from '@core/wallet'
 
     export let recipient: Subject | undefined
     export let options: IOption[]
@@ -26,7 +27,7 @@
     $: isLayer2, (error = '')
     $: recipient = getSubjectFromAddress(selected?.value)
 
-    export function validate(): Promise<void> {
+    export function validate(): void {
         try {
             if (recipient?.type === SubjectType.Address || recipient?.type === SubjectType.Contact) {
                 if (!recipient.address) {
@@ -45,12 +46,14 @@
             } else {
                 throw new Error(localize('error.send.recipientRequired'))
             }
-
-            return Promise.resolve()
         } catch (err) {
             error = err?.message ?? err
-            return Promise.reject(error)
+            throw err
         }
+    }
+
+    export function getAccountColorById(id: number): string | undefined {
+        return $visibleActiveAccounts?.find((account) => account.index === id)?.color
     }
 
     function getRecipientColor(option: IOption): string {

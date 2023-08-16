@@ -1,7 +1,7 @@
 <script lang="ts">
     import { SelectInput } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
-    import { activeProfile } from '@core/profile'
+    import { activeProfile } from '@core/profile/stores'
 
     export let networkSelection: { networkId: string; address?: string } | undefined
     export let error: string

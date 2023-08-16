@@ -1,16 +1,9 @@
 import { getActiveNetworkId } from '@core/network/utils/getNetworkId'
 import { getNetworkHrp } from '@core/profile/actions'
-import { getByteLengthOfString, isStringTrue, isValidBech32AddressAndPrefix, validateAssetId } from '@core/utils'
-import {
-    SendFlowParameters,
-    SendFlowType,
-    TokenTransferData,
-    getAssetById,
-    getUnitFromTokenMetadata,
-    selectedAccountAssets,
-    SubjectType,
-    setSendFlowParameters,
-} from '@core/wallet'
+import { getUnitFromTokenMetadata, validateTokenId } from '@core/token'
+import { getTokenFromSelectedAccountTokens, selectedAccountTokens } from '@core/token/stores'
+import { getByteLengthOfString, isStringTrue, isValidBech32AddressAndPrefix } from '@core/utils'
+import { SendFlowParameters, SendFlowType, SubjectType, TokenTransferData, setSendFlowParameters } from '@core/wallet'
 import { get } from 'svelte/store'
 import { PopupId, openPopup } from '../../../../../../../../desktop/lib/auxiliary/popup'
 import { SendFlowRoute } from '../../../../../../../../desktop/views/dashboard/send-flow/send-flow-route.enum'
@@ -61,12 +54,12 @@ function parseSendConfirmationOperation(searchParams: URLSearchParams): SendFlow
         throw new Error('No active network')
     }
 
-    const assetId = searchParams.get(SendOperationParameter.AssetId)
-    if (assetId) {
-        validateAssetId(assetId)
+    const tokenId = searchParams.get(SendOperationParameter.TokenId)
+    if (tokenId) {
+        validateTokenId(tokenId)
     }
 
-    const type = assetId ? SendFlowType.TokenTransfer : SendFlowType.BaseCoinTransfer
+    const type = tokenId ? SendFlowType.TokenTransfer : SendFlowType.BaseCoinTransfer
 
     const surplus = searchParams.get(SendOperationParameter.Surplus)
     if (surplus && parseInt(surplus).toString() !== surplus) {
@@ -79,21 +72,21 @@ function parseSendConfirmationOperation(searchParams: URLSearchParams): SendFlow
     let tokenTransfer: TokenTransferData | undefined
     if (type === SendFlowType.BaseCoinTransfer) {
         baseCoinTransfer = {
-            asset: get(selectedAccountAssets)?.[networkId]?.baseCoin,
+            token: get(selectedAccountTokens)?.[networkId]?.baseCoin,
             rawAmount: getRawAmountFromSearchParam(searchParams),
             unit: searchParams.get(SendOperationParameter.Unit) ?? 'glow',
         }
-    } else if (type === SendFlowType.TokenTransfer && assetId) {
-        const asset = getAssetById(assetId, networkId)
-        if (asset?.metadata) {
+    } else if (type === SendFlowType.TokenTransfer && tokenId) {
+        const token = getTokenFromSelectedAccountTokens(tokenId, networkId)
+        if (token?.metadata) {
             tokenTransfer = {
-                asset,
+                token,
                 rawAmount: getRawAmountFromSearchParam(searchParams),
-                unit: searchParams.get(SendOperationParameter.Unit) ?? getUnitFromTokenMetadata(asset.metadata),
+                unit: searchParams.get(SendOperationParameter.Unit) ?? getUnitFromTokenMetadata(token.metadata),
             }
             if (surplus) {
                 baseCoinTransfer = {
-                    asset: get(selectedAccountAssets)?.[networkId]?.baseCoin,
+                    token: get(selectedAccountTokens)?.[networkId]?.baseCoin,
                     rawAmount: surplus,
                     unit: 'glow',
                 }

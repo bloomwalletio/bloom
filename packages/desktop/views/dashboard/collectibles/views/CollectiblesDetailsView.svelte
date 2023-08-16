@@ -1,31 +1,26 @@
 <script lang="ts">
-    import { openPopup, PopupId } from '@desktop/auxiliary/popup'
     import { selectedAccountIndex } from '@core/account/stores'
-    import { time } from '@core/app'
+    import { time } from '@core/app/stores'
     import { openUrlInBrowser } from '@core/app/utils'
     import { localize } from '@core/i18n'
     import { ExplorerEndpoint, getOfficialExplorerUrl } from '@core/network'
-    import {
-        INft,
-        NftDownloadMetadata,
-        allAccountNfts,
-        convertAndFormatNftMetadata,
-        getNftByIdFromAllAccountNfts,
-        selectedNftId,
-    } from '@core/nfts'
+    import { convertAndFormatNftMetadata, INft, NftDownloadMetadata } from '@core/nfts'
+    import { getNftByIdFromAllAccountNfts } from '@core/nfts/actions'
+    import { allAccountNfts, selectedNftId } from '@core/nfts/stores'
     import { getBaseToken } from '@core/profile/actions'
     import { activeProfile } from '@core/profile/stores'
     import { collectiblesRouter } from '@core/router/routers'
+    import { formatTokenAmountPrecise } from '@core/token'
     import { getTimeDifference, truncateString } from '@core/utils'
     import {
         ADDRESS_TYPE_ALIAS,
         ADDRESS_TYPE_ED25519,
         ADDRESS_TYPE_NFT,
-        formatTokenAmountPrecise,
         getBech32AddressFromAddressTypes,
         getHexAddressFromAddressTypes,
     } from '@core/wallet'
     import { SendFlowType, setSendFlowParameters } from '@core/wallet/stores'
+    import { openPopup, PopupId } from '@desktop/auxiliary/popup'
     import {
         Alert,
         Button,

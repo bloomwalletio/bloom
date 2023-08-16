@@ -1,10 +1,10 @@
-import { get } from 'svelte/store'
-import { selectedAccount, updateSelectedAccount } from '@core/account'
+import { selectedAccount, updateSelectedAccount } from '@core/account/stores'
 import { updateNftInAllAccountNfts } from '@core/nfts/actions'
+import { get } from 'svelte/store'
 
+import { processAndAddToActivities } from '@core/activity/utils'
 import { DEFAULT_TRANSACTION_OPTIONS, OUTPUT_TYPE_NFT } from '../constants'
 import { Output } from '../types'
-import { processAndAddToActivities } from '@core/activity/utils'
 
 export async function sendOutput(output: Output): Promise<void> {
     try {

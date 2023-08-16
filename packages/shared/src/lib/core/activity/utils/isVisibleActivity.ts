@@ -1,9 +1,6 @@
-import { get } from 'svelte/store'
-import { Activity, ActivityFilter } from '../types'
-import { activityFilter } from '../stores'
-import { ActivityAsyncStatus, InclusionState, ActivityType } from '../enums'
+import { convertToRawAmount } from '@core/token'
+import { getPersistedToken } from '@core/token/stores'
 import { dateIsAfterOtherDate, dateIsBeforeOtherDate, datesOnSameDay } from '@core/utils'
-import Big from 'big.js'
 import {
     BooleanFilterOption,
     DateFilterOption,
@@ -12,7 +9,11 @@ import {
     NumberFilterOption,
     StatusFilterOption,
 } from '@core/utils/enums/filters'
-import { convertToRawAmount, getAssetFromPersistedAssets } from '@core/wallet/utils'
+import Big from 'big.js'
+import { get } from 'svelte/store'
+import { ActivityAsyncStatus, ActivityType, InclusionState } from '../enums'
+import { activityFilter } from '../stores'
+import { Activity, ActivityFilter } from '../types'
 
 // Filters activities based on activity properties. If none of the conditionals are valid, then activity is shown.
 export function isVisibleActivity(activity: Activity): boolean {
@@ -27,7 +28,7 @@ export function isVisibleActivity(activity: Activity): boolean {
     if (!isVisibleWithActiveRejectedFilter(activity, filter)) {
         return false
     }
-    if (!isVisibleWithActiveAssetFilter(activity, filter)) {
+    if (!isVisibleWithActiveTokenFilter(activity, filter)) {
         return false
     }
     if (!isVisibleWithActiveAmountFilter(activity, filter)) {
@@ -82,12 +83,12 @@ function isVisibleWithActiveRejectedFilter(activity: Activity, filter: ActivityF
     return true
 }
 
-function isVisibleWithActiveAssetFilter(activity: Activity, filter: ActivityFilter): boolean {
-    if (filter.asset.active && filter.asset.selected) {
+function isVisibleWithActiveTokenFilter(activity: Activity, filter: ActivityFilter): boolean {
+    if (filter.token.active && filter.token.selected) {
         if (activity.type !== ActivityType.Basic && activity.type !== ActivityType.Foundry) {
             return false
         }
-        if (filter.asset.selected && activity.assetId !== filter.asset.selected) {
+        if (filter.token.selected && activity.tokenId !== filter.token.selected) {
             return false
         }
     }
@@ -96,7 +97,7 @@ function isVisibleWithActiveAssetFilter(activity: Activity, filter: ActivityFilt
 
 function isVisibleWithActiveAmountFilter(activity: Activity, filter: ActivityFilter): boolean {
     if (filter.amount.active && (activity.type === ActivityType.Basic || activity.type === ActivityType.Foundry)) {
-        const asset = getAssetFromPersistedAssets(activity.assetId)
+        const token = getPersistedToken(activity.tokenId)
         const activityAmount = Big(activity.rawAmount)
 
         if (
@@ -104,7 +105,7 @@ function isVisibleWithActiveAmountFilter(activity: Activity, filter: ActivityFil
             filter.amount.subunit.type === 'single' &&
             filter.amount.subunit.amount
         ) {
-            const amount = convertToRawAmount(String(filter.amount.subunit.amount), asset?.metadata)
+            const amount = convertToRawAmount(String(filter.amount.subunit.amount), token?.metadata)
             const isEqual = activityAmount.eq(amount)
             if (!isEqual) {
                 return false
@@ -116,8 +117,8 @@ function isVisibleWithActiveAmountFilter(activity: Activity, filter: ActivityFil
             filter.amount.subunit.start &&
             filter.amount.subunit.end
         ) {
-            const startAmount = convertToRawAmount(String(filter.amount.subunit.start), asset?.metadata)
-            const endAmount = convertToRawAmount(String(filter.amount.subunit.end), asset?.metadata)
+            const startAmount = convertToRawAmount(String(filter.amount.subunit.start), token?.metadata)
+            const endAmount = convertToRawAmount(String(filter.amount.subunit.end), token?.metadata)
             const isInRange = activityAmount.lte(endAmount) && activityAmount.gte(startAmount)
             if (!isInRange) {
                 return false
@@ -128,7 +129,7 @@ function isVisibleWithActiveAmountFilter(activity: Activity, filter: ActivityFil
             filter.amount.subunit.type === 'single' &&
             filter.amount.subunit.amount
         ) {
-            const amount = convertToRawAmount(String(filter.amount.subunit.amount), asset?.metadata)
+            const amount = convertToRawAmount(String(filter.amount.subunit.amount), token?.metadata)
             const isGreater = activityAmount.gte(amount)
             if (!isGreater) {
                 return false
@@ -139,7 +140,7 @@ function isVisibleWithActiveAmountFilter(activity: Activity, filter: ActivityFil
             filter.amount.subunit.type === 'single' &&
             filter.amount.subunit.amount
         ) {
-            const amount = convertToRawAmount(String(filter.amount.subunit.amount), asset?.metadata)
+            const amount = convertToRawAmount(String(filter.amount.subunit.amount), token?.metadata)
             const isLess = activityAmount.lte(amount)
             if (!isLess) {
                 return false
