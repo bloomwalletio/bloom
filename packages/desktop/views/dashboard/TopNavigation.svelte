@@ -17,7 +17,7 @@
     import { popupState } from '@desktop/auxiliary/popup'
     import features from '@features/features'
     import { Icon, Text } from '@ui'
-    import { OpenContactBookButton, OpenDappConfigButton, OpenNetworkConfigButton } from './components'
+    import { ToggleContactBookButton, ToggleDappConfigButton, ToggleNetworkConfigButton } from './components'
 
     let isBackButtonVisible = false
 
@@ -68,13 +68,13 @@
 
     <div class="right-button flex justify-end gap-2">
         {#if features.contacts.enabled}
-            <OpenContactBookButton />
+            <ToggleContactBookButton />
         {/if}
         {#if features?.wallet?.walletConnect?.enabled}
-            <OpenDappConfigButton />
+            <ToggleDappConfigButton />
         {/if}
         {#if features?.network?.config?.enabled}
-            <OpenNetworkConfigButton />
+            <ToggleNetworkConfigButton />
         {/if}
     </div>
 </top-navigation>
