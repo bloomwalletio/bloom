@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { onMount } from 'svelte'
+    import { onDestroy, onMount } from 'svelte'
     import { Icon, Text, TextType } from '@ui'
     import { Icon as IconEnum } from '@auxiliary/icon'
     import { localize } from '@core/i18n'
@@ -11,6 +11,7 @@
         ledgerPreparedOutput,
         pollLedgerEthereumAppSettings,
         resetLedgerPreparedOutput,
+        stopPollingLedgerEthereumAppSettings,
     } from '@core/ledger'
     import { closePopup, openPopup, PopupId } from '@desktop/auxiliary/popup'
     import { sendOutput } from '@core/wallet'
@@ -46,7 +47,15 @@
     }
 
     onMount(() => {
-        void pollLedgerEthereumAppSettings()
+        if (appName === LedgerAppName.Ethereum) {
+            void pollLedgerEthereumAppSettings()
+        }
+    })
+
+    onDestroy(() => {
+        if (appName === LedgerAppName.Ethereum) {
+            void stopPollingLedgerEthereumAppSettings()
+        }
     })
 </script>
 
