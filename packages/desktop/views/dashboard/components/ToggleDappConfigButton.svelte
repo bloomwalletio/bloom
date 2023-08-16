@@ -1,16 +1,11 @@
 <script lang="ts">
-    import { Icon } from '@ui'
     import { Icon as IconEnum } from '@auxiliary/icon'
-    import { closeDrawer, drawerState, openDrawer } from '@desktop/auxiliary/drawer'
-    import { DashboardDrawerRoute, DappConfigRouter, dappConfigRouter } from '@views/dashboard/drawers'
+    import { toggleDashboardDrawer } from '@desktop/auxiliary/drawer'
+    import { Icon } from '@ui'
+    import { DashboardDrawerRoute } from '@views/dashboard/drawers'
 
     function onDappsClick(): void {
-        if ($drawerState.active && $drawerState.id === DashboardDrawerRoute.DappConfig) {
-            closeDrawer()
-        } else {
-            $dappConfigRouter = new DappConfigRouter()
-            openDrawer({ id: DashboardDrawerRoute.DappConfig })
-        }
+        toggleDashboardDrawer({ id: DashboardDrawerRoute.DappConfig })
     }
 </script>
 
