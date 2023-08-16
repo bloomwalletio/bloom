@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { AddressType } from '@iota/sdk/out/types/block/address'
+    import { AddressType } from '@iota/sdk/out/types'
     import { openPopup, PopupId } from '@desktop/auxiliary/popup'
     import { selectedAccountIndex } from '@core/account/stores'
     import { time } from '@core/app'

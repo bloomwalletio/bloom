@@ -1,4 +1,4 @@
-import { UnlockConditionType } from '@iota/sdk/out/types/block/output'
+import { UnlockConditionType } from '@iota/sdk/out/types'
 import { MILLISECONDS_PER_SECOND } from '@core/utils'
 import { Output } from '@core/wallet/types'
 

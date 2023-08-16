@@ -1,4 +1,4 @@
-import { OutputParams, Assets } from '@iota/sdk/out/types/wallet'
+import { OutputParams, Assets } from '@iota/sdk/out/types'
 import { convertDateToUnixTimestamp, Converter } from '@core/utils'
 import { SendFlowType } from '../stores'
 import { estimateGasForLayer1ToLayer2Transaction, getLayer2MetadataForTransfer } from '@core/layer-2/utils'

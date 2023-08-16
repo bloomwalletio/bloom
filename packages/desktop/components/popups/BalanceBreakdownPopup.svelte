@@ -1,10 +1,9 @@
 <script lang="ts">
-    import { UnlockCondition, UnlockConditionType, CommonOutput } from '@iota/sdk/out/types/block/output'
+    import { UnlockCondition, UnlockConditionType, CommonOutput, OutputType } from '@iota/sdk/out/types'
     import { closePopup, openPopup, PopupId } from '@desktop/auxiliary/popup'
     import { selectedAccount } from '@core/account'
     import { localize } from '@core/i18n'
     import { checkActiveProfileAuth } from '@core/profile'
-    import { OUTPUT_TYPE_TREASURY } from '@core/wallet'
     import { consolidateOutputs } from '@core/wallet/actions/consolidateOutputs'
     import { getStorageDepositFromOutput } from '@core/wallet/utils/generateActivity/helper'
     import { BalanceSummarySection, Button, FontWeight, Text, TextType } from '@ui'
@@ -52,7 +51,7 @@
 
                 let type: string
                 let amount: number
-                if (output.getType() !== OUTPUT_TYPE_TREASURY) {
+                if (output.type !== OutputType.Treasury) {
                     const commonOutput = output as CommonOutput
                     if (containsUnlockCondition(commonOutput.unlockConditions, UnlockConditionType.Expiration)) {
                         type = PendingFundsType.Unclaimed

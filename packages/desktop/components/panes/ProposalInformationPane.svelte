@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { EventStatus } from '@iota/sdk/out/types/wallet'
+    import { EventStatus } from '@iota/sdk/out/types'
     import { KeyValueBox, Pane, Text } from '@ui'
     import { formatDate, localize } from '@core/i18n'
     import { DATE_FORMAT, IKeyValueBoxList, milestoneToDate, truncateString } from '@core/utils'

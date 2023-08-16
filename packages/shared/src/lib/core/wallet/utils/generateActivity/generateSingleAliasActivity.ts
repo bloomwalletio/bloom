@@ -3,8 +3,7 @@ import { EMPTY_HEX_ID } from '@core/wallet/constants'
 import { ActivityType } from '@core/wallet/enums'
 import { IActivityGenerationParameters } from '@core/wallet/interfaces'
 import { AliasActivity } from '@core/wallet/types'
-import { AddressType } from '@iota/sdk/out/types/block/address'
-import { AliasOutput } from '@iota/sdk/out/types/block/output'
+import { AddressType, AliasOutput } from '@iota/sdk/out/types'
 import { convertHexAddressToBech32, hashOutputId } from '..'
 import {
     getAmountFromOutput,

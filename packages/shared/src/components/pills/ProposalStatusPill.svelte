@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { EventStatus } from '@iota/sdk/out/types/wallet'
+    import { EventStatus } from '@iota/sdk/out/types'
     import { Icon, Pill } from '@ui'
     import { Icon as _Icon } from '@auxiliary/icon'
     import { localize } from '@core/i18n'

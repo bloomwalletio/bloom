@@ -11,7 +11,7 @@ import {
     TransactionProgressWalletEvent,
     WalletEventType,
     PreparedTransactionEssenceHashProgress,
-} from '@iota/sdk/out/types/wallet'
+} from '@iota/sdk/out/types'
 
 export function handleTransactionProgressEvent(error: Error, event: Event): void {
     const walletEvent = validateWalletApiEvent<TransactionProgressWalletEvent>(

@@ -1,4 +1,4 @@
-import { EventStatus } from '@iota/sdk/out/types/wallet'
+import { EventStatus } from '@iota/sdk/out/types'
 import { BooleanFilterOption, OrderOption } from '@core/utils/enums/filters'
 import { ProposalOrderOption, ProposalType } from '../enums'
 import { IProposalFilter } from '../interfaces'

@@ -1,5 +1,5 @@
 import type { INativeToken } from '@iota/sdk'
-import { OutputType } from '@iota/sdk/out/types/block/output'
+import { OutputType } from '@iota/sdk/out/types'
 import { Output } from '@core/wallet/'
 import { buildFoundryId } from './getFoundryId'
 

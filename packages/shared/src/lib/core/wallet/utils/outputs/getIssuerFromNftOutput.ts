@@ -1,5 +1,4 @@
-import { Address } from '@iota/sdk/out/types/block/address'
-import { IssuerFeature, NftOutput, FeatureType } from '@iota/sdk/out/types/block/output'
+import { Address, IssuerFeature, NftOutput, FeatureType } from '@iota/sdk/out/types'
 
 export function getIssuerFromNftOutput(output: NftOutput): Address {
     const metadata = output.immutableFeatures?.find((feature) => feature.type === FeatureType.Issuer) as IssuerFeature

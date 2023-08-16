@@ -1,6 +1,6 @@
 <script lang="ts">
+    import type { INodeInfo } from '@iota/sdk'
     import { onMount } from 'svelte'
-    import { INodeInfo } from '@iota/sdk'
     import { Button, Checkbox, CopyableBox, Spinner, Text } from '@ui'
     import { formatNumber, localize } from '@core/i18n'
     import { INode } from '@core/network'

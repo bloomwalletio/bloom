@@ -1,4 +1,4 @@
-import { UnlockConditionType } from '@iota/sdk/out/types/block/output'
+import { UnlockConditionType } from '@iota/sdk/out/types'
 import { getSelectedAccount } from '@core/account'
 import { InsufficientFundsForStorageDepositError, InvalidExpirationDateTimeError } from '@contexts/wallet'
 import { convertUnixTimestampToDate, isValidExpirationDateTime } from '@core/utils'

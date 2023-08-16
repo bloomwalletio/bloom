@@ -1,9 +1,9 @@
-import { AddressType } from '@iota/sdk/out/types/block/address'
 import {
+    AddressType,
     ExpirationUnlockCondition,
     StorageDepositReturnUnlockCondition,
     UnlockConditionType,
-} from '@iota/sdk/out/types/block/output'
+} from '@iota/sdk/out/types'
 import { getBech32AddressFromAddressTypes } from './getBech32AddressFromAddressTypes'
 
 export function getSenderAddressFromUnlockCondition(

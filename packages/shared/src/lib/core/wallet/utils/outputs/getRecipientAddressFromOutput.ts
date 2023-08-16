@@ -1,4 +1,4 @@
-import { UnlockConditionType } from '@iota/sdk/out/types/block/output'
+import { UnlockConditionType } from '@iota/sdk/out/types'
 import { Output } from '../../types'
 import { getBech32AddressFromAddressTypes } from '../getBech32AddressFromAddressTypes'
 

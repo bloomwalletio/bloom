@@ -4,7 +4,7 @@
         ParticipationEventType,
         VotingEventPayload,
         TrackedParticipationOverview,
-    } from '@iota/sdk/out/types/wallet'
+    } from '@iota/sdk/out/types'
 
     import { onMount, onDestroy } from 'svelte'
 

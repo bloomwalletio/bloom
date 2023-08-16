@@ -1,5 +1,4 @@
-import { AddressType } from '@iota/sdk/out/types/block/address'
-import { NftOutput } from '@iota/sdk/out/types/block/output'
+import { AddressType, NftOutput } from '@iota/sdk/out/types'
 import { activeProfileId } from '@core/profile/stores/active-profile-id.store'
 import {
     getBech32AddressFromAddressTypes,

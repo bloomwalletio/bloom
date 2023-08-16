@@ -1,3 +1,4 @@
+import { Event, NewOutputWalletEvent, WalletEventType } from '@iota/sdk/out/types'
 import { syncBalance } from '@core/account/actions/syncBalance'
 import { addNftsToDownloadQueue, addOrUpdateNftInAllAccountNfts, buildNftFromNftOutput } from '@core/nfts'
 import { checkAndRemoveProfilePicture } from '@core/profile/actions'
@@ -16,11 +17,8 @@ import {
 } from '@core/wallet/stores/all-account-activities.store'
 import { getBech32AddressFromAddressTypes } from '@core/wallet/utils/getBech32AddressFromAddressTypes'
 import { preprocessGroupedOutputs } from '@core/wallet/utils/outputs/preprocessGroupedOutputs'
-import { Event, NewOutputWalletEvent, WalletEventType } from '@iota/wallet/out/types'
 import { get } from 'svelte/store'
 import { validateWalletApiEvent } from '../../utils'
-import { checkAndRemoveProfilePicture } from '@core/profile/actions'
-import { Event, NewOutputWalletEvent, WalletEventType } from '@iota/sdk/out/types/wallet'
 
 export function handleNewOutputEvent(error: Error, event: Event): void {
     const walletEvent = validateWalletApiEvent<NewOutputWalletEvent>(error, event, WalletEventType.NewOutput)

@@ -1,4 +1,4 @@
-import { AddressType } from '@iota/sdk/out/types/block/address'
+import { AddressType } from '@iota/sdk/out/types'
 import { ADDRESS_LETTER_ALIAS, ADDRESS_LETTER_ED25519, ADDRESS_LETTER_NFT } from './address-letter.constants'
 
 export const ADDRESS_TYPE_MAP = {

@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { AddressType } from '@iota/sdk/out/types/block/address'
+    import { AddressType } from '@iota/sdk/out/types'
     import { localize } from '@core/i18n'
     import { IIscpChainMetadata, MAX_CHAIN_NAME_LENGTH, ChainType } from '@core/network'
     import { activeProfile, getNetworkHrp } from '@core/profile'

@@ -3,12 +3,13 @@ import { getCoinType } from '@core/profile'
 import { ActivityType } from '@core/wallet/enums'
 import { IActivityGenerationParameters } from '@core/wallet/interfaces'
 import { FoundryActivity } from '@core/wallet/types'
-import { AddressType, AliasAddress } from '@iota/sdk/out/types/block/address'
 import {
+    AddressType,
+    AliasAddress,
     FoundryOutput,
     ImmutableAliasAddressUnlockCondition,
     UnlockConditionType,
-} from '@iota/sdk/out/types/block/output'
+} from '@iota/sdk/out/types'
 import { convertHexAddressToBech32, getNativeTokenFromOutput } from '..'
 import {
     getAmountFromOutput,

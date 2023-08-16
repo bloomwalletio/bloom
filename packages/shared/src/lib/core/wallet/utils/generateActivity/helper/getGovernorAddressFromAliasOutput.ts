@@ -1,4 +1,4 @@
-import { AliasOutput, GovernorAddressUnlockCondition, UnlockConditionType } from '@iota/sdk/out/types/block/output'
+import { AliasOutput, GovernorAddressUnlockCondition, UnlockConditionType } from '@iota/sdk/out/types'
 import { getBech32AddressFromAddressTypes } from '../../getBech32AddressFromAddressTypes'
 
 export function getGovernorAddressFromAliasOutput(output: AliasOutput): string {

@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { AddressType } from '@iota/sdk/out/types/block/address'
+    import { AddressType } from '@iota/sdk/out/types'
 
     import { Modal, SelectorInput, IOption } from '@ui'
     import { selectedAccount } from '@core/account/stores'

@@ -5,7 +5,7 @@ import { ActivityAsyncStatus, ActivityType } from '@core/wallet'
 import { allAccountActivities, updateAsyncDataByTransactionId } from '@core/wallet/stores/all-account-activities.store'
 import { get } from 'svelte/store'
 import { validateWalletApiEvent } from '../../utils'
-import { Event, SpentOutputWalletEvent, WalletEventType } from '@iota/sdk/out/types/wallet'
+import { Event, SpentOutputWalletEvent, WalletEventType } from '@iota/sdk/out/types'
 
 export async function handleSpentOutputEvent(error: Error, event: Event): Promise<void> {
     const walletEvent = validateWalletApiEvent<SpentOutputWalletEvent>(error, event, WalletEventType.SpentOutput)

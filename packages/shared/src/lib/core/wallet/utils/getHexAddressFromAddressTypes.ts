@@ -1,4 +1,4 @@
-import { Address, AddressType } from '@iota/sdk/out/types/block/address'
+import { Address, AddressType } from '@iota/sdk/out/types'
 
 export function getHexAddressFromAddressTypes(address: Address): string | undefined {
     switch (address?.type) {
