@@ -10,7 +10,7 @@ import fs from 'fs'
 import { ipcRenderer, contextBridge } from 'electron'
 
 import * as IotaSdk from '@iota/sdk'
-import type { ILoggerConfig } from '@iota/sdk/out/types'
+import type { ILoggerConfig } from '@iota/sdk/out/types/logger-config'
 
 import ElectronApi from '../apis/electron.api'
 import LedgerApi from '../apis/ledger.api'
@@ -47,6 +47,7 @@ try {
     // https://www.electronjs.org/docs/latest/api/context-bridge
     // This workaround exposes the classes through factory methods
     // The factory method also copies all the prototype methods to the object so that it gets passed through the bridge
+
     contextBridge.exposeInMainWorld('__WALLET__API__', WalletApi)
     contextBridge.exposeInMainWorld('__ELECTRON__', ElectronApi)
     contextBridge.exposeInMainWorld('__LEDGER__', LedgerApi)
