@@ -1,16 +1,11 @@
 <script lang="ts">
     import { Icon as IconEnum } from '@auxiliary/icon'
-    import { closeDrawer, drawerState, openDrawer } from '@desktop/auxiliary/drawer'
+    import { toggleDashboardDrawer } from '@desktop/auxiliary/drawer'
     import { Icon } from '@ui'
-    import { DashboardDrawerRoute, ContactBookRouter, contactBookRouter } from '@views/dashboard/drawers'
+    import { DashboardDrawerRoute } from '../drawers'
 
     function onContactBookClick(): void {
-        if ($drawerState.active && $drawerState.id === DashboardDrawerRoute.ContactBook) {
-            closeDrawer()
-        } else {
-            $contactBookRouter = new ContactBookRouter()
-            openDrawer({ id: DashboardDrawerRoute.ContactBook })
-        }
+        toggleDashboardDrawer({ id: DashboardDrawerRoute.ContactBook })
     }
 </script>
 
