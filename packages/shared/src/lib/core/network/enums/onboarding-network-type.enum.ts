@@ -1,4 +1,4 @@
-export enum NetworkName {
+export enum OnboardingNetworkType {
     Iota = 'iota',
     Shimmer = 'shimmer',
     Testnet = 'testnet',

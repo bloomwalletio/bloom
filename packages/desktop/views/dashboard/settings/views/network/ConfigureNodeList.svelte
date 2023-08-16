@@ -1,7 +1,7 @@
 <script lang="ts">
     import { Button } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
-    import { addOfficialNodesToClientOptions as onAddOfficialNodesClick, NetworkName } from '@core/network'
+    import { addOfficialNodesToClientOptions as onAddOfficialNodesClick, OnboardingNetworkType } from '@core/network'
     import { activeProfile } from '@core/profile/stores'
     import { NetworkSettingsRoute } from '@core/router'
     import { NodeListTable } from '@ui'
@@ -34,7 +34,7 @@
 <SettingsSection setting={NetworkSettingsRoute.ConfigureNodeList}>
     <NodeListTable bind:nodesContainer />
     <div class="flex flex-row justify-between space-x-3 w-full mt-4">
-        {#if networkId !== NetworkName.Custom}
+        {#if networkId !== OnboardingNetworkType.Custom}
             <Button
                 variant="outline"
                 width="half"
@@ -43,7 +43,7 @@
             />
         {/if}
         <Button
-            width={networkId === NetworkName.Custom ? 'auto' : 'half'}
+            width={networkId === OnboardingNetworkType.Custom ? 'auto' : 'half'}
             on:click={onAddNodeClick}
             text={localize('actions.addNode')}
         />

@@ -8,7 +8,7 @@
     } from '@contexts/onboarding'
     import { IS_MOBILE } from '@core/app'
     import { localize } from '@core/i18n'
-    import { INode, NetworkName, buildPersistedNetworkFromNodeInfoResponse } from '@core/network'
+    import { INode, OnboardingNetworkType, buildPersistedNetworkFromNodeInfoResponse } from '@core/network'
     import { getNodeInfo } from '@core/profile-manager'
     import features from '@features/features'
     import { Animation, Button, HTMLButtonType, NodeConfigurationForm, Text, TextType } from '@ui'
@@ -16,13 +16,13 @@
     import { networkSetupRouter } from '../network-setup-router'
 
     let nodeConfigurationForm: NodeConfigurationForm
-    let networkName: NetworkName = features?.onboarding?.iota?.enabled
-        ? NetworkName.Iota
+    let networkType: OnboardingNetworkType = features?.onboarding?.iota?.enabled
+        ? OnboardingNetworkType.Iota
         : features?.onboarding?.shimmer?.enabled
-        ? NetworkName.Shimmer
+        ? OnboardingNetworkType.Shimmer
         : features?.onboarding?.testnet?.enabled
-        ? NetworkName.Testnet
-        : NetworkName.Custom
+        ? OnboardingNetworkType.Testnet
+        : OnboardingNetworkType.Custom
     let coinType: string
     let node: INode
     let isBusy = false
@@ -48,12 +48,12 @@
             const nodeInfoResponse = await getNodeInfo(node.url)
             // Check network of node matches selected id
             if (
-                networkName !== NetworkName.Custom &&
-                networkName !== nodeInfoResponse?.nodeInfo?.protocol?.networkName
+                networkType !== OnboardingNetworkType.Custom &&
+                networkType !== nodeInfoResponse?.nodeInfo?.protocol?.networkName
             ) {
                 throw new Error('error.node.differentNetwork')
             }
-            const customCoinType = networkName === NetworkName.Custom ? Number(coinType) : undefined
+            const customCoinType = networkType === OnboardingNetworkType.Custom ? Number(coinType) : undefined
             const network = buildPersistedNetworkFromNodeInfoResponse(nodeInfoResponse, customCoinType)
             updateOnboardingProfile({ network })
             await cleanupOnboardingProfileManager()
@@ -93,7 +93,7 @@
         <NodeConfigurationForm
             onSubmit={onContinueClick}
             bind:this={nodeConfigurationForm}
-            bind:networkName
+            bind:networkType
             bind:coinType
             bind:node
             bind:formError

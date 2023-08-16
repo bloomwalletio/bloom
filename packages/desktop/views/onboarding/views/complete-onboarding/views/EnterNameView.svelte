@@ -3,11 +3,11 @@
     import { onboardingProfile, updateOnboardingProfile } from '@contexts/onboarding'
     import { IS_MOBILE } from '@core/app'
     import { localize } from '@core/i18n'
-    import { getDisplayedNameFromNetworkName } from '@core/network'
     import { validateProfileName } from '@core/profile'
     import { profiles } from '@core/profile/stores'
-    import { Animation, Button, Input, Text } from '@ui'
+    import { Animation, Button, Input, Text, TextType } from '@ui'
     import { completeOnboardingRouter } from '../complete-onboarding-router'
+    import { getDisplayedNameFromNetworkId } from '@core/network/utils'
 
     let error = ''
     let profileName = $onboardingProfile?.name ?? ''
@@ -28,15 +28,15 @@
 
 <OnboardingLayout allowBack={false}>
     <div slot="title">
-        <Text type="h2"
+        <Text type={TextType.h2}
             >{localize('views.onboarding.profileSetup.enterName.title', {
-                values: { network: getDisplayedNameFromNetworkName($onboardingProfile?.network?.id) },
+                values: { network: getDisplayedNameFromNetworkId($onboardingProfile?.network?.id) },
             })}</Text
         >
     </div>
     <div slot="leftpane__content">
-        <Text type="p" secondary classes="mb-4">{localize('views.onboarding.profileSetup.enterName.body1')}</Text>
-        <Text type="p" secondary classes={IS_MOBILE ? 'mb-4' : 'mb-10'}>
+        <Text secondary classes="mb-4">{localize('views.onboarding.profileSetup.enterName.body1')}</Text>
+        <Text secondary classes={IS_MOBILE ? 'mb-4' : 'mb-10'}>
             {localize(
                 `views.onboarding.profileSetup.enterName.body2.${$profiles?.length === 0 ? 'first' : 'nonFirst'}`
             )}

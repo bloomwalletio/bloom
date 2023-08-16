@@ -3,7 +3,7 @@
     import { OnboardingType, onboardingProfile, updateOnboardingProfile } from '@contexts/onboarding'
     import { IS_MOBILE } from '@core/app'
     import { localize } from '@core/i18n'
-    import { getDisplayedNameFromNetworkName, getNetworkNameFromNetworkId } from '@core/network'
+    import { getDisplayedNameFromNetworkId, getOnboardingNetworkNameFromNetworkId } from '@core/network'
     import { profiles } from '@core/profile/stores'
     import features from '@features/features'
     import { Animation, OnboardingButton, Text, TextType } from '@ui'
@@ -11,7 +11,7 @@
     import { onboardingRouter } from '../onboarding-router'
 
     $: networkId = $onboardingProfile?.network?.id
-    $: networkName = getNetworkNameFromNetworkId(networkId)
+    $: networkName = getOnboardingNetworkNameFromNetworkId(networkId)
 
     function onProfileSetupSelectionClick(onboardingType: OnboardingType): void {
         updateOnboardingProfile({ onboardingType })
@@ -33,7 +33,7 @@
         <Text type={TextType.h2}
             >{localize('views.onboarding.profileSetup.setup.title', {
                 values: {
-                    network: getDisplayedNameFromNetworkName(networkName),
+                    network: getDisplayedNameFromNetworkId(networkId),
                 },
             })}</Text
         >
@@ -42,7 +42,7 @@
         <Text secondary classes="mb-8"
             >{localize('views.onboarding.profileSetup.setup.body', {
                 values: {
-                    network: getDisplayedNameFromNetworkName(networkName),
+                    network: getDisplayedNameFromNetworkId(networkId),
                 },
             })}</Text
         >
@@ -51,7 +51,7 @@
         <OnboardingButton
             primaryText={localize('actions.createWallet', {
                 values: {
-                    network: getDisplayedNameFromNetworkName(networkName),
+                    network: getDisplayedNameFromNetworkId(networkId),
                 },
             })}
             secondaryText={!IS_MOBILE

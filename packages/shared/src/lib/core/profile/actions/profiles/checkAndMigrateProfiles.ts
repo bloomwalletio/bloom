@@ -1,5 +1,5 @@
 import { IPersistedAccountData } from '@core/account/interfaces'
-import { COIN_TYPE, getDefaultPersistedNetwork, NetworkName, SupportedNetworkId } from '@core/network'
+import { COIN_TYPE, getDefaultPersistedNetwork, OnboardingNetworkType, SupportedNetworkId } from '@core/network'
 import { INode, IPersistedNetwork } from '@core/network/interfaces'
 import { DEFAULT_MAX_NFT_DOWNLOADING_TIME_IN_SECONDS, DEFAULT_MAX_NFT_SIZE_IN_MEGABYTES } from '@core/nfts'
 import { StrongholdVersion } from '@core/stronghold/enums'
@@ -170,15 +170,15 @@ function persistedProfileMigrationToV10(existingProfile: IPersistedProfile): voi
     saveProfile(existingProfile)
 }
 
-function getNetworkNameFromOldNetworkType(networkType: 'mainnet' | 'devnet' | 'private-net'): NetworkName {
+function getNetworkNameFromOldNetworkType(networkType: 'mainnet' | 'devnet' | 'private-net'): OnboardingNetworkType {
     // At this point you have not been able to create IOTA profiles so we can assume that the network protocol was Shimmer
     switch (networkType) {
         case 'mainnet':
-            return NetworkName.Shimmer
+            return OnboardingNetworkType.Shimmer
         case 'devnet':
-            return NetworkName.Testnet
+            return OnboardingNetworkType.Testnet
         case 'private-net':
-            return NetworkName.Custom
+            return OnboardingNetworkType.Custom
         default:
             return
     }
@@ -190,10 +190,10 @@ function persistedProfileMigrationToV11(
     if (!existingProfile?.network) {
         let network: IPersistedNetwork
         const networkName = getNetworkNameFromOldNetworkType(existingProfile?.networkType)
-        if (networkName === NetworkName.Shimmer || networkName === NetworkName.Testnet) {
+        if (networkName === OnboardingNetworkType.Shimmer || networkName === OnboardingNetworkType.Testnet) {
             network = getDefaultPersistedNetwork(networkName)
         } else {
-            network.id = NetworkName.Custom
+            network.id = OnboardingNetworkType.Custom
         }
         network.coinType = COIN_TYPE[SupportedNetworkId.Shimmer]
         existingProfile.network = structuredClone(network)

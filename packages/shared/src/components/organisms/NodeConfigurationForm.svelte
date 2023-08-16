@@ -1,10 +1,10 @@
 <script lang="ts">
     import { localize } from '@core/i18n'
-    import { IAuth, NetworkName } from '@core/network'
+    import { IAuth, OnboardingNetworkType, SupportedNetworkId } from '@core/network'
     import { EMPTY_NODE } from '@core/network/constants'
     import { IClientOptions, INode, INodeInfoResponse } from '@core/network/interfaces'
     import { nodeInfo } from '@core/network/stores'
-    import { checkNetworkName, checkNodeUrlValidity, getDisplayedNameFromNetworkName } from '@core/network/utils'
+    import { checkNetworkName, checkNodeUrlValidity, getDisplayedNameFromNetworkId } from '@core/network/utils'
     import { getNodeInfo } from '@core/profile-manager'
     import { activeProfile } from '@core/profile/stores'
     import { IDropdownItem, cleanUrl } from '@core/utils'
@@ -19,7 +19,7 @@
     }
 
     export let node: INode = structuredClone(EMPTY_NODE)
-    export let networkName: NetworkName | undefined = undefined
+    export let networkType: OnboardingNetworkType | undefined = undefined
     export let coinType: string = ''
     export let isBusy = false
     export let formError = ''
@@ -28,30 +28,30 @@
     export let onSubmit: () => void = () => {}
     export let showNetworkFields: boolean = false
 
-    const networkItems: IDropdownItem<NetworkName>[] = [
+    const networkItems: IDropdownItem<OnboardingNetworkType>[] = [
         {
-            label: getDisplayedNameFromNetworkName(NetworkName.Iota),
-            value: NetworkName.Iota,
+            label: getDisplayedNameFromNetworkId(SupportedNetworkId.Iota),
+            value: OnboardingNetworkType.Iota,
         },
         {
-            label: getDisplayedNameFromNetworkName(NetworkName.Shimmer),
-            value: NetworkName.Shimmer,
+            label: getDisplayedNameFromNetworkId(SupportedNetworkId.Shimmer),
+            value: OnboardingNetworkType.Shimmer,
         },
         {
-            label: getDisplayedNameFromNetworkName(NetworkName.Testnet),
-            value: NetworkName.Testnet,
+            label: getDisplayedNameFromNetworkId(SupportedNetworkId.Testnet),
+            value: OnboardingNetworkType.Testnet,
         },
         {
             label: localize('general.custom'),
-            value: NetworkName.Custom,
+            value: OnboardingNetworkType.Custom,
         },
     ].filter((item) => features.onboarding?.[item.value]?.enabled)
 
     let [username, password] = node.auth?.basicAuthNamePwd ?? ['', '']
     let jwt = node.auth?.jwt
 
-    $: networkName, (coinType = '')
-    $: networkName, coinType, node.url, (formError = '')
+    $: networkType, (coinType = '')
+    $: networkType, coinType, node.url, (formError = '')
     $: jwt,
         username,
         password,
@@ -75,12 +75,12 @@
         node.url = cleanUrl(node?.url)
     }
 
-    function onNetworkNameChanges(selected: IDropdownItem<NetworkName>): void {
-        networkName = selected.value
+    function onNetworkTypeChanges(selected: IDropdownItem<OnboardingNetworkType>): void {
+        networkType = selected.value
     }
 
     export async function validate(options: INodeValidationOptions): Promise<void> {
-        if (networkName === NetworkName.Custom && !coinType) {
+        if (networkType === OnboardingNetworkType.Custom && !coinType) {
             formError = localize('error.node.noCoinType')
             return Promise.reject({ type: 'validationError', error: formError })
         }
@@ -101,10 +101,10 @@
                 return Promise.reject({ type: 'validationError', error: formError })
             }
         }
-        const _networkName = nodeInfoResponse?.nodeInfo?.protocol.networkName
+        const networkName = nodeInfoResponse?.nodeInfo?.protocol.networkName
 
         if (options.checkSameNetwork) {
-            const isInSameNetwork = !!$nodeInfo && $nodeInfo.protocol.networkName === _networkName
+            const isInSameNetwork = !!$nodeInfo && $nodeInfo.protocol.networkName === networkName
             if (!isInSameNetwork) {
                 formError = localize('error.node.differentNetwork')
                 return Promise.reject({ type: 'validationError', error: formError })
@@ -119,7 +119,7 @@
         }
 
         if (options.validateClientOptions && currentClientOptions) {
-            const errorNetworkName = checkNetworkName(_networkName, currentClientOptions.network, isDeveloperProfile)
+            const errorNetworkName = checkNetworkName(networkName, currentClientOptions.network, isDeveloperProfile)
             if (errorNetworkName) {
                 formError = localize(errorNetworkName?.locale, errorNetworkName?.values) ?? ''
                 return Promise.reject({ type: 'validationError', error: formError })
@@ -133,12 +133,12 @@
         <Dropdown
             label={localize('general.network')}
             placeholder={localize('general.network')}
-            value={networkName}
+            value={networkType}
             items={networkItems}
             disabled={isBusy}
-            onSelect={onNetworkNameChanges}
+            onSelect={onNetworkTypeChanges}
         />
-        {#if networkName === NetworkName.Custom}
+        {#if networkType === OnboardingNetworkType.Custom}
             <NumberInput
                 bind:value={coinType}
                 placeholder={localize('general.coinType')}

@@ -7,7 +7,7 @@
         updateOnboardingProfile,
     } from '@contexts/onboarding'
     import { localize } from '@core/i18n'
-    import { getDisplayedNameFromNetworkName, getNetworkNameFromNetworkId } from '@core/network'
+    import { getDisplayedNameFromNetworkId, getOnboardingNetworkNameFromNetworkId } from '@core/network'
     import { ProfileType, removeProfileFolder } from '@core/profile'
     import features from '@features/features'
     import { Animation, OnboardingButton, Text, TextType } from '@ui'
@@ -24,7 +24,7 @@
     $: isDisabled = Object.values(isBusy).some((busy) => busy)
 
     $: networkId = $onboardingProfile?.network?.id
-    $: networkName = getNetworkNameFromNetworkId(networkId)
+    $: networkName = getOnboardingNetworkNameFromNetworkId(networkId)
 
     async function onProfileTypeClick(restoreProfileType: RestoreProfileType): Promise<void> {
         isBusy = { ...isBusy, [restoreProfileType]: true }
@@ -52,7 +52,7 @@
     <div slot="title">
         <Text type={TextType.h2}
             >{localize('views.onboarding.profileSetup.setupRecovered.title', {
-                values: { network: getDisplayedNameFromNetworkName(networkName) },
+                values: { network: getDisplayedNameFromNetworkId(networkId) },
             })}</Text
         >
     </div>
