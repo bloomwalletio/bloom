@@ -8,7 +8,7 @@
     import { isRecentDate } from '@core/utils'
     import { ISidebarTab } from '@desktop/routers'
     import features from '@features/features'
-    import { Icon, Modal, NotificationBadge, ProfilePicture } from '@ui'
+    import { Icon, Modal, NotificationBadge, Avatar } from '@ui'
 
     let profileModal: Modal
 
@@ -110,7 +110,7 @@
         </div>
         <div class="flex flex-col items-center">
             <button class="relative flex items-center justify-center rounded-full" on:click={profileModal?.open}>
-                <ProfilePicture profile={$activeProfile} size="medium" />
+                <Avatar profile={$activeProfile} size="medium" />
                 {#if !$shouldOpenProfileModal && (!isBackupSafe || !$appVersionDetails.upToDate)}
                     <NotificationBadge />
                 {/if}
