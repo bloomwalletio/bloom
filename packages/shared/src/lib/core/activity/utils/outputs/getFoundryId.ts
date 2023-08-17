@@ -1,11 +1,18 @@
-import { AddressType, FoundryOutput } from '@iota/sdk/out/types'
+import {
+    AddressType,
+    AliasAddress,
+    FoundryOutput,
+    ImmutableAliasAddressUnlockCondition,
+    UnlockConditionType,
+} from '@iota/sdk/out/types'
 import { HexHelper, WriteStream } from '@iota/util.js'
 
 export function buildFoundryId(foundry: FoundryOutput): string {
-    const immutableAliasUnlockCondition = foundry.unlockConditions[0]
+    const immutableAliasUnlockCondition = foundry.unlockConditions[0] as ImmutableAliasAddressUnlockCondition
     const aliasId =
-        immutableAliasUnlockCondition.type === 6 && immutableAliasUnlockCondition.address.type === ADDRESS_TYPE_ALIAS
-            ? immutableAliasUnlockCondition.address.aliasId
+        immutableAliasUnlockCondition.type === UnlockConditionType.ImmutableAliasAddress &&
+        immutableAliasUnlockCondition.address.type === AddressType.Alias
+            ? (immutableAliasUnlockCondition.address as AliasAddress).aliasId
             : ''
     const typeWS = new WriteStream()
     typeWS.writeUInt8('alias address type', AddressType.Alias)
