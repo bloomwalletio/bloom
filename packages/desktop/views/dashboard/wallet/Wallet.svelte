@@ -12,18 +12,20 @@
     import { unwrapStardustAsset } from 'shared/src/lib/core/wallet'
 
     async function onMountHelper(): Promise<void> {
-        /**
-         * NOTE: The amount has to be greater than or equal to the minimum required
-         * storage deposit.
-         */
-        const storageDeposit = 47800
-        const amount = (6_000_000 + storageDeposit).toString()
-        const token = getTokenFromSelectedAccountTokens('4219', getActiveNetworkId())
-        const allowance = buildAssetAllowance({ type: AssetType.BaseCoin, amount, token })
-        const recipientAddress = $selectedAccount.depositAddress
-        const receipt = await unwrapStardustAsset(allowance, recipientAddress)
-        /* eslint-disable no-console */
-        console.log('receipt: ', receipt)
+        if (features.wallet.assets.unwrapToken.enabled) {
+            /**
+             * NOTE: The amount has to be greater than or equal to the minimum required
+             * storage deposit.
+             */
+            const storageDeposit = 47800
+            const amount = (6_000_000 + storageDeposit).toString()
+            const token = getTokenFromSelectedAccountTokens('4219', getActiveNetworkId())
+            const allowance = buildAssetAllowance({ type: AssetType.BaseCoin, amount, token })
+            const recipientAddress = $selectedAccount.depositAddress
+            const receipt = await unwrapStardustAsset(allowance, recipientAddress)
+            /* eslint-disable no-console */
+            console.log('receipt: ', receipt)
+        }
     }
     onMount(() => {
         void onMountHelper()
