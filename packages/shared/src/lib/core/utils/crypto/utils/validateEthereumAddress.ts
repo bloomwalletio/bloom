@@ -14,7 +14,7 @@ export function validateEthereumAddress(address: string): void {
     } else if (!/^(0x)?[0-9a-f]{40}$/i.test(address)) {
         throw new Error(localize('error.send.addressLength', { length: 42 }))
         // 4. If not consistent capitalization then check EIP 55 checksum
-    } else if (!/^(0x)?[0-9a-f]{40}$/.test(address) || !/^(0x)?[0-9A-F]{40}$/.test(address)) {
+    } else if (!(/^(0x)?[0-9a-f]{40}$/.test(address) || /^(0x)?[0-9A-F]{40}$/.test(address))) {
         validateEthereumAddressChecksum(address)
     }
 }
