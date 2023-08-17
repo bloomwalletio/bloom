@@ -9,6 +9,6 @@ export * from './mintNativeToken'
 export * from './mintNft'
 export * from './rejectActivity'
 export * from './sendOutput'
-export * from './unwrapIrc30Token'
+export * from './unwrapStardustAsset'
 
 export * from './send'

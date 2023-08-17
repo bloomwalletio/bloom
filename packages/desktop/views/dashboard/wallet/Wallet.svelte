@@ -1,27 +1,34 @@
 <script lang="ts">
-    import { TokenList, Pane, ReceiveAddressButton } from '@ui'
-    import { AccountSummary, AccountActivity, SendButton } from '@components'
-    import { selectedAccountTokens } from '@core/token/stores'
+    import { Pane, ReceiveAddressButton, TokenList } from '@ui'
+    import { AccountActivity, AccountSummary, SendButton } from '@components'
+    import { getTokenFromSelectedAccountTokens, selectedAccountTokens } from '@core/token/stores'
     import { selectedAccount } from '@core/account/stores'
     import features from '@features/features'
-    import { onMount } from 'svelte'
-    import { unwrapIrc30Token } from '@core/wallet'
 
-    // TODO: Remove this when PR is ready for review
+    // TODO: Remove once done testing
+    import { onMount } from 'svelte'
+    import { AssetType, buildAssetAllowance } from 'shared/src/lib/core/layer-2'
+    import { getActiveNetworkId } from 'shared/src/lib/core/network/utils/getNetworkId'
+    import { unwrapStardustAsset } from 'shared/src/lib/core/wallet'
+
     async function onMountHelper(): Promise<void> {
         /**
          * NOTE: The amount has to be greater than or equal to the minimum required
          * storage deposit.
          */
         const storageDeposit = 47800
-        const amount = 6_000_000 + storageDeposit
+        const amount = (6_000_000 + storageDeposit).toString()
+        const token = getTokenFromSelectedAccountTokens('4219', getActiveNetworkId())
+        const allowance = buildAssetAllowance({ type: AssetType.BaseCoin, amount, token })
         const recipientAddress = $selectedAccount.depositAddress
-        await unwrapIrc30Token(amount, recipientAddress)
+        const receipt = await unwrapStardustAsset(allowance, recipientAddress)
+        /* eslint-disable no-console */
+        console.log('receipt: ', receipt)
     }
-
     onMount(() => {
         void onMountHelper()
     })
+    // TODO: Remove once done testing
 </script>
 
 {#if $selectedAccount}

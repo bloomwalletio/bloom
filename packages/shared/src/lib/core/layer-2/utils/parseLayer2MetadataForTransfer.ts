@@ -1,6 +1,6 @@
 import { Converter } from '@core/utils'
 import { NFT_ID_BYTE_LENGTH } from '@core/nfts/constants'
-import { ILayer2AssetAllowance, ILayer2TransferAllowanceMetadata } from '../interfaces'
+import { IAssetAllowance, ILayer2TransferAllowanceMetadata } from '../interfaces'
 import { CONTRACT_FUNCTIONS, TARGET_CONTRACTS } from '../constants'
 import { Allowance } from '@core/layer-2/enums'
 import { ReadSpecialStream } from '@core/layer-2/classes'
@@ -52,9 +52,9 @@ function parseSmartContractParameters(readStream: ReadSpecialStream): Record<str
     return smartContractParameters
 }
 
-function parseAssetAllowance(readStream: ReadSpecialStream): ILayer2AssetAllowance {
+function parseAssetAllowance(readStream: ReadSpecialStream): IAssetAllowance {
     const allowance = readStream.readUInt8('encodedAllowance')
-    const result: ILayer2AssetAllowance = {
+    const result: IAssetAllowance = {
         baseTokens: '0',
         nativeTokens: [],
         nfts: [],

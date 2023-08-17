@@ -1,8 +1,8 @@
 import { AssetType } from '../enums'
-import { ILayer2AssetAllowance } from '../interfaces'
+import { IAssetAllowance } from '../interfaces'
 import { TransferredAsset } from '../types'
 
-export function getLayer2AssetAllowance(transferredAsset: TransferredAsset): ILayer2AssetAllowance {
+export function buildAssetAllowance(transferredAsset: TransferredAsset): IAssetAllowance {
     if (transferredAsset.type === AssetType.Nft) {
         return {
             baseTokens: '0',

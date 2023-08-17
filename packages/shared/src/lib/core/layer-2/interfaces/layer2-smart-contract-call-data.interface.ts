@@ -1,6 +1,6 @@
-import { ILayer2AssetAllowance } from './layer2-asset-allowance.interface'
+import { IAssetAllowance } from './asset-allowance.interface'
 
-export interface ILayer2SmartContractCallData extends ILayer2AssetAllowance {
+export interface ILayer2SmartContractCallData extends IAssetAllowance {
     senderContract: string
     targetContract: string
     contractFunction: string
