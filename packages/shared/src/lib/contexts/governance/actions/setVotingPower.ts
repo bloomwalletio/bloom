@@ -1,5 +1,5 @@
 import { get } from 'svelte/store'
-import { Transaction } from '@iota/sdk/out/types'
+import { PreparedTransaction } from '@iota/sdk/out/types'
 import { selectedAccount, updateSelectedAccount } from '@core/account/stores'
 import { handleError } from '@core/error/handlers'
 import { processAndAddToActivities } from '@core/activity/utils/processAndAddToActivities'
@@ -12,15 +12,18 @@ export async function setVotingPower(rawAmount: string): Promise<void> {
 
         updateSelectedAccount({ hasVotingPowerTransactionInProgress: true, isTransferring: true })
 
-        let transaction: Transaction
+        let transaction: PreparedTransaction
         if (amount > votingPower) {
             const amountToIncrease = amount - votingPower
-            transaction = await account.increaseVotingPower(amountToIncrease.toString())
+            transaction = await account?.prepareVotingPower(amountToIncrease.toString())
         } else if (amount < votingPower) {
             const amountToDecrease = votingPower - amount
-            transaction = await account.decreaseVotingPower(amountToDecrease.toString())
+            transaction = await account?.prepareDecreaseVotingPower(amountToDecrease.toString())
+        } else {
+            return
         }
-        await processAndAddToActivities(transaction, account)
+        const tx = await transaction.send()
+        await processAndAddToActivities(tx, account)
     } catch (err) {
         handleError(err)
         updateSelectedAccount({ hasVotingPowerTransactionInProgress: false, isTransferring: false })
