@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { Icon as IconEnum } from '@auxiliary/icon'
     import { Icon, Text } from '@ui'
     import { AccountSwitcher } from '@components'
     import { IS_WINDOWS } from '@core/app/constants'
@@ -13,10 +14,9 @@
         governanceRoute,
         governanceRouter,
     } from '@core/router'
-    import { Icon as IconEnum } from '@auxiliary/icon'
+    import { closeDrawer } from '@desktop/auxiliary/drawer'
     import { popupState } from '@desktop/auxiliary/popup'
     import features from '@features/features'
-    import { closeDrawer } from '@desktop/auxiliary/drawer'
     import { ToggleContactBookButton, ToggleDappConfigButton, ToggleNetworkConfigButton } from './components'
 
     let isBackButtonVisible = false
