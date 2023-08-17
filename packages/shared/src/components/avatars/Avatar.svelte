@@ -6,7 +6,7 @@
     import { getInitials } from '@core/utils'
 
     export let text: string = ''
-    export let size: AvatarSize = AvatarSize.Large
+    export let size: AvatarSize = AvatarSize.Medium
     export let color: string | undefined = undefined
 
     $: color = color || getIconColorFromString(text, { shades: ['500'], colorsToExclude: ['gray'] })

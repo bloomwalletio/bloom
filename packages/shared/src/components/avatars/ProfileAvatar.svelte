@@ -4,7 +4,7 @@
     import { IPersistedProfile } from '@core/profile'
 
     export let profile: IPersistedProfile
-    export let size: AvatarSize = AvatarSize.Large
+    export let size: AvatarSize = AvatarSize.Medium
     export let color: string | undefined = undefined
 </script>
 
