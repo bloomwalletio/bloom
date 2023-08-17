@@ -1,30 +1,18 @@
 import type {
-    HexEncodedAmount,
-    HexEncodedString,
-    AliasOutput,
-    BasicOutput,
-    FoundryOutput,
-    NftOutput,
-    Output,
+    AccountAddress,
     AccountMetadata,
-    Address,
     AddressWithUnspentOutputs,
     AliasOutputParams,
     Balance,
-    Bip44,
-    BuildAliasOutputData,
-    BuildBasicOutputData,
-    BuildFoundryOutputData,
-    BuildNftOutputData,
+    Burn,
     ConsolidationParams,
-    CreateNativeTokenParams,
-    CreateNativeTokenTransaction,
-    Ed25519Signature,
     FilterOptions,
+    FoundryOutput,
     GenerateAddressOptions,
-    MintNftParams,
-    IGenerateAddressesOptions,
+    HexEncodedAmount,
     INode,
+    MintNftParams,
+    Output,
     OutputData,
     OutputParams,
     OutputsToClaim,
@@ -34,8 +22,9 @@ import type {
     ParticipationEventType,
     ParticipationEventWithNodes,
     ParticipationOverview,
+    PreparedCreateNativeTokenTransaction,
+    PreparedTransaction,
     PreparedTransactionData,
-    Secp256k1EcdsaSignature,
     SendNativeTokensParams,
     SendNftParams,
     SendParams,
@@ -46,83 +35,86 @@ import type {
 } from '@iota/sdk'
 
 export interface IAccount {
-    addresses(): Promise<Address[]>
+    addresses(): Promise<AccountAddress[]>
     addressesWithUnspentOutputs(): Promise<AddressWithUnspentOutputs[]>
-    buildAliasOutput(data: BuildAliasOutputData): Promise<AliasOutput>
-    buildBasicOutput(data: BuildBasicOutputData): Promise<BasicOutput>
-    buildFoundryOutput(data: BuildFoundryOutputData): Promise<FoundryOutput>
-    buildNftOutput(data: BuildNftOutputData): Promise<NftOutput>
     burnNativeToken(
         tokenId: string,
         burnAmount: HexEncodedAmount,
         transactionOptions?: TransactionOptions
     ): Promise<Transaction>
     burnNft(nftId: string, transactionOptions?: TransactionOptions): Promise<Transaction>
+    claimableOutputs(outputs: OutputsToClaim): Promise<string[]>
     claimOutputs(outputIds: string[]): Promise<Transaction>
-    createNativeToken(
-        params: CreateNativeTokenParams,
-        transactionOptions?: TransactionOptions
-    ): Promise<CreateNativeTokenTransaction>
-    consolidateOutputs(params: ConsolidationParams): Promise<Transaction>
-    createAliasOutput(params?: AliasOutputParams, transactionOptions?: TransactionOptions): Promise<Transaction>
-    meltNativeToken(
-        tokenId: string,
-        meltAmount: HexEncodedAmount,
-        transactionOptions?: TransactionOptions
-    ): Promise<Transaction>
-    decreaseVotingPower(amount: string): Promise<Transaction>
     deregisterParticipationEvent(eventId: string): Promise<void>
-    destroyAlias(aliasId: string, transactionOptions?: TransactionOptions): Promise<Transaction>
-    destroyFoundry(foundryId: string, transactionOptions?: TransactionOptions): Promise<Transaction>
-    generateEd25519Address(options?: GenerateAddressOptions): Promise<Address>
-    generateEvmAddresses(generateAddressesOptions: IGenerateAddressesOptions): Promise<string[]>
+    generateEd25519Addresses(amount: number, options?: GenerateAddressOptions): Promise<AccountAddress[]>
     getBalance(): Promise<Balance>
     getFoundryOutput(tokenId: string): Promise<FoundryOutput>
     getIncomingTransaction(transactionId: string): Promise<Transaction>
     getMetadata(): AccountMetadata
     getOutput(outputId: string): Promise<OutputData>
-    claimableOutputs(outputs: OutputsToClaim): Promise<string[]>
     getParticipationEvent(eventId: string): Promise<ParticipationEventWithNodes>
     getParticipationEventIds(node: INode, eventType?: ParticipationEventType): Promise<string[]>
-    getParticipationEvents(): Promise<{ [eventId: string]: ParticipationEventWithNodes }>
+    getParticipationEvents(): Promise<{ [eventId: string]: ParticipationEventMap }>
     getParticipationEventStatus(eventId: string): Promise<ParticipationEventStatus>
     getParticipationOverview(eventIds?: string[]): Promise<ParticipationOverview>
     getTransaction(transactionId: string): Promise<Transaction>
     incomingTransactions(): Promise<Transaction[]>
-    increaseVotingPower(amount: string): Promise<Transaction>
-    minimumRequiredStorageDeposit(output: Output): Promise<string>
-    mintNativeToken(
+    outputs(filterOptions?: FilterOptions): Promise<OutputData[]>
+    pendingTransactions(): Promise<Transaction[]>
+    prepareBurn(burn: Burn, transactionOptions?: TransactionOptions): Promise<PreparedTransaction>
+    prepareBurnNativeToken(
+        tokenId: string,
+        burnAmount: bigint,
+        transactionOptions?: TransactionOptions
+    ): Promise<PreparedTransaction>
+    prepareBurnNft(nftId: string, transactionOptions?: TransactionOptions): Promise<PreparedTransaction>
+    prepareConsolidateOutputs(params: ConsolidationParams): Promise<PreparedTransaction>
+    prepareCreateAliasOutput(
+        params?: AliasOutputParams,
+        transactionOptions?: TransactionOptions
+    ): Promise<PreparedTransaction>
+    prepareCreateNativeToken(
         tokenId: string,
         mintAmount: HexEncodedAmount,
         transactionOptions?: TransactionOptions
-    ): Promise<CreateNativeTokenTransaction>
-    mintNfts(params: MintNftParams[], transactionOptions?: TransactionOptions): Promise<Transaction>
-    outputs(filterOptions?: FilterOptions): Promise<OutputData[]>
+    ): Promise<PreparedCreateNativeTokenTransaction>
+    prepareDecreaseVotingPower(amount: string): Promise<PreparedTransaction>
+    prepareDestroyAlias(aliasId: string, transactionOptions?: TransactionOptions): Promise<PreparedTransaction>
+    prepareDestroyFoundry(foundryId: string, transactionOptions?: TransactionOptions): Promise<PreparedTransaction>
+    prepareMeltNativeToken(
+        tokenId: string,
+        meltAmount: HexEncodedAmount,
+        transactionOptions?: TransactionOptions
+    ): Promise<PreparedTransaction>
+    prepareMintNativeToken(
+        tokenId: string,
+        mintAmount: bigint,
+        transactionOptions?: TransactionOptions
+    ): Promise<PreparedTransaction>
+    prepareMintNfts(params: MintNftParams[], transactionOptions?: TransactionOptions): Promise<PreparedTransaction>
     prepareOutput(params: OutputParams, transactionOptions?: TransactionOptions): Promise<Output>
-    pendingTransactions(): Promise<Transaction[]>
-    prepareSend(params: SendParams[], options?: TransactionOptions): Promise<PreparedTransactionData>
-    prepareTransaction(outputs: Output[], options?: TransactionOptions): Promise<PreparedTransactionData>
+    prepareSend(params: SendParams[], options?: TransactionOptions): Promise<PreparedTransaction>
+    prepareSendNativeTokens(
+        params: SendNativeTokensParams[],
+        options?: TransactionOptions
+    ): Promise<PreparedTransaction>
+    prepareSendNft(params: SendNftParams[], options?: TransactionOptions): Promise<PreparedTransaction>
+    prepareStopParticipating(eventId: string): Promise<Transaction>
+    prepareTransaction(outputs: Output[], options?: TransactionOptions): Promise<PreparedTransaction>
+    prepareVote(eventId?: string, answers?: number[]): Promise<PreparedTransaction>
+    prepareVotingPower(amount: string): Promise<PreparedTransaction>
     registerParticipationEvents(options: ParticipationEventRegistrationOptions): Promise<ParticipationEventMap>
-    retryTransactionUntilIncluded(
-        transactionId: string,
-        interval?: number,
-        maxAttempts?: number
-    ): Promise<PreparedTransactionData>
+    retryTransactionUntilIncluded(transactionId: string, interval?: number, maxAttempts?: number): Promise<string>
     requestFundsFromFaucet(url: string, address: string): Promise<string>
-    send(params: SendParams[], transactionOptions?: TransactionOptions): Promise<Transaction>
-    sendNativeTokens(params: SendNativeTokensParams[], transactionOptions?: TransactionOptions): Promise<Transaction>
-    sendNft(params: SendNftParams[], transactionOptions?: TransactionOptions): Promise<Transaction>
+    send(amount: bigint | string, address: string, transactionOptions?: TransactionOptions): Promise<Transaction>
     sendOutputs(outputs: Output[], transactionOptions?: TransactionOptions): Promise<Transaction>
+    sendWithParams(params: SendParams[], transactionOptions?: TransactionOptions): Promise<Transaction>
     setAlias(alias: string): Promise<void>
     setDefaultSyncOptions(options: SyncOptions): Promise<void>
+    signAndSubmitTransaction(preparedTransactionData: PreparedTransactionData): Promise<Transaction>
     signTransactionEssence(preparedTransactionData: PreparedTransactionData): Promise<SignedTransactionEssence>
-    signSecp256k1Ecdsa(message: HexEncodedString, chain: Bip44): Promise<Secp256k1EcdsaSignature>
-    stopParticipating(eventId: string): Promise<Transaction>
     submitAndStoreTransaction(signedTransactionData: SignedTransactionEssence): Promise<Transaction>
     sync(options?: SyncOptions): Promise<Balance>
     transactions(): Promise<Transaction[]>
     unspentOutputs(filterOptions?: FilterOptions): Promise<OutputData[]>
-    verifyEd25519Signature(signature: Ed25519Signature, message: HexEncodedString): Promise<boolean>
-    verifySecp256k1EcdsaSignature(signature: Secp256k1EcdsaSignature, message: HexEncodedString): Promise<boolean>
-    vote(eventId?: string, answers?: number[]): Promise<Transaction>
 }
