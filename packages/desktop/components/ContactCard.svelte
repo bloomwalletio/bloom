@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { ClickableTile, FontWeight, Icon, Text, TextType } from '@ui'
+    import { ClickableTile, FontWeight, Icon, ContactAvatar, Text, TextType } from '@ui'
     import { UiEventFunction } from '@core/utils'
     import { IContact } from '@core/contact'
     import { Icon as IconEnum } from '@auxiliary/icon'
@@ -12,8 +12,8 @@
     classes="flex justify-between items-center bg-white border border-solid border-gray-200 dark:border-transparent"
     onClick={onCardClick}
 >
-    <div class="w-full flex gap-2">
-        <span class="h-5 w-5 rounded-full" style="background-color: {contact.color}" />
+    <div class="w-full flex flex-row items-center gap-2">
+        <ContactAvatar {contact} />
         <Text type={TextType.h4} fontWeight={FontWeight.semibold} classes="truncate">
             {contact.name}
         </Text>

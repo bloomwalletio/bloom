@@ -1,5 +1,4 @@
 <script lang="ts">
-    import { FlatIcon, FlatIconName } from '@bloomwalletio/ui'
     import { appVersionDetails } from '@core/app/stores'
     import { localize } from '@core/i18n'
     import { LedgerConnectionState, ledgerConnectionState } from '@core/ledger'
@@ -8,21 +7,10 @@
     import { routerManager } from '@core/router'
     import { checkOrUnlockStronghold } from '@core/stronghold'
     import { diffDates, getBackupWarningColor, isRecentDate } from '@core/utils'
-    import { DrawerId, openDrawer } from '@desktop/auxiliary/drawer'
     import { PopupId, closePopup, openPopup, popupState } from '@desktop/auxiliary/popup'
-    import features from '@features/features'
-    import {
-        Button,
-        ButtonSize,
-        DeveloperIndicatorPill,
-        Icon,
-        Modal,
-        ProfilePicture,
-        Text,
-        TextType,
-        Toggle,
-    } from '@ui'
+    import { Button, ButtonSize, DeveloperIndicatorPill, Icon, Modal, ProfileAvatar, Text, TextType, Toggle } from '@ui'
     import { fade } from 'svelte/transition'
+    import { AvatarSize } from '@ui/enums'
 
     export let modal: Modal = undefined
 
@@ -63,11 +51,6 @@
         }
     }
 
-    function onContactBookClick(): void {
-        openDrawer({ id: DrawerId.ContactBook })
-        modal?.close()
-    }
-
     function updateLedgerConnectionText(): void {
         ledgerConnectionText = localize(`views.dashboard.profileModal.hardware.statuses.${$ledgerConnectionState}`)
     }
@@ -94,7 +77,7 @@
 >
     <profile-modal-content class="flex flex-col" in:fade={{ duration: 100 }}>
         <div class="flex flex-row flex-nowrap items-center space-x-3 p-3">
-            <ProfilePicture profile={$activeProfile} size="small" />
+            <ProfileAvatar profile={$activeProfile} size={AvatarSize.Small} />
             <div class="flex flex-row items-center space-x-2">
                 <Text>{profileName}</Text>
                 {#if $activeProfile?.isDeveloperProfile}
@@ -200,18 +183,6 @@
             </div>
             <hr />
         {/if}
-        {#if features.contacts.enabled}
-            <button
-                on:click={onContactBookClick}
-                class="group flex flex-row space-x-3 justify-start items-center hover:bg-blue-50 dark:hover:bg-gray-800 dark:hover:bg-opacity-20 py-3 px-3 w-full"
-            >
-                <FlatIcon icon={FlatIconName.AddressBook} color="slate-400" />
-                <Text smaller classes="group-hover:text-blue-500">
-                    {localize('views.dashboard.profileModal.contactBook')}
-                </Text>
-            </button>
-        {/if}
-
         <button
             on:click={onSettingsClick}
             class="group flex flex-row space-x-3 justify-start items-center hover:bg-blue-50 dark:hover:bg-gray-800 dark:hover:bg-opacity-20 py-3 px-3 w-full"

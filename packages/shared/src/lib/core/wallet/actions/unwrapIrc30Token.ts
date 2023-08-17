@@ -3,13 +3,18 @@ import { get } from 'svelte/store'
 import Web3 from 'web3'
 
 import { ContractType, ISC_MAGIC_CONTRACT_ADDRESS, buildEvmTransactionData } from '@core/layer-2'
-import { ChainId, IChain, network } from '@core/network'
+import { ChainId, ETH_COIN_TYPE, IChain, network } from '@core/network'
 import { Bech32Helper } from '@core/utils'
 
 import { sendTransactionFromEvm } from '../actions/send'
 import { TransactionReceipt } from 'web3-core'
+import { getActiveProfilePersistedEvmAddressesByAccountIndex } from '@core/profile/stores'
+import { selectedAccountIndex } from '@core/account/stores'
 
-export async function unwrapIrc30Token(amount: number, recipientAddress: string): Promise<TransactionReceipt> {
+export async function unwrapIrc30Token(
+    amount: number,
+    recipientAddress: string
+): Promise<TransactionReceipt | undefined> {
     try {
         // 1. Build send parameters
         const parameters = buildUnwrapIrc30TokenParameters(amount, recipientAddress)
@@ -22,9 +27,11 @@ export async function unwrapIrc30Token(amount: number, recipientAddress: string)
         console.log('raw tx data: ', data)
 
         const provider = chain?.getProvider() as Web3
+        const originAddress =
+            getActiveProfilePersistedEvmAddressesByAccountIndex(get(selectedAccountIndex))?.[ETH_COIN_TYPE] ?? ''
         const transactionData = await buildEvmTransactionData(
             provider,
-            '0x09f5562cA14Ef108d1E035980dC9f435Ca923d53',
+            originAddress,
             ISC_MAGIC_CONTRACT_ADDRESS,
             amount.toString(),
             data
@@ -32,7 +39,7 @@ export async function unwrapIrc30Token(amount: number, recipientAddress: string)
         /* eslint-disable no-console */
         console.log('tx data: ', transactionData)
 
-        return (await sendTransactionFromEvm(transactionData, chain as IChain))
+        return await sendTransactionFromEvm(transactionData, chain as IChain)
     } catch (err) {
         console.error(err)
     }

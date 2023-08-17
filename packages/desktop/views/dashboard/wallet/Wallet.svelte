@@ -12,10 +12,10 @@
          * NOTE: The amount has to be greater than or equal to the minimum required
          * storage deposit.
          */
-        const amount = 1_000_000 - 47800
+        const storageDeposit = 47800
+        const amount = 6_000_000 + storageDeposit
         const recipientAddress = $selectedAccount.depositAddress
         await unwrapIrc30Token(amount, recipientAddress)
-        // console.log('receipt: ', receipt)
     }
 
     onMount(() => {
