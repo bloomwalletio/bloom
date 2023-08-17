@@ -2,7 +2,7 @@ import { Web3WalletTypes } from '@walletconnect/web3wallet'
 import { SUPPORTED_EVENTS, SUPPORTED_METHODS } from '../constants'
 import { buildApprovedNamespaces } from '@walletconnect/utils'
 import { getAllEvmAddresses } from '../utils'
-import { getWalletClient } from '../stores'
+import { getWalletClient, setConnectedDapps } from '../stores'
 
 export function onSessionProposal(sessionProposal: Web3WalletTypes.SessionProposal): void {
     const { id, params } = sessionProposal
@@ -23,5 +23,7 @@ export function onSessionProposal(sessionProposal: Web3WalletTypes.SessionPropos
         },
     })
 
-    void getWalletClient()?.approveSession({ id, namespaces: approvedNamespaces })
+    void getWalletClient()
+        ?.approveSession({ id, namespaces: approvedNamespaces })
+        .then(() => setConnectedDapps())
 }
