@@ -31,20 +31,23 @@ export async function preprocessTransaction(
 }
 
 function convertTransactionsOutputTypesToWrappedOutputs(transactionId: string, outputs: Output[]): IWrappedOutput[] {
-    return outputs.map((outputType, index) =>
-        convertTransactionOutputTypeToWrappedOutput(transactionId, index, outputType)
-    )
+    return outputs
+        .map((outputType, index) => convertTransactionOutputTypeToWrappedOutput(transactionId, index, outputType))
+        .filter((o) => !!o)
 }
 
 function convertTransactionOutputTypeToWrappedOutput(
     transactionId: string,
     index: number,
     output: Output
-): IWrappedOutput {
+): IWrappedOutput | undefined {
+    if (output.type === OutputType.Treasury) {
+        return undefined
+    }
     const outputId = getOutputIdFromTransactionIdAndIndex(transactionId, index)
     return {
         outputId,
-        output: output.type !== OutputType.Foundry ? output : undefined,
+        output,
         remainder: false,
     }
 }
