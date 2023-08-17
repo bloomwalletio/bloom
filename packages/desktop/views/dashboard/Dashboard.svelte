@@ -1,41 +1,29 @@
 <script lang="ts">
-    import { localize } from '@core/i18n'
-    import { nodeInfo } from '@core/network'
-    import {
-        activeProfile,
-        hasStrongholdLocked,
-        isActiveLedgerProfile,
-        logout,
-        reflectLockedStronghold,
-    } from '@core/profile'
-    import { appRouter, dashboardRoute } from '@core/router'
-    import { Idle } from '@ui'
-    import { stopPollingLedgerNanoStatus } from '@core/ledger'
-    import { removeDisplayNotification, showAppNotification } from '@auxiliary/notification'
+    import { selectedAccount, selectedAccountIndex } from '@core/account/stores'
     import { Platform } from '@core/app'
-    import { Developer } from './developer'
-    import { Settings } from './settings'
-    import { Wallet } from './wallet'
-    import { onDestroy, onMount } from 'svelte'
-    import Collectibles from './collectibles/Collectibles.svelte'
-    import { Governance } from './governance'
-    import Sidebar from './Sidebar.svelte'
-    import TopNavigation from './TopNavigation.svelte'
-    import { Drawer } from '@components'
-
+    import { clearLayer2TokensPoll, pollLayer2Tokens } from '@core/layer-2'
+    import { stopPollingLedgerNanoStatus } from '@core/ledger'
     import {
         addNftsToDownloadQueue,
-        downloadingNftId,
         downloadNextNftInQueue,
         interruptNftDownloadAfterTimeout,
-        nftDownloadQueue,
-        resetNftDownloadQueue,
-        selectedAccountNfts,
-    } from '@core/nfts'
-    import { selectedAccount, selectedAccountIndex } from '@core/account'
-    import { get } from 'svelte/store'
+    } from '@core/nfts/actions'
+    import { downloadingNftId, nftDownloadQueue, resetNftDownloadQueue, selectedAccountNfts } from '@core/nfts/stores'
+    import { logout, reflectLockedStronghold } from '@core/profile/actions'
+    import { hasStrongholdLocked, isActiveLedgerProfile } from '@core/profile/stores'
+    import { appRouter, dashboardRoute } from '@core/router'
     import features from '@features/features'
-    import { pollLayer2Tokens, clearLayer2TokensPoll } from '@core/layer-2'
+    import { Idle } from '@ui'
+    import { onDestroy, onMount } from 'svelte'
+    import { get } from 'svelte/store'
+    import Sidebar from './Sidebar.svelte'
+    import TopNavigation from './TopNavigation.svelte'
+    import Collectibles from './collectibles/Collectibles.svelte'
+    import { Developer } from './developer'
+    import { Governance } from './governance'
+    import { Settings } from './settings'
+    import { Wallet } from './wallet'
+    import { DashboardDrawerRouterView } from './drawers'
 
     const tabs = {
         wallet: Wallet,
@@ -44,9 +32,6 @@
         governance: Governance,
         developer: Developer,
     }
-
-    let fundsSoonNotificationId: string
-    let developerProfileNotificationId: string
 
     $: $hasStrongholdLocked && reflectLockedStronghold()
     $: $nftDownloadQueue, downloadNextNftInQueue()
@@ -72,28 +57,11 @@
 
         Platform.DeepLinkManager.checkDeepLinkRequestExists()
 
-        if ($activeProfile?.isDeveloperProfile && !developerProfileNotificationId && $nodeInfo) {
-            // Show developer profile warning
-            developerProfileNotificationId = showAppNotification({
-                type: 'warning',
-                message: localize('indicators.developerProfileIndicator.warningText', {
-                    values: { networkName: $nodeInfo.protocol.networkName },
-                }),
-            })
-        }
-
         void pollLayer2Tokens($selectedAccount)
     })
 
     onDestroy(() => {
         Platform.DeepLinkManager.clearDeepLinkRequest()
-
-        if (fundsSoonNotificationId) {
-            removeDisplayNotification(fundsSoonNotificationId)
-        }
-        if (developerProfileNotificationId) {
-            removeDisplayNotification(developerProfileNotificationId)
-        }
         if ($isActiveLedgerProfile) {
             stopPollingLedgerNanoStatus()
         }
@@ -109,7 +77,7 @@
         <!-- Dashboard Pane -->
         <div class="flex flex-col h-full dashboard-w">
             <svelte:component this={tabs[$dashboardRoute]} on:next={$appRouter.next} />
-            <Drawer />
+            <DashboardDrawerRouterView />
         </div>
     </div>
 </div>

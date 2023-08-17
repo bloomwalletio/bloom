@@ -1,5 +1,6 @@
 import { proposalFilter } from '@contexts/governance/stores'
-import { activityFilter, assetFilter } from '@core/wallet'
+import { tokenFilter } from '@core/token/stores'
+import { activityFilter } from '@core/activity'
 
 export function clearFilters(): void {
     proposalFilter.update((state) => {
@@ -10,7 +11,7 @@ export function clearFilters(): void {
         return state
     })
 
-    assetFilter.update((state) => {
+    tokenFilter.update((state) => {
         for (const key in state) {
             state[key].active = false
             state[key].value = undefined

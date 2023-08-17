@@ -1,6 +1,6 @@
 <script lang="ts">
     import { Icon } from '@ui'
-    import { NotVerifiedStatus, VerifiedStatus } from '@core/wallet'
+    import { NotVerifiedStatus, VerifiedStatus } from '@core/token'
     import { Icon as IconEnum } from '@auxiliary/icon'
 
     export let status: VerifiedStatus | NotVerifiedStatus

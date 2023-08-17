@@ -1,9 +1,10 @@
 <script lang="ts">
-    import { KeyValueBox } from '@ui'
     import { getFormattedTimeStamp, localize } from '@core/i18n'
-    import { formatTokenAmountBestMatch, GovernanceAction, GovernanceActivity } from '@core/wallet'
-    import { getBaseToken } from '@core/profile'
+    import { getBaseToken } from '@core/profile/actions'
+    import { formatTokenAmountBestMatch } from '@core/token'
     import { IKeyValueBoxList } from '@core/utils'
+    import { GovernanceAction, GovernanceActivity } from '@core/activity'
+    import { KeyValueBox } from '@ui'
 
     export let activity: GovernanceActivity
 

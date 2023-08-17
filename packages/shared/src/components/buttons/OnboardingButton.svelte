@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { appSettings } from '@core/app'
+    import { appSettings } from '@core/app/stores'
     import { Icon, Spinner, Text, FontWeight, TextType } from '@ui'
 
     export let primaryText: string = ''

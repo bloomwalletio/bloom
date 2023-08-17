@@ -1,9 +1,8 @@
-import { UnlockConditionType } from '@iota/sdk/out/types'
-import { getSelectedAccount } from '@core/account'
+import { ExpirationUnlockCondition, UnlockConditionType } from '@iota/sdk/out/types'
 import { InsufficientFundsForStorageDepositError, InvalidExpirationDateTimeError } from '@contexts/wallet'
+import { getSelectedAccount } from '@core/account/stores'
 import { convertUnixTimestampToDate, isValidExpirationDateTime } from '@core/utils'
 import { Output } from '@core/wallet/types'
-import { ExpirationUnlockCondition } from '@iota/sdk'
 
 export function validateSendConfirmation(output: Output): void {
     const parseNumber: (value: string) => number = (value: string) => parseInt(value, 10) ?? 0

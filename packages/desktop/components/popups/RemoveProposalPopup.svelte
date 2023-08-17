@@ -1,6 +1,6 @@
 <script lang="ts">
-    import { showAppNotification } from '@auxiliary/notification'
     import { EventStatus } from '@iota/sdk/out/types'
+    import { showNotification } from '@auxiliary/notification'
     import {
         clearSelectedParticipationEventStatus,
         removePersistedProposal,
@@ -29,10 +29,9 @@
             $governanceRouter.previous()
             clearEvent()
             closePopup()
-            showAppNotification({
-                type: 'success',
-                message: localize('views.governance.proposals.successRemove'),
-                alert: true,
+            showNotification({
+                variant: 'success',
+                text: localize('views.governance.proposals.successRemove'),
             })
         } catch (err) {
             handleError(err)

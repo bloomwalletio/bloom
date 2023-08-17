@@ -1,14 +1,16 @@
 <script lang="ts">
-    import { Button, KeyValueBox, Text, FontWeight, TextType } from '@ui'
-    import { selectedAccount, updateSelectedAccount } from '@core/account'
+    import { selectedAccount, updateSelectedAccount } from '@core/account/stores'
+    import { processAndAddToActivities } from '@core/activity/utils'
+    import { handleError } from '@core/error/handlers/handleError'
     import { localize } from '@core/i18n'
-    import { checkActiveProfileAuth, getBaseToken } from '@core/profile'
-    import { formatTokenAmountPrecise, EMPTY_HEX_ID, processAndAddToActivities } from '@core/wallet'
+    import { checkActiveProfileAuth, getBaseToken } from '@core/profile/actions'
+    import { EMPTY_HEX_ID } from '@core/wallet'
     import { UnlockConditionType } from '@iota/sdk/out/types'
     import { closePopup } from '@desktop/auxiliary/popup'
+    import { Button, FontWeight, KeyValueBox, Text, TextType } from '@ui'
     import { onMount } from 'svelte'
-    import { handleError } from '@core/error/handlers/handleError'
     import { api } from '@core/profile-manager'
+    import { formatTokenAmountPrecise } from '@core/token'
 
     export let _onMount: (..._: any[]) => Promise<void> = async () => {}
 

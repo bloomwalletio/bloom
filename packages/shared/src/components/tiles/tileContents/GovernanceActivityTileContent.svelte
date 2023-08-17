@@ -3,9 +3,9 @@
     import {
         GovernanceActivity,
         getActivityTileTitle,
-        getFormattedVotingPowerFromGovernanceActivity,
         GovernanceAction,
-    } from '@core/wallet'
+        getFormattedVotingPowerFromGovernanceActivity,
+    } from '@core/activity'
     import { ActivityTileContent } from '@ui'
     import { Icon } from '@lib/auxiliary/icon'
 

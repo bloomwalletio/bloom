@@ -1,7 +1,7 @@
 import { localize } from '@core/i18n'
-
-import { WalletApiEventError, WalletApiEventValidationError } from '../errors'
 import type { Event, WalletEventType } from '@iota/sdk'
+import { WalletApiEventError } from '../errors/wallet-api-event.error'
+import { WalletApiEventValidationError } from '../errors/wallet-api-event-validation.error'
 
 export function validateWalletApiEvent<T>(error: Error, event: Event, walletEventType: WalletEventType): T {
     if (error) {

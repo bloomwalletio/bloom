@@ -1,0 +1,15 @@
+import type { Transaction } from '@iota/sdk'
+
+import type { IAccountState } from '@core/account/interfaces'
+import { addActivitiesToAccountActivitiesInAllAccountActivities } from '../stores'
+import { preprocessTransaction } from './outputs'
+import { generateActivities } from './generateActivities'
+
+// We pass the account as a parameter,
+// because logging out while transaction is pending,
+// clears the the selectedAccount store at this point.
+export async function processAndAddToActivities(transaction: Transaction, account: IAccountState): Promise<void> {
+    const preprocessedTransaction = await preprocessTransaction(transaction, account)
+    const activities = generateActivities(preprocessedTransaction, account)
+    addActivitiesToAccountActivitiesInAllAccountActivities(account.index, activities)
+}

@@ -1,19 +1,15 @@
 <script lang="ts">
     import { localize } from '@core/i18n'
-    import {
-        FoundryActivity,
-        getActivityTileTitle,
-        getAssetFromPersistedAssets,
-        getFormattedAmountFromActivity,
-        IPersistedAsset,
-        selectedAccountAssets,
-    } from '@core/wallet'
-    import { AssetIcon, ActivityTileContent } from '@ui'
+    import { IPersistedToken } from '@core/token'
+    import { FoundryActivity, getActivityTileTitle } from '@core/activity'
+    import { TokenIcon, ActivityTileContent } from '@ui'
+    import { getFormattedAmountFromActivity } from '@core/activity/utils/outputs'
+    import { getPersistedToken, selectedAccountTokens } from '@core/token/stores'
 
     export let activity: FoundryActivity
 
-    let asset: IPersistedAsset | undefined
-    $: $selectedAccountAssets, (asset = getAssetFromPersistedAssets(activity.assetId))
+    let token: IPersistedToken | undefined
+    $: $selectedAccountTokens, (token = getPersistedToken(activity.tokenId))
     $: action = localize(getActivityTileTitle(activity))
     $: amount = getFormattedAmountFromActivity(activity)
     $: formattedAsset = {
@@ -23,9 +19,9 @@
     }
 </script>
 
-{#if asset}
+{#if token}
     <ActivityTileContent {action} subject={localize('general.internalTransaction')} {formattedAsset}>
         <!-- Once the activity contains the chainId, add that here -->
-        <AssetIcon slot="icon" {asset} chainId={undefined} />
+        <TokenIcon slot="icon" {token} chainId={undefined} />
     </ActivityTileContent>
 {/if}

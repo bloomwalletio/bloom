@@ -1,9 +1,10 @@
-import { get } from 'svelte/store'
-
-import { AppContext } from '@core/app/enums'
-import { activeProfile, logout, profiles, removeProfile, removeProfileFolder } from '@core/profile'
-import { routerManager } from '@core/router/stores'
 import { removePersistedShimmerClaimingTransactions } from '@contexts/onboarding/stores'
+import { AppContext } from '@core/app/enums'
+import { removeProfileFolder } from '@core/profile'
+import { logout } from '@core/profile/actions'
+import { activeProfile, profiles, removeProfile } from '@core/profile/stores'
+import { routerManager } from '@core/router/stores'
+import { get } from 'svelte/store'
 
 /**
  * It removes the active profile from the app's list of profiles, removes the profile's directory from

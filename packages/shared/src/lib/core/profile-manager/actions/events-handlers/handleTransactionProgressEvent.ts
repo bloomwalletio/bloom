@@ -1,8 +1,8 @@
 import { isOnboardingLedgerProfile } from '@contexts/onboarding'
-import { selectedAccountIndex } from '@core/account'
+import { selectedAccountIndex } from '@core/account/stores'
 import { ledgerNanoStatus } from '@core/ledger'
 import { deconstructLedgerVerificationProps } from '@core/ledger/helpers'
-import { isActiveLedgerProfile } from '@core/profile'
+import { isActiveLedgerProfile } from '@core/profile/stores'
 import {
     Event,
     PreparedTransactionEssenceHashProgress,
@@ -10,8 +10,11 @@ import {
     TransactionProgressType,
     TransactionProgressWalletEvent,
     WalletEventType,
-    PreparedTransactionEssenceHashProgress,
 } from '@iota/sdk/out/types'
+import { get } from 'svelte/store'
+import { PopupId, closePopup, openPopup } from '../../../../../../../desktop/lib/auxiliary/popup'
+import { MissingTransactionProgressEventPayloadError } from '../../errors'
+import { validateWalletApiEvent } from '../../utils'
 
 export function handleTransactionProgressEvent(error: Error, event: Event): void {
     const walletEvent = validateWalletApiEvent<TransactionProgressWalletEvent>(

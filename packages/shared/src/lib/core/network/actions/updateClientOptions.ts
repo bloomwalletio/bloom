@@ -1,6 +1,6 @@
 import { IClientOptions } from '@core/network'
-import { activeProfile, updateActiveProfile } from '@core/profile'
 import { setClientOptions } from '@core/profile-manager'
+import { activeProfile, updateActiveProfile } from '@core/profile/stores'
 import { get } from 'svelte/store'
 
 /**

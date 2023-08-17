@@ -4,10 +4,10 @@ import {
     SenderFeature,
     TimelockUnlockCondition,
     MetadataFeature,
-} from '@iota/sdk'
+} from '@iota/sdk/out/types'
 import { IWrappedOutput } from '../../wallet/interfaces'
 import { Feature, UnlockCondition } from '../../wallet/types'
-import { buildNftFromNftOutput } from '../utils/buildNftFromNftOutput'
+import { buildNftFromNftOutput } from '../actions/buildNftFromNftOutput'
 import { Converter } from '../../utils/convert'
 import { Bech32Helper } from '../../utils/crypto'
 

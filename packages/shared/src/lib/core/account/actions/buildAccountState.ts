@@ -1,6 +1,6 @@
 import { Balance } from '@iota/sdk'
 
-import { getDepositAddress } from '@core/account/utils'
+import { getDepositAddress } from '@core/account/utils/getDepositAddress'
 import {
     getActiveProfilePersistedEvmAddressesByAccountIndex,
     updateAccountPersistedDataOnActiveProfile,

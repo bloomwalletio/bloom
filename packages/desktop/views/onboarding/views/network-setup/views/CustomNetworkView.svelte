@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { showAppNotification } from '@auxiliary/notification'
+    import { showNotification } from '@auxiliary/notification'
     import { OnboardingLayout } from '@components'
     import {
         cleanupOnboardingProfileManager,
@@ -74,9 +74,9 @@
             } else if (err?.message === 'error.node.differentNetwork') {
                 formError = localize('error.node.differentNetwork')
             } else if (err?.type !== 'validationError') {
-                showAppNotification({
-                    type: 'error',
-                    message: localize(err?.error ?? 'error.global.generic'),
+                showNotification({
+                    variant: 'error',
+                    text: localize(err?.error ?? 'error.global.generic'),
                 })
             }
         } finally {

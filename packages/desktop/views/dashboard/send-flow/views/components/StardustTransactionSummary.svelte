@@ -1,16 +1,17 @@
 <script lang="ts">
-    import { selectedAccount } from '@core/account'
+    import { selectedAccount } from '@core/account/stores'
+    import { getStorageDepositFromOutput } from '@core/activity/utils/helper'
     import { localize } from '@core/i18n'
-    import { getDestinationNetworkFromAddress, estimateGasForLayer1ToLayer2Transaction } from '@core/layer-2/utils'
+    import { estimateGasForLayer1ToLayer2Transaction, getDestinationNetworkFromAddress } from '@core/layer-2/utils'
+    import { getNetwork } from '@core/network'
+    import { INft } from '@core/nfts/interfaces'
+    import { selectedAccountTokens } from '@core/token/stores'
     import { TimePeriod } from '@core/utils/enums'
-    import { SendFlowType, selectedAccountAssets, updateSendFlowParameters } from '@core/wallet/stores'
+    import { Output, SendFlowParameters, TokenTransferData } from '@core/wallet'
+    import { SendFlowType, updateSendFlowParameters } from '@core/wallet/stores'
     import { AddInputButton, ExpirationTimePicker, OptionalInput, TransactionAssetSection } from '@ui'
-    import { getStorageDepositFromOutput } from '@core/wallet/utils'
     import { onMount } from 'svelte'
     import StardustTransactionDetails from './StardustTransactionDetails.svelte'
-    import { Output, SendFlowParameters, TokenTransferData } from '@core/wallet'
-    import { INft } from '@core/nfts/interfaces'
-    import { getNetwork } from '@core/network'
 
     export let output: Output
     export let sendFlowParameters: SendFlowParameters
@@ -75,7 +76,7 @@
     function setBaseCoinAndStorageDeposit(output: Output, estimatedGas: number): void {
         storageDeposit = getStorageDepositFromOutput(output)
         baseCoinTransfer = {
-            asset: $selectedAccountAssets?.[getNetwork().getMetadata().id].baseCoin,
+            token: $selectedAccountTokens?.[getNetwork().getMetadata().id].baseCoin,
             rawAmount: String(Number(output.amount) - storageDeposit - estimatedGas),
         }
     }

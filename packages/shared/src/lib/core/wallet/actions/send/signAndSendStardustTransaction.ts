@@ -1,9 +1,10 @@
 import { OutputType } from '@iota/sdk/out/types'
-import { IAccountState, updateSelectedAccount } from '@core/account'
+import { IAccountState } from '@core/account'
+import { updateSelectedAccount } from '@core/account/stores'
+import { processAndAddToActivities } from '@core/activity/utils'
 import { updateNftInAllAccountNfts } from '@core/nfts/actions'
 import { DEFAULT_TRANSACTION_OPTIONS } from '@core/wallet/constants'
 import { Output } from '@core/wallet/types'
-import { processAndAddToActivities } from '@core/wallet/utils'
 
 export async function signAndSendStardustTransaction(output: Output, account: IAccountState): Promise<void> {
     try {

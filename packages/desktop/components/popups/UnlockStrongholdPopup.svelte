@@ -1,8 +1,8 @@
 <script lang="ts">
-    import { Button, PasswordInput, Text, HTMLButtonType } from '@ui'
-    import { closePopup } from '@desktop/auxiliary/popup'
     import { localize } from '@core/i18n'
-    import { unlockStronghold } from '@core/profile'
+    import { unlockStronghold } from '@core/profile/actions'
+    import { closePopup } from '@desktop/auxiliary/popup'
+    import { Button, HTMLButtonType, PasswordInput, Text } from '@ui'
 
     export let subtitle: string = ''
     export let returnPassword = false

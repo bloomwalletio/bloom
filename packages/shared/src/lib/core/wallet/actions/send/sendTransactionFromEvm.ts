@@ -1,10 +1,10 @@
-import { getSelectedAccount } from '@core/account'
+import { getSelectedAccount } from '@core/account/stores'
+import { addPersistedTransaction } from '@core/activity/stores'
 import { EvmTransactionData } from '@core/layer-2'
 import { LedgerAppName } from '@core/ledger'
 import { IChain } from '@core/network'
-import { checkActiveProfileAuth } from '@core/profile'
+import { checkActiveProfileAuth } from '@core/profile/actions'
 import { signAndSendEvmTransaction } from './signAndSendEvmTransaction'
-import { addPersistedTransaction } from '@core/activities/stores'
 
 export async function sendTransactionFromEvm(
     transaction: EvmTransactionData,
@@ -17,16 +17,12 @@ export async function sendTransactionFromEvm(
         return
     }
 
+    const chainId = chain.getConfiguration().chainId
     await checkActiveProfileAuth(
         async () => {
-            const transactionReceipt = await signAndSendEvmTransaction(
-                transaction,
-                chain.getConfiguration().chainId,
-                provider,
-                account
-            )
+            const transactionReceipt = await signAndSendEvmTransaction(transaction, chainId, provider, account)
             if (transactionReceipt) {
-                addPersistedTransaction(account.index, chain.getConfiguration().chainId, {
+                addPersistedTransaction(account.index, chainId, {
                     ...transaction,
                     ...transactionReceipt,
                 })

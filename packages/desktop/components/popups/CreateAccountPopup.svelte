@@ -1,12 +1,13 @@
 <script lang="ts">
-    import { onMount } from 'svelte'
-    import { Button, ColorPicker, Input, Text, TextType } from '@ui'
-    import { getRandomAccountColor, tryCreateAdditionalAccount, validateAccountName } from '@core/account'
+    import { getRandomAccountColor } from '@core/account'
+    import { tryCreateAdditionalAccount, validateAccountName } from '@core/account/actions'
     import { handleError } from '@core/error/handlers/handleError'
     import { localize } from '@core/i18n'
-    import { checkActiveProfileAuth } from '@core/profile'
+    import { checkActiveProfileAuth } from '@core/profile/actions'
     import { getTrimmedLength } from '@core/utils'
     import { closePopup, updatePopupProps } from '@desktop/auxiliary/popup'
+    import { Button, ColorPicker, Input, Text, TextType } from '@ui'
+    import { onMount } from 'svelte'
 
     export let accountAlias = ''
     export let error: string

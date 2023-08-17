@@ -1,41 +1,23 @@
 <script lang="ts">
     import { AddressType } from '@iota/sdk/out/types'
-    import { openPopup, PopupId } from '@desktop/auxiliary/popup'
     import { selectedAccountIndex } from '@core/account/stores'
-    import { time } from '@core/app'
+    import { time } from '@core/app/stores'
     import { openUrlInBrowser } from '@core/app/utils'
     import { localize } from '@core/i18n'
     import { ExplorerEndpoint, getOfficialExplorerUrl } from '@core/network'
-    import {
-        INft,
-        NftDownloadMetadata,
-        allAccountNfts,
-        convertAndFormatNftMetadata,
-        getNftByIdFromAllAccountNfts,
-        selectedNftId,
-    } from '@core/nfts'
+    import { convertAndFormatNftMetadata, INft, NftDownloadMetadata } from '@core/nfts'
+    import { getNftByIdFromAllAccountNfts } from '@core/nfts/actions'
+    import { allAccountNfts, selectedNftId } from '@core/nfts/stores'
     import { getBaseToken } from '@core/profile/actions'
     import { activeProfile } from '@core/profile/stores'
     import { collectiblesRouter } from '@core/router/routers'
-    import { truncateString } from '@core/utils'
-    import {
-        formatTokenAmountPrecise,
-        getBech32AddressFromAddressTypes,
-        getHexAddressFromAddressTypes,
-        getTimeDifference,
-    } from '@core/wallet'
+    import { formatTokenAmountPrecise } from '@core/token'
+    import { getTimeDifference, truncateString } from '@core/utils'
+    import { getBech32AddressFromAddressTypes, getHexAddressFromAddressTypes } from '@core/wallet'
     import { SendFlowType, setSendFlowParameters } from '@core/wallet/stores'
-    import {
-        Alert,
-        Button,
-        CollectibleDetailsMenu,
-        KeyValueBox,
-        MeatballMenuButton,
-        Modal,
-        NftMedia,
-        Pane,
-        Text,
-    } from '@ui'
+    import { openPopup, PopupId } from '@desktop/auxiliary/popup'
+    import { Button, CollectibleDetailsMenu, KeyValueBox, MeatballMenuButton, Modal, NftMedia, Pane, Text } from '@ui'
+    import { Alert } from '@bloomwalletio/ui'
     import { FontWeight, TextType } from '@ui/enums'
     import { SendFlowRoute, SendFlowRouter, sendFlowRouter } from '@views/dashboard/send-flow'
 
@@ -150,7 +132,7 @@
             </div>
             <div class="absolute right-6 bottom-6 w-auto">
                 {#if alertText}
-                    <Alert type={downloadMetadata?.error ? 'error' : 'warning'} message={alertText} />
+                    <Alert type={downloadMetadata?.error ? 'error' : 'warning'} text={alertText} />
                 {/if}
             </div>
         </div>

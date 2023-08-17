@@ -1,14 +1,14 @@
 import { ContractType, evmAddressToAgentID, getAgentBalanceParameters, getSmartContractHexName } from '@core/layer-2'
 import { IChain, getNetwork } from '@core/network'
 import { ISC_MAGIC_CONTRACT_ADDRESS } from '../constants'
-import { getOrRequestAssetFromPersistedAssets } from '@core/wallet/actions'
-import { addPersistedAsset } from '@core/wallet/stores'
 import { Converter } from '@core/utils/convert'
 import { TOKEN_ID_BYTE_LENGTH } from '@core/token/constants'
 import { setLayer2AccountBalanceForChain } from '../stores'
-import { getActiveProfile } from '@core/profile'
+import { getActiveProfile } from '@core/profile/stores'
 import { IAccountState } from '@core/account'
-import { calculateAndAddPersistedBalanceChange } from '@core/activities/actions'
+import { calculateAndAddPersistedBalanceChange } from '@core/activity/actions'
+import { getOrRequestTokenFromPersistedTokens } from '@core/token/actions'
+import { addPersistedToken } from '@core/token/stores'
 
 export function fetchSelectedAccountLayer2Balance(account: IAccountState): void {
     const { evmAddresses, index } = account
@@ -31,9 +31,9 @@ export function fetchSelectedAccountLayer2Balance(account: IAccountState): void 
             const isNativeToken = Converter.hexToBytes(tokenId).length === TOKEN_ID_BYTE_LENGTH
             const isErc20TrackedToken = getActiveProfile()?.trackedTokens?.[chainId]?.includes(tokenId)
             if (isNativeToken || isErc20TrackedToken) {
-                const asset = await getOrRequestAssetFromPersistedAssets(tokenId, chainId)
-                if (asset) {
-                    addPersistedAsset(asset)
+                const token = await getOrRequestTokenFromPersistedTokens(tokenId, chainId)
+                if (token) {
+                    addPersistedToken(token)
                 }
             }
             calculateAndAddPersistedBalanceChange(account.index, chainId, tokenId, balance)

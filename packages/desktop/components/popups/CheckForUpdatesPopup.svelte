@@ -1,18 +1,12 @@
 <script lang="ts">
-    import { onMount } from 'svelte'
-    import { Button, KeyValueBox, Text, TextType, TextHint } from '@ui'
-    import {
-        appUpdateBusy,
-        checkForAppUpdate,
-        downloadAppUpdate,
-        appVersionDetails,
-        OS,
-        openUrlInBrowser,
-        APP_STAGE,
-    } from '@core/app'
+    import { APP_STAGE, OS, checkForAppUpdate, openUrlInBrowser } from '@core/app'
+    import { downloadAppUpdate } from '@core/app/actions'
+    import { appUpdateState, appVersionDetails } from '@core/app/stores'
     import { formatDate, localize } from '@core/i18n'
     import { closePopup } from '@desktop/auxiliary/popup'
     import features from '@features/features'
+    import { Button, KeyValueBox, Text, TextHint, TextType } from '@ui'
+    import { onMount } from 'svelte'
 
     let hasAutoUpdate = false
 
@@ -72,7 +66,7 @@
             >{localize('actions.cancel')}</Button
         >
         {#if hasAutoUpdate && !$appVersionDetails.upToDate}
-            <Button classes="w-1/2" onClick={onDownloadClick} disabled={$appUpdateBusy}>
+            <Button classes="w-1/2" onClick={onDownloadClick} disabled={$appUpdateState.busy}>
                 {localize('actions.updateFirefly')}
             </Button>
         {:else if !$appVersionDetails.upToDate}

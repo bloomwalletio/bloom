@@ -1,17 +1,16 @@
 <script lang="ts">
     import { selectedAccount, selectedAccountIndex } from '@core/account/stores'
-    import { ContactManager } from '@core/contact'
+    import { ContactManager } from '@core/contact/classes'
     import { localize } from '@core/i18n'
     import { IChain, IIscpChainConfiguration, INetwork, network } from '@core/network'
-    import { visibleActiveAccounts } from '@core/profile'
+    import { visibleActiveAccounts } from '@core/profile/stores'
     import {
         SendFlowType,
-        TokenStandard,
         sendFlowParameters,
         updateSendFlowParameters,
-        getChainIdFromSendFlowParameters,
         SubjectType,
         Subject,
+        getChainIdFromSendFlowParameters,
     } from '@core/wallet'
     import { closePopup } from '@desktop/auxiliary/popup'
     import features from '@features/features'
@@ -19,9 +18,11 @@
     import { onMount } from 'svelte'
     import { sendFlowRouter } from '../send-flow.router'
     import SendFlowTemplate from './SendFlowTemplate.svelte'
-    import { getAssetStandard } from '@core/wallet/actions/getTokenStandartFromSendFlowParameters'
+    import { getTokenStandardFromSendFlowParameters } from '@core/wallet/actions/'
+    import { TokenStandard } from '@core/token'
 
     let networkAddress = $sendFlowParameters?.layer2Parameters?.networkAddress
+    let selector: NetworkRecipientSelector
     let selectorOptions: INetworkRecipientSelectorOption[] = []
     let selectedIndex = -1
 
@@ -35,9 +36,9 @@
 
     function getAssetName(): string | undefined {
         if ($sendFlowParameters?.type === SendFlowType.BaseCoinTransfer) {
-            return $sendFlowParameters.baseCoinTransfer.asset?.metadata.name
+            return $sendFlowParameters.baseCoinTransfer.token?.metadata.name
         } else if ($sendFlowParameters?.type === SendFlowType.TokenTransfer) {
-            return $sendFlowParameters.tokenTransfer.asset?.metadata.name
+            return $sendFlowParameters.tokenTransfer.token?.metadata.name
         } else if ($sendFlowParameters?.type === SendFlowType.NftTransfer) {
             return $sendFlowParameters.nft.name
         } else {
@@ -138,7 +139,7 @@
             return [layer1Network]
         }
 
-        const assetStandard = getAssetStandard($sendFlowParameters)
+        const assetStandard = getTokenStandardFromSendFlowParameters($sendFlowParameters)
         const sourceChainId = getChainIdFromSendFlowParameters($sendFlowParameters)
         const sourceChain = $network.getChain(sourceChainId)
 
@@ -170,19 +171,30 @@
     }
 
     function onContinueClick(): void {
-        const layer2Parameters = isLayer2
-            ? {
-                  chainId: selectedOption.chainId,
-                  networkAddress: selectedOption?.networkAddress,
-                  senderAddress: $selectedAccount.depositAddress,
-              }
-            : null
-        updateSendFlowParameters({
-            type: $sendFlowParameters?.type,
-            recipient,
-            layer2Parameters,
-        })
-        $sendFlowRouter.next()
+        if (validate()) {
+            const layer2Parameters = isLayer2
+                ? {
+                      chainId: selectedOption.chainId,
+                      networkAddress: selectedOption?.networkAddress,
+                      senderAddress: $selectedAccount.depositAddress,
+                  }
+                : null
+            updateSendFlowParameters({
+                type: $sendFlowParameters?.type,
+                recipient,
+                layer2Parameters,
+            })
+            $sendFlowRouter.next()
+        }
+    }
+
+    function validate(): boolean {
+        try {
+            selector?.validate()
+            return true
+        } catch (err) {
+            return false
+        }
     }
 
     function onBackClick(): void {
@@ -221,5 +233,5 @@
             (recipient.type === SubjectType.Account && !recipient.account),
     }}
 >
-    <NetworkRecipientSelector bind:options={selectorOptions} bind:selectedIndex />
+    <NetworkRecipientSelector bind:this={selector} bind:options={selectorOptions} bind:selectedIndex />
 </SendFlowTemplate>

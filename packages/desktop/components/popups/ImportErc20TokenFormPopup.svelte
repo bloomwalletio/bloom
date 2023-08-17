@@ -4,10 +4,11 @@
     import { localize } from '@core/i18n'
     import { ERC20_TOKEN_ADDRESS_LENGTH } from '@core/layer-2'
     import { getErc20TokenMetadata } from '@core/layer-2/utils'
+    import { network } from '@core/network'
     import { HEXADECIMAL_PREFIX, HEXADECIMAL_REGEXP } from '@core/utils'
 
     import { closePopup } from '@desktop/auxiliary/popup'
-    import { showAppNotification } from '@auxiliary/notification'
+    import { showNotification } from '@auxiliary/notification'
     import { addNewTrackedTokenToActiveProfile } from '@core/wallet'
 
     let busy = false
@@ -27,13 +28,12 @@
 
         if (validate()) {
             try {
-                const erc20TokenMetadata = await getErc20TokenMetadata(tokenAddress, chainId)
+                const erc20TokenMetadata = await getErc20TokenMetadata(tokenAddress, chainId, $network)
                 if (erc20TokenMetadata) {
                     addNewTrackedTokenToActiveProfile(chainId, tokenAddress, erc20TokenMetadata)
-                    showAppNotification({
-                        type: 'success',
-                        alert: true,
-                        message: localize('popups.importErc20Token.success', {
+                    showNotification({
+                        variant: 'success',
+                        text: localize('popups.importErc20Token.success', {
                             values: { tokenSymbol: erc20TokenMetadata.symbol },
                         }),
                     })
@@ -41,10 +41,9 @@
                 }
             } catch (err) {
                 console.error(err)
-                showAppNotification({
-                    type: 'error',
-                    alert: true,
-                    message: localize('popups.importErc20Token.error'),
+                showNotification({
+                    variant: 'error',
+                    text: localize('popups.importErc20Token.error'),
                 })
             }
         }

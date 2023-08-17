@@ -7,9 +7,9 @@ import {
     MetadataFeature,
     Feature,
 } from '@iota/sdk/out/types'
-import { IIrc30Metadata } from '../interfaces'
 import { api } from '@core/profile-manager'
-import { getSerialNumberFromAliasOutput } from './outputs/getSerialNumberFromAliasOutput'
+import { getSerialNumberFromAliasOutput } from '@core/activity/utils/outputs/getSerialNumberFromAliasOutput'
+import { IIrc30Metadata } from '@core/token/interfaces'
 
 export async function buildFoundryOutputData(
     totalSupply: number,

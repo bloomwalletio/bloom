@@ -1,15 +1,8 @@
 <script lang="ts">
-    import { time } from '@core/app'
-    import {
-        Activity,
-        ActivityAsyncStatus,
-        ActivityType,
-        InclusionState,
-        NotVerifiedStatus,
-        selectedAccountAssets,
-        getAssetFromPersistedAssets,
-        IPersistedAsset,
-    } from '@core/wallet'
+    import { Activity, ActivityAsyncStatus, ActivityType, InclusionState } from '@core/activity'
+    import { time } from '@core/app/stores'
+    import { IPersistedToken, IToken, NotVerifiedStatus } from '@core/token'
+    import { getPersistedToken, selectedAccountTokens } from '@core/token/stores'
     import {
         AliasActivityTileContent,
         AsyncActivityTileFooter,
@@ -25,23 +18,31 @@
 
     export let activity: Activity
 
-    let asset: IPersistedAsset | undefined
-    $: $selectedAccountAssets,
-        (asset =
+    let persistedToken: IPersistedToken | undefined
+    $: $selectedAccountTokens,
+        (persistedToken =
             activity.type === ActivityType.Basic || activity.type === ActivityType.Foundry
-                ? getAssetFromPersistedAssets(activity.assetId)
+                ? getPersistedToken(activity.tokenId)
                 : undefined)
-    $: isTimelocked = activity?.asyncData?.timelockDate > $time
+    $: isTimelocked = activity?.asyncData?.timelockDate ? activity?.asyncData?.timelockDate > $time : false
     $: shouldShowAsyncFooter = activity.asyncData && activity.asyncData.asyncStatus !== ActivityAsyncStatus.Claimed
 
     function onTransactionClick(): void {
-        if (asset?.verification?.status === NotVerifiedStatus.New) {
+        if (persistedToken?.verification?.status === NotVerifiedStatus.New) {
+            const token: IToken = {
+                ...persistedToken,
+                chainId: activity.chainId ?? 0,
+                balance: {
+                    total: 0,
+                    available: 0,
+                },
+            }
             openPopup({
                 id: PopupId.TokenInformation,
                 overflow: true,
                 props: {
                     activityId: activity.id,
-                    asset,
+                    token,
                 },
             })
         } else {

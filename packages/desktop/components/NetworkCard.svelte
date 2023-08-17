@@ -1,6 +1,6 @@
 <script lang="ts">
-    import { Icon as IconEnum } from '@auxiliary/icon'
-    import { selectedAccount } from '@core/account'
+    import { Button, FlatIconName } from '@bloomwalletio/ui'
+    import { selectedAccount } from '@core/account/stores'
     import { localize } from '@core/i18n'
     import { generateAndStoreEvmAddressForAccount } from '@core/layer-2'
     import { LedgerAppName } from '@core/ledger'
@@ -14,10 +14,12 @@
         networkStatus,
         setSelectedChain,
     } from '@core/network'
-    import { ProfileType, activeProfile, checkActiveProfileAuth } from '@core/profile'
+    import { ProfileType } from '@core/profile'
+    import { checkActiveProfileAuth } from '@core/profile/actions'
+    import { activeProfile } from '@core/profile/stores'
     import { UiEventFunction, truncateString } from '@core/utils'
-    import { NetworkConfigRoute, networkConfigRouter } from '@desktop/routers'
-    import { ClickableTile, FontWeight, Icon, NetworkIcon, NetworkStatusPill, Text, TextType } from '@ui'
+    import { ClickableTile, Copyable, FontWeight, NetworkIcon, NetworkStatusPill, Text, TextType } from '@ui'
+    import { NetworkConfigRoute, networkConfigRouter } from '@views/dashboard/drawers'
     import { onMount } from 'svelte'
 
     export let network: INetwork = undefined
@@ -89,21 +91,22 @@
                     {localize('general.myAddress')}
                 </Text>
                 {#if address}
-                    <Text type={TextType.pre} fontSize="16" fontWeight={FontWeight.medium}>
-                        {truncateString(address, 8, 8)}
-                    </Text>
-                {:else}
-                    <button on:click|stopPropagation={onGenerateAddressClick}>
-                        <Text type={TextType.p} fontWeight={FontWeight.medium} highlighted>
-                            {localize('actions.generateAddress')}
+                    <Copyable value={address}>
+                        <Text type={TextType.pre} fontSize="16" fontWeight={FontWeight.medium}>
+                            {truncateString(address, 8, 8)}
                         </Text>
-                    </button>
+                    </Copyable>
+                {:else}
+                    <Button
+                        variant="text"
+                        size="sm"
+                        text={localize('actions.generateAddress')}
+                        on:click={onGenerateAddressClick}
+                    />
                 {/if}
             </div>
             {#if address}
-                <button on:click|stopPropagation={onQrCodeIconClick}>
-                    <Icon icon={IconEnum.Qr} classes="text-gray-500" />
-                </button>
+                <Button variant="text" icon={FlatIconName.Qrcode} on:click={onQrCodeIconClick} />
             {/if}
         </div>
     </div>

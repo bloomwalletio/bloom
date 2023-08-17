@@ -1,34 +1,36 @@
 <script lang="ts">
-    import { localize } from '@core/i18n'
-    import { getOfficialExplorerUrl } from '@core/network/utils'
+    import { selectedAccountIndex } from '@core/account/stores'
     import {
-        Text,
-        Button,
-        FontWeight,
-        TextType,
-        BasicActivityDetails,
-        AliasActivityDetails,
-        FoundryActivityDetails,
-        GovernanceActivityDetails,
-        NftActivityDetails,
-        ConsolidationActivityDetails,
-        ActivityInformation,
-    } from '@ui'
-    import { openUrlInBrowser } from '@core/app'
-    import {
+        Activity,
         ActivityAsyncStatus,
         ActivityDirection,
         ActivityType,
-        claimActivity,
-        rejectActivity,
+        getActivityDetailsTitle,
         selectedAccountActivities,
-    } from '@core/wallet'
-    import { activeProfile, checkActiveProfileAuth } from '@core/profile'
-    import { setClipboard } from '@core/utils'
-    import { truncateString } from '@core/utils'
-    import { closePopup, openPopup, PopupId } from '@desktop/auxiliary/popup'
-    import { onMount } from 'svelte'
+    } from '@core/activity'
+    import { getTransactionAssets } from '@core/activity/utils'
+    import { openUrlInBrowser } from '@core/app'
+    import { localize } from '@core/i18n'
     import { ExplorerEndpoint } from '@core/network'
+    import { getOfficialExplorerUrl } from '@core/network/utils'
+    import { getNftByIdFromAllAccountNfts } from '@core/nfts/actions'
+    import { ownedNfts, selectedNftId } from '@core/nfts/stores'
+    import { checkActiveProfileAuth } from '@core/profile/actions'
+    import { activeProfile } from '@core/profile/stores'
+    import { CollectiblesRoute, DashboardRoute, collectiblesRouter, dashboardRouter } from '@core/router'
+    import { setClipboard, truncateString } from '@core/utils'
+    import { claimActivity, rejectActivity } from '@core/wallet'
+    import { PopupId, closePopup, openPopup } from '@desktop/auxiliary/popup'
+    import {
+        ActivityInformation,
+        ActivityStatusPills,
+        Button,
+        FontWeight,
+        Text,
+        TextType,
+        TransactionAssetSection,
+    } from '@ui'
+    import { onMount, tick } from 'svelte'
 
     export let activityId: string
     export let _onMount: (..._: any[]) => Promise<void> = async () => {}
@@ -42,6 +44,26 @@
         (activity?.direction === ActivityDirection.Incoming ||
             activity?.direction === ActivityDirection.SelfTransaction) &&
         activity?.asyncData?.asyncStatus === ActivityAsyncStatus.Unclaimed
+    $: transactionAssets = getTransactionAssets(activity, $selectedAccountIndex)
+    $: nft =
+        activity.type === ActivityType.Nft
+            ? getNftByIdFromAllAccountNfts($selectedAccountIndex, activity.nftId)
+            : undefined
+    $: nftIsOwned = nft ? $ownedNfts.some((_onMountnft) => _onMountnft.id === nft?.id) : false
+
+    let title: string | undefined = localize('popups.activityDetails.title.fallback')
+    $: void setTitle(activity)
+    async function setTitle(_activity: Activity): Promise<void> {
+        title = await getActivityDetailsTitle(_activity)
+    }
+
+    async function onNftClick(): Promise<void> {
+        closePopup()
+        $selectedNftId = nft?.id
+        $dashboardRouter.goTo(DashboardRoute.Collectibles)
+        await tick()
+        $collectiblesRouter.goTo(CollectiblesRoute.Details)
+    }
 
     function onExplorerClick(): void {
         openUrlInBrowser(`${explorerUrl}/${ExplorerEndpoint.Transaction}/${activity?.transactionId}`)
@@ -51,16 +73,17 @@
         setClipboard(activity?.transactionId)
     }
 
-    async function claim(): Promise<void> {
-        await claimActivity(activity)
-        openPopup({
-            id: PopupId.ActivityDetails,
-            props: { activityId },
-        })
-    }
-
     async function onClaimClick(): Promise<void> {
-        await checkActiveProfileAuth(claim, { stronghold: true, ledger: false })
+        await checkActiveProfileAuth(
+            async () => {
+                await claimActivity(activity)
+                openPopup({
+                    id: PopupId.ActivityDetails,
+                    props: { activityId },
+                })
+            },
+            { stronghold: true, ledger: false }
+        )
     }
 
     function onRejectClick(): void {
@@ -98,7 +121,7 @@
 <activity-details-popup class="w-full h-full space-y-6 flex flex-auto flex-col shrink-0">
     <div class="flex flex-col">
         <Text type={TextType.h3} fontWeight={FontWeight.semibold} classes="text-left">
-            {localize('popups.transactionDetails.title')}
+            {title}
         </Text>
         {#if explorerUrl && activity?.transactionId}
             <button
@@ -117,19 +140,10 @@
         {/if}
     </div>
     <activity-details class="w-full h-full space-y-6 flex flex-auto flex-col shrink-0">
-        {#if activity.type === ActivityType.Basic}
-            <BasicActivityDetails {activity} />
-        {:else if activity.type === ActivityType.Foundry}
-            <FoundryActivityDetails {activity} />
-        {:else if activity.type === ActivityType.Governance}
-            <GovernanceActivityDetails {activity} />
-        {:else if activity.type === ActivityType.Consolidation}
-            <ConsolidationActivityDetails {activity} />
-        {:else if activity.type === ActivityType.Nft}
-            <NftActivityDetails {activity} />
-        {:else if activity.type === ActivityType.Alias}
-            <AliasActivityDetails {activity} />
-        {/if}
+        <ActivityStatusPills {activity} />
+
+        <TransactionAssetSection {...transactionAssets} onNftClick={nftIsOwned ? onNftClick : undefined} />
+
         <ActivityInformation {activity} />
     </activity-details>
     {#if !isTimelocked && isActivityIncomingAndUnclaimed}

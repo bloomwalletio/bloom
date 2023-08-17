@@ -1,30 +1,28 @@
 <script lang="ts">
-    import { Button, ButtonSize, Icon, Text } from '@ui'
-    import { AccountSwitcher, NetworkDrawerButton } from '@components'
+    import { Icon as IconEnum } from '@auxiliary/icon'
+    import { AccountSwitcher } from '@components'
+    import { IS_WINDOWS } from '@core/app/constants'
     import { localize } from '@core/i18n'
     import {
-        collectiblesRoute,
         CollectiblesRoute,
+        DashboardRoute,
+        GovernanceRoute,
+        collectiblesRoute,
         collectiblesRouter,
         dashboardRoute,
-        DashboardRoute,
         governanceRoute,
-        GovernanceRoute,
         governanceRouter,
-        settingsRoute,
-        SettingsRoute,
-        settingsRouter,
     } from '@core/router'
-    import { Icon as IconEnum } from '@auxiliary/icon'
-    import { PopupId, openPopup, popupState } from '@desktop/auxiliary/popup'
-    import features from '@features/features'
     import { closeDrawer } from '@desktop/auxiliary/drawer'
-    import { IS_WINDOWS } from '@core/app/constants'
+    import { popupState } from '@desktop/auxiliary/popup'
+    import features from '@features/features'
+    import { Icon, Text } from '@ui'
+    import { ToggleContactBookButton, ToggleDappConfigButton, ToggleNetworkConfigButton } from './components'
 
     let isBackButtonVisible = false
 
     $: {
-        if ($settingsRoute || $collectiblesRoute || $governanceRoute) {
+        if ($collectiblesRoute || $governanceRoute) {
             isBackButtonVisible = isCorrectRoute()
         }
     }
@@ -32,8 +30,6 @@
 
     function isCorrectRoute(): boolean {
         switch ($dashboardRoute) {
-            case DashboardRoute.Settings:
-                return $settingsRoute !== SettingsRoute.Init
             case DashboardRoute.Collectibles:
                 return $collectiblesRoute !== CollectiblesRoute.Gallery
             case DashboardRoute.Governance:
@@ -46,9 +42,6 @@
     function onBackClick(): void {
         closeDrawer()
         switch ($dashboardRoute) {
-            case DashboardRoute.Settings:
-                $settingsRouter.previous()
-                break
             case DashboardRoute.Collectibles:
                 $collectiblesRouter.previous()
                 break
@@ -58,12 +51,6 @@
             default:
                 break
         }
-    }
-
-    function onConnectClick(): void {
-        openPopup({
-            id: PopupId.InitWalletConnect,
-        })
     }
 </script>
 
@@ -80,13 +67,14 @@
     <AccountSwitcher />
 
     <div class="right-button flex justify-end gap-2">
+        {#if features.contacts.enabled}
+            <ToggleContactBookButton />
+        {/if}
         {#if features?.wallet?.walletConnect?.enabled}
-            <Button onClick={onConnectClick} size={ButtonSize.Small}>
-                {localize('actions.connect')}
-            </Button>
+            <ToggleDappConfigButton />
         {/if}
         {#if features?.network?.config?.enabled}
-            <NetworkDrawerButton />
+            <ToggleNetworkConfigButton />
         {/if}
     </div>
 </top-navigation>

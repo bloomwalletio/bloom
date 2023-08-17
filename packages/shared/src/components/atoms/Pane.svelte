@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { appSettings } from '@core/app'
+    import { appSettings } from '@core/app/stores'
 
     export let classes = ''
     export let overflow = 'hidden'

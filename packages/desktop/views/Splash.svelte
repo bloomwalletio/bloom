@@ -1,6 +1,7 @@
 <script lang="ts">
+    import { IS_MOBILE, shouldBeDarkMode } from '@core/app'
+    import { appSettings } from '@core/app/stores'
     import { Animation } from '@ui'
-    import { appSettings, shouldBeDarkMode, IS_MOBILE } from '@core/app'
     import { onMount } from 'svelte'
 
     /**

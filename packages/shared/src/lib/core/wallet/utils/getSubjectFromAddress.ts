@@ -1,8 +1,8 @@
-import { findActiveAccountWithAddress } from '@core/profile'
-import { Subject } from '../types'
 import { ContactManager } from '@core/contact'
 import { getNetwork } from '@core/network'
+import { findActiveAccountWithAddress } from '@core/profile/actions'
 import { SubjectType } from '../enums'
+import { Subject } from '../types'
 
 export function getSubjectFromAddress(address: string, networkId?: string): Subject {
     const account = findActiveAccountWithAddress(address)

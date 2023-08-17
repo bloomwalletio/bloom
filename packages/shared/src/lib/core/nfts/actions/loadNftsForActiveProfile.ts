@@ -1,11 +1,11 @@
 import { OutputType } from '@iota/sdk/out/types'
 import { IAccountState } from '@core/account/interfaces'
 import { activeAccounts } from '@core/profile/stores'
-import { getNftId } from '@core/wallet/utils'
+import { getNftId } from '@core/activity/utils/outputs'
 import { IWrappedOutput } from '@core/wallet/interfaces'
 import { get } from 'svelte/store'
 import { INft } from '../interfaces'
-import { buildNftFromNftOutput } from '../utils'
+import { buildNftFromNftOutput } from './buildNftFromNftOutput'
 import { setAccountNftsInAllAccountNfts } from './setAccountNftsInAllAccountNfts'
 
 export async function loadNftsForActiveProfile(): Promise<void> {

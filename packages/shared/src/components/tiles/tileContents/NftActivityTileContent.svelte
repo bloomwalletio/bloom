@@ -1,10 +1,10 @@
 <script lang="ts">
-    import { selectedAccountIndex } from '@core/account'
+    import { selectedAccountIndex } from '@core/account/stores'
+    import { ActivityDirection } from '@core/activity/enums'
+    import { NftActivity } from '@core/activity/types'
+    import { getActivityTileTitle, getSubjectLocaleFromActivity } from '@core/activity/utils'
     import { localize } from '@core/i18n'
-    import { getNftByIdFromAllAccountNfts } from '@core/nfts'
-    import { ActivityDirection } from '@core/wallet/enums'
-    import { getActivityTileTitle, getSubjectLocaleFromActivity } from '@core/wallet/utils'
-    import { NftActivity } from '@core/wallet/types'
+    import { getNftByIdFromAllAccountNfts } from '@core/nfts/actions'
     import { ActivityTileContent, NftImageOrIconBox } from '@ui'
 
     export let activity: NftActivity
