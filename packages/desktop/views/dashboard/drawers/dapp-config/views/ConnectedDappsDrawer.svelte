@@ -1,13 +1,14 @@
 <script lang="ts">
-    import { Icon } from '@ui'
+    import { Icon, TextHint } from '@ui'
     import { Icon as IconEnum } from '@auxiliary/icon'
     import { localize } from '@core/i18n'
     import { Router } from '@core/router'
     import { DrawerTemplate } from '@components'
     import { PopupId, openPopup } from '@desktop/auxiliary/popup'
-    import { DappConfigRoute } from '../dapp-config-route.enum'
+    import { dAppPairings } from '@auxiliary/wallet-connect/stores'
+    import DappCard from '../components/DappCard.svelte'
 
-    export let drawerRouter: Router<DappConfigRoute>
+    export let drawerRouter: Router<unknown>
 
     function onConnectDappClick(): void {
         openPopup({
@@ -17,11 +18,17 @@
 </script>
 
 <DrawerTemplate title={localize('views.dashboard.drawers.dApps.dAppsList.title')} {drawerRouter}>
-    <connected-dapps-drawer class="h-full flex flex-col justify-between">
-        <div class="flex flex-col gap-4">
-            <!-- add list here -->
-        </div>
-    </connected-dapps-drawer>
+    {#if $dAppPairings.length}
+        <pairing-list class="flex flex-col gap-4 scrollable">
+            {#each $dAppPairings as pairing}
+                {#if pairing.peerMetadata}
+                    <DappCard {pairing} />
+                {/if}
+            {/each}
+        </pairing-list>
+    {:else}
+        <TextHint info text={localize('views.dashboard.drawers.dApps.dAppsList.hint')} />
+    {/if}
 
     <button
         type="button"
