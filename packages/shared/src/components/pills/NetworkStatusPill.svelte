@@ -1,35 +1,36 @@
 <script lang="ts">
-    import { Pill } from '@ui'
+    import { Pill, Indicator } from '@bloomwalletio/ui'
     import { NetworkHealth } from '@core/network'
     import { localize } from '@core/i18n'
 
     export let status: NetworkHealth
 
-    let backgroundColor = ''
-    let darkBackgroundColor = ''
-    let textColor = ''
+    let color: string = 'primary'
+    let ping = false
     $: {
         switch (status) {
             case NetworkHealth.Operational:
-                backgroundColor = 'green-100'
-                darkBackgroundColor = 'green-100'
-                textColor = 'green-800'
+                color = 'green'
+                ping = true
                 break
             case NetworkHealth.Degraded:
-                backgroundColor = 'yellow-100'
-                darkBackgroundColor = 'yellow-100'
-                textColor = 'yellow-800'
+                color = 'yellow'
+                ping = false
                 break
             case NetworkHealth.Disconnected:
             case NetworkHealth.Down:
-                backgroundColor = 'orange-100'
-                darkBackgroundColor = 'orange-100'
-                textColor = 'orange-800'
+                color = 'orange'
+                ping = false
                 break
         }
     }
 </script>
 
-<Pill {backgroundColor} {darkBackgroundColor} {textColor}>
-    • {localize(`pills.networkHealth.${status}`)}
+<Pill {color}>
+    <div class="flex flex-row space-x-1 items-center">
+        <Indicator {color} {ping} size="sm" />
+        <div>
+            {localize(`pills.networkHealth.${status}`)}
+        </div>
+    </div>
 </Pill>
