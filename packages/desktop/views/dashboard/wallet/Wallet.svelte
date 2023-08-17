@@ -7,6 +7,7 @@
     import { onMount } from 'svelte'
     import { unwrapIrc30Token } from '@core/wallet'
 
+    // TODO: Remove this when PR is ready for review
     async function onMountHelper(): Promise<void> {
         /**
          * NOTE: The amount has to be greater than or equal to the minimum required

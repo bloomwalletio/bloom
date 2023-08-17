@@ -1,15 +1,13 @@
-import { get } from 'svelte/store'
-
 import Web3 from 'web3'
 
 import { ContractType, ISC_MAGIC_CONTRACT_ADDRESS, buildEvmTransactionData } from '@core/layer-2'
-import { ChainId, ETH_COIN_TYPE, IChain, network } from '@core/network'
+import { ChainId, ETH_COIN_TYPE, IChain, getNetwork } from '@core/network'
 import { Bech32Helper } from '@core/utils'
 
 import { sendTransactionFromEvm } from '../actions/send'
 import { TransactionReceipt } from 'web3-core'
 import { getActiveProfilePersistedEvmAddressesByAccountIndex } from '@core/profile/stores'
-import { selectedAccountIndex } from '@core/account/stores'
+import { getSelectedAccountIndex } from '@core/account/stores'
 
 export async function unwrapIrc30Token(
     amount: number,
@@ -20,7 +18,7 @@ export async function unwrapIrc30Token(
         const parameters = buildUnwrapIrc30TokenParameters(amount, recipientAddress)
 
         // 2. Encode data from send parameters with the Contract object
-        const chain = get(network)?.getChain(ChainId.ShimmerEVM)
+        const chain = getNetwork()?.getChain(ChainId.ShimmerEVM)
         const contract = chain?.getContract(ContractType.IscMagic, ISC_MAGIC_CONTRACT_ADDRESS)
         const data = (await contract?.methods.send(...parameters).encodeABI()) ?? ''
         /* eslint-disable no-console */
@@ -28,7 +26,7 @@ export async function unwrapIrc30Token(
 
         const provider = chain?.getProvider() as Web3
         const originAddress =
-            getActiveProfilePersistedEvmAddressesByAccountIndex(get(selectedAccountIndex))?.[ETH_COIN_TYPE] ?? ''
+            getActiveProfilePersistedEvmAddressesByAccountIndex(getSelectedAccountIndex())?.[ETH_COIN_TYPE] ?? ''
         const transactionData = await buildEvmTransactionData(
             provider,
             originAddress,
@@ -47,8 +45,8 @@ export async function unwrapIrc30Token(
 
 export function buildUnwrapIrc30TokenParameters(amount: number, recipientAddress: string): UnwrapIrc30Parameter[] {
     // 1. Build target address parameter
-    // 1. Convert L1 bech32 address to Ed25519 in bytes with prepended `0` byte
-    const hrp = get(network)?.getMetadata().protocol.bech32Hrp ?? ''
+    // 2. Convert L1 bech32 address to Ed25519 in bytes with prepended `0` byte
+    const hrp = getNetwork()?.getMetadata().protocol.bech32Hrp ?? ''
     const { addressBytes } = Bech32Helper.fromBech32(recipientAddress, hrp) ?? {}
     const targetAddressParameter: IUnwrapIrc30TargetAddressParameter = {
         data: new Uint8Array([0, ...(addressBytes ?? [])]),
