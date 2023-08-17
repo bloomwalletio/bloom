@@ -1,4 +1,6 @@
-export interface Pairing {
+import { IDappMetadata } from './dapp-metadata.interface'
+
+export interface IPairing {
     topic: string
     expiry: number
     relay: {
@@ -6,15 +8,5 @@ export interface Pairing {
         data?: string
     }
     active: boolean
-    peerMetadata?: {
-        name: string
-        description: string
-        url: string
-        icons: string[]
-        verifyUrl?: string
-        redirect?: {
-            native?: string
-            universal?: string
-        }
-    }
+    peerMetadata?: IDappMetadata
 }
