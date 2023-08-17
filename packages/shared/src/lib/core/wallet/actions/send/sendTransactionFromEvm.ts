@@ -33,7 +33,7 @@ export async function sendTransactionFromEvm(
                 callback()
             }
         },
-        { stronghold: false, ledger: true },
+        { stronghold: true, ledger: true },
         LedgerAppName.Ethereum
     )
     return transactionReceipt
