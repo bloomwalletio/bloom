@@ -7,7 +7,7 @@
     import { updateActiveAccountPersistedData } from '@core/profile/actions'
     import { activeAccounts } from '@core/profile/stores'
     import { truncateString } from '@core/utils/string'
-    import type { IAuth } from '@iota/sdk'
+    import type { IAuth } from '@iota/sdk/out/types'
     import { closePopup, openPopup, PopupId } from '@desktop/auxiliary/popup'
     import { Button, Checkbox, NodeInput, Text, TextInput, TextType } from '@ui'
     import { HTMLButtonType } from '@ui/enums'

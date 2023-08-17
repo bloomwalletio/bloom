@@ -11,7 +11,7 @@ import { DEFAULT_LEDGER_API_REQUEST_OPTIONS } from '../constants'
 import { LedgerApiMethod } from '../enums'
 import { ILedgerApiBridge } from '../interfaces'
 import { LedgerApiRequestResponse } from '../types'
-import type { Bip44 } from '@iota/wallet/types'
+import type { Bip44 } from '@iota/sdk/out/types'
 import { closePopup, openPopup, PopupId } from '../../../../../../desktop/lib/auxiliary/popup'
 
 declare global {

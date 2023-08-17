@@ -4,7 +4,7 @@ import { prepareEvmTransaction } from '@core/layer-2/utils'
 import { Transaction } from '@ethereumjs/tx'
 import { fromRpcSig, ECDSASignature } from '@ethereumjs/util'
 import { DEFAULT_EVM_TRANSACTION_OPTIONS } from '@core/layer-2'
-import type { Bip44 } from '@iota/wallet/types'
+import type { Bip44 } from '@iota/sdk/out/types'
 
 export async function signEvmTransactionWithStronghold(
     txData: EvmTransactionData,
