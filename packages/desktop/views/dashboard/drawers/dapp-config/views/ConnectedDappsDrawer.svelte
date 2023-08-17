@@ -20,9 +20,9 @@
 <DrawerTemplate title={localize('views.dashboard.drawers.dApps.dAppsList.title')} {drawerRouter}>
     {#if $connectedDapps.length}
         <connected-dapps class="flex flex-col gap-4 scrollable">
-            {#each $connectedDapps as pairing}
-                {#if pairing.peerMetadata}
-                    <DappCard {pairing} />
+            {#each $connectedDapps as connectedDapp}
+                {#if connectedDapp.metadata}
+                    <DappCard {connectedDapp} />
                 {/if}
             {/each}
         </connected-dapps>
