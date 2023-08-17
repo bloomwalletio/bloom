@@ -8,18 +8,9 @@
     import { checkOrUnlockStronghold } from '@core/stronghold'
     import { diffDates, getBackupWarningColor, isRecentDate } from '@core/utils'
     import { PopupId, closePopup, openPopup, popupState } from '@desktop/auxiliary/popup'
-    import {
-        Button,
-        ButtonSize,
-        DeveloperIndicatorPill,
-        Icon,
-        Modal,
-        ProfilePicture,
-        Text,
-        TextType,
-        Toggle,
-    } from '@ui'
+    import { Button, ButtonSize, DeveloperIndicatorPill, Icon, Modal, ProfileAvatar, Text, TextType, Toggle } from '@ui'
     import { fade } from 'svelte/transition'
+    import { AvatarSize } from '@ui/enums'
 
     export let modal: Modal = undefined
 
@@ -86,7 +77,7 @@
 >
     <profile-modal-content class="flex flex-col" in:fade={{ duration: 100 }}>
         <div class="flex flex-row flex-nowrap items-center space-x-3 p-3">
-            <ProfilePicture profile={$activeProfile} size="small" />
+            <ProfileAvatar profile={$activeProfile} size={AvatarSize.Small} />
             <div class="flex flex-row items-center space-x-2">
                 <Text>{profileName}</Text>
                 {#if $activeProfile?.isDeveloperProfile}
