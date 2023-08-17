@@ -5,7 +5,7 @@
     import { Router } from '@core/router'
     import { DrawerTemplate } from '@components'
     import { PopupId, openPopup } from '@desktop/auxiliary/popup'
-    import { dAppPairings } from '@auxiliary/wallet-connect/stores'
+    import { connectedDapps } from '@auxiliary/wallet-connect/stores'
     import DappCard from '../components/DappCard.svelte'
 
     export let drawerRouter: Router<unknown>
@@ -18,14 +18,14 @@
 </script>
 
 <DrawerTemplate title={localize('views.dashboard.drawers.dApps.dAppsList.title')} {drawerRouter}>
-    {#if $dAppPairings.length}
-        <pairing-list class="flex flex-col gap-4 scrollable">
-            {#each $dAppPairings as pairing}
+    {#if $connectedDapps.length}
+        <connected-dapps class="flex flex-col gap-4 scrollable">
+            {#each $connectedDapps as pairing}
                 {#if pairing.peerMetadata}
                     <DappCard {pairing} />
                 {/if}
             {/each}
-        </pairing-list>
+        </connected-dapps>
     {:else}
         <TextHint info text={localize('views.dashboard.drawers.dApps.dAppsList.hint')} />
     {/if}

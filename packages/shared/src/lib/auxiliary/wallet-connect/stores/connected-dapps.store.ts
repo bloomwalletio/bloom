@@ -2,13 +2,13 @@ import { Writable, get, writable } from 'svelte/store'
 import { getWalletClient } from './wallet-client.store'
 import { Pairing } from '../interface/pairing.interface'
 
-export const dAppPairings: Writable<Pairing[]> = writable([])
+export const connectedDapps: Writable<Pairing[]> = writable([])
 
-export function setDAppPairings(): void {
+export function setConnectedDapps(): void {
     const pairings = getWalletClient()?.core.pairing.getPairings()
-    dAppPairings.set(pairings ?? [])
+    connectedDapps.set(pairings ?? [])
 }
 
-export function getDappPairings(): Pairing[] {
-    return get(dAppPairings)
+export function getConnectedDapps(): Pairing[] {
+    return get(connectedDapps)
 }
