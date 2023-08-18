@@ -2,6 +2,7 @@ import { showNotification } from '@auxiliary/notification'
 import { selectedAccount, updateSelectedAccount } from '@core/account/stores'
 import { ActivityAction } from '@core/activity/enums'
 import { addActivityToAccountActivitiesInAllAccountActivities } from '@core/activity/stores'
+import { sendPreparedTransaction } from '@core/wallet/utils'
 import { NftActivity } from '@core/activity/types'
 import { generateSingleNftActivity } from '@core/activity/utils/generateSingleNftActivity'
 import { preprocessTransaction } from '@core/activity/utils/outputs'
@@ -30,7 +31,8 @@ export async function mintNft(metadata: IIrc27Metadata, quantity: number): Promi
         const allNftParams: MintNftParams[] = Array(quantity).fill(mintNftParams)
 
         // Mint NFT
-        const mintNftTransaction = await account.mintNfts(allNftParams, DEFAULT_TRANSACTION_OPTIONS)
+        const preparedTransaction = await account.prepareMintNfts(allNftParams, DEFAULT_TRANSACTION_OPTIONS)
+        const mintNftTransaction = await sendPreparedTransaction(preparedTransaction)
         resetMintNftDetails()
         showNotification({
             variant: 'success',

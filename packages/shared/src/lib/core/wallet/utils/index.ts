@@ -1,6 +1,6 @@
 // Files
 export * from './buildFoundryOutputBuilderParams'
-export * from './buildNftOutputData'
+export * from './buildNftOutputBuilderParams'
 export * from './convertBech32ToHexAddress'
 export * from './convertHexAddressToBech32'
 export * from './getBech32AddressFromAddressTypes'

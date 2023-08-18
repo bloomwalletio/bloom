@@ -3,11 +3,12 @@
     import { handleError } from '@core/error/handlers/handleError'
     import { localize } from '@core/i18n'
     import { CURRENT_IRC27_VERSION } from '@core/nfts'
+    import { getClient } from '@core/profile-manager'
     import { checkActiveProfileAuth, getBaseToken } from '@core/profile/actions'
     import { formatTokenAmountPrecise } from '@core/token'
-    import { buildNftOutputData, mintNft, mintNftDetails } from '@core/wallet'
+    import { buildNftOutputBuilderParams, mintNft, mintNftDetails } from '@core/wallet'
     import { PopupId, closePopup, openPopup } from '@desktop/auxiliary/popup'
-    import { Button, FontWeight, KeyValueBox, NftImageOrIconBox, Tabs, Text } from '@ui'
+    import { Button, FontWeight, KeyValueBox, NftImageOrIconBox, Tabs, Text, TextType } from '@ui'
     import { onMount } from 'svelte'
 
     export let _onMount: (..._: any[]) => Promise<void> = async () => {}
@@ -51,8 +52,9 @@
     }
 
     async function prepareNftOutput(): Promise<void> {
-        const outputData = buildNftOutputData(irc27Metadata, $selectedAccount.depositAddress)
-        const preparedOutput = await $selectedAccount.buildNftOutput(outputData)
+        const outputData = buildNftOutputBuilderParams(irc27Metadata, $selectedAccount.depositAddress)
+        const client = await getClient()
+        const preparedOutput = await client.buildNftOutput(outputData)
         storageDeposit = Number(preparedOutput.amount) ?? 0
         totalStorageDeposit = storageDeposit * quantity
     }
@@ -93,7 +95,7 @@
 </script>
 
 <div class="space-y-6">
-    <Text type="h4" fontSize="18" lineHeight="6" fontWeight={FontWeight.semibold}>
+    <Text type={TextType.h4} fontSize="18" lineHeight="6" fontWeight={FontWeight.semibold}>
         {localize('popups.mintNftForm.title')}
     </Text>
     <div class="space-y-2 max-h-100 scrollable-y flex-1">
@@ -103,7 +105,7 @@
                 <Tabs bind:activeTab {tabs} />
                 {#if activeTab === Tab.Transaction}
                     {#if quantity > 1}
-                        <KeyValueBox keyText={localize('general.quantity')} valueText={quantity} />
+                        <KeyValueBox keyText={localize('general.quantity')} valueText={quantity.toString()} />
                         <KeyValueBox
                             keyText={localize('general.storageDepositPerNft')}
                             valueText={formatTokenAmountPrecise(storageDeposit, getBaseToken())}
