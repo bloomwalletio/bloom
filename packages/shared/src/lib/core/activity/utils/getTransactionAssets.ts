@@ -61,7 +61,7 @@ export function getTransactionAssets(
             }
         }
     } else if (activity.type === ActivityType.Governance) {
-        const baseCoin = getTokenFromSelectedAccountTokens(getCoinType(), networkId)
+        const baseCoin = getTokenFromSelectedAccountTokens(getCoinType(), activity.networkId)
 
         const isVotingPowerActivity =
             activity.governanceAction === GovernanceAction.DecreaseVotingPower ||
