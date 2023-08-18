@@ -7,11 +7,12 @@ import {
     MetadataFeature,
     Feature,
 } from '@iota/sdk/out/types'
+import { Converter } from '@core/utils'
 import { api } from '@core/profile-manager'
 import { getSerialNumberFromAliasOutput } from '@core/activity/utils/outputs/getSerialNumberFromAliasOutput'
 import { IIrc30Metadata } from '@core/token/interfaces'
 
-export async function buildFoundryOutputData(
+export async function buildFoundryOutputBuilderParams(
     totalSupply: number,
     circulatingSupply: number,
     metadata: IIrc30Metadata,
@@ -23,7 +24,7 @@ export async function buildFoundryOutputData(
 
     const tokenScheme = new SimpleTokenScheme(BigInt(circulatingSupply), BigInt(0), BigInt(totalSupply))
 
-    const immutableFeatures: Feature[] = [new MetadataFeature(JSON.stringify(metadata))]
+    const immutableFeatures: Feature[] = [new MetadataFeature(Converter.utf8ToHex(JSON.stringify(metadata)))]
 
     const serialNumber = await getSerialNumberFromAliasOutput(aliasId)
 

@@ -6,6 +6,7 @@ import type {
     Balance,
     Burn,
     ConsolidationParams,
+    CreateNativeTokenParams,
     FilterOptions,
     FoundryOutput,
     GenerateAddressOptions,
@@ -74,8 +75,7 @@ export interface IAccount {
         transactionOptions?: TransactionOptions
     ): Promise<PreparedTransaction>
     prepareCreateNativeToken(
-        tokenId: string,
-        mintAmount: HexEncodedAmount,
+        params: CreateNativeTokenParams,
         transactionOptions?: TransactionOptions
     ): Promise<PreparedCreateNativeTokenTransaction>
     prepareDecreaseVotingPower(amount: string): Promise<PreparedTransaction>

@@ -4,10 +4,11 @@
     import { handleError } from '@core/error/handlers/handleError'
     import { localize } from '@core/i18n'
     import { getBaseToken, checkActiveProfileAuth } from '@core/profile/actions'
-    import { mintNativeToken, mintTokenDetails, buildFoundryOutputData, IMintTokenDetails } from '@core/wallet'
+    import { mintNativeToken, mintTokenDetails, buildFoundryOutputBuilderParams, IMintTokenDetails } from '@core/wallet'
     import { closePopup, openPopup, PopupId } from '@desktop/auxiliary/popup'
     import { Button, KeyValueBox, Text, FontWeight, TextType } from '@ui'
     import { IIrc30Metadata, TokenStandard, formatTokenAmountPrecise } from '@core/token'
+    import { getClient } from '@core/profile-manager'
 
     export let _onMount: (..._: any[]) => Promise<void> = async () => {}
 
@@ -20,13 +21,14 @@
     async function prepareFoundryOutput(): Promise<void> {
         if ($mintTokenDetails && $selectedAccount && metadata) {
             const { totalSupply, circulatingSupply, aliasId } = $mintTokenDetails
-            const outputData = await buildFoundryOutputData(
+            const foundryOutputParams = await buildFoundryOutputBuilderParams(
                 Number(totalSupply),
                 Number(circulatingSupply),
                 metadata,
                 aliasId
             )
-            const preparedOutput = await $selectedAccount.buildFoundryOutput(outputData)
+            const client = await getClient()
+            const preparedOutput = await client.buildFoundryOutput(foundryOutputParams)
             storageDeposit = formatTokenAmountPrecise(Number(preparedOutput.amount) ?? 0, getBaseToken())
         }
     }
