@@ -10,7 +10,7 @@
         NetworkNamespace,
         getDefaultClientOptions,
         getDefaultPersistedNetwork,
-        TangleNetworkName,
+        StardustNetworkName,
     } from '@core/network'
     import { profiles } from '@core/profile/stores'
     import features from '@features/features'
@@ -46,14 +46,14 @@
 
     function getNetworkNameFromOnboardingNetworkName(
         networkType: OnboardingNetworkType
-    ): TangleNetworkName | undefined {
+    ): StardustNetworkName | undefined {
         switch (networkType) {
             case OnboardingNetworkType.Iota:
-                return TangleNetworkName.Iota
+                return StardustNetworkName.Iota
             case OnboardingNetworkType.Shimmer:
-                return TangleNetworkName.Shimmer
+                return StardustNetworkName.Shimmer
             case OnboardingNetworkType.Testnet:
-                return TangleNetworkName.Testnet
+                return StardustNetworkName.Testnet
             case OnboardingNetworkType.Custom:
                 return undefined
         }

@@ -1,4 +1,5 @@
-import { NetworkNamespace, SupportedNetworkId } from '../enums'
-import { NetworkProtocolId } from './network-protocol-id.type'
+import { EvmChainId, NetworkNamespace, StardustNetworkName } from '../enums'
 
-export type NetworkId = SupportedNetworkId | `${NetworkNamespace}:${NetworkProtocolId}`
+export type NetworkId =
+    | `${NetworkNamespace.Stardust}:${StardustNetworkName | string}`
+    | `${NetworkNamespace.Evm}:${EvmChainId}`

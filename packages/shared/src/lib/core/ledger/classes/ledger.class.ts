@@ -5,15 +5,14 @@ import { localize } from '@core/i18n'
 import { IEvmAddress, IEvmTransactionSignature } from '@core/layer-2/interfaces'
 import { EvmTransactionData } from '@core/layer-2/types'
 import { getAmountFromEvmTransactionValue, prepareEvmTransaction } from '@core/layer-2/utils'
+import { EvmChainId } from '@core/network'
 import { MILLISECONDS_PER_SECOND, sleep } from '@core/utils'
-
+import type { Bip44 } from '@iota/wallet/types'
+import { PopupId, closePopup, openPopup } from '../../../../../../desktop/lib/auxiliary/popup'
 import { DEFAULT_LEDGER_API_REQUEST_OPTIONS } from '../constants'
 import { LedgerApiMethod } from '../enums'
 import { ILedgerApiBridge } from '../interfaces'
 import { LedgerApiRequestResponse } from '../types'
-import type { Bip44 } from '@iota/wallet/types'
-import { closePopup, openPopup, PopupId } from '../../../../../../desktop/lib/auxiliary/popup'
-import { getProtocolIdFromNetworkId, NetworkId } from '@core/network'
 
 declare global {
     interface Window {
@@ -38,13 +37,12 @@ export class Ledger {
 
     static async signEvmTransaction(
         transactionData: EvmTransactionData,
-        networkId: NetworkId,
+        chainId: EvmChainId,
         bip44: Bip44,
         promptVerification = true
     ): Promise<string | undefined> {
         const unsignedTransactionMessageHex = prepareEvmTransaction(transactionData)
         const bip32Path = buildBip32PathFromBip44(bip44)
-        const chainId = Number(getProtocolIdFromNetworkId(networkId))
 
         // TODO: https://github.com/bloomwalletio/bloom/issues/432
         if (promptVerification) {

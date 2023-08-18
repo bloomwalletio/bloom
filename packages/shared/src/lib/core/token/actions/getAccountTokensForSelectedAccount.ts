@@ -36,7 +36,7 @@ export function getAccountTokensForSelectedAccount(marketCoinPrices: MarketCoinP
 function getAccountAssetForNetwork(marketCoinPrices: MarketCoinPrices, networkId: NetworkId): IAccountTokensPerNetwork {
     const account = getSelectedAccount()
 
-    // TODO: Write isTangleNetworkName function that uses this logic? Or generic isNetworkIdOfNetworkNamespace
+    // TODO: Write isStardustNetworkName function that uses this logic? Or generic isNetworkIdOfNetworkNamespace
     const shouldCalculateFiatPrice = getNamespaceFromNetworkId(networkId) === NetworkNamespace.Stardust
     const persistedBaseCoin = getPersistedToken(getCoinType())
     const baseCoin: IToken = {

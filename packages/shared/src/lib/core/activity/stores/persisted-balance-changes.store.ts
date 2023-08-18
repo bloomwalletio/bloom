@@ -4,10 +4,10 @@ import { get } from 'svelte/store'
 import { NetworkId } from '@core/network'
 import { activeProfileId } from '@core/profile/stores'
 
-interface IPersistedBalanceChangesStore {
+type IPersistedBalanceChangesStore = {
     [profileId: string]: {
         [accountId: string]: {
-            [networkId: NetworkId]: {
+            [networkId in NetworkId]?: {
                 [tokenId: string]: ITokenBalanceChange[]
             }
         }
@@ -19,10 +19,8 @@ export const persistedBalanceChanges = persistent<IPersistedBalanceChangesStore>
 export function getBalanceChanges(
     accountIndex: number,
     networkId: NetworkId
-): {
-    [tokenId: string]: ITokenBalanceChange[]
-} {
-    return get(persistedBalanceChanges)?.[get(activeProfileId)]?.[accountIndex]?.[networkId]
+): { [tokenId: string]: ITokenBalanceChange[] } {
+    return get(persistedBalanceChanges)?.[get(activeProfileId)]?.[accountIndex]?.[networkId] ?? {}
 }
 
 export function addPersistedBalanceChange(
@@ -32,20 +30,24 @@ export function addPersistedBalanceChange(
     ...newPersistedAssets: ITokenBalanceChange[]
 ): void {
     persistedBalanceChanges.update((state) => {
-        if (!state[get(activeProfileId)]) {
-            state[get(activeProfileId)] = {}
+        let profileBalanceChanges = state[get(activeProfileId)]
+        if (!profileBalanceChanges) {
+            profileBalanceChanges = {}
         }
-        if (!state[get(activeProfileId)][accountIndex]) {
-            state[get(activeProfileId)][accountIndex] = {}
+        let accountBalanceChanges = profileBalanceChanges[accountIndex]
+        if (!accountBalanceChanges) {
+            accountBalanceChanges = {}
         }
-        if (!state[get(activeProfileId)][accountIndex][networkId]) {
-            state[get(activeProfileId)][accountIndex][networkId] = {}
-        }
-        if (!state[get(activeProfileId)][accountIndex][networkId][tokenId]) {
-            state[get(activeProfileId)][accountIndex][networkId][tokenId] = []
+        let networkBalanceChanges = accountBalanceChanges[networkId]
+        if (!networkBalanceChanges) {
+            networkBalanceChanges = {}
         }
 
-        state[get(activeProfileId)][accountIndex][networkId][tokenId].push(...newPersistedAssets)
+        if (networkBalanceChanges[tokenId]) {
+            networkBalanceChanges[tokenId].push(...newPersistedAssets)
+        } else {
+            networkBalanceChanges[tokenId] = newPersistedAssets
+        }
         return state
     })
 }
