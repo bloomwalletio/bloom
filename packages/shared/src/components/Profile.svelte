@@ -2,10 +2,11 @@
     import { Icon as IconEnum } from '@auxiliary/icon/enums'
     import { IPersistedProfile, ProfileType } from '@core/profile'
     import {
+        AvatarSize,
         DeveloperIndicatorPill,
         Icon,
         NetworkIconBadge,
-        ProfilePicture,
+        ProfileAvatar,
         StrongholdBadge,
         Text,
         TextType,
@@ -28,7 +29,7 @@
             disabled={!onClick}
             class="relative mb-3 {onClick ? 'cursor-pointer' : 'cursor-default'}"
         >
-            <ProfilePicture {profile} size="large" />
+            <ProfileAvatar {profile} size={AvatarSize.Large} />
             {#if !updateRequired}
                 <NetworkIconBadge networkId={profile?.network?.id} tooltipText={profile?.network?.name} />
             {:else}
