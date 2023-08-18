@@ -1,17 +1,15 @@
 <script lang="ts">
     import { onMount } from 'svelte'
-    import { plainToInstance } from 'class-transformer'
     import { selectedAccount, updateSelectedAccount } from '@core/account/stores'
     import { processAndAddToActivities } from '@core/activity/utils'
     import { handleError } from '@core/error/handlers/handleError'
     import { localize } from '@core/i18n'
     import { checkActiveProfileAuth, getBaseToken } from '@core/profile/actions'
-    import { EMPTY_HEX_ID } from '@core/wallet'
+    import { EMPTY_HEX_ID, sendPreparedTransaction } from '@core/wallet'
     import {
         AliasOutputBuilderParams,
         Ed25519Address,
         GovernorAddressUnlockCondition,
-        PreparedTransaction,
         StateControllerAddressUnlockCondition,
     } from '@iota/sdk/out/types'
     import { closePopup } from '@desktop/auxiliary/popup'
@@ -52,7 +50,7 @@
         try {
             updateSelectedAccount({ isTransferring: true })
             const preparedTransaction = await $selectedAccount.prepareCreateAliasOutput()
-            const transaction = await plainToInstance(PreparedTransaction, preparedTransaction).send()
+            const transaction = await sendPreparedTransaction(preparedTransaction)
             await processAndAddToActivities(transaction, $selectedAccount)
             closePopup()
         } catch (err) {
