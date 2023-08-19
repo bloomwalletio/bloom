@@ -1,5 +1,6 @@
 <script lang="ts">
     import { Icon as IconEnum, NETWORK_ICON_SVG } from '@auxiliary/icon'
+    import { Indicator } from '@bloomwalletio/ui'
     import { ProfileActionsMenuModal, SidebarTab } from '@components'
     import { appVersionDetails } from '@core/app/stores'
     import { localize } from '@core/i18n'
@@ -8,7 +9,7 @@
     import { isRecentDate } from '@core/utils'
     import { ISidebarTab } from '@desktop/routers'
     import features from '@features/features'
-    import { Icon, Modal, NotificationBadge, ProfileAvatar } from '@ui'
+    import { Icon, Modal, ProfileAvatar } from '@ui'
 
     let profileModal: Modal
 
@@ -112,7 +113,7 @@
             <button class="relative flex items-center justify-center rounded-full" on:click={profileModal?.open}>
                 <ProfileAvatar profile={$activeProfile} />
                 {#if !$shouldOpenProfileModal && (!isBackupSafe || !$appVersionDetails.upToDate)}
-                    <NotificationBadge />
+                    <Indicator size="sm" color="red" border="white" class="absolute top-1 right-0" />
                 {/if}
             </button>
         </div>

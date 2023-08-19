@@ -1,14 +1,11 @@
 <script lang="ts">
-    import type { Answer } from '@iota/wallet'
-
-    import { Icon, PingingBadge, Text, TooltipIcon } from '@ui'
-    import { FontWeight, Position } from '@ui/enums'
-
-    import { appSettings } from '@core/app/stores'
-
-    import { ProposalStatus } from '@contexts/governance'
-
     import { Icon as IconEnum } from '@auxiliary/icon'
+    import { Indicator } from '@bloomwalletio/ui'
+    import { ProposalStatus } from '@contexts/governance'
+    import { appSettings } from '@core/app/stores'
+    import type { Answer } from '@iota/wallet'
+    import { Icon, Text, TooltipIcon } from '@ui'
+    import { FontWeight, Position } from '@ui/enums'
 
     export let onAnswerClick: () => void
 
@@ -70,7 +67,7 @@
                     {:else if proposalStatus === ProposalStatus.Commencing}
                         <Icon icon={IconEnum.History} width={20} height={20} />
                     {:else if proposalStatus === ProposalStatus.Holding}
-                        <PingingBadge classes="relative" />
+                        <Indicator size="sm" ping />
                     {/if}
                 </status-icon>
             {:else}
