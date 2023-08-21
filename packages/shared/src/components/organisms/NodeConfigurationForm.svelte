@@ -1,13 +1,13 @@
 <script lang="ts">
+    import { OnboardingNetworkType } from '@contexts/onboarding'
     import { localize } from '@core/i18n'
-    import { IAuth, OnboardingNetworkType, SupportedNetworkId } from '@core/network'
-    import { EMPTY_NODE } from '@core/network/constants'
+    import { IAuth } from '@core/network'
+    import { DEFAULT_NETWORK_METADATA, EMPTY_NODE } from '@core/network/constants'
     import { IClientOptions, INode, INodeInfoResponse } from '@core/network/interfaces'
     import { nodeInfo } from '@core/network/stores'
     import {
         checkIfOnSameNetwork,
         checkNodeUrlValidity,
-        getDisplayedNameFromNetworkId,
         getOnboardingNetworkNameFromNetworkId,
     } from '@core/network/utils'
     import { getNodeInfo } from '@core/profile-manager'
@@ -49,9 +49,9 @@
         })
 
     function getNetworkTypeOptions(): IDropdownItem<OnboardingNetworkType>[] {
-        const options = Object.values([SupportedNetworkId.Shimmer, SupportedNetworkId.Testnet]).map((networkId) => ({
-            label: getDisplayedNameFromNetworkId(networkId),
-            value: getOnboardingNetworkNameFromNetworkId(networkId),
+        const options = Object.values(DEFAULT_NETWORK_METADATA).map((network) => ({
+            label: network?.name,
+            value: getOnboardingNetworkNameFromNetworkId(network?.id),
         }))
         options.push({
             label: localize('general.custom'),

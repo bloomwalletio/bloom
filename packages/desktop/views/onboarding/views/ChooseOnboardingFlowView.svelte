@@ -3,7 +3,7 @@
     import { OnboardingType, onboardingProfile, updateOnboardingProfile } from '@contexts/onboarding'
     import { IS_MOBILE } from '@core/app'
     import { localize } from '@core/i18n'
-    import { getDisplayedNameFromNetworkId, getOnboardingNetworkNameFromNetworkId } from '@core/network'
+    import { getOnboardingNetworkNameFromNetworkId } from '@core/network'
     import { profiles } from '@core/profile/stores'
     import features from '@features/features'
     import { Animation, OnboardingButton, Text, TextType } from '@ui'
@@ -11,6 +11,7 @@
     import { onboardingRouter } from '../onboarding-router'
 
     $: networkId = $onboardingProfile?.network?.id
+    $: displayedNetworkName = $onboardingProfile?.network?.name
     $: networkName = getOnboardingNetworkNameFromNetworkId(networkId)
 
     function onProfileSetupSelectionClick(onboardingType: OnboardingType): void {
@@ -32,31 +33,25 @@
     <div slot="title">
         <Text type={TextType.h2}
             >{localize('views.onboarding.profileSetup.setup.title', {
-                values: {
-                    network: getDisplayedNameFromNetworkId(networkId),
-                },
+                network: displayedNetworkName,
             })}</Text
         >
     </div>
     <div slot="leftpane__content">
         <Text secondary classes="mb-8"
             >{localize('views.onboarding.profileSetup.setup.body', {
-                values: {
-                    network: getDisplayedNameFromNetworkId(networkId),
-                },
+                network: displayedNetworkName,
             })}</Text
         >
     </div>
     <div slot="leftpane__action" class="flex flex-col space-y-4">
         <OnboardingButton
             primaryText={localize('actions.createWallet', {
-                values: {
-                    network: getDisplayedNameFromNetworkId(networkId),
-                },
+                network: displayedNetworkName,
             })}
             secondaryText={!IS_MOBILE
                 ? localize('actions.createWalletDescription', {
-                      values: { network: networkName },
+                      network: displayedNetworkName,
                   })
                 : ''}
             icon="plus"

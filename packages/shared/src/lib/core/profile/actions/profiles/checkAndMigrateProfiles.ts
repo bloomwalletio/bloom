@@ -1,5 +1,5 @@
 import { IPersistedAccountData } from '@core/account/interfaces'
-import { DEFAULT_COIN_TYPE, getDefaultPersistedNetwork, OnboardingNetworkType, SupportedNetworkId } from '@core/network'
+import { DEFAULT_COIN_TYPE, getDefaultPersistedNetwork, SupportedNetworkId } from '@core/network'
 import { INode, IPersistedNetwork } from '@core/network/interfaces'
 import { DEFAULT_MAX_NFT_DOWNLOADING_TIME_IN_SECONDS, DEFAULT_MAX_NFT_SIZE_IN_MEGABYTES } from '@core/nfts'
 import { StrongholdVersion } from '@core/stronghold/enums'
@@ -11,6 +11,7 @@ import {
 } from '../../constants'
 import { IPersistedProfile } from '../../interfaces'
 import { currentProfileVersion, profiles, saveProfile } from '../../stores'
+import { OnboardingNetworkType } from '@contexts/onboarding/enums/onboarding-network-type.enum'
 
 /**
  * Migrates profile data in need of being modified to accommodate changes

@@ -9,7 +9,6 @@
     import { hasCompletedAppSetup, lastAcceptedPrivacyPolicy, lastAcceptedTermsOfService } from '@core/app/stores'
     import { openUrlInBrowser } from '@core/app/utils'
     import { localize } from '@core/i18n'
-    import { SupportedNetworkId, getDisplayedNameFromNetworkId } from '@core/network'
     import { Animation, Button, Checkbox, Link, Text, TextType } from '@ui'
     import { onboardingRouter } from '../onboarding-router'
 
@@ -35,9 +34,7 @@
     <div slot="leftpane__content">
         <Text type={TextType.h1}
             >{localize('views.onboarding.appSetup.welcome.title', {
-                values: {
-                    network: getDisplayedNameFromNetworkId(SupportedNetworkId.Shimmer),
-                },
+                network: '',
             })}
         </Text>
     </div>

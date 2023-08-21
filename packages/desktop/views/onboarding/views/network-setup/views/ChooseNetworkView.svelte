@@ -1,12 +1,16 @@
 <script lang="ts">
     import { Icon } from '@auxiliary/icon'
     import { OnboardingLayout } from '@components'
-    import { initialiseOnboardingProfile, updateOnboardingProfile, onboardingProfile } from '@contexts/onboarding'
+    import {
+        initialiseOnboardingProfile,
+        updateOnboardingProfile,
+        onboardingProfile,
+        OnboardingNetworkType,
+    } from '@contexts/onboarding'
     import { IS_MOBILE } from '@core/app'
     import { localize } from '@core/i18n'
     import {
         NetworkId,
-        OnboardingNetworkType,
         NetworkNamespace,
         getDefaultClientOptions,
         getDefaultPersistedNetwork,
@@ -20,14 +24,12 @@
 
     let networkIcon: { [key in OnboardingNetworkType]: string }
     $: networkIcon = {
-        [OnboardingNetworkType.Iota]: Icon.Iota,
         [OnboardingNetworkType.Shimmer]: Icon.Shimmer,
         [OnboardingNetworkType.Testnet]: 'settings',
         [OnboardingNetworkType.Custom]: 'settings',
     }
 
     $: networkIconColor = {
-        [OnboardingNetworkType.Iota]: 'iota-highlight',
         [OnboardingNetworkType.Shimmer]: 'shimmer-highlight',
         [OnboardingNetworkType.Testnet]: 'blue-500',
         [OnboardingNetworkType.Custom]: 'blue-500',
@@ -48,8 +50,6 @@
         networkType: OnboardingNetworkType
     ): StardustNetworkName | undefined {
         switch (networkType) {
-            case OnboardingNetworkType.Iota:
-                return StardustNetworkName.Iota
             case OnboardingNetworkType.Shimmer:
                 return StardustNetworkName.Shimmer
             case OnboardingNetworkType.Testnet:

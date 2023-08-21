@@ -1,4 +1,5 @@
-import { OnboardingNetworkType, SupportedNetworkId } from '../enums'
+import { OnboardingNetworkType } from '@contexts/onboarding/enums/onboarding-network-type.enum'
+import { SupportedNetworkId } from '../enums'
 import { NetworkId } from '../types'
 
 export function getOnboardingNetworkNameFromNetworkId(networkId: NetworkId): OnboardingNetworkType {

@@ -2,13 +2,14 @@
     import { showNotification } from '@auxiliary/notification'
     import { OnboardingLayout } from '@components'
     import {
+        OnboardingNetworkType,
         cleanupOnboardingProfileManager,
         initialiseProfileManagerFromOnboardingProfile,
         updateOnboardingProfile,
     } from '@contexts/onboarding'
     import { IS_MOBILE } from '@core/app'
     import { localize } from '@core/i18n'
-    import { INode, OnboardingNetworkType, buildPersistedNetworkFromNodeInfoResponse } from '@core/network'
+    import { INode, buildPersistedNetworkFromNodeInfoResponse } from '@core/network'
     import { getNodeInfo } from '@core/profile-manager'
     import features from '@features/features'
     import { Animation, Button, HTMLButtonType, NodeConfigurationForm, Text, TextType } from '@ui'
@@ -23,9 +24,7 @@
     let networkType: OnboardingNetworkType = getInitialSelectedNetworkType()
 
     function getInitialSelectedNetworkType(): OnboardingNetworkType {
-        return features?.onboarding?.iota?.enabled
-            ? OnboardingNetworkType.Iota
-            : features?.onboarding?.shimmer?.enabled
+        return features?.onboarding?.shimmer?.enabled
             ? OnboardingNetworkType.Shimmer
             : features?.onboarding?.testnet?.enabled
             ? OnboardingNetworkType.Testnet

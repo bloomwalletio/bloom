@@ -7,7 +7,6 @@
     import { profiles } from '@core/profile/stores'
     import { Animation, Button, Input, Text, TextType } from '@ui'
     import { completeOnboardingRouter } from '../complete-onboarding-router'
-    import { getDisplayedNameFromNetworkId } from '@core/network/utils'
 
     let error = ''
     let profileName = $onboardingProfile?.name ?? ''
@@ -30,7 +29,7 @@
     <div slot="title">
         <Text type={TextType.h2}
             >{localize('views.onboarding.profileSetup.enterName.title', {
-                values: { network: getDisplayedNameFromNetworkId($onboardingProfile?.network?.id) },
+                network: $onboardingProfile?.network?.name,
             })}</Text
         >
     </div>
