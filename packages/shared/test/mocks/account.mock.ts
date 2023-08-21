@@ -54,14 +54,6 @@ export class AccountMock implements IAccount {
         return Promise.resolve([])
     }
 
-    burnNativeToken(
-        tokenId: string,
-        burnAmount: string,
-        transactionOptions?: TransactionOptions
-    ): Promise<Transaction> {
-        throw new Error('Method not implemented.')
-    }
-
     burnNft(nftId: string, transactionOptions?: TransactionOptions): Promise<Transaction> {
         throw new Error('Method not implemented.')
     }

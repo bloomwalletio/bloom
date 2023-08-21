@@ -38,11 +38,6 @@ import type {
 export interface IAccount {
     addresses(): Promise<AccountAddress[]>
     addressesWithUnspentOutputs(): Promise<AddressWithUnspentOutputs[]>
-    burnNativeToken(
-        tokenId: string,
-        burnAmount: HexEncodedAmount,
-        transactionOptions?: TransactionOptions
-    ): Promise<Transaction>
     burnNft(nftId: string, transactionOptions?: TransactionOptions): Promise<Transaction>
     claimableOutputs(outputs: OutputsToClaim): Promise<string[]>
     claimOutputs(outputIds: string[]): Promise<Transaction>
@@ -99,7 +94,7 @@ export interface IAccount {
         options?: TransactionOptions
     ): Promise<PreparedTransaction>
     prepareSendNft(params: SendNftParams[], options?: TransactionOptions): Promise<PreparedTransaction>
-    prepareStopParticipating(eventId: string): Promise<Transaction>
+    prepareStopParticipating(eventId: string): Promise<PreparedTransaction>
     prepareTransaction(outputs: Output[], options?: TransactionOptions): Promise<PreparedTransaction>
     prepareVote(eventId?: string, answers?: number[]): Promise<PreparedTransaction>
     prepareIncreaseVotingPower(amount: string): Promise<PreparedTransaction>
