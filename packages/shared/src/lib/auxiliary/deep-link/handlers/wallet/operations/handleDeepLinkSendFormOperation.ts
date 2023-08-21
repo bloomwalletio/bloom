@@ -1,4 +1,4 @@
-import { getActiveNetworkId } from '@core/network/utils/getActiveNetworkId'
+import { getActiveNetworkId } from '@core/network/actions/getActiveNetworkId'
 import { getTokenFromSelectedAccountTokens, selectedAccountTokens } from '@core/token/stores'
 import {
     SendFlowParameters,

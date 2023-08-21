@@ -2,7 +2,7 @@ import type { ParticipationEventWithNodes, VotingEventPayload } from '@iota/wall
 import { DEFAULT_NODE_URLS } from '@core/network/constants'
 import { IProposalMetadata } from '../interfaces'
 import { ProposalStatus, ProposalType } from '../enums'
-import { getActiveNetworkId } from '@core/network/utils'
+import { getActiveNetworkId } from '@core/network/actions'
 
 export function createProposalFromEvent(event: ParticipationEventWithNodes): IProposalMetadata {
     const { data, id } = event

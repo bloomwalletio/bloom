@@ -9,7 +9,7 @@ import { getPersistedToken } from '../stores'
 import { sortTokens } from '@core/token/utils/sortTokens'
 import { IToken } from '../interfaces'
 import { isValidIrc30Token, isValidToken } from '../utils'
-import { getActiveNetworkId } from '@core/network/utils/getActiveNetworkId'
+import { getActiveNetworkId } from '@core/network/actions/getActiveNetworkId'
 
 export function getAccountTokensForSelectedAccount(marketCoinPrices: MarketCoinPrices): AccountTokens {
     const accountAssets = {} as AccountTokens

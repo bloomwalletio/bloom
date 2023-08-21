@@ -2,7 +2,7 @@ import { get } from 'svelte/store'
 import { selectedAccount } from '@core/account/stores'
 import { localize } from '@core/i18n'
 import { FAUCET_URLS } from '@core/network/constants'
-import { getActiveNetworkId } from '@core/network/utils'
+import { getActiveNetworkId } from '@core/network/actions'
 import { showNotification } from '@auxiliary/notification/actions'
 
 export async function requestTokensFromFaucet(): Promise<void> {

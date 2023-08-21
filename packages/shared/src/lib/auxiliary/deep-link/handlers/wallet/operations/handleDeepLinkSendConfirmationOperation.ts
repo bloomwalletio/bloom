@@ -1,4 +1,4 @@
-import { getActiveNetworkId } from '@core/network/utils'
+import { getActiveNetworkId } from '@core/network/actions'
 import { getNetworkHrp } from '@core/profile/actions'
 import { getUnitFromTokenMetadata, validateTokenId } from '@core/token'
 import { getTokenFromSelectedAccountTokens, selectedAccountTokens } from '@core/token/stores'
