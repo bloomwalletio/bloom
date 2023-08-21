@@ -49,11 +49,7 @@
         })
 
     function getNetworkTypeOptions(): IDropdownItem<OnboardingNetworkType>[] {
-        const options = Object.values([
-            SupportedNetworkId.Iota,
-            SupportedNetworkId.Shimmer,
-            SupportedNetworkId.Testnet,
-        ]).map((networkId) => ({
+        const options = Object.values([SupportedNetworkId.Shimmer, SupportedNetworkId.Testnet]).map((networkId) => ({
             label: getDisplayedNameFromNetworkId(networkId),
             value: getOnboardingNetworkNameFromNetworkId(networkId),
         }))

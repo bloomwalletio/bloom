@@ -11,11 +11,7 @@
     $: backgroundColor = classesMap[networkId]?.backgroundColor ?? 'bg-gray-400'
     $: iconColor = classesMap[networkId]?.iconColor ?? 'text-black'
 
-    const classesMap: { [id: NetworkId]: Record<string, string> } = {
-        [SupportedNetworkId.Iota]: {
-            backgroundColor: 'bg-black',
-            iconColor: 'text-white',
-        },
+    const classesMap: { [id in NetworkId]?: Record<string, string> } = {
         [SupportedNetworkId.Shimmer]: {
             backgroundColor: 'bg-shimmer-highlight',
             iconColor: 'text-black',

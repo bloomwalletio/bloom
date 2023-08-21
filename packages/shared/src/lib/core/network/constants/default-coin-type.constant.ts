@@ -6,8 +6,7 @@ export const ETHEREUM_COIN_TYPE = 60
 export const IOTA_COIN_TYPE = 4218
 export const SHIMMER_COIN_TYPE = 4219
 
-export const COIN_TYPE: Readonly<{ [id: NetworkId]: number }> = {
-    [SupportedNetworkId.Iota]: IOTA_COIN_TYPE,
+export const DEFAULT_COIN_TYPE: Readonly<{ [id in NetworkId]: number }> = {
     [SupportedNetworkId.Shimmer]: SHIMMER_COIN_TYPE,
     [SupportedNetworkId.Testnet]: TEST_COIN_TYPE,
     [SupportedNetworkId.ShimmerEvm]: ETHEREUM_COIN_TYPE,

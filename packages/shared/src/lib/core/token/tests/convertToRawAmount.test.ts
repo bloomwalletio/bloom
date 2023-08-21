@@ -41,25 +41,6 @@ describe('File: convertToRawAmount.ts', () => {
     })
 
     describe('given the tokenMetadata standard is BaseToken', () => {
-        describe("given useMetricPrefix is true (currently IOTA's case)", () => {
-            const networkId = SupportedNetworkId.Iota
-            it.each([
-                { amount: '1', unit: IotaUnit._, expected: Big('1').mul(Big(10).pow(0)) },
-                { amount: '1', unit: IotaUnit.K, expected: Big('1').mul(Big(10).pow(3)) },
-                { amount: '1', unit: IotaUnit.M, expected: Big('1').mul(Big(10).pow(6)) },
-                { amount: '1', unit: IotaUnit.G, expected: Big('1').mul(Big(10).pow(9)) },
-                { amount: '1', unit: IotaUnit.T, expected: Big('1').mul(Big(10).pow(12)) },
-                { amount: '1', unit: IotaUnit.P, expected: Big('1').mul(Big(10).pow(15)) },
-            ])('should return amount * $expected when unit is $unit', ({ amount, unit, expected }) => {
-                expect(convertToRawAmount(amount, DEFAULT_BASE_TOKEN[networkId], unit)).toStrictEqual(expected)
-            })
-            it("should treat unit as 'i' and return Big(amount) if the unit provided isn't in the IotaUnit enum", () => {
-                expect(convertToRawAmount('1', DEFAULT_BASE_TOKEN[networkId], 'test')).toStrictEqual(Big('1'))
-            })
-            it("should treat unit as 'i' and return Big(amount) if a unit isn't provided", () => {
-                expect(convertToRawAmount('1', DEFAULT_BASE_TOKEN[networkId])).toStrictEqual(Big('1'))
-            })
-        })
         describe("given useMetricPrefix is false (currently Shimmer's case)", () => {
             const networkId = SupportedNetworkId.Shimmer
             it("should return Big(amount) * decimal property if selectedUnit is unit and baseToken's decimal is less than MAX_SUPPORTED_DECIMALS", () => {

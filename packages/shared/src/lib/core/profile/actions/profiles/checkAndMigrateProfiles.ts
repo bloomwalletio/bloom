@@ -1,5 +1,5 @@
 import { IPersistedAccountData } from '@core/account/interfaces'
-import { COIN_TYPE, getDefaultPersistedNetwork, OnboardingNetworkType, SupportedNetworkId } from '@core/network'
+import { DEFAULT_COIN_TYPE, getDefaultPersistedNetwork, OnboardingNetworkType, SupportedNetworkId } from '@core/network'
 import { INode, IPersistedNetwork } from '@core/network/interfaces'
 import { DEFAULT_MAX_NFT_DOWNLOADING_TIME_IN_SECONDS, DEFAULT_MAX_NFT_SIZE_IN_MEGABYTES } from '@core/nfts'
 import { StrongholdVersion } from '@core/stronghold/enums'
@@ -195,7 +195,7 @@ function persistedProfileMigrationToV11(
         } else {
             network.id = OnboardingNetworkType.Custom
         }
-        network.coinType = COIN_TYPE[SupportedNetworkId.Shimmer]
+        network.coinType = DEFAULT_COIN_TYPE[SupportedNetworkId.Shimmer]
         existingProfile.network = structuredClone(network)
     }
 

@@ -1,5 +1,5 @@
 export * from './addNodeToClientOptions'
-export * from './addOfficialNodesToClientOptions'
+export * from './addDefaultNodesToClientOptions'
 export * from './chain-polling'
 export * from './editNodeInClientOptions'
 export * from './getAndUpdateNodeInfo'

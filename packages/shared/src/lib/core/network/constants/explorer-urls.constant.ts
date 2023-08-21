@@ -2,7 +2,6 @@ import { SupportedNetworkId } from '../enums'
 import { NetworkId } from '../types'
 
 export const EXPLORER_URLS: Readonly<{ [key in NetworkId]?: string }> = {
-    [SupportedNetworkId.Iota]: 'https://explorer.iota.org/mainnet',
     [SupportedNetworkId.Shimmer]: 'https://explorer.shimmer.network/shimmer',
     [SupportedNetworkId.Testnet]: 'https://explorer.shimmer.network/testnet',
     [SupportedNetworkId.ShimmerEvm]: '',

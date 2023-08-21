@@ -1,7 +1,7 @@
 <script lang="ts">
     import { Icon as IconEnum, NETWORK_ICON_SVG } from '@auxiliary/icon'
     import { getIconColorFromString } from '@core/account'
-    import { COIN_TYPE, getActiveNetworkId, network, NetworkId, SupportedNetworkId } from '@core/network'
+    import { DEFAULT_COIN_TYPE, getActiveNetworkId, network, NetworkId } from '@core/network'
     import { activeProfile } from '@core/profile/stores'
     import { isBright } from '@core/utils'
     import { ANIMATED_TOKEN_IDS, getTokenInitials, IPersistedToken, TokenStandard } from '@core/token'
@@ -30,8 +30,8 @@
 
     $: {
         switch (persistedToken.id) {
-            case String(COIN_TYPE[baseNetworkId]): {
-                const isIotaNetwork = baseNetworkId === SupportedNetworkId.Iota
+            case String(DEFAULT_COIN_TYPE[baseNetworkId]): {
+                const isIotaNetwork = false
                 const backgroundColor = isIotaNetwork ? '#6E82A4' : '#25DFCA'
 
                 iconInfo = {

@@ -1,4 +1,4 @@
-import { COIN_TYPE, DEFAULT_BASE_TOKEN } from '../constants'
+import { DEFAULT_COIN_TYPE, DEFAULT_BASE_TOKEN } from '../constants'
 import { NetworkNamespace, SupportedNetworkId, StardustNetworkName, TokenSupply } from '../enums'
 import { IStardustNetworkMetadata } from '../interfaces'
 import { NetworkId, NetworkMetadata } from '../types'
@@ -10,7 +10,7 @@ export const DEFAULT_NETWORK_METADATA: Readonly<{ [key in NetworkId]?: NetworkMe
         name: 'Shimmer',
         networkName: StardustNetworkName.Shimmer,
         namespace: NetworkNamespace.Stardust,
-        coinType: COIN_TYPE[SupportedNetworkId.Shimmer],
+        coinType: DEFAULT_COIN_TYPE[SupportedNetworkId.Shimmer],
         protocol: {
             version: 2,
             networkName: 'shimmer',
@@ -31,7 +31,7 @@ export const DEFAULT_NETWORK_METADATA: Readonly<{ [key in NetworkId]?: NetworkMe
         name: 'Testnet',
         networkName: StardustNetworkName.Testnet,
         namespace: NetworkNamespace.Stardust,
-        coinType: COIN_TYPE[SupportedNetworkId.Testnet],
+        coinType: DEFAULT_COIN_TYPE[SupportedNetworkId.Testnet],
         protocol: {
             version: 2,
             networkName: 'testnet',

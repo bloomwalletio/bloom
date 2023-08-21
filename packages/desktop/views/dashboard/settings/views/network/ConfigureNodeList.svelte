@@ -1,7 +1,7 @@
 <script lang="ts">
     import { Button } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
-    import { isSupportedNetworkId, addOfficialNodesToClientOptions as onAddOfficialNodesClick } from '@core/network'
+    import { isSupportedNetworkId, addDefaultNodesToClientOptions } from '@core/network'
     import { activeProfile } from '@core/profile/stores'
     import { NetworkSettingsRoute } from '@core/router'
     import { NodeListTable } from '@ui'
@@ -38,7 +38,7 @@
             <Button
                 variant="outline"
                 width="half"
-                on:click={onAddOfficialNodesClick}
+                on:click={addDefaultNodesToClientOptions}
                 text={localize('actions.addOfficialNodes')}
             />
         {/if}

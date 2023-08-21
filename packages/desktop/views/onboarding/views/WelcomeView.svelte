@@ -10,7 +10,6 @@
     import { openUrlInBrowser } from '@core/app/utils'
     import { localize } from '@core/i18n'
     import { SupportedNetworkId, getDisplayedNameFromNetworkId } from '@core/network'
-    import features from '@features/features'
     import { Animation, Button, Checkbox, Link, Text, TextType } from '@ui'
     import { onboardingRouter } from '../onboarding-router'
 
@@ -37,9 +36,7 @@
         <Text type={TextType.h1}
             >{localize('views.onboarding.appSetup.welcome.title', {
                 values: {
-                    network: features?.onboarding?.iota?.enabled
-                        ? getDisplayedNameFromNetworkId(SupportedNetworkId.Iota)
-                        : getDisplayedNameFromNetworkId(SupportedNetworkId.Shimmer),
+                    network: getDisplayedNameFromNetworkId(SupportedNetworkId.Shimmer),
                 },
             })}
         </Text>

@@ -3,7 +3,7 @@ import { updateClientOptions } from '@core/network/actions'
 import { getOfficialNodes } from '@core/network/utils'
 import { activeProfile } from '@core/profile/stores'
 
-export function addOfficialNodesToClientOptions(): void {
+export function addDefaultNodesToClientOptions(): void {
     const { clientOptions, network } = get(activeProfile)
     const currentNodes = clientOptions?.nodes
     const officialNodes = getOfficialNodes(network.id)

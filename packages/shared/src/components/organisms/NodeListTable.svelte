@@ -1,6 +1,6 @@
 <script lang="ts">
     import { localize } from '@core/i18n'
-    import { INode, getOfficialNodes, isOfficialNetwork } from '@core/network'
+    import { INode, getOfficialNodes, isSupportedNetworkId } from '@core/network'
     import { activeProfile } from '@core/profile/stores'
     import { NodeActionsButton, Pill, Text } from '@ui'
     import { PopupId, openPopup } from '../../../../desktop/lib/auxiliary/popup'
@@ -27,7 +27,7 @@
     class="max-h-80 flex flex-col border border-solid border-gray-300 dark:border-gray-700 hover:border-gray-500 dark:hover:border-gray-700 rounded-2xl overflow-auto"
     bind:this={nodesContainer}
 >
-    {#if clientOptions?.nodes && clientOptions.nodes.length < 1 && !isOfficialNetwork($activeProfile?.network?.id)}
+    {#if clientOptions?.nodes && clientOptions.nodes.length < 1 && !isSupportedNetworkId($activeProfile?.network?.id)}
         <Text classes="p-3">
             {localize('views.settings.configureNodeList.noNodes')}
         </Text>

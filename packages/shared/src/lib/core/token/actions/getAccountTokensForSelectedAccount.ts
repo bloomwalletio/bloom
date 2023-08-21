@@ -1,7 +1,7 @@
 import { getSelectedAccount } from '@core/account/stores'
 import { MarketCoinPrices } from '@core/market'
-import { getNamespaceFromNetworkId } from '@core/network/utils'
-import { getNetwork, NetworkId, NetworkNamespace } from '@core/network'
+import { isStardustNetwork } from '@core/network/utils'
+import { getNetwork, NetworkId } from '@core/network'
 import { getCoinType } from '@core/profile/actions'
 import { AccountTokens, IAccountTokensPerNetwork } from '../interfaces/account-tokens.interface'
 import { getLayer2AccountBalance } from '@core/layer-2/stores'
@@ -36,8 +36,7 @@ export function getAccountTokensForSelectedAccount(marketCoinPrices: MarketCoinP
 function getAccountAssetForNetwork(marketCoinPrices: MarketCoinPrices, networkId: NetworkId): IAccountTokensPerNetwork {
     const account = getSelectedAccount()
 
-    // TODO: Write isStardustNetworkName function that uses this logic? Or generic isNetworkIdOfNetworkNamespace
-    const shouldCalculateFiatPrice = getNamespaceFromNetworkId(networkId) === NetworkNamespace.Stardust
+    const shouldCalculateFiatPrice = isStardustNetwork(networkId)
     const persistedBaseCoin = getPersistedToken(getCoinType())
     const baseCoin: IToken = {
         ...persistedBaseCoin,

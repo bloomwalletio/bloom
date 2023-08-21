@@ -1,5 +1,5 @@
 import { localize } from '@core/i18n'
-import { COIN_TYPE, DEFAULT_NETWORK_METADATA, TEST_COIN_TYPE } from '../constants'
+import { DEFAULT_COIN_TYPE, DEFAULT_NETWORK_METADATA, TEST_COIN_TYPE } from '../constants'
 import { TokenStandard } from '@core/token/enums'
 import { INodeInfoResponse, IPersistedNetwork } from '../interfaces'
 import { NetworkNamespace } from '../enums'
@@ -12,8 +12,8 @@ export function buildPersistedNetworkFromNodeInfoResponse(
     const networkName = nodeInfoResponse?.nodeInfo?.protocol.networkName
     const id: NetworkId = `${NetworkNamespace.Stardust}:${networkName}`
     const namespace = NetworkNamespace.Stardust
-    const name = DEFAULT_NETWORK_METADATA[id]?.name ?? localize('general.unknown')
-    const _coinType = coinType ?? COIN_TYPE[id] ?? TEST_COIN_TYPE
+    const name = DEFAULT_NETWORK_METADATA[id]?.name ?? networkName ?? localize('general.unknown')
+    const _coinType = coinType ?? DEFAULT_COIN_TYPE[id] ?? TEST_COIN_TYPE
     return {
         id,
         name,

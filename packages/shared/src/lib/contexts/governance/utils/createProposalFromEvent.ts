@@ -1,5 +1,5 @@
 import type { ParticipationEventWithNodes, VotingEventPayload } from '@iota/wallet/out/types'
-import { OFFICIAL_NODE_URLS } from '@core/network/constants'
+import { DEFAULT_NODE_URLS } from '@core/network/constants'
 import { IProposalMetadata } from '../interfaces'
 import { ProposalStatus, ProposalType } from '../enums'
 import { getActiveNetworkId } from '@core/network/utils'
@@ -8,7 +8,7 @@ export function createProposalFromEvent(event: ParticipationEventWithNodes): IPr
     const { data, id } = event
 
     const networkId = getActiveNetworkId()
-    const officialNodeUrls = networkId ? OFFICIAL_NODE_URLS[networkId] ?? [] : []
+    const officialNodeUrls = networkId ? DEFAULT_NODE_URLS[networkId] ?? [] : []
     const nodeUrl = event.nodes[0].url
     const isOfficialNetwork = officialNodeUrls.includes(nodeUrl)
 
