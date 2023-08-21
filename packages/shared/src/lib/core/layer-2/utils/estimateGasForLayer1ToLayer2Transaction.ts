@@ -1,4 +1,4 @@
-import { ETHEREUM_COIN_TYPE, getNetwork } from '@core/network'
+import { getNetwork } from '@core/network'
 import { getSelectedAccount } from '@core/account/stores'
 import { SendFlowParameters, SendFlowType } from '@core/wallet'
 import { FALLBACK_GAS_BUDGET, ISC_MAGIC_CONTRACT_ADDRESS } from '../constants'
@@ -26,7 +26,8 @@ export async function estimateGasForLayer1ToLayer2Transaction(sendFlowParameters
     }
 
     try {
-        const evmAddress = getSelectedAccount()?.evmAddresses?.[ETHEREUM_COIN_TYPE]
+        const coinType = chain.getConfiguration().coinType
+        const evmAddress = getSelectedAccount()?.evmAddresses?.[coinType]
         const data = getIscpTransferSmartContractData(address, transferredAsset, chain)
         if (data) {
             const gas = await provider.eth.estimateGas({

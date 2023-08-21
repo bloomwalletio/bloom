@@ -23,7 +23,7 @@ export async function mintNativeToken(
         const networkId = get(network)?.getMetadata()?.id
 
         if (!account || !networkId) {
-            throw new Error('Account or network undefined')
+            throw new Error(localize('error.global.accountOrNetworkUndefined'))
         }
         updateSelectedAccount({ isTransferring: true })
 

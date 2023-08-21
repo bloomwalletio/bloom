@@ -4,6 +4,7 @@ import { selectedAccount, updateSelectedAccount } from '@core/account/stores'
 import { handleError } from '@core/error/handlers'
 import { processAndAddToActivities } from '@core/activity/utils/processAndAddToActivities'
 import { network } from '@core/network'
+import { localize } from '@core/i18n'
 
 export async function setVotingPower(rawAmount: string): Promise<void> {
     try {
@@ -11,7 +12,7 @@ export async function setVotingPower(rawAmount: string): Promise<void> {
         const networkId = get(network)?.getMetadata()?.id
 
         if (!account || !networkId) {
-            throw new Error('Account or network undefined')
+            throw new Error(localize('error.global.accountOrNetworkUndefined'))
         }
         const votingPower = parseInt(account.votingPower, 10)
         const amount = parseInt(rawAmount, 10)
@@ -30,7 +31,7 @@ export async function setVotingPower(rawAmount: string): Promise<void> {
         if (transaction) {
             await processAndAddToActivities(transaction, account, networkId)
         } else {
-            throw new Error('Something went wrong')
+            throw new Error(localize('error.global.generic'))
         }
     } catch (err) {
         handleError(err)

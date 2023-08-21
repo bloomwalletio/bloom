@@ -1,4 +1,4 @@
-export function checkNetworkName(
+export function checkIfOnSameNetwork(
     name: string | undefined,
     clientOptionsNetworkName: string | undefined,
     isDeveloperProfile: boolean

@@ -5,11 +5,11 @@ import { NetworkId } from '../types'
 /**
  * Constructs a list of the official IOTA nodes for a given network.
  */
-export function getOfficialNodes(networkId: NetworkId): INode[] {
-    return getOfficialNodeUrls(networkId).map((url) => buildOfficialNode(url))
+export function getDefaultNodes(networkId: NetworkId): INode[] {
+    return getDefaultNodeUrls(networkId).map((url) => buildOfficialNode(url))
 }
 
-function getOfficialNodeUrls(networkId: NetworkId): string[] {
+function getDefaultNodeUrls(networkId: NetworkId): string[] {
     return DEFAULT_NODE_URLS?.[networkId] ?? []
 }
 

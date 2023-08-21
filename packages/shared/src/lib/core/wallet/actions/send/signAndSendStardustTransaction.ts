@@ -6,6 +6,7 @@ import { DEFAULT_TRANSACTION_OPTIONS, OUTPUT_TYPE_NFT } from '@core/wallet/const
 import { Output } from '@core/wallet/types'
 import { network } from '@core/network'
 import { get } from 'svelte/store'
+import { localize } from '@core/i18n'
 
 export async function signAndSendStardustTransaction(
     output: Output,
@@ -14,7 +15,7 @@ export async function signAndSendStardustTransaction(
     try {
         const networkId = get(network)?.getMetadata()?.id
         if (!account || !networkId) {
-            throw new Error('Account or network undefined')
+            throw new Error(localize('error.global.accountOrNetworkUndefined'))
         }
 
         updateSelectedAccount({ isTransferring: true })

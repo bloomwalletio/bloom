@@ -1,8 +1,8 @@
 import { IClientOptions } from '../interfaces'
 import { NetworkId } from '../types'
-import { getOfficialNodes } from './getOfficialNodes'
+import { getDefaultNodes } from './getDefaultNodes'
 
 export function getDefaultClientOptions(networkId: NetworkId): IClientOptions {
-    const nodes = getOfficialNodes(networkId)
+    const nodes = getDefaultNodes(networkId)
     return { nodes }
 }

@@ -5,7 +5,7 @@
     import { IClientOptions, INode, INodeInfoResponse } from '@core/network/interfaces'
     import { nodeInfo } from '@core/network/stores'
     import {
-        checkNetworkName,
+        checkIfOnSameNetwork,
         checkNodeUrlValidity,
         getDisplayedNameFromNetworkId,
         getOnboardingNetworkNameFromNetworkId,
@@ -116,7 +116,7 @@
         }
 
         if (options.validateClientOptions && currentClientOptions) {
-            const errorNetworkName = checkNetworkName(networkName, currentClientOptions.network, isDeveloperProfile)
+            const errorNetworkName = checkIfOnSameNetwork(networkName, currentClientOptions.network, isDeveloperProfile)
             if (errorNetworkName) {
                 formError = localize(errorNetworkName?.locale, errorNetworkName?.values) ?? ''
                 return Promise.reject({ type: 'validationError', error: formError })

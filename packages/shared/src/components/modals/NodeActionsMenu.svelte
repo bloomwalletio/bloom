@@ -8,7 +8,7 @@
         togglePrimaryNodeInClientOptions,
     } from '@core/network/actions'
     import { IClientOptions, INode } from '@core/network/interfaces'
-    import { getOfficialNodes } from '@core/network/utils'
+    import { getDefaultNodes } from '@core/network/utils'
     import { activeProfile } from '@core/profile/stores'
     import { closePopup, openPopup, PopupId } from '../../../../desktop/lib/auxiliary/popup'
 
@@ -16,7 +16,7 @@
     export let clientOptions: IClientOptions
     export let modal: Modal = undefined
 
-    $: isOfficialNode = getOfficialNodes($activeProfile?.network?.id).some((n) => n.url === node?.url)
+    $: isOfficialNode = getDefaultNodes($activeProfile?.network?.id).some((n) => n.url === node?.url)
     $: allowDisableOrRemove = node?.disabled || clientOptions?.nodes?.filter((node) => !node.disabled)?.length > 1
     $: isPrimary = clientOptions?.primaryNode?.url === node.url
 

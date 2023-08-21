@@ -1,6 +1,14 @@
 <script lang="ts">
     import { localize } from '@core/i18n'
-    import { MAX_CHAIN_NAME_LENGTH, ChainType, IIscpChainConfiguration, ETHEREUM_COIN_TYPE } from '@core/network'
+    import {
+        MAX_CHAIN_NAME_LENGTH,
+        ChainType,
+        IIscpChainConfiguration,
+        ETHEREUM_COIN_TYPE,
+        NetworkId,
+        EvmChainId,
+        NetworkNamespace,
+    } from '@core/network'
     import { activeProfile } from '@core/profile/stores'
     import { getNetworkHrp } from '@core/profile/actions'
     import { isValidHexAddress, isValidHttpsUrl, validateBech32Address } from '@core/utils'
@@ -19,8 +27,9 @@
 
     const chain: IIscpChainConfiguration = {
         type: ChainType.Iscp,
-        id: '',
-        networkName: '',
+        id: '' as NetworkId,
+        namespace: NetworkNamespace.Evm,
+        chainId: '' as EvmChainId,
         name: '',
         aliasAddress: '',
         iscpEndpoint: '',

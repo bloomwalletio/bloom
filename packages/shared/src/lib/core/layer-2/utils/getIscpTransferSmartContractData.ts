@@ -1,4 +1,4 @@
-import { ETHEREUM_COIN_TYPE, IChain } from '@core/network'
+import { IChain } from '@core/network'
 import {
     evmAddressToAgentID,
     getAgentBalanceParameters,
@@ -22,8 +22,8 @@ export function getIscpTransferSmartContractData(
         if (!provider) {
             throw new Error('Unable to find web3 provider.')
         }
-
-        const evmAddress = getSelectedAccount()?.evmAddresses?.[ETHEREUM_COIN_TYPE]
+        const coinType = chain.getConfiguration().coinType
+        const evmAddress = getSelectedAccount()?.evmAddresses?.[coinType]
         if (!evmAddress) {
             throw new Error('No EVM address generated for this account.')
         }

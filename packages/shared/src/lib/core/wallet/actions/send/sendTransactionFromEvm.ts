@@ -21,7 +21,14 @@ export async function sendTransactionFromEvm(
         async () => {
             const networkId = chain.getConfiguration().id
             const chainId = chain.getConfiguration().chainId
-            const transactionReceipt = await signAndSendEvmTransaction(transaction, chainId, provider, account)
+            const coinType = chain.getConfiguration().coinType
+            const transactionReceipt = await signAndSendEvmTransaction(
+                transaction,
+                chainId,
+                coinType,
+                provider,
+                account
+            )
             if (transactionReceipt) {
                 addPersistedTransaction(account.index, networkId, {
                     ...transaction,

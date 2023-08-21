@@ -3,6 +3,7 @@ import { processAndAddToActivities } from '@core/activity/utils'
 import { network } from '@core/network/stores'
 import { handleError } from '@core/error/handlers'
 import { get } from 'svelte/store'
+import { localize } from '@core/i18n'
 
 export async function consolidateOutputs(): Promise<void> {
     try {
@@ -10,7 +11,7 @@ export async function consolidateOutputs(): Promise<void> {
         const networkId = get(network)?.getMetadata()?.id
 
         if (!account || !networkId) {
-            throw new Error('Account or network undefined')
+            throw new Error(localize('error.global.accountOrNetworkUndefined'))
         }
 
         updateSelectedAccount({ isTransferring: true })

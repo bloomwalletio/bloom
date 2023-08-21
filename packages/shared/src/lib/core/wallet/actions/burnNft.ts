@@ -13,7 +13,7 @@ export async function burnNft(nftId: string): Promise<void> {
         const networkId = get(network)?.getMetadata()?.id
 
         if (!account || !networkId) {
-            throw new Error('Account or network undefined')
+            throw new Error(localize('error.global.accountOrNetworkUndefined'))
         }
 
         updateSelectedAccount({ isTransferring: true })

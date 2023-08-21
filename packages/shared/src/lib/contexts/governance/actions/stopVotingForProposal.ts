@@ -13,7 +13,7 @@ export async function stopVotingForProposal(eventId: string): Promise<Transactio
         const networkId = get(network)?.getMetadata()?.id
 
         if (!account || !networkId) {
-            throw new Error('Account or network undefined')
+            throw new Error(localize('error.global.accountOrNetworkUndefined'))
         }
 
         updateSelectedAccount({ hasVotingTransactionInProgress: true })

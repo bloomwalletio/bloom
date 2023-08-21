@@ -20,7 +20,7 @@ export async function signEvmTransactionWithStronghold(
 
     // Make Secp256k1Ecdsa into an Eip155Compatible Signature
     const ecdsaSignature = fromRpcSig(signature)
-    ecdsaSignature.v = convertsVToEip155Compatible(ecdsaSignature.v, chainId)
+    ecdsaSignature.v = convertsVToEip155Compatible(ecdsaSignature.v, Number(chainId))
 
     const signedTransaction = createSignedTransaction(transaction, ecdsaSignature)
     return getHexEncodedTransaction(signedTransaction)

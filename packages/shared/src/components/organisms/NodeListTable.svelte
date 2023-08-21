@@ -1,6 +1,6 @@
 <script lang="ts">
     import { localize } from '@core/i18n'
-    import { INode, getOfficialNodes, isSupportedNetworkId } from '@core/network'
+    import { INode, getDefaultNodes, isSupportedNetworkId } from '@core/network'
     import { activeProfile } from '@core/profile/stores'
     import { NodeActionsButton, Pill, Text } from '@ui'
     import { PopupId, openPopup } from '../../../../desktop/lib/auxiliary/popup'
@@ -35,7 +35,7 @@
         {@const nodes =
             clientOptions?.nodes && clientOptions?.nodes?.length > 0
                 ? clientOptions?.nodes
-                : getOfficialNodes($activeProfile?.network?.id)}
+                : getDefaultNodes($activeProfile?.network?.id)}
         {#each nodes as node}
             <button
                 class="flex flex-row items-center justify-between py-4 px-3 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:bg-opacity-20"

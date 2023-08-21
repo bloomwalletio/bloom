@@ -11,7 +11,7 @@
         convertBech32ToHexAddress,
     } from '@core/wallet'
     import { closePopup } from '@desktop/auxiliary/popup'
-    import { Button, FontWeight, KeyValueBox, Text, TextType, Error } from '@ui'
+    import { Button, FontWeight, KeyValueBox, Text, TextType } from '@ui'
     import { onMount } from 'svelte'
     import { network } from '@core/network/stores'
     import { formatTokenAmountPrecise } from '@core/token'
@@ -57,7 +57,7 @@
             const account = $selectedAccount
             const networkId = $network?.getMetadata()?.id
             if (!account || !networkId) {
-                throw new Error('Account or network undefined')
+                throw new Error(localize('error.global.accountOrNetworkUndefined'))
             }
 
             updateSelectedAccount({ isTransferring: true })

@@ -6,6 +6,7 @@ import { processAndAddToActivities } from '@core/activity/utils'
 import { DEFAULT_TRANSACTION_OPTIONS, OUTPUT_TYPE_NFT } from '../constants'
 import { Output } from '../types'
 import { network } from '@core/network'
+import { localize } from '@core/i18n'
 
 export async function sendOutput(output: Output): Promise<void> {
     try {
@@ -13,7 +14,7 @@ export async function sendOutput(output: Output): Promise<void> {
         const networkId = get(network)?.getMetadata()?.id
 
         if (!account || !networkId) {
-            throw new Error('Account or network undefined')
+            throw new Error(localize('error.global.accountOrNetworkUndefined'))
         }
 
         updateSelectedAccount({ isTransferring: true })

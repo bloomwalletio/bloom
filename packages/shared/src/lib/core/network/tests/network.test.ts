@@ -1,7 +1,7 @@
 import { SupportedNetworkId } from '../enums'
 import { IClientOptions, INode } from '../interfaces'
 import { NetworkId } from '../types'
-import { checkNodeUrlValidity, getDefaultClientOptions, getOfficialNodes, isSupportedNetworkId } from '../utils'
+import { checkNodeUrlValidity, getDefaultClientOptions, getDefaultNodes, isSupportedNetworkId } from '../utils'
 
 describe('File: network.ts', () => {
     function _buildNode(url: string | undefined): INode | undefined {
@@ -29,14 +29,14 @@ describe('File: network.ts', () => {
         return _buildNodes(networkId)
     }
 
-    describe('Function: getOfficialNodes', () => {
+    describe('Function: getDefaultNodes', () => {
         it('should return the correct official nodes given a valid network type', () => {
             Object.values(SupportedNetworkId).forEach((networkId) => {
-                expect(getOfficialNodes(networkId)).toEqual(_buildNodes(networkId))
+                expect(getDefaultNodes(networkId)).toEqual(_buildNodes(networkId))
             })
         })
         it('should return no official nodes given an invalid network type', () => {
-            expect(getOfficialNodes('undefined' as NetworkId)).toEqual([])
+            expect(getDefaultNodes('undefined' as NetworkId)).toEqual([])
         })
     })
 

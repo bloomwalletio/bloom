@@ -5,7 +5,7 @@ import { StrongholdVersion } from '@core/stronghold/enums'
 import { ProfileType } from '../enums'
 import { IProfileSettings } from './profile-settings.interface'
 import { IContactMap, INetworkContactAddressMap } from '@core/contact/interfaces'
-import { TrackedTokens } from '@core/network/types'
+import { TrackedTokens } from '@core/token/types'
 
 export interface IPersistedProfile {
     id: string

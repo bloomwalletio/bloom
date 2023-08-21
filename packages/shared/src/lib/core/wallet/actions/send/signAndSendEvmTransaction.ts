@@ -5,7 +5,6 @@ import { EvmTransactionData } from '@core/layer-2/types'
 import { signEvmTransactionWithStronghold } from '@core/layer-2/utils'
 import { Ledger } from '@core/ledger/classes'
 import { EvmChainId } from '@core/network/enums'
-import { ETHEREUM_COIN_TYPE } from '@core/network/constants'
 import { isActiveLedgerProfile, isSoftwareProfile } from '@core/profile/stores'
 import { get } from 'svelte/store'
 import Web3 from 'web3'
@@ -15,6 +14,7 @@ import { closePopup } from '../../../../../../../desktop/lib/auxiliary/popup'
 export async function signAndSendEvmTransaction(
     transaction: EvmTransactionData,
     chainId: EvmChainId,
+    coinType: number,
     provider: Web3,
     account: IAccountState
 ): Promise<TransactionReceipt | undefined> {
@@ -22,7 +22,7 @@ export async function signAndSendEvmTransaction(
         updateSelectedAccount({ isTransferring: true })
 
         const bip44Path = {
-            coinType: ETHEREUM_COIN_TYPE,
+            coinType,
             account: account.index,
             change: 0,
             addressIndex: 0,

@@ -11,7 +11,10 @@ import { loadAssetsForAllActivities } from './loadAssetsForAllAccounts'
 import { generateActivitiesFromBalanceChanges, setOutgoingAsyncActivitiesToClaimed } from '@core/activity/actions'
 import { NetworkId } from '@core/network'
 
-export async function generateAndStoreActivitiesForAccount(account: IAccountState, network: NetworkId): Promise<void> {
+export async function generateAndStoreActivitiesForAccount(
+    account: IAccountState,
+    networkId: NetworkId
+): Promise<void> {
     // Step 1: process account transactions and outputs into processed transactions
     const processedTransactions = [
         ...(await preprocessTransactionsForAccount(account)),
@@ -22,7 +25,7 @@ export async function generateAndStoreActivitiesForAccount(account: IAccountStat
     const linkedProcessedTransactions = linkTransactionsWithClaimingTransactions(processedTransactions, account)
 
     // Step 3: generate activities from processed transactions
-    const activities = generateActivitiesFromProcessedTransactions(linkedProcessedTransactions, account, network)
+    const activities = generateActivitiesFromProcessedTransactions(linkedProcessedTransactions, account, networkId)
     const balanceChangeActivities = generateActivitiesFromBalanceChanges(account)
 
     activities.push(...balanceChangeActivities)
