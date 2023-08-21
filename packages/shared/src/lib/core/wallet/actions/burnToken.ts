@@ -2,15 +2,16 @@ import { get } from 'svelte/store'
 import { showNotification } from '@auxiliary/notification'
 import { selectedAccount, updateSelectedAccount } from '@core/account/stores'
 import { localize } from '@core/i18n'
-import { Converter } from '@core/utils'
 import { handleError } from '@core/error/handlers'
 import { processAndAddToActivities } from '@core/activity/utils/processAndAddToActivities'
+import { sendPreparedTransaction } from '@core/wallet/utils'
 
 export async function burnToken(tokenId: string, rawAmount: string): Promise<void> {
     const account = get(selectedAccount)
     try {
         updateSelectedAccount({ isTransferring: true })
-        const burnTokenTransaction = await account.burnNativeToken(tokenId, Converter.decimalToHex(Number(rawAmount)))
+        const preparedTransaction = await account?.prepareBurnNativeToken(tokenId, BigInt(rawAmount))
+        const burnTokenTransaction = await sendPreparedTransaction(preparedTransaction)
 
         await processAndAddToActivities(burnTokenTransaction, account)
 
