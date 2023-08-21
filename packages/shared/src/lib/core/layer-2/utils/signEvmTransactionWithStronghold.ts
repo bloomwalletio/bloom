@@ -1,8 +1,7 @@
 import { IAccountState } from '@core/account'
-import { DEFAULT_EVM_TRANSACTION_OPTIONS } from '@core/layer-2'
 import { EvmTransactionData } from '@core/layer-2/types'
 import { prepareEvmTransaction } from '@core/layer-2/utils'
-import { EvmChainId } from '@core/network'
+import { EvmChainId, getEvmTransactionOptions } from '@core/network'
 import { Transaction } from '@ethereumjs/tx'
 import { ECDSASignature, fromRpcSig } from '@ethereumjs/util'
 import type { Bip44 } from '@iota/wallet/types'
@@ -13,8 +12,8 @@ export async function signEvmTransactionWithStronghold(
     chainId: EvmChainId,
     account: IAccountState
 ): Promise<string> {
-    const unsignedTransactionMessageHex = '0x' + prepareEvmTransaction(txData)
-    const transaction = Transaction.fromTxData(txData, DEFAULT_EVM_TRANSACTION_OPTIONS)
+    const unsignedTransactionMessageHex = '0x' + prepareEvmTransaction(txData, chainId)
+    const transaction = Transaction.fromTxData(txData, getEvmTransactionOptions(chainId))
 
     const { signature } = await account.signSecp256k1Ecdsa(unsignedTransactionMessageHex, bip44Path)
 
@@ -22,18 +21,22 @@ export async function signEvmTransactionWithStronghold(
     const ecdsaSignature = fromRpcSig(signature)
     ecdsaSignature.v = convertsVToEip155Compatible(ecdsaSignature.v, Number(chainId))
 
-    const signedTransaction = createSignedTransaction(transaction, ecdsaSignature)
+    const signedTransaction = createSignedTransaction(transaction, ecdsaSignature, chainId)
     return getHexEncodedTransaction(signedTransaction)
 }
 
-function createSignedTransaction(transaction: Transaction, signature: ECDSASignature): Transaction {
+function createSignedTransaction(
+    transaction: Transaction,
+    signature: ECDSASignature,
+    chainId: EvmChainId
+): Transaction {
     const rawTx = transaction.raw()
 
     const vHex = padHexString(signature.v.toString(16))
     rawTx[6] = Buffer.from(vHex, 'hex')
     rawTx[7] = signature.r
     rawTx[8] = signature.s
-    const signedTransaction = Transaction.fromValuesArray(rawTx, DEFAULT_EVM_TRANSACTION_OPTIONS)
+    const signedTransaction = Transaction.fromValuesArray(rawTx, getEvmTransactionOptions(chainId))
 
     return signedTransaction
 }

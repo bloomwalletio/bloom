@@ -41,7 +41,7 @@ export class Ledger {
         bip44: Bip44,
         promptVerification = true
     ): Promise<string | undefined> {
-        const unsignedTransactionMessageHex = prepareEvmTransaction(transactionData)
+        const unsignedTransactionMessageHex = prepareEvmTransaction(transactionData, chainId)
         const bip32Path = buildBip32PathFromBip44(bip44)
 
         // TODO: https://github.com/bloomwalletio/bloom/issues/432
@@ -76,7 +76,7 @@ export class Ledger {
 
         const { r, v, s } = transactionSignature
         if (r && v && s) {
-            return prepareEvmTransaction(transactionData, { r, v, s })
+            return prepareEvmTransaction(transactionData, chainId, { r, v, s })
         }
     }
 

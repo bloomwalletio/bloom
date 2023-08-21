@@ -5,7 +5,7 @@ import { EvmChainId } from '@core/network'
 export function getEvmTransactionOptions(chainId: EvmChainId): EvmTransactionOptions {
     return {
         common: Common.custom({
-            chainId,
+            chainId: Number(chainId),
         }),
     }
 }
