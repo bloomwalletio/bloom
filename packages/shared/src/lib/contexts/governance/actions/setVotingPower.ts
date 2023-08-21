@@ -15,7 +15,7 @@ export async function setVotingPower(rawAmount: string): Promise<void> {
         let transaction: PreparedTransaction
         if (amount > votingPower) {
             const amountToIncrease = amount - votingPower
-            transaction = await account?.prepareVotingPower(amountToIncrease.toString())
+            transaction = await account?.prepareIncreaseVotingPower(amountToIncrease.toString())
         } else if (amount < votingPower) {
             const amountToDecrease = votingPower - amount
             transaction = await account?.prepareDecreaseVotingPower(amountToDecrease.toString())

@@ -102,7 +102,7 @@ export interface IAccount {
     prepareStopParticipating(eventId: string): Promise<Transaction>
     prepareTransaction(outputs: Output[], options?: TransactionOptions): Promise<PreparedTransaction>
     prepareVote(eventId?: string, answers?: number[]): Promise<PreparedTransaction>
-    prepareVotingPower(amount: string): Promise<PreparedTransaction>
+    prepareIncreaseVotingPower(amount: string): Promise<PreparedTransaction>
     registerParticipationEvents(options: ParticipationEventRegistrationOptions): Promise<ParticipationEventMap>
     retryTransactionUntilIncluded(transactionId: string, interval?: number, maxAttempts?: number): Promise<string>
     requestFundsFromFaucet(url: string, address: string): Promise<string>

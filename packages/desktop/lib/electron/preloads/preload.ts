@@ -10,7 +10,7 @@ import fs from 'fs'
 import { ipcRenderer, contextBridge } from 'electron'
 
 import * as IotaSdk from '@iota/sdk'
-import type { ILoggerConfig } from '@iota/sdk/out/types/logger-config'
+import type { ILoggerConfig } from '@iota/sdk/out/types'
 
 import ElectronApi from '../apis/electron.api'
 import LedgerApi from '../apis/ledger.api'

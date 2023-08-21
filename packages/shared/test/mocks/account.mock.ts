@@ -270,7 +270,7 @@ export class AccountMock implements IAccount {
         throw new Error('Method not implemented.')
     }
 
-    prepareVotingPower(amount: string): Promise<PreparedTransaction> {
+    prepareIncreaseVotingPower(amount: string): Promise<PreparedTransaction> {
         throw new Error('Method not implemented.')
     }
 
