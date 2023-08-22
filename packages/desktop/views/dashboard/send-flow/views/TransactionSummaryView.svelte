@@ -38,8 +38,8 @@
             recipient.type === SubjectType.Account ? recipient.account.name : truncateString(recipient?.address, 6, 6)
 
         const networkId = getNetworkIdFromSendFlowParameters(sendFlowParameters)
-        if (networkId) {
-            chain = getNetwork()?.getChain(networkId)
+        const chain = getNetwork()?.getChain(networkId)
+        if (chain) {
             const account = getSelectedAccount()
 
             preparedTransaction = await createEvmTransactionFromSendFlowParameters(sendFlowParameters, chain, account)

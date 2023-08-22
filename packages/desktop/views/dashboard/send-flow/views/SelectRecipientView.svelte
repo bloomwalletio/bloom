@@ -2,7 +2,7 @@
     import { selectedAccount, selectedAccountIndex } from '@core/account/stores'
     import { ContactManager } from '@core/contact/classes'
     import { localize } from '@core/i18n'
-    import { IChain, IIscpChainConfiguration, INetwork, network } from '@core/network'
+    import { IChain, IIscpChainConfiguration, INetwork, getActiveNetworkId, network } from '@core/network'
     import { visibleActiveAccounts } from '@core/profile/stores'
     import {
         SendFlowType,
@@ -149,7 +149,7 @@
             case TokenStandard.Irc27:
             case TokenStandard.Irc30:
             case TokenStandard.BaseToken:
-                if (!sourceNetworkId) {
+                if (sourceNetworkId === getActiveNetworkId()) {
                     // if we are on layer 1
                     networkRecipientOptions = [
                         layer1Network,
