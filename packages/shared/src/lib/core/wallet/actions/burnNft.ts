@@ -4,13 +4,15 @@ import { processAndAddToActivities } from '@core/activity/utils'
 import { handleError } from '@core/error/handlers'
 import { localize } from '@core/i18n'
 import { updateNftInAllAccountNfts } from '@core/nfts/actions'
+import { sendPreparedTransaction } from '@core/wallet/utils'
 import { get } from 'svelte/store'
 
 export async function burnNft(nftId: string): Promise<void> {
     const account = get(selectedAccount)
     try {
         updateSelectedAccount({ isTransferring: true })
-        const burnNftTransaction = await account.burnNft(nftId)
+        const preparedTransaction = await account.prepareBurnNft(nftId)
+        const burnNftTransaction = await sendPreparedTransaction(preparedTransaction)
 
         // Generate Activity
         await processAndAddToActivities(burnNftTransaction, account)
