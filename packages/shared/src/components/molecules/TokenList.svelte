@@ -5,7 +5,7 @@
     import { localize } from '@core/i18n'
     import { AccountTokens, IToken } from '@core/token'
     import { tokenFilter } from '@core/token/stores'
-    import { isVisibleToken } from '@core/token/utils/isVisibleToken'
+    import { isVisibleToken } from '@core/token/actions/isVisibleToken'
     import { PopupId, openPopup } from '../../../../desktop/lib/auxiliary/popup'
 
     export let accountTokens: AccountTokens
