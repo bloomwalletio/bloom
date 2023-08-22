@@ -1,4 +1,4 @@
-import { Event, NewOutputWalletEvent, WalletEventType, OutputType } from '@iota/sdk/out/types'
+import { Event, NewOutputWalletEvent, WalletEventType, OutputType, AliasOutput } from '@iota/sdk/out/types'
 import { syncBalance } from '@core/account/actions/syncBalance'
 import { checkAndRemoveProfilePicture } from '@core/profile/actions'
 import { activeAccounts } from '@core/profile/stores'
@@ -32,11 +32,13 @@ export async function handleNewOutputEventInternal(
     if (!account || !output) return
 
     const address = getBech32AddressFromAddressTypes(output?.address)
+    const outputData = output.output as AliasOutput
     const isNewAliasOutput =
-        output.output.type === OutputType.Alias &&
-        output.output.stateIndex === 0 &&
+        outputData.type === OutputType.Alias &&
+        outputData.stateIndex === 0 &&
         !get(allAccountActivities)[accountIndex].find((_activity) => _activity.id === output.outputId)
-    const isNftOutput = output.output.type === OutputType.Nft
+
+    const isNftOutput = outputData.type === OutputType.Nft
 
     if ((account?.depositAddress === address && !output?.remainder) || isNewAliasOutput) {
         await syncBalance(account.index)
@@ -47,7 +49,9 @@ export async function handleNewOutputEventInternal(
         for (const activity of activities) {
             if (activity.type === ActivityType.Basic || activity.type === ActivityType.Foundry) {
                 const token = await getOrRequestTokenFromPersistedTokens(activity.tokenId)
-                addPersistedToken(token)
+                if (token) {
+                    addPersistedToken(token)
+                }
             }
         }
         addActivitiesToAccountActivitiesInAllAccountActivities(account.index, activities)

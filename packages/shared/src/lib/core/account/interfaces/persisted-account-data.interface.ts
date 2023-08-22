@@ -1,4 +1,4 @@
-import type { ParticipationEventId } from '@iota/sdk'
+import type { ParticipationEventId } from '@iota/sdk/out/types'
 import { IEvmAddresses } from '@core/network/interfaces'
 
 export interface IPersistedAccountData {

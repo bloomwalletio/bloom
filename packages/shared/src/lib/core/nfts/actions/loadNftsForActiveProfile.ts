@@ -1,4 +1,4 @@
-import { OutputType } from '@iota/sdk/out/types'
+import { NftOutput, OutputType } from '@iota/sdk/out/types'
 import { IAccountState } from '@core/account/interfaces'
 import { activeAccounts } from '@core/profile/stores'
 import { getNftId } from '@core/activity/utils/outputs'
@@ -31,7 +31,8 @@ async function loadNftsForAccount(account: IAccountState): Promise<void> {
         .sort((a, b) => b.metadata.milestoneTimestampBooked - a.metadata.milestoneTimestampBooked)
     for (const outputData of sortedNftOutputs) {
         if (outputData.output.type === OutputType.Nft) {
-            const nftId = getNftId(outputData.output.nftId, outputData.outputId)
+            const nftOutput = outputData.output as NftOutput
+            const nftId = getNftId(nftOutput.nftId, outputData.outputId)
             if (!accountNfts.some((nft) => nft.id === nftId)) {
                 const nft = buildNftFromNftOutput(outputData as IWrappedOutput, account.depositAddress, false)
                 accountNfts.push(nft)

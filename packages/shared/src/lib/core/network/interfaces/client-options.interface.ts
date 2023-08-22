@@ -1,4 +1,4 @@
-import { IClientOptions as ClientOptions } from '@iota/sdk'
+import { IClientOptions as ClientOptions } from '@iota/sdk/out/types'
 
 import { INode } from './node.interface'
 

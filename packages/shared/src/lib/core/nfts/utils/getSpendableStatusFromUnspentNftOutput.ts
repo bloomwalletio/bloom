@@ -9,7 +9,7 @@ import {
 export function getSpendableStatusFromUnspentNftOutput(
     accountAddress: string,
     nftOutput: NftOutput
-): { isSpendable: boolean; timeLockTime: string } {
+): { isSpendable: boolean; timeLockTime: number | undefined } {
     let isSpendable = true
     let timeLockTime = undefined
 
