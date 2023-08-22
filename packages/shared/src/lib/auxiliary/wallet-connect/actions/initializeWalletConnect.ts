@@ -22,6 +22,6 @@ export async function initializeWalletConnect(): Promise<void> {
     walletClient.set(client)
     setConnectedDapps()
 
-    client.on('session_proposal', (sessionProposal) => onSessionProposal(sessionProposal))
+    client.on('session_proposal', (sessionProposal) => void onSessionProposal(sessionProposal))
     client.on('session_request', (event) => onSessionRequest(event))
 }

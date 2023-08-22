@@ -8,15 +8,15 @@
     function onCardClick(): void {
         // TODO
     }
-    const localeKey = 'views.dashboard.drawers.dApps.dAppsList.state.'
+
     $: pill = connectedDapp.active
         ? {
-              data: '• ' + localize(localeKey + 'connected'),
+              data: '• ' + localize('general.connected'),
               textColor: 'green-800',
               backgroundColor: 'green-100',
           }
         : {
-              data: '• ' + localize(localeKey + 'disconnected'),
+              data: '• ' + localize('general.disconnected'),
               textColor: 'orange-700',
               backgroundColor: 'orange-100',
           }

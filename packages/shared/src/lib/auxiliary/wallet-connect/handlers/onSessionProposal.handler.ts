@@ -4,7 +4,7 @@ import { buildApprovedNamespaces } from '@walletconnect/utils'
 import { getAllEvmAddresses } from '../utils'
 import { getWalletClient, setConnectedDapps } from '../stores'
 
-export function onSessionProposal(sessionProposal: Web3WalletTypes.SessionProposal): void {
+export async function onSessionProposal(sessionProposal: Web3WalletTypes.SessionProposal): Promise<void> {
     const { id, params } = sessionProposal
 
     // EIP155: 1 is for Ethereum main chain and EIP155:5 is for the Goerli testnet
@@ -23,7 +23,6 @@ export function onSessionProposal(sessionProposal: Web3WalletTypes.SessionPropos
         },
     })
 
-    void getWalletClient()
-        ?.approveSession({ id, namespaces: approvedNamespaces })
-        .then(() => setConnectedDapps())
+    await getWalletClient()?.approveSession({ id, namespaces: approvedNamespaces })
+    setConnectedDapps()
 }

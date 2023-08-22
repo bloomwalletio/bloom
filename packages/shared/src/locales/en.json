@@ -572,10 +572,6 @@
                 "dApps": {
                     "dAppsList": {
                         "title": "Connected dApps",
-                        "state": {
-                            "connected": "Connected",
-                            "disconnected": "Disconnected"
-                        },
                         "connectDapp": "Connect dApp",
                         "hint": "WalletConnect allows you to connect Bloom with dApps directly or with a connection code."
                     }
@@ -1801,7 +1797,9 @@
         "importErc20Token": "Import ERC20 token",
         "optionalField": "{field} (optional)",
         "gifted": "Gifted",
-        "copied": "Copied"
+        "copied": "Copied",
+        "connected": "Connected",
+        "disconnected": "Disconnected"
     },
     "filters":{
         "title": "Filters",
