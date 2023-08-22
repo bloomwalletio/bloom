@@ -1,12 +1,13 @@
 <script lang="ts">
     import { Answer, EventStatus } from '@iota/sdk/out/types'
 
-    import { Icon, PingingBadge, Text, TooltipIcon } from '@ui'
-    import { FontWeight, Position } from '@ui/enums'
+    import { Icon, Text, TooltipIcon } from '@ui'
 
     import { appSettings } from '@core/app/stores'
 
     import { Icon as IconEnum } from '@auxiliary/icon'
+    import { Indicator } from '@bloomwalletio/ui'
+    import { FontWeight, Position } from '@ui/enums'
 
     export let onAnswerClick: () => void
 
@@ -68,7 +69,7 @@
                     {:else if proposalStatus === EventStatus.Commencing}
                         <Icon icon={IconEnum.History} width={20} height={20} />
                     {:else if proposalStatus === EventStatus.Holding}
-                        <PingingBadge classes="relative" />
+                        <Indicator size="sm" ping />
                     {/if}
                 </status-icon>
             {:else}
