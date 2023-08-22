@@ -1,4 +1,4 @@
-import { EvmTransactionData } from '@core/layer-2/types'
+import { TxData } from '@ethereumjs/tx'
 import { prepareEvmTransaction } from '@core/layer-2/utils'
 import { Transaction } from '@ethereumjs/tx'
 import { fromRpcSig, ECDSASignature } from '@ethereumjs/util'
@@ -8,12 +8,12 @@ import { api } from '@core/profile-manager'
 import { getActiveProfile } from '@core/profile/stores'
 
 export async function signEvmTransactionWithStronghold(
-    txData: EvmTransactionData,
+    transactionData: TxData,
     bip44Path: Bip44,
     chainId: number
 ): Promise<string> {
-    const unsignedTransactionMessageHex = '0x' + prepareEvmTransaction(txData)
-    const transaction = Transaction.fromTxData(txData, DEFAULT_EVM_TRANSACTION_OPTIONS)
+    const unsignedTransactionMessageHex = '0x' + prepareEvmTransaction(transactionData)
+    const transaction = Transaction.fromTxData(transactionData, DEFAULT_EVM_TRANSACTION_OPTIONS)
 
     const manager = await api.getSecretManager(getActiveProfile()?.id)
     const { signature } = await manager.signSecp256k1Ecdsa(unsignedTransactionMessageHex, bip44Path)

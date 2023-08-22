@@ -5,11 +5,12 @@ import { EvmTransactionData } from '@core/layer-2/types'
 import { Ledger } from '@core/ledger/classes'
 import { ETH_COIN_TYPE } from '@core/network/constants'
 import { isActiveLedgerProfile, isSoftwareProfile } from '@core/profile/stores'
+import type { TxData } from '@ethereumjs/tx'
 import { get } from 'svelte/store'
 import Web3 from 'web3'
 import { TransactionReceipt } from 'web3-core'
-import { signEvmTransactionWithStronghold } from '../../../layer-2/utils/signEvmTransactionWithStronghold'
 import { closePopup } from '../../../../../../../desktop/lib/auxiliary/popup'
+import { signEvmTransactionWithStronghold } from '../../../layer-2/utils/signEvmTransactionWithStronghold'
 
 export async function signAndSendEvmTransaction(
     transaction: EvmTransactionData,
@@ -19,6 +20,10 @@ export async function signAndSendEvmTransaction(
 ): Promise<TransactionReceipt | undefined> {
     try {
         updateSelectedAccount({ isTransferring: true })
+
+        const transactionCopy = { ...transaction }
+        delete transactionCopy?.estimatedGas
+        const txData: TxData = { ...transactionCopy }
 
         const bip44Path = {
             coinType: ETH_COIN_TYPE,
@@ -30,7 +35,7 @@ export async function signAndSendEvmTransaction(
         if (get(isSoftwareProfile)) {
             signedTransaction = await signEvmTransactionWithStronghold(transaction, bip44Path, chainId)
         } else if (get(isActiveLedgerProfile)) {
-            signedTransaction = await Ledger.signEvmTransaction(transaction, chainId, bip44Path)
+            signedTransaction = await Ledger.signEvmTransaction(txData, chainId, bip44Path)
         }
 
         if (signedTransaction) {
