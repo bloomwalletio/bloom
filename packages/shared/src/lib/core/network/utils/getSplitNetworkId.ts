@@ -6,7 +6,7 @@ type SpitNetworkId =
     | { namespace: NetworkNamespace.Evm; chainId: EvmChainId }
 
 export function getSplitNetworkId(networkId: NetworkId): SpitNetworkId | undefined {
-    const parts = networkId.split(':')?.[1]
+    const parts = networkId.split(':')
     if (parts?.[0] === NetworkNamespace.Stardust && parts?.[1]) {
         return {
             namespace: NetworkNamespace.Stardust,
