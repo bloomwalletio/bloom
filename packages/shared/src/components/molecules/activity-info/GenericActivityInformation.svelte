@@ -25,7 +25,7 @@
     $: formattedStorageDeposit = formatTokenAmountPrecise(activity?.storageDeposit ?? 0, getBaseToken())
     $: formattedGiftedStorageDeposit = formatTokenAmountPrecise(activity?.giftedStorageDeposit ?? 0, getBaseToken())
     $: formattedSurplus = formatTokenAmountPrecise(activity?.surplus ?? 0, getBaseToken())
-    $: formattedgasLimit = formatTokenAmountPrecise(Number(gasLimit ?? 0), getBaseToken())
+    $: formattedGasLimit = formatTokenAmountPrecise(Number(gasLimit ?? 0), getBaseToken())
 
     let transactionDetailsList: IKeyValueBoxList
     $: transactionDetailsList = {
@@ -51,7 +51,7 @@
             giftedStorageDeposit: { data: formattedGiftedStorageDeposit, isTooltipVisible: true },
         }),
         ...(gasLimit && {
-            gasLimit: { data: formattedgasLimit, isTooltipVisible: true },
+            gasLimit: { data: formattedGasLimit, isTooltipVisible: true },
         }),
         ...(expirationTime && {
             expirationTime: { data: expirationTime, isTooltipVisible: true },
