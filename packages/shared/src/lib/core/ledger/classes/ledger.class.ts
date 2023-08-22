@@ -3,16 +3,19 @@ import { Platform } from '@core/app/classes'
 import { IPlatformEventMap } from '@core/app/interfaces'
 import { localize } from '@core/i18n'
 import { IEvmAddress, IEvmTransactionSignature } from '@core/layer-2/interfaces'
-import { EvmTransactionData } from '@core/layer-2/types'
-import { getAmountFromEvmTransactionValue, prepareEvmTransaction } from '@core/layer-2/utils'
+import {
+    calculateMaxGasFeeFromTransactionData,
+    getAmountFromEvmTransactionValue,
+    prepareEvmTransaction,
+} from '@core/layer-2/utils'
 import { MILLISECONDS_PER_SECOND, sleep } from '@core/utils'
-
+import { TxData } from '@ethereumjs/tx'
+import type { Bip44 } from '@iota/wallet/types'
+import { PopupId, closePopup, openPopup } from '../../../../../../desktop/lib/auxiliary/popup'
 import { DEFAULT_LEDGER_API_REQUEST_OPTIONS } from '../constants'
 import { LedgerApiMethod, LedgerAppName } from '../enums'
 import { ILedgerApiBridge, ILedgerEthereumAppSettings } from '../interfaces'
 import { LedgerApiRequestResponse } from '../types'
-import type { Bip44 } from '@iota/wallet/types'
-import { closePopup, openPopup, PopupId } from '../../../../../../desktop/lib/auxiliary/popup'
 import { isBlindSigningRequiredForEvmTransaction, ledgerEthereumAppSettings } from '@core/ledger'
 import { get } from 'svelte/store'
 
@@ -50,7 +53,7 @@ export class Ledger {
     }
 
     static async signEvmTransaction(
-        transactionData: EvmTransactionData,
+        transactionData: TxData,
         chainId: number,
         bip44: Bip44
     ): Promise<string | undefined> {
@@ -62,6 +65,7 @@ export class Ledger {
 
         const unsignedTransactionMessageHex = prepareEvmTransaction(transactionData)
         const bip32Path = buildBip32PathFromBip44(bip44)
+        const maxGasFee = calculateMaxGasFeeFromTransactionData(transactionData)
 
         const mustEnableBlindSigning =
             isBlindSigningRequiredForEvmTransaction(transactionData) && !this.isBlindSigningEnabledForEvm()
@@ -81,10 +85,10 @@ export class Ledger {
                 preventClose: true,
                 props: {
                     isEvmTransaction: true,
-                    toAmount: getAmountFromEvmTransactionValue(transactionData.value.toString()),
+                    toAmount: getAmountFromEvmTransactionValue(transactionData?.value.toString()),
                     toAddress: transactionData.to,
                     chainId,
-                    maxFees: BigInt(transactionData.gasLimit.toString()).toString(10),
+                    maxGasFee,
                 },
             })
 

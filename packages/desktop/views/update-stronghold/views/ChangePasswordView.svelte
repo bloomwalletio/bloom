@@ -24,12 +24,13 @@
 
     let passwordError: string = ''
     let confirmPassword: string = ''
-    let confirmPasswordError: string = ''
     let isSubmitBusy: boolean = false
     let isSkipBusy: boolean = false
 
     $: passwordStrength = zxcvbn(newPassword)
     $: isBusy = isSubmitBusy || isSkipBusy
+
+    $: newPassword, confirmPassword, (passwordError = '')
 
     function validatePassword(): boolean {
         isSubmitBusy = false
@@ -124,7 +125,6 @@
         <TextHint warning text={localize('views.updateStronghold.changePassword.hint')} />
         <form on:submit|preventDefault={onSubmit} id="update-stronghold-form" class="mt-12">
             <PasswordInput
-                bind:error={passwordError}
                 bind:value={newPassword}
                 classes="mb-5"
                 showRevealToggle
@@ -132,15 +132,17 @@
                 showStrengthLevel
                 strength={passwordStrength.score}
                 placeholder={localize('general.password')}
+                label={localize('general.password')}
                 disabled={isBusy}
                 submitHandler={validatePassword}
             />
             <PasswordInput
-                bind:error={confirmPasswordError}
+                bind:error={passwordError}
                 bind:value={confirmPassword}
                 classes="mb-4"
                 showRevealToggle
                 placeholder={localize('general.confirmPassword')}
+                label={localize('general.confirmPassword')}
                 disabled={isBusy}
                 submitHandler={validatePassword}
             />

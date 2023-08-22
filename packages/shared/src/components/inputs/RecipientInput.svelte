@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { Modal, SelectorInput, IOption, ColoredCircle } from '@ui'
+    import { Modal, SelectorInput, IOption } from '@ui'
     import { getRandomAccountColor } from '@core/account/utils'
     import { localize } from '@core/i18n'
     import { Layer1RecipientError } from '@core/layer-2/errors'
@@ -9,6 +9,7 @@
     import { SubjectType } from '@core/wallet'
     import { Subject } from '@core/wallet/types'
     import { getSubjectFromAddress } from '@core/wallet/utils'
+    import { Indicator } from '@bloomwalletio/ui'
 
     export let recipient: Subject | undefined
     export let options: IOption[]
@@ -73,5 +74,5 @@
     {...$$restProps}
     let:option
 >
-    <ColoredCircle color={getRecipientColor(option)} />
+    <Indicator color={getRecipientColor(option)} />
 </SelectorInput>

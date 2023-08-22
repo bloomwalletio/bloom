@@ -1795,7 +1795,8 @@
         "chain": "Chain",
         "importErc20Token": "Import ERC20 token",
         "optionalField": "{field} (optional)",
-        "gifted": "Gifted"
+        "gifted": "Gifted",
+        "copied": "Copied"
     },
     "filters":{
         "title": "Filters",

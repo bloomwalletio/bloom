@@ -1,3 +1,6 @@
+export * from './calculateMaxGasFeeFromTransactionData'
+export * from './calculateEstimatedGasFeeFromTransactionData'
+export * from './calculateGasFeeInGlow'
 export * from './evmAddressToAgentID'
 export * from './getAbiForContractType'
 export * from './getAgentBalanceParameters'
