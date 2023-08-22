@@ -1,4 +1,6 @@
 import {
+    Address,
+    AddressType,
     AddressUnlockCondition,
     Ed25519Address,
     SenderFeature,
@@ -8,8 +10,6 @@ import {
 import { IWrappedOutput } from '../../wallet/interfaces'
 import { Feature, UnlockCondition } from '../../wallet/types'
 import { buildNftFromNftOutput } from '../actions/buildNftFromNftOutput'
-import { Converter } from '../../utils/convert'
-import { Bech32Helper } from '../../utils/crypto'
 
 const accountAddress = 'rms1qr47ee0fhahukrzec088v9lngv7w5k2sn3jjtwvkcpjfgxhhsazlsurxrx9'
 
@@ -38,9 +38,17 @@ const incomingExpiredTimelockedCondition: UnlockCondition[] = [
     new TimelockUnlockCondition(136367917),
 ]
 
-jest.mock('../../wallet/utils/convertHexAddressToBech32.ts', () => ({
-    convertHexAddressToBech32: jest.fn((addressType: number, hexAddress: string) => {
-        return hexAddress ? Bech32Helper.toBech32(addressType, Converter.hexToBytes(hexAddress), 'rms') : undefined
+// we can't use api (preload) or Utils, so we hardcode the function mock test specific
+jest.mock('../../../../lib/core/wallet/utils/getBech32AddressFromAddressTypes.ts', () => ({
+    getBech32AddressFromAddressTypes: jest.fn((address: Address) => {
+        switch (address.type) {
+            case AddressType.Ed25519:
+                return accountAddress
+            case AddressType.Alias:
+                return undefined
+            case AddressType.Nft:
+                return undefined
+        }
     }),
 }))
 
