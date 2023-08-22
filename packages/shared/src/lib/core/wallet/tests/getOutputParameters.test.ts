@@ -220,7 +220,7 @@ describe('File: getOutputParameters.ts', () => {
             amount: (Number(FALLBACK_ESTIMATED_GAS) + Number(amount)).toString(),
             features: {
                 metadata:
-                    '0x00000000025e4b3ca1e3f423a08d06010161200300010000070c000c30680e00000090000f0ea000060009000d300000000000808094ebdc03',
+                    '0x00000000025e4b3ca1e3f423c09a0c010161200300010000070c000c30680e00000090000f0ea000060009000d300000000000808094ebdc03',
                 sender: senderAddress,
             },
             unlocks: { expirationUnixTime: 1680163475 },
@@ -260,7 +260,7 @@ describe('File: getOutputParameters.ts', () => {
             },
             features: {
                 metadata:
-                    '0x00000000025e4b3ca1e3f423a08d06010161200300010000070c000c30680e00000090000f0ea000060009000d300000000000400108cd4dcad7ccc383111942671ee8cdc487ddd250398331ca2692b8b1a81551a1c30100000000043b9aca00',
+                    '0x00000000025e4b3ca1e3f423c09a0c010161200300010000070c000c30680e00000090000f0ea000060009000d300000000000400108cd4dcad7ccc383111942671ee8cdc487ddd250398331ca2692b8b1a81551a1c30100000000043b9aca00',
                 sender: senderAddress,
             },
             unlocks: { expirationUnixTime: 1680163475 },
@@ -286,7 +286,7 @@ describe('File: getOutputParameters.ts', () => {
             },
             features: {
                 metadata:
-                    '0x00000000025e4b3ca1e3f423a08d06010161200300010000070c000c30680e00000090000f0ea000060009000d3000000000002001cd9430ff870a22f81f92428e5c06975fa3ec1a993331aa3db9fb2298e931ade1',
+                    '0x00000000025e4b3ca1e3f423c09a0c010161200300010000070c000c30680e00000090000f0ea000060009000d3000000000002001cd9430ff870a22f81f92428e5c06975fa3ec1a993331aa3db9fb2298e931ade1',
                 sender: senderAddress,
             },
             unlocks: {},
