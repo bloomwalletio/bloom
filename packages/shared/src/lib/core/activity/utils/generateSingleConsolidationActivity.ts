@@ -12,15 +12,15 @@ import {
 } from './helper'
 import { ConsolidationActivity, IActivityGenerationParameters } from '../types'
 
-export function generateSingleConsolidationActivity(
+export async function generateSingleConsolidationActivity(
     account: IAccountState,
     { action, processedTransaction, wrappedOutput }: IActivityGenerationParameters
-): ConsolidationActivity {
+): Promise<ConsolidationActivity> {
     const { transactionId, direction, claimingData, time, inclusionState, wrappedInputs } = processedTransaction
 
     const isHidden = false
     const isAssetHidden = false
-    const containsValue = activityOutputContainsValue(wrappedOutput)
+    const containsValue = await activityOutputContainsValue(wrappedOutput)
 
     const outputId = wrappedOutput.outputId
     const id = outputId || transactionId

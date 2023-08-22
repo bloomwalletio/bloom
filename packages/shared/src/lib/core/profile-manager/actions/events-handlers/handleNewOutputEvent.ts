@@ -45,7 +45,7 @@ export async function handleNewOutputEventInternal(
 
         const processedOutput = preprocessGroupedOutputs([output], walletEvent?.transactionInputs ?? [], account)
 
-        const activities = generateActivities(processedOutput, account)
+        const activities = await generateActivities(processedOutput, account)
         for (const activity of activities) {
             if (activity.type === ActivityType.Basic || activity.type === ActivityType.Foundry) {
                 const token = await getOrRequestTokenFromPersistedTokens(activity.tokenId)

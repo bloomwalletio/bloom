@@ -7,7 +7,7 @@ import { Output } from '@core/wallet/types'
 export function validateSendConfirmation(output: Output): void {
     const parseNumber: (value: string) => number = (value: string) => parseInt(value, 10) ?? 0
     const amount = parseNumber(output?.amount)
-    const balance = parseNumber(getSelectedAccount()?.balances?.baseCoin.available ?? '0')
+    const balance = parseNumber(getSelectedAccount()?.balances?.baseCoin.available.toString() ?? '0')
 
     const expirationUnlockCondition = output.unlockConditions.find(
         (c) => c.type === UnlockConditionType.Expiration

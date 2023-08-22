@@ -28,7 +28,7 @@ export async function generateSingleBasicActivity(
 
     const isHidden = false
     const isTokenHidden = false
-    const containsValue = activityOutputContainsValue(wrappedOutput)
+    const containsValue = await activityOutputContainsValue(wrappedOutput)
 
     const outputId = wrappedOutput.outputId
     const id = outputId || transactionId

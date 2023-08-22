@@ -17,7 +17,7 @@ import { ActivityAction, ActivityType } from '../enums'
 export function generateActivities(
     processedTransaction: IProcessedTransaction,
     account: IAccountState
-): Activity[] | Promise<Activity[]> {
+): Promise<Activity[]> {
     if (processedTransaction.wrappedInputs?.length > 0) {
         return generateActivitiesFromProcessedTransactionsWithInputs(processedTransaction, account)
     } else {
@@ -25,10 +25,10 @@ export function generateActivities(
     }
 }
 
-function generateActivitiesFromProcessedTransactionsWithInputs(
+async function generateActivitiesFromProcessedTransactionsWithInputs(
     processedTransaction: IProcessedTransaction,
     account: IAccountState
-): Activity[] {
+): Promise<Activity[]> {
     const { outputs, wrappedInputs } = processedTransaction
     const activities: Activity[] = []
 
@@ -65,7 +65,7 @@ function generateActivitiesFromProcessedTransactionsWithInputs(
     }
 
     if (!containsFoundryActivity && !containsNftActivity && !containsAliasActivity && !governanceOutput) {
-        const basicActivities = generateActivitiesFromBasicOutputs(processedTransaction, account)
+        const basicActivities = await generateActivitiesFromBasicOutputs(processedTransaction, account)
         activities.push(...basicActivities)
     }
 
