@@ -81,11 +81,13 @@ function getBurnedNftInputs(processedTransaction: IProcessedTransaction): IWrapp
     return processedTransaction.wrappedInputs.filter((wrappedInput) => {
         const input = wrappedInput.output
         if (input.type === OutputType.Nft) {
-            const nftId = getNftId(input.nftId, wrappedInput.outputId)
+            const nftInput = input as NftOutput
+            const nftId = getNftId(nftInput.nftId, wrappedInput.outputId)
 
             const isIncludedInOutputs = processedTransaction.outputs.some((output) => {
-                if (output.output.type === OutputType.Nft) {
-                    return getNftId(output.output.nftId, output.outputId) === nftId
+                const nftOutput = output.output as NftOutput
+                if (nftOutput.type === OutputType.Nft) {
+                    return getNftId(nftOutput.nftId, output.outputId) === nftId
                 } else {
                     return false
                 }

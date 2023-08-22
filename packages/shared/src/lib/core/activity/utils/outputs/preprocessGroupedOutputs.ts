@@ -1,4 +1,4 @@
-import { OutputType } from '@iota/sdk/out/types'
+import { CommonOutput, OutputType } from '@iota/sdk/out/types'
 import { OutputResponse, OutputData, UTXOInput } from '@iota/sdk/out/types'
 import { MILLISECONDS_PER_SECOND } from '@core/utils/constants'
 import { IAccountState } from '@core/account/interfaces'
@@ -24,7 +24,7 @@ export function preprocessGroupedOutputs(
     const wrappedOutputs = outputDatas.map((outputData) => ({
         outputId: outputData.outputId,
         remainder: outputData.remainder,
-        output: outputData.output.type !== OutputType.Treasury ? outputData.output : undefined,
+        output: outputData.output as CommonOutput,
     }))
 
     return {
@@ -47,8 +47,7 @@ function getDirectionForOutputs(
     if (nonRemainderOutputs.length === 0) {
         return ActivityDirection.Outgoing
     }
-    const output =
-        nonRemainderOutputs[0].output.type !== OutputType.Treasury ? nonRemainderOutputs[0].output : undefined
+    const output = nonRemainderOutputs[0].output as CommonOutput
     const recipientAddress = getRecipientAddressFromOutput(output)
     const senderAddress = wrappedInputs ? getSenderAddressFromInputs(wrappedInputs) : ''
 
@@ -79,7 +78,7 @@ function convertTransactionOutputResponseToWrappedOutput(
         return undefined
     } else {
         const outputId = getOutputIdFromTransactionIdAndIndex(transactionId, outputResponse.metadata.outputIndex)
-        return { outputId, output: outputResponse.output, metadata: outputResponse.metadata }
+        return { outputId, output: outputResponse.output as CommonOutput, metadata: outputResponse.metadata }
     }
 }
 

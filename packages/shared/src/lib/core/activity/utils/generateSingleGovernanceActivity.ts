@@ -12,15 +12,15 @@ import {
     getTagFromOutput,
 } from './helper'
 
-export function generateSingleGovernanceActivity(
+export async function generateSingleGovernanceActivity(
     account: IAccountState,
     { action, processedTransaction, wrappedOutput }: IActivityGenerationParameters
-): GovernanceActivity {
+): Promise<GovernanceActivity> {
     const { transactionId, direction, time, inclusionState, wrappedInputs } = processedTransaction
 
     const isHidden = false
     const isAssetHidden = false
-    const containsValue = activityOutputContainsValue(wrappedOutput)
+    const containsValue = await activityOutputContainsValue(wrappedOutput)
 
     const outputId = wrappedOutput.outputId
     const id = outputId || transactionId

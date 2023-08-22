@@ -34,7 +34,7 @@ async function generateActivitiesFromProcessedTransactionsWithInputs(
 
     const containsFoundryActivity = outputs.some((output) => output.output.type === OutputType.Foundry)
     if (containsFoundryActivity) {
-        const foundryActivities = generateActivitiesFromFoundryOutputs(processedTransaction, account)
+        const foundryActivities = await generateActivitiesFromFoundryOutputs(processedTransaction, account)
         activities.push(...foundryActivities)
     }
 
@@ -56,7 +56,7 @@ async function generateActivitiesFromProcessedTransactionsWithInputs(
         ? processedTransaction?.outputs[0]
         : outputs.find((output) => isParticipationOutput(output.output))
     if (governanceOutput) {
-        const governanceActivity = generateSingleGovernanceActivity(account, {
+        const governanceActivity = await generateSingleGovernanceActivity(account, {
             processedTransaction,
             wrappedOutput: governanceOutput,
             action: null,

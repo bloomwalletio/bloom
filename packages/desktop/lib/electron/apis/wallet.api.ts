@@ -59,9 +59,7 @@ export default {
     async getClient(managerId: string): Promise<IotaSdk.Client> {
         const manager = profileManagers[managerId]
         const client = await manager.getClient()
-        bindMethodsAcrossContextBridge(IotaSdk.Client.prototype, client)
-
-        return client
+        return bindMethodsAcrossContextBridge(IotaSdk.Client.prototype, client)
     },
     async recoverAccounts(managerId: string, payload: PayloadType): Promise<IotaSdk.Account[]> {
         const manager = profileManagers[managerId]
@@ -73,9 +71,9 @@ export default {
         )
         return accounts.map((account) => bindMethodsAcrossContextBridge(IotaSdk.Account.prototype, account))
     },
-    getSecretManager(managerId: string): Promise<IotaSdk.SecretManager> {
+    async getSecretManager(managerId: string): Promise<IotaSdk.SecretManager> {
         const manager = profileManagers[managerId]
-        const secretManager = manager.getSecretManager()
+        const secretManager = await manager.getSecretManager()
         return bindMethodsAcrossContextBridge(IotaSdk.SecretManager, secretManager)
     },
     migrateStrongholdSnapshotV2ToV3(

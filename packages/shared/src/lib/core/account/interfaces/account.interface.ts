@@ -50,7 +50,7 @@ export interface IAccount {
     getOutput(outputId: string): Promise<OutputData>
     getParticipationEvent(eventId: string): Promise<ParticipationEventWithNodes>
     getParticipationEventIds(node: INode, eventType?: ParticipationEventType): Promise<string[]>
-    getParticipationEvents(): Promise<{ [eventId: string]: ParticipationEventMap }>
+    getParticipationEvents(): Promise<ParticipationEventMap>
     getParticipationEventStatus(eventId: string): Promise<ParticipationEventStatus>
     getParticipationOverview(eventIds?: string[]): Promise<ParticipationOverview>
     getTransaction(transactionId: string): Promise<Transaction>

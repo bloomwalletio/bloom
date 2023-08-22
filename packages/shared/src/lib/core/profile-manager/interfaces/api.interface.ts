@@ -9,11 +9,12 @@ import type {
     WalletOptions,
 } from '@iota/sdk'
 
-import { IAccount } from '@core/account'
+import type { IAccount } from '@core/account/interfaces'
+import type { IAuth, INodeInfoResponse } from '@core/network/interfaces'
+import type { ISecretManager } from '@core/secret-manager/interfaces'
 
-import { IProfileManager } from './profile-manager.interface'
-import { RecoverAccountsPayload } from './recover-account-payload.interface'
-import { IAuth, INodeInfoResponse } from '@core/network'
+import type { IProfileManager } from './profile-manager.interface'
+import type { RecoverAccountsPayload } from './recover-account-payload.interface'
 
 export interface IApi {
     createAccount(managerId: string, payload: CreateAccountPayload): Promise<IAccount>
@@ -23,6 +24,7 @@ export interface IApi {
     getAccounts(profileManagerId: string): Promise<IAccount[]>
     getClient(profileManagerId: string): Promise<Client>
     getNodeInfo(profileManagerId: string, url?: string, auth?: IAuth): Promise<INodeInfoResponse>
+    getSecretManager(profileManagerId: string): Promise<ISecretManager>
     recoverAccounts(profileManagerId: string, payload: RecoverAccountsPayload): Promise<IAccount[]>
     migrateStrongholdSnapshotV2ToV3(
         currentPath: string,

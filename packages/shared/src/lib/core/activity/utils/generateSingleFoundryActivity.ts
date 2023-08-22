@@ -4,6 +4,7 @@ import {
     AliasAddress,
     FoundryOutput,
     ImmutableAliasAddressUnlockCondition,
+    SimpleTokenScheme,
     UnlockConditionType,
 } from '@iota/sdk/out/types'
 import { IActivityGenerationParameters } from '@core/activity/types'
@@ -20,15 +21,15 @@ import {
 } from './helper'
 import { getNativeTokenFromOutput } from './outputs'
 
-export function generateSingleFoundryActivity(
+export async function generateSingleFoundryActivity(
     account: IAccountState,
     { action, processedTransaction, wrappedOutput }: IActivityGenerationParameters
-): FoundryActivity {
+): Promise<FoundryActivity> {
     const { transactionId, claimingData, time, direction, inclusionState } = processedTransaction
 
     const output = wrappedOutput.output as FoundryOutput
     const outputId = wrappedOutput.outputId
-    const { mintedTokens, meltedTokens, maximumSupply } = output.tokenScheme
+    const { mintedTokens, meltedTokens, maximumSupply } = output.tokenScheme as SimpleTokenScheme
 
     const addressUnlockCondition = output.unlockConditions.find(
         (unlockCondition) => unlockCondition.type === UnlockConditionType.ImmutableAliasAddress
@@ -41,7 +42,7 @@ export function generateSingleFoundryActivity(
     const containsValue = true
 
     const id = outputId || transactionId
-    const nativeToken = getNativeTokenFromOutput(output)
+    const nativeToken = await getNativeTokenFromOutput(output)
     const tokenId = nativeToken?.id ?? getCoinType()
 
     const storageDeposit = getAmountFromOutput(output)
@@ -61,9 +62,9 @@ export function generateSingleFoundryActivity(
         action,
         tokenId,
         aliasAddress,
-        mintedTokens,
-        meltedTokens,
-        maximumSupply,
+        mintedTokens: mintedTokens.toString(),
+        meltedTokens: meltedTokens.toString(),
+        maximumSupply: maximumSupply.toString(),
         storageDeposit,
         rawAmount,
         time,

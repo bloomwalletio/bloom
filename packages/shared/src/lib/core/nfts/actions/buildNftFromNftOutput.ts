@@ -1,4 +1,4 @@
-import { AddressType, NftOutput } from '@iota/sdk/out/types'
+import { Address, AddressType, NftOutput } from '@iota/sdk/out/types'
 import { getIssuerFromNftOutput, getMetadataFromNftOutput, getNftId } from '@core/activity/utils/outputs'
 import { activeProfileId } from '@core/profile/stores'
 import { IWrappedOutput } from '@core/wallet/interfaces'
@@ -25,7 +25,7 @@ export function buildNftFromNftOutput(
     }
 
     const id = getNftId(nftOutput.nftId, wrappedOutput.outputId)
-    const address = getBech32AddressFromAddressTypes({ type: AddressType.Nft, nftId: id })
+    const address = getBech32AddressFromAddressTypes({ type: AddressType.Nft, nftId: id } as unknown as Address)
     const issuer = getIssuerFromNftOutput(nftOutput)
     const metadata = getMetadataFromNftOutput(nftOutput)
     const parsedMetadata = parseNftMetadata(metadata)
