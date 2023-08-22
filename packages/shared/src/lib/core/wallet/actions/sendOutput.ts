@@ -5,13 +5,13 @@ import { get } from 'svelte/store'
 import { processAndAddToActivities } from '@core/activity/utils'
 import { DEFAULT_TRANSACTION_OPTIONS, OUTPUT_TYPE_NFT } from '../constants'
 import { Output } from '../types'
-import { network } from '@core/network'
+import { getActiveNetworkId } from '@core/network'
 import { localize } from '@core/i18n'
 
 export async function sendOutput(output: Output): Promise<void> {
     try {
         const account = get(selectedAccount)
-        const networkId = get(network)?.getMetadata()?.id
+        const networkId = getActiveNetworkId()
 
         if (!account || !networkId) {
             throw new Error(localize('error.global.accountOrNetworkUndefined'))

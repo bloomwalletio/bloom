@@ -14,10 +14,10 @@ import { Event, NewOutputWalletEvent, WalletEventType } from '@iota/wallet/out/t
 import { get } from 'svelte/store'
 import { validateWalletApiEvent } from '../../utils'
 import { ActivityType } from '@core/activity/enums'
-import { network } from '@core/network'
 import { getOrRequestTokenFromPersistedTokens } from '@core/token/actions'
 import { addPersistedToken } from '@core/token/stores'
 import { addNftsToDownloadQueue, addOrUpdateNftInAllAccountNfts, buildNftFromNftOutput } from '@core/nfts/actions'
+import { getActiveNetworkId } from '@core/network'
 
 export function handleNewOutputEvent(error: Error, event: Event): void {
     const walletEvent = validateWalletApiEvent<NewOutputWalletEvent>(error, event, WalletEventType.NewOutput)
@@ -29,7 +29,7 @@ export async function handleNewOutputEventInternal(
     walletEvent: NewOutputWalletEvent
 ): Promise<void> {
     const account = get(activeAccounts)?.find((account) => account.index === accountIndex)
-    const networkId = get(network)?.getMetadata()?.id
+    const networkId = getActiveNetworkId()
     const output = walletEvent?.output
 
     if (!account || !output || !networkId) return

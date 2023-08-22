@@ -6,12 +6,11 @@ import { Converter } from '@core/utils'
 import { CreateNativeTokenParams } from '@iota/wallet'
 import { DEFAULT_TRANSACTION_OPTIONS } from '../constants'
 import { resetMintTokenDetails } from '../stores'
-import { network } from '@core/network'
-import { get } from 'svelte/store'
 import { buildPersistedTokenFromMetadata } from '@core/token/utils'
 import { addPersistedToken } from '@core/token/stores'
 import { IIrc30Metadata, IPersistedToken } from '@core/token/interfaces'
 import { VerifiedStatus } from '@core/token/enums'
+import { getActiveNetworkId } from '@core/network'
 
 export async function mintNativeToken(
     maximumSupply: number,
@@ -20,7 +19,7 @@ export async function mintNativeToken(
 ): Promise<void> {
     try {
         const account = getSelectedAccount()
-        const networkId = get(network)?.getMetadata()?.id
+        const networkId = getActiveNetworkId()
 
         if (!account || !networkId) {
             throw new Error(localize('error.global.accountOrNetworkUndefined'))

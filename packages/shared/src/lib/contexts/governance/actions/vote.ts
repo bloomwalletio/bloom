@@ -4,12 +4,12 @@ import { showNotification } from '@auxiliary/notification/actions'
 import { localize } from '@core/i18n'
 import { handleError } from '@core/error/handlers'
 import { processAndAddToActivities } from '@core/activity/utils'
-import { network } from '@core/network'
+import { getActiveNetworkId } from '@core/network'
 
 export async function vote(eventId?: string, answers?: number[]): Promise<void> {
     try {
         const account = get(selectedAccount)
-        const networkId = get(network)?.getMetadata()?.id
+        const networkId = getActiveNetworkId()
 
         if (!account || !networkId) {
             throw new Error(localize('error.global.accountOrNetworkUndefined'))

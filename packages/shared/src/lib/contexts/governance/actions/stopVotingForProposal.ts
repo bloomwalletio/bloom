@@ -1,16 +1,15 @@
 import { get } from 'svelte/store'
-import type { Transaction } from '@iota/wallet'
 import { selectedAccount, updateSelectedAccount } from '@core/account/stores'
 import { showNotification } from '@auxiliary/notification/actions'
 import { localize } from '@core/i18n'
 import { handleError } from '@core/error/handlers'
 import { processAndAddToActivities } from '@core/activity/utils'
-import { network } from '@core/network/stores'
+import { getActiveNetworkId } from '@core/network'
 
-export async function stopVotingForProposal(eventId: string): Promise<Transaction> {
+export async function stopVotingForProposal(eventId: string): Promise<void> {
     try {
         const account = get(selectedAccount)
-        const networkId = get(network)?.getMetadata()?.id
+        const networkId = getActiveNetworkId()
 
         if (!account || !networkId) {
             throw new Error(localize('error.global.accountOrNetworkUndefined'))
@@ -25,7 +24,6 @@ export async function stopVotingForProposal(eventId: string): Promise<Transactio
             variant: 'success',
             text: localize('notifications.stopVoting.success'),
         })
-        return transaction
     } catch (err) {
         handleError(err)
         updateSelectedAccount({ hasVotingTransactionInProgress: false })

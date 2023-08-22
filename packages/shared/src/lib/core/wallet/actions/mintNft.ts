@@ -13,12 +13,12 @@ import { MintNftParams } from '@iota/wallet'
 import { get } from 'svelte/store'
 import { DEFAULT_TRANSACTION_OPTIONS, OUTPUT_TYPE_NFT } from '../constants'
 import { resetMintNftDetails } from '../stores'
-import { network } from '@core/network'
+import { getActiveNetworkId } from '@core/network'
 
 export async function mintNft(metadata: IIrc27Metadata, quantity: number): Promise<void> {
     try {
         const account = get(selectedAccount)
-        const networkId = get(network)?.getMetadata()?.id
+        const networkId = getActiveNetworkId()
         if (!account || !networkId) {
             return
         }

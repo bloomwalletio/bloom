@@ -4,8 +4,7 @@ import { processAndAddToActivities } from '@core/activity/utils'
 import { updateNftInAllAccountNfts } from '@core/nfts/actions'
 import { DEFAULT_TRANSACTION_OPTIONS, OUTPUT_TYPE_NFT } from '@core/wallet/constants'
 import { Output } from '@core/wallet/types'
-import { network } from '@core/network'
-import { get } from 'svelte/store'
+import { getActiveNetworkId } from '@core/network'
 import { localize } from '@core/i18n'
 
 export async function signAndSendStardustTransaction(
@@ -13,7 +12,7 @@ export async function signAndSendStardustTransaction(
     account: IAccountState | undefined
 ): Promise<void> {
     try {
-        const networkId = get(network)?.getMetadata()?.id
+        const networkId = getActiveNetworkId()
         if (!account || !networkId) {
             throw new Error(localize('error.global.accountOrNetworkUndefined'))
         }
