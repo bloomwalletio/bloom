@@ -1,13 +1,13 @@
-import { getSelectedAccount } from '@core/account/stores/selected-account.store'
-import { convertBech32ToHexAddress } from '@core/wallet/utils/convertBech32ToHexAddress'
-import { AliasOutput } from '@iota/sdk'
+import { getSelectedAccount } from '@core/account/stores'
+import { api } from '@core/profile-manager/api'
+import { AliasOutput } from '@iota/sdk/out/types'
 
 export async function getSerialNumberFromAliasOutput(aliasAddress: string): Promise<number> {
     const account = getSelectedAccount()
     if (!account) {
         throw new Error('Account is undefined')
     }
-    const aliasId = convertBech32ToHexAddress(aliasAddress)
+    const aliasId = api.bech32ToHex(aliasAddress)
 
     const [aliasOutput] = await account.unspentOutputs({ aliasIds: [aliasId] })
 

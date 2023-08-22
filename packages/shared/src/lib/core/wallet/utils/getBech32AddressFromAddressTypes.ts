@@ -1,14 +1,15 @@
-import { Address, AddressType } from '@iota/sdk/out/types'
-
-import { convertHexAddressToBech32 } from './convertHexAddressToBech32'
+import { Address, AddressType, AliasAddress, Ed25519Address, NftAddress } from '@iota/sdk/out/types'
+import { api } from '@core/profile-manager'
+import { getNetworkHrp } from '@core/profile/actions'
 
 export function getBech32AddressFromAddressTypes(address: Address): string | undefined {
+    const hrp = getNetworkHrp()
     switch (address?.type) {
         case AddressType.Ed25519:
-            return convertHexAddressToBech32(AddressType.Ed25519, address.pubKeyHash)
+            return api.hexToBech32((address as Ed25519Address).pubKeyHash, hrp)
         case AddressType.Alias:
-            return convertHexAddressToBech32(AddressType.Alias, address.aliasId)
+            return api.aliasIdToBech32((address as AliasAddress).aliasId, hrp)
         case AddressType.Nft:
-            return convertHexAddressToBech32(AddressType.Nft, address.nftId)
+            return api.nftIdToBech32((address as NftAddress).nftId, hrp)
     }
 }
