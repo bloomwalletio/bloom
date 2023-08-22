@@ -1,5 +1,4 @@
-import { OutputData } from '@iota/sdk'
-import { Output } from '../types'
+import { Output, OutputData } from '@iota/sdk/out/types'
 
 export interface IWrappedOutput extends Omit<Partial<OutputData>, 'output'> {
     outputId: string

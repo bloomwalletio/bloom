@@ -1,6 +1,6 @@
 import { isShimmerClaimingTransaction } from '@contexts/onboarding/stores'
 import { IAccountState } from '@core/account'
-import { BasicOutput } from '@iota/sdk'
+import { BasicOutput } from '@iota/sdk/out/types'
 import { IActivityGenerationParameters } from '@core/activity/types'
 import { getCoinType } from '@core/profile/actions'
 import { activeProfileId } from '@core/profile/stores'
@@ -18,12 +18,12 @@ import {
 } from './helper'
 import { getNativeTokenFromOutput } from './outputs'
 
-export function generateSingleBasicActivity(
+export async function generateSingleBasicActivity(
     account: IAccountState,
     { action, processedTransaction, wrappedOutput }: IActivityGenerationParameters,
     fallbackTokenId?: string,
     fallbackAmount?: number
-): TransactionActivity {
+): Promise<TransactionActivity> {
     const { transactionId, direction, claimingData, time, inclusionState } = processedTransaction
 
     const isHidden = false
@@ -52,7 +52,7 @@ export function generateSingleBasicActivity(
 
     const rawBaseCoinAmount = getAmountFromOutput(output)
 
-    const nativeToken = getNativeTokenFromOutput(output)
+    const nativeToken = await getNativeTokenFromOutput(output)
     const tokenId = fallbackTokenId ?? nativeToken?.id ?? getCoinType()
 
     let rawAmount: number

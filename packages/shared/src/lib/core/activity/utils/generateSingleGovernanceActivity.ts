@@ -1,5 +1,5 @@
 import { IAccountState } from '@core/account'
-import type { BasicOutput } from '@iota/sdk'
+import type { BasicOutput } from '@iota/sdk/out/types'
 import {} from '../types'
 import { GovernanceActivity, IActivityGenerationParameters } from '../types'
 import { ActivityType } from '../enums'

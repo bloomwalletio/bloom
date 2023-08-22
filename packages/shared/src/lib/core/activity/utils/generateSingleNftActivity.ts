@@ -1,5 +1,5 @@
 import { IAccountState } from '@core/account'
-import type { NftOutput } from '@iota/sdk'
+import type { NftOutput } from '@iota/sdk/out/types'
 import { ActivityType } from '../enums'
 import { NftActivity } from '../types'
 import {
