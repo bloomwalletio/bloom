@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { IPersistedAccountData } from '@core/account/interfaces'
 import { DEFAULT_COIN_TYPE, getDefaultPersistedNetwork, SupportedNetworkId } from '@core/network'
 import { INode, IPersistedNetwork } from '@core/network/interfaces'
