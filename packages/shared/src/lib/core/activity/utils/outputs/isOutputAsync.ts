@@ -1,6 +1,11 @@
-import { OutputType } from '@iota/sdk/out/types'
-import { ASYNC_UNLOCK_CONDITION_TYPES } from '@core/wallet/constants'
+import { OutputType, UnlockConditionType } from '@iota/sdk/out/types'
 import { Output } from '@core/wallet/types'
+
+const ASYNC_UNLOCK_CONDITION_TYPES = [
+    UnlockConditionType.StorageDepositReturn,
+    UnlockConditionType.Expiration,
+    UnlockConditionType.Timelock,
+]
 
 export function isOutputAsync(output: Output): boolean {
     if (output.type === OutputType.Foundry) {
