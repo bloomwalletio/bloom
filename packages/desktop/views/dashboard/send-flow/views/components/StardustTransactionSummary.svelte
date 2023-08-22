@@ -12,6 +12,7 @@
     import { AddInputButton, ExpirationTimePicker, OptionalInput, TransactionAssetSection } from '@ui'
     import { onMount } from 'svelte'
     import StardustTransactionDetails from './StardustTransactionDetails.svelte'
+    import { GAS_MULTIPLIER, calculateGasFeeInGlow, getGasPriceInWei } from '@core/layer-2'
 
     export let output: Output
     export let sendFlowParameters: SendFlowParameters
@@ -31,6 +32,8 @@
     let baseCoinTransfer: TokenTransferData
     let storageDeposit: number
     let estimatedGas = 0
+    let gasLimit = 0
+    let gasPrice = '0x0'
     let expirationTimePicker: ExpirationTimePicker
     let tagInput: OptionalInput
     let metadataInput: OptionalInput
@@ -68,10 +71,12 @@
         }
     }
 
-    async function setEstimatedGas(sendFlowParameters: SendFlowParameters): Promise<void> {
+    async function setGasVariables(sendFlowParameters: SendFlowParameters): Promise<void> {
         estimatedGas = await estimateGasForLayer1ToLayer2Transaction(sendFlowParameters)
+        gasLimit = estimatedGas * GAS_MULTIPLIER
+        gasPrice = await getGasPriceInWei(layer2Parameters.chainId)
     }
-    $: void setEstimatedGas(sendFlowParameters)
+    $: void setGasVariables(sendFlowParameters)
 
     function setBaseCoinAndStorageDeposit(output: Output, estimatedGas: number): void {
         storageDeposit = getStorageDepositFromOutput(output)
@@ -119,7 +124,8 @@
         bind:selectedExpirationPeriod
         bind:selectedTimelockPeriod
         bind:giftStorageDeposit
-        gasBudget={estimatedGas}
+        estimatedGasFee={calculateGasFeeInGlow(estimatedGas, gasPrice)}
+        maxGasFee={calculateGasFeeInGlow(gasLimit, gasPrice)}
         storageDeposit={getStorageDepositFromOutput(output)}
         {destinationNetwork}
         {disableChangeExpiration}

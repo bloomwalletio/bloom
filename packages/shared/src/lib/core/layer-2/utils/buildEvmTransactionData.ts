@@ -1,7 +1,8 @@
+import { getEvmTransactionValueFromAmount } from '@core/layer-2'
+import { Converter } from '@core/utils'
 import Web3 from 'web3'
 import { GAS_MULTIPLIER } from '../constants'
 import { EvmTransactionData } from '../types'
-import { getEvmTransactionValueFromAmount } from '@core/layer-2'
 
 export async function buildEvmTransactionData(
     provider: Web3,
@@ -12,11 +13,11 @@ export async function buildEvmTransactionData(
 ): Promise<EvmTransactionData> {
     const nonce = provider.utils.toHex(await provider.eth.getTransactionCount(originAddress))
 
-    const _gasPrice = await provider.eth.getGasPrice()
-    const gasPrice = '0x' + _gasPrice
-
+    // Specified in wei = 1_000_000_000_000
+    const gasPrice = await provider.eth.getGasPrice()
+    const hexGasPrice = Converter.decimalToHex(Number(gasPrice), true)
     const estimatedGas = await provider.eth.estimateGas({ from: originAddress, to: destinationAddress, data })
-    const gasLimit = provider.utils.toHex(GAS_MULTIPLIER * estimatedGas) // Double to ensure we have enough gas
+    const gasLimit = GAS_MULTIPLIER * estimatedGas // Double to ensure we have enough gas
 
     const to = destinationAddress
 
@@ -25,5 +26,5 @@ export async function buildEvmTransactionData(
     // We add 12 additional zeros to convert the glow to wei
     const value = getEvmTransactionValueFromAmount(amount)
 
-    return { nonce, gasPrice, gasLimit, to, value, data }
+    return { nonce, gasPrice: hexGasPrice, estimatedGas, gasLimit, to, value, data }
 }

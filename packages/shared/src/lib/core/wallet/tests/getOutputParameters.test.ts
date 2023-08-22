@@ -1,6 +1,6 @@
 import { activeProfileId } from '@core/profile/stores/active-profile-id.store'
 import { NetworkId } from '@core/network/enums'
-import { FALLBACK_GAS_BUDGET } from '@core/layer-2/constants'
+import { FALLBACK_ESTIMATED_GAS } from '@core/layer-2/constants'
 import { getOutputParameters } from '../utils'
 import { ReturnStrategy, SubjectType } from '../enums'
 import { IToken, IPersistedToken } from '@core/token/interfaces'
@@ -92,7 +92,7 @@ jest.mock('../../profile/actions/active-profile/getCoinType', () => ({
 }))
 
 jest.mock('../../layer-2/utils/estimateGasForLayer1ToLayer2Transaction', () => ({
-    estimateGasForLayer1ToLayer2Transaction: jest.fn(() => FALLBACK_GAS_BUDGET.toJSNumber()),
+    estimateGasForLayer1ToLayer2Transaction: jest.fn(() => FALLBACK_ESTIMATED_GAS.toJSNumber()),
 }))
 
 describe('File: getOutputParameters.ts', () => {
@@ -217,7 +217,7 @@ describe('File: getOutputParameters.ts', () => {
         const output = await getOutputParameters(sendFlowParameters)
         const expectedOutput = {
             recipientAddress: layer2Parameters.networkAddress,
-            amount: (Number(FALLBACK_GAS_BUDGET) + Number(amount)).toString(),
+            amount: (Number(FALLBACK_ESTIMATED_GAS) + Number(amount)).toString(),
             features: {
                 metadata:
                     '0x00000000025e4b3ca1e3f423a08d06010161200300010000070c000c30680e00000090000f0ea000060009000d300000000000808094ebdc03',
@@ -249,7 +249,7 @@ describe('File: getOutputParameters.ts', () => {
 
         const expectedOutput = {
             recipientAddress: layer2Parameters.networkAddress,
-            amount: FALLBACK_GAS_BUDGET.toString(),
+            amount: FALLBACK_ESTIMATED_GAS.toString(),
             assets: {
                 nativeTokens: [
                     {
@@ -280,7 +280,7 @@ describe('File: getOutputParameters.ts', () => {
 
         const expectedOutput = {
             recipientAddress: layer2Parameters.networkAddress,
-            amount: FALLBACK_GAS_BUDGET.toString(),
+            amount: FALLBACK_ESTIMATED_GAS.toString(),
             assets: {
                 nftId,
             },

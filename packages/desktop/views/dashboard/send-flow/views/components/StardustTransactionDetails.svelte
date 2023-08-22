@@ -10,7 +10,8 @@
 
     export let destinationNetwork: string
     export let storageDeposit: number
-    export let gasBudget: number
+    export let estimatedGasFee: string | undefined = undefined
+    export let maxGasFee: string | undefined = undefined
     export let giftStorageDeposit: boolean
     export let expirationDate: Date
     export let selectedExpirationPeriod: TimePeriod
@@ -52,19 +53,20 @@
             />
         </section>
     {/if}
-    {#if gasBudget}
+    {#if estimatedGasFee}
         <section class="key-value-box border-gray-200 dark:border-gray-700">
             <div class="flex flex-row">
-                <Text>{localize('general.gasBudget')}</Text>
-                <TooltipIcon
-                    title={localize('general.gasBudget')}
-                    text={localize('tooltips.transactionDetails.outgoing.gasBudget')}
-                    width={15}
-                    height={15}
-                    classes="ml-1"
-                />
+                <Text>{localize('general.estimatedFee')}</Text>
             </div>
-            <Text color="gray-600">{formatTokenAmountBestMatch(gasBudget, getBaseToken())}</Text>
+            <Text color="gray-600">{formatTokenAmountBestMatch(Number(estimatedGasFee), getBaseToken())}</Text>
+        </section>
+    {/if}
+    {#if maxGasFee}
+        <section class="key-value-box border-gray-200 dark:border-gray-700">
+            <div class="flex flex-row">
+                <Text>{localize('general.maxFees')}</Text>
+            </div>
+            <Text color="gray-600">{formatTokenAmountBestMatch(Number(maxGasFee), getBaseToken())}</Text>
         </section>
     {/if}
     {#if selectedExpirationPeriod}
