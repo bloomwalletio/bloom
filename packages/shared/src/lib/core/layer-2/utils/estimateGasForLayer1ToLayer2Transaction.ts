@@ -1,7 +1,7 @@
 import { getNetwork } from '@core/network'
 import { getSelectedAccount } from '@core/account/stores'
 import { SendFlowParameters, SendFlowType } from '@core/wallet'
-import { FALLBACK_GAS_BUDGET, ISC_MAGIC_CONTRACT_ADDRESS } from '../constants'
+import { FALLBACK_ESTIMATED_GAS, ISC_MAGIC_CONTRACT_ADDRESS } from '../constants'
 import { AssetType } from '../enums'
 import { TransferredAsset } from '../types'
 import { getIscpTransferSmartContractData } from '../utils'
@@ -20,7 +20,7 @@ export async function estimateGasForLayer1ToLayer2Transaction(sendFlowParameters
     const provider = chain?.getProvider()
     const transferredAsset = getTransferredAsset(sendFlowParameters)
 
-    const fallbackGas = FALLBACK_GAS_BUDGET.toJSNumber()
+    const fallbackGas = FALLBACK_ESTIMATED_GAS.toJSNumber()
     if (!chain || !provider || !transferredAsset) {
         return fallbackGas
     }

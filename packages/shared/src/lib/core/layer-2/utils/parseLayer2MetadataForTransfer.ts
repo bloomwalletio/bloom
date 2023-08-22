@@ -13,7 +13,7 @@ export function parseLayer2MetadataForTransfer(metadata: Uint8Array): ILayer2Tra
     const targetContract = readStream.readUInt32('targetContract')
     const contractFunction = readStream.readUInt32('contractFunction')
     // TODO: This is a temporary fix since now the gas is always 500000, when it varies, the length of the gas will change
-    const gasBudget = readStream.readUIntNSpecialEncoding('gasBudget', 3)
+    const gasLimit = readStream.readUIntNSpecialEncoding('gasLimit', 3)
 
     const smartContractParameters = parseSmartContractParameters(readStream)
     const ethereumAddress = '0x' + smartContractParameters['a'].substring(4)
@@ -24,7 +24,7 @@ export function parseLayer2MetadataForTransfer(metadata: Uint8Array): ILayer2Tra
         senderContract: Converter.decimalToHex(senderContract),
         targetContract: TARGET_CONTRACTS[targetContract] ?? Converter.decimalToHex(targetContract),
         contractFunction: CONTRACT_FUNCTIONS[contractFunction] ?? Converter.decimalToHex(contractFunction),
-        gasBudget: gasBudget.toString(),
+        gasLimit: gasLimit.toString(),
         ethereumAddress,
         baseTokens: allowance?.baseTokens,
         nativeTokens: allowance?.nativeTokens,

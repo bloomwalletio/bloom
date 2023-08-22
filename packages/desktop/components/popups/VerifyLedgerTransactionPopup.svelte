@@ -4,6 +4,8 @@
     import { formatHexString } from '@core/utils'
     import { onDestroy } from 'svelte'
     import { showInternalVerificationPopup, resetShowInternalVerificationPopup } from '@core/ledger'
+    import { formatTokenAmountBestMatch } from '@core/token/utils'
+    import { getBaseToken } from '@core/profile/actions'
 
     export let isEvmTransaction: boolean
     export let useBlindSigning: boolean
@@ -12,7 +14,7 @@
     export let toAddress: string
     export let toAmount: string
     export let chainId: string
-    export let maxFees: string
+    export let maxGasFee: string
 
     // Blindly signed transaction
     export let hash: string
@@ -46,7 +48,10 @@
             <KeyValueBox keyText={localize('general.amount')} valueText={toAmount} />
             <KeyValueBox keyText={localize('general.address')} valueText={toAddress} />
             <KeyValueBox keyText={localize('general.network')} valueText={chainId} />
-            <KeyValueBox keyText={localize('general.maxFees')} valueText={maxFees} />
+            <KeyValueBox
+                keyText={localize('general.maxFees')}
+                valueText={formatTokenAmountBestMatch(Number(maxGasFee), getBaseToken())}
+            />
         {:else}
             <KeyValueBox keyText={localize('general.sendTo')} valueText={toAddress} />
             <KeyValueBox keyText={localize('general.amount')} valueText={toAmount} />

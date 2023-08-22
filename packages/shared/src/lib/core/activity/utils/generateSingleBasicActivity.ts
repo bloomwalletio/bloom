@@ -47,8 +47,8 @@ export function generateSingleBasicActivity(
     const asyncData = getAsyncDataFromOutput(output, outputId, claimingData, account)
 
     // const { parsedLayer2Metadata, destinationNetwork } = getLayer2ActivityInformation(metadata, sendingInfo)
-    // const gasBudget = Number(parsedLayer2Metadata?.gasBudget ?? '0')
-    const gasBudget = 0
+    // const gasLimit = Number(parsedLayer2Metadata?.gasLimit ?? '0')
+    const gasLimit = 0
 
     const storageDeposit = getStorageDepositFromOutput(output)
 
@@ -59,7 +59,7 @@ export function generateSingleBasicActivity(
 
     let rawAmount: number
     if (fallbackAmount === undefined) {
-        rawAmount = nativeToken ? Number(nativeToken?.amount) : rawBaseCoinAmount - storageDeposit - gasBudget
+        rawAmount = nativeToken ? Number(nativeToken?.amount) : rawBaseCoinAmount - storageDeposit - gasLimit
     } else {
         rawAmount = fallbackAmount
     }
