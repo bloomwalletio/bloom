@@ -2,6 +2,7 @@
     import { selectedAccount } from '@core/account/stores'
     import { getStorageDepositFromOutput } from '@core/activity/utils/helper'
     import { localize } from '@core/i18n'
+    import { GAS_LIMIT_MULTIPLIER, calculateGasFeeInGlow, getGasPriceInWei } from '@core/layer-2'
     import { estimateGasForLayer1ToLayer2Transaction, getDestinationNetworkFromAddress } from '@core/layer-2/utils'
     import { getNetwork } from '@core/network'
     import { INft } from '@core/nfts/interfaces'
@@ -9,10 +10,10 @@
     import { TimePeriod } from '@core/utils/enums'
     import { Output, SendFlowParameters, TokenTransferData } from '@core/wallet'
     import { SendFlowType, updateSendFlowParameters } from '@core/wallet/stores'
+    import { BigIntLike } from '@ethereumjs/util'
     import { AddInputButton, ExpirationTimePicker, OptionalInput, TransactionAssetSection } from '@ui'
     import { onMount } from 'svelte'
     import StardustTransactionDetails from './StardustTransactionDetails.svelte'
-    import { GAS_MULTIPLIER, calculateGasFeeInGlow, getGasPriceInWei } from '@core/layer-2'
 
     export let output: Output
     export let sendFlowParameters: SendFlowParameters
@@ -31,8 +32,8 @@
     const destinationNetwork = getDestinationNetworkFromAddress(layer2Parameters?.networkAddress)
     let baseCoinTransfer: TokenTransferData
     let storageDeposit: number
-    let estimatedGas = 0
-    let gasLimit = 0
+    let estimatedGas: BigIntLike = 0
+    let gasLimit: BigIntLike = 0
     let gasPrice = '0x0'
     let expirationTimePicker: ExpirationTimePicker
     let tagInput: OptionalInput
@@ -73,7 +74,7 @@
 
     async function setGasVariables(sendFlowParameters: SendFlowParameters): Promise<void> {
         estimatedGas = await estimateGasForLayer1ToLayer2Transaction(sendFlowParameters)
-        gasLimit = estimatedGas * GAS_MULTIPLIER
+        gasLimit = estimatedGas * GAS_LIMIT_MULTIPLIER
         gasPrice = await getGasPriceInWei(layer2Parameters.chainId)
     }
     $: void setGasVariables(sendFlowParameters)
@@ -85,7 +86,7 @@
             rawAmount: String(Number(output.amount) - storageDeposit - estimatedGas),
         }
     }
-    $: setBaseCoinAndStorageDeposit(output, estimatedGas)
+    $: setBaseCoinAndStorageDeposit(output, Number(estimatedGas))
 
     function getTransactionAsset(sendFlowParameters: SendFlowParameters): {
         tokenTransfer?: TokenTransferData
@@ -110,7 +111,7 @@
     }
 
     onMount(() => {
-        setBaseCoinAndStorageDeposit(output, estimatedGas)
+        setBaseCoinAndStorageDeposit(output, Number(estimatedGas))
         selectedExpirationPeriod = getInitialExpirationDate(!!expirationDate, !!storageDeposit, giftStorageDeposit)
     })
 </script>

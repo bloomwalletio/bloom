@@ -4,14 +4,15 @@
     import { getBaseToken } from '@core/profile/actions'
     import { formatTokenAmountBestMatch } from '@core/token'
     import { TimePeriod } from '@core/utils'
+    import { BigIntLike } from '@ethereumjs/util'
     import { NetworkIcon, Text, TooltipIcon } from '@ui'
     import DateTimePickerButton from './DateTimePickerButton.svelte'
     import StorageDepositButton from './StorageDepositButton.svelte'
 
     export let destinationNetwork: string
     export let storageDeposit: number
-    export let estimatedGasFee: string | undefined = undefined
-    export let maxGasFee: string | undefined = undefined
+    export let estimatedGasFee: BigIntLike | undefined = undefined
+    export let maxGasFee: BigIntLike | undefined = undefined
     export let giftStorageDeposit: boolean
     export let expirationDate: Date
     export let selectedExpirationPeriod: TimePeriod

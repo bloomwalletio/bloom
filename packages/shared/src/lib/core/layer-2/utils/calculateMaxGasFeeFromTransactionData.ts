@@ -1,7 +1,8 @@
+import { BigIntLike } from '@ethereumjs/util'
 import { EvmTransactionData } from '../types'
 import { calculateGasFeeInGlow } from './calculateGasFeeInGlow'
 
-export function calculateMaxGasFeeFromTransactionData(transactionData: EvmTransactionData): string | undefined {
+export function calculateMaxGasFeeFromTransactionData(transactionData: EvmTransactionData): BigIntLike | undefined {
     const { gasLimit, gasPrice } = transactionData
     if (gasLimit && gasPrice) {
         return calculateGasFeeInGlow(gasLimit, gasPrice)

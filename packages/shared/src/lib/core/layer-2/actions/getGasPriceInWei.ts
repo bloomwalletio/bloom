@@ -13,6 +13,5 @@ export async function getGasPriceInWei(chainId: number | undefined): Promise<str
     }
 
     const gasPrice = await provider.eth.getGasPrice()
-    const hexGasPrice = Converter.decimalToHex(Number(gasPrice), true)
-    return hexGasPrice
+    return Converter.decimalToHex(Number(gasPrice), true)
 }

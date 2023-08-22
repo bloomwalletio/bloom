@@ -3,12 +3,13 @@
     import { NetworkId } from '@core/network'
     import { getBaseToken } from '@core/profile/actions'
     import { formatTokenAmountBestMatch } from '@core/token'
+    import { BigIntLike } from '@ethereumjs/util'
     import { NetworkIcon, Text } from '@ui'
 
     // TODO: pass in network ID
     export let destinationNetwork: string | undefined = undefined
-    export let estimatedGasFee: string | undefined = undefined
-    export let maxGasFee: string | undefined = undefined
+    export let estimatedGasFee: BigIntLike | undefined = undefined
+    export let maxGasFee: BigIntLike | undefined = undefined
 </script>
 
 <div class="border border-solid border-gray-200 dark:border-gray-700 rounded-lg">
