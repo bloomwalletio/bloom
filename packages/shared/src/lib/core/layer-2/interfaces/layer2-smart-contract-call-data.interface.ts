@@ -4,5 +4,5 @@ export interface ILayer2SmartContractCallData extends IAssetAllowance {
     senderContract: string
     targetContract: string
     contractFunction: string
-    gasBudget: string
+    gasLimit: string
 }
