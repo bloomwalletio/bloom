@@ -574,6 +574,15 @@
                         "title": "Connected dApps",
                         "connectDapp": "Connect dApp",
                         "hint": "WalletConnect allows you to connect Bloom with dApps directly or with a connection code."
+                    },
+                    "inputConnectionCode": {
+                        "title": "Connect to a dApp",
+                        "inputLabel": "Wallet Connect code",
+                        "hint": "Add new dApps by adding a Wallet Connect code below."
+                    },
+                    "confirmConnection": {
+                        "title": "Connect with an application",
+                        "hint": "A third party service wants to connect with your wallet for the first time. You can choose if you wish to trust this connection."
                     }
                 }
             }

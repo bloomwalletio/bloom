@@ -4,16 +4,14 @@
     import { localize } from '@core/i18n'
     import { Router } from '@core/router'
     import { DrawerTemplate } from '@components'
-    import { PopupId, openPopup } from '@desktop/auxiliary/popup'
     import { connectedDapps } from '@auxiliary/wallet-connect/stores'
     import DappCard from '../components/DappCard.svelte'
+    import { DappConfigRoute } from '../dapp-config-route.enum'
 
     export let drawerRouter: Router<unknown>
 
     function onConnectDappClick(): void {
-        openPopup({
-            id: PopupId.InitWalletConnect,
-        })
+        drawerRouter.goTo(DappConfigRoute.InputCode)
     }
 </script>
 
