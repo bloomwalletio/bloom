@@ -1,4 +1,5 @@
 import { activeProfileId } from '@core/profile/stores/active-profile-id.store'
+import { SupportedNetworkId } from '@core/network/enums'
 import { FALLBACK_ESTIMATED_GAS } from '@core/layer-2/constants'
 import { getOutputParameters } from '../utils'
 import { ReturnStrategy, SubjectType } from '../enums'

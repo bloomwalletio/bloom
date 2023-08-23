@@ -20,7 +20,7 @@ export async function mintNft(metadata: IIrc27Metadata, quantity: number): Promi
         const account = get(selectedAccount)
         const networkId = getActiveNetworkId()
         if (!account || !networkId) {
-            return
+            throw new Error(localize('error.global.accountOrNetworkUndefined'))
         }
 
         updateSelectedAccount({ isTransferring: true })
