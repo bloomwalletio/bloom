@@ -3,7 +3,7 @@
     import { time } from '@core/app/stores'
     import { openUrlInBrowser } from '@core/app/utils'
     import { localize } from '@core/i18n'
-    import { ExplorerEndpoint, getOfficialExplorerUrl } from '@core/network'
+    import { ExplorerEndpoint, getDefaultExplorerUrl } from '@core/network'
     import { convertAndFormatNftMetadata, INft, NftDownloadMetadata } from '@core/nfts'
     import { getNftByIdFromAllAccountNfts } from '@core/nfts/actions'
     import { allAccountNfts, selectedNftId } from '@core/nfts/stores'
@@ -37,7 +37,7 @@
 
     let modal: Modal
 
-    const explorerUrl = getOfficialExplorerUrl($activeProfile?.network?.id)
+    const explorerUrl = getDefaultExplorerUrl($activeProfile?.network?.id)
     const nft: INft = getNftByIdFromAllAccountNfts($selectedAccountIndex, $selectedNftId)
 
     const { id, name, issuer, address, metadata, downloadMetadata, storageDeposit } = nft ?? {}

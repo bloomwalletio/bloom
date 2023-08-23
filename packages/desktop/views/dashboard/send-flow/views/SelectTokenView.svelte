@@ -109,7 +109,7 @@
                     {token}
                     amount={token.balance.available}
                     onClick={() => (selectedToken = token)}
-                    selected={selectedToken?.id === token.id && selectedToken?.chainId === token?.chainId}
+                    selected={selectedToken?.id === token.id && selectedToken?.networkId === token?.networkId}
                 />
             {/each}
         </div>

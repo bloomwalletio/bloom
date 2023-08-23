@@ -28,6 +28,7 @@
     export let onQrCodeIconClick: UiEventFunction
 
     let configuration: IIscpChainConfiguration = undefined
+    let networkId: NetworkId | undefined
     let name = ''
     let address = ''
     let status: NetworkHealth
@@ -36,11 +37,13 @@
 
     function setNetworkCardData(): void {
         if (network) {
+            networkId = network.getMetadata().id
             name = network.getMetadata().name
             address = $selectedAccount.depositAddress
             status = $networkStatus.health
         } else if (chain) {
             configuration = chain.getConfiguration() as IIscpChainConfiguration
+            networkId = configuration.id
             name = configuration.name
             address = $selectedAccount.evmAddresses[configuration.coinType]
             status = chain.getStatus().health
@@ -76,7 +79,9 @@
     <div class="w-full flex flex-col gap-5">
         <div class="flex flex-row justify-between items-center">
             <div class="flex flex-row gap-2 items-center">
-                <NetworkIcon networkId={NetworkId.Testnet} />
+                {#if networkId}
+                    <NetworkIcon {networkId} />
+                {/if}
                 <Text type={TextType.h4} fontWeight={FontWeight.semibold}>
                     {name}
                 </Text>

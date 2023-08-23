@@ -2,35 +2,41 @@ import { IAccountState } from '@core/account'
 import { updateSelectedAccount } from '@core/account/stores'
 import { handleError } from '@core/error/handlers'
 import { EvmTransactionData } from '@core/layer-2/types'
+import { signEvmTransactionWithStronghold } from '@core/layer-2/utils'
 import { Ledger } from '@core/ledger/classes'
-import { ETH_COIN_TYPE } from '@core/network/constants'
+import { EvmChainId } from '@core/network/enums'
 import { isActiveLedgerProfile, isSoftwareProfile } from '@core/profile/stores'
+import type { TxData } from '@ethereumjs/tx'
 import { get } from 'svelte/store'
 import Web3 from 'web3'
 import { TransactionReceipt } from 'web3-core'
-import { signEvmTransactionWithStronghold } from '../../../layer-2/utils/signEvmTransactionWithStronghold'
 import { closePopup } from '../../../../../../../desktop/lib/auxiliary/popup'
 
 export async function signAndSendEvmTransaction(
     transaction: EvmTransactionData,
-    chainId: number,
+    chainId: EvmChainId,
+    coinType: number,
     provider: Web3,
     account: IAccountState
 ): Promise<TransactionReceipt | undefined> {
     try {
         updateSelectedAccount({ isTransferring: true })
 
+        const transactionCopy = { ...transaction }
+        delete transactionCopy?.estimatedGas
+        const txData: TxData = { ...transactionCopy }
+
         const bip44Path = {
-            coinType: ETH_COIN_TYPE,
+            coinType,
             account: account.index,
             change: 0,
             addressIndex: 0,
         }
         let signedTransaction: string | undefined
         if (get(isSoftwareProfile)) {
-            signedTransaction = await signEvmTransactionWithStronghold(transaction, bip44Path, chainId, account)
+            signedTransaction = await signEvmTransactionWithStronghold(txData, bip44Path, chainId, account)
         } else if (get(isActiveLedgerProfile)) {
-            signedTransaction = await Ledger.signEvmTransaction(transaction, chainId, bip44Path)
+            signedTransaction = await Ledger.signEvmTransaction(txData, chainId, bip44Path)
         }
 
         if (signedTransaction) {

@@ -5,6 +5,7 @@
     import { TokenIcon, ActivityTileContent } from '@ui'
     import { getFormattedAmountFromActivity } from '@core/activity/utils/outputs'
     import { getPersistedToken, selectedAccountTokens } from '@core/token/stores'
+    import { getActiveNetworkId } from '@core/network'
 
     export let activity: FoundryActivity
 
@@ -22,6 +23,6 @@
 {#if token}
     <ActivityTileContent {action} subject={localize('general.internalTransaction')} {formattedAsset}>
         <!-- Once the activity contains the chainId, add that here -->
-        <TokenIcon slot="icon" {token} chainId={undefined} />
+        <TokenIcon slot="icon" persistedToken={token} networkId={getActiveNetworkId()} />
     </ActivityTileContent>
 {/if}

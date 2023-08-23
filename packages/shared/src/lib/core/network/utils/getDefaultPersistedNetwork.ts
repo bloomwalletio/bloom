@@ -1,5 +1,5 @@
 import { DEFAULT_CHAIN_CONFIGURATIONS, DEFAULT_NETWORK_METADATA } from '../constants'
-import { NetworkId } from '../enums'
+import { NetworkId } from '../types'
 import { IPersistedNetwork } from '../interfaces'
 
 export function getDefaultPersistedNetwork(networkId: NetworkId): IPersistedNetwork {

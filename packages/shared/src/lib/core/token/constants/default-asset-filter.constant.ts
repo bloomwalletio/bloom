@@ -16,7 +16,7 @@ export const DEFAULT_ASSET_FILTER: TokenFilter = {
         active: false,
         type: 'network',
         localeKey: 'filters.network',
-        selected: -1,
+        selected: '',
     },
     showHidden: {
         active: false,

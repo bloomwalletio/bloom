@@ -2,7 +2,7 @@
     import { selectedAccount, selectedAccountIndex } from '@core/account/stores'
     import { ContactManager } from '@core/contact/classes'
     import { localize } from '@core/i18n'
-    import { IChain, IIscpChainConfiguration, INetwork, network } from '@core/network'
+    import { IChain, IIscpChainConfiguration, INetwork, getActiveNetworkId, network } from '@core/network'
     import { visibleActiveAccounts } from '@core/profile/stores'
     import {
         SendFlowType,
@@ -10,7 +10,7 @@
         updateSendFlowParameters,
         SubjectType,
         Subject,
-        getChainIdFromSendFlowParameters,
+        getNetworkIdFromSendFlowParameters,
     } from '@core/wallet'
     import { closePopup } from '@desktop/auxiliary/popup'
     import features from '@features/features'
@@ -93,9 +93,10 @@
         sourceNetwork: INetwork,
         accountIndexToExclude?: number
     ): INetworkRecipientSelectorOption {
-        const name = sourceNetwork.getMetadata().name
+        const metadata = sourceNetwork.getMetadata()
         return {
-            name,
+            networkId: metadata.id,
+            name: metadata.name,
             networkAddress: '',
             recipients: [...getLayer1AccountRecipients(accountIndexToExclude), ...getContactRecipientsForNetwork(name)],
         }
@@ -119,7 +120,7 @@
     ): INetworkRecipientSelectorOption {
         const chainConfig = chain.getConfiguration() as IIscpChainConfiguration
         return {
-            chainId: chainConfig.chainId,
+            networkId: chainConfig.id,
             name: chainConfig.name,
             networkAddress: chainConfig.aliasAddress,
             recipients: [
@@ -140,8 +141,8 @@
         }
 
         const assetStandard = getTokenStandardFromSendFlowParameters($sendFlowParameters)
-        const sourceChainId = getChainIdFromSendFlowParameters($sendFlowParameters)
-        const sourceChain = $network.getChain(sourceChainId)
+        const sourceNetworkId = getNetworkIdFromSendFlowParameters($sendFlowParameters)
+        const sourceChain = $network.getChain(sourceNetworkId)
 
         let networkRecipientOptions = []
 
@@ -149,7 +150,7 @@
             case TokenStandard.Irc27:
             case TokenStandard.Irc30:
             case TokenStandard.BaseToken:
-                if (!sourceChainId) {
+                if (sourceNetworkId === getActiveNetworkId()) {
                     // if we are on layer 1
                     networkRecipientOptions = [
                         layer1Network,
@@ -174,7 +175,7 @@
         if (validate()) {
             const layer2Parameters = isLayer2
                 ? {
-                      chainId: selectedOption.chainId,
+                      networkId: selectedOption?.networkId,
                       networkAddress: selectedOption?.networkAddress,
                       senderAddress: $selectedAccount.depositAddress,
                   }
