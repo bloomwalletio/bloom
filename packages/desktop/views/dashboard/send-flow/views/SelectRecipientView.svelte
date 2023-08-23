@@ -84,13 +84,13 @@
         sourceNetwork: INetwork,
         accountIndexToExclude?: number
     ): INetworkRecipientSelectorOption {
-        const layer1NetworkData = sourceNetwork.getMetadata()
+        const metadata = sourceNetwork.getMetadata()
         return {
-            networkId: layer1NetworkData.id,
-            name: layer1NetworkData.name,
+            networkId: metadata.id,
+            name: metadata.name,
             recipients: [
                 ...getLayer1AccountRecipients(accountIndexToExclude),
-                ...getContactRecipientsForNetwork(layer1NetworkData.name),
+                ...getContactRecipientsForNetwork(metadata.name),
             ],
         }
     }

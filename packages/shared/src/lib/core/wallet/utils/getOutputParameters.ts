@@ -16,7 +16,7 @@ export async function getOutputParameters(
 
     const isToLayer2 = destinationNetworkId && isEvmChain(destinationNetworkId)
     const chainConfig = isToLayer2 ? getChainConfiguration(destinationNetworkId) : undefined
-    const recipientAddress = getDestinationAddress(recipient, chainConfig)
+    const destinationAddress = getDestinationAddress(recipient, chainConfig)
 
     const estimatedGas = await estimateGasForLayer1ToLayer2Transaction(sendFlowParameters)
 
@@ -33,7 +33,7 @@ export async function getOutputParameters(
     const timelockUnixTime = timelockDate ? convertDateToUnixTimestamp(timelockDate) : undefined
 
     return <OutputParams>{
-        recipientAddress,
+        recipientAddress: destinationAddress,
         amount,
         ...(assets && { assets }),
         features: {
