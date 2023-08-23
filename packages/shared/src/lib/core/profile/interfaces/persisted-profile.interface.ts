@@ -27,4 +27,5 @@ export interface IPersistedProfile {
     strongholdVersion: StrongholdVersion
     trackedTokens: TrackedTokens
     pfp?: INft
+    color?: string
 }
