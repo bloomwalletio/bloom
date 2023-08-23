@@ -14,7 +14,7 @@
     export let recipient: Subject | undefined
     export let options: IOption[]
     export let disabled = false
-    export let isLayer2 = false
+    export let isEvmChain = false
 
     let inputElement: HTMLInputElement | undefined = undefined
     let modal: Modal | undefined = undefined
@@ -22,10 +22,12 @@
     let error: string
     let selected: IOption =
         recipient?.type === SubjectType.Account
-            ? { key: recipient.account.name, value: recipient.account.depositAddress }
+            ? { key: recipient.account.name, value: recipient.address }
+            : recipient?.type === SubjectType.Contact
+            ? { key: recipient.contact.name, value: recipient.address }
             : { value: recipient?.address }
 
-    $: isLayer2, (error = '')
+    $: isEvmChain, (error = '')
     $: recipient = getSubjectFromAddress(selected?.value)
 
     export function validate(): void {
@@ -35,13 +37,13 @@
                     throw new Error(localize('error.send.recipientRequired'))
                 }
 
-                if (isLayer2) {
+                if (isEvmChain) {
                     validateEthereumAddress(recipient?.address)
                 } else {
                     validateBech32Address(getNetworkHrp(), recipient?.address)
                 }
             } else if (recipient?.type === SubjectType.Account) {
-                if (isLayer2) {
+                if (isEvmChain) {
                     throw new Layer1RecipientError()
                 }
             } else {

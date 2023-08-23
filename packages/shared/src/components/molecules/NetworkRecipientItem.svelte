@@ -1,6 +1,6 @@
 <script lang="ts">
     import { Icon as IconEnum } from '@auxiliary/icon'
-    import { SupportedNetworkId } from '@core/network'
+    import { SupportedNetworkId, isEvmChain } from '@core/network'
     import { Subject, SubjectType } from '@core/wallet'
     import { FontWeight, Icon, IOption, NetworkIcon, RecipientInput, Text, TextType } from '@ui'
     import { INetworkRecipientSelectorOption } from '../interfaces'
@@ -18,8 +18,6 @@
 
     let recipientInputElement: HTMLInputElement
 
-    let isLayer2 = false
-    $: isLayer2 = !!item?.networkAddress
     $: onChange && selected && onChange(item)
 
     const options = item.recipients?.map((r) => getOptionFromRecipient(r)).filter((r) => !!r) as IOption[]
@@ -75,7 +73,8 @@
                 bind:inputElement={recipientInputElement}
                 bind:recipient={item.selectedRecipient}
                 {options}
-                {isLayer2}
+                networkId={item.networkId}
+                isEvmChain={isEvmChain(item.networkId)}
             />
         </network-recipient-item-address>
     {/if}

@@ -3,8 +3,8 @@
     import { getStorageDepositFromOutput } from '@core/activity/utils/helper'
     import { localize } from '@core/i18n'
     import { GAS_LIMIT_MULTIPLIER, calculateGasFeeInGlow, getGasPriceInWei } from '@core/layer-2'
-    import { estimateGasForLayer1ToLayer2Transaction, getDestinationNetworkFromAddress } from '@core/layer-2/utils'
-    import { getNetwork } from '@core/network'
+    import { estimateGasForLayer1ToLayer2Transaction } from '@core/layer-2/utils'
+    import { getActiveNetworkId, getNetwork, isEvmChain } from '@core/network'
     import { INft } from '@core/nfts/interfaces'
     import { selectedAccountTokens } from '@core/token/stores'
     import { TimePeriod } from '@core/utils/enums'
@@ -23,13 +23,16 @@
         timelockDate,
         disableChangeExpiration,
         giftStorageDeposit,
-        layer2Parameters,
+        destinationNetworkId,
         tag,
         metadata,
         disableToggleGift,
     } = sendFlowParameters
 
-    const destinationNetwork = getDestinationNetworkFromAddress(layer2Parameters?.networkAddress)
+    const destinationNetwork =
+        destinationNetworkId === getActiveNetworkId()
+            ? getNetwork().getMetadata().name
+            : getNetwork()?.getChain(destinationNetworkId)?.getConfiguration().name
     let baseCoinTransfer: TokenTransferData
     let storageDeposit: number
     let estimatedGas: BigIntLike | undefined = undefined
@@ -44,7 +47,7 @@
 
     $: expirationTimePicker?.setNull(giftStorageDeposit)
     $: isTransferring = !!$selectedAccount.isTransferring
-    $: isToLayer2 = !!layer2Parameters?.networkAddress
+    $: isToLayer2 = destinationNetworkId && isEvmChain(destinationNetworkId)
     $: updateSendFlowOnChange(expirationDate, timelockDate, giftStorageDeposit, tag, metadata)
 
     function updateSendFlowOnChange(

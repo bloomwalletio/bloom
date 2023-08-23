@@ -1,4 +1,4 @@
-import type { ILayer2Parameters } from '@core/layer-2'
+import { NetworkId } from '@core/network'
 import { INft } from '@core/nfts'
 import { IToken } from '@core/token/interfaces'
 import type { Subject } from '@core/wallet'
@@ -14,7 +14,8 @@ export interface BaseSendFlowParameters {
     expirationDate?: Date
     timelockDate?: Date
     giftStorageDeposit?: boolean
-    layer2Parameters?: ILayer2Parameters
+    sourceNetworkId?: NetworkId
+    destinationNetworkId?: NetworkId
     addSenderFeature?: boolean
     disableToggleGift?: boolean
     disableChangeExpiration?: boolean
