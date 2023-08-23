@@ -3,7 +3,7 @@
     import { OnboardingType, onboardingProfile, updateOnboardingProfile } from '@contexts/onboarding'
     import { IS_MOBILE } from '@core/app'
     import { localize } from '@core/i18n'
-    import { getOnboardingNetworkNameFromNetworkId } from '@core/network'
+    import { getOnboardingNetworkTypeFromNetworkId } from '@core/network'
     import { profiles } from '@core/profile/stores'
     import features from '@features/features'
     import { Animation, OnboardingButton, Text, TextType } from '@ui'
@@ -12,7 +12,7 @@
 
     $: networkId = $onboardingProfile?.network?.id
     $: displayedNetworkName = $onboardingProfile?.network?.name
-    $: networkName = getOnboardingNetworkNameFromNetworkId(networkId)
+    $: networkName = getOnboardingNetworkTypeFromNetworkId(networkId)
 
     function onProfileSetupSelectionClick(onboardingType: OnboardingType): void {
         updateOnboardingProfile({ onboardingType })

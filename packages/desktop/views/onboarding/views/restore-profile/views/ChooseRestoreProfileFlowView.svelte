@@ -7,7 +7,7 @@
         updateOnboardingProfile,
     } from '@contexts/onboarding'
     import { localize } from '@core/i18n'
-    import { getOnboardingNetworkNameFromNetworkId } from '@core/network'
+    import { getOnboardingNetworkTypeFromNetworkId } from '@core/network'
     import { ProfileType, removeProfileFolder } from '@core/profile'
     import features from '@features/features'
     import { Animation, OnboardingButton, Text, TextType } from '@ui'
@@ -25,7 +25,7 @@
 
     $: networkId = $onboardingProfile?.network?.id
     $: displayedNetworkName = $onboardingProfile?.network?.name
-    $: networkName = getOnboardingNetworkNameFromNetworkId(networkId)
+    $: networkName = getOnboardingNetworkTypeFromNetworkId(networkId)
 
     async function onProfileTypeClick(restoreProfileType: RestoreProfileType): Promise<void> {
         isBusy = { ...isBusy, [restoreProfileType]: true }

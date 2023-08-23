@@ -1,16 +1,16 @@
 <script lang="ts">
     import { showNotification } from '@auxiliary/notification'
     import { OnboardingLayout } from '@components'
-    import {
-        OnboardingNetworkType,
-        cleanupOnboardingProfileManager,
-        initialiseProfileManagerFromOnboardingProfile,
-        updateOnboardingProfile,
-    } from '@contexts/onboarding'
+    import { OnboardingNetworkType, updateOnboardingProfile } from '@contexts/onboarding'
     import { IS_MOBILE } from '@core/app'
     import { localize } from '@core/i18n'
-    import { INode, buildPersistedNetworkFromNodeInfoResponse } from '@core/network'
-    import { getNodeInfo } from '@core/profile-manager'
+    import {
+        INode,
+        NetworkNamespace,
+        buildPersistedNetworkFromNodeInfoResponse,
+        getNetworkIdFromOnboardingNetworkType,
+        getNodeInfoWhileLoggedOut,
+    } from '@core/network'
     import features from '@features/features'
     import { Animation, Button, HTMLButtonType, NodeConfigurationForm, Text, TextType } from '@ui'
     import { onMount } from 'svelte'
@@ -45,28 +45,23 @@
                 validateClientOptions: false,
             })
             updateOnboardingProfile({ clientOptions: { nodes: [node], primaryNode: node } })
-            await initialiseProfileManagerFromOnboardingProfile(true)
 
             // The API request to check if a node is reachable requires an existing account manager.
-            const nodeInfoResponse = await getNodeInfo(node.url)
-            // Check network of node matches selected id
+            const nodeInfoResponse = await getNodeInfoWhileLoggedOut(node.url)
             if (
                 networkType !== OnboardingNetworkType.Custom &&
-                networkType !== nodeInfoResponse?.nodeInfo?.protocol?.networkName
+                getNetworkIdFromOnboardingNetworkType(networkType) !==
+                    `${NetworkNamespace.Stardust}:${nodeInfoResponse?.nodeInfo?.protocol?.networkName}`
             ) {
                 throw new Error('error.node.differentNetwork')
             }
             const customCoinType = networkType === OnboardingNetworkType.Custom ? Number(coinType) : undefined
             const network = buildPersistedNetworkFromNodeInfoResponse(nodeInfoResponse, customCoinType)
             updateOnboardingProfile({ network })
-            await cleanupOnboardingProfileManager()
             $networkSetupRouter.next()
         } catch (err) {
             console.error(err)
-
             updateOnboardingProfile({ clientOptions: undefined, network: undefined })
-            await cleanupOnboardingProfileManager()
-
             if (err?.error?.includes('error sending request for url')) {
                 formError = localize('error.node.unabledToConnect')
             } else if (err?.message === 'error.node.differentNetwork') {
