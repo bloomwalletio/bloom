@@ -1,12 +1,11 @@
 <script lang="ts">
-    import { Avatar } from '@bloomwalletio/ui'
+    import { Avatar, avatarSize } from '@bloomwalletio/ui'
     import { IPersistedProfile } from '@core/profile'
     import { getInitials } from '@core/utils'
     import { NftAvatar } from '@ui'
-    import { AvatarSize } from '@ui/enums'
 
     export let profile: IPersistedProfile
-    export let size: AvatarSize = AvatarSize.Medium
+    export let size: (typeof avatarSize)[number] = 'md'
 </script>
 
 <profile-avatar>

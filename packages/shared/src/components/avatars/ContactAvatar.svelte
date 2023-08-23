@@ -1,11 +1,10 @@
 <script lang="ts">
-    import { Avatar } from '@bloomwalletio/ui'
+    import { Avatar, avatarSize } from '@bloomwalletio/ui'
     import { IContact } from '@core/contact'
     import { getInitials } from '@core/utils'
-    import { AvatarSize } from '@ui/enums'
 
     export let contact: IContact
-    export let size: AvatarSize = AvatarSize.ExtraSmall
+    export let size: (typeof avatarSize)[number] = 'xs'
 </script>
 
 <contact-avatar>
