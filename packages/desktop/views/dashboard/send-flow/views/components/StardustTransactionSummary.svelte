@@ -76,11 +76,9 @@
     }
 
     async function setGasVariables(sendFlowParameters: SendFlowParameters): Promise<void> {
-        if (layer2Parameters) {
-            estimatedGas = await estimateGasForLayer1ToLayer2Transaction(sendFlowParameters)
-            gasLimit = estimatedGas * GAS_LIMIT_MULTIPLIER
-            gasPrice = await getGasPriceInWei(layer2Parameters.networkId)
-        }
+        estimatedGas = await estimateGasForLayer1ToLayer2Transaction(sendFlowParameters)
+        gasLimit = estimatedGas * GAS_LIMIT_MULTIPLIER
+        gasPrice = await getGasPriceInWei(sendFlowParameters.destinationNetworkId)
     }
     $: void setGasVariables(sendFlowParameters)
 

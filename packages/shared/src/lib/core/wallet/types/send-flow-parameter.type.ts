@@ -14,7 +14,6 @@ export interface BaseSendFlowParameters {
     expirationDate?: Date
     timelockDate?: Date
     giftStorageDeposit?: boolean
-    sourceNetworkId?: NetworkId
     destinationNetworkId?: NetworkId
     addSenderFeature?: boolean
     disableToggleGift?: boolean
