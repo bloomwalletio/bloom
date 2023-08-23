@@ -93,9 +93,10 @@
         sourceNetwork: INetwork,
         accountIndexToExclude?: number
     ): INetworkRecipientSelectorOption {
-        const name = sourceNetwork.getMetadata().name
+        const metadata = sourceNetwork.getMetadata()
         return {
-            name,
+            networkId: metadata.id,
+            name: metadata.name,
             networkAddress: '',
             recipients: [...getLayer1AccountRecipients(accountIndexToExclude), ...getContactRecipientsForNetwork(name)],
         }
@@ -119,7 +120,7 @@
     ): INetworkRecipientSelectorOption {
         const chainConfig = chain.getConfiguration() as IIscpChainConfiguration
         return {
-            chainId: chainConfig.chainId,
+            networkId: chainConfig.id,
             name: chainConfig.name,
             networkAddress: chainConfig.aliasAddress,
             recipients: [
@@ -174,7 +175,7 @@
         if (validate()) {
             const layer2Parameters = isLayer2
                 ? {
-                      chainId: selectedOption.chainId,
+                      networkId: selectedOption?.networkId,
                       networkAddress: selectedOption?.networkAddress,
                       senderAddress: $selectedAccount.depositAddress,
                   }

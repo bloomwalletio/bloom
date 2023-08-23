@@ -31,23 +31,32 @@ export function addPersistedBalanceChange(
 ): void {
     persistedBalanceChanges.update((state) => {
         let profileBalanceChanges = state[get(activeProfileId)]
+
         if (!profileBalanceChanges) {
             profileBalanceChanges = {}
         }
+
         let accountBalanceChanges = profileBalanceChanges[accountIndex]
         if (!accountBalanceChanges) {
             accountBalanceChanges = {}
         }
+
         let networkBalanceChanges = accountBalanceChanges[networkId]
         if (!networkBalanceChanges) {
-            networkBalanceChanges = {}
+            networkBalanceChanges = {
+                [tokenId]: newPersistedAssets,
+            }
+        } else {
+            if (networkBalanceChanges[tokenId]) {
+                networkBalanceChanges[tokenId].push(...newPersistedAssets)
+            } else {
+                networkBalanceChanges[tokenId] = newPersistedAssets
+            }
         }
 
-        if (networkBalanceChanges[tokenId]) {
-            networkBalanceChanges[tokenId].push(...newPersistedAssets)
-        } else {
-            networkBalanceChanges[tokenId] = newPersistedAssets
-        }
+        accountBalanceChanges[networkId] = networkBalanceChanges
+        profileBalanceChanges[accountIndex] = accountBalanceChanges
+        state[get(activeProfileId)] = profileBalanceChanges
         return state
     })
 }

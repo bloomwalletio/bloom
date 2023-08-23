@@ -1,9 +1,9 @@
 <script lang="ts">
-    import { getSelectedAccount, selectedAccount, selectedAccountIndex } from '@core/account/stores'
+    import { selectedAccount } from '@core/account/stores'
     import { handleError } from '@core/error/handlers'
     import { localize } from '@core/i18n'
     import { EvmTransactionData } from '@core/layer-2'
-    import { IChain, getNetwork } from '@core/network'
+    import { IChain, getActiveNetworkId, getNetwork } from '@core/network'
     import { truncateString } from '@core/utils'
     import { Output, SendFlowParameters, SubjectType } from '@core/wallet'
     import {
@@ -38,13 +38,19 @@
             recipient.type === SubjectType.Account ? recipient.account.name : truncateString(recipient?.address, 6, 6)
 
         const networkId = getNetworkIdFromSendFlowParameters(sendFlowParameters)
-        const chain = getNetwork()?.getChain(networkId)
-        if (chain) {
-            const account = getSelectedAccount()
+        if (networkId !== getActiveNetworkId()) {
+            chain = getNetwork()?.getChain(networkId)
 
-            preparedTransaction = await createEvmTransactionFromSendFlowParameters(sendFlowParameters, chain, account)
+            preparedTransaction = await createEvmTransactionFromSendFlowParameters(
+                sendFlowParameters,
+                chain,
+                $selectedAccount
+            )
         } else {
-            preparedOutput = await createStardustOutputFromSendFlowParameters(sendFlowParameters, $selectedAccountIndex)
+            preparedOutput = await createStardustOutputFromSendFlowParameters(
+                sendFlowParameters,
+                $selectedAccount.index
+            )
         }
     }
 
