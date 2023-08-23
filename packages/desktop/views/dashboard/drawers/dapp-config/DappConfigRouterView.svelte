@@ -1,11 +1,14 @@
 <script lang="ts">
-    import { onDestroy } from 'svelte'
+    import { onDestroy, onMount } from 'svelte'
     import { ConnectedDappsDrawer } from './views'
     import { DappConfigRoute } from './dapp-config-route.enum'
-    import { dappConfigRoute, dappConfigRouter } from './dapp-config.router'
+    import { DappConfigRouter, dappConfigRoute, dappConfigRouter } from './dapp-config.router'
+
+    onMount(() => {
+        $dappConfigRouter = new DappConfigRouter()
+    })
 
     onDestroy(() => {
-        $dappConfigRouter.reset()
         $dappConfigRouter = null
     })
 </script>

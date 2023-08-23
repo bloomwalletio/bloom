@@ -572,7 +572,8 @@
                 "dApps": {
                     "dAppsList": {
                         "title": "Connected dApps",
-                        "connectDapp": "Connect dApp"
+                        "connectDapp": "Connect dApp",
+                        "hint": "WalletConnect allows you to connect Bloom with dApps directly or with a connection code."
                     }
                 }
             }
@@ -1796,6 +1797,8 @@
         "optionalField": "{field} (optional)",
         "gifted": "Gifted",
         "copied": "Copied",
+        "connected": "Connected",
+        "disconnected": "Disconnected",
         "estimatedFee": "Estimated fee",
         "maxFees": "Max fees"
     },
