@@ -68,5 +68,5 @@ export type NetworkFilterUnit = {
     active: boolean
     labelKey?: string
     localeKey: string
-    selected: number
+    selected: string
 }

@@ -1,9 +1,9 @@
 <script lang="ts">
     import { Activity } from '@core/activity'
-    import { openUrlInBrowser } from '@core/app'
     import { getFormattedTimeStamp, localize } from '@core/i18n'
     import { ExplorerEndpoint } from '@core/network'
-    import { getOfficialExplorerUrl } from '@core/network/utils'
+    import { getDefaultExplorerUrl } from '@core/network/utils'
+    import { openUrlInBrowser } from '@core/app'
     import { getBaseToken } from '@core/profile/actions'
     import { activeProfile } from '@core/profile/stores'
     import { formatTokenAmountPrecise } from '@core/token'
@@ -12,7 +12,7 @@
 
     export let activity: Activity
 
-    const explorerUrl = getOfficialExplorerUrl($activeProfile?.network?.id)
+    const explorerUrl = getDefaultExplorerUrl($activeProfile?.network?.id)
 
     $: expirationTime = getFormattedTimeStamp(activity?.asyncData?.expirationDate)
     $: claimedTime = getFormattedTimeStamp(activity?.asyncData?.claimedDate)

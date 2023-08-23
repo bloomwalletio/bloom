@@ -8,7 +8,7 @@
     // TODO: Remove once done testing
     import { onMount } from 'svelte'
     import { AssetType, buildAssetAllowance } from 'shared/src/lib/core/layer-2'
-    import { getActiveNetworkId } from 'shared/src/lib/core/network/utils/getNetworkId'
+    import { getActiveNetworkId } from 'shared/src/lib/core/network/actions'
     import { unwrapStardustAsset } from 'shared/src/lib/core/wallet'
 
     async function onMountHelper(): Promise<void> {

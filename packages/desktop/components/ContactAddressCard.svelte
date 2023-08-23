@@ -4,7 +4,6 @@
     import { IContact, IContactAddressMap, setSelectedContactNetworkId } from '@core/contact'
     import { localize } from '@core/i18n'
     import { resetLedgerPreparedOutput, resetShowInternalVerificationPopup } from '@core/ledger'
-    import { NetworkId } from '@core/network'
     import { Router } from '@core/router'
     import { truncateString } from '@core/utils'
     import { SendFlowType, SubjectType, setSendFlowParameters } from '@core/wallet'
@@ -23,12 +22,12 @@
 
     let modal: Modal
 
-    function onEditNetworkAddressesClick(networkId: string): void {
+    function onEditNetworkAddressesClick(): void {
         setSelectedContactNetworkId(networkId)
         drawerRouter.goTo(ContactBookRoute.EditNetworkAddresses)
     }
 
-    function onRemoveNetworkClick(networkId: string): void {
+    function onRemoveNetworkClick(): void {
         setSelectedContactNetworkId(networkId)
         drawerRouter.goTo(ContactBookRoute.RemoveNetworkAddresses)
     }
@@ -55,7 +54,7 @@
 >
     <contact-address-head class="flex justify-between">
         <div class="flex items-center gap-2">
-            <NetworkIcon networkId={NetworkId.Testnet} />
+            <NetworkIcon {networkId} />
             <Text fontSize="text-16" fontWeight={FontWeight.semibold}>{networkId}</Text>
         </div>
         <contact-address-menu class="block relative">
@@ -67,14 +66,14 @@
                             icon={IconEnum.Edit}
                             iconProps={{ height: 18 }}
                             title={'Edit network addresses'}
-                            onClick={() => onEditNetworkAddressesClick(networkId)}
+                            onClick={onEditNetworkAddressesClick}
                         />
                     {/if}
                     {#if features.contacts.removeNetwork.enabled}
                         <MenuItem
                             icon={IconEnum.Delete}
                             title={'Remove network'}
-                            onClick={() => onRemoveNetworkClick(networkId)}
+                            onClick={onRemoveNetworkClick}
                             variant="error"
                         />
                     {/if}

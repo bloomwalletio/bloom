@@ -3,6 +3,7 @@ import { Platform } from '@core/app/classes'
 import { IPlatformEventMap } from '@core/app/interfaces'
 import { localize } from '@core/i18n'
 import { IEvmAddress, IEvmTransactionSignature } from '@core/layer-2/interfaces'
+import { EvmTransactionData } from '@core/layer-2/types'
 import {
     calculateMaxGasFeeFromTransactionData,
     getAmountFromEvmTransactionValue,
@@ -16,6 +17,7 @@ import { DEFAULT_LEDGER_API_REQUEST_OPTIONS } from '../constants'
 import { LedgerApiMethod } from '../enums'
 import { ILedgerApiBridge } from '../interfaces'
 import { LedgerApiRequestResponse } from '../types'
+import { EvmChainId } from '@core/network/enums'
 
 declare global {
     interface Window {
@@ -40,11 +42,11 @@ export class Ledger {
 
     static async signEvmTransaction(
         txData: TxData,
-        chainId: number,
+        chainId: EvmChainId,
         bip44: Bip44,
         promptVerification = true
     ): Promise<string | undefined> {
-        const unsignedTransactionMessageHex = prepareEvmTransaction(txData)
+        const unsignedTransactionMessageHex = prepareEvmTransaction(txData as EvmTransactionData, chainId)
         const bip32Path = buildBip32PathFromBip44(bip44)
 
         const maxGasFee = calculateMaxGasFeeFromTransactionData(txData)
@@ -56,7 +58,7 @@ export class Ledger {
                 preventClose: true,
                 props: {
                     isEvmTransaction: true,
-                    toAmount: getAmountFromEvmTransactionValue(txData?.value.toString()),
+                    toAmount: getAmountFromEvmTransactionValue(txData?.value?.toString()),
                     toAddress: txData.to,
                     chainId,
                     maxGasFee,
@@ -80,7 +82,7 @@ export class Ledger {
 
         const { r, v, s } = transactionSignature
         if (r && v && s) {
-            return prepareEvmTransaction(txData, { r, v, s })
+            return prepareEvmTransaction(txData, chainId, { r, v, s })
         }
     }
 

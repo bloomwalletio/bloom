@@ -3,9 +3,10 @@ import { ITokenBalanceChange } from '../types'
 import { ActivityAction, ActivityDirection, ActivityType, InclusionState } from '../enums'
 import { generateRandomId } from '@core/utils'
 import { getCoinType } from '@core/profile/actions'
+import { NetworkId } from '@core/network'
 
 export function generateBalanceChangeActivity(
-    chainId: number,
+    networkId: NetworkId,
     tokenId: string,
     balanceChange: ITokenBalanceChange
 ): TransactionActivity {
@@ -27,6 +28,6 @@ export function generateBalanceChangeActivity(
         rawBaseCoinAmount: Math.abs(difference),
         rawAmount: Math.abs(difference),
         tokenId: tokenId === '0x' ? getCoinType() : tokenId,
-        chainId,
+        networkId,
     }
 }

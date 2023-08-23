@@ -2,18 +2,14 @@
     import { showNotification } from '@auxiliary/notification'
     import { OnboardingLayout } from '@components'
     import {
+        OnboardingNetworkType,
         cleanupOnboardingProfileManager,
         initialiseProfileManagerFromOnboardingProfile,
         updateOnboardingProfile,
     } from '@contexts/onboarding'
     import { IS_MOBILE } from '@core/app'
     import { localize } from '@core/i18n'
-    import {
-        INode,
-        NetworkId,
-        buildPersistedNetworkFromNodeInfoResponse,
-        getNetworkIdFromNetworkName,
-    } from '@core/network'
+    import { INode, buildPersistedNetworkFromNodeInfoResponse } from '@core/network'
     import { getNodeInfo } from '@core/profile-manager'
     import features from '@features/features'
     import { Animation, Button, HTMLButtonType, NodeConfigurationForm, Text, TextType } from '@ui'
@@ -21,17 +17,19 @@
     import { networkSetupRouter } from '../network-setup-router'
 
     let nodeConfigurationForm: NodeConfigurationForm
-    let networkId: NetworkId = features?.onboarding?.iota?.enabled
-        ? NetworkId.Iota
-        : features?.onboarding?.shimmer?.enabled
-        ? NetworkId.Shimmer
-        : features?.onboarding?.testnet?.enabled
-        ? NetworkId.Testnet
-        : NetworkId.Custom
     let coinType: string
     let node: INode
     let isBusy = false
     let formError = ''
+    let networkType: OnboardingNetworkType = getInitialSelectedNetworkType()
+
+    function getInitialSelectedNetworkType(): OnboardingNetworkType {
+        return features?.onboarding?.shimmer?.enabled
+            ? OnboardingNetworkType.Shimmer
+            : features?.onboarding?.testnet?.enabled
+            ? OnboardingNetworkType.Testnet
+            : OnboardingNetworkType.Custom
+    }
 
     function onBackClick(): void {
         $networkSetupRouter.previous()
@@ -53,12 +51,12 @@
             const nodeInfoResponse = await getNodeInfo(node.url)
             // Check network of node matches selected id
             if (
-                networkId !== NetworkId.Custom &&
-                networkId !== getNetworkIdFromNetworkName(nodeInfoResponse?.nodeInfo?.protocol?.networkName)
+                networkType !== OnboardingNetworkType.Custom &&
+                networkType !== nodeInfoResponse?.nodeInfo?.protocol?.networkName
             ) {
                 throw new Error('error.node.differentNetwork')
             }
-            const customCoinType = networkId === NetworkId.Custom ? Number(coinType) : undefined
+            const customCoinType = networkType === OnboardingNetworkType.Custom ? Number(coinType) : undefined
             const network = buildPersistedNetworkFromNodeInfoResponse(nodeInfoResponse, customCoinType)
             updateOnboardingProfile({ network })
             await cleanupOnboardingProfileManager()
@@ -98,13 +96,13 @@
         <NodeConfigurationForm
             onSubmit={onContinueClick}
             bind:this={nodeConfigurationForm}
-            bind:networkId
+            bind:networkType
             bind:coinType
             bind:node
             bind:formError
             {isBusy}
             isDeveloperProfile
-            showNetworkFields
+            networkEditable
         />
     </div>
     <div slot="leftpane__action">

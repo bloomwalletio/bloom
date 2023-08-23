@@ -1,11 +1,9 @@
+import { NetworkId } from '@core/network/types'
 import { getNetwork } from '@core/network/stores'
 import { Converter } from '@core/utils'
 
-export async function getGasPriceInWei(chainId: number | undefined): Promise<string | undefined> {
-    if (!chainId) {
-        return undefined
-    }
-    const chain = getNetwork()?.getChain(chainId)
+export async function getGasPriceInWei(networkId: NetworkId): Promise<string | undefined> {
+    const chain = getNetwork()?.getChain(networkId)
 
     const provider = chain?.getProvider()
     if (!provider) {

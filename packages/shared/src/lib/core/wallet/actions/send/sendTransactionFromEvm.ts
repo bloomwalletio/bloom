@@ -18,13 +18,15 @@ export async function sendTransactionFromEvm(
         return
     }
 
-    const chainId = chain.getConfiguration().chainId
     let transactionReceipt: TransactionReceipt | undefined
     await checkActiveProfileAuth(
         async () => {
-            transactionReceipt = await signAndSendEvmTransaction(transaction, chainId, provider, account)
+            const networkId = chain.getConfiguration().id
+            const chainId = chain.getConfiguration().chainId
+            const coinType = chain.getConfiguration().coinType
+            transactionReceipt = await signAndSendEvmTransaction(transaction, chainId, coinType, provider, account)
             if (transactionReceipt) {
-                addPersistedTransaction(account.index, chainId, {
+                addPersistedTransaction(account.index, networkId, {
                     ...transaction,
                     ...transactionReceipt,
                 })
@@ -33,7 +35,7 @@ export async function sendTransactionFromEvm(
                 callback()
             }
         },
-        { stronghold: true, ledger: true },
+        { stronghold: false, ledger: true },
         LedgerAppName.Ethereum
     )
     return transactionReceipt

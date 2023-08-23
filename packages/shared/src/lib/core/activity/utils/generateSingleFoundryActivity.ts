@@ -14,9 +14,11 @@ import {
     getTagFromOutput,
 } from './helper'
 import { getNativeTokenFromOutput } from './outputs'
+import { NetworkId } from '@core/network/types'
 
 export function generateSingleFoundryActivity(
     account: IAccountState,
+    networkId: NetworkId,
     { action, processedTransaction, wrappedOutput }: IActivityGenerationParameters
 ): FoundryActivity {
     const { transactionId, claimingData, time, direction, inclusionState } = processedTransaction
@@ -68,7 +70,7 @@ export function generateSingleFoundryActivity(
         isHidden,
         metadata,
         tag,
-        chainId: undefined,
+        networkId,
         asyncData,
         ...sendingInfo,
     }

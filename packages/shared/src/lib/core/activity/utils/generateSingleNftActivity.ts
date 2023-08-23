@@ -13,9 +13,11 @@ import {
 } from './helper'
 import { IActivityGenerationParameters } from '../types/activity-generation-parameters.interface'
 import { getNftId } from './outputs'
+import { NetworkId } from '@core/network/types'
 
 export function generateSingleNftActivity(
     account: IAccountState,
+    networkId: NetworkId,
     { action, processedTransaction, wrappedOutput }: IActivityGenerationParameters,
     nftIdFromInput?: string
 ): NftActivity {
@@ -48,7 +50,7 @@ export function generateSingleNftActivity(
         transactionId,
         outputId,
         nftId,
-        chainId: undefined, // Currently we only support L1 activities
+        networkId,
         time,
         isHidden,
         action,

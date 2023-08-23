@@ -32,8 +32,8 @@
     const destinationNetwork = getDestinationNetworkFromAddress(layer2Parameters?.networkAddress)
     let baseCoinTransfer: TokenTransferData
     let storageDeposit: number
-    let estimatedGas: BigIntLike = 0
-    let gasLimit: BigIntLike = 0
+    let estimatedGas: BigIntLike | undefined = undefined
+    let gasLimit: BigIntLike | undefined = undefined
     let gasPrice = '0x0'
     let expirationTimePicker: ExpirationTimePicker
     let tagInput: OptionalInput
@@ -73,20 +73,22 @@
     }
 
     async function setGasVariables(sendFlowParameters: SendFlowParameters): Promise<void> {
-        estimatedGas = await estimateGasForLayer1ToLayer2Transaction(sendFlowParameters)
-        gasLimit = estimatedGas * GAS_LIMIT_MULTIPLIER
-        gasPrice = await getGasPriceInWei(layer2Parameters.chainId)
+        if (layer2Parameters) {
+            estimatedGas = await estimateGasForLayer1ToLayer2Transaction(sendFlowParameters)
+            gasLimit = estimatedGas * GAS_LIMIT_MULTIPLIER
+            gasPrice = await getGasPriceInWei(layer2Parameters.networkId)
+        }
     }
     $: void setGasVariables(sendFlowParameters)
 
-    function setBaseCoinAndStorageDeposit(output: Output, estimatedGas: number): void {
+    function setBaseCoinAndStorageDeposit(output: Output, estimatedGas: BigIntLike | undefined): void {
         storageDeposit = getStorageDepositFromOutput(output)
         baseCoinTransfer = {
             token: $selectedAccountTokens?.[getNetwork().getMetadata().id].baseCoin,
-            rawAmount: String(Number(output.amount) - storageDeposit - estimatedGas),
+            rawAmount: String(Number(output.amount) - storageDeposit - Number(estimatedGas ?? 0)),
         }
     }
-    $: setBaseCoinAndStorageDeposit(output, Number(estimatedGas))
+    $: setBaseCoinAndStorageDeposit(output, estimatedGas)
 
     function getTransactionAsset(sendFlowParameters: SendFlowParameters): {
         tokenTransfer?: TokenTransferData
