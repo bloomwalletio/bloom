@@ -46,24 +46,23 @@ export class ContactManager {
         }
 
         const contact = ContactManager.getContact(contactId)
-
-        if (contact) {
-            profile.contacts[contactId] = {
-                ...contact,
-                ...payload,
-            }
-            selectedContact.update((value) => {
-                if (value && value.id === contactId) {
-                    return {
-                        ...value,
-                        ...payload,
-                    }
-                }
-                return value
-            })
-        } else {
+        if (!contact) {
             throw new Error(`Profile with contact ID ${contactId} doesn't exist!`)
         }
+
+        profile.contacts[contactId] = {
+            ...contact,
+            ...payload,
+        }
+        selectedContact.update((value) => {
+            if (value && value.id === contactId) {
+                return {
+                    ...value,
+                    ...payload,
+                }
+            }
+            return value
+        })
         updateActiveProfile(profile)
     }
 
@@ -152,7 +151,6 @@ export class ContactManager {
         }
 
         const contact = ContactManager.getContact(contactId)
-
         if (!contact) {
             throw new Error(`Contact with ID ${contactId} doesn't exist!`)
         }
@@ -184,8 +182,8 @@ export class ContactManager {
         if (!profile) {
             throw new Error('Profile is not available.')
         }
-        const contact = ContactManager.getContact(contactId)
 
+        const contact = ContactManager.getContact(contactId)
         if (!contact) {
             throw new Error(`Contact with ID ${contactId} doesn't exist!`)
         }
