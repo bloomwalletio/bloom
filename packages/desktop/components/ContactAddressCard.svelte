@@ -4,7 +4,7 @@
     import { IContact, IContactAddressMap, setSelectedContactNetworkId } from '@core/contact'
     import { localize } from '@core/i18n'
     import { resetLedgerPreparedOutput, resetShowInternalVerificationPopup } from '@core/ledger'
-    import { NetworkId } from '@core/network'
+    import { NetworkId, getNameFromNetworkId } from '@core/network'
     import { Router } from '@core/router'
     import { truncateString } from '@core/utils'
     import { SendFlowType, SubjectType, setSendFlowParameters } from '@core/wallet'
@@ -56,7 +56,7 @@
     <contact-address-head class="flex justify-between">
         <div class="flex items-center gap-2">
             <NetworkIcon {networkId} />
-            <Text fontSize="text-16" fontWeight={FontWeight.semibold}>{networkId}</Text>
+            <Text fontSize="text-16" fontWeight={FontWeight.semibold}>{getNameFromNetworkId(networkId)}</Text>
         </div>
         <contact-address-menu class="block relative">
             <MeatballMenuButton onClick={modal?.toggle} classes="py-2" />
