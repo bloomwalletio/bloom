@@ -4,7 +4,7 @@
     import { localize } from '@core/i18n'
     import { GAS_LIMIT_MULTIPLIER, calculateGasFeeInGlow, getGasPriceInWei } from '@core/layer-2'
     import { estimateGasForLayer1ToLayer2Transaction } from '@core/layer-2/utils'
-    import { getActiveNetworkId, getNetwork, isEvmChain } from '@core/network'
+    import { getNetwork, isEvmChain } from '@core/network'
     import { INft } from '@core/nfts/interfaces'
     import { selectedAccountTokens } from '@core/token/stores'
     import { TimePeriod } from '@core/utils/enums'
@@ -29,10 +29,6 @@
         disableToggleGift,
     } = sendFlowParameters
 
-    const destinationNetwork =
-        destinationNetworkId === getActiveNetworkId()
-            ? getNetwork().getMetadata().name
-            : getNetwork()?.getChain(destinationNetworkId)?.getConfiguration().name
     let baseCoinTransfer: TokenTransferData
     let storageDeposit: number
     let estimatedGas: BigIntLike | undefined = undefined
@@ -131,7 +127,7 @@
         estimatedGasFee={calculateGasFeeInGlow(estimatedGas, gasPrice)}
         maxGasFee={calculateGasFeeInGlow(gasLimit, gasPrice)}
         storageDeposit={getStorageDepositFromOutput(output)}
-        {destinationNetwork}
+        {destinationNetworkId}
         {disableChangeExpiration}
         disableChangeTimelock={disableChangeExpiration}
         disableGiftStorageDeposit={disableToggleGift}

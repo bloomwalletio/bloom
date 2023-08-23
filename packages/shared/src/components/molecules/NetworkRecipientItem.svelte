@@ -1,6 +1,6 @@
 <script lang="ts">
     import { Icon as IconEnum } from '@auxiliary/icon'
-    import { SupportedNetworkId, isEvmChain } from '@core/network'
+    import { isEvmChain } from '@core/network'
     import { Subject, SubjectType } from '@core/wallet'
     import { FontWeight, Icon, IOption, NetworkIcon, RecipientInput, Text, TextType } from '@ui'
     import { INetworkRecipientSelectorOption } from '../interfaces'
@@ -50,13 +50,13 @@
 </script>
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
-<network-recipient-item class:selected class:disabled={item?.disabled} on:click={onItemClick}>
+<network-recipient-item class:selected class:disabled={item.disabled} on:click={onItemClick}>
     <network-recipient-item-name>
         <div class="flex flex-row justify-between items-center space-x-4">
             <div class="flex flex-row space-x-3 items-center">
-                <NetworkIcon networkId={SupportedNetworkId.Testnet} />
+                <NetworkIcon networkId={item.networkId} />
                 <Text type={TextType.h4} fontWeight={FontWeight.semibold}>
-                    {item?.name}
+                    {item.name}
                 </Text>
             </div>
             {#if selected}

@@ -9,15 +9,9 @@
     import { SendFlowType } from '@core/wallet/stores'
     import { TransactionAssetSection } from '@ui'
     import EvmTransactionDetails from './EvmTransactionDetails.svelte'
-    import { getActiveNetworkId, getNetwork } from '@core/network'
 
     export let transaction: EvmTransactionData
     export let sendFlowParameters: SendFlowParameters
-
-    $: destinationNetwork =
-        sendFlowParameters?.destinationNetworkId === getActiveNetworkId()
-            ? getNetwork().getMetadata().name
-            : getNetwork()?.getChain(sendFlowParameters?.destinationNetworkId)?.getConfiguration().name
 
     function getTransactionAsset(sendFlowParameters: SendFlowParameters): {
         tokenTransfer?: TokenTransferData
@@ -39,7 +33,7 @@
     />
 
     <EvmTransactionDetails
-        {destinationNetwork}
+        destinationNetworkId={sendFlowParameters?.destinationNetworkId}
         estimatedGasFee={calculateEstimatedGasFeeFromTransactionData(transaction)}
         maxGasFee={calculateMaxGasFeeFromTransactionData(transaction)}
     />

@@ -13,7 +13,7 @@ export async function estimateGasForLayer1ToLayer2Transaction(sendFlowParameters
         return 0
     }
 
-    const address = layer2Parameters ? layer2Parameters.networkAddress : recipient?.address ?? ''
+    const address = recipient?.address ?? ''
 
     const chain = destinationNetworkId ? getNetwork()?.getChain(destinationNetworkId) : undefined
     const provider = chain?.getProvider()
