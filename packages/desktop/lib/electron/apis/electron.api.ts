@@ -68,9 +68,9 @@ export default {
             }
         })
     },
-    DeepLinkManager: bindMethodsAcrossContextBridge(DeepLinkManager.prototype, new DeepLinkManager()),
-    NotificationManager: bindMethodsAcrossContextBridge(NotificationManager.prototype, new NotificationManager()),
-    PincodeManager: bindMethodsAcrossContextBridge(PincodeManager.prototype, new PincodeManager()),
+    DeepLinkManager: bindMethodsAcrossContextBridge(DeepLinkManager, new DeepLinkManager()),
+    NotificationManager: bindMethodsAcrossContextBridge(NotificationManager, new NotificationManager()),
+    PincodeManager: bindMethodsAcrossContextBridge(PincodeManager, new PincodeManager()),
     async getStrongholdBackupDestination(defaultPath: unknown): Promise<unknown> {
         return ipcRenderer
             .invoke('show-save-dialog', {

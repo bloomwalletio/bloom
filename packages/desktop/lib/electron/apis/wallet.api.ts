@@ -34,12 +34,12 @@ export default {
         const manager = new IotaSdk.Wallet(options)
         manager['id'] = id
         profileManagers[id] = manager
-        return bindMethodsAcrossContextBridge(IotaSdk.Wallet.prototype, manager)
+        return bindMethodsAcrossContextBridge(IotaSdk.Wallet, manager)
     },
     async createAccount(managerId: string, payload: CreateAccountPayload): Promise<IotaSdk.Account> {
         const manager = profileManagers[managerId]
         const account = await manager.createAccount(payload)
-        return bindMethodsAcrossContextBridge(IotaSdk.Account.prototype, account)
+        return bindMethodsAcrossContextBridge(IotaSdk.Account, account)
     },
     deleteWallet(id: string): void {
         if (id && id in profileManagers) {
@@ -49,17 +49,17 @@ export default {
     async getAccount(managerId: string, index: number): Promise<IotaSdk.Account> {
         const manager = profileManagers[managerId]
         const account = await manager.getAccount(index)
-        return bindMethodsAcrossContextBridge(IotaSdk.Account.prototype, account)
+        return bindMethodsAcrossContextBridge(IotaSdk.Account, account)
     },
     async getAccounts(managerId: string): Promise<IotaSdk.Account[]> {
         const manager = profileManagers[managerId]
         const accounts = await manager.getAccounts()
-        return accounts.map((account) => bindMethodsAcrossContextBridge(IotaSdk.Account.prototype, account))
+        return accounts.map((account) => bindMethodsAcrossContextBridge(IotaSdk.Account, account))
     },
     async getClient(managerId: string): Promise<IotaSdk.Client> {
         const manager = profileManagers[managerId]
         const client = await manager.getClient()
-        return bindMethodsAcrossContextBridge(IotaSdk.Client.prototype, client)
+        return bindMethodsAcrossContextBridge(IotaSdk.Client, client)
     },
     async recoverAccounts(managerId: string, payload: PayloadType): Promise<IotaSdk.Account[]> {
         const manager = profileManagers[managerId]
@@ -69,7 +69,7 @@ export default {
             payload.addressGapLimit,
             payload.syncOptions
         )
-        return accounts.map((account) => bindMethodsAcrossContextBridge(IotaSdk.Account.prototype, account))
+        return accounts.map((account) => bindMethodsAcrossContextBridge(IotaSdk.Account, account))
     },
     async getSecretManager(managerId: string): Promise<IotaSdk.SecretManager> {
         const manager = profileManagers[managerId]
