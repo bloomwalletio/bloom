@@ -96,9 +96,8 @@
         <hr />
         <NetworkInput
             bind:this={networkSelectionInput}
-            bind:value={selectedNetworkId}
+            bind:networkId={selectedNetworkId}
             bind:error={networkSelectionError}
-            showLayer2={true}
             validationFunction={validateContactNetworkSelection}
         />
         <TextInput

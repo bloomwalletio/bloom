@@ -4,6 +4,7 @@
     import { IContact, IContactAddressMap, setSelectedContactNetworkId } from '@core/contact'
     import { localize } from '@core/i18n'
     import { resetLedgerPreparedOutput, resetShowInternalVerificationPopup } from '@core/ledger'
+    import { NetworkId } from '@core/network'
     import { Router } from '@core/router'
     import { truncateString } from '@core/utils'
     import { SendFlowType, SubjectType, setSendFlowParameters } from '@core/wallet'
@@ -16,7 +17,7 @@
     import { SendFlowRouter, sendFlowRouter } from '@views/dashboard/send-flow'
 
     export let drawerRouter: Router<unknown>
-    export let networkId: string
+    export let networkId: NetworkId
     export let contact: IContact
     export let contactAddressMap: IContactAddressMap
 
