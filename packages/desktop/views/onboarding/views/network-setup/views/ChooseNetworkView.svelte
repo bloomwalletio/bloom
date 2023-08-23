@@ -7,7 +7,6 @@
         onboardingProfile,
         OnboardingNetworkType,
     } from '@contexts/onboarding'
-    import { IS_MOBILE } from '@core/app'
     import { localize } from '@core/i18n'
     import {
         NetworkId,
@@ -84,9 +83,7 @@
         {#each Object.values(OnboardingNetworkType) as networkType}
             <OnboardingButton
                 primaryText={localize(`views.onboarding.networkSetup.chooseNetwork.${networkType}.title`)}
-                secondaryText={!IS_MOBILE
-                    ? localize(`views.onboarding.networkSetup.chooseNetwork.${networkType}.body`)
-                    : ''}
+                secondaryText={localize(`views.onboarding.networkSetup.chooseNetwork.${networkType}.body`)}
                 icon={networkIcon[networkType]}
                 iconColor={networkIconColor[networkType]}
                 hidden={features?.onboarding?.[networkType]?.hidden}
@@ -95,7 +92,7 @@
             />
         {/each}
     </div>
-    <div slot="rightpane" class="w-full h-full flex justify-center {!IS_MOBILE && 'bg-pastel-yellow dark:bg-gray-900'}">
+    <div slot="rightpane" class="w-full h-full flex justify-center bg-pastel-yellow dark:bg-gray-900">
         <Animation classes="setup-anim-aspect-ratio" animation="onboarding-network-desktop" />
     </div>
 </OnboardingLayout>

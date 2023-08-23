@@ -7,7 +7,6 @@
         initialiseProfileManagerFromOnboardingProfile,
         updateOnboardingProfile,
     } from '@contexts/onboarding'
-    import { IS_MOBILE } from '@core/app'
     import { localize } from '@core/i18n'
     import { INode, buildPersistedNetworkFromNodeInfoResponse } from '@core/network'
     import { getNodeInfo } from '@core/profile-manager'
@@ -117,7 +116,7 @@
             {localize('actions.continue')}
         </Button>
     </div>
-    <div slot="rightpane" class="w-full h-full flex justify-center {!IS_MOBILE && 'bg-pastel-yellow dark:bg-gray-900'}">
+    <div slot="rightpane" class="w-full h-full flex justify-center bg-pastel-yellow dark:bg-gray-900">
         <Animation classes="setup-anim-aspect-ratio" animation="onboarding-custom-network-desktop" />
     </div>
 </OnboardingLayout>
