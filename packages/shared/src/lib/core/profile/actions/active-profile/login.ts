@@ -50,111 +50,108 @@ export async function login(loginOptions?: ILoginOptions): Promise<void> {
     try {
         const _activeProfile = get(activeProfile)
         const { loggedIn, lastActiveAt, id, isStrongholdLocked, type, lastUsedAccountIndex } = _activeProfile
-        if (id) {
-            // Step 1: create profile manager if its doesn't exist
-            incrementLoginProgress()
-            await waitForPreviousManagerToBeDestroyed()
-            if (!get(profileManager)) {
-                const profileManagerOptions = await buildProfileManagerOptionsFromProfileData(_activeProfile)
-                const { storagePath, coinType, clientOptions, secretManager } = profileManagerOptions
-                // Make sure the profile has the latest client options that we are using
-                updateActiveProfile({ clientOptions })
-                const manager = await initialiseProfileManager(storagePath, coinType, clientOptions, secretManager, id)
-                profileManager.set(manager)
-            }
-
-            // Step 2: get node info to check we have a synced node
-            incrementLoginProgress()
-            await checkAndUpdateActiveProfileNetwork()
-            void pollNetworkStatus()
-            void pollChainStatuses()
-
-            // Step 3: load and build all the profile data
-            incrementLoginProgress()
-            let accounts: IAccount[]
-            if (loginOptions?.isFromOnboardingFlow && loginOptions?.shouldRecoverAccounts) {
-                const { initialAccountRange, addressGapLimit } = DEFAULT_ACCOUNT_RECOVERY_CONFIGURATION[type]
-                const recoverAccountsPayload: RecoverAccountsPayload = {
-                    accountStartIndex: 0,
-                    accountGapLimit: initialAccountRange,
-                    addressGapLimit,
-                    syncOptions: DEFAULT_SYNC_OPTIONS,
-                }
-                accounts = await recoverAccounts(recoverAccountsPayload)
-            } else {
-                accounts = await getAccounts()
-            }
-            /**
-             * NOTE: In the case no accounts with funds were recovered, we must
-             * create one for the new profile.
-             */
-            if (accounts?.length === 0) {
-                await createNewAccount()
-            }
-
-            // Step 4: load accounts
-            incrementLoginProgress()
-            await loadAccounts()
-
-            // Step 5: load assets
-            incrementLoginProgress()
-            await refreshAccountTokensForActiveProfile(
-                _activeProfile.forceAssetRefresh,
-                _activeProfile.forceAssetRefresh
-            )
-            updateActiveProfile({ forceAssetRefresh: false })
-            await loadNftsForActiveProfile()
-            checkAndRemoveProfilePicture()
-
-            // Step 6: generate and store activities for all accounts
-            incrementLoginProgress()
-            await generateAndStoreActivitiesForAllAccounts()
-
-            if (type === ProfileType.Software) {
-                // Step 7: set initial stronghold status
-                incrementLoginProgress()
-                const strongholdUnlocked = await isStrongholdUnlocked()
-                isStrongholdLocked.set(!strongholdUnlocked)
-                await setStrongholdPasswordClearInterval(
-                    _activeProfile.settings.strongholdPasswordTimeoutInMinutes * SECONDS_PER_MINUTE
-                )
-                if (strongholdUnlocked) {
-                    setTimeStrongholdLastUnlocked()
-                }
-            } else {
-                Platform.startLedgerProcess()
-                incrementLoginProgress(2)
-            }
-
-            // Step 8: start background sync
-            incrementLoginProgress()
-            subscribeToWalletApiEventsForActiveProfile()
-            await startBackgroundSync({ syncIncomingTransactions: true })
-
-            // Step 9: finish login
-            incrementLoginProgress()
-            if (isLedgerProfile(type)) {
-                pollLedgerNanoStatus()
-            }
-
-            setSelectedAccount(lastUsedAccountIndex ?? get(activeAccounts)?.[0]?.index ?? null)
-            lastActiveAt.set(new Date())
-            loggedIn.set(true)
-            setTimeout(() => {
-                loginRouter?.next()
-                resetLoginProgress()
-            }, 500)
-
-            void pollMarketPrices()
-            if (Platform.isFeatureFlagEnabled('governance')) {
-                void initializeRegisteredProposals()
-                void registerProposalsFromNodes(get(activeAccounts))
-            }
-            void cleanupOnboarding()
-            void initializeWalletConnect()
-        } else {
+        if (!id) {
             throw Error('No active profile error')
         }
+
+        // Step 1: create profile manager if its doesn't exist
+        incrementLoginProgress()
+        await waitForPreviousManagerToBeDestroyed()
+        if (!get(profileManager)) {
+            const profileManagerOptions = await buildProfileManagerOptionsFromProfileData(_activeProfile)
+            const { storagePath, coinType, clientOptions, secretManager } = profileManagerOptions
+            // Make sure the profile has the latest client options that we are using
+            updateActiveProfile({ clientOptions })
+            const manager = await initialiseProfileManager(storagePath, coinType, clientOptions, secretManager, id)
+            profileManager.set(manager)
+        }
+
+        // Step 2: get node info to check we have a synced node
+        incrementLoginProgress()
+        await checkAndUpdateActiveProfileNetwork()
+        void pollNetworkStatus()
+        void pollChainStatuses()
+
+        // Step 3: load and build all the profile data
+        incrementLoginProgress()
+        let accounts: IAccount[]
+        if (loginOptions?.isFromOnboardingFlow && loginOptions?.shouldRecoverAccounts) {
+            const { initialAccountRange, addressGapLimit } = DEFAULT_ACCOUNT_RECOVERY_CONFIGURATION[type]
+            const recoverAccountsPayload: RecoverAccountsPayload = {
+                accountStartIndex: 0,
+                accountGapLimit: initialAccountRange,
+                addressGapLimit,
+                syncOptions: DEFAULT_SYNC_OPTIONS,
+            }
+            accounts = await recoverAccounts(recoverAccountsPayload)
+        } else {
+            accounts = await getAccounts()
+        }
+        /**
+         * NOTE: In the case no accounts with funds were recovered, we must
+         * create one for the new profile.
+         */
+        if (accounts?.length === 0) {
+            await createNewAccount()
+        }
+
+        // Step 4: load accounts
+        incrementLoginProgress()
+        await loadAccounts()
+
+        // Step 5: load assets
+        incrementLoginProgress()
+        await refreshAccountTokensForActiveProfile(_activeProfile.forceAssetRefresh, _activeProfile.forceAssetRefresh)
+        updateActiveProfile({ forceAssetRefresh: false })
+        await loadNftsForActiveProfile()
+        checkAndRemoveProfilePicture()
+
+        // Step 6: generate and store activities for all accounts
+        incrementLoginProgress()
+        await generateAndStoreActivitiesForAllAccounts()
+
+        if (type === ProfileType.Software) {
+            // Step 7: set initial stronghold status
+            incrementLoginProgress()
+            const strongholdUnlocked = await isStrongholdUnlocked()
+            isStrongholdLocked.set(!strongholdUnlocked)
+            await setStrongholdPasswordClearInterval(
+                _activeProfile.settings.strongholdPasswordTimeoutInMinutes * SECONDS_PER_MINUTE
+            )
+            if (strongholdUnlocked) {
+                setTimeStrongholdLastUnlocked()
+            }
+        } else {
+            Platform.startLedgerProcess()
+            incrementLoginProgress(2)
+        }
+
+        // Step 8: start background sync
+        incrementLoginProgress()
+        subscribeToWalletApiEventsForActiveProfile()
+        await startBackgroundSync({ syncIncomingTransactions: true })
+
+        // Step 9: finish login
+        incrementLoginProgress()
+        if (isLedgerProfile(type)) {
+            pollLedgerNanoStatus()
+        }
+
+        setSelectedAccount(lastUsedAccountIndex ?? get(activeAccounts)?.[0]?.index ?? null)
+        lastActiveAt.set(new Date())
+        loggedIn.set(true)
+        setTimeout(() => {
+            loginRouter?.next()
+            resetLoginProgress()
+        }, 500)
+
+        void pollMarketPrices()
+        if (Platform.isFeatureFlagEnabled('governance')) {
+            void initializeRegisteredProposals()
+            void registerProposalsFromNodes(get(activeAccounts))
+        }
+        void cleanupOnboarding()
+        void initializeWalletConnect()
     } catch (err) {
         handleError(err)
         if (!loginOptions?.isFromOnboardingFlow) {

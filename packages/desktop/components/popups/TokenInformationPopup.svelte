@@ -19,7 +19,7 @@
     import { getCoinType } from '@core/profile/actions'
     import { unverifyToken, verifyToken } from '@core/token/stores'
 
-    export let token: IToken
+    export let token: IToken | undefined
     export let activityId: string = undefined
 
     $: showTokenActionsMenuButton = token.standard === TokenStandard.Irc30 || token.standard === TokenStandard.Erc20

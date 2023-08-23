@@ -8,6 +8,7 @@ import { get } from 'svelte/store'
 import { DEFAULT_NFT_NAME } from '../constants'
 import { INft } from '../interfaces'
 import { composeUrlFromNftUri, getSpendableStatusFromUnspentNftOutput, parseNftMetadata } from '../utils'
+import { getActiveNetworkId } from '@core/network'
 
 export function buildNftFromNftOutput(
     wrappedOutput: IWrappedOutput,
@@ -48,6 +49,7 @@ export function buildNftFromNftOutput(
         downloadUrl: composedUrl,
         filePath,
         storageDeposit,
+        networkId: getActiveNetworkId(),
         downloadMetadata: {
             error: undefined,
             warning: undefined,

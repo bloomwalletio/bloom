@@ -1,10 +1,10 @@
-import { ChainId, NetworkId } from '@core/network'
+import { NetworkId, SupportedNetworkId } from '@core/network'
 
 import { Icon } from '../enums'
 
-export const NETWORK_ICON_SVG: { [key in string]: Icon } = {
-    [NetworkId.Iota]: Icon.Iota,
-    [NetworkId.Shimmer]: Icon.Shimmer,
-    [NetworkId.Testnet]: Icon.Shimmer,
-    [ChainId.ShimmerEVM]: Icon.ShimmerEvm,
+export const NETWORK_ICON_SVG: { [id in NetworkId]: Icon } = {
+    [SupportedNetworkId.Shimmer]: Icon.Shimmer,
+    [SupportedNetworkId.Testnet]: Icon.Shimmer,
+    [SupportedNetworkId.ShimmerEvm]: Icon.ShimmerEvm,
+    [SupportedNetworkId.ShimmerEvmTestnet]: Icon.ShimmerEvm,
 }

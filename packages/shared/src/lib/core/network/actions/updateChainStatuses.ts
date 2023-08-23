@@ -21,8 +21,8 @@ export async function updateChainStatuses(): Promise<void> {
                 chainStatus = { health: NetworkHealth.Disconnected }
             }
 
-            const chainId = chain.getConfiguration().chainId
-            chainStatuses.update((_chainStatuses) => ({ ..._chainStatuses, [chainId]: chainStatus }))
+            const id = chain.getConfiguration().id
+            chainStatuses.update((_chainStatuses) => ({ ..._chainStatuses, [id]: chainStatus }))
         })
     )
 }

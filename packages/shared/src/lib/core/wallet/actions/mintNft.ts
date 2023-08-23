@@ -13,12 +13,14 @@ import { MintNftParams } from '@iota/wallet'
 import { get } from 'svelte/store'
 import { DEFAULT_TRANSACTION_OPTIONS, OUTPUT_TYPE_NFT } from '../constants'
 import { resetMintNftDetails } from '../stores'
+import { getActiveNetworkId } from '@core/network'
 
 export async function mintNft(metadata: IIrc27Metadata, quantity: number): Promise<void> {
     try {
         const account = get(selectedAccount)
-        if (!account) {
-            return
+        const networkId = getActiveNetworkId()
+        if (!account || !networkId) {
+            throw new Error(localize('error.global.accountOrNetworkUndefined'))
         }
 
         updateSelectedAccount({ isTransferring: true })
@@ -44,7 +46,7 @@ export async function mintNft(metadata: IIrc27Metadata, quantity: number): Promi
         for (const output of outputs) {
             if (output.output.type === OUTPUT_TYPE_NFT) {
                 // For each minted NFT, generate a new activity
-                const activity: NftActivity = generateSingleNftActivity(account, {
+                const activity: NftActivity = generateSingleNftActivity(account, networkId, {
                     action: ActivityAction.Mint,
                     processedTransaction,
                     wrappedOutput: output,

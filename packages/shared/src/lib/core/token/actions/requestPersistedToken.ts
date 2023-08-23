@@ -12,14 +12,18 @@ import { NotVerifiedStatus, VerifiedStatus } from '../enums'
 import { IErc20Metadata, IIrc30Metadata, IPersistedToken } from '../interfaces'
 import { TokenVerification } from '../types'
 import { buildPersistedTokenFromMetadata } from '../utils'
+import { NetworkId } from '@core/network/types'
 
-export async function requestPersistedToken(tokenId: string, chainId?: number): Promise<IPersistedToken | undefined> {
+export async function requestPersistedToken(
+    tokenId: string,
+    networkId?: NetworkId
+): Promise<IPersistedToken | undefined> {
     let tokenMetadata: IIrc30Metadata | IErc20Metadata | undefined
-    if (chainId) {
+    if (networkId) {
         try {
             validateEthereumAddress(tokenId)
             /* eslint-disable @typescript-eslint/no-unnecessary-type-assertion */
-            tokenMetadata = await getErc20TokenMetadata(tokenId, chainId, get(network) as INetwork)
+            tokenMetadata = await getErc20TokenMetadata(tokenId, networkId, get(network) as INetwork)
         } catch {
             // do nothing
         }

@@ -2,20 +2,20 @@
     import { Modal, SelectorInput, IOption } from '@ui'
     import { IChain, network } from '@core/network'
 
-    export let chainId: number
+    export let networkId: string
 
     let inputElement: HTMLInputElement
     let modal: Modal
     let error: string
 
-    $: chainOptions = getChainOptions($network.getChains())
+    $: chainOptions = getChainOptions($network?.getChains() ?? [])
     $: selected = chainOptions?.[0]
-    $: chainId = Number(selected?.value)
+    $: networkId = selected?.value ?? ''
 
     function getChainOptions(chains: IChain[]): IOption[] {
         return (chains ?? []).map((chain) => {
             const configuration = chain.getConfiguration()
-            return { key: configuration.name, value: configuration.chainId.toString() }
+            return { key: configuration.name, value: configuration.id }
         })
     }
 </script>
