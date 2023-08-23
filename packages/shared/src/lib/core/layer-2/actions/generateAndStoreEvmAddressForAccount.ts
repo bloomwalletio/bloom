@@ -17,10 +17,6 @@ export async function generateAndStoreEvmAddressForAccount(
             await manager.generateEvmAddresses({
                 coinType,
                 accountIndex: account.index,
-                range: {
-                    start: 0,
-                    end: 0,
-                },
                 options: {
                     internal: false,
                 },
