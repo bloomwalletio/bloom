@@ -1,4 +1,3 @@
-export * from './avatar-size.enum'
 export * from './button-type.enum'
 export * from './button-variant.enum'
 export * from './button-size.enum'
