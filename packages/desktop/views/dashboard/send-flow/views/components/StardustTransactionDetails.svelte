@@ -5,10 +5,10 @@
     import { TimePeriod } from '@core/utils'
     import { BigIntLike } from '@ethereumjs/util'
     import { NetworkIcon, Text, TooltipIcon } from '@ui'
-    import { NetworkId, getActiveNetworkId, getNetwork } from '@core/network'
+    import { NetworkId } from '@core/network'
     import DateTimePickerButton from './DateTimePickerButton.svelte'
     import StorageDepositButton from './StorageDepositButton.svelte'
-    import { getChainConfiguration } from '@core/network/actions/getChainConfiguration'
+    import { getNameFromNetworkId } from '@core/network/actions/getNameFromNetworkId'
 
     export let destinationNetworkId: NetworkId
     export let storageDeposit: number
@@ -24,10 +24,7 @@
     export let disableGiftStorageDeposit: boolean
     export let disableAll: boolean
 
-    $: destinationNetwork =
-        destinationNetworkId === getActiveNetworkId()
-            ? getNetwork().getMetadata().name
-            : getChainConfiguration(destinationNetworkId)?.name
+    $: destinationNetwork = getNameFromNetworkId(destinationNetworkId)
 </script>
 
 <div class="border border-solid border-gray-200 dark:border-gray-700 rounded-lg">

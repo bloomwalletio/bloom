@@ -1,7 +1,7 @@
 <script lang="ts">
     import { localize } from '@core/i18n'
-    import { NetworkId, getActiveNetworkId, getNetwork } from '@core/network'
-    import { getChainConfiguration } from '@core/network/actions/getChainConfiguration'
+    import { NetworkId } from '@core/network'
+    import { getNameFromNetworkId } from '@core/network/actions/getNameFromNetworkId'
     import { getBaseToken } from '@core/profile/actions'
     import { formatTokenAmountBestMatch } from '@core/token'
     import { BigIntLike } from '@ethereumjs/util'
@@ -11,10 +11,7 @@
     export let estimatedGasFee: BigIntLike | undefined = undefined
     export let maxGasFee: BigIntLike | undefined = undefined
 
-    $: destinationNetwork =
-        destinationNetworkId === getActiveNetworkId()
-            ? getNetwork().getMetadata().name
-            : getChainConfiguration(destinationNetworkId)?.name
+    $: destinationNetwork = getNameFromNetworkId(destinationNetworkId)
 </script>
 
 <div class="border border-solid border-gray-200 dark:border-gray-700 rounded-lg">
