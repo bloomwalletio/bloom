@@ -15,6 +15,7 @@
     } from '@core/contact'
     import { localize } from '@core/i18n'
     import { Router } from '@core/router'
+    import { NetworkId } from '@core/network'
 
     export let drawerRouter: Router<unknown>
 
@@ -22,7 +23,7 @@
         note,
         address,
         addressName: string = ''
-    let networkSelection: { networkId: string; address?: string } | undefined
+    let selectedNetworkId: NetworkId | undefined
     let nameInput, noteInput, addressNameInput, addressInput: TextInput
     let networkSelectionInput: NetworkInput
 
@@ -30,7 +31,7 @@
      * NOTE: This improves UX slightly by forcing the address-related input errors
      * to be reset when the network selection changes.
      */
-    $: networkSelection?.networkId, resetErrors()
+    $: selectedNetworkId, resetErrors()
 
     let addressError,
         addressNameError,
@@ -43,7 +44,7 @@
 
     function onSaveClick(): void {
         const contact = { name, note }
-        const networkAddress = { networkId: networkSelection?.networkId, addressName, address }
+        const networkAddress = { networkId: selectedNetworkId, addressName, address }
 
         if (validate()) {
             ContactManager.addContact(contact, networkAddress)
@@ -95,9 +96,8 @@
         <hr />
         <NetworkInput
             bind:this={networkSelectionInput}
-            bind:networkSelection
+            bind:networkId={selectedNetworkId}
             bind:error={networkSelectionError}
-            showLayer2={true}
             validationFunction={validateContactNetworkSelection}
         />
         <TextInput
@@ -116,10 +116,7 @@
             placeholder={localize('general.address')}
             label={localize('general.address')}
             validationFunction={() =>
-                validateContactAddress(
-                    { value: address, isRequired: true, mustBeUnique: true },
-                    networkSelection?.networkId
-                )}
+                validateContactAddress({ value: address, isRequired: true, mustBeUnique: true }, selectedNetworkId)}
         />
     </add-contact>
     <div slot="footer">

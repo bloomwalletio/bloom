@@ -104,7 +104,7 @@
     }
 
     function hasAddressNameChanged(name: string, address: string): boolean {
-        const contactAddresses = Object.values(
+        const contactAddresses: IContactAddress[] = Object.values(
             ContactManager.getNetworkContactAddressMapForContact($selectedContact?.id)?.[$selectedContactNetworkId] ??
                 {}
         )

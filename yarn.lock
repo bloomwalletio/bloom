@@ -342,10 +342,10 @@
   resolved "https://registry.yarnpkg.com/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
-"@bloomwalletio/ui@0.6.23":
-  version "0.6.23"
-  resolved "https://npm.pkg.github.com/download/@bloomwalletio/ui/0.6.23/90aaab9455df34d200ab4da01e5cef0a75f1d955#90aaab9455df34d200ab4da01e5cef0a75f1d955"
-  integrity sha512-0PHCNgJzd2//3CkG9Pq4mTcFWyC5sMvFLo9lVO083iDoIjTmzBogaYX0MwR7lJc2hndwHB/xy+MH7YyFuVoxkg==
+"@bloomwalletio/ui@0.7.0":
+  version "0.7.0"
+  resolved "https://npm.pkg.github.com/download/@bloomwalletio/ui/0.7.0/644b7f7d5608b7cef279725e75a731a505dd3618#644b7f7d5608b7cef279725e75a731a505dd3618"
+  integrity sha512-665sGBFhZ6eCkb73wtjJlWh2xubAyn+ALqOrt5c8hLZ6BvHeq9H87IV5/j60d3P6wcl3pwFpO1ouNE3j/JNuQA==
   dependencies:
     "@floating-ui/dom" "1.4.3"
     "@popperjs/core" "2.11.8"
@@ -1298,10 +1298,10 @@
   dependencies:
     big-integer "^1.6.51"
 
-"@iota/wallet@2.0.3-rc.44":
-  version "2.0.3-rc.44"
-  resolved "https://registry.yarnpkg.com/@iota/wallet/-/wallet-2.0.3-rc.44.tgz#5d724638a23c68e5f0f61861660ac4ed321a0a54"
-  integrity sha512-/o1o9yH83nY16nvqLfcMtSZPy92Ca0m5+MtKjnR2V0u5UCwUu6GH3cSauIuWrT4rFJoaKZF3CAPcc2raJ/5YDg==
+"@iota/wallet@2.0.3-rc.45":
+  version "2.0.3-rc.45"
+  resolved "https://registry.yarnpkg.com/@iota/wallet/-/wallet-2.0.3-rc.45.tgz#987dafde51fc009a8e79b5998bdc8813a1cffb9e"
+  integrity sha512-kakwzS8oCv1JefQTOK0YcRjJIEOfoTg2Qmdmd4AOdmA2buSs+UiF4c6PX3rM1oRxDT02HC0U32HMzkMfIPMJRQ==
   dependencies:
     "@iota/types" "^1.0.0-beta.15"
     cargo-cp-artifact "^0.1.6"
@@ -8641,15 +8641,15 @@ prelude-ls@^1.2.1:
   resolved "https://registry.yarnpkg.com/prelude-ls/-/prelude-ls-1.2.1.tgz#debc6489d7a6e6b0e7611888cec880337d316396"
   integrity sha512-vkcDPrRZo1QZLbn5RLGPpg/WmIQ65qoWWhcGKf/b5eplkkarX0m9z8ppCat4mlOqUsWpyNuYgO3VRyrYHSzX5g==
 
-prettier-plugin-svelte@2.10.0:
-  version "2.10.0"
-  resolved "https://registry.yarnpkg.com/prettier-plugin-svelte/-/prettier-plugin-svelte-2.10.0.tgz#ce8f641f97cfe085fa093cb2beb13e64c5e7f9de"
-  integrity sha512-GXMY6t86thctyCvQq+jqElO+MKdB09BkL3hexyGP3Oi8XLKRFaJP1ud/xlWCZ9ZIa2BxHka32zhHfcuU+XsRQg==
+prettier-plugin-svelte@3.0.3:
+  version "3.0.3"
+  resolved "https://registry.yarnpkg.com/prettier-plugin-svelte/-/prettier-plugin-svelte-3.0.3.tgz#a823295167f27dc71a4462ee6cb3da9f3f5ca2ea"
+  integrity sha512-dLhieh4obJEK1hnZ6koxF+tMUrZbV5YGvRpf2+OADyanjya5j0z1Llo8iGwiHmFWZVG/hLEw/AJD5chXd9r3XA==
 
-prettier@2.8.7:
-  version "2.8.7"
-  resolved "https://registry.yarnpkg.com/prettier/-/prettier-2.8.7.tgz#bb79fc8729308549d28fe3a98fce73d2c0656450"
-  integrity sha512-yPngTo3aXUUmyuTjeTUT75txrf+aMh9FiD7q9ZE/i6r0bPb22g4FsE6Y338PQX1bmfy08i9QQCB7/rcUAVntfw==
+prettier@3.0.2:
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/prettier/-/prettier-3.0.2.tgz#78fcecd6d870551aa5547437cdae39d4701dca5b"
+  integrity sha512-o2YR9qtniXvwEZlOKbveKfDQVyqxbEIWn48Z8m3ZJjBjcCmUy3xZGIv+7AkaeuaTr6yPXJjwv07ZWlsWbEy1rQ==
 
 pretty-format@^29.0.0, pretty-format@^29.6.2:
   version "29.6.2"

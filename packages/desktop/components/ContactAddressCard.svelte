@@ -1,22 +1,23 @@
 <script lang="ts">
     import { Icon as IconEnum } from '@auxiliary/icon'
-    import { Button } from '@bloomwalletio/ui'
+    import { Button, CopyableButton } from '@bloomwalletio/ui'
     import { IContact, IContactAddressMap, setSelectedContactNetworkId } from '@core/contact'
     import { localize } from '@core/i18n'
     import { resetLedgerPreparedOutput, resetShowInternalVerificationPopup } from '@core/ledger'
+    import { NetworkId, getNameFromNetworkId } from '@core/network'
     import { Router } from '@core/router'
     import { truncateString } from '@core/utils'
     import { SendFlowType, SubjectType, setSendFlowParameters } from '@core/wallet'
     import { closeDrawer } from '@desktop/auxiliary/drawer'
     import { PopupId, openPopup } from '@desktop/auxiliary/popup'
     import features from '@features/features'
-    import { Copyable, MeatballMenuButton, MenuItem, Modal, NetworkIcon, Text } from '@ui'
+    import { MeatballMenuButton, MenuItem, Modal, NetworkIcon, Text } from '@ui'
     import { FontWeight, TextType } from '@ui/enums'
     import { ContactBookRoute } from '@views/dashboard/drawers/contact-book/contact-book-route.enum'
     import { SendFlowRouter, sendFlowRouter } from '@views/dashboard/send-flow'
 
     export let drawerRouter: Router<unknown>
-    export let networkId: string
+    export let networkId: NetworkId
     export let contact: IContact
     export let contactAddressMap: IContactAddressMap
 
@@ -55,7 +56,7 @@
     <contact-address-head class="flex justify-between">
         <div class="flex items-center gap-2">
             <NetworkIcon {networkId} />
-            <Text fontSize="text-16" fontWeight={FontWeight.semibold}>{networkId}</Text>
+            <Text fontSize="text-16" fontWeight={FontWeight.semibold}>{getNameFromNetworkId(networkId)}</Text>
         </div>
         <contact-address-menu class="block relative">
             <MeatballMenuButton onClick={modal?.toggle} classes="py-2" />
@@ -87,11 +88,11 @@
                 <Text overrideColor classes="text-gray-600 text-left w-full truncate" fontWeight={FontWeight.medium}>
                     {contactAddress.addressName}
                 </Text>
-                <Copyable value={contactAddress.address}>
+                <CopyableButton value={contactAddress.address}>
                     <Text type={TextType.pre} fontSize="16" fontWeight={FontWeight.medium}>
                         {truncateString(contactAddress.address, 9, 9)}
                     </Text>
-                </Copyable>
+                </CopyableButton>
             </div>
             {#if features.contacts.sendTo.enabled}
                 <Button
