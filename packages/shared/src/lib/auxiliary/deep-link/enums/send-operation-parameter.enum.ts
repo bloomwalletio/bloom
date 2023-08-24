@@ -3,7 +3,7 @@
  */
 export enum SendOperationParameter {
     Address = 'address',
-    AssetId = 'assetId',
+    TokenId = 'tokenId',
     Amount = 'amount',
     Unit = 'unit',
     Metadata = 'metadata',

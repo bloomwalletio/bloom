@@ -1,6 +1,6 @@
 <script lang="ts">
     import { Checkbox, Text } from '@ui'
-    import { appSettings } from '@core/app'
+    import { appSettings } from '@core/app/stores'
     import { localize } from '@core/i18n'
 
     let notificationsChecked = $appSettings.notifications

@@ -1,31 +1,34 @@
 <script lang="ts">
-    import { onMount } from 'svelte'
-
-    import { ClickableTile, FontWeight, Icon, NetworkIcon, NetworkStatusPill, Text, TextType } from '@ui'
-
-    import { selectedAccount } from '@core/account'
+    import { Button, CopyableButton, FlatIconName } from '@bloomwalletio/ui'
+    import { selectedAccount } from '@core/account/stores'
     import { localize } from '@core/i18n'
-    import { truncateString, UiEventFunction } from '@core/utils'
+    import { generateAndStoreEvmAddressForAccount } from '@core/layer-2'
+    import { LedgerAppName } from '@core/ledger'
     import {
-        chainStatuses,
         IChain,
         IIscpChainConfiguration,
         INetwork,
         NetworkHealth,
         NetworkId,
+        chainStatuses,
         networkStatus,
+        setSelectedChain,
     } from '@core/network'
-    import { Icon as IconEnum } from '@auxiliary/icon'
-    import { isActiveLedgerProfile } from '@core/profile'
+    import { ProfileType } from '@core/profile'
+    import { checkActiveProfileAuth } from '@core/profile/actions'
+    import { activeProfile } from '@core/profile/stores'
+    import { UiEventFunction, truncateString } from '@core/utils'
+    import { ClickableTile, FontWeight, NetworkIcon, NetworkStatusPill, Text, TextType } from '@ui'
+    import { NetworkConfigRoute, networkConfigRouter } from '@views/dashboard/drawers'
+    import { onMount } from 'svelte'
 
     export let network: INetwork = undefined
     export let chain: IChain = undefined
     export let onCardClick: UiEventFunction
-    export let onGenerateAddressClick: UiEventFunction | undefined = undefined
     export let onQrCodeIconClick: UiEventFunction
 
-    const ADDRESS_PLACEHOLDER = '---'
-
+    let configuration: IIscpChainConfiguration = undefined
+    let networkId: NetworkId | undefined
     let name = ''
     let address = ''
     let status: NetworkHealth
@@ -34,14 +37,36 @@
 
     function setNetworkCardData(): void {
         if (network) {
+            networkId = network.getMetadata().id
             name = network.getMetadata().name
             address = $selectedAccount.depositAddress
             status = $networkStatus.health
         } else if (chain) {
-            const configuration = chain.getConfiguration() as IIscpChainConfiguration
+            configuration = chain.getConfiguration() as IIscpChainConfiguration
+            networkId = configuration.id
             name = configuration.name
             address = $selectedAccount.evmAddresses[configuration.coinType]
             status = chain.getStatus().health
+        }
+    }
+
+    function onGenerateAddressClick(): void {
+        setSelectedChain(chain)
+        if (chain) {
+            checkActiveProfileAuth(
+                async () => {
+                    await generateAndStoreEvmAddressForAccount(
+                        $activeProfile.type,
+                        $selectedAccount,
+                        configuration.coinType
+                    )
+                    if ($activeProfile.type === ProfileType.Ledger) {
+                        $networkConfigRouter.goTo(NetworkConfigRoute.ConfirmLedgerEvmAddress)
+                    }
+                },
+                {},
+                LedgerAppName.Ethereum
+            )
         }
     }
 
@@ -54,7 +79,9 @@
     <div class="w-full flex flex-col gap-5">
         <div class="flex flex-row justify-between items-center">
             <div class="flex flex-row gap-2 items-center">
-                <NetworkIcon networkId={NetworkId.Testnet} />
+                {#if networkId}
+                    <NetworkIcon {networkId} />
+                {/if}
                 <Text type={TextType.h4} fontWeight={FontWeight.semibold}>
                     {name}
                 </Text>
@@ -69,25 +96,22 @@
                     {localize('general.myAddress')}
                 </Text>
                 {#if address}
-                    <Text type={TextType.pre} fontSize="16" fontWeight={FontWeight.medium}>
-                        {truncateString(address, 8, 8)}
-                    </Text>
-                {:else if $isActiveLedgerProfile && onGenerateAddressClick}
-                    <button on:click|stopPropagation={onGenerateAddressClick}>
-                        <Text type={TextType.p} fontWeight={FontWeight.medium} highlighted>
-                            {localize('actions.generateAddress')}
+                    <CopyableButton value={address}>
+                        <Text type={TextType.pre} fontSize="16" fontWeight={FontWeight.medium}>
+                            {truncateString(address, 8, 8)}
                         </Text>
-                    </button>
+                    </CopyableButton>
                 {:else}
-                    <Text type={TextType.pre} fontSize="16" fontWeight={FontWeight.medium}>
-                        {ADDRESS_PLACEHOLDER}
-                    </Text>
+                    <Button
+                        variant="text"
+                        size="sm"
+                        text={localize('actions.generateAddress')}
+                        on:click={onGenerateAddressClick}
+                    />
                 {/if}
             </div>
             {#if address}
-                <button on:click|stopPropagation={onQrCodeIconClick}>
-                    <Icon icon={IconEnum.Qr} classes="text-gray-500" />
-                </button>
+                <Button variant="text" icon={FlatIconName.Qrcode} on:click={onQrCodeIconClick} />
             {/if}
         </div>
     </div>

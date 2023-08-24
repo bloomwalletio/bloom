@@ -1,19 +1,5 @@
 <script lang="ts">
-    import { VotingEventPayload, ParticipationEventType, TrackedParticipationOverview } from '@iota/wallet/out/types'
-
-    import { onMount, onDestroy } from 'svelte'
-
-    import { Button, KeyValueBox, MarkdownBlock, Pane, ProposalStatusPill, Text, TextHint, TextType } from '@ui'
     import { ProposalDetailsButton, ProposalInformationPane, ProposalQuestion } from '@components'
-
-    import { selectedAccount } from '@core/account/stores'
-    import { handleError } from '@core/error/handlers'
-    import { localize } from '@core/i18n'
-    import { networkStatus } from '@core/network/stores'
-    import { getBestTimeDuration, milestoneToDate } from '@core/utils'
-    import { visibleSelectedAccountAssets } from '@core/wallet/stores'
-    import { formatTokenAmountBestMatch } from '@core/wallet/utils'
-
     import { getVotingEvent } from '@contexts/governance/actions'
     import {
         clearParticipationEventStatusPoll,
@@ -34,10 +20,20 @@
         isProposalVotable,
         isVotingForSelectedProposal,
     } from '@contexts/governance/utils'
-    import { openPopup, PopupId } from '@desktop/auxiliary/popup'
-    import { activeProfile } from '@core/profile'
+    import { selectedAccount } from '@core/account/stores'
+    import { handleError } from '@core/error/handlers'
+    import { localize } from '@core/i18n'
+    import { networkStatus } from '@core/network/stores'
+    import { activeProfile } from '@core/profile/stores'
+    import { formatTokenAmountBestMatch } from '@core/token'
+    import { visibleSelectedAccountTokens } from '@core/token/stores'
+    import { getBestTimeDuration, milestoneToDate } from '@core/utils'
+    import { PopupId, openPopup } from '@desktop/auxiliary/popup'
+    import { ParticipationEventType, TrackedParticipationOverview, VotingEventPayload } from '@iota/wallet/out/types'
+    import { Button, KeyValueBox, MarkdownBlock, Pane, ProposalStatusPill, Text, TextHint, TextType } from '@ui'
+    import { onDestroy, onMount } from 'svelte'
 
-    const { metadata } = $visibleSelectedAccountAssets?.[$activeProfile?.network?.id]?.baseCoin ?? {}
+    const { metadata } = $visibleSelectedAccountTokens?.[$activeProfile?.network?.id]?.baseCoin ?? {}
 
     let selectedAnswerValues: number[] = []
     let votedAnswerValues: number[] = []
@@ -210,11 +206,11 @@
 </script>
 
 <proposal-details class="w-full h-full flex flex-nowrap p-8 relative flex-1 space-x-4 bg-gray-50 dark:bg-gray-900">
-    <div class="w-2/5 flex flex-col space-y-4">
-        <Pane classes="p-6 flex flex-col h-fit overflow-hidden">
+    <div class="w-2/5 flex flex-col space-y-4 relative">
+        <Pane classes="p-6 flex flex-col h-fit">
             <header-container class="flex justify-between items-center mb-4">
                 <ProposalStatusPill proposal={$selectedProposal} />
-                <ProposalDetailsButton proposal={$selectedProposal} />
+                <ProposalDetailsButton proposal={$selectedProposal} modalPosition={{ right: '24px', top: '54px' }} />
             </header-container>
             <div class="flex flex-1 flex-col space-y-4 justify-between scrollable-y">
                 <Text type={TextType.h2}>{$selectedProposal?.title}</Text>

@@ -1,15 +1,16 @@
-import { showAppNotification } from '@auxiliary/notification'
-import { getSelectedAccount, updateSelectedAccount } from '@core/account'
+import { showNotification } from '@auxiliary/notification'
+import { getSelectedAccount, updateSelectedAccount } from '@core/account/stores'
+import { processAndAddToActivities } from '@core/activity/utils'
 import { localize } from '@core/i18n'
 import { Converter } from '@core/utils'
-import { MintNativeTokenParams } from '@iota/wallet'
+import { CreateNativeTokenParams } from '@iota/wallet'
 import { DEFAULT_TRANSACTION_OPTIONS } from '../constants'
-import { VerifiedStatus } from '../enums'
-import { buildPersistedAssetFromMetadata } from '../helpers'
-import { IIrc30Metadata, IPersistedAsset } from '../interfaces'
 import { resetMintTokenDetails } from '../stores'
-import { addPersistedAsset } from '../stores/persisted-assets.store'
-import { processAndAddToActivities } from '../utils'
+import { buildPersistedTokenFromMetadata } from '@core/token/utils'
+import { addPersistedToken } from '@core/token/stores'
+import { IIrc30Metadata, IPersistedToken } from '@core/token/interfaces'
+import { VerifiedStatus } from '@core/token/enums'
+import { getActiveNetworkId } from '@core/network'
 
 export async function mintNativeToken(
     maximumSupply: number,
@@ -17,29 +18,33 @@ export async function mintNativeToken(
     metadata: IIrc30Metadata
 ): Promise<void> {
     try {
-        updateSelectedAccount({ isTransferring: true })
         const account = getSelectedAccount()
+        const networkId = getActiveNetworkId()
 
-        const params: MintNativeTokenParams = {
+        if (!networkId) {
+            throw new Error(localize('error.global.accountOrNetworkUndefined'))
+        }
+        updateSelectedAccount({ isTransferring: true })
+
+        const params: CreateNativeTokenParams = {
             maximumSupply: Converter.decimalToHex(maximumSupply),
             circulatingSupply: Converter.decimalToHex(circulatingSupply),
             foundryMetadata: Converter.utf8ToHex(JSON.stringify(metadata)),
         }
 
-        const mintTokenTransaction = await account.mintNativeToken(params, DEFAULT_TRANSACTION_OPTIONS)
-        const persistedAsset: IPersistedAsset = buildPersistedAssetFromMetadata(
-            mintTokenTransaction.tokenId,
+        const createTokenTransaction = await account.createNativeToken(params, DEFAULT_TRANSACTION_OPTIONS)
+        const persistedAsset: IPersistedToken = buildPersistedTokenFromMetadata(
+            createTokenTransaction.tokenId,
             metadata,
             { verified: true, status: VerifiedStatus.SelfVerified }
         )
-        addPersistedAsset(persistedAsset)
+        addPersistedToken(persistedAsset)
 
-        await processAndAddToActivities(mintTokenTransaction.transaction, account)
+        await processAndAddToActivities(createTokenTransaction.transaction, account, networkId)
 
-        showAppNotification({
-            type: 'success',
-            message: localize('notifications.mintNativeToken.success'),
-            alert: true,
+        showNotification({
+            variant: 'success',
+            text: localize('notifications.mintNativeToken.success'),
         })
         resetMintTokenDetails()
     } catch (err) {

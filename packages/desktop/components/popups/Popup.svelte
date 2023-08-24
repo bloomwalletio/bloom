@@ -4,7 +4,7 @@
     import { Icon } from '@ui'
     import { closePopup, PopupComponentMap, PopupId } from '@desktop/auxiliary/popup'
     import { Icon as IconEnum } from '@auxiliary/icon/enums'
-    import { PlatformOption, platform } from '@core/app'
+    import { IS_WINDOWS } from '@core/app/constants'
     import { clickOutside } from '@core/utils/ui'
 
     // Popups
@@ -190,10 +190,10 @@
 
 <popup
     in:fade={{ duration: transition ? 100 : 0 }}
-    class={`flex items-center justify-center fixed ${
-        $platform === PlatformOption.Windows ? 'top-12' : 'top-0'
-    } left-0 w-screen p-6 ${overflow ? '' : 'overflow-hidden'}
-                h-full z-20 ${
+    class={`flex items-center justify-center fixed ${IS_WINDOWS ? 'top-12' : 'top-0'} left-0 w-screen p-6 ${
+        overflow ? '' : 'overflow-hidden'
+    }
+                h-full z-30 ${
                     fullScreen
                         ? 'bg-white dark:bg-gray-900'
                         : 'bg-gray-800 bg-opacity-70 dark:bg-black dark:bg-opacity-50'

@@ -1,10 +1,11 @@
 <script lang="ts">
-    import { formatCurrency, localize } from '@core/i18n'
-    import { getMarketAmountFromAssetValue } from '@core/market/utils'
-    import { formatTokenAmountBestMatch, selectedAccountAssets } from '@core/wallet'
-    import { BalanceSummaryRow, Icon } from '@ui'
     import { Icon as IconEnum } from '@auxiliary/icon'
-    import { activeProfile } from '@core/profile'
+    import { formatCurrency, localize } from '@core/i18n'
+    import { getMarketAmountFromTokenValue } from '@core/market/utils'
+    import { activeProfile } from '@core/profile/stores'
+    import { formatTokenAmountBestMatch } from '@core/token'
+    import { selectedAccountTokens } from '@core/token/stores'
+    import { BalanceSummaryRow, Icon } from '@ui'
 
     export let titleKey: string
     export let subtitleKey: string = ''
@@ -15,14 +16,14 @@
     let expanded = false
 
     $: hasChildren = !!Object.keys(subBreakdown ?? {}).length
-    $: ({ baseCoin } = $selectedAccountAssets?.[$activeProfile?.network?.id] ?? {})
+    $: ({ baseCoin } = $selectedAccountTokens?.[$activeProfile?.network?.id] ?? {})
 
     function getAmount(amount: number): string {
         return baseCoin?.metadata ? formatTokenAmountBestMatch(amount, baseCoin.metadata) : ''
     }
 
     function getCurrencyAmount(amount: number): string {
-        return baseCoin ? formatCurrency(getMarketAmountFromAssetValue(amount, baseCoin)) : ''
+        return baseCoin ? formatCurrency(getMarketAmountFromTokenValue(amount, baseCoin)) : ''
     }
 
     function toggleExpandedView(): void {

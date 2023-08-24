@@ -1,12 +1,11 @@
 import { handleError } from '@core/error/handlers'
-
+import { getSelectedAccount } from '@core/account/stores'
 import {
     isActivityHiddenForAccountIndex,
     removeActivityFromHiddenActivities,
     updateAsyncDataByActivityId,
-} from '../stores'
-import { Activity } from '../types'
-import { getSelectedAccount } from '@core/account/stores'
+} from '@core/activity/stores'
+import { Activity } from '@core/activity/types'
 
 export async function claimActivity(activity: Activity): Promise<void> {
     const account = getSelectedAccount()

@@ -1,8 +1,8 @@
-import { getSelectedAccount } from '@core/account'
+import { getSelectedAccount } from '@core/account/stores'
 import { localize } from '@core/i18n'
-import { FAUCET_URLS } from '@core/network'
-import { showAppNotification } from '@auxiliary/notification'
-import { getActiveNetworkId } from '@core/network/utils/getNetworkId'
+import { FAUCET_URLS } from '@core/network/constants'
+import { getActiveNetworkId } from '@core/network/actions'
+import { showNotification } from '@auxiliary/notification/actions'
 
 export async function requestTokensFromFaucet(): Promise<void> {
     const networkId = getActiveNetworkId()
@@ -30,10 +30,9 @@ export async function requestTokensFromFaucet(): Promise<void> {
     try {
         const response = await fetch(url, requestInit)
         if (response?.status === 202) {
-            showAppNotification({
-                type: 'success',
-                message: localize('notifications.faucetRequest.success'),
-                alert: true,
+            showNotification({
+                variant: 'success',
+                text: localize('notifications.faucetRequest.success'),
             })
             return Promise.resolve()
         } else if (response?.status === 400) {

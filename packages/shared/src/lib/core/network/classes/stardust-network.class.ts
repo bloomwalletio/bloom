@@ -7,7 +7,7 @@ import { activeProfile, updateActiveProfile } from '@core/profile/stores'
 import { ChainType } from '../enums'
 import { IChain, IIscpChainConfiguration, INetwork, INetworkStatus } from '../interfaces'
 import { networkStatus } from '../stores'
-import { ChainConfiguration, NetworkMetadata } from '../types'
+import { ChainConfiguration, NetworkId, NetworkMetadata } from '../types'
 
 import { IscpChain } from './iscp-chain.class'
 
@@ -42,12 +42,16 @@ export class StardustNetwork implements INetwork {
         return get(networkStatus) ?? {}
     }
 
-    getChain(chainId: number): IChain | undefined {
-        return this._chains.find((chain) => chain?.getConfiguration().chainId === chainId)
+    getChain(networkId: NetworkId): IChain | undefined {
+        return this._chains.find((chain) => chain?.getConfiguration().id === networkId)
     }
 
     getChains(): IChain[] {
         return this._chains
+    }
+
+    getIscpChains(): IChain[] {
+        return this._chains.filter((chain) => chain.getConfiguration().type === ChainType.Iscp)
     }
 
     addChain(chainConfiguration: ChainConfiguration): IChain {
@@ -71,19 +75,19 @@ export class StardustNetwork implements INetwork {
         const network = get(activeProfile)?.network
         return network.chainConfigurations.some((chain) => {
             const hasSameName = chain.name === chainConfiguration.name
-            const hasSameChainId = chain.chainId === chainConfiguration.chainId
-            return hasSameName || hasSameChainId
+            const hasSameId = chain.id === chainConfiguration.id
+            return hasSameName || hasSameId
         })
     }
 
-    editChain(chainId: number, payload: Partial<ChainConfiguration>): Promise<void> {
+    editChain(networkId: NetworkId, payload: Partial<ChainConfiguration>): Promise<void> {
         return Promise.resolve()
     }
 
-    removeChain(chainId: number): void {
+    removeChain(networkId: NetworkId): void {
         const network = get(activeProfile).network
         const newChains = network.chainConfigurations.filter(
-            (chainConfiguration) => chainConfiguration.chainId !== chainId
+            (chainConfiguration) => chainConfiguration.id !== networkId
         )
         updateActiveProfile({ network: { ...network, chainConfigurations: newChains } })
     }

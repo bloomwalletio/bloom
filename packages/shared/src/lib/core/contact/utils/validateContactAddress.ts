@@ -1,13 +1,10 @@
 import { localize } from '@core/i18n'
-import { DestinationNetwork } from '@core/layer-2/enums'
-import { getNetworkHrp } from '@core/profile/actions'
-import { isValidBech32AddressAndPrefix, validateEthereumAddress } from '@core/utils/crypto'
 import { IValidationOptions } from '@core/utils/interfaces'
-import { isAccountAddress } from '@core/wallet/utils'
-
+import { isAccountAddress, isValidAddressFormatForNetwork } from '@core/account/actions'
 import { ContactManager } from '../classes'
+import { NetworkId } from '@core/network'
 
-export function validateContactAddress(options: IValidationOptions, networkId: string): void {
+export function validateContactAddress(options: IValidationOptions, networkId: NetworkId): void {
     const { isRequired, mustBeUnique } = options
 
     const address = options?.value as string
@@ -15,21 +12,12 @@ export function validateContactAddress(options: IValidationOptions, networkId: s
         throw new Error(localize('error.input.required', { field: localize('general.address') }))
     }
 
-    switch (networkId) {
-        case DestinationNetwork.Shimmer:
-        case DestinationNetwork.Testnet:
-            if (!isValidBech32AddressAndPrefix(address, getNetworkHrp())) {
-                throw new Error(localize('error.address.invalidBech32Format'))
-            }
-            break
-        case DestinationNetwork.ShimmerEvm:
-        case DestinationNetwork.ShimmerEvmTestnet: {
-            validateEthereumAddress(address)
-            break
-        }
+    const addressFormatError = isValidAddressFormatForNetwork(address, networkId)
+    if (addressFormatError) {
+        throw new Error(addressFormatError)
     }
 
-    if (isAccountAddress(address, networkId as DestinationNetwork)) {
+    if (isAccountAddress(address, networkId)) {
         throw new Error(localize('error.address.belongsToAccount'))
     }
 

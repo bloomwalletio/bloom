@@ -2,15 +2,16 @@ import type { FeatureTypes, TokenSchemeTypes, UnlockConditionTypes } from '@iota
 import type { BuildFoundryOutputData } from '@iota/wallet'
 import { Converter } from '@core/utils'
 import { ADDRESS_TYPE_ALIAS, FEATURE_TYPE_METADATA, UNLOCK_CONDITION_IMMUTABLE_ALIAS } from '../constants'
-import { IIrc30Metadata } from '../interfaces'
 import { convertBech32ToHexAddress } from './convertBech32ToHexAddress'
+import { getSerialNumberFromAliasOutput } from '@core/activity/utils/outputs/getSerialNumberFromAliasOutput'
+import { IIrc30Metadata } from '@core/token/interfaces'
 
-export function buildFoundryOutputData(
+export async function buildFoundryOutputData(
     totalSupply: number,
     circulatingSupply: number,
     metadata: IIrc30Metadata,
     aliasId: string
-): BuildFoundryOutputData {
+): Promise<BuildFoundryOutputData> {
     const unlockConditions: UnlockConditionTypes[] = [
         {
             type: UNLOCK_CONDITION_IMMUTABLE_ALIAS,
@@ -34,8 +35,10 @@ export function buildFoundryOutputData(
         },
     ]
 
+    const serialNumber = await getSerialNumberFromAliasOutput(aliasId)
+
     return {
-        serialNumber: 0,
+        serialNumber,
         tokenScheme,
         immutableFeatures,
         unlockConditions,

@@ -3,7 +3,7 @@
     import { DateTimePicker } from '@ui'
     import { localize } from '@core/i18n'
     import { isValidExpirationDateTime, MILLISECONDS_PER_SECOND, SECONDS_PER_MINUTE } from '@core/utils'
-    import { showAppNotification } from '@auxiliary/notification'
+    import { showNotification } from '@auxiliary/notification'
 
     export let value: Date = new Date(Date.now() + 5 * SECONDS_PER_MINUTE * MILLISECONDS_PER_SECOND)
 
@@ -17,9 +17,9 @@
         if (isValidExpirationDateTime(value)) {
             dispatch('confirm')
         } else {
-            showAppNotification({
-                type: 'warning',
-                message: localize('warning.transaction.invalidExpirationDateTime'),
+            showNotification({
+                variant: 'warning',
+                text: localize('warning.transaction.invalidExpirationDateTime'),
             })
         }
     }

@@ -1,23 +1,24 @@
 <script lang="ts">
-    import { closePopup } from '@desktop/auxiliary/popup'
-    import { getSelectedAccount, selectedAccount, selectedAccountIndex } from '@core/account'
+    import { selectedAccount } from '@core/account/stores'
     import { handleError } from '@core/error/handlers'
     import { localize } from '@core/i18n'
-    import { SendFlowType, sendFlowParameters } from '@core/wallet/stores'
+    import { EvmTransactionData } from '@core/layer-2'
+    import { IChain, getActiveNetworkId, getNetwork } from '@core/network'
+    import { truncateString } from '@core/utils'
+    import { Output, SendFlowParameters, SubjectType } from '@core/wallet'
     import {
         createEvmTransactionFromSendFlowParameters,
         createStardustOutputFromSendFlowParameters,
         sendOutputFromStardust,
         sendTransactionFromEvm,
     } from '@core/wallet/actions'
+    import { getNetworkIdFromSendFlowParameters } from '@core/wallet/actions/getNetworkIdFromSendFlowParameters'
+    import { sendFlowParameters } from '@core/wallet/stores'
+    import { closePopup } from '@desktop/auxiliary/popup'
+    import { onMount } from 'svelte'
     import { sendFlowRouter } from '../send-flow.router'
     import SendFlowTemplate from './SendFlowTemplate.svelte'
     import { EvmTransactionSummary, StardustTransactionSummary } from './components'
-    import { truncateString } from '@core/utils'
-    import { Output, SendFlowParameters } from '@core/wallet'
-    import { IChain, getNetwork } from '@core/network'
-    import { EvmTransactionData } from '@core/layer-2'
-    import { onMount } from 'svelte'
 
     export let _onMount: (..._: any[]) => Promise<void> = async () => {}
 
@@ -31,22 +32,25 @@
     let chain: IChain | undefined
 
     async function updateSendFlow(sendFlowParameters: SendFlowParameters): Promise<void> {
-        const { recipient, type } = sendFlowParameters
+        const { recipient } = sendFlowParameters
 
         recipientAddress =
-            recipient.type === 'account' ? recipient.account.name : truncateString(recipient?.address, 6, 6)
+            recipient.type === SubjectType.Account ? recipient.account.name : truncateString(recipient?.address, 6, 6)
 
-        const chainId =
-            type === SendFlowType.TokenTransfer
-                ? sendFlowParameters.tokenTransfer.asset?.chainId
-                : sendFlowParameters.baseCoinTransfer?.asset?.chainId
-        if (chainId) {
-            chain = getNetwork()?.getChain(chainId)
-            const account = getSelectedAccount()
+        const networkId = getNetworkIdFromSendFlowParameters(sendFlowParameters)
+        if (networkId !== getActiveNetworkId()) {
+            chain = getNetwork()?.getChain(networkId)
 
-            preparedTransaction = await createEvmTransactionFromSendFlowParameters(sendFlowParameters, chain, account)
+            preparedTransaction = await createEvmTransactionFromSendFlowParameters(
+                sendFlowParameters,
+                chain,
+                $selectedAccount
+            )
         } else {
-            preparedOutput = await createStardustOutputFromSendFlowParameters(sendFlowParameters, $selectedAccountIndex)
+            preparedOutput = await createStardustOutputFromSendFlowParameters(
+                sendFlowParameters,
+                $selectedAccount.index
+            )
         }
     }
 

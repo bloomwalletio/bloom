@@ -1,13 +1,14 @@
 import { activeProfileId } from '@core/profile/stores/active-profile-id.store'
-import { NetworkId } from '@core/network/enums'
-import { FALLBACK_GAS_BUDGET } from '@core/layer-2/constants'
+import { SupportedNetworkId } from '@core/network/enums'
+import { FALLBACK_ESTIMATED_GAS } from '@core/layer-2/constants'
 import { getOutputParameters } from '../utils'
-import { ReturnStrategy, TokenStandard, VerifiedStatus } from '../enums'
-import { IAsset, IPersistedAsset } from '../interfaces'
+import { ReturnStrategy, SubjectType } from '../enums'
+import { IToken, IPersistedToken } from '@core/token/interfaces'
+import { TokenStandard, VerifiedStatus } from '@core/token/enums'
 import { SendFlowType } from '../stores'
 import { SendFlowParameters } from '../types'
 
-const PERSISTED_ASSET_SHIMMER: IPersistedAsset = {
+const PERSISTED_ASSET_SHIMMER: IPersistedToken = {
     id: '1',
     standard: TokenStandard.BaseToken,
     hidden: false,
@@ -20,7 +21,7 @@ const timelockDate = new Date('2023-03-15T08:04:34.932Z')
 const recipientAddress = 'rms1qqqp07ychhkc3u68ueug0zqq9g0wtfgeatynr6ksm9jwud30rvlkyqnhpl5'
 const senderAddress = 'rms1abcp07ychhkc3u68ueug0zqq9g0wtfgeatynr6ksm9jwud30rvlkyqnhdef'
 const amount = '1000000000'
-const nativeTokenAsset: IAsset = {
+const nativeTokenAsset: IToken = {
     id: '0x08cd4dcad7ccc383111942671ee8cdc487ddd250398331ca2692b8b1a81551a1c30100000000',
     chainId: 60,
     standard: 'erc20',
@@ -60,25 +61,25 @@ const testNft = {
 const baseTransaction: SendFlowParameters = {
     type: SendFlowType.BaseCoinTransfer,
     baseCoinTransfer: {
-        asset: PERSISTED_ASSET_SHIMMER,
+        token: PERSISTED_ASSET_SHIMMER,
         rawAmount: amount,
         unit: 'glow',
     },
     recipient: {
-        type: 'address',
+        type: SubjectType.Address,
         address: recipientAddress,
     },
 }
 
-jest.mock('../stores/persisted-assets.store', () => ({
-    getPersistedAsset: jest.fn(() => PERSISTED_ASSET_SHIMMER),
+jest.mock('@core/token/stores/persisted-tokens.store', () => ({
+    getPersistedToken: jest.fn(() => PERSISTED_ASSET_SHIMMER),
     getAssetById: jest.fn((id) => (id === PERSISTED_ASSET_SHIMMER.id ? PERSISTED_ASSET_SHIMMER : nativeTokenAsset)),
 }))
 
-jest.mock('../actions/getAccountAssetsForSelectedAccount', () => ({
-    getAccountAssetsForSelectedAccount: jest.fn((_) => {
+jest.mock('@core/token/actions/getAccountTokensForSelectedAccount', () => ({
+    getAccountTokensForSelectedAccount: jest.fn((_) => {
         return {
-            [NetworkId.Testnet]: {
+            [SupportedNetworkId.Testnet]: {
                 baseCoin: PERSISTED_ASSET_SHIMMER,
                 nativeTokens: [nativeTokenAsset],
             },
@@ -91,7 +92,7 @@ jest.mock('../../profile/actions/active-profile/getCoinType', () => ({
 }))
 
 jest.mock('../../layer-2/utils/estimateGasForLayer1ToLayer2Transaction', () => ({
-    estimateGasForLayer1ToLayer2Transaction: jest.fn(() => FALLBACK_GAS_BUDGET.toJSNumber()),
+    estimateGasForLayer1ToLayer2Transaction: jest.fn(() => FALLBACK_ESTIMATED_GAS.toJSNumber()),
 }))
 
 describe('File: getOutputParameters.ts', () => {
@@ -178,12 +179,12 @@ describe('File: getOutputParameters.ts', () => {
             type: SendFlowType.TokenTransfer,
             expirationDate,
             baseCoinTransfer: {
-                asset: PERSISTED_ASSET_SHIMMER,
+                token: PERSISTED_ASSET_SHIMMER,
                 rawAmount: '0',
                 unit: 'glow',
             },
             tokenTransfer: {
-                asset: nativeTokenAsset,
+                token: nativeTokenAsset,
                 rawAmount: amount,
             },
         }
@@ -214,13 +215,12 @@ describe('File: getOutputParameters.ts', () => {
             layer2Parameters,
         }
         const output = await getOutputParameters(sendFlowParameters)
-        console.log((Number(FALLBACK_GAS_BUDGET) + Number(amount)).toString())
         const expectedOutput = {
             recipientAddress: layer2Parameters.networkAddress,
-            amount: (Number(FALLBACK_GAS_BUDGET) + Number(amount)).toString(),
+            amount: (Number(FALLBACK_ESTIMATED_GAS) + Number(amount)).toString(),
             features: {
                 metadata:
-                    '0x00000000025e4b3ca1e3f423a08d06010161200300010000070c000c30680e00000090000f0ea000060009000d300000000000808094ebdc03',
+                    '0x00000000025e4b3ca1e3f423c09a0c010161200300010000070c000c30680e00000090000f0ea000060009000d300000000000808094ebdc03',
                 sender: senderAddress,
             },
             unlocks: { expirationUnixTime: 1680163475 },
@@ -235,12 +235,12 @@ describe('File: getOutputParameters.ts', () => {
             type: SendFlowType.TokenTransfer,
             expirationDate,
             baseCoinTransfer: {
-                asset: PERSISTED_ASSET_SHIMMER,
+                token: PERSISTED_ASSET_SHIMMER,
                 rawAmount: '0',
                 unit: 'glow',
             },
             tokenTransfer: {
-                asset: nativeTokenAsset,
+                token: nativeTokenAsset,
                 rawAmount: amount,
             },
             layer2Parameters,
@@ -249,7 +249,7 @@ describe('File: getOutputParameters.ts', () => {
 
         const expectedOutput = {
             recipientAddress: layer2Parameters.networkAddress,
-            amount: FALLBACK_GAS_BUDGET.toString(),
+            amount: FALLBACK_ESTIMATED_GAS.toString(),
             assets: {
                 nativeTokens: [
                     {
@@ -260,7 +260,7 @@ describe('File: getOutputParameters.ts', () => {
             },
             features: {
                 metadata:
-                    '0x00000000025e4b3ca1e3f423a08d06010161200300010000070c000c30680e00000090000f0ea000060009000d300000000000400108cd4dcad7ccc383111942671ee8cdc487ddd250398331ca2692b8b1a81551a1c30100000000043b9aca00',
+                    '0x00000000025e4b3ca1e3f423c09a0c010161200300010000070c000c30680e00000090000f0ea000060009000d300000000000400108cd4dcad7ccc383111942671ee8cdc487ddd250398331ca2692b8b1a81551a1c30100000000043b9aca00',
                 sender: senderAddress,
             },
             unlocks: { expirationUnixTime: 1680163475 },
@@ -280,13 +280,13 @@ describe('File: getOutputParameters.ts', () => {
 
         const expectedOutput = {
             recipientAddress: layer2Parameters.networkAddress,
-            amount: FALLBACK_GAS_BUDGET.toString(),
+            amount: FALLBACK_ESTIMATED_GAS.toString(),
             assets: {
                 nftId,
             },
             features: {
                 metadata:
-                    '0x00000000025e4b3ca1e3f423a08d06010161200300010000070c000c30680e00000090000f0ea000060009000d3000000000002001cd9430ff870a22f81f92428e5c06975fa3ec1a993331aa3db9fb2298e931ade1',
+                    '0x00000000025e4b3ca1e3f423c09a0c010161200300010000070c000c30680e00000090000f0ea000060009000d3000000000002001cd9430ff870a22f81f92428e5c06975fa3ec1a993331aa3db9fb2298e931ade1',
                 sender: senderAddress,
             },
             unlocks: {},
@@ -323,12 +323,12 @@ describe('File: getOutputParameters.ts', () => {
             type: SendFlowType.TokenTransfer,
             expirationDate,
             baseCoinTransfer: {
-                asset: PERSISTED_ASSET_SHIMMER,
+                token: PERSISTED_ASSET_SHIMMER,
                 rawAmount: surplus,
                 unit: 'glow',
             },
             tokenTransfer: {
-                asset: nativeTokenAsset,
+                token: nativeTokenAsset,
                 rawAmount: amount,
             },
         }

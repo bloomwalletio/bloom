@@ -2,7 +2,7 @@ import { ParticipationEventMap, ParticipationEventRegistrationOptions } from '@i
 import { IAccountState } from '@core/account/interfaces'
 
 import { addProposalsFromParticipationEventMap } from './addProposalsFromParticipationEventMap'
-import { getSelectedAccount } from '@core/account'
+import { getSelectedAccount } from '@core/account/stores'
 
 export async function registerParticipationEvents(
     registrationOptions: ParticipationEventRegistrationOptions,

@@ -1,11 +1,15 @@
 <script lang="ts">
+    import {
+        EvmTransactionData,
+        calculateEstimatedGasFeeFromTransactionData,
+        calculateMaxGasFeeFromTransactionData,
+    } from '@core/layer-2'
     import { getDestinationNetworkFromAddress } from '@core/layer-2/utils'
-    import { SendFlowType } from '@core/wallet/stores'
-    import EvmTransactionDetails from './EvmTransactionDetails.svelte'
-    import TransactionAssetSection from './TransactionAssetSection.svelte'
-    import { EvmTransactionData } from '@core/layer-2'
-    import { SendFlowParameters, TokenTransferData } from '@core/wallet'
     import { INft } from '@core/nfts'
+    import { SendFlowParameters, TokenTransferData } from '@core/wallet'
+    import { SendFlowType } from '@core/wallet/stores'
+    import { TransactionAssetSection } from '@ui'
+    import EvmTransactionDetails from './EvmTransactionDetails.svelte'
 
     export let transaction: EvmTransactionData
     export let sendFlowParameters: SendFlowParameters
@@ -31,5 +35,9 @@
         {...getTransactionAsset(sendFlowParameters)}
     />
 
-    <EvmTransactionDetails gasBudget={Number(transaction.gasLimit)} {destinationNetwork} />
+    <EvmTransactionDetails
+        {destinationNetwork}
+        estimatedGasFee={calculateEstimatedGasFeeFromTransactionData(transaction)}
+        maxGasFee={calculateMaxGasFeeFromTransactionData(transaction)}
+    />
 </div>

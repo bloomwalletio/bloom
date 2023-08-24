@@ -1,19 +1,12 @@
 <script lang="ts">
-    import { onMount } from 'svelte'
-    import { get } from 'svelte/store'
-    import { Button, KeyValueBox, Text, TextType, TextHint } from '@ui'
-    import {
-        appUpdateBusy,
-        checkForAppUpdate,
-        downloadAppUpdate,
-        appVersionDetails,
-        platform,
-        appStage,
-        openUrlInBrowser,
-    } from '@core/app'
+    import { APP_STAGE, OS, checkForAppUpdate, openUrlInBrowser } from '@core/app'
+    import { downloadAppUpdate } from '@core/app/actions'
+    import { appUpdateState, appVersionDetails } from '@core/app/stores'
     import { formatDate, localize } from '@core/i18n'
     import { closePopup } from '@desktop/auxiliary/popup'
     import features from '@features/features'
+    import { Button, KeyValueBox, Text, TextHint, TextType } from '@ui'
+    import { onMount } from 'svelte'
 
     let hasAutoUpdate = false
 
@@ -34,7 +27,7 @@
         if (process.env.NODE_ENV !== 'development') {
             checkForAppUpdate()
         }
-        hasAutoUpdate = features.electron.autoUpdate[$platform]?.enabled
+        hasAutoUpdate = features.electron.autoUpdate[OS]?.enabled
     })
 </script>
 
@@ -47,7 +40,7 @@
         />
         <KeyValueBox
             keyText={localize('popups.appUpdate.stage')}
-            valueText={localize(`popups.appUpdate.${get(appStage)}`)}
+            valueText={localize(`popups.appUpdate.${APP_STAGE}`)}
         />
         {#if $appVersionDetails.upToDate}
             <TextHint success classes="w-full" text={localize('popups.appUpdate.latestInstalled')} />
@@ -73,7 +66,7 @@
             >{localize('actions.cancel')}</Button
         >
         {#if hasAutoUpdate && !$appVersionDetails.upToDate}
-            <Button classes="w-1/2" onClick={onDownloadClick} disabled={$appUpdateBusy}>
+            <Button classes="w-1/2" onClick={onDownloadClick} disabled={$appUpdateState.busy}>
                 {localize('actions.updateFirefly')}
             </Button>
         {:else if !$appVersionDetails.upToDate}

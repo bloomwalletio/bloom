@@ -7,7 +7,8 @@ import { getAccountTokensForSelectedAccount } from '../actions/getAccountTokensF
 import { DEFAULT_ASSET_FILTER } from '../constants'
 import { IToken, TokenFilter } from '../interfaces'
 import { persistedTokens } from './persisted-tokens.store'
-import { AccountTokens } from '../interfaces/account-tokens.interface'
+import { AccountTokens, IAccountTokensPerNetwork } from '../interfaces/account-tokens.interface'
+import { NetworkId } from '@core/network'
 
 export const tokenFilter: Writable<TokenFilter> = writable(DEFAULT_ASSET_FILTER)
 
@@ -26,10 +27,11 @@ export const visibleSelectedAccountTokens: Readable<AccountTokens> = derived(
     [selectedAccountTokens],
     ([$selectedAccountTokens]) => {
         const visibleTokens: AccountTokens = {}
-        for (const networkId of Object.keys($selectedAccountTokens)) {
-            const visible = {
-                baseCoin: $selectedAccountTokens[networkId].baseCoin,
-                nativeTokens: $selectedAccountTokens[networkId].nativeTokens.filter((asset) => !asset.hidden),
+        for (const _networkId of Object.keys($selectedAccountTokens)) {
+            const networkId = _networkId as NetworkId
+            const visible: IAccountTokensPerNetwork = {
+                baseCoin: $selectedAccountTokens[networkId]?.baseCoin,
+                nativeTokens: $selectedAccountTokens[networkId]?.nativeTokens.filter((asset) => !asset.hidden) ?? [],
             }
             visibleTokens[networkId] = visible
         }
@@ -37,7 +39,7 @@ export const visibleSelectedAccountTokens: Readable<AccountTokens> = derived(
     }
 )
 
-export function getTokenFromSelectedAccountTokens(tokenId: string, networkId: string | number): IToken | undefined {
+export function getTokenFromSelectedAccountTokens(tokenId: string, networkId: NetworkId): IToken | undefined {
     const tokens = get(selectedAccountTokens)[networkId]
     const { baseCoin, nativeTokens } = tokens ?? {}
     if (tokenId === baseCoin?.id) {

@@ -1,5 +1,5 @@
 import { writable } from 'svelte/store'
-import { IDrawerState } from '../interfaces'
 import { DEFAULT_DRAWER_STATE } from '../constants'
+import { DrawerState } from '../types'
 
-export const drawerState = writable<IDrawerState>(DEFAULT_DRAWER_STATE)
+export const drawerState = writable<DrawerState>(DEFAULT_DRAWER_STATE)

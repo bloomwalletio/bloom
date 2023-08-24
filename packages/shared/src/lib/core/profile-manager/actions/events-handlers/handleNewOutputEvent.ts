@@ -1,40 +1,38 @@
 import { syncBalance } from '@core/account/actions/syncBalance'
-import { addOrUpdateNftInAllAccountNfts, buildNftFromNftOutput, addNftsToDownloadQueue } from '@core/nfts'
+import { checkAndRemoveProfilePicture } from '@core/profile/actions'
 import { activeAccounts } from '@core/profile/stores'
-import {
-    ActivityType,
-    IWrappedOutput,
-    addPersistedAsset,
-    generateActivities,
-    getOrRequestAssetFromPersistedAssets,
-} from '@core/wallet'
+import { IWrappedOutput } from '@core/wallet/interfaces'
 import { OUTPUT_TYPE_ALIAS, OUTPUT_TYPE_NFT } from '@core/wallet/constants'
 import {
     addActivitiesToAccountActivitiesInAllAccountActivities,
     allAccountActivities,
-} from '@core/wallet/stores/all-account-activities.store'
+} from '@core/activity/stores/all-account-activities.store'
+import { generateActivities } from '@core/activity/utils'
+import { preprocessGroupedOutputs } from '@core/activity/utils/outputs'
 import { getBech32AddressFromAddressTypes } from '@core/wallet/utils/getBech32AddressFromAddressTypes'
-import { preprocessGroupedOutputs } from '@core/wallet/utils/outputs/preprocessGroupedOutputs'
+import { Event, NewOutputWalletEvent, WalletEventType } from '@iota/wallet/out/types'
 import { get } from 'svelte/store'
-import { WalletApiEvent } from '../../enums'
-import { INewOutputEventPayload } from '../../interfaces'
 import { validateWalletApiEvent } from '../../utils'
-import { checkAndRemoveProfilePicture } from '@core/profile/actions'
+import { ActivityType } from '@core/activity/enums'
+import { getOrRequestTokenFromPersistedTokens } from '@core/token/actions'
+import { addPersistedToken } from '@core/token/stores'
+import { addNftsToDownloadQueue, addOrUpdateNftInAllAccountNfts, buildNftFromNftOutput } from '@core/nfts/actions'
+import { getActiveNetworkId } from '@core/network'
 
-export function handleNewOutputEvent(error: Error, rawEvent: string): void {
-    const { accountIndex, payload } = validateWalletApiEvent(error, rawEvent, WalletApiEvent.NewOutput)
-    /* eslint-disable @typescript-eslint/no-unnecessary-type-assertion */
-    void handleNewOutputEventInternal(accountIndex, payload as INewOutputEventPayload)
+export function handleNewOutputEvent(error: Error, event: Event): void {
+    const walletEvent = validateWalletApiEvent<NewOutputWalletEvent>(error, event, WalletEventType.NewOutput)
+    void handleNewOutputEventInternal(event.accountIndex, walletEvent)
 }
 
 export async function handleNewOutputEventInternal(
     accountIndex: number,
-    payload: INewOutputEventPayload
+    walletEvent: NewOutputWalletEvent
 ): Promise<void> {
     const account = get(activeAccounts)?.find((account) => account.index === accountIndex)
-    const output = payload?.output
+    const networkId = getActiveNetworkId()
+    const output = walletEvent?.output
 
-    if (!account || !output) return
+    if (!account || !output || !networkId) return
 
     const address = getBech32AddressFromAddressTypes(output?.address)
     const isNewAliasOutput =
@@ -46,13 +44,13 @@ export async function handleNewOutputEventInternal(
     if ((account?.depositAddress === address && !output?.remainder) || isNewAliasOutput) {
         await syncBalance(account.index)
 
-        const processedOutput = preprocessGroupedOutputs([output], payload?.transactionInputs ?? [], account)
+        const processedOutput = preprocessGroupedOutputs([output], walletEvent?.transactionInputs ?? [], account)
 
-        const activities = generateActivities(processedOutput, account)
+        const activities = generateActivities(processedOutput, account, networkId)
         for (const activity of activities) {
             if (activity.type === ActivityType.Basic || activity.type === ActivityType.Foundry) {
-                const asset = await getOrRequestAssetFromPersistedAssets(activity.assetId)
-                addPersistedAsset(asset)
+                const token = await getOrRequestTokenFromPersistedTokens(activity.tokenId)
+                addPersistedToken(token)
             }
         }
         addActivitiesToAccountActivitiesInAllAccountActivities(account.index, activities)

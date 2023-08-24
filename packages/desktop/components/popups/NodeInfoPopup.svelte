@@ -4,7 +4,7 @@
     import { formatNumber, localize } from '@core/i18n'
     import { INode, INodeInfo } from '@core/network'
     import { closePopup } from '@desktop/auxiliary/popup'
-    import { showAppNotification } from '@auxiliary/notification'
+    import { showNotification } from '@auxiliary/notification'
     import { resolveObjectPath, setClipboard } from '@core/utils'
     import { getNodeInfo } from '@core/profile-manager'
 
@@ -116,9 +116,9 @@
             })
             .catch((err) => {
                 closePopup()
-                showAppNotification({
-                    type: 'error',
-                    message: localize(err?.error),
+                showNotification({
+                    variant: 'error',
+                    text: localize(err?.error),
                 })
             })
     })

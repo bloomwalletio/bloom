@@ -1,6 +1,7 @@
 <script lang="ts">
+    import { shouldBeDarkMode } from '@core/app'
+    import { appSettings } from '@core/app/stores'
     import { Animation } from '@ui'
-    import { appSettings, shouldBeDarkMode, mobile } from '@core/app'
     import { onMount } from 'svelte'
 
     /**
@@ -16,7 +17,7 @@
 </script>
 
 <div class="w-full h-full flex justify-center items-center bg-white dark:bg-gray-900">
-    <div class={$mobile ? 'w-full px-4' : 'w-1/3'}>
+    <div class="w-1/3">
         <Animation classes="w-full h-auto" animation="splashscreen-desktop" loop={false} renderer="canvas" />
     </div>
 </div>

@@ -70,7 +70,11 @@
 {/if}
 
 <style lang="scss">
-    $variants: info blue, success green, warning yellow, error red;
+    $variants:
+        info 'blue',
+        success 'green',
+        warning 'yellow',
+        error 'red';
 
     button {
         @apply w-full flex flex-row justify-between items-center p-3;
@@ -84,7 +88,7 @@
 
             @each $variant, $color in $variants {
                 &.#{$variant} {
-                    @apply hover:bg-#{$color}-50 hover:bg-#{$color}-800 dark:hover:bg-opacity-20;
+                    @apply hover:bg-#{$color}-50 dark:hover:bg-#{$color}-800 dark:hover:bg-opacity-20;
                 }
             }
         }

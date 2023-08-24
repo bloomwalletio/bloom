@@ -1,13 +1,16 @@
-import { COIN_TYPE, DEFAULT_BASE_TOKEN } from '../constants'
-import { NetworkId, TokenSupply } from '../enums'
+import { DEFAULT_COIN_TYPE, DEFAULT_BASE_TOKEN } from '../constants'
+import { NetworkNamespace, SupportedNetworkId, StardustNetworkName, TokenSupply } from '../enums'
 import { IStardustNetworkMetadata } from '../interfaces'
-import { NetworkMetadata } from '../types'
+import { NetworkId, NetworkMetadata } from '../types'
 
+// TODO: Should this be reverted back to a object with all metadata for any network (or chain?)
 export const DEFAULT_NETWORK_METADATA: Readonly<{ [key in NetworkId]?: NetworkMetadata }> = {
-    [NetworkId.Shimmer]: <IStardustNetworkMetadata>{
-        id: NetworkId.Shimmer,
+    [SupportedNetworkId.Shimmer]: <IStardustNetworkMetadata>{
+        id: SupportedNetworkId.Shimmer,
         name: 'Shimmer',
-        coinType: COIN_TYPE[NetworkId.Shimmer],
+        networkName: StardustNetworkName.Shimmer,
+        namespace: NetworkNamespace.Stardust,
+        coinType: DEFAULT_COIN_TYPE[SupportedNetworkId.Shimmer],
         protocol: {
             version: 2,
             networkName: 'shimmer',
@@ -21,12 +24,14 @@ export const DEFAULT_NETWORK_METADATA: Readonly<{ [key in NetworkId]?: NetworkMe
             },
             tokenSupply: TokenSupply.Shimmer,
         },
-        baseToken: DEFAULT_BASE_TOKEN[NetworkId.Shimmer],
+        baseToken: DEFAULT_BASE_TOKEN[SupportedNetworkId.Shimmer],
     },
-    [NetworkId.Testnet]: <IStardustNetworkMetadata>{
-        id: NetworkId.Testnet,
+    [SupportedNetworkId.Testnet]: <IStardustNetworkMetadata>{
+        id: SupportedNetworkId.Testnet,
         name: 'Testnet',
-        coinType: COIN_TYPE[NetworkId.Testnet],
+        networkName: StardustNetworkName.Testnet,
+        namespace: NetworkNamespace.Stardust,
+        coinType: DEFAULT_COIN_TYPE[SupportedNetworkId.Testnet],
         protocol: {
             version: 2,
             networkName: 'testnet',
@@ -40,6 +45,6 @@ export const DEFAULT_NETWORK_METADATA: Readonly<{ [key in NetworkId]?: NetworkMe
             },
             tokenSupply: TokenSupply.Testnet,
         },
-        baseToken: DEFAULT_BASE_TOKEN[NetworkId.Testnet],
+        baseToken: DEFAULT_BASE_TOKEN[SupportedNetworkId.Testnet],
     },
 }

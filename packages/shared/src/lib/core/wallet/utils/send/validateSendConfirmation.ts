@@ -1,8 +1,8 @@
-import { getSelectedAccount } from '@core/account'
 import { InsufficientFundsForStorageDepositError, InvalidExpirationDateTimeError } from '@contexts/wallet'
+import { getSelectedAccount } from '@core/account/stores'
 import { convertUnixTimestampToDate, isValidExpirationDateTime } from '@core/utils'
-import { Output } from '@core/wallet/types'
 import { UNLOCK_CONDITION_EXPIRATION } from '@core/wallet/constants'
+import { Output } from '@core/wallet/types'
 import { IExpirationUnlockCondition } from '@iota/types'
 
 export function validateSendConfirmation(output: Output): void {

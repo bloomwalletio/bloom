@@ -1,13 +1,20 @@
-import { getSelectedAccount, updateSelectedAccount } from '@core/account'
+import { getSelectedAccount, updateSelectedAccount } from '@core/account/stores'
 import { updateNftInAllAccountNfts } from '@core/nfts/actions'
 
+import { processAndAddToActivities } from '@core/activity/utils'
 import { DEFAULT_TRANSACTION_OPTIONS, OUTPUT_TYPE_NFT } from '../constants'
 import { Output } from '../types'
-import { processAndAddToActivities } from '../utils'
+import { getActiveNetworkId } from '@core/network'
+import { localize } from '@core/i18n'
 
 export async function sendOutput(output: Output): Promise<void> {
     try {
         const account = getSelectedAccount()
+        const networkId = getActiveNetworkId()
+
+        if (!networkId) {
+            throw new Error(localize('error.global.accountOrNetworkUndefined'))
+        }
 
         updateSelectedAccount({ isTransferring: true })
         const transaction = await account.sendOutputs([output], DEFAULT_TRANSACTION_OPTIONS)
@@ -16,7 +23,7 @@ export async function sendOutput(output: Output): Promise<void> {
             updateNftInAllAccountNfts(account.index, output.nftId, { isSpendable: false })
         }
 
-        await processAndAddToActivities(transaction, account)
+        await processAndAddToActivities(transaction, account, networkId)
         updateSelectedAccount({ isTransferring: false })
         return
     } catch (err) {

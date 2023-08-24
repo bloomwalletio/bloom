@@ -12,6 +12,7 @@
     import { Router } from '@core/router'
     import { NetworkInput, TextInput } from '@ui'
     import { ContactBookRoute } from '../contact-book-route.enum'
+    import { NetworkId } from '@core/network'
 
     export let drawerRouter: Router<unknown>
 
@@ -19,13 +20,13 @@
     let networkSelectionInput: NetworkInput
     let address: string = ''
     let addressName: string = ''
-    let networkSelection: { networkId: string; address?: string } | undefined
+    let selectedNetworkId: NetworkId | undefined
 
     /**
      * NOTE: This improves UX slightly by forcing the address-related input errors
      * to be reset when the network selection changes.
      */
-    $: networkSelection?.networkId, resetErrors()
+    $: selectedNetworkId, resetErrors()
 
     let addressError,
         addressNameError,
@@ -38,7 +39,7 @@
 
     function onSaveClick(): void {
         if (validate()) {
-            ContactManager.addContactAddress($selectedContact?.id, networkSelection?.networkId, addressName, address)
+            ContactManager.addContactAddress($selectedContact?.id, selectedNetworkId, addressName, address)
             drawerRouter.previous()
         }
     }
@@ -67,10 +68,9 @@
     <add-address class="flex flex-col gap-4">
         <NetworkInput
             bind:this={networkSelectionInput}
-            bind:networkSelection
+            bind:networkId={selectedNetworkId}
             bind:error={networkSelectionError}
-            showLayer2={true}
-            validationFunction={() => validateContactNetworkSelection(networkSelection?.networkId)}
+            validationFunction={() => validateContactNetworkSelection(selectedNetworkId)}
         />
         <TextInput
             bind:this={addressNameInput}
@@ -82,7 +82,7 @@
                 validateContactAddressName(
                     { value: addressName, isRequired: true, checkLength: true, mustBeUnique: true },
                     $selectedContact?.id,
-                    networkSelection.networkId
+                    selectedNetworkId
                 )}
         />
         <TextInput
@@ -92,10 +92,7 @@
             placeholder={localize('general.address')}
             label={localize('general.address')}
             validationFunction={() =>
-                validateContactAddress(
-                    { value: address, isRequired: true, mustBeUnique: true },
-                    networkSelection?.networkId
-                )}
+                validateContactAddress({ value: address, isRequired: true, mustBeUnique: true }, selectedNetworkId)}
         />
     </add-address>
     <div slot="footer">

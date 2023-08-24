@@ -92,7 +92,7 @@ function getUtxoInputsFromWrappedInputs(wrappedInputs: IWrappedOutput[]): IUTXOI
                     type: 0,
                     transactionId: input.metadata?.transactionId,
                     transactionOutputIndex: input.metadata.outputIndex,
-                } as IUTXOInput)
+                }) as IUTXOInput
         ) ?? []
     )
 }

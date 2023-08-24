@@ -1,15 +1,13 @@
-import { get } from 'svelte/store'
-
-import { localize } from '@core/i18n'
+import { showNotification } from '@auxiliary/notification'
+import { setTotalUnclaimedShimmerRewards } from '@contexts/onboarding'
 import { IAccount } from '@core/account'
+import { localize } from '@core/i18n'
 import { getAccount, profileManager } from '@core/profile-manager'
-
+import { formatTokenAmountBestMatch } from '@core/token'
+import { get } from 'svelte/store'
 import { MissingShimmerClaimingProfileManagerError } from '../errors'
 import { prepareShimmerClaimingAccount } from '../helpers'
 import { getOnboardingBaseToken, shimmerClaimingProfileManager, updateShimmerClaimingAccount } from '../stores'
-import { setTotalUnclaimedShimmerRewards } from '@contexts/onboarding'
-import { formatTokenAmountBestMatch } from '@core/wallet/utils'
-import { showAppNotification } from '@auxiliary/notification'
 
 export async function syncShimmerClaimingAccount(account: IAccount): Promise<void> {
     const _shimmerClaimingProfileManager = get(shimmerClaimingProfileManager)
@@ -30,10 +28,9 @@ export async function syncShimmerClaimingAccount(account: IAccount): Promise<voi
         const foundRewardsAmount = syncedShimmerClaimingAccount?.unclaimedRewards
         const foundRewardsAmountFormatted = formatTokenAmountBestMatch(foundRewardsAmount, getOnboardingBaseToken())
 
-        showAppNotification({
-            type: 'success',
-            alert: true,
-            message: localize('views.onboarding.shimmerClaiming.success.successfullyFound', {
+        showNotification({
+            variant: 'success',
+            text: localize('views.onboarding.shimmerClaiming.success.successfullyFound', {
                 values: { amount: foundRewardsAmountFormatted },
             }),
         })

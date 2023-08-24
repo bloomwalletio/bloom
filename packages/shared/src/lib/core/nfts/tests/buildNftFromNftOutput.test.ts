@@ -1,6 +1,6 @@
 import { FeatureTypes, UnlockConditionTypes } from '@iota/types'
 import { IWrappedOutput } from '../../wallet/interfaces'
-import { buildNftFromNftOutput } from '../utils/buildNftFromNftOutput'
+import { buildNftFromNftOutput } from '../actions/buildNftFromNftOutput'
 import { Converter } from '../../utils/convert'
 import { Bech32Helper } from '../../utils/crypto'
 

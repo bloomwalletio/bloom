@@ -1,6 +1,6 @@
-import { AccountBalance } from '@iota/wallet'
+import { Balance } from '@iota/wallet'
 
-import { getDepositAddress } from '@core/account/utils'
+import { getDepositAddress } from '@core/account/utils/getDepositAddress'
 import {
     getActiveProfilePersistedEvmAddressesByAccountIndex,
     updateAccountPersistedDataOnActiveProfile,
@@ -12,7 +12,7 @@ export async function buildAccountState(
     account: IAccount,
     accountPersistedData: IPersistedAccountData
 ): Promise<IAccountState> {
-    let balances: AccountBalance = {
+    let balances: Balance = {
         baseCoin: {
             total: '0',
             available: '0',

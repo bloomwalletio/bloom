@@ -1,9 +1,8 @@
 <script lang="ts">
     import { ISetting, isSettingVisible } from '@contexts/settings'
-    import { activeProfile, isActiveLedgerProfile } from '@core/profile'
+    import { activeProfile, isActiveLedgerProfile } from '@core/profile/stores'
     import { SettingsRoute } from '@core/router'
     import features from '@features/features'
-    import { HR } from '@ui'
     import { SETTINGS } from './settings.constant'
 
     export let category: SettingsRoute
@@ -28,7 +27,7 @@
             <svelte:component this={component} {...props} route={childRoute} />
         </section>
         {#if index < visibleSettings.length - 1}
-            <HR classes="justify-center" />
+            <hr />
         {/if}
     {/each}
 </div>

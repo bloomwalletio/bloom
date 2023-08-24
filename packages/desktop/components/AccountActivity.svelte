@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { time } from '@core/app'
+    import { time } from '@core/app/stores'
     import { localize } from '@core/i18n'
     import {
         activityFilter,
@@ -7,7 +7,7 @@
         queriedActivities,
         selectedAccountActivities,
         setAsyncStatusOfAccountActivities,
-    } from '@core/wallet'
+    } from '@core/activity'
     import { ActivityTile, Text, TextInput, TogglableButton, FontWeight } from '@ui'
     import { Filter } from '@components'
     import features from '@features/features'
