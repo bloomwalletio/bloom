@@ -145,7 +145,7 @@ jobs:
 
             - name: Import GPG key (Linux)
               run: |
-                  echo "$GPG_PRIVATE_KEY" | base64 -d > /tmp/private.key && \
+                  echo "$GPG_PRIVATE_KEY" > /tmp/private.key && \
                   echo "$GPG_PASSPHRASE" | gpg --batch --yes --passphrase-fd 0 --import /tmp/private.key
               env:
                   GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
