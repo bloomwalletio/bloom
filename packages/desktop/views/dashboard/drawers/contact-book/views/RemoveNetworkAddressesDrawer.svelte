@@ -8,6 +8,7 @@
     import { ContactManager, selectedContact, selectedContactNetworkId } from '@core/contact'
     import { localize } from '@core/i18n'
     import { Router } from '@core/router'
+    import { getNameFromNetworkId } from '@core/network'
 
     export let drawerRouter: Router<unknown>
 
@@ -28,7 +29,7 @@
     <remove-addresses class="flex flex-col gap-4">
         <Text>
             {localize(`views.dashboard.drawers.contactBook.${ContactBookRoute.RemoveNetworkAddresses}.body`, {
-                values: { network: $selectedContactNetworkId },
+                values: { network: getNameFromNetworkId($selectedContactNetworkId) },
             })}
         </Text>
         <TextHint
