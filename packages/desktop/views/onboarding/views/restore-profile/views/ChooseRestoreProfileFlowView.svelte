@@ -7,7 +7,7 @@
         updateOnboardingProfile,
     } from '@contexts/onboarding'
     import { localize } from '@core/i18n'
-    import { getOnboardingNetworkNameFromNetworkId } from '@core/network'
+    import { getOnboardingNetworkTypeFromNetworkId } from '@core/network'
     import { ProfileType, removeProfileFolder } from '@core/profile'
     import features from '@features/features'
     import { Animation, OnboardingButton, Text, TextType } from '@ui'
@@ -25,7 +25,7 @@
 
     $: networkId = $onboardingProfile?.network?.id
     $: displayedNetworkName = $onboardingProfile?.network?.name
-    $: networkName = getOnboardingNetworkNameFromNetworkId(networkId)
+    $: networkType = getOnboardingNetworkTypeFromNetworkId(networkId)
 
     async function onProfileTypeClick(restoreProfileType: RestoreProfileType): Promise<void> {
         isBusy = { ...isBusy, [restoreProfileType]: true }
@@ -66,8 +66,8 @@
             secondaryText={localize('views.onboarding.profileSetup.setupRecovered.importMnemonicDescription')}
             icon="language"
             busy={isBusy[RestoreProfileType.Mnemonic]}
-            hidden={features?.onboarding?.[networkName]?.restoreProfile?.recoveryPhrase?.hidden}
-            disabled={!features?.onboarding?.[networkName]?.restoreProfile?.recoveryPhrase?.enabled || isDisabled}
+            hidden={features?.onboarding?.[networkType]?.restoreProfile?.recoveryPhrase?.hidden}
+            disabled={!features?.onboarding?.[networkType]?.restoreProfile?.recoveryPhrase?.enabled || isDisabled}
             onClick={() => onProfileTypeClick(RestoreProfileType.Mnemonic)}
         />
         <OnboardingButton
@@ -75,8 +75,8 @@
             secondaryText={localize('views.onboarding.profileSetup.setupRecovered.importFileDescription')}
             icon="file"
             busy={isBusy[RestoreProfileType.Stronghold]}
-            hidden={features?.onboarding?.[networkName]?.restoreProfile?.strongholdBackup?.hidden}
-            disabled={!features?.onboarding?.[networkName]?.restoreProfile?.strongholdBackup?.enabled || isDisabled}
+            hidden={features?.onboarding?.[networkType]?.restoreProfile?.strongholdBackup?.hidden}
+            disabled={!features?.onboarding?.[networkType]?.restoreProfile?.strongholdBackup?.enabled || isDisabled}
             onClick={() => onProfileTypeClick(RestoreProfileType.Stronghold)}
         />
         <OnboardingButton
@@ -84,8 +84,8 @@
             secondaryText={localize('views.onboarding.profileSetup.setupRecovered.importLedgerDescription')}
             icon="chip"
             busy={isBusy[RestoreProfileType.Ledger]}
-            hidden={features?.onboarding?.[networkName]?.restoreProfile?.ledgerBackup?.hidden}
-            disabled={!features?.onboarding?.[networkName]?.restoreProfile?.ledgerBackup?.enabled || isDisabled}
+            hidden={features?.onboarding?.[networkType]?.restoreProfile?.ledgerBackup?.hidden}
+            disabled={!features?.onboarding?.[networkType]?.restoreProfile?.ledgerBackup?.enabled || isDisabled}
             onClick={() => onProfileTypeClick(RestoreProfileType.Ledger)}
         />
     </div>
