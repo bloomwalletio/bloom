@@ -1,10 +1,9 @@
-import { DEFAULT_BASE_TOKEN, NetworkId } from '@core/network'
+import { DEFAULT_BASE_TOKEN, SupportedNetworkId } from '@core/network'
 import { TokenStandard } from '../enums'
 import { TokenMetadata } from '../types'
 import { convertToRawAmount } from '../utils'
-import { IotaUnit } from '@core/utils'
 import Big from 'big.js'
-import { MAX_SUPPORTED_DECIMALS } from '@core//wallet/constants'
+import { MAX_SUPPORTED_DECIMALS } from '@core/wallet/constants'
 
 const WEB3_TOKEN_METADATA: TokenMetadata = {
     name: 'RAWR',
@@ -41,41 +40,24 @@ describe('File: convertToRawAmount.ts', () => {
     })
 
     describe('given the tokenMetadata standard is BaseToken', () => {
-        describe("given useMetricPrefix is true (currently IOTA's case)", () => {
-            it.each([
-                { amount: '1', unit: IotaUnit._, expected: Big('1').mul(Big(10).pow(0)) },
-                { amount: '1', unit: IotaUnit.K, expected: Big('1').mul(Big(10).pow(3)) },
-                { amount: '1', unit: IotaUnit.M, expected: Big('1').mul(Big(10).pow(6)) },
-                { amount: '1', unit: IotaUnit.G, expected: Big('1').mul(Big(10).pow(9)) },
-                { amount: '1', unit: IotaUnit.T, expected: Big('1').mul(Big(10).pow(12)) },
-                { amount: '1', unit: IotaUnit.P, expected: Big('1').mul(Big(10).pow(15)) },
-            ])('should return amount * $expected when unit is $unit', ({ amount, unit, expected }) => {
-                expect(convertToRawAmount(amount, DEFAULT_BASE_TOKEN[NetworkId.Iota], unit)).toStrictEqual(expected)
-            })
-            it("should treat unit as 'i' and return Big(amount) if the unit provided isn't in the IotaUnit enum", () => {
-                expect(convertToRawAmount('1', DEFAULT_BASE_TOKEN[NetworkId.Iota], 'test')).toStrictEqual(Big('1'))
-            })
-            it("should treat unit as 'i' and return Big(amount) if a unit isn't provided", () => {
-                expect(convertToRawAmount('1', DEFAULT_BASE_TOKEN[NetworkId.Iota])).toStrictEqual(Big('1'))
-            })
-        })
         describe("given useMetricPrefix is false (currently Shimmer's case)", () => {
+            const networkId = SupportedNetworkId.Shimmer
             it("should return Big(amount) * decimal property if selectedUnit is unit and baseToken's decimal is less than MAX_SUPPORTED_DECIMALS", () => {
-                let value = convertToRawAmount('1', DEFAULT_BASE_TOKEN[NetworkId.Shimmer], 'SMR')
-                expect(value).toStrictEqual(Big('1').mul(Big(10).pow(DEFAULT_BASE_TOKEN[NetworkId.Shimmer].decimals)))
+                let value = convertToRawAmount('1', DEFAULT_BASE_TOKEN[networkId], 'SMR')
+                expect(value).toStrictEqual(Big('1').mul(Big(10).pow(DEFAULT_BASE_TOKEN[networkId].decimals)))
             })
             it("should return XXX if selectedUnit is unit and baseToken's decimals property is greater than MAX_SUPPORTED_DECIMALS", () => {
                 let value = convertToRawAmount('1', WEB3_TOKEN_METADATA, 'RAWR')
                 expect(value).toStrictEqual(Big('1').mul(Big(10).pow(MAX_SUPPORTED_DECIMALS)))
             })
             it('should return same Big(amount) if selectedUnit is subunit', () => {
-                expect(convertToRawAmount('1', DEFAULT_BASE_TOKEN[NetworkId.Shimmer], 'glow')).toStrictEqual(Big('1'))
+                expect(convertToRawAmount('1', DEFAULT_BASE_TOKEN[networkId], 'glow')).toStrictEqual(Big('1'))
             })
             it('should return undefined if a unit is not provided', () => {
-                expect(convertToRawAmount('1', DEFAULT_BASE_TOKEN[NetworkId.Shimmer])).toStrictEqual(undefined)
+                expect(convertToRawAmount('1', DEFAULT_BASE_TOKEN[networkId])).toStrictEqual(undefined)
             })
             it('should return undefined if provided unit does not match the tokenMetadata unit or subunit', () => {
-                expect(convertToRawAmount('1', DEFAULT_BASE_TOKEN[NetworkId.Shimmer], 'test')).toStrictEqual(undefined)
+                expect(convertToRawAmount('1', DEFAULT_BASE_TOKEN[networkId], 'test')).toStrictEqual(undefined)
             })
         })
     })

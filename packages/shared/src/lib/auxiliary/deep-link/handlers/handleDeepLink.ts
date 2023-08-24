@@ -12,7 +12,7 @@ import { isDeepLinkRequestActive } from '../stores'
 import { handleDeepLinkGovernanceContext } from './governance/handleDeepLinkGovernanceContext'
 import { handleDeepLinkWalletContext } from './wallet/handleDeepLinkWalletContext'
 import { handleError } from '@core/error/handlers'
-import { pairWithNewApp } from '@auxiliary/wallet-connect/utils'
+import { pairWithNewDapp } from '@auxiliary/wallet-connect/actions'
 import { showNotification } from '@auxiliary/notification'
 import { localize } from '@core/i18n'
 
@@ -89,7 +89,13 @@ function handleConnect(url: URL): void {
     if (walletConnectUri) {
         openPopup({
             id: PopupId.Confirmation,
-            props: { title: walletConnectUri, onConfirm: () => pairWithNewApp(walletConnectUri) },
+            props: {
+                title: walletConnectUri,
+                onConfirm: () => {
+                    pairWithNewDapp(walletConnectUri)
+                    closePopup()
+                },
+            },
         })
     }
 }

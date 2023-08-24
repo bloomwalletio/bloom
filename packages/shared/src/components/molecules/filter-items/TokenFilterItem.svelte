@@ -3,6 +3,7 @@
     import type { IDropdownItem } from '@core/utils'
     import { visibleSelectedAccountTokens } from '@core/token/stores'
     import { TokenFilterUnit } from '@core/utils/interfaces/filter'
+    import { Dropdown } from '@ui/inputs'
 
     export let filterUnit: TokenFilterUnit
     const { baseCoin, nativeTokens } = $visibleSelectedAccountTokens[$activeProfile?.network?.id]

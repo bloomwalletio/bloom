@@ -1,16 +1,7 @@
-import { NetworkId } from '@core/network/enums'
+import { SupportedNetworkId } from '@core/network/enums'
+import { NetworkId } from '@core/network/types'
 import { TokenStandard } from '@core/token/enums'
 import { IBaseToken } from '@core/token/interfaces'
-
-const DEFAULT_IOTA_BASE_TOKEN: IBaseToken = {
-    standard: TokenStandard.BaseToken,
-    name: 'IOTA',
-    tickerSymbol: 'MIOTA',
-    unit: 'i',
-    decimals: 0,
-    subunit: null,
-    useMetricPrefix: true,
-}
 
 const DEFAULT_SHIMMER_BASE_TOKEN: IBaseToken = {
     standard: TokenStandard.BaseToken,
@@ -32,8 +23,9 @@ const DEFAULT_TESTNET_BASE_TOKEN: IBaseToken = {
     useMetricPrefix: false,
 }
 
-export const DEFAULT_BASE_TOKEN: Readonly<{ [key in NetworkId]?: IBaseToken }> = {
-    [NetworkId.Iota]: DEFAULT_IOTA_BASE_TOKEN,
-    [NetworkId.Shimmer]: DEFAULT_SHIMMER_BASE_TOKEN,
-    [NetworkId.Testnet]: DEFAULT_TESTNET_BASE_TOKEN,
+export const DEFAULT_BASE_TOKEN: Readonly<{ [id in NetworkId]: IBaseToken }> = {
+    [SupportedNetworkId.Shimmer]: DEFAULT_SHIMMER_BASE_TOKEN,
+    [SupportedNetworkId.Testnet]: DEFAULT_TESTNET_BASE_TOKEN,
+    [SupportedNetworkId.ShimmerEvm]: DEFAULT_SHIMMER_BASE_TOKEN,
+    [SupportedNetworkId.ShimmerEvmTestnet]: DEFAULT_TESTNET_BASE_TOKEN,
 }

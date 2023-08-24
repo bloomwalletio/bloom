@@ -1,12 +1,15 @@
 <script lang="ts">
     import { localize } from '@core/i18n'
-    import { NetworkId } from '@core/network'
+    import { SupportedNetworkId } from '@core/network'
     import { getBaseToken } from '@core/profile/actions'
     import { formatTokenAmountBestMatch } from '@core/token'
-    import { NetworkIcon, Text, TooltipIcon } from '@ui'
+    import { BigIntLike } from '@ethereumjs/util'
+    import { NetworkIcon, Text } from '@ui'
 
-    export let destinationNetwork: string
-    export let gasBudget: number
+    // TODO: pass in network ID
+    export let destinationNetwork: string | undefined = undefined
+    export let estimatedGasFee: BigIntLike | undefined = undefined
+    export let maxGasFee: BigIntLike | undefined = undefined
 </script>
 
 <div class="border border-solid border-gray-200 dark:border-gray-700 rounded-lg">
@@ -15,24 +18,26 @@
             <Text>{localize('general.destinationNetwork')}</Text>
             <div class="flex flex-row gap-2">
                 <!-- TODO: Add correct icon for L2 -->
-                <NetworkIcon networkId={NetworkId.Testnet} height={16} width={16} outlined={false} />
+                <NetworkIcon networkId={SupportedNetworkId.Testnet} height={16} width={16} outlined={false} />
                 <Text color="gray-600">{destinationNetwork}</Text>
             </div>
         </section>
     {/if}
-    {#if gasBudget}
+    <!-- TODO: use correct locales -->
+    {#if estimatedGasFee}
         <section class="key-value-box border-gray-200 dark:border-gray-700">
             <div class="flex flex-row">
-                <Text>{localize('general.gasBudget')}</Text>
-                <TooltipIcon
-                    title={localize('general.gasBudget')}
-                    text={localize('tooltips.transactionDetails.outgoing.gasBudget')}
-                    width={15}
-                    height={15}
-                    classes="ml-1"
-                />
+                <Text>{localize('general.estimatedFee')}</Text>
             </div>
-            <Text color="gray-600">{formatTokenAmountBestMatch(gasBudget, getBaseToken())}</Text>
+            <Text color="gray-600">{formatTokenAmountBestMatch(Number(estimatedGasFee), getBaseToken())}</Text>
+        </section>
+    {/if}
+    {#if maxGasFee}
+        <section class="key-value-box border-gray-200 dark:border-gray-700">
+            <div class="flex flex-row">
+                <Text>{localize('general.maxFees')}</Text>
+            </div>
+            <Text color="gray-600">{formatTokenAmountBestMatch(Number(maxGasFee), getBaseToken())}</Text>
         </section>
     {/if}
 </div>
