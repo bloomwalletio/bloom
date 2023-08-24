@@ -2,8 +2,13 @@ import { localize } from '@core/i18n'
 import { IValidationOptions } from '@core/utils/interfaces'
 import { ContactManager } from '../classes'
 import { CONTACT_NAME_MAX_LENGTH } from '../constants'
+import { NetworkId } from '@core/network'
 
-export function validateContactAddressName(options: IValidationOptions, contactId?: string, networkId?: string): void {
+export function validateContactAddressName(
+    options: IValidationOptions,
+    contactId?: string,
+    networkId?: NetworkId
+): void {
     const { isRequired, mustBeUnique, checkLength } = options
 
     const name = options.value as string
