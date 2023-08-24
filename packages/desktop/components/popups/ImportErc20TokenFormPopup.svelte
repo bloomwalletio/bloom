@@ -4,15 +4,16 @@
     import { localize } from '@core/i18n'
     import { ERC20_TOKEN_ADDRESS_LENGTH } from '@core/layer-2'
     import { getErc20TokenMetadata } from '@core/layer-2/utils'
+    import { NetworkId, network } from '@core/network'
     import { HEXADECIMAL_PREFIX, HEXADECIMAL_REGEXP } from '@core/utils'
 
     import { closePopup } from '@desktop/auxiliary/popup'
-    import { showAppNotification } from '@auxiliary/notification'
+    import { showNotification } from '@auxiliary/notification'
     import { addNewTrackedTokenToActiveProfile } from '@core/wallet'
 
     let busy = false
 
-    let chainId: number
+    let networkId: NetworkId
 
     let tokenAddress: string
     let tokenAddressError = ''
@@ -27,13 +28,12 @@
 
         if (validate()) {
             try {
-                const erc20TokenMetadata = await getErc20TokenMetadata(tokenAddress, chainId)
+                const erc20TokenMetadata = await getErc20TokenMetadata(tokenAddress, networkId, $network)
                 if (erc20TokenMetadata) {
-                    addNewTrackedTokenToActiveProfile(chainId, tokenAddress, erc20TokenMetadata)
-                    showAppNotification({
-                        type: 'success',
-                        alert: true,
-                        message: localize('popups.importErc20Token.success', {
+                    addNewTrackedTokenToActiveProfile(networkId, tokenAddress, erc20TokenMetadata)
+                    showNotification({
+                        variant: 'success',
+                        text: localize('popups.importErc20Token.success', {
                             values: { tokenSymbol: erc20TokenMetadata.symbol },
                         }),
                     })
@@ -41,10 +41,9 @@
                 }
             } catch (err) {
                 console.error(err)
-                showAppNotification({
-                    type: 'error',
-                    alert: true,
-                    message: localize('popups.importErc20Token.error'),
+                showNotification({
+                    variant: 'error',
+                    text: localize('popups.importErc20Token.error'),
                 })
             }
         }
@@ -77,7 +76,7 @@
     </Text>
 
     <div class="space-y-4 max-h-100 flex-1">
-        <ChainInput bind:chainId />
+        <ChainInput bind:networkId />
         <TextInput
             bind:value={tokenAddress}
             label={localize('popups.importErc20Token.property.tokenAddress')}
@@ -90,7 +89,7 @@
         <Button outline classes="w-full" disabled={busy} onClick={onCancelClick}>
             {localize('actions.cancel')}
         </Button>
-        <Button classes="w-full" disabled={busy || !chainId || !tokenAddress} onClick={onImportClick}>
+        <Button classes="w-full" disabled={busy || !networkId || !tokenAddress} onClick={onImportClick}>
             {#if busy}
                 <Spinner busy message={localize('actions.importing')} />
             {:else}

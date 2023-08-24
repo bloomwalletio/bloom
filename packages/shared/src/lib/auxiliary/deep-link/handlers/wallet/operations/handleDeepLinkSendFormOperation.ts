@@ -1,29 +1,29 @@
+import { getActiveNetworkId } from '@core/network/actions/getActiveNetworkId'
+import { getTokenFromSelectedAccountTokens, selectedAccountTokens } from '@core/token/stores'
 import {
-    TransactionData,
+    SendFlowParameters,
+    SendFlowType,
     Subject,
-    setNewTransactionData,
-    selectedAccountAssets,
-    getAssetById,
-    NewTransactionType,
-    getUnitFromTokenMetadata,
+    SubjectType,
+    TokenTransferData,
+    setSendFlowParameters,
 } from '@core/wallet'
-import { openPopup, PopupId } from '../../../../../../../../desktop/lib/auxiliary/popup'
-import {
-    sendFlowRouter,
-    SendFlowRouter,
-} from '../../../../../../../../desktop/views/dashboard/send-flow/send-flow.router'
 import { get } from 'svelte/store'
-
+import { PopupId, openPopup } from '../../../../../../../../desktop/lib/auxiliary/popup'
+import {
+    SendFlowRouter,
+    sendFlowRouter,
+} from '../../../../../../../../desktop/views/dashboard/send-flow/send-flow.router'
 import { SendOperationParameter } from '../../../enums'
 import { UnknownAssetError } from '../../../errors'
 import { getRawAmountFromSearchParam } from '../../../utils'
-import { getActiveNetworkId } from '@core/network/utils/getNetworkId'
+import { getUnitFromTokenMetadata } from '@core/token/utils'
 
 export function handleDeepLinkSendFormOperation(searchParams: URLSearchParams): void {
-    const transactionData = parseSendFormOperation(searchParams)
+    const sendFlowParameters = parseSendFormOperation(searchParams)
 
-    if (transactionData) {
-        setNewTransactionData(transactionData)
+    if (sendFlowParameters) {
+        setSendFlowParameters(sendFlowParameters)
         sendFlowRouter.set(new SendFlowRouter(undefined))
         openPopup({
             id: PopupId.SendFlow,
@@ -39,31 +39,48 @@ export function handleDeepLinkSendFormOperation(searchParams: URLSearchParams): 
  *
  * @param {URLSearchParams} searchParams The query parameters of the deep link URL.
  *
- * @return {TransactionData} The formatted parameters for the send operation.
+ * @return {SendFlowParameters} The formatted parameters for the send operation.
  */
-function parseSendFormOperation(searchParams: URLSearchParams): TransactionData {
-    const assetId = searchParams.get(SendOperationParameter.AssetId)
-
+function parseSendFormOperation(searchParams: URLSearchParams): SendFlowParameters | undefined {
     const networkId = getActiveNetworkId()
-    const baseAsset = networkId ? get(selectedAccountAssets)[networkId].baseCoin : undefined
-    const asset = assetId && networkId ? getAssetById(assetId, networkId) : baseAsset
-    if (!asset) {
-        throw new UnknownAssetError()
+    if (!networkId) {
+        return
+    }
+
+    const tokenId = searchParams.get(SendOperationParameter.TokenId)
+    const type = tokenId ? SendFlowType.TokenTransfer : SendFlowType.BaseCoinTransfer
+
+    let baseCoinTransfer: TokenTransferData | undefined
+    let tokenTransfer: TokenTransferData | undefined
+    if (type === SendFlowType.BaseCoinTransfer) {
+        baseCoinTransfer = {
+            token: get(selectedAccountTokens)?.[networkId]?.baseCoin,
+            rawAmount: getRawAmountFromSearchParam(searchParams),
+            unit: searchParams.get(SendOperationParameter.Unit) ?? 'glow',
+        }
+    } else if (type === SendFlowType.TokenTransfer && tokenId) {
+        const token = getTokenFromSelectedAccountTokens(tokenId, networkId)
+        if (token?.metadata) {
+            tokenTransfer = {
+                token,
+                rawAmount: getRawAmountFromSearchParam(searchParams),
+                unit: searchParams.get(SendOperationParameter.Unit) ?? getUnitFromTokenMetadata(token.metadata),
+            }
+        } else {
+            throw new UnknownAssetError()
+        }
     }
 
     const address = searchParams.get(SendOperationParameter.Address)
-    const unit = searchParams.get(SendOperationParameter.Unit) ?? getUnitFromTokenMetadata(asset.metadata)
-    const rawAmount = getRawAmountFromSearchParam(searchParams)
     const metadata = searchParams.get(SendOperationParameter.Metadata)
     const tag = searchParams.get(SendOperationParameter.Tag)
-    const recipient: Subject = address ? { type: 'address', address } : undefined
+    const recipient: Subject | undefined = address ? { type: SubjectType.Address, address } : undefined
 
     return {
-        type: NewTransactionType.TokenTransfer,
-        ...(asset && { asset }),
-        ...(recipient && { recipient }),
-        ...(rawAmount && { rawAmount }),
-        ...(unit && { unit }),
+        type,
+        ...(baseCoinTransfer && { baseCoinTransfer }),
+        ...(tokenTransfer && { tokenTransfer }),
+        ...(address && { recipient }),
         ...(metadata && { metadata }),
         ...(tag && { tag }),
     }

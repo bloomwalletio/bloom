@@ -1,14 +1,14 @@
 <script lang="ts">
-    import { Button, Text, FontWeight, TextHint, TextType, KeyValueBox } from '@ui'
-    import { HTMLButtonType } from '@ui/enums'
-    import { closePopup, openPopup, PopupId } from '@desktop/auxiliary/popup'
-    import { selectedAccount } from '@core/account/stores'
-    import { localize } from '@core/i18n'
-    import { checkActiveProfileAuth, getBaseToken } from '@core/profile/actions'
-    import { formatTokenAmountBestMatch } from '@core/wallet/utils'
     import { vote } from '@contexts/governance/actions'
     import { ABSTAIN_VOTE_VALUE } from '@contexts/governance/constants'
     import { selectedProposal } from '@contexts/governance/stores'
+    import { selectedAccount } from '@core/account/stores'
+    import { localize } from '@core/i18n'
+    import { checkActiveProfileAuth, getBaseToken } from '@core/profile/actions'
+    import { formatTokenAmountBestMatch } from '@core/token'
+    import { PopupId, closePopup, openPopup } from '@desktop/auxiliary/popup'
+    import { Button, FontWeight, KeyValueBox, Text, TextHint, TextType } from '@ui'
+    import { HTMLButtonType } from '@ui/enums'
 
     export let selectedAnswerValues: number[]
 

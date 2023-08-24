@@ -1,11 +1,20 @@
-import { findActiveAccountWithAddress } from '@core/profile'
+import { ContactManager } from '@core/contact'
+import { getNetwork } from '@core/network'
+import { findActiveAccountWithAddress } from '@core/profile/actions'
+import { SubjectType } from '../enums'
 import { Subject } from '../types'
 
-export function getSubjectFromAddress(address: string): Subject {
+export function getSubjectFromAddress(address: string, networkId?: string): Subject {
     const account = findActiveAccountWithAddress(address)
+
+    // TODO: update network name to network id once that is updated in the contact book
+    const networkName = networkId ?? getNetwork()?.getMetadata().name
+    const contact = networkName ? ContactManager.getContactForAddress(networkName, address) : undefined
     if (account) {
-        return { type: 'account', account: account }
+        return { type: SubjectType.Account, account, address: account.depositAddress }
+    } else if (contact) {
+        return { type: SubjectType.Contact, contact, address }
     } else {
-        return { type: 'address', address }
+        return { type: SubjectType.Address, address }
     }
 }

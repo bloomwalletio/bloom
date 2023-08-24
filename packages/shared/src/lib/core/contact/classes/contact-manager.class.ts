@@ -1,6 +1,6 @@
 import { getActiveProfile, updateActiveProfile } from '@core/profile/stores'
 import { generateRandomId } from '@core/utils'
-import { getIconColorFromString } from '@core/account/utils'
+import { getIconColorFromString } from '@core/account/utils/getIconColorFromString'
 import type {
     IContactAddress,
     IContact,
@@ -170,6 +170,16 @@ export class ContactManager {
         }
     }
 
+    static getContactForAddress(networkId: string, address: string): IContact | undefined {
+        const profile = getActiveProfile()
+        if (!profile) {
+            return undefined
+        }
+
+        const contactId = profile.networkContactAddresses[networkId]?.[address]?.contactId
+        return ContactManager.getContact(contactId)
+    }
+
     static getNetworkContactAddressMapForContact(contactId: string): INetworkContactAddressMap {
         const profile = getActiveProfile()
 
@@ -180,9 +190,7 @@ export class ContactManager {
                 throw new Error(`Contact with ID ${contactId} doesn't exist!`)
             }
 
-            const addresses = contact.addresses
-            const filteredMap = filterNetworkContactAddressMap(profile.networkContactAddresses, addresses)
-            return filteredMap
+            return filterNetworkContactAddressMap(profile.networkContactAddresses, contact.addresses)
         } else {
             throw new Error('Profile is not available.')
         }
@@ -203,12 +211,15 @@ function filterNetworkContactAddressMap(
     const filteredNetworkContactAddressMap: INetworkContactAddressMap = {}
 
     for (const networkId in networkContactAddressMap) {
-        const contactAddressMap: IContactAddressMap = networkContactAddressMap[networkId]
+        const contactAddressMap: IContactAddressMap = { ...networkContactAddressMap[networkId] }
         const filteredContactAddressMap: IContactAddressMap = {}
 
         for (const address in contactAddressMap) {
             if (addresses.includes(address)) {
-                filteredContactAddressMap[address] = contactAddressMap[address]
+                /**
+                 * NOTE: This is a shallow copy, so we do not edit the stored contactAddress by accident.
+                 */
+                filteredContactAddressMap[address] = { ...contactAddressMap[address] }
             }
         }
 

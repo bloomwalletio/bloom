@@ -1,11 +1,10 @@
 <script lang="ts">
     import { OnboardingLayout } from '@components'
     import { onboardingProfile, updateOnboardingProfile } from '@contexts/onboarding'
-    import { mobile } from '@core/app'
     import { localize } from '@core/i18n'
-    import { getNetworkNameFromNetworkId } from '@core/network'
-    import { profiles, validateProfileName } from '@core/profile'
-    import { Animation, Button, Input, Text } from '@ui'
+    import { validateProfileName } from '@core/profile'
+    import { profiles } from '@core/profile/stores'
+    import { Animation, Button, Input, Text, TextType } from '@ui'
     import { completeOnboardingRouter } from '../complete-onboarding-router'
 
     let error = ''
@@ -27,15 +26,15 @@
 
 <OnboardingLayout allowBack={false}>
     <div slot="title">
-        <Text type="h2"
+        <Text type={TextType.h2}
             >{localize('views.onboarding.profileSetup.enterName.title', {
-                values: { network: getNetworkNameFromNetworkId($onboardingProfile?.network?.id) },
+                network: $onboardingProfile?.network?.name,
             })}</Text
         >
     </div>
     <div slot="leftpane__content">
-        <Text type="p" secondary classes="mb-4">{localize('views.onboarding.profileSetup.enterName.body1')}</Text>
-        <Text type="p" secondary classes={$mobile ? 'mb-4' : 'mb-10'}>
+        <Text secondary classes="mb-4">{localize('views.onboarding.profileSetup.enterName.body1')}</Text>
+        <Text secondary classes="mb-10">
             {localize(
                 `views.onboarding.profileSetup.enterName.body2.${$profiles?.length === 0 ? 'first' : 'nonFirst'}`
             )}
@@ -55,7 +54,7 @@
             {localize('actions.continue')}
         </Button>
     </div>
-    <div slot="rightpane" class="w-full h-full flex justify-center {!$mobile && 'bg-pastel-green dark:bg-gray-900'}">
+    <div slot="rightpane" class="w-full h-full flex justify-center bg-pastel-green dark:bg-gray-900">
         <Animation classes="setup-anim-aspect-ratio" animation="profile-desktop" />
     </div>
 </OnboardingLayout>

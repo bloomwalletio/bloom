@@ -1,17 +1,22 @@
 <script lang="ts">
+    import { OnboardingNetworkType } from '@contexts/onboarding'
     import { localize } from '@core/i18n'
-    import { NetworkId } from '@core/network'
-    import { EMPTY_NODE } from '@core/network/constants'
+    import { IAuth } from '@core/network'
+    import { DEFAULT_NETWORK_METADATA, EMPTY_NODE } from '@core/network/constants'
     import { IClientOptions, INode, INodeInfoResponse } from '@core/network/interfaces'
     import { nodeInfo } from '@core/network/stores'
-    import { checkNetworkId, checkNodeUrlValidity, getNetworkNameFromNetworkId } from '@core/network/utils'
-    import { activeProfile } from '@core/profile'
+    import {
+        checkIfOnSameNetwork,
+        checkNodeUrlValidity,
+        getOnboardingNetworkNameFromNetworkId,
+    } from '@core/network/utils'
     import { getNodeInfo } from '@core/profile-manager'
+    import { activeProfile } from '@core/profile/stores'
     import { IDropdownItem, cleanUrl } from '@core/utils'
     import features from '@features/features'
     import { Dropdown, Error, NumberInput, PasswordInput, TextInput } from '@ui'
 
-    interface NodeValidationOptions {
+    interface INodeValidationOptions {
         checkNodeInfo: boolean
         checkSameNetwork: boolean
         uniqueCheck: boolean
@@ -19,61 +24,60 @@
     }
 
     export let node: INode = structuredClone(EMPTY_NODE)
-    export let networkId: NetworkId
-    export let coinType: string | undefined
+    export let networkType: OnboardingNetworkType | undefined = undefined
+    export let coinType: string = ''
     export let isBusy = false
     export let formError = ''
     export let currentClientOptions: IClientOptions | undefined = undefined
     export let isDeveloperProfile: boolean = false
     export let onSubmit: () => void = () => {}
-    export let showNetworkFields: boolean = false
+    export let networkEditable: boolean = false
 
-    const networkItems: IDropdownItem<NetworkId>[] = [
-        {
-            label: getNetworkNameFromNetworkId(NetworkId.Iota),
-            value: NetworkId.Iota,
-        },
-        {
-            label: getNetworkNameFromNetworkId(NetworkId.Shimmer),
-            value: NetworkId.Shimmer,
-        },
-        {
-            label: getNetworkNameFromNetworkId(NetworkId.Testnet),
-            value: NetworkId.Testnet,
-        },
-        {
-            label: localize('general.custom'),
-            value: NetworkId.Custom,
-        },
-    ].filter((item) => features.onboarding?.[item.value]?.enabled)
+    const networkItems: IDropdownItem<OnboardingNetworkType>[] = getNetworkTypeOptions()
 
     let [username, password] = node.auth?.basicAuthNamePwd ?? ['', '']
     let jwt = node.auth?.jwt
 
-    $: networkId, (coinType = undefined)
-    $: networkId, coinType, node.url, (formError = '')
-    $: node = {
-        url: node.url,
-        auth: {
-            ...([username, password].every((val) => val !== '') && {
-                basicAuthNamePwd: [username, password],
-            }),
-            ...(jwt !== '' && {
-                jwt,
-            }),
-        },
+    $: networkType, (coinType = '')
+    $: networkType, coinType, node.url, (formError = '')
+    $: jwt,
+        username,
+        password,
+        (node = {
+            url: node.url,
+            auth: getAuth(),
+        })
+
+    function getNetworkTypeOptions(): IDropdownItem<OnboardingNetworkType>[] {
+        const options = Object.values(DEFAULT_NETWORK_METADATA).map((network) => ({
+            label: network?.name,
+            value: getOnboardingNetworkNameFromNetworkId(network?.id),
+        }))
+        options.push({
+            label: localize('general.custom'),
+            value: OnboardingNetworkType.Custom,
+        })
+
+        return options.filter((item) => features.onboarding?.[item.value]?.enabled)
+    }
+
+    function getAuth(): IAuth {
+        const auth: IAuth = {}
+        if ([username, password].every((value) => value !== '')) {
+            auth.basicAuthNamePwd = [username, password]
+        }
+        if (jwt !== '') {
+            auth.jwt = jwt
+        }
+        return auth
     }
 
     function cleanNodeUrl(): void {
         node.url = cleanUrl(node?.url)
     }
 
-    function onNetworkIdChanges(selected: IDropdownItem<NetworkId>): void {
-        networkId = selected.value
-    }
-
-    export async function validate(options: NodeValidationOptions): Promise<void> {
-        if (networkId === NetworkId.Custom && !coinType) {
+    export async function validate(options: INodeValidationOptions): Promise<void> {
+        if (networkType === OnboardingNetworkType.Custom && !coinType) {
             formError = localize('error.node.noCoinType')
             return Promise.reject({ type: 'validationError', error: formError })
         }
@@ -112,9 +116,9 @@
         }
 
         if (options.validateClientOptions && currentClientOptions) {
-            const errorNetworkId = checkNetworkId(networkName, currentClientOptions.network, isDeveloperProfile)
-            if (errorNetworkId) {
-                formError = localize(errorNetworkId?.locale, errorNetworkId?.values) ?? ''
+            const errorNetworkName = checkIfOnSameNetwork(networkName, currentClientOptions.network, isDeveloperProfile)
+            if (errorNetworkName) {
+                formError = localize(errorNetworkName?.locale, errorNetworkName?.values) ?? ''
                 return Promise.reject({ type: 'validationError', error: formError })
             }
         }
@@ -122,16 +126,15 @@
 </script>
 
 <form id="node-configuration-form" class="w-full h-full flex-col space-y-3" on:submit|preventDefault={onSubmit}>
-    {#if showNetworkFields}
+    {#if networkEditable}
         <Dropdown
+            bind:value={networkType}
             label={localize('general.network')}
             placeholder={localize('general.network')}
-            value={networkId}
             items={networkItems}
             disabled={isBusy}
-            onSelect={onNetworkIdChanges}
         />
-        {#if networkId === NetworkId.Custom}
+        {#if networkType === OnboardingNetworkType.Custom}
             <NumberInput
                 bind:value={coinType}
                 placeholder={localize('general.coinType')}

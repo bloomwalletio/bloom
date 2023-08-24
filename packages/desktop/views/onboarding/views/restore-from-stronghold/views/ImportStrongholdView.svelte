@@ -1,7 +1,6 @@
 <script lang="ts">
     import { OnboardingLayout } from '@components'
     import { ImportFile, updateOnboardingProfile, validateBackupFile, onboardingProfile } from '@contexts/onboarding'
-    import { mobile } from '@core/app'
     import { CLIENT_ERROR_REGEXES } from '@core/error/constants'
     import { ClientError } from '@core/error/enums'
     import { localize } from '@core/i18n'
@@ -72,9 +71,6 @@
 
         reader.onload = (e): void => {
             setFile(e.target.result, fileWithPath)
-            if ($mobile) {
-                void onContinueClick()
-            }
         }
 
         reader.readAsArrayBuffer(fileWithPath)
@@ -102,34 +98,20 @@
         <Text type="p" secondary classes="mb-8"
             >{localize('views.onboarding.profileRecovery.importStrongholdBackup.body')}</Text
         >
-        {#if !$mobile}
-            <Dropzone
-                fileName={importFileName}
-                {allowedExtensions}
-                onDrop={onFileSelection}
-                bind:dropping
-                extentionsLabel={localize('actions.importExtentions')}
-            />
-        {/if}
+        <Dropzone
+            fileName={importFileName}
+            {allowedExtensions}
+            onDrop={onFileSelection}
+            bind:dropping
+            extentionsLabel={localize('actions.importExtentions')}
+        />
     </div>
     <div slot="leftpane__action" class="flex flex-row flex-wrap justify-between items-center space-x-4">
-        {#if $mobile}
-            <input
-                class="absolute opacity-0 w-full h-full"
-                type="file"
-                on:change={onFileSelection}
-                accept={allowedExtensions ? allowedExtensions.map((e) => `.${e}`).join(',') : '*'}
-            />
-        {/if}
-        <Button
-            classes="flex-1"
-            disabled={!$mobile && !importFile}
-            onClick={$mobile ? onFileSelection : onContinueClick}
-        >
-            {localize(`actions.${$mobile ? 'chooseFile' : 'continue'}`)}
+        <Button classes="flex-1" disabled={!importFile} onClick={onContinueClick}>
+            {localize('actions.continue')}
         </Button>
     </div>
-    <div slot="rightpane" class="w-full h-full flex justify-center {!$mobile && 'bg-pastel-blue dark:bg-gray-900'}">
+    <div slot="rightpane" class="w-full h-full flex justify-center bg-pastel-blue dark:bg-gray-900">
         <Animation classes="setup-anim-aspect-ratio" animation="import-from-file-desktop" />
     </div>
 </OnboardingLayout>

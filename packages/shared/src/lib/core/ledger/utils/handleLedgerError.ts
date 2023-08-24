@@ -1,10 +1,10 @@
 import { get } from 'svelte/store'
 
 import { localize } from '@core/i18n/i18n'
-import { resetNewTokenTransactionData, resetMintTokenDetails, resetMintNftDetails } from '@core/wallet/stores'
+import { resetMintTokenDetails, resetMintNftDetails } from '@core/wallet/stores'
 import { IError } from '@core/error/interfaces'
 import { handleGenericError } from '@core/error/handlers'
-import { showAppNotification } from '@auxiliary/notification'
+import { showNotification } from '@auxiliary/notification'
 import { closePopup, openPopup, PopupId, popupState } from '../../../../../../desktop/lib/auxiliary/popup'
 
 import { LEDGER_ERROR_LOCALES } from '../constants'
@@ -24,7 +24,6 @@ export function handleLedgerError(error: IError, resetConfirmationPropsOnDenial 
          * on the device.
          */
         if (wasDeniedByUser && resetConfirmationPropsOnDenial) {
-            resetNewTokenTransactionData()
             resetMintTokenDetails()
             resetMintNftDetails()
         }
@@ -42,10 +41,9 @@ export function handleLedgerError(error: IError, resetConfirmationPropsOnDenial 
                 id: PopupId.EnableLedgerBlindSigning,
             })
         } else {
-            showAppNotification({
-                type: wasDeniedByUser ? 'warning' : 'error',
-                alert: true,
-                message: localize(LEDGER_ERROR_LOCALES[ledgerError]),
+            showNotification({
+                variant: wasDeniedByUser ? 'warning' : 'error',
+                text: localize(LEDGER_ERROR_LOCALES[ledgerError]),
             })
         }
     } else {

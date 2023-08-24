@@ -1,7 +1,8 @@
+import { SubjectType } from '@core/wallet'
 import { IContactMetadata } from './contact-metadata.interface'
 
 export interface IContactSubject {
-    type: 'contact'
+    type: SubjectType.Contact
     contact: IContactMetadata
     address: string
 }

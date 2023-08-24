@@ -1,23 +1,51 @@
-import { buildBip32Path, updateSelectedAccount } from '@core/account'
+import { IAccountState } from '@core/account'
+import { updateSelectedAccount } from '@core/account/stores'
 import { handleError } from '@core/error/handlers'
-import { EvmTransactionData, signTransactionWithLedger } from '@core/layer-2'
+import { EvmTransactionData } from '@core/layer-2/types'
+import { signEvmTransactionWithStronghold } from '@core/layer-2/utils'
+import { Ledger } from '@core/ledger/classes'
+import { EvmChainId } from '@core/network/enums'
+import { isActiveLedgerProfile, isSoftwareProfile } from '@core/profile/stores'
+import type { TxData } from '@ethereumjs/tx'
+import { get } from 'svelte/store'
 import Web3 from 'web3'
+import { TransactionReceipt } from 'web3-core'
+import { closePopup } from '../../../../../../../desktop/lib/auxiliary/popup'
 
 export async function signAndSendEvmTransaction(
     transaction: EvmTransactionData,
+    chainId: EvmChainId,
+    coinType: number,
     provider: Web3,
-    accountIndex: number
-): Promise<void> {
+    account: IAccountState
+): Promise<TransactionReceipt | undefined> {
     try {
         updateSelectedAccount({ isTransferring: true })
 
-        const bip32 = buildBip32Path(60, accountIndex)
-        const signedTransaction = await signTransactionWithLedger(transaction, bip32)
+        const transactionCopy = { ...transaction }
+        delete transactionCopy?.estimatedGas
+        const txData: TxData = { ...transactionCopy }
+
+        const bip44Path = {
+            coinType,
+            account: account.index,
+            change: 0,
+            addressIndex: 0,
+        }
+        let signedTransaction: string | undefined
+        if (get(isSoftwareProfile)) {
+            signedTransaction = await signEvmTransactionWithStronghold(txData, bip44Path, chainId, account)
+        } else if (get(isActiveLedgerProfile)) {
+            signedTransaction = await Ledger.signEvmTransaction(txData, chainId, bip44Path)
+        }
 
         if (signedTransaction) {
-            await provider?.eth.sendSignedTransaction(signedTransaction)
+            return await provider?.eth.sendSignedTransaction(signedTransaction)
         } else {
-            throw Error('No Signature provided')
+            if (get(isActiveLedgerProfile)) {
+                closePopup(true)
+            }
+            throw new Error('No signature provided')
         }
     } catch (err) {
         handleError(err)

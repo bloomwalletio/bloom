@@ -1,58 +1,47 @@
 <script lang="ts">
-    import { onDestroy, onMount } from 'svelte'
+    import { handleDeepLink } from '@auxiliary/deep-link/handlers'
+    import { Popup, TitleBar } from '@components'
+    import { IS_WINDOWS, Platform } from '@core/app'
+    import { registerAppEvents } from '@core/app/actions'
+    import { appSettings, appVersionDetails, initAppSettings, setAppVersionDetails } from '@core/app/stores'
     import { isLocaleLoaded, localeDirection, setupI18n } from '@core/i18n'
-    import { activeProfile, checkAndMigrateProfiles, cleanupEmptyProfiles, saveActiveProfile } from '@core/profile'
+    import { registerLedgerDeviceEventHandlers } from '@core/ledger'
+    import { downloadNextNftInQueue } from '@core/nfts/actions'
+    import { nftDownloadQueue } from '@core/nfts/stores'
+    import { checkAndMigrateProfiles, cleanupEmptyProfiles, saveActiveProfile } from '@core/profile/actions'
+    import { activeProfile } from '@core/profile/stores'
     import {
         AppRoute,
-        appRoute,
         DashboardRoute,
+        RouterManagerExtensionName,
+        appRoute,
         dashboardRouter,
         initialiseRouterManager,
         routerManager,
-        RouterManagerExtensionName,
     } from '@core/router'
-    import {
-        appSettings,
-        appStage,
-        AppStage,
-        appVersionDetails,
-        initAppSettings,
-        platform,
-        Platform,
-        PlatformOption,
-        registerAppEvents,
-        setAppVersionDetails,
-        setPlatform,
-    } from '@core/app'
-    import { closePopup, openPopup, PopupId, popupState } from '@desktop/auxiliary/popup'
-    import { getLocalisedMenuItems } from './lib/helpers'
-    import { ToastContainer, Transition } from '@ui'
-    import { TitleBar, Popup } from '@components'
-    import { Dashboard, LoginRouter, Settings, Splash } from '@views'
+    import { closeDrawer } from '@desktop/auxiliary/drawer'
+    import { PopupId, closePopup, openPopup, popupState } from '@desktop/auxiliary/popup'
     import {
         getAppRouter,
         getRouterForAppContext,
         goToAppContext,
         initialiseRouters,
+        openSettings,
         resetRouterForAppContext,
         resetRouters,
-        openSettings,
     } from '@desktop/routers'
-    import { downloadNextNftInQueue, nftDownloadQueue } from '@core/nfts'
-    import { closeDrawer } from '@desktop/auxiliary/drawer'
     import features from '@features/features'
+    import { ToastContainer, Transition } from '@ui'
+    import { Dashboard, LoginRouter, Settings, Splash } from '@views'
     import { OnboardingRouterView } from '@views/onboarding'
-    import { registerLedgerDeviceEventHandlers } from '@core/ledger'
-    import { handleDeepLink } from '@auxiliary/deep-link/handlers'
-
-    appStage.set(AppStage[process.env.STAGE.toUpperCase()] ?? AppStage.ALPHA)
+    import { onDestroy, onMount } from 'svelte'
+    import { getLocalisedMenuItems } from './lib/helpers'
 
     const { loggedIn } = $activeProfile
 
     $: if ($activeProfile && !$loggedIn) {
         closePopup(true)
     }
-    $: isWindows = $platform === PlatformOption.Windows
     $: $activeProfile, saveActiveProfile()
 
     async function handleCrashReporting(sendCrashReports: boolean): Promise<void> {
@@ -148,9 +137,6 @@
         Platform.onEvent('deep-link-request', handleDeepLink)
 
         registerLedgerDeviceEventHandlers()
-
-        const platform = await Platform.getOS()
-        setPlatform(platform)
     })
 
     onDestroy(() => {
@@ -163,7 +149,7 @@
     <TitleBar />
     <app-body
         class="block fixed left-0 right-0 bottom-0 z-50 top-0"
-        class:top-placement={isWindows || $appRoute === AppRoute.Dashboard}
+        class:top-placement={IS_WINDOWS || $appRoute === AppRoute.Dashboard}
     >
         {#if !$isLocaleLoaded || splash}
             <Splash />
@@ -264,5 +250,11 @@
     }
     app-body.top-placement {
         @apply top-12;
+    }
+    hr {
+        @apply border-t;
+        @apply border-solid;
+        @apply border-gray-200;
+        @apply dark:border-gray-800;
     }
 </style>

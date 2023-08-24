@@ -1,8 +1,8 @@
 <script lang="ts">
-    import { closePopup, openPopup, PopupId } from '@desktop/auxiliary/popup'
-    import { selectedAccount } from '@core/account'
+    import { selectedAccount } from '@core/account/stores'
+    import { getStorageDepositFromOutput } from '@core/activity/utils/helper'
     import { localize } from '@core/i18n'
-    import { checkActiveProfileAuth } from '@core/profile'
+    import { checkActiveProfileAuth } from '@core/profile/actions'
     import {
         OUTPUT_TYPE_TREASURY,
         UNLOCK_CONDITION_EXPIRATION,
@@ -10,7 +10,7 @@
         UNLOCK_CONDITION_TIMELOCK,
     } from '@core/wallet'
     import { consolidateOutputs } from '@core/wallet/actions/consolidateOutputs'
-    import { getStorageDepositFromOutput } from '@core/wallet/utils/generateActivity/helper'
+    import { closePopup, openPopup, PopupId } from '@desktop/auxiliary/popup'
     import type { UnlockConditionTypes } from '@iota/types'
     import { BalanceSummarySection, Button, FontWeight, Text, TextType } from '@ui'
 
@@ -65,7 +65,7 @@
                         containsUnlockCondition(output.unlockConditions, UNLOCK_CONDITION_STORAGE_DEPOSIT_RETURN)
                     ) {
                         type = PendingFundsType.StorageDepositReturn
-                        amount = getStorageDepositFromOutput(output).storageDeposit
+                        amount = getStorageDepositFromOutput(output)
                     } else if (containsUnlockCondition(output.unlockConditions, UNLOCK_CONDITION_TIMELOCK)) {
                         type = PendingFundsType.Timelock
                         amount = Number(output.amount)

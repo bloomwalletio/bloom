@@ -1,20 +1,28 @@
-import { showAppNotification } from '@auxiliary/notification'
-import { selectedAccount, updateSelectedAccount } from '@core/account'
+import { showNotification } from '@auxiliary/notification'
+import { selectedAccount, updateSelectedAccount } from '@core/account/stores'
+import { ActivityAction } from '@core/activity/enums'
+import { addActivityToAccountActivitiesInAllAccountActivities } from '@core/activity/stores'
+import { NftActivity } from '@core/activity/types'
+import { generateSingleNftActivity } from '@core/activity/utils/generateSingleNftActivity'
+import { preprocessTransaction } from '@core/activity/utils/outputs'
 import { localize } from '@core/i18n'
-import { addOrUpdateNftInAllAccountNfts, buildNftFromNftOutput, IIrc27Metadata } from '@core/nfts'
+import { IIrc27Metadata } from '@core/nfts'
+import { addOrUpdateNftInAllAccountNfts, buildNftFromNftOutput } from '@core/nfts/actions'
 import { Converter } from '@core/utils'
 import { MintNftParams } from '@iota/wallet'
 import { get } from 'svelte/store'
 import { DEFAULT_TRANSACTION_OPTIONS, OUTPUT_TYPE_NFT } from '../constants'
-import { ActivityAction } from '../enums'
-import { addActivityToAccountActivitiesInAllAccountActivities, resetMintNftDetails } from '../stores'
-import { NftActivity } from '../types'
-import { preprocessTransaction } from '../utils'
-import { generateSingleNftActivity } from '../utils/generateActivity/generateSingleNftActivity'
+import { resetMintNftDetails } from '../stores'
+import { getActiveNetworkId } from '@core/network'
 
 export async function mintNft(metadata: IIrc27Metadata, quantity: number): Promise<void> {
     try {
         const account = get(selectedAccount)
+        const networkId = getActiveNetworkId()
+        if (!account || !networkId) {
+            throw new Error(localize('error.global.accountOrNetworkUndefined'))
+        }
+
         updateSelectedAccount({ isTransferring: true })
 
         const mintNftParams: MintNftParams = {
@@ -26,10 +34,9 @@ export async function mintNft(metadata: IIrc27Metadata, quantity: number): Promi
         // Mint NFT
         const mintNftTransaction = await account.mintNfts(allNftParams, DEFAULT_TRANSACTION_OPTIONS)
         resetMintNftDetails()
-        showAppNotification({
-            type: 'success',
-            message: localize('notifications.mintNft.success'),
-            alert: true,
+        showNotification({
+            variant: 'success',
+            text: localize('notifications.mintNft.success'),
         })
 
         const processedTransaction = await preprocessTransaction(mintNftTransaction, account)
@@ -39,7 +46,7 @@ export async function mintNft(metadata: IIrc27Metadata, quantity: number): Promi
         for (const output of outputs) {
             if (output.output.type === OUTPUT_TYPE_NFT) {
                 // For each minted NFT, generate a new activity
-                const activity: NftActivity = generateSingleNftActivity(account, {
+                const activity: NftActivity = generateSingleNftActivity(account, networkId, {
                     action: ActivityAction.Mint,
                     processedTransaction,
                     wrappedOutput: output,

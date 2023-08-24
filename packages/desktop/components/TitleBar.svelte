@@ -1,19 +1,17 @@
 <script lang="ts">
     import { onDestroy, onMount } from 'svelte'
     import { Icon } from '@ui'
-    import { Platform, PlatformOption } from '@core/app'
-    import { platform } from '@core/app/stores'
+    import { Platform } from '@core/app'
+    import { IS_WINDOWS, OS } from '@core/app/constants'
     import { activeProfile } from '@core/profile/stores'
     import { appRoute, AppRoute } from '@core/router'
     import { Icon as IconEnum } from '@auxiliary/icon'
-    import { popupState } from '@desktop/auxiliary/popup'
 
     const { hasLoadedAccounts } = $activeProfile
 
     let isMaximized = false
 
-    $: isDashboardVisible = $appRoute === AppRoute.Dashboard && $hasLoadedAccounts && $popupState.id !== 'busy'
-    $: isWindows = $platform === PlatformOption.Windows
+    $: isDashboardVisible = $appRoute === AppRoute.Dashboard && $hasLoadedAccounts
 
     async function onResize(): Promise<void> {
         isMaximized = await Platform.isMaximized()
@@ -21,7 +19,7 @@
 
     onMount(async () => {
         await onResize()
-        document.body.classList.add(`platform-${$platform}`)
+        document.body.classList.add(`platform-${OS}`)
         /* eslint-disable @typescript-eslint/no-misused-promises */
         window.addEventListener('resize', onResize)
     })
@@ -36,7 +34,7 @@
     class:with-borders={isDashboardVisible}
     class="flex flex-row justify-between fixed z-50 top-0 left-0 right-0 w-full h-12 transition-none bg-transparent"
 >
-    {#if isWindows}
+    {#if IS_WINDOWS}
         <!-- We need to add this element to allow fix the windows resize area issue due to -webkit-app-region: drag -->
         <windows-resize-area />
         <button

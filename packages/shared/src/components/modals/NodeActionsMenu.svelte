@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { HR, MenuItem, Modal } from '@ui'
+    import { MenuItem, Modal } from '@ui'
 
     import { localize } from '@core/i18n'
     import {
@@ -8,7 +8,7 @@
         togglePrimaryNodeInClientOptions,
     } from '@core/network/actions'
     import { IClientOptions, INode } from '@core/network/interfaces'
-    import { getOfficialNodes } from '@core/network/utils'
+    import { getDefaultNodes } from '@core/network/utils'
     import { activeProfile } from '@core/profile/stores'
     import { closePopup, openPopup, PopupId } from '../../../../desktop/lib/auxiliary/popup'
 
@@ -16,7 +16,7 @@
     export let clientOptions: IClientOptions
     export let modal: Modal = undefined
 
-    $: isOfficialNode = getOfficialNodes($activeProfile?.network?.id).some((n) => n.url === node?.url)
+    $: isOfficialNode = getDefaultNodes($activeProfile?.network?.id).some((n) => n.url === node?.url)
     $: allowDisableOrRemove = node?.disabled || clientOptions?.nodes?.filter((node) => !node.disabled)?.length > 1
     $: isPrimary = clientOptions?.primaryNode?.url === node.url
 
@@ -110,7 +110,7 @@
         title={localize(`views.settings.configureNodeList.${node.disabled ? 'include' : 'exclude'}Node`)}
         onClick={onToggleDisabledNodeClick}
     />
-    <HR />
+    <hr />
     <MenuItem
         disabled={!allowDisableOrRemove}
         title={localize('views.settings.configureNodeList.removeNode')}

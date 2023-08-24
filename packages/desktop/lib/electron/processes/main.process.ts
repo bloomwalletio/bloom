@@ -18,6 +18,8 @@ import fs from 'fs'
 
 import features from '@features/features'
 
+import { LedgerApiMethod } from '@core/ledger/enums'
+
 import { windows } from '../constants/windows.constant'
 import AutoUpdateManager from '../managers/auto-update.manager'
 import KeychainManager from '../managers/keychain.manager'
@@ -29,7 +31,6 @@ import { checkArgsForDeepLink, initialiseDeepLinks } from '../utils/deep-link.ut
 import { getDiagnostics } from '../utils/diagnostics.utils'
 import { shouldReportError } from '../utils/error.utils'
 import { getMachineId } from '../utils/os.utils'
-import { LedgerMethod } from '../enums/ledger-method.enum'
 import type { ILedgerProcessMessage } from '../interfaces/ledger-process-message.interface'
 
 initialiseAnalytics()
@@ -230,7 +231,7 @@ function createMainWindow(): BrowserWindow {
      *  The handler only allows navigation to an external browser.
      */
     windows.main.webContents.on('will-navigate', (a, b) => {
-        handleNavigation(a, b)
+        handleNavigation(a as unknown as Event, b)
     })
 
     windows.main.on('close', () => {
@@ -287,16 +288,16 @@ ipcMain.on('start-ledger-process', () => {
     ledgerProcess.on('spawn', () => {
         // Handler for message from Ledger process
         ledgerProcess.on('message', (message: ILedgerProcessMessage) => {
-            const { error, data } = message
+            const { method, payload, error } = message
             if (error) {
                 windows.main.webContents.send('ledger-error', error)
             } else {
-                switch (data?.method) {
-                    case LedgerMethod.GenerateEvmAddress:
-                        windows.main.webContents.send('evm-address', data)
+                switch (method) {
+                    case LedgerApiMethod.GenerateEvmAddress:
+                        windows.main.webContents.send('evm-address', payload)
                         break
-                    case LedgerMethod.SignEvmTransaction:
-                        windows.main.webContents.send('evm-signed-transaction', data)
+                    case LedgerApiMethod.SignEvmTransaction:
+                        windows.main.webContents.send('evm-signed-transaction', payload)
                         break
                     default:
                         /* eslint-disable-next-line no-console */
@@ -312,12 +313,12 @@ ipcMain.on('kill-ledger-process', () => {
     ledgerProcess?.kill()
 })
 
-ipcMain.on(LedgerMethod.GenerateEvmAddress, (_e, bip32Path, verify) => {
-    ledgerProcess?.postMessage({ method: LedgerMethod.GenerateEvmAddress, parameters: [bip32Path, verify] })
+ipcMain.on(LedgerApiMethod.GenerateEvmAddress, (_e, bip32Path, verify) => {
+    ledgerProcess?.postMessage({ method: LedgerApiMethod.GenerateEvmAddress, payload: [bip32Path, verify] })
 })
 
-ipcMain.on(LedgerMethod.SignEvmTransaction, (_e, data, bip32Path) => {
-    ledgerProcess?.postMessage({ method: LedgerMethod.SignEvmTransaction, parameters: [data, bip32Path] })
+ipcMain.on(LedgerApiMethod.SignEvmTransaction, (_e, transactionHex, bip32Path) => {
+    ledgerProcess?.postMessage({ method: LedgerApiMethod.SignEvmTransaction, payload: [transactionHex, bip32Path] })
 })
 
 export const getWindow = (windowName: string): BrowserWindow => windows[windowName]
@@ -377,7 +378,7 @@ powerMonitor.on('lock-screen', () => {
 
 // URLs
 ipcMain.handle('open-url', (_e, url) => {
-    handleNavigation(_e, url)
+    handleNavigation(_e as unknown as Event, url)
 })
 
 // Keychain
@@ -439,7 +440,6 @@ ipcMain.handle('handle-error', (_e, errorType, error) => {
 })
 
 // System
-ipcMain.handle('get-os', () => process.platform)
 ipcMain.handle('get-machine-id', () => getMachineId())
 
 // Settings
@@ -492,14 +492,14 @@ export function openAboutWindow(): BrowserWindow {
         height: 230,
         useContentSize: true,
         titleBarStyle: process.platform === 'darwin' ? 'hiddenInset' : 'hidden',
-
-        // affects only WindowsOS
+        /**
+         * NOTE: This only affects Windows.
+         */
         titleBarOverlay: {
             color: '#192742',
             symbolColor: '#ffffff',
         },
-
-        show: false,
+        show: true,
         fullscreenable: false,
         resizable: false,
         minimizable: false,
@@ -536,7 +536,7 @@ export function openErrorWindow(): BrowserWindow {
     windows.error = new BrowserWindow({
         useContentSize: true,
         titleBarStyle: process.platform === 'darwin' ? 'hiddenInset' : 'hidden',
-        show: false,
+        show: true,
         fullscreenable: false,
         resizable: true,
         minimizable: false,

@@ -1,28 +1,27 @@
-import { OutputParams, Assets } from '@iota/wallet/out/types'
-import { convertDateToUnixTimestamp, Converter } from '@core/utils'
-import { NewTransactionType } from '../stores'
-import { estimateGasForLayer1ToLayer2Transaction, getLayer2MetadataForTransfer } from '@core/layer-2/utils'
-import { Subject, TransactionData } from '@core/wallet/types'
-import { getAddressFromSubject } from '@core/wallet/utils'
-import { ReturnStrategy } from '../enums'
-import { getCoinType } from '@core/profile'
 import { ILayer2Parameters } from '@core/layer-2'
+import { estimateGasForLayer1ToLayer2Transaction, getLayer2MetadataForTransfer } from '@core/layer-2/utils'
+import { getCoinType } from '@core/profile/actions'
+import { Converter, convertDateToUnixTimestamp } from '@core/utils'
+import { SendFlowParameters, Subject } from '@core/wallet/types'
+import { Assets, OutputParams } from '@iota/wallet/out/types'
+import { ReturnStrategy } from '../enums'
+import { SendFlowType } from '../stores'
 
-export async function getOutputParameters(transactionData: TransactionData): Promise<OutputParams> {
-    const { recipient, expirationDate, timelockDate, giftStorageDeposit, layer2Parameters } = transactionData ?? {}
+export async function getOutputParameters(sendFlowParameters: SendFlowParameters): Promise<OutputParams> {
+    const { recipient, expirationDate, timelockDate, giftStorageDeposit, layer2Parameters } = sendFlowParameters ?? {}
 
     const recipientAddress = getDestinationAddress(recipient, layer2Parameters)
 
-    const estimatedGas = await estimateGasForLayer1ToLayer2Transaction(transactionData)
+    const estimatedGas = await estimateGasForLayer1ToLayer2Transaction(sendFlowParameters)
 
-    let amount = getAmountFromTransactionData(transactionData)
+    let amount = getAmountFromTransactionData(sendFlowParameters)
     amount = layer2Parameters ? (estimatedGas + parseInt(amount, 10)).toString() : amount
 
-    const assets = getAssetFromTransactionData(transactionData)
+    const assets = getAssetsFromTransactionData(sendFlowParameters)
 
-    const tag = transactionData?.tag ? Converter.utf8ToHex(transactionData?.tag) : undefined
+    const tag = sendFlowParameters?.tag ? Converter.utf8ToHex(sendFlowParameters?.tag) : undefined
 
-    const metadata = await getMetadata(transactionData)
+    const metadata = await getMetadata(sendFlowParameters)
 
     const expirationUnixTime = expirationDate ? convertDateToUnixTimestamp(expirationDate) : undefined
     const timelockUnixTime = timelockDate ? convertDateToUnixTimestamp(timelockDate) : undefined
@@ -53,44 +52,27 @@ function getDestinationAddress(
     if (layer2Parameters) {
         return layer2Parameters.networkAddress
     } else if (recipient) {
-        return getAddressFromSubject(recipient)
+        return recipient.address
     } else {
         return ''
     }
 }
 
-function getAmountFromTransactionData(transactionData: TransactionData): string {
-    let rawAmount: string
-    if (transactionData.type === NewTransactionType.TokenTransfer) {
-        const asset = transactionData.asset
-
-        const nativeTokenId = asset?.id === getCoinType() ? undefined : asset?.id
-
-        if (nativeTokenId) {
-            rawAmount = transactionData?.surplus ?? '0'
-        } else {
-            rawAmount = BigInt(transactionData.rawAmount).toString()
-        }
-    } else if (transactionData.type === NewTransactionType.NftTransfer) {
-        rawAmount = transactionData?.surplus ?? '0'
-    } else {
-        rawAmount = '0'
-    }
-    return rawAmount
+function getAmountFromTransactionData(sendFlowParameters: SendFlowParameters): string {
+    return sendFlowParameters.baseCoinTransfer?.rawAmount ?? '0'
 }
 
-function getAssetFromTransactionData(transactionData: TransactionData): Assets | undefined {
+function getAssetsFromTransactionData(sendFlowParameters: SendFlowParameters): Assets | undefined {
     let assets: Assets | undefined
 
-    if (transactionData.type === NewTransactionType.NftTransfer) {
-        assets = { nftId: transactionData.nft?.id }
-    } else if (transactionData.type === NewTransactionType.TokenTransfer) {
-        const assetId = transactionData.asset?.id
-
-        const nativeTokenId = assetId === getCoinType() ? undefined : assetId
+    if (sendFlowParameters.type === SendFlowType.NftTransfer) {
+        assets = { nftId: sendFlowParameters.nft?.id }
+    } else if (sendFlowParameters.type === SendFlowType.TokenTransfer) {
+        const tokenId = sendFlowParameters.tokenTransfer?.token?.id
+        const nativeTokenId = tokenId === getCoinType() ? undefined : tokenId
 
         if (nativeTokenId) {
-            const bigAmount = BigInt(transactionData.rawAmount)
+            const bigAmount = BigInt(sendFlowParameters.tokenTransfer?.rawAmount ?? '0')
             assets = {
                 nativeTokens: [
                     {
@@ -99,22 +81,16 @@ function getAssetFromTransactionData(transactionData: TransactionData): Assets |
                     },
                 ],
             }
-
-            // If it's a base coin transaction, we don't need to specify assets
-        } else {
-            assets = undefined
         }
-    } else {
-        throw new Error('Invalid transaction type')
     }
 
     return assets
 }
 
-function getMetadata(transactionData: TransactionData): Promise<string> {
-    if (transactionData.layer2Parameters) {
-        return getLayer2MetadataForTransfer(transactionData)
+function getMetadata(sendFlowParameters: SendFlowParameters): Promise<string> {
+    if (sendFlowParameters.layer2Parameters) {
+        return getLayer2MetadataForTransfer(sendFlowParameters)
     } else {
-        return Promise.resolve(Converter.utf8ToHex(transactionData?.metadata ?? ''))
+        return Promise.resolve(Converter.utf8ToHex(sendFlowParameters?.metadata ?? ''))
     }
 }

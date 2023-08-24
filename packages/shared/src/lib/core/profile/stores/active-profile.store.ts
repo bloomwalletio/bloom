@@ -3,7 +3,7 @@ import { get, writable } from 'svelte/store'
 import type { IPersistedAccountData } from '@core/account/interfaces'
 import type { IEvmAddresses } from '@core/network/interfaces'
 
-import { INITIAL_ACTIVE_PROFILE } from '../constants'
+import { INITIAL_ACTIVE_PROFILE } from '../constants/initial-active-profile.constant'
 import type { IProfile, IProfileSettings } from '../interfaces'
 
 export const activeProfile = writable<IProfile>(<IProfile>INITIAL_ACTIVE_PROFILE)

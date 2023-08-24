@@ -4,7 +4,7 @@
     import { closePopup } from '@desktop/auxiliary/popup'
     import { handleError } from '@core/error/handlers'
     import { onMount } from 'svelte'
-    import { selectedAccount } from '@core/account'
+    import { selectedAccount } from '@core/account/stores'
 
     export let title: string
     export let description: string = ''
@@ -14,15 +14,22 @@
     export let warning: boolean = false
     export let danger: boolean = false
     export let confirmText: string = localize('actions.confirm')
-    export let onConfirm: () => void = undefined
+    export let onConfirm: () => Promise<void> = undefined
     export let onCancel: () => void = undefined
     export let _onMount: (..._: any[]) => Promise<void> = async () => {}
 
-    function onConfirmClick(): void {
-        if (onConfirm) {
-            onConfirm()
-        } else {
-            closePopup()
+    let isBusy = false
+
+    async function onConfirmClick(): Promise<void> {
+        isBusy = true
+        try {
+            if (onConfirm) {
+                await onConfirm()
+            } else {
+                closePopup()
+            }
+        } finally {
+            isBusy = false
         }
     }
 
@@ -60,8 +67,8 @@
         <Button
             classes="w-full"
             variant={warning || danger ? ButtonVariant.Warning : ButtonVariant.Primary}
-            disabled={$selectedAccount.isTransferring}
-            isBusy={$selectedAccount.isTransferring}
+            disabled={$selectedAccount.isTransferring || isBusy}
+            isBusy={$selectedAccount.isTransferring || isBusy}
             onClick={onConfirmClick}
         >
             {confirmText}

@@ -1,30 +1,31 @@
 <script lang="ts">
-    import { KeyValueBox } from '@ui'
+    import { Activity } from '@core/activity'
     import { getFormattedTimeStamp, localize } from '@core/i18n'
-    import { activeProfile, getBaseToken } from '@core/profile'
-    import { Activity, formatTokenAmountPrecise } from '@core/wallet'
     import { ExplorerEndpoint } from '@core/network'
-    import { getOfficialExplorerUrl } from '@core/network/utils'
+    import { getDefaultExplorerUrl } from '@core/network/utils'
     import { openUrlInBrowser } from '@core/app'
-    import { IKeyValueBoxList, truncateString } from '@core/utils'
-    import { setClipboard } from '@core/utils'
+    import { getBaseToken } from '@core/profile/actions'
+    import { activeProfile } from '@core/profile/stores'
+    import { formatTokenAmountPrecise } from '@core/token'
+    import { IKeyValueBoxList, setClipboard, truncateString } from '@core/utils'
+    import { KeyValueBox } from '@ui'
 
     export let activity: Activity
 
-    const explorerUrl = getOfficialExplorerUrl($activeProfile?.network?.id)
+    const explorerUrl = getDefaultExplorerUrl($activeProfile?.network?.id)
 
     $: expirationTime = getFormattedTimeStamp(activity?.asyncData?.expirationDate)
     $: claimedTime = getFormattedTimeStamp(activity?.asyncData?.claimedDate)
     $: hasStorageDeposit =
         activity?.storageDeposit || (activity?.storageDeposit === 0 && activity?.giftedStorageDeposit === 0)
-    $: gasBudget = activity?.parsedLayer2Metadata?.gasBudget
+    $: gasLimit = activity?.parsedLayer2Metadata?.gasLimit
 
     $: formattedTransactionTime = getFormattedTimeStamp(activity?.time)
     $: formattedTimelockDate = getFormattedTimeStamp(activity?.asyncData?.timelockDate)
     $: formattedStorageDeposit = formatTokenAmountPrecise(activity?.storageDeposit ?? 0, getBaseToken())
     $: formattedGiftedStorageDeposit = formatTokenAmountPrecise(activity?.giftedStorageDeposit ?? 0, getBaseToken())
     $: formattedSurplus = formatTokenAmountPrecise(activity?.surplus ?? 0, getBaseToken())
-    $: formattedGasBudget = formatTokenAmountPrecise(Number(gasBudget ?? 0), getBaseToken())
+    $: formattedGasLimit = formatTokenAmountPrecise(Number(gasLimit ?? 0), getBaseToken())
 
     let transactionDetailsList: IKeyValueBoxList
     $: transactionDetailsList = {
@@ -49,8 +50,8 @@
         ...(activity?.giftedStorageDeposit && {
             giftedStorageDeposit: { data: formattedGiftedStorageDeposit, isTooltipVisible: true },
         }),
-        ...(gasBudget && {
-            gasBudget: { data: formattedGasBudget, isTooltipVisible: true },
+        ...(gasLimit && {
+            gasLimit: { data: formattedGasLimit, isTooltipVisible: true },
         }),
         ...(expirationTime && {
             expirationTime: { data: expirationTime, isTooltipVisible: true },

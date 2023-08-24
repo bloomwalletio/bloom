@@ -1,34 +1,34 @@
-import { TokenTransactionData, TransactionData, getAddressFromSubject } from '@core/wallet'
-import { ETH_COIN_TYPE, getNetwork } from '@core/network'
-import { getSelectedAccount } from '@core/account'
-import { FALLBACK_GAS_BUDGET, ISC_MAGIC_CONTRACT_ADDRESS } from '../constants'
+import { getNetwork } from '@core/network'
+import { getSelectedAccount } from '@core/account/stores'
+import { SendFlowParameters, SendFlowType } from '@core/wallet'
+import { FALLBACK_ESTIMATED_GAS, ISC_MAGIC_CONTRACT_ADDRESS } from '../constants'
+import { AssetType } from '../enums'
+import { TransferredAsset } from '../types'
 import { getIscpTransferSmartContractData } from '../utils'
 
-export async function estimateGasForLayer1ToLayer2Transaction(transactionData: TransactionData): Promise<number> {
-    const { recipient, layer2Parameters, rawAmount, asset } = (transactionData as TokenTransactionData) ?? {}
+export async function estimateGasForLayer1ToLayer2Transaction(sendFlowParameters: SendFlowParameters): Promise<number> {
+    const { recipient, layer2Parameters } = sendFlowParameters ?? {}
 
     if (!layer2Parameters) {
         return 0
     }
 
-    const address = layer2Parameters
-        ? layer2Parameters.networkAddress
-        : recipient
-        ? getAddressFromSubject(recipient)
-        : ''
-    const chainId = layer2Parameters.chainId
+    const address = layer2Parameters ? layer2Parameters.networkAddress : recipient?.address ?? ''
+    const networkId = layer2Parameters.networkId
 
-    const chain = chainId ? getNetwork()?.getChain(chainId) : undefined
+    const chain = networkId ? getNetwork()?.getChain(networkId) : undefined
     const provider = chain?.getProvider()
+    const transferredAsset = getTransferredAsset(sendFlowParameters)
 
-    const fallbackGas = FALLBACK_GAS_BUDGET.toJSNumber()
-    if (!asset || !chain || !provider) {
+    const fallbackGas = FALLBACK_ESTIMATED_GAS.toJSNumber()
+    if (!chain || !provider || !transferredAsset) {
         return fallbackGas
     }
 
     try {
-        const evmAddress = getSelectedAccount()?.evmAddresses?.[ETH_COIN_TYPE]
-        const data = getIscpTransferSmartContractData(address, asset, rawAmount, chain)
+        const coinType = chain.getConfiguration().coinType
+        const evmAddress = getSelectedAccount()?.evmAddresses?.[coinType]
+        const data = getIscpTransferSmartContractData(address, transferredAsset, chain)
         if (data) {
             const gas = await provider.eth.estimateGas({
                 from: evmAddress,
@@ -43,5 +43,38 @@ export async function estimateGasForLayer1ToLayer2Transaction(transactionData: T
         // If the from in estimateGas doesn't have funds,  the node throw an error.
         console.error(err)
         return Promise.resolve(fallbackGas)
+    }
+}
+
+function getTransferredAsset(sendFlowParameters: SendFlowParameters): TransferredAsset | undefined {
+    if (sendFlowParameters.type === SendFlowType.NftTransfer) {
+        return sendFlowParameters.nft
+            ? {
+                  type: AssetType.Nft,
+                  nft: sendFlowParameters.nft,
+              }
+            : undefined
+    } else if (sendFlowParameters.type === SendFlowType.TokenTransfer) {
+        const token = sendFlowParameters.tokenTransfer?.token
+        const amount = sendFlowParameters.tokenTransfer?.rawAmount ?? '0'
+
+        return token
+            ? {
+                  type: AssetType.BaseCoin,
+                  token,
+                  amount,
+              }
+            : undefined
+    } else {
+        const token = sendFlowParameters.baseCoinTransfer?.token
+        const amount = sendFlowParameters.baseCoinTransfer?.rawAmount ?? '0'
+
+        return token
+            ? {
+                  type: AssetType.BaseCoin,
+                  token,
+                  amount,
+              }
+            : undefined
     }
 }

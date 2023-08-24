@@ -1,4 +1,4 @@
-import { loadAccount } from '@core/account'
+import { loadAccount } from '@core/account/actions'
 import { getAccounts } from '@core/profile-manager'
 import { get } from 'svelte/store'
 import { activeAccounts, activeProfile } from '../../stores'

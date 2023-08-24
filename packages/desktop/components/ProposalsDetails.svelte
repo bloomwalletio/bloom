@@ -1,13 +1,4 @@
 <script lang="ts">
-    import { onMount } from 'svelte'
-
-    import { Button, KeyValueBox, Text, ProposalsDetailsButton } from '@ui'
-    import { ButtonSize, FontWeight } from '@ui/enums'
-
-    import { selectedAccount } from '@core/account'
-    import { localize } from '@core/i18n'
-    import { activeProfileId } from '@core/profile'
-
     import { IProposalsDetails } from '@contexts/governance/interfaces'
     import {
         participationOverviewForSelectedAccount,
@@ -20,8 +11,13 @@
         getNumberOfVotedProposals,
         getNumberOfVotingProposals,
     } from '@contexts/governance/utils'
-
-    import { openPopup, PopupId } from '@desktop/auxiliary/popup'
+    import { selectedAccount } from '@core/account/stores'
+    import { localize } from '@core/i18n'
+    import { activeProfileId } from '@core/profile/stores'
+    import { PopupId, openPopup } from '@desktop/auxiliary/popup'
+    import { Button, KeyValueBox, ProposalsDetailsButton, Text } from '@ui'
+    import { ButtonSize, FontWeight } from '@ui/enums'
+    import { onMount } from 'svelte'
 
     let details = <IProposalsDetails>{
         totalProposals: null,
@@ -32,7 +28,7 @@
 
     $: isOverviewLoaded = !!$participationOverviewForSelectedAccount
     $: $registeredProposalsForSelectedAccount, $participationOverviewForSelectedAccount, updateProposalsDetails()
-    $: $selectedAccount, setParticipationOverview()
+    $: $selectedAccount, void setParticipationOverview()
 
     function updateProposalsDetails(): void {
         if ($activeProfileId) {
@@ -62,11 +58,11 @@
 </script>
 
 <proposals-details class="space-y-4">
-    <header-container class="flex justify-between items-center">
+    <header-container class="flex justify-between items-center relative">
         <Text fontSize="14" fontWeight={FontWeight.semibold}>
             {localize('views.governance.proposalsDetails.title')}
         </Text>
-        <ProposalsDetailsButton />
+        <ProposalsDetailsButton modalPosition={{ right: '0px', top: '34px' }} />
     </header-container>
     <ul class="space-y-2">
         {#each Object.keys(details) as detailKey}

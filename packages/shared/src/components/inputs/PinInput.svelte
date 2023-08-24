@@ -1,7 +1,6 @@
 <script lang="ts">
     import { Error, Icon, Text } from '@ui'
     import { createEventDispatcher, onMount } from 'svelte'
-    import { mobile, PlatformOption, platform } from '@core/app'
     import { isValidPin, PIN_LENGTH } from '@core/utils'
 
     const dispatch = createEventDispatcher()
@@ -23,7 +22,6 @@
         }
     }
     $: value.length === PIN_LENGTH && dispatch('filled')
-    $: isAndroid = $platform === PlatformOption.Android
 
     let root: HTMLElement
     const inputElements: HTMLElement[] = []
@@ -109,20 +107,6 @@
         event.preventDefault()
     }
 
-    /**
-     * for android mobile we need both onkeydown and oninput
-     * event listeners to the input and handle the old and the new value.
-     * the auto-suggest feature or other event might follow
-     * the keydown event and invalidate it.
-     */
-    function changeHandlerHelper(event: InputEventInit, index: number): void {
-        if (!/^[0-9]$/.test(event.data)) {
-            inputs[index] = ''
-        } else {
-            inputElements[index + 1].focus()
-        }
-    }
-
     onMount(() => {
         if (autofocus) {
             focus()
@@ -149,35 +133,19 @@
         <div class="flex flex-row inputs-wrapper">
             <div class="input-wrapper absolute items-center w-full flex flex-row flex-no-wrap justify-between">
                 {#each inputs as input, i}
-                    {#if $mobile}
-                        <input
-                            bind:value={input}
-                            maxLength="1"
-                            id={`input-${i}`}
-                            type="tel"
-                            bind:this={inputElements[i]}
-                            class:active={!input || input.length === 0}
-                            class:glimpse
-                            {disabled}
-                            on:input={(event) => (isAndroid ? changeHandlerHelper(event, i) : undefined)}
-                            on:keydown={changeHandler}
-                            on:contextmenu|preventDefault
-                        />
-                    {:else}
-                        <input
-                            bind:value={input}
-                            maxLength="1"
-                            id={`input-${i}`}
-                            type="text"
-                            bind:this={inputElements[i]}
-                            class:active={!input || input.length === 0}
-                            class:glimpse
-                            {disabled}
-                            on:keydown={changeHandler}
-                            on:contextmenu|preventDefault
-                            tabindex="-1"
-                        />
-                    {/if}
+                    <input
+                        bind:value={input}
+                        maxLength="1"
+                        id={`input-${i}`}
+                        type="text"
+                        bind:this={inputElements[i]}
+                        class:active={!input || input.length === 0}
+                        class:glimpse
+                        {disabled}
+                        on:keydown={changeHandler}
+                        on:contextmenu|preventDefault
+                        tabindex="-1"
+                    />
                 {/each}
             </div>
             <div
@@ -227,7 +195,9 @@
                 @apply text-center;
                 @apply text-18;
                 caret-color: transparent;
-                transition: opacity 1s, color 1s;
+                transition:
+                    opacity 1s,
+                    color 1s;
 
                 &.active {
                     border-bottom-width: 1px;

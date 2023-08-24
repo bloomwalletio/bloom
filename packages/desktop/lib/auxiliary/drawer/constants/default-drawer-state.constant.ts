@@ -1,8 +1,11 @@
-import { IDrawerState } from '../interfaces'
+import { DashboardDrawerRoute } from '@views/dashboard/drawers'
+import { DrawerRoute } from '../enums'
+import { DrawerState } from '../types'
 
-export const DEFAULT_DRAWER_STATE: IDrawerState = {
+export const DEFAULT_DRAWER_STATE: DrawerState = {
+    route: DrawerRoute.Dashboard,
+    id: DashboardDrawerRoute.NetworkConfig,
     active: false,
-    id: null,
     hideClose: false,
     preventClose: false,
     direction: null,

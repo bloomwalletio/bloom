@@ -1,19 +1,20 @@
 <script lang="ts">
-    import { Button, KeyValueBox, Text, FontWeight, TextType } from '@ui'
-    import { selectedAccount, updateSelectedAccount } from '@core/account'
+    import { selectedAccount, updateSelectedAccount } from '@core/account/stores'
+    import { processAndAddToActivities } from '@core/activity/utils'
+    import { handleError } from '@core/error/handlers/handleError'
     import { localize } from '@core/i18n'
-    import { checkActiveProfileAuth, getBaseToken } from '@core/profile'
+    import { checkActiveProfileAuth, getBaseToken } from '@core/profile/actions'
     import {
-        convertBech32ToHexAddress,
-        formatTokenAmountPrecise,
         EMPTY_HEX_ID,
         UNLOCK_CONDITION_GOVERNOR_ADDRESS,
         UNLOCK_CONDITION_STATE_CONTROLLER_ADDRESS,
-        processAndAddToActivities,
+        convertBech32ToHexAddress,
     } from '@core/wallet'
     import { closePopup } from '@desktop/auxiliary/popup'
+    import { Button, FontWeight, KeyValueBox, Text, TextType } from '@ui'
     import { onMount } from 'svelte'
-    import { handleError } from '@core/error/handlers/handleError'
+    import { network } from '@core/network/stores'
+    import { formatTokenAmountPrecise } from '@core/token'
 
     export let _onMount: (..._: any[]) => Promise<void> = async () => {}
 
@@ -53,9 +54,15 @@
 
     async function createAlias(): Promise<void> {
         try {
+            const account = $selectedAccount
+            const networkId = $network?.getMetadata()?.id
+            if (!account || !networkId) {
+                throw new Error(localize('error.global.accountOrNetworkUndefined'))
+            }
+
             updateSelectedAccount({ isTransferring: true })
-            const transaction = await $selectedAccount.createAliasOutput()
-            await processAndAddToActivities(transaction, $selectedAccount)
+            const transaction = await account.createAliasOutput()
+            await processAndAddToActivities(transaction, account, networkId)
             closePopup()
         } catch (err) {
             handleError(err)

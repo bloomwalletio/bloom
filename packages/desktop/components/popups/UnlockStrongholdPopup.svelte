@@ -1,8 +1,8 @@
 <script lang="ts">
-    import { Button, PasswordInput, Text, HTMLButtonType } from '@ui'
-    import { closePopup } from '@desktop/auxiliary/popup'
     import { localize } from '@core/i18n'
-    import { unlockStronghold } from '@core/profile'
+    import { unlockStronghold } from '@core/profile/actions'
+    import { closePopup } from '@desktop/auxiliary/popup'
+    import { Button, HTMLButtonType, PasswordInput, Text } from '@ui'
 
     export let subtitle: string = ''
     export let returnPassword = false
@@ -12,15 +12,19 @@
 
     let password: string
     let error = ''
+    let isBusy = false
 
     async function onSubmit(): Promise<void> {
         try {
+            isBusy = true
             const response = await unlockStronghold(password)
             closePopup()
             onSuccess(returnPassword ? password : response)
         } catch (err) {
             console.error(err)
             error = localize(err?.message ?? err)
+        } finally {
+            isBusy = false
         }
     }
 
@@ -50,8 +54,13 @@
         autofocus
     />
     <div class="flex flex-row justify-between w-full space-x-4">
-        <Button outline classes="w-1/2" onClick={onCancelClick}>{localize('actions.cancel')}</Button>
-        <Button classes="w-1/2" type={HTMLButtonType.Submit} disabled={!password || password.length === 0}>
+        <Button outline classes="w-1/2" disabled={isBusy} onClick={onCancelClick}>{localize('actions.cancel')}</Button>
+        <Button
+            classes="w-1/2"
+            type={HTMLButtonType.Submit}
+            disabled={!password || password.length === 0 || isBusy}
+            {isBusy}
+        >
             {localize('actions.unlock')}
         </Button>
     </div>

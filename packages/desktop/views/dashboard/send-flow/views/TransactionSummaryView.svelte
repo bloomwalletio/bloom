@@ -1,27 +1,28 @@
 <script lang="ts">
-    import { closePopup } from '@desktop/auxiliary/popup'
-    import { getSelectedAccount, selectedAccount, selectedAccountIndex } from '@core/account'
+    import { selectedAccount } from '@core/account/stores'
     import { handleError } from '@core/error/handlers'
     import { localize } from '@core/i18n'
-    import { NewTransactionType, newTransactionData } from '@core/wallet/stores'
+    import { EvmTransactionData } from '@core/layer-2'
+    import { IChain, getActiveNetworkId, getNetwork } from '@core/network'
+    import { truncateString } from '@core/utils'
+    import { Output, SendFlowParameters, SubjectType } from '@core/wallet'
     import {
-        createEvmTransactionFromTransactionData,
-        createStardustOutputFromTransactionData,
+        createEvmTransactionFromSendFlowParameters,
+        createStardustOutputFromSendFlowParameters,
         sendOutputFromStardust,
         sendTransactionFromEvm,
     } from '@core/wallet/actions'
+    import { getNetworkIdFromSendFlowParameters } from '@core/wallet/actions/getNetworkIdFromSendFlowParameters'
+    import { sendFlowParameters } from '@core/wallet/stores'
+    import { closePopup } from '@desktop/auxiliary/popup'
+    import { onMount } from 'svelte'
     import { sendFlowRouter } from '../send-flow.router'
     import SendFlowTemplate from './SendFlowTemplate.svelte'
     import { EvmTransactionSummary, StardustTransactionSummary } from './components'
-    import { truncateString } from '@core/utils'
-    import { Output, TransactionData } from '@core/wallet'
-    import { IChain, getNetwork } from '@core/network'
-    import { EvmTransactionData } from '@core/layer-2'
-    import { onMount } from 'svelte'
 
     export let _onMount: (..._: any[]) => Promise<void> = async () => {}
 
-    $: void updateSendFlow($newTransactionData)
+    $: void updateSendFlow($sendFlowParameters)
     $: isAssetFromLayer2 = !!chain
     $: isTransferring = !!$selectedAccount.isTransferring
 
@@ -30,20 +31,26 @@
     let preparedTransaction: EvmTransactionData | undefined
     let chain: IChain | undefined
 
-    async function updateSendFlow(transactionData: TransactionData): Promise<void> {
-        const { recipient, type } = transactionData
+    async function updateSendFlow(sendFlowParameters: SendFlowParameters): Promise<void> {
+        const { recipient } = sendFlowParameters
 
         recipientAddress =
-            recipient.type === 'account' ? recipient.account.name : truncateString(recipient?.address, 6, 6)
+            recipient.type === SubjectType.Account ? recipient.account.name : truncateString(recipient?.address, 6, 6)
 
-        const chainId = type === NewTransactionType.TokenTransfer ? transactionData.asset.chainId : undefined
-        if (chainId) {
-            chain = getNetwork()?.getChain(chainId)
-            const account = getSelectedAccount()
+        const networkId = getNetworkIdFromSendFlowParameters(sendFlowParameters)
+        if (networkId !== getActiveNetworkId()) {
+            chain = getNetwork()?.getChain(networkId)
 
-            preparedTransaction = await createEvmTransactionFromTransactionData($newTransactionData, chain, account)
+            preparedTransaction = await createEvmTransactionFromSendFlowParameters(
+                sendFlowParameters,
+                chain,
+                $selectedAccount
+            )
         } else {
-            preparedOutput = await createStardustOutputFromTransactionData($newTransactionData, $selectedAccountIndex)
+            preparedOutput = await createStardustOutputFromSendFlowParameters(
+                sendFlowParameters,
+                $selectedAccount.index
+            )
         }
     }
 
@@ -91,8 +98,8 @@
     }}
 >
     {#if isAssetFromLayer2 && preparedTransaction}
-        <EvmTransactionSummary transaction={preparedTransaction} transactionData={$newTransactionData} />
+        <EvmTransactionSummary transaction={preparedTransaction} sendFlowParameters={$sendFlowParameters} />
     {:else if !isAssetFromLayer2 && preparedOutput}
-        <StardustTransactionSummary output={preparedOutput} transactionData={$newTransactionData} />
+        <StardustTransactionSummary output={preparedOutput} sendFlowParameters={$sendFlowParameters} />
     {/if}
 </SendFlowTemplate>

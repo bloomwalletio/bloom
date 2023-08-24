@@ -1,10 +1,11 @@
-import { IPersistedAccountData } from '@core/account'
-import { IClientOptions, IPersistedNetwork, ITrackedTokens } from '@core/network'
-import { INft } from '@core/nfts'
+import { IPersistedAccountData } from '@core/account/interfaces'
+import { IClientOptions, IPersistedNetwork } from '@core/network/interfaces'
+import { INft } from '@core/nfts/interfaces'
 import { StrongholdVersion } from '@core/stronghold/enums'
 import { ProfileType } from '../enums'
 import { IProfileSettings } from './profile-settings.interface'
 import { IContactMap, INetworkContactAddressMap } from '@core/contact/interfaces'
+import { TrackedTokens } from '@core/token/types'
 
 export interface IPersistedProfile {
     id: string
@@ -24,6 +25,7 @@ export interface IPersistedProfile {
     clientOptions: IClientOptions
     forceAssetRefresh: boolean
     strongholdVersion: StrongholdVersion
-    trackedTokens: ITrackedTokens
+    trackedTokens: TrackedTokens
     pfp?: INft
+    color?: string
 }

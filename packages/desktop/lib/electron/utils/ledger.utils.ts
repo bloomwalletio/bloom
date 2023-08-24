@@ -1,19 +1,10 @@
-import { Common } from '@ethereumjs/common'
-import { RLP } from '@ethereumjs/rlp'
-import { Transaction, TxData } from '@ethereumjs/tx'
-import { bufArrToArr } from '@ethereumjs/util'
-
 import AppEth from '@ledgerhq/hw-app-eth'
 import TransportNodeHid from '@ledgerhq/hw-transport-node-hid'
 import { listen } from '@ledgerhq/logs'
 
-let transport: TransportNodeHid
+import { IEvmTransactionSignature } from '@core/layer-2/interfaces'
 
-const TX_OPTIONS = {
-    common: Common.custom({
-        chainId: 1072,
-    }),
-}
+let transport: TransportNodeHid
 
 export async function openTransport(): Promise<void> {
     if (!transport) {
@@ -38,30 +29,23 @@ export async function getEvmAddress(bip32Path: string): Promise<{ evmAddress: st
     return { evmAddress: data.address, bip32Path }
 }
 
-export async function signTransactionData(data: TxData, bip32Path: string): Promise<{ signedTransaction: string }> {
-    const appEth = new AppEth(transport)
-
-    const transactionData = Transaction.fromTxData(data, TX_OPTIONS)
-    const unsignedTransaction = transactionData.getMessageToSign(false)
-    const serializedUnsignedTransaction = Buffer.from(RLP.encode(bufArrToArr(unsignedTransaction)))
-
+export async function signTransactionData(
+    transactionHex: string,
+    bip32Path: string
+): Promise<IEvmTransactionSignature> {
     try {
-        const signature = await appEth.signTransaction(bip32Path, serializedUnsignedTransaction.toString('hex'), null)
-        const signedTransactionObject = Transaction.fromTxData(
-            {
-                ...data,
-                v: '0x' + signature.v,
-                r: '0x' + signature.r,
-                s: '0x' + signature.s,
-            },
-            TX_OPTIONS
-        )
-
-        const serializedSignedTransaction = Buffer.from(RLP.encode(bufArrToArr(signedTransactionObject.raw())))
-        const serializedSignedTransactionString = '0x' + serializedSignedTransaction.toString('hex')
-
-        return { signedTransaction: serializedSignedTransactionString }
+        const appEth = new AppEth(transport)
+        const signature = await appEth.signTransaction(bip32Path, transactionHex, null)
+        return {
+            r: '0x' + signature.r,
+            v: '0x' + signature.v,
+            s: '0x' + signature.s,
+        }
     } catch (error) {
-        return { signedTransaction: undefined }
+        return {
+            r: '',
+            v: '',
+            s: '',
+        }
     }
 }

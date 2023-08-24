@@ -1,10 +1,10 @@
 <script lang="ts">
-    import { Text, Icon, Modal, Toggle, FontWeight } from '@ui'
     import { Icon as IconEnum } from '@auxiliary/icon'
-    import { fade } from 'svelte/transition'
-    import { formatTokenAmountPrecise } from '@core/wallet'
-    import { getBaseToken } from '@core/profile'
     import { localize } from '@core/i18n'
+    import { getBaseToken } from '@core/profile/actions'
+    import { formatTokenAmountPrecise } from '@core/token'
+    import { FontWeight, Icon, Modal, Text, Toggle } from '@ui'
+    import { fade } from 'svelte/transition'
 
     export let storageDeposit: number
     export let giftStorageDeposit: boolean
@@ -14,6 +14,7 @@
 
     function toggleGiftStorageDeposit(): void {
         giftStorageDeposit = !giftStorageDeposit
+        modal?.close()
     }
 </script>
 
@@ -30,7 +31,9 @@
                 darkColor="gray-500"
                 classes={disabled ? '' : 'hover:text-blue-600'}
             >
-                {formatTokenAmountPrecise(storageDeposit, getBaseToken())}
+                {giftStorageDeposit
+                    ? localize('general.gifted')
+                    : formatTokenAmountPrecise(storageDeposit, getBaseToken())}
             </Text>
             {#if !disabled}
                 <Icon icon={IconEnum.ChevronDown} width="10" height="13" classes="text-blue-500 ml-1" />

@@ -5,7 +5,7 @@
     import { Tooltip, Button, ButtonSize } from '@ui'
     import { localize } from '@core/i18n'
     import sveltyPickerTranslations from 'svelty-picker/i18n'
-    import { appSettings } from '@core/app'
+    import { appSettings } from '@core/app/stores'
 
     export let value: Date = undefined
     export let startDate: Date = null

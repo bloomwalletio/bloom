@@ -1,32 +1,38 @@
-import { closePopup, openPopup, PopupId } from '../../../../../../../desktop/lib/auxiliary/popup'
 import { updateParticipationOverview } from '@contexts/governance/stores'
 import { isAccountVoting } from '@contexts/governance/utils/isAccountVoting'
-import { syncVotingPower } from '@core/account'
-import { updateNftInAllAccountNfts } from '@core/nfts'
-import { updateActiveAccountPersistedData } from '@core/profile/actions'
-import { activeAccounts, updateActiveAccount } from '@core/profile/stores'
-import { ActivityAction, ActivityDirection, ActivityType, GovernanceActivity, InclusionState } from '@core/wallet'
-import { updateClaimingTransactionInclusion } from '@core/wallet/actions/activities/updateClaimingTransactionInclusion'
+import { syncVotingPower } from '@core/account/actions'
 import {
+    ActivityAction,
+    ActivityDirection,
+    ActivityType,
+    InclusionState,
     getActivityByTransactionId,
     updateActivityByTransactionId,
-} from '@core/wallet/stores/all-account-activities.store'
+    updateClaimingTransactionInclusion,
+} from '@core/activity'
+import { GovernanceActivity } from '@core/activity/types'
+import { updateNftInAllAccountNfts } from '@core/nfts/actions'
+import { updateActiveAccountPersistedData } from '@core/profile/actions'
+import { activeAccounts, updateActiveAccount } from '@core/profile/stores'
+import { Event, TransactionInclusionWalletEvent, WalletEventType } from '@iota/wallet/out/types'
 import { get } from 'svelte/store'
-import { WalletApiEvent } from '../../enums'
-import { ITransactionInclusionEventPayload } from '../../interfaces'
+import { PopupId, closePopup, openPopup } from '../../../../../../../desktop/lib/auxiliary/popup'
 import { validateWalletApiEvent } from '../../utils'
 
-export function handleTransactionInclusionEvent(error: Error, rawEvent: string): void {
-    const { accountIndex, payload } = validateWalletApiEvent(error, rawEvent, WalletApiEvent.TransactionInclusion)
-    /* eslint-disable @typescript-eslint/no-unnecessary-type-assertion */
-    handleTransactionInclusionEventInternal(accountIndex, payload as ITransactionInclusionEventPayload)
+export function handleTransactionInclusionEvent(error: Error, event: Event): void {
+    const walletEvent = validateWalletApiEvent<TransactionInclusionWalletEvent>(
+        error,
+        event,
+        WalletEventType.TransactionInclusion
+    )
+    handleTransactionInclusionEventInternal(event.accountIndex, walletEvent)
 }
 
 export function handleTransactionInclusionEventInternal(
     accountIndex: number,
-    payload: ITransactionInclusionEventPayload
+    walletEvent: TransactionInclusionWalletEvent
 ): void {
-    const { inclusionState, transactionId } = payload
+    const { inclusionState, transactionId } = walletEvent
     updateActivityByTransactionId(accountIndex, transactionId, { inclusionState })
 
     const activity = getActivityByTransactionId(accountIndex, transactionId)
