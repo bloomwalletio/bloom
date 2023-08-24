@@ -153,7 +153,7 @@ jobs:
               if: inputs.sign && inputs.os == 'ubuntu-20.04'
 
             - name: Sign AppImage (Linux)
-              run: echo $GPG_PASSPHRASE | gpg --pinentry-mode loopback --batch --passphrase-fd 0 --armor --detach-sign --default-key devops@bloomwallet.io bloom-desktop*.AppImage
+              run: echo $GPG_PASSPHRASE | gpg --pinentry-mode loopback --batch --passphrase-fd 0 --armor --detach-sign --default-key "Bloom Devops <devops@bloomwallet.io>" bloom-desktop*.AppImage
               working-directory: packages/desktop/out
               env:
                   GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
