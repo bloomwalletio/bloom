@@ -1,12 +1,13 @@
 <script lang="ts">
+    import { CopyableButton } from '@bloomwalletio/ui'
     import { DrawerTemplate } from '@components'
     import { selectedAccount } from '@core/account/stores'
     import { appSettings } from '@core/app/stores'
     import { localize } from '@core/i18n'
     import { IIscpChainConfiguration, selectedChain } from '@core/network'
     import { Router } from '@core/router'
+    import { AddressBox, FontWeight, QR, Text } from '@ui'
     import { NetworkConfigRoute } from '../'
-    import { AddressBox, Copyable, FontWeight, QR, Text } from '@ui'
 
     export let drawerRouter: Router<NetworkConfigRoute>
 
@@ -32,7 +33,7 @@
 >
     {#key depositAddress}
         <div class="w-full h-full flex items-center justify-center">
-            <Copyable value={depositAddress}>
+            <CopyableButton value={depositAddress}>
                 <address-container
                     class="flex flex-col px-4 py-4 space-y-2 rounded-xl cursor-pointer"
                     class:darkmode={$appSettings.darkMode}
@@ -53,7 +54,7 @@
                         </div>
                     </inner-box>
                 </address-container>
-            </Copyable>
+            </CopyableButton>
         </div>
     {/key}
 </DrawerTemplate>
