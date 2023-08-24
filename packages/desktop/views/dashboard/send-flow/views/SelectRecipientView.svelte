@@ -2,7 +2,7 @@
     import { selectedAccount, selectedAccountIndex } from '@core/account/stores'
     import { ContactManager } from '@core/contact/classes'
     import { localize } from '@core/i18n'
-    import { IChain, IIscpChainConfiguration, INetwork, getActiveNetworkId, network } from '@core/network'
+    import { IChain, IIscpChainConfiguration, INetwork, NetworkId, getActiveNetworkId, network } from '@core/network'
     import { visibleActiveAccounts } from '@core/profile/stores'
     import {
         SendFlowType,
@@ -77,7 +77,7 @@
             }))
     }
 
-    function getContactRecipientsForNetwork(networkId: string): Subject[] {
+    function getContactRecipientsForNetwork(networkId: NetworkId): Subject[] {
         const recipients: Subject[] = ContactManager.listContactAddressesForNetwork(networkId).map((address) => {
             const contact = ContactManager.getContact(address.contactId)
             return {
@@ -98,7 +98,10 @@
             networkId: metadata.id,
             name: metadata.name,
             networkAddress: '',
-            recipients: [...getLayer1AccountRecipients(accountIndexToExclude), ...getContactRecipientsForNetwork(name)],
+            recipients: [
+                ...getLayer1AccountRecipients(accountIndexToExclude),
+                ...getContactRecipientsForNetwork(metadata.id),
+            ],
         }
     }
 
@@ -125,8 +128,8 @@
             networkAddress: chainConfig.aliasAddress,
             recipients: [
                 ...getLayer2AccountRecipients(chainConfig.coinType, accountIndexToExclude),
-                ...getContactRecipientsForNetwork(chainConfig.name),
-            ], // TODO: We use the name here, because we use that currently as the key for the network addresses. This should be updated
+                ...getContactRecipientsForNetwork(chainConfig.id),
+            ],
         }
     }
 
