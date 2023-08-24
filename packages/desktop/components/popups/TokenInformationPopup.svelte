@@ -4,7 +4,7 @@
     import { TokenStandard, IToken, NotVerifiedStatus, VerifiedStatus } from '@core/token'
     import { openPopup, PopupId, updatePopupProps } from '@desktop/auxiliary/popup'
     import { Button, FontWeight, Text, TextHint, TokenActionsButton, TextType, TokenAmountTile, TooltipIcon } from '@ui'
-    import { Table, IItems } from '@bloomwalletio/ui'
+    import { type IItems, Table } from '@bloomwalletio/ui'
     import { SendFlowRoute, SendFlowRouter, sendFlowRouter } from '@views/dashboard/send-flow'
     import { Icon as IconEnum } from '@lib/auxiliary/icon'
     import { getCoinType } from '@core/profile/actions'
@@ -13,38 +13,40 @@
     export let token: IToken | undefined
     export let activityId: string = undefined
 
-    const items: IItems[] = [
-        {
-            key: localize('popups.tokenInformation.tokenMetadata.standard'),
-            value: token.standard,
-        },
-        {
-            key: localize('popups.tokenInformation.tokenMetadata.name'),
-            value: token.metadata?.name,
-            popover: {
-                title: 'test title',
-                content: 'test content',
+    let items: IItems[] = []
+    function setTableItems(token: IToken) {
+        items = [
+            {
+                key: localize('popups.tokenInformation.tokenMetadata.tokenId'),
+                value: token.id,
+                copyable: true,
             },
-        },
-        {
-            key: localize('popups.tokenInformation.tokenMetadata.tokenId'),
-            value: token.id,
-            copyable: {
-                popover: {
-                    content: localize('general.copiedToClipboard'),
-                },
+            {
+                key: localize('popups.tokenInformation.tokenMetadata.standard'),
+                value: token.standard,
             },
-        },
-    ]
-
-    $: if (token.metadata?.standard === TokenStandard.Irc30 && token.metadata.url) {
-        items.push({
-            key: localize('popups.tokenInformation.tokenMetadata.url'),
-            value: token.metadata?.url,
-        })
+            {
+                key: localize('popups.tokenInformation.tokenMetadata.name'),
+                value: token.metadata?.name,
+            },
+        ]
+        if (token.metadata.standard === TokenStandard.Irc30) {
+            if (token.metadata.description) {
+                items.push({
+                    key: localize('popups.tokenInformation.tokenMetadata.description'),
+                    value: token.metadata?.description,
+                })
+            }
+            if (token.metadata.url) {
+                items.push({
+                    key: localize('popups.tokenInformation.tokenMetadata.url'),
+                    value: token.metadata?.url,
+                    copyable: true,
+                })
+            }
+        }
     }
-
-    $: showAssetActionsMenuButton = token.standard === TokenStandard.Irc30 || token.standard === TokenStandard.Erc20
+    $: setTableItems(token)
 
     function onSkipClick(): void {
         unverifyToken(token.id, NotVerifiedStatus.Skipped)
@@ -113,7 +115,7 @@
                     />
                 {/if}
             </div>
-            {#if showAssetActionsMenuButton}
+            {#if token.standard === TokenStandard.Irc30 || token.standard === TokenStandard.Erc20}
                 <TokenActionsButton {token} />
             {/if}
         </div>
