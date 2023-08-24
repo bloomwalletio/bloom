@@ -1,20 +1,23 @@
 <script lang="ts">
-    import { Button } from '@ui'
+    import { Button, Spinner } from '@ui'
     import { localize } from '@core/i18n'
     import { Router } from '@core/router'
     import { DrawerTemplate } from '@components'
-    import { approveSession } from '@auxiliary/wallet-connect/utils/approveSession'
     import { sessionProposal } from '@auxiliary/wallet-connect/stores'
-    import Spinner from '@ui/Spinner.svelte'
+    import { getAllEvmAddresses, approveSession } from '@auxiliary/wallet-connect/utils'
     import DappInformationCard from '../components/DappInformationCard.svelte'
+    import { closeDrawer } from '@desktop/auxiliary/drawer'
 
     export let drawerRouter: Router<unknown>
 
-    const addresses: string[] = []
+    // This is used so that we can test with different dapps, as there are no shimmerEvm dapps ready for test
+    // EIP155: 1 is for Ethereum main chain and EIP155:5 is for the Goerli testnet
+    const chains = ['eip155:1', 'eip155:5']
+    const addresses: string[] = getAllEvmAddresses(chains)
 
     async function onConfirmClick(): Promise<void> {
         await approveSession($sessionProposal, addresses)
-        drawerRouter.previous()
+        closeDrawer()
     }
 </script>
 

@@ -35,6 +35,6 @@
         />
     </div>
     <Button slot="footer" classes="w-full" onClick={onConnectClick} disabled={!walletConnectUri}>
-        {localize('actions.confirm')}
+        {localize('actions.continue')}
     </Button>
 </DrawerTemplate>

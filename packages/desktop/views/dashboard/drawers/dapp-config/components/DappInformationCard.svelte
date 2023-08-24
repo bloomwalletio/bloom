@@ -1,8 +1,7 @@
 <script lang="ts">
     import { sessionProposal } from '@auxiliary/wallet-connect/stores'
     import { localize } from '@core/i18n'
-    import { Tile, FontWeight, Text } from '@ui'
-    import TextHint from '@ui/TextHint.svelte'
+    import { Tile, FontWeight, Text, TextHint } from '@ui'
 
     $: metadata = $sessionProposal?.params.proposer.metadata
 </script>
@@ -16,7 +15,7 @@
                     {metadata?.name}
                 </Text>
                 <Text fontSize="13">
-                    {metadata?.name}
+                    {metadata?.url}
                 </Text>
             </div>
         </div>
