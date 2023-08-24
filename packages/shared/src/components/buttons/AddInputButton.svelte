@@ -1,0 +1,32 @@
+<script lang="ts">
+    import { Icon, Text } from '@ui'
+    import { Icon as IconEnum } from '@auxiliary/icon'
+
+    export let buttonElement: HTMLButtonElement | undefined = undefined
+    export let text: string
+    export let open = false
+    export let disabled = false
+    export let onClick: () => void
+    export let onMouseEnter: () => void = () => {}
+    export let onMouseLeave: () => void = () => {}
+</script>
+
+{#if !open}
+    <button
+        bind:this={buttonElement}
+        class="py-1.5 px-3 w-max bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-500 rounded-md
+            {!disabled
+            ? 'hover:bg-gray-200 focus:bg-gray-200 dark:hover:bg-gray-900 dark:focus:bg-gray-900'
+            : 'bg-gray-200 dark:bg-gray-700 dark:bg-opacity-10 cursor-default'}
+        "
+        {disabled}
+        on:click={onClick}
+        on:mouseenter={onMouseEnter}
+        on:mouseleave={onMouseLeave}
+    >
+        <div class="flex flex-row items-center space-x-2">
+            <Icon icon={IconEnum.Plus} height="10" width="10" classes="text-gray-600" />
+            <Text fontSize="12" color="gray-600">{text}</Text>
+        </div>
+    </button>
+{/if}
