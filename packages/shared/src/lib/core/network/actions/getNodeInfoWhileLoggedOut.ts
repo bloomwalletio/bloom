@@ -3,7 +3,7 @@ import { IProfileManager, api } from '@core/profile-manager'
 import { initialiseProfileManager } from '@core/profile-manager/actions'
 import { TEST_COIN_TYPE } from '..'
 import { Platform } from '@core/app'
-import { NodeInfoWrapper } from '@iota/wallet'
+import { CoinType, NodeInfoWrapper } from '@iota/wallet'
 
 export async function getNodeInfoWhileLoggedOut(url: string): Promise<NodeInfoWrapper> {
     let storagePath: string | undefined
@@ -13,7 +13,7 @@ export async function getNodeInfoWhileLoggedOut(url: string): Promise<NodeInfoWr
         storagePath = await getTemporaryProfileManagerStorageDirectory()
         manager = await initialiseProfileManager(
             storagePath,
-            TEST_COIN_TYPE,
+            TEST_COIN_TYPE as CoinType,
             { nodes: [{ url }] },
             { stronghold: { snapshotPath: `${storagePath}/wallet.stronghold` } }
         )
