@@ -1,14 +1,14 @@
 import { EventStatus, ParticipationEventWithNodes, VotingEventPayload } from '@iota/sdk/out/types'
-import { OFFICIAL_NODE_URLS } from '@core/network/constants'
 import { IProposalMetadata } from '../interfaces'
 import { ProposalType } from '../enums'
-import { getActiveNetworkId } from '@core/network/utils/getNetworkId'
+import { DEFAULT_NODE_URLS } from '@core/network/constants'
+import { getActiveNetworkId } from '@core/network/actions'
 
 export function createProposalFromEvent(event: ParticipationEventWithNodes): IProposalMetadata {
     const { data, id } = event
 
     const networkId = getActiveNetworkId()
-    const officialNodeUrls = networkId ? OFFICIAL_NODE_URLS[networkId] ?? [] : []
+    const officialNodeUrls = networkId ? DEFAULT_NODE_URLS[networkId] ?? [] : []
     const nodeUrl = event.nodes[0].url
     const isOfficialNetwork = officialNodeUrls.includes(nodeUrl)
 

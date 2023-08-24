@@ -15,6 +15,7 @@
     import { closePopup } from '@desktop/auxiliary/popup'
     import { Button, FontWeight, KeyValueBox, Text, TextType } from '@ui'
     import { api, getClient } from '@core/profile-manager'
+    import { network } from '@core/network/stores'
     import { formatTokenAmountPrecise } from '@core/token'
 
     export let _onMount: (..._: any[]) => Promise<void> = async () => {}
@@ -48,10 +49,16 @@
 
     async function createAlias(): Promise<void> {
         try {
+            const account = $selectedAccount
+            const networkId = $network?.getMetadata()?.id
+            if (!account || !networkId) {
+                throw new Error(localize('error.global.accountOrNetworkUndefined'))
+            }
+
             updateSelectedAccount({ isTransferring: true })
             const preparedTransaction = await $selectedAccount.prepareCreateAliasOutput()
             const transaction = await sendPreparedTransaction(preparedTransaction)
-            await processAndAddToActivities(transaction, $selectedAccount)
+            await processAndAddToActivities(transaction, account, networkId)
             closePopup()
         } catch (err) {
             handleError(err)

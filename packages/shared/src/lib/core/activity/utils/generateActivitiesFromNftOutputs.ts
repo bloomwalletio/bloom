@@ -4,10 +4,12 @@ import { Activity, IProcessedTransaction } from '../types'
 import { OutputType, NftOutput } from '@iota/sdk/out/types'
 import { generateSingleNftActivity } from './generateSingleNftActivity'
 import { ActivityAction } from '../enums'
+import { NetworkId } from '@core/network/types'
 
 export function generateActivitiesFromNftOutputs(
     processedTransaction: IProcessedTransaction,
-    account: IAccountState
+    account: IAccountState,
+    networkId: NetworkId
 ): Activity[] {
     const outputs = processedTransaction.outputs
     const activities = []
@@ -16,7 +18,7 @@ export function generateActivitiesFromNftOutputs(
     for (const nftOutput of nftOutputs) {
         const output = nftOutput.output as NftOutput
         activities.push(
-            generateSingleNftActivity(account, {
+            generateSingleNftActivity(account, networkId, {
                 action: output.nftId === EMPTY_HEX_ID ? ActivityAction.Mint : ActivityAction.Send,
                 processedTransaction,
                 wrappedOutput: nftOutput,

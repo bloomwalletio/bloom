@@ -16,6 +16,7 @@ import { ActivityType } from '@core/activity/enums'
 import { getOrRequestTokenFromPersistedTokens } from '@core/token/actions'
 import { addPersistedToken } from '@core/token/stores'
 import { addNftsToDownloadQueue, addOrUpdateNftInAllAccountNfts, buildNftFromNftOutput } from '@core/nfts/actions'
+import { getActiveNetworkId } from '@core/network'
 
 export function handleNewOutputEvent(error: Error, event: Event): void {
     const walletEvent = validateWalletApiEvent<NewOutputWalletEvent>(error, event, WalletEventType.NewOutput)
@@ -27,9 +28,10 @@ export async function handleNewOutputEventInternal(
     walletEvent: NewOutputWalletEvent
 ): Promise<void> {
     const account = get(activeAccounts)?.find((account) => account.index === accountIndex)
+    const networkId = getActiveNetworkId()
     const output = walletEvent?.output
 
-    if (!account || !output) return
+    if (!account || !output || !networkId) return
 
     const address = getBech32AddressFromAddressTypes(output?.address)
     const outputData = output.output as AliasOutput
@@ -45,7 +47,7 @@ export async function handleNewOutputEventInternal(
 
         const processedOutput = preprocessGroupedOutputs([output], walletEvent?.transactionInputs ?? [], account)
 
-        const activities = await generateActivities(processedOutput, account)
+        const activities = await generateActivities(processedOutput, account, networkId)
         for (const activity of activities) {
             if (activity.type === ActivityType.Basic || activity.type === ActivityType.Foundry) {
                 const token = await getOrRequestTokenFromPersistedTokens(activity.tokenId)

@@ -3,10 +3,12 @@ import { IAccountState } from '@core/account'
 import { Activity, IProcessedTransaction } from '../types'
 import { generateSingleFoundryActivity } from './generateSingleFoundryActivity'
 import { ActivityAction } from '../enums'
+import { NetworkId } from '@core/network/types'
 
 export async function generateActivitiesFromFoundryOutputs(
     processedTransaction: IProcessedTransaction,
-    account: IAccountState
+    account: IAccountState,
+    networkId: NetworkId
 ): Promise<Activity[]> {
     const outputs = processedTransaction.outputs
     const activities = []
@@ -14,7 +16,7 @@ export async function generateActivitiesFromFoundryOutputs(
     const foundryOutputs = outputs.filter((output) => output.output.type === OutputType.Foundry)
     for (const foundryOutput of foundryOutputs) {
         activities.push(
-            await generateSingleFoundryActivity(account, {
+            await generateSingleFoundryActivity(account, networkId, {
                 action: ActivityAction.Mint,
                 processedTransaction,
                 wrappedOutput: foundryOutput,

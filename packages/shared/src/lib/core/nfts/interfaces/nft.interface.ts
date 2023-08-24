@@ -1,9 +1,10 @@
 import { Address } from '@iota/sdk/out/types'
 import { NftDownloadMetadata, IIrc27Metadata } from '../interfaces'
+import { NetworkId } from '@core/network/types'
 
 export interface INft {
     id: string
-    chainId?: number
+    networkId: NetworkId
     address: string
     name: string
     metadata?: string

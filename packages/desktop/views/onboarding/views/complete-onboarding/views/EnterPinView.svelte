@@ -1,7 +1,6 @@
 <script lang="ts">
     import { OnboardingLayout } from '@components'
     import { initialisePincodeManager } from '@contexts/onboarding'
-    import { IS_MOBILE } from '@core/app'
     import { localize } from '@core/i18n'
     import { isValidPin } from '@core/utils'
     import { Animation, Button, HTMLButtonType, PinInput, Text } from '@ui'
@@ -104,7 +103,7 @@
             {localize('actions.continue')}
         </Button>
     </div>
-    <div slot="rightpane" class="w-full h-full flex justify-center {!IS_MOBILE && 'bg-pastel-pink dark:bg-gray-900'}">
+    <div slot="rightpane" class="w-full h-full flex justify-center bg-pastel-pink dark:bg-gray-900">
         <Animation classes="setup-anim-aspect-ratio" animation="pin-desktop" />
     </div>
 </OnboardingLayout>

@@ -11,9 +11,11 @@ import {
     getTagFromOutput,
 } from './helper'
 import { ConsolidationActivity, IActivityGenerationParameters } from '../types'
+import { NetworkId } from '@core/network/types'
 
 export async function generateSingleConsolidationActivity(
     account: IAccountState,
+    networkId: NetworkId,
     { action, processedTransaction, wrappedOutput }: IActivityGenerationParameters
 ): Promise<ConsolidationActivity> {
     const { transactionId, direction, claimingData, time, inclusionState, wrappedInputs } = processedTransaction
@@ -51,7 +53,7 @@ export async function generateSingleConsolidationActivity(
         storageDeposit,
         metadata,
         tag,
-        chainId: undefined,
+        networkId,
         asyncData,
         amountConsolidatedInputs,
         ...sendingInfo,

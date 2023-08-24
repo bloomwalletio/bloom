@@ -9,10 +9,12 @@ import { generateSingleConsolidationActivity } from './generateSingleConsolidati
 import { generateSingleNftActivity } from './generateSingleNftActivity'
 import { getNonRemainderBasicOutputsFromTransaction } from './getNonRemainderBasicOutputsFromTransaction'
 import { getNftId } from './outputs'
+import { NetworkId } from '@core/network/types'
 
 export async function generateActivitiesFromBasicOutputs(
     processedTransaction: IProcessedTransaction,
-    account: IAccountState
+    account: IAccountState,
+    networkId: NetworkId
 ): Promise<Activity[]> {
     const activities = []
 
@@ -37,6 +39,7 @@ export async function generateActivitiesFromBasicOutputs(
             const nftInput = wrappedInput.output as NftOutput
             activity = generateSingleNftActivity(
                 account,
+                networkId,
                 {
                     action: ActivityAction.Burn,
                     processedTransaction,
@@ -51,6 +54,7 @@ export async function generateActivitiesFromBasicOutputs(
         } else if (isSelfTransaction && burnedNativeToken) {
             activity = await generateSingleBasicActivity(
                 account,
+                networkId,
                 {
                     action: ActivityAction.Burn,
                     processedTransaction,
@@ -60,13 +64,13 @@ export async function generateActivitiesFromBasicOutputs(
                 burnedNativeToken.amount
             )
         } else if (isSelfTransaction && isConsolidation(basicOutput, processedTransaction)) {
-            activity = await generateSingleConsolidationActivity(account, {
+            activity = await generateSingleConsolidationActivity(account, networkId, {
                 action: ActivityAction.Send,
                 processedTransaction,
                 wrappedOutput: basicOutput,
             })
         } else {
-            activity = await generateSingleBasicActivity(account, {
+            activity = await generateSingleBasicActivity(account, networkId, {
                 action: ActivityAction.Send,
                 processedTransaction,
                 wrappedOutput: basicOutput,

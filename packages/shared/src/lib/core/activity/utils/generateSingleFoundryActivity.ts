@@ -20,9 +20,11 @@ import {
     getTagFromOutput,
 } from './helper'
 import { getNativeTokenFromOutput } from './outputs'
+import { NetworkId } from '@core/network/types'
 
 export async function generateSingleFoundryActivity(
     account: IAccountState,
+    networkId: NetworkId,
     { action, processedTransaction, wrappedOutput }: IActivityGenerationParameters
 ): Promise<FoundryActivity> {
     const { transactionId, claimingData, time, direction, inclusionState } = processedTransaction
@@ -74,7 +76,7 @@ export async function generateSingleFoundryActivity(
         isHidden,
         metadata,
         tag,
-        chainId: undefined,
+        networkId,
         asyncData,
         ...sendingInfo,
     }

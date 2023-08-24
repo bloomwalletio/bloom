@@ -11,6 +11,7 @@ import { addPersistedToken } from '@core/token/stores'
 import { IIrc30Metadata } from '@core/token/interfaces'
 import { VerifiedStatus } from '@core/token/enums'
 import { sendPreparedTransaction } from '@core/wallet/utils'
+import { getActiveNetworkId } from '@core/network'
 
 export async function mintNativeToken(
     maximumSupply: number,
@@ -18,11 +19,13 @@ export async function mintNativeToken(
     metadata: IIrc30Metadata
 ): Promise<void> {
     try {
-        updateSelectedAccount({ isTransferring: true })
         const account = getSelectedAccount()
-        if (!account) {
-            throw new Error('Account is undefined!')
+        const networkId = getActiveNetworkId()
+
+        if (!account || !networkId) {
+            throw new Error(localize('error.global.accountOrNetworkUndefined'))
         }
+        updateSelectedAccount({ isTransferring: true })
 
         const params: CreateNativeTokenParams = {
             maximumSupply: BigInt(maximumSupply),
@@ -38,7 +41,7 @@ export async function mintNativeToken(
         })
         addPersistedToken(persistedAsset)
 
-        await processAndAddToActivities(transaction, account)
+        await processAndAddToActivities(transaction.transaction, account, networkId)
 
         showNotification({
             variant: 'success',

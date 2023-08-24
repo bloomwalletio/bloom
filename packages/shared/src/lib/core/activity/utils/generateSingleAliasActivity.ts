@@ -16,9 +16,11 @@ import {
 } from './helper'
 import { api } from '@core/profile-manager'
 import { getNetworkHrp } from '@core/profile/actions'
+import { NetworkId } from '@core/network/types'
 
 export function generateSingleAliasActivity(
     account: IAccountState,
+    networkId: NetworkId,
     { action, processedTransaction, wrappedOutput }: IActivityGenerationParameters
 ): AliasActivity {
     const { transactionId, claimingData, direction, time, inclusionState } = processedTransaction
@@ -58,7 +60,7 @@ export function generateSingleAliasActivity(
         time,
         metadata,
         tag,
-        chainId: undefined,
+        networkId,
         inclusionState,
         containsValue,
         asyncData,

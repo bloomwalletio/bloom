@@ -12,7 +12,7 @@
     import { openUrlInBrowser } from '@core/app'
     import { localize } from '@core/i18n'
     import { ExplorerEndpoint } from '@core/network'
-    import { getOfficialExplorerUrl } from '@core/network/utils'
+    import { getDefaultExplorerUrl } from '@core/network/utils'
     import { getNftByIdFromAllAccountNfts } from '@core/nfts/actions'
     import { ownedNfts, selectedNftId } from '@core/nfts/stores'
     import { checkActiveProfileAuth } from '@core/profile/actions'
@@ -35,7 +35,7 @@
     export let activityId: string
     export let _onMount: (..._: any[]) => Promise<void> = async () => {}
 
-    const explorerUrl = getOfficialExplorerUrl($activeProfile?.network?.id)
+    const explorerUrl = getDefaultExplorerUrl($activeProfile?.network?.id)
 
     $: activity = $selectedAccountActivities.find((_activity) => _activity.id === activityId)
     $: isTimelocked = activity?.asyncData?.asyncStatus === ActivityAsyncStatus.Timelocked
