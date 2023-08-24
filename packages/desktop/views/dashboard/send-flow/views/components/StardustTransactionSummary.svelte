@@ -3,8 +3,8 @@
     import { getStorageDepositFromOutput } from '@core/activity/utils/helper'
     import { localize } from '@core/i18n'
     import { GAS_LIMIT_MULTIPLIER, calculateGasFeeInGlow, getGasPriceInWei } from '@core/layer-2'
-    import { estimateGasForLayer1ToLayer2Transaction, getDestinationNetworkFromAddress } from '@core/layer-2/utils'
-    import { getNetwork } from '@core/network'
+    import { estimateGasForLayer1ToLayer2Transaction } from '@core/layer-2/utils'
+    import { getNetwork, isEvmChain } from '@core/network'
     import { INft } from '@core/nfts/interfaces'
     import { selectedAccountTokens } from '@core/token/stores'
     import { TimePeriod } from '@core/utils/enums'
@@ -23,13 +23,12 @@
         timelockDate,
         disableChangeExpiration,
         giftStorageDeposit,
-        layer2Parameters,
+        destinationNetworkId,
         tag,
         metadata,
         disableToggleGift,
     } = sendFlowParameters
 
-    const destinationNetwork = getDestinationNetworkFromAddress(layer2Parameters?.networkAddress)
     let baseCoinTransfer: TokenTransferData
     let storageDeposit: number
     let expirationTimePicker: ExpirationTimePicker
@@ -41,7 +40,7 @@
 
     $: expirationTimePicker?.setNull(giftStorageDeposit)
     $: isTransferring = !!$selectedAccount.isTransferring
-    $: isToLayer2 = !!layer2Parameters?.networkAddress
+    $: isToLayer2 = destinationNetworkId && isEvmChain(destinationNetworkId)
     $: updateSendFlowOnChange(expirationDate, timelockDate, giftStorageDeposit, tag, metadata)
 
     function updateSendFlowOnChange(
@@ -72,10 +71,10 @@
     let estimatedGasFee: BigIntLike | undefined = undefined
     let maxGasFee: BigIntLike | undefined = undefined
     async function setGasVariables(sendFlowParameters: SendFlowParameters): Promise<void> {
-        if (layer2Parameters) {
+        if (isToLayer2) {
             const estimatedGas = await estimateGasForLayer1ToLayer2Transaction(sendFlowParameters)
             const gasLimit = estimatedGas * GAS_LIMIT_MULTIPLIER
-            const gasPrice = await getGasPriceInWei(layer2Parameters.networkId)
+            const gasPrice = await getGasPriceInWei(sendFlowParameters.destinationNetworkId)
             estimatedGasFee = calculateGasFeeInGlow(estimatedGas, gasPrice)
             maxGasFee = calculateGasFeeInGlow(gasLimit, gasPrice)
         }
@@ -131,7 +130,7 @@
         {estimatedGasFee}
         {maxGasFee}
         storageDeposit={getStorageDepositFromOutput(output)}
-        {destinationNetwork}
+        {destinationNetworkId}
         {disableChangeExpiration}
         disableChangeTimelock={disableChangeExpiration}
         disableGiftStorageDeposit={disableToggleGift}

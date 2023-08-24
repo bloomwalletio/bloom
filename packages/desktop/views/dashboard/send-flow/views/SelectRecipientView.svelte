@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { selectedAccount, selectedAccountIndex } from '@core/account/stores'
+    import { selectedAccountIndex } from '@core/account/stores'
     import { ContactManager } from '@core/contact/classes'
     import { localize } from '@core/i18n'
     import { IChain, IIscpChainConfiguration, INetwork, NetworkId, getActiveNetworkId, network } from '@core/network'
@@ -21,18 +21,14 @@
     import { getTokenStandardFromSendFlowParameters } from '@core/wallet/actions/'
     import { TokenStandard } from '@core/token'
 
-    let networkAddress = $sendFlowParameters?.layer2Parameters?.networkAddress
     let selector: NetworkRecipientSelector
     let selectorOptions: INetworkRecipientSelectorOption[] = []
     let selectedIndex = -1
 
     const assetName = getAssetName()
 
-    $: selectedOption = selectorOptions[selectedIndex]
-    $: isLayer2 = !!networkAddress
-
-    $: networkAddress = selectedOption?.networkAddress ?? $sendFlowParameters?.layer2Parameters?.networkAddress
-    $: recipient = selectedOption?.selectedRecipient ?? $sendFlowParameters?.recipient
+    $: selectedRecipient = selectorOptions[selectedIndex]?.selectedRecipient
+    $: selectedNetworkId = selectorOptions[selectedIndex]?.networkId
 
     function getAssetName(): string | undefined {
         if ($sendFlowParameters?.type === SendFlowType.BaseCoinTransfer) {
@@ -48,23 +44,18 @@
 
     function buildNetworkRecipientOptions(): void {
         selectorOptions = getRecipientOptions()
-        selectedIndex =
-            networkAddress && selectorOptions.length
-                ? selectorOptions.findIndex((option) => option.networkAddress === networkAddress)
-                : 0
-
-        setInitialRecipient()
+        setInitialNetworkAndRecipient()
     }
 
-    function setInitialRecipient(): void {
-        selectorOptions = selectorOptions.map((option, index) =>
-            index === selectedIndex
-                ? {
-                      ...option,
-                      recipient: $sendFlowParameters?.recipient,
-                  }
-                : option
-        )
+    function setInitialNetworkAndRecipient(): void {
+        selectedIndex = $sendFlowParameters.destinationNetworkId
+            ? selectorOptions.findIndex((option) => option.networkId === $sendFlowParameters.destinationNetworkId)
+            : 0
+
+        selectorOptions[selectedIndex] = {
+            ...selectorOptions[selectedIndex],
+            selectedRecipient: $sendFlowParameters?.recipient,
+        }
     }
 
     function getLayer1AccountRecipients(accountIndexToExclude?: number): Subject[] {
@@ -97,7 +88,6 @@
         return {
             networkId: metadata.id,
             name: metadata.name,
-            networkAddress: '',
             recipients: [
                 ...getLayer1AccountRecipients(accountIndexToExclude),
                 ...getContactRecipientsForNetwork(metadata.id),
@@ -125,7 +115,6 @@
         return {
             networkId: chainConfig.id,
             name: chainConfig.name,
-            networkAddress: chainConfig.aliasAddress,
             recipients: [
                 ...getLayer2AccountRecipients(chainConfig.coinType, accountIndexToExclude),
                 ...getContactRecipientsForNetwork(chainConfig.id),
@@ -176,17 +165,10 @@
 
     function onContinueClick(): void {
         if (validate()) {
-            const layer2Parameters = isLayer2
-                ? {
-                      networkId: selectedOption?.networkId,
-                      networkAddress: selectedOption?.networkAddress,
-                      senderAddress: $selectedAccount.depositAddress,
-                  }
-                : null
             updateSendFlowParameters({
                 type: $sendFlowParameters?.type,
-                recipient,
-                layer2Parameters,
+                destinationNetworkId: selectedNetworkId,
+                recipient: selectedRecipient,
             })
             $sendFlowRouter.next()
         }
@@ -205,7 +187,6 @@
         updateSendFlowParameters({
             type: $sendFlowParameters?.type,
             recipient: undefined,
-            layer2Parameters: undefined,
         })
         if (!$sendFlowRouter.hasHistory()) {
             closePopup()
@@ -229,12 +210,7 @@
     rightButton={{
         text: localize('actions.continue'),
         onClick: onContinueClick,
-        disabled:
-            networkAddress === undefined ||
-            !recipient ||
-            (recipient.type === SubjectType.Address && !recipient.address) ||
-            (recipient.type === SubjectType.Contact && !recipient.address && !recipient.contact) ||
-            (recipient.type === SubjectType.Account && !recipient.account),
+        disabled: !selectedNetworkId || !selectedRecipient?.address,
     }}
 >
     <NetworkRecipientSelector bind:this={selector} bind:options={selectorOptions} bind:selectedIndex />
