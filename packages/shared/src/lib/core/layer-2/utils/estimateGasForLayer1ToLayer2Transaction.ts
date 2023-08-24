@@ -1,4 +1,4 @@
-import { getNetwork } from '@core/network'
+import { getNetwork, isStardustNetwork } from '@core/network'
 import { getSelectedAccount } from '@core/account/stores'
 import { SendFlowParameters, SendFlowType } from '@core/wallet'
 import { FALLBACK_ESTIMATED_GAS, ISC_MAGIC_CONTRACT_ADDRESS } from '../constants'
@@ -7,16 +7,15 @@ import { TransferredAsset } from '../types'
 import { getIscpTransferSmartContractData } from '../utils'
 
 export async function estimateGasForLayer1ToLayer2Transaction(sendFlowParameters: SendFlowParameters): Promise<number> {
-    const { recipient, layer2Parameters } = sendFlowParameters ?? {}
+    const { recipient, destinationNetworkId } = sendFlowParameters ?? {}
 
-    if (!layer2Parameters) {
+    if (destinationNetworkId && isStardustNetwork(destinationNetworkId)) {
         return 0
     }
 
-    const address = layer2Parameters ? layer2Parameters.networkAddress : recipient?.address ?? ''
-    const networkId = layer2Parameters.networkId
+    const address = recipient?.address ?? ''
 
-    const chain = networkId ? getNetwork()?.getChain(networkId) : undefined
+    const chain = destinationNetworkId ? getNetwork()?.getChain(destinationNetworkId) : undefined
     const provider = chain?.getProvider()
     const transferredAsset = getTransferredAsset(sendFlowParameters)
 
