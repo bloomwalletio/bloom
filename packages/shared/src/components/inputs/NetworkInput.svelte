@@ -1,19 +1,18 @@
 <script lang="ts">
-    import { SelectInput } from '@bloomwalletio/ui'
+    import { IOption, SelectInput } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
-    import { activeProfile } from '@core/profile/stores'
+    import { NetworkId, network } from '@core/network'
 
-    export let networkSelection: { networkId: string; address?: string } | undefined
-    export let error: string
-    export let showLayer2: boolean = false
+    export let networkId: NetworkId | undefined
+    export let error: string | undefined
+    export let showLayer1: boolean = true
+    export let showLayer2: boolean = true
     export let validationFunction: ((arg: string) => void) | undefined = undefined
 
     export function validate(): void {
         try {
-            if (validationFunction && typeof validationFunction === 'function') {
-                /* eslint-disable @typescript-eslint/ban-ts-comment */
-                // @ts-ignore
-                validationFunction(selectedString)
+            if (validationFunction && typeof validationFunction === 'function' && networkId) {
+                validationFunction(networkId as string)
             }
         } catch (err) {
             error = err?.message ?? err
@@ -21,19 +20,35 @@
         }
     }
 
-    const layer1Network = $activeProfile?.network.name
+    const layer1Metadata = $network?.getMetadata()
+    const layer1Network: IOption | undefined = layer1Metadata
+        ? { label: layer1Metadata.name, value: layer1Metadata.id }
+        : undefined
     const networkOptions = getNetworkOptions(showLayer2)
 
-    let selectedString = layer1Network
-    $: networkSelection = { networkId: selectedString }
+    let selected: string | undefined = networkOptions[0]?.value
+    $: networkId = selected as NetworkId
 
-    function getNetworkOptions(showLayer2: boolean): string[] {
-        const layer2Networks: string[] = []
-        if (showLayer2) {
-            layer2Networks.push(...($activeProfile.network?.chainConfigurations?.map((config) => config.name) ?? []))
+    function getNetworkOptions(showLayer2: boolean): IOption[] {
+        if (!layer1Network) {
+            return []
         }
-        return [layer1Network, ...layer2Networks]
+
+        const options: IOption[] = []
+        if (showLayer1) {
+            options.push(layer1Network)
+        }
+
+        if (showLayer2) {
+            const layer2Networks: IOption[] =
+                $network?.getChains().map((chain) => {
+                    const chainConfig = chain.getConfiguration()
+                    return { label: chainConfig.name, value: chainConfig.id }
+                }) ?? []
+            options.push(...layer2Networks)
+        }
+        return options
     }
 </script>
 
-<SelectInput bind:error bind:value={selectedString} options={networkOptions} label={localize('general.network')} />
+<SelectInput bind:error bind:value={selected} hideValue options={networkOptions} label={localize('general.network')} />

@@ -1,8 +1,8 @@
+import { NetworkId } from '@core/network'
 import { IToken } from './token.interface'
 
 export type AccountTokens = {
-    // [networkId: string] | [chainId: number]
-    [id: number | string]: IAccountTokensPerNetwork
+    [networkId in NetworkId]?: IAccountTokensPerNetwork
 }
 
 export interface IAccountTokensPerNetwork {
