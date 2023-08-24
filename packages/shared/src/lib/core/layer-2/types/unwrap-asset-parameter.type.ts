@@ -1,13 +1,13 @@
 import {
     IAssetAllowance,
-    IUnwrapAssetSendMetadata,
-    IUnwrapAssetSendOptions,
-    IUnwrapAssetTargetAddress,
+    ILayer2SendMetadataParameter,
+    ILayer2SendOptionsParameter,
+    ILayer2TargetAddressParameter,
 } from '../interfaces'
 
 export type UnwrapAssetParameter =
-    | IUnwrapAssetTargetAddress
+    | ILayer2TargetAddressParameter
     | IAssetAllowance
     | boolean
-    | IUnwrapAssetSendMetadata
-    | IUnwrapAssetSendOptions
+    | ILayer2SendMetadataParameter
+    | ILayer2SendOptionsParameter

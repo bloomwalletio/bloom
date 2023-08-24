@@ -1,4 +1,4 @@
-import { IAssetAllowance, IUnwrapAssetSendMetadata, IUnwrapAssetSendOptions } from '../interfaces'
+import { IAssetAllowance, ILayer2SendMetadataParameter, ILayer2SendOptionsParameter } from '../interfaces'
 import { UnwrapAssetParameter } from '../types'
 import { buildUnwrapAssetTargetAddress } from './buildUnwrapAssetTargetAddress'
 
@@ -8,7 +8,7 @@ export function buildUnwrapAssetParameters(
 ): UnwrapAssetParameter[] {
     const targetAddressParameter = buildUnwrapAssetTargetAddress(recipientAddress)
 
-    const sendMetadataParameter: IUnwrapAssetSendMetadata = {
+    const sendMetadataParameter: ILayer2SendMetadataParameter = {
         targetContract: 0,
         entrypoint: 0,
         params: {
@@ -22,7 +22,7 @@ export function buildUnwrapAssetParameters(
         gasBudget: 0,
     }
 
-    const sendOptionsParameter: IUnwrapAssetSendOptions = {
+    const sendOptionsParameter: ILayer2SendOptionsParameter = {
         timelock: 0,
         expiration: {
             time: 0,

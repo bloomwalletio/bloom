@@ -10,7 +10,7 @@ import {
     IAssetAllowance,
     buildUnwrapAssetParameters,
 } from '@core/layer-2'
-import { ChainId, ETH_COIN_TYPE, IChain, getNetwork } from '@core/network'
+import { ETHEREUM_COIN_TYPE, IChain, getNetwork, SupportedNetworkId, NetworkId } from '@core/network'
 import { getActiveProfilePersistedEvmAddressesByAccountIndex } from '@core/profile/stores'
 
 import { sendTransactionFromEvm } from '../actions/send'
@@ -22,13 +22,13 @@ export async function unwrapStardustAsset(
     try {
         const parameters = buildUnwrapAssetParameters(assetAllowance, recipientAddress)
 
-        const chain = getNetwork()?.getChain(ChainId.ShimmerEVM)
+        const chain = getNetwork()?.getChain(SupportedNetworkId.ShimmerEvmTestnet as NetworkId)
         const contract = chain?.getContract(ContractType.IscMagic, ISC_MAGIC_CONTRACT_ADDRESS)
         const data = (await contract?.methods.send(...parameters).encodeABI()) ?? ''
 
         const provider = chain?.getProvider() as Web3
         const originAddress =
-            getActiveProfilePersistedEvmAddressesByAccountIndex(getSelectedAccountIndex())?.[ETH_COIN_TYPE] ?? ''
+            getActiveProfilePersistedEvmAddressesByAccountIndex(getSelectedAccountIndex())?.[ETHEREUM_COIN_TYPE] ?? ''
         const transactionData = await buildEvmTransactionData(
             provider,
             originAddress,
