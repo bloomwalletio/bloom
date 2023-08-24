@@ -1948,6 +1948,7 @@
             "success": "Transaction history for {accountAlias} was successfully saved to {filePath}",
             "error": "Unable to export transaction history for {accountAlias}"
         },
+        "newDappConnected": "Connected to new Dapp",
         "deepLinkingRequest": {
             "receivedWhileLoggedOut": "Please login to initiate the deep link",
             "notEnabled": "Deep links are not enabled",

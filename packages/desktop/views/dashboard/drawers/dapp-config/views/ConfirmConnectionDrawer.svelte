@@ -8,6 +8,7 @@
     import DappInformationCard from '../components/DappInformationCard.svelte'
     import { closeDrawer } from '@desktop/auxiliary/drawer'
     import { handleError } from '@core/error/handlers'
+    import { showNotification } from '@auxiliary/notification'
 
     export let drawerRouter: Router<unknown>
 
@@ -22,6 +23,11 @@
         try {
             loading = true
             await approveSession($sessionProposal, addresses)
+
+            showNotification({
+                variant: 'success',
+                text: localize('notifications.newDappConnected'),
+            })
             closeDrawer()
         } catch (error) {
             handleError(error)
