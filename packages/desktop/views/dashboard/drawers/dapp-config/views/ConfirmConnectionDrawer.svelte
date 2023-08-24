@@ -7,6 +7,7 @@
     import { getAllEvmAddresses, approveSession } from '@auxiliary/wallet-connect/utils'
     import DappInformationCard from '../components/DappInformationCard.svelte'
     import { closeDrawer } from '@desktop/auxiliary/drawer'
+    import { handleError } from '@core/error/handlers'
 
     export let drawerRouter: Router<unknown>
 
@@ -15,9 +16,18 @@
     const chains = ['eip155:1', 'eip155:5']
     const addresses: string[] = getAllEvmAddresses(chains)
 
+    let loading = false
+
     async function onConfirmClick(): Promise<void> {
-        await approveSession($sessionProposal, addresses)
-        closeDrawer()
+        try {
+            loading = true
+            await approveSession($sessionProposal, addresses)
+            closeDrawer()
+        } catch (error) {
+            handleError(error)
+        } finally {
+            loading = false
+        }
     }
 </script>
 
@@ -31,7 +41,13 @@
             </div>
         {/if}
     </div>
-    <Button slot="footer" classes="w-full" onClick={onConfirmClick} disabled={!addresses.length}>
+    <Button
+        slot="footer"
+        classes="w-full"
+        onClick={onConfirmClick}
+        disabled={!addresses.length || loading}
+        isBusy={loading}
+    >
         {localize('actions.confirm')}
     </Button>
 </DrawerTemplate>
