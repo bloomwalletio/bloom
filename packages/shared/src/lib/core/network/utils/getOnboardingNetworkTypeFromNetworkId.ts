@@ -2,7 +2,7 @@ import { OnboardingNetworkType } from '@contexts/onboarding/enums/onboarding-net
 import { SupportedNetworkId } from '../enums'
 import { NetworkId } from '../types'
 
-export function getOnboardingNetworkNameFromNetworkId(networkId: NetworkId): OnboardingNetworkType {
+export function getOnboardingNetworkTypeFromNetworkId(networkId: NetworkId): OnboardingNetworkType {
     const nameMap: { [id in NetworkId]?: OnboardingNetworkType } = {
         [SupportedNetworkId.Shimmer]: OnboardingNetworkType.Shimmer,
         [SupportedNetworkId.Testnet]: OnboardingNetworkType.Testnet,

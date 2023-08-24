@@ -206,7 +206,9 @@
         @apply p-2;
 
         &:focus-visible > .range__track {
-            box-shadow: 0 0 0 2px white, 0 0 0 3px var(--track-focus, #6185ff);
+            box-shadow:
+                0 0 0 2px white,
+                0 0 0 3px var(--track-focus, #6185ff);
         }
     }
 
@@ -240,7 +242,9 @@
     }
 
     .range__thumb--holding {
-        box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 1px 2px 1px rgba(0, 0, 0, 0.2),
+        box-shadow:
+            0 1px 1px 0 rgba(0, 0, 0, 0.14),
+            0 1px 2px 1px rgba(0, 0, 0, 0.2),
             0 0 0 6px var(--thumb-holding-outline, rgba(113, 119, 250, 0.3));
     }
 </style>
