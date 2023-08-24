@@ -6,7 +6,10 @@ export abstract class Router<R> implements IRouter {
     protected history: R[] = []
     protected readonly routeStore: Writable<R>
 
-    constructor(protected initialRoute: R, storeRoute: Writable<R>) {
+    constructor(
+        protected initialRoute: R,
+        storeRoute: Writable<R>
+    ) {
         this.routeStore = storeRoute
         this.setRoute(initialRoute)
     }

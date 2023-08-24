@@ -1,7 +1,6 @@
 <script lang="ts">
     import { OnboardingLayout } from '@components'
     import { completeOnboardingProcess, isOnboardingLedgerProfile } from '@contexts/onboarding'
-    import { IS_MOBILE } from '@core/app'
     import { localize } from '@core/i18n'
     import { checkOrConnectLedger } from '@core/ledger'
     import { Animation, Button, Icon, Text, TextHint } from '@ui'
@@ -42,7 +41,7 @@
             {localize('actions.finishSetup')}
         </Button>
     </div>
-    <div slot="rightpane" class="w-full h-full flex justify-center {!IS_MOBILE && 'bg-pastel-yellow dark:bg-gray-900'}">
+    <div slot="rightpane" class="w-full h-full flex justify-center bg-pastel-yellow dark:bg-gray-900">
         <Animation classes="setup-anim-aspect-ratio" animation="congratulations-desktop" />
     </div>
 </OnboardingLayout>

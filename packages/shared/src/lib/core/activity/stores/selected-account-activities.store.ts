@@ -48,8 +48,8 @@ export const queriedActivities: Readable<Activity[]> = derived(
         if ($activitySearchTerm) {
             activityList = activityList.filter((activity) => {
                 const fieldsToSearch = getFieldsToSearchFromActivity(activity)
-                return fieldsToSearch.find((field) =>
-                    field?.toLowerCase()?.includes($activitySearchTerm?.toLowerCase())
+                return fieldsToSearch.find(
+                    (field) => field?.toLowerCase()?.includes($activitySearchTerm?.toLowerCase())
                 )
             })
         }

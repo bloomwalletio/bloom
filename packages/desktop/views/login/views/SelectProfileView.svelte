@@ -3,7 +3,6 @@
     import { initialiseOnboardingProfile, onboardingProfile } from '@contexts/onboarding'
     import {
         AppContext,
-        IS_MOBILE,
         isLatestStrongholdVersion,
         needsToAcceptLatestPrivacyPolicy,
         needsToAcceptLatestTermsOfService,
@@ -53,10 +52,7 @@
 
 <section class="flex flex-col justify-center items-center h-full bg-white dark:bg-gray-900 px-40 pt-48 pb-20">
     <Logo width="64px" logo="logo-firefly" classes="absolute top-20" />
-    <div
-        class="profiles-wrapper h-auto items-start justify-center w-full {!IS_MOBILE &&
-            'overlay-scrollbar'} flex flex-row flex-wrap"
-    >
+    <div class="profiles-wrapper h-auto items-start justify-center w-full overlay-scrollbar flex flex-row flex-wrap">
         {#each $profiles as profile}
             <div class="mx-7 mb-8">
                 <Profile

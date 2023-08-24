@@ -8,7 +8,7 @@
     import {
         checkIfOnSameNetwork,
         checkNodeUrlValidity,
-        getOnboardingNetworkNameFromNetworkId,
+        getOnboardingNetworkTypeFromNetworkId,
     } from '@core/network/utils'
     import { getNodeInfo } from '@core/profile-manager'
     import { activeProfile } from '@core/profile/stores'
@@ -51,7 +51,7 @@
     function getNetworkTypeOptions(): IDropdownItem<OnboardingNetworkType>[] {
         const options = Object.values(DEFAULT_NETWORK_METADATA).map((network) => ({
             label: network?.name,
-            value: getOnboardingNetworkNameFromNetworkId(network?.id),
+            value: getOnboardingNetworkTypeFromNetworkId(network?.id),
         }))
         options.push({
             label: localize('general.custom'),
