@@ -36,20 +36,20 @@ export async function deleteProfile(): Promise<void> {
          * CAUTION: The profile and its data must be removed from the
          * app's list of profiles that lives as a Svelte store.
          */
-        removeProfile(_activeProfile?.id)
-        removePersistedEvmTransactionsForProfile(_activeProfile?.id)
-        removePersistedBalanceChangesForProfile(_activeProfile?.id)
-        removeClaimedActivitiesForProfile(_activeProfile?.id)
-        removePersistedNtsForProfile(_activeProfile?.id)
-        removePersistedTokensForProfile(_activeProfile?.id)
-        removePersistedShimmerClaimingTransactions(_activeProfile?.id)
-        removeHiddenActivitiesForProfile(_activeProfile?.id)
+        removeProfile(_activeProfile.id)
+        removePersistedEvmTransactionsForProfile(_activeProfile.id)
+        removePersistedBalanceChangesForProfile(_activeProfile.id)
+        removeClaimedActivitiesForProfile(_activeProfile.id)
+        removePersistedNtsForProfile(_activeProfile.id)
+        removePersistedTokensForProfile(_activeProfile.id)
+        removePersistedShimmerClaimingTransactions(_activeProfile.id)
+        removeHiddenActivitiesForProfile(_activeProfile.id)
 
         /**
          * CAUTION: This removes the actual directory for the profile,
          * so it should occur last.
          */
-        await removeProfileFolder(_activeProfile?.id)
+        await removeProfileFolder(_activeProfile.id)
 
         /**
          * NOTE: If there are no more profiles, then the user should be
