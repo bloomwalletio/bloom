@@ -32,9 +32,6 @@
     const destinationNetwork = getDestinationNetworkFromAddress(layer2Parameters?.networkAddress)
     let baseCoinTransfer: TokenTransferData
     let storageDeposit: number
-    let estimatedGas: BigIntLike | undefined = undefined
-    let gasLimit: BigIntLike | undefined = undefined
-    let gasPrice = '0x0'
     let expirationTimePicker: ExpirationTimePicker
     let tagInput: OptionalInput
     let metadataInput: OptionalInput
@@ -72,23 +69,27 @@
         }
     }
 
+    let estimatedGasFee: BigIntLike | undefined = undefined
+    let maxGasFee: BigIntLike | undefined = undefined
     async function setGasVariables(sendFlowParameters: SendFlowParameters): Promise<void> {
         if (layer2Parameters) {
-            estimatedGas = await estimateGasForLayer1ToLayer2Transaction(sendFlowParameters)
-            gasLimit = estimatedGas * GAS_LIMIT_MULTIPLIER
-            gasPrice = await getGasPriceInWei(layer2Parameters.networkId)
+            const estimatedGas = await estimateGasForLayer1ToLayer2Transaction(sendFlowParameters)
+            const gasLimit = estimatedGas * GAS_LIMIT_MULTIPLIER
+            const gasPrice = await getGasPriceInWei(layer2Parameters.networkId)
+            estimatedGasFee = calculateGasFeeInGlow(estimatedGas, gasPrice)
+            maxGasFee = calculateGasFeeInGlow(gasLimit, gasPrice)
         }
     }
     $: void setGasVariables(sendFlowParameters)
 
-    function setBaseCoinAndStorageDeposit(output: Output, estimatedGas: BigIntLike | undefined): void {
+    function setBaseCoinAndStorageDeposit(output: Output, maxGasFee: BigIntLike | undefined): void {
         storageDeposit = getStorageDepositFromOutput(output)
         baseCoinTransfer = {
             token: $selectedAccountTokens?.[getNetwork().getMetadata().id].baseCoin,
-            rawAmount: String(Number(output.amount) - storageDeposit - Number(estimatedGas ?? 0)),
+            rawAmount: String(Number(output.amount) - storageDeposit - Number(maxGasFee ?? 0)),
         }
     }
-    $: setBaseCoinAndStorageDeposit(output, estimatedGas)
+    $: setBaseCoinAndStorageDeposit(output, maxGasFee)
 
     function getTransactionAsset(sendFlowParameters: SendFlowParameters): {
         tokenTransfer?: TokenTransferData
@@ -113,7 +114,7 @@
     }
 
     onMount(() => {
-        setBaseCoinAndStorageDeposit(output, Number(estimatedGas))
+        setBaseCoinAndStorageDeposit(output, maxGasFee)
         selectedExpirationPeriod = getInitialExpirationDate(!!expirationDate, !!storageDeposit, giftStorageDeposit)
     })
 </script>
@@ -127,8 +128,8 @@
         bind:selectedExpirationPeriod
         bind:selectedTimelockPeriod
         bind:giftStorageDeposit
-        estimatedGasFee={calculateGasFeeInGlow(estimatedGas, gasPrice)}
-        maxGasFee={calculateGasFeeInGlow(gasLimit, gasPrice)}
+        {estimatedGasFee}
+        {maxGasFee}
         storageDeposit={getStorageDepositFromOutput(output)}
         {destinationNetwork}
         {disableChangeExpiration}

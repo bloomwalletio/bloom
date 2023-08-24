@@ -1,5 +1,9 @@
-import { ILayer2Parameters } from '@core/layer-2'
-import { estimateGasForLayer1ToLayer2Transaction, getLayer2MetadataForTransfer } from '@core/layer-2/utils'
+import { GAS_LIMIT_MULTIPLIER, ILayer2Parameters, getGasPriceInWei } from '@core/layer-2'
+import {
+    calculateGasFeeInGlow,
+    estimateGasForLayer1ToLayer2Transaction,
+    getLayer2MetadataForTransfer,
+} from '@core/layer-2/utils'
 import { getCoinType } from '@core/profile/actions'
 import { Converter, convertDateToUnixTimestamp } from '@core/utils'
 import { SendFlowParameters, Subject } from '@core/wallet/types'
@@ -12,10 +16,7 @@ export async function getOutputParameters(sendFlowParameters: SendFlowParameters
 
     const recipientAddress = getDestinationAddress(recipient, layer2Parameters)
 
-    const estimatedGas = await estimateGasForLayer1ToLayer2Transaction(sendFlowParameters)
-
     let amount = getAmountFromTransactionData(sendFlowParameters)
-    amount = layer2Parameters ? (estimatedGas + parseInt(amount, 10)).toString() : amount
 
     const assets = getAssetsFromTransactionData(sendFlowParameters)
 
@@ -25,6 +26,14 @@ export async function getOutputParameters(sendFlowParameters: SendFlowParameters
 
     const expirationUnixTime = expirationDate ? convertDateToUnixTimestamp(expirationDate) : undefined
     const timelockUnixTime = timelockDate ? convertDateToUnixTimestamp(timelockDate) : undefined
+
+    if (layer2Parameters && layer2Parameters.networkId) {
+        const estimatedGas = await estimateGasForLayer1ToLayer2Transaction(sendFlowParameters)
+        const gasLimit = estimatedGas * GAS_LIMIT_MULTIPLIER
+        const gasPrice = await getGasPriceInWei(layer2Parameters.networkId)
+        const maxGasFee = calculateGasFeeInGlow(gasLimit, gasPrice)
+        amount = (parseInt(amount, 10) + Number(maxGasFee ?? 0)).toString()
+    }
 
     return <OutputParams>{
         recipientAddress,
