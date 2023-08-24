@@ -1,5 +1,6 @@
 <script lang="ts">
     import { showNotification } from '@auxiliary/notification'
+    import { Table } from '@bloomwalletio/ui'
     import { sumBalanceForAccounts } from '@core/account'
     import { DEFAULT_SYNC_OPTIONS } from '@core/account/constants'
     import { generateAndStoreActivitiesForAllAccounts } from '@core/activity/actions'
@@ -14,7 +15,6 @@
     import { closePopup } from '@desktop/auxiliary/popup'
     import { Button, FontWeight, Text, TextHint, TextType } from '@ui'
     import { onDestroy, onMount } from 'svelte'
-    import { Table } from '@bloomwalletio/ui'
 
     export let searchForBalancesOnLoad = false
 
