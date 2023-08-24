@@ -17,31 +17,28 @@
     function setTableItems(token: IToken) {
         items = [
             {
-                key: localize('popups.tokenInformation.tokenMetadata.tokenId'),
-                value: token.id,
-                copyable: true,
-            },
-            {
                 key: localize('popups.tokenInformation.tokenMetadata.standard'),
                 value: token.standard,
             },
             {
-                key: localize('popups.tokenInformation.tokenMetadata.name'),
-                value: token.metadata?.name,
+                key: localize('popups.tokenInformation.tokenMetadata.tokenId'),
+                value: token.id,
+                truncate: { firstCharCount: 10, endCharCount: 10 },
+                copyable: true,
             },
         ]
         if (token.metadata.standard === TokenStandard.Irc30) {
-            if (token.metadata.description) {
-                items.push({
-                    key: localize('popups.tokenInformation.tokenMetadata.description'),
-                    value: token.metadata?.description,
-                })
-            }
             if (token.metadata.url) {
                 items.push({
                     key: localize('popups.tokenInformation.tokenMetadata.url'),
                     value: token.metadata?.url,
                     copyable: true,
+                })
+            }
+            if (token.metadata.description) {
+                items.push({
+                    key: localize('popups.tokenInformation.tokenMetadata.description'),
+                    value: token.metadata?.description,
                 })
             }
         }
