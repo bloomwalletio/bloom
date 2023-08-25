@@ -1,15 +1,22 @@
 <script lang="ts">
-    import { onDestroy } from 'svelte'
-    import { ConnectedDappsDrawer } from './views'
+    import { onDestroy, onMount } from 'svelte'
+    import { ConfirmConnectionDrawer, ConnectedDappsDrawer, InputConnectionCodeDrawer } from './views'
     import { DappConfigRoute } from './dapp-config-route.enum'
-    import { dappConfigRoute, dappConfigRouter } from './dapp-config.router'
+    import { DappConfigRouter, dappConfigRoute, dappConfigRouter } from './dapp-config.router'
+
+    onMount(() => {
+        $dappConfigRouter = new DappConfigRouter()
+    })
 
     onDestroy(() => {
-        $dappConfigRouter.reset()
         $dappConfigRouter = null
     })
 </script>
 
 {#if $dappConfigRoute === DappConfigRoute.ConnectedDapps}
     <ConnectedDappsDrawer drawerRouter={$dappConfigRouter} />
+{:else if $dappConfigRoute === DappConfigRoute.ConfirmConnection}
+    <ConfirmConnectionDrawer drawerRouter={$dappConfigRouter} />
+{:else if $dappConfigRoute === DappConfigRoute.InputCode}
+    <InputConnectionCodeDrawer drawerRouter={$dappConfigRouter} />
 {/if}

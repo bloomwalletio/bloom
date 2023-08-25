@@ -17,9 +17,11 @@ import {
     getTagFromOutput,
 } from './helper'
 import { getNativeTokenFromOutput } from './outputs'
+import { NetworkId } from '@core/network/types'
 
 export function generateSingleBasicActivity(
     account: IAccountState,
+    networkId: NetworkId,
     { action, processedTransaction, wrappedOutput }: IActivityGenerationParameters,
     fallbackTokenId?: string,
     fallbackAmount?: number
@@ -81,8 +83,8 @@ export function generateSingleBasicActivity(
         publicNote,
         metadata,
         tag,
+        networkId,
         tokenId,
-        chainId: undefined,
         asyncData,
         // destinationNetwork,
         // parsedLayer2Metadata,

@@ -13,10 +13,10 @@
     export let modal: Modal | undefined = undefined
     export let token: IToken
 
-    $: isTrackedToken = $activeProfile?.trackedTokens?.[token?.chainId]?.includes(token?.id)
+    $: isTrackedToken = $activeProfile?.trackedTokens?.[token.networkId]?.includes(token.id)
 
     function onUntrackTokenClick(): void {
-        removeTrackedTokenFromActiveProfile(token?.id, token?.chainId)
+        removeTrackedTokenFromActiveProfile(token.id, token.networkId)
         modal?.close()
         closePopup()
     }
@@ -66,7 +66,7 @@
         {#if isTrackedToken}
             <MenuItem icon={Icon.Search} title={localize('actions.untrackToken')} onClick={onUntrackTokenClick} />
         {/if}
-        {#if token?.verification?.status === VerifiedStatus.SelfVerified}
+        {#if token.verification?.status === VerifiedStatus.SelfVerified}
             <MenuItem
                 icon={Icon.NotVerified}
                 iconProps={{ secondaryColor: 'white' }}
@@ -81,14 +81,14 @@
                 onClick={onVerifyClick}
             />
         {/if}
-        {#if token?.hidden}
+        {#if token.hidden}
             <MenuItem icon={Icon.View} title={localize('actions.unhideToken')} onClick={onUnhideClick} />
         {:else}
             <MenuItem icon={Icon.Hide} title={localize('actions.hideToken')} onClick={onHideClick} />
         {/if}
         <MenuItem
             icon={Icon.Delete}
-            disabled={!features?.wallet?.assets?.burnToken?.enabled}
+            disabled={!features?.wallet?.assets?.burnToken.enabled}
             title={localize('actions.burnToken')}
             onClick={onBurnTokenClick}
         />

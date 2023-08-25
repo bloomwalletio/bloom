@@ -1,7 +1,6 @@
 export * from './app-stage.constant'
 export * from './default-app-settings.constant'
 export * from './external-allowed-links.constant'
-export * from './is-mobile.constant'
 export * from './is-system-in-dark-mode.constant'
 export * from './os.constant'
 export * from './privacy-policy-url.constant'

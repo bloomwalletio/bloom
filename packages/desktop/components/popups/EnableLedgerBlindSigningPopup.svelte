@@ -13,11 +13,13 @@
         resetLedgerPreparedOutput,
         stopPollingLedgerEthereumAppSettings,
     } from '@core/ledger'
-    import { closePopup, openPopup, PopupId } from '@desktop/auxiliary/popup'
+    import { closePopup } from '@desktop/auxiliary/popup'
     import { sendOutput } from '@core/wallet'
     import { handleError } from '@core/error/handlers'
+    import { UiEventFunction } from 'shared/src/lib/core/utils'
 
     export let appName = LedgerAppName.Shimmer
+    export let onEnabled: UiEventFunction = () => {}
 
     const STEPS = [1, 2, 3, 4]
 
@@ -37,12 +39,8 @@
         }
     } else if (appName === LedgerAppName.Ethereum) {
         if ($ledgerEthereumAppSettings?.arbitraryDataEnabled) {
-            openPopup(
-                {
-                    id: PopupId.SendFlow,
-                },
-                true
-            )
+            closePopup(true)
+            onEnabled && onEnabled()
         }
     }
 

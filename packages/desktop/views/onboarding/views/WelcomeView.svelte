@@ -9,8 +9,6 @@
     import { hasCompletedAppSetup, lastAcceptedPrivacyPolicy, lastAcceptedTermsOfService } from '@core/app/stores'
     import { openUrlInBrowser } from '@core/app/utils'
     import { localize } from '@core/i18n'
-    import { NetworkId, getNetworkNameFromNetworkId } from '@core/network'
-    import features from '@features/features'
     import { Animation, Button, Checkbox, Link, Text, TextType } from '@ui'
     import { onboardingRouter } from '../onboarding-router'
 
@@ -36,11 +34,7 @@
     <div slot="leftpane__content">
         <Text type={TextType.h1}
             >{localize('views.onboarding.appSetup.welcome.title', {
-                values: {
-                    network: features?.onboarding?.iota?.enabled
-                        ? getNetworkNameFromNetworkId(NetworkId.Iota)
-                        : getNetworkNameFromNetworkId(NetworkId.Shimmer),
-                },
+                network: '',
             })}
         </Text>
     </div>

@@ -1,4 +1,3 @@
-export { default as Avatar } from './Avatar.svelte'
 export { default as ContactAvatar } from './ContactAvatar.svelte'
 export { default as NftAvatar } from './NftAvatar.svelte'
 export { default as ProfileAvatar } from './ProfileAvatar.svelte'

@@ -28,13 +28,13 @@
     >
         <div class="w-full flex flex-row justify-between items-center gap-2">
             <div class="flex flex-row items-center text-left space-x-4">
-                <TokenIcon {token} chainId={token.chainId} />
+                <TokenIcon persistedToken={token} networkId={token.networkId} />
                 {#if !hideTokenInfo}
                     <div class="flex flex-col">
                         <Text type={TextType.p} fontWeight={FontWeight.semibold}>
-                            {token?.metadata?.name
-                                ? truncateString(token?.metadata?.name, 13, 0)
-                                : truncateString(token?.id, 6, 7)}
+                            {token.metadata.name
+                                ? truncateString(token.metadata.name, 13, 0)
+                                : truncateString(token.id, 6, 7)}
                         </Text>
                         <div class="flex flex-row justify-between items-center text-left">
                             <Text type={TextType.p} secondary smaller

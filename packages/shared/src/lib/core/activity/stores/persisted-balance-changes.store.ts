@@ -1,12 +1,13 @@
 import { persistent } from '@core/utils/store'
 import { ITokenBalanceChange } from '../types/token-balance-change.interface'
 import { get } from 'svelte/store'
+import { NetworkId } from '@core/network'
 import { activeProfileId } from '@core/profile/stores'
 
-interface IPersistedBalanceChangesStore {
+type IPersistedBalanceChangesStore = {
     [profileId: string]: {
         [accountId: string]: {
-            [chainId: string | number]: {
+            [networkId in NetworkId]?: {
                 [tokenId: string]: ITokenBalanceChange[]
             }
         }
@@ -17,34 +18,52 @@ export const persistedBalanceChanges = persistent<IPersistedBalanceChangesStore>
 
 export function getBalanceChanges(
     accountIndex: number,
-    chainId: string | number
-): {
-    [tokenId: string]: ITokenBalanceChange[]
-} {
-    return get(persistedBalanceChanges)?.[get(activeProfileId)]?.[accountIndex]?.[chainId]
+    networkId: NetworkId
+): { [tokenId: string]: ITokenBalanceChange[] } {
+    return get(persistedBalanceChanges)?.[get(activeProfileId)]?.[accountIndex]?.[networkId] ?? {}
 }
 
 export function addPersistedBalanceChange(
     accountIndex: number,
-    chainId: string | number,
+    networkId: NetworkId,
     tokenId: string,
     ...newPersistedAssets: ITokenBalanceChange[]
 ): void {
     persistedBalanceChanges.update((state) => {
-        if (!state[get(activeProfileId)]) {
-            state[get(activeProfileId)] = {}
-        }
-        if (!state[get(activeProfileId)][accountIndex]) {
-            state[get(activeProfileId)][accountIndex] = {}
-        }
-        if (!state[get(activeProfileId)][accountIndex][chainId]) {
-            state[get(activeProfileId)][accountIndex][chainId] = {}
-        }
-        if (!state[get(activeProfileId)][accountIndex][chainId][tokenId]) {
-            state[get(activeProfileId)][accountIndex][chainId][tokenId] = []
+        let profileBalanceChanges = state[get(activeProfileId)]
+
+        if (!profileBalanceChanges) {
+            profileBalanceChanges = {}
         }
 
-        state[get(activeProfileId)][accountIndex][chainId][tokenId].push(...newPersistedAssets)
+        let accountBalanceChanges = profileBalanceChanges[accountIndex]
+        if (!accountBalanceChanges) {
+            accountBalanceChanges = {}
+        }
+
+        let networkBalanceChanges = accountBalanceChanges[networkId]
+        if (!networkBalanceChanges) {
+            networkBalanceChanges = {
+                [tokenId]: newPersistedAssets,
+            }
+        } else {
+            if (networkBalanceChanges[tokenId]) {
+                networkBalanceChanges[tokenId].push(...newPersistedAssets)
+            } else {
+                networkBalanceChanges[tokenId] = newPersistedAssets
+            }
+        }
+
+        accountBalanceChanges[networkId] = networkBalanceChanges
+        profileBalanceChanges[accountIndex] = accountBalanceChanges
+        state[get(activeProfileId)] = profileBalanceChanges
+        return state
+    })
+}
+
+export function removePersistedBalanceChangesForProfile(profileId: string): void {
+    persistedBalanceChanges.update((state) => {
+        delete state[profileId]
         return state
     })
 }

@@ -1,5 +1,5 @@
+import { getNetwork, isStardustNetwork } from '@core/network'
 import { getSelectedAccount } from '@core/account/stores'
-import { ETH_COIN_TYPE, getNetwork } from '@core/network'
 import { SendFlowParameters, SendFlowType } from '@core/wallet'
 import { FALLBACK_ESTIMATED_GAS, ISC_MAGIC_CONTRACT_ADDRESS } from '../constants'
 import { AssetType } from '../enums'
@@ -7,16 +7,15 @@ import { TransferredAsset } from '../types'
 import { getIscpTransferSmartContractData } from '../utils'
 
 export async function estimateGasForLayer1ToLayer2Transaction(sendFlowParameters: SendFlowParameters): Promise<number> {
-    const { recipient, layer2Parameters } = sendFlowParameters ?? {}
+    const { recipient, destinationNetworkId } = sendFlowParameters ?? {}
 
-    if (!layer2Parameters) {
+    if (destinationNetworkId && isStardustNetwork(destinationNetworkId)) {
         return 0
     }
 
-    const address = layer2Parameters ? layer2Parameters.networkAddress : recipient?.address ?? ''
-    const chainId = layer2Parameters.chainId
+    const address = recipient?.address ?? ''
 
-    const chain = chainId ? getNetwork()?.getChain(chainId) : undefined
+    const chain = destinationNetworkId ? getNetwork()?.getChain(destinationNetworkId) : undefined
     const provider = chain?.getProvider()
     const transferredAsset = getTransferredAsset(sendFlowParameters)
 
@@ -26,7 +25,8 @@ export async function estimateGasForLayer1ToLayer2Transaction(sendFlowParameters
     }
 
     try {
-        const evmAddress = getSelectedAccount()?.evmAddresses?.[ETH_COIN_TYPE]
+        const coinType = chain.getConfiguration().coinType
+        const evmAddress = getSelectedAccount()?.evmAddresses?.[coinType]
         const data = getIscpTransferSmartContractData(address, transferredAsset, chain)
         if (data) {
             const gas = await provider.eth.estimateGas({

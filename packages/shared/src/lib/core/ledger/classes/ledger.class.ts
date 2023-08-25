@@ -16,8 +16,8 @@ import { DEFAULT_LEDGER_API_REQUEST_OPTIONS } from '../constants'
 import { LedgerApiMethod, LedgerAppName } from '../enums'
 import { ILedgerApiBridge, ILedgerEthereumAppSettings } from '../interfaces'
 import { LedgerApiRequestResponse } from '../types'
-import { isBlindSigningRequiredForEvmTransaction, ledgerEthereumAppSettings } from '@core/ledger'
-import { get } from 'svelte/store'
+import { isBlindSigningRequiredForEvmTransaction } from '@core/ledger'
+import { EvmChainId } from '@core/network'
 
 declare global {
     interface Window {
@@ -36,8 +36,8 @@ export class Ledger {
         )
     }
 
-    static isBlindSigningEnabledForEvm(): boolean {
-        return Boolean(get(ledgerEthereumAppSettings)?.arbitraryDataEnabled)
+    static async isBlindSigningEnabledForEvm(): Promise<boolean> {
+        return Boolean((await this.getEthereumAppSettings())?.arbitraryDataEnabled)
     }
 
     static async generateEvmAddress(accountIndex: number, coinType: number, verify?: boolean): Promise<string> {
@@ -54,61 +54,70 @@ export class Ledger {
 
     static async signEvmTransaction(
         transactionData: TxData,
-        chainId: number,
+        chainId: EvmChainId,
         bip44: Bip44
-    ): Promise<string | undefined> {
-        // TEST CODE
-        if (!transactionData.data) {
-            transactionData.data = '0x00'
-        }
-        // TEST CODE
-
-        const unsignedTransactionMessageHex = prepareEvmTransaction(transactionData)
-        const bip32Path = buildBip32PathFromBip44(bip44)
-        const maxGasFee = calculateMaxGasFeeFromTransactionData(transactionData)
-
-        const mustEnableBlindSigning =
-            isBlindSigningRequiredForEvmTransaction(transactionData) && !this.isBlindSigningEnabledForEvm()
-        if (mustEnableBlindSigning) {
-            openPopup({
-                id: PopupId.EnableLedgerBlindSigning,
-                hideClose: true,
-                preventClose: true,
-                props: {
-                    appName: LedgerAppName.Ethereum,
-                },
-            })
-        } else {
-            openPopup({
-                id: PopupId.VerifyLedgerTransaction,
-                hideClose: true,
-                preventClose: true,
-                props: {
-                    isEvmTransaction: true,
-                    toAmount: getAmountFromEvmTransactionValue(transactionData?.value.toString()),
-                    toAddress: transactionData.to,
-                    chainId,
-                    maxGasFee,
-                },
-            })
-
-            const transactionSignature = await this.callLedgerApiAsync<IEvmTransactionSignature>(
-                () =>
-                    ledgerApiBridge.makeRequest(
-                        LedgerApiMethod.SignEvmTransaction,
-                        unsignedTransactionMessageHex,
-                        bip32Path
-                    ),
-                'evm-signed-transaction'
-            )
-
-            closePopup(true)
-
-            const { r, v, s } = transactionSignature
-            if (r && v && s) {
-                return prepareEvmTransaction(transactionData, { r, v, s })
+    ): Promise<string | unknown> {
+        /* eslint-disable no-async-promise-executor */
+        /* eslint-disable @typescript-eslint/no-misused-promises */
+        return new Promise(async (resolve) => {
+            // TEST CODE
+            if (!transactionData.data) {
+                transactionData.data = '0x01'
             }
-        }
+            // TEST CODE
+
+            const unsignedTransactionMessageHex = prepareEvmTransaction(transactionData, chainId)
+            const bip32Path = buildBip32PathFromBip44(bip44)
+            const maxGasFee = calculateMaxGasFeeFromTransactionData(transactionData)
+
+            const mustEnableBlindSigning =
+                isBlindSigningRequiredForEvmTransaction(transactionData) && !(await this.isBlindSigningEnabledForEvm())
+            if (mustEnableBlindSigning) {
+                openPopup({
+                    id: PopupId.EnableLedgerBlindSigning,
+                    hideClose: true,
+                    preventClose: true,
+                    props: {
+                        appName: LedgerAppName.Ethereum,
+                        onEnabled: async () => {
+                            resolve(await this.signEvmTransaction(transactionData, chainId, bip44))
+                        },
+                    },
+                })
+            } else {
+                openPopup({
+                    id: PopupId.VerifyLedgerTransaction,
+                    hideClose: true,
+                    preventClose: true,
+                    props: {
+                        isEvmTransaction: true,
+                        toAmount: getAmountFromEvmTransactionValue(transactionData?.value?.toString()),
+                        toAddress: transactionData.to,
+                        chainId,
+                        maxGasFee,
+                    },
+                })
+
+                const transactionSignature = await this.callLedgerApiAsync<IEvmTransactionSignature>(
+                    () =>
+                        ledgerApiBridge.makeRequest(
+                            LedgerApiMethod.SignEvmTransaction,
+                            unsignedTransactionMessageHex,
+                            bip32Path
+                        ),
+                    'evm-signed-transaction'
+                )
+
+                closePopup(true)
+
+                const { r, v, s } = transactionSignature
+                if (r && v && s) {
+                    resolve(prepareEvmTransaction(transactionData, chainId, { r, v, s }))
+                } else {
+                    resolve()
+                }
+            }
+        })
     }
 
     private static async callLedgerApiAsync<R extends LedgerApiRequestResponse>(

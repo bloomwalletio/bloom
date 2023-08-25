@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { Button, FlatIconName } from '@bloomwalletio/ui'
+    import { Button, CopyableButton, FlatIconName } from '@bloomwalletio/ui'
     import { selectedAccount } from '@core/account/stores'
     import { localize } from '@core/i18n'
     import { generateAndStoreEvmAddressForAccount } from '@core/layer-2'
@@ -18,7 +18,7 @@
     import { checkActiveProfileAuth } from '@core/profile/actions'
     import { activeProfile } from '@core/profile/stores'
     import { UiEventFunction, truncateString } from '@core/utils'
-    import { ClickableTile, Copyable, FontWeight, NetworkIcon, NetworkStatusPill, Text, TextType } from '@ui'
+    import { ClickableTile, FontWeight, NetworkIcon, NetworkStatusPill, Text, TextType } from '@ui'
     import { NetworkConfigRoute, networkConfigRouter } from '@views/dashboard/drawers'
     import { onMount } from 'svelte'
 
@@ -28,6 +28,7 @@
     export let onQrCodeIconClick: UiEventFunction
 
     let configuration: IIscpChainConfiguration = undefined
+    let networkId: NetworkId | undefined
     let name = ''
     let address = ''
     let status: NetworkHealth
@@ -36,11 +37,13 @@
 
     function setNetworkCardData(): void {
         if (network) {
+            networkId = network.getMetadata().id
             name = network.getMetadata().name
             address = $selectedAccount.depositAddress
             status = $networkStatus.health
         } else if (chain) {
             configuration = chain.getConfiguration() as IIscpChainConfiguration
+            networkId = configuration.id
             name = configuration.name
             address = $selectedAccount.evmAddresses[configuration.coinType]
             status = chain.getStatus().health
@@ -76,7 +79,9 @@
     <div class="w-full flex flex-col gap-5">
         <div class="flex flex-row justify-between items-center">
             <div class="flex flex-row gap-2 items-center">
-                <NetworkIcon networkId={NetworkId.Testnet} />
+                {#if networkId}
+                    <NetworkIcon {networkId} />
+                {/if}
                 <Text type={TextType.h4} fontWeight={FontWeight.semibold}>
                     {name}
                 </Text>
@@ -91,11 +96,11 @@
                     {localize('general.myAddress')}
                 </Text>
                 {#if address}
-                    <Copyable value={address}>
+                    <CopyableButton value={address}>
                         <Text type={TextType.pre} fontSize="16" fontWeight={FontWeight.medium}>
                             {truncateString(address, 8, 8)}
                         </Text>
-                    </Copyable>
+                    </CopyableButton>
                 {:else}
                     <Button
                         variant="text"

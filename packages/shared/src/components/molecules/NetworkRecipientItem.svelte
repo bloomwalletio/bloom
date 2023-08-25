@@ -1,6 +1,6 @@
 <script lang="ts">
     import { Icon as IconEnum } from '@auxiliary/icon'
-    import { NetworkId } from '@core/network'
+    import { isEvmChain } from '@core/network'
     import { Subject, SubjectType } from '@core/wallet'
     import { FontWeight, Icon, IOption, NetworkIcon, RecipientInput, Text, TextType } from '@ui'
     import { INetworkRecipientSelectorOption } from '../interfaces'
@@ -18,8 +18,6 @@
 
     let recipientInputElement: HTMLInputElement
 
-    let isLayer2 = false
-    $: isLayer2 = !!item?.networkAddress
     $: onChange && selected && onChange(item)
 
     const options = item.recipients?.map((r) => getOptionFromRecipient(r)).filter((r) => !!r) as IOption[]
@@ -52,13 +50,13 @@
 </script>
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
-<network-recipient-item class:selected class:disabled={item?.disabled} on:click={onItemClick}>
+<network-recipient-item class:selected class:disabled={item.disabled} on:click={onItemClick}>
     <network-recipient-item-name>
         <div class="flex flex-row justify-between items-center space-x-4">
             <div class="flex flex-row space-x-3 items-center">
-                <NetworkIcon networkId={NetworkId.Testnet} />
+                <NetworkIcon networkId={item.networkId} />
                 <Text type={TextType.h4} fontWeight={FontWeight.semibold}>
-                    {item?.name}
+                    {item.name}
                 </Text>
             </div>
             {#if selected}
@@ -75,7 +73,8 @@
                 bind:inputElement={recipientInputElement}
                 bind:recipient={item.selectedRecipient}
                 {options}
-                {isLayer2}
+                networkId={item.networkId}
+                isEvmChain={isEvmChain(item.networkId)}
             />
         </network-recipient-item-address>
     {/if}

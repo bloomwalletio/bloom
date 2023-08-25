@@ -8,7 +8,7 @@
 
     export let filterUnit: NetworkFilterUnit
 
-    let choices: IDropdownItem<number>[] = []
+    let choices: IDropdownItem<string>[] = []
     $: value = choices?.find((choice) => choice.value === filterUnit.selected)?.value ?? ''
 
     onMount(buildOptions)
@@ -20,7 +20,7 @@
         // L1 network, we consider layer 1 as "chain 0"
         const layer1Network = {
             label: $network.getMetadata().name,
-            value: 0,
+            value: $network.getMetadata().id,
         }
         // L2 chains, ISCP only for now
         const iscpChains = features?.network?.layer2?.enabled
@@ -28,12 +28,12 @@
             : []
         const iscpChainsOptions = iscpChains.map((chain) => ({
             label: chain.getConfiguration().name,
-            value: chain.getConfiguration().chainId,
+            value: chain.getConfiguration().id,
         }))
         choices = [layer1Network, ...iscpChainsOptions]
     }
 
-    function onSelect(item: IDropdownItem<number>): void {
+    function onSelect(item: IDropdownItem<string>): void {
         filterUnit.selected = item.value
     }
 </script>
