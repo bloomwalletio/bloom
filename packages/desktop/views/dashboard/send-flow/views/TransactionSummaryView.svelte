@@ -53,7 +53,7 @@
     async function onConfirmClick(): Promise<void> {
         try {
             if (isAssetFromLayer2) {
-                await sendTransactionFromEvm(preparedTransaction, chain, () => {})
+                await sendTransactionFromEvm(preparedTransaction, chain)
             } else {
                 await sendOutputFromStardust(preparedOutput, $selectedAccount, closePopup)
             }

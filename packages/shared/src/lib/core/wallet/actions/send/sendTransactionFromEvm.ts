@@ -6,11 +6,7 @@ import { IChain } from '@core/network'
 import { checkActiveProfileAuth } from '@core/profile/actions'
 import { signAndSendEvmTransaction } from './signAndSendEvmTransaction'
 
-export async function sendTransactionFromEvm(
-    transaction: EvmTransactionData,
-    chain: IChain,
-    callback: () => void
-): Promise<void> {
+export async function sendTransactionFromEvm(transaction: EvmTransactionData, chain: IChain): Promise<void> {
     const account = getSelectedAccount()
     const provider = chain.getProvider()
     if (!account) {
@@ -35,7 +31,6 @@ export async function sendTransactionFromEvm(
                     ...transactionReceipt,
                 })
             }
-            callback()
         },
         { stronghold: true, ledger: true },
         LedgerAppName.Ethereum
