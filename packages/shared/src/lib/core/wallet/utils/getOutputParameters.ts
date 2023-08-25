@@ -1,4 +1,5 @@
-import { GAS_LIMIT_MULTIPLIER, getGasPriceInWei } from '@core/layer-2'
+import { getGasPriceInWei } from '@core/layer-2'
+import { GAS_LIMIT_MULTIPLIER } from '@core/layer-2/constants/gas-limit-multiplier.constant'
 import {
     calculateGasFeeInGlow,
     estimateGasForLayer1ToLayer2Transaction,

@@ -94,11 +94,19 @@ jest.mock('../../profile/actions/active-profile/getCoinType', () => ({
 }))
 
 jest.mock('../../layer-2/actions/getGasPriceInWei', () => ({
-    getGasPriceInWei: jest.fn((_) => 1),
+    getGasPriceInWei: jest.fn((_) => 1_000_000_000_000n),
 }))
 
 jest.mock('../../layer-2/utils/estimateGasForLayer1ToLayer2Transaction', () => ({
     estimateGasForLayer1ToLayer2Transaction: jest.fn(({ type }) => FALLBACK_ESTIMATED_GAS[type]),
+}))
+
+jest.mock('../../layer-2/constants/gas-limit-multiplier.constant', () => ({
+    GAS_LIMIT_MULTIPLIER: 1.1,
+}))
+
+jest.mock('../../layer-2/constants/wei.constants', () => ({
+    WEI_PER_GLOW: BigInt(1_000_000_000_000),
 }))
 
 describe('File: getOutputParameters.ts', () => {
@@ -223,7 +231,7 @@ describe('File: getOutputParameters.ts', () => {
         const output = await getOutputParameters(sendFlowParameters, senderAddress)
         const expectedOutput = {
             recipientAddress: destinationNetwork.aliasAddress,
-            amount: '1000000000',
+            amount: '1000026620',
             features: {
                 metadata:
                     '0x00000000025e4b3ca1e3f423fccf01010161200300010000070c000c30680e00000090000f0ea000060009000d300000000000808094ebdc03',
@@ -255,7 +263,7 @@ describe('File: getOutputParameters.ts', () => {
 
         const expectedOutput = {
             recipientAddress: destinationNetwork.aliasAddress,
-            amount: '0',
+            amount: '26785',
             assets: {
                 nativeTokens: [
                     {
@@ -286,7 +294,7 @@ describe('File: getOutputParameters.ts', () => {
 
         const expectedOutput = {
             recipientAddress: destinationNetwork.aliasAddress,
-            amount: '0',
+            amount: '27170',
             assets: {
                 nftId,
             },
