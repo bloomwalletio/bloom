@@ -1,14 +1,15 @@
-import { ILayer2AssetAllowance, ILayer2SendMetadataParameter, ILayer2SendOptionsParameter } from '../interfaces'
-import { UnwrapAssetParameter } from '../types'
+import {
+    ILayer2AssetAllowance,
+    ILayer2SendMetadataParameter,
+    ILayer2SendOptionsParameter,
+    ILayer2TargetAddressParameter,
+} from '../interfaces'
 import { buildUnwrapAssetTargetAddress } from './buildUnwrapAssetTargetAddress'
 
-export function buildUnwrapAssetParameters(
-    assetAllowance: ILayer2AssetAllowance,
-    recipientAddress: string
-): UnwrapAssetParameter[] {
-    const targetAddressParameter = buildUnwrapAssetTargetAddress(recipientAddress)
+export function buildUnwrapAssetParameters(recipientAddress: string): Partial<IUnwrapAssetParameters> {
+    const targetAddress = buildUnwrapAssetTargetAddress(recipientAddress)
 
-    const sendMetadataParameter: ILayer2SendMetadataParameter = {
+    const sendMetadata: ILayer2SendMetadataParameter = {
         targetContract: 0,
         entrypoint: 0,
         params: {
@@ -22,7 +23,7 @@ export function buildUnwrapAssetParameters(
         gasBudget: 0,
     }
 
-    const sendOptionsParameter: ILayer2SendOptionsParameter = {
+    const sendOptions: ILayer2SendOptionsParameter = {
         timelock: 0,
         expiration: {
             time: 0,
@@ -32,19 +33,18 @@ export function buildUnwrapAssetParameters(
         },
     }
 
-    return [
-        {
-            ...targetAddressParameter,
-        },
-        {
-            ...assetAllowance,
-        },
-        false,
-        {
-            ...sendMetadataParameter,
-        },
-        {
-            ...sendOptionsParameter,
-        },
-    ]
+    return {
+        targetAddress,
+        adjustMinimumStorageDeposit: false,
+        sendMetadata,
+        sendOptions,
+    }
+}
+
+export interface IUnwrapAssetParameters {
+    targetAddress: ILayer2TargetAddressParameter
+    assetAllowance: ILayer2AssetAllowance
+    adjustMinimumStorageDeposit: boolean
+    sendMetadata: ILayer2SendMetadataParameter
+    sendOptions: ILayer2SendOptionsParameter
 }

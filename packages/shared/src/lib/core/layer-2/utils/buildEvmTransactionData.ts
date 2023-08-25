@@ -12,7 +12,7 @@ export async function buildEvmTransactionData(
     data: string | undefined
 ): Promise<EvmTransactionData> {
     const transactionCount = await provider.eth.getTransactionCount(originAddress)
-    const nonce = provider.utils.toHex(transactionCount || 1)
+    const nonce = provider.utils.toHex(transactionCount + 1)
 
     // Specified in wei = 1_000_000_000_000
     const gasPrice = await provider.eth.getGasPrice()

@@ -12,31 +12,42 @@ export async function sendTransactionFromEvm(
     chain: IChain,
     callback?: () => void
 ): Promise<TransactionReceipt | undefined> {
-    const account = getSelectedAccount()
-    const provider = chain.getProvider()
-    if (!account) {
-        return
-    }
+    return new Promise((resolve, reject) => {
+        const account = getSelectedAccount()
+        const provider = chain.getProvider()
+        if (!account) {
+            return
+        }
 
-    let transactionReceipt: TransactionReceipt | undefined
-    await checkActiveProfileAuth(
-        async () => {
-            const networkId = chain.getConfiguration().id
-            const chainId = chain.getConfiguration().chainId
-            const coinType = chain.getConfiguration().coinType
-            transactionReceipt = await signAndSendEvmTransaction(transaction, chainId, coinType, provider, account)
-            if (transactionReceipt) {
-                addPersistedTransaction(account.index, networkId, {
-                    ...transaction,
-                    ...transactionReceipt,
-                })
-            }
-            if (callback && typeof callback === 'function') {
-                callback()
-            }
-        },
-        { stronghold: false, ledger: true },
-        LedgerAppName.Ethereum
-    )
-    return transactionReceipt
+        checkActiveProfileAuth(
+            async () => {
+                try {
+                    const networkId = chain.getConfiguration().id
+                    const chainId = chain.getConfiguration().chainId
+                    const coinType = chain.getConfiguration().coinType
+                    const transactionReceipt = await signAndSendEvmTransaction(
+                        transaction,
+                        chainId,
+                        coinType,
+                        provider,
+                        account
+                    )
+                    if (transactionReceipt) {
+                        addPersistedTransaction(account.index, networkId, {
+                            ...transaction,
+                            ...transactionReceipt,
+                        })
+                    }
+                    if (callback && typeof callback === 'function') {
+                        callback()
+                    }
+                    resolve(transactionReceipt)
+                } catch (err) {
+                    reject(err)
+                }
+            },
+            { stronghold: false, ledger: true },
+            LedgerAppName.Ethereum
+        )
+    })
 }

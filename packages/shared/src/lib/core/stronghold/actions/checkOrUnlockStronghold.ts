@@ -33,4 +33,5 @@ export async function checkOrUnlockStronghold(
     } catch (err) {
         handleError(err)
     }
+    return Promise.resolve()
 }

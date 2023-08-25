@@ -20,11 +20,15 @@ export async function unwrapStardustAsset(
     recipientAddress: string
 ): Promise<TransactionReceipt | undefined> {
     try {
-        const parameters = buildUnwrapAssetParameters(assetAllowance, recipientAddress)
+        const { targetAddress, adjustMinimumStorageDeposit, sendMetadata, sendOptions } =
+            buildUnwrapAssetParameters(recipientAddress)
 
         const chain = getNetwork()?.getChain(SupportedNetworkId.ShimmerEvmTestnet as NetworkId)
         const contract = chain?.getContract(ContractType.IscMagic, ISC_MAGIC_CONTRACT_ADDRESS)
-        const data = (await contract?.methods.send(...parameters).encodeABI()) ?? ''
+        const data =
+            (await contract?.methods
+                .send(targetAddress, assetAllowance, adjustMinimumStorageDeposit, sendMetadata, sendOptions)
+                .encodeABI()) ?? ''
 
         const provider = chain?.getProvider() as Web3
         const originAddress =
@@ -36,8 +40,8 @@ export async function unwrapStardustAsset(
             '0',
             data
         )
-
-        return await sendTransactionFromEvm(transactionData, chain as IChain)
+        const tx = await sendTransactionFromEvm(transactionData, chain as IChain)
+        return tx
     } catch (err) {
         handleError(err)
     }
