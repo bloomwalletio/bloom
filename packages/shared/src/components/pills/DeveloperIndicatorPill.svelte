@@ -1,13 +1,8 @@
 <script lang="ts">
+    import { Pill } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
-    import { Pill } from '@ui'
 </script>
 
-<Pill
-    data={localize('general.dev')}
-    textColor="gray-600"
-    darkTextColor="white"
-    backgroundColor="gray-100"
-    darkBackgroundColor="gray-700"
-    classes="uppercase dark:bg-opacity-20 rounded-full px-3"
-/>
+<Pill color="gray">
+    {localize('general.dev')}
+</Pill>
