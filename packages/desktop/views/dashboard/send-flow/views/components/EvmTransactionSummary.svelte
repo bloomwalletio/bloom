@@ -4,7 +4,6 @@
         calculateEstimatedGasFeeFromTransactionData,
         calculateMaxGasFeeFromTransactionData,
     } from '@core/layer-2'
-    import { getDestinationNetworkFromAddress } from '@core/layer-2/utils'
     import { INft } from '@core/nfts'
     import { SendFlowParameters, TokenTransferData } from '@core/wallet'
     import { SendFlowType } from '@core/wallet/stores'
@@ -13,8 +12,6 @@
 
     export let transaction: EvmTransactionData
     export let sendFlowParameters: SendFlowParameters
-
-    $: destinationNetwork = getDestinationNetworkFromAddress(sendFlowParameters?.layer2Parameters?.networkAddress)
 
     function getTransactionAsset(sendFlowParameters: SendFlowParameters): {
         tokenTransfer?: TokenTransferData
@@ -36,7 +33,7 @@
     />
 
     <EvmTransactionDetails
-        {destinationNetwork}
+        destinationNetworkId={sendFlowParameters?.destinationNetworkId}
         estimatedGasFee={calculateEstimatedGasFeeFromTransactionData(transaction)}
         maxGasFee={calculateMaxGasFeeFromTransactionData(transaction)}
     />
