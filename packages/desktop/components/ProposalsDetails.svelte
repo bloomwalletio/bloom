@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { type IItems, Table } from '@bloomwalletio/ui'
     import { IProposalsDetails } from '@contexts/governance/interfaces'
     import {
         participationOverviewForSelectedAccount,
@@ -16,7 +17,6 @@
     import { activeProfileId } from '@core/profile/stores'
     import { PopupId, openPopup } from '@desktop/auxiliary/popup'
     import { Button, ProposalsDetailsButton, Text } from '@ui'
-    import { Table } from '@bloomwalletio/ui'
     import { ButtonSize, FontWeight } from '@ui/enums'
     import { onMount } from 'svelte'
 
@@ -27,7 +27,7 @@
         votedProposals: null,
     }
 
-    let items: { key: string; value: string }[]
+    let items: IItems[] = []
 
     $: isOverviewLoaded = !!$participationOverviewForSelectedAccount
     $: $registeredProposalsForSelectedAccount, $participationOverviewForSelectedAccount, updateProposalsDetails()
