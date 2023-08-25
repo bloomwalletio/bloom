@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { IItems, Table } from '@bloomwalletio/ui'
+    import { type IItems, Table } from '@bloomwalletio/ui'
     import { FoundryActivity } from '@core/activity'
     import { localize } from '@core/i18n'
     import { IIrc30Metadata } from '@core/token'
