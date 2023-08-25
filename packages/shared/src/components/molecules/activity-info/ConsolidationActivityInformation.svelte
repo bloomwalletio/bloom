@@ -1,22 +1,30 @@
 <script lang="ts">
-    import { KeyValueBox } from '@ui'
+    import { type IItems, Table } from '@bloomwalletio/ui'
     import { getFormattedTimeStamp, localize } from '@core/i18n'
     import { ConsolidationActivity } from '@core/activity'
-    import { IKeyValueBoxList } from '@core/utils'
 
     export let activity: ConsolidationActivity
 
-    let transactionDetailsList: IKeyValueBoxList
-    $: transactionDetailsList = {
-        ...(activity.time && {
-            transactionTime: { data: getFormattedTimeStamp(activity.time) },
-        }),
-        ...(activity.amountConsolidatedInputs && {
-            amountConsolidatedInputs: { data: String(activity.amountConsolidatedInputs) },
-        }),
+    let items: IItems[] = []
+
+    $: setItems(activity)
+
+    function setItems(activity: ConsolidationActivity): void {
+        items = []
+
+        if (activity.time) {
+            items.push({
+                key: localize('general.transactionTime'),
+                value: getFormattedTimeStamp(activity.time),
+            })
+        }
+        if (activity.amountConsolidatedInputs) {
+            items.push({
+                key: localize('general.amountConsolidatedInputs'),
+                value: String(activity.amountConsolidatedInputs),
+            })
+        }
     }
 </script>
 
-{#each Object.entries(transactionDetailsList) as [key, value]}
-    <KeyValueBox keyText={localize(`general.${key}`)} valueText={value.data} />
-{/each}
+<Table {items} />
