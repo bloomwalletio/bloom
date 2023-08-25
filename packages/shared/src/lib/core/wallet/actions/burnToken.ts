@@ -11,10 +11,6 @@ export async function burnToken(tokenId: string, rawAmount: string): Promise<voi
         const account = getSelectedAccount()
         const networkId = getActiveNetworkId()
 
-        if (!networkId) {
-            throw new Error(localize('error.global.accountOrNetworkUndefined'))
-        }
-
         updateSelectedAccount({ isTransferring: true })
         const burnTokenTransaction = await account.burnNativeToken(tokenId, Converter.decimalToHex(Number(rawAmount)))
 

@@ -11,10 +11,6 @@ export async function burnNft(nftId: string): Promise<void> {
         const account = getSelectedAccount()
         const networkId = getActiveNetworkId()
 
-        if (!account || !networkId) {
-            throw new Error(localize('error.global.accountOrNetworkUndefined'))
-        }
-
         updateSelectedAccount({ isTransferring: true })
         const burnNftTransaction = await account.burnNft(nftId)
 

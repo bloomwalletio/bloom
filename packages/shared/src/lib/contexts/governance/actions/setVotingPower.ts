@@ -10,9 +10,6 @@ export async function setVotingPower(rawAmount: string): Promise<void> {
         const account = getSelectedAccount()
         const networkId = getActiveNetworkId()
 
-        if (!networkId) {
-            throw new Error(localize('error.global.accountOrNetworkUndefined'))
-        }
         const votingPower = parseInt(account.votingPower, 10)
         const amount = parseInt(rawAmount, 10)
 

@@ -21,9 +21,6 @@ export async function mintNativeToken(
         const account = getSelectedAccount()
         const networkId = getActiveNetworkId()
 
-        if (!networkId) {
-            throw new Error(localize('error.global.accountOrNetworkUndefined'))
-        }
         updateSelectedAccount({ isTransferring: true })
 
         const params: CreateNativeTokenParams = {

@@ -6,10 +6,6 @@ import { showNotification } from '@auxiliary/notification/actions'
 
 export async function requestTokensFromFaucet(): Promise<void> {
     const networkId = getActiveNetworkId()
-    if (!networkId) {
-        return
-    }
-
     const url = FAUCET_URLS?.[networkId]
 
     if (!url) {

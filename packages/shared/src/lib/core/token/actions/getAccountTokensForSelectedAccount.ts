@@ -15,11 +15,7 @@ import { IAccountState } from '@core/account/interfaces'
 export function getAccountTokensForSelectedAccount(marketCoinPrices: MarketCoinPrices): AccountTokens {
     const accountAssets = {} as AccountTokens
     const account = getSelectedAccount()
-
     const networkId = getActiveNetworkId()
-    if (!networkId) {
-        return {}
-    }
 
     accountAssets[networkId] = getAccountAssetForNetwork(account, marketCoinPrices, networkId)
     const chains = getNetwork()?.getChains() ?? []

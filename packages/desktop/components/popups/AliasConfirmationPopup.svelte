@@ -56,9 +56,6 @@
         try {
             const account = $selectedAccount
             const networkId = $network?.getMetadata()?.id
-            if (!account || !networkId) {
-                throw new Error(localize('error.global.accountOrNetworkUndefined'))
-            }
 
             updateSelectedAccount({ isTransferring: true })
             const transaction = await account.createAliasOutput()
