@@ -9,7 +9,7 @@ import { AppContext } from '@core/app/enums'
 import { removePersistedNtsForProfile } from '@core/nfts/stores'
 import { removeProfileFolder } from '@core/profile'
 import { logout } from '@core/profile/actions'
-import { activeProfile, profiles, removeProfile } from '@core/profile/stores'
+import { activeProfileId, profiles, removeProfile } from '@core/profile/stores'
 import { routerManager } from '@core/router/stores'
 import { removePersistedTokensForProfile } from '@core/token/stores'
 import { get } from 'svelte/store'
@@ -21,8 +21,8 @@ import { get } from 'svelte/store'
  */
 export async function deleteProfile(): Promise<void> {
     try {
-        const _activeProfile = get(activeProfile)
-        if (!_activeProfile) {
+        const _activeProfileId = get(activeProfileId)
+        if (!_activeProfileId) {
             return
         }
 
@@ -36,20 +36,20 @@ export async function deleteProfile(): Promise<void> {
          * CAUTION: The profile and its data must be removed from the
          * app's list of profiles that lives as a Svelte store.
          */
-        removeProfile(_activeProfile.id)
-        removePersistedEvmTransactionsForProfile(_activeProfile.id)
-        removePersistedBalanceChangesForProfile(_activeProfile.id)
-        removeClaimedActivitiesForProfile(_activeProfile.id)
-        removePersistedNtsForProfile(_activeProfile.id)
-        removePersistedTokensForProfile(_activeProfile.id)
-        removePersistedShimmerClaimingTransactions(_activeProfile.id)
-        removeHiddenActivitiesForProfile(_activeProfile.id)
+        removeProfile(_activeProfileId)
+        removePersistedEvmTransactionsForProfile(_activeProfileId)
+        removePersistedBalanceChangesForProfile(_activeProfileId)
+        removeClaimedActivitiesForProfile(_activeProfileId)
+        removePersistedNtsForProfile(_activeProfileId)
+        removePersistedTokensForProfile(_activeProfileId)
+        removePersistedShimmerClaimingTransactions(_activeProfileId)
+        removeHiddenActivitiesForProfile(_activeProfileId)
 
         /**
          * CAUTION: This removes the actual directory for the profile,
          * so it should occur last.
          */
-        await removeProfileFolder(_activeProfile.id)
+        await removeProfileFolder(_activeProfileId)
 
         /**
          * NOTE: If there are no more profiles, then the user should be
