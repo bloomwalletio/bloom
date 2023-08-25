@@ -4,10 +4,11 @@ import { getCoinType } from '@core/profile/actions'
 import { SubjectType } from '@core/wallet'
 import { WEI_PER_GLOW } from '@core/layer-2'
 import Web3 from 'web3'
+import { NetworkId } from '@core/network/types'
 
 export async function generateActivityFromEvmTransaction(
     transaction: PersistedEvmTransaction,
-    chainId: number,
+    networkId: NetworkId,
     provider: Web3
 ): Promise<TransactionActivity> {
     const direction = ActivityDirection.Outgoing // Currently only sent transactions are supported
@@ -29,6 +30,6 @@ export async function generateActivityFromEvmTransaction(
         rawBaseCoinAmount: Number(transaction.value) / Number(WEI_PER_GLOW),
         rawAmount: Number(transaction.value) / Number(WEI_PER_GLOW),
         tokenId: getCoinType(),
-        chainId,
+        networkId,
     }
 }
