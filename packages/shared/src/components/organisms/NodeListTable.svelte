@@ -2,7 +2,8 @@
     import { localize } from '@core/i18n'
     import { INode, getDefaultNodes, isSupportedNetworkId } from '@core/network'
     import { activeProfile } from '@core/profile/stores'
-    import { NodeActionsButton, Pill, Text } from '@ui'
+    import { NodeActionsButton, Text } from '@ui'
+    import { Pill } from '@bloomwalletio/ui'
     import { PopupId, openPopup } from '../../../../desktop/lib/auxiliary/popup'
 
     export let nodesContainer: HTMLElement | undefined = undefined
@@ -46,13 +47,14 @@
                         {node.url}
                     </Text>
                     {#if isPrimary(node)}
-                        <Pill
-                            data={localize('views.settings.configureNodeList.primaryNode').toLowerCase()}
-                            textColor="blue-500"
-                        />
+                        <Pill color="blue">
+                            {localize('views.settings.configureNodeList.primaryNode').toLowerCase()}
+                        </Pill>
                     {/if}
                     {#if node?.disabled}
-                        <Pill data={localize('general.excluded').toLowerCase()} textColor="red-500" />
+                        <Pill color="red">
+                            {localize('general.excluded').toLowerCase()}
+                        </Pill>
                     {/if}
                 </div>
                 <NodeActionsButton {node} {clientOptions} />
