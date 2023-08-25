@@ -81,7 +81,7 @@ function searchClaimedTransactionInIncomingAsyncTransactions(
     allAsyncTransaction: IProcessedTransaction[],
     transaction: IProcessedTransaction
 ): IProcessedTransaction {
-    return allAsyncTransaction.find((candidate) =>
-        transaction.utxoInputs?.some((input) => input?.transactionId === candidate?.transactionId)
+    return allAsyncTransaction.find(
+        (candidate) => transaction.utxoInputs?.some((input) => input?.transactionId === candidate?.transactionId)
     )
 }

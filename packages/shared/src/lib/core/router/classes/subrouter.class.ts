@@ -7,7 +7,11 @@ import { Router } from './router.class'
 export abstract class Subrouter<R> extends Router<R> {
     protected parentRouter: IRouter
 
-    constructor(protected initialRoute: R, storeRoute: Writable<R>, parentRouter: IRouter) {
+    constructor(
+        protected initialRoute: R,
+        storeRoute: Writable<R>,
+        parentRouter: IRouter
+    ) {
         super(initialRoute, storeRoute)
         this.parentRouter = parentRouter
     }

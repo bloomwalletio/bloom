@@ -134,6 +134,10 @@
     /* Hotfix to avoid the SVG slow transition */
     svg,
     svg path {
-        transition: background 0.05s, color 0.05s, border-color 0.05s, opacity 0.05s;
+        transition:
+            background 0.05s,
+            color 0.05s,
+            border-color 0.05s,
+            opacity 0.05s;
     }
 </style>
