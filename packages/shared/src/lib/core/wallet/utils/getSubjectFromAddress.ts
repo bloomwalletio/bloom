@@ -6,13 +6,14 @@ import { Subject } from '../types'
 
 export function getSubjectFromAddress(address: string, networkId: NetworkId): Subject {
     const account = findActiveAccountWithAddress(address, networkId)
+    if (account) {
+        return { type: SubjectType.Account, account, address }
+    }
 
     const contact = networkId ? ContactManager.getContactForAddress(networkId, address) : undefined
-    if (account) {
-        return { type: SubjectType.Account, account, address: account.depositAddress }
-    } else if (contact) {
+    if (contact) {
         return { type: SubjectType.Contact, contact, address }
-    } else {
-        return { type: SubjectType.Address, address }
     }
+
+    return { type: SubjectType.Address, address }
 }
