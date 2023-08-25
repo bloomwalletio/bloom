@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { Table } from '@bloomwalletio/ui'
     import { ProposalDetailsButton, ProposalInformationPane, ProposalQuestion } from '@components'
     import { getVotingEvent } from '@contexts/governance/actions'
     import {
@@ -31,7 +32,6 @@
     import { PopupId, openPopup } from '@desktop/auxiliary/popup'
     import { ParticipationEventType, TrackedParticipationOverview, VotingEventPayload } from '@iota/wallet/out/types'
     import { Button, MarkdownBlock, Pane, ProposalStatusPill, Text, TextHint, TextType } from '@ui'
-    import { Table } from '@bloomwalletio/ui'
     import { onDestroy, onMount } from 'svelte'
 
     const { metadata } = $visibleSelectedAccountTokens?.[$activeProfile?.network?.id]?.baseCoin ?? {}
@@ -88,17 +88,6 @@
             isUpdatingVotedAnswerValues = hasGovernanceTransactionInProgress
         }
     }
-
-    const items = [
-        {
-            key: localize('views.governance.details.yourVote.total'),
-            value: formatTokenAmountBestMatch(totalVotes, metadata),
-        },
-        {
-            key: localize('views.governance.details.yourVote.power'),
-            value: formatTokenAmountBestMatch(parseInt($selectedAccount?.votingPower), metadata),
-        },
-    ]
 
     function hasSelectedNoAnswers(_selectedAnswerValues: number[]): boolean {
         return (
@@ -235,7 +224,18 @@
             <Text smaller classes="mb-5">
                 {localize('views.governance.details.yourVote.title')}
             </Text>
-            <Table {items} />
+            <Table
+                items={[
+                    {
+                        key: localize('views.governance.details.yourVote.total'),
+                        value: formatTokenAmountBestMatch(totalVotes, metadata),
+                    },
+                    {
+                        key: localize('views.governance.details.yourVote.power'),
+                        value: formatTokenAmountBestMatch(parseInt($selectedAccount?.votingPower), metadata),
+                    },
+                ]}
+            />
         </Pane>
         <ProposalInformationPane classes="shrink-0" />
     </div>
