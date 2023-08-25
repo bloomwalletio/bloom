@@ -1,37 +1,15 @@
 <script lang="ts">
-    import { Icon } from '@ui'
-    import { NETWORK_ICON_SVG } from '@auxiliary/icon'
+    import { Avatar, IconName } from '@bloomwalletio/ui'
     import { NetworkId, SupportedNetworkId } from '@core/network'
 
     export let networkId: NetworkId
-    export let height = 22
-    export let width = 22
-    export let outlined = true
+    export let size: 'xxs' | 'xs' | 'sm' = 'sm'
 
-    $: backgroundColor = classesMap[networkId]?.backgroundColor ?? 'bg-gray-400'
-    $: iconColor = classesMap[networkId]?.iconColor ?? 'text-black'
-
-    const classesMap: { [id in NetworkId]?: Record<string, string> } = {
-        [SupportedNetworkId.Shimmer]: {
-            backgroundColor: 'bg-shimmer-highlight',
-            iconColor: 'text-black',
-        },
-        [SupportedNetworkId.Testnet]: {
-            backgroundColor: 'bg-gray-400',
-            iconColor: 'text-black',
-        },
+    const AVATAR_COLOR: { [id in NetworkId]?: string } = {
+        [SupportedNetworkId.Shimmer]: '#17E1D5',
+        [SupportedNetworkId.Testnet]: 'gray-400',
     }
 </script>
 
-<network-icon class={backgroundColor} class:outlined>
-    <Icon {height} {width} icon={NETWORK_ICON_SVG[networkId]} classes={iconColor} />
-</network-icon>
-
-<style lang="scss">
-    network-icon {
-        @apply flex items-center justify-center p-0.5 rounded-full;
-        &.outlined {
-            @apply ring-2 ring-white dark:ring-gray-900;
-        }
-    }
-</style>
+<!-- Todo: replace with icon colour and correct icon name when added bloom-ui -->
+<Avatar {size} color={AVATAR_COLOR[networkId] ?? 'gray-400'} icon={IconName.Cpu} />
