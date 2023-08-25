@@ -1,7 +1,6 @@
 export { default as AccountInput } from './AccountInput.svelte'
 export { default as AliasInput } from './AliasInput.svelte'
 export { default as AmountInput } from './AmountInput.svelte'
-export { default as ChainInput } from './ChainInput.svelte'
 export { default as Checkbox } from './Checkbox.svelte'
 export { default as ClosableInput } from './ClosableInput.svelte'
 export { default as DateTimePicker } from './DateTimePicker.svelte'

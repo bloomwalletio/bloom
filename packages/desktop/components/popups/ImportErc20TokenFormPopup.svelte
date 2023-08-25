@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { Button, ChainInput, FontWeight, Spinner, Text, TextInput, TextType } from '@ui'
+    import { Button, NetworkInput, FontWeight, Spinner, Text, TextInput, TextType } from '@ui'
 
     import { localize } from '@core/i18n'
     import { ERC20_TOKEN_ADDRESS_LENGTH } from '@core/layer-2'
@@ -76,7 +76,7 @@
     </Text>
 
     <div class="space-y-4 max-h-100 flex-1">
-        <ChainInput bind:networkId />
+        <NetworkInput bind:networkId showLayer1={false} />
         <TextInput
             bind:value={tokenAddress}
             label={localize('popups.importErc20Token.property.tokenAddress')}
