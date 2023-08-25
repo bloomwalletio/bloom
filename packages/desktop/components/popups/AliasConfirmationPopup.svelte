@@ -26,7 +26,6 @@
 
     const aliasOutputParams: AliasOutputBuilderParams = {
         aliasId: EMPTY_HEX_ID,
-        amount: '100000',
         unlockConditions: [
             new GovernorAddressUnlockCondition(address),
             new StateControllerAddressUnlockCondition(address),
