@@ -3,8 +3,7 @@
 
     export let busy = false
     export let message = ''
-    export let width = 24
-    export let height = 24
+    export let size = 24
     export let color = 'gray-500'
     export let darkColor = 'white'
     export let classes = ''
@@ -15,8 +14,8 @@
         {#if busy}
             <Icon
                 icon="refresh"
-                {width}
-                {height}
+                width={size}
+                height={size}
                 classes={`animate-spin-reverse text-${color} dark:text-${darkColor}`}
             />
         {/if}

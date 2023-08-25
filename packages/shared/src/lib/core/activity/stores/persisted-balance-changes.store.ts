@@ -60,3 +60,10 @@ export function addPersistedBalanceChange(
         return state
     })
 }
+
+export function removePersistedBalanceChangesForProfile(profileId: string): void {
+    persistedBalanceChanges.update((state) => {
+        delete state[profileId]
+        return state
+    })
+}

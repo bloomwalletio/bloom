@@ -1,32 +1,34 @@
 <script lang="ts">
-    import { Icon, Pill } from '@ui'
+    import { Icon } from '@ui'
+    import { Pill } from '@bloomwalletio/ui'
     import { Icon as _Icon } from '@auxiliary/icon'
     import { localize } from '@core/i18n'
     import { ProposalStatus } from '@contexts/governance/enums'
     import { IProposal } from '@contexts/governance/interfaces'
+    import { DefaultColors } from 'tailwindcss/types/generated/colors'
 
     export let proposal: IProposal
 
     $: status = proposal?.status
     $: error = proposal?.error
 
-    const STATUS_COLORS: Record<ProposalStatus, string> = {
-        [ProposalStatus.Upcoming]: 'purple-200',
-        [ProposalStatus.Commencing]: 'blue-200',
-        [ProposalStatus.Holding]: 'green-300',
-        [ProposalStatus.Ended]: 'gray-200',
+    const STATUS_COLORS: { [key in ProposalStatus]: keyof DefaultColors } = {
+        [ProposalStatus.Upcoming]: 'purple',
+        [ProposalStatus.Commencing]: 'pink',
+        [ProposalStatus.Holding]: 'green',
+        [ProposalStatus.Ended]: 'blue',
     }
 </script>
 
-<Pill
-    data={localize(`pills.governance.proposalStatus.${error ? error : status}`)}
-    textColor={error ? 'red-700' : 'grey-800'}
-    darkTextColor={error ? 'red-700' : 'grey-800'}
-    backgroundColor={error ? 'red-200' : STATUS_COLORS[status]}
-    darkBackgroundColor={error ? 'red-200' : STATUS_COLORS[status]}
-    classes="rounded-full px-2 py-1 flex items-center {status ? '' : 'invisible'}"
->
-    {#if error}
-        <Icon icon={error ? _Icon.StatusError : undefined} classes="text-red-700" />
-    {/if}
-</Pill>
+{#if status}
+    <Pill color={STATUS_COLORS[status]}>
+        <div class="flex flex-row space-x-1 items-center">
+            {#if error}
+                <Icon icon={error ? _Icon.StatusError : undefined} classes="text-red-700" />
+            {/if}
+            <div>
+                {localize(`pills.governance.proposalStatus.${error ? error : status}`)}
+            </div>
+        </div>
+    </Pill>
+{/if}
