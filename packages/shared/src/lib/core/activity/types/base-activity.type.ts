@@ -16,6 +16,7 @@ export type BaseActivity = {
     action: ActivityAction
     isInternal: boolean
     storageDeposit: number
+    gas?: number
     rawBaseCoinAmount?: number
     subject: Subject | undefined
     metadata?: string

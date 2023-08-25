@@ -18,6 +18,7 @@
     $: claimedTime = getFormattedTimeStamp(activity?.asyncData?.claimedDate)
     $: hasStorageDeposit =
         activity?.storageDeposit || (activity?.storageDeposit === 0 && activity?.giftedStorageDeposit === 0)
+    $: gasUsed = activity?.gas
     $: gasLimit = activity?.parsedLayer2Metadata?.gasLimit
 
     $: formattedTransactionTime = getFormattedTimeStamp(activity?.time)
@@ -26,6 +27,7 @@
     $: formattedGiftedStorageDeposit = formatTokenAmountPrecise(activity?.giftedStorageDeposit ?? 0, getBaseToken())
     $: formattedSurplus = formatTokenAmountPrecise(activity?.surplus ?? 0, getBaseToken())
     $: formattedGasLimit = formatTokenAmountPrecise(Number(gasLimit ?? 0), getBaseToken())
+    $: formattedGasUsed = formatTokenAmountPrecise(Number(gasUsed ?? 0), getBaseToken())
 
     let transactionDetailsList: IKeyValueBoxList
     $: transactionDetailsList = {
@@ -49,6 +51,9 @@
         }),
         ...(activity?.giftedStorageDeposit && {
             giftedStorageDeposit: { data: formattedGiftedStorageDeposit, isTooltipVisible: true },
+        }),
+        ...(gasUsed && {
+            gasUsed: { data: formattedGasUsed, isTooltipVisible: true },
         }),
         ...(gasLimit && {
             gasLimit: { data: formattedGasLimit, isTooltipVisible: true },
