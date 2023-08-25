@@ -5,16 +5,11 @@ import { processAndAddToActivities } from '@core/activity/utils'
 import { DEFAULT_TRANSACTION_OPTIONS, OUTPUT_TYPE_NFT } from '../constants'
 import { Output } from '../types'
 import { getActiveNetworkId } from '@core/network'
-import { localize } from '@core/i18n'
 
 export async function sendOutput(output: Output): Promise<void> {
     try {
         const account = getSelectedAccount()
         const networkId = getActiveNetworkId()
-
-        if (!networkId) {
-            throw new Error(localize('error.global.accountOrNetworkUndefined'))
-        }
 
         updateSelectedAccount({ isTransferring: true })
         const transaction = await account.sendOutputs([output], DEFAULT_TRANSACTION_OPTIONS)
