@@ -1,4 +1,4 @@
-import { getNetwork, isStardustNetwork } from '@core/network'
+import { NetworkId, getNetwork, isStardustNetwork } from '@core/network'
 import { getSelectedAccount } from '@core/account/stores'
 import { SendFlowParameters, SendFlowType } from '@core/wallet'
 import { FALLBACK_ESTIMATED_GAS, ISC_MAGIC_CONTRACT_ADDRESS } from '../constants'
@@ -9,40 +9,44 @@ import { getIscpTransferSmartContractData } from '../utils'
 export async function estimateGasForLayer1ToLayer2Transaction(sendFlowParameters: SendFlowParameters): Promise<number> {
     const { recipient, destinationNetworkId } = sendFlowParameters ?? {}
 
-    if (destinationNetworkId && isStardustNetwork(destinationNetworkId)) {
+    if (!destinationNetworkId || (destinationNetworkId && isStardustNetwork(destinationNetworkId))) {
         return 0
     }
 
-    const address = recipient?.address ?? ''
-
-    const chain = destinationNetworkId ? getNetwork()?.getChain(destinationNetworkId) : undefined
-    const provider = chain?.getProvider()
     const transferredAsset = getTransferredAsset(sendFlowParameters)
-
-    const fallbackGas = FALLBACK_ESTIMATED_GAS.toJSNumber()
-    if (!chain || !provider || !transferredAsset) {
-        return fallbackGas
-    }
+    if (!transferredAsset) return 0
 
     try {
-        const coinType = chain.getConfiguration().coinType
-        const evmAddress = getSelectedAccount()?.evmAddresses?.[coinType]
-        const data = getIscpTransferSmartContractData(address, transferredAsset, chain)
-        if (data) {
-            const gas = await provider.eth.estimateGas({
-                from: evmAddress,
-                to: ISC_MAGIC_CONTRACT_ADDRESS,
-                data,
-            })
-            return gas
-        } else {
-            return Promise.resolve(fallbackGas)
-        }
+        const gas = await getGasEstimateForMagicContractCall(destinationNetworkId, recipient?.address, transferredAsset)
+        return gas
     } catch (err) {
-        // If the from in estimateGas doesn't have funds,  the node throw an error.
-        console.error(err)
-        return Promise.resolve(fallbackGas)
+        return FALLBACK_ESTIMATED_GAS[sendFlowParameters.type]
     }
+}
+
+async function getGasEstimateForMagicContractCall(
+    networkId: NetworkId,
+    address: string | undefined,
+    transferredAsset: TransferredAsset
+): Promise<number> {
+    const chain = getNetwork()?.getChain(networkId)
+    if (!chain) return Promise.reject('Invalid chain')
+
+    const provider = chain?.getProvider()
+    if (!provider) return Promise.reject('Invalid provider')
+
+    if (!address) return Promise.reject('Invalid address')
+
+    const data = getIscpTransferSmartContractData(address, transferredAsset, chain)
+    if (!data) return Promise.reject('Invalid data')
+
+    const coinType = chain.getConfiguration().coinType
+    const evmAddress = getSelectedAccount()?.evmAddresses?.[coinType]
+    return provider.eth.estimateGas({
+        from: evmAddress,
+        to: ISC_MAGIC_CONTRACT_ADDRESS,
+        data,
+    })
 }
 
 function getTransferredAsset(sendFlowParameters: SendFlowParameters): TransferredAsset | undefined {

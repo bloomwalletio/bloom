@@ -12,7 +12,7 @@ export async function getLayer2MetadataForTransfer(sendFlowParameters: SendFlowP
     const encodedAddress = address ? encodeAddress(address.toLowerCase()) : ''
 
     const estimatedGas = await estimateGasForLayer1ToLayer2Transaction(sendFlowParameters as TokenSendFlowParameters)
-    const gasLimit = estimatedGas * GAS_LIMIT_MULTIPLIER
+    const gasLimit = Math.floor(estimatedGas * GAS_LIMIT_MULTIPLIER)
 
     metadataStream.writeUInt32('senderContract', EXTERNALLY_OWNED_ACCOUNT)
     metadataStream.writeUInt32('targetContract', ACCOUNTS_CONTRACT)

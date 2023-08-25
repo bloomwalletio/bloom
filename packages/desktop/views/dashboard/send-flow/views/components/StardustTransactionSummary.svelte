@@ -73,7 +73,7 @@
     async function setGasVariables(sendFlowParameters: SendFlowParameters): Promise<void> {
         if (isToLayer2) {
             const estimatedGas = await estimateGasForLayer1ToLayer2Transaction(sendFlowParameters)
-            const gasLimit = estimatedGas * GAS_LIMIT_MULTIPLIER
+            const gasLimit = Math.floor(estimatedGas * GAS_LIMIT_MULTIPLIER)
             const gasPrice = await getGasPriceInWei(sendFlowParameters.destinationNetworkId)
             estimatedGasFee = calculateGasFeeInGlow(estimatedGas, gasPrice)
             maxGasFee = calculateGasFeeInGlow(gasLimit, gasPrice)

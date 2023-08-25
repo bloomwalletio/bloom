@@ -1,5 +1,5 @@
 import { BigIntLike } from '@ethereumjs/util'
-import { WEI_PER_GLOW } from '../constants'
+import { WEI_PER_GLOW } from '../constants/wei.constants'
 
 export function calculateGasFeeInGlow(gasAmount: BigIntLike, gasPriceInWei: BigIntLike | undefined): BigIntLike {
     if (gasAmount && gasPriceInWei) {

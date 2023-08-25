@@ -1,4 +1,5 @@
-import { GAS_LIMIT_MULTIPLIER, getGasPriceInWei } from '@core/layer-2'
+import { getGasPriceInWei } from '@core/layer-2'
+import { GAS_LIMIT_MULTIPLIER } from '@core/layer-2/constants/gas-limit-multiplier.constant'
 import {
     calculateGasFeeInGlow,
     estimateGasForLayer1ToLayer2Transaction,
@@ -36,7 +37,7 @@ export async function getOutputParameters(
 
     if (isToLayer2) {
         const estimatedGas = await estimateGasForLayer1ToLayer2Transaction(sendFlowParameters)
-        const gasLimit = estimatedGas * GAS_LIMIT_MULTIPLIER
+        const gasLimit = Math.floor(estimatedGas * GAS_LIMIT_MULTIPLIER)
         const gasPrice = await getGasPriceInWei(destinationNetworkId)
         const maxGasFee = calculateGasFeeInGlow(gasLimit, gasPrice)
         amount = (parseInt(amount, 10) + Number(maxGasFee ?? 0)).toString()
