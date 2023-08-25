@@ -1087,6 +1087,12 @@
             "body": "Help the developers improve Firefly by automatically sending diagnostic data when an error or crash occurs. If selected, this will take effect after restarting Firefly.",
             "checkbox": "Send crash reports to the IOTA Foundation"
         },
+        "signMessage": {
+            "title": "Sign a message",
+            "message": "Message",
+            "hint": "No balance will be sent to {dappName} in the process of signing this message.",
+            "action": "Sign message"
+        },
         "activityDetails": {
             "title": {
                 "fallback": "Activity details",

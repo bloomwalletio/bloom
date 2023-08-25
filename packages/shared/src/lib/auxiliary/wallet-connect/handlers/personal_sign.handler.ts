@@ -28,7 +28,7 @@ export function handlePersonalSign(
     const response = { id, result: signedMessage, jsonrpc: '2.0' }
 
     openPopup({
-        id: PopupId.Confirmation,
+        id: PopupId.SignMessage,
         props: {
             title: 'Personal Sign',
             description: 'Do you wanna sign the following message: ' + message,
