@@ -54,10 +54,6 @@ export class AccountMock implements IAccount {
         return Promise.resolve([])
     }
 
-    burnNft(nftId: string, transactionOptions?: TransactionOptions): Promise<Transaction> {
-        throw new Error('Method not implemented.')
-    }
-
     consolidateOutputs(params: ConsolidationParams): Promise<Transaction> {
         throw new Error('Method not implemented.')
     }

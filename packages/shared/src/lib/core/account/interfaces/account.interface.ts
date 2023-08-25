@@ -38,7 +38,6 @@ import type {
 export interface IAccount {
     addresses(): Promise<AccountAddress[]>
     addressesWithUnspentOutputs(): Promise<AddressWithUnspentOutputs[]>
-    burnNft(nftId: string, transactionOptions?: TransactionOptions): Promise<Transaction>
     claimableOutputs(outputs: OutputsToClaim): Promise<string[]>
     claimOutputs(outputIds: string[]): Promise<Transaction>
     deregisterParticipationEvent(eventId: string): Promise<void>
