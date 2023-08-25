@@ -13,22 +13,26 @@ import { getActiveNetworkId } from '@core/network/actions/getActiveNetworkId'
 import { IAccountState } from '@core/account/interfaces'
 
 export function getAccountTokensForSelectedAccount(marketCoinPrices: MarketCoinPrices): AccountTokens {
-    const accountAssets = {} as AccountTokens
-    const account = getSelectedAccount()
-    const networkId = getActiveNetworkId()
+    try {
+        const accountAssets = {} as AccountTokens
+        const account = getSelectedAccount()
+        const networkId = getActiveNetworkId()
 
-    accountAssets[networkId] = getAccountAssetForNetwork(account, marketCoinPrices, networkId)
-    const chains = getNetwork()?.getChains() ?? []
+        accountAssets[networkId] = getAccountAssetForNetwork(account, marketCoinPrices, networkId)
+        const chains = getNetwork()?.getChains() ?? []
 
-    for (const chain of chains) {
-        const id = chain.getConfiguration().id
-        const chainAssets = getAccountAssetForChain(account.index, id)
-        if (chainAssets) {
-            accountAssets[id] = chainAssets
+        for (const chain of chains) {
+            const id = chain.getConfiguration().id
+            const chainAssets = getAccountAssetForChain(account.index, id)
+            if (chainAssets) {
+                accountAssets[id] = chainAssets
+            }
         }
-    }
 
-    return accountAssets
+        return accountAssets
+    } catch (_) {
+        return {}
+    }
 }
 
 function getAccountAssetForNetwork(
