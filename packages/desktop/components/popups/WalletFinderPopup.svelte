@@ -1,6 +1,6 @@
 <script lang="ts">
-    import { showNotification } from '@auxiliary/notification'
     import { Table } from '@bloomwalletio/ui'
+    import { showNotification } from '@auxiliary/notification'
     import { sumBalanceForAccounts } from '@core/account'
     import { DEFAULT_SYNC_OPTIONS } from '@core/account/constants'
     import { generateAndStoreActivitiesForAllAccounts } from '@core/activity/actions'
@@ -85,13 +85,14 @@
     })
 </script>
 
-<Text type={TextType.h4} fontSize="18" lineHeight="6" fontWeight={FontWeight.semibold} classes="mb-6"
-    >{localize('popups.walletFinder.title')}</Text
->
+<Text type={TextType.h4} fontSize="18" lineHeight="6" fontWeight={FontWeight.semibold} classes="mb-6">
+    {localize('popups.walletFinder.title')}
+</Text>
 
 <div class="space-y-4">
-    <Text type={TextType.p} color="gray-600" fontSize="15" lineHeight="5">{localize('popups.walletFinder.body')}</Text>
-
+    <Text type={TextType.p} color="gray-600" fontSize="15" lineHeight="5">
+        {localize('popups.walletFinder.body')}
+    </Text>
     <div class="w-full flex-col space-y-2">
         <Table
             items={[
