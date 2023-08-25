@@ -41,3 +41,10 @@ export function addPersistedTransaction(
         return state
     })
 }
+
+export function removePersistedEvmTransactionsForProfile(profileId: string): void {
+    persistedEvmTransactions.update((state) => {
+        delete state[profileId]
+        return state
+    })
+}

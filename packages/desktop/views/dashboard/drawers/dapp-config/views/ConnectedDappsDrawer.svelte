@@ -4,20 +4,18 @@
     import { localize } from '@core/i18n'
     import { Router } from '@core/router'
     import { DrawerTemplate } from '@components'
-    import { PopupId, openPopup } from '@desktop/auxiliary/popup'
     import { connectedDapps } from '@auxiliary/wallet-connect/stores'
     import DappCard from '../components/DappCard.svelte'
+    import { DappConfigRoute } from '../dapp-config-route.enum'
 
     export let drawerRouter: Router<unknown>
 
     function onConnectDappClick(): void {
-        openPopup({
-            id: PopupId.InitWalletConnect,
-        })
+        drawerRouter.goTo(DappConfigRoute.InputCode)
     }
 </script>
 
-<DrawerTemplate title={localize('views.dashboard.drawers.dApps.dAppsList.title')} {drawerRouter}>
+<DrawerTemplate title={localize('views.dashboard.drawers.dapps.dappsList.title')} {drawerRouter}>
     {#if $connectedDapps.length}
         <connected-dapps class="flex flex-col gap-4 scrollable">
             {#each $connectedDapps as connectedDapp}
@@ -27,7 +25,7 @@
             {/each}
         </connected-dapps>
     {:else}
-        <TextHint info text={localize('views.dashboard.drawers.dApps.dAppsList.hint')} />
+        <TextHint info text={localize('views.dashboard.drawers.dapps.dappsList.hint')} />
     {/if}
 
     <button
@@ -37,6 +35,6 @@
         on:click|stopPropagation={onConnectDappClick}
     >
         <Icon icon={IconEnum.Plus} height={12} />
-        {localize('views.dashboard.drawers.dApps.dAppsList.connectDapp')}
+        {localize('views.dashboard.drawers.dapps.dappsList.connectDapp')}
     </button>
 </DrawerTemplate>

@@ -5,11 +5,12 @@
     import { TimePeriod } from '@core/utils'
     import { BigIntLike } from '@ethereumjs/util'
     import { NetworkIcon, Text, TooltipIcon } from '@ui'
-    import { SupportedNetworkId } from '@core/network'
+    import { NetworkId } from '@core/network'
     import DateTimePickerButton from './DateTimePickerButton.svelte'
     import StorageDepositButton from './StorageDepositButton.svelte'
+    import { getNameFromNetworkId } from '@core/network/actions/getNameFromNetworkId'
 
-    export let destinationNetwork: string
+    export let destinationNetworkId: NetworkId
     export let storageDeposit: number
     export let estimatedGasFee: BigIntLike | undefined = undefined
     export let maxGasFee: BigIntLike | undefined = undefined
@@ -22,15 +23,16 @@
     export let disableChangeTimelock: boolean
     export let disableGiftStorageDeposit: boolean
     export let disableAll: boolean
+
+    $: destinationNetwork = getNameFromNetworkId(destinationNetworkId)
 </script>
 
 <div class="border border-solid border-gray-200 dark:border-gray-700 rounded-lg">
-    {#if destinationNetwork}
+    {#if destinationNetworkId}
         <section class="key-value-box border-gray-200 dark:border-gray-700">
             <Text>{localize('general.destinationNetwork')}</Text>
             <div class="flex flex-row gap-2">
-                <!-- TODO: Add correct icon for L2 -->
-                <NetworkIcon networkId={SupportedNetworkId.Testnet} height={16} width={16} outlined={false} />
+                <NetworkIcon networkId={destinationNetworkId} height={16} width={16} outlined={false} />
                 <Text color="gray-600">{destinationNetwork}</Text>
             </div>
         </section>

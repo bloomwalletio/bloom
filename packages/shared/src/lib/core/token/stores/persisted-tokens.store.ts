@@ -56,6 +56,13 @@ export function removePersistedToken(tokenId: string): void {
     })
 }
 
+export function removePersistedTokensForProfile(profileId: string): void {
+    persistedTokens.update((state) => {
+        delete state[profileId]
+        return state
+    })
+}
+
 export function verifyToken(tokenId: string, status: VerifiedStatus): void {
     updatePersistedToken({ id: tokenId, verification: { verified: true, status } })
 }

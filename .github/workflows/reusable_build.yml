@@ -103,8 +103,8 @@ jobs:
             - name: Build signed Electron app (MacOS)
               run: yarn compile:${STAGE}:mac
               env:
-                  CSC_LINK: ${{ secrets.MAC_CERT_BASE64 }}
-                  CSC_KEY_PASSWORD: ${{ secrets.MAC_CERT_PASSWORD }}
+                  CSC_LINK: ${{ secrets.APPLE_DEVELOPER_ID_INSTALLER_CERT_BASE64 }}
+                  CSC_KEY_PASSWORD: ${{ secrets.APPLE_DEVELOPER_ID_INSTALLER_CERT_PASSWORD }}
                   BLOOM_APPLE_ID: ${{ secrets.APPLE_ID }}
                   BLOOM_APPLE_ID_PASSWORD: ${{ secrets.APPLE_ID_PASSWORD }}
                   GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -153,7 +153,7 @@ jobs:
               if: inputs.sign && inputs.os == 'ubuntu-20.04'
 
             - name: Sign AppImage (Linux)
-              run: echo $GPG_PASSPHRASE | gpg --pinentry-mode loopback --batch --passphrase-fd 0 --armor --detach-sign --default-key contact@iota.org bloom-desktop*.AppImage
+              run:     echo "$GPG_PASSPHRASE" | gpg --pinentry-mode loopback --batch --passphrase-fd 0 --armor --detach-sign --local-user 5CB8BB19 bloom-desktop*.AppImage
               working-directory: packages/desktop/out
               env:
                   GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}

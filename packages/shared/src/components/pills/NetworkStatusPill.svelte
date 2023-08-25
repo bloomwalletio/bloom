@@ -1,11 +1,12 @@
 <script lang="ts">
-    import { Pill, Indicator } from '@bloomwalletio/ui'
-    import { NetworkHealth } from '@core/network'
+    import { DefaultColors } from 'tailwindcss/types/generated/colors'
+    import { Indicator, Pill } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
+    import { NetworkHealth } from '@core/network'
 
     export let status: NetworkHealth
 
-    let color: string = 'primary'
+    let color: keyof DefaultColors | 'primary' = 'primary'
     let ping = false
     $: {
         switch (status) {

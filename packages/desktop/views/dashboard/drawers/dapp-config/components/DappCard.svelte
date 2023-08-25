@@ -1,25 +1,13 @@
 <script lang="ts">
     import { IConnectedDapp } from '@auxiliary/wallet-connect/interface'
-    import { localize } from '@core/i18n'
-    import { ClickableTile, FontWeight, Pill, Text } from '@ui'
+    import { ClickableTile, FontWeight, Text } from '@ui'
+    import DappStatusPill from './DappStatusPill.svelte'
 
     export let connectedDapp: IConnectedDapp = undefined
 
     function onCardClick(): void {
         // TODO
     }
-
-    $: pill = connectedDapp.active
-        ? {
-              data: '• ' + localize('general.connected'),
-              textColor: 'green-800',
-              backgroundColor: 'green-100',
-          }
-        : {
-              data: '• ' + localize('general.disconnected'),
-              textColor: 'orange-700',
-              backgroundColor: 'orange-100',
-          }
 </script>
 
 <ClickableTile classes="bg-white border border-solid border-gray-200 dark:border-transparent" onClick={onCardClick}>
@@ -35,7 +23,7 @@
             </Text>
         </div>
 
-        <Pill {...pill} />
+        <DappStatusPill active={connectedDapp.active} />
     </div>
 </ClickableTile>
 
