@@ -15,7 +15,7 @@
     }
 </script>
 
-<DrawerTemplate title={localize('views.dashboard.drawers.dApps.dAppsList.title')} {drawerRouter}>
+<DrawerTemplate title={localize('views.dashboard.drawers.dapps.dappsList.title')} {drawerRouter}>
     {#if $connectedDapps.length}
         <connected-dapps class="flex flex-col gap-4 scrollable">
             {#each $connectedDapps as connectedDapp}
@@ -25,7 +25,7 @@
             {/each}
         </connected-dapps>
     {:else}
-        <TextHint info text={localize('views.dashboard.drawers.dApps.dAppsList.hint')} />
+        <TextHint info text={localize('views.dashboard.drawers.dapps.dappsList.hint')} />
     {/if}
 
     <button
@@ -35,6 +35,6 @@
         on:click|stopPropagation={onConnectDappClick}
     >
         <Icon icon={IconEnum.Plus} height={12} />
-        {localize('views.dashboard.drawers.dApps.dAppsList.connectDapp')}
+        {localize('views.dashboard.drawers.dapps.dappsList.connectDapp')}
     </button>
 </DrawerTemplate>

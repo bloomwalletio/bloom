@@ -19,7 +19,7 @@
                 </Text>
             </div>
         </div>
-        <TextHint warning text={localize('views.dashboard.drawers.dApps.confirmConnection.hint')} />
+        <TextHint warning text={localize('views.dashboard.drawers.dapps.confirmConnection.hint')} />
     </div>
 </Tile>
 

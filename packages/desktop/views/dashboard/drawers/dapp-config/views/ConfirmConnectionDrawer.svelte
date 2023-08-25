@@ -37,7 +37,7 @@
     }
 </script>
 
-<DrawerTemplate title={localize('views.dashboard.drawers.dApps.confirmConnection.title')} {drawerRouter}>
+<DrawerTemplate title={localize('views.dashboard.drawers.dapps.confirmConnection.title')} {drawerRouter}>
     <div class="w-full h-full">
         {#if $sessionProposal}
             <DappInformationCard />
