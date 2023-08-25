@@ -20,6 +20,13 @@ export async function initializeRegisteredProposals(): Promise<void> {
 
         // Then get the rest of the accounts in the background
         for (const account of get(activeAccounts)) {
+            // Break out of the loop if the profile was logged out
+            try {
+                getSelectedAccount()
+            } catch (_) {
+                break
+            }
+
             if (account.index !== selectedAccount.index) {
                 allProposals[account.index] = await getParticipationEventsAndCreateProposalsForAccount(account)
             }
