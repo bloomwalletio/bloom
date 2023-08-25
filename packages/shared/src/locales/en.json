@@ -1948,7 +1948,7 @@
             "success": "Transaction history for {accountAlias} was successfully saved to {filePath}",
             "error": "Unable to export transaction history for {accountAlias}"
         },
-        "newDappConnected": "Connected to new Dapp",
+        "newDappConnected": "Connected to new dApp",
         "deepLinkingRequest": {
             "receivedWhileLoggedOut": "Please login to initiate the deep link",
             "notEnabled": "Deep links are not enabled",
@@ -2268,7 +2268,7 @@
         "walletConnect": {
             "invalidUri": "Invalid URI",
             "invalidProtocol": "Invalid protocol, must start with 'wc'.",
-            "deprecatedVersion": "Dapp uses a deprecated wallet connect version."
+            "deprecatedVersion": "dApp uses a deprecated wallet connect version."
         }
     },
     "warning": {
