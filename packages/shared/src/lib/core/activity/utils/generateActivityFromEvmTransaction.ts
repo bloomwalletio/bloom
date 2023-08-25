@@ -25,7 +25,7 @@ export async function generateActivityFromEvmTransaction(
         action: ActivityAction.Send,
         isInternal: false,
         storageDeposit: 0,
-        gas: transaction.gasUsed,
+        gasUsed: transaction.gasUsed,
         subject: { type: SubjectType.Address, address: transaction.to },
         rawBaseCoinAmount: Number(transaction.value) / Number(WEI_PER_GLOW),
         rawAmount: Number(transaction.value) / Number(WEI_PER_GLOW),

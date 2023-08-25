@@ -14,43 +14,34 @@
 
     const explorerUrl = getDefaultExplorerUrl($activeProfile?.network?.id)
 
-    $: expirationTime = getFormattedTimeStamp(activity?.asyncData?.expirationDate)
-    $: claimedTime = getFormattedTimeStamp(activity?.asyncData?.claimedDate)
-    $: hasStorageDeposit =
-        activity?.storageDeposit || (activity?.storageDeposit === 0 && activity?.giftedStorageDeposit === 0)
-    $: gasUsed = activity?.gas
-    $: gasLimit = activity?.parsedLayer2Metadata?.gasLimit
+    $: expirationTime = activity.asyncData ? getFormattedTimeStamp(activity.asyncData?.expirationDate) : undefined
+    $: claimedTime = activity.asyncData ? getFormattedTimeStamp(activity.asyncData?.claimedDate) : undefined
+    $: hasStorageDeposit = activity.storageDeposit || activity.storageDeposit === 0
+    $: gasUsed = activity.gasUsed
+    $: gasLimit = activity.parsedLayer2Metadata?.gasLimit
 
-    $: formattedTransactionTime = getFormattedTimeStamp(activity?.time)
-    $: formattedTimelockDate = getFormattedTimeStamp(activity?.asyncData?.timelockDate)
-    $: formattedStorageDeposit = formatTokenAmountPrecise(activity?.storageDeposit ?? 0, getBaseToken())
-    $: formattedGiftedStorageDeposit = formatTokenAmountPrecise(activity?.giftedStorageDeposit ?? 0, getBaseToken())
-    $: formattedSurplus = formatTokenAmountPrecise(activity?.surplus ?? 0, getBaseToken())
+    $: formattedTransactionTime = getFormattedTimeStamp(activity.time)
+    $: formattedTimelockDate = activity.asyncData ? getFormattedTimeStamp(activity.asyncData?.timelockDate) : undefined
+    $: formattedStorageDeposit = formatTokenAmountPrecise(activity.storageDeposit ?? 0, getBaseToken())
     $: formattedGasLimit = formatTokenAmountPrecise(Number(gasLimit ?? 0), getBaseToken())
     $: formattedGasUsed = formatTokenAmountPrecise(Number(gasUsed ?? 0), getBaseToken())
 
     let transactionDetailsList: IKeyValueBoxList
     $: transactionDetailsList = {
-        ...(activity?.destinationNetwork && {
-            destinationNetwork: { data: activity?.destinationNetwork },
+        ...(activity.destinationNetwork && {
+            destinationNetwork: { data: activity.destinationNetwork },
         }),
-        ...(activity?.time && {
+        ...(activity.time && {
             transactionTime: { data: formattedTransactionTime },
         }),
-        ...(activity?.tag && {
-            tag: { data: activity?.tag, isTooltipVisible: true },
+        ...(activity.tag && {
+            tag: { data: activity.tag, isTooltipVisible: true },
         }),
-        ...(activity?.metadata && {
-            metadata: { data: activity?.metadata, isTooltipVisible: true },
+        ...(activity.metadata && {
+            metadata: { data: activity.metadata, isTooltipVisible: true },
         }),
         ...(hasStorageDeposit && {
             storageDeposit: { data: formattedStorageDeposit, isTooltipVisible: true },
-        }),
-        ...(activity?.surplus && {
-            surplus: { data: formattedSurplus },
-        }),
-        ...(activity?.giftedStorageDeposit && {
-            giftedStorageDeposit: { data: formattedGiftedStorageDeposit, isTooltipVisible: true },
         }),
         ...(gasUsed && {
             gasUsed: { data: formattedGasUsed, isTooltipVisible: true },
@@ -61,18 +52,16 @@
         ...(expirationTime && {
             expirationTime: { data: expirationTime, isTooltipVisible: true },
         }),
-        ...(activity?.asyncData?.timelockDate && {
+        ...(formattedTimelockDate && {
             timelockDate: { data: formattedTimelockDate, isTooltipVisible: true },
         }),
         ...(claimedTime && { claimedTime: { data: claimedTime } }),
     }
 
-    function onTransactionIdClick(): void {
+    function onTransactionIdClick(claimingTransactionId: string): void {
         explorerUrl
-            ? openUrlInBrowser(
-                  `${explorerUrl}/${ExplorerEndpoint.Transaction}/${activity?.asyncData?.claimingTransactionId}`
-              )
-            : setClipboard(activity?.asyncData?.claimingTransactionId)
+            ? openUrlInBrowser(`${explorerUrl}/${ExplorerEndpoint.Transaction}/${claimingTransactionId}`)
+            : setClipboard(claimingTransactionId)
     }
 </script>
 
@@ -81,18 +70,20 @@
         keyText={localize(`general.${key}`)}
         valueText={value.data}
         tooltipText={value.isTooltipVisible
-            ? localize(`tooltips.transactionDetails.${activity?.direction}.${key}`)
+            ? localize(`tooltips.transactionDetails.${activity.direction}.${key}`)
             : undefined}
     />
 {/each}
-{#if activity?.asyncData?.claimingTransactionId}
-    <KeyValueBox keyText={localize(activity?.asyncData?.isClaiming ? 'general.claimingIn' : 'general.claimedIn')}>
+{#if activity.asyncData?.claimingTransactionId}
+    <KeyValueBox keyText={localize(activity.asyncData.isClaiming ? 'general.claimingIn' : 'general.claimedIn')}>
         <button
             slot="value"
             class="action w-fit flex justify-start text-center font-medium text-14 text-blue-500"
-            on:click={onTransactionIdClick}
+            on:click={() =>
+                activity.asyncData?.claimingTransactionId &&
+                onTransactionIdClick(activity.asyncData.claimingTransactionId)}
         >
-            {truncateString(activity?.asyncData?.claimingTransactionId, 12, 12)}
+            {truncateString(activity.asyncData.claimingTransactionId, 12, 12)}
         </button>
     </KeyValueBox>
 {/if}
