@@ -2,6 +2,7 @@ import { TxData } from '@ethereumjs/tx'
 import { IAccountState } from '@core/account'
 import { prepareEvmTransaction } from '@core/layer-2/utils'
 import { EvmChainId, getEvmTransactionOptions } from '@core/network'
+import { removeLeadingZeros } from '@core/utils/buffer'
 import { Transaction } from '@ethereumjs/tx'
 import { ECDSASignature, fromRpcSig } from '@ethereumjs/util'
 import type { Bip44 } from '@iota/wallet/types'
@@ -34,8 +35,8 @@ function createSignedTransaction(
 
     const vHex = padHexString(signature.v.toString(16))
     rawTx[6] = Buffer.from(vHex, 'hex')
-    rawTx[7] = signature.r
-    rawTx[8] = signature.s
+    rawTx[7] = removeLeadingZeros(signature.r)
+    rawTx[8] = removeLeadingZeros(signature.s)
     const signedTransaction = Transaction.fromValuesArray(rawTx, getEvmTransactionOptions(chainId))
 
     return signedTransaction
