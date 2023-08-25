@@ -10,7 +10,6 @@ import {
 import { IChain } from '@core/network/interfaces'
 import { IToken } from '@core/token/interfaces'
 import { TokenStandard } from '@core/token/enums'
-import { SubjectType } from '@core/wallet/enums'
 import { SendFlowType } from '@core/wallet/stores'
 import { SendFlowParameters } from '@core/wallet/types'
 
@@ -19,7 +18,11 @@ export function createEvmTransactionFromSendFlowParameters(
     chain: IChain,
     account: IAccountState
 ): Promise<EvmTransactionData | undefined> {
-    if (!sendFlowParameters || sendFlowParameters.type === SendFlowType.NftTransfer) {
+    if (
+        !sendFlowParameters ||
+        sendFlowParameters.type === SendFlowType.NftTransfer ||
+        !sendFlowParameters.recipient?.address
+    ) {
         return Promise.resolve(undefined)
     }
 
@@ -35,7 +38,7 @@ export function createEvmTransactionFromSendFlowParameters(
         amount = sendFlowParameters.tokenTransfer?.rawAmount ?? '0'
     }
 
-    if (sendFlowParameters.recipient?.type !== SubjectType.Address || !token?.metadata || amount === undefined) {
+    if (!token?.metadata || amount === undefined) {
         return Promise.resolve(undefined)
     }
 
