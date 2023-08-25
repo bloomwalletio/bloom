@@ -2,7 +2,7 @@
     import { Icon as IconEnum } from '@auxiliary/icon'
     import { isEvmChain } from '@core/network'
     import { Subject, SubjectType } from '@core/wallet'
-    import { FontWeight, Icon, IOption, NetworkIcon, RecipientInput, Text, TextType } from '@ui'
+    import { FontWeight, Icon, IOption, NetworkAvatar, RecipientInput, Text, TextType } from '@ui'
     import { INetworkRecipientSelectorOption } from '../interfaces'
 
     export let item: INetworkRecipientSelectorOption
@@ -54,7 +54,7 @@
     <network-recipient-item-name>
         <div class="flex flex-row justify-between items-center space-x-4">
             <div class="flex flex-row space-x-3 items-center">
-                <NetworkIcon networkId={item.networkId} />
+                <NetworkAvatar networkId={item.networkId} />
                 <Text type={TextType.h4} fontWeight={FontWeight.semibold}>
                     {item.name}
                 </Text>

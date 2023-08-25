@@ -4,7 +4,7 @@
     import { formatTokenAmountBestMatch } from '@core/token'
     import { TimePeriod } from '@core/utils'
     import { BigIntLike } from '@ethereumjs/util'
-    import { NetworkIcon, Text, TooltipIcon } from '@ui'
+    import { NetworkAvatar, Text, TooltipIcon } from '@ui'
     import { NetworkId } from '@core/network'
     import DateTimePickerButton from './DateTimePickerButton.svelte'
     import StorageDepositButton from './StorageDepositButton.svelte'
@@ -32,7 +32,7 @@
         <section class="key-value-box border-gray-200 dark:border-gray-700">
             <Text>{localize('general.destinationNetwork')}</Text>
             <div class="flex flex-row gap-2">
-                <NetworkIcon networkId={destinationNetworkId} height={16} width={16} outlined={false} />
+                <NetworkAvatar networkId={destinationNetworkId} />
                 <Text color="gray-600">{destinationNetwork}</Text>
             </div>
         </section>
