@@ -1,25 +1,32 @@
 <script lang="ts">
-    import { KeyValueBox } from '@ui'
+    import { type IItems, Table } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
     import { TransactionActivity } from '@core/activity'
     import { Layer2Metadata } from '@core/layer-2'
 
     export let activity: TransactionActivity
 
-    $: detailsList = createDetailsList(activity.parsedLayer2Metadata)
+    let items: IItems[] = []
 
-    function createDetailsList(metadata: Layer2Metadata): { [key: string]: { data: string } } {
-        return {
-            ...(metadata?.targetContract && {
-                targetContract: { data: metadata.targetContract },
-            }),
-            ...(metadata?.contractFunction && {
-                contractFunction: { data: metadata.contractFunction },
-            }),
+    $: setItems(activity?.parsedLayer2Metadata ?? ({} as Layer2Metadata))
+
+    function setItems(metadata: Layer2Metadata): void {
+        items = []
+        if (metadata.targetContract) {
+            items.push({
+                key: localize('general.targetContract'),
+                value: metadata.targetContract,
+                copyable: true,
+            })
+        }
+        if (metadata.contractFunction) {
+            items.push({
+                key: localize('general.contractFunction'),
+                value: metadata.contractFunction,
+                copyable: true,
+            })
         }
     }
 </script>
 
-{#each Object.entries(detailsList) as [key, value]}
-    <KeyValueBox keyText={localize(`general.${key}`)} valueText={value.data} isCopyable />
-{/each}
+<Table {items} />
