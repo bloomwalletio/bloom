@@ -73,13 +73,14 @@ export class ContactManager {
         }
 
         const contact = ContactManager.getContact(contactId)
-
-        if (contact) {
-            Object.keys(profile.networkContactAddresses).forEach((networkId) => {
-                ContactManager.deleteContactAddresses(contactId, networkId as NetworkId)
-            })
-            delete profile.contacts[contactId]
+        if (!contact) {
+            return
         }
+
+        Object.keys(profile.networkContactAddresses).forEach((networkId) => {
+            ContactManager.deleteContactAddressesForNetwork(contactId, networkId as NetworkId)
+        })
+        delete profile.contacts[contactId]
         updateActiveProfile(profile)
     }
 
@@ -95,23 +96,24 @@ export class ContactManager {
         }
 
         const contact = ContactManager.getContact(contactId)
-
-        if (contact) {
-            contact.addresses.push(address)
-            const contactAddress: IContactAddress = {
-                address,
-                addressName,
-                networkId,
-                contactId: contact.id,
-            }
-            let addressesForNetwork = profile.networkContactAddresses[networkId]
-            if (!addressesForNetwork) {
-                addressesForNetwork = {}
-            }
-
-            addressesForNetwork[contactAddress.address] = contactAddress
-            profile.networkContactAddresses[networkId] = addressesForNetwork
+        if (!contact) {
+            return
         }
+
+        contact.addresses.push(address)
+        const contactAddress: IContactAddress = {
+            address,
+            addressName,
+            networkId,
+            contactId: contact.id,
+        }
+        let addressesForNetwork = profile.networkContactAddresses[networkId]
+        if (!addressesForNetwork) {
+            addressesForNetwork = {}
+        }
+
+        addressesForNetwork[contactAddress.address] = contactAddress
+        profile.networkContactAddresses[networkId] = addressesForNetwork
         updateActiveProfile(profile)
     }
 
@@ -122,29 +124,35 @@ export class ContactManager {
         }
 
         const contact = ContactManager.getContact(contactId)
-
-        if (contact) {
-            addresses.forEach(({ addressName, address, networkId }) => {
-                const contactAddress: IContactAddress = {
-                    address,
-                    addressName,
-                    networkId,
-                    contactId: contact.id,
-                }
-
-                let addressesForNetwork = profile.networkContactAddresses[networkId]
-                if (!addressesForNetwork) {
-                    addressesForNetwork = {}
-                }
-                addressesForNetwork[contactAddress.address] = contactAddress
-                profile.networkContactAddresses[networkId] = addressesForNetwork
-            })
-            contact.addresses = addresses.map(({ address }) => address)
+        if (!contact) {
+            return
         }
+
+        addresses.forEach(({ addressName, address, networkId }) => {
+            const contactAddress: IContactAddress = {
+                address,
+                addressName,
+                networkId,
+                contactId: contact.id,
+            }
+
+            let addressesForNetwork = profile.networkContactAddresses[networkId]
+            if (!addressesForNetwork) {
+                addressesForNetwork = {}
+            }
+            addressesForNetwork[contactAddress.address] = contactAddress
+            profile.networkContactAddresses[networkId] = addressesForNetwork
+        })
+        contact.addresses = Array.from(new Set([...contact.addresses, ...addresses.map(({ address }) => address)]))
         updateActiveProfile(profile)
     }
 
-    static deleteContactAddresses(contactId: string, networkId: NetworkId, addresses?: string[]): void {
+    static deleteContactAddressesForNetwork(contactId: string, networkId: NetworkId): void {
+        const addresses = Object.keys(this.getNetworkContactAddressMapForContact(contactId)?.[networkId] ?? {})
+        this.deleteContactAddresses(contactId, networkId, addresses)
+    }
+
+    static deleteContactAddresses(contactId: string, networkId: NetworkId, addresses: string[]): void {
         const profile = getActiveProfile()
         if (!profile) {
             throw new Error('Profile is not available.')
@@ -155,15 +163,14 @@ export class ContactManager {
             throw new Error(`Contact with ID ${contactId} doesn't exist!`)
         }
 
-        const addressesToDelete = addresses || contact.addresses
-
-        addressesToDelete.forEach((address) => {
+        addresses.forEach((address) => {
             const index = contact.addresses.indexOf(address)
             if (index > -1) {
                 contact.addresses.splice(index, 1)
                 delete profile.networkContactAddresses[networkId]?.[address]
             }
         })
+        contact.addresses = contact.addresses.filter((address) => !addresses.includes(address))
         updateActiveProfile(profile)
     }
 

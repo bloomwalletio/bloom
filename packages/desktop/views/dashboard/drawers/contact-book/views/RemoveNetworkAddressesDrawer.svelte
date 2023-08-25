@@ -17,7 +17,7 @@
     }
 
     function onRemoveClick(): void {
-        ContactManager.deleteContactAddresses($selectedContact.id, $selectedContactNetworkId)
+        ContactManager.deleteContactAddressesForNetwork($selectedContact.id, $selectedContactNetworkId)
         drawerRouter.previous()
     }
 </script>
