@@ -36,11 +36,14 @@ async function getParticipationEventsAndCreateProposalsForAccount(
     const proposals: IRegisteredProposals = {}
     const events = await account.getParticipationEvents()
     for (const event of Object.values(events)) {
-        const proposal = createProposalFromEvent(event)
-
         // Test whether selected account is still set
-        getSelectedAccount()
+        try {
+            getSelectedAccount()
+        } catch (_) {
+            break
+        }
 
+        const proposal = createProposalFromEvent(event)
         try {
             await getAccountsParticipationEventStatusForEvent(event.id, account)
             proposals[event.id] = proposal
