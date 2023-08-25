@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { type IItems, Table } from '@bloomwalletio/ui'
     import { onMount } from 'svelte'
     import { selectedAccount } from '@core/account/stores'
     import { handleError } from '@core/error/handlers/handleError'
@@ -6,7 +7,7 @@
     import { getBaseToken, checkActiveProfileAuth } from '@core/profile/actions'
     import { mintNativeToken, mintTokenDetails, buildFoundryOutputData, IMintTokenDetails } from '@core/wallet'
     import { closePopup, openPopup, PopupId } from '@desktop/auxiliary/popup'
-    import { Button, KeyValueBox, Text, FontWeight, TextType } from '@ui'
+    import { Button, Text, FontWeight, TextType } from '@ui'
     import { IIrc30Metadata, TokenStandard, formatTokenAmountPrecise } from '@core/token'
 
     export let _onMount: (..._: any[]) => Promise<void> = async () => {}
@@ -31,40 +32,66 @@
         }
     }
 
-    let detailsList: { [key: string]: { data: string; tooltipText?: string; isCopyable?: boolean } } | undefined
-    $: detailsList = getDetailsList($mintTokenDetails)
+    let items: IItems[] = []
 
-    function getDetailsList(
-        details: IMintTokenDetails | undefined
-    ): { [key: string]: { data: string; tooltipText?: string; isCopyable?: boolean } } | undefined {
-        if (details) {
-            const { name: tokenName, symbol, aliasId, url, logoUrl, decimals, totalSupply } = details
-            return {
-                ...(aliasId && {
-                    alias: { data: aliasId, isCopyable: true },
-                }),
-                ...(storageDeposit && {
-                    storageDeposit: { data: storageDeposit },
-                }),
-                ...(tokenName && {
-                    tokenName: { data: tokenName },
-                }),
-                ...(totalSupply && {
-                    totalSupply: { data: String(totalSupply) },
-                }),
-                ...(decimals && {
-                    decimals: { data: String(decimals) },
-                }),
-                ...(symbol && {
-                    symbol: { data: symbol },
-                }),
-                ...(url && {
-                    url: { data: url },
-                }),
-                ...(logoUrl && {
-                    logoUrl: { data: logoUrl },
-                }),
-            }
+    $: setItems($mintTokenDetails)
+
+    function setItems(details: IMintTokenDetails | undefined): void {
+        if (!details) {
+            return
+        }
+
+        items = []
+        const { name: tokenName, symbol, aliasId, url, logoUrl, decimals, totalSupply } = details
+
+        if (aliasId) {
+            items.push({
+                key: localize('popups.nativeToken.property.alias'),
+                value: aliasId,
+                copyable: true,
+            })
+        }
+        if (storageDeposit) {
+            items.push({
+                key: localize('popups.nativeToken.property.storageDeposit'),
+                value: storageDeposit,
+            })
+        }
+        if (tokenName) {
+            items.push({
+                key: localize('popups.nativeToken.property.tokenName'),
+                value: tokenName,
+            })
+        }
+        if (totalSupply) {
+            items.push({
+                key: localize('popups.nativeToken.property.totalSupply'),
+                value: String(totalSupply),
+            })
+        }
+        if (decimals) {
+            items.push({
+                key: localize('popups.nativeToken.property.decimals'),
+                value: String(decimals),
+            })
+        }
+        if (symbol) {
+            items.push({
+                key: localize('popups.nativeToken.property.symbol'),
+                value: symbol,
+            })
+        }
+        if (url) {
+            items.push({
+                key: localize('popups.nativeToken.property.url'),
+                value: url,
+            })
+        }
+        if (logoUrl) {
+            items.push({
+                key: localize('popups.nativeToken.property.logoUrl'),
+                value: logoUrl,
+            })
         }
     }
 
@@ -133,17 +160,7 @@
     </Text>
 
     <div class="space-y-2 max-h-100 scrollable-y flex-1">
-        {#if detailsList && Object.entries(detailsList).length > 0}
-            <details-list class="flex flex-col space-y-2">
-                {#each Object.entries(detailsList) as [key, value]}
-                    <KeyValueBox
-                        keyText={localize(`popups.nativeToken.property.${key}`)}
-                        valueText={value.data}
-                        isCopyable={value.isCopyable}
-                    />
-                {/each}
-            </details-list>
-        {/if}
+        <Table {items} />
     </div>
     <div class="flex flex-row flex-nowrap w-full space-x-4">
         <Button outline classes="w-full" disabled={isTransferring} onClick={onBackClick}>
