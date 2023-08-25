@@ -18,7 +18,7 @@
              * storage deposit.
              */
             const storageDeposit = 47800
-            const amount = (6_000_000 + storageDeposit).toString()
+            const amount = (1_000_000 + storageDeposit).toString()
             const token = getTokenFromSelectedAccountTokens('4219', getActiveNetworkId())
             const allowance = buildAssetAllowance({ type: AssetType.BaseCoin, amount, token })
             const recipientAddress = $selectedAccount.depositAddress

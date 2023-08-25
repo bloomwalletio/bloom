@@ -1,6 +1,6 @@
 import { INativeTokenAmount } from './native-token-amount.interface'
 
-export interface IAssetAllowance {
+export interface ILayer2AssetAllowance {
     baseTokens: string | number
     nativeTokens: INativeTokenAmount[]
     nfts: string[]

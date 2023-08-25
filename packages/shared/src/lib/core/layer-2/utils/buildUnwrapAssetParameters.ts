@@ -1,9 +1,9 @@
-import { IAssetAllowance, ILayer2SendMetadataParameter, ILayer2SendOptionsParameter } from '../interfaces'
+import { ILayer2AssetAllowance, ILayer2SendMetadataParameter, ILayer2SendOptionsParameter } from '../interfaces'
 import { UnwrapAssetParameter } from '../types'
 import { buildUnwrapAssetTargetAddress } from './buildUnwrapAssetTargetAddress'
 
 export function buildUnwrapAssetParameters(
-    assetAllowance: IAssetAllowance,
+    assetAllowance: ILayer2AssetAllowance,
     recipientAddress: string
 ): UnwrapAssetParameter[] {
     const targetAddressParameter = buildUnwrapAssetTargetAddress(recipientAddress)
@@ -14,7 +14,7 @@ export function buildUnwrapAssetParameters(
         params: {
             items: [],
         },
-        allowance: <IAssetAllowance>{
+        allowance: <ILayer2AssetAllowance>{
             baseTokens: 0,
             nativeTokens: [],
             nfts: [],

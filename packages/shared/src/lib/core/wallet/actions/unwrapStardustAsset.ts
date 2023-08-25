@@ -7,7 +7,7 @@ import {
     ContractType,
     ISC_MAGIC_CONTRACT_ADDRESS,
     buildEvmTransactionData,
-    IAssetAllowance,
+    ILayer2AssetAllowance,
     buildUnwrapAssetParameters,
 } from '@core/layer-2'
 import { ETHEREUM_COIN_TYPE, IChain, getNetwork, SupportedNetworkId, NetworkId } from '@core/network'
@@ -16,7 +16,7 @@ import { getActiveProfilePersistedEvmAddressesByAccountIndex } from '@core/profi
 import { sendTransactionFromEvm } from '../actions/send'
 
 export async function unwrapStardustAsset(
-    assetAllowance: IAssetAllowance,
+    assetAllowance: ILayer2AssetAllowance,
     recipientAddress: string
 ): Promise<TransactionReceipt | undefined> {
     try {

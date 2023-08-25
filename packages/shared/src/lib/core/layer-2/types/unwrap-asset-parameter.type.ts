@@ -1,5 +1,5 @@
 import {
-    IAssetAllowance,
+    ILayer2AssetAllowance,
     ILayer2SendMetadataParameter,
     ILayer2SendOptionsParameter,
     ILayer2TargetAddressParameter,
@@ -7,7 +7,7 @@ import {
 
 export type UnwrapAssetParameter =
     | ILayer2TargetAddressParameter
-    | IAssetAllowance
+    | ILayer2AssetAllowance
     | boolean
     | ILayer2SendMetadataParameter
     | ILayer2SendOptionsParameter
