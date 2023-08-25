@@ -1,6 +1,7 @@
 import { activeProfileId } from '@core/profile/stores/active-profile-id.store'
 import { SupportedNetworkId } from '@core/network/enums'
 import { FALLBACK_ESTIMATED_GAS } from '@core/layer-2/constants'
+import { DEFAULT_CHAIN_CONFIGURATIONS } from '@core/network/constants'
 import { getOutputParameters } from '../utils'
 import { ReturnStrategy, SubjectType } from '../enums'
 import { IToken, IPersistedToken } from '@core/token/interfaces'
@@ -32,10 +33,7 @@ const nativeTokenAsset: IToken = {
     verification: { verified: true, status: VerifiedStatus.SelfVerified },
 }
 
-const layer2Parameters = {
-    networkAddress: 'rms1pp4kmrl9n9yy9n049x7kk8h4atm0tu76redhj5wrc2jsskk2vukwxvtgk9u',
-    senderAddress,
-}
+const destinationNetwork = DEFAULT_CHAIN_CONFIGURATIONS[SupportedNetworkId.Testnet]
 
 const nftId = '0xcd9430ff870a22f81f92428e5c06975fa3ec1a993331aa3db9fb2298e931ade1'
 const surplus = '50000'
@@ -87,6 +85,10 @@ jest.mock('@core/token/actions/getAccountTokensForSelectedAccount', () => ({
     }),
 }))
 
+jest.mock('../../network/actions/getChainConfiguration', () => ({
+    getChainConfiguration: jest.fn((_) => destinationNetwork),
+}))
+
 jest.mock('../../profile/actions/active-profile/getCoinType', () => ({
     getCoinType: jest.fn((_) => '1'),
 }))
@@ -109,7 +111,7 @@ describe('File: getOutputParameters.ts', () => {
             metadata,
             tag,
         }
-        const output = await getOutputParameters(sendFlowParameters)
+        const output = await getOutputParameters(sendFlowParameters, senderAddress)
 
         const expectedOutput = {
             recipientAddress,
@@ -126,7 +128,7 @@ describe('File: getOutputParameters.ts', () => {
             ...baseTransaction,
             expirationDate,
         }
-        const output = await getOutputParameters(sendFlowParameters)
+        const output = await getOutputParameters(sendFlowParameters, senderAddress)
 
         const expectedOutput = {
             recipientAddress,
@@ -143,7 +145,7 @@ describe('File: getOutputParameters.ts', () => {
             ...baseTransaction,
             timelockDate,
         }
-        const output = await getOutputParameters(sendFlowParameters)
+        const output = await getOutputParameters(sendFlowParameters, senderAddress)
 
         const expectedOutput = {
             recipientAddress,
@@ -161,7 +163,7 @@ describe('File: getOutputParameters.ts', () => {
             expirationDate,
             timelockDate,
         }
-        const output = await getOutputParameters(sendFlowParameters)
+        const output = await getOutputParameters(sendFlowParameters, senderAddress)
 
         const expectedOutput = {
             recipientAddress,
@@ -188,7 +190,7 @@ describe('File: getOutputParameters.ts', () => {
                 rawAmount: amount,
             },
         }
-        const output = await getOutputParameters(sendFlowParameters)
+        const output = await getOutputParameters(sendFlowParameters, senderAddress)
 
         const expectedOutput = {
             recipientAddress,
@@ -212,11 +214,11 @@ describe('File: getOutputParameters.ts', () => {
         sendFlowParameters = {
             ...baseTransaction,
             expirationDate,
-            layer2Parameters,
+            destinationNetworkId: destinationNetwork.id,
         }
-        const output = await getOutputParameters(sendFlowParameters)
+        const output = await getOutputParameters(sendFlowParameters, senderAddress)
         const expectedOutput = {
-            recipientAddress: layer2Parameters.networkAddress,
+            recipientAddress: destinationNetwork.aliasAddress,
             amount: (Number(FALLBACK_ESTIMATED_GAS) + Number(amount)).toString(),
             features: {
                 metadata:
@@ -243,12 +245,12 @@ describe('File: getOutputParameters.ts', () => {
                 token: nativeTokenAsset,
                 rawAmount: amount,
             },
-            layer2Parameters,
+            destinationNetworkId: destinationNetwork.id,
         }
-        const output = await getOutputParameters(sendFlowParameters)
+        const output = await getOutputParameters(sendFlowParameters, senderAddress)
 
         const expectedOutput = {
-            recipientAddress: layer2Parameters.networkAddress,
+            recipientAddress: destinationNetwork.aliasAddress,
             amount: FALLBACK_ESTIMATED_GAS.toString(),
             assets: {
                 nativeTokens: [
@@ -274,12 +276,12 @@ describe('File: getOutputParameters.ts', () => {
             type: SendFlowType.NftTransfer,
             recipient: baseTransaction.recipient,
             nft: testNft,
-            layer2Parameters,
+            destinationNetworkId: destinationNetwork.id,
         }
-        const output = await getOutputParameters(sendFlowParameters)
+        const output = await getOutputParameters(sendFlowParameters, senderAddress)
 
         const expectedOutput = {
-            recipientAddress: layer2Parameters.networkAddress,
+            recipientAddress: destinationNetwork.aliasAddress,
             amount: FALLBACK_ESTIMATED_GAS.toString(),
             assets: {
                 nftId,
@@ -302,7 +304,7 @@ describe('File: getOutputParameters.ts', () => {
             nft: testNft,
             expirationDate,
         }
-        const output = await getOutputParameters(sendFlowParameters)
+        const output = await getOutputParameters(sendFlowParameters, senderAddress)
 
         const expectedOutput = {
             recipientAddress,
@@ -332,7 +334,7 @@ describe('File: getOutputParameters.ts', () => {
                 rawAmount: amount,
             },
         }
-        const output = await getOutputParameters(sendFlowParameters)
+        const output = await getOutputParameters(sendFlowParameters, senderAddress)
 
         const expectedOutput = {
             recipientAddress,
@@ -358,7 +360,7 @@ describe('File: getOutputParameters.ts', () => {
             expirationDate,
             giftStorageDeposit: true,
         }
-        const output = await getOutputParameters(sendFlowParameters)
+        const output = await getOutputParameters(sendFlowParameters, senderAddress)
 
         const expectedOutput = {
             recipientAddress,
