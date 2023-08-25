@@ -10,10 +10,6 @@ export async function stopVotingForProposal(eventId: string): Promise<void> {
         const account = getSelectedAccount()
         const networkId = getActiveNetworkId()
 
-        if (!account || !networkId) {
-            throw new Error(localize('error.global.accountOrNetworkUndefined'))
-        }
-
         updateSelectedAccount({ hasVotingTransactionInProgress: true })
         const transaction = await account.stopParticipating(eventId)
 
