@@ -54,9 +54,23 @@
         {localize('popups.signMessage.title')}
     </Text>
     <div class="space-y-4">
-        <section class="flex flex-col border-1 border-gray-200 rounded-4 p-6">
-            <Text>{localize('popups.signMessage.message')}</Text>
+        <section class="relative flex flex-col border border-solid border-gray-200 rounded-xl p-6">
+            <Text fontWeight={FontWeight.medium} color="gray-600">{localize('popups.signMessage.message')}</Text>
             <Text>{message}</Text>
+            {#if dapp}
+                <div class="absolute flex flex-row justify-between" style="top: -12px; left: 18px;">
+                    <div class="flex flex-row gap-1 bg-white items-center px-2">
+                        <img
+                            style="width: 24px; height: 24px; border-radius: 24px;"
+                            src={dapp.metadata?.icons?.[0]}
+                            alt={dapp.metadata?.name}
+                        />
+                        <Text fontSize="10" fontWeight={FontWeight.bold}>
+                            {dapp.metadata?.name}
+                        </Text>
+                    </div>
+                </div>
+            {/if}
         </section>
         {#if dapp}
             <TextHint info text={localize('popups.signMessage.hint', { dappName: dapp.metadata?.name ?? 'Unkown' })} />
