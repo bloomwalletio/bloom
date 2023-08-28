@@ -1,5 +1,5 @@
 import { showNotification } from '@auxiliary/notification'
-import { selectedAccount, updateSelectedAccount } from '@core/account/stores'
+import { getSelectedAccount, updateSelectedAccount } from '@core/account/stores'
 import { ActivityAction } from '@core/activity/enums'
 import { addActivityToAccountActivitiesInAllAccountActivities } from '@core/activity/stores'
 import { NftActivity } from '@core/activity/types'
@@ -10,18 +10,14 @@ import { IIrc27Metadata } from '@core/nfts'
 import { addOrUpdateNftInAllAccountNfts, buildNftFromNftOutput } from '@core/nfts/actions'
 import { Converter } from '@core/utils'
 import { MintNftParams } from '@iota/wallet'
-import { get } from 'svelte/store'
 import { DEFAULT_TRANSACTION_OPTIONS, OUTPUT_TYPE_NFT } from '../constants'
 import { resetMintNftDetails } from '../stores'
 import { getActiveNetworkId } from '@core/network'
 
 export async function mintNft(metadata: IIrc27Metadata, quantity: number): Promise<void> {
     try {
-        const account = get(selectedAccount)
+        const account = getSelectedAccount()
         const networkId = getActiveNetworkId()
-        if (!account || !networkId) {
-            throw new Error(localize('error.global.accountOrNetworkUndefined'))
-        }
 
         updateSelectedAccount({ isTransferring: true })
 

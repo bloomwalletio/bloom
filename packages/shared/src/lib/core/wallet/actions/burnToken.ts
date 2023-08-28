@@ -1,6 +1,5 @@
-import { get } from 'svelte/store'
 import { showNotification } from '@auxiliary/notification'
-import { selectedAccount, updateSelectedAccount } from '@core/account/stores'
+import { getSelectedAccount, updateSelectedAccount } from '@core/account/stores'
 import { localize } from '@core/i18n'
 import { Converter } from '@core/utils'
 import { handleError } from '@core/error/handlers'
@@ -9,12 +8,8 @@ import { getActiveNetworkId } from '@core/network'
 
 export async function burnToken(tokenId: string, rawAmount: string): Promise<void> {
     try {
-        const account = get(selectedAccount)
+        const account = getSelectedAccount()
         const networkId = getActiveNetworkId()
-
-        if (!account || !networkId) {
-            throw new Error(localize('error.global.accountOrNetworkUndefined'))
-        }
 
         updateSelectedAccount({ isTransferring: true })
         const burnTokenTransaction = await account.burnNativeToken(tokenId, Converter.decimalToHex(Number(rawAmount)))
