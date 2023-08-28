@@ -6,18 +6,20 @@ import { getSenderAddressFromInputs } from '../getSenderAddressFromInputs'
 import { getSenderFromTransaction } from '../getSenderFromTransaction'
 import { ActivityDirection } from '@core/activity/enums'
 import { IProcessedTransaction, SenderInfo } from '@core/activity/types'
+import { NetworkId } from '@core/network'
 
 export function getSendingInformation(
     processedTransaction: IProcessedTransaction,
     output: Output,
-    account: IAccountState
+    account: IAccountState,
+    networkId: NetworkId
 ): SenderInfo {
     const { direction, wrappedInputs } = processedTransaction
 
-    const recipient = getRecipientFromOutput(output)
+    const recipient = getRecipientFromOutput(output, networkId)
     const sender = wrappedInputs?.length
-        ? getSubjectFromAddress(getSenderAddressFromInputs(wrappedInputs))
-        : getSenderFromTransaction(direction === ActivityDirection.Incoming, account.depositAddress, output)
+        ? getSubjectFromAddress(getSenderAddressFromInputs(wrappedInputs), networkId)
+        : getSenderFromTransaction(output, direction === ActivityDirection.Incoming, account.depositAddress, networkId)
 
     const subject = direction === ActivityDirection.Incoming ? sender : recipient
     const isInternal = isSubjectInternal(subject)
