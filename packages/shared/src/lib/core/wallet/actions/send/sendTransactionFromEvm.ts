@@ -9,9 +9,6 @@ import { signAndSendEvmTransaction } from './signAndSendEvmTransaction'
 export async function sendTransactionFromEvm(transaction: EvmTransactionData, chain: IChain): Promise<void> {
     const account = getSelectedAccount()
     const provider = chain.getProvider()
-    if (!account) {
-        return
-    }
 
     await checkActiveProfileAuth(
         async () => {
