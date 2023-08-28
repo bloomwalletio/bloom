@@ -1,14 +1,13 @@
 import { IChain } from '@core/network/interfaces'
 import { IAccountState } from '@core/account/interfaces'
+import { ISC_MAGIC_CONTRACT_ADDRESS } from '@core/layer-2/constants'
+import { AssetType } from '@core/layer-2/enums'
+import { EvmTransactionData, TransferredAsset } from '@core/layer-2/types'
 import {
-    AssetType,
     buildEvmTransactionData,
-    EvmTransactionData,
     getErc20TransferSmartContractData,
     getIscpTransferSmartContractData,
-    ISC_MAGIC_CONTRACT_ADDRESS,
-    TransferredAsset,
-} from '@core/layer-2'
+} from '@core/layer-2/utils'
 import { TokenStandard } from '@core/token/enums'
 import { IToken } from '@core/token/interfaces'
 
@@ -29,6 +28,9 @@ export function createEvmChainToEvmChainTransaction(
     }
 
     const provider = chain?.getProvider()
+    if (!provider) {
+        return Promise.resolve(undefined)
+    }
 
     let token
     let amount
