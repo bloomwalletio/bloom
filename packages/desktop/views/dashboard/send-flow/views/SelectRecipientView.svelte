@@ -150,12 +150,18 @@
                     ]
                 } else if (sourceChain) {
                     // if we are on layer 2
-                    networkRecipientOptions = [getRecipientOptionFromChain(sourceChain, $selectedAccountIndex)]
+                    networkRecipientOptions = [
+                        getRecipientOptionFromChain(sourceChain, $selectedAccountIndex),
+                        ...(features.wallet.assets.unwrapToken && [getLayer1RecipientOption($network)]),
+                    ]
                 }
                 break
             case TokenStandard.Erc20:
                 if (sourceChain) {
-                    networkRecipientOptions = [getRecipientOptionFromChain(sourceChain, $selectedAccountIndex)]
+                    networkRecipientOptions = [
+                        getRecipientOptionFromChain(sourceChain, $selectedAccountIndex),
+                        ...(features.wallet.assets.unwrapToken && [getLayer1RecipientOption($network)]),
+                    ]
                 }
                 break
         }
