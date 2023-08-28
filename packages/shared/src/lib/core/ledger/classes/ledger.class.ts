@@ -12,7 +12,7 @@ import {
 import { MILLISECONDS_PER_SECOND, sleep } from '@core/utils'
 import { TxData } from '@ethereumjs/tx'
 import type { Bip44 } from '@iota/wallet/types'
-import { PopupId, closePopup, openPopup } from '../../../../../../desktop/lib/auxiliary/popup'
+import { PopupId, openPopup } from '../../../../../../desktop/lib/auxiliary/popup'
 import { DEFAULT_LEDGER_API_REQUEST_OPTIONS } from '../constants'
 import { LedgerApiMethod } from '../enums'
 import { ILedgerApiBridge } from '../interfaces'
@@ -77,7 +77,12 @@ export class Ledger {
         )
 
         if (promptVerification) {
-            closePopup(true)
+            openPopup(
+                {
+                    id: PopupId.SendFlow,
+                },
+                true
+            )
         }
 
         const { r, v, s } = transactionSignature
