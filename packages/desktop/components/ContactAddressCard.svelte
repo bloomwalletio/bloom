@@ -34,9 +34,9 @@
     }
 
     function onSendClick(address: string): void {
-        // TODO: after network id refactor we need to set the chain id here so that the recipient selector works correctly
         setSendFlowParameters({
             type: SendFlowType.BaseCoinTransfer,
+            destinationNetworkId: networkId,
             recipient: { type: SubjectType.Contact, contact, address },
         })
         resetLedgerPreparedOutput()

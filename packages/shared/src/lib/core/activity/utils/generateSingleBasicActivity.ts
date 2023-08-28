@@ -43,7 +43,7 @@ export function generateSingleBasicActivity(
     const metadata = getMetadataFromOutput(output)
     const publicNote = ''
 
-    const sendingInfo = getSendingInformation(processedTransaction, output, account)
+    const sendingInfo = getSendingInformation(processedTransaction, output, account, networkId)
     const asyncData = getAsyncDataFromOutput(output, outputId, claimingData, account)
 
     // const { parsedLayer2Metadata, destinationNetwork } = getLayer2ActivityInformation(metadata, sendingInfo)
