@@ -1,19 +1,25 @@
 <script lang="ts">
-    import { Button, Text, TextHint, FontWeight, TextType } from '@ui'
+    import { Button, Text, TextHint, FontWeight, TextType, AccountLabel } from '@ui'
     import { localize } from '@core/i18n'
     import { closePopup } from '@desktop/auxiliary/popup'
     import { handleError } from '@core/error/handlers'
     import { onMount } from 'svelte'
     import { selectedAccount } from '@core/account/stores'
     import { JsonRpcResponse } from '@walletconnect/jsonrpc-types'
-    import { sleep } from '@core/utils'
+    import { sleep, truncateString } from '@core/utils'
     import { IConnectedDapp } from '@auxiliary/wallet-connect/interface'
+    import { IAccountState } from '@core/account'
+    import { IChain } from '@core/network'
 
     export let _onMount: (..._: any[]) => Promise<void> = async () => {}
     export let requestId: number
     export let message: string
+    export let account: IAccountState
+    export let chain: IChain
     export let dapp: IConnectedDapp | undefined
     export let callback: (response: JsonRpcResponse) => void
+
+    $: address = truncateString(account.evmAddresses[chain.getConfiguration().coinType] ?? '', 8, 8)
 
     let isBusy = false
 
@@ -71,6 +77,12 @@
                     </div>
                 </div>
             {/if}
+        </section>
+        <section class="flex flex-row justify-between items-center border border-solid border-gray-200 rounded-xl p-4">
+            <AccountLabel {account} />
+            <Text color="gray-600" fontWeight={FontWeight.semibold}>
+                {address}
+            </Text>
         </section>
         {#if dapp}
             <TextHint info text={localize('popups.signMessage.hint', { dappName: dapp.metadata?.name ?? 'Unkown' })} />
