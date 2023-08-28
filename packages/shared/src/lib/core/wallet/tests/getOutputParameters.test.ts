@@ -67,6 +67,7 @@ const baseTransaction: SendFlowParameters = {
         type: SubjectType.Address,
         address: recipientAddress,
     },
+    destinationNetworkId: SupportedNetworkId.Shimmer,
 }
 
 jest.mock('@core/token/stores/persisted-tokens.store', () => ({
@@ -95,6 +96,12 @@ jest.mock('../../profile/actions/active-profile/getCoinType', () => ({
 
 jest.mock('../../layer-2/utils/estimateGasForLayer1ToLayer2Transaction', () => ({
     estimateGasForLayer1ToLayer2Transaction: jest.fn(() => FALLBACK_ESTIMATED_GAS.toJSNumber()),
+}))
+
+jest.mock('../../network/actions/getActiveNetworkId.ts', () => ({
+    getActiveNetworkId: jest.fn(() => {
+        return SupportedNetworkId.Shimmer
+    }),
 }))
 
 describe('File: getOutputParameters.ts', () => {
@@ -303,6 +310,7 @@ describe('File: getOutputParameters.ts', () => {
             recipient: baseTransaction.recipient,
             nft: testNft,
             expirationDate,
+            destinationNetworkId: SupportedNetworkId.Shimmer,
         }
         const output = await getOutputParameters(sendFlowParameters, senderAddress)
 

@@ -3,6 +3,7 @@ import { IWrappedOutput } from '../../wallet/interfaces'
 import { buildNftFromNftOutput } from '../actions/buildNftFromNftOutput'
 import { Converter } from '../../utils/convert'
 import { Bech32Helper } from '../../utils/crypto'
+import { NetworkNamespace, StardustNetworkName } from '../../network/enums'
 
 const accountAddress = 'rms1qr47ee0fhahukrzec088v9lngv7w5k2sn3jjtwvkcpjfgxhhsazlsurxrx9'
 
@@ -66,6 +67,12 @@ const incomingExpiredTimelockedCondition: UnlockConditionTypes[] = [
 jest.mock('../../wallet/utils/convertHexAddressToBech32.ts', () => ({
     convertHexAddressToBech32: jest.fn((addressType: number, hexAddress: string) => {
         return hexAddress ? Bech32Helper.toBech32(addressType, Converter.hexToBytes(hexAddress), 'rms') : undefined
+    }),
+}))
+
+jest.mock('../../network/actions/getActiveNetworkId.ts', () => ({
+    getActiveNetworkId: jest.fn(() => {
+        return `${NetworkNamespace.Stardust}:${StardustNetworkName.Shimmer}`
     }),
 }))
 

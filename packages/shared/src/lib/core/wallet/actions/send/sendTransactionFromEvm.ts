@@ -13,9 +13,6 @@ export async function sendTransactionFromEvm(
 ): Promise<void> {
     const account = getSelectedAccount()
     const provider = chain.getProvider()
-    if (!account) {
-        return
-    }
 
     await checkActiveProfileAuth(
         async () => {

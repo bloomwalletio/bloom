@@ -43,9 +43,6 @@ export function handleDeepLinkSendFormOperation(searchParams: URLSearchParams): 
  */
 function parseSendFormOperation(searchParams: URLSearchParams): SendFlowParameters | undefined {
     const networkId = getActiveNetworkId()
-    if (!networkId) {
-        return
-    }
 
     const tokenId = searchParams.get(SendOperationParameter.TokenId)
     const type = tokenId ? SendFlowType.TokenTransfer : SendFlowType.BaseCoinTransfer
