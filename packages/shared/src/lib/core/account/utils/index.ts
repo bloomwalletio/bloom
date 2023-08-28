@@ -1,5 +1,6 @@
 export * from './buildBip32PathFromBip44'
 export * from './deconstructBip32Path'
+export * from './getAddressFromAccountForNetwork'
 export * from './getBoundAccount'
 export * from './getDepositAddress'
 export * from './getIconColorFromString'

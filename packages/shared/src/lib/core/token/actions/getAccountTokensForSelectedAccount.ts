@@ -10,32 +10,36 @@ import { sortTokens } from '@core/token/utils/sortTokens'
 import { IToken } from '../interfaces'
 import { isValidIrc30Token, isValidToken } from '../utils'
 import { getActiveNetworkId } from '@core/network/actions/getActiveNetworkId'
+import { IAccountState } from '@core/account/interfaces'
 
 export function getAccountTokensForSelectedAccount(marketCoinPrices: MarketCoinPrices): AccountTokens {
-    const accountAssets = {} as AccountTokens
+    try {
+        const accountAssets = {} as AccountTokens
+        const account = getSelectedAccount()
+        const networkId = getActiveNetworkId()
 
-    const networkId = getActiveNetworkId()
-    if (!networkId) {
+        accountAssets[networkId] = getAccountAssetForNetwork(account, marketCoinPrices, networkId)
+        const chains = getNetwork()?.getChains() ?? []
+
+        for (const chain of chains) {
+            const id = chain.getConfiguration().id
+            const chainAssets = getAccountAssetForChain(account.index, id)
+            if (chainAssets) {
+                accountAssets[id] = chainAssets
+            }
+        }
+
+        return accountAssets
+    } catch (_) {
         return {}
     }
-
-    accountAssets[networkId] = getAccountAssetForNetwork(marketCoinPrices, networkId)
-    const chains = getNetwork()?.getChains() ?? []
-
-    for (const chain of chains) {
-        const id = chain.getConfiguration().id
-        const chainAssets = getAccountAssetForChain(id)
-        if (chainAssets) {
-            accountAssets[id] = chainAssets
-        }
-    }
-
-    return accountAssets
 }
 
-function getAccountAssetForNetwork(marketCoinPrices: MarketCoinPrices, networkId: NetworkId): IAccountTokensPerNetwork {
-    const account = getSelectedAccount()
-
+function getAccountAssetForNetwork(
+    account: IAccountState,
+    marketCoinPrices: MarketCoinPrices,
+    networkId: NetworkId
+): IAccountTokensPerNetwork {
     const shouldCalculateFiatPrice = isStardustNetwork(networkId)
     const persistedBaseCoin = getPersistedToken(getCoinType())
     const baseCoin: IToken = {
@@ -70,9 +74,8 @@ function getAccountAssetForNetwork(marketCoinPrices: MarketCoinPrices, networkId
     }
 }
 
-function getAccountAssetForChain(networkId: NetworkId): IAccountTokensPerNetwork | undefined {
-    const index = getSelectedAccount()?.index
-    const balanceForNetworkId = index !== undefined ? getLayer2AccountBalance(index)?.[networkId] : undefined
+function getAccountAssetForChain(accountIndex: number, networkId: NetworkId): IAccountTokensPerNetwork | undefined {
+    const balanceForNetworkId = getLayer2AccountBalance(accountIndex)?.[networkId]
 
     if (!balanceForNetworkId) {
         return undefined

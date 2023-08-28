@@ -2144,8 +2144,7 @@
             "nonEmptyAccount": "You must transfer all balances before switching networks."
         },
         "global": {
-            "generic": "Something went wrong.",
-            "accountOrNetworkUndefined": "Account or network undefined"
+            "generic": "Something went wrong."
         },
         "backup": {
             "invalid": "The backup file was not recognised.",

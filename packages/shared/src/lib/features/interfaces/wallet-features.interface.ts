@@ -8,6 +8,7 @@ export interface IWalletFeatures extends IFeatureFlag {
     walletConnect: IFeatureFlag
     assets: IFeatureFlag & {
         burnToken: IFeatureFlag
+        unwrapToken: IFeatureFlag
     }
     activityHistory: IFeatureFlag & {
         sync: IFeatureFlag
