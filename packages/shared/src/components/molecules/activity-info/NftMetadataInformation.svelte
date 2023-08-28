@@ -11,9 +11,10 @@
 
     $: nft = getNftByIdFromAllAccountNfts($selectedAccountIndex, activity?.nftId)
 
-    const items: IItems[] = []
+    let items: IItems[] = []
     function setItems(metadata: IIrc27Metadata | undefined) {
         if (!metadata) return
+        items = []
 
         if (metadata?.standard) {
             items.push({
@@ -48,22 +49,14 @@
                 value: metadata.collectionName,
             })
         }
+        if (metadata?.standard !== TokenStandard.Irc27) {
+            items.push({
+                key: localize('general.metadata'),
+                value: convertAndFormatNftMetadata(metadata),
+            })
+        }
     }
     $: setItems(nft?.parsedMetadata)
 </script>
 
-{#if nft?.parsedMetadata?.standard === TokenStandard.Irc27}
-    <Table {items} />
-{:else}
-    <!-- Todo we need to create a code display component -->
-    <Table
-        orientation="vertical"
-        items={[
-            {
-                key: localize('general.metadata'),
-                value: convertAndFormatNftMetadata(nft?.metadata),
-            },
-            ...items,
-        ]}
-    />
-{/if}
+<Table {items} />

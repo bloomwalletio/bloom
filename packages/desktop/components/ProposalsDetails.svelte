@@ -32,16 +32,15 @@
     $: isOverviewLoaded = !!$participationOverviewForSelectedAccount
     $: $registeredProposalsForSelectedAccount, $participationOverviewForSelectedAccount, updateProposalsDetails()
     $: $selectedAccount, void setParticipationOverview()
-    $: items, setProposalDetailValues()
+    $: items = getProposalDetailValues(details)
 
-    function setProposalDetailValues(): void {
-        items = []
-        for (const key in details) {
-            items.push({
+    function getProposalDetailValues(_details: IProposalsDetails): IItems[] {
+        return Object.keys(_details).map((key) => {
+            return {
                 key: localize(`views.governance.proposalsDetails.${key}`),
                 value: details[key] ?? 0,
-            })
-        }
+            }
+        })
     }
 
     function updateProposalsDetails(): void {

@@ -45,11 +45,12 @@
         }
     }
 
-    const items: IItems[] = []
+    let items: IItems[] = []
 
     $: setItems($selectedProposal, $networkStatus)
 
     function setItems(proposal: IProposal, networkStatus: INetworkStatus): void {
+        items = []
         if (proposalDateData?.propertyKey) {
             items.push({
                 key: localize(`views.governance.details.proposalInformation.${proposalDateData.propertyKey}`),

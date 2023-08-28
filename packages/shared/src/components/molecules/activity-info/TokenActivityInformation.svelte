@@ -10,53 +10,56 @@
     let metadata: IIrc30Metadata
     $: metadata = <IIrc30Metadata>getPersistedToken(activity.tokenId)?.metadata
 
-    const items: IItems[] = []
-    function setItems(activity: FoundryActivity, metadata: IIrc30Metadata) {
-        if (metadata?.name) {
+    let items: IItems[] = []
+    function setItems(_metadata: IIrc30Metadata) {
+        if (!_metadata) return
+        items = []
+
+        if (_metadata?.name) {
             items.push({
                 key: localize('popups.nativeToken.property.tokenName'),
-                value: metadata.name,
+                value: _metadata.name,
             })
         }
-        if (metadata?.symbol) {
+        if (_metadata?.symbol) {
             items.push({
                 key: localize('popups.nativeToken.property.unit'),
-                value: metadata.symbol,
+                value: _metadata.symbol,
             })
         }
         items.push({
             key: localize('popups.nativeToken.property.decimals'),
-            value: String(metadata.decimals),
+            value: String(_metadata.decimals),
         })
-        if (metadata?.description) {
+        if (_metadata?.description) {
             items.push({
                 key: localize('popups.nativeToken.property.description'),
-                value: metadata.description,
+                value: _metadata.description,
             })
         }
-        if (metadata?.url) {
+        if (_metadata?.url) {
             items.push({
                 key: localize('popups.nativeToken.property.url'),
-                value: metadata.url,
+                value: _metadata.url,
                 copyable: true,
             })
         }
-        if (metadata?.logo) {
+        if (_metadata?.logo) {
             items.push({
                 key: localize('popups.nativeToken.property.logo'),
-                value: metadata.logo,
+                value: _metadata.logo,
                 copyable: true,
             })
         }
-        if (metadata?.logoUrl) {
+        if (_metadata?.logoUrl) {
             items.push({
                 key: localize('popups.nativeToken.property.logoUrl'),
-                value: metadata.logoUrl,
+                value: _metadata.logoUrl,
                 copyable: true,
             })
         }
     }
-    $: setItems(activity, metadata)
+    $: activity, setItems(metadata)
 </script>
 
 <Table {items} />

@@ -40,36 +40,36 @@
 
     $: setItems(activity)
 
-    function setItems(activity: Activity): void {
+    function setItems(_activity: Activity): void {
         items = []
 
-        if (activity?.destinationNetwork) {
+        if (_activity?.destinationNetwork) {
             items.push({
                 key: localize('general.destinationNetwork'),
-                value: activity?.destinationNetwork,
+                value: _activity?.destinationNetwork,
             })
         }
-        if (activity?.time) {
+        if (_activity?.time) {
             items.push({
                 key: localize('general.transactionTime'),
                 value: formattedTransactionTime,
             })
         }
-        if (activity?.tag) {
+        if (_activity?.tag) {
             items.push({
                 key: localize('general.tag'),
-                value: activity?.tag,
+                value: _activity?.tag,
                 popover: {
-                    content: localize(`tooltips.transactionDetails.${activity?.direction}.tag`),
+                    content: localize(`tooltips.transactionDetails.${_activity?.direction}.tag`),
                 },
             })
         }
-        if (activity?.metadata) {
+        if (_activity?.metadata) {
             items.push({
                 key: localize('general.metadata'),
-                value: activity?.metadata,
+                value: _activity?.metadata,
                 popover: {
-                    content: localize(`tooltips.transactionDetails.${activity?.direction}.metadata`),
+                    content: localize(`tooltips.transactionDetails.${_activity?.direction}.metadata`),
                 },
             })
         }
@@ -78,22 +78,22 @@
                 key: localize('general.storageDeposit'),
                 value: formattedStorageDeposit,
                 popover: {
-                    content: localize(`tooltips.transactionDetails.${activity?.direction}.storageDeposit`),
+                    content: localize(`tooltips.transactionDetails.${_activity?.direction}.storageDeposit`),
                 },
             })
         }
-        if (activity?.surplus) {
+        if (_activity?.surplus) {
             items.push({
                 key: localize('general.surplus'),
                 value: formattedSurplus,
             })
         }
-        if (activity?.giftedStorageDeposit) {
+        if (_activity?.giftedStorageDeposit) {
             items.push({
                 key: localize('general.giftedStorageDeposit'),
                 value: formattedGiftedStorageDeposit,
                 popover: {
-                    content: localize(`tooltips.transactionDetails.${activity?.direction}.giftedStorageDeposit`),
+                    content: localize(`tooltips.transactionDetails.${_activity?.direction}.giftedStorageDeposit`),
                 },
             })
         }
@@ -102,7 +102,7 @@
                 key: localize('general.gasLimit'),
                 value: formattedGasLimit,
                 popover: {
-                    content: localize(`tooltips.transactionDetails.${activity?.direction}.gasLimit`),
+                    content: localize(`tooltips.transactionDetails.${_activity?.direction}.gasLimit`),
                 },
             })
         }
@@ -111,16 +111,16 @@
                 key: localize('general.expirationTime'),
                 value: expirationTime,
                 popover: {
-                    content: localize(`tooltips.transactionDetails.${activity?.direction}.expirationTime`),
+                    content: localize(`tooltips.transactionDetails.${_activity?.direction}.expirationTime`),
                 },
             })
         }
-        if (activity?.asyncData?.timelockDate) {
+        if (_activity?.asyncData?.timelockDate) {
             items.push({
                 key: localize('general.timelockDate'),
                 value: formattedTimelockDate,
                 popover: {
-                    content: localize(`tooltips.transactionDetails.${activity?.direction}.timelockDate`),
+                    content: localize(`tooltips.transactionDetails.${_activity?.direction}.timelockDate`),
                 },
             })
         }

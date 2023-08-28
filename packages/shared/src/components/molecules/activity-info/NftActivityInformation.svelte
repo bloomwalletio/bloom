@@ -18,11 +18,12 @@
     $: issuerAddress = getBech32AddressFromAddressTypes(nft?.issuer)
     $: collectionId = getHexAddressFromAddressTypes(nft?.issuer)
 
-    const items: IItems[] = []
-    function setItems(activity: NftActivity): void {
+    let items: IItems[] = []
+    function setItems(_activity: NftActivity): void {
+        items = []
         items.push({
             key: localize('general.nftId'),
-            value: activity?.nftId,
+            value: _activity?.nftId,
             truncate: { firstCharCount: 10, endCharCount: 10 },
             copyable: true,
         })
