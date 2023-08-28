@@ -73,7 +73,7 @@
             expirationDate: $sendFlowParameters?.expirationDate,
             timelockDate: $sendFlowParameters?.timelockDate,
             giftStorageDeposit: $sendFlowParameters?.giftStorageDeposit,
-            layer2Parameters: $sendFlowParameters?.layer2Parameters,
+            destinationNetworkId: $sendFlowParameters?.destinationNetworkId,
             addSenderFeature: $sendFlowParameters?.addSenderFeature,
             disableChangeExpiration: $sendFlowParameters?.disableChangeExpiration,
             disableToggleGift: $sendFlowParameters?.disableToggleGift,

@@ -1,12 +1,14 @@
 <script lang="ts">
-    import { ActivityAsyncStatusPill, Pill } from '@ui'
+    import { ActivityAsyncStatusPill } from '@ui'
+    import { Pill } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
     import { time } from '@core/app/stores'
     import { Activity, ActivityAsyncStatus } from '@core/activity'
 
     export let activity: Activity
 
-    $: isTimelocked = activity.asyncData?.timelockDate > $time
+    $: timelockDate = activity.asyncData?.timelockDate
+    $: isTimelocked = timelockDate && timelockDate > $time
 
     $: hasPills =
         (activity.asyncData?.asyncStatus && activity?.asyncData?.asyncStatus !== ActivityAsyncStatus.Timelocked) ||
@@ -20,12 +22,10 @@
             <ActivityAsyncStatusPill asyncStatus={activity.asyncData.asyncStatus} />
         {/if}
         {#if isTimelocked}
-            <Pill backgroundColor="gray-200" darkBackgroundColor="gray-200">
-                {localize('pills.locked')}
-            </Pill>
+            <ActivityAsyncStatusPill asyncStatus={ActivityAsyncStatus.Timelocked} />
         {/if}
         {#if activity?.parsedLayer2Metadata}
-            <Pill backgroundColor="blue-200" darkBackgroundColor="blue-200">
+            <Pill color="blue">
                 {localize('pills.smartContract')}
             </Pill>
         {/if}

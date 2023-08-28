@@ -569,11 +569,20 @@
                         "hint": "Please note after removing a contact’s network addresses Bloom will no longer associate it with them in transactions or activities."
                     }
                 },
-                "dApps": {
-                    "dAppsList": {
+                "dapps": {
+                    "dappsList": {
                         "title": "Connected dApps",
                         "connectDapp": "Connect dApp",
                         "hint": "WalletConnect allows you to connect Bloom with dApps directly or with a connection code."
+                    },
+                    "inputConnectionCode": {
+                        "title": "Connect to a dApp",
+                        "inputLabel": "Wallet Connect code",
+                        "hint": "Add new dApps by adding a Wallet Connect code below."
+                    },
+                    "confirmConnection": {
+                        "title": "Connect with an application",
+                        "hint": "A third party service wants to connect with your wallet for the first time. You can choose if you wish to trust this connection."
                     }
                 }
             }
@@ -1939,6 +1948,7 @@
             "success": "Transaction history for {accountAlias} was successfully saved to {filePath}",
             "error": "Unable to export transaction history for {accountAlias}"
         },
+        "newDappConnected": "Connected to new dApp",
         "deepLinkingRequest": {
             "receivedWhileLoggedOut": "Please login to initiate the deep link",
             "notEnabled": "Deep links are not enabled",
@@ -2133,8 +2143,7 @@
             "nonEmptyAccount": "You must transfer all balances before switching networks."
         },
         "global": {
-            "generic": "Something went wrong.",
-            "accountOrNetworkUndefined": "Account or network undefined"
+            "generic": "Something went wrong."
         },
         "backup": {
             "invalid": "The backup file was not recognised.",
@@ -2254,6 +2263,11 @@
             "unique": "{field} must be unique",
             "alreadyUsed": "{field} is already being used",
             "tooLong": "{field} must be {numCharacters} or less characters"
+        },
+        "walletConnect": {
+            "invalidUri": "Invalid URI",
+            "invalidProtocol": "Invalid protocol, must start with 'wc'.",
+            "deprecatedVersion": "dApp uses a deprecated wallet connect version."
         }
     },
     "warning": {

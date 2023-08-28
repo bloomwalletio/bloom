@@ -44,7 +44,7 @@
     }
 </script>
 
-<div bind:this={anchor} on:mouseenter={handleMouseEnter} on:mouseleave={handleMouseLeave}>
+<div class="flex" bind:this={anchor} on:mouseenter={handleMouseEnter} on:mouseleave={handleMouseLeave}>
     <ProposalStatusPill {proposal} />
 </div>
 {#if isTooltipVisible}

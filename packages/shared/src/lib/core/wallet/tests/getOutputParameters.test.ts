@@ -67,6 +67,7 @@ const baseTransaction: SendFlowParameters = {
         type: SubjectType.Address,
         address: recipientAddress,
     },
+    destinationNetworkId: SupportedNetworkId.Shimmer,
 }
 
 jest.mock('@core/token/stores/persisted-tokens.store', () => ({
@@ -107,6 +108,12 @@ jest.mock('../../layer-2/constants/gas-limit-multiplier.constant', () => ({
 
 jest.mock('../../layer-2/constants/wei.constants', () => ({
     WEI_PER_GLOW: BigInt(1_000_000_000_000),
+}))
+
+jest.mock('../../network/actions/getActiveNetworkId.ts', () => ({
+    getActiveNetworkId: jest.fn(() => {
+        return SupportedNetworkId.Shimmer
+    }),
 }))
 
 describe('File: getOutputParameters.ts', () => {
@@ -315,6 +322,7 @@ describe('File: getOutputParameters.ts', () => {
             recipient: baseTransaction.recipient,
             nft: testNft,
             expirationDate,
+            destinationNetworkId: SupportedNetworkId.Shimmer,
         }
         const output = await getOutputParameters(sendFlowParameters, senderAddress)
 

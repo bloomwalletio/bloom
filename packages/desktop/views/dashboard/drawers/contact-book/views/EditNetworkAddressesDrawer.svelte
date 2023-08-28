@@ -93,7 +93,9 @@
         let handledError = false
         for (const input of [...savedAddressNameInputs, ...newAddressInputs, ...newAddressNameInputs]) {
             try {
-                if (input) {
+                if (input && typeof input.validate === 'function') {
+                    /* eslint-disable @typescript-eslint/ban-ts-comment */
+                    // @ts-ignore
                     input.validate()
                 }
             } catch (err) {
@@ -135,12 +137,6 @@
             >
                 {#if index < savedAddresses.length}
                     <TextInput
-                        bind:value={savedAddresses[index].address}
-                        disabled
-                        placeholder={localize('general.address')}
-                        label={localize('general.address')}
-                    />
-                    <TextInput
                         bind:this={savedAddressNameInputs[index]}
                         bind:value={savedAddresses[index].addressName}
                         placeholder={localize('general.addressName')}
@@ -162,25 +158,13 @@
                             }
                         }}
                     />
-                {:else}
                     <TextInput
-                        bind:this={newAddressInputs[index - savedAddresses.length]}
-                        bind:value={newAddresses[index - savedAddresses.length].address}
+                        bind:value={savedAddresses[index].address}
+                        disabled
                         placeholder={localize('general.address')}
                         label={localize('general.address')}
-                        validationFunction={() => {
-                            validateContactAddress(
-                                {
-                                    value: newAddresses[index - savedAddresses.length].address,
-                                    isRequired: true,
-                                    mustBeUnique: !addressesToRemove.includes(
-                                        newAddresses[index - savedAddresses.length].address
-                                    ),
-                                },
-                                $selectedContactNetworkId
-                            )
-                        }}
                     />
+                {:else}
                     <TextInput
                         bind:this={newAddressNameInputs[index - savedAddresses.length]}
                         bind:value={newAddresses[index - savedAddresses.length].addressName}
@@ -199,6 +183,24 @@
                                 $selectedContact?.id,
                                 $selectedContactNetworkId
                             )}
+                    />
+                    <TextInput
+                        bind:this={newAddressInputs[index - savedAddresses.length]}
+                        bind:value={newAddresses[index - savedAddresses.length].address}
+                        placeholder={localize('general.address')}
+                        label={localize('general.address')}
+                        validationFunction={() => {
+                            validateContactAddress(
+                                {
+                                    value: newAddresses[index - savedAddresses.length].address,
+                                    isRequired: true,
+                                    mustBeUnique: !addressesToRemove.includes(
+                                        newAddresses[index - savedAddresses.length].address
+                                    ),
+                                },
+                                $selectedContactNetworkId
+                            )
+                        }}
                     />
                 {/if}
                 <Button

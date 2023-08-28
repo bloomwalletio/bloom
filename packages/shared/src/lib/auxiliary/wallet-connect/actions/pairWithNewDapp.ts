@@ -9,6 +9,6 @@ export async function pairWithNewDapp(uri: string): Promise<void> {
     try {
         await client.core.pairing.pair({ uri })
     } catch (e) {
-        console.error('already connected')
+        console.error('already connected', e)
     }
 }
