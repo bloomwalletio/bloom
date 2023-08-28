@@ -342,15 +342,16 @@
   resolved "https://registry.yarnpkg.com/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
-"@bloomwalletio/ui@0.7.2":
-  version "0.7.2"
-  resolved "https://npm.pkg.github.com/download/@bloomwalletio/ui/0.7.2/ed03281bbbf4749373c670b737bd33f02d042862#ed03281bbbf4749373c670b737bd33f02d042862"
-  integrity sha512-Yt28CecIHjE27jOLNUUO2wnnwhPi4i1f/ZmYVdWV1+x+DPJHF1VBVDB8IqpOIlHVVib4mSqf1RYzN5TmownW6A==
+"@bloomwalletio/ui@0.7.7":
+  version "0.7.7"
+  resolved "https://npm.pkg.github.com/download/@bloomwalletio/ui/0.7.7/89751503c404fbc17e503e2bd0800fa405ea42bc#89751503c404fbc17e503e2bd0800fa405ea42bc"
+  integrity sha512-n29Nu/m/XJjM8DG0+5xCaIm7N9Eor4/LOpcA5JXd+qJODQmluHf2mu1TLgPqnpSbcpD0WljQUj02tGGBDXN/iQ==
   dependencies:
     "@floating-ui/dom" "1.4.3"
     "@popperjs/core" "2.11.8"
     flowbite "1.7.0"
     flowbite-svelte "0.39.2"
+    svelte-json-tree "2.1.0"
     tailwind-merge "1.13.2"
 
 "@chainsafe/as-sha256@^0.4.1":
@@ -9956,6 +9957,11 @@ svelte-i18n@3.7.0:
     intl-messageformat "^9.13.0"
     sade "^1.8.1"
     tiny-glob "^0.2.9"
+
+svelte-json-tree@2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/svelte-json-tree/-/svelte-json-tree-2.1.0.tgz#616cadae86326881a80bcdb04b451ed57bef7898"
+  integrity sha512-IAU//hE5bIA0SoM9AuP7xOoD9PUcMh4fio0oI52r0XJ7iNDytW7AnBdkIn1QSYLUyWzvQX3tp59JfLYfhd7lTw==
 
 svelte-loader@3.1.9:
   version "3.1.9"

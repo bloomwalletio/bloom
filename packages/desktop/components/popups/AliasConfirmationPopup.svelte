@@ -95,7 +95,7 @@
                 {
                     key: localize('general.storageDeposit'),
                     value: storageDeposit,
-                    popover: { content: localize('tooltips.transactionDetails.incoming.storageDeposit') },
+                    tooltip: localize('tooltips.transactionDetails.incoming.storageDeposit'),
                 },
                 {
                     key: localize('general.governorAddress'),

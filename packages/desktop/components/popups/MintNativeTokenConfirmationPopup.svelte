@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { type IItems, Table } from '@bloomwalletio/ui'
+    import { type IItem, Table } from '@bloomwalletio/ui'
     import { onMount } from 'svelte'
     import { selectedAccount } from '@core/account/stores'
     import { handleError } from '@core/error/handlers/handleError'
@@ -32,7 +32,7 @@
         }
     }
 
-    let items: IItems[] = []
+    let items: IItem[] = []
 
     $: setItems($mintTokenDetails)
 

@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { type IItems, Table } from '@bloomwalletio/ui'
+    import { type IItem, Table } from '@bloomwalletio/ui'
     import { getFormattedTimeStamp, localize } from '@core/i18n'
     import { getBaseToken } from '@core/profile/actions'
     import { formatTokenAmountBestMatch } from '@core/token'
@@ -9,7 +9,7 @@
 
     $: formattedTransactionTime = getFormattedTimeStamp(activity.time)
 
-    let items: IItems[] = []
+    let items: IItem[] = []
 
     $: setItems(activity)
 
@@ -29,7 +29,7 @@
             items.push({
                 key: isNewVotingPower ? localize('general.newVotingPower') : localize('general.votingPower'),
                 value: formatTokenAmountBestMatch(activity.votingPower, getBaseToken(), 2),
-                popover: { content: localize('tooltips.transactionDetails.votingPower') },
+                tooltip: localize('tooltips.transactionDetails.votingPower'),
             })
         }
     }

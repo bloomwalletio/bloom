@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { type IItems, Table } from '@bloomwalletio/ui'
+    import { type IItem, Table } from '@bloomwalletio/ui'
     import { Text, TextHint, LedgerAnimation } from '@ui'
     import { localize } from '@core/i18n'
     import { formatHexString } from '@core/utils'
@@ -27,7 +27,7 @@
         ? 'popups.verifyInternalLedgerTransaction'
         : 'popups.verifyLedgerTransaction'
 
-    let items: IItems[] = []
+    let items: IItem[] = []
     $: hasSendConfirmationProps
         ? (items = [
               ...(useBlindSigning ? [{ key: localize('general.hash'), value: formatHexString(hash) }] : []),

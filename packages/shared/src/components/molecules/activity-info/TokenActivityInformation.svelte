@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { type IItems, Table } from '@bloomwalletio/ui'
+    import { type IItem, Table } from '@bloomwalletio/ui'
     import { FoundryActivity } from '@core/activity'
     import { localize } from '@core/i18n'
     import { IIrc30Metadata } from '@core/token'
@@ -10,7 +10,7 @@
     let metadata: IIrc30Metadata
     $: metadata = <IIrc30Metadata>getPersistedToken(activity.tokenId)?.metadata
 
-    let items: IItems[] = []
+    let items: IItem[] = []
     function setItems(_metadata: IIrc30Metadata) {
         if (!_metadata) return
         items = []

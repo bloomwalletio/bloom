@@ -1,19 +1,11 @@
 <script lang="ts">
-    import { type IItems, Table } from '@bloomwalletio/ui'
+    import { type IItem, Table } from '@bloomwalletio/ui'
     import { Activity } from '@core/activity'
     import { getFormattedTimeStamp, localize } from '@core/i18n'
-    import { ExplorerEndpoint } from '@core/network'
-    import { getDefaultExplorerUrl } from '@core/network/utils'
-    import { openUrlInBrowser } from '@core/app'
     import { getBaseToken } from '@core/profile/actions'
-    import { activeProfile } from '@core/profile/stores'
     import { formatTokenAmountPrecise } from '@core/token'
-    import { setClipboard, truncateString } from '@core/utils'
-    import { KeyValueBox } from '@ui'
 
     export let activity: Activity
-
-    const explorerUrl = getDefaultExplorerUrl($activeProfile?.network?.id)
 
     $: expirationTime = getFormattedTimeStamp(activity?.asyncData?.expirationDate)
     $: claimedTime = getFormattedTimeStamp(activity?.asyncData?.claimedDate)
@@ -28,15 +20,7 @@
     $: formattedSurplus = formatTokenAmountPrecise(activity?.surplus ?? 0, getBaseToken())
     $: formattedGasLimit = formatTokenAmountPrecise(Number(gasLimit ?? 0), getBaseToken())
 
-    function onTransactionIdClick(): void {
-        explorerUrl
-            ? openUrlInBrowser(
-                  `${explorerUrl}/${ExplorerEndpoint.Transaction}/${activity?.asyncData?.claimingTransactionId}`
-              )
-            : setClipboard(activity?.asyncData?.claimingTransactionId)
-    }
-
-    let items: IItems[] = []
+    let items: IItem[] = []
 
     $: setItems(activity)
 
@@ -59,27 +43,21 @@
             items.push({
                 key: localize('general.tag'),
                 value: _activity?.tag,
-                popover: {
-                    content: localize(`tooltips.transactionDetails.${_activity?.direction}.tag`),
-                },
+                tooltip: localize(`tooltips.transactionDetails.${_activity?.direction}.tag`),
             })
         }
         if (_activity?.metadata) {
             items.push({
                 key: localize('general.metadata'),
                 value: _activity?.metadata,
-                popover: {
-                    content: localize(`tooltips.transactionDetails.${_activity?.direction}.metadata`),
-                },
+                tooltip: localize(`tooltips.transactionDetails.${_activity?.direction}.metadata`),
             })
         }
         if (hasStorageDeposit) {
             items.push({
                 key: localize('general.storageDeposit'),
                 value: formattedStorageDeposit,
-                popover: {
-                    content: localize(`tooltips.transactionDetails.${_activity?.direction}.storageDeposit`),
-                },
+                tooltip: localize(`tooltips.transactionDetails.${_activity?.direction}.storageDeposit`),
             })
         }
         if (_activity?.surplus) {
@@ -92,36 +70,28 @@
             items.push({
                 key: localize('general.giftedStorageDeposit'),
                 value: formattedGiftedStorageDeposit,
-                popover: {
-                    content: localize(`tooltips.transactionDetails.${_activity?.direction}.giftedStorageDeposit`),
-                },
+                tooltip: localize(`tooltips.transactionDetails.${_activity?.direction}.giftedStorageDeposit`),
             })
         }
         if (gasLimit) {
             items.push({
                 key: localize('general.gasLimit'),
                 value: formattedGasLimit,
-                popover: {
-                    content: localize(`tooltips.transactionDetails.${_activity?.direction}.gasLimit`),
-                },
+                tooltip: localize(`tooltips.transactionDetails.${_activity?.direction}.gasLimit`),
             })
         }
         if (expirationTime) {
             items.push({
                 key: localize('general.expirationTime'),
                 value: expirationTime,
-                popover: {
-                    content: localize(`tooltips.transactionDetails.${_activity?.direction}.expirationTime`),
-                },
+                tooltip: localize(`tooltips.transactionDetails.${_activity?.direction}.expirationTime`),
             })
         }
         if (_activity?.asyncData?.timelockDate) {
             items.push({
                 key: localize('general.timelockDate'),
                 value: formattedTimelockDate,
-                popover: {
-                    content: localize(`tooltips.transactionDetails.${_activity?.direction}.timelockDate`),
-                },
+                tooltip: localize(`tooltips.transactionDetails.${_activity?.direction}.timelockDate`),
             })
         }
         if (claimedTime) {
@@ -130,18 +100,15 @@
                 value: claimedTime,
             })
         }
+        if (_activity?.asyncData?.claimingTransactionId) {
+            items.push({
+                key: localize(activity?.asyncData?.isClaiming ? 'general.claimingIn' : 'general.claimedIn'),
+                value: _activity?.asyncData?.claimingTransactionId,
+                copyable: true,
+                truncate: { firstCharCount: 12, endCharCount: 12 },
+            })
+        }
     }
 </script>
 
 <Table {items} />
-{#if activity?.asyncData?.claimingTransactionId}
-    <KeyValueBox keyText={localize(activity?.asyncData?.isClaiming ? 'general.claimingIn' : 'general.claimedIn')}>
-        <button
-            slot="value"
-            class="action w-fit flex justify-start text-center font-medium text-14 text-blue-500"
-            on:click={onTransactionIdClick}
-        >
-            {truncateString(activity?.asyncData?.claimingTransactionId, 12, 12)}
-        </button>
-    </KeyValueBox>
-{/if}

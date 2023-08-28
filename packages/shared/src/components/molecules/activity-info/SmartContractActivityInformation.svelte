@@ -1,12 +1,12 @@
 <script lang="ts">
-    import { type IItems, Table } from '@bloomwalletio/ui'
+    import { type IItem, Table } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
     import { TransactionActivity } from '@core/activity'
     import { Layer2Metadata } from '@core/layer-2'
 
     export let activity: TransactionActivity
 
-    let items: IItems[] = []
+    let items: IItem[] = []
 
     $: setItems(activity?.parsedLayer2Metadata ?? ({} as Layer2Metadata))
 

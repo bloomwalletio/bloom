@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { type IItems, Table } from '@bloomwalletio/ui'
+    import { type IItem, Table } from '@bloomwalletio/ui'
     import { Pane, Text } from '@ui'
     import { formatDate, localize } from '@core/i18n'
     import { DATE_FORMAT, milestoneToDate, truncateString } from '@core/utils'
@@ -45,7 +45,7 @@
         }
     }
 
-    let items: IItems[] = []
+    let items: IItem[] = []
 
     $: setItems($selectedProposal, $networkStatus)
 

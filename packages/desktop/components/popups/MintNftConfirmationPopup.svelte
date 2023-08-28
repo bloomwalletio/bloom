@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { type IItems, Table } from '@bloomwalletio/ui'
+    import { type IItem, Table } from '@bloomwalletio/ui'
     import { selectedAccount } from '@core/account/stores'
     import { handleError } from '@core/error/handlers/handleError'
     import { localize } from '@core/i18n'
@@ -51,7 +51,7 @@
         }
     }
 
-    let transactionTabItems: IItems[] = []
+    let transactionTabItems: IItem[] = []
 
     $: activeTab === Tab.Transaction && setTransactionTabItems(quantity)
 

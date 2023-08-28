@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { type IItems, Table } from '@bloomwalletio/ui'
+    import { type IItem, Table } from '@bloomwalletio/ui'
     import { IProposalsDetails } from '@contexts/governance/interfaces'
     import {
         participationOverviewForSelectedAccount,
@@ -27,14 +27,14 @@
         votedProposals: null,
     }
 
-    let items: IItems[] = []
+    let items: IItem[] = []
 
     $: isOverviewLoaded = !!$participationOverviewForSelectedAccount
     $: $registeredProposalsForSelectedAccount, $participationOverviewForSelectedAccount, updateProposalsDetails()
     $: $selectedAccount, void setParticipationOverview()
     $: items = getProposalDetailValues(details)
 
-    function getProposalDetailValues(_details: IProposalsDetails): IItems[] {
+    function getProposalDetailValues(_details: IProposalsDetails): IItem[] {
         return Object.keys(_details).map((key) => {
             return {
                 key: localize(`views.governance.proposalsDetails.${key}`),

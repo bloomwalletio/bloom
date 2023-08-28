@@ -1,11 +1,11 @@
 <script lang="ts">
-    import { type IItems, Table } from '@bloomwalletio/ui'
+    import { type IItem, Table } from '@bloomwalletio/ui'
     import { getFormattedTimeStamp, localize } from '@core/i18n'
     import { ConsolidationActivity } from '@core/activity'
 
     export let activity: ConsolidationActivity
 
-    let items: IItems[] = []
+    let items: IItem[] = []
 
     $: setItems(activity)
 

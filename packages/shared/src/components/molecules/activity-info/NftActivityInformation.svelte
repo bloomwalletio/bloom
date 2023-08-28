@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { Table, type IItems } from '@bloomwalletio/ui'
+    import { Table, type IItem } from '@bloomwalletio/ui'
     import { selectedAccountIndex } from '@core/account/stores'
     import { NftActivity } from '@core/activity'
     import { localize } from '@core/i18n'
@@ -18,7 +18,7 @@
     $: issuerAddress = getBech32AddressFromAddressTypes(nft?.issuer)
     $: collectionId = getHexAddressFromAddressTypes(nft?.issuer)
 
-    let items: IItems[] = []
+    let items: IItem[] = []
     function setItems(_activity: NftActivity): void {
         items = []
         items.push({
