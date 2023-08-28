@@ -22,9 +22,7 @@
             const token = getTokenFromSelectedAccountTokens('4219', getActiveNetworkId())
             const allowance = buildAssetAllowance({ type: AssetType.BaseCoin, amount, token })
             const recipientAddress = $selectedAccount.depositAddress
-            const receipt = await unwrapStardustAsset(allowance, recipientAddress)
-            /* eslint-disable no-console */
-            console.log('receipt: ', receipt)
+            await unwrapStardustAsset(allowance, recipientAddress)
         }
     }
     onMount(() => {

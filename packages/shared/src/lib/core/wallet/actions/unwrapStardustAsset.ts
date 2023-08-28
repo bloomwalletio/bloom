@@ -1,5 +1,4 @@
 import Web3 from 'web3'
-import { TransactionReceipt } from 'web3-core'
 
 import { getSelectedAccountIndex } from '@core/account/stores'
 import { handleError } from '@core/error/handlers'
@@ -18,7 +17,7 @@ import { sendTransactionFromEvm } from '../actions/send'
 export async function unwrapStardustAsset(
     assetAllowance: ILayer2AssetAllowance,
     recipientAddress: string
-): Promise<TransactionReceipt | undefined> {
+): Promise<void> {
     try {
         const { targetAddress, adjustMinimumStorageDeposit, sendMetadata, sendOptions } =
             buildUnwrapAssetParameters(recipientAddress)
@@ -40,8 +39,7 @@ export async function unwrapStardustAsset(
             '0',
             data
         )
-        const tx = await sendTransactionFromEvm(transactionData, chain as IChain)
-        return tx
+        await sendTransactionFromEvm(transactionData, chain as IChain)
     } catch (err) {
         handleError(err)
     }

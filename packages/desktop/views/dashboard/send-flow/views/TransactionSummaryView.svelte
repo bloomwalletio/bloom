@@ -24,6 +24,7 @@
 
     $: void updateSendFlow($sendFlowParameters)
     $: isAssetFromLayer2 = !!chain
+    let isTransferring
     $: isTransferring = !!$selectedAccount.isTransferring
 
     let recipientAddress: string
@@ -53,7 +54,7 @@
     async function onConfirmClick(): Promise<void> {
         try {
             if (isAssetFromLayer2) {
-                await sendTransactionFromEvm(preparedTransaction, chain, closePopup)
+                await sendTransactionFromEvm(preparedTransaction, chain)
             } else {
                 await sendOutputFromStardust(preparedOutput, $selectedAccount, closePopup)
             }
