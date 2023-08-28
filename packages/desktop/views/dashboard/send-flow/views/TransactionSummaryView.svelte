@@ -3,7 +3,7 @@
     import { handleError } from '@core/error/handlers'
     import { localize } from '@core/i18n'
     import { EvmTransactionData } from '@core/layer-2'
-    import { IChain, getActiveNetworkId, getNetwork } from '@core/network'
+    import { IChain, getNetwork, isEvmChain } from '@core/network'
     import { truncateString } from '@core/utils'
     import { Output, SendFlowParameters, SubjectType } from '@core/wallet'
     import {
@@ -38,7 +38,7 @@
             recipient.type === SubjectType.Account ? recipient.account.name : truncateString(recipient?.address, 6, 6)
 
         const networkId = getNetworkIdFromSendFlowParameters(sendFlowParameters)
-        if (networkId !== getActiveNetworkId()) {
+        if (isEvmChain(networkId)) {
             chain = getNetwork()?.getChain(networkId)
             preparedTransaction = await createEvmTransactionFromSendFlowParameters(
                 sendFlowParameters,
@@ -53,7 +53,7 @@
     async function onConfirmClick(): Promise<void> {
         try {
             if (isAssetFromLayer2) {
-                await sendTransactionFromEvm(preparedTransaction, chain)
+                await sendTransactionFromEvm(preparedTransaction, chain, closePopup)
             } else {
                 await sendOutputFromStardust(preparedOutput, $selectedAccount, closePopup)
             }

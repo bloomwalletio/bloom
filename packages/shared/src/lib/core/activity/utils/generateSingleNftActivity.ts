@@ -34,7 +34,7 @@ export function generateSingleNftActivity(
     const metadata = getMetadataFromOutput(output)
     const tag = getTagFromOutput(output)
 
-    const sendingInfo = getSendingInformation(processedTransaction, output, account)
+    const sendingInfo = getSendingInformation(processedTransaction, output, account, networkId)
     const { subject, isInternal } = sendingInfo
 
     const rawBaseCoinAmount = getAmountFromOutput(output)

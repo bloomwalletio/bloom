@@ -11,7 +11,7 @@ import {
 import { MILLISECONDS_PER_SECOND, sleep } from '@core/utils'
 import { TxData } from '@ethereumjs/tx'
 import type { Bip44 } from '@iota/wallet/types'
-import { PopupId, closePopup, openPopup } from '../../../../../../desktop/lib/auxiliary/popup'
+import { PopupId, openPopup } from '../../../../../../desktop/lib/auxiliary/popup'
 import { DEFAULT_LEDGER_API_REQUEST_OPTIONS } from '../constants'
 import { LedgerApiMethod, LedgerAppName } from '../enums'
 import { ILedgerApiBridge, ILedgerEthereumAppSettings } from '../interfaces'
@@ -108,7 +108,12 @@ export class Ledger {
                     'evm-signed-transaction'
                 )
 
-                closePopup(true)
+                openPopup(
+                    {
+                        id: PopupId.SendFlow,
+                    },
+                    true
+                )
 
                 const { r, v, s } = transactionSignature
                 if (r && v && s) {
