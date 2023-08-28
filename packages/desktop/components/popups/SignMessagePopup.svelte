@@ -37,8 +37,9 @@
     }
 
     async function sign(): Promise<string> {
+        // TODO: Replace this with the correct signing implementation
         await sleep(500)
-        return 'hoilahoil'
+        return '0x3123'
     }
 
     function onCancelClick(): void {

@@ -24,7 +24,6 @@ export function handlePersonalSign(
     }
 
     const account = findActiveAccountWithAddress(params[1], chain.getConfiguration().id)
-
     if (!account) {
         responseCallback({ id: requestId, error: { code: 5000, message: 'Could not find address' }, jsonrpc: '2.0' })
         return
@@ -34,7 +33,7 @@ export function handlePersonalSign(
     openPopup({
         id: PopupId.SignMessage,
         props: {
-            id: requestId,
+            requestId,
             message,
             dapp,
             account,
