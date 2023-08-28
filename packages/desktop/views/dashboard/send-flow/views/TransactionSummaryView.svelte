@@ -24,7 +24,6 @@
 
     $: void updateSendFlow($sendFlowParameters)
     $: isAssetFromLayer2 = !!chain
-    let isTransferring
     $: isTransferring = !!$selectedAccount.isTransferring
 
     let recipientAddress: string

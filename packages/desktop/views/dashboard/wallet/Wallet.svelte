@@ -1,34 +1,9 @@
 <script lang="ts">
     import { Pane, ReceiveAddressButton, TokenList } from '@ui'
     import { AccountActivity, AccountSummary, SendButton } from '@components'
-    import { getTokenFromSelectedAccountTokens, selectedAccountTokens } from '@core/token/stores'
+    import { selectedAccountTokens } from '@core/token/stores'
     import { selectedAccount } from '@core/account/stores'
     import features from '@features/features'
-
-    // TODO: Remove once done testing
-    import { onMount } from 'svelte'
-    import { AssetType, buildAssetAllowance } from 'shared/src/lib/core/layer-2'
-    import { getActiveNetworkId } from 'shared/src/lib/core/network/actions'
-    import { unwrapStardustAsset } from 'shared/src/lib/core/wallet'
-
-    async function onMountHelper(): Promise<void> {
-        if (features.wallet.assets.unwrapToken.enabled) {
-            /**
-             * NOTE: The amount has to be greater than or equal to the minimum required
-             * storage deposit.
-             */
-            const storageDeposit = 47800
-            const amount = (1_000_000 + storageDeposit).toString()
-            const token = getTokenFromSelectedAccountTokens('4219', getActiveNetworkId())
-            const allowance = buildAssetAllowance({ type: AssetType.BaseCoin, amount, token })
-            const recipientAddress = $selectedAccount.depositAddress
-            await unwrapStardustAsset(allowance, recipientAddress)
-        }
-    }
-    onMount(() => {
-        void onMountHelper()
-    })
-    // TODO: Remove once done testing
 </script>
 
 {#if $selectedAccount}

@@ -6,6 +6,14 @@ import {
 } from '../interfaces'
 import { buildUnwrapAssetTargetAddress } from './buildUnwrapAssetTargetAddress'
 
+interface IUnwrapAssetParameters {
+    targetAddress: ILayer2TargetAddressParameter
+    assetAllowance: ILayer2AssetAllowance
+    adjustMinimumStorageDeposit: boolean
+    sendMetadata: ILayer2SendMetadataParameter
+    sendOptions: ILayer2SendOptionsParameter
+}
+
 export function buildUnwrapAssetParameters(recipientAddress: string): Partial<IUnwrapAssetParameters> {
     const targetAddress = buildUnwrapAssetTargetAddress(recipientAddress)
 
@@ -39,12 +47,4 @@ export function buildUnwrapAssetParameters(recipientAddress: string): Partial<IU
         sendMetadata,
         sendOptions,
     }
-}
-
-export interface IUnwrapAssetParameters {
-    targetAddress: ILayer2TargetAddressParameter
-    assetAllowance: ILayer2AssetAllowance
-    adjustMinimumStorageDeposit: boolean
-    sendMetadata: ILayer2SendMetadataParameter
-    sendOptions: ILayer2SendOptionsParameter
 }
