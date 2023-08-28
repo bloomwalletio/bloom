@@ -50,9 +50,6 @@ export function handleDeepLinkSendConfirmationOperation(searchParams: URLSearchP
  */
 function parseSendConfirmationOperation(searchParams: URLSearchParams): SendFlowParameters {
     const networkId = getActiveNetworkId()
-    if (!networkId) {
-        throw new Error('No active network')
-    }
 
     const tokenId = searchParams.get(SendOperationParameter.TokenId)
     if (tokenId) {
