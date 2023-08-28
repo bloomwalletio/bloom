@@ -1,7 +1,7 @@
 import { PersistedEvmTransaction, TransactionActivity } from '../types'
 import { ActivityAction, ActivityDirection, ActivityType, InclusionState } from '../enums'
 import { getCoinType } from '@core/profile/actions'
-import { SubjectType } from '@core/wallet'
+import { getSubjectFromAddress } from '@core/wallet'
 import { WEI_PER_GLOW } from '@core/layer-2'
 import Web3 from 'web3'
 import { NetworkId } from '@core/network/types'
@@ -13,6 +13,7 @@ export async function generateActivityFromEvmTransaction(
 ): Promise<TransactionActivity> {
     const direction = ActivityDirection.Outgoing // Currently only sent transactions are supported
 
+    const subject = getSubjectFromAddress(transaction.to, networkId)
     const timestamp = (await provider.eth.getBlock(transaction.blockNumber)).timestamp
     return {
         type: ActivityType.Basic,
@@ -26,7 +27,7 @@ export async function generateActivityFromEvmTransaction(
         isInternal: false,
         storageDeposit: 0,
         gasUsed: transaction.gasUsed,
-        subject: { type: SubjectType.Address, address: transaction.to },
+        subject,
         rawBaseCoinAmount: Number(transaction.value) / Number(WEI_PER_GLOW),
         rawAmount: Number(transaction.value) / Number(WEI_PER_GLOW),
         tokenId: getCoinType(),
