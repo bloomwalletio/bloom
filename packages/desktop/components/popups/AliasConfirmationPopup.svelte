@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { selectedAccount, updateSelectedAccount } from '@core/account/stores'
+    import { getSelectedAccount, selectedAccount, updateSelectedAccount } from '@core/account/stores'
     import { processAndAddToActivities } from '@core/activity/utils'
     import { handleError } from '@core/error/handlers/handleError'
     import { localize } from '@core/i18n'
@@ -13,8 +13,8 @@
     import { closePopup } from '@desktop/auxiliary/popup'
     import { Button, FontWeight, KeyValueBox, Text, TextType } from '@ui'
     import { onMount } from 'svelte'
-    import { network } from '@core/network/stores'
     import { formatTokenAmountPrecise } from '@core/token'
+    import { getActiveNetworkId } from '@core/network'
 
     export let _onMount: (..._: any[]) => Promise<void> = async () => {}
 
@@ -54,11 +54,8 @@
 
     async function createAlias(): Promise<void> {
         try {
-            const account = $selectedAccount
-            const networkId = $network?.getMetadata()?.id
-            if (!account || !networkId) {
-                throw new Error(localize('error.global.accountOrNetworkUndefined'))
-            }
+            const account = getSelectedAccount()
+            const networkId = getActiveNetworkId()
 
             updateSelectedAccount({ isTransferring: true })
             const transaction = await account.createAliasOutput()

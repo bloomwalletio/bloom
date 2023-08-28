@@ -41,7 +41,7 @@ export function generateSingleAliasActivity(
     const metadata = getMetadataFromOutput(output)
     const tag = getTagFromOutput(output)
     const asyncData = getAsyncDataFromOutput(output, outputId, claimingData, account)
-    const sendingInfo = getSendingInformation(processedTransaction, output, account)
+    const sendingInfo = getSendingInformation(processedTransaction, output, account, networkId)
 
     return {
         type: ActivityType.Alias,
