@@ -158,10 +158,7 @@
                 break
             case TokenStandard.Erc20:
                 if (sourceChain) {
-                    networkRecipientOptions = [
-                        getRecipientOptionFromChain(sourceChain, $selectedAccountIndex),
-                        ...(features.wallet.assets.unwrapToken && [getLayer1RecipientOption($network)]),
-                    ]
+                    networkRecipientOptions = [getRecipientOptionFromChain(sourceChain, $selectedAccountIndex)]
                 }
                 break
         }
