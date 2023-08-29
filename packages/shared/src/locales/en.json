@@ -1214,7 +1214,8 @@
                 "standard": "Standard",
                 "name": "Name",
                 "tokenId": "Token ID",
-                "url": "URL"
+                "url": "URL",
+                "description": "Description"
             },
             "buttons": {
                 "verifyToken": "I verify this token"

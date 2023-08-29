@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { Table } from '@bloomwalletio/ui'
     import { selectedAccount } from '@core/account/stores'
     import { handleError } from '@core/error/handlers'
     import { localize } from '@core/i18n'
@@ -6,7 +7,7 @@
     import { IToken, formatTokenAmountBestMatch } from '@core/token'
     import { burnToken } from '@core/wallet'
     import { PopupId, closePopup, openPopup } from '@desktop/auxiliary/popup'
-    import { Button, ButtonVariant, FontWeight, KeyValueBox, Text, TextHint, TextType } from '@ui'
+    import { Button, ButtonVariant, FontWeight, Text, TextHint, TextType } from '@ui'
     import { onMount } from 'svelte'
 
     export let token: IToken
@@ -54,8 +55,19 @@
         })}
     </Text>
     <div class="space-y-4">
-        <KeyValueBox keyText={localize('popups.nativeToken.property.tokenId')} valueText={token.id} isCopyable />
-        <KeyValueBox keyText={localize('general.amount')} valueText={formattedAmount} />
+        <Table
+            items={[
+                {
+                    key: localize('popups.nativeToken.property.tokenId'),
+                    value: token.id,
+                    copyable: true,
+                },
+                {
+                    key: localize('general.amount'),
+                    value: formattedAmount,
+                },
+            ]}
+        />
         <TextHint warning text={localize('actions.confirmTokenBurn.hint')} />
     </div>
     <popup-buttons class="flex flex-row flex-nowrap w-full space-x-4">

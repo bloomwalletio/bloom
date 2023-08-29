@@ -1,25 +1,36 @@
 <script lang="ts">
-    import { KeyValueBox } from '@ui'
-    import { localize } from '@core/i18n'
+    import { Table } from '@bloomwalletio/ui'
     import { FoundryActivity } from '@core/activity'
-    import { IKeyValueBoxList } from '@core/utils'
+    import { localize } from '@core/i18n'
 
     export let activity: FoundryActivity
-
-    let detailsList: IKeyValueBoxList
-    $: detailsList = {
-        aliasAddress: { data: activity.aliasAddress, isCopyable: true },
-        tokenId: { data: activity.tokenId, isCopyable: true },
-        maximumSupply: { data: String(parseInt(activity.maximumSupply, 16)) },
-        mintedTokens: { data: String(parseInt(activity.mintedTokens, 16)) },
-        meltedTokens: { data: String(parseInt(activity.meltedTokens, 16)) },
-    }
 </script>
 
-{#each Object.entries(detailsList) as [key, value]}
-    <KeyValueBox
-        keyText={localize(`popups.nativeToken.property.${key}`)}
-        valueText={value.data}
-        isCopyable={value.isCopyable}
-    />
-{/each}
+<Table
+    items={[
+        {
+            key: localize('popups.nativeToken.property.aliasAddress'),
+            value: activity.aliasAddress,
+            truncate: { firstCharCount: 10, endCharCount: 10 },
+            copyable: true,
+        },
+        {
+            key: localize('popups.nativeToken.property.tokenId'),
+            value: activity.tokenId,
+            truncate: { firstCharCount: 10, endCharCount: 10 },
+            copyable: true,
+        },
+        {
+            key: localize('popups.nativeToken.property.maximumSupply'),
+            value: String(parseInt(activity.maximumSupply, 16)),
+        },
+        {
+            key: localize('popups.nativeToken.property.mintedTokens'),
+            value: String(parseInt(activity.mintedTokens, 16)),
+        },
+        {
+            key: localize('popups.nativeToken.property.meltedTokens'),
+            value: String(parseInt(activity.meltedTokens, 16)),
+        },
+    ]}
+/>
