@@ -1,5 +1,4 @@
-import { getLayer2MetadataForTransfer } from '@core/layer-2'
-import { getGasFeesForLayer1ToLayer2Transaction } from '@core/layer-2/actions'
+import { getGasFeesForLayer1ToLayer2Transaction, getLayer2MetadataForTransfer } from '@core/layer-2/actions'
 import { ChainConfiguration, ChainType, getActiveNetworkId, getChainConfiguration, isEvmChain } from '@core/network'
 import { getCoinType } from '@core/profile/actions'
 import { Converter, convertDateToUnixTimestamp } from '@core/utils'

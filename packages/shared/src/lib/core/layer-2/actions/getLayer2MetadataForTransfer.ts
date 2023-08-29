@@ -1,6 +1,6 @@
 import type { SendFlowParameters, TokenSendFlowParameters } from '@core/wallet/types'
 import BigInteger from 'big-integer'
-import { estimateGasForLayer1ToLayer2Transaction } from '../actions/estimateGasForLayer1ToLayer2Transaction'
+import { estimateGasForLayer1ToLayer2Transaction } from './estimateGasForLayer1ToLayer2Transaction'
 import { SpecialStream } from '../classes'
 import { ACCOUNTS_CONTRACT, EXTERNALLY_OWNED_ACCOUNT, GAS_LIMIT_MULTIPLIER, TRANSFER_ALLOWANCE } from '../constants'
 import { encodeAddress, encodeAssetAllowance, encodeSmartContractParameters } from '../helpers'
