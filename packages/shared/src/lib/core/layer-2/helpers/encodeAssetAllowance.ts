@@ -1,11 +1,11 @@
-import { Converter } from '@iota/util.js'
-import BigInteger from 'big-integer'
-import { SendFlowType, SendFlowParameters, TokenTransferData } from '@core/wallet'
-import { SpecialStream } from '../classes'
-import { Allowance } from '../enums'
-import { specialNativeTokenAmountEncoding } from '../utils'
 import { INft } from '@core/nfts/interfaces'
 import { IPersistedToken } from '@core/token/interfaces'
+import { SendFlowParameters, SendFlowType, TokenTransferData } from '@core/wallet'
+import { Converter } from '@iota/util.js'
+import BigInteger from 'big-integer'
+import { SpecialStream } from '../classes'
+import { Allowance } from '../enums'
+import { specialNativeTokenAmountEncoding } from './'
 
 export function encodeAssetAllowance(sendFlowParameters: SendFlowParameters): Uint8Array {
     const allowance = new SpecialStream()

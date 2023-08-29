@@ -1,33 +1,38 @@
 <script lang="ts">
+    import { type IItem, Table } from '@bloomwalletio/ui'
     import { getFormattedTimeStamp, localize } from '@core/i18n'
     import { getBaseToken } from '@core/profile/actions'
     import { formatTokenAmountBestMatch } from '@core/token'
-    import { IKeyValueBoxList } from '@core/utils'
     import { GovernanceAction, GovernanceActivity } from '@core/activity'
-    import { KeyValueBox } from '@ui'
 
     export let activity: GovernanceActivity
 
     $: formattedTransactionTime = getFormattedTimeStamp(activity.time)
 
-    let transactionDetailsList: IKeyValueBoxList
-    $: transactionDetailsList = {
-        ...(activity.time && {
-            transactionTime: { data: formattedTransactionTime },
-        }),
-        ...(activity.votingPower !== undefined && {
-            votingPower: {
-                data: formatTokenAmountBestMatch(activity.votingPower, getBaseToken(), 2),
-                alternateKey:
-                    activity.governanceAction === GovernanceAction.DecreaseVotingPower ||
-                    activity.governanceAction === GovernanceAction.IncreaseVotingPower
-                        ? 'newVotingPower'
-                        : 'votingPower',
-            },
-        }),
+    let items: IItem[] = []
+
+    $: setItems(activity)
+
+    function setItems(activity: GovernanceActivity): void {
+        items = []
+
+        if (activity.time) {
+            items.push({
+                key: localize('general.transactionTime'),
+                value: formattedTransactionTime,
+            })
+        }
+        if (activity.votingPower !== undefined) {
+            const isNewVotingPower =
+                activity.governanceAction === GovernanceAction.DecreaseVotingPower ||
+                activity.governanceAction === GovernanceAction.IncreaseVotingPower
+            items.push({
+                key: isNewVotingPower ? localize('general.newVotingPower') : localize('general.votingPower'),
+                value: formatTokenAmountBestMatch(activity.votingPower, getBaseToken(), 2),
+                tooltip: localize('tooltips.transactionDetails.votingPower'),
+            })
+        }
     }
 </script>
 
-{#each Object.entries(transactionDetailsList) as [key, value]}
-    <KeyValueBox keyText={localize(`general.${value.alternateKey ?? key}`)} valueText={value.data} />
-{/each}
+<Table {items} />

@@ -1,11 +1,6 @@
+import { Contract, ContractType, getAbiForContractType } from '@core/layer-2'
 import { get } from 'svelte/store'
-
 import Web3 from 'web3'
-
-import { ContractType } from '@core/layer-2/enums'
-import { getAbiForContractType } from '@core/layer-2/utils'
-import { Contract } from '@core/layer-2/types'
-
 import { NetworkHealth } from '../enums'
 import { IBlock, IChain, IChainStatus, IIscpChainConfiguration, IIscpChainMetadata } from '../interfaces'
 import { chainStatuses } from '../stores'

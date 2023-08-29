@@ -342,15 +342,16 @@
   resolved "https://registry.yarnpkg.com/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
-"@bloomwalletio/ui@0.7.0":
-  version "0.7.0"
-  resolved "https://npm.pkg.github.com/download/@bloomwalletio/ui/0.7.0/644b7f7d5608b7cef279725e75a731a505dd3618#644b7f7d5608b7cef279725e75a731a505dd3618"
-  integrity sha512-665sGBFhZ6eCkb73wtjJlWh2xubAyn+ALqOrt5c8hLZ6BvHeq9H87IV5/j60d3P6wcl3pwFpO1ouNE3j/JNuQA==
+"@bloomwalletio/ui@0.7.7":
+  version "0.7.7"
+  resolved "https://npm.pkg.github.com/download/@bloomwalletio/ui/0.7.7/89751503c404fbc17e503e2bd0800fa405ea42bc#89751503c404fbc17e503e2bd0800fa405ea42bc"
+  integrity sha512-n29Nu/m/XJjM8DG0+5xCaIm7N9Eor4/LOpcA5JXd+qJODQmluHf2mu1TLgPqnpSbcpD0WljQUj02tGGBDXN/iQ==
   dependencies:
     "@floating-ui/dom" "1.4.3"
     "@popperjs/core" "2.11.8"
     flowbite "1.7.0"
     flowbite-svelte "0.39.2"
+    svelte-json-tree "2.1.0"
     tailwind-merge "1.13.2"
 
 "@chainsafe/as-sha256@^0.4.1":
@@ -1298,10 +1299,10 @@
   dependencies:
     big-integer "^1.6.51"
 
-"@iota/wallet@2.0.3-rc.45":
-  version "2.0.3-rc.45"
-  resolved "https://registry.yarnpkg.com/@iota/wallet/-/wallet-2.0.3-rc.45.tgz#987dafde51fc009a8e79b5998bdc8813a1cffb9e"
-  integrity sha512-kakwzS8oCv1JefQTOK0YcRjJIEOfoTg2Qmdmd4AOdmA2buSs+UiF4c6PX3rM1oRxDT02HC0U32HMzkMfIPMJRQ==
+"@iota/wallet@2.0.3-rc.46":
+  version "2.0.3-rc.46"
+  resolved "https://registry.yarnpkg.com/@iota/wallet/-/wallet-2.0.3-rc.46.tgz#7e683cd26d42a8cf14a5562f785231317fbe7e78"
+  integrity sha512-p7ve//m3eNQ5iHr3Wih0kHVY9/FoSZw1DfUkeIFJOAyjo2HnyJyQdheYG6Eioi3+QGHh6cgkzeIiEaAbiMQFyQ==
   dependencies:
     "@iota/types" "^1.0.0-beta.15"
     cargo-cp-artifact "^0.1.6"
@@ -9956,6 +9957,11 @@ svelte-i18n@3.7.0:
     intl-messageformat "^9.13.0"
     sade "^1.8.1"
     tiny-glob "^0.2.9"
+
+svelte-json-tree@2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/svelte-json-tree/-/svelte-json-tree-2.1.0.tgz#616cadae86326881a80bcdb04b451ed57bef7898"
+  integrity sha512-IAU//hE5bIA0SoM9AuP7xOoD9PUcMh4fio0oI52r0XJ7iNDytW7AnBdkIn1QSYLUyWzvQX3tp59JfLYfhd7lTw==
 
 svelte-loader@3.1.9:
   version "3.1.9"
