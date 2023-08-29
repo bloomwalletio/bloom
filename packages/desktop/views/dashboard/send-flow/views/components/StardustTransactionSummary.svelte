@@ -39,8 +39,10 @@
 
     $: expirationTimePicker?.setNull(giftStorageDeposit)
     $: isTransferring = !!$selectedAccount.isTransferring
-    $: isToLayer2 = destinationNetworkId && isEvmChain(destinationNetworkId)
     $: updateSendFlowOnChange(expirationDate, timelockDate, giftStorageDeposit, tag, metadata)
+
+    const isToLayer2 = destinationNetworkId && isEvmChain(destinationNetworkId)
+    disableGiftingStorageDeposit(isToLayer2)
 
     function updateSendFlowOnChange(
         expirationDate: Date,
@@ -77,6 +79,13 @@
         }
     }
     $: void setGasVariables(sendFlowParameters)
+
+    function disableGiftingStorageDeposit(isToLayer2: boolean) {
+        if (isToLayer2) {
+            disableToggleGift = true
+            giftStorageDeposit = true
+        }
+    }
 
     function setBaseCoinAndStorageDeposit(output: Output, maxGasFee: BigIntLike | undefined): void {
         storageDeposit = getStorageDepositFromOutput(output)
