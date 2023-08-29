@@ -1,7 +1,7 @@
 <script lang="ts">
     import { Icon as IconEnum } from '@auxiliary/icon'
     import { localize } from '@core/i18n'
-    import { LedgerAppName, ledgerNanoStatus } from '@core/ledger'
+    import { LedgerAppName, ledgerNanoState } from '@core/ledger'
     import { closePopup } from '@desktop/auxiliary/popup'
     import { Icon, Text, TextType } from '@ui'
     import { UiEventFunction } from 'shared/src/lib/core/utils'
@@ -11,7 +11,7 @@
 
     const STEPS = [1, 2, 3, 4]
 
-    $: if ($ledgerNanoStatus?.[appName]?.blindSigningEnabled) {
+    $: if ($ledgerNanoState?.[appName]?.blindSigningEnabled) {
         closePopup(true)
         onEnabled && onEnabled()
     }

@@ -1,11 +1,6 @@
 <script lang="ts">
     import { localize } from '@core/i18n'
-    import {
-        LedgerConnectionState,
-        LedgerAppName,
-        determineLedgerConnectionState,
-        ledgerNanoStatus,
-    } from '@core/ledger'
+    import { LedgerConnectionState, LedgerAppName, determineLedgerConnectionState, ledgerNanoState } from '@core/ledger'
     import { isFunction } from '@core/utils'
     import { Button, LedgerAnimation, Text, TextHint, FontWeight, TextType } from '@ui'
     import { closePopup } from '@desktop/auxiliary/popup'
@@ -14,7 +9,7 @@
     export let onCancel: () => void
     export let onContinue: () => void
 
-    $: ledgerConnectionState = determineLedgerConnectionState($ledgerNanoStatus, ledgerAppName)
+    $: ledgerConnectionState = determineLedgerConnectionState($ledgerNanoState, ledgerAppName)
 
     $: isNotConnected = ledgerConnectionState === LedgerConnectionState.NotConnected
     $: isLocked = ledgerConnectionState === LedgerConnectionState.Locked

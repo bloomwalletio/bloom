@@ -1,5 +1,5 @@
 export * from './ledger-api-bridge.interface'
 export * from './ledger-api-request-options.interface'
 export * from './get-ethereum-app-settings-response.interface'
-export * from './ledger-status.interface'
+export * from './ledger-nano-state.interface'
 export * from './ledger-nano-status-polling-configuration.interface'

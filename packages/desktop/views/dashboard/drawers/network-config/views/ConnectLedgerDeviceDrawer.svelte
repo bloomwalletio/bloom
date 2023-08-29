@@ -2,12 +2,7 @@
     import { Button } from '@bloomwalletio/ui'
     import { DrawerTemplate } from '@components'
     import { localize } from '@core/i18n'
-    import {
-        LedgerAppName,
-        LedgerConnectionState,
-        determineLedgerConnectionState,
-        ledgerNanoStatus,
-    } from '@core/ledger'
+    import { LedgerAppName, LedgerConnectionState, determineLedgerConnectionState, ledgerNanoState } from '@core/ledger'
     import { Router } from '@core/router'
     import { Animation, FontWeight, Icon, Pane, Text, TextType } from '@ui'
     import { NetworkConfigRoute, networkConfigRouter } from '../'
@@ -16,7 +11,7 @@
 
     const LOCALE_BASE_PATH = 'views.dashboard.drawers.networkConfig.connectLedgerDevice'
 
-    $: ledgerConnectionState = determineLedgerConnectionState($ledgerNanoStatus, LedgerAppName.Ethereum)
+    $: ledgerConnectionState = determineLedgerConnectionState($ledgerNanoState, LedgerAppName.Ethereum)
     $: isConnectedAndUnlocked =
         ledgerConnectionState !== LedgerConnectionState.NotConnected &&
         ledgerConnectionState !== LedgerConnectionState.Locked

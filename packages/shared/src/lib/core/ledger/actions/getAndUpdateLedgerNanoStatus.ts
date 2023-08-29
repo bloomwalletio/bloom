@@ -1,7 +1,7 @@
 import { Ledger } from '@core/ledger/classes'
 import { profileManager as _profileManager } from '@core/profile-manager'
 import { getLedgerNanoStatus } from '@lib/core/profile-manager/api'
-import { resetLedgerNanoStatus, setLedgerNanoStatus } from '../stores'
+import { resetLedgerNanoState, setLedgerNanoState } from '../stores'
 
 export async function getAndUpdateLedgerNanoStatus(
     profileManager = _profileManager,
@@ -10,9 +10,9 @@ export async function getAndUpdateLedgerNanoStatus(
     try {
         const ledgerNanoStatusResponse = await getLedgerNanoStatus(profileManager)
         const ethereumAppSettings = await Ledger.getEthereumAppSettings()
-        setLedgerNanoStatus(ledgerNanoStatusResponse, ethereumAppSettings)
+        setLedgerNanoState(ledgerNanoStatusResponse, ethereumAppSettings)
     } catch (err) {
-        resetLedgerNanoStatus()
+        resetLedgerNanoState()
         if (forwardErrors) {
             return Promise.reject(err)
         } else {
