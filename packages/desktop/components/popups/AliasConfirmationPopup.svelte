@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { Table } from '@bloomwalletio/ui'
     import { getSelectedAccount, selectedAccount, updateSelectedAccount } from '@core/account/stores'
     import { processAndAddToActivities } from '@core/activity/utils'
     import { handleError } from '@core/error/handlers/handleError'
@@ -11,7 +12,7 @@
         convertBech32ToHexAddress,
     } from '@core/wallet'
     import { closePopup } from '@desktop/auxiliary/popup'
-    import { Button, FontWeight, KeyValueBox, Text, TextType } from '@ui'
+    import { Button, FontWeight, Text, TextType } from '@ui'
     import { onMount } from 'svelte'
     import { formatTokenAmountPrecise } from '@core/token'
     import { getActiveNetworkId } from '@core/network'
@@ -89,20 +90,26 @@
     <Text type={TextType.h3} fontWeight={FontWeight.semibold} classes="text-left">{localize('popups.alias.title')}</Text
     >
     <div class="w-full flex-col space-y-2">
-        <KeyValueBox
-            keyText={localize('general.storageDeposit')}
-            valueText={storageDeposit}
-            tooltipText={localize('tooltips.transactionDetails.incoming.storageDeposit')}
-        />
-        <KeyValueBox
-            keyText={localize('general.governorAddress')}
-            valueText={$selectedAccount.depositAddress}
-            isCopyable
-        />
-        <KeyValueBox
-            keyText={localize('general.stateControllerAddress')}
-            valueText={$selectedAccount.depositAddress}
-            isCopyable
+        <Table
+            items={[
+                {
+                    key: localize('general.storageDeposit'),
+                    value: storageDeposit,
+                    tooltip: localize('tooltips.transactionDetails.incoming.storageDeposit'),
+                },
+                {
+                    key: localize('general.governorAddress'),
+                    value: $selectedAccount.depositAddress,
+                    truncate: { firstCharCount: 10, endCharCount: 10 },
+                    copyable: true,
+                },
+                {
+                    key: localize('popups.walletFinder.totalWalletBalance'),
+                    value: $selectedAccount.depositAddress,
+                    truncate: { firstCharCount: 10, endCharCount: 10 },
+                    copyable: true,
+                },
+            ]}
         />
     </div>
     <popup-buttons class="flex flex-row flex-nowrap w-full space-x-4">

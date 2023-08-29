@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { type IItem, Table } from '@bloomwalletio/ui'
     import { selectedAccount } from '@core/account/stores'
     import { handleError } from '@core/error/handlers/handleError'
     import { localize } from '@core/i18n'
@@ -7,7 +8,7 @@
     import { formatTokenAmountPrecise } from '@core/token'
     import { buildNftOutputData, mintNft, mintNftDetails } from '@core/wallet'
     import { PopupId, closePopup, openPopup } from '@desktop/auxiliary/popup'
-    import { Button, FontWeight, KeyValueBox, NftImageOrIconBox, Tabs, Text } from '@ui'
+    import { Button, FontWeight, NftImageOrIconBox, Tabs, Text } from '@ui'
     import { onMount } from 'svelte'
 
     export let _onMount: (..._: any[]) => Promise<void> = async () => {}
@@ -48,6 +49,38 @@
             ...(issuerName && { issuerName }),
             ...(collectionName && { collectionName }),
         }
+    }
+
+    let transactionTabItems: IItem[] = []
+
+    $: activeTab === Tab.Transaction && setTransactionTabItems(quantity)
+
+    function setTransactionTabItems(quantity: number): void {
+        transactionTabItems = []
+
+        if (quantity > 1) {
+            transactionTabItems.push({
+                key: localize('general.quantity'),
+                value: quantity,
+            })
+            transactionTabItems.push({
+                key: localize('general.storageDepositPerNft'),
+                value: formatTokenAmountPrecise(storageDeposit, getBaseToken()),
+            })
+            transactionTabItems.push({
+                key: localize('general.totalStorageDeposit'),
+                value: formatTokenAmountPrecise(totalStorageDeposit, getBaseToken()),
+            })
+        } else {
+            transactionTabItems.push({
+                key: localize('general.storageDeposit'),
+                value: formatTokenAmountPrecise(storageDeposit, getBaseToken()),
+            })
+        }
+        transactionTabItems.push({
+            key: localize('general.immutableIssuer'),
+            value: $selectedAccount.depositAddress,
+        })
     }
 
     async function prepareNftOutput(): Promise<void> {
@@ -102,35 +135,25 @@
             <activity-details class="w-full h-full space-y-2 flex flex-auto flex-col shrink-0">
                 <Tabs bind:activeTab {tabs} />
                 {#if activeTab === Tab.Transaction}
-                    {#if quantity > 1}
-                        <KeyValueBox keyText={localize('general.quantity')} valueText={quantity} />
-                        <KeyValueBox
-                            keyText={localize('general.storageDepositPerNft')}
-                            valueText={formatTokenAmountPrecise(storageDeposit, getBaseToken())}
-                        />
-                        <KeyValueBox
-                            keyText={localize('general.totalStorageDeposit')}
-                            valueText={formatTokenAmountPrecise(totalStorageDeposit, getBaseToken())}
-                        />
-                    {:else}
-                        <KeyValueBox
-                            keyText={localize('general.storageDeposit')}
-                            valueText={formatTokenAmountPrecise(storageDeposit, getBaseToken())}
-                        />
-                    {/if}
-                    <KeyValueBox
-                        keyText={localize('general.immutableIssuer')}
-                        valueText={$selectedAccount.depositAddress}
-                    />
+                    <Table items={transactionTabItems} />
                 {:else if activeTab === Tab.Nft}
-                    {#each Object.entries(nftTabDetails) as [key, value]}
-                        <KeyValueBox keyText={localize(`general.${key}`)} valueText={value} />
-                    {/each}
+                    <Table
+                        items={Object.entries(nftTabDetails).map(([key, value]) => ({
+                            key: localize(`general.${key}`),
+                            value,
+                        }))}
+                    />
                 {:else if activeTab === Tab.Metadata}
-                    <KeyValueBox
-                        keyText={localize('general.metadata')}
-                        valueText={JSON.stringify(irc27Metadata, null, '\t')}
-                        classes="whitespace-pre-wrap"
+                    <!-- Todo we need to create a code display component -->
+                    <Table
+                        orientation="vertical"
+                        items={[
+                            {
+                                key: localize('general.metadata'),
+                                value: JSON.stringify(irc27Metadata, null, '\t'),
+                                copyable: true,
+                            },
+                        ]}
                     />
                 {/if}
             </activity-details>
