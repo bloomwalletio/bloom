@@ -71,7 +71,9 @@
     let maxGasFee: BigIntLike | undefined = undefined
     async function setGasVariables(sendFlowParameters: SendFlowParameters): Promise<void> {
         if (isToLayer2) {
-            ({ estimatedGasFee, maxGasFee } = await getGasFeesForLayer1ToLayer2Transaction(sendFlowParameters))
+            const gasFees = await getGasFeesForLayer1ToLayer2Transaction(sendFlowParameters)
+            estimatedGasFee = gasFees.estimatedGasFee
+            maxGasFee = gasFees.maxGasFee
         }
     }
     $: void setGasVariables(sendFlowParameters)
