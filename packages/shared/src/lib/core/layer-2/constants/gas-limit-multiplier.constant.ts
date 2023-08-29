@@ -1,1 +1,1 @@
-export const GAS_LIMIT_MULTIPLIER = 2
+export const GAS_LIMIT_MULTIPLIER: number = 1.1
