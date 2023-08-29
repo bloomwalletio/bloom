@@ -5,17 +5,10 @@ import { updateNftInAllAccountNfts } from '@core/nfts/actions'
 import { DEFAULT_TRANSACTION_OPTIONS, OUTPUT_TYPE_NFT } from '@core/wallet/constants'
 import { Output } from '@core/wallet/types'
 import { getActiveNetworkId } from '@core/network'
-import { localize } from '@core/i18n'
 
-export async function signAndSendStardustTransaction(
-    output: Output,
-    account: IAccountState | undefined
-): Promise<void> {
+export async function signAndSendStardustTransaction(output: Output, account: IAccountState): Promise<void> {
     try {
         const networkId = getActiveNetworkId()
-        if (!account || !networkId) {
-            throw new Error(localize('error.global.accountOrNetworkUndefined'))
-        }
 
         updateSelectedAccount({ isTransferring: true })
         const transaction = await account.sendOutputs([output], DEFAULT_TRANSACTION_OPTIONS)

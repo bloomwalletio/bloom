@@ -1,5 +1,4 @@
-import { get } from 'svelte/store'
-import { selectedAccount, updateSelectedAccount } from '@core/account/stores'
+import { getSelectedAccount, updateSelectedAccount } from '@core/account/stores'
 import { showNotification } from '@auxiliary/notification/actions'
 import { localize } from '@core/i18n'
 import { handleError } from '@core/error/handlers'
@@ -8,12 +7,9 @@ import { getActiveNetworkId } from '@core/network'
 
 export async function vote(eventId?: string, answers?: number[]): Promise<void> {
     try {
-        const account = get(selectedAccount)
+        const account = getSelectedAccount()
         const networkId = getActiveNetworkId()
 
-        if (!account || !networkId) {
-            throw new Error(localize('error.global.accountOrNetworkUndefined'))
-        }
         updateSelectedAccount({ hasVotingTransactionInProgress: true })
 
         const transaction = await account.vote(eventId, answers)

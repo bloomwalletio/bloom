@@ -15,6 +15,10 @@
     import { restoreProfileRouter } from '../restore-profile-router'
     import { destroyProfileManager } from '@core/profile-manager/actions'
 
+    const networkId = $onboardingProfile?.network?.id
+    const networkType = getOnboardingNetworkTypeFromNetworkId(networkId)
+    const displayedNetworkName = $onboardingProfile?.network?.name
+
     let isBusy = {
         [RestoreProfileType.Mnemonic]: false,
         [RestoreProfileType.Stronghold]: false,
@@ -22,10 +26,6 @@
     }
 
     $: isDisabled = Object.values(isBusy).some((busy) => busy)
-
-    $: networkId = $onboardingProfile?.network?.id
-    $: displayedNetworkName = $onboardingProfile?.network?.name
-    $: networkType = getOnboardingNetworkTypeFromNetworkId(networkId)
 
     async function onProfileTypeClick(restoreProfileType: RestoreProfileType): Promise<void> {
         isBusy = { ...isBusy, [restoreProfileType]: true }
