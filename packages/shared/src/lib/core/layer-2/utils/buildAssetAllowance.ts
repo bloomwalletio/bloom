@@ -2,10 +2,10 @@ import { AssetType } from '../enums'
 import { ILayer2AssetAllowance } from '../interfaces'
 import { TransferredAsset } from '../types'
 
-export function buildAssetAllowance(transferredAsset: TransferredAsset): ILayer2AssetAllowance {
+export function buildAssetAllowance(transferredAsset: TransferredAsset, gasFee?: number): ILayer2AssetAllowance {
     if (transferredAsset.type === AssetType.Nft) {
         return {
-            baseTokens: '0',
+            baseTokens: gasFee ?? '0',
             nativeTokens: [],
             nfts: [transferredAsset.nft.id],
         }
@@ -17,7 +17,7 @@ export function buildAssetAllowance(transferredAsset: TransferredAsset): ILayer2
         }
     } else {
         return {
-            baseTokens: '0',
+            baseTokens: gasFee ?? '0',
             nativeTokens: [
                 {
                     ID: [transferredAsset.token.id],
