@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { Table, type IItem } from '@bloomwalletio/ui'
+    import { Table } from '@bloomwalletio/ui'
     import { selectedAccountIndex } from '@core/account/stores'
     import { NftActivity } from '@core/activity'
     import { localize } from '@core/i18n'
@@ -15,36 +15,30 @@
     export let activity: NftActivity
 
     $: nft = getNftByIdFromAllAccountNfts($selectedAccountIndex, activity?.nftId)
-    $: issuerAddress = getBech32AddressFromAddressTypes(nft?.issuer)
-    $: collectionId = getHexAddressFromAddressTypes(nft?.issuer)
-
-    let items: IItem[] = []
-    function setItems(_activity: NftActivity): void {
-        items = []
-        items.push({
-            key: localize('general.nftId'),
-            value: _activity?.nftId,
-            truncate: { firstCharCount: 10, endCharCount: 10 },
-            copyable: true,
-        })
-        if (nft?.issuer?.type === ADDRESS_TYPE_ED25519) {
-            items.push({
-                key: localize('general.issuerAddress'),
-                value: issuerAddress,
-                truncate: { firstCharCount: 10, endCharCount: 10 },
-                copyable: true,
-            })
-        }
-        if (nft?.issuer?.type === ADDRESS_TYPE_NFT || nft?.issuer?.type === ADDRESS_TYPE_ALIAS) {
-            items.push({
-                key: localize('general.collectionId'),
-                value: collectionId,
-                truncate: { firstCharCount: 10, endCharCount: 10 },
-                copyable: true,
-            })
-        }
-    }
-    $: setItems(activity)
 </script>
 
-<Table {items} />
+<Table
+    items={[
+        {
+            key: localize('general.nftId'),
+            value: activity?.nftId,
+            truncate: { firstCharCount: 10, endCharCount: 10 },
+            copyable: true,
+        },
+        {
+            key: localize('general.issuerAddress'),
+            value:
+                nft?.issuer?.type === ADDRESS_TYPE_ED25519 ? getBech32AddressFromAddressTypes(nft?.issuer) : undefined,
+            truncate: { firstCharCount: 10, endCharCount: 10 },
+            copyable: true,
+        },
+        {
+            key: localize('general.collectionId'),
+            value: [ADDRESS_TYPE_NFT, ADDRESS_TYPE_ALIAS].includes(nft?.issuer?.type)
+                ? getHexAddressFromAddressTypes(nft?.issuer)
+                : undefined,
+            truncate: { firstCharCount: 10, endCharCount: 10 },
+            copyable: true,
+        },
+    ]}
+/>

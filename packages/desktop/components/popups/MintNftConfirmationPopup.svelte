@@ -52,9 +52,7 @@
     }
 
     let transactionTabItems: IItem[] = []
-
     $: activeTab === Tab.Transaction && setTransactionTabItems(quantity)
-
     function setTransactionTabItems(quantity: number): void {
         transactionTabItems = []
 
