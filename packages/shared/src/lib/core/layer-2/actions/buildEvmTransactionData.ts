@@ -1,6 +1,6 @@
 import { Converter } from '@core/utils'
 import Web3 from 'web3'
-import { getEvmTransactionValueFromAmount } from './getEvmTransactionValueFromAmount'
+import { getEvmTransactionValueFromAmount } from '../helpers/getEvmTransactionValueFromAmount'
 import { GAS_LIMIT_MULTIPLIER } from '../constants'
 import { EvmTransactionData } from '../types'
 
