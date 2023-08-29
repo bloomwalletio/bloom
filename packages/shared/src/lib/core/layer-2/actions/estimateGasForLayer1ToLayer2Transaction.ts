@@ -14,7 +14,9 @@ export async function estimateGasForLayer1ToLayer2Transaction(sendFlowParameters
     }
 
     const transferredAsset = getTransferredAsset(sendFlowParameters)
-    if (!transferredAsset) return 0
+    if (!transferredAsset) {
+        return 0
+    }
 
     try {
         const gas = await getGasEstimateForMagicContractCall(destinationNetworkId, recipient?.address, transferredAsset)
@@ -30,15 +32,23 @@ async function getGasEstimateForMagicContractCall(
     transferredAsset: TransferredAsset
 ): Promise<number> {
     const chain = getNetwork()?.getChain(networkId)
-    if (!chain) return Promise.reject('Invalid chain')
+    if (!chain) {
+        return Promise.reject('Invalid chain')
+    }
 
     const provider = chain?.getProvider()
-    if (!provider) return Promise.reject('Invalid provider')
+    if (!provider) {
+        return Promise.reject('Invalid provider')
+    }
 
-    if (!address) return Promise.reject('Invalid address')
+    if (!address) {
+        return Promise.reject('Invalid address')
+    }
 
     const data = getIscpTransferSmartContractData(address, transferredAsset, chain)
-    if (!data) return Promise.reject('Invalid data')
+    if (!data) {
+        return Promise.reject('Invalid data')
+    }
 
     const coinType = chain.getConfiguration().coinType
     const evmAddress = getSelectedAccount()?.evmAddresses?.[coinType]

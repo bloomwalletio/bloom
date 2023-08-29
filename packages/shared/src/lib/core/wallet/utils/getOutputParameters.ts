@@ -1,10 +1,5 @@
-import { getGasPriceInWei } from '@core/layer-2'
-import { GAS_LIMIT_MULTIPLIER } from '@core/layer-2/constants/gas-limit-multiplier.constant'
-import {
-    calculateGasFeeInGlow,
-    estimateGasForLayer1ToLayer2Transaction,
-    getLayer2MetadataForTransfer,
-} from '@core/layer-2/utils'
+import { getLayer2MetadataForTransfer } from '@core/layer-2'
+import { getGasFeesForLayer1ToLayer2Transaction } from '@core/layer-2/actions'
 import { ChainConfiguration, ChainType, getActiveNetworkId, getChainConfiguration, isEvmChain } from '@core/network'
 import { getCoinType } from '@core/profile/actions'
 import { Converter, convertDateToUnixTimestamp } from '@core/utils'
@@ -36,10 +31,7 @@ export async function getOutputParameters(
     const timelockUnixTime = timelockDate ? convertDateToUnixTimestamp(timelockDate) : undefined
 
     if (isToLayer2) {
-        const estimatedGas = await estimateGasForLayer1ToLayer2Transaction(sendFlowParameters)
-        const gasLimit = Math.floor(estimatedGas * GAS_LIMIT_MULTIPLIER)
-        const gasPrice = await getGasPriceInWei(destinationNetworkId)
-        const maxGasFee = calculateGasFeeInGlow(gasLimit, gasPrice)
+        const { maxGasFee } = await getGasFeesForLayer1ToLayer2Transaction(sendFlowParameters)
         amount = (parseInt(amount, 10) + Number(maxGasFee ?? 0)).toString()
     }
 

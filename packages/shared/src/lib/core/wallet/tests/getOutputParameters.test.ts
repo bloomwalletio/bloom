@@ -98,7 +98,7 @@ jest.mock('../../layer-2/actions/getGasPriceInWei', () => ({
     getGasPriceInWei: jest.fn((_) => 1_000_000_000_000n),
 }))
 
-jest.mock('../../layer-2/utils/estimateGasForLayer1ToLayer2Transaction', () => ({
+jest.mock('../../layer-2/actions/estimateGasForLayer1ToLayer2Transaction', () => ({
     estimateGasForLayer1ToLayer2Transaction: jest.fn(({ type }) => FALLBACK_ESTIMATED_GAS[type]),
 }))
 

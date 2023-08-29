@@ -2,8 +2,7 @@
     import { selectedAccount } from '@core/account/stores'
     import { getStorageDepositFromOutput } from '@core/activity/utils/helper'
     import { localize } from '@core/i18n'
-    import { GAS_LIMIT_MULTIPLIER, calculateGasFeeInGlow, getGasPriceInWei } from '@core/layer-2'
-    import { estimateGasForLayer1ToLayer2Transaction } from '@core/layer-2/utils'
+    import { getGasFeesForLayer1ToLayer2Transaction } from '@core/layer-2'
     import { getNetwork, isEvmChain } from '@core/network'
     import { INft } from '@core/nfts/interfaces'
     import { selectedAccountTokens } from '@core/token/stores'
@@ -72,11 +71,7 @@
     let maxGasFee: BigIntLike | undefined = undefined
     async function setGasVariables(sendFlowParameters: SendFlowParameters): Promise<void> {
         if (isToLayer2) {
-            const estimatedGas = await estimateGasForLayer1ToLayer2Transaction(sendFlowParameters)
-            const gasLimit = Math.floor(estimatedGas * GAS_LIMIT_MULTIPLIER)
-            const gasPrice = await getGasPriceInWei(sendFlowParameters.destinationNetworkId)
-            estimatedGasFee = calculateGasFeeInGlow(estimatedGas, gasPrice)
-            maxGasFee = calculateGasFeeInGlow(gasLimit, gasPrice)
+            ({ estimatedGasFee, maxGasFee } = await getGasFeesForLayer1ToLayer2Transaction(sendFlowParameters))
         }
     }
     $: void setGasVariables(sendFlowParameters)
