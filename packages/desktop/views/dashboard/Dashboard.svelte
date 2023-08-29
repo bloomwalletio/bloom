@@ -1,7 +1,7 @@
 <script lang="ts">
     import { selectedAccount, selectedAccountIndex } from '@core/account/stores'
     import { Platform } from '@core/app'
-    import { clearLayer2TokensPoll, pollLayer2Tokens } from '@core/layer-2'
+    import { clearLayer2TokensPoll, pollLayer2Tokens } from '@core/layer-2/actions'
     import { stopPollingLedgerNanoStatus } from '@core/ledger'
     import {
         addNftsToDownloadQueue,
