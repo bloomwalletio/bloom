@@ -6,8 +6,8 @@ import {
     resetProposalOverviews,
     resetRegisteredProposals,
 } from '@contexts/governance/stores'
-import { stopPollingLedgerNanoStatus } from '@core/ledger/actions'
-import { isPollingLedgerNanoState } from '@core/ledger/stores'
+import { stopPollingLedgerDeviceState } from '@core/ledger/actions'
+import { isPollingLedgerDeviceState } from '@core/ledger/stores'
 import { clearMarketPricesPoll } from '@core/market/actions'
 import { clearChainStatusesPoll, clearNetworkPoll } from '@core/network/actions'
 import { stopDownloadingNftMediaFromQueue } from '@core/nfts/actions'
@@ -29,7 +29,7 @@ export function logout(clearActiveProfile = true, _lockStronghold = true): void 
         _lockStronghold && lockStronghold()
     } else if (isLedgerProfile(get(activeProfile).type)) {
         Platform.killLedgerProcess()
-        get(isPollingLedgerNanoState) && stopPollingLedgerNanoStatus()
+        get(isPollingLedgerDeviceState) && stopPollingLedgerDeviceState()
     }
 
     clearNetworkPoll()

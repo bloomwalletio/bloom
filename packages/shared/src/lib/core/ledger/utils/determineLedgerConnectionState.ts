@@ -1,8 +1,8 @@
-import { ILedgerNanoState } from '../interfaces'
+import { ILedgerDeviceState } from '../interfaces'
 import { LedgerAppName, LedgerConnectionState } from '../enums'
 
 export function determineLedgerConnectionState(
-    status: ILedgerNanoState,
+    status: ILedgerDeviceState,
     appName = LedgerAppName.Shimmer
 ): LedgerConnectionState {
     const { connected, locked, app } = status

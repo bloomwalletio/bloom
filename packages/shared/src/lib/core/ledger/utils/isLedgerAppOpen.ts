@@ -1,8 +1,8 @@
 import { get } from 'svelte/store'
 
 import { LedgerAppName } from '../enums'
-import { ledgerNanoState } from '../stores'
+import { ledgerDeviceState } from '../stores'
 
 export function isLedgerAppOpen(appName: LedgerAppName): boolean {
-    return get(ledgerNanoState)?.app === appName
+    return get(ledgerDeviceState)?.app === appName
 }

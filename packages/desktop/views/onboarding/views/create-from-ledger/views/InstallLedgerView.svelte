@@ -2,7 +2,7 @@
     import { PopupId, openPopup } from '@desktop/auxiliary/popup'
     import { OnboardingLayout } from '@components'
     import { localize } from '@core/i18n'
-    import { LedgerAppName, pollLedgerNanoStatus, stopPollingLedgerNanoStatus } from '@core/ledger'
+    import { LedgerAppName, pollLedgerDeviceState, stopPollingLedgerDeviceState } from '@core/ledger'
     import { Button, Icon, LedgerAnimation, Link, Text } from '@ui'
     import { onMount } from 'svelte'
     import { createFromLedgerRouter } from '../create-from-ledger-router'
@@ -12,7 +12,7 @@
     }
 
     async function onBackClick(): Promise<void> {
-        await stopPollingLedgerNanoStatus()
+        await stopPollingLedgerDeviceState()
         $createFromLedgerRouter.previous()
     }
 
@@ -23,7 +23,7 @@
     }
 
     onMount(() => {
-        pollLedgerNanoStatus()
+        pollLedgerDeviceState()
     })
 </script>
 

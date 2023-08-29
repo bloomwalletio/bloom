@@ -1,7 +1,7 @@
 import { isOnboardingLedgerProfile } from '@contexts/onboarding'
 import { selectedAccountIndex } from '@core/account/stores'
 import { LedgerAppName } from '@core/ledger/enums'
-import { ledgerNanoState, ledgerPreparedOutput, resetLedgerPreparedOutput } from '@core/ledger/stores'
+import { ledgerDeviceState, ledgerPreparedOutput, resetLedgerPreparedOutput } from '@core/ledger/stores'
 import { deconstructLedgerVerificationProps } from '@core/ledger/helpers'
 import { isActiveLedgerProfile } from '@core/profile/stores'
 import {
@@ -58,7 +58,7 @@ function openPopupIfVerificationNeeded(progress: TransactionProgress): void {
                 },
             })
         } else if (type === TransactionProgressType.PreparedTransactionEssenceHash) {
-            if (get(ledgerNanoState)?.settings?.[LedgerAppName.Shimmer]?.blindSigningEnabled) {
+            if (get(ledgerDeviceState)?.settings?.[LedgerAppName.Shimmer]?.blindSigningEnabled) {
                 openPopup({
                     id: PopupId.VerifyLedgerTransaction,
                     hideClose: true,
