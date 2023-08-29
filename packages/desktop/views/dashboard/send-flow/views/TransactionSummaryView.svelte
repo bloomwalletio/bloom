@@ -40,11 +40,7 @@
         const networkId = getNetworkIdFromSendFlowParameters(sendFlowParameters)
         if (isEvmChain(networkId)) {
             chain = getNetwork()?.getChain(networkId)
-            preparedTransaction = await createEvmTransactionFromSendFlowParameters(
-                sendFlowParameters,
-                chain,
-                $selectedAccount
-            )
+            preparedTransaction = await createEvmTransactionFromSendFlowParameters(sendFlowParameters, $selectedAccount)
         } else {
             preparedOutput = await createStardustOutputFromSendFlowParameters(sendFlowParameters, $selectedAccount)
         }

@@ -1,6 +1,5 @@
 import { IAccountState } from '@core/account/interfaces'
 import { EvmTransactionData } from '@core/layer-2/types'
-import { IChain } from '@core/network/interfaces'
 import { getNetwork } from '@core/network/stores'
 import { isEvmChain, isStardustNetwork } from '@core/network/utils'
 
@@ -11,7 +10,6 @@ import { createEvmChainToStardustNetworkTransaction } from './createEvmChainToSt
 
 export async function createEvmTransactionFromSendFlowParameters(
     sendFlowParameters: SendFlowParameters,
-    chain: IChain,
     account: IAccountState
 ): Promise<EvmTransactionData | undefined> {
     const originNetworkId = getNetworkIdFromSendFlowParameters(sendFlowParameters)
