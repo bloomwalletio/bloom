@@ -4,5 +4,5 @@ import { LedgerAppName } from '../enums'
 import { ledgerNanoState } from '../stores'
 
 export function isLedgerAppOpen(appName: LedgerAppName): boolean {
-    return get(ledgerNanoState)?.app?.name === appName
+    return get(ledgerNanoState)?.app === appName
 }
