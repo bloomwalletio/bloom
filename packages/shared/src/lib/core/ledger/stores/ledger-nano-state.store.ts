@@ -22,8 +22,8 @@ export function updateLedgerNanoState(payload: Partial<ILedgerNanoState>): void 
 
 export function setLedgerNanoState(status: LedgerNanoStatus, ethereumAppSettings?: ILedgerEthereumAppSettings): void {
     return ledgerNanoState.set({
-        connected: status.connected,
-        locked: status.locked,
+        connected: ethereumAppSettings ? true : status.connected,
+        locked: ethereumAppSettings ? false : status.locked,
         device: status.device,
         app: status.app?.name as LedgerAppName,
         settings: {

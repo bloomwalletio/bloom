@@ -1,5 +1,5 @@
-import { ILedgerNanoState, LedgerConnectionState } from '../interfaces'
-import { LedgerAppName } from '../enums'
+import { ILedgerNanoState } from '../interfaces'
+import { LedgerAppName, LedgerConnectionState } from '../enums'
 
 export function determineLedgerConnectionState(
     status: ILedgerNanoState,

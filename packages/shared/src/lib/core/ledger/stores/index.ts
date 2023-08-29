@@ -1,5 +1,5 @@
 export * from './ledger-connection-state.store'
 export * from './ledger-nano-state.store'
-export * from './ledger-polling.stores'
+export * from './is-polling-ledger-nano-state.stores'
 export * from './ledger-prepared-output.store'
 export * from './show-internal-verification-popup'
