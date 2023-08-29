@@ -27,21 +27,15 @@
         votedProposals: null,
     }
 
-    let items: IItem[] = []
-
     $: isOverviewLoaded = !!$participationOverviewForSelectedAccount
     $: $registeredProposalsForSelectedAccount, $participationOverviewForSelectedAccount, updateProposalsDetails()
     $: $selectedAccount, void setParticipationOverview()
-    $: items = getProposalDetailValues(details)
 
-    function getProposalDetailValues(_details: IProposalsDetails): IItem[] {
-        return Object.keys(_details).map((key) => {
-            return {
-                key: localize(`views.governance.proposalsDetails.${key}`),
-                value: details[key] ?? 0,
-            }
-        })
-    }
+    let items: IItem[] = []
+    $: items = Object.keys(details).map((key) => ({
+        key: localize(`views.governance.proposalsDetails.${key}`),
+        value: details[key] ?? 0,
+    }))
 
     function updateProposalsDetails(): void {
         if ($activeProfileId) {

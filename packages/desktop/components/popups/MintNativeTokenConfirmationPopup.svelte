@@ -33,66 +33,46 @@
     }
 
     let items: IItem[] = []
+    $: items = $mintTokenDetails ? getItems($mintTokenDetails) : []
 
-    $: setItems($mintTokenDetails)
-
-    function setItems(details: IMintTokenDetails | undefined): void {
-        if (!details) {
-            return
-        }
-
-        items = []
+    function getItems(details: IMintTokenDetails): IItem[] {
         const { name: tokenName, symbol, aliasId, url, logoUrl, decimals, totalSupply } = details
-
-        if (aliasId) {
-            items.push({
+        const _items = [
+            {
                 key: localize('popups.nativeToken.property.alias'),
                 value: aliasId,
                 copyable: true,
-            })
-        }
-        if (storageDeposit) {
-            items.push({
+            },
+            {
                 key: localize('popups.nativeToken.property.storageDeposit'),
-                value: storageDeposit,
-            })
-        }
-        if (tokenName) {
-            items.push({
+                value: storageDeposit ? storageDeposit : undefined,
+            },
+            {
                 key: localize('popups.nativeToken.property.tokenName'),
                 value: tokenName,
-            })
-        }
-        if (totalSupply) {
-            items.push({
+            },
+            {
                 key: localize('popups.nativeToken.property.totalSupply'),
                 value: String(totalSupply),
-            })
-        }
-        if (decimals) {
-            items.push({
+            },
+            {
                 key: localize('popups.nativeToken.property.decimals'),
-                value: String(decimals),
-            })
-        }
-        if (symbol) {
-            items.push({
+                value: decimals ? String(decimals) : undefined,
+            },
+            {
                 key: localize('popups.nativeToken.property.symbol'),
                 value: symbol,
-            })
-        }
-        if (url) {
-            items.push({
+            },
+            {
                 key: localize('popups.nativeToken.property.url'),
                 value: url,
-            })
-        }
-        if (logoUrl) {
-            items.push({
+            },
+            {
                 key: localize('popups.nativeToken.property.logoUrl'),
                 value: logoUrl,
-            })
-        }
+            },
+        ]
+        return _items
     }
 
     function getMetadata(details: IMintTokenDetails | undefined): IIrc30Metadata | undefined {
