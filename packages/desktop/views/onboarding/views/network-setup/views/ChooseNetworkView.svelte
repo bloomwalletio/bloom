@@ -36,7 +36,7 @@
 
     function onNetworkSelectionClick(networkType: OnboardingNetworkType): void {
         if (networkType !== OnboardingNetworkType.Custom) {
-            const networkName = getNetworkNameFromOnboardingNetworkName(networkType)
+            const networkName = getNetworkNameFromOnboardingNetworkType(networkType)
             const networkId: NetworkId = `${NetworkNamespace.Stardust}:${networkName}`
             const network = getDefaultPersistedNetwork(networkId)
             const clientOptions = getDefaultClientOptions(networkId)
@@ -45,7 +45,7 @@
         $networkSetupRouter.next()
     }
 
-    function getNetworkNameFromOnboardingNetworkName(
+    function getNetworkNameFromOnboardingNetworkType(
         networkType: OnboardingNetworkType
     ): StardustNetworkName | undefined {
         switch (networkType) {

@@ -67,6 +67,7 @@ const baseTransaction: SendFlowParameters = {
         type: SubjectType.Address,
         address: recipientAddress,
     },
+    destinationNetworkId: SupportedNetworkId.Shimmer,
 }
 
 jest.mock('@core/token/stores/persisted-tokens.store', () => ({
@@ -93,8 +94,26 @@ jest.mock('../../profile/actions/active-profile/getCoinType', () => ({
     getCoinType: jest.fn((_) => '1'),
 }))
 
-jest.mock('../../layer-2/utils/estimateGasForLayer1ToLayer2Transaction', () => ({
-    estimateGasForLayer1ToLayer2Transaction: jest.fn(() => FALLBACK_ESTIMATED_GAS.toJSNumber()),
+jest.mock('../../layer-2/actions/getGasPriceInWei', () => ({
+    getGasPriceInWei: jest.fn((_) => 1_000_000_000_000n),
+}))
+
+jest.mock('../../layer-2/actions/estimateGasForLayer1ToLayer2Transaction', () => ({
+    estimateGasForLayer1ToLayer2Transaction: jest.fn(({ type }) => FALLBACK_ESTIMATED_GAS[type]),
+}))
+
+jest.mock('../../layer-2/constants/gas-limit-multiplier.constant', () => ({
+    GAS_LIMIT_MULTIPLIER: 1.1,
+}))
+
+jest.mock('../../layer-2/constants/wei.constants', () => ({
+    WEI_PER_GLOW: BigInt(1_000_000_000_000),
+}))
+
+jest.mock('../../network/actions/getActiveNetworkId.ts', () => ({
+    getActiveNetworkId: jest.fn(() => {
+        return SupportedNetworkId.Shimmer
+    }),
 }))
 
 describe('File: getOutputParameters.ts', () => {
@@ -219,10 +238,10 @@ describe('File: getOutputParameters.ts', () => {
         const output = await getOutputParameters(sendFlowParameters, senderAddress)
         const expectedOutput = {
             recipientAddress: destinationNetwork.aliasAddress,
-            amount: (Number(FALLBACK_ESTIMATED_GAS) + Number(amount)).toString(),
+            amount: '1000026620',
             features: {
                 metadata:
-                    '0x00000000025e4b3ca1e3f423c09a0c010161200300010000070c000c30680e00000090000f0ea000060009000d300000000000808094ebdc03',
+                    '0x00000000025e4b3ca1e3f423fccf01010161200300010000070c000c30680e00000090000f0ea000060009000d300000000000808094ebdc03',
                 sender: senderAddress,
             },
             unlocks: { expirationUnixTime: 1680163475 },
@@ -251,7 +270,7 @@ describe('File: getOutputParameters.ts', () => {
 
         const expectedOutput = {
             recipientAddress: destinationNetwork.aliasAddress,
-            amount: FALLBACK_ESTIMATED_GAS.toString(),
+            amount: '26785',
             assets: {
                 nativeTokens: [
                     {
@@ -262,7 +281,7 @@ describe('File: getOutputParameters.ts', () => {
             },
             features: {
                 metadata:
-                    '0x00000000025e4b3ca1e3f423c09a0c010161200300010000070c000c30680e00000090000f0ea000060009000d300000000000400108cd4dcad7ccc383111942671ee8cdc487ddd250398331ca2692b8b1a81551a1c30100000000043b9aca00',
+                    '0x00000000025e4b3ca1e3f423a1d101010161200300010000070c000c30680e00000090000f0ea000060009000d300000000000400108cd4dcad7ccc383111942671ee8cdc487ddd250398331ca2692b8b1a81551a1c30100000000043b9aca00',
                 sender: senderAddress,
             },
             unlocks: { expirationUnixTime: 1680163475 },
@@ -282,13 +301,13 @@ describe('File: getOutputParameters.ts', () => {
 
         const expectedOutput = {
             recipientAddress: destinationNetwork.aliasAddress,
-            amount: FALLBACK_ESTIMATED_GAS.toString(),
+            amount: '27170',
             assets: {
                 nftId,
             },
             features: {
                 metadata:
-                    '0x00000000025e4b3ca1e3f423c09a0c010161200300010000070c000c30680e00000090000f0ea000060009000d3000000000002001cd9430ff870a22f81f92428e5c06975fa3ec1a993331aa3db9fb2298e931ade1',
+                    '0x00000000025e4b3ca1e3f423a2d401010161200300010000070c000c30680e00000090000f0ea000060009000d3000000000002001cd9430ff870a22f81f92428e5c06975fa3ec1a993331aa3db9fb2298e931ade1',
                 sender: senderAddress,
             },
             unlocks: {},
@@ -303,6 +322,7 @@ describe('File: getOutputParameters.ts', () => {
             recipient: baseTransaction.recipient,
             nft: testNft,
             expirationDate,
+            destinationNetworkId: SupportedNetworkId.Shimmer,
         }
         const output = await getOutputParameters(sendFlowParameters, senderAddress)
 

@@ -1,10 +1,10 @@
 import { setSelectedAccount } from '@core/account/actions'
-import { selectedAccount } from '@core/account/stores'
+import { getSelectedAccount } from '@core/account/stores'
 import { nonHiddenActiveAccounts } from '@core/profile/stores'
 import { get } from 'svelte/store'
 
 export function setNextSelectedAccount(): void {
-    const account = get(selectedAccount)
+    const account = getSelectedAccount()
     const otherAccounts = get(nonHiddenActiveAccounts)
     if (otherAccounts.length > 0) {
         if (account?.hidden) {

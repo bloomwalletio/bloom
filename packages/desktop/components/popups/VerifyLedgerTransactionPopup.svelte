@@ -1,5 +1,6 @@
 <script lang="ts">
-    import { KeyValueBox, Text, TextHint, LedgerAnimation } from '@ui'
+    import { type IItem, Table } from '@bloomwalletio/ui'
+    import { Text, TextHint, LedgerAnimation } from '@ui'
     import { localize } from '@core/i18n'
     import { formatHexString } from '@core/utils'
     import { onDestroy } from 'svelte'
@@ -20,11 +21,36 @@
     export let hash: string
     export let bipPath: string
 
-    const hasSendConfirmationProps = (toAddress && toAmount) || hash
+    const hasSendConfirmationProps = (toAddress !== undefined && toAmount !== undefined) || hash !== undefined
 
     const locale = $showInternalVerificationPopup
         ? 'popups.verifyInternalLedgerTransaction'
         : 'popups.verifyLedgerTransaction'
+
+    let items: IItem[] = []
+    $: hasSendConfirmationProps
+        ? (items = [
+              ...(useBlindSigning ? [{ key: localize('general.hash'), value: formatHexString(hash) }] : []),
+              ...(useBlindSigning && bipPath ? [{ key: localize('general.bipPath'), value: bipPath }] : []),
+              ...(!useBlindSigning && isEvmTransaction
+                  ? [
+                        { key: localize('general.amount'), value: toAmount },
+                        { key: localize('general.address'), value: toAddress },
+                        { key: localize('general.network'), value: chainId },
+                        {
+                            key: localize('general.maxFees'),
+                            value: formatTokenAmountBestMatch(Number(maxGasFee), getBaseToken()),
+                        },
+                    ]
+                  : []),
+              ...(!useBlindSigning && !isEvmTransaction
+                  ? [
+                        { key: localize('general.sendTo'), value: toAddress },
+                        { key: localize('general.amount'), value: toAmount },
+                    ]
+                  : []),
+          ])
+        : (items = [])
 
     onDestroy(() => {
         resetShowInternalVerificationPopup()
@@ -38,24 +64,8 @@
     <LedgerAnimation animation="ledger-confirm-prompt-desktop" />
 </div>
 <div class="flex flex-col space-y-2">
-    {#if hasSendConfirmationProps}
-        {#if useBlindSigning}
-            <KeyValueBox keyText={localize('general.hash')} valueText={formatHexString(hash)} />
-            {#if bipPath}
-                <KeyValueBox keyText={localize('general.bipPath')} valueText={bipPath} />
-            {/if}
-        {:else if isEvmTransaction}
-            <KeyValueBox keyText={localize('general.amount')} valueText={toAmount} />
-            <KeyValueBox keyText={localize('general.address')} valueText={toAddress} />
-            <KeyValueBox keyText={localize('general.network')} valueText={chainId} />
-            <KeyValueBox
-                keyText={localize('general.maxFees')}
-                valueText={formatTokenAmountBestMatch(Number(maxGasFee), getBaseToken())}
-            />
-        {:else}
-            <KeyValueBox keyText={localize('general.sendTo')} valueText={toAddress} />
-            <KeyValueBox keyText={localize('general.amount')} valueText={toAmount} />
-        {/if}
+    {#if items.length > 0}
+        <Table {items} />
     {:else if $showInternalVerificationPopup}
         <TextHint info text={localize('popups.verifyInternalLedgerTransaction.hint')} />
     {/if}
