@@ -1,17 +1,10 @@
-import Web3 from 'web3'
-
 import { getSelectedAccountIndex } from '@core/account/stores'
 import { handleError } from '@core/error/handlers'
-import {
-    ContractType,
-    ISC_MAGIC_CONTRACT_ADDRESS,
-    buildEvmTransactionData,
-    ILayer2AssetAllowance,
-    buildUnwrapAssetParameters,
-} from '@core/layer-2'
-import { ETHEREUM_COIN_TYPE, IChain, getNetwork, SupportedNetworkId, NetworkId } from '@core/network'
+import { ContractType, ILayer2AssetAllowance, ISC_MAGIC_CONTRACT_ADDRESS } from '@core/layer-2'
+import { buildEvmTransactionData, buildUnwrapAssetParameters } from '@core/layer-2/actions'
+import { ETHEREUM_COIN_TYPE, IChain, NetworkId, SupportedNetworkId, getNetwork } from '@core/network'
 import { getActiveProfilePersistedEvmAddressesByAccountIndex } from '@core/profile/stores'
-
+import Web3 from 'web3'
 import { sendTransactionFromEvm } from '../actions/send'
 
 export async function unwrapStardustAsset(
