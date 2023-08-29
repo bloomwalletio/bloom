@@ -1,4 +1,4 @@
-export interface ILedgerEthereumAppSettings {
+export interface IGetEthereumAppSettingsResponse {
     version: string
     arbitraryDataEnabled: boolean
     erc20ProvisioningNecessary: boolean

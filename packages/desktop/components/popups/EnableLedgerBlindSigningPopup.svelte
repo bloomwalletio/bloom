@@ -1,60 +1,20 @@
 <script lang="ts">
-    import { onDestroy, onMount } from 'svelte'
-    import { Icon, Text, TextType } from '@ui'
     import { Icon as IconEnum } from '@auxiliary/icon'
     import { localize } from '@core/i18n'
-    import {
-        checkOrConnectLedger,
-        LedgerAppName,
-        ledgerEthereumAppSettings,
-        ledgerNanoStatus,
-        ledgerPreparedOutput,
-        pollLedgerEthereumAppSettings,
-        resetLedgerPreparedOutput,
-        stopPollingLedgerEthereumAppSettings,
-    } from '@core/ledger'
+    import { LedgerAppName, ledgerNanoStatus } from '@core/ledger'
     import { closePopup } from '@desktop/auxiliary/popup'
-    import { sendOutput } from '@core/wallet'
-    import { handleError } from '@core/error/handlers'
+    import { Icon, Text, TextType } from '@ui'
     import { UiEventFunction } from 'shared/src/lib/core/utils'
 
-    export let appName = LedgerAppName.Shimmer
+    export let appName: LedgerAppName
     export let onEnabled: UiEventFunction = () => {}
 
     const STEPS = [1, 2, 3, 4]
 
-    $: if (appName === LedgerAppName.Shimmer) {
-        if ($ledgerNanoStatus.blindSigningEnabled) {
-            closePopup()
-            checkOrConnectLedger(async () => {
-                try {
-                    if ($ledgerPreparedOutput) {
-                        await sendOutput($ledgerPreparedOutput)
-                        resetLedgerPreparedOutput()
-                    }
-                } catch (err) {
-                    handleError(err)
-                }
-            })
-        }
-    } else if (appName === LedgerAppName.Ethereum) {
-        if ($ledgerEthereumAppSettings?.arbitraryDataEnabled) {
-            closePopup(true)
-            onEnabled && onEnabled()
-        }
+    $: if ($ledgerNanoStatus?.[appName]?.blindSigningEnabled) {
+        closePopup(true)
+        onEnabled && onEnabled()
     }
-
-    onMount(() => {
-        if (appName === LedgerAppName.Ethereum) {
-            void pollLedgerEthereumAppSettings()
-        }
-    })
-
-    onDestroy(() => {
-        if (appName === LedgerAppName.Ethereum) {
-            void stopPollingLedgerEthereumAppSettings()
-        }
-    })
 </script>
 
 <Text type={TextType.h3} classes="mb-6">{localize('popups.enableLedgerBlindSigning.title')}</Text>

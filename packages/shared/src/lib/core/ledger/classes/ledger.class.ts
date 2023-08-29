@@ -14,10 +14,14 @@ import type { Bip44 } from '@iota/wallet/types'
 import { PopupId, openPopup } from '../../../../../../desktop/lib/auxiliary/popup'
 import { DEFAULT_LEDGER_API_REQUEST_OPTIONS } from '../constants'
 import { LedgerApiMethod, LedgerAppName } from '../enums'
-import { ILedgerApiBridge, ILedgerEthereumAppSettings } from '../interfaces'
+import { ILedgerApiBridge, IGetEthereumAppSettingsResponse } from '../interfaces'
 import { LedgerApiRequestResponse } from '../types'
-import { isBlindSigningRequiredForEvmTransaction } from '@core/ledger'
-import { EvmChainId } from '@core/network'
+import {
+    ILedgerApiRequestOptions,
+    ILedgerEthereumAppSettings,
+    isBlindSigningRequiredForEvmTransaction,
+} from '@core/ledger'
+import { EvmChainId } from '@core/network/enums'
 
 declare global {
     interface Window {
@@ -28,16 +32,24 @@ declare global {
 const ledgerApiBridge: ILedgerApiBridge = window['__LEDGER__']
 
 export class Ledger {
-    static async getEthereumAppSettings(): Promise<ILedgerEthereumAppSettings> {
-        /* eslint-disable no-return-await */
-        return await this.callLedgerApiAsync<ILedgerEthereumAppSettings>(
-            () => ledgerApiBridge.makeRequest(LedgerApiMethod.GetEthereumAppSettings),
-            'ethereum-app-settings'
-        )
+    static async getEthereumAppSettings(): Promise<ILedgerEthereumAppSettings | undefined> {
+        try {
+            const response = await this.callLedgerApiAsync<IGetEthereumAppSettingsResponse>(
+                () => ledgerApiBridge.makeRequest(LedgerApiMethod.GetEthereumAppSettings),
+                'ethereum-app-settings',
+                {
+                    timeout: 1,
+                }
+            )
+            return { ...response, blindSigningEnabled: response?.arbitraryDataEnabled }
+        } catch (err) {
+            console.error(err)
+            return undefined
+        }
     }
 
     static async isBlindSigningEnabledForEvm(): Promise<boolean> {
-        return Boolean((await this.getEthereumAppSettings())?.arbitraryDataEnabled)
+        return Boolean((await this.getEthereumAppSettings())?.blindSigningEnabled)
     }
 
     static async generateEvmAddress(accountIndex: number, coinType: number, verify?: boolean): Promise<string> {
@@ -56,7 +68,7 @@ export class Ledger {
         transactionData: TxData,
         chainId: EvmChainId,
         bip44: Bip44
-    ): Promise<string | unknown> {
+    ): Promise<string | void> {
         /* eslint-disable no-async-promise-executor */
         /* eslint-disable @typescript-eslint/no-misused-promises */
         return new Promise(async (resolve) => {
@@ -127,12 +139,13 @@ export class Ledger {
 
     private static async callLedgerApiAsync<R extends LedgerApiRequestResponse>(
         callback: () => void,
-        responseEvent: keyof IPlatformEventMap
+        responseEvent: keyof IPlatformEventMap,
+        requestOptions: Partial<ILedgerApiRequestOptions> = {}
     ): Promise<R> {
         // TODO: Do we need to stop / start polling here? Get's slightly complicated in that
         // the Ethereum app settings polling uses this function.
 
-        const { timeout, pollingInterval } = DEFAULT_LEDGER_API_REQUEST_OPTIONS
+        const { timeout, pollingInterval } = { ...DEFAULT_LEDGER_API_REQUEST_OPTIONS, ...requestOptions }
         const iterationCount = (timeout * MILLISECONDS_PER_SECOND) / pollingInterval
 
         callback()

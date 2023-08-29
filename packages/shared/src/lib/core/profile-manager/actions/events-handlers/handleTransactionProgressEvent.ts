@@ -1,6 +1,7 @@
 import { isOnboardingLedgerProfile } from '@contexts/onboarding'
 import { selectedAccountIndex } from '@core/account/stores'
-import { ledgerNanoStatus } from '@core/ledger'
+import { LedgerAppName } from '@core/ledger/enums'
+import { ledgerNanoStatus, ledgerPreparedOutput, resetLedgerPreparedOutput } from '@core/ledger/stores'
 import { deconstructLedgerVerificationProps } from '@core/ledger/helpers'
 import { isActiveLedgerProfile } from '@core/profile/stores'
 import {
@@ -15,6 +16,9 @@ import { get } from 'svelte/store'
 import { PopupId, closePopup, openPopup } from '../../../../../../../desktop/lib/auxiliary/popup'
 import { MissingTransactionProgressEventPayloadError } from '../../errors'
 import { validateWalletApiEvent } from '../../utils'
+import { checkOrConnectLedger } from '@core/ledger/actions'
+import { handleError } from '@core/error/handlers'
+import { sendOutput } from '@core/wallet/actions'
 
 export function handleTransactionProgressEvent(error: Error, event: Event): void {
     const walletEvent = validateWalletApiEvent<TransactionProgressWalletEvent>(
@@ -54,7 +58,7 @@ function openPopupIfVerificationNeeded(progress: TransactionProgress): void {
                 },
             })
         } else if (type === TransactionProgressType.PreparedTransactionEssenceHash) {
-            if (get(ledgerNanoStatus)?.blindSigningEnabled) {
+            if (get(ledgerNanoStatus)?.settings?.[LedgerAppName.Shimmer]?.blindSigningEnabled) {
                 openPopup({
                     id: PopupId.VerifyLedgerTransaction,
                     hideClose: true,
@@ -68,6 +72,21 @@ function openPopupIfVerificationNeeded(progress: TransactionProgress): void {
                     id: PopupId.EnableLedgerBlindSigning,
                     hideClose: true,
                     preventClose: true,
+                    props: {
+                        appName: LedgerAppName.Shimmer,
+                        onEnabled: () => {
+                            checkOrConnectLedger(async () => {
+                                try {
+                                    if (get(ledgerPreparedOutput)) {
+                                        await sendOutput(get(ledgerPreparedOutput))
+                                        resetLedgerPreparedOutput()
+                                    }
+                                } catch (err) {
+                                    handleError(err)
+                                }
+                            })
+                        },
+                    },
                 })
             }
         } else if (type === TransactionProgressType.PerformingPow) {
