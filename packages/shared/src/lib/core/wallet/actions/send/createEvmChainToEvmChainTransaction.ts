@@ -1,13 +1,10 @@
 import { IChain } from '@core/network/interfaces'
 import { IAccountState } from '@core/account/interfaces'
+import { buildEvmTransactionData, getIscpTransferSmartContractData } from '@core/layer-2/actions'
 import { ISC_MAGIC_CONTRACT_ADDRESS } from '@core/layer-2/constants'
 import { AssetType } from '@core/layer-2/enums'
 import { EvmTransactionData, TransferredAsset } from '@core/layer-2/types'
-import {
-    buildEvmTransactionData,
-    getErc20TransferSmartContractData,
-    getIscpTransferSmartContractData,
-} from '@core/layer-2/utils'
+import { getErc20TransferSmartContractData } from '@core/layer-2/utils'
 import { TokenStandard } from '@core/token/enums'
 import { IToken } from '@core/token/interfaces'
 

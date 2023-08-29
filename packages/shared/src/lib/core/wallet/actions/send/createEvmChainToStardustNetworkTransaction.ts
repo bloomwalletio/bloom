@@ -1,10 +1,11 @@
 import Web3 from 'web3'
 
 import { IAccountState } from '@core/account/interfaces'
+import { buildEvmTransactionData, buildUnwrapAssetParameters } from '@core/layer-2/actions'
 import { ISC_MAGIC_CONTRACT_ADDRESS } from '@core/layer-2/constants'
 import { ContractType } from '@core/layer-2/enums'
 import { EvmTransactionData } from '@core/layer-2/types'
-import { buildAssetAllowance, buildEvmTransactionData, buildUnwrapAssetParameters } from '@core/layer-2/utils'
+import { buildAssetAllowance } from '@core/layer-2/utils'
 import { ETHEREUM_COIN_TYPE } from '@core/network/constants'
 import { IChain } from '@core/network/interfaces'
 
