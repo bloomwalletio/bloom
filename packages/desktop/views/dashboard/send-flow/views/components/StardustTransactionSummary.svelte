@@ -2,7 +2,7 @@
     import { selectedAccount } from '@core/account/stores'
     import { getStorageDepositFromOutput } from '@core/activity/utils/helper'
     import { localize } from '@core/i18n'
-    import { getGasFeesForLayer1ToLayer2Transaction } from '@core/layer-2'
+    import { getGasFeesForLayer1ToLayer2Transaction } from '@core/layer-2/actions'
     import { getNetwork, isEvmChain } from '@core/network'
     import { INft } from '@core/nfts/interfaces'
     import { selectedAccountTokens } from '@core/token/stores'
