@@ -3,7 +3,7 @@ import { Activity } from '../types'
 import { getBalanceChanges } from '../stores'
 import { get } from 'svelte/store'
 import { network } from '@core/network'
-import { generateBalanceChangeActivity } from '../utils'
+import { generateBalanceChangeActivity } from './generateBalanceChangeActivity'
 
 export function generateActivitiesFromBalanceChanges(account: IAccountState): Activity[] {
     const activities: Activity[] = []

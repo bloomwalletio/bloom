@@ -1,6 +1,6 @@
 import { IAccountState } from '@core/account'
 import { Activity, IProcessedTransaction } from '../types'
-import { generateActivities } from '../utils'
+import { generateActivities } from '.'
 import { NetworkId } from '@core/network/types'
 
 export function generateActivitiesFromProcessedTransactions(
