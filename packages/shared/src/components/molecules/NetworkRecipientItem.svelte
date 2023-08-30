@@ -42,6 +42,7 @@
                     id: recipient.contact.id,
                     key: recipient.contact.name,
                     value: address.address,
+                    displayedValue: address.addressName,
                     color: recipient.contact.color,
                 }))
             }

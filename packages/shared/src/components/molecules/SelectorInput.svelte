@@ -84,7 +84,7 @@
         <div slot="right">
             {#if selected?.key && selected?.value}
                 <Text slot="right" type={TextType.pre} fontSize="sm" color="gray-600" whitespace="pre">
-                    {truncateString(selected.value, 9, 9)}
+                    {truncateString(selected.displayedValue ?? selected.value, 9, 9)}
                 </Text>
             {/if}
         </div>
@@ -119,7 +119,7 @@
                         </div>
                         {#if option.value && option.key}
                             <Text type={TextType.pre} fontSize="sm" color="gray-600" classes="flex-1 text-end">
-                                {truncateString(option.value, 9, 9)}
+                                {truncateString(option.displayedValue ?? option.value, 9, 9)}
                             </Text>
                         {/if}
                     </button>
