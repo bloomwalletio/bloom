@@ -66,7 +66,7 @@
             <Text>{message}</Text>
             {#if dapp}
                 <div class="absolute flex flex-row justify-between" style="top: -12px; left: 18px;">
-                    <div class="flex flex-row gap-1 bg-white items-center px-2">
+                    <div class="flex flex-row gap-1 bg-white dark:bg-gray-800 items-center px-2">
                         <img
                             style="width: 24px; height: 24px; border-radius: 24px;"
                             src={dapp.metadata?.icons?.[0]}
