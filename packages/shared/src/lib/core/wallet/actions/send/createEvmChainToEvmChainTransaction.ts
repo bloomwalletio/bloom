@@ -8,7 +8,7 @@ import { getErc20TransferSmartContractData } from '@core/layer-2/utils'
 import { TokenStandard } from '@core/token/enums'
 import { IToken } from '@core/token/interfaces'
 
-import { SendFlowType } from '../../stores'
+import { SendFlowType } from '../../enums'
 import { SendFlowParameters } from '../../types'
 
 export function createEvmChainToEvmChainTransaction(

@@ -5,7 +5,7 @@ import { Converter, convertDateToUnixTimestamp } from '@core/utils'
 import { SendFlowParameters, Subject } from '@core/wallet/types'
 import { Assets, OutputParams } from '@iota/wallet/out/types'
 import { ReturnStrategy } from '../enums'
-import { SendFlowType } from '../stores'
+import { SendFlowType } from '../enums'
 
 export async function getOutputParameters(
     sendFlowParameters: SendFlowParameters,

@@ -5,8 +5,7 @@
         calculateMaxGasFeeFromTransactionData,
     } from '@core/layer-2'
     import { INft } from '@core/nfts'
-    import { SendFlowParameters, TokenTransferData } from '@core/wallet'
-    import { SendFlowType } from '@core/wallet/stores'
+    import { SendFlowParameters, SendFlowType, TokenTransferData } from '@core/wallet'
     import { TransactionAssetSection } from '@ui'
     import EvmTransactionDetails from './EvmTransactionDetails.svelte'
 
