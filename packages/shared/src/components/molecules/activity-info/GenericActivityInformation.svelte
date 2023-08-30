@@ -1,5 +1,6 @@
 <script lang="ts">
     import { Table } from '@bloomwalletio/ui'
+    import { getNameFromNetworkId } from '@core/network'
     import { Activity } from '@core/activity'
     import { getFormattedTimeStamp, localize } from '@core/i18n'
     import { getBaseToken } from '@core/profile/actions'
@@ -25,7 +26,7 @@
     items={[
         {
             key: localize('general.destinationNetwork'),
-            value: activity.destinationNetwork,
+            value: getNameFromNetworkId(activity?.destinationNetworkId),
         },
         {
             key: localize('general.transactionTime'),

@@ -34,6 +34,6 @@
 
 {#if token}
     <ActivityTileContent {action} {subject} {formattedAsset}>
-        <TokenIcon slot="icon" persistedToken={token} networkId={activity.networkId} />
+        <TokenIcon slot="icon" persistedToken={token} networkId={activity.sourceNetworkId} />
     </ActivityTileContent>
 {/if}

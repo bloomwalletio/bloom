@@ -70,7 +70,8 @@ export function generateSingleFoundryActivity(
         isHidden,
         metadata,
         tag,
-        networkId,
+        sourceNetworkId: networkId,
+        destinationNetworkId: networkId,
         asyncData,
         ...sendingInfo,
     }

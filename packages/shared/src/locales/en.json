@@ -1087,6 +1087,13 @@
             "body": "Help the developers improve Firefly by automatically sending diagnostic data when an error or crash occurs. If selected, this will take effect after restarting Firefly.",
             "checkbox": "Send crash reports to the IOTA Foundation"
         },
+        "signMessage": {
+            "title": "Sign message",
+            "message": "Message",
+            "hint": "No balance will be sent to {dappName} in the process of signing this message.",
+            "warning": "dApp cannot be determined. No balance will be sent in the process of signing this message.",
+            "action": "Sign message"
+        },
         "activityDetails": {
             "title": {
                 "fallback": "Activity details",
@@ -1728,6 +1735,7 @@
         "transactionTime": "Transaction time",
         "surplus": "Surplus",
         "storageDeposit": "Storage deposit",
+        "gasFee": "Gas fee",
         "giftedStorageDeposit": "Gifted storage deposit",
         "storageDepositPerNft": "Storage deposit per NFT",
         "totalStorageDeposit": "Total storage deposit",

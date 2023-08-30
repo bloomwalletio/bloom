@@ -19,7 +19,7 @@ export function getTransactionAssets(
       }
     | undefined {
     if (activity.type === ActivityType.Nft) {
-        const baseCoin = getTokenFromSelectedAccountTokens(getCoinType(), activity.networkId)
+        const baseCoin = getTokenFromSelectedAccountTokens(getCoinType(), activity.sourceNetworkId)
         const nft = getNftByIdFromAllAccountNfts(accountIndex, activity.nftId)
         return {
             nft,
@@ -29,10 +29,10 @@ export function getTransactionAssets(
             },
         }
     } else if (activity.type === ActivityType.Basic || activity.type === ActivityType.Foundry) {
-        const tokenWithBalance = getTokenFromSelectedAccountTokens(activity.tokenId, activity.networkId)
+        const tokenWithBalance = getTokenFromSelectedAccountTokens(activity.tokenId, activity.sourceNetworkId)
         const persistedToken = getPersistedToken(activity.tokenId)
         const token: IToken = {
-            networkId: activity.networkId,
+            networkId: activity.sourceNetworkId,
             balance: {
                 total: 0,
                 available: 0,
@@ -48,7 +48,7 @@ export function getTransactionAssets(
                 },
             }
         } else {
-            const baseCoin = getTokenFromSelectedAccountTokens(getCoinType(), activity.networkId)
+            const baseCoin = getTokenFromSelectedAccountTokens(getCoinType(), activity.sourceNetworkId)
             return {
                 tokenTransfer: {
                     rawAmount: String(activity.rawAmount),
@@ -61,7 +61,7 @@ export function getTransactionAssets(
             }
         }
     } else if (activity.type === ActivityType.Governance) {
-        const baseCoin = getTokenFromSelectedAccountTokens(getCoinType(), activity.networkId)
+        const baseCoin = getTokenFromSelectedAccountTokens(getCoinType(), activity.sourceNetworkId)
 
         const isVotingPowerActivity =
             activity.governanceAction === GovernanceAction.DecreaseVotingPower ||

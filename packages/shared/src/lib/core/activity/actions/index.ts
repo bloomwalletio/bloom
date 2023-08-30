@@ -1,5 +1,4 @@
 export * from './calculateAndAddPersistedBalanceChange'
-export * from './generateActivitiesFromBalanceChanges'
 export * from './generateAndStoreActivitiesForAccount'
 export * from './generateAndStoreActivitiesForAllAccounts'
 export * from './hideActivitiesForFoundries'
