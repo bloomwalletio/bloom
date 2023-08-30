@@ -6,7 +6,7 @@ import { handlePersonalSign } from './personal_sign.handler'
 import { JsonRpcResponse } from '@walletconnect/jsonrpc-types'
 import { Web3WalletTypes } from '@walletconnect/web3wallet'
 import { getConnectedDappByOrigin, getWalletClient } from '../stores'
-import { SupportedNetworkId, getNetwork } from '@core/network'
+import { NetworkId, SupportedNetworkId, getNetwork } from '@core/network'
 import { CallbackParameters } from '../types'
 
 export function onSessionRequest(event: Web3WalletTypes.SessionRequest): void {
@@ -15,10 +15,6 @@ export function onSessionRequest(event: Web3WalletTypes.SessionRequest): void {
     const method = request.method
 
     const dapp = getConnectedDappByOrigin(verifyContext.verified.origin)
-
-    // TODO: the commented code is the correct one, but as long as there are no shimmerevm dapps, we need to hardcode it
-    // const chain = getNetwork?.getChain(chainId as NetworkId)
-    const chain = getNetwork()?.getChain(SupportedNetworkId.ShimmerEvmTestnet ?? chainId)
 
     function returnResponse({ result, error }: CallbackParameters): void {
         const response: JsonRpcResponse | undefined = result
@@ -41,6 +37,14 @@ export function onSessionRequest(event: Web3WalletTypes.SessionRequest): void {
         if (response) {
             void getWalletClient()?.respondSessionRequest({ topic, response })
         }
+    }
+
+    // TODO: the commented code is the correct one, but as long as there are no shimmerevm dapps, we need to hardcode it
+    // const chain = getNetwork()?.getChain(chainId as NetworkId)
+    const chain = getNetwork()?.getChain((SupportedNetworkId.ShimmerEvmTestnet as NetworkId) ?? chainId)
+    if (!chain) {
+        returnResponse({ error: 'Chain not supported' })
+        return
     }
 
     switch (method) {
