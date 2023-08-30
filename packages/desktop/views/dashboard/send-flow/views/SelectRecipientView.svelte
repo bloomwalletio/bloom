@@ -18,7 +18,7 @@
     import { onMount } from 'svelte'
     import { sendFlowRouter } from '../send-flow.router'
     import SendFlowTemplate from './SendFlowTemplate.svelte'
-    import { getTokenStandardFromSendFlowParameters } from '@core/wallet/actions/'
+    import { getTokenStandardFromSendFlowParameters } from '@core/wallet/utils'
     import { TokenStandard } from '@core/token'
 
     let selector: NetworkRecipientSelector

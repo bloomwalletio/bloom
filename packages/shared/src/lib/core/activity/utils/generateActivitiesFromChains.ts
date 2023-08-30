@@ -14,7 +14,8 @@ export async function generateActivitiesFromChains(account: IAccountState): Prom
 
         const transactions = getPersistedEvmTransactions(account.index, networkId)
         for (const transaction of transactions) {
-            const activity = await generateActivityFromEvmTransaction(transaction, networkId, chain.getProvider())
+            // TODO: We need to store additional information on the EVM transaction such as `tokenId` because we cannot easily extract that from transaction data
+            const activity = await generateActivityFromEvmTransaction(transaction, '0x', networkId, chain.getProvider())
             activities.push(activity)
         }
     }

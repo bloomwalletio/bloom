@@ -25,3 +25,27 @@ export function setLayer2AccountBalanceForChain(
         return balance
     })
 }
+
+export function updateLayer2AccountBalanceForTokenOnChain(
+    accountIndex: number,
+    networkId: NetworkId,
+    tokenId: string,
+    delta: number
+): number {
+    let newBalance = 0
+    layer2Balances.update((balance) => {
+        if (!balance) {
+            balance = {}
+        }
+        const accountBalance = balance[accountIndex] ?? {}
+        const accountNetworkBalance = accountBalance[networkId] ?? {}
+        const oldBalance = accountNetworkBalance[tokenId] ?? 0
+        newBalance = oldBalance + delta
+
+        accountNetworkBalance[tokenId] = newBalance
+        accountBalance[networkId] = accountNetworkBalance
+        balance[accountIndex] = accountBalance
+        return balance
+    })
+    return newBalance
+}
