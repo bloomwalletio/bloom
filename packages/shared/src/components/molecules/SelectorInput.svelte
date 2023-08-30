@@ -118,7 +118,7 @@
                             </Text>
                         </div>
                         {#if option.value && option.key}
-                            <Text type={TextType.pre} fontSize="sm" color="gray-600" classes="flex-1 text-end">
+                            <Text type={TextType.pre} fontSize="sm" color="gray-600" classes="flex-2 text-end">
                                 {truncateString(option.displayedValue ?? option.value, 9, 9)}
                             </Text>
                         {/if}
