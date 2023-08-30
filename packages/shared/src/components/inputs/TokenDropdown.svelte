@@ -1,7 +1,7 @@
 <script lang="ts">
     import { IToken } from '@core/token'
     import { visibleSelectedAccountTokens } from '@core/token/stores'
-    import { TokenAmountTile, Icon, Text, TokenIcon, FontWeight } from '@ui'
+    import { TokenAmountTile, Icon, Text, TokenAvatar, FontWeight } from '@ui'
     import { clickOutside } from '@core/utils'
     import { activeProfile } from '@core/profile/stores'
 
@@ -49,7 +49,7 @@
             class:cursor-pointer={!isReadonly}
             on:click={onDropdownClick}
         >
-            <TokenIcon small persistedToken={token} networkId={token.networkId} />
+            <TokenAvatar size="xs" {token} />
             <div class="w-full relative" style="max-width: 75px;">
                 <Text
                     color="gray-600"
