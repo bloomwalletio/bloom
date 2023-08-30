@@ -30,5 +30,5 @@
     bind:value
     on:cancel={onCancelClick}
     on:confirm={onConfirmClick}
-    startTime={new Date()}
+    startDate={new Date()}
 />
