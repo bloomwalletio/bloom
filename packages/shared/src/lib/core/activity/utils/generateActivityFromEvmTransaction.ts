@@ -18,6 +18,7 @@ export async function generateActivityFromEvmTransaction(
     return {
         type: ActivityType.Basic,
         id: transaction.transactionHash,
+        transactionId: transaction.transactionHash,
         time: new Date(Number(timestamp) * 1000),
         inclusionState: InclusionState.Confirmed,
         containsValue: true,
@@ -31,6 +32,7 @@ export async function generateActivityFromEvmTransaction(
         rawBaseCoinAmount: Number(transaction.value) / Number(WEI_PER_GLOW),
         rawAmount: Number(transaction.value) / Number(WEI_PER_GLOW),
         tokenId: getCoinType(),
-        networkId,
+        sourceNetworkId: networkId,
+        destinationNetworkId: networkId,
     }
 }
