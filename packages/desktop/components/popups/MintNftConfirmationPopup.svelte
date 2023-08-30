@@ -144,13 +144,11 @@
                         }))}
                     />
                 {:else if activeTab === Tab.Metadata}
-                    <!-- Todo we need to create a code display component -->
                     <Table
-                        orientation="vertical"
                         items={[
                             {
                                 key: localize('general.metadata'),
-                                value: JSON.stringify(irc27Metadata, null, '\t'),
+                                value: irc27Metadata,
                                 copyable: true,
                             },
                         ]}

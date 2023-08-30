@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { getNameFromNetworkId } from '@core/network'
     import { type IItem, Table } from '@bloomwalletio/ui'
     import { Activity } from '@core/activity'
     import { getFormattedTimeStamp, localize } from '@core/i18n'
@@ -7,18 +8,19 @@
 
     export let activity: Activity
 
-    $: expirationTime = getFormattedTimeStamp(activity?.asyncData?.expirationDate)
-    $: claimedTime = getFormattedTimeStamp(activity?.asyncData?.claimedDate)
-    $: hasStorageDeposit =
-        activity?.storageDeposit || (activity?.storageDeposit === 0 && activity?.giftedStorageDeposit === 0)
-    $: gasLimit = activity?.parsedLayer2Metadata?.gasLimit
+    $: expirationTime = activity?.asyncData?.expirationDate
+        ? getFormattedTimeStamp(activity?.asyncData?.expirationDate)
+        : undefined
+    $: claimedTime = activity?.asyncData?.claimedDate
+        ? getFormattedTimeStamp(activity?.asyncData?.claimedDate)
+        : undefined
+    $: hasStorageDeposit = activity?.storageDeposit
+    $: gasFee = activity?.parsedLayer2Metadata?.gasLimit || activity?.gasUsed
 
-    $: formattedTransactionTime = getFormattedTimeStamp(activity?.time)
-    $: formattedTimelockDate = getFormattedTimeStamp(activity?.asyncData?.timelockDate)
-    $: formattedStorageDeposit = formatTokenAmountPrecise(activity?.storageDeposit ?? 0, getBaseToken())
-    $: formattedGiftedStorageDeposit = formatTokenAmountPrecise(activity?.giftedStorageDeposit ?? 0, getBaseToken())
-    $: formattedSurplus = formatTokenAmountPrecise(activity?.surplus ?? 0, getBaseToken())
-    $: formattedGasLimit = formatTokenAmountPrecise(Number(gasLimit ?? 0), getBaseToken())
+    $: formattedTransactionTime = getFormattedTimeStamp(activity.time)
+    $: formattedTimelockDate = activity.asyncData ? getFormattedTimeStamp(activity.asyncData?.timelockDate) : undefined
+    $: formattedStorageDeposit = formatTokenAmountPrecise(activity.storageDeposit ?? 0, getBaseToken())
+    $: formattedGasFee = formatTokenAmountPrecise(Number(gasFee ?? 0), getBaseToken())
 
     let items: IItem[] = []
 
@@ -27,10 +29,10 @@
     function setItems(_activity: Activity): void {
         items = []
 
-        if (_activity?.destinationNetwork) {
+        if (_activity?.destinationNetworkId) {
             items.push({
                 key: localize('general.destinationNetwork'),
-                value: _activity?.destinationNetwork,
+                value: getNameFromNetworkId(_activity?.destinationNetworkId),
             })
         }
         if (_activity?.time) {
@@ -60,24 +62,10 @@
                 tooltip: localize(`tooltips.transactionDetails.${_activity?.direction}.storageDeposit`),
             })
         }
-        if (_activity?.surplus) {
+        if (gasFee) {
             items.push({
-                key: localize('general.surplus'),
-                value: formattedSurplus,
-            })
-        }
-        if (_activity?.giftedStorageDeposit) {
-            items.push({
-                key: localize('general.giftedStorageDeposit'),
-                value: formattedGiftedStorageDeposit,
-                tooltip: localize(`tooltips.transactionDetails.${_activity?.direction}.giftedStorageDeposit`),
-            })
-        }
-        if (gasLimit) {
-            items.push({
-                key: localize('general.gasLimit'),
-                value: formattedGasLimit,
-                tooltip: localize(`tooltips.transactionDetails.${_activity?.direction}.gasLimit`),
+                key: localize('general.gasFee'),
+                value: formattedGasFee,
             })
         }
         if (expirationTime) {

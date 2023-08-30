@@ -1,8 +1,8 @@
 <script lang="ts">
-    import { Button, CopyableButton, FlatIconName } from '@bloomwalletio/ui'
+    import { Button, CopyableButton, IconName } from '@bloomwalletio/ui'
     import { selectedAccount } from '@core/account/stores'
     import { localize } from '@core/i18n'
-    import { generateAndStoreEvmAddressForAccount } from '@core/layer-2'
+    import { generateAndStoreEvmAddressForAccount } from '@core/layer-2/actions'
     import { LedgerAppName } from '@core/ledger'
     import {
         IChain,
@@ -111,7 +111,7 @@
                 {/if}
             </div>
             {#if address}
-                <Button variant="text" icon={FlatIconName.Qrcode} on:click={onQrCodeIconClick} />
+                <Button variant="text" icon={IconName.QrCode} on:click={onQrCodeIconClick} />
             {/if}
         </div>
     </div>
