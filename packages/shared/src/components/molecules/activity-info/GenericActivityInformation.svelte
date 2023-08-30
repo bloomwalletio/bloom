@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { getNameFromNetworkId } from '@core/network'
     import { type IItem, Table } from '@bloomwalletio/ui'
     import { Activity } from '@core/activity'
     import { getFormattedTimeStamp, localize } from '@core/i18n'
@@ -28,10 +29,10 @@
     function setItems(_activity: Activity): void {
         items = []
 
-        if (_activity?.destinationNetwork) {
+        if (_activity?.destinationNetworkId) {
             items.push({
                 key: localize('general.destinationNetwork'),
-                value: _activity?.destinationNetwork,
+                value: getNameFromNetworkId(_activity?.destinationNetworkId),
             })
         }
         if (_activity?.time) {

@@ -28,6 +28,7 @@ export function generateBalanceChangeActivity(
         rawBaseCoinAmount: Math.abs(difference),
         rawAmount: Math.abs(difference),
         tokenId: tokenId === '0x' ? getCoinType() : tokenId,
-        networkId,
+        sourceNetworkId: networkId,
+        destinationNetworkId: networkId,
     }
 }

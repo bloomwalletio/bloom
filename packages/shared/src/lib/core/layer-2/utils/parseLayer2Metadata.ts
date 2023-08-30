@@ -1,10 +1,17 @@
 import { Layer2Metadata } from '../types'
 
-export function parseLayer2Metadata(metadata: string): Layer2Metadata {
-    const parsedData = JSON.parse(metadata)
-    validate(parsedData)
+export function parseLayer2Metadata(metadata: string | undefined): Layer2Metadata | undefined {
+    if (!metadata) {
+        return undefined
+    }
+    try {
+        const parsedData = JSON.parse(metadata)
+        validate(parsedData)
 
-    return { ...parsedData }
+        return { ...parsedData }
+    } catch (error) {
+        return undefined
+    }
 }
 
 function validate(data: Layer2Metadata): void {

@@ -21,9 +21,9 @@ export type BaseActivity = {
     subject: Subject | undefined
     metadata?: string
     tag?: string
-    networkId: NetworkId
+    sourceNetworkId: NetworkId
+    destinationNetworkId: NetworkId
     asyncData?: AsyncData
-    destinationNetwork?: string
     parsedLayer2Metadata?: Layer2Metadata
 }
 
@@ -33,6 +33,6 @@ export type AsyncData = {
     expirationDate: Date
     isRejected: boolean
     isClaiming: boolean
-    claimingTransactionId: string
-    claimedDate: Date
+    claimingTransactionId?: string
+    claimedDate?: Date
 }
