@@ -6,8 +6,7 @@ import { handlePersonalSign } from './personal_sign.handler'
 import { JsonRpcResponse } from '@walletconnect/jsonrpc-types'
 import { Web3WalletTypes } from '@walletconnect/web3wallet'
 import { getConnectedDappByOrigin, getWalletClient } from '../stores'
-import { SupportedNetworkId, network } from '@core/network'
-import { get } from 'svelte/store'
+import { SupportedNetworkId, getNetwork } from '@core/network'
 
 export function onSessionRequest(event: Web3WalletTypes.SessionRequest): void {
     const { topic, params, id: requestid, verifyContext } = event
@@ -17,8 +16,8 @@ export function onSessionRequest(event: Web3WalletTypes.SessionRequest): void {
     const dapp = getConnectedDappByOrigin(verifyContext.verified.origin)
 
     // TODO: the commented code is the correct one, but as long as there are no shimmerevm dapps, we need to hardcode it
-    // const chain = get(network)?.getChain(chainId as NetworkId)
-    const chain = get(network)?.getChain(SupportedNetworkId.ShimmerEvmTestnet ?? chainId)
+    // const chain = getNetwork?.getChain(chainId as NetworkId)
+    const chain = getNetwork()?.getChain(SupportedNetworkId.ShimmerEvmTestnet ?? chainId)
 
     function returnResponse(response: JsonRpcResponse): void {
         void getWalletClient()?.respondSessionRequest({ topic, response })

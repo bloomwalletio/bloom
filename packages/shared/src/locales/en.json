@@ -1091,7 +1091,7 @@
             "title": "Sign a message",
             "message": "Message",
             "hint": "No balance will be sent to {dappName} in the process of signing this message.",
-            "warning": "Dapp cannot be determined. No balance will be sent in the process of signing this message.",
+            "warning": "dApp cannot be determined. No balance will be sent in the process of signing this message.",
             "action": "Sign message"
         },
         "activityDetails": {
