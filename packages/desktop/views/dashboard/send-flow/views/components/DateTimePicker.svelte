@@ -1,6 +1,6 @@
 <script lang="ts">
     import { createEventDispatcher } from 'svelte'
-    import { DateTimePicker } from '@ui'
+    import { DateTimePicker } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
     import { isValidExpirationDateTime, MILLISECONDS_PER_SECOND, SECONDS_PER_MINUTE } from '@core/utils'
     import { showNotification } from '@auxiliary/notification'
