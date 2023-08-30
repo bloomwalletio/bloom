@@ -20,3 +20,7 @@ export function setConnectedDapps(): void {
 export function getConnectedDapps(): IConnectedDapp[] {
     return get(connectedDapps)
 }
+
+export function getConnectedDappByOrigin(origin: string): IConnectedDapp | undefined {
+    return get(connectedDapps).find((dapp) => dapp.metadata?.url === origin)
+}
