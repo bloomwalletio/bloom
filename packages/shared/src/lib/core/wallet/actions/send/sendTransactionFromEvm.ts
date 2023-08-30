@@ -4,6 +4,7 @@ import { EvmTransactionData } from '@core/layer-2'
 import { LedgerAppName } from '@core/ledger'
 import { IChain } from '@core/network'
 import { checkActiveProfileAuth } from '@core/profile/actions'
+
 import { signAndSendEvmTransaction } from './signAndSendEvmTransaction'
 import { generateActivityFromEvmTransaction } from '@core/activity/utils/generateActivityFromEvmTransaction'
 import { PersistedEvmTransaction } from '@core/activity'
@@ -11,7 +12,7 @@ import { PersistedEvmTransaction } from '@core/activity'
 export async function sendTransactionFromEvm(
     transaction: EvmTransactionData,
     chain: IChain,
-    callback: () => void
+    callback?: () => void
 ): Promise<void> {
     const account = getSelectedAccount()
     const provider = chain.getProvider()
@@ -37,8 +38,11 @@ export async function sendTransactionFromEvm(
 
                 const activity = await generateActivityFromEvmTransaction(evmTransaction, networkId, provider)
                 addActivitiesToAccountActivitiesInAllAccountActivities(account.index, [activity])
+
+                if (callback && typeof callback === 'function') {
+                    callback()
+                }
             }
-            callback()
         },
         { stronghold: true, ledger: true },
         LedgerAppName.Ethereum

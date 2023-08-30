@@ -1,4 +1,5 @@
-import { parseLayer2Metadata, getDestinationNetworkFromAddress } from '@core/layer-2/utils'
+import { parseLayer2Metadata } from '@core/layer-2/utils'
+import { getDestinationNetworkFromAddress } from '@core/layer-2/actions'
 import { Layer2Metadata } from '@core/layer-2/types'
 import { SenderInfo } from '../../types'
 import { SubjectType } from '@core/wallet/enums'

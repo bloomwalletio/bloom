@@ -1,11 +1,11 @@
-import { estimateGasForLayer1ToLayer2Transaction, getLayer2MetadataForTransfer } from '@core/layer-2/utils'
+import { getGasFeesForLayer1ToLayer2Transaction, getLayer2MetadataForTransfer } from '@core/layer-2/actions'
+import { ChainConfiguration, ChainType, getActiveNetworkId, getChainConfiguration, isEvmChain } from '@core/network'
 import { getCoinType } from '@core/profile/actions'
 import { Converter, convertDateToUnixTimestamp } from '@core/utils'
 import { SendFlowParameters, Subject } from '@core/wallet/types'
 import { Assets, OutputParams } from '@iota/wallet/out/types'
 import { ReturnStrategy } from '../enums'
 import { SendFlowType } from '../stores'
-import { ChainConfiguration, ChainType, getActiveNetworkId, getChainConfiguration, isEvmChain } from '@core/network'
 
 export async function getOutputParameters(
     sendFlowParameters: SendFlowParameters,
@@ -18,10 +18,7 @@ export async function getOutputParameters(
     const chainConfig = isToLayer2 ? getChainConfiguration(destinationNetworkId) : undefined
     const destinationAddress = getDestinationAddress(recipient, chainConfig)
 
-    const estimatedGas = await estimateGasForLayer1ToLayer2Transaction(sendFlowParameters)
-
     let amount = getAmountFromTransactionData(sendFlowParameters)
-    amount = isToLayer2 ? (estimatedGas + parseInt(amount, 10)).toString() : amount
 
     const assets = getAssetsFromTransactionData(sendFlowParameters)
 
@@ -31,6 +28,11 @@ export async function getOutputParameters(
 
     const expirationUnixTime = expirationDate ? convertDateToUnixTimestamp(expirationDate) : undefined
     const timelockUnixTime = timelockDate ? convertDateToUnixTimestamp(timelockDate) : undefined
+
+    if (isToLayer2) {
+        const { maxGasFee } = await getGasFeesForLayer1ToLayer2Transaction(sendFlowParameters)
+        amount = (parseInt(amount, 10) + Number(maxGasFee ?? 0)).toString()
+    }
 
     return <OutputParams>{
         recipientAddress: destinationAddress,

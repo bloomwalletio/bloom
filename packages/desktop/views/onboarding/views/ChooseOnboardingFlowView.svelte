@@ -9,9 +9,9 @@
     import { onMount } from 'svelte'
     import { onboardingRouter } from '../onboarding-router'
 
-    $: networkId = $onboardingProfile?.network?.id
-    $: displayedNetworkName = $onboardingProfile?.network?.name
-    $: networkType = getOnboardingNetworkTypeFromNetworkId(networkId)
+    const networkId = $onboardingProfile?.network?.id
+    const networkType = getOnboardingNetworkTypeFromNetworkId(networkId)
+    const displayedNetworkName = $onboardingProfile?.network?.name
 
     function onProfileSetupSelectionClick(onboardingType: OnboardingType): void {
         updateOnboardingProfile({ onboardingType })

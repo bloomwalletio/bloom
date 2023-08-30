@@ -19,6 +19,9 @@ const walletFeatures: IWalletFeatures = {
         burnToken: {
             enabled: true,
         },
+        unwrapToken: {
+            enabled: true,
+        },
     },
     activityHistory: {
         enabled: true,

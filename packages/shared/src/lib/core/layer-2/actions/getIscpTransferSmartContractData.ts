@@ -1,16 +1,16 @@
 import { IChain } from '@core/network'
-import {
-    evmAddressToAgentID,
-    getAgentBalanceParameters,
-    getLayer2AssetAllowance,
-    getSmartContractHexName,
-} from '@core/layer-2/utils'
 import { getSelectedAccount } from '@core/account/stores'
 import { ContractType } from '@core/layer-2/enums'
 import { ISC_MAGIC_CONTRACT_ADDRESS } from '@core/layer-2/constants'
 import { handleError } from '@core/error/handlers'
 import { IError } from '@core/error/interfaces'
 import { TransferredAsset } from '../types'
+import {
+    buildAssetAllowance,
+    evmAddressToAgentId,
+    getAgentBalanceParameters,
+    getSmartContractHexName,
+} from '../helpers'
 
 export function getIscpTransferSmartContractData(
     recipientAddress: string,
@@ -31,9 +31,9 @@ export function getIscpTransferSmartContractData(
         const accountsCoreContract = getSmartContractHexName('accounts')
         const transferAllowanceTo = getSmartContractHexName('transferAllowanceTo')
 
-        const agentId = evmAddressToAgentID(recipientAddress)
+        const agentId = evmAddressToAgentId(recipientAddress)
         const parameters = getAgentBalanceParameters(agentId)
-        const allowance = getLayer2AssetAllowance(transferredAsset)
+        const allowance = buildAssetAllowance(transferredAsset)
 
         const contract = chain.getContract(ContractType.IscMagic, ISC_MAGIC_CONTRACT_ADDRESS)
         const method = contract.methods.call(accountsCoreContract, transferAllowanceTo, parameters, allowance)
