@@ -1088,7 +1088,7 @@
             "checkbox": "Send crash reports to the IOTA Foundation"
         },
         "signMessage": {
-            "title": "Sign a message",
+            "title": "Sign a message for dApp",
             "message": "Message",
             "hint": "No balance will be sent to {dappName} in the process of signing this message.",
             "warning": "dApp cannot be determined. No balance will be sent in the process of signing this message.",
