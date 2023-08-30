@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { type IItem, Table } from '@bloomwalletio/ui'
+    import { Table } from '@bloomwalletio/ui'
     import { selectedAccount } from '@core/account/stores'
     import { handleError } from '@core/error/handlers/handleError'
     import { localize } from '@core/i18n'
@@ -38,47 +38,6 @@
         ...(issuerName && { issuerName }),
         ...(description && { description }),
         ...(attributes && { attributes }),
-    }
-
-    let nftTabDetails: { [key in string]: string }
-    $: {
-        nftTabDetails = {
-            name,
-            ...(description && { description }),
-            uri,
-            ...(issuerName && { issuerName }),
-            ...(collectionName && { collectionName }),
-        }
-    }
-
-    let transactionTabItems: IItem[] = []
-    $: activeTab === Tab.Transaction && setTransactionTabItems(quantity)
-    function setTransactionTabItems(quantity: number): void {
-        transactionTabItems = []
-
-        if (quantity > 1) {
-            transactionTabItems.push({
-                key: localize('general.quantity'),
-                value: quantity,
-            })
-            transactionTabItems.push({
-                key: localize('general.storageDepositPerNft'),
-                value: formatTokenAmountPrecise(storageDeposit, getBaseToken()),
-            })
-            transactionTabItems.push({
-                key: localize('general.totalStorageDeposit'),
-                value: formatTokenAmountPrecise(totalStorageDeposit, getBaseToken()),
-            })
-        } else {
-            transactionTabItems.push({
-                key: localize('general.storageDeposit'),
-                value: formatTokenAmountPrecise(storageDeposit, getBaseToken()),
-            })
-        }
-        transactionTabItems.push({
-            key: localize('general.immutableIssuer'),
-            value: $selectedAccount.depositAddress,
-        })
     }
 
     async function prepareNftOutput(): Promise<void> {
@@ -133,13 +92,61 @@
             <activity-details class="w-full h-full space-y-2 flex flex-auto flex-col shrink-0">
                 <Tabs bind:activeTab {tabs} />
                 {#if activeTab === Tab.Transaction}
-                    <Table items={transactionTabItems} />
+                    <Table
+                        items={[
+                            {
+                                key: localize('general.quantity'),
+                                value: quantity > 1 ? quantity : undefined,
+                            },
+                            {
+                                key: localize('general.storageDepositPerNft'),
+                                value:
+                                    quantity > 1 ? formatTokenAmountPrecise(storageDeposit, getBaseToken()) : undefined,
+                            },
+                            {
+                                key: localize('general.totalStorageDeposit'),
+                                value:
+                                    quantity > 1
+                                        ? formatTokenAmountPrecise(totalStorageDeposit, getBaseToken())
+                                        : undefined,
+                            },
+                            {
+                                key: localize('general.storageDeposit'),
+                                value:
+                                    quantity === 0
+                                        ? formatTokenAmountPrecise(storageDeposit, getBaseToken())
+                                        : undefined,
+                            },
+                            {
+                                key: localize('general.immutableIssuer'),
+                                value: $selectedAccount.depositAddress,
+                            },
+                        ]}
+                    />
                 {:else if activeTab === Tab.Nft}
                     <Table
-                        items={Object.entries(nftTabDetails).map(([key, value]) => ({
-                            key: localize(`general.${key}`),
-                            value,
-                        }))}
+                        items={[
+                            {
+                                key: localize('general.name'),
+                                value: name,
+                            },
+                            {
+                                key: localize('general.description'),
+                                value: description ? description : undefined,
+                            },
+                            {
+                                key: localize('general.uri'),
+                                value: uri,
+                            },
+                            {
+                                key: localize('general.issuerName'),
+                                value: issuerName ? issuerName : undefined,
+                            },
+                            {
+                                key: localize('general.collectionName'),
+                                value: collectionName ? collectionName : undefined,
+                            },
+                        ]}
                     />
                 {:else if activeTab === Tab.Metadata}
                     <!-- Todo we need to create a code display component -->
