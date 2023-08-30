@@ -7,9 +7,10 @@ import { JsonRpcResponse } from '@walletconnect/jsonrpc-types'
 import { Web3WalletTypes } from '@walletconnect/web3wallet'
 import { getConnectedDappByOrigin, getWalletClient } from '../stores'
 import { SupportedNetworkId, getNetwork } from '@core/network'
+import { CallbackParameters } from '../types'
 
 export function onSessionRequest(event: Web3WalletTypes.SessionRequest): void {
-    const { topic, params, id: requestid, verifyContext } = event
+    const { topic, params, id, verifyContext } = event
     const { request, chainId } = params
     const method = request.method
 
@@ -19,13 +20,32 @@ export function onSessionRequest(event: Web3WalletTypes.SessionRequest): void {
     // const chain = getNetwork?.getChain(chainId as NetworkId)
     const chain = getNetwork()?.getChain(SupportedNetworkId.ShimmerEvmTestnet ?? chainId)
 
-    function returnResponse(response: JsonRpcResponse): void {
-        void getWalletClient()?.respondSessionRequest({ topic, response })
+    function returnResponse({ result, error }: CallbackParameters): void {
+        const response: JsonRpcResponse | undefined = result
+            ? {
+                  id,
+                  result,
+                  jsonrpc: '2.0',
+              }
+            : error
+            ? {
+                  id,
+                  error: {
+                      code: 5000,
+                      message: error,
+                  },
+                  jsonrpc: '2.0',
+              }
+            : undefined
+
+        if (response) {
+            void getWalletClient()?.respondSessionRequest({ topic, response })
+        }
     }
 
     switch (method) {
         case 'eth_sendTransaction':
-            handleEthSendTransaction(requestid, request.params, returnResponse)
+            handleEthSendTransaction(request.params, returnResponse)
             break
         case 'eth_signTransaction':
             handleEthSignTransaction()
@@ -34,7 +54,7 @@ export function onSessionRequest(event: Web3WalletTypes.SessionRequest): void {
             handleEthSign()
             break
         case 'personal_sign':
-            handlePersonalSign(requestid, request.params, dapp, chain, returnResponse)
+            handlePersonalSign(request.params, dapp, chain, returnResponse)
             break
         case 'eth_signTypedData':
             handleEthSignTypedData()

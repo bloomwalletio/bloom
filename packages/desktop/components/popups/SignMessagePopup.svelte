@@ -5,19 +5,18 @@
     import { handleError } from '@core/error/handlers'
     import { onMount } from 'svelte'
     import { selectedAccount } from '@core/account/stores'
-    import { JsonRpcResponse } from '@walletconnect/jsonrpc-types'
     import { sleep, truncateString } from '@core/utils'
     import { IConnectedDapp } from '@auxiliary/wallet-connect/interface'
     import { IAccountState } from '@core/account'
     import { IChain } from '@core/network'
+    import { CallbackParameters } from '@auxiliary/wallet-connect/types'
 
     export let _onMount: (..._: any[]) => Promise<void> = async () => {}
-    export let requestId: number
     export let message: string
     export let account: IAccountState
     export let chain: IChain
     export let dapp: IConnectedDapp | undefined
-    export let callback: (response: JsonRpcResponse) => void
+    export let callback: (params: CallbackParameters) => void
 
     $: address = truncateString(account.evmAddresses[chain.getConfiguration().coinType] ?? '', 8, 8)
 
@@ -27,9 +26,8 @@
         isBusy = true
         try {
             const signedMessage = await sign()
-            const response = { id: requestId, result: signedMessage, jsonrpc: '2.0' }
 
-            callback(response)
+            callback({ result: signedMessage })
             closePopup()
         } finally {
             isBusy = false
@@ -43,7 +41,7 @@
     }
 
     function onCancelClick(): void {
-        callback({ id: requestId, error: { code: 5000, message: 'User rejected' }, jsonrpc: '2.0' })
+        callback({ error: 'User rejected' })
         closePopup()
     }
 
