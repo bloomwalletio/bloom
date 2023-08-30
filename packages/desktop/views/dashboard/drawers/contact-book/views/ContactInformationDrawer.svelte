@@ -1,6 +1,6 @@
 <script lang="ts">
     import { Icon as IconEnum } from '@auxiliary/icon'
-    import { Button, FlatIconName } from '@bloomwalletio/ui'
+    import { Button, IconName } from '@bloomwalletio/ui'
     import { ContactAddressCard, ContactMetadataTable, DrawerTemplate } from '@components'
     import { ContactManager, selectedContact } from '@core/contact'
     import { localize } from '@core/i18n'
@@ -75,7 +75,7 @@
         {#if features.contacts.addNetworkAddress.enabled}
             <Button
                 variant="text"
-                icon={FlatIconName.Plus}
+                icon={IconName.Plus}
                 text={localize(
                     `views.dashboard.drawers.contactBook.${ContactBookRoute.ContactInformation}.addNetworkAddress`
                 )}

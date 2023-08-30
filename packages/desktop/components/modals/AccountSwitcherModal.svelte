@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { Button, FlatIconName } from '@bloomwalletio/ui'
+    import { Button, IconName } from '@bloomwalletio/ui'
     import { sumBalanceForAccounts } from '@core/account'
     import { selectedAccount } from '@core/account/stores'
     import { formatCurrency, localize } from '@core/i18n'
@@ -49,7 +49,7 @@
         class=" flex flex-row justify-between w-full p-8 hover:bg-gray-50 dark:hover:bg-gray-800"
         on:click={onCreateAccountClick}
     >
-        <Button icon={FlatIconName.Plus} variant="text" text={localize('general.addAWallet')} />
+        <Button icon={IconName.Plus} variant="text" text={localize('general.addAWallet')} />
         <div class="flex flex-col items-end text-right space-y-1">
             <Text type={TextType.h5}>
                 {formatTokenAmountBestMatch(totalBalance, getBaseToken())}
