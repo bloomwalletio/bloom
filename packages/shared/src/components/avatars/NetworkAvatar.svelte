@@ -6,18 +6,18 @@
     export let networkId: NetworkId
     export let size: 'xxs' | 'xs' | 'sm' = 'sm'
 
-    const AVATAR_TEXT_COLOR: { [id in SupportedNetworkId]: string } = {
-        [SupportedNetworkId.Shimmer]: '#17E1D5',
-        [SupportedNetworkId.Testnet]: 'gray-400',
-        [SupportedNetworkId.ShimmerEvm]: '#17E1D5',
-        [SupportedNetworkId.ShimmerEvmTestnet]: 'gray-400',
-    }
-
     const AVATAR_BACKGROUND_COLOR: { [id in SupportedNetworkId]: string } = {
         [SupportedNetworkId.Shimmer]: '#020F26',
         [SupportedNetworkId.Testnet]: '#020F26',
         [SupportedNetworkId.ShimmerEvm]: '#020F26',
         [SupportedNetworkId.ShimmerEvmTestnet]: '#020F26',
+    }
+
+    const AVATAR_TEXT_COLOR: { [id in SupportedNetworkId]: string } = {
+        [SupportedNetworkId.Shimmer]: '#17E1D5',
+        [SupportedNetworkId.Testnet]: 'gray-400',
+        [SupportedNetworkId.ShimmerEvm]: '#17E1D5',
+        [SupportedNetworkId.ShimmerEvmTestnet]: 'gray-400',
     }
 
     $: isSupported = isSupportedNetworkId(networkId)

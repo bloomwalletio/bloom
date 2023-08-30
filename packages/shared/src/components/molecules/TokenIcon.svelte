@@ -1,11 +1,11 @@
 <script lang="ts">
     import { Icon as IconEnum, NETWORK_ICON_SVG } from '@auxiliary/icon'
     import { getIconColorFromString } from '@core/account'
-    import { DEFAULT_COIN_TYPE, getActiveNetworkId, network, NetworkId } from '@core/network'
+    import { DEFAULT_COIN_TYPE, NetworkId } from '@core/network'
     import { activeProfile } from '@core/profile/stores'
+    import { ANIMATED_TOKEN_IDS, IPersistedToken, TokenStandard, getTokenInitials } from '@core/token'
     import { isBright } from '@core/utils'
-    import { ANIMATED_TOKEN_IDS, getTokenInitials, IPersistedToken, TokenStandard } from '@core/token'
-    import { Animation, Icon, NetworkBadge, VerificationBadge } from '@ui'
+    import { Animation, Icon, NetworkBadge } from '@ui'
 
     export let persistedToken: IPersistedToken
     export let networkId: NetworkId | undefined
@@ -24,7 +24,6 @@
         | undefined
     let networkName: string | undefined
 
-    $: $network, networkId, (networkName = getTooltipText())
     $: isAnimation = persistedToken.id in ANIMATED_TOKEN_IDS
     $: baseNetworkId = $activeProfile?.network?.id ?? ''
 
@@ -58,16 +57,6 @@
                             : '',
                 }
             }
-        }
-    }
-
-    function getTooltipText(): string | undefined {
-        const l1NetworkName = $network?.getMetadata().name
-        if (networkId === getActiveNetworkId()) {
-            return l1NetworkName
-        } else if (networkId) {
-            const chain = $network?.getChain(networkId)
-            return chain?.getConfiguration().name ?? l1NetworkName
         }
     }
 </script>
@@ -123,11 +112,7 @@
         {/if}
     </div>
     <span class="absolute flex justify-center items-center bottom-0 right-0">
-        {#if persistedToken.verification.verified === true && networkId}
-            <NetworkBadge size="xxs" {networkId} tooltipText={networkName} />
-        {:else}
-            <VerificationBadge status={persistedToken.verification?.status} width={14} height={14} />
-        {/if}
+        <NetworkBadge size="xxs" {networkId} tooltipText={networkName} />
     </span>
 </div>
 
