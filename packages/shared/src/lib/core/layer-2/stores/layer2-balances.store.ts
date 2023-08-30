@@ -9,6 +9,14 @@ export function getLayer2AccountBalance(accountIndex: number): Layer2AccountBala
     return get(layer2Balances)?.[accountIndex]
 }
 
+export function getLayer2AccountBalanceForToken(
+    accountIndex: number,
+    networkId: NetworkId,
+    tokenId: string
+): number | undefined {
+    return get(layer2Balances)?.[accountIndex]?.[networkId]?.[tokenId]
+}
+
 export function setLayer2AccountBalanceForChain(
     accountIndex: number,
     networkId: NetworkId,

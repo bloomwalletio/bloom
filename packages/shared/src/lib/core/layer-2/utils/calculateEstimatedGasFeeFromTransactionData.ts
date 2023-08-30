@@ -1,6 +1,6 @@
 import { BigIntLike } from '@ethereumjs/util'
 import { EvmTransactionData } from '../types'
-import { calculateGasFeeInGlow } from '../helpers'
+import { calculateGasFeeInGlow } from '../utils'
 
 export function calculateEstimatedGasFeeFromTransactionData(
     transactionData: EvmTransactionData

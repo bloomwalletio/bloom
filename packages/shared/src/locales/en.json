@@ -2104,6 +2104,7 @@
             "invalidTokenId": "The token id is not valid.",
             "unknownAsset": "The asset is not known to this account.",
             "insufficientFunds": "This wallet has insufficient funds.",
+            "insufficientFundsGasFee": "Insufficient funds to cover the gas fee.",
             "insufficientFundsStorageDeposit": "Insufficient funds to cover the storage deposit.",
             "ongoingTransaction": "If you have ongoing transactions, please wait for their confirmation.",
             "cannotClaimTwice": "Output has been already claimed",

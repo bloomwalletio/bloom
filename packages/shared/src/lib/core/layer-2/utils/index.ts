@@ -1,5 +1,6 @@
 export * from './buildAssetAllowance'
 export * from './calculateEstimatedGasFeeFromTransactionData'
+export * from './calculateGasFeeInGlow'
 export * from './calculateMaxGasFeeFromTransactionData'
 export * from './getAbiForContractType'
 export * from './getAmountFromEvmTransactionValue'

@@ -29,8 +29,8 @@ export function createEvmChainToEvmChainTransaction(
         return Promise.resolve(undefined)
     }
 
-    let token
-    let amount
+    let token: IToken | undefined
+    let amount: string | undefined
     if (sendFlowParameters.type === SendFlowType.BaseCoinTransfer) {
         token = sendFlowParameters.baseCoinTransfer?.token
         amount = sendFlowParameters.baseCoinTransfer?.rawAmount ?? '0'
@@ -53,13 +53,12 @@ export function createEvmChainToEvmChainTransaction(
 
     const destinationAddress = getDestinationAddress(token, recipientAddress)
 
-    let data
+    let data: string | undefined
     if (!token || token.metadata?.standard === TokenStandard.BaseToken) {
         data = undefined
     } else {
         data = getDataForTransaction(chain, recipientAddress, token, amount)
-        // set amount to zero after using it to bui
-        // ld the smart contract data,
+        // set amount to zero after using it to build the smart contract data,
         // as we do not want to send any base token
         amount = '0'
         if (!data) {
