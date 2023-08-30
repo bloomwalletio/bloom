@@ -10,9 +10,9 @@ import { AsyncData, IClaimData } from '@core/activity/types'
 export function getAsyncDataFromOutput(
     output: Output,
     outputId: string,
-    claimingData: IClaimData,
+    claimingData: IClaimData | undefined,
     account: IAccountState
-): AsyncData {
+): AsyncData | undefined {
     const isAsync = isOutputAsync(output)
     if (isAsync) {
         const isClaiming = false
@@ -42,6 +42,6 @@ export function getAsyncDataFromOutput(
             claimedDate,
         }
     } else {
-        return null
+        return undefined
     }
 }

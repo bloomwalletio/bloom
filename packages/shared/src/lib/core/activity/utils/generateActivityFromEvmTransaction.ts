@@ -31,6 +31,7 @@ export async function generateActivityFromEvmTransaction(
         rawBaseCoinAmount: Number(transaction.value) / Number(WEI_PER_GLOW),
         rawAmount: Number(transaction.value) / Number(WEI_PER_GLOW),
         tokenId: getCoinType(),
-        networkId,
+        sourceNetworkId: networkId,
+        destinationNetworkId: networkId,
     }
 }
