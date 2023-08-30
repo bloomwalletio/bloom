@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { type IItem, Table } from '@bloomwalletio/ui'
+    import { Table } from '@bloomwalletio/ui'
     import { onMount } from 'svelte'
     import { selectedAccount } from '@core/account/stores'
     import { handleError } from '@core/error/handlers/handleError'
@@ -30,49 +30,6 @@
             const preparedOutput = await $selectedAccount.buildFoundryOutput(outputData)
             storageDeposit = formatTokenAmountPrecise(Number(preparedOutput.amount) ?? 0, getBaseToken())
         }
-    }
-
-    let items: IItem[] = []
-    $: items = $mintTokenDetails ? getItems($mintTokenDetails) : []
-
-    function getItems(details: IMintTokenDetails): IItem[] {
-        const { name: tokenName, symbol, aliasId, url, logoUrl, decimals, totalSupply } = details
-        const _items = [
-            {
-                key: localize('popups.nativeToken.property.alias'),
-                value: aliasId,
-                copyable: true,
-            },
-            {
-                key: localize('popups.nativeToken.property.storageDeposit'),
-                value: storageDeposit ? storageDeposit : undefined,
-            },
-            {
-                key: localize('popups.nativeToken.property.tokenName'),
-                value: tokenName,
-            },
-            {
-                key: localize('popups.nativeToken.property.totalSupply'),
-                value: String(totalSupply),
-            },
-            {
-                key: localize('popups.nativeToken.property.decimals'),
-                value: decimals ? String(decimals) : undefined,
-            },
-            {
-                key: localize('popups.nativeToken.property.symbol'),
-                value: symbol,
-            },
-            {
-                key: localize('popups.nativeToken.property.url'),
-                value: url,
-            },
-            {
-                key: localize('popups.nativeToken.property.logoUrl'),
-                value: logoUrl,
-            },
-        ]
-        return _items
     }
 
     function getMetadata(details: IMintTokenDetails | undefined): IIrc30Metadata | undefined {
@@ -138,10 +95,48 @@
     <Text type={TextType.h4} fontSize="18" lineHeight="6" fontWeight={FontWeight.semibold}>
         {localize('popups.nativeToken.confirmationTitle')}
     </Text>
-
-    <div class="space-y-2 max-h-100 scrollable-y flex-1">
-        <Table {items} />
-    </div>
+    {#if $mintTokenDetails}
+        {@const { name: tokenName, symbol, aliasId, url, logoUrl, decimals, totalSupply } = $mintTokenDetails}
+        <div class="space-y-2 max-h-100 scrollable-y flex-1">
+            <Table
+                items={[
+                    {
+                        key: localize('popups.nativeToken.property.alias'),
+                        value: aliasId,
+                        copyable: true,
+                    },
+                    {
+                        key: localize('popups.nativeToken.property.storageDeposit'),
+                        value: storageDeposit ? storageDeposit : undefined,
+                    },
+                    {
+                        key: localize('popups.nativeToken.property.tokenName'),
+                        value: tokenName,
+                    },
+                    {
+                        key: localize('popups.nativeToken.property.totalSupply'),
+                        value: String(totalSupply),
+                    },
+                    {
+                        key: localize('popups.nativeToken.property.decimals'),
+                        value: decimals ? String(decimals) : undefined,
+                    },
+                    {
+                        key: localize('popups.nativeToken.property.symbol'),
+                        value: symbol,
+                    },
+                    {
+                        key: localize('popups.nativeToken.property.url'),
+                        value: url,
+                    },
+                    {
+                        key: localize('popups.nativeToken.property.logoUrl'),
+                        value: logoUrl,
+                    },
+                ]}
+            />
+        </div>
+    {/if}
     <div class="flex flex-row flex-nowrap w-full space-x-4">
         <Button outline classes="w-full" disabled={isTransferring} onClick={onBackClick}>
             {localize('actions.back')}
