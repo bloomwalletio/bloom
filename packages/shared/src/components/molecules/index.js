@@ -1,6 +1,5 @@
 export { default as ActivityInformation } from './ActivityInformation.svelte'
 export { default as ConditionsOfUse } from './ConditionsOfUse.svelte'
-export { default as DateInputButton } from './DateInputButton.svelte'
 export { default as ExpirationTimePicker } from './ExpirationTimePicker.svelte'
 export { default as MarkdownBlock } from './MarkdownBlock.svelte'
 export { default as MediaPlaceholder } from './MediaPlaceholder.svelte'
