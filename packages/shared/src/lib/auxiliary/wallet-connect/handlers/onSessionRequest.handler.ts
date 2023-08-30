@@ -41,7 +41,7 @@ export function onSessionRequest(event: Web3WalletTypes.SessionRequest): void {
 
     // TODO: the commented code is the correct one, but as long as there are no shimmerevm dapps, we need to hardcode it
     // const chain = getNetwork()?.getChain(chainId as NetworkId)
-    const chain = getNetwork()?.getChain((SupportedNetworkId.ShimmerEvmTestnet as NetworkId) ?? chainId)
+    const chain = getNetwork()?.getChain(SupportedNetworkId.ShimmerEvmTestnet ?? (chainId as NetworkId))
     if (!chain) {
         returnResponse({ error: 'Chain not supported' })
         return
