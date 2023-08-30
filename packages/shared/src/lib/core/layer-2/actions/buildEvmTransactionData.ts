@@ -1,6 +1,6 @@
-import { getEvmTransactionValueFromAmount } from '@core/layer-2'
 import { Converter } from '@core/utils'
 import Web3 from 'web3'
+import { getEvmTransactionValueFromAmount } from '../helpers/getEvmTransactionValueFromAmount'
 import { GAS_LIMIT_MULTIPLIER } from '../constants'
 import { EvmTransactionData } from '../types'
 
@@ -17,7 +17,7 @@ export async function buildEvmTransactionData(
     const gasPrice = await provider.eth.getGasPrice()
     const hexGasPrice = Converter.decimalToHex(Number(gasPrice), true)
     const estimatedGas = await provider.eth.estimateGas({ from: originAddress, to: destinationAddress, data })
-    const gasLimit = GAS_LIMIT_MULTIPLIER * estimatedGas // Double to ensure we have enough gas
+    const gasLimit = Math.floor(estimatedGas * GAS_LIMIT_MULTIPLIER)
 
     const to = destinationAddress
 

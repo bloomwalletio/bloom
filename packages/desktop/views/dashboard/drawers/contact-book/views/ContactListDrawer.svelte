@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { FlatIconName, Button } from '@bloomwalletio/ui'
+    import { IconName, Button } from '@bloomwalletio/ui'
     import { ContactCard, DrawerTemplate } from '@components'
     import { ContactManager, IContact, clearSelectedContact, setSelectedContact } from '@core/contact'
     import { localize } from '@core/i18n'
@@ -39,7 +39,7 @@
         {#if features.contacts.addContact.enabled}
             <Button
                 variant="text"
-                icon={FlatIconName.Plus}
+                icon={IconName.Plus}
                 text={localize(`views.dashboard.drawers.contactBook.${ContactBookRoute.ContactList}.addContact`)}
                 on:click={onAddContactClick}
             />

@@ -1,10 +1,9 @@
-import { Transaction } from '@ethereumjs/tx'
+import { EvmChainId, getEvmTransactionOptions } from '@core/network'
 import { RLP } from '@ethereumjs/rlp'
+import { Transaction } from '@ethereumjs/tx'
 import { bufArrToArr } from '@ethereumjs/util'
-
 import { IEvmTransactionSignature } from '../interfaces'
 import { EvmTransactionData } from '../types'
-import { EvmChainId, getEvmTransactionOptions } from '@core/network'
 
 export function prepareEvmTransaction(
     transactionData: EvmTransactionData,

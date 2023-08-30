@@ -3,7 +3,7 @@
 
     import { onMount } from 'svelte'
 
-    import { Button, FlatIconName } from '@bloomwalletio/ui'
+    import { Button, IconName } from '@bloomwalletio/ui'
     import { DrawerTemplate } from '@components'
     import { TextInput } from '@ui'
 
@@ -217,7 +217,7 @@
         <Button
             variant="text"
             text={localize(`views.dashboard.drawers.contactBook.${ContactBookRoute.EditNetworkAddresses}.addAddress`)}
-            icon={FlatIconName.Plus}
+            icon={IconName.Plus}
             width="full"
             on:click={onAddNewAddressClick}
         />
