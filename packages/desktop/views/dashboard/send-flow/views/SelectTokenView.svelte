@@ -74,6 +74,7 @@
             try {
                 const gasPrice = await getGasPriceInWei(token.networkId)
                 const gasLimit = Math.floor(
+                    // TODO: Copy logic for transaction summary page but use actual send flow type
                     FALLBACK_ESTIMATED_GAS[SendFlowType.BaseCoinTransfer] * GAS_LIMIT_MULTIPLIER
                 )
                 const minimumNeededGasFee = calculateGasFeeInGlow(gasLimit, gasPrice)
