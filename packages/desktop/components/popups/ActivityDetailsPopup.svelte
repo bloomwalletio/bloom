@@ -16,7 +16,6 @@
     import { getNftByIdFromAllAccountNfts } from '@core/nfts/actions'
     import { ownedNfts, selectedNftId } from '@core/nfts/stores'
     import { checkActiveProfileAuth } from '@core/profile/actions'
-    import { activeProfile } from '@core/profile/stores'
     import { CollectiblesRoute, DashboardRoute, collectiblesRouter, dashboardRouter } from '@core/router'
     import { setClipboard, truncateString } from '@core/utils'
     import { claimActivity, rejectActivity } from '@core/wallet'
@@ -35,8 +34,6 @@
     export let activityId: string
     export let _onMount: (..._: any[]) => Promise<void> = async () => {}
 
-    const explorerUrl = getDefaultExplorerUrl($activeProfile?.network?.id)
-
     $: activity = $selectedAccountActivities.find((_activity) => _activity.id === activityId)
     $: isTimelocked = activity?.asyncData?.asyncStatus === ActivityAsyncStatus.Timelocked
     $: isActivityIncomingAndUnclaimed =
@@ -50,6 +47,7 @@
             ? getNftByIdFromAllAccountNfts($selectedAccountIndex, activity.nftId)
             : undefined
     $: nftIsOwned = nft ? $ownedNfts.some((_onMountnft) => _onMountnft.id === nft?.id) : false
+    $: explorerUrl = getDefaultExplorerUrl(activity?.sourceNetworkId, ExplorerEndpoint.Transaction)
 
     let title: string | undefined = localize('popups.activityDetails.title.fallback')
     $: void setTitle(activity)
@@ -66,7 +64,7 @@
     }
 
     function onExplorerClick(_activity: Activity): void {
-        openUrlInBrowser(`${explorerUrl}/${ExplorerEndpoint.Transaction}/${_activity.transactionId}`)
+        openUrlInBrowser(`${explorerUrl}/${_activity.transactionId}`)
     }
 
     function onTransactionIdClick(_activity: Activity): void {

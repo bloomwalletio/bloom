@@ -9,7 +9,6 @@
     import { getNftByIdFromAllAccountNfts } from '@core/nfts/actions'
     import { allAccountNfts, selectedNftId } from '@core/nfts/stores'
     import { getBaseToken } from '@core/profile/actions'
-    import { activeProfile } from '@core/profile/stores'
     import { collectiblesRouter } from '@core/router/routers'
     import { formatTokenAmountPrecise } from '@core/token'
     import { getTimeDifference } from '@core/utils'
@@ -28,8 +27,8 @@
 
     let modal: Modal
 
-    const explorerUrl = getDefaultExplorerUrl($activeProfile?.network?.id)
     const nft: INft = getNftByIdFromAllAccountNfts($selectedAccountIndex, $selectedNftId)
+    const explorerUrl = getDefaultExplorerUrl(nft?.networkId, ExplorerEndpoint.Nft)
 
     const { id, name, issuer, address, metadata, downloadMetadata, storageDeposit } = nft ?? {}
     const { standard, version, type, uri, description, issuerName, collectionName, attributes, soonaverseAttributes } =
@@ -155,7 +154,7 @@
     }
 
     function onExplorerClick(): void {
-        openUrlInBrowser(`${explorerUrl}/${ExplorerEndpoint.Nft}/${id}`)
+        openUrlInBrowser(`${explorerUrl}/${id}`)
     }
 
     function onSendClick(): void {
