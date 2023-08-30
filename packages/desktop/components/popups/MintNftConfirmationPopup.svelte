@@ -119,7 +119,7 @@
                             },
                             {
                                 key: localize('general.immutableIssuer'),
-                                value: $selectedAccount.depositAddress,
+                                value: $selectedAccount?.depositAddress,
                             },
                         ]}
                     />

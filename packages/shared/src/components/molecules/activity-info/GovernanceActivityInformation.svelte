@@ -7,23 +7,23 @@
 
     export let activity: GovernanceActivity
 
-    $: formattedTransactionTime = getFormattedTimeStamp(activity.time)
+    $: formattedTransactionTime = getFormattedTimeStamp(activity?.time)
     $: isNewVotingPower =
-        activity.governanceAction === GovernanceAction.DecreaseVotingPower ||
-        activity.governanceAction === GovernanceAction.IncreaseVotingPower
+        activity?.governanceAction === GovernanceAction.DecreaseVotingPower ||
+        activity?.governanceAction === GovernanceAction.IncreaseVotingPower
 </script>
 
 <Table
     items={[
         {
             key: localize('general.transactionTime'),
-            value: activity.time ? formattedTransactionTime : undefined,
+            value: activity?.time ? formattedTransactionTime : undefined,
         },
         {
             key: isNewVotingPower ? localize('general.newVotingPower') : localize('general.votingPower'),
             value:
-                activity.votingPower !== undefined
-                    ? formatTokenAmountBestMatch(activity.votingPower, getBaseToken(), 2)
+                activity?.votingPower !== undefined
+                    ? formatTokenAmountBestMatch(activity?.votingPower, getBaseToken(), 2)
                     : undefined,
             tooltip: localize('tooltips.transactionDetails.votingPower'),
         },

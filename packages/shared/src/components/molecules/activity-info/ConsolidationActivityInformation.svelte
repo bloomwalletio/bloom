@@ -10,11 +10,11 @@
     items={[
         {
             key: localize('general.transactionTime'),
-            value: activity.time ? getFormattedTimeStamp(activity.time) : undefined,
+            value: activity?.time ? getFormattedTimeStamp(activity?.time) : undefined,
         },
         {
             key: localize('general.amountConsolidatedInputs'),
-            value: activity.amountConsolidatedInputs ? String(activity.amountConsolidatedInputs) : undefined,
+            value: activity?.amountConsolidatedInputs ? String(activity?.amountConsolidatedInputs) : undefined,
         },
     ]}
 />
