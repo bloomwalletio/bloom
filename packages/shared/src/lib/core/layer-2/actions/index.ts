@@ -1,6 +1,7 @@
 export * from './buildEvmTransactionData'
 export * from './buildUnwrapAssetParameters'
 export * from './buildUnwrapAssetTargetAddress'
+export * from './canAccountMakeEvmTransaction'
 export * from './estimateGasForLayer1ToLayer2Transaction'
 export * from './fetchSelectedAccountLayer2Balance'
 export * from './generateAndStoreEvmAddressForAccount'

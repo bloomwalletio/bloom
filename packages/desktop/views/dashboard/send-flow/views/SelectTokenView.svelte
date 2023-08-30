@@ -9,14 +9,12 @@
     import { sendFlowRouter } from '../send-flow.router'
     import SendFlowTemplate from './SendFlowTemplate.svelte'
     import { getCoinType } from '@core/profile/actions'
-    import { getNetwork, isEvmChain } from '@core/network'
+    import { getNetwork } from '@core/network'
     import { AccountTokens, IToken, TokenStandard } from '@core/token'
     import { selectedAccountTokens } from '@core/token/stores'
     import { getAccountTokensForSelectedAccount } from '@core/token/actions'
-    import { getLayer2AccountBalanceForToken } from '@core/layer-2/stores'
     import { selectedAccountIndex } from '@core/account/stores'
-    import { FALLBACK_ESTIMATED_GAS, GAS_LIMIT_MULTIPLIER, calculateGasFeeInGlow } from '@core/layer-2'
-    import { getGasPriceInWei } from '@core/layer-2/actions'
+    import { canAccountMakeEvmTransaction } from '@core/layer-2/actions'
     import { handleError } from '@core/error/handlers'
 
     let searchValue: string = ''
@@ -66,24 +64,16 @@
     }
 
     async function onTokenClick(token: IToken): Promise<void> {
-        tokenError = false
-        selectedToken = token
-        if (isEvmChain(token.networkId)) {
-            const baseTokenAmount =
-                getLayer2AccountBalanceForToken($selectedAccountIndex, token.networkId, getCoinType()) ?? 0
-            try {
-                const gasPrice = await getGasPriceInWei(token.networkId)
-                const gasLimit = Math.floor(
-                    // TODO: Copy logic for transaction summary page but use actual send flow type
-                    FALLBACK_ESTIMATED_GAS[SendFlowType.BaseCoinTransfer] * GAS_LIMIT_MULTIPLIER
-                )
-                const minimumNeededGasFee = calculateGasFeeInGlow(gasLimit, gasPrice)
-                if (baseTokenAmount === 0 || BigInt(baseTokenAmount) < BigInt(minimumNeededGasFee.toString())) {
-                    tokenError = true
-                }
-            } catch (err) {
-                handleError(err)
-            }
+        try {
+            selectedToken = token
+            tokenError =
+                (await canAccountMakeEvmTransaction(
+                    $selectedAccountIndex,
+                    token.networkId,
+                    SendFlowType.BaseCoinTransfer
+                )) ?? false
+        } catch (err) {
+            handleError(err)
         }
     }
 

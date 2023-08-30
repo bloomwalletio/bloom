@@ -7,6 +7,7 @@
 
     export let item: INetworkRecipientSelectorOption
     export let selected: boolean = false
+    export let error: boolean = false
     export let onClick: (item: INetworkRecipientSelectorOption) => void = () => {}
     export let onChange: (item: INetworkRecipientSelectorOption) => void = () => {}
 
@@ -50,7 +51,12 @@
 </script>
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
-<network-recipient-item class:selected class:disabled={item.disabled} on:click={onItemClick}>
+<network-recipient-item
+    class:selected={selected && !error}
+    class:disabled={item.disabled || error}
+    class:error
+    on:click={onItemClick}
+>
     <network-recipient-item-name>
         <div class="flex flex-row justify-between items-center space-x-4">
             <div class="flex flex-row space-x-3 items-center">
@@ -94,6 +100,9 @@
             @apply pointer-events-none;
             @apply opacity-50;
             @apply cursor-not-allowed;
+        }
+        &.error {
+            @apply border-2 border-red-500;
         }
     }
     :global(network-recipient-item-checkbox svg.active path) {
