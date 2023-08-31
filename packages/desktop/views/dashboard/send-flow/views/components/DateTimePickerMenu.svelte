@@ -10,10 +10,10 @@
     export let selected: TimePeriod = TimePeriod.None
 
     export function tryOpen(): void {
-        if (!canShowDateTimePicker) {
+        if (!showDateTimePicker) {
             modal?.open()
         } else {
-            canShowDateTimePicker = !canShowDateTimePicker
+            showDateTimePicker = !showDateTimePicker
         }
     }
 
@@ -21,7 +21,7 @@
 
     let previouslySelected = selected
     let customDate = new Date(Date.now() + 5 * SECONDS_PER_MINUTE * MILLISECONDS_PER_SECOND)
-    let canShowDateTimePicker = false
+    let showDateTimePicker = false
     let modal: Modal
 
     const dateIn1Hour = new Date(DATE_NOW)
@@ -56,7 +56,7 @@
 
     function onChooseTimeClick(_selected: TimePeriod): void {
         if (_selected === TimePeriod.Custom) {
-            canShowDateTimePicker = !canShowDateTimePicker
+            showDateTimePicker = !showDateTimePicker
         } else {
             customDate = undefined
         }
@@ -71,13 +71,13 @@
             selected = previouslySelected
             setDate()
         }
-        canShowDateTimePicker = false
+        showDateTimePicker = false
     }
 
     function onConfirmClick(): void {
         if (isFutureDateTime(customDate)) {
             value = customDate
-            canShowDateTimePicker = false
+            showDateTimePicker = false
         } else {
             showNotification({
                 variant: 'warning',
@@ -138,7 +138,7 @@
         />
     </date-time-picker-modal>
 </Modal>
-{#if canShowDateTimePicker}
+{#if showDateTimePicker}
     <DateTimePicker
         bind:value={customDate}
         on:cancel={onCancelClick}
