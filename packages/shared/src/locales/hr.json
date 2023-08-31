@@ -453,6 +453,7 @@
                 "referencedRate": "Stopa potvrđenih poruka"
             },
             "profileModal": {
+                "contactBook": "Contact book",
                 "allSettings": "Sve postavke",
                 "profileApplication": "Profile, application, security",
                 "logout": "Odjavi se",
@@ -493,7 +494,7 @@
                         "chainId": "Chain ID",
                         "aliasAddress": "Alias Address",
                         "iscpEndpoint": "ISCP Endpoint",
-                        "explorerEndpoint": "Explorer Endpoint (optional)",
+                        "explorerUrl": "Explorer URL (optional)",
                         "errors": {
                             "cannotBeEmpty": "Name cannot be empty",
                             "nameTooLong": "Name is too long",
@@ -530,6 +531,57 @@
                     },
                     "removeChain": {
                         "title": "Remove chain"
+                    }
+                },
+                "contactBook": {
+                    "contactList": {
+                        "title": "Contact list",
+                        "addContact": "Add contact"
+                    },
+                    "contactInformation": {
+                        "title": "Contact Information",
+                        "editContact": "Edit contact",
+                        "removeContact": "Remove contact",
+                        "addNetworkAddress": "Add network address"
+                    },
+                    "addContact": {
+                        "title": "Add contact"
+                    },
+                    "editContact": {
+                        "title": "Edit contact"
+                    },
+                    "removeContact": {
+                        "title": "Remove contact",
+                        "body": "Are you sure you want to remove this contact?",
+                        "hint": "Please note after removing a contact Bloom will show its actual addresses."
+                    },
+                    "addNetworkAddress": {
+                        "title": "Add network address"
+                    },
+                    "editNetworkAddresses": {
+                        "title": "Edit network addresses",
+                        "addAddress": "Add Address"
+                    },
+                    "removeNetworkAddresses": {
+                        "title": "Remove network addresses",
+                        "body": "Are you sure you want to remove the contact’s {network} network addresses?",
+                        "hint": "Please note after removing a contact’s network addresses Bloom will no longer associate it with them in transactions or activities."
+                    }
+                },
+                "dapps": {
+                    "dappsList": {
+                        "title": "Connected dApps",
+                        "connectDapp": "Connect dApp",
+                        "hint": "WalletConnect allows you to connect Bloom with dApps directly or with a connection code."
+                    },
+                    "inputConnectionCode": {
+                        "title": "Connect to a dApp",
+                        "inputLabel": "Wallet Connect code",
+                        "hint": "Add new dApps by adding a Wallet Connect code below."
+                    },
+                    "confirmConnection": {
+                        "title": "Connect with an application",
+                        "hint": "A third party service wants to connect with your wallet for the first time. You can choose if you wish to trust this connection."
                     }
                 }
             }
@@ -1034,6 +1086,101 @@
             "body": "Pomozite developerima da poboljšaju Firefly automatskim slanjem dijagnostičkih podataka kada dođe do pogreške ili pada programa. Ako je ova opcija odabrana, stupiti će na snagu nakon ponovnog pokretanja Fireflya.",
             "checkbox": "Pošalji izvješća o padu programa IOTA zakladi"
         },
+        "signMessage": {
+            "title": "Sign message",
+            "message": "Message",
+            "hint": "No balance will be sent to {dappName} in the process of signing this message.",
+            "warning": "dApp cannot be determined. No balance will be sent in the process of signing this message.",
+            "action": "Sign message"
+        },
+        "activityDetails": {
+            "title": {
+                "fallback": "Activity details",
+                "external": {
+                    "incoming": {
+                        "Pending": "Receiving from {subject}",
+                        "Confirmed": "Received from {subject}",
+                        "Conflicting": "Failed to receive"
+                    },
+                    "outgoing": {
+                        "Pending": "Sending to {subject}",
+                        "Confirmed": "Sent to {subject}",
+                        "Conflicting": "Failed to send"
+                    }
+                },
+                "internal": {
+                    "incoming": {
+                        "Pending": "Transferring from {subject}",
+                        "Confirmed": "Transferred from {subject}",
+                        "Conflicting": "Failed to transfer"
+                    },
+                    "outgoing": {
+                        "Pending": "Transferring to {subject}",
+                        "Confirmed": "Transferred to {subject}",
+                        "Conflicting": "Failed to transfer"
+                    },
+                    "selfTransaction": {
+                        "Pending": "Transferring to {subject}",
+                        "Confirmed": "Transferred to {subject}",
+                        "Conflicting": "Failed to transfer"
+                    }
+                },
+                "mint": {
+                    "Pending": "Minting",
+                    "Confirmed": "Minted",
+                    "Conflicting": "Failed to mint"
+                },
+                "burn": {
+                    "Pending": "Burning",
+                    "Confirmed": "Burned",
+                    "Conflicting": "Failed to burn"
+                },
+                "consolidation": {
+                    "Pending": "Consolidating outputs",
+                    "Confirmed": "Outputs consolidated",
+                    "Conflicting": "Failed to consolidate outputs"
+                },
+                "alias": {
+                    "creation": {
+                        "Pending": "Creating alias",
+                        "Confirmed": "Alias created",
+                        "Failed": "Failed to create alias"
+                    }
+                },
+                "governance": {
+                    "increaseVotingPower": {
+                        "Pending": "Increasing voting power",
+                        "Confirmed": "Increased voting power",
+                        "Conflicting": "Failed to increased voting power"
+                    },
+                    "decreaseVotingPower": {
+                        "Pending": "Decreasing voting power",
+                        "Confirmed": "Decreased voting power",
+                        "Conflicting": "Failed to decreased voting power"
+                    },
+                    "startVoting": {
+                        "Pending": "Voting for {proposalName}",
+                        "Confirmed": "Voted for {proposalName}",
+                        "Conflicting": "Failed to vote for"
+                    },
+                    "stopVoting": {
+                        "Pending": "Stopping voting for {proposalName}",
+                        "Confirmed": "Stopped voting for {proposalName}",
+                        "Conflicting": "Failed to stopped voting for"
+                    },
+                    "changedVote": {
+                        "Pending": "Changing vote for {proposalName}",
+                        "Confirmed": "Changed vote for {proposalName}",
+                        "Conflicting": "Failed to change vote for"
+                    },
+                    "revote": {
+                        "Pending": "Revoting",
+                        "Confirmed": "Revote",
+                        "Conflicting": "Failed to revote"
+                    }
+                }
+            }
+        },
         "legalUpdate": {
             "tosTitle": "Uvjeti korištenja",
             "privPolicyTitle": "Politika privatnosti",
@@ -1066,7 +1213,8 @@
                 "standard": "Standardni",
                 "name": "Ime",
                 "tokenId": "ID tokena",
-                "url": "URL"
+                "url": "URL",
+                "description": "Description"
             },
             "buttons": {
                 "verifyToken": "Verificiram ovaj token"
@@ -1203,6 +1351,7 @@
         "previous": "Prethodno",
         "next": "Sljedeće",
         "cancel": "Poništi",
+        "connect": "Connect",
         "close": "Zatvori",
         "dismiss": "Odbaci",
         "claim": "Preuzmi",
@@ -1286,7 +1435,7 @@
         "localProofOfWork": "Lokalni Proof of Work",
         "unlock": "Otključaj",
         "updateFirefly": "Ažuriraj Firefly",
-        "restartNow": "Ponovno pokreni",
+        "restart": "Restart",
         "refresh": "Refresh",
         "saveBackup": "Spremi Stronghold sigurnosnu kopiju",
         "customizeAcount": "Personaliziraj novčanik",
@@ -1384,7 +1533,8 @@
         "stopVoting": "Stop voting",
         "revote": "Revote",
         "skipAndKeep": "Skip and keep old password",
-        "addChain": "Add chain"
+        "addChain": "Add chain",
+        "untrackToken": "Untrack token"
     },
     "general": {
         "recipient": "Primatelj",
@@ -1431,6 +1581,8 @@
         "minting": "Mintanje",
         "burned": "Burned",
         "burning": "Burning",
+        "balanceChanged": "Balance changed",
+        "initialBalance": "Initial balance",
         "consolidated": "Outputs consolidated",
         "consolidating": "Consolidating outputs",
         "aliasCreated": "Alias created",
@@ -1458,6 +1610,7 @@
         "and": "i",
         "receiveFunds": "Primi sredstva",
         "address": "Adresa",
+        "addressName": "Address name",
         "myAddress": "My address",
         "myNetworkAddress": "Moja {networkName} adresa",
         "shareAddress": "Podijelite adresu",
@@ -1496,6 +1649,7 @@
         "security": "Sigurnost",
         "accountAddress": "Adresa novčanika",
         "network": "Mreža",
+        "networkSelection": "Network selection",
         "destinationNetwork": "Destination network",
         "nodes": "Nodeovi",
         "wallet": "Novčanik",
@@ -1580,6 +1734,7 @@
         "transactionTime": "Vrijeme transakcije",
         "surplus": "Višak",
         "storageDeposit": "Depozit za pohranu",
+        "gasFee": "Gas fee",
         "giftedStorageDeposit": "Poklonjeni depozit za pohranu",
         "storageDepositPerNft": "Storage deposit per NFT",
         "totalStorageDeposit": "Total storage deposit",
@@ -1601,6 +1756,7 @@
         "metadata": "Metapodaci",
         "amountConsolidatedInputs": "Consolidated outputs",
         "name": "Name",
+        "note": "Note",
         "tag": "Tag",
         "nodeList": "Lista nodeova",
         "claimedIn": "Preuzeto u",
@@ -1631,7 +1787,6 @@
         "smartContract": "Smart Contract",
         "targetContract": "Target contract",
         "contractFunction": "Contract function",
-        "gasBudget": "Gas budget",
         "standard": "Standard",
         "uri": "URI",
         "issuer": "Issuer",
@@ -1656,7 +1811,13 @@
         "evmAddress": "EVM address",
         "chain": "Chain",
         "importErc20Token": "Import ERC20 token",
-        "importErc20TokenDescription": "Import an ERC20 token from an EVM chain"
+        "optionalField": "{field} (optional)",
+        "gifted": "Gifted",
+        "copied": "Copied",
+        "connected": "Connected",
+        "disconnected": "Disconnected",
+        "estimatedFee": "Estimated fee",
+        "maxFees": "Max fees"
     },
     "filters": {
         "title": "Filteri",
@@ -1788,9 +1949,6 @@
         "downloadingUpdate": "Preuzimanje ažuriranja",
         "updateReady": "Ažuriranje je spremno",
         "updateError": "Došlo je do pogreške tijekom ažuriranja. Molimo, pokušajte ponovno",
-        "restartInstall": "Za instalaciju ponovno pokrenite aplikaciju",
-        "calcMinutesRemaining": "Računam preostalo vrijeme...",
-        "minutesRemaining": "{minutes, plural, one {preostala još # minuta} few {preostale još # minute} other {preostalo još # minuta}}",
         "copiedToClipboard": "Kopirano u međuspremnik",
         "accountsSynchronized": "Sinkronizacija novčanika je završena",
         "fundsAvailableSoon": "Vaša će sredstva biti dostupna uskoro",
@@ -1798,6 +1956,7 @@
             "success": "Povijest transakcija za {accountAlias} je uspješno spremljena u {filePath}",
             "error": "Nije moguće izvesti povijest transakcija za {accountAlias}"
         },
+        "newDappConnected": "Connected to new dApp",
         "deepLinkingRequest": {
             "receivedWhileLoggedOut": "Potrebno se prijaviti za pokretanje deep linka",
             "notEnabled": "Deep linkovi nisu omogućeni",
@@ -1861,6 +2020,12 @@
         },
         "stopVoting": {
             "success": "Voting successfully stopped"
+        },
+        "updateContact": {
+            "success": "Contact successfully updated"
+        },
+        "updateNetworkAddresses": {
+            "success": "Contact addresses successfully updated"
         }
     },
     "error": {
@@ -1898,7 +2063,11 @@
             "invalid": "Nevažeći PIN kȏd."
         },
         "address": {
-            "wrongAddressType": "Wrong address type"
+            "wrongAddressType": "Wrong address type",
+            "invalidBech32Format": "Invalid Bech32 format",
+            "belongsToAccount": "Cannot belong to any of your accounts",
+            "hexFormat": "Invalid hexadecimal format",
+            "checksum": "Address checksum is invalid"
         },
         "account": {
             "addressNotFound": "The address cannot be found in your account.",
@@ -1943,6 +2112,7 @@
             "cancelled": "Transakcija je otkazana.",
             "transaction": "Došlo je do greške prilikom slanja vaše transakcije. Molimo pokušajte ponovno.",
             "invalidExpirationDateTime": "Odabrani datum/vrijeme isteka nije važeći.",
+            "invalidTimelockDateTime": "The chosen timelock date/time is invalid.",
             "noInputs": "No inputs found.",
             "notEnoughBalance": "Not enough balance.",
             "missingTransactionId": "Nedostaje ID transakcije",
@@ -2009,7 +2179,8 @@
             "generateAddress": "Došlo je do greške prilikom generiranja adrese.",
             "timeout": "Isteklo je vrijeme korištenja Ledger uređaja.",
             "disconnected": "Izgubljena je veza s Ledger uređajem.",
-            "noStronghold": "Nije moguće koristiti Stronghold s Ledger profilom."
+            "noStronghold": "Nije moguće koristiti Stronghold s Ledger profilom.",
+            "rejected": "Action was rejected on the Ledger device"
         },
         "popup": {
             "preventClose": "Ovaj popup nije moguće zatvoriti."
@@ -2094,11 +2265,23 @@
         "erc20Token": {
             "invalidAddressFormat": "Must be hexadecimal format",
             "invalidAddressLength": "Length is invalid"
+        },
+        "input": {
+            "invalid": "{field} input is invalid",
+            "required": "{field} is required",
+            "unique": "{field} must be unique",
+            "alreadyUsed": "{field} is already being used",
+            "tooLong": "{field} must be {numCharacters} or less characters"
+        },
+        "walletConnect": {
+            "invalidUri": "Invalid URI",
+            "invalidProtocol": "Invalid protocol, must start with 'wc'.",
+            "deprecatedVersion": "dApp uses a deprecated wallet connect version."
         }
     },
     "warning": {
         "transaction": {
-            "invalidExpirationDateTime": "Odabrani datum isteka nije važeći."
+            "invalidDateTime": "The chosen date must be in the future."
         },
         "node": {
             "http": "Korištenje nodeova preko HTTP-a ostavlja promet nešifriranim i može predstavljati sigurnosni rizik."
@@ -2149,8 +2332,7 @@
                 "expirationTime": "Preuzmite ova sredstva prije isteka vremena ili će biti vraćena pošiljatelju.",
                 "timelockDate": "Pošiljatelj je postavio vremensko zaključavanje ovih sredstava. Moći ćete ih potrošiti nakon isteka vremenskog zaključavanja.",
                 "metadata": "Neobavezno podatkovno polje za trajno pohranjivanje podataka na Tangle.",
-                "tag": "Kratko neobavezno podatkovno polje. Označavanje grupa transakcija može olakšati njihovo traženje.",
-                "gasBudget": "Gas budget is required to conduct a transaction or execute a smart contract function on Shimmer EVM."
+                "tag": "Kratko neobavezno podatkovno polje. Označavanje grupa transakcija može olakšati njihovo traženje."
             },
             "outgoing": {
                 "storageDeposit": "Depozit za pohranu je povratni depozit potreban za pohranu vaše transakcije na Tangle.",
@@ -2158,8 +2340,7 @@
                 "expirationTime": "Ako primatelj ne preuzme sredstva na vrijeme, tokeni će vam biti vraćeni.",
                 "timelockDate": "Dodali ste vremensko zaključavanje ovoj transakciji. Primatelj neće moći potrošiti ova sredstva sve dok ne istekne vremenska blokada.",
                 "metadata": "Neobavezno podatkovno polje za trajno pohranjivanje podataka na Tangle.",
-                "tag": "Kratko neobavezno podatkovno polje. Označavanje grupa transakcija može olakšati njihovo traženje.",
-                "gasBudget": "Gas budget is required to conduct a transaction or execute a smart contract function on Shimmer EVM."
+                "tag": "Kratko neobavezno podatkovno polje. Označavanje grupa transakcija može olakšati njihovo traženje."
             },
             "nftMetadata": {
                 "standard": "The NFT standard e.g. IRC27.",
@@ -2199,6 +2380,10 @@
         },
         "updateStronghold": {
             "profileBadge": "Your Stronghold is out of date. Log in to update Stronghold."
+        },
+        "tokenIsNotVerified": {
+            "title": "Token is not verified",
+            "text": "Compare the token metadata against the relevant team’s official website. Only verify tokens that you trust."
         }
     },
     "exports": {
@@ -2234,55 +2419,6 @@
         "activity": "Aktivnost"
     },
     "pills": {
-        "stake": {
-            "Pending": "staking za",
-            "Confirmed": "stakeano za",
-            "Conflicting": "nije bilo moguće stakeati"
-        },
-        "external": {
-            "incoming": {
-                "Pending": "receiving from",
-                "Confirmed": "received from",
-                "Conflicting": "failed to receive"
-            },
-            "outgoing": {
-                "Pending": "sending to",
-                "Confirmed": "sent to",
-                "Conflicting": "failed to send"
-            }
-        },
-        "internal": {
-            "incoming": {
-                "Pending": "transferring from",
-                "Confirmed": "transferred from",
-                "Conflicting": "failed to transfer"
-            },
-            "outgoing": {
-                "Pending": "transferring to",
-                "Confirmed": "transferred to",
-                "Conflicting": "failed to transfer"
-            },
-            "selfTransaction": {
-                "Pending": "transferring to",
-                "Confirmed": "transferred to",
-                "Conflicting": "failed to transfer"
-            }
-        },
-        "mint": {
-            "Pending": "minting",
-            "Confirmed": "minted",
-            "Conflicting": "failed to mint"
-        },
-        "burn": {
-            "Pending": "burning",
-            "Confirmed": "burned",
-            "Conflicting": "failed to burn"
-        },
-        "consolidation": {
-            "Pending": "Consolidating outputs",
-            "Confirmed": "Outputs consolidated",
-            "Conflicting": "failed to consolidate outputs"
-        },
         "migrate": {
             "Pending": "migracija za",
             "Confirmed": "migrirano za",
@@ -2291,39 +2427,10 @@
         "asyncStatus": {
             "unclaimed": "Nije preuzeta",
             "claimed": "Preuzeta",
-            "expired": "isteklo"
+            "expired": "isteklo",
+            "timelocked": "timelocked"
         },
         "governance": {
-            "increaseVotingPower": {
-                "Pending": "increasing voting power",
-                "Confirmed": "increased voting power",
-                "Conflicting": "failed to increased voting power"
-            },
-            "decreaseVotingPower": {
-                "Pending": "decreasing voting power",
-                "Confirmed": "decreased voting power",
-                "Conflicting": "failed to decreased voting power"
-            },
-            "startVoting": {
-                "Pending": "voting for",
-                "Confirmed": "voted for",
-                "Conflicting": "failed to vote for"
-            },
-            "stopVoting": {
-                "Pending": "stopping voting for",
-                "Confirmed": "stopped voting for",
-                "Conflicting": "failed to stopped voting for"
-            },
-            "changedVote": {
-                "Pending": "changing vote for",
-                "Confirmed": "changed vote for",
-                "Conflicting": "failed to change vote for"
-            },
-            "revote": {
-                "Pending": "revoting",
-                "Confirmed": "revote",
-                "Conflicting": "failed to revote"
-            },
             "proposalStatus": {
                 "upcoming": "Announcement",
                 "commencing": "Voting open",
@@ -2331,13 +2438,6 @@
                 "ended": "Closed",
                 "nodeOutdated": "Outdated node URL",
                 "resultsNotAvailable": "Results not available"
-            }
-        },
-        "alias": {
-            "creation": {
-                "Pending": "creating alias",
-                "Confirmed": "alias created",
-                "Failed": "Failed to create alias"
             }
         },
         "networkHealth": {
@@ -2350,14 +2450,13 @@
         "smartContract": "smart contract"
     },
     "menus": {
-        "expirationTimePicker": {
-            "none": "Nema vremena isteka",
-            "1hour": "Za 1 sat",
-            "1day": "Za 1 dan",
-            "1week": "Za 1 tjedan",
+        "dateTimePicker": {
+            "1hour": "In 1 hour",
+            "1day": "In 1 day",
+            "1week": "In 1 week",
             "customDate": {
-                "title": "Prilagođeni datum",
-                "subtitle": "Postavi prilagođeni datum isteka"
+                "title": "Custom date",
+                "subtitle": "Set custom date"
             }
         }
     }
