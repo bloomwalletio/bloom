@@ -83,14 +83,14 @@
     <expiration-time-picker-modal class="flex flex-col space-y-0 whitespace-nowrap" in:fade={{ duration: 100 }}>
         <MenuItem
             icon="calendar"
-            title={localize('menus.expirationTimePicker.none')}
+            title={localize('general.none')}
             onClick={() => onChooseExpirationTimeClick(TimePeriod.None)}
             selected={selected === TimePeriod.None}
         />
         <hr />
         <MenuItem
             icon="calendar"
-            title={localize('menus.expirationTimePicker.1hour')}
+            title={localize('menus.dateTimePicker.1hour')}
             subtitle={formatDate(dateIn1Hour, {
                 dateStyle: 'medium',
                 timeStyle: 'medium',
@@ -100,7 +100,7 @@
         />
         <MenuItem
             icon="calendar"
-            title={localize('menus.expirationTimePicker.1day')}
+            title={localize('menus.dateTimePicker.1day')}
             subtitle={formatDate(dateIn1Day, {
                 dateStyle: 'medium',
                 timeStyle: 'medium',
@@ -110,7 +110,7 @@
         />
         <MenuItem
             icon="calendar"
-            title={localize('menus.expirationTimePicker.1week')}
+            title={localize('menus.dateTimePicker.1week')}
             subtitle={formatDate(dateIn1Week, {
                 dateStyle: 'medium',
                 timeStyle: 'medium',
@@ -121,10 +121,10 @@
         <hr />
         <MenuItem
             icon="calendar"
-            title={localize('menus.expirationTimePicker.customDate.title')}
+            title={localize('menus.dateTimePicker.customDate.title')}
             subtitle={customDate
                 ? formatDate(customDate, { dateStyle: 'medium', timeStyle: 'medium' })
-                : localize('menus.expirationTimePicker.customDate.subtitle')}
+                : localize('menus.dateTimePicker.customDate.subtitle')}
             onClick={() => onChooseExpirationTimeClick(TimePeriod.Custom)}
             selected={selected === TimePeriod.Custom}
         />
