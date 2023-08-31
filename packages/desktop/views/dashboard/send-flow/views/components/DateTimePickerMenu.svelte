@@ -54,7 +54,7 @@
         }
     }
 
-    function onChooseExpirationTimeClick(_selected: TimePeriod): void {
+    function onChooseTimeClick(_selected: TimePeriod): void {
         if (_selected === TimePeriod.Custom) {
             canShowDateTimePicker = !canShowDateTimePicker
         } else {
@@ -92,7 +92,7 @@
         <MenuItem
             icon="calendar"
             title={localize('general.none')}
-            onClick={() => onChooseExpirationTimeClick(TimePeriod.None)}
+            onClick={() => onChooseTimeClick(TimePeriod.None)}
             selected={selected === TimePeriod.None}
         />
         <hr />
@@ -103,7 +103,7 @@
                 dateStyle: 'medium',
                 timeStyle: 'medium',
             })}
-            onClick={() => onChooseExpirationTimeClick(TimePeriod.OneHour)}
+            onClick={() => onChooseTimeClick(TimePeriod.OneHour)}
             selected={selected === TimePeriod.OneHour}
         />
         <MenuItem
@@ -113,7 +113,7 @@
                 dateStyle: 'medium',
                 timeStyle: 'medium',
             })}
-            onClick={() => onChooseExpirationTimeClick(TimePeriod.OneDay)}
+            onClick={() => onChooseTimeClick(TimePeriod.OneDay)}
             selected={selected === TimePeriod.OneDay}
         />
         <MenuItem
@@ -123,7 +123,7 @@
                 dateStyle: 'medium',
                 timeStyle: 'medium',
             })}
-            onClick={() => onChooseExpirationTimeClick(TimePeriod.OneWeek)}
+            onClick={() => onChooseTimeClick(TimePeriod.OneWeek)}
             selected={selected === TimePeriod.OneWeek}
         />
         <hr />
@@ -133,7 +133,7 @@
             subtitle={customDate
                 ? formatDate(customDate, { dateStyle: 'medium', timeStyle: 'medium' })
                 : localize('menus.dateTimePicker.customDate.subtitle')}
-            onClick={() => onChooseExpirationTimeClick(TimePeriod.Custom)}
+            onClick={() => onChooseTimeClick(TimePeriod.Custom)}
             selected={selected === TimePeriod.Custom}
         />
     </date-time-picker-modal>
