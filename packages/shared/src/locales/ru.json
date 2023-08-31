@@ -453,6 +453,7 @@
                 "referencedRate": "Базовая скорость"
             },
             "profileModal": {
+                "contactBook": "Contact book",
                 "allSettings": "Все настройки",
                 "profileApplication": "Профиль, приложение, безопасность",
                 "logout": "Выйти",
@@ -493,7 +494,7 @@
                         "chainId": "ID цепочки",
                         "aliasAddress": "Псевдоним адреса",
                         "iscpEndpoint": "ISCP Конечная точка",
-                        "explorerEndpoint": "Конечная точка проводника (необязательно)",
+                        "explorerUrl": "Explorer URL (optional)",
                         "errors": {
                             "cannotBeEmpty": "Имя не должно быть пустым",
                             "nameTooLong": "Имя слишком длинное",
@@ -530,6 +531,57 @@
                     },
                     "removeChain": {
                         "title": "Remove chain"
+                    }
+                },
+                "contactBook": {
+                    "contactList": {
+                        "title": "Contact list",
+                        "addContact": "Add contact"
+                    },
+                    "contactInformation": {
+                        "title": "Contact Information",
+                        "editContact": "Edit contact",
+                        "removeContact": "Remove contact",
+                        "addNetworkAddress": "Add network address"
+                    },
+                    "addContact": {
+                        "title": "Add contact"
+                    },
+                    "editContact": {
+                        "title": "Edit contact"
+                    },
+                    "removeContact": {
+                        "title": "Remove contact",
+                        "body": "Are you sure you want to remove this contact?",
+                        "hint": "Please note after removing a contact Bloom will show its actual addresses."
+                    },
+                    "addNetworkAddress": {
+                        "title": "Add network address"
+                    },
+                    "editNetworkAddresses": {
+                        "title": "Edit network addresses",
+                        "addAddress": "Add Address"
+                    },
+                    "removeNetworkAddresses": {
+                        "title": "Remove network addresses",
+                        "body": "Are you sure you want to remove the contact’s {network} network addresses?",
+                        "hint": "Please note after removing a contact’s network addresses Bloom will no longer associate it with them in transactions or activities."
+                    }
+                },
+                "dapps": {
+                    "dappsList": {
+                        "title": "Connected dApps",
+                        "connectDapp": "Connect dApp",
+                        "hint": "WalletConnect allows you to connect Bloom with dApps directly or with a connection code."
+                    },
+                    "inputConnectionCode": {
+                        "title": "Connect to a dApp",
+                        "inputLabel": "Wallet Connect code",
+                        "hint": "Add new dApps by adding a Wallet Connect code below."
+                    },
+                    "confirmConnection": {
+                        "title": "Connect with an application",
+                        "hint": "A third party service wants to connect with your wallet for the first time. You can choose if you wish to trust this connection."
                     }
                 }
             }
@@ -1034,6 +1086,101 @@
             "body": "Помогите разработчикам улучшить Firefly, автоматически отправляя диагностические данные при возникновении ошибки или сбоя. Если выбрано, это вступит в силу после перезапуска Firefly.",
             "checkbox": "Отправляйте сообщения об авариях в Фонд IOTA"
         },
+        "signMessage": {
+            "title": "Sign message",
+            "message": "Message",
+            "hint": "No balance will be sent to {dappName} in the process of signing this message.",
+            "warning": "dApp cannot be determined. No balance will be sent in the process of signing this message.",
+            "action": "Sign message"
+        },
+        "activityDetails": {
+            "title": {
+                "fallback": "Activity details",
+                "external": {
+                    "incoming": {
+                        "Pending": "Receiving from {subject}",
+                        "Confirmed": "Received from {subject}",
+                        "Conflicting": "Failed to receive"
+                    },
+                    "outgoing": {
+                        "Pending": "Sending to {subject}",
+                        "Confirmed": "Sent to {subject}",
+                        "Conflicting": "Failed to send"
+                    }
+                },
+                "internal": {
+                    "incoming": {
+                        "Pending": "Transferring from {subject}",
+                        "Confirmed": "Transferred from {subject}",
+                        "Conflicting": "Failed to transfer"
+                    },
+                    "outgoing": {
+                        "Pending": "Transferring to {subject}",
+                        "Confirmed": "Transferred to {subject}",
+                        "Conflicting": "Failed to transfer"
+                    },
+                    "selfTransaction": {
+                        "Pending": "Transferring to {subject}",
+                        "Confirmed": "Transferred to {subject}",
+                        "Conflicting": "Failed to transfer"
+                    }
+                },
+                "mint": {
+                    "Pending": "Minting",
+                    "Confirmed": "Minted",
+                    "Conflicting": "Failed to mint"
+                },
+                "burn": {
+                    "Pending": "Burning",
+                    "Confirmed": "Burned",
+                    "Conflicting": "Failed to burn"
+                },
+                "consolidation": {
+                    "Pending": "Consolidating outputs",
+                    "Confirmed": "Outputs consolidated",
+                    "Conflicting": "Failed to consolidate outputs"
+                },
+                "alias": {
+                    "creation": {
+                        "Pending": "Creating alias",
+                        "Confirmed": "Alias created",
+                        "Failed": "Failed to create alias"
+                    }
+                },
+                "governance": {
+                    "increaseVotingPower": {
+                        "Pending": "Increasing voting power",
+                        "Confirmed": "Increased voting power",
+                        "Conflicting": "Failed to increased voting power"
+                    },
+                    "decreaseVotingPower": {
+                        "Pending": "Decreasing voting power",
+                        "Confirmed": "Decreased voting power",
+                        "Conflicting": "Failed to decreased voting power"
+                    },
+                    "startVoting": {
+                        "Pending": "Voting for {proposalName}",
+                        "Confirmed": "Voted for {proposalName}",
+                        "Conflicting": "Failed to vote for"
+                    },
+                    "stopVoting": {
+                        "Pending": "Stopping voting for {proposalName}",
+                        "Confirmed": "Stopped voting for {proposalName}",
+                        "Conflicting": "Failed to stopped voting for"
+                    },
+                    "changedVote": {
+                        "Pending": "Changing vote for {proposalName}",
+                        "Confirmed": "Changed vote for {proposalName}",
+                        "Conflicting": "Failed to change vote for"
+                    },
+                    "revote": {
+                        "Pending": "Revoting",
+                        "Confirmed": "Revote",
+                        "Conflicting": "Failed to revote"
+                    }
+                }
+            }
+        },
         "legalUpdate": {
             "tosTitle": "Условия предоставления услуг",
             "privPolicyTitle": "Политика конфиденциальности",
@@ -1066,7 +1213,8 @@
                 "standard": "Стандартный",
                 "name": "Имя",
                 "tokenId": "ID токена",
-                "url": "URL"
+                "url": "URL",
+                "description": "Description"
             },
             "buttons": {
                 "verifyToken": "Я проверяю этот токен"
@@ -1203,6 +1351,7 @@
         "previous": "Предыдущий",
         "next": "Следующий",
         "cancel": "Отменить",
+        "connect": "Connect",
         "close": "Закрыть",
         "dismiss": "Отклонить",
         "claim": "Запросить",
@@ -1286,7 +1435,7 @@
         "localProofOfWork": "Локальное доказательство выполнения работы",
         "unlock": "Разблокировать",
         "updateFirefly": "Обновить Firefly",
-        "restartNow": "Перезагрузить сейчас",
+        "restart": "Restart",
         "refresh": "Refresh",
         "saveBackup": "Сохранить резервную копию Stronghold",
         "customizeAcount": "Персонализация кошелька",
@@ -1384,7 +1533,8 @@
         "stopVoting": "Прекратить голосование",
         "revote": "Переголосовать",
         "skipAndKeep": "Skip and keep old password",
-        "addChain": "Add chain"
+        "addChain": "Add chain",
+        "untrackToken": "Untrack token"
     },
     "general": {
         "recipient": "Получатель",
@@ -1431,6 +1581,8 @@
         "minting": "Чеканка",
         "burned": "Сожжено",
         "burning": "Сжигание",
+        "balanceChanged": "Balance changed",
+        "initialBalance": "Initial balance",
         "consolidated": "Результаты объединены",
         "consolidating": "Объединение результатов",
         "aliasCreated": "Псевдоним создан",
@@ -1458,6 +1610,7 @@
         "and": "и",
         "receiveFunds": "Получить средства",
         "address": "Адрес",
+        "addressName": "Address name",
         "myAddress": "My address",
         "myNetworkAddress": "Мой адрес {networkName}",
         "shareAddress": "Поделиться адресом",
@@ -1496,6 +1649,7 @@
         "security": "Настройки Безопасности",
         "accountAddress": "Адрес кошелька",
         "network": "Сеть",
+        "networkSelection": "Network selection",
         "destinationNetwork": "Сеть назначения",
         "nodes": "Узлы",
         "wallet": "Кошелёк",
@@ -1580,6 +1734,7 @@
         "transactionTime": "Время транзакции",
         "surplus": "Избыток",
         "storageDeposit": "Депозит для хранения",
+        "gasFee": "Gas fee",
         "giftedStorageDeposit": "Подаренный депозит для хранения",
         "storageDepositPerNft": "Storage deposit per NFT",
         "totalStorageDeposit": "Total storage deposit",
@@ -1601,6 +1756,7 @@
         "metadata": "Полезные данные",
         "amountConsolidatedInputs": "Объединенные результаты",
         "name": "Имя",
+        "note": "Note",
         "tag": "Пометка",
         "nodeList": "Список узлов",
         "claimedIn": "Востребовано в",
@@ -1631,7 +1787,6 @@
         "smartContract": "Умный контракт",
         "targetContract": "Целевой контракт",
         "contractFunction": "Функция контракта",
-        "gasBudget": "Бюджет газа",
         "standard": "Стандартный",
         "uri": "URI",
         "issuer": "Эмитент",
@@ -1656,7 +1811,13 @@
         "evmAddress": "EVM address",
         "chain": "Chain",
         "importErc20Token": "Import ERC20 token",
-        "importErc20TokenDescription": "Import an ERC20 token from an EVM chain"
+        "optionalField": "{field} (optional)",
+        "gifted": "Gifted",
+        "copied": "Copied",
+        "connected": "Connected",
+        "disconnected": "Disconnected",
+        "estimatedFee": "Estimated fee",
+        "maxFees": "Max fees"
     },
     "filters": {
         "title": "Фильтры",
@@ -1788,9 +1949,6 @@
         "downloadingUpdate": "Загрузка обновлений",
         "updateReady": "Обновление готово",
         "updateError": "Во время обновления произошла ошибка, попробуйте ещё раз",
-        "restartInstall": "Перезапустите для установки",
-        "calcMinutesRemaining": "Вычисление оставшихся минут...",
-        "minutesRemaining": "{minutes, plural, one {# минута осталась} other {# минут осталось}}",
         "copiedToClipboard": "Скопировано в буфер обмена",
         "accountsSynchronized": "Синхронизация кошелька завершена",
         "fundsAvailableSoon": "Ваши средства будут доступны в ближайшее время",
@@ -1798,6 +1956,7 @@
             "success": "История транзакций для {accountAlias} успешно сохранена в {filePath}",
             "error": "Невозможно экспортировать историю транзакций для {accountAlias}"
         },
+        "newDappConnected": "Connected to new dApp",
         "deepLinkingRequest": {
             "receivedWhileLoggedOut": "Пожалуйста, войдите, чтобы открыть глубокую ссылку",
             "notEnabled": "Глубокие ссылки не включены",
@@ -1861,6 +2020,12 @@
         },
         "stopVoting": {
             "success": "Голосование успешно остановлено"
+        },
+        "updateContact": {
+            "success": "Contact successfully updated"
+        },
+        "updateNetworkAddresses": {
+            "success": "Contact addresses successfully updated"
         }
     },
     "error": {
@@ -1898,7 +2063,11 @@
             "invalid": "Неверный PIN код."
         },
         "address": {
-            "wrongAddressType": "Неправильный тип адреса"
+            "wrongAddressType": "Неправильный тип адреса",
+            "invalidBech32Format": "Invalid Bech32 format",
+            "belongsToAccount": "Cannot belong to any of your accounts",
+            "hexFormat": "Invalid hexadecimal format",
+            "checksum": "Address checksum is invalid"
         },
         "account": {
             "addressNotFound": "Адрес не может быть найден в вашем аккаунте.",
@@ -1943,6 +2112,7 @@
             "cancelled": "Транзакция была отменена.",
             "transaction": "Произошла ошибка при отправке вашей транзакции. Пожалуйста, попробуйте еще раз.",
             "invalidExpirationDateTime": "Выбранная дата/время истечения срока действия недопустима.",
+            "invalidTimelockDateTime": "The chosen timelock date/time is invalid.",
             "noInputs": "Вывод уже заявлен.",
             "notEnoughBalance": "Недостаточно баланса.",
             "missingTransactionId": "ID транзакции отсутствует",
@@ -2009,7 +2179,8 @@
             "generateAddress": "Произошла ошибка при генерировании адреса.",
             "timeout": "Время работы вашего устройства Ledger истекло.",
             "disconnected": "Ваше устройство Ledger было отключено.",
-            "noStronghold": "Невозможно использовать Stronghold с профилем Ledger."
+            "noStronghold": "Невозможно использовать Stronghold с профилем Ledger.",
+            "rejected": "Action was rejected on the Ledger device"
         },
         "popup": {
             "preventClose": "Это всплывающее окно невозможно закрыть."
@@ -2094,11 +2265,23 @@
         "erc20Token": {
             "invalidAddressFormat": "Must be hexadecimal format",
             "invalidAddressLength": "Length is invalid"
+        },
+        "input": {
+            "invalid": "{field} input is invalid",
+            "required": "{field} is required",
+            "unique": "{field} must be unique",
+            "alreadyUsed": "{field} is already being used",
+            "tooLong": "{field} must be {numCharacters} or less characters"
+        },
+        "walletConnect": {
+            "invalidUri": "Invalid URI",
+            "invalidProtocol": "Invalid protocol, must start with 'wc'.",
+            "deprecatedVersion": "dApp uses a deprecated wallet connect version."
         }
     },
     "warning": {
         "transaction": {
-            "invalidExpirationDateTime": "Выбранная дата истечения срока действия недопустима."
+            "invalidDateTime": "The chosen date must be in the future."
         },
         "node": {
             "http": "Использование узлов через HTTP оставляет трафик незашифрованным и может представлять угрозу безопасности."
@@ -2149,8 +2332,7 @@
                 "expirationTime": "Затребуйте эти средства до истечения срока действия, иначе они будут возвращены отправителю.",
                 "timelockDate": "Отправитель установил временную блокировку на эти средства. Вы сможете потратить их по истечении срока блокировки.",
                 "metadata": "Необязательное поле данных для постоянного хранения данных в Tangle.",
-                "tag": "Короткое необязательное поле данных. Пометка групп транзакций может облегчить их поиск.",
-                "gasBudget": "Бюджет газа необходим для проведения транзакции или выполнения функции смарт-контракта на Shimmer EVM."
+                "tag": "Короткое необязательное поле данных. Пометка групп транзакций может облегчить их поиск."
             },
             "outgoing": {
                 "storageDeposit": "Депозит за хранение - это возвращаемый залог, необходимый для хранения вашей транзакции на Tangle.",
@@ -2158,8 +2340,7 @@
                 "expirationTime": "Если получатель не востребовал вовремя, ваши токены будут возвращены вам.",
                 "timelockDate": "Вы добавили временную блокировку к этой транзакции. Получатель не сможет потратить эти средства до истечения срока блокировки.",
                 "metadata": "Необязательное поле данных для постоянного хранения данных в Tangle.",
-                "tag": "Короткое необязательное поле данных. Пометка групп транзакций может облегчить их поиск.",
-                "gasBudget": "Бюджет газа необходим для проведения транзакции или выполнения функции смарт-контракта на Shimmer EVM."
+                "tag": "Короткое необязательное поле данных. Пометка групп транзакций может облегчить их поиск."
             },
             "nftMetadata": {
                 "standard": "Стандарт NFT, например, IRC27.",
@@ -2199,6 +2380,10 @@
         },
         "updateStronghold": {
             "profileBadge": "Your Stronghold is out of date. Log in to update Stronghold."
+        },
+        "tokenIsNotVerified": {
+            "title": "Token is not verified",
+            "text": "Compare the token metadata against the relevant team’s official website. Only verify tokens that you trust."
         }
     },
     "exports": {
@@ -2234,55 +2419,6 @@
         "activity": "Деятельность"
     },
     "pills": {
-        "stake": {
-            "Pending": "размещение ставки для",
-            "Confirmed": "сделанная ставка для",
-            "Conflicting": "не удалось сделать ставку"
-        },
-        "external": {
-            "incoming": {
-                "Pending": "получение от",
-                "Confirmed": "получено от",
-                "Conflicting": "не удалось получить"
-            },
-            "outgoing": {
-                "Pending": "отправление на",
-                "Confirmed": "отправить на",
-                "Conflicting": "не удалось отправить"
-            }
-        },
-        "internal": {
-            "incoming": {
-                "Pending": "переведение с",
-                "Confirmed": "переведено с",
-                "Conflicting": "не удалось перевести"
-            },
-            "outgoing": {
-                "Pending": "переведение на",
-                "Confirmed": "переведено на",
-                "Conflicting": "не удалось перевести"
-            },
-            "selfTransaction": {
-                "Pending": "переведение на",
-                "Confirmed": "переведено на",
-                "Conflicting": "не удалось перевести"
-            }
-        },
-        "mint": {
-            "Pending": "чеканка",
-            "Confirmed": "отчеканено",
-            "Conflicting": "не удалось отчеканить"
-        },
-        "burn": {
-            "Pending": "сжигание",
-            "Confirmed": "сожжено",
-            "Conflicting": "не удалось сжечь"
-        },
-        "consolidation": {
-            "Pending": "Объединение результатов",
-            "Confirmed": "Результаты объединены",
-            "Conflicting": "не удалось объединить результаты"
-        },
         "migrate": {
             "Pending": "перевод на",
             "Confirmed": "переводены для",
@@ -2291,39 +2427,10 @@
         "asyncStatus": {
             "unclaimed": "невостребовано",
             "claimed": "востребовано",
-            "expired": "истекло"
+            "expired": "истекло",
+            "timelocked": "timelocked"
         },
         "governance": {
-            "increaseVotingPower": {
-                "Pending": "увеличение права голоса",
-                "Confirmed": "право голоса увеличено",
-                "Conflicting": "не удалось увеличить право голоса"
-            },
-            "decreaseVotingPower": {
-                "Pending": "уменьшение права голоса",
-                "Confirmed": "право голоса уменьшено",
-                "Conflicting": "не удалось уменьшить право голоса"
-            },
-            "startVoting": {
-                "Pending": "голосование за",
-                "Confirmed": "проголосовал за",
-                "Conflicting": "не удалось проголосовать за"
-            },
-            "stopVoting": {
-                "Pending": "прекращение голосования",
-                "Confirmed": "прекратил голосовать за",
-                "Conflicting": "не удалось прекратить голосование за"
-            },
-            "changedVote": {
-                "Pending": "изменение голоса за",
-                "Confirmed": "изменил голос за",
-                "Conflicting": "не удалось изменить голос за"
-            },
-            "revote": {
-                "Pending": "переголосование",
-                "Confirmed": "переголосовать",
-                "Conflicting": "не удалось переголосовать"
-            },
             "proposalStatus": {
                 "upcoming": "Announcement",
                 "commencing": "Voting open",
@@ -2331,13 +2438,6 @@
                 "ended": "Closed",
                 "nodeOutdated": "Outdated node URL",
                 "resultsNotAvailable": "Results not available"
-            }
-        },
-        "alias": {
-            "creation": {
-                "Pending": "создание псевдонима",
-                "Confirmed": "псевдоним создан",
-                "Failed": "Не удалось создать псевдоним"
             }
         },
         "networkHealth": {
@@ -2350,14 +2450,13 @@
         "smartContract": "умный контракт"
     },
     "menus": {
-        "expirationTimePicker": {
-            "none": "Без срока истечения",
-            "1hour": "Через 1 час",
-            "1day": "Через 1 день",
-            "1week": "Через 1 неделю",
+        "dateTimePicker": {
+            "1hour": "In 1 hour",
+            "1day": "In 1 day",
+            "1week": "In 1 week",
             "customDate": {
-                "title": "Настраиваемая дата",
-                "subtitle": "Установите настраиваемый срок истечения"
+                "title": "Custom date",
+                "subtitle": "Set custom date"
             }
         }
     }
