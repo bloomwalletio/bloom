@@ -49,9 +49,7 @@
                     $selectedAccount
                 )
             } else {
-                preparedOutput =
-                    (await createStardustOutputFromSendFlowParameters(sendFlowParameters, $selectedAccount)) ??
-                    preparedOutput
+                preparedOutput = await createStardustOutputFromSendFlowParameters(sendFlowParameters, $selectedAccount)
             }
         } catch (err) {
             handleError(err)

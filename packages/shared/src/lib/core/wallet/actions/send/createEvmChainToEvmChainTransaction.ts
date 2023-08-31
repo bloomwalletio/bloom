@@ -1,3 +1,4 @@
+import { localize } from '@core/i18n'
 import { IChain } from '@core/network/interfaces'
 import { IAccountState } from '@core/account/interfaces'
 import { buildEvmTransactionData, getIscpTransferSmartContractData } from '@core/layer-2/actions'
@@ -15,18 +16,18 @@ export function createEvmChainToEvmChainTransaction(
     sendFlowParameters: SendFlowParameters,
     chain: IChain,
     account: IAccountState
-): Promise<EvmTransactionData | undefined> {
+): Promise<EvmTransactionData> {
     if (
         !sendFlowParameters ||
         sendFlowParameters.type === SendFlowType.NftTransfer ||
         !sendFlowParameters.recipient?.address
     ) {
-        return Promise.resolve(undefined)
+        throw new Error(localize('error.send.invalidSendParameters'))
     }
 
     const provider = chain?.getProvider()
     if (!provider) {
-        return Promise.resolve(undefined)
+        throw new Error(localize('error.web3.unableToFindProvider'))
     }
 
     let token: IToken | undefined
@@ -39,8 +40,12 @@ export function createEvmChainToEvmChainTransaction(
         amount = sendFlowParameters.tokenTransfer?.rawAmount ?? '0'
     }
 
-    if (!token?.metadata || amount === undefined) {
-        return Promise.resolve(undefined)
+    if (!token?.metadata) {
+        throw new Error(localize('error.token.missingMetadata'))
+    }
+
+    if (amount === undefined) {
+        throw new Error(localize('error.send.amountInvalidFormat'))
     }
 
     const recipientAddress = sendFlowParameters.recipient.address
@@ -48,7 +53,7 @@ export function createEvmChainToEvmChainTransaction(
     const { evmAddresses } = account
     const originAddress = evmAddresses[chain.getConfiguration().coinType]
     if (!originAddress) {
-        return Promise.resolve(undefined)
+        throw new Error(localize('error.send.unableToGetOriginAddress'))
     }
 
     const destinationAddress = getDestinationAddress(token, recipientAddress)
@@ -62,7 +67,7 @@ export function createEvmChainToEvmChainTransaction(
         // as we do not want to send any base token
         amount = '0'
         if (!data) {
-            return Promise.resolve(undefined)
+            throw new Error(localize('error.web3.unableToFormSmartContractData'))
         }
     }
 

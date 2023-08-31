@@ -6,11 +6,7 @@ import { getOutputParameters } from '@core/wallet/utils'
 export async function createStardustOutputFromSendFlowParameters(
     sendFlowParameters: SendFlowParameters,
     account: IAccountState
-): Promise<Output | undefined> {
-    try {
-        const outputParams = await getOutputParameters(sendFlowParameters, account.depositAddress)
-        return prepareOutput(account.index, outputParams, DEFAULT_TRANSACTION_OPTIONS)
-    } catch (error) {
-        console.error(error)
-    }
+): Promise<Output> {
+    const outputParams = await getOutputParameters(sendFlowParameters, account.depositAddress)
+    return await prepareOutput(account.index, outputParams, DEFAULT_TRANSACTION_OPTIONS)
 }

@@ -4,7 +4,7 @@ import { IAccountState } from '@core/account/interfaces'
 import { localize } from '@core/i18n'
 import { buildEvmTransactionData, buildUnwrapAssetParameters } from '@core/layer-2/actions'
 import { FALLBACK_ESTIMATED_GAS, ISC_MAGIC_CONTRACT_ADDRESS } from '@core/layer-2/constants'
-import { ContractType } from '@core/layer-2/enums'
+import { ContractType, EvmErrorMessage } from '@core/layer-2/enums'
 import { EvmTransactionData } from '@core/layer-2/types'
 import { buildAssetAllowance } from '@core/layer-2/utils'
 import { ETHEREUM_COIN_TYPE } from '@core/network/constants'
@@ -44,10 +44,7 @@ export async function createEvmChainToStardustNetworkTransaction(
         const originAddress = account?.evmAddresses?.[ETHEREUM_COIN_TYPE] ?? ''
         return await buildEvmTransactionData(provider, originAddress, ISC_MAGIC_CONTRACT_ADDRESS, '0', data)
     } catch (err) {
-        /**
-         * createEvmChainToStardustNetworkTransaction.ts:49 Error: Returned error: request might require more gas than it is allowed by the VM (50000000), or will never succeed
-         */
-        if (err.message && err.message.includes('request might require more gas than it is allowed by the VM')) {
+        if (err.message && err.message.includes(EvmErrorMessage.RequireMoreGas)) {
             throw new Error(localize('error.send.insufficientFundsGasFee'))
         } else {
             throw err
