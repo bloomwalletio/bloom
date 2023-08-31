@@ -453,6 +453,7 @@
                 "referencedRate": "Tasa referenciada"
             },
             "profileModal": {
+                "contactBook": "Contact book",
                 "allSettings": "Todos los ajustes",
                 "profileApplication": "Perfil, aplicación, seguridad",
                 "logout": "Cerrar sesión",
@@ -493,7 +494,7 @@
                         "chainId": "ID de la cadena",
                         "aliasAddress": "Dirección del alias",
                         "iscpEndpoint": "Endpoint del ISCP",
-                        "explorerEndpoint": "Endpoint del explorador (opcional)",
+                        "explorerUrl": "Explorer URL (optional)",
                         "errors": {
                             "cannotBeEmpty": "El nombre no puede estar vacío",
                             "nameTooLong": "El nombre es demasiado largo",
@@ -530,6 +531,57 @@
                     },
                     "removeChain": {
                         "title": "Remove chain"
+                    }
+                },
+                "contactBook": {
+                    "contactList": {
+                        "title": "Contact list",
+                        "addContact": "Add contact"
+                    },
+                    "contactInformation": {
+                        "title": "Contact Information",
+                        "editContact": "Edit contact",
+                        "removeContact": "Remove contact",
+                        "addNetworkAddress": "Add network address"
+                    },
+                    "addContact": {
+                        "title": "Add contact"
+                    },
+                    "editContact": {
+                        "title": "Edit contact"
+                    },
+                    "removeContact": {
+                        "title": "Remove contact",
+                        "body": "Are you sure you want to remove this contact?",
+                        "hint": "Please note after removing a contact Bloom will show its actual addresses."
+                    },
+                    "addNetworkAddress": {
+                        "title": "Add network address"
+                    },
+                    "editNetworkAddresses": {
+                        "title": "Edit network addresses",
+                        "addAddress": "Add Address"
+                    },
+                    "removeNetworkAddresses": {
+                        "title": "Remove network addresses",
+                        "body": "Are you sure you want to remove the contact’s {network} network addresses?",
+                        "hint": "Please note after removing a contact’s network addresses Bloom will no longer associate it with them in transactions or activities."
+                    }
+                },
+                "dapps": {
+                    "dappsList": {
+                        "title": "Connected dApps",
+                        "connectDapp": "Connect dApp",
+                        "hint": "WalletConnect allows you to connect Bloom with dApps directly or with a connection code."
+                    },
+                    "inputConnectionCode": {
+                        "title": "Connect to a dApp",
+                        "inputLabel": "Wallet Connect code",
+                        "hint": "Add new dApps by adding a Wallet Connect code below."
+                    },
+                    "confirmConnection": {
+                        "title": "Connect with an application",
+                        "hint": "A third party service wants to connect with your wallet for the first time. You can choose if you wish to trust this connection."
                     }
                 }
             }
@@ -1034,6 +1086,101 @@
             "body": "Ayude a los desarrolladores a mejorar Firefly enviando automáticamente datos de diagnóstico cuando ocurra un error o cierre inesperado. Esto tomará efecto después de reiniciar Firefly.",
             "checkbox": "Enviar informe de fallos a la Fundación IOTA"
         },
+        "signMessage": {
+            "title": "Sign message",
+            "message": "Message",
+            "hint": "No balance will be sent to {dappName} in the process of signing this message.",
+            "warning": "dApp cannot be determined. No balance will be sent in the process of signing this message.",
+            "action": "Sign message"
+        },
+        "activityDetails": {
+            "title": {
+                "fallback": "Activity details",
+                "external": {
+                    "incoming": {
+                        "Pending": "Receiving from {subject}",
+                        "Confirmed": "Received from {subject}",
+                        "Conflicting": "Failed to receive"
+                    },
+                    "outgoing": {
+                        "Pending": "Sending to {subject}",
+                        "Confirmed": "Sent to {subject}",
+                        "Conflicting": "Failed to send"
+                    }
+                },
+                "internal": {
+                    "incoming": {
+                        "Pending": "Transferring from {subject}",
+                        "Confirmed": "Transferred from {subject}",
+                        "Conflicting": "Failed to transfer"
+                    },
+                    "outgoing": {
+                        "Pending": "Transferring to {subject}",
+                        "Confirmed": "Transferred to {subject}",
+                        "Conflicting": "Failed to transfer"
+                    },
+                    "selfTransaction": {
+                        "Pending": "Transferring to {subject}",
+                        "Confirmed": "Transferred to {subject}",
+                        "Conflicting": "Failed to transfer"
+                    }
+                },
+                "mint": {
+                    "Pending": "Minting",
+                    "Confirmed": "Minted",
+                    "Conflicting": "Failed to mint"
+                },
+                "burn": {
+                    "Pending": "Burning",
+                    "Confirmed": "Burned",
+                    "Conflicting": "Failed to burn"
+                },
+                "consolidation": {
+                    "Pending": "Consolidating outputs",
+                    "Confirmed": "Outputs consolidated",
+                    "Conflicting": "Failed to consolidate outputs"
+                },
+                "alias": {
+                    "creation": {
+                        "Pending": "Creating alias",
+                        "Confirmed": "Alias created",
+                        "Failed": "Failed to create alias"
+                    }
+                },
+                "governance": {
+                    "increaseVotingPower": {
+                        "Pending": "Increasing voting power",
+                        "Confirmed": "Increased voting power",
+                        "Conflicting": "Failed to increased voting power"
+                    },
+                    "decreaseVotingPower": {
+                        "Pending": "Decreasing voting power",
+                        "Confirmed": "Decreased voting power",
+                        "Conflicting": "Failed to decreased voting power"
+                    },
+                    "startVoting": {
+                        "Pending": "Voting for {proposalName}",
+                        "Confirmed": "Voted for {proposalName}",
+                        "Conflicting": "Failed to vote for"
+                    },
+                    "stopVoting": {
+                        "Pending": "Stopping voting for {proposalName}",
+                        "Confirmed": "Stopped voting for {proposalName}",
+                        "Conflicting": "Failed to stopped voting for"
+                    },
+                    "changedVote": {
+                        "Pending": "Changing vote for {proposalName}",
+                        "Confirmed": "Changed vote for {proposalName}",
+                        "Conflicting": "Failed to change vote for"
+                    },
+                    "revote": {
+                        "Pending": "Revoting",
+                        "Confirmed": "Revote",
+                        "Conflicting": "Failed to revote"
+                    }
+                }
+            }
+        },
         "legalUpdate": {
             "tosTitle": "Términos del Servicio",
             "privPolicyTitle": "Política de Privacidad",
@@ -1066,7 +1213,8 @@
                 "standard": "Estándar",
                 "name": "Nombre",
                 "tokenId": "Token ID",
-                "url": "URL"
+                "url": "URL",
+                "description": "Description"
             },
             "buttons": {
                 "verifyToken": "Yo verifico este token"
@@ -1203,6 +1351,7 @@
         "previous": "Anterior",
         "next": "Siguiente",
         "cancel": "Cancelar",
+        "connect": "Connect",
         "close": "Cerrar",
         "dismiss": "Descartar",
         "claim": "Reclamar",
@@ -1286,7 +1435,7 @@
         "localProofOfWork": "Prueba de trabajo local",
         "unlock": "Desbloquear",
         "updateFirefly": "Actualizar Firefly",
-        "restartNow": "Reiniciar ahora",
+        "restart": "Restart",
         "refresh": "Refresh",
         "saveBackup": "Guardar copia de seguridad de Stronghold",
         "customizeAcount": "Personalizar cartera",
@@ -1384,7 +1533,8 @@
         "stopVoting": "Dejar de votar",
         "revote": "Volver a votar",
         "skipAndKeep": "Skip and keep old password",
-        "addChain": "Añadir cadena"
+        "addChain": "Añadir cadena",
+        "untrackToken": "Untrack token"
     },
     "general": {
         "recipient": "Destinatario",
@@ -1431,6 +1581,8 @@
         "minting": "Creando (Acuñando)",
         "burned": "Quemado(s)",
         "burning": "Quemando",
+        "balanceChanged": "Balance changed",
+        "initialBalance": "Initial balance",
         "consolidated": "Salidas consolidadas",
         "consolidating": "Consolidando salidas",
         "aliasCreated": "Alias creado",
@@ -1458,6 +1610,7 @@
         "and": "y",
         "receiveFunds": "Recibir fondos",
         "address": "Dirección",
+        "addressName": "Address name",
         "myAddress": "My address",
         "myNetworkAddress": "Mi dirección {networkName}",
         "shareAddress": "Compartir una dirección",
@@ -1496,6 +1649,7 @@
         "security": "Seguridad",
         "accountAddress": "Dirección de Cartera",
         "network": "Red",
+        "networkSelection": "Network selection",
         "destinationNetwork": "Red de destino",
         "nodes": "Nodos",
         "wallet": "Cartera",
@@ -1580,6 +1734,7 @@
         "transactionTime": "Tiempo de transacción",
         "surplus": "Superávit",
         "storageDeposit": "Depósito de almacenamiento",
+        "gasFee": "Gas fee",
         "giftedStorageDeposit": "Depósito de almacenamiento regalado",
         "storageDepositPerNft": "Storage deposit per NFT",
         "totalStorageDeposit": "Total storage deposit",
@@ -1601,6 +1756,7 @@
         "metadata": "Metadata",
         "amountConsolidatedInputs": "Salidas consolidadas",
         "name": "Nombre",
+        "note": "Note",
         "tag": "Etiqueta",
         "nodeList": "Lista de nodos",
         "claimedIn": "Reclamado ( Claimed in )",
@@ -1631,7 +1787,6 @@
         "smartContract": "Contrato inteligente",
         "targetContract": "Contrato de destino",
         "contractFunction": "Función de contrato",
-        "gasBudget": "Presupuesto de gas",
         "standard": "Estándar",
         "uri": "URI",
         "issuer": "Emisor",
@@ -1656,7 +1811,13 @@
         "evmAddress": "EVM address",
         "chain": "Chain",
         "importErc20Token": "Import ERC20 token",
-        "importErc20TokenDescription": "Import an ERC20 token from an EVM chain"
+        "optionalField": "{field} (optional)",
+        "gifted": "Gifted",
+        "copied": "Copied",
+        "connected": "Connected",
+        "disconnected": "Disconnected",
+        "estimatedFee": "Estimated fee",
+        "maxFees": "Max fees"
     },
     "filters": {
         "title": "Filtros",
@@ -1788,9 +1949,6 @@
         "downloadingUpdate": "Descargando actualización",
         "updateReady": "Actualización lista",
         "updateError": "Se ha producido un error durante la actualización, por favor inténtalo de nuevo",
-        "restartInstall": "Reiniciar para instalar",
-        "calcMinutesRemaining": "Calculando minutos restantes...",
-        "minutesRemaining": "{minutes, plural, one {# minuto restante} other {# minutos restantes}}",
         "copiedToClipboard": "Copiado al portapapeles",
         "accountsSynchronized": "Sincronización de cartera completada",
         "fundsAvailableSoon": "Tus fondos pronto estarán disponibles",
@@ -1798,6 +1956,7 @@
             "success": "El historial de transacciones de {accountAlias} se ha guardado correctamente en {filePath}",
             "error": "No se ha podido exportar el historial de transacciones de {accountAlias}"
         },
+        "newDappConnected": "Connected to new dApp",
         "deepLinkingRequest": {
             "receivedWhileLoggedOut": "Inicie sesión para iniciar el enlace profundo",
             "notEnabled": "Los enlaces profundos no están habilitados",
@@ -1861,6 +2020,12 @@
         },
         "stopVoting": {
             "success": "Votación detenida con éxito"
+        },
+        "updateContact": {
+            "success": "Contact successfully updated"
+        },
+        "updateNetworkAddresses": {
+            "success": "Contact addresses successfully updated"
         }
     },
     "error": {
@@ -1898,7 +2063,11 @@
             "invalid": "Código PIN inválido."
         },
         "address": {
-            "wrongAddressType": "Tipo de dirección incorrecta"
+            "wrongAddressType": "Tipo de dirección incorrecta",
+            "invalidBech32Format": "Invalid Bech32 format",
+            "belongsToAccount": "Cannot belong to any of your accounts",
+            "hexFormat": "Invalid hexadecimal format",
+            "checksum": "Address checksum is invalid"
         },
         "account": {
             "addressNotFound": "No se pudo encontrar la dirección en tu cuenta.",
@@ -1943,6 +2112,7 @@
             "cancelled": "La transacción fue cancelada.",
             "transaction": "Hubo un error al enviar su transacción. Por favor, inténtelo de nuevo.",
             "invalidExpirationDateTime": "La fecha/hora de vencimiento elegida no es válida.",
+            "invalidTimelockDateTime": "The chosen timelock date/time is invalid.",
             "noInputs": "No se encontraron entradas.",
             "notEnoughBalance": "Saldo insuficiente.",
             "missingTransactionId": "Falta el ID de la transacción",
@@ -2009,7 +2179,8 @@
             "generateAddress": "Hubo un error al generar una dirección.",
             "timeout": "El tiempo de espera de tu Ledger ha expirado.",
             "disconnected": "Tu dispositivo Ledger ha sido desconectado.",
-            "noStronghold": "No se puede utilizar Stronghold con el perfil de Ledger."
+            "noStronghold": "No se puede utilizar Stronghold con el perfil de Ledger.",
+            "rejected": "Action was rejected on the Ledger device"
         },
         "popup": {
             "preventClose": "Esta ventana emergente no es capaz de cerrarse."
@@ -2094,11 +2265,23 @@
         "erc20Token": {
             "invalidAddressFormat": "Must be hexadecimal format",
             "invalidAddressLength": "Length is invalid"
+        },
+        "input": {
+            "invalid": "{field} input is invalid",
+            "required": "{field} is required",
+            "unique": "{field} must be unique",
+            "alreadyUsed": "{field} is already being used",
+            "tooLong": "{field} must be {numCharacters} or less characters"
+        },
+        "walletConnect": {
+            "invalidUri": "Invalid URI",
+            "invalidProtocol": "Invalid protocol, must start with 'wc'.",
+            "deprecatedVersion": "dApp uses a deprecated wallet connect version."
         }
     },
     "warning": {
         "transaction": {
-            "invalidExpirationDateTime": "La fecha de vencimiento seleccionada no es válida."
+            "invalidDateTime": "The chosen date must be in the future."
         },
         "node": {
             "http": "El uso de nodos sobre HTTP deja el tráfico sin cifrar y podría plantear un riesgo de seguridad."
@@ -2149,8 +2332,7 @@
                 "expirationTime": "Reclame estos fondos antes del tiempo de vencimiento o se devolverán al remitente.",
                 "timelockDate": "El remitente estableció un bloqueo de tiempo en estos fondos. Podrás gastarlos una vez que el bloqueo de tiempo caduque.",
                 "metadata": "Un campo de datos opcional para almacenar datos persistentemente en el Tangle.",
-                "tag": "Un campo de datos opcional corto. Etiquetar grupos de transacciones puede facilitarles su búsqueda.",
-                "gasBudget": "Se requiere un presupuesto en gas para llevar a cabo una transacción o ejecutar una función de contrato inteligente en la EVM de Shimmer."
+                "tag": "Un campo de datos opcional corto. Etiquetar grupos de transacciones puede facilitarles su búsqueda."
             },
             "outgoing": {
                 "storageDeposit": "Un depósito de almacenamiento es un depósito reembolsable necesario para almacenar su transacción en el Tangle.",
@@ -2158,8 +2340,7 @@
                 "expirationTime": "Si el destinatario no reclama a tiempo, sus tokens le serán devueltos.",
                 "timelockDate": "Ha añadido un tiempo de bloqueo a esta transacción. El destinatario no podrá gastar estos fondos hasta que el tiempo de bloqueo expire.",
                 "metadata": "Un campo de datos opcional para almacenar datos persistentemente en el Tangle.",
-                "tag": "Un campo de datos opcional corto. Etiquetar grupos de transacciones puede facilitarles su búsqueda.",
-                "gasBudget": "Se requiere un presupuesto en gas para llevar a cabo una transacción o ejecutar una función de contrato inteligente en la EVM de Shimmer."
+                "tag": "Un campo de datos opcional corto. Etiquetar grupos de transacciones puede facilitarles su búsqueda."
             },
             "nftMetadata": {
                 "standard": "El estándar del NFT, por ejemplo, IRC27.",
@@ -2199,6 +2380,10 @@
         },
         "updateStronghold": {
             "profileBadge": "Your Stronghold is out of date. Log in to update Stronghold."
+        },
+        "tokenIsNotVerified": {
+            "title": "Token is not verified",
+            "text": "Compare the token metadata against the relevant team’s official website. Only verify tokens that you trust."
         }
     },
     "exports": {
@@ -2234,55 +2419,6 @@
         "activity": "Actividad"
     },
     "pills": {
-        "stake": {
-            "Pending": "staking para",
-            "Confirmed": "staked por",
-            "Conflicting": "Stake fallido"
-        },
-        "external": {
-            "incoming": {
-                "Pending": "recibiendo desde",
-                "Confirmed": "recibido desde",
-                "Conflicting": "fallo al recibir"
-            },
-            "outgoing": {
-                "Pending": "enviando a",
-                "Confirmed": "enviado a",
-                "Conflicting": "fallo al enviar"
-            }
-        },
-        "internal": {
-            "incoming": {
-                "Pending": "transfiriendo desde",
-                "Confirmed": "transferido desde",
-                "Conflicting": "fallo al transferir"
-            },
-            "outgoing": {
-                "Pending": "transfiriendo a",
-                "Confirmed": "transferido a",
-                "Conflicting": "fallo al transferir"
-            },
-            "selfTransaction": {
-                "Pending": "transfiriendo a",
-                "Confirmed": "transferido a",
-                "Conflicting": "fallo al transferir"
-            }
-        },
-        "mint": {
-            "Pending": "acuñando",
-            "Confirmed": "acuñando",
-            "Conflicting": "falló al acuñar"
-        },
-        "burn": {
-            "Pending": "quemando",
-            "Confirmed": "quemado(s)",
-            "Conflicting": "falló la quema"
-        },
-        "consolidation": {
-            "Pending": "Consolidando salidas",
-            "Confirmed": "Salidas consolidadas",
-            "Conflicting": "error al consolidar salidas"
-        },
         "migrate": {
             "Pending": "migrando para",
             "Confirmed": "migrado por",
@@ -2291,39 +2427,10 @@
         "asyncStatus": {
             "unclaimed": "no reclamado",
             "claimed": "reclamado",
-            "expired": "expirado"
+            "expired": "expirado",
+            "timelocked": "timelocked"
         },
         "governance": {
-            "increaseVotingPower": {
-                "Pending": "incrementando peso de voto",
-                "Confirmed": "peso de voto incrementado",
-                "Conflicting": "error al incrementar peso de voto"
-            },
-            "decreaseVotingPower": {
-                "Pending": "disminuyendo peso de voto",
-                "Confirmed": "peso de voto disminuido",
-                "Conflicting": "error al disminuir peso de voto"
-            },
-            "startVoting": {
-                "Pending": "votando por",
-                "Confirmed": "votado",
-                "Conflicting": "error al votar por"
-            },
-            "stopVoting": {
-                "Pending": "deteniendo el voto por",
-                "Confirmed": "detenido el voto por",
-                "Conflicting": "error al detener el voto por"
-            },
-            "changedVote": {
-                "Pending": "cambiando voto por",
-                "Confirmed": "voto cambiado por",
-                "Conflicting": "error al cambiar el voto por"
-            },
-            "revote": {
-                "Pending": "votando de nuevo",
-                "Confirmed": "votar de nuevo",
-                "Conflicting": "fallo al votar de nuevo"
-            },
             "proposalStatus": {
                 "upcoming": "Announcement",
                 "commencing": "Voting open",
@@ -2331,13 +2438,6 @@
                 "ended": "Closed",
                 "nodeOutdated": "Outdated node URL",
                 "resultsNotAvailable": "Results not available"
-            }
-        },
-        "alias": {
-            "creation": {
-                "Pending": "creando alias",
-                "Confirmed": "alias creado",
-                "Failed": "Fallo al crear alias"
             }
         },
         "networkHealth": {
@@ -2350,14 +2450,13 @@
         "smartContract": "contrato inteligente"
     },
     "menus": {
-        "expirationTimePicker": {
-            "none": "Sin tiempo de expiración",
-            "1hour": "En 1 hora",
-            "1day": "En 1 día",
-            "1week": "En 1 semana",
+        "dateTimePicker": {
+            "1hour": "In 1 hour",
+            "1day": "In 1 day",
+            "1week": "In 1 week",
             "customDate": {
-                "title": "Fecha personalizada",
-                "subtitle": "Establecer fecha de expiración personalizada"
+                "title": "Custom date",
+                "subtitle": "Set custom date"
             }
         }
     }
