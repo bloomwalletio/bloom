@@ -75,7 +75,7 @@
     }
 
     function onConfirmClick(): void {
-        if (isFutureDateTime(value)) {
+        if (isFutureDateTime(customDate)) {
             value = customDate
             canShowDateTimePicker = false
         } else {
