@@ -4,8 +4,8 @@ import { IActivityGenerationParameters } from '@core/activity/types'
 import { parseLayer2Metadata } from '@core/layer-2'
 import { getNetworkIdFromAddress } from '@core/layer-2/actions'
 import { NetworkId } from '@core/network/types'
-import { getCoinType } from '@core/profile/actions'
 import { activeProfileId } from '@core/profile/stores'
+import { BASE_TOKEN_ID } from '@core/token'
 import { IBasicOutput } from '@iota/types'
 import { get } from 'svelte/store'
 import { activityOutputContainsValue } from '..'
@@ -64,7 +64,7 @@ export function generateSingleBasicActivity(
     const rawBaseCoinAmount = getAmountFromOutput(output)
 
     const nativeToken = getNativeTokenFromOutput(output)
-    const tokenId = fallbackTokenId ?? nativeToken?.id ?? getCoinType()
+    const tokenId = nativeToken?.id ?? fallbackTokenId ?? BASE_TOKEN_ID
 
     let rawAmount: number
     if (fallbackAmount === undefined) {

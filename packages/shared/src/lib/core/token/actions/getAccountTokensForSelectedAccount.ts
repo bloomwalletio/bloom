@@ -1,16 +1,16 @@
-import { getSelectedAccount } from '@core/account/stores'
-import { MarketCoinPrices } from '@core/market'
-import { isStardustNetwork } from '@core/network/utils'
-import { getNetwork, NetworkId } from '@core/network'
-import { getCoinType } from '@core/profile/actions'
-import { AccountTokens, IAccountTokensPerNetwork } from '../interfaces/account-tokens.interface'
-import { getLayer2AccountBalance } from '@core/layer-2/stores'
-import { getPersistedToken } from '../stores'
-import { sortTokens } from '@core/token/utils/sortTokens'
-import { IToken } from '../interfaces'
-import { isValidIrc30Token, isValidToken } from '../utils'
-import { getActiveNetworkId } from '@core/network/actions/getActiveNetworkId'
 import { IAccountState } from '@core/account/interfaces'
+import { getSelectedAccount } from '@core/account/stores'
+import { getLayer2AccountBalance } from '@core/layer-2/stores'
+import { MarketCoinPrices } from '@core/market'
+import { getNetwork, NetworkId } from '@core/network'
+import { getActiveNetworkId } from '@core/network/actions/getActiveNetworkId'
+import { isStardustNetwork } from '@core/network/utils'
+import { sortTokens } from '@core/token/utils/sortTokens'
+import { BASE_TOKEN_ID } from '../constants'
+import { IToken } from '../interfaces'
+import { AccountTokens, IAccountTokensPerNetwork } from '../interfaces/account-tokens.interface'
+import { getPersistedToken } from '../stores'
+import { isValidIrc30Token, isValidToken } from '../utils'
 
 export function getAccountTokensForSelectedAccount(marketCoinPrices: MarketCoinPrices): AccountTokens {
     try {
@@ -41,7 +41,7 @@ function getAccountAssetForNetwork(
     networkId: NetworkId
 ): IAccountTokensPerNetwork {
     const shouldCalculateFiatPrice = isStardustNetwork(networkId)
-    const persistedBaseCoin = getPersistedToken(getCoinType())
+    const persistedBaseCoin = getPersistedToken(BASE_TOKEN_ID)
     const baseCoin: IToken = {
         ...persistedBaseCoin,
         networkId,
@@ -92,7 +92,7 @@ function getAccountAssetForChain(accountIndex: number, networkId: NetworkId): IA
         }
 
         if (tokenId === '0x') {
-            const persistedBaseCoin = getPersistedToken(getCoinType()) // we use the L1 coin type for now because we assume that the basecoin for L2 is SMR
+            const persistedBaseCoin = getPersistedToken(BASE_TOKEN_ID) // we use the L1 coin type for now because we assume that the basecoin for L2 is SMR
             baseCoin = {
                 ...persistedBaseCoin,
                 balance: _balance,

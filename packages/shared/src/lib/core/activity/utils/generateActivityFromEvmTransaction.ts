@@ -1,10 +1,10 @@
-import { PersistedEvmTransaction, TransactionActivity } from '../types'
-import { ActivityAction, ActivityDirection, ActivityType, InclusionState } from '../enums'
-import { getCoinType } from '@core/profile/actions'
-import { getSubjectFromAddress } from '@core/wallet'
 import { WEI_PER_GLOW } from '@core/layer-2'
-import Web3 from 'web3'
 import { NetworkId } from '@core/network/types'
+import { BASE_TOKEN_ID } from '@core/token'
+import { getSubjectFromAddress } from '@core/wallet'
+import Web3 from 'web3'
+import { ActivityAction, ActivityDirection, ActivityType, InclusionState } from '../enums'
+import { PersistedEvmTransaction, TransactionActivity } from '../types'
 
 export async function generateActivityFromEvmTransaction(
     transaction: PersistedEvmTransaction,
@@ -31,7 +31,7 @@ export async function generateActivityFromEvmTransaction(
         subject,
         rawBaseCoinAmount: Number(transaction.value) / Number(WEI_PER_GLOW),
         rawAmount: Number(transaction.value) / Number(WEI_PER_GLOW),
-        tokenId: getCoinType(),
+        tokenId: BASE_TOKEN_ID,
         sourceNetworkId: networkId,
         destinationNetworkId: networkId,
     }
