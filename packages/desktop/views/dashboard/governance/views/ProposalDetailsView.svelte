@@ -5,6 +5,7 @@
         VotingEventPayload,
         TrackedParticipationOverview,
     } from '@iota/sdk/out/types'
+    import { Table } from '@bloomwalletio/ui'
     import { ProposalDetailsButton, ProposalInformationPane, ProposalQuestion } from '@components'
     import { getVotingEvent } from '@contexts/governance/actions'
     import {
@@ -34,7 +35,7 @@
     import { visibleSelectedAccountTokens } from '@core/token/stores'
     import { getBestTimeDuration, milestoneToDate } from '@core/utils'
     import { PopupId, openPopup } from '@desktop/auxiliary/popup'
-    import { Button, KeyValueBox, MarkdownBlock, Pane, ProposalStatusPill, Text, TextHint, TextType } from '@ui'
+    import { Button, MarkdownBlock, Pane, ProposalStatusPill, Text, TextHint, TextType } from '@ui'
     import { onDestroy, onMount } from 'svelte'
 
     const { metadata } = $visibleSelectedAccountTokens?.[$activeProfile?.network?.id]?.baseCoin ?? {}
@@ -227,21 +228,18 @@
             <Text smaller classes="mb-5">
                 {localize('views.governance.details.yourVote.title')}
             </Text>
-            <ul class="space-y-2">
-                <li>
-                    <KeyValueBox
-                        keyText={localize('views.governance.details.yourVote.total')}
-                        valueText={formatTokenAmountBestMatch(totalVotes, metadata)}
-                        isLoading={!overviewLoaded}
-                    />
-                </li>
-                <li>
-                    <KeyValueBox
-                        keyText={localize('views.governance.details.yourVote.power')}
-                        valueText={formatTokenAmountBestMatch(parseInt($selectedAccount?.votingPower), metadata)}
-                    />
-                </li>
-            </ul>
+            <Table
+                items={[
+                    {
+                        key: localize('views.governance.details.yourVote.total'),
+                        value: formatTokenAmountBestMatch(totalVotes, metadata),
+                    },
+                    {
+                        key: localize('views.governance.details.yourVote.power'),
+                        value: formatTokenAmountBestMatch(parseInt($selectedAccount?.votingPower), metadata),
+                    },
+                ]}
+            />
         </Pane>
         <ProposalInformationPane classes="shrink-0" />
     </div>

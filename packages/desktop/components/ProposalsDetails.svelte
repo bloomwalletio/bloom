@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { Table } from '@bloomwalletio/ui'
     import { IProposalsDetails } from '@contexts/governance/interfaces'
     import {
         participationOverviewForSelectedAccount,
@@ -15,7 +16,7 @@
     import { localize } from '@core/i18n'
     import { activeProfileId } from '@core/profile/stores'
     import { PopupId, openPopup } from '@desktop/auxiliary/popup'
-    import { Button, KeyValueBox, ProposalsDetailsButton, Text } from '@ui'
+    import { Button, ProposalsDetailsButton, Text } from '@ui'
     import { ButtonSize, FontWeight } from '@ui/enums'
     import { onMount } from 'svelte'
 
@@ -64,17 +65,12 @@
         </Text>
         <ProposalsDetailsButton modalPosition={{ right: '0px', top: '34px' }} />
     </header-container>
-    <ul class="space-y-2">
-        {#each Object.keys(details) as detailKey}
-            <li>
-                <KeyValueBox
-                    keyText={localize(`views.governance.proposalsDetails.${detailKey}`)}
-                    valueText={details[detailKey]?.toString() ?? '-'}
-                    isLoading={details[detailKey] === undefined}
-                />
-            </li>
-        {/each}
-    </ul>
+    <Table
+        items={Object.keys(details).map((key) => ({
+            key: localize(`views.governance.proposalsDetails.${key}`),
+            value: details[key] ?? 0,
+        }))}
+    />
     <Button size={ButtonSize.Medium} outline onClick={onAddProposalClick} classes="w-full">
         {localize('actions.addProposal')}
     </Button>

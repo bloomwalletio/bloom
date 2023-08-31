@@ -1,30 +1,29 @@
 <script lang="ts">
     import { AddressType } from '@iota/sdk/out/types'
+    import { Alert, type IItem, Table } from '@bloomwalletio/ui'
     import { selectedAccountIndex } from '@core/account/stores'
     import { time } from '@core/app/stores'
     import { openUrlInBrowser } from '@core/app/utils'
     import { localize } from '@core/i18n'
     import { ExplorerEndpoint, getDefaultExplorerUrl } from '@core/network'
-    import { convertAndFormatNftMetadata, INft, NftDownloadMetadata } from '@core/nfts'
+    import { INft, NftDownloadMetadata } from '@core/nfts'
     import { getNftByIdFromAllAccountNfts } from '@core/nfts/actions'
     import { allAccountNfts, selectedNftId } from '@core/nfts/stores'
     import { getBaseToken } from '@core/profile/actions'
-    import { activeProfile } from '@core/profile/stores'
     import { collectiblesRouter } from '@core/router/routers'
     import { formatTokenAmountPrecise } from '@core/token'
-    import { getTimeDifference, truncateString } from '@core/utils'
     import { getBech32AddressFromAddressTypes, getHexAddressFromAddressTypes } from '@core/wallet'
+    import { getTimeDifference } from '@core/utils'
     import { SendFlowType, setSendFlowParameters } from '@core/wallet/stores'
     import { openPopup, PopupId } from '@desktop/auxiliary/popup'
-    import { Button, CollectibleDetailsMenu, KeyValueBox, MeatballMenuButton, Modal, NftMedia, Pane, Text } from '@ui'
-    import { Alert } from '@bloomwalletio/ui'
+    import { Button, CollectibleDetailsMenu, MeatballMenuButton, Modal, NftMedia, Pane, Text } from '@ui'
     import { FontWeight, TextType } from '@ui/enums'
     import { SendFlowRoute, SendFlowRouter, sendFlowRouter } from '@views/dashboard/send-flow'
 
     let modal: Modal
 
-    const explorerUrl = getDefaultExplorerUrl($activeProfile?.network?.id)
     const nft: INft = getNftByIdFromAllAccountNfts($selectedAccountIndex, $selectedNftId)
+    const explorerUrl = getDefaultExplorerUrl(nft?.networkId, ExplorerEndpoint.Nft)
 
     const { id, name, issuer, address, metadata, downloadMetadata, storageDeposit } = nft ?? {}
     const { standard, version, type, uri, description, issuerName, collectionName, attributes, soonaverseAttributes } =
@@ -33,56 +32,111 @@
     const issuerAddress = getBech32AddressFromAddressTypes(issuer)
     const collectionId = getHexAddressFromAddressTypes(issuer)
 
-    let detailsList: {
-        [key in string]: {
-            data: string
-            copyValue?: string
-            isCopyable?: boolean
-            isPreText?: boolean
-            maxHeight?: number
-        }
-    }
+    let detailsList: IItem[] = []
 
-    $: formattedMetadata = convertAndFormatNftMetadata(metadata)
     $: returnIfNftWasSent($allAccountNfts[$selectedAccountIndex], $time)
     $: timeDiff = getTimeDifference(new Date(nft.timelockTime), $time)
     $: alertText = getAlertText(downloadMetadata)
-    $: detailsList = {
-        ...(id && {
-            nftId: { data: truncateString(id, 20, 20), copyValue: id, isCopyable: true },
-        }),
-        ...(address && {
-            address: { data: truncateString(address, 20, 20), copyValue: address, isCopyable: true },
-        }),
-        ...(storageDeposit && {
-            storageDeposit: { data: formatTokenAmountPrecise(storageDeposit, getBaseToken()) },
-        }),
-        ...(standard && {
-            standard: { data: version ? `${standard} - ${version}` : standard },
-        }),
-        ...(type && {
-            type: { data: type },
-        }),
-        ...(uri && {
-            uri: { data: uri, copyValue: uri, isCopyable: true },
-        }),
-        ...(issuerName && {
-            issuer: { data: issuerName },
-        }),
-        ...(issuer?.type === AddressType.Ed25519 && {
-            issuerAddress: { data: truncateString(issuerAddress, 20, 20), copyValue: issuerAddress, isCopyable: true },
-        }),
-        ...(collectionName && {
-            collection: { data: collectionName },
-        }),
-        ...((issuer?.type === AddressType.Nft || issuer?.type === AddressType.Alias) && {
-            collectionId: { data: truncateString(collectionId, 20, 20), copyValue: collectionId, isCopyable: true },
-        }),
-        ...(!nft?.parsedMetadata &&
-            formattedMetadata && {
-                metadata: { data: formattedMetadata, isCopyable: true, isPreText: true, maxHeight: 72 },
-            }),
-    }
+    $: detailsList = [
+        ...(id
+            ? [
+                  {
+                      key: localize('general.nftId'),
+                      value: id,
+                      copyable: true,
+                      truncate: { firstCharCount: 20, endCharCount: 20 },
+                  },
+              ]
+            : []),
+        ...(address
+            ? [
+                  {
+                      key: localize('general.address'),
+                      value: address,
+                      copyable: true,
+                      truncate: { firstCharCount: 20, endCharCount: 20 },
+                  },
+              ]
+            : []),
+        ...(storageDeposit
+            ? [
+                  {
+                      key: localize('general.storageDeposit'),
+                      value: formatTokenAmountPrecise(storageDeposit, getBaseToken()),
+                  },
+              ]
+            : []),
+        ...(standard
+            ? [
+                  {
+                      key: localize('general.standard'),
+                      value: version ? `${standard} - ${version}` : standard,
+                  },
+              ]
+            : []),
+        ...(type
+            ? [
+                  {
+                      key: localize('general.type'),
+                      value: type,
+                  },
+              ]
+            : []),
+        ...(uri
+            ? [
+                  {
+                      key: localize('general.uri'),
+                      value: uri,
+                      copyable: true,
+                  },
+              ]
+            : []),
+        ...(issuerName
+            ? [
+                  {
+                      key: localize('general.issuer'),
+                      value: issuerName,
+                  },
+              ]
+            : []),
+        ...(issuer?.type === AddressType.Ed25519
+            ? [
+                  {
+                      key: localize('general.issuerAddress'),
+                      value: issuerAddress,
+                      copyable: true,
+                      truncate: { firstCharCount: 20, endCharCount: 20 },
+                  },
+              ]
+            : []),
+        ...(collectionName
+            ? [
+                  {
+                      key: localize('general.collection'),
+                      value: collectionName,
+                  },
+              ]
+            : []),
+        ...(issuer?.type === AddressType.Nft || issuer?.type === AddressType.Alias
+            ? [
+                  {
+                      key: localize('general.collectionId'),
+                      value: collectionId,
+                      copyable: true,
+                      truncate: { firstCharCount: 20, endCharCount: 20 },
+                  },
+              ]
+            : []),
+        ...(!nft?.parsedMetadata && metadata
+            ? [
+                  {
+                      key: localize('general.metadata'),
+                      value: metadata,
+                      copyable: true,
+                  },
+              ]
+            : []),
+    ]
 
     function returnIfNftWasSent(ownedNfts: INft[], currentTime: Date): void {
         const nft = ownedNfts.find((nft) => nft.id === id)
@@ -95,7 +149,7 @@
     }
 
     function onExplorerClick(): void {
-        openUrlInBrowser(`${explorerUrl}/${ExplorerEndpoint.Nft}/${id}`)
+        openUrlInBrowser(`${explorerUrl}/${id}`)
     }
 
     function onSendClick(): void {
@@ -132,7 +186,7 @@
             </div>
             <div class="absolute right-6 bottom-6 w-auto">
                 {#if alertText}
-                    <Alert type={downloadMetadata?.error ? 'error' : 'warning'} text={alertText} />
+                    <Alert variant={downloadMetadata?.error ? 'danger' : 'warning'} text={alertText} />
                 {/if}
             </div>
         </div>
@@ -155,55 +209,39 @@
                 <Text type={TextType.h5} fontWeight={FontWeight.semibold}>
                     {localize('general.details')}
                 </Text>
-                <key-value-list class="flex flex-col space-y-2">
-                    {#each Object.entries(detailsList) as [key, value]}
-                        {#key value}
-                            <KeyValueBox
-                                keyText={localize('general.' + key)}
-                                copyValue={value.copyValue ?? value.data}
-                                isCopyable={value.isCopyable}
-                                valueText={value.data}
-                                isPreText={value.isPreText}
-                                maxHeight={value.maxHeight}
-                            />
-                        {/key}
-                    {/each}
-                </key-value-list>
+                <Table items={detailsList} />
             </nft-details>
             {#if attributes?.length > 0}
+                {@const items = attributes.map(({ trait_type, value }) => ({ key: trait_type, value: String(value) }))}
                 <nft-attributes class="flex flex-col space-y-4">
                     <Text type={TextType.h5} fontWeight={FontWeight.semibold}>
                         {localize('general.attributes')}
                     </Text>
-                    <div class="flex flex-wrap gap-3">
-                        {#each Object.values(attributes) as attribute}
-                            <KeyValueBox keyText={attribute.trait_type} valueText={String(attribute.value)} shrink />
-                        {/each}
-                    </div>
+                    <Table {items} />
                 </nft-attributes>
             {:else}
                 {#if soonaverseAttributes?.props}
+                    {@const items = Object.entries(soonaverseAttributes.props).map(([, { label, value }]) => ({
+                        key: label,
+                        value,
+                    }))}
                     <nft-attributes class="flex flex-col space-y-4">
                         <Text type={TextType.h5} fontWeight={FontWeight.semibold}>
                             {localize('general.properties')}
                         </Text>
-                        <div class="flex flex-wrap gap-3">
-                            {#each Object.entries(soonaverseAttributes?.props) as [_key, { label, value }]}
-                                <KeyValueBox keyText={label} valueText={String(value)} shrink />
-                            {/each}
-                        </div>
+                        <Table {items} />
                     </nft-attributes>
                 {/if}
                 {#if soonaverseAttributes?.stats}
+                    {@const items = Object.entries(soonaverseAttributes.stats).map(([, { label, value }]) => ({
+                        key: label,
+                        value,
+                    }))}
                     <nft-attributes class="flex flex-col space-y-4">
                         <Text type={TextType.h5} fontWeight={FontWeight.semibold}>
                             {localize('general.statistics')}
                         </Text>
-                        <div class="flex flex-wrap gap-3">
-                            {#each Object.entries(soonaverseAttributes?.stats) as [_key, { label, value }]}
-                                <KeyValueBox keyText={label} valueText={String(value)} shrink />
-                            {/each}
-                        </div>
+                        <Table {items} />
                     </nft-attributes>
                 {/if}
             {/if}

@@ -27,3 +27,10 @@ export function addClaimedActivity(
         return state
     })
 }
+
+export function removeClaimedActivitiesForProfile(profileId: string): void {
+    claimedActivities.update((state) => {
+        delete state[profileId]
+        return state
+    })
+}

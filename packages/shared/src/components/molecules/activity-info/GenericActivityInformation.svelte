@@ -1,18 +1,12 @@
 <script lang="ts">
+    import { Table } from '@bloomwalletio/ui'
+    import { getNameFromNetworkId } from '@core/network'
     import { Activity } from '@core/activity'
     import { getFormattedTimeStamp, localize } from '@core/i18n'
-    import { ExplorerEndpoint } from '@core/network'
-    import { getDefaultExplorerUrl } from '@core/network/utils'
-    import { openUrlInBrowser } from '@core/app'
     import { getBaseToken } from '@core/profile/actions'
-    import { activeProfile } from '@core/profile/stores'
     import { formatTokenAmountPrecise } from '@core/token'
-    import { IKeyValueBoxList, setClipboard, truncateString } from '@core/utils'
-    import { KeyValueBox } from '@ui'
 
     export let activity: Activity
-
-    const explorerUrl = getDefaultExplorerUrl($activeProfile?.network?.id)
 
     $: expirationTime = getFormattedTimeStamp(activity?.asyncData?.expirationDate)
     $: claimedTime = getFormattedTimeStamp(activity?.asyncData?.claimedDate)
@@ -26,68 +20,66 @@
     $: formattedGiftedStorageDeposit = formatTokenAmountPrecise(activity?.giftedStorageDeposit ?? 0, getBaseToken())
     $: formattedSurplus = formatTokenAmountPrecise(activity?.surplus ?? 0, getBaseToken())
     $: formattedGasLimit = formatTokenAmountPrecise(Number(gasLimit ?? 0), getBaseToken())
-
-    let transactionDetailsList: IKeyValueBoxList
-    $: transactionDetailsList = {
-        ...(activity?.destinationNetwork && {
-            destinationNetwork: { data: activity?.destinationNetwork },
-        }),
-        ...(activity?.time && {
-            transactionTime: { data: formattedTransactionTime },
-        }),
-        ...(activity?.tag && {
-            tag: { data: activity?.tag, isTooltipVisible: true },
-        }),
-        ...(activity?.metadata && {
-            metadata: { data: activity?.metadata, isTooltipVisible: true },
-        }),
-        ...(hasStorageDeposit && {
-            storageDeposit: { data: formattedStorageDeposit, isTooltipVisible: true },
-        }),
-        ...(activity?.surplus && {
-            surplus: { data: formattedSurplus },
-        }),
-        ...(activity?.giftedStorageDeposit && {
-            giftedStorageDeposit: { data: formattedGiftedStorageDeposit, isTooltipVisible: true },
-        }),
-        ...(gasLimit && {
-            gasLimit: { data: formattedGasLimit, isTooltipVisible: true },
-        }),
-        ...(expirationTime && {
-            expirationTime: { data: expirationTime, isTooltipVisible: true },
-        }),
-        ...(activity?.asyncData?.timelockDate && {
-            timelockDate: { data: formattedTimelockDate, isTooltipVisible: true },
-        }),
-        ...(claimedTime && { claimedTime: { data: claimedTime } }),
-    }
-
-    function onTransactionIdClick(): void {
-        explorerUrl
-            ? openUrlInBrowser(
-                  `${explorerUrl}/${ExplorerEndpoint.Transaction}/${activity?.asyncData?.claimingTransactionId}`
-              )
-            : setClipboard(activity?.asyncData?.claimingTransactionId)
-    }
 </script>
 
-{#each Object.entries(transactionDetailsList) as [key, value]}
-    <KeyValueBox
-        keyText={localize(`general.${key}`)}
-        valueText={value.data}
-        tooltipText={value.isTooltipVisible
-            ? localize(`tooltips.transactionDetails.${activity?.direction}.${key}`)
-            : undefined}
-    />
-{/each}
-{#if activity?.asyncData?.claimingTransactionId}
-    <KeyValueBox keyText={localize(activity?.asyncData?.isClaiming ? 'general.claimingIn' : 'general.claimedIn')}>
-        <button
-            slot="value"
-            class="action w-fit flex justify-start text-center font-medium text-14 text-blue-500"
-            on:click={onTransactionIdClick}
-        >
-            {truncateString(activity?.asyncData?.claimingTransactionId, 12, 12)}
-        </button>
-    </KeyValueBox>
-{/if}
+<Table
+    items={[
+        {
+            key: localize('general.destinationNetwork'),
+            value: getNameFromNetworkId(activity?.destinationNetworkId),
+        },
+        {
+            key: localize('general.transactionTime'),
+            value: formattedTransactionTime,
+        },
+        {
+            key: localize('general.tag'),
+            value: activity?.tag,
+            tooltip: localize(`tooltips.transactionDetails.${activity?.direction}.tag`),
+        },
+        {
+            key: localize('general.metadata'),
+            value: activity?.metadata,
+            tooltip: localize(`tooltips.transactionDetails.${activity?.direction}.metadata`),
+        },
+        {
+            key: localize('general.storageDeposit'),
+            value: hasStorageDeposit ? formattedStorageDeposit : undefined,
+            tooltip: localize(`tooltips.transactionDetails.${activity?.direction}.storageDeposit`),
+        },
+        {
+            key: localize('general.surplus'),
+            value: activity?.surplus ? formattedSurplus : undefined,
+        },
+        {
+            key: localize('general.giftedStorageDeposit'),
+            value: activity?.giftedStorageDeposit ? formattedGiftedStorageDeposit : undefined,
+            tooltip: localize(`tooltips.transactionDetails.${activity?.direction}.giftedStorageDeposit`),
+        },
+        {
+            key: localize('general.gasLimit'),
+            value: gasLimit ? formattedGasLimit : undefined,
+            tooltip: localize(`tooltips.transactionDetails.${activity?.direction}.gasLimit`),
+        },
+        {
+            key: localize('general.expirationTime'),
+            value: expirationTime,
+            tooltip: localize(`tooltips.transactionDetails.${activity?.direction}.expirationTime`),
+        },
+        {
+            key: localize('general.timelockDate'),
+            value: activity?.asyncData?.timelockDate ? formattedTimelockDate : undefined,
+            tooltip: localize(`tooltips.transactionDetails.${activity?.direction}.timelockDate`),
+        },
+        {
+            key: localize('general.claimedTime'),
+            value: claimedTime,
+        },
+        {
+            key: localize(activity?.asyncData?.isClaiming ? 'general.claimingIn' : 'general.claimedIn'),
+            value: activity?.asyncData?.claimingTransactionId,
+            copyable: true,
+            truncate: { firstCharCount: 12, endCharCount: 12 },
+        },
+    ]}
+/>

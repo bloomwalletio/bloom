@@ -1,6 +1,7 @@
 <script lang="ts">
+    import { DateTimePicker } from '@bloomwalletio/ui'
+    import { Text, Icon } from '@ui'
     import { formatDate } from '@core/i18n'
-    import { Text, DateTimePicker, Icon } from '@ui'
     import { appSettings } from '@core/app/stores'
 
     export let value: string = undefined

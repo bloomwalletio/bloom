@@ -4,6 +4,7 @@
     import { IContact, IContactAddressMap, setSelectedContactNetworkId } from '@core/contact'
     import { localize } from '@core/i18n'
     import { resetLedgerPreparedOutput, resetShowInternalVerificationPopup } from '@core/ledger'
+    import { NetworkId, getNameFromNetworkId } from '@core/network'
     import { Router } from '@core/router'
     import { truncateString } from '@core/utils'
     import { SendFlowType, SubjectType, setSendFlowParameters } from '@core/wallet'
@@ -16,7 +17,7 @@
     import { SendFlowRouter, sendFlowRouter } from '@views/dashboard/send-flow'
 
     export let drawerRouter: Router<unknown>
-    export let networkId: string
+    export let networkId: NetworkId
     export let contact: IContact
     export let contactAddressMap: IContactAddressMap
 
@@ -33,9 +34,9 @@
     }
 
     function onSendClick(address: string): void {
-        // TODO: after network id refactor we need to set the chain id here so that the recipient selector works correctly
         setSendFlowParameters({
             type: SendFlowType.BaseCoinTransfer,
+            destinationNetworkId: networkId,
             recipient: { type: SubjectType.Contact, contact, address },
         })
         resetLedgerPreparedOutput()
@@ -55,7 +56,7 @@
     <contact-address-head class="flex justify-between">
         <div class="flex items-center gap-2">
             <NetworkIcon {networkId} />
-            <Text fontSize="text-16" fontWeight={FontWeight.semibold}>{networkId}</Text>
+            <Text fontSize="text-16" fontWeight={FontWeight.semibold}>{getNameFromNetworkId(networkId)}</Text>
         </div>
         <contact-address-menu class="block relative">
             <MeatballMenuButton onClick={modal?.toggle} classes="py-2" />

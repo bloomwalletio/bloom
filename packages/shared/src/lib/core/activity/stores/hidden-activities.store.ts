@@ -19,3 +19,10 @@ export function removeActivityFromHiddenActivities(accountIndex: number, activit
         })
     }
 }
+
+export function removeHiddenActivitiesForProfile(profileId: string): void {
+    hiddenActivities.update((state) => {
+        delete state[profileId]
+        return state
+    })
+}

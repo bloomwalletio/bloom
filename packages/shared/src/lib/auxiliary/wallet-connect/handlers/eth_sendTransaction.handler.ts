@@ -1,18 +1,17 @@
-import { JsonRpcResponse } from '@walletconnect/jsonrpc-types'
+import { CallbackParameters } from '../types'
 
 export function handleEthSendTransaction(
-    id: number,
     params: unknown,
-    responseCallback: (response: JsonRpcResponse) => void
+    responseCallback: (params: CallbackParameters) => void
 ): void {
     if (!params || !Array.isArray(params)) {
-        responseCallback({ id, error: { code: 5000, message: 'Error' }, jsonrpc: '2.0' })
+        responseCallback({ error: 'Error' })
         return
     }
 
     const transactionObject = params[0]
     if (!transactionObject || typeof transactionObject !== 'object') {
-        responseCallback({ id, error: { code: 5000, message: 'Error' }, jsonrpc: '2.0' })
+        responseCallback({ error: 'Error' })
         return
     }
 

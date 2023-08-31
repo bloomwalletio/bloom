@@ -2,16 +2,16 @@
     import { OnboardingLayout } from '@components'
     import { OnboardingType, onboardingProfile, updateOnboardingProfile } from '@contexts/onboarding'
     import { localize } from '@core/i18n'
-    import { getOnboardingNetworkNameFromNetworkId } from '@core/network'
+    import { getOnboardingNetworkTypeFromNetworkId } from '@core/network'
     import { profiles } from '@core/profile/stores'
     import features from '@features/features'
     import { Animation, OnboardingButton, Text, TextType } from '@ui'
     import { onMount } from 'svelte'
     import { onboardingRouter } from '../onboarding-router'
 
-    $: networkId = $onboardingProfile?.network?.id
-    $: displayedNetworkName = $onboardingProfile?.network?.name
-    $: networkName = getOnboardingNetworkNameFromNetworkId(networkId)
+    const networkId = $onboardingProfile?.network?.id
+    const networkType = getOnboardingNetworkTypeFromNetworkId(networkId)
+    const displayedNetworkName = $onboardingProfile?.network?.name
 
     function onProfileSetupSelectionClick(onboardingType: OnboardingType): void {
         updateOnboardingProfile({ onboardingType })
@@ -52,16 +52,16 @@
             icon="plus"
             iconHeight="11"
             iconWidth="11"
-            hidden={features?.onboarding?.[networkName]?.newProfile?.hidden}
-            disabled={!features?.onboarding?.[networkName]?.newProfile?.enabled}
+            hidden={features?.onboarding?.[networkType]?.newProfile?.hidden}
+            disabled={!features?.onboarding?.[networkType]?.newProfile?.enabled}
             onClick={() => onProfileSetupSelectionClick(OnboardingType.Create)}
         />
         <OnboardingButton
-            primaryText={localize(`actions.restoreWallet.${networkName}`)}
-            secondaryText={localize(`actions.restoreWalletDescription.${networkName}`)}
+            primaryText={localize(`actions.restoreWallet.${networkType}`)}
+            secondaryText={localize(`actions.restoreWalletDescription.${networkType}`)}
             icon="transfer"
-            hidden={features?.onboarding?.[networkName]?.restoreProfile?.hidden}
-            disabled={!features?.onboarding?.[networkName]?.restoreProfile?.enabled}
+            hidden={features?.onboarding?.[networkType]?.restoreProfile?.hidden}
+            disabled={!features?.onboarding?.[networkType]?.restoreProfile?.enabled}
             onClick={() => onProfileSetupSelectionClick(OnboardingType.Restore)}
         />
         <OnboardingButton
@@ -70,8 +70,8 @@
             icon="tokens"
             iconHeight="24"
             iconWidth="24"
-            hidden={features?.onboarding?.[networkName]?.claimRewards?.hidden}
-            disabled={!features?.onboarding?.[networkName]?.claimRewards?.enabled}
+            hidden={features?.onboarding?.[networkType]?.claimRewards?.hidden}
+            disabled={!features?.onboarding?.[networkType]?.claimRewards?.enabled}
             onClick={() => onProfileSetupSelectionClick(OnboardingType.Claim)}
         />
     </div>

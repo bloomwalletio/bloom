@@ -27,7 +27,6 @@
     import ErrorLogPopup from './ErrorLogPopup.svelte'
     import FaucetRequestPopup from './FaucetRequestPopup.svelte'
     import ImportErc20TokenFormPopup from './ImportErc20TokenFormPopup.svelte'
-    import InitWalletConnectPopup from './InitWalletConnectPopup.svelte'
     import LedgerAppGuidePopup from './LedgerAppGuidePopup.svelte'
     import LedgerConnectionGuidePopup from './LedgerConnectionGuidePopup.svelte'
     import LegalUpdatePopup from './LegalUpdatePopup.svelte'
@@ -43,6 +42,7 @@
     import RemoveNode from './RemoveNode.svelte'
     import RemoveProposalPopup from './RemoveProposalPopup.svelte'
     import RevotePopup from './RevotePopup.svelte'
+    import SignMessagePopup from './SignMessagePopup.svelte'
     import SendFlowPopup from './SendFlowPopup.svelte'
     import StopVotingPopup from './StopVotingPopup.svelte'
     import BalanceBreakdownPopup from './BalanceBreakdownPopup.svelte'
@@ -110,7 +110,6 @@
         [PopupId.ErrorLog]: ErrorLogPopup,
         [PopupId.FaucetRequest]: FaucetRequestPopup,
         [PopupId.ImportErc20Token]: ImportErc20TokenFormPopup,
-        [PopupId.InitWalletConnect]: InitWalletConnectPopup,
         [PopupId.LedgerAppGuide]: LedgerAppGuidePopup,
         [PopupId.LedgerConnection]: LedgerConnectionGuidePopup,
         [PopupId.LegalUpdate]: LegalUpdatePopup,
@@ -127,6 +126,7 @@
         [PopupId.RemoveProposal]: RemoveProposalPopup,
         [PopupId.Revote]: RevotePopup,
         [PopupId.SendFlow]: SendFlowPopup,
+        [PopupId.SignMessage]: SignMessagePopup,
         [PopupId.StopVoting]: StopVotingPopup,
         [PopupId.BalanceBreakdown]: BalanceBreakdownPopup,
         [PopupId.TestDeepLinkForm]: TestDeepLinkFormPopup,

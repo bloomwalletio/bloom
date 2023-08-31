@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { Table } from '@bloomwalletio/ui'
     import { selectedAccount } from '@core/account/stores'
     import { handleError } from '@core/error/handlers/handleError'
     import { localize } from '@core/i18n'
@@ -8,7 +9,7 @@
     import { formatTokenAmountPrecise } from '@core/token'
     import { buildNftOutputBuilderParams, mintNft, mintNftDetails } from '@core/wallet'
     import { PopupId, closePopup, openPopup } from '@desktop/auxiliary/popup'
-    import { Button, FontWeight, KeyValueBox, NftImageOrIconBox, Tabs, Text, TextType } from '@ui'
+    import { Button, FontWeight, NftImageOrIconBox, Tabs, Text, TextType } from '@ui'
     import { onMount } from 'svelte'
 
     export let _onMount: (..._: any[]) => Promise<void> = async () => {}
@@ -38,17 +39,6 @@
         ...(issuerName && { issuerName }),
         ...(description && { description }),
         ...(attributes && { attributes }),
-    }
-
-    let nftTabDetails: { [key in string]: string }
-    $: {
-        nftTabDetails = {
-            name,
-            ...(description && { description }),
-            uri,
-            ...(issuerName && { issuerName }),
-            ...(collectionName && { collectionName }),
-        }
     }
 
     async function prepareNftOutput(): Promise<void> {
@@ -104,35 +94,71 @@
             <activity-details class="w-full h-full space-y-2 flex flex-auto flex-col shrink-0">
                 <Tabs bind:activeTab {tabs} />
                 {#if activeTab === Tab.Transaction}
-                    {#if quantity > 1}
-                        <KeyValueBox keyText={localize('general.quantity')} valueText={quantity.toString()} />
-                        <KeyValueBox
-                            keyText={localize('general.storageDepositPerNft')}
-                            valueText={formatTokenAmountPrecise(storageDeposit, getBaseToken())}
-                        />
-                        <KeyValueBox
-                            keyText={localize('general.totalStorageDeposit')}
-                            valueText={formatTokenAmountPrecise(totalStorageDeposit, getBaseToken())}
-                        />
-                    {:else}
-                        <KeyValueBox
-                            keyText={localize('general.storageDeposit')}
-                            valueText={formatTokenAmountPrecise(storageDeposit, getBaseToken())}
-                        />
-                    {/if}
-                    <KeyValueBox
-                        keyText={localize('general.immutableIssuer')}
-                        valueText={$selectedAccount.depositAddress}
+                    <Table
+                        items={[
+                            {
+                                key: localize('general.quantity'),
+                                value: quantity > 1 ? quantity : undefined,
+                            },
+                            {
+                                key: localize('general.storageDepositPerNft'),
+                                value:
+                                    quantity > 1 ? formatTokenAmountPrecise(storageDeposit, getBaseToken()) : undefined,
+                            },
+                            {
+                                key: localize('general.totalStorageDeposit'),
+                                value:
+                                    quantity > 1
+                                        ? formatTokenAmountPrecise(totalStorageDeposit, getBaseToken())
+                                        : undefined,
+                            },
+                            {
+                                key: localize('general.storageDeposit'),
+                                value:
+                                    quantity === 0
+                                        ? formatTokenAmountPrecise(storageDeposit, getBaseToken())
+                                        : undefined,
+                            },
+                            {
+                                key: localize('general.immutableIssuer'),
+                                value: $selectedAccount?.depositAddress,
+                            },
+                        ]}
                     />
                 {:else if activeTab === Tab.Nft}
-                    {#each Object.entries(nftTabDetails) as [key, value]}
-                        <KeyValueBox keyText={localize(`general.${key}`)} valueText={value} />
-                    {/each}
+                    <Table
+                        items={[
+                            {
+                                key: localize('general.name'),
+                                value: name,
+                            },
+                            {
+                                key: localize('general.description'),
+                                value: description ? description : undefined,
+                            },
+                            {
+                                key: localize('general.uri'),
+                                value: uri,
+                            },
+                            {
+                                key: localize('general.issuerName'),
+                                value: issuerName ? issuerName : undefined,
+                            },
+                            {
+                                key: localize('general.collectionName'),
+                                value: collectionName ? collectionName : undefined,
+                            },
+                        ]}
+                    />
                 {:else if activeTab === Tab.Metadata}
-                    <KeyValueBox
-                        keyText={localize('general.metadata')}
-                        valueText={JSON.stringify(irc27Metadata, null, '\t')}
-                        classes="whitespace-pre-wrap"
+                    <Table
+                        items={[
+                            {
+                                key: localize('general.metadata'),
+                                value: irc27Metadata,
+                                copyable: true,
+                            },
+                        ]}
                     />
                 {/if}
             </activity-details>

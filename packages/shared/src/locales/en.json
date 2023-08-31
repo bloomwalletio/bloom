@@ -569,11 +569,20 @@
                         "hint": "Please note after removing a contact’s network addresses Bloom will no longer associate it with them in transactions or activities."
                     }
                 },
-                "dApps": {
-                    "dAppsList": {
+                "dapps": {
+                    "dappsList": {
                         "title": "Connected dApps",
                         "connectDapp": "Connect dApp",
                         "hint": "WalletConnect allows you to connect Bloom with dApps directly or with a connection code."
+                    },
+                    "inputConnectionCode": {
+                        "title": "Connect to a dApp",
+                        "inputLabel": "Wallet Connect code",
+                        "hint": "Add new dApps by adding a Wallet Connect code below."
+                    },
+                    "confirmConnection": {
+                        "title": "Connect with an application",
+                        "hint": "A third party service wants to connect with your wallet for the first time. You can choose if you wish to trust this connection."
                     }
                 }
             }
@@ -1078,6 +1087,13 @@
             "body": "Help the developers improve Firefly by automatically sending diagnostic data when an error or crash occurs. If selected, this will take effect after restarting Firefly.",
             "checkbox": "Send crash reports to the IOTA Foundation"
         },
+        "signMessage": {
+            "title": "Sign message",
+            "message": "Message",
+            "hint": "No balance will be sent to {dappName} in the process of signing this message.",
+            "warning": "dApp cannot be determined. No balance will be sent in the process of signing this message.",
+            "action": "Sign message"
+        },
         "activityDetails": {
             "title": {
                 "fallback": "Activity details",
@@ -1198,7 +1214,8 @@
                 "standard": "Standard",
                 "name": "Name",
                 "tokenId": "Token ID",
-                "url": "URL"
+                "url": "URL",
+                "description": "Description"
             },
             "buttons": {
                 "verifyToken": "I verify this token"
@@ -1718,6 +1735,7 @@
         "transactionTime": "Transaction time",
         "surplus": "Surplus",
         "storageDeposit": "Storage deposit",
+        "gasFee": "Gas fee",
         "giftedStorageDeposit": "Gifted storage deposit",
         "storageDepositPerNft": "Storage deposit per NFT",
         "totalStorageDeposit": "Total storage deposit",
@@ -1939,6 +1957,7 @@
             "success": "Transaction history for {accountAlias} was successfully saved to {filePath}",
             "error": "Unable to export transaction history for {accountAlias}"
         },
+        "newDappConnected": "Connected to new dApp",
         "deepLinkingRequest": {
             "receivedWhileLoggedOut": "Please login to initiate the deep link",
             "notEnabled": "Deep links are not enabled",
@@ -2133,8 +2152,7 @@
             "nonEmptyAccount": "You must transfer all balances before switching networks."
         },
         "global": {
-            "generic": "Something went wrong.",
-            "accountOrNetworkUndefined": "Account or network undefined"
+            "generic": "Something went wrong."
         },
         "backup": {
             "invalid": "The backup file was not recognised.",
@@ -2254,6 +2272,11 @@
             "unique": "{field} must be unique",
             "alreadyUsed": "{field} is already being used",
             "tooLong": "{field} must be {numCharacters} or less characters"
+        },
+        "walletConnect": {
+            "invalidUri": "Invalid URI",
+            "invalidProtocol": "Invalid protocol, must start with 'wc'.",
+            "deprecatedVersion": "dApp uses a deprecated wallet connect version."
         }
     },
     "warning": {

@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { Table } from '@bloomwalletio/ui'
     import { onMount } from 'svelte'
     import { selectedAccount } from '@core/account/stores'
     import { handleError } from '@core/error/handlers/handleError'
@@ -6,7 +7,7 @@
     import { getBaseToken, checkActiveProfileAuth } from '@core/profile/actions'
     import { mintNativeToken, mintTokenDetails, buildFoundryOutputBuilderParams, IMintTokenDetails } from '@core/wallet'
     import { closePopup, openPopup, PopupId } from '@desktop/auxiliary/popup'
-    import { Button, KeyValueBox, Text, FontWeight, TextType } from '@ui'
+    import { Button, Text, FontWeight, TextType } from '@ui'
     import { IIrc30Metadata, TokenStandard, formatTokenAmountPrecise } from '@core/token'
     import { getClient } from '@core/profile-manager'
 
@@ -30,43 +31,6 @@
             const client = await getClient()
             const preparedOutput = await client.buildFoundryOutput(foundryOutputParams)
             storageDeposit = formatTokenAmountPrecise(Number(preparedOutput.amount) ?? 0, getBaseToken())
-        }
-    }
-
-    let detailsList: { [key: string]: { data: string; tooltipText?: string; isCopyable?: boolean } } | undefined
-    $: detailsList = getDetailsList($mintTokenDetails)
-
-    function getDetailsList(
-        details: IMintTokenDetails | undefined
-    ): { [key: string]: { data: string; tooltipText?: string; isCopyable?: boolean } } | undefined {
-        if (details) {
-            const { name: tokenName, symbol, aliasId, url, logoUrl, decimals, totalSupply } = details
-            return {
-                ...(aliasId && {
-                    alias: { data: aliasId, isCopyable: true },
-                }),
-                ...(storageDeposit && {
-                    storageDeposit: { data: storageDeposit },
-                }),
-                ...(tokenName && {
-                    tokenName: { data: tokenName },
-                }),
-                ...(totalSupply && {
-                    totalSupply: { data: String(totalSupply) },
-                }),
-                ...(decimals && {
-                    decimals: { data: String(decimals) },
-                }),
-                ...(symbol && {
-                    symbol: { data: symbol },
-                }),
-                ...(url && {
-                    url: { data: url },
-                }),
-                ...(logoUrl && {
-                    logoUrl: { data: logoUrl },
-                }),
-            }
         }
     }
 
@@ -133,20 +97,48 @@
     <Text type={TextType.h4} fontSize="18" lineHeight="6" fontWeight={FontWeight.semibold}>
         {localize('popups.nativeToken.confirmationTitle')}
     </Text>
-
-    <div class="space-y-2 max-h-100 scrollable-y flex-1">
-        {#if detailsList && Object.entries(detailsList).length > 0}
-            <details-list class="flex flex-col space-y-2">
-                {#each Object.entries(detailsList) as [key, value]}
-                    <KeyValueBox
-                        keyText={localize(`popups.nativeToken.property.${key}`)}
-                        valueText={value.data}
-                        isCopyable={value.isCopyable}
-                    />
-                {/each}
-            </details-list>
-        {/if}
-    </div>
+    {#if $mintTokenDetails}
+        {@const { name: tokenName, symbol, aliasId, url, logoUrl, decimals, totalSupply } = $mintTokenDetails}
+        <div class="space-y-2 max-h-100 scrollable-y flex-1">
+            <Table
+                items={[
+                    {
+                        key: localize('popups.nativeToken.property.alias'),
+                        value: aliasId,
+                        copyable: true,
+                    },
+                    {
+                        key: localize('popups.nativeToken.property.storageDeposit'),
+                        value: storageDeposit ? storageDeposit : undefined,
+                    },
+                    {
+                        key: localize('popups.nativeToken.property.tokenName'),
+                        value: tokenName,
+                    },
+                    {
+                        key: localize('popups.nativeToken.property.totalSupply'),
+                        value: String(totalSupply),
+                    },
+                    {
+                        key: localize('popups.nativeToken.property.decimals'),
+                        value: decimals ? String(decimals) : undefined,
+                    },
+                    {
+                        key: localize('popups.nativeToken.property.symbol'),
+                        value: symbol,
+                    },
+                    {
+                        key: localize('popups.nativeToken.property.url'),
+                        value: url,
+                    },
+                    {
+                        key: localize('popups.nativeToken.property.logoUrl'),
+                        value: logoUrl,
+                    },
+                ]}
+            />
+        </div>
+    {/if}
     <div class="flex flex-row flex-nowrap w-full space-x-4">
         <Button outline classes="w-full" disabled={isTransferring} onClick={onBackClick}>
             {localize('actions.back')}

@@ -2,18 +2,19 @@ import { IAccountState } from '@core/account'
 import type { NftOutput } from '@iota/sdk/out/types'
 import { ActivityType } from '../enums'
 import { NftActivity } from '../types'
+import { parseLayer2Metadata } from '@core/layer-2'
+import { getNetworkIdFromAddress } from '@core/layer-2/actions'
+import { NetworkId } from '@core/network/types'
+import { IActivityGenerationParameters } from '../types/activity-generation-parameters.interface'
 import {
     getAmountFromOutput,
     getAsyncDataFromOutput,
-    getLayer2ActivityInformation,
     getMetadataFromOutput,
     getSendingInformation,
     getStorageDepositFromOutput,
     getTagFromOutput,
 } from './helper'
-import { IActivityGenerationParameters } from '../types/activity-generation-parameters.interface'
 import { getNftId } from './outputs'
-import { NetworkId } from '@core/network/types'
 
 export function generateSingleNftActivity(
     account: IAccountState,
@@ -34,15 +35,20 @@ export function generateSingleNftActivity(
     const metadata = getMetadataFromOutput(output)
     const tag = getTagFromOutput(output)
 
-    const sendingInfo = getSendingInformation(processedTransaction, output, account)
-    const { subject, isInternal } = sendingInfo
-
     const rawBaseCoinAmount = getAmountFromOutput(output)
     const storageDeposit = getStorageDepositFromOutput(output)
 
-    const layer2ActivityInformation = getLayer2ActivityInformation(metadata, sendingInfo)
+    const { sender, recipient, subject, isInternal } = getSendingInformation(
+        processedTransaction,
+        output,
+        account,
+        networkId
+    )
+    const sourceNetworkId = getNetworkIdFromAddress(sender?.address, networkId)
+    const destinationNetworkId = getNetworkIdFromAddress(recipient?.address, sourceNetworkId)
 
     const asyncData = getAsyncDataFromOutput(output, outputId, claimingData, account)
+    const parsedLayer2Metadata = parseLayer2Metadata(metadata)
 
     return {
         type: ActivityType.Nft,
@@ -50,7 +56,8 @@ export function generateSingleNftActivity(
         transactionId,
         outputId,
         nftId,
-        networkId,
+        sourceNetworkId,
+        destinationNetworkId: destinationNetworkId,
         time,
         isHidden,
         action,
@@ -65,6 +72,6 @@ export function generateSingleNftActivity(
         subject,
         isInternal,
         direction,
-        ...layer2ActivityInformation,
+        parsedLayer2Metadata,
     }
 }

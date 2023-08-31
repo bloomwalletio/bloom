@@ -84,6 +84,13 @@ function convertTransactionOutputResponseToWrappedOutput(
 
 function getUtxoInputsFromWrappedInputs(wrappedInputs: IWrappedOutput[]): UTXOInput[] {
     return (
-        wrappedInputs?.map((input) => new UTXOInput(input?.metadata?.transactionId, input?.metadata?.outputIndex)) ?? []
+        wrappedInputs?.map(
+            (input) =>
+                ({
+                    type: 0,
+                    transactionId: input.metadata?.transactionId,
+                    transactionOutputIndex: input.metadata?.outputIndex,
+                }) as UTXOInput
+        ) ?? []
     )
 }

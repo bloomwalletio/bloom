@@ -195,7 +195,9 @@
                 @apply text-center;
                 @apply text-18;
                 caret-color: transparent;
-                transition: opacity 1s, color 1s;
+                transition:
+                    opacity 1s,
+                    color 1s;
 
                 &.active {
                     border-bottom-width: 1px;

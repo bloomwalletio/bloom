@@ -1,16 +1,15 @@
 import { IAccountState } from '@core/account'
-import { AssetType } from '@core/layer-2'
-import { ISC_MAGIC_CONTRACT_ADDRESS } from '@core/layer-2/constants'
-import { EvmTransactionData, TransferredAsset } from '@core/layer-2/types'
 import {
-    buildEvmTransactionData,
+    AssetType,
+    EvmTransactionData,
+    ISC_MAGIC_CONTRACT_ADDRESS,
+    TransferredAsset,
     getErc20TransferSmartContractData,
-    getIscpTransferSmartContractData,
-} from '@core/layer-2/utils'
+} from '@core/layer-2'
+import { buildEvmTransactionData, getIscpTransferSmartContractData } from '@core/layer-2/actions'
 import { IChain } from '@core/network/interfaces'
-import { IToken } from '@core/token/interfaces'
 import { TokenStandard } from '@core/token/enums'
-import { SubjectType } from '@core/wallet/enums'
+import { IToken } from '@core/token/interfaces'
 import { SendFlowType } from '@core/wallet/stores'
 import { SendFlowParameters } from '@core/wallet/types'
 
@@ -19,7 +18,11 @@ export function createEvmTransactionFromSendFlowParameters(
     chain: IChain,
     account: IAccountState
 ): Promise<EvmTransactionData | undefined> {
-    if (!sendFlowParameters || sendFlowParameters.type === SendFlowType.NftTransfer) {
+    if (
+        !sendFlowParameters ||
+        sendFlowParameters.type === SendFlowType.NftTransfer ||
+        !sendFlowParameters.recipient?.address
+    ) {
         return Promise.resolve(undefined)
     }
 
@@ -35,7 +38,7 @@ export function createEvmTransactionFromSendFlowParameters(
         amount = sendFlowParameters.tokenTransfer?.rawAmount ?? '0'
     }
 
-    if (sendFlowParameters.recipient?.type !== SubjectType.Address || !token?.metadata || amount === undefined) {
+    if (!token?.metadata || amount === undefined) {
         return Promise.resolve(undefined)
     }
 

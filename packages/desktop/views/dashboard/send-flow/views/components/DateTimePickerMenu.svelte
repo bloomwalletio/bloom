@@ -132,7 +132,6 @@
 </Modal>
 {#if canShowDateTimePicker}
     <ExpirationDateTimePicker
-        position="top"
         {anchor}
         bind:value={customDate}
         on:cancel={onCancelExpirationTimeClick}

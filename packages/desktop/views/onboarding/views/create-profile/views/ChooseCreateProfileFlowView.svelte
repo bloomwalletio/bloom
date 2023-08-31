@@ -13,6 +13,10 @@
     import { onMount } from 'svelte'
     import { createProfileRouter } from '../create-profile-router'
     import { destroyProfileManager } from '@core/profile-manager/actions'
+    import { getOnboardingNetworkTypeFromNetworkId } from '@core/network/utils'
+
+    const networkId = $onboardingProfile?.network?.id
+    const networkType = getOnboardingNetworkTypeFromNetworkId(networkId)
 
     let isBusy = {
         [CreateProfileType.Mnemonic]: false,
@@ -20,8 +24,6 @@
     }
 
     $: isDisabled = Object.values(isBusy).some((busy) => busy)
-
-    const networkId = $onboardingProfile?.network?.id
 
     async function onProfileTypeClick(createProfileType: CreateProfileType): Promise<void> {
         isBusy = { ...isBusy, [createProfileType]: true }
@@ -58,8 +60,8 @@
             secondaryText={localize('views.onboarding.profileSetup.setupNew.softwareAccount.description')}
             icon="file"
             busy={isBusy[CreateProfileType.Mnemonic]}
-            hidden={features?.onboarding?.[networkId]?.newProfile?.softwareProfile?.hidden}
-            disabled={!features?.onboarding?.[networkId]?.newProfile?.softwareProfile?.enabled || isDisabled}
+            hidden={features?.onboarding?.[networkType]?.newProfile?.softwareProfile?.hidden}
+            disabled={!features?.onboarding?.[networkType]?.newProfile?.softwareProfile?.enabled || isDisabled}
             onClick={() => onProfileTypeClick(CreateProfileType.Mnemonic)}
         />
         <OnboardingButton
@@ -67,8 +69,8 @@
             secondaryText={localize('views.onboarding.profileSetup.setupNew.ledgerAccount.description')}
             icon="chip"
             busy={isBusy[CreateProfileType.Ledger]}
-            hidden={features?.onboarding?.[networkId]?.newProfile?.ledgerProfile?.hidden}
-            disabled={!features?.onboarding?.[networkId]?.newProfile?.ledgerProfile?.enabled || isDisabled}
+            hidden={features?.onboarding?.[networkType]?.newProfile?.ledgerProfile?.hidden}
+            disabled={!features?.onboarding?.[networkType]?.newProfile?.ledgerProfile?.enabled || isDisabled}
             onClick={() => onProfileTypeClick(CreateProfileType.Ledger)}
         />
     </div>

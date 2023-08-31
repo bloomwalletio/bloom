@@ -31,7 +31,7 @@
         if (persistedToken?.verification?.status === NotVerifiedStatus.New) {
             const token: IToken = {
                 ...persistedToken,
-                networkId: activity.networkId,
+                networkId: activity.sourceNetworkId,
                 balance: {
                     total: 0,
                     available: 0,

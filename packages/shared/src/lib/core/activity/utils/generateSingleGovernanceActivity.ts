@@ -32,7 +32,7 @@ export async function generateSingleGovernanceActivity(
     const tag = getTagFromOutput(output)
     const metadata = getMetadataFromOutput(output)
 
-    const sendingInfo = getSendingInformation(processedTransaction, output, account)
+    const sendingInfo = getSendingInformation(processedTransaction, output, account, networkId)
 
     const storageDeposit = getStorageDepositFromOutput(output)
     const governanceInfo = getGovernanceInfo(output, wrappedInputs, metadata)
@@ -52,7 +52,8 @@ export async function generateSingleGovernanceActivity(
         storageDeposit,
         metadata,
         tag,
-        networkId,
+        sourceNetworkId: networkId,
+        destinationNetworkId: networkId,
         asyncData: undefined,
         ...governanceInfo,
         ...sendingInfo,

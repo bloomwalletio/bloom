@@ -52,7 +52,7 @@ export async function generateSingleFoundryActivity(
     const metadata = getMetadataFromOutput(output)
     const tag = getTagFromOutput(output)
 
-    const sendingInfo = getSendingInformation(processedTransaction, output, account)
+    const sendingInfo = getSendingInformation(processedTransaction, output, account, networkId)
     const asyncData = getAsyncDataFromOutput(output, outputId, claimingData, account)
 
     return {
@@ -76,7 +76,8 @@ export async function generateSingleFoundryActivity(
         isHidden,
         metadata,
         tag,
-        networkId,
+        sourceNetworkId: networkId,
+        destinationNetworkId: networkId,
         asyncData,
         ...sendingInfo,
     }

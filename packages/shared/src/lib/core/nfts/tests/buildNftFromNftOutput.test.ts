@@ -10,6 +10,7 @@ import {
 import { IWrappedOutput } from '../../wallet/interfaces'
 import { Feature, UnlockCondition } from '../../wallet/types'
 import { buildNftFromNftOutput } from '../actions/buildNftFromNftOutput'
+import { NetworkNamespace, StardustNetworkName } from '../../network/enums'
 
 const accountAddress = 'rms1qr47ee0fhahukrzec088v9lngv7w5k2sn3jjtwvkcpjfgxhhsazlsurxrx9'
 
@@ -49,6 +50,12 @@ jest.mock('../../../../lib/core/wallet/utils/getBech32AddressFromAddressTypes.ts
             case AddressType.Nft:
                 return undefined
         }
+    }),
+}))
+
+jest.mock('../../network/actions/getActiveNetworkId.ts', () => ({
+    getActiveNetworkId: jest.fn(() => {
+        return `${NetworkNamespace.Stardust}:${StardustNetworkName.Shimmer}`
     }),
 }))
 

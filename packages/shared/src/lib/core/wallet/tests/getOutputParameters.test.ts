@@ -1,6 +1,7 @@
 import { activeProfileId } from '@core/profile/stores/active-profile-id.store'
 import { SupportedNetworkId } from '@core/network/enums'
 import { FALLBACK_ESTIMATED_GAS } from '@core/layer-2/constants'
+import { DEFAULT_CHAIN_CONFIGURATIONS } from '@core/network/constants'
 import { getOutputParameters } from '../utils'
 import { ReturnStrategy, SubjectType } from '../enums'
 import { IToken, IPersistedToken } from '@core/token/interfaces'
@@ -32,10 +33,7 @@ const nativeTokenAsset: IToken = {
     verification: { verified: true, status: VerifiedStatus.SelfVerified },
 }
 
-const layer2Parameters = {
-    networkAddress: 'rms1pp4kmrl9n9yy9n049x7kk8h4atm0tu76redhj5wrc2jsskk2vukwxvtgk9u',
-    senderAddress,
-}
+const destinationNetwork = DEFAULT_CHAIN_CONFIGURATIONS[SupportedNetworkId.Testnet]
 
 const nftId = '0xcd9430ff870a22f81f92428e5c06975fa3ec1a993331aa3db9fb2298e931ade1'
 const surplus = '50000'
@@ -69,6 +67,7 @@ const baseTransaction: SendFlowParameters = {
         type: SubjectType.Address,
         address: recipientAddress,
     },
+    destinationNetworkId: SupportedNetworkId.Shimmer,
 }
 
 jest.mock('@core/token/stores/persisted-tokens.store', () => ({
@@ -87,12 +86,34 @@ jest.mock('@core/token/actions/getAccountTokensForSelectedAccount', () => ({
     }),
 }))
 
+jest.mock('../../network/actions/getChainConfiguration', () => ({
+    getChainConfiguration: jest.fn((_) => destinationNetwork),
+}))
+
 jest.mock('../../profile/actions/active-profile/getCoinType', () => ({
     getCoinType: jest.fn((_) => '1'),
 }))
 
-jest.mock('../../layer-2/utils/estimateGasForLayer1ToLayer2Transaction', () => ({
-    estimateGasForLayer1ToLayer2Transaction: jest.fn(() => FALLBACK_ESTIMATED_GAS.toJSNumber()),
+jest.mock('../../layer-2/actions/getGasPriceInWei', () => ({
+    getGasPriceInWei: jest.fn((_) => 1_000_000_000_000n),
+}))
+
+jest.mock('../../layer-2/actions/estimateGasForLayer1ToLayer2Transaction', () => ({
+    estimateGasForLayer1ToLayer2Transaction: jest.fn(({ type }) => FALLBACK_ESTIMATED_GAS[type]),
+}))
+
+jest.mock('../../layer-2/constants/gas-limit-multiplier.constant', () => ({
+    GAS_LIMIT_MULTIPLIER: 1.1,
+}))
+
+jest.mock('../../layer-2/constants/wei.constants', () => ({
+    WEI_PER_GLOW: BigInt(1_000_000_000_000),
+}))
+
+jest.mock('../../network/actions/getActiveNetworkId.ts', () => ({
+    getActiveNetworkId: jest.fn(() => {
+        return SupportedNetworkId.Shimmer
+    }),
 }))
 
 describe('File: getOutputParameters.ts', () => {
@@ -109,7 +130,7 @@ describe('File: getOutputParameters.ts', () => {
             metadata,
             tag,
         }
-        const output = await getOutputParameters(sendFlowParameters)
+        const output = await getOutputParameters(sendFlowParameters, senderAddress)
 
         const expectedOutput = {
             recipientAddress,
@@ -126,7 +147,7 @@ describe('File: getOutputParameters.ts', () => {
             ...baseTransaction,
             expirationDate,
         }
-        const output = await getOutputParameters(sendFlowParameters)
+        const output = await getOutputParameters(sendFlowParameters, senderAddress)
 
         const expectedOutput = {
             recipientAddress,
@@ -143,7 +164,7 @@ describe('File: getOutputParameters.ts', () => {
             ...baseTransaction,
             timelockDate,
         }
-        const output = await getOutputParameters(sendFlowParameters)
+        const output = await getOutputParameters(sendFlowParameters, senderAddress)
 
         const expectedOutput = {
             recipientAddress,
@@ -161,7 +182,7 @@ describe('File: getOutputParameters.ts', () => {
             expirationDate,
             timelockDate,
         }
-        const output = await getOutputParameters(sendFlowParameters)
+        const output = await getOutputParameters(sendFlowParameters, senderAddress)
 
         const expectedOutput = {
             recipientAddress,
@@ -188,7 +209,7 @@ describe('File: getOutputParameters.ts', () => {
                 rawAmount: amount,
             },
         }
-        const output = await getOutputParameters(sendFlowParameters)
+        const output = await getOutputParameters(sendFlowParameters, senderAddress)
 
         const expectedOutput = {
             recipientAddress,
@@ -212,15 +233,15 @@ describe('File: getOutputParameters.ts', () => {
         sendFlowParameters = {
             ...baseTransaction,
             expirationDate,
-            layer2Parameters,
+            destinationNetworkId: destinationNetwork.id,
         }
-        const output = await getOutputParameters(sendFlowParameters)
+        const output = await getOutputParameters(sendFlowParameters, senderAddress)
         const expectedOutput = {
-            recipientAddress: layer2Parameters.networkAddress,
-            amount: (Number(FALLBACK_ESTIMATED_GAS) + Number(amount)).toString(),
+            recipientAddress: destinationNetwork.aliasAddress,
+            amount: '1000026620',
             features: {
                 metadata:
-                    '0x00000000025e4b3ca1e3f423c09a0c010161200300010000070c000c30680e00000090000f0ea000060009000d300000000000808094ebdc03',
+                    '0x00000000025e4b3ca1e3f423fccf01010161200300010000070c000c30680e00000090000f0ea000060009000d300000000000808094ebdc03',
                 sender: senderAddress,
             },
             unlocks: { expirationUnixTime: 1680163475 },
@@ -243,13 +264,13 @@ describe('File: getOutputParameters.ts', () => {
                 token: nativeTokenAsset,
                 rawAmount: amount,
             },
-            layer2Parameters,
+            destinationNetworkId: destinationNetwork.id,
         }
-        const output = await getOutputParameters(sendFlowParameters)
+        const output = await getOutputParameters(sendFlowParameters, senderAddress)
 
         const expectedOutput = {
-            recipientAddress: layer2Parameters.networkAddress,
-            amount: FALLBACK_ESTIMATED_GAS.toString(),
+            recipientAddress: destinationNetwork.aliasAddress,
+            amount: '26785',
             assets: {
                 nativeTokens: [
                     {
@@ -260,7 +281,7 @@ describe('File: getOutputParameters.ts', () => {
             },
             features: {
                 metadata:
-                    '0x00000000025e4b3ca1e3f423c09a0c010161200300010000070c000c30680e00000090000f0ea000060009000d300000000000400108cd4dcad7ccc383111942671ee8cdc487ddd250398331ca2692b8b1a81551a1c30100000000043b9aca00',
+                    '0x00000000025e4b3ca1e3f423a1d101010161200300010000070c000c30680e00000090000f0ea000060009000d300000000000400108cd4dcad7ccc383111942671ee8cdc487ddd250398331ca2692b8b1a81551a1c30100000000043b9aca00',
                 sender: senderAddress,
             },
             unlocks: { expirationUnixTime: 1680163475 },
@@ -274,19 +295,19 @@ describe('File: getOutputParameters.ts', () => {
             type: SendFlowType.NftTransfer,
             recipient: baseTransaction.recipient,
             nft: testNft,
-            layer2Parameters,
+            destinationNetworkId: destinationNetwork.id,
         }
-        const output = await getOutputParameters(sendFlowParameters)
+        const output = await getOutputParameters(sendFlowParameters, senderAddress)
 
         const expectedOutput = {
-            recipientAddress: layer2Parameters.networkAddress,
-            amount: FALLBACK_ESTIMATED_GAS.toString(),
+            recipientAddress: destinationNetwork.aliasAddress,
+            amount: '27170',
             assets: {
                 nftId,
             },
             features: {
                 metadata:
-                    '0x00000000025e4b3ca1e3f423c09a0c010161200300010000070c000c30680e00000090000f0ea000060009000d3000000000002001cd9430ff870a22f81f92428e5c06975fa3ec1a993331aa3db9fb2298e931ade1',
+                    '0x00000000025e4b3ca1e3f423a2d401010161200300010000070c000c30680e00000090000f0ea000060009000d3000000000002001cd9430ff870a22f81f92428e5c06975fa3ec1a993331aa3db9fb2298e931ade1',
                 sender: senderAddress,
             },
             unlocks: {},
@@ -301,8 +322,9 @@ describe('File: getOutputParameters.ts', () => {
             recipient: baseTransaction.recipient,
             nft: testNft,
             expirationDate,
+            destinationNetworkId: SupportedNetworkId.Shimmer,
         }
-        const output = await getOutputParameters(sendFlowParameters)
+        const output = await getOutputParameters(sendFlowParameters, senderAddress)
 
         const expectedOutput = {
             recipientAddress,
@@ -332,7 +354,7 @@ describe('File: getOutputParameters.ts', () => {
                 rawAmount: amount,
             },
         }
-        const output = await getOutputParameters(sendFlowParameters)
+        const output = await getOutputParameters(sendFlowParameters, senderAddress)
 
         const expectedOutput = {
             recipientAddress,
@@ -358,7 +380,7 @@ describe('File: getOutputParameters.ts', () => {
             expirationDate,
             giftStorageDeposit: true,
         }
-        const output = await getOutputParameters(sendFlowParameters)
+        const output = await getOutputParameters(sendFlowParameters, senderAddress)
 
         const expectedOutput = {
             recipientAddress,

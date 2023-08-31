@@ -3,17 +3,8 @@
     import { setSendFlowParameters, SendFlowType } from '@core/wallet'
     import { TokenStandard, IToken, NotVerifiedStatus, VerifiedStatus } from '@core/token'
     import { openPopup, PopupId, updatePopupProps } from '@desktop/auxiliary/popup'
-    import {
-        Button,
-        FontWeight,
-        KeyValueBox,
-        Text,
-        TextHint,
-        TokenActionsButton,
-        TextType,
-        TokenAmountTile,
-        TooltipIcon,
-    } from '@ui'
+    import { Button, FontWeight, Text, TextHint, TokenActionsButton, TextType, TokenAmountTile, TooltipIcon } from '@ui'
+    import { Table } from '@bloomwalletio/ui'
     import { SendFlowRoute, SendFlowRouter, sendFlowRouter } from '@views/dashboard/send-flow'
     import { Icon as IconEnum } from '@lib/auxiliary/icon'
     import { getCoinType } from '@core/profile/actions'
@@ -21,8 +12,6 @@
 
     export let token: IToken | undefined
     export let activityId: string = undefined
-
-    $: showTokenActionsMenuButton = token.standard === TokenStandard.Irc30 || token.standard === TokenStandard.Erc20
 
     function onSkipClick(): void {
         unverifyToken(token.id, NotVerifiedStatus.Skipped)
@@ -91,38 +80,35 @@
                     />
                 {/if}
             </div>
-            {#if showTokenActionsMenuButton}
+            {#if token.standard === TokenStandard.Irc30 || token.standard === TokenStandard.Erc20}
                 <TokenActionsButton {token} />
             {/if}
         </div>
 
         <TokenAmountTile {token} amount={token.balance.available} />
-
-        <div class="space-y-4 flex flex-col items-center justify-center">
-            <div class="w-full flex flex-col space-y-2">
-                <KeyValueBox
-                    keyText={localize('popups.tokenInformation.tokenMetadata.standard')}
-                    valueText={token.standard}
-                />
-                <KeyValueBox
-                    keyText={localize('popups.tokenInformation.tokenMetadata.name')}
-                    valueText={token.metadata?.name}
-                />
-                <KeyValueBox
-                    keyText={localize('popups.tokenInformation.tokenMetadata.tokenId')}
-                    valueText={token.id}
-                    isCopyable={token.standard === TokenStandard.Irc30}
-                    copyValue={token.id}
-                />
-                {#if token.metadata?.standard === TokenStandard.Irc30 && token.metadata.url}
-                    <KeyValueBox
-                        keyText={localize('popups.tokenInformation.tokenMetadata.url')}
-                        valueText={token.metadata.url}
-                        isCopyable
-                    />
-                {/if}
-            </div>
-        </div>
+        <Table
+            items={[
+                {
+                    key: localize('popups.tokenInformation.tokenMetadata.standard'),
+                    value: token.standard,
+                },
+                {
+                    key: localize('popups.tokenInformation.tokenMetadata.tokenId'),
+                    value: token.id,
+                    truncate: { firstCharCount: 10, endCharCount: 10 },
+                    copyable: true,
+                },
+                {
+                    key: localize('popups.tokenInformation.tokenMetadata.url'),
+                    value: token.metadata.standard === TokenStandard.Irc30 ? token.metadata.url : undefined,
+                    copyable: true,
+                },
+                {
+                    key: localize('popups.tokenInformation.tokenMetadata.description'),
+                    value: token.metadata.standard === TokenStandard.Irc30 ? token.metadata.description : undefined,
+                },
+            ]}
+        />
 
         {#if !token.verification?.verified && token.verification?.status === NotVerifiedStatus.New}
             <TextHint warning text={localize('popups.tokenInformation.verificationWarning')} />

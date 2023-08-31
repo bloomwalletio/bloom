@@ -1,21 +1,24 @@
 import { OutputParams, Assets } from '@iota/sdk/out/types'
-import { ILayer2Parameters } from '@core/layer-2'
-import { estimateGasForLayer1ToLayer2Transaction, getLayer2MetadataForTransfer } from '@core/layer-2/utils'
+import { getGasFeesForLayer1ToLayer2Transaction, getLayer2MetadataForTransfer } from '@core/layer-2/actions'
+import { ChainConfiguration, ChainType, getActiveNetworkId, getChainConfiguration, isEvmChain } from '@core/network'
 import { getCoinType } from '@core/profile/actions'
 import { Converter, convertDateToUnixTimestamp } from '@core/utils'
 import { SendFlowParameters, Subject } from '@core/wallet/types'
 import { ReturnStrategy } from '../enums'
 import { SendFlowType } from '../stores'
 
-export async function getOutputParameters(sendFlowParameters: SendFlowParameters): Promise<OutputParams> {
-    const { recipient, expirationDate, timelockDate, giftStorageDeposit, layer2Parameters } = sendFlowParameters ?? {}
+export async function getOutputParameters(
+    sendFlowParameters: SendFlowParameters,
+    senderAddress?: string
+): Promise<OutputParams> {
+    const { recipient, expirationDate, timelockDate, giftStorageDeposit, destinationNetworkId } =
+        sendFlowParameters ?? {}
 
-    const recipientAddress = getDestinationAddress(recipient, layer2Parameters)
-
-    const estimatedGas = await estimateGasForLayer1ToLayer2Transaction(sendFlowParameters)
+    const isToLayer2 = destinationNetworkId && isEvmChain(destinationNetworkId)
+    const chainConfig = isToLayer2 ? getChainConfiguration(destinationNetworkId) : undefined
+    const destinationAddress = getDestinationAddress(recipient, chainConfig)
 
     let amount = getAmountFromTransactionData(sendFlowParameters)
-    amount = layer2Parameters ? (estimatedGas + parseInt(amount, 10)).toString() : amount
 
     const assets = getAssetsFromTransactionData(sendFlowParameters)
 
@@ -26,14 +29,19 @@ export async function getOutputParameters(sendFlowParameters: SendFlowParameters
     const expirationUnixTime = expirationDate ? convertDateToUnixTimestamp(expirationDate) : undefined
     const timelockUnixTime = timelockDate ? convertDateToUnixTimestamp(timelockDate) : undefined
 
+    if (isToLayer2) {
+        const { maxGasFee } = await getGasFeesForLayer1ToLayer2Transaction(sendFlowParameters)
+        amount = (parseInt(amount, 10) + Number(maxGasFee ?? 0)).toString()
+    }
+
     return <OutputParams>{
-        recipientAddress,
+        recipientAddress: destinationAddress,
         amount,
         ...(assets && { assets }),
         features: {
             ...(tag && { tag }),
             ...(metadata && { metadata }),
-            ...(layer2Parameters && { sender: layer2Parameters.senderAddress }),
+            ...(isToLayer2 && senderAddress && { sender: senderAddress }),
         },
         unlocks: {
             ...(expirationUnixTime && { expirationUnixTime }),
@@ -45,13 +53,11 @@ export async function getOutputParameters(sendFlowParameters: SendFlowParameters
     }
 }
 
-function getDestinationAddress(
-    recipient: Subject | undefined,
-    layer2Parameters: ILayer2Parameters | undefined
-): string {
-    if (layer2Parameters) {
-        return layer2Parameters.networkAddress
-    } else if (recipient) {
+function getDestinationAddress(recipient: Subject | undefined, chainConfig: ChainConfiguration | undefined): string {
+    if (chainConfig?.type === ChainType.Iscp) {
+        return chainConfig.aliasAddress
+    }
+    if (recipient) {
         return recipient.address
     } else {
         return ''
@@ -88,7 +94,7 @@ function getAssetsFromTransactionData(sendFlowParameters: SendFlowParameters): A
 }
 
 function getMetadata(sendFlowParameters: SendFlowParameters): Promise<string> {
-    if (sendFlowParameters.layer2Parameters) {
+    if (sendFlowParameters.destinationNetworkId !== getActiveNetworkId()) {
         return getLayer2MetadataForTransfer(sendFlowParameters)
     } else {
         return Promise.resolve(Converter.utf8ToHex(sendFlowParameters?.metadata ?? ''))

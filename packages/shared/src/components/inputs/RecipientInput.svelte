@@ -2,7 +2,6 @@
     import { Modal, SelectorInput, IOption } from '@ui'
     import { getRandomAccountColor } from '@core/account/utils'
     import { localize } from '@core/i18n'
-    import { Layer1RecipientError } from '@core/layer-2/errors'
     import { getNetworkHrp } from '@core/profile/actions'
     import { visibleActiveAccounts } from '@core/profile/stores'
     import { validateBech32Address, validateEthereumAddress } from '@core/utils/crypto'
@@ -10,11 +9,13 @@
     import { Subject } from '@core/wallet/types'
     import { getSubjectFromAddress } from '@core/wallet/utils'
     import { Indicator } from '@bloomwalletio/ui'
+    import { NetworkId } from '@core/network'
 
     export let recipient: Subject | undefined
     export let options: IOption[]
+    export let networkId: NetworkId
     export let disabled = false
-    export let isLayer2 = false
+    export let isEvmChain = false
 
     let inputElement: HTMLInputElement | undefined = undefined
     let modal: Modal | undefined = undefined
@@ -22,27 +23,21 @@
     let error: string
     let selected: IOption =
         recipient?.type === SubjectType.Account
-            ? { key: recipient.account.name, value: recipient.account.depositAddress }
+            ? { key: recipient.account.name, value: recipient.address }
+            : recipient?.type === SubjectType.Contact
+            ? { key: recipient.contact.name, value: recipient.address }
             : { value: recipient?.address }
 
-    $: isLayer2, (error = '')
-    $: recipient = getSubjectFromAddress(selected?.value)
+    $: isEvmChain, (error = '')
+    $: recipient = selected?.value ? getSubjectFromAddress(selected.value, networkId) : undefined
 
     export function validate(): void {
         try {
-            if (recipient?.type === SubjectType.Address || recipient?.type === SubjectType.Contact) {
-                if (!recipient.address) {
-                    throw new Error(localize('error.send.recipientRequired'))
-                }
-
-                if (isLayer2) {
+            if (recipient && recipient.address) {
+                if (isEvmChain) {
                     validateEthereumAddress(recipient?.address)
                 } else {
                     validateBech32Address(getNetworkHrp(), recipient?.address)
-                }
-            } else if (recipient?.type === SubjectType.Account) {
-                if (isLayer2) {
-                    throw new Layer1RecipientError()
                 }
             } else {
                 throw new Error(localize('error.send.recipientRequired'))

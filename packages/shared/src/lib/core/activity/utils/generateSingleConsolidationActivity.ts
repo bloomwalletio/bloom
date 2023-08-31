@@ -34,7 +34,7 @@ export async function generateSingleConsolidationActivity(
     const tag = getTagFromOutput(output)
     const metadata = getMetadataFromOutput(output)
 
-    const sendingInfo = getSendingInformation(processedTransaction, output, account)
+    const sendingInfo = getSendingInformation(processedTransaction, output, account, networkId)
     const asyncData = getAsyncDataFromOutput(output, outputId, claimingData, account)
 
     const storageDeposit = getStorageDepositFromOutput(output)
@@ -53,7 +53,8 @@ export async function generateSingleConsolidationActivity(
         storageDeposit,
         metadata,
         tag,
-        networkId,
+        sourceNetworkId: networkId,
+        destinationNetworkId: networkId,
         asyncData,
         amountConsolidatedInputs,
         ...sendingInfo,

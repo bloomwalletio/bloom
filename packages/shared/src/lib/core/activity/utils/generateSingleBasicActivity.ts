@@ -2,6 +2,9 @@ import { isShimmerClaimingTransaction } from '@contexts/onboarding/stores'
 import { IAccountState } from '@core/account'
 import { BasicOutput } from '@iota/sdk/out/types'
 import { IActivityGenerationParameters } from '@core/activity/types'
+import { parseLayer2Metadata } from '@core/layer-2'
+import { getNetworkIdFromAddress } from '@core/layer-2/actions'
+import { NetworkId } from '@core/network/types'
 import { getCoinType } from '@core/profile/actions'
 import { activeProfileId } from '@core/profile/stores'
 import { get } from 'svelte/store'
@@ -17,7 +20,6 @@ import {
     getTagFromOutput,
 } from './helper'
 import { getNativeTokenFromOutput } from './outputs'
-import { NetworkId } from '@core/network/types'
 
 export async function generateSingleBasicActivity(
     account: IAccountState,
@@ -43,12 +45,19 @@ export async function generateSingleBasicActivity(
     const metadata = getMetadataFromOutput(output)
     const publicNote = ''
 
-    const sendingInfo = getSendingInformation(processedTransaction, output, account)
-    const asyncData = getAsyncDataFromOutput(output, outputId, claimingData, account)
+    const { sender, recipient, subject, isInternal } = getSendingInformation(
+        processedTransaction,
+        output,
+        account,
+        networkId
+    )
+    const sourceNetworkId = getNetworkIdFromAddress(sender?.address, networkId)
+    const destinationNetworkId = getNetworkIdFromAddress(recipient?.address, sourceNetworkId)
 
-    // const { parsedLayer2Metadata, destinationNetwork } = getLayer2ActivityInformation(metadata, sendingInfo)
-    // const gasLimit = Number(parsedLayer2Metadata?.gasLimit ?? '0')
-    const gasLimit = 0
+    const asyncData = getAsyncDataFromOutput(output, outputId, claimingData, account)
+    const parsedLayer2Metadata = parseLayer2Metadata(metadata)
+
+    const gasLimit = Number(parsedLayer2Metadata?.gasLimit ?? '0')
 
     const storageDeposit = getStorageDepositFromOutput(output)
 
@@ -83,11 +92,12 @@ export async function generateSingleBasicActivity(
         publicNote,
         metadata,
         tag,
-        networkId,
+        sourceNetworkId,
+        destinationNetworkId,
         tokenId,
         asyncData,
-        // destinationNetwork,
-        // parsedLayer2Metadata,
-        ...sendingInfo,
+        parsedLayer2Metadata,
+        subject,
+        isInternal,
     }
 }

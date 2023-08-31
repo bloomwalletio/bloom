@@ -1,5 +1,3 @@
-import { DestinationNetwork } from '@core/layer-2/enums'
-
 import { DEFAULT_COIN_TYPE } from '../constants'
 import { EvmChainId, ChainType, SupportedNetworkId, NetworkNamespace } from '../enums'
 import { ChainConfiguration, NetworkId } from '../types'
@@ -8,7 +6,7 @@ export const DEFAULT_CHAIN_CONFIGURATIONS: Readonly<{ [id in NetworkId]?: ChainC
     [SupportedNetworkId.Shimmer]: {
         id: SupportedNetworkId.ShimmerEvm,
         type: ChainType.Iscp,
-        name: DestinationNetwork.ShimmerEvm,
+        name: 'ShimmerEVM',
         chainId: EvmChainId.ShimmerEvm,
         namespace: NetworkNamespace.Evm,
         coinType: DEFAULT_COIN_TYPE[SupportedNetworkId.ShimmerEvm],
@@ -19,7 +17,7 @@ export const DEFAULT_CHAIN_CONFIGURATIONS: Readonly<{ [id in NetworkId]?: ChainC
     [SupportedNetworkId.Testnet]: {
         id: SupportedNetworkId.ShimmerEvmTestnet,
         type: ChainType.Iscp,
-        name: DestinationNetwork.ShimmerEvmTestnet,
+        name: 'ShimmerEVM Testnet',
         chainId: EvmChainId.ShimmerEvmTestnet,
         namespace: NetworkNamespace.Evm,
         coinType: DEFAULT_COIN_TYPE[SupportedNetworkId.ShimmerEvmTestnet],

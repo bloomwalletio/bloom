@@ -1,66 +1,50 @@
 <script lang="ts">
+    import { Table } from '@bloomwalletio/ui'
     import { selectedAccountIndex } from '@core/account/stores'
     import { NftActivity } from '@core/activity'
     import { localize } from '@core/i18n'
-    import { convertAndFormatNftMetadata, IIrc27Metadata } from '@core/nfts'
     import { getNftByIdFromAllAccountNfts } from '@core/nfts/actions'
-    import { KeyValueBox } from '@ui'
+    import { TokenStandard } from '@core/token'
 
     export let activity: NftActivity
 
-    type NftMetadataDetailsList = {
-        [key in keyof IIrc27Metadata]?: {
-            data: unknown
-            isTooltipVisible?: boolean
-            copyValue?: string
-            isCopyable?: boolean
-            isPreText?: boolean
-            maxHeight?: number
-        }
-    }
-
     $: nft = getNftByIdFromAllAccountNfts($selectedAccountIndex, activity?.nftId)
-    $: nftMetadataDetailsList = nft?.parsedMetadata
-        ? createIrc27NftMetadataDetailsList(nft?.parsedMetadata)
-        : createNftMetadataDetailsList(nft?.metadata)
-
-    function createNftMetadataDetailsList(metadata: string): {
-        metadata: { data: string; copyValue?: string; isCopyable?: boolean; isPreText?: boolean; maxHeight: number }
-    } {
-        const data = convertAndFormatNftMetadata(metadata)
-        return { metadata: { data, isCopyable: true, isPreText: true, maxHeight: 48 } }
-    }
-
-    function createIrc27NftMetadataDetailsList(metadata: IIrc27Metadata): NftMetadataDetailsList {
-        return {
-            ...(metadata.standard && {
-                standard: {
-                    data: metadata.version ? `${metadata.standard} - ${metadata.version}` : metadata?.standard,
-                },
-            }),
-            ...(metadata?.type && {
-                type: { data: metadata.type as string, isTooltipVisible: true },
-            }),
-            ...(metadata?.uri && {
-                uri: { data: metadata.uri, isCopyable: true },
-            }),
-            ...(metadata?.issuerName && {
-                issuerName: { data: metadata.issuerName, isTooltipVisible: true },
-            }),
-            ...(metadata?.collectionName && {
-                collectionName: { data: metadata.collectionName },
-            }),
-        }
-    }
 </script>
 
-{#each Object.entries(nftMetadataDetailsList) as [key, value]}
-    <KeyValueBox
-        keyText={localize(`general.${key}`)}
-        valueText={value.data}
-        tooltipText={value.isTooltipVisible ? localize(`tooltips.transactionDetails.nftMetadata.${key}`) : undefined}
-        isPreText={value.isPreText}
-        isCopyable={value.isCopyable}
-        maxHeight={value.maxHeight}
+{#if nft?.parsedMetadata}
+    {@const metadata = nft.parsedMetadata}
+    <Table
+        items={[
+            {
+                key: localize('general.standard'),
+                value:
+                    metadata.standard && metadata.version
+                        ? `${metadata.standard} - ${metadata.version}`
+                        : metadata.standard,
+            },
+            {
+                key: localize('general.type'),
+                value: metadata.type,
+                tooltip: localize('tooltips.transactionDetails.nftMetadata.type'),
+            },
+            {
+                key: localize('general.uri'),
+                value: metadata.uri,
+                copyable: true,
+            },
+            {
+                key: localize('general.issuerName'),
+                value: metadata.issuerName,
+                tooltip: localize('tooltips.transactionDetails.nftMetadata.issuerName'),
+            },
+            {
+                key: localize('general.collectionName'),
+                value: metadata.collectionName,
+            },
+            {
+                key: localize('general.metadata'),
+                value: metadata.standard !== TokenStandard.Irc27 ? metadata : undefined,
+            },
+        ]}
     />
-{/each}
+{/if}

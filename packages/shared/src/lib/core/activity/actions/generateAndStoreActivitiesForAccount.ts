@@ -6,10 +6,11 @@ import { preprocessTransactionsForAccount } from './preprocessTransactionsForAcc
 import { preprocessOutputsForAccount } from './preprocessOutputsForAccount'
 import { linkTransactionsWithClaimingTransactions } from './linkTransactionsWithClaimingTransactions'
 import { hideActivitiesForFoundries } from './hideActivitiesForFoundries'
-import { generateActivitiesFromProcessedTransactions } from './generateActivitiesFromProcessedTransactions'
+import { generateActivitiesFromProcessedTransactions } from '../utils/generateActivitiesFromProcessedTransactions'
 import { loadAssetsForAllActivities } from './loadAssetsForAllAccounts'
-import { generateActivitiesFromBalanceChanges, setOutgoingAsyncActivitiesToClaimed } from '@core/activity/actions'
+import { generateActivitiesFromBalanceChanges, generateActivitiesFromChains } from '../utils'
 import { NetworkId } from '@core/network'
+import { setOutgoingAsyncActivitiesToClaimed } from './setOutgoingAsyncActivitiesToClaimed'
 
 export async function generateAndStoreActivitiesForAccount(
     account: IAccountState,
@@ -31,8 +32,10 @@ export async function generateAndStoreActivitiesForAccount(
         networkId
     )
     const balanceChangeActivities = generateActivitiesFromBalanceChanges(account)
-
     activities.push(...balanceChangeActivities)
+
+    const chainActivities = await generateActivitiesFromChains(account)
+    activities.push(...chainActivities)
 
     // Step 4: set account activities with generated activities
     setAccountActivitiesInAllAccountActivities(account.index, activities)

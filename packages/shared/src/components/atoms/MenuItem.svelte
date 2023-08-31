@@ -41,7 +41,7 @@
 >
     <div class="flex flex-row space-x-3 items-center">
         {#if isLoading}
-            <Spinner busy width={24} height={24} />
+            <Spinner busy size={24} />
         {:else}
             <icon-container class:disabled={isDisabled} class={variant}>
                 <Icon {icon} height={24} width={24} {...iconProps} />
@@ -70,7 +70,11 @@
 {/if}
 
 <style lang="scss">
-    $variants: info 'blue', success 'green', warning 'yellow', error 'red';
+    $variants:
+        info 'blue',
+        success 'green',
+        warning 'yellow',
+        error 'red';
 
     button {
         @apply w-full flex flex-row justify-between items-center p-3;

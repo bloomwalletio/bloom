@@ -1,8 +1,9 @@
 <script lang="ts">
     import { EventStatus } from '@iota/sdk/out/types'
-    import { KeyValueBox, Pane, Text } from '@ui'
+    import { Table } from '@bloomwalletio/ui'
+    import { Pane, Text } from '@ui'
     import { formatDate, localize } from '@core/i18n'
-    import { DATE_FORMAT, IKeyValueBoxList, milestoneToDate, truncateString } from '@core/utils'
+    import { DATE_FORMAT, milestoneToDate, truncateString } from '@core/utils'
     import { networkStatus } from '@core/network/stores'
     import { selectedProposal } from '@contexts/governance/stores'
 
@@ -41,40 +42,33 @@
                 return undefined
         }
     }
-
-    let proposalInformation: IKeyValueBoxList
-    $: proposalInformation = {
-        ...(proposalDateData?.propertyKey && {
-            [proposalDateData.propertyKey]: {
-                data: formatDate(
-                    milestoneToDate($networkStatus.currentMilestone, proposalDateData.milestone),
-                    DATE_FORMAT
-                ),
-            },
-        }),
-        eventId: {
-            data: truncateString($selectedProposal?.id, 9, 9),
-            isCopyable: true,
-            copyValue: $selectedProposal?.id,
-        },
-        nodeUrl: { data: $selectedProposal?.nodeUrl, isCopyable: true },
-    }
 </script>
 
 <Pane classes="p-6 h-fit {classes}">
     <Text smaller classes="mb-5">
         {localize('views.governance.details.proposalInformation.title')}
     </Text>
-    <ul class="space-y-2">
-        {#each Object.keys(proposalInformation) as counterKey}
-            <li>
-                <KeyValueBox
-                    keyText={localize(`views.governance.details.proposalInformation.${counterKey}`)}
-                    valueText={proposalInformation[counterKey]?.data}
-                    isCopyable={proposalInformation[counterKey].isCopyable}
-                    copyValue={proposalInformation[counterKey].copyValue}
-                />
-            </li>
-        {/each}
-    </ul>
+    <Table
+        items={[
+            {
+                key: localize(`views.governance.details.proposalInformation.${proposalDateData.propertyKey}`),
+                value: proposalDateData?.propertyKey
+                    ? formatDate(
+                          milestoneToDate($networkStatus.currentMilestone, proposalDateData.milestone),
+                          DATE_FORMAT
+                      )
+                    : undefined,
+            },
+            {
+                key: localize('views.governance.details.proposalInformation.eventId'),
+                value: truncateString($selectedProposal?.id, 9, 9),
+                copyable: true,
+            },
+            {
+                key: localize('views.governance.details.proposalInformation.nodeUrl'),
+                value: $selectedProposal?.nodeUrl,
+                copyable: true,
+            },
+        ]}
+    />
 </Pane>
