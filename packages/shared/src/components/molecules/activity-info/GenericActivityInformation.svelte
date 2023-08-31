@@ -1,12 +1,23 @@
 <script lang="ts">
     import { Table } from '@bloomwalletio/ui'
-    import { getNameFromNetworkId } from '@core/network'
+    import { ExplorerEndpoint, getDefaultExplorerUrl, getNameFromNetworkId } from '@core/network'
     import { Activity } from '@core/activity'
     import { getFormattedTimeStamp, localize } from '@core/i18n'
     import { getBaseToken } from '@core/profile/actions'
     import { formatTokenAmountPrecise } from '@core/token'
+    import { openUrlInBrowser } from '@core/app'
+    import { activeProfile } from '@core/profile/stores'
+    import { setClipboard } from '@core/utils'
 
     export let activity: Activity
+
+    const explorerUrl = getDefaultExplorerUrl($activeProfile?.network?.id, ExplorerEndpoint.Transaction)
+
+    function onTransactionIdClick(): void {
+        explorerUrl
+            ? openUrlInBrowser(`${explorerUrl}/${activity?.asyncData?.claimingTransactionId}`)
+            : setClipboard(activity?.asyncData?.claimingTransactionId)
+    }
 
     $: expirationTime = getFormattedTimeStamp(activity?.asyncData?.expirationDate)
     $: claimedTime = getFormattedTimeStamp(activity?.asyncData?.claimedDate)
@@ -80,6 +91,7 @@
             value: activity?.asyncData?.claimingTransactionId,
             copyable: true,
             truncate: { firstCharCount: 12, endCharCount: 12 },
+            onClick: onTransactionIdClick,
         },
     ]}
 />
