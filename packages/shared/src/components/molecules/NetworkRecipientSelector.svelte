@@ -6,7 +6,7 @@
     export let options: INetworkRecipientSelectorOption[]
     export let selectedIndex = -1
     export let onNetworkSelected: UiEventFunction
-    export let error: boolean = false
+    export let hasError: boolean = false
 
     const reipientItems: Record<number, NetworkRecipientItem> = {}
 
@@ -25,7 +25,7 @@
     <network-recipient-selector class="w-full flex flex-col space-y-4">
         {#each options as item, index}
             <NetworkRecipientItem
-                error={selectedIndex === index && error}
+                hasError={selectedIndex === index && hasError}
                 bind:this={reipientItems[index]}
                 bind:item
                 selected={index === selectedIndex}

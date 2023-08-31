@@ -28,7 +28,7 @@
     let selectorOptions: INetworkRecipientSelectorOption[] = []
     let selectedIndex = -1
 
-    let networkRecipientError: boolean = false
+    let hasNetworkRecipientError: boolean = false
 
     const assetName = getAssetName()
 
@@ -174,7 +174,7 @@
     async function onNetworkClick(): Promise<void> {
         try {
             const originNetworkId = getNetworkIdFromSendFlowParameters($sendFlowParameters)
-            networkRecipientError =
+            hasNetworkRecipientError =
                 (await canAccountMakeEvmTransaction(
                     $selectedAccountIndex,
                     originNetworkId,
@@ -237,12 +237,12 @@
 >
     <NetworkRecipientSelector
         onNetworkSelected={onNetworkClick}
-        error={networkRecipientError}
+        hasError={hasNetworkRecipientError}
         bind:this={selector}
         bind:options={selectorOptions}
         bind:selectedIndex
     />
-    {#if networkRecipientError}
+    {#if hasNetworkRecipientError}
         <Alert variant="danger" text={localize('error.send.insufficientFundsGasFee')} />
     {/if}
 </SendFlowTemplate>

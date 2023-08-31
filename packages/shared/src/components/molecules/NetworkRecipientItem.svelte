@@ -7,7 +7,7 @@
 
     export let item: INetworkRecipientSelectorOption
     export let selected: boolean = false
-    export let error: boolean = false
+    export let hasError: boolean = false
     export let onClick: (item: INetworkRecipientSelectorOption) => void = () => {}
     export let onChange: (item: INetworkRecipientSelectorOption) => void = () => {}
 
@@ -52,9 +52,9 @@
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <network-recipient-item
-    class:selected={selected && !error}
-    class:disabled={item.disabled || error}
-    class:error
+    class:selected={selected && !hasError}
+    class:disabled={item.disabled || hasError}
+    class:error={hasError}
     on:click={onItemClick}
 >
     <network-recipient-item-name>
