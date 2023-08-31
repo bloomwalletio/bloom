@@ -1,20 +1,20 @@
 <script lang="ts">
-    import { IToken } from '@core/token'
-    import { visibleSelectedAccountTokens } from '@core/token/stores'
-    import { TokenAmountTile, Icon, Text, TokenIcon, FontWeight } from '@ui'
-    import { clickOutside } from '@core/utils'
     import { activeProfile } from '@core/profile/stores'
+    import { ITokenWithBalance } from '@core/token'
+    import { visibleSelectedAccountTokens } from '@core/token/stores'
+    import { clickOutside } from '@core/utils'
+    import { FontWeight, Icon, Text, TokenAmountTile, TokenIcon } from '@ui'
 
     export let token = $visibleSelectedAccountTokens?.[$activeProfile?.network?.id]?.baseCoin
     export let readonly: boolean = false
 
     let isDropdownOpen = false
-    let tokenList: IToken[] = []
+    let tokenList: ITokenWithBalance[] = []
 
     $: isReadonly = readonly || $visibleSelectedAccountTokens?.[$activeProfile?.network?.id]?.nativeTokens.length === 0
     $: $visibleSelectedAccountTokens, (tokenList = getTokenList())
 
-    function getTokenList(): IToken[] {
+    function getTokenList(): ITokenWithBalance[] {
         const list = []
         for (const tokensPerNetwork of Object.values($visibleSelectedAccountTokens)) {
             if (tokensPerNetwork?.baseCoin) {
@@ -31,7 +31,7 @@
         }
     }
 
-    function onTokenClick(_asset: IToken): void {
+    function onTokenClick(_asset: ITokenWithBalance): void {
         token = _asset
         isDropdownOpen = false
     }

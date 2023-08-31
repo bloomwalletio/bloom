@@ -4,7 +4,7 @@
     import { marketCoinPrices } from '@core/market/stores'
     import { getNetwork } from '@core/network'
     import { AccountTokens, BASE_TOKEN_ID, IToken, TokenStandard } from '@core/token'
-    import { getAccountTokensForSelectedAccount } from '@core/token/actions'
+    import { getAccountTokensForSelectedAccount, getTokenBalance } from '@core/token/actions'
     import { selectedAccountTokens } from '@core/token/stores'
     import { sendFlowParameters, SendFlowType, setSendFlowParameters } from '@core/wallet'
     import { closePopup } from '@desktop/auxiliary/popup'
@@ -23,6 +23,7 @@
     let accountTokens: AccountTokens
     $: accountTokens = getAccountTokensForSelectedAccount($marketCoinPrices)
     $: accountTokens, searchValue, setFilteredTokenList()
+    $: tokenBalance = getTokenBalance(selectedToken.id, selectedToken.networkId)
 
     let tokenList: IToken[]
     function getTokenList(): IToken[] {
@@ -106,7 +107,7 @@
             {#each tokenList as token}
                 <TokenAmountTile
                     {token}
-                    amount={token.balance.available}
+                    amount={tokenBalance?.available}
                     onClick={() => (selectedToken = token)}
                     selected={selectedToken?.id === token.id && selectedToken?.networkId === token?.networkId}
                 />

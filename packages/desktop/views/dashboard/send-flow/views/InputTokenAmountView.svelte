@@ -5,6 +5,7 @@
     import { TokenAmountInput, TokenAvailableBalanceTile } from '@ui'
     import { sendFlowRouter } from '../send-flow.router'
     import SendFlowTemplate from './SendFlowTemplate.svelte'
+    import { getTokenBalance } from '@core/token/actions'
 
     let tokenAmountInput: TokenAmountInput
     let token: IToken
@@ -22,13 +23,13 @@
         unit = $sendFlowParameters[tokenKey].unit || getUnitFromTokenMetadata(token?.metadata)
     }
 
-    $: availableBalance = token?.balance?.available
+    $: tokenBalance = getTokenBalance(token?.id, token?.networkId)
 
     function setToMax(): void {
         if (token?.metadata?.decimals) {
-            amount = formatTokenAmountDefault(availableBalance, token?.metadata, unit, false)
+            amount = formatTokenAmountDefault(tokenBalance?.available, token?.metadata, unit, false)
         } else {
-            amount = availableBalance.toString() ?? '0'
+            amount = tokenBalance?.available?.toString() ?? '0'
         }
     }
 
@@ -76,7 +77,7 @@
         bind:rawAmount
         bind:inputtedAmount={amount}
         {unit}
-        {availableBalance}
+        availableBalance={tokenBalance?.available}
     />
     <TokenAvailableBalanceTile {token} onMaxClick={setToMax} />
 </SendFlowTemplate>
