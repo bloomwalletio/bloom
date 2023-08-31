@@ -453,6 +453,7 @@
                 "referencedRate": "Hivatkozási arány"
             },
             "profileModal": {
+                "contactBook": "Contact book",
                 "allSettings": "Összes beállítás",
                 "profileApplication": "Profil, applikáció, biztonság",
                 "logout": "Kijelentkezés",
@@ -493,7 +494,7 @@
                         "chainId": "Lánc AZ",
                         "aliasAddress": "Álnév címe",
                         "iscpEndpoint": "ISCP végpont",
-                        "explorerEndpoint": "Explorer végpont (opcionális)",
+                        "explorerUrl": "Explorer URL (optional)",
                         "errors": {
                             "cannotBeEmpty": "A név nem lehet üres",
                             "nameTooLong": "A név túl hosszú",
@@ -530,6 +531,57 @@
                     },
                     "removeChain": {
                         "title": "Lánc eltávolítása"
+                    }
+                },
+                "contactBook": {
+                    "contactList": {
+                        "title": "Contact list",
+                        "addContact": "Add contact"
+                    },
+                    "contactInformation": {
+                        "title": "Contact Information",
+                        "editContact": "Edit contact",
+                        "removeContact": "Remove contact",
+                        "addNetworkAddress": "Add network address"
+                    },
+                    "addContact": {
+                        "title": "Add contact"
+                    },
+                    "editContact": {
+                        "title": "Edit contact"
+                    },
+                    "removeContact": {
+                        "title": "Remove contact",
+                        "body": "Are you sure you want to remove this contact?",
+                        "hint": "Please note after removing a contact Bloom will show its actual addresses."
+                    },
+                    "addNetworkAddress": {
+                        "title": "Add network address"
+                    },
+                    "editNetworkAddresses": {
+                        "title": "Edit network addresses",
+                        "addAddress": "Add Address"
+                    },
+                    "removeNetworkAddresses": {
+                        "title": "Remove network addresses",
+                        "body": "Are you sure you want to remove the contact’s {network} network addresses?",
+                        "hint": "Please note after removing a contact’s network addresses Bloom will no longer associate it with them in transactions or activities."
+                    }
+                },
+                "dapps": {
+                    "dappsList": {
+                        "title": "Connected dApps",
+                        "connectDapp": "Connect dApp",
+                        "hint": "WalletConnect allows you to connect Bloom with dApps directly or with a connection code."
+                    },
+                    "inputConnectionCode": {
+                        "title": "Connect to a dApp",
+                        "inputLabel": "Wallet Connect code",
+                        "hint": "Add new dApps by adding a Wallet Connect code below."
+                    },
+                    "confirmConnection": {
+                        "title": "Connect with an application",
+                        "hint": "A third party service wants to connect with your wallet for the first time. You can choose if you wish to trust this connection."
                     }
                 }
             }
@@ -1034,6 +1086,101 @@
             "body": "Segítse a Firefly szoftver fejlesztését azzal, hogy automatikus diagnosztikai adatokat küld hiba vagy szoftverösszeomlás esetén. A beállítás csak a Firefly újraindítása után lép életbe.",
             "checkbox": "Hibajelentések küldése az IOTA Foundation-nek"
         },
+        "signMessage": {
+            "title": "Sign message",
+            "message": "Message",
+            "hint": "No balance will be sent to {dappName} in the process of signing this message.",
+            "warning": "dApp cannot be determined. No balance will be sent in the process of signing this message.",
+            "action": "Sign message"
+        },
+        "activityDetails": {
+            "title": {
+                "fallback": "Activity details",
+                "external": {
+                    "incoming": {
+                        "Pending": "Receiving from {subject}",
+                        "Confirmed": "Received from {subject}",
+                        "Conflicting": "Failed to receive"
+                    },
+                    "outgoing": {
+                        "Pending": "Sending to {subject}",
+                        "Confirmed": "Sent to {subject}",
+                        "Conflicting": "Failed to send"
+                    }
+                },
+                "internal": {
+                    "incoming": {
+                        "Pending": "Transferring from {subject}",
+                        "Confirmed": "Transferred from {subject}",
+                        "Conflicting": "Failed to transfer"
+                    },
+                    "outgoing": {
+                        "Pending": "Transferring to {subject}",
+                        "Confirmed": "Transferred to {subject}",
+                        "Conflicting": "Failed to transfer"
+                    },
+                    "selfTransaction": {
+                        "Pending": "Transferring to {subject}",
+                        "Confirmed": "Transferred to {subject}",
+                        "Conflicting": "Failed to transfer"
+                    }
+                },
+                "mint": {
+                    "Pending": "Minting",
+                    "Confirmed": "Minted",
+                    "Conflicting": "Failed to mint"
+                },
+                "burn": {
+                    "Pending": "Burning",
+                    "Confirmed": "Burned",
+                    "Conflicting": "Failed to burn"
+                },
+                "consolidation": {
+                    "Pending": "Consolidating outputs",
+                    "Confirmed": "Outputs consolidated",
+                    "Conflicting": "Failed to consolidate outputs"
+                },
+                "alias": {
+                    "creation": {
+                        "Pending": "Creating alias",
+                        "Confirmed": "Alias created",
+                        "Failed": "Failed to create alias"
+                    }
+                },
+                "governance": {
+                    "increaseVotingPower": {
+                        "Pending": "Increasing voting power",
+                        "Confirmed": "Increased voting power",
+                        "Conflicting": "Failed to increased voting power"
+                    },
+                    "decreaseVotingPower": {
+                        "Pending": "Decreasing voting power",
+                        "Confirmed": "Decreased voting power",
+                        "Conflicting": "Failed to decreased voting power"
+                    },
+                    "startVoting": {
+                        "Pending": "Voting for {proposalName}",
+                        "Confirmed": "Voted for {proposalName}",
+                        "Conflicting": "Failed to vote for"
+                    },
+                    "stopVoting": {
+                        "Pending": "Stopping voting for {proposalName}",
+                        "Confirmed": "Stopped voting for {proposalName}",
+                        "Conflicting": "Failed to stopped voting for"
+                    },
+                    "changedVote": {
+                        "Pending": "Changing vote for {proposalName}",
+                        "Confirmed": "Changed vote for {proposalName}",
+                        "Conflicting": "Failed to change vote for"
+                    },
+                    "revote": {
+                        "Pending": "Revoting",
+                        "Confirmed": "Revote",
+                        "Conflicting": "Failed to revote"
+                    }
+                }
+            }
+        },
         "legalUpdate": {
             "tosTitle": "Szolgáltatási feltételek",
             "privPolicyTitle": "Adatvédelmi irányelvek",
@@ -1066,7 +1213,8 @@
                 "standard": "Szabvány",
                 "name": "Név",
                 "tokenId": "Token azonosító",
-                "url": "URL"
+                "url": "URL",
+                "description": "Description"
             },
             "buttons": {
                 "verifyToken": "Megjelölöm ellenőrzöttként"
@@ -1203,6 +1351,7 @@
         "previous": "Vissza",
         "next": "Következő",
         "cancel": "Mégse",
+        "connect": "Connect",
         "close": "Bezár",
         "dismiss": "Elvet",
         "claim": "Igénylés",
@@ -1286,7 +1435,7 @@
         "localProofOfWork": "Számítás elvégzése helyben",
         "unlock": "Felold",
         "updateFirefly": "Firefly frissítése",
-        "restartNow": "Újraindítás most",
+        "restart": "Restart",
         "refresh": "Frissítés",
         "saveBackup": "Mentés Stronghold-ba",
         "customizeAcount": "Tárca testre szabása",
@@ -1384,7 +1533,8 @@
         "stopVoting": "Stop voting",
         "revote": "Revote",
         "skipAndKeep": "Kihagyás és a reégi jelszó használata",
-        "addChain": "Lánc hozzáadása"
+        "addChain": "Lánc hozzáadása",
+        "untrackToken": "Untrack token"
     },
     "general": {
         "recipient": "Címzett",
@@ -1431,6 +1581,8 @@
         "minting": "Kibocsátás folyamatban",
         "burned": "Burned",
         "burning": "Burning",
+        "balanceChanged": "Balance changed",
+        "initialBalance": "Initial balance",
         "consolidated": "Outputs consolidated",
         "consolidating": "Consolidating outputs",
         "aliasCreated": "Alias created",
@@ -1458,6 +1610,7 @@
         "and": "és",
         "receiveFunds": "Pénzeszközök fogadása",
         "address": "Számlacím",
+        "addressName": "Address name",
         "myAddress": "Címem",
         "myNetworkAddress": "Saját {networkName}-címem",
         "shareAddress": "Cím megosztása",
@@ -1496,6 +1649,7 @@
         "security": "Biztonság",
         "accountAddress": "Tárca címei",
         "network": "Hálózat",
+        "networkSelection": "Network selection",
         "destinationNetwork": "Destination network",
         "nodes": "Csomópontok",
         "wallet": "Tárca",
@@ -1580,6 +1734,7 @@
         "transactionTime": "Tranzakció időpontja",
         "surplus": "Többlet",
         "storageDeposit": "Letéti díj",
+        "gasFee": "Gas fee",
         "giftedStorageDeposit": "Ajándékba kapott letéti díj",
         "storageDepositPerNft": "Letéti díj NFT-nként",
         "totalStorageDeposit": "Összes letéti díj",
@@ -1601,6 +1756,7 @@
         "metadata": "Metaadatok",
         "amountConsolidatedInputs": "Consolidated outputs",
         "name": "Name",
+        "note": "Note",
         "tag": "Címke",
         "nodeList": "Csomópontok listája",
         "claimedIn": "Igénylés tranzakcióazonosítója:",
@@ -1631,7 +1787,6 @@
         "smartContract": "Smart Contract",
         "targetContract": "Target contract",
         "contractFunction": "Contract function",
-        "gasBudget": "Gas budget",
         "standard": "Standard",
         "uri": "URI",
         "issuer": "Issuer",
@@ -1656,7 +1811,13 @@
         "evmAddress": "EVM-cím",
         "chain": "Lánc",
         "importErc20Token": "ERC20 token importálása",
-        "importErc20TokenDescription": "ERC20 token importálása egy EVM-láncról"
+        "optionalField": "{field} (optional)",
+        "gifted": "Gifted",
+        "copied": "Copied",
+        "connected": "Connected",
+        "disconnected": "Disconnected",
+        "estimatedFee": "Estimated fee",
+        "maxFees": "Max fees"
     },
     "filters": {
         "title": "Szűrők",
@@ -1788,9 +1949,6 @@
         "downloadingUpdate": "Frissítések letöltése folyamatban...",
         "updateReady": "A frissítés készen áll",
         "updateError": "Hiba történt a frissítés közben. Kérjük, próbálja újra!",
-        "restartInstall": "Újraindítás a telepítés befejezéséhez",
-        "calcMinutesRemaining": "Hátralévő idő kiszámítása...",
-        "minutesRemaining": "{minutes, plural, one {# perc van hátra} other {# perc van hátra}}",
         "copiedToClipboard": "A vágólapra másolva",
         "accountsSynchronized": "Tárca szinkronizálva",
         "fundsAvailableSoon": "Egyenlege hamarosan elérhető lesz",
@@ -1798,6 +1956,7 @@
             "success": "A(z) {accountAlias} számla korábbi tranzakciói a {filePath} fájlba sikeresen elmentve",
             "error": "A(z) {accountAlias} számla korábbi tranzakcióinak mentése sikertelen"
         },
+        "newDappConnected": "Connected to new dApp",
         "deepLinkingRequest": {
             "receivedWhileLoggedOut": "Kérjük, jelentkezzen be a mélyhivatkozás érvényesítéséhez",
             "notEnabled": "A mélyhivatkozások nincsenek engedélyezve",
@@ -1861,6 +2020,12 @@
         },
         "stopVoting": {
             "success": "Voting successfully stopped"
+        },
+        "updateContact": {
+            "success": "Contact successfully updated"
+        },
+        "updateNetworkAddresses": {
+            "success": "Contact addresses successfully updated"
         }
     },
     "error": {
@@ -1898,7 +2063,11 @@
             "invalid": "Érvénytelen PIN-kód."
         },
         "address": {
-            "wrongAddressType": "Wrong address type"
+            "wrongAddressType": "Wrong address type",
+            "invalidBech32Format": "Invalid Bech32 format",
+            "belongsToAccount": "Cannot belong to any of your accounts",
+            "hexFormat": "Invalid hexadecimal format",
+            "checksum": "Address checksum is invalid"
         },
         "account": {
             "addressNotFound": "The address cannot be found in your account.",
@@ -1943,6 +2112,7 @@
             "cancelled": "A tranzakció megszakítva.",
             "transaction": "Hiba történt a tranzakció küldésekor. Kérem próbálja újra.",
             "invalidExpirationDateTime": "A kiválasztott lejárati dátum/idő érvénytelen.",
+            "invalidTimelockDateTime": "The chosen timelock date/time is invalid.",
             "noInputs": "No inputs found.",
             "notEnoughBalance": "Not enough balance.",
             "missingTransactionId": "Hiányzó tranzakcióazonosító",
@@ -2009,7 +2179,8 @@
             "generateAddress": "Hiba történt a cím generálása közben.",
             "timeout": "A Ledger eszköze időtúllépés miatt nem elérhető.",
             "disconnected": "Megszakadt a kapcsolat a Ledger eszközével.",
-            "noStronghold": "Hardver tárca profillal nem lehet a Stronghold-ot használni."
+            "noStronghold": "Hardver tárca profillal nem lehet a Stronghold-ot használni.",
+            "rejected": "Action was rejected on the Ledger device"
         },
         "popup": {
             "preventClose": "A felugró ablakot nem lehet bezárni."
@@ -2094,11 +2265,23 @@
         "erc20Token": {
             "invalidAddressFormat": "Hexadecimális formátumúnak kell lennie",
             "invalidAddressLength": "Érvénytelen hossz"
+        },
+        "input": {
+            "invalid": "{field} input is invalid",
+            "required": "{field} is required",
+            "unique": "{field} must be unique",
+            "alreadyUsed": "{field} is already being used",
+            "tooLong": "{field} must be {numCharacters} or less characters"
+        },
+        "walletConnect": {
+            "invalidUri": "Invalid URI",
+            "invalidProtocol": "Invalid protocol, must start with 'wc'.",
+            "deprecatedVersion": "dApp uses a deprecated wallet connect version."
         }
     },
     "warning": {
         "transaction": {
-            "invalidExpirationDateTime": "A kiválasztott lejárati dátum érvénytelen."
+            "invalidDateTime": "The chosen date must be in the future."
         },
         "node": {
             "http": "A csomópontok HTTP kapcsolaton történő elérése a titkosítatlan adatforgalom miatt biztonsági kockázattal jár."
@@ -2149,8 +2332,7 @@
                 "expirationTime": "Igényelje ezt az összeget a lejárati idő előtt, különben visszakerül a küldő félhez.",
                 "timelockDate": "A küldő egy időzárat tett az összegre. Csak akkor férhet hozzá, ha az időzár lejárt.",
                 "metadata": "Opcionális adatmező, mely a Tangle-ben hosszútávon tárolásra kerül.",
-                "tag": "Rövid opcionális adatmező. Tranzakciók egy csoportjának felcímkézése segíthet könnyebben megtalálni őket.",
-                "gasBudget": "Gas budget is required to conduct a transaction or execute a smart contract function on Shimmer EVM."
+                "tag": "Rövid opcionális adatmező. Tranzakciók egy csoportjának felcímkézése segíthet könnyebben megtalálni őket."
             },
             "outgoing": {
                 "storageDeposit": "A token letéti díj egy visszatéríthető letéti összeg a tranzakció Tangle-ben történő tárolásához.",
@@ -2158,8 +2340,7 @@
                 "expirationTime": "Ha a fogadó fél nem igényli időben a tokeneket, azok visszakerülnek Önhöz.",
                 "timelockDate": "Időzárral látta el ezt a tranzakciót. A fogadó fél csak annak lejárta után tudja ezt az összeget felhasználni.",
                 "metadata": "Opcionális adatmező, mely a Tangle-ben hosszútávon tárolásra kerül.",
-                "tag": "Rövid opcionális adatmező. Tranzakciók egy csoportjának felcímkézése segíthet könnyebben megtalálni őket.",
-                "gasBudget": "Gas budget is required to conduct a transaction or execute a smart contract function on Shimmer EVM."
+                "tag": "Rövid opcionális adatmező. Tranzakciók egy csoportjának felcímkézése segíthet könnyebben megtalálni őket."
             },
             "nftMetadata": {
                 "standard": "The NFT standard e.g. IRC27.",
@@ -2199,6 +2380,10 @@
         },
         "updateStronghold": {
             "profileBadge": "Az ön Strongholdjának verziója elavult. Jelentkezzen be a Stronghold frissítéséhez."
+        },
+        "tokenIsNotVerified": {
+            "title": "Token is not verified",
+            "text": "Compare the token metadata against the relevant team’s official website. Only verify tokens that you trust."
         }
     },
     "exports": {
@@ -2234,55 +2419,6 @@
         "activity": "Előzmények"
     },
     "pills": {
-        "stake": {
-            "Pending": "lekötés eddig:",
-            "Confirmed": "lekötés eddig:",
-            "Conflicting": "lekötés sikertelen"
-        },
-        "external": {
-            "incoming": {
-                "Pending": "receiving from",
-                "Confirmed": "received from",
-                "Conflicting": "failed to receive"
-            },
-            "outgoing": {
-                "Pending": "sending to",
-                "Confirmed": "sent to",
-                "Conflicting": "failed to send"
-            }
-        },
-        "internal": {
-            "incoming": {
-                "Pending": "transferring from",
-                "Confirmed": "transferred from",
-                "Conflicting": "failed to transfer"
-            },
-            "outgoing": {
-                "Pending": "transferring to",
-                "Confirmed": "transferred to",
-                "Conflicting": "failed to transfer"
-            },
-            "selfTransaction": {
-                "Pending": "transferring to",
-                "Confirmed": "transferred to",
-                "Conflicting": "failed to transfer"
-            }
-        },
-        "mint": {
-            "Pending": "minting",
-            "Confirmed": "minted",
-            "Conflicting": "failed to mint"
-        },
-        "burn": {
-            "Pending": "burning",
-            "Confirmed": "burned",
-            "Conflicting": "failed to burn"
-        },
-        "consolidation": {
-            "Pending": "Consolidating outputs",
-            "Confirmed": "Outputs consolidated",
-            "Conflicting": "failed to consolidate outputs"
-        },
         "migrate": {
             "Pending": "költöztetés ide:",
             "Confirmed": "átköltöztetés ide:",
@@ -2291,39 +2427,10 @@
         "asyncStatus": {
             "unclaimed": "nincs igényelve",
             "claimed": "igényelve",
-            "expired": "lejárt"
+            "expired": "lejárt",
+            "timelocked": "timelocked"
         },
         "governance": {
-            "increaseVotingPower": {
-                "Pending": "increasing voting power",
-                "Confirmed": "increased voting power",
-                "Conflicting": "failed to increased voting power"
-            },
-            "decreaseVotingPower": {
-                "Pending": "decreasing voting power",
-                "Confirmed": "decreased voting power",
-                "Conflicting": "failed to decreased voting power"
-            },
-            "startVoting": {
-                "Pending": "voting for",
-                "Confirmed": "voted for",
-                "Conflicting": "failed to vote for"
-            },
-            "stopVoting": {
-                "Pending": "stopping voting for",
-                "Confirmed": "stopped voting for",
-                "Conflicting": "failed to stopped voting for"
-            },
-            "changedVote": {
-                "Pending": "changing vote for",
-                "Confirmed": "changed vote for",
-                "Conflicting": "failed to change vote for"
-            },
-            "revote": {
-                "Pending": "átdolgozás folyamatban",
-                "Confirmed": "átdolgozás",
-                "Conflicting": "átdolgozás sikertelen"
-            },
             "proposalStatus": {
                 "upcoming": "Közlemény",
                 "commencing": "Szavazás megkezdődött",
@@ -2331,13 +2438,6 @@
                 "ended": "Lezárult",
                 "nodeOutdated": "Elavult csomópont URL",
                 "resultsNotAvailable": "Eredmények nem érhetők el"
-            }
-        },
-        "alias": {
-            "creation": {
-                "Pending": "creating alias",
-                "Confirmed": "alias created",
-                "Failed": "Failed to create alias"
             }
         },
         "networkHealth": {
@@ -2350,14 +2450,13 @@
         "smartContract": "smart contract"
     },
     "menus": {
-        "expirationTimePicker": {
-            "none": "Nincs lejárati idő",
-            "1hour": "1 órán belül",
-            "1day": "1 napon belül",
-            "1week": "1 héten belül",
+        "dateTimePicker": {
+            "1hour": "In 1 hour",
+            "1day": "In 1 day",
+            "1week": "In 1 week",
             "customDate": {
-                "title": "Egyéni dátum",
-                "subtitle": "Állítson be egyéni lejárati dátumot"
+                "title": "Custom date",
+                "subtitle": "Set custom date"
             }
         }
     }
