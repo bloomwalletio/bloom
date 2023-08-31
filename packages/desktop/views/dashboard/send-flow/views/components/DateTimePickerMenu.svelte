@@ -80,7 +80,7 @@
 </script>
 
 <Modal bind:this={modal} position={{ bottom: '120px', left: '400px' }} size="medium">
-    <expiration-time-picker-modal class="flex flex-col space-y-0 whitespace-nowrap" in:fade={{ duration: 100 }}>
+    <date-time-picker-modal class="flex flex-col space-y-0 whitespace-nowrap" in:fade={{ duration: 100 }}>
         <MenuItem
             icon="calendar"
             title={localize('general.none')}
@@ -128,7 +128,7 @@
             onClick={() => onChooseExpirationTimeClick(TimePeriod.Custom)}
             selected={selected === TimePeriod.Custom}
         />
-    </expiration-time-picker-modal>
+    </date-time-picker-modal>
 </Modal>
 {#if canShowDateTimePicker}
     <ExpirationDateTimePicker
