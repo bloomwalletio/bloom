@@ -28,7 +28,7 @@
     let accountTokens: AccountTokens
     $: accountTokens = getAccountTokensForSelectedAccount($marketCoinPrices)
     $: accountTokens, searchValue, setFilteredTokenList()
-    let tokenError: boolean = false
+    let hasTokenError: boolean = false
 
     let tokenList: IToken[]
     function getTokenList(): IToken[] {
@@ -66,7 +66,7 @@
     async function onTokenClick(token: IToken): Promise<void> {
         try {
             selectedToken = token
-            tokenError =
+            hasTokenError =
                 (await canAccountMakeEvmTransaction(
                     $selectedAccountIndex,
                     token.networkId,
@@ -121,7 +121,7 @@
     rightButton={{
         text: localize('actions.continue'),
         onClick: onContinueClick,
-        disabled: !selectedToken || tokenError,
+        disabled: !selectedToken || hasTokenError,
     }}
 >
     <IconInput bind:value={searchValue} icon={IconEnum.Search} placeholder={localize('general.search')} />
@@ -130,7 +130,7 @@
             {#each tokenList as token}
                 <TokenAmountTile
                     {token}
-                    error={token === selectedToken && tokenError}
+                    hasError={token === selectedToken && hasTokenError}
                     amount={token.balance.available}
                     onClick={() => onTokenClick(token)}
                     selected={selectedToken?.id === token.id && selectedToken?.networkId === token?.networkId}
@@ -138,7 +138,7 @@
             {/each}
         </div>
     </div>
-    {#if tokenError}
+    {#if hasTokenError}
         <Alert variant="danger" text={localize('error.send.insufficientFundsGasFee')} />
     {/if}
 </SendFlowTemplate>
