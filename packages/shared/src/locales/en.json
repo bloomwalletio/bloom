@@ -2427,7 +2427,8 @@
         "asyncStatus": {
             "unclaimed": "unclaimed",
             "claimed": "claimed",
-            "expired": "expired"
+            "expired": "expired",
+            "timelocked": "timelocked"
         },
         "governance": {
             "proposalStatus": {
