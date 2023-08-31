@@ -1,12 +1,13 @@
 <script lang="ts">
     import { formatDate, localize } from '@core/i18n'
-    import { TimePeriod } from '@core/utils'
-    import { Modal, MenuItem, ExpirationDateTimePicker } from '@ui'
+    import { MILLISECONDS_PER_SECOND, SECONDS_PER_MINUTE, TimePeriod, isFutureDateTime } from '@core/utils'
+    import { Modal, MenuItem } from '@ui'
+    import { DateTimePicker } from '@bloomwalletio/ui'
     import { fade } from 'svelte/transition'
+    import { showNotification } from '@auxiliary/notification'
 
     export let value: Date
     export let selected: TimePeriod = TimePeriod.None
-    export let anchor: HTMLElement = undefined
 
     export function tryOpen(): void {
         if (!canShowDateTimePicker) {
@@ -18,8 +19,8 @@
 
     const DATE_NOW = Date.now()
 
-    let previouslySelected: TimePeriod = selected
-    let customDate: Date
+    let previouslySelected = selected
+    let customDate = new Date(Date.now() + 5 * SECONDS_PER_MINUTE * MILLISECONDS_PER_SECOND)
     let canShowDateTimePicker = false
     let modal: Modal
 
@@ -65,7 +66,7 @@
         setDate()
     }
 
-    function onCancelExpirationTimeClick(): void {
+    function onCancelClick(): void {
         if (!customDate) {
             selected = previouslySelected
             setDate()
@@ -73,9 +74,16 @@
         canShowDateTimePicker = false
     }
 
-    function onConfirmExpirationTimeClick(): void {
-        value = customDate
-        canShowDateTimePicker = false
+    function onConfirmClick(): void {
+        if (isFutureDateTime(value)) {
+            value = customDate
+            canShowDateTimePicker = false
+        } else {
+            showNotification({
+                variant: 'warning',
+                text: localize('warning.transaction.invalidDateTime'),
+            })
+        }
     }
 </script>
 
@@ -131,10 +139,10 @@
     </date-time-picker-modal>
 </Modal>
 {#if canShowDateTimePicker}
-    <ExpirationDateTimePicker
-        {anchor}
+    <DateTimePicker
         bind:value={customDate}
-        on:cancel={onCancelExpirationTimeClick}
-        on:confirm={onConfirmExpirationTimeClick}
+        on:cancel={onCancelClick}
+        on:confirm={onConfirmClick}
+        startDate={new Date()}
     />
 {/if}
