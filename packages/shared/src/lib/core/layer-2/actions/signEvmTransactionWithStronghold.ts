@@ -6,7 +6,7 @@ import { Transaction } from '@ethereumjs/tx'
 import { fromRpcSig, ECDSASignature } from '@ethereumjs/util'
 import { api } from '@core/profile-manager'
 import { getActiveProfile } from '@core/profile/stores'
-import type { Bip44 } from '@iota/wallet/types'
+import type { Bip44 } from '@iota/sdk/out/types'
 
 export async function signEvmTransactionWithStronghold(
     txData: TxData,
