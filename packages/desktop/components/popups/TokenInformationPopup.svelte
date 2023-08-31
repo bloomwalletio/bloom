@@ -4,7 +4,7 @@
     import { TokenStandard, IToken, NotVerifiedStatus, VerifiedStatus } from '@core/token'
     import { openPopup, PopupId, updatePopupProps } from '@desktop/auxiliary/popup'
     import { Button, FontWeight, Text, TextHint, TokenActionsButton, TextType, TokenAmountTile, TooltipIcon } from '@ui'
-    import { type IItem, Table } from '@bloomwalletio/ui'
+    import { Table } from '@bloomwalletio/ui'
     import { SendFlowRoute, SendFlowRouter, sendFlowRouter } from '@views/dashboard/send-flow'
     import { Icon as IconEnum } from '@lib/auxiliary/icon'
     import { getCoinType } from '@core/profile/actions'
@@ -12,38 +12,6 @@
 
     export let token: IToken | undefined
     export let activityId: string = undefined
-
-    let items: IItem[] = []
-    function setTableItems(token: IToken) {
-        items = [
-            {
-                key: localize('popups.tokenInformation.tokenMetadata.standard'),
-                value: token.standard,
-            },
-            {
-                key: localize('popups.tokenInformation.tokenMetadata.tokenId'),
-                value: token.id,
-                truncate: { firstCharCount: 10, endCharCount: 10 },
-                copyable: true,
-            },
-        ]
-        if (token.metadata.standard === TokenStandard.Irc30) {
-            if (token.metadata.url) {
-                items.push({
-                    key: localize('popups.tokenInformation.tokenMetadata.url'),
-                    value: token.metadata?.url,
-                    copyable: true,
-                })
-            }
-            if (token.metadata.description) {
-                items.push({
-                    key: localize('popups.tokenInformation.tokenMetadata.description'),
-                    value: token.metadata?.description,
-                })
-            }
-        }
-    }
-    $: setTableItems(token)
 
     function onSkipClick(): void {
         unverifyToken(token.id, NotVerifiedStatus.Skipped)
@@ -118,7 +86,29 @@
         </div>
 
         <TokenAmountTile {token} amount={token.balance.available} />
-        <Table {items} />
+        <Table
+            items={[
+                {
+                    key: localize('popups.tokenInformation.tokenMetadata.standard'),
+                    value: token.standard,
+                },
+                {
+                    key: localize('popups.tokenInformation.tokenMetadata.tokenId'),
+                    value: token.id,
+                    truncate: { firstCharCount: 10, endCharCount: 10 },
+                    copyable: true,
+                },
+                {
+                    key: localize('popups.tokenInformation.tokenMetadata.url'),
+                    value: token.metadata.standard === TokenStandard.Irc30 ? token.metadata.url : undefined,
+                    copyable: true,
+                },
+                {
+                    key: localize('popups.tokenInformation.tokenMetadata.description'),
+                    value: token.metadata.standard === TokenStandard.Irc30 ? token.metadata.description : undefined,
+                },
+            ]}
+        />
 
         {#if !token.verification?.verified && token.verification?.status === NotVerifiedStatus.New}
             <TextHint warning text={localize('popups.tokenInformation.verificationWarning')} />

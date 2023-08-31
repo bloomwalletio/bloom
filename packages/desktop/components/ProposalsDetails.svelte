@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { type IItem, Table } from '@bloomwalletio/ui'
+    import { Table } from '@bloomwalletio/ui'
     import { IProposalsDetails } from '@contexts/governance/interfaces'
     import {
         participationOverviewForSelectedAccount,
@@ -27,21 +27,9 @@
         votedProposals: null,
     }
 
-    let items: IItem[] = []
-
     $: isOverviewLoaded = !!$participationOverviewForSelectedAccount
     $: $registeredProposalsForSelectedAccount, $participationOverviewForSelectedAccount, updateProposalsDetails()
     $: $selectedAccount, void setParticipationOverview()
-    $: items = getProposalDetailValues(details)
-
-    function getProposalDetailValues(_details: IProposalsDetails): IItem[] {
-        return Object.keys(_details).map((key) => {
-            return {
-                key: localize(`views.governance.proposalsDetails.${key}`),
-                value: details[key] ?? 0,
-            }
-        })
-    }
 
     function updateProposalsDetails(): void {
         if ($activeProfileId) {
@@ -77,7 +65,12 @@
         </Text>
         <ProposalsDetailsButton modalPosition={{ right: '0px', top: '34px' }} />
     </header-container>
-    <Table {items} />
+    <Table
+        items={Object.keys(details).map((key) => ({
+            key: localize(`views.governance.proposalsDetails.${key}`),
+            value: details[key] ?? 0,
+        }))}
+    />
     <Button size={ButtonSize.Medium} outline onClick={onAddProposalClick} classes="w-full">
         {localize('actions.addProposal')}
     </Button>
