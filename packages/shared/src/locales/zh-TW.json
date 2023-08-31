@@ -453,6 +453,7 @@
                 "referencedRate": "參照率"
             },
             "profileModal": {
+                "contactBook": "Contact book",
                 "allSettings": "所有設定",
                 "profileApplication": "設定檔、應用程式、安全性",
                 "logout": "登出",
@@ -493,7 +494,7 @@
                         "chainId": "Chain ID",
                         "aliasAddress": "Alias Address",
                         "iscpEndpoint": "ISCP Endpoint",
-                        "explorerEndpoint": "Explorer Endpoint (optional)",
+                        "explorerUrl": "Explorer URL (optional)",
                         "errors": {
                             "cannotBeEmpty": "Name cannot be empty",
                             "nameTooLong": "Name is too long",
@@ -530,6 +531,57 @@
                     },
                     "removeChain": {
                         "title": "Remove chain"
+                    }
+                },
+                "contactBook": {
+                    "contactList": {
+                        "title": "Contact list",
+                        "addContact": "Add contact"
+                    },
+                    "contactInformation": {
+                        "title": "Contact Information",
+                        "editContact": "Edit contact",
+                        "removeContact": "Remove contact",
+                        "addNetworkAddress": "Add network address"
+                    },
+                    "addContact": {
+                        "title": "Add contact"
+                    },
+                    "editContact": {
+                        "title": "Edit contact"
+                    },
+                    "removeContact": {
+                        "title": "Remove contact",
+                        "body": "Are you sure you want to remove this contact?",
+                        "hint": "Please note after removing a contact Bloom will show its actual addresses."
+                    },
+                    "addNetworkAddress": {
+                        "title": "Add network address"
+                    },
+                    "editNetworkAddresses": {
+                        "title": "Edit network addresses",
+                        "addAddress": "Add Address"
+                    },
+                    "removeNetworkAddresses": {
+                        "title": "Remove network addresses",
+                        "body": "Are you sure you want to remove the contact’s {network} network addresses?",
+                        "hint": "Please note after removing a contact’s network addresses Bloom will no longer associate it with them in transactions or activities."
+                    }
+                },
+                "dapps": {
+                    "dappsList": {
+                        "title": "Connected dApps",
+                        "connectDapp": "Connect dApp",
+                        "hint": "WalletConnect allows you to connect Bloom with dApps directly or with a connection code."
+                    },
+                    "inputConnectionCode": {
+                        "title": "Connect to a dApp",
+                        "inputLabel": "Wallet Connect code",
+                        "hint": "Add new dApps by adding a Wallet Connect code below."
+                    },
+                    "confirmConnection": {
+                        "title": "Connect with an application",
+                        "hint": "A third party service wants to connect with your wallet for the first time. You can choose if you wish to trust this connection."
                     }
                 }
             }
@@ -1034,6 +1086,101 @@
             "body": "自動回報錯誤診斷資訊，以協助開發者改善Firefly。若選取，將於重啟Firefly後生效。",
             "checkbox": "發送當機報告給IOTA基金會"
         },
+        "signMessage": {
+            "title": "Sign message",
+            "message": "Message",
+            "hint": "No balance will be sent to {dappName} in the process of signing this message.",
+            "warning": "dApp cannot be determined. No balance will be sent in the process of signing this message.",
+            "action": "Sign message"
+        },
+        "activityDetails": {
+            "title": {
+                "fallback": "Activity details",
+                "external": {
+                    "incoming": {
+                        "Pending": "Receiving from {subject}",
+                        "Confirmed": "Received from {subject}",
+                        "Conflicting": "Failed to receive"
+                    },
+                    "outgoing": {
+                        "Pending": "Sending to {subject}",
+                        "Confirmed": "Sent to {subject}",
+                        "Conflicting": "Failed to send"
+                    }
+                },
+                "internal": {
+                    "incoming": {
+                        "Pending": "Transferring from {subject}",
+                        "Confirmed": "Transferred from {subject}",
+                        "Conflicting": "Failed to transfer"
+                    },
+                    "outgoing": {
+                        "Pending": "Transferring to {subject}",
+                        "Confirmed": "Transferred to {subject}",
+                        "Conflicting": "Failed to transfer"
+                    },
+                    "selfTransaction": {
+                        "Pending": "Transferring to {subject}",
+                        "Confirmed": "Transferred to {subject}",
+                        "Conflicting": "Failed to transfer"
+                    }
+                },
+                "mint": {
+                    "Pending": "Minting",
+                    "Confirmed": "Minted",
+                    "Conflicting": "Failed to mint"
+                },
+                "burn": {
+                    "Pending": "Burning",
+                    "Confirmed": "Burned",
+                    "Conflicting": "Failed to burn"
+                },
+                "consolidation": {
+                    "Pending": "Consolidating outputs",
+                    "Confirmed": "Outputs consolidated",
+                    "Conflicting": "Failed to consolidate outputs"
+                },
+                "alias": {
+                    "creation": {
+                        "Pending": "Creating alias",
+                        "Confirmed": "Alias created",
+                        "Failed": "Failed to create alias"
+                    }
+                },
+                "governance": {
+                    "increaseVotingPower": {
+                        "Pending": "Increasing voting power",
+                        "Confirmed": "Increased voting power",
+                        "Conflicting": "Failed to increased voting power"
+                    },
+                    "decreaseVotingPower": {
+                        "Pending": "Decreasing voting power",
+                        "Confirmed": "Decreased voting power",
+                        "Conflicting": "Failed to decreased voting power"
+                    },
+                    "startVoting": {
+                        "Pending": "Voting for {proposalName}",
+                        "Confirmed": "Voted for {proposalName}",
+                        "Conflicting": "Failed to vote for"
+                    },
+                    "stopVoting": {
+                        "Pending": "Stopping voting for {proposalName}",
+                        "Confirmed": "Stopped voting for {proposalName}",
+                        "Conflicting": "Failed to stopped voting for"
+                    },
+                    "changedVote": {
+                        "Pending": "Changing vote for {proposalName}",
+                        "Confirmed": "Changed vote for {proposalName}",
+                        "Conflicting": "Failed to change vote for"
+                    },
+                    "revote": {
+                        "Pending": "Revoting",
+                        "Confirmed": "Revote",
+                        "Conflicting": "Failed to revote"
+                    }
+                }
+            }
+        },
         "legalUpdate": {
             "tosTitle": "服務條款",
             "privPolicyTitle": "隱私權政策",
@@ -1066,7 +1213,8 @@
                 "standard": "標準",
                 "name": "名稱",
                 "tokenId": "代幣 ID",
-                "url": "網址"
+                "url": "網址",
+                "description": "Description"
             },
             "buttons": {
                 "verifyToken": "我驗證這個代幣"
@@ -1203,6 +1351,7 @@
         "previous": "上一步",
         "next": "下一步",
         "cancel": "取消",
+        "connect": "Connect",
         "close": "關閉",
         "dismiss": "取消",
         "claim": "領取",
@@ -1286,7 +1435,7 @@
         "localProofOfWork": "本地工作量證明",
         "unlock": "解鎖",
         "updateFirefly": "更新 Firefly",
-        "restartNow": "立即重新啟動",
+        "restart": "Restart",
         "refresh": "重新整理",
         "saveBackup": "保存 Stronghold 備份",
         "customizeAcount": "自訂錢包",
@@ -1384,7 +1533,8 @@
         "stopVoting": "停止投票",
         "revote": "重新投票",
         "skipAndKeep": "跳過並保留舊密碼",
-        "addChain": "Add chain"
+        "addChain": "Add chain",
+        "untrackToken": "Untrack token"
     },
     "general": {
         "recipient": "接收方",
@@ -1431,6 +1581,8 @@
         "minting": "鑄造中",
         "burned": "已燒毀",
         "burning": "燒毀中",
+        "balanceChanged": "Balance changed",
+        "initialBalance": "Initial balance",
         "consolidated": "已合併輸出",
         "consolidating": "合併輸出中",
         "aliasCreated": "已建立別名",
@@ -1458,6 +1610,7 @@
         "and": "和",
         "receiveFunds": "接收資金",
         "address": "地址",
+        "addressName": "Address name",
         "myAddress": "My address",
         "myNetworkAddress": "我的{networkName} 地址",
         "shareAddress": "分享地址",
@@ -1496,6 +1649,7 @@
         "security": "安全性",
         "accountAddress": "錢包位址",
         "network": "網路",
+        "networkSelection": "Network selection",
         "destinationNetwork": "目的地網路",
         "nodes": "節點",
         "wallet": "錢包",
@@ -1580,6 +1734,7 @@
         "transactionTime": "交易時間",
         "surplus": "餘",
         "storageDeposit": "存儲空間費用",
+        "gasFee": "Gas fee",
         "giftedStorageDeposit": "被贈與之存儲空間費用",
         "storageDepositPerNft": "每個NFT的存儲空間費用",
         "totalStorageDeposit": "總存儲空間費用",
@@ -1601,6 +1756,7 @@
         "metadata": "元數據",
         "amountConsolidatedInputs": "合併輸出",
         "name": "名稱",
+        "note": "Note",
         "tag": "標籤",
         "nodeList": "節點清單",
         "claimedIn": "領取於",
@@ -1631,7 +1787,6 @@
         "smartContract": "智能合約",
         "targetContract": "目標合約",
         "contractFunction": "合約功能",
-        "gasBudget": "瓦斯預算",
         "standard": "標準",
         "uri": "URI",
         "issuer": "發行者",
@@ -1656,7 +1811,13 @@
         "evmAddress": "EVM address",
         "chain": "Chain",
         "importErc20Token": "Import ERC20 token",
-        "importErc20TokenDescription": "Import an ERC20 token from an EVM chain"
+        "optionalField": "{field} (optional)",
+        "gifted": "Gifted",
+        "copied": "Copied",
+        "connected": "Connected",
+        "disconnected": "Disconnected",
+        "estimatedFee": "Estimated fee",
+        "maxFees": "Max fees"
     },
     "filters": {
         "title": "篩選",
@@ -1788,9 +1949,6 @@
         "downloadingUpdate": "下載更新中",
         "updateReady": "準備更新",
         "updateError": "更新時發生錯誤，請重試。",
-        "restartInstall": "重新啟動以進行安裝",
-        "calcMinutesRemaining": "正在計算剩餘時間...",
-        "minutesRemaining": "{minutes, plural, one {剩下 # 分鐘} other {剩下 # 分鐘}}",
         "copiedToClipboard": "已複製到剪貼簿",
         "accountsSynchronized": "錢包同步完成",
         "fundsAvailableSoon": "您的資金很快就可以使用",
@@ -1798,6 +1956,7 @@
             "success": "{accountAlias} 的交易紀錄已順利儲存到 {filePath}",
             "error": "無法匯出 {accountAlias} 的交易記錄"
         },
+        "newDappConnected": "Connected to new dApp",
         "deepLinkingRequest": {
             "receivedWhileLoggedOut": "請登入以發起深度連結",
             "notEnabled": "深度連結未啟用",
@@ -1861,6 +2020,12 @@
         },
         "stopVoting": {
             "success": "已成功停止投票"
+        },
+        "updateContact": {
+            "success": "Contact successfully updated"
+        },
+        "updateNetworkAddresses": {
+            "success": "Contact addresses successfully updated"
         }
     },
     "error": {
@@ -1898,7 +2063,11 @@
             "invalid": "無效的 PIN 碼"
         },
         "address": {
-            "wrongAddressType": "地址類型錯誤"
+            "wrongAddressType": "地址類型錯誤",
+            "invalidBech32Format": "Invalid Bech32 format",
+            "belongsToAccount": "Cannot belong to any of your accounts",
+            "hexFormat": "Invalid hexadecimal format",
+            "checksum": "Address checksum is invalid"
         },
         "account": {
             "addressNotFound": "從你的帳戶中找不到此地址。",
@@ -1943,6 +2112,7 @@
             "cancelled": "交易取消。",
             "transaction": "交易發生錯誤，請重試。",
             "invalidExpirationDateTime": "您選擇的 失效日期/時間 為無效的",
+            "invalidTimelockDateTime": "The chosen timelock date/time is invalid.",
             "noInputs": "找不到輸入。",
             "notEnoughBalance": "餘額不足。",
             "missingTransactionId": "交易編號遺失",
@@ -2009,7 +2179,8 @@
             "generateAddress": "產生地址時發生錯誤",
             "timeout": "您的 Ledger 裝置已逾時。",
             "disconnected": "您的 Ledger 裝置已斷線。",
-            "noStronghold": "Ledger 設定檔無法使用 Stronghold 功能。"
+            "noStronghold": "Ledger 設定檔無法使用 Stronghold 功能。",
+            "rejected": "Action was rejected on the Ledger device"
         },
         "popup": {
             "preventClose": "無法關閉此彈出視窗。"
@@ -2094,11 +2265,23 @@
         "erc20Token": {
             "invalidAddressFormat": "Must be hexadecimal format",
             "invalidAddressLength": "Length is invalid"
+        },
+        "input": {
+            "invalid": "{field} input is invalid",
+            "required": "{field} is required",
+            "unique": "{field} must be unique",
+            "alreadyUsed": "{field} is already being used",
+            "tooLong": "{field} must be {numCharacters} or less characters"
+        },
+        "walletConnect": {
+            "invalidUri": "Invalid URI",
+            "invalidProtocol": "Invalid protocol, must start with 'wc'.",
+            "deprecatedVersion": "dApp uses a deprecated wallet connect version."
         }
     },
     "warning": {
         "transaction": {
-            "invalidExpirationDateTime": "選擇的到期日期無效。"
+            "invalidDateTime": "The chosen date must be in the future."
         },
         "node": {
             "http": "透過 HTTP 未加密連接來使用節點，可能會造成安全性風險。"
@@ -2149,8 +2332,7 @@
                 "expirationTime": "在到期時間之前領取這些資金，否則它們將退還給發件人。",
                 "timelockDate": "發件人對這些資金設置了時間鎖。一旦時間鎖定到期，您將能夠使用它們。",
                 "metadata": "用於在 Tangle 上持久存儲數據的可選數據字段。",
-                "tag": "一個簡短的可選數據字段。標記事務組可以使它們更易於搜索。",
-                "gasBudget": "Gas budget is required to conduct a transaction or execute a smart contract function on Shimmer EVM."
+                "tag": "一個簡短的可選數據字段。標記事務組可以使它們更易於搜索。"
             },
             "outgoing": {
                 "storageDeposit": "將您的交易存儲在 Tangle 上所需的可退還代幣押金。",
@@ -2158,8 +2340,7 @@
                 "expirationTime": "如果收件人沒有及時領取您的代幣，您的代幣將被退還給您。",
                 "timelockDate": "您為此事務添加了時間鎖。在時間鎖定到期之前，收款人將無法使用這些資金。",
                 "metadata": "用於在 Tangle 上持久存儲數據的可選數據字段。",
-                "tag": "一個簡短的可選數據字段。標記事務組可以使它們更易於搜索。",
-                "gasBudget": "Gas budget is required to conduct a transaction or execute a smart contract function on Shimmer EVM."
+                "tag": "一個簡短的可選數據字段。標記事務組可以使它們更易於搜索。"
             },
             "nftMetadata": {
                 "standard": "The NFT standard e.g. IRC27.",
@@ -2199,6 +2380,10 @@
         },
         "updateStronghold": {
             "profileBadge": "您的 Stronghold 已經過時。請登入以便更新 Stronghold。"
+        },
+        "tokenIsNotVerified": {
+            "title": "Token is not verified",
+            "text": "Compare the token metadata against the relevant team’s official website. Only verify tokens that you trust."
         }
     },
     "exports": {
@@ -2234,55 +2419,6 @@
         "activity": "活動"
     },
     "pills": {
-        "stake": {
-            "Pending": "正質押到",
-            "Confirmed": "已質押到",
-            "Conflicting": "質押失敗"
-        },
-        "external": {
-            "incoming": {
-                "Pending": "正接收自",
-                "Confirmed": "接收自",
-                "Conflicting": "接收失敗"
-            },
-            "outgoing": {
-                "Pending": "正發送至",
-                "Confirmed": "已發送至",
-                "Conflicting": "發送失敗"
-            }
-        },
-        "internal": {
-            "incoming": {
-                "Pending": "正傳送自",
-                "Confirmed": "已傳送自",
-                "Conflicting": "傳送失敗"
-            },
-            "outgoing": {
-                "Pending": "正在傳送至",
-                "Confirmed": "已傳送至",
-                "Conflicting": "傳送失敗"
-            },
-            "selfTransaction": {
-                "Pending": "正在傳送至",
-                "Confirmed": "已傳送至",
-                "Conflicting": "傳送失敗"
-            }
-        },
-        "mint": {
-            "Pending": "鑄造中",
-            "Confirmed": "已鑄造",
-            "Conflicting": "鑄造失敗"
-        },
-        "burn": {
-            "Pending": "燒毀中",
-            "Confirmed": "已燒毀",
-            "Conflicting": "燒毀失敗"
-        },
-        "consolidation": {
-            "Pending": "合併輸出中",
-            "Confirmed": "已合併輸出",
-            "Conflicting": "合併輸出失敗"
-        },
         "migrate": {
             "Pending": "遷移到",
             "Confirmed": "已遷移到",
@@ -2291,39 +2427,10 @@
         "asyncStatus": {
             "unclaimed": "未領取",
             "claimed": "已領取",
-            "expired": "逾期"
+            "expired": "逾期",
+            "timelocked": "timelocked"
         },
         "governance": {
-            "increaseVotingPower": {
-                "Pending": "正在增加表決權",
-                "Confirmed": "已增加表決權",
-                "Conflicting": "增加表決權失敗"
-            },
-            "decreaseVotingPower": {
-                "Pending": "正在減少表決權",
-                "Confirmed": "已減少表決權",
-                "Conflicting": "減少表決權失敗"
-            },
-            "startVoting": {
-                "Pending": "正在投票給",
-                "Confirmed": "已投票給",
-                "Conflicting": "投票失敗"
-            },
-            "stopVoting": {
-                "Pending": "正在停止投票給",
-                "Confirmed": "已停止投票給",
-                "Conflicting": "停止投票失敗"
-            },
-            "changedVote": {
-                "Pending": "正在更改投票",
-                "Confirmed": "更改投票",
-                "Conflicting": "更改投票失敗"
-            },
-            "revote": {
-                "Pending": "重新投票中",
-                "Confirmed": "重新投票",
-                "Conflicting": "重新投票失敗"
-            },
             "proposalStatus": {
                 "upcoming": "公告",
                 "commencing": "開放投票",
@@ -2331,13 +2438,6 @@
                 "ended": "已關閉",
                 "nodeOutdated": "過時的節點網址",
                 "resultsNotAvailable": "沒有可用的結果"
-            }
-        },
-        "alias": {
-            "creation": {
-                "Pending": "正在建立別名",
-                "Confirmed": "已建立別名",
-                "Failed": "建立別名失敗"
             }
         },
         "networkHealth": {
@@ -2350,14 +2450,13 @@
         "smartContract": "智能合約"
     },
     "menus": {
-        "expirationTimePicker": {
-            "none": "沒有期限",
-            "1hour": "1小時內",
-            "1day": "1天內",
-            "1week": "1週內",
+        "dateTimePicker": {
+            "1hour": "In 1 hour",
+            "1day": "In 1 day",
+            "1week": "In 1 week",
             "customDate": {
-                "title": "自訂時限",
-                "subtitle": "自訂逾期時間"
+                "title": "Custom date",
+                "subtitle": "Set custom date"
             }
         }
     }
