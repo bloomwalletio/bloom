@@ -1,7 +1,7 @@
 import { SendFlowParameters } from '@core/wallet'
 import { BigIntLike } from '@ethereumjs/util'
 import { GAS_LIMIT_MULTIPLIER } from '../constants'
-import { calculateGasFeeInGlow } from '../utils'
+import { calculateGasFeeInGlow } from '../helpers'
 import { estimateGasForLayer1ToLayer2Transaction } from './estimateGasForLayer1ToLayer2Transaction'
 import { getGasPriceInWei } from './getGasPriceInWei'
 

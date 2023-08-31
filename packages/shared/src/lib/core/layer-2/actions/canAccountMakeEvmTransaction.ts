@@ -6,7 +6,7 @@ import { getCoinType } from '@core/profile/actions'
 import { SendFlowType } from '@core/wallet/stores'
 
 import { FALLBACK_ESTIMATED_GAS, GAS_LIMIT_MULTIPLIER } from '../constants'
-import { calculateGasFeeInGlow } from '../utils'
+import { calculateGasFeeInGlow } from '../helpers'
 
 export async function canAccountMakeEvmTransaction(
     accountIndex: number,
