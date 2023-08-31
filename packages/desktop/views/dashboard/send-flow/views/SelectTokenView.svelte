@@ -2,16 +2,15 @@
     import { Icon as IconEnum } from '@auxiliary/icon'
     import { localize } from '@core/i18n'
     import { marketCoinPrices } from '@core/market/stores'
+    import { getNetwork } from '@core/network'
+    import { AccountTokens, BASE_TOKEN_ID, IToken, TokenStandard } from '@core/token'
+    import { getAccountTokensForSelectedAccount } from '@core/token/actions'
+    import { selectedAccountTokens } from '@core/token/stores'
     import { sendFlowParameters, SendFlowType, setSendFlowParameters } from '@core/wallet'
     import { closePopup } from '@desktop/auxiliary/popup'
     import { IconInput, TokenAmountTile } from '@ui'
     import { sendFlowRouter } from '../send-flow.router'
     import SendFlowTemplate from './SendFlowTemplate.svelte'
-    import { getCoinType } from '@core/profile/actions'
-    import { getNetwork } from '@core/network'
-    import { AccountTokens, IToken, TokenStandard } from '@core/token'
-    import { selectedAccountTokens } from '@core/token/stores'
-    import { getAccountTokensForSelectedAccount } from '@core/token/actions'
 
     let searchValue: string = ''
     let selectedToken: IToken =
@@ -80,7 +79,7 @@
         }
 
         const sendFlowType =
-            selectedToken.id === getCoinType() ? SendFlowType.BaseCoinTransfer : SendFlowType.TokenTransfer
+            selectedToken.id === BASE_TOKEN_ID ? SendFlowType.BaseCoinTransfer : SendFlowType.TokenTransfer
 
         // Set called because we need to update the type, and update function only updates the properties
         // if the type is the same
