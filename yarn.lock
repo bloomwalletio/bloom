@@ -342,17 +342,17 @@
   resolved "https://registry.yarnpkg.com/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
-"@bloomwalletio/ui@0.7.13":
-  version "0.7.13"
-  resolved "https://npm.pkg.github.com/download/@bloomwalletio/ui/0.7.13/3cee685979d36467ba6930f1bec6935aa8c71a59#3cee685979d36467ba6930f1bec6935aa8c71a59"
-  integrity sha512-9MOEc42SIdMx42AyPWwsRld0L7t1pKauSXBJACnNuEZhemMQfC54Fe014ppSQJ9kr9jwl1VLvajqI6EnKFAClw==
+"@bloomwalletio/ui@0.8.0":
+  version "0.8.0"
+  resolved "https://npm.pkg.github.com/download/@bloomwalletio/ui/0.8.0/3cfdbbef52302742a404f2a23eda2df85f93db1f#3cfdbbef52302742a404f2a23eda2df85f93db1f"
+  integrity sha512-cITyHK0sBNNxnkXDN2Y/sgFE2aAm1neQICe/5IiBBd9NfzCaqB9nIa9cgGJWx1tbMOnwXMlENh9cxQMCG/2lNA==
   dependencies:
     "@floating-ui/dom" "1.4.3"
     "@popperjs/core" "2.11.8"
     flowbite "1.7.0"
     flowbite-svelte "0.39.2"
     svelte-json-tree "2.1.0"
-    svelty-picker "4.1.3"
+    svelty-picker "4.1.4"
     tailwind-merge "1.13.2"
 
 "@chainsafe/as-sha256@^0.4.1":
@@ -9967,10 +9967,10 @@ svelte@3.58.0:
   resolved "https://registry.yarnpkg.com/svelte/-/svelte-3.58.0.tgz#d3e6f103efd6129e51c7d709225ad3b4c052b64e"
   integrity sha512-brIBNNB76mXFmU/Kerm4wFnkskBbluBDCjx/8TcpYRb298Yh2dztS2kQ6bhtjMcvUhd5ynClfwpz5h2gnzdQ1A==
 
-svelty-picker@4.1.3:
-  version "4.1.3"
-  resolved "https://registry.yarnpkg.com/svelty-picker/-/svelty-picker-4.1.3.tgz#a19ca75459b5a6f2bc2387567b33b7048427645e"
-  integrity sha512-83gaWpwn16zhJctNEUuUMA883vvgsdbyj+Eil/nTWrRZ9b+xg2McQIRMcG4KxE+jvS10AdUO5pduxT1HLBBMpQ==
+svelty-picker@4.1.4:
+  version "4.1.4"
+  resolved "https://registry.yarnpkg.com/svelty-picker/-/svelty-picker-4.1.4.tgz#92eb866602c37bf56bbb3fad55692c05d7acd524"
+  integrity sha512-ViF6lS6+SRpDOiA8BiIGdVzB+WmZ4CFOnaGS+8K3aRhZectG0B20zab/l4uE/wyr5ThnBx2rnRk0VWQSx7n0Ww==
   dependencies:
     "@floating-ui/dom" "^1.4.5"
 
