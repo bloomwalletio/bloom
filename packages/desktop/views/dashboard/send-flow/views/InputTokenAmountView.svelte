@@ -1,11 +1,12 @@
 <script lang="ts">
     import { localize } from '@core/i18n'
     import { IToken, formatTokenAmountDefault, getUnitFromTokenMetadata } from '@core/token'
+    import { getTokenBalance } from '@core/token/actions'
+    import { getTokenFromSelectedAccountTokens } from '@core/token/stores'
     import { SendFlowType, sendFlowParameters, updateSendFlowParameters } from '@core/wallet'
     import { TokenAmountInput, TokenAvailableBalanceTile } from '@ui'
     import { sendFlowRouter } from '../send-flow.router'
     import SendFlowTemplate from './SendFlowTemplate.svelte'
-    import { getTokenBalance } from '@core/token/actions'
 
     let tokenAmountInput: TokenAmountInput
     let token: IToken
@@ -79,5 +80,8 @@
         {unit}
         availableBalance={tokenBalance?.available}
     />
-    <TokenAvailableBalanceTile {token} onMaxClick={setToMax} />
+    <TokenAvailableBalanceTile
+        token={getTokenFromSelectedAccountTokens(token.id, token.networkId)}
+        onMaxClick={setToMax}
+    />
 </SendFlowTemplate>

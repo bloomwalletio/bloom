@@ -1,10 +1,10 @@
 <script lang="ts">
     import { formatCurrency, localize } from '@core/i18n'
     import { getMarketAmountFromTokenValue } from '@core/market/utils'
-    import { IToken, formatTokenAmountBestMatch } from '@core/token'
+    import { ITokenWithBalance, formatTokenAmountBestMatch } from '@core/token'
     import { FontWeight, Text, TextType } from '@ui'
 
-    export let token: IToken
+    export let token: ITokenWithBalance
 
     $: availableMarketValue = getMarketAmountFromTokenValue(token?.balance?.available, token)
     $: totalMarketValue = getMarketAmountFromTokenValue(token?.balance?.total, token)
