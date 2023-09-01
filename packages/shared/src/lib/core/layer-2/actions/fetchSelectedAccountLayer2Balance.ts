@@ -29,6 +29,7 @@ export function fetchSelectedAccountLayer2Balance(account: IAccountState): void 
         const layer2Balance: { [tokenId: string]: number } = {}
 
         for (const { balance, tokenId } of balances) {
+            const adjustedBalance = Number.isNaN(balance) ? 0 : balance
             const isNativeToken = Converter.hexToBytes(tokenId).length === TOKEN_ID_BYTE_LENGTH
             const isErc20TrackedToken = getActiveProfile()?.trackedTokens?.[networkId]?.includes(tokenId)
             if (isNativeToken || isErc20TrackedToken) {
@@ -37,8 +38,8 @@ export function fetchSelectedAccountLayer2Balance(account: IAccountState): void 
                     addPersistedToken(token)
                 }
             }
-            calculateAndAddPersistedBalanceChange(account.index, networkId, tokenId, balance)
-            layer2Balance[tokenId] = balance
+            calculateAndAddPersistedBalanceChange(account.index, networkId, tokenId, adjustedBalance)
+            layer2Balance[tokenId] = adjustedBalance
         }
         setLayer2AccountBalanceForChain(index, networkId, layer2Balance)
     })

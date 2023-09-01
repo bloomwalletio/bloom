@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { Alert } from '@bloomwalletio/ui'
     import { Icon as IconEnum } from '@auxiliary/icon'
     import { localize } from '@core/i18n'
     import { marketCoinPrices } from '@core/market/stores'
@@ -12,6 +13,9 @@
     import { AccountTokens, IToken, TokenStandard } from '@core/token'
     import { selectedAccountTokens } from '@core/token/stores'
     import { getAccountTokensForSelectedAccount } from '@core/token/actions'
+    import { selectedAccountIndex } from '@core/account/stores'
+    import { canAccountMakeEvmTransaction } from '@core/layer-2/actions'
+    import { handleError } from '@core/error/handlers'
 
     let searchValue: string = ''
     let selectedToken: IToken =
@@ -24,6 +28,7 @@
     let accountTokens: AccountTokens
     $: accountTokens = getAccountTokensForSelectedAccount($marketCoinPrices)
     $: accountTokens, searchValue, setFilteredTokenList()
+    let hasTokenError: boolean = false
 
     let tokenList: IToken[]
     function getTokenList(): IToken[] {
@@ -56,6 +61,20 @@
             (name && name.toLowerCase().includes(_searchValue)) ||
             (ticker && ticker.toLowerCase().includes(_searchValue))
         )
+    }
+
+    async function onTokenClick(token: IToken): Promise<void> {
+        try {
+            selectedToken = token
+            hasTokenError =
+                (await canAccountMakeEvmTransaction(
+                    $selectedAccountIndex,
+                    token.networkId,
+                    SendFlowType.BaseCoinTransfer
+                )) ?? false
+        } catch (err) {
+            handleError(err)
+        }
     }
 
     function onCancelClick(): void {
@@ -99,7 +118,11 @@
 <SendFlowTemplate
     title={localize('popups.transaction.selectToken')}
     leftButton={{ text: localize('actions.cancel'), onClick: onCancelClick }}
-    rightButton={{ text: localize('actions.continue'), onClick: onContinueClick, disabled: !selectedToken }}
+    rightButton={{
+        text: localize('actions.continue'),
+        onClick: onContinueClick,
+        disabled: !selectedToken || hasTokenError,
+    }}
 >
     <IconInput bind:value={searchValue} icon={IconEnum.Search} placeholder={localize('general.search')} />
     <div class="-mr-3">
@@ -107,13 +130,17 @@
             {#each tokenList as token}
                 <TokenAmountTile
                     {token}
+                    hasError={token === selectedToken && hasTokenError}
                     amount={token.balance.available}
-                    onClick={() => (selectedToken = token)}
+                    onClick={() => onTokenClick(token)}
                     selected={selectedToken?.id === token.id && selectedToken?.networkId === token?.networkId}
                 />
             {/each}
         </div>
     </div>
+    {#if hasTokenError}
+        <Alert variant="danger" text={localize('error.send.insufficientFundsGasFee')} />
+    {/if}
 </SendFlowTemplate>
 
 <style lang="scss">
