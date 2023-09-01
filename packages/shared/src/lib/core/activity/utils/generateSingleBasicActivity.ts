@@ -25,8 +25,8 @@ export function generateSingleBasicActivity(
     account: IAccountState,
     networkId: NetworkId,
     { action, processedTransaction, wrappedOutput }: IActivityGenerationParameters,
-    fallbackTokenId?: string,
-    fallbackAmount?: number
+    overrideTokenId?: string,
+    overrideAmount?: number
 ): TransactionActivity {
     const { transactionId, direction, claimingData, time, inclusionState } = processedTransaction
 
@@ -64,13 +64,13 @@ export function generateSingleBasicActivity(
     const rawBaseCoinAmount = getAmountFromOutput(output)
 
     const nativeToken = getNativeTokenFromOutput(output)
-    const tokenId = nativeToken?.id ?? fallbackTokenId ?? BASE_TOKEN_ID
+    const tokenId = overrideTokenId ?? nativeToken?.id ?? BASE_TOKEN_ID
 
     let rawAmount: number
-    if (fallbackAmount === undefined) {
+    if (overrideAmount === undefined) {
         rawAmount = nativeToken ? Number(nativeToken?.amount) : rawBaseCoinAmount - storageDeposit - gasLimit
     } else {
-        rawAmount = fallbackAmount
+        rawAmount = overrideAmount
     }
 
     return {

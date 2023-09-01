@@ -11,13 +11,13 @@ import { Duration } from './types'
 import { isValidDate } from './'
 
 /**
- * Returns true if a given expiration date/time is valid or
+ * Returns true if a given expiration or timelock condition date/time is valid or
  * has not yet expired.
  */
-export function isValidExpirationDateTime(expirationDateTime: Date): boolean {
-    if (isValidDate(expirationDateTime)) {
-        const nowDateTime = new Date(Date.now())
-        return expirationDateTime.getTime() > nowDateTime.getTime()
+export function isFutureDateTime(dateTime: Date): boolean {
+    if (isValidDate(dateTime)) {
+        const nowDateTime = Date.now()
+        return dateTime.getTime() > nowDateTime
     } else {
         return false
     }

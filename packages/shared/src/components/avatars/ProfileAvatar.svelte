@@ -12,6 +12,6 @@
     {#if profile?.pfp}
         <NftAvatar {size} nft={profile.pfp} />
     {:else if profile?.name}
-        <Avatar {size} color={profile.color} text={getInitials(profile.name, 3)} />
+        <Avatar {size} backgroundColor={profile.color} text={getInitials(profile.name, 3)} />
     {/if}
 </profile-avatar>
