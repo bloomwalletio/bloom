@@ -6,6 +6,7 @@
     import { localize } from '@core/i18n'
     import { updateActiveAccountPersistedData } from '@core/profile/actions'
     import { activeAccounts } from '@core/profile/stores'
+    import { HEX_PREFIX } from '@core/utils'
     import { truncateString } from '@core/utils/string'
     import { closePopup, openPopup, PopupId } from '@desktop/auxiliary/popup'
     import type { Auth } from '@iota/wallet'
@@ -101,7 +102,7 @@
     }
 
     async function validateEventId(checkIfAlreadyRegistered: boolean): Promise<void> {
-        const startsWith0x = eventId?.substring(0, 2) === '0x'
+        const startsWith0x = eventId?.substring(0, 2) === HEX_PREFIX
         if (!startsWith0x) {
             eventIdError = localize('error.eventId.doesNotStartWith0x')
             return Promise.reject(eventIdError)

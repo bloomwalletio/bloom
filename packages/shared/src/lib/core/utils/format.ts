@@ -1,6 +1,6 @@
 import { formatDate } from '@core/i18n'
 
-import { HEXADECIMAL_PREFIX, HEXADECIMAL_REGEXP } from './constants'
+import { HEX_PREFIX, HEXADECIMAL_REGEXP } from './constants'
 
 export function formatHexString(
     hex: string,
@@ -11,11 +11,11 @@ export function formatHexString(
         return '00'
     }
 
-    hex = hex.replace(HEXADECIMAL_PREFIX, '')
+    hex = hex.replace(HEX_PREFIX, '')
 
     let result = ''
     if (shouldIncludePrefix) {
-        result += HEXADECIMAL_PREFIX
+        result += HEX_PREFIX
     }
 
     result += shouldBeUppercase ? hex.toUpperCase() : hex.toLowerCase()
