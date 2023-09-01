@@ -1,8 +1,8 @@
+import { IEvmTransactionSignature } from '@core/layer-2/interfaces'
+import { HEXADECIMAL_PREFIX } from '@core/utils'
 import AppEth from '@ledgerhq/hw-app-eth'
 import TransportNodeHid from '@ledgerhq/hw-transport-node-hid'
 import { listen } from '@ledgerhq/logs'
-
-import { IEvmTransactionSignature } from '@core/layer-2/interfaces'
 
 let transport: TransportNodeHid
 
@@ -37,9 +37,9 @@ export async function signTransactionData(
         const appEth = new AppEth(transport)
         const signature = await appEth.signTransaction(bip32Path, transactionHex, null)
         return {
-            r: '0x' + signature.r,
-            v: '0x' + signature.v,
-            s: '0x' + signature.s,
+            r: HEXADECIMAL_PREFIX + signature.r,
+            v: HEXADECIMAL_PREFIX + signature.v,
+            s: HEXADECIMAL_PREFIX + signature.s,
         }
     } catch (error) {
         return {

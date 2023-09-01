@@ -205,7 +205,7 @@ export class Converter {
                 }
             }
         }
-        return prefix ? '0x' + hex : hex
+        return prefix ? HEXADECIMAL_PREFIX + hex : hex
     }
 
     /**
@@ -215,7 +215,7 @@ export class Converter {
      * @returns The array.
      */
     public static hexToBytes(hex: string, reverse?: boolean): Uint8Array {
-        if (hex.startsWith('0x')) {
+        if (hex.startsWith(HEXADECIMAL_PREFIX)) {
             hex = hex.substring(2)
         }
 
@@ -263,11 +263,11 @@ export class Converter {
     }
 
     public static decimalToHex(number: number, prefix = true): string {
-        return prefix ? '0x' + number.toString(16) : number.toString(16)
+        return prefix ? HEXADECIMAL_PREFIX + number.toString(16) : number.toString(16)
     }
 
     public static bigIntToHex(bigInt: bigint, prefix = true): string {
-        return prefix ? '0x' + bigInt.toString(16) : bigInt.toString(16)
+        return prefix ? HEXADECIMAL_PREFIX + bigInt.toString(16) : bigInt.toString(16)
     }
 
     /**

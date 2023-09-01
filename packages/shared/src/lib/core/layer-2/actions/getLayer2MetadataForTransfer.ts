@@ -1,9 +1,10 @@
+import { HEXADECIMAL_PREFIX } from '@core/utils'
 import type { SendFlowParameters, TokenSendFlowParameters } from '@core/wallet/types'
 import BigInteger from 'big-integer'
-import { estimateGasForLayer1ToLayer2Transaction } from './estimateGasForLayer1ToLayer2Transaction'
 import { SpecialStream } from '../classes'
 import { ACCOUNTS_CONTRACT, EXTERNALLY_OWNED_ACCOUNT, GAS_LIMIT_MULTIPLIER, TRANSFER_ALLOWANCE } from '../constants'
 import { encodeAddress, encodeAssetAllowance, encodeSmartContractParameters } from '../helpers'
+import { estimateGasForLayer1ToLayer2Transaction } from './estimateGasForLayer1ToLayer2Transaction'
 
 export async function getLayer2MetadataForTransfer(sendFlowParameters: SendFlowParameters): Promise<string> {
     const metadataStream = new SpecialStream()
@@ -27,5 +28,5 @@ export async function getLayer2MetadataForTransfer(sendFlowParameters: SendFlowP
     const allowance = encodeAssetAllowance(sendFlowParameters)
     metadataStream.writeBytes('allowance', allowance.length, allowance)
 
-    return '0x' + metadataStream.finalHex()
+    return HEXADECIMAL_PREFIX + metadataStream.finalHex()
 }
