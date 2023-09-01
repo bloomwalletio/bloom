@@ -1,10 +1,10 @@
 <script lang="ts">
-    import { Button, Text, TextHint, FontWeight, TextType, TokenAmountWithSliderInput } from '@ui'
     import { localize } from '@core/i18n'
-    import { closePopup, openPopup, PopupId } from '@desktop/auxiliary/popup'
-    import { IToken } from '@core/token'
+    import { ITokenWithBalance } from '@core/token'
+    import { PopupId, closePopup, openPopup } from '@desktop/auxiliary/popup'
+    import { Button, FontWeight, Text, TextHint, TextType, TokenAmountWithSliderInput } from '@ui'
 
-    export let token: IToken
+    export let token: ITokenWithBalance
     export let rawAmount: string = '0'
 
     let tokenAmountInput: TokenAmountWithSliderInput
