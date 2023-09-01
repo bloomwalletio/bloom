@@ -27,7 +27,7 @@ const eslintRules = {
     'no-import-assign': 'error',
     'no-irregular-whitespace': 'error',
     'no-prototype-builtins': 'error',
-    'no-return-await': 'error',
+    'no-return-await': 'off', // OFF b/c it is sometimes necessary when using try/catch blocks
     'no-trailing-spaces': 'error',
     'no-useless-escape': 'error',
     'no-undef': 'error',
