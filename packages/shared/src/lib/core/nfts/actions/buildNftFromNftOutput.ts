@@ -26,13 +26,14 @@ export function buildNftFromNftOutput(
         timeLockTime = status.timeLockTime
     }
 
+    const profileId: string = get(activeProfileId)
     const id = getNftId(nftOutput.nftId, wrappedOutput.outputId)
     const address = getBech32AddressFromAddressTypes({ type: ADDRESS_TYPE_NFT, nftId: id })
     const issuer = getIssuerFromNftOutput(nftOutput)
     const metadata = getMetadataFromNftOutput(nftOutput)
     const parsedMetadata = parseNftMetadata(metadata)
     const composedUrl = composeUrlFromNftUri(parsedMetadata?.uri)
-    const filePath = `${get(activeProfileId)}/nfts/${id}`
+    const filePath = `${profileId}/nfts/${id}`
     const storageDeposit = Number(nftOutput.amount)
 
     return {

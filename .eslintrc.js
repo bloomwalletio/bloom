@@ -69,6 +69,7 @@ const typescriptEslintRules = {
     '@typescript-eslint/no-non-null-asserted-optional-chain': 'error',
     '@typescript-eslint/no-non-null-assertion': 'error',
     '@typescript-eslint/no-this-alias': 'error',
+    '@typescript-eslint/no-redundant-type-constituents': 'warn',
     '@typescript-eslint/no-unnecessary-type-assertion': 'error',
     '@typescript-eslint/no-unsafe-assignment': 'off', // OFF b/c used in Svelte components for UI logic
     '@typescript-eslint/no-unsafe-call': 'off', // OFF b/c used in Svelte components for UI logic
