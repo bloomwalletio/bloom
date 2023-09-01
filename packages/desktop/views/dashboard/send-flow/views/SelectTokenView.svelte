@@ -1,17 +1,20 @@
 <script lang="ts">
     import { Icon as IconEnum } from '@auxiliary/icon'
+    import { Alert } from '@bloomwalletio/ui'
+    import { selectedAccountIndex } from '@core/account/stores'
+    import { handleError } from '@core/error/handlers'
     import { localize } from '@core/i18n'
+    import { canAccountMakeEvmTransaction } from '@core/layer-2/actions'
     import { marketCoinPrices } from '@core/market/stores'
-    import { sendFlowParameters, SendFlowType, setSendFlowParameters } from '@core/wallet'
+    import { getNetwork } from '@core/network'
+    import { AccountTokens, BASE_TOKEN_ID, IToken, TokenStandard } from '@core/token'
+    import { getAccountTokensForSelectedAccount } from '@core/token/actions'
+    import { selectedAccountTokens } from '@core/token/stores'
+    import { SendFlowType, sendFlowParameters, setSendFlowParameters } from '@core/wallet'
     import { closePopup } from '@desktop/auxiliary/popup'
     import { IconInput, TokenAmountTile } from '@ui'
     import { sendFlowRouter } from '../send-flow.router'
     import SendFlowTemplate from './SendFlowTemplate.svelte'
-    import { getCoinType } from '@core/profile/actions'
-    import { getNetwork } from '@core/network'
-    import { AccountTokens, IToken, TokenStandard } from '@core/token'
-    import { selectedAccountTokens } from '@core/token/stores'
-    import { getAccountTokensForSelectedAccount } from '@core/token/actions'
 
     let searchValue: string = ''
     let selectedToken: IToken =
@@ -24,6 +27,7 @@
     let accountTokens: AccountTokens
     $: accountTokens = getAccountTokensForSelectedAccount($marketCoinPrices)
     $: accountTokens, searchValue, setFilteredTokenList()
+    let hasTokenError: boolean = false
 
     let tokenList: IToken[]
     function getTokenList(): IToken[] {
@@ -58,6 +62,20 @@
         )
     }
 
+    async function onTokenClick(token: IToken): Promise<void> {
+        try {
+            selectedToken = token
+            hasTokenError =
+                (await canAccountMakeEvmTransaction(
+                    $selectedAccountIndex,
+                    token.networkId,
+                    SendFlowType.BaseCoinTransfer
+                )) ?? false
+        } catch (err) {
+            handleError(err)
+        }
+    }
+
     function onCancelClick(): void {
         $sendFlowRouter.reset()
         closePopup()
@@ -80,7 +98,7 @@
         }
 
         const sendFlowType =
-            selectedToken.id === getCoinType() ? SendFlowType.BaseCoinTransfer : SendFlowType.TokenTransfer
+            selectedToken.id === BASE_TOKEN_ID ? SendFlowType.BaseCoinTransfer : SendFlowType.TokenTransfer
 
         // Set called because we need to update the type, and update function only updates the properties
         // if the type is the same
@@ -99,7 +117,11 @@
 <SendFlowTemplate
     title={localize('popups.transaction.selectToken')}
     leftButton={{ text: localize('actions.cancel'), onClick: onCancelClick }}
-    rightButton={{ text: localize('actions.continue'), onClick: onContinueClick, disabled: !selectedToken }}
+    rightButton={{
+        text: localize('actions.continue'),
+        onClick: onContinueClick,
+        disabled: !selectedToken || hasTokenError,
+    }}
 >
     <IconInput bind:value={searchValue} icon={IconEnum.Search} placeholder={localize('general.search')} />
     <div class="-mr-3">
@@ -107,13 +129,17 @@
             {#each tokenList as token}
                 <TokenAmountTile
                     {token}
+                    hasError={token === selectedToken && hasTokenError}
                     amount={token.balance.available}
-                    onClick={() => (selectedToken = token)}
+                    onClick={() => onTokenClick(token)}
                     selected={selectedToken?.id === token.id && selectedToken?.networkId === token?.networkId}
                 />
             {/each}
         </div>
     </div>
+    {#if hasTokenError}
+        <Alert variant="danger" text={localize('error.send.insufficientFundsGasFee')} />
+    {/if}
 </SendFlowTemplate>
 
 <style lang="scss">

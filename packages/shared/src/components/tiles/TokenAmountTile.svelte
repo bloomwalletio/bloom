@@ -12,6 +12,7 @@
     export let classes = ''
     export let amount: number = 0
     export let hideTokenInfo: boolean = false
+    export let hasError: boolean = false
 
     $: marketPrice = getMarketPriceForToken(token)
     $: marketBalance = getMarketAmountFromTokenValue(amount, token)
@@ -20,7 +21,9 @@
 {#if token && token.metadata}
     <ClickableTile
         {onClick}
-        classes="border-2 border-solid {selected
+        classes="border-2 border-solid {hasError
+            ? 'border-red-500 dark:border-red-200'
+            : selected
             ? 'border-blue-500 dark:border-gray-500'
             : 'border-transparent'} {classes}"
         fullWidth={!hideTokenInfo}
