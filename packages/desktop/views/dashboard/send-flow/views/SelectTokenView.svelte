@@ -1,21 +1,20 @@
 <script lang="ts">
-    import { Alert } from '@bloomwalletio/ui'
     import { Icon as IconEnum } from '@auxiliary/icon'
+    import { Alert } from '@bloomwalletio/ui'
+    import { selectedAccountIndex } from '@core/account/stores'
+    import { handleError } from '@core/error/handlers'
     import { localize } from '@core/i18n'
+    import { canAccountMakeEvmTransaction } from '@core/layer-2/actions'
     import { marketCoinPrices } from '@core/market/stores'
-    import { sendFlowParameters, SendFlowType, setSendFlowParameters } from '@core/wallet'
+    import { getNetwork } from '@core/network'
+    import { AccountTokens, BASE_TOKEN_ID, IToken, TokenStandard } from '@core/token'
+    import { getAccountTokensForSelectedAccount } from '@core/token/actions'
+    import { selectedAccountTokens } from '@core/token/stores'
+    import { SendFlowType, sendFlowParameters, setSendFlowParameters } from '@core/wallet'
     import { closePopup } from '@desktop/auxiliary/popup'
     import { IconInput, TokenAmountTile } from '@ui'
     import { sendFlowRouter } from '../send-flow.router'
     import SendFlowTemplate from './SendFlowTemplate.svelte'
-    import { getCoinType } from '@core/profile/actions'
-    import { getNetwork } from '@core/network'
-    import { AccountTokens, IToken, TokenStandard } from '@core/token'
-    import { selectedAccountTokens } from '@core/token/stores'
-    import { getAccountTokensForSelectedAccount } from '@core/token/actions'
-    import { selectedAccountIndex } from '@core/account/stores'
-    import { canAccountMakeEvmTransaction } from '@core/layer-2/actions'
-    import { handleError } from '@core/error/handlers'
 
     let searchValue: string = ''
     let selectedToken: IToken =
@@ -99,7 +98,7 @@
         }
 
         const sendFlowType =
-            selectedToken.id === getCoinType() ? SendFlowType.BaseCoinTransfer : SendFlowType.TokenTransfer
+            selectedToken.id === BASE_TOKEN_ID ? SendFlowType.BaseCoinTransfer : SendFlowType.TokenTransfer
 
         // Set called because we need to update the type, and update function only updates the properties
         // if the type is the same

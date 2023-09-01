@@ -11,7 +11,8 @@ export function calculateAndAddPersistedBalanceChange(
     accountIndex: number,
     networkId: NetworkId,
     tokenId: string,
-    newBalance: number
+    newBalance: number,
+    hidden: boolean = false
 ): void {
     newBalance = newBalance || 0
 
@@ -23,10 +24,13 @@ export function calculateAndAddPersistedBalanceChange(
             changedAt: Date.now(),
             oldBalance: lastBalanceChange?.newBalance,
             newBalance,
+            hidden,
         }
 
-        const activity = generateBalanceChangeActivity(networkId, tokenId, newBalanceChange)
-        addActivityToAccountActivitiesInAllAccountActivities(accountIndex, activity)
+        if (!hidden) {
+            const activity = generateBalanceChangeActivity(networkId, tokenId, newBalanceChange)
+            addActivityToAccountActivitiesInAllAccountActivities(accountIndex, activity)
+        }
         addPersistedBalanceChange(accountIndex, networkId, tokenId, newBalanceChange)
     }
 }

@@ -19,7 +19,7 @@
     import { onMount } from 'svelte'
     import { sendFlowRouter } from '../send-flow.router'
     import SendFlowTemplate from './SendFlowTemplate.svelte'
-    import { getTokenStandardFromSendFlowParameters } from '@core/wallet/actions/'
+    import { getTokenStandardFromSendFlowParameters } from '@core/wallet/utils'
     import { TokenStandard } from '@core/token'
     import { canAccountMakeEvmTransaction } from 'shared/src/lib/core/layer-2/actions'
     import { handleError } from 'shared/src/lib/core/error/handlers'
