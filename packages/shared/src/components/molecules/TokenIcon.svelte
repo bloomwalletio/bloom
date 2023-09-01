@@ -5,7 +5,7 @@
     import { activeProfile } from '@core/profile/stores'
     import { isBright } from '@core/utils'
     import { ANIMATED_TOKEN_IDS, getTokenInitials, IPersistedToken, TokenStandard } from '@core/token'
-    import { Animation, Icon, NetworkIconBadge, VerificationBadge } from '@ui'
+    import { Animation, Icon, NetworkBadge, VerificationBadge } from '@ui'
 
     export let persistedToken: IPersistedToken
     export let networkId: NetworkId | undefined
@@ -124,7 +124,7 @@
     </div>
     <span class="absolute flex justify-center items-center bottom-0 right-0">
         {#if persistedToken.verification.verified === true && networkId}
-            <NetworkIconBadge width={10} height={10} {networkId} tooltipText={networkName} />
+            <NetworkBadge size="xxs" {networkId} tooltipText={networkName} />
         {:else}
             <VerificationBadge status={persistedToken.verification?.status} width={14} height={14} />
         {/if}
