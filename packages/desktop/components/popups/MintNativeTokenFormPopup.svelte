@@ -75,7 +75,7 @@
         }
     }
 
-    function isEverythingDefined(form: IMintTokenDetails | Partial<IMintTokenDetails>): form is IMintTokenDetails {
+    function isEverythingDefined(form: IMintTokenDetails): form is IMintTokenDetails {
         return (
             form.name !== undefined &&
             form.totalSupply !== undefined &&
