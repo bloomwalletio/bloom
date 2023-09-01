@@ -105,7 +105,7 @@
         setSendFlowParameters({
             ...previousSharedParameters,
             type: sendFlowType,
-            [sendFlowType === SendFlowType.BaseCoinTransfer ? 'baseCoinTransfer' : 'tokenTransfer']: {
+            [sendFlowType]: {
                 token: selectedToken,
             },
         })

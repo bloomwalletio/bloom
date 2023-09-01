@@ -11,15 +11,11 @@
     let rawAmount: string
     let amount: string
     let unit: string
-    const tokenKey = $sendFlowParameters.type === SendFlowType.TokenTransfer ? 'tokenTransfer' : 'baseCoinTransfer'
-
-    if (
-        $sendFlowParameters.type === SendFlowType.BaseCoinTransfer ||
-        $sendFlowParameters.type === SendFlowType.TokenTransfer
-    ) {
-        token = $sendFlowParameters[tokenKey].token
-        rawAmount = $sendFlowParameters[tokenKey].rawAmount
-        unit = $sendFlowParameters[tokenKey].unit || getUnitFromTokenMetadata(token?.metadata)
+    const sendFlowType = $sendFlowParameters.type
+    if (sendFlowType === SendFlowType.BaseCoinTransfer || sendFlowType === SendFlowType.TokenTransfer) {
+        token = $sendFlowParameters[sendFlowType].token
+        rawAmount = $sendFlowParameters[sendFlowType].rawAmount
+        unit = $sendFlowParameters[sendFlowType].unit || getUnitFromTokenMetadata(token?.metadata)
     }
 
     $: availableBalance = token?.balance?.available
@@ -38,7 +34,7 @@
 
             updateSendFlowParameters({
                 type: $sendFlowParameters.type,
-                [tokenKey]: {
+                [sendFlowType]: {
                     token,
                     rawAmount,
                     unit,
@@ -53,7 +49,7 @@
     function onBackClick(): void {
         updateSendFlowParameters({
             type: $sendFlowParameters.type,
-            [tokenKey]: {
+            [sendFlowType]: {
                 token,
                 rawAmount: undefined,
                 unit,
