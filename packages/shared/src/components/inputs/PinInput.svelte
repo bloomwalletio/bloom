@@ -77,13 +77,13 @@
 
     function changeHandler(event: KeyboardEvent): void {
         const regex = new RegExp(/^\d+$/)
-        if (event.key === KEYBOARD.BACKSPACE) {
+        if ((event.key as KEYBOARD) === KEYBOARD.BACKSPACE) {
             handleBackspace()
-        } else if (event.key === KEYBOARD.ENTER) {
+        } else if ((event.key as KEYBOARD) === KEYBOARD.ENTER) {
             if (isValidPin(inputs.join(''))) {
                 dispatch('submit')
             }
-        } else if (event.key === KEYBOARD.TAB) {
+        } else if ((event.key as KEYBOARD) === KEYBOARD.TAB) {
             // Do default tab handling by focusing the root
             // container and allow default processing to happen
             root.focus()
