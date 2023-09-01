@@ -43,7 +43,7 @@
         "jest": "29.6.2",
         "jest-environment-jsdom": "29.6.2",
         "lokijs": "1.5.12",
-        "postcss": "8.4.27",
+        "postcss": "8.4.29",
         "postcss-cli": "10.1.0",
         "sass": "1.63.6",
         "svelte-loader": "3.1.9",
