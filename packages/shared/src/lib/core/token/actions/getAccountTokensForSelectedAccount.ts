@@ -91,7 +91,7 @@ function getAccountAssetForChain(accountIndex: number, networkId: NetworkId): IA
             available: balance,
         }
 
-        if (tokenId === '0x') {
+        if (tokenId === BASE_TOKEN_ID) {
             const persistedBaseCoin = getPersistedToken(BASE_TOKEN_ID) // we use the L1 coin type for now because we assume that the basecoin for L2 is SMR
             baseCoin = {
                 ...persistedBaseCoin,
