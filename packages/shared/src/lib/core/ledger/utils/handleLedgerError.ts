@@ -35,7 +35,7 @@ export function handleLedgerError(error: IError, resetConfirmationPropsOnDenial 
          * while it's disabled, the user has to manually reject it on the device. This results in
          * an error, however it is bad UX to display it to the user when they meant to do it.
          */
-        const hadToEnableBlindSinging = popupType === 'enableLedgerBlindSigning' && wasDeniedByUser
+        const hadToEnableBlindSinging = popupType === PopupId.EnableLedgerBlindSigning && wasDeniedByUser
         if (hadToEnableBlindSinging) {
             openPopup({
                 id: PopupId.EnableLedgerBlindSigning,
