@@ -1,7 +1,7 @@
 import '@mocks/i18n.mock'
 
 import {
-    isValidExpirationDateTime,
+    isFutureDateTime,
     getBestTimeDuration,
     HOURS_PER_DAY,
     MILLISECONDS_PER_SECOND,
@@ -54,15 +54,15 @@ describe('File: time.ts', () => {
         })
     })
 
-    describe('Function: isValidExpirationDateTime', () => {
+    describe('Function: isFutureDateTime', () => {
         it('should return false if passed undefined', () => {
-            expect(isValidExpirationDateTime(undefined)).toBe(false)
+            expect(isFutureDateTime(undefined)).toBe(false)
         })
         it('should return false if expirationDateTime is in the past', () => {
-            expect(isValidExpirationDateTime(new Date(Date.now() - 100_000_000))).toBe(false)
+            expect(isFutureDateTime(new Date(Date.now() - 100_000_000))).toBe(false)
         })
         it('should return true if expirationDateTime is in the future', () => {
-            expect(isValidExpirationDateTime(new Date(Date.now() + 100_000_000))).toBe(true)
+            expect(isFutureDateTime(new Date(Date.now() + 100_000_000))).toBe(true)
         })
     })
 })

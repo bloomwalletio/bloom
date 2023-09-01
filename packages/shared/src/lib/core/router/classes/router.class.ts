@@ -35,7 +35,7 @@ export abstract class Router<R> implements IRouter {
     // This function should be implemented in the child router
     next(event?: IRouterEvent): void {
         throw Error(`Unimplemented state machine within custom router!\n
-        Called with event: ${event}`)
+        Called with event: ${JSON.stringify(event)}`)
     }
 
     previous(): void {

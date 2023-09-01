@@ -1,25 +1,34 @@
 <script lang="ts">
     import { Table } from '@bloomwalletio/ui'
-    import { getNameFromNetworkId } from '@core/network'
     import { Activity } from '@core/activity'
+    import { openUrlInBrowser } from '@core/app'
     import { getFormattedTimeStamp, localize } from '@core/i18n'
+    import { ExplorerEndpoint, getDefaultExplorerUrl, getNameFromNetworkId } from '@core/network'
     import { getBaseToken } from '@core/profile/actions'
     import { formatTokenAmountPrecise } from '@core/token'
 
     export let activity: Activity
 
-    $: expirationTime = getFormattedTimeStamp(activity?.asyncData?.expirationDate)
-    $: claimedTime = getFormattedTimeStamp(activity?.asyncData?.claimedDate)
+    $: expirationTime = getFormattedTimeStamp(activity.asyncData?.expirationDate)
+    $: claimedTime = getFormattedTimeStamp(activity.asyncData?.claimedDate)
     $: hasStorageDeposit =
-        activity?.storageDeposit || (activity?.storageDeposit === 0 && activity?.giftedStorageDeposit === 0)
+        activity?.storageDeposit || (activity?.storageDeposit === 0 && activity.giftedStorageDeposit === 0)
     $: gasLimit = activity?.parsedLayer2Metadata?.gasLimit
 
-    $: formattedTransactionTime = getFormattedTimeStamp(activity?.time)
-    $: formattedTimelockDate = getFormattedTimeStamp(activity?.asyncData?.timelockDate)
-    $: formattedStorageDeposit = formatTokenAmountPrecise(activity?.storageDeposit ?? 0, getBaseToken())
-    $: formattedGiftedStorageDeposit = formatTokenAmountPrecise(activity?.giftedStorageDeposit ?? 0, getBaseToken())
-    $: formattedSurplus = formatTokenAmountPrecise(activity?.surplus ?? 0, getBaseToken())
+    $: formattedTransactionTime = getFormattedTimeStamp(activity.time)
+    $: formattedTimelockDate = getFormattedTimeStamp(activity.asyncData?.timelockDate)
+    $: formattedStorageDeposit = formatTokenAmountPrecise(activity.storageDeposit ?? 0, getBaseToken())
+    $: formattedGiftedStorageDeposit = formatTokenAmountPrecise(activity.giftedStorageDeposit ?? 0, getBaseToken())
+    $: formattedSurplus = formatTokenAmountPrecise(activity.surplus ?? 0, getBaseToken())
     $: formattedGasLimit = formatTokenAmountPrecise(Number(gasLimit ?? 0), getBaseToken())
+
+    $: explorerUrl = getDefaultExplorerUrl(activity.sourceNetworkId, ExplorerEndpoint.Transaction)
+    function onTransactionIdClick(): void {
+        if (explorerUrl) {
+            openUrlInBrowser(`${explorerUrl}/${activity?.asyncData?.claimingTransactionId}`)
+            return
+        }
+    }
 </script>
 
 <Table
@@ -80,6 +89,7 @@
             value: activity?.asyncData?.claimingTransactionId,
             copyable: true,
             truncate: { firstCharCount: 12, endCharCount: 12 },
+            onClick: explorerUrl ? onTransactionIdClick : undefined,
         },
     ]}
 />
