@@ -31,8 +31,8 @@
     {#if destinationNetworkId}
         <section class="key-value-box border-gray-200 dark:border-gray-700">
             <Text>{localize('general.destinationNetwork')}</Text>
-            <div class="flex flex-row gap-2">
-                <NetworkAvatar networkId={destinationNetworkId} />
+            <div class="flex flex-row items-center gap-2">
+                <NetworkAvatar networkId={destinationNetworkId} size="xs" />
                 <Text color="gray-600">{destinationNetwork}</Text>
             </div>
         </section>
@@ -114,7 +114,7 @@
 
 <style lang="scss">
     .key-value-box {
-        @apply flex flex-row justify-between p-4;
+        @apply flex flex-row justify-between items-center p-4;
         @apply border-b border-solid;
 
         &:last-child {
