@@ -2,9 +2,8 @@ import { IAccountState } from '@core/account/interfaces'
 import { EvmTransactionData } from '@core/layer-2/types'
 import { IChain } from '@core/network/interfaces'
 import { isEvmChain, isStardustNetwork } from '@core/network/utils'
-
+import { getNetworkIdFromSendFlowParameters } from '@core/wallet/utils'
 import { SendFlowParameters } from '../../types'
-import { getNetworkIdFromSendFlowParameters } from '../getNetworkIdFromSendFlowParameters'
 import { createEvmChainToEvmChainTransaction } from './createEvmChainToEvmChainTransaction'
 import { createEvmChainToStardustNetworkTransaction } from './createEvmChainToStardustNetworkTransaction'
 
