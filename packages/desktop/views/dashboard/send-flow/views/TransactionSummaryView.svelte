@@ -32,22 +32,27 @@
     let chain: IChain | undefined
 
     async function updateSendFlow(sendFlowParameters: SendFlowParameters): Promise<void> {
-        const { recipient } = sendFlowParameters
+        try {
+            const { recipient } = sendFlowParameters
 
-        recipientAddress =
-            recipient.type === SubjectType.Account ? recipient.account.name : truncateString(recipient?.address, 6, 6)
+            recipientAddress =
+                recipient.type === SubjectType.Account
+                    ? recipient.account.name
+                    : truncateString(recipient?.address, 6, 6)
 
-        const networkId = getNetworkIdFromSendFlowParameters(sendFlowParameters)
-        if (isEvmChain(networkId)) {
-            chain = getNetwork()?.getChain(networkId)
-
-            preparedTransaction = await createEvmTransactionFromSendFlowParameters(
-                sendFlowParameters,
-                chain,
-                $selectedAccount
-            )
-        } else {
-            preparedOutput = await createStardustOutputFromSendFlowParameters(sendFlowParameters, $selectedAccount)
+            const networkId = getNetworkIdFromSendFlowParameters(sendFlowParameters)
+            if (isEvmChain(networkId)) {
+                chain = getNetwork()?.getChain(networkId)
+                preparedTransaction = await createEvmTransactionFromSendFlowParameters(
+                    sendFlowParameters,
+                    chain,
+                    $selectedAccount
+                )
+            } else {
+                preparedOutput = await createStardustOutputFromSendFlowParameters(sendFlowParameters, $selectedAccount)
+            }
+        } catch (err) {
+            handleError(err)
         }
     }
 

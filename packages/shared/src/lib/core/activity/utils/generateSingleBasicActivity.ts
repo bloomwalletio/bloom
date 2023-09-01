@@ -4,8 +4,8 @@ import { IActivityGenerationParameters } from '@core/activity/types'
 import { parseLayer2Metadata } from '@core/layer-2'
 import { getNetworkIdFromAddress } from '@core/layer-2/actions'
 import { NetworkId } from '@core/network/types'
-import { getCoinType } from '@core/profile/actions'
 import { activeProfileId } from '@core/profile/stores'
+import { BASE_TOKEN_ID } from '@core/token'
 import { IBasicOutput } from '@iota/types'
 import { get } from 'svelte/store'
 import { activityOutputContainsValue } from '..'
@@ -25,8 +25,8 @@ export function generateSingleBasicActivity(
     account: IAccountState,
     networkId: NetworkId,
     { action, processedTransaction, wrappedOutput }: IActivityGenerationParameters,
-    fallbackTokenId?: string,
-    fallbackAmount?: number
+    overrideTokenId?: string,
+    overrideAmount?: number
 ): TransactionActivity {
     const { transactionId, direction, claimingData, time, inclusionState } = processedTransaction
 
@@ -64,13 +64,13 @@ export function generateSingleBasicActivity(
     const rawBaseCoinAmount = getAmountFromOutput(output)
 
     const nativeToken = getNativeTokenFromOutput(output)
-    const tokenId = fallbackTokenId ?? nativeToken?.id ?? getCoinType()
+    const tokenId = overrideTokenId ?? nativeToken?.id ?? BASE_TOKEN_ID
 
     let rawAmount: number
-    if (fallbackAmount === undefined) {
+    if (overrideAmount === undefined) {
         rawAmount = nativeToken ? Number(nativeToken?.amount) : rawBaseCoinAmount - storageDeposit - gasLimit
     } else {
-        rawAmount = fallbackAmount
+        rawAmount = overrideAmount
     }
 
     return {
