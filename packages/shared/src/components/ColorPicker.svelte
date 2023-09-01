@@ -33,7 +33,7 @@
     $: if (indexOfActiveElement === accountColors.length) {
         active = inputValue.length === 7 || inputValue.length === 4 ? inputValue : cachedColor
     } else {
-        active = accountColors?.[indexOfActiveElement]?.toString()
+        active = (accountColors?.[indexOfActiveElement] as string)?.toString()
     }
 
     $: if (inputValue.length) {

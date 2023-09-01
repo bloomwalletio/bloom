@@ -1,7 +1,8 @@
-import { getBaseToken, getCoinType } from '@core/profile/actions'
+import { getBaseToken } from '@core/profile/actions'
 import { activeAccounts, activeProfile } from '@core/profile/stores'
 import { get } from 'svelte/store'
 import { getOrRequestTokenFromPersistedTokens } from '../actions'
+import { BASE_TOKEN_ID } from '../constants'
 import { TokenStandard, VerifiedStatus } from '../enums'
 import { IPersistedToken } from '../interfaces'
 import {
@@ -24,7 +25,7 @@ export async function refreshAccountTokensForActiveProfile(
     clearPersistedAssets && clearPersistedTokensForActiveProfile()
 
     const persistedBaseCoin: IPersistedToken = {
-        id: getCoinType(),
+        id: BASE_TOKEN_ID,
         standard: TokenStandard.BaseToken,
         metadata: getBaseToken(),
         hidden: false,

@@ -4,6 +4,7 @@
     import { localize } from '@core/i18n'
     import { getNftByIdFromAllAccountNfts } from '@core/nfts/actions'
     import { ownedNfts } from '@core/nfts/stores'
+    import { HEX_PREFIX } from '@core/utils'
     import { IOption, Modal, NftImageOrIconBox, SelectorInput } from '@ui'
 
     export let nftId: string = ''
@@ -26,7 +27,7 @@
         if (!nftId) {
             error = localize('error.send.nftRequired')
             return Promise.reject(error)
-        } else if (!nftId.startsWith('0x')) {
+        } else if (!nftId.startsWith(HEX_PREFIX)) {
             error = localize('error.send.nftNotInHex')
             return Promise.reject(error)
         } else if (!isNftInPossession()) {

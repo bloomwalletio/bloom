@@ -1,9 +1,9 @@
 import AppEth from '@ledgerhq/hw-app-eth'
 import TransportNodeHid from '@ledgerhq/hw-transport-node-hid'
 import { listen } from '@ledgerhq/logs'
-
-import type { IEvmTransactionSignature } from '@core/layer-2/interfaces'
+import { IEvmTransactionSignature } from '@core/layer-2/interfaces'
 import type { ILedgerEthereumAppSettings } from '@core/ledger/interfaces'
+import { HEX_PREFIX } from '@core/utils'
 
 let transport: TransportNodeHid
 
@@ -50,9 +50,9 @@ export async function signTransactionData(
         const appEth = new AppEth(transport)
         const signature = await appEth.signTransaction(bip32Path, transactionHex, null)
         return {
-            r: '0x' + signature.r,
-            v: '0x' + signature.v,
-            s: '0x' + signature.s,
+            r: HEX_PREFIX + signature.r,
+            v: HEX_PREFIX + signature.v,
+            s: HEX_PREFIX + signature.s,
         }
     } catch (error) {
         return {

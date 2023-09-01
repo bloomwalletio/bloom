@@ -4,4 +4,4 @@ files:
   - source: /packages/shared/src/locales/en.json
     translation: /packages/shared/src/locales/%two_letters_code%.json
     dest: /packages/shared/src/locales/en.json
-preserve_hierarchy: 1
+preserve_hierarchy: true

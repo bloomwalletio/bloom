@@ -1,12 +1,21 @@
-import { NetworkId } from '@core/network'
-import { ILayer2ProfileBalances } from '../interfaces'
 import { get, writable } from 'svelte/store'
+import { NetworkId } from '@core/network/types'
+import { BASE_TOKEN_ID } from '@core/token/constants'
+import { ILayer2ProfileBalances } from '../interfaces'
 import { Layer2AccountBalance } from '../types'
 
 export const layer2Balances = writable<ILayer2ProfileBalances | undefined>(undefined)
 
 export function getLayer2AccountBalance(accountIndex: number): Layer2AccountBalance | undefined {
     return get(layer2Balances)?.[accountIndex]
+}
+
+export function getLayer2AccountBalanceForToken(
+    accountIndex: number,
+    networkId: NetworkId,
+    tokenId: string = BASE_TOKEN_ID
+): number | undefined {
+    return get(layer2Balances)?.[accountIndex]?.[networkId]?.[tokenId]
 }
 
 export function setLayer2AccountBalanceForChain(
@@ -24,4 +33,28 @@ export function setLayer2AccountBalanceForChain(
         balance[accountIndex] = { ...balance[accountIndex], [networkId]: chainBalance }
         return balance
     })
+}
+
+export function updateLayer2AccountBalanceForTokenOnChain(
+    accountIndex: number,
+    networkId: NetworkId,
+    tokenId: string,
+    delta: number
+): number {
+    let newBalance = 0
+    layer2Balances.update((balance) => {
+        if (!balance) {
+            balance = {}
+        }
+        const accountBalance = balance[accountIndex] ?? {}
+        const accountNetworkBalance = accountBalance[networkId] ?? {}
+        const oldBalance = accountNetworkBalance[tokenId] ?? 0
+        newBalance = oldBalance + delta
+
+        accountNetworkBalance[tokenId] = newBalance
+        accountBalance[networkId] = accountNetworkBalance
+        balance[accountIndex] = accountBalance
+        return balance
+    })
+    return newBalance
 }
