@@ -59,7 +59,7 @@
     {#if transactionFee}
         <section class="key-value-box border-gray-200 dark:border-gray-700">
             <div class="flex flex-row">
-                <Text>{localize('general.gasFee')}</Text>
+                <Text>{localize('general.transactionFee')}</Text>
             </div>
             <Text color="gray-600">{formatTokenAmountBestMatch(Number(transactionFee), getBaseToken())}</Text>
         </section>
