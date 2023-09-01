@@ -9,7 +9,7 @@
         "@iota/types": "2.0.0-rc.2",
         "@tsconfig/svelte": "4.0.1",
         "@typescript-eslint/eslint-plugin": "5.62.0",
-        "@typescript-eslint/parser": "5.57.1",
+        "@typescript-eslint/parser": "6.5.0",
         "@types/node": "18.15.11",
         "eslint": "8.42.0",
         "eslint-plugin-security": "1.7.1",

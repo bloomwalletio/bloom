@@ -2,8 +2,9 @@
     import { Icon as IconEnum } from '@auxiliary/icon'
     import { isEvmChain } from '@core/network'
     import { Subject, SubjectType } from '@core/wallet'
-    import { FontWeight, Icon, IOption, NetworkIcon, RecipientInput, Text, TextType } from '@ui'
+    import { FontWeight, Icon, IOption, NetworkAvatar, RecipientInput, Text, TextType } from '@ui'
     import { INetworkRecipientSelectorOption } from '../interfaces'
+    import { ContactManager } from '@core/contact'
 
     export let item: INetworkRecipientSelectorOption
     export let selected: boolean = false
@@ -21,26 +22,33 @@
 
     $: onChange && selected && onChange(item)
 
-    const options = item.recipients?.map((r) => getOptionFromRecipient(r)).filter((r) => !!r) as IOption[]
+    const options = item.recipients?.flatMap((r) => getOptionFromRecipient(r))
 
-    function getOptionFromRecipient(recipient: Subject): IOption | undefined {
+    function getOptionFromRecipient(recipient: Subject): IOption[] {
         switch (recipient.type) {
             case SubjectType.Account:
-                return {
-                    id: recipient.account.index,
-                    key: recipient.account.name,
-                    value: recipient.address,
-                    color: recipient.account.color,
-                }
-            case SubjectType.Contact:
-                return {
+                return [
+                    {
+                        id: recipient.account.index,
+                        key: recipient.account.name,
+                        value: recipient.address,
+                        color: recipient.account.color,
+                    },
+                ]
+            case SubjectType.Contact: {
+                const addresses = Object.values(
+                    ContactManager.getNetworkContactAddressMapForContact(recipient.contact.id)[item.networkId] ?? {}
+                )
+                return addresses.map<IOption>((address) => ({
                     id: recipient.contact.id,
                     key: recipient.contact.name,
-                    value: recipient.address,
+                    value: address.address,
+                    displayedValue: address.addressName,
                     color: recipient.contact.color,
-                }
+                }))
+            }
             default:
-                return undefined
+                return []
         }
     }
 
@@ -60,7 +68,7 @@
     <network-recipient-item-name>
         <div class="flex flex-row justify-between items-center space-x-4">
             <div class="flex flex-row space-x-3 items-center">
-                <NetworkIcon networkId={item.networkId} />
+                <NetworkAvatar networkId={item.networkId} />
                 <Text type={TextType.h4} fontWeight={FontWeight.semibold}>
                     {item.name}
                 </Text>
