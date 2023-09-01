@@ -200,19 +200,25 @@ function createMainWindow(): BrowserWindow {
 
     mainWindowState.track(windows.main)
 
+    let autoUpdateManager
     if (!app.isPackaged) {
         // Enable dev tools only in developer mode
         windows.main.webContents.openDevTools()
 
         void windows.main.loadURL('http://localhost:8080')
     } else {
-        new AutoUpdateManager()
+        if (!autoUpdateManager) {
+            autoUpdateManager = new AutoUpdateManager()
+        }
 
         // load the index.html of the app.
         void windows.main.loadFile(paths.html)
     }
 
-    new NftDownloadManager()
+    let nftDownloadManager
+    if (!nftDownloadManager) {
+        new NftDownloadManager()
+    }
 
     /**
      * Right click context menu for inputs
