@@ -90,10 +90,6 @@ jest.mock('../../network/actions/getChainConfiguration', () => ({
     getChainConfiguration: jest.fn((_) => destinationNetwork),
 }))
 
-jest.mock('../../profile/actions/active-profile/getCoinType', () => ({
-    getCoinType: jest.fn((_) => '1'),
-}))
-
 jest.mock('../../layer-2/actions/getGasPriceInWei', () => ({
     getGasPriceInWei: jest.fn((_) => 1_000_000_000_000n),
 }))

@@ -25,6 +25,8 @@ export function getSendingInformation(
     const isInternal = isSubjectInternal(subject)
 
     return {
+        sender,
+        recipient,
         subject,
         isInternal,
     }

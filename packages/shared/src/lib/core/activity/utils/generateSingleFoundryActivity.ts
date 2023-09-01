@@ -1,6 +1,7 @@
 import { IAccountState } from '@core/account'
 import { IActivityGenerationParameters } from '@core/activity/types'
-import { getCoinType } from '@core/profile/actions'
+import { NetworkId } from '@core/network/types'
+import { BASE_TOKEN_ID } from '@core/token'
 import { ADDRESS_TYPE_ALIAS, UNLOCK_CONDITION_IMMUTABLE_ALIAS } from '@core/wallet/constants'
 import { convertHexAddressToBech32 } from '@core/wallet/utils'
 import type { IAliasAddress, IFoundryOutput, IImmutableAliasUnlockCondition } from '@iota/types'
@@ -14,7 +15,6 @@ import {
     getTagFromOutput,
 } from './helper'
 import { getNativeTokenFromOutput } from './outputs'
-import { NetworkId } from '@core/network/types'
 
 export function generateSingleFoundryActivity(
     account: IAccountState,
@@ -39,7 +39,7 @@ export function generateSingleFoundryActivity(
 
     const id = outputId || transactionId
     const nativeToken = getNativeTokenFromOutput(output)
-    const tokenId = nativeToken?.id ?? getCoinType()
+    const tokenId = nativeToken?.id ?? BASE_TOKEN_ID
 
     const storageDeposit = getAmountFromOutput(output)
     const rawAmount = Number(nativeToken?.amount ?? 0)
@@ -70,7 +70,8 @@ export function generateSingleFoundryActivity(
         isHidden,
         metadata,
         tag,
-        networkId,
+        sourceNetworkId: networkId,
+        destinationNetworkId: networkId,
         asyncData,
         ...sendingInfo,
     }

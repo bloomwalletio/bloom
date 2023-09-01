@@ -42,6 +42,7 @@
     import RemoveNode from './RemoveNode.svelte'
     import RemoveProposalPopup from './RemoveProposalPopup.svelte'
     import RevotePopup from './RevotePopup.svelte'
+    import SignMessagePopup from './SignMessagePopup.svelte'
     import SendFlowPopup from './SendFlowPopup.svelte'
     import StopVotingPopup from './StopVotingPopup.svelte'
     import BalanceBreakdownPopup from './BalanceBreakdownPopup.svelte'
@@ -125,6 +126,7 @@
         [PopupId.RemoveProposal]: RemoveProposalPopup,
         [PopupId.Revote]: RevotePopup,
         [PopupId.SendFlow]: SendFlowPopup,
+        [PopupId.SignMessage]: SignMessagePopup,
         [PopupId.StopVoting]: StopVotingPopup,
         [PopupId.BalanceBreakdown]: BalanceBreakdownPopup,
         [PopupId.TestDeepLinkForm]: TestDeepLinkFormPopup,

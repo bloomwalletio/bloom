@@ -1,9 +1,12 @@
 <script lang="ts">
     import { NetworkRecipientItem } from '@ui'
     import { INetworkRecipientSelectorOption } from '../interfaces'
+    import { UiEventFunction } from '../../lib/core/utils'
 
     export let options: INetworkRecipientSelectorOption[]
     export let selectedIndex = -1
+    export let onNetworkSelected: UiEventFunction
+    export let hasError: boolean = false
 
     const reipientItems: Record<number, NetworkRecipientItem> = {}
 
@@ -13,6 +16,7 @@
 
     function onItemClick(index: number) {
         selectedIndex = index
+        onNetworkSelected && onNetworkSelected()
     }
 </script>
 
@@ -21,6 +25,7 @@
     <network-recipient-selector class="w-full flex flex-col space-y-4">
         {#each options as item, index}
             <NetworkRecipientItem
+                hasError={selectedIndex === index && hasError}
                 bind:this={reipientItems[index]}
                 bind:item
                 selected={index === selectedIndex}

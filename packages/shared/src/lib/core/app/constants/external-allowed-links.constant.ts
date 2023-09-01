@@ -15,6 +15,7 @@ export const externalAllowedLinks = [
     'assembly.sc',
     'shimmer.network',
     'explorer.shimmer.network',
+    'explorer.evm.testnet.shimmer.network',
 
     // GitHub
     'github.com/iotaledger/firefly/issues',

@@ -1,8 +1,11 @@
 import { isShimmerClaimingTransaction } from '@contexts/onboarding/stores'
 import { IAccountState } from '@core/account'
 import { IActivityGenerationParameters } from '@core/activity/types'
-import { getCoinType } from '@core/profile/actions'
+import { parseLayer2Metadata } from '@core/layer-2'
+import { getNetworkIdFromAddress } from '@core/layer-2/actions'
+import { NetworkId } from '@core/network/types'
 import { activeProfileId } from '@core/profile/stores'
+import { BASE_TOKEN_ID } from '@core/token'
 import { IBasicOutput } from '@iota/types'
 import { get } from 'svelte/store'
 import { activityOutputContainsValue } from '..'
@@ -17,14 +20,13 @@ import {
     getTagFromOutput,
 } from './helper'
 import { getNativeTokenFromOutput } from './outputs'
-import { NetworkId } from '@core/network/types'
 
 export function generateSingleBasicActivity(
     account: IAccountState,
     networkId: NetworkId,
     { action, processedTransaction, wrappedOutput }: IActivityGenerationParameters,
-    fallbackTokenId?: string,
-    fallbackAmount?: number
+    overrideTokenId?: string,
+    overrideAmount?: number
 ): TransactionActivity {
     const { transactionId, direction, claimingData, time, inclusionState } = processedTransaction
 
@@ -43,25 +45,32 @@ export function generateSingleBasicActivity(
     const metadata = getMetadataFromOutput(output)
     const publicNote = ''
 
-    const sendingInfo = getSendingInformation(processedTransaction, output, account, networkId)
-    const asyncData = getAsyncDataFromOutput(output, outputId, claimingData, account)
+    const { sender, recipient, subject, isInternal } = getSendingInformation(
+        processedTransaction,
+        output,
+        account,
+        networkId
+    )
+    const sourceNetworkId = getNetworkIdFromAddress(sender?.address, networkId)
+    const destinationNetworkId = getNetworkIdFromAddress(recipient?.address, sourceNetworkId)
 
-    // const { parsedLayer2Metadata, destinationNetwork } = getLayer2ActivityInformation(metadata, sendingInfo)
-    // const gasLimit = Number(parsedLayer2Metadata?.gasLimit ?? '0')
-    const gasLimit = 0
+    const asyncData = getAsyncDataFromOutput(output, outputId, claimingData, account)
+    const parsedLayer2Metadata = parseLayer2Metadata(metadata)
+
+    const gasLimit = Number(parsedLayer2Metadata?.gasLimit ?? '0')
 
     const storageDeposit = getStorageDepositFromOutput(output)
 
     const rawBaseCoinAmount = getAmountFromOutput(output)
 
     const nativeToken = getNativeTokenFromOutput(output)
-    const tokenId = fallbackTokenId ?? nativeToken?.id ?? getCoinType()
+    const tokenId = overrideTokenId ?? nativeToken?.id ?? BASE_TOKEN_ID
 
     let rawAmount: number
-    if (fallbackAmount === undefined) {
+    if (overrideAmount === undefined) {
         rawAmount = nativeToken ? Number(nativeToken?.amount) : rawBaseCoinAmount - storageDeposit - gasLimit
     } else {
-        rawAmount = fallbackAmount
+        rawAmount = overrideAmount
     }
 
     return {
@@ -83,11 +92,12 @@ export function generateSingleBasicActivity(
         publicNote,
         metadata,
         tag,
-        networkId,
+        sourceNetworkId,
+        destinationNetworkId,
         tokenId,
         asyncData,
-        // destinationNetwork,
-        // parsedLayer2Metadata,
-        ...sendingInfo,
+        parsedLayer2Metadata,
+        subject,
+        isInternal,
     }
 }

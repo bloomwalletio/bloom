@@ -1,3 +1,4 @@
+import { localize } from '@core/i18n'
 import { IChain } from '@core/network/interfaces'
 import { IAccountState } from '@core/account/interfaces'
 import { buildEvmTransactionData, getIscpTransferSmartContractData } from '@core/layer-2/actions'
@@ -15,22 +16,22 @@ export function createEvmChainToEvmChainTransaction(
     sendFlowParameters: SendFlowParameters,
     chain: IChain,
     account: IAccountState
-): Promise<EvmTransactionData | undefined> {
+): Promise<EvmTransactionData> {
     if (
         !sendFlowParameters ||
         sendFlowParameters.type === SendFlowType.NftTransfer ||
         !sendFlowParameters.recipient?.address
     ) {
-        return Promise.resolve(undefined)
+        throw new Error(localize('error.send.invalidSendParameters'))
     }
 
     const provider = chain?.getProvider()
     if (!provider) {
-        return Promise.resolve(undefined)
+        throw new Error(localize('error.web3.unableToFindProvider'))
     }
 
-    let token
-    let amount
+    let token: IToken | undefined
+    let amount: string | undefined
     if (sendFlowParameters.type === SendFlowType.BaseCoinTransfer) {
         token = sendFlowParameters.baseCoinTransfer?.token
         amount = sendFlowParameters.baseCoinTransfer?.rawAmount ?? '0'
@@ -39,8 +40,12 @@ export function createEvmChainToEvmChainTransaction(
         amount = sendFlowParameters.tokenTransfer?.rawAmount ?? '0'
     }
 
-    if (!token?.metadata || amount === undefined) {
-        return Promise.resolve(undefined)
+    if (!token?.metadata) {
+        throw new Error(localize('error.token.missingMetadata'))
+    }
+
+    if (amount === undefined) {
+        throw new Error(localize('error.send.amountInvalidFormat'))
     }
 
     const recipientAddress = sendFlowParameters.recipient.address
@@ -48,22 +53,21 @@ export function createEvmChainToEvmChainTransaction(
     const { evmAddresses } = account
     const originAddress = evmAddresses[chain.getConfiguration().coinType]
     if (!originAddress) {
-        return Promise.resolve(undefined)
+        throw new Error(localize('error.send.unableToGetOriginAddress'))
     }
 
     const destinationAddress = getDestinationAddress(token, recipientAddress)
 
-    let data
+    let data: string | undefined
     if (!token || token.metadata?.standard === TokenStandard.BaseToken) {
         data = undefined
     } else {
         data = getDataForTransaction(chain, recipientAddress, token, amount)
-        // set amount to zero after using it to bui
-        // ld the smart contract data,
+        // set amount to zero after using it to build the smart contract data,
         // as we do not want to send any base token
         amount = '0'
         if (!data) {
-            return Promise.resolve(undefined)
+            throw new Error(localize('error.web3.unableToFormSmartContractData'))
         }
     }
 

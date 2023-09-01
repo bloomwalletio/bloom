@@ -2,7 +2,7 @@
     import { Button, CopyableButton, IconName } from '@bloomwalletio/ui'
     import { selectedAccount } from '@core/account/stores'
     import { localize } from '@core/i18n'
-    import { generateAndStoreEvmAddressForAccount } from '@core/layer-2'
+    import { generateAndStoreEvmAddressForAccount } from '@core/layer-2/actions'
     import { LedgerAppName } from '@core/ledger'
     import {
         IChain,
@@ -18,7 +18,7 @@
     import { checkActiveProfileAuth } from '@core/profile/actions'
     import { activeProfile } from '@core/profile/stores'
     import { UiEventFunction, truncateString } from '@core/utils'
-    import { ClickableTile, FontWeight, NetworkIcon, NetworkStatusPill, Text, TextType } from '@ui'
+    import { ClickableTile, FontWeight, NetworkAvatar, NetworkStatusPill, Text, TextType } from '@ui'
     import { NetworkConfigRoute, networkConfigRouter } from '@views/dashboard/drawers'
     import { onMount } from 'svelte'
 
@@ -80,7 +80,7 @@
         <div class="flex flex-row justify-between items-center">
             <div class="flex flex-row gap-2 items-center">
                 {#if networkId}
-                    <NetworkIcon {networkId} />
+                    <NetworkAvatar {networkId} />
                 {/if}
                 <Text type={TextType.h4} fontWeight={FontWeight.semibold}>
                     {name}
