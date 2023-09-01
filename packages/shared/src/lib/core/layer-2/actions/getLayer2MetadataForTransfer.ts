@@ -1,4 +1,4 @@
-import { HEXADECIMAL_PREFIX } from '@core/utils'
+import { HEX_PREFIX } from '@core/utils'
 import type { SendFlowParameters, TokenSendFlowParameters } from '@core/wallet/types'
 import BigInteger from 'big-integer'
 import { SpecialStream } from '../classes'
@@ -28,5 +28,5 @@ export async function getLayer2MetadataForTransfer(sendFlowParameters: SendFlowP
     const allowance = encodeAssetAllowance(sendFlowParameters)
     metadataStream.writeBytes('allowance', allowance.length, allowance)
 
-    return HEXADECIMAL_PREFIX + metadataStream.finalHex()
+    return HEX_PREFIX + metadataStream.finalHex()
 }

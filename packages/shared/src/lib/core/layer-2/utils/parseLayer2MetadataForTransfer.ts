@@ -2,7 +2,7 @@ import { ReadSpecialStream } from '@core/layer-2/classes'
 import { Allowance } from '@core/layer-2/enums'
 import { NFT_ID_BYTE_LENGTH } from '@core/nfts/constants'
 import { TOKEN_ID_BYTE_LENGTH } from '@core/token/constants'
-import { Converter, HEXADECIMAL_PREFIX } from '@core/utils'
+import { Converter, HEX_PREFIX } from '@core/utils'
 import { CONTRACT_FUNCTIONS, TARGET_CONTRACTS } from '../constants'
 import { ILayer2AssetAllowance, ILayer2TransferAllowanceMetadata } from '../interfaces'
 
@@ -16,7 +16,7 @@ export function parseLayer2MetadataForTransfer(metadata: Uint8Array): ILayer2Tra
     const gasLimit = readStream.readUIntNSpecialEncoding('gasLimit', 3)
 
     const smartContractParameters = parseSmartContractParameters(readStream)
-    const ethereumAddress = HEXADECIMAL_PREFIX + smartContractParameters['a'].substring(4)
+    const ethereumAddress = HEX_PREFIX + smartContractParameters['a'].substring(4)
 
     const allowance = parseAssetAllowance(readStream)
 

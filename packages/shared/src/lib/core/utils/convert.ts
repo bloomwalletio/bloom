@@ -1,6 +1,6 @@
 /* eslint-disable no-bitwise */
 
-import { HEXADECIMAL_PREFIX, MILLISECONDS_PER_SECOND } from './constants'
+import { HEX_PREFIX, MILLISECONDS_PER_SECOND } from './constants'
 import { isValidDate } from './date'
 import { Base64 } from './encode'
 import { clamp } from './math'
@@ -30,7 +30,7 @@ export function convertUnixTimestampToDate(timestamp: number): Date {
 export function convertUInt16NumberToLittleEndianHex(num: number, withHexPrefix = true): string {
     const littleEndianNumber = ((num & 0xff) << 8) | ((num >> 8) & 0xff)
     const hex = ('0000' + littleEndianNumber.toString(16).toUpperCase()).slice(-4)
-    return withHexPrefix ? HEXADECIMAL_PREFIX + hex : hex
+    return withHexPrefix ? HEX_PREFIX + hex : hex
 }
 
 export function convertBytesToHexString(bytes: number[], withHexPrefix = true): string {
@@ -43,7 +43,7 @@ export function convertBytesToHexString(bytes: number[], withHexPrefix = true): 
     }
 
     const hex = bytes.map((byte) => ('0' + (byte & 0xff).toString(16)).slice(-2)).join('')
-    return withHexPrefix ? HEXADECIMAL_PREFIX + hex : hex
+    return withHexPrefix ? HEX_PREFIX + hex : hex
 }
 
 /**
@@ -205,7 +205,7 @@ export class Converter {
                 }
             }
         }
-        return prefix ? HEXADECIMAL_PREFIX + hex : hex
+        return prefix ? HEX_PREFIX + hex : hex
     }
 
     /**
@@ -215,7 +215,7 @@ export class Converter {
      * @returns The array.
      */
     public static hexToBytes(hex: string, reverse?: boolean): Uint8Array {
-        if (hex.startsWith(HEXADECIMAL_PREFIX)) {
+        if (hex.startsWith(HEX_PREFIX)) {
             hex = hex.substring(2)
         }
 
@@ -263,11 +263,11 @@ export class Converter {
     }
 
     public static decimalToHex(number: number, prefix = true): string {
-        return prefix ? HEXADECIMAL_PREFIX + number.toString(16) : number.toString(16)
+        return prefix ? HEX_PREFIX + number.toString(16) : number.toString(16)
     }
 
     public static bigIntToHex(bigInt: bigint, prefix = true): string {
-        return prefix ? HEXADECIMAL_PREFIX + bigInt.toString(16) : bigInt.toString(16)
+        return prefix ? HEX_PREFIX + bigInt.toString(16) : bigInt.toString(16)
     }
 
     /**
