@@ -1,10 +1,10 @@
 <script lang="ts">
     import { localize } from '@core/i18n'
-    import { ITokenWithBalance, formatTokenAmountBestMatch } from '@core/token'
+    import { IToken, formatTokenAmountBestMatch } from '@core/token'
     import { truncateString } from '@core/utils'
     import { FontWeight, Text, TextType, Tile, TokenAvatar } from '@ui'
 
-    export let token: ITokenWithBalance
+    export let token: IToken
     export let onMaxClick: () => unknown
 
     $: availableBalance = token?.balance?.available ?? 0

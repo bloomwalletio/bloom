@@ -4,6 +4,7 @@
     import { getIconColorFromString } from '@core/account'
     import { SupportedNetworkId } from '@core/network'
     import { IToken, getTokenInitials } from '@core/token'
+    import { BASE_TOKEN_ID } from '@core/token/constants'
     import { NetworkBadge } from '@ui/badges'
 
     export let token: IToken
@@ -12,31 +13,31 @@
 
     const AVATAR_BACKGROUND_COLOR: { [networkId: string]: { [tokenId: string]: string } } = {
         [SupportedNetworkId.Shimmer]: {
-            '4219': '#17E1D5',
+            [BASE_TOKEN_ID]: '#17E1D5',
         },
         [SupportedNetworkId.Testnet]: {
-            '1': '#17E1D5',
+            [BASE_TOKEN_ID]: '#17E1D5',
         },
         [SupportedNetworkId.ShimmerEvm]: {
-            '1': '#17E1D5',
+            [BASE_TOKEN_ID]: '#17E1D5',
         },
         [SupportedNetworkId.ShimmerEvmTestnet]: {
-            '1': '#17E1D5',
+            [BASE_TOKEN_ID]: '#17E1D5',
         },
     }
 
     const AVATAR_TEXT_COLOR: { [networkId: string]: { [tokenId: string]: string } } = {
         [SupportedNetworkId.Shimmer]: {
-            '4219': '#020F26',
+            [BASE_TOKEN_ID]: '#020F26',
         },
         [SupportedNetworkId.Testnet]: {
-            '1': '#020F26',
+            [BASE_TOKEN_ID]: '#020F26',
         },
         [SupportedNetworkId.ShimmerEvm]: {
-            '1': '#020F26',
+            [BASE_TOKEN_ID]: '#020F26',
         },
         [SupportedNetworkId.ShimmerEvmTestnet]: {
-            '1': '#020F26',
+            [BASE_TOKEN_ID]: '#020F26',
         },
     }
 
