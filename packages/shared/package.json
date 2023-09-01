@@ -48,7 +48,7 @@
         "sass": "1.63.6",
         "svelte-loader": "3.1.9",
         "tailwindcss": "3.3.2",
-        "tslib": "2.6.1",
+        "tslib": "2.6.2",
         "valid-url": "1.0.9",
         "zxcvbn": "4.4.2"
     }
