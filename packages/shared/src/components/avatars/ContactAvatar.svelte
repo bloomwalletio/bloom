@@ -8,5 +8,5 @@
 </script>
 
 <contact-avatar>
-    <Avatar {size} color={contact.color} text={getInitials(contact?.name, 2)} />
+    <Avatar {size} backgroundColor={contact.color} text={getInitials(contact?.name, 2)} />
 </contact-avatar>
