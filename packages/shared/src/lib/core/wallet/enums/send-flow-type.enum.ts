@@ -1,6 +1,6 @@
 export enum SendFlowType {
-    BaseCoinTransfer = 'BaseCoinTransfer',
-    TokenTransfer = 'TokenTransfer',
+    BaseCoinTransfer = 'baseCoinTransfer',
+    TokenTransfer = 'tokenTransfer',
     TokenUnwrap = 'tokenUnwrap',
-    NftTransfer = 'NftTransfer',
+    NftTransfer = 'nftTransfer',
 }
