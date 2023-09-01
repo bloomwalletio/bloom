@@ -1,6 +1,6 @@
 import { NetworkId } from '@core/network/types'
 import { isEvmChain } from '@core/network/utils'
-import { SendFlowType } from '@core/wallet/stores'
+import { SendFlowType } from '@core/wallet/enums'
 
 import { getLayer2AccountBalanceForToken } from '../stores'
 import { getGasPriceInWei } from './getGasPriceInWei'

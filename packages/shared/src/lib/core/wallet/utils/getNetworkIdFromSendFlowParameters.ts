@@ -1,5 +1,5 @@
 import { NetworkId } from '@core/network/types'
-import { SendFlowType } from '../stores'
+import { SendFlowType } from '../enums'
 import { SendFlowParameters } from '../types'
 
 export function getNetworkIdFromSendFlowParameters(params: SendFlowParameters): NetworkId | undefined {
