@@ -1,11 +1,13 @@
 <script lang="ts">
-    import { NetworkId } from '@core/network'
+    import { NetworkId, getNameFromNetworkId } from '@core/network'
     import { NetworkAvatar, InformationTooltip } from '@ui'
     import { Position } from '@ui/enums'
 
     export let networkId: NetworkId
-    export let tooltipText: string = ''
+    export let networkName: string | undefined = undefined
     export let size: 'xxs' | 'xs' | 'sm' = 'sm'
+
+    $: networkName = networkName ? networkName : networkId ? getNameFromNetworkId(networkId) : undefined
 
     let tooltipAnchor: HTMLElement
     let isTooltipVisible = false
@@ -24,6 +26,6 @@
 >
     <NetworkAvatar {size} {networkId} />
 </network-icon-badge>
-{#if isTooltipVisible && tooltipText}
-    <InformationTooltip anchor={tooltipAnchor} size="small" position={Position.Right} offset={6} body={tooltipText} />
+{#if isTooltipVisible && networkName}
+    <InformationTooltip anchor={tooltipAnchor} size="small" position={Position.Right} offset={6} body={networkName} />
 {/if}
