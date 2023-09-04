@@ -17,17 +17,23 @@
 
     $: formattedTransactionTime = getFormattedTimeStamp(activity.time)
     $: formattedTimelockDate = getFormattedTimeStamp(activity.asyncData?.timelockDate)
-    $: formattedStorageDeposit = formatTokenAmountPrecise(activity.storageDeposit ?? 0, getBaseToken())
-    $: formattedGiftedStorageDeposit = formatTokenAmountPrecise(activity.giftedStorageDeposit ?? 0, getBaseToken())
-    $: formattedSurplus = formatTokenAmountPrecise(activity.surplus ?? 0, getBaseToken())
-    $: formattedGasLimit = formatTokenAmountPrecise(Number(gasLimit ?? 0), getBaseToken())
+    $: formattedStorageDeposit = formatAmount(activity.storageDeposit ?? 0)
+    $: formattedGasLimit = formatAmount(Number(gasLimit ?? 0))
+    $: formattedGasUsed = formatAmount(Number(activity.gasUsed ?? 0))
 
     $: explorerUrl = getDefaultExplorerUrl(activity.sourceNetworkId, ExplorerEndpoint.Transaction)
     function onTransactionIdClick(): void {
         if (explorerUrl) {
             openUrlInBrowser(`${explorerUrl}/${activity?.asyncData?.claimingTransactionId}`)
-            return
         }
+    }
+
+    function formatAmount(amount: number | undefined): string | undefined {
+        if (!amount) {
+            return undefined
+        }
+
+        return formatTokenAmountPrecise(amount, getBaseToken())
     }
 </script>
 
@@ -57,18 +63,12 @@
             tooltip: localize(`tooltips.transactionDetails.${activity?.direction}.storageDeposit`),
         },
         {
-            key: localize('general.surplus'),
-            value: activity?.surplus ? formattedSurplus : undefined,
-        },
-        {
-            key: localize('general.giftedStorageDeposit'),
-            value: activity?.giftedStorageDeposit ? formattedGiftedStorageDeposit : undefined,
-            tooltip: localize(`tooltips.transactionDetails.${activity?.direction}.giftedStorageDeposit`),
+            key: localize('general.gasFee'),
+            value: formattedGasUsed,
         },
         {
             key: localize('general.gasLimit'),
-            value: gasLimit ? formattedGasLimit : undefined,
-            tooltip: localize(`tooltips.transactionDetails.${activity?.direction}.gasLimit`),
+            value: formattedGasLimit,
         },
         {
             key: localize('general.expirationTime'),
