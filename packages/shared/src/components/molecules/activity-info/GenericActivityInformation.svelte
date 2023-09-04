@@ -11,7 +11,6 @@
 
     $: expirationTime = getFormattedTimeStamp(activity.asyncData?.expirationDate)
     $: claimedTime = getFormattedTimeStamp(activity.asyncData?.claimedDate)
-    $: hasStorageDeposit = activity.storageDeposit || activity.storageDeposit === 0
     $: gasLimit = activity.parsedLayer2Metadata?.gasLimit
 
     $: formattedTransactionTime = getFormattedTimeStamp(activity.time)
@@ -50,7 +49,7 @@
         },
         {
             key: localize('general.storageDeposit'),
-            value: hasStorageDeposit ? formattedStorageDeposit : undefined,
+            value: activity.storageDeposit ? formattedStorageDeposit : undefined,
             tooltip: localize(`tooltips.transactionDetails.${activity.direction}.storageDeposit`),
         },
         {
