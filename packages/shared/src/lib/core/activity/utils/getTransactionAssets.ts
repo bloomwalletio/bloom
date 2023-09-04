@@ -73,5 +73,9 @@ export function getTransactionAssets(
                 token: baseCoin,
             },
         }
+    } else if (activity.type === ActivityType.Alias) {
+        return {
+            aliasId: activity.aliasId,
+        }
     }
 }
