@@ -11,7 +11,6 @@ export { default as NftImageOrIconBox } from './NftImageOrIconBox.svelte'
 export { default as NftMedia } from './NftMedia.svelte'
 export { default as SelectorInput } from './SelectorInput.svelte'
 export { default as ShimmerClaimingAccountList } from './ShimmerClaimingAccountList.svelte'
-export { default as TokenIcon } from './TokenIcon.svelte'
 export { default as TokenList } from './TokenList.svelte'
 export { default as TransactionAssetSection } from './TransactionAssetSection.svelte'
 
