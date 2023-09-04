@@ -1,4 +1,5 @@
 import { EvmChainId, getEvmTransactionOptions } from '@core/network'
+import { HEX_PREFIX } from '@core/utils'
 import { RLP } from '@ethereumjs/rlp'
 import { Transaction } from '@ethereumjs/tx'
 import { bufArrToArr } from '@ethereumjs/util'
@@ -16,5 +17,5 @@ export function prepareEvmTransaction(
     const transaction = Transaction.fromTxData(preparedTransactionData, getEvmTransactionOptions(chainId))
     const transactionBuffer = isSigned ? transaction.raw() : transaction.getMessageToSign(false)
     const transactionHex = Buffer.from(RLP.encode(bufArrToArr(transactionBuffer))).toString('hex')
-    return isSigned ? '0x' + transactionHex : transactionHex
+    return isSigned ? HEX_PREFIX + transactionHex : transactionHex
 }

@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { Icon as IconEnum, NETWORK_ICON_SVG } from '@auxiliary/icon'
+    import { DEFAULT_NETWORK_ICON, Icon as IconEnum } from '@auxiliary/icon'
     import { Indicator } from '@bloomwalletio/ui'
     import { ProfileActionsMenuModal, SidebarTab } from '@components'
     import { appVersionDetails } from '@core/app/stores'
@@ -98,7 +98,7 @@
             <Icon
                 width="48"
                 height="48"
-                icon={NETWORK_ICON_SVG[$activeProfile?.network?.id]}
+                icon={DEFAULT_NETWORK_ICON[$activeProfile?.network?.id]}
                 classes="dark:text-white"
             />
         </div>

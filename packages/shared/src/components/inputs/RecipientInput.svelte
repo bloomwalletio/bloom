@@ -10,6 +10,7 @@
     import { getSubjectFromAddress } from '@core/wallet/utils'
     import { Indicator } from '@bloomwalletio/ui'
     import { NetworkId } from '@core/network'
+    import { ContactManager } from '@core/contact/classes'
 
     export let recipient: Subject | undefined
     export let options: IOption[]
@@ -21,12 +22,7 @@
     let modal: Modal | undefined = undefined
 
     let error: string
-    let selected: IOption =
-        recipient?.type === SubjectType.Account
-            ? { key: recipient.account.name, value: recipient.address }
-            : recipient?.type === SubjectType.Contact
-            ? { key: recipient.contact.name, value: recipient.address }
-            : { value: recipient?.address }
+    let selected: IOption = getSelectedRecipient(recipient)
 
     $: isEvmChain, (error = '')
     $: recipient = selected?.value ? getSubjectFromAddress(selected.value, networkId) : undefined
@@ -50,6 +46,33 @@
 
     export function getAccountColorById(id: number): string | undefined {
         return $visibleActiveAccounts?.find((account) => account.index === id)?.color
+    }
+
+    function getSelectedRecipient(recipient: Subject | undefined): IOption {
+        if (recipient) {
+            switch (recipient.type) {
+                case SubjectType.Account:
+                    return { key: recipient.account.name, value: recipient.address }
+                case SubjectType.Address:
+                    return { value: recipient.address }
+                case SubjectType.Contact: {
+                    const address = ContactManager.getNetworkContactAddressMapForContact(recipient.contact.id)?.[
+                        networkId
+                    ]?.[recipient.address]
+                    return {
+                        id: recipient.contact.id,
+                        key: recipient.contact.name,
+                        value: recipient.address,
+                        color: recipient.contact.color,
+                        ...(address && { displayedValue: address.addressName }),
+                    }
+                }
+            }
+        } else {
+            return {
+                value: undefined,
+            }
+        }
     }
 
     function getRecipientColor(option: IOption): string {

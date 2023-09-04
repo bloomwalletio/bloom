@@ -1,4 +1,3 @@
-export * from './buildAssetAllowance'
 export * from './calculateGasFeeInGlow'
 export * from './encodeAddress'
 export * from './encodeAssetAllowance'

@@ -4,7 +4,7 @@
     import { getMarketAmountFromTokenValue } from '@core/market/utils/getMarketAmountFromTokenValue'
     import { IToken, formatTokenAmountBestMatch } from '@core/token'
     import { truncateString } from '@core/utils'
-    import { ClickableTile, FontWeight, Text, TextType, TokenIcon } from '@ui'
+    import { ClickableTile, FontWeight, Text, TextType, TokenAvatar } from '@ui'
 
     export let token: IToken
     export let onClick: (() => unknown) | undefined = undefined
@@ -12,6 +12,7 @@
     export let classes = ''
     export let amount: number = 0
     export let hideTokenInfo: boolean = false
+    export let hasError: boolean = false
 
     $: marketPrice = getMarketPriceForToken(token)
     $: marketBalance = getMarketAmountFromTokenValue(amount, token)
@@ -20,7 +21,9 @@
 {#if token && token.metadata}
     <ClickableTile
         {onClick}
-        classes="border-2 border-solid {selected
+        classes="border-2 border-solid {hasError
+            ? 'border-red-500 dark:border-red-200'
+            : selected
             ? 'border-blue-500 dark:border-gray-500'
             : 'border-transparent'} {classes}"
         fullWidth={!hideTokenInfo}
@@ -28,7 +31,7 @@
     >
         <div class="w-full flex flex-row justify-between items-center gap-2">
             <div class="flex flex-row items-center text-left space-x-4">
-                <TokenIcon persistedToken={token} networkId={token.networkId} />
+                <TokenAvatar {token} />
                 {#if !hideTokenInfo}
                     <div class="flex flex-col">
                         <Text type={TextType.p} fontWeight={FontWeight.semibold}>

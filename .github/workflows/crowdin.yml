@@ -2,8 +2,8 @@ name: Crowdin
 
 on:
   schedule:
-    # Daily at 18:00 UTC
-    - cron: '0 18 * * *'
+    # Weekly on Wednesday at 18:00 UTC
+    - cron: '0 18 * * WED'
   workflow_dispatch:
 
 jobs:
@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Sync translations from Crowdin
         uses: crowdin/github-action@1.4.8

@@ -10,7 +10,7 @@
     import { Output, SendFlowParameters, TokenTransferData } from '@core/wallet'
     import { SendFlowType, updateSendFlowParameters } from '@core/wallet/stores'
     import { BigIntLike } from '@ethereumjs/util'
-    import { AddInputButton, ExpirationTimePicker, OptionalInput, TransactionAssetSection } from '@ui'
+    import { AddInputButton, OptionalInput, TransactionAssetSection } from '@ui'
     import { onMount } from 'svelte'
     import StardustTransactionDetails from './StardustTransactionDetails.svelte'
 
@@ -30,14 +30,12 @@
 
     let baseCoinTransfer: TokenTransferData
     let storageDeposit: number
-    let expirationTimePicker: ExpirationTimePicker
     let tagInput: OptionalInput
     let metadataInput: OptionalInput
 
     let selectedExpirationPeriod: TimePeriod | undefined = expirationDate ? TimePeriod.Custom : undefined
     let selectedTimelockPeriod: TimePeriod | undefined = timelockDate ? TimePeriod.Custom : undefined
 
-    $: expirationTimePicker?.setNull(giftStorageDeposit)
     $: isTransferring = !!$selectedAccount.isTransferring
     $: updateSendFlowOnChange(expirationDate, timelockDate, giftStorageDeposit, tag, metadata)
 
