@@ -1,8 +1,10 @@
-import { IEvmTransactionSignature } from '@core/layer-2/interfaces'
-import { HEX_PREFIX } from '@core/utils'
 import AppEth from '@ledgerhq/hw-app-eth'
 import TransportNodeHid from '@ledgerhq/hw-transport-node-hid'
 import { listen } from '@ledgerhq/logs'
+
+// import specifity for core modules to prevent circular dependencies
+import { IEvmTransactionSignature } from '@core/layer-2/interfaces'
+import { HEX_PREFIX } from '@core/utils/constants'
 
 let transport: TransportNodeHid
 
