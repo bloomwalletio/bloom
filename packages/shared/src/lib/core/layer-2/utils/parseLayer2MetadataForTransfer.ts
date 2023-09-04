@@ -1,10 +1,10 @@
-import { Converter } from '@core/utils'
-import { NFT_ID_BYTE_LENGTH } from '@core/nfts/constants'
-import { ILayer2AssetAllowance, ILayer2TransferAllowanceMetadata } from '../interfaces'
-import { CONTRACT_FUNCTIONS, TARGET_CONTRACTS } from '../constants'
-import { Allowance } from '@core/layer-2/enums'
 import { ReadSpecialStream } from '@core/layer-2/classes'
+import { Allowance } from '@core/layer-2/enums'
+import { NFT_ID_BYTE_LENGTH } from '@core/nfts/constants'
 import { TOKEN_ID_BYTE_LENGTH } from '@core/token/constants'
+import { Converter, HEX_PREFIX } from '@core/utils'
+import { CONTRACT_FUNCTIONS, TARGET_CONTRACTS } from '../constants'
+import { ILayer2AssetAllowance, ILayer2TransferAllowanceMetadata } from '../interfaces'
 
 // Function to parse data from the L1 metadata, using the new encoding where the shimmer chainId is 1072
 export function parseLayer2MetadataForTransfer(metadata: Uint8Array): ILayer2TransferAllowanceMetadata {
@@ -16,7 +16,7 @@ export function parseLayer2MetadataForTransfer(metadata: Uint8Array): ILayer2Tra
     const gasLimit = readStream.readUIntNSpecialEncoding('gasLimit', 3)
 
     const smartContractParameters = parseSmartContractParameters(readStream)
-    const ethereumAddress = '0x' + smartContractParameters['a'].substring(4)
+    const ethereumAddress = HEX_PREFIX + smartContractParameters['a'].substring(4)
 
     const allowance = parseAssetAllowance(readStream)
 

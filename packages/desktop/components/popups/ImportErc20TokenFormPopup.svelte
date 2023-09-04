@@ -5,7 +5,7 @@
     import { ERC20_TOKEN_ADDRESS_LENGTH } from '@core/layer-2'
     import { getErc20TokenMetadata } from '@core/layer-2/utils'
     import { NetworkId, network } from '@core/network'
-    import { HEXADECIMAL_PREFIX, HEXADECIMAL_REGEXP } from '@core/utils'
+    import { HEX_PREFIX, HEXADECIMAL_REGEXP } from '@core/utils'
 
     import { closePopup } from '@desktop/auxiliary/popup'
     import { showNotification } from '@auxiliary/notification'
@@ -57,7 +57,7 @@
     }
 
     function validateTokenAddress(): string {
-        const hasHexPrefix = tokenAddress?.startsWith(HEXADECIMAL_PREFIX)
+        const hasHexPrefix = tokenAddress?.startsWith(HEX_PREFIX)
         const isValidHex = HEXADECIMAL_REGEXP.test(tokenAddress)
         if (!hasHexPrefix || !isValidHex) {
             return localize('error.erc20Token.invalidAddressFormat')
