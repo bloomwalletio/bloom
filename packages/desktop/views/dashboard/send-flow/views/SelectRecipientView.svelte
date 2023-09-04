@@ -55,7 +55,9 @@
     function setInitialNetworkAndRecipient(): void {
         selectedIndex = $sendFlowParameters.destinationNetworkId
             ? selectorOptions.findIndex((option) => option.networkId === $sendFlowParameters.destinationNetworkId)
-            : 0
+            : selectorOptions.findIndex(
+                  (option) => option.networkId === getNetworkIdFromSendFlowParameters($sendFlowParameters)
+              ) ?? 0
 
         selectorOptions[selectedIndex] = {
             ...selectorOptions[selectedIndex],
@@ -156,8 +158,8 @@
                 } else if (sourceChain) {
                     // if we are on layer 2
                     networkRecipientOptions = [
-                        getRecipientOptionFromChain(sourceChain, $selectedAccountIndex),
                         ...(features.wallet.assets.unwrapToken && [getLayer1RecipientOption($network)]),
+                        getRecipientOptionFromChain(sourceChain, $selectedAccountIndex),
                     ]
                 }
                 break
