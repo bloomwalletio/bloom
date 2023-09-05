@@ -21,7 +21,7 @@
     ) {
         token = getTokenFromSelectedAccountTokens(
             $sendFlowParameters[tokenKey].token?.id,
-            sendFlowParameters[tokenKey].token?.networkId
+            $sendFlowParameters[tokenKey].token?.networkId
         )
         rawAmount = $sendFlowParameters[tokenKey].rawAmount
         unit = $sendFlowParameters[tokenKey].unit || getUnitFromTokenMetadata(token?.metadata)
