@@ -11,7 +11,7 @@
 
     const STEPS = [1, 2, 3, 4]
 
-    $: if ($ledgerDeviceState?.[appName]?.blindSigningEnabled) {
+    $: if ($ledgerDeviceState && $ledgerDeviceState.settings[appName]?.blindSigningEnabled) {
         closePopup(true)
         onEnabled && onEnabled()
     }
