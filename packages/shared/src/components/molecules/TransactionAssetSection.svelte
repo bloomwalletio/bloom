@@ -12,7 +12,7 @@
     $: hasBaseCoinAmount = Number(baseCoinTransfer?.rawAmount) > 0
 </script>
 
-{#if baseCoinTransfer || tokenTransfer || nft}
+{#if baseCoinTransfer || tokenTransfer || nft || aliasId}
     <asset-section class="w-full flex flex-row gap-2 justify-between overflow-hidden">
         {#if tokenTransfer?.token}
             <TokenAmountTile token={tokenTransfer.token} amount={Number(tokenTransfer.rawAmount)} classes="flex-grow" />
