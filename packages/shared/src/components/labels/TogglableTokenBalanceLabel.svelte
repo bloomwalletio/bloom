@@ -1,6 +1,6 @@
 <script lang="ts">
     import { formatCurrency, localize } from '@core/i18n'
-    import { getMarketAmountFromTokenValue } from '@core/market/utils'
+    import { getMarketAmountFromTokenValue } from '@core/market/actions'
     import { ITokenWithBalance, formatTokenAmountBestMatch } from '@core/token'
     import { FontWeight, Text, TextType } from '@ui'
 

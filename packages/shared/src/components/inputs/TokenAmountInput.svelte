@@ -1,6 +1,6 @@
 <script lang="ts">
     import { formatCurrency, getDecimalSeparator } from '@core/i18n'
-    import { getMarketAmountFromTokenValue } from '@core/market/utils'
+    import { getMarketAmountFromTokenValue } from '@core/market/actions'
     import { activeProfile } from '@core/profile/stores'
     import {
         ITokenWithBalance,

@@ -3,7 +3,7 @@
     import { setSelectedAccount } from '@core/account/actions'
     import { selectedAccount } from '@core/account/stores'
     import { formatCurrency } from '@core/i18n'
-    import { getMarketAmountFromTokenValue } from '@core/market/utils'
+    import { getMarketAmountFromTokenValue } from '@core/market/actions'
     import { getBaseToken } from '@core/profile/actions'
     import { activeProfile } from '@core/profile/stores'
     import { formatTokenAmountBestMatch } from '@core/token'
