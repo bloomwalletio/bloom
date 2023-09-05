@@ -1,18 +1,11 @@
 import { EvmChainId } from '@core/network/enums'
 import { NetworkId } from '@core/network/types'
-import { getGasPriceFromProvider } from '../actions'
-import { setEvmChainGasPrice } from '../stores'
+import { MILLISECONDS_PER_SECOND } from '@core/utils'
+import { updateEvmChainGasPrice } from './updateEvmChainGasPrice'
 
-const EVM_CHAIN_GAS_PRICE_POLLING_INTERVAL: number = 30_000
+const EVM_CHAIN_GAS_PRICE_POLLING_INTERVAL: number = 15 * MILLISECONDS_PER_SECOND
 
 const pollIntervalMap: { [key in EvmChainId]?: number } = {}
-
-export function pollEvmChainGasPrices(chainIds: NetworkId[]): void {
-    stopPollingEvmChainGasPrices()
-    for (const chainId of chainIds) {
-        pollEvmChainGasPrice(chainId)
-    }
-}
 
 export function pollEvmChainGasPrice(chainId: NetworkId): void {
     if (!chainId || typeof pollIntervalMap[chainId] === 'number') {
@@ -24,10 +17,10 @@ export function pollEvmChainGasPrice(chainId: NetworkId): void {
     }, EVM_CHAIN_GAS_PRICE_POLLING_INTERVAL)
 }
 
-export async function updateEvmChainGasPrice(chainId: NetworkId): Promise<void> {
-    const gasPrice = await getGasPriceFromProvider(chainId)
-    if (gasPrice) {
-        setEvmChainGasPrice(BigInt(gasPrice), chainId)
+export function pollEvmChainGasPrices(chainIds: NetworkId[]): void {
+    stopPollingEvmChainGasPrices()
+    for (const chainId of chainIds) {
+        pollEvmChainGasPrice(chainId)
     }
 }
 
