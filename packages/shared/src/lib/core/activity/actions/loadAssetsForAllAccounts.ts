@@ -14,7 +14,7 @@ export async function loadAssetsForAllActivities(account: IAccountState): Promis
         try {
             if (activity.type === ActivityType.Basic || activity.type === ActivityType.Foundry) {
                 const tokenId = activity.tokenTransfer?.token.id ?? activity.baseTokenTransfer?.token.id
-                const token = await getOrRequestTokenFromPersistedTokens(tokenId)
+                const token = await getOrRequestTokenFromPersistedTokens(tokenId, activity.sourceNetworkId, false)
                 if (token) {
                     persistedTokens.push(token)
                 }

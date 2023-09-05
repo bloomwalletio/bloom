@@ -7,12 +7,12 @@ import { generateBaseActivity } from './generateBaseActivity'
 import { getGovernanceInfo } from './helper'
 import { IBasicOutput } from '@iota/types'
 
-export function generateSingleGovernanceActivity(
+export async function generateSingleGovernanceActivity(
     account: IAccountState,
     networkId: NetworkId,
     generationParameters: IActivityGenerationParameters
-): GovernanceActivity {
-    const baseActivity = generateBaseActivity(account, networkId, generationParameters)
+): Promise<GovernanceActivity> {
+    const baseActivity = await generateBaseActivity(account, networkId, generationParameters)
 
     const output = generationParameters.wrappedOutput.output as IBasicOutput
     const governanceInfo = getGovernanceInfo(

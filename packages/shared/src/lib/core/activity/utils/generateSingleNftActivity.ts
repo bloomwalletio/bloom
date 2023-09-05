@@ -7,13 +7,13 @@ import { IActivityGenerationParameters } from '../types/activity-generation-para
 import { generateSingleBasicActivity } from './generateSingleBasicActivity'
 import { getNftId } from './outputs'
 
-export function generateSingleNftActivity(
+export async function generateSingleNftActivity(
     account: IAccountState,
     networkId: NetworkId,
     generationParameters: IActivityGenerationParameters,
     nftIdFromInput?: string
-): NftActivity {
-    const baseActivity = generateSingleBasicActivity(account, networkId, generationParameters)
+): Promise<NftActivity> {
+    const baseActivity = await generateSingleBasicActivity(account, networkId, generationParameters)
     baseActivity.tokenTransfer = undefined
 
     const { output, outputId } = generationParameters.wrappedOutput

@@ -3,10 +3,11 @@ import { NetworkId } from '@core/network/types'
 import { BASE_TOKEN_ID } from '@core/token'
 import { getPersistedToken } from '@core/token/stores'
 import { MILLISECONDS_PER_SECOND } from '@core/utils/constants'
-import { getSubjectFromAddress, isSubjectInternal } from '@core/wallet'
+import { TokenTransferData, getSubjectFromAddress, isSubjectInternal } from '@core/wallet'
 import Web3 from 'web3'
 import { ActivityAction, ActivityDirection, ActivityType, InclusionState } from '../enums'
 import { PersistedEvmTransaction, TransactionActivity } from '../types'
+import { getOrRequestTokenFromPersistedTokens } from '@core/token/actions'
 
 export async function generateActivityFromEvmTransaction(
     transaction: PersistedEvmTransaction,
@@ -21,10 +22,20 @@ export async function generateActivityFromEvmTransaction(
     const isInternal = isSubjectInternal(recipient)
     const timestamp = (await provider.eth.getBlock(transaction.blockNumber)).timestamp
 
-    const isBaseToken = tokenId === BASE_TOKEN_ID
-    const tokenTransfer = {
-        token: { ...getPersistedToken(tokenId), networkId },
-        rawAmount: String(Number(transaction.value) / Number(WEI_PER_GLOW)),
+    const baseTokenTransfer: TokenTransferData | undefined = {
+        token: { ...getPersistedToken(BASE_TOKEN_ID), networkId },
+        rawAmount: tokenId !== BASE_TOKEN_ID ? String(Number(transaction.value) / Number(WEI_PER_GLOW)) : '0',
+    }
+
+    let tokenTransfer: TokenTransferData | undefined
+    if (tokenId !== BASE_TOKEN_ID) {
+        const persistedTokens = await getOrRequestTokenFromPersistedTokens(tokenId, networkId)
+        tokenTransfer = persistedTokens
+            ? {
+                  token: { ...persistedTokens, networkId },
+                  rawAmount: String(Number(transaction.value) / Number(WEI_PER_GLOW)),
+              }
+            : undefined
     }
 
     return {
@@ -50,7 +61,7 @@ export async function generateActivityFromEvmTransaction(
         isInternal,
 
         // asset information
-        baseTokenTransfer: isBaseToken ? tokenTransfer : undefined,
-        tokenTransfer: isBaseToken ? undefined : tokenTransfer,
+        baseTokenTransfer,
+        tokenTransfer,
     }
 }

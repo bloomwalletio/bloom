@@ -11,12 +11,12 @@ import { getGovernorAddressFromAliasOutput, getStateControllerAddressFromAliasOu
 import { getPersistedToken } from '@core/token/stores'
 import { BASE_TOKEN_ID } from '@core/token'
 
-export function generateSingleAliasActivity(
+export async function generateSingleAliasActivity(
     account: IAccountState,
     networkId: NetworkId,
     generationParameters: IActivityGenerationParameters
-): AliasActivity {
-    const baseActivity = generateBaseActivity(account, networkId, generationParameters)
+): Promise<AliasActivity> {
+    const baseActivity = await generateBaseActivity(account, networkId, generationParameters)
 
     baseActivity.storageDeposit = baseActivity.baseTokenTransfer?.rawAmount
         ? Number(baseActivity.baseTokenTransfer?.rawAmount)

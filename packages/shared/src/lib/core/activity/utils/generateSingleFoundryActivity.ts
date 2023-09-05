@@ -8,12 +8,12 @@ import { ActivityType } from '../enums'
 import { FoundryActivity } from '../types'
 import { generateBaseActivity } from './generateBaseActivity'
 
-export function generateSingleFoundryActivity(
+export async function generateSingleFoundryActivity(
     account: IAccountState,
     networkId: NetworkId,
     generationParameters: IActivityGenerationParameters
-): FoundryActivity {
-    const baseActivity = generateBaseActivity(account, networkId, generationParameters)
+): Promise<FoundryActivity> {
+    const baseActivity = await generateBaseActivity(account, networkId, generationParameters)
 
     const output = generationParameters.wrappedOutput.output as IFoundryOutput
     const { mintedTokens, meltedTokens, maximumSupply } = output.tokenScheme

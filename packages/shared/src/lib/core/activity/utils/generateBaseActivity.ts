@@ -16,12 +16,13 @@ import {
 } from './helper'
 import { getNativeTokenFromOutput } from './outputs'
 import { TokenTransferData } from '@core/wallet'
+import { getOrRequestTokenFromPersistedTokens } from '@core/token/actions'
 
-export function generateBaseActivity(
+export async function generateBaseActivity(
     account: IAccountState,
     networkId: NetworkId,
     { action, processedTransaction, wrappedOutput }: IActivityGenerationParameters
-): BaseActivity {
+): Promise<BaseActivity> {
     // meta information
     const isHidden = false
     const isTokenHidden = false
@@ -55,10 +56,16 @@ export function generateBaseActivity(
         rawAmount: String(getAmountFromOutput(output) - storageDeposit),
     }
     const nativeToken = getNativeTokenFromOutput(output)
-    const tokenTransfer: TokenTransferData = {
-        token: { ...getPersistedToken(nativeToken.id), networkId: sourceNetworkId },
-        rawAmount: String(nativeToken.amount),
-    }
+    const persistedToken = nativeToken
+        ? await getOrRequestTokenFromPersistedTokens(nativeToken.id, sourceNetworkId)
+        : undefined
+    const tokenTransfer: TokenTransferData | undefined =
+        persistedToken && nativeToken
+            ? {
+                  token: { ...persistedToken, networkId: sourceNetworkId },
+                  rawAmount: String(nativeToken.amount),
+              }
+            : undefined
 
     return {
         // meta information

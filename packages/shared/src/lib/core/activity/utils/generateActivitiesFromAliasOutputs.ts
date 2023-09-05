@@ -6,24 +6,23 @@ import { generateSingleAliasActivity } from './generateSingleAliasActivity'
 import { ActivityAction } from '../enums'
 import { NetworkId } from '@core/network/types'
 
-export function generateActivitiesFromAliasOutputs(
+export async function generateActivitiesFromAliasOutputs(
     processedTransaction: IProcessedTransaction,
     account: IAccountState,
     networkId: NetworkId
-): Activity[] {
+): Promise<Activity[]> {
     const outputs = processedTransaction.outputs
     const activities = []
 
     const aliasOutputs = outputs.filter((output) => output.output.type === OUTPUT_TYPE_ALIAS)
     for (const aliasOutput of aliasOutputs) {
         const output = aliasOutput.output as IAliasOutput
-        activities.push(
-            generateSingleAliasActivity(account, networkId, {
-                action: output.aliasId === EMPTY_HEX_ID ? ActivityAction.Mint : ActivityAction.Send,
-                processedTransaction,
-                wrappedOutput: aliasOutput,
-            })
-        )
+        const activity = await generateSingleAliasActivity(account, networkId, {
+            action: output.aliasId === EMPTY_HEX_ID ? ActivityAction.Mint : ActivityAction.Send,
+            processedTransaction,
+            wrappedOutput: aliasOutput,
+        })
+        activities.push(activity)
     }
     return activities
 }

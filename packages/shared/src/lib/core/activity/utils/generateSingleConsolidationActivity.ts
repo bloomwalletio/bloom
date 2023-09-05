@@ -6,12 +6,12 @@ import { ActivityType } from '../enums'
 import { ConsolidationActivity, IActivityGenerationParameters } from '../types'
 import { generateBaseActivity } from './generateBaseActivity'
 
-export function generateSingleConsolidationActivity(
+export async function generateSingleConsolidationActivity(
     account: IAccountState,
     networkId: NetworkId,
     generationParameters: IActivityGenerationParameters
-): ConsolidationActivity {
-    const baseActivity = generateBaseActivity(account, networkId, generationParameters)
+): Promise<ConsolidationActivity> {
+    const baseActivity = await generateBaseActivity(account, networkId, generationParameters)
     const amountConsolidatedInputs = getAmountOfConsolidationInputs(
         generationParameters.processedTransaction.wrappedInputs
     )

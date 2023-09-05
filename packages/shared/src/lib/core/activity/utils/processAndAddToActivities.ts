@@ -15,6 +15,6 @@ export async function processAndAddToActivities(
     networkId: NetworkId
 ): Promise<void> {
     const preprocessedTransaction = await preprocessTransaction(transaction, account)
-    const activities = generateActivities(preprocessedTransaction, account, networkId)
+    const activities = await generateActivities(preprocessedTransaction, account, networkId)
     addActivitiesToAccountActivitiesInAllAccountActivities(account.index, activities)
 }

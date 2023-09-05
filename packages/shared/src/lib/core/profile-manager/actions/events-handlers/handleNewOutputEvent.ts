@@ -1,23 +1,22 @@
 import { syncBalance } from '@core/account/actions/syncBalance'
-import { checkAndRemoveProfilePicture } from '@core/profile/actions'
-import { activeAccounts } from '@core/profile/stores'
-import { IWrappedOutput } from '@core/wallet/interfaces'
-import { OUTPUT_TYPE_ALIAS, OUTPUT_TYPE_NFT } from '@core/wallet/constants'
+import { ActivityType } from '@core/activity/enums'
 import {
     addActivitiesToAccountActivitiesInAllAccountActivities,
     allAccountActivities,
 } from '@core/activity/stores/all-account-activities.store'
 import { generateActivities } from '@core/activity/utils'
 import { preprocessGroupedOutputs } from '@core/activity/utils/outputs'
+import { getActiveNetworkId } from '@core/network'
+import { addNftsToDownloadQueue, addOrUpdateNftInAllAccountNfts, buildNftFromNftOutput } from '@core/nfts/actions'
+import { checkAndRemoveProfilePicture } from '@core/profile/actions'
+import { activeAccounts } from '@core/profile/stores'
+import { getOrRequestTokenFromPersistedTokens } from '@core/token/actions'
+import { OUTPUT_TYPE_ALIAS, OUTPUT_TYPE_NFT } from '@core/wallet/constants'
+import { IWrappedOutput } from '@core/wallet/interfaces'
 import { getBech32AddressFromAddressTypes } from '@core/wallet/utils/getBech32AddressFromAddressTypes'
 import { Event, NewOutputWalletEvent, WalletEventType } from '@iota/wallet/out/types'
 import { get } from 'svelte/store'
 import { validateWalletApiEvent } from '../../utils'
-import { ActivityType } from '@core/activity/enums'
-import { getOrRequestTokenFromPersistedTokens } from '@core/token/actions'
-import { addPersistedToken } from '@core/token/stores'
-import { addNftsToDownloadQueue, addOrUpdateNftInAllAccountNfts, buildNftFromNftOutput } from '@core/nfts/actions'
-import { getActiveNetworkId } from '@core/network'
 
 export function handleNewOutputEvent(error: Error, event: Event): void {
     const walletEvent = validateWalletApiEvent<NewOutputWalletEvent>(error, event, WalletEventType.NewOutput)
@@ -46,11 +45,11 @@ export async function handleNewOutputEventInternal(
 
         const processedOutput = preprocessGroupedOutputs([output], walletEvent?.transactionInputs ?? [], account)
 
-        const activities = generateActivities(processedOutput, account, networkId)
+        const activities = await generateActivities(processedOutput, account, networkId)
         for (const activity of activities) {
             if (activity.type === ActivityType.Basic || activity.type === ActivityType.Foundry) {
-                const token = await getOrRequestTokenFromPersistedTokens(activity.tokenId)
-                addPersistedToken(token)
+                const tokenId = activity.tokenTransfer?.token.id ?? activity.baseTokenTransfer?.token.id
+                getOrRequestTokenFromPersistedTokens(tokenId, activity.sourceNetworkId)
             }
         }
         addActivitiesToAccountActivitiesInAllAccountActivities(account.index, activities)

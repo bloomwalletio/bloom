@@ -11,11 +11,11 @@ import { getNonRemainderBasicOutputsFromTransaction } from './getNonRemainderBas
 import { getNftId } from './outputs'
 import { NetworkId } from '@core/network/types'
 
-export function generateActivitiesFromBasicOutputs(
+export async function generateActivitiesFromBasicOutputs(
     processedTransaction: IProcessedTransaction,
     account: IAccountState,
     networkId: NetworkId
-): Activity[] {
+): Promise<Activity[]> {
     const activities = []
 
     const basicOutputs = getNonRemainderBasicOutputsFromTransaction(
@@ -37,7 +37,7 @@ export function generateActivitiesFromBasicOutputs(
         if (isSelfTransaction && burnedNftInputIndex >= 0) {
             const wrappedInput = burnedNftInputs[burnedNftInputIndex]
             const nftInput = wrappedInput.output as INftOutput
-            activity = generateSingleNftActivity(
+            activity = await generateSingleNftActivity(
                 account,
                 networkId,
                 {
@@ -52,7 +52,7 @@ export function generateActivitiesFromBasicOutputs(
 
             burnedNftInputs.splice(burnedNftInputIndex, 1)
         } else if (isSelfTransaction && burnedNativeToken) {
-            activity = generateSingleBasicActivity(
+            activity = await generateSingleBasicActivity(
                 account,
                 networkId,
                 {
@@ -64,13 +64,13 @@ export function generateActivitiesFromBasicOutputs(
                 burnedNativeToken.amount
             )
         } else if (isSelfTransaction && isConsolidation(basicOutput, processedTransaction)) {
-            activity = generateSingleConsolidationActivity(account, networkId, {
+            activity = await generateSingleConsolidationActivity(account, networkId, {
                 action: ActivityAction.Send,
                 processedTransaction,
                 wrappedOutput: basicOutput,
             })
         } else {
-            activity = generateSingleBasicActivity(account, networkId, {
+            activity = await generateSingleBasicActivity(account, networkId, {
                 action: ActivityAction.Send,
                 processedTransaction,
                 wrappedOutput: basicOutput,

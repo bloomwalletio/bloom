@@ -7,14 +7,14 @@
         TransactionActivity,
     } from '@core/activity'
     import { localize } from '@core/i18n'
-    import { IPersistedToken } from '@core/token'
-    import { getPersistedToken, selectedAccountTokens } from '@core/token/stores'
+    import { IToken } from '@core/token/interfaces'
+    import { selectedAccountTokens } from '@core/token/stores'
     import { ActivityTileContent, TokenAvatar } from '@ui'
 
     export let activity: TransactionActivity
 
-    let persistedToken: IPersistedToken
-    $: $selectedAccountTokens, (persistedToken = getPersistedToken(activity.tokenId))
+    let token: IToken
+    $: $selectedAccountTokens, (token = activity.tokenTransfer?.token ?? activity.baseTokenTransfer.token)
     $: action = localize(getActivityTileTitle(activity))
     $: subject =
         activity.direction === ActivityDirection.SelfTransaction
@@ -32,8 +32,8 @@
     }
 </script>
 
-{#if persistedToken}
+{#if token}
     <ActivityTileContent {action} {subject} {formattedAsset}>
-        <TokenAvatar slot="icon" token={{ ...persistedToken, networkId: activity.sourceNetworkId }} />
+        <TokenAvatar slot="icon" {token} />
     </ActivityTileContent>
 {/if}

@@ -7,11 +7,11 @@ import { SubjectType } from '@core/wallet/enums'
 import type { Subject } from '@core/wallet/types'
 
 export function getSubjectFromActivity(activity: Activity): Subject | undefined {
-    if (activity.parsedLayer2Metadata) {
+    if (activity.smartContract) {
         return {
             ...activity.subject,
             ...(activity.subject?.type === SubjectType.Address && {
-                address: activity.parsedLayer2Metadata?.ethereumAddress,
+                address: activity.smartContract?.ethereumAddress,
             }),
         }
     } else if (activity.subject?.type === SubjectType.Address) {
@@ -32,7 +32,7 @@ export function getSubjectLocaleFromActivity(activity: Activity): string {
     } else if (subject?.type === SubjectType.Contact) {
         return truncateString(subject.contact?.name, 13, 0)
     } else if (subject?.type === SubjectType.Address) {
-        const address = activity?.parsedLayer2Metadata?.ethereumAddress ?? subject.address
+        const address = activity?.smartContract?.ethereumAddress ?? subject.address
         const network = getLayer2NetworkFromAddress(address)
 
         return network ?? truncateString(address, 6, 6)

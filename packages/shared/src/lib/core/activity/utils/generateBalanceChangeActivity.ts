@@ -5,27 +5,30 @@ import { generateRandomId } from '@core/utils'
 import { TokenTransferData } from '@core/wallet'
 import { ActivityAction, ActivityDirection, ActivityType, InclusionState } from '../enums'
 import { ITokenBalanceChange, TransactionActivity } from '../types'
+import { getOrRequestTokenFromPersistedTokens } from '@core/token/actions'
 
-export function generateBalanceChangeActivity(
+export async function generateBalanceChangeActivity(
     networkId: NetworkId,
     tokenId: string,
     balanceChange: ITokenBalanceChange
-): TransactionActivity {
+): Promise<TransactionActivity> {
     const difference = balanceChange.newBalance - (balanceChange.oldBalance ?? 0)
     const direction = difference >= 0 ? ActivityDirection.Incoming : ActivityDirection.Outgoing
 
-    let baseTokenTransfer: TokenTransferData | undefined
+    const baseTokenTransfer: TokenTransferData | undefined = {
+        token: { ...getPersistedToken(BASE_TOKEN_ID), networkId },
+        rawAmount: tokenId !== BASE_TOKEN_ID ? String(Math.abs(difference)) : '0',
+    }
+
     let tokenTransfer: TokenTransferData | undefined
-    if (tokenId === BASE_TOKEN_ID) {
-        baseTokenTransfer = {
-            token: { ...getPersistedToken(BASE_TOKEN_ID), networkId },
-            rawAmount: String(Math.abs(difference)),
-        }
-    } else {
-        tokenTransfer = {
-            token: { ...getPersistedToken(tokenId), networkId },
-            rawAmount: String(Math.abs(difference)),
-        }
+    if (tokenId !== BASE_TOKEN_ID) {
+        const persistedTokens = await getOrRequestTokenFromPersistedTokens(tokenId, networkId)
+        tokenTransfer = persistedTokens
+            ? {
+                  token: { ...persistedTokens, networkId },
+                  rawAmount: String(Math.abs(difference)),
+              }
+            : undefined
     }
 
     return {

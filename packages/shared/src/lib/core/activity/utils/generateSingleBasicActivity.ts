@@ -8,15 +8,16 @@ import { getPersistedToken } from '@core/token/stores'
 import { ActivityType } from '../enums'
 import { TransactionActivity } from '../types'
 import { generateBaseActivity } from './generateBaseActivity'
+import { getOrRequestTokenFromPersistedTokens } from '@core/token/actions'
 
-export function generateSingleBasicActivity(
+export async function generateSingleBasicActivity(
     account: IAccountState,
     networkId: NetworkId,
     generationParameters: IActivityGenerationParameters,
     overrideTokenId?: string,
     overrideAmount?: number
-): TransactionActivity {
-    const baseActivity = generateBaseActivity(account, networkId, generationParameters)
+): Promise<TransactionActivity> {
+    const baseActivity = await generateBaseActivity(account, networkId, generationParameters)
 
     const isL1toL2 =
         isStardustNetwork(baseActivity.sourceNetworkId) &&
@@ -36,10 +37,13 @@ export function generateSingleBasicActivity(
     }
 
     if (overrideTokenId && overrideTokenId !== BASE_TOKEN_ID && overrideAmount !== undefined) {
-        baseActivity.tokenTransfer = {
-            token: { ...getPersistedToken(overrideTokenId), networkId: baseActivity.sourceNetworkId },
-            rawAmount: String(overrideAmount),
-        }
+        const persistedToken = await getOrRequestTokenFromPersistedTokens(overrideTokenId, baseActivity.sourceNetworkId)
+        baseActivity.tokenTransfer = persistedToken
+            ? {
+                  token: { ...persistedToken, networkId: baseActivity.sourceNetworkId },
+                  rawAmount: String(overrideAmount),
+              }
+            : undefined
     }
 
     return {

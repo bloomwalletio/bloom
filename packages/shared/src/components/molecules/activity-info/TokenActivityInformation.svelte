@@ -3,12 +3,11 @@
     import { FoundryActivity } from '@core/activity'
     import { localize } from '@core/i18n'
     import { IIrc30Metadata } from '@core/token'
-    import { getPersistedToken } from '@core/token/stores'
 
     export let activity: FoundryActivity
 
-    let metadata: IIrc30Metadata
-    $: metadata = <IIrc30Metadata>getPersistedToken(activity.tokenId)?.metadata
+    let metadata: IIrc30Metadata | undefined
+    $: metadata = <IIrc30Metadata>activity.tokenTransfer?.token.metadata ?? activity.baseTokenTransfer.token?.metadata
 </script>
 
 {#if metadata}

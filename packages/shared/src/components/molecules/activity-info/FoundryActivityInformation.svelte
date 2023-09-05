@@ -16,7 +16,7 @@
         },
         {
             key: localize('popups.nativeToken.property.tokenId'),
-            value: activity.tokenId,
+            value: activity.tokenTransfer?.token.id,
             truncate: { firstCharCount: 10, endCharCount: 10 },
             copyable: true,
         },
