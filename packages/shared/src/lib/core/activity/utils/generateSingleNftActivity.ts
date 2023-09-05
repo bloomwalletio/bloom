@@ -53,6 +53,10 @@ export function generateSingleNftActivity(
     const isToLayer2 = isStardustNetwork(sourceNetworkId) && sourceNetworkId !== destinationNetworkId
     const parsedLayer2Metadata = isToLayer2 ? parseLayer2Metadata(metadata) : undefined
 
+    const actualAmountSent = parsedLayer2Metadata?.baseTokens ? Number(parsedLayer2Metadata.baseTokens) : 0
+    const sentDelta = rawBaseCoinAmount - actualAmountSent
+    const transactionFee = isToLayer2 ? sentDelta : undefined
+
     return {
         type: ActivityType.Nft,
         id,
@@ -64,7 +68,7 @@ export function generateSingleNftActivity(
         time,
         isHidden,
         action,
-        rawBaseCoinAmount,
+        rawBaseCoinAmount: rawBaseCoinAmount - (transactionFee ?? 0),
         isAssetHidden,
         containsValue,
         inclusionState,
@@ -76,5 +80,6 @@ export function generateSingleNftActivity(
         isInternal,
         direction,
         parsedLayer2Metadata,
+        transactionFee,
     }
 }
