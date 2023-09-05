@@ -43,7 +43,8 @@ export async function sendTransactionFromEvm(
 
                 if (getAddressFromAccountForNetwork(account, networkId) !== activity.subject?.address) {
                     // Currently only support outgoing transactions being added to activities so we can assume outgoing balance change
-                    const delta = (activity.rawAmount + (activity?.gasUsed ?? 0)) * -1
+                    // TODO: this only works for base token and not native tokens
+                    const delta = (activity.rawAmount + (activity?.transactionFee ?? 0)) * -1
                     const newBalance = updateLayer2AccountBalanceForTokenOnChain(
                         account.index,
                         networkId,

@@ -43,7 +43,7 @@ export function getTransactionAssets(
         if (activity.tokenId === BASE_TOKEN_ID) {
             return {
                 baseCoinTransfer: {
-                    rawAmount: String(activity.rawBaseCoinAmount),
+                    rawAmount: String(activity.rawAmount),
                     token,
                 },
             }
@@ -55,7 +55,9 @@ export function getTransactionAssets(
                     token,
                 },
                 baseCoinTransfer: {
-                    rawAmount: String((activity.rawBaseCoinAmount ?? 0) - activity.storageDeposit),
+                    rawAmount: String(
+                        (activity.rawBaseCoinAmount ?? 0) - activity.storageDeposit - (activity?.transactionFee ?? 0)
+                    ),
                     token: baseCoin,
                 },
             }
