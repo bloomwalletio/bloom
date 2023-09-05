@@ -27,7 +27,6 @@
     let accountTokens: AccountTokens
     $: accountTokens = getAccountTokensForSelectedAccount($marketCoinPrices)
     $: accountTokens, searchValue, setFilteredTokenList()
-    $: tokenBalance = getTokenBalance(selectedToken.id, selectedToken.networkId)
     let hasTokenError: boolean = false
 
     let tokenList: ITokenWithBalance[]
@@ -130,7 +129,7 @@
             {#each tokenList as token}
                 <TokenAmountTile
                     {token}
-                    amount={tokenBalance?.available}
+                    amount={getTokenBalance(token.id, token.networkId)?.available}
                     hasError={token === selectedToken && hasTokenError}
                     onClick={() => onTokenClick(token)}
                     selected={selectedToken?.id === token.id && selectedToken?.networkId === token?.networkId}
