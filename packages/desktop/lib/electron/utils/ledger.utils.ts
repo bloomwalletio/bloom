@@ -5,6 +5,10 @@ import { IEvmTransactionSignature } from '@core/layer-2/interfaces'
 import type { ILedgerEthereumAppSettings } from '@core/ledger/interfaces'
 import { HEX_PREFIX } from '@core/utils'
 
+// import specifity for core modules to prevent circular dependencies
+import { IEvmTransactionSignature } from '@core/layer-2/interfaces'
+import { HEX_PREFIX } from '@core/utils/constants'
+
 let transport: TransportNodeHid
 
 export async function openTransport(): Promise<void> {

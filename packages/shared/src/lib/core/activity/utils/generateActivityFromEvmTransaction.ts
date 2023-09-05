@@ -5,6 +5,7 @@ import { getSubjectFromAddress, isSubjectInternal } from '@core/wallet'
 import Web3 from 'web3'
 import { ActivityAction, ActivityDirection, ActivityType, InclusionState } from '../enums'
 import { PersistedEvmTransaction, TransactionActivity } from '../types'
+import { calculateGasFeeInGlow } from '@core/layer-2/helpers'
 
 export async function generateActivityFromEvmTransaction(
     transaction: PersistedEvmTransaction,
@@ -29,7 +30,7 @@ export async function generateActivityFromEvmTransaction(
         action: ActivityAction.Send,
         isInternal,
         storageDeposit: 0,
-        gasUsed: transaction.gasUsed,
+        transactionFee: Number(calculateGasFeeInGlow(transaction.gasUsed, transaction.gasPrice ?? 0)),
         subject,
         rawBaseCoinAmount: Number(transaction.value) / Number(WEI_PER_GLOW),
         rawAmount: Number(transaction.value) / Number(WEI_PER_GLOW),

@@ -7,8 +7,8 @@
     import { canAccountMakeEvmTransaction } from '@core/layer-2/actions'
     import { marketCoinPrices } from '@core/market/stores'
     import { getNetwork } from '@core/network'
-    import { AccountTokens, BASE_TOKEN_ID, IToken, TokenStandard } from '@core/token'
-    import { getAccountTokensForSelectedAccount } from '@core/token/actions'
+    import { AccountTokens, BASE_TOKEN_ID, IToken, ITokenWithBalance, TokenStandard } from '@core/token'
+    import { getAccountTokensForSelectedAccount, getTokenBalance } from '@core/token/actions'
     import { selectedAccountTokens } from '@core/token/stores'
     import { SendFlowType, sendFlowParameters, setSendFlowParameters } from '@core/wallet'
     import { closePopup } from '@desktop/auxiliary/popup'
@@ -29,8 +29,8 @@
     $: accountTokens, searchValue, setFilteredTokenList()
     let hasTokenError: boolean = false
 
-    let tokenList: IToken[]
-    function getTokenList(): IToken[] {
+    let tokenList: ITokenWithBalance[]
+    function getTokenList(): ITokenWithBalance[] {
         const list = []
         for (const tokensPerNetwork of Object.values(accountTokens)) {
             if (tokensPerNetwork?.baseCoin) {
@@ -50,7 +50,7 @@
         }
     }
 
-    function isVisibleToken(token: IToken): boolean {
+    function isVisibleToken(token: ITokenWithBalance): boolean {
         const _searchValue = searchValue.toLowerCase()
         const name = token?.metadata?.name
         const ticker =
@@ -62,7 +62,7 @@
         )
     }
 
-    async function onTokenClick(token: IToken): Promise<void> {
+    async function onTokenClick(token: ITokenWithBalance): Promise<void> {
         try {
             selectedToken = token
             hasTokenError =
@@ -129,8 +129,8 @@
             {#each tokenList as token}
                 <TokenAmountTile
                     {token}
+                    amount={getTokenBalance(token.id, token.networkId)?.available}
                     hasError={token === selectedToken && hasTokenError}
-                    amount={token.balance.available}
                     onClick={() => onTokenClick(token)}
                     selected={selectedToken?.id === token.id && selectedToken?.networkId === token?.networkId}
                 />
