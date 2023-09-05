@@ -16,8 +16,10 @@
     $: formattedTransactionTime = getFormattedTimeStamp(activity.time)
     $: formattedTimelockDate = getFormattedTimeStamp(activity.asyncData?.timelockDate)
     $: formattedStorageDeposit = formatAmount(activity.storageDeposit ?? 0)
-    $: formattedGasLimit = formatAmount(Number(gasLimit ?? 0))
-    $: formattedGasUsed = formatAmount(Number(activity.gasUsed ?? 0))
+
+    $: formattedEstimatedGasFee = formatAmount(Number(gasLimit ?? 0))
+    $: formattedMaxGasFee = formatAmount(Number(gasLimit ?? 0))
+    $: formattedTransactionFee = formatAmount(Number(activity.transactionFee ?? 0))
 
     $: explorerUrl = getDefaultExplorerUrl(activity.sourceNetworkId, ExplorerEndpoint.Transaction)
     function onTransactionIdClick(): void {
@@ -61,12 +63,16 @@
             tooltip: localize(`tooltips.transactionDetails.${activity.direction}.storageDeposit`),
         },
         {
-            key: localize('general.gasFee'),
-            value: formattedGasUsed,
+            key: localize('general.gasLimit'),
+            value: !formattedTransactionFee ? formattedEstimatedGasFee : undefined,
         },
         {
             key: localize('general.gasLimit'),
-            value: formattedGasLimit,
+            value: !formattedTransactionFee ? formattedMaxGasFee : undefined,
+        },
+        {
+            key: localize('general.transactionFee'),
+            value: formattedTransactionFee,
         },
         {
             key: localize('general.expirationTime'),
