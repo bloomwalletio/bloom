@@ -3,7 +3,7 @@ import { BigIntLike } from '@ethereumjs/util'
 import { GAS_LIMIT_MULTIPLIER } from '../constants'
 import { calculateGasFeeInGlow } from '../helpers'
 import { estimateGasForLayer1ToLayer2Transaction } from './estimateGasForLayer1ToLayer2Transaction'
-import { getGasPriceInWei } from './getGasPriceInWei'
+import { getGasPriceFromProvider } from './getGasPriceFromProvider'
 
 export async function getGasFeesForLayer1ToLayer2Transaction(
     sendFlowParameters: SendFlowParameters
@@ -12,7 +12,7 @@ export async function getGasFeesForLayer1ToLayer2Transaction(
         if (sendFlowParameters.destinationNetworkId) {
             const estimatedGas = await estimateGasForLayer1ToLayer2Transaction(sendFlowParameters)
             const gasLimit = Math.floor(estimatedGas * GAS_LIMIT_MULTIPLIER)
-            const gasPrice = await getGasPriceInWei(sendFlowParameters.destinationNetworkId)
+            const gasPrice = await getGasPriceFromProvider(sendFlowParameters.destinationNetworkId)
             const estimatedGasFee = calculateGasFeeInGlow(estimatedGas, gasPrice)
             const maxGasFee = calculateGasFeeInGlow(gasLimit, gasPrice)
             return { estimatedGasFee, maxGasFee }

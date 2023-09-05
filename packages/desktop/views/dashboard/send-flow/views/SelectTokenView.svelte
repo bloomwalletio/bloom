@@ -4,9 +4,9 @@
     import { selectedAccountIndex } from '@core/account/stores'
     import { handleError } from '@core/error/handlers'
     import { localize } from '@core/i18n'
-    import { canAccountMakeEvmTransaction } from '@core/layer-2/actions'
+    import { canAccountMakeEvmTransaction, pollEvmChainGasPrice } from '@core/layer-2/actions'
     import { marketCoinPrices } from '@core/market/stores'
-    import { getNetwork } from '@core/network'
+    import { getNetwork, isEvmChain } from '@core/network'
     import { AccountTokens, BASE_TOKEN_ID, IToken, ITokenWithBalance, TokenStandard } from '@core/token'
     import { getAccountTokensForSelectedAccount, getTokenBalance } from '@core/token/actions'
     import { selectedAccountTokens } from '@core/token/stores'
@@ -32,7 +32,11 @@
     let tokenList: ITokenWithBalance[]
     function getTokenList(): ITokenWithBalance[] {
         const list = []
-        for (const tokensPerNetwork of Object.values(accountTokens)) {
+        for (const [networkId, tokensPerNetwork] of Object.entries(accountTokens)) {
+            if (isEvmChain(networkId)) {
+                pollEvmChainGasPrice(networkId)
+            }
+
             if (tokensPerNetwork?.baseCoin) {
                 list.push(tokensPerNetwork.baseCoin)
             }
@@ -62,15 +66,12 @@
         )
     }
 
-    async function onTokenClick(token: ITokenWithBalance): Promise<void> {
+    function onTokenClick(token: ITokenWithBalance): void {
         try {
             selectedToken = token
             hasTokenError =
-                (await canAccountMakeEvmTransaction(
-                    $selectedAccountIndex,
-                    token.networkId,
-                    SendFlowType.BaseCoinTransfer
-                )) ?? false
+                canAccountMakeEvmTransaction($selectedAccountIndex, token.networkId, SendFlowType.BaseCoinTransfer) ??
+                false
         } catch (err) {
             handleError(err)
         }

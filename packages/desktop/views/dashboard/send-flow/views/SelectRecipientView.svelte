@@ -3,7 +3,15 @@
     import { selectedAccountIndex } from '@core/account/stores'
     import { ContactManager } from '@core/contact/classes'
     import { localize } from '@core/i18n'
-    import { IChain, IIscpChainConfiguration, INetwork, NetworkId, getActiveNetworkId, network } from '@core/network'
+    import {
+        IChain,
+        IIscpChainConfiguration,
+        INetwork,
+        NetworkId,
+        getActiveNetworkId,
+        network,
+        isEvmChain,
+    } from '@core/network'
     import { visibleActiveAccounts } from '@core/profile/stores'
     import {
         SendFlowType,
@@ -16,13 +24,17 @@
     import { closePopup } from '@desktop/auxiliary/popup'
     import features from '@features/features'
     import { INetworkRecipientSelectorOption, NetworkRecipientSelector } from '@ui'
-    import { onMount } from 'svelte'
+    import { onDestroy, onMount } from 'svelte'
     import { sendFlowRouter } from '../send-flow.router'
     import SendFlowTemplate from './SendFlowTemplate.svelte'
     import { getTokenStandardFromSendFlowParameters } from '@core/wallet/utils'
     import { TokenStandard } from '@core/token'
-    import { canAccountMakeEvmTransaction } from 'shared/src/lib/core/layer-2/actions'
-    import { handleError } from 'shared/src/lib/core/error/handlers'
+    import {
+        canAccountMakeEvmTransaction,
+        pollEvmChainGasPrices,
+        stopPollingEvmChainGasPrices,
+    } from '@core/layer-2/actions'
+    import { handleError } from '@core/error/handlers'
 
     let selector: NetworkRecipientSelector
     let selectorOptions: INetworkRecipientSelectorOption[] = []
@@ -33,6 +45,8 @@
     const assetName = getAssetName()
 
     $: selectedRecipient = selectorOptions[selectedIndex]?.selectedRecipient
+
+    let selectedNetworkId: NetworkId
     $: selectedNetworkId = selectorOptions[selectedIndex]?.networkId
 
     function getAssetName(): string | undefined {
@@ -158,7 +172,7 @@
                 } else if (sourceChain) {
                     // if we are on layer 2
                     networkRecipientOptions = [
-                        ...(features.wallet.assets.unwrapToken && [getLayer1RecipientOption($network)]),
+                        ...(features.wallet.assets.unwrapToken.enabled && [getLayer1RecipientOption($network)]),
                         getRecipientOptionFromChain(sourceChain, $selectedAccountIndex),
                     ]
                 }
@@ -173,15 +187,19 @@
         return networkRecipientOptions
     }
 
-    async function onNetworkClick(): Promise<void> {
+    function startPollingEvmChainGasPrices(): void {
+        const activeNetworkId = getActiveNetworkId()
+        const networkIdsToPoll = selectorOptions
+            .filter((option) => option.networkId !== activeNetworkId)
+            .map((option) => option.networkId)
+        pollEvmChainGasPrices(networkIdsToPoll)
+    }
+
+    function onNetworkClick(): void {
         try {
             const originNetworkId = getNetworkIdFromSendFlowParameters($sendFlowParameters)
             hasNetworkRecipientError =
-                (await canAccountMakeEvmTransaction(
-                    $selectedAccountIndex,
-                    originNetworkId,
-                    $sendFlowParameters.type
-                )) ?? false
+                canAccountMakeEvmTransaction($selectedAccountIndex, originNetworkId, $sendFlowParameters.type) ?? false
         } catch (err) {
             handleError(err)
         }
@@ -220,6 +238,11 @@
     }
     onMount(() => {
         buildNetworkRecipientOptions()
+        startPollingEvmChainGasPrices()
+    })
+    onDestroy(() => {
+        const chainsToIgnore = isEvmChain(selectedNetworkId) ? [selectedNetworkId] : []
+        stopPollingEvmChainGasPrices(chainsToIgnore)
     })
 </script>
 
