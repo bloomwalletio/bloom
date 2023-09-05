@@ -1,17 +1,17 @@
 <script lang="ts">
+    import { hideActivitiesForHiddenTokens } from '@core/activity/actions'
     import { localize } from '@core/i18n'
-    import { Icon } from '@lib/auxiliary/icon'
-    import { closePopup, openPopup, PopupId, updatePopupProps } from '../../../../desktop/lib/auxiliary/popup'
-    import { MenuItem, Modal } from '@ui'
-    import features from '@features/features'
     import { activeProfile } from '@core/profile/stores'
-    import { IToken, NotVerifiedStatus, VerifiedStatus } from '@core/token'
+    import { ITokenWithBalance, NotVerifiedStatus, VerifiedStatus } from '@core/token'
     import { removeTrackedTokenFromActiveProfile } from '@core/token/actions'
     import { hideToken, unhideToken, unverifyToken, verifyToken } from '@core/token/stores'
-    import { hideActivitiesForHiddenTokens } from '@core/activity/actions'
+    import features from '@features/features'
+    import { Icon } from '@lib/auxiliary/icon'
+    import { MenuItem, Modal } from '@ui'
+    import { closePopup, openPopup, PopupId, updatePopupProps } from '../../../../desktop/lib/auxiliary/popup'
 
     export let modal: Modal | undefined = undefined
-    export let token: IToken
+    export let token: ITokenWithBalance
 
     $: isTrackedToken = $activeProfile?.trackedTokens?.[token.networkId]?.includes(token.id)
 

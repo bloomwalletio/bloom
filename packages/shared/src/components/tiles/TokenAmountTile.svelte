@@ -1,12 +1,11 @@
 <script lang="ts">
     import { formatCurrency } from '@core/i18n/utils'
-    import { getMarketPriceForToken } from '@core/market/utils'
-    import { getMarketAmountFromTokenValue } from '@core/market/utils/getMarketAmountFromTokenValue'
-    import { IToken, formatTokenAmountBestMatch } from '@core/token'
+    import { getMarketAmountFromTokenValue, getMarketPriceForToken } from '@core/market/actions'
+    import { ITokenWithBalance, formatTokenAmountBestMatch } from '@core/token'
     import { truncateString } from '@core/utils'
     import { ClickableTile, FontWeight, Text, TextType, TokenAvatar } from '@ui'
 
-    export let token: IToken
+    export let token: ITokenWithBalance
     export let onClick: (() => unknown) | undefined = undefined
     export let selected = false
     export let classes = ''

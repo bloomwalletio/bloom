@@ -1,7 +1,7 @@
 <script lang="ts">
     import { Activity, ActivityAsyncStatus, ActivityType, InclusionState } from '@core/activity'
     import { time } from '@core/app/stores'
-    import { IPersistedToken, IToken, NotVerifiedStatus } from '@core/token'
+    import { IPersistedToken, ITokenWithBalance, NotVerifiedStatus } from '@core/token'
     import { getPersistedToken, selectedAccountTokens } from '@core/token/stores'
     import {
         AliasActivityTileContent,
@@ -29,7 +29,7 @@
 
     function onTransactionClick(): void {
         if (persistedToken?.verification?.status === NotVerifiedStatus.New) {
-            const token: IToken = {
+            const token: ITokenWithBalance = {
                 ...persistedToken,
                 networkId: activity.sourceNetworkId,
                 balance: {
