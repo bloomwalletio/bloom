@@ -1,7 +1,7 @@
-import { IToken } from '@core/token/interfaces'
+import { ITokenWithBalance } from '@core/token/interfaces'
 import { getMarketPriceForToken } from './getMarketPriceForToken'
 
-export function getMarketAmountFromTokenValue(amount: number, token: IToken): number | undefined {
+export function getMarketAmountFromTokenValue(amount: number, token: ITokenWithBalance): number | undefined {
     const marketPrice = getMarketPriceForToken(token)
     if (marketPrice === undefined || token?.metadata?.decimals === undefined) {
         return undefined

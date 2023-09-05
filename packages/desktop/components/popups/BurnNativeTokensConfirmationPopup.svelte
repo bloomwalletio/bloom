@@ -4,13 +4,13 @@
     import { handleError } from '@core/error/handlers'
     import { localize } from '@core/i18n'
     import { checkActiveProfileAuth } from '@core/profile/actions'
-    import { IToken, formatTokenAmountBestMatch } from '@core/token'
+    import { ITokenWithBalance, formatTokenAmountBestMatch } from '@core/token'
     import { burnToken } from '@core/wallet'
     import { PopupId, closePopup, openPopup } from '@desktop/auxiliary/popup'
     import { Button, ButtonVariant, FontWeight, Text, TextHint, TextType } from '@ui'
     import { onMount } from 'svelte'
 
-    export let token: IToken
+    export let token: ITokenWithBalance
     export let rawAmount: string
     export let _onMount: (..._: any[]) => Promise<void> = async () => {}
 

@@ -1,12 +1,12 @@
 import { localize, parseCurrency } from '@core/i18n'
 import { convertToRawAmount } from '@core/token'
 import { TokenStandard } from '@core/token/enums'
-import { IToken } from '@core/token/interfaces'
+import { ITokenWithBalance } from '@core/token/interfaces'
 import Big from 'big.js'
 
 export function validateTokenAmount(
     amount: string,
-    token: IToken,
+    token: ITokenWithBalance,
     unit: string,
     allowZeroOrNull = false
 ): Promise<string> {

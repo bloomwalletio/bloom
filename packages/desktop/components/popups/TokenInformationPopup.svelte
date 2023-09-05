@@ -1,15 +1,15 @@
 <script lang="ts">
-    import { localize } from '@core/i18n'
-    import { setSendFlowParameters, SendFlowType } from '@core/wallet'
-    import { TokenStandard, IToken, NotVerifiedStatus, VerifiedStatus, BASE_TOKEN_ID } from '@core/token'
-    import { openPopup, PopupId, updatePopupProps } from '@desktop/auxiliary/popup'
-    import { Button, FontWeight, Text, TextHint, TokenActionsButton, TextType, TokenAmountTile, TooltipIcon } from '@ui'
     import { Table } from '@bloomwalletio/ui'
-    import { SendFlowRoute, SendFlowRouter, sendFlowRouter } from '@views/dashboard/send-flow'
-    import { Icon as IconEnum } from '@lib/auxiliary/icon'
+    import { localize } from '@core/i18n'
+    import { BASE_TOKEN_ID, ITokenWithBalance, NotVerifiedStatus, TokenStandard, VerifiedStatus } from '@core/token'
     import { unverifyToken, verifyToken } from '@core/token/stores'
+    import { SendFlowType, setSendFlowParameters } from '@core/wallet'
+    import { PopupId, openPopup, updatePopupProps } from '@desktop/auxiliary/popup'
+    import { Icon as IconEnum } from '@lib/auxiliary/icon'
+    import { Button, FontWeight, Text, TextHint, TextType, TokenActionsButton, TokenAmountTile, TooltipIcon } from '@ui'
+    import { SendFlowRoute, SendFlowRouter, sendFlowRouter } from '@views/dashboard/send-flow'
 
-    export let token: IToken | undefined
+    export let token: ITokenWithBalance | undefined
     export let activityId: string = undefined
 
     function onSkipClick(): void {
