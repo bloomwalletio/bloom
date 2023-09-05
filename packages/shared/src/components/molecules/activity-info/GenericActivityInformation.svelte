@@ -11,9 +11,7 @@
 
     $: expirationTime = getFormattedTimeStamp(activity.asyncData?.expirationDate)
     $: claimedTime = getFormattedTimeStamp(activity.asyncData?.claimedDate)
-    $: hasStorageDeposit =
-        activity?.storageDeposit || (activity?.storageDeposit === 0 && activity.giftedStorageDeposit === 0)
-    $: gasLimit = activity?.parsedLayer2Metadata?.gasLimit
+    $: gasLimit = activity.parsedLayer2Metadata?.gasLimit
 
     $: formattedTransactionTime = getFormattedTimeStamp(activity.time)
     $: formattedTimelockDate = getFormattedTimeStamp(activity.asyncData?.timelockDate)
@@ -24,7 +22,7 @@
     $: explorerUrl = getDefaultExplorerUrl(activity.sourceNetworkId, ExplorerEndpoint.Transaction)
     function onTransactionIdClick(): void {
         if (explorerUrl) {
-            openUrlInBrowser(`${explorerUrl}/${activity?.asyncData?.claimingTransactionId}`)
+            openUrlInBrowser(`${explorerUrl}/${activity.asyncData?.claimingTransactionId}`)
         }
     }
 
@@ -41,7 +39,7 @@
     items={[
         {
             key: localize('general.destinationNetwork'),
-            value: getNameFromNetworkId(activity?.destinationNetworkId),
+            value: getNameFromNetworkId(activity.destinationNetworkId),
         },
         {
             key: localize('general.transactionTime'),
@@ -49,18 +47,18 @@
         },
         {
             key: localize('general.tag'),
-            value: activity?.tag,
-            tooltip: localize(`tooltips.transactionDetails.${activity?.direction}.tag`),
+            value: activity.tag,
+            tooltip: localize(`tooltips.transactionDetails.${activity.direction}.tag`),
         },
         {
             key: localize('general.metadata'),
-            value: activity?.metadata,
-            tooltip: localize(`tooltips.transactionDetails.${activity?.direction}.metadata`),
+            value: !activity.parsedLayer2Metadata ? activity.metadata : undefined,
+            tooltip: localize(`tooltips.transactionDetails.${activity.direction}.metadata`),
         },
         {
             key: localize('general.storageDeposit'),
-            value: hasStorageDeposit ? formattedStorageDeposit : undefined,
-            tooltip: localize(`tooltips.transactionDetails.${activity?.direction}.storageDeposit`),
+            value: activity.storageDeposit ? formattedStorageDeposit : undefined,
+            tooltip: localize(`tooltips.transactionDetails.${activity.direction}.storageDeposit`),
         },
         {
             key: localize('general.gasFee'),
@@ -73,20 +71,20 @@
         {
             key: localize('general.expirationTime'),
             value: expirationTime,
-            tooltip: localize(`tooltips.transactionDetails.${activity?.direction}.expirationTime`),
+            tooltip: localize(`tooltips.transactionDetails.${activity.direction}.expirationTime`),
         },
         {
             key: localize('general.timelockDate'),
-            value: activity?.asyncData?.timelockDate ? formattedTimelockDate : undefined,
-            tooltip: localize(`tooltips.transactionDetails.${activity?.direction}.timelockDate`),
+            value: activity.asyncData?.timelockDate ? formattedTimelockDate : undefined,
+            tooltip: localize(`tooltips.transactionDetails.${activity.direction}.timelockDate`),
         },
         {
             key: localize('general.claimedTime'),
             value: claimedTime,
         },
         {
-            key: localize(activity?.asyncData?.isClaiming ? 'general.claimingIn' : 'general.claimedIn'),
-            value: activity?.asyncData?.claimingTransactionId,
+            key: localize(activity.asyncData?.isClaiming ? 'general.claimingIn' : 'general.claimedIn'),
+            value: activity.asyncData?.claimingTransactionId,
             copyable: true,
             truncate: { firstCharCount: 12, endCharCount: 12 },
             onClick: explorerUrl ? onTransactionIdClick : undefined,

@@ -15,6 +15,7 @@ import {
     getTagFromOutput,
 } from './helper'
 import { getNftId } from './outputs'
+import { isStardustNetwork } from '@core/network/utils'
 
 export function generateSingleNftActivity(
     account: IAccountState,
@@ -48,7 +49,9 @@ export function generateSingleNftActivity(
     const destinationNetworkId = getNetworkIdFromAddress(recipient?.address, sourceNetworkId)
 
     const asyncData = getAsyncDataFromOutput(output, outputId, claimingData, account)
-    const parsedLayer2Metadata = parseLayer2Metadata(metadata)
+
+    const isToLayer2 = isStardustNetwork(sourceNetworkId) && sourceNetworkId !== destinationNetworkId
+    const parsedLayer2Metadata = isToLayer2 ? parseLayer2Metadata(metadata) : undefined
 
     return {
         type: ActivityType.Nft,

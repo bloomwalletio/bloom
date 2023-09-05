@@ -20,6 +20,7 @@ import {
     getTagFromOutput,
 } from './helper'
 import { getNativeTokenFromOutput } from './outputs'
+import { isStardustNetwork } from '@core/network/utils'
 
 export function generateSingleBasicActivity(
     account: IAccountState,
@@ -55,7 +56,9 @@ export function generateSingleBasicActivity(
     const destinationNetworkId = getNetworkIdFromAddress(recipient?.address, sourceNetworkId)
 
     const asyncData = getAsyncDataFromOutput(output, outputId, claimingData, account)
-    const parsedLayer2Metadata = parseLayer2Metadata(metadata)
+
+    const isToLayer2 = isStardustNetwork(sourceNetworkId) && sourceNetworkId !== destinationNetworkId
+    const parsedLayer2Metadata = isToLayer2 ? parseLayer2Metadata(metadata) : undefined
 
     const gasLimit = Number(parsedLayer2Metadata?.gasLimit ?? '0')
 
