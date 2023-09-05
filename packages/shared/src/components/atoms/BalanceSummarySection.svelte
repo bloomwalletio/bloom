@@ -16,7 +16,7 @@
     let expanded = false
 
     $: hasChildren = !!Object.keys(subBreakdown ?? {}).length
-    $: ({ baseCoin } = $selectedAccountTokens?.[$activeProfile?.network?.id] ?? {})
+    $: baseCoin = $selectedAccountTokens?.[$activeProfile?.network?.id]?.baseCoin
 
     function getAmount(amount: number): string {
         return baseCoin?.metadata ? formatTokenAmountBestMatch(amount, baseCoin.metadata) : ''

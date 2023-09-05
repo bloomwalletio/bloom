@@ -1,6 +1,6 @@
 <script lang="ts">
     import { localize } from '@core/i18n'
-    import { IToken, formatTokenAmountDefault, getUnitFromTokenMetadata } from '@core/token'
+    import { ITokenWithBalance, formatTokenAmountDefault, getUnitFromTokenMetadata } from '@core/token'
     import { getTokenBalance } from '@core/token/actions'
     import { getTokenFromSelectedAccountTokens } from '@core/token/stores'
     import { SendFlowType, sendFlowParameters, updateSendFlowParameters } from '@core/wallet'
@@ -9,7 +9,7 @@
     import SendFlowTemplate from './SendFlowTemplate.svelte'
 
     let tokenAmountInput: TokenAmountInput
-    let token: IToken
+    let token: ITokenWithBalance
     let rawAmount: string
     let amount: string
     let unit: string
@@ -19,7 +19,10 @@
         $sendFlowParameters.type === SendFlowType.BaseCoinTransfer ||
         $sendFlowParameters.type === SendFlowType.TokenTransfer
     ) {
-        token = $sendFlowParameters[tokenKey].token
+        token = getTokenFromSelectedAccountTokens(
+            $sendFlowParameters[tokenKey].token?.id,
+            sendFlowParameters[tokenKey].token?.networkId
+        )
         rawAmount = $sendFlowParameters[tokenKey].rawAmount
         unit = $sendFlowParameters[tokenKey].unit || getUnitFromTokenMetadata(token?.metadata)
     }
@@ -41,7 +44,7 @@
             updateSendFlowParameters({
                 type: $sendFlowParameters.type,
                 [tokenKey]: {
-                    token,
+                    token: $sendFlowParameters[tokenKey].token,
                     rawAmount,
                     unit,
                 },
@@ -56,7 +59,7 @@
         updateSendFlowParameters({
             type: $sendFlowParameters.type,
             [tokenKey]: {
-                token,
+                token: $sendFlowParameters[tokenKey].token,
                 rawAmount: undefined,
                 unit,
             },
