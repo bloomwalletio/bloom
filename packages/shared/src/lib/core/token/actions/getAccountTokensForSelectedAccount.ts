@@ -7,7 +7,7 @@ import { getActiveNetworkId } from '@core/network/actions/getActiveNetworkId'
 import { isStardustNetwork } from '@core/network/utils'
 import { sortTokens } from '@core/token/utils/sortTokens'
 import { BASE_TOKEN_ID } from '../constants'
-import { IToken } from '../interfaces'
+import { ITokenWithBalance } from '../interfaces'
 import { AccountTokens, IAccountTokensPerNetwork } from '../interfaces/account-tokens.interface'
 import { getPersistedToken } from '../stores'
 import { isValidIrc30Token, isValidToken } from '../utils'
@@ -42,7 +42,7 @@ function getAccountAssetForNetwork(
 ): IAccountTokensPerNetwork {
     const shouldCalculateFiatPrice = isStardustNetwork(networkId)
     const persistedBaseCoin = getPersistedToken(BASE_TOKEN_ID)
-    const baseCoin: IToken = {
+    const baseCoin: ITokenWithBalance = {
         ...persistedBaseCoin,
         networkId,
         balance: {
@@ -52,7 +52,7 @@ function getAccountAssetForNetwork(
         ...(shouldCalculateFiatPrice && { marketPrices: marketCoinPrices?.shimmer }),
     }
 
-    const nativeTokens: IToken[] = []
+    const nativeTokens: ITokenWithBalance[] = []
     const tokens = account?.balances?.nativeTokens ?? []
     for (const token of tokens) {
         const persistedAsset = getPersistedToken(token.tokenId)
@@ -81,8 +81,8 @@ function getAccountAssetForChain(accountIndex: number, networkId: NetworkId): IA
         return undefined
     }
 
-    let baseCoin: IToken | undefined
-    const nativeTokens: IToken[] = []
+    let baseCoin: ITokenWithBalance | undefined
+    const nativeTokens: ITokenWithBalance[] = []
     const tokens = Object.entries(balanceForNetworkId) ?? []
 
     for (const [tokenId, balance] of tokens) {

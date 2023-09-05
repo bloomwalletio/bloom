@@ -1,27 +1,27 @@
 <script lang="ts">
+    import { localize } from '@core/i18n'
+    import { AccountTokens, ITokenWithBalance } from '@core/token'
+    import { isVisibleToken } from '@core/token/actions/isVisibleToken'
+    import { tokenFilter } from '@core/token/stores'
     import VirtualList from '@sveltejs/svelte-virtual-list'
     import { Text, TextType, TokenAmountTile } from '@ui'
-    import { TokenListMenuButton, Filter } from '../../../../desktop/components'
-    import { localize } from '@core/i18n'
-    import { AccountTokens, IToken } from '@core/token'
-    import { tokenFilter } from '@core/token/stores'
-    import { isVisibleToken } from '@core/token/actions/isVisibleToken'
+    import { Filter, TokenListMenuButton } from '../../../../desktop/components'
     import { PopupId, openPopup } from '../../../../desktop/lib/auxiliary/popup'
 
     export let accountTokens: AccountTokens
 
-    let filteredTokenList: IToken[]
+    let filteredTokenList: ITokenWithBalance[]
     $: $tokenFilter, accountTokens, (filteredTokenList = getFilteredTokenList()), scrollToTop()
 
     let isEmptyBecauseOfFilter: boolean = false
     $: accountTokens, (isEmptyBecauseOfFilter = getTokenList().length > 0 && filteredTokenList.length === 0)
 
-    function getFilteredTokenList(): IToken[] {
+    function getFilteredTokenList(): ITokenWithBalance[] {
         const list = getTokenList()
         return list.filter((_nativeToken) => isVisibleToken(_nativeToken))
     }
 
-    function getTokenList(): IToken[] {
+    function getTokenList(): ITokenWithBalance[] {
         const list = []
         for (const networkTokens of Object.values(accountTokens)) {
             if (networkTokens?.baseCoin) {
@@ -39,7 +39,7 @@
         }
     }
 
-    function onTokenAmountTileClick(token: IToken): void {
+    function onTokenAmountTileClick(token: ITokenWithBalance): void {
         openPopup({
             id: PopupId.TokenInformation,
             overflow: true,
