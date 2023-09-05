@@ -1,14 +1,14 @@
 import { selectedAccount } from '@core/account/stores/selected-account.store'
 import { layer2Balances } from '@core/layer-2/stores/layer2-balances.store'
 import { marketCoinPrices } from '@core/market/stores/market-coin-prices.store'
+import { NetworkId } from '@core/network'
 import { activeProfileId } from '@core/profile/stores/active-profile-id.store'
 import { derived, get, Readable, writable, Writable } from 'svelte/store'
 import { getAccountTokensForSelectedAccount } from '../actions/getAccountTokensForSelectedAccount'
 import { DEFAULT_ASSET_FILTER } from '../constants'
-import { IToken, TokenFilter } from '../interfaces'
-import { persistedTokens } from './persisted-tokens.store'
+import { ITokenWithBalance, TokenFilter } from '../interfaces'
 import { AccountTokens, IAccountTokensPerNetwork } from '../interfaces/account-tokens.interface'
-import { NetworkId } from '@core/network'
+import { persistedTokens } from './persisted-tokens.store'
 
 export const tokenFilter: Writable<TokenFilter> = writable(DEFAULT_ASSET_FILTER)
 
@@ -39,7 +39,10 @@ export const visibleSelectedAccountTokens: Readable<AccountTokens> = derived(
     }
 )
 
-export function getTokenFromSelectedAccountTokens(tokenId: string, networkId: NetworkId): IToken | undefined {
+export function getTokenFromSelectedAccountTokens(
+    tokenId: string,
+    networkId: NetworkId
+): ITokenWithBalance | undefined {
     const tokens = get(selectedAccountTokens)[networkId]
     const { baseCoin, nativeTokens } = tokens ?? {}
     if (tokenId === baseCoin?.id) {
