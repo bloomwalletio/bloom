@@ -63,11 +63,11 @@
             tooltip: localize(`tooltips.transactionDetails.${activity.direction}.storageDeposit`),
         },
         {
-            key: localize('general.gasLimit'),
+            key: localize('general.estimatedFee'),
             value: !formattedTransactionFee ? formattedEstimatedGasFee : undefined,
         },
         {
-            key: localize('general.gasLimit'),
+            key: localize('general.maxFees'),
             value: !formattedTransactionFee ? formattedMaxGasFee : undefined,
         },
         {

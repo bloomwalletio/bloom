@@ -17,9 +17,6 @@ export type BaseActivity = {
     isInternal: boolean
     storageDeposit: number
 
-    // to remove ?
-    gasUsed?: number
-
     // to add
     estimatedGasFee?: number
     maxGasFee?: number
