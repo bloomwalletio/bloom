@@ -1,5 +1,4 @@
-import { convertToRawAmount } from '@core/token'
-import { getPersistedToken } from '@core/token/stores'
+import { BASE_TOKEN_ID, convertToRawAmount } from '@core/token'
 import { dateIsAfterOtherDate, dateIsBeforeOtherDate, datesOnSameDay } from '@core/utils'
 import {
     BooleanFilterOption,
@@ -55,7 +54,7 @@ export function isVisibleActivity(activity: Activity): boolean {
 function isVisibleWithActiveHiddenFilter(activity: Activity, filter: ActivityFilter): boolean {
     if (
         (!filter.showHidden.active || filter.showHidden.selected === BooleanFilterOption.No) &&
-        activity.isAssetHidden
+        activity.isTokenHidden
     ) {
         return false
     }
@@ -88,7 +87,8 @@ function isVisibleWithActiveTokenFilter(activity: Activity, filter: ActivityFilt
         if (activity.type !== ActivityType.Basic && activity.type !== ActivityType.Foundry) {
             return false
         }
-        if (filter.token.selected && activity.tokenId !== filter.token.selected) {
+        const tokenId = activity.tokenTransfer?.token.id ?? activity.baseTokenTransfer?.token.id ?? BASE_TOKEN_ID
+        if (filter.token.selected && tokenId !== filter.token.selected) {
             return false
         }
     }
@@ -97,8 +97,8 @@ function isVisibleWithActiveTokenFilter(activity: Activity, filter: ActivityFilt
 
 function isVisibleWithActiveAmountFilter(activity: Activity, filter: ActivityFilter): boolean {
     if (filter.amount.active && (activity.type === ActivityType.Basic || activity.type === ActivityType.Foundry)) {
-        const token = getPersistedToken(activity.tokenId)
-        const activityAmount = Big(activity.rawAmount)
+        const { token, rawAmount } = activity.tokenTransfer ?? activity.baseTokenTransfer
+        const activityAmount = Big(rawAmount)
 
         if (
             filter.amount.selected === NumberFilterOption.Equal &&

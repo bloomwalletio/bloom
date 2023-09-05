@@ -8,8 +8,8 @@ export type BaseActivity = {
     id: string
     action: ActivityAction
     isHidden?: boolean
-    isTokenHidden: boolean // is this needed?
-    containsValue: boolean // is this needed?
+    isTokenHidden?: boolean // is this needed?
+    containsValue?: boolean // is this needed?
 
     // transaction information
     transactionId?: string
@@ -30,8 +30,8 @@ export type BaseActivity = {
     direction: ActivityDirection
 
     // asset information
-    storageDeposit: number
-    baseTokenTransfer?: TokenTransferData
+    storageDeposit?: number
+    baseTokenTransfer: TokenTransferData
     tokenTransfer?: TokenTransferData
 
     // smart contract information

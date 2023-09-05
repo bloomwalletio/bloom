@@ -15,6 +15,7 @@ import {
     getTagFromOutput,
 } from './helper'
 import { getNativeTokenFromOutput } from './outputs'
+import { TokenTransferData } from '@core/wallet'
 
 export function generateBaseActivity(
     account: IAccountState,
@@ -49,14 +50,14 @@ export function generateBaseActivity(
 
     // asset information
     const storageDeposit = getStorageDepositFromOutput(output)
-    const baseTokenTransfer = {
+    const baseTokenTransfer: TokenTransferData = {
         token: { ...getPersistedToken(BASE_TOKEN_ID), networkId: sourceNetworkId },
-        amount: getAmountFromOutput(output) - storageDeposit,
+        rawAmount: String(getAmountFromOutput(output) - storageDeposit),
     }
     const nativeToken = getNativeTokenFromOutput(output)
-    const tokenTransfer = {
+    const tokenTransfer: TokenTransferData = {
         token: { ...getPersistedToken(nativeToken.id), networkId: sourceNetworkId },
-        amount: nativeToken.amount,
+        rawAmount: String(nativeToken.amount),
     }
 
     return {
