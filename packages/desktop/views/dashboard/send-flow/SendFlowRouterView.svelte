@@ -13,10 +13,6 @@
         Platform.trackEvent('send-flow-route', { route: $sendFlowRoute })
     }
 
-    import { evmChainGasPrices } from 'shared/src/lib/core/layer-2/stores'
-    /* eslint-disable no-console */
-    $: console.log('GAS PRICES UPDATED: ', $evmChainGasPrices)
-
     onDestroy(() => {
         stopPollingEvmChainGasPrices()
     })
