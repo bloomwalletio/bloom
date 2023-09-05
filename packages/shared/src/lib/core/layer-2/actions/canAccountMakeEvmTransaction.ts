@@ -25,5 +25,5 @@ export function canAccountMakeEvmTransaction(
         return undefined
     }
     const minimumGasFee = calculateGasFeeInGlow(gasLimit, gasPrice)
-    return BigInt(baseTokenAccountBalance) < BigInt(minimumGasFee.toString())
+    return BigInt(baseTokenAccountBalance) > BigInt(minimumGasFee.toString())
 }

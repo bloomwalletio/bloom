@@ -27,7 +27,17 @@
     let accountTokens: AccountTokens
     $: accountTokens = getAccountTokensForSelectedAccount($marketCoinPrices)
     $: accountTokens, searchValue, setFilteredTokenList()
+
     let hasTokenError: boolean = false
+    $: if (isEvmChain(selectedToken?.networkId)) {
+        hasTokenError = !canAccountMakeEvmTransaction(
+            $selectedAccountIndex,
+            selectedToken.networkId,
+            $sendFlowParameters?.type
+        )
+    } else {
+        hasTokenError = false
+    }
 
     let tokenList: ITokenWithBalance[]
     function getTokenList(): ITokenWithBalance[] {
@@ -69,9 +79,6 @@
     function onTokenClick(token: ITokenWithBalance): void {
         try {
             selectedToken = token
-            hasTokenError =
-                canAccountMakeEvmTransaction($selectedAccountIndex, token.networkId, SendFlowType.BaseCoinTransfer) ??
-                false
         } catch (err) {
             handleError(err)
         }

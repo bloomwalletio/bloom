@@ -34,20 +34,30 @@
         pollEvmChainGasPrices,
         stopPollingEvmChainGasPrices,
     } from '@core/layer-2/actions'
-    import { handleError } from '@core/error/handlers'
 
     let selector: NetworkRecipientSelector
     let selectorOptions: INetworkRecipientSelectorOption[] = []
     let selectedIndex = -1
 
-    let hasNetworkRecipientError: boolean = false
-
     const assetName = getAssetName()
-
-    $: selectedRecipient = selectorOptions[selectedIndex]?.selectedRecipient
 
     let selectedNetworkId: NetworkId
     $: selectedNetworkId = selectorOptions[selectedIndex]?.networkId
+    $: selectedRecipient = selectorOptions[selectedIndex]?.selectedRecipient
+
+    let hasNetworkRecipientError: boolean = false
+    $: {
+        const originNetworkId = getNetworkIdFromSendFlowParameters($sendFlowParameters)
+        if (isEvmChain(originNetworkId)) {
+            hasNetworkRecipientError = !canAccountMakeEvmTransaction(
+                $selectedAccountIndex,
+                originNetworkId,
+                $sendFlowParameters?.type
+            )
+        } else {
+            hasNetworkRecipientError = false
+        }
+    }
 
     function getAssetName(): string | undefined {
         if ($sendFlowParameters?.type === SendFlowType.BaseCoinTransfer) {
@@ -195,16 +205,6 @@
         pollEvmChainGasPrices(networkIdsToPoll)
     }
 
-    function onNetworkClick(): void {
-        try {
-            const originNetworkId = getNetworkIdFromSendFlowParameters($sendFlowParameters)
-            hasNetworkRecipientError =
-                canAccountMakeEvmTransaction($selectedAccountIndex, originNetworkId, $sendFlowParameters.type) ?? false
-        } catch (err) {
-            handleError(err)
-        }
-    }
-
     function onContinueClick(): void {
         if (validate()) {
             updateSendFlowParameters({
@@ -261,7 +261,6 @@
     }}
 >
     <NetworkRecipientSelector
-        onNetworkSelected={onNetworkClick}
         hasError={hasNetworkRecipientError}
         bind:this={selector}
         bind:options={selectorOptions}
