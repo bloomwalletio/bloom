@@ -1,35 +1,45 @@
-import { Subject } from '@core/wallet/types'
+import { Subject, TokenTransferData } from '@core/wallet/types'
 import { ActivityAsyncStatus, ActivityDirection, InclusionState, ActivityAction } from '../enums'
-import { Layer2Metadata } from '@core/layer-2'
+import { SmartContract } from '@core/layer-2'
 import { NetworkId } from '@core/network'
 
 export type BaseActivity = {
+    // meta information
     id: string
-    outputId?: string
+    action: ActivityAction
+    isHidden?: boolean
+    isTokenHidden: boolean // is this needed?
+    containsValue: boolean // is this needed?
+
+    // transaction information
     transactionId?: string
+    outputId?: string
     time: Date
     inclusionState: InclusionState
-    isHidden?: boolean
-    containsValue: boolean
-    isAssetHidden: boolean
-    direction: ActivityDirection
-    action: ActivityAction
-    isInternal: boolean
-    storageDeposit: number
+    tag?: string
+    metadata?: string
+    asyncData?: AsyncData
 
-    // to add
+    // sender / recipient information
+    sender?: Subject | undefined
+    recipient?: Subject | undefined
+    subject: Subject | undefined
+    isInternal: boolean
+    sourceNetworkId: NetworkId
+    destinationNetworkId: NetworkId
+    direction: ActivityDirection
+
+    // asset information
+    storageDeposit: number
+    baseTokenTransfer?: TokenTransferData
+    tokenTransfer?: TokenTransferData
+
+    // smart contract information
+    // TODO: move to separate type
+    smartContract?: SmartContract
     estimatedGasFee?: number
     maxGasFee?: number
     transactionFee?: number
-
-    rawBaseCoinAmount?: number
-    subject: Subject | undefined
-    metadata?: string
-    tag?: string
-    sourceNetworkId: NetworkId
-    destinationNetworkId: NetworkId
-    asyncData?: AsyncData
-    parsedLayer2Metadata?: Layer2Metadata
 }
 
 export type AsyncData = {
