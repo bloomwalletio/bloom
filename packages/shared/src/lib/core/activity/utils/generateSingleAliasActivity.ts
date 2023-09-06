@@ -8,7 +8,6 @@ import { ActivityType } from '../enums'
 import { AliasActivity } from '../types'
 import { generateBaseActivity } from './generateBaseActivity'
 import { getGovernorAddressFromAliasOutput, getStateControllerAddressFromAliasOutput } from './helper'
-import { getPersistedToken } from '@core/token/stores'
 import { BASE_TOKEN_ID } from '@core/token'
 
 export async function generateSingleAliasActivity(
@@ -22,7 +21,7 @@ export async function generateSingleAliasActivity(
         ? Number(baseActivity.baseTokenTransfer?.rawAmount)
         : undefined
     baseActivity.baseTokenTransfer = {
-        token: { ...getPersistedToken(BASE_TOKEN_ID), networkId },
+        tokenId: BASE_TOKEN_ID,
         rawAmount: '0',
     }
 

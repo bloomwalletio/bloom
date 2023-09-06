@@ -1,4 +1,4 @@
-import { Subject, TokenTransferData } from '@core/wallet/types'
+import { Subject } from '@core/wallet/types'
 import { ActivityAsyncStatus, ActivityDirection, InclusionState, ActivityAction } from '../enums'
 import { SmartContract } from '@core/layer-2'
 import { NetworkId } from '@core/network'
@@ -31,8 +31,14 @@ export type BaseActivity = {
 
     // asset information
     storageDeposit?: number
-    baseTokenTransfer: TokenTransferData
-    tokenTransfer?: TokenTransferData
+    baseTokenTransfer: {
+        rawAmount: string
+        tokenId: string
+    }
+    tokenTransfer?: {
+        rawAmount: string
+        tokenId: string
+    }
 
     // smart contract information
     // TODO: move to separate type

@@ -1,6 +1,7 @@
 import { formatTokenAmountBestMatch } from '@core/token'
 import { ActivityAction, ActivityDirection, ActivityType } from '../../enums'
 import { FoundryActivity, TransactionActivity } from '../../types'
+import { getPersistedToken } from '@core/token/stores'
 
 export function getFormattedAmountFromActivity(
     activity: TransactionActivity | FoundryActivity,
@@ -10,7 +11,7 @@ export function getFormattedAmountFromActivity(
 
     const transferData = activity.tokenTransfer ?? activity.baseTokenTransfer
 
-    const metadata = transferData.token?.metadata
+    const metadata = getPersistedToken(transferData?.tokenId)?.metadata
     const amount = metadata ? formatTokenAmountBestMatch(Number(transferData.rawAmount), metadata, 2) : undefined
     if (activity.type === ActivityType.Basic) {
         return `${

@@ -8,13 +8,17 @@
     } from '@core/activity'
     import { localize } from '@core/i18n'
     import { IToken } from '@core/token/interfaces'
-    import { selectedAccountTokens } from '@core/token/stores'
+    import { getTokenFromSelectedAccountTokens, selectedAccountTokens } from '@core/token/stores'
     import { ActivityTileContent, TokenAvatar } from '@ui'
 
     export let activity: TransactionActivity
 
     let token: IToken
-    $: $selectedAccountTokens, (token = activity.tokenTransfer?.token ?? activity.baseTokenTransfer.token)
+    $: $selectedAccountTokens,
+        (token = getTokenFromSelectedAccountTokens(
+            activity.tokenTransfer?.tokenId ?? activity.baseTokenTransfer.tokenId,
+            activity.sourceNetworkId
+        ))
     $: action = localize(getActivityTileTitle(activity))
     $: subject =
         activity.direction === ActivityDirection.SelfTransaction

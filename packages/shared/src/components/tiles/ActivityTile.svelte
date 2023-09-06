@@ -2,7 +2,7 @@
     import { Activity, ActivityAsyncStatus, ActivityType, InclusionState } from '@core/activity'
     import { time } from '@core/app/stores'
     import { IToken, ITokenWithBalance, NotVerifiedStatus } from '@core/token'
-    import { selectedAccountTokens } from '@core/token/stores'
+    import { getTokenFromSelectedAccountTokens, selectedAccountTokens } from '@core/token/stores'
     import {
         AliasActivityTileContent,
         AsyncActivityTileFooter,
@@ -23,7 +23,10 @@
     $: $selectedAccountTokens,
         (token =
             activity.type === ActivityType.Basic || activity.type === ActivityType.Foundry
-                ? activity.tokenTransfer?.token ?? activity.baseTokenTransfer.token
+                ? getTokenFromSelectedAccountTokens(
+                      activity.tokenTransfer?.tokenId ?? activity.baseTokenTransfer.tokenId,
+                      activity.sourceNetworkId
+                  )
                 : undefined)
     $: isTimelocked = activity?.asyncData?.timelockDate ? activity?.asyncData?.timelockDate > $time : false
     $: shouldShowAsyncFooter = activity.asyncData && activity.asyncData.asyncStatus !== ActivityAsyncStatus.Claimed

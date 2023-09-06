@@ -47,19 +47,19 @@ export async function sendTransactionFromEvm(
                     // TODO: this only works for base token and not native tokens
                     const tokenTransfer = activity.tokenTransfer ?? activity.baseTokenTransfer
                     const delta =
-                        tokenTransfer.token.id === BASE_TOKEN_ID
+                        tokenTransfer.tokenId === BASE_TOKEN_ID
                             ? (Number(tokenTransfer.rawAmount) + Number(activity?.transactionFee ?? 0)) * -1
                             : Number(tokenTransfer.rawAmount) * -1
                     const newBalance = updateLayer2AccountBalanceForTokenOnChain(
                         account.index,
                         networkId,
-                        tokenTransfer.token.id,
+                        tokenTransfer.tokenId,
                         delta
                     )
                     await calculateAndAddPersistedBalanceChange(
                         account.index,
                         networkId,
-                        tokenTransfer.token.id,
+                        tokenTransfer.tokenId,
                         newBalance,
                         true
                     )

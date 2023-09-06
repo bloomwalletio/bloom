@@ -4,12 +4,16 @@
     import { FoundryActivity, getActivityTileTitle } from '@core/activity'
     import { TokenAvatar, ActivityTileContent } from '@ui'
     import { getFormattedAmountFromActivity } from '@core/activity/utils/outputs'
-    import { selectedAccountTokens } from '@core/token/stores'
+    import { getTokenFromSelectedAccountTokens, selectedAccountTokens } from '@core/token/stores'
 
     export let activity: FoundryActivity
 
     let token: IToken | undefined
-    $: $selectedAccountTokens, (token = activity.tokenTransfer?.token ?? activity.baseTokenTransfer.token)
+    $: $selectedAccountTokens,
+        (token = getTokenFromSelectedAccountTokens(
+            activity.tokenTransfer?.tokenId ?? activity.baseTokenTransfer.tokenId,
+            activity.sourceNetworkId
+        ))
     $: action = localize(getActivityTileTitle(activity))
     $: amount = getFormattedAmountFromActivity(activity)
     $: formattedAsset = {

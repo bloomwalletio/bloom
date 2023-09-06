@@ -3,6 +3,7 @@ import { getNftByIdFromAllAccountNfts } from '@core/nfts/actions'
 import { TokenTransferData } from '@core/wallet/types'
 import { ActivityType, GovernanceAction } from '../enums'
 import { Activity } from '../types'
+import { getTokenFromSelectedAccountTokens } from '@core/token/stores'
 
 export function getTransactionAssets(
     activity: Activity,
@@ -15,16 +16,38 @@ export function getTransactionAssets(
           baseCoinTransfer?: TokenTransferData
       }
     | undefined {
+    const baseCoin = getTokenFromSelectedAccountTokens(activity.baseTokenTransfer.tokenId, activity.sourceNetworkId)
+
+    if (!baseCoin) {
+        return undefined
+    }
+
+    const baseCoinTransfer = {
+        rawAmount: activity.baseTokenTransfer.rawAmount,
+        token: baseCoin,
+    }
+
     if (activity.type === ActivityType.Nft) {
         const nft = getNftByIdFromAllAccountNfts(accountIndex, activity.nftId)
         return {
             nft,
-            baseCoinTransfer: activity.baseTokenTransfer,
+            baseCoinTransfer,
         }
     } else if (activity.type === ActivityType.Basic || activity.type === ActivityType.Foundry) {
+        const token = activity.tokenTransfer?.tokenId
+            ? getTokenFromSelectedAccountTokens(activity.tokenTransfer.tokenId, activity.sourceNetworkId)
+            : undefined
+        const tokenAmount = activity.tokenTransfer?.rawAmount
+
         return {
-            tokenTransfer: activity.tokenTransfer,
-            baseCoinTransfer: activity.baseTokenTransfer,
+            tokenTransfer:
+                token && tokenAmount
+                    ? {
+                          rawAmount: tokenAmount,
+                          token,
+                      }
+                    : undefined,
+            baseCoinTransfer,
         }
     } else if (activity.type === ActivityType.Governance) {
         const isVotingPowerActivity =
@@ -34,7 +57,7 @@ export function getTransactionAssets(
         return {
             baseCoinTransfer: {
                 rawAmount: String(amount),
-                token: activity.baseTokenTransfer.token,
+                token: baseCoin,
             },
         }
     } else if (activity.type === ActivityType.Alias) {

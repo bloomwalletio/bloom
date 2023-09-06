@@ -4,7 +4,6 @@ import { SmartContract, parseLayer2Metadata } from '@core/layer-2'
 import { NetworkId } from '@core/network/types'
 import { isStardustNetwork } from '@core/network/utils'
 import { BASE_TOKEN_ID } from '@core/token'
-import { getPersistedToken } from '@core/token/stores'
 import { ActivityType } from '../enums'
 import { TransactionActivity } from '../types'
 import { generateBaseActivity } from './generateBaseActivity'
@@ -30,7 +29,7 @@ export async function generateSingleBasicActivity(
             ? Number(baseActivity.baseTokenTransfer.rawAmount) - transferAmount
             : 0
         baseActivity.baseTokenTransfer = {
-            token: { ...getPersistedToken(BASE_TOKEN_ID), networkId },
+            tokenId: BASE_TOKEN_ID,
             rawAmount: String(transferAmount),
         }
         baseActivity.transactionFee = transferDelta
@@ -40,7 +39,7 @@ export async function generateSingleBasicActivity(
         const persistedToken = await getOrRequestTokenFromPersistedTokens(overrideTokenId, baseActivity.sourceNetworkId)
         baseActivity.tokenTransfer = persistedToken
             ? {
-                  token: { ...persistedToken, networkId: baseActivity.sourceNetworkId },
+                  tokenId: overrideTokenId,
                   rawAmount: String(overrideAmount),
               }
             : undefined

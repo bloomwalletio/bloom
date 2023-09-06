@@ -3,7 +3,6 @@ import { BaseActivity, IActivityGenerationParameters } from '@core/activity/type
 import { getNetworkIdFromAddress } from '@core/layer-2/actions'
 import { NetworkId } from '@core/network/types'
 import { BASE_TOKEN_ID } from '@core/token'
-import { getPersistedToken } from '@core/token/stores'
 import { IBasicOutput } from '@iota/types'
 import { activityOutputContainsValue } from '..'
 import {
@@ -15,7 +14,6 @@ import {
     getTagFromOutput,
 } from './helper'
 import { getNativeTokenFromOutput } from './outputs'
-import { TokenTransferData } from '@core/wallet'
 import { getOrRequestTokenFromPersistedTokens } from '@core/token/actions'
 
 export async function generateBaseActivity(
@@ -51,18 +49,18 @@ export async function generateBaseActivity(
 
     // asset information
     const storageDeposit = getStorageDepositFromOutput(output)
-    const baseTokenTransfer: TokenTransferData = {
-        token: { ...getPersistedToken(BASE_TOKEN_ID), networkId: sourceNetworkId },
+    const baseTokenTransfer = {
+        tokenId: BASE_TOKEN_ID,
         rawAmount: String(getAmountFromOutput(output) - storageDeposit),
     }
     const nativeToken = getNativeTokenFromOutput(output)
     const persistedToken = nativeToken
         ? await getOrRequestTokenFromPersistedTokens(nativeToken.id, sourceNetworkId)
         : undefined
-    const tokenTransfer: TokenTransferData | undefined =
+    const tokenTransfer =
         persistedToken && nativeToken
             ? {
-                  token: { ...persistedToken, networkId: sourceNetworkId },
+                  tokenId: persistedToken.id,
                   rawAmount: String(nativeToken.amount),
               }
             : undefined

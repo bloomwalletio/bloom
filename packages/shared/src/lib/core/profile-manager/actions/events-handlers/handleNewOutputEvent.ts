@@ -48,7 +48,7 @@ export async function handleNewOutputEventInternal(
         const activities = await generateActivities(processedOutput, account, networkId)
         for (const activity of activities) {
             if (activity.type === ActivityType.Basic || activity.type === ActivityType.Foundry) {
-                const tokenId = activity.tokenTransfer?.token.id ?? activity.baseTokenTransfer?.token.id
+                const tokenId = activity.tokenTransfer?.tokenId ?? activity.baseTokenTransfer?.tokenId
                 getOrRequestTokenFromPersistedTokens(tokenId, activity.sourceNetworkId)
             }
         }

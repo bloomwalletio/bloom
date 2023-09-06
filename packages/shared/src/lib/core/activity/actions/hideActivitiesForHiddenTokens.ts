@@ -12,7 +12,7 @@ export function hideActivitiesForHiddenTokens(): void {
     allAccountActivities.update((state) => {
         state[get(selectedAccountIndex)].forEach((_activity) => {
             if (_activity.type === ActivityType.Basic || _activity.type === ActivityType.Foundry) {
-                const tokenId = _activity.tokenTransfer?.token.id ?? BASE_TOKEN_ID
+                const tokenId = _activity.tokenTransfer?.tokenId ?? BASE_TOKEN_ID
                 const isTokenHidden = !tokens[tokenId] || tokens[tokenId]?.hidden
                 updateActivityFromPartialActivity(_activity, { isTokenHidden })
             }
