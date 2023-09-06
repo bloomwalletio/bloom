@@ -15,6 +15,7 @@ import {
 } from './helper'
 import { getNativeTokenFromOutput } from './outputs'
 import { getOrRequestTokenFromPersistedTokens } from '@core/token/actions'
+import { getActiveNetworkId } from '@core/network'
 
 export async function generateBaseActivity(
     account: IAccountState,
@@ -37,13 +38,12 @@ export async function generateBaseActivity(
     const asyncData = getAsyncDataFromOutput(output, outputId, processedTransaction.claimingData, account)
 
     // sender / recipient information
-    const { sender, recipient, subject, isInternal } = getSendingInformation(
-        processedTransaction,
-        output,
-        account,
-        networkId
-    )
-    const sourceNetworkId = getNetworkIdFromAddress(sender?.address, networkId)
+    const { recipient, subject, isInternal } = getSendingInformation(processedTransaction, output, account, networkId)
+
+    // this function is only used to generate an activity on the stardust network
+    // even if we unwrap a token the second transaction is sent from the stardust alias
+    // controlling the sub chain to our stardust address
+    const sourceNetworkId = getActiveNetworkId()
     const destinationNetworkId = getNetworkIdFromAddress(recipient?.address, sourceNetworkId)
     const direction = processedTransaction.direction
 
