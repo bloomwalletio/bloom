@@ -1,5 +1,5 @@
-import { EvmChainId } from '@core/network'
+import { NetworkId } from '@core/network/types'
 
 export type EvmChainGasPrices = {
-    [key in EvmChainId]?: bigint
+    [id in NetworkId]?: bigint
 }

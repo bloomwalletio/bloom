@@ -10,14 +10,14 @@ export function getEvmChainGasPrice(networkId: NetworkId): bigint | undefined {
 }
 
 export function setEvmChainGasPrice(price: bigint, networkId: NetworkId): void {
-    evmChainGasPrices.update((_evmChainGasPrices) => {
+    evmChainGasPrices.update((state) => {
         if (typeof price === 'bigint' && isEvmChain(networkId)) {
             return {
-                ..._evmChainGasPrices,
+                ...state,
                 [networkId]: price,
             }
         } else {
-            return _evmChainGasPrices
+            return state
         }
     })
 }

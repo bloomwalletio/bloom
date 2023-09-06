@@ -6,8 +6,15 @@
     import { localize } from '@core/i18n'
     import { canAccountMakeEvmTransaction, pollEvmChainGasPrice } from '@core/layer-2/actions'
     import { marketCoinPrices } from '@core/market/stores'
-    import { getNetwork, isEvmChain } from '@core/network'
-    import { AccountTokens, BASE_TOKEN_ID, IToken, ITokenWithBalance, TokenStandard } from '@core/token'
+    import { NetworkId, getNetwork, isEvmChain } from '@core/network'
+    import {
+        AccountTokens,
+        BASE_TOKEN_ID,
+        IAccountTokensPerNetwork,
+        IToken,
+        ITokenWithBalance,
+        TokenStandard,
+    } from '@core/token'
     import { getAccountTokensForSelectedAccount, getTokenBalance } from '@core/token/actions'
     import { selectedAccountTokens } from '@core/token/stores'
     import { SendFlowType, sendFlowParameters, setSendFlowParameters } from '@core/wallet'
@@ -42,7 +49,10 @@
     let tokenList: ITokenWithBalance[]
     function getTokenList(): ITokenWithBalance[] {
         const list = []
-        for (const [networkId, tokensPerNetwork] of Object.entries(accountTokens)) {
+        for (const [networkId, tokensPerNetwork] of Object.entries(accountTokens) as [
+            NetworkId,
+            IAccountTokensPerNetwork,
+        ][]) {
             if (isEvmChain(networkId)) {
                 pollEvmChainGasPrice(networkId)
             }
