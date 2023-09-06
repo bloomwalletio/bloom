@@ -7,13 +7,13 @@
         TransactionActivity,
     } from '@core/activity'
     import { localize } from '@core/i18n'
-    import { IToken } from '@core/token/interfaces'
+    import { ITokenWithBalance } from '@core/token/interfaces'
     import { getTokenFromSelectedAccountTokens, selectedAccountTokens } from '@core/token/stores'
     import { ActivityTileContent, TokenAvatar } from '@ui'
 
     export let activity: TransactionActivity
 
-    let token: IToken
+    let token: ITokenWithBalance | undefined
     $: $selectedAccountTokens,
         (token = getTokenFromSelectedAccountTokens(
             activity.tokenTransfer?.tokenId ?? activity.baseTokenTransfer.tokenId,
