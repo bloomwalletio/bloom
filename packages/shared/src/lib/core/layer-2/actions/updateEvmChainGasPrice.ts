@@ -1,7 +1,7 @@
 import { handleError } from '@core/error/handlers'
 import { NetworkId } from '@core/network/types'
 import { setEvmChainGasPrice } from '../stores'
-import { getGasPriceForNetwork } from './getGasPriceFromProvider'
+import { getGasPriceForNetwork } from './getGasPriceForNetwork'
 
 export async function updateEvmChainGasPrice(chainId: NetworkId): Promise<void> {
     try {
