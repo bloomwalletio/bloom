@@ -198,12 +198,12 @@
     </div>
     <Pane classes="flex flex-col p-6 space-y-3 w-full h-full max-w-lg">
         <nft-title class="flex justify-between items-center">
-            <Text type={TextType.h3} fontWeight={FontWeight.semibold}>{name}</Text>
+            <Text type={TextType.h3} fontWeight={FontWeight.semibold} classes="truncate">{name}</Text>
             <MeatballMenuButton onClick={modal?.toggle} />
             <CollectibleDetailsMenu bind:modal {nft} />
         </nft-title>
         {#if description}
-            <nft-description>
+            <nft-description class="overflow-scroll">
                 <Text type={TextType.h5} fontWeight={FontWeight.normal} color="gray-700">
                     {description}
                 </Text>
