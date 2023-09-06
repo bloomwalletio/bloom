@@ -4,7 +4,7 @@
     import { LedgerAppName, ledgerDeviceState } from '@core/ledger'
     import { closePopup } from '@desktop/auxiliary/popup'
     import { Text, TextType } from '@ui'
-    import { UiEventFunction } from 'shared/src/lib/core/utils'
+    import { UiEventFunction } from '@core/utils'
 
     export let appName: LedgerAppName
     export let onEnabled: UiEventFunction = () => {}
