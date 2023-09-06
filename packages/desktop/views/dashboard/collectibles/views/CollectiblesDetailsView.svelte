@@ -37,110 +37,66 @@
     const issuerAddress = getBech32AddressFromAddressTypes(issuer)
     const collectionId = getHexAddressFromAddressTypes(issuer)
 
-    let detailsList: IItem[] = []
-
     $: returnIfNftWasSent($allAccountNfts[$selectedAccountIndex], $time)
     $: timeDiff = getTimeDifference(new Date(nft.timelockTime), $time)
     $: alertText = getAlertText(downloadMetadata)
+
+    let detailsList: IItem[] = []
     $: detailsList = [
-        ...(id
-            ? [
-                  {
-                      key: localize('general.nftId'),
-                      value: id,
-                      copyable: true,
-                      truncate: { firstCharCount: 20, endCharCount: 20 },
-                  },
-              ]
-            : []),
-        ...(address
-            ? [
-                  {
-                      key: localize('general.address'),
-                      value: address,
-                      copyable: true,
-                      truncate: { firstCharCount: 20, endCharCount: 20 },
-                  },
-              ]
-            : []),
-        ...(storageDeposit
-            ? [
-                  {
-                      key: localize('general.storageDeposit'),
-                      value: formatTokenAmountPrecise(storageDeposit, getBaseToken()),
-                  },
-              ]
-            : []),
-        ...(standard
-            ? [
-                  {
-                      key: localize('general.standard'),
-                      value: version ? `${standard} - ${version}` : standard,
-                  },
-              ]
-            : []),
-        ...(type
-            ? [
-                  {
-                      key: localize('general.type'),
-                      value: type,
-                  },
-              ]
-            : []),
-        ...(uri
-            ? [
-                  {
-                      key: localize('general.uri'),
-                      value: uri,
-                      copyable: true,
-                  },
-              ]
-            : []),
-        ...(issuerName
-            ? [
-                  {
-                      key: localize('general.issuer'),
-                      value: issuerName,
-                  },
-              ]
-            : []),
-        ...(issuer?.type === ADDRESS_TYPE_ED25519
-            ? [
-                  {
-                      key: localize('general.issuerAddress'),
-                      value: issuerAddress,
-                      copyable: true,
-                      truncate: { firstCharCount: 20, endCharCount: 20 },
-                  },
-              ]
-            : []),
-        ...(collectionName
-            ? [
-                  {
-                      key: localize('general.collection'),
-                      value: collectionName,
-                  },
-              ]
-            : []),
-        ...(issuer?.type === ADDRESS_TYPE_NFT || issuer?.type === ADDRESS_TYPE_ALIAS
-            ? [
-                  {
-                      key: localize('general.collectionId'),
-                      value: collectionId,
-                      copyable: true,
-                      truncate: { firstCharCount: 20, endCharCount: 20 },
-                  },
-              ]
-            : []),
-        ...(!nft?.parsedMetadata && metadata
-            ? [
-                  {
-                      key: localize('general.metadata'),
-                      value: metadata,
-                      copyable: true,
-                  },
-              ]
-            : []),
+        {
+            key: localize('general.nftId'),
+            value: id || undefined,
+            copyable: true,
+            truncate: { firstCharCount: 20, endCharCount: 20 },
+        },
+        {
+            key: localize('general.address'),
+            value: address || undefined,
+            copyable: true,
+            truncate: { firstCharCount: 20, endCharCount: 20 },
+        },
+        {
+            key: localize('general.storageDeposit'),
+            value: storageDeposit ? formatTokenAmountPrecise(storageDeposit, getBaseToken()) : undefined,
+        },
+        {
+            key: localize('general.standard'),
+            value: version ? `${standard} - ${version}` : standard,
+        },
+        {
+            key: localize('general.type'),
+            value: type || undefined,
+        },
+        {
+            key: localize('general.uri'),
+            value: uri || undefined,
+            copyable: true,
+        },
+        {
+            key: localize('general.issuer'),
+            value: issuerName || undefined,
+        },
+        {
+            key: localize('general.issuerAddress'),
+            value: issuer?.type === ADDRESS_TYPE_ED25519 ? issuerAddress : undefined,
+            copyable: true,
+            truncate: { firstCharCount: 20, endCharCount: 20 },
+        },
+        {
+            key: localize('general.collection'),
+            value: collectionName || undefined,
+        },
+        {
+            key: localize('general.collectionId'),
+            value: issuer?.type === ADDRESS_TYPE_NFT || issuer?.type === ADDRESS_TYPE_ALIAS ? collectionId : undefined,
+            copyable: true,
+            truncate: { firstCharCount: 20, endCharCount: 20 },
+        },
+        {
+            key: localize('general.metadata'),
+            value: !nft?.parsedMetadata && metadata ? metadata : undefined,
+            copyable: true,
+        },
     ]
 
     function returnIfNftWasSent(ownedNfts: INft[], currentTime: Date): void {
