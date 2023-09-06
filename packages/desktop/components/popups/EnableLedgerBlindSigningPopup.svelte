@@ -21,15 +21,9 @@
 
 <div class="w-full h-full space-y-2 flex flex-auto flex-col shrink-0">
     <Alert variant="warning" text={localize('popups.enableLedgerBlindSigning.info')} />
-    <div>
-        {#each STEPS as step}
-            <Text type={TextType.p} fontSize="15" color="gray-600" classes="my-2">
-                {#if step === 2}
-                    {step}. {localize(`popups.enableLedgerBlindSigning.step_${step}`, { appName })}
-                {:else}
-                    {step}. {localize(`popups.enableLedgerBlindSigning.step_${step}`)}
-                {/if}
-            </Text>
-        {/each}
-    </div>
+    {#each STEPS as step}
+        <Text type={TextType.p} fontSize="15" color="gray-600">
+            {step}. {localize(`popups.enableLedgerBlindSigning.step_${step}`, { appName })}
+        </Text>
+    {/each}
 </div>
