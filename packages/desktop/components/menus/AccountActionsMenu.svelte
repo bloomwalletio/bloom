@@ -5,9 +5,9 @@
     import { deleteAccount } from '@core/profile-manager/actions'
     import { activeAccounts, visibleActiveAccounts } from '@core/profile/stores'
     import { PopupId, openPopup } from '@desktop/auxiliary/popup'
-    import { MenuItem, Modal, ToggleHiddenAccountMenuItem } from '@ui'
+    import { MeatballMenuButton, MenuItem, Modal, ToggleHiddenAccountMenuItem } from '@ui'
 
-    export let modal: Modal = undefined
+    let modal: Modal = undefined
 
     const showDeleteAccount =
         $selectedAccount?.index === $activeAccounts?.length - 1 && $visibleActiveAccounts?.length > 1
@@ -34,19 +34,26 @@
     }
 </script>
 
-<Modal bind:this={modal} {...$$restProps}>
-    <account-actions-menu class="flex flex-col">
-        <MenuItem icon={Icon.Doc} title={localize('actions.viewBalanceBreakdown')} onClick={onViewBalanceClick} />
-        <MenuItem icon={Icon.Customize} title={localize('actions.customizeAcount')} onClick={onCustomiseAccountClick} />
-        <ToggleHiddenAccountMenuItem onClick={modal?.close} />
-        <hr />
-        {#if showDeleteAccount}
+<account-actions-menu class="relative">
+    <MeatballMenuButton onClick={modal?.toggle} />
+    <Modal bind:this={modal} {...$$restProps} position={{ right: '0' }}>
+        <account-actions-menu class="flex flex-col">
+            <MenuItem icon={Icon.Doc} title={localize('actions.viewBalanceBreakdown')} onClick={onViewBalanceClick} />
             <MenuItem
-                icon={Icon.Delete}
-                title={localize('actions.deleteAccount')}
-                onClick={onDeleteAccountClick}
-                variant="error"
+                icon={Icon.Customize}
+                title={localize('actions.customizeAcount')}
+                onClick={onCustomiseAccountClick}
             />
-        {/if}
-    </account-actions-menu>
-</Modal>
+            <ToggleHiddenAccountMenuItem onClick={modal?.close} />
+            <hr />
+            {#if showDeleteAccount}
+                <MenuItem
+                    icon={Icon.Delete}
+                    title={localize('actions.deleteAccount')}
+                    onClick={onDeleteAccountClick}
+                    variant="error"
+                />
+            {/if}
+        </account-actions-menu>
+    </Modal>
+</account-actions-menu>

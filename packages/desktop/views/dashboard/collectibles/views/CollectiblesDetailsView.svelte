@@ -1,5 +1,6 @@
 <script lang="ts">
-    import { Alert, type IItem, Table } from '@bloomwalletio/ui'
+    import { Alert, Table, type IItem } from '@bloomwalletio/ui'
+    import { CollectibleDetailsMenu } from '@components'
     import { selectedAccountIndex } from '@core/account/stores'
     import { time } from '@core/app/stores'
     import { openUrlInBrowser } from '@core/app/utils'
@@ -20,8 +21,8 @@
         getHexAddressFromAddressTypes,
     } from '@core/wallet'
     import { SendFlowType, setSendFlowParameters } from '@core/wallet/stores'
-    import { openPopup, PopupId } from '@desktop/auxiliary/popup'
-    import { Button, CollectibleDetailsMenu, MeatballMenuButton, Modal, NftMedia, Pane, Text } from '@ui'
+    import { PopupId, openPopup } from '@desktop/auxiliary/popup'
+    import { Button, Modal, NftMedia, Pane, Text } from '@ui'
     import { FontWeight, TextType } from '@ui/enums'
     import { SendFlowRoute, SendFlowRouter, sendFlowRouter } from '@views/dashboard/send-flow'
 
@@ -155,7 +156,6 @@
     <Pane classes="flex flex-col p-6 space-y-3 w-full h-full max-w-lg">
         <nft-title class="flex justify-between items-center">
             <Text type={TextType.h3} fontWeight={FontWeight.semibold} classes="truncate">{name}</Text>
-            <MeatballMenuButton onClick={modal?.toggle} />
             <CollectibleDetailsMenu bind:modal {nft} />
         </nft-title>
         {#if description}
