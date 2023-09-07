@@ -1,5 +1,6 @@
 <script lang="ts">
     import { showNotification } from '@auxiliary/notification'
+    import { Alert } from '@bloomwalletio/ui'
     import { OnboardingLayout } from '@components'
     import { onboardingProfile, updateOnboardingProfile } from '@contexts/onboarding'
     import { handleError } from '@core/error/handlers'
@@ -12,7 +13,7 @@
     import { unlockStronghold } from '@core/profile/actions'
     import { activeProfile, updateActiveProfile } from '@core/profile/stores'
     import { PASSWORD_REASON_MAP } from '@core/stronghold'
-    import { Animation, Button, PasswordInput, Text, TextHint } from '@ui'
+    import { Animation, Button, PasswordInput, Text } from '@ui'
     import { HTMLButtonType, TextType } from '@ui/enums'
     import { onMount } from 'svelte'
     import zxcvbn from 'zxcvbn'
@@ -122,7 +123,7 @@
         </Text>
     </div>
     <div slot="leftpane__content">
-        <TextHint warning text={localize('views.updateStronghold.changePassword.hint')} />
+        <Alert variant="warning" text={localize('views.updateStronghold.changePassword.hint')} />
         <form on:submit|preventDefault={onSubmit} id="update-stronghold-form" class="mt-12">
             <PasswordInput
                 bind:value={newPassword}

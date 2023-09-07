@@ -1,12 +1,12 @@
 <script lang="ts">
-    import { Table } from '@bloomwalletio/ui'
-    import { Text, TextHint, LedgerAnimation, TextType } from '@ui'
+    import { Alert, Table } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
-    import { formatHexString } from '@core/utils'
-    import { onDestroy } from 'svelte'
-    import { showInternalVerificationPopup, resetShowInternalVerificationPopup } from '@core/ledger'
-    import { formatTokenAmountBestMatch } from '@core/token/utils'
+    import { resetShowInternalVerificationPopup, showInternalVerificationPopup } from '@core/ledger'
     import { getBaseToken } from '@core/profile/actions'
+    import { formatTokenAmountBestMatch } from '@core/token/utils'
+    import { formatHexString } from '@core/utils'
+    import { LedgerAnimation, Text, TextType } from '@ui'
+    import { onDestroy } from 'svelte'
 
     export let isEvmTransaction: boolean
     export let useBlindSigning: boolean
@@ -80,6 +80,6 @@
             ]}
         />
     {:else if $showInternalVerificationPopup}
-        <TextHint info text={localize('popups.verifyInternalLedgerTransaction.hint')} />
+        <Alert variant="info" text={localize('popups.verifyInternalLedgerTransaction.hint')} />
     {/if}
 </div>
