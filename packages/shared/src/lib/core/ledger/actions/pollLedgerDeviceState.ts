@@ -1,5 +1,6 @@
 import { get } from 'svelte/store'
-import { deconstructLedgerDeviceStatePollingConfiguration } from '../helpers'
+import { profileManager as _profileManager } from '@core/profile-manager/stores'
+import { DEFAULT_LEDGER_NANO_STATUS_POLL_INTERVAL } from '../constants'
 import { ILedgerDeviceStatePollingConfiguration } from '../interfaces'
 import { isPollingLedgerDeviceState } from '../stores'
 import { getAndUpdateLedgerDeviceState } from './getAndUpdateLedgerDeviceState'
@@ -7,7 +8,8 @@ import { getAndUpdateLedgerDeviceState } from './getAndUpdateLedgerDeviceState'
 let intervalTimer: ReturnType<typeof setInterval> | undefined
 
 export function pollLedgerDeviceState(config?: ILedgerDeviceStatePollingConfiguration): void {
-    const { pollInterval, profileManager } = deconstructLedgerDeviceStatePollingConfiguration(config)
+    const pollInterval = config?.pollInterval ?? DEFAULT_LEDGER_NANO_STATUS_POLL_INTERVAL
+    const profileManager = config?.profileManager ?? _profileManager
 
     if (!get(isPollingLedgerDeviceState)) {
         void getAndUpdateLedgerDeviceState(profileManager)

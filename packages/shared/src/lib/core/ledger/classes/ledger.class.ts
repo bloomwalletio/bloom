@@ -87,8 +87,6 @@ export class Ledger {
             if (mustEnableBlindSigning) {
                 openPopup({
                     id: PopupId.EnableLedgerBlindSigning,
-                    hideClose: true,
-                    preventClose: true,
                     props: {
                         appName: LedgerAppName.Ethereum,
                         onEnabled: async () => {

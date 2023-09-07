@@ -1,6 +1,6 @@
 import { LedgerDeviceType } from '@iota/wallet/types'
 import { LedgerAppName } from '../enums'
-import { ILedgerAppSettings } from './ledger-app-settings.interface'
+import { ILedgerAppSettings } from './app-settings'
 
 export interface ILedgerDeviceState {
     connected?: boolean
