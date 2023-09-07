@@ -1,15 +1,16 @@
 <script lang="ts">
-    import { Button, Text, TextHint, FontWeight, TextType, AccountLabel } from '@ui'
-    import { localize } from '@core/i18n'
-    import { closePopup } from '@desktop/auxiliary/popup'
-    import { handleError } from '@core/error/handlers'
-    import { onMount } from 'svelte'
-    import { selectedAccount } from '@core/account/stores'
-    import { sleep, truncateString } from '@core/utils'
     import { IConnectedDapp } from '@auxiliary/wallet-connect/interface'
-    import { IAccountState } from '@core/account'
-    import { IChain } from '@core/network'
     import { CallbackParameters } from '@auxiliary/wallet-connect/types'
+    import { Alert } from '@bloomwalletio/ui'
+    import { IAccountState } from '@core/account'
+    import { selectedAccount } from '@core/account/stores'
+    import { handleError } from '@core/error/handlers'
+    import { localize } from '@core/i18n'
+    import { IChain } from '@core/network'
+    import { sleep, truncateString } from '@core/utils'
+    import { closePopup } from '@desktop/auxiliary/popup'
+    import { AccountLabel, Button, FontWeight, Text, TextType } from '@ui'
+    import { onMount } from 'svelte'
 
     export let _onMount: (..._: any[]) => Promise<void> = async () => {}
     export let message: string
@@ -84,9 +85,12 @@
             </Text>
         </section>
         {#if dapp}
-            <TextHint info text={localize('popups.signMessage.hint', { dappName: dapp.metadata?.name ?? 'Unkown' })} />
+            <Alert
+                variant="info"
+                text={localize('popups.signMessage.hint', { dappName: dapp.metadata?.name ?? 'Unkown' })}
+            />
         {:else}
-            <TextHint warning text={localize('popups.signMessage.warning')} />
+            <Alert variant="warning" text={localize('popups.signMessage.warning')} />
         {/if}
     </div>
     <popup-buttons class="flex flex-row flex-nowrap w-full space-x-4">
