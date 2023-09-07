@@ -1,11 +1,9 @@
 <script lang="ts">
     import { NetworkRecipientItem } from '@ui'
     import { INetworkRecipientSelectorOption } from '../interfaces'
-    import { UiEventFunction } from '../../lib/core/utils'
 
     export let options: INetworkRecipientSelectorOption[]
     export let selectedIndex = -1
-    export let onNetworkSelected: UiEventFunction
     export let hasError: boolean = false
 
     const reipientItems: Record<number, NetworkRecipientItem> = {}
@@ -14,9 +12,8 @@
         reipientItems[selectedIndex]?.validate()
     }
 
-    function onItemClick(index: number) {
+    function onItemClick(index: number): void {
         selectedIndex = index
-        onNetworkSelected && onNetworkSelected()
     }
 </script>
 

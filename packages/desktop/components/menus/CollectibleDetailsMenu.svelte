@@ -7,8 +7,8 @@
     import { activeProfile, updateActiveProfile } from '@core/profile/stores'
     import { CollectiblesRoute, collectiblesRouter } from '@core/router'
     import { burnNft } from '@core/wallet'
-    import { MenuItem, Modal } from '@ui'
-    import { PopupId, closePopup, openPopup } from '../../../../desktop/lib/auxiliary/popup'
+    import { PopupId, closePopup, openPopup } from '@desktop/auxiliary/popup'
+    import { MeatballMenuButton, MenuItem, Modal } from '@ui'
 
     export let modal: Modal = undefined
     export let nft: INft
@@ -75,30 +75,33 @@
     }
 </script>
 
-<Modal bind:this={modal} position={{ top: '100px', right: '60px' }}>
-    <div class="flex flex-col">
-        <MenuItem
-            icon="receive"
-            title={localize('views.collectibles.details.menu.download')}
-            disabled={true}
-            onClick={() => {}}
-        />
-        <MenuItem
-            icon="profile"
-            title={localize(`views.collectibles.details.menu.${isCurrentPfp ? 'unsetPfp' : 'setPfp'}`)}
-            onClick={onSetPfpClick}
-        />
-        <MenuItem
-            icon="export"
-            title={localize('views.collectibles.details.menu.view')}
-            onClick={onOpenMediaClick}
-            disabled={!url}
-        />
-        <MenuItem
-            icon="delete"
-            title={localize('views.collectibles.details.menu.burn')}
-            onClick={openBurnNft}
-            disabled={isLocked}
-        />
-    </div>
-</Modal>
+<collectible-details-menu class="relative">
+    <MeatballMenuButton onClick={modal?.toggle} />
+    <Modal bind:this={modal} position={{ right: '0' }}>
+        <div class="flex flex-col">
+            <MenuItem
+                icon="receive"
+                title={localize('views.collectibles.details.menu.download')}
+                disabled={true}
+                onClick={() => {}}
+            />
+            <MenuItem
+                icon="profile"
+                title={localize(`views.collectibles.details.menu.${isCurrentPfp ? 'unsetPfp' : 'setPfp'}`)}
+                onClick={onSetPfpClick}
+            />
+            <MenuItem
+                icon="export"
+                title={localize('views.collectibles.details.menu.view')}
+                onClick={onOpenMediaClick}
+                disabled={!url}
+            />
+            <MenuItem
+                icon="delete"
+                title={localize('views.collectibles.details.menu.burn')}
+                onClick={openBurnNft}
+                disabled={isLocked}
+            />
+        </div>
+    </Modal>
+</collectible-details-menu>

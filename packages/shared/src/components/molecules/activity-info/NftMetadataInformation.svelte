@@ -33,6 +33,10 @@
                 copyable: true,
             },
             {
+                key: localize('general.description'),
+                value: metadata.description,
+            },
+            {
                 key: localize('general.issuerName'),
                 value: metadata.issuerName,
                 tooltip: localize('tooltips.transactionDetails.nftMetadata.issuerName'),

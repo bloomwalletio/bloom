@@ -1,6 +1,5 @@
 <script lang="ts">
     import { localize, parseCurrency } from '@core/i18n'
-    import { activeProfile } from '@core/profile/stores'
     import {
         ITokenWithBalance,
         TokenStandard,
@@ -8,7 +7,6 @@
         formatTokenAmountDefault,
         getUnitFromTokenMetadata,
     } from '@core/token'
-    import { visibleSelectedAccountTokens } from '@core/token/stores'
     import { getMaxDecimalsFromTokenMetadata } from '@core/token/utils'
     import { AmountInput, InputContainer, SliderInput, Text, TokenLabel, UnitInput } from '@ui'
     import Big from 'big.js'
@@ -17,8 +15,7 @@
     export let disabled = false
     export let isFocused = false
     export let votingPower: number = 0
-    export let token: ITokenWithBalance | undefined =
-        $visibleSelectedAccountTokens?.[$activeProfile?.network?.id]?.baseCoin
+    export let token: ITokenWithBalance
     export let rawAmount: string | undefined = undefined
     export let unit: string | undefined = undefined
     export let amount: string | undefined =
@@ -30,8 +27,8 @@
     let error: string
 
     $: isFocused && (error = '')
-    $: allowedDecimals = getMaxDecimalsFromTokenMetadata(token?.metadata, unit)
-    $: availableBalance = token?.balance?.available + votingPower
+    $: allowedDecimals = getMaxDecimalsFromTokenMetadata(token.metadata, unit)
+    $: availableBalance = (token.balance.available ?? 0) + votingPower
     $: bigAmount = convertToRawAmount(amount, token?.metadata, unit)
     $: max = parseCurrency(formatTokenAmountDefault(availableBalance, token?.metadata, unit, false))
     $: rawAmount = bigAmount?.toString()
