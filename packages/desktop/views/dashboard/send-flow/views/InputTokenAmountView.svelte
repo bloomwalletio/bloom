@@ -1,12 +1,12 @@
 <script lang="ts">
     import { localize } from '@core/i18n'
     import {
+        BASE_TOKEN_ID,
         ITokenWithBalance,
         formatTokenAmountDefault,
         formatTokenAmountPrecise,
         getUnitFromTokenMetadata,
     } from '@core/token'
-    import { getTokenBalance } from '@core/token/actions'
     import { getTokenFromSelectedAccountTokens } from '@core/token/stores'
     import {
         SendFlowType,
@@ -23,7 +23,6 @@
     import { getNetwork } from '@core/network/stores'
     import { selectedAccount } from '@core/account/stores'
     import { calculateMaxGasFeeFromTransactionData } from '@core/layer-2/utils'
-    import { BigIntLike } from '@ethereumjs/util'
     import { Table } from '@bloomwalletio/ui'
     import { getBaseToken } from '@core/profile/actions'
 
@@ -32,7 +31,7 @@
     let rawAmount: string
     let amount: string
     let unit: string
-    let maxGasFee: BigIntLike = 0
+    let maxGasFee: number = 0
     const tokenKey = $sendFlowParameters.type === SendFlowType.TokenTransfer ? 'tokenTransfer' : 'baseCoinTransfer'
 
     if (
@@ -47,13 +46,11 @@
         unit = $sendFlowParameters[tokenKey].unit || getUnitFromTokenMetadata(token?.metadata)
     }
 
-    $: tokenBalance = getTokenBalance(token?.id, token?.networkId)
-
     function setToMax(): void {
         if (token?.metadata?.decimals) {
-            amount = formatTokenAmountDefault(tokenBalance?.available, token?.metadata, unit, false)
+            amount = formatTokenAmountDefault(token.balance.available - Number(maxGasFee), token?.metadata, unit, false)
         } else {
-            amount = tokenBalance?.available?.toString() ?? '0'
+            amount = (token.balance.available - Number(maxGasFee))?.toString() ?? '0'
         }
     }
 
@@ -89,7 +86,7 @@
 
     onMount(async () => {
         const networkId = getNetworkIdFromSendFlowParameters($sendFlowParameters)
-        if (isEvmChain(networkId)) {
+        if (isEvmChain(networkId) && token.id === BASE_TOKEN_ID) {
             const chain = getNetwork()?.getChain(networkId)
             const txData = await createEvmTransactionFromSendFlowParameters(
                 $sendFlowParameters,
@@ -97,7 +94,7 @@
                 $selectedAccount
             )
 
-            maxGasFee = formatTokenAmountPrecise(Number(calculateMaxGasFeeFromTransactionData(txData)), getBaseToken())
+            maxGasFee = Number(calculateMaxGasFeeFromTransactionData(txData))
         }
     })
 </script>
@@ -115,19 +112,19 @@
         bind:rawAmount
         bind:inputtedAmount={amount}
         {unit}
-        availableBalance={tokenBalance?.available}
+        availableBalance={token?.balance?.available}
     />
     <TokenAvailableBalanceTile
-        token={getTokenFromSelectedAccountTokens(token.id, token.networkId)}
+        token={{ ...token, balance: { ...token.balance, available: token.balance.available - Number(maxGasFee) } }}
         onMaxClick={setToMax}
     />
 
-    {#if maxGasFee}
+    {#if token.id === BASE_TOKEN_ID && maxGasFee}
         <Table
             items={[
                 {
                     key: localize('general.transactionFee'),
-                    value: String(maxGasFee),
+                    value: formatTokenAmountPrecise(maxGasFee, getBaseToken()),
                 },
             ]}
         />
