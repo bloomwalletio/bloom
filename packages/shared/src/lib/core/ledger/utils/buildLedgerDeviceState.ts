@@ -12,7 +12,7 @@ export function buildLedgerDeviceState(
         device: status.device,
         app: status.app?.name as LedgerAppName,
         settings: <ILedgerAppSettings>{
-            ...(status.app?.name === LedgerAppName.Shimmer && {
+            ...((status.app?.name as LedgerAppName) === LedgerAppName.Shimmer && {
                 [LedgerAppName.Shimmer]: {
                     version: status.app.version,
                     blindSigningEnabled: status?.blindSigningEnabled,
