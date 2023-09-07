@@ -18,6 +18,7 @@
         "@walletconnect/jsonrpc-types": "1.0.3",
         "@walletconnect/types": "2.9.0",
         "@walletconnect/web3wallet": "1.8.2",
+        "abi-decoder": "^2.4.0",
         "big-integer": "1.6.51",
         "big.js": "6.2.1",
         "lottie-web": "5.12.2",
