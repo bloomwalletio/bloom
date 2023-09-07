@@ -1,5 +1,6 @@
 <script lang="ts">
     import { Icon as IconEnum } from '@auxiliary/icon'
+    import { Alert } from '@bloomwalletio/ui'
     import {
         Platform,
         isLatestStrongholdVersion,
@@ -14,7 +15,7 @@
     import { isValidPin } from '@core/utils'
     import { PopupId, openPopup, popupState } from '@desktop/auxiliary/popup'
     import features from '@features/features'
-    import { Icon, PinInput, Profile, Text, TextHint } from '@ui'
+    import { Icon, PinInput, Profile, Text } from '@ui'
     import { onDestroy } from 'svelte'
 
     let attempts: number = 0
@@ -126,7 +127,7 @@
             <div class="flex flex-col gap-8 w-full items-center">
                 <Profile profile={$activeProfile} {updateRequired} />
                 {#if updateRequired}
-                    <TextHint warning text={localize('views.login.hintStronghold')} />
+                    <Alert variant="warning" text={localize('views.login.hintStronghold')} />
                 {/if}
                 <div class="flex w-full items-center">
                     <div class="relative h-6">

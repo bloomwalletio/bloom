@@ -1,9 +1,10 @@
 <script lang="ts">
+    import { Alert } from '@bloomwalletio/ui'
     import { OnboardingLayout } from '@components'
     import { completeOnboardingProcess, isOnboardingLedgerProfile } from '@contexts/onboarding'
     import { localize } from '@core/i18n'
     import { checkOrConnectLedger } from '@core/ledger'
-    import { Animation, Button, Icon, Text, TextHint } from '@ui'
+    import { Animation, Button, Icon, Text } from '@ui'
     import { onboardingRouter } from '@views/onboarding/onboarding-router'
 
     function onContinueClick(): void {
@@ -33,7 +34,7 @@
             >
         </div>
         {#if $isOnboardingLedgerProfile}
-            <TextHint warning text={localize('views.onboarding.congratulations.ledgerHint')} />
+            <Alert variant="warning" text={localize('views.onboarding.congratulations.ledgerHint')} />
         {/if}
     </div>
     <div slot="leftpane__action">
