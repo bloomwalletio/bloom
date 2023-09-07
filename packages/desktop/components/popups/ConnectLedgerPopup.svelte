@@ -1,14 +1,15 @@
 <script lang="ts">
+    import { Alert } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
     import {
-        LedgerConnectionState,
         LedgerAppName,
+        LedgerConnectionState,
         determineLedgerConnectionState,
         ledgerDeviceState,
     } from '@core/ledger'
     import { isFunction } from '@core/utils'
-    import { Button, LedgerAnimation, Text, TextHint, FontWeight, TextType } from '@ui'
     import { closePopup } from '@desktop/auxiliary/popup'
+    import { Button, FontWeight, LedgerAnimation, Text, TextType } from '@ui'
 
     export let ledgerAppName: LedgerAppName
     export let onCancel: () => void
@@ -61,13 +62,13 @@
     </Text>
     <LedgerAnimation {animation} />
     {#if isNotConnected}
-        <TextHint danger text={localize('popups.ledgerNotConnected.notConnected')} />
+        <Alert variant="danger" text={localize('popups.ledgerNotConnected.notConnected')} />
     {:else if isLocked}
-        <TextHint warning text={localize('popups.ledgerNotConnected.locked')} />
+        <Alert variant="warning" text={localize('popups.ledgerNotConnected.locked')} />
     {:else if isAppNotOpen}
-        <TextHint info text={localize('popups.ledgerNotConnected.appNotOpen', { appName: ledgerAppName })} />
+        <Alert variant="info" text={localize('popups.ledgerNotConnected.appNotOpen', { appName: ledgerAppName })} />
     {:else if isCorrectAppOpen}
-        <TextHint success text={localize('popups.ledgerNotConnected.correctAppOpen')} />
+        <Alert variant="success" text={localize('popups.ledgerNotConnected.correctAppOpen')} />
     {/if}
     <popup-buttons class="flex flex-row flex-nowrap w-full space-x-4">
         <Button classes="w-full" outline onClick={onCancelClick}>

@@ -5,7 +5,7 @@
     import { tokenFilter } from '@core/token/stores'
     import VirtualList from '@sveltejs/svelte-virtual-list'
     import { Text, TextType, TokenAmountTile } from '@ui'
-    import { Filter, TokenListMenuButton } from '../../../../desktop/components'
+    import { Filter, TokenListMenu } from '../../../../desktop/components'
     import { PopupId, openPopup } from '../../../../desktop/lib/auxiliary/popup'
 
     export let accountTokens: AccountTokens
@@ -56,7 +56,7 @@
             <Text classes="text-left" type={TextType.h5}>{localize('tabs.tokens')}</Text>
             <div class="flex flex-row gap-1">
                 <Filter filterStore={tokenFilter} />
-                <TokenListMenuButton />
+                <TokenListMenu />
             </div>
         </div>
         <div class="flex-auto h-full pb-10">
