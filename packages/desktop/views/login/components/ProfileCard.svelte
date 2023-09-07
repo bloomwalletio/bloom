@@ -15,9 +15,6 @@
 <button type="button" class="profile" class:cursor-pointer={!!onClick} on:click={onProfileClick} disabled={!onClick}>
     <profile-header>
         <badge-container>
-            {#if profile?.isDeveloperProfile}
-                <Icon name={IconName.DeepLink} size="sm" />
-            {/if}
             {#if profile?.type === ProfileType.Ledger}
                 <Icon name={IconName.Cpu} size="sm" />
             {/if}

@@ -1,5 +1,6 @@
 <script lang="ts">
-    import { Button, IconName } from '@bloomwalletio/ui'
+    import { Icon, IconName } from '@bloomwalletio/ui'
+    import { ProfileCard } from '../components'
     import { initialiseOnboardingProfile, onboardingProfile } from '@contexts/onboarding'
     import { AppContext, needsToAcceptLatestPrivacyPolicy, needsToAcceptLatestTermsOfService } from '@core/app'
     import { localize } from '@core/i18n'
@@ -9,7 +10,7 @@
     import { profiles } from '@core/profile/stores'
     import { loginRouter, routerManager } from '@core/router'
     import { PopupId, openPopup } from '@desktop/auxiliary/popup'
-    import { Logo, Profile } from '@ui'
+    import { Logo } from '@ui'
     import { OnboardingRouter, onboardingRouter } from '@views/onboarding'
     import { onMount } from 'svelte'
 
@@ -44,31 +45,47 @@
     })
 </script>
 
-<section class="flex flex-col justify-between items-center h-full bg-slate-100 dark:bg-gray-900 p-12 pb-8">
-    <logo-container class="block w-full">
-        <Logo width="150" logo="logo-bloom-full" />
-    </logo-container>
-    <div class="profiles-wrapper h-auto items-start justify-center w-full overlay-scrollbar flex flex-row flex-wrap">
+<select-profile-view
+    class="flex flex-col justify-between items-center h-full bg-slate-100 dark:bg-gray-900 w-screen h-screen"
+>
+    <header class="w-full flex items-center mb-8">
+        <logo-container class="pl-12 mt-12 block">
+            <Logo width="150" logo="logo-bloom-full" />
+        </logo-container>
+    </header>
+    <div
+        class="overflow-y-auto items-start justify-center overlay-scrollbar gap-8 flex flex-row flex-wrap w-full px-20"
+    >
         {#each $profiles as profile}
-            <div class="mx-7 mb-8">
-                <Profile {profile} onClick={onContinueClick} />
-            </div>
+            <ProfileCard {profile} onClick={onContinueClick} />
         {/each}
     </div>
     <footer class="flex flex-col w-full relative">
-        <hr class="border-white dark:border-gray-800 mb-8" />
-        <Button
-            on:click={onAddProfileClick}
-            variant="text"
-            icon={IconName.Plus}
-            text={localize('general.addProfile')}
-        />
+        <hr class="border-white dark:border-gray-800" />
+        <button type="button" on:click={onAddProfileClick}>
+            <Icon name={IconName.Plus} size="sm" />
+            {localize('general.addProfile')}
+        </button>
     </footer>
-</section>
+</select-profile-view>
 
 <style lang="postcss">
-    footer:after {
+    select-profile-view > div {
+        width: 80%;
+    }
+
+    button {
+        @apply bg-transparent h-full w-full flex justify-center gap-2 text-violet-500 font-bold py-8 duration-300;
+        transition-property: background;
+        transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+
+        &:hover {
+            background: linear-gradient(to left, rgba(0, 0, 0, 0), rgba(255, 255, 255, 0.75), rgba(0, 0, 0, 0));
+        }
+    }
+
+    button:after {
         content: '';
-        @apply absolute h-full w-1/2 bg-violet-700 blur-3xl opacity-50 left-1/2 -bottom-20 -translate-x-1/2;
+        @apply absolute h-full w-1/2 bg-violet-700 blur-3xl opacity-40 left-1/2 -bottom-20 -translate-x-1/2;
     }
 </style>
