@@ -6,7 +6,7 @@ import { createMainWindow } from '../processes/main.process'
 /**
  * Define deep link state
  */
-let deepLinkUrl: string | null = null
+let deepLinkRequest: string | undefined = undefined
 
 export function initialiseDeepLinks(): void {
     setAppAsDefaultProtocolClient()
@@ -18,15 +18,14 @@ export function initialiseDeepLinks(): void {
      */
     app.on('open-url', handleDeepLinkEventOnMac)
 
-    // Handle deep linking when the app was not opened yet
-    // Deep linking for when the app is not running already (Windows, Linux)
+    // Check if deep link was passed when the app was not running
     ipcMain.on('dom-content-loaded', (event) => {
         if (windows.main) {
-            checkWindowArgsForDeepLink(event, process.argv)
+            checkWindowArgsForDeepLinkRequest(event, process.argv)
         }
     })
 
-    ipcMain.on('check-deep-link-request-exists', checkDeepLinkRequestExists)
+    ipcMain.on('check-for-deep-link-request', checkForDeepLinkRequest)
     ipcMain.on('clear-deep-link-request', clearDeepLinkRequest)
 }
 
@@ -41,48 +40,50 @@ function setAppAsDefaultProtocolClient(): void {
 
     if (process.defaultApp) {
         if (process.argv.length >= 2) {
-            app.setAsDefaultProtocolClient(process.env.APP_PROTOCOL, process.execPath, [path.resolve(process.argv[1])])
+            const appPath = path.resolve(process.argv[1])
+            app.setAsDefaultProtocolClient(process.env.APP_PROTOCOL, process.execPath, [appPath])
         }
     } else {
         app.setAsDefaultProtocolClient(process.env.APP_PROTOCOL)
     }
 }
 
+function sendDeepLinkRequestToRenderer(url: string): void {
+    if (windows.main) {
+        windows.main.webContents.send('deep-link-request', url)
+    }
+}
+
 function handleDeepLinkEventOnMac(event: Electron.Event, url: string): void {
+    deepLinkRequest = url
+
     event.preventDefault()
     if (windows.main) {
         windows.main.restore()
         windows.main.focus()
-        sendDeepLinkRequestToRenderer(url)
+        sendDeepLinkRequestToRenderer(deepLinkRequest)
     } else {
         createMainWindow()
-        deepLinkUrl = url
     }
 }
 
-export function checkWindowArgsForDeepLink(_e: Electron.Event, args: string[]): void {
+export function checkWindowArgsForDeepLinkRequest(_e: Electron.Event, args: string[]): void {
     if (args.length > 1) {
         const url = args.find((arg) => arg.startsWith(`${process.env.APP_PROTOCOL}://`))
 
         if (url) {
-            sendDeepLinkRequestToRenderer(url)
+            deepLinkRequest = url
+            sendDeepLinkRequestToRenderer(deepLinkRequest)
         }
     }
 }
 
-function checkDeepLinkRequestExists(): void {
-    if (deepLinkUrl) {
-        sendDeepLinkRequestToRenderer(deepLinkUrl)
-    }
-}
-
-function sendDeepLinkRequestToRenderer(url: string): void {
-    deepLinkUrl = url
-    if (windows.main) {
-        windows.main.webContents.send('deep-link-request', deepLinkUrl)
+function checkForDeepLinkRequest(): void {
+    if (deepLinkRequest) {
+        sendDeepLinkRequestToRenderer(deepLinkRequest)
     }
 }
 
 function clearDeepLinkRequest(): void {
-    deepLinkUrl = null
+    deepLinkRequest = undefined
 }

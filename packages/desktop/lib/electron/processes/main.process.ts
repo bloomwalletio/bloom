@@ -27,7 +27,7 @@ import NftDownloadManager from '../managers/nft-download.manager'
 import { contextMenu } from '../menus/context.menu'
 import { initMenu } from '../menus/menu'
 import { initialiseAnalytics } from '../utils/analytics.utils'
-import { checkWindowArgsForDeepLink, initialiseDeepLinks } from '../utils/deep-link.utils'
+import { checkWindowArgsForDeepLinkRequest, initialiseDeepLinks } from '../utils/deep-link.utils'
 import { getDiagnostics } from '../utils/diagnostics.utils'
 import { shouldReportError } from '../utils/error.utils'
 import { getMachineId } from '../utils/os.utils'
@@ -460,7 +460,7 @@ if (!isFirstInstance) {
             }
             windows.main.focus()
 
-            checkWindowArgsForDeepLink(_e, argv)
+            checkWindowArgsForDeepLinkRequest(_e, argv)
         }
     })
 }
