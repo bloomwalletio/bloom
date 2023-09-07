@@ -5,10 +5,10 @@
     import { ITokenWithBalance, NotVerifiedStatus, VerifiedStatus } from '@core/token'
     import { removeTrackedTokenFromActiveProfile } from '@core/token/actions'
     import { hideToken, unhideToken, unverifyToken, verifyToken } from '@core/token/stores'
+    import { PopupId, closePopup, openPopup, updatePopupProps } from '@desktop/auxiliary/popup'
     import features from '@features/features'
     import { Icon } from '@lib/auxiliary/icon'
-    import { MenuItem, Modal } from '@ui'
-    import { closePopup, openPopup, PopupId, updatePopupProps } from '../../../../desktop/lib/auxiliary/popup'
+    import { MeatballMenuButton, MenuItem, Modal } from '@ui'
 
     export let modal: Modal | undefined = undefined
     export let token: ITokenWithBalance
@@ -61,36 +61,39 @@
     }
 </script>
 
-<Modal bind:this={modal} {...$$restProps}>
-    <div class="flex flex-col">
-        {#if isTrackedToken}
-            <MenuItem icon={Icon.Search} title={localize('actions.untrackToken')} onClick={onUntrackTokenClick} />
-        {/if}
-        {#if token.verification?.status === VerifiedStatus.SelfVerified}
+<token-actions-menu class="relative">
+    <MeatballMenuButton onClick={modal?.toggle} />
+    <Modal bind:this={modal} position={{ right: '0' }} {...$$restProps}>
+        <div class="flex flex-col">
+            {#if isTrackedToken}
+                <MenuItem icon={Icon.Search} title={localize('actions.untrackToken')} onClick={onUntrackTokenClick} />
+            {/if}
+            {#if token.verification?.status === VerifiedStatus.SelfVerified}
+                <MenuItem
+                    icon={Icon.NotVerified}
+                    iconProps={{ secondaryColor: 'white' }}
+                    title={localize('actions.unverifyToken')}
+                    onClick={onUnverifyClick}
+                />
+            {:else}
+                <MenuItem
+                    icon={Icon.NotVerified}
+                    iconProps={{ secondaryColor: 'white' }}
+                    title={localize('actions.verifyToken')}
+                    onClick={onVerifyClick}
+                />
+            {/if}
+            {#if token.hidden}
+                <MenuItem icon={Icon.View} title={localize('actions.unhideToken')} onClick={onUnhideClick} />
+            {:else}
+                <MenuItem icon={Icon.Hide} title={localize('actions.hideToken')} onClick={onHideClick} />
+            {/if}
             <MenuItem
-                icon={Icon.NotVerified}
-                iconProps={{ secondaryColor: 'white' }}
-                title={localize('actions.unverifyToken')}
-                onClick={onUnverifyClick}
+                icon={Icon.Delete}
+                disabled={!features?.wallet?.assets?.burnToken.enabled}
+                title={localize('actions.burnToken')}
+                onClick={onBurnTokenClick}
             />
-        {:else}
-            <MenuItem
-                icon={Icon.NotVerified}
-                iconProps={{ secondaryColor: 'white' }}
-                title={localize('actions.verifyToken')}
-                onClick={onVerifyClick}
-            />
-        {/if}
-        {#if token.hidden}
-            <MenuItem icon={Icon.View} title={localize('actions.unhideToken')} onClick={onUnhideClick} />
-        {:else}
-            <MenuItem icon={Icon.Hide} title={localize('actions.hideToken')} onClick={onHideClick} />
-        {/if}
-        <MenuItem
-            icon={Icon.Delete}
-            disabled={!features?.wallet?.assets?.burnToken.enabled}
-            title={localize('actions.burnToken')}
-            onClick={onBurnTokenClick}
-        />
-    </div>
-</Modal>
+        </div>
+    </Modal>
+</token-actions-menu>

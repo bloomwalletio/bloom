@@ -6,8 +6,9 @@
     import { SendFlowType, setSendFlowParameters } from '@core/wallet'
     import { PopupId, openPopup, updatePopupProps } from '@desktop/auxiliary/popup'
     import { Icon as IconEnum } from '@lib/auxiliary/icon'
-    import { Button, FontWeight, Text, TextType, TokenActionsButton, TokenAmountTile, TooltipIcon } from '@ui'
+    import { Button, FontWeight, Text, TextType, TokenAmountTile, TooltipIcon } from '@ui'
     import { SendFlowRoute, SendFlowRouter, sendFlowRouter } from '@views/dashboard/send-flow'
+    import { TokenActionsMenu } from '../menus'
 
     export let token: ITokenWithBalance | undefined
     export let activityId: string = undefined
@@ -80,7 +81,7 @@
                 {/if}
             </div>
             {#if token.standard === TokenStandard.Irc30 || token.standard === TokenStandard.Erc20}
-                <TokenActionsButton {token} />
+                <TokenActionsMenu {token} />
             {/if}
         </div>
 

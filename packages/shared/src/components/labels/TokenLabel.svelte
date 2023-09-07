@@ -1,13 +1,14 @@
 <script lang="ts">
     import { IToken } from '@core/token'
-    import { FontWeight, Text, TokenIcon } from '@ui'
+    import { FontWeight, Text } from '@ui'
+    import TokenAvatar from '@ui/avatars/TokenAvatar.svelte'
 
     export let token: IToken
 </script>
 
 {#if token}
     <div class="flex flex-row items-center p-2 space-x-2 text-left bg-gray-100 dark:bg-gray-700 rounded-md">
-        <TokenIcon small persistedToken={token} networkId={token.networkId} />
+        <TokenAvatar size="xs" {token} />
         <div class="w-full relative" style="max-width: 75px;">
             <Text
                 color="gray-600"
