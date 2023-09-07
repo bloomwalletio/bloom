@@ -27,7 +27,7 @@ import NftDownloadManager from '../managers/nft-download.manager'
 import { contextMenu } from '../menus/context.menu'
 import { initMenu } from '../menus/menu'
 import { initialiseAnalytics } from '../utils/analytics.utils'
-import { checkArgsForDeepLink, initialiseDeepLinks } from '../utils/deep-link.utils'
+import { checkWindowArgsForDeepLink, initialiseDeepLinks } from '../utils/deep-link.utils'
 import { getDiagnostics } from '../utils/diagnostics.utils'
 import { shouldReportError } from '../utils/error.utils'
 import { getMachineId } from '../utils/os.utils'
@@ -170,7 +170,7 @@ function handleNavigation(e: Event, url: string): void {
     }
 }
 
-function createMainWindow(): BrowserWindow {
+export function createMainWindow(): BrowserWindow {
     const mainWindowState = windowStateKeeper('main', 'settings.json')
 
     // Create the browser window
@@ -450,21 +450,20 @@ ipcMain.handle('update-theme', (_e, theme) => (nativeTheme.themeSource = theme))
  * Create a single instance only
  */
 const isFirstInstance = app.requestSingleInstanceLock()
-
+console.log('isFirstInstance:', isFirstInstance)
 if (!isFirstInstance) {
     app.quit()
 } else {
     app.on('second-instance', (_e, argv) => {
+        console.log('second-instance', _e, argv)
         if (windows.main) {
+            console.log('isMinimized', windows.main.isMinimized())
             if (windows.main.isMinimized()) {
                 windows.main.restore()
             }
             windows.main.focus()
 
-            // Deep linking for when the app is already running (Windows, Linux)
-            if (process.platform === 'win32' || process.platform === 'linux') {
-                checkArgsForDeepLink(_e, argv)
-            }
+            checkWindowArgsForDeepLink(_e, argv)
         }
     })
 }
