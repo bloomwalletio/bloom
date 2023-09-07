@@ -1,10 +1,11 @@
 <script lang="ts">
+    import { Pill } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
     import { INode, getDefaultNodes, isSupportedNetworkId } from '@core/network'
     import { activeProfile } from '@core/profile/stores'
-    import { NodeActionsButton, Text } from '@ui'
-    import { Pill } from '@bloomwalletio/ui'
-    import { PopupId, openPopup } from '../../../../desktop/lib/auxiliary/popup'
+    import { PopupId, openPopup } from '@desktop/auxiliary/popup'
+    import { Text } from '@ui'
+    import { NodeActionsMenu } from './menus'
 
     export let nodesContainer: HTMLElement | undefined = undefined
 
@@ -57,7 +58,7 @@
                         </Pill>
                     {/if}
                 </div>
-                <NodeActionsButton {node} {clientOptions} />
+                <NodeActionsMenu {node} {clientOptions} />
             </button>
         {/each}
     {/if}

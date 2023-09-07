@@ -1,6 +1,6 @@
 <script lang="ts">
     import { onMount } from 'svelte'
-    import { Modal, MenuItem, MeatballMenuButton, ModalPosition } from '@ui'
+    import { Modal, MenuItem, MeatballMenuButton } from '@ui'
     import { selectedAccount } from '@core/account/stores'
     import { handleError } from '@core/error/handlers'
     import { localize } from '@core/i18n'
@@ -12,7 +12,6 @@
     import features from '@features/features'
 
     export let proposal: IProposal
-    export let modalPosition: ModalPosition | undefined = undefined
 
     let modal: Modal = undefined
     let isVotingForProposal: boolean
@@ -82,11 +81,13 @@
     onMount(() => void updateIsVoting())
 </script>
 
-<MeatballMenuButton onClick={modal?.toggle} />
-<Modal bind:this={modal} position={modalPosition} classes="mt-1.5">
-    <div class="flex flex-col">
-        {#each buttons as button}
-            <MenuItem {...button} />
-        {/each}
-    </div>
-</Modal>
+<proposal-details-menu class="relative">
+    <MeatballMenuButton onClick={modal?.toggle} />
+    <Modal bind:this={modal} position={{ right: '0' }}>
+        <div class="flex flex-col">
+            {#each buttons as button}
+                <MenuItem {...button} />
+            {/each}
+        </div>
+    </Modal>
+</proposal-details-menu>
