@@ -27,7 +27,7 @@ window.addEventListener('unhandledrejection', handleUnhandledRejectionEvent)
 // This is required in case the app wasn't open when the user clicks the deep link
 window.addEventListener('DOMContentLoaded', () => {
     setTimeout(() => {
-        ipcRenderer.send('ready-to-show')
+        ipcRenderer.send('dom-content-loaded')
     }, 200)
 })
 

@@ -9,88 +9,80 @@ import { createMainWindow } from '../processes/main.process'
 let deepLinkUrl: string | null = null
 
 export function initialiseDeepLinks(): void {
-    console.log('initialiseDeepLinks')
+    setAppAsDefaultProtocolClient()
+
+    /**
+     * Handle deep linking on Mac
+     * https://www.electronjs.org/docs/latest/api/app#event-open-url-macos
+     * Emitted on macOS when the user wants to open a URL with the application
+     */
+    app.on('open-url', handleDeepLinkEventOnMac)
+
+    // Handle deep linking when the app was not opened yet
+    // Deep linking for when the app is not running already (Windows, Linux)
+    ipcMain.on('dom-content-loaded', (event) => {
+        if (windows.main) {
+            checkWindowArgsForDeepLink(event, process.argv)
+        }
+    })
+
+    ipcMain.on('check-deep-link-request-exists', checkDeepLinkRequestExists)
+    ipcMain.on('clear-deep-link-request', clearDeepLinkRequest)
+}
+
+function setAppAsDefaultProtocolClient(): void {
     /**
      * Register bloom:// protocol for deep links
-     * Set Bloom as the default handler for bloom:// protocol
-     * Without registering the scheme as privileged, we can not parse the hostname with new URL()
+     * https://www.electronjs.org/docs/latest/api/protocol#protocolregisterschemesasprivilegedcustomschemes
      */
     protocol.registerSchemesAsPrivileged([
         { scheme: process.env.APP_PROTOCOL, privileges: { secure: true, standard: true } },
     ])
-    console.log('registerSchemesAsPrivileged', process.env.APP_PROTOCOL)
 
     if (process.defaultApp) {
-        console.log('process.defaultApp', process.defaultApp)
         if (process.argv.length >= 2) {
             app.setAsDefaultProtocolClient(process.env.APP_PROTOCOL, process.execPath, [path.resolve(process.argv[1])])
-            console.log('setAsDefaultProtocolClient', process.env.APP_PROTOCOL, process.execPath, [path.resolve(process.argv[1])])
         }
     } else {
-        console.log('no process.defaultApp')
         app.setAsDefaultProtocolClient(process.env.APP_PROTOCOL)
-        console.log('setAsDefaultProtocolClient', process.env.APP_PROTOCOL)
     }
-
-    /**
-     * macOS proxy deep link event to the wallet application
-     */
-    app.on('open-url', handleOpenUrl)
-
-    // Deep linking for when the app is not running already (Windows, Linux)
-    ipcMain.on('ready-to-show', (event) => {
-        console.log('ready-to-show', event)
-        if (windows.main) {
-            if (process.platform === 'win32' || process.platform === 'linux') {
-                checkWindowArgsForDeepLink(event, process.argv)
-            }
-        }
-    })
-
-    /**
-     * Check if a deep link request/event currently exists and has not been cleared
-     */
-    ipcMain.on('check-deep-link-request-exists', checkDeepLinkRequestExists)
-
-    /**
-     * Clear deep link request/event
-     */
-    ipcMain.on('clear-deep-link-request', clearDeepLinkRequest)
 }
 
-function handleOpenUrl(event: Electron.Event, url: string): void {
-    console.log('handleOpenUrl', url)
+function handleDeepLinkEventOnMac(event: Electron.Event, url: string): void {
     event.preventDefault()
-    deepLinkUrl = url
     if (windows.main) {
         windows.main.restore()
         windows.main.focus()
-        windows.main.webContents.send('deep-link-request', deepLinkUrl)
+        sendDeepLinkRequestToRenderer(url)
     } else {
         createMainWindow()
+        deepLinkUrl = url
     }
 }
 
 export function checkWindowArgsForDeepLink(_e: Electron.Event, args: string[]): void {
-    console.log('checkWindowArgsForDeepLink', _e, args)
     if (args.length > 1) {
         const url = args.find((arg) => arg.startsWith(`${process.env.APP_PROTOCOL}://`))
 
         if (url) {
-            deepLinkUrl = url
-            windows.main.webContents.send('deep-link-request', url)
+            sendDeepLinkRequestToRenderer(url)
         }
     }
 }
 
 function checkDeepLinkRequestExists(): void {
-    console.log('checkDeepLinkRequestExists', deepLinkUrl)
     if (deepLinkUrl) {
+        sendDeepLinkRequestToRenderer(deepLinkUrl)
+    }
+}
+
+function sendDeepLinkRequestToRenderer(url: string): void {
+    deepLinkUrl = url
+    if (windows.main) {
         windows.main.webContents.send('deep-link-request', deepLinkUrl)
     }
 }
 
 function clearDeepLinkRequest(): void {
-    console.log('clearDeepLinkRequest', deepLinkUrl)
     deepLinkUrl = null
 }

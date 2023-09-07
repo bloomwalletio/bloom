@@ -152,7 +152,7 @@ if (app.isPackaged) {
 /**
  * Handles url navigation events
  */
-function handleNavigation(e: Event, url: string): void {
+function tryOpenExternalUrl(e: Event, url: string): void {
     if (url === 'http://localhost:8080/') {
         // if localhost would be opened on the build versions, we need to block it to prevent errors
         if (app.isPackaged) {
@@ -231,7 +231,7 @@ export function createMainWindow(): BrowserWindow {
      *  The handler only allows navigation to an external browser.
      */
     windows.main.webContents.on('will-navigate', (a, b) => {
-        handleNavigation(a as unknown as Event, b)
+        tryOpenExternalUrl(a as unknown as Event, b)
     })
 
     windows.main.on('close', () => {
@@ -377,8 +377,8 @@ powerMonitor.on('lock-screen', () => {
 // IPC handlers for APIs exposed from main process
 
 // URLs
-ipcMain.handle('open-url', (_e, url) => {
-    handleNavigation(_e as unknown as Event, url)
+ipcMain.handle('open-external-url', (_e, url) => {
+    tryOpenExternalUrl(_e as unknown as Event, url)
 })
 
 // Keychain
@@ -450,14 +450,11 @@ ipcMain.handle('update-theme', (_e, theme) => (nativeTheme.themeSource = theme))
  * Create a single instance only
  */
 const isFirstInstance = app.requestSingleInstanceLock()
-console.log('isFirstInstance:', isFirstInstance)
 if (!isFirstInstance) {
     app.quit()
 } else {
     app.on('second-instance', (_e, argv) => {
-        console.log('second-instance', _e, argv)
         if (windows.main) {
-            console.log('isMinimized', windows.main.isMinimized())
             if (windows.main.isMinimized()) {
                 windows.main.restore()
             }
