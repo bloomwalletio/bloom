@@ -1,21 +1,15 @@
 <script lang="ts">
-    import { Icon as IconEnum } from '@auxiliary/icon'
+    import { Button, IconName } from '@bloomwalletio/ui'
     import { initialiseOnboardingProfile, onboardingProfile } from '@contexts/onboarding'
-    import {
-        AppContext,
-        isLatestStrongholdVersion,
-        needsToAcceptLatestPrivacyPolicy,
-        needsToAcceptLatestTermsOfService,
-    } from '@core/app'
+    import { AppContext, needsToAcceptLatestPrivacyPolicy, needsToAcceptLatestTermsOfService } from '@core/app'
     import { localize } from '@core/i18n'
-    import { ProfileType, removeProfileFolder } from '@core/profile'
+    import { removeProfileFolder } from '@core/profile'
     import { destroyProfileManager } from '@core/profile-manager/actions'
     import { loadPersistedProfileIntoActiveProfile } from '@core/profile/actions'
     import { profiles } from '@core/profile/stores'
     import { loginRouter, routerManager } from '@core/router'
     import { PopupId, openPopup } from '@desktop/auxiliary/popup'
-    import features from '@features/features'
-    import { Icon, Logo, Profile } from '@ui'
+    import { Logo, Profile } from '@ui'
     import { OnboardingRouter, onboardingRouter } from '@views/onboarding'
     import { onMount } from 'svelte'
 
@@ -50,28 +44,31 @@
     })
 </script>
 
-<section class="flex flex-col justify-center items-center h-full bg-white dark:bg-gray-900 px-40 pt-48 pb-20">
-    <Logo width="64px" logo="logo-firefly" classes="absolute top-20" />
+<section class="flex flex-col justify-between items-center h-full bg-slate-100 dark:bg-gray-900 p-12 pb-8">
+    <logo-container class="block w-full">
+        <Logo width="150" logo="logo-bloom-full" />
+    </logo-container>
     <div class="profiles-wrapper h-auto items-start justify-center w-full overlay-scrollbar flex flex-row flex-wrap">
         {#each $profiles as profile}
             <div class="mx-7 mb-8">
-                <Profile
-                    {profile}
-                    onClick={onContinueClick}
-                    updateRequired={profile?.type === ProfileType.Software &&
-                        !isLatestStrongholdVersion(profile?.strongholdVersion) &&
-                        features.onboarding.strongholdVersionCheck.enabled}
-                />
+                <Profile {profile} onClick={onContinueClick} />
             </div>
         {/each}
-        <div class="flex flex-col mx-7 mb-8 justify-between items-center space-y-3">
-            <button
-                on:click={onAddProfileClick}
-                name={localize('general.addProfile')}
-                class="w-18 h-18 border-solid border-2 border-gray-400 cursor-pointer rounded-full flex justify-center items-center"
-            >
-                <Icon height="15" width="15" icon={IconEnum.Plus} classes="text-blue-500" />
-            </button>
-        </div>
     </div>
+    <footer class="flex flex-col w-full relative">
+        <hr class="border-white dark:border-gray-800 mb-8" />
+        <Button
+            on:click={onAddProfileClick}
+            variant="text"
+            icon={IconName.Plus}
+            text={localize('general.addProfile')}
+        />
+    </footer>
 </section>
+
+<style lang="postcss">
+    footer:after {
+        content: '';
+        @apply absolute h-full w-1/2 bg-violet-700 blur-3xl opacity-50 left-1/2 -bottom-20 -translate-x-1/2;
+    }
+</style>

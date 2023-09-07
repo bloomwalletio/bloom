@@ -1,7 +1,7 @@
 <script lang="ts">
-    import { Icon as IconEnum } from '@auxiliary/icon/enums'
+    import { Icon, IconName, Text } from '@bloomwalletio/ui'
     import { IPersistedProfile, ProfileType } from '@core/profile'
-    import { DeveloperIndicatorPill, Icon, NetworkBadge, ProfileAvatar, StrongholdBadge, Text, TextType } from '@ui'
+    import { NetworkBadge, ProfileAvatar } from '@ui'
 
     export let profile: IPersistedProfile
     export let updateRequired: boolean = false
@@ -12,36 +12,77 @@
     }
 </script>
 
-<profile-container class="flex items-center justify-center w-24">
-    <div class="flex flex-col justify-between items-center w-full">
-        <button
-            type="button"
-            on:click={onProfileClick}
-            disabled={!onClick}
-            class="relative mb-3 {onClick ? 'cursor-pointer' : 'cursor-default'}"
-        >
-            <ProfileAvatar {profile} size="lg" />
-            {#if !updateRequired}
-                <NetworkBadge size="sm" networkId={profile?.network?.id} networkName={profile?.network?.name} />
-            {:else}
-                <StrongholdBadge />
+<button type="button" class="profile" class:cursor-pointer={!!onClick} on:click={onProfileClick} disabled={!onClick}>
+    <profile-header>
+        <badge-container>
+            {#if profile?.isDeveloperProfile}
+                <Icon name={IconName.DeepLink} size="sm" />
             {/if}
-        </button>
-        <div class="flex flex-row items-baseline justify-center space-x-1.5 mb-2 w-full">
             {#if profile?.type === ProfileType.Ledger}
-                <Icon
-                    icon={IconEnum.Ledger}
-                    classes="text-gray-900 dark:text-gray-100 relative top-0.5"
-                    width={14}
-                    height={14}
-                />
+                <Icon name={IconName.Cpu} size="sm" />
             {/if}
-            {#if profile?.name}
-                <Text type={TextType.h5} classes="text-center truncate">{profile?.name}</Text>
-            {/if}
-        </div>
-        {#if profile?.isDeveloperProfile}
-            <DeveloperIndicatorPill />
-        {/if}
+        </badge-container>
+        <button type="button" class="menu"></button>
+    </profile-header>
+    <div class="relative">
+        <ProfileAvatar {profile} size="lg" />
+        <NetworkBadge size="sm" networkId={profile?.network?.id} networkName={profile?.network?.name} />
     </div>
-</profile-container>
+    {#if profile?.name}
+        <Text type="h6" align="center" truncate>{profile?.name}</Text>
+    {/if}
+</button>
+
+<style lang="postcss">
+    .profile {
+        @apply flex flex-col items-center justify-between;
+        @apply px-4 py-6 w-56 h-56;
+        @apply border-2 border-solid border-white dark:border-gray-800 rounded-2xl;
+        @apply transition-all duration-300;
+        @apply hover:shadow-lg dark:hover:shadow-violet-900/25 focus:shadow-lg;
+        @apply bg-white/0 hover:bg-white/100 focus:bg-white/100;
+        @apply bg-white/0 dark:hover:bg-white/10 dark:focus:bg-white/10;
+    }
+
+    :global(profile-avatar avatar) {
+        /* Remove necessity of !important */
+        @apply transition-all duration-300 rounded-[50%] !important;
+    }
+
+    :global(.profile:hover profile-avatar avatar) {
+        /* Remove necessity of !important */
+        @apply rounded-3xl !important;
+    }
+
+    badge-container {
+        @apply flex gap-2 text-gray-500 dark:text-gray-100;
+    }
+
+    profile-header {
+        @apply flex justify-between items-center w-full h-2;
+    }
+
+    button.menu {
+        @apply relative mx-2;
+    }
+
+    button.menu,
+    button.menu::before,
+    button.menu::after {
+        @apply w-1 h-1 rounded-full bg-gray-500 dark:bg-gray-100;
+    }
+
+    button.menu::before,
+    button.menu::after {
+        @apply absolute left-0;
+        content: '';
+    }
+
+    button.menu::before {
+        @apply -top-1.5;
+    }
+
+    button.menu::after {
+        @apply -bottom-1.5;
+    }
+</style>
