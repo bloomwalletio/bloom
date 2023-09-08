@@ -11,7 +11,7 @@
 
     $: expirationTime = getFormattedTimeStamp(activity.asyncData?.expirationDate)
     $: claimedTime = getFormattedTimeStamp(activity.asyncData?.claimedDate)
-    $: gasLimit = activity.parsedLayer2Metadata?.gasLimit
+    $: gasLimit = activity.smartContract?.gasLimit
 
     $: formattedTransactionTime = getFormattedTimeStamp(activity.time)
     $: formattedTimelockDate = getFormattedTimeStamp(activity.asyncData?.timelockDate)
@@ -54,7 +54,7 @@
         },
         {
             key: localize('general.metadata'),
-            value: !activity.parsedLayer2Metadata ? activity.metadata : undefined,
+            value: !activity.smartContract ? activity.metadata : undefined,
             tooltip: localize(`tooltips.transactionDetails.${activity.direction}.metadata`),
         },
         {

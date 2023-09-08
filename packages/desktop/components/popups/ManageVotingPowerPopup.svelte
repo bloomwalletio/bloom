@@ -1,15 +1,16 @@
 <script lang="ts">
+    import { Alert } from '@bloomwalletio/ui'
     import { setVotingPower } from '@contexts/governance/actions'
     import { isAccountVoting } from '@contexts/governance/utils'
     import { selectedAccount } from '@core/account/stores'
     import { handleError } from '@core/error/handlers'
     import { localize } from '@core/i18n'
-    import { activeProfile } from '@core/profile/stores'
     import { checkActiveProfileAuth } from '@core/profile/actions'
-    import { visibleSelectedAccountTokens } from '@core/token/stores'
+    import { activeProfile } from '@core/profile/stores'
     import { convertToRawAmount } from '@core/token'
+    import { visibleSelectedAccountTokens } from '@core/token/stores'
     import { PopupId, closePopup, openPopup, popupState } from '@desktop/auxiliary/popup'
-    import { Button, Text, TextHint, TokenAmountWithSliderInput } from '@ui'
+    import { Button, Text, TokenAmountWithSliderInput } from '@ui'
     import { HTMLButtonType, TextType } from '@ui/enums'
     import { onMount } from 'svelte'
 
@@ -86,7 +87,7 @@
             disabled={hasTransactionInProgress}
             {votingPower}
         />
-        <TextHint info text={localize('popups.manageVotingPower.hint')} />
+        <Alert variant="info" text={localize('popups.manageVotingPower.hint')} />
     </div>
     <div class="flex flex-row flex-nowrap w-full space-x-4">
         <Button outline disabled={hasTransactionInProgress} classes="w-full" onClick={onCancelClick}>

@@ -1,3 +1,4 @@
+import { getActiveNetworkId } from '@core/network'
 import { getBaseToken } from '@core/profile/actions'
 import { activeAccounts, activeProfile } from '@core/profile/stores'
 import { get } from 'svelte/store'
@@ -38,7 +39,11 @@ export async function refreshAccountTokensForActiveProfile(
         const tokens = account?.balances?.nativeTokens ?? []
         for (const token of tokens) {
             try {
-                const persistedAsset = await getOrRequestTokenFromPersistedTokens(token.tokenId)
+                const persistedAsset = await getOrRequestTokenFromPersistedTokens(
+                    token.tokenId,
+                    getActiveNetworkId(),
+                    false
+                )
                 if (persistedAsset) {
                     if (keepVerificationStatus) {
                         const verificationStatus = storedVerificationStates[persistedAsset.id]

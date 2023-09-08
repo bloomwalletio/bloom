@@ -3,6 +3,7 @@ import { showNotification } from '@auxiliary/notification/actions'
 import { localize } from '@core/i18n'
 import { handleError } from '@core/error/handlers'
 import { processAndAddToActivities } from '@core/activity/utils'
+import { sendPreparedTransaction } from '@core/wallet'
 import { getActiveNetworkId } from '@core/network'
 
 export async function stopVotingForProposal(eventId: string): Promise<void> {
@@ -11,7 +12,8 @@ export async function stopVotingForProposal(eventId: string): Promise<void> {
         const networkId = getActiveNetworkId()
 
         updateSelectedAccount({ hasVotingTransactionInProgress: true })
-        const transaction = await account.stopParticipating(eventId)
+        const preparedTransaction = await account.prepareStopParticipating(eventId)
+        const transaction = await sendPreparedTransaction(preparedTransaction)
 
         await processAndAddToActivities(transaction, account, networkId)
 

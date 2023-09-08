@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { EventStatus } from '@iota/sdk/out/types'
     import { Text, Tooltip } from '@ui'
     import { Position, TextType } from '@ui/enums'
 
@@ -6,25 +7,23 @@
     import { networkStatus } from '@core/network'
     import { DATE_FORMAT, milestoneToDate } from '@core/utils'
 
-    import { ProposalStatus } from '@contexts/governance/enums'
-
-    export let milestones: Record<ProposalStatus, number>
+    export let milestones: Record<EventStatus, number>
     export let status: string
     export let anchor: HTMLElement
     export let position: Position = Position.Right
 
     let eventProgress: number
     switch (status) {
-        case ProposalStatus.Upcoming:
+        case EventStatus.Upcoming:
             eventProgress = 0
             break
-        case ProposalStatus.Commencing:
+        case EventStatus.Commencing:
             eventProgress = 1
             break
-        case ProposalStatus.Holding:
+        case EventStatus.Holding:
             eventProgress = 2
             break
-        case ProposalStatus.Ended:
+        case EventStatus.Ended:
             eventProgress = 3
             break
         default:
@@ -34,14 +33,14 @@
 
 <Tooltip {anchor} {position}>
     <ul class="space-y-3 text-left">
-        {#each Object.keys(ProposalStatus) as status, index}
+        {#each Object.keys(EventStatus) as status, index}
             <li class="grid grid-rows-2 relative" class:active={eventProgress >= index}>
                 <Text
                     overrideColor={eventProgress < index}
                     classes={eventProgress < index ? 'text-gray-400 dark:text-gray-700' : ''}
                 >
                     {formatDate(
-                        milestoneToDate($networkStatus.currentMilestone, milestones[ProposalStatus[status]]),
+                        milestoneToDate($networkStatus.currentMilestone, milestones[EventStatus[status]]),
                         DATE_FORMAT
                     )}
                 </Text>
@@ -50,7 +49,7 @@
                     overrideColor={eventProgress < index}
                     classes={eventProgress < index ? 'text-gray-400 dark:text-gray-700' : ''}
                 >
-                    {localize(`views.governance.statusTimeline.${ProposalStatus[status]}`)}
+                    {localize(`views.governance.statusTimeline.${EventStatus[status]}`)}
                 </Text>
             </li>
         {/each}

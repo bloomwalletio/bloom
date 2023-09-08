@@ -10,7 +10,7 @@ import {
     TransactionProgressType,
     TransactionProgressWalletEvent,
     WalletEventType,
-} from '@iota/wallet/out/types'
+} from '@iota/sdk/out/types'
 import { get } from 'svelte/store'
 import { PopupId, closePopup, openPopup } from '../../../../../../../desktop/lib/auxiliary/popup'
 import { MissingTransactionProgressEventPayloadError } from '../../errors'

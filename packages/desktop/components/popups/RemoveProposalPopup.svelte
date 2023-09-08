@@ -1,19 +1,20 @@
 <script lang="ts">
+    import { EventStatus } from '@iota/sdk/out/types'
     import { showNotification } from '@auxiliary/notification'
-    import { ProposalStatus } from '@contexts/governance/enums'
+    import { Alert } from '@bloomwalletio/ui'
     import {
         clearSelectedParticipationEventStatus,
         removePersistedProposal,
         selectedProposal,
         selectedProposalId,
     } from '@contexts/governance/stores'
-    import { closePopup } from '@desktop/auxiliary/popup'
     import { selectedAccount } from '@core/account/stores'
     import { handleError } from '@core/error/handlers'
     import { localize } from '@core/i18n'
     import { updateActiveAccountPersistedData } from '@core/profile/actions'
     import { governanceRouter } from '@core/router'
-    import { Button, Text, TextHint, TextType } from '@ui'
+    import { closePopup } from '@desktop/auxiliary/popup'
+    import { Button, Text, TextType } from '@ui'
     import { ButtonVariant } from '@ui/enums'
 
     function onCancelClick(): void {
@@ -45,16 +46,16 @@
     }
 
     // TODO: User can only remove a proposal when he is not voting for it
-    $: isTextHintVisible =
-        $selectedProposal?.status === ProposalStatus.Commencing || $selectedProposal?.status === ProposalStatus.Holding
+    $: showAlert =
+        $selectedProposal?.status === EventStatus.Commencing || $selectedProposal?.status === EventStatus.Holding
 </script>
 
 <remove-proposal>
     <Text type={TextType.h3}>{localize('popups.removeProposal.title')}</Text>
     <div class="flex flex-col w-full space-y-4 mt-6">
         <Text fontSize="15">{localize('popups.removeProposal.body')}</Text>
-        {#if isTextHintVisible}
-            <TextHint info text={localize('popups.removeProposal.hint')} />
+        {#if showAlert}
+            <Alert variant="info" text={localize('popups.removeProposal.hint')} />
         {/if}
     </div>
     <div class="flex w-full space-x-4 mt-6">
