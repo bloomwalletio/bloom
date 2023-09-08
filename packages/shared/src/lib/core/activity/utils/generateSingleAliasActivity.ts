@@ -1,9 +1,10 @@
 import { IAccountState } from '@core/account'
 import { IActivityGenerationParameters } from '@core/activity/types'
+import { EMPTY_HEX_ID } from '@core/wallet/constants'
+import { AliasOutput } from '@iota/sdk/out/types'
+import { api } from '@core/profile-manager'
+import { getNetworkHrp } from '@core/profile/actions'
 import { NetworkId } from '@core/network/types'
-import { ADDRESS_TYPE_ALIAS, EMPTY_HEX_ID } from '@core/wallet/constants'
-import { convertHexAddressToBech32, hashOutputId } from '@core/wallet/utils'
-import { IAliasOutput } from '@iota/types'
 import { ActivityType } from '../enums'
 import { AliasActivity } from '../types'
 import { generateBaseActivity } from './generateBaseActivity'
@@ -27,9 +28,9 @@ export async function generateSingleAliasActivity(
 
     const { output, outputId } = generationParameters.wrappedOutput
 
-    const governorAddress = getGovernorAddressFromAliasOutput(output as IAliasOutput)
-    const stateControllerAddress = getStateControllerAddressFromAliasOutput(output as IAliasOutput)
-    const aliasId = getAliasId(output as IAliasOutput, outputId)
+    const governorAddress = getGovernorAddressFromAliasOutput(output as AliasOutput)
+    const stateControllerAddress = getStateControllerAddressFromAliasOutput(output as AliasOutput)
+    const aliasId = getAliasId(output as AliasOutput, outputId)
 
     return {
         type: ActivityType.Alias,
@@ -41,9 +42,8 @@ export async function generateSingleAliasActivity(
     }
 }
 
-// TODO: move to utils
-function getAliasId(output: IAliasOutput, outputId: string): string {
+function getAliasId(output: AliasOutput, outputId: string): string {
     const isNewAlias = output.aliasId === EMPTY_HEX_ID
-    const aliasId = isNewAlias ? hashOutputId(outputId) : output.aliasId
-    return convertHexAddressToBech32(ADDRESS_TYPE_ALIAS, aliasId)
+    const aliasId = isNewAlias ? api.computeAliasId(outputId) : output.aliasId
+    return api.aliasIdToBech32(aliasId, getNetworkHrp())
 }

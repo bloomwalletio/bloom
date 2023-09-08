@@ -1,9 +1,9 @@
 import { IAccountState } from '@core/account'
-import { NetworkId } from '@core/network/types'
-import { OUTPUT_TYPE_BASIC } from '@core/wallet/constants'
 import { IWrappedOutput } from '@core/wallet/interfaces'
+import { OutputType } from '@iota/sdk/out/types'
 import { ActivityType } from '../enums'
 import { ConsolidationActivity, IActivityGenerationParameters } from '../types'
+import { NetworkId } from '@core/network/types'
 import { generateBaseActivity } from './generateBaseActivity'
 
 export async function generateSingleConsolidationActivity(
@@ -24,5 +24,5 @@ export async function generateSingleConsolidationActivity(
 }
 
 function getAmountOfConsolidationInputs(inputs: IWrappedOutput[]): number {
-    return inputs.filter((input) => input.output.type === OUTPUT_TYPE_BASIC).length
+    return inputs.filter((input) => input.output?.type === OutputType.Basic).length
 }

@@ -1,9 +1,9 @@
-import { isParticipationOutput } from '@contexts/governance/utils'
+import { OutputType } from '@iota/sdk/out/types'
 import { IAccountState } from '@core/account'
-import { NetworkId } from '@core/network/types'
-import { OUTPUT_TYPE_ALIAS, OUTPUT_TYPE_FOUNDRY, OUTPUT_TYPE_NFT } from '@core/wallet'
-import { ActivityAction, ActivityType } from '../enums'
 import { Activity, IProcessedTransaction } from '../types'
+import { isParticipationOutput } from '@contexts/governance/utils'
+import { NetworkId } from '@core/network/types'
+import { ActivityAction, ActivityType } from '../enums'
 import { generateActivitiesFromAliasOutputs } from './generateActivitiesFromAliasOutputs'
 import { generateActivitiesFromBasicOutputs } from './generateActivitiesFromBasicOutputs'
 import { generateActivitiesFromFoundryOutputs } from './generateActivitiesFromFoundryOutputs'
@@ -35,20 +35,20 @@ async function generateActivitiesFromProcessedTransactionsWithInputs(
     const { outputs, wrappedInputs } = processedTransaction
     const activities: Activity[] = []
 
-    const containsFoundryActivity = outputs.some((output) => output.output.type === OUTPUT_TYPE_FOUNDRY)
+    const containsFoundryActivity = outputs.some((output) => output.output.type === OutputType.Foundry)
     if (containsFoundryActivity) {
         const foundryActivities = await generateActivitiesFromFoundryOutputs(processedTransaction, account, networkId)
         activities.push(...foundryActivities)
     }
 
-    const containsNftActivity = outputs.some((output) => output.output.type === OUTPUT_TYPE_NFT)
+    const containsNftActivity = outputs.some((output) => output.output.type === OutputType.Nft)
     if (containsNftActivity) {
         const nftActivities = await generateActivitiesFromNftOutputs(processedTransaction, account, networkId)
         activities.push(...nftActivities)
     }
 
     const containsAliasActivity =
-        outputs.some((output) => output.output.type === OUTPUT_TYPE_ALIAS) && !containsFoundryActivity
+        outputs.some((output) => output.output.type === OutputType.Alias) && !containsFoundryActivity
     if (containsAliasActivity) {
         const aliasActivities = await generateActivitiesFromAliasOutputs(processedTransaction, account, networkId)
         activities.push(...aliasActivities)

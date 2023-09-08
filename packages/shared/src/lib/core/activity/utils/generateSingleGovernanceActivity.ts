@@ -1,11 +1,11 @@
 import { IAccountState } from '@core/account'
-import { IActivityGenerationParameters } from '@core/activity/types'
-import { NetworkId } from '@core/network/types'
+import type { BasicOutput } from '@iota/sdk/out/types'
+import {} from '../types'
+import { GovernanceActivity, IActivityGenerationParameters } from '../types'
 import { ActivityType } from '../enums'
-import { GovernanceActivity } from '../types'
+import { NetworkId } from '@core/network/types'
 import { generateBaseActivity } from './generateBaseActivity'
 import { getGovernanceInfo } from './helper'
-import { IBasicOutput } from '@iota/types'
 
 export async function generateSingleGovernanceActivity(
     account: IAccountState,
@@ -14,7 +14,7 @@ export async function generateSingleGovernanceActivity(
 ): Promise<GovernanceActivity> {
     const baseActivity = await generateBaseActivity(account, networkId, generationParameters)
 
-    const output = generationParameters.wrappedOutput.output as IBasicOutput
+    const output = generationParameters.wrappedOutput.output as BasicOutput
     const governanceInfo = getGovernanceInfo(
         output,
         generationParameters.processedTransaction.wrappedInputs,

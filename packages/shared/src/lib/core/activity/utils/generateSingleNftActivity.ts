@@ -1,8 +1,8 @@
 import { IAccountState } from '@core/account'
-import { NetworkId } from '@core/network/types'
-import type { INftOutput } from '@iota/types'
+import type { NftOutput } from '@iota/sdk/out/types'
 import { ActivityType } from '../enums'
 import { NftActivity } from '../types'
+import { NetworkId } from '@core/network/types'
 import { IActivityGenerationParameters } from '../types/activity-generation-parameters.interface'
 import { generateSingleBasicActivity } from './generateSingleBasicActivity'
 import { getNftId } from './outputs'
@@ -17,7 +17,7 @@ export async function generateSingleNftActivity(
     baseActivity.tokenTransfer = undefined
 
     const { output, outputId } = generationParameters.wrappedOutput
-    const nftId = nftIdFromInput ? nftIdFromInput : getNftId((output as INftOutput).nftId, outputId)
+    const nftId = nftIdFromInput ? nftIdFromInput : getNftId((output as NftOutput).nftId, outputId)
 
     return {
         ...baseActivity,

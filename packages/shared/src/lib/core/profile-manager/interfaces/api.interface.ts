@@ -1,16 +1,30 @@
-import { AccountManagerOptions, CreateAccountPayload } from '@iota/wallet'
+import type {
+    AliasId,
+    Client,
+    CreateAccountPayload,
+    FoundryId,
+    NftId,
+    OutputId,
+    TransactionId,
+    WalletOptions,
+} from '@iota/sdk'
 
-import { IAccount } from '@core/account'
+import type { IAccount } from '@core/account/interfaces'
+import type { IAuth, INodeInfoResponse } from '@core/network/interfaces'
+import type { ISecretManager } from '@core/secret-manager/interfaces'
 
-import { IProfileManager } from './profile-manager.interface'
-import { RecoverAccountsPayload } from './recover-account-payload.interface'
+import type { IProfileManager } from './profile-manager.interface'
+import type { RecoverAccountsPayload } from './recover-account-payload.interface'
 
 export interface IApi {
-    createAccountManager(id: string, options: AccountManagerOptions): Promise<IProfileManager>
     createAccount(managerId: string, payload: CreateAccountPayload): Promise<IAccount>
-    deleteAccountManager(id: string): void
+    createWallet(id: string, options: WalletOptions): Promise<IProfileManager>
+    deleteWallet(id: string): void
     getAccount(profileManagerId: string, index: number): Promise<IAccount>
     getAccounts(profileManagerId: string): Promise<IAccount[]>
+    getClient(profileManagerId: string): Promise<Client>
+    getNodeInfo(profileManagerId: string, url?: string, auth?: IAuth): Promise<INodeInfoResponse>
+    getSecretManager(profileManagerId: string): Promise<ISecretManager>
     recoverAccounts(profileManagerId: string, payload: RecoverAccountsPayload): Promise<IAccount[]>
     migrateStrongholdSnapshotV2ToV3(
         currentPath: string,
@@ -18,4 +32,16 @@ export interface IApi {
         newPath: string,
         newPassword: string
     ): Promise<void>
+    // Mapped from sdk#Utils
+    generateMnemonic(): Promise<string>
+    verifyMnemonic(mnemonic: string): Promise<void>
+    hexToBech32(hex: string, bech32Hrp: string): string
+    bech32ToHex(bech32: string): string
+    computeAliasId(outputId: string): AliasId
+    computeFoundryId(aliasId: AliasId, serialNumber: number, tokenSchemeType: number): Promise<FoundryId>
+    computeNftId(outputId: string): NftId
+    hexPublicKeyToBech32Address(hex: string, bech32Hrp: string): string
+    aliasIdToBech32(aliasId: string, bech32Hrp: string): string
+    nftIdToBech32(nftId: string, bech32Hrp: string): string
+    computeOutputId(id: TransactionId, index: number): Promise<OutputId>
 }

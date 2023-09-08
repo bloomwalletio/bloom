@@ -8,8 +8,8 @@
     import { activeAccounts } from '@core/profile/stores'
     import { HEX_PREFIX } from '@core/utils'
     import { truncateString } from '@core/utils/string'
+    import type { IAuth } from '@iota/sdk/out/types'
     import { closePopup, openPopup, PopupId } from '@desktop/auxiliary/popup'
-    import type { Auth } from '@iota/wallet'
     import { Button, Checkbox, NodeInput, Text, TextInput, TextType } from '@ui'
     import { HTMLButtonType } from '@ui/enums'
 
@@ -77,7 +77,7 @@
         })
     }
 
-    async function registerParticipationWrapper(auth?: Auth): Promise<void> {
+    async function registerParticipationWrapper(auth?: IAuth): Promise<void> {
         const options = {
             node: { url: nodeUrl, auth },
             eventsToRegister: isRegisteringAllProposals ? [] : [eventId],

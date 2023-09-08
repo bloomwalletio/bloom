@@ -1,5 +1,9 @@
+import { Event, NewOutputWalletEvent, WalletEventType, OutputType, AliasOutput } from '@iota/sdk/out/types'
 import { syncBalance } from '@core/account/actions/syncBalance'
 import { ActivityType } from '@core/activity/enums'
+import { checkAndRemoveProfilePicture } from '@core/profile/actions'
+import { activeAccounts } from '@core/profile/stores'
+import { IWrappedOutput } from '@core/wallet/interfaces'
 import {
     addActivitiesToAccountActivitiesInAllAccountActivities,
     allAccountActivities,
@@ -8,13 +12,8 @@ import { generateActivities } from '@core/activity/utils'
 import { preprocessGroupedOutputs } from '@core/activity/utils/outputs'
 import { getActiveNetworkId } from '@core/network'
 import { addNftsToDownloadQueue, addOrUpdateNftInAllAccountNfts, buildNftFromNftOutput } from '@core/nfts/actions'
-import { checkAndRemoveProfilePicture } from '@core/profile/actions'
-import { activeAccounts } from '@core/profile/stores'
 import { getOrRequestTokenFromPersistedTokens } from '@core/token/actions'
-import { OUTPUT_TYPE_ALIAS, OUTPUT_TYPE_NFT } from '@core/wallet/constants'
-import { IWrappedOutput } from '@core/wallet/interfaces'
 import { getBech32AddressFromAddressTypes } from '@core/wallet/utils/getBech32AddressFromAddressTypes'
-import { Event, NewOutputWalletEvent, WalletEventType } from '@iota/wallet/out/types'
 import { get } from 'svelte/store'
 import { validateWalletApiEvent } from '../../utils'
 
@@ -34,11 +33,13 @@ export async function handleNewOutputEventInternal(
     if (!account || !output || !networkId) return
 
     const address = getBech32AddressFromAddressTypes(output?.address)
+    const outputData = output.output as AliasOutput
     const isNewAliasOutput =
-        output.output.type === OUTPUT_TYPE_ALIAS &&
-        output.output.stateIndex === 0 &&
+        outputData.type === OutputType.Alias &&
+        outputData.stateIndex === 0 &&
         !get(allAccountActivities)[accountIndex].find((_activity) => _activity.id === output.outputId)
-    const isNftOutput = output.output.type === OUTPUT_TYPE_NFT
+
+    const isNftOutput = outputData.type === OutputType.Nft
 
     if ((account?.depositAddress === address && !output?.remainder) || isNewAliasOutput) {
         await syncBalance(account.index)

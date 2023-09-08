@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { Table } from '@bloomwalletio/ui'
+    import { Alert, Table } from '@bloomwalletio/ui'
     import { selectedAccount } from '@core/account/stores'
     import { handleError } from '@core/error/handlers'
     import { localize } from '@core/i18n'
@@ -7,7 +7,7 @@
     import { ITokenWithBalance, formatTokenAmountBestMatch } from '@core/token'
     import { burnToken } from '@core/wallet'
     import { PopupId, closePopup, openPopup } from '@desktop/auxiliary/popup'
-    import { Button, ButtonVariant, FontWeight, Text, TextHint, TextType } from '@ui'
+    import { Button, ButtonVariant, FontWeight, Text, TextType } from '@ui'
     import { onMount } from 'svelte'
 
     export let token: ITokenWithBalance
@@ -68,7 +68,7 @@
                 },
             ]}
         />
-        <TextHint warning text={localize('actions.confirmTokenBurn.hint')} />
+        <Alert variant="warning" text={localize('actions.confirmTokenBurn.hint')} />
     </div>
     <popup-buttons class="flex flex-row flex-nowrap w-full space-x-4">
         <Button classes="w-full" outline onClick={onBackClick}>{localize('actions.back')}</Button>

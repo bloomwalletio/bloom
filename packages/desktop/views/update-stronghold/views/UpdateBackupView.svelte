@@ -1,12 +1,13 @@
 <script lang="ts">
     import { Icon as IconEnum } from '@auxiliary/icon'
     import { showNotification } from '@auxiliary/notification'
+    import { Alert } from '@bloomwalletio/ui'
     import { OnboardingLayout } from '@components'
     import { updateOnboardingProfile } from '@contexts/onboarding/stores'
     import { exportStronghold } from '@contexts/settings/actions'
     import { localize } from '@core/i18n'
     import { login } from '@core/profile/actions'
-    import { Animation, Button, Icon, Text, TextHint, TextType } from '@ui'
+    import { Animation, Button, Icon, Text, TextType } from '@ui'
     import { updateStrongholdRouter } from '../update-stronghold-router'
 
     export let busy = false
@@ -78,7 +79,7 @@
                 {localize(`views.updateStronghold.updateBackup.${isRecovery ? 'recoveryBody' : 'loginBody'}`)}
             </Text>
         </div>
-        <TextHint warning text={localize('views.updateStronghold.updateBackup.hint')} />
+        <Alert variant="warning" text={localize('views.updateStronghold.updateBackup.hint')} />
     </div>
     <div slot="leftpane__action">
         <Button

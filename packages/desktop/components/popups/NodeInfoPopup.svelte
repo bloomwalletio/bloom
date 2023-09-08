@@ -1,8 +1,9 @@
 <script lang="ts">
+    import type { INodeInfo } from '@iota/sdk'
     import { onMount } from 'svelte'
     import { Button, Checkbox, CopyableBox, Spinner, Text } from '@ui'
     import { formatNumber, localize } from '@core/i18n'
-    import { INode, INodeInfo } from '@core/network'
+    import { INode } from '@core/network'
     import { closePopup } from '@desktop/auxiliary/popup'
     import { showNotification } from '@auxiliary/notification'
     import { resolveObjectPath, setClipboard } from '@core/utils'

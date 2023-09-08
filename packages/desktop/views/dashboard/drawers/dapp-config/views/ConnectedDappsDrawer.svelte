@@ -1,10 +1,11 @@
 <script lang="ts">
-    import { Icon, TextHint } from '@ui'
     import { Icon as IconEnum } from '@auxiliary/icon'
+    import { connectedDapps } from '@auxiliary/wallet-connect/stores'
+    import { Alert } from '@bloomwalletio/ui'
+    import { DrawerTemplate } from '@components'
     import { localize } from '@core/i18n'
     import { Router } from '@core/router'
-    import { DrawerTemplate } from '@components'
-    import { connectedDapps } from '@auxiliary/wallet-connect/stores'
+    import { Icon } from '@ui'
     import DappCard from '../components/DappCard.svelte'
     import { DappConfigRoute } from '../dapp-config-route.enum'
 
@@ -25,7 +26,7 @@
             {/each}
         </connected-dapps>
     {:else}
-        <TextHint info text={localize('views.dashboard.drawers.dapps.dappsList.hint')} />
+        <Alert variant="info" text={localize('views.dashboard.drawers.dapps.dappsList.hint')} />
     {/if}
 
     <button

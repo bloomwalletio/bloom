@@ -1,5 +1,5 @@
 import { localize } from '@core/i18n'
-import type { Event, WalletEventType } from '@iota/wallet'
+import type { Event, WalletEventType } from '@iota/sdk/out/types'
 import { WalletApiEventError } from '../errors/wallet-api-event.error'
 import { WalletApiEventValidationError } from '../errors/wallet-api-event-validation.error'
 

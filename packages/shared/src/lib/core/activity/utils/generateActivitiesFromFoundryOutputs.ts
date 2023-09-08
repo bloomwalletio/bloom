@@ -1,5 +1,5 @@
+import { OutputType } from '@iota/sdk/out/types'
 import { IAccountState } from '@core/account'
-import { OUTPUT_TYPE_FOUNDRY } from '@core/wallet'
 import { Activity, IProcessedTransaction } from '../types'
 import { generateSingleFoundryActivity } from './generateSingleFoundryActivity'
 import { ActivityAction } from '../enums'
@@ -13,7 +13,7 @@ export async function generateActivitiesFromFoundryOutputs(
     const outputs = processedTransaction.outputs
     const activities = []
 
-    const foundryOutputs = outputs.filter((output) => output.output.type === OUTPUT_TYPE_FOUNDRY)
+    const foundryOutputs = outputs.filter((output) => output.output?.type === OutputType.Foundry)
     for (const foundryOutput of foundryOutputs) {
         const activity = await generateSingleFoundryActivity(account, networkId, {
             action: ActivityAction.Mint,
