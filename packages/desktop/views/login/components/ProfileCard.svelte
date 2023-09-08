@@ -5,6 +5,7 @@
     import features from '@features/features'
 
     export let profile: IPersistedProfile
+    export let disabled: boolean = false
     export let onClick: undefined | ((profileId: string) => void) = undefined
 
     function onProfileClick(): void {
@@ -12,7 +13,13 @@
     }
 </script>
 
-<button type="button" class="profile" class:cursor-pointer={!!onClick} on:click={onProfileClick} disabled={!onClick}>
+<button
+    type="button"
+    class="profile"
+    class:cursor-pointer={!!onClick}
+    on:click={onProfileClick}
+    disabled={disabled || !onClick}
+>
     <profile-header>
         <badge-container>
             {#if profile.type === ProfileType.Ledger}
@@ -39,6 +46,7 @@
         @apply hover:shadow-lg dark:hover:shadow-violet-900/25 focus:shadow-lg;
         @apply bg-white/0 hover:bg-white/100 focus:bg-white/100;
         @apply bg-white/0 dark:hover:bg-white/10 dark:focus:bg-white/10;
+        @apply disabled:pointer-events-none;
     }
 
     :global(profile-avatar avatar) {
