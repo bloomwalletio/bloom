@@ -1,11 +1,11 @@
 <script lang="ts">
     import { Button, HTMLButtonType, Text, TextInput, TextType } from '@ui'
-    import type { Auth } from '@iota/wallet'
+    import type { IAuth } from '@iota/sdk'
     import { handleError } from '@core/error/handlers'
     import { localize } from '@core/i18n'
     import { closePopup } from '@desktop/auxiliary/popup'
 
-    export let onSubmit: (auth: Auth) => unknown = () => {}
+    export let onSubmit: (auth: IAuth) => unknown = () => {}
 
     let isBusy = false
 
