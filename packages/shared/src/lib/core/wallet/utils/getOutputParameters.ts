@@ -5,7 +5,7 @@ import { BASE_TOKEN_ID } from '@core/token'
 import { Converter, convertDateToUnixTimestamp } from '@core/utils'
 import { SendFlowParameters, Subject } from '@core/wallet/types'
 import { ReturnStrategy } from '../enums'
-import { SendFlowType } from '../stores'
+import { SendFlowType } from '../enums'
 
 export async function getOutputParameters(
     sendFlowParameters: SendFlowParameters,

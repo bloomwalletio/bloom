@@ -54,7 +54,7 @@
             logout()
         })
 
-        Platform.DeepLinkManager.checkDeepLinkRequestExists()
+        Platform.DeepLinkManager.checkForDeepLinkRequest()
 
         void pollLayer2Tokens($selectedAccount)
     })
