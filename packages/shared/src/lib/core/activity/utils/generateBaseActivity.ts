@@ -3,7 +3,7 @@ import { BaseActivity, IActivityGenerationParameters } from '@core/activity/type
 import { getNetworkIdFromAddress } from '@core/layer-2/actions'
 import { NetworkId } from '@core/network/types'
 import { BASE_TOKEN_ID } from '@core/token'
-import { IBasicOutput } from '@iota/types'
+import { BasicOutput } from '@iota/sdk'
 import { activityOutputContainsValue } from '..'
 import {
     getAmountFromOutput,
@@ -28,7 +28,7 @@ export async function generateBaseActivity(
     const containsValue = activityOutputContainsValue(wrappedOutput)
 
     // transaction information
-    const output = wrappedOutput.output as IBasicOutput
+    const output = wrappedOutput.output as BasicOutput
     const transactionId = processedTransaction.transactionId
     const outputId = wrappedOutput.outputId
     const time = processedTransaction.time
@@ -53,7 +53,7 @@ export async function generateBaseActivity(
         tokenId: BASE_TOKEN_ID,
         rawAmount: String(getAmountFromOutput(output) - storageDeposit),
     }
-    const nativeToken = getNativeTokenFromOutput(output)
+    const nativeToken = await getNativeTokenFromOutput(output)
     const persistedToken = nativeToken
         ? await getOrRequestTokenFromPersistedTokens(nativeToken.id, sourceNetworkId)
         : undefined
