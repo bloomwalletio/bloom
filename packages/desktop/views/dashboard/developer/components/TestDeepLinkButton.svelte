@@ -1,19 +1,17 @@
 <script lang="ts">
     import { OnboardingButton } from '@ui'
-
     import { localize } from '@core/i18n'
-
     import { openPopup, PopupId } from '@desktop/auxiliary/popup'
 
-    function onCreateAliasClick(): void {
+    function onClick(): void {
         openPopup({
-            id: PopupId.AliasConfirmation,
+            id: PopupId.TestDeepLinkForm,
         })
     }
 </script>
 
 <OnboardingButton
-    primaryText={localize('actions.createAlias')}
-    secondaryText={localize('actions.createAliasDescription')}
-    onClick={onCreateAliasClick}
+    primaryText={localize('actions.testDeepLink')}
+    secondaryText={localize('general.testDeepLinkDescription')}
+    {onClick}
 />
