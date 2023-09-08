@@ -1,7 +1,7 @@
 import { IAccountState } from '@core/account'
-import { IActivityGenerationParameters } from '@core/activity/types'
-import { GovernanceActivity } from '../types'
-import type { IBasicOutput } from '@iota/types'
+import type { BasicOutput } from '@iota/sdk/out/types'
+import {} from '../types'
+import { GovernanceActivity, IActivityGenerationParameters } from '../types'
 import { ActivityType } from '../enums'
 import { activityOutputContainsValue } from '..'
 import {
@@ -13,21 +13,21 @@ import {
 } from './helper'
 import { NetworkId } from '@core/network/types'
 
-export function generateSingleGovernanceActivity(
+export async function generateSingleGovernanceActivity(
     account: IAccountState,
     networkId: NetworkId,
     { action, processedTransaction, wrappedOutput }: IActivityGenerationParameters
-): GovernanceActivity {
+): Promise<GovernanceActivity> {
     const { transactionId, direction, time, inclusionState, wrappedInputs } = processedTransaction
 
     const isHidden = false
     const isAssetHidden = false
-    const containsValue = activityOutputContainsValue(wrappedOutput)
+    const containsValue = await activityOutputContainsValue(wrappedOutput)
 
     const outputId = wrappedOutput.outputId
     const id = outputId || transactionId
 
-    const output = wrappedOutput.output as IBasicOutput
+    const output = wrappedOutput.output as BasicOutput
 
     const tag = getTagFromOutput(output)
     const metadata = getMetadataFromOutput(output)

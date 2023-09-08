@@ -1,8 +1,6 @@
 <script lang="ts">
     import { OnboardingButton } from '@ui'
-
     import { localize } from '@core/i18n'
-
     import { showNotification } from '@auxiliary/notification'
     import { closePopup, openPopup, PopupId } from '@desktop/auxiliary/popup'
     import { refreshAccountTokensForActiveProfile } from '@core/token/actions'

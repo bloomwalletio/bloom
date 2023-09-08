@@ -1,12 +1,12 @@
-import { ProposalStatus } from '../enums'
+import { EventStatus } from '@iota/sdk/out/types'
 
-export function isProposalVotable(status: string): boolean {
+export function isProposalVotable(status: EventStatus): boolean {
     switch (status) {
-        case ProposalStatus.Commencing:
-        case ProposalStatus.Holding:
+        case EventStatus.Commencing:
+        case EventStatus.Holding:
             return true
-        case ProposalStatus.Upcoming:
-        case ProposalStatus.Ended:
+        case EventStatus.Upcoming:
+        case EventStatus.Ended:
         default:
             return false
     }
