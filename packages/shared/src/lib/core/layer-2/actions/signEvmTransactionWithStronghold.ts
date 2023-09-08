@@ -1,22 +1,23 @@
-import { IAccountState } from '@core/account'
 import { prepareEvmTransaction } from '@core/layer-2/utils'
 import { EvmChainId, getEvmTransactionOptions } from '@core/network'
 import { HEX_PREFIX } from '@core/utils'
 import { removeLeadingZeros } from '@core/utils/buffer'
+import { fromRpcSig, ECDSASignature } from '@ethereumjs/util'
+import { api } from '@core/profile-manager'
+import { getActiveProfile } from '@core/profile/stores'
+import type { Bip44 } from '@iota/sdk/out/types'
 import { Transaction, TxData } from '@ethereumjs/tx'
-import { ECDSASignature, fromRpcSig } from '@ethereumjs/util'
-import type { Bip44 } from '@iota/wallet/types'
 
 export async function signEvmTransactionWithStronghold(
     txData: TxData,
     bip44Path: Bip44,
-    chainId: EvmChainId,
-    account: IAccountState
+    chainId: EvmChainId
 ): Promise<string> {
     const unsignedTransactionMessageHex = HEX_PREFIX + prepareEvmTransaction(txData, chainId)
     const transaction = Transaction.fromTxData(txData, getEvmTransactionOptions(chainId))
 
-    const { signature } = await account.signSecp256k1Ecdsa(unsignedTransactionMessageHex, bip44Path)
+    const manager = await api.getSecretManager(getActiveProfile()?.id)
+    const { signature } = await manager.signSecp256k1Ecdsa(unsignedTransactionMessageHex, bip44Path)
 
     // Make Secp256k1Ecdsa into an Eip155Compatible Signature
     const ecdsaSignature = fromRpcSig(signature)

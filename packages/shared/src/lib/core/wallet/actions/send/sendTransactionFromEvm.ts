@@ -9,6 +9,7 @@ import { generateActivityFromEvmTransaction } from '@core/activity/utils/generat
 import { PersistedEvmTransaction, calculateAndAddPersistedBalanceChange } from '@core/activity'
 import { updateLayer2AccountBalanceForTokenOnChain } from '@core/layer-2/stores'
 import { getAddressFromAccountForNetwork } from '@core/account'
+import { BASE_TOKEN_ID } from '@core/token'
 
 export async function sendTransactionFromEvm(
     transaction: EvmTransactionData,
@@ -44,14 +45,25 @@ export async function sendTransactionFromEvm(
                 if (getAddressFromAccountForNetwork(account, networkId) !== activity.subject?.address) {
                     // Currently only support outgoing transactions being added to activities so we can assume outgoing balance change
                     // TODO: this only works for base token and not native tokens
-                    const delta = (activity.rawAmount + (activity?.transactionFee ?? 0)) * -1
+
+                    const tokenTransfer = activity.tokenTransfer ?? activity.baseTokenTransfer
+                    const delta =
+                        tokenTransfer.tokenId === BASE_TOKEN_ID
+                            ? (Number(tokenTransfer.rawAmount) + Number(activity?.transactionFee ?? 0)) * -1
+                            : Number(tokenTransfer.rawAmount) * -1
                     const newBalance = updateLayer2AccountBalanceForTokenOnChain(
                         account.index,
                         networkId,
-                        activity.tokenId,
+                        tokenTransfer.tokenId,
                         delta
                     )
-                    calculateAndAddPersistedBalanceChange(account.index, networkId, activity.tokenId, newBalance, true)
+                    await calculateAndAddPersistedBalanceChange(
+                        account.index,
+                        networkId,
+                        tokenTransfer.tokenId,
+                        newBalance,
+                        true
+                    )
                 }
 
                 if (callback && typeof callback === 'function') {

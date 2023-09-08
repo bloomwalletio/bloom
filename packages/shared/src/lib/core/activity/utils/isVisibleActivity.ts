@@ -1,5 +1,4 @@
-import { convertToRawAmount } from '@core/token'
-import { getPersistedToken } from '@core/token/stores'
+import { BASE_TOKEN_ID, convertToRawAmount } from '@core/token'
 import { dateIsAfterOtherDate, dateIsBeforeOtherDate, datesOnSameDay } from '@core/utils'
 import {
     BooleanFilterOption,
@@ -14,6 +13,7 @@ import { get } from 'svelte/store'
 import { ActivityAsyncStatus, ActivityType, InclusionState } from '../enums'
 import { activityFilter } from '../stores'
 import { Activity, ActivityFilter } from '../types'
+import { getPersistedToken } from '@core/token/stores'
 
 // Filters activities based on activity properties. If none of the conditionals are valid, then activity is shown.
 export function isVisibleActivity(activity: Activity): boolean {
@@ -55,7 +55,7 @@ export function isVisibleActivity(activity: Activity): boolean {
 function isVisibleWithActiveHiddenFilter(activity: Activity, filter: ActivityFilter): boolean {
     if (
         (!filter.showHidden.active || filter.showHidden.selected === BooleanFilterOption.No) &&
-        activity.isAssetHidden
+        activity.isTokenHidden
     ) {
         return false
     }
@@ -88,7 +88,8 @@ function isVisibleWithActiveTokenFilter(activity: Activity, filter: ActivityFilt
         if (activity.type !== ActivityType.Basic && activity.type !== ActivityType.Foundry) {
             return false
         }
-        if (filter.token.selected && activity.tokenId !== filter.token.selected) {
+        const tokenId = activity.tokenTransfer?.tokenId ?? activity.baseTokenTransfer?.tokenId ?? BASE_TOKEN_ID
+        if (filter.token.selected && tokenId !== filter.token.selected) {
             return false
         }
     }
@@ -97,15 +98,20 @@ function isVisibleWithActiveTokenFilter(activity: Activity, filter: ActivityFilt
 
 function isVisibleWithActiveAmountFilter(activity: Activity, filter: ActivityFilter): boolean {
     if (filter.amount.active && (activity.type === ActivityType.Basic || activity.type === ActivityType.Foundry)) {
-        const token = getPersistedToken(activity.tokenId)
-        const activityAmount = Big(activity.rawAmount)
+        const { tokenId, rawAmount } = activity.tokenTransfer ?? activity.baseTokenTransfer
+        const token = getPersistedToken(tokenId)
+        const activityAmount = Big(rawAmount)
+
+        if (!token || !token.metadata) {
+            return false
+        }
 
         if (
             filter.amount.selected === NumberFilterOption.Equal &&
             filter.amount.subunit.type === 'single' &&
             filter.amount.subunit.amount
         ) {
-            const amount = convertToRawAmount(String(filter.amount.subunit.amount), token?.metadata)
+            const amount = convertToRawAmount(String(filter.amount.subunit.amount), token.metadata)
             const isEqual = activityAmount.eq(amount)
             if (!isEqual) {
                 return false
@@ -117,8 +123,8 @@ function isVisibleWithActiveAmountFilter(activity: Activity, filter: ActivityFil
             filter.amount.subunit.start &&
             filter.amount.subunit.end
         ) {
-            const startAmount = convertToRawAmount(String(filter.amount.subunit.start), token?.metadata)
-            const endAmount = convertToRawAmount(String(filter.amount.subunit.end), token?.metadata)
+            const startAmount = convertToRawAmount(String(filter.amount.subunit.start), token.metadata)
+            const endAmount = convertToRawAmount(String(filter.amount.subunit.end), token.metadata)
             const isInRange = activityAmount.lte(endAmount) && activityAmount.gte(startAmount)
             if (!isInRange) {
                 return false
@@ -129,7 +135,7 @@ function isVisibleWithActiveAmountFilter(activity: Activity, filter: ActivityFil
             filter.amount.subunit.type === 'single' &&
             filter.amount.subunit.amount
         ) {
-            const amount = convertToRawAmount(String(filter.amount.subunit.amount), token?.metadata)
+            const amount = convertToRawAmount(String(filter.amount.subunit.amount), token.metadata)
             const isGreater = activityAmount.gte(amount)
             if (!isGreater) {
                 return false
@@ -140,7 +146,7 @@ function isVisibleWithActiveAmountFilter(activity: Activity, filter: ActivityFil
             filter.amount.subunit.type === 'single' &&
             filter.amount.subunit.amount
         ) {
-            const amount = convertToRawAmount(String(filter.amount.subunit.amount), token?.metadata)
+            const amount = convertToRawAmount(String(filter.amount.subunit.amount), token.metadata)
             const isLess = activityAmount.lte(amount)
             if (!isLess) {
                 return false
