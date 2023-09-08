@@ -2,6 +2,7 @@
     import { Icon, IconName, Text } from '@bloomwalletio/ui'
     import { IPersistedProfile, ProfileType } from '@core/profile'
     import { NetworkBadge, ProfileAvatar } from '@ui'
+    import features from '@features/features'
 
     export let profile: IPersistedProfile
     export let updateRequired: boolean = false
@@ -19,15 +20,15 @@
                 <Icon name={IconName.Cpu} size="sm" />
             {/if}
         </badge-container>
-        <button type="button" class="menu"></button>
+        {#if features.login.profileActions.enabled}
+            <button type="button" class="menu"></button>
+        {/if}
     </profile-header>
     <div class="relative">
         <ProfileAvatar {profile} size="lg" />
         <NetworkBadge size="sm" networkId={profile?.network?.id} networkName={profile?.network?.name} />
     </div>
-    {#if profile?.name}
-        <Text type="h6" align="center" truncate>{profile?.name}</Text>
-    {/if}
+    <Text type="h6" align="center" truncate>{profile?.name}</Text>
 </button>
 
 <style lang="postcss">
