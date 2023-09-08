@@ -5,18 +5,17 @@
     import features from '@features/features'
 
     export let profile: IPersistedProfile
-    export let updateRequired: boolean = false
     export let onClick: undefined | ((profileId: string) => void) = undefined
 
     function onProfileClick(): void {
-        onClick && onClick(profile?.id)
+        onClick && onClick(profile.id)
     }
 </script>
 
 <button type="button" class="profile" class:cursor-pointer={!!onClick} on:click={onProfileClick} disabled={!onClick}>
     <profile-header>
         <badge-container>
-            {#if profile?.type === ProfileType.Ledger}
+            {#if profile.type === ProfileType.Ledger}
                 <Icon name={IconName.Cpu} size="sm" />
             {/if}
         </badge-container>
@@ -26,9 +25,9 @@
     </profile-header>
     <div class="relative">
         <ProfileAvatar {profile} size="lg" />
-        <NetworkBadge size="sm" networkId={profile?.network?.id} networkName={profile?.network?.name} />
+        <NetworkBadge size="sm" networkId={profile.network.id} networkName={profile.network.name} />
     </div>
-    <Text type="h6" align="center" truncate>{profile?.name}</Text>
+    <Text type="h6" align="center" truncate>{profile.name}</Text>
 </button>
 
 <style lang="postcss">
