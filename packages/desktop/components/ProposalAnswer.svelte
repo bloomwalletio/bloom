@@ -19,7 +19,7 @@
     export let disabled = false
     export let hidden: boolean = null
     export let isWinner: boolean
-    export let proposalStatus: string
+    export let proposalStatus: EventStatus
     export let truncate = false
     export let isLoading = false
 
