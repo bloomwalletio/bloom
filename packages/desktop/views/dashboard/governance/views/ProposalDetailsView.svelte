@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { Table } from '@bloomwalletio/ui'
+    import { Alert, Table } from '@bloomwalletio/ui'
     import { ProposalDetailsMenu, ProposalInformationPane, ProposalQuestion } from '@components'
     import { getVotingEvent } from '@contexts/governance/actions'
     import {
@@ -31,7 +31,7 @@
     import { getBestTimeDuration, milestoneToDate } from '@core/utils'
     import { PopupId, openPopup } from '@desktop/auxiliary/popup'
     import { ParticipationEventType, TrackedParticipationOverview, VotingEventPayload } from '@iota/wallet/out/types'
-    import { Button, MarkdownBlock, Pane, ProposalStatusPill, Text, TextHint, TextType } from '@ui'
+    import { Button, MarkdownBlock, Pane, ProposalStatusPill, Text, TextType } from '@ui'
     import { onDestroy, onMount } from 'svelte'
 
     const { metadata } = $visibleSelectedAccountTokens?.[$activeProfile?.network?.id]?.baseCoin ?? {}
@@ -41,7 +41,7 @@
     let votingPayload: VotingEventPayload
     let totalVotes = 0
     let hasMounted = false
-    let textHintString = ''
+    let alertText = ''
     let proposalQuestions: HTMLElement
     let isVotingForProposal: boolean = false
     let statusLoaded: boolean = false
@@ -70,7 +70,7 @@
         ]
     }
 
-    $: $selectedParticipationEventStatus, (textHintString = getTextHintString())
+    $: $selectedParticipationEventStatus, (alertText = getAlertText())
 
     $: hasGovernanceTransactionInProgress =
         $selectedAccount?.hasVotingPowerTransactionInProgress || $selectedAccount?.hasVotingTransactionInProgress
@@ -176,7 +176,7 @@
         }, 250)
     }
 
-    function getTextHintString(): string {
+    function getAlertText(): string {
         if (!$selectedProposal) {
             return ''
         }
@@ -261,7 +261,7 @@
             {/if}
         </proposal-questions>
         {#if $selectedProposal?.status === ProposalStatus.Upcoming}
-            <TextHint info text={textHintString} />
+            <Alert variant="info" text={alertText} />
         {:else if [ProposalStatus.Commencing, ProposalStatus.Holding].includes($selectedProposal?.status)}
             {@const isLoaded = questions && overviewLoaded && statusLoaded}
             {@const isStoppingVote = lastAction === 'stopVote' && hasGovernanceTransactionInProgress}
