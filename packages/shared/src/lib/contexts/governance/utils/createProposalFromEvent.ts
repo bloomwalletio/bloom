@@ -1,7 +1,7 @@
-import type { ParticipationEventWithNodes, VotingEventPayload } from '@iota/wallet/out/types'
-import { DEFAULT_NODE_URLS } from '@core/network/constants'
+import { EventStatus, ParticipationEventWithNodes, VotingEventPayload } from '@iota/sdk/out/types'
 import { IProposalMetadata } from '../interfaces'
-import { ProposalStatus, ProposalType } from '../enums'
+import { ProposalType } from '../enums'
+import { DEFAULT_NODE_URLS } from '@core/network/constants'
 import { getActiveNetworkId } from '@core/network/actions'
 
 export function createProposalFromEvent(event: ParticipationEventWithNodes): IProposalMetadata {
@@ -13,10 +13,10 @@ export function createProposalFromEvent(event: ParticipationEventWithNodes): IPr
     const isOfficialNetwork = officialNodeUrls.includes(nodeUrl)
 
     const milestones = {
-        [ProposalStatus.Upcoming]: 0, // TODO: fix this
-        [ProposalStatus.Commencing]: data.milestoneIndexCommence,
-        [ProposalStatus.Holding]: data.milestoneIndexStart,
-        [ProposalStatus.Ended]: data.milestoneIndexEnd,
+        [EventStatus.Upcoming]: 0, // TODO: fix this
+        [EventStatus.Commencing]: data.milestoneIndexCommence,
+        [EventStatus.Holding]: data.milestoneIndexStart,
+        [EventStatus.Ended]: data.milestoneIndexEnd,
     }
 
     const proposal: IProposalMetadata = {
