@@ -19,8 +19,9 @@
         ADDRESS_TYPE_NFT,
         getBech32AddressFromAddressTypes,
         getHexAddressFromAddressTypes,
+        SendFlowType,
     } from '@core/wallet'
-    import { SendFlowType, setSendFlowParameters } from '@core/wallet/stores'
+    import { setSendFlowParameters } from '@core/wallet/stores'
     import { PopupId, openPopup } from '@desktop/auxiliary/popup'
     import { Button, Modal, NftMedia, Pane, Text } from '@ui'
     import { FontWeight, TextType } from '@ui/enums'
