@@ -109,8 +109,8 @@
         return { amount: totalStorageDeposit, subBreakdown }
     }
 
-    function containsUnlockCondition(unlockConditions: UnlockCondition[], unlockConditionId: number) {
-        return unlockConditions.some((unlockCondition) => unlockCondition.type === unlockConditionId)
+    function containsUnlockCondition(unlockConditions: UnlockCondition[], type: UnlockConditionType) {
+        return unlockConditions.some((unlockCondition) => unlockCondition.type === type)
     }
 
     function onConsolidationClick(): void {
