@@ -10,7 +10,7 @@ import { buildAssetAllowance } from '@core/layer-2/utils'
 import { ETHEREUM_COIN_TYPE } from '@core/network/constants'
 import { IChain } from '@core/network/interfaces'
 
-import { SendFlowType } from '../../stores'
+import { SendFlowType } from '../../enums'
 import { SendFlowParameters } from '../../types'
 import { buildTransferredAssetFromSendFlowParameters } from '../../utils'
 

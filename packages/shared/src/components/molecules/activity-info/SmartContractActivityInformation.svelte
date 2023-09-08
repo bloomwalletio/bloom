@@ -10,12 +10,12 @@
     items={[
         {
             key: localize('general.targetContract'),
-            value: activity?.parsedLayer2Metadata?.targetContract,
+            value: activity?.smartContract?.targetContract,
             copyable: true,
         },
         {
             key: localize('general.contractFunction'),
-            value: activity?.parsedLayer2Metadata?.contractFunction,
+            value: activity?.smartContract?.contractFunction,
             copyable: true,
         },
     ]}

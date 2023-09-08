@@ -1,4 +1,8 @@
 import { IAccountState } from '@core/account'
+import { IActivityGenerationParameters } from '@core/activity/types'
+import { NetworkId } from '@core/network/types'
+import { BASE_TOKEN_ID } from '@core/token'
+import { convertHexAddressToBech32 } from '@core/wallet/utils'
 import {
     AddressType,
     AliasAddress,
@@ -7,78 +11,43 @@ import {
     SimpleTokenScheme,
     UnlockConditionType,
 } from '@iota/sdk/out/types'
-import { IActivityGenerationParameters } from '@core/activity/types'
-import { NetworkId } from '@core/network/types'
-import { BASE_TOKEN_ID } from '@core/token'
-import { convertHexAddressToBech32 } from '@core/wallet/utils'
-import { ActivityType } from '../enums'
+import { ActivityAction, ActivityType } from '../enums'
 import { FoundryActivity } from '../types'
-import {
-    getAmountFromOutput,
-    getAsyncDataFromOutput,
-    getMetadataFromOutput,
-    getSendingInformation,
-    getTagFromOutput,
-} from './helper'
-import { getNativeTokenFromOutput } from './outputs'
+import { generateBaseActivity } from './generateBaseActivity'
 
 export async function generateSingleFoundryActivity(
     account: IAccountState,
     networkId: NetworkId,
-    { action, processedTransaction, wrappedOutput }: IActivityGenerationParameters
+    generationParameters: IActivityGenerationParameters
 ): Promise<FoundryActivity> {
-    const { transactionId, claimingData, time, direction, inclusionState } = processedTransaction
+    const baseActivity = await generateBaseActivity(account, networkId, generationParameters)
 
-    const output = wrappedOutput.output as FoundryOutput
-    const outputId = wrappedOutput.outputId
+    const output = generationParameters.wrappedOutput.output as FoundryOutput
     const { mintedTokens, meltedTokens, maximumSupply } = output.tokenScheme as SimpleTokenScheme
+
+    if (generationParameters.action === ActivityAction.Mint) {
+        baseActivity.storageDeposit = baseActivity.baseTokenTransfer?.rawAmount
+            ? Number(baseActivity.baseTokenTransfer?.rawAmount)
+            : undefined
+        baseActivity.baseTokenTransfer = {
+            tokenId: BASE_TOKEN_ID,
+            rawAmount: '0',
+        }
+    }
 
     const addressUnlockCondition = output.unlockConditions.find(
         (unlockCondition) => unlockCondition.type === UnlockConditionType.ImmutableAliasAddress
     ) as ImmutableAliasAddressUnlockCondition
     const aliasId = (addressUnlockCondition?.address as AliasAddress)?.aliasId
-    const aliasAddress = aliasId ? convertHexAddressToBech32(AddressType.Alias, aliasId) : undefined
-
-    const isHidden = false
-    const isAssetHidden = false
-    const containsValue = true
-
-    const id = outputId || transactionId
-    const nativeToken = await getNativeTokenFromOutput(output)
-    const tokenId = nativeToken?.id ?? BASE_TOKEN_ID
-
-    const storageDeposit = getAmountFromOutput(output)
-    const rawAmount = Number(nativeToken?.amount ?? 0)
-    const metadata = getMetadataFromOutput(output)
-    const tag = getTagFromOutput(output)
-
-    const sendingInfo = getSendingInformation(processedTransaction, output, account, networkId)
-    const asyncData = getAsyncDataFromOutput(output, outputId, claimingData, account)
+    const aliasAddress = convertHexAddressToBech32(AddressType.Alias, aliasId)
 
     return {
+        ...baseActivity,
         type: ActivityType.Foundry,
-        id,
-        outputId,
-        transactionId,
-        direction,
-        action,
-        tokenId,
         aliasAddress,
         mintedTokens: mintedTokens.toString(),
         meltedTokens: meltedTokens.toString(),
         maximumSupply: maximumSupply.toString(),
-        storageDeposit,
-        rawAmount,
-        time,
-        inclusionState,
-        containsValue,
-        isAssetHidden,
-        isHidden,
-        metadata,
-        tag,
-        sourceNetworkId: networkId,
-        destinationNetworkId: networkId,
-        asyncData,
-        ...sendingInfo,
+        containsValue: true, // TODO: check if why we do this
     }
 }

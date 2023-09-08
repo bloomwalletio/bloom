@@ -166,7 +166,7 @@ export default {
         return ipcRenderer.invoke('check-if-file-exists', filePath)
     },
     openUrl(url: unknown): Promise<unknown> {
-        return ipcRenderer.invoke('open-url', url)
+        return ipcRenderer.invoke('open-external-url', url)
     },
     copyFile(sourceFilePath: unknown, destinationFilePath: unknown): Promise<unknown> {
         return ipcRenderer.invoke('copy-file', sourceFilePath, destinationFilePath)

@@ -1,6 +1,6 @@
-import { Layer2Metadata } from '../types'
+import { SmartContract } from '../types'
 
-export function parseLayer2Metadata(metadata: string | undefined): Layer2Metadata | undefined {
+export function parseLayer2Metadata(metadata: string | undefined): SmartContract | undefined {
     if (!metadata) {
         return undefined
     }
@@ -14,7 +14,7 @@ export function parseLayer2Metadata(metadata: string | undefined): Layer2Metadat
     }
 }
 
-function validate(data: Layer2Metadata): void {
+function validate(data: SmartContract): void {
     if (!data) {
         throw new Error('Invalid Metadata')
     }
