@@ -32,7 +32,7 @@
     $: {
         switch (activity.type) {
             case ActivityType.Basic:
-                tabs = [Tab.Transaction, ...(activity.parsedLayer2Metadata ? [Tab.SmartContract] : [])]
+                tabs = [Tab.Transaction, ...(activity.smartContract ? [Tab.SmartContract] : [])]
                 break
             case ActivityType.Governance:
                 tabs = [Tab.Transaction]
@@ -48,7 +48,7 @@
                     Tab.Transaction,
                     Tab.Nft,
                     ...(hasMetadata ? [Tab.NftMetadata] : []),
-                    ...(activity.parsedLayer2Metadata ? [Tab.SmartContract] : []),
+                    ...(activity.smartContract ? [Tab.SmartContract] : []),
                 ]
                 break
             case ActivityType.Foundry:

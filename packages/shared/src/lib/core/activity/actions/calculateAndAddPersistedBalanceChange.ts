@@ -7,13 +7,13 @@ import { generateBalanceChangeActivity } from '../utils/generateBalanceChangeAct
 import { ITokenBalanceChange } from '../types'
 import { NetworkId } from '@core/network'
 
-export function calculateAndAddPersistedBalanceChange(
+export async function calculateAndAddPersistedBalanceChange(
     accountIndex: number,
     networkId: NetworkId,
     tokenId: string,
     newBalance: number,
     hidden: boolean = false
-): void {
+): Promise<void> {
     newBalance = newBalance || 0
 
     const balanceChangesForAsset = getBalanceChanges(accountIndex, networkId)?.[tokenId]
@@ -28,7 +28,7 @@ export function calculateAndAddPersistedBalanceChange(
         }
 
         if (!hidden) {
-            const activity = generateBalanceChangeActivity(networkId, tokenId, newBalanceChange)
+            const activity = await generateBalanceChangeActivity(networkId, tokenId, newBalanceChange)
             addActivityToAccountActivitiesInAllAccountActivities(accountIndex, activity)
         }
         addPersistedBalanceChange(accountIndex, networkId, tokenId, newBalanceChange)
