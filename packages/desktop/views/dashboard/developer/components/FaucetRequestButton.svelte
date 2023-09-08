@@ -1,11 +1,9 @@
 <script lang="ts">
-    import { OnboardingButton } from '@ui'
-
     import { localize } from '@core/i18n'
     import { FAUCET_URLS, nodeInfo } from '@core/network'
     import { activeProfile } from '@core/profile/stores'
-
-    import { openPopup, PopupId } from '@desktop/auxiliary/popup'
+    import { PopupId, openPopup } from '@desktop/auxiliary/popup'
+    import { OnboardingButton } from '@ui'
 
     function onGetTokensClick(): void {
         openPopup({

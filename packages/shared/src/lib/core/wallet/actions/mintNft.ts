@@ -2,6 +2,7 @@ import { showNotification } from '@auxiliary/notification'
 import { getSelectedAccount, updateSelectedAccount } from '@core/account/stores'
 import { ActivityAction } from '@core/activity/enums'
 import { addActivityToAccountActivitiesInAllAccountActivities } from '@core/activity/stores'
+import { sendPreparedTransaction } from '@core/wallet/utils'
 import { NftActivity } from '@core/activity/types'
 import { generateSingleNftActivity } from '@core/activity/utils/generateSingleNftActivity'
 import { preprocessTransaction } from '@core/activity/utils/outputs'
@@ -9,8 +10,8 @@ import { localize } from '@core/i18n'
 import { IIrc27Metadata } from '@core/nfts'
 import { addOrUpdateNftInAllAccountNfts, buildNftFromNftOutput } from '@core/nfts/actions'
 import { Converter } from '@core/utils'
-import { MintNftParams } from '@iota/wallet'
-import { DEFAULT_TRANSACTION_OPTIONS, OUTPUT_TYPE_NFT } from '../constants'
+import { MintNftParams, OutputType } from '@iota/sdk/out/types'
+import { DEFAULT_TRANSACTION_OPTIONS } from '../constants'
 import { resetMintNftDetails } from '../stores'
 import { getActiveNetworkId } from '@core/network'
 
@@ -28,7 +29,8 @@ export async function mintNft(metadata: IIrc27Metadata, quantity: number): Promi
         const allNftParams: MintNftParams[] = Array(quantity).fill(mintNftParams)
 
         // Mint NFT
-        const mintNftTransaction = await account.mintNfts(allNftParams, DEFAULT_TRANSACTION_OPTIONS)
+        const preparedTransaction = await account.prepareMintNfts(allNftParams, DEFAULT_TRANSACTION_OPTIONS)
+        const mintNftTransaction = await sendPreparedTransaction(preparedTransaction)
         resetMintNftDetails()
         showNotification({
             variant: 'success',
@@ -40,7 +42,7 @@ export async function mintNft(metadata: IIrc27Metadata, quantity: number): Promi
 
         // Generate Activities
         for (const output of outputs) {
-            if (output.output.type === OUTPUT_TYPE_NFT) {
+            if (output.output.type === OutputType.Nft) {
                 // For each minted NFT, generate a new activity
                 const activity: NftActivity = generateSingleNftActivity(account, networkId, {
                     action: ActivityAction.Mint,

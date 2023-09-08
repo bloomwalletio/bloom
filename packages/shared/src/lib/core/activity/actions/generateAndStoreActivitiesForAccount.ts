@@ -26,7 +26,11 @@ export async function generateAndStoreActivitiesForAccount(
     const linkedProcessedTransactions = linkTransactionsWithClaimingTransactions(processedTransactions, account)
 
     // Step 3: generate activities from processed transactions
-    const activities = generateActivitiesFromProcessedTransactions(linkedProcessedTransactions, account, networkId)
+    const activities = await generateActivitiesFromProcessedTransactions(
+        linkedProcessedTransactions,
+        account,
+        networkId
+    )
     const balanceChangeActivities = generateActivitiesFromBalanceChanges(account)
     activities.push(...balanceChangeActivities)
 

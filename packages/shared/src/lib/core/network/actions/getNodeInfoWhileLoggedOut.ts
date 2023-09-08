@@ -3,12 +3,12 @@ import { IProfileManager, api } from '@core/profile-manager'
 import { initialiseProfileManager } from '@core/profile-manager/actions'
 import { TEST_COIN_TYPE } from '..'
 import { Platform } from '@core/app'
-import { CoinType, NodeInfoWrapper } from '@iota/wallet'
+import { CoinType, INodeInfoWrapper } from '@iota/sdk/out/types'
 
-export async function getNodeInfoWhileLoggedOut(url: string): Promise<NodeInfoWrapper> {
+export async function getNodeInfoWhileLoggedOut(url: string): Promise<INodeInfoWrapper> {
     let storagePath: string | undefined
     let manager: IProfileManager | undefined
-    let nodeInfoResponse: NodeInfoWrapper | undefined
+    let nodeInfoResponse: INodeInfoWrapper | undefined
     try {
         storagePath = await getTemporaryProfileManagerStorageDirectory()
         manager = await initialiseProfileManager(
@@ -23,7 +23,7 @@ export async function getNodeInfoWhileLoggedOut(url: string): Promise<NodeInfoWr
         return Promise.reject(error)
     } finally {
         if (manager) {
-            api.deleteAccountManager(manager?.id)
+            api.deleteWallet(manager?.id)
             await manager.destroy()
         }
         if (storagePath) {
