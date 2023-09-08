@@ -49,12 +49,12 @@
         @apply disabled:pointer-events-none;
     }
 
-    :global(profile-avatar avatar) {
+    :global(profile-avatar avatar img) {
         /* Remove necessity of !important */
         @apply transition-all duration-300 rounded-[50%] !important;
     }
 
-    :global(.profile:hover profile-avatar avatar) {
+    :global(.profile:hover profile-avatar avatar img) {
         /* Remove necessity of !important */
         @apply rounded-3xl !important;
     }
