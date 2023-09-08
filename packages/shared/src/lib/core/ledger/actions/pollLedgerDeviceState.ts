@@ -5,7 +5,7 @@ import { ILedgerDeviceStatePollingConfiguration } from '../interfaces'
 import { isPollingLedgerDeviceState } from '../stores'
 import { getAndUpdateLedgerDeviceState } from './getAndUpdateLedgerDeviceState'
 
-let intervalTimer: ReturnType<typeof setInterval> | undefined
+let intervalTimer: number | undefined
 
 export function pollLedgerDeviceState(config?: ILedgerDeviceStatePollingConfiguration): void {
     const pollInterval = config?.pollInterval ?? DEFAULT_LEDGER_NANO_STATUS_POLL_INTERVAL
@@ -13,7 +13,7 @@ export function pollLedgerDeviceState(config?: ILedgerDeviceStatePollingConfigur
 
     if (!get(isPollingLedgerDeviceState)) {
         void getAndUpdateLedgerDeviceState(profileManager)
-        intervalTimer = setInterval(() => {
+        intervalTimer = window.setInterval(() => {
             void getAndUpdateLedgerDeviceState(profileManager)
         }, pollInterval)
         isPollingLedgerDeviceState.set(true)
@@ -22,7 +22,7 @@ export function pollLedgerDeviceState(config?: ILedgerDeviceStatePollingConfigur
 
 export function stopPollingLedgerDeviceState(): void {
     if (get(isPollingLedgerDeviceState)) {
-        clearInterval(intervalTimer)
+        window.clearInterval(intervalTimer )
         intervalTimer = undefined
         isPollingLedgerDeviceState.set(false)
     }

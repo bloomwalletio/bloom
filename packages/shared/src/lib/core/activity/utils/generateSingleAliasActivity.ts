@@ -1,75 +1,51 @@
 import { IAccountState } from '@core/account'
-import { ADDRESS_TYPE_ALIAS, EMPTY_HEX_ID } from '@core/wallet/constants'
-import { ActivityType } from '../enums'
 import { IActivityGenerationParameters } from '@core/activity/types'
-import { AliasActivity } from '../types'
-import { IAliasOutput } from '@iota/types'
-import {
-    getAmountFromOutput,
-    getAsyncDataFromOutput,
-    getGovernorAddressFromAliasOutput,
-    getMetadataFromOutput,
-    getSendingInformation,
-    getStateControllerAddressFromAliasOutput,
-    getStorageDepositFromOutput,
-    getTagFromOutput,
-} from './helper'
-import { convertHexAddressToBech32, hashOutputId } from '@core/wallet/utils'
 import { NetworkId } from '@core/network/types'
+import { api } from '@core/profile-manager'
+import { getNetworkHrp } from '@core/profile/actions'
+import { BASE_TOKEN_ID } from '@core/token'
+import { EMPTY_HEX_ID } from '@core/wallet/constants'
+import { AliasOutput } from '@iota/sdk/out/types'
+import { ActivityAction, ActivityType } from '../enums'
+import { AliasActivity } from '../types'
+import { generateBaseActivity } from './generateBaseActivity'
+import { getGovernorAddressFromAliasOutput, getStateControllerAddressFromAliasOutput } from './helper'
 
-export function generateSingleAliasActivity(
+export async function generateSingleAliasActivity(
     account: IAccountState,
     networkId: NetworkId,
-    { action, processedTransaction, wrappedOutput }: IActivityGenerationParameters
-): AliasActivity {
-    const { transactionId, claimingData, direction, time, inclusionState } = processedTransaction
+    generationParameters: IActivityGenerationParameters
+): Promise<AliasActivity> {
+    const baseActivity = await generateBaseActivity(account, networkId, generationParameters)
 
-    const output = wrappedOutput.output as IAliasOutput
-    const outputId = wrappedOutput.outputId
-    const id = outputId || transactionId
+    const { output, outputId } = generationParameters.wrappedOutput
 
-    const _storageDeposit = getStorageDepositFromOutput(output)
-    const storageDeposit = getAmountFromOutput(output) + _storageDeposit
-    const governorAddress = getGovernorAddressFromAliasOutput(output)
-    const stateControllerAddress = getStateControllerAddressFromAliasOutput(output)
-    const aliasId = getAliasId(output, outputId)
+    if (generationParameters.action === ActivityAction.Mint) {
+        baseActivity.storageDeposit = baseActivity.baseTokenTransfer?.rawAmount
+            ? Number(baseActivity.baseTokenTransfer?.rawAmount)
+            : undefined
+        baseActivity.baseTokenTransfer = {
+            tokenId: BASE_TOKEN_ID,
+            rawAmount: '0',
+        }
+    }
 
-    const isHidden = false
-    const isAssetHidden = false
-    const containsValue = true
-
-    const metadata = getMetadataFromOutput(output)
-    const tag = getTagFromOutput(output)
-    const asyncData = getAsyncDataFromOutput(output, outputId, claimingData, account)
-    const sendingInfo = getSendingInformation(processedTransaction, output, account, networkId)
+    const governorAddress = getGovernorAddressFromAliasOutput(output as AliasOutput)
+    const stateControllerAddress = getStateControllerAddressFromAliasOutput(output as AliasOutput)
+    const aliasId = getAliasId(output as AliasOutput, outputId)
 
     return {
         type: ActivityType.Alias,
-        id,
-        outputId,
-        transactionId,
-        direction,
-        action,
+        ...baseActivity,
         aliasId,
-        storageDeposit,
         governorAddress,
         stateControllerAddress,
-        isHidden,
-        isAssetHidden,
-        time,
-        metadata,
-        tag,
-        sourceNetworkId: networkId,
-        destinationNetworkId: networkId,
-        inclusionState,
-        containsValue,
-        asyncData,
-        ...sendingInfo,
+        containsValue: true, // TODO: check if why we do this
     }
 }
 
-function getAliasId(output: IAliasOutput, outputId: string): string {
+function getAliasId(output: AliasOutput, outputId: string): string {
     const isNewAlias = output.aliasId === EMPTY_HEX_ID
-    const aliasId = isNewAlias ? hashOutputId(outputId) : output.aliasId
-    return convertHexAddressToBech32(ADDRESS_TYPE_ALIAS, aliasId)
+    const aliasId = isNewAlias ? api.computeAliasId(outputId) : output.aliasId
+    return api.aliasIdToBech32(aliasId, getNetworkHrp())
 }

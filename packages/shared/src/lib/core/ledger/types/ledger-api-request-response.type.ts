@@ -1,4 +1,4 @@
 import type { IEvmAddress, IEvmTransactionSignature } from '@core/layer-2/interfaces'
-import type { IGetEthereumAppSettingsResponse } from '@core/ledger/interfaces'
+import { ILedgerEthereumAppSettings } from '../interfaces'
 
-export type LedgerApiRequestResponse = IEvmAddress | IEvmTransactionSignature | IGetEthereumAppSettingsResponse
+export type LedgerApiRequestResponse = ILedgerEthereumAppSettings | IEvmAddress | IEvmTransactionSignature

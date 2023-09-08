@@ -25,11 +25,11 @@ export function getSubjectLocaleFromActivity(activity: Activity): string {
 }
 
 function getSubjectFromActivity(activity: Activity): Subject | undefined {
-    if (activity.subject?.address && activity.parsedLayer2Metadata?.ethereumAddress) {
+    if (activity.subject?.address && activity.smartContract?.ethereumAddress) {
         const network = getLayer2NetworkFromAddress(activity.subject.address)
         if (network) {
             return (
-                getSubjectFromAddress(activity.parsedLayer2Metadata.ethereumAddress, activity.destinationNetworkId) ??
+                getSubjectFromAddress(activity.smartContract.ethereumAddress, activity.destinationNetworkId) ??
                 activity.subject
             )
         } else {

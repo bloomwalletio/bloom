@@ -1,4 +1,4 @@
-import { LedgerDeviceType } from '@iota/wallet/types'
+import { LedgerDeviceType } from '@iota/sdk/out/types'
 import { LedgerAppName } from '../enums'
 import { ILedgerAppSettings } from './app-settings'
 

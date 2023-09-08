@@ -1,4 +1,4 @@
-import type { Transaction } from '@iota/wallet/out/types'
+import type { Transaction } from '@iota/sdk/out/types'
 
 import type { IAccountState } from '@core/account/interfaces'
 import { addActivitiesToAccountActivitiesInAllAccountActivities } from '../stores'
@@ -15,6 +15,6 @@ export async function processAndAddToActivities(
     networkId: NetworkId
 ): Promise<void> {
     const preprocessedTransaction = await preprocessTransaction(transaction, account)
-    const activities = generateActivities(preprocessedTransaction, account, networkId)
+    const activities = await generateActivities(preprocessedTransaction, account, networkId)
     addActivitiesToAccountActivitiesInAllAccountActivities(account.index, activities)
 }

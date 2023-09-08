@@ -1,6 +1,6 @@
 import { get } from 'svelte/store'
 import { profileManager as _profileManager } from '@core/profile-manager/stores'
-import { LedgerNanoStatus } from '@iota/wallet/out/types'
+import type { LedgerNanoStatus } from '@iota/sdk/out/types'
 
 export function getLedgerNanoStatus(profileManager = _profileManager): Promise<LedgerNanoStatus> {
     const manager = get(profileManager)

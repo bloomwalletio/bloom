@@ -1,5 +1,5 @@
 import { writable } from 'svelte/store'
-import { LedgerNanoStatus } from '@iota/wallet'
+import { LedgerNanoStatus } from '@iota/sdk/out/types'
 import { ILedgerEthereumAppSettings, ILedgerDeviceState } from '../interfaces'
 import { buildLedgerDeviceState } from '../utils'
 

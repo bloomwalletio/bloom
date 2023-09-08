@@ -10,11 +10,11 @@ import {
 } from '@core/layer-2/utils'
 import { MILLISECONDS_PER_SECOND, sleep } from '@core/utils'
 import { TxData } from '@ethereumjs/tx'
-import type { Bip44 } from '@iota/wallet/types'
+import type { Bip44 } from '@iota/sdk/out/types'
 import { PopupId, openPopup } from '../../../../../../desktop/lib/auxiliary/popup'
 import { DEFAULT_LEDGER_API_REQUEST_OPTIONS } from '../constants'
 import { LedgerApiMethod, LedgerAppName } from '../enums'
-import { ILedgerApiBridge, IGetEthereumAppSettingsResponse } from '../interfaces'
+import { ILedgerApiBridge } from '../interfaces'
 import { LedgerApiRequestResponse } from '../types'
 import {
     ILedgerApiRequestOptions,
@@ -34,14 +34,13 @@ const ledgerApiBridge: ILedgerApiBridge = window['__LEDGER__']
 export class Ledger {
     static async getEthereumAppSettings(): Promise<ILedgerEthereumAppSettings | undefined> {
         try {
-            const response = await this.callLedgerApiAsync<IGetEthereumAppSettingsResponse>(
+            return await this.callLedgerApiAsync<ILedgerEthereumAppSettings>(
                 () => ledgerApiBridge.makeRequest(LedgerApiMethod.GetEthereumAppSettings),
                 'ethereum-app-settings',
                 {
                     timeout: 1,
                 }
             )
-            return { ...response, blindSigningEnabled: response?.arbitraryDataEnabled }
         } catch (err) {
             console.error(err)
             return undefined

@@ -1,4 +1,4 @@
-import { LedgerNanoStatus } from '@iota/wallet'
+import { LedgerNanoStatus } from '@iota/sdk/out/types'
 import { LedgerAppName } from '../enums'
 import { ILedgerAppSettings, ILedgerDeviceState, ILedgerEthereumAppSettings } from '../interfaces'
 
