@@ -25,7 +25,7 @@ export async function generateBaseActivity(
     // meta information
     const isHidden = false
     const isTokenHidden = false
-    const containsValue = activityOutputContainsValue(wrappedOutput)
+    const containsValue = await activityOutputContainsValue(wrappedOutput)
 
     // transaction information
     const output = wrappedOutput.output as BasicOutput
