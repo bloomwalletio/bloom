@@ -1,8 +1,8 @@
+import { Event, NewOutputWalletEvent, WalletEventType, OutputType, AliasOutput } from '@iota/sdk/out/types'
 import { syncBalance } from '@core/account/actions/syncBalance'
 import { checkAndRemoveProfilePicture } from '@core/profile/actions'
 import { activeAccounts } from '@core/profile/stores'
 import { IWrappedOutput } from '@core/wallet/interfaces'
-import { OUTPUT_TYPE_ALIAS, OUTPUT_TYPE_NFT } from '@core/wallet/constants'
 import {
     addActivitiesToAccountActivitiesInAllAccountActivities,
     allAccountActivities,
@@ -10,7 +10,6 @@ import {
 import { generateActivities } from '@core/activity/utils'
 import { preprocessGroupedOutputs } from '@core/activity/utils/outputs'
 import { getBech32AddressFromAddressTypes } from '@core/wallet/utils/getBech32AddressFromAddressTypes'
-import { Event, NewOutputWalletEvent, WalletEventType } from '@iota/wallet/out/types'
 import { get } from 'svelte/store'
 import { validateWalletApiEvent } from '../../utils'
 import { ActivityType } from '@core/activity/enums'
@@ -35,22 +34,26 @@ export async function handleNewOutputEventInternal(
     if (!account || !output || !networkId) return
 
     const address = getBech32AddressFromAddressTypes(output?.address)
+    const outputData = output.output as AliasOutput
     const isNewAliasOutput =
-        output.output.type === OUTPUT_TYPE_ALIAS &&
-        output.output.stateIndex === 0 &&
+        outputData.type === OutputType.Alias &&
+        outputData.stateIndex === 0 &&
         !get(allAccountActivities)[accountIndex].find((_activity) => _activity.id === output.outputId)
-    const isNftOutput = output.output.type === OUTPUT_TYPE_NFT
+
+    const isNftOutput = outputData.type === OutputType.Nft
 
     if ((account?.depositAddress === address && !output?.remainder) || isNewAliasOutput) {
         await syncBalance(account.index)
 
         const processedOutput = preprocessGroupedOutputs([output], walletEvent?.transactionInputs ?? [], account)
 
-        const activities = generateActivities(processedOutput, account, networkId)
+        const activities = await generateActivities(processedOutput, account, networkId)
         for (const activity of activities) {
             if (activity.type === ActivityType.Basic || activity.type === ActivityType.Foundry) {
                 const token = await getOrRequestTokenFromPersistedTokens(activity.tokenId)
-                addPersistedToken(token)
+                if (token) {
+                    addPersistedToken(token)
+                }
             }
         }
         addActivitiesToAccountActivitiesInAllAccountActivities(account.index, activities)

@@ -16,7 +16,12 @@ export type BaseActivity = {
     action: ActivityAction
     isInternal: boolean
     storageDeposit: number
-    gasUsed?: number
+
+    // to add
+    estimatedGasFee?: number
+    maxGasFee?: number
+    transactionFee?: number
+
     rawBaseCoinAmount?: number
     subject: Subject | undefined
     metadata?: string

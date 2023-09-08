@@ -1,6 +1,6 @@
+import { LedgerNanoStatus } from '@iota/sdk/out/types'
 import { LedgerConnectionState } from '../interfaces'
 import { LedgerAppName } from '../enums'
-import { LedgerNanoStatus } from '@iota/wallet'
 
 export function determineLedgerConnectionState(
     status: LedgerNanoStatus,
@@ -9,7 +9,7 @@ export function determineLedgerConnectionState(
     const { connected, app } = status
     if (connected) {
         if (app) {
-            if (app.name === appName) {
+            if (app.name === (appName as string)) {
                 return LedgerConnectionState.CorrectAppOpen
             } else {
                 return LedgerConnectionState.AppNotOpen

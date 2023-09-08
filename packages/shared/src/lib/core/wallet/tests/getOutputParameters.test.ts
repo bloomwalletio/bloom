@@ -90,12 +90,8 @@ jest.mock('../../network/actions/getChainConfiguration', () => ({
     getChainConfiguration: jest.fn((_) => destinationNetwork),
 }))
 
-jest.mock('../../profile/actions/active-profile/getCoinType', () => ({
-    getCoinType: jest.fn((_) => '1'),
-}))
-
-jest.mock('../../layer-2/actions/getGasPriceInWei', () => ({
-    getGasPriceInWei: jest.fn((_) => 1_000_000_000_000n),
+jest.mock('../../layer-2/actions/getGasPriceForNetwork', () => ({
+    getGasPriceForNetwork: jest.fn((_) => 1_000_000_000_000n),
 }))
 
 jest.mock('../../layer-2/actions/estimateGasForLayer1ToLayer2Transaction', () => ({
@@ -217,7 +213,7 @@ describe('File: getOutputParameters.ts', () => {
             assets: {
                 nativeTokens: [
                     {
-                        amount: '0x3b9aca00',
+                        amount: 1000000000n,
                         id: nativeTokenAsset.id,
                     },
                 ],
@@ -238,7 +234,7 @@ describe('File: getOutputParameters.ts', () => {
         const output = await getOutputParameters(sendFlowParameters, senderAddress)
         const expectedOutput = {
             recipientAddress: destinationNetwork.aliasAddress,
-            amount: '1000026620',
+            amount: '1000000000',
             features: {
                 metadata:
                     '0x00000000025e4b3ca1e3f423fccf01010161200300010000070c000c30680e00000090000f0ea000060009000d300000000000808094ebdc03',
@@ -270,11 +266,11 @@ describe('File: getOutputParameters.ts', () => {
 
         const expectedOutput = {
             recipientAddress: destinationNetwork.aliasAddress,
-            amount: '26785',
+            amount: '0',
             assets: {
                 nativeTokens: [
                     {
-                        amount: '0x3b9aca00',
+                        amount: 1000000000n,
                         id: nativeTokenAsset.id,
                     },
                 ],
@@ -301,7 +297,7 @@ describe('File: getOutputParameters.ts', () => {
 
         const expectedOutput = {
             recipientAddress: destinationNetwork.aliasAddress,
-            amount: '27170',
+            amount: '0',
             assets: {
                 nftId,
             },
@@ -362,7 +358,7 @@ describe('File: getOutputParameters.ts', () => {
             assets: {
                 nativeTokens: [
                     {
-                        amount: '0x3b9aca00',
+                        amount: 1000000000n,
                         id: nativeTokenAsset.id,
                     },
                 ],

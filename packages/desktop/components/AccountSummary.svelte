@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { AccountActionsButton } from '@components'
+    import { AccountActionsMenu } from '@components'
     import { Text, TogglableTokenBalanceLabel } from '@ui'
     import { TextType } from '@ui/enums'
     import { localize } from '@core/i18n'
@@ -20,7 +20,7 @@
         <Text type={TextType.h5} classes="text-left">
             {localize('general.balanceWithNetwork', { values: { network: formattedNetworkName } })}
         </Text>
-        <AccountActionsButton />
+        <AccountActionsMenu />
     </div>
     <div class="flex flex-col flex-wrap items-start space-y-1">
         <TogglableTokenBalanceLabel token={baseCoin} />

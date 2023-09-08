@@ -1,6 +1,6 @@
 import { IAccountState } from '@core/account'
 import { IWrappedOutput } from '@core/wallet/interfaces'
-import { IBasicOutput } from '@iota/types'
+import { BasicOutput, OutputType } from '@iota/sdk/out/types'
 import { ActivityType } from '../enums'
 import { activityOutputContainsValue } from '..'
 import {
@@ -10,25 +10,24 @@ import {
     getStorageDepositFromOutput,
     getTagFromOutput,
 } from './helper'
-import { OUTPUT_TYPE_BASIC } from '@core/wallet/constants'
 import { ConsolidationActivity, IActivityGenerationParameters } from '../types'
 import { NetworkId } from '@core/network/types'
 
-export function generateSingleConsolidationActivity(
+export async function generateSingleConsolidationActivity(
     account: IAccountState,
     networkId: NetworkId,
     { action, processedTransaction, wrappedOutput }: IActivityGenerationParameters
-): ConsolidationActivity {
+): Promise<ConsolidationActivity> {
     const { transactionId, direction, claimingData, time, inclusionState, wrappedInputs } = processedTransaction
 
     const isHidden = false
     const isAssetHidden = false
-    const containsValue = activityOutputContainsValue(wrappedOutput)
+    const containsValue = await activityOutputContainsValue(wrappedOutput)
 
     const outputId = wrappedOutput.outputId
     const id = outputId || transactionId
 
-    const output = wrappedOutput.output as IBasicOutput
+    const output = wrappedOutput.output as BasicOutput
 
     const amountConsolidatedInputs = getAmountOfConsolidationInputs(wrappedInputs)
 
@@ -63,5 +62,5 @@ export function generateSingleConsolidationActivity(
 }
 
 function getAmountOfConsolidationInputs(inputs: IWrappedOutput[]): number {
-    return inputs.filter((input) => input.output.type === OUTPUT_TYPE_BASIC).length
+    return inputs.filter((input) => input.output.type === OutputType.Basic).length
 }

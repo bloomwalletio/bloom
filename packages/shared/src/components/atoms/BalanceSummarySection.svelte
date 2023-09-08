@@ -1,7 +1,7 @@
 <script lang="ts">
     import { Icon as IconEnum } from '@auxiliary/icon'
     import { formatCurrency, localize } from '@core/i18n'
-    import { getMarketAmountFromTokenValue } from '@core/market/utils'
+    import { getMarketAmountFromTokenValue } from '@core/market/actions'
     import { activeProfile } from '@core/profile/stores'
     import { formatTokenAmountBestMatch } from '@core/token'
     import { selectedAccountTokens } from '@core/token/stores'
@@ -16,7 +16,7 @@
     let expanded = false
 
     $: hasChildren = !!Object.keys(subBreakdown ?? {}).length
-    $: ({ baseCoin } = $selectedAccountTokens?.[$activeProfile?.network?.id] ?? {})
+    $: baseCoin = $selectedAccountTokens?.[$activeProfile?.network?.id]?.baseCoin
 
     function getAmount(amount: number): string {
         return baseCoin?.metadata ? formatTokenAmountBestMatch(amount, baseCoin.metadata) : ''

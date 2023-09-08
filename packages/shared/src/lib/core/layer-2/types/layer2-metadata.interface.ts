@@ -1,3 +1,4 @@
 import { ILayer2TransferAllowanceMetadata } from '../interfaces'
 
-export type Layer2Metadata = Omit<ILayer2TransferAllowanceMetadata, 'baseTokens' | 'nativeTokens' | 'nfts'>
+// TODO: Remove this file once all references are removed
+export type Layer2Metadata = ILayer2TransferAllowanceMetadata

@@ -1,3 +1,4 @@
+export * from './buildAssetAllowance'
 export * from './calculateEstimatedGasFeeFromTransactionData'
 export * from './calculateMaxGasFeeFromTransactionData'
 export * from './getAbiForContractType'

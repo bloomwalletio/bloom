@@ -1,10 +1,10 @@
 <script lang="ts">
     import { localize } from '@core/i18n'
-    import { IToken, formatTokenAmountBestMatch } from '@core/token'
+    import { ITokenWithBalance, formatTokenAmountBestMatch } from '@core/token'
     import { truncateString } from '@core/utils'
-    import { FontWeight, Text, TextType, Tile, TokenIcon } from '@ui'
+    import { FontWeight, Text, TextType, Tile, TokenAvatar } from '@ui'
 
-    export let token: IToken
+    export let token: ITokenWithBalance
     export let onMaxClick: () => unknown
 
     $: availableBalance = token?.balance?.available ?? 0
@@ -14,7 +14,7 @@
     <Tile>
         <div class="w-full flex flex-row justify-between items-center">
             <div class="flex flex-row items-center text-left space-x-4">
-                <TokenIcon persistedToken={token} networkId={token.networkId} />
+                <TokenAvatar {token} />
                 <div class="flex flex-col">
                     <Text type={TextType.p} fontWeight={FontWeight.semibold}>
                         {token.metadata.name

@@ -1,7 +1,8 @@
 <script lang="ts">
     import { sessionProposal } from '@auxiliary/wallet-connect/stores'
+    import { Alert } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
-    import { Tile, FontWeight, Text, TextHint } from '@ui'
+    import { FontWeight, Text, Tile } from '@ui'
 
     $: metadata = $sessionProposal?.params.proposer.metadata
 </script>
@@ -19,7 +20,7 @@
                 </Text>
             </div>
         </div>
-        <TextHint warning text={localize('views.dashboard.drawers.dapps.confirmConnection.hint')} />
+        <Alert variant="warning" text={localize('views.dashboard.drawers.dapps.confirmConnection.hint')} />
     </div>
 </Tile>
 

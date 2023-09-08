@@ -1,17 +1,27 @@
 <script lang="ts">
     import { Icon as IconEnum } from '@auxiliary/icon'
+    import { Alert } from '@bloomwalletio/ui'
+    import { selectedAccountIndex } from '@core/account/stores'
+    import { handleError } from '@core/error/handlers'
     import { localize } from '@core/i18n'
+    import { canAccountMakeEvmTransaction, pollEvmChainGasPrice } from '@core/layer-2/actions'
     import { marketCoinPrices } from '@core/market/stores'
-    import { sendFlowParameters, SendFlowType, setSendFlowParameters } from '@core/wallet'
+    import { NetworkId, getNetwork, isEvmChain } from '@core/network'
+    import {
+        AccountTokens,
+        BASE_TOKEN_ID,
+        IAccountTokensPerNetwork,
+        IToken,
+        ITokenWithBalance,
+        TokenStandard,
+    } from '@core/token'
+    import { getAccountTokensForSelectedAccount, getTokenBalance } from '@core/token/actions'
+    import { selectedAccountTokens } from '@core/token/stores'
+    import { SendFlowType, sendFlowParameters, setSendFlowParameters } from '@core/wallet'
     import { closePopup } from '@desktop/auxiliary/popup'
     import { IconInput, TokenAmountTile } from '@ui'
     import { sendFlowRouter } from '../send-flow.router'
     import SendFlowTemplate from './SendFlowTemplate.svelte'
-    import { getCoinType } from '@core/profile/actions'
-    import { getNetwork } from '@core/network'
-    import { AccountTokens, IToken, TokenStandard } from '@core/token'
-    import { selectedAccountTokens } from '@core/token/stores'
-    import { getAccountTokensForSelectedAccount } from '@core/token/actions'
 
     let searchValue: string = ''
     let selectedToken: IToken =
@@ -25,10 +35,28 @@
     $: accountTokens = getAccountTokensForSelectedAccount($marketCoinPrices)
     $: accountTokens, searchValue, setFilteredTokenList()
 
-    let tokenList: IToken[]
-    function getTokenList(): IToken[] {
+    let hasTokenError: boolean = false
+    $: if (isEvmChain(selectedToken?.networkId)) {
+        hasTokenError = !canAccountMakeEvmTransaction(
+            $selectedAccountIndex,
+            selectedToken.networkId,
+            $sendFlowParameters?.type
+        )
+    } else {
+        hasTokenError = false
+    }
+
+    let tokenList: ITokenWithBalance[]
+    function getTokenList(): ITokenWithBalance[] {
         const list = []
-        for (const tokensPerNetwork of Object.values(accountTokens)) {
+        for (const [networkId, tokensPerNetwork] of Object.entries(accountTokens) as [
+            NetworkId,
+            IAccountTokensPerNetwork,
+        ][]) {
+            if (isEvmChain(networkId)) {
+                pollEvmChainGasPrice(networkId)
+            }
+
             if (tokensPerNetwork?.baseCoin) {
                 list.push(tokensPerNetwork.baseCoin)
             }
@@ -46,7 +74,7 @@
         }
     }
 
-    function isVisibleToken(token: IToken): boolean {
+    function isVisibleToken(token: ITokenWithBalance): boolean {
         const _searchValue = searchValue.toLowerCase()
         const name = token?.metadata?.name
         const ticker =
@@ -56,6 +84,14 @@
             (name && name.toLowerCase().includes(_searchValue)) ||
             (ticker && ticker.toLowerCase().includes(_searchValue))
         )
+    }
+
+    function onTokenClick(token: ITokenWithBalance): void {
+        try {
+            selectedToken = token
+        } catch (err) {
+            handleError(err)
+        }
     }
 
     function onCancelClick(): void {
@@ -80,7 +116,7 @@
         }
 
         const sendFlowType =
-            selectedToken.id === getCoinType() ? SendFlowType.BaseCoinTransfer : SendFlowType.TokenTransfer
+            selectedToken.id === BASE_TOKEN_ID ? SendFlowType.BaseCoinTransfer : SendFlowType.TokenTransfer
 
         // Set called because we need to update the type, and update function only updates the properties
         // if the type is the same
@@ -99,7 +135,11 @@
 <SendFlowTemplate
     title={localize('popups.transaction.selectToken')}
     leftButton={{ text: localize('actions.cancel'), onClick: onCancelClick }}
-    rightButton={{ text: localize('actions.continue'), onClick: onContinueClick, disabled: !selectedToken }}
+    rightButton={{
+        text: localize('actions.continue'),
+        onClick: onContinueClick,
+        disabled: !selectedToken || hasTokenError,
+    }}
 >
     <IconInput bind:value={searchValue} icon={IconEnum.Search} placeholder={localize('general.search')} />
     <div class="-mr-3">
@@ -107,13 +147,17 @@
             {#each tokenList as token}
                 <TokenAmountTile
                     {token}
-                    amount={token.balance.available}
-                    onClick={() => (selectedToken = token)}
+                    amount={getTokenBalance(token.id, token.networkId)?.available}
+                    hasError={token === selectedToken && hasTokenError}
+                    onClick={() => onTokenClick(token)}
                     selected={selectedToken?.id === token.id && selectedToken?.networkId === token?.networkId}
                 />
             {/each}
         </div>
     </div>
+    {#if hasTokenError}
+        <Alert variant="danger" text={localize('error.send.insufficientFundsGasFee')} />
+    {/if}
 </SendFlowTemplate>
 
 <style lang="scss">
