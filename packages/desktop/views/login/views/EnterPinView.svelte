@@ -15,8 +15,9 @@
     import { isValidPin } from '@core/utils'
     import { PopupId, openPopup, popupState } from '@desktop/auxiliary/popup'
     import features from '@features/features'
-    import { Icon, PinInput, Profile, Text } from '@ui'
     import { onDestroy } from 'svelte'
+    import { Icon, PinInput, Text } from '@ui'
+    import { ProfileCard } from '../components'
 
     let attempts: number = 0
     let pinCode: string = ''
@@ -125,7 +126,7 @@
     <div class="flex w-full h-full justify-center items-center">
         <div class="w-96 flex flex-col flex-wrap items-center mb-20">
             <div class="flex flex-col gap-8 w-full items-center">
-                <Profile profile={$activeProfile} {updateRequired} />
+                <ProfileCard profile={$activeProfile} {updateRequired} />
                 {#if updateRequired}
                     <Alert variant="warning" text={localize('views.login.hintStronghold')} />
                 {/if}

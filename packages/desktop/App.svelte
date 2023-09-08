@@ -189,7 +189,7 @@
     @import '../shared/src/style/style.scss';
     html,
     body {
-        @apply bg-white dark:bg-gray-900;
+        @apply bg-slate-100 dark:bg-gray-900;
         @apply select-none;
         -webkit-user-drag: none;
 
