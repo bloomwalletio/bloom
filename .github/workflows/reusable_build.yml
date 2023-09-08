@@ -36,7 +36,7 @@ jobs:
               with:
                   node-version: 18.15.0
 
-            # Used to read the `binding.gyp` file from `@iota/wallet`
+            # Used to read the `binding.gyp` file from `@iota/sdk`
             - name: Set up Python 3.10
               uses: actions/setup-python@v4
               with:

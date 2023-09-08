@@ -27,7 +27,7 @@ import NftDownloadManager from '../managers/nft-download.manager'
 import { contextMenu } from '../menus/context.menu'
 import { initMenu } from '../menus/menu'
 import { initialiseAnalytics } from '../utils/analytics.utils'
-import { checkArgsForDeepLink, initialiseDeepLinks } from '../utils/deep-link.utils'
+import { checkWindowArgsForDeepLinkRequest, initialiseDeepLinks } from '../utils/deep-link.utils'
 import { getDiagnostics } from '../utils/diagnostics.utils'
 import { shouldReportError } from '../utils/error.utils'
 import { getMachineId } from '../utils/os.utils'
@@ -152,7 +152,7 @@ if (app.isPackaged) {
 /**
  * Handles url navigation events
  */
-function handleNavigation(e: Event, url: string): void {
+function tryOpenExternalUrl(e: Event, url: string): void {
     if (url === 'http://localhost:8080/') {
         // if localhost would be opened on the build versions, we need to block it to prevent errors
         if (app.isPackaged) {
@@ -170,7 +170,7 @@ function handleNavigation(e: Event, url: string): void {
     }
 }
 
-function createMainWindow(): BrowserWindow {
+export function createMainWindow(): BrowserWindow {
     const mainWindowState = windowStateKeeper('main', 'settings.json')
 
     // Create the browser window
@@ -231,7 +231,7 @@ function createMainWindow(): BrowserWindow {
      *  The handler only allows navigation to an external browser.
      */
     windows.main.webContents.on('will-navigate', (a, b) => {
-        handleNavigation(a as unknown as Event, b)
+        tryOpenExternalUrl(a as unknown as Event, b)
     })
 
     windows.main.on('close', () => {
@@ -377,8 +377,8 @@ powerMonitor.on('lock-screen', () => {
 // IPC handlers for APIs exposed from main process
 
 // URLs
-ipcMain.handle('open-url', (_e, url) => {
-    handleNavigation(_e as unknown as Event, url)
+ipcMain.handle('open-external-url', (_e, url) => {
+    tryOpenExternalUrl(_e as unknown as Event, url)
 })
 
 // Keychain
@@ -450,7 +450,6 @@ ipcMain.handle('update-theme', (_e, theme) => (nativeTheme.themeSource = theme))
  * Create a single instance only
  */
 const isFirstInstance = app.requestSingleInstanceLock()
-
 if (!isFirstInstance) {
     app.quit()
 } else {
@@ -461,10 +460,7 @@ if (!isFirstInstance) {
             }
             windows.main.focus()
 
-            // Deep linking for when the app is already running (Windows, Linux)
-            if (process.platform === 'win32' || process.platform === 'linux') {
-                checkArgsForDeepLink(_e, argv)
-            }
+            checkWindowArgsForDeepLinkRequest(_e, argv)
         }
     })
 }

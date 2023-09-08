@@ -1734,7 +1734,7 @@
         "transactionTime": "Czas transakcji",
         "surplus": "Nadwyżka",
         "storageDeposit": "Depozyt magazynowy",
-        "gasFee": "Gas fee",
+        "transactionFee": "Transaction fee",
         "giftedStorageDeposit": "Podarowany depozyt magazynowy",
         "storageDepositPerNft": "Depozyt magazynowy na NFT",
         "totalStorageDeposit": "Całkowity depozyt magazynowy",

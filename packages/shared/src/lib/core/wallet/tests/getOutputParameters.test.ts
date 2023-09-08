@@ -6,7 +6,7 @@ import { getOutputParameters } from '../utils'
 import { ReturnStrategy, SubjectType } from '../enums'
 import { IToken, IPersistedToken } from '@core/token/interfaces'
 import { TokenStandard, VerifiedStatus } from '@core/token/enums'
-import { SendFlowType } from '../stores'
+import { SendFlowType } from '../enums'
 import { SendFlowParameters } from '../types'
 
 const PERSISTED_ASSET_SHIMMER: IPersistedToken = {
@@ -213,7 +213,7 @@ describe('File: getOutputParameters.ts', () => {
             assets: {
                 nativeTokens: [
                     {
-                        amount: '0x3b9aca00',
+                        amount: 1000000000n,
                         id: nativeTokenAsset.id,
                     },
                 ],
@@ -270,7 +270,7 @@ describe('File: getOutputParameters.ts', () => {
             assets: {
                 nativeTokens: [
                     {
-                        amount: '0x3b9aca00',
+                        amount: 1000000000n,
                         id: nativeTokenAsset.id,
                     },
                 ],
@@ -358,7 +358,7 @@ describe('File: getOutputParameters.ts', () => {
             assets: {
                 nativeTokens: [
                     {
-                        amount: '0x3b9aca00',
+                        amount: 1000000000n,
                         id: nativeTokenAsset.id,
                     },
                 ],

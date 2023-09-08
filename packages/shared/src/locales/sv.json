@@ -1734,7 +1734,7 @@
         "transactionTime": "Transaktionstid",
         "surplus": "Överskott",
         "storageDeposit": "Lagringsdeposition",
-        "gasFee": "Gas fee",
+        "transactionFee": "Transaction fee",
         "giftedStorageDeposit": "Skänkt lagringsdeposition",
         "storageDepositPerNft": "Storage deposit per NFT",
         "totalStorageDeposit": "Total storage deposit",

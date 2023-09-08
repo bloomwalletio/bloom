@@ -1,16 +1,19 @@
 <script lang="ts">
     import { localize } from '@core/i18n'
-    import { IPersistedToken } from '@core/token'
+    import { IToken } from '@core/token'
     import { FoundryActivity, getActivityTileTitle } from '@core/activity'
     import { TokenAvatar, ActivityTileContent } from '@ui'
     import { getFormattedAmountFromActivity } from '@core/activity/utils/outputs'
-    import { getPersistedToken, selectedAccountTokens } from '@core/token/stores'
-    import { getActiveNetworkId } from '@core/network'
+    import { getTokenFromSelectedAccountTokens, selectedAccountTokens } from '@core/token/stores'
 
     export let activity: FoundryActivity
 
-    let persistedToken: IPersistedToken | undefined
-    $: $selectedAccountTokens, (persistedToken = getPersistedToken(activity.tokenId))
+    let token: IToken | undefined
+    $: $selectedAccountTokens,
+        (token = getTokenFromSelectedAccountTokens(
+            activity.tokenTransfer?.tokenId ?? activity.baseTokenTransfer.tokenId,
+            activity.sourceNetworkId
+        ))
     $: action = localize(getActivityTileTitle(activity))
     $: amount = getFormattedAmountFromActivity(activity)
     $: formattedAsset = {
@@ -20,9 +23,9 @@
     }
 </script>
 
-{#if persistedToken}
+{#if token}
     <ActivityTileContent {action} subject={localize('general.internalTransaction')} {formattedAsset}>
         <!-- Once the activity contains the chainId, add that here -->
-        <TokenAvatar slot="icon" token={{ ...persistedToken, networkId: getActiveNetworkId() }} />
+        <TokenAvatar slot="icon" {token} />
     </ActivityTileContent>
 {/if}

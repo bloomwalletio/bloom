@@ -1,4 +1,4 @@
-import type { ParticipationEventId, ParticipationEventStatus } from '@iota/wallet'
+import { ParticipationEventId, ParticipationEventStatus } from '@iota/sdk/out/types'
 
 import { IAccount } from '@core/account/interfaces'
 import { getSelectedAccount } from '@core/account/stores'

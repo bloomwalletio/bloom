@@ -13,6 +13,6 @@ export async function destroyProfileManager(
     }
 
     _profileManager.set(null)
-    api.deleteAccountManager(manager?.id)
+    api.deleteWallet(manager?.id)
     await manager.destroy()
 }
