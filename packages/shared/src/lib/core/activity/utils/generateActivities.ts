@@ -2,20 +2,20 @@ import { OutputType } from '@iota/sdk/out/types'
 import { IAccountState } from '@core/account'
 import { Activity, IProcessedTransaction } from '../types'
 import { isParticipationOutput } from '@contexts/governance/utils'
+import { NetworkId } from '@core/network/types'
+import { ActivityAction, ActivityType } from '../enums'
+import { generateActivitiesFromAliasOutputs } from './generateActivitiesFromAliasOutputs'
+import { generateActivitiesFromBasicOutputs } from './generateActivitiesFromBasicOutputs'
+import { generateActivitiesFromFoundryOutputs } from './generateActivitiesFromFoundryOutputs'
+import { generateActivitiesFromNftOutputs } from './generateActivitiesFromNftOutputs'
 import { generateSingleAliasActivity } from './generateSingleAliasActivity'
+import { generateSingleBasicActivity } from './generateSingleBasicActivity'
 import { generateSingleFoundryActivity } from './generateSingleFoundryActivity'
 import { generateSingleGovernanceActivity } from './generateSingleGovernanceActivity'
 import { generateSingleNftActivity } from './generateSingleNftActivity'
-import { generateSingleBasicActivity } from './generateSingleBasicActivity'
 import { getActivityTypeFromOutput } from './helper'
-import { generateActivitiesFromNftOutputs } from './generateActivitiesFromNftOutputs'
-import { generateActivitiesFromAliasOutputs } from './generateActivitiesFromAliasOutputs'
-import { generateActivitiesFromFoundryOutputs } from './generateActivitiesFromFoundryOutputs'
-import { generateActivitiesFromBasicOutputs } from './generateActivitiesFromBasicOutputs'
-import { ActivityAction, ActivityType } from '../enums'
-import { NetworkId } from '@core/network/types'
 
-export function generateActivities(
+export async function generateActivities(
     processedTransaction: IProcessedTransaction,
     account: IAccountState,
     networkId: NetworkId
@@ -43,14 +43,14 @@ async function generateActivitiesFromProcessedTransactionsWithInputs(
 
     const containsNftActivity = outputs.some((output) => output.output.type === OutputType.Nft)
     if (containsNftActivity) {
-        const nftActivities = generateActivitiesFromNftOutputs(processedTransaction, account, networkId)
+        const nftActivities = await generateActivitiesFromNftOutputs(processedTransaction, account, networkId)
         activities.push(...nftActivities)
     }
 
     const containsAliasActivity =
         outputs.some((output) => output.output.type === OutputType.Alias) && !containsFoundryActivity
     if (containsAliasActivity) {
-        const aliasActivities = generateActivitiesFromAliasOutputs(processedTransaction, account, networkId)
+        const aliasActivities = await generateActivitiesFromAliasOutputs(processedTransaction, account, networkId)
         activities.push(...aliasActivities)
     }
 
@@ -62,7 +62,7 @@ async function generateActivitiesFromProcessedTransactionsWithInputs(
         const governanceActivity = await generateSingleGovernanceActivity(account, networkId, {
             processedTransaction,
             wrappedOutput: governanceOutput,
-            action: null,
+            action: ActivityAction.Unknown,
         })
         activities.push(governanceActivity)
     }
@@ -86,7 +86,7 @@ async function generateActivitiesFromProcessedTransactionsWithoutInputs(
 ): Promise<Activity[]> {
     const nonRemainderOutputs = processedTransaction.outputs.filter((wrappedOutput) => !wrappedOutput.remainder)
     const activities = await Promise.all(
-        nonRemainderOutputs.map((wrappedOutput) => {
+        nonRemainderOutputs.map(async (wrappedOutput) => {
             const params = {
                 type: getActivityTypeFromOutput(wrappedOutput),
                 action: ActivityAction.Unknown,
@@ -105,9 +105,9 @@ async function generateActivitiesFromProcessedTransactionsWithoutInputs(
                 case ActivityType.Nft:
                     return generateSingleNftActivity(account, networkId, params)
                 default:
-                    throw new Error(`Unknown activity type: ${params.type}`)
+                    return Promise.resolve()
             }
         })
     )
-    return activities
+    return activities.filter((_activity) => _activity) as Activity[]
 }
