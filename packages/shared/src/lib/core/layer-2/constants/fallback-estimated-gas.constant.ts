@@ -1,4 +1,4 @@
-import { SendFlowType } from '@core/wallet/stores'
+import { SendFlowType } from '@core/wallet/enums'
 
 /**
  * We need a fallback estimated gas, since we cannot estimate calls to the magic contract if there is no balance on the sender address.
