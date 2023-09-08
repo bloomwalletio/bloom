@@ -15,7 +15,7 @@ export async function generateBalanceChangeActivity(
 
     const baseTokenTransfer = {
         tokenId: BASE_TOKEN_ID,
-        rawAmount: tokenId !== BASE_TOKEN_ID ? String(Math.abs(difference)) : '0',
+        rawAmount: tokenId === BASE_TOKEN_ID ? String(Math.abs(difference)) : '0',
     }
 
     let tokenTransfer
