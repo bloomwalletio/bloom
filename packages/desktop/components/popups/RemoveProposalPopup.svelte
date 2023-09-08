@@ -1,7 +1,7 @@
 <script lang="ts">
+    import { EventStatus } from '@iota/sdk/out/types'
     import { showNotification } from '@auxiliary/notification'
     import { Alert } from '@bloomwalletio/ui'
-    import { ProposalStatus } from '@contexts/governance/enums'
     import {
         clearSelectedParticipationEventStatus,
         removePersistedProposal,
@@ -47,7 +47,7 @@
 
     // TODO: User can only remove a proposal when he is not voting for it
     $: showAlert =
-        $selectedProposal?.status === ProposalStatus.Commencing || $selectedProposal?.status === ProposalStatus.Holding
+        $selectedProposal?.status === EventStatus.Commencing || $selectedProposal?.status === EventStatus.Holding
 </script>
 
 <remove-proposal>

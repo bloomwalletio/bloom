@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { AddressType } from '@iota/sdk/out/types'
     import { Alert, Table, type IItem } from '@bloomwalletio/ui'
     import { CollectibleDetailsMenu } from '@components'
     import { selectedAccountIndex } from '@core/account/stores'
@@ -12,15 +13,8 @@
     import { getBaseToken } from '@core/profile/actions'
     import { collectiblesRouter } from '@core/router/routers'
     import { formatTokenAmountPrecise } from '@core/token'
+    import { getBech32AddressFromAddressTypes, getHexAddressFromAddressTypes, SendFlowType } from '@core/wallet'
     import { getTimeDifference } from '@core/utils'
-    import {
-        ADDRESS_TYPE_ALIAS,
-        ADDRESS_TYPE_ED25519,
-        ADDRESS_TYPE_NFT,
-        getBech32AddressFromAddressTypes,
-        getHexAddressFromAddressTypes,
-        SendFlowType,
-    } from '@core/wallet'
     import { setSendFlowParameters } from '@core/wallet/stores'
     import { PopupId, openPopup } from '@desktop/auxiliary/popup'
     import { Button, Modal, NftMedia, Pane, Text } from '@ui'
@@ -80,7 +74,7 @@
         },
         {
             key: localize('general.issuerAddress'),
-            value: issuer?.type === ADDRESS_TYPE_ED25519 ? issuerAddress : undefined,
+            value: issuer?.type === AddressType.Ed25519 ? issuerAddress : undefined,
             copyable: true,
             truncate: { firstCharCount: 20, endCharCount: 20 },
         },
@@ -90,7 +84,7 @@
         },
         {
             key: localize('general.collectionId'),
-            value: issuer?.type === ADDRESS_TYPE_NFT || issuer?.type === ADDRESS_TYPE_ALIAS ? collectionId : undefined,
+            value: issuer?.type === AddressType.Nfr || issuer?.type === AddressType.Alias ? collectionId : undefined,
             copyable: true,
             truncate: { firstCharCount: 20, endCharCount: 20 },
         },

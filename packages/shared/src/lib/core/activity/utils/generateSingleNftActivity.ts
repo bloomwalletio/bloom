@@ -1,10 +1,10 @@
 import { IAccountState } from '@core/account'
+import type { NftOutput } from '@iota/sdk/out/types'
+import { ActivityType } from '../enums'
+import { NftActivity } from '../types'
 import { parseLayer2Metadata } from '@core/layer-2'
 import { getNetworkIdFromAddress } from '@core/layer-2/actions'
 import { NetworkId } from '@core/network/types'
-import type { INftOutput } from '@iota/types'
-import { ActivityType } from '../enums'
-import { NftActivity } from '../types'
 import { IActivityGenerationParameters } from '../types/activity-generation-parameters.interface'
 import {
     getAmountFromOutput,
@@ -25,7 +25,7 @@ export function generateSingleNftActivity(
 ): NftActivity {
     const { claimingData, time, inclusionState, transactionId, direction } = processedTransaction
     const outputId = wrappedOutput.outputId
-    const output = wrappedOutput.output as INftOutput
+    const output = wrappedOutput.output as NftOutput
     const id = outputId || transactionId
 
     const isHidden = false

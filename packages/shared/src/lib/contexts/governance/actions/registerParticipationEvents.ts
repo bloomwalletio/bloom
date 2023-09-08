@@ -1,6 +1,5 @@
-import { ParticipationEventMap, ParticipationEventRegistrationOptions } from '@iota/wallet/out/types'
+import { ParticipationEventMap, ParticipationEventRegistrationOptions } from '@iota/sdk/out/types'
 import { IAccountState } from '@core/account/interfaces'
-
 import { addProposalsFromParticipationEventMap } from './addProposalsFromParticipationEventMap'
 import { getSelectedAccount } from '@core/account/stores'
 

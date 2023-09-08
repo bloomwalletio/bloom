@@ -213,7 +213,7 @@ describe('File: getOutputParameters.ts', () => {
             assets: {
                 nativeTokens: [
                     {
-                        amount: '0x3b9aca00',
+                        amount: 1000000000n,
                         id: nativeTokenAsset.id,
                     },
                 ],
@@ -270,7 +270,7 @@ describe('File: getOutputParameters.ts', () => {
             assets: {
                 nativeTokens: [
                     {
-                        amount: '0x3b9aca00',
+                        amount: 1000000000n,
                         id: nativeTokenAsset.id,
                     },
                 ],
@@ -358,7 +358,7 @@ describe('File: getOutputParameters.ts', () => {
             assets: {
                 nativeTokens: [
                     {
-                        amount: '0x3b9aca00',
+                        amount: 1000000000n,
                         id: nativeTokenAsset.id,
                     },
                 ],

@@ -1,9 +1,9 @@
 <script lang="ts">
+    import { EventStatus } from '@iota/sdk/out/types'
     import { Icon } from '@ui'
     import { Pill } from '@bloomwalletio/ui'
     import { Icon as _Icon } from '@auxiliary/icon'
     import { localize } from '@core/i18n'
-    import { ProposalStatus } from '@contexts/governance/enums'
     import { IProposal } from '@contexts/governance/interfaces'
     import { DefaultColors } from 'tailwindcss/types/generated/colors'
 
@@ -12,11 +12,11 @@
     $: status = proposal?.status
     $: error = proposal?.error
 
-    const STATUS_COLORS: { [key in ProposalStatus]: keyof DefaultColors } = {
-        [ProposalStatus.Upcoming]: 'purple',
-        [ProposalStatus.Commencing]: 'pink',
-        [ProposalStatus.Holding]: 'green',
-        [ProposalStatus.Ended]: 'blue',
+    const STATUS_COLORS: Record<EventStatus, keyof DefaultColors> = {
+        [EventStatus.Upcoming]: 'purple',
+        [EventStatus.Commencing]: 'pink',
+        [EventStatus.Holding]: 'green',
+        [EventStatus.Ended]: 'blue',
     }
 </script>
 

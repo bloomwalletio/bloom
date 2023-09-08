@@ -1,12 +1,12 @@
 import { isShimmerClaimingTransaction } from '@contexts/onboarding/stores'
 import { IAccountState } from '@core/account'
+import { BasicOutput } from '@iota/sdk/out/types'
 import { IActivityGenerationParameters } from '@core/activity/types'
 import { parseLayer2Metadata } from '@core/layer-2'
 import { getNetworkIdFromAddress } from '@core/layer-2/actions'
 import { NetworkId } from '@core/network/types'
 import { activeProfileId } from '@core/profile/stores'
 import { BASE_TOKEN_ID } from '@core/token'
-import { IBasicOutput } from '@iota/types'
 import { get } from 'svelte/store'
 import { activityOutputContainsValue } from '..'
 import { ActivityType } from '../enums'
@@ -22,23 +22,23 @@ import {
 import { getNativeTokenFromOutput } from './outputs'
 import { isStardustNetwork } from '@core/network/utils'
 
-export function generateSingleBasicActivity(
+export async function generateSingleBasicActivity(
     account: IAccountState,
     networkId: NetworkId,
     { action, processedTransaction, wrappedOutput }: IActivityGenerationParameters,
     overrideTokenId?: string,
     overrideAmount?: number
-): TransactionActivity {
+): Promise<TransactionActivity> {
     const { transactionId, direction, claimingData, time, inclusionState } = processedTransaction
 
     const isHidden = false
     const isTokenHidden = false
-    const containsValue = activityOutputContainsValue(wrappedOutput)
+    const containsValue = await activityOutputContainsValue(wrappedOutput)
 
     const outputId = wrappedOutput.outputId
     const id = outputId || transactionId
 
-    const output = wrappedOutput.output as IBasicOutput
+    const output = wrappedOutput.output as BasicOutput
 
     const isShimmerClaiming = isShimmerClaimingTransaction(transactionId, get(activeProfileId))
 
@@ -67,7 +67,7 @@ export function generateSingleBasicActivity(
     const sentDelta = rawBaseCoinAmount - actualAmountSent
     const transactionFee = isToLayer2 ? sentDelta : undefined
 
-    const nativeToken = getNativeTokenFromOutput(output)
+    const nativeToken = await getNativeTokenFromOutput(output)
     const tokenId = overrideTokenId ?? nativeToken?.id ?? BASE_TOKEN_ID
 
     let rawAmount: number
