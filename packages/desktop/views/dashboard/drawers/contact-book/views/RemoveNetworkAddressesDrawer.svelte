@@ -1,14 +1,12 @@
 <script lang="ts">
-    import { ContactBookRoute } from '../contact-book-route.enum'
-
-    import { Button } from '@bloomwalletio/ui'
-    import { Text, TextHint } from '@ui'
+    import { Alert, Button } from '@bloomwalletio/ui'
     import { DrawerTemplate } from '@components'
-
     import { ContactManager, selectedContact, selectedContactNetworkId } from '@core/contact'
     import { localize } from '@core/i18n'
-    import { Router } from '@core/router'
     import { getNameFromNetworkId } from '@core/network'
+    import { Router } from '@core/router'
+    import { Text } from '@ui'
+    import { ContactBookRoute } from '../contact-book-route.enum'
 
     export let drawerRouter: Router<unknown>
 
@@ -32,9 +30,8 @@
                 values: { network: getNameFromNetworkId($selectedContactNetworkId) },
             })}
         </Text>
-        <TextHint
-            icon="exclamation"
-            warning
+        <Alert
+            variant="warning"
             text={localize(`views.dashboard.drawers.contactBook.${ContactBookRoute.RemoveNetworkAddresses}.hint`)}
         />
     </remove-addresses>

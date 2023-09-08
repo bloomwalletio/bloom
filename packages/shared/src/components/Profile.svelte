@@ -22,7 +22,7 @@
         >
             <ProfileAvatar {profile} size="lg" />
             {#if !updateRequired}
-                <NetworkBadge size="sm" networkId={profile?.network?.id} tooltipText={profile?.network?.name} />
+                <NetworkBadge size="sm" networkId={profile?.network?.id} networkName={profile?.network?.name} />
             {:else}
                 <StrongholdBadge />
             {/if}

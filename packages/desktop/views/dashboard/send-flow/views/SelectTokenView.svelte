@@ -4,11 +4,18 @@
     import { selectedAccountIndex } from '@core/account/stores'
     import { handleError } from '@core/error/handlers'
     import { localize } from '@core/i18n'
-    import { canAccountMakeEvmTransaction } from '@core/layer-2/actions'
+    import { canAccountMakeEvmTransaction, pollEvmChainGasPrice } from '@core/layer-2/actions'
     import { marketCoinPrices } from '@core/market/stores'
-    import { getNetwork } from '@core/network'
-    import { AccountTokens, BASE_TOKEN_ID, IToken, TokenStandard } from '@core/token'
-    import { getAccountTokensForSelectedAccount } from '@core/token/actions'
+    import { NetworkId, getNetwork, isEvmChain } from '@core/network'
+    import {
+        AccountTokens,
+        BASE_TOKEN_ID,
+        IAccountTokensPerNetwork,
+        IToken,
+        ITokenWithBalance,
+        TokenStandard,
+    } from '@core/token'
+    import { getAccountTokensForSelectedAccount, getTokenBalance } from '@core/token/actions'
     import { selectedAccountTokens } from '@core/token/stores'
     import { SendFlowType, sendFlowParameters, setSendFlowParameters } from '@core/wallet'
     import { closePopup } from '@desktop/auxiliary/popup'
@@ -27,12 +34,29 @@
     let accountTokens: AccountTokens
     $: accountTokens = getAccountTokensForSelectedAccount($marketCoinPrices)
     $: accountTokens, searchValue, setFilteredTokenList()
-    let hasTokenError: boolean = false
 
-    let tokenList: IToken[]
-    function getTokenList(): IToken[] {
+    let hasTokenError: boolean = false
+    $: if (isEvmChain(selectedToken?.networkId)) {
+        hasTokenError = !canAccountMakeEvmTransaction(
+            $selectedAccountIndex,
+            selectedToken.networkId,
+            $sendFlowParameters?.type
+        )
+    } else {
+        hasTokenError = false
+    }
+
+    let tokenList: ITokenWithBalance[]
+    function getTokenList(): ITokenWithBalance[] {
         const list = []
-        for (const tokensPerNetwork of Object.values(accountTokens)) {
+        for (const [networkId, tokensPerNetwork] of Object.entries(accountTokens) as [
+            NetworkId,
+            IAccountTokensPerNetwork,
+        ][]) {
+            if (isEvmChain(networkId)) {
+                pollEvmChainGasPrice(networkId)
+            }
+
             if (tokensPerNetwork?.baseCoin) {
                 list.push(tokensPerNetwork.baseCoin)
             }
@@ -50,7 +74,7 @@
         }
     }
 
-    function isVisibleToken(token: IToken): boolean {
+    function isVisibleToken(token: ITokenWithBalance): boolean {
         const _searchValue = searchValue.toLowerCase()
         const name = token?.metadata?.name
         const ticker =
@@ -62,15 +86,9 @@
         )
     }
 
-    async function onTokenClick(token: IToken): Promise<void> {
+    function onTokenClick(token: ITokenWithBalance): void {
         try {
             selectedToken = token
-            hasTokenError =
-                (await canAccountMakeEvmTransaction(
-                    $selectedAccountIndex,
-                    token.networkId,
-                    SendFlowType.BaseCoinTransfer
-                )) ?? false
         } catch (err) {
             handleError(err)
         }
@@ -129,8 +147,8 @@
             {#each tokenList as token}
                 <TokenAmountTile
                     {token}
+                    amount={getTokenBalance(token.id, token.networkId)?.available}
                     hasError={token === selectedToken && hasTokenError}
-                    amount={token.balance.available}
                     onClick={() => onTokenClick(token)}
                     selected={selectedToken?.id === token.id && selectedToken?.networkId === token?.networkId}
                 />

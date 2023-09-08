@@ -1,15 +1,16 @@
 <script lang="ts">
+    import { Alert, Table } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
-    import { setSendFlowParameters, SendFlowType } from '@core/wallet'
-    import { TokenStandard, IToken, NotVerifiedStatus, VerifiedStatus, BASE_TOKEN_ID } from '@core/token'
-    import { openPopup, PopupId, updatePopupProps } from '@desktop/auxiliary/popup'
-    import { Button, FontWeight, Text, TextHint, TokenActionsButton, TextType, TokenAmountTile, TooltipIcon } from '@ui'
-    import { Table } from '@bloomwalletio/ui'
-    import { SendFlowRoute, SendFlowRouter, sendFlowRouter } from '@views/dashboard/send-flow'
-    import { Icon as IconEnum } from '@lib/auxiliary/icon'
+    import { BASE_TOKEN_ID, ITokenWithBalance, NotVerifiedStatus, TokenStandard, VerifiedStatus } from '@core/token'
     import { unverifyToken, verifyToken } from '@core/token/stores'
+    import { SendFlowType, setSendFlowParameters } from '@core/wallet'
+    import { PopupId, openPopup, updatePopupProps } from '@desktop/auxiliary/popup'
+    import { Icon as IconEnum } from '@lib/auxiliary/icon'
+    import { Button, FontWeight, Text, TextType, TokenAmountTile, TooltipIcon } from '@ui'
+    import { SendFlowRoute, SendFlowRouter, sendFlowRouter } from '@views/dashboard/send-flow'
+    import { TokenActionsMenu } from '../menus'
 
-    export let token: IToken | undefined
+    export let token: ITokenWithBalance | undefined
     export let activityId: string = undefined
 
     function onSkipClick(): void {
@@ -80,7 +81,7 @@
                 {/if}
             </div>
             {#if token.standard === TokenStandard.Irc30 || token.standard === TokenStandard.Erc20}
-                <TokenActionsButton {token} />
+                <TokenActionsMenu {token} />
             {/if}
         </div>
 
@@ -110,7 +111,7 @@
         />
 
         {#if !token.verification?.verified && token.verification?.status === NotVerifiedStatus.New}
-            <TextHint warning text={localize('popups.tokenInformation.verificationWarning')} />
+            <Alert variant="warning" text={localize('popups.tokenInformation.verificationWarning')} />
         {/if}
 
         <div class="flex flex-row flex-nowrap w-full space-x-4">

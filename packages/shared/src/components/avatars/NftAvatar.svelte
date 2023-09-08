@@ -9,6 +9,6 @@
 
 <nft-avatar>
     <Avatar {size}>
-        <NftMedia {nft} classes="rounded-full object-cover" />
+        <NftMedia {nft} classes="rounded-full w-full h-full object-cover" />
     </Avatar>
 </nft-avatar>

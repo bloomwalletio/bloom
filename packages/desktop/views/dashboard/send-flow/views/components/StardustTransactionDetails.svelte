@@ -12,8 +12,7 @@
 
     export let destinationNetworkId: NetworkId
     export let storageDeposit: number
-    export let estimatedGasFee: BigIntLike | undefined = undefined
-    export let maxGasFee: BigIntLike | undefined = undefined
+    export let transactionFee: BigIntLike | undefined = undefined
     export let giftStorageDeposit: boolean
     export let expirationDate: Date
     export let selectedExpirationPeriod: TimePeriod
@@ -23,6 +22,7 @@
     export let disableChangeTimelock: boolean
     export let disableGiftStorageDeposit: boolean
     export let disableAll: boolean
+    export let isToLayer2: boolean = false
 
     $: destinationNetwork = getNameFromNetworkId(destinationNetworkId)
 </script>
@@ -37,7 +37,7 @@
             </div>
         </section>
     {/if}
-    {#if storageDeposit || giftStorageDeposit}
+    {#if storageDeposit || (giftStorageDeposit && !isToLayer2)}
         <section class="key-value-box border-gray-200 dark:border-gray-700">
             <div class="flex flex-row">
                 <Text>{localize('general.storageDeposit')}</Text>
@@ -56,20 +56,12 @@
             />
         </section>
     {/if}
-    {#if estimatedGasFee}
+    {#if transactionFee}
         <section class="key-value-box border-gray-200 dark:border-gray-700">
             <div class="flex flex-row">
-                <Text>{localize('general.estimatedFee')}</Text>
+                <Text>{localize('general.transactionFee')}</Text>
             </div>
-            <Text color="gray-600">{formatTokenAmountBestMatch(Number(estimatedGasFee), getBaseToken())}</Text>
-        </section>
-    {/if}
-    {#if maxGasFee}
-        <section class="key-value-box border-gray-200 dark:border-gray-700">
-            <div class="flex flex-row">
-                <Text>{localize('general.maxFees')}</Text>
-            </div>
-            <Text color="gray-600">{formatTokenAmountBestMatch(Number(maxGasFee), getBaseToken())}</Text>
+            <Text color="gray-600">{formatTokenAmountBestMatch(Number(transactionFee), getBaseToken())}</Text>
         </section>
     {/if}
     {#if selectedExpirationPeriod}
