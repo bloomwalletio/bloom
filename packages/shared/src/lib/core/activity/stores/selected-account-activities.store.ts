@@ -1,4 +1,3 @@
-import { getPersistedToken } from '@core/token/stores'
 import { SubjectType } from '@core/wallet/enums'
 import { derived, Readable, writable, Writable } from 'svelte/store'
 import { selectedAccount } from '../../account/stores/selected-account.store'
@@ -10,6 +9,7 @@ import { isVisibleActivity } from '../utils/isVisibleActivity'
 import { getFormattedAmountFromActivity } from '../utils/outputs'
 import { allAccountActivities } from './all-account-activities.store'
 import { isValidIrc30Token } from '@core/token/utils'
+import { getPersistedToken } from '@core/token/stores'
 
 export const selectedAccountActivities: Readable<Activity[]> = derived(
     [selectedAccount, allAccountActivities],
@@ -35,9 +35,10 @@ export const queriedActivities: Readable<Activity[]> = derived(
                 return true
             }
 
+            const tokenId = _activity.tokenTransfer?.tokenId ?? _activity.baseTokenTransfer.tokenId
             const token =
                 _activity.type === ActivityType.Basic || _activity.type === ActivityType.Foundry
-                    ? getPersistedToken(_activity.tokenId)
+                    ? getPersistedToken(tokenId)
                     : undefined
             const hasValidAsset = token?.metadata && isValidIrc30Token(token.metadata)
             return !_activity.isHidden && hasValidAsset
@@ -65,17 +66,30 @@ function getFieldsToSearchFromActivity(activity: Activity): string[] {
         fieldsToSearch.push(activity.transactionId)
     }
 
-    if ((activity.type === ActivityType.Basic || activity.type === ActivityType.Foundry) && activity.tokenId) {
-        fieldsToSearch.push(activity.tokenId)
+    if (activity.type === ActivityType.Basic || activity.type === ActivityType.Foundry) {
+        fieldsToSearch.push(activity.baseTokenTransfer.tokenId)
 
-        const assetName = getPersistedToken(activity.tokenId)?.metadata?.name
-        if (assetName) {
-            fieldsToSearch.push(assetName)
+        const baseTokenName = getPersistedToken(activity.baseTokenTransfer.tokenId)?.metadata?.name
+        if (baseTokenName) {
+            fieldsToSearch.push(baseTokenName)
+        }
+
+        if (activity.tokenTransfer) {
+            fieldsToSearch.push(activity.tokenTransfer.tokenId)
+
+            const tokenName = getPersistedToken(activity.tokenTransfer.tokenId)?.metadata?.name
+            if (tokenName) {
+                fieldsToSearch.push(tokenName)
+            }
         }
     }
 
-    if ((activity.type === ActivityType.Basic || activity.type === ActivityType.Foundry) && activity.rawAmount) {
-        fieldsToSearch.push(activity.rawAmount?.toString())
+    if (activity.type === ActivityType.Basic || activity.type === ActivityType.Foundry) {
+        fieldsToSearch.push(activity.baseTokenTransfer.rawAmount)
+
+        if (activity.tokenTransfer) {
+            fieldsToSearch.push(activity.tokenTransfer.rawAmount)
+        }
         fieldsToSearch.push(getFormattedAmountFromActivity(activity, false)?.toLowerCase())
     }
 

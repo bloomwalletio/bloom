@@ -1734,7 +1734,7 @@
         "transactionTime": "交易时间",
         "surplus": "剩余",
         "storageDeposit": "存储押金",
-        "gasFee": "Gas fee",
+        "transactionFee": "Transaction fee",
         "giftedStorageDeposit": "赠与的存储押金",
         "storageDepositPerNft": "Storage deposit per NFT",
         "totalStorageDeposit": "Total storage deposit",

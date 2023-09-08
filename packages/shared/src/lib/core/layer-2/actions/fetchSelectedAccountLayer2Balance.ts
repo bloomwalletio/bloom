@@ -1,15 +1,14 @@
-import { ContractType } from '@core/layer-2'
-import { IChain, getNetwork } from '@core/network'
-import { ISC_MAGIC_CONTRACT_ADDRESS } from '../constants'
-import { Converter } from '@core/utils/convert'
-import { TOKEN_ID_BYTE_LENGTH } from '@core/token/constants'
-import { setLayer2AccountBalanceForChain } from '../stores'
-import { evmAddressToAgentId, getAgentBalanceParameters, getSmartContractHexName } from '../helpers'
-import { getActiveProfile } from '@core/profile/stores'
 import { IAccountState } from '@core/account'
 import { calculateAndAddPersistedBalanceChange } from '@core/activity/actions'
+import { ContractType } from '@core/layer-2'
+import { IChain, getNetwork } from '@core/network'
+import { getActiveProfile } from '@core/profile/stores'
 import { getOrRequestTokenFromPersistedTokens } from '@core/token/actions'
-import { addPersistedToken } from '@core/token/stores'
+import { TOKEN_ID_BYTE_LENGTH } from '@core/token/constants'
+import { Converter } from '@core/utils/convert'
+import { ISC_MAGIC_CONTRACT_ADDRESS } from '../constants'
+import { evmAddressToAgentId, getAgentBalanceParameters, getSmartContractHexName } from '../helpers'
+import { setLayer2AccountBalanceForChain } from '../stores'
 
 export function fetchSelectedAccountLayer2Balance(account: IAccountState): void {
     const { evmAddresses, index } = account
@@ -33,12 +32,9 @@ export function fetchSelectedAccountLayer2Balance(account: IAccountState): void 
             const isNativeToken = Converter.hexToBytes(tokenId).length === TOKEN_ID_BYTE_LENGTH
             const isErc20TrackedToken = getActiveProfile()?.trackedTokens?.[networkId]?.includes(tokenId)
             if (isNativeToken || isErc20TrackedToken) {
-                const token = await getOrRequestTokenFromPersistedTokens(tokenId, networkId)
-                if (token) {
-                    addPersistedToken(token)
-                }
+                await getOrRequestTokenFromPersistedTokens(tokenId, networkId)
             }
-            calculateAndAddPersistedBalanceChange(account.index, networkId, tokenId, adjustedBalance)
+            await calculateAndAddPersistedBalanceChange(account.index, networkId, tokenId, adjustedBalance)
             layer2Balance[tokenId] = adjustedBalance
         }
         setLayer2AccountBalanceForChain(index, networkId, layer2Balance)
