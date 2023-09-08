@@ -1,3 +1,5 @@
+export * from './createEvmChainToEvmChainTransaction'
+export * from './createEvmChainToStardustNetworkTransaction'
 export * from './createEvmTransactionFromSendFlowParameters'
 export * from './createStardustOutputFromSendFlowParameters'
 export * from './sendOutputFromStardust'

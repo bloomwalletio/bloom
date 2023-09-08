@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { AddressType } from '@iota/sdk/out/types'
     import { localize } from '@core/i18n'
     import {
         MAX_CHAIN_NAME_LENGTH,
@@ -12,7 +13,6 @@
     import { activeProfile } from '@core/profile/stores'
     import { getNetworkHrp } from '@core/profile/actions'
     import { isValidHexAddress, isValidHttpsUrl, validateBech32Address } from '@core/utils'
-    import { ADDRESS_TYPE_ALIAS } from '@core/wallet'
     import { Button } from '@bloomwalletio/ui'
     import { Input } from '@ui'
 
@@ -48,7 +48,7 @@
         const chains = $activeProfile.network.chains
         let isValidBechAddress = false
         try {
-            validateBech32Address(getNetworkHrp(), chain.aliasAddress, ADDRESS_TYPE_ALIAS)
+            validateBech32Address(getNetworkHrp(), chain.aliasAddress, AddressType.Alias)
             isValidBechAddress = true
         } catch (error) {
             isValidBechAddress = false

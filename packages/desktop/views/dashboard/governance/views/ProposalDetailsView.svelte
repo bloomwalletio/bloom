@@ -1,13 +1,18 @@
 <script lang="ts">
-    import { Table } from '@bloomwalletio/ui'
-    import { ProposalDetailsButton, ProposalInformationPane, ProposalQuestion } from '@components'
+    import {
+        EventStatus,
+        ParticipationEventType,
+        VotingEventPayload,
+        TrackedParticipationOverview,
+    } from '@iota/sdk/out/types'
+    import { Alert, Table } from '@bloomwalletio/ui'
+    import { ProposalDetailsMenu, ProposalInformationPane, ProposalQuestion } from '@components'
     import { getVotingEvent } from '@contexts/governance/actions'
     import {
         clearParticipationEventStatusPoll,
         pollParticipationEventStatus,
     } from '@contexts/governance/actions/pollParticipationEventStatus'
     import { ABSTAIN_VOTE_VALUE } from '@contexts/governance/constants'
-    import { ProposalStatus } from '@contexts/governance/enums'
     import {
         clearSelectedParticipationEventStatus,
         participationOverviewForSelectedAccount,
@@ -30,8 +35,7 @@
     import { visibleSelectedAccountTokens } from '@core/token/stores'
     import { getBestTimeDuration, milestoneToDate } from '@core/utils'
     import { PopupId, openPopup } from '@desktop/auxiliary/popup'
-    import { ParticipationEventType, TrackedParticipationOverview, VotingEventPayload } from '@iota/wallet/out/types'
-    import { Button, MarkdownBlock, Pane, ProposalStatusPill, Text, TextHint, TextType } from '@ui'
+    import { Button, MarkdownBlock, Pane, ProposalStatusPill, Text, TextType } from '@ui'
     import { onDestroy, onMount } from 'svelte'
 
     const { metadata } = $visibleSelectedAccountTokens?.[$activeProfile?.network?.id]?.baseCoin ?? {}
@@ -41,7 +45,7 @@
     let votingPayload: VotingEventPayload
     let totalVotes = 0
     let hasMounted = false
-    let textHintString = ''
+    let alertText = ''
     let proposalQuestions: HTMLElement
     let isVotingForProposal: boolean = false
     let statusLoaded: boolean = false
@@ -70,7 +74,7 @@
         ]
     }
 
-    $: $selectedParticipationEventStatus, (textHintString = getTextHintString())
+    $: $selectedParticipationEventStatus, (alertText = getAlertText())
 
     $: hasGovernanceTransactionInProgress =
         $selectedAccount?.hasVotingPowerTransactionInProgress || $selectedAccount?.hasVotingTransactionInProgress
@@ -120,18 +124,18 @@
     function setVotedAnswerValuesAndTotalVotes(): void {
         let lastActiveOverview: TrackedParticipationOverview
         switch ($selectedParticipationEventStatus?.status) {
-            case ProposalStatus.Upcoming:
+            case EventStatus.Upcoming:
                 totalVotes = 0
                 break
-            case ProposalStatus.Commencing:
+            case EventStatus.Commencing:
                 lastActiveOverview = trackedParticipations?.find((overview) => overview.endMilestoneIndex === 0)
                 totalVotes = 0
                 break
-            case ProposalStatus.Holding:
+            case EventStatus.Holding:
                 lastActiveOverview = trackedParticipations?.find((overview) => overview.endMilestoneIndex === 0)
                 totalVotes = calculateTotalVotesForTrackedParticipations(trackedParticipations)
                 break
-            case ProposalStatus.Ended:
+            case EventStatus.Ended:
                 lastActiveOverview = trackedParticipations?.find(
                     (overview) => overview.endMilestoneIndex > $selectedProposal.milestones.ended
                 )
@@ -176,7 +180,7 @@
         }, 250)
     }
 
-    function getTextHintString(): string {
+    function getAlertText(): string {
         if (!$selectedProposal) {
             return ''
         }
@@ -184,7 +188,7 @@
         const millis =
             milestoneToDate(
                 $networkStatus.currentMilestone,
-                $selectedProposal.milestones[ProposalStatus.Commencing]
+                $selectedProposal.milestones[EventStatus.Commencing]
             ).getTime() - new Date().getTime()
         const timeString = getBestTimeDuration(millis, 'second')
         return localize('views.governance.details.hintVote', { values: { time: timeString } })
@@ -211,7 +215,7 @@
         <Pane classes="p-6 flex flex-col h-fit">
             <header-container class="flex justify-between items-center mb-4">
                 <ProposalStatusPill proposal={$selectedProposal} />
-                <ProposalDetailsButton proposal={$selectedProposal} modalPosition={{ right: '24px', top: '54px' }} />
+                <ProposalDetailsMenu proposal={$selectedProposal} modalPosition={{ right: '24px', top: '54px' }} />
             </header-container>
             <div class="flex flex-1 flex-col space-y-4 justify-between scrollable-y">
                 <Text type={TextType.h2}>{$selectedProposal?.title}</Text>
@@ -260,9 +264,9 @@
                 {/each}
             {/if}
         </proposal-questions>
-        {#if $selectedProposal?.status === ProposalStatus.Upcoming}
-            <TextHint info text={textHintString} />
-        {:else if [ProposalStatus.Commencing, ProposalStatus.Holding].includes($selectedProposal?.status)}
+        {#if $selectedProposal?.status === EventStatus.Upcoming}
+            <Alert variant="info" text={alertText} />
+        {:else if [EventStatus.Commencing, EventStatus.Holding].includes($selectedProposal?.status)}
             {@const isLoaded = questions && overviewLoaded && statusLoaded}
             {@const isStoppingVote = lastAction === 'stopVote' && hasGovernanceTransactionInProgress}
             {@const isStopVotingDisabled = !isLoaded || !isVotingForProposal || isUpdatingVotedAnswerValues}

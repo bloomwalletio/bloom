@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { Table } from '@bloomwalletio/ui'
+    import { Alert, Table } from '@bloomwalletio/ui'
     import { vote } from '@contexts/governance/actions'
     import { ABSTAIN_VOTE_VALUE } from '@contexts/governance/constants'
     import { selectedProposal } from '@contexts/governance/stores'
@@ -8,7 +8,7 @@
     import { checkActiveProfileAuth, getBaseToken } from '@core/profile/actions'
     import { formatTokenAmountBestMatch } from '@core/token'
     import { PopupId, closePopup, openPopup } from '@desktop/auxiliary/popup'
-    import { Button, FontWeight, Text, TextHint, TextType } from '@ui'
+    import { Button, FontWeight, Text, TextType } from '@ui'
     import { HTMLButtonType } from '@ui/enums'
 
     export let selectedAnswerValues: number[]
@@ -52,10 +52,10 @@
     <div class="space-y-4">
         <Table items={[{ key: localize('popups.voteForProposal.key'), value: formattedVotingPower }]} />
         {#if !hasVotingPower}
-            <TextHint danger text={localize('popups.voteForProposal.noVotingPower')} />
+            <Alert variant="danger" text={localize('popups.voteForProposal.noVotingPower')} />
         {:else if numberOfAbstainedQuestions > 0}
-            <TextHint
-                warning
+            <Alert
+                variant="warning"
                 text={localize('popups.voteForProposal.hasAbstained', {
                     values: { numberOfQuestions: numberOfAbstainedQuestions },
                 })}

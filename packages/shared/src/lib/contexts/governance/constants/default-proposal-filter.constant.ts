@@ -1,5 +1,6 @@
+import { EventStatus } from '@iota/sdk/out/types'
 import { BooleanFilterOption, OrderOption } from '@core/utils/enums/filters'
-import { ProposalOrderOption, ProposalStatus, ProposalType } from '../enums'
+import { ProposalOrderOption, ProposalType } from '../enums'
 import { IProposalFilter } from '../interfaces'
 
 export const DEFAULT_PROPOSAL_FILTER: IProposalFilter = {
@@ -8,8 +9,8 @@ export const DEFAULT_PROPOSAL_FILTER: IProposalFilter = {
         type: 'selection',
         labelKey: 'filters.phase.label',
         localeKey: 'pills.proposalStatus',
-        selected: ProposalStatus.Commencing,
-        choices: [ProposalStatus.Commencing, ProposalStatus.Upcoming, ProposalStatus.Holding, ProposalStatus.Ended],
+        selected: EventStatus.Commencing,
+        choices: [EventStatus.Commencing, EventStatus.Upcoming, EventStatus.Holding, EventStatus.Ended],
     },
     type: {
         active: false,

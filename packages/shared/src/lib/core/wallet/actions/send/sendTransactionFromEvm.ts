@@ -4,13 +4,15 @@ import { EvmTransactionData } from '@core/layer-2'
 import { LedgerAppName } from '@core/ledger'
 import { IChain } from '@core/network'
 import { checkActiveProfileAuth } from '@core/profile/actions'
-
 import { signAndSendEvmTransaction } from './signAndSendEvmTransaction'
 import { generateActivityFromEvmTransaction } from '@core/activity/utils/generateActivityFromEvmTransaction'
-import { PersistedEvmTransaction } from '@core/activity'
+import { PersistedEvmTransaction, calculateAndAddPersistedBalanceChange } from '@core/activity'
+import { updateLayer2AccountBalanceForTokenOnChain } from '@core/layer-2/stores'
+import { getAddressFromAccountForNetwork } from '@core/account'
 
 export async function sendTransactionFromEvm(
     transaction: EvmTransactionData,
+    tokenId: string,
     chain: IChain,
     callback?: () => void
 ): Promise<void> {
@@ -36,8 +38,21 @@ export async function sendTransactionFromEvm(
                 }
                 addPersistedTransaction(account.index, networkId, evmTransaction)
 
-                const activity = await generateActivityFromEvmTransaction(evmTransaction, networkId, provider)
+                const activity = await generateActivityFromEvmTransaction(evmTransaction, tokenId, networkId, provider)
                 addActivitiesToAccountActivitiesInAllAccountActivities(account.index, [activity])
+
+                if (getAddressFromAccountForNetwork(account, networkId) !== activity.subject?.address) {
+                    // Currently only support outgoing transactions being added to activities so we can assume outgoing balance change
+                    // TODO: this only works for base token and not native tokens
+                    const delta = (activity.rawAmount + (activity?.transactionFee ?? 0)) * -1
+                    const newBalance = updateLayer2AccountBalanceForTokenOnChain(
+                        account.index,
+                        networkId,
+                        activity.tokenId,
+                        delta
+                    )
+                    calculateAndAddPersistedBalanceChange(account.index, networkId, activity.tokenId, newBalance, true)
+                }
 
                 if (callback && typeof callback === 'function') {
                     callback()

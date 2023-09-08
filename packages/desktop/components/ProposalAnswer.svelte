@@ -1,10 +1,12 @@
 <script lang="ts">
+    import { Answer, EventStatus } from '@iota/sdk/out/types'
+
+    import { Icon, Text, TooltipIcon } from '@ui'
+
+    import { appSettings } from '@core/app/stores'
+
     import { Icon as IconEnum } from '@auxiliary/icon'
     import { Indicator } from '@bloomwalletio/ui'
-    import { ProposalStatus } from '@contexts/governance'
-    import { appSettings } from '@core/app/stores'
-    import type { Answer } from '@iota/wallet'
-    import { Icon, Text, TooltipIcon } from '@ui'
     import { FontWeight, Position } from '@ui/enums'
 
     export let onAnswerClick: () => void
@@ -17,7 +19,7 @@
     export let disabled = false
     export let hidden: boolean = null
     export let isWinner: boolean
-    export let proposalStatus: string
+    export let proposalStatus: EventStatus
     export let truncate = false
     export let isLoading = false
 
@@ -62,11 +64,11 @@
         {#if answerIndex !== undefined}
             {#if isVotedFor}
                 <status-icon class="flex justify-center items-center w-5 h-5">
-                    {#if proposalStatus === ProposalStatus.Ended}
+                    {#if proposalStatus === EventStatus.Ended}
                         <Icon icon={IconEnum.Voted} width={20} height={20} />
-                    {:else if proposalStatus === ProposalStatus.Commencing}
+                    {:else if proposalStatus === EventStatus.Commencing}
                         <Icon icon={IconEnum.History} width={20} height={20} />
-                    {:else if proposalStatus === ProposalStatus.Holding}
+                    {:else if proposalStatus === EventStatus.Holding}
                         <Indicator size="sm" ping />
                     {/if}
                 </status-icon>

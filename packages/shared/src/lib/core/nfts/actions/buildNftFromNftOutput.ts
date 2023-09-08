@@ -1,9 +1,8 @@
+import { Address, AddressType, NftOutput } from '@iota/sdk/out/types'
 import { getIssuerFromNftOutput, getMetadataFromNftOutput, getNftId } from '@core/activity/utils/outputs'
 import { activeProfileId } from '@core/profile/stores'
-import { ADDRESS_TYPE_NFT } from '@core/wallet/constants'
 import { IWrappedOutput } from '@core/wallet/interfaces'
 import { getBech32AddressFromAddressTypes } from '@core/wallet/utils'
-import type { INftOutput } from '@iota/types'
 import { get } from 'svelte/store'
 import { DEFAULT_NFT_NAME } from '../constants'
 import { INft } from '../interfaces'
@@ -15,7 +14,7 @@ export function buildNftFromNftOutput(
     accountAddress: string,
     calculateStatus: boolean = true
 ): INft {
-    const nftOutput = wrappedOutput.output as INftOutput
+    const nftOutput = wrappedOutput.output as NftOutput
 
     let isSpendable = false
     let timeLockTime = undefined
@@ -26,13 +25,14 @@ export function buildNftFromNftOutput(
         timeLockTime = status.timeLockTime
     }
 
+    const profileId: string = get(activeProfileId)
     const id = getNftId(nftOutput.nftId, wrappedOutput.outputId)
-    const address = getBech32AddressFromAddressTypes({ type: ADDRESS_TYPE_NFT, nftId: id })
+    const address = getBech32AddressFromAddressTypes({ type: AddressType.Nft, nftId: id } as unknown as Address)
     const issuer = getIssuerFromNftOutput(nftOutput)
     const metadata = getMetadataFromNftOutput(nftOutput)
     const parsedMetadata = parseNftMetadata(metadata)
     const composedUrl = composeUrlFromNftUri(parsedMetadata?.uri)
-    const filePath = `${get(activeProfileId)}/nfts/${id}`
+    const filePath = `${profileId}/nfts/${id}`
     const storageDeposit = Number(nftOutput.amount)
 
     return {
