@@ -1,16 +1,15 @@
+import { NftOutput, UnlockConditionType } from '@iota/sdk/out/types'
 import { getTimelockDateFromOutput } from '@core/activity/utils'
 import {
     getExpirationUnixTimeFromOutput,
     getRecipientAddressFromOutput,
     isOutputAsync,
 } from '@core/activity/utils/outputs'
-import { UNLOCK_CONDITION_STORAGE_DEPOSIT_RETURN } from '@core/wallet/constants'
-import { INftOutput } from '@iota/types'
 
 export function getSpendableStatusFromUnspentNftOutput(
     accountAddress: string,
-    nftOutput: INftOutput
-): { isSpendable: boolean; timeLockTime: string } {
+    nftOutput: NftOutput
+): { isSpendable: boolean; timeLockTime: number | undefined } {
     let isSpendable = true
     let timeLockTime = undefined
 
@@ -20,7 +19,7 @@ export function getSpendableStatusFromUnspentNftOutput(
         const timeLockUnixTime = getTimelockDateFromOutput(nftOutput)?.getTime()
         const isRecipient = getRecipientAddressFromOutput(nftOutput) === accountAddress
         const hasStorageDepositReturnUnlockCondition = nftOutput.unlockConditions.some(
-            (unlockCondition) => unlockCondition?.type === UNLOCK_CONDITION_STORAGE_DEPOSIT_RETURN
+            (unlockCondition) => unlockCondition?.type === UnlockConditionType.StorageDepositReturn
         )
         if (expirationUnixTime) {
             if (isRecipient) {

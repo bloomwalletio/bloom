@@ -7,8 +7,10 @@
 
     export let activity: FoundryActivity
 
-    let metadata: IIrc30Metadata
-    $: metadata = <IIrc30Metadata>getPersistedToken(activity.tokenId)?.metadata
+    let metadata: IIrc30Metadata | undefined
+    $: metadata = <IIrc30Metadata>(
+        getPersistedToken(activity.tokenTransfer?.tokenId ?? activity.baseTokenTransfer.tokenId)?.metadata
+    )
 </script>
 
 {#if metadata}

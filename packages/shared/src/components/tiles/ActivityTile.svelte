@@ -1,8 +1,8 @@
 <script lang="ts">
     import { Activity, ActivityAsyncStatus, ActivityType, InclusionState } from '@core/activity'
     import { time } from '@core/app/stores'
-    import { IPersistedToken, ITokenWithBalance, NotVerifiedStatus } from '@core/token'
-    import { getPersistedToken, selectedAccountTokens } from '@core/token/stores'
+    import { IToken, ITokenWithBalance, NotVerifiedStatus } from '@core/token'
+    import { getTokenFromSelectedAccountTokens, selectedAccountTokens } from '@core/token/stores'
     import {
         AliasActivityTileContent,
         AsyncActivityTileFooter,
@@ -15,26 +15,29 @@
         TransactionActivityTileContent,
     } from '@ui'
     import { PopupId, openPopup } from '../../../../desktop/lib/auxiliary/popup'
+    import { getTokenBalance } from '@core/token/actions'
 
     export let activity: Activity
 
-    let persistedToken: IPersistedToken | undefined
+    let token: IToken | undefined
     $: $selectedAccountTokens,
-        (persistedToken =
+        (token =
             activity.type === ActivityType.Basic || activity.type === ActivityType.Foundry
-                ? getPersistedToken(activity.tokenId)
+                ? getTokenFromSelectedAccountTokens(
+                      activity.tokenTransfer?.tokenId ?? activity.baseTokenTransfer.tokenId,
+                      activity.sourceNetworkId
+                  )
                 : undefined)
     $: isTimelocked = activity?.asyncData?.timelockDate ? activity?.asyncData?.timelockDate > $time : false
     $: shouldShowAsyncFooter = activity.asyncData && activity.asyncData.asyncStatus !== ActivityAsyncStatus.Claimed
 
     function onTransactionClick(): void {
-        if (persistedToken?.verification?.status === NotVerifiedStatus.New) {
-            const token: ITokenWithBalance = {
-                ...persistedToken,
-                networkId: activity.sourceNetworkId,
-                balance: {
-                    total: 0,
+        if (token?.verification?.status === NotVerifiedStatus.New) {
+            const _token: ITokenWithBalance = {
+                ...token,
+                balance: getTokenBalance(token.id, activity.sourceNetworkId) ?? {
                     available: 0,
+                    total: 0,
                 },
             }
             openPopup({
@@ -42,7 +45,7 @@
                 overflow: true,
                 props: {
                     activityId: activity.id,
-                    token,
+                    token: _token,
                 },
             })
         } else {

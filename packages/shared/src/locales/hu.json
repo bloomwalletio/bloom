@@ -1734,7 +1734,7 @@
         "transactionTime": "Tranzakció időpontja",
         "surplus": "Többlet",
         "storageDeposit": "Letéti díj",
-        "gasFee": "Gas fee",
+        "transactionFee": "Transaction fee",
         "giftedStorageDeposit": "Ajándékba kapott letéti díj",
         "storageDepositPerNft": "Letéti díj NFT-nként",
         "totalStorageDeposit": "Összes letéti díj",
