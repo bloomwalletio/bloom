@@ -6,7 +6,7 @@ import { getOutputParameters } from '../utils'
 import { ReturnStrategy, SubjectType } from '../enums'
 import { IToken, IPersistedToken } from '@core/token/interfaces'
 import { TokenStandard, VerifiedStatus } from '@core/token/enums'
-import { SendFlowType } from '../stores'
+import { SendFlowType } from '../enums'
 import { SendFlowParameters } from '../types'
 
 const PERSISTED_ASSET_SHIMMER: IPersistedToken = {

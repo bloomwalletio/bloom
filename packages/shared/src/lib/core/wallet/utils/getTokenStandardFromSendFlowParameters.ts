@@ -1,4 +1,4 @@
-import { SendFlowType } from '../stores'
+import { SendFlowType } from '../enums'
 import { SendFlowParameters } from '../types'
 
 export function getTokenStandardFromSendFlowParameters(params: SendFlowParameters): string | undefined {

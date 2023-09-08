@@ -8,7 +8,7 @@ import { getAccountTokensForSelectedAccount } from '../actions/getAccountTokensF
 import { DEFAULT_ASSET_FILTER } from '../constants'
 import { ITokenWithBalance, TokenFilter } from '../interfaces'
 import { AccountTokens, IAccountTokensPerNetwork } from '../interfaces/account-tokens.interface'
-import { persistedTokens } from './persisted-tokens.store'
+import { getPersistedToken, persistedTokens } from './persisted-tokens.store'
 
 export const tokenFilter: Writable<TokenFilter> = writable(DEFAULT_ASSET_FILTER)
 
@@ -48,6 +48,21 @@ export function getTokenFromSelectedAccountTokens(
     if (tokenId === baseCoin?.id) {
         return baseCoin
     } else {
-        return nativeTokens?.find((token) => token.id === tokenId)
+        const token = nativeTokens?.find((token) => token.id === tokenId)
+        if (token) {
+            return token
+        } else {
+            const persistedToken = getPersistedToken(tokenId)
+            return persistedToken
+                ? {
+                      ...persistedToken,
+                      networkId,
+                      balance: {
+                          total: 0,
+                          available: 0,
+                      },
+                  }
+                : undefined
+        }
     }
 }

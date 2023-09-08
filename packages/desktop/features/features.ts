@@ -3,6 +3,7 @@ import contactsFeatures from './contacts.features'
 import developerToolsFeatures from './developer-tools.features'
 import electronFeatures from './electron.features'
 import governanceFeatures from './governance.features'
+import loginFeatures from './login.features'
 import networkFeatures from './network.features'
 import onboardingFeatures from './onboarding.features'
 import settingsFeatures from './settings.features'
@@ -16,6 +17,7 @@ const features: IDesktopFeatures = {
     developerTools: developerToolsFeatures,
     electron: electronFeatures,
     governance: governanceFeatures,
+    login: loginFeatures,
     network: networkFeatures,
     onboarding: onboardingFeatures,
     settings: settingsFeatures,

@@ -1734,7 +1734,7 @@
         "transactionTime": "交易時間",
         "surplus": "餘",
         "storageDeposit": "存儲空間費用",
-        "gasFee": "Gas fee",
+        "transactionFee": "Transaction fee",
         "giftedStorageDeposit": "被贈與之存儲空間費用",
         "storageDepositPerNft": "每個NFT的存儲空間費用",
         "totalStorageDeposit": "總存儲空間費用",

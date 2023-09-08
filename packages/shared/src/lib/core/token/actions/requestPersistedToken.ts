@@ -13,13 +13,14 @@ import { IErc20Metadata, IIrc30Metadata, IPersistedToken } from '../interfaces'
 import { TokenVerification } from '../types'
 import { buildPersistedTokenFromMetadata } from '../utils'
 import { NetworkId } from '@core/network/types'
+import { isEvmChain, isStardustNetwork } from '@core/network'
 
 export async function requestPersistedToken(
     tokenId: string,
-    networkId?: NetworkId
+    networkId: NetworkId
 ): Promise<IPersistedToken | undefined> {
     let tokenMetadata: IIrc30Metadata | IErc20Metadata | undefined
-    if (networkId) {
+    if (networkId && isEvmChain(networkId)) {
         try {
             validateEthereumAddress(tokenId)
             /* eslint-disable @typescript-eslint/no-unnecessary-type-assertion */
@@ -27,7 +28,7 @@ export async function requestPersistedToken(
         } catch {
             // do nothing
         }
-    } else {
+    } else if (networkId && isStardustNetwork(networkId)) {
         const account = get(activeAccounts)?.[0]
         if (account) {
             tokenMetadata = await getIrc30MetadataFromFoundryOutput(tokenId, account)
