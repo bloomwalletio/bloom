@@ -45,6 +45,7 @@ export async function sendTransactionFromEvm(
                 if (getAddressFromAccountForNetwork(account, networkId) !== activity.subject?.address) {
                     // Currently only support outgoing transactions being added to activities so we can assume outgoing balance change
                     // TODO: this only works for base token and not native tokens
+
                     const tokenTransfer = activity.tokenTransfer ?? activity.baseTokenTransfer
                     const delta =
                         tokenTransfer.tokenId === BASE_TOKEN_ID

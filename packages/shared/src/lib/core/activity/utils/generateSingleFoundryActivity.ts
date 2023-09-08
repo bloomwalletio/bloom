@@ -1,4 +1,8 @@
 import { IAccountState } from '@core/account'
+import { IActivityGenerationParameters } from '@core/activity/types'
+import { NetworkId } from '@core/network/types'
+import { BASE_TOKEN_ID } from '@core/token'
+import { convertHexAddressToBech32 } from '@core/wallet/utils'
 import {
     AddressType,
     AliasAddress,
@@ -7,10 +11,7 @@ import {
     SimpleTokenScheme,
     UnlockConditionType,
 } from '@iota/sdk/out/types'
-import { IActivityGenerationParameters } from '@core/activity/types'
-import { NetworkId } from '@core/network/types'
-import { convertHexAddressToBech32 } from '@core/wallet/utils'
-import { ActivityType } from '../enums'
+import { ActivityAction, ActivityType } from '../enums'
 import { FoundryActivity } from '../types'
 import { generateBaseActivity } from './generateBaseActivity'
 
@@ -23,6 +24,16 @@ export async function generateSingleFoundryActivity(
 
     const output = generationParameters.wrappedOutput.output as FoundryOutput
     const { mintedTokens, meltedTokens, maximumSupply } = output.tokenScheme as SimpleTokenScheme
+
+    if (generationParameters.action === ActivityAction.Mint) {
+        baseActivity.storageDeposit = baseActivity.baseTokenTransfer?.rawAmount
+            ? Number(baseActivity.baseTokenTransfer?.rawAmount)
+            : undefined
+        baseActivity.baseTokenTransfer = {
+            tokenId: BASE_TOKEN_ID,
+            rawAmount: '0',
+        }
+    }
 
     const addressUnlockCondition = output.unlockConditions.find(
         (unlockCondition) => unlockCondition.type === UnlockConditionType.ImmutableAliasAddress

@@ -7,6 +7,7 @@ import Web3 from 'web3'
 import { ActivityAction, ActivityDirection, ActivityType, InclusionState } from '../enums'
 import { PersistedEvmTransaction, TransactionActivity } from '../types'
 import { getOrRequestTokenFromPersistedTokens } from '@core/token/actions'
+import { calculateGasFeeInGlow } from '@core/layer-2/helpers'
 
 export async function generateActivityFromEvmTransaction(
     transaction: PersistedEvmTransaction,
@@ -23,7 +24,7 @@ export async function generateActivityFromEvmTransaction(
 
     const baseTokenTransfer = {
         tokenId: BASE_TOKEN_ID,
-        rawAmount: tokenId !== BASE_TOKEN_ID ? String(Number(transaction.value) / Number(WEI_PER_GLOW)) : '0',
+        rawAmount: tokenId === BASE_TOKEN_ID ? String(Number(transaction.value) / Number(WEI_PER_GLOW)) : '0',
     }
 
     let tokenTransfer
@@ -36,6 +37,10 @@ export async function generateActivityFromEvmTransaction(
               }
             : undefined
     }
+
+    const transactionFee = transaction.gasPrice
+        ? Number(calculateGasFeeInGlow(transaction.gasUsed, transaction.gasPrice))
+        : undefined
 
     return {
         type: ActivityType.Basic,
@@ -62,5 +67,7 @@ export async function generateActivityFromEvmTransaction(
         // asset information
         baseTokenTransfer,
         tokenTransfer,
+
+        transactionFee,
     }
 }

@@ -14,7 +14,7 @@ export function hideActivitiesForHiddenTokens(): void {
             if (_activity.type === ActivityType.Basic || _activity.type === ActivityType.Foundry) {
                 const tokenId = _activity.tokenTransfer?.tokenId ?? BASE_TOKEN_ID
                 const isTokenHidden = !tokens[tokenId] || tokens[tokenId]?.hidden
-                updateActivityFromPartialActivity(_activity, { isTokenHidden })
+                updateActivityFromPartialActivity(_activity, { type: _activity.type, isTokenHidden })
             }
         })
         return state

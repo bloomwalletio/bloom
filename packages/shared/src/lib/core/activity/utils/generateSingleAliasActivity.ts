@@ -1,15 +1,15 @@
 import { IAccountState } from '@core/account'
 import { IActivityGenerationParameters } from '@core/activity/types'
-import { EMPTY_HEX_ID } from '@core/wallet/constants'
-import { AliasOutput } from '@iota/sdk/out/types'
+import { NetworkId } from '@core/network/types'
 import { api } from '@core/profile-manager'
 import { getNetworkHrp } from '@core/profile/actions'
-import { NetworkId } from '@core/network/types'
-import { ActivityType } from '../enums'
+import { BASE_TOKEN_ID } from '@core/token'
+import { EMPTY_HEX_ID } from '@core/wallet/constants'
+import { AliasOutput } from '@iota/sdk/out/types'
+import { ActivityAction, ActivityType } from '../enums'
 import { AliasActivity } from '../types'
 import { generateBaseActivity } from './generateBaseActivity'
 import { getGovernorAddressFromAliasOutput, getStateControllerAddressFromAliasOutput } from './helper'
-import { BASE_TOKEN_ID } from '@core/token'
 
 export async function generateSingleAliasActivity(
     account: IAccountState,
@@ -18,15 +18,17 @@ export async function generateSingleAliasActivity(
 ): Promise<AliasActivity> {
     const baseActivity = await generateBaseActivity(account, networkId, generationParameters)
 
-    baseActivity.storageDeposit = baseActivity.baseTokenTransfer?.rawAmount
-        ? Number(baseActivity.baseTokenTransfer?.rawAmount)
-        : undefined
-    baseActivity.baseTokenTransfer = {
-        tokenId: BASE_TOKEN_ID,
-        rawAmount: '0',
-    }
-
     const { output, outputId } = generationParameters.wrappedOutput
+
+    if (generationParameters.action === ActivityAction.Mint) {
+        baseActivity.storageDeposit = baseActivity.baseTokenTransfer?.rawAmount
+            ? Number(baseActivity.baseTokenTransfer?.rawAmount)
+            : undefined
+        baseActivity.baseTokenTransfer = {
+            tokenId: BASE_TOKEN_ID,
+            rawAmount: '0',
+        }
+    }
 
     const governorAddress = getGovernorAddressFromAliasOutput(output as AliasOutput)
     const stateControllerAddress = getStateControllerAddressFromAliasOutput(output as AliasOutput)

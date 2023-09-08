@@ -29,7 +29,7 @@ export async function generateActivitiesFromBasicOutputs(
 
         const isSelfTransaction = processedTransaction.direction === ActivityDirection.SelfTransaction
         const burnedNftInputIndex = burnedNftInputs.findIndex(
-            (input) => input.output?.amount === basicOutput.output?.amount
+            (input) => basicOutput.output && input.output?.amount === basicOutput.output.amount
         )
         const burnedNativeToken =
             burnedNftInputIndex < 0 ? getBurnedNativeTokens(basicOutput, processedTransaction) : undefined
