@@ -5,8 +5,8 @@ import { IActivityGenerationParameters } from '@core/activity/types'
 import { parseLayer2Metadata } from '@core/layer-2'
 import { getNetworkIdFromAddress } from '@core/layer-2/actions'
 import { NetworkId } from '@core/network/types'
-import { getCoinType } from '@core/profile/actions'
 import { activeProfileId } from '@core/profile/stores'
+import { BASE_TOKEN_ID } from '@core/token'
 import { get } from 'svelte/store'
 import { activityOutputContainsValue } from '..'
 import { ActivityType } from '../enums'
@@ -20,13 +20,14 @@ import {
     getTagFromOutput,
 } from './helper'
 import { getNativeTokenFromOutput } from './outputs'
+import { isStardustNetwork } from '@core/network/utils'
 
 export async function generateSingleBasicActivity(
     account: IAccountState,
     networkId: NetworkId,
     { action, processedTransaction, wrappedOutput }: IActivityGenerationParameters,
-    fallbackTokenId?: string,
-    fallbackAmount?: number
+    overrideTokenId?: string,
+    overrideAmount?: number
 ): Promise<TransactionActivity> {
     const { transactionId, direction, claimingData, time, inclusionState } = processedTransaction
 
@@ -55,22 +56,27 @@ export async function generateSingleBasicActivity(
     const destinationNetworkId = getNetworkIdFromAddress(recipient?.address, sourceNetworkId)
 
     const asyncData = getAsyncDataFromOutput(output, outputId, claimingData, account)
-    const parsedLayer2Metadata = parseLayer2Metadata(metadata)
 
-    const gasLimit = Number(parsedLayer2Metadata?.gasLimit ?? '0')
-
-    const storageDeposit = getStorageDepositFromOutput(output)
+    const isToLayer2 = isStardustNetwork(sourceNetworkId) && sourceNetworkId !== destinationNetworkId
+    const parsedLayer2Metadata = isToLayer2 ? parseLayer2Metadata(metadata) : undefined
 
     const rawBaseCoinAmount = getAmountFromOutput(output)
+    const storageDeposit = getStorageDepositFromOutput(output)
+
+    const actualAmountSent = parsedLayer2Metadata?.baseTokens ? Number(parsedLayer2Metadata.baseTokens) : 0
+    const sentDelta = rawBaseCoinAmount - actualAmountSent
+    const transactionFee = isToLayer2 ? sentDelta : undefined
 
     const nativeToken = await getNativeTokenFromOutput(output)
-    const tokenId = fallbackTokenId ?? nativeToken?.id ?? getCoinType()
+    const tokenId = overrideTokenId ?? nativeToken?.id ?? BASE_TOKEN_ID
 
     let rawAmount: number
-    if (fallbackAmount === undefined) {
-        rawAmount = nativeToken ? Number(nativeToken?.amount) : rawBaseCoinAmount - storageDeposit - gasLimit
+    if (overrideAmount === undefined) {
+        rawAmount = nativeToken
+            ? Number(nativeToken?.amount)
+            : rawBaseCoinAmount - storageDeposit - (transactionFee ?? 0)
     } else {
-        rawAmount = fallbackAmount
+        rawAmount = overrideAmount
     }
 
     return {
@@ -99,5 +105,6 @@ export async function generateSingleBasicActivity(
         parsedLayer2Metadata,
         subject,
         isInternal,
+        transactionFee,
     }
 }

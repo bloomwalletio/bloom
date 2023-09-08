@@ -1,11 +1,11 @@
 import { INft } from '@core/nfts'
 import { getNftByIdFromAllAccountNfts } from '@core/nfts/actions'
-import { getCoinType } from '@core/profile/actions'
+import { BASE_TOKEN_ID } from '@core/token'
 import { IToken } from '@core/token/interfaces'
-import { getTokenFromSelectedAccountTokens, getPersistedToken } from '@core/token/stores'
+import { getPersistedToken, getTokenFromSelectedAccountTokens } from '@core/token/stores'
+import { TokenTransferData } from '@core/wallet/types'
 import { ActivityType, GovernanceAction } from '../enums'
 import { Activity } from '../types'
-import { TokenTransferData } from '@core/wallet/types'
 
 export function getTransactionAssets(
     activity: Activity,
@@ -19,7 +19,7 @@ export function getTransactionAssets(
       }
     | undefined {
     if (activity.type === ActivityType.Nft) {
-        const baseCoin = getTokenFromSelectedAccountTokens(getCoinType(), activity.sourceNetworkId)
+        const baseCoin = getTokenFromSelectedAccountTokens(BASE_TOKEN_ID, activity.sourceNetworkId)
         const nft = getNftByIdFromAllAccountNfts(accountIndex, activity.nftId)
         return {
             nft,
@@ -40,28 +40,30 @@ export function getTransactionAssets(
             ...tokenWithBalance,
             ...persistedToken,
         }
-        if (activity.tokenId === getCoinType()) {
+        if (activity.tokenId === BASE_TOKEN_ID) {
             return {
                 baseCoinTransfer: {
-                    rawAmount: String(activity.rawBaseCoinAmount),
+                    rawAmount: String(activity.rawAmount),
                     token,
                 },
             }
         } else {
-            const baseCoin = getTokenFromSelectedAccountTokens(getCoinType(), activity.sourceNetworkId)
+            const baseCoin = getTokenFromSelectedAccountTokens(BASE_TOKEN_ID, activity.sourceNetworkId)
             return {
                 tokenTransfer: {
                     rawAmount: String(activity.rawAmount),
                     token,
                 },
                 baseCoinTransfer: {
-                    rawAmount: String((activity.rawBaseCoinAmount ?? 0) - activity.storageDeposit),
+                    rawAmount: String(
+                        (activity.rawBaseCoinAmount ?? 0) - activity.storageDeposit - (activity?.transactionFee ?? 0)
+                    ),
                     token: baseCoin,
                 },
             }
         }
     } else if (activity.type === ActivityType.Governance) {
-        const baseCoin = getTokenFromSelectedAccountTokens(getCoinType(), activity.sourceNetworkId)
+        const baseCoin = getTokenFromSelectedAccountTokens(BASE_TOKEN_ID, activity.sourceNetworkId)
 
         const isVotingPowerActivity =
             activity.governanceAction === GovernanceAction.DecreaseVotingPower ||
@@ -72,6 +74,10 @@ export function getTransactionAssets(
                 rawAmount: String(amount),
                 token: baseCoin,
             },
+        }
+    } else if (activity.type === ActivityType.Alias) {
+        return {
+            aliasId: activity.aliasId,
         }
     }
 }

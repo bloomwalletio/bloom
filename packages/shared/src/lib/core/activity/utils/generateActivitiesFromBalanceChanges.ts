@@ -16,8 +16,10 @@ export function generateActivitiesFromBalanceChanges(account: IAccountState): Ac
 
         for (const tokenId of tokenIds) {
             for (const balanceChangeForAsset of balanceChanges[tokenId]) {
-                const activity = generateBalanceChangeActivity(networkId, tokenId, balanceChangeForAsset)
-                activities.push(activity)
+                if (!balanceChangeForAsset.hidden) {
+                    const activity = generateBalanceChangeActivity(networkId, tokenId, balanceChangeForAsset)
+                    activities.push(activity)
+                }
             }
         }
     }

@@ -8,7 +8,8 @@ import {
     UnlockConditionType,
 } from '@iota/sdk/out/types'
 import { IActivityGenerationParameters } from '@core/activity/types'
-import { getCoinType } from '@core/profile/actions'
+import { NetworkId } from '@core/network/types'
+import { BASE_TOKEN_ID } from '@core/token'
 import { convertHexAddressToBech32 } from '@core/wallet/utils'
 import { ActivityType } from '../enums'
 import { FoundryActivity } from '../types'
@@ -20,7 +21,6 @@ import {
     getTagFromOutput,
 } from './helper'
 import { getNativeTokenFromOutput } from './outputs'
-import { NetworkId } from '@core/network/types'
 
 export async function generateSingleFoundryActivity(
     account: IAccountState,
@@ -45,7 +45,7 @@ export async function generateSingleFoundryActivity(
 
     const id = outputId || transactionId
     const nativeToken = await getNativeTokenFromOutput(output)
-    const tokenId = nativeToken?.id ?? getCoinType()
+    const tokenId = nativeToken?.id ?? BASE_TOKEN_ID
 
     const storageDeposit = getAmountFromOutput(output)
     const rawAmount = Number(nativeToken?.amount ?? 0)

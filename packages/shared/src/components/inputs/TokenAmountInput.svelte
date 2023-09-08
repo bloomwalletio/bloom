@@ -1,9 +1,9 @@
 <script lang="ts">
     import { formatCurrency, getDecimalSeparator } from '@core/i18n'
-    import { getMarketAmountFromTokenValue } from '@core/market/utils'
+    import { getMarketAmountFromTokenValue } from '@core/market/actions'
     import { activeProfile } from '@core/profile/stores'
     import {
-        IToken,
+        ITokenWithBalance,
         convertToRawAmount,
         formatTokenAmountDefault,
         getMaxDecimalsFromTokenMetadata,
@@ -12,7 +12,8 @@
     import { visibleSelectedAccountTokens } from '@core/token/stores'
     import { AmountInput, FontWeight, InputContainer, Text } from '@ui'
 
-    export let token: IToken | undefined = $visibleSelectedAccountTokens?.[$activeProfile?.network?.id]?.baseCoin
+    export let token: ITokenWithBalance | undefined =
+        $visibleSelectedAccountTokens?.[$activeProfile?.network?.id]?.baseCoin
     export let rawAmount: string | undefined = undefined
     export let unit: string | undefined = undefined
     export let availableBalance: number

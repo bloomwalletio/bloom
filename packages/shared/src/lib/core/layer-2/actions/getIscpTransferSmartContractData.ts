@@ -5,12 +5,8 @@ import { ISC_MAGIC_CONTRACT_ADDRESS } from '@core/layer-2/constants'
 import { handleError } from '@core/error/handlers'
 import { IError } from '@core/error/interfaces'
 import { TransferredAsset } from '../types'
-import {
-    buildAssetAllowance,
-    evmAddressToAgentId,
-    getAgentBalanceParameters,
-    getSmartContractHexName,
-} from '../helpers'
+import { evmAddressToAgentId, getAgentBalanceParameters, getSmartContractHexName } from '../helpers'
+import { buildAssetAllowance } from '../utils'
 
 export function getIscpTransferSmartContractData(
     recipientAddress: string,

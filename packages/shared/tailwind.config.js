@@ -5,10 +5,7 @@ const pxToRem = (px, base = 16) => `${px / base}rem`
 
 const SHARED_CONTENT_ROUTES = ['../shared/**/*.svelte', '../shared/**/*.scss']
 const DESKTOP_CONTENT_ROUTES = ['../desktop/**/*.svelte']
-const NODE_MODULES_ROUTES = [
-    '../../node_modules/flowbite-svelte/**/*.{html,js,svelte,ts}',
-    '../../node_modules/@bloomwalletio/ui/**/*.{html,js,svelte,ts}',
-]
+const NODE_MODULES_ROUTES = ['../../node_modules/@bloomwalletio/ui/**/*.{html,js,svelte,ts}']
 
 module.exports = {
     content: [...SHARED_CONTENT_ROUTES, ...NODE_MODULES_ROUTES, ...DESKTOP_CONTENT_ROUTES],
@@ -58,7 +55,6 @@ module.exports = {
         extend: {
             colors: {
                 current: 'currentColor',
-                gray: colors.slate,
                 transparent: 'transparent',
                 black: '#000',
                 white: '#fff',

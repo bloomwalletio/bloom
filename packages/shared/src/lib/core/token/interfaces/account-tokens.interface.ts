@@ -1,11 +1,11 @@
 import { NetworkId } from '@core/network'
-import { IToken } from './token.interface'
+import { ITokenWithBalance } from '..'
 
 export type AccountTokens = {
     [networkId in NetworkId]?: IAccountTokensPerNetwork
 }
 
 export interface IAccountTokensPerNetwork {
-    baseCoin: IToken | undefined
-    nativeTokens: IToken[]
+    baseCoin: ITokenWithBalance | undefined
+    nativeTokens: ITokenWithBalance[]
 }

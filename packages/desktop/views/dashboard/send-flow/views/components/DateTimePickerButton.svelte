@@ -10,7 +10,6 @@
     export let disabled: boolean = false
 
     let menu: DateTimePickerMenu
-    let anchor: HTMLElement = undefined
     let storedValue: Date
 
     export function setNull(bool: boolean): void {
@@ -27,7 +26,6 @@
     class="flex items-center justify-center {disabled ? 'cursor-default' : 'cursor-pointer'}"
     {disabled}
     on:click={menu?.tryOpen}
-    bind:this={anchor}
 >
     <div class="flex flex-row hover:text-blue-600 items-center">
         <Text
@@ -43,4 +41,4 @@
         {/if}
     </div>
 </button>
-<DateTimePickerMenu bind:this={menu} bind:value bind:selected bind:anchor />
+<DateTimePickerMenu bind:this={menu} bind:value bind:selected />

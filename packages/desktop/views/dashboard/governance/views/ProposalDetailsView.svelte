@@ -5,8 +5,8 @@
         VotingEventPayload,
         TrackedParticipationOverview,
     } from '@iota/sdk/out/types'
-    import { Table } from '@bloomwalletio/ui'
-    import { ProposalDetailsButton, ProposalInformationPane, ProposalQuestion } from '@components'
+    import { Alert, Table } from '@bloomwalletio/ui'
+    import { ProposalDetailsMenu, ProposalInformationPane, ProposalQuestion } from '@components'
     import { getVotingEvent } from '@contexts/governance/actions'
     import {
         clearParticipationEventStatusPoll,
@@ -35,7 +35,7 @@
     import { visibleSelectedAccountTokens } from '@core/token/stores'
     import { getBestTimeDuration, milestoneToDate } from '@core/utils'
     import { PopupId, openPopup } from '@desktop/auxiliary/popup'
-    import { Button, MarkdownBlock, Pane, ProposalStatusPill, Text, TextHint, TextType } from '@ui'
+    import { Button, MarkdownBlock, Pane, ProposalStatusPill, Text, TextType } from '@ui'
     import { onDestroy, onMount } from 'svelte'
 
     const { metadata } = $visibleSelectedAccountTokens?.[$activeProfile?.network?.id]?.baseCoin ?? {}
@@ -45,7 +45,7 @@
     let votingPayload: VotingEventPayload
     let totalVotes = 0
     let hasMounted = false
-    let textHintString = ''
+    let alertText = ''
     let proposalQuestions: HTMLElement
     let isVotingForProposal: boolean = false
     let statusLoaded: boolean = false
@@ -74,7 +74,7 @@
         ]
     }
 
-    $: $selectedParticipationEventStatus, (textHintString = getTextHintString())
+    $: $selectedParticipationEventStatus, (alertText = getAlertText())
 
     $: hasGovernanceTransactionInProgress =
         $selectedAccount?.hasVotingPowerTransactionInProgress || $selectedAccount?.hasVotingTransactionInProgress
@@ -180,7 +180,7 @@
         }, 250)
     }
 
-    function getTextHintString(): string {
+    function getAlertText(): string {
         if (!$selectedProposal) {
             return ''
         }
@@ -215,7 +215,7 @@
         <Pane classes="p-6 flex flex-col h-fit">
             <header-container class="flex justify-between items-center mb-4">
                 <ProposalStatusPill proposal={$selectedProposal} />
-                <ProposalDetailsButton proposal={$selectedProposal} modalPosition={{ right: '24px', top: '54px' }} />
+                <ProposalDetailsMenu proposal={$selectedProposal} modalPosition={{ right: '24px', top: '54px' }} />
             </header-container>
             <div class="flex flex-1 flex-col space-y-4 justify-between scrollable-y">
                 <Text type={TextType.h2}>{$selectedProposal?.title}</Text>
@@ -265,7 +265,7 @@
             {/if}
         </proposal-questions>
         {#if $selectedProposal?.status === EventStatus.Upcoming}
-            <TextHint info text={textHintString} />
+            <Alert variant="info" text={alertText} />
         {:else if [EventStatus.Commencing, EventStatus.Holding].includes($selectedProposal?.status)}
             {@const isLoaded = questions && overviewLoaded && statusLoaded}
             {@const isStoppingVote = lastAction === 'stopVote' && hasGovernanceTransactionInProgress}
