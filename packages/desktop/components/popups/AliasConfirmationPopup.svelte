@@ -5,13 +5,15 @@
     import { handleError } from '@core/error/handlers/handleError'
     import { localize } from '@core/i18n'
     import { checkActiveProfileAuth, getBaseToken } from '@core/profile/actions'
+    import { EMPTY_HEX_ID, sendPreparedTransaction } from '@core/wallet'
     import {
-        EMPTY_HEX_ID,
-        UNLOCK_CONDITION_GOVERNOR_ADDRESS,
-        UNLOCK_CONDITION_STATE_CONTROLLER_ADDRESS,
-        convertBech32ToHexAddress,
-    } from '@core/wallet'
+        AliasOutputBuilderParams,
+        Ed25519Address,
+        GovernorAddressUnlockCondition,
+        StateControllerAddressUnlockCondition,
+    } from '@iota/sdk/out/types'
     import { closePopup } from '@desktop/auxiliary/popup'
+    import { api, getClient } from '@core/profile-manager'
     import { Button, FontWeight, Text, TextType } from '@ui'
     import { onMount } from 'svelte'
     import { formatTokenAmountPrecise } from '@core/token'
@@ -21,33 +23,25 @@
 
     let storageDeposit: string = '0'
 
-    $: address = {
-        type: 0,
-        pubKeyHash: convertBech32ToHexAddress($selectedAccount.depositAddress),
-    }
-    $: aliasOutput = address
-        ? {
-              aliasId: EMPTY_HEX_ID,
-              unlockConditions: [
-                  {
-                      type: UNLOCK_CONDITION_GOVERNOR_ADDRESS,
-                      address,
-                  },
-                  {
-                      type: UNLOCK_CONDITION_STATE_CONTROLLER_ADDRESS,
-                      address,
-                  },
-              ],
-          }
-        : ''
+    const address = new Ed25519Address(api.bech32ToHex($selectedAccount.depositAddress))
 
-    $: void setStorageDeposit(aliasOutput)
+    const aliasOutputParams: AliasOutputBuilderParams = {
+        aliasId: EMPTY_HEX_ID,
+        unlockConditions: [
+            new GovernorAddressUnlockCondition(address),
+            new StateControllerAddressUnlockCondition(address),
+        ],
+    }
+
+    void setStorageDeposit(aliasOutputParams)
+
     $: isTransferring = $selectedAccount.isTransferring
 
-    async function setStorageDeposit(aliasOutput): Promise<void> {
+    async function setStorageDeposit(params: AliasOutputBuilderParams): Promise<void> {
         try {
-            const { amount } = await $selectedAccount.buildAliasOutput(aliasOutput)
-            storageDeposit = formatTokenAmountPrecise(Number(amount), getBaseToken())
+            const client = await getClient()
+            const resp = await client.buildAliasOutput(params)
+            storageDeposit = formatTokenAmountPrecise(Number(resp.amount), getBaseToken())
         } catch (err) {
             handleError(err)
         }
@@ -59,7 +53,8 @@
             const networkId = getActiveNetworkId()
 
             updateSelectedAccount({ isTransferring: true })
-            const transaction = await account.createAliasOutput()
+            const preparedTransaction = await $selectedAccount.prepareCreateAliasOutput()
+            const transaction = await sendPreparedTransaction(preparedTransaction)
             await processAndAddToActivities(transaction, account, networkId)
             closePopup()
         } catch (err) {

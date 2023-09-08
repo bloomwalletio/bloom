@@ -6,9 +6,9 @@ import {
 } from '@core/activity/stores/all-account-activities.store'
 import { getNftByIdFromAllAccountNfts, updateNftInAllAccountNfts } from '@core/nfts/actions'
 import { activeAccounts } from '@core/profile/stores'
-import { Event, SpentOutputWalletEvent, WalletEventType } from '@iota/wallet/out/types'
 import { get } from 'svelte/store'
 import { validateWalletApiEvent } from '../../utils'
+import { Event, SpentOutputWalletEvent, WalletEventType } from '@iota/sdk/out/types'
 
 export async function handleSpentOutputEvent(error: Error, event: Event): Promise<void> {
     const walletEvent = validateWalletApiEvent<SpentOutputWalletEvent>(error, event, WalletEventType.SpentOutput)

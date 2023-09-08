@@ -1,7 +1,7 @@
 <script lang="ts">
-    import { Icon as IconEnum, NETWORK_ICON_SVG } from '@auxiliary/icon'
+    import { DEFAULT_NETWORK_ICON, Icon as IconEnum } from '@auxiliary/icon'
     import { Indicator } from '@bloomwalletio/ui'
-    import { ProfileActionsMenuModal, SidebarTab } from '@components'
+    import { ProfileActionsModal, SidebarTab } from '@components'
     import { appVersionDetails } from '@core/app/stores'
     import { localize } from '@core/i18n'
     import { activeProfile } from '@core/profile/stores'
@@ -98,7 +98,7 @@
             <Icon
                 width="48"
                 height="48"
-                icon={NETWORK_ICON_SVG[$activeProfile?.network?.id]}
+                icon={DEFAULT_NETWORK_ICON[$activeProfile?.network?.id]}
                 classes="dark:text-white"
             />
         </div>
@@ -118,7 +118,7 @@
             </button>
         </div>
     </nav>
-    <ProfileActionsMenuModal bind:modal={profileModal} />
+    <ProfileActionsModal bind:modal={profileModal} />
 </aside>
 
 <style lang="scss">

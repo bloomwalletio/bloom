@@ -1,4 +1,4 @@
-import { OutputData } from '@iota/wallet'
+import { OutputData } from '@iota/sdk'
 
 export interface ISpentOutputEventPayload {
     output: OutputData

@@ -1,6 +1,6 @@
 <script lang="ts">
-    import { Table } from '@bloomwalletio/ui'
     import { showNotification } from '@auxiliary/notification'
+    import { Alert, Table } from '@bloomwalletio/ui'
     import { sumBalanceForAccounts } from '@core/account'
     import { DEFAULT_SYNC_OPTIONS } from '@core/account/constants'
     import { generateAndStoreActivitiesForAllAccounts } from '@core/activity/actions'
@@ -13,7 +13,7 @@
     import { formatTokenAmountBestMatch } from '@core/token'
     import { refreshAccountTokensForActiveProfile } from '@core/token/actions'
     import { closePopup } from '@desktop/auxiliary/popup'
-    import { Button, FontWeight, Text, TextHint, TextType } from '@ui'
+    import { Button, FontWeight, Text, TextType } from '@ui'
     import { onDestroy, onMount } from 'svelte'
 
     export let searchForBalancesOnLoad = false
@@ -113,7 +113,7 @@
     </div>
 
     {#if hasUsedWalletFinder}
-        <TextHint info icon="exclamation" text={localize('popups.walletFinder.searchAgainHint')} />
+        <Alert variant="info" text={localize('popups.walletFinder.searchAgainHint')} />
     {/if}
 </div>
 

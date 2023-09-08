@@ -13,7 +13,7 @@
     $: hasPills =
         (activity.asyncData?.asyncStatus && activity.asyncData?.asyncStatus !== ActivityAsyncStatus.Timelocked) ||
         isTimelocked ||
-        activity.parsedLayer2Metadata
+        activity.smartContract
 </script>
 
 {#if hasPills}
@@ -24,7 +24,7 @@
         {#if isTimelocked}
             <ActivityAsyncStatusPill asyncStatus={ActivityAsyncStatus.Timelocked} />
         {/if}
-        {#if activity.parsedLayer2Metadata}
+        {#if activity.smartContract}
             <Pill color="blue">
                 {localize('pills.smartContract')}
             </Pill>
