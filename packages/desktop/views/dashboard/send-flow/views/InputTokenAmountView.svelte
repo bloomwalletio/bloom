@@ -90,8 +90,7 @@
                 chain,
                 $selectedAccount
             )
-
-            maxGasFee = Number(calculateMaxGasFeeFromTransactionData(txData))
+            maxGasFee = txData ? Number(calculateMaxGasFeeFromTransactionData(txData)) : undefined
         }
     })
 </script>
