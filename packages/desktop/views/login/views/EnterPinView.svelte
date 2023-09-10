@@ -1,6 +1,5 @@
 <script lang="ts">
-    import { Icon as IconEnum } from '@auxiliary/icon'
-    import { Alert } from '@bloomwalletio/ui'
+    import { Button, Error, IconName, PinInput, Text } from '@bloomwalletio/ui'
     import {
         Platform,
         isLatestStrongholdVersion,
@@ -16,14 +15,13 @@
     import { PopupId, openPopup, popupState } from '@desktop/auxiliary/popup'
     import features from '@features/features'
     import { onDestroy } from 'svelte'
-    import { Icon, PinInput, Text } from '@ui'
     import { ProfileCard } from '../components'
 
     let attempts: number = 0
     let pinCode: string = ''
     let isBusy: boolean = false
-    let pinRef: PinInput
     let shake: boolean = false
+    let pinInput: PinInput
 
     /** Maximum number of consecutive (incorrect) attempts allowed to the user */
     const MAX_PINCODE_INCORRECT_ATTEMPTS = 3
@@ -54,8 +52,8 @@
         }
     }
     $: {
-        if (pinRef && !$popupState.active) {
-            pinRef.focus()
+        if (pinInput && !$popupState.active) {
+            pinInput?.focus()
         }
     }
 
@@ -72,7 +70,7 @@
                 clearInterval(maxAttemptsTimer)
                 maxAttemptsTimer = setInterval(attemptCountdown, 1000)
             } else {
-                pinRef.resetAndFocus()
+                pinInput?.resetAndFocus()
             }
         }, 1000)
     }
@@ -86,7 +84,7 @@
             clearInterval(maxAttemptsTimer)
             attempts = 0
             timeRemainingBeforeNextAttempt = WAITING_TIME_AFTER_MAX_INCORRECT_ATTEMPTS
-            pinRef.resetAndFocus()
+            pinInput?.resetAndFocus()
         } else {
             buttonText = getButtonText(timeRemainingBeforeNextAttempt)
             timeRemainingBeforeNextAttempt--
@@ -122,45 +120,53 @@
     })
 </script>
 
-<enter-pin-view class="block w-full h-full bg-white dark:bg-gray-900">
-    <div class="flex w-full h-full justify-center items-center">
-        <div class="w-96 flex flex-col flex-wrap items-center mb-20">
-            <div class="flex flex-col gap-8 w-full items-center">
-                <ProfileCard profile={$activeProfile} {updateRequired} />
-                {#if updateRequired}
-                    <Alert variant="warning" text={localize('views.login.hintStronghold')} />
-                {/if}
-                <div class="flex w-full items-center">
-                    <div class="relative h-6">
-                        <button
-                            data-label="back-button"
-                            class="absolute right-5 disabled:opacity-50 cursor-pointer disabled:cursor-auto"
-                            disabled={hasReachedMaxAttempts}
-                            on:click={onBackClick}
-                        >
-                            <Icon icon={IconEnum.ArrowLeft} classes="text-gray-500 dark:text-gray-100" />
-                        </button>
-                    </div>
-                    <PinInput
-                        bind:this={pinRef}
-                        bind:value={pinCode}
-                        classes={shake ? 'animate-shake' : ''}
-                        on:submit={onSubmit}
-                        disabled={hasReachedMaxAttempts || isBusy}
-                        autofocus
-                    />
-                </div>
-            </div>
-            <Text bold classes="mt-4 text-center">
+<enter-pin-view class:shake>
+    <button-container class="block mr-auto">
+        <Button
+            variant="text"
+            size="md"
+            icon={IconName.ArrowLeft}
+            disabled={hasReachedMaxAttempts}
+            on:click={onBackClick}
+            text={localize('actions.back')}
+        />
+    </button-container>
+    <div>
+        <ProfileCard profile={$activeProfile} />
+        <div>
+            <PinInput
+                bind:this={pinInput}
+                bind:value={pinCode}
+                on:submit={onSubmit}
+                disabled={hasReachedMaxAttempts || isBusy}
+                autofocus
+            />
+            <Text bold align="center">
                 {attempts > 0
                     ? localize('views.login.incorrectAttempts', {
                           values: { attempts: attempts.toString() },
                       })
                     : localize('actions.enterYourPin')}
             </Text>
-            {#if hasReachedMaxAttempts}
-                <Text error classes="mt-6">{buttonText}</Text>
-            {/if}
         </div>
     </div>
+    <Error error={hasReachedMaxAttempts ? buttonText : ' '} />
 </enter-pin-view>
+
+<style lang="scss">
+    enter-pin-view {
+        @apply flex flex-col w-full h-full justify-between items-center bg-slate-100 dark:bg-gray-900 p-12;
+
+        > div {
+            @apply flex flex-col gap-12 w-full items-center;
+
+            > div {
+                @apply flex flex-col w-full justify-center items-center gap-6;
+            }
+        }
+    }
+
+    :global(enter-pin-view.shake input) {
+        @apply animate-shake;
+    }
+</style>
