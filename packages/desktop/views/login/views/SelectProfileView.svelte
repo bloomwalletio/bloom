@@ -54,7 +54,9 @@
         </logo-container>
     </header>
     <div
-        class="overflow-y-auto items-start justify-center overlay-scrollbar gap-8 flex flex-row flex-wrap w-full px-20"
+        class="
+        card-conatiner flex flex-row w-full justify-center gap-8 overflow-y-auto overlay-scrollbar
+        {$profiles.length > 4 ? 'grid grid-cols-4' : ''}"
     >
         {#each $profiles as profile}
             <ProfileCard {profile} onClick={onContinueClick} />
@@ -87,5 +89,9 @@
     button:after {
         content: '';
         @apply absolute h-full w-1/2 bg-violet-700 blur-3xl opacity-40 left-1/2 -bottom-20 -translate-x-1/2;
+    }
+
+    .card-conatiner {
+        max-width: 1000px;
     }
 </style>
