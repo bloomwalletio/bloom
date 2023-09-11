@@ -25,6 +25,8 @@
     import { calculateMaxGasFeeFromTransactionData } from '@core/layer-2/utils'
     import { Table } from '@bloomwalletio/ui'
     import { getBaseToken } from '@core/profile/actions'
+    import { estimateGasForLayer1ToLayer2Transaction } from '@core/layer-2/actions'
+    import { GAS_LIMIT_MULTIPLIER } from '@core/layer-2'
 
     let tokenAmountInput: TokenAmountInput
     let token: ITokenWithBalance
@@ -95,6 +97,9 @@
             } catch (error) {
                 console.error(error)
             }
+        } else if (isEvmChain($sendFlowParameters.destinationNetworkId) && token.id === BASE_TOKEN_ID) {
+            const estimatedGas = await estimateGasForLayer1ToLayer2Transaction($sendFlowParameters)
+            maxGasFee = Math.floor(estimatedGas * GAS_LIMIT_MULTIPLIER)
         }
     })
 </script>
