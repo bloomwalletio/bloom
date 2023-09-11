@@ -38,7 +38,7 @@
         {/if}
     </profile-header>
     <div class="relative">
-        <ProfileAvatar {profile} size="lg" roundness={isHovering ? '3xl' : 'full'} />
+        <ProfileAvatar {profile} size="lg" shape={isHovering ? 'squircle' : 'circle'} />
         <NetworkBadge size="sm" networkId={profile.network.id} networkName={profile.network.name} />
     </div>
     <Text type="h6" align="center" truncate>{profile.name}</Text>
