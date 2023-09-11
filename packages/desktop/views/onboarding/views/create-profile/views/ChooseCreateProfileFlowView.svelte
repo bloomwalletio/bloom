@@ -9,7 +9,7 @@
     import { localize } from '@core/i18n'
     import { ProfileType, removeProfileFolder } from '@core/profile'
     import features from '@features/features'
-    import { Animation, OnboardingButton, Text } from '@ui'
+    import { OnboardingButton } from '@ui'
     import { onMount } from 'svelte'
     import { createProfileRouter } from '../create-profile-router'
     import { destroyProfileManager } from '@core/profile-manager/actions'
@@ -25,10 +25,15 @@
 
     $: isDisabled = Object.values(isBusy).some((busy) => busy)
 
-    async function onProfileTypeClick(createProfileType: CreateProfileType): Promise<void> {
-        isBusy = { ...isBusy, [createProfileType]: true }
-        const type = createProfileType === CreateProfileType.Ledger ? ProfileType.Ledger : ProfileType.Software
-        updateOnboardingProfile({ createProfileType, type })
+    let selectedCreateProfileType: CreateProfileType | undefined = undefined
+    function onProfileTypeClick(createProfileType: CreateProfileType): void {
+        selectedCreateProfileType = createProfileType
+    }
+
+    async function onContinueClick(): Promise<void> {
+        isBusy = { ...isBusy, [selectedCreateProfileType]: true }
+        const type = selectedCreateProfileType === CreateProfileType.Ledger ? ProfileType.Ledger : ProfileType.Software
+        updateOnboardingProfile({ createProfileType: selectedCreateProfileType, type })
         await initialiseProfileManagerFromOnboardingProfile()
         $createProfileRouter.next()
     }
@@ -47,14 +52,13 @@
     })
 </script>
 
-<OnboardingLayout {onBackClick}>
-    <div slot="title">
-        <Text type="h2">{localize('views.onboarding.profileSetup.setupNew.title')}</Text>
-    </div>
-    <div slot="leftpane__content">
-        <Text type="p" secondary classes="mb-8">{localize('views.onboarding.profileSetup.setupNew.body')}</Text>
-    </div>
-    <div slot="leftpane__action" class="flex flex-col space-y-4">
+<OnboardingLayout
+    title={localize('views.onboarding.profileSetup.setupNew.title')}
+    description={localize('views.onboarding.profileSetup.setupNew.body')}
+    {onContinueClick}
+    {onBackClick}
+>
+    <div slot="content" class="flex flex-col space-y-4">
         <OnboardingButton
             primaryText={localize('views.onboarding.profileSetup.setupNew.softwareAccount.title')}
             secondaryText={localize('views.onboarding.profileSetup.setupNew.softwareAccount.description')}
@@ -73,8 +77,5 @@
             disabled={!features?.onboarding?.[networkType]?.newProfile?.ledgerProfile?.enabled || isDisabled}
             onClick={() => onProfileTypeClick(CreateProfileType.Ledger)}
         />
-    </div>
-    <div slot="rightpane" class="w-full h-full flex justify-center bg-pastel-purple dark:bg-gray-900">
-        <Animation classes="setup-anim-aspect-ratio" animation="import-desktop" />
     </div>
 </OnboardingLayout>

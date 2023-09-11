@@ -10,7 +10,7 @@
     import { getOnboardingNetworkTypeFromNetworkId } from '@core/network'
     import { ProfileType, removeProfileFolder } from '@core/profile'
     import features from '@features/features'
-    import { Animation, OnboardingButton, Text, TextType } from '@ui'
+    import { OnboardingButton } from '@ui'
     import { onMount } from 'svelte'
     import { restoreProfileRouter } from '../restore-profile-router'
     import { destroyProfileManager } from '@core/profile-manager/actions'
@@ -27,10 +27,16 @@
 
     $: isDisabled = Object.values(isBusy).some((busy) => busy)
 
-    async function onProfileTypeClick(restoreProfileType: RestoreProfileType): Promise<void> {
-        isBusy = { ...isBusy, [restoreProfileType]: true }
-        const type = restoreProfileType === RestoreProfileType.Ledger ? ProfileType.Ledger : ProfileType.Software
-        updateOnboardingProfile({ type, restoreProfileType })
+    let selectedRestoreProfileType: RestoreProfileType | undefined = undefined
+    function onProfileTypeClick(restoreProfileType: RestoreProfileType): void {
+        selectedRestoreProfileType = restoreProfileType
+    }
+
+    async function onContinueClick(): Promise<void> {
+        isBusy = { ...isBusy, [selectedRestoreProfileType]: true }
+        const type =
+            selectedRestoreProfileType === RestoreProfileType.Ledger ? ProfileType.Ledger : ProfileType.Software
+        updateOnboardingProfile({ type, restoreProfileType: selectedRestoreProfileType })
         await initialiseProfileManagerFromOnboardingProfile()
         $restoreProfileRouter.next()
     }
@@ -49,18 +55,15 @@
     })
 </script>
 
-<OnboardingLayout {onBackClick}>
-    <div slot="title">
-        <Text type={TextType.h2}
-            >{localize('views.onboarding.profileSetup.setupRecovered.title', {
-                network: displayedNetworkName,
-            })}</Text
-        >
-    </div>
-    <div slot="leftpane__content">
-        <Text secondary classes="mb-8">{localize('views.onboarding.profileSetup.setupRecovered.body')}</Text>
-    </div>
-    <div slot="leftpane__action" class="flex flex-col space-y-4">
+<OnboardingLayout
+    title={localize('views.onboarding.profileSetup.setupRecovered.title', {
+        network: displayedNetworkName,
+    })}
+    description={localize('views.onboarding.profileSetup.setupRecovered.body')}
+    {onContinueClick}
+    {onBackClick}
+>
+    <div slot="content" class="flex flex-col space-y-4">
         <OnboardingButton
             primaryText={localize('views.onboarding.profileSetup.setupRecovered.importMnemonic')}
             secondaryText={localize('views.onboarding.profileSetup.setupRecovered.importMnemonicDescription')}
@@ -88,8 +91,5 @@
             disabled={!features?.onboarding?.[networkType]?.restoreProfile?.ledgerBackup?.enabled || isDisabled}
             onClick={() => onProfileTypeClick(RestoreProfileType.Ledger)}
         />
-    </div>
-    <div slot="rightpane" class="w-full h-full flex justify-center bg-pastel-purple dark:bg-gray-900">
-        <Animation classes="setup-anim-aspect-ratio" animation="import-desktop" />
     </div>
 </OnboardingLayout>

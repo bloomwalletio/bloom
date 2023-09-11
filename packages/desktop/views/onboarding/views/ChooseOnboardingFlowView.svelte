@@ -5,7 +5,7 @@
     import { getOnboardingNetworkTypeFromNetworkId } from '@core/network'
     import { profiles } from '@core/profile/stores'
     import features from '@features/features'
-    import { Animation, OnboardingButton, Text, TextType } from '@ui'
+    import { OnboardingButton } from '@ui'
     import { onMount } from 'svelte'
     import { onboardingRouter } from '../onboarding-router'
 
@@ -13,8 +13,13 @@
     const networkType = getOnboardingNetworkTypeFromNetworkId(networkId)
     const displayedNetworkName = $onboardingProfile?.network?.name
 
-    function onProfileSetupSelectionClick(onboardingType: OnboardingType): void {
-        updateOnboardingProfile({ onboardingType })
+    let selectedOnboardingType: OnboardingType | undefined = undefined
+    function onOnboardingTypeClick(onboardingType: OnboardingType): void {
+        selectedOnboardingType = onboardingType
+    }
+
+    function onContinueClick(): void {
+        updateOnboardingProfile({ onboardingType: selectedOnboardingType })
         $onboardingRouter.next()
     }
 
@@ -28,22 +33,18 @@
     })
 </script>
 
-<OnboardingLayout allowBack={$profiles.length > 0 || $onboardingProfile?.isDeveloperProfile} {onBackClick}>
-    <div slot="title">
-        <Text type={TextType.h2}
-            >{localize('views.onboarding.profileSetup.setup.title', {
-                network: displayedNetworkName,
-            })}</Text
-        >
-    </div>
-    <div slot="leftpane__content">
-        <Text secondary classes="mb-8"
-            >{localize('views.onboarding.profileSetup.setup.body', {
-                network: displayedNetworkName,
-            })}</Text
-        >
-    </div>
-    <div slot="leftpane__action" class="flex flex-col space-y-4">
+<OnboardingLayout
+    title={localize('views.onboarding.profileSetup.setup.title', {
+        network: displayedNetworkName,
+    })}
+    description={localize('views.onboarding.profileSetup.setup.body', {
+        network: displayedNetworkName,
+    })}
+    {onContinueClick}
+    {onBackClick}
+    disableBack={$profiles.length === 0}
+>
+    <div slot="content" class="flex flex-col space-y-4">
         <OnboardingButton
             primaryText={localize('actions.createWallet', {
                 network: displayedNetworkName,
@@ -54,7 +55,7 @@
             iconWidth="11"
             hidden={features?.onboarding?.[networkType]?.newProfile?.hidden}
             disabled={!features?.onboarding?.[networkType]?.newProfile?.enabled}
-            onClick={() => onProfileSetupSelectionClick(OnboardingType.Create)}
+            onClick={() => onOnboardingTypeClick(OnboardingType.Create)}
         />
         <OnboardingButton
             primaryText={localize(`actions.restoreWallet.${networkType}`)}
@@ -62,7 +63,7 @@
             icon="transfer"
             hidden={features?.onboarding?.[networkType]?.restoreProfile?.hidden}
             disabled={!features?.onboarding?.[networkType]?.restoreProfile?.enabled}
-            onClick={() => onProfileSetupSelectionClick(OnboardingType.Restore)}
+            onClick={() => onOnboardingTypeClick(OnboardingType.Restore)}
         />
         <OnboardingButton
             primaryText={localize('actions.claimShimmer')}
@@ -72,10 +73,7 @@
             iconWidth="24"
             hidden={features?.onboarding?.[networkType]?.claimRewards?.hidden}
             disabled={!features?.onboarding?.[networkType]?.claimRewards?.enabled}
-            onClick={() => onProfileSetupSelectionClick(OnboardingType.Claim)}
+            onClick={() => onOnboardingTypeClick(OnboardingType.Claim)}
         />
-    </div>
-    <div slot="rightpane" class="w-full h-full flex justify-center bg-pastel-green dark:bg-gray-900">
-        <Animation classes="setup-anim-aspect-ratio" animation="setup-desktop" />
     </div>
 </OnboardingLayout>
