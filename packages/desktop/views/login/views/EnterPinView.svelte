@@ -30,11 +30,10 @@
     const WAITING_TIME_AFTER_MAX_INCORRECT_ATTEMPTS = 30
 
     let timeRemainingBeforeNextAttempt: number = WAITING_TIME_AFTER_MAX_INCORRECT_ATTEMPTS
-    let buttonText: string = getButtonText(timeRemainingBeforeNextAttempt)
     let maxAttemptsTimer: ReturnType<typeof setTimeout> = null
     let shakeTimeout: ReturnType<typeof setTimeout> = null
 
-    $: if (needsToAcceptLatestPrivacyPolicy() || needsToAcceptLatestTermsOfService()) {
+    if (needsToAcceptLatestPrivacyPolicy() || needsToAcceptLatestTermsOfService()) {
         openPopup({
             id: PopupId.LegalUpdate,
             hideClose: true,
@@ -46,6 +45,9 @@
         !isLatestStrongholdVersion($activeProfile?.strongholdVersion) &&
         features.onboarding.strongholdVersionCheck.enabled
     $: hasReachedMaxAttempts = attempts >= MAX_PINCODE_INCORRECT_ATTEMPTS
+    $: errorText = hasReachedMaxAttempts
+        ? localize('views.login.pleaseWait', { values: { time: timeRemainingBeforeNextAttempt.toString() } })
+        : ''
     $: {
         if (isValidPin(pinCode)) {
             void onSubmit()
@@ -55,10 +57,6 @@
         if (pinInput && !$popupState.active) {
             pinInput?.focus()
         }
-    }
-
-    function getButtonText(time: number): string {
-        return localize('views.login.pleaseWait', { values: { time: time.toString() } })
     }
 
     function setShakeTimeout(): void {
@@ -86,7 +84,6 @@
             timeRemainingBeforeNextAttempt = WAITING_TIME_AFTER_MAX_INCORRECT_ATTEMPTS
             pinInput?.resetAndFocus()
         } else {
-            buttonText = getButtonText(timeRemainingBeforeNextAttempt)
             timeRemainingBeforeNextAttempt--
         }
     }
@@ -150,15 +147,15 @@
             </Text>
         </div>
     </div>
-    <Error error={hasReachedMaxAttempts ? buttonText : ' '} />
+    <Error error={errorText} />
 </enter-pin-view>
 
 <style lang="scss">
     enter-pin-view {
-        @apply flex flex-col w-full h-full justify-between items-center bg-slate-100 dark:bg-gray-900 p-12;
+        @apply flex flex-col w-full h-full items-center bg-slate-100 dark:bg-gray-900 p-12;
 
         > div {
-            @apply flex flex-col gap-12 w-full items-center;
+            @apply flex flex-col gap-12 w-full items-center justify-center flex-grow;
 
             > div {
                 @apply flex flex-col w-full justify-center items-center gap-6;
