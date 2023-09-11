@@ -8,7 +8,7 @@
 </script>
 
 <nft-avatar>
-    <Avatar {size}>
+    <Avatar {size} {...$$restProps}>
         <NftMedia {nft} classes="rounded-full w-full h-full object-cover" />
     </Avatar>
 </nft-avatar>

@@ -61,7 +61,7 @@
         @apply transition-all duration-300 !important;
     }
 
-    :global(profile-avatar avatar img) {
+    :global(profile-avatar nft-avatar avatar img) {
         /* Remove necessity of !important */
         @apply transition-all duration-300 !important;
     }
