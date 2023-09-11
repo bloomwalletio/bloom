@@ -17,7 +17,7 @@
     } from '@core/network'
     import { profiles } from '@core/profile/stores'
     import features from '@features/features'
-    import { OnboardingButton, Text } from '@ui'
+    import { OnboardingButton } from '@ui'
     import { onMount } from 'svelte'
     import { networkSetupRouter } from '../network-setup-router'
 
@@ -84,9 +84,6 @@
     {onBackClick}
     disableBack={$profiles.length === 0}
 >
-    <div slot="leftpane__content">
-        <Text secondary classes="mb-8">{localize('views.onboarding.networkSetup.chooseNetwork.body')}</Text>
-    </div>
     <div slot="content" class="flex flex-col space-y-4">
         {#each Object.values(OnboardingNetworkType) as networkType}
             <OnboardingButton

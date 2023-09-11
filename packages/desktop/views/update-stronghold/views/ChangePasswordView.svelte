@@ -13,8 +13,8 @@
     import { unlockStronghold } from '@core/profile/actions'
     import { activeProfile, updateActiveProfile } from '@core/profile/stores'
     import { PASSWORD_REASON_MAP } from '@core/stronghold'
-    import { Animation, Button, PasswordInput, Text } from '@ui'
-    import { HTMLButtonType, TextType } from '@ui/enums'
+    import { Button, PasswordInput } from '@ui'
+    import { HTMLButtonType } from '@ui/enums'
     import { onMount } from 'svelte'
     import zxcvbn from 'zxcvbn'
     import { updateStrongholdRouter } from '../update-stronghold-router'
@@ -61,7 +61,7 @@
         }
     }
 
-    async function onSubmit(): Promise<void> {
+    async function onContinueClick(): Promise<void> {
         const isPasswordValid = validatePassword()
 
         if (isPasswordValid) {
@@ -116,15 +116,10 @@
     })
 </script>
 
-<OnboardingLayout allowBack={false}>
-    <div slot="title">
-        <Text type={TextType.h2}>
-            {localize('views.settings.changePassword.title')}
-        </Text>
-    </div>
-    <div slot="leftpane__content">
+<OnboardingLayout title={localize('views.settings.changePassword.title')} {onContinueClick} disableBack>
+    <div slot="content">
         <Alert variant="warning" text={localize('views.updateStronghold.changePassword.hint')} />
-        <form on:submit|preventDefault={onSubmit} id="update-stronghold-form" class="mt-12">
+        <form on:submit|preventDefault={onContinueClick} id="update-stronghold-form" class="mt-12">
             <PasswordInput
                 bind:value={newPassword}
                 classes="mb-5"
@@ -148,8 +143,6 @@
                 submitHandler={validatePassword}
             />
         </form>
-    </div>
-    <div slot="leftpane__action" class="flex flex-col gap-4">
         <Button
             type={HTMLButtonType.Button}
             outline
@@ -169,8 +162,5 @@
         >
             {localize('views.settings.changePassword.title')}
         </Button>
-    </div>
-    <div slot="rightpane" class="w-full h-full flex justify-center bg-pastel-blue dark:bg-gray-900">
-        <Animation classes="setup-anim-aspect-ratio" animation="password-desktop" />
     </div>
 </OnboardingLayout>
