@@ -54,6 +54,7 @@ module.exports = {
     theme: {
         extend: {
             colors: {
+                primary: colors.purple,
                 current: 'currentColor',
                 transparent: 'transparent',
                 black: '#000',

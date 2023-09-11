@@ -32,6 +32,11 @@
             beta: 'chrysalis_gem.svg',
             prod: 'chrysalis_gem.svg',
         },
+        'logo-bloom-full': {
+            alpha: 'bloom_logo_full.svg',
+            beta: 'bloom_logo_full.svg',
+            prod: 'bloom_logo_full.svg',
+        },
     }
 </script>
 

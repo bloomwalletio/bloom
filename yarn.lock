@@ -343,10 +343,10 @@
   resolved "https://registry.yarnpkg.com/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
-"@bloomwalletio/ui@0.9.0":
-  version "0.9.0"
-  resolved "https://npm.pkg.github.com/download/@bloomwalletio/ui/0.9.0/572ae5904744d4a43b90022e25b4efef517ff5d3#572ae5904744d4a43b90022e25b4efef517ff5d3"
-  integrity sha512-lDFIpAVTyDxQ4ZqOMm1oLfXdrMD5eYIKKSYYSHwUsUa2rA7Pb6KOmT4+Q0Bwkv20YOke4/Fk5v3NO/13Ptk4pg==
+"@bloomwalletio/ui@0.9.4":
+  version "0.9.4"
+  resolved "https://npm.pkg.github.com/download/@bloomwalletio/ui/0.9.4/837f333815ab3a02ce3bb97fc74e1a0dcbf0f5d3#837f333815ab3a02ce3bb97fc74e1a0dcbf0f5d3"
+  integrity sha512-TiwCCTsRCVb4ZHlRvvi5RfXAN7x7G/orCMa8bs1LqST9SK+Y7224RnbMeMwkqXF48MPFkx2Q4zf2XmABNHXrDg==
   dependencies:
     "@floating-ui/dom" "1.4.3"
     "@popperjs/core" "2.11.8"
@@ -2368,10 +2368,10 @@
   dependencies:
     "@types/node" "*"
 
-"@types/marked@^4.0.1":
-  version "4.3.1"
-  resolved "https://registry.yarnpkg.com/@types/marked/-/marked-4.3.1.tgz#45fb6dfd47afb595766c71ed7749ead23f137de3"
-  integrity sha512-vSSbKZFbNktrQ15v7o1EaH78EbWV+sPQbPjHG+Cp8CaNcPFUEfjZ0Iml/V0bFDwsTlYe8o6XC5Hfdp91cqPV2g==
+"@types/marked@^5.0.1":
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/@types/marked/-/marked-5.0.1.tgz#15acd796d722b91bf00738c8c8539aaf5034f0c6"
+  integrity sha512-Y3pAUzHKh605fN6fvASsz5FDSWbZcs/65Q6xYRmnIP9ZIYz27T4IOmXfH9gWJV1dpi7f1e7z7nBGUTx/a0ptpA==
 
 "@types/mime@*":
   version "3.0.1"
@@ -7543,10 +7543,10 @@ makeerror@1.0.12:
   dependencies:
     tmpl "1.0.5"
 
-marked@^4.0.10:
-  version "4.3.0"
-  resolved "https://registry.yarnpkg.com/marked/-/marked-4.3.0.tgz#796362821b019f734054582038b116481b456cf3"
-  integrity sha512-PRsaiG84bK+AMvxziE/lCFss8juXjNaWzVbN5tXAm4XjeaS9NAHhop+PjQxz2A9h8Q4M/xGmzP8vqNwy6JeK0A==
+marked@^5.1.2:
+  version "5.1.2"
+  resolved "https://registry.yarnpkg.com/marked/-/marked-5.1.2.tgz#62b5ccfc75adf72ca3b64b2879b551d89e77677f"
+  integrity sha512-ahRPGXJpjMjwSOlBoTMZAK7ATXkli5qCPxZ21TG44rx1KEo44bii4ekgTDQPNRQ4Kh7JMb9Ub1PVk1NxRSsorg==
 
 matcher@^3.0.0:
   version "3.0.0"
@@ -9912,13 +9912,13 @@ svelte-loader@3.1.9:
     svelte-dev-helper "^1.1.9"
     svelte-hmr "^0.14.2"
 
-svelte-markdown@0.2.3:
-  version "0.2.3"
-  resolved "https://registry.yarnpkg.com/svelte-markdown/-/svelte-markdown-0.2.3.tgz#16c6db61605512100cf25c3e18f8e4105837895c"
-  integrity sha512-2h680NzTXnAD0CXhxe3GeHl6W+ayG4iKQRl+BIDRw+R0mUE0OiNxP1Vt8Rn+aWevB/LBiBIPCAwvL+0BkG057A==
+svelte-markdown@0.4.0:
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/svelte-markdown/-/svelte-markdown-0.4.0.tgz#372e2db47b2c1bbf5295dfdecb86c566a51a5184"
+  integrity sha512-d8xYJoPhhiLn/tFrO54V5p22q2+I7It8w3CpTv+O+h99LlgehxK9XwdISVBl2aNcLbLX128Nz/vu7GScWhVZjw==
   dependencies:
-    "@types/marked" "^4.0.1"
-    marked "^4.0.10"
+    "@types/marked" "^5.0.1"
+    marked "^5.1.2"
 
 svelte-preprocess@5.0.4, svelte-preprocess@^5.0.4:
   version "5.0.4"

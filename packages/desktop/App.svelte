@@ -74,9 +74,13 @@
         await cleanupEmptyProfiles()
         checkAndMigrateProfiles()
 
+        Platform.onEvent('deep-link-request', handleDeepLink)
+
         setTimeout(() => {
             splash = false
             initialiseRouters()
+            // check if deep link request was received while splash screen was active
+            Platform.DeepLinkManager.checkForDeepLinkRequest()
         }, 3000)
 
         initAppSettings.set($appSettings)
@@ -92,8 +96,6 @@
                 [RouterManagerExtensionName.ResetRouters, resetRouters],
             ],
         })
-
-        // await pollMarketData()
 
         // Used for auto updates
         registerAppEvents()
@@ -133,8 +135,6 @@
             closeDrawer()
             openPopup({ id: PopupId.Diagnostics })
         })
-
-        Platform.onEvent('deep-link-request', handleDeepLink)
 
         registerLedgerDeviceEventHandlers()
     })
@@ -189,7 +189,7 @@
     @import '../shared/src/style/style.scss';
     html,
     body {
-        @apply bg-white dark:bg-gray-900;
+        @apply bg-slate-100 dark:bg-gray-900;
         @apply select-none;
         -webkit-user-drag: none;
 

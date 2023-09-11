@@ -13,18 +13,15 @@
     let rawAmount: string
     let amount: string
     let unit: string
-    const tokenKey = $sendFlowParameters.type === SendFlowType.TokenTransfer ? 'tokenTransfer' : 'baseCoinTransfer'
 
-    if (
-        $sendFlowParameters.type === SendFlowType.BaseCoinTransfer ||
-        $sendFlowParameters.type === SendFlowType.TokenTransfer
-    ) {
+    const sendFlowType = $sendFlowParameters.type
+    if (sendFlowType === SendFlowType.BaseCoinTransfer || sendFlowType === SendFlowType.TokenTransfer) {
         token = getTokenFromSelectedAccountTokens(
-            $sendFlowParameters[tokenKey].token?.id,
-            $sendFlowParameters[tokenKey].token?.networkId
+            $sendFlowParameters[sendFlowType].token?.id,
+            $sendFlowParameters[sendFlowType].token?.networkId
         )
-        rawAmount = $sendFlowParameters[tokenKey].rawAmount
-        unit = $sendFlowParameters[tokenKey].unit || getUnitFromTokenMetadata(token?.metadata)
+        rawAmount = $sendFlowParameters[sendFlowType].rawAmount
+        unit = $sendFlowParameters[sendFlowType].unit || getUnitFromTokenMetadata(token?.metadata)
     }
 
     $: tokenBalance = getTokenBalance(token?.id, token?.networkId)
@@ -43,8 +40,8 @@
 
             updateSendFlowParameters({
                 type: $sendFlowParameters.type,
-                [tokenKey]: {
-                    token: $sendFlowParameters[tokenKey].token,
+                [sendFlowType]: {
+                    token,
                     rawAmount,
                     unit,
                 },
@@ -58,8 +55,8 @@
     function onBackClick(): void {
         updateSendFlowParameters({
             type: $sendFlowParameters.type,
-            [tokenKey]: {
-                token: $sendFlowParameters[tokenKey].token,
+            [sendFlowType]: {
+                token,
                 rawAmount: undefined,
                 unit,
             },

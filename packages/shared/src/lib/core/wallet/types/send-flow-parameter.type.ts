@@ -2,7 +2,7 @@ import { NetworkId } from '@core/network'
 import { INft } from '@core/nfts'
 import { IToken } from '@core/token/interfaces'
 import type { Subject } from '@core/wallet'
-import { SendFlowType } from '@core/wallet/stores'
+import { SendFlowType } from '@core/wallet/enums'
 
 export type SendFlowParameters = TokenSendFlowParameters | NftSendFlowParameters | BaseSendFlowParameters
 
