@@ -32,15 +32,19 @@
     class:darkmode={darkModeEnabled}
 >
     <div class="grid grid-cols-12 gap-4">
-        {#if icon}
+        {#if icon || $$slots.icon}
             <div class="col-span-1 h-full flex justify-center items-center justify-items-center">
-                <Icon height={iconHeight} width={iconWidth} {icon} classes="text-{iconColor}" />
+                {#if $$slots.icon}
+                    <slot name="icon" />
+                {:else}
+                    <Icon height={iconHeight} width={iconWidth} {icon} classes="text-{iconColor}" />
+                {/if}
             </div>
         {/if}
         <div
             class="
                 h-full flex items-center
-                {icon ? 'col-start-2' : 'col-start-1'}
+                {icon || $$slots.icon ? 'col-start-2' : 'col-start-1'}
                 {secondaryIcon && !disabled ? 'col-end-12' : 'col-end-13'}
             "
         >

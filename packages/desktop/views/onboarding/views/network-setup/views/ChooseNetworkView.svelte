@@ -1,5 +1,4 @@
 <script lang="ts">
-    import { Icon } from '@auxiliary/icon'
     import { OnboardingLayout } from '@components'
     import {
         OnboardingNetworkType,
@@ -14,25 +13,14 @@
         StardustNetworkName,
         getDefaultClientOptions,
         getDefaultPersistedNetwork,
+        getNetworkIdFromOnboardingNetworkType,
     } from '@core/network'
     import { profiles } from '@core/profile/stores'
     import features from '@features/features'
     import { OnboardingButton } from '@ui'
+    import NetworkAvatar from '@ui/avatars/NetworkAvatar.svelte'
     import { onMount } from 'svelte'
     import { networkSetupRouter } from '../network-setup-router'
-
-    let networkIcon: { [key in OnboardingNetworkType]: string }
-    $: networkIcon = {
-        [OnboardingNetworkType.Shimmer]: Icon.Shimmer,
-        [OnboardingNetworkType.Testnet]: 'settings',
-        [OnboardingNetworkType.Custom]: 'settings',
-    }
-
-    $: networkIconColor = {
-        [OnboardingNetworkType.Shimmer]: 'shimmer-highlight',
-        [OnboardingNetworkType.Testnet]: 'blue-500',
-        [OnboardingNetworkType.Custom]: 'blue-500',
-    }
 
     let selectedNetworkType: OnboardingNetworkType = OnboardingNetworkType.Shimmer
     function onNetworkClick(networkType: OnboardingNetworkType): void {
@@ -85,17 +73,43 @@
     disableBack={$profiles.length === 0}
 >
     <div slot="content" class="flex flex-col space-y-4">
-        {#each Object.values(OnboardingNetworkType) as networkType}
-            <OnboardingButton
-                primaryText={localize(`views.onboarding.networkSetup.chooseNetwork.${networkType}.title`)}
-                secondaryText={localize(`views.onboarding.networkSetup.chooseNetwork.${networkType}.body`)}
-                icon={networkIcon[networkType]}
-                iconColor={networkIconColor[networkType]}
-                hidden={features?.onboarding?.[networkType]?.hidden}
-                disabled={!features?.onboarding?.[networkType]?.enabled}
-                onClick={() => onNetworkClick(networkType)}
-                selected={selectedNetworkType === networkType}
-            />
-        {/each}
+        <OnboardingButton
+            primaryText={localize(`views.onboarding.networkSetup.chooseNetwork.${OnboardingNetworkType.Shimmer}.title`)}
+            secondaryText={localize(
+                `views.onboarding.networkSetup.chooseNetwork.${OnboardingNetworkType.Shimmer}.body`
+            )}
+            hidden={features?.onboarding?.[OnboardingNetworkType.Shimmer]?.hidden}
+            disabled={!features?.onboarding?.[OnboardingNetworkType.Shimmer]?.enabled}
+            onClick={() => onNetworkClick(OnboardingNetworkType.Shimmer)}
+            selected={selectedNetworkType === OnboardingNetworkType.Shimmer}
+        >
+            <div slot="icon">
+                <NetworkAvatar networkId={getNetworkIdFromOnboardingNetworkType(OnboardingNetworkType.Shimmer)} />
+            </div>
+        </OnboardingButton>
+        <OnboardingButton
+            primaryText={localize(`views.onboarding.networkSetup.chooseNetwork.${OnboardingNetworkType.Testnet}.title`)}
+            secondaryText={localize(
+                `views.onboarding.networkSetup.chooseNetwork.${OnboardingNetworkType.Testnet}.body`
+            )}
+            hidden={features?.onboarding?.[OnboardingNetworkType.Testnet]?.hidden}
+            disabled={!features?.onboarding?.[OnboardingNetworkType.Testnet]?.enabled}
+            onClick={() => onNetworkClick(OnboardingNetworkType.Testnet)}
+            selected={selectedNetworkType === OnboardingNetworkType.Testnet}
+        >
+            <div slot="icon">
+                <NetworkAvatar networkId={getNetworkIdFromOnboardingNetworkType(OnboardingNetworkType.Testnet)} />
+            </div>
+        </OnboardingButton>
+        <OnboardingButton
+            primaryText={localize(`views.onboarding.networkSetup.chooseNetwork.${OnboardingNetworkType.Custom}.title`)}
+            secondaryText={localize(`views.onboarding.networkSetup.chooseNetwork.${OnboardingNetworkType.Custom}.body`)}
+            icon="settings"
+            iconColor="settings"
+            hidden={features?.onboarding?.[OnboardingNetworkType.Custom]?.hidden}
+            disabled={!features?.onboarding?.[OnboardingNetworkType.Custom]?.enabled}
+            onClick={() => onNetworkClick(OnboardingNetworkType.Custom)}
+            selected={selectedNetworkType === OnboardingNetworkType.Custom}
+        />
     </div>
 </OnboardingLayout>
