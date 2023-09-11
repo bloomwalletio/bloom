@@ -12,6 +12,7 @@
     export let disabled: boolean = false
     export let hidden: boolean = false
     export let classes: string = ''
+    export let selected: boolean = false
 
     export let onClick: () => unknown
 
@@ -27,6 +28,7 @@
     class="rounded-xl px-4 py-3.5 cursor-pointer text-center {classes}"
     on:click|stopPropagation={onClick}
     class:hidden
+    class:selected
     class:darkmode={darkModeEnabled}
 >
     <div class="grid grid-cols-12 gap-4">
@@ -93,6 +95,7 @@
             @apply bg-blue-50;
             @apply border-gray-500;
         }
+        &.selected,
         &:active,
         &:focus {
             @apply bg-blue-100;

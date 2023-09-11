@@ -7,13 +7,13 @@
         updateOnboardingProfile,
     } from '@contexts/onboarding'
     import { localize } from '@core/i18n'
+    import { getOnboardingNetworkTypeFromNetworkId } from '@core/network/utils'
     import { ProfileType, removeProfileFolder } from '@core/profile'
+    import { destroyProfileManager } from '@core/profile-manager/actions'
     import features from '@features/features'
     import { OnboardingButton } from '@ui'
     import { onMount } from 'svelte'
     import { createProfileRouter } from '../create-profile-router'
-    import { destroyProfileManager } from '@core/profile-manager/actions'
-    import { getOnboardingNetworkTypeFromNetworkId } from '@core/network/utils'
 
     const networkId = $onboardingProfile?.network?.id
     const networkType = getOnboardingNetworkTypeFromNetworkId(networkId)
@@ -56,6 +56,7 @@
     title={localize('views.onboarding.profileSetup.setupNew.title')}
     description={localize('views.onboarding.profileSetup.setupNew.body')}
     {onContinueClick}
+    disableContinue={!selectedCreateProfileType}
     {onBackClick}
 >
     <div slot="content" class="flex flex-col space-y-4">
@@ -67,6 +68,7 @@
             hidden={features?.onboarding?.[networkType]?.newProfile?.softwareProfile?.hidden}
             disabled={!features?.onboarding?.[networkType]?.newProfile?.softwareProfile?.enabled || isDisabled}
             onClick={() => onProfileTypeClick(CreateProfileType.Mnemonic)}
+            selected={selectedCreateProfileType === CreateProfileType.Mnemonic}
         />
         <OnboardingButton
             primaryText={localize('views.onboarding.profileSetup.setupNew.ledgerAccount.title')}
@@ -76,6 +78,7 @@
             hidden={features?.onboarding?.[networkType]?.newProfile?.ledgerProfile?.hidden}
             disabled={!features?.onboarding?.[networkType]?.newProfile?.ledgerProfile?.enabled || isDisabled}
             onClick={() => onProfileTypeClick(CreateProfileType.Ledger)}
+            selected={selectedCreateProfileType === CreateProfileType.Ledger}
         />
     </div>
 </OnboardingLayout>

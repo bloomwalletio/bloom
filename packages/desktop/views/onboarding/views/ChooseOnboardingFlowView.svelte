@@ -41,6 +41,7 @@
         network: displayedNetworkName,
     })}
     {onContinueClick}
+    disableContinue={!selectedOnboardingType}
     {onBackClick}
     disableBack={$profiles.length === 0}
 >
@@ -56,6 +57,7 @@
             hidden={features?.onboarding?.[networkType]?.newProfile?.hidden}
             disabled={!features?.onboarding?.[networkType]?.newProfile?.enabled}
             onClick={() => onOnboardingTypeClick(OnboardingType.Create)}
+            selected={selectedOnboardingType === OnboardingType.Create}
         />
         <OnboardingButton
             primaryText={localize(`actions.restoreWallet.${networkType}`)}
@@ -64,6 +66,7 @@
             hidden={features?.onboarding?.[networkType]?.restoreProfile?.hidden}
             disabled={!features?.onboarding?.[networkType]?.restoreProfile?.enabled}
             onClick={() => onOnboardingTypeClick(OnboardingType.Restore)}
+            selected={selectedOnboardingType === OnboardingType.Restore}
         />
         <OnboardingButton
             primaryText={localize('actions.claimShimmer')}
@@ -74,6 +77,7 @@
             hidden={features?.onboarding?.[networkType]?.claimRewards?.hidden}
             disabled={!features?.onboarding?.[networkType]?.claimRewards?.enabled}
             onClick={() => onOnboardingTypeClick(OnboardingType.Claim)}
+            selected={selectedOnboardingType === OnboardingType.Claim}
         />
     </div>
 </OnboardingLayout>

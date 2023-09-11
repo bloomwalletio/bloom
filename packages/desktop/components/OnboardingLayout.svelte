@@ -6,9 +6,10 @@
     export let title: string
     export let description: string | undefined = undefined
     export let busy = false
-    export let disableBack = false
-    export let onBackClick: (() => unknown) | undefined = undefined
     export let onContinueClick: (() => unknown) | undefined = undefined
+    export let disableContinue = false
+    export let onBackClick: (() => unknown) | undefined = undefined
+    export let disableBack = false
 </script>
 
 <onboarding-layout class="w-full h-screen flex justify-center items-center">
@@ -48,7 +49,7 @@
                     width="full"
                     variant="contained"
                     size="md"
-                    disabled={busy}
+                    disabled={disableContinue || busy}
                     on:click={onContinueClick}
                     text={localize('actions.continue')}
                 />

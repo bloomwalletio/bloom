@@ -9,11 +9,11 @@
     import { localize } from '@core/i18n'
     import { getOnboardingNetworkTypeFromNetworkId } from '@core/network'
     import { ProfileType, removeProfileFolder } from '@core/profile'
+    import { destroyProfileManager } from '@core/profile-manager/actions'
     import features from '@features/features'
     import { OnboardingButton } from '@ui'
     import { onMount } from 'svelte'
     import { restoreProfileRouter } from '../restore-profile-router'
-    import { destroyProfileManager } from '@core/profile-manager/actions'
 
     const networkId = $onboardingProfile?.network?.id
     const networkType = getOnboardingNetworkTypeFromNetworkId(networkId)
@@ -61,6 +61,7 @@
     })}
     description={localize('views.onboarding.profileSetup.setupRecovered.body')}
     {onContinueClick}
+    disableContinue={!selectedRestoreProfileType}
     {onBackClick}
 >
     <div slot="content" class="flex flex-col space-y-4">
@@ -72,6 +73,7 @@
             hidden={features?.onboarding?.[networkType]?.restoreProfile?.recoveryPhrase?.hidden}
             disabled={!features?.onboarding?.[networkType]?.restoreProfile?.recoveryPhrase?.enabled || isDisabled}
             onClick={() => onProfileTypeClick(RestoreProfileType.Mnemonic)}
+            selected={selectedRestoreProfileType === RestoreProfileType.Mnemonic}
         />
         <OnboardingButton
             primaryText={localize('views.onboarding.profileSetup.setupRecovered.importFile')}
@@ -81,6 +83,7 @@
             hidden={features?.onboarding?.[networkType]?.restoreProfile?.strongholdBackup?.hidden}
             disabled={!features?.onboarding?.[networkType]?.restoreProfile?.strongholdBackup?.enabled || isDisabled}
             onClick={() => onProfileTypeClick(RestoreProfileType.Stronghold)}
+            selected={selectedRestoreProfileType === RestoreProfileType.Stronghold}
         />
         <OnboardingButton
             primaryText={localize('views.onboarding.profileSetup.setupRecovered.importLedger')}
@@ -90,6 +93,7 @@
             hidden={features?.onboarding?.[networkType]?.restoreProfile?.ledgerBackup?.hidden}
             disabled={!features?.onboarding?.[networkType]?.restoreProfile?.ledgerBackup?.enabled || isDisabled}
             onClick={() => onProfileTypeClick(RestoreProfileType.Ledger)}
+            selected={selectedRestoreProfileType === RestoreProfileType.Ledger}
         />
     </div>
 </OnboardingLayout>
