@@ -3,26 +3,13 @@
         "onboarding": {
             "appSetup": {
                 "welcome": {
-                    "title": "Send, Receive & Manage your {network} tokens",
-                    "body": "Bloom is the official wallet software for {network}."
+                    "title": "Send, Receive & Manage your {network} tokens"
                 },
                 "legal": {
-                    "title": "Privacy Policy & Terms of Service",
-                    "body": "Please review the Privacy Policy and Terms of Service.",
-                    "checkbox": "I've read and I accept the Privacy Policy and Terms of Service"
-                },
-                "languageAndAppearance": {
-                    "title": "Language & appearance",
-                    "body": "Choose your language and theme."
+                    "title": "Privacy Policy & Terms of Service"
                 }
             },
             "networkSetup": {
-                "chooseProtocol": {
-                    "title": "Choose protocol",
-                    "body": "Set the protocol for your profile.",
-                    "iota": "Default IOTA network",
-                    "shimmer": "Experimental IOTA staging network"
-                },
                 "chooseNetwork": {
                     "title": "Choose network",
                     "body": "Set the network for your profile.",
@@ -44,8 +31,7 @@
                     }
                 },
                 "setupCustomNetwork": {
-                    "title": "Connect to a custom network or node",
-                    "body": "Fill the form with the node information and connect to a custom network or node."
+                    "title": "Connect to a custom network or node"
                 }
             },
             "profileSetup": {
@@ -75,10 +61,6 @@
                     "importLedger": "Use Ledger device",
                     "importLedgerDescription": "Restore from your Ledger Nano S or X device"
                 },
-                "setupClaimed": {
-                    "title": "Claim Shimmer staking rewards",
-                    "body": "Import your IOTA profile and claim your Shimmer staking rewards."
-                },
                 "enterName": {
                     "title": "Create your {network} profile",
                     "profileName": "Profile name",
@@ -105,12 +87,6 @@
                 }
             },
             "profileBackup": {
-                "backupMnemonic": {
-                    "title": "Back up your recovery phrase",
-                    "body1": "You will now be shown a recovery phrase. Write it down in your Recovery Kit.",
-                    "body2": "Do not share your recovery phrase with anyone. It can be used to access your tokens from anywhere.",
-                    "body3": "If you lose your recovery phrase, you may lose your funds."
-                },
                 "viewMnemonic": {
                     "title": "Recovery phrase",
                     "body1": "In your Recovery Kit, write down the words in the exact order shown.",
@@ -125,14 +101,6 @@
                     "word": "Word",
                     "verified": "Recovery phrase verified",
                     "verifiedBody": "Remember to keep it private and safely stored."
-                },
-                "backupStronghold": {
-                    "title": "Back up to a Stronghold file",
-                    "body1": "Enter your password to create a Stronghold backup of your profile. Your password is used to encrypt the backup file.",
-                    "body2": "Reasons why digital backups are important:",
-                    "reason1": "Easily recover your wallets without typing in your recovery phrase",
-                    "reason2": "Import your wallets on other devices",
-                    "reason3": "Recover your full transaction history"
                 }
             },
             "profileRecovery": {
@@ -149,10 +117,6 @@
                 "backupPassword": {
                     "body1": "Please enter your backup password.",
                     "body2": "This is the password you set when you first created your backup."
-                },
-                "success": {
-                    "title": "You have successfully recovered your backup",
-                    "body": "You can now set up your new profile."
                 }
             },
             "shimmerClaiming": {
@@ -169,22 +133,9 @@
             },
             "congratulations": {
                 "title": "Profile setup almost complete...",
-                "fundsMigrated": "Funds migrated",
                 "body": "Your new profile will be ready once the dashboard has successfully loaded.",
-                "ledgerHint": "Do not disconnect your Ledger device until the dashboard has finished loading.",
-                "softwareMigratedBody": "You have successfully migrated your funds to the new network",
-                "fireflyLedgerBody": "Your Ledger profile was successfully recovered and you can now continue.",
-                "trinityLedgerBody": "You have successfully migrated your Ledger to the new network.",
-                "exportMigration": "Export migration log and finish setup"
+                "ledgerHint": "Do not disconnect your Ledger device until the dashboard has finished loading."
             }
-        },
-        "setupLedger": {
-            "progress1": "Підключіть свій Ledger",
-            "progress2": "Створити адресу",
-            "progress3": "Додаток Switch Ledger",
-            "progress4": "Переказ коштів",
-            "watchVideo": "Переглянути відеопосібник",
-            "videoGuide": "Відео посібник з міграції Ledger"
         },
         "ledgerInstallationGuide": {
             "title": "Have you installed the {network} app on your Ledger device?",
@@ -192,66 +143,20 @@
             "body2": "Переконайтеся, що прошивка Ledger оновлена. Будь-які попередньо встановлені програми повинні бути оновлені до своєї останньої версії.",
             "action": "Yes, I've installed the {network} app"
         },
-        "importFromLedger": {
-            "title": "Відновлення або міграція Вашого Ledger",
-            "body": "Відновлення існуючого профілю Bloom Ledger або перенесення коштів з Trinity.",
-            "haveFireflyLedger": "Я маю резервну копію на Bloom Ledger",
-            "haveFireflyLedgerDescription": "Відновити профіль на Bloom",
-            "haveTrinityLedger": "Я маю резервну копію Trinity Ledger",
-            "haveTrinityLedgerDescription": "Перенесіть профіль Trinity"
-        },
         "connectLedger": {
-            "title": "Під'єднайте ваш Ledger до Bloom",
-            "body": "Щоб ваш пристрій Ledger був знайдений Bloom, переконайтесь, що офіційна програма Ledger Live закрита.",
+            "title": "Connect your Ledger to Bloom",
+            "body": "For your Ledger device to be found by Bloom, please ensure that the official Ledger Live application is closed.",
             "connect": "Connect your Ledger device",
             "unlock": "Unlock your Ledger with its pin",
-            "openApp": "Open the Shimmer app on your Ledger",
-            "tips": "Поради, якщо Ledger не підключається"
-        },
-        "restoreFromFireflyLedger": {
-            "title": "Відновити ваш профіль Ledger",
-            "body": "Натисніть відновити, щоб завершити процес налаштування та відновлення ваших гаманців, залишкив та історій транзакцій.",
-            "restoring": "Відновлення з Ledger..."
-        },
-        "legacyLedgerIntro": {
-            "title": "Почніть міграцію Ledger за допомогою Bloom",
-            "body1": "Bloom допоможе вам перенести свої жетони в нову мережу Chrysalis.",
-            "body2": "Після міграції ви зможете надсилати та отримувати свої жетони за допомогою Ledger через Bloom.",
-            "readMore": "Чого очікувати від процесу міграції"
-        },
-        "generateNewLedgerAddress": {
-            "title": "Generate new address",
-            "body": "Вам потрібно створити нову адресу, щоб перенести свої жетони за допомогою Bloom. Натисніть кнопку нижче, щоб продовжити.",
-            "confirmTitle": "Підтвердіть нову адресу",
-            "confirmBody": "З міркувань безпеки, будь ласка, порівняйте адресу, створену на вашому пристрої Ledger з адресою, показаною нижче. Якщо вони збігаються, натисніть обидві кнопки на Ledger, як буде запропоновано.",
-            "confirmedTitle": "Адресу підтверджено",
-            "confirmedBody": "Ви підтвердили, що адреса у Bloom збігається з адресою вашого пристрою Ledger.",
-            "generating": "Створення адреси"
-        },
-        "switchLedgerApps": {
-            "title": "Перемкнути додатки Ledger",
-            "body": "Щоб продовжити міграцію, перейдіть на додаток {legacy} на своєму пристрої Ledger. Коли будете готові, натисніть продовжити."
-        },
-        "selectLedgerAccountIndex": {
-            "title": "Виберіть індекс облікового запису Ledger",
-            "body": "Виберіть індекс облікового запису Ledger, який ви використовували з Trinity. Для більшості користувачів це буде стандартний індекс 0.",
-            "accountIndex": "Індекс аккаунта",
-            "accountPage": "Сторінка облікового запису",
-            "standard": "Стандартний",
-            "expert": "Експерт",
-            "takingAWhile": "Це займе трохи часу...",
-            "notGeneratingAddresses": "Ваш Ledger генерує адреси?",
-            "reinstallLegacy": "Якщо ні, від'єднайте пристрій і повторіть спробу. Якщо проблема не зникне, можливо, вам доведеться перевстановити додаток {legacy}."
+            "openApp": "Open the Shimmer app on your Ledger"
         },
         "settings": {
             "settings": "Налаштування",
             "general": {
-                "title": "General",
-                "description": "Configure your app's appearance and other general settings"
+                "title": "General"
             },
             "profile": {
-                "title": "Профіль",
-                "description": "Зміни ім'я профілю або встанови аватар"
+                "title": "Профіль"
             },
             "network": {
                 "title": "Network"
@@ -260,29 +165,20 @@
                 "title": "Collectibles"
             },
             "security": {
-                "title": "Безпека",
-                "description": "Зміни пароль і налаштування параметри безпеки"
+                "title": "Безпека"
             },
             "advanced": {
-                "title": "Advanced",
-                "description": "Tools and manual settings for technical users"
+                "title": "Advanced"
             },
             "helpAndInfo": {
-                "title": "Допомога та інформація",
-                "description": "Знайди відповідь на питання або отримай допомогу з питання"
-            },
-            "sync": {
-                "title": "Синхронізувати гаманці",
-                "description": ""
+                "title": "Допомога та інформація"
             },
             "theme": {
                 "title": "Тема",
-                "description": "",
-                "advice": "Якщо ви зміните тему, вам може знадобитися перезапустити Bloom"
+                "advice": "If you change your system theme, you may need to restart Bloom to see the effects"
             },
             "language": {
-                "title": "Мова",
-                "description": ""
+                "title": "Мова"
             },
             "currency": {
                 "title": "Валюта",
@@ -334,7 +230,7 @@
             },
             "changeProfileName": {
                 "title": "Змінити назву профілю",
-                "description": "Змінити назву профілю Bloom",
+                "description": "Change your Bloom profile name",
                 "success": "Ви змінили назву профілю"
             },
             "walletFinder": {
@@ -364,13 +260,10 @@
                 "excludeNode": "Виключити вузол",
                 "includeNode": "Включити вузол",
                 "editDetails": "Редагувати деталі",
-                "viewInfo": "Переглянути інформацію",
                 "setAsPrimary": "Set primary node",
                 "unsetAsPrimary": "Clear primary node",
                 "removeNode": "Видалити вузол",
-                "includeOfficialNodeList": "Включити список офіційних вузлів",
-                "noNodes": "Немає вузлів, неможливо підключитися до мережі",
-                "noNodesAuto": "Немає вузлів, замість них буде використовуватися автоматичний вибір"
+                "noNodes": "Немає вузлів, неможливо підключитися до мережі"
             },
             "localProofOfWork": {
                 "title": "Proof of work",
@@ -382,17 +275,13 @@
             },
             "crashReporting": {
                 "title": "Звіти про збої",
-                "body": "Допоможіть розробникам покращити Bloom, автоматично надсилаючи діагностичні дані, коли виникає помилка чи збій",
+                "body": "Help the developers improve Bloom by automatically sending diagnostic data when an error or crash occurs",
                 "checkbox": "Надсилати звіти про збої",
-                "advice": "Перезапустіть програму Bloom, щоб {sendCrashReports, select, true {start sharing crash reports} false {stop sharing crash reports} other {apply this change}}"
+                "advice": "Please restart the Bloom application to {sendCrashReports, select, true {start sharing crash reports} false {stop sharing crash reports} other {apply this change}}"
             },
             "diagnostics": {
                 "title": "Діагностика",
                 "description": "Перегляд інформації про систему і додаток"
-            },
-            "migrateLedgerIndex": {
-                "title": "Перенесення індексу Ledger",
-                "description": "Перенести інший індекс з Trinity"
             },
             "troubleshoot": {
                 "title": "Виправлення помилок",
@@ -404,7 +293,6 @@
             },
             "faq": {
                 "title": "Питання, що часто ставляться",
-                "title2": "Найбільш поширені запитання",
                 "description": "Переглянути поширені запитання для отримання допомоги із загальною проблемою або питанням"
             },
             "discord": {
@@ -412,8 +300,7 @@
                 "description": "Отримати допомогу від спільноти IOTA в Discord"
             },
             "about": {
-                "title": "Про програму",
-                "description": ""
+                "title": "Про програму"
             },
             "reportAnIssue": {
                 "title": "Повідомити про помилку",
@@ -448,14 +335,10 @@
                 "degraded": "Network degraded",
                 "down": "Network down",
                 "disconnected": "Disconnected from node",
-                "status": "Статус",
-                "messagesPerSecond": "Повідомлень в секунду",
-                "referencedRate": "Referenced rate"
+                "status": "Статус"
             },
             "profileModal": {
-                "contactBook": "Contact book",
                 "allSettings": "All settings",
-                "profileApplication": "Profile, application, security",
                 "logout": "Вийти",
                 "stronghold": {
                     "title": "Profile lock",
@@ -468,9 +351,7 @@
                         "appNotOpen": "Ledger unlocked but app not open",
                         "correctAppOpen": "Ledger unlocked and app open ",
                         "locked": "Ledger securely locked",
-                        "mnemonicMismatch": "Wrong Ledger or mnemonic",
-                        "notConnected": "Ledger not connected",
-                        "otherConnected": "App open"
+                        "notConnected": "Ledger not connected"
                     }
                 },
                 "backup": {
@@ -559,8 +440,7 @@
                         "title": "Add network address"
                     },
                     "editNetworkAddresses": {
-                        "title": "Edit network addresses",
-                        "addAddress": "Add Address"
+                        "title": "Edit network addresses"
                     },
                     "removeNetworkAddresses": {
                         "title": "Remove network addresses",
@@ -586,57 +466,6 @@
                 }
             }
         },
-        "staking": {
-            "welcome": "Ласкаво просимо до інформаційної панелі стекінгу!",
-            "status": {
-                "upcoming": "Подія не почалася",
-                "commencing": "Попередня ставка відкрита",
-                "holdingActive": "Виконується Ставка",
-                "holdingInactive": "Ставка відкрита",
-                "inactive": "Ставку не виявлено",
-                "ended": "Ставка закінчена"
-            },
-            "summary": {
-                "stakedFunds": "Поставленні кошти"
-            },
-            "info": {
-                "headers": {
-                    "upcoming": "Check back later",
-                    "commencing": "Pre-staking is open",
-                    "holding": "{duration} of staking left",
-                    "ended": "Staking has now ended",
-                    "inactive": "No staking events detected"
-                },
-                "bodies": {
-                    "upcoming": "Stake your {token} tokens to automatically receive rewards every 10 seconds once staking starts on {date}.",
-                    "commencing": "Stake your {token} tokens to automatically receive rewards every 10 seconds once staking starts on {date}.",
-                    "holdingAndStaking": "You automatically receive rewards every 10 seconds.",
-                    "holdingAndNotStaking": "Stake your {token} tokens to receive rewards every 10 seconds.",
-                    "endedAndDidStake": "{token} rewards will be distributed to your wallet once the network launches.",
-                    "endedAndDidNotStake": "You did not participate in this airdrop.",
-                    "endedAndDidNotReachMinRewards": "You did not stake enough {token} tokens to reach the minimum airdrop rewards.",
-                    "inactive": "Open network configuration in the advanced settings and make sure the current node has the \"Participation\" feature by clicking \"View info\"."
-                }
-            },
-            "airdrops": {
-                "holding": "Залишилось",
-                "commencing": "Поки не почнеться ставка",
-                "currentStakingPeriod": "Current staking period",
-                "totalWalletRewards": "Total wallet rewards",
-                "assembly": {
-                    "name": "Assembly",
-                    "description": "Assembly is a permissionless, highly scalable multi-chain network to build and deploy composable smart contracts. Assembly is the future of web3. "
-                },
-                "shimmer": {
-                    "name": "Shimmer",
-                    "description": "Стимулююча мережа для просування основних інновацій на IOTA. Що станеться, то станеться. Як розвиватиметься Shimmer, залежить від вас."
-                }
-            },
-            "banners": {
-                "new": "New Event",
-                "complete": "Complete"
-            }
-        },
         "picker": {
             "color": {
                 "title": "Color picker",
@@ -652,7 +481,6 @@
             },
             "details": {
                 "storageDepositDescription": "A refundable deposit required to store your NFT on the Tangle.",
-                "attributes": "Attributes",
                 "menu": {
                     "download": "Download",
                     "setPfp": "Set NFT profile pic",
@@ -805,9 +633,6 @@
             "subtitle": "Please provide your password to unlock your wallets",
             "backup": "Будь ласка, введи свій пароль для експорту резервної копії"
         },
-        "qr": {
-            "title": "Ваш QR-код"
-        },
         "appUpdate": {
             "title": "Check for updates",
             "installedVersion": "Installed version",
@@ -837,10 +662,7 @@
             "title": "Видалити {name}?",
             "body": "Are you sure you want to delete this wallet?",
             "hint": "Note: once deleted, you can restore this wallet by using the \"Wallet Finder\" in the settings.",
-            "typePassword": "Введіть пароль для підтвердження.",
-            "hideAccount": "Видалити гаманець",
-            "errorTitle": "Не вдалося видалити {name}",
-            "errorBody1": "Ви не можете видалити цей гаманець, ви повинні мати принаймні один."
+            "typePassword": "Введіть пароль для підтвердження."
         },
         "externalUrl": {
             "title": "Open URL in Browser",
@@ -848,22 +670,6 @@
             "hint": "This URL is unknown to Bloom. Please double check the URL before opening it.",
             "action": "Open URL",
             "invalidProtocol": "Cannot open URL with invalid protocol"
-        },
-        "hideAccount": {
-            "title": "Приховати {name}?",
-            "body": "Ви можете знайти цей гаманець пізніше, увімкнувши \"Показати приховані гаманці\" в Додаткових налаштуваннях.",
-            "typePassword": "Type your wallet password to confirm.",
-            "hideAccount": "Сховати гаманець",
-            "errorTitle": "Не вдалося приховати {name}",
-            "errorBody1": "Щоб приховати гаманець він повинен мати 0 баланс.",
-            "errorBody2": "Наразі на цьому гаманці залишилося {balance}. Будь ласка, перемістіть ці кошти на інший гаманець і спробуйте ще раз.",
-            "errorBody3": "Ви не можете приховати цей гаманець, у вас повинен бути принаймні один."
-        },
-        "addressHistory": {
-            "title": "Історія адрес: {name}",
-            "currentBalance": "Баланс: {balance}",
-            "internal": "Внутрішня адреса",
-            "external": "Адреса поповнення"
         },
         "excludeNode": {
             "title": "Exclude node",
@@ -878,7 +684,6 @@
             "titleUpdate": "Оновити вузол",
             "titleRemove": "Видалити вузол",
             "titleRemoveAll": "Видалити всі вузли",
-            "titleDetails": "Деталі вузла",
             "titleInfo": "Node information",
             "addingNode": "Додати вузол",
             "updatingNode": "Оновлення вузла",
@@ -887,7 +692,6 @@
             "optionalUsername": "Ім'я користувача (опціонально)",
             "optionalPassword": "Пароль (опціонально)",
             "optionalJwt": "Веб-токен JSON (опціонально)",
-            "setAsPrimaryNode": "Встановити як основний вузол",
             "removeConfirmation": "Ти впевнений, що хочете видалити цей вузол?",
             "info": {
                 "general": {
@@ -895,8 +699,6 @@
                     "name": "Name",
                     "url": "URL",
                     "version": "Version",
-                    "latestMilestone": "Latest milestone",
-                    "confirmedMilestone": "Confirmed milestone",
                     "pruningIndex": "Pruning index",
                     "features": "Features"
                 },
@@ -927,13 +729,6 @@
                 }
             }
         },
-        "switchNetwork": {
-            "title": "Переключити мережу",
-            "newNetwork": "Нова мережа",
-            "resetWarning": "Зміна мережі призведе до виходу з системи та скидання всіх рахунків, балансу та історії транзакцій для цього профілю.",
-            "switchingNetwork": "Перемикання мережі",
-            "typePassword": "Введіть свій пароль, щоб перейти на:"
-        },
         "errorLog": {
             "title": "Журнал помилок",
             "empty": "Журнал помилок порожній."
@@ -955,15 +750,11 @@
             "userPath": "Шлях користувача"
         },
         "transaction": {
-            "title": "Send asset",
-            "body": "Ви збираєтеся надіслати {amount}",
             "selectToken": "Select a token",
             "selectAmount": "Send {tokenName}",
             "selectRecipient": "Send {assetName} to",
             "transactionSummary": "Transaction to {recipient}",
-            "surplusIncluded": "This transaction contains a surplus amount. Please double check this is the amount you want to send.",
-            "sendingFromStakedAccount": "Ви надсилаєте переказ з гаманця, який знаходеться в стейкінгу. Ваша ставка зупинеться. Ви можете надсилати переказ, але потім, можливо, знадобиться поставити свої токени знову.",
-            "sendingFromStakedAccountBelowMinReward": "You are sending a transfer from a wallet that has not yet reached the minimum staking rewards. This may unstake your tokens and you may lose your staking rewards on this wallet."
+            "surplusIncluded": "This transaction contains a surplus amount. Please double check this is the amount you want to send."
         },
         "walletFinder": {
             "title": "Wallet finder",
@@ -973,32 +764,12 @@
             "totalWalletBalance": "Total balance",
             "searchAgainHint": "Is your balance or number of wallets incorrect? Search again until your full balance is shown."
         },
-        "riskFunds": {
-            "title": "Попередження: кошти, що знаходяться під загрозою під час міграції",
-            "body1": "Настійно рекомендуємо захистити всі ваші кошти, перш ніж приступити до міграції. Ваші кошти можуть бути втрачені, якщо ви не створите резервну копію.",
-            "body2": "Рекомендується перезапустити процес для адрес із середнім рівнем ризику або вище."
-        },
-        "missingBundle": {
-            "title": "Warning: funds at risk during migration",
-            "body": "У вас є кошти на витрачених адресах, але інформація, необхідна для їх збереження, не знайдено. Це може статися, якщо ти виконував транзакції давно. Ти можеш продовжити, але {value} знаходяться під загрозою під час міграції.",
-            "learnMore": "Дізнайся більше про витрачені адреси",
-            "proceed": "Я розумію ризик"
-        },
-        "snapshot": {
-            "title": "Оновлення активної мережі",
-            "body": "Почалося оновлення мережі Chrysalis.",
-            "bodyMigration": "Міграція вимкнена до завершення оновлення.",
-            "bodyFirefly": "Bloom автоматично вимкнено до завершення. Після цього міграцію жетонів можна продовжити."
-        },
         "ledgerNotConnected": {
             "title": "Connect your Ledger",
             "notConnected": "Connect your Ledger device to continue.",
             "locked": "Unlock your Ledger device to continue.",
             "appNotOpen": "Open the Shimmer app on your Ledger device to continue.",
             "correctAppOpen": "Ledger successfully connected, please continue."
-        },
-        "ledgerConfirmation": {
-            "confirm": "Для продовження підтвердьте текст на пристрої Ledger"
         },
         "ledgerAppGuide": {
             "title": "Guide to installing the {legacy} app",
@@ -1007,7 +778,7 @@
                 "1": "Переконайтеся, що ваш Ledger підключений",
                 "2": "Search for the {legacy} app. You may need to enable Ledger Live developer mode.",
                 "3": "Install the {legacy} app",
-                "4": "Пам’ятайте, що перш ніж повернутися до Bloom, важливо закрити Ledger Live"
+                "4": "Remember that it's important to close Ledger Live before returning to Bloom"
             }
         },
         "ledgerConnectionGuide": {
@@ -1030,56 +801,6 @@
             "title": "Verify internal transaction",
             "info": "Please confirm the internal transaction on your ledger.",
             "hint": "All assets will remain on your wallet when sending an internal transaction."
-        },
-        "ledgerAddress": {
-            "title": "Підтвердьте адресу отримання",
-            "body": "Підтвердіть адресу отримання на вашому Ledger збігається з тим, що відображається нижче. Якщо вони відповідні, натисніть обидві кнопки у вашому Ledger як буде запропоновано."
-        },
-        "ledgerMigrateIndex": {
-            "title": "Вам потрібно перенести інший індекс облікового запису Trinity?",
-            "body": "Крім того, можна перенести пізніше в Розширених налаштуваннях."
-        },
-        "exportTransactionHistory": {
-            "title": "Експорт історії операцій",
-            "body": "Експорт історії транзакцій для вибраного гаманця. Експортований файл буде в форматі .csv.",
-            "profileName": "Ім'я профілю:",
-            "accountName": "Wallet name:",
-            "typePassword": "Введіть пароль, щоб дозволити експортування"
-        },
-        "stakingManager": {
-            "title": "Управління стейкингом",
-            "description": "Коли ви ставите гаманець, ви надсилаєте транзакцію собі, позначаючи ці кошти як «ставки». Ви можете будь-коли передати токени, але ви не будете продовжувати отримувати нагороди за ставку.",
-            "totalFundsStaked": "Загальна сума ставок",
-            "stakedSuccessfully": "Ваші кошти були поставлені на ставку{account}.",
-            "unstakedSuccessfully": "Ваші кошти було знято з розподілу {account}.",
-            "singleAccountHint": "Looking for your wallets? Bloom has changed. Toggle between your wallets in the top menu bar."
-        },
-        "stakingConfirmation": {
-            "title": "Confirm Participation",
-            "subtitleStake": "Ви збираєтеся зробити ставку",
-            "subtitleMerge": "Ви збираєтеся об’єднати",
-            "multiAirdropWarning": "If you do not want to participate in both airdrops, you can opt-out below. You can unstake and restake to opt back in at any time.",
-            "mergeStakeWarning": "Your funds will be staked for {airdrop}. To change which airdrops you want to participate in, unstake this wallet and stake it again.",
-            "estimatedAirdrop": "Орієнтовні винагороди"
-        },
-        "newStakingPeriodNotification": {
-            "title": "Staking phase {periodNumber} from {date}",
-            "body": "IOTA staking for Assembly continues... Participate in phase {periodNumber} for 90 days. Stake your IOTA tokens and earn ASMB rewards!",
-            "info": "Shimmer staking is now complete and only ASMB tokens will be distributed."
-        },
-        "shimmer-info": {
-            "title": "Про Shimmer",
-            "body1": "Вітаємо, ви отримали токени SMR як винагороду за ставку. Shimmer — це заохочувана мережа для тестування основних оновлень IOTA.",
-            "body2": "Ми прагнемо запустити Shimmer у 2022 році. Ваші токени стануть доступними для передачі після запуску мережі."
-        },
-        "assembly-info": {
-            "title": "Про Assembly",
-            "body1": "Вітаємо, ви отримали токени ASMB як винагороду за ставку. Assembly — це багатоланцюгова мережа для розгортання масштабованих смарт-контрактів на IOTA.",
-            "body2": "Ми прагнемо запустити Assembly у 2022 році. Ваші токени стануть доступними для передачі після запуску мережі."
-        },
-        "confirmDeveloperProfile": {
-            "title": "You are creating a developer profile",
-            "body": "You will be connected to the Chrysalis Devnet by default, and can switch networks manually. Only continue if you know what you are doing."
         },
         "crashReporting": {
             "title": "Crash reporting",
@@ -1184,47 +905,27 @@
         "legalUpdate": {
             "tosTitle": "Умови Використання",
             "privPolicyTitle": "Політика конфіденційності",
-            "tosAndPrivPolicyBody": "Ми оновили умови використання та політику конфіденційності Bloom.",
-            "tosBody": "Ми оновили умови використання Bloom.",
-            "privPolicyBody": "Ми оновили політику конфіденційності Bloom.",
+            "tosAndPrivPolicyBody": "We have updated Bloom's Terms of Service and Privacy Policy.",
+            "tosBody": "We have updated Bloom's Terms of Service.",
+            "privPolicyBody": "We have updated Bloom's Privacy Policy.",
             "tosAndPrivPolicyCheckbox": "Я прочитав і приймаю оновлені умови використання та політику конфіденційності",
             "tosCheckbox": "Я прочитав і приймаю оновлені умови використання",
             "privPolicyCheckbox": "Я прочитав і приймаю оновлену політику конфіденційності"
         },
-        "singleAccountGuide": {
-            "title": "The way you use Bloom has changed",
-            "body": "The content of each tab is now in the context of a single wallet. You can change the selected wallet from anywhere by using the switcher in the title bar.",
-            "hint": "Can't find a wallet? Use the balance finder in the settings to discover previously used wallets."
-        },
-        "transactionDetails": {
-            "title": "Transaction details",
-            "giftedStorageDeposit": {
-                "tooltipTitle": "Gift storage deposit",
-                "tooltipDescription": "Amount kept by the recipient"
-            }
-        },
-        "sendForm": {
-            "title": "Send funds"
+        "giftedStorageDeposit": {
+            "tooltipTitle": "Gift storage deposit",
+            "tooltipDescription": "Amount kept by the recipient"
         },
         "tokenInformation": {
-            "newTokenTitle": "New token",
             "verificationWarning": "This token is unverified. Compare the token metadata against the relevant team’s official website. Only verify tokens that you trust.",
             "tokenMetadata": {
                 "standard": "Standard",
-                "name": "Name",
                 "tokenId": "Token ID",
                 "url": "URL",
                 "description": "Description"
             },
             "buttons": {
                 "verifyToken": "I verify this token"
-            }
-        },
-        "sendNft": {
-            "formTitle": "Send NFT",
-            "confirmationTitle": "Confirm sending NFT",
-            "property": {
-                "nft": "NFT"
             }
         },
         "nativeToken": {
@@ -1237,10 +938,7 @@
                 "meltedTokens": "Melted tokens",
                 "circulatingSupply": "Circulating supply",
                 "aliasAddress": "Alias controller address",
-                "standard": "Standard",
                 "tokenName": "Name",
-                "unit": "Unit",
-                "subunit": "Subunit",
                 "storageDeposit": "Storage Deposit",
                 "description": "Description",
                 "symbol": "Symbol",
@@ -1255,7 +953,6 @@
         "importErc20Token": {
             "title": "Import ERC20 token",
             "property": {
-                "chainId": "Chain ID",
                 "tokenAddress": "Token address"
             },
             "success": "Imported {tokenSymbol} token",
@@ -1331,19 +1028,6 @@
             "body": "This node requires additional authentication. Please fill in the appropriate information."
         }
     },
-    "charts": {
-        "incomingMi": "Отримано",
-        "outgoingMi": "Відправлено",
-        "portoflio": "Портфоліо",
-        "token": "Токен",
-        "holdings": "Holdings",
-        "accountValue": "Вартість гаманця",
-        "accountActivity": "Активність гаманця",
-        "timeframe1Hour": "1 година",
-        "timeframe1Day": "1 день",
-        "timeframe1Week": "1 тиждень",
-        "timeframe1Month": "1 місяць"
-    },
     "actions": {
         "apply": "Apply",
         "continue": "Продовжити",
@@ -1351,9 +1035,7 @@
         "previous": "Назад",
         "next": "Далі",
         "cancel": "Скасувати",
-        "connect": "Connect",
         "close": "Закрити",
-        "dismiss": "Відхилити",
         "claim": "Claim",
         "claiming": "Claiming",
         "claimingRewards": "Claiming rewards",
@@ -1372,9 +1054,7 @@
             "description": "Are you sure you want to burn this NFT?",
             "hint": "Please note that burning an NFT frees the storage deposit attached to it and is not reversible."
         },
-        "proceedAnyway": "Все одно продовжити",
         "save": "Зберегти",
-        "importSeed": "Імпортувати існуючий seed",
         "restoreWallet": {
             "iota": "Migrate or restore a wallet",
             "shimmer": "Restore Shimmer profile",
@@ -1397,32 +1077,19 @@
         "claimShimmerDescription": "Import IOTA profile and claim staking rewards",
         "createAlias": "Create alias",
         "createAliasDescription": "Create alias output",
-        "savePassword": "Зберегти пароль",
-        "useBiometric": "Використовувати біометричний захист",
-        "setupPinCode": "Setup PIN code",
         "setPin": "Set PIN",
-        "setPinCode": "Set PIN code",
         "confirmPin": "Confirm PIN",
-        "confirmPinCode": "Confirm PIN code",
         "enterYourPin": "Введіть Ваш PIN-код",
-        "saveBackupFile": "Збережіть файл резервної копії",
-        "iveWrittenRecoveryPhrase": "Я записав свою фразу для відновлення",
-        "verifyRecoveryPhrase": "Перевірте фразу відновлення",
-        "revealRecoveryPhrase": "Перевірте фразу відновлення",
-        "checkAgain": "Ні, знову перевірити",
-        "importFromFile": "Імпортувати з файлу",
         "send": "Надіслати",
         "receive": "Отримати",
         "create": "Створити",
         "updateAndContinue": "Update and continue",
-        "beginTransfer": "Почати відправку",
         "tryAgain": "Повторити",
         "visitDiscord": "Відвідати Discord",
         "dragDrop": "Перетягнути і відпустити",
-        "importExtentions": ".kdbx або .stronghold файл",
+        "importExtentions": ".stronghold file",
         "chooseFile": "Обрати файл",
         "dropHere": "Перетягніть файл сюди",
-        "syncAll": "Синхронізувати все",
         "import": "Import",
         "importing": "Importing",
         "export": "Експортувати",
@@ -1434,7 +1101,7 @@
         "exportTransactionHistory": "Export transaction history",
         "localProofOfWork": "Локальне доказ виконання роботи",
         "unlock": "Розблокувати",
-        "updateFirefly": "Оновити Bloom",
+        "updateBloom": "Update Bloom",
         "restart": "Restart",
         "refresh": "Refresh",
         "saveBackup": "Зберегти резервну копію Stronghold",
@@ -1442,7 +1109,6 @@
         "hideAccount": "Hide wallet",
         "showAccount": "Сховати гаманець",
         "deleteAccount": "Delete wallet",
-        "max": "Максимум",
         "addNode": "Додати вузол",
         "addingNode": "Adding node",
         "addOfficialNodes": "Add official nodes",
@@ -1464,9 +1130,7 @@
         "addAccount": "Додати гаманець",
         "checkForUpdates": "Перевіряти поновлення",
         "reportAnIssue": "Повідомити про помилку",
-        "restore": "Відновлення",
         "clear": "Очистити",
-        "hideDetails": "Сховати деталі",
         "yes": "Так",
         "no": "Ні",
         "skip": "Пропустити",
@@ -1477,35 +1141,18 @@
         "readDocumentation": "Читати документацію",
         "visitFaq": "Відвідати FAQ",
         "viewDownloads": "View downloads",
-        "viewStatus": "Перегляд статусу",
         "viewBalanceBreakdown": "View balance breakdown",
         "showHiddenAccounts": "Показати приховані гаманці",
         "confirm": "Підтвердити",
         "hideNetworkStatistics": "Приховати статистику мережі",
         "findWallets": "Find wallets",
-        "useBalanceFinder": "Use balance finder",
         "search": "Search",
         "searching": "Searching",
         "searchAgain": "Шукати знову",
-        "closeFirefly": "Закрити Bloom",
         "generateAddress": "Generate address",
-        "migrateAgain": "Перенести інший індекс",
-        "visitWebsite": "Відвідати веб-сайт",
-        "howItWorks": "Як це працює",
-        "learnAboutStaking": "Дізнайтеся про стейкинг",
-        "stake": "Ставка",
-        "unstake": "Зняти ставку",
-        "stakeFunds": "Поставленні кошти",
-        "manageStake": "Керуйте ставкою",
-        "merge": "Об'єднати",
-        "mergeFunds": "Об'єднати кошти",
-        "done": "Готово",
-        "okIUnderstand": "OK, I understand",
-        "readMore": "Read more",
         "searchForRewards": "Search for rewards",
         "claimRewards": "Claim rewards",
         "rerunClaimProcess": "Rerun claim process",
-        "addPublicNote": "Add public note",
         "backup": "Backup",
         "mint": "Mint",
         "mintNativeToken": "Mint native token",
@@ -1520,11 +1167,8 @@
         "refreshTokenMetadata": "Refresh token metadata",
         "test": "Test",
         "testDeepLink": "Test deep link",
-        "initialize": "Initialize",
-        "initializing": "Initializing",
         "delete": "Delete",
         "remove": "Remove",
-        "addReference": "Add reference",
         "depositNft": "Deposit NFTs",
         "vote": "Vote",
         "addProposal": "Add proposal",
@@ -1543,9 +1187,6 @@
         "currentPassword": "Поточний пароль",
         "newPassword": "Новий пароль",
         "confirmNewPassword": "Підвердіть новий пароль",
-        "yourSeed": "Ваш Seed",
-        "recoveryPhrase": "Фраза відновлення",
-        "recentActivity": "Останні дії",
         "sent": "Надіслано",
         "sending": "Відправка",
         "received": "Отримано",
@@ -1564,16 +1205,8 @@
         "revoting": "Revoting",
         "unvoted": "Unvoted",
         "unvoting": "Unvoting",
-        "sentNft": "NFT sent",
-        "sendingNft": "Sending NFT",
-        "receivedNft": "NFT received",
-        "receivingNft": "Receiving NFT",
         "transfer": "Transfer",
         "transferring": "Transferring",
-        "transferNft": "Transfer NFT",
-        "transferringNft": "Transferring NFT",
-        "mintedNft": "Minted NFT",
-        "mintingNft": "Minting NFT",
         "shimmerClaimed": "Claimed",
         "shimmerClaiming": "Claiming",
         "shimmerGenesis": "Shimmer Genesis",
@@ -1587,44 +1220,23 @@
         "consolidating": "Consolidating outputs",
         "aliasCreated": "Alias created",
         "creatingAlias": "Creating Alias",
-        "sendPayment": "Надіслати платіж",
-        "moveFunds": "Внутрішній переказ",
         "sendTo": "Відправити до",
         "sendAssets": "Send assets",
         "sendAssetToAddress": "Send asset to an address",
-        "sendToAddress": "Надіслати на адресу",
-        "sendToken": "Send token",
-        "sendNft": "Send NFT",
-        "sendNftToAddress": "Send NFT to an address",
-        "scanQrOrPaste": "Скануйте QR код або вставте адресу",
-        "moveFundsBetweenAccounts": "Переміщення коштів між гаманцями",
         "manageAccount": "Керування гаманцем",
         "customizeAcount": "Налаштуйте свій гаманець",
         "account": "Гаманець",
-        "sendingToAddress": "Відправити на адресу",
         "amount": "Сума",
         "addAddress": "Додати адресу",
-        "reference": "Посилання",
-        "from": "Звідки",
         "to": "Кому",
         "and": "and",
         "receiveFunds": "Receive funds",
         "address": "Address",
         "addressName": "Address name",
         "myAddress": "My address",
-        "myNetworkAddress": "My {networkName} address",
-        "shareAddress": "Поділитися адресою",
-        "yourAddress": "Ваша адреса",
-        "newRemainder": "Новий залишок",
-        "remainder": "Залишок",
-        "generateNewAddress": "Згенерувати нову адресу",
-        "copyToClipboard": "Copy to clipboard",
-        "copyAddress": "Копіювати адресу",
         "viewOnExplorer": "View on Explorer",
         "import": "Імпортувати",
         "stronghold": "Stronghold",
-        "language": "Мова",
-        "appearance": "Оформлення",
         "lightTheme": "Світлий",
         "darkTheme": "Темний",
         "systemTheme": "Система",
@@ -1634,37 +1246,19 @@
         "all": "All",
         "incoming": "Вхідні",
         "outgoing": "Вихідні",
-        "totalIn": "Всього (вх.)",
-        "totalOut": "Всього (вих.)",
-        "accounts": "Гаманці",
-        "myAccounts": "Мої гаманці",
-        "profiles": "Профілі",
         "dev": "Розробник",
-        "createAccount": "Створити гаманець",
         "addAWallet": "Add a wallet",
         "accountName": "Назва гаманця",
-        "latestTransactions": "Останні транзакції",
-        "transactions": "Транзакції",
         "activity": "Activity",
         "security": "Безпека",
-        "accountAddress": "Адреса гаманця",
         "network": "Мережа",
         "networkSelection": "Network selection",
         "destinationNetwork": "Destination network",
         "nodes": "Вузли",
         "wallet": "Гаманець",
         "help": "Допомога",
-        "you": "Ти",
-        "messageId": "ID повідомлення",
-        "inputAddress": "Адреса відправника",
-        "receiveAddress": "Адреса одержувача",
-        "newAddress": "Нова адреса",
-        "date": "Дата",
-        "status": "Статус",
         "confirmed": "Підтверджено",
         "pending": "В очікуванні",
-        "noAccounts": "У вас немає гаманців, будь ласка, створіть його.",
-        "loadingAccounts": "Завантаження, будь ласка почекайте...",
         "addProfile": "Додати профіль",
         "noRecentHistory": "Немає недавньої історії",
         "noFilteredActivity": "No matching activities",
@@ -1672,31 +1266,12 @@
         "noFilteredAsset": "No matching assets",
         "thisMonth": "This month",
         "search": "Search",
-        "firstSync": "Синхронізація історії може зайняти деякий час...",
-        "transferSyncing": "Синхронізація гаманця",
-        "transferSelectingInputs": "Вибір входів",
-        "transferRemainderAddress": "Створення адреси залишку",
-        "transferPreparedTransaction": "Підготовка транзакції",
-        "transferSigning": "Підписання транзакції",
-        "transferPow": "Виконання PoW",
-        "transferBroadcasting": "Надсилання транзакції",
-        "transferComplete": "Передача завершена",
-        "generatingReceiveAddress": "Створення адреси отримання",
-        "broadcasting": "Трансляція",
-        "confirming": "Підтверджено",
-        "creatingAccount": "Створення гаманця, будь ласка, зачекайте...",
-        "updatingAccount": "Оновлення гаманця, будь ласка, зачекайте...",
-        "accountSyncing": "Гаманець синхронізується",
-        "accountSyncComplete": "Синхронізацію гаманця завершено",
         "passwordUpdating": "Оновлення пароля...",
         "passwordSuccess": "Пароль успішно оновлений",
         "passwordFailed": "Не вдалося оновити пароль",
-        "syncing": "Синхронізація",
-        "syncingAccounts": "Синхронізація гаманців...",
         "exportingStronghold": "Експорт Stronghold...",
         "exportingStrongholdSuccess": "Stronghold успішно експортований",
         "exportingStrongholdFailed": "Експортування Stronghold не вдалося",
-        "pinCodeUpdating": "Оновлення PIN-коду...",
         "pinCodeSuccess": "PIN-код успішно оновлений",
         "pinCodeFailed": "Не вдалося оновити PIN-код",
         "passwordStrength": "Надійність пароля",
@@ -1706,52 +1281,28 @@
         "passwordStrength3": "Середній",
         "passwordStrength4": "Сильний",
         "creatingProfile": "Створення акаунту, будь ласка почекай...",
-        "fundMigration": "Міграція рахунку",
-        "accountRemoved": "Цей гаманець прихований. Відкрийте його, щоб виконати перенесення.",
         "fromAddress": "from {account}",
         "toAddress": "to {account}",
-        "stakedFor": "Staked for {account}",
-        "unstakedFor": "Unstaked for {account}",
-        "votedFor": "Voted for {account}",
-        "unvotedFor": "Unvoted for {account}",
-        "stakingTransaction": "Staking Transaction",
-        "unstakingTransaction": "Unstaking Transaction",
-        "legacyNetwork": "Застаріла мережа",
         "capsLock": "Caps Lock увімкнуто",
         "version": "Версія {version}",
-        "yourWallets": "Your Wallets",
         "unknown": "Невідомо",
         "unknownAddress": "Unknown address",
         "none": "Жодного",
-        "staked": "Поставити",
-        "unstaked": "Ставку знято",
-        "staking": "Ставка",
-        "unstaking": "Зняти зтавку",
-        "notStaked": "Без ставки",
-        "stakedFunds": "Staked funds",
-        "unstakedFunds": "Непроставлені кошти",
         "accountColor": "Wallet color",
         "transactionTime": "Transaction time",
-        "surplus": "Surplus",
         "storageDeposit": "Storage deposit",
         "transactionFee": "Transaction fee",
-        "giftedStorageDeposit": "Gifted storage deposit",
         "storageDepositPerNft": "Storage deposit per NFT",
         "totalStorageDeposit": "Total storage deposit",
         "expirationTime": "Expiration time",
         "timelockDate": "Timelock",
         "claimedTime": "Claimed at",
-        "nftAddress": "NFT Address",
         "nftId": "NFT ID",
-        "nftMetadata": "NFT Metadata",
         "aliasId": "Alias ID",
         "governorAddress": "Governor Address",
         "stateControllerAddress": "State Controller Address",
         "copiedToClipboard": "Copied to clipboard",
-        "total": "Загальний: {balance}",
         "availableBalanceWithValue": "Available balance: {balance}",
-        "availableBalance": "Available balance",
-        "availableBalanceTooltip": "An asset's total balance minus any funds that are required to cover the storage deposit (i.e. funds that are locked in pending transactions, reserved for Native Tokens, or reserved for NFTs).",
         "amountClaimed": "{amount} claimed",
         "metadata": "Metadata",
         "amountConsolidatedInputs": "Consolidated outputs",
@@ -1768,7 +1319,6 @@
         "faucetRequestDescription": "Request tokens from the {network} faucet",
         "refreshTokenMetadataDescription": "Reset and refresh all token metadata",
         "refreshTokenMetadataHint": "This will reset all your tokens' metadata including the verification status and unhide any hidden assets.",
-        "giftStorageDeposit": "Gift storage deposit",
         "excluded": "Excluded",
         "developerTools": "Developer tools",
         "testDeepLinkDescription": "Simulate a deep link request sent to firefly",
@@ -1776,7 +1326,6 @@
         "hash": "Hash",
         "creating": "Creating",
         "updating": "Updating",
-        "enterAddress": "Enter address",
         "transaction": "Transaction",
         "alias": "Alias",
         "foundry": "Foundry",
@@ -1800,22 +1349,16 @@
         "description": "Description",
         "attributes": "Attributes",
         "details": "Details",
-        "availableAmount": "{amount} available",
         "properties": "Properties",
         "statistics": "Statistics",
-        "username": "Username",
-        "jwt": "JSON web token",
         "internalTransaction": "Internal transaction",
         "coinType": "Coin type",
         "custom": "Custom",
         "evmAddress": "EVM address",
-        "chain": "Chain",
         "importErc20Token": "Import ERC20 token",
         "optionalField": "{field} (optional)",
         "gifted": "Gifted",
-        "copied": "Copied",
         "connected": "Connected",
-        "disconnected": "Disconnected",
         "estimatedFee": "Estimated fee",
         "maxFees": "Max fees"
     },
@@ -1941,25 +1484,13 @@
         "year": "{time, plural, one {# year} other {# years}}"
     },
     "notifications": {
-        "valueTx": "Отримання {{value}} в {{account}}",
-        "confirmed": "Вихідний {{value}} з {{account}} підтверджений",
-        "confirmedInternal": "{{value}} з {{senderAccount}} на {{receiverAccount}} підтверджено",
-        "confirmedInternalNoAccounts": "Внутрішній переказ {{value}} підтверджений",
-        "failed": "Вихідний {{value}} з {{account}} підтверджений",
         "downloadingUpdate": "Завантаження оновлень",
         "updateReady": "Оновлення готове",
         "updateError": "Під час оновлення сталася помилка, спробуйте ще раз",
         "copiedToClipboard": "Скопійовано в буфер обміну",
-        "accountsSynchronized": "Синхронізацію гаманця завершено",
-        "fundsAvailableSoon": "Незабаром ваші кошти стануть доступними",
-        "exportTransactionHistory": {
-            "success": "Історія транзакцій для {accountAlias} була успішно збережена в {filePath}",
-            "error": "Не вдається експортувати історію трансакцій для{accountAlias}"
-        },
         "newDappConnected": "Connected to new dApp",
         "deepLinkingRequest": {
             "receivedWhileLoggedOut": "Please login to initiate the deep link",
-            "notEnabled": "Deep links are not enabled",
             "invalidFormat": "The deep link you followed is invalid",
             "invalidAmount": "The amount in deep link is not an integer number {amount}",
             "invalidSurplus": "The surplus in deep link is not a number {surplus}",
@@ -1968,22 +1499,15 @@
                 "unrecognizedOperation": "Unrecognized Governance operation: {operation}"
             },
             "wallet": {
-                "send": {
-                    "success": "Payment details added from deep link"
-                },
                 "unrecognizedOperation": "Unrecognized wallet operation: {operation}"
             }
         },
-        "syncing": "Please wait until synchronization is finished to change wallets.",
-        "transferring": "Please wait until all transactions are completed to change wallets.",
-        "participating": "Please wait until all staking/voting transactions are completed to change wallets.",
         "claimed": {
             "success": "Transaction claimed",
             "error": "Claiming transaction failed"
         },
         "hideActivity": {
-            "success": "Activity was hidden",
-            "error": "Failed to hide activity"
+            "success": "Activity was hidden"
         },
         "faucetRequest": {
             "success": "Request for tokens sent to the faucet"
@@ -2008,7 +1532,6 @@
             "wrongProtocolForClaiming": "You must use an IOTA-based Stronghold backup to claim Shimmer rewards"
         },
         "findShimmerRewards": {
-            "success": "Successfully found Shimmer rewards",
             "error": "An error occurred while searching for rewards"
         },
         "claimShimmerRewards": {
@@ -2032,11 +1555,7 @@
         "profile": {
             "length": "Your profile name can't be longer than {length, plural, one {# character} other {# characters}}.",
             "duplicate": "Профіль з таким ім'ям вже існує.",
-            "delete": {
-                "nonEmptyAccounts": "Ви повинні перенести всі баланси, перш ніж ви зможете видалити свій профіль."
-            },
-            "type": "Unable to determine the profile type",
-            "setupType": "Unable to determine the profile setup type"
+            "type": "Unable to determine the profile type"
         },
         "password": {
             "doNotMatch": "Паролі не співпадають.",
@@ -2059,33 +1578,25 @@
         "pincode": {
             "length": "Your PIN must be {length, plural, one {# digit} other {# digits}} long.",
             "match": "PIN-код і підтвердження не збігаються.",
-            "incorrect": "Твій PIN-код невірний.",
-            "invalid": "Invalid PIN code."
+            "incorrect": "Твій PIN-код невірний."
         },
         "address": {
             "wrongAddressType": "Wrong address type",
             "invalidBech32Format": "Invalid Bech32 format",
             "belongsToAccount": "Cannot belong to any of your accounts",
-            "hexFormat": "Invalid hexadecimal format",
             "checksum": "Address checksum is invalid"
         },
         "account": {
-            "addressNotFound": "The address cannot be found in your account.",
             "length": "Your wallet name can't be longer than {length, plural, one {# character} other {# characters}}.",
             "emptyName": "A profile name must contain at least 1 character.",
-            "notEmpty": "Ви повинні перенести свій баланс перед видаленням цього гаманця.",
             "duplicate": "Гаманець з таким іменем уже існує.",
             "tilde": "Ім'я профілю не може починатися з символу '~'.",
             "control": "Ім'я профілю не може містити керуючий символ.",
             "startDot": "Ім'я профілю не може починатися з символу '.'.",
             "chars": "Ім'я профілю не може містити символи <>:\"/\\|?*",
-            "index": "Індекс вашого облікового запису повинен бути числом від 0 до 2,147,483,647.",
-            "page": "Сторінка вашого облікового запису повинна містити номер від 0 до 2,147,483,647.",
-            "syncing": "Під час синхронізації ваших гаманців сталася помилка.",
             "cannotRemove": "Unable to remove wallet.",
             "withBalance": "You must transfer all balances before you can delete this wallet.",
             "notLast": "You can only delete your last wallet.",
-            "notFound": "Unable to find account",
             "cannotGetBoundAccount": "Unable to get bound account"
         },
         "send": {
@@ -2106,12 +1617,7 @@
             "insufficientFundsGasFee": "Insufficient funds to cover the gas fee.",
             "insufficientFundsStorageDeposit": "Insufficient funds to cover the storage deposit.",
             "ongoingTransaction": "If you have ongoing transactions, please wait for their confirmation.",
-            "cannotClaimTwice": "Output has been already claimed",
-            "noToAccount": "Ви не вибрали гаманець для надсилання коштів.",
-            "sendingDust": "Ви не можете надіслати менш 1 Mi.",
-            "leavingDust": "Ви не можете залишити менше 1 Mi на вашій адресі.",
             "cancelled": "Транзакцію було скасовано.",
-            "transaction": "Під час відправлення транзакції сталася помилка. Будь ласка, спробуйте ще раз.",
             "invalidExpirationDateTime": "The chosen expiration date/time is invalid.",
             "invalidTimelockDateTime": "The chosen timelock date/time is invalid.",
             "noInputs": "No inputs found.",
@@ -2119,9 +1625,6 @@
             "missingTransactionId": "The transaction ID is missing",
             "missingTransactionProgressEventPayload": "The transaction progress event payload is missing",
             "recipientRequired": "Recipient is required",
-            "nftRequired": "NFT is required",
-            "nftNotInHex": "NFT address has to be in HEX format",
-            "nftNotInPossession": "NFT not in possession",
             "reservedTagKeyword": "Unable to use reserved tag keyword",
             "invalidSendParameters": "Invalid send parameters.",
             "unableToGetOriginAddress": "Unable to get the origin address."
@@ -2132,17 +1635,12 @@
         "node": {
             "invalid": "Будь ласка, введіть правильну адресу.",
             "dns": "Unable to find DNS resolution for node",
-            "timedOut": "Вичерпано час підключення.",
-            "refused": "У підключенні було відмовлено.",
             "handshake": "Не вдалося завершити об'єднання з вузлом.",
             "invalidCertificate": "Не вдається підключитися сертифікат не дійсний.",
             "https": "Потрібен HTTPS; небезпечні з’єднання через HTTP наразі не підтримуються.",
             "duplicate": "Цей вузол вже був доданий.",
             "noSyncedNode": "No synced node is available.",
             "timeNotSynced": "Device time is incorrect, unable to sync node.",
-            "answer": "Не вдалося отримати відповідь від усіх вузлів.",
-            "forbidden": "Підключення цього вузла заборонено.",
-            "pluginNotAvailable": "Плагін \"{nodePlugin}\" недоступний на поточному вузлі.",
             "unabledToConnect": "Unable to connect to the node",
             "differentNetwork": "The node is located on a different network",
             "duplicateNodes": "Unable to add duplicate node",
@@ -2150,20 +1648,15 @@
         },
         "network": {
             "mismatch": "Ідентифікатор мережі (ID) для цього вузла \"{networkId}\", який не відповідає поточній мережі.",
-            "notReachable": "Ідентифікатор мережі для цього вузла не вдалося отримати, тому вузол неможливо додати.",
-            "badNodes": "Не вдається підключитися до мережі з поточною конфігурацією вузла.",
-            "nonEmptyAccount": "Ви повинні перенести всі баланси перед перемиканням мережі."
+            "notReachable": "Ідентифікатор мережі для цього вузла не вдалося отримати, тому вузол неможливо додати."
         },
         "global": {
             "generic": "Щось пішло не так."
         },
         "backup": {
-            "invalid": "Файл резервної копії не розпізнано.",
+            "invalid": "The backup file was not recognized.",
             "destination": "Резервна копія недійсна.",
-            "mnemonic": "Мнемоніка недійсна.",
             "migrationRequired": "Stronghold migration is required.",
-            "seedTooShort": "The seed should be 81 characters long, it {length, plural, one {is #} other {is #}}",
-            "seedCharacters": "Ключ повинен містити тільки символи A-Z або 9",
             "phraseWordCount": "There should be 24 words in your recovery phrase, currently there {length, plural, one {is #} other {are #}}.",
             "phraseUnrecognizedWord": "Нераспознанное слово \"{word}\" в твоїй фразі відновлення",
             "phraseCaseWord": "Слово \"{word}\" має бути рядковим регістром",
@@ -2171,7 +1664,6 @@
             "unableToRestoreForProfileManager": "Unable to restore Stronghold backup for profile manager"
         },
         "ledger": {
-            "appNotOpen": "Вам необхідно відкрити додаток IOTA на вашому пристрої Ledger.",
             "generic": "Під час підключення до вашого пристрою Ledger сталася помилка.",
             "legacyConnected": "На вашому пристрої Ledger відкрито неправильний додаток.",
             "locked": "Будь ласка, розблокуйте пристрій Ledger, ввівши PIN -код.",
@@ -2188,20 +1680,9 @@
         "popup": {
             "preventClose": "Це спливаюче вікно неможливо закрити."
         },
-        "migration": {
-            "missingBundle": "Під час спроби знайти пакет транзакцій сталася помилка."
-        },
         "crypto": {
             "cannotDecodeBech32": "Неможливо декодувати рядок як адресу Bech32."
         },
-        "participation": {
-            "cannotUseAccount": "Неможливо використовувати вказаний обліковий запис.",
-            "cannotFindStakingEvent": "Не вдалося знайти ставки.",
-            "cannotVisitAirdropWebsite": "Не вдається відкрити веб-сайт {airdrop}.",
-            "invalidStakingEventId": "Недійсний ідентифікатор події стекінгу."
-        },
-        "invalidDate": "INVALID DATE",
-        "invalidTime": "INVALID TIME",
         "shimmerClaiming": {
             "missingProfileManager": "Unable to find Shimmer claiming profile manager",
             "cannotInitialiseAccount": "Unable to initialize Shimmer claiming account",
@@ -2272,7 +1753,6 @@
         "input": {
             "invalid": "{field} input is invalid",
             "required": "{field} is required",
-            "unique": "{field} must be unique",
             "alreadyUsed": "{field} is already being used",
             "tooLong": "{field} must be {numCharacters} or less characters"
         },
@@ -2292,50 +1772,11 @@
     "warning": {
         "transaction": {
             "invalidDateTime": "The chosen date must be in the future."
-        },
-        "node": {
-            "http": "Використання вузлів через HTTP залишає трафік незашифрованим і може становити загрозу безпеці."
-        },
-        "participation": {
-            "noFunds": "You do not have any IOTA."
         }
     },
     "tooltips": {
-        "risk": {
-            "title": "Рівень ризику: {risk}",
-            "veryHigh": "Дуже високий",
-            "high": "Високий",
-            "medium": "Середній",
-            "low": "Низький",
-            "veryLow": "Дуже низький"
-        },
-        "partiallyStakedFunds": {
-            "title": "Нові незаставлені кошти: {amount}",
-            "titleNoFunds": "Нові незаставлені кошти",
-            "preBody": "You have received tokens that are not staked.",
-            "body": "Вам потрібно вручну зробити ставку на нові кошти, щоб отримати нагороду за airdrop."
-        },
-        "stakingMinRewards": {
-            "title": "Нижче мінімальної суми для винагороди",
-            "titleMinBalance": "{amount} необхідний мінімальний баланс",
-            "bodyMinBalance": "У цьому гаманці недостатньо токенів IOTA, щоб досягти мінімальної винагороди за airdrop, і тому не можна зробити ставку.",
-            "continue": "Будь ласка, продовжуйте ставку для іншого {duration}.",
-            "bodyBelowMin": "Цей гаманець не має мінімального значення для винагороди {airdrop} ({airdropRewardMin}).",
-            "bodyWillReachMin": "Ви повинні зробити ставку ще {duration}, щоб досягти мінімуму.",
-            "bodyWillNotReachMin": "У вас не буде достатній баланс токенів розподілення, протягом періоду, що залишився, якщо ви не поставите більше IOTA.",
-            "bodyDidNotReachMin": "Ви не поставили достатньо IOTA, щоб отримати мінімальну винагороду {airdrop} ({airdropRewardMin}).",
-            "bodyMinBalanceAirdrop": "У цьому гаманці недостатньо токенів IOTA, щоб досягти мінімальної винагороди за {airdrop}."
-        },
         "optionalInput": "This optional data will be public on the explorer and viewable by everyone.",
         "transactionDetails": {
-            "minting": {
-                "storageDeposit": "A refundable token deposit needed to store your transaction on the Tangle.",
-                "giftedStorageDeposit": "The storage deposit for this transaction was gifted to you. You do not need to refund the deposit.",
-                "expirationTime": "Claim these funds before the expiration time or they will be returned to the sender.",
-                "timelockDate": "The sender set a timelock on these funds. You will be able to spend them once the timelock expires.",
-                "metadata": "An optional data field for storing data persistently on the Tangle.",
-                "tag": "A short optional data field. Tagging groups of transactions can make them easier to search for."
-            },
             "incoming": {
                 "storageDeposit": "A refundable token deposit needed to store your transaction on the Tangle.",
                 "giftedStorageDeposit": "The storage deposit for this transaction was gifted to you. You do not need to refund the deposit.",
@@ -2353,12 +1794,8 @@
                 "tag": "A short optional data field. Tagging groups of transactions can make them easier to search for."
             },
             "nftMetadata": {
-                "standard": "The NFT standard e.g. IRC27.",
                 "type": "The MimeType of the NFT. e.g. image/png.",
-                "collectionId": "UTXO string of the collection NFT that minted this NFT",
-                "royalties": "An object containing key-value pairs of addresses that map to payout percentages",
-                "issuerName": "The name of the creator",
-                "attributes": "An array of traits and values that define attributes of the NFT"
+                "issuerName": "The name of the creator"
             }
         },
         "mintNativeToken": {
@@ -2368,7 +1805,6 @@
             "logoUrl": "IRC30 optional parameter: URL pointing to an image resource of the token logo."
         },
         "mintNftForm": {
-            "collectionId": "Optional parameter: UTXO string of the collection NFT that minted this NFT",
             "collectionName": "Optional parameter: The collection's name",
             "royalties": "Optional parameter: An object containing key-value pairs of addresses that map to payout percentages",
             "issuerName": "Optional parameter: The name of the creator",
@@ -2396,44 +1832,14 @@
             "text": "Compare the token metadata against the relevant team’s official website. Only verify tokens that you trust."
         }
     },
-    "exports": {
-        "transactionHistoryCsv": {
-            "messageId": "Message ID",
-            "internal": "Внутрішній",
-            "rawValue": "Необроблене значення",
-            "formattedValue": "Стерти значення",
-            "date": "Date",
-            "time": "Час"
-        }
-    },
-    "indicators": {
-        "developerProfileIndicator": {
-            "warningText": "You are currently using a developer profile and are connected to {networkName}"
-        },
-        "networkIndicator": {
-            "warningText": "Network performance degraded. Message confirmation may take a bit longer than usual."
-        }
-    },
-    "permissions": {
-        "camera": {
-            "request": "We need your permission to use your camera to be able to scan QR codes.",
-            "requestInAppSettings": "If you want to grant permission for using your camera to scan QR codes, please enable it in the app settings."
-        }
-    },
     "tabs": {
         "wallet": "Wallet",
         "collectibles": "Collectibles",
         "governance": "Governance",
         "developer": "Developer",
-        "tokens": "Tokens",
-        "activity": "Activity"
+        "tokens": "Tokens"
     },
     "pills": {
-        "migrate": {
-            "Pending": "migrating for",
-            "Confirmed": "migrated for",
-            "Conflicting": "failed to migrate"
-        },
         "asyncStatus": {
             "unclaimed": "unclaimed",
             "claimed": "claimed",
@@ -2455,9 +1861,7 @@
             "degraded": "Degraded",
             "operational": "Operational",
             "disconnected": "Disconnected"
-        },
-        "locked": "locked",
-        "smartContract": "smart contract"
+        }
     },
     "menus": {
         "dateTimePicker": {
