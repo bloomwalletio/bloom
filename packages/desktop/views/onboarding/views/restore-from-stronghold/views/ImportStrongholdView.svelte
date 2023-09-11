@@ -1,13 +1,13 @@
 <script lang="ts">
     import { OnboardingLayout } from '@components'
-    import { ImportFile, updateOnboardingProfile, validateBackupFile, onboardingProfile } from '@contexts/onboarding'
+    import { ImportFile, onboardingProfile, updateOnboardingProfile, validateBackupFile } from '@contexts/onboarding'
     import { CLIENT_ERROR_REGEXES } from '@core/error/constants'
     import { ClientError } from '@core/error/enums'
     import { localize } from '@core/i18n'
     import { restoreBackup } from '@core/profile-manager/api'
     import { STRONGHOLD_VERSION } from '@core/stronghold/constants'
     import { StrongholdVersion } from '@core/stronghold/enums'
-    import { Animation, Button, Dropzone, Text } from '@ui'
+    import { Dropzone } from '@ui'
     import { onMount } from 'svelte'
     import { restoreFromStrongholdRouter } from '../../restore-from-stronghold/restore-from-stronghold-router'
 
@@ -90,14 +90,13 @@
     })
 </script>
 
-<OnboardingLayout {onBackClick}>
-    <div slot="title">
-        <Text type="h2">{localize('views.onboarding.profileRecovery.importStrongholdBackup.title')}</Text>
-    </div>
-    <div slot="leftpane__content">
-        <Text type="p" secondary classes="mb-8"
-            >{localize('views.onboarding.profileRecovery.importStrongholdBackup.body')}</Text
-        >
+<OnboardingLayout
+    title={localize('views.onboarding.profileRecovery.importStrongholdBackup.title')}
+    description={localize('views.onboarding.profileRecovery.importStrongholdBackup.body')}
+    {onContinueClick}
+    {onBackClick}
+>
+    <div slot="content">
         <Dropzone
             fileName={importFileName}
             {allowedExtensions}
@@ -105,13 +104,5 @@
             bind:dropping
             extentionsLabel={localize('actions.importExtentions')}
         />
-    </div>
-    <div slot="leftpane__action" class="flex flex-row flex-wrap justify-between items-center space-x-4">
-        <Button classes="flex-1" disabled={!importFile} onClick={onContinueClick}>
-            {localize('actions.continue')}
-        </Button>
-    </div>
-    <div slot="rightpane" class="w-full h-full flex justify-center bg-pastel-blue dark:bg-gray-900">
-        <Animation classes="setup-anim-aspect-ratio" animation="import-from-file-desktop" />
     </div>
 </OnboardingLayout>

@@ -3,7 +3,7 @@
     import { initialisePincodeManager } from '@contexts/onboarding'
     import { localize } from '@core/i18n'
     import { isValidPin } from '@core/utils'
-    import { Animation, Button, HTMLButtonType, PinInput, Text } from '@ui'
+    import { PinInput, Text } from '@ui'
     import { completeOnboardingRouter } from '../complete-onboarding-router'
 
     export let busy = false
@@ -15,7 +15,6 @@
     let arePinInputsMatching = false
     let arePinInputsValid = false
     let confirmPinInputElement: PinInput
-    let submitButtonElement: Button
 
     $: setPinInput, (setPinInputError = '')
     $: confirmPinInput, (confirmPinInputError = '')
@@ -52,15 +51,14 @@
     }
 </script>
 
-<OnboardingLayout {onBackClick} {busy}>
-    <div slot="title">
-        <Text type="h2">{localize('views.onboarding.storageProtectionSetup.setupPinProtection.title')}</Text>
-    </div>
-    <div slot="leftpane__content">
+<OnboardingLayout
+    title={localize('views.onboarding.storageProtectionSetup.setupPinProtection.title')}
+    description={localize('views.onboarding.storageProtectionSetup.setupPinProtection.body1')}
+    {onBackClick}
+    {busy}
+>
+    <div slot="content">
         <div class="flex flex-col mb-8">
-            <Text type="p" secondary classes="mb-4"
-                >{localize('views.onboarding.storageProtectionSetup.setupPinProtection.body1')}</Text
-            >
             <Text type="p" secondary highlighted
                 >{localize('views.onboarding.storageProtectionSetup.setupPinProtection.body2')}</Text
             >
@@ -85,25 +83,8 @@
                 error={confirmPinInputError}
                 label={localize('actions.confirmPin')}
                 bind:this={confirmPinInputElement}
-                on:filled={submitButtonElement.resetAndFocus}
                 on:submit={onSetPinClick}
             />
         </form>
-    </div>
-    <div slot="leftpane__action" class="flex flex-row flex-wrap justify-between items-center space-x-4">
-        <Button
-            classes="flex-1"
-            type={HTMLButtonType.Submit}
-            disabled={!(arePinInputsValid && arePinInputsMatching) || busy}
-            form="setup-pin"
-            isBusy={busy}
-            busyMessage={`${localize('actions.initializing')}...`}
-            bind:this={submitButtonElement}
-        >
-            {localize('actions.continue')}
-        </Button>
-    </div>
-    <div slot="rightpane" class="w-full h-full flex justify-center bg-pastel-pink dark:bg-gray-900">
-        <Animation classes="setup-anim-aspect-ratio" animation="pin-desktop" />
     </div>
 </OnboardingLayout>

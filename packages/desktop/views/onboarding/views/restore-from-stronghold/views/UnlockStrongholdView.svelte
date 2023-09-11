@@ -4,7 +4,7 @@
     import { restoreBackupFromStrongholdFile, updateOnboardingProfile } from '@contexts/onboarding'
     import { CLIENT_ERROR_REGEXES, ClientError } from '@core/error'
     import { localize } from '@core/i18n'
-    import { Animation, Button, PasswordInput, Text } from '@ui'
+    import { PasswordInput, Text } from '@ui'
     import { onMount } from 'svelte'
     import { restoreFromStrongholdRouter } from '../restore-from-stronghold-router'
 
@@ -50,16 +50,14 @@
     })
 </script>
 
-<OnboardingLayout {onBackClick} {busy}>
-    <div slot="title">
-        <Text type="h2" classes="mb-4">
-            {`${localize('general.import')} ${localize('general.stronghold')}`}
-        </Text>
-    </div>
-    <div slot="leftpane__content">
-        <Text type="p" secondary classes="mb-4"
-            >{localize('views.onboarding.profileRecovery.backupPassword.body1')}</Text
-        >
+<OnboardingLayout
+    title={`${localize('general.import')} ${localize('general.stronghold')}`}
+    description={localize('views.onboarding.profileRecovery.backupPassword.body1')}
+    {onContinueClick}
+    {onBackClick}
+    {busy}
+>
+    <div slot="content">
         <Text type="p" secondary classes="mb-8"
             >{localize('views.onboarding.profileRecovery.backupPassword.body2')}</Text
         >
@@ -72,19 +70,5 @@
             disabled={busy}
             submitHandler={onContinueClick}
         />
-    </div>
-    <div slot="leftpane__action" class="flex flex-row flex-wrap justify-between items-center space-x-4">
-        <Button
-            classes="flex-1"
-            disabled={strongholdPassword.length === 0 || busy}
-            isBusy={busy}
-            busyMessage={`${localize('actions.importing')}...`}
-            onClick={onContinueClick}
-        >
-            {localize('actions.continue')}
-        </Button>
-    </div>
-    <div slot="rightpane" class="w-full h-full flex justify-center bg-pastel-orange dark:bg-gray-900">
-        <Animation classes="setup-anim-aspect-ratio" animation="import-from-file-password-desktop" />
     </div>
 </OnboardingLayout>
