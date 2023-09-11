@@ -85,12 +85,16 @@
         const networkId = getNetworkIdFromSendFlowParameters($sendFlowParameters)
         if (isEvmChain(networkId) && token.id === BASE_TOKEN_ID) {
             const chain = getNetwork()?.getChain(networkId)
-            const txData = await createEvmTransactionFromSendFlowParameters(
-                $sendFlowParameters,
-                chain,
-                $selectedAccount
-            )
-            maxGasFee = txData ? Number(calculateMaxGasFeeFromTransactionData(txData)) : undefined
+            try {
+                const txData = await createEvmTransactionFromSendFlowParameters(
+                    $sendFlowParameters,
+                    chain,
+                    $selectedAccount
+                )
+                maxGasFee = txData ? Number(calculateMaxGasFeeFromTransactionData(txData)) : undefined
+            } catch (error) {
+                console.error(error)
+            }
         }
     })
 </script>

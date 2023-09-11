@@ -1,3 +1,3 @@
 export * from './sendPreparedTransaction'
-export * from './buildTransferredAssetFromSendFlowParameters'
+export * from './getAmountAndTokenFromSendFlowParameters'
 export * from './validateSendConfirmation'
