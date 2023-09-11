@@ -18,12 +18,13 @@
     import { onMount } from 'svelte'
     import { sendFlowRouter } from '../send-flow.router'
     import SendFlowTemplate from './SendFlowTemplate.svelte'
-    import { EvmTransactionSummary, StardustTransactionSummary } from './components'
+    import { EvmTransactionSummary, StardustTransactionSummary, StardustToEvmTransactionSummary } from './components'
 
     export let _onMount: (..._: any[]) => Promise<void> = async () => {}
 
     $: void updateSendFlow($sendFlowParameters)
     $: isAssetFromLayer2 = !!chain
+    $: isToLayer2 = isEvmChain($sendFlowParameters.destinationNetworkId)
     $: isTransferring = !!$selectedAccount.isTransferring
 
     let recipientAddress: string
@@ -103,6 +104,10 @@
     {#if isAssetFromLayer2 && preparedTransaction}
         <EvmTransactionSummary transaction={preparedTransaction} sendFlowParameters={$sendFlowParameters} />
     {:else if !isAssetFromLayer2 && preparedOutput}
-        <StardustTransactionSummary output={preparedOutput} sendFlowParameters={$sendFlowParameters} />
+        {#if isToLayer2}
+            <StardustToEvmTransactionSummary output={preparedOutput} sendFlowParameters={$sendFlowParameters} />
+        {:else}
+            <StardustTransactionSummary output={preparedOutput} sendFlowParameters={$sendFlowParameters} />
+        {/if}
     {/if}
 </SendFlowTemplate>
