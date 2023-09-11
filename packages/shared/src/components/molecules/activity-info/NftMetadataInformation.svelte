@@ -49,6 +49,14 @@
                 key: localize('general.metadata'),
                 value: metadata.standard !== TokenStandard.Irc27 ? metadata : undefined,
             },
+            {
+                key: localize('general.attributes'),
+                value: metadata.attributes,
+            },
+            {
+                key: localize('general.royalties'),
+                value: metadata.royalties,
+            },
         ]}
     />
 {/if}
