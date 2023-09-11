@@ -7,12 +7,12 @@
     export let description: string | undefined = undefined
     export let busy = false
     export let disableBack = false
-    export let onBackClick = (): void => {}
-    export let onContinueClick = (): void => {}
+    export let onBackClick: (() => unknown) | undefined = undefined
+    export let onContinueClick: (() => unknown) | undefined = undefined
 </script>
 
 <onboarding-layout class="w-full h-screen flex justify-center items-center">
-    {#if !disableBack}
+    {#if onBackClick && !disableBack}
         <back-container>
             <Button
                 variant="text"
@@ -33,22 +33,26 @@
         </content-title>
         <slot name="content" />
         <content-buttons class="block flex flex-row space-x-2">
-            {#if !disableBack}<Button
+            {#if onBackClick && !disableBack}
+                <Button
                     width="full"
                     variant="outline"
                     size="md"
                     disabled={busy}
                     on:click={onBackClick}
                     text={localize('actions.back')}
-                />{/if}
-            <Button
-                width="full"
-                variant="contained"
-                size="md"
-                disabled={busy}
-                on:click={onContinueClick}
-                text={localize('actions.continue')}
-            />
+                />
+            {/if}
+            {#if onContinueClick}
+                <Button
+                    width="full"
+                    variant="contained"
+                    size="md"
+                    disabled={busy}
+                    on:click={onContinueClick}
+                    text={localize('actions.continue')}
+                />
+            {/if}
         </content-buttons>
     </content-container>
 </onboarding-layout>
