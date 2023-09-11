@@ -39,7 +39,6 @@
     import NodeAuthRequiredPopup from './NodeAuthRequiredPopup.svelte'
     import NodeInfoPopup from './NodeInfoPopup.svelte'
     import ReceiveAddressPopup from './ReceiveAddressPopup.svelte'
-    import RemoveNode from './RemoveNode.svelte'
     import RemoveProposalPopup from './RemoveProposalPopup.svelte'
     import RevotePopup from './RevotePopup.svelte'
     import SignMessagePopup from './SignMessagePopup.svelte'
@@ -122,7 +121,6 @@
         [PopupId.NodeAuthRequired]: NodeAuthRequiredPopup,
         [PopupId.NodeInfo]: NodeInfoPopup,
         [PopupId.ReceiveAddress]: ReceiveAddressPopup,
-        [PopupId.RemoveNode]: RemoveNode,
         [PopupId.RemoveProposal]: RemoveProposalPopup,
         [PopupId.Revote]: RevotePopup,
         [PopupId.SendFlow]: SendFlowPopup,

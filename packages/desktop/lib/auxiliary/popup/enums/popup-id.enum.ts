@@ -32,7 +32,6 @@ export enum PopupId {
     NodeAuthRequired = 'nodeAuthRequired',
     NodeInfo = 'nodeInfo',
     ReceiveAddress = 'receiveAddress',
-    RemoveNode = 'removeNode',
     RemoveProposal = 'removeProposal',
     Revote = 'revote',
     SignMessage = 'signMessage',
