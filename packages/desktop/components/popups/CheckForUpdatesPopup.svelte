@@ -78,7 +78,7 @@
         </Button>
         {#if hasAutoUpdate && !$appVersionDetails.upToDate}
             <Button classes="w-1/2" onClick={onDownloadClick} disabled={$appUpdateState.busy}>
-                {localize('actions.updateFirefly')}
+                {localize('actions.updateBloom')}
             </Button>
         {:else if !$appVersionDetails.upToDate}
             <Button classes="w-1/2" onClick={onVisitDownloadsClick}>

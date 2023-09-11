@@ -4,7 +4,7 @@
             "appSetup": {
                 "welcome": {
                     "title": "Send, Receive & Manage your {network} tokens",
-                    "body": "Firefly is the official wallet software for {network}."
+                    "body": "Bloom is the official wallet software for {network}."
                 },
                 "legal": {
                     "title": "Integritetspolicy och användarvillkor",
@@ -138,7 +138,7 @@
             "profileRecovery": {
                 "importMnemonicPhrase": {
                     "title": "Ange din återställningsfras",
-                    "body": "En återställningsfras är 24 ord lång, endast små bokstäver och mellanrum mellan varje ord. Denna används för att återställa befintliga Firefly-profiler.",
+                    "body": "En återställningsfras är 24 ord lång, endast små bokstäver och mellanrum mellan varje ord. Denna används för att återställa befintliga Bloom-profiler.",
                     "enter": "Ange din hemliga återställningsfras",
                     "phraseDetected": "24 ord lång återställningsfras upptäckt"
                 },
@@ -194,15 +194,15 @@
         },
         "importFromLedger": {
             "title": "Återställ eller migrera din Ledger",
-            "body": "Återställ en befintlig Firefly Ledger profil eller migrera dina IOTA från Trinity.",
-            "haveFireflyLedger": "Jag har en Firefly Ledger backup",
-            "haveFireflyLedgerDescription": "Återställ en Firefly-profil",
+            "body": "Återställ en befintlig Bloom Ledger profil eller migrera dina IOTA från Trinity.",
+            "haveFireflyLedger": "Jag har en Bloom Ledger backup",
+            "haveFireflyLedgerDescription": "Återställ en Bloom-profil",
             "haveTrinityLedger": "Jag har en Trinity Ledger backup",
             "haveTrinityLedgerDescription": "Migrera en Trinity-profil"
         },
         "connectLedger": {
-            "title": "Anslut din Ledger till Firefly",
-            "body": "För att din Ledger enhet ska hittas av Firefly, se till att den officiella Ledger Live-applikationen är stängd.",
+            "title": "Anslut din Ledger till Bloom",
+            "body": "För att din Ledger enhet ska hittas av Bloom, se till att den officiella Ledger Live-applikationen är stängd.",
             "connect": "Anslut din Ledger-enhet",
             "unlock": "Lås upp din Ledger med dess PIN-kod",
             "openApp": "Öppna Shimmer-appen på din Ledger",
@@ -214,18 +214,18 @@
             "restoring": "Återställer från Ledger..."
         },
         "legacyLedgerIntro": {
-            "title": "Starta din Ledger migrering med Firefly",
-            "body1": "Firefly hjälper dig att överföra dina IOTA till det nya Chrysalis nätverket.",
-            "body2": "Efter du migrerat, kommer du att kunna skicka och ta emot tokens med din Ledger i Firefly.",
+            "title": "Starta din Ledger migrering med Bloom",
+            "body1": "Bloom hjälper dig att överföra dina IOTA till det nya Chrysalis nätverket.",
+            "body2": "Efter du migrerat, kommer du att kunna skicka och ta emot tokens med din Ledger i Bloom.",
             "readMore": "Vad man kan förvänta sig av migrationsprocessen"
         },
         "generateNewLedgerAddress": {
             "title": "Skapa ny adress",
-            "body": "Du måste generera en ny adress för att migrera dina IOTA med Firefly. Klicka på knappen nedan för att fortsätta.",
+            "body": "Du måste generera en ny adress för att migrera dina IOTA med Bloom. Klicka på knappen nedan för att fortsätta.",
             "confirmTitle": "Bekräfta den nya adressen",
             "confirmBody": "För säkerhets skull kan du jämföra den adress som genereras på din Ledger-enhet med den som visas nedan. Om de matchar, tryck på båda knapparna på din Ledger enligt uppmaning.",
             "confirmedTitle": "Adress bekräftad",
-            "confirmedBody": "Du har bekräftat att adressen i Firefly matchar den på din Ledger-enhet.",
+            "confirmedBody": "Du har bekräftat att adressen i Bloom matchar den på din Ledger-enhet.",
             "generating": "Genererar adress"
         },
         "switchLedgerApps": {
@@ -278,7 +278,7 @@
             "theme": {
                 "title": "Teman",
                 "description": "",
-                "advice": "Om du ändrar ditt systemtema kan du behöva starta om Firefly för att se effekterna"
+                "advice": "Om du ändrar ditt systemtema kan du behöva starta om Bloom för att se effekterna"
             },
             "language": {
                 "title": "Språk",
@@ -334,7 +334,7 @@
             },
             "changeProfileName": {
                 "title": "Ändra profilnamn",
-                "description": "Ändra ditt Firefly profilnamn",
+                "description": "Ändra ditt Bloom profilnamn",
                 "success": "Du ändrade ditt profilnamn"
             },
             "walletFinder": {
@@ -351,7 +351,7 @@
             },
             "deepLinks": {
                 "title": "Hyperlänkar",
-                "description": "Fyll automatiskt i transaktionsdata i Firefly när du klickar på en hyperlänk som börjar med {appProtocol}://"
+                "description": "Fyll automatiskt i transaktionsdata i Bloom när du klickar på en hyperlänk som börjar med {appProtocol}://"
             },
             "networkInformation": {
                 "title": "Network information",
@@ -382,9 +382,9 @@
             },
             "crashReporting": {
                 "title": "Kraschrapporter",
-                "body": "Hjälp utvecklarna att förbättra Firefly genom att automatiskt skicka diagnostikdata när ett fel eller en krasch inträffar",
+                "body": "Hjälp utvecklarna att förbättra Bloom genom att automatiskt skicka diagnostikdata när ett fel eller en krasch inträffar",
                 "checkbox": "Skicka kraschrapporter",
-                "advice": "Vänligen starta om Firefly applikationen för att {sendCrashReports, select, true {börja dela kraschrapporter} false {sluta dela kraschrapporter} other {använda denna ändring}}"
+                "advice": "Vänligen starta om Bloom applikationen för att {sendCrashReports, select, true {börja dela kraschrapporter} false {sluta dela kraschrapporter} other {använda denna ändring}}"
             },
             "diagnostics": {
                 "title": "Diagnostik",
@@ -481,7 +481,7 @@
                 },
                 "version": {
                     "title": "Ny uppdatering tillgänglig",
-                    "updateVersion": "Firefly v{version}",
+                    "updateVersion": "Bloom v{version}",
                     "button": "Uppdatera"
                 }
             },
@@ -520,7 +520,7 @@
                     "connectLedgerDevice": {
                         "title": "Connect Ledger Device",
                         "header": "Open the Ethereum app",
-                        "body": "For your Ledger device to be found by Firefly, please ensure that the official Ledger Live application is closed before following these steps.",
+                        "body": "For your Ledger device to be found by Bloom, please ensure that the official Ledger Live application is closed before following these steps.",
                         "requirements": {
                             "connect": "Connect and unlock your Ledger",
                             "openApp": "Open the Ethereum app on your Ledger"
@@ -845,7 +845,7 @@
         "externalUrl": {
             "title": "Öppna URL i webbläsare",
             "body": "Är du säker på att du vill öppna \"{url}\" i webbläsaren?",
-            "hint": "Denna URL är okänd för Firefly. Vänligen dubbelkolla URL:en innan du öppnar den.",
+            "hint": "Denna URL är okänd för Bloom. Vänligen dubbelkolla URL:en innan du öppnar den.",
             "action": "Öppna URL",
             "invalidProtocol": "Kan inte öppna URL med ogiltigt protokoll"
         },
@@ -988,7 +988,7 @@
             "title": "Pågående nätverksuppgradering",
             "body": "Uppgraderingen av Chrysalis-nätverket har börjat.",
             "bodyMigration": "Migrering är inaktiverad tills den är klar.",
-            "bodyFirefly": "Firefly är inaktiverad tills det är klart. Token-migrering kommer fortfarande att vara möjlig efteråt."
+            "bodyFirefly": "Bloom är inaktiverad tills det är klart. Token-migrering kommer fortfarande att vara möjlig efteråt."
         },
         "ledgerNotConnected": {
             "title": "Anslut din Ledger",
@@ -1007,7 +1007,7 @@
                 "1": "Se till att din Ledger är ansluten",
                 "2": "Sök efter {legacy} appen. Du kan behöva aktivera Ledger Live-utvecklarläge.",
                 "3": "Installera {legacy} appen",
-                "4": "Kom ihåg att det är viktigt att stänga Ledger Live innan du återvänder till Firefly"
+                "4": "Kom ihåg att det är viktigt att stänga Ledger Live innan du återvänder till Bloom"
             }
         },
         "ledgerConnectionGuide": {
@@ -1052,7 +1052,7 @@
             "totalFundsStaked": "Totala tillgångar för staking",
             "stakedSuccessfully": "Dina tillgångar har blivit stakade för {account}.",
             "unstakedSuccessfully": "Din tillgångar är inte längre stakade för {account}.",
-            "singleAccountHint": "Letar du efter dina plånböcker? Firefly har ändrats. Växla mellan dina plånböcker i den övre menyraden."
+            "singleAccountHint": "Letar du efter dina plånböcker? Bloom har ändrats. Växla mellan dina plånböcker i den övre menyraden."
         },
         "stakingConfirmation": {
             "title": "Bekräfta medverkan",
@@ -1083,7 +1083,7 @@
         },
         "crashReporting": {
             "title": "Kraschrapportering",
-            "body": "Hjälp utvecklarna att förbättra Firefly genom att automatiskt skicka diagnostikdata när ett fel eller en krasch inträffar. Om detta är valt, kommer det att träda i kraft efter att Firefly startats om.",
+            "body": "Hjälp utvecklarna att förbättra Bloom genom att automatiskt skicka diagnostikdata när ett fel eller en krasch inträffar. Om detta är valt, kommer det att träda i kraft efter att Bloom startats om.",
             "checkbox": "Skicka kraschrapporter till IOTA Foundation"
         },
         "signMessage": {
@@ -1192,7 +1192,7 @@
             "privPolicyCheckbox": "Jag har läst och jag accepterar den uppdaterade sekretesspolicyn"
         },
         "singleAccountGuide": {
-            "title": "Sättet du använder Firefly på har ändrats",
+            "title": "Sättet du använder Bloom på har ändrats",
             "body": "Innehållet i varje flik är nu i samband med en enda plånbok. Du kan ändra den valda plånboken från var som helst med hjälp av växlaren i namnfältet.",
             "hint": "Kan du inte hitta en plånbok? Använd balanssökaren i inställningarna för att upptäcka tidigare använda plånböcker."
         },
@@ -1314,7 +1314,7 @@
         "revote": {
             "title": "Revote on proposals",
             "body": "Changing your voting power temporarily stops your votes for all proposals from being counted. Simply click \"Revote\" to resume voting.",
-            "hint": "Firefly remembers all of the proposals and answer options you previously voted for."
+            "hint": "Bloom remembers all of the proposals and answer options you previously voted for."
         },
         "removeProposal": {
             "title": "Ta bort förslag",
@@ -1434,7 +1434,7 @@
         "exportTransactionHistory": "Exportera transaktionshistoriken",
         "localProofOfWork": "Lokalt proof of work",
         "unlock": "Lås upp",
-        "updateFirefly": "Uppdatera Firefly",
+        "updateFirefly": "Uppdatera Bloom",
         "restart": "Restart",
         "refresh": "Refresh",
         "saveBackup": "Spara Stronghold säkerhetskopia",
@@ -1487,7 +1487,7 @@
         "search": "Sök",
         "searching": "Söker",
         "searchAgain": "Sök igen",
-        "closeFirefly": "Stäng Firefly",
+        "closeFirefly": "Stäng Bloom",
         "generateAddress": "Generera adress",
         "migrateAgain": "Migrera ett annat index",
         "visitWebsite": "Besök webbplats",
@@ -1771,7 +1771,7 @@
         "giftStorageDeposit": "Skänk lagringsdeposition",
         "excluded": "Exkluderad",
         "developerTools": "Utvecklarverktyg",
-        "testDeepLinkDescription": "Simulera en hyperlänkförfrågan skickad till Firefly",
+        "testDeepLinkDescription": "Simulera en hyperlänkförfrågan skickad till Bloom",
         "url": "URL",
         "hash": "Hash",
         "creating": "Skapar",
@@ -2417,7 +2417,7 @@
     "permissions": {
         "camera": {
             "request": "Vi behöver ditt tillåtande för att kunna använda kameran och skanna QR-koder.",
-            "requestInAppSettings": "Om du vill tillåta Firefly att använda din kamera för att skanna QR-koder, vänligen aktivera det i appinställningarna."
+            "requestInAppSettings": "Om du vill tillåta Bloom att använda din kamera för att skanna QR-koder, vänligen aktivera det i appinställningarna."
         }
     },
     "tabs": {
