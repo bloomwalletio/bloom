@@ -7,15 +7,7 @@
     import { canAccountMakeEvmTransaction } from '@core/layer-2/actions'
     import { marketCoinPrices } from '@core/market/stores'
     import { getNetwork, isEvmChain } from '@core/network'
-    import {
-        AccountTokens,
-        BASE_TOKEN_ID,
-        /* eslint-disable @typescript-eslint/no-unused-vars */
-        IAccountTokensPerNetwork,
-        IToken,
-        ITokenWithBalance,
-        TokenStandard,
-    } from '@core/token'
+    import { AccountTokens, BASE_TOKEN_ID, IToken, ITokenWithBalance, TokenStandard } from '@core/token'
     import { getAccountTokensForSelectedAccount, getTokenBalance } from '@core/token/actions'
     import { selectedAccountTokens } from '@core/token/stores'
     import { SendFlowType, sendFlowParameters, setSendFlowParameters } from '@core/wallet'
@@ -50,7 +42,7 @@
     let tokenList: ITokenWithBalance[]
     function getTokenList(): ITokenWithBalance[] {
         const list = []
-        for (const tokensPerNetwork of Object.values(accountTokens) ) {
+        for (const tokensPerNetwork of Object.values(accountTokens)) {
             if (tokensPerNetwork?.baseCoin) {
                 list.push(tokensPerNetwork.baseCoin)
             }
