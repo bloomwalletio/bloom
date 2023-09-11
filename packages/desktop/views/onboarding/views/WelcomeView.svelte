@@ -9,7 +9,7 @@
     import { hasCompletedAppSetup, lastAcceptedPrivacyPolicy, lastAcceptedTermsOfService } from '@core/app/stores'
     import { openUrlInBrowser } from '@core/app/utils'
     import { localize } from '@core/i18n'
-    import { Animation, Button, Checkbox, Link, Text, TextType } from '@ui'
+    import { Checkbox, Link, Text, TextType } from '@ui'
     import { onboardingRouter } from '../onboarding-router'
 
     let termsAccepted: boolean = false
@@ -30,15 +30,15 @@
     }
 </script>
 
-<OnboardingLayout allowBack={false}>
-    <div slot="leftpane__content">
-        <Text type={TextType.h1}
-            >{localize('views.onboarding.appSetup.welcome.title', {
-                network: '',
-            })}
-        </Text>
-    </div>
-    <div slot="leftpane__action" class="flex flex-col space-y-8">
+<OnboardingLayout
+    title={localize('views.onboarding.appSetup.welcome.title', {
+        network: '',
+    })}
+    description={localize('views.onboarding.appSetup.welcome.description')}
+    {onContinueClick}
+    disableBack
+>
+    <div slot="content" class="flex flex-col space-y-8">
         <Checkbox bind:checked={termsAccepted}>
             <Text slot="label" type={TextType.p} secondary>
                 I've read and I accept the <Link onClick={onTermsOfServiceClick}>Terms of Service</Link> and <Link
@@ -46,11 +46,5 @@
                 >
             </Text>
         </Checkbox>
-        <Button classes="w-full" disabled={!termsAccepted} onClick={onContinueClick}
-            >{localize('actions.continue')}</Button
-        >
-    </div>
-    <div slot="rightpane" class="w-full h-full flex justify-center">
-        <Animation classes="setup-anim-aspect-ratio" animation="welcome-desktop" />
     </div>
 </OnboardingLayout>
