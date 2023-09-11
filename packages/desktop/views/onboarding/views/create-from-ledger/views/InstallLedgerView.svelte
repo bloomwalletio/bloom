@@ -1,9 +1,9 @@
 <script lang="ts">
-    import { PopupId, openPopup } from '@desktop/auxiliary/popup'
     import { OnboardingLayout } from '@components'
     import { localize } from '@core/i18n'
     import { LedgerAppName, pollLedgerNanoStatus, stopPollingLedgerNanoStatus } from '@core/ledger'
-    import { Button, Icon, LedgerAnimation, Link, Text } from '@ui'
+    import { PopupId, openPopup } from '@desktop/auxiliary/popup'
+    import { Icon, Link, Text } from '@ui'
     import { onMount } from 'svelte'
     import { createFromLedgerRouter } from '../create-from-ledger-router'
 
@@ -27,14 +27,13 @@
     })
 </script>
 
-<OnboardingLayout {onBackClick}>
-    <div slot="leftpane__content">
-        <Text type="h2" classes="mb-5"
-            >{localize('views.ledgerInstallationGuide.title', { values: { network: LedgerAppName.Shimmer } })}</Text
-        >
-        <Text type="p" secondary classes="mb-5">
-            {localize('views.ledgerInstallationGuide.body1', { values: { network: LedgerAppName.Shimmer } })}
-        </Text>
+<OnboardingLayout
+    title={localize('views.ledgerInstallationGuide.title', { values: { network: LedgerAppName.Shimmer } })}
+    description={localize('views.ledgerInstallationGuide.body1', { values: { network: LedgerAppName.Shimmer } })}
+    {onContinueClick}
+    {onBackClick}
+>
+    <div slot="content" class="space-y-4">
         <Text type="p" secondary classes="mb-5">{localize('views.ledgerInstallationGuide.body2')}</Text>
         <div class="flex flex-row flex-nowrap items-center justify-center space-x-4 text-center mt-28">
             <div class="flex flex-col flex-wrap space-y-2">
@@ -44,14 +43,8 @@
                 <Text type="p" secondary>{LedgerAppName.Shimmer}</Text>
             </div>
         </div>
+        <Link icon="info" onClick={onPopupOpenClick}>
+            {localize('popups.ledgerAppGuide.title', { values: { legacy: LedgerAppName.Shimmer } })}
+        </Link>
     </div>
-    <div slot="leftpane__action">
-        <Link icon="info" onClick={onPopupOpenClick} classes="mb-10 justify-center"
-            >{localize('popups.ledgerAppGuide.title', { values: { legacy: LedgerAppName.Shimmer } })}</Link
-        >
-        <Button classes="w-full" onClick={onContinueClick}
-            >{localize('views.ledgerInstallationGuide.action', { values: { network: LedgerAppName.Shimmer } })}</Button
-        >
-    </div>
-    <LedgerAnimation slot="rightpane" illustration="ledger-install-new-app-desktop" />
 </OnboardingLayout>
