@@ -1,75 +1,75 @@
 <script lang="ts">
-    import { Icon } from '@ui'
+    import { Button, IconName, Text } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
-    import { IS_MAC } from '@core/app/constants'
-    import { Icon as IconEnum } from '@auxiliary/icon'
 
+    export let size: 'small' | 'medium' | 'large' = 'medium'
+    export let title: string
+    export let description: string | undefined = undefined
     export let busy = false
-    export let allowBack = true
+    export let disableBack = false
     export let onBackClick = (): void => {}
+    export let onContinueClick = (): void => {}
 </script>
 
-<onboarding-layout data-label="onboarding-layout" class="relative w-full h-full flex flex-row">
-    <leftpane-container data-label="leftpane" class="h-full flex justify-center p-12 pt-8 bg-white dark:bg-gray-800">
-        <div class="w-full h-full flex flex-col justify-between">
-            <div class="flex flex-col h-full">
-                <action-placeholder class="block mb-8" class:mt-9={IS_MAC}>
-                    {#if allowBack}
-                        <button
-                            on:click={onBackClick}
-                            class:busy
-                            disabled={busy}
-                            aria-label={localize('actions.back')}
-                            type="button"
-                        >
-                            <icon-container class:busy>
-                                <Icon icon={IconEnum.ArrowLeft} />
-                            </icon-container>
-                        </button>
-                    {/if}
-                </action-placeholder>
-                <leftpane-content-container data-label="leftpane-content" class="h-full flex flex-col">
-                    {#if $$slots.title}
-                        <div class="mb-5">
-                            <slot name="title" />
-                        </div>
-                    {/if}
-                    <slot name="leftpane__content" />
-                </leftpane-content-container>
-            </div>
-            <leftpane-action-container data-label="leftpane-action" class="block">
-                <slot name="leftpane__action" />
-            </leftpane-action-container>
-        </div>
-    </leftpane-container>
-    <rightpane-container data-label="rightpane" class="block relative bg-gray-100 dark:bg-gray-900">
-        <slot name="rightpane" />
-    </rightpane-container>
+<onboarding-layout class="w-full h-screen flex justify-center items-center">
+    {#if !disableBack}
+        <back-container>
+            <Button
+                variant="text"
+                size="md"
+                icon={IconName.ArrowLeft}
+                disabled={busy}
+                on:click={onBackClick}
+                text={localize('actions.back')}
+            />
+        </back-container>
+    {/if}
+    <content-container
+        class="{size} flex flex-col space-y-4 p-4 rounded-xl bg-white dark:bg-gray-800 shadow-elevation-4"
+    >
+        <content-title class="h-full flex flex-col space-y-2">
+            <Text type="h4" color="purple-500">{title}</Text>
+            {#if description}<Text color="gray-500">{description}</Text>{/if}
+        </content-title>
+        <slot name="content" />
+        <content-buttons class="block flex flex-row space-x-2">
+            {#if !disableBack}<Button
+                    width="full"
+                    variant="outline"
+                    size="md"
+                    disabled={busy}
+                    on:click={onBackClick}
+                    text={localize('actions.back')}
+                />{/if}
+            <Button
+                width="full"
+                variant="contained"
+                size="md"
+                disabled={busy}
+                on:click={onContinueClick}
+                text={localize('actions.continue')}
+            />
+        </content-buttons>
+    </content-container>
 </onboarding-layout>
 
 <style lang="scss">
-    leftpane-container {
-        width: 38%;
-
-        > div {
-            max-width: 406px;
-        }
+    back-container {
+        position: absolute;
+        top: 0px;
+        left: 32px;
+        margin-top: 64px;
     }
-
-    rightpane-container {
-        width: 62%;
-    }
-
-    button {
-        @apply w-6 h-6;
-        transition: filter 0.2s;
-
-        &:focus {
-            filter: brightness(1.3);
+    content-container {
+        width: 100%;
+        &.small {
+            max-width: 360px;
         }
-
-        &.busy {
-            @apply pointer-events-none opacity-50;
+        &.medium {
+            max-width: 480px;
+        }
+        &.large {
+            max-width: 630px;
         }
     }
 

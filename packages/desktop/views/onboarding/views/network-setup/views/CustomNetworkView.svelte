@@ -11,7 +11,7 @@
         getNodeInfoWhileLoggedOut,
     } from '@core/network'
     import features from '@features/features'
-    import { Animation, Button, HTMLButtonType, NodeConfigurationForm, Text, TextType } from '@ui'
+    import { NodeConfigurationForm } from '@ui'
     import { onMount } from 'svelte'
     import { networkSetupRouter } from '../network-setup-router'
 
@@ -82,11 +82,12 @@
     })
 </script>
 
-<OnboardingLayout {onBackClick}>
-    <div slot="title">
-        <Text type={TextType.h2}>{localize('views.onboarding.networkSetup.setupCustomNetwork.title')}</Text>
-    </div>
-    <div slot="leftpane__content">
+<OnboardingLayout
+    title={localize('views.onboarding.networkSetup.setupCustomNetwork.title')}
+    {onContinueClick}
+    {onBackClick}
+>
+    <div slot="content">
         <NodeConfigurationForm
             onSubmit={onContinueClick}
             bind:this={nodeConfigurationForm}
@@ -98,20 +99,5 @@
             isDeveloperProfile
             networkEditable
         />
-    </div>
-    <div slot="leftpane__action">
-        <Button
-            disabled={!node?.url || isBusy}
-            type={HTMLButtonType.Submit}
-            form="node-configuration-form"
-            classes="w-full"
-            {isBusy}
-            busyMessage={localize('actions.addingNode')}
-        >
-            {localize('actions.continue')}
-        </Button>
-    </div>
-    <div slot="rightpane" class="w-full h-full flex justify-center bg-pastel-yellow dark:bg-gray-900">
-        <Animation classes="setup-anim-aspect-ratio" animation="onboarding-custom-network-desktop" />
     </div>
 </OnboardingLayout>

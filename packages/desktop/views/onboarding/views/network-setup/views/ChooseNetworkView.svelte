@@ -2,22 +2,22 @@
     import { Icon } from '@auxiliary/icon'
     import { OnboardingLayout } from '@components'
     import {
-        initialiseOnboardingProfile,
-        updateOnboardingProfile,
-        onboardingProfile,
         OnboardingNetworkType,
+        initialiseOnboardingProfile,
+        onboardingProfile,
+        updateOnboardingProfile,
     } from '@contexts/onboarding'
     import { localize } from '@core/i18n'
     import {
         NetworkId,
         NetworkNamespace,
+        StardustNetworkName,
         getDefaultClientOptions,
         getDefaultPersistedNetwork,
-        StardustNetworkName,
     } from '@core/network'
     import { profiles } from '@core/profile/stores'
     import features from '@features/features'
-    import { Animation, OnboardingButton, Text, TextType } from '@ui'
+    import { OnboardingButton, Text } from '@ui'
     import { onMount } from 'svelte'
     import { networkSetupRouter } from '../network-setup-router'
 
@@ -34,9 +34,14 @@
         [OnboardingNetworkType.Custom]: 'blue-500',
     }
 
-    function onNetworkSelectionClick(networkType: OnboardingNetworkType): void {
-        if (networkType !== OnboardingNetworkType.Custom) {
-            const networkName = getNetworkNameFromOnboardingNetworkType(networkType)
+    let selectedNetworkType: OnboardingNetworkType = OnboardingNetworkType.Shimmer
+    function onNetworkClick(networkType: OnboardingNetworkType): void {
+        selectedNetworkType = networkType
+    }
+
+    function onContinueClick(): void {
+        if (selectedNetworkType !== OnboardingNetworkType.Custom) {
+            const networkName = getNetworkNameFromOnboardingNetworkType(selectedNetworkType)
             const networkId: NetworkId = `${NetworkNamespace.Stardust}:${networkName}`
             const network = getDefaultPersistedNetwork(networkId)
             const clientOptions = getDefaultClientOptions(networkId)
@@ -72,14 +77,17 @@
     })
 </script>
 
-<OnboardingLayout allowBack={$profiles.length > 0} {onBackClick}>
-    <div slot="title">
-        <Text type={TextType.h2}>{localize('views.onboarding.networkSetup.chooseNetwork.title')}</Text>
-    </div>
+<OnboardingLayout
+    title={localize('views.onboarding.networkSetup.chooseNetwork.title')}
+    description={localize('views.onboarding.networkSetup.chooseNetwork.body')}
+    {onContinueClick}
+    {onBackClick}
+    disableBack={$profiles.length === 0}
+>
     <div slot="leftpane__content">
         <Text secondary classes="mb-8">{localize('views.onboarding.networkSetup.chooseNetwork.body')}</Text>
     </div>
-    <div slot="leftpane__action" class="flex flex-col space-y-4">
+    <div slot="content" class="flex flex-col space-y-4">
         {#each Object.values(OnboardingNetworkType) as networkType}
             <OnboardingButton
                 primaryText={localize(`views.onboarding.networkSetup.chooseNetwork.${networkType}.title`)}
@@ -88,11 +96,9 @@
                 iconColor={networkIconColor[networkType]}
                 hidden={features?.onboarding?.[networkType]?.hidden}
                 disabled={!features?.onboarding?.[networkType]?.enabled}
-                onClick={() => onNetworkSelectionClick(networkType)}
+                onClick={() => onNetworkClick(networkType)}
+                selected={selectedNetworkType === networkType}
             />
         {/each}
-    </div>
-    <div slot="rightpane" class="w-full h-full flex justify-center bg-pastel-yellow dark:bg-gray-900">
-        <Animation classes="setup-anim-aspect-ratio" animation="onboarding-network-desktop" />
     </div>
 </OnboardingLayout>
