@@ -11,11 +11,8 @@
         $createFromLedgerRouter.next()
     }
 
-    let isBusy: boolean = false
-    async function onBackClick(): Promise<void> {
-        isBusy = true
-        await stopPollingLedgerNanoStatus()
-        isBusy = false
+    function onBackClick(): void {
+        stopPollingLedgerNanoStatus()
         $createFromLedgerRouter.previous()
     }
 
@@ -35,11 +32,9 @@
     description={localize('views.ledgerInstallationGuide.body1', { values: { network: LedgerAppName.Shimmer } })}
     continueButton={{
         onClick: onContinueClick,
-        disabled: isBusy,
     }}
     backButton={{
         onClick: onBackClick,
-        disabled: isBusy,
     }}
 >
     <div slot="content" class="space-y-4">

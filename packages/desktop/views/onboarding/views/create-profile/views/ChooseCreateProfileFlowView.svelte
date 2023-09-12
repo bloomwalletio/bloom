@@ -18,7 +18,7 @@
     const networkId = $onboardingProfile?.network?.id
     const networkType = getOnboardingNetworkTypeFromNetworkId(networkId)
 
-    let busyMap = {
+    const busyMap = {
         [CreateProfileType.Mnemonic]: false,
         [CreateProfileType.Ledger]: false,
     }
@@ -31,7 +31,7 @@
     }
 
     async function onContinueClick(): Promise<void> {
-        busyMap = { ...busyMap, [selectedCreateProfileType]: true }
+        busyMap[selectedCreateProfileType] = true
         const type = selectedCreateProfileType === CreateProfileType.Ledger ? ProfileType.Ledger : ProfileType.Software
         updateOnboardingProfile({ createProfileType: selectedCreateProfileType, type })
         await initialiseProfileManagerFromOnboardingProfile()

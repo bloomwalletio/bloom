@@ -19,7 +19,7 @@
     const networkType = getOnboardingNetworkTypeFromNetworkId(networkId)
     const displayedNetworkName = $onboardingProfile?.network?.name
 
-    let busyMap = {
+    const busyMap = {
         [RestoreProfileType.Mnemonic]: false,
         [RestoreProfileType.Stronghold]: false,
         [RestoreProfileType.Ledger]: false,
@@ -33,7 +33,7 @@
     }
 
     async function onContinueClick(): Promise<void> {
-        busyMap = { ...busyMap, [selectedRestoreProfileType]: true }
+        busyMap[selectedRestoreProfileType] = true
         const type =
             selectedRestoreProfileType === RestoreProfileType.Ledger ? ProfileType.Ledger : ProfileType.Software
         updateOnboardingProfile({ type, restoreProfileType: selectedRestoreProfileType })

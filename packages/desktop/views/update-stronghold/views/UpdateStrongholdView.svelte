@@ -21,14 +21,13 @@
             } else {
                 await migrateStrongholdFromActiveProfile(password)
             }
-            busy = false
             $updateStrongholdRouter.next()
         } catch (err) {
-            busy = false
             const message = err?.message ?? ''
             const parsedError = isValidJson(message) ? JSON.parse(message) : ''
             passwordError = parsedError?.payload?.error.replaceAll('`', '') ?? localize(message)
-            return
+        } finally {
+            busy = false
         }
     }
 
