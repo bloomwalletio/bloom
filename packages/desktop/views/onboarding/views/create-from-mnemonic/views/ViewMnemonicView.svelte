@@ -1,6 +1,5 @@
 <script lang="ts">
     import { Button, Text } from '@bloomwalletio/ui'
-    import { OnboardingLayout } from '@components'
     import {
         generateMnemonicForOnboardingProfile,
         onboardingProfile,
@@ -9,6 +8,7 @@
     import { localize } from '@core/i18n'
     import { downloadRecoveryKit } from '@core/utils'
     import { RecoveryPhrase } from '@ui'
+    import { OnboardingLayout } from '@views/components'
     import { onMount } from 'svelte'
     import { createFromMnemonicRouter } from '../create-from-mnemonic-router'
 

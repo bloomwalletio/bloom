@@ -1,5 +1,4 @@
 <script lang="ts">
-    import { OnboardingLayout } from '@components'
     import {
         CreateProfileType,
         initialiseProfileManagerFromOnboardingProfile,
@@ -11,6 +10,7 @@
     import { ProfileType, removeProfileFolder } from '@core/profile'
     import { destroyProfileManager } from '@core/profile-manager/actions'
     import features from '@features/features'
+    import { OnboardingLayout } from '@views/components'
     import { onMount } from 'svelte'
     import { OnboardingSelectorTile } from '../../../components'
     import { createProfileRouter } from '../create-profile-router'

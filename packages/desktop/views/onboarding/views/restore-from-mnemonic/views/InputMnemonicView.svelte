@@ -1,8 +1,8 @@
 <script lang="ts">
-    import { OnboardingLayout } from '@components'
     import { updateOnboardingProfile } from '@contexts/onboarding'
     import { localize } from '@core/i18n'
     import { ImportTextfield, Text } from '@ui'
+    import { OnboardingLayout } from '@views/components'
     import { onMount } from 'svelte'
     import { restoreFromMnemonicRouter } from '../restore-from-mnemonic-router'
 

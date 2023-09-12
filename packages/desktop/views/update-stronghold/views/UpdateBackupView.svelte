@@ -2,12 +2,12 @@
     import { Icon as IconEnum } from '@auxiliary/icon'
     import { showNotification } from '@auxiliary/notification'
     import { Alert } from '@bloomwalletio/ui'
-    import { OnboardingLayout } from '@components'
     import { updateOnboardingProfile } from '@contexts/onboarding/stores'
     import { exportStronghold } from '@contexts/settings/actions'
     import { localize } from '@core/i18n'
     import { login } from '@core/profile/actions'
     import { Button, Icon } from '@ui'
+    import { OnboardingLayout } from '@views/components'
     import { updateStrongholdRouter } from '../update-stronghold-router'
 
     export let busy = false

@@ -1,9 +1,9 @@
 <script lang="ts">
-    import { OnboardingLayout } from '@components'
     import { initialisePincodeManager } from '@contexts/onboarding'
     import { localize } from '@core/i18n'
     import { isValidPin } from '@core/utils'
     import { PinInput, Text } from '@ui'
+    import { OnboardingLayout } from '@views/components'
     import { completeOnboardingRouter } from '../complete-onboarding-router'
 
     export let busy = false

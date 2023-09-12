@@ -1,5 +1,4 @@
 <script lang="ts">
-    import { OnboardingLayout } from '@components'
     import {
         ClaimShimmerRewardsError,
         FindShimmerRewardsError,
@@ -33,6 +32,7 @@
     import { unsubscribeFromWalletApiEvents } from '@core/profile-manager'
     import { closePopup } from '@desktop/auxiliary/popup'
     import { Button, ShimmerClaimingAccountList } from '@ui'
+    import { OnboardingLayout } from '@views/components'
     import { onDestroy, onMount } from 'svelte'
     import { restoreProfileRouter } from '../restore-profile-router'
 

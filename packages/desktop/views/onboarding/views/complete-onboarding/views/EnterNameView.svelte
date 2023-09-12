@@ -1,10 +1,10 @@
 <script lang="ts">
-    import { OnboardingLayout } from '@components'
     import { onboardingProfile, updateOnboardingProfile } from '@contexts/onboarding'
     import { localize } from '@core/i18n'
     import { validateProfileName } from '@core/profile'
     import { profiles } from '@core/profile/stores'
     import { Input, Text } from '@ui'
+    import { OnboardingLayout } from '@views/components'
     import { completeOnboardingRouter } from '../complete-onboarding-router'
 
     let error = ''

@@ -1,9 +1,9 @@
 <script lang="ts">
     import { Alert } from '@bloomwalletio/ui'
-    import { OnboardingLayout } from '@components'
     import { completeOnboardingProcess, isOnboardingLedgerProfile } from '@contexts/onboarding'
     import { localize } from '@core/i18n'
     import { checkOrConnectLedger } from '@core/ledger'
+    import { OnboardingLayout } from '@views/components'
     import { onboardingRouter } from '@views/onboarding/onboarding-router'
 
     function onContinueClick(): void {

@@ -1,5 +1,4 @@
 <script lang="ts">
-    import { OnboardingLayout } from '@components'
     import {
         PRIVACY_POLICY_URL,
         PRIVACY_POLICY_VERSION,
@@ -10,6 +9,7 @@
     import { openUrlInBrowser } from '@core/app/utils'
     import { localize } from '@core/i18n'
     import { Checkbox, Link, Text, TextType } from '@ui'
+    import { OnboardingLayout } from '@views/components'
     import { onboardingRouter } from '../onboarding-router'
 
     let termsAccepted: boolean = false

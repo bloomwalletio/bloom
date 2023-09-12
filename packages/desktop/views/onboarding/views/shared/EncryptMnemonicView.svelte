@@ -1,6 +1,5 @@
 <script lang="ts">
     import { showNotification } from '@auxiliary/notification'
-    import { OnboardingLayout } from '@components'
     import { updateOnboardingProfile, verifyAndStoreMnemonic } from '@contexts/onboarding'
     import { localize } from '@core/i18n'
     import { MAX_STRONGHOLD_PASSWORD_LENGTH } from '@core/profile'
@@ -8,6 +7,7 @@
     import { Subrouter } from '@core/router'
     import { PASSWORD_REASON_MAP } from '@core/stronghold'
     import { PasswordInput, Text, TextType } from '@ui'
+    import { OnboardingLayout } from '@views/components'
     import zxcvbn from 'zxcvbn'
 
     export let router: Subrouter<unknown>

@@ -1,7 +1,6 @@
 <script lang="ts">
     import { showNotification } from '@auxiliary/notification'
     import { Alert } from '@bloomwalletio/ui'
-    import { OnboardingLayout } from '@components'
     import { onboardingProfile, updateOnboardingProfile } from '@contexts/onboarding'
     import { handleError } from '@core/error/handlers'
     import { localize } from '@core/i18n'
@@ -15,6 +14,7 @@
     import { PASSWORD_REASON_MAP } from '@core/stronghold'
     import { Button, PasswordInput } from '@ui'
     import { HTMLButtonType } from '@ui/enums'
+    import { OnboardingLayout } from '@views/components'
     import { onMount } from 'svelte'
     import zxcvbn from 'zxcvbn'
     import { updateStrongholdRouter } from '../update-stronghold-router'

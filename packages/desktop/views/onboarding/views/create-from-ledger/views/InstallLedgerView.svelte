@@ -1,9 +1,9 @@
 <script lang="ts">
-    import { OnboardingLayout } from '@components'
     import { localize } from '@core/i18n'
     import { LedgerAppName, pollLedgerNanoStatus, stopPollingLedgerNanoStatus } from '@core/ledger'
     import { PopupId, openPopup } from '@desktop/auxiliary/popup'
     import { Icon, Link, Text } from '@ui'
+    import { OnboardingLayout } from '@views/components'
     import { onMount } from 'svelte'
     import { createFromLedgerRouter } from '../create-from-ledger-router'
 

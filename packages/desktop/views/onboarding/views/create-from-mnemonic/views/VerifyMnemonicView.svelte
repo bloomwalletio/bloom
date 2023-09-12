@@ -1,9 +1,9 @@
 <script lang="ts">
     import { Icon as IconEnum } from '@auxiliary/icon'
-    import { OnboardingLayout } from '@components'
     import { Mnemonic, getWordChoices, onboardingProfile, updateOnboardingProfile } from '@contexts/onboarding'
     import { localize } from '@core/i18n'
     import { Icon, RecoveryPhrase, Text, TextType } from '@ui'
+    import { OnboardingLayout } from '@views/components'
     import { onMount } from 'svelte'
     import { createFromMnemonicRouter } from '../create-from-mnemonic-router'
 

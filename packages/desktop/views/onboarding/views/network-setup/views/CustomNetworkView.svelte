@@ -1,6 +1,5 @@
 <script lang="ts">
     import { showNotification } from '@auxiliary/notification'
-    import { OnboardingLayout } from '@components'
     import { OnboardingNetworkType, updateOnboardingProfile } from '@contexts/onboarding'
     import { localize } from '@core/i18n'
     import {
@@ -12,6 +11,7 @@
     } from '@core/network'
     import features from '@features/features'
     import { NodeConfigurationForm } from '@ui'
+    import { OnboardingLayout } from '@views/components'
     import { onMount } from 'svelte'
     import { networkSetupRouter } from '../network-setup-router'
 

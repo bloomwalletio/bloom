@@ -1,5 +1,4 @@
 <script lang="ts">
-    import { OnboardingLayout } from '@components'
     import {
         OnboardingNetworkType,
         initialiseOnboardingProfile,
@@ -18,6 +17,7 @@
     import { profiles } from '@core/profile/stores'
     import features from '@features/features'
     import NetworkAvatar from '@ui/avatars/NetworkAvatar.svelte'
+    import { OnboardingLayout } from '@views/components'
     import { onMount } from 'svelte'
     import { OnboardingSelectorTile } from '../../../components'
     import { networkSetupRouter } from '../network-setup-router'

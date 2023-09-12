@@ -1,5 +1,4 @@
 <script lang="ts">
-    import { OnboardingLayout } from '@components'
     import { ImportFile, onboardingProfile, updateOnboardingProfile, validateBackupFile } from '@contexts/onboarding'
     import { CLIENT_ERROR_REGEXES } from '@core/error/constants'
     import { ClientError } from '@core/error/enums'
@@ -8,6 +7,7 @@
     import { STRONGHOLD_VERSION } from '@core/stronghold/constants'
     import { StrongholdVersion } from '@core/stronghold/enums'
     import { Dropzone } from '@ui'
+    import { OnboardingLayout } from '@views/components'
     import { onMount } from 'svelte'
     import { restoreFromStrongholdRouter } from '../../restore-from-stronghold/restore-from-stronghold-router'
 

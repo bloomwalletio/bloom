@@ -1,9 +1,9 @@
 <script lang="ts">
-    import { OnboardingLayout } from '@components'
     import { OnboardingType, onboardingProfile, updateOnboardingProfile } from '@contexts/onboarding'
     import { localize } from '@core/i18n'
     import { getOnboardingNetworkTypeFromNetworkId } from '@core/network'
     import features from '@features/features'
+    import { OnboardingLayout } from '@views/components'
     import { onMount } from 'svelte'
     import { OnboardingSelectorTile } from '../components'
     import { onboardingRouter } from '../onboarding-router'

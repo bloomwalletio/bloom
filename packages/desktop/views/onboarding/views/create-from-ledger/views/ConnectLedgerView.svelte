@@ -1,10 +1,10 @@
 <script lang="ts">
-    import { OnboardingLayout } from '@components'
     import { localize } from '@core/i18n'
     import { LedgerConnectionState, ledgerConnectionState } from '@core/ledger'
     import { Subrouter } from '@core/router'
     import { PopupId, openPopup } from '@desktop/auxiliary/popup'
     import { Icon, Link, Text } from '@ui'
+    import { OnboardingLayout } from '@views/components'
 
     export let router: Subrouter<unknown>
 

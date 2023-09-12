@@ -1,10 +1,10 @@
 <script lang="ts">
     import { showNotification } from '@auxiliary/notification'
-    import { OnboardingLayout } from '@components'
     import { restoreBackupFromStrongholdFile, updateOnboardingProfile } from '@contexts/onboarding'
     import { CLIENT_ERROR_REGEXES, ClientError } from '@core/error'
     import { localize } from '@core/i18n'
     import { PasswordInput, Text } from '@ui'
+    import { OnboardingLayout } from '@views/components'
     import { onMount } from 'svelte'
     import { restoreFromStrongholdRouter } from '../restore-from-stronghold-router'
 

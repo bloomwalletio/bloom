@@ -1,11 +1,11 @@
 <script lang="ts">
-    import { OnboardingLayout } from '@components'
     import { migrateStrongholdFromOnboardingProfile } from '@contexts/onboarding/actions'
     import { localize } from '@core/i18n'
     import { migrateStrongholdFromActiveProfile } from '@core/profile/actions/active-profile'
     import { isValidJson } from '@core/utils'
     import { Button, PasswordInput, Text } from '@ui'
     import { HTMLButtonType } from '@ui/enums'
+    import { OnboardingLayout } from '@views/components'
     import { updateStrongholdRouter } from '../update-stronghold-router'
 
     export let password: string = ''
