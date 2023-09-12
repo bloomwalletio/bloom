@@ -4,7 +4,7 @@
             "appSetup": {
                 "welcome": {
                     "title": "Send, Receive & Manage your {network} tokens",
-                    "body": "Firefly is the official wallet software for {network}."
+                    "body": "Bloom is the official wallet software for {network}."
                 },
                 "legal": {
                     "title": "Privacy Policy & Terms of Service",
@@ -138,7 +138,7 @@
             "profileRecovery": {
                 "importMnemonicPhrase": {
                     "title": "Enter your recovery phrase",
-                    "body": "A recovery phrase is 24 words long, all lower case, with spaces between. This is used to recover existing Firefly profiles.",
+                    "body": "A recovery phrase is 24 words long, all lower case, with spaces between. This is used to recover existing Bloom profiles.",
                     "enter": "Enter your secret recovery phrase",
                     "phraseDetected": "24 word recovery phrase detected"
                 },
@@ -194,15 +194,15 @@
         },
         "importFromLedger": {
             "title": "Obnovit nebo migrovat váš Ledger",
-            "body": "Obnovit existující profil Firefly Ledger nebo přesunout Vaše prostředky z Trinity.",
-            "haveFireflyLedger": "Mám zálohu Firefly Ledger",
-            "haveFireflyLedgerDescription": "Obnovit Firefly profil",
+            "body": "Obnovit existující profil Bloom Ledger nebo přesunout Vaše prostředky z Trinity.",
+            "haveFireflyLedger": "Mám zálohu Bloom Ledger",
+            "haveFireflyLedgerDescription": "Obnovit Bloom profil",
             "haveTrinityLedger": "Mám zálohu Trinity Ledger",
             "haveTrinityLedgerDescription": "Migrovat Trinity profil"
         },
         "connectLedger": {
-            "title": "Připojení Vašeho Ledger k Firefly",
-            "body": "Aby Firefly mohlo nalézt Vaše zařízení Ledger, ujistěte se, že je oficiální aplikace Ledger Live uzavřena.",
+            "title": "Připojení Vašeho Ledger k Bloom",
+            "body": "Aby Bloom mohlo nalézt Vaše zařízení Ledger, ujistěte se, že je oficiální aplikace Ledger Live uzavřena.",
             "connect": "Connect your Ledger device",
             "unlock": "Unlock your Ledger with its pin",
             "openApp": "Open the Shimmer app on your Ledger",
@@ -214,18 +214,18 @@
             "restoring": "Obnovení z Ledgeru..."
         },
         "legacyLedgerIntro": {
-            "title": "Spusťte migraci do Ledger pomocí Firefly",
-            "body1": "Firefly vám pomůže přenést vaše tokeny do nové sítě Chrysalis.",
-            "body2": "Po migraci budete moci posílat a přijímat tokeny pomocí aplikace Ledger s Firefly.",
+            "title": "Spusťte migraci do Ledger pomocí Bloom",
+            "body1": "Bloom vám pomůže přenést vaše tokeny do nové sítě Chrysalis.",
+            "body2": "Po migraci budete moci posílat a přijímat tokeny pomocí aplikace Ledger s Bloom.",
             "readMore": "Co čekat od procesu migrace"
         },
         "generateNewLedgerAddress": {
             "title": "Generate new address",
-            "body": "Pro migraci tokenů s Firefly, potřebujete vygenerovat novou adresu. Pro pokračování klikněte na tlačítko níže.",
+            "body": "Pro migraci tokenů s Bloom, potřebujete vygenerovat novou adresu. Pro pokračování klikněte na tlačítko níže.",
             "confirmTitle": "Potvrdit novou adresu",
             "confirmBody": "Z důvodu bezpečnosti porovnejte adresu vygenerovanou na zařízení Ledger s adresou zobrazenou níže. Pokud se shodují, stiskněte na Vašem Ledgeru obě tlačítka, jak jste vyzváni.",
             "confirmedTitle": "Adresa potvrzena",
-            "confirmedBody": "Potvrdili jste, že adresa ve Firefly odpovídá adrese na Vašem zařízení Ledger.",
+            "confirmedBody": "Potvrdili jste, že adresa ve Bloom odpovídá adrese na Vašem zařízení Ledger.",
             "generating": "Generování adresy"
         },
         "switchLedgerApps": {
@@ -278,7 +278,7 @@
             "theme": {
                 "title": "Motiv",
                 "description": "",
-                "advice": "Pokud změníte svůj motiv, budete možná muset restartovat Firefly pro zobrazení efektů"
+                "advice": "Pokud změníte svůj motiv, budete možná muset restartovat Bloom pro zobrazení efektů"
             },
             "language": {
                 "title": "Jazyk",
@@ -334,7 +334,7 @@
             },
             "changeProfileName": {
                 "title": "Změnit jméno profilu",
-                "description": "Změnit jméno Firefly profilu",
+                "description": "Změnit jméno Bloom profilu",
                 "success": "Změnili jste jméno profilu"
             },
             "walletFinder": {
@@ -351,7 +351,7 @@
             },
             "deepLinks": {
                 "title": "Deep links",
-                "description": "Automatically fill transaction data in Firefly upon clicking a deep link starting with {appProtocol}://"
+                "description": "Automatically fill transaction data in Bloom upon clicking a deep link starting with {appProtocol}://"
             },
             "networkInformation": {
                 "title": "Network information",
@@ -382,9 +382,9 @@
             },
             "crashReporting": {
                 "title": "Hlášení o chybách",
-                "body": "Help the developers improve Firefly by automatically sending diagnostic data when an error or crash occurs",
+                "body": "Help the developers improve Bloom by automatically sending diagnostic data when an error or crash occurs",
                 "checkbox": "Odeslat hlášení o selhání",
-                "advice": "Please restart the Firefly application to {sendCrashReports, select, true {start sharing crash reports} false {stop sharing crash reports} other {apply this change}}"
+                "advice": "Please restart the Bloom application to {sendCrashReports, select, true {start sharing crash reports} false {stop sharing crash reports} other {apply this change}}"
             },
             "diagnostics": {
                 "title": "Diagnostika",
@@ -481,7 +481,7 @@
                 },
                 "version": {
                     "title": "Dostupná nová aktualizace",
-                    "updateVersion": "Firefly v. {version}",
+                    "updateVersion": "Bloom v. {version}",
                     "button": "Aktualizovat"
                 }
             },
@@ -520,7 +520,7 @@
                     "connectLedgerDevice": {
                         "title": "Connect Ledger Device",
                         "header": "Open the Ethereum app",
-                        "body": "For your Ledger device to be found by Firefly, please ensure that the official Ledger Live application is closed before following these steps.",
+                        "body": "For your Ledger device to be found by Bloom, please ensure that the official Ledger Live application is closed before following these steps.",
                         "requirements": {
                             "connect": "Connect and unlock your Ledger",
                             "openApp": "Open the Ethereum app on your Ledger"
@@ -845,7 +845,7 @@
         "externalUrl": {
             "title": "Open URL in Browser",
             "body": "Are you sure you want to open \"{url}\" in the browser?",
-            "hint": "This URL is unknown to Firefly. Please double check the URL before opening it.",
+            "hint": "This URL is unknown to Bloom. Please double check the URL before opening it.",
             "action": "Open URL",
             "invalidProtocol": "Cannot open URL with invalid protocol"
         },
@@ -988,7 +988,7 @@
             "title": "Probíhající aktualizace sítě",
             "body": "Chrysalis upgrade byl zahájen.",
             "bodyMigration": "Před dokončením neni migrace povolena.",
-            "bodyFirefly": "Firefly je vypnuta před dokončením. Migrace tokenů bude stále možná i potom."
+            "bodyFirefly": "Bloom je vypnuta před dokončením. Migrace tokenů bude stále možná i potom."
         },
         "ledgerNotConnected": {
             "title": "Connect your Ledger",
@@ -1007,7 +1007,7 @@
                 "1": "Ujistěte se, že je Váš Ledger připojen",
                 "2": "Search for the {legacy} app. You may need to enable Ledger Live developer mode.",
                 "3": "Install the {legacy} app",
-                "4": "Nezapomeňte, že je důležité zavřít Ledger Live před návratem do Firefly"
+                "4": "Nezapomeňte, že je důležité zavřít Ledger Live před návratem do Bloom"
             }
         },
         "ledgerConnectionGuide": {
@@ -1052,7 +1052,7 @@
             "totalFundsStaked": "Celkem stakovaných prostředků",
             "stakedSuccessfully": "Vaše finanční prostředky byly stakovány do {account}.",
             "unstakedSuccessfully": "Vaše finanční prostředky byly odstakovány z {account}.",
-            "singleAccountHint": "Looking for your wallets? Firefly has changed. Toggle between your wallets in the top menu bar."
+            "singleAccountHint": "Looking for your wallets? Bloom has changed. Toggle between your wallets in the top menu bar."
         },
         "stakingConfirmation": {
             "title": "Potvrdit účast",
@@ -1083,7 +1083,7 @@
         },
         "crashReporting": {
             "title": "Zprávy o selhání",
-            "body": "Help the developers improve Firefly by automatically sending diagnostic data when an error or crash occurs. If selected, this will take effect after restarting Firefly.",
+            "body": "Help the developers improve Bloom by automatically sending diagnostic data when an error or crash occurs. If selected, this will take effect after restarting Bloom.",
             "checkbox": "Send crash reports to the IOTA Foundation"
         },
         "signMessage": {
@@ -1184,15 +1184,15 @@
         "legalUpdate": {
             "tosTitle": "Podmínky služby",
             "privPolicyTitle": "Zásady ochrany osobních údajů",
-            "tosAndPrivPolicyBody": "We have updated Firefly's Terms of Service and Privacy Policy.",
-            "tosBody": "We have updated Firefly's Terms of Service.",
-            "privPolicyBody": "We have updated Firefly's Privacy Policy.",
+            "tosAndPrivPolicyBody": "We have updated Bloom's Terms of Service and Privacy Policy.",
+            "tosBody": "We have updated Bloom's Terms of Service.",
+            "privPolicyBody": "We have updated Bloom's Privacy Policy.",
             "tosAndPrivPolicyCheckbox": "Přečetl(a) jsem a souhlasím s podmínky služby a zásady ochrany osobních údajů",
             "tosCheckbox": "I've read and I accept the updated Terms of Service",
             "privPolicyCheckbox": "I've read and I accept the updated Privacy Policy"
         },
         "singleAccountGuide": {
-            "title": "The way you use Firefly has changed",
+            "title": "The way you use Bloom has changed",
             "body": "The content of each tab is now in the context of a single wallet. You can change the selected wallet from anywhere by using the switcher in the title bar.",
             "hint": "Can't find a wallet? Use the balance finder in the settings to discover previously used wallets."
         },
@@ -1314,7 +1314,7 @@
         "revote": {
             "title": "Revote on proposals",
             "body": "Changing your voting power temporarily stops your votes for all proposals from being counted. Simply click \"Revote\" to resume voting.",
-            "hint": "Firefly remembers all of the proposals and answer options you previously voted for."
+            "hint": "Bloom remembers all of the proposals and answer options you previously voted for."
         },
         "removeProposal": {
             "title": "Remove proposal",
@@ -1434,7 +1434,7 @@
         "exportTransactionHistory": "Exportovat historii transakcí",
         "localProofOfWork": "Lokální proof-of-work",
         "unlock": "Odemknout",
-        "updateFirefly": "Aktualizovat Firefly",
+        "updateFirefly": "Aktualizovat Bloom",
         "restart": "Restart",
         "refresh": "Refresh",
         "saveBackup": "Uložit Stronghold zálohu",
@@ -1487,7 +1487,7 @@
         "search": "Search",
         "searching": "Searching",
         "searchAgain": "Hledat znovu",
-        "closeFirefly": "Zavřít Firefly",
+        "closeFirefly": "Zavřít Bloom",
         "generateAddress": "Generate address",
         "migrateAgain": "Migrovat jiný index",
         "visitWebsite": "Navštívit webové stránky",

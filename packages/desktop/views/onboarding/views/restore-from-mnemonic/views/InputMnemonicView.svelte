@@ -1,6 +1,6 @@
 <script lang="ts">
     import { OnboardingLayout } from '@components'
-    import { onboardingProfile, updateOnboardingProfile } from '@contexts/onboarding'
+    import { updateOnboardingProfile } from '@contexts/onboarding'
     import { localize } from '@core/i18n'
     import { Animation, Button, HTMLButtonType, ImportTextfield, Text } from '@ui'
     import { onMount } from 'svelte'
@@ -34,7 +34,7 @@
         >
         <Text type="h5" classes="mb-3">{localize('views.onboarding.profileRecovery.importMnemonicPhrase.enter')}</Text>
         <form on:submit|preventDefault={onContinueClick} id="text-import-form">
-            <ImportTextfield type={$onboardingProfile?.restoreProfileType} bind:value={input} />
+            <ImportTextfield bind:value={input} />
         </form>
     </div>
     <div slot="leftpane__action" class="flex flex-row flex-wrap justify-between items-center space-x-4">

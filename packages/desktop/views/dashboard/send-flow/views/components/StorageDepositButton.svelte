@@ -43,11 +43,9 @@
     <Modal bind:this={modal} position={{ bottom: '30px', right: '0px' }} size="large">
         <gift-storage-deposit-modal class="flex flex-row justify-between items-center p-4" in:fade={{ duration: 100 }}>
             <div class="flex flex-col">
-                <Text fontWeight={FontWeight.medium}
-                    >{localize('popups.transactionDetails.giftedStorageDeposit.tooltipTitle')}</Text
-                >
+                <Text fontWeight={FontWeight.medium}>{localize('popups.giftedStorageDeposit.tooltipTitle')}</Text>
                 <Text fontWeight={FontWeight.medium} color="gray-600" darkColor="gray-400"
-                    >{localize('popups.transactionDetails.giftedStorageDeposit.tooltipDescription')}</Text
+                    >{localize('popups.giftedStorageDeposit.tooltipDescription')}</Text
                 >
             </div>
             <Toggle color="green" active={giftStorageDeposit} onClick={toggleGiftStorageDeposit} />
