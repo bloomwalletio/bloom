@@ -13,10 +13,10 @@ export * from './getSenderAddressFromUnlockCondition'
 export * from './getSubjectFromAddress'
 export * from './getTokenIdFromSendFlowParameters'
 export * from './getTokenStandardFromSendFlowParameters'
-export * from './isReservedTagKeyword'
 export * from './isSubjectInternal'
 export * from './parseGovernanceMetadata'
 export * from './validateIrc30Metadata'
+export * from './validateTag'
 
 // Folders
 export * from './send'

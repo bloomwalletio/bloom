@@ -26,10 +26,12 @@
     $: isAssetFromLayer2 = !!chain
     $: isTransferring = !!$selectedAccount.isTransferring
 
+    let isDisabled: boolean = isTransferring
     let recipientAddress: string
     let preparedOutput: Output | undefined
     let preparedTransaction: EvmTransactionData | undefined
     let chain: IChain | undefined
+    let stardustTransactionSummary: StardustTransactionSummary | undefined
 
     async function updateSendFlow(sendFlowParameters: SendFlowParameters): Promise<void> {
         try {
@@ -62,7 +64,9 @@
                 const tokenId = getTokenIdFromSendFlowParameters($sendFlowParameters)
                 await sendTransactionFromEvm(preparedTransaction, tokenId, chain, closePopup)
             } else {
-                await sendOutputFromStardust(preparedOutput, $selectedAccount, closePopup)
+                if (stardustTransactionSummary?.validate()) {
+                    await sendOutputFromStardust(preparedOutput, $selectedAccount, closePopup)
+                }
             }
         } catch (err) {
             handleError(err)
@@ -96,13 +100,13 @@
     rightButton={{
         text: localize('actions.confirm'),
         onClick: onConfirmClick,
-        disabled: isTransferring,
+        disabled: isDisabled,
         isBusy: isTransferring,
     }}
 >
     {#if isAssetFromLayer2 && preparedTransaction}
         <EvmTransactionSummary transaction={preparedTransaction} sendFlowParameters={$sendFlowParameters} />
     {:else if !isAssetFromLayer2 && preparedOutput}
-        <StardustTransactionSummary output={preparedOutput} sendFlowParameters={$sendFlowParameters} />
+        <StardustTransactionSummary bind:this={stardustTransactionSummary} bind:isDisabled output={preparedOutput} sendFlowParameters={$sendFlowParameters} />
     {/if}
 </SendFlowTemplate>

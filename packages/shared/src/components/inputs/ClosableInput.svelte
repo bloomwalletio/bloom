@@ -6,8 +6,15 @@
     export let buttonElement: HTMLButtonElement = undefined
     export let label: string
     export let placeholder: string
-    export let error: string
+    export let error: string = ''
     export let inputType: 'text' | 'number' = 'text'
+
+    let input: TextInput | NumberInput | undefined
+
+    export function validate(): void {
+        console.log('ClosableInput.svelte')
+        input?.validate()
+    }
 
     let inputElement: HTMLInputElement
     let hasFocus: boolean
@@ -26,11 +33,12 @@
     {#if inputType === 'text'}
         <TextInput
             slot="input"
+            bind:this={input}
             bind:value
             bind:inputElement
             bind:hasFocus
+            bind:error
             autofocus
-            {error}
             {label}
             {placeholder}
             {...$$restProps}
@@ -45,11 +53,12 @@
     {:else if inputType === 'number'}
         <NumberInput
             slot="input"
+            bind:this={input}
             bind:value
             bind:inputElement
             bind:hasFocus
+            bind:error
             autofocus
-            {error}
             {label}
             {placeholder}
             {...$$restProps}

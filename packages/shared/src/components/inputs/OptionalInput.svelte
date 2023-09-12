@@ -20,14 +20,11 @@
         isOpen = true
     }
 
-    export async function validate(promise: Promise<unknown>): Promise<void> {
-        error = ''
-        try {
-            await promise
-        } catch (err) {
-            error = err
-            throw err
-        }
+    let closableInput: ClosableInput | undefined
+
+    export function validate(): void {
+        console.log('OptionalInput.svelte')
+        closableInput?.validate()
     }
 
     function onMouseEnter(): void {
@@ -52,6 +49,7 @@
 
 <optional-input class={`${isOpen ? 'order-first' : 'order-last'} ${classes}`} class:w-full={isOpen}>
     <ClosableInput
+        bind:this={closableInput}
         bind:buttonElement
         bind:open={isOpen}
         bind:value

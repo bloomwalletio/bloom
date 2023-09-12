@@ -16,8 +16,6 @@
     export let lineHeight = '140'
 
     export function validate(): void {
-        /* eslint-disable @typescript-eslint/ban-ts-comment */
-        // @ts-ignore
         input?.validate()
     }
 

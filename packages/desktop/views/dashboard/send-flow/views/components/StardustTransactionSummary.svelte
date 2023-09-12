@@ -6,7 +6,7 @@
     import { INft } from '@core/nfts/interfaces'
     import { selectedAccountTokens } from '@core/token/stores'
     import { TimePeriod } from '@core/utils/enums'
-    import { Output, SendFlowParameters, SendFlowType, TokenTransferData } from '@core/wallet'
+    import { Output, SendFlowParameters, SendFlowType, TokenTransferData, validateTag } from '@core/wallet'
     import { updateSendFlowParameters } from '@core/wallet/stores'
     import { AddInputButton, OptionalInput, TransactionAssetSection } from '@ui'
     import { onMount } from 'svelte'
@@ -14,6 +14,20 @@
 
     export let output: Output
     export let sendFlowParameters: SendFlowParameters
+    export let isDisabled: boolean = false
+
+    export function validate(): boolean {
+        try {
+            console.log('tag input: ', tagInput)
+            tagInput?.validate()
+            isDisabled = false
+            return true
+        } catch (err) {
+            console.log('tag caught: ', err)
+            isDisabled = true
+            return false
+        }
+    }
 
     let {
         expirationDate,
@@ -27,7 +41,7 @@
     } = sendFlowParameters
 
     let storageDeposit: number
-    let tagInput: OptionalInput
+    let tagInput: OptionalInput | undefined
     let metadataInput: OptionalInput
 
     let selectedExpirationPeriod: TimePeriod | undefined = expirationDate ? TimePeriod.Custom : undefined
@@ -36,6 +50,7 @@
     $: isTransferring = !!$selectedAccount.isTransferring
     $: updateSendFlowOnChange(expirationDate, timelockDate, giftStorageDeposit, tag, metadata)
     $: storageDeposit = getStorageDepositFromOutput(output)
+    $: tag, isDisabled = false
 
     const isToLayer2 = destinationNetworkId && isEvmChain(destinationNetworkId)
     disableGiftingStorageDeposit(isToLayer2)
@@ -166,9 +181,9 @@
         <OptionalInput
             bind:this={tagInput}
             bind:value={tag}
-            disabled={isTransferring}
             label={localize('general.tag')}
             description={localize('tooltips.optionalInput')}
+            validationFunction={validateTag}
         />
         {#if !isToLayer2}
             <OptionalInput

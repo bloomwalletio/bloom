@@ -8,12 +8,22 @@
     export let hasFocus = false
     export let value: string
     export let isInteger: boolean
+    export let error: string = ''
+
+    let textInput: TextInput | undefined
+
+    export function validate(): void {
+        console.log('NumberInput.svelte')
+        textInput?.validate()
+    }
 </script>
 
 <TextInput
+    bind:this={textInput}
     bind:inputElement
     bind:value
     bind:hasFocus
+    bind:error
     {disabled}
     placeholder={localize('general.amount')}
     float={!isInteger}
