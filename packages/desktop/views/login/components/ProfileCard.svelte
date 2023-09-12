@@ -33,10 +33,10 @@
     </profile-header>
     <div class="relative">
         <ProfileAvatar {profile} size="lg" />
-        {#if !updateRequired}
-            <NetworkBadge size="sm" networkId={profile.network.id} networkName={profile.network.name} />
-        {:else}
+        {#if updateRequired}
             <StrongholdBadge />
+        {:else}
+            <NetworkBadge size="sm" networkId={profile.network.id} networkName={profile.network.name} />
         {/if}
     </div>
     <Text type="h6" align="center" truncate>{profile.name}</Text>
