@@ -1,7 +1,7 @@
 <script lang="ts">
     import { Icon, IconName, Text } from '@bloomwalletio/ui'
     import { IPersistedProfile, ProfileType } from '@core/profile'
-    import { NetworkBadge, ProfileAvatar, StrongholdBadge } from '@ui'
+    import { ProfileAvatarWithBadge } from '@ui'
     import features from '@features/features'
 
     export let profile: IPersistedProfile
@@ -32,12 +32,7 @@
         {/if}
     </profile-header>
     <div class="relative">
-        <ProfileAvatar {profile} size="lg" />
-        {#if updateRequired}
-            <StrongholdBadge size="sm" />
-        {:else}
-            <NetworkBadge size="sm" networkId={profile.network.id} networkName={profile.network.name} />
-        {/if}
+        <ProfileAvatarWithBadge {profile} size="lg" {updateRequired} />
     </div>
     <Text type="h6" align="center" truncate>{profile.name}</Text>
 </button>
