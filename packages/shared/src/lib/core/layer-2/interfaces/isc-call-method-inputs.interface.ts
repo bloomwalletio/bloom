@@ -1,4 +1,4 @@
-export interface IscCallMethoInputs {
+export interface IscCallMethodInputs {
     contractHname: string
     entryPoint: string
     params: {
