@@ -1,8 +1,8 @@
 import { handleError } from '@core/error/handlers'
+import { getNetwork } from '@core/network/stores'
 import { NetworkId } from '@core/network/types'
 import { setEvmChainGasPrice } from '../stores'
 import { getGasPriceForNetwork } from './getGasPriceForNetwork'
-import { getNetwork } from '@core/network'
 
 export async function updateEvmChainGasPrice(networkId: NetworkId): Promise<void> {
     try {
@@ -15,11 +15,10 @@ export async function updateEvmChainGasPrice(networkId: NetworkId): Promise<void
     }
 }
 
-export async function updateEvmChainGasPrices(networkIds?: NetworkId[]): Promise<void> {
-    const profileChainIds =
+export async function updateEvmChainGasPrices(): Promise<void> {
+    const chainNetworkIds =
         getNetwork()
             ?.getChains()
             ?.map((chain) => chain.getConfiguration().id) ?? []
-    const chainsToQuery = networkIds ? networkIds : profileChainIds
-    await Promise.all(chainsToQuery.map((chainId) => updateEvmChainGasPrice(chainId)))
+    await Promise.all(chainNetworkIds.map((chainId) => updateEvmChainGasPrice(chainId)))
 }
