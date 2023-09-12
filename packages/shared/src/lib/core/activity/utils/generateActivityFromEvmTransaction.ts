@@ -22,8 +22,8 @@ export async function generateActivityFromEvmTransaction(
     const isInternal = isSubjectInternal(recipient)
     const timestamp = (await provider.eth.getBlock(transaction.blockNumber)).timestamp
 
-    let rawAmount
-    let tokenId
+    let rawAmount: string | undefined
+    let tokenId: string | undefined
     if (transaction.data) {
         // TODO: This is currently assuming that the transaction is a invocation to the ISC contract
         // We need to improve this such that it checks if the recipient is a contract we know of, and then use the correct ABI if known
