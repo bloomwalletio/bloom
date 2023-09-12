@@ -1,5 +1,4 @@
 <script lang="ts">
-    import { selectedAccount } from '@core/account/stores'
     import { getActiveNetworkId } from '@core/network'
     import { INft } from '@core/nfts/interfaces'
     import { selectedAccountTokens } from '@core/token/stores'
@@ -11,8 +10,6 @@
     export let sendFlowParameters: SendFlowParameters
 
     const { destinationNetworkId } = sendFlowParameters
-
-    $: isTransferring = !!$selectedAccount.isTransferring
 
     $: transactionFee =
         sendFlowParameters.type === SendFlowType.BaseCoinTransfer
@@ -56,5 +53,5 @@
 <div class="w-full space-y-4">
     <TransactionAssetSection {...getTransactionAssets(sendFlowParameters)} />
 
-    <StardustTransactionDetails {transactionFee} {destinationNetworkId} disableAll={isTransferring} />
+    <StardustTransactionDetails {transactionFee} {destinationNetworkId} disableAll />
 </div>
