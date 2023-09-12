@@ -1,12 +1,13 @@
 <script lang="ts">
     import { Icon, IconName, Text } from '@bloomwalletio/ui'
     import { IPersistedProfile, ProfileType } from '@core/profile'
-    import { NetworkBadge, ProfileAvatar } from '@ui'
+    import { ProfileAvatarWithBadge } from '@ui'
     import features from '@features/features'
 
     export let profile: IPersistedProfile
     export let disabled: boolean = false
     export let onClick: undefined | ((profileId: string) => void) = undefined
+    export let updateRequired: boolean = false
 
     function onProfileClick(): void {
         onClick && onClick(profile.id)
@@ -31,8 +32,7 @@
         {/if}
     </profile-header>
     <div class="relative">
-        <ProfileAvatar {profile} size="lg" />
-        <NetworkBadge size="sm" networkId={profile.network.id} networkName={profile.network.name} />
+        <ProfileAvatarWithBadge {profile} size="lg" {updateRequired} />
     </div>
     <Text type="h6" align="center" truncate>{profile.name}</Text>
 </button>
