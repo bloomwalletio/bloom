@@ -55,38 +55,38 @@ export class AbiDecoder {
     }
 
     private parseInputParameter(input: AbiInput, value: unknown): unknown {
-        let parsedValue: unknown = value
         if (input.type === 'tuple') {
             const parsedValueMap: { [key: string]: unknown } = {}
             input.components?.forEach((_input, index) => {
                 parsedValueMap[_input.name] = this.parseInputParameter(_input, (value as unknown[])[index])
             })
-            parsedValue = parsedValueMap
+            return parsedValueMap
         } else if (input.type === 'tuple[]') {
             const tmpInput = { ...input, type: 'tuple', name: `${input.name}_item` }
             const parsedValueList = (value as unknown[])?.map((_value) => this.parseInputParameter(tmpInput, _value))
-            parsedValue = parsedValueList
+            return parsedValueList
         } else if (input.type.startsWith('uint') || input.type.startsWith('int')) {
             const isArray = Array.isArray(value)
 
             if (isArray) {
-                parsedValue = value.map((val) => this.web3.utils.toBN(val).toString())
+                return value.map((val) => this.web3.utils.toBN(val).toString())
             } else {
-                parsedValue = this.web3.utils.toBN(value as string).toString()
+                return this.web3.utils.toBN(value as string).toString()
             }
         } else if (input.type.startsWith('address')) {
             const isArray = Array.isArray(value)
 
             if (isArray) {
-                parsedValue = value.map((addr) => addr.toLowerCase())
+                return value.map((addr) => addr.toLowerCase())
             } else {
-                parsedValue = (value as string).toLowerCase()
+                return (value as string).toLowerCase()
             }
+        } else {
+            return value
         }
-
-        return parsedValue
     }
 }
+
 function concatInputsToString(input: AbiInput): string {
     if (input.type === 'tuple') {
         return '(' + input.components?.map(concatInputsToString).join(',') + ')'
