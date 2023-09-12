@@ -1,4 +1,4 @@
-import { WEI_PER_GLOW } from '@core/layer-2'
+import { ISC_SANDBOX_ABI, WEI_PER_GLOW } from '@core/layer-2'
 import { NetworkId } from '@core/network/types'
 import { BASE_TOKEN_ID } from '@core/token'
 import { MILLISECONDS_PER_SECOND } from '@core/utils/constants'
@@ -8,10 +8,10 @@ import { ActivityAction, ActivityDirection, ActivityType, InclusionState } from 
 import { PersistedEvmTransaction, TransactionActivity } from '../types'
 import { getOrRequestTokenFromPersistedTokens } from '@core/token/actions'
 import { calculateGasFeeInGlow } from '@core/layer-2/helpers'
+import { AbiDecoder } from '@core/utils'
 
 export async function generateActivityFromEvmTransaction(
     transaction: PersistedEvmTransaction,
-    tokenId: string,
     networkId: NetworkId,
     provider: Web3
 ): Promise<TransactionActivity> {
@@ -22,13 +22,35 @@ export async function generateActivityFromEvmTransaction(
     const isInternal = isSubjectInternal(recipient)
     const timestamp = (await provider.eth.getBlock(transaction.blockNumber)).timestamp
 
+    let rawAmount
+    let tokenId
+    if (transaction.data) {
+        const abiDecoder = new AbiDecoder(ISC_SANDBOX_ABI, provider)
+        const decoded = abiDecoder.decodeData(transaction.data as string)
+        // console.log(decoded?.allowance);
+        // console.log(decoded?.allowance?.value);
+        // console.log(decoded?.allowance?.value?.nativeTokens);
+        // console.log(decoded?.allowance?.value?.nativeTokens?.value);
+        // console.log(decoded?.allowance?.value?.nativeTokens?.value?.[0]);
+        // console.log(decoded?.allowance?.value?.nativeTokens?.value?.[0]?.value);
+
+        const nativeToken = decoded?.allowance?.value?.nativeTokens?.value?.[0]?.value
+        if (nativeToken) {
+            tokenId = nativeToken.ID
+            rawAmount = nativeToken.amount
+        }
+    } else {
+        tokenId = BASE_TOKEN_ID
+        rawAmount = String(Number(transaction.value) / Number(WEI_PER_GLOW))
+    }
+
     const baseTokenTransfer = {
         tokenId: BASE_TOKEN_ID,
-        rawAmount: tokenId === BASE_TOKEN_ID ? String(Number(transaction.value) / Number(WEI_PER_GLOW)) : '0',
+        rawAmount: tokenId === BASE_TOKEN_ID ? rawAmount : '0',
     }
 
     let tokenTransfer
-    if (tokenId !== BASE_TOKEN_ID) {
+    if (tokenId && tokenId !== BASE_TOKEN_ID) {
         const persistedToken = await getOrRequestTokenFromPersistedTokens(tokenId, networkId)
         tokenTransfer = persistedToken
             ? {

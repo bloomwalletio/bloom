@@ -13,7 +13,6 @@ import { BASE_TOKEN_ID } from '@core/token'
 
 export async function sendTransactionFromEvm(
     transaction: EvmTransactionData,
-    tokenId: string,
     chain: IChain,
     callback?: () => void
 ): Promise<void> {
@@ -39,7 +38,7 @@ export async function sendTransactionFromEvm(
                 }
                 addPersistedTransaction(account.index, networkId, evmTransaction)
 
-                const activity = await generateActivityFromEvmTransaction(evmTransaction, tokenId, networkId, provider)
+                const activity = await generateActivityFromEvmTransaction(evmTransaction, networkId, provider)
                 addActivitiesToAccountActivitiesInAllAccountActivities(account.index, [activity])
 
                 if (getAddressFromAccountForNetwork(account, networkId) !== activity.subject?.address) {
