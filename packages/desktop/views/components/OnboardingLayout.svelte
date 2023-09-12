@@ -24,7 +24,7 @@
     }
 
     export let size: 'small' | 'medium' | 'large' = 'medium'
-    export let title: string
+    export let title: string | undefined = undefined
     export let description: string | undefined = undefined
     export let continueButton: Partial<IButtonProps> | undefined = DEFAULT_CONTINUE_BUTTON
     export let backButton: Partial<IButtonProps> | undefined = DEFAULT_BACK_BUTTON
@@ -51,7 +51,7 @@
         class="{size} flex flex-col space-y-4 p-4 rounded-xl bg-white dark:bg-gray-800 shadow-elevation-4"
     >
         <content-title class="h-full flex flex-col space-y-2">
-            <Text type="h4" color="purple-500">{title}</Text>
+            {#if title}<Text type="h4" color="purple-500">{title}</Text>{/if}
             {#if description}<Text color="gray-500">{description}</Text>{/if}
         </content-title>
         <slot name="content" />

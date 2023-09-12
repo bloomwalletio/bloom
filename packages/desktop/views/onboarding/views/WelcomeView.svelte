@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { Checkbox, Link, Text } from '@bloomwalletio/ui'
     import {
         PRIVACY_POLICY_URL,
         PRIVACY_POLICY_VERSION,
@@ -8,7 +9,6 @@
     import { hasCompletedAppSetup, lastAcceptedPrivacyPolicy, lastAcceptedTermsOfService } from '@core/app/stores'
     import { openUrlInBrowser } from '@core/app/utils'
     import { localize } from '@core/i18n'
-    import { Checkbox, Link, Text, TextType } from '@ui'
     import { OnboardingLayout } from '@views/components'
     import { onboardingRouter } from '../onboarding-router'
 
@@ -31,10 +31,7 @@
 </script>
 
 <OnboardingLayout
-    title={localize('views.onboarding.appSetup.welcome.title', {
-        network: '',
-    })}
-    description={localize('views.onboarding.appSetup.welcome.description')}
+    size="small"
     continueButton={{
         onClick: onContinueClick,
         disabled: !termsAccepted,
@@ -43,13 +40,36 @@
         hidden: true,
     }}
 >
-    <div slot="content" class="flex flex-col space-y-8">
+    <div slot="content" class="flex flex-col space-y-4">
+        <welcome-title class="p-1">
+            <h1>
+                {localize('views.onboarding.appSetup.welcome.title')}
+            </h1>
+            <h1 class="gradient">Bloom.</h1>
+        </welcome-title>
         <Checkbox bind:checked={termsAccepted}>
-            <Text slot="label" type={TextType.p} secondary>
-                I've read and I accept the <Link onClick={onTermsOfServiceClick}>Terms of Service</Link> and <Link
-                    onClick={onPrivacyPolicyClick}>Privacy Policy</Link
-                >
+            <Text slot="label">
+                I've read and I accept the&nbsp
+                <Link on:click={onTermsOfServiceClick}>Terms of Service</Link>
+                &nbspand&nbsp
+                <Link on:click={onPrivacyPolicyClick}>Privacy Policy</Link>
             </Text>
         </Checkbox>
     </div>
 </OnboardingLayout>
+
+<style>
+    h1 {
+        color: #3c00a6;
+        font-size: 52px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 60px; /* 134.615% */
+        letter-spacing: -0.52px;
+    }
+    .gradient {
+        background: -webkit-linear-gradient(0deg, #c4b0ff, #a82bdc, #e65426, #feb83a);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+</style>
