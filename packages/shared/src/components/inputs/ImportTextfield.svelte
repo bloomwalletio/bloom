@@ -6,13 +6,7 @@
     import { debounce } from '@core/utils'
     import { Mnemonic } from '@contexts/onboarding'
 
-    enum Type {
-        Seed = 'seed',
-        Mnemonic = 'mnemonic',
-    }
-
     export let value: string
-    export let type = Type.Mnemonic
     export let disabled = false
     export let minHeight: number = 200
 
@@ -20,20 +14,7 @@
     let content = ''
     let error = false
 
-    function checkSeed(value: string): string {
-        if (value.length !== 81) {
-            return localize('error.backup.seedTooShort', {
-                values: {
-                    length: value.length,
-                },
-            })
-        }
-        if (!/^[9A-Z]+$/.test(value)) {
-            return localize('error.backup.seedCharacters')
-        }
-    }
-
-    function checkMnemonic(words: Mnemonic): string {
+    function checkMnemonic(words: Mnemonic): string | undefined {
         if (words.length !== 24) {
             return localize('error.backup.phraseWordCount', {
                 values: {
@@ -71,30 +52,19 @@
 
         if (trimmedContent.length >= 3) {
             const words = trimmedContent?.split(' ')
-            if (type === Type.Seed) {
-                const seedValidations = checkSeed(trimmedContent)
-                if (seedValidations) {
-                    statusMessage = seedValidations
-                    error = true
-                } else {
-                    statusMessage = localize('views.importFromText.seedDetected')
+            const mnemonicValidations = checkMnemonic(words)
+            if (mnemonicValidations) {
+                statusMessage = mnemonicValidations
+                error = true
+            } else {
+                try {
+                    await verifyMnemonic(trimmedContent)
+                    statusMessage = localize('views.onboarding.profileRecovery.importMnemonicPhrase.phraseDetected')
                     value = trimmedContent
-                }
-            } else if (type === Type.Mnemonic) {
-                const mnemonicValidations = checkMnemonic(words)
-                if (mnemonicValidations) {
-                    statusMessage = mnemonicValidations
+                } catch (err) {
                     error = true
-                } else {
-                    try {
-                        await verifyMnemonic(trimmedContent)
-                        statusMessage = localize('views.onboarding.profileRecovery.importMnemonicPhrase.phraseDetected')
-                        value = trimmedContent
-                    } catch (err) {
-                        error = true
-                        console.error(err)
-                        statusMessage = localize(err.error)
-                    }
+                    console.error(err)
+                    statusMessage = localize(err.error)
                 }
             }
         }
