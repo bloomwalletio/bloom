@@ -6,18 +6,21 @@ export function buildLedgerDeviceState(
     status: LedgerNanoStatus,
     ethereumAppSettings?: ILedgerEthereumAppSettings
 ): ILedgerDeviceState {
+    const app = status.app
+
     return <ILedgerDeviceState>{
         connected: ethereumAppSettings ? true : status.connected,
         locked: ethereumAppSettings ? false : status.locked,
         device: status.device,
-        app: status.app?.name as LedgerAppName,
+        app: app?.name as LedgerAppName,
         settings: <ILedgerAppSettings>{
-            ...((status.app?.name as LedgerAppName) === LedgerAppName.Shimmer && {
-                [LedgerAppName.Shimmer]: {
-                    version: status.app.version,
-                    blindSigningEnabled: status?.blindSigningEnabled,
-                },
-            }),
+            ...(app &&
+                (app?.name as LedgerAppName) === LedgerAppName.Shimmer && {
+                    [LedgerAppName.Shimmer]: {
+                        version: app.version,
+                        blindSigningEnabled: status?.blindSigningEnabled,
+                    },
+                }),
             ...(ethereumAppSettings && { [LedgerAppName.Ethereum]: ethereumAppSettings }),
         },
     }

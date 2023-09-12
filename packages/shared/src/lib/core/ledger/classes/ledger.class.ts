@@ -38,7 +38,7 @@ export class Ledger {
                 () => ledgerApiBridge.makeRequest(LedgerApiMethod.GetEthereumAppSettings),
                 'ethereum-app-settings',
                 {
-                    timeout: 1,
+                    timeout: 2 * MILLISECONDS_PER_SECOND,
                 }
             )
         } catch (err) {
@@ -143,7 +143,7 @@ export class Ledger {
         // the Ethereum app settings polling uses this function.
 
         const { timeout, pollingInterval } = { ...DEFAULT_LEDGER_API_REQUEST_OPTIONS, ...requestOptions }
-        const iterationCount = (timeout * MILLISECONDS_PER_SECOND) / pollingInterval
+        const iterationCount = timeout / pollingInterval
 
         callback()
 
@@ -157,6 +157,7 @@ export class Ledger {
 
         for (let count = 0; count < iterationCount; count++) {
             if (!isGenerating) {
+                Platform.removeListenersForEvent(responseEvent)
                 if (returnValue && Object.keys(returnValue).length !== 0) {
                     return returnValue
                 } else {
@@ -166,6 +167,7 @@ export class Ledger {
             await sleep(pollingInterval)
         }
 
+        Platform.removeListenersForEvent(responseEvent)
         return Promise.reject(localize('error.ledger.timeout'))
     }
 }

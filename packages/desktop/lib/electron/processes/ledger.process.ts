@@ -47,10 +47,10 @@ async function messageHandler(message: ILedgerProcessMessage): Promise<void> {
                 break
         }
 
-        await closeTransport()
-
         process.parentPort.postMessage({ method, payload: data })
     } catch (error) {
         process.parentPort.postMessage({ error })
+    } finally {
+        await closeTransport()
     }
 }
