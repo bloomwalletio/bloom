@@ -9,7 +9,6 @@
     export let size: (typeof avatarSize)[number] = 'md'
 
     const BADGE_SIZES: { [key: string]: 'xxs' | 'xs' | 'sm' | 'md' } = {
-        ['xxl']: 'md',
         ['xl']: 'md',
         ['lg']: 'sm',
         ['md']: 'sm',
