@@ -1,4 +1,4 @@
-import { ISC_SANDBOX_ABI, WEI_PER_GLOW } from '@core/layer-2'
+import { ISC_SANDBOX_ABI, IscCallMethoInputs, WEI_PER_GLOW } from '@core/layer-2'
 import { NetworkId } from '@core/network/types'
 import { BASE_TOKEN_ID } from '@core/token'
 import { MILLISECONDS_PER_SECOND } from '@core/utils/constants'
@@ -25,19 +25,18 @@ export async function generateActivityFromEvmTransaction(
     let rawAmount
     let tokenId
     if (transaction.data) {
+        // TODO: This is currently assuming that the transaction is a invocation to the ISC contract
+        // We need to improve this such that it checks if the recipient is a contract we know of, and then use the correct ABI if known
         const abiDecoder = new AbiDecoder(ISC_SANDBOX_ABI, provider)
         const decoded = abiDecoder.decodeData(transaction.data as string)
-        // console.log(decoded?.allowance);
-        // console.log(decoded?.allowance?.value);
-        // console.log(decoded?.allowance?.value?.nativeTokens);
-        // console.log(decoded?.allowance?.value?.nativeTokens?.value);
-        // console.log(decoded?.allowance?.value?.nativeTokens?.value?.[0]);
-        // console.log(decoded?.allowance?.value?.nativeTokens?.value?.[0]?.value);
+        if (decoded?.name === 'call') {
+            const inputs = decoded.inputs as IscCallMethoInputs
 
-        const nativeToken = decoded?.allowance?.value?.nativeTokens?.value?.[0]?.value
-        if (nativeToken) {
-            tokenId = nativeToken.ID
-            rawAmount = nativeToken.amount
+            const nativeToken = inputs?.allowance?.nativeTokens?.[0]
+            if (nativeToken) {
+                tokenId = nativeToken.ID.data
+                rawAmount = nativeToken.amount
+            }
         }
     } else {
         tokenId = BASE_TOKEN_ID
@@ -46,7 +45,7 @@ export async function generateActivityFromEvmTransaction(
 
     const baseTokenTransfer = {
         tokenId: BASE_TOKEN_ID,
-        rawAmount: tokenId === BASE_TOKEN_ID ? rawAmount : '0',
+        rawAmount: tokenId === BASE_TOKEN_ID ? rawAmount ?? '0' : '0',
     }
 
     let tokenTransfer
@@ -55,7 +54,7 @@ export async function generateActivityFromEvmTransaction(
         tokenTransfer = persistedToken
             ? {
                   tokenId: persistedToken.id,
-                  rawAmount: String(Number(transaction.value) / Number(WEI_PER_GLOW)),
+                  rawAmount: rawAmount ?? '0',
               }
             : undefined
     }

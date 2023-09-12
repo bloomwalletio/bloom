@@ -2,12 +2,6 @@ import { Abi } from '@core/layer-2'
 import Web3 from 'web3'
 import type { AbiItem, AbiInput } from 'web3-utils'
 
-interface ParsedInput {
-    name: string
-    value: unknown
-    type: string
-}
-
 export class AbiDecoder {
     public abi: Record<string, AbiItem>
     public web3: Web3
@@ -31,17 +25,17 @@ export class AbiDecoder {
         this.web3 = _web3
     }
 
-    public decodeData(data: string): { [key: string]: ParsedInput } | undefined {
+    public decodeData(data: string): { name: string; inputs: unknown } | undefined {
         const functionSignature = data.slice(2, 10)
         const abiItem = this.abi[functionSignature]
 
-        if (!abiItem) {
+        if (!abiItem || !abiItem.name) {
             return undefined
         }
 
         const decoded = this.web3.eth.abi.decodeParameters(abiItem.inputs ?? [], data.slice(10))
 
-        const inputs: { [key: string]: ParsedInput } = {}
+        const inputs: { [key: string]: unknown } = {}
         for (let i = 0; i < decoded.__length__; i++) {
             const dataInput = decoded[i]
             const abiInput = abiItem.inputs?.[i]
@@ -51,21 +45,21 @@ export class AbiDecoder {
             }
 
             const parsedInput = this.parseInputParameter(abiInput, dataInput)
-            inputs[parsedInput.name] = parsedInput
+            inputs[abiInput.name] = parsedInput
         }
 
-        return inputs
+        return {
+            name: abiItem.name,
+            inputs,
+        }
     }
 
-    private parseInputParameter(input: AbiInput, value: unknown): ParsedInput {
+    private parseInputParameter(input: AbiInput, value: unknown): unknown {
         let parsedValue: unknown = value
         if (input.type === 'tuple') {
-            const _parsedValueList = input.components?.map((_input, index) =>
-                this.parseInputParameter(_input, (value as unknown[])[index])
-            )
-            const parsedValueMap: { [key: string]: ParsedInput } = {}
-            _parsedValueList?.forEach((_input) => {
-                parsedValueMap[_input.name] = _input
+            const parsedValueMap: { [key: string]: unknown } = {}
+            input.components?.forEach((_input, index) => {
+                parsedValueMap[_input.name] = this.parseInputParameter(_input, (value as unknown[])[index])
             })
             parsedValue = parsedValueMap
         } else if (input.type === 'tuple[]') {
@@ -90,11 +84,7 @@ export class AbiDecoder {
             }
         }
 
-        return {
-            name: input.name,
-            value: parsedValue,
-            type: input.type,
-        }
+        return parsedValue
     }
 }
 function concatInputsToString(input: AbiInput): string {
