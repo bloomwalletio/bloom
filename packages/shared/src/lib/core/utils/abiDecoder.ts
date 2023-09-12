@@ -90,9 +90,9 @@ export class AbiDecoder {
 function concatInputsToString(input: AbiInput): string {
     if (input.type === 'tuple') {
         return '(' + input.components?.map(concatInputsToString).join(',') + ')'
-    }
-    if (input.type === 'tuple[]') {
+    } else if (input.type === 'tuple[]') {
         return '(' + input.components?.map(concatInputsToString).join(',') + ')[]'
+    } else {
+        return input.type
     }
-    return input.type
 }
