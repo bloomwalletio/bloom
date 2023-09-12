@@ -38,7 +38,7 @@ export class Ledger {
                 () => ledgerApiBridge.makeRequest(LedgerApiMethod.GetEthereumAppSettings),
                 'ethereum-app-settings',
                 {
-                    timeout: 2 * MILLISECONDS_PER_SECOND,
+                    timeout: 0.5 * MILLISECONDS_PER_SECOND,
                 }
             )
         } catch (err) {
