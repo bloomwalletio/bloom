@@ -8,7 +8,7 @@ export const DEFAULT_PROPOSAL_FILTER: IProposalFilter = {
         active: false,
         type: 'selection',
         labelKey: 'filters.phase.label',
-        localeKey: 'pills.proposalStatus',
+        localeKey: 'pills.governance.proposalStatus',
         selected: EventStatus.Commencing,
         choices: [EventStatus.Commencing, EventStatus.Upcoming, EventStatus.Holding, EventStatus.Ended],
     },

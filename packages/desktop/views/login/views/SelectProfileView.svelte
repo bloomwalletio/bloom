@@ -2,9 +2,14 @@
     import { Icon, IconName } from '@bloomwalletio/ui'
     import { ProfileCard } from '../components'
     import { initialiseOnboardingProfile, onboardingProfile } from '@contexts/onboarding'
-    import { AppContext, needsToAcceptLatestPrivacyPolicy, needsToAcceptLatestTermsOfService } from '@core/app'
+    import {
+        AppContext,
+        isLatestStrongholdVersion,
+        needsToAcceptLatestPrivacyPolicy,
+        needsToAcceptLatestTermsOfService,
+    } from '@core/app'
     import { localize } from '@core/i18n'
-    import { removeProfileFolder } from '@core/profile'
+    import { IPersistedProfile, ProfileType, removeProfileFolder } from '@core/profile'
     import { destroyProfileManager } from '@core/profile-manager/actions'
     import { loadPersistedProfileIntoActiveProfile } from '@core/profile/actions'
     import { profiles } from '@core/profile/stores'
@@ -13,6 +18,7 @@
     import { Logo } from '@ui'
     import { OnboardingRouter, onboardingRouter } from '@views/onboarding'
     import { onMount } from 'svelte'
+    import features from '@features/features'
 
     function onContinueClick(profileId: string): void {
         loadPersistedProfileIntoActiveProfile(profileId)
@@ -31,6 +37,14 @@
             hideClose: true,
             preventClose: true,
         })
+    }
+
+    function updateRequiredForProfile(profile: IPersistedProfile): boolean {
+        return (
+            profile?.type === ProfileType.Software &&
+            !isLatestStrongholdVersion(profile?.strongholdVersion) &&
+            features.onboarding.strongholdVersionCheck.enabled
+        )
     }
 
     onMount(async () => {
@@ -59,7 +73,7 @@
         {$profiles.length > 4 ? 'grid grid-cols-4' : ''}"
     >
         {#each $profiles as profile}
-            <ProfileCard {profile} onClick={onContinueClick} />
+            <ProfileCard {profile} onClick={onContinueClick} updateRequired={updateRequiredForProfile(profile)} />
         {/each}
     </div>
     <footer class="flex flex-col w-full relative">
