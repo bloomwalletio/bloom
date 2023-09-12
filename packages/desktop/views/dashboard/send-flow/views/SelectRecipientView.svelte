@@ -24,16 +24,12 @@
     import { closePopup } from '@desktop/auxiliary/popup'
     import features from '@features/features'
     import { INetworkRecipientSelectorOption, NetworkRecipientSelector } from '@ui'
-    import { onDestroy, onMount } from 'svelte'
+    import { onMount } from 'svelte'
     import { sendFlowRouter } from '../send-flow.router'
     import SendFlowTemplate from './SendFlowTemplate.svelte'
     import { getTokenStandardFromSendFlowParameters } from '@core/wallet/utils'
     import { TokenStandard } from '@core/token'
-    import {
-        canAccountMakeEvmTransaction,
-        pollEvmChainGasPrices,
-        stopPollingEvmChainGasPrices,
-    } from '@core/layer-2/actions'
+    import { canAccountMakeEvmTransaction } from '@core/layer-2/actions'
 
     let selector: NetworkRecipientSelector
     let selectorOptions: INetworkRecipientSelectorOption[] = []
@@ -197,14 +193,6 @@
         return networkRecipientOptions
     }
 
-    function startPollingEvmChainGasPrices(): void {
-        const activeNetworkId = getActiveNetworkId()
-        const networkIdsToPoll = selectorOptions
-            .filter((option) => option.networkId !== activeNetworkId)
-            .map((option) => option.networkId)
-        pollEvmChainGasPrices(networkIdsToPoll)
-    }
-
     function onContinueClick(): void {
         if (validate()) {
             updateSendFlowParameters({
@@ -238,11 +226,6 @@
     }
     onMount(() => {
         buildNetworkRecipientOptions()
-        startPollingEvmChainGasPrices()
-    })
-    onDestroy(() => {
-        const chainsToIgnore = isEvmChain(selectedNetworkId) ? [selectedNetworkId] : []
-        stopPollingEvmChainGasPrices(chainsToIgnore)
     })
 </script>
 
