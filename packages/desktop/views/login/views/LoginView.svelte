@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { Button, Error, IconName, PinInput, Text } from '@bloomwalletio/ui'
+    import { Button, Error, IconName, PinInput, Text, Alert } from '@bloomwalletio/ui'
     import {
         Platform,
         isLatestStrongholdVersion,
@@ -130,6 +130,9 @@
     </button-container>
     <div>
         <ProfileCard profile={$activeProfile} />
+        {#if updateRequired}
+            <Alert variant="warning" text={localize('views.login.hintStronghold')} />
+        {/if}
         <div>
             <PinInput
                 bind:this={pinInput}

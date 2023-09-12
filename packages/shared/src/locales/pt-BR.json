@@ -4,7 +4,7 @@
             "appSetup": {
                 "welcome": {
                     "title": "Send, Receive & Manage your {network} tokens",
-                    "body": "Firefly is the official wallet software for {network}."
+                    "body": "Bloom is the official wallet software for {network}."
                 },
                 "legal": {
                     "title": "Privacy Policy & Terms of Service",
@@ -138,7 +138,7 @@
             "profileRecovery": {
                 "importMnemonicPhrase": {
                     "title": "Enter your recovery phrase",
-                    "body": "A recovery phrase is 24 words long, all lower case, with spaces between. This is used to recover existing Firefly profiles.",
+                    "body": "A recovery phrase is 24 words long, all lower case, with spaces between. This is used to recover existing Bloom profiles.",
                     "enter": "Enter your secret recovery phrase",
                     "phraseDetected": "24 word recovery phrase detected"
                 },
@@ -194,15 +194,15 @@
         },
         "importFromLedger": {
             "title": "Restaure ou migre sua Ledger",
-            "body": "Restaure um perfil Ledger existente da Firefly, ou migre seus fundos da Trinity.",
-            "haveFireflyLedger": "Eu tenho um backup Ledger da Firefly",
-            "haveFireflyLedgerDescription": "Restaurar um perfil Firefly",
+            "body": "Restaure um perfil Ledger existente da Bloom, ou migre seus fundos da Trinity.",
+            "haveFireflyLedger": "Eu tenho um backup Ledger da Bloom",
+            "haveFireflyLedgerDescription": "Restaurar um perfil Bloom",
             "haveTrinityLedger": "Tenho um backup Ledger da Trinity",
             "haveTrinityLedgerDescription": "Migrar um perfil da Trinity"
         },
         "connectLedger": {
-            "title": "Conecte sua Ledger à Firefly",
-            "body": "Para que seu dispositivo Ledger seja encontrado pela Firefly, certifique-se de que o aplicativo oficial Ledger Live esteja fechado.",
+            "title": "Conecte sua Ledger à Bloom",
+            "body": "Para que seu dispositivo Ledger seja encontrado pela Bloom, certifique-se de que o aplicativo oficial Ledger Live esteja fechado.",
             "connect": "Connect your Ledger device",
             "unlock": "Unlock your Ledger with its pin",
             "openApp": "Open the Shimmer app on your Ledger",
@@ -214,18 +214,18 @@
             "restoring": "Restaurando da Ledger..."
         },
         "legacyLedgerIntro": {
-            "title": "Inicie a migração de sua Ledger usando a Firefly",
-            "body1": "A Firefly irá ajudá-lo a transferir seus tokens para a nova rede Chrysalis.",
-            "body2": "Após a migração, você poderá enviar e receber seus tokens usando sua Ledger com a Firefly.",
+            "title": "Inicie a migração de sua Ledger usando a Bloom",
+            "body1": "A Bloom irá ajudá-lo a transferir seus tokens para a nova rede Chrysalis.",
+            "body2": "Após a migração, você poderá enviar e receber seus tokens usando sua Ledger com a Bloom.",
             "readMore": "O que esperar do processo de migração"
         },
         "generateNewLedgerAddress": {
             "title": "Gerar novo endereço",
-            "body": "Você precisa gerar um novo endereço para migrar seus tokens com a Firefly. Clique no botão abaixo para continuar.",
+            "body": "Você precisa gerar um novo endereço para migrar seus tokens com a Bloom. Clique no botão abaixo para continuar.",
             "confirmTitle": "Confirme o novo endereço",
             "confirmBody": "Por segurança, favor comparar o endereço gerado no seu dispositivo Ledger com o exibido abaixo. Se eles coincidirem, pressione ambos os botões na sua Ledger como exposto.",
             "confirmedTitle": "Endereço confirmado",
-            "confirmedBody": "Você confirmou que o endereço na Firefly corresponde ao endereço no seu dispositivo Ledger.",
+            "confirmedBody": "Você confirmou que o endereço na Bloom corresponde ao endereço no seu dispositivo Ledger.",
             "generating": "Gerando endereço"
         },
         "switchLedgerApps": {
@@ -278,7 +278,7 @@
             "theme": {
                 "title": "Tema",
                 "description": "",
-                "advice": "Se você alterar seu tema do sistema, talvez seja necessário reiniciar o Firefly para ver os efeitos"
+                "advice": "Se você alterar seu tema do sistema, talvez seja necessário reiniciar o Bloom para ver os efeitos"
             },
             "language": {
                 "title": "Idioma",
@@ -334,7 +334,7 @@
             },
             "changeProfileName": {
                 "title": "Alterar nome do perfil",
-                "description": "Alterar o nome do seu perfil Firefly",
+                "description": "Alterar o nome do seu perfil Bloom",
                 "success": "Você alterou o nome do seu perfil"
             },
             "walletFinder": {
@@ -351,7 +351,7 @@
             },
             "deepLinks": {
                 "title": "Deep links",
-                "description": "Automatically fill transaction data in Firefly upon clicking a deep link starting with {appProtocol}://"
+                "description": "Automatically fill transaction data in Bloom upon clicking a deep link starting with {appProtocol}://"
             },
             "networkInformation": {
                 "title": "Network information",
@@ -382,9 +382,9 @@
             },
             "crashReporting": {
                 "title": "Relatórios de falhas",
-                "body": "Ajude os desenvolvedores a melhorar a Firefly enviando automaticamente dados de diagnóstico quando ocorrer um erro ou uma falha",
+                "body": "Ajude os desenvolvedores a melhorar a Bloom enviando automaticamente dados de diagnóstico quando ocorrer um erro ou uma falha",
                 "checkbox": "Enviar relatórios de falhas",
-                "advice": "Por favor reinicie o aplicativo Firefly para {sendCrashReports, select, true {compartilhar os relatórios de falhas} false {parar de compartilhar os relatórios de falhas} other {aplique esta alteração}}"
+                "advice": "Por favor reinicie o aplicativo Bloom para {sendCrashReports, select, true {compartilhar os relatórios de falhas} false {parar de compartilhar os relatórios de falhas} other {aplique esta alteração}}"
             },
             "diagnostics": {
                 "title": "Diagnósticos",
@@ -481,7 +481,7 @@
                 },
                 "version": {
                     "title": "Nova atualização disponível",
-                    "updateVersion": "Firefly v{version}",
+                    "updateVersion": "Bloom v{version}",
                     "button": "Atualizar"
                 }
             },
@@ -520,7 +520,7 @@
                     "connectLedgerDevice": {
                         "title": "Connect Ledger Device",
                         "header": "Open the Ethereum app",
-                        "body": "For your Ledger device to be found by Firefly, please ensure that the official Ledger Live application is closed before following these steps.",
+                        "body": "For your Ledger device to be found by Bloom, please ensure that the official Ledger Live application is closed before following these steps.",
                         "requirements": {
                             "connect": "Connect and unlock your Ledger",
                             "openApp": "Open the Ethereum app on your Ledger"
@@ -845,7 +845,7 @@
         "externalUrl": {
             "title": "Open URL in Browser",
             "body": "Are you sure you want to open \"{url}\" in the browser?",
-            "hint": "This URL is unknown to Firefly. Please double check the URL before opening it.",
+            "hint": "This URL is unknown to Bloom. Please double check the URL before opening it.",
             "action": "Open URL",
             "invalidProtocol": "Cannot open URL with invalid protocol"
         },
@@ -988,7 +988,7 @@
             "title": "Atualização da rede em andamento",
             "body": "A atualização da rede Chrysalis começou.",
             "bodyMigration": "A migração está desabilitada até que esteja completa.",
-            "bodyFirefly": "A Firefly está desabilitada até estar completa. A migração de tokens ainda será possível posteriormente."
+            "bodyFirefly": "A Bloom está desabilitada até estar completa. A migração de tokens ainda será possível posteriormente."
         },
         "ledgerNotConnected": {
             "title": "Connect your Ledger",
@@ -1007,7 +1007,7 @@
                 "1": "Certifique-se de que sua Ledger esteja conectada",
                 "2": "Search for the {legacy} app. You may need to enable Ledger Live developer mode.",
                 "3": "Install the {legacy} app",
-                "4": "Lembre-se de que é importante fechar a Ledger Live antes de retornar à Firefly"
+                "4": "Lembre-se de que é importante fechar a Ledger Live antes de retornar à Bloom"
             }
         },
         "ledgerConnectionGuide": {
@@ -1052,7 +1052,7 @@
             "totalFundsStaked": "Total de fundos em staking",
             "stakedSuccessfully": "Os fundos foram colocados em staking para {account}.",
             "unstakedSuccessfully": "Os fundos foram retirados de staking para {account}.",
-            "singleAccountHint": "Looking for your wallets? Firefly has changed. Toggle between your wallets in the top menu bar."
+            "singleAccountHint": "Looking for your wallets? Bloom has changed. Toggle between your wallets in the top menu bar."
         },
         "stakingConfirmation": {
             "title": "Confirm Participation",
@@ -1083,7 +1083,7 @@
         },
         "crashReporting": {
             "title": "Reportando falha",
-            "body": "Ajudar os desenvolvedores a melhorar a Firefly enviando automaticamente dados de diagnóstico quando um erro ou uma falha ocorrer. Se selecionado, isso terá efeito após reiniciar a Firefly.",
+            "body": "Ajudar os desenvolvedores a melhorar a Bloom enviando automaticamente dados de diagnóstico quando um erro ou uma falha ocorrer. Se selecionado, isso terá efeito após reiniciar a Bloom.",
             "checkbox": "Send crash reports to the IOTA Foundation"
         },
         "signMessage": {
@@ -1184,15 +1184,15 @@
         "legalUpdate": {
             "tosTitle": "Termos de Serviço",
             "privPolicyTitle": "Política de Privacidade",
-            "tosAndPrivPolicyBody": "Atualizamos os Termos de Serviço e a Política de Privacidade da Firefly.",
-            "tosBody": "Atualizamos os Termos de Serviço da Firefly.",
-            "privPolicyBody": "Atualizamos a Política de Privacidade da Firefly.",
+            "tosAndPrivPolicyBody": "Atualizamos os Termos de Serviço e a Política de Privacidade da Bloom.",
+            "tosBody": "Atualizamos os Termos de Serviço da Bloom.",
+            "privPolicyBody": "Atualizamos a Política de Privacidade da Bloom.",
             "tosAndPrivPolicyCheckbox": "Eu li e aceito a atualização dos Termos de Serviço e da Política de Privacidade",
             "tosCheckbox": "Eu li e aceito a atualização dos Termos de Serviço",
             "privPolicyCheckbox": "Eu li e aceito a atualização da Política de Privacidade"
         },
         "singleAccountGuide": {
-            "title": "The way you use Firefly has changed",
+            "title": "The way you use Bloom has changed",
             "body": "The content of each tab is now in the context of a single wallet. You can change the selected wallet from anywhere by using the switcher in the title bar.",
             "hint": "Can't find a wallet? Use the balance finder in the settings to discover previously used wallets."
         },
@@ -1314,7 +1314,7 @@
         "revote": {
             "title": "Revote on proposals",
             "body": "Changing your voting power temporarily stops your votes for all proposals from being counted. Simply click \"Revote\" to resume voting.",
-            "hint": "Firefly remembers all of the proposals and answer options you previously voted for."
+            "hint": "Bloom remembers all of the proposals and answer options you previously voted for."
         },
         "removeProposal": {
             "title": "Remove proposal",
@@ -1434,7 +1434,7 @@
         "exportTransactionHistory": "Exportar histórico de transações",
         "localProofOfWork": "Prova de trabalho local",
         "unlock": "Desbloquear",
-        "updateFirefly": "Atualizar a Firefly",
+        "updateFirefly": "Atualizar a Bloom",
         "restart": "Restart",
         "refresh": "Refresh",
         "saveBackup": "Salvar backup Stronghold",
@@ -1487,7 +1487,7 @@
         "search": "Search",
         "searching": "Searching",
         "searchAgain": "Pesquisar novamente",
-        "closeFirefly": "Fechar Firefly",
+        "closeFirefly": "Fechar Bloom",
         "generateAddress": "Generate address",
         "migrateAgain": "Migrar outro índice",
         "visitWebsite": "Visite o website",

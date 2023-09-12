@@ -4,7 +4,7 @@
             "appSetup": {
                 "welcome": {
                     "title": "Send, Receive & Manage your {network} tokens",
-                    "body": "Firefly is the official wallet software for {network}."
+                    "body": "Bloom is the official wallet software for {network}."
                 },
                 "legal": {
                     "title": "Privacy Policy & Terms of Service",
@@ -138,7 +138,7 @@
             "profileRecovery": {
                 "importMnemonicPhrase": {
                     "title": "Enter your recovery phrase",
-                    "body": "A recovery phrase is 24 words long, all lower case, with spaces between. This is used to recover existing Firefly profiles.",
+                    "body": "A recovery phrase is 24 words long, all lower case, with spaces between. This is used to recover existing Bloom profiles.",
                     "enter": "Enter your secret recovery phrase",
                     "phraseDetected": "24 word recovery phrase detected"
                 },
@@ -278,7 +278,7 @@
             "theme": {
                 "title": "المظهر المفضل لك",
                 "description": "",
-                "advice": "إذا قمت بتغيير سمة النظام الخاص بك، قد تحتاج إلى إعادة تشغيل Firefly لرؤية التغييرات"
+                "advice": "إذا قمت بتغيير سمة النظام الخاص بك، قد تحتاج إلى إعادة تشغيل Bloom لرؤية التغييرات"
             },
             "language": {
                 "title": "اللغة",
@@ -334,7 +334,7 @@
             },
             "changeProfileName": {
                 "title": "تغيير اسم ملف تعريف",
-                "description": "تغيير اسم ملف تعريف Firefly الخاص بك",
+                "description": "تغيير اسم ملف تعريف Bloom الخاص بك",
                 "success": "قمت بتغيير اسم ملف التعريف الخاص بك"
             },
             "walletFinder": {
@@ -351,7 +351,7 @@
             },
             "deepLinks": {
                 "title": "Deep links",
-                "description": "Automatically fill transaction data in Firefly upon clicking a deep link starting with {appProtocol}://"
+                "description": "Automatically fill transaction data in Bloom upon clicking a deep link starting with {appProtocol}://"
             },
             "networkInformation": {
                 "title": "Network information",
@@ -382,9 +382,9 @@
             },
             "crashReporting": {
                 "title": "تقارير الأعطال",
-                "body": "ساعد المطورين على تحسين Firefly بإرسال بيانات التشخيص تلقائيًا عند حدوث خطأ أو عطل",
+                "body": "ساعد المطورين على تحسين Bloom بإرسال بيانات التشخيص تلقائيًا عند حدوث خطأ أو عطل",
                 "checkbox": "إرسال تقارير الأعطال",
-                "advice": "الرجاء إعادة تشغيل تطبيق Firefly من أجل {sendCrashReports, select, true {مشاركة سجل الخطأ} false {إيقاف مشاركة سجل الخطأ} other {تطبيق التغييرات}}"
+                "advice": "الرجاء إعادة تشغيل تطبيق Bloom من أجل {sendCrashReports, select, true {مشاركة سجل الخطأ} false {إيقاف مشاركة سجل الخطأ} other {تطبيق التغييرات}}"
             },
             "diagnostics": {
                 "title": "التشخيص",
@@ -481,7 +481,7 @@
                 },
                 "version": {
                     "title": "New update available",
-                    "updateVersion": "Firefly v{version}",
+                    "updateVersion": "Bloom v{version}",
                     "button": "تحديث"
                 }
             },
@@ -520,7 +520,7 @@
                     "connectLedgerDevice": {
                         "title": "Connect Ledger Device",
                         "header": "Open the Ethereum app",
-                        "body": "For your Ledger device to be found by Firefly, please ensure that the official Ledger Live application is closed before following these steps.",
+                        "body": "For your Ledger device to be found by Bloom, please ensure that the official Ledger Live application is closed before following these steps.",
                         "requirements": {
                             "connect": "Connect and unlock your Ledger",
                             "openApp": "Open the Ethereum app on your Ledger"
@@ -845,7 +845,7 @@
         "externalUrl": {
             "title": "Open URL in Browser",
             "body": "Are you sure you want to open \"{url}\" in the browser?",
-            "hint": "This URL is unknown to Firefly. Please double check the URL before opening it.",
+            "hint": "This URL is unknown to Bloom. Please double check the URL before opening it.",
             "action": "Open URL",
             "invalidProtocol": "Cannot open URL with invalid protocol"
         },
@@ -1052,7 +1052,7 @@
             "totalFundsStaked": "إجمالي رصبد الاموال المشاركة في فعالية الربح من التخزين",
             "stakedSuccessfully": "تم إشراك العملة الرقمية الخاصة بك في حساب {account} الخاص بفعالية الربح من التخزين بنجاح.",
             "unstakedSuccessfully": "تم سحب العملة الرقمية الخاصة بك من حساب {account} الخاص بفعالية الربح من التخزين بنجاح.",
-            "singleAccountHint": "Looking for your wallets? Firefly has changed. Toggle between your wallets in the top menu bar."
+            "singleAccountHint": "Looking for your wallets? Bloom has changed. Toggle between your wallets in the top menu bar."
         },
         "stakingConfirmation": {
             "title": "Confirm Participation",
@@ -1083,7 +1083,7 @@
         },
         "crashReporting": {
             "title": "الإبلاغ عن الأعطال",
-            "body": "ساعد المطورين على تحسين Firefly بإرسال بيانات التشخيص تلقائيًا عند حدوث خطأ أو عطل. إذا تم تحديده ، فسيصبح هذا ساري المفعول بعد إعادة تشغيل Firefly.",
+            "body": "ساعد المطورين على تحسين Bloom بإرسال بيانات التشخيص تلقائيًا عند حدوث خطأ أو عطل. إذا تم تحديده ، فسيصبح هذا ساري المفعول بعد إعادة تشغيل Bloom.",
             "checkbox": "Send crash reports to the IOTA Foundation"
         },
         "signMessage": {
@@ -1184,15 +1184,15 @@
         "legalUpdate": {
             "tosTitle": "شروط الخدمة",
             "privPolicyTitle": "سياسة الخصوصية",
-            "tosAndPrivPolicyBody": "لقد قمنا بتحديث شروط الخدمة وسياسة الخصوصية الخاصة بـ Firefly.",
-            "tosBody": "لقد قمنا بتحديث شروط خدمة Firefly.",
-            "privPolicyBody": "لقد قمنا بتحديث سياسة الخصوصية الخاصة بـ Firefly.",
+            "tosAndPrivPolicyBody": "لقد قمنا بتحديث شروط الخدمة وسياسة الخصوصية الخاصة بـ Bloom.",
+            "tosBody": "لقد قمنا بتحديث شروط خدمة Bloom.",
+            "privPolicyBody": "لقد قمنا بتحديث سياسة الخصوصية الخاصة بـ Bloom.",
             "tosAndPrivPolicyCheckbox": "لقد قرأت وأوافق على شروط الخدمة وسياسة الخصوصية المحدثة",
             "tosCheckbox": "لقد قرأت شروط الخدمة المحدثة وأوافق عليها",
             "privPolicyCheckbox": "لقد قرأت وأوافق على سياسة الخصوصية المحدثة"
         },
         "singleAccountGuide": {
-            "title": "The way you use Firefly has changed",
+            "title": "The way you use Bloom has changed",
             "body": "The content of each tab is now in the context of a single wallet. You can change the selected wallet from anywhere by using the switcher in the title bar.",
             "hint": "Can't find a wallet? Use the balance finder in the settings to discover previously used wallets."
         },
@@ -1314,7 +1314,7 @@
         "revote": {
             "title": "Revote on proposals",
             "body": "Changing your voting power temporarily stops your votes for all proposals from being counted. Simply click \"Revote\" to resume voting.",
-            "hint": "Firefly remembers all of the proposals and answer options you previously voted for."
+            "hint": "Bloom remembers all of the proposals and answer options you previously voted for."
         },
         "removeProposal": {
             "title": "Remove proposal",
