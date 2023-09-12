@@ -34,7 +34,7 @@
     <div class="relative">
         <ProfileAvatar {profile} size="lg" />
         {#if updateRequired}
-            <StrongholdBadge />
+            <StrongholdBadge size="sm" />
         {:else}
             <NetworkBadge size="sm" networkId={profile.network.id} networkName={profile.network.name} />
         {/if}

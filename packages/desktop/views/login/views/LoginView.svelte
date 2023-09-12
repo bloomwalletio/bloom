@@ -15,7 +15,7 @@
     import { PopupId, openPopup, popupState } from '@desktop/auxiliary/popup'
     import features from '@features/features'
     import { onDestroy } from 'svelte'
-    import { ProfileCard } from '../components'
+    import { NetworkBadge, ProfileAvatar, StrongholdBadge } from '@ui'
 
     let attempts: number = 0
     let pinCode: string = ''
@@ -129,7 +129,22 @@
         />
     </button-container>
     <div>
-        <ProfileCard profile={$activeProfile} />
+        <div>
+            <div class="relative">
+                <ProfileAvatar profile={$activeProfile} size="xl" />
+                {#if updateRequired}
+                    <StrongholdBadge size="md" />
+                {:else}
+                    <NetworkBadge
+                        size="md"
+                        networkId={$activeProfile.network.id}
+                        networkName={$activeProfile.network.name}
+                    />
+                {/if}
+            </div>
+            <Text type="h6" align="center" truncate>{$activeProfile.name}</Text>
+        </div>
+
         {#if updateRequired}
             <Alert variant="warning" text={localize('views.login.hintStronghold')} />
         {/if}

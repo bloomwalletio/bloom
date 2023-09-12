@@ -1,12 +1,11 @@
 <script lang="ts">
-    import { Icon, Text, Tooltip } from '@ui'
+    import { Text, Tooltip } from '@ui'
     import { Position } from '@ui/enums'
-
     import { localize } from '@core/i18n'
-
-    import { Icon as IconEnum } from '@auxiliary/icon'
+    import { Avatar, IconName } from '@bloomwalletio/ui'
 
     export let isLatestStrongholdVersion: boolean = false
+    export let size: 'xxs' | 'xs' | 'sm' | 'md' = 'sm'
 
     let tooltipAnchor: HTMLElement
     let isTooltipVisible = false
@@ -24,11 +23,7 @@
         on:wheel={() => showTooltip(false)}
         class="block absolute -right-1 -bottom-1"
     >
-        <icon-container
-            class="block rounded-full p-0.5 bg-yellow-700 text-yellow-700 ring-2 ring-white dark:ring-gray-900"
-        >
-            <Icon icon={IconEnum.ExclamationFilled} primaryColor="white" height={22} width={22} removeWhitespace />
-        </icon-container>
+        <Avatar icon={IconName.WarningCircle} {size} backgroundColor="yellow" textColor="white" />
     </stronghold-badge>
     {#if isTooltipVisible}
         <Tooltip anchor={tooltipAnchor} size="small" position={Position.Right} offset={6}>

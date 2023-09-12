@@ -5,7 +5,7 @@
 
     export let networkId: NetworkId
     export let networkName: string | undefined = undefined
-    export let size: 'xxs' | 'xs' | 'sm' = 'sm'
+    export let size: 'xxs' | 'xs' | 'sm' | 'md' = 'sm'
 
     $: networkName = networkName ? networkName : networkId ? getNameFromNetworkId(networkId) : undefined
 
