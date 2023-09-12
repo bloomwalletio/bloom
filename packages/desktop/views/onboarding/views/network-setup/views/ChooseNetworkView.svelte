@@ -17,9 +17,9 @@
     } from '@core/network'
     import { profiles } from '@core/profile/stores'
     import features from '@features/features'
-    import { OnboardingButton } from '@ui'
     import NetworkAvatar from '@ui/avatars/NetworkAvatar.svelte'
     import { onMount } from 'svelte'
+    import { OnboardingSelectorTile } from '../../../components'
     import { networkSetupRouter } from '../network-setup-router'
 
     let selectedNetworkType: OnboardingNetworkType = OnboardingNetworkType.Shimmer
@@ -68,12 +68,17 @@
 <OnboardingLayout
     title={localize('views.onboarding.networkSetup.chooseNetwork.title')}
     description={localize('views.onboarding.networkSetup.chooseNetwork.body')}
-    {onContinueClick}
-    {onBackClick}
-    disableBack={$profiles.length === 0}
+    continueButton={{
+        onClick: onContinueClick,
+        disabled: !selectedNetworkType,
+    }}
+    backButton={{
+        onClick: onBackClick,
+        hidden: $profiles.length === 0,
+    }}
 >
     <div slot="content" class="flex flex-col space-y-4">
-        <OnboardingButton
+        <OnboardingSelectorTile
             primaryText={localize(`views.onboarding.networkSetup.chooseNetwork.${OnboardingNetworkType.Shimmer}.title`)}
             secondaryText={localize(
                 `views.onboarding.networkSetup.chooseNetwork.${OnboardingNetworkType.Shimmer}.body`
@@ -86,8 +91,8 @@
             <div slot="icon">
                 <NetworkAvatar networkId={getNetworkIdFromOnboardingNetworkType(OnboardingNetworkType.Shimmer)} />
             </div>
-        </OnboardingButton>
-        <OnboardingButton
+        </OnboardingSelectorTile>
+        <OnboardingSelectorTile
             primaryText={localize(`views.onboarding.networkSetup.chooseNetwork.${OnboardingNetworkType.Testnet}.title`)}
             secondaryText={localize(
                 `views.onboarding.networkSetup.chooseNetwork.${OnboardingNetworkType.Testnet}.body`
@@ -100,8 +105,8 @@
             <div slot="icon">
                 <NetworkAvatar networkId={getNetworkIdFromOnboardingNetworkType(OnboardingNetworkType.Testnet)} />
             </div>
-        </OnboardingButton>
-        <OnboardingButton
+        </OnboardingSelectorTile>
+        <OnboardingSelectorTile
             primaryText={localize(`views.onboarding.networkSetup.chooseNetwork.${OnboardingNetworkType.Custom}.title`)}
             secondaryText={localize(`views.onboarding.networkSetup.chooseNetwork.${OnboardingNetworkType.Custom}.body`)}
             icon="settings"

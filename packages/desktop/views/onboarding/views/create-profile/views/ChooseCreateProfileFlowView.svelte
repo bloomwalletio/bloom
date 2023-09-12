@@ -11,19 +11,19 @@
     import { ProfileType, removeProfileFolder } from '@core/profile'
     import { destroyProfileManager } from '@core/profile-manager/actions'
     import features from '@features/features'
-    import { OnboardingButton } from '@ui'
     import { onMount } from 'svelte'
+    import { OnboardingSelectorTile } from '../../../components'
     import { createProfileRouter } from '../create-profile-router'
 
     const networkId = $onboardingProfile?.network?.id
     const networkType = getOnboardingNetworkTypeFromNetworkId(networkId)
 
-    let isBusy = {
+    let busyMap = {
         [CreateProfileType.Mnemonic]: false,
         [CreateProfileType.Ledger]: false,
     }
 
-    $: isDisabled = Object.values(isBusy).some((busy) => busy)
+    $: busy = Object.values(busyMap).some((busy) => busy)
 
     let selectedCreateProfileType: CreateProfileType | undefined = undefined
     function onProfileTypeClick(createProfileType: CreateProfileType): void {
@@ -31,7 +31,7 @@
     }
 
     async function onContinueClick(): Promise<void> {
-        isBusy = { ...isBusy, [selectedCreateProfileType]: true }
+        busyMap = { ...busyMap, [selectedCreateProfileType]: true }
         const type = selectedCreateProfileType === CreateProfileType.Ledger ? ProfileType.Ledger : ProfileType.Software
         updateOnboardingProfile({ createProfileType: selectedCreateProfileType, type })
         await initialiseProfileManagerFromOnboardingProfile()
@@ -55,28 +55,31 @@
 <OnboardingLayout
     title={localize('views.onboarding.profileSetup.setupNew.title')}
     description={localize('views.onboarding.profileSetup.setupNew.body')}
-    {onContinueClick}
-    disableContinue={!selectedCreateProfileType}
-    {onBackClick}
+    continueButton={{
+        onClick: onContinueClick,
+        disabled: !selectedCreateProfileType,
+    }}
+    backButton={{
+        onClick: onBackClick,
+    }}
+    {busy}
 >
     <div slot="content" class="flex flex-col space-y-4">
-        <OnboardingButton
+        <OnboardingSelectorTile
             primaryText={localize('views.onboarding.profileSetup.setupNew.softwareAccount.title')}
             secondaryText={localize('views.onboarding.profileSetup.setupNew.softwareAccount.description')}
             icon="file"
-            busy={isBusy[CreateProfileType.Mnemonic]}
             hidden={features?.onboarding?.[networkType]?.newProfile?.softwareProfile?.hidden}
-            disabled={!features?.onboarding?.[networkType]?.newProfile?.softwareProfile?.enabled || isDisabled}
+            disabled={!features?.onboarding?.[networkType]?.newProfile?.softwareProfile?.enabled || busy}
             onClick={() => onProfileTypeClick(CreateProfileType.Mnemonic)}
             selected={selectedCreateProfileType === CreateProfileType.Mnemonic}
         />
-        <OnboardingButton
+        <OnboardingSelectorTile
             primaryText={localize('views.onboarding.profileSetup.setupNew.ledgerAccount.title')}
             secondaryText={localize('views.onboarding.profileSetup.setupNew.ledgerAccount.description')}
             icon="chip"
-            busy={isBusy[CreateProfileType.Ledger]}
             hidden={features?.onboarding?.[networkType]?.newProfile?.ledgerProfile?.hidden}
-            disabled={!features?.onboarding?.[networkType]?.newProfile?.ledgerProfile?.enabled || isDisabled}
+            disabled={!features?.onboarding?.[networkType]?.newProfile?.ledgerProfile?.enabled || busy}
             onClick={() => onProfileTypeClick(CreateProfileType.Ledger)}
             selected={selectedCreateProfileType === CreateProfileType.Ledger}
         />

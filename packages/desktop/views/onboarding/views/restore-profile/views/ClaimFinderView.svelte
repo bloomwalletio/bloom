@@ -187,7 +187,12 @@
 <OnboardingLayout
     title={localize('views.onboarding.shimmerClaiming.claimRewards.title')}
     description={localize('views.onboarding.shimmerClaiming.claimRewards.description')}
-    disableBack
+    continueButton={{
+        hidden: true,
+    }}
+    backButton={{
+        hidden: true,
+    }}
 >
     <div slot="content" class="h-full flex flex-col space-y-4">
         <ShimmerClaimingAccountList {shimmerClaimingAccounts} baseToken={$onboardingProfile?.network?.baseToken} />

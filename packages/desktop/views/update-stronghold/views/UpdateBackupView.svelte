@@ -69,8 +69,12 @@
 <OnboardingLayout
     title={localize(`views.updateStronghold.updateBackup.${isRecovery ? 'recoveryTitle' : 'loginTitle'}`)}
     description={localize(`views.updateStronghold.updateBackup.${isRecovery ? 'recoveryBody' : 'loginBody'}`)}
-    disableBack={changedPassword}
-    {onBackClick}
+    continueButton={{
+        hidden: true,
+    }}
+    backButton={{
+        onClick: onBackClick,
+    }}
     {busy}
 >
     <div slot="content">

@@ -26,7 +26,7 @@
         confirmPinInputError = ''
     }
 
-    async function handleSetPin(): Promise<void> {
+    async function onContinueClick(): Promise<void> {
         busy = true
         await initialisePincodeManager(setPinInput)
         busy = false
@@ -38,11 +38,8 @@
         $completeOnboardingRouter.previous()
     }
 
-    async function onSetPinClick(): Promise<void> {
+    function onSetPinClick(): void {
         resetPinInputErrors()
-        if (arePinInputsValid && arePinInputsMatching) {
-            await handleSetPin()
-        }
     }
 
     function resetPinInputErrors(): void {
@@ -54,7 +51,13 @@
 <OnboardingLayout
     title={localize('views.onboarding.storageProtectionSetup.setupPinProtection.title')}
     description={localize('views.onboarding.storageProtectionSetup.setupPinProtection.body1')}
-    {onBackClick}
+    continueButton={{
+        onClick: onContinueClick,
+        disabled: !arePinInputsValid || !arePinInputsMatching,
+    }}
+    backButton={{
+        onClick: onBackClick,
+    }}
     {busy}
 >
     <div slot="content">

@@ -24,8 +24,12 @@
 <OnboardingLayout
     title={localize('views.onboarding.congratulations.title')}
     description={localize('views.onboarding.congratulations.body')}
-    {onContinueClick}
-    disableBack
+    continueButton={{
+        onClick: onContinueClick,
+    }}
+    backButton={{
+        hidden: true,
+    }}
 >
     <div slot="content" class="flex flex-col space-y-6">
         {#if $isOnboardingLedgerProfile}

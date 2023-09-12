@@ -35,8 +35,12 @@
 <OnboardingLayout
     title={localize('views.onboarding.profileBackup.viewMnemonic.title')}
     description={localize('views.onboarding.profileBackup.viewMnemonic.body1')}
-    {onContinueClick}
-    {onBackClick}
+    continueButton={{
+        onClick: onContinueClick,
+    }}
+    backButton={{
+        onClick: onBackClick,
+    }}
 >
     <content slot="content">
         <Text>

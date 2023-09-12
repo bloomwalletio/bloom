@@ -3,10 +3,9 @@
     import { OnboardingType, onboardingProfile, updateOnboardingProfile } from '@contexts/onboarding'
     import { localize } from '@core/i18n'
     import { getOnboardingNetworkTypeFromNetworkId } from '@core/network'
-    import { profiles } from '@core/profile/stores'
     import features from '@features/features'
-    import { OnboardingButton } from '@ui'
     import { onMount } from 'svelte'
+    import { OnboardingSelectorTile } from '../components'
     import { onboardingRouter } from '../onboarding-router'
 
     const networkId = $onboardingProfile?.network?.id
@@ -40,13 +39,16 @@
     description={localize('views.onboarding.profileSetup.setup.body', {
         network: displayedNetworkName,
     })}
-    {onContinueClick}
-    disableContinue={!selectedOnboardingType}
-    {onBackClick}
-    disableBack={$profiles.length === 0}
+    continueButton={{
+        onClick: onContinueClick,
+        disabled: !selectedOnboardingType,
+    }}
+    backButton={{
+        onClick: onBackClick,
+    }}
 >
     <div slot="content" class="flex flex-col space-y-4">
-        <OnboardingButton
+        <OnboardingSelectorTile
             primaryText={localize('actions.createWallet', {
                 network: displayedNetworkName,
             })}
@@ -59,7 +61,7 @@
             onClick={() => onOnboardingTypeClick(OnboardingType.Create)}
             selected={selectedOnboardingType === OnboardingType.Create}
         />
-        <OnboardingButton
+        <OnboardingSelectorTile
             primaryText={localize(`actions.restoreWallet.${networkType}`)}
             secondaryText={localize(`actions.restoreWalletDescription.${networkType}`)}
             icon="transfer"
@@ -68,7 +70,7 @@
             onClick={() => onOnboardingTypeClick(OnboardingType.Restore)}
             selected={selectedOnboardingType === OnboardingType.Restore}
         />
-        <OnboardingButton
+        <OnboardingSelectorTile
             primaryText={localize('actions.claimShimmer')}
             secondaryText={localize('actions.claimShimmerDescription')}
             icon="tokens"

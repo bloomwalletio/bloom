@@ -27,8 +27,12 @@
 <OnboardingLayout
     title={localize('views.onboarding.profileRecovery.importMnemonicPhrase.title')}
     description={localize('views.onboarding.profileRecovery.importMnemonicPhrase.body')}
-    {onContinueClick}
-    {onBackClick}
+    continueButton={{
+        onClick: onContinueClick,
+    }}
+    backButton={{
+        onClick: onBackClick,
+    }}
 >
     <div slot="content">
         <Text type="h5" classes="mb-3">{localize('views.onboarding.profileRecovery.importMnemonicPhrase.enter')}</Text>

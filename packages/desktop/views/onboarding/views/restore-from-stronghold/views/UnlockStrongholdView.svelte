@@ -53,8 +53,13 @@
 <OnboardingLayout
     title={`${localize('general.import')} ${localize('general.stronghold')}`}
     description={localize('views.onboarding.profileRecovery.backupPassword.body1')}
-    {onContinueClick}
-    {onBackClick}
+    continueButton={{
+        onClick: onContinueClick,
+        disabled: !strongholdPassword,
+    }}
+    backButton={{
+        onClick: onBackClick,
+    }}
     {busy}
 >
     <div slot="content">

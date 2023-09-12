@@ -18,7 +18,7 @@
     let nodeConfigurationForm: NodeConfigurationForm
     let coinType: string
     let node: INode
-    let isBusy = false
+    let busy = false
     let formError = ''
     let networkType: OnboardingNetworkType = getInitialSelectedNetworkType()
 
@@ -35,7 +35,7 @@
     }
 
     async function onContinueClick(): Promise<void> {
-        isBusy = true
+        busy = true
         try {
             await nodeConfigurationForm.validate({
                 uniqueCheck: false,
@@ -72,7 +72,7 @@
                 })
             }
         } finally {
-            isBusy = false
+            busy = false
         }
     }
 
@@ -84,8 +84,13 @@
 
 <OnboardingLayout
     title={localize('views.onboarding.networkSetup.setupCustomNetwork.title')}
-    {onContinueClick}
-    {onBackClick}
+    continueButton={{
+        onClick: onContinueClick,
+    }}
+    backButton={{
+        onClick: onBackClick,
+    }}
+    {busy}
 >
     <div slot="content">
         <NodeConfigurationForm
@@ -95,7 +100,7 @@
             bind:coinType
             bind:node
             bind:formError
-            {isBusy}
+            isBusy={busy}
             isDeveloperProfile
             networkEditable
         />

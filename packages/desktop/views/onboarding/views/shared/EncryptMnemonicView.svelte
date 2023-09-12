@@ -77,8 +77,13 @@
 <OnboardingLayout
     title={localize('views.onboarding.strongholdSetup.setupStrongholdPassword.title')}
     description={localize('views.onboarding.strongholdSetup.setupStrongholdPassword.body1')}
-    {onContinueClick}
-    {onBackClick}
+    continueButton={{
+        onClick: onContinueClick,
+        disabled: !strongholdPassword || !confirmedStrongholdPassword,
+    }}
+    backButton={{
+        onClick: onBackClick,
+    }}
     {busy}
 >
     <div slot="content">

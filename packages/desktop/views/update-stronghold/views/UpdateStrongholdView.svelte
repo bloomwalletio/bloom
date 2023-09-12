@@ -12,20 +12,20 @@
     export let isRecovery: boolean = false
 
     let passwordError: string = ''
-    let isBusy = false
+    let busy = false
 
     async function onSubmit(): Promise<void> {
         try {
-            isBusy = true
+            busy = true
             if (isRecovery) {
                 await migrateStrongholdFromOnboardingProfile(password)
             } else {
                 await migrateStrongholdFromActiveProfile(password)
             }
-            isBusy = false
+            busy = false
             $updateStrongholdRouter.next()
         } catch (err) {
-            isBusy = false
+            busy = false
             const message = err?.message ?? ''
             const parsedError = isValidJson(message) ? JSON.parse(message) : ''
             passwordError = parsedError?.payload?.error.replaceAll('`', '') ?? localize(message)
@@ -41,7 +41,14 @@
 <OnboardingLayout
     title={localize('views.updateStronghold.update.title')}
     description={localize(`views.updateStronghold.update.${isRecovery ? 'recoveryBody' : 'loginBody'}`)}
-    {onBackClick}
+    continueButton={{
+        onClick: onSubmit,
+        disabled: !password || !!passwordError,
+    }}
+    backButton={{
+        onClick: onBackClick,
+    }}
+    {busy}
 >
     <div slot="content">
         <Text secondary classes="mb-12">
@@ -54,8 +61,8 @@
             type={HTMLButtonType.Submit}
             form="update-stronghold-form"
             classes="w-full"
-            disabled={isBusy || !password || !!passwordError}
-            {isBusy}
+            disabled={busy || !password || !!passwordError}
+            isBusy={busy}
         >
             {localize('actions.updateAndContinue')}
         </Button>

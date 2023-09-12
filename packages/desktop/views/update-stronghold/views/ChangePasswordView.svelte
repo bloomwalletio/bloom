@@ -29,7 +29,7 @@
     let isSkipBusy: boolean = false
 
     $: passwordStrength = zxcvbn(newPassword)
-    $: isBusy = isSubmitBusy || isSkipBusy
+    $: busy = isSubmitBusy || isSkipBusy
 
     $: newPassword, confirmPassword, (passwordError = '')
 
@@ -116,7 +116,17 @@
     })
 </script>
 
-<OnboardingLayout title={localize('views.settings.changePassword.title')} {onContinueClick} disableBack>
+<OnboardingLayout
+    title={localize('views.settings.changePassword.title')}
+    continueButton={{
+        onClick: onContinueClick,
+        disabled: !newPassword || !confirmPassword,
+    }}
+    backButton={{
+        hidden: true,
+    }}
+    {busy}
+>
     <div slot="content">
         <Alert variant="warning" text={localize('views.updateStronghold.changePassword.hint')} />
         <form on:submit|preventDefault={onContinueClick} id="update-stronghold-form" class="mt-12">
@@ -129,7 +139,7 @@
                 strength={passwordStrength.score}
                 placeholder={localize('general.password')}
                 label={localize('general.password')}
-                disabled={isBusy}
+                disabled={busy}
                 submitHandler={validatePassword}
             />
             <PasswordInput
@@ -139,7 +149,7 @@
                 showRevealToggle
                 placeholder={localize('general.confirmPassword')}
                 label={localize('general.confirmPassword')}
-                disabled={isBusy}
+                disabled={busy}
                 submitHandler={validatePassword}
             />
         </form>
@@ -148,7 +158,7 @@
             outline
             classes="w-full"
             onClick={onSkipClick}
-            disabled={isBusy}
+            disabled={busy}
             isBusy={isSkipBusy}
         >
             {localize('actions.skipAndKeep')}
@@ -157,7 +167,7 @@
             form="update-stronghold-form"
             type={HTMLButtonType.Submit}
             classes="w-full"
-            disabled={!newPassword || !confirmPassword || isBusy}
+            disabled={!newPassword || !confirmPassword || busy}
             isBusy={isSubmitBusy}
         >
             {localize('views.settings.changePassword.title')}

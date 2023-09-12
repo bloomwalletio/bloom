@@ -22,7 +22,9 @@
     let importFilePath = ''
     let dropping = false
 
+    let busy = false
     async function onContinueClick(): Promise<void> {
+        busy = true
         validateBackupFile(importFileName)
         const _shouldMigrate = await shouldMigrate()
         updateOnboardingProfile({
@@ -32,6 +34,7 @@
             strongholdVersion: _shouldMigrate ? StrongholdVersion.V2 : STRONGHOLD_VERSION,
         })
         $restoreFromStrongholdRouter.next()
+        busy = false
     }
 
     function onBackClick(): void {
@@ -93,8 +96,14 @@
 <OnboardingLayout
     title={localize('views.onboarding.profileRecovery.importStrongholdBackup.title')}
     description={localize('views.onboarding.profileRecovery.importStrongholdBackup.body')}
-    {onContinueClick}
-    {onBackClick}
+    continueButton={{
+        onClick: onContinueClick,
+        disabled: !importFile,
+    }}
+    backButton={{
+        onClick: onBackClick,
+    }}
+    {busy}
 >
     <div slot="content">
         <Dropzone

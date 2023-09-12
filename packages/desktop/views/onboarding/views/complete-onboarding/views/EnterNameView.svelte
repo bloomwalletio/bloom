@@ -28,8 +28,10 @@
         network: $onboardingProfile?.network?.name,
     })}
     description={localize('views.onboarding.profileSetup.enterName.body1')}
-    {onContinueClick}
-    disableBack
+    continueButton={{
+        onClick: onContinueClick,
+        disabled: !profileName,
+    }}
 >
     <div slot="content">
         <Text secondary classes="mb-10">

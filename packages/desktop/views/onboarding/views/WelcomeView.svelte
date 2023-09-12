@@ -35,8 +35,13 @@
         network: '',
     })}
     description={localize('views.onboarding.appSetup.welcome.description')}
-    {onContinueClick}
-    disableBack
+    continueButton={{
+        onClick: onContinueClick,
+        disabled: !termsAccepted,
+    }}
+    backButton={{
+        hidden: true,
+    }}
 >
     <div slot="content" class="flex flex-col space-y-8">
         <Checkbox bind:checked={termsAccepted}>

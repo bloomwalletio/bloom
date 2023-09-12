@@ -88,8 +88,13 @@
 <OnboardingLayout
     title={localize('views.onboarding.profileBackup.verifyMnemonic.title')}
     description={localize('views.onboarding.profileBackup.verifyMnemonic.body')}
-    {onContinueClick}
-    {onBackClick}
+    continueButton={{
+        onClick: onContinueClick,
+        disabled: !isVerified,
+    }}
+    backButton={{
+        onClick: onBackClick,
+    }}
 >
     <content slot="content" class="block">
         {#if !isVerified}

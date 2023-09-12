@@ -12,21 +12,6 @@
     $: isLocked = isNotConnected || $ledgerConnectionState === LedgerConnectionState.Locked
     $: isAppNotOpen = isLocked || $ledgerConnectionState === LedgerConnectionState.AppNotOpen
     $: isCorrectAppOpen = $ledgerConnectionState === LedgerConnectionState.CorrectAppOpen
-    $: $ledgerConnectionState, setAnimation()
-
-    let animation: string
-    function setAnimation(): void {
-        if (isNotConnected) {
-            animation = 'ledger-disconnected-desktop'
-        } else if (isLocked) {
-            // TODO: Get animation for locked ledger
-            animation = undefined
-        } else if (isAppNotOpen) {
-            animation = 'ledger-app-closed-desktop'
-        } else if (isCorrectAppOpen) {
-            animation = 'ledger-connected-desktop'
-        }
-    }
 
     function handleGuidePopup(): void {
         openPopup({
@@ -46,9 +31,13 @@
 <OnboardingLayout
     title={localize('views.connectLedger.title')}
     description={localize('views.connectLedger.body')}
-    {onContinueClick}
-    {onBackClick}
-    busy={!isCorrectAppOpen}
+    continueButton={{
+        onClick: onContinueClick,
+        disabled: !isCorrectAppOpen,
+    }}
+    backButton={{
+        onClick: onBackClick,
+    }}
 >
     <div slot="content" class="space-y-4">
         <div class="flex flex-col flex-nowrap space-y-2">
