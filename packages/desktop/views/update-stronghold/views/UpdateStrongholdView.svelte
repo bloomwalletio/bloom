@@ -3,8 +3,7 @@
     import { localize } from '@core/i18n'
     import { migrateStrongholdFromActiveProfile } from '@core/profile/actions/active-profile'
     import { isValidJson } from '@core/utils'
-    import { Button, PasswordInput, Text } from '@ui'
-    import { HTMLButtonType } from '@ui/enums'
+    import { PasswordInput } from '@ui'
     import { OnboardingLayout } from '@views/components'
     import { updateStrongholdRouter } from '../update-stronghold-router'
 
@@ -51,20 +50,8 @@
     {busy}
 >
     <div slot="content">
-        <Text secondary classes="mb-12">
-            {localize(`views.updateStronghold.update.${isRecovery ? 'recoveryBody' : 'loginBody'}`)}
-        </Text>
         <form on:submit|preventDefault={onSubmit} id="update-stronghold-form">
             <PasswordInput bind:value={password} bind:error={passwordError} autofocus showRevealToggle />
         </form>
-        <Button
-            type={HTMLButtonType.Submit}
-            form="update-stronghold-form"
-            classes="w-full"
-            disabled={busy || !password || !!passwordError}
-            isBusy={busy}
-        >
-            {localize('actions.updateAndContinue')}
-        </Button>
     </div>
 </OnboardingLayout>

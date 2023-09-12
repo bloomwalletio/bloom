@@ -25,16 +25,16 @@
 
     let passwordError: string = ''
     let confirmPassword: string = ''
-    let isSubmitBusy: boolean = false
+    let isChangeBusy: boolean = false
     let isSkipBusy: boolean = false
 
     $: passwordStrength = zxcvbn(newPassword)
-    $: busy = isSubmitBusy || isSkipBusy
+    $: busy = isChangeBusy || isSkipBusy
 
     $: newPassword, confirmPassword, (passwordError = '')
 
     function validatePassword(): boolean {
-        isSubmitBusy = false
+        isChangeBusy = false
 
         if (!newPassword || newPassword.length > MAX_STRONGHOLD_PASSWORD_LENGTH) {
             passwordError = localize('error.password.length', {
@@ -61,12 +61,12 @@
         }
     }
 
-    async function onContinueClick(): Promise<void> {
+    async function onChangeClick(): Promise<void> {
         const isPasswordValid = validatePassword()
 
         if (isPasswordValid) {
             try {
-                isSubmitBusy = true
+                isChangeBusy = true
                 await changeStrongholdPassword(oldPassword, newPassword)
                 if ($onboardingProfile) {
                     updateOnboardingProfile({ strongholdPassword: newPassword })
@@ -80,7 +80,7 @@
                 console.error(err)
                 passwordError = localize('error.password.incorrect')
             } finally {
-                isSubmitBusy = false
+                isChangeBusy = false
             }
         }
     }
@@ -119,20 +119,20 @@
 <OnboardingLayout
     title={localize('views.settings.changePassword.title')}
     continueButton={{
-        onClick: onContinueClick,
-        disabled: !newPassword || !confirmPassword,
+        text: localize('actions.skip'),
+        onClick: onSkipClick,
+        disabled: busy,
     }}
     backButton={{
-        hidden: true,
+        disabled: true,
     }}
-    {busy}
+    busy={isSkipBusy}
 >
-    <div slot="content">
+    <div slot="content" class="space-y-4">
         <Alert variant="warning" text={localize('views.updateStronghold.changePassword.hint')} />
-        <form on:submit|preventDefault={onContinueClick} id="update-stronghold-form" class="mt-12">
+        <form on:submit|preventDefault={onChangeClick} id="update-stronghold-form" class="space-y-4">
             <PasswordInput
                 bind:value={newPassword}
-                classes="mb-5"
                 showRevealToggle
                 strengthLevels={4}
                 showStrengthLevel
@@ -145,7 +145,6 @@
             <PasswordInput
                 bind:error={passwordError}
                 bind:value={confirmPassword}
-                classes="mb-4"
                 showRevealToggle
                 placeholder={localize('general.confirmPassword')}
                 label={localize('general.confirmPassword')}
@@ -154,21 +153,11 @@
             />
         </form>
         <Button
-            type={HTMLButtonType.Button}
-            outline
-            classes="w-full"
-            onClick={onSkipClick}
-            disabled={busy}
-            isBusy={isSkipBusy}
-        >
-            {localize('actions.skipAndKeep')}
-        </Button>
-        <Button
             form="update-stronghold-form"
             type={HTMLButtonType.Submit}
             classes="w-full"
             disabled={!newPassword || !confirmPassword || busy}
-            isBusy={isSubmitBusy}
+            isBusy={isChangeBusy}
         >
             {localize('views.settings.changePassword.title')}
         </Button>

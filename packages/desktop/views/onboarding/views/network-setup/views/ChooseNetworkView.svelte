@@ -73,6 +73,7 @@
         disabled: !selectedNetworkType,
     }}
     backButton={{
+        text: localize('actions.cancel'),
         onClick: onBackClick,
         hidden: $profiles.length === 0,
     }}
