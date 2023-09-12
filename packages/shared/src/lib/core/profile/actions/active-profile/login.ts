@@ -44,6 +44,7 @@ import { loadAccounts } from './loadAccounts'
 import { logout } from './logout'
 import { subscribeToWalletApiEventsForActiveProfile } from './subscribeToWalletApiEventsForActiveProfile'
 import { refreshAccountTokensForActiveProfile } from '@core/token/actions'
+import { updateEvmChainGasPrices } from '@core/layer-2/actions'
 
 export async function login(loginOptions?: ILoginOptions): Promise<void> {
     const loginRouter = get(routerManager).getRouterForAppContext(AppContext.Login)
@@ -71,6 +72,7 @@ export async function login(loginOptions?: ILoginOptions): Promise<void> {
         await checkAndUpdateActiveProfileNetwork()
         void pollNetworkStatus()
         void pollChainStatuses()
+        void updateEvmChainGasPrices()
 
         // Step 3: load and build all the profile data
         incrementLoginProgress()
