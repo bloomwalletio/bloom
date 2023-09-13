@@ -2,6 +2,7 @@
     import { Icon as IconEnum } from '@auxiliary/icon'
     import { IconButton, IconName } from '@bloomwalletio/ui'
     import { AccountSwitcher } from '@components'
+    import { IS_WINDOWS } from '@core/app'
     import { localize } from '@core/i18n'
     import {
         CollectiblesRoute,
@@ -55,7 +56,7 @@
 </script>
 
 <navbar class:disabled={isPopupVisible}>
-    <div class="h-full flex flex-row justify-between items-center">
+    <div class="h-full flex flex-row justify-between items-center" class:drag={!IS_WINDOWS}>
         <div class="flex flex-row gap-2">
             {#if isBackButtonVisible}
                 <button type="button" on:click={onBackClick}>
@@ -108,6 +109,13 @@
         button {
             @apply flex items-center gap-2;
             -webkit-app-region: none;
+        }
+
+        .drag {
+            -webkit-app-region: drag;
+            > * {
+                -webkit-app-region: none;
+            }
         }
     }
 </style>
