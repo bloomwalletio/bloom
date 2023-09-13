@@ -42,7 +42,6 @@ export class Ledger {
                 }
             )
         } catch (err) {
-            console.error(err)
             return undefined
         }
     }

@@ -11,8 +11,8 @@
         $createFromLedgerRouter.next()
     }
 
-    async function onBackClick(): Promise<void> {
-        await stopPollingLedgerDeviceState()
+    function onBackClick(): void {
+        stopPollingLedgerDeviceState()
         $createFromLedgerRouter.previous()
     }
 
