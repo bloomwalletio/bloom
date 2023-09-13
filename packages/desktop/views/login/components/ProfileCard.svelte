@@ -1,12 +1,13 @@
 <script lang="ts">
     import { Icon, IconName, Text } from '@bloomwalletio/ui'
     import { IPersistedProfile, ProfileType } from '@core/profile'
-    import { ProfileAvatar } from '@ui'
+    import { ProfileAvatarWithBadge } from '@ui'
     import features from '@features/features'
 
     export let profile: IPersistedProfile
     export let disabled: boolean = false
     export let onClick: undefined | ((profileId: string) => void) = undefined
+    export let updateRequired: boolean = false
 
     let isHovering = false
     function toggleIsHovering(): void {
@@ -37,7 +38,9 @@
             <button type="button" class="menu"></button>
         {/if}
     </profile-header>
-    <ProfileAvatar {profile} showNetwork size="lg" shape={isHovering ? 'squircle' : 'circle'} />
+    <div class="relative">
+        <ProfileAvatarWithBadge {profile} size="lg" {updateRequired} />
+    </div>
     <Text type="h6" align="center" truncate>{profile.name}</Text>
 </button>
 

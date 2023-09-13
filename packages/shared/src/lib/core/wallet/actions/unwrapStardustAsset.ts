@@ -33,7 +33,7 @@ export async function unwrapStardustAsset(
             '0',
             data
         )
-        await sendTransactionFromEvm(transactionData, tokenId, chain as IChain)
+        await sendTransactionFromEvm(transactionData, chain as IChain)
     } catch (err) {
         handleError(err)
     }

@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { Button, Error, IconName, PinInput, Text } from '@bloomwalletio/ui'
+    import { Button, Error, IconName, PinInput, Text, Alert } from '@bloomwalletio/ui'
     import {
         Platform,
         isLatestStrongholdVersion,
@@ -15,7 +15,7 @@
     import { PopupId, openPopup, popupState } from '@desktop/auxiliary/popup'
     import features from '@features/features'
     import { onDestroy } from 'svelte'
-    import { ProfileAvatar } from '@ui'
+    import { ProfileAvatarWithBadge } from '@ui'
 
     let attempts: number = 0
     let pinCode: string = ''
@@ -130,11 +130,13 @@
     </button-container>
     <div>
         <div>
-            <ProfileAvatar profile={$activeProfile} showNetwork size="xl" badgeSize="md" shape="squircle" />
-            <Text align="center">
-                {$activeProfile.name}
-            </Text>
+            <ProfileAvatarWithBadge profile={$activeProfile} size="xl" {updateRequired} />
+            <Text type="h6" align="center" truncate>{$activeProfile.name}</Text>
         </div>
+
+        {#if updateRequired}
+            <Alert variant="warning" text={localize('views.login.hintStronghold')} />
+        {/if}
         <div>
             <PinInput
                 bind:this={pinInput}
