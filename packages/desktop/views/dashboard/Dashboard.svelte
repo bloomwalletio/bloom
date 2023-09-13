@@ -23,10 +23,12 @@
     import { Governance } from './governance'
     import { Settings } from './settings'
     import { Wallet } from './wallet'
+    import { NewDashboard } from './new-dashboard'
     import { DashboardDrawerRouterView } from './drawers'
 
     const tabs = {
         wallet: Wallet,
+        newDashboard: NewDashboard,
         settings: Settings,
         collectibles: Collectibles,
         governance: Governance,
