@@ -16,6 +16,7 @@
     import features from '@features/features'
     import { onDestroy } from 'svelte'
     import { ProfileAvatarWithBadge } from '@ui'
+    import LoggedOutLayout from '@views/components/LoggedOutLayout.svelte'
 
     let attempts: number = 0
     let pinCode: string = ''
@@ -117,19 +118,22 @@
     })
 </script>
 
-<enter-pin-view class:shake>
-    <button-container class="block mr-auto">
-        <Button
-            variant="text"
-            size="md"
-            icon={IconName.ArrowLeft}
-            disabled={hasReachedMaxAttempts}
-            on:click={onBackClick}
-            text={localize('actions.back')}
-        />
-    </button-container>
-    <div>
-        <div>
+<LoggedOutLayout>
+    <div slot="header" class="header flex-none">
+        <div class="flex h-full items-center">
+            <Button
+                variant="text"
+                size="lg"
+                icon={IconName.ArrowLeft}
+                disabled={hasReachedMaxAttempts}
+                on:click={onBackClick}
+                text={localize('actions.back')}
+            />
+        </div>
+    </div>
+
+    <div class:shake slot="content">
+        <div class="flex flex-col gap-4 w-full items-center flex-grow mb-8">
             <ProfileAvatarWithBadge profile={$activeProfile} size="xl" {updateRequired} />
             <Text type="h6" align="center" truncate>{$activeProfile.name}</Text>
         </div>
@@ -137,7 +141,7 @@
         {#if updateRequired}
             <Alert variant="warning" text={localize('views.login.hintStronghold')} />
         {/if}
-        <div>
+        <div class="flex flex-col gap-4 w-full items-center justify-center flex-grow">
             <PinInput
                 bind:this={pinInput}
                 bind:value={pinCode}
@@ -153,11 +157,16 @@
                     : localize('actions.enterYourPin')}
             </Text>
         </div>
+        <Error error={errorText} />
     </div>
-    <Error error={errorText} />
-</enter-pin-view>
+    <!-- Ghost footer to make above content centred-->
+    <div slot="footer" class="flex-none h-20" />
+</LoggedOutLayout>
 
 <style lang="scss">
+    .header {
+        height: 42px;
+    }
     enter-pin-view {
         @apply flex flex-col w-full h-full items-center bg-slate-100 dark:bg-gray-900 p-12;
 

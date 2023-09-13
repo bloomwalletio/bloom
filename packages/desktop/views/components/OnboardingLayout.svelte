@@ -39,7 +39,7 @@
         <back-container>
             <Button
                 variant="text"
-                size="md"
+                size="lg"
                 icon={IconName.ArrowLeft}
                 disabled={busy || !_backButton.onClick || _backButton.disabled}
                 on:click={_backButton.onClick}
@@ -85,8 +85,8 @@
     back-container {
         position: absolute;
         top: 0px;
-        left: 32px;
-        margin-top: 64px;
+        left: 48px;
+        margin-top: 57px;
     }
     content-container {
         width: 100%;
