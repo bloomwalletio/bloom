@@ -1,5 +1,6 @@
 <script lang="ts">
     import { Pane } from '@ui'
+    import { WalletSummaryPane } from './components'
     import { selectedAccount } from '@core/account/stores'
 </script>
 
@@ -10,7 +11,7 @@
     >
         {#key $selectedAccount?.index}
             <div class="h-full w-full flex flex-col gap-8">
-                <Pane>Balance section</Pane>
+                <WalletSummaryPane />
                 <Pane classes="flex-grow">Activity/Token section</Pane>
             </div>
         {/key}
