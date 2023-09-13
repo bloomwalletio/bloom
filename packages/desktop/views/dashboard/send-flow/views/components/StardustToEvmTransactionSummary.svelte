@@ -22,30 +22,24 @@
         baseCoinTransfer?: TokenTransferData
     } {
         const baseCoin = $selectedAccountTokens?.[getActiveNetworkId()].baseCoin
+        const baseCoinTransfer = {
+            token: baseCoin,
+            rawAmount: sendFlowParameters.baseCoinTransfer?.rawAmount ?? '0',
+        }
 
-        if (sendFlowParameters.type === SendFlowType.BaseCoinTransfer) {
-            return {
-                baseCoinTransfer: {
-                    token: baseCoin,
-                    rawAmount: sendFlowParameters.baseCoinTransfer.rawAmount,
-                },
-            }
-        } else {
-            const baseCoinTransfer = {
-                token: baseCoin,
-                rawAmount: '0',
-            }
-            if (sendFlowParameters.type === SendFlowType.TokenTransfer) {
+        switch (sendFlowParameters.type) {
+            case SendFlowType.BaseCoinTransfer:
+                return { baseCoinTransfer }
+            case SendFlowType.TokenTransfer:
                 return {
                     tokenTransfer: sendFlowParameters.tokenTransfer,
                     baseCoinTransfer,
                 }
-            } else {
+            case SendFlowType.NftTransfer:
                 return {
                     nft: sendFlowParameters.nft,
                     baseCoinTransfer,
                 }
-            }
         }
     }
 </script>

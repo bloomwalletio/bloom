@@ -23,8 +23,8 @@
     export let _onMount: (..._: any[]) => Promise<void> = async () => {}
 
     $: void updateSendFlow($sendFlowParameters)
-    $: isAssetFromLayer2 = !!chain
-    $: isToLayer2 = isEvmChain($sendFlowParameters.destinationNetworkId)
+    $: isSourceNetworkLayer2 = !!chain
+    $: isDestinationNetworkLayer2 = isEvmChain($sendFlowParameters.destinationNetworkId)
     $: isTransferring = !!$selectedAccount.isTransferring
 
     let recipientAddress: string
@@ -59,7 +59,7 @@
 
     async function onConfirmClick(): Promise<void> {
         try {
-            if (isAssetFromLayer2) {
+            if (isSourceNetworkLayer2) {
                 const tokenId = getTokenIdFromSendFlowParameters($sendFlowParameters)
                 await sendTransactionFromEvm(preparedTransaction, tokenId, chain, closePopup)
             } else {
@@ -101,10 +101,10 @@
         isBusy: isTransferring,
     }}
 >
-    {#if isAssetFromLayer2 && preparedTransaction}
+    {#if isSourceNetworkLayer2 && preparedTransaction}
         <EvmTransactionSummary transaction={preparedTransaction} sendFlowParameters={$sendFlowParameters} />
-    {:else if !isAssetFromLayer2 && preparedOutput}
-        {#if isToLayer2}
+    {:else if !isSourceNetworkLayer2 && preparedOutput}
+        {#if isDestinationNetworkLayer2}
             <StardustToEvmTransactionSummary output={preparedOutput} sendFlowParameters={$sendFlowParameters} />
         {:else}
             <StardustTransactionSummary output={preparedOutput} sendFlowParameters={$sendFlowParameters} />

@@ -71,30 +71,24 @@
         baseCoinTransfer?: TokenTransferData
     } {
         const baseCoin = $selectedAccountTokens?.[getActiveNetworkId()].baseCoin
+        const baseCoinTransfer = {
+            token: baseCoin,
+            rawAmount: String(Number(output.amount) - storageDeposit),
+        }
 
-        if (sendFlowParameters.type === SendFlowType.BaseCoinTransfer) {
-            return {
-                baseCoinTransfer: {
-                    token: baseCoin,
-                    rawAmount: String(Number(output.amount) - storageDeposit),
-                },
-            }
-        } else {
-            const baseCoinTransfer = {
-                token: baseCoin,
-                rawAmount: String(Number(output.amount) - storageDeposit),
-            }
-            if (sendFlowParameters.type === SendFlowType.TokenTransfer) {
+        switch (sendFlowParameters.type) {
+            case SendFlowType.BaseCoinTransfer:
+                return { baseCoinTransfer }
+            case SendFlowType.TokenTransfer:
                 return {
                     tokenTransfer: sendFlowParameters.tokenTransfer,
                     baseCoinTransfer,
                 }
-            } else {
+            case SendFlowType.NftTransfer:
                 return {
                     nft: sendFlowParameters.nft,
                     baseCoinTransfer,
                 }
-            }
         }
     }
 
