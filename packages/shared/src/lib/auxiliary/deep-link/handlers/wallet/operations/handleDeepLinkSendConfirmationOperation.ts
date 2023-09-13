@@ -8,9 +8,9 @@ import {
     SendFlowParameters,
     SendFlowType,
     SubjectType,
-    TagLengthError,
     TokenTransferData,
     setSendFlowParameters,
+    validateTag,
 } from '@core/wallet'
 import { get } from 'svelte/store'
 import { PopupId, openPopup } from '../../../../../../../../desktop/lib/auxiliary/popup'
@@ -114,8 +114,8 @@ function parseSendConfirmationOperation(searchParams: URLSearchParams): SendFlow
     }
 
     const tag = searchParams.get(SendOperationParameter.Tag)
-    if (tag && getByteLengthOfString(tag) > 64) {
-        throw new TagLengthError()
+    if (tag) {
+        validateTag(tag)
     }
 
     const giftStorageDeposit = isStringTrue(searchParams.get(SendOperationParameter.GiftStorageDeposit) ?? '')
