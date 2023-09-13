@@ -1,21 +1,20 @@
-import { LedgerNanoStatus } from '@iota/sdk/out/types'
-import { LedgerConnectionState } from '../interfaces'
-import { LedgerAppName } from '../enums'
+import { LedgerAppName, LedgerConnectionState } from '../enums'
+import { ILedgerDeviceState } from '../interfaces'
 
 export function determineLedgerConnectionState(
-    status: LedgerNanoStatus,
+    status: ILedgerDeviceState,
     appName = LedgerAppName.Shimmer
 ): LedgerConnectionState {
-    const { connected, app } = status
+    const { connected, locked, app } = status
     if (connected) {
-        if (app) {
-            if (app.name === (appName as string)) {
+        if (locked) {
+            return LedgerConnectionState.Locked
+        } else {
+            if (app === appName) {
                 return LedgerConnectionState.CorrectAppOpen
             } else {
                 return LedgerConnectionState.AppNotOpen
             }
-        } else {
-            return LedgerConnectionState.Locked
         }
     } else {
         return LedgerConnectionState.NotConnected

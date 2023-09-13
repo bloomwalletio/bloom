@@ -1,50 +1,35 @@
 <script lang="ts">
-    import { Text, Icon, TextType } from '@ui'
-    import { Icon as IconEnum } from '@auxiliary/icon'
+    import { onDestroy } from 'svelte'
+    import { Alert } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
-    import {
-        checkOrConnectLedger,
-        ledgerNanoStatus,
-        ledgerPreparedOutput,
-        resetLedgerPreparedOutput,
-    } from '@core/ledger'
+    import { LedgerAppName, ledgerDeviceState } from '@core/ledger'
     import { closePopup } from '@desktop/auxiliary/popup'
-    import { sendOutput } from '@core/wallet'
-    import { handleError } from '@core/error/handlers'
+    import { Text, TextType } from '@ui'
+    import { UiEventFunction } from '@core/utils'
+
+    export let appName: LedgerAppName
+    export let onEnabled: UiEventFunction = () => {}
+    export let onClose: UiEventFunction = () => {}
 
     const STEPS = [1, 2, 3, 4]
 
-    $: if ($ledgerNanoStatus.blindSigningEnabled) {
-        closePopup()
-        checkOrConnectLedger(async () => {
-            try {
-                if ($ledgerPreparedOutput) {
-                    await sendOutput($ledgerPreparedOutput)
-                    resetLedgerPreparedOutput()
-                }
-            } catch (err) {
-                handleError(err)
-            }
-        })
+    $: if ($ledgerDeviceState && $ledgerDeviceState.settings[appName]?.blindSigningEnabled) {
+        closePopup(true)
+        onEnabled && onEnabled()
     }
+
+    onDestroy(() => {
+        onClose && onClose()
+    })
 </script>
 
 <Text type={TextType.h3} classes="mb-6">{localize('popups.enableLedgerBlindSigning.title')}</Text>
 
 <div class="w-full h-full space-y-2 flex flex-auto flex-col shrink-0">
-    <div class="bg-yellow-50 w-full h-full space-y-6 rounded-md px-6 py-4">
-        <span class="flex flex-row items-center space-x-4">
-            <Icon boxed height={18} width={18} icon={IconEnum.InfoFilled} classes="text-yellow-700" />
-            <Text type={TextType.p} fontSize="14" color="gray-700" darkColor="gray-700"
-                >{localize('popups.enableLedgerBlindSigning.info')}</Text
-            >
-        </span>
-    </div>
-    <div>
-        {#each STEPS as step}
-            <Text type={TextType.p} fontSize="15" color="gray-600" classes="my-2">
-                {step}. {localize(`popups.enableLedgerBlindSigning.step_${step}`)}
-            </Text>
-        {/each}
-    </div>
+    <Alert variant="warning" text={localize('popups.enableLedgerBlindSigning.info')} />
+    {#each STEPS as step}
+        <Text type={TextType.p} fontSize="15" color="gray-600">
+            {step}. {localize(`popups.enableLedgerBlindSigning.step_${step}`, { appName })}
+        </Text>
+    {/each}
 </div>

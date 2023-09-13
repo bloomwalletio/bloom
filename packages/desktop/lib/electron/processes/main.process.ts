@@ -1,16 +1,16 @@
 // Modules to control application life and create native browser window
 import {
     app,
+    BrowserWindow,
     dialog,
     ipcMain,
-    shell,
-    BrowserWindow,
-    session,
-    utilityProcess,
     nativeTheme,
     PopupOptions,
-    UtilityProcess,
     powerMonitor,
+    session,
+    shell,
+    utilityProcess,
+    UtilityProcess,
 } from 'electron'
 import { WebPreferences } from 'electron/main'
 import path from 'path'
@@ -296,6 +296,9 @@ ipcMain.on('start-ledger-process', () => {
                     case LedgerApiMethod.GenerateEvmAddress:
                         windows.main.webContents.send('evm-address', payload)
                         break
+                    case LedgerApiMethod.GetEthereumAppSettings:
+                        windows.main.webContents.send('ethereum-app-settings', payload)
+                        break
                     case LedgerApiMethod.SignEvmTransaction:
                         windows.main.webContents.send('evm-signed-transaction', payload)
                         break
@@ -317,11 +320,13 @@ ipcMain.on(LedgerApiMethod.GenerateEvmAddress, (_e, bip32Path, verify) => {
     ledgerProcess?.postMessage({ method: LedgerApiMethod.GenerateEvmAddress, payload: [bip32Path, verify] })
 })
 
+ipcMain.on(LedgerApiMethod.GetEthereumAppSettings, () => {
+    ledgerProcess?.postMessage({ method: LedgerApiMethod.GetEthereumAppSettings })
+})
+
 ipcMain.on(LedgerApiMethod.SignEvmTransaction, (_e, transactionHex, bip32Path) => {
     ledgerProcess?.postMessage({ method: LedgerApiMethod.SignEvmTransaction, payload: [transactionHex, bip32Path] })
 })
-
-export const getWindow = (windowName: string): BrowserWindow => windows[windowName]
 
 export function getOrInitWindow(windowName: string): BrowserWindow {
     if (!windows[windowName]) {

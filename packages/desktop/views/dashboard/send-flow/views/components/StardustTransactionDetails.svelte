@@ -10,19 +10,18 @@
     import StorageDepositButton from './StorageDepositButton.svelte'
     import { getNameFromNetworkId } from '@core/network/actions/getNameFromNetworkId'
 
-    export let destinationNetworkId: NetworkId
-    export let storageDeposit: number
+    export let destinationNetworkId: NetworkId = undefined
+    export let storageDeposit: number | undefined = undefined
     export let transactionFee: BigIntLike | undefined = undefined
-    export let giftStorageDeposit: boolean
-    export let expirationDate: Date
-    export let selectedExpirationPeriod: TimePeriod
-    export let selectedTimelockPeriod: TimePeriod
-    export let timelockDate: Date
-    export let disableChangeExpiration: boolean
-    export let disableChangeTimelock: boolean
-    export let disableGiftStorageDeposit: boolean
-    export let disableAll: boolean
-    export let isToLayer2: boolean = false
+    export let giftStorageDeposit: boolean | undefined = undefined
+    export let expirationDate: Date | undefined = undefined
+    export let selectedExpirationPeriod: TimePeriod | undefined = undefined
+    export let selectedTimelockPeriod: TimePeriod | undefined = undefined
+    export let timelockDate: Date | undefined = undefined
+    export let disableChangeExpiration: boolean | undefined = undefined
+    export let disableChangeTimelock: boolean | undefined = undefined
+    export let disableGiftStorageDeposit: boolean | undefined = undefined
+    export let disableAll: boolean | undefined = undefined
 
     $: destinationNetwork = getNameFromNetworkId(destinationNetworkId)
 </script>
@@ -37,7 +36,7 @@
             </div>
         </section>
     {/if}
-    {#if storageDeposit || (giftStorageDeposit && !isToLayer2)}
+    {#if storageDeposit || giftStorageDeposit}
         <section class="key-value-box border-gray-200 dark:border-gray-700">
             <div class="flex flex-row">
                 <Text>{localize('general.storageDeposit')}</Text>
