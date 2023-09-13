@@ -15,7 +15,7 @@
     import { PopupId, openPopup, popupState } from '@desktop/auxiliary/popup'
     import features from '@features/features'
     import { onDestroy } from 'svelte'
-    import { ProfileCard } from '../components'
+    import { ProfileAvatarWithBadge } from '@ui'
 
     let attempts: number = 0
     let pinCode: string = ''
@@ -129,7 +129,11 @@
         />
     </button-container>
     <div>
-        <ProfileCard profile={$activeProfile} />
+        <div>
+            <ProfileAvatarWithBadge profile={$activeProfile} size="xl" {updateRequired} />
+            <Text type="h6" align="center" truncate>{$activeProfile.name}</Text>
+        </div>
+
         {#if updateRequired}
             <Alert variant="warning" text={localize('views.login.hintStronghold')} />
         {/if}
