@@ -9,6 +9,7 @@
     } from '@core/token'
     import { getTokenFromSelectedAccountTokens } from '@core/token/stores'
     import {
+        SendFlowParameters,
         SendFlowType,
         createEvmTransactionFromSendFlowParameters,
         getNetworkIdFromSendFlowParameters,
@@ -83,13 +84,27 @@
         $sendFlowRouter.previous()
     }
 
-    onMount(async () => {
-        const networkId = getNetworkIdFromSendFlowParameters($sendFlowParameters)
-        if (isEvmChain(networkId) && token.id === BASE_TOKEN_ID) {
+    $: setMaxGasFee($sendFlowParameters)
+    async function setMaxGasFee(sendFlowParams: SendFlowParameters): Promise<void> {
+        if (token.id !== BASE_TOKEN_ID) {
+            return
+        }
+
+        const networkId = getNetworkIdFromSendFlowParameters(sendFlowParams)
+        const tempSendFlowParams = {
+            ...sendFlowParams,
+            [sendFlowType]: {
+                token,
+                rawAmount: token.balance.available,
+                unit,
+            },
+        }
+
+        if (isEvmChain(networkId)) {
             const chain = getNetwork()?.getChain(networkId)
             try {
                 const txData = await createEvmTransactionFromSendFlowParameters(
-                    $sendFlowParameters,
+                    tempSendFlowParams,
                     chain,
                     $selectedAccount
                 )
@@ -97,10 +112,14 @@
             } catch (error) {
                 console.error(error)
             }
-        } else if (isEvmChain($sendFlowParameters.destinationNetworkId) && token.id === BASE_TOKEN_ID) {
-            const estimatedGas = await estimateGasForLayer1ToLayer2Transaction($sendFlowParameters)
+        } else if (isEvmChain(sendFlowParams.destinationNetworkId)) {
+            const estimatedGas = await estimateGasForLayer1ToLayer2Transaction(tempSendFlowParams)
             maxGasFee = Math.floor(estimatedGas * GAS_LIMIT_MULTIPLIER)
         }
+    }
+
+    onMount(async () => {
+        await setMaxGasFee($sendFlowParameters)
     })
 </script>
 
