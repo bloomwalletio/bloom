@@ -1,5 +1,6 @@
 import {
     ERC20_ABI,
+    Erc20TransferMethodInputs,
     ISC_MAGIC_CONTRACT_ADDRESS,
     ISC_SANDBOX_ABI,
     IscCallMethodInputs,
@@ -50,6 +51,10 @@ export async function generateActivityFromEvmTransaction(
                     tokenId = nativeToken.ID.data
                     rawAmount = nativeToken.amount
                 }
+            } else if (decoded?.name === 'transfer') {
+                const inputs = decoded.inputs as Erc20TransferMethodInputs
+                tokenId = recipient.address
+                rawAmount = String(inputs._value)
             }
         }
     } else {
