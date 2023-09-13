@@ -9,23 +9,15 @@
     export let value: string | undefined = undefined
     export let fontSize: number = 15
     export let error: string = ''
-    export let classes: string = null
+    export let classes: string = ''
     export let isOpen: boolean = false
     export let isTooltipVisible: boolean = false
     export let disabled: boolean = false
-    $: console.log('OptionalInput.svelte', error)
-    
+
     let buttonElement: HTMLButtonElement
 
     export function open(): void {
         isOpen = true
-    }
-
-    let closableInput: ClosableInput | undefined
-
-    export function validate(): void {
-        console.log('OptionalInput.svelte')
-        closableInput?.validate()
     }
 
     function onMouseEnter(): void {
@@ -49,7 +41,6 @@
 
 <optional-input class={`${isOpen ? 'order-first' : 'order-last'} ${classes}`} class:w-full={isOpen}>
     <ClosableInput
-        bind:this={closableInput}
         bind:buttonElement
         bind:open={isOpen}
         bind:value

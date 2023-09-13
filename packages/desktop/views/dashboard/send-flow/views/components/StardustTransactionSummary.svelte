@@ -22,7 +22,6 @@
             validateTag(tag)
             isDisabled = false
         } catch (err) {
-            console.log('StardustTransactionSUmmary:', err.message)
             tagInputError = err.message
             isDisabled = true
         }
@@ -40,9 +39,7 @@
     } = sendFlowParameters
 
     let storageDeposit: number
-    let tagInput: OptionalInput | undefined
     let tagInputError = ''
-    let metadataInput: OptionalInput
 
     let selectedExpirationPeriod: TimePeriod | undefined = expirationDate ? TimePeriod.Custom : undefined
     let selectedTimelockPeriod: TimePeriod | undefined = timelockDate ? TimePeriod.Custom : undefined
@@ -179,7 +176,6 @@
             onClick={() => (selectedTimelockPeriod = TimePeriod.OneDay)}
         />
         <OptionalInput
-            bind:this={tagInput}
             bind:value={tag}
             error={tagInputError}
             label={localize('general.tag')}
@@ -187,7 +183,6 @@
         />
         {#if !isToLayer2}
             <OptionalInput
-                bind:this={metadataInput}
                 bind:value={metadata}
                 disabled={isTransferring}
                 label={localize('general.metadata')}
