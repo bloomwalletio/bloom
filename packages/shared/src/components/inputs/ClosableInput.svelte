@@ -1,21 +1,14 @@
 <script lang="ts">
     import { NumberInput, TextInput, Icon } from '@ui'
+    import { Icon as IconEnum } from '@auxiliary/icon'
 
     export let value = ''
     export let open = false
-    export let buttonElement: HTMLButtonElement = undefined
+    export let buttonElement: HTMLButtonElement | undefined = undefined
     export let label: string
     export let placeholder: string
     export let error: string = ''
     export let inputType: 'text' | 'number' = 'text'
-    $: console.log('ClosableInput.svelte', error)
-
-    let input: TextInput | NumberInput | undefined
-
-    export function validate(): void {
-        console.log('ClosableInput.svelte')
-        input?.validate()
-    }
 
     let inputElement: HTMLInputElement
     let hasFocus: boolean
@@ -34,7 +27,6 @@
     {#if inputType === 'text'}
         <TextInput
             slot="input"
-            bind:this={input}
             bind:value
             bind:inputElement
             bind:hasFocus
@@ -46,7 +38,7 @@
         >
             <button slot="right-full-h" on:click={onCloseClick}>
                 <Icon
-                    icon="close"
+                    icon={IconEnum.Close}
                     classes="text-gray-500 hover:text-gray-600 dark:text-gray-400 dark:hover:text-gray-300"
                 />
             </button>
@@ -54,7 +46,6 @@
     {:else if inputType === 'number'}
         <NumberInput
             slot="input"
-            bind:this={input}
             bind:value
             bind:inputElement
             bind:hasFocus
@@ -66,7 +57,7 @@
         >
             <button slot="right-full-h" on:click={onCloseClick}>
                 <Icon
-                    icon="close"
+                    icon={IconEnum.Close}
                     classes="text-gray-500 hover:text-gray-600 dark:text-gray-400 dark:hover:text-gray-300"
                 />
             </button>
