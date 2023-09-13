@@ -1,34 +1,17 @@
 <script lang="ts">
-    import { PopupId, openPopup } from '@desktop/auxiliary/popup'
-    import { OnboardingLayout } from '@components'
     import { localize } from '@core/i18n'
     import { LedgerConnectionState, ledgerConnectionState } from '@core/ledger'
     import { Subrouter } from '@core/router'
-    import { Button, Icon, LedgerAnimation, Link, Text } from '@ui'
+    import { PopupId, openPopup } from '@desktop/auxiliary/popup'
+    import { Icon, Link, Text } from '@ui'
+    import { OnboardingLayout } from '@views/components'
 
     export let router: Subrouter<unknown>
-
-    const isBusy = false
 
     $: isNotConnected = $ledgerConnectionState === LedgerConnectionState.NotConnected
     $: isLocked = isNotConnected || $ledgerConnectionState === LedgerConnectionState.Locked
     $: isAppNotOpen = isLocked || $ledgerConnectionState === LedgerConnectionState.AppNotOpen
     $: isCorrectAppOpen = $ledgerConnectionState === LedgerConnectionState.CorrectAppOpen
-    $: $ledgerConnectionState, setAnimation()
-
-    let animation: string
-    function setAnimation(): void {
-        if (isNotConnected) {
-            animation = 'ledger-disconnected-desktop'
-        } else if (isLocked) {
-            // TODO: Get animation for locked ledger
-            animation = undefined
-        } else if (isAppNotOpen) {
-            animation = 'ledger-app-closed-desktop'
-        } else if (isCorrectAppOpen) {
-            animation = 'ledger-connected-desktop'
-        }
-    }
 
     function handleGuidePopup(): void {
         openPopup({
@@ -45,10 +28,18 @@
     }
 </script>
 
-<OnboardingLayout {onBackClick}>
-    <div slot="leftpane__content">
-        <Text type="h2" classes="mb-5">{localize('views.connectLedger.title')}</Text>
-        <Text type="p" secondary classes="mb-5">{localize('views.connectLedger.body')}</Text>
+<OnboardingLayout
+    title={localize('views.connectLedger.title')}
+    description={localize('views.connectLedger.body')}
+    continueButton={{
+        onClick: onContinueClick,
+        disabled: !isCorrectAppOpen,
+    }}
+    backButton={{
+        onClick: onBackClick,
+    }}
+>
+    <div slot="content" class="space-y-4">
         <div class="flex flex-col flex-nowrap space-y-2">
             <div class="flex flex-row items-center space-x-2">
                 <Icon
@@ -72,22 +63,8 @@
                 <Text type="p" secondary>{localize('views.connectLedger.openApp')}</Text>
             </div>
         </div>
-    </div>
-    <div slot="leftpane__action">
-        <Link icon="info" onClick={handleGuidePopup} classes="mb-10 justify-center">
+        <Link icon="info" onClick={handleGuidePopup}>
             {localize('popups.ledgerConnectionGuide.title')}
         </Link>
-        <Button
-            classes="w-full flex flex-row justify-center items-center"
-            disabled={!isCorrectAppOpen || isBusy}
-            onClick={onContinueClick}
-            {isBusy}
-            busyMessage={`${localize('actions.initializing')}...`}
-        >
-            {localize('actions.continue')}
-        </Button>
-    </div>
-    <div slot="rightpane" class="w-full h-full flex justify-center items-center bg-gray-50 dark:bg-gray-900">
-        <LedgerAnimation {animation} />
     </div>
 </OnboardingLayout>

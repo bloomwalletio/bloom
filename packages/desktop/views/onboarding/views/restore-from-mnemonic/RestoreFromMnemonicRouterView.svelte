@@ -1,7 +1,6 @@
 <script lang="ts">
     import { Platform } from '@core/app'
     import features from '@features/features'
-    import { Transition } from '@ui'
     import { EncryptMnemonicView } from '../shared'
     import { RestoreFromMnemonicRoute } from './restore-from-mnemonic-route.enum'
     import { restoreFromMnemonicRoute, restoreFromMnemonicRouter } from './restore-from-mnemonic-router'
@@ -13,11 +12,7 @@
 </script>
 
 {#if $restoreFromMnemonicRoute === RestoreFromMnemonicRoute.InputMnemonic}
-    <Transition>
-        <InputMnemonicView />
-    </Transition>
+    <InputMnemonicView />
 {:else if $restoreFromMnemonicRoute === RestoreFromMnemonicRoute.EncryptMnemonic}
-    <Transition>
-        <EncryptMnemonicView router={$restoreFromMnemonicRouter} />
-    </Transition>
+    <EncryptMnemonicView router={$restoreFromMnemonicRouter} />
 {/if}
