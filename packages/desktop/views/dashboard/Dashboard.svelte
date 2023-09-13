@@ -16,14 +16,13 @@
     import { Idle } from '@ui'
     import { onDestroy, onMount } from 'svelte'
     import { get } from 'svelte/store'
-    import Sidebar from './Sidebar.svelte'
-    import TopNavigation from './TopNavigation.svelte'
     import Collectibles from './collectibles/Collectibles.svelte'
+    import { Navbar, Sidebar } from './components'
     import { Developer } from './developer'
+    import { DashboardDrawerRouterView } from './drawers'
     import { Governance } from './governance'
     import { Settings } from './settings'
     import { Wallet } from './wallet'
-    import { DashboardDrawerRouterView } from './drawers'
 
     const tabs = {
         wallet: Wallet,
@@ -73,7 +72,7 @@
 <dashboard class="dashboard-wrapper flex flex-row w-full h-full">
     <Sidebar />
     <div class="flex flex-col flex-auto">
-        <TopNavigation />
+        <Navbar />
         <!-- Dashboard Pane -->
         <div class="flex flex-col h-full w-full">
             <svelte:component this={tabs[$dashboardRoute]} on:next={$appRouter.next} />

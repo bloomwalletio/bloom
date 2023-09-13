@@ -17,7 +17,7 @@
     import { popupState } from '@desktop/auxiliary/popup'
     import features from '@features/features'
     import { Icon, Text } from '@ui'
-    import { DashboardDrawerRoute } from './drawers'
+    import { DashboardDrawerRoute } from '../drawers'
 
     let isBackButtonVisible = false
 
@@ -54,7 +54,7 @@
     }
 </script>
 
-<top-navigation class:disabled={isPopupVisible}>
+<navbar class:disabled={isPopupVisible}>
     <div class="h-full flex flex-row justify-between items-center">
         <div class="flex flex-row gap-2">
             {#if isBackButtonVisible}
@@ -72,6 +72,7 @@
                     on:click={() => toggleDashboardDrawer({ id: DashboardDrawerRoute.ContactBook })}
                     name={IconName.Users}
                     tooltip={localize('general.contacts')}
+                    color="#1E1B4E"
                 />
             {/if}
             {#if features?.wallet?.walletConnect?.enabled}
@@ -79,6 +80,7 @@
                     on:click={() => toggleDashboardDrawer({ id: DashboardDrawerRoute.DappConfig })}
                     name={IconName.Grid}
                     tooltip={localize('general.apps')}
+                    color="#1E1B4E"
                 />
             {/if}
             {#if features?.network?.config?.enabled}
@@ -86,14 +88,15 @@
                     on:click={() => toggleDashboardDrawer({ id: DashboardDrawerRoute.NetworkConfig })}
                     name={IconName.Globe}
                     tooltip={localize('general.networks')}
+                    color="#1E1B4E"
                 />
             {/if}
         </div>
     </div>
-</top-navigation>
+</navbar>
 
 <style lang="scss">
-    top-navigation {
+    navbar {
         @apply w-full flex-none px-4 z-10 bg-white;
         height: 40px;
         border-bottom: 1px solid #f1eef9;

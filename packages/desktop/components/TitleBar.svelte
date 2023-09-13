@@ -29,7 +29,7 @@
     })
 </script>
 
-<nav
+<title-bar
     class:with-borders={isDashboardVisible}
     class="flex flex-row justify-between w-full h-7 transition-none bg-yellow-100"
 >
@@ -37,15 +37,10 @@
     <windows-resize-area />
     <WindowsPopupMenu />
     <WindowsControlButtons />
-</nav>
+</title-bar>
 
 <style lang="scss">
-    windows-resize-area {
-        @apply absolute block h-1 left-20 top-0;
-        width: calc(100% - 14rem);
-    }
-
-    nav {
+    title-bar {
         -webkit-app-region: drag;
 
         > * {
@@ -53,8 +48,13 @@
         }
     }
 
-    nav.with-borders {
+    title-bar.with-borders {
         @apply bg-gray-200 border-b border-gray-300 border-solid;
         @apply dark:bg-gray-950 dark:border-gray-950;
+    }
+
+    windows-resize-area {
+        @apply absolute block h-1 left-20 top-0;
+        width: calc(100% - 14rem);
     }
 </style>
