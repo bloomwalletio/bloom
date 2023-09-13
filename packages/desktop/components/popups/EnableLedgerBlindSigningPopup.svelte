@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { onDestroy } from 'svelte'
     import { Alert } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
     import { LedgerAppName, ledgerDeviceState } from '@core/ledger'
@@ -8,6 +9,7 @@
 
     export let appName: LedgerAppName
     export let onEnabled: UiEventFunction = () => {}
+    export let onClose: UiEventFunction = () => {}
 
     const STEPS = [1, 2, 3, 4]
 
@@ -15,6 +17,10 @@
         closePopup(true)
         onEnabled && onEnabled()
     }
+
+    onDestroy(() => {
+        onClose && onClose()
+    })
 </script>
 
 <Text type={TextType.h3} classes="mb-6">{localize('popups.enableLedgerBlindSigning.title')}</Text>

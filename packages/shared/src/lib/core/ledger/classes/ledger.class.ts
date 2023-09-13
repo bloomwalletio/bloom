@@ -70,13 +70,7 @@ export class Ledger {
     ): Promise<string | void> {
         /* eslint-disable no-async-promise-executor */
         /* eslint-disable @typescript-eslint/no-misused-promises */
-        return new Promise(async (resolve) => {
-            // TEST CODE
-            if (!transactionData.data) {
-                transactionData.data = '0x01'
-            }
-            // TEST CODE
-
+        return new Promise<string | void>(async (resolve, reject) => {
             const unsignedTransactionMessageHex = prepareEvmTransaction(transactionData, chainId)
             const bip32Path = buildBip32PathFromBip44(bip44)
             const maxGasFee = calculateMaxGasFeeFromTransactionData(transactionData)
@@ -84,12 +78,24 @@ export class Ledger {
             const mustEnableBlindSigning =
                 isBlindSigningRequiredForEvmTransaction(transactionData) && !(await this.isBlindSigningEnabledForEvm())
             if (mustEnableBlindSigning) {
+                let canResolve = true
                 openPopup({
                     id: PopupId.EnableLedgerBlindSigning,
                     props: {
                         appName: LedgerAppName.Ethereum,
                         onEnabled: async () => {
-                            resolve(await this.signEvmTransaction(transactionData, chainId, bip44))
+                            canResolve = false
+                            try {
+                                resolve(await this.signEvmTransaction(transactionData, chainId, bip44))
+                            } catch (err) {
+                                reject(err)
+                            }
+                        },
+                        onClose: () => {
+                            if (canResolve) {
+                                canResolve = false
+                                resolve()
+                            }
                         },
                     },
                 })
@@ -128,7 +134,7 @@ export class Ledger {
                 if (r && v && s) {
                     resolve(prepareEvmTransaction(transactionData, chainId, { r, v, s }))
                 } else {
-                    resolve()
+                    reject(localize('error.ledger.rejected'))
                 }
             }
         })

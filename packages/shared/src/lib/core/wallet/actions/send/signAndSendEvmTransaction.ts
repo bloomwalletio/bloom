@@ -41,13 +41,11 @@ export async function signAndSendEvmTransaction(
 
         if (signedTransaction) {
             return await provider?.eth.sendSignedTransaction(signedTransaction)
-        } else {
-            if (get(isActiveLedgerProfile)) {
-                closePopup(true)
-            }
-            throw new Error('No signature provided')
         }
     } catch (err) {
+        if (get(isActiveLedgerProfile)) {
+            closePopup(true)
+        }
         handleError(err)
     } finally {
         updateSelectedAccount({ isTransferring: false })
