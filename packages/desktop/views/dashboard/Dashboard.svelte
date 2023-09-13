@@ -2,7 +2,6 @@
     import { selectedAccount, selectedAccountIndex } from '@core/account/stores'
     import { Platform } from '@core/app'
     import { clearLayer2TokensPoll, pollLayer2Tokens } from '@core/layer-2/actions'
-    import { stopPollingLedgerNanoStatus } from '@core/ledger'
     import {
         addNftsToDownloadQueue,
         downloadNextNftInQueue,
@@ -10,7 +9,7 @@
     } from '@core/nfts/actions'
     import { downloadingNftId, nftDownloadQueue, resetNftDownloadQueue, selectedAccountNfts } from '@core/nfts/stores'
     import { logout, reflectLockedStronghold } from '@core/profile/actions'
-    import { hasStrongholdLocked, isActiveLedgerProfile } from '@core/profile/stores'
+    import { hasStrongholdLocked } from '@core/profile/stores'
     import { appRouter, dashboardRoute } from '@core/router'
     import features from '@features/features'
     import { Idle } from '@ui'
@@ -23,10 +22,12 @@
     import { Governance } from './governance'
     import { Settings } from './settings'
     import { Wallet } from './wallet'
+    import { NewDashboard } from './new-dashboard'
     import { DashboardDrawerRouterView } from './drawers'
 
     const tabs = {
         wallet: Wallet,
+        newDashboard: NewDashboard,
         settings: Settings,
         collectibles: Collectibles,
         governance: Governance,
@@ -62,9 +63,6 @@
 
     onDestroy(() => {
         Platform.DeepLinkManager.clearDeepLinkRequest()
-        if ($isActiveLedgerProfile) {
-            stopPollingLedgerNanoStatus()
-        }
         clearLayer2TokensPoll()
     })
 </script>

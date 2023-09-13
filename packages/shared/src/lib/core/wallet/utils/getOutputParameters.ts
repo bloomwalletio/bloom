@@ -48,7 +48,7 @@ export async function getOutputParameters(
             ...(timelockUnixTime && { timelockUnixTime }),
         },
         storageDeposit: {
-            returnStrategy: giftStorageDeposit ? ReturnStrategy.Gift : ReturnStrategy.Return,
+            returnStrategy: giftStorageDeposit || isToLayer2 ? ReturnStrategy.Gift : ReturnStrategy.Return,
         },
     }
 }
