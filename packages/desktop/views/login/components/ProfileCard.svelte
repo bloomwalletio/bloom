@@ -1,7 +1,7 @@
 <script lang="ts">
     import { Icon, IconName, Text } from '@bloomwalletio/ui'
     import { IPersistedProfile, ProfileType } from '@core/profile'
-    import { NetworkBadge, ProfileAvatar } from '@ui'
+    import { ProfileAvatar } from '@ui'
     import features from '@features/features'
 
     export let profile: IPersistedProfile
@@ -37,10 +37,7 @@
             <button type="button" class="menu"></button>
         {/if}
     </profile-header>
-    <div class="relative">
-        <ProfileAvatar {profile} size="lg" shape={isHovering ? 'squircle' : 'circle'} />
-        <NetworkBadge size="sm" networkId={profile.network.id} networkName={profile.network.name} />
-    </div>
+    <ProfileAvatar {profile} showNetwork size="lg" shape={isHovering ? 'squircle' : 'circle'} />
     <Text type="h6" align="center" truncate>{profile.name}</Text>
 </button>
 

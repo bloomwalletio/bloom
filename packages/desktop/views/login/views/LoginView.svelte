@@ -15,7 +15,7 @@
     import { PopupId, openPopup, popupState } from '@desktop/auxiliary/popup'
     import features from '@features/features'
     import { onDestroy } from 'svelte'
-    import { ProfileCard } from '../components'
+    import { ProfileAvatar } from '@ui'
 
     let attempts: number = 0
     let pinCode: string = ''
@@ -129,7 +129,12 @@
         />
     </button-container>
     <div>
-        <ProfileCard profile={$activeProfile} />
+        <div>
+            <ProfileAvatar profile={$activeProfile} showNetwork size="xl" badgeSize="md" shape="squircle" />
+            <Text align="center">
+                {$activeProfile.name}
+            </Text>
+        </div>
         <div>
             <PinInput
                 bind:this={pinInput}

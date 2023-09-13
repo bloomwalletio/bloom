@@ -4,7 +4,7 @@
     import { NetworkId, SupportedNetworkId, isSupportedNetworkId } from '@core/network'
 
     export let networkId: NetworkId
-    export let size: 'xxs' | 'xs' | 'sm' = 'sm'
+    export let size: 'xxs' | 'xs' | 'sm' | 'md' = 'sm'
 
     const AVATAR_BACKGROUND_COLOR: { [id in SupportedNetworkId]: string } = {
         [SupportedNetworkId.Shimmer]: '#020F26',
