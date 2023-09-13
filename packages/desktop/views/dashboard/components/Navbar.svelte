@@ -1,6 +1,5 @@
 <script lang="ts">
-    import { Icon as IconEnum } from '@auxiliary/icon'
-    import { IconButton, IconName } from '@bloomwalletio/ui'
+    import { IconButton, IconName, Icon, Text } from '@bloomwalletio/ui'
     import { AccountSwitcher } from '@components'
     import { IS_WINDOWS } from '@core/app'
     import { localize } from '@core/i18n'
@@ -17,7 +16,6 @@
     import { closeDrawer, toggleDashboardDrawer } from '@desktop/auxiliary/drawer'
     import { popupState } from '@desktop/auxiliary/popup'
     import features from '@features/features'
-    import { Icon, Text } from '@ui'
     import { DashboardDrawerRoute } from '../drawers'
 
     let isBackButtonVisible = false
@@ -59,12 +57,33 @@
     <div class="h-full flex flex-row justify-between items-center" class:drag={!IS_WINDOWS}>
         <div class="flex flex-row gap-2">
             {#if isBackButtonVisible}
-                <button type="button" on:click={onBackClick}>
-                    <Icon width="18" icon={IconEnum.ArrowLeft} classes="text-gray-800 dark:text-gray-500" />
-                    <Text overrideColor classes="text-gray-800 dark:text-gray-500">{localize('actions.back')}</Text>
-                </button>
+                <IconButton
+                    on:click={onBackClick}
+                    name={IconName.ArrowLeft}
+                    tooltip={localize('actions.back')}
+                    color="#1E1B4E"
+                    size="sm"
+                />
             {/if}
-            <AccountSwitcher />
+            <div class="flex flex-row space-x-2 items-center">
+                <AccountSwitcher />
+                <Icon name={IconName.ChevronRight} size="sm" />
+                <Text size="sm" weight="semibold" color="#1E1B4E">
+                    {localize(`general.${$dashboardRoute}`)}
+                </Text>
+                {#if $dashboardRoute === DashboardRoute.Collectibles && $collectiblesRoute !== CollectiblesRoute.Gallery}
+                    <Icon name={IconName.ChevronRight} size="sm" />
+                    <Text size="sm" weight="semibold" color="#1E1B4E">
+                        {$collectiblesRoute}
+                    </Text>
+                {/if}
+                {#if $dashboardRoute === DashboardRoute.Governance && $governanceRoute !== GovernanceRoute.Proposals}
+                    <Icon name={IconName.ChevronRight} size="sm" />
+                    <Text size="sm" weight="semibold" color="#1E1B4E">
+                        {$governanceRoute}
+                    </Text>
+                {/if}
+            </div>
         </div>
 
         <div class="right-button flex items-center justify-end gap-2">
@@ -74,6 +93,7 @@
                     name={IconName.Users}
                     tooltip={localize('general.contacts')}
                     color="#1E1B4E"
+                    size="sm"
                 />
             {/if}
             {#if features?.wallet?.walletConnect?.enabled}
@@ -82,6 +102,7 @@
                     name={IconName.Grid}
                     tooltip={localize('general.apps')}
                     color="#1E1B4E"
+                    size="sm"
                 />
             {/if}
             {#if features?.network?.config?.enabled}
@@ -90,6 +111,7 @@
                     name={IconName.Globe}
                     tooltip={localize('general.networks')}
                     color="#1E1B4E"
+                    size="sm"
                 />
             {/if}
         </div>
