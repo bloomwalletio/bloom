@@ -1,5 +1,4 @@
 <script lang="ts">
-    import { OnboardingLayout } from '@components'
     import {
         CreateProfileType,
         initialiseProfileManagerFromOnboardingProfile,
@@ -7,28 +6,34 @@
         updateOnboardingProfile,
     } from '@contexts/onboarding'
     import { localize } from '@core/i18n'
-    import { ProfileType, removeProfileFolder } from '@core/profile'
-    import features from '@features/features'
-    import { Animation, OnboardingButton, Text } from '@ui'
-    import { onMount } from 'svelte'
-    import { createProfileRouter } from '../create-profile-router'
-    import { destroyProfileManager } from '@core/profile-manager/actions'
     import { getOnboardingNetworkTypeFromNetworkId } from '@core/network/utils'
+    import { ProfileType, removeProfileFolder } from '@core/profile'
+    import { destroyProfileManager } from '@core/profile-manager/actions'
+    import features from '@features/features'
+    import { OnboardingLayout } from '@views/components'
+    import { onMount } from 'svelte'
+    import { OnboardingSelectorTile } from '../../../components'
+    import { createProfileRouter } from '../create-profile-router'
 
     const networkId = $onboardingProfile?.network?.id
     const networkType = getOnboardingNetworkTypeFromNetworkId(networkId)
 
-    let isBusy = {
+    const busyMap = {
         [CreateProfileType.Mnemonic]: false,
         [CreateProfileType.Ledger]: false,
     }
 
-    $: isDisabled = Object.values(isBusy).some((busy) => busy)
+    $: busy = Object.values(busyMap).some((busy) => busy)
 
-    async function onProfileTypeClick(createProfileType: CreateProfileType): Promise<void> {
-        isBusy = { ...isBusy, [createProfileType]: true }
-        const type = createProfileType === CreateProfileType.Ledger ? ProfileType.Ledger : ProfileType.Software
-        updateOnboardingProfile({ createProfileType, type })
+    let selectedCreateProfileType: CreateProfileType | undefined = undefined
+    function onProfileTypeClick(createProfileType: CreateProfileType): void {
+        selectedCreateProfileType = createProfileType
+    }
+
+    async function onContinueClick(): Promise<void> {
+        busyMap[selectedCreateProfileType] = true
+        const type = selectedCreateProfileType === CreateProfileType.Ledger ? ProfileType.Ledger : ProfileType.Software
+        updateOnboardingProfile({ createProfileType: selectedCreateProfileType, type })
         await initialiseProfileManagerFromOnboardingProfile()
         $createProfileRouter.next()
     }
@@ -47,34 +52,36 @@
     })
 </script>
 
-<OnboardingLayout {onBackClick}>
-    <div slot="title">
-        <Text type="h2">{localize('views.onboarding.profileSetup.setupNew.title')}</Text>
-    </div>
-    <div slot="leftpane__content">
-        <Text type="p" secondary classes="mb-8">{localize('views.onboarding.profileSetup.setupNew.body')}</Text>
-    </div>
-    <div slot="leftpane__action" class="flex flex-col space-y-4">
-        <OnboardingButton
+<OnboardingLayout
+    title={localize('views.onboarding.profileSetup.setupNew.title')}
+    description={localize('views.onboarding.profileSetup.setupNew.body')}
+    continueButton={{
+        onClick: onContinueClick,
+        disabled: !selectedCreateProfileType,
+    }}
+    backButton={{
+        onClick: onBackClick,
+    }}
+    {busy}
+>
+    <div slot="content" class="flex flex-col space-y-4">
+        <OnboardingSelectorTile
             primaryText={localize('views.onboarding.profileSetup.setupNew.softwareAccount.title')}
             secondaryText={localize('views.onboarding.profileSetup.setupNew.softwareAccount.description')}
             icon="file"
-            busy={isBusy[CreateProfileType.Mnemonic]}
             hidden={features?.onboarding?.[networkType]?.newProfile?.softwareProfile?.hidden}
-            disabled={!features?.onboarding?.[networkType]?.newProfile?.softwareProfile?.enabled || isDisabled}
+            disabled={!features?.onboarding?.[networkType]?.newProfile?.softwareProfile?.enabled || busy}
             onClick={() => onProfileTypeClick(CreateProfileType.Mnemonic)}
+            selected={selectedCreateProfileType === CreateProfileType.Mnemonic}
         />
-        <OnboardingButton
+        <OnboardingSelectorTile
             primaryText={localize('views.onboarding.profileSetup.setupNew.ledgerAccount.title')}
             secondaryText={localize('views.onboarding.profileSetup.setupNew.ledgerAccount.description')}
             icon="chip"
-            busy={isBusy[CreateProfileType.Ledger]}
             hidden={features?.onboarding?.[networkType]?.newProfile?.ledgerProfile?.hidden}
-            disabled={!features?.onboarding?.[networkType]?.newProfile?.ledgerProfile?.enabled || isDisabled}
+            disabled={!features?.onboarding?.[networkType]?.newProfile?.ledgerProfile?.enabled || busy}
             onClick={() => onProfileTypeClick(CreateProfileType.Ledger)}
+            selected={selectedCreateProfileType === CreateProfileType.Ledger}
         />
-    </div>
-    <div slot="rightpane" class="w-full h-full flex justify-center bg-pastel-purple dark:bg-gray-900">
-        <Animation classes="setup-anim-aspect-ratio" animation="import-desktop" />
     </div>
 </OnboardingLayout>
