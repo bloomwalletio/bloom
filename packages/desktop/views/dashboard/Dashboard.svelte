@@ -70,20 +70,20 @@
 </script>
 
 <Idle />
-<div class="dashboard-wrapper flex flex-col w-full h-full">
-    <TopNavigation />
-    <div class="flex flex-row flex-auto h-1">
-        <Sidebar />
+<dashboard class="dashboard-wrapper flex flex-row w-full h-full">
+    <Sidebar />
+    <div class="flex flex-col flex-auto">
+        <TopNavigation />
         <!-- Dashboard Pane -->
-        <div class="flex flex-col h-full dashboard-w">
+        <div class="flex flex-col h-full w-full">
             <svelte:component this={tabs[$dashboardRoute]} on:next={$appRouter.next} />
             <DashboardDrawerRouterView />
         </div>
     </div>
-</div>
+</dashboard>
 
 <style lang="scss">
-    :global(:not(body.platform-win32)) .dashboard-wrapper {
+    :global(:not(body.platform-win32)) dashboard {
         margin-top: calc(env(safe-area-inset-top) / 2);
     }
 

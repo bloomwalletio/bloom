@@ -32,9 +32,10 @@
 <Modal
     bind:this={modal}
     on:open={scrollToSelectedAccount}
-    classes="transform -translate-x-1/2"
+    classes="transform"
     size="large"
-    position={{ top: '30px', left: '50%' }}
+    position={{ top: '32px' }}
+    fixed
 >
     <account-list-container class="block p-4">
         <account-list class="flex flex-col space-y-1 max-h-96 scrollable-y">

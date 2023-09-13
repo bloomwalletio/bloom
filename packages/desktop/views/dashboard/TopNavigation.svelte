@@ -1,7 +1,7 @@
 <script lang="ts">
     import { Icon as IconEnum } from '@auxiliary/icon'
+    import { IconButton, IconName } from '@bloomwalletio/ui'
     import { AccountSwitcher } from '@components'
-    import { IS_WINDOWS } from '@core/app/constants'
     import { localize } from '@core/i18n'
     import {
         CollectiblesRoute,
@@ -13,11 +13,11 @@
         governanceRoute,
         governanceRouter,
     } from '@core/router'
-    import { closeDrawer } from '@desktop/auxiliary/drawer'
+    import { closeDrawer, toggleDashboardDrawer } from '@desktop/auxiliary/drawer'
     import { popupState } from '@desktop/auxiliary/popup'
     import features from '@features/features'
     import { Icon, Text } from '@ui'
-    import { ToggleContactBookButton, ToggleDappConfigButton, ToggleNetworkConfigButton } from './components'
+    import { DashboardDrawerRoute } from './drawers'
 
     let isBackButtonVisible = false
 
@@ -54,60 +54,57 @@
     }
 </script>
 
-<top-navigation class:disabled={IS_WINDOWS && isPopupVisible} class:is-windows={IS_WINDOWS}>
-    <div class="left-button" class:large={IS_WINDOWS}>
-        {#if isBackButtonVisible}
-            <button type="button" on:click={onBackClick}>
-                <Icon width="18" icon={IconEnum.ArrowLeft} classes="text-gray-800 dark:text-gray-500" />
-                <Text overrideColor classes="text-gray-800 dark:text-gray-500">{localize('actions.back')}</Text>
-            </button>
-        {/if}
-    </div>
+<top-navigation class:disabled={isPopupVisible}>
+    <div class="h-full flex flex-row justify-between items-center">
+        <div class="flex flex-row gap-2">
+            {#if isBackButtonVisible}
+                <button type="button" on:click={onBackClick}>
+                    <Icon width="18" icon={IconEnum.ArrowLeft} classes="text-gray-800 dark:text-gray-500" />
+                    <Text overrideColor classes="text-gray-800 dark:text-gray-500">{localize('actions.back')}</Text>
+                </button>
+            {/if}
+            <AccountSwitcher />
+        </div>
 
-    <AccountSwitcher />
-
-    <div class="right-button flex justify-end gap-2">
-        {#if features.contacts.enabled}
-            <ToggleContactBookButton />
-        {/if}
-        {#if features?.wallet?.walletConnect?.enabled}
-            <ToggleDappConfigButton />
-        {/if}
-        {#if features?.network?.config?.enabled}
-            <ToggleNetworkConfigButton />
-        {/if}
+        <div class="right-button flex items-center justify-end gap-2">
+            {#if features.contacts.enabled}
+                <IconButton
+                    on:click={() => toggleDashboardDrawer({ id: DashboardDrawerRoute.ContactBook })}
+                    name={IconName.Users}
+                    tooltip={localize('general.contacts')}
+                />
+            {/if}
+            {#if features?.wallet?.walletConnect?.enabled}
+                <IconButton
+                    on:click={() => toggleDashboardDrawer({ id: DashboardDrawerRoute.DappConfig })}
+                    name={IconName.Grid}
+                    tooltip={localize('general.apps')}
+                />
+            {/if}
+            {#if features?.network?.config?.enabled}
+                <IconButton
+                    on:click={() => toggleDashboardDrawer({ id: DashboardDrawerRoute.NetworkConfig })}
+                    name={IconName.Globe}
+                    tooltip={localize('general.networks')}
+                />
+            {/if}
+        </div>
     </div>
 </top-navigation>
 
 <style lang="scss">
     top-navigation {
-        @apply absolute flex flex-row justify-between items-center z-10 -top-12 left-18 h-12 px-8 py-1;
-        width: calc(100% - 4.5rem);
+        @apply w-full flex-none px-4 z-10 bg-white;
+        height: 40px;
+        border-bottom: 1px solid #f1eef9;
 
         &.disabled {
             @apply opacity-50 pointer-events-none;
         }
 
-        &.is-windows {
-            @apply pr-0;
-            width: calc(100% - 15rem);
-        }
-
         button {
             @apply flex items-center gap-2;
             -webkit-app-region: none;
-        }
-
-        .right-button {
-            width: 10rem;
-        }
-
-        .left-button {
-            width: 10rem;
-
-            &.large {
-                width: 19rem;
-            }
         }
     }
 </style>
