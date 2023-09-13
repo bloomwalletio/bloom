@@ -12,7 +12,7 @@
         sendOutputFromStardust,
         sendTransactionFromEvm,
     } from '@core/wallet/actions'
-    import { getNetworkIdFromSendFlowParameters, getTokenIdFromSendFlowParameters } from '@core/wallet/utils'
+    import { getNetworkIdFromSendFlowParameters } from '@core/wallet/utils'
     import { sendFlowParameters } from '@core/wallet/stores'
     import { closePopup } from '@desktop/auxiliary/popup'
     import { onMount } from 'svelte'
@@ -60,8 +60,7 @@
     async function onConfirmClick(): Promise<void> {
         try {
             if (isAssetFromLayer2) {
-                const tokenId = getTokenIdFromSendFlowParameters($sendFlowParameters)
-                await sendTransactionFromEvm(preparedTransaction, tokenId, chain, closePopup)
+                await sendTransactionFromEvm(preparedTransaction, chain, closePopup)
             } else {
                 await sendOutputFromStardust(preparedOutput, $selectedAccount, closePopup)
             }

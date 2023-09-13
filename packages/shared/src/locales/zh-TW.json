@@ -4,7 +4,7 @@
             "appSetup": {
                 "welcome": {
                     "title": "Send, Receive & Manage your {network} tokens",
-                    "body": "Firefly is the official wallet software for {network}."
+                    "body": "Bloom is the official wallet software for {network}."
                 },
                 "legal": {
                     "title": "隱私政策和服務條款",
@@ -481,7 +481,7 @@
                 },
                 "version": {
                     "title": "有可用的更新",
-                    "updateVersion": "Firefly v{version}",
+                    "updateVersion": "Bloom v{version}",
                     "button": "更新"
                 }
             },
@@ -520,7 +520,7 @@
                     "connectLedgerDevice": {
                         "title": "Connect Ledger Device",
                         "header": "Open the Ethereum app",
-                        "body": "For your Ledger device to be found by Firefly, please ensure that the official Ledger Live application is closed before following these steps.",
+                        "body": "For your Ledger device to be found by Bloom, please ensure that the official Ledger Live application is closed before following these steps.",
                         "requirements": {
                             "connect": "Connect and unlock your Ledger",
                             "openApp": "Open the Ethereum app on your Ledger"
@@ -845,7 +845,7 @@
         "externalUrl": {
             "title": "以瀏覽器開啟網址",
             "body": "您確定要在瀏覽器中開啟 \"{url}\" 嗎？",
-            "hint": "This URL is unknown to Firefly. Please double check the URL before opening it.",
+            "hint": "This URL is unknown to Bloom. Please double check the URL before opening it.",
             "action": "開啟網址",
             "invalidProtocol": "無法用無效的協定開啟網址"
         },
@@ -988,7 +988,7 @@
             "title": "正在進行網路升級",
             "body": "Chrysalis 網絡升級已經開始。",
             "bodyMigration": "遷移被禁用，直到網路升級完成。",
-            "bodyFirefly": "Firefly 在網路更新完成前將無法使用。網路更新後仍可進行資金遷移。"
+            "bodyFirefly": "Bloom 在網路更新完成前將無法使用。網路更新後仍可進行資金遷移。"
         },
         "ledgerNotConnected": {
             "title": "連接你的 Ledger",
@@ -1007,7 +1007,7 @@
                 "1": "確保您的 Ledger 裝置已連上",
                 "2": "搜索 {legacy} 應用。您可能需要啟用 Ledger Live 開發者模式。",
                 "3": "安裝 {legacy} app",
-                "4": "重要：返回 Firefly 之前，記得先關閉 Ledger Live"
+                "4": "重要：返回 Bloom 之前，記得先關閉 Ledger Live"
             }
         },
         "ledgerConnectionGuide": {
@@ -1314,7 +1314,7 @@
         "revote": {
             "title": "為提案重新投票",
             "body": "Changing your voting power temporarily stops your votes for all proposals from being counted. Simply click \"Revote\" to resume voting.",
-            "hint": "Firefly remembers all of the proposals and answer options you previously voted for."
+            "hint": "Bloom remembers all of the proposals and answer options you previously voted for."
         },
         "removeProposal": {
             "title": "移除提案",
@@ -1434,7 +1434,7 @@
         "exportTransactionHistory": "匯出交易記錄",
         "localProofOfWork": "本地工作量證明",
         "unlock": "解鎖",
-        "updateFirefly": "更新 Firefly",
+        "updateFirefly": "更新 Bloom",
         "restart": "Restart",
         "refresh": "重新整理",
         "saveBackup": "保存 Stronghold 備份",
@@ -1487,7 +1487,7 @@
         "search": "搜尋",
         "searching": "搜尋中",
         "searchAgain": "重新搜尋",
-        "closeFirefly": "關閉 Firefly",
+        "closeFirefly": "關閉 Bloom",
         "generateAddress": "產生新地址",
         "migrateAgain": "遷移另一個索引",
         "visitWebsite": "前往網站",
@@ -1771,7 +1771,7 @@
         "giftStorageDeposit": "贈與存儲空間費用",
         "excluded": "排除",
         "developerTools": "開發人員工具",
-        "testDeepLinkDescription": "模擬將一個深度連結的請求傳送至 Firefly 錢包",
+        "testDeepLinkDescription": "模擬將一個深度連結的請求傳送至 Bloom 錢包",
         "url": "網址",
         "hash": "雜湊",
         "creating": "正在創建",

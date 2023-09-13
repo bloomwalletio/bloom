@@ -13,7 +13,6 @@ import { BASE_TOKEN_ID } from '@core/token'
 
 export async function sendTransactionFromEvm(
     transaction: EvmTransactionData,
-    tokenId: string,
     chain: IChain,
     callback?: () => void
 ): Promise<void> {
@@ -39,13 +38,10 @@ export async function sendTransactionFromEvm(
                 }
                 addPersistedTransaction(account.index, networkId, evmTransaction)
 
-                const activity = await generateActivityFromEvmTransaction(evmTransaction, tokenId, networkId, provider)
+                const activity = await generateActivityFromEvmTransaction(evmTransaction, networkId, provider)
                 addActivitiesToAccountActivitiesInAllAccountActivities(account.index, [activity])
 
                 if (getAddressFromAccountForNetwork(account, networkId) !== activity.subject?.address) {
-                    // Currently only support outgoing transactions being added to activities so we can assume outgoing balance change
-                    // TODO: this only works for base token and not native tokens
-
                     const tokenTransfer = activity.tokenTransfer ?? activity.baseTokenTransfer
                     const delta =
                         tokenTransfer.tokenId === BASE_TOKEN_ID
