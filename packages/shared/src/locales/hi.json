@@ -3,26 +3,13 @@
         "onboarding": {
             "appSetup": {
                 "welcome": {
-                    "title": "Send, Receive & Manage your {network} tokens",
-                    "body": "Bloom is the official wallet software for {network}."
+                    "title": "Welcome to"
                 },
                 "legal": {
-                    "title": "Privacy Policy & Terms of Service",
-                    "body": "Please review the Privacy Policy and Terms of Service.",
-                    "checkbox": "I've read and I accept the Privacy Policy and Terms of Service"
-                },
-                "languageAndAppearance": {
-                    "title": "Language & appearance",
-                    "body": "Choose your language and theme."
+                    "title": "Privacy Policy & Terms of Service"
                 }
             },
             "networkSetup": {
-                "chooseProtocol": {
-                    "title": "Choose protocol",
-                    "body": "Set the protocol for your profile.",
-                    "iota": "Default IOTA network",
-                    "shimmer": "Experimental IOTA staging network"
-                },
                 "chooseNetwork": {
                     "title": "Choose network",
                     "body": "Set the network for your profile.",
@@ -44,8 +31,7 @@
                     }
                 },
                 "setupCustomNetwork": {
-                    "title": "Connect to a custom network or node",
-                    "body": "Fill the form with the node information and connect to a custom network or node."
+                    "title": "Connect to a custom network or node"
                 }
             },
             "profileSetup": {
@@ -75,10 +61,6 @@
                     "importLedger": "Use Ledger device",
                     "importLedgerDescription": "Restore from your Ledger Nano S or X device"
                 },
-                "setupClaimed": {
-                    "title": "Claim Shimmer staking rewards",
-                    "body": "Import your IOTA profile and claim your Shimmer staking rewards."
-                },
                 "enterName": {
                     "title": "Create your {network} profile",
                     "profileName": "Profile name",
@@ -105,12 +87,6 @@
                 }
             },
             "profileBackup": {
-                "backupMnemonic": {
-                    "title": "Back up your recovery phrase",
-                    "body1": "You will now be shown a recovery phrase. Write it down in your Recovery Kit.",
-                    "body2": "Do not share your recovery phrase with anyone. It can be used to access your tokens from anywhere.",
-                    "body3": "If you lose your recovery phrase, you may lose your funds."
-                },
                 "viewMnemonic": {
                     "title": "Recovery phrase",
                     "body1": "In your Recovery Kit, write down the words in the exact order shown.",
@@ -125,14 +101,6 @@
                     "word": "Word",
                     "verified": "Recovery phrase verified",
                     "verifiedBody": "Remember to keep it private and safely stored."
-                },
-                "backupStronghold": {
-                    "title": "Back up to a Stronghold file",
-                    "body1": "Enter your password to create a Stronghold backup of your profile. Your password is used to encrypt the backup file.",
-                    "body2": "Reasons why digital backups are important:",
-                    "reason1": "Easily recover your wallets without typing in your recovery phrase",
-                    "reason2": "Import your wallets on other devices",
-                    "reason3": "Recover your full transaction history"
                 }
             },
             "profileRecovery": {
@@ -149,10 +117,6 @@
                 "backupPassword": {
                     "body1": "Please enter your backup password.",
                     "body2": "This is the password you set when you first created your backup."
-                },
-                "success": {
-                    "title": "You have successfully recovered your backup",
-                    "body": "You can now set up your new profile."
                 }
             },
             "shimmerClaiming": {
@@ -169,22 +133,9 @@
             },
             "congratulations": {
                 "title": "Profile setup almost complete...",
-                "fundsMigrated": "Funds migrated",
                 "body": "Your new profile will be ready once the dashboard has successfully loaded.",
-                "ledgerHint": "Do not disconnect your Ledger device until the dashboard has finished loading.",
-                "softwareMigratedBody": "You have successfully migrated your funds to the new network",
-                "fireflyLedgerBody": "Your Ledger profile was successfully recovered and you can now continue.",
-                "trinityLedgerBody": "You have successfully migrated your Ledger to the new network.",
-                "exportMigration": "Export migration log and finish setup"
+                "ledgerHint": "Do not disconnect your Ledger device until the dashboard has finished loading."
             }
-        },
-        "setupLedger": {
-            "progress1": "लेजर को कनेक्ट करे",
-            "progress2": "नया पता उत्पन्न करें",
-            "progress3": "लेजर ऐप स्विच करें",
-            "progress4": "धनराशि का ट्रांसफर",
-            "watchVideo": "वीडियो गाइड देखें",
-            "videoGuide": "लेज़र प्रवास वीडियो मार्गदर्शक"
         },
         "ledgerInstallationGuide": {
             "title": "Have you installed the {network} app on your Ledger device?",
@@ -192,66 +143,20 @@
             "body2": "सुनिश्चित करें कि आपका लेजर फर्मवेयर अप-टू-डेट है। किसी भी पहले से इंस्टॉल किए गए ऐप्स को उनके नवीनतम संस्करणों में अपडेट किया जाना चाहिए।",
             "action": "Yes, I've installed the {network} app"
         },
-        "importFromLedger": {
-            "title": "अपने लेजर को पुनर्स्थापित या माइग्रेट करें",
-            "body": "किसी मौजूदा Bloom Ledger प्रोफ़ाइल को पुनर्स्थापित करें, या ट्रिनिटी से अपने फंड माइग्रेट करें।",
-            "haveFireflyLedger": "मेरे पास एक लेजर बैकअप है",
-            "haveFireflyLedgerDescription": "एक फायरफ्लाई प्रोफ़ाइल पुनर्स्थापित करें",
-            "haveTrinityLedger": "मेरे पास ट्रिनिटी लेजर बैकअप है",
-            "haveTrinityLedgerDescription": "ट्रिनिटी प्रोफ़ाइल माइग्रेट करें"
-        },
         "connectLedger": {
-            "title": "अपने लेजर को फायरफ्लाई से कनेक्ट करें",
-            "body": "फायरफ्लाई द्वारा आपके लेजर डिवाइस को खोजने के लिए, कृपया सुनिश्चित करें कि आधिकारिक लेजर लाइव एप्लिकेशन बंद है।",
+            "title": "Connect your Ledger to Bloom",
+            "body": "For your Ledger device to be found by Bloom, please ensure that the official Ledger Live application is closed.",
             "connect": "Connect your Ledger device",
             "unlock": "Unlock your Ledger with its pin",
-            "openApp": "Open the Shimmer app on your Ledger",
-            "tips": "युक्तियाँ यदि आपका लेजर कनेक्ट नहीं हो रहा है"
-        },
-        "restoreFromFireflyLedger": {
-            "title": "अपने लेजर प्रोफाइल को पुनर्स्थापित करें",
-            "body": "सेटअप प्रक्रिया को पूरा करने के लिए पुनर्स्थापना दबाएं और अपने वॉलेट, शेष राशि और लेनदेन इतिहास को पुनर्स्थापित करें।",
-            "restoring": "लेजर से पुनर्स्थापित किया जा रहा है..."
-        },
-        "legacyLedgerIntro": {
-            "title": "फायरफ्लाई का उपयोग करके अपना लेजर माइग्रेशन प्रारंभ करें",
-            "body1": "फायरफ्लाई आपको अपने टोकन को नए क्रिसलिस नेटवर्क में स्थानांतरित करने में मदद करेगा।",
-            "body2": "माइग्रेशन के बाद, आप फायरफ्लाई के साथ अपने लेजर का उपयोग करके अपने टोकन भेज और प्राप्त कर सकेंगे।",
-            "readMore": "माइग्रेशन प्रक्रिया से क्या अपेक्षा करें"
-        },
-        "generateNewLedgerAddress": {
-            "title": "Generate new address",
-            "body": "फायरफ्लाई के साथ अपने टोकन माइग्रेट करने के लिए आपको एक नया पता जेनरेट करना होगा। जारी रखने के लिए नीचे के बटन पर क्लिक करें।",
-            "confirmTitle": "नए पते की पुष्टि करें",
-            "confirmBody": "सुरक्षा के लिए, कृपया अपने लेजर डिवाइस पर उत्पन्न पते की तुलना नीचे प्रदर्शित पते से करें। यदि वे मेल खाते हैं, तो संकेत के अनुसार अपने लेजर पर दोनों बटन दबाएं।",
-            "confirmedTitle": "पते की पुष्टि",
-            "confirmedBody": "आपने पुष्टि की है कि फायरफ्लाई में पता आपके लेजर डिवाइस के पते से मेल खाता है।",
-            "generating": "जनरेटिंग एड्रेस"
-        },
-        "switchLedgerApps": {
-            "title": "लेजर ऐप स्विच करें",
-            "body": "माइग्रेशन जारी रखने के लिए कृपया अपने लेजर डिवाइस पर {legacy} ऐप पर स्विच करें। तैयार होने पर, जारी रखें दबाएं।"
-        },
-        "selectLedgerAccountIndex": {
-            "title": "लेजर अकाउंट इंडेक्स चुनें",
-            "body": "ट्रिनिटी के साथ आपके द्वारा उपयोग किया गया लेजर खाता सूचकांक चुनें। अधिकांश उपयोगकर्ताओं के लिए यह 0 की डिफ़ॉल्ट अनुक्रमणिका होगी।",
-            "accountIndex": "खाता सूचकांक",
-            "accountPage": "अकाउंट पेज",
-            "standard": "मानक",
-            "expert": "एक्स्पर्ट",
-            "takingAWhile": "इसमें कुछ समय लग रहा है...",
-            "notGeneratingAddresses": "क्या आपका लेजर एड्रेस जनरेट कर रहा है?",
-            "reinstallLegacy": "यदि नहीं, तो डिवाइस को डिस्कनेक्ट करें और पुनः प्रयास करें। अगर समस्या बनी रहती है, तो आपको {legacy} ऐप को फिर से इंस्टॉल करना पड़ सकता है।"
+            "openApp": "Open the Shimmer app on your Ledger"
         },
         "settings": {
             "settings": "सैटिन्ग्स",
             "general": {
-                "title": "General",
-                "description": "Configure your app's appearance and other general settings"
+                "title": "General"
             },
             "profile": {
-                "title": "प्रोफाइल",
-                "description": "अपना प्रोफ़ाइल नाम बदलें या अवतार सेट करें"
+                "title": "प्रोफाइल"
             },
             "network": {
                 "title": "Network"
@@ -260,29 +165,20 @@
                 "title": "Collectibles"
             },
             "security": {
-                "title": "सुरक्षा",
-                "description": "अपना पासवर्ड बदलें और सुरक्षा-संबंधी सेटिंग्स समायोजित करें"
+                "title": "सुरक्षा"
             },
             "advanced": {
-                "title": "Advanced",
-                "description": "Tools and manual settings for technical users"
+                "title": "Advanced"
             },
             "helpAndInfo": {
-                "title": "मदद सूचना",
-                "description": "किसी प्रश्न का उत्तर ढूंढें या किसी मुद्दे पर मदद लें"
-            },
-            "sync": {
-                "title": "सिंक वॉलेट",
-                "description": ""
+                "title": "मदद सूचना"
             },
             "theme": {
                 "title": "थीम",
-                "description": "",
                 "advice": "If you change your system theme, you may need to restart Bloom to see the effects"
             },
             "language": {
-                "title": "भाषा ",
-                "description": ""
+                "title": "भाषा "
             },
             "currency": {
                 "title": "मुद्रा",
@@ -364,13 +260,10 @@
                 "excludeNode": "नोड को बाहर करें",
                 "includeNode": "नोड शामिल करें",
                 "editDetails": "Edit details",
-                "viewInfo": "जानकारी देखें",
                 "setAsPrimary": "Set primary node",
                 "unsetAsPrimary": "Clear primary node",
                 "removeNode": "नोड निकालें",
-                "includeOfficialNodeList": "आधिकारिक नोड सूची शामिल करें",
-                "noNodes": "कोई नोड नहीं हैं, नेटवर्क से कनेक्ट करने में असमर्थ हैं",
-                "noNodesAuto": "There are no nodes, automatic selection will be used instead"
+                "noNodes": "कोई नोड नहीं हैं, नेटवर्क से कनेक्ट करने में असमर्थ हैं"
             },
             "localProofOfWork": {
                 "title": "Proof of work",
@@ -390,10 +283,6 @@
                 "title": "विश्लेषण",
                 "description": "सिस्टम और एप्लिकेशन की जानकारी देखें"
             },
-            "migrateLedgerIndex": {
-                "title": "Migrate Ledger index",
-                "description": "एक और ट्रिनिटी खाता अनुक्रमणिका माइग्रेट करें"
-            },
             "troubleshoot": {
                 "title": "समस्या निवारण",
                 "description": "सामान्य समस्याओं को हल करने के लिए समस्या निवारण विज़ार्ड का उपयोग करें"
@@ -404,7 +293,6 @@
             },
             "faq": {
                 "title": "FAQ",
-                "title2": "Frequently asked questions",
                 "description": "सामान्य समस्या या प्रश्न की सहायता लेने के लिए अक्सर पूछे जाने वाले प्रश्न देखें"
             },
             "discord": {
@@ -412,8 +300,7 @@
                 "description": "Discord पर IOTA समुदाय की मदद लें"
             },
             "about": {
-                "title": "विवरण",
-                "description": ""
+                "title": "विवरण"
             },
             "reportAnIssue": {
                 "title": "मामले की रिपोर्ट करें",
@@ -448,14 +335,10 @@
                 "degraded": "Network degraded",
                 "down": "Network down",
                 "disconnected": "Disconnected from node",
-                "status": "स्टेटस",
-                "messagesPerSecond": "मेस्सगेस प्रति सेकंड",
-                "referencedRate": "संदर्भित दर"
+                "status": "स्टेटस"
             },
             "profileModal": {
-                "contactBook": "Contact book",
                 "allSettings": "All settings",
-                "profileApplication": "Profile, application, security",
                 "logout": "लॉग आउट",
                 "stronghold": {
                     "title": "Profile lock",
@@ -468,9 +351,7 @@
                         "appNotOpen": "Ledger unlocked but app not open",
                         "correctAppOpen": "Ledger unlocked and app open ",
                         "locked": "Ledger securely locked",
-                        "mnemonicMismatch": "Wrong Ledger or mnemonic",
-                        "notConnected": "Ledger not connected",
-                        "otherConnected": "App open"
+                        "notConnected": "Ledger not connected"
                     }
                 },
                 "backup": {
@@ -559,8 +440,7 @@
                         "title": "Add network address"
                     },
                     "editNetworkAddresses": {
-                        "title": "Edit network addresses",
-                        "addAddress": "Add Address"
+                        "title": "Edit network addresses"
                     },
                     "removeNetworkAddresses": {
                         "title": "Remove network addresses",
@@ -586,57 +466,6 @@
                 }
             }
         },
-        "staking": {
-            "welcome": "Welcome to the staking dashboard!",
-            "status": {
-                "upcoming": "घटना शुरू नहीं हुई",
-                "commencing": "प्री-स्टेकिंग खुला हे",
-                "holdingActive": "Staking in progress",
-                "holdingInactive": "स्टेकिंग खुला हे",
-                "inactive": "स्टेकिंग आरंभ नहीं हुआ",
-                "ended": "स्टेकिंग समाप्त"
-            },
-            "summary": {
-                "stakedFunds": "जमा धन"
-            },
-            "info": {
-                "headers": {
-                    "upcoming": "Check back later",
-                    "commencing": "Pre-staking is open",
-                    "holding": "{duration} of staking left",
-                    "ended": "Staking has now ended",
-                    "inactive": "No staking events detected"
-                },
-                "bodies": {
-                    "upcoming": "Stake your {token} tokens to automatically receive rewards every 10 seconds once staking starts on {date}.",
-                    "commencing": "Stake your {token} tokens to automatically receive rewards every 10 seconds once staking starts on {date}.",
-                    "holdingAndStaking": "You automatically receive rewards every 10 seconds.",
-                    "holdingAndNotStaking": "Stake your {token} tokens to receive rewards every 10 seconds.",
-                    "endedAndDidStake": "{token} rewards will be distributed to your wallet once the network launches.",
-                    "endedAndDidNotStake": "You did not participate in this airdrop.",
-                    "endedAndDidNotReachMinRewards": "You did not stake enough {token} tokens to reach the minimum airdrop rewards.",
-                    "inactive": "Open network configuration in the advanced settings and make sure the current node has the \"Participation\" feature by clicking \"View info\"."
-                }
-            },
-            "airdrops": {
-                "holding": "Remaining",
-                "commencing": "Until staking begins",
-                "currentStakingPeriod": "Current staking period",
-                "totalWalletRewards": "Total wallet rewards",
-                "assembly": {
-                    "name": "Assembly",
-                    "description": "Assembly is a permissionless, highly scalable multi-chain network to build and deploy composable smart contracts. Assembly is the future of web3. "
-                },
-                "shimmer": {
-                    "name": "Shimmer",
-                    "description": "The incentivized staging network to advance major innovations on IOTA. Whatever happens, happens. How Shimmer evolves is up to you."
-                }
-            },
-            "banners": {
-                "new": "New Event",
-                "complete": "Complete"
-            }
-        },
         "picker": {
             "color": {
                 "title": "Color picker",
@@ -652,7 +481,6 @@
             },
             "details": {
                 "storageDepositDescription": "A refundable deposit required to store your NFT on the Tangle.",
-                "attributes": "Attributes",
                 "menu": {
                     "download": "Download",
                     "setPfp": "Set NFT profile pic",
@@ -730,10 +558,10 @@
     "popups": {
         "enableLedgerBlindSigning": {
             "title": "Enable Blind Signing",
-            "info": "In order to confirm this transaction you need to enable Blind Signing on your ledger device.",
-            "step_1": "Connect and unlock your Ledger Device",
-            "step_2": "Open Shimmer Application",
-            "step_3": "Press the right button to navigate to Settings. Then press both buttons to validate. Your Ledger device displays Blind Signing.",
+            "info": "In order to confirm this transaction you need to enable Blind Signing on your Ledger device.",
+            "step_1": "Connect and unlock your Ledger device",
+            "step_2": "Open the {appName} application",
+            "step_3": "Press the right button to navigate to Settings, then press both buttons to validate. Your Ledger device displays Blind Signing.",
             "step_4": "Press both buttons to enable transaction blind signing. The device displays Enabled. You're done."
         },
         "balanceBreakdown": {
@@ -805,9 +633,6 @@
             "subtitle": "Please provide your password to unlock your wallets",
             "backup": "कृपया बैकअप निर्यात करने के लिए अपना पासवर्ड दर्ज करें"
         },
-        "qr": {
-            "title": "आपका QR कोड"
-        },
         "appUpdate": {
             "title": "Check for updates",
             "installedVersion": "Installed version",
@@ -837,10 +662,7 @@
             "title": "हटाएँ {name}?",
             "body": "Are you sure you want to delete this wallet?",
             "hint": "Note: once deleted, you can restore this wallet by using the \"Wallet Finder\" in the settings.",
-            "typePassword": "पुष्टि करने के लिए अपने वॉलेट का पासवर्ड टाइप करें",
-            "hideAccount": "वॉलेट नष्ट करें",
-            "errorTitle": "{name} हटाने में असमर्थ",
-            "errorBody1": "आप इस वॉलेट को नहीं हटा सकते, आपके पास कम से कम एक होना चाहिए।"
+            "typePassword": "पुष्टि करने के लिए अपने वॉलेट का पासवर्ड टाइप करें"
         },
         "externalUrl": {
             "title": "Open URL in Browser",
@@ -848,22 +670,6 @@
             "hint": "This URL is unknown to Bloom. Please double check the URL before opening it.",
             "action": "Open URL",
             "invalidProtocol": "Cannot open URL with invalid protocol"
-        },
-        "hideAccount": {
-            "title": "{name} छुपाये?",
-            "body": "आप उन्नत सेटिंग्स में \"छिपे हुए वॉलेट दिखाएँ\" को सक्षम करके इस वॉलेट को बाद में पा सकते हैं।",
-            "typePassword": "पुष्टि करने के लिए अपने वॉलेट का पासवर्ड टाइप करें",
-            "hideAccount": "वॉलेट छुपाये",
-            "errorTitle": "{name} हटाने में असमर्थ",
-            "errorBody1": "वॉलेट को छिपाने के लिए इसमें 0 बैलेंस होना चाहिए।",
-            "errorBody2": "वर्तमान में आपके पास इस खाते पर {balance} बैलेंस है। कृपया इन निधियों को एक अलग खाते में ले जाएँ और पुनः प्रयास करें",
-            "errorBody3": "आप इस वॉलेट को नहीं हटा सकते, आपके पास कम से कम एक होना चाहिए।"
-        },
-        "addressHistory": {
-            "title": "{name} खाता पता इतिहास",
-            "currentBalance": "Balance: {balance}",
-            "internal": "Internal Address",
-            "external": "Deposit Address"
         },
         "excludeNode": {
             "title": "Exclude node",
@@ -878,7 +684,6 @@
             "titleUpdate": "अपडेट नोड",
             "titleRemove": "नोड निकालें",
             "titleRemoveAll": "Remove all nodes",
-            "titleDetails": "नोड विवरण",
             "titleInfo": "Node information",
             "addingNode": "Adding node",
             "updatingNode": "Updating node",
@@ -887,7 +692,6 @@
             "optionalUsername": "यूजरनाम (वैकल्पिक)",
             "optionalPassword": "पासवर्ड (वैकल्पिक)",
             "optionalJwt": "JSON web token (optional)",
-            "setAsPrimaryNode": "प्राथमिक नोड के रूप में सेट करें",
             "removeConfirmation": "क्या आप सुनिश्चित हैं और इस नोड को हटाना चाहते हैं?",
             "info": {
                 "general": {
@@ -895,8 +699,6 @@
                     "name": "Name",
                     "url": "URL",
                     "version": "Version",
-                    "latestMilestone": "Latest milestone",
-                    "confirmedMilestone": "Confirmed milestone",
                     "pruningIndex": "Pruning index",
                     "features": "Features"
                 },
@@ -927,13 +729,6 @@
                 }
             }
         },
-        "switchNetwork": {
-            "title": "Switch network",
-            "newNetwork": "New network",
-            "resetWarning": "Changing networks will log you out and reset all accounts, balances, and transaction history for this profile.",
-            "switchingNetwork": "Switching network",
-            "typePassword": "Type your password to switch to:"
-        },
         "errorLog": {
             "title": "त्रुटि लॉग",
             "empty": "त्रुटि लॉग खाली है"
@@ -955,15 +750,11 @@
             "userPath": "उपयोक्ता पथ"
         },
         "transaction": {
-            "title": "Send asset",
-            "body": "आप {amount} को भेजने वाले हैं",
             "selectToken": "Select a token",
             "selectAmount": "Send {tokenName}",
             "selectRecipient": "Send {assetName} to",
             "transactionSummary": "Transaction to {recipient}",
-            "surplusIncluded": "This transaction contains a surplus amount. Please double check this is the amount you want to send.",
-            "sendingFromStakedAccount": "You are sending a transfer from a wallet that is currently being staked. This may unstake your tokens. Feel free to send the transfer but you may need to restake your remaining tokens afterwards.",
-            "sendingFromStakedAccountBelowMinReward": "You are sending a transfer from a wallet that has not yet reached the minimum staking rewards. This may unstake your tokens and you may lose your staking rewards on this wallet."
+            "surplusIncluded": "This transaction contains a surplus amount. Please double check this is the amount you want to send."
         },
         "walletFinder": {
             "title": "Wallet finder",
@@ -973,32 +764,12 @@
             "totalWalletBalance": "Total balance",
             "searchAgainHint": "Is your balance or number of wallets incorrect? Search again until your full balance is shown."
         },
-        "riskFunds": {
-            "title": "चेतावनी: प्रवास के दौरान धन जोखिम में",
-            "body1": "यह दृढ़ता से अनुशंसा की जाती है कि आप माइग्रेशन के साथ आगे बढ़ने से पहले अपने सभी फंडों को सुरक्षित करें। यदि आप उन्हें सुरक्षित नहीं करते हैं तो आपके धन की चोरी का खतरा है।",
-            "body2": "यह अनुशंसा की जाती है कि आप मध्यम जोखिम स्तर या उससे ऊपर के पते की प्रक्रिया को फिर से चलाएँ।"
-        },
-        "missingBundle": {
-            "title": "चेतावनी: प्रवास के दौरान धन जोखिम में",
-            "body": "आपके पास खर्च किए गए पतों पर धन है, लेकिन उन्हें सुरक्षित करने के लिए आवश्यक जानकारी नहीं मिली। यह तब हो सकता है जब आपने बहुत समय पहले लेन-देन किया हो। आप आगे बढ़ सकते हैं लेकिन प्रवास के दौरान {value} जोखिम में हैं।",
-            "learnMore": "खर्च किए गए पतों के बारे में जानें",
-            "proceed": "मैं जोखिम को समझता हूं"
-        },
-        "snapshot": {
-            "title": "चल रहे नेटवर्क का उन्नयन",
-            "body": "क्रिसलिस नेटवर्क अपग्रेड शुरू हो गया है",
-            "bodyMigration": "पूर्ण होने तक माइग्रेशन अक्षम है",
-            "bodyFirefly": "फायरफ्लाई पूर्ण होने तक अक्षम है। टोकन प्रवास अभी भी बाद में संभव होगा।"
-        },
         "ledgerNotConnected": {
             "title": "Connect your Ledger",
             "notConnected": "Connect your Ledger device to continue.",
             "locked": "Unlock your Ledger device to continue.",
             "appNotOpen": "Open the Shimmer app on your Ledger device to continue.",
             "correctAppOpen": "Ledger successfully connected, please continue."
-        },
-        "ledgerConfirmation": {
-            "confirm": "आगे बढ़ने के लिए, अपने लेजर डिवाइस पर प्रदर्शित संकेत की पुष्टि करें"
         },
         "ledgerAppGuide": {
             "title": "Guide to installing the {legacy} app",
@@ -1007,7 +778,7 @@
                 "1": "सुनिश्चित करें कि आपका लेजर जुड़ा हुआ है",
                 "2": "Search for the {legacy} app. You may need to enable Ledger Live developer mode.",
                 "3": "Install the {legacy} app",
-                "4": "याद रखें कि फायरफ्लाई पर लौटने से पहले लेजर लाइव को बंद करना महत्वपूर्ण है"
+                "4": "Remember that it's important to close Ledger Live before returning to Bloom"
             }
         },
         "ledgerConnectionGuide": {
@@ -1030,56 +801,6 @@
             "title": "Verify internal transaction",
             "info": "Please confirm the internal transaction on your ledger.",
             "hint": "All assets will remain on your wallet when sending an internal transaction."
-        },
-        "ledgerAddress": {
-            "title": "पता प्राप्त करने की पुष्टि करें",
-            "body": "पुष्टि करें कि आपके लेजर पर प्रदर्शित प्राप्त पता नीचे प्रदर्शित पते से मेल खाता है। यदि वे मेल खाते हैं, तो संकेत के अनुसार अपने लेजर पर दोनों बटन दबाएं।"
-        },
-        "ledgerMigrateIndex": {
-            "title": "क्या आपको किसी अन्य ट्रिनिटी खाता अनुक्रमणिका को माइग्रेट करने की आवश्यकता है?",
-            "body": "आप बाद में उन्नत सेटिंग्स में भी माइग्रेट कर सकते हैं।"
-        },
-        "exportTransactionHistory": {
-            "title": "Export transaction history",
-            "body": "Export the transaction history for the selected wallet. The exported file will be in .csv format.",
-            "profileName": "Profile name:",
-            "accountName": "Wallet name:",
-            "typePassword": "Type your password to allow exporting"
-        },
-        "stakingManager": {
-            "title": "Staking Management",
-            "description": "When you stake a wallet, you send a transaction to yourself marking those funds as \"staked\". You can transfer the tokens at any time, but you won’t continue receiving staking rewards.",
-            "totalFundsStaked": "Total funds staked",
-            "stakedSuccessfully": "Your funds have been staked for {account}.",
-            "unstakedSuccessfully": "Your funds have been unstaked for {account}.",
-            "singleAccountHint": "Looking for your wallets? Bloom has changed. Toggle between your wallets in the top menu bar."
-        },
-        "stakingConfirmation": {
-            "title": "Confirm Participation",
-            "subtitleStake": "You are about to stake",
-            "subtitleMerge": "You are about to merge",
-            "multiAirdropWarning": "If you do not want to participate in both airdrops, you can opt-out below. You can unstake and restake to opt back in at any time.",
-            "mergeStakeWarning": "Your funds will be staked for {airdrop}. To change which airdrops you want to participate in, unstake this wallet and stake it again.",
-            "estimatedAirdrop": "Estimated rewards"
-        },
-        "newStakingPeriodNotification": {
-            "title": "Staking phase {periodNumber} from {date}",
-            "body": "IOTA staking for Assembly continues... Participate in phase {periodNumber} for 90 days. Stake your IOTA tokens and earn ASMB rewards!",
-            "info": "Shimmer staking is now complete and only ASMB tokens will be distributed."
-        },
-        "shimmer-info": {
-            "title": "About Shimmer",
-            "body1": "Congratulations you have earned SMR tokens as a staking reward. Shimmer is an incentivized staging network to test major upgrades on IOTA.",
-            "body2": "We aim to launch Shimmer in 2022. Your tokens will become available to transfer once the network launches."
-        },
-        "assembly-info": {
-            "title": "About Assembly",
-            "body1": "Congratulations you have earned ASMB tokens as a staking reward. Assembly is a multi-chain network for deploying scalable smart contracts on IOTA.",
-            "body2": "We aim to launch Assembly in 2022. Your tokens will become available to transfer once the network launches."
-        },
-        "confirmDeveloperProfile": {
-            "title": "You are creating a developer profile",
-            "body": "You will be connected to the Chrysalis Devnet by default, and can switch networks manually. Only continue if you know what you are doing."
         },
         "crashReporting": {
             "title": "Crash reporting",
@@ -1191,40 +912,20 @@
             "tosCheckbox": "I've read and I accept the updated Terms of Service",
             "privPolicyCheckbox": "I've read and I accept the updated Privacy Policy"
         },
-        "singleAccountGuide": {
-            "title": "The way you use Bloom has changed",
-            "body": "The content of each tab is now in the context of a single wallet. You can change the selected wallet from anywhere by using the switcher in the title bar.",
-            "hint": "Can't find a wallet? Use the balance finder in the settings to discover previously used wallets."
-        },
-        "transactionDetails": {
-            "title": "Transaction details",
-            "giftedStorageDeposit": {
-                "tooltipTitle": "Gift storage deposit",
-                "tooltipDescription": "Amount kept by the recipient"
-            }
-        },
-        "sendForm": {
-            "title": "Send funds"
+        "giftedStorageDeposit": {
+            "tooltipTitle": "Gift storage deposit",
+            "tooltipDescription": "Amount kept by the recipient"
         },
         "tokenInformation": {
-            "newTokenTitle": "New token",
             "verificationWarning": "This token is unverified. Compare the token metadata against the relevant team’s official website. Only verify tokens that you trust.",
             "tokenMetadata": {
                 "standard": "Standard",
-                "name": "Name",
                 "tokenId": "Token ID",
                 "url": "URL",
                 "description": "Description"
             },
             "buttons": {
                 "verifyToken": "I verify this token"
-            }
-        },
-        "sendNft": {
-            "formTitle": "Send NFT",
-            "confirmationTitle": "Confirm sending NFT",
-            "property": {
-                "nft": "NFT"
             }
         },
         "nativeToken": {
@@ -1237,10 +938,7 @@
                 "meltedTokens": "Melted tokens",
                 "circulatingSupply": "Circulating supply",
                 "aliasAddress": "Alias controller address",
-                "standard": "Standard",
                 "tokenName": "Name",
-                "unit": "Unit",
-                "subunit": "Subunit",
                 "storageDeposit": "Storage Deposit",
                 "description": "Description",
                 "symbol": "Symbol",
@@ -1255,7 +953,6 @@
         "importErc20Token": {
             "title": "Import ERC20 token",
             "property": {
-                "chainId": "Chain ID",
                 "tokenAddress": "Token address"
             },
             "success": "Imported {tokenSymbol} token",
@@ -1331,19 +1028,6 @@
             "body": "This node requires additional authentication. Please fill in the appropriate information."
         }
     },
-    "charts": {
-        "incomingMi": "आने वाली {value}",
-        "outgoingMi": "निवर्तमान {value}",
-        "portoflio": "पोर्टफोलियो",
-        "token": "टोकन",
-        "holdings": "Holdings",
-        "accountValue": "वॉलेट शेष राशि",
-        "accountActivity": "वॉलेट गतिविधि",
-        "timeframe1Hour": "1 घंटा",
-        "timeframe1Day": "1 दिन",
-        "timeframe1Week": "1 सप्ताह",
-        "timeframe1Month": "1 महीना"
-    },
     "actions": {
         "apply": "Apply",
         "continue": "जारी रखें",
@@ -1351,9 +1035,7 @@
         "previous": "पिछला",
         "next": "अगला",
         "cancel": "रद्द करें",
-        "connect": "Connect",
         "close": "बंद करें",
-        "dismiss": "रद्द करें",
         "claim": "Claim",
         "claiming": "Claiming",
         "claimingRewards": "Claiming rewards",
@@ -1372,9 +1054,7 @@
             "description": "Are you sure you want to burn this NFT?",
             "hint": "Please note that burning an NFT frees the storage deposit attached to it and is not reversible."
         },
-        "proceedAnyway": "कोई बात नहीं आगे बढें",
         "save": "सेव करें",
-        "importSeed": "एक मौजूदा सीड आयात करें",
         "restoreWallet": {
             "iota": "Migrate or restore a wallet",
             "shimmer": "Restore Shimmer profile",
@@ -1397,32 +1077,19 @@
         "claimShimmerDescription": "Import IOTA profile and claim staking rewards",
         "createAlias": "Create alias",
         "createAliasDescription": "Create alias output",
-        "savePassword": "पासवर्ड सहेजें",
-        "useBiometric": "बायोमेट्रिक सुरक्षा का उपयोग करें",
-        "setupPinCode": "Setup PIN code",
         "setPin": "Set PIN",
-        "setPinCode": "Set PIN code",
         "confirmPin": "Confirm PIN",
-        "confirmPinCode": "Confirm PIN code",
         "enterYourPin": "अपना पिन डालें",
-        "saveBackupFile": "बैकअप फाइल सहेजें",
-        "iveWrittenRecoveryPhrase": "मैंने अपना पुनर्प्राप्ति वाक्यांश लिख लिया है",
-        "verifyRecoveryPhrase": "वसूली वाक्यांश सत्यापित करें",
-        "revealRecoveryPhrase": "पुनर्प्राप्ति वाक्यांश प्रकट करें",
-        "checkAgain": "फिर से जांचें",
-        "importFromFile": "फ़ाइल से आयात करें",
         "send": "भेजें",
         "receive": "प्राप्त करें",
         "create": "बनाएं",
         "updateAndContinue": "Update and continue",
-        "beginTransfer": "स्थानांतरण शुरू करें",
         "tryAgain": "फिर कोशिश करें",
         "visitDiscord": "डिस्कॉर्ड पर जाएँ",
         "dragDrop": "खींचें और छोड़ें",
-        "importExtentions": ".kdbx या .stronghold फ़ाइल",
+        "importExtentions": ".stronghold file",
         "chooseFile": "फ़ाइल चुनें",
         "dropHere": "अपनी फाइल को यहां छोड़ें",
-        "syncAll": "सभी सिंक करें",
         "import": "Import",
         "importing": "Importing",
         "export": "एक्सपोर्ट करे",
@@ -1434,15 +1101,14 @@
         "exportTransactionHistory": "Export transaction history",
         "localProofOfWork": "स्थानीय प्रूफ ऑफ़ वर्क",
         "unlock": "अनलॉक करें",
-        "updateFirefly": "अपडेट फायरफ्लाई",
+        "updateBloom": "Update Bloom",
         "restart": "Restart",
         "refresh": "Refresh",
-        "saveBackup": "स्ट्रॉन्गहोल्ड बैकअप को सेव करे",
+        "saveBackup": "Save backup",
         "customizeAcount": "अनुकूलित करें अपना खाता",
         "hideAccount": "Hide wallet",
         "showAccount": "वॉलेट अनहाइड करें",
         "deleteAccount": "Delete wallet",
-        "max": "अधिकतम",
         "addNode": "नया नोड जोड़ें",
         "addingNode": "Adding node",
         "addOfficialNodes": "Add official nodes",
@@ -1464,9 +1130,7 @@
         "addAccount": "वॉलेट जोड़ें",
         "checkForUpdates": "अपडेट के लिए जाँचें",
         "reportAnIssue": "मामले की रिपोर्ट करें",
-        "restore": "पुनर्स्थापित करें",
         "clear": "हटाएं",
-        "hideDetails": "विवरण छुपाएँ",
         "yes": "हाँ",
         "no": "नहीं",
         "skip": "छोड़ें",
@@ -1477,35 +1141,18 @@
         "readDocumentation": "दस्तावेज़ पढ़ें",
         "visitFaq": "अक्सर पूछे FAQ",
         "viewDownloads": "View downloads",
-        "viewStatus": "स्थिति देखें",
         "viewBalanceBreakdown": "View balance breakdown",
         "showHiddenAccounts": "छुपे हुए वॉलेट दिखाएँ",
         "confirm": "पुष्टि करें",
         "hideNetworkStatistics": "नेटवर्क आँकड़े छिपाएँ",
         "findWallets": "Find wallets",
-        "useBalanceFinder": "Use balance finder",
         "search": "Search",
         "searching": "Searching",
         "searchAgain": "फिर से सर्च करें",
-        "closeFirefly": "फायरफ्लाई बंद करे",
         "generateAddress": "Generate address",
-        "migrateAgain": "एक और इंडेक्स माइग्रेट करें",
-        "visitWebsite": "Visit website",
-        "howItWorks": "How it works",
-        "learnAboutStaking": "Learn about staking",
-        "stake": "Stake",
-        "unstake": "Unstake",
-        "stakeFunds": "Stake funds",
-        "manageStake": "Manage stake",
-        "merge": "Merge",
-        "mergeFunds": "Merge funds",
-        "done": "Done",
-        "okIUnderstand": "OK, I understand",
-        "readMore": "Read more",
         "searchForRewards": "Search for rewards",
         "claimRewards": "Claim rewards",
         "rerunClaimProcess": "Rerun claim process",
-        "addPublicNote": "Add public note",
         "backup": "Backup",
         "mint": "Mint",
         "mintNativeToken": "Mint native token",
@@ -1520,11 +1167,8 @@
         "refreshTokenMetadata": "Refresh token metadata",
         "test": "Test",
         "testDeepLink": "Test deep link",
-        "initialize": "Initialize",
-        "initializing": "Initializing",
         "delete": "Delete",
         "remove": "Remove",
-        "addReference": "Add reference",
         "depositNft": "Deposit NFTs",
         "vote": "Vote",
         "addProposal": "Add proposal",
@@ -1543,9 +1187,6 @@
         "currentPassword": "वर्तमान पासवर्ड",
         "newPassword": "नया पासवर्ड",
         "confirmNewPassword": "नए पासवर्ड की पुष्टि करें",
-        "yourSeed": "आपका सीड",
-        "recoveryPhrase": "पुनर्प्राप्ति वाक्यांश",
-        "recentActivity": "हाल की गतिविधि",
         "sent": "भेजे गए",
         "sending": "भेज रहे है",
         "received": "प्राप्त हुआ",
@@ -1564,16 +1205,8 @@
         "revoting": "Revoting",
         "unvoted": "Unvoted",
         "unvoting": "Unvoting",
-        "sentNft": "NFT sent",
-        "sendingNft": "Sending NFT",
-        "receivedNft": "NFT received",
-        "receivingNft": "Receiving NFT",
         "transfer": "Transfer",
         "transferring": "Transferring",
-        "transferNft": "Transfer NFT",
-        "transferringNft": "Transferring NFT",
-        "mintedNft": "Minted NFT",
-        "mintingNft": "Minting NFT",
         "shimmerClaimed": "Claimed",
         "shimmerClaiming": "Claiming",
         "shimmerGenesis": "Shimmer Genesis",
@@ -1587,44 +1220,23 @@
         "consolidating": "Consolidating outputs",
         "aliasCreated": "Alias created",
         "creatingAlias": "Creating Alias",
-        "sendPayment": "भुगतान भेजें",
-        "moveFunds": "आंतरिक स्थानांतरण",
         "sendTo": "भेजना",
         "sendAssets": "Send assets",
         "sendAssetToAddress": "Send asset to an address",
-        "sendToAddress": "पते पर भेजें",
-        "sendToken": "Send token",
-        "sendNft": "Send NFT",
-        "sendNftToAddress": "Send NFT to an address",
-        "scanQrOrPaste": "QR कोड स्कैन करें या एक पता पेस्ट करें",
-        "moveFundsBetweenAccounts": "अपने खातों के बीच धन ले जाएँ",
         "manageAccount": "वॉलेट प्रबंधित करें",
         "customizeAcount": "अनुकूलित करें अपना खाता",
         "account": "वॉलेट",
-        "sendingToAddress": "स्वयं के पते पर भेजा जा रहा है",
         "amount": "रकम",
         "addAddress": "पता जोड़े",
-        "reference": "संदर्भ",
-        "from": "से",
         "to": "को",
         "and": "and",
         "receiveFunds": "Receive funds",
         "address": "Address",
         "addressName": "Address name",
         "myAddress": "My address",
-        "myNetworkAddress": "My {networkName} address",
-        "shareAddress": "पता साझा करें",
-        "yourAddress": "आपका पता",
-        "newRemainder": "नया शेष",
-        "remainder": "शेष",
-        "generateNewAddress": "नया पता उत्पन्न करें",
-        "copyToClipboard": "Copy to clipboard",
-        "copyAddress": "पता कॉपी करें",
         "viewOnExplorer": "View on Explorer",
         "import": "आयात करना",
         "stronghold": "स्ट्रॉन्गहोल्ड",
-        "language": "भाषा ",
-        "appearance": "दिखावट",
         "lightTheme": "Light",
         "darkTheme": "Dark",
         "systemTheme": "System",
@@ -1634,37 +1246,19 @@
         "all": "All",
         "incoming": "आने वाला",
         "outgoing": "बाहर जाने वाले",
-        "totalIn": "कुल प्राप्त",
-        "totalOut": "कुल खर्च",
-        "accounts": "वॉलेट्स",
-        "myAccounts": "मेरा वॉलेट",
-        "profiles": "प्रोफाइल्स",
         "dev": "देव",
-        "createAccount": "वॉलेट बनाएं",
         "addAWallet": "Add a wallet",
         "accountName": "वॉलेट का नाम",
-        "latestTransactions": "नवीनतम ट्रांसक्शन्स",
-        "transactions": "ट्रांसक्शन्स",
         "activity": "Activity",
         "security": "सुरक्षा",
-        "accountAddress": "वॉलेट का पता",
         "network": "Network",
         "networkSelection": "Network selection",
         "destinationNetwork": "Destination network",
         "nodes": "नोड्स",
         "wallet": "वॉलेट",
         "help": "मदद",
-        "you": "आप",
-        "messageId": "संदेश ID",
-        "inputAddress": "भेजने वाला पता",
-        "receiveAddress": "प्राप्त करने वाला पता",
-        "newAddress": "नया एड्रेस",
-        "date": "तिथि",
-        "status": "Status",
         "confirmed": "पूर्ण पुष्टि",
         "pending": "अपूर्ण",
-        "noAccounts": "आपके पास कोई वॉलेट नहीं है, कृपया एक बनाएं।",
-        "loadingAccounts": "लोड हो रहा है, कृपया प्रतीक्षा करें...",
         "addProfile": "प्रोफ़ाइल जोड़ें",
         "noRecentHistory": "हाल का कोई इतिहास नहीं",
         "noFilteredActivity": "No matching activities",
@@ -1672,31 +1266,12 @@
         "noFilteredAsset": "No matching assets",
         "thisMonth": "This month",
         "search": "Search",
-        "firstSync": "इतिहास को समन्‍वयित करते हुए, इसमें कुछ समय लग सकता है...",
-        "transferSyncing": "सिंकिंग वॉलेट",
-        "transferSelectingInputs": "इनपुट का चयन करना",
-        "transferRemainderAddress": "प्राप्त पता जनरेट कर रहा है",
-        "transferPreparedTransaction": "लेन-देन की तैयारी",
-        "transferSigning": "लेन-देन पर हस्ताक्षर करना",
-        "transferPow": "PoW करना",
-        "transferBroadcasting": "प्रोमोटिंग ट्रांसक्शन",
-        "transferComplete": "ट्रांसफर कम्पलीट",
-        "generatingReceiveAddress": "प्राप्त पता जनरेट कर रहा है",
-        "broadcasting": "Broadcasting",
-        "confirming": "Confirming",
-        "creatingAccount": "वॉलेट बन रहा है, कृपया प्रतीक्षा करें...",
-        "updatingAccount": "वॉलेट अपडेट हो रहा है, कृपया प्रतीक्षा करें...",
-        "accountSyncing": "वॉलेट सिंक हो रहा है",
-        "accountSyncComplete": "वॉलेट सिंक पूरा हुआ",
         "passwordUpdating": "पासवर्ड अपडेट हो रहा है...",
         "passwordSuccess": "पासवर्ड सफलतापूर्वक अपडेट किया गया",
         "passwordFailed": "पासवर्ड अपडेट करना विफल",
-        "syncing": "Syncing",
-        "syncingAccounts": "सिंकिंग वॉलेट...",
         "exportingStronghold": "निर्यात स्ट्रॉन्गहोल्ड...",
         "exportingStrongholdSuccess": "निर्यातित स्ट्रॉन्गहोल्ड सफलतापूर्वक",
         "exportingStrongholdFailed": "निर्यात स्ट्रॉन्गहोल्ड विफल रहा",
-        "pinCodeUpdating": "पिन कोड अपडेट हो रहा है...",
         "pinCodeSuccess": "पासवर्ड सफलतापूर्वक अपडेट किया गया",
         "pinCodeFailed": "पिन कोड अपडेट करना विफल रहा",
         "passwordStrength": "पासवर्ड क्षमता",
@@ -1706,52 +1281,28 @@
         "passwordStrength3": "औसत",
         "passwordStrength4": "मजबूत",
         "creatingProfile": "प्रोफ़ाइल बन रहा है, कृपया प्रतीक्षा करें...",
-        "fundMigration": "फंड्स माइग्रेशन",
-        "accountRemoved": "यह वॉलेट छिपा है। स्थानांतरण करने के लिए इसे अनहाइड करें",
         "fromAddress": "from {account}",
         "toAddress": "to {account}",
-        "stakedFor": "Staked for {account}",
-        "unstakedFor": "Unstaked for {account}",
-        "votedFor": "Voted for {account}",
-        "unvotedFor": "Unvoted for {account}",
-        "stakingTransaction": "Staking Transaction",
-        "unstakingTransaction": "Unstaking Transaction",
-        "legacyNetwork": "विरासत नेटवर्क",
         "capsLock": "कैप्स लॉक ऑन है",
         "version": "संस्करण {version}",
-        "yourWallets": "Your Wallets",
         "unknown": "Unknown",
         "unknownAddress": "Unknown address",
         "none": "None",
-        "staked": "Staked",
-        "unstaked": "Unstaked",
-        "staking": "Staking",
-        "unstaking": "Unstaking",
-        "notStaked": "Not staked",
-        "stakedFunds": "Staked funds",
-        "unstakedFunds": "Unstaked funds",
         "accountColor": "Wallet color",
         "transactionTime": "Transaction time",
-        "surplus": "Surplus",
         "storageDeposit": "Storage deposit",
         "transactionFee": "Transaction fee",
-        "giftedStorageDeposit": "Gifted storage deposit",
         "storageDepositPerNft": "Storage deposit per NFT",
         "totalStorageDeposit": "Total storage deposit",
         "expirationTime": "Expiration time",
         "timelockDate": "Timelock",
         "claimedTime": "Claimed at",
-        "nftAddress": "NFT Address",
         "nftId": "NFT ID",
-        "nftMetadata": "NFT Metadata",
         "aliasId": "Alias ID",
         "governorAddress": "Governor Address",
         "stateControllerAddress": "State Controller Address",
         "copiedToClipboard": "Copied to clipboard",
-        "total": "Total: {balance}",
         "availableBalanceWithValue": "Available balance: {balance}",
-        "availableBalance": "Available balance",
-        "availableBalanceTooltip": "An asset's total balance minus any funds that are required to cover the storage deposit (i.e. funds that are locked in pending transactions, reserved for Native Tokens, or reserved for NFTs).",
         "amountClaimed": "{amount} claimed",
         "metadata": "Metadata",
         "amountConsolidatedInputs": "Consolidated outputs",
@@ -1768,7 +1319,6 @@
         "faucetRequestDescription": "Request tokens from the {network} faucet",
         "refreshTokenMetadataDescription": "Reset and refresh all token metadata",
         "refreshTokenMetadataHint": "This will reset all your tokens' metadata including the verification status and unhide any hidden assets.",
-        "giftStorageDeposit": "Gift storage deposit",
         "excluded": "Excluded",
         "developerTools": "Developer tools",
         "testDeepLinkDescription": "Simulate a deep link request sent to firefly",
@@ -1776,7 +1326,6 @@
         "hash": "Hash",
         "creating": "Creating",
         "updating": "Updating",
-        "enterAddress": "Enter address",
         "transaction": "Transaction",
         "alias": "Alias",
         "foundry": "Foundry",
@@ -1800,22 +1349,16 @@
         "description": "Description",
         "attributes": "Attributes",
         "details": "Details",
-        "availableAmount": "{amount} available",
         "properties": "Properties",
         "statistics": "Statistics",
-        "username": "Username",
-        "jwt": "JSON web token",
         "internalTransaction": "Internal transaction",
         "coinType": "Coin type",
         "custom": "Custom",
         "evmAddress": "EVM address",
-        "chain": "Chain",
         "importErc20Token": "Import ERC20 token",
         "optionalField": "{field} (optional)",
         "gifted": "Gifted",
-        "copied": "Copied",
         "connected": "Connected",
-        "disconnected": "Disconnected",
         "estimatedFee": "Estimated fee",
         "maxFees": "Max fees"
     },
@@ -1941,25 +1484,13 @@
         "year": "{time, plural, one {# year} other {# years}}"
     },
     "notifications": {
-        "valueTx": "{{value}} में {{account}} रिसीव हो रहा है",
-        "confirmed": "{{account}} से आउटगोइंग {{value}} की पुष्टि हो गयी है",
-        "confirmedInternal": "{{value}} राशि {{senderAccount}} एड्रेस से {{receiverAccount}} एड्रेस को पुष्टि की गई है",
-        "confirmedInternalNoAccounts": "{{value}} आंतरिक स्थानांतरण की पुष्टि की गई है",
-        "failed": "{{account}} से आउटगोइंग {{value}} फ़ैल हो गयी है",
         "downloadingUpdate": "अपडेट डाउनलोड हो रहा है...",
         "updateReady": "अपडेट तैयार है",
         "updateError": "अपडेट के दौरान एक त्रुटि हुई, कृपया पुनः प्रयास करें",
         "copiedToClipboard": "क्लिपबोर्ड में कॉपी हो गया",
-        "accountsSynchronized": "वॉलेट तुल्यकालन पूरा",
-        "fundsAvailableSoon": "जल्द ही आपके फंड उपलब्ध हो जाएंगे",
-        "exportTransactionHistory": {
-            "success": "Transaction history for {accountAlias} was successfully saved to {filePath}",
-            "error": "Unable to export transaction history for {accountAlias}"
-        },
         "newDappConnected": "Connected to new dApp",
         "deepLinkingRequest": {
             "receivedWhileLoggedOut": "Please login to initiate the deep link",
-            "notEnabled": "Deep links are not enabled",
             "invalidFormat": "The deep link you followed is invalid",
             "invalidAmount": "The amount in deep link is not an integer number {amount}",
             "invalidSurplus": "The surplus in deep link is not a number {surplus}",
@@ -1968,22 +1499,15 @@
                 "unrecognizedOperation": "Unrecognized Governance operation: {operation}"
             },
             "wallet": {
-                "send": {
-                    "success": "Payment details added from deep link"
-                },
                 "unrecognizedOperation": "Unrecognized wallet operation: {operation}"
             }
         },
-        "syncing": "Please wait until synchronization is finished to change wallets.",
-        "transferring": "Please wait until all transactions are completed to change wallets.",
-        "participating": "Please wait until all staking/voting transactions are completed to change wallets.",
         "claimed": {
             "success": "Transaction claimed",
             "error": "Claiming transaction failed"
         },
         "hideActivity": {
-            "success": "Activity was hidden",
-            "error": "Failed to hide activity"
+            "success": "Activity was hidden"
         },
         "faucetRequest": {
             "success": "Request for tokens sent to the faucet"
@@ -2008,7 +1532,6 @@
             "wrongProtocolForClaiming": "You must use an IOTA-based Stronghold backup to claim Shimmer rewards"
         },
         "findShimmerRewards": {
-            "success": "Successfully found Shimmer rewards",
             "error": "An error occurred while searching for rewards"
         },
         "claimShimmerRewards": {
@@ -2032,11 +1555,7 @@
         "profile": {
             "length": "Your profile name can't be longer than {length, plural, one {# character} other {# characters}}.",
             "duplicate": "इस नाम का प्रोफ़ाइल पहले से मौजूद है।",
-            "delete": {
-                "nonEmptyAccounts": "You must transfer all balances before you can delete your profile."
-            },
-            "type": "Unable to determine the profile type",
-            "setupType": "Unable to determine the profile setup type"
+            "type": "Unable to determine the profile type"
         },
         "password": {
             "doNotMatch": "पासवर्ड मैच नहीं करता है।",
@@ -2059,33 +1578,25 @@
         "pincode": {
             "length": "Your PIN must be {length, plural, one {# digit} other {# digits}} long.",
             "match": "पिन मेल नहीं खाता",
-            "incorrect": "आपका वर्तमान पिन गलत है",
-            "invalid": "Invalid PIN code."
+            "incorrect": "आपका वर्तमान पिन गलत है"
         },
         "address": {
             "wrongAddressType": "Wrong address type",
             "invalidBech32Format": "Invalid Bech32 format",
             "belongsToAccount": "Cannot belong to any of your accounts",
-            "hexFormat": "Invalid hexadecimal format",
             "checksum": "Address checksum is invalid"
         },
         "account": {
-            "addressNotFound": "The address cannot be found in your account.",
             "length": "Your wallet name can't be longer than {length, plural, one {# character} other {# characters}}.",
             "emptyName": "A profile name must contain at least 1 character.",
-            "notEmpty": "इस वॉलेट को हटाने से पहले आपको अपना बैलेंस ट्रांसफर करना होगा।",
             "duplicate": "इस नाम का एक वॉलेट पहले से मौजूद है।",
             "tilde": "एक प्रोफ़ाइल नाम '~' वर्ण से शुरू नहीं हो सकता।",
             "control": "एक प्रोफ़ाइल नाम में कोई नियंत्रण वर्ण नहीं हो सकता है।",
             "startDot": "एक प्रोफ़ाइल नाम '.' वर्ण से शुरू नहीं हो सकता।",
             "chars": "एक प्रोफ़ाइल नाम '<>:\"/\\|?*' वर्ण से शुरू नहीं हो सकता।",
-            "index": "आपकी खाता अनुक्रमणिका 0 और 2,147,483,647 के बीच की एक संख्या होनी चाहिए।",
-            "page": "आपका खाता पृष्ठ 0 और 2,147,483,647 के बीच की एक संख्या होनी चाहिए।",
-            "syncing": "आपके वॉलेट को समन्‍वयित करने में त्रुटि हुई थी।",
             "cannotRemove": "Unable to remove wallet.",
             "withBalance": "You must transfer all balances before you can delete this wallet.",
             "notLast": "You can only delete your last wallet.",
-            "notFound": "Unable to find account",
             "cannotGetBoundAccount": "Unable to get bound account"
         },
         "send": {
@@ -2106,12 +1617,7 @@
             "insufficientFundsGasFee": "Insufficient funds to cover the gas fee.",
             "insufficientFundsStorageDeposit": "Insufficient funds to cover the storage deposit.",
             "ongoingTransaction": "If you have ongoing transactions, please wait for their confirmation.",
-            "cannotClaimTwice": "Output has been already claimed",
-            "noToAccount": "आपने फंड भेजने के लिए वॉलेट का चयन नहीं किया है।",
-            "sendingDust": "आप 1 Mi से कम नहीं भेज सकते",
-            "leavingDust": "आप अपने पते पर 1 Mi से कम नहीं छोड़ सकते।",
             "cancelled": "लेनदेन रद्द कर दिया गया था।",
-            "transaction": "आपका लेन-देन भेजने में त्रुटि हुई थी। कृपया पुन: प्रयास करें।",
             "invalidExpirationDateTime": "The chosen expiration date/time is invalid.",
             "invalidTimelockDateTime": "The chosen timelock date/time is invalid.",
             "noInputs": "No inputs found.",
@@ -2119,9 +1625,6 @@
             "missingTransactionId": "The transaction ID is missing",
             "missingTransactionProgressEventPayload": "The transaction progress event payload is missing",
             "recipientRequired": "Recipient is required",
-            "nftRequired": "NFT is required",
-            "nftNotInHex": "NFT address has to be in HEX format",
-            "nftNotInPossession": "NFT not in possession",
             "reservedTagKeyword": "Unable to use reserved tag keyword",
             "invalidSendParameters": "Invalid send parameters.",
             "unableToGetOriginAddress": "Unable to get the origin address."
@@ -2132,17 +1635,12 @@
         "node": {
             "invalid": "मान्य URL दर्ज करे",
             "dns": "Unable to find DNS resolution for node",
-            "timedOut": "The connection timed out.",
-            "refused": "The connection was refused.",
             "handshake": "Could not complete handshake with node.",
             "invalidCertificate": "Could not connect with invalid certificate.",
             "https": "HTTPS is required; insecure connections over HTTP are not supported at this time.",
             "duplicate": "उस नोड को पहले से जोड़ा गया है",
             "noSyncedNode": "No synced node is available.",
             "timeNotSynced": "Device time is incorrect, unable to sync node.",
-            "answer": "Failed to get an answer from all nodes.",
-            "forbidden": "This node connection is forbidden.",
-            "pluginNotAvailable": "The \"{nodePlugin}\" plugin is not available on the current node.",
             "unabledToConnect": "Unable to connect to the node",
             "differentNetwork": "The node is located on a different network",
             "duplicateNodes": "Unable to add duplicate node",
@@ -2150,20 +1648,15 @@
         },
         "network": {
             "mismatch": "The network ID for this node is \"{networkId}\", which does not match the current network.",
-            "notReachable": "The network ID for this node could not be retrieved, unable to add node.",
-            "badNodes": "Unable to connect to the network with current node configuration.",
-            "nonEmptyAccount": "You must transfer all balances before switching networks."
+            "notReachable": "The network ID for this node could not be retrieved, unable to add node."
         },
         "global": {
             "generic": "कुछ गलत हो गया"
         },
         "backup": {
-            "invalid": "बैकअप फ़ाइल को पहचाना नहीं गया था।",
+            "invalid": "The backup file was not recognized.",
             "destination": "बैकअप गंतव्य मान्य नहीं था।",
-            "mnemonic": "अक्षर मान्य नहीं है",
             "migrationRequired": "Stronghold migration is required.",
-            "seedTooShort": "The seed should be 81 characters long, it {length, plural, one {is #} other {is #}}",
-            "seedCharacters": "सीड में केवल अक्षर A-Z या 9 होना चाहिए",
             "phraseWordCount": "There should be 24 words in your recovery phrase, currently there {length, plural, one {is #} other {are #}}.",
             "phraseUnrecognizedWord": "आपके पुनर्प्राप्ति वाक्यांश में अपरिचित शब्द {word} पाया गया",
             "phraseCaseWord": "शब्द {word} कम मामला होना चाहिए",
@@ -2171,7 +1664,6 @@
             "unableToRestoreForProfileManager": "Unable to restore Stronghold backup for profile manager"
         },
         "ledger": {
-            "appNotOpen": "आपको अपने लेजर डिवाइस पर IOTA ऐप खोलना होगा।",
             "generic": "आपके लेज़र डिवाइस से कनेक्ट करने में त्रुटि हुई थी।",
             "legacyConnected": "आपके लेजर डिवाइस पर गलत ऐप खुला है।",
             "locked": "कृपया पिन दर्ज करके अपने लेजर डिवाइस को अनलॉक करें।",
@@ -2188,20 +1680,9 @@
         "popup": {
             "preventClose": "यह पॉपअप बंद करने में असमर्थ है।"
         },
-        "migration": {
-            "missingBundle": "An error occurred while trying to find the transaction bundle."
-        },
         "crypto": {
             "cannotDecodeBech32": "Unable to decode string as Bech32 address."
         },
-        "participation": {
-            "cannotUseAccount": "Unable to use the specified account.",
-            "cannotFindStakingEvent": "Unable to find staking event.",
-            "cannotVisitAirdropWebsite": "Unable to open the {airdrop} website.",
-            "invalidStakingEventId": "Invalid staking event ID."
-        },
-        "invalidDate": "INVALID DATE",
-        "invalidTime": "INVALID TIME",
         "shimmerClaiming": {
             "missingProfileManager": "Unable to find Shimmer claiming profile manager",
             "cannotInitialiseAccount": "Unable to initialize Shimmer claiming account",
@@ -2272,7 +1753,6 @@
         "input": {
             "invalid": "{field} input is invalid",
             "required": "{field} is required",
-            "unique": "{field} must be unique",
             "alreadyUsed": "{field} is already being used",
             "tooLong": "{field} must be {numCharacters} or less characters"
         },
@@ -2292,50 +1772,11 @@
     "warning": {
         "transaction": {
             "invalidDateTime": "The chosen date must be in the future."
-        },
-        "node": {
-            "http": "Using nodes over HTTP leaves traffic unencrypted and could pose a security risk."
-        },
-        "participation": {
-            "noFunds": "You do not have any IOTA."
         }
     },
     "tooltips": {
-        "risk": {
-            "title": "जोखिम का स्तर: {risk}",
-            "veryHigh": "बहुत ऊँचा",
-            "high": "उच्च",
-            "medium": "मध्यम",
-            "low": "कम",
-            "veryLow": "बहुत कम"
-        },
-        "partiallyStakedFunds": {
-            "title": "New unstaked funds: {amount}",
-            "titleNoFunds": "New unstaked funds",
-            "preBody": "You have received tokens that are not staked.",
-            "body": "You need to manually stake these new funds to receive airdrop rewards for them."
-        },
-        "stakingMinRewards": {
-            "title": "Below minimum reward value",
-            "titleMinBalance": "{amount} minimum balance required",
-            "bodyMinBalance": "This wallet does not have enough IOTA tokens to reach the minimum airdrop reward and cannot therefore be staked.",
-            "continue": "Please continue staking for another {duration}.",
-            "bodyBelowMin": "This wallet has not reached the minimum reward value for {airdrop} ({airdropRewardMin}).",
-            "bodyWillReachMin": "You must stake for another {duration} to reach the minimum.",
-            "bodyWillNotReachMin": "You will not reach the minimum reward value during the remaining staking period unless you add more IOTA.",
-            "bodyDidNotReachMin": "You did not stake enough IOTA to reach the minimum reward value for {airdrop} ({airdropRewardMin}).",
-            "bodyMinBalanceAirdrop": "This wallet does not have enough IOTA tokens to reach the minimum airdrop reward for {airdrop}."
-        },
         "optionalInput": "This optional data will be public on the explorer and viewable by everyone.",
         "transactionDetails": {
-            "minting": {
-                "storageDeposit": "A refundable token deposit needed to store your transaction on the Tangle.",
-                "giftedStorageDeposit": "The storage deposit for this transaction was gifted to you. You do not need to refund the deposit.",
-                "expirationTime": "Claim these funds before the expiration time or they will be returned to the sender.",
-                "timelockDate": "The sender set a timelock on these funds. You will be able to spend them once the timelock expires.",
-                "metadata": "An optional data field for storing data persistently on the Tangle.",
-                "tag": "A short optional data field. Tagging groups of transactions can make them easier to search for."
-            },
             "incoming": {
                 "storageDeposit": "A refundable token deposit needed to store your transaction on the Tangle.",
                 "giftedStorageDeposit": "The storage deposit for this transaction was gifted to you. You do not need to refund the deposit.",
@@ -2353,12 +1794,8 @@
                 "tag": "A short optional data field. Tagging groups of transactions can make them easier to search for."
             },
             "nftMetadata": {
-                "standard": "The NFT standard e.g. IRC27.",
                 "type": "The MimeType of the NFT. e.g. image/png.",
-                "collectionId": "UTXO string of the collection NFT that minted this NFT",
-                "royalties": "An object containing key-value pairs of addresses that map to payout percentages",
-                "issuerName": "The name of the creator",
-                "attributes": "An array of traits and values that define attributes of the NFT"
+                "issuerName": "The name of the creator"
             }
         },
         "mintNativeToken": {
@@ -2368,7 +1805,6 @@
             "logoUrl": "IRC30 optional parameter: URL pointing to an image resource of the token logo."
         },
         "mintNftForm": {
-            "collectionId": "Optional parameter: UTXO string of the collection NFT that minted this NFT",
             "collectionName": "Optional parameter: The collection's name",
             "royalties": "Optional parameter: An object containing key-value pairs of addresses that map to payout percentages",
             "issuerName": "Optional parameter: The name of the creator",
@@ -2396,44 +1832,14 @@
             "text": "Compare the token metadata against the relevant team’s official website. Only verify tokens that you trust."
         }
     },
-    "exports": {
-        "transactionHistoryCsv": {
-            "messageId": "Message ID",
-            "internal": "Internal",
-            "rawValue": "Raw Value",
-            "formattedValue": "Formatted Value",
-            "date": "Date",
-            "time": "Time"
-        }
-    },
-    "indicators": {
-        "developerProfileIndicator": {
-            "warningText": "You are currently using a developer profile and are connected to {networkName}"
-        },
-        "networkIndicator": {
-            "warningText": "Network performance degraded. Message confirmation may take a bit longer than usual."
-        }
-    },
-    "permissions": {
-        "camera": {
-            "request": "We need your permission to use your camera to be able to scan QR codes.",
-            "requestInAppSettings": "If you want to grant permission for using your camera to scan QR codes, please enable it in the app settings."
-        }
-    },
     "tabs": {
         "wallet": "Wallet",
         "collectibles": "Collectibles",
         "governance": "Governance",
         "developer": "Developer",
-        "tokens": "Tokens",
-        "activity": "Activity"
+        "tokens": "Tokens"
     },
     "pills": {
-        "migrate": {
-            "Pending": "migrating for",
-            "Confirmed": "migrated for",
-            "Conflicting": "failed to migrate"
-        },
         "asyncStatus": {
             "unclaimed": "unclaimed",
             "claimed": "claimed",
@@ -2455,9 +1861,7 @@
             "degraded": "Degraded",
             "operational": "Operational",
             "disconnected": "Disconnected"
-        },
-        "locked": "locked",
-        "smartContract": "smart contract"
+        }
     },
     "menus": {
         "dateTimePicker": {
