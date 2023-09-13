@@ -13,7 +13,6 @@
     let textInput: TextInput | undefined
 
     export function validate(): void {
-        console.log('NumberInput.svelte')
         textInput?.validate()
     }
 </script>

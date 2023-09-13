@@ -14,7 +14,6 @@
     export let fontWeight: FontWeight = FontWeight.normal
     export let fontSize = 'sm'
     export let lineHeight = '140'
-    $: console.log('TextInput.svelte', error)
 
     export function validate(): void {
         input?.validate()

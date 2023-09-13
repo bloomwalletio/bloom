@@ -11,7 +11,7 @@
     export let clearBackground = false
     export let clearPadding = false
     export let clearBorder = false
-    $: console.log('error reached bottom: ', error)
+
     const tabindex = Object.keys($$slots) ? -1 : 0 // if the slot is not empty then makes the button not tabbable
 
     function onClickOutside(): void {
