@@ -2,7 +2,7 @@
     import { selectedAccount } from '@core/account/stores'
     import { getStorageDepositFromOutput } from '@core/activity/utils/helper'
     import { localize } from '@core/i18n'
-    import { getActiveNetworkId, isEvmChain } from '@core/network'
+    import { getActiveNetworkId } from '@core/network'
     import { INft } from '@core/nfts/interfaces'
     import { selectedAccountTokens } from '@core/token/stores'
     import { TimePeriod } from '@core/utils/enums'
@@ -37,9 +37,6 @@
     $: updateSendFlowOnChange(expirationDate, timelockDate, giftStorageDeposit, tag, metadata)
     $: storageDeposit = getStorageDepositFromOutput(output)
 
-    const isToLayer2 = destinationNetworkId && isEvmChain(destinationNetworkId)
-    disableGiftingStorageDeposit(isToLayer2)
-
     function updateSendFlowOnChange(
         expirationDate: Date,
         timelockDate: Date,
@@ -65,19 +62,6 @@
         }
     }
 
-    function disableGiftingStorageDeposit(isToLayer2: boolean) {
-        if (isToLayer2) {
-            disableToggleGift = true
-            giftStorageDeposit = true
-        }
-    }
-
-    $: transactionFee = isToLayer2
-        ? sendFlowParameters.type === SendFlowType.BaseCoinTransfer
-            ? String(Number(output.amount) - Number(sendFlowParameters.baseCoinTransfer.rawAmount))
-            : output.amount
-        : 0
-
     function getTransactionAssets(
         output: Output,
         sendFlowParameters: SendFlowParameters
@@ -87,32 +71,24 @@
         baseCoinTransfer?: TokenTransferData
     } {
         const baseCoin = $selectedAccountTokens?.[getActiveNetworkId()].baseCoin
+        const baseCoinTransfer = {
+            token: baseCoin,
+            rawAmount: String(Number(output.amount) - storageDeposit),
+        }
 
-        if (sendFlowParameters.type === SendFlowType.BaseCoinTransfer) {
-            return {
-                baseCoinTransfer: {
-                    token: baseCoin,
-                    rawAmount: isToLayer2
-                        ? sendFlowParameters.baseCoinTransfer.rawAmount
-                        : String(Number(output.amount) - storageDeposit),
-                },
-            }
-        } else {
-            const baseCoinTransfer = {
-                token: baseCoin,
-                rawAmount: isToLayer2 ? '0' : String(Number(output.amount) - storageDeposit),
-            }
-            if (sendFlowParameters.type === SendFlowType.TokenTransfer) {
+        switch (sendFlowParameters.type) {
+            case SendFlowType.BaseCoinTransfer:
+                return { baseCoinTransfer }
+            case SendFlowType.TokenTransfer:
                 return {
                     tokenTransfer: sendFlowParameters.tokenTransfer,
                     baseCoinTransfer,
                 }
-            } else {
+            case SendFlowType.NftTransfer:
                 return {
                     nft: sendFlowParameters.nft,
                     baseCoinTransfer,
                 }
-            }
         }
     }
 
@@ -141,8 +117,7 @@
         bind:selectedExpirationPeriod
         bind:selectedTimelockPeriod
         bind:giftStorageDeposit
-        storageDeposit={getStorageDepositFromOutput(output)}
-        {transactionFee}
+        {storageDeposit}
         {destinationNetworkId}
         {disableChangeExpiration}
         disableChangeTimelock={disableChangeExpiration}
@@ -170,14 +145,12 @@
             label={localize('general.tag')}
             description={localize('tooltips.optionalInput')}
         />
-        {#if !isToLayer2}
-            <OptionalInput
-                bind:this={metadataInput}
-                bind:value={metadata}
-                disabled={isTransferring}
-                label={localize('general.metadata')}
-                description={localize('tooltips.optionalInput')}
-            />
-        {/if}
+        <OptionalInput
+            bind:this={metadataInput}
+            bind:value={metadata}
+            disabled={isTransferring}
+            label={localize('general.metadata')}
+            description={localize('tooltips.optionalInput')}
+        />
     </optional-inputs>
 </div>
