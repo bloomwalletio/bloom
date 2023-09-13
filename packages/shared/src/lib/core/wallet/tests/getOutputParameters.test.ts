@@ -241,7 +241,7 @@ describe('File: getOutputParameters.ts', () => {
                 sender: senderAddress,
             },
             unlocks: { expirationUnixTime: 1680163475 },
-            storageDeposit: { returnStrategy: ReturnStrategy.Return },
+            storageDeposit: { returnStrategy: ReturnStrategy.Gift },
         }
         expect(output).toStrictEqual(expectedOutput)
     })
@@ -281,7 +281,7 @@ describe('File: getOutputParameters.ts', () => {
                 sender: senderAddress,
             },
             unlocks: { expirationUnixTime: 1680163475 },
-            storageDeposit: { returnStrategy: ReturnStrategy.Return },
+            storageDeposit: { returnStrategy: ReturnStrategy.Gift },
         }
         expect(output).toStrictEqual(expectedOutput)
     })
@@ -307,7 +307,7 @@ describe('File: getOutputParameters.ts', () => {
                 sender: senderAddress,
             },
             unlocks: {},
-            storageDeposit: { returnStrategy: ReturnStrategy.Return },
+            storageDeposit: { returnStrategy: ReturnStrategy.Gift },
         }
         expect(output).toStrictEqual(expectedOutput)
     })
