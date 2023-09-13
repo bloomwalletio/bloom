@@ -1,8 +1,7 @@
 <script lang="ts">
-    import { Icon } from '@ui'
+    import { Icon, IconName } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
     import { IS_MAC } from '@core/app/constants'
-    import { Icon as IconEnum } from '@auxiliary/icon'
 
     export let busy = false
     export let allowBack = true
@@ -10,7 +9,7 @@
 </script>
 
 <onboarding-layout data-label="onboarding-layout" class="relative w-full h-full flex flex-row">
-    <leftpane-container data-label="leftpane" class="h-full flex justify-center p-12 pt-8 bg-white dark:bg-gray-800">
+    <leftpane-container data-label="leftpane" class="h-full flex justify-center p-12 pt-12 bg-white dark:bg-gray-800">
         <div class="w-full h-full flex flex-col justify-between">
             <div class="flex flex-col h-full">
                 <action-placeholder class="block mb-8" class:mt-9={IS_MAC}>
@@ -23,7 +22,7 @@
                             type="button"
                         >
                             <icon-container class:busy>
-                                <Icon icon={IconEnum.ArrowLeft} />
+                                <Icon icon={IconName.ArrowLeft} size="xl" />
                             </icon-container>
                         </button>
                     {/if}
