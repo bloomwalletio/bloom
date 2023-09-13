@@ -134,7 +134,7 @@ export class Ledger {
                 if (r && v && s) {
                     resolve(prepareEvmTransaction(transactionData, chainId, { r, v, s }))
                 } else {
-                    reject(localize('error.ledger.rejected'))
+                    reject(localize('error.send.cancelled'))
                 }
             }
         })

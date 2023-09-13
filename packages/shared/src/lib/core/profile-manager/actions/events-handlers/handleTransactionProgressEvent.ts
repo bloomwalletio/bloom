@@ -64,6 +64,7 @@ function openPopupIfVerificationNeeded(progress: TransactionProgress): void {
                     hideClose: true,
                     preventClose: true,
                     props: {
+                        useBlindSigning: true,
                         hash: (progress as PreparedTransactionEssenceHashProgress).hash,
                     },
                 })
