@@ -128,7 +128,11 @@
         }
     }
 
-    function getInitialExpirationDate(hasExpirationDate, hasStorageDeposit, giftStorageDeposit): TimePeriod {
+    function getInitialExpirationDate(
+        hasExpirationDate: boolean,
+        hasStorageDeposit: boolean,
+        giftStorageDeposit: boolean
+    ): TimePeriod {
         if (hasExpirationDate) {
             return TimePeriod.Custom
         } else if (hasStorageDeposit && !giftStorageDeposit) {
@@ -138,7 +142,7 @@
         }
     }
 
-    onMount(() => {
+    onMount((): void => {
         storageDeposit = getStorageDepositFromOutput(output)
         selectedExpirationPeriod = getInitialExpirationDate(!!expirationDate, !!storageDeposit, giftStorageDeposit)
     })
