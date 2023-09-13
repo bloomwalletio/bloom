@@ -1,7 +1,6 @@
 import { PersistedEvmTransaction } from '@core/activity/types/persisted-evm-transaction.interface'
 import { NetworkId } from '@core/network/types'
-import { getActiveProfile } from '@core/profile/stores'
-import { isAddressATrackedToken } from '@core/wallet/actions'
+import { isTrackedTokenAddress } from '@core/wallet/actions'
 import { ISC_MAGIC_CONTRACT_ADDRESS, WEI_PER_GLOW } from '../constants'
 import { ERC20_ABI, ISC_SANDBOX_ABI } from '../abis'
 import { AbiDecoder } from '@core/utils'
@@ -16,7 +15,7 @@ export function getTransferInfoFromTransactionData(
     chain: IChain
 ): { tokenId: string; rawAmount: string } | undefined {
     if (transaction.data) {
-        const isErc20 = isAddressATrackedToken(networkId, address, getActiveProfile())
+        const isErc20 = isTrackedTokenAddress(networkId, address)
         const isIscContract = address === ISC_MAGIC_CONTRACT_ADDRESS
 
         const abi = isErc20 ? ERC20_ABI : isIscContract ? ISC_SANDBOX_ABI : undefined
@@ -27,28 +26,30 @@ export function getTransferInfoFromTransactionData(
 
         const abiDecoder = new AbiDecoder(abi, chain.getProvider())
         const decoded = abiDecoder.decodeData(transaction.data as string)
-        if (decoded?.name === 'call') {
-            const inputs = decoded.inputs as IscCallMethodInputs
+        switch (decoded?.name) {
+            case 'call': {
+                const inputs = decoded.inputs as IscCallMethodInputs
 
-            const nativeToken = inputs?.allowance?.nativeTokens?.[0]
-            if (nativeToken) {
-                return {
-                    tokenId: nativeToken.ID.data,
-                    rawAmount: nativeToken.amount,
+                const nativeToken = inputs?.allowance?.nativeTokens?.[0]
+                if (nativeToken) {
+                    return {
+                        tokenId: nativeToken.ID.data,
+                        rawAmount: nativeToken.amount,
+                    }
+                } else {
+                    return undefined
                 }
-            } else {
-                return undefined
             }
-        }
-        if (decoded?.name === 'transfer') {
-            const inputs = decoded.inputs as Erc20TransferMethodInputs
+            case 'transfer': {
+                const inputs = decoded.inputs as Erc20TransferMethodInputs
 
-            return {
-                tokenId: address,
-                rawAmount: String(inputs._value),
+                return {
+                    tokenId: address,
+                    rawAmount: String(inputs._value),
+                }
             }
-        } else {
-            return undefined
+            default:
+                return undefined
         }
     } else {
         return {

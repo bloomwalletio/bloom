@@ -1,22 +1,13 @@
-import {
-    ERC20_ABI,
-    Erc20TransferMethodInputs,
-    ISC_MAGIC_CONTRACT_ADDRESS,
-    ISC_SANDBOX_ABI,
-    IscCallMethodInputs,
-    WEI_PER_GLOW,
-} from '@core/layer-2'
 import { NetworkId } from '@core/network/types'
 import { BASE_TOKEN_ID } from '@core/token'
 import { MILLISECONDS_PER_SECOND } from '@core/utils/constants'
-import { getSubjectFromAddress, isAddressATrackedToken, isSubjectInternal } from '@core/wallet'
+import { getSubjectFromAddress, isSubjectInternal } from '@core/wallet'
 import { ActivityAction, ActivityDirection, ActivityType, InclusionState } from '../enums'
 import { PersistedEvmTransaction, TransactionActivity } from '../types'
 import { getOrRequestTokenFromPersistedTokens } from '@core/token/actions'
 import { calculateGasFeeInGlow } from '@core/layer-2/helpers'
-import { AbiDecoder } from '@core/utils'
 import { IChain } from '@core/network'
-import { getActiveProfile } from '@core/profile/stores'
+import { getTransferInfoFromTransactionData } from '@core/layer-2/utils/getTransferInfoFromTransactionData'
 
 export async function generateActivityFromEvmTransaction(
     transaction: PersistedEvmTransaction,
@@ -32,35 +23,8 @@ export async function generateActivityFromEvmTransaction(
     const isInternal = isSubjectInternal(recipient)
     const timestamp = (await provider.eth.getBlock(transaction.blockNumber)).timestamp
 
-    let rawAmount: string | undefined
-    let tokenId: string | undefined
-    if (transaction.data) {
-        const isErc20 = isAddressATrackedToken(networkId, recipient.address, getActiveProfile())
-        const isIscContract = recipient.address === ISC_MAGIC_CONTRACT_ADDRESS
-
-        const abi = isErc20 ? ERC20_ABI : isIscContract ? ISC_SANDBOX_ABI : undefined
-
-        if (abi) {
-            const abiDecoder = new AbiDecoder(abi, provider)
-            const decoded = abiDecoder.decodeData(transaction.data as string)
-            if (decoded?.name === 'call') {
-                const inputs = decoded.inputs as IscCallMethodInputs
-
-                const nativeToken = inputs?.allowance?.nativeTokens?.[0]
-                if (nativeToken) {
-                    tokenId = nativeToken.ID.data
-                    rawAmount = nativeToken.amount
-                }
-            } else if (decoded?.name === 'transfer') {
-                const inputs = decoded.inputs as Erc20TransferMethodInputs
-                tokenId = recipient.address
-                rawAmount = String(inputs._value)
-            }
-        }
-    } else {
-        tokenId = BASE_TOKEN_ID
-        rawAmount = String(Number(transaction.value) / Number(WEI_PER_GLOW))
-    }
+    const { tokenId, rawAmount } =
+        getTransferInfoFromTransactionData(transaction, recipient.address, networkId, chain) ?? {}
 
     const baseTokenTransfer = {
         tokenId: BASE_TOKEN_ID,
