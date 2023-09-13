@@ -8,6 +8,7 @@
     export let placeholder: string
     export let error: string = ''
     export let inputType: 'text' | 'number' = 'text'
+    $: console.log('ClosableInput.svelte', error)
 
     let input: TextInput | NumberInput | undefined
 
@@ -37,8 +38,8 @@
             bind:value
             bind:inputElement
             bind:hasFocus
-            bind:error
             autofocus
+            {error}
             {label}
             {placeholder}
             {...$$restProps}

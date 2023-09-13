@@ -16,16 +16,15 @@
     export let sendFlowParameters: SendFlowParameters
     export let isDisabled: boolean = false
 
-    export function validate(): boolean {
+    function validate(): void {
+        tagInputError = ''
         try {
-            console.log('tag input: ', tagInput)
-            tagInput?.validate()
+            validateTag(tag)
             isDisabled = false
-            return true
         } catch (err) {
-            console.log('tag caught: ', err)
+            console.log('StardustTransactionSUmmary:', err.message)
+            tagInputError = err.message
             isDisabled = true
-            return false
         }
     }
 
@@ -42,6 +41,7 @@
 
     let storageDeposit: number
     let tagInput: OptionalInput | undefined
+    let tagInputError = ''
     let metadataInput: OptionalInput
 
     let selectedExpirationPeriod: TimePeriod | undefined = expirationDate ? TimePeriod.Custom : undefined
@@ -50,7 +50,7 @@
     $: isTransferring = !!$selectedAccount.isTransferring
     $: updateSendFlowOnChange(expirationDate, timelockDate, giftStorageDeposit, tag, metadata)
     $: storageDeposit = getStorageDepositFromOutput(output)
-    $: tag, isDisabled = false
+    $: tag, validate()
 
     const isToLayer2 = destinationNetworkId && isEvmChain(destinationNetworkId)
     disableGiftingStorageDeposit(isToLayer2)
@@ -181,9 +181,9 @@
         <OptionalInput
             bind:this={tagInput}
             bind:value={tag}
+            error={tagInputError}
             label={localize('general.tag')}
             description={localize('tooltips.optionalInput')}
-            validationFunction={validateTag}
         />
         {#if !isToLayer2}
             <OptionalInput

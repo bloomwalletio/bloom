@@ -13,7 +13,8 @@
     export let isOpen: boolean = false
     export let isTooltipVisible: boolean = false
     export let disabled: boolean = false
-
+    $: console.log('OptionalInput.svelte', error)
+    
     let buttonElement: HTMLButtonElement
 
     export function open(): void {
@@ -38,7 +39,6 @@
     $: if (!isOpen) {
         isTooltipVisible = false
     }
-    $: value, (error = '')
 
     onMount(() => {
         if (value) {
@@ -53,7 +53,7 @@
         bind:buttonElement
         bind:open={isOpen}
         bind:value
-        bind:error
+        {error}
         {label}
         placeholder={label}
         {fontSize}

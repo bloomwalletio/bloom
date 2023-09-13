@@ -14,6 +14,7 @@
     export let fontWeight: FontWeight = FontWeight.normal
     export let fontSize = 'sm'
     export let lineHeight = '140'
+    $: console.log('TextInput.svelte', error)
 
     export function validate(): void {
         input?.validate()
@@ -30,10 +31,10 @@
     bind:inputElement
     bind:value
     bind:hasFocus
-    bind:error
     type={inputType}
     {textProps}
     {alignment}
+    {error}
     {...$$restProps}
 >
     <slot name="left" slot="left" />

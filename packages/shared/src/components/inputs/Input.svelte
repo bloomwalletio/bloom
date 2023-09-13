@@ -46,8 +46,9 @@
     const decimalSeparator = getDecimalSeparator()
 
     let capsLockOn = false
+    $: console.log('Input.svelte', error)
 
-    $: value, (error = '')
+    // $: value, (error = '')
 
     function handleInput(event: Event): void {
         value = (event.target as HTMLInputElement).value
