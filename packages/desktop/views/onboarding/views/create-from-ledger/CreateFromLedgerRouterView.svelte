@@ -2,7 +2,6 @@
     import { Platform } from '@core/app'
     import { Subrouter } from '@core/router'
     import features from '@features/features'
-    import { Transition } from '@ui'
     import { CreateFromLedgerRoute } from './create-from-ledger-route.enum'
     import { createFromLedgerRoute } from './create-from-ledger-router'
     import { ConnectLedgerView, InstallLedgerView } from './views'
@@ -15,11 +14,7 @@
 </script>
 
 {#if $createFromLedgerRoute === CreateFromLedgerRoute.InstallLedger}
-    <Transition>
-        <InstallLedgerView />
-    </Transition>
+    <InstallLedgerView />
 {:else if $createFromLedgerRoute === CreateFromLedgerRoute.ConnectLedger}
-    <Transition>
-        <ConnectLedgerView {router} />
-    </Transition>
+    <ConnectLedgerView {router} />
 {/if}

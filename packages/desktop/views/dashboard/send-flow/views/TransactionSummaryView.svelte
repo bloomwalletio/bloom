@@ -18,12 +18,13 @@
     import { onMount } from 'svelte'
     import { sendFlowRouter } from '../send-flow.router'
     import SendFlowTemplate from './SendFlowTemplate.svelte'
-    import { EvmTransactionSummary, StardustTransactionSummary } from './components'
+    import { EvmTransactionSummary, StardustTransactionSummary, StardustToEvmTransactionSummary } from './components'
 
     export let _onMount: (..._: any[]) => Promise<void> = async () => {}
 
     $: void updateSendFlow($sendFlowParameters)
-    $: isAssetFromLayer2 = !!chain
+    $: isSourceNetworkLayer2 = !!chain
+    $: isDestinationNetworkLayer2 = isEvmChain($sendFlowParameters.destinationNetworkId)
     $: isTransferring = !!$selectedAccount.isTransferring
 
     let recipientAddress: string
@@ -58,7 +59,7 @@
 
     async function onConfirmClick(): Promise<void> {
         try {
-            if (isAssetFromLayer2) {
+            if (isSourceNetworkLayer2) {
                 await sendTransactionFromEvm(preparedTransaction, chain, closePopup)
             } else {
                 await sendOutputFromStardust(preparedOutput, $selectedAccount, closePopup)
@@ -99,9 +100,13 @@
         isBusy: isTransferring,
     }}
 >
-    {#if isAssetFromLayer2 && preparedTransaction}
+    {#if isSourceNetworkLayer2 && preparedTransaction}
         <EvmTransactionSummary transaction={preparedTransaction} sendFlowParameters={$sendFlowParameters} />
-    {:else if !isAssetFromLayer2 && preparedOutput}
-        <StardustTransactionSummary output={preparedOutput} sendFlowParameters={$sendFlowParameters} />
+    {:else if !isSourceNetworkLayer2 && preparedOutput}
+        {#if isDestinationNetworkLayer2}
+            <StardustToEvmTransactionSummary output={preparedOutput} sendFlowParameters={$sendFlowParameters} />
+        {:else}
+            <StardustTransactionSummary output={preparedOutput} sendFlowParameters={$sendFlowParameters} />
+        {/if}
     {/if}
 </SendFlowTemplate>
