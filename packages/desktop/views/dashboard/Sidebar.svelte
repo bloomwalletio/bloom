@@ -31,6 +31,16 @@
                   },
               ]
             : []),
+        ...(features?.wallet?.newDashboard?.enabled
+            ? [
+                  {
+                      icon: IconEnum.Wallet,
+                      label: localize('tabs.wallet'),
+                      route: DashboardRoute.NewDashboard,
+                      onClick: openNewDashboard,
+                  },
+              ]
+            : []),
         ...(features?.collectibles?.enabled
             ? [
                   {
@@ -65,6 +75,11 @@
 
     function openWallet(): void {
         resetAllRouters()
+    }
+
+    function openNewDashboard(): void {
+        resetAllRouters()
+        $dashboardRouter.goTo(DashboardRoute.NewDashboard)
     }
 
     function openCollectibles(): void {
