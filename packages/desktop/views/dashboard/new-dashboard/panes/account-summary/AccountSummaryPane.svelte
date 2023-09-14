@@ -1,13 +1,13 @@
 <script lang="ts">
     import { Pane } from '@ui'
-    import { AccountNetworkSummary, AccountSummaryBalance } from './components'
+    import { AccountNetworkSummary, AccountSummary } from './components'
     import { IAccountState } from '@core/account'
 
     export let account: IAccountState
 </script>
 
 <Pane classes="w-full flex flex-row shrink-0 justify-between items-center border border-solid border-gray-100">
-    <AccountSummaryBalance {account} />
+    <AccountSummary {account} />
     <div class="middle w-full">
         <AccountNetworkSummary />
     </div>
