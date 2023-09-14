@@ -41,7 +41,7 @@
 </script>
 
 {#if $selectedAccountTokens}
-    <div class="h-full flex flex-auto flex-col flex-grow shrink-0">
+    <div class="h-full flex flex-auto flex-col">
         <div class="header-row">
             <Text fontWeight={FontWeight.medium} secondary classes="text-start"
                 >{localize('views.dashboard.portfolio.asset')}</Text

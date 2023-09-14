@@ -12,10 +12,8 @@
     >
         {#key $selectedAccount?.index}
             <div class="h-full w-full flex flex-col gap-8">
-                <div class="h-1/4">
-                    <WalletSummaryPane />
-                </div>
-                <Pane classes="flex-grow border border-solid border-gray-100">
+                <WalletSummaryPane />
+                <Pane classes="flex flex-col flex-grow border border-solid border-gray-100">
                     <TabSection />
                 </Pane>
             </div>
