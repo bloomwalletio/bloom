@@ -122,12 +122,4 @@
         @apply flex items-center gap-2;
         -webkit-app-region: none;
     }
-
-    .drag {
-        -webkit-app-region: drag;
-
-        > * {
-            -webkit-app-region: none;
-        }
-    }
 </style>
