@@ -69,7 +69,7 @@
 
 <Idle />
 <dashboard class="dashboard-wrapper flex flex-row w-full h-full">
-    <div class="flex flex-col flex-auto">
+    <div class="flex flex-col flex-none">
         {#if !IS_WINDOWS}
             <NavbarContainer draggable={IS_MAC} />
         {/if}
