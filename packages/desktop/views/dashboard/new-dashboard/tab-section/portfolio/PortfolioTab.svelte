@@ -15,7 +15,7 @@
     let isEmptyBecauseOfFilter: boolean = false
     $: $selectedAccountTokens, (isEmptyBecauseOfFilter = getTokenList().length > 0 && filteredTokenList.length === 0)
     $: currency = getCurrencySymbol($activeProfile?.settings?.marketCurrency)
-    
+
     function getFilteredTokenList(): ITokenWithBalance[] {
         const list = getTokenList()
         return list.filter((_nativeToken) => isVisibleToken(_nativeToken))
