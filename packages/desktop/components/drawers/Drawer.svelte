@@ -94,4 +94,8 @@
             width: 100%;
         }
     }
+
+    overlay {
+        -webkit-app-region: none;
+    }
 </style>
