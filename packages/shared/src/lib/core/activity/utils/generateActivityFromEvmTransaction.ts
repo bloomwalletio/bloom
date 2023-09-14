@@ -1,20 +1,21 @@
-import { ISC_SANDBOX_ABI, IscCallMethodInputs, WEI_PER_GLOW } from '@core/layer-2'
 import { NetworkId } from '@core/network/types'
 import { BASE_TOKEN_ID } from '@core/token'
 import { MILLISECONDS_PER_SECOND } from '@core/utils/constants'
 import { getSubjectFromAddress, isSubjectInternal } from '@core/wallet'
-import Web3 from 'web3'
 import { ActivityAction, ActivityDirection, ActivityType, InclusionState } from '../enums'
 import { PersistedEvmTransaction, TransactionActivity } from '../types'
 import { getOrRequestTokenFromPersistedTokens } from '@core/token/actions'
 import { calculateGasFeeInGlow } from '@core/layer-2/helpers'
-import { AbiDecoder } from '@core/utils'
+import { IChain } from '@core/network'
+import { getTransferInfoFromTransactionData } from '@core/layer-2/utils/getTransferInfoFromTransactionData'
 
 export async function generateActivityFromEvmTransaction(
     transaction: PersistedEvmTransaction,
     networkId: NetworkId,
-    provider: Web3
+    chain: IChain
 ): Promise<TransactionActivity> {
+    const provider = chain.getProvider()
+
     const direction = ActivityDirection.Outgoing // Currently only sent transactions are supported
 
     const sender = getSubjectFromAddress(transaction.from, networkId)
@@ -22,26 +23,8 @@ export async function generateActivityFromEvmTransaction(
     const isInternal = isSubjectInternal(recipient)
     const timestamp = (await provider.eth.getBlock(transaction.blockNumber)).timestamp
 
-    let rawAmount: string | undefined
-    let tokenId: string | undefined
-    if (transaction.data) {
-        // TODO: This is currently assuming that the transaction is a invocation to the ISC contract
-        // We need to improve this such that it checks if the recipient is a contract we know of, and then use the correct ABI if known
-        const abiDecoder = new AbiDecoder(ISC_SANDBOX_ABI, provider)
-        const decoded = abiDecoder.decodeData(transaction.data as string)
-        if (decoded?.name === 'call') {
-            const inputs = decoded.inputs as IscCallMethodInputs
-
-            const nativeToken = inputs?.allowance?.nativeTokens?.[0]
-            if (nativeToken) {
-                tokenId = nativeToken.ID.data
-                rawAmount = nativeToken.amount
-            }
-        }
-    } else {
-        tokenId = BASE_TOKEN_ID
-        rawAmount = String(Number(transaction.value) / Number(WEI_PER_GLOW))
-    }
+    const { tokenId, rawAmount } =
+        getTransferInfoFromTransactionData(transaction, recipient.address, networkId, chain) ?? {}
 
     const baseTokenTransfer = {
         tokenId: BASE_TOKEN_ID,
