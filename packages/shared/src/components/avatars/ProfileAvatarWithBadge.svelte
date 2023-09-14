@@ -7,6 +7,7 @@
     export let profile: IPersistedProfile
     export let updateRequired: boolean = false
     export let size: (typeof avatarSize)[number] = 'md'
+    export let shape: 'circle' | 'squircle' | 'square' = 'circle'
 
     const BADGE_SIZES: { [key: string]: 'xxs' | 'xs' | 'sm' | 'md' } = {
         ['xl']: 'md',
@@ -19,7 +20,7 @@
 </script>
 
 <div class="relative">
-    <ProfileAvatar {profile} {size} />
+    <ProfileAvatar {profile} {size} {shape} />
     {#if updateRequired}
         <StrongholdBadge size={BADGE_SIZES[size]} />
     {:else}
