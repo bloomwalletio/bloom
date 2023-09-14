@@ -105,9 +105,7 @@
     }
 </script>
 
-<aside
-    class="flex flex-col justify-center items-center bg-white dark:bg-gray-800 relative w-18 px-5 pt-10 pb-5 border-solid border-r border-gray-100 dark:border-gray-800"
->
+<aside>
     <nav class="flex flex-grow flex-col items-center justify-between">
         <div class="flex flex-col items-center">
             <Icon
@@ -137,6 +135,14 @@
 </aside>
 
 <style lang="scss">
+    aside {
+        @apply flex flex-col justify-center items-center;
+        @apply bg-white dark:bg-gray-800 relative;
+        @apply border-solid border-r border-gray-100 dark:border-gray-800;
+        @apply px-5 pt-10 pb-5;
+        @apply w-64;
+    }
+
     :global(body.platform-win32) aside {
         @apply -top-0;
         @apply pt-10;
