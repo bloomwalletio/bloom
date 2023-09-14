@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { CopyableButton } from '@bloomwalletio/ui'
+    import { Copyable } from '@bloomwalletio/ui'
     import { DrawerTemplate } from '@components'
     import { selectedAccount } from '@core/account/stores'
     import { appSettings } from '@core/app/stores'
@@ -33,7 +33,7 @@
 >
     {#key depositAddress}
         <div class="w-full h-full flex items-center justify-center">
-            <CopyableButton value={depositAddress}>
+            <Copyable value={depositAddress}>
                 <address-container
                     class="flex flex-col px-4 py-4 space-y-2 rounded-xl cursor-pointer"
                     class:darkmode={$appSettings.darkMode}
@@ -54,7 +54,7 @@
                         </div>
                     </inner-box>
                 </address-container>
-            </CopyableButton>
+            </Copyable>
         </div>
     {/key}
 </DrawerTemplate>

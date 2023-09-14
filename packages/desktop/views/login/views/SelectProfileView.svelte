@@ -59,17 +59,15 @@
     })
 </script>
 
-<select-profile-view
-    class="flex flex-col justify-between items-center h-full bg-slate-100 dark:bg-gray-900 w-screen h-screen"
->
-    <header class="w-full flex items-center mb-8">
-        <logo-container class="pl-12 mt-12 block">
+<select-profile-view class="flex flex-col justify-between items-center w-full h-full bg-slate-100 dark:bg-gray-900">
+    <header class="w-full flex items-center py-8">
+        <logo-container class="pl-12 block">
             <Logo width="150" logo="logo-bloom-full" />
         </logo-container>
     </header>
     <div
         class="
-        card-conatiner flex flex-row w-full justify-center gap-8 overflow-y-auto overlay-scrollbar
+        card-conatiner flex flex-row w-full justify-center gap-8 overflow-y-auto overlay-scrollbar pb-8
         {$profiles.length > 4 ? 'grid grid-cols-4' : ''}"
     >
         {#each $profiles as profile}
