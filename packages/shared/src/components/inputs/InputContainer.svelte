@@ -2,7 +2,7 @@
     import { clickOutside } from '@core/utils'
     import { Box, Error } from '@ui'
 
-    export let inputElement: HTMLInputElement = undefined
+    export let inputElement: HTMLInputElement | undefined = undefined
     export let isFocused: boolean = false
     export let error: string = ''
     export let classes: string = ''

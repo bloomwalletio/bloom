@@ -27,6 +27,7 @@
     $: isDestinationNetworkLayer2 = isEvmChain($sendFlowParameters.destinationNetworkId)
     $: isTransferring = !!$selectedAccount.isTransferring
 
+    let isDisabled: boolean
     let recipientAddress: string
     let preparedOutput: Output | undefined
     let preparedTransaction: EvmTransactionData | undefined
@@ -96,7 +97,7 @@
     rightButton={{
         text: localize('actions.confirm'),
         onClick: onConfirmClick,
-        disabled: isTransferring,
+        disabled: isDisabled || isTransferring,
         isBusy: isTransferring,
     }}
 >
@@ -106,7 +107,11 @@
         {#if isDestinationNetworkLayer2}
             <StardustToEvmTransactionSummary output={preparedOutput} sendFlowParameters={$sendFlowParameters} />
         {:else}
-            <StardustTransactionSummary output={preparedOutput} sendFlowParameters={$sendFlowParameters} />
+            <StardustTransactionSummary
+                bind:isDisabled
+                output={preparedOutput}
+                sendFlowParameters={$sendFlowParameters}
+            />
         {/if}
     {/if}
 </SendFlowTemplate>
