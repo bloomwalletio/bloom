@@ -337,6 +337,13 @@
                 "disconnected": "Disconnected from node",
                 "status": "Status"
             },
+            "portfolio": {
+                "asset": "Asset",
+                "network": "Network",
+                "marketCap": "Market cap",
+                "price": "Price",
+                "amount": "Amount"
+            },
             "profileModal": {
                 "allSettings": "All settings",
                 "logout": "Log out",
