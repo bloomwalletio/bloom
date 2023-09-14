@@ -130,7 +130,7 @@
     </button-container>
     <div>
         <div>
-            <ProfileAvatarWithBadge profile={$activeProfile} size="xl" {updateRequired} />
+            <ProfileAvatarWithBadge profile={$activeProfile} size="xl" {updateRequired} shape="square" />
             <Text type="h6" align="center" truncate>{$activeProfile.name}</Text>
         </div>
 
