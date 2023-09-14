@@ -26,7 +26,7 @@ export async function calculateAndAddPersistedBalanceChange(
     const newBalanceChange: ITokenBalanceChange = {
         changedAt: Date.now(),
         oldBalance: lastBalanceChange?.newBalance,
-        newBalance,
+        newBalance: Math.floor(newBalance),
         hidden,
     }
 

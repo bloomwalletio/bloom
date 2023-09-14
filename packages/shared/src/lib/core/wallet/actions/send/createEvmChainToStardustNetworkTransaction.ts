@@ -4,15 +4,16 @@ import { IAccountState } from '@core/account/interfaces'
 import { localize } from '@core/i18n'
 import { buildEvmTransactionData, buildUnwrapAssetParameters } from '@core/layer-2/actions'
 import { FALLBACK_ESTIMATED_GAS, ISC_MAGIC_CONTRACT_ADDRESS } from '@core/layer-2/constants'
-import { ContractType, EvmErrorMessage } from '@core/layer-2/enums'
-import { EvmTransactionData } from '@core/layer-2/types'
+import { AssetType, ContractType, EvmErrorMessage } from '@core/layer-2/enums'
+import { EvmTransactionData, TransferredAsset } from '@core/layer-2/types'
 import { buildAssetAllowance } from '@core/layer-2/utils'
 import { ETHEREUM_COIN_TYPE } from '@core/network/constants'
 import { IChain } from '@core/network/interfaces'
 
 import { SendFlowType } from '../../enums'
 import { SendFlowParameters } from '../../types'
-import { buildTransferredAssetFromSendFlowParameters } from '../../utils'
+import { getAmountAndTokenFromSendFlowParameters } from '../../utils'
+import { TokenStandard } from '@core/token/enums'
 
 export async function createEvmChainToStardustNetworkTransaction(
     sendFlowParameters: SendFlowParameters,
@@ -28,10 +29,10 @@ export async function createEvmChainToStardustNetworkTransaction(
         const { targetAddress, adjustMinimumStorageDeposit, sendMetadata, sendOptions } =
             buildUnwrapAssetParameters(recipientAddress)
 
-        const transferredAsset = buildTransferredAssetFromSendFlowParameters(sendFlowParameters)
-        if (!transferredAsset) {
-            return undefined
-        }
+        const { token, amount } = getAmountAndTokenFromSendFlowParameters(sendFlowParameters)
+        const isBaseCoin = token.standard === TokenStandard.BaseToken
+        const assetType = isBaseCoin ? AssetType.BaseCoin : AssetType.Token
+        const transferredAsset = { type: assetType, token, amount } as TransferredAsset
 
         const assetAllowance = buildAssetAllowance(transferredAsset, FALLBACK_ESTIMATED_GAS[SendFlowType.TokenUnwrap])
         const contract = chain?.getContract(ContractType.IscMagic, ISC_MAGIC_CONTRACT_ADDRESS)
