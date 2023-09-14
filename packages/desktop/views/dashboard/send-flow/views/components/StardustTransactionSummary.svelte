@@ -6,7 +6,14 @@
     import { INft } from '@core/nfts/interfaces'
     import { selectedAccountTokens } from '@core/token/stores'
     import { TimePeriod } from '@core/utils/enums'
-    import { Output, SendFlowParameters, SendFlowType, TokenTransferData, validateTag } from '@core/wallet'
+    import {
+        Output,
+        SendFlowParameters,
+        SendFlowType,
+        TokenTransferData,
+        validateMetadata,
+        validateTag,
+    } from '@core/wallet'
     import { updateSendFlowParameters } from '@core/wallet/stores'
     import { AddInputButton, OptionalInput, TransactionAssetSection } from '@ui'
     import { onMount } from 'svelte'
@@ -17,13 +24,21 @@
     export let isDisabled: boolean = false
 
     function validate(): void {
-        tagInputError = ''
-        try {
-            validateTag(tag)
-            isDisabled = false
-        } catch (err) {
-            tagInputError = err.message
+        tagInputError = returnIfError(validateTag, tag)
+        metadataInputError = returnIfError(validateMetadata, metadata)
+        if (tagInputError || metadataInputError) {
             isDisabled = true
+        } else {
+            isDisabled = false
+        }
+    }
+
+    function returnIfError(validator: (arg: string) => void, arg: string): string {
+        try {
+            validator(arg)
+            return ''
+        } catch (err) {
+            return err.message
         }
     }
 
@@ -40,6 +55,7 @@
 
     let storageDeposit: number
     let tagInputError = ''
+    let metadataInputError = ''
 
     let selectedExpirationPeriod: TimePeriod | undefined = expirationDate ? TimePeriod.Custom : undefined
     let selectedTimelockPeriod: TimePeriod | undefined = timelockDate ? TimePeriod.Custom : undefined
@@ -47,7 +63,7 @@
     $: isTransferring = !!$selectedAccount.isTransferring
     $: updateSendFlowOnChange(expirationDate, timelockDate, giftStorageDeposit, tag, metadata)
     $: storageDeposit = getStorageDepositFromOutput(output)
-    $: tag, validate()
+    $: tag, metadata, validate()
 
     function updateSendFlowOnChange(
         expirationDate: Date,
@@ -62,7 +78,7 @@
             tag !== sendFlowParameters.tag ||
             metadata !== sendFlowParameters.metadata ||
             giftStorageDeposit !== sendFlowParameters.giftStorageDeposit
-        if (hasChanged) {
+        if (hasChanged && !isDisabled) {
             updateSendFlowParameters({
                 type: sendFlowParameters.type,
                 expirationDate,
@@ -157,11 +173,13 @@
         <OptionalInput
             bind:value={tag}
             error={tagInputError}
+            disabled={isTransferring}
             label={localize('general.tag')}
             description={localize('tooltips.optionalInput')}
         />
         <OptionalInput
             bind:value={metadata}
+            error={metadataInputError}
             disabled={isTransferring}
             label={localize('general.metadata')}
             description={localize('tooltips.optionalInput')}

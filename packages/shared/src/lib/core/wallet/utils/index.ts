@@ -15,6 +15,7 @@ export * from './getTokenStandardFromSendFlowParameters'
 export * from './isSubjectInternal'
 export * from './parseGovernanceMetadata'
 export * from './validateIrc30Metadata'
+export * from './validateMetadata'
 export * from './validateTag'
 
 // Folders
