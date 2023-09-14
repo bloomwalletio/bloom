@@ -1,10 +1,10 @@
 <script lang="ts">
     import { Pane } from '@ui'
-    import { AccountNetworkSummary, WalletSummaryBalance } from './components'
+    import { AccountNetworkSummary, AccountSummaryBalance } from './components'
 </script>
 
 <Pane classes="w-full flex flex-row shrink-0 justify-between items-center border border-solid border-gray-100">
-    <WalletSummaryBalance />
+    <AccountSummaryBalance />
     <div class="middle w-full">
         <AccountNetworkSummary />
     </div>
