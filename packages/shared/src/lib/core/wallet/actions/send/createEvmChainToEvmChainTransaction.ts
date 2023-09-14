@@ -31,7 +31,7 @@ export function createEvmChainToEvmChainTransaction(
         throw new Error(localize('error.web3.unableToFindProvider'))
     }
 
-    const { token, amount } = getAmountAndTokenFromSendFlowParameters(sendFlowParameters)
+    let { token, amount } = getAmountAndTokenFromSendFlowParameters(sendFlowParameters)
     if (!token?.metadata) {
         throw new Error(localize('error.token.missingMetadata'))
     }
