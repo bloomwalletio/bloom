@@ -8,7 +8,7 @@
     import { NetworkBadge } from '@ui/badges'
 
     export let token: IToken
-    export let size: 'xxs' | 'xs' | 'sm' = 'sm'
+    export let size: 'xxs' | 'xs' | 'sm' | 'md' = 'sm'
     export let hideNetworkBadge: boolean = false
 
     const AVATAR_BACKGROUND_COLOR: { [networkId: string]: { [tokenId: string]: string } } = {
@@ -54,7 +54,7 @@
 
 <div>
     <Avatar {size} {backgroundColor} {icon} {textColor} text={icon ? undefined : text} />
-    {#if size === 'sm' && !hideNetworkBadge}
+    {#if (size === 'sm' || size === 'md') && !hideNetworkBadge}
         <span class="relative flex justify-center items-center bottom-0 right-0">
             <NetworkBadge size="xxs" networkId={token.networkId} />
         </span>
