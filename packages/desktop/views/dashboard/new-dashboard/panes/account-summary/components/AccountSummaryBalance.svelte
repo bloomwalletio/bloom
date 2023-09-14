@@ -1,12 +1,16 @@
 <script lang="ts">
     import { Button, IconButton, IconName, Text } from '@bloomwalletio/ui'
+    import { SendFlowRouter, sendFlowRouter } from '@views'
     import { IAccountState } from '@core/account'
-    import { getAccountTokensForSelectedAccount } from 'shared/src/lib/core/token/actions'
-    import { marketCoinPrices } from 'shared/src/lib/core/market/stores'
-    import { getActiveNetworkId } from 'shared/src/lib/core/network'
-    import { ITokenWithBalance } from 'shared/src/lib/core/token'
-    import { formatCurrency } from 'shared/src/lib/core/i18n'
-    import { getMarketAmountFromTokenValue } from 'shared/src/lib/core/market/actions'
+    import { getAccountTokensForSelectedAccount } from '@core/token/actions'
+    import { marketCoinPrices } from '@core/market/stores'
+    import { getActiveNetworkId } from '@core/network'
+    import { ITokenWithBalance } from '@core/token'
+    import { formatCurrency } from '@core/i18n'
+    import { getMarketAmountFromTokenValue } from '@core/market/actions'
+    import { resetSendFlowParameters } from '@core/wallet'
+    import { resetLedgerPreparedOutput, resetShowInternalVerificationPopup } from '@core/ledger'
+    import { openPopup, PopupId } from '@desktop/auxiliary/popup'
     import features from '@features/features'
 
     export let account: IAccountState
@@ -19,6 +23,17 @@
         const formattedCurrency = formatCurrency(getMarketAmountFromTokenValue(baseCoin.balance.available, baseCoin))
         const length = formattedCurrency.length
         return [formattedCurrency.slice(0, length - 3), formattedCurrency.slice(length - 3, length)]
+    }
+
+    function onSendClick(): void {
+        resetSendFlowParameters()
+        resetLedgerPreparedOutput()
+        resetShowInternalVerificationPopup()
+        sendFlowRouter.set(new SendFlowRouter(undefined))
+        openPopup({
+            id: PopupId.SendFlow,
+            overflow: true,
+        })
     }
 </script>
 
@@ -34,6 +49,6 @@
         <Text type="h6" size="6xl" align="center" color="gray-500" truncate>{formattedBalance[1]}</Text>
     </account-summary-balance-amount>
     <account-summary-balance-actions class="mt-4 flex flex-row justify-between items-center">
-        <Button text="Send" width="full" size="lg" icon={IconName.Send} />
+        <Button text="Send" width="full" size="lg" icon={IconName.Send} on:click={onSendClick} />
     </account-summary-balance-actions>
 </account-summary-balance>
