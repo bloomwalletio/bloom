@@ -1,7 +1,6 @@
 <script lang="ts">
     import { Pane } from '@ui'
     import { selectedAccount } from '@core/account/stores'
-    import TabSection from './tab-section/TabSection.svelte'
 </script>
 
 {#if $selectedAccount}
@@ -12,9 +11,7 @@
         {#key $selectedAccount?.index}
             <div class="h-full w-full flex flex-col gap-8">
                 <Pane>Balance section</Pane>
-                <Pane classes="flex-grow">
-                    <TabSection />
-                </Pane>
+                <Pane classes="flex-grow">Activity/Token section</Pane>
             </div>
         {/key}
     </wallet-container>
