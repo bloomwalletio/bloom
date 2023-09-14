@@ -1,6 +1,7 @@
 <script lang="ts">
+    import { NavbarContainer } from '@components'
     import { selectedAccount, selectedAccountIndex } from '@core/account/stores'
-    import { Platform } from '@core/app'
+    import { IS_MAC, Platform } from '@core/app'
     import { clearLayer2TokensPoll, pollLayer2Tokens } from '@core/layer-2/actions'
     import {
         addNftsToDownloadQueue,
@@ -15,15 +16,14 @@
     import { Idle } from '@ui'
     import { onDestroy, onMount } from 'svelte'
     import { get } from 'svelte/store'
-    import Sidebar from './Sidebar.svelte'
-    import TopNavigation from './TopNavigation.svelte'
     import Collectibles from './collectibles/Collectibles.svelte'
+    import { Navbar, Sidebar } from './components'
     import { Developer } from './developer'
+    import { DashboardDrawerRouterView } from './drawers'
     import { Governance } from './governance'
+    import { NewDashboard } from './new-dashboard'
     import { Settings } from './settings'
     import { Wallet } from './wallet'
-    import { NewDashboard } from './new-dashboard'
-    import { DashboardDrawerRouterView } from './drawers'
 
     const tabs = {
         wallet: Wallet,
@@ -68,25 +68,25 @@
 </script>
 
 <Idle />
-<div class="dashboard-wrapper flex flex-col w-full h-full">
-    <TopNavigation />
-    <div class="flex flex-row flex-auto h-1">
+<dashboard class="dashboard-wrapper flex flex-row w-full h-full">
+    <div class="flex flex-col flex-none">
+        {#if IS_MAC}
+            <NavbarContainer draggable={IS_MAC} />
+        {/if}
         <Sidebar />
+    </div>
+    <div class="flex flex-col flex-auto">
+        <Navbar />
         <!-- Dashboard Pane -->
-        <div class="flex flex-col h-full dashboard-w">
+        <div class="flex flex-col h-full w-full">
             <svelte:component this={tabs[$dashboardRoute]} on:next={$appRouter.next} />
             <DashboardDrawerRouterView />
         </div>
     </div>
-</div>
+</dashboard>
 
 <style lang="scss">
-    :global(:not(body.platform-win32)) .dashboard-wrapper {
+    :global(:not(body.platform-win32)) dashboard {
         margin-top: calc(env(safe-area-inset-top) / 2);
-    }
-
-    .dashboard-w {
-        --sidebar-width: 4.5rem;
-        width: calc(100vw - var(--sidebar-width));
     }
 </style>

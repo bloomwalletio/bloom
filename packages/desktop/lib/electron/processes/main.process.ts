@@ -178,7 +178,7 @@ export function createMainWindow(): BrowserWindow {
         width: mainWindowState.width,
         height: mainWindowState.height,
         minWidth: 1280,
-        minHeight: 720,
+        minHeight: process.platform !== 'darwin' ? 720 : 720 + 28,
         titleBarStyle: process.platform === 'darwin' ? 'hiddenInset' : 'hidden',
         title: app.name,
         frame: process.platform === 'linux',
@@ -582,7 +582,7 @@ function windowStateKeeper(windowName: string, settingsFilename: string): IAppSt
             x: undefined,
             y: undefined,
             width: 1280,
-            height: 720,
+            height: process.platform === 'darwin' ? 720 : 720 + 28,
         }
     }
 
