@@ -69,7 +69,7 @@
                 <AccountSwitcher />
                 <Icon name={IconName.ChevronRight} size="sm" />
                 <Text size="sm" weight="semibold" color="#1E1B4E">
-                    {localize(`general.${$dashboardRoute}`)}
+                    {localize(`tabs.${$dashboardRoute}`)}
                 </Text>
                 {#if $dashboardRoute === DashboardRoute.Collectibles && $collectiblesRoute !== CollectiblesRoute.Gallery}
                     <Icon name={IconName.ChevronRight} size="sm" />

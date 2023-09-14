@@ -20,7 +20,7 @@
 <button
     type="button"
     on:click={onButtonClick}
-    class="flex flex-row justify-center items-center space-x-2 px-2 pt-0.5 rounded-md cursor-pointer"
+    class="flex flex-row justify-center items-center space-x-2 px-1.5 rounded-md cursor-pointer"
 >
     <Indicator color={$selectedAccount?.color} size="sm" />
     <Text size="sm" weight="semibold" color="#1E1B4E">
