@@ -3,7 +3,7 @@
     import { localize } from '@core/i18n'
     import { setMintTokenDetails, mintTokenDetails, IMintTokenDetails } from '@core/wallet'
     import { closePopup, openPopup, PopupId } from '@desktop/auxiliary/popup'
-    import { Button, Error, NumberInput, Text, TextInput, OptionalInput, FontWeight, AliasInput } from '@ui'
+    import { Button, Error, NumberInput, Text, TextInput, OptionalInput, FontWeight, AliasInput, TextType } from '@ui'
     import { onMount } from 'svelte'
     import { MAX_SUPPORTED_DECIMALS } from '@core/wallet/constants/max-supported-decimals.constants'
     import { handleError } from '@core/error/handlers/handleError'
@@ -34,19 +34,20 @@
         aliasId,
     } = $mintTokenDetails ?? DEFAULT
 
-    let nameError: string = ''
+    let nameError = ''
     $: tokenName, (nameError = '')
-    let totalSupplyError: string
+    let totalSupplyError = ''
     $: totalSupply, (totalSupplyError = '')
-    let circulatingSupplyError: string
+    let circulatingSupplyError = ''
     $: circulatingSupply, (circulatingSupplyError = '')
-    let symbolError: string
+    let symbolError = ''
     $: symbol, (symbolError = '')
-    let aliasIdError: string
+    let aliasIdError = ''
     $: aliasId, (aliasIdError = '')
+    let decimalsError = ''
+    $: decimals, (decimalsError = '')
 
     let error: BaseError
-    let decimalsInput: OptionalInput
     let aliasInput: AliasInput
 
     function onCancelClick(): void {
@@ -93,7 +94,7 @@
                 aliasInput.validate(),
                 isTotalSupplyValid(),
                 isCirculatingSupplyValid(),
-                decimalsInput?.validate(isDecimalsValid()),
+                isDecimalsValid(),
                 isSymbolValid(),
             ])
             return true
@@ -140,21 +141,21 @@
     }
 
     function isDecimalsValid(): Promise<void> {
-        return new Promise((resolve, reject) => {
-            if (decimals === undefined || decimals.toString().length < 1) {
-                reject('Decimals is required')
-            } else if (Number(decimals) < 0) {
-                reject('Decimals must be greater than or equal to 0')
-            } else {
-                resolve()
-            }
-        })
+        if (decimals === undefined || decimals.toString().length < 1) {
+            decimalsError = 'Decimals is required'
+            return Promise.reject(decimalsError)
+        } else if (Number(decimals) < 0) {
+            decimalsError = 'Decimals must be greater than or equal to 0'
+            return Promise.reject(decimalsError)
+        } else {
+            return Promise.resolve()
+        }
     }
 
     function isSymbolValid(): Promise<void> {
         if (!symbol) {
             symbolError = 'Symbol is required'
-            return Promise.reject()
+            return Promise.reject(symbolError)
         } else {
             return Promise.resolve()
         }
@@ -170,7 +171,7 @@
 </script>
 
 <div class="space-y-6">
-    <Text type="h4" fontSize="18" lineHeight="6" fontWeight={FontWeight.semibold}>
+    <Text type={TextType.h4} fontSize="18" lineHeight="6" fontWeight={FontWeight.semibold}>
         {localize('popups.nativeToken.formTitle')}
     </Text>
 
@@ -205,32 +206,32 @@
         />
         <optional-inputs class="flex flex-row flex-wrap gap-4">
             <OptionalInput
-                bind:this={decimalsInput}
                 bind:value={decimals}
                 inputType="number"
                 isInteger
                 maxlength={MAX_SUPPORTED_DECIMALS}
                 label={localize('popups.nativeToken.property.decimals')}
                 description={localize('tooltips.mintNativeToken.decimals')}
-                fontSize="14"
+                error={decimalsError}
+                fontSize={14}
             />
             <OptionalInput
                 bind:value={description}
                 label={localize('popups.nativeToken.property.description')}
                 description={localize('tooltips.mintNativeToken.description')}
-                fontSize="14"
+                fontSize={14}
             />
             <OptionalInput
                 bind:value={url}
                 label={localize('popups.nativeToken.property.url')}
                 description={localize('tooltips.mintNativeToken.url')}
-                fontSize="14"
+                fontSize={14}
             />
             <OptionalInput
                 bind:value={logoUrl}
                 label={localize('popups.nativeToken.property.logoUrl')}
                 description={localize('tooltips.mintNativeToken.logoUrl')}
-                fontSize="14"
+                fontSize={14}
             />
         </optional-inputs>
         {#if error}

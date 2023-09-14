@@ -3,26 +3,13 @@
         "onboarding": {
             "appSetup": {
                 "welcome": {
-                    "title": "Küldje, fogadja és kezelje {network} tokenjeit",
-                    "body": "A Bloom a(z) {network} hivatalos tárcaszoftvere."
+                    "title": "Welcome to"
                 },
                 "legal": {
-                    "title": "Adatvédelmi irányelvek és Felhasználási feltételek",
-                    "body": "Kérjük figyelmesen olvassa el az Adatvédelmi irányelveket és a Felhasználási feltételeket.",
-                    "checkbox": "Elolvastam és elfogadom az Adatvédelmi irányelveket és a Felhasználási feltételeket"
-                },
-                "languageAndAppearance": {
-                    "title": "Nyelv és megjelenés",
-                    "body": "Válassza ki a nyelvet és megjelenést."
+                    "title": "Adatvédelmi irányelvek és Felhasználási feltételek"
                 }
             },
             "networkSetup": {
-                "chooseProtocol": {
-                    "title": "Válasszon protokollt",
-                    "body": "Állítsa be a protokollt a profiljához.",
-                    "iota": "Alapértelmezett IOTA hálózat",
-                    "shimmer": "Kísérleti jellegű átmeneti hálózat az IOTA számára"
-                },
                 "chooseNetwork": {
                     "title": "Válasszon hálózatot",
                     "body": "Állítsa be a hálózatot a profiljához.",
@@ -44,8 +31,7 @@
                     }
                 },
                 "setupCustomNetwork": {
-                    "title": "Csatlakozás egyéni hálózathoz vagy csomóponthoz",
-                    "body": "Töltse ki az űrlapot a csomópontok adataival, és csatlakozzon egy egyéni hálózathoz vagy csomóponthoz."
+                    "title": "Csatlakozás egyéni hálózathoz vagy csomóponthoz"
                 }
             },
             "profileSetup": {
@@ -75,10 +61,6 @@
                     "importLedger": "Ledger eszköz használata",
                     "importLedgerDescription": "Profil helyreállítása Ledger Nano S vagy X eszközről"
                 },
-                "setupClaimed": {
-                    "title": "Shimmer jutalom igénylése",
-                    "body": "Importálja IOTA profilját és igényeljen Shimmer jutalmat."
-                },
                 "enterName": {
                     "title": "{network} profil létrehozása",
                     "profileName": "Profilnév",
@@ -105,12 +87,6 @@
                 }
             },
             "profileBackup": {
-                "backupMnemonic": {
-                    "title": "Készítsen másolatot a helyreállító kódszólistáról",
-                    "body1": "Most meg fogjuk mutatni a tárcája helyreállításához szükséges kódszólistát. Írja le őket a helyreállító lapra.",
-                    "body2": "Ne ossza meg senkivel a helyreállító kódszólistát! Azokkal bárki bárhonnan hozzáférhet a tokenjeihez.",
-                    "body3": "Ha elveszíti a helyreállító kódszólistát, örökre elveszítheti számlájának teljes egyenlegét."
-                },
                 "viewMnemonic": {
                     "title": "Helyreállító kódszólista",
                     "body1": "Írja le a szavakat a helyreállító lapra azok pontos sorrendjében.",
@@ -125,20 +101,12 @@
                     "word": "Szó",
                     "verified": "A helyreállító kódszólista ellenőrizve",
                     "verifiedBody": "Ne feledje mindig biztonságos helyen tárolni."
-                },
-                "backupStronghold": {
-                    "title": "Stronghold biztonsági mentés",
-                    "body1": "Adja meg jelszavát, hogy a profiljáról Stronghold biztonsági mentés készüljön. A biztonsági mentést a jelszavával titkosítjuk.",
-                    "body2": "A digitális biztonsági mentés az alábbiak miatt fontos:",
-                    "reason1": "Egyszerűen helyreállíthatja tárcáit anélkül, hogy beírná a helyreállító kódszólistát",
-                    "reason2": "Könnyen importálhatja tárcáit más eszközökre",
-                    "reason3": "Helyreállíthatja tranzakcióinak előzményeit"
                 }
             },
             "profileRecovery": {
                 "importMnemonicPhrase": {
                     "title": "Adja meg a helyreállító kódszólistát",
-                    "body": "A helyreállító kódszólista 24 kisbetűs, szóközökkel elválasztott szóból áll, amely már meglévő Bloom profilok helyreállítására szolgál.",
+                    "body": "A recovery phrase is 24 words long, all lower case, with spaces between. This is used to recover existing Bloom profiles.",
                     "enter": "Adja meg a titkos helyreállító kódszólistáját",
                     "phraseDetected": "24 szóból álló helyreállító kódszólista észlelve"
                 },
@@ -149,10 +117,6 @@
                 "backupPassword": {
                     "body1": "Kérjük, adja meg a biztonsági mentés titkosításának feloldására szolgáló jelszavát.",
                     "body2": "Ez az a jelszó, amelyet a biztonsági mentés első létrehozásakor adott meg."
-                },
-                "success": {
-                    "title": "Sikeresen helyreállította profilját a biztonsági mentésből",
-                    "body": "Most már elkészítheti új profilját."
                 }
             },
             "shimmerClaiming": {
@@ -169,22 +133,9 @@
             },
             "congratulations": {
                 "title": "A profilbeállítás majdnem kész...",
-                "fundsMigrated": "Egyenleg átköltöztetve",
                 "body": "Az új profilja elkészül, amint az irányítópult betöltődik.",
-                "ledgerHint": "Ne csatlakoztassa le hardver tárcáját amíg az irányítópult be nem töltődik.",
-                "softwareMigratedBody": "Sikeresen átköltöztette tokenjeit az új hálózatra",
-                "fireflyLedgerBody": "A Ledger profilja sikeresen helyreállt és továbbléphet a folyamatban.",
-                "trinityLedgerBody": "Sikeresen átköltöztette Ledger eszközét az új hálózatra.",
-                "exportMigration": "Költöztetési napló exportálása és beállítások véglegesítése"
+                "ledgerHint": "Ne csatlakoztassa le hardver tárcáját amíg az irányítópult be nem töltődik."
             }
-        },
-        "setupLedger": {
-            "progress1": "Ledger csatlakoztatása",
-            "progress2": "Új cím létrehozása",
-            "progress3": "Váltás Ledger alkalmazásra",
-            "progress4": "Utalás kezdeményezése",
-            "watchVideo": "Video útmutató megtekintése",
-            "videoGuide": "Ledger migráció video útmutató"
         },
         "ledgerInstallationGuide": {
             "title": "Feltelepítette a(z) {network} appot a Ledger-eszközére?",
@@ -192,66 +143,20 @@
             "body2": "Győződjön meg, hogy a Ledger firmware a legfrissebb verzióval rendelkezik. Minden előzetesen telepített alkalmazást a legújabb verzióra kell frissíteni.",
             "action": "Igen, telepítettem a(z) {network} appot"
         },
-        "importFromLedger": {
-            "title": "Ledger helyreállítása vagy migrálása",
-            "body": "Létező Bloom Ledger profil helyreállítása vagy tokenek migrálása Trinity-ből.",
-            "haveFireflyLedger": "Bloom Ledger biztonsági mentésem van",
-            "haveFireflyLedgerDescription": "Bloom profil helyreállítása",
-            "haveTrinityLedger": "Trinity Ledger biztonsági mentésem van",
-            "haveTrinityLedgerDescription": "Trinity profil migrálása"
-        },
         "connectLedger": {
-            "title": "Ledger csatlakoztatása Bloom-hoz",
-            "body": "Ahhoz, hogy a Ledger-t megtalálja a Bloom, kérem győződjön meg arról, hogy a Ledger Live applikáció be van zárva.",
+            "title": "Connect your Ledger to Bloom",
+            "body": "For your Ledger device to be found by Bloom, please ensure that the official Ledger Live application is closed.",
             "connect": "Csatlakoztassa hardver tárcáját",
             "unlock": "Nyissa ki hardver tárcáját a PIN-kód megadásával",
-            "openApp": "Nyissa meg a Shimmer applikációt a hardver tárcáján",
-            "tips": "Javaslatok, ha a Ledger nem csatlakozik"
-        },
-        "restoreFromFireflyLedger": {
-            "title": "Ledger profil helyreállítása",
-            "body": "Nyomja meg a helyreállítást a telepítés befejezéséhez valamint tárcái, egyenlegei és tranzakciós előzményei helyreállításához.",
-            "restoring": "Helyreállítás Ledger-ről..."
-        },
-        "legacyLedgerIntro": {
-            "title": "Ledger migráció megkezdése Bloom segítségével",
-            "body1": "A Bloom segít Önnek átmozgatni tokenjeit az új Chrysalis hálózatra.",
-            "body2": "A migrálás után küldhet és fogadhat tokeneket a Bloom-ban, ha a Ledger eszköze csatlakoztatva van.",
-            "readMore": "Mire számíthat a migrálás során"
-        },
-        "generateNewLedgerAddress": {
-            "title": "Új cím létrehozása",
-            "body": "Tokenjeinek migrálásához új címet kell generálnia a Bloom-jal. Kattintson a lenti gombra a folytatáshoz.",
-            "confirmTitle": "Új cím megerősítése",
-            "confirmBody": "Biztonsági okokból kérjük hasonlítsa össze a Ledger eszközén generált címet a lent megjelenítettel. Ha megegyeznek, nyomja meg mindkét gombot a Ledger-en, amikor az kéri.",
-            "confirmedTitle": "Cím megerősítve",
-            "confirmedBody": "Megerősítette, hogy a Bloom-ban megjelenített cím megegyezik a Ledger eszközén lévővel.",
-            "generating": "Új cím létrehozása"
-        },
-        "switchLedgerApps": {
-            "title": "Váltás Ledger alkalmazások között",
-            "body": "Kérem váltson a {legacy} alkalmazásra a Ledger eszközén a migrálás folytatásához. Amikor végzett, kattintson a folytatásra."
-        },
-        "selectLedgerAccountIndex": {
-            "title": "Ledger számla sorszámának kiválasztása",
-            "body": "Válassza ki a Trinity-ben használt Ledger számla sorszámát. A legtöbb esetben ez az alapértelmezett 0 lesz.",
-            "accountIndex": "Számla sorszáma",
-            "accountPage": "Számla oldal",
-            "standard": "Általános",
-            "expert": "Haladó",
-            "takingAWhile": "Ez eltart egy kis ideig...",
-            "notGeneratingAddresses": "A Ledger eszköze képes címeket generálni?",
-            "reinstallLegacy": "Ha nem, csatlakoztassa le az eszközt a számítógépéről majd próbálja újra. Ha a probléma továbbra is fennáll, elképzelhető, hogy újra kell telepítenie a {legacy} alkalmazást."
+            "openApp": "Nyissa meg a Shimmer applikációt a hardver tárcáján"
         },
         "settings": {
             "settings": "Beállítások",
             "general": {
-                "title": "Általános",
-                "description": "Applikáció megjelenésének és általános beállításainak módosítása"
+                "title": "Általános"
             },
             "profile": {
-                "title": "Profil",
-                "description": "Profilnév megváltoztatása és avatar beállítása"
+                "title": "Profil"
             },
             "network": {
                 "title": "Hálózat"
@@ -260,29 +165,20 @@
                 "title": "Gyűjtemények"
             },
             "security": {
-                "title": "Biztonság",
-                "description": "Jelszóváltoztatás és biztonsági beállítások"
+                "title": "Biztonság"
             },
             "advanced": {
-                "title": "Haladó",
-                "description": "Eszközök és beállítások haladó felhasználók számára"
+                "title": "Haladó"
             },
             "helpAndInfo": {
-                "title": "Segítség és egyéb információk",
-                "description": "Gyakran ismételt kérdések és segítség kérés"
-            },
-            "sync": {
-                "title": "Tárcák szinkronizálása",
-                "description": ""
+                "title": "Segítség és egyéb információk"
             },
             "theme": {
                 "title": "Megjelenés",
-                "description": "",
-                "advice": "Ha megváltoztatja a megjelenést, lehetséges, hogy újra kell indítania a Bloom-t"
+                "advice": "If you change your system theme, you may need to restart Bloom to see the effects"
             },
             "language": {
-                "title": "Nyelv",
-                "description": ""
+                "title": "Nyelv"
             },
             "currency": {
                 "title": "Pénznem",
@@ -334,7 +230,7 @@
             },
             "changeProfileName": {
                 "title": "Profilnév megváltoztatása",
-                "description": "A Bloom profil nevének megváltoztatása",
+                "description": "Change your Bloom profile name",
                 "success": "A profilnév megváltoztatása sikeres"
             },
             "walletFinder": {
@@ -351,7 +247,7 @@
             },
             "deepLinks": {
                 "title": "Mélyhivatkozások",
-                "description": "Egy {appProtocol}:// karakterlánccal kezdődő mélyhivatkozásra történő kattintáskor automatikusan töltse ki a tranzakciós adatokat a Bloom-ban"
+                "description": "Automatically fill transaction data in Bloom upon clicking a deep link starting with {appProtocol}://"
             },
             "networkInformation": {
                 "title": "Hálózati információk",
@@ -364,13 +260,10 @@
                 "excludeNode": "Csomópont mellőzése",
                 "includeNode": "Csomópont használata",
                 "editDetails": "Részletek szerkesztése",
-                "viewInfo": "Információk megjelenítése",
                 "setAsPrimary": "Beállítás elsődleges csomópontként",
                 "unsetAsPrimary": "Elsődleges csomópont törlése",
                 "removeNode": "Csomópont eltávolítása",
-                "includeOfficialNodeList": "Hivatalos csomópont lista használata",
-                "noNodes": "Nincs csomópont, a hálózathoz nem lehet csatlakozni",
-                "noNodesAuto": "Nincs csomópont, automatikus csomópont kiválasztás engedélyezve"
+                "noNodes": "Nincs csomópont, a hálózathoz nem lehet csatlakozni"
             },
             "localProofOfWork": {
                 "title": "Munkabizonyíték",
@@ -382,17 +275,13 @@
             },
             "crashReporting": {
                 "title": "Hibajelentések",
-                "body": "Segítse a Bloom szoftver fejlesztését azzal, hogy automatikus diagnosztikai adatokat küld hiba vagy szoftverösszeomlás esetén",
+                "body": "Help the developers improve Bloom by automatically sending diagnostic data when an error or crash occurs",
                 "checkbox": "Hibajelentések küldése",
-                "advice": "Kérjük indítsa újra a Bloom-t a {sendCrashReports, select, true {hibajelentések küldésének bekapcsolásához} false {hibajelentések küldésének kikapcsolásához} other {módosítás végrehajtásához}}"
+                "advice": "Please restart the Bloom application to {sendCrashReports, select, true {start sharing crash reports} false {stop sharing crash reports} other {apply this change}}"
             },
             "diagnostics": {
                 "title": "Diagnosztika",
                 "description": "Rendszer- és alkalmazásinformációk megtekintése"
-            },
-            "migrateLedgerIndex": {
-                "title": "Ledger számlasorszám migrálása",
-                "description": "Másik Trinity számlasorszám migrálása"
             },
             "troubleshoot": {
                 "title": "Hibaelhárítás",
@@ -404,7 +293,6 @@
             },
             "faq": {
                 "title": "GYIK",
-                "title2": "Gyakran Ismételt Kérdések",
                 "description": "Nézze meg a gyakran ismételt kérdéseket a gyakran előforduló problémák megoldásához"
             },
             "discord": {
@@ -412,8 +300,7 @@
                 "description": "Kérjen segítséget az IOTA közösségtől Discord-on"
             },
             "about": {
-                "title": "Névjegy",
-                "description": ""
+                "title": "Névjegy"
             },
             "reportAnIssue": {
                 "title": "Probléma jelentése",
@@ -448,14 +335,10 @@
                 "degraded": "Hálózati problémák",
                 "down": "Nincs hálózati kapcsolat",
                 "disconnected": "Nincs csatlakozva csomóponthoz",
-                "status": "Állapot",
-                "messagesPerSecond": "Üzenet / másodperc",
-                "referencedRate": "Hivatkozási arány"
+                "status": "Állapot"
             },
             "profileModal": {
-                "contactBook": "Contact book",
                 "allSettings": "Összes beállítás",
-                "profileApplication": "Profil, applikáció, biztonság",
                 "logout": "Kijelentkezés",
                 "stronghold": {
                     "title": "Profilzár",
@@ -468,9 +351,7 @@
                         "appNotOpen": "Hardver tárca nyitva, de az applikáció nem fut",
                         "correctAppOpen": "Hardver tárca nyitva és az applikáció fut",
                         "locked": "Hardver tárca biztonságos bezárva",
-                        "mnemonicMismatch": "Rossz Ledger eszköz vagy helyreállító kódszólista",
-                        "notConnected": "Hardver tárca nincs csatlakoztatva",
-                        "otherConnected": "Alkalmazás megnyitva"
+                        "notConnected": "Hardver tárca nincs csatlakoztatva"
                     }
                 },
                 "backup": {
@@ -520,7 +401,7 @@
                     "connectLedgerDevice": {
                         "title": "Csatlakoztassa Ledger-eszközét",
                         "header": "Nyissa meg az Ethereum appot",
-                        "body": "Ahhoz, hogy Ledger-eszközét a Bloom megtalálja, kérjük, győződjön meg arról, hogy a hivatalos Ledger Live alkalmazás be van-e zárva, mielőtt a következő lépéseket megtenné.",
+                        "body": "For your Ledger device to be found by Bloom, please ensure that the official Ledger Live application is closed before following these steps.",
                         "requirements": {
                             "connect": "Csatlakoztassa és oldja fel a Ledger-eszközét",
                             "openApp": "Nyissa meg az Ethereum appot a Ledger-eszközén"
@@ -559,8 +440,7 @@
                         "title": "Add network address"
                     },
                     "editNetworkAddresses": {
-                        "title": "Edit network addresses",
-                        "addAddress": "Add Address"
+                        "title": "Edit network addresses"
                     },
                     "removeNetworkAddresses": {
                         "title": "Remove network addresses",
@@ -586,57 +466,6 @@
                 }
             }
         },
-        "staking": {
-            "welcome": "Üdvözöljük a staking irányítópulton!",
-            "status": {
-                "upcoming": "Nincs még esemény",
-                "commencing": "Előzetes staking megnyitva",
-                "holdingActive": "Staking folyamatban",
-                "holdingInactive": "Staking esemény megnyitva",
-                "inactive": "Staking nem található",
-                "ended": "Staking vége"
-            },
-            "summary": {
-                "stakedFunds": "Letétbe helyezett összeg"
-            },
-            "info": {
-                "headers": {
-                    "upcoming": "Próbálkozzon később",
-                    "commencing": "Előzetes letétbe helyezés elérhető",
-                    "holding": "{duration} maradt hátra a staking eseményből",
-                    "ended": "A staking véget ért",
-                    "inactive": "Nincs staking esemény"
-                },
-                "bodies": {
-                    "upcoming": "Helyezze letétbe {token} tokenjeit, hogy 10 másodpercenként jutalmat kapjon, amint a staking elkezdődik ({date}).",
-                    "commencing": "Helyezze letétbe {token} tokenjeit, hogy 10 másodpercenként jutalmat kapjon, amint a staking elkezdődik ({date}).",
-                    "holdingAndStaking": "10 másodpercenként jutalmat fog kapni.",
-                    "holdingAndNotStaking": "Helyezze letétbe {token} tokenjeit, hogy 10 másodpercenként jutalmat kapjon.",
-                    "endedAndDidStake": "{token} jutalmát a tárcájába fogjuk küldeni a hálózat indulásakor.",
-                    "endedAndDidNotStake": "Nem vett részt ezen a staking eseményen.",
-                    "endedAndDidNotReachMinRewards": "Nem helyezett letétbe elegendő {token} tokent, hogy a minimálisan jóváírható jutalmat megkapja.",
-                    "inactive": "Nyissa meg a Hálózati beállítást a Haladó beállításokban és győződjön meg róla, hogy a “részvétel” funkciót támogatja a csomópont az “Információk megjelenítésére” kattintva."
-                }
-            },
-            "airdrops": {
-                "holding": "Fennmaradó idő",
-                "commencing": "Amíg a staking elkezdődik",
-                "currentStakingPeriod": "Jelenlegi staking időszak",
-                "totalWalletRewards": "Összes jutalom",
-                "assembly": {
-                    "name": "Assembly",
-                    "description": "Az Assembly egy jogosultságok nélkül használható, nagy mértékben skálázható többláncú hálózat, amely okos szerződések létrehozásához és életbe léptetésére használható. Az Assembly a web3 jövője. "
-                },
-                "shimmer": {
-                    "name": "Shimmer",
-                    "description": "A Shimmer az IOTA ösztönzőkkel ellátott teszt hálózata, ahova a jövőbeli nagy fejlesztések először kerülnek fel. A Shimmer további fejlődésének kulcsa a felhasználók kezében van."
-                }
-            },
-            "banners": {
-                "new": "Új esemény",
-                "complete": "Véget ért"
-            }
-        },
         "picker": {
             "color": {
                 "title": "Színválasztó",
@@ -652,7 +481,6 @@
             },
             "details": {
                 "storageDepositDescription": "Visszatéríthető letéti díj az NFT Tangle-ben történő tárolásához.",
-                "attributes": "Tulajdonságok",
                 "menu": {
                     "download": "Letöltés",
                     "setPfp": "NFT-profilkép beállítása",
@@ -730,10 +558,10 @@
     "popups": {
         "enableLedgerBlindSigning": {
             "title": "Vak aláírás engedélyezése",
-            "info": "A tranzakció jóváhagyásához engédelyeznie kell a vak aláírást hardver tárcáján.",
-            "step_1": "Csatlakoztassa majd nyissa ki hardver tárcáját",
-            "step_2": "Nyissa meg a Shimmer applikációt",
-            "step_3": "Nyomja meg a jobb gombot a Beállítások kiválasztásához, majd nyomja meg mindkét gombot egyszerre a jóváhagyáshoz. A hardver eszközén ekkor megjelenik a vak aláírás.",
+            "info": "In order to confirm this transaction you need to enable Blind Signing on your Ledger device.",
+            "step_1": "Connect and unlock your Ledger device",
+            "step_2": "Open the {appName} application",
+            "step_3": "Press the right button to navigate to Settings, then press both buttons to validate. Your Ledger device displays Blind Signing.",
             "step_4": "Nyomja meg mindkét gombot a tranzakciók vak aláírásának engedélyezéséhez. A hardver tárcán ekkor megjelenik: Engedélyezve."
         },
         "balanceBreakdown": {
@@ -805,9 +633,6 @@
             "subtitle": "Kérjük, adja meg jelszavát a tárcái feloldásához",
             "backup": "Adja meg jelszavát a biztonsági mentés készítéséhez"
         },
-        "qr": {
-            "title": "QR-kód"
-        },
         "appUpdate": {
             "title": "Frissítések keresése",
             "installedVersion": "Telepített verzió",
@@ -837,33 +662,14 @@
             "title": "{name} törölhető?",
             "body": "Biztosan törölni szeretné ezt a tárcát?",
             "hint": "Megjegyzés: ha egyszer törölte a tárcát, a beállítások között található \"Tárcakereső\" segítségével visszaállíthatja azt.",
-            "typePassword": "Adja meg tárcájának jelszavát a törléshez.",
-            "hideAccount": "Tárca törlése",
-            "errorTitle": "{name} nem törölhető",
-            "errorBody1": "Nem tudja törölni ezt a tárcát, legalább eggyel rendelkeznie kell."
+            "typePassword": "Adja meg tárcájának jelszavát a törléshez."
         },
         "externalUrl": {
             "title": "URL megnyitása böngészőben",
             "body": "Biztosan meg akarja nyitni a \"{url}\" oldalt a böngészőben?",
-            "hint": "Ez az URL a Bloom számára ismeretlen. Kérjük győződjön meg az URL helyességéről mielőtt megnyitja azt.",
+            "hint": "This URL is unknown to Bloom. Please double check the URL before opening it.",
             "action": "URL megnyitása",
             "invalidProtocol": "Az URL hibás protokollt tartalmaz"
-        },
-        "hideAccount": {
-            "title": "{name} elrejthető?",
-            "body": "A tárcát később megtalálja a haladó beállításokban lévő \"Rejtett tárcák megjelenítése\" engedélyezésével.",
-            "typePassword": "Írja be tárcája jelszavát a megerősítéshez.",
-            "hideAccount": "Tárca elrejtése",
-            "errorTitle": "{name} számla nem rejthető el",
-            "errorBody1": "Tárcája addig nem rejthető el, amíg egyenlege nem nulla.",
-            "errorBody2": "{balance} összeg van a tárcájában. Kérjük, küldje át ezt az összeget egy másik tárcájába, majd próbálja újra.",
-            "errorBody3": "Nem tudja elrejteni ezt a tárcát, legalább eggyel rendelkeznie kell."
-        },
-        "addressHistory": {
-            "title": "{name} korábban használt címei",
-            "currentBalance": "Egyenleg: {balance}",
-            "internal": "Privát cím",
-            "external": "Publikus cím"
         },
         "excludeNode": {
             "title": "Csomópont mellőzése",
@@ -878,7 +684,6 @@
             "titleUpdate": "Csomópont frissítése",
             "titleRemove": "Csomópont eltávolítása",
             "titleRemoveAll": "Összes csomópont eltávolítása",
-            "titleDetails": "Csomópont adatai",
             "titleInfo": "Csomópont adatok",
             "addingNode": "Csomópont hozzáadása",
             "updatingNode": "Csomópont frissítése",
@@ -887,7 +692,6 @@
             "optionalUsername": "Felhasználónév (nem kötelező)",
             "optionalPassword": "Jelszó (nem kötelező)",
             "optionalJwt": "JSON web token (opcionális)",
-            "setAsPrimaryNode": "Beállítás elsődleges csomópontként",
             "removeConfirmation": "Biztos el kívánja távolítani ezt a csomópontot?",
             "info": {
                 "general": {
@@ -895,8 +699,6 @@
                     "name": "Név",
                     "url": "URL",
                     "version": "Verzió",
-                    "latestMilestone": "Legújabb mérföldkő",
-                    "confirmedMilestone": "Megerősített mérföldkő",
                     "pruningIndex": "Legkisebb törölhető index",
                     "features": "Funkciók"
                 },
@@ -927,13 +729,6 @@
                 }
             }
         },
-        "switchNetwork": {
-            "title": "Hálózat váltása",
-            "newNetwork": "Új hálózat",
-            "resetWarning": "A hálózat váltásakor a rendszer kilépteti és az ehhez a profilhoz tartozó összes tárcáját, egyenlegét és tranzakciós történetét törli.",
-            "switchingNetwork": "Hálózat váltása",
-            "typePassword": "Adja meg jelszavát a hálózat váltáshoz:"
-        },
         "errorLog": {
             "title": "Hibanapló",
             "empty": "A hibanapló üres."
@@ -955,15 +750,11 @@
             "userPath": "Felhasználói útvonal"
         },
         "transaction": {
-            "title": "Pénzügyi eszköz küldése",
-            "body": "{amount} küldése",
             "selectToken": "Válasszon ki egy tokent",
             "selectAmount": "{tokenName} küldése",
             "selectRecipient": "{assetName} küldése a következő részére:",
             "transactionSummary": "Tranzakció {recipient} részére",
-            "surplusIncluded": "Ez a tranzakció többlet összeget tartalmaz. Kérjük ellenőrizze, hogy valóban ezt az összeget szeretné elküldeni.",
-            "sendingFromStakedAccount": "Olyan tárcából kíván küldeni, amely jelenleg letétbe van helyezve. Ez azzal járhat, hogy a továbbiakban tokenjei nem lesznek letétbe helyezve. A tranzakciót nyugodtan végrehajthatja, de a fennmaradó összeget valószínűleg újra letétbe kell majd helyeznie.",
-            "sendingFromStakedAccountBelowMinReward": "Egy olyan tárcából készül küldeni, amely nem érte még el a jóváírható jutalom minimális értékét. Ha mégis kiveszi a letétbe helyezett tokeneket, lehetséges, hogy ezzel a tárcával egyáltalán nem fog kapni jutalmat."
+            "surplusIncluded": "Ez a tranzakció többlet összeget tartalmaz. Kérjük ellenőrizze, hogy valóban ezt az összeget szeretné elküldeni."
         },
         "walletFinder": {
             "title": "Tárcakereső",
@@ -973,32 +764,12 @@
             "totalWalletBalance": "Összesített egyenleg",
             "searchAgainHint": "Helytelen az egyenlege vagy tárcáinak száma? Keressen újból, amíg a helyes egyenlege meg nem jelenik."
         },
-        "riskFunds": {
-            "title": "Figyelem: egyenlege veszélyben van a migráció során",
-            "body1": "Feltétlenül javasoljuk, hogy valamennyi címén lévő egyenlegét biztosítsa, mielőtt elkezdi a migrációt. Ennek hiányában fennáll a veszélye, hogy egyenlegét ellopják.",
-            "body2": "Javasoljuk, hogy futtassa újra a folyamatot azokra a címekre, ahol a kockázati szint közepes vagy annál magasabb."
-        },
-        "missingBundle": {
-            "title": "Figyelem: egyenlege veszélyben van a migráció során",
-            "body": "Az egyenlege, vagy annak egy része olyan cím(ek)en található, amely(ek)ről korábban már költött, de a biztosításukhoz nincs elegendő információ. Ez akkor fordulhat elő, ha már nagyon régen költött ezekről a címekről. Folytathatja, de vegye tudomásul, hogy {value} esetében fennáll a veszélye, hogy a migráció közben ellopják.",
-            "learnMore": "Tudjon meg többet a címekről, amelyekről korábban már költött",
-            "proceed": "Megértettem a kockázatokat"
-        },
-        "snapshot": {
-            "title": "Hálózat frissítése folyamatban",
-            "body": "A Chrysalis hálózatra történő frissítés elkezdődött.",
-            "bodyMigration": "A migráció átmenetileg nem lehetséges, amíg a frissítés be nem fejeződik.",
-            "bodyFirefly": "A Bloom átmenetileg nem használható, amíg a hálózatfrissítés be nem fejeződik. A tokenek migrálására a frissítés után is lesz lehetőség."
-        },
         "ledgerNotConnected": {
             "title": "Hardver tárca csatlakoztatása",
             "notConnected": "A folytatáshoz csatlakoztassa hardver tárcáját.",
             "locked": "A folytatáshoz nyissa ki hardver tárcáját.",
             "appNotOpen": "A folytatáshoz nyissa meg a Shimmer appot a Ledger-eszközén.",
             "correctAppOpen": "Hardver tárca csatlakoztatva, kérjük folytassa."
-        },
-        "ledgerConfirmation": {
-            "confirm": "A folytatáshoz kövesse a megjelenített utasításokat a Ledger eszközén"
         },
         "ledgerAppGuide": {
             "title": "Útmutató a(z) {legacy} app telepítéséhez",
@@ -1007,7 +778,7 @@
                 "1": "Győződjön meg, hogy a Ledger csatlakoztatva van",
                 "2": "{legacy} app keresése. Előfordulhat, hogy engedélyeznie kell a Ledger Live fejlesztői módját.",
                 "3": "Telepítse a(z) {legacy} appot",
-                "4": "Fontos, hogy zárja be a Ledger Live alkalmazást mielőtt visszatér a Bloom-hoz"
+                "4": "Remember that it's important to close Ledger Live before returning to Bloom"
             }
         },
         "ledgerConnectionGuide": {
@@ -1031,59 +802,9 @@
             "info": "Kérjük hagyja jóvá a tárcán belüli tranzakciót a hardver tárcán.",
             "hint": "Minden token a tárcájában marad a tárcán belüli tranzakció végrehajtása során."
         },
-        "ledgerAddress": {
-            "title": "Fogadó cím megerősítése",
-            "body": "Hasonlítsa össze a Ledger eszközén megjelenített fogadó címet a lent megjelenítettel. Ha megegyeznek, nyomja meg mindkét gombot a Ledger-en, amikor az kéri."
-        },
-        "ledgerMigrateIndex": {
-            "title": "Szeretne egy másik Trinity számlasorszámot migrálni?",
-            "body": "Később a haladó beállításokban is indíthat migrálást."
-        },
-        "exportTransactionHistory": {
-            "title": "Korábbi tranzakciók exportálása",
-            "body": "Exportálja a kiválasztott tárcához tartozó korábbi tranzakciókat. Az exportált fájl formátuma .csv.",
-            "profileName": "Profil neve:",
-            "accountName": "Tárca neve:",
-            "typePassword": "Adja meg jelszavát az exportálás engedélyezéséhez"
-        },
-        "stakingManager": {
-            "title": "Letétek kezelése",
-            "description": "Egy tárca letétbe helyezésével saját magának küld egy tranzakciót, melyben jelzi, hogy a tokenjeivel részt kíván venni a staking eseményen. A tokenjeit bármikor elköltheti, de ebben az esetben a továbbiakban nem kap staking jutalmat.",
-            "totalFundsStaked": "Teljes letétbe helyezett összeg",
-            "stakedSuccessfully": "A(z) {account} számlán lévő tokenjei letétbe lettek helyezve.",
-            "unstakedSuccessfully": "A(z) {account} számlán lévő tokenjei ki lettek véve a letétből.",
-            "singleAccountHint": "A tárcáit keresi? A Bloom megváltozott. A tárcák közötti váltáshoz használja a felső menüsort."
-        },
-        "stakingConfirmation": {
-            "title": "Részvétel megerősítése",
-            "subtitleStake": "Letétbe helyezés megerősítése",
-            "subtitleMerge": "Összevonást kezdeményezett",
-            "multiAirdropWarning": "Ha nem kíván mindkét jutalomban részesülni, alább kiszállhat. Később bármikor kiveheti a letétből, majd újra visszahelyezheti.",
-            "mergeStakeWarning": "A tokenjei részt vesznek a(z) {airdrop} jutalommal járó staking eseményen. Ha szeretné később megváltoztatni, hogy melyik jutalomban részesüljön, akkor vegye ki a letétből tárcáját, majd újra helyezze letétbe.",
-            "estimatedAirdrop": "Becsült jutalmak"
-        },
-        "newStakingPeriodNotification": {
-            "title": "{periodNumber}. staking fázis ({date})",
-            "body": "Az IOTA staking ASMB token jutalomért folytatódik. Vegyen részt a {periodNumber}. fázisban 90 napig.",
-            "info": "A Shimmer staking véget ért. Csak ASMB tokeneket fog jutalmul kapni."
-        },
-        "shimmer-info": {
-            "title": "Shimmerről",
-            "body1": "Gratulálunk! A staking eseményen SMR tokeneket kapott jutalmul. A Shimmer egy ösztönzőkkel ellátott teszt hálózat az IOTA hálózat nagyobb fejlesztéseinek kipróbálásához.",
-            "body2": "A Shimmer hálózatot várhatóan 2022-ben fogjuk elindítani. A hálózat indulásakor fogja tudni az SMR tokenjeit felhasználni."
-        },
-        "assembly-info": {
-            "title": "Az Assembly-ről",
-            "body1": "Gratulálunk! A staking eseményen ASMB tokeneket kapott jutalmul. Az Assembly egy többláncú hálózat, mely okos szerződések létrehozásához és életbe léptetésére használható az IOTA hálózat felett.",
-            "body2": "Az Assembly hálózatot várhatóan 2022-ben fogjuk elindítani. A hálózat indulásakor fogja tudni az SMR tokenjeit felhasználni."
-        },
-        "confirmDeveloperProfile": {
-            "title": "Egy fejlesztői profilt hoz létre",
-            "body": "Alapértelmezetten a Chrysalis fejlesztői hálózatra csatlakozik és kézzel válthat a hálózatok között. Csak akkor folytassa, ha pontosan tudja mit csinál."
-        },
         "crashReporting": {
             "title": "Hibajelentés",
-            "body": "Segítse a Bloom szoftver fejlesztését azzal, hogy automatikus diagnosztikai adatokat küld hiba vagy szoftverösszeomlás esetén. A beállítás csak a Bloom újraindítása után lép életbe.",
+            "body": "Help the developers improve Bloom by automatically sending diagnostic data when an error or crash occurs. If selected, this will take effect after restarting Bloom.",
             "checkbox": "Hibajelentések küldése az IOTA Foundation-nek"
         },
         "signMessage": {
@@ -1184,47 +905,27 @@
         "legalUpdate": {
             "tosTitle": "Szolgáltatási feltételek",
             "privPolicyTitle": "Adatvédelmi irányelvek",
-            "tosAndPrivPolicyBody": "Módosítottuk a Bloom Felhasználási feltételeit és Adatvédelmi irányelveit.",
-            "tosBody": "Módosítottuk a Bloom Felhasználási feltételeit.",
-            "privPolicyBody": "Módosítottuk a Bloom Adatvédelmi irányelveit.",
+            "tosAndPrivPolicyBody": "We have updated Bloom's Terms of Service and Privacy Policy.",
+            "tosBody": "We have updated Bloom's Terms of Service.",
+            "privPolicyBody": "We have updated Bloom's Privacy Policy.",
             "tosAndPrivPolicyCheckbox": "Elolvastam és elfogadom a Szolgáltatási feltételeket és az Adatvédelmi irányelveket",
             "tosCheckbox": "Elolvastam és elfogadom a Szolgáltatási feltételeket",
             "privPolicyCheckbox": "Elolvastam és elfogadom az Adatvédelmi irányelveket"
         },
-        "singleAccountGuide": {
-            "title": "A Bloom használata megváltozott",
-            "body": "Az egyes tabok tartalma mostantól egyetlen tárcára vonatkozik. A tárcák között bármikor válthat a felső menüsorban.",
-            "hint": "Nem találja tárcáját? Használja az Egyenlegkeresőt a beállítások között a korábban használt tárcák megtalálásához."
-        },
-        "transactionDetails": {
-            "title": "Tranzakció részletei",
-            "giftedStorageDeposit": {
-                "tooltipTitle": "Ajándék letéti díja",
-                "tooltipDescription": "Címzett által megtartott összeg"
-            }
-        },
-        "sendForm": {
-            "title": "Pénzeszközök küldése"
+        "giftedStorageDeposit": {
+            "tooltipTitle": "Gift storage deposit",
+            "tooltipDescription": "Amount kept by the recipient"
         },
         "tokenInformation": {
-            "newTokenTitle": "Új token",
             "verificationWarning": "Ez a token nincs ellenőrizve. Hasonlítsa össze a token metaadatokat a kibocsátó hivatalos megoldalán lévőkkel. Csak a megbízható tokeneket jelölje meg ellenőrzőttként.",
             "tokenMetadata": {
                 "standard": "Szabvány",
-                "name": "Név",
                 "tokenId": "Token azonosító",
                 "url": "URL",
                 "description": "Description"
             },
             "buttons": {
                 "verifyToken": "Megjelölöm ellenőrzöttként"
-            }
-        },
-        "sendNft": {
-            "formTitle": "NFT küldése",
-            "confirmationTitle": "NFT küldés megerősítése",
-            "property": {
-                "nft": "NFT"
             }
         },
         "nativeToken": {
@@ -1237,10 +938,7 @@
                 "meltedTokens": "Melted tokens",
                 "circulatingSupply": "Circulating supply",
                 "aliasAddress": "Alias controller address",
-                "standard": "Standard",
                 "tokenName": "Name",
-                "unit": "Unit",
-                "subunit": "Subunit",
                 "storageDeposit": "Storage Deposit",
                 "description": "Description",
                 "symbol": "Symbol",
@@ -1255,7 +953,6 @@
         "importErc20Token": {
             "title": "ERC20 token importálása",
             "property": {
-                "chainId": "Lánc AZ",
                 "tokenAddress": "Token címe"
             },
             "success": "Importált {tokenSymbol} token",
@@ -1331,19 +1028,6 @@
             "body": "This node requires additional authentication. Please fill in the appropriate information."
         }
     },
-    "charts": {
-        "incomingMi": "Fogadott: {value}",
-        "outgoingMi": "Küldött: {value}",
-        "portoflio": "Portfólió",
-        "token": "Token",
-        "holdings": "Befektetések",
-        "accountValue": "Tárca egyenleg",
-        "accountActivity": "Tárca előzmények",
-        "timeframe1Hour": "1 óra",
-        "timeframe1Day": "1 nap",
-        "timeframe1Week": "1 hét",
-        "timeframe1Month": "1 hónap"
-    },
     "actions": {
         "apply": "Végrehajtás",
         "continue": "Tovább",
@@ -1351,9 +1035,7 @@
         "previous": "Vissza",
         "next": "Következő",
         "cancel": "Mégse",
-        "connect": "Connect",
         "close": "Bezár",
-        "dismiss": "Elvet",
         "claim": "Igénylés",
         "claiming": "Igénylés folyamatban",
         "claimingRewards": "Jutalmak igénylése",
@@ -1372,9 +1054,7 @@
             "description": "Are you sure you want to burn this NFT?",
             "hint": "Please note that burning an NFT frees the storage deposit attached to it and is not reversible."
         },
-        "proceedAnyway": "Tovább mindenképp",
         "save": "Mentés",
-        "importSeed": "Meglévő seed importálása",
         "restoreWallet": {
             "iota": "Tárca átköltöztetése vagy helyreállítása",
             "shimmer": "Shimmer-profil helyreállítása",
@@ -1397,32 +1077,19 @@
         "claimShimmerDescription": "IOTA profil importálása és Shimmer jutalom igénylése",
         "createAlias": "Create alias",
         "createAliasDescription": "Create alias output",
-        "savePassword": "Jelszó mentése",
-        "useBiometric": "Biometrikus azonosítás használata",
-        "setupPinCode": "PIN-kód beállítása",
         "setPin": "PIN beállítása",
-        "setPinCode": "Állítsa be a PIN-kódot",
         "confirmPin": "Erősítse meg a PIN-t",
-        "confirmPinCode": "Erősítse meg a PIN-kódot",
         "enterYourPin": "Adja meg a PIN-kódját",
-        "saveBackupFile": "Biztonsági mentés készítése",
-        "iveWrittenRecoveryPhrase": "Leírtam a helyreállító kódszólistát",
-        "verifyRecoveryPhrase": "Helyreállító kódszólista ellenőrzése",
-        "revealRecoveryPhrase": "Helyreállító kódszólista megjelenítése",
-        "checkAgain": "Ellenőrizze újra",
-        "importFromFile": "Importálás fájlból",
         "send": "Küldés",
         "receive": "Fogadás",
         "create": "Létrehozás",
         "updateAndContinue": "Frissítés és folytatás",
-        "beginTransfer": "Tranzakció indítása",
         "tryAgain": "Újrapróbálkozás",
         "visitDiscord": "Discord meglátogatása",
         "dragDrop": "Fájl behúzása",
-        "importExtentions": ".kdbx vagy .stronghold file",
+        "importExtentions": ".stronghold file",
         "chooseFile": "Válasszon egy fájlt",
         "dropHere": "Húzza ide a fájlt",
-        "syncAll": "Minden szinkronizálása",
         "import": "Importálás",
         "importing": "Importálás",
         "export": "Exportálás",
@@ -1434,15 +1101,14 @@
         "exportTransactionHistory": "Tranzakciós előzmények exportálása",
         "localProofOfWork": "Számítás elvégzése helyben",
         "unlock": "Felold",
-        "updateFirefly": "Bloom frissítése",
+        "updateBloom": "Update Bloom",
         "restart": "Restart",
         "refresh": "Frissítés",
-        "saveBackup": "Mentés Stronghold-ba",
+        "saveBackup": "Save backup",
         "customizeAcount": "Tárca testre szabása",
         "hideAccount": "Tárca elrejtése",
         "showAccount": "Tárca megjelenítése",
         "deleteAccount": "Tárca törlése",
-        "max": "Maximum",
         "addNode": "Csomópont hozzáadása",
         "addingNode": "Csomópont hozzáadása folyamatban",
         "addOfficialNodes": "Hivatalos csomópontok hozzáadása",
@@ -1464,9 +1130,7 @@
         "addAccount": "Tárca hozzáadása",
         "checkForUpdates": "Frissítések keresése",
         "reportAnIssue": "Hiba jelentése",
-        "restore": "Helyreállítás",
         "clear": "Törlés",
-        "hideDetails": "Részletek elrejtése",
         "yes": "Igen",
         "no": "Nem",
         "skip": "Kihagyás",
@@ -1477,35 +1141,18 @@
         "readDocumentation": "Dokumentáció elolvasása",
         "visitFaq": "GYIK megtekintése",
         "viewDownloads": "Letöltések megtekintése",
-        "viewStatus": "Állapot megtekintése",
         "viewBalanceBreakdown": "Egyenleg részletezésének megtekintése",
         "showHiddenAccounts": "Rejtett tárcák megjelenítése",
         "confirm": "Megerősít",
         "hideNetworkStatistics": "Hálózati statisztika elrejtése",
         "findWallets": "Tárcák keresése",
-        "useBalanceFinder": "Egyenleg keresése",
         "search": "Keresés",
         "searching": "Keresés folyamatban",
         "searchAgain": "Keresés újra",
-        "closeFirefly": "Bloom bezárása",
         "generateAddress": "Új cím generálása",
-        "migrateAgain": "Másik számlasorszám migrálása",
-        "visitWebsite": "Weboldal megnyitása",
-        "howItWorks": "Hogy működik",
-        "learnAboutStaking": "Tudjon meg többet a staking eseményről",
-        "stake": "Letétbe helyezés",
-        "unstake": "Letétből kivétel",
-        "stakeFunds": "Összeg letétbe helyezése",
-        "manageStake": "Letét kezelés",
-        "merge": "Összevonás",
-        "mergeFunds": "Egyenlegek összevonása",
-        "done": "Kész",
-        "okIUnderstand": "Rendben, értem",
-        "readMore": "Bővebben",
         "searchForRewards": "Jutalmak keresése",
         "claimRewards": "Jutalmak igénylése",
         "rerunClaimProcess": "Igénylési folyamat újbóli lefuttatása",
-        "addPublicNote": "Nyilvános megjegyzés hozzáadása",
         "backup": "Biztonsági mentés",
         "mint": "Kibocsátás",
         "mintNativeToken": "Natív token kibocsátása",
@@ -1520,11 +1167,8 @@
         "refreshTokenMetadata": "Token metaadatok frissítése",
         "test": "Teszt",
         "testDeepLink": "Mélyhivatkozás tesztelése",
-        "initialize": "Előkészítés",
-        "initializing": "Előkészítés folyamatban",
         "delete": "Törlés",
         "remove": "Remove",
-        "addReference": "Add reference",
         "depositNft": "Deposit NFTs",
         "vote": "Vote",
         "addProposal": "Add proposal",
@@ -1543,9 +1187,6 @@
         "currentPassword": "Jelenlegi jelszó",
         "newPassword": "Új jelszó",
         "confirmNewPassword": "Új jelszó megerősítése",
-        "yourSeed": "Az Ön seed-je",
-        "recoveryPhrase": "Helyreállító kódszólista",
-        "recentActivity": "Legutóbbi tevékenységek",
         "sent": "Elküldött",
         "sending": "Küldés...",
         "received": "Fogadott",
@@ -1564,16 +1205,8 @@
         "revoting": "Átdolgozás folyamatban",
         "unvoted": "Nem szavazott",
         "unvoting": "Szavazás felfüggesztés",
-        "sentNft": "NFT sent",
-        "sendingNft": "Sending NFT",
-        "receivedNft": "NFT received",
-        "receivingNft": "Receiving NFT",
         "transfer": "Átutalás",
         "transferring": "Átutalás folyamatban",
-        "transferNft": "Transfer NFT",
-        "transferringNft": "Transferring NFT",
-        "mintedNft": "Minted NFT",
-        "mintingNft": "Minting NFT",
         "shimmerClaimed": "Igényelve",
         "shimmerClaiming": "Igénylés folyamatban",
         "shimmerGenesis": "Shimmer genezis",
@@ -1587,44 +1220,23 @@
         "consolidating": "Consolidating outputs",
         "aliasCreated": "Alias created",
         "creatingAlias": "Creating Alias",
-        "sendPayment": "Átutalás",
-        "moveFunds": "Küldés saját számlák közt",
         "sendTo": "Küldés",
         "sendAssets": "Send assets",
         "sendAssetToAddress": "Send asset to an address",
-        "sendToAddress": "Küldés a következő címre",
-        "sendToken": "Send token",
-        "sendNft": "Send NFT",
-        "sendNftToAddress": "Send NFT to an address",
-        "scanQrOrPaste": "QR-kód beolvasása vagy cím beillesztése",
-        "moveFundsBetweenAccounts": "Egyenleg átvezetése tárcák között",
         "manageAccount": "Tárca kezelése",
         "customizeAcount": "Tárca testre szabása",
         "account": "Tárca",
-        "sendingToAddress": "Címre utalás",
         "amount": "Összeg",
         "addAddress": "Cím hozzáadása",
-        "reference": "Hivatkozás",
-        "from": "Feladó",
         "to": "Címzett",
         "and": "és",
         "receiveFunds": "Pénzeszközök fogadása",
         "address": "Számlacím",
         "addressName": "Address name",
         "myAddress": "Címem",
-        "myNetworkAddress": "Saját {networkName}-címem",
-        "shareAddress": "Cím megosztása",
-        "yourAddress": "Az Ön címe",
-        "newRemainder": "Új maradvány",
-        "remainder": "Maradvány",
-        "generateNewAddress": "Új cím létrehozása",
-        "copyToClipboard": "Másolás vágólapra",
-        "copyAddress": "Cím másolása",
         "viewOnExplorer": "Megtekintés Explorerben",
         "import": "Importálás",
         "stronghold": "Stronghold",
-        "language": "Nyelv",
-        "appearance": "Megjelenés",
         "lightTheme": "Világos",
         "darkTheme": "Sötét",
         "systemTheme": "Rendszer",
@@ -1634,37 +1246,19 @@
         "all": "Összes",
         "incoming": "Bejövő",
         "outgoing": "Kimenő",
-        "totalIn": "Összes beérkező",
-        "totalOut": "Összes kimenő",
-        "accounts": "Tárcák",
-        "myAccounts": "Tárcáim",
-        "profiles": "Profilok",
         "dev": "Fejlesztő",
-        "createAccount": "Tárca létrehozása",
         "addAWallet": "Tárca hozzáadása",
         "accountName": "Tárca neve",
-        "latestTransactions": "Legutóbbi tranzakciók",
-        "transactions": "Tranzakciók",
         "activity": "Tevékenység",
         "security": "Biztonság",
-        "accountAddress": "Tárca címei",
         "network": "Hálózat",
         "networkSelection": "Network selection",
         "destinationNetwork": "Destination network",
         "nodes": "Csomópontok",
         "wallet": "Tárca",
         "help": "Segítség",
-        "you": "Ön",
-        "messageId": "Üzenetazonosító",
-        "inputAddress": "Küldő cím",
-        "receiveAddress": "Fogadó cím",
-        "newAddress": "Új cím",
-        "date": "Dátum",
-        "status": "Állapot",
         "confirmed": "Megerősítve",
         "pending": "Függőben lévő",
-        "noAccounts": "Még nincsen tárcája, kérjük hozzon létre egyet.",
-        "loadingAccounts": "Betöltés folyamatban. Kérjük, várjon...",
         "addProfile": "Profil hozzáadása",
         "noRecentHistory": "Nincsenek előzmények",
         "noFilteredActivity": "Nincs a szűrőfeltételeknek megfelelő tevékenység",
@@ -1672,31 +1266,12 @@
         "noFilteredAsset": "Nincs a szűrőfeltételeknek megfelelő token",
         "thisMonth": "Aktuális hónap",
         "search": "Keresés",
-        "firstSync": "Tranzakciós lista szinkronizálása folyamatban. Ez eltarthat egy ideig...",
-        "transferSyncing": "Tárca szinkronizálása",
-        "transferSelectingInputs": "Bemenetek kiválasztása",
-        "transferRemainderAddress": "Cím létrehozása a fennmaradó egyenleg számára",
-        "transferPreparedTransaction": "Tranzakció előkészítése",
-        "transferSigning": "Tranzakció hitelesítése",
-        "transferPow": "Kiszabott munka elvégzése folyamatban",
-        "transferBroadcasting": "Tranzakció elküldése",
-        "transferComplete": "Utalás végrehajtva",
-        "generatingReceiveAddress": "Fogadó cím létrehozása",
-        "broadcasting": "Tranzakció elküldése",
-        "confirming": "Megerősítés alatt",
-        "creatingAccount": "Tárca létrehozása folyamatban. Kérjük, várjon...",
-        "updatingAccount": "Tárca frissítése folyamatban. Kérjük, várjon...",
-        "accountSyncing": "Tárca szinkronizása folyamatban",
-        "accountSyncComplete": "Tárca szinkronizálva",
         "passwordUpdating": "Jelszó frissítése...",
         "passwordSuccess": "A jelszó sikeresen frissítve",
         "passwordFailed": "A jelszó frissítése sikertelen",
-        "syncing": "Szinkronizálás folyamatban",
-        "syncingAccounts": "Tárcák szinkronizálása...",
         "exportingStronghold": "Stronghold exportálása...",
         "exportingStrongholdSuccess": "Stronghold sikeresen exportálva",
         "exportingStrongholdFailed": "Stronghold exportálása sikertelen",
-        "pinCodeUpdating": "PIN-kód frissítése...",
         "pinCodeSuccess": "A PIN-kód sikeresen frissítve",
         "pinCodeFailed": "A PIN-kód frissítése sikertelen",
         "passwordStrength": "Jelszó erőssége",
@@ -1706,52 +1281,28 @@
         "passwordStrength3": "Átlagos",
         "passwordStrength4": "Erős",
         "creatingProfile": "Profil létrehozása folyamatban, kérjük várjon...",
-        "fundMigration": "Egyenleg migrálása",
-        "accountRemoved": "Rejtett tárcából nem tud küldeni. Állítsa be előbb a rejtett tárcák megjelenítését.",
         "fromAddress": "{account}-tól/-től",
         "toAddress": "{account} részére",
-        "stakedFor": "{account} számla összege lekötve",
-        "unstakedFor": "{account} számlalekötés feltörve",
-        "votedFor": "{account} számlán szavazat leadva",
-        "unvotedFor": "{account} számlán szavazat visszavonva",
-        "stakingTransaction": "Staking tranzakció",
-        "unstakingTransaction": "Staking visszavonás tranzakció",
-        "legacyNetwork": "Régi hálózat",
         "capsLock": "A nagybetűzár be van kapcsolva",
         "version": "{version} verzió",
-        "yourWallets": "Tárcák",
         "unknown": "Ismeretlen",
         "unknownAddress": "Ismeretlen cím",
         "none": "Nincs",
-        "staked": "Letétbe helyezve",
-        "unstaked": "Letétből kivéve",
-        "staking": "Staking",
-        "unstaking": "Letétből kivétel folyamatban",
-        "notStaked": "Nincs letétben",
-        "stakedFunds": "Letétbe helyezett összeg",
-        "unstakedFunds": "Letétben nem lévő összeg",
         "accountColor": "Tárcaszín",
         "transactionTime": "Tranzakció időpontja",
-        "surplus": "Többlet",
         "storageDeposit": "Letéti díj",
         "transactionFee": "Transaction fee",
-        "giftedStorageDeposit": "Ajándékba kapott letéti díj",
         "storageDepositPerNft": "Letéti díj NFT-nként",
         "totalStorageDeposit": "Összes letéti díj",
         "expirationTime": "Lejárati idő",
         "timelockDate": "Időzár",
         "claimedTime": "Igénylés ideje:",
-        "nftAddress": "NFT Address",
         "nftId": "NFT ID",
-        "nftMetadata": "NFT Metadata",
         "aliasId": "Alias ID",
         "governorAddress": "Governor Address",
         "stateControllerAddress": "State Controller Address",
         "copiedToClipboard": "Vágólapra másolva",
-        "total": "Összes egyenleg: {balance}",
         "availableBalanceWithValue": "Elérhető egyenleg: {balance}",
-        "availableBalance": "Elérhető egyenleg",
-        "availableBalanceTooltip": "Egy token teljes egyenlege mínusz a letétekhez szükséges díjak összege (pl. folyamatban levő tranzakciókhoz zárolt összegek, natív tokenekhez vagy NFT-khez fenntartott összegek).",
         "amountClaimed": "{amount} igényelve",
         "metadata": "Metaadatok",
         "amountConsolidatedInputs": "Consolidated outputs",
@@ -1768,15 +1319,13 @@
         "faucetRequestDescription": "Token igénylése a {network} hálózaton",
         "refreshTokenMetadataDescription": "Alaphelyzetbe állítás és az összes token metaadat frissítése",
         "refreshTokenMetadataHint": "Ez alaphelyzetbe állítja az összes tokenjének metaadatát, beleértve az ellenőrzés állapotát és bármely rejtett pénzeszközt.",
-        "giftStorageDeposit": "Letéti díj ajándékozása",
         "excluded": "Mellőzve",
         "developerTools": "Fejlesztői eszközök",
-        "testDeepLinkDescription": "Bloom-nak küldött mélyhivatkozás kipróbálása",
+        "testDeepLinkDescription": "Firefly-nak küldött mélyhivatkozás kipróbálása",
         "url": "URL",
         "hash": "Ellenőrző összeg",
         "creating": "Létrehozás",
         "updating": "Frissítés",
-        "enterAddress": "Enter address",
         "transaction": "Transaction",
         "alias": "Alias",
         "foundry": "Foundry",
@@ -1800,22 +1349,16 @@
         "description": "Description",
         "attributes": "Attributes",
         "details": "Details",
-        "availableAmount": "{amount} available",
         "properties": "Properties",
         "statistics": "Statistics",
-        "username": "Username",
-        "jwt": "JSON web token",
         "internalTransaction": "Internal transaction",
         "coinType": "Érme típusa",
         "custom": "Egyéni",
         "evmAddress": "EVM-cím",
-        "chain": "Lánc",
         "importErc20Token": "ERC20 token importálása",
         "optionalField": "{field} (optional)",
         "gifted": "Gifted",
-        "copied": "Copied",
         "connected": "Connected",
-        "disconnected": "Disconnected",
         "estimatedFee": "Estimated fee",
         "maxFees": "Max fees"
     },
@@ -1941,25 +1484,13 @@
         "year": "{time, plural, one {# év} other {# év}}"
     },
     "notifications": {
-        "valueTx": "{{value}} érkezik a(z) {{account}} számlájára",
-        "confirmed": "{{value}} sikeresen elküldve a(z) {{account}} számlájáról",
-        "confirmedInternal": "{{value}} a {{senderAccount}} számláról a {{receiverAccount}} számlára megérkezett",
-        "confirmedInternalNoAccounts": "{{value}} számlák közötti egyenlegátvezetés sikeres",
-        "failed": "{{value}} elküldése a(z) {{account}} számlájáról sikertelen",
         "downloadingUpdate": "Frissítések letöltése folyamatban...",
         "updateReady": "A frissítés készen áll",
         "updateError": "Hiba történt a frissítés közben. Kérjük, próbálja újra!",
         "copiedToClipboard": "A vágólapra másolva",
-        "accountsSynchronized": "Tárca szinkronizálva",
-        "fundsAvailableSoon": "Egyenlege hamarosan elérhető lesz",
-        "exportTransactionHistory": {
-            "success": "A(z) {accountAlias} számla korábbi tranzakciói a {filePath} fájlba sikeresen elmentve",
-            "error": "A(z) {accountAlias} számla korábbi tranzakcióinak mentése sikertelen"
-        },
         "newDappConnected": "Connected to new dApp",
         "deepLinkingRequest": {
             "receivedWhileLoggedOut": "Kérjük, jelentkezzen be a mélyhivatkozás érvényesítéséhez",
-            "notEnabled": "A mélyhivatkozások nincsenek engedélyezve",
             "invalidFormat": "A megadott mélyhivatkozás érvénytelen",
             "invalidAmount": "The amount in deep link is not an integer number {amount}",
             "invalidSurplus": "A mélyhivatkozásban szereplő többlet összeg nem egy szám: {surplus}",
@@ -1968,22 +1499,15 @@
                 "unrecognizedOperation": "Unrecognized Governance operation: {operation}"
             },
             "wallet": {
-                "send": {
-                    "success": "Fizetés részletei a mélyhivatkozás alapján kitöltve"
-                },
                 "unrecognizedOperation": "Ismeretlen tárca művelet: {operation}"
             }
         },
-        "syncing": "Kérjük várja meg a szinkronizáció befejeződését mielőtt másik tárcára vált.",
-        "transferring": "Kérjük várja meg az összes tranzakció befejeződését mielőtt másik tárcára vált.",
-        "participating": "A tárcák közti váltás előtt kérjük várja meg az összes lekötés-/szavazás-tranzakció befejeződését.",
         "claimed": {
             "success": "Igénylési tranzakció sikeres",
             "error": "Igénylési tranzakció meghiúsult"
         },
         "hideActivity": {
-            "success": "Aktivitás rejtve",
-            "error": "Tevékenység rejtése sikertelen"
+            "success": "Aktivitás rejtve"
         },
         "faucetRequest": {
             "success": "A tokenigénylési kérelem elküldve"
@@ -2008,7 +1532,6 @@
             "wrongProtocolForClaiming": "IOTA-alapú Stronghold biztonsági mentés szükséges a Shimmer jutalom beváltásához"
         },
         "findShimmerRewards": {
-            "success": "Shimmer jutalom sikeresen beváltva",
             "error": "Hiba történt a jutalom keresése közben"
         },
         "claimShimmerRewards": {
@@ -2032,11 +1555,7 @@
         "profile": {
             "length": "A profil neve nem lehet {length, plural, one {# karakternél} other {# karakternél}} hosszabb.",
             "duplicate": "Már létezik ilyen nevű profil.",
-            "delete": {
-                "nonEmptyAccounts": "A profilt csak akkor tudja törölni, ha a teljes egyenlegét átutalta egy másik számlára."
-            },
-            "type": "Nem sikerült a profil típusát meghatározni",
-            "setupType": "Nem sikerült a profilbeállítás típusát meghatározni"
+            "type": "Nem sikerült a profil típusát meghatározni"
         },
         "password": {
             "doNotMatch": "A jelszavak nem egyeznek.",
@@ -2059,33 +1578,25 @@
         "pincode": {
             "length": "A PIN-kódnak {length, plural, one {# számjegyűnek} other {# számjegyűnek}} kell lennie.",
             "match": "A megadott PIN-kódok nem egyeznek meg.",
-            "incorrect": "Jelenlegi PIN-kódja helytelen.",
-            "invalid": "Érvénytelen PIN-kód."
+            "incorrect": "Jelenlegi PIN-kódja helytelen."
         },
         "address": {
             "wrongAddressType": "Wrong address type",
             "invalidBech32Format": "Invalid Bech32 format",
             "belongsToAccount": "Cannot belong to any of your accounts",
-            "hexFormat": "Invalid hexadecimal format",
             "checksum": "Address checksum is invalid"
         },
         "account": {
-            "addressNotFound": "The address cannot be found in your account.",
             "length": "A tárca neve nem lehet {length, plural, one {# karakternél} other {# karakternél}} hosszabb.",
             "emptyName": "A profilnévnek legalább 1 karakterből kell állnia.",
-            "notEmpty": "A tárca törlése előtt a teljes egyenlegét át kell küldenie egy másik tárcába.",
             "duplicate": "Már létezik ilyen nevű tárca.",
             "tilde": "A profilnév nem kezdődhet “~” karakterrel.",
             "control": "A profilnév csak nyomtatható karaktereket tartalmazhat.",
             "startDot": "A profilnév nem kezdődhet “.” karakterrel.",
             "chars": "A profilnévben nem fordulhatnak elő a következő karakterek: <>:”/\\|?*",
-            "index": "A számla sorszáma 0 és 2,147,483,647 közötti szám kell legyen.",
-            "page": "A számla oldal 0 és 2,147,483,647 közötti szám kell legyen.",
-            "syncing": "Hiba történt a tárcák szinkronizálása közben.",
             "cannotRemove": "A tárca törlése nem lehetséges.",
             "withBalance": "Ezt a tárcát csak akkor tudja törölni, ha a teljes egyenlegét átutalta egy másik számlára.",
             "notLast": "Csak a legutóbbi tárcája törölhető.",
-            "notFound": "Számla nem található",
             "cannotGetBoundAccount": "Kapcsolt számla nem található"
         },
         "send": {
@@ -2106,12 +1617,7 @@
             "insufficientFundsGasFee": "Insufficient funds to cover the gas fee.",
             "insufficientFundsStorageDeposit": "Nincs elegendő egyenlege a letéti díj fedezetéhez.",
             "ongoingTransaction": "Ha folyamatban lévő tranzakciói vannak, kérjük, várja meg azok véglegesítését.",
-            "cannotClaimTwice": "A jutalmat már korábban igényelte",
-            "noToAccount": "Nem választotta ki melyik tárcájába szeretne küldeni.",
-            "sendingDust": "1 Mi-nél kevesebbet nem lehet elküldeni.",
-            "leavingDust": "Minimum 1 Mi-nek maradnia kell a számláján.",
             "cancelled": "A tranzakció megszakítva.",
-            "transaction": "Hiba történt a tranzakció küldésekor. Kérem próbálja újra.",
             "invalidExpirationDateTime": "A kiválasztott lejárati dátum/idő érvénytelen.",
             "invalidTimelockDateTime": "The chosen timelock date/time is invalid.",
             "noInputs": "No inputs found.",
@@ -2119,9 +1625,6 @@
             "missingTransactionId": "Hiányzó tranzakcióazonosító",
             "missingTransactionProgressEventPayload": "Hiányzó tranzakció előrehaladást jelző üzenettartalom",
             "recipientRequired": "Recipient is required",
-            "nftRequired": "NFT is required",
-            "nftNotInHex": "NFT address has to be in HEX format",
-            "nftNotInPossession": "NFT not in possession",
             "reservedTagKeyword": "Nem használható fenntartott tag kulcsszó",
             "invalidSendParameters": "Invalid send parameters.",
             "unableToGetOriginAddress": "Unable to get the origin address."
@@ -2132,17 +1635,12 @@
         "node": {
             "invalid": "Kérjük, adjon meg egy érvényes URL címet!",
             "dns": "Unable to find DNS resolution for node",
-            "timedOut": "A kapcsolat időtúllépés miatt megszakadt.",
-            "refused": "A kapcsolat felépítését visszautasították.",
             "handshake": "A kézfogás nem sikerült a csomóponttal.",
             "invalidCertificate": "Érvénytelen tanúsítvány miatt a csatlakozás sikertelen.",
             "https": "HTTPS kapcsolat használata kötelező. Biztonsági okokból a HTTP kapcsolat használata jelenleg nem támogatott.",
             "duplicate": "Ez a csomópont már korábban hozzá lett adva.",
             "noSyncedNode": "Nincs elérhető szinkronizált csomópont.",
             "timeNotSynced": "Az eszköz órája nem megfelelően jár, nem sikerült a csomóponttal szinkronizálni.",
-            "answer": "Nem minden csomóponttól érkezett válasz.",
-            "forbidden": "Ezzel a csomóponttal tiltott a kapcsolatfelépítés.",
-            "pluginNotAvailable": "A “{nodePlugin}” kiegészítést a jelenlegi csomópont nem támogatja.",
             "unabledToConnect": "Nem sikerült kapcsolódni a csomóponthoz",
             "differentNetwork": "A csomópont egy eltérő hálózaton található",
             "duplicateNodes": "Ugyanaz a csomópont nem adható hozzá még egyszer",
@@ -2150,20 +1648,15 @@
         },
         "network": {
             "mismatch": "A csomópont hálózati azonosítója \"{networkId}\", amely nem egyezik a jelenleg használt hálózattal.",
-            "notReachable": "A csomóponthoz nem sikerült a hálózati azonosítót lekérdezni, emiatt a csomópont hozzadása nem lehetséges.",
-            "badNodes": "A jelenlegi csomópont beállításokkal nem lehetséges a hálózathoz csatlakozni.",
-            "nonEmptyAccount": "A hálózatok közötti váltás előtt a teljes egyenlegét át kell utalnia."
+            "notReachable": "A csomóponthoz nem sikerült a hálózati azonosítót lekérdezni, emiatt a csomópont hozzadása nem lehetséges."
         },
         "global": {
             "generic": "Valami hiba történt."
         },
         "backup": {
-            "invalid": "A biztonsági mentés fájl formátuma ismeretlen.",
+            "invalid": "The backup file was not recognized.",
             "destination": "A biztonsági mentés elérési útvonala érvénytelen.",
-            "mnemonic": "Érvénytelen jelszóemlékeztető.",
             "migrationRequired": "Stronghold-átköltöztetés szükséges.",
-            "seedTooShort": "A seed-nek 81 karakter hosszúnak kell lennie, de a megadott seed csak {length, plural, one {#} other {#}} karakter hosszú",
-            "seedCharacters": "A seed csak A-Z vagy 9 karaktereket tartalmazhat",
             "phraseWordCount": "24 helyett csak {length, plural, one {#} other {#}} helyreállító kódszót adott meg.",
             "phraseUnrecognizedWord": "Ismeretlen szó \"{word}\" található a helyreállító kódszólistában",
             "phraseCaseWord": "A “{word}” szó csak kisbetűkből állhat",
@@ -2171,7 +1664,6 @@
             "unableToRestoreForProfileManager": "Nem sikerült a Stronghold biztonsági mentést helyreállítani a profil menedzserhez"
         },
         "ledger": {
-            "appNotOpen": "Nyissa meg az új IOTA alkalmazást Ledger eszközén.",
             "generic": "Hiba történt a Ledger eszközéhez való csatlakozáskor.",
             "legacyConnected": "Nem megfelelő alkalmazás van megnyitva a Ledger eszközén.",
             "locked": "Kérem oldja fel Ledger eszközét a PIN-kóddal.",
@@ -2188,20 +1680,9 @@
         "popup": {
             "preventClose": "A felugró ablakot nem lehet bezárni."
         },
-        "migration": {
-            "missingBundle": "Hiba történt a tranzakciós csomag keresése közben."
-        },
         "crypto": {
             "cannotDecodeBech32": "A megadott karakterlánc nem értelmezhető Bech32 címként."
         },
-        "participation": {
-            "cannotUseAccount": "A megadott számlát nem lehet használni.",
-            "cannotFindStakingEvent": "A staking esemény nem található.",
-            "cannotVisitAirdropWebsite": "A(z) {airdrop} weboldal nem elérhető.",
-            "invalidStakingEventId": "Hibás staking esemény azonosító."
-        },
-        "invalidDate": "Helytelen dátum",
-        "invalidTime": "Helytelen idő",
         "shimmerClaiming": {
             "missingProfileManager": "Nem található Shimmer-igénylő profilmenedzser",
             "cannotInitialiseAccount": "Nem sikerült létrehozni Shimmer-igénylő fiókot",
@@ -2272,7 +1753,6 @@
         "input": {
             "invalid": "{field} input is invalid",
             "required": "{field} is required",
-            "unique": "{field} must be unique",
             "alreadyUsed": "{field} is already being used",
             "tooLong": "{field} must be {numCharacters} or less characters"
         },
@@ -2292,50 +1772,11 @@
     "warning": {
         "transaction": {
             "invalidDateTime": "The chosen date must be in the future."
-        },
-        "node": {
-            "http": "A csomópontok HTTP kapcsolaton történő elérése a titkosítatlan adatforgalom miatt biztonsági kockázattal jár."
-        },
-        "participation": {
-            "noFunds": "Nincs egyetlen IOTA tokenje sem."
         }
     },
     "tooltips": {
-        "risk": {
-            "title": "Kockázati szint: {risk}",
-            "veryHigh": "Nagyon magas",
-            "high": "Magas",
-            "medium": "Közepes",
-            "low": "Alacsony",
-            "veryLow": "Nagyon alacsony"
-        },
-        "partiallyStakedFunds": {
-            "title": "Új letétbe nem helyezett összeg: {amount}",
-            "titleNoFunds": "Új letétbe nem helyezett összeg",
-            "preBody": "Letétbe nem helyezett tokenjei vannak.",
-            "body": "Az újonnan érkezett tokeneket kézzel letétbe kell helyeznie, hogy jutalmat kapjon értük."
-        },
-        "stakingMinRewards": {
-            "title": "Várható jutalom minimumérték alatt",
-            "titleMinBalance": "Legalább {amount} összeg szükséges",
-            "bodyMinBalance": "A tárcában nincs elegendő IOTA token, hogy a minimum jóváírható jutalmat megkapja, ezért a staking eseményen nem tud részt venni.",
-            "continue": "Kérjük még további {duration} ideig vegyen részt a staking eseményen.",
-            "bodyBelowMin": "Ez a tárca nem érte el a minimálisan jóváírható {airdrop} jutalmat ({airdropRewardMin}).",
-            "bodyWillReachMin": "Még legalább {duration} ideig részt kell vennie a staking eseményen a minimálisan jóváírható jutalomhoz.",
-            "bodyWillNotReachMin": "Nem fogja elérni a minimálisan jóváírható jutalmat a staking esemény végéig, hacsak nem helyez letétbe még több IOTA tokent.",
-            "bodyDidNotReachMin": "Nem helyezett letétbe elegendő IOTA tokent ahhoz, hogy elérje a minimálisan jóváírható {airdrop} jutalmat ({airdropRewardMin}).",
-            "bodyMinBalanceAirdrop": "A tárcában nincs elegendő IOTA token ahhoz, hogy a minimálisan jóváírható {airdrop} jutalmat megkapja."
-        },
         "optionalInput": "Ez az adat opcionális, és a token explorer-ben mindenki által látható lesz.",
         "transactionDetails": {
-            "minting": {
-                "storageDeposit": "A refundable token deposit needed to store your transaction on the Tangle.",
-                "giftedStorageDeposit": "The storage deposit for this transaction was gifted to you. You do not need to refund the deposit.",
-                "expirationTime": "Claim these funds before the expiration time or they will be returned to the sender.",
-                "timelockDate": "The sender set a timelock on these funds. You will be able to spend them once the timelock expires.",
-                "metadata": "An optional data field for storing data persistently on the Tangle.",
-                "tag": "A short optional data field. Tagging groups of transactions can make them easier to search for."
-            },
             "incoming": {
                 "storageDeposit": "Visszatéríthető token letéti díj a tranzakció Tangle-ben történő tárolásához.",
                 "giftedStorageDeposit": "A letéti díjat ajándékba kapta. A letéti díjat nem szükséges visszaigényelnie.",
@@ -2353,12 +1794,8 @@
                 "tag": "Rövid opcionális adatmező. Tranzakciók egy csoportjának felcímkézése segíthet könnyebben megtalálni őket."
             },
             "nftMetadata": {
-                "standard": "The NFT standard e.g. IRC27.",
                 "type": "The MimeType of the NFT. e.g. image/png.",
-                "collectionId": "UTXO string of the collection NFT that minted this NFT",
-                "royalties": "An object containing key-value pairs of addresses that map to payout percentages",
-                "issuerName": "The name of the creator",
-                "attributes": "An array of traits and values that define attributes of the NFT"
+                "issuerName": "The name of the creator"
             }
         },
         "mintNativeToken": {
@@ -2368,7 +1805,6 @@
             "logoUrl": "IRC30 optional parameter: URL pointing to an image resource of the token logo."
         },
         "mintNftForm": {
-            "collectionId": "Optional parameter: UTXO string of the collection NFT that minted this NFT",
             "collectionName": "Optional parameter: The collection's name",
             "royalties": "Optional parameter: An object containing key-value pairs of addresses that map to payout percentages",
             "issuerName": "Optional parameter: The name of the creator",
@@ -2396,44 +1832,14 @@
             "text": "Compare the token metadata against the relevant team’s official website. Only verify tokens that you trust."
         }
     },
-    "exports": {
-        "transactionHistoryCsv": {
-            "messageId": "Üzenetazonosító",
-            "internal": "Privát",
-            "rawValue": "Nyers adat",
-            "formattedValue": "Formázott adat",
-            "date": "Dátum",
-            "time": "Idő"
-        }
-    },
-    "indicators": {
-        "developerProfileIndicator": {
-            "warningText": "Jelenleg a fejlesztői profilt használja és a {networkName} hálózatra van csatlakozva"
-        },
-        "networkIndicator": {
-            "warningText": "A hálózat teljesítménye leromlott. Az üzenet megerősítése a megszokottnál tovább tarthat."
-        }
-    },
-    "permissions": {
-        "camera": {
-            "request": "Az Ön engedélye szükséges ahhoz, hogy a kamerát a QR kódok olvasásához használni tudja.",
-            "requestInAppSettings": "Ha szeretné engedélyezni a kamerával a QR kódok olvasását, azt az applikáció beallításainál megteheti."
-        }
-    },
     "tabs": {
         "wallet": "Tárca",
         "collectibles": "Collectibles",
         "governance": "Kormányzás",
         "developer": "Fejlesztő",
-        "tokens": "Tokenek",
-        "activity": "Előzmények"
+        "tokens": "Tokenek"
     },
     "pills": {
-        "migrate": {
-            "Pending": "költöztetés ide:",
-            "Confirmed": "átköltöztetés ide:",
-            "Conflicting": "átköltözetés sikertelen"
-        },
         "asyncStatus": {
             "unclaimed": "nincs igényelve",
             "claimed": "igényelve",
@@ -2455,9 +1861,7 @@
             "degraded": "Csökkent",
             "operational": "Működő",
             "disconnected": "Kapcsolat bontva"
-        },
-        "locked": "lezárva",
-        "smartContract": "smart contract"
+        }
     },
     "menus": {
         "dateTimePicker": {

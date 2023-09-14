@@ -5,7 +5,7 @@
         LedgerAppName,
         LedgerConnectionState,
         determineLedgerConnectionState,
-        ledgerNanoStatus,
+        ledgerDeviceState,
     } from '@core/ledger'
     import { isFunction } from '@core/utils'
     import { closePopup } from '@desktop/auxiliary/popup'
@@ -15,7 +15,7 @@
     export let onCancel: () => void
     export let onContinue: () => void
 
-    $: ledgerConnectionState = determineLedgerConnectionState($ledgerNanoStatus, ledgerAppName)
+    $: ledgerConnectionState = determineLedgerConnectionState($ledgerDeviceState, ledgerAppName)
 
     $: isNotConnected = ledgerConnectionState === LedgerConnectionState.NotConnected
     $: isLocked = ledgerConnectionState === LedgerConnectionState.Locked

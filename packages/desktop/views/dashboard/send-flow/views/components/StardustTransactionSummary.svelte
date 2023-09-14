@@ -6,7 +6,7 @@
     import { INft } from '@core/nfts/interfaces'
     import { selectedAccountTokens } from '@core/token/stores'
     import { TimePeriod } from '@core/utils/enums'
-    import { Output, SendFlowParameters, SendFlowType, TokenTransferData } from '@core/wallet'
+    import { Output, SendFlowParameters, SendFlowType, TokenTransferData, validateTag } from '@core/wallet'
     import { updateSendFlowParameters } from '@core/wallet/stores'
     import { AddInputButton, OptionalInput, TransactionAssetSection } from '@ui'
     import { onMount } from 'svelte'
@@ -14,6 +14,18 @@
 
     export let output: Output
     export let sendFlowParameters: SendFlowParameters
+    export let isDisabled: boolean = false
+
+    function validate(): void {
+        tagInputError = ''
+        try {
+            validateTag(tag)
+            isDisabled = false
+        } catch (err) {
+            tagInputError = err.message
+            isDisabled = true
+        }
+    }
 
     let {
         expirationDate,
@@ -27,8 +39,7 @@
     } = sendFlowParameters
 
     let storageDeposit: number
-    let tagInput: OptionalInput
-    let metadataInput: OptionalInput
+    let tagInputError = ''
 
     let selectedExpirationPeriod: TimePeriod | undefined = expirationDate ? TimePeriod.Custom : undefined
     let selectedTimelockPeriod: TimePeriod | undefined = timelockDate ? TimePeriod.Custom : undefined
@@ -36,6 +47,7 @@
     $: isTransferring = !!$selectedAccount.isTransferring
     $: updateSendFlowOnChange(expirationDate, timelockDate, giftStorageDeposit, tag, metadata)
     $: storageDeposit = getStorageDepositFromOutput(output)
+    $: tag, validate()
 
     function updateSendFlowOnChange(
         expirationDate: Date,
@@ -92,7 +104,11 @@
         }
     }
 
-    function getInitialExpirationDate(hasExpirationDate, hasStorageDeposit, giftStorageDeposit): TimePeriod {
+    function getInitialExpirationDate(
+        hasExpirationDate: boolean,
+        hasStorageDeposit: boolean,
+        giftStorageDeposit: boolean
+    ): TimePeriod {
         if (hasExpirationDate) {
             return TimePeriod.Custom
         } else if (hasStorageDeposit && !giftStorageDeposit) {
@@ -102,7 +118,7 @@
         }
     }
 
-    onMount(() => {
+    onMount((): void => {
         storageDeposit = getStorageDepositFromOutput(output)
         selectedExpirationPeriod = getInitialExpirationDate(!!expirationDate, !!storageDeposit, giftStorageDeposit)
     })
@@ -139,14 +155,12 @@
             onClick={() => (selectedTimelockPeriod = TimePeriod.OneDay)}
         />
         <OptionalInput
-            bind:this={tagInput}
             bind:value={tag}
-            disabled={isTransferring}
+            error={tagInputError}
             label={localize('general.tag')}
             description={localize('tooltips.optionalInput')}
         />
         <OptionalInput
-            bind:this={metadataInput}
             bind:value={metadata}
             disabled={isTransferring}
             label={localize('general.metadata')}
