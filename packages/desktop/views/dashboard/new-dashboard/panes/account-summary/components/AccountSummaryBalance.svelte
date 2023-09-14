@@ -7,6 +7,7 @@
     import { ITokenWithBalance } from 'shared/src/lib/core/token'
     import { formatCurrency } from 'shared/src/lib/core/i18n'
     import { getMarketAmountFromTokenValue } from 'shared/src/lib/core/market/actions'
+    import features from '@features/features'
 
     export let account: IAccountState
 
@@ -24,7 +25,9 @@
 <account-summary-balance class="w-full h-full p-6 flex flex-col justify-between">
     <account-summary-balance-header class="w-full flex flex-row justify-between items-center">
         <Text type="h6" align="center" color="indigo-950" truncate>{account.name}</Text>
-        <IconButton color="gray-500" name={IconName.DotsHorizontal} />
+        {#if features.wallet.newDashboard.accountSummaryMenu.enabled}
+            <IconButton color="gray-500" name={IconName.DotsHorizontal} />
+        {/if}
     </account-summary-balance-header>
     <account-summary-balance-amount class="flex flex-row">
         <Text type="h6" size="6xl" align="center" color="indigo-950" truncate>{formattedBalance[0]}</Text>
