@@ -1,6 +1,6 @@
 <script lang="ts">
     import { Icon, IconButton, IconName, Text } from '@bloomwalletio/ui'
-    import { AccountSwitcher } from '@components'
+    import { AccountSwitcher, NavbarContainer } from '@components'
     import { IS_MAC } from '@core/app'
     import { localize } from '@core/i18n'
     import {
@@ -16,7 +16,6 @@
     import { closeDrawer, toggleDashboardDrawer } from '@desktop/auxiliary/drawer'
     import features from '@features/features'
     import { DashboardDrawerRoute } from '../drawers'
-    import NavbarContainer from './NavbarContainer.svelte'
 
     let isBackButtonVisible = false
 
@@ -52,8 +51,8 @@
     }
 </script>
 
-<NavbarContainer>
-    <div class="h-full flex flex-row justify-between items-center" class:drag={IS_MAC}>
+<NavbarContainer draggable={IS_MAC}>
+    <div class="h-full flex flex-row justify-between items-center px-4">
         <div class="flex flex-row gap-2">
             {#if isBackButtonVisible}
                 <IconButton
@@ -120,6 +119,5 @@
 <style lang="scss">
     button {
         @apply flex items-center gap-2;
-        -webkit-app-region: none;
     }
 </style>

@@ -1,6 +1,6 @@
 <script lang="ts">
     import { selectedAccount, selectedAccountIndex } from '@core/account/stores'
-    import { IS_WINDOWS, Platform } from '@core/app'
+    import { IS_MAC, IS_WINDOWS, Platform } from '@core/app'
     import { clearLayer2TokensPoll, pollLayer2Tokens } from '@core/layer-2/actions'
     import {
         addNftsToDownloadQueue,
@@ -23,7 +23,7 @@
     import { NewDashboard } from './new-dashboard'
     import { Settings } from './settings'
     import { Wallet } from './wallet'
-    import NavbarContainer from './components/NavbarContainer.svelte'
+    import { NavbarContainer } from '@components'
 
     const tabs = {
         wallet: Wallet,
@@ -71,7 +71,7 @@
 <dashboard class="dashboard-wrapper flex flex-row w-full h-full">
     <div class="flex flex-col flex-auto">
         {#if !IS_WINDOWS}
-            <NavbarContainer />
+            <NavbarContainer draggable={IS_MAC} />
         {/if}
         <Sidebar />
     </div>
