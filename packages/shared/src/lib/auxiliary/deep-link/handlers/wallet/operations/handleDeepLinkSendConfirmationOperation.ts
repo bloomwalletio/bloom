@@ -3,7 +3,15 @@ import { getNetworkHrp } from '@core/profile/actions'
 import { getUnitFromTokenMetadata, validateTokenId } from '@core/token'
 import { getTokenFromSelectedAccountTokens, selectedAccountTokens } from '@core/token/stores'
 import { getByteLengthOfString, isStringTrue, isValidBech32AddressAndPrefix } from '@core/utils'
-import { SendFlowParameters, SendFlowType, SubjectType, TokenTransferData, setSendFlowParameters } from '@core/wallet'
+import {
+    MetadataLengthError,
+    SendFlowParameters,
+    SendFlowType,
+    SubjectType,
+    TokenTransferData,
+    setSendFlowParameters,
+    validateTag,
+} from '@core/wallet'
 import { get } from 'svelte/store'
 import { PopupId, openPopup } from '../../../../../../../../desktop/lib/auxiliary/popup'
 import { SendFlowRoute } from '../../../../../../../../desktop/views/dashboard/send-flow/send-flow-route.enum'
@@ -14,11 +22,9 @@ import {
 import { SendOperationParameter } from '../../../enums'
 import {
     InvalidAddressError,
-    MetadataLengthError,
     NoAddressSpecifiedError,
     SurplusNotANumberError,
     SurplusNotSupportedError,
-    TagLengthError,
     UnknownAssetError,
 } from '../../../errors'
 import { getRawAmountFromSearchParam } from '../../../utils'
@@ -108,8 +114,8 @@ function parseSendConfirmationOperation(searchParams: URLSearchParams): SendFlow
     }
 
     const tag = searchParams.get(SendOperationParameter.Tag)
-    if (tag && getByteLengthOfString(tag) > 64) {
-        throw new TagLengthError()
+    if (tag) {
+        validateTag(tag)
     }
 
     const giftStorageDeposit = isStringTrue(searchParams.get(SendOperationParameter.GiftStorageDeposit) ?? '')

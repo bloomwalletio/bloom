@@ -3,13 +3,15 @@ import { get } from 'svelte/store'
 import { localize } from '@core/i18n/i18n'
 import { resetMintTokenDetails, resetMintNftDetails } from '@core/wallet/stores'
 import { IError } from '@core/error/interfaces'
-import { handleGenericError } from '@core/error/handlers'
+import { handleError, handleGenericError } from '@core/error/handlers'
 import { showNotification } from '@auxiliary/notification'
 import { closePopup, openPopup, PopupId, popupState } from '../../../../../../desktop/lib/auxiliary/popup'
 
 import { LEDGER_ERROR_LOCALES } from '../constants'
-import { LedgerError } from '../enums'
+import { LedgerAppName, LedgerError } from '../enums'
 import { deriveLedgerError } from '../helpers'
+import { checkOrConnectLedger, ledgerPreparedOutput, resetLedgerPreparedOutput } from '@core/ledger'
+import { sendOutput } from '@core/wallet'
 
 export function handleLedgerError(error: IError, resetConfirmationPropsOnDenial = true): void {
     const ledgerError = deriveLedgerError(error?.error)
@@ -39,6 +41,21 @@ export function handleLedgerError(error: IError, resetConfirmationPropsOnDenial 
         if (hadToEnableBlindSinging) {
             openPopup({
                 id: PopupId.EnableLedgerBlindSigning,
+                props: {
+                    appName: LedgerAppName.Shimmer,
+                    onEnabled: () => {
+                        checkOrConnectLedger(async () => {
+                            try {
+                                if (get(ledgerPreparedOutput)) {
+                                    await sendOutput(get(ledgerPreparedOutput))
+                                    resetLedgerPreparedOutput()
+                                }
+                            } catch (err) {
+                                handleError(err)
+                            }
+                        })
+                    },
+                },
             })
         } else {
             showNotification({

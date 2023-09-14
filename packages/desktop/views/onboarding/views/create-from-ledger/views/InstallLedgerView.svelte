@@ -1,6 +1,6 @@
 <script lang="ts">
     import { localize } from '@core/i18n'
-    import { LedgerAppName, pollLedgerNanoStatus, stopPollingLedgerNanoStatus } from '@core/ledger'
+    import { LedgerAppName, pollLedgerDeviceState, stopPollingLedgerDeviceState } from '@core/ledger'
     import { PopupId, openPopup } from '@desktop/auxiliary/popup'
     import { Icon, Link, Text } from '@ui'
     import { OnboardingLayout } from '@views/components'
@@ -12,7 +12,7 @@
     }
 
     function onBackClick(): void {
-        stopPollingLedgerNanoStatus()
+        stopPollingLedgerDeviceState()
         $createFromLedgerRouter.previous()
     }
 
@@ -23,7 +23,7 @@
     }
 
     onMount(() => {
-        pollLedgerNanoStatus()
+        pollLedgerDeviceState()
     })
 </script>
 

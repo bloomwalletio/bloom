@@ -11,6 +11,7 @@ import { IToken } from '@core/token/interfaces'
 
 import { SendFlowType } from '../../enums'
 import { SendFlowParameters } from '../../types'
+import { getAmountAndTokenFromSendFlowParameters } from '../../utils/send/getAmountAndTokenFromSendFlowParameters'
 
 export function createEvmChainToEvmChainTransaction(
     sendFlowParameters: SendFlowParameters,
@@ -30,16 +31,7 @@ export function createEvmChainToEvmChainTransaction(
         throw new Error(localize('error.web3.unableToFindProvider'))
     }
 
-    let token: IToken | undefined
-    let amount: string | undefined
-    if (sendFlowParameters.type === SendFlowType.BaseCoinTransfer) {
-        token = sendFlowParameters.baseCoinTransfer?.token
-        amount = sendFlowParameters.baseCoinTransfer?.rawAmount ?? '0'
-    } else if (sendFlowParameters.type === SendFlowType.TokenTransfer) {
-        token = sendFlowParameters.tokenTransfer?.token
-        amount = sendFlowParameters.tokenTransfer?.rawAmount ?? '0'
-    }
-
+    let { token, amount } = getAmountAndTokenFromSendFlowParameters(sendFlowParameters)
     if (!token?.metadata) {
         throw new Error(localize('error.token.missingMetadata'))
     }
