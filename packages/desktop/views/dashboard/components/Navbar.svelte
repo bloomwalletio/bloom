@@ -1,7 +1,7 @@
 <script lang="ts">
-    import { IconButton, IconName, Icon, Text } from '@bloomwalletio/ui'
+    import { Icon, IconButton, IconName, Text } from '@bloomwalletio/ui'
     import { AccountSwitcher } from '@components'
-    import { IS_WINDOWS } from '@core/app'
+    import { IS_MAC } from '@core/app'
     import { localize } from '@core/i18n'
     import {
         CollectiblesRoute,
@@ -14,9 +14,9 @@
         governanceRouter,
     } from '@core/router'
     import { closeDrawer, toggleDashboardDrawer } from '@desktop/auxiliary/drawer'
-    import { popupState } from '@desktop/auxiliary/popup'
     import features from '@features/features'
     import { DashboardDrawerRoute } from '../drawers'
+    import NavbarContainer from './NavbarContainer.svelte'
 
     let isBackButtonVisible = false
 
@@ -25,7 +25,6 @@
             isBackButtonVisible = isCorrectRoute()
         }
     }
-    $: isPopupVisible = $popupState?.active
 
     function isCorrectRoute(): boolean {
         switch ($dashboardRoute) {
@@ -53,8 +52,8 @@
     }
 </script>
 
-<navbar class:disabled={isPopupVisible}>
-    <div class="h-full flex flex-row justify-between items-center" class:drag={!IS_WINDOWS}>
+<NavbarContainer>
+    <div class="h-full flex flex-row justify-between items-center" class:drag={IS_MAC}>
         <div class="flex flex-row gap-2">
             {#if isBackButtonVisible}
                 <IconButton
@@ -116,28 +115,19 @@
             {/if}
         </div>
     </div>
-</navbar>
+</NavbarContainer>
 
 <style lang="scss">
-    navbar {
-        @apply w-full flex-none px-4 z-10 bg-white;
-        height: 40px;
-        border-bottom: 1px solid #f1eef9;
+    button {
+        @apply flex items-center gap-2;
+        -webkit-app-region: none;
+    }
 
-        &.disabled {
-            @apply opacity-50 pointer-events-none;
-        }
+    .drag {
+        -webkit-app-region: drag;
 
-        button {
-            @apply flex items-center gap-2;
+        > * {
             -webkit-app-region: none;
-        }
-
-        .drag {
-            -webkit-app-region: drag;
-            > * {
-                -webkit-app-region: none;
-            }
         }
     }
 </style>

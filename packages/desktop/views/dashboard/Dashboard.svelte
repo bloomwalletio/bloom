@@ -1,6 +1,6 @@
 <script lang="ts">
     import { selectedAccount, selectedAccountIndex } from '@core/account/stores'
-    import { Platform } from '@core/app'
+    import { IS_WINDOWS, Platform } from '@core/app'
     import { clearLayer2TokensPoll, pollLayer2Tokens } from '@core/layer-2/actions'
     import {
         addNftsToDownloadQueue,
@@ -23,6 +23,7 @@
     import { NewDashboard } from './new-dashboard'
     import { Settings } from './settings'
     import { Wallet } from './wallet'
+    import NavbarContainer from './components/NavbarContainer.svelte'
 
     const tabs = {
         wallet: Wallet,
@@ -68,7 +69,12 @@
 
 <Idle />
 <dashboard class="dashboard-wrapper flex flex-row w-full h-full">
-    <Sidebar />
+    <div class="flex flex-col flex-auto">
+        {#if !IS_WINDOWS}
+            <NavbarContainer />
+        {/if}
+        <Sidebar />
+    </div>
     <div class="flex flex-col flex-auto">
         <Navbar />
         <!-- Dashboard Pane -->
@@ -82,10 +88,5 @@
 <style lang="scss">
     :global(:not(body.platform-win32)) dashboard {
         margin-top: calc(env(safe-area-inset-top) / 2);
-    }
-
-    .dashboard-w {
-        --sidebar-width: 4.5rem;
-        width: calc(100vw - var(--sidebar-width));
     }
 </style>
