@@ -43,11 +43,21 @@
 {#if $selectedAccountTokens}
     <div class="h-full flex flex-auto flex-col flex-grow shrink-0">
         <div class="header-row">
-            <Text fontWeight={FontWeight.medium} secondary classes="text-start">Asset</Text>
-            <Text fontWeight={FontWeight.medium} secondary classes="text-start">Network</Text>
-            <Text fontWeight={FontWeight.medium} secondary classes="text-start">Market Cap {currency}</Text>
-            <Text fontWeight={FontWeight.medium} secondary classes="text-start">Price {currency}</Text>
-            <Text fontWeight={FontWeight.medium} secondary classes="text-end">Amount</Text>
+            <Text fontWeight={FontWeight.medium} secondary classes="text-start"
+                >{localize('views.dashboard.portfolio.asset')}</Text
+            >
+            <Text fontWeight={FontWeight.medium} secondary classes="text-start"
+                >{localize('views.dashboard.portfolio.network')}</Text
+            >
+            <Text fontWeight={FontWeight.medium} secondary classes="text-start"
+                >{localize('views.dashboard.portfolio.marketCap')} {currency}</Text
+            >
+            <Text fontWeight={FontWeight.medium} secondary classes="text-start"
+                >{localize('views.dashboard.portfolio.price')} {currency}</Text
+            >
+            <Text fontWeight={FontWeight.medium} secondary classes="text-end"
+                >{localize('views.dashboard.portfolio.amount')}</Text
+            >
         </div>
         <div class="flex-auto h-full">
             {#if filteredTokenList.length > 0}
