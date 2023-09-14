@@ -7,12 +7,12 @@
 {#if $selectedAccount}
     <wallet-container
         class="w-full h-full flex flex-nowrap p-8 relative flex-1
-        bg-gray-50 dark:bg-gray-900 justify-center items-center"
+        bg-white dark:bg-gray-900 justify-center items-center"
     >
         {#key $selectedAccount?.index}
             <div class="h-full w-full flex flex-col gap-8">
                 <Pane>Balance section</Pane>
-                <Pane classes="flex-grow">
+                <Pane classes="flex-grow border border-solid border-gray-100">
                     <TabSection />
                 </Pane>
             </div>
