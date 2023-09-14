@@ -9,6 +9,11 @@
     export let onClick: undefined | ((profileId: string) => void) = undefined
     export let updateRequired: boolean = false
 
+    let isHovering = false
+    function toggleIsHovering(): void {
+        isHovering = !isHovering
+    }
+
     function onProfileClick(): void {
         onClick && onClick(profile.id)
     }
@@ -17,9 +22,11 @@
 <button
     type="button"
     class="profile"
+    disabled={disabled || !onClick}
     class:cursor-pointer={!!onClick}
     on:click={onProfileClick}
-    disabled={disabled || !onClick}
+    on:mouseenter={toggleIsHovering}
+    on:mouseleave={toggleIsHovering}
 >
     <profile-header>
         <badge-container>
@@ -32,7 +39,7 @@
         {/if}
     </profile-header>
     <div class="relative">
-        <ProfileAvatarWithBadge {profile} size="lg" {updateRequired} />
+        <ProfileAvatarWithBadge {profile} size="lg" {updateRequired} shape={isHovering ? 'squircle' : 'circle'} />
     </div>
     <Text type="h6" align="center" truncate>{profile.name}</Text>
 </button>
@@ -49,14 +56,14 @@
         @apply disabled:pointer-events-none;
     }
 
-    :global(profile-avatar avatar img) {
+    :global(profile-avatar avatar) {
         /* Remove necessity of !important */
-        @apply transition-all duration-300 rounded-[50%] !important;
+        @apply transition-all duration-300 !important;
     }
 
-    :global(.profile:hover profile-avatar avatar img) {
+    :global(profile-avatar nft-avatar avatar img) {
         /* Remove necessity of !important */
-        @apply rounded-3xl !important;
+        @apply transition-all duration-300 !important;
     }
 
     badge-container {

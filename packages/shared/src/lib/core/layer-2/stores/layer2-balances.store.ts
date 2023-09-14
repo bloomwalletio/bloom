@@ -3,6 +3,7 @@ import { NetworkId } from '@core/network/types'
 import { BASE_TOKEN_ID } from '@core/token/constants'
 import { ILayer2ProfileBalances } from '../interfaces'
 import { Layer2AccountBalance } from '../types'
+import { logAndNotifyError } from '@core/error/actions'
 
 export const layer2Balances = writable<ILayer2ProfileBalances | undefined>(undefined)
 
@@ -49,7 +50,17 @@ export function updateLayer2AccountBalanceForTokenOnChain(
         const accountBalance = balance[accountIndex] ?? {}
         const accountNetworkBalance = accountBalance[networkId] ?? {}
         const oldBalance = accountNetworkBalance[tokenId] ?? 0
+
         newBalance = oldBalance + delta
+        if (newBalance < 0) {
+            logAndNotifyError({
+                type: 'general',
+                message: `Updated Layer 2 Balance for token with token ID ${tokenId} is negative!`,
+                logToConsole: true,
+                saveToErrorLog: true,
+            })
+            newBalance = 0
+        }
 
         accountNetworkBalance[tokenId] = newBalance
         accountBalance[networkId] = accountNetworkBalance
