@@ -19,18 +19,20 @@ export async function calculateAndAddPersistedBalanceChange(
     const balanceChangesForAsset = getBalanceChanges(accountIndex, networkId)?.[tokenId]
     const lastBalanceChange = balanceChangesForAsset?.at(-1)
 
-    if (!lastBalanceChange || lastBalanceChange.newBalance !== newBalance) {
-        const newBalanceChange: ITokenBalanceChange = {
-            changedAt: Date.now(),
-            oldBalance: lastBalanceChange?.newBalance,
-            newBalance,
-            hidden,
-        }
-
-        if (!hidden) {
-            const activity = await generateBalanceChangeActivity(networkId, tokenId, newBalanceChange)
-            addActivityToAccountActivitiesInAllAccountActivities(accountIndex, activity)
-        }
-        addPersistedBalanceChange(accountIndex, networkId, tokenId, newBalanceChange)
+    if (lastBalanceChange?.newBalance === newBalance) {
+        return
     }
+
+    const newBalanceChange: ITokenBalanceChange = {
+        changedAt: Date.now(),
+        oldBalance: lastBalanceChange?.newBalance,
+        newBalance,
+        hidden,
+    }
+
+    if (!hidden) {
+        const activity = await generateBalanceChangeActivity(networkId, tokenId, newBalanceChange)
+        addActivityToAccountActivitiesInAllAccountActivities(accountIndex, activity)
+    }
+    addPersistedBalanceChange(accountIndex, networkId, tokenId, newBalanceChange)
 }
