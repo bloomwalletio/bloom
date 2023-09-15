@@ -7,7 +7,7 @@
     let deepLinkingChecked = $appSettings.deepLinking
 
     $: $appSettings.deepLinking = deepLinkingChecked
-    $: $appSettings.deepLinking && Platform.DeepLinkManager.checkDeepLinkRequestExists()
+    $: $appSettings.deepLinking && Platform.DeepLinkManager.checkForDeepLinkRequest()
 </script>
 
 <Text type="h4" classes="mb-3">{localize('views.settings.deepLinks.title')}</Text>

@@ -1,5 +1,6 @@
 import { formatTokenAmountDefault } from '@core/token'
-import { SendFlowType, sendFlowParameters } from '@core/wallet/stores'
+import { sendFlowParameters } from '@core/wallet/stores'
+import { SendFlowType } from '@core/wallet/enums'
 import { get } from 'svelte/store'
 import { PopupProps } from '../../../../../../desktop/lib/auxiliary/popup/types'
 

@@ -1,7 +1,8 @@
 <script lang="ts">
+    import { Alert } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
-    import { Text, Button, TextHint, FontWeight } from '@ui'
     import { closePopup } from '@desktop/auxiliary/popup'
+    import { Button, FontWeight, Text } from '@ui'
 
     export let error: Error
 </script>
@@ -12,7 +13,7 @@
     </Text>
     <div class="flex flex-col space-y-4">
         <Text fontSize="15" color="gray-700" classes="text-left">{localize('popups.deeplinkError.body')}</Text>
-        <TextHint danger text={error.message} />
+        <Alert variant="danger" text={error.message} />
     </div>
     <popup-buttons class="flex flex-row flex-nowrap w-full space-x-4">
         <Button classes="w-1/2" secondary onClick={closePopup}>{localize('actions.close')}</Button>

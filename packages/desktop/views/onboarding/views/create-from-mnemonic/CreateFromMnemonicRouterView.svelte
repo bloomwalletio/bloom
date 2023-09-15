@@ -1,7 +1,6 @@
 <script lang="ts">
     import { Platform } from '@core/app'
     import features from '@features/features'
-    import { Transition } from '@ui'
     import { EncryptMnemonicView } from '../shared'
     import { CreateFromMnemonicRoute } from './create-from-mnemonic-route.enum'
     import { createFromMnemonicRoute, createFromMnemonicRouter } from './create-from-mnemonic-router'
@@ -13,15 +12,9 @@
 </script>
 
 {#if $createFromMnemonicRoute === CreateFromMnemonicRoute.ViewMnemonic}
-    <Transition>
-        <ViewMnemonicView />
-    </Transition>
+    <ViewMnemonicView />
 {:else if $createFromMnemonicRoute === CreateFromMnemonicRoute.VerifyMnemonic}
-    <Transition>
-        <VerifyMnemonicView />
-    </Transition>
+    <VerifyMnemonicView />
 {:else if $createFromMnemonicRoute === CreateFromMnemonicRoute.EncryptMnemonic}
-    <Transition>
-        <EncryptMnemonicView router={$createFromMnemonicRouter} />
-    </Transition>
+    <EncryptMnemonicView router={$createFromMnemonicRouter} />
 {/if}

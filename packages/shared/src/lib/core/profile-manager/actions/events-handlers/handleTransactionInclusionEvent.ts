@@ -1,6 +1,7 @@
 import { updateParticipationOverview } from '@contexts/governance/stores'
 import { isAccountVoting } from '@contexts/governance/utils/isAccountVoting'
 import { syncVotingPower } from '@core/account/actions'
+import { get } from 'svelte/store'
 import {
     ActivityAction,
     ActivityDirection,
@@ -14,10 +15,9 @@ import { GovernanceActivity } from '@core/activity/types'
 import { updateNftInAllAccountNfts } from '@core/nfts/actions'
 import { updateActiveAccountPersistedData } from '@core/profile/actions'
 import { activeAccounts, updateActiveAccount } from '@core/profile/stores'
-import { Event, TransactionInclusionWalletEvent, WalletEventType } from '@iota/wallet/out/types'
-import { get } from 'svelte/store'
 import { PopupId, closePopup, openPopup } from '../../../../../../../desktop/lib/auxiliary/popup'
 import { validateWalletApiEvent } from '../../utils'
+import { Event, TransactionInclusionWalletEvent, WalletEventType } from '@iota/sdk/out/types'
 
 export function handleTransactionInclusionEvent(error: Error, event: Event): void {
     const walletEvent = validateWalletApiEvent<TransactionInclusionWalletEvent>(

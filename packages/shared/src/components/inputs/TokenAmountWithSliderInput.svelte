@@ -1,36 +1,34 @@
 <script lang="ts">
     import { localize, parseCurrency } from '@core/i18n'
-    import { activeProfile } from '@core/profile'
     import {
-        IToken,
+        ITokenWithBalance,
         TokenStandard,
         convertToRawAmount,
         formatTokenAmountDefault,
         getUnitFromTokenMetadata,
     } from '@core/token'
-    import { visibleSelectedAccountTokens } from '@core/token/stores'
     import { getMaxDecimalsFromTokenMetadata } from '@core/token/utils'
-    import { AmountInput, InputContainer, SliderInput, Text, TokenDropdown } from '@ui'
+    import { AmountInput, InputContainer, SliderInput, Text, TokenLabel, UnitInput } from '@ui'
     import Big from 'big.js'
-    import UnitInput from './UnitInput.svelte'
 
-    export let inputElement: HTMLInputElement = undefined
+    export let inputElement: HTMLInputElement | undefined = undefined
     export let disabled = false
     export let isFocused = false
     export let votingPower: number = 0
-    export let token: IToken | undefined = $visibleSelectedAccountTokens?.[$activeProfile?.network?.id]?.baseCoin
-    export let rawAmount: string = undefined
-    export let unit: string = undefined
-    export let amount: string = rawAmount
-        ? formatTokenAmountDefault(Number(rawAmount), token?.metadata, unit, false)
-        : undefined
+    export let token: ITokenWithBalance
+    export let rawAmount: string | undefined = undefined
+    export let unit: string | undefined = undefined
+    export let amount: string | undefined =
+        rawAmount && token?.metadata
+            ? formatTokenAmountDefault(Number(rawAmount), token?.metadata, unit, false)
+            : undefined
 
     let amountInputElement: HTMLInputElement
     let error: string
 
     $: isFocused && (error = '')
-    $: allowedDecimals = getMaxDecimalsFromTokenMetadata(token?.metadata, unit)
-    $: availableBalance = token?.balance?.available + votingPower
+    $: allowedDecimals = getMaxDecimalsFromTokenMetadata(token.metadata, unit)
+    $: availableBalance = (token.balance.available ?? 0) + votingPower
     $: bigAmount = convertToRawAmount(amount, token?.metadata, unit)
     $: max = parseCurrency(formatTokenAmountDefault(availableBalance, token?.metadata, unit, false))
     $: rawAmount = bigAmount?.toString()
@@ -68,7 +66,7 @@
 
 <InputContainer bind:this={inputElement} bind:inputElement={amountInputElement} col {isFocused} {error}>
     <div class="flex flex-row w-full items-center space-x-0.5 relative">
-        <TokenDropdown bind:token readonly={true} />
+        <TokenLabel bind:token />
         <AmountInput
             bind:inputElement={amountInputElement}
             bind:amount

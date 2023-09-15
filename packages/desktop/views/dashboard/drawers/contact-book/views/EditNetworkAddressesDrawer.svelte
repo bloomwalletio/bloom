@@ -216,7 +216,7 @@
         {/each}
         <Button
             variant="text"
-            text={localize(`views.dashboard.drawers.contactBook.${ContactBookRoute.EditNetworkAddresses}.addAddress`)}
+            text={localize('general.addAddress')}
             icon={IconName.Plus}
             width="full"
             on:click={onAddNewAddressClick}

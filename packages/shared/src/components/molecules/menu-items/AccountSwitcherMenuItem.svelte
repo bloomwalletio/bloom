@@ -3,7 +3,7 @@
     import { setSelectedAccount } from '@core/account/actions'
     import { selectedAccount } from '@core/account/stores'
     import { formatCurrency } from '@core/i18n'
-    import { getMarketAmountFromTokenValue } from '@core/market/utils'
+    import { getMarketAmountFromTokenValue } from '@core/market/actions'
     import { getBaseToken } from '@core/profile/actions'
     import { activeProfile } from '@core/profile/stores'
     import { formatTokenAmountBestMatch } from '@core/token'
@@ -14,7 +14,7 @@
     export let onClick: () => unknown
     export let id: string = ''
 
-    $: ({ baseCoin } = $selectedAccountTokens[$activeProfile?.network?.id])
+    $: baseCoin = $selectedAccountTokens[$activeProfile?.network?.id]?.baseCoin
 
     function onAccountClick(accountIndex: number): void {
         setSelectedAccount(accountIndex)
@@ -46,7 +46,9 @@
             color="blue-500"
             classes="{account.index === $selectedAccount?.index ? '' : 'opacity-50'} text-right"
         >
-            {formatCurrency(getMarketAmountFromTokenValue(Number(account.balances.baseCoin.total), baseCoin))}
+            {baseCoin
+                ? formatCurrency(getMarketAmountFromTokenValue(Number(account.balances.baseCoin.total), baseCoin))
+                : ''}
         </Text>
     </div>
 </button>

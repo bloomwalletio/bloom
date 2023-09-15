@@ -3,15 +3,15 @@ import { Activity, IProcessedTransaction } from '../types'
 import { generateActivities } from '.'
 import { NetworkId } from '@core/network/types'
 
-export function generateActivitiesFromProcessedTransactions(
+export async function generateActivitiesFromProcessedTransactions(
     processedTransactions: IProcessedTransaction[],
     account: IAccountState,
     networkId: NetworkId
-): Activity[] {
+): Promise<Activity[]> {
     const activities: Activity[] = []
     for (const _preparedActivity of processedTransactions) {
         try {
-            const activitiesToAdd = generateActivities(_preparedActivity, account, networkId)
+            const activitiesToAdd = await generateActivities(_preparedActivity, account, networkId)
             activities.push(...activitiesToAdd)
         } catch (err) {
             console.error(err)

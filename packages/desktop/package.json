@@ -17,6 +17,8 @@
         "build:alpha": "cross-env NODE_ENV=production PLATFORM=desktop STAGE=alpha webpack",
         "build:beta": "cross-env NODE_ENV=production PLATFORM=desktop STAGE=beta webpack",
         "build:prod": "cross-env NODE_ENV=production PLATFORM=desktop STAGE=prod webpack",
+        "compile": "node scripts/compile.js",
+        "compile:locally": "MACOS_SKIP_NOTARIZATION=true yarn compile",
         "compile:alpha:linux": "node scripts/compile.js alpha linux",
         "compile:alpha:mac": "node scripts/compile.js alpha mac",
         "compile:alpha:win": "node scripts/compile.js alpha win",
@@ -65,7 +67,7 @@
         "ts-node": "10.9.1",
         "webpack": "5.88.2",
         "webpack-cli": "5.1.4",
-        "webpack-dev-server": "4.13.1"
+        "webpack-dev-server": "4.15.1"
     },
     "peerDependencies": {
         "postcss": "8.4.23"

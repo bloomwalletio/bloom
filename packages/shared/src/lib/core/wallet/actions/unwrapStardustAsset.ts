@@ -8,6 +8,7 @@ import Web3 from 'web3'
 import { sendTransactionFromEvm } from '../actions/send'
 
 export async function unwrapStardustAsset(
+    tokenId: string,
     assetAllowance: ILayer2AssetAllowance,
     recipientAddress: string
 ): Promise<void> {

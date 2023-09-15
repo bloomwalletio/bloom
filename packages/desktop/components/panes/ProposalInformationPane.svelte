@@ -1,10 +1,10 @@
 <script lang="ts">
+    import { EventStatus } from '@iota/sdk/out/types'
     import { Table } from '@bloomwalletio/ui'
     import { Pane, Text } from '@ui'
     import { formatDate, localize } from '@core/i18n'
     import { DATE_FORMAT, milestoneToDate, truncateString } from '@core/utils'
     import { networkStatus } from '@core/network/stores'
-    import { ProposalStatus } from '@contexts/governance/enums'
     import { selectedProposal } from '@contexts/governance/stores'
 
     export let classes: string = ''
@@ -18,22 +18,22 @@
 
     function getNextProposalDateData(status: string): IProposalDateData {
         switch (status) {
-            case ProposalStatus.Upcoming:
+            case EventStatus.Upcoming:
                 return {
                     propertyKey: 'votingOpens',
                     milestone: $selectedProposal?.milestones?.commencing,
                 }
-            case ProposalStatus.Commencing:
+            case EventStatus.Commencing:
                 return {
                     propertyKey: 'countingStarts',
                     milestone: $selectedProposal?.milestones?.holding,
                 }
-            case ProposalStatus.Holding:
+            case EventStatus.Holding:
                 return {
                     propertyKey: 'countingEnds',
                     milestone: $selectedProposal?.milestones?.ended,
                 }
-            case ProposalStatus.Ended:
+            case EventStatus.Ended:
                 return {
                     propertyKey: 'countingEnded',
                     milestone: $selectedProposal?.milestones?.ended,

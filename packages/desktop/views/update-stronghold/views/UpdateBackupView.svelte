@@ -1,20 +1,18 @@
 <script lang="ts">
-    import { Icon as IconEnum } from '@auxiliary/icon'
     import { showNotification } from '@auxiliary/notification'
-    import { OnboardingLayout } from '@components'
+    import { Alert } from '@bloomwalletio/ui'
     import { updateOnboardingProfile } from '@contexts/onboarding/stores'
     import { exportStronghold } from '@contexts/settings/actions'
     import { localize } from '@core/i18n'
     import { login } from '@core/profile/actions'
-    import { Animation, Button, Icon, Text, TextHint, TextType } from '@ui'
+    import { Button } from '@ui'
+    import { OnboardingLayout } from '@views/components'
     import { updateStrongholdRouter } from '../update-stronghold-router'
 
     export let busy = false
     export let changedPassword: boolean
     export let isRecovery = false
     export let password: string
-
-    const skipBackup = false
 
     function onAdvanceView(): void {
         if (isRecovery) {
@@ -31,7 +29,7 @@
         $updateStrongholdRouter.next()
     }
 
-    function onSkipBackupClick(): void {
+    function onSkipClick(): void {
         onAdvanceView()
     }
 
@@ -65,43 +63,23 @@
     }
 </script>
 
-<OnboardingLayout {onBackClick} {busy} allowBack={!changedPassword}>
-    <div slot="leftpane__content">
-        <div class="relative flex flex-col items-center bg-gray-100 dark:bg-gray-900 rounded-2xl mt-10 mb-6 p-10 pb-6">
-            <div class="bg-green-500 rounded-2xl absolute -top-6 w-12 h-12 flex items-center justify-center">
-                <Icon icon={IconEnum.SuccessCheck} classes="text-white" />
-            </div>
-            <Text type={TextType.h2} classes="mb-5 text-center">
-                {localize(`views.updateStronghold.updateBackup.${isRecovery ? 'recoveryTitle' : 'loginTitle'}`)}
-            </Text>
-            <Text secondary classes="mb-2 text-center">
-                {localize(`views.updateStronghold.updateBackup.${isRecovery ? 'recoveryBody' : 'loginBody'}`)}
-            </Text>
-        </div>
-        <TextHint warning text={localize('views.updateStronghold.updateBackup.hint')} />
-    </div>
-    <div slot="leftpane__action">
-        <Button
-            outline
-            classes="w-full mb-4"
-            disabled={busy || changedPassword}
-            onClick={onSkipBackupClick}
-            isBusy={skipBackup && busy}
-            busyMessage={localize('general.creatingProfile')}
-        >
-            {localize('actions.skipBackup')}
-        </Button>
-        <Button
-            classes="w-full"
-            disabled={busy}
-            isBusy={!skipBackup && busy}
-            onClick={onBackupClick}
-            busyMessage={localize('general.creatingProfile')}
-        >
+<OnboardingLayout
+    title={localize(`views.updateStronghold.updateBackup.${isRecovery ? 'recoveryTitle' : 'loginTitle'}`)}
+    description={localize(`views.updateStronghold.updateBackup.${isRecovery ? 'recoveryBody' : 'loginBody'}`)}
+    continueButton={{
+        text: localize('actions.skip'),
+        onClick: onSkipClick,
+        disabled: changedPassword || busy,
+    }}
+    backButton={{
+        onClick: onBackClick,
+        disabled: busy,
+    }}
+>
+    <div slot="content" class="space-y-4">
+        <Alert variant="warning" text={localize('views.updateStronghold.updateBackup.hint')} />
+        <Button classes="w-full" disabled={busy} isBusy={busy} onClick={onBackupClick}>
             {localize('actions.saveBackup')}
         </Button>
-    </div>
-    <div slot="rightpane" class="w-full h-full flex justify-center bg-pastel-blue dark:bg-gray-900">
-        <Animation classes="setup-anim-aspect-ratio" animation="backup-recovery-phrase-desktop" />
     </div>
 </OnboardingLayout>

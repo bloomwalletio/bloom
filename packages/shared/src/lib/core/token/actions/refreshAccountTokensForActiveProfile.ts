@@ -1,7 +1,9 @@
-import { getBaseToken, getCoinType } from '@core/profile/actions'
+import { getActiveNetworkId } from '@core/network'
+import { getBaseToken } from '@core/profile/actions'
 import { activeAccounts, activeProfile } from '@core/profile/stores'
 import { get } from 'svelte/store'
 import { getOrRequestTokenFromPersistedTokens } from '../actions'
+import { BASE_TOKEN_ID } from '../constants'
 import { TokenStandard, VerifiedStatus } from '../enums'
 import { IPersistedToken } from '../interfaces'
 import {
@@ -24,7 +26,7 @@ export async function refreshAccountTokensForActiveProfile(
     clearPersistedAssets && clearPersistedTokensForActiveProfile()
 
     const persistedBaseCoin: IPersistedToken = {
-        id: getCoinType(),
+        id: BASE_TOKEN_ID,
         standard: TokenStandard.BaseToken,
         metadata: getBaseToken(),
         hidden: false,
@@ -37,7 +39,11 @@ export async function refreshAccountTokensForActiveProfile(
         const tokens = account?.balances?.nativeTokens ?? []
         for (const token of tokens) {
             try {
-                const persistedAsset = await getOrRequestTokenFromPersistedTokens(token.tokenId)
+                const persistedAsset = await getOrRequestTokenFromPersistedTokens(
+                    token.tokenId,
+                    getActiveNetworkId(),
+                    false
+                )
                 if (persistedAsset) {
                     if (keepVerificationStatus) {
                         const verificationStatus = storedVerificationStates[persistedAsset.id]

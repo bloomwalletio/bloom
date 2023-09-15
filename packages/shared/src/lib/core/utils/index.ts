@@ -1,3 +1,4 @@
+export * from './abiDecoder'
 export * from './buffer'
 export * from './constants'
 export * from './crypto'

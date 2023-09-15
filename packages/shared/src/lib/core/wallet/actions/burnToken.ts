@@ -1,9 +1,9 @@
 import { showNotification } from '@auxiliary/notification'
 import { getSelectedAccount, updateSelectedAccount } from '@core/account/stores'
 import { localize } from '@core/i18n'
-import { Converter } from '@core/utils'
 import { handleError } from '@core/error/handlers'
 import { processAndAddToActivities } from '@core/activity/utils/processAndAddToActivities'
+import { sendPreparedTransaction } from '@core/wallet/utils'
 import { getActiveNetworkId } from '@core/network'
 
 export async function burnToken(tokenId: string, rawAmount: string): Promise<void> {
@@ -12,7 +12,8 @@ export async function burnToken(tokenId: string, rawAmount: string): Promise<voi
         const networkId = getActiveNetworkId()
 
         updateSelectedAccount({ isTransferring: true })
-        const burnTokenTransaction = await account.burnNativeToken(tokenId, Converter.decimalToHex(Number(rawAmount)))
+        const preparedTransaction = await account?.prepareBurnNativeToken(tokenId, BigInt(rawAmount))
+        const burnTokenTransaction = await sendPreparedTransaction(preparedTransaction)
 
         await processAndAddToActivities(burnTokenTransaction, account, networkId)
 

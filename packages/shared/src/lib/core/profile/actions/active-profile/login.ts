@@ -8,7 +8,7 @@ import { generateAndStoreActivitiesForAllAccounts } from '@core/activity/actions
 import { Platform } from '@core/app/classes'
 import { AppContext } from '@core/app/enums'
 import { handleError } from '@core/error/handlers'
-import { pollLedgerNanoStatus } from '@core/ledger/actions'
+import { pollLedgerDeviceState } from '@core/ledger/actions'
 import { pollMarketPrices } from '@core/market/actions'
 import { pollChainStatuses, pollNetworkStatus } from '@core/network/actions'
 import { loadNftsForActiveProfile } from '@core/nfts/actions'
@@ -44,6 +44,7 @@ import { loadAccounts } from './loadAccounts'
 import { logout } from './logout'
 import { subscribeToWalletApiEventsForActiveProfile } from './subscribeToWalletApiEventsForActiveProfile'
 import { refreshAccountTokensForActiveProfile } from '@core/token/actions'
+import { updateEvmChainGasPrices } from '@core/layer-2/actions'
 
 export async function login(loginOptions?: ILoginOptions): Promise<void> {
     const loginRouter = get(routerManager).getRouterForAppContext(AppContext.Login)
@@ -71,6 +72,7 @@ export async function login(loginOptions?: ILoginOptions): Promise<void> {
         await checkAndUpdateActiveProfileNetwork()
         void pollNetworkStatus()
         void pollChainStatuses()
+        void updateEvmChainGasPrices()
 
         // Step 3: load and build all the profile data
         incrementLoginProgress()
@@ -134,7 +136,7 @@ export async function login(loginOptions?: ILoginOptions): Promise<void> {
         // Step 9: finish login
         incrementLoginProgress()
         if (isLedgerProfile(type)) {
-            pollLedgerNanoStatus()
+            pollLedgerDeviceState()
         }
 
         setSelectedAccount(lastUsedAccountIndex ?? get(activeAccounts)?.[0]?.index ?? null)

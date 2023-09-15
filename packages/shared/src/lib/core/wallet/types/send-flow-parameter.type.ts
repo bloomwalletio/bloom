@@ -2,7 +2,7 @@ import { NetworkId } from '@core/network'
 import { INft } from '@core/nfts'
 import { IToken } from '@core/token/interfaces'
 import type { Subject } from '@core/wallet'
-import { SendFlowType } from '@core/wallet/stores'
+import { SendFlowType } from '@core/wallet/enums'
 
 export type SendFlowParameters = TokenSendFlowParameters | NftSendFlowParameters | BaseSendFlowParameters
 
@@ -31,8 +31,9 @@ export interface NftSendFlowParameters extends Omit<BaseSendFlowParameters, 'typ
     nft?: INft
 }
 
+// TODO move to own file and check optional params
 export type TokenTransferData = {
-    rawAmount?: string
-    token?: IToken
+    rawAmount: string
+    token: IToken
     unit?: string
 }
