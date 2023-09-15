@@ -6,7 +6,7 @@
     import { formatTokenAmountBestMatch, ITokenWithBalance } from '@core/token'
     import { formatCurrency } from '@core/i18n'
     import { getMarketAmountFromTokenValue } from '@core/market/actions'
-    import { getNftsForAccount } from '@core/nfts/actions'
+    import { selectedAccountNfts } from '@core/nfts/stores'
 
     import AccountNetworkSummary from './AccountNetworkSummary.svelte'
     import type { IAccountNetworkSummaryProps } from '../interfaces'
@@ -31,7 +31,7 @@
             networkTokenBalance,
             networkFiatBalance,
             networkTokens,
-            networkNfts: getNftsForAccount(account.index),
+            networkNfts: $selectedAccountNfts,
         }
     }
 </script>

@@ -2,9 +2,11 @@
     import { Pane } from '@ui'
     import { AccountEvmChainSummary, AccountStardustNetworkSummary, AccountSummary } from './components'
     import { IAccountState } from '@core/account'
-    import { getActiveNetworkId, SupportedNetworkId } from '@core/network'
+    import { getActiveNetworkId, network } from '@core/network'
 
     export let account: IAccountState
+
+    const evmChainNetworkId = $network.getChains()[0].getConfiguration().id
 </script>
 
 <Pane classes="w-full flex flex-row shrink-0 justify-between items-center border border-solid border-gray-100">
@@ -12,7 +14,7 @@
     <div class="middle w-full">
         <AccountStardustNetworkSummary {account} networkId={getActiveNetworkId()} />
     </div>
-    <AccountEvmChainSummary {account} networkId={SupportedNetworkId.ShimmerEvmTestnet} />
+    <AccountEvmChainSummary {account} networkId={evmChainNetworkId} />
 </Pane>
 
 <style lang="postcss">

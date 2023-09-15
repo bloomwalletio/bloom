@@ -2,8 +2,10 @@
     import { Avatar, Button, Copyable, Text } from '@bloomwalletio/ui'
     import { NetworkAvatar, NetworkStatusIndicator } from '@ui'
     import { truncateString } from '@core/utils'
+    import { localize } from '@core/i18n'
+    import { selectedAccountNfts } from '@core/nfts/stores'
+    import { selectedAccountTokens } from '@core/token/stores'
     import { IAccountNetworkSummaryProps } from '../interfaces'
-    import { localize } from 'shared/src/lib/core/i18n'
 
     export let props: IAccountNetworkSummaryProps
 
@@ -18,15 +20,15 @@
         networkNfts,
     } = props ?? <IAccountNetworkSummaryProps>{}
 
-    const nftCount = getNftCount()
-    function getNftCount(): string {
-        return getAvatarGroupCount(networkNfts)
-    }
+    $: $selectedAccountTokens, $selectedAccountNfts, updateAssetCounts()
 
-    const tokenCount = getTokenCount()
-    function getTokenCount(): string {
+    let tokenCountFormatted: string
+    let nftCountFormatted: string
+
+    function updateAssetCounts(): void {
         const networkTokenList = [networkTokens.baseCoin, ...networkTokens.nativeTokens]
-        return getAvatarGroupCount(networkTokenList)
+        tokenCountFormatted = getAvatarGroupCount(networkTokenList)
+        nftCountFormatted = getAvatarGroupCount(networkNfts)
     }
 
     function getAvatarGroupCount(array: unknown[]): string {
@@ -67,8 +69,8 @@
         </account-network-summary-balance-secondary>
     </account-network-summary-balance>
     <account-network-summary-assets class="flex flex-row justify-between items-center">
-        <Avatar backgroundColor="indigo-950" shape="square" text={nftCount} />
-        <Avatar backgroundColor="indigo-950" text={tokenCount} />
+        <Avatar backgroundColor="indigo-950" shape="square" text={nftCountFormatted} />
+        <Avatar backgroundColor="indigo-950" text={tokenCountFormatted} />
     </account-network-summary-assets>
 </account-network-summary>
 
