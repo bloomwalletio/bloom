@@ -6,6 +6,7 @@
     import { formatTokenAmountBestMatch, ITokenWithBalance } from '@core/token'
     import { formatCurrency } from '@core/i18n'
     import { getMarketAmountFromTokenValue } from '@core/market/actions'
+    import { getNftsForAccount } from '@core/nfts/actions'
 
     import AccountNetworkSummary from './AccountNetworkSummary.svelte'
     import type { IAccountNetworkSummaryProps } from '../interfaces'
@@ -15,9 +16,6 @@
 
     function buildAccountStardustNetworkSummaryProps(): IAccountNetworkSummaryProps {
         const network = getNetwork()
-        const networkName = network.getMetadata().name
-        const networkHealth = network.getStatus()?.health ?? NetworkHealth.Disconnected
-        const networkAddress = account.depositAddress
         const networkTokens = getAccountTokensForSelectedAccount($marketCoinPrices)?.[networkId]
         const networkBaseCoin: ITokenWithBalance = networkTokens?.baseCoin
         const networkTokenBalance = formatTokenAmountBestMatch(networkBaseCoin.balance.total, networkBaseCoin.metadata)
@@ -27,12 +25,13 @@
 
         return {
             networkId,
-            networkName,
-            networkHealth,
-            networkAddress,
+            networkName: network.getMetadata().name,
+            networkHealth: network.getStatus()?.health ?? NetworkHealth.Disconnected,
+            networkAddress: account.depositAddress,
             networkTokenBalance,
             networkFiatBalance,
             networkTokens,
+            networkNfts: getNftsForAccount(account.index),
         }
     }
 </script>

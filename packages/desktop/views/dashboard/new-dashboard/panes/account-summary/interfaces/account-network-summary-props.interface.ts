@@ -1,5 +1,6 @@
-import { NetworkHealth, NetworkId } from '@core/network'
-import { IAccountTokensPerNetwork } from '@core/token'
+import type { NetworkHealth, NetworkId } from '@core/network'
+import type { INft } from '@core/nfts'
+import type { IAccountTokensPerNetwork } from '@core/token'
 
 export interface IAccountNetworkSummaryProps {
     networkId: NetworkId
@@ -9,4 +10,5 @@ export interface IAccountNetworkSummaryProps {
     networkTokenBalance: string
     networkFiatBalance: string
     networkTokens: IAccountTokensPerNetwork
+    networkNfts: INft[]
 }

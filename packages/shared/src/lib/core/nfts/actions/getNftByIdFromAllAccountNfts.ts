@@ -1,7 +1,6 @@
-import { allAccountNfts } from '../stores'
 import { INft } from '../interfaces'
-import { get } from 'svelte/store'
+import { getNftsForAccount } from './getNftsForAccount'
 
 export function getNftByIdFromAllAccountNfts(accountIndex: number, nftId: string): INft {
-    return get(allAccountNfts)[accountIndex]?.find((_nft) => _nft.id === nftId)
+    return getNftsForAccount(accountIndex).find((_nft) => _nft.id === nftId)
 }

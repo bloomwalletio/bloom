@@ -14,11 +14,22 @@
         networkTokenBalance,
         networkFiatBalance,
         networkTokens,
+        networkNfts,
     } = props ?? <IAccountNetworkSummaryProps>{}
 
+    const nftCount = getNftCount()
+    function getNftCount(): string {
+        return getAvatarGroupCount(networkNfts)
+    }
+
+    const tokenCount = getTokenCount()
     function getTokenCount(): string {
         const networkTokenList = [networkTokens.baseCoin, ...networkTokens.nativeTokens]
-        return networkTokenList.length > 99 ? '99+' : networkTokenList.length.toString()
+        return getAvatarGroupCount(networkTokenList)
+    }
+
+    function getAvatarGroupCount(array: unknown[]): string {
+        return array.length > 99 ? '99+' : array.length.toString()
     }
 </script>
 
@@ -44,8 +55,8 @@
         </account-network-summary-balance-secondary>
     </account-network-summary-balance>
     <account-network-summary-assets class="flex flex-row justify-between items-center">
-        <Avatar backgroundColor="indigo-950" shape="square" text="8" />
-        <Avatar backgroundColor="indigo-950" text={getTokenCount()} />
+        <Avatar backgroundColor="indigo-950" shape="square" text={nftCount} />
+        <Avatar backgroundColor="indigo-950" text={tokenCount} />
     </account-network-summary-assets>
 </account-network-summary>
 

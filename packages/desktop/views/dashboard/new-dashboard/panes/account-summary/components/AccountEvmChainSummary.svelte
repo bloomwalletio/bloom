@@ -15,12 +15,10 @@
 
     function buildAccountEvmChainSummaryProps(): IAccountNetworkSummaryProps {
         const chain = getNetwork().getChain(networkId)
-        const networkName = chain.getConfiguration().name
-        const networkHealth = chain.getStatus().health
-        const networkAddress = getAddressFromAccountForNetwork(account, networkId)
         const selectedAccountTokens = getAccountTokensForSelectedAccount($marketCoinPrices)
         const stardustNetworkBaseToken = selectedAccountTokens?.[getActiveNetworkId()]?.baseCoin
-        const evmChainBaseToken: ITokenWithBalance = selectedAccountTokens?.[networkId]?.baseCoin
+        const networkTokens = selectedAccountTokens?.[networkId]
+        const evmChainBaseToken: ITokenWithBalance = networkTokens?.baseCoin
         const networkTokenBalance = formatTokenAmountBestMatch(
             evmChainBaseToken.balance.total,
             evmChainBaseToken.metadata
@@ -32,16 +30,16 @@
         const networkFiatBalance =
             formatCurrency(getMarketAmountFromTokenValue(evmChainBaseToken.balance.total, stardustNetworkBaseToken)) ??
             ''
-        const networkTokens = selectedAccountTokens?.[networkId]
 
         return {
             networkId,
-            networkName,
-            networkHealth,
-            networkAddress,
+            networkName: chain.getConfiguration().name,
+            networkHealth: chain.getStatus().health,
+            networkAddress: getAddressFromAccountForNetwork(account, networkId),
             networkTokenBalance,
             networkFiatBalance,
             networkTokens,
+            networkNfts: [],
         }
     }
 </script>
