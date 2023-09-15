@@ -39,6 +39,9 @@ module.exports = {
             pattern: /^p-/,
         },
         {
+            pattern: /^px-/,
+        },
+        {
             pattern: /^divide-/,
         },
         {

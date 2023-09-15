@@ -29,13 +29,7 @@
     }
 </script>
 
-<Modal
-    bind:this={modal}
-    on:open={scrollToSelectedAccount}
-    classes="transform -translate-x-1/2"
-    size="large"
-    position={{ top: '30px', left: '50%' }}
->
+<Modal bind:this={modal} on:open={scrollToSelectedAccount} size="large" position={{ top: '32px' }} fixed>
     <account-list-container class="block p-4">
         <account-list class="flex flex-col space-y-1 max-h-96 scrollable-y">
             {#each $visibleActiveAccounts as account}

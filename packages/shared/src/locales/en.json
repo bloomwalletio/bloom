@@ -1374,7 +1374,10 @@
         "gifted": "Gifted",
         "connected": "Connected",
         "estimatedFee": "Estimated fee",
-        "maxFees": "Max fees"
+        "maxFees": "Max fees",
+        "contacts": "Contacts",
+        "apps": "Apps",
+        "networks": "Networks"
     },
     "filters":{
         "title": "Filters",

@@ -1,29 +1,20 @@
 <script lang="ts">
     import { Platform } from '@core/app'
     import { LoginRoute, loginRoute } from '@core/router'
-    import { UpdateStrongholdRouterView } from '@views'
-    import { Transition } from '@ui'
-    import { LoginView, LoadProfileView, SelectProfileView } from './views'
     import features from '@features/features'
+    import { UpdateStrongholdRouterView } from '@views'
+    import { LoadProfileView, LoginView, SelectProfileView } from './views'
 
     $: if (features.analytics.loginRoute.enabled && $loginRoute)
         Platform.trackEvent('login-route', { route: $loginRoute })
 </script>
 
 {#if $loginRoute === LoginRoute.SelectProfile}
-    <Transition>
-        <SelectProfileView />
-    </Transition>
+    <SelectProfileView />
 {:else if $loginRoute === LoginRoute.EnterPin}
-    <Transition>
-        <LoginView />
-    </Transition>
+    <LoginView />
 {:else if $loginRoute === LoginRoute.UpdateStronghold}
-    <Transition>
-        <UpdateStrongholdRouterView />
-    </Transition>
+    <UpdateStrongholdRouterView />
 {:else if $loginRoute === LoginRoute.LoadProfile}
-    <Transition>
-        <LoadProfileView />
-    </Transition>
+    <LoadProfileView />
 {/if}
