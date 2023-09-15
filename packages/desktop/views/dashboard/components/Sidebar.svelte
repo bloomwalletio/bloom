@@ -104,7 +104,9 @@
     }
 </script>
 
-<aside>
+<aside
+    class="flex flex-col justify-center items-center bg-white dark:bg-gray-800 h-full relative w-20 px-5 pt-10 pb-5 border-solid border-r border-gray-100 dark:border-gray-800"
+>
     <nav class="flex flex-grow flex-col items-center justify-between">
         <logo-container>
             <Logo width="120" logo="logo-bloom-full" />
@@ -130,13 +132,13 @@
 </aside>
 
 <style lang="postcss">
-    aside {
+    /* aside {
         @apply flex flex-col justify-center items-center;
         @apply bg-white dark:bg-gray-800 relative;
         @apply border-solid border-r border-gray-100 dark:border-gray-800;
         @apply px-5 pt-5 pb-5;
         @apply w-64;
-    }
+    } */
 
     logo-container {
         @apply flex flex-row;

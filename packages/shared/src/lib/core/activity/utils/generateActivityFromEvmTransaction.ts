@@ -18,14 +18,13 @@ export async function generateActivityFromEvmTransaction(
 
     const direction = ActivityDirection.Outgoing // Currently only sent transactions are supported
 
+    const { tokenId, rawAmount, recipientAddress } =
+        getTransferInfoFromTransactionData(transaction, transaction.to, networkId, chain) ?? {}
+
     const sender = getSubjectFromAddress(transaction.from, networkId)
-    const recipient = getSubjectFromAddress(transaction.to, networkId)
+    const recipient = getSubjectFromAddress(recipientAddress ?? transaction.to, networkId)
     const isInternal = isSubjectInternal(recipient)
     const timestamp = (await provider.eth.getBlock(transaction.blockNumber)).timestamp
-
-    const { tokenId, rawAmount } =
-        getTransferInfoFromTransactionData(transaction, recipient.address, networkId, chain) ?? {}
-
     const baseTokenTransfer = {
         tokenId: BASE_TOKEN_ID,
         rawAmount: tokenId === BASE_TOKEN_ID ? rawAmount ?? '0' : '0',

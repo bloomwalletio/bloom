@@ -1,6 +1,6 @@
 <script lang="ts">
     import { Icon as IconEnum } from '@auxiliary/icon'
-    import { Button, CopyableButton } from '@bloomwalletio/ui'
+    import { Button, Copyable } from '@bloomwalletio/ui'
     import { IContact, IContactAddressMap, setSelectedContactNetworkId } from '@core/contact'
     import { localize } from '@core/i18n'
     import { resetLedgerPreparedOutput, resetShowInternalVerificationPopup } from '@core/ledger'
@@ -88,11 +88,11 @@
                 <Text overrideColor classes="text-gray-600 text-left w-full truncate" fontWeight={FontWeight.medium}>
                     {contactAddress.addressName}
                 </Text>
-                <CopyableButton value={contactAddress.address}>
+                <Copyable value={contactAddress.address}>
                     <Text type={TextType.pre} fontSize="16" fontWeight={FontWeight.medium}>
                         {truncateString(contactAddress.address, 9, 9)}
                     </Text>
-                </CopyableButton>
+                </Copyable>
             </div>
             {#if features.contacts.sendTo.enabled}
                 <Button
