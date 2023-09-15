@@ -1,5 +1,4 @@
 <script lang="ts">
-    import { Icon as IconEnum } from '@auxiliary/icon'
     import { Icon, IconName, Indicator } from '@bloomwalletio/ui'
     import { ProfileActionsModal, SidebarTab } from '@components'
     import { appVersionDetails } from '@core/app/stores'
@@ -24,7 +23,7 @@
         ...(features?.wallet?.enabled
             ? [
                   {
-                      icon: IconEnum.Wallet,
+                      icon: IconName.Wallet,
                       label: localize('tabs.wallet'),
                       route: DashboardRoute.Wallet,
                       onClick: openWallet,
@@ -34,7 +33,7 @@
         ...(features?.wallet?.newDashboard?.enabled
             ? [
                   {
-                      icon: IconEnum.Wallet,
+                      icon: IconName.Wallet,
                       label: localize('tabs.wallet'),
                       route: DashboardRoute.NewDashboard,
                       onClick: openNewDashboard,
@@ -44,7 +43,7 @@
         ...(features?.collectibles?.enabled
             ? [
                   {
-                      icon: IconEnum.Collectibles,
+                      icon: IconName.Image,
                       label: localize('tabs.collectibles'),
                       route: DashboardRoute.Collectibles,
                       onClick: openCollectibles,
@@ -54,7 +53,7 @@
         ...(features?.governance?.enabled
             ? [
                   {
-                      icon: IconEnum.Governance,
+                      icon: IconName.Bank,
                       label: localize('tabs.governance'),
                       route: DashboardRoute.Governance,
                       onClick: openGovernance,
@@ -64,7 +63,7 @@
         ...(features?.developerTools?.enabled && $activeProfile?.isDeveloperProfile
             ? [
                   {
-                      icon: IconEnum.Tools,
+                      icon: IconName.Brush,
                       label: localize('tabs.developer'),
                       route: DashboardRoute.Developer,
                       onClick: openDeveloper,

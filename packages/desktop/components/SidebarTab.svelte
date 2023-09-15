@@ -1,6 +1,6 @@
 <script lang="ts">
-    import { Indicator } from '@bloomwalletio/ui'
-    import { Icon, Position, InformationTooltip } from '@ui'
+    import { Icon, Indicator } from '@bloomwalletio/ui'
+    import { Position, InformationTooltip } from '@ui'
     import { dashboardRoute } from '@core/router'
     import { ISidebarTab } from '@desktop/routers'
 
@@ -26,7 +26,7 @@
     class="{$dashboardRoute === tab?.route ? 'text-blue-500' : 'text-gray-500'} relative"
     on:click={onClick}
 >
-    <Icon width="24" height="24" icon={tab?.icon} />
+    <Icon color="black" name={tab?.icon} />
     {#if tab?.notificationType}
         <Indicator
             size="sm"

@@ -1,8 +1,9 @@
+import { IconName } from '@bloomwalletio/ui'
 import { DashboardRoute } from '@core/router'
 import { NotificationVariant } from '@auxiliary/notification'
 
 export interface ISidebarTab {
-    icon: string
+    icon: IconName
     label: string
     route: DashboardRoute
     onClick: () => void
