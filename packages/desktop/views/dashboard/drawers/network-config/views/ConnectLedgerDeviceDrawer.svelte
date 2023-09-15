@@ -6,7 +6,7 @@
         LedgerAppName,
         LedgerConnectionState,
         determineLedgerConnectionState,
-        ledgerNanoStatus,
+        ledgerDeviceState,
     } from '@core/ledger'
     import { Router } from '@core/router'
     import { Animation, FontWeight, Icon, Pane, Text, TextType } from '@ui'
@@ -16,7 +16,7 @@
 
     const LOCALE_BASE_PATH = 'views.dashboard.drawers.networkConfig.connectLedgerDevice'
 
-    $: ledgerConnectionState = determineLedgerConnectionState($ledgerNanoStatus, LedgerAppName.Ethereum)
+    $: ledgerConnectionState = determineLedgerConnectionState($ledgerDeviceState, LedgerAppName.Ethereum)
     $: isConnectedAndUnlocked =
         ledgerConnectionState !== LedgerConnectionState.NotConnected &&
         ledgerConnectionState !== LedgerConnectionState.Locked

@@ -1,10 +1,11 @@
 <script lang="ts">
-    import { Button, Text, TextHint, FontWeight, TextType, TokenAmountWithSliderInput } from '@ui'
+    import { Alert } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
-    import { closePopup, openPopup, PopupId } from '@desktop/auxiliary/popup'
-    import { IToken } from '@core/token'
+    import { ITokenWithBalance } from '@core/token'
+    import { PopupId, closePopup, openPopup } from '@desktop/auxiliary/popup'
+    import { Button, FontWeight, Text, TextType, TokenAmountWithSliderInput } from '@ui'
 
-    export let token: IToken
+    export let token: ITokenWithBalance
     export let rawAmount: string = '0'
 
     let tokenAmountInput: TokenAmountWithSliderInput
@@ -32,7 +33,7 @@
     </Text>
     <div class="space-y-4">
         <TokenAmountWithSliderInput bind:this={tokenAmountInput} bind:rawAmount {token} />
-        <TextHint warning text={localize('actions.confirmTokenBurn.hint')} />
+        <Alert variant="warning" text={localize('actions.confirmTokenBurn.hint')} />
     </div>
     <popup-buttons class="flex flex-row flex-nowrap w-full space-x-4">
         <Button classes="w-full" outline onClick={closePopup}>{localize('actions.cancel')}</Button>

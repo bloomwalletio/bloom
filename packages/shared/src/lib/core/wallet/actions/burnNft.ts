@@ -5,6 +5,7 @@ import { handleError } from '@core/error/handlers'
 import { localize } from '@core/i18n'
 import { getActiveNetworkId } from '@core/network'
 import { updateNftInAllAccountNfts } from '@core/nfts/actions'
+import { sendPreparedTransaction } from '@core/wallet/utils'
 
 export async function burnNft(nftId: string): Promise<void> {
     try {
@@ -12,7 +13,8 @@ export async function burnNft(nftId: string): Promise<void> {
         const networkId = getActiveNetworkId()
 
         updateSelectedAccount({ isTransferring: true })
-        const burnNftTransaction = await account.burnNft(nftId)
+        const preparedTransaction = await account.prepareBurnNft(nftId)
+        const burnNftTransaction = await sendPreparedTransaction(preparedTransaction)
 
         // Generate Activity
         await processAndAddToActivities(burnNftTransaction, account, networkId)

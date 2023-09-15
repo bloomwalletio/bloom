@@ -1,6 +1,5 @@
 <script lang="ts">
     import { showNotification } from '@auxiliary/notification'
-    import { OnboardingLayout } from '@components'
     import { OnboardingNetworkType, updateOnboardingProfile } from '@contexts/onboarding'
     import { localize } from '@core/i18n'
     import {
@@ -11,14 +10,15 @@
         getNodeInfoWhileLoggedOut,
     } from '@core/network'
     import features from '@features/features'
-    import { Animation, Button, HTMLButtonType, NodeConfigurationForm, Text, TextType } from '@ui'
+    import { NodeConfigurationForm } from '@ui'
+    import { OnboardingLayout } from '@views/components'
     import { onMount } from 'svelte'
     import { networkSetupRouter } from '../network-setup-router'
 
     let nodeConfigurationForm: NodeConfigurationForm
     let coinType: string
     let node: INode
-    let isBusy = false
+    let busy = false
     let formError = ''
     let networkType: OnboardingNetworkType = getInitialSelectedNetworkType()
 
@@ -35,7 +35,7 @@
     }
 
     async function onContinueClick(): Promise<void> {
-        isBusy = true
+        busy = true
         try {
             await nodeConfigurationForm.validate({
                 uniqueCheck: false,
@@ -72,7 +72,7 @@
                 })
             }
         } finally {
-            isBusy = false
+            busy = false
         }
     }
 
@@ -82,11 +82,17 @@
     })
 </script>
 
-<OnboardingLayout {onBackClick}>
-    <div slot="title">
-        <Text type={TextType.h2}>{localize('views.onboarding.networkSetup.setupCustomNetwork.title')}</Text>
-    </div>
-    <div slot="leftpane__content">
+<OnboardingLayout
+    title={localize('views.onboarding.networkSetup.setupCustomNetwork.title')}
+    continueButton={{
+        onClick: onContinueClick,
+    }}
+    backButton={{
+        onClick: onBackClick,
+    }}
+    {busy}
+>
+    <div slot="content">
         <NodeConfigurationForm
             onSubmit={onContinueClick}
             bind:this={nodeConfigurationForm}
@@ -94,24 +100,9 @@
             bind:coinType
             bind:node
             bind:formError
-            {isBusy}
+            isBusy={busy}
             isDeveloperProfile
             networkEditable
         />
-    </div>
-    <div slot="leftpane__action">
-        <Button
-            disabled={!node?.url || isBusy}
-            type={HTMLButtonType.Submit}
-            form="node-configuration-form"
-            classes="w-full"
-            {isBusy}
-            busyMessage={localize('actions.addingNode')}
-        >
-            {localize('actions.continue')}
-        </Button>
-    </div>
-    <div slot="rightpane" class="w-full h-full flex justify-center bg-pastel-yellow dark:bg-gray-900">
-        <Animation classes="setup-anim-aspect-ratio" animation="onboarding-custom-network-desktop" />
     </div>
 </OnboardingLayout>

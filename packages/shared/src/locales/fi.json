@@ -3,26 +3,13 @@
         "onboarding": {
             "appSetup": {
                 "welcome": {
-                    "title": "Send, Receive & Manage your {network} tokens",
-                    "body": "Firefly is the official wallet software for {network}."
+                    "title": "Welcome to"
                 },
                 "legal": {
-                    "title": "Tietosuojakäytäntö ja käyttöehdot",
-                    "body": "Ole hyvä ja tutustu tietosuojakäytäntöön ja käyttöehtoihin.",
-                    "checkbox": "Olen lukenut ja hyväksyn tietosuojakäytännön ja käyttöehdot"
-                },
-                "languageAndAppearance": {
-                    "title": "Kieli ja ulkoasu",
-                    "body": "Valitse kieli ja teema."
+                    "title": "Tietosuojakäytäntö ja käyttöehdot"
                 }
             },
             "networkSetup": {
-                "chooseProtocol": {
-                    "title": "Valitse protokolla",
-                    "body": "Aseta profiilisi protokolla.",
-                    "iota": "Oletus IOTA-verkko",
-                    "shimmer": "Kokeellinen IOTA:n valmisteluverkko"
-                },
                 "chooseNetwork": {
                     "title": "Valitse verkko",
                     "body": "Aseta profiilisi verkko.",
@@ -44,8 +31,7 @@
                     }
                 },
                 "setupCustomNetwork": {
-                    "title": "Connect to a custom network or node",
-                    "body": "Fill the form with the node information and connect to a custom network or node."
+                    "title": "Connect to a custom network or node"
                 }
             },
             "profileSetup": {
@@ -75,10 +61,6 @@
                     "importLedger": "Käytä Ledger-laitetta",
                     "importLedgerDescription": "Palauta Ledger Nano S tai X -laitteestasi"
                 },
-                "setupClaimed": {
-                    "title": "Lunasta Shimmer-palkkiosi stakingista",
-                    "body": "Tuo IOTA-profiilisi ja lunasta Shimmer-stakingpalkkiosi."
-                },
                 "enterName": {
                     "title": "Create your {network} profile",
                     "profileName": "Profiilin nimi",
@@ -105,12 +87,6 @@
                 }
             },
             "profileBackup": {
-                "backupMnemonic": {
-                    "title": "Varmuuskopioi palautuslausekkeesi",
-                    "body1": "Sinulle näytetään nyt palautuslauseke. Kirjoita se talteen palautussivullesi.",
-                    "body2": "Älä jaa palautuslausekettasi kenenkään kanssa. Sitä voidaan käyttää varoihisi käsiksi pääsyyn mistä tahansa.",
-                    "body3": "Jos menetät palautuslausekkeesi, voit menettää varasi."
-                },
                 "viewMnemonic": {
                     "title": "Palautuslauseke",
                     "body1": "Kirjoita sanat ylös täsmälleen näytetyssä järjestyksessä palautussivullesi.",
@@ -125,20 +101,12 @@
                     "word": "Sana",
                     "verified": "Palautuslauseke vahvistettu",
                     "verifiedBody": "Muista pitää se salassa ja turvallisesti talletettuna."
-                },
-                "backupStronghold": {
-                    "title": "Varmuuskopioi Stronghold-tiedostoon",
-                    "body1": "Syötä salasanasi luodaksesi Stronghold-varmuuskopion profiilistasi. Salasanaasi käytetään varmuuskopiotiedoston salaukseen.",
-                    "body2": "Syitä, miksi digitaaliset varmuuskopiot ovat tärkeitä:",
-                    "reason1": "Palauta lompakkosi helposti kirjoittamatta palautuslausekettasi",
-                    "reason2": "Tuo lompakkosi muissa laitteissa",
-                    "reason3": "Palauta transaktioidesi koko historia"
                 }
             },
             "profileRecovery": {
                 "importMnemonicPhrase": {
                     "title": "Syötä palautuslausekkeesi",
-                    "body": "Palautuslauseke on pituudeltaan 24 sanaa, kaikki pienillä kirjaimilla ja välilyönnit sanojen välissä. Sitä käytetään olemassaolevien Firefly-profiilien palauttamiseen.",
+                    "body": "A recovery phrase is 24 words long, all lower case, with spaces between. This is used to recover existing Bloom profiles.",
                     "enter": "Syötä salainen palautuslausekkeesi",
                     "phraseDetected": "24 sanan palautuslauseke havaittu"
                 },
@@ -149,10 +117,6 @@
                 "backupPassword": {
                     "body1": "Syötä varmuuskopion salasanasi.",
                     "body2": "Asetit tämän salasanan, kun loit varmuuskopion."
-                },
-                "success": {
-                    "title": "Varmuuskopion palautus onnistui",
-                    "body": "Voit nyt määrittää uuden profiilin."
                 }
             },
             "shimmerClaiming": {
@@ -169,22 +133,9 @@
             },
             "congratulations": {
                 "title": "Profiilin määritys melkein valmis...",
-                "fundsMigrated": "Varat siirretty",
                 "body": "Uusi profiilisi on valmis, kunhan kojelauta on ladattu onnistuneesti.",
-                "ledgerHint": "Älä katkaise yhteyttä Ledger-laitteeseesi ennen kuin kojelauta on ladannut loppuun.",
-                "softwareMigratedBody": "Olet onnistuneesti siirtänyt varasi uuteen verkkoon",
-                "fireflyLedgerBody": "Ledger-profiilisi palautettiin onnistuneesti ja voit nyt jatkaa.",
-                "trinityLedgerBody": "Olet onnistuneesti siirtänyt Ledger-laitteesi uuteen verkkoon.",
-                "exportMigration": "Vie migraatioloki ja viimeistele määritys"
+                "ledgerHint": "Älä katkaise yhteyttä Ledger-laitteeseesi ennen kuin kojelauta on ladannut loppuun."
             }
-        },
-        "setupLedger": {
-            "progress1": "Yhdistä Ledger-laitteesi",
-            "progress2": "Luo osoite",
-            "progress3": "Vaihda Ledger-sovellusta",
-            "progress4": "Siirrä varoja",
-            "watchVideo": "Katso video-opas",
-            "videoGuide": "Ledger-migraation opasvideo"
         },
         "ledgerInstallationGuide": {
             "title": "Have you installed the {network} app on your Ledger device?",
@@ -192,66 +143,20 @@
             "body2": "Varmista, että Ledger-laitteesi laiteohjelmisto on ajan tasalla. Kaikki valmiiksi asennetut sovellukset tulee päivittää uusimpiin versioihin.",
             "action": "Yes, I've installed the {network} app"
         },
-        "importFromLedger": {
-            "title": "Palauta tai siirrä Ledger-laitteesi",
-            "body": "Palauta olemassaoleva Firefly Ledger-profiili, tai siirrä varasi Trinity-lompakosta.",
-            "haveFireflyLedger": "Minulla on Firefly Ledger-varmuuskopio",
-            "haveFireflyLedgerDescription": "Palauta Firefly-profiili",
-            "haveTrinityLedger": "Minulla on Trinity Ledger-varmuuskopio",
-            "haveTrinityLedgerDescription": "Siirrä Trinity-profiili"
-        },
         "connectLedger": {
-            "title": "Yhdistä Ledger-laitteesi Fireflyhyn",
-            "body": "Jotta Ledger-laitteesi tunnistuu Fireflyssä, varmista, että virallinen Ledger Live -sovellus on suljettu.",
+            "title": "Connect your Ledger to Bloom",
+            "body": "For your Ledger device to be found by Bloom, please ensure that the official Ledger Live application is closed.",
             "connect": "Yhdistä Ledger-laitteesi",
             "unlock": "Avaa Ledger-laitteesi sen PIN-koodilla",
-            "openApp": "Avaa Shimmer-sovellus Ledger-laitteessasi",
-            "tips": "Vinkkejä, jos Ledger ei yhdistä"
-        },
-        "restoreFromFireflyLedger": {
-            "title": "Palauta Ledger-profiilisi",
-            "body": "Paina palauta suorittaaksesi määritysprosessin loppuun ja palauttaaksesi lompakkosi, saldosi ja transaktiohistoriasi.",
-            "restoring": "Palautetaan Ledgeristä..."
-        },
-        "legacyLedgerIntro": {
-            "title": "Aloita Ledger-migraatiosi käyttäen Fireflyä",
-            "body1": "Firefly auttaa sinua siirtämään tokenisi uuteen Chrysalis-verkkoon.",
-            "body2": "Migraation jälkeen, voit lähettää ja vastaanottaa tokeneita käyttäen Ledger-laitettasi Fireflyn kanssa.",
-            "readMore": "Mitä migraatioprosessilta on odotettavissa"
-        },
-        "generateNewLedgerAddress": {
-            "title": "Luo uusi osoite",
-            "body": "Sinun täytyy luoda uusi osoite siirtääksesi tokenisi Fireflyllä. Jatka napsauttamalla alla olevaa painiketta.",
-            "confirmTitle": "Vahvista uusi osoite",
-            "confirmBody": "Turvallisuussyistä, ole hyvä ja vertaa Ledger-laitteellasi luotua osoitetta alla näkyvään osoitteeseen. Jos ne täsmäävät, paina molempia painikkeita Ledger-laitteessasi kehotuksen mukaisesti.",
-            "confirmedTitle": "Osoite vahvistettu",
-            "confirmedBody": "Olet varmistanut, että osoite Fireflyssä täsmää osoitteeseen Ledger-laitteessasi.",
-            "generating": "Luodaan osoitetta"
-        },
-        "switchLedgerApps": {
-            "title": "Vaihda Ledger-sovelluksia",
-            "body": "Ole hyvä ja vaihda {legacy} -sovellukseen Ledger-laitteellasi jatkaaksesi migraatiota. Kun olet valmis, paina jatka."
-        },
-        "selectLedgerAccountIndex": {
-            "title": "Valitse Ledger-tilin indeksi",
-            "body": "Valitse Ledger-tilin indeksi, jota käytit Trinityssä. Useimmille käyttäjille tämä on oletusindeksi 0.",
-            "accountIndex": "Tilin indeksi",
-            "accountPage": "Tilin sivu",
-            "standard": "Standardi",
-            "expert": "Edistynyt",
-            "takingAWhile": "Tämä kestää hetken...",
-            "notGeneratingAddresses": "Luoko Ledger-laitteesi osoitteita?",
-            "reinstallLegacy": "Jos ei, katkaise yhteys laitteeseen ja yritä uudelleen. Jos ongelma jatkuu, saatat joutua asentamaan {legacy} -sovelluksen uudelleen."
+            "openApp": "Avaa Shimmer-sovellus Ledger-laitteessasi"
         },
         "settings": {
             "settings": "Asetukset",
             "general": {
-                "title": "Yleiset",
-                "description": "Määritä sovelluksen ulkoasu ja muut yleiset asetukset"
+                "title": "Yleiset"
             },
             "profile": {
-                "title": "Profiili",
-                "description": "Vaihda profiilisi nimeä tai aseta profiilikuva"
+                "title": "Profiili"
             },
             "network": {
                 "title": "Network"
@@ -260,29 +165,20 @@
                 "title": "Collectibles"
             },
             "security": {
-                "title": "Suojaus",
-                "description": "Vaihda salasanasi ja säädä turvallisuuteen liittyviä asetuksia"
+                "title": "Suojaus"
             },
             "advanced": {
-                "title": "Edistyneet",
-                "description": "Työkalut ja manuaaliset asetukset edistyneille käyttäjille"
+                "title": "Edistyneet"
             },
             "helpAndInfo": {
-                "title": "Apua ja tietoa",
-                "description": "Etsi vastaus kysymykseen tai hae apua ongelmaan"
-            },
-            "sync": {
-                "title": "Synkronoi lompakot",
-                "description": ""
+                "title": "Apua ja tietoa"
             },
             "theme": {
                 "title": "Teema",
-                "description": "",
-                "advice": "Jos muutat järjestelmän teemaa, sinun on ehkä käynnistettävä Firefly uudelleen nähdäksesi vaikutukset"
+                "advice": "If you change your system theme, you may need to restart Bloom to see the effects"
             },
             "language": {
-                "title": "Kieli",
-                "description": ""
+                "title": "Kieli"
             },
             "currency": {
                 "title": "Valuutta",
@@ -334,7 +230,7 @@
             },
             "changeProfileName": {
                 "title": "Muuta profiilin nimi",
-                "description": "Muuta Firefly-profiilisi nimeä",
+                "description": "Change your Bloom profile name",
                 "success": "Olet muuttanut profiilisi nimeä"
             },
             "walletFinder": {
@@ -351,7 +247,7 @@
             },
             "deepLinks": {
                 "title": "Syvälinkit",
-                "description": "Täytä transaktion tiedot automaattisesti Fireflyssä, kun napsautat syvälinkkiä, joka alkaa {appProtocol}://"
+                "description": "Automatically fill transaction data in Bloom upon clicking a deep link starting with {appProtocol}://"
             },
             "networkInformation": {
                 "title": "Network information",
@@ -364,13 +260,10 @@
                 "excludeNode": "Hylkää solmu",
                 "includeNode": "Sisällytä solmu",
                 "editDetails": "Muokkaa tietoja",
-                "viewInfo": "Näytä tiedot",
                 "setAsPrimary": "Aseta ensisijainen solmu",
                 "unsetAsPrimary": "Tyhjennä ensisijainen solmu",
                 "removeNode": "Poista solmu",
-                "includeOfficialNodeList": "Sisällytä virallinen solmulista",
-                "noNodes": "Solmuja ei ole, yhteyden muodostaminen verkkoon ei ole mahdollista",
-                "noNodesAuto": "Solmuja ei ole, käytetään sen sijaan automaattista valintaa"
+                "noNodes": "Solmuja ei ole, yhteyden muodostaminen verkkoon ei ole mahdollista"
             },
             "localProofOfWork": {
                 "title": "Proof of work",
@@ -382,17 +275,13 @@
             },
             "crashReporting": {
                 "title": "Kaatumisraportit",
-                "body": "Auta kehittäjiä parantamaan Fireflytä lähettämällä automaattisesti diagnostiikkatietoja virheen tai kaatumisen tapahtuessa",
+                "body": "Help the developers improve Bloom by automatically sending diagnostic data when an error or crash occurs",
                 "checkbox": "Lähetä kaatumisraportit",
-                "advice": "Ole hyvä ja käynnistä Firefly-ohjelma uudelleen {sendCrashReports, select, true {aloittaaksesi kaatumisraporttien jakamisen} false {lopettaaksesi kaatumisraporttien jakamisen} other {tehdäksesi tämän muutoksen}}"
+                "advice": "Please restart the Bloom application to {sendCrashReports, select, true {start sharing crash reports} false {stop sharing crash reports} other {apply this change}}"
             },
             "diagnostics": {
                 "title": "Diagnostiikka",
                 "description": "Näytä järjestelmän ja sovelluksen tiedot"
-            },
-            "migrateLedgerIndex": {
-                "title": "Siirrä Ledger-indeksi",
-                "description": "Siirrä toinen Trinity-tilin indeksi"
             },
             "troubleshoot": {
                 "title": "Vianmääritys",
@@ -404,7 +293,6 @@
             },
             "faq": {
                 "title": "Usein kysytyt kysymykset",
-                "title2": "Usein kysytyt kysymykset",
                 "description": "Katso usein kysytyt kysymykset saadaksesi apua yleisen ongelman tai kysymyksen kanssa"
             },
             "discord": {
@@ -412,8 +300,7 @@
                 "description": "Hae apua IOTA-yhteisöltä Discordissa"
             },
             "about": {
-                "title": "Lisätietoja",
-                "description": ""
+                "title": "Lisätietoja"
             },
             "reportAnIssue": {
                 "title": "Ilmoita ongelmasta",
@@ -448,13 +335,10 @@
                 "degraded": "Verkko vajaatoiminnassa",
                 "down": "Verkko alhaalla",
                 "disconnected": "Yhteys solmuun katkennut",
-                "status": "Tila",
-                "messagesPerSecond": "Viestejä sekunnissa",
-                "referencedRate": "Viittausaste"
+                "status": "Tila"
             },
             "profileModal": {
                 "allSettings": "Kaikki asetukset",
-                "profileApplication": "Profile, application, security",
                 "logout": "Kirjaudu ulos",
                 "stronghold": {
                     "title": "Profiilin lukitus",
@@ -467,9 +351,7 @@
                         "appNotOpen": "Ledger avattu, mutta sovellus ei ole auki",
                         "correctAppOpen": "Ledger ja sovellus avattu",
                         "locked": "Ledger turvallisesti lukittu",
-                        "mnemonicMismatch": "Väärä Ledger tai mnemonic-fraasi",
-                        "notConnected": "Ledger ei yhdistetty",
-                        "otherConnected": "Sovellus auki"
+                        "notConnected": "Ledger ei yhdistetty"
                     }
                 },
                 "backup": {
@@ -480,7 +362,7 @@
                 },
                 "version": {
                     "title": "Uusi päivitys saavatilla",
-                    "updateVersion": "Firefly v{version}",
+                    "updateVersion": "Bloom v{version}",
                     "button": "Päivitä"
                 }
             },
@@ -493,7 +375,7 @@
                         "chainId": "Chain ID",
                         "aliasAddress": "Alias Address",
                         "iscpEndpoint": "ISCP Endpoint",
-                        "explorerEndpoint": "Explorer Endpoint (optional)",
+                        "explorerUrl": "Explorer URL (optional)",
                         "errors": {
                             "cannotBeEmpty": "Name cannot be empty",
                             "nameTooLong": "Name is too long",
@@ -519,7 +401,7 @@
                     "connectLedgerDevice": {
                         "title": "Connect Ledger Device",
                         "header": "Open the Ethereum app",
-                        "body": "For your Ledger device to be found by Firefly, please ensure that the official Ledger Live application is closed before following these steps.",
+                        "body": "For your Ledger device to be found by Bloom, please ensure that the official Ledger Live application is closed before following these steps.",
                         "requirements": {
                             "connect": "Connect and unlock your Ledger",
                             "openApp": "Open the Ethereum app on your Ledger"
@@ -531,58 +413,57 @@
                     "removeChain": {
                         "title": "Remove chain"
                     }
-                }
-            }
-        },
-        "staking": {
-            "welcome": "Tervetuloa staking-käyttöliittymään!",
-            "status": {
-                "upcoming": "Tapahtuma ei ole alkanut",
-                "commencing": "Pre-staking avoinna",
-                "holdingActive": "Staking käynnissä",
-                "holdingInactive": "Staking avoinna",
-                "inactive": "Stakingia ei havaittu",
-                "ended": "Staking päättynyt"
-            },
-            "summary": {
-                "stakedFunds": "Staketut varat"
-            },
-            "info": {
-                "headers": {
-                    "upcoming": "Tarkista myöhemmin uudelleen",
-                    "commencing": "Pre-staking on avoinna",
-                    "holding": "{duration} stakingia jäljellä",
-                    "ended": "Staking on nyt päättynyt",
-                    "inactive": "Staking-tapahtumia ei havaittu"
                 },
-                "bodies": {
-                    "upcoming": "Stakea {token}-tokenisi saadaksesi palkintoja automaattisesti 10 sekunnin välein, kun staking alkaa {date}.",
-                    "commencing": "Stakea {token}-tokenisi saadaksesi palkintoja automaattisesti 10 sekunnin välein, kun staking alkaa {date}.",
-                    "holdingAndStaking": "Saat palkkioita automaattisesti 10 sekunnin välein.",
-                    "holdingAndNotStaking": "Stakea {token}-tokenisi saadaksesi palkkioita 10 sekunnin välein.",
-                    "endedAndDidStake": "{token}-palkkiot tullaan jakamaan lompakkoosi, kun verkko käynnistetään.",
-                    "endedAndDidNotStake": "Et osallistunut tähän airdropiin.",
-                    "endedAndDidNotReachMinRewards": "Et stakennut tarpeeksi {token}-tokeneita saavuttaaksesi airdropin vähimmäispalkkiota.",
-                    "inactive": "Avaa verkkoasetukset lisäasetuksissa ja varmista, että nykyisellä solmulla on ominaisuus \"Participation\" klikkaamalla \"Näytä tiedot\"."
-                }
-            },
-            "airdrops": {
-                "holding": "Jäljellä",
-                "commencing": "Stakingin alkamiseen",
-                "currentStakingPeriod": "Nykyinen staking-jakso",
-                "totalWalletRewards": "Lompakon kokonaispalkkiot",
-                "assembly": {
-                    "name": "Assembly",
-                    "description": "Assembly on vapaasti käytettävä ja liityttävä, erittäin skaalautuva moniketjuverkko yhdistettyjen älysopimusten luomiseen ja käyttöönottamiseen. Assembly on web3:n tulevaisuus. "
+                "contactBook": {
+                    "contactList": {
+                        "title": "Contact list",
+                        "addContact": "Add contact"
+                    },
+                    "contactInformation": {
+                        "title": "Contact Information",
+                        "editContact": "Edit contact",
+                        "removeContact": "Remove contact",
+                        "addNetworkAddress": "Add network address"
+                    },
+                    "addContact": {
+                        "title": "Add contact"
+                    },
+                    "editContact": {
+                        "title": "Edit contact"
+                    },
+                    "removeContact": {
+                        "title": "Remove contact",
+                        "body": "Are you sure you want to remove this contact?",
+                        "hint": "Please note after removing a contact Bloom will show its actual addresses."
+                    },
+                    "addNetworkAddress": {
+                        "title": "Add network address"
+                    },
+                    "editNetworkAddresses": {
+                        "title": "Edit network addresses"
+                    },
+                    "removeNetworkAddresses": {
+                        "title": "Remove network addresses",
+                        "body": "Are you sure you want to remove the contact’s {network} network addresses?",
+                        "hint": "Please note after removing a contact’s network addresses Bloom will no longer associate it with them in transactions or activities."
+                    }
                 },
-                "shimmer": {
-                    "name": "Shimmer",
-                    "description": "Kannustettu valmisteluverkko IOTA:n merkittävien innovaatioiden edistämiseen. Mitä tahansa tapahtuu, tapahtuu. Miten Shimmer kehittyy, riippuu sinusta."
+                "dapps": {
+                    "dappsList": {
+                        "title": "Connected dApps",
+                        "connectDapp": "Connect dApp",
+                        "hint": "WalletConnect allows you to connect Bloom with dApps directly or with a connection code."
+                    },
+                    "inputConnectionCode": {
+                        "title": "Connect to a dApp",
+                        "inputLabel": "Wallet Connect code",
+                        "hint": "Add new dApps by adding a Wallet Connect code below."
+                    },
+                    "confirmConnection": {
+                        "title": "Connect with an application",
+                        "hint": "A third party service wants to connect with your wallet for the first time. You can choose if you wish to trust this connection."
+                    }
                 }
-            },
-            "banners": {
-                "new": "Uusi tapahtuma",
-                "complete": "Valmis"
             }
         },
         "picker": {
@@ -600,7 +481,6 @@
             },
             "details": {
                 "storageDepositDescription": "A refundable deposit required to store your NFT on the Tangle.",
-                "attributes": "Attributes",
                 "menu": {
                     "download": "Download",
                     "setPfp": "Set NFT profile pic",
@@ -678,10 +558,10 @@
     "popups": {
         "enableLedgerBlindSigning": {
             "title": "Aktivoi sokea allekirjoittaminen",
-            "info": "Jotta voit vahvistaa tämän transaktion, sinun täytyy aktivoida sokea allekirjoittaminen Ledger-laitteellasi.",
-            "step_1": "Yhdistä ja avaa Ledger-laitteesi",
-            "step_2": "Avaa Shimmer-sovellus",
-            "step_3": "Paina oikeaa painiketta navigoidaksesi asetuksiin. Paina sitten molempia painikkeita vahvistaaksesi. Ledger-laitteesi näyttää sokean allekirjoittamisen.",
+            "info": "In order to confirm this transaction you need to enable Blind Signing on your Ledger device.",
+            "step_1": "Connect and unlock your Ledger device",
+            "step_2": "Open the {appName} application",
+            "step_3": "Press the right button to navigate to Settings, then press both buttons to validate. Your Ledger device displays Blind Signing.",
             "step_4": "Paina molempia painikkeita aktivoidaksesi transaktion sokean allekirjoittamisen. Laite näyttää Käytössä. Olet valmis."
         },
         "balanceBreakdown": {
@@ -753,9 +633,6 @@
             "subtitle": "Ole hyvä ja syötä salasanasi avataksesi lompakkojesi lukituksen",
             "backup": "Ole hyvä ja syötä salasanasi viedäksesi varmuuskopion"
         },
-        "qr": {
-            "title": "Sinun QR-koodisi"
-        },
         "appUpdate": {
             "title": "Check for updates",
             "installedVersion": "Installed version",
@@ -785,33 +662,14 @@
             "title": "Poista {name}?",
             "body": "Are you sure you want to delete this wallet?",
             "hint": "Note: once deleted, you can restore this wallet by using the \"Wallet Finder\" in the settings.",
-            "typePassword": "Syötä lompakkosi salasana vahvistaaksesi.",
-            "hideAccount": "Poista lompakko",
-            "errorTitle": "Lompakkoa {name} ei voi poistaa",
-            "errorBody1": "Et voi poistaa tätä lompakkoa, sinulla on oltava vähintään yksi."
+            "typePassword": "Syötä lompakkosi salasana vahvistaaksesi."
         },
         "externalUrl": {
             "title": "Open URL in Browser",
             "body": "Are you sure you want to open \"{url}\" in the browser?",
-            "hint": "This URL is unknown to Firefly. Please double check the URL before opening it.",
+            "hint": "This URL is unknown to Bloom. Please double check the URL before opening it.",
             "action": "Open URL",
             "invalidProtocol": "Cannot open URL with invalid protocol"
-        },
-        "hideAccount": {
-            "title": "Piilota {name}?",
-            "body": "Löydät tämän lompakon myöhemmin ottamalla käyttöön \"Näytä piilotetut lompakot\" lisäasetuksissa.",
-            "typePassword": "Syötä lompakkosi salasana vahvistaaksesi.",
-            "hideAccount": "Piilota lompakko",
-            "errorTitle": "Lompakkoa {name} ei voi piilottaa",
-            "errorBody1": "Jotta lompakon voi piilottaa, sillä on oltava 0 saldo.",
-            "errorBody2": "Sinulla on tällä hetkellä {balance} jäljellä tässä lompakossa. Ole hyvä ja siirrä nämä varat toiseen lompakkoon ja yritä uudelleen.",
-            "errorBody3": "Et voi piilottaa tätä lompakkoa, sinulla on oltava vähintään yksi."
-        },
-        "addressHistory": {
-            "title": "Lompakon {name} osoitehistoria",
-            "currentBalance": "Saldo: {balance}",
-            "internal": "Sisäinen osoite",
-            "external": "Talletusosoite"
         },
         "excludeNode": {
             "title": "Hylkää solmu",
@@ -826,7 +684,6 @@
             "titleUpdate": "Päivitä solmu",
             "titleRemove": "Poista solmu",
             "titleRemoveAll": "Poista kaikki solmut",
-            "titleDetails": "Solmun tiedot",
             "titleInfo": "Solmun tiedot",
             "addingNode": "Lisätään solmua",
             "updatingNode": "Päivitetään solmua",
@@ -835,7 +692,6 @@
             "optionalUsername": "Käyttäjänimi (valinnainen)",
             "optionalPassword": "Salasana (valinnainen)",
             "optionalJwt": "JSON web token (vapaaehtoinen)",
-            "setAsPrimaryNode": "Aseta ensisijaiseksi solmuksi",
             "removeConfirmation": "Haluatko varmasti poistaa tämän solmun?",
             "info": {
                 "general": {
@@ -843,8 +699,6 @@
                     "name": "Nimi",
                     "url": "Osoite",
                     "version": "Versio",
-                    "latestMilestone": "Viimeisin milestone",
-                    "confirmedMilestone": "Vahvistettu milestone",
                     "pruningIndex": "Pruning-indeksi",
                     "features": "Ominaisuudet"
                 },
@@ -875,13 +729,6 @@
                 }
             }
         },
-        "switchNetwork": {
-            "title": "Vaihda verkko",
-            "newNetwork": "Uusi verkko",
-            "resetWarning": "Verkon vaihtaminen kirjaa sinut ulos ja nollaa kaikki tilisi, saldosi ja transaktiohistoriasi tässä profiilissa.",
-            "switchingNetwork": "Vaihdetaan verkkoa",
-            "typePassword": "Syötä salasanasi vaihtaaksesi:"
-        },
         "errorLog": {
             "title": "Virheloki",
             "empty": "Virheloki on tyhjä."
@@ -903,15 +750,11 @@
             "userPath": "Käyttäjän polku"
         },
         "transaction": {
-            "title": "Send asset",
-            "body": "Olet lähettämässä {amount} osoitteeseen",
             "selectToken": "Select a token",
             "selectAmount": "Send {tokenName}",
             "selectRecipient": "Send {assetName} to",
             "transactionSummary": "Transaction to {recipient}",
-            "surplusIncluded": "Tämä transaktio sisältää ylijäämän. Ole hyvä ja tarkista, että haluat lähettää tämän summan.",
-            "sendingFromStakedAccount": "Olet lähettämässä siirtoa lompakosta, jota käytetään parhaillaan stakingiin. Tämä saattaa lopettaa stakingin tokeneiltasi. Voit lähettää siirron vapaasti, mutta sinun on ehkä aloitettava staking uudelleen jäljelle jääville tokeneille siirron jälkeen.",
-            "sendingFromStakedAccountBelowMinReward": "Olet lähettämässä siirtoa lompakosta, joka ei ole vielä saavuttanut staking-palkkioiden vähimmäismäärää. Tämä voi lopettaa staken tokeneillesi ja voit menettää staking-palkkiosi tästä lompakosta."
+            "surplusIncluded": "Tämä transaktio sisältää ylijäämän. Ole hyvä ja tarkista, että haluat lähettää tämän summan."
         },
         "walletFinder": {
             "title": "Lompakon etsijä",
@@ -921,32 +764,12 @@
             "totalWalletBalance": "Kokonaissaldo",
             "searchAgainHint": "Onko saldosi tai lompakkojesi lukumäärä väärin? Hae uudelleen, kunnes koko saldosi näkyy."
         },
-        "riskFunds": {
-            "title": "Varoitus: varoja riskialttiina migraation aikana",
-            "body1": "On erittäin suositeltavaa, että suojaat kaikki varasi ennen migraation jatkamista. Varasi ovat alttiina varkauksille, jos et suojaa niitä.",
-            "body2": "On suositeltavaa, että suoritat prosessin uudelleen osoitteille, joiden riskitaso on keskitasoinen tai korkeampi."
-        },
-        "missingBundle": {
-            "title": "Varoitus: varoja riskialttiina migraation aikana",
-            "body": "Sinulla on varoja käytetyissä osoitteissa, mutta niiden suojaamiseen tarvittavia tietoja ei löytynyt. Näin voi käydä, jos teit transaktiot kauan sitten. Voit jatkaa, mutta {value} ovat riskialttiina migraation ajan.",
-            "learnMore": "Lue lisää käytetyistä osoitteista",
-            "proceed": "Ymmärrän riskin"
-        },
-        "snapshot": {
-            "title": "Meneillään oleva verkkopäivitys",
-            "body": "Chrysalis-verkkopäivitys on alkanut.",
-            "bodyMigration": "Migraatio on poistettu käytöstä, kunnes se on valmis.",
-            "bodyFirefly": "Firefly on poistettu käytöstä, kunnes se on valmis. Tokenien migraatio on edelleen mahdollista jälkeenpäin."
-        },
         "ledgerNotConnected": {
             "title": "Yhdistä Ledger-laitteesi",
             "notConnected": "Yhdistä Ledger-laitteesi jatkaaksesi.",
             "locked": "Avaa Ledger-laitteesi jatkaaksesi.",
             "appNotOpen": "Open the Shimmer app on your Ledger device to continue.",
             "correctAppOpen": "Ledger yhdistetty onnistuneesti, ole hyvä ja jatka."
-        },
-        "ledgerConfirmation": {
-            "confirm": "Jatkaaksesi, vahvista Ledger-laitteellasi näkyvä kehotus"
         },
         "ledgerAppGuide": {
             "title": "Opas {legacy}-sovelluksen asentamiseen",
@@ -955,7 +778,7 @@
                 "1": "Varmista, että Ledger-laitteesi on yhdistetty",
                 "2": "Etsi {legacy}-sovellusta. Saatat joutua ottamaan käyttöön Ledger Liven kehittäjätilan.",
                 "3": "Asenna {legacy} sovellus",
-                "4": "Muista, että on tärkeää sulkea Ledger Live ennen Fireflyhyn palaamista"
+                "4": "Remember that it's important to close Ledger Live before returning to Bloom"
             }
         },
         "ledgerConnectionGuide": {
@@ -979,104 +802,130 @@
             "info": "Ole hyvä ja vahvista sisäinen transaktio Ledger-laitteellasi.",
             "hint": "Kaikki varat pysyvät lompakossasi lähettäessäsi sisäisen transaktion."
         },
-        "ledgerAddress": {
-            "title": "Vahvista vastaanotto-osoite",
-            "body": "Vahvista, että Ledger-laitteella näkyvä vastaanotto-osoite täsmää alla näkyvään osoitteeseen. Jos ne täsmäävät, paina molempia painikkeita Ledger-laitteessasi kehotuksen mukaisesti."
-        },
-        "ledgerMigrateIndex": {
-            "title": "Täytyykö sinun siirtää toinen Trinity-tilin indeksi?",
-            "body": "Voit myös tehdä migraation myöhemmin lisäasetuksissa."
-        },
-        "exportTransactionHistory": {
-            "title": "Vie transaktiohistoria",
-            "body": "Vie transaktiohistoria valitulle lompakolle. Viety tiedosto on .csv-muotoinen.",
-            "profileName": "Profiilin nimi:",
-            "accountName": "Lompakon nimi:",
-            "typePassword": "Syötä salasanasi salliaksesi viennin"
-        },
-        "stakingManager": {
-            "title": "Staking-hallinta",
-            "description": "Kun stakeat lompakon, lähetät itsellesi transaktion, joka merkitsee nämä varat \"staketuiksi\". Voit siirtää tokenit milloin tahansa, mutta et jatka staking-palkkioiden saamista.",
-            "totalFundsStaked": "Staketut varat yhteensä",
-            "stakedSuccessfully": "Sinun varasi ovat stakettu tilille {account}.",
-            "unstakedSuccessfully": "Sinun varasi eivät ole enää stakettu tilille {account}.",
-            "singleAccountHint": "Etsitkö lompakoitasi? Firefly on muuttunut. Vaihda lompakkojesi välillä ylävalikkopalkissa."
-        },
-        "stakingConfirmation": {
-            "title": "Vahvista osallistuminen",
-            "subtitleStake": "Olet stakeamassa",
-            "subtitleMerge": "Olet yhdistämässä",
-            "multiAirdropWarning": "Jos et halua osallistua molempiin airdropeihin, voit jättäytyä pois alla. Voit lopettaa staken ja aloittaa staken uudelleen liittyäksesi takaisin mukaan milloin tahansa.",
-            "mergeStakeWarning": "Sinun varasi tulevat olemaan stakettuna airdropia {airdrop} varten. Vaihtaaksesi mihin airdropeihin haluat osallistua, lopeta stake tästä lompakosta ja stakea uudelleen.",
-            "estimatedAirdrop": "Arvioidut palkkiot"
-        },
-        "newStakingPeriodNotification": {
-            "title": "Staking-vaihe {periodNumber} {date} alkaen",
-            "body": "IOTA:n staking Assemblyn saamiseksi jatkuu... Osallistu vaiheeseen {periodNumber} 90 päivän ajan. Stakea IOTA-tokenisi ja ansaitse ASMB-palkkioita!",
-            "info": "Shimmer-staking on nyt saatettu päätökseen ja vain ASMB-tokenit tullaan jakamaan."
-        },
-        "shimmer-info": {
-            "title": "Tietoja Shimmeristä",
-            "body1": "Onnittelut, olet ansainnut SMR-tokeneita staking-palkkiona. Shimmer on kannustettu valmisteluverkko IOTA:n merkittävien uudistusten testaamiseen.",
-            "body2": "Tavoitteenamme on käynnistää Shimmer vuonna 2022. Sinun tokenisi tulevat saataville siirrettäväksi, kun verkko käynnistetään."
-        },
-        "assembly-info": {
-            "title": "Tietoja Assemblystä",
-            "body1": "Onnittelut, olet ansainnut ASMB-tokeneita staking-palkkiona. Assembly on moniketjuverkko skaalautuvien älysopimusten käyttöönottoon IOTA:lla.",
-            "body2": "Tavoitteenamme on käynnistää Assembly vuonna 2022. Sinun tokenisi tulevat saataville siirrettäväksi, kun verkko käynnistetään."
-        },
-        "confirmDeveloperProfile": {
-            "title": "Olet luomassa kehittäjäprofiilia",
-            "body": "Sinut yhdistetään oletuksena Chrysalis Devnetiin, ja voit vaihtaa verkkoa manuaalisesti. Jatka vain, jos tiedät mitä olet tekemässä."
-        },
         "crashReporting": {
             "title": "Kaatumisraportointi",
-            "body": "Auta kehittäjiä parantamaan Fireflytä lähettämällä automaattisesti diagnostiikkatietoja virheen tai kaatumisen tapahtuessa. Jos tämä on valittuna, se tulee voimaan Fireflyn uudelleenkäynnistyksen jälkeen.",
+            "body": "Help the developers improve Bloom by automatically sending diagnostic data when an error or crash occurs. If selected, this will take effect after restarting Bloom.",
             "checkbox": "Lähetä kaatumisraportit IOTA-säätiölle"
+        },
+        "signMessage": {
+            "title": "Sign message",
+            "message": "Message",
+            "hint": "No balance will be sent to {dappName} in the process of signing this message.",
+            "warning": "dApp cannot be determined. No balance will be sent in the process of signing this message.",
+            "action": "Sign message"
+        },
+        "activityDetails": {
+            "title": {
+                "fallback": "Activity details",
+                "external": {
+                    "incoming": {
+                        "Pending": "Receiving from {subject}",
+                        "Confirmed": "Received from {subject}",
+                        "Conflicting": "Failed to receive"
+                    },
+                    "outgoing": {
+                        "Pending": "Sending to {subject}",
+                        "Confirmed": "Sent to {subject}",
+                        "Conflicting": "Failed to send"
+                    }
+                },
+                "internal": {
+                    "incoming": {
+                        "Pending": "Transferring from {subject}",
+                        "Confirmed": "Transferred from {subject}",
+                        "Conflicting": "Failed to transfer"
+                    },
+                    "outgoing": {
+                        "Pending": "Transferring to {subject}",
+                        "Confirmed": "Transferred to {subject}",
+                        "Conflicting": "Failed to transfer"
+                    },
+                    "selfTransaction": {
+                        "Pending": "Transferring to {subject}",
+                        "Confirmed": "Transferred to {subject}",
+                        "Conflicting": "Failed to transfer"
+                    }
+                },
+                "mint": {
+                    "Pending": "Minting",
+                    "Confirmed": "Minted",
+                    "Conflicting": "Failed to mint"
+                },
+                "burn": {
+                    "Pending": "Burning",
+                    "Confirmed": "Burned",
+                    "Conflicting": "Failed to burn"
+                },
+                "consolidation": {
+                    "Pending": "Consolidating outputs",
+                    "Confirmed": "Outputs consolidated",
+                    "Conflicting": "Failed to consolidate outputs"
+                },
+                "alias": {
+                    "creation": {
+                        "Pending": "Creating alias",
+                        "Confirmed": "Alias created",
+                        "Failed": "Failed to create alias"
+                    }
+                },
+                "governance": {
+                    "increaseVotingPower": {
+                        "Pending": "Increasing voting power",
+                        "Confirmed": "Increased voting power",
+                        "Conflicting": "Failed to increased voting power"
+                    },
+                    "decreaseVotingPower": {
+                        "Pending": "Decreasing voting power",
+                        "Confirmed": "Decreased voting power",
+                        "Conflicting": "Failed to decreased voting power"
+                    },
+                    "startVoting": {
+                        "Pending": "Voting for {proposalName}",
+                        "Confirmed": "Voted for {proposalName}",
+                        "Conflicting": "Failed to vote for"
+                    },
+                    "stopVoting": {
+                        "Pending": "Stopping voting for {proposalName}",
+                        "Confirmed": "Stopped voting for {proposalName}",
+                        "Conflicting": "Failed to stopped voting for"
+                    },
+                    "changedVote": {
+                        "Pending": "Changing vote for {proposalName}",
+                        "Confirmed": "Changed vote for {proposalName}",
+                        "Conflicting": "Failed to change vote for"
+                    },
+                    "revote": {
+                        "Pending": "Revoting",
+                        "Confirmed": "Revote",
+                        "Conflicting": "Failed to revote"
+                    }
+                }
+            }
         },
         "legalUpdate": {
             "tosTitle": "Käyttöehdot",
             "privPolicyTitle": "Tietosuojakäytäntö",
-            "tosAndPrivPolicyBody": "Olemme päivittäneet Fireflyn käyttöehtoja ja tietosuojakäytäntöä.",
-            "tosBody": "Olemme päivittäneet Fireflyn käyttöehtoja.",
-            "privPolicyBody": "Olemme päivittäneet Fireflyn tietosuojakäytäntöä.",
+            "tosAndPrivPolicyBody": "We have updated Bloom's Terms of Service and Privacy Policy.",
+            "tosBody": "We have updated Bloom's Terms of Service.",
+            "privPolicyBody": "We have updated Bloom's Privacy Policy.",
             "tosAndPrivPolicyCheckbox": "Olen lukenut ja hyväksyn päivitetyt käyttöehdot ja tietosuojakäytännön",
             "tosCheckbox": "Olen lukenut ja hyväksyn päivitetyt käyttöehdot",
             "privPolicyCheckbox": "Olen lukenut ja hyväksyn päivitetyn tietosuojakäytännön"
         },
-        "singleAccountGuide": {
-            "title": "Tapa, jolla käytät Fireflyä, on muuttunut",
-            "body": "Kunkin välilehden sisältö on nyt yhden lompakon kontekstissa. Voit vaihtaa valittua lompakkoa mistä tahansa käyttämällä otsikkopalkin valitsinta.",
-            "hint": "Etkö löydä lompakkoa? Käytä saldon etsijää asetuksista löytääksesi aiemmin käytetyt lompakot."
-        },
-        "transactionDetails": {
-            "title": "Transaktion tiedot",
-            "giftedStorageDeposit": {
-                "tooltipTitle": "Gift storage deposit",
-                "tooltipDescription": "Amount kept by the recipient"
-            }
-        },
-        "sendForm": {
-            "title": "Lähetä varoja"
+        "giftedStorageDeposit": {
+            "tooltipTitle": "Gift storage deposit",
+            "tooltipDescription": "Amount kept by the recipient"
         },
         "tokenInformation": {
-            "newTokenTitle": "Uusi token",
             "verificationWarning": "Tämä token ei ole vahvistettu. Vertaa tokenin metatietoja asianomaisen tiimin virallisella verkkosivulla. Vahvista vain tokenit, joihin luotat.",
             "tokenMetadata": {
                 "standard": "Standardi",
-                "name": "Nimi",
                 "tokenId": "Token ID",
-                "url": "URL"
+                "url": "URL",
+                "description": "Description"
             },
             "buttons": {
                 "verifyToken": "Vahvistan tämän tokenin"
-            }
-        },
-        "sendNft": {
-            "formTitle": "Send NFT",
-            "confirmationTitle": "Confirm sending NFT",
-            "property": {
-                "nft": "NFT"
             }
         },
         "nativeToken": {
@@ -1089,10 +938,7 @@
                 "meltedTokens": "Melted tokens",
                 "circulatingSupply": "Circulating supply",
                 "aliasAddress": "Alias controller address",
-                "standard": "Standard",
                 "tokenName": "Name",
-                "unit": "Unit",
-                "subunit": "Subunit",
                 "storageDeposit": "Storage Deposit",
                 "description": "Description",
                 "symbol": "Symbol",
@@ -1107,7 +953,6 @@
         "importErc20Token": {
             "title": "Import ERC20 token",
             "property": {
-                "chainId": "Chain ID",
                 "tokenAddress": "Token address"
             },
             "success": "Imported {tokenSymbol} token",
@@ -1166,7 +1011,7 @@
         "revote": {
             "title": "Revote on proposals",
             "body": "Changing your voting power temporarily stops your votes for all proposals from being counted. Simply click \"Revote\" to resume voting.",
-            "hint": "Firefly remembers all of the proposals and answer options you previously voted for."
+            "hint": "Bloom remembers all of the proposals and answer options you previously voted for."
         },
         "removeProposal": {
             "title": "Remove proposal",
@@ -1183,19 +1028,6 @@
             "body": "This node requires additional authentication. Please fill in the appropriate information."
         }
     },
-    "charts": {
-        "incomingMi": "Saapuva {value}",
-        "outgoingMi": "Lähtevä {value}",
-        "portoflio": "Portfolio",
-        "token": "Token",
-        "holdings": "Omistukset",
-        "accountValue": "Lompakon arvo",
-        "accountActivity": "Lompakon toiminta",
-        "timeframe1Hour": "1 tunti",
-        "timeframe1Day": "1 päivä",
-        "timeframe1Week": "1 viikko",
-        "timeframe1Month": "1 kuukausi"
-    },
     "actions": {
         "apply": "Hyväksy",
         "continue": "Jatka",
@@ -1204,7 +1036,6 @@
         "next": "Seuraava",
         "cancel": "Peruuta",
         "close": "Sulje",
-        "dismiss": "Hylkää",
         "claim": "Lunasta",
         "claiming": "Lunastetaan",
         "claimingRewards": "Lunastetaan palkkoita",
@@ -1223,9 +1054,7 @@
             "description": "Are you sure you want to burn this NFT?",
             "hint": "Please note that burning an NFT frees the storage deposit attached to it and is not reversible."
         },
-        "proceedAnyway": "Jatka silti",
         "save": "Tallenna",
-        "importSeed": "Tuo olemassaoleva seed-merkkijono",
         "restoreWallet": {
             "iota": "Siirrä tai palauta lompakko",
             "shimmer": "Palauta Shimmer-profiili",
@@ -1248,32 +1077,19 @@
         "claimShimmerDescription": "Tuo IOTA-profiili ja lunasta staking-palkkiot",
         "createAlias": "Create alias",
         "createAliasDescription": "Create alias output",
-        "savePassword": "Tallenna salasana",
-        "useBiometric": "Käytä biometristä suojausta",
-        "setupPinCode": "Määritä PIN-koodi",
         "setPin": "Aseta PIN",
-        "setPinCode": "Aseta PIN-koodi",
         "confirmPin": "Vahvista PIN",
-        "confirmPinCode": "Vahvista PIN-koodi",
         "enterYourPin": "Syötä PIN-koodi",
-        "saveBackupFile": "Tallenna varmuuskopiotiedosto",
-        "iveWrittenRecoveryPhrase": "Olen tallentanut palautuslausekkeeni",
-        "verifyRecoveryPhrase": "Vahvista palautuslauseke",
-        "revealRecoveryPhrase": "Näytä palautuslauseke",
-        "checkAgain": "Tarkista uudelleen",
-        "importFromFile": "Tuo tiedostosta",
         "send": "Lähetä",
         "receive": "Vastaanota",
         "create": "Luo",
         "updateAndContinue": "Update and continue",
-        "beginTransfer": "Aloita siirto",
         "tryAgain": "Yritä uudelleen",
         "visitDiscord": "Vieraile Discordissa",
         "dragDrop": "Vedä ja pudota",
-        "importExtentions": ".kdbx- tai .stronghold-tiedosto",
+        "importExtentions": ".stronghold file",
         "chooseFile": "Valitse tiedosto",
         "dropHere": "Pudota tiedosto tähän",
-        "syncAll": "Synkronoi kaikki",
         "import": "Tuo",
         "importing": "Tuodaan",
         "export": "Vie",
@@ -1285,15 +1101,14 @@
         "exportTransactionHistory": "Vie transaktiohistoria",
         "localProofOfWork": "Paikallinen todiste työstä (PoW)",
         "unlock": "Avaa",
-        "updateFirefly": "Päivitä Firefly",
-        "restartNow": "Käynnistä uudelleen nyt",
+        "updateBloom": "Update Bloom",
+        "restart": "Restart",
         "refresh": "Refresh",
-        "saveBackup": "Tallenna Stronghold-varmuuskopio",
+        "saveBackup": "Save backup",
         "customizeAcount": "Mukauta lompakkoa",
         "hideAccount": "Piilota lompakko",
         "showAccount": "Näytä lompakko",
         "deleteAccount": "Poista lompakko",
-        "max": "Maksimi",
         "addNode": "Lisää solmu",
         "addingNode": "Lisätään solmua",
         "addOfficialNodes": "Lisää viralliset solmut",
@@ -1315,9 +1130,7 @@
         "addAccount": "Lisää lompakko",
         "checkForUpdates": "Tarkista päivitykset",
         "reportAnIssue": "Ilmoita ongelmasta",
-        "restore": "Palauta",
         "clear": "Tyhjennä",
-        "hideDetails": "Piilota tiedot",
         "yes": "Kyllä",
         "no": "Ei",
         "skip": "Ohita",
@@ -1328,35 +1141,18 @@
         "readDocumentation": "Lue dokumentaatio",
         "visitFaq": "Katso usein kysytyt kysymykset",
         "viewDownloads": "View downloads",
-        "viewStatus": "Näytä tila",
         "viewBalanceBreakdown": "View balance breakdown",
         "showHiddenAccounts": "Näytä piilotetut lompakot",
         "confirm": "Vahvista",
         "hideNetworkStatistics": "Piilota verkkotilastot",
         "findWallets": "Löydä lompakot",
-        "useBalanceFinder": "Käytä saldon etsijää",
         "search": "Etsi",
         "searching": "Etsitään",
         "searchAgain": "Hae uudelleen",
-        "closeFirefly": "Sulje Firefly",
         "generateAddress": "Luo osoite",
-        "migrateAgain": "Siirrä toinen indeksi",
-        "visitWebsite": "Vieraile verkkosivulla",
-        "howItWorks": "Kuinka se toimii",
-        "learnAboutStaking": "Lue lisää stakingista",
-        "stake": "Stake",
-        "unstake": "Lopeta stake",
-        "stakeFunds": "Stakea varoja",
-        "manageStake": "Hallinnoi stakea",
-        "merge": "Yhdistä",
-        "mergeFunds": "Yhdistä varoja",
-        "done": "Valmis",
-        "okIUnderstand": "OK, ymmärrän",
-        "readMore": "Lue lisää",
         "searchForRewards": "Etsi palkkioita",
         "claimRewards": "Lunasta palkkiot",
         "rerunClaimProcess": "Suorita lunastusprosessi uudelleen",
-        "addPublicNote": "Lisää julkinen merkintä",
         "backup": "Varmuuskopioi",
         "mint": "Lyö",
         "mintNativeToken": "Lyö natiivi token",
@@ -1371,11 +1167,8 @@
         "refreshTokenMetadata": "Päivitä tokenin metatiedot",
         "test": "Testi",
         "testDeepLink": "Testaa syvälinkki",
-        "initialize": "Alusta",
-        "initializing": "Alustetaan",
         "delete": "Poista",
         "remove": "Remove",
-        "addReference": "Add reference",
         "depositNft": "Deposit NFTs",
         "vote": "Vote",
         "addProposal": "Add proposal",
@@ -1384,7 +1177,8 @@
         "stopVoting": "Stop voting",
         "revote": "Revote",
         "skipAndKeep": "Skip and keep old password",
-        "addChain": "Add chain"
+        "addChain": "Add chain",
+        "untrackToken": "Untrack token"
     },
     "general": {
         "recipient": "Vastaanottaja",
@@ -1393,9 +1187,6 @@
         "currentPassword": "Nykyinen salasana",
         "newPassword": "Uusi salasana",
         "confirmNewPassword": "Vahvista uusi salasana",
-        "yourSeed": "Sinun seed-merkkijonosi",
-        "recoveryPhrase": "Palautuslauseke",
-        "recentActivity": "Viimeaikainen toiminta",
         "sent": "Lähetetty",
         "sending": "Lähetetään",
         "received": "Vastaanotettu",
@@ -1414,16 +1205,8 @@
         "revoting": "Revoting",
         "unvoted": "Äänestys poistettu",
         "unvoting": "Äänestyksen poistaminen",
-        "sentNft": "NFT sent",
-        "sendingNft": "Sending NFT",
-        "receivedNft": "NFT received",
-        "receivingNft": "Receiving NFT",
         "transfer": "Siirto",
         "transferring": "Siirretään",
-        "transferNft": "Transfer NFT",
-        "transferringNft": "Transferring NFT",
-        "mintedNft": "Minted NFT",
-        "mintingNft": "Minting NFT",
         "shimmerClaimed": "Lunastettu",
         "shimmerClaiming": "Lunastetaan",
         "shimmerGenesis": "Shimmer Genesis",
@@ -1431,47 +1214,29 @@
         "minting": "Lyönti",
         "burned": "Burned",
         "burning": "Burning",
+        "balanceChanged": "Balance changed",
+        "initialBalance": "Initial balance",
         "consolidated": "Outputs consolidated",
         "consolidating": "Consolidating outputs",
         "aliasCreated": "Alias created",
         "creatingAlias": "Creating Alias",
-        "sendPayment": "Lähetä maksu",
-        "moveFunds": "Sisäinen siirto",
         "sendTo": "Lähetä",
         "sendAssets": "Send assets",
         "sendAssetToAddress": "Send asset to an address",
-        "sendToAddress": "Lähetä osoitteeseen",
-        "sendToken": "Send token",
-        "sendNft": "Send NFT",
-        "sendNftToAddress": "Send NFT to an address",
-        "scanQrOrPaste": "Skannaa QR-koodi tai liitä osoite",
-        "moveFundsBetweenAccounts": "Siirrä varoja lompakkojen välillä",
         "manageAccount": "Hallitse lompakkoa",
         "customizeAcount": "Mukauta lompakkoasi",
         "account": "Lompakko",
-        "sendingToAddress": "Lähetys osoitteeseen",
         "amount": "Määrä",
         "addAddress": "Lisää osoite",
-        "reference": "Viite",
-        "from": "Mistä",
         "to": "Mihin",
         "and": "ja",
         "receiveFunds": "Vastaanota varoja",
         "address": "Osoite",
+        "addressName": "Address name",
         "myAddress": "My address",
-        "myNetworkAddress": "Minun {networkName}-osoite",
-        "shareAddress": "Jaa osoite",
-        "yourAddress": "Osoitteesi",
-        "newRemainder": "Uusi jäännös",
-        "remainder": "Jäännös",
-        "generateNewAddress": "Luo uusi osoite",
-        "copyToClipboard": "Kopioi leikepöydälle",
-        "copyAddress": "Kopioi osoite",
         "viewOnExplorer": "Näytä Explorerissa",
         "import": "Tuo",
         "stronghold": "Stronghold",
-        "language": "Kieli",
-        "appearance": "Ulkoasu",
         "lightTheme": "Vaalea",
         "darkTheme": "Tumma",
         "systemTheme": "Järjestelmä",
@@ -1481,36 +1246,19 @@
         "all": "Kaikki",
         "incoming": "Saapuva",
         "outgoing": "Lähtevä",
-        "totalIn": "Yhteensä sisään",
-        "totalOut": "Yhteensä ulos",
-        "accounts": "Lompakot",
-        "myAccounts": "Minun lompakkoni",
-        "profiles": "Profiilit",
         "dev": "Kehitys",
-        "createAccount": "Luo lompakko",
         "addAWallet": "Lisää lompakko",
         "accountName": "Lompakon nimi",
-        "latestTransactions": "Viimeisimmät transaktiot",
-        "transactions": "Transaktiot",
         "activity": "Aktiviteetti",
         "security": "Suojaus",
-        "accountAddress": "Lompakon osoite",
         "network": "Verkko",
+        "networkSelection": "Network selection",
         "destinationNetwork": "Destination network",
         "nodes": "Solmut",
         "wallet": "Lompakko",
         "help": "Ohje",
-        "you": "Sinä",
-        "messageId": "Viestitunniste",
-        "inputAddress": "Lähdeosoite",
-        "receiveAddress": "Kohdeosoite",
-        "newAddress": "Uusi osoite",
-        "date": "Päivämäärä",
-        "status": "Tila",
         "confirmed": "Vahvistettu",
         "pending": "Odottaa",
-        "noAccounts": "Sinulla ei ole lompakkoja, ole hyvä ja luo sellainen.",
-        "loadingAccounts": "Ladataan, odota hetki...",
         "addProfile": "Lisää profiili",
         "noRecentHistory": "Ei viimeaikaista historiaa",
         "noFilteredActivity": "Ei vastaavia aktiviteetteja",
@@ -1518,31 +1266,12 @@
         "noFilteredAsset": "Ei vastaavia nimikkeitä",
         "thisMonth": "Tässä kuussa",
         "search": "Etsi",
-        "firstSync": "Synkronoidaan historiaa, tämä voi kestää jonkin aikaa...",
-        "transferSyncing": "Synkronoidaan lompakkoa",
-        "transferSelectingInputs": "Valitaan syötteet",
-        "transferRemainderAddress": "Luodaan jäännösosoitetta",
-        "transferPreparedTransaction": "Valmistellaan transaktiota",
-        "transferSigning": "Allekirjoitetaan transaktiota",
-        "transferPow": "Suoritetaan PoW",
-        "transferBroadcasting": "Lähetetään transaktiota",
-        "transferComplete": "Siirto valmis",
-        "generatingReceiveAddress": "Luodaan vastaanotto-osoitetta",
-        "broadcasting": "Lähetetään",
-        "confirming": "Vahvistetaan",
-        "creatingAccount": "Luodaan lompakkoa, odota hetki...",
-        "updatingAccount": "Päivitetään lompakkoa, odota hetki...",
-        "accountSyncing": "Lompakkoa synkronoidaan",
-        "accountSyncComplete": "Lompakon synkronointi valmis",
         "passwordUpdating": "Päivitetään salasanaa...",
         "passwordSuccess": "Salasanan päivitys onnistui",
         "passwordFailed": "Salasanan päivittäminen epäonnistui",
-        "syncing": "Synkronoidaan",
-        "syncingAccounts": "Synkronoidaan lompakkoja...",
         "exportingStronghold": "Viedään Strongholdia...",
         "exportingStrongholdSuccess": "Stronghold viety onnistuneesti",
         "exportingStrongholdFailed": "Strongholdin vienti epäonnistui",
-        "pinCodeUpdating": "Päivitetään PIN-koodia...",
         "pinCodeSuccess": "PIN-koodin päivitys onnistui",
         "pinCodeFailed": "PIN-koodin päivitys epäonnistui",
         "passwordStrength": "Salasanan vahvuus",
@@ -1552,55 +1281,33 @@
         "passwordStrength3": "Keskinkertainen",
         "passwordStrength4": "Vahva",
         "creatingProfile": "Luodaan profiilia, odota hetki...",
-        "fundMigration": "Varojen migraatio",
-        "accountRemoved": "Tämä lompakko on piilotettu. Näytä se tehdäksesi siirtoja.",
         "fromAddress": "tililtä {account}",
         "toAddress": "tilille {account}",
-        "stakedFor": "Stakettu tilille {account}",
-        "unstakedFor": "Ei staketut tilille {account}",
-        "votedFor": "Äänestetty tilille {account}",
-        "unvotedFor": "Äänestys lopetettu tilille {account}",
-        "stakingTransaction": "Staking-transaktio",
-        "unstakingTransaction": "Stakingin lopetustransaktio",
-        "legacyNetwork": "Vanha verkko",
         "capsLock": "Caps Lock on päällä",
         "version": "Versio {version}",
-        "yourWallets": "Sinun lompakkosi",
         "unknown": "Tuntematon",
         "unknownAddress": "Tuntematon osoite",
         "none": "Ei mikään",
-        "staked": "Stakettu",
-        "unstaked": "Ei stakettu",
-        "staking": "Staking",
-        "unstaking": "Lopetetaan staking",
-        "notStaked": "Ei stakettu",
-        "stakedFunds": "Staketut varat",
-        "unstakedFunds": "Varat ilman stakea",
         "accountColor": "Lompakon väri",
         "transactionTime": "Transaktion aika",
-        "surplus": "Ylijäämä",
         "storageDeposit": "Tallennusvakuus",
-        "giftedStorageDeposit": "Lahjoitettu tallennusvakuus",
+        "transactionFee": "Transaction fee",
         "storageDepositPerNft": "Storage deposit per NFT",
         "totalStorageDeposit": "Total storage deposit",
         "expirationTime": "Erääntymisaika",
         "timelockDate": "Aikalukko",
         "claimedTime": "Lunastettu",
-        "nftAddress": "NFT Address",
         "nftId": "NFT ID",
-        "nftMetadata": "NFT Metadata",
         "aliasId": "Alias ID",
         "governorAddress": "Governor Address",
         "stateControllerAddress": "State Controller Address",
         "copiedToClipboard": "Kopioitu leikepöydälle",
-        "total": "Yhteensä: {balance}",
         "availableBalanceWithValue": "Käytettävissä oleva saldo: {balance}",
-        "availableBalance": "Käytettävissä oleva saldo",
-        "availableBalanceTooltip": "Nimikkeen kokonaissaldo miinus varat, jotka vaaditaan tallennusvakuuden kattamiseen (ts. varat, jotka on lukittu avoimissa transaktioissa, varattu natiiveissa tokeneissa, tai varattu NFT:ille).",
         "amountClaimed": "{amount} lunastettu",
         "metadata": "Metatiedot",
         "amountConsolidatedInputs": "Consolidated outputs",
         "name": "Name",
+        "note": "Note",
         "tag": "Tunniste",
         "nodeList": "Solmulista",
         "claimedIn": "Lunastettu",
@@ -1612,7 +1319,6 @@
         "faucetRequestDescription": "Pyydä tokeneita {network}-faucetista",
         "refreshTokenMetadataDescription": "Palauta ja päivitä kaikki tokeneiden metatiedot",
         "refreshTokenMetadataHint": "Tämä palauttaa kaikki tokeneittesi metatiedot mukaan lukien vahvistustilan ja näyttää kaikki piilotetut varat.",
-        "giftStorageDeposit": "Lahjoita tallennusvakuus",
         "excluded": "Rajattu",
         "developerTools": "Kehittäjätyökalut",
         "testDeepLinkDescription": "Simuloi syvälinkkipyyntöä, joka on lähetetty Fireflyhyn",
@@ -1620,7 +1326,6 @@
         "hash": "Tarkiste",
         "creating": "Luodaan",
         "updating": "Päivitetään",
-        "enterAddress": "Enter address",
         "transaction": "Transaction",
         "alias": "Alias",
         "foundry": "Foundry",
@@ -1631,7 +1336,6 @@
         "smartContract": "Smart Contract",
         "targetContract": "Target contract",
         "contractFunction": "Contract function",
-        "gasBudget": "Gas budget",
         "standard": "Standard",
         "uri": "URI",
         "issuer": "Issuer",
@@ -1645,18 +1349,18 @@
         "description": "Description",
         "attributes": "Attributes",
         "details": "Details",
-        "availableAmount": "{amount} available",
         "properties": "Properties",
         "statistics": "Statistics",
-        "username": "Username",
-        "jwt": "JSON web token",
         "internalTransaction": "Internal transaction",
         "coinType": "Coin type",
         "custom": "Custom",
         "evmAddress": "EVM address",
-        "chain": "Chain",
         "importErc20Token": "Import ERC20 token",
-        "importErc20TokenDescription": "Import an ERC20 token from an EVM chain"
+        "optionalField": "{field} (optional)",
+        "gifted": "Gifted",
+        "connected": "Connected",
+        "estimatedFee": "Estimated fee",
+        "maxFees": "Max fees"
     },
     "filters": {
         "title": "Suodattimet",
@@ -1780,27 +1484,13 @@
         "year": "{time, plural, one {# vuosi} other {# vuotta}}"
     },
     "notifications": {
-        "valueTx": "Vastaanotetaan {{value}} lompakkoon {{account}}",
-        "confirmed": "Lähtevä {{value}} lompakosta {{account}} on vahvistettu",
-        "confirmedInternal": "{{value}} lompakosta {{senderAccount}} lompakkoon {{receiverAccount}} on vahvistettu",
-        "confirmedInternalNoAccounts": "{{value}} sisäinen siirto on vahvistettu",
-        "failed": "Lähtevä {{value}} lompakosta {{account}} on epäonnistunut",
         "downloadingUpdate": "Ladataan päivitystä",
         "updateReady": "Päivitys valmis",
         "updateError": "Päivityksen aikana tapahtui virhe, yritä uudelleen",
-        "restartInstall": "Käynnistä uudelleen asentaaksesi",
-        "calcMinutesRemaining": "Lasketaan jäljellä olevia minuutteja...",
-        "minutesRemaining": "{minutes, plural, one {# minuutti jäljellä} other {# minuuttia jäljellä}}",
         "copiedToClipboard": "Kopioitu leikepöydälle",
-        "accountsSynchronized": "Lompakon synkronointi valmis",
-        "fundsAvailableSoon": "Varasi ovat käytettävissä pian",
-        "exportTransactionHistory": {
-            "success": "Transaktiohistoria tilille {accountAlias} vietiin onnistuneesti tiedostoon {filePath}",
-            "error": "Ei voida viedä transaktiohistoriaa tilille {accountAlias}"
-        },
+        "newDappConnected": "Connected to new dApp",
         "deepLinkingRequest": {
             "receivedWhileLoggedOut": "Ole hyvä ja kirjaudu aloittaaksesi syvälinkin",
-            "notEnabled": "Syvälinkit eivät ole käytössä",
             "invalidFormat": "Seuraamasi syvälinkki on virheellinen",
             "invalidAmount": "The amount in deep link is not an integer number {amount}",
             "invalidSurplus": "Syvälinkissä oleva ylijäämä ei ole numero {surplus}",
@@ -1809,22 +1499,15 @@
                 "unrecognizedOperation": "Unrecognized Governance operation: {operation}"
             },
             "wallet": {
-                "send": {
-                    "success": "Maksutiedot lisätty syvälinkistä"
-                },
                 "unrecognizedOperation": "Tunnistamaton lompakon toiminto: {operation}"
             }
         },
-        "syncing": "Ole hyvä ja odota, kunnes synkronointi on valmistunut vaihtaaksesi lompakkoa.",
-        "transferring": "Ole hyvä ja odota, kunnes kaikki transaktiot ovat valmistuneet vaihtaaksesi lompakkoa.",
-        "participating": "Ole hyvä ja odota, kunnes kaikki staking- ja äänestystransaktiot ovat valmistuneet vaihtaaksesi lompakkoa.",
         "claimed": {
             "success": "Transaktio lunastettu",
             "error": "Transaktion lunastaminen epäonnistui"
         },
         "hideActivity": {
-            "success": "Aktiviteetti piilotettiin",
-            "error": "Tapahtuman piilotus epäonnistui"
+            "success": "Aktiviteetti piilotettiin"
         },
         "faucetRequest": {
             "success": "Pyyntö tokeneista lähetetty faucetille"
@@ -1849,7 +1532,6 @@
             "wrongProtocolForClaiming": "Sinun on käytettävä IOTA-pohjaista Stronghold-varmuuskopiota lunastaaksesi Shimmer-palkkioita"
         },
         "findShimmerRewards": {
-            "success": "Shimmer-palkkiot löydetty onnistuneesti",
             "error": "Palkkioita etsiessä tapahtui virhe"
         },
         "claimShimmerRewards": {
@@ -1861,17 +1543,19 @@
         },
         "stopVoting": {
             "success": "Voting successfully stopped"
+        },
+        "updateContact": {
+            "success": "Contact successfully updated"
+        },
+        "updateNetworkAddresses": {
+            "success": "Contact addresses successfully updated"
         }
     },
     "error": {
         "profile": {
             "length": "Profiilisi nimi ei voi olla pidempi kuin {length, plural, one {# merkki} other {# merkkiä}}.",
             "duplicate": "Samanniminen profiili on jo olemassa.",
-            "delete": {
-                "nonEmptyAccounts": "Sinun täytyy siirtää kaikki saldot ennen kuin voit poistaa profiilisi."
-            },
-            "type": "Profiilin tyypin määrittäminen ei onnistu",
-            "setupType": "Profiilin luonnin tyypin määrittäminen ei onnistu"
+            "type": "Profiilin tyypin määrittäminen ei onnistu"
         },
         "password": {
             "doNotMatch": "Salasanat eivät täsmää.",
@@ -1894,29 +1578,25 @@
         "pincode": {
             "length": "PIN-koodisi täytyy olla {length, plural, one {# numeron pituinen} other {# numeroa pitkä}}.",
             "match": "PIN-koodit eivät täsmää.",
-            "incorrect": "Nykyinen PIN-koodisi on virheellinen.",
-            "invalid": "Virheellinen PIN-koodi."
+            "incorrect": "Nykyinen PIN-koodisi on virheellinen."
         },
         "address": {
-            "wrongAddressType": "Wrong address type"
+            "wrongAddressType": "Wrong address type",
+            "invalidBech32Format": "Invalid Bech32 format",
+            "belongsToAccount": "Cannot belong to any of your accounts",
+            "checksum": "Address checksum is invalid"
         },
         "account": {
-            "addressNotFound": "The address cannot be found in your account.",
             "length": "Lompakkosi nimi ei voi olla pidempi kuin {length, plural, one {# merkki} other {# merkkiä}}.",
             "emptyName": "Profiilin nimessä on oltava vähintään yksi merkki.",
-            "notEmpty": "Sinun täytyy siirtää saldosi ennen kuin poistat tämän lompakon.",
             "duplicate": "Samanniminen lompakko on jo olemassa.",
             "tilde": "Profiilin nimi ei voi alkaa merkillä '~'.",
             "control": "Profiilin nimi ei voi sisältää ohjausmerkkiä.",
             "startDot": "Profiilin nimi ei voi alkaa pisteellä.",
             "chars": "Profiilin nimi ei voi sisältää merkkejä <>:\"/\\|?*",
-            "index": "Tilisi indeksi täytyy olla numero väliltä 0 ja 2147483647.",
-            "page": "Tilisi sivu täytyy olla numero väliltä 0 ja 2147483647.",
-            "syncing": "Lompakoiden synkronoinnissa tapahtui virhe.",
             "cannotRemove": "Lompakkoa ei voida poistaa.",
             "withBalance": "Sinun täytyy siirtää kaikki saldot ennen kuin voit poistaa tämän lompakon.",
             "notLast": "Voit poistaa vain viimeisimmän lompakkosi.",
-            "notFound": "Tiliä ei löydy",
             "cannotGetBoundAccount": "Sidottua tiliä ei löydy"
         },
         "send": {
@@ -1934,24 +1614,20 @@
             "invalidTokenId": "The token id is not valid.",
             "unknownAsset": "Tämä nimike ei ole tämän tilin tiedossa.",
             "insufficientFunds": "Tässä lompakossa ei ole riittävästi varoja.",
+            "insufficientFundsGasFee": "Insufficient funds to cover the gas fee.",
             "insufficientFundsStorageDeposit": "Insufficient funds to cover the storage deposit.",
             "ongoingTransaction": "If you have ongoing transactions, please wait for their confirmation.",
-            "cannotClaimTwice": "Tuloste on jo lunastettu",
-            "noToAccount": "Et ole valinnut lompakkoa, johon varat lähetetään.",
-            "sendingDust": "Et voi lähettää alle 1 Mi.",
-            "leavingDust": "Et voi jättää alle 1 Mi osoitteeseesi.",
             "cancelled": "Transaktio peruutettiin.",
-            "transaction": "Transaktiosi lähettämisessä tapahtui virhe. Ole hyvä ja yritä uudelleen.",
             "invalidExpirationDateTime": "Valittu erääntymispäivä/-aika on virheellinen.",
+            "invalidTimelockDateTime": "The chosen timelock date/time is invalid.",
             "noInputs": "No inputs found.",
             "notEnoughBalance": "Not enough balance.",
             "missingTransactionId": "Transaktion ID puuttuu",
             "missingTransactionProgressEventPayload": "Transaktion etenemisen tapahtuman tietosisältö puuttuu",
             "recipientRequired": "Recipient is required",
-            "nftRequired": "NFT is required",
-            "nftNotInHex": "NFT address has to be in HEX format",
-            "nftNotInPossession": "NFT not in possession",
-            "reservedTagKeyword": "Unable to use reserved tag keyword"
+            "reservedTagKeyword": "Unable to use reserved tag keyword",
+            "invalidSendParameters": "Invalid send parameters.",
+            "unableToGetOriginAddress": "Unable to get the origin address."
         },
         "layer2": {
             "layer1Recipient": "A layer 2 transaction cannot be sent to a layer 1 account."
@@ -1959,17 +1635,12 @@
         "node": {
             "invalid": "Syötä kelvollinen URL-osoite.",
             "dns": "Unable to find DNS resolution for node",
-            "timedOut": "Yhteys aikakatkaistiin.",
-            "refused": "Yhteydestä kieltäydyttiin.",
             "handshake": "Kättelyä solmun kanssa ei voitu suorittaa.",
             "invalidCertificate": "Ei voitu yhdistää virheellisellä varmenteella.",
             "https": "HTTPS on pakollinen; turvattomia yhteyksiä HTTP:n yli ei tueta tällä hetkellä.",
             "duplicate": "Tämä solmu on jo lisätty.",
             "noSyncedNode": "Synkronoituja solmuja ei ole saatavilla.",
             "timeNotSynced": "Laitteen kellonaika on väärin, solmua ei voi synkronoida.",
-            "answer": "Vastauksen saaminen kaikilta solmuilta epäonnistui.",
-            "forbidden": "Tämä solmuyhteys on kielletty.",
-            "pluginNotAvailable": "\"{nodePlugin}\" liitännäinen ei ole saatavilla nykyisellä solmulla.",
             "unabledToConnect": "Solmuun ei voi yhdistää",
             "differentNetwork": "Solmu sijaitsee eri verkossa",
             "duplicateNodes": "Ei voida lisätä duplikaattisolmua",
@@ -1977,20 +1648,15 @@
         },
         "network": {
             "mismatch": "Tämän solmun verkkotunnus on \"{networkId}\", joka ei vastaa nykyistä verkkoa.",
-            "notReachable": "Tämän solmun verkkotunnusta ei voitu hakea, ei voida lisätä solmua.",
-            "badNodes": "Yhteyden muodostaminen verkkoon ei ole mahdollista nykyisillä solmuasetuksilla.",
-            "nonEmptyAccount": "Sinun on siirrettävä kaikki saldot ennen verkon vaihtamista."
+            "notReachable": "Tämän solmun verkkotunnusta ei voitu hakea, ei voida lisätä solmua."
         },
         "global": {
             "generic": "Jokin meni pieleen."
         },
         "backup": {
-            "invalid": "Varmuuskopiotiedostoa ei tunnistettu.",
+            "invalid": "The backup file was not recognized.",
             "destination": "Varmuuskopioinnin kohde ei kelpaa.",
-            "mnemonic": "Muistisääntö ei kelpaa.",
             "migrationRequired": "Stronghold migration is required.",
-            "seedTooShort": "Seed-merkkijonon pitäisi olla 81 merkkiä pitkä, se {length, plural, one {on #} other {on #}}",
-            "seedCharacters": "Seed-merkkijonon tulisi sisältää vain merkkejä A-Z tai 9",
             "phraseWordCount": "Palautuslausekkeessasi pitäisi olla 24 sanaa, tällä hetkellä siinä {length, plural, one {on #} other {on #}}.",
             "phraseUnrecognizedWord": "Tuntematon sana \"{word}\" palautuslauseessasi",
             "phraseCaseWord": "Sana \"{word}\" tulee olla pienillä kirjaimilla kirjoitettu",
@@ -1998,7 +1664,6 @@
             "unableToRestoreForProfileManager": "Ei voitu palauttaa Stronghold-varmuuskopiota profiilin hallintaan"
         },
         "ledger": {
-            "appNotOpen": "Sinun täytyy avata IOTA-sovellus Ledger-laitteellasi.",
             "generic": "Ledger-laitteeen yhdistämisessä tapahtui virhe.",
             "legacyConnected": "Väärä sovellus on auki Ledger-laitteellasi.",
             "locked": "Ole hyvä ja avaa Ledger-laitteesi lukitus syöttämällä PIN-koodisi.",
@@ -2009,25 +1674,15 @@
             "generateAddress": "Osoitetta luotaessa tapahtui virhe.",
             "timeout": "Ledger-laitteesi aikakatkaistiin.",
             "disconnected": "Yhteys Ledger-laitteeseesi katkaistiin.",
-            "noStronghold": "Ei voida käyttää Strongholdia Ledger-profiilin kanssa."
+            "noStronghold": "Ei voida käyttää Strongholdia Ledger-profiilin kanssa.",
+            "rejected": "Action was rejected on the Ledger device"
         },
         "popup": {
             "preventClose": "Tätä ponnahdusikkunaa ei voi sulkea."
         },
-        "migration": {
-            "missingBundle": "Transaktiobundlen etsinnän aikana tapahtui virhe."
-        },
         "crypto": {
             "cannotDecodeBech32": "Merkkijonon dekoodaus Bech32-osoitteena ei onnistu."
         },
-        "participation": {
-            "cannotUseAccount": "Ei voida käyttää kyseistä tiliä.",
-            "cannotFindStakingEvent": "Ei voida löytää staking-tapahtumaa.",
-            "cannotVisitAirdropWebsite": "Ei voida avata {airdrop} verkkosivua.",
-            "invalidStakingEventId": "Virheellinen staking-tapahtumatunnus."
-        },
-        "invalidDate": "VIRHEELLINEN PÄIVÄMÄÄRÄ",
-        "invalidTime": "VIRHEELLINEN AIKA",
         "shimmerClaiming": {
             "missingProfileManager": "Ei löydetty Shimmer-lunastuksen profiilin hallintaa",
             "cannotInitialiseAccount": "Ei voitu alustaa Shimmer-lunastuksen tiliä",
@@ -2094,63 +1749,41 @@
         "erc20Token": {
             "invalidAddressFormat": "Must be hexadecimal format",
             "invalidAddressLength": "Length is invalid"
+        },
+        "input": {
+            "invalid": "{field} input is invalid",
+            "required": "{field} is required",
+            "alreadyUsed": "{field} is already being used",
+            "tooLong": "{field} must be {numCharacters} or less characters"
+        },
+        "walletConnect": {
+            "invalidUri": "Invalid URI",
+            "invalidProtocol": "Invalid protocol, must start with 'wc'.",
+            "deprecatedVersion": "dApp uses a deprecated wallet connect version."
+        },
+        "web3": {
+            "unableToGetProvider": "Unable to get web3 provider.",
+            "unableToFormSmartContractData": "Unable to form smart contract data."
+        },
+        "token": {
+            "missingMetadata": "The token metadata is missing."
         }
     },
     "warning": {
         "transaction": {
-            "invalidExpirationDateTime": "Valittu erääntymispäivä on virheellinen."
-        },
-        "node": {
-            "http": "Solmujen käyttäminen HTTP:n yli jättää liikenteen salaamattomaksi ja voi aiheuttaa turvallisuusriskin."
-        },
-        "participation": {
-            "noFunds": "Sinulla ei ole yhtään IOTA-tokenia."
+            "invalidDateTime": "The chosen date must be in the future."
         }
     },
     "tooltips": {
-        "risk": {
-            "title": "Riskitaso: {risk}",
-            "veryHigh": "Erittäin korkea",
-            "high": "Korkea",
-            "medium": "Keskitasoinen",
-            "low": "Matala",
-            "veryLow": "Erittäin matala"
-        },
-        "partiallyStakedFunds": {
-            "title": "Uudet varat ilman stakea: {amount}",
-            "titleNoFunds": "Uudet varat ilman stakea",
-            "preBody": "Olet vastanottanut tokeneita, jotka eivät ole stakettuja.",
-            "body": "Sinun täytyy manuaalisesti staketa nämä uudet varat saadaksesi niistä airdrop-palkkioita."
-        },
-        "stakingMinRewards": {
-            "title": "Vähimmäispalkkioarvon alapuolella",
-            "titleMinBalance": "{amount} vähimmäissaldo vaaditaan",
-            "bodyMinBalance": "Tässä lompakossa ei ole riittävästi IOTA-tokeneita airdrop-palkkioiden vähimmäismäärän saavuttamiseksi ja näin ollen sitä ei voi staketa.",
-            "continue": "Ole hyvä ja jatka stakingia seuraavat {duration}.",
-            "bodyBelowMin": "Tämä lompakko ei ole saavuttanut palkkioiden vähimmäisarvoa airdropille {airdrop} ({airdropRewardMin}).",
-            "bodyWillReachMin": "Sinun täytyy staketa vielä {duration} saavuttaakseksi vähimmäismäärän.",
-            "bodyWillNotReachMin": "Et tule saavuttamaan vähimmäispalkkioarvoa jäljellä olevan staking-jakson aikana, ellet lisää IOTA:a.",
-            "bodyDidNotReachMin": "Et stakennut tarpeeksi IOTA:a saavuttaaksesi vähimmäispalkkioarvoa airdropille {airdrop} ({airdropRewardMin}).",
-            "bodyMinBalanceAirdrop": "Tässä lompakossa ei ole riittävästi IOTA-tokeneita vähimmäispalkkion saavuttamiseksi airdropille {airdrop}."
-        },
         "optionalInput": "Nämä valinnaiset tiedot tulevat olemaan julkisia explorerissa ja kaikkien nähtävissä.",
         "transactionDetails": {
-            "minting": {
-                "storageDeposit": "A refundable token deposit needed to store your transaction on the Tangle.",
-                "giftedStorageDeposit": "The storage deposit for this transaction was gifted to you. You do not need to refund the deposit.",
-                "expirationTime": "Claim these funds before the expiration time or they will be returned to the sender.",
-                "timelockDate": "The sender set a timelock on these funds. You will be able to spend them once the timelock expires.",
-                "metadata": "An optional data field for storing data persistently on the Tangle.",
-                "tag": "A short optional data field. Tagging groups of transactions can make them easier to search for."
-            },
             "incoming": {
                 "storageDeposit": "Palautettava token-vakuus tarvitaan transaktiosi tallettamiseen Tangleen.",
                 "giftedStorageDeposit": "Tämän transaktion tallennusvakuus lahjoitettiin sinulle. Sinun ei tarvitse palauttaa vakuutta.",
                 "expirationTime": "Lunasta nämä varat ennen erääntymisaikaa tai ne palautetaan lähettäjälle.",
                 "timelockDate": "Lähettäjä asetti aikalukon näihin varoihin. Voit käyttää ne, kun aikalukko päättyy.",
                 "metadata": "Valinnainen tietokenttä tietojen pysyvään tallennukseen Tanglessa.",
-                "tag": "Lyhyt valinnainen tietokenttä. Transaktioryhmien merkitseminen voi helpottaa niitten etsimistä.",
-                "gasBudget": "Gas budget is required to conduct a transaction or execute a smart contract function on Shimmer EVM."
+                "tag": "Lyhyt valinnainen tietokenttä. Transaktioryhmien merkitseminen voi helpottaa niitten etsimistä."
             },
             "outgoing": {
                 "storageDeposit": "Tallennusvakuus on palautettava talletus, joka tarvitaan transaktiosi tallettamiseen Tangleen.",
@@ -2158,16 +1791,11 @@
                 "expirationTime": "Jos vastaanottaja ei lunasta ajoissa, tokenisi palautetaan sinulle.",
                 "timelockDate": "Lisäsit aikalukon tähän transaktioon. Vastaanottaja ei voi käyttää näitä varoja ennen kuin aikalukko erääntyy.",
                 "metadata": "Valinnainen tietokenttä tietojen pysyvään tallennukseen Tanglessa.",
-                "tag": "Lyhyt valinnainen tietokenttä. Transaktioryhmien merkitseminen voi helpottaa niitten etsimistä.",
-                "gasBudget": "Gas budget is required to conduct a transaction or execute a smart contract function on Shimmer EVM."
+                "tag": "Lyhyt valinnainen tietokenttä. Transaktioryhmien merkitseminen voi helpottaa niitten etsimistä."
             },
             "nftMetadata": {
-                "standard": "The NFT standard e.g. IRC27.",
                 "type": "The MimeType of the NFT. e.g. image/png.",
-                "collectionId": "UTXO string of the collection NFT that minted this NFT",
-                "royalties": "An object containing key-value pairs of addresses that map to payout percentages",
-                "issuerName": "The name of the creator",
-                "attributes": "An array of traits and values that define attributes of the NFT"
+                "issuerName": "The name of the creator"
             }
         },
         "mintNativeToken": {
@@ -2177,7 +1805,6 @@
             "logoUrl": "IRC30 optional parameter: URL pointing to an image resource of the token logo."
         },
         "mintNftForm": {
-            "collectionId": "Optional parameter: UTXO string of the collection NFT that minted this NFT",
             "collectionName": "Optional parameter: The collection's name",
             "royalties": "Optional parameter: An object containing key-value pairs of addresses that map to payout percentages",
             "issuerName": "Optional parameter: The name of the creator",
@@ -2199,30 +1826,10 @@
         },
         "updateStronghold": {
             "profileBadge": "Your Stronghold is out of date. Log in to update Stronghold."
-        }
-    },
-    "exports": {
-        "transactionHistoryCsv": {
-            "messageId": "Viestitunniste",
-            "internal": "Sisäinen",
-            "rawValue": "Raaka-arvo",
-            "formattedValue": "Muotoiltu arvo",
-            "date": "Päivämäärä",
-            "time": "Aika"
-        }
-    },
-    "indicators": {
-        "developerProfileIndicator": {
-            "warningText": "Käytät tällä hetkellä kehittäjäprofiilia ja olet yhdistettynä verkkoon {networkName}"
         },
-        "networkIndicator": {
-            "warningText": "Verkon suorituskyky on alentunut. Viestin vahvistus voi kestää tavallista kauemmin."
-        }
-    },
-    "permissions": {
-        "camera": {
-            "request": "Tarvitsemme luvan käyttää kameraasi QR-koodien skannaamiseen.",
-            "requestInAppSettings": "Jos haluat antaa luvan käyttää kameraasi QR-koodien skannaukseen, ota se käyttöön sovelluksen asetuksista."
+        "tokenIsNotVerified": {
+            "title": "Token is not verified",
+            "text": "Compare the token metadata against the relevant team’s official website. Only verify tokens that you trust."
         }
     },
     "tabs": {
@@ -2230,100 +1837,16 @@
         "collectibles": "Collectibles",
         "governance": "Hallinnointi",
         "developer": "Kehittäjä",
-        "tokens": "Tokenit",
-        "activity": "Aktiviteetti"
+        "tokens": "Tokenit"
     },
     "pills": {
-        "stake": {
-            "Pending": "staketaan",
-            "Confirmed": "stakettu",
-            "Conflicting": "stake epäonnistui"
-        },
-        "external": {
-            "incoming": {
-                "Pending": "receiving from",
-                "Confirmed": "received from",
-                "Conflicting": "failed to receive"
-            },
-            "outgoing": {
-                "Pending": "sending to",
-                "Confirmed": "sent to",
-                "Conflicting": "failed to send"
-            }
-        },
-        "internal": {
-            "incoming": {
-                "Pending": "transferring from",
-                "Confirmed": "transferred from",
-                "Conflicting": "failed to transfer"
-            },
-            "outgoing": {
-                "Pending": "transferring to",
-                "Confirmed": "transferred to",
-                "Conflicting": "failed to transfer"
-            },
-            "selfTransaction": {
-                "Pending": "transferring to",
-                "Confirmed": "transferred to",
-                "Conflicting": "failed to transfer"
-            }
-        },
-        "mint": {
-            "Pending": "minting",
-            "Confirmed": "minted",
-            "Conflicting": "failed to mint"
-        },
-        "burn": {
-            "Pending": "burning",
-            "Confirmed": "burned",
-            "Conflicting": "failed to burn"
-        },
-        "consolidation": {
-            "Pending": "Consolidating outputs",
-            "Confirmed": "Outputs consolidated",
-            "Conflicting": "failed to consolidate outputs"
-        },
-        "migrate": {
-            "Pending": "siirretään",
-            "Confirmed": "siirretty",
-            "Conflicting": "migraatio epäonnistui"
-        },
         "asyncStatus": {
             "unclaimed": "lunastamaton",
             "claimed": "lunastettu",
-            "expired": "erääntynyt"
+            "expired": "erääntynyt",
+            "timelocked": "timelocked"
         },
         "governance": {
-            "increaseVotingPower": {
-                "Pending": "increasing voting power",
-                "Confirmed": "increased voting power",
-                "Conflicting": "failed to increased voting power"
-            },
-            "decreaseVotingPower": {
-                "Pending": "decreasing voting power",
-                "Confirmed": "decreased voting power",
-                "Conflicting": "failed to decreased voting power"
-            },
-            "startVoting": {
-                "Pending": "voting for",
-                "Confirmed": "voted for",
-                "Conflicting": "failed to vote for"
-            },
-            "stopVoting": {
-                "Pending": "stopping voting for",
-                "Confirmed": "stopped voting for",
-                "Conflicting": "failed to stopped voting for"
-            },
-            "changedVote": {
-                "Pending": "changing vote for",
-                "Confirmed": "changed vote for",
-                "Conflicting": "failed to change vote for"
-            },
-            "revote": {
-                "Pending": "revoting",
-                "Confirmed": "revote",
-                "Conflicting": "failed to revote"
-            },
             "proposalStatus": {
                 "upcoming": "Announcement",
                 "commencing": "Voting open",
@@ -2333,31 +1856,21 @@
                 "resultsNotAvailable": "Results not available"
             }
         },
-        "alias": {
-            "creation": {
-                "Pending": "creating alias",
-                "Confirmed": "alias created",
-                "Failed": "Failed to create alias"
-            }
-        },
         "networkHealth": {
             "down": "Down",
             "degraded": "Degraded",
             "operational": "Operational",
             "disconnected": "Disconnected"
-        },
-        "locked": "lukittu",
-        "smartContract": "smart contract"
+        }
     },
     "menus": {
-        "expirationTimePicker": {
-            "none": "Ei erääntymisaikaa",
-            "1hour": "1 tunnin kuluttua",
-            "1day": "1 päivän kuluttua",
-            "1week": "1 viikon kuluttua",
+        "dateTimePicker": {
+            "1hour": "In 1 hour",
+            "1day": "In 1 day",
+            "1week": "In 1 week",
             "customDate": {
-                "title": "Mukautettu päivämäärä",
-                "subtitle": "Aseta mukautettu erääntymispäivämäärä"
+                "title": "Custom date",
+                "subtitle": "Set custom date"
             }
         }
     }

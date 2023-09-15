@@ -1,11 +1,10 @@
 import { INft } from '@core/nfts'
 import { getNftByIdFromAllAccountNfts } from '@core/nfts/actions'
-import { getCoinType } from '@core/profile/actions'
-import { IToken } from '@core/token/interfaces'
-import { getTokenFromSelectedAccountTokens, getPersistedToken } from '@core/token/stores'
+import { TokenTransferData } from '@core/wallet/types'
 import { ActivityType, GovernanceAction } from '../enums'
 import { Activity } from '../types'
-import { TokenTransferData } from '@core/wallet/types'
+import { getPersistedToken } from '@core/token/stores'
+import { BASE_TOKEN_ID, IToken } from '@core/token'
 
 export function getTransactionAssets(
     activity: Activity,
@@ -18,51 +17,40 @@ export function getTransactionAssets(
           baseCoinTransfer?: TokenTransferData
       }
     | undefined {
+    const baseCoin = { ...getPersistedToken(BASE_TOKEN_ID), networkId: activity.sourceNetworkId }
+
+    if (!baseCoin) {
+        return undefined
+    }
+
+    const baseCoinTransfer = {
+        rawAmount: activity.baseTokenTransfer.rawAmount,
+        token: baseCoin,
+    }
+
     if (activity.type === ActivityType.Nft) {
-        const baseCoin = getTokenFromSelectedAccountTokens(getCoinType(), activity.sourceNetworkId)
         const nft = getNftByIdFromAllAccountNfts(accountIndex, activity.nftId)
         return {
             nft,
-            baseCoinTransfer: {
-                rawAmount: String((activity.rawBaseCoinAmount ?? 0) - activity.storageDeposit),
-                token: baseCoin,
-            },
+            baseCoinTransfer,
         }
     } else if (activity.type === ActivityType.Basic || activity.type === ActivityType.Foundry) {
-        const tokenWithBalance = getTokenFromSelectedAccountTokens(activity.tokenId, activity.sourceNetworkId)
-        const persistedToken = getPersistedToken(activity.tokenId)
-        const token: IToken = {
-            networkId: activity.sourceNetworkId,
-            balance: {
-                total: 0,
-                available: 0,
-            },
-            ...tokenWithBalance,
-            ...persistedToken,
-        }
-        if (activity.tokenId === getCoinType()) {
-            return {
-                baseCoinTransfer: {
-                    rawAmount: String(activity.rawBaseCoinAmount),
-                    token,
-                },
-            }
-        } else {
-            const baseCoin = getTokenFromSelectedAccountTokens(getCoinType(), activity.sourceNetworkId)
-            return {
-                tokenTransfer: {
-                    rawAmount: String(activity.rawAmount),
-                    token,
-                },
-                baseCoinTransfer: {
-                    rawAmount: String((activity.rawBaseCoinAmount ?? 0) - activity.storageDeposit),
-                    token: baseCoin,
-                },
-            }
+        const token: IToken | undefined = activity.tokenTransfer?.tokenId
+            ? { ...getPersistedToken(activity.tokenTransfer.tokenId), networkId: activity.sourceNetworkId }
+            : undefined
+        const tokenAmount = activity.tokenTransfer?.rawAmount
+
+        return {
+            tokenTransfer:
+                token && tokenAmount
+                    ? {
+                          rawAmount: tokenAmount,
+                          token,
+                      }
+                    : undefined,
+            baseCoinTransfer,
         }
     } else if (activity.type === ActivityType.Governance) {
-        const baseCoin = getTokenFromSelectedAccountTokens(getCoinType(), activity.sourceNetworkId)
-
         const isVotingPowerActivity =
             activity.governanceAction === GovernanceAction.DecreaseVotingPower ||
             activity.governanceAction === GovernanceAction.IncreaseVotingPower
@@ -72,6 +60,10 @@ export function getTransactionAssets(
                 rawAmount: String(amount),
                 token: baseCoin,
             },
+        }
+    } else if (activity.type === ActivityType.Alias) {
+        return {
+            aliasId: activity.aliasId,
         }
     }
 }

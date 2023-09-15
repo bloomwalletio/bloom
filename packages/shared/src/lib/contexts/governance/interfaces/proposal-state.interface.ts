@@ -1,9 +1,9 @@
-import type { ParticipationEventStatus, Question } from '@iota/wallet'
+import { EventStatus, ParticipationEventStatus, Question } from '@iota/sdk/out/types'
 import { IOrganization, ProposalError } from '..'
-import { ProposalStatus, ProposalType } from '../enums'
+import { ProposalType } from '../enums'
 
 export interface IProposal extends IProposalMetadata {
-    status: ProposalStatus
+    status: EventStatus
 }
 
 export interface IProposalState {
@@ -18,7 +18,7 @@ export interface IRegisteredProposals {
 
 export interface IProposalMetadata {
     id: string
-    milestones?: Record<ProposalStatus, number>
+    milestones?: Record<EventStatus, number>
     organization?: IOrganization
     type: ProposalType
     questions: Question[]

@@ -1,11 +1,11 @@
+import { OutputParams, Assets } from '@iota/sdk/out/types'
 import { getGasFeesForLayer1ToLayer2Transaction, getLayer2MetadataForTransfer } from '@core/layer-2/actions'
 import { ChainConfiguration, ChainType, getActiveNetworkId, getChainConfiguration, isEvmChain } from '@core/network'
-import { getCoinType } from '@core/profile/actions'
+import { BASE_TOKEN_ID } from '@core/token'
 import { Converter, convertDateToUnixTimestamp } from '@core/utils'
 import { SendFlowParameters, Subject } from '@core/wallet/types'
-import { Assets, OutputParams } from '@iota/wallet/out/types'
 import { ReturnStrategy } from '../enums'
-import { SendFlowType } from '../stores'
+import { SendFlowType } from '../enums'
 
 export async function getOutputParameters(
     sendFlowParameters: SendFlowParameters,
@@ -48,7 +48,7 @@ export async function getOutputParameters(
             ...(timelockUnixTime && { timelockUnixTime }),
         },
         storageDeposit: {
-            returnStrategy: giftStorageDeposit ? ReturnStrategy.Gift : ReturnStrategy.Return,
+            returnStrategy: giftStorageDeposit || isToLayer2 ? ReturnStrategy.Gift : ReturnStrategy.Return,
         },
     }
 }
@@ -75,7 +75,7 @@ function getAssetsFromTransactionData(sendFlowParameters: SendFlowParameters): A
         assets = { nftId: sendFlowParameters.nft?.id }
     } else if (sendFlowParameters.type === SendFlowType.TokenTransfer) {
         const tokenId = sendFlowParameters.tokenTransfer?.token?.id
-        const nativeTokenId = tokenId === getCoinType() ? undefined : tokenId
+        const nativeTokenId = tokenId === BASE_TOKEN_ID ? undefined : tokenId
 
         if (nativeTokenId) {
             const bigAmount = BigInt(sendFlowParameters.tokenTransfer?.rawAmount ?? '0')
@@ -83,7 +83,7 @@ function getAssetsFromTransactionData(sendFlowParameters: SendFlowParameters): A
                 nativeTokens: [
                     {
                         id: nativeTokenId,
-                        amount: Converter.bigIntToHex(bigAmount),
+                        amount: bigAmount,
                     },
                 ],
             }

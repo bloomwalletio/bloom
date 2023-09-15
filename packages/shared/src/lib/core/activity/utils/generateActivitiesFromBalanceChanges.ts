@@ -5,7 +5,7 @@ import { get } from 'svelte/store'
 import { network } from '@core/network'
 import { generateBalanceChangeActivity } from './generateBalanceChangeActivity'
 
-export function generateActivitiesFromBalanceChanges(account: IAccountState): Activity[] {
+export async function generateActivitiesFromBalanceChanges(account: IAccountState): Promise<Activity[]> {
     const activities: Activity[] = []
 
     const chains = get(network)?.getChains() ?? []
@@ -16,8 +16,10 @@ export function generateActivitiesFromBalanceChanges(account: IAccountState): Ac
 
         for (const tokenId of tokenIds) {
             for (const balanceChangeForAsset of balanceChanges[tokenId]) {
-                const activity = generateBalanceChangeActivity(networkId, tokenId, balanceChangeForAsset)
-                activities.push(activity)
+                if (!balanceChangeForAsset.hidden) {
+                    const activity = await generateBalanceChangeActivity(networkId, tokenId, balanceChangeForAsset)
+                    activities.push(activity)
+                }
             }
         }
     }

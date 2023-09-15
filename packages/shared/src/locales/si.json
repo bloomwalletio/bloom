@@ -3,26 +3,13 @@
         "onboarding": {
             "appSetup": {
                 "welcome": {
-                    "title": "Send, Receive & Manage your {network} tokens",
-                    "body": "Firefly is the official wallet software for {network}."
+                    "title": "Welcome to"
                 },
                 "legal": {
-                    "title": "Privacy Policy & Terms of Service",
-                    "body": "Please review the Privacy Policy and Terms of Service.",
-                    "checkbox": "I've read and I accept the Privacy Policy and Terms of Service"
-                },
-                "languageAndAppearance": {
-                    "title": "Language & appearance",
-                    "body": "Choose your language and theme."
+                    "title": "Privacy Policy & Terms of Service"
                 }
             },
             "networkSetup": {
-                "chooseProtocol": {
-                    "title": "Choose protocol",
-                    "body": "Set the protocol for your profile.",
-                    "iota": "Default IOTA network",
-                    "shimmer": "Experimental IOTA staging network"
-                },
                 "chooseNetwork": {
                     "title": "Choose network",
                     "body": "Set the network for your profile.",
@@ -44,8 +31,7 @@
                     }
                 },
                 "setupCustomNetwork": {
-                    "title": "Connect to a custom network or node",
-                    "body": "Fill the form with the node information and connect to a custom network or node."
+                    "title": "Connect to a custom network or node"
                 }
             },
             "profileSetup": {
@@ -75,10 +61,6 @@
                     "importLedger": "Use Ledger device",
                     "importLedgerDescription": "Restore from your Ledger Nano S or X device"
                 },
-                "setupClaimed": {
-                    "title": "Claim Shimmer staking rewards",
-                    "body": "Import your IOTA profile and claim your Shimmer staking rewards."
-                },
                 "enterName": {
                     "title": "Create your {network} profile",
                     "profileName": "Profile name",
@@ -105,12 +87,6 @@
                 }
             },
             "profileBackup": {
-                "backupMnemonic": {
-                    "title": "Back up your recovery phrase",
-                    "body1": "You will now be shown a recovery phrase. Write it down in your Recovery Kit.",
-                    "body2": "Do not share your recovery phrase with anyone. It can be used to access your tokens from anywhere.",
-                    "body3": "If you lose your recovery phrase, you may lose your funds."
-                },
                 "viewMnemonic": {
                     "title": "Recovery phrase",
                     "body1": "In your Recovery Kit, write down the words in the exact order shown.",
@@ -125,20 +101,12 @@
                     "word": "Word",
                     "verified": "Recovery phrase verified",
                     "verifiedBody": "Remember to keep it private and safely stored."
-                },
-                "backupStronghold": {
-                    "title": "Back up to a Stronghold file",
-                    "body1": "Enter your password to create a Stronghold backup of your profile. Your password is used to encrypt the backup file.",
-                    "body2": "Reasons why digital backups are important:",
-                    "reason1": "Easily recover your wallets without typing in your recovery phrase",
-                    "reason2": "Import your wallets on other devices",
-                    "reason3": "Recover your full transaction history"
                 }
             },
             "profileRecovery": {
                 "importMnemonicPhrase": {
                     "title": "Enter your recovery phrase",
-                    "body": "A recovery phrase is 24 words long, all lower case, with spaces between. This is used to recover existing Firefly profiles.",
+                    "body": "A recovery phrase is 24 words long, all lower case, with spaces between. This is used to recover existing Bloom profiles.",
                     "enter": "Enter your secret recovery phrase",
                     "phraseDetected": "24 word recovery phrase detected"
                 },
@@ -149,10 +117,6 @@
                 "backupPassword": {
                     "body1": "Please enter your backup password.",
                     "body2": "This is the password you set when you first created your backup."
-                },
-                "success": {
-                    "title": "You have successfully recovered your backup",
-                    "body": "You can now set up your new profile."
                 }
             },
             "shimmerClaiming": {
@@ -169,22 +133,9 @@
             },
             "congratulations": {
                 "title": "Profile setup almost complete...",
-                "fundsMigrated": "Funds migrated",
                 "body": "Your new profile will be ready once the dashboard has successfully loaded.",
-                "ledgerHint": "Do not disconnect your Ledger device until the dashboard has finished loading.",
-                "softwareMigratedBody": "You have successfully migrated your funds to the new network",
-                "fireflyLedgerBody": "Your Ledger profile was successfully recovered and you can now continue.",
-                "trinityLedgerBody": "You have successfully migrated your Ledger to the new network.",
-                "exportMigration": "Export migration log and finish setup"
+                "ledgerHint": "Do not disconnect your Ledger device until the dashboard has finished loading."
             }
-        },
-        "setupLedger": {
-            "progress1": "ඔබගේ ලෙජරය සම්බන්ධ කරන්න",
-            "progress2": "ලිපිනය උත්පාදනය කරන්න",
-            "progress3": "ලෙජර් යෙදුම මාරු කරන්න",
-            "progress4": "අරමුදල් මාරු කරන්න",
-            "watchVideo": "වීඩියෝ මාර්ගෝපදේශය නරඹන්න",
-            "videoGuide": "ලෙජර් සංක්‍රමණ වීඩියෝ මාර්ගෝපදේශය"
         },
         "ledgerInstallationGuide": {
             "title": "Have you installed the {network} app on your Ledger device?",
@@ -192,66 +143,20 @@
             "body2": "ඔබගේ ලෙජර් ස්ථිරාංග යාවත්කාලීන බව සහතික කර ගන්න. ඕනෑම පෙර-ස්ථාපිත යෙදුම් ඒවායේ නවතම අනුවාදවලට යාවත්කාලීන කළ යුතුය.",
             "action": "Yes, I've installed the {network} app"
         },
-        "importFromLedger": {
-            "title": "ඔබගේ ලෙජරය ප්‍රතිසාධනය කරන්න හෝ සංක්‍රමණය කරන්න",
-            "body": "පවතින Firefly Ledger පැතිකඩක් ප්‍රතිසාධනය කරන්න, නැතහොත් Trinity වෙතින් ඔබේ අරමුදල් සංක්‍රමණය කරන්න.",
-            "haveFireflyLedger": "මට Firefly Ledger උපස්ථයක් තියෙනවා",
-            "haveFireflyLedgerDescription": "Firefly පැතිකඩක් ප්‍රතිසාධනය කරන්න",
-            "haveTrinityLedger": "මට Trinity Ledger උපස්ථයක් තියෙනවා",
-            "haveTrinityLedgerDescription": "ත්‍රිත්ව පැතිකඩක් සංක්‍රමණය කරන්න"
-        },
         "connectLedger": {
-            "title": "ඔබේ ලෙජරය Firefly වෙත සම්බන්ධ කරන්න",
-            "body": "Firefly විසින් ඔබගේ Ledger උපාංගය සොයා ගැනීම සඳහා, කරුණාකර නිල Ledger Live යෙදුම වසා ඇති බව සහතික කර ගන්න.",
+            "title": "Connect your Ledger to Bloom",
+            "body": "For your Ledger device to be found by Bloom, please ensure that the official Ledger Live application is closed.",
             "connect": "Connect your Ledger device",
             "unlock": "Unlock your Ledger with its pin",
-            "openApp": "Open the Shimmer app on your Ledger",
-            "tips": "ඔබේ ලෙජරය සම්බන්ධ නොවන්නේ නම් ඉඟි"
-        },
-        "restoreFromFireflyLedger": {
-            "title": "ඔබේ ලෙජර් පැතිකඩ ප්‍රතිසාධනය කරන්න",
-            "body": "පිහිටුවීම් ක්‍රියාවලිය සම්පූර්ණ කිරීමට ප්‍රතිසාධනය ඔබන්න සහ ඔබේ පසුම්බි, ශේෂයන් සහ ගනුදෙනු ඉතිහාසය ප්‍රතිසාධනය කරන්න.",
-            "restoring": "ලෙජර් වෙතින් ප්‍රතිසාධනය කරමින්..."
-        },
-        "legacyLedgerIntro": {
-            "title": "Firefly භාවිතයෙන් ඔබේ Ledger සංක්‍රමණය ආරම්භ කරන්න",
-            "body1": "ඔබගේ ටෝකන නව Chrysalis ජාලයට මාරු කිරීමට Firefly ඔබට උපකාර කරනු ඇත.",
-            "body2": "සංක්‍රමණයෙන් පසුව, ඔබට Firefly සමඟ ඔබේ Ledger භාවිතයෙන් ඔබේ ටෝකන යැවීමට සහ ලබා ගැනීමට හැකි වනු ඇත.",
-            "readMore": "සංක්‍රමණ ක්‍රියාවලියෙන් අපේක්ෂා කළ යුතු දේ"
-        },
-        "generateNewLedgerAddress": {
-            "title": "නව ලිපිනය උත්පාදනය කරන්න",
-            "body": "Firefly සමඟින් ඔබේ ටෝකන සංක්‍රමණය කිරීමට ඔබට නව ලිපිනයක් ජනනය කිරීමට අවශ්‍ය වේ. ඉදිරියට යාමට පහත බොත්තම ක්ලික් කරන්න.",
-            "confirmTitle": "නව ලිපිනය තහවුරු කරන්න",
-            "confirmBody": "ආරක්‍ෂාව සඳහා, කරුණාකර ඔබගේ ලෙජර් උපාංගයේ ජනනය කර ඇති ලිපිනය පහත සංදර්ශනය කර ඇති ලිපිනය සමඟ සසඳන්න. ඒවා ගැලපෙන්නේ නම්, විමසූ පරිදි ඔබේ ලෙජරයේ බොත්තම් දෙකම ඔබන්න.",
-            "confirmedTitle": "ලිපිනය තහවුරු කර ඇත",
-            "confirmedBody": "Firefly හි ඇති ලිපිනය ඔබගේ Ledger උපාංගයේ ඇති ලිපිනයට ගැළපෙන බව ඔබ තහවුරු කර ඇත.",
-            "generating": "ලිපිනය උත්පාදනය කිරීම"
-        },
-        "switchLedgerApps": {
-            "title": "ලෙජර් යෙදුම් මාරු කරන්න",
-            "body": "සංක්‍රමණය දිගටම කරගෙන යාමට කරුණාකර ඔබගේ ලෙජර් උපාංගයේ {legacy} යෙදුම වෙත මාරු වන්න. සූදානම් වූ විට, ඉදිරියට යන්න ඔබන්න."
-        },
-        "selectLedgerAccountIndex": {
-            "title": "ලෙජර් ගිණුම් දර්ශකය තෝරන්න",
-            "body": "ඔබ Trinity සමඟ භාවිතා කළ Ledger ගිණුම් දර්ශකය තෝරන්න. බොහෝ පරිශීලකයින් සඳහා මෙය 0 හි පෙරනිමි දර්ශකය වනු ඇත.",
-            "accountIndex": "ගිණුම් දර්ශකය",
-            "accountPage": "ගිණුම් පිටුව",
-            "standard": "සම්මත",
-            "expert": "දක්වා",
-            "takingAWhile": "මේකට ටිකක් වෙලා යනවා...",
-            "notGeneratingAddresses": "ඔබගේ ලෙජරය ලිපින ජනනය කරන්නේද?",
-            "reinstallLegacy": "එසේ නොවේ නම්, උපාංගය විසන්ධි කර නැවත උත්සාහ කරන්න. ගැටලුව දිගටම පවතින්නේ නම්, ඔබට {legacy} යෙදුම නැවත ස්ථාපනය කිරීමට අවශ්‍ය විය හැක."
+            "openApp": "Open the Shimmer app on your Ledger"
         },
         "settings": {
             "settings": "සැකසුම්",
             "general": {
-                "title": "General",
-                "description": "Configure your app's appearance and other general settings"
+                "title": "General"
             },
             "profile": {
-                "title": "පැතිකඩ",
-                "description": "ඔබගේ පැතිකඩ නම වෙනස් කරන්න හෝ අවතාරයක් සකසන්න"
+                "title": "පැතිකඩ"
             },
             "network": {
                 "title": "Network"
@@ -260,29 +165,20 @@
                 "title": "Collectibles"
             },
             "security": {
-                "title": "ආරක්ෂක",
-                "description": "ඔබගේ මුරපදය වෙනස් කර ආරක්ෂාවට අදාළ සැකසුම් සකස් කරන්න"
+                "title": "ආරක්ෂක"
             },
             "advanced": {
-                "title": "Advanced",
-                "description": "Tools and manual settings for technical users"
+                "title": "Advanced"
             },
             "helpAndInfo": {
-                "title": "උදව් සහ තොරතුරු",
-                "description": "ප්‍රශ්නයකට පිළිතුර සොයන්න හෝ ගැටලුවක් සම්බන්ධයෙන් උදවු ලබා ගන්න"
-            },
-            "sync": {
-                "title": "මුදල් පසුම්බි සමමුහුර්ත කරන්න",
-                "description": ""
+                "title": "උදව් සහ තොරතුරු"
             },
             "theme": {
                 "title": "තේමාව",
-                "description": "",
-                "advice": "ඔබ ඔබේ පද්ධති තේමාව වෙනස් කරන්නේ නම්, බලපෑම් බැලීමට ඔබට Firefly නැවත ආරම්භ කිරීමට අවශ්‍ය විය හැක"
+                "advice": "If you change your system theme, you may need to restart Bloom to see the effects"
             },
             "language": {
-                "title": "භාෂාව",
-                "description": ""
+                "title": "භාෂාව"
             },
             "currency": {
                 "title": "මුදල්",
@@ -334,7 +230,7 @@
             },
             "changeProfileName": {
                 "title": "පැතිකඩ නම වෙනස් කරන්න",
-                "description": "ඔබගේ Firefly පැතිකඩ නම වෙනස් කරන්න",
+                "description": "Change your Bloom profile name",
                 "success": "ඔබ ඔබේ පැතිකඩ නම වෙනස් කර ඇත"
             },
             "walletFinder": {
@@ -351,7 +247,7 @@
             },
             "deepLinks": {
                 "title": "Deep links",
-                "description": "Automatically fill transaction data in Firefly upon clicking a deep link starting with {appProtocol}://"
+                "description": "Automatically fill transaction data in Bloom upon clicking a deep link starting with {appProtocol}://"
             },
             "networkInformation": {
                 "title": "Network information",
@@ -364,13 +260,10 @@
                 "excludeNode": "නෝඩය බැහැර කරන්න",
                 "includeNode": "නෝඩය ඇතුළත් කරන්න",
                 "editDetails": "විස්තර සංස්කරණය කරන්න",
-                "viewInfo": "තොරතුරු බලන්න",
                 "setAsPrimary": "Set primary node",
                 "unsetAsPrimary": "Clear primary node",
                 "removeNode": "නෝඩය ඉවත් කරන්න",
-                "includeOfficialNodeList": "නිල නෝඩ් ලැයිස්තුව ඇතුළත් කරන්න",
-                "noNodes": "නෝඩ් නොමැත, ජාලයට සම්බන්ධ විය නොහැක",
-                "noNodesAuto": "නෝඩ් නොමැත, ඒ වෙනුවට ස්වයංක්‍රීය තේරීම භාවිතා කරනු ඇත"
+                "noNodes": "නෝඩ් නොමැත, ජාලයට සම්බන්ධ විය නොහැක"
             },
             "localProofOfWork": {
                 "title": "Proof of work",
@@ -382,17 +275,13 @@
             },
             "crashReporting": {
                 "title": "බිඳ වැටීම් වාර්තා",
-                "body": "දෝෂයක් හෝ බිඳවැටීමක් සිදු වූ විට ස්වයංක්‍රීයව රෝග විනිශ්චය දත්ත යැවීමෙන් Firefly වැඩිදියුණු කිරීමට සංවර්ධකයින්ට උදවු කරන්න",
+                "body": "Help the developers improve Bloom by automatically sending diagnostic data when an error or crash occurs",
                 "checkbox": "බිඳ වැටීම් වාර්තා යවන්න",
-                "advice": "කරුණාකර Firefly යෙදුම නැවත ආරම්භ කරන්න {sendCrashReports, select, true {බිඳ වැටීම් වාර්තා බෙදා ගැනීම ආරම්භ කරන්න} false {බිඳ වැටීම් වාර්තා බෙදා ගැනීම නවත්වන්න} other {මෙම වෙනස යොදන්න}}"
+                "advice": "Please restart the Bloom application to {sendCrashReports, select, true {start sharing crash reports} false {stop sharing crash reports} other {apply this change}}"
             },
             "diagnostics": {
                 "title": "රෝග විනිශ්චය",
                 "description": "පද්ධති සහ යෙදුම් තොරතුරු බලන්න"
-            },
-            "migrateLedgerIndex": {
-                "title": "ලෙජර් දර්ශකය සංක්‍රමණය කරන්න",
-                "description": "වෙනත් ත්‍රිත්ව ගිණුම් දර්ශකයක් සංක්‍රමණය කරන්න"
             },
             "troubleshoot": {
                 "title": "දෝශ නිරාකරණය",
@@ -404,7 +293,6 @@
             },
             "faq": {
                 "title": "නිති අසන පැණ",
-                "title2": "නිතර අසන ප්රශ්න",
                 "description": "පොදු ගැටළුවක් හෝ ප්‍රශ්නයක් සම්බන්ධයෙන් උදවු ලබා ගැනීමට නිතර අසන පැන බලන්න"
             },
             "discord": {
@@ -412,8 +300,7 @@
                 "description": "Discord මත IOTA ප්‍රජාවෙන් උදවු ලබා ගන්න"
             },
             "about": {
-                "title": "ගැන",
-                "description": ""
+                "title": "ගැන"
             },
             "reportAnIssue": {
                 "title": "ගැටලුවක් වාර්තා කරන්න",
@@ -448,13 +335,10 @@
                 "degraded": "Network degraded",
                 "down": "Network down",
                 "disconnected": "Disconnected from node",
-                "status": "තත්ත්වය",
-                "messagesPerSecond": "තත්පරයකට පණිවිඩ",
-                "referencedRate": "යොමු අනුපාතය"
+                "status": "තත්ත්වය"
             },
             "profileModal": {
                 "allSettings": "All settings",
-                "profileApplication": "Profile, application, security",
                 "logout": "ලොග් අවුට් වෙන්න",
                 "stronghold": {
                     "title": "පැතිකඩ අගුල",
@@ -467,9 +351,7 @@
                         "appNotOpen": "Ledger unlocked but app not open",
                         "correctAppOpen": "Ledger unlocked and app open ",
                         "locked": "Ledger securely locked",
-                        "mnemonicMismatch": "වැරදි ලෙජරය හෝ සිහිවටනය",
-                        "notConnected": "Ledger not connected",
-                        "otherConnected": "යෙදුම විවෘතයි"
+                        "notConnected": "Ledger not connected"
                     }
                 },
                 "backup": {
@@ -480,7 +362,7 @@
                 },
                 "version": {
                     "title": "නව යාවත්කාලීන ලබා ගත හැක",
-                    "updateVersion": "ෆයර්ෆ්ලයි v{version}",
+                    "updateVersion": "Bloom v{version}",
                     "button": "යාවත්කාලීන කරන්න"
                 }
             },
@@ -493,7 +375,7 @@
                         "chainId": "Chain ID",
                         "aliasAddress": "Alias Address",
                         "iscpEndpoint": "ISCP Endpoint",
-                        "explorerEndpoint": "Explorer Endpoint (optional)",
+                        "explorerUrl": "Explorer URL (optional)",
                         "errors": {
                             "cannotBeEmpty": "Name cannot be empty",
                             "nameTooLong": "Name is too long",
@@ -519,7 +401,7 @@
                     "connectLedgerDevice": {
                         "title": "Connect Ledger Device",
                         "header": "Open the Ethereum app",
-                        "body": "For your Ledger device to be found by Firefly, please ensure that the official Ledger Live application is closed before following these steps.",
+                        "body": "For your Ledger device to be found by Bloom, please ensure that the official Ledger Live application is closed before following these steps.",
                         "requirements": {
                             "connect": "Connect and unlock your Ledger",
                             "openApp": "Open the Ethereum app on your Ledger"
@@ -531,58 +413,57 @@
                     "removeChain": {
                         "title": "Remove chain"
                     }
-                }
-            }
-        },
-        "staking": {
-            "welcome": "ස්ටේකින් ඩෑෂ්බෝඩ් වෙත සාදරයෙන් පිළිගනිමු!",
-            "status": {
-                "upcoming": "සිදුවීම ආරම්භ වී නැත",
-                "commencing": "පෙර-ස්ටේකින් විවෘත",
-                "holdingActive": "ස්ටේක් කිරීම සිදු වෙමින් පවතී",
-                "holdingInactive": "විවෘතව තැබීම",
-                "inactive": "ස්ටැකිං අනාවරණය කර නැත",
-                "ended": "ස්ටැකිං අවසන් විය"
-            },
-            "summary": {
-                "stakedFunds": "කොටස් කළ අරමුදල්"
-            },
-            "info": {
-                "headers": {
-                    "upcoming": "පසුව නැවත පරීක්ෂා කරන්න",
-                    "commencing": "පෙර-ස්ටෝකිං විවෘතයි",
-                    "holding": "{duration} ස්ටේකින් වමේ",
-                    "ended": "ස්ටේක් කිරීම දැන් අවසන්",
-                    "inactive": "ස්ටේකිං සිදුවීම් කිසිවක් අනාවරණය නොවීය"
                 },
-                "bodies": {
-                    "upcoming": "{date}සිට ස්ටේකින් කිරීම ආරම්භ වූ පසු සෑම තත්පර 10කට වරක්ම ස්වයංක්‍රීයව ත්‍යාග ලැබීමට ඔබේ ටෝකන {token} ක් තබා ගන්න.",
-                    "commencing": "{date}සිට ස්ටේකින් කිරීම ආරම්භ වූ පසු සෑම තත්පර 10කට වරක්ම ස්වයංක්‍රීයව ත්‍යාග ලැබීමට ඔබේ ටෝකන {token} ක් තබා ගන්න.",
-                    "holdingAndStaking": "ඔබට සෑම තත්පර 10කට වරක්ම ස්වයංක්‍රීයව ත්‍යාග ලැබේ.",
-                    "holdingAndNotStaking": "සෑම තත්පර 10කට වරක්ම ත්‍යාග ලබා ගැනීමට ඔබේ ටෝකන {token} ක් තබා ගන්න.",
-                    "endedAndDidStake": "ජාලය දියත් කළ පසු ඔබේ මුදල් පසුම්බියට ත්‍යාග {token} ක් බෙදා හරිනු ලැබේ.",
-                    "endedAndDidNotStake": "ඔබ මෙම ගුවන් පතනයට සහභාගී වී නැත.",
-                    "endedAndDidNotReachMinRewards": "ඔබ අවම airdrop ත්‍යාග වෙත ළඟා වීමට ප්‍රමාණවත් ටෝකන {token} ක් තබා ගත්තේ නැත.",
-                    "inactive": "උසස් සැකසුම් තුළ ජාල වින්‍යාසය විවෘත කර \"තොරතුරු බලන්න\" ක්ලික් කිරීමෙන් වත්මන් නෝඩයේ \"සහභාගීත්වය\" විශේෂාංගය ඇති බවට වග බලා ගන්න."
-                }
-            },
-            "airdrops": {
-                "holding": "ඉතිරි",
-                "commencing": "ඇලවීම ආරම්භ වන තුරු",
-                "currentStakingPeriod": "වත්මන් ස්ටේකින් කාලය",
-                "totalWalletRewards": "සම්පූර්ණ මුදල් පසුම්බිය ත්‍යාග",
-                "assembly": {
-                    "name": "එකලස් කිරීම",
-                    "description": "Assembly is a permissionless, highly scalable multi-chain network to build and deploy composable smart contracts. Assembly is the future of web3. "
+                "contactBook": {
+                    "contactList": {
+                        "title": "Contact list",
+                        "addContact": "Add contact"
+                    },
+                    "contactInformation": {
+                        "title": "Contact Information",
+                        "editContact": "Edit contact",
+                        "removeContact": "Remove contact",
+                        "addNetworkAddress": "Add network address"
+                    },
+                    "addContact": {
+                        "title": "Add contact"
+                    },
+                    "editContact": {
+                        "title": "Edit contact"
+                    },
+                    "removeContact": {
+                        "title": "Remove contact",
+                        "body": "Are you sure you want to remove this contact?",
+                        "hint": "Please note after removing a contact Bloom will show its actual addresses."
+                    },
+                    "addNetworkAddress": {
+                        "title": "Add network address"
+                    },
+                    "editNetworkAddresses": {
+                        "title": "Edit network addresses"
+                    },
+                    "removeNetworkAddresses": {
+                        "title": "Remove network addresses",
+                        "body": "Are you sure you want to remove the contact’s {network} network addresses?",
+                        "hint": "Please note after removing a contact’s network addresses Bloom will no longer associate it with them in transactions or activities."
+                    }
                 },
-                "shimmer": {
-                    "name": "ෂිමර්",
-                    "description": "IOTA හි ප්‍රධාන නවෝත්පාදනයන් ඉදිරියට ගෙන යාමට දිරිගන්වන ලද වේදිකා ජාලය. කුමක් සිදු වුවද, සිදු වේ. Shimmer පරිණාමය වන්නේ කෙසේද යන්න ඔබට භාරයි."
+                "dapps": {
+                    "dappsList": {
+                        "title": "Connected dApps",
+                        "connectDapp": "Connect dApp",
+                        "hint": "WalletConnect allows you to connect Bloom with dApps directly or with a connection code."
+                    },
+                    "inputConnectionCode": {
+                        "title": "Connect to a dApp",
+                        "inputLabel": "Wallet Connect code",
+                        "hint": "Add new dApps by adding a Wallet Connect code below."
+                    },
+                    "confirmConnection": {
+                        "title": "Connect with an application",
+                        "hint": "A third party service wants to connect with your wallet for the first time. You can choose if you wish to trust this connection."
+                    }
                 }
-            },
-            "banners": {
-                "new": "නව සිදුවීම",
-                "complete": "සම්පූර්ණයි"
             }
         },
         "picker": {
@@ -600,7 +481,6 @@
             },
             "details": {
                 "storageDepositDescription": "A refundable deposit required to store your NFT on the Tangle.",
-                "attributes": "Attributes",
                 "menu": {
                     "download": "Download",
                     "setPfp": "Set NFT profile pic",
@@ -678,10 +558,10 @@
     "popups": {
         "enableLedgerBlindSigning": {
             "title": "Enable Blind Signing",
-            "info": "In order to confirm this transaction you need to enable Blind Signing on your ledger device.",
-            "step_1": "Connect and unlock your Ledger Device",
-            "step_2": "Open Shimmer Application",
-            "step_3": "Press the right button to navigate to Settings. Then press both buttons to validate. Your Ledger device displays Blind Signing.",
+            "info": "In order to confirm this transaction you need to enable Blind Signing on your Ledger device.",
+            "step_1": "Connect and unlock your Ledger device",
+            "step_2": "Open the {appName} application",
+            "step_3": "Press the right button to navigate to Settings, then press both buttons to validate. Your Ledger device displays Blind Signing.",
             "step_4": "Press both buttons to enable transaction blind signing. The device displays Enabled. You're done."
         },
         "balanceBreakdown": {
@@ -753,9 +633,6 @@
             "subtitle": "Please provide your password to unlock your wallets",
             "backup": "උපස්ථයක් නිර්යාත කිරීමට කරුණාකර ඔබගේ මුරපදය ඇතුලත් කරන්න"
         },
-        "qr": {
-            "title": "ඔබේ QR කේතය"
-        },
         "appUpdate": {
             "title": "Check for updates",
             "installedVersion": "Installed version",
@@ -785,33 +662,14 @@
             "title": "{name}මකන්නද?",
             "body": "Are you sure you want to delete this wallet?",
             "hint": "Note: once deleted, you can restore this wallet by using the \"Wallet Finder\" in the settings.",
-            "typePassword": "තහවුරු කිරීමට ඔබගේ පසුම්බිය මුරපදය ටයිප් කරන්න.",
-            "hideAccount": "මුදල් පසුම්බිය මකන්න",
-            "errorTitle": "{name}මකා දැමිය නොහැක",
-            "errorBody1": "ඔබට මෙම මුදල් පසුම්බිය මකා දැමිය නොහැක, ඔබට අවම වශයෙන් එකක්වත් තිබිය යුතුය."
+            "typePassword": "තහවුරු කිරීමට ඔබගේ පසුම්බිය මුරපදය ටයිප් කරන්න."
         },
         "externalUrl": {
             "title": "Open URL in Browser",
             "body": "Are you sure you want to open \"{url}\" in the browser?",
-            "hint": "This URL is unknown to Firefly. Please double check the URL before opening it.",
+            "hint": "This URL is unknown to Bloom. Please double check the URL before opening it.",
             "action": "Open URL",
             "invalidProtocol": "Cannot open URL with invalid protocol"
-        },
-        "hideAccount": {
-            "title": "{name}?",
-            "body": "උසස් සැකසීම් තුළ \"සැඟවුණු පසුම්බි පෙන්වන්න\" සබල කිරීමෙන් ඔබට පසුව මෙම මුදල් පසුම්බිය සොයා ගත හැක.",
-            "typePassword": "තහවුරු කිරීමට ඔබගේ පසුම්බිය මුරපදය ටයිප් කරන්න.",
-            "hideAccount": "මුදල් පසුම්බිය සඟවන්න",
-            "errorTitle": "{name}සැඟවීමට නොහැක",
-            "errorBody1": "මුදල් පසුම්බියක් සැඟවීමට 0 ශේෂයක් තිබිය යුතුය.",
-            "errorBody2": "ඔබට දැනට මෙම පසුම්බියේ {balance} ක් ඉතිරිව ඇත. කරුණාකර මෙම අරමුදල් වෙනත් මුදල් පසුම්බියකට ගෙන ගොස් නැවත උත්සාහ කරන්න.",
-            "errorBody3": "ඔබට මෙම මුදල් පසුම්බිය සැඟවිය නොහැක, ඔබට අවම වශයෙන් එකක්වත් තිබිය යුතුය."
-        },
-        "addressHistory": {
-            "title": "{name} ලිපින ඉතිහාසය",
-            "currentBalance": "ශේෂය: {balance}",
-            "internal": "අභ්යන්තර ලිපිනය",
-            "external": "තැන්පතු ලිපිනය"
         },
         "excludeNode": {
             "title": "Exclude node",
@@ -826,7 +684,6 @@
             "titleUpdate": "නෝඩයක් යාවත්කාලීන කරන්න",
             "titleRemove": "නෝඩයක් ඉවත් කරන්න",
             "titleRemoveAll": "සියලුම නෝඩ් ඉවත් කරන්න",
-            "titleDetails": "නෝඩ් විස්තර",
             "titleInfo": "Node information",
             "addingNode": "නෝඩ් එකතු කිරීම",
             "updatingNode": "නෝඩය යාවත්කාලීන කිරීම",
@@ -835,7 +692,6 @@
             "optionalUsername": "පරිශීලක නාමය (විකල්ප)",
             "optionalPassword": "මුරපදය (විකල්ප)",
             "optionalJwt": "JSON වෙබ් ටෝකනය (විකල්ප)",
-            "setAsPrimaryNode": "ප්‍රාථමික නෝඩය ලෙස සකසන්න",
             "removeConfirmation": "ඔබට මෙම නෝඩය ඉවත් කිරීමට අවශ්‍ය බව විශ්වාසද?",
             "info": {
                 "general": {
@@ -843,8 +699,6 @@
                     "name": "Name",
                     "url": "URL",
                     "version": "Version",
-                    "latestMilestone": "Latest milestone",
-                    "confirmedMilestone": "Confirmed milestone",
                     "pruningIndex": "Pruning index",
                     "features": "Features"
                 },
@@ -875,13 +729,6 @@
                 }
             }
         },
-        "switchNetwork": {
-            "title": "ජාලය මාරු කරන්න",
-            "newNetwork": "නව ජාලය",
-            "resetWarning": "ජාල වෙනස් කිරීම ඔබව ලොග් අවුට් කර මෙම පැතිකඩ සඳහා සියලු ගිණුම්, ශේෂයන් සහ ගනුදෙනු ඉතිහාසය යළි සකසනු ඇත.",
-            "switchingNetwork": "ජාලය මාරු කිරීම",
-            "typePassword": "මාරු වීමට ඔබගේ මුරපදය ටයිප් කරන්න:"
-        },
         "errorLog": {
             "title": "දෝෂ ලොගය",
             "empty": "දෝෂ ලොගය හිස් ය."
@@ -903,15 +750,11 @@
             "userPath": "පරිශීලක මාර්ගය"
         },
         "transaction": {
-            "title": "Send asset",
-            "body": "ඔබ වෙත {amount} යැවීමට ආසන්නයි",
             "selectToken": "Select a token",
             "selectAmount": "Send {tokenName}",
             "selectRecipient": "Send {assetName} to",
             "transactionSummary": "Transaction to {recipient}",
-            "surplusIncluded": "This transaction contains a surplus amount. Please double check this is the amount you want to send.",
-            "sendingFromStakedAccount": "ඔබ දැනට පරදුවට තබා ඇති මුදල් පසුම්බියකින් මාරු කිරීමක් යවයි. මෙය ඔබගේ ටෝකන අහිමි විය හැක. මාරුව යැවීමට නිදහස් වන්න, නමුත් ඔබට පසුව ඔබේ ඉතිරි ටෝකන නැවත ලබා ගැනීමට අවශ්‍ය විය හැක.",
-            "sendingFromStakedAccountBelowMinReward": "ඔබ තවමත් අවම ස්ටේකින් ත්‍යාග වෙත ළඟා වී නැති මුදල් පසුම්බියකින් මාරුවක් යවයි. මෙය ඔබේ ටෝකන ඉවත් කළ හැකි අතර ඔබට මෙම මුදල් පසුම්බිය මත ඇති ඔබේ ත්‍යාග අහිමි විය හැක."
+            "surplusIncluded": "This transaction contains a surplus amount. Please double check this is the amount you want to send."
         },
         "walletFinder": {
             "title": "Wallet finder",
@@ -921,32 +764,12 @@
             "totalWalletBalance": "Total balance",
             "searchAgainHint": "Is your balance or number of wallets incorrect? Search again until your full balance is shown."
         },
-        "riskFunds": {
-            "title": "අවවාදයයි: සංක්‍රමණය අතරතුර අවදානම් සහිත අරමුදල්",
-            "body1": "සංක්‍රමණය සමඟ ඉදිරියට යාමට පෙර ඔබේ සියලු අරමුදල් සුරක්ෂිත කර ගැනීම තරයේ නිර්දේශ කෙරේ. ඔබ ඒවා සුරක්ෂිත නොකරන්නේ නම් ඔබේ අරමුදල් සොරකම් කිරීමේ අවදානමක් ඇත.",
-            "body2": "මධ්‍යම අවදානම් මට්ටමක් හෝ ඊට වැඩි ලිපින සඳහා ක්‍රියාවලිය නැවත ක්‍රියාත්මක කිරීම නිර්දේශ කෙරේ."
-        },
-        "missingBundle": {
-            "title": "අවවාදයයි: සංක්‍රමණය අතරතුර අවදානම් සහිත අරමුදල්",
-            "body": "වියදම් කළ ලිපින සඳහා ඔබට අරමුදල් ඇත, නමුත් ඒවා සුරක්ෂිත කිරීමට අවශ්‍ය තොරතුරු සොයා ගැනීමට නොහැකි විය. ඔබ බොහෝ කලකට පෙර ගනුදෙනු කර ඇත්නම් මෙය සිදුවිය හැකිය. ඔබට ඉදිරියට යා හැකි නමුත් සංක්‍රමණයේදී {value} අවදානමට ලක් වේ.",
-            "learnMore": "වියදම් කළ ලිපින ගැන තව දැනගන්න",
-            "proceed": "අවදානම මට තේරෙනවා"
-        },
-        "snapshot": {
-            "title": "අඛණ්ඩ ජාල උත්ශ්‍රේණි කිරීම",
-            "body": "Chrysalis ජාලය උත්ශ්‍රේණි කිරීම ආරම්භ කර ඇත.",
-            "bodyMigration": "එය සම්පූර්ණ වන තුරු සංක්‍රමණය අක්‍රිය කර ඇත.",
-            "bodyFirefly": "එය සම්පූර්ණ වන තුරු Firefly අක්‍රීය කර ඇත. ටෝකන් සංක්‍රමණයට පසුවද හැකි වනු ඇත."
-        },
         "ledgerNotConnected": {
             "title": "Connect your Ledger",
             "notConnected": "Connect your Ledger device to continue.",
             "locked": "Unlock your Ledger device to continue.",
             "appNotOpen": "Open the Shimmer app on your Ledger device to continue.",
             "correctAppOpen": "Ledger successfully connected, please continue."
-        },
-        "ledgerConfirmation": {
-            "confirm": "ඉදිරියට යාමට, ඔබගේ ලෙජර් උපාංගයේ දිස්වන විමසුම තහවුරු කරන්න"
         },
         "ledgerAppGuide": {
             "title": "Guide to installing the {legacy} app",
@@ -955,7 +778,7 @@
                 "1": "ඔබගේ ලෙජරය සම්බන්ධ වී ඇති බව සහතික කර ගන්න",
                 "2": "Search for the {legacy} app. You may need to enable Ledger Live developer mode.",
                 "3": "Install the {legacy} app",
-                "4": "Firefly වෙත ආපසු යාමට පෙර Ledger Live වසා දැමීම වැදගත් බව මතක තබා ගන්න"
+                "4": "Remember that it's important to close Ledger Live before returning to Bloom"
             }
         },
         "ledgerConnectionGuide": {
@@ -979,104 +802,130 @@
             "info": "Please confirm the internal transaction on your ledger.",
             "hint": "All assets will remain on your wallet when sending an internal transaction."
         },
-        "ledgerAddress": {
-            "title": "ලැබෙන ලිපිනය තහවුරු කරන්න",
-            "body": "ඔබගේ ලෙජරයේ ප්‍රදර්ශනය කර ඇති ලැබීම් ලිපිනය පහත දැක්වෙන ලිපිනයට ගැළපෙන බව තහවුරු කරන්න. ඒවා ගැලපෙන්නේ නම්, විමසූ පරිදි ඔබේ ලෙජරයේ බොත්තම් දෙකම ඔබන්න."
-        },
-        "ledgerMigrateIndex": {
-            "title": "ඔබට වෙනත් ත්‍රිත්ව ගිණුම් දර්ශකයක් සංක්‍රමණය කිරීමට අවශ්‍යද?",
-            "body": "ඔබට පසුව උසස් සැකසීම් තුළද සංක්‍රමණය විය හැක."
-        },
-        "exportTransactionHistory": {
-            "title": "අපනයන ගනුදෙනු ඉතිහාසය",
-            "body": "තෝරාගත් මුදල් පසුම්බිය සඳහා ගනුදෙනු ඉතිහාසය අපනයනය කරන්න. නිර්යාත කළ ගොනුව .csv ආකෘතියෙන් වනු ඇත.",
-            "profileName": "පැතිකඩ නම:",
-            "accountName": "පසුම්බියේ නම:",
-            "typePassword": "අපනයනය කිරීමට ඉඩ දීමට ඔබගේ මුරපදය ටයිප් කරන්න"
-        },
-        "stakingManager": {
-            "title": "ස්ටේකිං කළමනාකරණය",
-            "description": "ඔබ මුදල් පසුම්බියක කොටස් කරන විට, එම අරමුදල් \"පංගුව\" ලෙස සලකුණු කරමින් ඔබ ඔබටම ගනුදෙනුවක් එවයි. ඔබට ඕනෑම වේලාවක ටෝකන මාරු කළ හැක, නමුත් ඔබට දිගටම ත්‍යාග නොලැබෙනු ඇත.",
-            "totalFundsStaked": "කොටස් කර ඇති මුළු අරමුදල්",
-            "stakedSuccessfully": "ඔබේ අරමුදල් {account}සඳහා පරදුවට තබා ඇත.",
-            "unstakedSuccessfully": "ඔබේ අරමුදල් {account}සඳහා වෙන් කර ඇත.",
-            "singleAccountHint": "Looking for your wallets? Firefly has changed. Toggle between your wallets in the top menu bar."
-        },
-        "stakingConfirmation": {
-            "title": "සහභාගීත්වය තහවුරු කරන්න",
-            "subtitleStake": "ඔබ කොටස් කිරීමට සූදානම්",
-            "subtitleMerge": "ඔබ ඒකාබද්ධ වීමට ආසන්නයි",
-            "multiAirdropWarning": "ඔබට airdrops දෙකටම සහභාගී වීමට අවශ්‍ය නැතිනම්, ඔබට පහතින් ඉවත් විය හැක. ඔබට ඕනෑම වේලාවක ආපසු ඇතුළු වීමට කොටස් ඉවත් කර නැවත ලබා ගත හැක.",
-            "mergeStakeWarning": "ඔබේ අරමුදල් {airdrop}සඳහා පරදුවට තබා ඇත. ඔබට සහභාගී වීමට අවශ්‍ය ගුවන් බිඳිති වෙනස් කිරීමට, මෙම මුදල් පසුම්බිය ඉවත් කර නැවත එය කොටස් කරන්න.",
-            "estimatedAirdrop": "ඇස්තමේන්තුගත විපාක"
-        },
-        "newStakingPeriodNotification": {
-            "title": "{date}සිට {periodNumber} අදියර",
-            "body": "IOTA එකලස් කිරීම දිගටම කරගෙන යයි... දින 90ක් සඳහා අදියර {periodNumber} සඳහා සහභාගී වන්න. ඔබේ IOTA ටෝකන් පත් තබා ASMB ත්‍යාග උපයා ගන්න!",
-            "info": "Shimmer staking දැන් සම්පූර්ණයි, ASMB ටෝකන පමණක් බෙදා හරිනු ලැබේ."
-        },
-        "shimmer-info": {
-            "title": "ෂිමර් ගැන",
-            "body1": "ත්‍යාගයක් ලෙස ඔබ SMR ටෝකන උපයා ගැනීමට සුබ පැතුම්. ෂිමර් යනු IOTA හි ප්‍රධාන වැඩිදියුණු කිරීම් පරීක්ෂා කිරීමට දිරිගන්වන ලද වේදිකා ජාලයකි.",
-            "body2": "අපි 2022 දී Shimmer දියත් කිරීමට ඉලක්ක කරමු. ජාලය දියත් කළ පසු ඔබේ ටෝකන මාරු කිරීමට හැකි වනු ඇත."
-        },
-        "assembly-info": {
-            "title": "එකලස් කිරීම ගැන",
-            "body1": "ත්‍යාගයක් ලෙස ඔබ ASMB ටෝකන උපයා ගැනීමට සුබ පැතුම්. එකලස් කිරීම යනු IOTA මත පරිමාණය කළ හැකි ස්මාර්ට් කොන්ත්‍රාත්තු යෙදවීම සඳහා බහු-දාම ජාලයකි.",
-            "body2": "අපි 2022 දී එකලස් කිරීම දියත් කිරීමට ඉලක්ක කරමු. ජාලය දියත් වූ පසු ඔබේ ටෝකන මාරු කිරීමට හැකි වනු ඇත."
-        },
-        "confirmDeveloperProfile": {
-            "title": "ඔබ සංවර්ධක පැතිකඩක් සාදමින් සිටී",
-            "body": "ඔබ පෙරනිමියෙන් Chrysalis Devnet වෙත සම්බන්ධ වනු ඇති අතර, අතින් ජාල මාරු කළ හැක. ඔබ කරන්නේ කුමක්දැයි ඔබ දන්නේ නම් පමණක් ඉදිරියට යන්න."
-        },
         "crashReporting": {
             "title": "බිඳ වැටීම වාර්තා කිරීම",
-            "body": "දෝෂයක් හෝ බිඳවැටීමක් සිදු වූ විට ස්වයංක්‍රීයව රෝග විනිශ්චය දත්ත යැවීමෙන් Firefly වැඩිදියුණු කිරීමට සංවර්ධකයින්ට උදවු කරන්න. තේරුවහොත්, Firefly නැවත ආරම්භ කිරීමෙන් පසුව මෙය ක්රියාත්මක වේ.",
+            "body": "Help the developers improve Bloom by automatically sending diagnostic data when an error or crash occurs. If selected, this will take effect after restarting Bloom.",
             "checkbox": "IOTA පදනමට බිඳ වැටීම් වාර්තා යවන්න"
+        },
+        "signMessage": {
+            "title": "Sign message",
+            "message": "Message",
+            "hint": "No balance will be sent to {dappName} in the process of signing this message.",
+            "warning": "dApp cannot be determined. No balance will be sent in the process of signing this message.",
+            "action": "Sign message"
+        },
+        "activityDetails": {
+            "title": {
+                "fallback": "Activity details",
+                "external": {
+                    "incoming": {
+                        "Pending": "Receiving from {subject}",
+                        "Confirmed": "Received from {subject}",
+                        "Conflicting": "Failed to receive"
+                    },
+                    "outgoing": {
+                        "Pending": "Sending to {subject}",
+                        "Confirmed": "Sent to {subject}",
+                        "Conflicting": "Failed to send"
+                    }
+                },
+                "internal": {
+                    "incoming": {
+                        "Pending": "Transferring from {subject}",
+                        "Confirmed": "Transferred from {subject}",
+                        "Conflicting": "Failed to transfer"
+                    },
+                    "outgoing": {
+                        "Pending": "Transferring to {subject}",
+                        "Confirmed": "Transferred to {subject}",
+                        "Conflicting": "Failed to transfer"
+                    },
+                    "selfTransaction": {
+                        "Pending": "Transferring to {subject}",
+                        "Confirmed": "Transferred to {subject}",
+                        "Conflicting": "Failed to transfer"
+                    }
+                },
+                "mint": {
+                    "Pending": "Minting",
+                    "Confirmed": "Minted",
+                    "Conflicting": "Failed to mint"
+                },
+                "burn": {
+                    "Pending": "Burning",
+                    "Confirmed": "Burned",
+                    "Conflicting": "Failed to burn"
+                },
+                "consolidation": {
+                    "Pending": "Consolidating outputs",
+                    "Confirmed": "Outputs consolidated",
+                    "Conflicting": "Failed to consolidate outputs"
+                },
+                "alias": {
+                    "creation": {
+                        "Pending": "Creating alias",
+                        "Confirmed": "Alias created",
+                        "Failed": "Failed to create alias"
+                    }
+                },
+                "governance": {
+                    "increaseVotingPower": {
+                        "Pending": "Increasing voting power",
+                        "Confirmed": "Increased voting power",
+                        "Conflicting": "Failed to increased voting power"
+                    },
+                    "decreaseVotingPower": {
+                        "Pending": "Decreasing voting power",
+                        "Confirmed": "Decreased voting power",
+                        "Conflicting": "Failed to decreased voting power"
+                    },
+                    "startVoting": {
+                        "Pending": "Voting for {proposalName}",
+                        "Confirmed": "Voted for {proposalName}",
+                        "Conflicting": "Failed to vote for"
+                    },
+                    "stopVoting": {
+                        "Pending": "Stopping voting for {proposalName}",
+                        "Confirmed": "Stopped voting for {proposalName}",
+                        "Conflicting": "Failed to stopped voting for"
+                    },
+                    "changedVote": {
+                        "Pending": "Changing vote for {proposalName}",
+                        "Confirmed": "Changed vote for {proposalName}",
+                        "Conflicting": "Failed to change vote for"
+                    },
+                    "revote": {
+                        "Pending": "Revoting",
+                        "Confirmed": "Revote",
+                        "Conflicting": "Failed to revote"
+                    }
+                }
+            }
         },
         "legalUpdate": {
             "tosTitle": "සේවා කොන්දේසි",
             "privPolicyTitle": "රහස්යතා ප්රතිපත්තිය",
-            "tosAndPrivPolicyBody": "අපි Firefly හි සේවා නියම සහ රහස්‍යතා ප්‍රතිපත්තිය යාවත්කාලීන කර ඇත.",
-            "tosBody": "අපි Firefly හි සේවා කොන්දේසි යාවත්කාලීන කර ඇත.",
-            "privPolicyBody": "අපි Firefly හි රහස්‍යතා ප්‍රතිපත්තිය යාවත්කාලීන කර ඇත.",
+            "tosAndPrivPolicyBody": "We have updated Bloom's Terms of Service and Privacy Policy.",
+            "tosBody": "We have updated Bloom's Terms of Service.",
+            "privPolicyBody": "We have updated Bloom's Privacy Policy.",
             "tosAndPrivPolicyCheckbox": "මම යාවත්කාලීන කරන ලද සේවා නියම සහ රහස්‍යතා ප්‍රතිපත්තිය කියවා මම පිළිගනිමි",
             "tosCheckbox": "මම කියවා ඇති අතර මම යාවත්කාලීන සේවා නියම පිළිගනිමි",
             "privPolicyCheckbox": "මම යාවත්කාලීන කළ රහස්‍යතා ප්‍රතිපත්තිය කියවා මම පිළිගනිමි"
         },
-        "singleAccountGuide": {
-            "title": "ඔබ Firefly භාවිතා කරන ආකාරය වෙනස් වී ඇත",
-            "body": "එක් එක් පටිත්තෙහි අන්තර්ගතය දැන් තනි මුදල් පසුම්බියක සන්දර්භය තුළ ඇත. මාතෘකා තීරුවේ ඇති ස්විචය භාවිතයෙන් ඔබට ඕනෑම තැනක සිට තෝරාගත් මුදල් පසුම්බිය වෙනස් කළ හැකිය.",
-            "hint": "මුදල් පසුම්බියක් සොයාගත නොහැකිද? කලින් භාවිතා කළ පසුම්බි සොයා ගැනීමට සැකසීම් තුළ ශේෂ සොයන්නා භාවිතා කරන්න."
-        },
-        "transactionDetails": {
-            "title": "Transaction details",
-            "giftedStorageDeposit": {
-                "tooltipTitle": "Gift storage deposit",
-                "tooltipDescription": "Amount kept by the recipient"
-            }
-        },
-        "sendForm": {
-            "title": "Send funds"
+        "giftedStorageDeposit": {
+            "tooltipTitle": "Gift storage deposit",
+            "tooltipDescription": "Amount kept by the recipient"
         },
         "tokenInformation": {
-            "newTokenTitle": "New token",
             "verificationWarning": "This token is unverified. Compare the token metadata against the relevant team’s official website. Only verify tokens that you trust.",
             "tokenMetadata": {
                 "standard": "Standard",
-                "name": "Name",
                 "tokenId": "Token ID",
-                "url": "URL"
+                "url": "URL",
+                "description": "Description"
             },
             "buttons": {
                 "verifyToken": "I verify this token"
-            }
-        },
-        "sendNft": {
-            "formTitle": "Send NFT",
-            "confirmationTitle": "Confirm sending NFT",
-            "property": {
-                "nft": "NFT"
             }
         },
         "nativeToken": {
@@ -1089,10 +938,7 @@
                 "meltedTokens": "Melted tokens",
                 "circulatingSupply": "Circulating supply",
                 "aliasAddress": "Alias controller address",
-                "standard": "Standard",
                 "tokenName": "Name",
-                "unit": "Unit",
-                "subunit": "Subunit",
                 "storageDeposit": "Storage Deposit",
                 "description": "Description",
                 "symbol": "Symbol",
@@ -1107,7 +953,6 @@
         "importErc20Token": {
             "title": "Import ERC20 token",
             "property": {
-                "chainId": "Chain ID",
                 "tokenAddress": "Token address"
             },
             "success": "Imported {tokenSymbol} token",
@@ -1166,7 +1011,7 @@
         "revote": {
             "title": "Revote on proposals",
             "body": "Changing your voting power temporarily stops your votes for all proposals from being counted. Simply click \"Revote\" to resume voting.",
-            "hint": "Firefly remembers all of the proposals and answer options you previously voted for."
+            "hint": "Bloom remembers all of the proposals and answer options you previously voted for."
         },
         "removeProposal": {
             "title": "Remove proposal",
@@ -1183,19 +1028,6 @@
             "body": "This node requires additional authentication. Please fill in the appropriate information."
         }
     },
-    "charts": {
-        "incomingMi": "එන {value}",
-        "outgoingMi": "පිටතට යන {value}",
-        "portoflio": "කළඹ",
-        "token": "ටෝකනය",
-        "holdings": "හෝල්ඩින්ග්ස්",
-        "accountValue": "Wallet අගය",
-        "accountActivity": "Wallet ක්‍රියාකාරකම්",
-        "timeframe1Hour": "පැය 1 යි",
-        "timeframe1Day": "දින 1 යි",
-        "timeframe1Week": "1 සතිය",
-        "timeframe1Month": "මාස 1 යි"
-    },
     "actions": {
         "apply": "Apply",
         "continue": "දිගටම කරගෙන යන්න",
@@ -1204,7 +1036,6 @@
         "next": "ඊළඟ",
         "cancel": "අවලංගු කරන්න",
         "close": "වසන්න",
-        "dismiss": "අස් කරන්න",
         "claim": "Claim",
         "claiming": "Claiming",
         "claimingRewards": "Claiming rewards",
@@ -1223,9 +1054,7 @@
             "description": "Are you sure you want to burn this NFT?",
             "hint": "Please note that burning an NFT frees the storage deposit attached to it and is not reversible."
         },
-        "proceedAnyway": "කෙසේ හෝ ඉදිරියට යන්න",
         "save": "සුරකින්න",
-        "importSeed": "පවතින බීජයක් ආනයනය කරන්න",
         "restoreWallet": {
             "iota": "Migrate or restore a wallet",
             "shimmer": "Restore Shimmer profile",
@@ -1248,32 +1077,19 @@
         "claimShimmerDescription": "Import IOTA profile and claim staking rewards",
         "createAlias": "Create alias",
         "createAliasDescription": "Create alias output",
-        "savePassword": "මුරපදය සුරකින්න",
-        "useBiometric": "ජෛවමිතික ආරක්ෂාව භාවිතා කරන්න",
-        "setupPinCode": "Setup PIN code",
         "setPin": "Set PIN",
-        "setPinCode": "Set PIN code",
         "confirmPin": "Confirm PIN",
-        "confirmPinCode": "Confirm PIN code",
         "enterYourPin": "ඔබගේ PIN ඇතුලත් කරන්න",
-        "saveBackupFile": "උපස්ථ ගොනුව සුරකින්න",
-        "iveWrittenRecoveryPhrase": "මම මගේ ප්‍රතිසාධන වාක්‍ය ඛණ්ඩය ලියා ඇත",
-        "verifyRecoveryPhrase": "ප්‍රතිසාධන වාක්‍ය ඛණ්ඩය තහවුරු කරන්න",
-        "revealRecoveryPhrase": "ප්‍රතිසාධන වාක්‍ය ඛණ්ඩය හෙළි කරන්න",
-        "checkAgain": "නැවත පරීක්ෂා කරන්න",
-        "importFromFile": "ගොනුවකින් ආයාත කරන්න",
         "send": "යවන්න",
         "receive": "ලබාගන්න",
         "create": "නිර්මාණය කරන්න",
         "updateAndContinue": "Update and continue",
-        "beginTransfer": "මාරු කිරීම ආරම්භ කරන්න",
         "tryAgain": "නැවත උත්සහා කරන්න",
         "visitDiscord": "Discord වෙත පිවිසෙන්න",
         "dragDrop": "ඇද දමන්න",
-        "importExtentions": ".kdbx හෝ .stronghold ගොනුව",
+        "importExtentions": ".stronghold file",
         "chooseFile": "ගොනුවක් තෝරන්න",
         "dropHere": "ඔබේ ගොනුව මෙහි දමන්න",
-        "syncAll": "සියල්ල සමමුහුර්ත කරන්න",
         "import": "Import",
         "importing": "Importing",
         "export": "අපනයන",
@@ -1285,15 +1101,14 @@
         "exportTransactionHistory": "අපනයන ගනුදෙනු ඉතිහාසය",
         "localProofOfWork": "වැඩ පිළිබඳ දේශීය සාක්ෂි",
         "unlock": "අගුළු හරින්න",
-        "updateFirefly": "Firefly යාවත්කාලීන කරන්න",
-        "restartNow": "දැන් නැවත ආරම්භ කරන්න",
+        "updateBloom": "Update Bloom",
+        "restart": "Restart",
         "refresh": "Refresh",
-        "saveBackup": "Stronghold උපස්ථය සුරකින්න",
+        "saveBackup": "Save backup",
         "customizeAcount": "මුදල් පසුම්බිය අභිරුචිකරණය කරන්න",
         "hideAccount": "මුදල් පසුම්බිය සඟවන්න",
         "showAccount": "මුදල් පසුම්බිය සඟවන්න",
         "deleteAccount": "මුදල් පසුම්බිය මකන්න",
-        "max": "උපරිම",
         "addNode": "නෝඩ් එකතු කරන්න",
         "addingNode": "Adding node",
         "addOfficialNodes": "Add official nodes",
@@ -1315,9 +1130,7 @@
         "addAccount": "Wallet එකතු කරන්න",
         "checkForUpdates": "යාවත්කාලීන සඳහා පරීක්ෂා කරන්න",
         "reportAnIssue": "ගැටලුවක් වාර්තා කරන්න",
-        "restore": "ප්‍රතිෂ්ඨාපනය කරන්න",
         "clear": "පැහැදිලිව",
-        "hideDetails": "විස්තර සඟවන්න",
         "yes": "ඔව්",
         "no": "නැත",
         "skip": "මඟ හරින්න",
@@ -1328,35 +1141,18 @@
         "readDocumentation": "ලියකියවිලි කියවන්න",
         "visitFaq": "නිතර අසන පැන වෙත පිවිසෙන්න",
         "viewDownloads": "View downloads",
-        "viewStatus": "තත්ත්වය බලන්න",
         "viewBalanceBreakdown": "View balance breakdown",
         "showHiddenAccounts": "සැඟවුණු පසුම්බි පෙන්වන්න",
         "confirm": "තහවුරු කරන්න",
         "hideNetworkStatistics": "ජාල සංඛ්‍යාලේඛන සඟවන්න",
         "findWallets": "Find wallets",
-        "useBalanceFinder": "Use balance finder",
         "search": "Search",
         "searching": "Searching",
         "searchAgain": "නැවත සොයන්න",
-        "closeFirefly": "ෆයර්ෆ්ලයි වසන්න",
         "generateAddress": "ලිපිනය උත්පාදනය කරන්න",
-        "migrateAgain": "වෙනත් දර්ශකයක් සංක්‍රමණය කරන්න",
-        "visitWebsite": "වෙබ් අඩවියට පිවිසෙන්න",
-        "howItWorks": "එය ක්රියා කරන ආකාරය",
-        "learnAboutStaking": "ස්ටේකින් ගැන ඉගෙන ගන්න",
-        "stake": "කොටස්",
-        "unstake": "Unstake",
-        "stakeFunds": "කොටස් අරමුදල්",
-        "manageStake": "කොටස් කළමනාකරණය කරන්න",
-        "merge": "ඒකාබද්ධ කරන්න",
-        "mergeFunds": "අරමුදල් ඒකාබද්ධ කරන්න",
-        "done": "කළා",
-        "okIUnderstand": "හරි, මට තේරෙනවා",
-        "readMore": "වැඩිදුර කියවන්න",
         "searchForRewards": "Search for rewards",
         "claimRewards": "Claim rewards",
         "rerunClaimProcess": "Rerun claim process",
-        "addPublicNote": "Add public note",
         "backup": "Backup",
         "mint": "Mint",
         "mintNativeToken": "Mint native token",
@@ -1371,11 +1167,8 @@
         "refreshTokenMetadata": "Refresh token metadata",
         "test": "Test",
         "testDeepLink": "Test deep link",
-        "initialize": "Initialize",
-        "initializing": "Initializing",
         "delete": "Delete",
         "remove": "Remove",
-        "addReference": "Add reference",
         "depositNft": "Deposit NFTs",
         "vote": "Vote",
         "addProposal": "Add proposal",
@@ -1384,7 +1177,8 @@
         "stopVoting": "Stop voting",
         "revote": "Revote",
         "skipAndKeep": "Skip and keep old password",
-        "addChain": "Add chain"
+        "addChain": "Add chain",
+        "untrackToken": "Untrack token"
     },
     "general": {
         "recipient": "Recipient",
@@ -1393,9 +1187,6 @@
         "currentPassword": "වත්මන් මුර පදය",
         "newPassword": "නව මුරපදය",
         "confirmNewPassword": "නව මුරපදය තහවුරු කරන්න",
-        "yourSeed": "ඔබේ බීජය",
-        "recoveryPhrase": "ප්‍රතිසාධන වාක්‍ය ඛණ්ඩය",
-        "recentActivity": "මෑත ක්රියාකාරිත්වය",
         "sent": "යවා ඇත",
         "sending": "යවනවා",
         "received": "ලැබුනා",
@@ -1414,16 +1205,8 @@
         "revoting": "Revoting",
         "unvoted": "ඡන්දය නොදී",
         "unvoting": "ඡන්දය නොදීම",
-        "sentNft": "NFT sent",
-        "sendingNft": "Sending NFT",
-        "receivedNft": "NFT received",
-        "receivingNft": "Receiving NFT",
         "transfer": "Transfer",
         "transferring": "Transferring",
-        "transferNft": "Transfer NFT",
-        "transferringNft": "Transferring NFT",
-        "mintedNft": "Minted NFT",
-        "mintingNft": "Minting NFT",
         "shimmerClaimed": "Claimed",
         "shimmerClaiming": "Claiming",
         "shimmerGenesis": "Shimmer Genesis",
@@ -1431,47 +1214,29 @@
         "minting": "Minting",
         "burned": "Burned",
         "burning": "Burning",
+        "balanceChanged": "Balance changed",
+        "initialBalance": "Initial balance",
         "consolidated": "Outputs consolidated",
         "consolidating": "Consolidating outputs",
         "aliasCreated": "Alias created",
         "creatingAlias": "Creating Alias",
-        "sendPayment": "ගෙවීම් යවන්න",
-        "moveFunds": "අභ්යන්තර මාරු කිරීම",
         "sendTo": "වෙත යවන්න",
         "sendAssets": "Send assets",
         "sendAssetToAddress": "Send asset to an address",
-        "sendToAddress": "ලිපිනයට යවන්න",
-        "sendToken": "Send token",
-        "sendNft": "Send NFT",
-        "sendNftToAddress": "Send NFT to an address",
-        "scanQrOrPaste": "QR කේතයක් පරිලෝකනය කරන්න හෝ ලිපිනයක් අලවන්න",
-        "moveFundsBetweenAccounts": "මුදල් පසුම්බි අතර මුදල් මාරු කරන්න",
         "manageAccount": "Wallet කළමනාකරණය කරන්න",
         "customizeAcount": "ඔබේ මුදල් පසුම්බිය අභිරුචිකරණය කරන්න",
         "account": "පසුම්බිය",
-        "sendingToAddress": "ලිපිනයට යවනවා",
         "amount": "ප්රමාණය",
         "addAddress": "ලිපිනය එකතු කරන්න",
-        "reference": "යොමුව",
-        "from": "සිට",
         "to": "වෙත",
         "and": "and",
         "receiveFunds": "Receive funds",
         "address": "ලිපිනය",
+        "addressName": "Address name",
         "myAddress": "My address",
-        "myNetworkAddress": "My {networkName} address",
-        "shareAddress": "ලිපිනයක් බෙදා ගන්න",
-        "yourAddress": "ඔබේ ලිපිනය",
-        "newRemainder": "නව ඉතිරිය",
-        "remainder": "ඉතිරිය",
-        "generateNewAddress": "නව ලිපිනය උත්පාදනය කරන්න",
-        "copyToClipboard": "Copy to clipboard",
-        "copyAddress": "ලිපිනය පිටපත් කරන්න",
         "viewOnExplorer": "View on Explorer",
         "import": "ආනයන",
         "stronghold": "බලකොටුව",
-        "language": "භාෂාව",
-        "appearance": "පෙනුම",
         "lightTheme": "ආලෝකය",
         "darkTheme": "අඳුරු",
         "systemTheme": "පද්ධතිය",
@@ -1481,36 +1246,19 @@
         "all": "සියලුම",
         "incoming": "එන",
         "outgoing": "පිටතට යන",
-        "totalIn": "මුළු ඇතුලේ",
-        "totalOut": "සම්පුර්ණයෙන් ඉවරයි",
-        "accounts": "පසුම්බි",
-        "myAccounts": "මගේ පසුම්බි",
-        "profiles": "පැතිකඩ",
         "dev": "දේව්",
-        "createAccount": "Wallet එකක් සාදන්න",
         "addAWallet": "මුදල් පසුම්බියක් එකතු කරන්න",
         "accountName": "පසුම්බියේ නම",
-        "latestTransactions": "නවතම ගනුදෙනු",
-        "transactions": "ගනුදෙනු",
         "activity": "Activity",
         "security": "ආරක්ෂක",
-        "accountAddress": "Wallet ලිපිනය",
         "network": "ජාල",
+        "networkSelection": "Network selection",
         "destinationNetwork": "Destination network",
         "nodes": "නෝඩ්",
         "wallet": "පසුම්බිය",
         "help": "උදව්",
-        "you": "ඔබට",
-        "messageId": "පණිවිඩ හැඳුනුම්පත",
-        "inputAddress": "ලිපිනය යවන්න",
-        "receiveAddress": "ලිපිනය ලබා ගන්න",
-        "newAddress": "නව ලිපිනය",
-        "date": "දිනය",
-        "status": "තත්ත්වය",
         "confirmed": "තහවුරු කර ඇත",
         "pending": "පොරොත්තුවෙන්",
-        "noAccounts": "ඔබට මුදල් පසුම්බි නැත, කරුණාකර එකක් සාදන්න.",
-        "loadingAccounts": "පූරණය වේ, කරුණාකර රැඳී සිටින්න...",
         "addProfile": "පැතිකඩ එක් කරන්න",
         "noRecentHistory": "මෑත ඉතිහාසයක් නැත",
         "noFilteredActivity": "No matching activities",
@@ -1518,31 +1266,12 @@
         "noFilteredAsset": "No matching assets",
         "thisMonth": "This month",
         "search": "Search",
-        "firstSync": "ඉතිහාසය සමමුහුර්ත කරමින්, මෙයට යම් කාලයක් ගත විය හැක...",
-        "transferSyncing": "මුදල් පසුම්බිය සමමුහුර්ත කිරීම",
-        "transferSelectingInputs": "යෙදවුම් තේරීම",
-        "transferRemainderAddress": "ඉතිරි ලිපිනය උත්පාදනය කිරීම",
-        "transferPreparedTransaction": "ගනුදෙනුව සූදානම් කිරීම",
-        "transferSigning": "ගනුදෙනුව අත්සන් කිරීම",
-        "transferPow": "PoW ඉටු කිරීම",
-        "transferBroadcasting": "විකාශන ගනුදෙනුව",
-        "transferComplete": "මාරු කිරීම සම්පූර්ණයි",
-        "generatingReceiveAddress": "ලැබෙන ලිපිනය උත්පාදනය කිරීම",
-        "broadcasting": "විකාශනය",
-        "confirming": "තහවුරු කරනවා",
-        "creatingAccount": "මුදල් පසුම්බිය සාදමින්, කරුණාකර රැඳී සිටින්න...",
-        "updatingAccount": "පසුම්බිය යාවත්කාලීන කරමින්, කරුණාකර රැඳී සිටින්න...",
-        "accountSyncing": "Wallet සමමුහුර්ත වෙමින් පවතී",
-        "accountSyncComplete": "පසුම්බිය සමමුහුර්ත කිරීම සම්පූර්ණයි",
         "passwordUpdating": "මුරපදය යාවත්කාලීන කරමින්...",
         "passwordSuccess": "මුරපදය සාර්ථකව යාවත්කාලීන කරන ලදී",
         "passwordFailed": "මුරපදය යාවත්කාලීන කිරීම අසාර්ථක විය",
-        "syncing": "සමමුහුර්ත කිරීම",
-        "syncingAccounts": "පසුම්බි සමමුහුර්ත කරමින්...",
         "exportingStronghold": "Stronghold අපනයනය කරමින්...",
         "exportingStrongholdSuccess": "Stronghold සාර්ථකව අපනයනය කරන ලදී",
         "exportingStrongholdFailed": "Stronghold නිර්යාත කිරීම අසාර්ථක විය",
-        "pinCodeUpdating": "PIN කේතය යාවත්කාලීන කරමින්...",
         "pinCodeSuccess": "PIN කේතය සාර්ථකව යාවත්කාලීන කරන ලදී",
         "pinCodeFailed": "PIN කේතය යාවත්කාලීන කිරීම අසාර්ථක විය",
         "passwordStrength": "මුරපදයේ ශක්තිය",
@@ -1552,55 +1281,33 @@
         "passwordStrength3": "සාමාන්යය",
         "passwordStrength4": "ශක්තිමත්",
         "creatingProfile": "පැතිකඩ නිර්මාණය කරමින්, කරුණාකර රැඳී සිටින්න...",
-        "fundMigration": "අරමුදල් සංක්රමණය",
-        "accountRemoved": "මෙම මුදල් පසුම්බිය සඟවා ඇත. මාරු කිරීම් සිදු කිරීමට එය සඟවන්න.",
         "fromAddress": "from {account}",
         "toAddress": "to {account}",
-        "stakedFor": "Staked for {account}",
-        "unstakedFor": "Unstaked for {account}",
-        "votedFor": "Voted for {account}",
-        "unvotedFor": "Unvoted for {account}",
-        "stakingTransaction": "ස්ටේකිං ගනුදෙනු",
-        "unstakingTransaction": "නොබැඳි ගනුදෙනු",
-        "legacyNetwork": "ලෙගසි ජාලය",
         "capsLock": "Caps Lock ක්‍රියාත්මකයි",
         "version": "අනුවාදය {version}",
-        "yourWallets": "ඔබේ පසුම්බි",
         "unknown": "නොදන්නා",
         "unknownAddress": "Unknown address",
         "none": "කිසිවක් නැත",
-        "staked": "පරදුවට තැබුවා",
-        "unstaked": "අනාරක්ෂිත",
-        "staking": "ස්ටේකිං",
-        "unstaking": "නොදැමීම",
-        "notStaked": "පරදුවට තබා නැත",
-        "stakedFunds": "කොටස් කළ අරමුදල්",
-        "unstakedFunds": "අවිනිශ්චිත අරමුදල්",
         "accountColor": "පසුම්බිය වර්ණය",
         "transactionTime": "Transaction time",
-        "surplus": "Surplus",
         "storageDeposit": "Storage deposit",
-        "giftedStorageDeposit": "Gifted storage deposit",
+        "transactionFee": "Transaction fee",
         "storageDepositPerNft": "Storage deposit per NFT",
         "totalStorageDeposit": "Total storage deposit",
         "expirationTime": "Expiration time",
         "timelockDate": "Timelock",
         "claimedTime": "Claimed at",
-        "nftAddress": "NFT Address",
         "nftId": "NFT ID",
-        "nftMetadata": "NFT Metadata",
         "aliasId": "Alias ID",
         "governorAddress": "Governor Address",
         "stateControllerAddress": "State Controller Address",
         "copiedToClipboard": "Copied to clipboard",
-        "total": "එකතුව: {balance}",
         "availableBalanceWithValue": "Available balance: {balance}",
-        "availableBalance": "Available balance",
-        "availableBalanceTooltip": "An asset's total balance minus any funds that are required to cover the storage deposit (i.e. funds that are locked in pending transactions, reserved for Native Tokens, or reserved for NFTs).",
         "amountClaimed": "{amount} claimed",
         "metadata": "Metadata",
         "amountConsolidatedInputs": "Consolidated outputs",
         "name": "Name",
+        "note": "Note",
         "tag": "Tag",
         "nodeList": "Node list",
         "claimedIn": "Claimed in",
@@ -1612,7 +1319,6 @@
         "faucetRequestDescription": "Request tokens from the {network} faucet",
         "refreshTokenMetadataDescription": "Reset and refresh all token metadata",
         "refreshTokenMetadataHint": "This will reset all your tokens' metadata including the verification status and unhide any hidden assets.",
-        "giftStorageDeposit": "Gift storage deposit",
         "excluded": "Excluded",
         "developerTools": "Developer tools",
         "testDeepLinkDescription": "Simulate a deep link request sent to firefly",
@@ -1620,7 +1326,6 @@
         "hash": "Hash",
         "creating": "Creating",
         "updating": "Updating",
-        "enterAddress": "Enter address",
         "transaction": "Transaction",
         "alias": "Alias",
         "foundry": "Foundry",
@@ -1631,7 +1336,6 @@
         "smartContract": "Smart Contract",
         "targetContract": "Target contract",
         "contractFunction": "Contract function",
-        "gasBudget": "Gas budget",
         "standard": "Standard",
         "uri": "URI",
         "issuer": "Issuer",
@@ -1645,18 +1349,18 @@
         "description": "Description",
         "attributes": "Attributes",
         "details": "Details",
-        "availableAmount": "{amount} available",
         "properties": "Properties",
         "statistics": "Statistics",
-        "username": "Username",
-        "jwt": "JSON web token",
         "internalTransaction": "Internal transaction",
         "coinType": "Coin type",
         "custom": "Custom",
         "evmAddress": "EVM address",
-        "chain": "Chain",
         "importErc20Token": "Import ERC20 token",
-        "importErc20TokenDescription": "Import an ERC20 token from an EVM chain"
+        "optionalField": "{field} (optional)",
+        "gifted": "Gifted",
+        "connected": "Connected",
+        "estimatedFee": "Estimated fee",
+        "maxFees": "Max fees"
     },
     "filters": {
         "title": "Filters",
@@ -1780,27 +1484,13 @@
         "year": "{time, plural, one {# වර්ෂය} other {# වසර}}"
     },
     "notifications": {
-        "valueTx": "{{value}} සිට {{account}}දක්වා ලබා ගැනීම",
-        "confirmed": "{{account}} සිට පිටතට යන {{value}} තහවුරු කර ඇත",
-        "confirmedInternal": "{{value}} {{senderAccount}} සිට {{receiverAccount}} දක්වා තහවුරු කර ඇත",
-        "confirmedInternalNoAccounts": "{{value}} අභ්‍යන්තර මාරුව තහවුරු කර ඇත",
-        "failed": "{{account}} සිට පිටතට යන {{value}} අසාර්ථක විය",
         "downloadingUpdate": "යාවත්කාලීන බාගත කරමින්",
         "updateReady": "යාවත්කාලීන කිරීමට සූදානම්",
         "updateError": "යාවත්කාලීන කිරීමේදී දෝෂයක් ඇති විය, කරුණාකර නැවත උත්සාහ කරන්න",
-        "restartInstall": "ස්ථාපනය කිරීමට නැවත ආරම්භ කරන්න",
-        "calcMinutesRemaining": "ඉතිරි මිනිත්තු ගණනය කරමින්...",
-        "minutesRemaining": "{minutes, plural, one {විනාඩි #ක් ඉතිරියි} other {විනාඩි #ක් ඉතිරියි}}",
         "copiedToClipboard": "පසුරු පුවරුවට පිටපත් කර ඇත",
-        "accountsSynchronized": "පසුම්බිය සමමුහුර්ත කිරීම සම්පූර්ණයි",
-        "fundsAvailableSoon": "ඔබේ අරමුදල් ඉක්මනින් ලබා ගත හැකි වනු ඇත",
-        "exportTransactionHistory": {
-            "success": "{accountAlias} සඳහා ගනුදෙනු ඉතිහාසය සාර්ථකව {filePath}වෙත සුරැකිණි",
-            "error": "{accountAlias}සඳහා ගනුදෙනු ඉතිහාසය අපනයනය කළ නොහැක"
-        },
+        "newDappConnected": "Connected to new dApp",
         "deepLinkingRequest": {
             "receivedWhileLoggedOut": "Please login to initiate the deep link",
-            "notEnabled": "Deep links are not enabled",
             "invalidFormat": "The deep link you followed is invalid",
             "invalidAmount": "The amount in deep link is not an integer number {amount}",
             "invalidSurplus": "The surplus in deep link is not a number {surplus}",
@@ -1809,22 +1499,15 @@
                 "unrecognizedOperation": "Unrecognized Governance operation: {operation}"
             },
             "wallet": {
-                "send": {
-                    "success": "Payment details added from deep link"
-                },
                 "unrecognizedOperation": "Unrecognized wallet operation: {operation}"
             }
         },
-        "syncing": "පසුම්බි වෙනස් කිරීමට සමමුහුර්තකරණය අවසන් වන තෙක් රැඳී සිටින්න.",
-        "transferring": "මුදල් පසුම්බි වෙනස් කිරීමට සියලු ගනුදෙනු අවසන් වන තෙක් රැඳී සිටින්න.",
-        "participating": "Please wait until all staking/voting transactions are completed to change wallets.",
         "claimed": {
             "success": "Transaction claimed",
             "error": "Claiming transaction failed"
         },
         "hideActivity": {
-            "success": "Activity was hidden",
-            "error": "Failed to hide activity"
+            "success": "Activity was hidden"
         },
         "faucetRequest": {
             "success": "Request for tokens sent to the faucet"
@@ -1849,7 +1532,6 @@
             "wrongProtocolForClaiming": "You must use an IOTA-based Stronghold backup to claim Shimmer rewards"
         },
         "findShimmerRewards": {
-            "success": "Successfully found Shimmer rewards",
             "error": "An error occurred while searching for rewards"
         },
         "claimShimmerRewards": {
@@ -1861,17 +1543,19 @@
         },
         "stopVoting": {
             "success": "Voting successfully stopped"
+        },
+        "updateContact": {
+            "success": "Contact successfully updated"
+        },
+        "updateNetworkAddresses": {
+            "success": "Contact addresses successfully updated"
         }
     },
     "error": {
         "profile": {
             "length": "ඔබගේ පැතිකඩ නම ට වඩා දිගු විය නොහැක {length, plural, one {# ස්වභාවය} other {අක්ෂර #}}.",
             "duplicate": "මෙම නම සහිත පැතිකඩක් දැනටමත් පවතී.",
-            "delete": {
-                "nonEmptyAccounts": "ඔබගේ පැතිකඩ මකා දැමීමට පෙර ඔබ සියලු ශේෂයන් මාරු කළ යුතුය."
-            },
-            "type": "Unable to determine the profile type",
-            "setupType": "Unable to determine the profile setup type"
+            "type": "Unable to determine the profile type"
         },
         "password": {
             "doNotMatch": "මුරපද නොගැලපේ.",
@@ -1894,29 +1578,25 @@
         "pincode": {
             "length": "ඔබගේ PIN අංකය විය යුතුය {length, plural, one {# ඉලක්කම්} other {ඉලක්කම් #ක්}} දිගු.",
             "match": "PIN නොගැලපේ.",
-            "incorrect": "ඔබගේ වත්මන් PIN අංකය වැරදියි.",
-            "invalid": "Invalid PIN code."
+            "incorrect": "ඔබගේ වත්මන් PIN අංකය වැරදියි."
         },
         "address": {
-            "wrongAddressType": "Wrong address type"
+            "wrongAddressType": "Wrong address type",
+            "invalidBech32Format": "Invalid Bech32 format",
+            "belongsToAccount": "Cannot belong to any of your accounts",
+            "checksum": "Address checksum is invalid"
         },
         "account": {
-            "addressNotFound": "The address cannot be found in your account.",
             "length": "ඔබේ මුදල් පසුම්බියට වඩා දිගු විය නොහැක {length, plural, one {# ස්වභාවය} other {අක්ෂර #}}.",
             "emptyName": "පැතිකඩ නමක අවම වශයෙන් අනුලකුණු 1ක් වත් අඩංගු විය යුතුය.",
-            "notEmpty": "මෙම මුදල් පසුම්බිය මැකීමට පෙර ඔබ ඔබේ ශේෂය මාරු කළ යුතුය.",
             "duplicate": "මෙම නම සහිත මුදල් පසුම්බියක් දැනටමත් පවතී.",
             "tilde": "පැතිකඩ නමක් '~' අක්ෂරයෙන් ආරම්භ කළ නොහැක.",
             "control": "පැතිකඩ නමක පාලන අක්ෂරයක් අඩංගු විය නොහැක.",
             "startDot": "පැතිකඩ නමක් '.' සමඟ ආරම්භ කළ නොහැක. ස්වභාවය.",
             "chars": "පැතිකඩ නමක පහත අක්ෂර අඩංගු විය නොහැක <>:\"/\\|?*",
-            "index": "ඔබගේ ගිණුම් දර්ශකය 0 සහ 2,147,483,647 අතර අංකයක් විය යුතුය.",
-            "page": "ඔබගේ ගිණුම් පිටුව 0 සහ 2,147,483,647 අතර අංකයක් විය යුතුය.",
-            "syncing": "ඔබගේ පසුම්බි සමමුහුර්ත කිරීමේදී දෝෂයක් ඇති විය.",
             "cannotRemove": "Unable to remove wallet.",
             "withBalance": "You must transfer all balances before you can delete this wallet.",
             "notLast": "You can only delete your last wallet.",
-            "notFound": "Unable to find account",
             "cannotGetBoundAccount": "Unable to get bound account"
         },
         "send": {
@@ -1934,24 +1614,20 @@
             "invalidTokenId": "The token id is not valid.",
             "unknownAsset": "The asset is not known to this account.",
             "insufficientFunds": "මෙම මුදල් පසුම්බියට ප්‍රමාණවත් අරමුදල් නොමැත.",
+            "insufficientFundsGasFee": "Insufficient funds to cover the gas fee.",
             "insufficientFundsStorageDeposit": "Insufficient funds to cover the storage deposit.",
             "ongoingTransaction": "If you have ongoing transactions, please wait for their confirmation.",
-            "cannotClaimTwice": "Output has been already claimed",
-            "noToAccount": "ඔබ අරමුදල් යැවීමට පසුම්බියක් තෝරාගෙන නැත.",
-            "sendingDust": "ඔබට 1 Mi ට වඩා අඩුවෙන් යැවිය නොහැක.",
-            "leavingDust": "ඔබට ඔබගේ ලිපිනයෙහි 1 Mi ට වඩා අඩුවෙන් තැබිය නොහැක.",
             "cancelled": "ගනුදෙනුව අවලංගු විය.",
-            "transaction": "ඔබේ ගනුදෙනුව යැවීමේ දෝෂයක් ඇති විය. කරුණාකර නැවත උත්සාහ කරන්න.",
             "invalidExpirationDateTime": "The chosen expiration date/time is invalid.",
+            "invalidTimelockDateTime": "The chosen timelock date/time is invalid.",
             "noInputs": "No inputs found.",
             "notEnoughBalance": "Not enough balance.",
             "missingTransactionId": "The transaction ID is missing",
             "missingTransactionProgressEventPayload": "The transaction progress event payload is missing",
             "recipientRequired": "Recipient is required",
-            "nftRequired": "NFT is required",
-            "nftNotInHex": "NFT address has to be in HEX format",
-            "nftNotInPossession": "NFT not in possession",
-            "reservedTagKeyword": "Unable to use reserved tag keyword"
+            "reservedTagKeyword": "Unable to use reserved tag keyword",
+            "invalidSendParameters": "Invalid send parameters.",
+            "unableToGetOriginAddress": "Unable to get the origin address."
         },
         "layer2": {
             "layer1Recipient": "A layer 2 transaction cannot be sent to a layer 1 account."
@@ -1959,17 +1635,12 @@
         "node": {
             "invalid": "වලංගු URL එක ඇතුලත් කරන්න.",
             "dns": "Unable to find DNS resolution for node",
-            "timedOut": "සම්බන්ධතාවය කල් ඉකුත් විය.",
-            "refused": "සම්බන්ධතාවය ප්රතික්ෂේප කරන ලදී.",
             "handshake": "නෝඩය සමඟ අතට අත දීම සම්පූර්ණ කළ නොහැකි විය.",
             "invalidCertificate": "වලංගු නොවන සහතිකයක් සමඟ සම්බන්ධ වීමට නොහැකි විය.",
             "https": "HTTPS අවශ්‍යයි; HTTP හරහා අනාරක්ෂිත සම්බන්ධතා මෙම අවස්ථාවේදී සහාය නොදක්වයි.",
             "duplicate": "මෙම නෝඩය දැනටමත් එකතු කර ඇත.",
             "noSyncedNode": "No synced node is available.",
             "timeNotSynced": "Device time is incorrect, unable to sync node.",
-            "answer": "සියලුම නෝඩ් වලින් පිළිතුරක් ලබා ගැනීමට අපොහොසත් විය.",
-            "forbidden": "මෙම නෝඩ් සම්බන්ධතාවය තහනම්ය.",
-            "pluginNotAvailable": "\"{nodePlugin}\" ප්ලගිනය වත්මන් නෝඩයේ නොමැත.",
             "unabledToConnect": "Unable to connect to the node",
             "differentNetwork": "The node is located on a different network",
             "duplicateNodes": "Unable to add duplicate node",
@@ -1977,20 +1648,15 @@
         },
         "network": {
             "mismatch": "මෙම නෝඩය සඳහා ජාල හැඳුනුම \"{networkId}\" වේ, එය වත්මන් ජාලයට නොගැලපේ.",
-            "notReachable": "මෙම නෝඩය සඳහා ජාල හැඳුනුම්පත ලබා ගැනීමට නොහැකි විය, නෝඩය එක් කිරීමට නොහැකි විය.",
-            "badNodes": "වත්මන් නෝඩ් වින්‍යාසය සමඟ ජාලයට සම්බන්ධ විය නොහැක.",
-            "nonEmptyAccount": "ජාල මාරු කිරීමට පෙර ඔබ සියලු ශේෂයන් මාරු කළ යුතුය."
+            "notReachable": "මෙම නෝඩය සඳහා ජාල හැඳුනුම්පත ලබා ගැනීමට නොහැකි විය, නෝඩය එක් කිරීමට නොහැකි විය."
         },
         "global": {
             "generic": "මොකක්හරි වැරැද්දක් වෙලා."
         },
         "backup": {
-            "invalid": "උපස්ථ ගොනුව හඳුනාගෙන නොමැත.",
+            "invalid": "The backup file was not recognized.",
             "destination": "උපස්ථ ගමනාන්තය වලංගු නැත.",
-            "mnemonic": "සිහිවටනය වලංගු නැත.",
             "migrationRequired": "Stronghold migration is required.",
-            "seedTooShort": "බීජය අක්ෂර 81 ක් දිග විය යුතුය, එය {length, plural, one {# වේ} other {# වේ}}",
-            "seedCharacters": "බීජයේ AZ හෝ 9 අක්ෂර පමණක් අඩංගු විය යුතුය",
             "phraseWordCount": "ඔබගේ ප්‍රතිසාධන වාක්‍ය ඛණ්ඩයේ වචන 24ක් තිබිය යුතුය, දැනට එහි {length, plural, one {# වේ} other {# වේ}}.",
             "phraseUnrecognizedWord": "ඔබගේ ප්‍රතිසාධන වාක්‍ය ඛණ්ඩයේ \"{word}\" හඳුනා නොගත් වචනය",
             "phraseCaseWord": "\"{word}\" යන වචනය කුඩා අකුර විය යුතුය",
@@ -1998,7 +1664,6 @@
             "unableToRestoreForProfileManager": "Unable to restore Stronghold backup for profile manager"
         },
         "ledger": {
-            "appNotOpen": "ඔබ ඔබේ Ledger උපාංගයේ IOTA යෙදුම විවෘත කළ යුතුය.",
             "generic": "ඔබගේ Ledger උපාංගයට සම්බන්ධ කිරීමේදී දෝෂයක් ඇති විය.",
             "legacyConnected": "වැරදි යෙදුම ඔබගේ ලෙජර් උපාංගයේ විවෘතයි.",
             "locked": "කරුණාකර PIN අංකය ඇතුළත් කිරීමෙන් ඔබේ ලෙජර් උපාංගය අගුළු හරින්න.",
@@ -2009,25 +1674,15 @@
             "generateAddress": "ලිපිනයක් උත්පාදනය කිරීමේදී දෝෂයක් ඇති විය.",
             "timeout": "ඔබගේ ලෙජර් උපාංගය කල් ඉකුත් විය.",
             "disconnected": "ඔබගේ ලෙජර් උපාංගය විසන්ධි විය.",
-            "noStronghold": "ලෙජර් පැතිකඩ සමඟ Stronghold භාවිතා කළ නොහැක."
+            "noStronghold": "ලෙජර් පැතිකඩ සමඟ Stronghold භාවිතා කළ නොහැක.",
+            "rejected": "Action was rejected on the Ledger device"
         },
         "popup": {
             "preventClose": "මෙම උත්පතනය වසා දැමිය නොහැක."
         },
-        "migration": {
-            "missingBundle": "ගනුදෙනු පොදිය සොයා ගැනීමට උත්සාහ කිරීමේදී දෝෂයක් ඇති විය."
-        },
         "crypto": {
             "cannotDecodeBech32": "තන්තුව Bech32 ලිපිනය ලෙස විකේතනය කළ නොහැක."
         },
-        "participation": {
-            "cannotUseAccount": "නිශ්චිත ගිණුම භාවිතා කළ නොහැක.",
-            "cannotFindStakingEvent": "ස්ටකිං සිදුවීම සොයා ගැනීමට නොහැකි විය.",
-            "cannotVisitAirdropWebsite": "{airdrop} වෙබ් අඩවිය විවෘත කළ නොහැක.",
-            "invalidStakingEventId": "වලංගු නොවන ස්ටේකින් සිදුවීම් ID."
-        },
-        "invalidDate": "වලංගු නොවන දිනය",
-        "invalidTime": "වලංගු නොවන කාලය",
         "shimmerClaiming": {
             "missingProfileManager": "Unable to find Shimmer claiming profile manager",
             "cannotInitialiseAccount": "Unable to initialize Shimmer claiming account",
@@ -2094,48 +1749,35 @@
         "erc20Token": {
             "invalidAddressFormat": "Must be hexadecimal format",
             "invalidAddressLength": "Length is invalid"
+        },
+        "input": {
+            "invalid": "{field} input is invalid",
+            "required": "{field} is required",
+            "alreadyUsed": "{field} is already being used",
+            "tooLong": "{field} must be {numCharacters} or less characters"
+        },
+        "walletConnect": {
+            "invalidUri": "Invalid URI",
+            "invalidProtocol": "Invalid protocol, must start with 'wc'.",
+            "deprecatedVersion": "dApp uses a deprecated wallet connect version."
+        },
+        "web3": {
+            "unableToGetProvider": "Unable to get web3 provider.",
+            "unableToFormSmartContractData": "Unable to form smart contract data."
+        },
+        "token": {
+            "missingMetadata": "The token metadata is missing."
         }
     },
     "warning": {
         "transaction": {
-            "invalidExpirationDateTime": "The chosen expiration date is invalid."
-        },
-        "node": {
-            "http": "HTTP හරහා නෝඩ් භාවිතා කිරීම ගමනාගමනය සංකේතනය කර නැති අතර ආරක්ෂක අවදානමක් ඇති කළ හැකිය."
-        },
-        "participation": {
-            "noFunds": "ඔබට IOTA කිසිවක් නැත."
+            "invalidDateTime": "The chosen date must be in the future."
         }
     },
     "tooltips": {
-        "risk": {
-            "title": "අවදානම් මට්ටම: {risk}",
-            "veryHigh": "ඉතා ඉහළයි",
-            "high": "ඉහළ",
-            "medium": "මධ්යම",
-            "low": "අඩු",
-            "veryLow": "ඉතා අඩුයි"
-        },
-        "partiallyStakedFunds": {
-            "title": "නව නොබැඳි අරමුදල්: {amount}",
-            "titleNoFunds": "නව නොබැඳි අරමුදල්",
-            "preBody": "ඔබ පරදුවට තබා නැති ටෝකන ලැබී ඇත.",
-            "body": "ඔබට මෙම නව අරමුදල් සඳහා එයාර්ඩ්‍රොප් ත්‍යාග ලබා ගැනීමට ඒවා අතින් කොටස් කිරීමට අවශ්‍ය වේ."
-        },
-        "stakingMinRewards": {
-            "title": "අවම ප්‍රතිලාභ අගයට පහළින්",
-            "titleMinBalance": "{amount} අවම ශේෂයක් අවශ්‍යයි",
-            "bodyMinBalance": "මෙම මුදල් පසුම්බියට අවම airdrop ත්‍යාගය ලබා ගැනීමට ප්‍රමාණවත් IOTA ටෝකන නොමැති අතර එම නිසා පරදුවට තැබිය නොහැක.",
-            "continue": "කරුණාකර තවත් {duration}ක් සඳහා රැඳී සිටින්න.",
-            "bodyBelowMin": "මෙම මුදල් පසුම්බිය {airdrop} ({airdropRewardMin}) සඳහා අවම ප්‍රතිලාභ අගයට ළඟා වී නොමැත.",
-            "bodyWillReachMin": "ඔබ අවම මට්ටමට ළඟා වීමට තවත් {duration} සඳහා කොටස් කළ යුතුය.",
-            "bodyWillNotReachMin": "ඔබ තවත් IOTA එකතු කරන්නේ නම් මිස ඉතිරි ඉතිරි කිරීමේ කාල සීමාව තුළ ඔබට අවම ප්‍රතිලාභ අගය ළඟා නොවනු ඇත.",
-            "bodyDidNotReachMin": "ඔබ {airdrop} ({airdropRewardMin}) සඳහා අවම ප්‍රතිලාභ අගය කරා ළඟා වීමට ප්‍රමාණවත් IOTA කොටස් කර නැත.",
-            "bodyMinBalanceAirdrop": "මෙම මුදල් පසුම්බියට {airdrop}සඳහා අවම airdrop ත්‍යාගය වෙත ළඟා වීමට ප්‍රමාණවත් IOTA ටෝකන නොමැත."
-        },
         "optionalInput": "This optional data will be public on the explorer and viewable by everyone.",
         "transactionDetails": {
-            "minting": {
+            "incoming": {
                 "storageDeposit": "A refundable token deposit needed to store your transaction on the Tangle.",
                 "giftedStorageDeposit": "The storage deposit for this transaction was gifted to you. You do not need to refund the deposit.",
                 "expirationTime": "Claim these funds before the expiration time or they will be returned to the sender.",
@@ -2143,31 +1785,17 @@
                 "metadata": "An optional data field for storing data persistently on the Tangle.",
                 "tag": "A short optional data field. Tagging groups of transactions can make them easier to search for."
             },
-            "incoming": {
-                "storageDeposit": "A refundable token deposit needed to store your transaction on the Tangle.",
-                "giftedStorageDeposit": "The storage deposit for this transaction was gifted to you. You do not need to refund the deposit.",
-                "expirationTime": "Claim these funds before the expiration time or they will be returned to the sender.",
-                "timelockDate": "The sender set a timelock on these funds. You will be able to spend them once the timelock expires.",
-                "metadata": "An optional data field for storing data persistently on the Tangle.",
-                "tag": "A short optional data field. Tagging groups of transactions can make them easier to search for.",
-                "gasBudget": "Gas budget is required to conduct a transaction or execute a smart contract function on Shimmer EVM."
-            },
             "outgoing": {
                 "storageDeposit": "A storage deposit is a refundable deposit needed to store your transaction on the Tangle.",
                 "giftedStorageDeposit": "The recipient does not need to refund the deposit.",
                 "expirationTime": "If the recipient does not claim in time your tokens will be returned to you.",
                 "timelockDate": "You added a timelock to this transaction. The recipient will not be able to spend these funds until the timelock expires.",
                 "metadata": "An optional data field for storing data persistently on the Tangle.",
-                "tag": "A short optional data field. Tagging groups of transactions can make them easier to search for.",
-                "gasBudget": "Gas budget is required to conduct a transaction or execute a smart contract function on Shimmer EVM."
+                "tag": "A short optional data field. Tagging groups of transactions can make them easier to search for."
             },
             "nftMetadata": {
-                "standard": "The NFT standard e.g. IRC27.",
                 "type": "The MimeType of the NFT. e.g. image/png.",
-                "collectionId": "UTXO string of the collection NFT that minted this NFT",
-                "royalties": "An object containing key-value pairs of addresses that map to payout percentages",
-                "issuerName": "The name of the creator",
-                "attributes": "An array of traits and values that define attributes of the NFT"
+                "issuerName": "The name of the creator"
             }
         },
         "mintNativeToken": {
@@ -2177,7 +1805,6 @@
             "logoUrl": "IRC30 optional parameter: URL pointing to an image resource of the token logo."
         },
         "mintNftForm": {
-            "collectionId": "Optional parameter: UTXO string of the collection NFT that minted this NFT",
             "collectionName": "Optional parameter: The collection's name",
             "royalties": "Optional parameter: An object containing key-value pairs of addresses that map to payout percentages",
             "issuerName": "Optional parameter: The name of the creator",
@@ -2199,30 +1826,10 @@
         },
         "updateStronghold": {
             "profileBadge": "Your Stronghold is out of date. Log in to update Stronghold."
-        }
-    },
-    "exports": {
-        "transactionHistoryCsv": {
-            "messageId": "පණිවිඩ හැඳුනුම්පත",
-            "internal": "අභ්යන්තර",
-            "rawValue": "අමු අගය",
-            "formattedValue": "ආකෘතිගත අගය",
-            "date": "දිනය",
-            "time": "කාලය"
-        }
-    },
-    "indicators": {
-        "developerProfileIndicator": {
-            "warningText": "ඔබ දැනට සංවර්ධක පැතිකඩක් භාවිතා කරන අතර {networkName}වෙත සම්බන්ධ වී ඇත"
         },
-        "networkIndicator": {
-            "warningText": "Network performance degraded. Message confirmation may take a bit longer than usual."
-        }
-    },
-    "permissions": {
-        "camera": {
-            "request": "QR කේත පරිලෝකනය කිරීමට ඔබගේ කැමරාව භාවිතා කිරීමට අපට ඔබගේ අවසරය අවශ්‍යයි.",
-            "requestInAppSettings": "ඔබට QR කේත පරිලෝකනය කිරීමට ඔබේ කැමරාව භාවිත කිරීමට අවසර දීමට අවශ්‍ය නම්, කරුණාකර එය යෙදුම් සැකසීම් තුළ සබල කරන්න."
+        "tokenIsNotVerified": {
+            "title": "Token is not verified",
+            "text": "Compare the token metadata against the relevant team’s official website. Only verify tokens that you trust."
         }
     },
     "tabs": {
@@ -2230,100 +1837,16 @@
         "collectibles": "Collectibles",
         "governance": "පාලනය",
         "developer": "Developer",
-        "tokens": "ටෝකන",
-        "activity": "ක්රියාකාරිත්වය"
+        "tokens": "ටෝකන"
     },
     "pills": {
-        "stake": {
-            "Pending": "staking for",
-            "Confirmed": "staked for",
-            "Conflicting": "failed to stake"
-        },
-        "external": {
-            "incoming": {
-                "Pending": "receiving from",
-                "Confirmed": "received from",
-                "Conflicting": "failed to receive"
-            },
-            "outgoing": {
-                "Pending": "sending to",
-                "Confirmed": "sent to",
-                "Conflicting": "failed to send"
-            }
-        },
-        "internal": {
-            "incoming": {
-                "Pending": "transferring from",
-                "Confirmed": "transferred from",
-                "Conflicting": "failed to transfer"
-            },
-            "outgoing": {
-                "Pending": "transferring to",
-                "Confirmed": "transferred to",
-                "Conflicting": "failed to transfer"
-            },
-            "selfTransaction": {
-                "Pending": "transferring to",
-                "Confirmed": "transferred to",
-                "Conflicting": "failed to transfer"
-            }
-        },
-        "mint": {
-            "Pending": "minting",
-            "Confirmed": "minted",
-            "Conflicting": "failed to mint"
-        },
-        "burn": {
-            "Pending": "burning",
-            "Confirmed": "burned",
-            "Conflicting": "failed to burn"
-        },
-        "consolidation": {
-            "Pending": "Consolidating outputs",
-            "Confirmed": "Outputs consolidated",
-            "Conflicting": "failed to consolidate outputs"
-        },
-        "migrate": {
-            "Pending": "migrating for",
-            "Confirmed": "migrated for",
-            "Conflicting": "failed to migrate"
-        },
         "asyncStatus": {
             "unclaimed": "unclaimed",
             "claimed": "claimed",
-            "expired": "expired"
+            "expired": "expired",
+            "timelocked": "timelocked"
         },
         "governance": {
-            "increaseVotingPower": {
-                "Pending": "increasing voting power",
-                "Confirmed": "increased voting power",
-                "Conflicting": "failed to increased voting power"
-            },
-            "decreaseVotingPower": {
-                "Pending": "decreasing voting power",
-                "Confirmed": "decreased voting power",
-                "Conflicting": "failed to decreased voting power"
-            },
-            "startVoting": {
-                "Pending": "voting for",
-                "Confirmed": "voted for",
-                "Conflicting": "failed to vote for"
-            },
-            "stopVoting": {
-                "Pending": "stopping voting for",
-                "Confirmed": "stopped voting for",
-                "Conflicting": "failed to stopped voting for"
-            },
-            "changedVote": {
-                "Pending": "changing vote for",
-                "Confirmed": "changed vote for",
-                "Conflicting": "failed to change vote for"
-            },
-            "revote": {
-                "Pending": "revoting",
-                "Confirmed": "revote",
-                "Conflicting": "failed to revote"
-            },
             "proposalStatus": {
                 "upcoming": "Announcement",
                 "commencing": "Voting open",
@@ -2333,31 +1856,21 @@
                 "resultsNotAvailable": "Results not available"
             }
         },
-        "alias": {
-            "creation": {
-                "Pending": "creating alias",
-                "Confirmed": "alias created",
-                "Failed": "Failed to create alias"
-            }
-        },
         "networkHealth": {
             "down": "Down",
             "degraded": "Degraded",
             "operational": "Operational",
             "disconnected": "Disconnected"
-        },
-        "locked": "locked",
-        "smartContract": "smart contract"
+        }
     },
     "menus": {
-        "expirationTimePicker": {
-            "none": "No expiration time",
+        "dateTimePicker": {
             "1hour": "In 1 hour",
             "1day": "In 1 day",
             "1week": "In 1 week",
             "customDate": {
                 "title": "Custom date",
-                "subtitle": "Set custom expiry date"
+                "subtitle": "Set custom date"
             }
         }
     }

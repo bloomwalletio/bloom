@@ -1,4 +1,4 @@
-import { SendFlowType } from '@core/wallet'
+import { SendFlowType } from '@core/wallet/enums'
 
 /**
  * We need a fallback estimated gas, since we cannot estimate calls to the magic contract if there is no balance on the sender address.
@@ -10,4 +10,5 @@ export const FALLBACK_ESTIMATED_GAS: { [key in SendFlowType]: number } = {
     [SendFlowType.BaseCoinTransfer]: 24200,
     [SendFlowType.TokenTransfer]: 24350,
     [SendFlowType.NftTransfer]: 24700,
+    [SendFlowType.TokenUnwrap]: 54800,
 }
