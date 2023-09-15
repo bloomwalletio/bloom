@@ -2,8 +2,6 @@
     import { Button, IconButton, IconName, Text } from '@bloomwalletio/ui'
     import { SendFlowRouter, sendFlowRouter } from '@views'
     import { IAccountState } from '@core/account'
-    import { getAccountTokensForSelectedAccount } from '@core/token/actions'
-    import { marketCoinPrices } from '@core/market/stores'
     import { getActiveNetworkId } from '@core/network'
     import { ITokenWithBalance } from '@core/token'
     import { formatCurrency } from '@core/i18n'
@@ -11,15 +9,15 @@
     import { resetSendFlowParameters } from '@core/wallet'
     import { resetLedgerPreparedOutput, resetShowInternalVerificationPopup } from '@core/ledger'
     import { openPopup, PopupId } from '@desktop/auxiliary/popup'
-    import features from '@features/features'
+    import { selectedAccountTokens } from '@core/token/stores'
 
     export let account: IAccountState
 
-    const formattedBalance: [string, string] = getFormattedBalance()
+    let formattedBalance: [string, string]
+    $: $selectedAccountTokens, (formattedBalance = getFormattedBalance())
 
     function getFormattedBalance(): [string, string] {
-        const baseCoin: ITokenWithBalance =
-            getAccountTokensForSelectedAccount($marketCoinPrices)?.[getActiveNetworkId()]?.baseCoin
+        const baseCoin: ITokenWithBalance = $selectedAccountTokens?.[getActiveNetworkId()]?.baseCoin
         const formattedCurrency = formatCurrency(getMarketAmountFromTokenValue(baseCoin.balance.available, baseCoin))
         const length = formattedCurrency.length
         return [formattedCurrency.slice(0, length - 3), formattedCurrency.slice(length - 3, length)]
@@ -40,9 +38,7 @@
 <account-summary class="w-full h-full p-6 flex flex-col justify-between">
     <account-summary-header class="w-full flex flex-row justify-between items-center">
         <Text type="h6" align="center" color="indigo-950" truncate>{account.name}</Text>
-        {#if features.wallet.newDashboard.accountSummaryMenu.enabled}
-            <IconButton color="gray-500" name={IconName.DotsHorizontal} />
-        {/if}
+        <IconButton color="gray-500" name={IconName.DotsHorizontal} />
     </account-summary-header>
     <account-summary-balance class="flex flex-row">
         <Text type="h6" size="6xl" align="center" color="indigo-950" truncate>{formattedBalance[0]}</Text>
