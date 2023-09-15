@@ -1,6 +1,6 @@
 <script lang="ts">
-    import { DEFAULT_NETWORK_ICON, Icon as IconEnum } from '@auxiliary/icon'
-    import { Indicator } from '@bloomwalletio/ui'
+    import { Icon as IconEnum } from '@auxiliary/icon'
+    import { Icon, IconName, Indicator } from '@bloomwalletio/ui'
     import { ProfileActionsModal, SidebarTab } from '@components'
     import { appVersionDetails } from '@core/app/stores'
     import { localize } from '@core/i18n'
@@ -9,7 +9,7 @@
     import { isRecentDate } from '@core/utils'
     import { ISidebarTab } from '@desktop/routers'
     import features from '@features/features'
-    import { Icon, Modal, ProfileAvatar } from '@ui'
+    import { Logo, Modal, ProfileAvatar } from '@ui'
 
     let profileModal: Modal
 
@@ -107,14 +107,10 @@
 
 <aside>
     <nav class="flex flex-grow flex-col items-center justify-between">
-        <div class="flex flex-col items-center">
-            <Icon
-                width="48"
-                height="48"
-                icon={DEFAULT_NETWORK_ICON[$activeProfile?.network?.id]}
-                classes="dark:text-white"
-            />
-        </div>
+        <logo-container>
+            <Logo width="120" logo="logo-bloom-full" />
+            <Icon name={IconName.LayoutLeft} color="gray" size="sm" />
+        </logo-container>
         <div class="flex flex-col flex-auto items-center justify-center mb-7 space-y-8">
             {#each sidebarTabs as tab}
                 <div class="flex">
@@ -134,13 +130,19 @@
     <ProfileActionsModal bind:modal={profileModal} />
 </aside>
 
-<style lang="scss">
+<style lang="postcss">
     aside {
         @apply flex flex-col justify-center items-center;
         @apply bg-white dark:bg-gray-800 relative;
         @apply border-solid border-r border-gray-100 dark:border-gray-800;
-        @apply px-5 pt-10 pb-5;
+        @apply px-5 pt-5 pb-5;
         @apply w-64;
+    }
+
+    logo-container {
+        @apply flex flex-row;
+        @apply items-center;
+        @apply gap-8;
     }
 
     :global(body.platform-win32) aside {
