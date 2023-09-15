@@ -1,42 +1,52 @@
 <script lang="ts">
-    import { Icon, Indicator } from '@bloomwalletio/ui'
-    import { Position, InformationTooltip } from '@ui'
+    import { Icon, IconName, Indicator, Text } from '@bloomwalletio/ui'
     import { dashboardRoute } from '@core/router'
     import { ISidebarTab } from '@desktop/routers'
 
     export let tab: ISidebarTab = undefined
 
-    let tooltipAnchor: HTMLButtonElement
-    let showTooltip = false
+    let showChevron = false
+    $: color = showChevron ? 'primary' : 'black'
 
     function onClick(): void {
-        _showTooltip(false)
+        _showChevron(false)
         tab?.onClick()
     }
 
-    function _showTooltip(show: boolean): void {
-        showTooltip = show
+    function _showChevron(show: boolean): void {
+        showChevron = show
     }
 </script>
 
 <button
-    on:mouseenter={() => _showTooltip(true)}
-    on:mouseleave={() => _showTooltip(false)}
-    bind:this={tooltipAnchor}
-    class="{$dashboardRoute === tab?.route ? 'text-blue-500' : 'text-gray-500'} relative"
+    on:mouseenter={() => _showChevron(true)}
+    on:mouseleave={() => _showChevron(false)}
+    class={$dashboardRoute === tab?.route ? 'text-blue-500' : 'text-gray-500'}
     on:click={onClick}
 >
-    <Icon color="black" name={tab?.icon} />
-    {#if tab?.notificationType}
-        <Indicator
-            size="sm"
-            color={tab?.notificationType === 'warning' ? 'yellow' : 'red'}
-            ping
-            class="absolute top-0 right-0"
-        />
+    <div class="flex flex-row relative space-x-4 pr-3">
+        <Icon {color} name={tab?.icon} />
+        {#if false}
+            <Indicator
+                size="sm"
+                color={tab?.notificationType === 'warning' ? 'yellow' : 'red'}
+                ping
+                class="absolute top-0 right-0"
+            />
+        {/if}
+        <Text {color} weight="semibold">{tab.label}</Text>
+    </div>
+    {#if showChevron}
+        <Icon color="primary" name={IconName.ChevronRight} />
     {/if}
 </button>
 
-{#if showTooltip}
-    <InformationTooltip anchor={tooltipAnchor} position={Position.Right} size="small" body={tab?.label} />
-{/if}
+<style lang="postcss">
+    button {
+        @apply flex flex-row flex-grow justify-between;
+        @apply w-full;
+        @apply hover:bg-purple-100;
+        @apply text-purple-500;
+        @apply py-2.5 px-3 rounded-md;
+    }
+</style>

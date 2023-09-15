@@ -104,46 +104,46 @@
     }
 </script>
 
-<aside
-    class="flex flex-col justify-center items-center bg-white dark:bg-gray-800 h-full relative w-20 px-5 pt-10 pb-5 border-solid border-r border-gray-100 dark:border-gray-800"
->
-    <nav class="flex flex-grow flex-col items-center justify-between">
-        <logo-container>
+<aside class="flex flex-col relative">
+    <nav class="flex flex-col w-full h-full">
+        <logo-container class="flex flex-row;">
             <Logo width="120" logo="logo-bloom-full" />
             <Icon name={IconName.Collapse} color="gray" />
         </logo-container>
-        <div class="flex flex-col flex-auto items-center justify-center mb-7 space-y-8">
+        <sidebar-tabs class="flex flex-col">
             {#each sidebarTabs as tab}
                 <div class="flex">
                     <SidebarTab {tab} />
                 </div>
             {/each}
-        </div>
-        <div class="flex flex-col items-center">
-            <button class="relative flex items-center justify-center rounded-full" on:click={profileModal?.open}>
-                <ProfileAvatar profile={$activeProfile} />
-                {#if !$shouldOpenProfileModal && (!isBackupSafe || !$appVersionDetails.upToDate)}
-                    <Indicator size="sm" color="red" border="white" class="absolute top-1 right-0" />
-                {/if}
-            </button>
-        </div>
+        </sidebar-tabs>
     </nav>
+    <button class="flex items-center relative justify-center rounded-full" on:click={profileModal?.open}>
+        <ProfileAvatar profile={$activeProfile} />
+        {#if !$shouldOpenProfileModal && (!isBackupSafe || !$appVersionDetails.upToDate)}
+            <Indicator size="sm" color="red" border="white" class="absolute top-1 right-0" />
+        {/if}
+    </button>
     <ProfileActionsModal bind:modal={profileModal} />
 </aside>
 
 <style lang="postcss">
-    /* aside {
-        @apply flex flex-col justify-center items-center;
-        @apply bg-white dark:bg-gray-800 relative;
+    aside {
+        @apply bg-white dark:bg-gray-800;
+        @apply h-full w-64;
         @apply border-solid border-r border-gray-100 dark:border-gray-800;
-        @apply px-5 pt-5 pb-5;
-        @apply w-64;
-    } */
+    }
 
     logo-container {
-        @apply flex flex-row;
-        @apply items-center;
+        @apply justify-between items-center;
         @apply gap-8;
+        @apply py-4.5 px-7;
+    }
+
+    sidebar-tabs {
+        @apply justify-items-start;
+        @apply w-full space-y-1;
+        @apply p-4;
     }
 
     :global(body.platform-win32) aside {
