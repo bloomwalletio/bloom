@@ -20,7 +20,7 @@
     function getFormattedBalance(): [string, string] {
         const baseCoin: ITokenWithBalance =
             getAccountTokensForSelectedAccount($marketCoinPrices)?.[getActiveNetworkId()]?.baseCoin
-        const formattedCurrency = formatCurrency(getMarketAmountFromTokenValue(baseCoin.balance.available, baseCoin))
+        const formattedCurrency = formatCurrency(getMarketAmountFromTokenValue(baseCoin.balance.total, baseCoin))
         const length = formattedCurrency.length
         return [formattedCurrency.slice(0, length - 3), formattedCurrency.slice(length - 3, length)]
     }

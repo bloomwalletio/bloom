@@ -1,17 +1,21 @@
 <script lang="ts">
     import { Pane } from '@ui'
-    import { AccountNetworkSummary, AccountSummary } from './components'
+    import { AccountEvmChainSummary, AccountStardustNetworkSummary, AccountSummary } from './components'
     import { IAccountState } from '@core/account'
+    import { getActiveNetworkId, SupportedNetworkId } from '@core/network'
+    import { marketCoinPrices } from '@core/market/stores'
 
     export let account: IAccountState
+
+    $: $marketCoinPrices
 </script>
 
 <Pane classes="w-full flex flex-row shrink-0 justify-between items-center border border-solid border-gray-100">
     <AccountSummary {account} />
     <div class="middle w-full">
-        <AccountNetworkSummary />
+        <AccountStardustNetworkSummary {account} networkId={getActiveNetworkId()} />
     </div>
-    <AccountNetworkSummary />
+    <AccountEvmChainSummary {account} networkId={SupportedNetworkId.ShimmerEvmTestnet} />
 </Pane>
 
 <style lang="postcss">

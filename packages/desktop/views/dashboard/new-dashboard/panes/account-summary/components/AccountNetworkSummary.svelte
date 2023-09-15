@@ -1,27 +1,32 @@
 <script lang="ts">
     import { Avatar, Text } from '@bloomwalletio/ui'
     import { NetworkAvatar, NetworkStatusIndicator } from '@ui'
-    import { NetworkHealth } from '@core/network'
-    import { getActiveNetworkId } from '@core/network/actions'
+    import { truncateString } from '@core/utils'
+    import { IAccountNetworkSummaryProps } from '../interfaces'
+
+    export let props: IAccountNetworkSummaryProps
+
+    const { networkId, networkName, networkHealth, networkAddress, networkTokenBalance, networkFiatBalance } =
+        props ?? {}
 </script>
 
 <account-network-summary class="w-full flex flex-col justify-between">
     <account-network-summary-header class="flex flex-row justify-between items-center">
         <div class="flex flex-row space-x-3 items-center">
-            <NetworkAvatar networkId={getActiveNetworkId()} />
-            <Text type="h6" align="center" truncate>Shimmer</Text>
+            <NetworkAvatar {networkId} />
+            <Text type="h6" align="center" truncate>{networkName}</Text>
         </div>
         <account-network-summary-header-address class="flex flex-row items-center space-x-2">
-            <NetworkStatusIndicator disablePing status={NetworkHealth.Operational} />
-            <Text type="pre" align="center" truncate>d4x6...x674a</Text>
+            <NetworkStatusIndicator status={networkHealth} />
+            <Text type="pre" align="center" truncate>{truncateString(networkAddress)}</Text>
         </account-network-summary-header-address>
     </account-network-summary-header>
     <account-network-summary-balance class="middle flex flex-col justify-between items-start">
         <account-network-summary-balance-primary>
-            <Text type="p" weight="semibold" size="3xl" align="center" truncate>1,095.54 SMR</Text>
+            <Text type="p" weight="semibold" size="3xl" align="center" truncate>{networkTokenBalance}</Text>
         </account-network-summary-balance-primary>
         <account-network-summary-balance-secondary>
-            <Text type="p" weight="semibold" align="center" truncate>$3,182.20</Text>
+            <Text type="p" weight="semibold" align="center" truncate>{networkFiatBalance}</Text>
         </account-network-summary-balance-secondary>
     </account-network-summary-balance>
     <account-network-summary-assets class="flex flex-row justify-between items-center">
