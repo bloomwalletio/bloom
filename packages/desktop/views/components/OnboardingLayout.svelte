@@ -52,7 +52,7 @@
     </div>
     <content
         slot="content"
-        class="{size} flex flex-col justify-center space-y-4 p-4 rounded-xl bg-white dark:bg-gray-800 shadow-elevation-4"
+        class="{size} flex flex-col space-y-4 p-4 rounded-xl bg-white dark:bg-gray-800 shadow-elevation-4"
     >
         <content-title class="h-full flex flex-col space-y-2">
             {#if title}<Text type="h4" color="purple-500">{title}</Text>{/if}
@@ -92,7 +92,7 @@
         height: 42px;
     }
 
-    content-container {
+    content {
         width: 100%;
         &.small {
             max-width: 360px;
