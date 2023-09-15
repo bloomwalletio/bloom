@@ -9,22 +9,10 @@
         setAsyncStatusOfAccountActivities,
     } from '@core/activity'
     import { Text, FontWeight } from '@ui'
-    import { debounce } from '@core/utils'
     import VirtualList from '@sveltejs/svelte-virtual-list'
     import ActivityListRow from './components/ActivityListRow.svelte'
 
-    const searchActive = false
-    let inputElement: HTMLInputElement
-    let searchValue: string
-
-    $: if (searchActive && inputElement) inputElement.focus()
-    $: searchValue = searchActive ? searchValue.toLowerCase() : ''
     $: setAsyncStatusOfAccountActivities($time)
-    $: if (searchActive && $selectedAccountActivities) {
-        debounce(() => {
-            $activitySearchTerm = searchValue
-        })()
-    }
 
     $: $activityFilter, $activitySearchTerm, scrollToTop()
     $: isEmptyBecauseOfFilter =
@@ -39,37 +27,35 @@
     }
 </script>
 
-{#if $queriedActivities}
-    <div class="h-full flex flex-auto flex-col flex-grow shrink-0">
-        <div class="header-row">
-            <Text fontWeight={FontWeight.medium} secondary classes="text-start"
-                >{localize('views.dashboard.activity.asset')}</Text
-            >
-            <Text fontWeight={FontWeight.medium} secondary classes="text-start"
-                >{localize('views.dashboard.activity.action')}</Text
-            >
-            <Text fontWeight={FontWeight.medium} secondary classes="text-start"
-                >{localize('views.dashboard.activity.address')}</Text
-            >
-            <Text fontWeight={FontWeight.medium} secondary classes="text-end"
-                >{localize('views.dashboard.activity.amount')}</Text
-            >
-        </div>
-        <div class="flex-auto h-full">
-            {#if $queriedActivities.length > 0}
-                <VirtualList items={$queriedActivities} let:item>
-                    <ActivityListRow activity={item} />
-                </VirtualList>
-            {:else}
-                <div class="h-full flex flex-col items-center justify-center text-center">
-                    <Text secondary>
-                        {localize(`general.${isEmptyBecauseOfFilter ? 'noFilteredActivity' : 'noRecentHistory'}`)}
-                    </Text>
-                </div>
-            {/if}
-        </div>
+<div class="h-full flex flex-auto flex-col flex-grow shrink-0">
+    <div class="header-row">
+        <Text fontWeight={FontWeight.medium} secondary classes="text-start"
+            >{localize('views.dashboard.activity.asset')}</Text
+        >
+        <Text fontWeight={FontWeight.medium} secondary classes="text-start"
+            >{localize('views.dashboard.activity.action')}</Text
+        >
+        <Text fontWeight={FontWeight.medium} secondary classes="text-start"
+            >{localize('views.dashboard.activity.address')}</Text
+        >
+        <Text fontWeight={FontWeight.medium} secondary classes="text-end"
+            >{localize('views.dashboard.activity.amount')}</Text
+        >
     </div>
-{/if}
+    <div class="flex-auto h-full">
+        {#if $queriedActivities.length > 0}
+            <VirtualList items={$queriedActivities} let:item>
+                <ActivityListRow activity={item} />
+            </VirtualList>
+        {:else}
+            <div class="h-full flex flex-col items-center justify-center text-center">
+                <Text secondary>
+                    {localize(`general.${isEmptyBecauseOfFilter ? 'noFilteredActivity' : 'noRecentHistory'}`)}
+                </Text>
+            </div>
+        {/if}
+    </div>
+</div>
 
 <style lang="scss">
     .header-row {
