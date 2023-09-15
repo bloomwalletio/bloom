@@ -1,11 +1,11 @@
-import { UNLOCK_CONDITION_ADDRESS } from '@core/wallet/constants'
-import { Output } from '@core/wallet/types'
+import { CommonOutput, UnlockConditionType, AddressUnlockCondition } from '@iota/sdk/out/types'
 import { getBech32AddressFromAddressTypes } from '@core/wallet/utils'
 
-export function getRecipientAddressFromOutput(output: Output): string {
+export function getRecipientAddressFromOutput(output: CommonOutput): string | undefined {
     for (const unlockCondition of output.unlockConditions) {
-        if (unlockCondition.type === UNLOCK_CONDITION_ADDRESS) {
-            return getBech32AddressFromAddressTypes(unlockCondition.address)
+        if (unlockCondition.type === UnlockConditionType.Address) {
+            const addressUnlockCondition = unlockCondition as AddressUnlockCondition
+            return getBech32AddressFromAddressTypes(addressUnlockCondition.address)
         }
     }
 }

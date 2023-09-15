@@ -33,6 +33,10 @@
                 copyable: true,
             },
             {
+                key: localize('general.description'),
+                value: metadata.description,
+            },
+            {
                 key: localize('general.issuerName'),
                 value: metadata.issuerName,
                 tooltip: localize('tooltips.transactionDetails.nftMetadata.issuerName'),
@@ -44,6 +48,14 @@
             {
                 key: localize('general.metadata'),
                 value: metadata.standard !== TokenStandard.Irc27 ? metadata : undefined,
+            },
+            {
+                key: localize('general.attributes'),
+                value: metadata.attributes,
+            },
+            {
+                key: localize('general.royalties'),
+                value: metadata.royalties,
             },
         ]}
     />

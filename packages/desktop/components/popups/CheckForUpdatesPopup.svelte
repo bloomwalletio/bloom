@@ -1,12 +1,12 @@
 <script lang="ts">
-    import { Table } from '@bloomwalletio/ui'
+    import { Alert, Table } from '@bloomwalletio/ui'
     import { APP_STAGE, OS, checkForAppUpdate, openUrlInBrowser } from '@core/app'
     import { downloadAppUpdate } from '@core/app/actions'
     import { appUpdateState, appVersionDetails } from '@core/app/stores'
     import { formatDate, localize } from '@core/i18n'
     import { closePopup } from '@desktop/auxiliary/popup'
     import features from '@features/features'
-    import { Button, Text, TextHint, TextType } from '@ui'
+    import { Button, Text, TextType } from '@ui'
     import { onMount } from 'svelte'
 
     let hasAutoUpdate = false
@@ -48,7 +48,7 @@
             ]}
         />
         {#if $appVersionDetails.upToDate}
-            <TextHint success classes="w-full" text={localize('popups.appUpdate.latestInstalled')} />
+            <Alert variant="success" text={localize('popups.appUpdate.latestInstalled')} />
         {:else}
             <Table
                 items={[
@@ -65,9 +65,8 @@
                     },
                 ]}
             />
-            <TextHint
-                info
-                classes="w-full"
+            <Alert
+                variant="info"
                 text={localize(`popups.appUpdate.${hasAutoUpdate ? 'updateAvailable' : 'updatesDisabled'}`)}
             />
         {/if}
@@ -79,7 +78,7 @@
         </Button>
         {#if hasAutoUpdate && !$appVersionDetails.upToDate}
             <Button classes="w-1/2" onClick={onDownloadClick} disabled={$appUpdateState.busy}>
-                {localize('actions.updateFirefly')}
+                {localize('actions.updateBloom')}
             </Button>
         {:else if !$appVersionDetails.upToDate}
             <Button classes="w-1/2" onClick={onVisitDownloadsClick}>

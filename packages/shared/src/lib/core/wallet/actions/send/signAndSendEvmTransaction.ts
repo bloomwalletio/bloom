@@ -34,20 +34,18 @@ export async function signAndSendEvmTransaction(
         }
         let signedTransaction: string | undefined
         if (get(isSoftwareProfile)) {
-            signedTransaction = await signEvmTransactionWithStronghold(txData, bip44Path, chainId, account)
+            signedTransaction = await signEvmTransactionWithStronghold(transaction, bip44Path, chainId)
         } else if (get(isActiveLedgerProfile)) {
-            signedTransaction = await Ledger.signEvmTransaction(txData, chainId, bip44Path)
+            signedTransaction = (await Ledger.signEvmTransaction(txData, chainId, bip44Path)) as string
         }
 
         if (signedTransaction) {
             return await provider?.eth.sendSignedTransaction(signedTransaction)
-        } else {
-            if (get(isActiveLedgerProfile)) {
-                closePopup(true)
-            }
-            throw new Error('No signature provided')
         }
     } catch (err) {
+        if (get(isActiveLedgerProfile)) {
+            closePopup(true)
+        }
         handleError(err)
     } finally {
         updateSelectedAccount({ isTransferring: false })

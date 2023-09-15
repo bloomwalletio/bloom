@@ -1,7 +1,8 @@
-import { Transaction } from '@iota/wallet/out/types'
+import { PreparedTransaction } from '@iota/sdk/out/types'
 import { getSelectedAccount, updateSelectedAccount } from '@core/account/stores'
 import { handleError } from '@core/error/handlers'
 import { processAndAddToActivities } from '@core/activity/utils/processAndAddToActivities'
+import { sendPreparedTransaction } from '@core/wallet'
 import { localize } from '@core/i18n'
 import { getActiveNetworkId } from '@core/network'
 
@@ -15,14 +16,17 @@ export async function setVotingPower(rawAmount: string): Promise<void> {
 
         updateSelectedAccount({ hasVotingPowerTransactionInProgress: true, isTransferring: true })
 
-        let transaction: Transaction | undefined
+        let preparedTransaction: PreparedTransaction
         if (amount > votingPower) {
             const amountToIncrease = amount - votingPower
-            transaction = await account.increaseVotingPower(amountToIncrease.toString())
+            preparedTransaction = await account?.prepareIncreaseVotingPower(amountToIncrease.toString())
         } else if (amount < votingPower) {
             const amountToDecrease = votingPower - amount
-            transaction = await account.decreaseVotingPower(amountToDecrease.toString())
+            preparedTransaction = await account?.prepareDecreaseVotingPower(amountToDecrease.toString())
+        } else {
+            return
         }
+        const transaction = await sendPreparedTransaction(preparedTransaction)
 
         if (transaction) {
             await processAndAddToActivities(transaction, account, networkId)

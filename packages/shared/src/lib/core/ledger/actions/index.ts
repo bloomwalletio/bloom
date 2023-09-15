@@ -1,5 +1,4 @@
 export * from './checkOrConnectLedger'
-export * from './getLedgerDeviceStatus'
-export * from './pollLedgerNanoStatus'
-export * from './promptUserToConnectLedger'
+export * from './getAndUpdateLedgerDeviceState'
+export * from './pollLedgerDeviceState'
 export * from './registerLedgerDeviceEventHandlers'

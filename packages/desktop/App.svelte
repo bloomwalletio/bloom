@@ -31,7 +31,7 @@
         resetRouters,
     } from '@desktop/routers'
     import features from '@features/features'
-    import { ToastContainer, Transition } from '@ui'
+    import { ToastContainer } from '@ui'
     import { Dashboard, LoginRouter, Settings, Splash } from '@views'
     import { OnboardingRouterView } from '@views/onboarding'
     import { onDestroy, onMount } from 'svelte'
@@ -74,9 +74,13 @@
         await cleanupEmptyProfiles()
         checkAndMigrateProfiles()
 
+        Platform.onEvent('deep-link-request', handleDeepLink)
+
         setTimeout(() => {
             splash = false
             initialiseRouters()
+            // check if deep link request was received while splash screen was active
+            Platform.DeepLinkManager.checkForDeepLinkRequest()
         }, 3000)
 
         initAppSettings.set($appSettings)
@@ -92,8 +96,6 @@
                 [RouterManagerExtensionName.ResetRouters, resetRouters],
             ],
         })
-
-        // await pollMarketData()
 
         // Used for auto updates
         registerAppEvents()
@@ -134,8 +136,6 @@
             openPopup({ id: PopupId.Diagnostics })
         })
 
-        Platform.onEvent('deep-link-request', handleDeepLink)
-
         registerLedgerDeviceEventHandlers()
     })
 
@@ -145,12 +145,11 @@
     })
 </script>
 
-<app-container class="block w-full h-full">
-    <TitleBar />
-    <app-body
-        class="block fixed left-0 right-0 bottom-0 z-50 top-0"
-        class:top-placement={IS_WINDOWS || $appRoute === AppRoute.Dashboard}
-    >
+<app class="w-full h-full flex flex-col">
+    {#if IS_WINDOWS}
+        <TitleBar />
+    {/if}
+    <app-container class="w-screen h-full" class:windows={IS_WINDOWS}>
         {#if !$isLocaleLoaded || splash}
             <Splash />
         {:else}
@@ -166,9 +165,7 @@
                 />
             {/if}
             {#if $appRoute === AppRoute.Dashboard}
-                <Transition>
-                    <Dashboard />
-                </Transition>
+                <Dashboard />
             {:else if $appRoute === AppRoute.Login}
                 <LoginRouter />
             {:else if $appRoute === AppRoute.Onboarding}
@@ -179,8 +176,9 @@
             {/if}
             <ToastContainer classes="absolute right-5 bottom-5 w-100" />
         {/if}
-    </app-body>
-</app-container>
+        <app-container />
+    </app-container></app
+>
 
 <style global lang="scss">
     @tailwind base;
@@ -189,7 +187,7 @@
     @import '../shared/src/style/style.scss';
     html,
     body {
-        @apply bg-white dark:bg-gray-900;
+        @apply bg-slate-100 dark:bg-gray-900;
         @apply select-none;
         -webkit-user-drag: none;
 
@@ -248,13 +246,14 @@
     img {
         -webkit-user-drag: none;
     }
-    app-body.top-placement {
-        @apply top-12;
-    }
     hr {
         @apply border-t;
         @apply border-solid;
         @apply border-gray-200;
         @apply dark:border-gray-800;
+    }
+
+    .windows {
+        height: calc(100vh - 28px);
     }
 </style>

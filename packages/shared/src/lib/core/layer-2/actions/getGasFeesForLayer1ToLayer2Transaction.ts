@@ -1,9 +1,9 @@
-import { SendFlowParameters } from '@core/wallet'
 import { BigIntLike } from '@ethereumjs/util'
+import { SendFlowParameters } from '@core/wallet/types'
 import { GAS_LIMIT_MULTIPLIER } from '../constants'
 import { calculateGasFeeInGlow } from '../helpers'
+import { getEvmChainGasPrice } from '../stores'
 import { estimateGasForLayer1ToLayer2Transaction } from './estimateGasForLayer1ToLayer2Transaction'
-import { getGasPriceInWei } from './getGasPriceInWei'
 
 export async function getGasFeesForLayer1ToLayer2Transaction(
     sendFlowParameters: SendFlowParameters
@@ -12,7 +12,7 @@ export async function getGasFeesForLayer1ToLayer2Transaction(
         if (sendFlowParameters.destinationNetworkId) {
             const estimatedGas = await estimateGasForLayer1ToLayer2Transaction(sendFlowParameters)
             const gasLimit = Math.floor(estimatedGas * GAS_LIMIT_MULTIPLIER)
-            const gasPrice = await getGasPriceInWei(sendFlowParameters.destinationNetworkId)
+            const gasPrice = getEvmChainGasPrice(sendFlowParameters.destinationNetworkId)
             const estimatedGasFee = calculateGasFeeInGlow(estimatedGas, gasPrice)
             const maxGasFee = calculateGasFeeInGlow(gasLimit, gasPrice)
             return { estimatedGasFee, maxGasFee }

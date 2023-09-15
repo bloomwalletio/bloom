@@ -7,6 +7,7 @@
     export let size: 'small' | 'medium' | 'large' = 'medium'
     export let classes: string = ''
     export let disableOnClickOutside = false
+    export let fixed = false
 
     export function close(): void {
         setShow(false)
@@ -48,7 +49,9 @@
         use:clickOutside
         on:clickOutside={onClickOutside}
         class="{size} shadow-elevation-4 bg-white dark:bg-gray-900 border border-solid border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden z-10 {classes}"
-        style="--modal-position-top: {top}; --modal-position-right: {right}; --modal-position-bottom: {bottom}; --modal-position-left: {left}; --modal-position: {absolute
+        style="--modal-position-top: {top}; --modal-position-right: {right}; --modal-position-bottom: {bottom}; --modal-position-left: {left}; --modal-position: {fixed
+            ? 'fixed'
+            : absolute
             ? 'absolute'
             : 'relative'};"
     >
