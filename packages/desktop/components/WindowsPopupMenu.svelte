@@ -6,7 +6,7 @@
 
 <button
     on:click={Platform.popupMenu}
-    class="flex justify-center items-center p-3 text-gray-500 dark:text-gray-100 w-20"
+    class="flex justify-center items-center p-3 text-gray-500 dark:text-gray-100"
     type="button"
 >
     <Icon icon={IconEnum.Hamburger} />

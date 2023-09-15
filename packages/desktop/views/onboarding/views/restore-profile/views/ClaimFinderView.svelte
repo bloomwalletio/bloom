@@ -26,8 +26,8 @@
     import {
         checkOrConnectLedger,
         handleLedgerError,
-        pollLedgerNanoStatus,
-        stopPollingLedgerNanoStatus,
+        pollLedgerDeviceState,
+        stopPollingLedgerDeviceState,
     } from '@core/ledger'
     import { unsubscribeFromWalletApiEvents } from '@core/profile-manager'
     import { closePopup } from '@desktop/auxiliary/popup'
@@ -63,14 +63,14 @@
     async function ledgerRaceConditionProtectionWrapper(_function: () => unknown): Promise<void> {
         try {
             if ($isOnboardingLedgerProfile) {
-                stopPollingLedgerNanoStatus()
+                stopPollingLedgerDeviceState()
             }
             await _function()
         } catch (err) {
             console.error('Error in ledgerRaceConditionProtectionWrapper')
         } finally {
             if ($isOnboardingLedgerProfile) {
-                pollLedgerNanoStatus()
+                pollLedgerDeviceState()
             }
         }
     }

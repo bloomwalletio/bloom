@@ -90,7 +90,7 @@ async function getLayer2Erc20BalancesForAddress(
                 continue
             }
             const rawBalance = await contract.methods.balanceOf(evmAddress).call()
-            erc20TokenBalances.push({ balance: rawBalance, tokenId: erc20Address })
+            erc20TokenBalances.push({ balance: Number(rawBalance), tokenId: erc20Address })
         } catch (err) {
             const error = err?.message ?? err
             console.error(error)

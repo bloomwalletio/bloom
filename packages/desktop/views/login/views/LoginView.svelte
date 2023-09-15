@@ -134,7 +134,7 @@
 
     <div class:shake slot="content">
         <div class="flex flex-col gap-4 w-full items-center flex-grow mb-8">
-            <ProfileAvatarWithBadge profile={$activeProfile} size="xl" {updateRequired} />
+            <ProfileAvatarWithBadge profile={$activeProfile} size="xl" {updateRequired} shape="square" />
             <Text type="h6" align="center" truncate>{$activeProfile.name}</Text>
         </div>
 

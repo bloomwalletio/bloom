@@ -1,7 +1,7 @@
 <script lang="ts">
-    import { Icon as IconEnum } from '@auxiliary/icon'
-    import { IconButton, IconName } from '@bloomwalletio/ui'
-    import { AccountSwitcher } from '@components'
+    import { Icon, IconButton, IconName, Text } from '@bloomwalletio/ui'
+    import { AccountSwitcher, NavbarContainer } from '@components'
+    import { IS_MAC } from '@core/app'
     import { localize } from '@core/i18n'
     import {
         CollectiblesRoute,
@@ -14,10 +14,8 @@
         governanceRouter,
     } from '@core/router'
     import { closeDrawer, toggleDashboardDrawer } from '@desktop/auxiliary/drawer'
-    import { popupState } from '@desktop/auxiliary/popup'
     import features from '@features/features'
-    import { Icon, Text } from '@ui'
-    import { DashboardDrawerRoute } from './drawers'
+    import { DashboardDrawerRoute } from '../drawers'
 
     let isBackButtonVisible = false
 
@@ -26,7 +24,6 @@
             isBackButtonVisible = isCorrectRoute()
         }
     }
-    $: isPopupVisible = $popupState?.active
 
     function isCorrectRoute(): boolean {
         switch ($dashboardRoute) {
@@ -54,16 +51,37 @@
     }
 </script>
 
-<top-navigation class:disabled={isPopupVisible}>
-    <div class="h-full flex flex-row justify-between items-center">
+<NavbarContainer draggable={IS_MAC}>
+    <div class="h-full flex flex-row justify-between items-center px-4">
         <div class="flex flex-row gap-2">
             {#if isBackButtonVisible}
-                <button type="button" on:click={onBackClick}>
-                    <Icon width="18" icon={IconEnum.ArrowLeft} classes="text-gray-800 dark:text-gray-500" />
-                    <Text overrideColor classes="text-gray-800 dark:text-gray-500">{localize('actions.back')}</Text>
-                </button>
+                <IconButton
+                    on:click={onBackClick}
+                    name={IconName.ArrowLeft}
+                    tooltip={localize('actions.back')}
+                    color="#1E1B4E"
+                    size="sm"
+                />
             {/if}
-            <AccountSwitcher />
+            <div class="flex flex-row space-x-2 items-center">
+                <AccountSwitcher />
+                <Icon name={IconName.ChevronRight} size="sm" />
+                <Text size="sm" weight="semibold" color="#1E1B4E">
+                    {localize(`tabs.${$dashboardRoute}`)}
+                </Text>
+                {#if $dashboardRoute === DashboardRoute.Collectibles && $collectiblesRoute !== CollectiblesRoute.Gallery}
+                    <Icon name={IconName.ChevronRight} size="sm" />
+                    <Text size="sm" weight="semibold" color="#1E1B4E">
+                        {$collectiblesRoute}
+                    </Text>
+                {/if}
+                {#if $dashboardRoute === DashboardRoute.Governance && $governanceRoute !== GovernanceRoute.Proposals}
+                    <Icon name={IconName.ChevronRight} size="sm" />
+                    <Text size="sm" weight="semibold" color="#1E1B4E">
+                        {$governanceRoute}
+                    </Text>
+                {/if}
+            </div>
         </div>
 
         <div class="right-button flex items-center justify-end gap-2">
@@ -72,6 +90,8 @@
                     on:click={() => toggleDashboardDrawer({ id: DashboardDrawerRoute.ContactBook })}
                     name={IconName.Users}
                     tooltip={localize('general.contacts')}
+                    color="#1E1B4E"
+                    size="sm"
                 />
             {/if}
             {#if features?.wallet?.walletConnect?.enabled}
@@ -79,6 +99,8 @@
                     on:click={() => toggleDashboardDrawer({ id: DashboardDrawerRoute.DappConfig })}
                     name={IconName.Grid}
                     tooltip={localize('general.apps')}
+                    color="#1E1B4E"
+                    size="sm"
                 />
             {/if}
             {#if features?.network?.config?.enabled}
@@ -86,25 +108,16 @@
                     on:click={() => toggleDashboardDrawer({ id: DashboardDrawerRoute.NetworkConfig })}
                     name={IconName.Globe}
                     tooltip={localize('general.networks')}
+                    color="#1E1B4E"
+                    size="sm"
                 />
             {/if}
         </div>
     </div>
-</top-navigation>
+</NavbarContainer>
 
 <style lang="scss">
-    top-navigation {
-        @apply w-full flex-none px-4 z-10 bg-white;
-        height: 40px;
-        border-bottom: 1px solid #f1eef9;
-
-        &.disabled {
-            @apply opacity-50 pointer-events-none;
-        }
-
-        button {
-            @apply flex items-center gap-2;
-            -webkit-app-region: none;
-        }
+    button {
+        @apply flex items-center gap-2;
     }
 </style>

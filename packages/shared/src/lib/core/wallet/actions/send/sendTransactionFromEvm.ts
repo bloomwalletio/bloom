@@ -38,7 +38,7 @@ export async function sendTransactionFromEvm(
                 }
                 addPersistedTransaction(account.index, networkId, evmTransaction)
 
-                const activity = await generateActivityFromEvmTransaction(evmTransaction, networkId, provider)
+                const activity = await generateActivityFromEvmTransaction(evmTransaction, networkId, chain)
                 addActivitiesToAccountActivitiesInAllAccountActivities(account.index, [activity])
 
                 if (getAddressFromAccountForNetwork(account, networkId) !== activity.subject?.address) {

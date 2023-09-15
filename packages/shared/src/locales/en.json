@@ -337,6 +337,21 @@
                 "disconnected": "Disconnected from node",
                 "status": "Status"
             },
+            "portfolio": {
+                "tab": "Porfolio",
+                "asset": "Asset",
+                "network": "Network",
+                "marketCap": "Market cap",
+                "price": "Price",
+                "amount": "Amount"
+            },
+            "activity": {
+                "tab": "Activity",
+                "asset": "Asset",
+                "action": "Action",
+                "address": "Address",
+                "amount": "Amount"
+            },
             "profileModal": {
                 "allSettings": "All settings",
                 "logout": "Log out",
@@ -559,10 +574,10 @@
     "popups": {
         "enableLedgerBlindSigning": {
             "title": "Enable Blind Signing",
-            "info": "In order to confirm this transaction you need to enable Blind Signing on your ledger device.",
-            "step_1": "Connect and unlock your Ledger Device",
-            "step_2": "Open Shimmer Application",
-            "step_3": "Press the right button to navigate to Settings. Then press both buttons to validate. Your Ledger device displays Blind Signing.",
+            "info": "In order to confirm this transaction you need to enable Blind Signing on your Ledger device.",
+            "step_1": "Connect and unlock your Ledger device",
+            "step_2": "Open the {appName} application",
+            "step_3": "Press the right button to navigate to Settings, then press both buttons to validate. Your Ledger device displays Blind Signing.",
             "step_4": "Press both buttons to enable transaction blind signing. The device displays Enabled. You're done."
         },
         "balanceBreakdown": {
