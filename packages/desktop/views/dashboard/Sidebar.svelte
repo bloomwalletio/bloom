@@ -108,7 +108,7 @@
     <nav class="flex flex-grow flex-col items-center justify-between">
         <logo-container>
             <Logo width="120" logo="logo-bloom-full" />
-            <Icon name={IconName.LayoutLeft} color="gray" size="sm" />
+            <Icon name={IconName.Collapse} color="gray" />
         </logo-container>
         <div class="flex flex-col flex-auto items-center justify-center mb-7 space-y-8">
             {#each sidebarTabs as tab}
