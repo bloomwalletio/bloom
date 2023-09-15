@@ -28,7 +28,7 @@
 >
     <div class="flex flex-row relative space-x-4 pr-3">
         <Icon {color} name={tab?.icon} />
-        {#if false}
+        {#if tab?.notificationType}
             <Indicator
                 size="sm"
                 color={tab?.notificationType === 'warning' ? 'yellow' : 'red'}
