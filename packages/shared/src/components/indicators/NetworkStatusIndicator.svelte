@@ -1,34 +1,31 @@
 <script lang="ts">
     import { DefaultColors } from 'tailwindcss/types/generated/colors'
-    import { Pill } from '@bloomwalletio/ui'
-    import { localize } from '@core/i18n'
+    import { Indicator } from '@bloomwalletio/ui'
     import { NetworkHealth } from '@core/network'
-    import { NetworkStatusIndicator } from '@ui'
 
     export let status: NetworkHealth
+    export let size: 'sm' | 'md' | 'lg' = 'sm'
+    export let disablePing: boolean = false
 
-    let color: keyof DefaultColors | 'primary' = 'primary'
+    let color: keyof DefaultColors = 'orange'
+    let ping = false
     $: {
         switch (status) {
             case NetworkHealth.Operational:
                 color = 'green'
+                ping = true
                 break
             case NetworkHealth.Degraded:
                 color = 'yellow'
+                ping = false
                 break
             case NetworkHealth.Disconnected:
             case NetworkHealth.Down:
                 color = 'orange'
+                ping = false
                 break
         }
     }
 </script>
 
-<Pill {color}>
-    <div class="flex flex-row space-x-1 items-center">
-        <NetworkStatusIndicator {status} size="sm" />
-        <div>
-            {localize(`pills.networkHealth.${status}`)}
-        </div>
-    </div>
-</Pill>
+<Indicator {color} ping={!disablePing && ping} {size} />
