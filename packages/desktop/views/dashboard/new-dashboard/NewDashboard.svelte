@@ -12,7 +12,7 @@
     >
         {#key $selectedAccount?.index}
             <div class="h-full w-full flex flex-col gap-8">
-                <AccountSummaryPane />
+                <AccountSummaryPane account={$selectedAccount} />
                 <Pane classes="flex flex-col flex-grow border border-solid border-gray-100">
                     <TabSection />
                 </Pane>
