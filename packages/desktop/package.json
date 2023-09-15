@@ -34,7 +34,7 @@
         "@ethereumjs/rlp": "4.0.1",
         "@ethereumjs/tx": "4.1.2",
         "@ethereumjs/util": "8.0.6",
-        "@ledgerhq/evm-tools": "1.0.1",
+        "@ledgerhq/evm-tools": "1.0.4",
         "@ledgerhq/hw-app-eth": "6.34.1",
         "@ledgerhq/hw-transport-node-hid": "6.27.21",
         "@ledgerhq/logs": "6.10.1",
