@@ -6,7 +6,9 @@
     export let tab: ISidebarTab = undefined
 
     let showChevron = false
-    $: color = showChevron ? 'primary' : 'black'
+
+    $: isSelected = $dashboardRoute === tab?.route
+    $: color = showChevron || isSelected ? 'primary' : 'black'
 
     function onClick(): void {
         _showChevron(false)
@@ -21,7 +23,7 @@
 <button
     on:mouseenter={() => _showChevron(true)}
     on:mouseleave={() => _showChevron(false)}
-    class={$dashboardRoute === tab?.route ? 'text-blue-500' : 'text-gray-500'}
+    class:selected={isSelected}
     on:click={onClick}
 >
     <div class="flex flex-row relative space-x-4 pr-3">
@@ -48,5 +50,9 @@
         @apply hover:bg-purple-100;
         @apply text-purple-500;
         @apply py-2.5 px-3 rounded-md;
+
+        &.selected {
+            @apply bg-purple-100;
+        }
     }
 </style>
