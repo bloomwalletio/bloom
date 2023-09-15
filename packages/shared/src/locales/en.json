@@ -367,12 +367,6 @@
                         "notConnected": "Ledger not connected"
                     }
                 },
-                "backup": {
-                    "title": "Backup your wallets",
-                    "lastBackup": "You last backed up {date}",
-                    "notBackedUp": "Not backed up",
-                    "button": "Backup"
-                },
                 "version": {
                     "title": "New update available",
                     "updateVersion": "Bloom v{version}",
@@ -567,6 +561,13 @@
             "changePassword": {
                 "hint": "Your Stronghold was out of date and has been updated. We recommend that you change your Stronghold password."
             }
+        }
+    },
+    "toasts": {
+        "backup": {
+            "headerText": "Backup Required",
+            "bodyText": "You have not backed up your profile yet! We highly recommend backing this up in case you lose access to this device.",
+            "button": "Backup now"
         }
     },
     "popups": {
