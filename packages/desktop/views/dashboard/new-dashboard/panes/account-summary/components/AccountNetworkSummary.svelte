@@ -1,13 +1,25 @@
 <script lang="ts">
-    import { Avatar, Text } from '@bloomwalletio/ui'
+    import { Avatar, Copyable, Text } from '@bloomwalletio/ui'
     import { NetworkAvatar, NetworkStatusIndicator } from '@ui'
     import { truncateString } from '@core/utils'
     import { IAccountNetworkSummaryProps } from '../interfaces'
 
     export let props: IAccountNetworkSummaryProps
 
-    const { networkId, networkName, networkHealth, networkAddress, networkTokenBalance, networkFiatBalance } =
-        props ?? {}
+    const {
+        networkId,
+        networkName,
+        networkHealth,
+        networkAddress,
+        networkTokenBalance,
+        networkFiatBalance,
+        networkTokens,
+    } = props ?? <IAccountNetworkSummaryProps>{}
+
+    function getTokenCount(): string {
+        const networkTokenList = [networkTokens.baseCoin, ...networkTokens.nativeTokens]
+        return networkTokenList.length > 99 ? '99+' : networkTokenList.length.toString()
+    }
 </script>
 
 <account-network-summary class="w-full flex flex-col justify-between">
@@ -18,7 +30,9 @@
         </div>
         <account-network-summary-header-address class="flex flex-row items-center space-x-2">
             <NetworkStatusIndicator status={networkHealth} />
-            <Text type="pre" align="center" truncate>{truncateString(networkAddress)}</Text>
+            <Copyable value={networkAddress}>
+                <Text type="pre" align="center" truncate>{truncateString(networkAddress)}</Text>
+            </Copyable>
         </account-network-summary-header-address>
     </account-network-summary-header>
     <account-network-summary-balance class="middle flex flex-col justify-between items-start">
@@ -31,7 +45,7 @@
     </account-network-summary-balance>
     <account-network-summary-assets class="flex flex-row justify-between items-center">
         <Avatar backgroundColor="indigo-950" shape="square" text="8" />
-        <Avatar backgroundColor="indigo-950" text="99+" />
+        <Avatar backgroundColor="indigo-950" text={getTokenCount()} />
     </account-network-summary-assets>
 </account-network-summary>
 

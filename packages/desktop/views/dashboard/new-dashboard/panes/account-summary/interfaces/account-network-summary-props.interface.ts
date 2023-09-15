@@ -1,4 +1,5 @@
 import { NetworkHealth, NetworkId } from '@core/network'
+import { IAccountTokensPerNetwork } from '@core/token'
 
 export interface IAccountNetworkSummaryProps {
     networkId: NetworkId
@@ -7,4 +8,5 @@ export interface IAccountNetworkSummaryProps {
     networkAddress: string
     networkTokenBalance: string
     networkFiatBalance: string
+    networkTokens: IAccountTokensPerNetwork
 }

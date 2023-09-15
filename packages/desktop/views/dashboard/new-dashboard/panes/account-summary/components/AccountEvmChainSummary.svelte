@@ -32,6 +32,7 @@
         const networkFiatBalance =
             formatCurrency(getMarketAmountFromTokenValue(evmChainBaseToken.balance.total, stardustNetworkBaseToken)) ??
             ''
+        const networkTokens = selectedAccountTokens?.[networkId]
 
         return {
             networkId,
@@ -40,6 +41,7 @@
             networkAddress,
             networkTokenBalance,
             networkFiatBalance,
+            networkTokens,
         }
     }
 </script>

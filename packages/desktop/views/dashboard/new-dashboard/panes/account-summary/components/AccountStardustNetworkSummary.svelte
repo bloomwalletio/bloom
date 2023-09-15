@@ -18,8 +18,8 @@
         const networkName = network.getMetadata().name
         const networkHealth = network.getStatus()?.health ?? NetworkHealth.Disconnected
         const networkAddress = account.depositAddress
-        const networkBaseCoin: ITokenWithBalance =
-            getAccountTokensForSelectedAccount($marketCoinPrices)?.[networkId]?.baseCoin
+        const networkTokens = getAccountTokensForSelectedAccount($marketCoinPrices)?.[networkId]
+        const networkBaseCoin: ITokenWithBalance = networkTokens?.baseCoin
         const networkTokenBalance = formatTokenAmountBestMatch(networkBaseCoin.balance.total, networkBaseCoin.metadata)
         const networkFiatBalance = formatCurrency(
             getMarketAmountFromTokenValue(networkBaseCoin.balance.total, networkBaseCoin)
@@ -32,6 +32,7 @@
             networkAddress,
             networkTokenBalance,
             networkFiatBalance,
+            networkTokens,
         }
     }
 </script>
