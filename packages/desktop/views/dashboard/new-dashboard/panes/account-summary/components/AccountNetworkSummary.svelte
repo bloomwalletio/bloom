@@ -1,8 +1,9 @@
 <script lang="ts">
-    import { Avatar, Copyable, Text } from '@bloomwalletio/ui'
+    import { Avatar, Button, Copyable, Text } from '@bloomwalletio/ui'
     import { NetworkAvatar, NetworkStatusIndicator } from '@ui'
     import { truncateString } from '@core/utils'
     import { IAccountNetworkSummaryProps } from '../interfaces'
+    import { localize } from 'shared/src/lib/core/i18n'
 
     export let props: IAccountNetworkSummaryProps
 
@@ -31,6 +32,11 @@
     function getAvatarGroupCount(array: unknown[]): string {
         return array.length > 99 ? '99+' : array.length.toString()
     }
+
+    function onGenerateAddressClick(): void {
+        /* eslint-disable no-console */
+        console.log('generate address')
+    }
 </script>
 
 <account-network-summary class="w-full flex flex-col justify-between">
@@ -40,10 +46,14 @@
             <Text type="h6" align="center" truncate>{networkName}</Text>
         </div>
         <account-network-summary-header-address class="flex flex-row items-center space-x-2">
-            <NetworkStatusIndicator status={networkHealth} />
-            <Copyable value={networkAddress}>
-                <Text type="pre" align="center" truncate>{truncateString(networkAddress)}</Text>
-            </Copyable>
+            {#if networkAddress}
+                <NetworkStatusIndicator status={networkHealth} />
+                <Copyable value={networkAddress}>
+                    <Text type="pre" align="center" truncate>{truncateString(networkAddress)}</Text>
+                </Copyable>
+            {:else}
+                <Button text={localize('actions.generateAddress')} variant="text" on:click={onGenerateAddressClick} />
+            {/if}
         </account-network-summary-header-address>
     </account-network-summary-header>
     <account-network-summary-balance class="middle flex flex-col justify-between items-start">
