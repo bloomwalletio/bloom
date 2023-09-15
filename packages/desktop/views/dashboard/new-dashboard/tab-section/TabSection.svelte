@@ -1,5 +1,12 @@
 <script lang="ts">
-    import PortfolioTab from './portfolio/PortfolioTab.svelte'
+    import { ActivityTab } from './activity'
+    import { PortfolioTab } from './portfolio'
+
+    const currentTab = 0
 </script>
 
-<PortfolioTab />
+{#if currentTab === 0}
+    <ActivityTab />
+{:else if currentTab === 1}
+    <PortfolioTab />
+{/if}
