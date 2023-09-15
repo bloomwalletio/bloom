@@ -1,5 +1,6 @@
 <script lang="ts">
     import { Pane } from '@ui'
+    import { AccountSummaryPane } from './panes'
     import { selectedAccount } from '@core/account/stores'
     import TabSection from './tab-section/TabSection.svelte'
 </script>
@@ -11,8 +12,8 @@
     >
         {#key $selectedAccount?.index}
             <div class="h-full w-full flex flex-col gap-8">
-                <Pane>Balance section</Pane>
-                <Pane classes="flex-grow border border-solid border-gray-100">
+                <AccountSummaryPane />
+                <Pane classes="flex flex-col flex-grow border border-solid border-gray-100">
                     <TabSection />
                 </Pane>
             </div>
