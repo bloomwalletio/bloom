@@ -1,1 +1,1 @@
-export { default as PortfolioTab } from './PortfolioTab.svelte'
+export { default as TokenListRow } from './TokenListRow.svelte'
