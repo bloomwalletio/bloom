@@ -118,11 +118,13 @@
             {/each}
         </sidebar-tabs>
     </nav>
-    <button class="flex items-center relative justify-center rounded-full" on:click={profileModal?.open}>
-        <ProfileAvatar profile={$activeProfile} />
-        {#if !$shouldOpenProfileModal && (!isBackupSafe || !$appVersionDetails.upToDate)}
-            <Indicator size="sm" color="red" border="white" class="absolute top-1 right-0" />
-        {/if}
+    <button class="flex items-center justify-end rounded-full" on:click={profileModal?.open}>
+        <div class="relative">
+            <ProfileAvatar profile={$activeProfile} />
+            {#if !$shouldOpenProfileModal && (!isBackupSafe || !$appVersionDetails.upToDate)}
+                <Indicator size="sm" color="red" border="white" class="absolute top-0 right-0" />
+            {/if}
+        </div>
     </button>
     <ProfileActionsModal bind:modal={profileModal} />
 </aside>
@@ -144,6 +146,10 @@
         @apply justify-items-start;
         @apply w-full space-y-1;
         @apply p-4;
+    }
+
+    button {
+        @apply px-7 py-4;
     }
 
     :global(body.platform-win32) aside {
