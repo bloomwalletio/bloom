@@ -149,7 +149,7 @@
     {#if IS_WINDOWS}
         <TitleBar />
     {/if}
-    <app-container class="w-screen h-full" class:windows={IS_WINDOWS}>
+    <app-container class="w-screen h-full flex flex-col" class:windows={IS_WINDOWS}>
         {#if !$isLocaleLoaded || splash}
             <Splash />
         {:else}
