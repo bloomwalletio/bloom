@@ -1,5 +1,5 @@
 <script lang="typescript">
-    import { Menu } from '@bloomwalletio/ui'
+    import { IconName, Menu } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
     import { PopupId, openPopup } from '../../lib/auxiliary/popup'
 
@@ -17,6 +17,7 @@
     bind:this={menu}
     items={[
         {
+            icon: IconName.Redo,
             text: localize('actions.revote'),
             onClick: onRevoteClick,
         },

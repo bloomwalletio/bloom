@@ -1,16 +1,15 @@
 <script lang="ts">
-    import { IMenuItem, Menu } from '@bloomwalletio/ui'
+    import { IMenuItem, IconName, Menu } from '@bloomwalletio/ui'
     import { hideActivitiesForHiddenTokens } from '@core/activity/actions'
     import { localize } from '@core/i18n'
+    import { isStardustNetwork } from '@core/network'
     import { activeProfile } from '@core/profile/stores'
     import { ITokenWithBalance, NotVerifiedStatus, VerifiedStatus } from '@core/token'
     import { removeTrackedTokenFromActiveProfile } from '@core/token/actions'
     import { hideToken, unhideToken, unverifyToken, verifyToken } from '@core/token/stores'
     import { PopupId, closePopup, openPopup, updatePopupProps } from '@desktop/auxiliary/popup'
     import features from '@features/features'
-    import { Modal } from '@ui'
 
-    export let modal: Modal | undefined = undefined
     export let token: ITokenWithBalance
 
     let menu: Menu | undefined = undefined
@@ -65,40 +64,47 @@
     let items: IMenuItem[] = []
     function setItems(token: ITokenWithBalance) {
         items = []
-        if (isTrackedToken) {
-            items.push({
-                text: localize('actions.untrackToken'),
-                onClick: onUntrackTokenClick,
-            })
-        }
         if (token.verification?.status === VerifiedStatus.SelfVerified) {
             items.push({
+                icon: IconName.DangerCircle,
                 text: localize('actions.unverifyToken'),
                 onClick: onUnverifyClick,
             })
         } else {
             items.push({
+                icon: IconName.Verified,
                 text: localize('actions.verifyToken'),
                 onClick: onVerifyClick,
             })
         }
         if (token.hidden) {
             items.push({
+                icon: IconName.Eye,
                 text: localize('actions.unhideToken'),
                 onClick: onUnhideClick,
             })
         } else {
             items.push({
+                icon: IconName.EyeOff,
                 text: localize('actions.hideToken'),
                 onClick: onHideClick,
             })
         }
-        items.push({
-            text: localize('actions.burnToken'),
-            variant: 'danger',
-            disabled: !features?.wallet?.assets?.burnToken.enabled,
-            onClick: onBurnTokenClick,
-        })
+        if (isTrackedToken) {
+            items.push({
+                icon: IconName.Trash,
+                text: localize('actions.untrackToken'),
+                onClick: onUntrackTokenClick,
+            })
+        } else if (isStardustNetwork(token.networkId)) {
+            items.push({
+                icon: IconName.Trash,
+                text: localize('actions.burnToken'),
+                variant: 'danger',
+                disabled: !features?.wallet?.assets?.burnToken.enabled,
+                onClick: onBurnTokenClick,
+            })
+        }
     }
     $: setItems(token)
 </script>

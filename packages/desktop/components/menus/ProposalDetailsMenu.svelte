@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { IMenuItem, Menu } from '@bloomwalletio/ui'
+    import { IMenuItem, IconName, Menu } from '@bloomwalletio/ui'
     import { IProposal } from '@contexts/governance'
     import { participationOverviewForSelectedAccount } from '@contexts/governance/stores'
     import { isVotingForSelectedProposal } from '@contexts/governance/utils'
@@ -62,14 +62,16 @@
     function setItems(proposal: IProposal, isVotingForProposal: boolean): void {
         items = [
             {
+                icon: IconName.SettingsSliders,
                 text: localize('actions.changeNode'),
                 onClick: onChangeNodeClick,
             },
             {
+                icon: IconName.Trash,
                 text: localize('actions.removeProposal'),
-                onClick: onRemoveProposalClick,
                 variant: 'danger',
                 disabled: getDisabled(proposal, isVotingForProposal),
+                onClick: onRemoveProposalClick,
             },
         ]
     }

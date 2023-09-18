@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { Menu } from '@bloomwalletio/ui'
+    import { IconName, Menu } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
     import { Router } from '@core/router'
     import { ContactBookRoute } from '@views/dashboard/drawers'
@@ -23,13 +23,15 @@
     bind:this={menu}
     items={[
         {
+            icon: IconName.Edit,
             text: localize(`views.dashboard.drawers.contactBook.${ContactBookRoute.ContactInformation}.editContact`),
             onClick: onEditContactClick,
         },
         {
+            icon: IconName.Trash,
             text: localize(`views.dashboard.drawers.contactBook.${ContactBookRoute.ContactInformation}.removeContact`),
-            onClick: onRemoveContactClick,
             variant: 'danger',
+            onClick: onRemoveContactClick,
         },
     ]}
 />

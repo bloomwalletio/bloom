@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { Menu } from '@bloomwalletio/ui'
+    import { IconName, Menu } from '@bloomwalletio/ui'
     import { openUrlInBrowser } from '@core/app'
     import { time } from '@core/app/stores'
     import { localize } from '@core/i18n'
@@ -82,19 +82,22 @@
     bind:this={menu}
     items={[
         {
+            icon: isCurrentPfp ? IconName.ImageUserX : IconName.ImageUserCheck,
             text: localize(`views.collectibles.details.menu.${isCurrentPfp ? 'unsetPfp' : 'setPfp'}`),
             onClick: onSetPfpClick,
         },
         {
+            icon: IconName.LinkExternal,
             text: localize('views.collectibles.details.menu.view'),
-            onClick: onOpenMediaClick,
             disabled: !url,
+            onClick: onOpenMediaClick,
         },
         {
+            icon: IconName.Trash,
             text: localize('views.collectibles.details.menu.burn'),
-            onClick: openBurnNft,
-            disabled: isLocked,
             variant: 'danger',
+            disabled: isLocked,
+            onClick: openBurnNft,
         },
     ]}
 />

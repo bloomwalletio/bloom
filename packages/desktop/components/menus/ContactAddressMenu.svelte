@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { Menu } from '@bloomwalletio/ui'
+    import { IconName, Menu } from '@bloomwalletio/ui'
     import { setSelectedContactNetworkId } from '@core/contact'
     import { localize } from '@core/i18n'
     import { NetworkId } from '@core/network'
@@ -28,13 +28,15 @@
     bind:this={menu}
     items={[
         {
+            icon: IconName.Edit,
             text: localize('actions.edit'),
             onClick: onEditNetworkAddressesClick,
         },
         {
+            icon: IconName.Trash,
             text: localize('actions.delete'),
-            onClick: onRemoveNetworkClick,
             variant: 'danger',
+            onClick: onRemoveNetworkClick,
         },
     ]}
 />

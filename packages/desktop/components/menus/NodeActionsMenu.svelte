@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { Menu } from '@bloomwalletio/ui'
+    import { IconName, Menu } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
     import {
         removeNodeFromClientOptions,
@@ -98,25 +98,29 @@
     bind:this={menu}
     items={[
         {
+            icon: IconName.Edit,
             text: localize('views.settings.configureNodeList.editDetails'),
-            onClick: onEditNodeDetailsClick,
             disabled: isOfficialNode,
+            onClick: onEditNodeDetailsClick,
         },
         {
+            icon: isPrimary ? IconName.BookmarkX : IconName.BookmarkCheck,
             text: localize(`views.settings.configureNodeList.${isPrimary ? 'unsetAsPrimary' : 'setAsPrimary'}`),
-            onClick: onTogglePrimaryNodeClick,
             disabled: node?.disabled,
+            onClick: onTogglePrimaryNodeClick,
         },
         {
+            icon: node.disabled ? IconName.PlayCircle : IconName.PauseCircle,
             text: localize(`views.settings.configureNodeList.${node.disabled ? 'include' : 'exclude'}Node`),
-            onClick: onToggleDisabledNodeClick,
             disabled: !allowDisableOrRemove,
+            onClick: onToggleDisabledNodeClick,
         },
         {
+            icon: IconName.Trash,
             text: localize('views.settings.configureNodeList.removeNode'),
-            onClick: onRemoveNodeClick,
             variant: 'danger',
             disabled: !allowDisableOrRemove,
+            onClick: onRemoveNodeClick,
         },
     ]}
 />
