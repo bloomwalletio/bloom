@@ -338,10 +338,18 @@
                 "status": "Status"
             },
             "portfolio": {
+                "tab": "Porfolio",
                 "asset": "Asset",
                 "network": "Network",
                 "marketCap": "Market cap",
                 "price": "Price",
+                "amount": "Amount"
+            },
+            "activity": {
+                "tab": "Activity",
+                "asset": "Asset",
+                "action": "Action",
+                "address": "Address",
                 "amount": "Amount"
             },
             "profileModal": {
