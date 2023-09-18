@@ -3,7 +3,7 @@
     import { NetworkAvatar, NetworkStatusIndicator } from '@ui'
     import { truncateString } from '@core/utils'
     import { localize } from '@core/i18n'
-    import { selectedAccountNfts } from '@core/nfts/stores'
+    import { ownedNfts } from '@core/nfts/stores'
     import { selectedAccountTokens } from '@core/token/stores'
     import { IAccountNetworkSummaryProps } from '../interfaces'
 
@@ -20,7 +20,7 @@
         networkNfts,
     } = props ?? <IAccountNetworkSummaryProps>{}
 
-    $: $selectedAccountTokens, $selectedAccountNfts, updateAssetCounts()
+    $: $selectedAccountTokens, $ownedNfts, updateAssetCounts()
 
     let tokenCountFormatted: string
     let nftCountFormatted: string
@@ -42,7 +42,7 @@
 </script>
 
 <account-network-summary class="w-full flex flex-col justify-between">
-    <account-network-summary-header class="flex flex-row justify-between items-center">
+    <account-network-summary-header class="flex flex-row justify-between items-center gap-2">
         <div class="flex flex-row space-x-3 items-center">
             <NetworkAvatar {networkId} />
             <Text type="h6" align="center" color="indigo-950" truncate>{networkName}</Text>

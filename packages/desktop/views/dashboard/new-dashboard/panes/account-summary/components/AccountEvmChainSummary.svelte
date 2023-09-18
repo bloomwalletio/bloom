@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { getActiveNetworkId, getNetwork, NetworkId } from '@core/network'
+    import { getNetwork, NetworkId } from '@core/network'
     import { getAddressFromAccountForNetwork, IAccountState } from '@core/account'
     import { formatTokenAmountBestMatch, ITokenWithBalance } from '@core/token'
     import { formatCurrency } from '@core/i18n'
@@ -14,7 +14,6 @@
 
     function buildAccountEvmChainSummaryProps(): IAccountNetworkSummaryProps {
         const chain = getNetwork().getChain(networkId)
-        const stardustNetworkBaseToken = $selectedAccountTokens?.[getActiveNetworkId()]?.baseCoin
         const networkTokens = $selectedAccountTokens?.[networkId]
         const evmChainBaseToken: ITokenWithBalance = networkTokens?.baseCoin
         const networkTokenBalance = formatTokenAmountBestMatch(
@@ -26,8 +25,7 @@
          * for L2 tokens.
          */
         const networkFiatBalance =
-            formatCurrency(getMarketAmountFromTokenValue(evmChainBaseToken.balance.total, stardustNetworkBaseToken)) ??
-            ''
+            formatCurrency(getMarketAmountFromTokenValue(evmChainBaseToken.balance.total, evmChainBaseToken)) ?? ''
 
         return {
             networkId,
