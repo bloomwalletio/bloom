@@ -57,7 +57,7 @@
             {#if isBackButtonVisible}
                 <IconButton
                     on:click={onBackClick}
-                    name={IconName.ArrowLeft}
+                    icon={IconName.ArrowLeft}
                     tooltip={localize('actions.back')}
                     color="#1E1B4E"
                     size="sm"
@@ -88,7 +88,7 @@
             {#if features.contacts.enabled}
                 <IconButton
                     on:click={() => toggleDashboardDrawer({ id: DashboardDrawerRoute.ContactBook })}
-                    name={IconName.Users}
+                    icon={IconName.Users}
                     tooltip={localize('general.contacts')}
                     color="#1E1B4E"
                     size="sm"
@@ -97,7 +97,7 @@
             {#if features?.wallet?.walletConnect?.enabled}
                 <IconButton
                     on:click={() => toggleDashboardDrawer({ id: DashboardDrawerRoute.DappConfig })}
-                    name={IconName.Grid}
+                    icon={IconName.Grid}
                     tooltip={localize('general.apps')}
                     color="#1E1B4E"
                     size="sm"
@@ -106,7 +106,7 @@
             {#if features?.network?.config?.enabled}
                 <IconButton
                     on:click={() => toggleDashboardDrawer({ id: DashboardDrawerRoute.NetworkConfig })}
-                    name={IconName.Globe}
+                    icon={IconName.Globe}
                     tooltip={localize('general.networks')}
                     color="#1E1B4E"
                     size="sm"
@@ -115,9 +115,3 @@
         </div>
     </div>
 </NavbarContainer>
-
-<style lang="scss">
-    button {
-        @apply flex items-center gap-2;
-    }
-</style>

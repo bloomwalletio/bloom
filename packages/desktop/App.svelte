@@ -73,18 +73,16 @@
         features.analytics.appStart.enabled && Platform.trackEvent('app-start')
         await cleanupEmptyProfiles()
         checkAndMigrateProfiles()
-
         Platform.onEvent('deep-link-request', handleDeepLink)
 
         setTimeout(() => {
             splash = false
-            initialiseRouters()
             // check if deep link request was received while splash screen was active
             Platform.DeepLinkManager.checkForDeepLinkRequest()
         }, 3000)
-
         initAppSettings.set($appSettings)
 
+        initialiseRouters()
         initialiseRouterManager({
             extensions: [
                 [RouterManagerExtensionName.GetAppRouter, getAppRouter],
