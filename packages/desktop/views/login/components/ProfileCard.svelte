@@ -1,8 +1,9 @@
 <script lang="ts">
-    import { Icon, IconName, Text } from '@bloomwalletio/ui'
+    import { TooltipIcon, IconName, Text } from '@bloomwalletio/ui'
     import { IPersistedProfile, ProfileType } from '@core/profile'
     import { ProfileAvatarWithBadge } from '@ui'
     import features from '@features/features'
+    import { localize } from '@core/i18n'
 
     export let profile: IPersistedProfile
     export let disabled: boolean = false
@@ -31,7 +32,7 @@
     <profile-header>
         <badge-container>
             {#if profile.type === ProfileType.Ledger}
-                <Icon name={IconName.Cpu} size="sm" />
+                <TooltipIcon icon={IconName.Cpu} size="sm" tooltip={localize('general.ledgerDevice')} />
             {/if}
         </badge-container>
         {#if features.login.profileActions.enabled}
