@@ -26,7 +26,10 @@
     let nftCountFormatted: string
 
     function updateAssetCounts(): void {
-        const networkTokenList = [networkTokens.baseCoin, ...networkTokens.nativeTokens]
+        const networkTokenList = [
+            networkTokens?.baseCoin && networkTokens.baseCoin,
+            ...(networkTokens?.nativeTokens ?? []),
+        ]
         tokenCountFormatted = getAvatarGroupCount(networkTokenList)
         nftCountFormatted = getAvatarGroupCount(networkNfts)
     }
