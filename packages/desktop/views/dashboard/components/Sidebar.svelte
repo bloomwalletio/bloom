@@ -1,12 +1,11 @@
 <script lang="ts">
     import { DEFAULT_NETWORK_ICON, Icon as IconEnum } from '@auxiliary/icon'
     import { Indicator } from '@bloomwalletio/ui'
-    import { ProfileActionsModal, SidebarTab } from '@components'
+    import { BackupToast, ProfileActionsModal, SidebarTab } from '@components'
     import { appVersionDetails } from '@core/app/stores'
     import { localize } from '@core/i18n'
     import { activeProfile } from '@core/profile/stores'
     import { DashboardRoute, collectiblesRouter, dashboardRouter, governanceRouter, settingsRouter } from '@core/router'
-    import { isRecentDate } from '@core/utils'
     import { ISidebarTab } from '@desktop/routers'
     import features from '@features/features'
     import { Icon, Modal, ProfileAvatar } from '@ui'
@@ -14,10 +13,6 @@
     let profileModal: Modal
 
     const { shouldOpenProfileModal } = $activeProfile
-
-    $: lastStrongholdBackupTime = $activeProfile?.lastStrongholdBackupTime
-    $: lastBackupDate = lastStrongholdBackupTime ? new Date(lastStrongholdBackupTime) : null
-    $: isBackupSafe = lastBackupDate && isRecentDate(lastBackupDate)?.lessThanThreeMonths
 
     let sidebarTabs: ISidebarTab[]
     $: sidebarTabs = [
@@ -106,7 +101,7 @@
 </script>
 
 <aside
-    class="flex flex-col justify-center items-center bg-white dark:bg-gray-800 h-full relative w-20 px-5 pt-10 pb-5 border-solid border-r border-gray-100 dark:border-gray-800"
+    class="flex flex-col justify-center items-center bg-white dark:bg-gray-800 h-full relative w-64 px-5 pt-10 pb-5 border-solid border-r border-gray-100 dark:border-gray-800"
 >
     <nav class="flex flex-grow flex-col items-center justify-between">
         <div class="flex flex-col items-center">
@@ -125,9 +120,10 @@
             {/each}
         </div>
         <div class="flex flex-col items-center">
+            <BackupToast />
             <button class="relative flex items-center justify-center rounded-full" on:click={profileModal?.open}>
                 <ProfileAvatar profile={$activeProfile} />
-                {#if !$shouldOpenProfileModal && (!isBackupSafe || !$appVersionDetails.upToDate)}
+                {#if !$shouldOpenProfileModal && !$appVersionDetails.upToDate}
                     <Indicator size="sm" color="red" border="white" class="absolute top-1 right-0" />
                 {/if}
             </button>
