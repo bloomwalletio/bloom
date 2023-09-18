@@ -1,25 +1,39 @@
 <script lang="ts">
-    import { Icon } from '@auxiliary/icon/enums'
+    import { IMenuItem, Menu } from '@bloomwalletio/ui'
+    import { IAccountState } from '@core/account'
+    import { setNextSelectedAccount } from '@core/account/actions'
     import { selectedAccount } from '@core/account/stores'
     import { localize } from '@core/i18n'
     import { deleteAccount } from '@core/profile-manager/actions'
-    import { activeAccounts, visibleActiveAccounts } from '@core/profile/stores'
+    import { updateActiveAccountPersistedData } from '@core/profile/actions'
+    import { activeAccounts, activeProfile, nonHiddenActiveAccounts, visibleActiveAccounts } from '@core/profile/stores'
     import { PopupId, openPopup } from '@desktop/auxiliary/popup'
-    import { MeatballMenuButton, MenuItem, Modal, ToggleHiddenAccountMenuItem } from '@ui'
-
-    let modal: Modal = undefined
-
-    const showDeleteAccount =
-        $selectedAccount?.index === $activeAccounts?.length - 1 && $visibleActiveAccounts?.length > 1
-
-    function onCustomiseAccountClick(): void {
-        openPopup({ id: PopupId.ManageAccount })
-        modal?.close()
-    }
 
     function onViewBalanceClick(): void {
         openPopup({ id: PopupId.BalanceBreakdown })
-        modal?.close()
+    }
+
+    function onCustomiseAccountClick(): void {
+        openPopup({ id: PopupId.ManageAccount })
+    }
+
+    function onShowAccountClick(): void {
+        if ($selectedAccount) {
+            updateActiveAccountPersistedData($selectedAccount.index, { hidden: false })
+        }
+    }
+
+    function onHideAccountClick(): void {
+        if ($nonHiddenActiveAccounts.length > 1) {
+            if ($selectedAccount) {
+                updateActiveAccountPersistedData($selectedAccount.index, { hidden: true })
+                if (!$activeProfile.showHiddenAccounts) {
+                    setNextSelectedAccount()
+                }
+            }
+        } else {
+            console.error('Not enough accounts visible: ', $nonHiddenActiveAccounts.length)
+        }
     }
 
     function onDeleteAccountClick(): void {
@@ -30,30 +44,47 @@
                 deleteAccount,
             },
         })
-        modal?.close()
     }
+
+    let items: IMenuItem[] = []
+    function setItems(account: IAccountState, nonHiddenActiveAccounts: IAccountState[], showDelete: boolean) {
+        items = [
+            {
+                text: localize('actions.viewBalanceBreakdown'),
+                onClick: onViewBalanceClick,
+            },
+            {
+                text: localize('actions.customizeAcount'),
+                onClick: onCustomiseAccountClick,
+            },
+        ]
+        if (account?.hidden) {
+            items.push({
+                text: localize('actions.showAccount'),
+                onClick: onShowAccountClick,
+            })
+        } else {
+            items.push({
+                text: localize('actions.hideAccount'),
+                onClick: onHideAccountClick,
+                disabled: nonHiddenActiveAccounts.length <= 1,
+            })
+        }
+        if (showDelete) {
+            items.push({
+                text: localize('actions.deleteAccount'),
+                onClick: onDeleteAccountClick,
+                variant: 'danger',
+            })
+        }
+    }
+    $: setItems(
+        $selectedAccount,
+        $nonHiddenActiveAccounts,
+        $selectedAccount?.index === $activeAccounts?.length - 1 && $visibleActiveAccounts?.length > 1
+    )
 </script>
 
-<account-actions-menu class="relative">
-    <MeatballMenuButton onClick={modal?.toggle} />
-    <Modal bind:this={modal} {...$$restProps} position={{ right: '0' }}>
-        <account-actions-menu class="flex flex-col">
-            <MenuItem icon={Icon.Doc} title={localize('actions.viewBalanceBreakdown')} onClick={onViewBalanceClick} />
-            <MenuItem
-                icon={Icon.Customize}
-                title={localize('actions.customizeAcount')}
-                onClick={onCustomiseAccountClick}
-            />
-            <ToggleHiddenAccountMenuItem onClick={modal?.close} />
-            <hr />
-            {#if showDeleteAccount}
-                <MenuItem
-                    icon={Icon.Delete}
-                    title={localize('actions.deleteAccount')}
-                    onClick={onDeleteAccountClick}
-                    variant="error"
-                />
-            {/if}
-        </account-actions-menu>
-    </Modal>
+<account-actions-menu>
+    <Menu {items} />
 </account-actions-menu>

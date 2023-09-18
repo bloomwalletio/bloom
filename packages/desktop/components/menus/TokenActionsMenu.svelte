@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { IMenuItem, Menu } from '@bloomwalletio/ui'
     import { hideActivitiesForHiddenTokens } from '@core/activity/actions'
     import { localize } from '@core/i18n'
     import { activeProfile } from '@core/profile/stores'
@@ -7,8 +8,7 @@
     import { hideToken, unhideToken, unverifyToken, verifyToken } from '@core/token/stores'
     import { PopupId, closePopup, openPopup, updatePopupProps } from '@desktop/auxiliary/popup'
     import features from '@features/features'
-    import { Icon } from '@lib/auxiliary/icon'
-    import { MeatballMenuButton, MenuItem, Modal } from '@ui'
+    import { Modal } from '@ui'
 
     export let modal: Modal | undefined = undefined
     export let token: ITokenWithBalance
@@ -59,41 +59,48 @@
         modal?.close()
         openPopup({ id: PopupId.BurnNativeTokens, props: { token } })
     }
+
+    let items: IMenuItem[] = []
+    function setItems(token: ITokenWithBalance) {
+        items = []
+        if (isTrackedToken) {
+            items.push({
+                text: localize('actions.untrackToken'),
+                onClick: onUntrackTokenClick,
+            })
+        }
+        if (token.verification?.status === VerifiedStatus.SelfVerified) {
+            items.push({
+                text: localize('actions.unverifyToken'),
+                onClick: onUnverifyClick,
+            })
+        } else {
+            items.push({
+                text: localize('actions.verifyToken'),
+                onClick: onVerifyClick,
+            })
+        }
+        if (token.hidden) {
+            items.push({
+                text: localize('actions.unhideToken'),
+                onClick: onUnhideClick,
+            })
+        } else {
+            items.push({
+                text: localize('actions.hideToken'),
+                onClick: onHideClick,
+            })
+        }
+        items.push({
+            text: localize('actions.burnToken'),
+            variant: 'danger',
+            disabled: !features?.wallet?.assets?.burnToken.enabled,
+            onClick: onBurnTokenClick,
+        })
+    }
+    $: setItems(token)
 </script>
 
-<token-actions-menu class="relative">
-    <MeatballMenuButton onClick={modal?.toggle} />
-    <Modal bind:this={modal} position={{ right: '0' }} {...$$restProps}>
-        <div class="flex flex-col">
-            {#if isTrackedToken}
-                <MenuItem icon={Icon.Search} title={localize('actions.untrackToken')} onClick={onUntrackTokenClick} />
-            {/if}
-            {#if token.verification?.status === VerifiedStatus.SelfVerified}
-                <MenuItem
-                    icon={Icon.NotVerified}
-                    iconProps={{ secondaryColor: 'white' }}
-                    title={localize('actions.unverifyToken')}
-                    onClick={onUnverifyClick}
-                />
-            {:else}
-                <MenuItem
-                    icon={Icon.NotVerified}
-                    iconProps={{ secondaryColor: 'white' }}
-                    title={localize('actions.verifyToken')}
-                    onClick={onVerifyClick}
-                />
-            {/if}
-            {#if token.hidden}
-                <MenuItem icon={Icon.View} title={localize('actions.unhideToken')} onClick={onUnhideClick} />
-            {:else}
-                <MenuItem icon={Icon.Hide} title={localize('actions.hideToken')} onClick={onHideClick} />
-            {/if}
-            <MenuItem
-                icon={Icon.Delete}
-                disabled={!features?.wallet?.assets?.burnToken.enabled}
-                title={localize('actions.burnToken')}
-                onClick={onBurnTokenClick}
-            />
-        </div>
-    </Modal>
+<token-actions-menu>
+    <Menu {items} />
 </token-actions-menu>

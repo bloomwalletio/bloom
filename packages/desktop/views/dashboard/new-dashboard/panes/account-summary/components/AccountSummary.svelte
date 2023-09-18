@@ -1,15 +1,16 @@
 <script lang="ts">
-    import { Button, IconButton, IconName, Text } from '@bloomwalletio/ui'
-    import { SendFlowRouter, sendFlowRouter } from '@views'
+    import { Button, IconName, Text } from '@bloomwalletio/ui'
+    import { AccountActionsMenu } from '@components'
     import { IAccountState } from '@core/account'
+    import { formatCurrency } from '@core/i18n'
+    import { resetLedgerPreparedOutput, resetShowInternalVerificationPopup } from '@core/ledger'
+    import { getMarketAmountFromTokenValue } from '@core/market/actions'
     import { getActiveNetworkId } from '@core/network'
     import { ITokenWithBalance } from '@core/token'
-    import { formatCurrency } from '@core/i18n'
-    import { getMarketAmountFromTokenValue } from '@core/market/actions'
-    import { resetSendFlowParameters } from '@core/wallet'
-    import { resetLedgerPreparedOutput, resetShowInternalVerificationPopup } from '@core/ledger'
-    import { openPopup, PopupId } from '@desktop/auxiliary/popup'
     import { selectedAccountTokens } from '@core/token/stores'
+    import { resetSendFlowParameters } from '@core/wallet'
+    import { PopupId, openPopup } from '@desktop/auxiliary/popup'
+    import { SendFlowRouter, sendFlowRouter } from '@views'
 
     export let account: IAccountState
 
@@ -38,7 +39,7 @@
 <account-summary class="w-full h-full p-6 flex flex-col justify-between">
     <account-summary-header class="w-full flex flex-row justify-between items-center">
         <Text type="h6" align="center" color="indigo-950" truncate>{account.name}</Text>
-        <IconButton color="gray-500" name={IconName.DotsHorizontal} />
+        <AccountActionsMenu />
     </account-summary-header>
     <account-summary-balance class="flex flex-row">
         <Text type="h6" size="6xl" align="center" color="indigo-950" truncate>{formattedBalance[0]}</Text>
