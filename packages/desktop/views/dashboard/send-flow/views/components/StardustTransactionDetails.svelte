@@ -6,9 +6,9 @@
     import { BigIntLike } from '@ethereumjs/util'
     import { NetworkAvatar, Text, TooltipIcon } from '@ui'
     import { NetworkId } from '@core/network'
-    import DateTimePickerButton from './DateTimePickerButton.svelte'
     import StorageDepositButton from './StorageDepositButton.svelte'
     import { getNameFromNetworkId } from '@core/network/actions/getNameFromNetworkId'
+    import { DateTimePickerMenu } from '.'
 
     export let destinationNetworkId: NetworkId = undefined
     export let storageDeposit: number | undefined = undefined
@@ -75,7 +75,7 @@
                     classes="ml-1"
                 />
             </div>
-            <DateTimePickerButton
+            <DateTimePickerMenu
                 bind:value={expirationDate}
                 bind:selected={selectedExpirationPeriod}
                 disabled={disableChangeExpiration || disableAll}
@@ -94,7 +94,7 @@
                     classes="ml-1"
                 />
             </div>
-            <DateTimePickerButton
+            <DateTimePickerMenu
                 bind:value={timelockDate}
                 bind:selected={selectedTimelockPeriod}
                 disabled={disableChangeTimelock || disableAll}
