@@ -3,7 +3,7 @@ import { initializeRegisteredProposals, registerProposalsFromNodes } from '@cont
 import { cleanupOnboarding } from '@contexts/onboarding/actions'
 import { createNewAccount, setSelectedAccount } from '@core/account/actions'
 import { DEFAULT_SYNC_OPTIONS } from '@core/account/constants'
-import { IAccount } from '@core/account/interfaces'
+import { IAccount, IAccountState } from '@core/account/interfaces'
 import { generateAndStoreActivitiesForAllAccounts } from '@core/activity/actions'
 import { Platform } from '@core/app/classes'
 import { AppContext } from '@core/app/enums'
@@ -44,7 +44,8 @@ import { loadAccounts } from './loadAccounts'
 import { logout } from './logout'
 import { subscribeToWalletApiEventsForActiveProfile } from './subscribeToWalletApiEventsForActiveProfile'
 import { refreshAccountTokensForActiveProfile } from '@core/token/actions'
-import { updateEvmChainGasPrices } from '@core/layer-2/actions'
+import { generateAndStoreEvmAddressForAccounts, updateEvmChainGasPrices } from '@core/layer-2/actions'
+import { getNetwork } from '@core/network'
 
 export async function login(loginOptions?: ILoginOptions): Promise<void> {
     const loginRouter = get(routerManager).getRouterForAppContext(AppContext.Login)
@@ -94,7 +95,8 @@ export async function login(loginOptions?: ILoginOptions): Promise<void> {
          * create one for the new profile.
          */
         if (accounts?.length === 0) {
-            await createNewAccount()
+            const newAccount = await createNewAccount()
+            accounts.push(newAccount)
         }
 
         // Step 4: load accounts
@@ -122,6 +124,11 @@ export async function login(loginOptions?: ILoginOptions): Promise<void> {
             )
             if (strongholdUnlocked) {
                 setTimeStrongholdLastUnlocked()
+            }
+
+            const coinType = getNetwork()?.getChains()?.[0]?.getConfiguration()?.coinType
+            if (coinType && strongholdUnlocked) {
+                void generateAndStoreEvmAddressForAccounts(type, coinType, ...(accounts as IAccountState[]))
             }
         } else {
             Platform.startLedgerProcess()
