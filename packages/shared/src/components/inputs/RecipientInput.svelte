@@ -1,46 +1,39 @@
 <script lang="ts">
-    import { Modal, SelectorInput, IOption, ColoredCircle } from '@ui'
-    import { getAccountColorById, getRandomAccountColor } from '@core/account/utils'
+    import { Modal, SelectorInput, IOption } from '@ui'
+    import { Indicator } from '@bloomwalletio/ui'
+    import { getRandomAccountColor } from '@core/account/utils'
+    import { ContactManager } from '@core/contact/classes'
     import { localize } from '@core/i18n'
+    import { NetworkId } from '@core/network'
+    import { getNetworkHrp } from '@core/profile/actions'
+    import { visibleActiveAccounts } from '@core/profile/stores'
     import { validateBech32Address, validateEthereumAddress } from '@core/utils/crypto'
+    import { SubjectType } from '@core/wallet'
     import { Subject } from '@core/wallet/types'
     import { getSubjectFromAddress } from '@core/wallet/utils'
-    import { Layer1RecipientError } from '@core/layer-2/errors'
-    import { getNetworkHrp } from '@core/profile'
-    import { SubjectType } from '@core/wallet'
 
     export let recipient: Subject | undefined
     export let options: IOption[]
+    export let networkId: NetworkId
     export let disabled = false
-    export let isLayer2 = false
+    export let isEvmChain = false
 
     let inputElement: HTMLInputElement | undefined = undefined
     let modal: Modal | undefined = undefined
 
     let error: string
-    let selected: IOption =
-        recipient?.type === SubjectType.Account
-            ? { key: recipient.account.name, value: recipient.account.depositAddress }
-            : { value: recipient?.address }
+    let selected: IOption = getSelectedRecipient(recipient)
 
-    $: isLayer2, (error = '')
-    $: recipient = getSubjectFromAddress(selected?.value)
+    $: isEvmChain, (error = '')
+    $: recipient = selected?.value ? getSubjectFromAddress(selected.value, networkId) : undefined
 
     export function validate(): void {
         try {
-            if (recipient?.type === SubjectType.Address || recipient?.type === SubjectType.Contact) {
-                if (!recipient.address) {
-                    throw new Error(localize('error.send.recipientRequired'))
-                }
-
-                if (isLayer2) {
+            if (recipient && recipient.address) {
+                if (isEvmChain) {
                     validateEthereumAddress(recipient?.address)
                 } else {
                     validateBech32Address(getNetworkHrp(), recipient?.address)
-                }
-            } else if (recipient?.type === SubjectType.Account) {
-                if (isLayer2) {
-                    throw new Layer1RecipientError()
                 }
             } else {
                 throw new Error(localize('error.send.recipientRequired'))
@@ -48,6 +41,37 @@
         } catch (err) {
             error = err?.message ?? err
             throw err
+        }
+    }
+
+    export function getAccountColorById(id: number): string | undefined {
+        return $visibleActiveAccounts?.find((account) => account.index === id)?.color
+    }
+
+    function getSelectedRecipient(recipient: Subject | undefined): IOption {
+        if (recipient) {
+            switch (recipient.type) {
+                case SubjectType.Account:
+                    return { key: recipient.account.name, value: recipient.address }
+                case SubjectType.Address:
+                    return { value: recipient.address }
+                case SubjectType.Contact: {
+                    const address = ContactManager.getNetworkContactAddressMapForContact(recipient.contact.id)?.[
+                        networkId
+                    ]?.[recipient.address]
+                    return {
+                        id: recipient.contact.id,
+                        key: recipient.contact.name,
+                        value: recipient.address,
+                        color: recipient.contact.color,
+                        ...(address && { displayedValue: address.addressName }),
+                    }
+                }
+            }
+        } else {
+            return {
+                value: undefined,
+            }
         }
     }
 
@@ -68,5 +92,5 @@
     {...$$restProps}
     let:option
 >
-    <ColoredCircle color={getRecipientColor(option)} />
+    <Indicator color={getRecipientColor(option)} />
 </SelectorInput>

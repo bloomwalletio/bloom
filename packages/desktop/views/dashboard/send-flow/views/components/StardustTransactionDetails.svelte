@@ -1,34 +1,37 @@
 <script lang="ts">
+    import { BigIntLike } from '@ethereumjs/util'
+    import { NetworkAvatar, Text, TooltipIcon } from '@ui'
     import { localize } from '@core/i18n'
-    import { TimePeriod } from '@core/utils'
-    import { NetworkIcon, Text, TooltipIcon } from '@ui'
     import { NetworkId } from '@core/network'
+    import { getNameFromNetworkId } from '@core/network/actions/getNameFromNetworkId'
+    import { getBaseToken } from '@core/profile/actions'
+    import { formatTokenAmountBestMatch } from '@core/token'
+    import { TimePeriod } from '@core/utils'
     import DateTimePickerButton from './DateTimePickerButton.svelte'
     import StorageDepositButton from './StorageDepositButton.svelte'
-    import { getBaseToken } from '@core/profile'
-    import { formatTokenAmountBestMatch } from '@core/wallet'
 
-    export let destinationNetwork: string
-    export let storageDeposit: number
-    export let gasBudget: number
-    export let giftStorageDeposit: boolean
-    export let expirationDate: Date
-    export let selectedExpirationPeriod: TimePeriod
-    export let selectedTimelockPeriod: TimePeriod
-    export let timelockDate: Date
-    export let disableChangeExpiration: boolean
-    export let disableChangeTimelock: boolean
-    export let disableGiftStorageDeposit: boolean
-    export let disableAll: boolean
+    export let destinationNetworkId: NetworkId = undefined
+    export let storageDeposit: number | undefined = undefined
+    export let transactionFee: BigIntLike | undefined = undefined
+    export let giftStorageDeposit: boolean | undefined = undefined
+    export let expirationDate: Date | undefined = undefined
+    export let selectedExpirationPeriod: TimePeriod | undefined = undefined
+    export let selectedTimelockPeriod: TimePeriod | undefined = undefined
+    export let timelockDate: Date | undefined = undefined
+    export let disableChangeExpiration: boolean | undefined = undefined
+    export let disableChangeTimelock: boolean | undefined = undefined
+    export let disableGiftStorageDeposit: boolean | undefined = undefined
+    export let disableAll: boolean | undefined = undefined
+
+    $: destinationNetwork = getNameFromNetworkId(destinationNetworkId)
 </script>
 
 <div class="border border-solid border-gray-200 dark:border-gray-700 rounded-lg">
-    {#if destinationNetwork}
+    {#if destinationNetworkId}
         <section class="key-value-box border-gray-200 dark:border-gray-700">
             <Text>{localize('general.destinationNetwork')}</Text>
-            <div class="flex flex-row gap-2">
-                <!-- TODO: Add correct icon for L2 -->
-                <NetworkIcon networkId={NetworkId.Testnet} height={16} width={16} outlined={false} />
+            <div class="flex flex-row items-center gap-2">
+                <NetworkAvatar networkId={destinationNetworkId} size="xs" />
                 <Text color="gray-600">{destinationNetwork}</Text>
             </div>
         </section>
@@ -52,19 +55,12 @@
             />
         </section>
     {/if}
-    {#if gasBudget}
+    {#if transactionFee}
         <section class="key-value-box border-gray-200 dark:border-gray-700">
             <div class="flex flex-row">
-                <Text>{localize('general.gasBudget')}</Text>
-                <TooltipIcon
-                    title={localize('general.gasBudget')}
-                    text={localize('tooltips.transactionDetails.outgoing.gasBudget')}
-                    width={15}
-                    height={15}
-                    classes="ml-1"
-                />
+                <Text>{localize('general.transactionFee')}</Text>
             </div>
-            <Text color="gray-600">{formatTokenAmountBestMatch(gasBudget, getBaseToken())}</Text>
+            <Text color="gray-600">{formatTokenAmountBestMatch(Number(transactionFee), getBaseToken())}</Text>
         </section>
     {/if}
     {#if selectedExpirationPeriod}
@@ -109,7 +105,7 @@
 
 <style lang="scss">
     .key-value-box {
-        @apply flex flex-row justify-between p-4;
+        @apply flex flex-row justify-between items-center p-4;
         @apply border-b border-solid;
 
         &:last-child {

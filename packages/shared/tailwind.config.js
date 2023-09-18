@@ -1,23 +1,22 @@
-const colors = require('tailwindcss/colors')
+const colors = require('tailwindcss/colors.js')
+
+// Suppress deprecation warnings during development
+// Remove linting rules at beginning of file and following lines once color schemes of tailwindcss have been updated
+delete colors.lightBlue
+delete colors.warmGray
+delete colors.trueGray
+delete colors.coolGray
+delete colors.blueGray
 
 /* Utilities */
 const pxToRem = (px, base = 16) => `${px / base}rem`
 
-const IS_DESKTOP = process.env.PLATFORM === 'desktop'
 const SHARED_CONTENT_ROUTES = ['../shared/**/*.svelte', '../shared/**/*.scss']
 const DESKTOP_CONTENT_ROUTES = ['../desktop/**/*.svelte']
-const MOBILE_CONTENT_ROUTES = ['../mobile/**/*.svelte']
-const NODE_MODULES_ROUTES = [
-    '../../node_modules/flowbite-svelte/**/*.{html,js,svelte,ts}',
-    '../../node_modules/@bloomwalletio/ui/**/*.{html,js,svelte,ts}',
-]
+const NODE_MODULES_ROUTES = ['../../node_modules/@bloomwalletio/ui/**/*.{html,js,svelte,ts}']
 
 module.exports = {
-    content: [
-        ...SHARED_CONTENT_ROUTES,
-        ...NODE_MODULES_ROUTES,
-        ...(IS_DESKTOP ? DESKTOP_CONTENT_ROUTES : MOBILE_CONTENT_ROUTES),
-    ],
+    content: [...SHARED_CONTENT_ROUTES, ...NODE_MODULES_ROUTES, ...DESKTOP_CONTENT_ROUTES],
     presets: [require('@bloomwalletio/ui/tailwind-preset')],
     safelist: [
         {
@@ -48,6 +47,9 @@ module.exports = {
             pattern: /^p-/,
         },
         {
+            pattern: /^px-/,
+        },
+        {
             pattern: /^divide-/,
         },
         {
@@ -63,8 +65,8 @@ module.exports = {
     theme: {
         extend: {
             colors: {
+                primary: colors.purple,
                 current: 'currentColor',
-                gray: colors.slate,
                 transparent: 'transparent',
                 black: '#000',
                 white: '#fff',

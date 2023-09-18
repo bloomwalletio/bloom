@@ -1,19 +1,12 @@
 <script lang="ts">
     import { fade, fly } from 'svelte/transition'
-    import { NetworkConfigDrawerRouter } from '@components'
-    import { Router } from '@core/router'
-    import { closeDrawer, DrawerDirection, DrawerId, drawerState } from '@desktop/auxiliary/drawer'
-    import { DrawerRoute } from '@desktop/routers'
-    import { Icon as IconEnum } from '@auxiliary/icon'
     import { Icon } from '@ui'
-    import { ContactBookRouterView } from '@views/dashboard/contact-book'
+    import { Icon as IconEnum } from '@auxiliary/icon'
+    import { DrawerDirection, closeDrawer, drawerState } from '@desktop/auxiliary/drawer'
 
     export let onClose: () => unknown = () => {}
 
     const DRAWER_ANIMATION_DURATION_MS = 200
-
-    let drawerRoute: DrawerRoute
-    let drawerRouter: Router<DrawerRoute>
 
     let direction: { x: number; y: number }
     let position: string
@@ -60,7 +53,7 @@
             out:fade|local={{ duration: DRAWER_ANIMATION_DURATION_MS }}
             on:click={onCloseClick}
             on:keydown={() => {}}
-            class="fixed top-12 left-0 w-full z-0 bg-gray-700 dark:bg-gray-900 bg-opacity-60 dark:bg-opacity-60"
+            class="fixed h-full left-0 w-full z-0 bg-gray-700 dark:bg-gray-900 bg-opacity-60 dark:bg-opacity-60"
         />
         <panel
             in:fly|local={{ ...direction, duration: DRAWER_ANIMATION_DURATION_MS }}
@@ -70,13 +63,8 @@
                 : 'horizontal'}"
         >
             <div class="flex flex-col h-full">
-                {#if $drawerState.id === DrawerId.NetworkConfig}
-                    <NetworkConfigDrawerRouter bind:drawerRoute bind:drawerRouter />
-                {:else if $drawerState.id === DrawerId.ContactBook}
-                    <ContactBookRouterView />
-                {/if}
+                <slot name="contents" />
             </div>
-
             {#if !$drawerState.hideClose}
                 <button on:click={onCloseClick} class="absolute top-7 right-7 focus:text-blue-500">
                     <Icon
@@ -90,13 +78,9 @@
 {/if}
 
 <style lang="scss">
-    overlay,
-    panel {
-        height: calc(100% - 3rem);
-    }
-
     panel {
         @apply fixed;
+        @apply h-full;
         @apply flex flex-col flex-auto overflow-hidden;
         @apply py-7 px-5;
         transition: right 0.2s ease;
@@ -109,5 +93,9 @@
             height: 350px;
             width: 100%;
         }
+    }
+
+    overlay {
+        -webkit-app-region: none;
     }
 </style>

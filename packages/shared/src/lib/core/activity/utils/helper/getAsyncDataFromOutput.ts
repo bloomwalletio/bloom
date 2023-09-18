@@ -1,18 +1,18 @@
 import { IAccountState } from '@core/account'
+import { isActivityHiddenForAccountIndex } from '@core/activity/stores'
+import { AsyncData, IClaimData } from '@core/activity/types'
 import { Output } from '@core/wallet'
-import { getTimelockDateFromOutput } from './getTimelockDateFromOutput'
+import { getExpirationDateFromOutput, isOutputAsync } from '../outputs'
 import { getAsyncStatus } from './getAsyncStatus'
 import { getStorageDepositFromOutput } from './getStorageDepositFromOutput'
-import { isActivityHiddenForAccountIndex } from '@core/activity/stores'
-import { getExpirationDateFromOutput, isOutputAsync } from '../outputs'
-import { AsyncData, IClaimData } from '@core/activity/types'
+import { getTimelockDateFromOutput } from './getTimelockDateFromOutput'
 
 export function getAsyncDataFromOutput(
     output: Output,
     outputId: string,
-    claimingData: IClaimData,
+    claimingData: IClaimData | undefined,
     account: IAccountState
-): AsyncData {
+): AsyncData | undefined {
     const isAsync = isOutputAsync(output)
     if (isAsync) {
         const isClaiming = false
@@ -42,6 +42,6 @@ export function getAsyncDataFromOutput(
             claimedDate,
         }
     } else {
-        return null
+        return undefined
     }
 }

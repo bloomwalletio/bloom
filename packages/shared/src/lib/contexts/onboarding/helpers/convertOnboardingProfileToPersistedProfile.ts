@@ -1,5 +1,5 @@
-import { IPersistedProfile } from '@core/profile/interfaces'
 import { DEFAULT_PERSISTED_PROFILE_OBJECT } from '@core/profile/constants'
+import { IPersistedProfile } from '@core/profile/interfaces'
 
 import { IOnboardingProfile } from '../interfaces'
 
@@ -7,7 +7,7 @@ export function convertOnboardingProfileToPersistedProfile(
     onboardingProfile: Partial<IOnboardingProfile>
 ): IPersistedProfile {
     return {
-        ...DEFAULT_PERSISTED_PROFILE_OBJECT,
+        ...structuredClone(DEFAULT_PERSISTED_PROFILE_OBJECT),
         ...(onboardingProfile?.id && { id: onboardingProfile.id }),
         ...(onboardingProfile?.name && { name: onboardingProfile.name }),
         ...(onboardingProfile?.type && { type: onboardingProfile.type }),
@@ -26,5 +26,6 @@ export function convertOnboardingProfileToPersistedProfile(
             lastUsedAccountIndex: onboardingProfile.lastUsedAccountIndex,
         }),
         ...(onboardingProfile?.clientOptions && { clientOptions: onboardingProfile.clientOptions }),
+        ...(onboardingProfile?.color && { color: onboardingProfile.color }),
     }
 }

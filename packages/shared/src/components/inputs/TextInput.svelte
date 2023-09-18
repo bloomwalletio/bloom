@@ -1,6 +1,6 @@
 <script lang="ts">
-    import Input from './Input.svelte'
     import { FontWeight, TextPropTypes, TextType } from '@ui'
+    import Input from './Input.svelte'
 
     export let value: string = ''
     export let inputElement: HTMLInputElement | undefined = undefined
@@ -16,8 +16,6 @@
     export let lineHeight = '140'
 
     export function validate(): void {
-        /* eslint-disable @typescript-eslint/ban-ts-comment */
-        // @ts-ignore
         input?.validate()
     }
 
@@ -32,10 +30,10 @@
     bind:inputElement
     bind:value
     bind:hasFocus
-    bind:error
     type={inputType}
     {textProps}
     {alignment}
+    {error}
     {...$$restProps}
 >
     <slot name="left" slot="left" />

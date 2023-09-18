@@ -1,11 +1,10 @@
-import { getActiveNetworkId } from '@core/network/utils/getNetworkId'
-import { INft, getNftByIdFromAllAccountNfts } from '@core/nfts'
-import { getCoinType } from '@core/profile/actions'
-import { ActivityType } from '../enums'
-import { getAssetById } from '@core/wallet/stores'
-import { Activity } from '../types'
+import { INft } from '@core/nfts'
+import { getNftByIdFromAllAccountNfts } from '@core/nfts/actions'
+import { BASE_TOKEN_ID, IToken } from '@core/token'
+import { getPersistedToken } from '@core/token/stores'
 import { TokenTransferData } from '@core/wallet/types'
-import { IAsset, getAssetFromPersistedAssets } from '@core/wallet'
+import { ActivityType, GovernanceAction } from '../enums'
+import { Activity } from '../types'
 
 export function getTransactionAssets(
     activity: Activity,
@@ -18,61 +17,53 @@ export function getTransactionAssets(
           baseCoinTransfer?: TokenTransferData
       }
     | undefined {
-    const networkId = activity.chainId || getActiveNetworkId()?.toString()
-    if (!networkId) {
-        return
+    const baseCoin = { ...getPersistedToken(BASE_TOKEN_ID), networkId: activity.sourceNetworkId }
+
+    if (!baseCoin) {
+        return undefined
     }
 
-    if (activity.type === ActivityType.Nft || activity.type === ActivityType.Alias) {
-        const baseCoin = getAssetById(getCoinType(), networkId)
-        const baseCoinTransfer = {
-            rawAmount: String((activity.rawBaseCoinAmount ?? 0) - activity.storageDeposit),
-            asset: baseCoin,
-        }
+    const baseCoinTransfer = {
+        rawAmount: activity.baseTokenTransfer.rawAmount,
+        token: baseCoin,
+    }
 
-        if (activity.type === ActivityType.Nft) {
-            const nft = getNftByIdFromAllAccountNfts(accountIndex, activity.nftId)
-            return {
-                nft,
-                baseCoinTransfer,
-            }
-        } else {
-            return {
-                aliasId: activity.aliasId,
-                baseCoinTransfer,
-            }
+    if (activity.type === ActivityType.Nft) {
+        const nft = getNftByIdFromAllAccountNfts(accountIndex, activity.nftId)
+        return {
+            nft,
+            baseCoinTransfer,
         }
     } else if (activity.type === ActivityType.Basic || activity.type === ActivityType.Foundry) {
-        const assetWithBalance = getAssetById(activity.assetId, networkId)
-        const persistedAsset = getAssetFromPersistedAssets(activity.assetId)
-        const asset: IAsset = {
-            chainId: activity.chainId ?? 0,
-            balance: {
-                total: 0,
-                available: 0,
-            },
-            ...assetWithBalance,
-            ...persistedAsset,
+        const token: IToken | undefined = activity.tokenTransfer?.tokenId
+            ? { ...getPersistedToken(activity.tokenTransfer.tokenId), networkId: activity.sourceNetworkId }
+            : undefined
+        const tokenAmount = activity.tokenTransfer?.rawAmount
+
+        return {
+            tokenTransfer:
+                token && tokenAmount
+                    ? {
+                          rawAmount: tokenAmount,
+                          token,
+                      }
+                    : undefined,
+            baseCoinTransfer,
         }
-        if (activity.assetId === getCoinType()) {
-            return {
-                baseCoinTransfer: {
-                    rawAmount: String(activity.rawBaseCoinAmount),
-                    asset,
-                },
-            }
-        } else {
-            const baseCoin = getAssetById(getCoinType(), networkId)
-            return {
-                tokenTransfer: {
-                    rawAmount: String(activity.rawAmount),
-                    asset,
-                },
-                baseCoinTransfer: {
-                    rawAmount: String((activity.rawBaseCoinAmount ?? 0) - activity.storageDeposit),
-                    asset: baseCoin,
-                },
-            }
+    } else if (activity.type === ActivityType.Governance) {
+        const isVotingPowerActivity =
+            activity.governanceAction === GovernanceAction.DecreaseVotingPower ||
+            activity.governanceAction === GovernanceAction.IncreaseVotingPower
+        const amount = isVotingPowerActivity ? activity.votingPowerDifference : activity.votingPower
+        return {
+            baseCoinTransfer: {
+                rawAmount: String(amount),
+                token: baseCoin,
+            },
+        }
+    } else if (activity.type === ActivityType.Alias) {
+        return {
+            aliasId: activity.aliasId,
         }
     }
 }

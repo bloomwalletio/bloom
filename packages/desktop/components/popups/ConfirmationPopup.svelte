@@ -1,10 +1,10 @@
 <script lang="ts">
-    import { Button, Text, TextHint, FontWeight, TextType, ButtonVariant } from '@ui'
+    import { onMount } from 'svelte'
+    import { Button, ButtonVariant, FontWeight, Text, TextType } from '@ui'
+    import { Alert } from '@bloomwalletio/ui'
+    import { handleError } from '@core/error/handlers'
     import { localize } from '@core/i18n'
     import { closePopup } from '@desktop/auxiliary/popup'
-    import { handleError } from '@core/error/handlers'
-    import { onMount } from 'svelte'
-    import { selectedAccount } from '@core/account'
 
     export let title: string
     export let description: string = ''
@@ -19,6 +19,7 @@
     export let _onMount: (..._: any[]) => Promise<void> = async () => {}
 
     let isBusy = false
+    $: variant = info ? 'info' : success ? 'success' : warning ? 'warning' : danger ? 'danger' : 'info'
 
     async function onConfirmClick(): Promise<void> {
         isBusy = true
@@ -59,7 +60,7 @@
             <Text fontSize="14" classes="text-left break-words">{description}</Text>
         {/if}
         {#if hint}
-            <TextHint {info} {success} {warning} {danger} text={hint} />
+            <Alert {variant} text={hint} />
         {/if}
     </div>
     <popup-buttons class="flex flex-row flex-nowrap w-full space-x-4">
@@ -67,8 +68,8 @@
         <Button
             classes="w-full"
             variant={warning || danger ? ButtonVariant.Warning : ButtonVariant.Primary}
-            disabled={$selectedAccount.isTransferring || isBusy}
-            isBusy={$selectedAccount.isTransferring || isBusy}
+            disabled={isBusy}
+            {isBusy}
             onClick={onConfirmClick}
         >
             {confirmText}

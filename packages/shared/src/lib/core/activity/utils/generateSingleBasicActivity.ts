@@ -1,90 +1,53 @@
-import { isShimmerClaimingTransaction } from '@contexts/onboarding/stores'
 import { IAccountState } from '@core/account'
 import { IActivityGenerationParameters } from '@core/activity/types'
-import { activeProfileId, getCoinType } from '@core/profile'
-import { IBasicOutput } from '@iota/types'
-import { get } from 'svelte/store'
-import { activityOutputContainsValue } from '..'
+import { SmartContract, parseLayer2Metadata } from '@core/layer-2'
+import { NetworkId } from '@core/network/types'
+import { isStardustNetwork } from '@core/network/utils'
+import { BASE_TOKEN_ID } from '@core/token'
+import { getOrRequestTokenFromPersistedTokens } from '@core/token/actions'
 import { ActivityType } from '../enums'
 import { TransactionActivity } from '../types'
-import {
-    getAmountFromOutput,
-    getAsyncDataFromOutput,
-    getMetadataFromOutput,
-    getSendingInformation,
-    getStorageDepositFromOutput,
-    getTagFromOutput,
-} from './helper'
-import { getNativeTokenFromOutput } from './outputs'
+import { generateBaseActivity } from './generateBaseActivity'
 
-export function generateSingleBasicActivity(
+export async function generateSingleBasicActivity(
     account: IAccountState,
-    { action, processedTransaction, wrappedOutput }: IActivityGenerationParameters,
-    fallbackAssetId?: string,
-    fallbackAmount?: number
-): TransactionActivity {
-    const { transactionId, direction, claimingData, time, inclusionState } = processedTransaction
+    networkId: NetworkId,
+    generationParameters: IActivityGenerationParameters,
+    overrideTokenId?: string,
+    overrideAmount?: number
+): Promise<TransactionActivity> {
+    const baseActivity = await generateBaseActivity(account, networkId, generationParameters)
 
-    const isHidden = false
-    const isAssetHidden = false
-    const containsValue = activityOutputContainsValue(wrappedOutput)
+    const isL1toL2 =
+        isStardustNetwork(baseActivity.sourceNetworkId) &&
+        baseActivity.sourceNetworkId !== baseActivity.destinationNetworkId
+    const smartContract: SmartContract | undefined = isL1toL2 ? parseLayer2Metadata(baseActivity.metadata) : undefined
 
-    const outputId = wrappedOutput.outputId
-    const id = outputId || transactionId
+    if (smartContract) {
+        const transferAmount = smartContract.baseTokens ? Number(smartContract.baseTokens ?? 0) : 0
+        const transferDelta = baseActivity.baseTokenTransfer?.rawAmount
+            ? Number(baseActivity.baseTokenTransfer.rawAmount) - transferAmount
+            : 0
+        baseActivity.baseTokenTransfer = {
+            tokenId: BASE_TOKEN_ID,
+            rawAmount: String(transferAmount),
+        }
+        baseActivity.transactionFee = transferDelta
+    }
 
-    const output = wrappedOutput.output as IBasicOutput
-
-    const isShimmerClaiming = isShimmerClaimingTransaction(transactionId, get(activeProfileId))
-
-    const tag = getTagFromOutput(output)
-    const metadata = getMetadataFromOutput(output)
-    const publicNote = ''
-
-    const sendingInfo = getSendingInformation(processedTransaction, output, account)
-    const asyncData = getAsyncDataFromOutput(output, outputId, claimingData, account)
-
-    // const { parsedLayer2Metadata, destinationNetwork } = getLayer2ActivityInformation(metadata, sendingInfo)
-    // const gasBudget = Number(parsedLayer2Metadata?.gasBudget ?? '0')
-    const gasBudget = 0
-
-    const storageDeposit = getStorageDepositFromOutput(output)
-
-    const rawBaseCoinAmount = getAmountFromOutput(output)
-
-    const nativeToken = getNativeTokenFromOutput(output)
-    const assetId = fallbackAssetId ?? nativeToken?.id ?? getCoinType()
-
-    let rawAmount: number
-    if (fallbackAmount === undefined) {
-        rawAmount = nativeToken ? Number(nativeToken?.amount) : rawBaseCoinAmount - storageDeposit - gasBudget
-    } else {
-        rawAmount = fallbackAmount
+    if (overrideTokenId && overrideTokenId !== BASE_TOKEN_ID && overrideAmount !== undefined) {
+        const persistedToken = await getOrRequestTokenFromPersistedTokens(overrideTokenId, baseActivity.sourceNetworkId)
+        baseActivity.tokenTransfer = persistedToken
+            ? {
+                  tokenId: overrideTokenId,
+                  rawAmount: String(overrideAmount),
+              }
+            : undefined
     }
 
     return {
         type: ActivityType.Basic,
-        isHidden,
-        id,
-        transactionId,
-        time,
-        direction,
-        action,
-        isAssetHidden,
-        inclusionState,
-        containsValue,
-        outputId,
-        storageDeposit,
-        rawBaseCoinAmount,
-        rawAmount,
-        isShimmerClaiming,
-        publicNote,
-        metadata,
-        tag,
-        assetId,
-        chainId: undefined,
-        asyncData,
-        // destinationNetwork,
-        // parsedLayer2Metadata,
-        ...sendingInfo,
+        ...baseActivity,
+        smartContract,
     }
 }

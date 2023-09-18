@@ -1,7 +1,7 @@
 <script lang="ts">
     import { Icon, Text, TextType } from '@ui'
-    import { Router } from '@core/router'
     import { Icon as IconEnum } from '@auxiliary/icon'
+    import { Router } from '@core/router'
 
     export let title: string
     export let drawerRouter: Router<unknown>
@@ -15,7 +15,7 @@
     }
 </script>
 
-<drawer-template class="flex flex-col h-full space-y-6 overflow-hidden">
+<drawer-template class="flex flex-col h-full space-y-6 overflow-visible">
     <drawer-header class="flex flex-row items-center gap-2 mr-8">
         {#if showBackButton}
             <button on:click={onBackClick} class=" focus:text-blue-500">
@@ -37,7 +37,7 @@
     <drawer-body class="flex-grow overflow-auto">
         <slot />
     </drawer-body>
-    <drawer-footer class="w-full self-end">
+    <drawer-footer class="w-full self-end overflow-visible">
         <slot name="footer" />
     </drawer-footer>
 </drawer-template>

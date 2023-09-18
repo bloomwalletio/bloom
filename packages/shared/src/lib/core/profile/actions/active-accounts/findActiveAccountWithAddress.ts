@@ -1,16 +1,16 @@
-import { IAccountState } from '@core/account'
 import { get } from 'svelte/store'
+import { IAccountState, getAddressFromAccountForNetwork } from '@core/account'
+import { NetworkId } from '@core/network'
 import { activeAccounts } from '../../stores'
 
 /**
  * Find an address in one of our accounts
  * @param address The address to find
+ * @param networkId The corresponding network
  * @returns The wallet account matching the address or undefined if not found
  */
-export function findActiveAccountWithAddress(address: string): IAccountState {
-    if (!address) {
-        return
-    }
+export function findActiveAccountWithAddress(address: string, networkId: NetworkId): IAccountState | undefined {
     const accounts = get(activeAccounts)
-    return accounts.find((account) => account.depositAddress === address)
+
+    return accounts.find((account) => address === getAddressFromAccountForNetwork(account, networkId))
 }

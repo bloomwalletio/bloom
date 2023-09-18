@@ -1,7 +1,7 @@
 <script lang="ts">
-    import { localize } from '@core/i18n'
-    import { Modal, TextInput, Text, TextType, FontWeight, IOption } from '@ui'
     import { fade } from 'svelte/transition'
+    import { Modal, TextInput, Text, TextType, FontWeight, IOption } from '@ui'
+    import { localize } from '@core/i18n'
     import { truncateString } from '@core/utils'
 
     export let error: string = ''
@@ -84,7 +84,7 @@
         <div slot="right">
             {#if selected?.key && selected?.value}
                 <Text slot="right" type={TextType.pre} fontSize="sm" color="gray-600" whitespace="pre">
-                    {truncateString(selected.value, 9, 9)}
+                    {truncateString(selected.displayedValue ?? selected.value, 9, 9)}
                 </Text>
             {/if}
         </div>
@@ -101,7 +101,7 @@
                 {#each filteredOptions as option, index}
                     <button
                         on:click={() => onClick(option)}
-                        class="w-full flex flex-row flex-1 justify-between items-center px-2 py-3 rounded-lg hover:bg-blue-50 dark:hover:bg-gray-800 dark:hover:bg-opacity-20"
+                        class="w-full flex flex-row flex-1 justify-between items-center p-2 rounded-lg hover:bg-blue-50 dark:hover:bg-gray-800 dark:hover:bg-opacity-20"
                     >
                         <div class="flex flex-row gap-3 justify-start items-center flex-1">
                             <slot {option} {index}>
@@ -118,8 +118,8 @@
                             </Text>
                         </div>
                         {#if option.value && option.key}
-                            <Text type={TextType.pre} fontSize="sm" color="gray-600" classes="flex-1 text-end">
-                                {truncateString(option.value, 9, 9)}
+                            <Text type={TextType.pre} fontSize="sm" color="gray-600" classes="flex-2 text-end">
+                                {truncateString(option.displayedValue ?? option.value, 9, 9)}
                             </Text>
                         {/if}
                     </button>

@@ -1,6 +1,6 @@
 import { get } from 'svelte/store'
 
-import { activeProfileId } from '@core/profile'
+import { activeProfileId } from '@core/profile/stores'
 import { persistent } from '@core/utils/store'
 import { IClaimedActivities, IClaimedActivitiesPerProfile } from '../types'
 
@@ -24,6 +24,13 @@ export function addClaimedActivity(
             state[profileId][accountIndex] = {}
         }
         state[profileId][accountIndex][transactionId] = claimedActivity
+        return state
+    })
+}
+
+export function removeClaimedActivitiesForProfile(profileId: string): void {
+    claimedActivities.update((state) => {
+        delete state[profileId]
         return state
     })
 }

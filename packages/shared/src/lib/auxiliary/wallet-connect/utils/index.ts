@@ -1,3 +1,4 @@
+export * from './approveSession'
+export * from './disconnectAllDapps'
 export * from './getAllEvmAddresses'
-export * from './initializeWalletConnect'
-export * from './pairWithNewDApp'
+export * from './validateConnectionCode'

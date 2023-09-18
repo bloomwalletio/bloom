@@ -1,13 +1,14 @@
 import { get } from 'svelte/store'
 
-import { resetSelectedAccountIndex } from '@core/account/actions'
 import {
     clearSelectedParticipationEventStatus,
     resetProposalOverviews,
     resetRegisteredProposals,
 } from '@contexts/governance/stores'
-import { stopPollingLedgerNanoStatus } from '@core/ledger/actions'
-import { isPollingLedgerDeviceStatus } from '@core/ledger/stores'
+import { resetSelectedAccountIndex } from '@core/account/actions'
+import { Platform } from '@core/app'
+import { stopPollingLedgerDeviceState } from '@core/ledger/actions'
+import { isPollingLedgerDeviceState } from '@core/ledger/stores'
 import { clearMarketPricesPoll } from '@core/market/actions'
 import { clearChainStatusesPoll, clearNetworkPoll } from '@core/network/actions'
 import { stopDownloadingNftMediaFromQueue } from '@core/nfts/actions'
@@ -19,7 +20,6 @@ import { IProfileManager } from '@core/profile-manager/interfaces'
 import { profileManager } from '@core/profile-manager/stores'
 import { routerManager } from '@core/router/stores'
 import { clearFilters } from '@core/utils/clearFilters'
-import { Platform } from '@core/app'
 
 /**
  * Logout from active profile
@@ -29,7 +29,7 @@ export function logout(clearActiveProfile = true, _lockStronghold = true): void 
         _lockStronghold && lockStronghold()
     } else if (isLedgerProfile(get(activeProfile).type)) {
         Platform.killLedgerProcess()
-        get(isPollingLedgerDeviceStatus) && stopPollingLedgerNanoStatus()
+        get(isPollingLedgerDeviceState) && stopPollingLedgerDeviceState()
     }
 
     clearNetworkPoll()

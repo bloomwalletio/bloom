@@ -1,21 +1,22 @@
 <script lang="ts">
-    import { TooltipIcon, Text, Pill, TileFooter, FontWeight } from '@ui'
-    import { time } from '@core/app'
-    import { Icon as IconEnum } from '@lib/auxiliary/icon'
+    import { ActivityAsyncStatusPill, FontWeight, Text, TileFooter, TooltipIcon } from '@ui'
     import { Position } from '@ui/enums'
-    import { localize } from '@core/i18n'
     import { Activity, ActivityAsyncStatus } from '@core/activity'
+    import { time } from '@core/app/stores'
+    import { localize } from '@core/i18n'
     import { getTimeDifference } from '@core/utils'
+    import { Icon as IconEnum } from '@lib/auxiliary/icon'
 
     export let activity: Activity
 
     $: timeDiff = getTimeDiff(activity)
 
     function getTimeDiff(_activity: Activity): string {
+        let timeDiff: string | undefined = undefined
         if (_activity.asyncData?.asyncStatus === ActivityAsyncStatus.Timelocked) {
-            return getTimeDifference(_activity.asyncData?.timelockDate, $time)
+            timeDiff = getTimeDifference(_activity.asyncData?.timelockDate, $time)
         }
-        return localize('general.none')
+        return timeDiff ? timeDiff : localize('general.none')
     }
 </script>
 
@@ -31,7 +32,5 @@
         <Text fontSize="13" color="gray-600" fontWeight={FontWeight.semibold}>{timeDiff}</Text>
     </svelte:fragment>
 
-    <Pill slot="right" backgroundColor="gray-200" darkBackgroundColor="gray-200">
-        {localize('pills.locked')}
-    </Pill>
+    <ActivityAsyncStatusPill slot="right" asyncStatus={ActivityAsyncStatus.Timelocked} />
 </TileFooter>

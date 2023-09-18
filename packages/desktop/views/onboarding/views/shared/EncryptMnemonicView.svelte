@@ -1,15 +1,14 @@
 <script lang="ts">
+    import zxcvbn from 'zxcvbn'
+    import { PasswordInput, Text, TextType } from '@ui'
+    import { OnboardingLayout } from '@views/components'
     import { showNotification } from '@auxiliary/notification'
-    import { OnboardingLayout } from '@components'
     import { updateOnboardingProfile, verifyAndStoreMnemonic } from '@contexts/onboarding'
-    import { IS_MOBILE } from '@core/app'
     import { localize } from '@core/i18n'
     import { MAX_STRONGHOLD_PASSWORD_LENGTH } from '@core/profile'
     import { setStrongholdPassword } from '@core/profile-manager'
     import { Subrouter } from '@core/router'
     import { PASSWORD_REASON_MAP } from '@core/stronghold'
-    import { Animation, Button, HTMLButtonType, PasswordInput, Text, TextType } from '@ui'
-    import zxcvbn from 'zxcvbn'
 
     export let router: Subrouter<unknown>
 
@@ -75,15 +74,20 @@
     } // zxcvbn lib recommends to not validate long passwords because of performance issues https://github.com/dropbox/zxcvbn#user-content-performance
 </script>
 
-<OnboardingLayout {onBackClick} {busy}>
-    <div slot="title">
-        <Text type={TextType.h2}>{localize('views.onboarding.strongholdSetup.setupStrongholdPassword.title')}</Text>
-    </div>
-    <div slot="leftpane__content">
+<OnboardingLayout
+    title={localize('views.onboarding.strongholdSetup.setupStrongholdPassword.title')}
+    description={localize('views.onboarding.strongholdSetup.setupStrongholdPassword.body1')}
+    continueButton={{
+        onClick: onContinueClick,
+        disabled: !strongholdPassword || !confirmedStrongholdPassword,
+    }}
+    backButton={{
+        onClick: onBackClick,
+    }}
+    {busy}
+>
+    <div slot="content">
         <form on:submit|preventDefault={onContinueClick} id="password-form">
-            <Text type={TextType.p} classes="mb-4" secondary
-                >{localize('views.onboarding.strongholdSetup.setupStrongholdPassword.body1')}</Text
-            >
             <Text type={TextType.p} classes="mb-10" secondary
                 >{localize('views.onboarding.strongholdSetup.setupStrongholdPassword.body2')}</Text
             >
@@ -107,19 +111,5 @@
                 disabled={busy}
             />
         </form>
-    </div>
-    <div slot="leftpane__action">
-        <Button
-            type={HTMLButtonType.Submit}
-            form="password-form"
-            classes="w-full"
-            disabled={!strongholdPassword || !confirmedStrongholdPassword || busy}
-            isBusy={busy}
-        >
-            {localize('actions.continue')}
-        </Button>
-    </div>
-    <div slot="rightpane" class="w-full h-full flex justify-center {!IS_MOBILE && 'bg-pastel-yellow dark:bg-gray-900'}">
-        <Animation classes="setup-anim-aspect-ratio" animation="password-desktop" />
     </div>
 </OnboardingLayout>

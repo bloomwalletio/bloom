@@ -1,92 +1,99 @@
 <script lang="ts">
-    import { KeyValueBox } from '@ui'
-    import { getFormattedTimeStamp, localize } from '@core/i18n'
-    import { activeProfile, getBaseToken } from '@core/profile'
-    import { Activity, formatTokenAmountPrecise } from '@core/wallet'
-    import { ExplorerEndpoint } from '@core/network'
-    import { getOfficialExplorerUrl } from '@core/network/utils'
+    import { Table } from '@bloomwalletio/ui'
+    import { Activity } from '@core/activity'
     import { openUrlInBrowser } from '@core/app'
-    import { IKeyValueBoxList, truncateString } from '@core/utils'
-    import { setClipboard } from '@core/utils'
+    import { getFormattedTimeStamp, localize } from '@core/i18n'
+    import { ExplorerEndpoint, getDefaultExplorerUrl, getNameFromNetworkId } from '@core/network'
+    import { getBaseToken } from '@core/profile/actions'
+    import { formatTokenAmountPrecise } from '@core/token'
 
     export let activity: Activity
 
-    const explorerUrl = getOfficialExplorerUrl($activeProfile?.network?.id)
+    $: expirationTime = getFormattedTimeStamp(activity.asyncData?.expirationDate)
+    $: claimedTime = getFormattedTimeStamp(activity.asyncData?.claimedDate)
+    $: gasLimit = activity.smartContract?.gasLimit
 
-    $: expirationTime = getFormattedTimeStamp(activity?.asyncData?.expirationDate)
-    $: claimedTime = getFormattedTimeStamp(activity?.asyncData?.claimedDate)
-    $: hasStorageDeposit =
-        activity?.storageDeposit || (activity?.storageDeposit === 0 && activity?.giftedStorageDeposit === 0)
-    $: gasBudget = activity?.parsedLayer2Metadata?.gasBudget
+    $: formattedTransactionTime = getFormattedTimeStamp(activity.time)
+    $: formattedTimelockDate = getFormattedTimeStamp(activity.asyncData?.timelockDate)
+    $: formattedStorageDeposit = formatAmount(activity.storageDeposit ?? 0)
 
-    $: formattedTransactionTime = getFormattedTimeStamp(activity?.time)
-    $: formattedTimelockDate = getFormattedTimeStamp(activity?.asyncData?.timelockDate)
-    $: formattedStorageDeposit = formatTokenAmountPrecise(activity?.storageDeposit ?? 0, getBaseToken())
-    $: formattedGiftedStorageDeposit = formatTokenAmountPrecise(activity?.giftedStorageDeposit ?? 0, getBaseToken())
-    $: formattedSurplus = formatTokenAmountPrecise(activity?.surplus ?? 0, getBaseToken())
-    $: formattedGasBudget = formatTokenAmountPrecise(Number(gasBudget ?? 0), getBaseToken())
+    $: formattedEstimatedGasFee = formatAmount(Number(gasLimit ?? 0))
+    $: formattedMaxGasFee = formatAmount(Number(gasLimit ?? 0))
+    $: formattedTransactionFee = formatAmount(Number(activity.transactionFee ?? 0))
 
-    let transactionDetailsList: IKeyValueBoxList
-    $: transactionDetailsList = {
-        ...(activity?.destinationNetwork && {
-            destinationNetwork: { data: activity?.destinationNetwork },
-        }),
-        ...(activity?.time && {
-            transactionTime: { data: formattedTransactionTime },
-        }),
-        ...(activity?.tag && {
-            tag: { data: activity?.tag, isTooltipVisible: true },
-        }),
-        ...(activity?.metadata && {
-            metadata: { data: activity?.metadata, isTooltipVisible: true },
-        }),
-        ...(hasStorageDeposit && {
-            storageDeposit: { data: formattedStorageDeposit, isTooltipVisible: true },
-        }),
-        ...(activity?.surplus && {
-            surplus: { data: formattedSurplus },
-        }),
-        ...(activity?.giftedStorageDeposit && {
-            giftedStorageDeposit: { data: formattedGiftedStorageDeposit, isTooltipVisible: true },
-        }),
-        ...(gasBudget && {
-            gasBudget: { data: formattedGasBudget, isTooltipVisible: true },
-        }),
-        ...(expirationTime && {
-            expirationTime: { data: expirationTime, isTooltipVisible: true },
-        }),
-        ...(activity?.asyncData?.timelockDate && {
-            timelockDate: { data: formattedTimelockDate, isTooltipVisible: true },
-        }),
-        ...(claimedTime && { claimedTime: { data: claimedTime } }),
+    $: explorerUrl = getDefaultExplorerUrl(activity.sourceNetworkId, ExplorerEndpoint.Transaction)
+    function onTransactionIdClick(): void {
+        if (explorerUrl) {
+            openUrlInBrowser(`${explorerUrl}/${activity.asyncData?.claimingTransactionId}`)
+        }
     }
 
-    function onTransactionIdClick(): void {
-        explorerUrl
-            ? openUrlInBrowser(
-                  `${explorerUrl}/${ExplorerEndpoint.Transaction}/${activity?.asyncData?.claimingTransactionId}`
-              )
-            : setClipboard(activity?.asyncData?.claimingTransactionId)
+    function formatAmount(amount: number | undefined): string | undefined {
+        if (!amount) {
+            return undefined
+        }
+
+        return formatTokenAmountPrecise(amount, getBaseToken())
     }
 </script>
 
-{#each Object.entries(transactionDetailsList) as [key, value]}
-    <KeyValueBox
-        keyText={localize(`general.${key}`)}
-        valueText={value.data}
-        tooltipText={value.isTooltipVisible
-            ? localize(`tooltips.transactionDetails.${activity?.direction}.${key}`)
-            : undefined}
-    />
-{/each}
-{#if activity?.asyncData?.claimingTransactionId}
-    <KeyValueBox keyText={localize(activity?.asyncData?.isClaiming ? 'general.claimingIn' : 'general.claimedIn')}>
-        <button
-            slot="value"
-            class="action w-fit flex justify-start text-center font-medium text-14 text-blue-500"
-            on:click={onTransactionIdClick}
-        >
-            {truncateString(activity?.asyncData?.claimingTransactionId, 12, 12)}
-        </button>
-    </KeyValueBox>
-{/if}
+<Table
+    items={[
+        {
+            key: localize('general.destinationNetwork'),
+            value: getNameFromNetworkId(activity.destinationNetworkId),
+        },
+        {
+            key: localize('general.transactionTime'),
+            value: formattedTransactionTime,
+        },
+        {
+            key: localize('general.tag'),
+            value: activity.tag,
+            tooltip: localize(`tooltips.transactionDetails.${activity.direction}.tag`),
+        },
+        {
+            key: localize('general.metadata'),
+            value: !activity.smartContract ? activity.metadata : undefined,
+            tooltip: localize(`tooltips.transactionDetails.${activity.direction}.metadata`),
+        },
+        {
+            key: localize('general.storageDeposit'),
+            value: activity.storageDeposit ? formattedStorageDeposit : undefined,
+            tooltip: localize(`tooltips.transactionDetails.${activity.direction}.storageDeposit`),
+        },
+        {
+            key: localize('general.estimatedFee'),
+            value: !formattedTransactionFee ? formattedEstimatedGasFee : undefined,
+        },
+        {
+            key: localize('general.maxFees'),
+            value: !formattedTransactionFee ? formattedMaxGasFee : undefined,
+        },
+        {
+            key: localize('general.transactionFee'),
+            value: formattedTransactionFee,
+        },
+        {
+            key: localize('general.expirationTime'),
+            value: expirationTime,
+            tooltip: localize(`tooltips.transactionDetails.${activity.direction}.expirationTime`),
+        },
+        {
+            key: localize('general.timelockDate'),
+            value: activity.asyncData?.timelockDate ? formattedTimelockDate : undefined,
+            tooltip: localize(`tooltips.transactionDetails.${activity.direction}.timelockDate`),
+        },
+        {
+            key: localize('general.claimedTime'),
+            value: claimedTime,
+        },
+        {
+            key: localize(activity.asyncData?.isClaiming ? 'general.claimingIn' : 'general.claimedIn'),
+            value: activity.asyncData?.claimingTransactionId,
+            copyable: true,
+            truncate: { firstCharCount: 12, endCharCount: 12 },
+            onClick: explorerUrl ? onTransactionIdClick : undefined,
+        },
+    ]}
+/>

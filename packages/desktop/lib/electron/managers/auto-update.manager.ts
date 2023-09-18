@@ -1,6 +1,6 @@
 import { ipcMain } from 'electron'
-import { autoUpdater, CancellationToken, UpdateInfo, ProgressInfo } from 'electron-updater'
 import * as electronLog from 'electron-log'
+import { autoUpdater, CancellationToken, UpdateInfo, ProgressInfo } from 'electron-updater'
 import { getOrInitWindow, updateAppVersionDetails } from '../processes/main.process'
 
 interface VersionDetails {
@@ -12,20 +12,17 @@ interface VersionDetails {
 
 export default class AutoUpdateManager {
     private downloadCancellation?: CancellationToken
-    private ipcHandlersRegistered = false
 
     constructor() {
         this.init()
     }
 
     private init(): void {
-        if (!this.ipcHandlersRegistered) {
-            ipcMain.handle('update-download', this.updateDownload.bind(this))
-            ipcMain.handle('update-cancel', this.updateCancel.bind(this))
-            ipcMain.handle('update-install', this.updateInstall.bind(this))
-            ipcMain.handle('update-check', this.updateCheck.bind(this))
-            this.ipcHandlersRegistered = true
-        }
+        this.removeHandlers()
+        ipcMain.handle('update-download', this.updateDownload.bind(this))
+        ipcMain.handle('update-cancel', this.updateCancel.bind(this))
+        ipcMain.handle('update-install', this.updateInstall.bind(this))
+        ipcMain.handle('update-check', this.updateCheck.bind(this))
 
         autoUpdater.logger = electronLog
         /* eslint-disable @typescript-eslint/ban-ts-comment */
@@ -33,6 +30,7 @@ export default class AutoUpdateManager {
         autoUpdater.logger.transports.file.level = 'info'
         autoUpdater.autoDownload = false
 
+        autoUpdater.removeAllListeners()
         autoUpdater.on('update-available', this.handleUpdateAvailable.bind(this))
         autoUpdater.on('download-progress', this.handleDownloadProgress.bind(this))
         autoUpdater.on('update-downloaded', this.handleUpdateDownloaded.bind(this))
@@ -91,5 +89,12 @@ export default class AutoUpdateManager {
         } catch (error) {
             console.error(error)
         }
+    }
+
+    private removeHandlers(): void {
+        ipcMain.removeHandler('update-download')
+        ipcMain.removeHandler('update-cancel')
+        ipcMain.removeHandler('update-install')
+        ipcMain.removeHandler('update-check')
     }
 }

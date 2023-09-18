@@ -1,10 +1,11 @@
 <script lang="ts">
-    import { closePopup } from '@desktop/auxiliary/popup'
-    import { selectedAccount, validateAccountName } from '@core/account'
+    import { Button, ColorPicker, Input, Text, TextType } from '@ui'
+    import { validateAccountName } from '@core/account/actions'
+    import { selectedAccount } from '@core/account/stores'
     import { localize } from '@core/i18n'
     import { updateActiveAccountPersistedData } from '@core/profile/actions'
     import { getTrimmedLength } from '@core/utils'
-    import { Button, ColorPicker, Input, Text, TextType } from '@ui'
+    import { closePopup } from '@desktop/auxiliary/popup'
 
     export let error = ''
 

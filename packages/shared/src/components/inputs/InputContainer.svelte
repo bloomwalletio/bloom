@@ -1,8 +1,8 @@
 <script lang="ts">
-    import { clickOutside } from '@core/utils'
     import { Box, Error } from '@ui'
+    import { clickOutside } from '@core/utils'
 
-    export let inputElement: HTMLInputElement = undefined
+    export let inputElement: HTMLInputElement | undefined = undefined
     export let isFocused: boolean = false
     export let error: string = ''
     export let classes: string = ''

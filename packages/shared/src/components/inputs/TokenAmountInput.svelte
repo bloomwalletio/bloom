@@ -1,19 +1,25 @@
 <script lang="ts">
-    import { formatCurrency, getDecimalSeparator } from '@core/i18n'
-    import { getMaxDecimalsFromTokenMetadata } from '@core/token/utils'
-    import { IAsset, convertToRawAmount, formatTokenAmountDefault, visibleSelectedAccountAssets } from '@core/wallet'
     import { AmountInput, FontWeight, InputContainer, Text } from '@ui'
-    import { getMarketAmountFromAssetValue } from '@core/market/utils'
-    import { validateTokenAmount } from '@core/wallet/utils/validateTokenAmount'
-    import { activeProfile } from '@core/profile'
+    import { formatCurrency, getDecimalSeparator } from '@core/i18n'
+    import { getMarketAmountFromTokenValue } from '@core/market/actions'
+    import { activeProfile } from '@core/profile/stores'
+    import {
+        ITokenWithBalance,
+        convertToRawAmount,
+        formatTokenAmountDefault,
+        getMaxDecimalsFromTokenMetadata,
+        validateTokenAmount,
+    } from '@core/token'
+    import { visibleSelectedAccountTokens } from '@core/token/stores'
 
-    export let asset: IAsset | undefined = $visibleSelectedAccountAssets?.[$activeProfile?.network?.id]?.baseCoin
+    export let token: ITokenWithBalance | undefined =
+        $visibleSelectedAccountTokens?.[$activeProfile?.network?.id]?.baseCoin
     export let rawAmount: string | undefined = undefined
     export let unit: string | undefined = undefined
     export let availableBalance: number
     export let inputtedAmount: string | undefined =
-        rawAmount && asset?.metadata
-            ? formatTokenAmountDefault(Number(rawAmount), asset.metadata, unit, false)
+        rawAmount && token?.metadata
+            ? formatTokenAmountDefault(Number(rawAmount), token.metadata, unit, false)
             : undefined
 
     let amountInputElement: HTMLInputElement | undefined
@@ -27,9 +33,9 @@
         (inputLength = getInputLength()),
         (fontSize = getFontSizeForInputLength()),
         (maxLength = getMaxAmountOfDigits())
-    $: allowedDecimals = asset?.metadata && unit ? getMaxDecimalsFromTokenMetadata(asset.metadata, unit) : 0
-    $: bigAmount = inputtedAmount && asset?.metadata ? convertToRawAmount(inputtedAmount, asset.metadata, unit) : 0
-    $: marketAmount = asset ? getMarketAmountFromAssetValue(bigAmount, asset) : undefined
+    $: allowedDecimals = token?.metadata && unit ? getMaxDecimalsFromTokenMetadata(token.metadata, unit) : 0
+    $: bigAmount = inputtedAmount && token?.metadata ? convertToRawAmount(inputtedAmount, token.metadata, unit) : 0
+    $: marketAmount = token ? getMarketAmountFromTokenValue(bigAmount, token) : undefined
     $: rawAmount = bigAmount?.toString()
 
     function getInputLength(): number {
@@ -40,7 +46,7 @@
     }
 
     function getMaxAmountOfDigits(): number {
-        const metadata = asset?.metadata
+        const metadata = token?.metadata
         if (!metadata) {
             return 32
         }
@@ -74,11 +80,11 @@
     }
 
     export async function validate(allowZeroOrNull = false): Promise<void> {
-        if (inputtedAmount === undefined || asset === undefined || unit === undefined) {
+        if (inputtedAmount === undefined || token === undefined || unit === undefined) {
             return Promise.reject()
         }
         try {
-            rawAmount = await validateTokenAmount(inputtedAmount, asset, unit, allowZeroOrNull)
+            rawAmount = await validateTokenAmount(inputtedAmount, token, unit, allowZeroOrNull)
             return Promise.resolve()
         } catch (err) {
             error = err as string

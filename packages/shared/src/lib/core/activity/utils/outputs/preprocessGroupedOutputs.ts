@@ -1,18 +1,17 @@
-import { OutputData } from '@iota/wallet'
-import { IOutputResponse, IUTXOInput } from '@iota/types'
-import { MILLISECONDS_PER_SECOND } from '@core/utils/constants'
+import { CommonOutput, OutputType } from '@iota/sdk/out/types'
+import { OutputResponse, OutputData, UTXOInput } from '@iota/sdk/out/types'
 import { IAccountState } from '@core/account/interfaces'
-import { InclusionState, ActivityDirection } from '../../enums'
-import { getRecipientAddressFromOutput } from './getRecipientAddressFromOutput'
-import { getOutputIdFromTransactionIdAndIndex } from './getOutputIdFromTransactionIdAndIndex'
 import { IProcessedTransaction } from '@core/activity/types'
+import { MILLISECONDS_PER_SECOND } from '@core/utils/constants'
 import { IWrappedOutput } from '@core/wallet/interfaces'
+import { InclusionState, ActivityDirection } from '../../enums'
 import { getSenderAddressFromInputs } from '../getSenderAddressFromInputs'
-import { OUTPUT_TYPE_TREASURY } from '@core/wallet/constants'
+import { getOutputIdFromTransactionIdAndIndex } from './getOutputIdFromTransactionIdAndIndex'
+import { getRecipientAddressFromOutput } from './getRecipientAddressFromOutput'
 
 export function preprocessGroupedOutputs(
     outputDatas: OutputData[],
-    transactionInputs: IOutputResponse[],
+    transactionInputs: OutputResponse[],
     account: IAccountState
 ): IProcessedTransaction {
     const transactionMetadata = outputDatas[0]?.metadata
@@ -25,7 +24,7 @@ export function preprocessGroupedOutputs(
     const wrappedOutputs = outputDatas.map((outputData) => ({
         outputId: outputData.outputId,
         remainder: outputData.remainder,
-        output: outputData.output.type !== OUTPUT_TYPE_TREASURY ? outputData.output : undefined,
+        output: outputData.output as CommonOutput,
     }))
 
     return {
@@ -48,8 +47,7 @@ function getDirectionForOutputs(
     if (nonRemainderOutputs.length === 0) {
         return ActivityDirection.Outgoing
     }
-    const output =
-        nonRemainderOutputs[0].output.type !== OUTPUT_TYPE_TREASURY ? nonRemainderOutputs[0].output : undefined
+    const output = nonRemainderOutputs[0].output as CommonOutput
     const recipientAddress = getRecipientAddressFromOutput(output)
     const senderAddress = wrappedInputs ? getSenderAddressFromInputs(wrappedInputs) : ''
 
@@ -65,7 +63,7 @@ function getDirectionForOutputs(
 
 function convertTransactionOutputResponsesToWrappedOutputs(
     transactionId: string,
-    outputResponses: IOutputResponse[]
+    outputResponses: OutputResponse[]
 ): IWrappedOutput[] {
     return outputResponses.map((outputResponse) =>
         convertTransactionOutputResponseToWrappedOutput(transactionId, outputResponse)
@@ -74,25 +72,25 @@ function convertTransactionOutputResponsesToWrappedOutputs(
 
 function convertTransactionOutputResponseToWrappedOutput(
     transactionId: string,
-    outputResponse: IOutputResponse
-): IWrappedOutput {
-    if (outputResponse.output.type === OUTPUT_TYPE_TREASURY) {
+    outputResponse: OutputResponse
+): IWrappedOutput | undefined {
+    if (outputResponse.output.type === OutputType.Treasury) {
         return undefined
     } else {
         const outputId = getOutputIdFromTransactionIdAndIndex(transactionId, outputResponse.metadata.outputIndex)
-        return { outputId, output: outputResponse.output, metadata: outputResponse.metadata }
+        return { outputId, output: outputResponse.output as CommonOutput, metadata: outputResponse.metadata }
     }
 }
 
-function getUtxoInputsFromWrappedInputs(wrappedInputs: IWrappedOutput[]): IUTXOInput[] {
+function getUtxoInputsFromWrappedInputs(wrappedInputs: IWrappedOutput[]): UTXOInput[] {
     return (
         wrappedInputs?.map(
             (input) =>
                 ({
                     type: 0,
                     transactionId: input.metadata?.transactionId,
-                    transactionOutputIndex: input.metadata.outputIndex,
-                } as IUTXOInput)
+                    transactionOutputIndex: input.metadata?.outputIndex,
+                }) as UTXOInput
         ) ?? []
     )
 }

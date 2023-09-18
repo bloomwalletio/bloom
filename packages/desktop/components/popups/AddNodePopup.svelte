@@ -1,12 +1,12 @@
 <script lang="ts">
-    import { Text, NodeConfigurationForm, Button, HTMLButtonType, TextType } from '@ui'
-    import { localize } from '@core/i18n'
-    import { INode, addNodeToClientOptions, editNodeInClientOptions, EMPTY_NODE } from '@core/network'
+    import { Button, HTMLButtonType, NodeConfigurationForm, Text, TextType } from '@ui'
     import { showNotification } from '@auxiliary/notification'
-    import { closePopup } from '@desktop/auxiliary/popup'
-    import { Platform } from '@core/app'
-    import { activeAccounts, activeProfile } from '@core/profile'
     import { registerProposalsForAccounts } from '@contexts/governance'
+    import { Platform } from '@core/app'
+    import { localize } from '@core/i18n'
+    import { EMPTY_NODE, INode, addNodeToClientOptions, editNodeInClientOptions } from '@core/network'
+    import { activeAccounts, activeProfile } from '@core/profile/stores'
+    import { closePopup } from '@desktop/auxiliary/popup'
 
     export let node: INode = structuredClone(EMPTY_NODE)
     export let isEditingNode: boolean = false

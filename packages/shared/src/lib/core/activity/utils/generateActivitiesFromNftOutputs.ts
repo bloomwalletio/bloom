@@ -1,27 +1,28 @@
+import { OutputType, NftOutput } from '@iota/sdk/out/types'
 import { IAccountState } from '@core/account'
-import { EMPTY_HEX_ID, OUTPUT_TYPE_NFT } from '@core/wallet'
-import { Activity, IProcessedTransaction } from '../types'
-import type { INftOutput } from '@iota/types'
-import { generateSingleNftActivity } from './generateSingleNftActivity'
+import { NetworkId } from '@core/network/types'
+import { EMPTY_HEX_ID } from '@core/wallet'
 import { ActivityAction } from '../enums'
+import { Activity, IProcessedTransaction } from '../types'
+import { generateSingleNftActivity } from './generateSingleNftActivity'
 
-export function generateActivitiesFromNftOutputs(
+export async function generateActivitiesFromNftOutputs(
     processedTransaction: IProcessedTransaction,
-    account: IAccountState
-): Activity[] {
+    account: IAccountState,
+    networkId: NetworkId
+): Promise<Activity[]> {
     const outputs = processedTransaction.outputs
     const activities = []
 
-    const nftOutputs = outputs.filter((output) => output.output.type === OUTPUT_TYPE_NFT)
+    const nftOutputs = outputs.filter((output) => output.output?.type === OutputType.Nft)
     for (const nftOutput of nftOutputs) {
-        const output = nftOutput.output as INftOutput
-        activities.push(
-            generateSingleNftActivity(account, {
-                action: output.nftId === EMPTY_HEX_ID ? ActivityAction.Mint : ActivityAction.Send,
-                processedTransaction,
-                wrappedOutput: nftOutput,
-            })
-        )
+        const output = nftOutput.output as NftOutput
+        const activity = await generateSingleNftActivity(account, networkId, {
+            action: output.nftId === EMPTY_HEX_ID ? ActivityAction.Mint : ActivityAction.Send,
+            processedTransaction,
+            wrappedOutput: nftOutput,
+        })
+        activities.push(activity)
     }
     return activities
 }

@@ -1,8 +1,6 @@
 import { get } from 'svelte/store'
-
-import { activeProfileId } from '@core/profile'
+import { activeProfileId } from '@core/profile/stores'
 import { persistent } from '@core/utils/store'
-
 import type { IHiddenActivities } from '../types'
 
 export const hiddenActivities = persistent<IHiddenActivities>('hiddenActivities', {})
@@ -20,4 +18,11 @@ export function removeActivityFromHiddenActivities(accountIndex: number, activit
             return state
         })
     }
+}
+
+export function removeHiddenActivitiesForProfile(profileId: string): void {
+    hiddenActivities.update((state) => {
+        delete state[profileId]
+        return state
+    })
 }

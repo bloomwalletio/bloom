@@ -1,20 +1,20 @@
-import { ContractType, evmAddressToAgentID, getAgentBalanceParameters, getSmartContractHexName } from '@core/layer-2'
-import { IChain, getNetwork } from '@core/network'
-import { ISC_MAGIC_CONTRACT_ADDRESS } from '../constants'
-import { getOrRequestAssetFromPersistedAssets } from '@core/wallet/actions'
-import { addPersistedAsset } from '@core/wallet/stores'
-import { Converter } from '@core/utils/convert'
-import { TOKEN_ID_BYTE_LENGTH } from '@core/token/constants'
-import { setLayer2AccountBalanceForChain } from '../stores'
-import { getActiveProfile } from '@core/profile'
 import { IAccountState } from '@core/account'
 import { calculateAndAddPersistedBalanceChange } from '@core/activity/actions'
+import { ContractType } from '@core/layer-2'
+import { IChain, getNetwork } from '@core/network'
+import { getActiveProfile } from '@core/profile/stores'
+import { getOrRequestTokenFromPersistedTokens } from '@core/token/actions'
+import { TOKEN_ID_BYTE_LENGTH } from '@core/token/constants'
+import { Converter } from '@core/utils/convert'
+import { ISC_MAGIC_CONTRACT_ADDRESS } from '../constants'
+import { evmAddressToAgentId, getAgentBalanceParameters, getSmartContractHexName } from '../helpers'
+import { setLayer2AccountBalanceForChain } from '../stores'
 
 export function fetchSelectedAccountLayer2Balance(account: IAccountState): void {
     const { evmAddresses, index } = account
     const chains = getNetwork()?.getChains() ?? []
     chains.forEach(async (chain) => {
-        const { coinType, chainId } = chain.getConfiguration()
+        const { coinType, id: networkId } = chain.getConfiguration()
         const evmAddress = evmAddresses?.[coinType]
         if (!evmAddress) {
             return
@@ -28,18 +28,16 @@ export function fetchSelectedAccountLayer2Balance(account: IAccountState): void 
         const layer2Balance: { [tokenId: string]: number } = {}
 
         for (const { balance, tokenId } of balances) {
+            const adjustedBalance = Number.isNaN(balance) ? 0 : balance
             const isNativeToken = Converter.hexToBytes(tokenId).length === TOKEN_ID_BYTE_LENGTH
-            const isErc20TrackedToken = getActiveProfile()?.trackedTokens?.[chainId]?.includes(tokenId)
+            const isErc20TrackedToken = getActiveProfile()?.trackedTokens?.[networkId]?.includes(tokenId)
             if (isNativeToken || isErc20TrackedToken) {
-                const asset = await getOrRequestAssetFromPersistedAssets(tokenId, chainId)
-                if (asset) {
-                    addPersistedAsset(asset)
-                }
+                await getOrRequestTokenFromPersistedTokens(tokenId, networkId)
             }
-            calculateAndAddPersistedBalanceChange(account.index, chainId, tokenId, balance)
-            layer2Balance[tokenId] = balance
+            await calculateAndAddPersistedBalanceChange(account.index, networkId, tokenId, adjustedBalance)
+            layer2Balance[tokenId] = adjustedBalance
         }
-        setLayer2AccountBalanceForChain(index, chainId, layer2Balance)
+        setLayer2AccountBalanceForChain(index, networkId, layer2Balance)
     })
 }
 
@@ -58,7 +56,7 @@ async function getLayer2NativeTokenBalancesForAddress(
 ): Promise<{ balance: number; tokenId: string }[]> {
     const accountsCoreContract = getSmartContractHexName('accounts')
     const getBalanceFunc = getSmartContractHexName('balance')
-    const agentID = evmAddressToAgentID(evmAddress)
+    const agentID = evmAddressToAgentId(evmAddress)
     const parameters = getAgentBalanceParameters(agentID)
     try {
         const contract = chain.getContract(ContractType.IscMagic, ISC_MAGIC_CONTRACT_ADDRESS)
@@ -81,8 +79,8 @@ async function getLayer2Erc20BalancesForAddress(
     evmAddress: string,
     chain: IChain
 ): Promise<{ balance: number; tokenId: string }[]> {
-    const chainId = chain.getConfiguration().chainId
-    const trackedTokens = getActiveProfile()?.trackedTokens?.[chainId] ?? []
+    const networkId = chain.getConfiguration().id
+    const trackedTokens = getActiveProfile()?.trackedTokens?.[networkId] ?? []
     const erc20TokenBalances = []
     for (const erc20Address of trackedTokens) {
         try {
@@ -92,7 +90,7 @@ async function getLayer2Erc20BalancesForAddress(
                 continue
             }
             const rawBalance = await contract.methods.balanceOf(evmAddress).call()
-            erc20TokenBalances.push({ balance: rawBalance, tokenId: erc20Address })
+            erc20TokenBalances.push({ balance: Number(rawBalance), tokenId: erc20Address })
         } catch (err) {
             const error = err?.message ?? err
             console.error(error)

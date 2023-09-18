@@ -1,13 +1,15 @@
-import { network } from '@core/network/stores'
-import { IErc20Metadata, TokenStandard } from '@core/wallet'
-import { get } from 'svelte/store'
+import { INetwork } from '@core/network/interfaces'
+import { NetworkId } from '@core/network/types'
+import { TokenStandard } from '@core/token/enums'
+import { IErc20Metadata } from '@core/token/interfaces'
 import { ContractType } from '../enums'
 
 export async function getErc20TokenMetadata(
     tokenAddress: string,
-    chainId: number
+    networkId: NetworkId,
+    network: INetwork
 ): Promise<IErc20Metadata | undefined> {
-    const chain = get(network)?.getChain(chainId)
+    const chain = network?.getChain(networkId)
     const contract = chain?.getContract(ContractType.Erc20, tokenAddress)
     if (contract) {
         const [name, symbol, decimals] = await Promise.all([

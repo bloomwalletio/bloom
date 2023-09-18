@@ -32,6 +32,7 @@
     export let validationFunction: ((arg: string) => void) | undefined = undefined
 
     export function validate(): void {
+        error = ''
         if (validationFunction && typeof validationFunction === 'function') {
             try {
                 validationFunction(value)
@@ -46,8 +47,6 @@
     const decimalSeparator = getDecimalSeparator()
 
     let capsLockOn = false
-
-    $: value, (error = '')
 
     function handleInput(event: Event): void {
         value = (event.target as HTMLInputElement).value

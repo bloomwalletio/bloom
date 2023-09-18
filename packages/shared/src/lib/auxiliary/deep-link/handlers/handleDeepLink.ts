@@ -1,9 +1,13 @@
 import { get } from 'svelte/store'
 
-import { closePopup, openPopup, PopupId } from '../../../../../../desktop/lib/auxiliary/popup'
+import { showNotification } from '@auxiliary/notification'
+import { pairWithNewDapp } from '@auxiliary/wallet-connect/actions'
+import { handleError } from '@core/error/handlers'
+import { localize } from '@core/i18n'
 import { getActiveProfile, visibleActiveAccounts } from '@core/profile/stores'
-import { dashboardRouter } from '@core/router/routers'
 import { DashboardRoute } from '@core/router/enums'
+import { dashboardRouter } from '@core/router/routers'
+import { closePopup, openPopup, PopupId } from '../../../../../../desktop/lib/auxiliary/popup'
 
 import { resetDeepLink } from '../actions'
 import { DeepLinkContext } from '../enums'
@@ -11,10 +15,6 @@ import { isDeepLinkRequestActive } from '../stores'
 
 import { handleDeepLinkGovernanceContext } from './governance/handleDeepLinkGovernanceContext'
 import { handleDeepLinkWalletContext } from './wallet/handleDeepLinkWalletContext'
-import { handleError } from '@core/error/handlers'
-import { pairWithNewApp } from '@auxiliary/wallet-connect/utils'
-import { showNotification } from '@auxiliary/notification'
-import { localize } from '@core/i18n'
 
 /**
  * Parses an IOTA deep link, i.e. a URL that begins with the app protocol i.e "firefly://".
@@ -89,7 +89,13 @@ function handleConnect(url: URL): void {
     if (walletConnectUri) {
         openPopup({
             id: PopupId.Confirmation,
-            props: { title: walletConnectUri, onConfirm: () => pairWithNewApp(walletConnectUri) },
+            props: {
+                title: walletConnectUri,
+                onConfirm: () => {
+                    pairWithNewDapp(walletConnectUri)
+                    closePopup()
+                },
+            },
         })
     }
 }

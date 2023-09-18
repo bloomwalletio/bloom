@@ -1,67 +1,83 @@
 <script lang="ts">
-    import { TokenAmountTile, IconInput } from '@ui'
-    import { localize } from '@core/i18n'
-    import { marketCoinPrices } from '@core/market'
-    import {
-        getAccountAssetsForSelectedAccount,
-        AccountAssets,
-        IAsset,
-        sendFlowParameters,
-        SendFlowType,
-        TokenStandard,
-        setSendFlowParameters,
-        selectedAccountAssets,
-    } from '@core/wallet'
-    import { closePopup } from '@desktop/auxiliary/popup'
+    import { IconInput, TokenAmountTile } from '@ui'
     import { Icon as IconEnum } from '@auxiliary/icon'
+    import { Alert } from '@bloomwalletio/ui'
+    import { selectedAccountIndex } from '@core/account/stores'
+    import { handleError } from '@core/error/handlers'
+    import { localize } from '@core/i18n'
+    import { canAccountMakeEvmTransaction } from '@core/layer-2/actions'
+    import { marketCoinPrices } from '@core/market/stores'
+    import { getNetwork, isEvmChain } from '@core/network'
+    import { AccountTokens, BASE_TOKEN_ID, IToken, ITokenWithBalance, TokenStandard } from '@core/token'
+    import { getAccountTokensForSelectedAccount, getTokenBalance } from '@core/token/actions'
+    import { selectedAccountTokens } from '@core/token/stores'
+    import { SendFlowType, sendFlowParameters, setSendFlowParameters } from '@core/wallet'
+    import { closePopup } from '@desktop/auxiliary/popup'
     import { sendFlowRouter } from '../send-flow.router'
     import SendFlowTemplate from './SendFlowTemplate.svelte'
-    import { getCoinType } from '@core/profile'
-    import { getNetwork } from '@core/network'
 
     let searchValue: string = ''
-    let selectedAsset: IAsset =
-        $sendFlowParameters?.type === SendFlowType.BaseCoinTransfer
-            ? $sendFlowParameters.baseCoinTransfer.asset
-            : $sendFlowParameters?.type === SendFlowType.TokenTransfer
-            ? $sendFlowParameters.tokenTransfer.asset
-            : $selectedAccountAssets?.[getNetwork().getMetadata().id].baseCoin
+    let selectedToken: IToken =
+        $sendFlowParameters?.type === SendFlowType.BaseCoinTransfer && $sendFlowParameters.baseCoinTransfer?.token
+            ? $sendFlowParameters.baseCoinTransfer.token
+            : $sendFlowParameters?.type === SendFlowType.TokenTransfer && $sendFlowParameters.tokenTransfer?.token
+            ? $sendFlowParameters.tokenTransfer.token
+            : $selectedAccountTokens?.[getNetwork().getMetadata().id].baseCoin
 
-    let assets: AccountAssets
-    $: assets = getAccountAssetsForSelectedAccount($marketCoinPrices)
-    $: assets, searchValue, setFilteredAssetList()
+    let accountTokens: AccountTokens
+    $: accountTokens = getAccountTokensForSelectedAccount($marketCoinPrices)
+    $: accountTokens, searchValue, setFilteredTokenList()
 
-    let assetList: IAsset[]
-    function getAssetList(): IAsset[] {
+    let hasTokenError: boolean = false
+    $: if (isEvmChain(selectedToken?.networkId)) {
+        hasTokenError = !canAccountMakeEvmTransaction(
+            $selectedAccountIndex,
+            selectedToken.networkId,
+            $sendFlowParameters?.type
+        )
+    } else {
+        hasTokenError = false
+    }
+
+    let tokenList: ITokenWithBalance[]
+    function getTokenList(): ITokenWithBalance[] {
         const list = []
-        for (const assetsPerNetwork of Object.values(assets)) {
-            if (assetsPerNetwork?.baseCoin) {
-                list.push(assetsPerNetwork.baseCoin)
+        for (const tokensPerNetwork of Object.values(accountTokens)) {
+            if (tokensPerNetwork?.baseCoin) {
+                list.push(tokensPerNetwork.baseCoin)
             }
-            list.push(...(assetsPerNetwork?.nativeTokens ?? []))
+            list.push(...(tokensPerNetwork?.nativeTokens ?? []))
         }
         return list
     }
 
-    function setFilteredAssetList(): void {
-        const list = getAssetList()
+    function setFilteredTokenList(): void {
+        const list = getTokenList()
 
-        assetList = list.filter(isVisibleAsset)
-        if (!assetList.some((asset) => asset.id === selectedAsset?.id)) {
-            selectedAsset = undefined
+        tokenList = list.filter(isVisibleToken)
+        if (!tokenList.some((token) => token.id === selectedToken?.id)) {
+            selectedToken = undefined
         }
     }
 
-    function isVisibleAsset(asset: IAsset): boolean {
+    function isVisibleToken(token: ITokenWithBalance): boolean {
         const _searchValue = searchValue.toLowerCase()
-        const name = asset?.metadata?.name
+        const name = token?.metadata?.name
         const ticker =
-            asset?.metadata?.standard === TokenStandard.BaseToken ? asset?.metadata.unit : asset?.metadata.symbol
+            token?.metadata?.standard === TokenStandard.BaseToken ? token?.metadata.unit : token?.metadata.symbol
 
         return (
             (name && name.toLowerCase().includes(_searchValue)) ||
             (ticker && ticker.toLowerCase().includes(_searchValue))
         )
+    }
+
+    function onTokenClick(token: ITokenWithBalance): void {
+        try {
+            selectedToken = token
+        } catch (err) {
+            handleError(err)
+        }
     }
 
     function onCancelClick(): void {
@@ -79,22 +95,22 @@
             expirationDate: $sendFlowParameters?.expirationDate,
             timelockDate: $sendFlowParameters?.timelockDate,
             giftStorageDeposit: $sendFlowParameters?.giftStorageDeposit,
-            layer2Parameters: $sendFlowParameters?.layer2Parameters,
+            destinationNetworkId: $sendFlowParameters?.destinationNetworkId,
             addSenderFeature: $sendFlowParameters?.addSenderFeature,
             disableChangeExpiration: $sendFlowParameters?.disableChangeExpiration,
             disableToggleGift: $sendFlowParameters?.disableToggleGift,
         }
 
         const sendFlowType =
-            selectedAsset.id === getCoinType() ? SendFlowType.BaseCoinTransfer : SendFlowType.TokenTransfer
+            selectedToken.id === BASE_TOKEN_ID ? SendFlowType.BaseCoinTransfer : SendFlowType.TokenTransfer
 
         // Set called because we need to update the type, and update function only updates the properties
         // if the type is the same
         setSendFlowParameters({
             ...previousSharedParameters,
             type: sendFlowType,
-            [sendFlowType === SendFlowType.BaseCoinTransfer ? 'baseCoinTransfer' : 'tokenTransfer']: {
-                asset: selectedAsset,
+            [sendFlowType]: {
+                token: selectedToken,
             },
         })
 
@@ -105,25 +121,33 @@
 <SendFlowTemplate
     title={localize('popups.transaction.selectToken')}
     leftButton={{ text: localize('actions.cancel'), onClick: onCancelClick }}
-    rightButton={{ text: localize('actions.continue'), onClick: onContinueClick, disabled: !selectedAsset }}
+    rightButton={{
+        text: localize('actions.continue'),
+        onClick: onContinueClick,
+        disabled: !selectedToken || hasTokenError,
+    }}
 >
     <IconInput bind:value={searchValue} icon={IconEnum.Search} placeholder={localize('general.search')} />
     <div class="-mr-3">
-        <div class="asset-list w-full flex flex-col -mr-1 pr-1.5 gap-2">
-            {#each assetList as asset}
+        <div class="token-list w-full flex flex-col -mr-1 pr-1.5 gap-2">
+            {#each tokenList as token}
                 <TokenAmountTile
-                    {asset}
-                    amount={asset.balance.available}
-                    onClick={() => (selectedAsset = asset)}
-                    selected={selectedAsset?.id === asset.id && selectedAsset?.chainId === asset?.chainId}
+                    {token}
+                    amount={getTokenBalance(token.id, token.networkId)?.available}
+                    hasError={token === selectedToken && hasTokenError}
+                    onClick={() => onTokenClick(token)}
+                    selected={selectedToken?.id === token.id && selectedToken?.networkId === token?.networkId}
                 />
             {/each}
         </div>
     </div>
+    {#if hasTokenError}
+        <Alert variant="danger" text={localize('error.send.insufficientFundsGasFee')} />
+    {/if}
 </SendFlowTemplate>
 
 <style lang="scss">
-    .asset-list {
+    .token-list {
         max-height: 400px;
         overflow-y: scroll;
     }

@@ -1,8 +1,4 @@
-import { isOnboardingLedgerProfile } from '@contexts/onboarding'
-import { selectedAccountIndex } from '@core/account'
-import { ledgerNanoStatus } from '@core/ledger'
-import { deconstructLedgerVerificationProps } from '@core/ledger/helpers'
-import { isActiveLedgerProfile } from '@core/profile'
+import { get } from 'svelte/store'
 import {
     Event,
     PreparedTransactionEssenceHashProgress,
@@ -10,9 +6,17 @@ import {
     TransactionProgressType,
     TransactionProgressWalletEvent,
     WalletEventType,
-} from '@iota/wallet/out/types'
-import { get } from 'svelte/store'
-import { closePopup, openPopup, PopupId } from '../../../../../../../desktop/lib/auxiliary/popup'
+} from '@iota/sdk/out/types'
+import { isOnboardingLedgerProfile } from '@contexts/onboarding'
+import { selectedAccountIndex } from '@core/account/stores'
+import { handleError } from '@core/error/handlers'
+import { checkOrConnectLedger } from '@core/ledger/actions'
+import { LedgerAppName } from '@core/ledger/enums'
+import { deconstructLedgerVerificationProps } from '@core/ledger/helpers'
+import { ledgerDeviceState, ledgerPreparedOutput, resetLedgerPreparedOutput } from '@core/ledger/stores'
+import { isActiveLedgerProfile } from '@core/profile/stores'
+import { sendOutput } from '@core/wallet/actions'
+import { PopupId, closePopup, openPopup } from '../../../../../../../desktop/lib/auxiliary/popup'
 import { MissingTransactionProgressEventPayloadError } from '../../errors'
 import { validateWalletApiEvent } from '../../utils'
 
@@ -54,12 +58,13 @@ function openPopupIfVerificationNeeded(progress: TransactionProgress): void {
                 },
             })
         } else if (type === TransactionProgressType.PreparedTransactionEssenceHash) {
-            if (get(ledgerNanoStatus)?.blindSigningEnabled) {
+            if (get(ledgerDeviceState)?.settings?.[LedgerAppName.Shimmer]?.blindSigningEnabled) {
                 openPopup({
                     id: PopupId.VerifyLedgerTransaction,
                     hideClose: true,
                     preventClose: true,
                     props: {
+                        useBlindSigning: true,
                         hash: (progress as PreparedTransactionEssenceHashProgress).hash,
                     },
                 })
@@ -68,6 +73,21 @@ function openPopupIfVerificationNeeded(progress: TransactionProgress): void {
                     id: PopupId.EnableLedgerBlindSigning,
                     hideClose: true,
                     preventClose: true,
+                    props: {
+                        appName: LedgerAppName.Shimmer,
+                        onEnabled: () => {
+                            checkOrConnectLedger(async () => {
+                                try {
+                                    if (get(ledgerPreparedOutput)) {
+                                        await sendOutput(get(ledgerPreparedOutput))
+                                        resetLedgerPreparedOutput()
+                                    }
+                                } catch (err) {
+                                    handleError(err)
+                                }
+                            })
+                        },
+                    },
                 })
             }
         } else if (type === TransactionProgressType.PerformingPow) {

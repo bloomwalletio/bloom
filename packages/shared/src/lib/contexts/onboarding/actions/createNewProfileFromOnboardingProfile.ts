@@ -1,5 +1,6 @@
-import { addNewProfile, loadPersistedProfileIntoActiveProfile } from '@core/profile'
 import { get } from 'svelte/store'
+import { loadPersistedProfileIntoActiveProfile } from '@core/profile/actions'
+import { addNewProfile } from '@core/profile/stores'
 import { convertOnboardingProfileToPersistedProfile } from '../helpers'
 import { onboardingProfile } from '../stores'
 

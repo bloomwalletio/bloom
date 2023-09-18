@@ -1,7 +1,7 @@
 <script lang="ts">
+    import { FontWeight, Icon, Text, TextPropTypes, TextType } from '@ui'
     import { Icon as IconEnum } from '@auxiliary/icon'
     import { IDropdownItem, clickOutside, isNumberLetterOrPunctuation } from '@core/utils'
-    import { FontWeight, Icon, Text, TextPropTypes, TextType } from '@ui'
 
     type T = $$Generic
 
@@ -13,7 +13,7 @@
     export let sortItems = false
     export let enableTyping = false
     export let small = false
-    export let onSelect: (..._: IDropdownItem<T>[]) => void
+    export let onSelect: ((..._: IDropdownItem<T>[]) => void) | undefined = undefined
 
     const textProps: TextPropTypes = {
         type: TextType.p,

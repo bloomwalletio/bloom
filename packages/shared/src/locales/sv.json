@@ -3,26 +3,13 @@
         "onboarding": {
             "appSetup": {
                 "welcome": {
-                    "title": "Send, Receive & Manage your {network} tokens",
-                    "body": "Firefly is the official wallet software for {network}."
+                    "title": "Welcome to"
                 },
                 "legal": {
-                    "title": "Integritetspolicy och användarvillkor",
-                    "body": "Läs igenom integritetspolicyn och användarvillkoren.",
-                    "checkbox": "Jag har läst och accepterar integritetspolicyn och användarvillkoren"
-                },
-                "languageAndAppearance": {
-                    "title": "Språk & utseende",
-                    "body": "Välj språk och tema."
+                    "title": "Integritetspolicy och användarvillkor"
                 }
             },
             "networkSetup": {
-                "chooseProtocol": {
-                    "title": "Välj protokoll",
-                    "body": "Ställ in protokollet för din profil.",
-                    "iota": "Standard IOTA nätverk",
-                    "shimmer": "Experimentellt IOTA-förestående nätverk"
-                },
                 "chooseNetwork": {
                     "title": "Välj nätverk",
                     "body": "Ställ in nätverket för din profil.",
@@ -44,8 +31,7 @@
                     }
                 },
                 "setupCustomNetwork": {
-                    "title": "Connect to a custom network or node",
-                    "body": "Fill the form with the node information and connect to a custom network or node."
+                    "title": "Connect to a custom network or node"
                 }
             },
             "profileSetup": {
@@ -75,10 +61,6 @@
                     "importLedger": "Använd Ledger-enhet",
                     "importLedgerDescription": "Återställ från din Ledger Nano S eller X enhet"
                 },
-                "setupClaimed": {
-                    "title": "Hämta Shimmer staking-belöningar",
-                    "body": "Importera din IOTA-profil och hämta dina Shimmer staking-belöningar."
-                },
                 "enterName": {
                     "title": "Create your {network} profile",
                     "profileName": "Profilnamn",
@@ -105,12 +87,6 @@
                 }
             },
             "profileBackup": {
-                "backupMnemonic": {
-                    "title": "Säkerhetskopiera din återställningsfras",
-                    "body1": "Du kommer nu att visas en återställningsfras. Skriv ner den i ditt återställningsblad.",
-                    "body2": "Dela inte din återställningsfras med någon. Den kan användas för att komma åt dina tokens från var som helst.",
-                    "body3": "Om du förlorar din återställningsfras kan du förlora dina tillgångar."
-                },
                 "viewMnemonic": {
                     "title": "Återställningsfras",
                     "body1": "I ditt återställningsblad, skriv ner orden i exakt den ordning som visas.",
@@ -125,20 +101,12 @@
                     "word": "Ord",
                     "verified": "Återställningsfras verifierad",
                     "verifiedBody": "Kom ihåg att hålla den privat och lagrad på ett säkert sätt."
-                },
-                "backupStronghold": {
-                    "title": "Säkerhetskopiera till en Stronghold-fil",
-                    "body1": "Ange ditt lösenord för att skapa en Stronghold säkerhetskopia av din profil. Ditt lösenord används för att kryptera säkerhetskopian.",
-                    "body2": "Anledningar till varför digitala säkerhetskopior är viktiga:",
-                    "reason1": "Enkelt att återställa dina plånböcker utan att skriva in din återställningsfras",
-                    "reason2": "Importera dina plånböcker på andra enheter",
-                    "reason3": "Återställ hela din transaktionshistorik"
                 }
             },
             "profileRecovery": {
                 "importMnemonicPhrase": {
                     "title": "Ange din återställningsfras",
-                    "body": "En återställningsfras är 24 ord lång, endast små bokstäver och mellanrum mellan varje ord. Denna används för att återställa befintliga Firefly-profiler.",
+                    "body": "A recovery phrase is 24 words long, all lower case, with spaces between. This is used to recover existing Bloom profiles.",
                     "enter": "Ange din hemliga återställningsfras",
                     "phraseDetected": "24 ord lång återställningsfras upptäckt"
                 },
@@ -149,10 +117,6 @@
                 "backupPassword": {
                     "body1": "Ange lösenordet för din säkerhetskopia.",
                     "body2": "Detta är lösenordet du valde när du skapade din säkerhetskopia."
-                },
-                "success": {
-                    "title": "Du har framgångsrikt återställt din säkerhetskopia",
-                    "body": "Du kan nu ställa in din nya profil."
                 }
             },
             "shimmerClaiming": {
@@ -169,22 +133,9 @@
             },
             "congratulations": {
                 "title": "Konfigurationen av profilen är nästan klar...",
-                "fundsMigrated": "Tillgångar migrerade",
                 "body": "Din nya profil kommer att vara klar när översikten har laddats.",
-                "ledgerHint": "Koppla inte från Ledger-enheten förrän översikten har laddats klart.",
-                "softwareMigratedBody": "Du har framgångsrikt migrerat dina tillgångar till det nya nätverket",
-                "fireflyLedgerBody": "Din Ledger-profil har återställts och du kan nu fortsätta.",
-                "trinityLedgerBody": "Du har framgångsrikt migrerat din Ledger till det nya nätverket.",
-                "exportMigration": "Exportera migrationslogg och avsluta konfigurationen"
+                "ledgerHint": "Koppla inte från Ledger-enheten förrän översikten har laddats klart."
             }
-        },
-        "setupLedger": {
-            "progress1": "Anslut din Ledger",
-            "progress2": "Generera adress",
-            "progress3": "Växla Ledger app",
-            "progress4": "Överför tillgångar",
-            "watchVideo": "Titta på videoguide",
-            "videoGuide": "Video guide för Ledger migrering"
         },
         "ledgerInstallationGuide": {
             "title": "Have you installed the {network} app on your Ledger device?",
@@ -192,66 +143,20 @@
             "body2": "Se till att din firmware från Ledger är uppdaterad. Alla förinstallerade appar bör uppdateras till sina senaste versioner.",
             "action": "Yes, I've installed the {network} app"
         },
-        "importFromLedger": {
-            "title": "Återställ eller migrera din Ledger",
-            "body": "Återställ en befintlig Firefly Ledger profil eller migrera dina IOTA från Trinity.",
-            "haveFireflyLedger": "Jag har en Firefly Ledger backup",
-            "haveFireflyLedgerDescription": "Återställ en Firefly-profil",
-            "haveTrinityLedger": "Jag har en Trinity Ledger backup",
-            "haveTrinityLedgerDescription": "Migrera en Trinity-profil"
-        },
         "connectLedger": {
-            "title": "Anslut din Ledger till Firefly",
-            "body": "För att din Ledger enhet ska hittas av Firefly, se till att den officiella Ledger Live-applikationen är stängd.",
+            "title": "Connect your Ledger to Bloom",
+            "body": "For your Ledger device to be found by Bloom, please ensure that the official Ledger Live application is closed.",
             "connect": "Anslut din Ledger-enhet",
             "unlock": "Lås upp din Ledger med dess PIN-kod",
-            "openApp": "Öppna Shimmer-appen på din Ledger",
-            "tips": "Tips om din Ledger inte ansluter"
-        },
-        "restoreFromFireflyLedger": {
-            "title": "Återställ din Ledger profil",
-            "body": "Tryck på återställ för att slutföra installationsprocessen och återställa plånböcker, saldon och transaktionshistorik.",
-            "restoring": "Återställer från Ledger..."
-        },
-        "legacyLedgerIntro": {
-            "title": "Starta din Ledger migrering med Firefly",
-            "body1": "Firefly hjälper dig att överföra dina IOTA till det nya Chrysalis nätverket.",
-            "body2": "Efter du migrerat, kommer du att kunna skicka och ta emot tokens med din Ledger i Firefly.",
-            "readMore": "Vad man kan förvänta sig av migrationsprocessen"
-        },
-        "generateNewLedgerAddress": {
-            "title": "Skapa ny adress",
-            "body": "Du måste generera en ny adress för att migrera dina IOTA med Firefly. Klicka på knappen nedan för att fortsätta.",
-            "confirmTitle": "Bekräfta den nya adressen",
-            "confirmBody": "För säkerhets skull kan du jämföra den adress som genereras på din Ledger-enhet med den som visas nedan. Om de matchar, tryck på båda knapparna på din Ledger enligt uppmaning.",
-            "confirmedTitle": "Adress bekräftad",
-            "confirmedBody": "Du har bekräftat att adressen i Firefly matchar den på din Ledger-enhet.",
-            "generating": "Genererar adress"
-        },
-        "switchLedgerApps": {
-            "title": "Växla Ledger app",
-            "body": "Växla till {legacy} appen på din Ledger-enhet för att fortsätta migreringen. Tryck på fortsätt."
-        },
-        "selectLedgerAccountIndex": {
-            "title": "Välj Ledger konto-index",
-            "body": "Välj det Ledger konto-index du använde med Trinity. För de flesta användare kommer detta att vara index 0.",
-            "accountIndex": "Konto-index",
-            "accountPage": "Kontosida",
-            "standard": "Standard",
-            "expert": "Avancerat",
-            "takingAWhile": "Detta tar ett tag...",
-            "notGeneratingAddresses": "Genererar din Ledger adresser?",
-            "reinstallLegacy": "Om inte, koppla från enheten och försök igen. Om problemet kvarstår, kan du behöva installera om {legacy} appen."
+            "openApp": "Öppna Shimmer-appen på din Ledger"
         },
         "settings": {
             "settings": "Inställningar",
             "general": {
-                "title": "Allmänt",
-                "description": "Konfigurera appens utseende och andra allmänna inställningar"
+                "title": "Allmänt"
             },
             "profile": {
-                "title": "Profil",
-                "description": "Ändra ditt profilnamn eller välj en avatar"
+                "title": "Profil"
             },
             "network": {
                 "title": "Network"
@@ -260,29 +165,20 @@
                 "title": "Collectibles"
             },
             "security": {
-                "title": "Säkerhet",
-                "description": "Ändra ditt lösenord och anpassa efter säkerhetsinställningar"
+                "title": "Säkerhet"
             },
             "advanced": {
-                "title": "Avancerat",
-                "description": "Verktyg och manuella inställningar för avancerade användare"
+                "title": "Avancerat"
             },
             "helpAndInfo": {
-                "title": "Hjälp & Information",
-                "description": "Hitta svaret på en fråga eller få hjälp med ett problem"
-            },
-            "sync": {
-                "title": "Synkronisera plånböcker",
-                "description": ""
+                "title": "Hjälp & Information"
             },
             "theme": {
                 "title": "Teman",
-                "description": "",
-                "advice": "Om du ändrar ditt systemtema kan du behöva starta om Firefly för att se effekterna"
+                "advice": "If you change your system theme, you may need to restart Bloom to see the effects"
             },
             "language": {
-                "title": "Språk",
-                "description": ""
+                "title": "Språk"
             },
             "currency": {
                 "title": "Valuta",
@@ -334,7 +230,7 @@
             },
             "changeProfileName": {
                 "title": "Ändra profilnamn",
-                "description": "Ändra ditt Firefly profilnamn",
+                "description": "Change your Bloom profile name",
                 "success": "Du ändrade ditt profilnamn"
             },
             "walletFinder": {
@@ -351,7 +247,7 @@
             },
             "deepLinks": {
                 "title": "Hyperlänkar",
-                "description": "Fyll automatiskt i transaktionsdata i Firefly när du klickar på en hyperlänk som börjar med {appProtocol}://"
+                "description": "Automatically fill transaction data in Bloom upon clicking a deep link starting with {appProtocol}://"
             },
             "networkInformation": {
                 "title": "Network information",
@@ -364,13 +260,10 @@
                 "excludeNode": "Exkludera nod",
                 "includeNode": "Inkludera nod",
                 "editDetails": "Redigera detaljer",
-                "viewInfo": "Visa information",
                 "setAsPrimary": "Ange primär nod",
                 "unsetAsPrimary": "Rensa primär nod",
                 "removeNode": "Ta bort nod",
-                "includeOfficialNodeList": "Inkludera officiell nodlista",
-                "noNodes": "Det finns inga noder, det går inte att ansluta till nätverket",
-                "noNodesAuto": "Det finns inga noder, val av nod kommer ske automatiskt istället"
+                "noNodes": "Det finns inga noder, det går inte att ansluta till nätverket"
             },
             "localProofOfWork": {
                 "title": "Proof of work",
@@ -382,17 +275,13 @@
             },
             "crashReporting": {
                 "title": "Kraschrapporter",
-                "body": "Hjälp utvecklarna att förbättra Firefly genom att automatiskt skicka diagnostikdata när ett fel eller en krasch inträffar",
+                "body": "Help the developers improve Bloom by automatically sending diagnostic data when an error or crash occurs",
                 "checkbox": "Skicka kraschrapporter",
-                "advice": "Vänligen starta om Firefly applikationen för att {sendCrashReports, select, true {börja dela kraschrapporter} false {sluta dela kraschrapporter} other {använda denna ändring}}"
+                "advice": "Please restart the Bloom application to {sendCrashReports, select, true {start sharing crash reports} false {stop sharing crash reports} other {apply this change}}"
             },
             "diagnostics": {
                 "title": "Diagnostik",
                 "description": "Visa system- och applikationsinformation"
-            },
-            "migrateLedgerIndex": {
-                "title": "Migrera Ledger-index",
-                "description": "Migrera ett annat kontoindex från Trinity"
             },
             "troubleshoot": {
                 "title": "Felsök",
@@ -404,7 +293,6 @@
             },
             "faq": {
                 "title": "Vanliga frågor (FAQ)",
-                "title2": "Vanliga frågor (FAQ)",
                 "description": "Se FAQ för att få hjälp med ett vanligt problem eller fråga"
             },
             "discord": {
@@ -412,8 +300,7 @@
                 "description": "Få hjälp från IOTA-communityn på Discord"
             },
             "about": {
-                "title": "Om",
-                "description": ""
+                "title": "Om"
             },
             "reportAnIssue": {
                 "title": "Rapportera ett fel",
@@ -448,13 +335,10 @@
                 "degraded": "Nätverk försämrat",
                 "down": "Nätverk nere",
                 "disconnected": "Frånkopplad från noden",
-                "status": "Status",
-                "messagesPerSecond": "Meddelanden per sekund",
-                "referencedRate": "Bekräftade meddelanden"
+                "status": "Status"
             },
             "profileModal": {
                 "allSettings": "Alla inställningar",
-                "profileApplication": "Profil, applikation, säkerhet",
                 "logout": "Logga ut",
                 "stronghold": {
                     "title": "Profillås",
@@ -467,9 +351,7 @@
                         "appNotOpen": "Ledger upplåst men appen är inte öppen",
                         "correctAppOpen": "Ledger upplåst och appen öppen ",
                         "locked": "Ledger säkert låst",
-                        "mnemonicMismatch": "Fel Ledger eller Mnemonik",
-                        "notConnected": "Ledger inte ansluten",
-                        "otherConnected": "App öppen"
+                        "notConnected": "Ledger inte ansluten"
                     }
                 },
                 "backup": {
@@ -480,7 +362,7 @@
                 },
                 "version": {
                     "title": "Ny uppdatering tillgänglig",
-                    "updateVersion": "Firefly v{version}",
+                    "updateVersion": "Bloom v{version}",
                     "button": "Uppdatera"
                 }
             },
@@ -493,7 +375,7 @@
                         "chainId": "Chain ID",
                         "aliasAddress": "Alias Address",
                         "iscpEndpoint": "ISCP Endpoint",
-                        "explorerEndpoint": "Explorer Endpoint (optional)",
+                        "explorerUrl": "Explorer URL (optional)",
                         "errors": {
                             "cannotBeEmpty": "Name cannot be empty",
                             "nameTooLong": "Name is too long",
@@ -519,7 +401,7 @@
                     "connectLedgerDevice": {
                         "title": "Connect Ledger Device",
                         "header": "Open the Ethereum app",
-                        "body": "For your Ledger device to be found by Firefly, please ensure that the official Ledger Live application is closed before following these steps.",
+                        "body": "For your Ledger device to be found by Bloom, please ensure that the official Ledger Live application is closed before following these steps.",
                         "requirements": {
                             "connect": "Connect and unlock your Ledger",
                             "openApp": "Open the Ethereum app on your Ledger"
@@ -531,58 +413,57 @@
                     "removeChain": {
                         "title": "Remove chain"
                     }
-                }
-            }
-        },
-        "staking": {
-            "welcome": "Välkommen till staking-översikten!",
-            "status": {
-                "upcoming": "Event inte startat",
-                "commencing": "För-staking öppen",
-                "holdingActive": "Staking pågår",
-                "holdingInactive": "Staking öppen",
-                "inactive": "Ingen staking upptäckt",
-                "ended": "Staking avslutad"
-            },
-            "summary": {
-                "stakedFunds": "Stakade tillgångar"
-            },
-            "info": {
-                "headers": {
-                    "upcoming": "Kom tillbaka senare",
-                    "commencing": "För-staking öppen",
-                    "holding": "{duration} av staking kvar",
-                    "ended": "Staking har nu avslutats",
-                    "inactive": "Inga staking-event upptäckta"
                 },
-                "bodies": {
-                    "upcoming": "Staka dina {token} tokens för att automatiskt få belöningar var tioende sekund när staking börjar den {date}.",
-                    "commencing": "Staka dina {token} tokens för att automatiskt få belöningar var tioende sekund när staking börjar den {date}.",
-                    "holdingAndStaking": "Du får automatiskt belöningar var 10: e sekund.",
-                    "holdingAndNotStaking": "Staka dina {token} tokens för att få belöningar var 10: e sekund.",
-                    "endedAndDidStake": "{token} belöningar kommer att distribueras till din plånbok när nätverket startar.",
-                    "endedAndDidNotStake": "Du deltog inte i detta airdrop.",
-                    "endedAndDidNotReachMinRewards": "Du stakade inte tillräckligt med {token} tokens för att nå den lägsta belöningen.",
-                    "inactive": "Öppna nätverkskonfiguration i avancerade inställningar och se till att den aktuella noden har funktionen \"Participation\" genom att klicka på \"Visa info\"."
-                }
-            },
-            "airdrops": {
-                "holding": "Återstående",
-                "commencing": "Tills staking börjar",
-                "currentStakingPeriod": "Nuvarande staking-period",
-                "totalWalletRewards": "Totala plånboksbelöningar",
-                "assembly": {
-                    "name": "Assembly",
-                    "description": "Assembly är ett tillståndsfritt, mycket skalbart multikedjenätverk för att bygga och distribuera sammansättningsbara smartkontrakt. Assembly är framtiden för web3. "
+                "contactBook": {
+                    "contactList": {
+                        "title": "Contact list",
+                        "addContact": "Add contact"
+                    },
+                    "contactInformation": {
+                        "title": "Contact Information",
+                        "editContact": "Edit contact",
+                        "removeContact": "Remove contact",
+                        "addNetworkAddress": "Add network address"
+                    },
+                    "addContact": {
+                        "title": "Add contact"
+                    },
+                    "editContact": {
+                        "title": "Edit contact"
+                    },
+                    "removeContact": {
+                        "title": "Remove contact",
+                        "body": "Are you sure you want to remove this contact?",
+                        "hint": "Please note after removing a contact Bloom will show its actual addresses."
+                    },
+                    "addNetworkAddress": {
+                        "title": "Add network address"
+                    },
+                    "editNetworkAddresses": {
+                        "title": "Edit network addresses"
+                    },
+                    "removeNetworkAddresses": {
+                        "title": "Remove network addresses",
+                        "body": "Are you sure you want to remove the contact’s {network} network addresses?",
+                        "hint": "Please note after removing a contact’s network addresses Bloom will no longer associate it with them in transactions or activities."
+                    }
                 },
-                "shimmer": {
-                    "name": "Shimmer",
-                    "description": "Det belöningsmotiverade förestående nätverket för att främja stora innovationer med IOTA. Det som händer, händer. Hur Shimmer utvecklas är upp till dig."
+                "dapps": {
+                    "dappsList": {
+                        "title": "Connected dApps",
+                        "connectDapp": "Connect dApp",
+                        "hint": "WalletConnect allows you to connect Bloom with dApps directly or with a connection code."
+                    },
+                    "inputConnectionCode": {
+                        "title": "Connect to a dApp",
+                        "inputLabel": "Wallet Connect code",
+                        "hint": "Add new dApps by adding a Wallet Connect code below."
+                    },
+                    "confirmConnection": {
+                        "title": "Connect with an application",
+                        "hint": "A third party service wants to connect with your wallet for the first time. You can choose if you wish to trust this connection."
+                    }
                 }
-            },
-            "banners": {
-                "new": "Nytt event",
-                "complete": "Slutförd"
             }
         },
         "picker": {
@@ -600,7 +481,6 @@
             },
             "details": {
                 "storageDepositDescription": "En återbetalningsbar deposition behövs för att lagra din NFT på Tangle.",
-                "attributes": "Attribut",
                 "menu": {
                     "download": "Ladda ner",
                     "setPfp": "Set NFT profile pic",
@@ -678,10 +558,10 @@
     "popups": {
         "enableLedgerBlindSigning": {
             "title": "Aktivera blind signering",
-            "info": "För att bekräfta denna transaktion måste du aktivera blind signering på din Ledger-enhet.",
-            "step_1": "Anslut och lås upp din Ledger-enhet",
-            "step_2": "Öppna Shimmer-appen",
-            "step_3": "Tryck på höger knapp för att navigera till Inställningar. Tryck sedan på båda knapparna för att validera. Ledger-enheten visar blind signering.",
+            "info": "In order to confirm this transaction you need to enable Blind Signing on your Ledger device.",
+            "step_1": "Connect and unlock your Ledger device",
+            "step_2": "Open the {appName} application",
+            "step_3": "Press the right button to navigate to Settings, then press both buttons to validate. Your Ledger device displays Blind Signing.",
             "step_4": "Tryck på båda knapparna för att aktivera blind signering. Enheten visar Aktiverad. Du är klar."
         },
         "balanceBreakdown": {
@@ -753,9 +633,6 @@
             "subtitle": "Vänligen ange ditt lösenord för att låsa upp dina plånböcker",
             "backup": "Ange ditt lösenord för att exportera en säkerhetskopia"
         },
-        "qr": {
-            "title": "Din QR-kod"
-        },
         "appUpdate": {
             "title": "Check for updates",
             "installedVersion": "Installed version",
@@ -785,33 +662,14 @@
             "title": "Ta bort {name}?",
             "body": "Are you sure you want to delete this wallet?",
             "hint": "Note: once deleted, you can restore this wallet by using the \"Wallet Finder\" in the settings.",
-            "typePassword": "Ange plånbokens lösenord för att bekräfta.",
-            "hideAccount": "Ta bort plånbok",
-            "errorTitle": "Det gick inte att ta bort {name}",
-            "errorBody1": "Du kan inte ta bort denna plånbok, du måste ha minst en."
+            "typePassword": "Ange plånbokens lösenord för att bekräfta."
         },
         "externalUrl": {
             "title": "Öppna URL i webbläsare",
             "body": "Är du säker på att du vill öppna \"{url}\" i webbläsaren?",
-            "hint": "Denna URL är okänd för Firefly. Vänligen dubbelkolla URL:en innan du öppnar den.",
+            "hint": "This URL is unknown to Bloom. Please double check the URL before opening it.",
             "action": "Öppna URL",
             "invalidProtocol": "Kan inte öppna URL med ogiltigt protokoll"
-        },
-        "hideAccount": {
-            "title": "Dölj {name}?",
-            "body": "Du hittar denna plånbok senare genom att aktivera \"Visa dolda plånböcker\" i Avancerade inställningar.",
-            "typePassword": "Ange plånbokens lösenord för att bekräfta.",
-            "hideAccount": "Dölj plånbok",
-            "errorTitle": "Det går inte att dölja {name}",
-            "errorBody1": "För att dölja en plånbok måste den ha 0 i saldo.",
-            "errorBody2": "Du har för närvarande {balance} kvar i denna plånbok. Vänligen flytta dessa tillgångar till en annan plånbok och försök igen.",
-            "errorBody3": "Du kan inte dölja denna plånbok, du måste ha minst en."
-        },
-        "addressHistory": {
-            "title": "{name} adresshistorik",
-            "currentBalance": "Saldo: {balance}",
-            "internal": "Intern adress",
-            "external": "Insättningsadress"
         },
         "excludeNode": {
             "title": "Exkludera nod",
@@ -826,7 +684,6 @@
             "titleUpdate": "Uppdatera en nod",
             "titleRemove": "Ta bort en nod",
             "titleRemoveAll": "Ta bort alla noder",
-            "titleDetails": "Nod-detaljer",
             "titleInfo": "Nodinformation",
             "addingNode": "Lägger till nod",
             "updatingNode": "Uppdaterar nod",
@@ -835,7 +692,6 @@
             "optionalUsername": "Användarnamn (valfritt)",
             "optionalPassword": "Lösenord (valfritt)",
             "optionalJwt": "JSON webb-token (valfritt)",
-            "setAsPrimaryNode": "Ställ in som primär nod",
             "removeConfirmation": "Är du säker på att du vill ta bort den här noden?",
             "info": {
                 "general": {
@@ -843,8 +699,6 @@
                     "name": "Namn",
                     "url": "URL",
                     "version": "Version",
-                    "latestMilestone": "Senaste milestone",
-                    "confirmedMilestone": "Bekräftad milestone",
                     "pruningIndex": "Rensnings-index",
                     "features": "Funktioner"
                 },
@@ -875,13 +729,6 @@
                 }
             }
         },
-        "switchNetwork": {
-            "title": "Växla nätverk",
-            "newNetwork": "Nytt nätverk",
-            "resetWarning": "Om du byter nätverk kommer du att logga ut och återställa alla konton, saldon och transaktionshistorik för denna profil.",
-            "switchingNetwork": "Byter nätverk",
-            "typePassword": "Ange ditt lösenord för att byta till:"
-        },
         "errorLog": {
             "title": "Felmeddelanden",
             "empty": "Inga felmeddelanden."
@@ -903,15 +750,11 @@
             "userPath": "Sökväg för användare"
         },
         "transaction": {
-            "title": "Skicka tillgång",
-            "body": "Du håller på att skicka {amount} till",
             "selectToken": "Select a token",
             "selectAmount": "Send {tokenName}",
             "selectRecipient": "Send {assetName} to",
             "transactionSummary": "Transaction to {recipient}",
-            "surplusIncluded": "Denna transaktion innehåller ett överskott. Dubbelkolla att detta är det belopp du vill skicka.",
-            "sendingFromStakedAccount": "Du skickar en överföring från en plånbok som för närvarande används för staking. Detta kan innebära att dina tokens slutar stakas. Fortsätt att skicka överföringen om du vill, men du kan behöva staka dina återstående tokens på nytt.",
-            "sendingFromStakedAccountBelowMinReward": "Du skickar en överföring från en plånbok som ännu inte nått den lägsta belöningsnivån. Detta kan innebära att dina tokens slutar vara markerade som \"staked\" och du därmed förlorar dina stakingbelöningar på denna plånbok."
+            "surplusIncluded": "Denna transaktion innehåller ett överskott. Dubbelkolla att detta är det belopp du vill skicka."
         },
         "walletFinder": {
             "title": "Hitta saldo",
@@ -921,32 +764,12 @@
             "totalWalletBalance": "Totalt saldo",
             "searchAgainHint": "Är ditt saldo eller antal plånböcker felaktiga? Tryck på sök igen tills ditt saldo visas."
         },
-        "riskFunds": {
-            "title": "Varning: Tillgångar i riskzonen vid migrering",
-            "body1": "Det rekommenderas starkt att du säkrar alla dina IOTA innan du fortsätter med migration. Dina pengar riskerar att stjälas om du inte säkrar dem.",
-            "body2": "Det rekommenderas att du kör processen igen för adresser med en risknivå på medel eller högre."
-        },
-        "missingBundle": {
-            "title": "Varning: Tillgångar i riskzonen vid migrering",
-            "body": "Du har tillgångar på förbrukade adresser, men den information som behövdes för att säkra dem hittades inte. Detta kan hända om du gjorde transaktioner för länge sedan. Du kan fortsätta men {value} är i riskzonen vid migrering.",
-            "learnMore": "Läs mer om förbrukade adresser",
-            "proceed": "Jag förstår riskerna"
-        },
-        "snapshot": {
-            "title": "Pågående nätverksuppgradering",
-            "body": "Uppgraderingen av Chrysalis-nätverket har börjat.",
-            "bodyMigration": "Migrering är inaktiverad tills den är klar.",
-            "bodyFirefly": "Firefly är inaktiverad tills det är klart. Token-migrering kommer fortfarande att vara möjlig efteråt."
-        },
         "ledgerNotConnected": {
             "title": "Anslut din Ledger",
             "notConnected": "Anslut din Ledger-enhet för att fortsätta.",
             "locked": "Lås upp din Ledger-enhet för att fortsätta.",
             "appNotOpen": "Open the Shimmer app on your Ledger device to continue.",
             "correctAppOpen": "Ledger har anslutits framgångsrikt, vänligen fortsätt."
-        },
-        "ledgerConfirmation": {
-            "confirm": "För att fortsätta, bekräfta uppmaningen som visas på din Ledger-enhet"
         },
         "ledgerAppGuide": {
             "title": "Guide för att installera {legacy} appen",
@@ -955,7 +778,7 @@
                 "1": "Se till att din Ledger är ansluten",
                 "2": "Sök efter {legacy} appen. Du kan behöva aktivera Ledger Live-utvecklarläge.",
                 "3": "Installera {legacy} appen",
-                "4": "Kom ihåg att det är viktigt att stänga Ledger Live innan du återvänder till Firefly"
+                "4": "Remember that it's important to close Ledger Live before returning to Bloom"
             }
         },
         "ledgerConnectionGuide": {
@@ -979,104 +802,130 @@
             "info": "Vänligen bekräfta den interna transaktionen på din Ledger.",
             "hint": "Alla tillgångar kommer att finnas kvar på din plånbok när du skickar en intern transaktion."
         },
-        "ledgerAddress": {
-            "title": "Bekräfta mottagaradress",
-            "body": "Bekräfta att mottagaradressen som visas på din Ledger matchar den som visas nedan. Om de matchar, tryck på båda knapparna på din Ledger enligt uppmaning."
-        },
-        "ledgerMigrateIndex": {
-            "title": "Behöver du migrera ytterligare ett Trinity kontoindex?",
-            "body": "Du kan också migrera senare i Avancerade inställningar."
-        },
-        "exportTransactionHistory": {
-            "title": "Exportera transaktionshistoriken",
-            "body": "Exportera transaktionshistoriken för den valda plånboken. Den exporterade filen kommer att vara i .csv-format.",
-            "profileName": "Profilnamn:",
-            "accountName": "Plånboksnamn:",
-            "typePassword": "Ange ditt lösenord för att tillåta export"
-        },
-        "stakingManager": {
-            "title": "Staking-hantering",
-            "description": "När du stakar en plånbok skickar du en transaktion till dig själv som markerar dessa tillgångar som \"stakade\". Du kan överföra dessa tokens när som helst, men du kommer inte fortsätta att få belöningar för dem.",
-            "totalFundsStaked": "Totala tillgångar för staking",
-            "stakedSuccessfully": "Dina tillgångar har blivit stakade för {account}.",
-            "unstakedSuccessfully": "Din tillgångar är inte längre stakade för {account}.",
-            "singleAccountHint": "Letar du efter dina plånböcker? Firefly har ändrats. Växla mellan dina plånböcker i den övre menyraden."
-        },
-        "stakingConfirmation": {
-            "title": "Bekräfta medverkan",
-            "subtitleStake": "Du är på väg att staka",
-            "subtitleMerge": "Du är på väg att slå ihop",
-            "multiAirdropWarning": "Om du inte vill delta i båda airdropsen kan du välja bort dem nedan. Du kan ta bort dina stakade tillgångar och sedan välja att gå tillbaka när som helst.",
-            "mergeStakeWarning": "Dina tillgångar kommer att stakas för {airdrop}. För att ändra vilka airdrops du vill delta i, ta bort tillgångarna för staking i denna plånbok och välj sedan att staka dem igen.",
-            "estimatedAirdrop": "Beräknade belöningar"
-        },
-        "newStakingPeriodNotification": {
-            "title": "Staking omgång {periodNumber} från {date}",
-            "body": "IOTA staking för Assembly fortsätter.. Delta i omgång {periodNumber} under 90 dagar. Staka dina IOTA tokens och tjäna ASMB-belöningar!",
-            "info": "Shimmer staking är nu avklarad och endast ASMB tokens kommer att distribueras."
-        },
-        "shimmer-info": {
-            "title": "Om Shimmer",
-            "body1": "Grattis du har förtjänat SMR-tokens som en stakingbelöning. Shimmer är ett belöningsmotiverat förestående nätverk för att testa stora uppgraderingar på IOTA.",
-            "body2": "Vi siktar på att lansera Shimmer 2022. Dina tokens kommer att bli tillgängliga för överföring när nätverket lanserats."
-        },
-        "assembly-info": {
-            "title": "Om Assembly",
-            "body1": "Grattis du har förtjänat ASMB-tokens som en stakingbelöning. Assembly är ett multi-kedje-nätverk för att distribuera skalbara smarta kontrakt på IOTA.",
-            "body2": "Vi siktar på att lansera Assembly 2022. Dina tokens kommer att bli tillgängliga för överföring när nätverket lanserats."
-        },
-        "confirmDeveloperProfile": {
-            "title": "Du skapar en utvecklarprofil",
-            "body": "Du kommer att vara ansluten till Chrysalis Devnet som standard, och kan byta nätverk manuellt. Fortsätt bara om du vet vad du gör."
-        },
         "crashReporting": {
             "title": "Kraschrapportering",
-            "body": "Hjälp utvecklarna att förbättra Firefly genom att automatiskt skicka diagnostikdata när ett fel eller en krasch inträffar. Om detta är valt, kommer det att träda i kraft efter att Firefly startats om.",
+            "body": "Help the developers improve Bloom by automatically sending diagnostic data when an error or crash occurs. If selected, this will take effect after restarting Bloom.",
             "checkbox": "Skicka kraschrapporter till IOTA Foundation"
+        },
+        "signMessage": {
+            "title": "Sign message",
+            "message": "Message",
+            "hint": "No balance will be sent to {dappName} in the process of signing this message.",
+            "warning": "dApp cannot be determined. No balance will be sent in the process of signing this message.",
+            "action": "Sign message"
+        },
+        "activityDetails": {
+            "title": {
+                "fallback": "Activity details",
+                "external": {
+                    "incoming": {
+                        "Pending": "Receiving from {subject}",
+                        "Confirmed": "Received from {subject}",
+                        "Conflicting": "Failed to receive"
+                    },
+                    "outgoing": {
+                        "Pending": "Sending to {subject}",
+                        "Confirmed": "Sent to {subject}",
+                        "Conflicting": "Failed to send"
+                    }
+                },
+                "internal": {
+                    "incoming": {
+                        "Pending": "Transferring from {subject}",
+                        "Confirmed": "Transferred from {subject}",
+                        "Conflicting": "Failed to transfer"
+                    },
+                    "outgoing": {
+                        "Pending": "Transferring to {subject}",
+                        "Confirmed": "Transferred to {subject}",
+                        "Conflicting": "Failed to transfer"
+                    },
+                    "selfTransaction": {
+                        "Pending": "Transferring to {subject}",
+                        "Confirmed": "Transferred to {subject}",
+                        "Conflicting": "Failed to transfer"
+                    }
+                },
+                "mint": {
+                    "Pending": "Minting",
+                    "Confirmed": "Minted",
+                    "Conflicting": "Failed to mint"
+                },
+                "burn": {
+                    "Pending": "Burning",
+                    "Confirmed": "Burned",
+                    "Conflicting": "Failed to burn"
+                },
+                "consolidation": {
+                    "Pending": "Consolidating outputs",
+                    "Confirmed": "Outputs consolidated",
+                    "Conflicting": "Failed to consolidate outputs"
+                },
+                "alias": {
+                    "creation": {
+                        "Pending": "Creating alias",
+                        "Confirmed": "Alias created",
+                        "Failed": "Failed to create alias"
+                    }
+                },
+                "governance": {
+                    "increaseVotingPower": {
+                        "Pending": "Increasing voting power",
+                        "Confirmed": "Increased voting power",
+                        "Conflicting": "Failed to increased voting power"
+                    },
+                    "decreaseVotingPower": {
+                        "Pending": "Decreasing voting power",
+                        "Confirmed": "Decreased voting power",
+                        "Conflicting": "Failed to decreased voting power"
+                    },
+                    "startVoting": {
+                        "Pending": "Voting for {proposalName}",
+                        "Confirmed": "Voted for {proposalName}",
+                        "Conflicting": "Failed to vote for"
+                    },
+                    "stopVoting": {
+                        "Pending": "Stopping voting for {proposalName}",
+                        "Confirmed": "Stopped voting for {proposalName}",
+                        "Conflicting": "Failed to stopped voting for"
+                    },
+                    "changedVote": {
+                        "Pending": "Changing vote for {proposalName}",
+                        "Confirmed": "Changed vote for {proposalName}",
+                        "Conflicting": "Failed to change vote for"
+                    },
+                    "revote": {
+                        "Pending": "Revoting",
+                        "Confirmed": "Revote",
+                        "Conflicting": "Failed to revote"
+                    }
+                }
+            }
         },
         "legalUpdate": {
             "tosTitle": "Användarvillkor",
             "privPolicyTitle": "Sekretesspolicy",
-            "tosAndPrivPolicyBody": "Vi har uppdaterat Fireflys användarvillkor och sekretesspolicy.",
-            "tosBody": "Vi har uppdaterat Fireflys användarvillkor.",
-            "privPolicyBody": "Vi har uppdaterat Fireflys sekretesspolicy.",
+            "tosAndPrivPolicyBody": "We have updated Bloom's Terms of Service and Privacy Policy.",
+            "tosBody": "We have updated Bloom's Terms of Service.",
+            "privPolicyBody": "We have updated Bloom's Privacy Policy.",
             "tosAndPrivPolicyCheckbox": "Jag har läst och jag accepterar de uppdaterade användarvillkoren och sekretesspolicyn",
             "tosCheckbox": "Jag har läst och jag godkänner de uppdaterade användarvillkoren",
             "privPolicyCheckbox": "Jag har läst och jag accepterar den uppdaterade sekretesspolicyn"
         },
-        "singleAccountGuide": {
-            "title": "Sättet du använder Firefly på har ändrats",
-            "body": "Innehållet i varje flik är nu i samband med en enda plånbok. Du kan ändra den valda plånboken från var som helst med hjälp av växlaren i namnfältet.",
-            "hint": "Kan du inte hitta en plånbok? Använd balanssökaren i inställningarna för att upptäcka tidigare använda plånböcker."
-        },
-        "transactionDetails": {
-            "title": "Transaktionsdetaljer",
-            "giftedStorageDeposit": {
-                "tooltipTitle": "Gift storage deposit",
-                "tooltipDescription": "Amount kept by the recipient"
-            }
-        },
-        "sendForm": {
-            "title": "Skicka tillgångar"
+        "giftedStorageDeposit": {
+            "tooltipTitle": "Gift storage deposit",
+            "tooltipDescription": "Amount kept by the recipient"
         },
         "tokenInformation": {
-            "newTokenTitle": "Ny token",
             "verificationWarning": "Denna token är overifierad. Jämför metadata på grundarens officiella hemsida. Verifiera bara tokens som du litar på.",
             "tokenMetadata": {
                 "standard": "Standard",
-                "name": "Namn",
                 "tokenId": "Token ID",
-                "url": "URL"
+                "url": "URL",
+                "description": "Description"
             },
             "buttons": {
                 "verifyToken": "Jag verifierar denna token"
-            }
-        },
-        "sendNft": {
-            "formTitle": "Skicka NFT",
-            "confirmationTitle": "Bekräfta att NFT skickas",
-            "property": {
-                "nft": "NFT"
             }
         },
         "nativeToken": {
@@ -1089,10 +938,7 @@
                 "meltedTokens": "Smälta tokens",
                 "circulatingSupply": "Cirkulerande antal",
                 "aliasAddress": "Alias controller adress",
-                "standard": "Standard",
                 "tokenName": "Namn",
-                "unit": "Enhet",
-                "subunit": "Underenhet",
                 "storageDeposit": "Lagringsdeposition",
                 "description": "Beskrivning",
                 "symbol": "Symbol",
@@ -1101,13 +947,12 @@
                 "logoUrl": "Logotyp URL",
                 "logo": "Logotyp",
                 "alias": "Alias",
-                "assetId": "Tillgångs-ID"
+                "tokenId": "Tillgångs-ID"
             }
         },
         "importErc20Token": {
             "title": "Import ERC20 token",
             "property": {
-                "chainId": "Chain ID",
                 "tokenAddress": "Token address"
             },
             "success": "Imported {tokenSymbol} token",
@@ -1166,7 +1011,7 @@
         "revote": {
             "title": "Revote on proposals",
             "body": "Changing your voting power temporarily stops your votes for all proposals from being counted. Simply click \"Revote\" to resume voting.",
-            "hint": "Firefly remembers all of the proposals and answer options you previously voted for."
+            "hint": "Bloom remembers all of the proposals and answer options you previously voted for."
         },
         "removeProposal": {
             "title": "Ta bort förslag",
@@ -1183,19 +1028,6 @@
             "body": "Den här noden kräver ytterligare autentisering. Vänligen fyll i lämplig information."
         }
     },
-    "charts": {
-        "incomingMi": "Inkommande {value}",
-        "outgoingMi": "Utgående {value}",
-        "portoflio": "Portfölj",
-        "token": "Token",
-        "holdings": "Innehav",
-        "accountValue": "Plånboksvärde",
-        "accountActivity": "Plånboksaktivitet",
-        "timeframe1Hour": "1 timme",
-        "timeframe1Day": "1 dag",
-        "timeframe1Week": "1 vecka",
-        "timeframe1Month": "1 månad"
-    },
     "actions": {
         "apply": "Verkställ",
         "continue": "Fortsätt",
@@ -1204,7 +1036,6 @@
         "next": "Nästa",
         "cancel": "Avbryt",
         "close": "Stäng",
-        "dismiss": "Avfärda",
         "claim": "Anspråk",
         "claiming": "Gör anspråk",
         "claimingRewards": "Hämtar belöningar",
@@ -1223,9 +1054,7 @@
             "description": "Är du säker på att du vill bränna denna NFT?",
             "hint": "Please note that burning an NFT frees the storage deposit attached to it and is not reversible."
         },
-        "proceedAnyway": "Fortsätt ändå",
         "save": "Spara",
-        "importSeed": "Importera en befintlig seed",
         "restoreWallet": {
             "iota": "Migrera eller återställ en plånbok",
             "shimmer": "Återställ Shimmer-profil",
@@ -1248,32 +1077,19 @@
         "claimShimmerDescription": "Importera IOTA-profil och hämta dina Shimmer staking-belöningar",
         "createAlias": "Skapa alias",
         "createAliasDescription": "Skapa alias utdata",
-        "savePassword": "Spara lösenord",
-        "useBiometric": "Använd biometrisk säkerhet",
-        "setupPinCode": "Ställ in PIN-kod",
         "setPin": "Ställ in PIN",
-        "setPinCode": "Ställ in PIN-kod",
         "confirmPin": "Bekräfta PIN",
-        "confirmPinCode": "Bekräfta PIN-kod",
         "enterYourPin": "Ange din PIN-kod",
-        "saveBackupFile": "Spara säkerhetskopia",
-        "iveWrittenRecoveryPhrase": "Jag har skrivit ner min återställningsfras",
-        "verifyRecoveryPhrase": "Verifiera återställningsfras",
-        "revealRecoveryPhrase": "Visa återställningsfras",
-        "checkAgain": "Kontrollera igen",
-        "importFromFile": "Importera från en fil",
         "send": "Skicka",
         "receive": "Ta emot",
         "create": "Skapa",
         "updateAndContinue": "Update and continue",
-        "beginTransfer": "Påbörja överföring",
         "tryAgain": "Försök igen",
         "visitDiscord": "Besök Discord",
         "dragDrop": "Dra & Släpp",
-        "importExtentions": ".kdbx eller .stronghold fil",
+        "importExtentions": ".stronghold file",
         "chooseFile": "Välj en fil",
         "dropHere": "Släpp din fil här",
-        "syncAll": "Synkronisera alla",
         "import": "Importera",
         "importing": "Importerar",
         "export": "Exportera",
@@ -1285,15 +1101,14 @@
         "exportTransactionHistory": "Exportera transaktionshistoriken",
         "localProofOfWork": "Lokalt proof of work",
         "unlock": "Lås upp",
-        "updateFirefly": "Uppdatera Firefly",
-        "restartNow": "Starta om nu",
+        "updateBloom": "Update Bloom",
+        "restart": "Restart",
         "refresh": "Refresh",
-        "saveBackup": "Spara Stronghold säkerhetskopia",
+        "saveBackup": "Save backup",
         "customizeAcount": "Anpassa plånbok",
         "hideAccount": "Dölj plånbok",
         "showAccount": "Visa plånbok",
         "deleteAccount": "Ta bort plånbok",
-        "max": "Max",
         "addNode": "Lägg till nod",
         "addingNode": "Lägger till nod",
         "addOfficialNodes": "Lägg till officiella noder",
@@ -1315,9 +1130,7 @@
         "addAccount": "Lägg till plånbok",
         "checkForUpdates": "Sök efter uppdateringar",
         "reportAnIssue": "Rapportera ett fel",
-        "restore": "Återställ",
         "clear": "Rensa",
-        "hideDetails": "Dölj detaljer",
         "yes": "Ja",
         "no": "Nej",
         "skip": "Hoppa över",
@@ -1328,35 +1141,18 @@
         "readDocumentation": "Läs dokumentationen",
         "visitFaq": "Besök FAQ",
         "viewDownloads": "View downloads",
-        "viewStatus": "Visa status",
         "viewBalanceBreakdown": "View balance breakdown",
         "showHiddenAccounts": "Visa dolda plånböcker",
         "confirm": "Bekräfta",
         "hideNetworkStatistics": "Dölj nätverksstatistik",
         "findWallets": "Hitta plånböcker",
-        "useBalanceFinder": "Använd \"Hitta saldo\"",
         "search": "Sök",
         "searching": "Söker",
         "searchAgain": "Sök igen",
-        "closeFirefly": "Stäng Firefly",
         "generateAddress": "Generera adress",
-        "migrateAgain": "Migrera ett annat index",
-        "visitWebsite": "Besök webbplats",
-        "howItWorks": "Så funkar det",
-        "learnAboutStaking": "Lär dig om staking",
-        "stake": "Staka",
-        "unstake": "Avstaka",
-        "stakeFunds": "Staka tillgångar",
-        "manageStake": "Hantera staking",
-        "merge": "Slå ihop",
-        "mergeFunds": "Slå ihop tillgångar",
-        "done": "Klar",
-        "okIUnderstand": "OK, jag förstår",
-        "readMore": "Läs mer",
         "searchForRewards": "Sök efter belöningar",
         "claimRewards": "Hämta belöningar",
         "rerunClaimProcess": "Kör anspråks-processen igen",
-        "addPublicNote": "Lägg till offentlig anteckning",
         "backup": "Säkerhetskopiera",
         "mint": "Minta",
         "mintNativeToken": "Minta inhemska tokens",
@@ -1371,11 +1167,8 @@
         "refreshTokenMetadata": "Uppdatera metadata för token",
         "test": "Test",
         "testDeepLink": "Testa hyperlänk",
-        "initialize": "Initiera",
-        "initializing": "Initierar",
         "delete": "Ta bort",
         "remove": "Radera",
-        "addReference": "Lägg till referens",
         "depositNft": "Insättning av NFTs",
         "vote": "Rösta",
         "addProposal": "Add proposal",
@@ -1384,7 +1177,8 @@
         "stopVoting": "Sluta rösta",
         "revote": "Revote",
         "skipAndKeep": "Skip and keep old password",
-        "addChain": "Add chain"
+        "addChain": "Add chain",
+        "untrackToken": "Untrack token"
     },
     "general": {
         "recipient": "Mottagare",
@@ -1393,9 +1187,6 @@
         "currentPassword": "Nuvarande lösenord",
         "newPassword": "Nytt lösenord",
         "confirmNewPassword": "Bekräfta nytt lösenord",
-        "yourSeed": "Din Seed",
-        "recoveryPhrase": "Återställningsfras",
-        "recentActivity": "Senaste aktivitet",
         "sent": "Skickat",
         "sending": "Skickar",
         "received": "Mottaget",
@@ -1414,16 +1205,8 @@
         "revoting": "Revoting",
         "unvoted": "Tog bort röst",
         "unvoting": "Avröstar",
-        "sentNft": "NFT skickad",
-        "sendingNft": "Skickar NFT",
-        "receivedNft": "NFT mottagen",
-        "receivingNft": "Tar emot NFT",
         "transfer": "Överföring",
         "transferring": "Överför",
-        "transferNft": "Överför NFT",
-        "transferringNft": "Överför NFT",
-        "mintedNft": "Mintad NFT",
-        "mintingNft": "Minting NFT",
         "shimmerClaimed": "Anspråkstagen",
         "shimmerClaiming": "Gör anspråk",
         "shimmerGenesis": "Shimmer genesis",
@@ -1431,47 +1214,29 @@
         "minting": "Mintar",
         "burned": "Burned",
         "burning": "Burning",
+        "balanceChanged": "Balance changed",
+        "initialBalance": "Initial balance",
         "consolidated": "Outputs consolidated",
         "consolidating": "Consolidating outputs",
         "aliasCreated": "Alias created",
         "creatingAlias": "Creating Alias",
-        "sendPayment": "Skicka tokens",
-        "moveFunds": "Intern överföring",
         "sendTo": "Skicka till",
         "sendAssets": "Send assets",
         "sendAssetToAddress": "Send asset to an address",
-        "sendToAddress": "Skicka till adress",
-        "sendToken": "Send token",
-        "sendNft": "Send NFT",
-        "sendNftToAddress": "Send NFT to an address",
-        "scanQrOrPaste": "Skanna en QR-kod eller klistra in en adress",
-        "moveFundsBetweenAccounts": "Flytta IOTA mellan dina plånböcker",
         "manageAccount": "Hantera plånbok",
         "customizeAcount": "Anpassa din plånbok",
         "account": "Plånbok",
-        "sendingToAddress": "Skickar till adress",
         "amount": "Belopp",
         "addAddress": "Lägg till adress",
-        "reference": "Referens",
-        "from": "Från",
         "to": "Till",
         "and": "och",
         "receiveFunds": "Ta emot tillgångar",
         "address": "Adress",
+        "addressName": "Address name",
         "myAddress": "My address",
-        "myNetworkAddress": "Min {networkName} adress",
-        "shareAddress": "Dela en adress",
-        "yourAddress": "Din adress",
-        "newRemainder": "Ny Återstående",
-        "remainder": "Återstående",
-        "generateNewAddress": "Skapa ny adress",
-        "copyToClipboard": "Kopiera till urklipp",
-        "copyAddress": "Kopiera adress",
         "viewOnExplorer": "Visa i Explorer",
         "import": "Importera",
         "stronghold": "Stronghold",
-        "language": "Språk",
-        "appearance": "Utseende",
         "lightTheme": "Ljust",
         "darkTheme": "Mörkt",
         "systemTheme": "System",
@@ -1481,36 +1246,19 @@
         "all": "Alla",
         "incoming": "Inkommande",
         "outgoing": "Utgående",
-        "totalIn": "Totalt in",
-        "totalOut": "Totalt ut",
-        "accounts": "Plånböcker",
-        "myAccounts": "Mina plånböcker",
-        "profiles": "Profiler",
         "dev": "Utvecklare",
-        "createAccount": "Skapa en plånbok",
         "addAWallet": "Lägg till en plånbok",
         "accountName": "Plånboksnamn",
-        "latestTransactions": "Senaste transaktionerna",
-        "transactions": "Transaktioner",
         "activity": "Aktivitet",
         "security": "Säkerhet",
-        "accountAddress": "Plånbokens adress",
         "network": "Nätverk",
+        "networkSelection": "Network selection",
         "destinationNetwork": "Destination network",
         "nodes": "Noder",
         "wallet": "Plånbok",
         "help": "Hjälp",
-        "you": "Du",
-        "messageId": "Meddelande-ID",
-        "inputAddress": "Inmatningsadress",
-        "receiveAddress": "Mottagaradress",
-        "newAddress": "Ny adress",
-        "date": "Datum",
-        "status": "Status",
         "confirmed": "Bekräftad",
         "pending": "Väntar",
-        "noAccounts": "Du har inga plånböcker, vänligen skapa en.",
-        "loadingAccounts": "Laddar, vänligen vänta...",
         "addProfile": "Lägg till profil",
         "noRecentHistory": "Ingen historik",
         "noFilteredActivity": "Inga matchande aktiviteter",
@@ -1518,31 +1266,12 @@
         "noFilteredAsset": "Inga matchande tillgångar",
         "thisMonth": "Denna månad",
         "search": "Sök",
-        "firstSync": "Synkroniserar historik, detta kan ta ett tag...",
-        "transferSyncing": "Synkroniserar plånbok",
-        "transferSelectingInputs": "Väljer inmatning",
-        "transferRemainderAddress": "Genererar återstående adress",
-        "transferPreparedTransaction": "Förbereder transaktion",
-        "transferSigning": "Signerar transaktionen",
-        "transferPow": "Utför PoW",
-        "transferBroadcasting": "Sänder transaktion",
-        "transferComplete": "Överföring slutförd",
-        "generatingReceiveAddress": "Genererar mottagaradress",
-        "broadcasting": "Utsända",
-        "confirming": "Bekräftar",
-        "creatingAccount": "Skapar plånbok, vänligen vänta...",
-        "updatingAccount": "Uppdaterar plånbok, vänligen vänta...",
-        "accountSyncing": "Plånboken synkroniseras",
-        "accountSyncComplete": "Plånbokssynkronisering slutförd",
         "passwordUpdating": "Uppdaterar lösenord...",
         "passwordSuccess": "Lösenordet har uppdaterats",
         "passwordFailed": "Det gick inte att uppdatera lösenord",
-        "syncing": "Synkroniserar",
-        "syncingAccounts": "Synkroniserar plånböcker...",
         "exportingStronghold": "Exporterar Stronghold...",
         "exportingStrongholdSuccess": "Exportering av Stronghold lyckades",
         "exportingStrongholdFailed": "Exportering av Stronghold misslyckades",
-        "pinCodeUpdating": "Uppdaterar PIN-kod...",
         "pinCodeSuccess": "Uppdatering av PIN-kod lyckades",
         "pinCodeFailed": "Uppdatering av PIN-kod misslyckades",
         "passwordStrength": "Lösenordsstyrka",
@@ -1552,55 +1281,33 @@
         "passwordStrength3": "Medel",
         "passwordStrength4": "Starkt",
         "creatingProfile": "Skapar profil, vänligen vänta...",
-        "fundMigration": "Token-migration",
-        "accountRemoved": "Denna plånbok är dold. Visa den igen för att utföra överföringar.",
         "fromAddress": "från {account}",
         "toAddress": "till {account}",
-        "stakedFor": "Stakade för {account}",
-        "unstakedFor": "Ej stakade för {account}",
-        "votedFor": "Röstade för {account}",
-        "unvotedFor": "Ej röstade för {account}",
-        "stakingTransaction": "Staking-transaktion",
-        "unstakingTransaction": "Unstaking-transaktion",
-        "legacyNetwork": "Ursprungliga nätverket",
         "capsLock": "Caps Lock är på",
         "version": "Version {version}",
-        "yourWallets": "Dina plånböcker",
         "unknown": "Okänd",
         "unknownAddress": "Okänd adress",
         "none": "Ingen",
-        "staked": "Stakad",
-        "unstaked": "Ej stakad",
-        "staking": "Staking",
-        "unstaking": "Tar bort staking",
-        "notStaked": "Ej stakad",
-        "stakedFunds": "Stakade tillgångar",
-        "unstakedFunds": "Ej stakade tillgångar",
         "accountColor": "Plånboksfärg",
         "transactionTime": "Transaktionstid",
-        "surplus": "Överskott",
         "storageDeposit": "Lagringsdeposition",
-        "giftedStorageDeposit": "Skänkt lagringsdeposition",
+        "transactionFee": "Transaction fee",
         "storageDepositPerNft": "Storage deposit per NFT",
         "totalStorageDeposit": "Total storage deposit",
         "expirationTime": "Utgångstid",
         "timelockDate": "Tidlås",
         "claimedTime": "Gjorde anspråk vid",
-        "nftAddress": "NFT Address",
         "nftId": "NFT ID",
-        "nftMetadata": "NFT Metadata",
         "aliasId": "Alias ID",
         "governorAddress": "Governor Address",
         "stateControllerAddress": "State Controller Address",
         "copiedToClipboard": "Kopierad till urklipp",
-        "total": "Totalt: {balance}",
         "availableBalanceWithValue": "Tillgängligt saldo: {balance}",
-        "availableBalance": "Tillgängligt saldo",
-        "availableBalanceTooltip": "En tillgångs totala saldo minus eventuella medel som krävs för att täcka insättningen av lagringsdeposition (dvs. medel som är låsta i väntande transaktioner, reserverade för inhemska tokens eller reserverade för NFTs).",
         "amountClaimed": "{amount} taget i anspråk",
         "metadata": "Metadata",
         "amountConsolidatedInputs": "Consolidated outputs",
         "name": "Namn",
+        "note": "Note",
         "tag": "Tagg",
         "nodeList": "Nodlista",
         "claimedIn": "Gjorde anspråk i",
@@ -1612,7 +1319,6 @@
         "faucetRequestDescription": "Begär tokens från {network} faucet",
         "refreshTokenMetadataDescription": "Återställ och uppdatera all metadata för alla tokens",
         "refreshTokenMetadataHint": "Detta kommer att återställa alla dina tokens metadata inklusive verifieringsstatus och visa dina dolda tillgångar.",
-        "giftStorageDeposit": "Skänk lagringsdeposition",
         "excluded": "Exkluderad",
         "developerTools": "Utvecklarverktyg",
         "testDeepLinkDescription": "Simulera en hyperlänkförfrågan skickad till Firefly",
@@ -1620,7 +1326,6 @@
         "hash": "Hash",
         "creating": "Skapar",
         "updating": "Uppdaterar",
-        "enterAddress": "Ange adress",
         "transaction": "Transaktion",
         "alias": "Alias",
         "foundry": "Foundry",
@@ -1631,7 +1336,6 @@
         "smartContract": "Smartkontrakt",
         "targetContract": "Målkontrakt",
         "contractFunction": "Kontraktsfunktion",
-        "gasBudget": "Gas-budget",
         "standard": "Standard",
         "uri": "URI",
         "issuer": "Utfärdare",
@@ -1645,18 +1349,18 @@
         "description": "Beskrivning",
         "attributes": "Attribut",
         "details": "Detaljer",
-        "availableAmount": "{amount} tillgängligt",
         "properties": "Egenskaper",
         "statistics": "Statistik",
-        "username": "Användarnamn",
-        "jwt": "JSON webb-token",
         "internalTransaction": "Internal transaction",
         "coinType": "Coin type",
         "custom": "Custom",
         "evmAddress": "EVM address",
-        "chain": "Chain",
         "importErc20Token": "Import ERC20 token",
-        "importErc20TokenDescription": "Import an ERC20 token from an EVM chain"
+        "optionalField": "{field} (optional)",
+        "gifted": "Gifted",
+        "connected": "Connected",
+        "estimatedFee": "Estimated fee",
+        "maxFees": "Max fees"
     },
     "filters": {
         "title": "Filter",
@@ -1780,27 +1484,13 @@
         "year": "{time, plural, one {# år} other {# år}}"
     },
     "notifications": {
-        "valueTx": "Tar emot {{value}} till {{account}}",
-        "confirmed": "Utgående {{value}} från {{account}} har blivit bekräftad",
-        "confirmedInternal": "{{value}} från {{senderAccount}} till {{receiverAccount}} har blivit bekräftad",
-        "confirmedInternalNoAccounts": "{{value}} intern överföring har bekräftats",
-        "failed": "Utgående {{value}} från {{account}} misslyckades",
         "downloadingUpdate": "Hämtar uppdatering",
         "updateReady": "Uppdatering redo",
         "updateError": "Ett fel inträffade under uppdateringen, försök igen",
-        "restartInstall": "Starta om för att installera",
-        "calcMinutesRemaining": "Beräknar minuter kvar...",
-        "minutesRemaining": "{minutes, plural, one {# kvarvarande minut} other {# kvarvarande minuter}}",
         "copiedToClipboard": "Kopierad till urklipp",
-        "accountsSynchronized": "Plånbokssynkronisering slutförd",
-        "fundsAvailableSoon": "Dina tillgångar kommer inom kort att bli tillgängliga",
-        "exportTransactionHistory": {
-            "success": "Transaktionshistorik för {accountAlias} har sparats till {filePath}",
-            "error": "Det gick inte att exportera transaktionshistorik för {accountAlias}"
-        },
+        "newDappConnected": "Connected to new dApp",
         "deepLinkingRequest": {
             "receivedWhileLoggedOut": "Vänligen logga in för att initiera hyperlänken",
-            "notEnabled": "Hyperlänkar är inte aktiverat",
             "invalidFormat": "Hyperlänken du följde är ogiltig",
             "invalidAmount": "The amount in deep link is not an integer number {amount}",
             "invalidSurplus": "Överskottet i hyperlänken är inte ett nummer {surplus}",
@@ -1809,22 +1499,15 @@
                 "unrecognizedOperation": "Unrecognized Governance operation: {operation}"
             },
             "wallet": {
-                "send": {
-                    "success": "Betalningsinformation tillagd från hyperlänk"
-                },
                 "unrecognizedOperation": "Okänd plånboksoperation: {operation}"
             }
         },
-        "syncing": "Vänta tills synkroniseringen är klar för att ändra plånbok.",
-        "transferring": "Vänta tills alla transaktioner är slutförda för att ändra plånbok.",
-        "participating": "Vänta tills alla staking-/röstningstransaktioner har slutförts för att ändra plånbok.",
         "claimed": {
             "success": "Transaktion anspråkstagen",
             "error": "Anspråk av transaktion misslyckades"
         },
         "hideActivity": {
-            "success": "Aktiviteten har dolts",
-            "error": "Misslyckades att dölja aktivitet"
+            "success": "Aktiviteten har dolts"
         },
         "faucetRequest": {
             "success": "Begäran av tokens skickad till faucet"
@@ -1849,7 +1532,6 @@
             "wrongProtocolForClaiming": "Du måste använda en IOTA-baserad Stronghold säkerhetskopia för att hämta Shimmer-belöningar"
         },
         "findShimmerRewards": {
-            "success": "Hittade Shimmer-belöningar framgångsrikt",
             "error": "Ett fel inträffade vid sökning efter belöningar"
         },
         "claimShimmerRewards": {
@@ -1861,17 +1543,19 @@
         },
         "stopVoting": {
             "success": "Voting successfully stopped"
+        },
+        "updateContact": {
+            "success": "Contact successfully updated"
+        },
+        "updateNetworkAddresses": {
+            "success": "Contact addresses successfully updated"
         }
     },
     "error": {
         "profile": {
             "length": "Ditt profilnamn kan inte vara längre än {length, plural, one {# tecken} other {# tecken}}.",
             "duplicate": "En profil med detta namn finns redan.",
-            "delete": {
-                "nonEmptyAccounts": "Du måste överföra alla saldon innan du kan ta bort din profil."
-            },
-            "type": "Går inte att fastställa profiltypen",
-            "setupType": "Går inte att fastställa profilinställningstypen"
+            "type": "Går inte att fastställa profiltypen"
         },
         "password": {
             "doNotMatch": "Lösenorden matchar inte.",
@@ -1894,29 +1578,25 @@
         "pincode": {
             "length": "Din PIN-kod måste vara {length, plural, one {# siffra} other {# siffror}} lång.",
             "match": "PIN-koder matchar inte.",
-            "incorrect": "Din nuvarande PIN-kod är felaktig.",
-            "invalid": "Ogiltig PIN-kod."
+            "incorrect": "Din nuvarande PIN-kod är felaktig."
         },
         "address": {
-            "wrongAddressType": "Wrong address type"
+            "wrongAddressType": "Wrong address type",
+            "invalidBech32Format": "Invalid Bech32 format",
+            "belongsToAccount": "Cannot belong to any of your accounts",
+            "checksum": "Address checksum is invalid"
         },
         "account": {
-            "addressNotFound": "The address cannot be found in your account.",
             "length": "Ditt plånboksnamn kan inte vara längre än {length, plural, one {# tecken} other {# tecken}}.",
             "emptyName": "Ett profilnamn måste innehålla minst 1 tecken.",
-            "notEmpty": "Du måste överföra ditt saldo innan du tar bort denna plånbok.",
             "duplicate": "En plånbok med detta namn finns redan.",
             "tilde": "Ett profilnamn kan inte börja med '~' tecken.",
             "control": "Ett profilnamn får inte innehålla ett kontrolltecken (TAB, ny rad et cetera).",
             "startDot": "Ett profilnamn kan inte börja med en punkt.",
             "chars": "Ett profilnamn får inte innehålla följande tecken <>:\"/\\|?*",
-            "index": "Ditt konto-index måste vara ett nummer mellan 0 och 2,147,483,647.",
-            "page": "Din kontosida måste vara ett nummer mellan 0 och 2,147,483,647.",
-            "syncing": "Det gick inte att synkronisera dina plånböcker.",
             "cannotRemove": "Kan inte ta bort plånbok.",
             "withBalance": "Du måste överföra alla tillgångar innan du kan ta bort denna plånbok.",
             "notLast": "Du kan bara ta bort din sista plånbok.",
-            "notFound": "Det gick inte att hitta kontot",
             "cannotGetBoundAccount": "Det gick inte att hämta bundet konto"
         },
         "send": {
@@ -1931,27 +1611,23 @@
             "wrongAddressPrefix": "Adresser börjar med prefixet {prefix}.",
             "wrongAddressFormat": "Adressen är inte korrekt formaterad.",
             "invalidAddress": "Adressen är inte giltig.",
-            "invalidAssetId": "The asset id is not valid.",
+            "invalidTokenId": "The token id is not valid.",
             "unknownAsset": "Tillgången är inte känd för detta konto.",
             "insufficientFunds": "Denna plånbok har inte tillräckligt med tillgångar.",
+            "insufficientFundsGasFee": "Insufficient funds to cover the gas fee.",
             "insufficientFundsStorageDeposit": "Insufficient funds to cover the storage deposit.",
             "ongoingTransaction": "If you have ongoing transactions, please wait for their confirmation.",
-            "cannotClaimTwice": "Utdatan har redan blivit anspråkstagen",
-            "noToAccount": "Du har inte valt en plånbok att skicka tillgångarna till.",
-            "sendingDust": "Du kan inte skicka mindre än 1 Mi.",
-            "leavingDust": "Du kan inte lämna mindre än 1 Mi på din adress.",
             "cancelled": "Transaktionen avbröts.",
-            "transaction": "Det uppstod ett fel. Vänligen försök igen.",
             "invalidExpirationDateTime": "Det valda utgångsdatumet/tiden är ogiltig.",
+            "invalidTimelockDateTime": "The chosen timelock date/time is invalid.",
             "noInputs": "No inputs found.",
             "notEnoughBalance": "Not enough balance.",
             "missingTransactionId": "Transaktions-ID saknas",
             "missingTransactionProgressEventPayload": "Händelseförloppet för transaktionen saknas",
             "recipientRequired": "Recipient is required",
-            "nftRequired": "NFT is required",
-            "nftNotInHex": "NFT address has to be in HEX format",
-            "nftNotInPossession": "NFT not in possession",
-            "reservedTagKeyword": "Unable to use reserved tag keyword"
+            "reservedTagKeyword": "Unable to use reserved tag keyword",
+            "invalidSendParameters": "Invalid send parameters.",
+            "unableToGetOriginAddress": "Unable to get the origin address."
         },
         "layer2": {
             "layer1Recipient": "A layer 2 transaction cannot be sent to a layer 1 account."
@@ -1959,17 +1635,12 @@
         "node": {
             "invalid": "Ange en giltig URL.",
             "dns": "Unable to find DNS resolution for node",
-            "timedOut": "Anslutningen tog för lång tid.",
-            "refused": "Anslutningen avvisades.",
             "handshake": "Kunde inte slutföra handskakning med nod.",
             "invalidCertificate": "Kunde inte ansluta med ett ogiltigt certifikat.",
             "https": "HTTPS krävs; osäkra anslutningar över HTTP stöds inte just nu.",
             "duplicate": "Den här noden har redan lagts till.",
             "noSyncedNode": "Ingen synkroniserad nod är tillgänglig.",
             "timeNotSynced": "Enhetens tid är felaktig, det går inte att synkronisera noden.",
-            "answer": "Det gick inte att få svar från alla noder.",
-            "forbidden": "Denna nodanslutning är förbjuden.",
-            "pluginNotAvailable": "Pluginet \"{nodePlugin}\" är inte tillgänglig på den aktuella noden.",
             "unabledToConnect": "Kan inte ansluta till noden",
             "differentNetwork": "Noden ligger på ett annat nätverk",
             "duplicateNodes": "Kunde inte lägga till dubblettnod",
@@ -1977,20 +1648,15 @@
         },
         "network": {
             "mismatch": "Nätverks-ID för denna nod är \"{networkId}\", som inte matchar det nuvarande nätverket.",
-            "notReachable": "Nätverks-ID för denna nod kunde inte hämtas, går ej att lägga till nod.",
-            "badNodes": "Det gick inte att ansluta till nätverket med den nuvarande nodkonfigurationen.",
-            "nonEmptyAccount": "Du måste överföra alla saldon innan du byter nätverk."
+            "notReachable": "Nätverks-ID för denna nod kunde inte hämtas, går ej att lägga till nod."
         },
         "global": {
             "generic": "Något gick fel."
         },
         "backup": {
-            "invalid": "Säkerhetskopian kändes inte igen.",
+            "invalid": "The backup file was not recognized.",
             "destination": "Härkomsten för säkerhetskopian var inte giltig.",
-            "mnemonic": "Mnemonin är inte giltig.",
             "migrationRequired": "Stronghold migration is required.",
-            "seedTooShort": "Din seed ska vara 81 tecken lång, den {length, plural, one {är #} other {är #}}",
-            "seedCharacters": "Din seed ska innehålla tecknen A-Z eller 9",
             "phraseWordCount": "Det ska finnas 24 ord i din återställningsfras, just nu är det {length, plural, one {är #} other {är #}}.",
             "phraseUnrecognizedWord": "Okänt ord \"{word}\" i din återställningsfras",
             "phraseCaseWord": "Ordet \"{word}\" ska vara skrivet med små bokstäver",
@@ -1998,7 +1664,6 @@
             "unableToRestoreForProfileManager": "Det går inte att återställa Stronghold backup för profilhanteraren"
         },
         "ledger": {
-            "appNotOpen": "Du måste öppna IOTA appen på din Ledger-enhet.",
             "generic": "Det gick inte att ansluta till din Ledger-enhet.",
             "legacyConnected": "Fel app är öppen på din Ledger-enhet.",
             "locked": "Lås upp din Ledger-enhet genom att ange PIN-koden.",
@@ -2009,25 +1674,15 @@
             "generateAddress": "Det gick inte att generera en adress.",
             "timeout": "Din Ledger-enhet nådde time out.",
             "disconnected": "Din Ledger-enhet kopplades bort.",
-            "noStronghold": "Kan inte använda Stronghold med Ledger-profil."
+            "noStronghold": "Kan inte använda Stronghold med Ledger-profil.",
+            "rejected": "Action was rejected on the Ledger device"
         },
         "popup": {
             "preventClose": "Detta popup-fönster kan inte stängas."
         },
-        "migration": {
-            "missingBundle": "Ett fel inträffade när transaktions-bundlen skulle hittas."
-        },
         "crypto": {
             "cannotDecodeBech32": "Det går inte att avkoda strängen som Bech32-adress."
         },
-        "participation": {
-            "cannotUseAccount": "Det går inte att använda det angivna kontot.",
-            "cannotFindStakingEvent": "Det gick inte att hitta staking-event.",
-            "cannotVisitAirdropWebsite": "Det går inte att öppna {airdrop} s webbplats.",
-            "invalidStakingEventId": "Ogiltigt staking-event ID."
-        },
-        "invalidDate": "INVALID DATUM",
-        "invalidTime": "INVALID TID",
         "shimmerClaiming": {
             "missingProfileManager": "Det gick inte att hitta profilhanteraren för Shimmer-hämtning",
             "cannotInitialiseAccount": "Det gick inte att initiera hämtningskonto för Shimmer",
@@ -2094,63 +1749,41 @@
         "erc20Token": {
             "invalidAddressFormat": "Must be hexadecimal format",
             "invalidAddressLength": "Length is invalid"
+        },
+        "input": {
+            "invalid": "{field} input is invalid",
+            "required": "{field} is required",
+            "alreadyUsed": "{field} is already being used",
+            "tooLong": "{field} must be {numCharacters} or less characters"
+        },
+        "walletConnect": {
+            "invalidUri": "Invalid URI",
+            "invalidProtocol": "Invalid protocol, must start with 'wc'.",
+            "deprecatedVersion": "dApp uses a deprecated wallet connect version."
+        },
+        "web3": {
+            "unableToGetProvider": "Unable to get web3 provider.",
+            "unableToFormSmartContractData": "Unable to form smart contract data."
+        },
+        "token": {
+            "missingMetadata": "The token metadata is missing."
         }
     },
     "warning": {
         "transaction": {
-            "invalidExpirationDateTime": "Det valda utgångsdatumet är ogiltigt."
-        },
-        "node": {
-            "http": "Att använda noder över HTTP lämnar trafik okrypterad och kan utgöra en säkerhetsrisk."
-        },
-        "participation": {
-            "noFunds": "Du har inga IOTA."
+            "invalidDateTime": "The chosen date must be in the future."
         }
     },
     "tooltips": {
-        "risk": {
-            "title": "Risknivå: {risk}",
-            "veryHigh": "Mycket hög",
-            "high": "Hög",
-            "medium": "Medel",
-            "low": "Låg",
-            "veryLow": "Mycket låg"
-        },
-        "partiallyStakedFunds": {
-            "title": "Nya ostakade tillgångar: {amount}",
-            "titleNoFunds": "Nya ostakade tillgångar",
-            "preBody": "Du har mottagit tokens som inte är stakade.",
-            "body": "Du måste manuellt staka dessa nya tillgångar för att få airdrop-belöningar för dem."
-        },
-        "stakingMinRewards": {
-            "title": "Under lägsta belöningsvärde",
-            "titleMinBalance": "{amount} lägsta saldo krävs",
-            "bodyMinBalance": "Denna plånbok har inte tillräckligt med IOTA tokens för att nå den lägsta belöningsnivån och kan därför inte stakas.",
-            "continue": "Vänligen fortsätt staka för ytterligare {duration}.",
-            "bodyBelowMin": "Denna plånbok har inte nått det lägsta belöningsvärdet för {airdrop} ({airdropRewardMin}).",
-            "bodyWillReachMin": "Du måste staka ytterligare {duration} för att nå minimum.",
-            "bodyWillNotReachMin": "Du kommer inte att nå den lägsta belöningsnivån under den återstående stakingperioden om du inte lägger till mer IOTA.",
-            "bodyDidNotReachMin": "Du stakade inte tillräckligt med IOTA för att nå den lägsta belöningen för {airdrop} ({airdropRewardMin}).",
-            "bodyMinBalanceAirdrop": "Denna plånbok har inte tillräckligt med IOTA tokens för att nå den lägsta belöningsnivån för {airdrop}."
-        },
         "optionalInput": "Denna valfria data kommer att vara offentlig på explorers och synlig för alla.",
         "transactionDetails": {
-            "minting": {
-                "storageDeposit": "A refundable token deposit needed to store your transaction on the Tangle.",
-                "giftedStorageDeposit": "The storage deposit for this transaction was gifted to you. You do not need to refund the deposit.",
-                "expirationTime": "Claim these funds before the expiration time or they will be returned to the sender.",
-                "timelockDate": "The sender set a timelock on these funds. You will be able to spend them once the timelock expires.",
-                "metadata": "An optional data field for storing data persistently on the Tangle.",
-                "tag": "A short optional data field. Tagging groups of transactions can make them easier to search for."
-            },
             "incoming": {
                 "storageDeposit": "En återbetalningsbar tokeninsättning behövs för att lagra din transaktion på Tangle.",
                 "giftedStorageDeposit": "Lagringsdepositionen för denna transaktion skänktes till dig. Du behöver inte återbetala depositionen.",
                 "expirationTime": "Gör anspråk på dessa tillgångar innan utgångstiden annars kommer de att återlämnas till avsändaren.",
                 "timelockDate": "Avsändaren satte ett tidlås på dessa tillgångar. Du kommer att kunna spendera dem när tidsbegränsningen löpt ut.",
                 "metadata": "Ett valfritt datafält för att lagra data konstant på Tangle.",
-                "tag": "Ett kort valfritt datafält. Taggningsgrupper av transaktioner kan göra dem enklare att söka efter.",
-                "gasBudget": "Gasbudget krävs för att genomföra en transaktion eller utföra en smartkontrakts-funktion på Shimmer EVM."
+                "tag": "Ett kort valfritt datafält. Taggningsgrupper av transaktioner kan göra dem enklare att söka efter."
             },
             "outgoing": {
                 "storageDeposit": "En lagringsdeposition är en återbetalningsbar insättning som behövs för att lagra din transaktion på Tangle.",
@@ -2158,16 +1791,11 @@
                 "expirationTime": "Om mottagaren inte gör anspråk i tid kommer dina tokens att returneras till dig.",
                 "timelockDate": "Du har lagt till en tidsgräns för denna transaktion. Mottagaren kommer inte kunna spendera dessa tillgångar förrän tidsfristen löpt ut.",
                 "metadata": "Ett valfritt datafält för att lagra data konstant på Tangle.",
-                "tag": "Ett kort valfritt datafält. Taggningsgrupper av transaktioner kan göra dem enklare att söka efter.",
-                "gasBudget": "Gasbudget krävs för att genomföra en transaktion eller utföra en smartkontrakts-funktion på Shimmer EVM."
+                "tag": "Ett kort valfritt datafält. Taggningsgrupper av transaktioner kan göra dem enklare att söka efter."
             },
             "nftMetadata": {
-                "standard": "NFT-standarden t.ex. IRC27.",
                 "type": "MimeType av NFT. t.ex. image/png.",
-                "collectionId": "UTXO sträng av samlingens NFT som mintade denna NFT",
-                "royalties": "Ett objekt som innehåller nyckelvärdepar av adresser som kartlägger utbetalningsprocent",
-                "issuerName": "Namnet på skaparen",
-                "attributes": "En rad egenskaper och värden som definierar attribut för NFT"
+                "issuerName": "Namnet på skaparen"
             }
         },
         "mintNativeToken": {
@@ -2177,7 +1805,6 @@
             "logoUrl": "IRC30 valfri parameter: URL som pekar mot en bild för tokenlogotypen."
         },
         "mintNftForm": {
-            "collectionId": "Valfri parameter: UTXO sträng av samlingens NFT som mintade denna NFT",
             "collectionName": "Valfri parameter: Samlingens namn",
             "royalties": "Valfri parameter: Ett objekt som innehåller nyckelvärdepar av adresser som kartlägger utbetalningsprocent",
             "issuerName": "Valfri parameter: Namnet på skaparen",
@@ -2199,30 +1826,10 @@
         },
         "updateStronghold": {
             "profileBadge": "Your Stronghold is out of date. Log in to update Stronghold."
-        }
-    },
-    "exports": {
-        "transactionHistoryCsv": {
-            "messageId": "Meddelande-ID",
-            "internal": "Intern",
-            "rawValue": "Obearbetat värde",
-            "formattedValue": "Formaterat värde",
-            "date": "Datum",
-            "time": "Tid"
-        }
-    },
-    "indicators": {
-        "developerProfileIndicator": {
-            "warningText": "Du använder för närvarande en utvecklarprofil och är ansluten till {networkName}"
         },
-        "networkIndicator": {
-            "warningText": "Nätverksprestanda försämrades. Meddelandebekräftelsen kan ta lite längre tid än vanligt."
-        }
-    },
-    "permissions": {
-        "camera": {
-            "request": "Vi behöver ditt tillåtande för att kunna använda kameran och skanna QR-koder.",
-            "requestInAppSettings": "Om du vill tillåta Firefly att använda din kamera för att skanna QR-koder, vänligen aktivera det i appinställningarna."
+        "tokenIsNotVerified": {
+            "title": "Token is not verified",
+            "text": "Compare the token metadata against the relevant team’s official website. Only verify tokens that you trust."
         }
     },
     "tabs": {
@@ -2230,100 +1837,16 @@
         "collectibles": "Samlarobjekt",
         "governance": "Styrning",
         "developer": "Utvecklare",
-        "tokens": "Tokens",
-        "activity": "Aktivitet"
+        "tokens": "Tokens"
     },
     "pills": {
-        "stake": {
-            "Pending": "stakar för",
-            "Confirmed": "stakat för",
-            "Conflicting": "misslyckades att staka"
-        },
-        "external": {
-            "incoming": {
-                "Pending": "tar emot från",
-                "Confirmed": "mottaget från",
-                "Conflicting": "misslyckades att ta emot"
-            },
-            "outgoing": {
-                "Pending": "skickar till",
-                "Confirmed": "skickat till",
-                "Conflicting": "misslyckades att skicka"
-            }
-        },
-        "internal": {
-            "incoming": {
-                "Pending": "överför från",
-                "Confirmed": "överfört från",
-                "Conflicting": "misslyckad överföring"
-            },
-            "outgoing": {
-                "Pending": "överför till",
-                "Confirmed": "överfört till",
-                "Conflicting": "misslyckad överföring"
-            },
-            "selfTransaction": {
-                "Pending": "överför till",
-                "Confirmed": "överfört till",
-                "Conflicting": "misslyckad överföring"
-            }
-        },
-        "mint": {
-            "Pending": "mintar",
-            "Confirmed": "mintad",
-            "Conflicting": "misslyckades med att minta"
-        },
-        "burn": {
-            "Pending": "brinnande",
-            "Confirmed": "bränd",
-            "Conflicting": "misslyckades att bränna"
-        },
-        "consolidation": {
-            "Pending": "Consolidating outputs",
-            "Confirmed": "Outputs consolidated",
-            "Conflicting": "failed to consolidate outputs"
-        },
-        "migrate": {
-            "Pending": "migrerar för",
-            "Confirmed": "migrerat för",
-            "Conflicting": "misslyckades att migrera"
-        },
         "asyncStatus": {
             "unclaimed": "ej taget i anspråk",
             "claimed": "anspråkstaget",
-            "expired": "löpt ut"
+            "expired": "löpt ut",
+            "timelocked": "timelocked"
         },
         "governance": {
-            "increaseVotingPower": {
-                "Pending": "increasing voting power",
-                "Confirmed": "increased voting power",
-                "Conflicting": "failed to increased voting power"
-            },
-            "decreaseVotingPower": {
-                "Pending": "decreasing voting power",
-                "Confirmed": "decreased voting power",
-                "Conflicting": "failed to decreased voting power"
-            },
-            "startVoting": {
-                "Pending": "voting for",
-                "Confirmed": "voted for",
-                "Conflicting": "failed to vote for"
-            },
-            "stopVoting": {
-                "Pending": "stopping voting for",
-                "Confirmed": "stopped voting for",
-                "Conflicting": "failed to stopped voting for"
-            },
-            "changedVote": {
-                "Pending": "changing vote for",
-                "Confirmed": "changed vote for",
-                "Conflicting": "failed to change vote for"
-            },
-            "revote": {
-                "Pending": "revoting",
-                "Confirmed": "revote",
-                "Conflicting": "failed to revote"
-            },
             "proposalStatus": {
                 "upcoming": "Announcement",
                 "commencing": "Voting open",
@@ -2333,31 +1856,21 @@
                 "resultsNotAvailable": "Results not available"
             }
         },
-        "alias": {
-            "creation": {
-                "Pending": "skapar alias",
-                "Confirmed": "alias skapat",
-                "Failed": "Misslyckades med att skapa alias"
-            }
-        },
         "networkHealth": {
             "down": "Down",
             "degraded": "Degraded",
             "operational": "Operational",
             "disconnected": "Disconnected"
-        },
-        "locked": "låst",
-        "smartContract": "smartkontrakt"
+        }
     },
     "menus": {
-        "expirationTimePicker": {
-            "none": "Ingen utgångstid",
-            "1hour": "Om 1 timme",
-            "1day": "Om 1 dag",
-            "1week": "Om 1 vecka",
+        "dateTimePicker": {
+            "1hour": "In 1 hour",
+            "1day": "In 1 day",
+            "1week": "In 1 week",
             "customDate": {
-                "title": "Anpassat datum",
-                "subtitle": "Ange anpassat utgångsdatum"
+                "title": "Custom date",
+                "subtitle": "Set custom date"
             }
         }
     }

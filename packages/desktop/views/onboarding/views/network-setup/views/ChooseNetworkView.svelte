@@ -1,44 +1,54 @@
 <script lang="ts">
-    import { Icon } from '@auxiliary/icon'
-    import { OnboardingLayout } from '@components'
-    import { initialiseOnboardingProfile, updateOnboardingProfile, onboardingProfile } from '@contexts/onboarding'
-    import { IS_MOBILE } from '@core/app'
-    import { localize } from '@core/i18n'
-    import { NetworkId, getDefaultClientOptions, getDefaultPersistedNetwork } from '@core/network'
-    import { profiles } from '@core/profile'
-    import features from '@features/features'
-    import { Animation, OnboardingButton, Text, TextType } from '@ui'
     import { onMount } from 'svelte'
+    import NetworkAvatar from '@ui/avatars/NetworkAvatar.svelte'
+    import { OnboardingLayout } from '@views/components'
+    import {
+        OnboardingNetworkType,
+        initialiseOnboardingProfile,
+        onboardingProfile,
+        updateOnboardingProfile,
+    } from '@contexts/onboarding'
+    import { localize } from '@core/i18n'
+    import {
+        NetworkId,
+        NetworkNamespace,
+        StardustNetworkName,
+        getDefaultClientOptions,
+        getDefaultPersistedNetwork,
+        getNetworkIdFromOnboardingNetworkType,
+    } from '@core/network'
+    import { profiles } from '@core/profile/stores'
+    import features from '@features/features'
+    import { OnboardingSelectorTile } from '../../../components'
     import { networkSetupRouter } from '../network-setup-router'
 
-    let networkIcon: { [key in NetworkId]: string }
-    $: networkIcon = {
-        [NetworkId.Iota]: Icon.Iota,
-        [NetworkId.Shimmer]: Icon.Shimmer,
-        [NetworkId.Testnet]: 'settings',
-        [NetworkId.Custom]: 'settings',
+    let selectedNetworkType: OnboardingNetworkType = OnboardingNetworkType.Shimmer
+    function onNetworkClick(networkType: OnboardingNetworkType): void {
+        selectedNetworkType = networkType
     }
 
-    function getIconColor(networkId: NetworkId): string {
-        switch (networkId) {
-            case NetworkId.Iota:
-                return 'iota-highlight'
-            case NetworkId.Shimmer:
-                return 'shimmer-highlight'
-            case NetworkId.Testnet:
-                return 'blue-500'
-            case NetworkId.Custom:
-                return 'blue-500'
-        }
-    }
-
-    function onNetworkSelectionClick(networkId: NetworkId): void {
-        if (networkId !== NetworkId.Custom) {
+    function onContinueClick(): void {
+        if (selectedNetworkType !== OnboardingNetworkType.Custom) {
+            const networkName = getNetworkNameFromOnboardingNetworkType(selectedNetworkType)
+            const networkId: NetworkId = `${NetworkNamespace.Stardust}:${networkName}`
             const network = getDefaultPersistedNetwork(networkId)
             const clientOptions = getDefaultClientOptions(networkId)
             updateOnboardingProfile({ network, clientOptions })
         }
         $networkSetupRouter.next()
+    }
+
+    function getNetworkNameFromOnboardingNetworkType(
+        networkType: OnboardingNetworkType
+    ): StardustNetworkName | undefined {
+        switch (networkType) {
+            case OnboardingNetworkType.Shimmer:
+                return StardustNetworkName.Shimmer
+            case OnboardingNetworkType.Testnet:
+                return StardustNetworkName.Testnet
+            case OnboardingNetworkType.Custom:
+                return undefined
+        }
     }
 
     function onBackClick(): void {
@@ -55,29 +65,57 @@
     })
 </script>
 
-<OnboardingLayout allowBack={$profiles.length > 0} {onBackClick}>
-    <div slot="title">
-        <Text type={TextType.h2}>{localize('views.onboarding.networkSetup.chooseNetwork.title')}</Text>
-    </div>
-    <div slot="leftpane__content">
-        <Text secondary classes="mb-8">{localize('views.onboarding.networkSetup.chooseNetwork.body')}</Text>
-    </div>
-    <div slot="leftpane__action" class="flex flex-col space-y-4">
-        {#each Object.values(NetworkId) as networkId}
-            <OnboardingButton
-                primaryText={localize(`views.onboarding.networkSetup.chooseNetwork.${networkId}.title`)}
-                secondaryText={!IS_MOBILE
-                    ? localize(`views.onboarding.networkSetup.chooseNetwork.${networkId}.body`)
-                    : ''}
-                icon={networkIcon[networkId]}
-                iconColor={getIconColor(networkId)}
-                hidden={features?.onboarding?.[networkId]?.hidden}
-                disabled={!features?.onboarding?.[networkId]?.enabled}
-                onClick={() => onNetworkSelectionClick(networkId)}
-            />
-        {/each}
-    </div>
-    <div slot="rightpane" class="w-full h-full flex justify-center {!IS_MOBILE && 'bg-pastel-yellow dark:bg-gray-900'}">
-        <Animation classes="setup-anim-aspect-ratio" animation="onboarding-network-desktop" />
+<OnboardingLayout
+    title={localize('views.onboarding.networkSetup.chooseNetwork.title')}
+    description={localize('views.onboarding.networkSetup.chooseNetwork.body')}
+    continueButton={{
+        onClick: onContinueClick,
+        disabled: !selectedNetworkType,
+    }}
+    backButton={{
+        text: localize('actions.cancel'),
+        onClick: onBackClick,
+        hidden: $profiles.length === 0,
+    }}
+>
+    <div slot="content" class="flex flex-col space-y-4">
+        <OnboardingSelectorTile
+            primaryText={localize(`views.onboarding.networkSetup.chooseNetwork.${OnboardingNetworkType.Shimmer}.title`)}
+            secondaryText={localize(
+                `views.onboarding.networkSetup.chooseNetwork.${OnboardingNetworkType.Shimmer}.body`
+            )}
+            hidden={features?.onboarding?.[OnboardingNetworkType.Shimmer]?.hidden}
+            disabled={!features?.onboarding?.[OnboardingNetworkType.Shimmer]?.enabled}
+            onClick={() => onNetworkClick(OnboardingNetworkType.Shimmer)}
+            selected={selectedNetworkType === OnboardingNetworkType.Shimmer}
+        >
+            <div slot="icon">
+                <NetworkAvatar networkId={getNetworkIdFromOnboardingNetworkType(OnboardingNetworkType.Shimmer)} />
+            </div>
+        </OnboardingSelectorTile>
+        <OnboardingSelectorTile
+            primaryText={localize(`views.onboarding.networkSetup.chooseNetwork.${OnboardingNetworkType.Testnet}.title`)}
+            secondaryText={localize(
+                `views.onboarding.networkSetup.chooseNetwork.${OnboardingNetworkType.Testnet}.body`
+            )}
+            hidden={features?.onboarding?.[OnboardingNetworkType.Testnet]?.hidden}
+            disabled={!features?.onboarding?.[OnboardingNetworkType.Testnet]?.enabled}
+            onClick={() => onNetworkClick(OnboardingNetworkType.Testnet)}
+            selected={selectedNetworkType === OnboardingNetworkType.Testnet}
+        >
+            <div slot="icon">
+                <NetworkAvatar networkId={getNetworkIdFromOnboardingNetworkType(OnboardingNetworkType.Testnet)} />
+            </div>
+        </OnboardingSelectorTile>
+        <OnboardingSelectorTile
+            primaryText={localize(`views.onboarding.networkSetup.chooseNetwork.${OnboardingNetworkType.Custom}.title`)}
+            secondaryText={localize(`views.onboarding.networkSetup.chooseNetwork.${OnboardingNetworkType.Custom}.body`)}
+            icon="settings"
+            iconColor="settings"
+            hidden={features?.onboarding?.[OnboardingNetworkType.Custom]?.hidden}
+            disabled={!features?.onboarding?.[OnboardingNetworkType.Custom]?.enabled}
+            onClick={() => onNetworkClick(OnboardingNetworkType.Custom)}
+            selected={selectedNetworkType === OnboardingNetworkType.Custom}
+        />
     </div>
 </OnboardingLayout>

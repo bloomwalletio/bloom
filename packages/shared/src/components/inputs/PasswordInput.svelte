@@ -1,7 +1,7 @@
 <script lang="ts">
+    import { Icon, Text, TextInput } from '@ui'
     import { Icon as IconEnum } from '@auxiliary/icon'
     import { localize } from '@core/i18n'
-    import { Icon, Text, TextInput } from '@ui'
 
     export let value = ''
     export let classes = ''
@@ -9,8 +9,8 @@
     export let showStrengthLevel = false
     export let showRevealToggle = false
     export let strengthLevels = 4
-    export let label: string = undefined
-    export let placeholder = undefined
+    export let label: string | undefined = undefined
+    export let placeholder: string | undefined = undefined
     export let maxlength = undefined
     export let error = null
     export let integer = false

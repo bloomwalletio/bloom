@@ -11,12 +11,18 @@ const walletFeatures: IWalletFeatures = {
             enabled: true,
         },
     },
+    newDashboard: {
+        enabled: false,
+    },
     walletConnect: {
         enabled: false,
     },
     assets: {
         enabled: true,
-        burnAsset: {
+        burnToken: {
+            enabled: true,
+        },
+        unwrapToken: {
             enabled: true,
         },
     },

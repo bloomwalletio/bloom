@@ -1,0 +1,25 @@
+<script lang="ts">
+    import { Pane } from '@ui'
+    import { IAccountState } from '@core/account'
+    import { getActiveNetworkId, network } from '@core/network'
+    import { AccountEvmChainSummary, AccountStardustNetworkSummary, AccountSummary } from './components'
+
+    export let account: IAccountState
+
+    const evmChainNetworkId = $network.getChains()[0].getConfiguration().id
+</script>
+
+<Pane classes="w-full flex flex-row shrink-0 justify-between items-center border border-solid border-gray-100">
+    <AccountSummary {account} />
+    <div class="middle w-full">
+        <AccountStardustNetworkSummary {account} networkId={getActiveNetworkId()} />
+    </div>
+    <AccountEvmChainSummary {account} networkId={evmChainNetworkId} />
+</Pane>
+
+<style lang="postcss">
+    .middle {
+        border-left: 1px solid #f1eef9;
+        border-right: 1px solid #f1eef9;
+    }
+</style>

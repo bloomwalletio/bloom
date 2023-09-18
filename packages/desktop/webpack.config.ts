@@ -1,13 +1,14 @@
-import MiniCssExtractPlugin from 'mini-css-extract-plugin'
-import CopyPlugin from 'copy-webpack-plugin'
-import { DefinePlugin, NormalModuleReplacementPlugin, ProvidePlugin } from 'webpack'
+import assert from 'assert'
 import path from 'path'
+import CopyPlugin from 'copy-webpack-plugin'
+import dotenv from 'dotenv'
+import MiniCssExtractPlugin from 'mini-css-extract-plugin'
 import sveltePreprocess from 'svelte-preprocess'
-import features from './features/features'
+import { DefinePlugin, NormalModuleReplacementPlugin, ProvidePlugin } from 'webpack'
 import { Configuration as WebpackConfiguration } from 'webpack'
 import { Configuration as WebpackDevServerConfiguration } from 'webpack-dev-server'
-import assert from 'assert'
-import dotenv from 'dotenv'
+import features from './features/features'
+// import { transformSync } from 'esbuild'
 
 dotenv.config() // used to read env vars from an .env file
 
@@ -106,6 +107,12 @@ const rendererRules = [
                 preprocess: sveltePreprocess({
                     sourceMap: false,
                     postcss: true,
+                    // typescript({ content }) {
+                    //     const { code, map } = transformSync(content, {
+                    //         loader: 'ts',
+                    //     })
+                    //     return { code, map }
+                    // },
                 }),
             },
         },

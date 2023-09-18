@@ -1,10 +1,10 @@
 <script lang="ts">
     import { Text, Icon, Tooltip, TextType, Position } from '@ui'
+    import { Icon as IconEnum } from '@auxiliary/icon'
     import { AccountColors } from '@core/account'
     import { appSettings } from '@core/app/stores'
     import { localize } from '@core/i18n'
     import { clickOutside, isBright, convertHexToRgba } from '@core/utils'
-    import { Icon as IconEnum } from '@auxiliary/icon'
 
     export let title = localize('views.picker.color.title')
     export let active = ''
@@ -33,7 +33,7 @@
     $: if (indexOfActiveElement === accountColors.length) {
         active = inputValue.length === 7 || inputValue.length === 4 ? inputValue : cachedColor
     } else {
-        active = accountColors?.[indexOfActiveElement]?.toString()
+        active = (accountColors?.[indexOfActiveElement] as string)?.toString()
     }
 
     $: if (inputValue.length) {

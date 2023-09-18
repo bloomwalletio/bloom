@@ -1,16 +1,15 @@
 import { derived, Readable, writable, Writable } from 'svelte/store'
-import { isValidIrc30Token } from '@core/token'
-
-import { selectedAccount } from '../../account/stores/selected-account.store'
-import { Activity } from '../types/activity.type'
-import { ActivityFilter } from '../types'
-import { isVisibleActivity } from '../utils/isVisibleActivity'
-import { allAccountActivities } from './all-account-activities.store'
-import { ActivityType } from '../enums'
-import { DEFAULT_ACTIVITY_FILTER } from '../constants'
+import { getPersistedToken } from '@core/token/stores'
+import { isValidIrc30Token } from '@core/token/utils'
 import { SubjectType } from '@core/wallet/enums'
-import { getAssetFromPersistedAssets } from '@core/wallet/utils'
+import { selectedAccount } from '../../account/stores/selected-account.store'
+import { DEFAULT_ACTIVITY_FILTER } from '../constants'
+import { ActivityType } from '../enums'
+import { ActivityFilter } from '../types'
+import { Activity } from '../types/activity.type'
+import { isVisibleActivity } from '../utils/isVisibleActivity'
 import { getFormattedAmountFromActivity } from '../utils/outputs'
+import { allAccountActivities } from './all-account-activities.store'
 
 export const selectedAccountActivities: Readable<Activity[]> = derived(
     [selectedAccount, allAccountActivities],
@@ -36,11 +35,12 @@ export const queriedActivities: Readable<Activity[]> = derived(
                 return true
             }
 
-            const asset =
+            const tokenId = _activity.tokenTransfer?.tokenId ?? _activity.baseTokenTransfer.tokenId
+            const token =
                 _activity.type === ActivityType.Basic || _activity.type === ActivityType.Foundry
-                    ? getAssetFromPersistedAssets(_activity.assetId)
+                    ? getPersistedToken(tokenId)
                     : undefined
-            const hasValidAsset = asset?.metadata && isValidIrc30Token(asset.metadata)
+            const hasValidAsset = token?.metadata && isValidIrc30Token(token.metadata)
             return !_activity.isHidden && hasValidAsset
         })
 
@@ -49,8 +49,8 @@ export const queriedActivities: Readable<Activity[]> = derived(
         if ($activitySearchTerm) {
             activityList = activityList.filter((activity) => {
                 const fieldsToSearch = getFieldsToSearchFromActivity(activity)
-                return fieldsToSearch.find((field) =>
-                    field?.toLowerCase()?.includes($activitySearchTerm?.toLowerCase())
+                return fieldsToSearch.find(
+                    (field) => field?.toLowerCase()?.includes($activitySearchTerm?.toLowerCase())
                 )
             })
         }
@@ -66,17 +66,30 @@ function getFieldsToSearchFromActivity(activity: Activity): string[] {
         fieldsToSearch.push(activity.transactionId)
     }
 
-    if ((activity.type === ActivityType.Basic || activity.type === ActivityType.Foundry) && activity.assetId) {
-        fieldsToSearch.push(activity.assetId)
+    if (activity.type === ActivityType.Basic || activity.type === ActivityType.Foundry) {
+        fieldsToSearch.push(activity.baseTokenTransfer.tokenId)
 
-        const assetName = getAssetFromPersistedAssets(activity.assetId)?.metadata?.name
-        if (assetName) {
-            fieldsToSearch.push(assetName)
+        const baseTokenName = getPersistedToken(activity.baseTokenTransfer.tokenId)?.metadata?.name
+        if (baseTokenName) {
+            fieldsToSearch.push(baseTokenName)
+        }
+
+        if (activity.tokenTransfer) {
+            fieldsToSearch.push(activity.tokenTransfer.tokenId)
+
+            const tokenName = getPersistedToken(activity.tokenTransfer.tokenId)?.metadata?.name
+            if (tokenName) {
+                fieldsToSearch.push(tokenName)
+            }
         }
     }
 
-    if ((activity.type === ActivityType.Basic || activity.type === ActivityType.Foundry) && activity.rawAmount) {
-        fieldsToSearch.push(activity.rawAmount?.toString())
+    if (activity.type === ActivityType.Basic || activity.type === ActivityType.Foundry) {
+        fieldsToSearch.push(activity.baseTokenTransfer.rawAmount)
+
+        if (activity.tokenTransfer) {
+            fieldsToSearch.push(activity.tokenTransfer.rawAmount)
+        }
         fieldsToSearch.push(getFormattedAmountFromActivity(activity, false)?.toLowerCase())
     }
 

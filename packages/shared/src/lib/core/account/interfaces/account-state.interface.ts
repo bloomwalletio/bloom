@@ -1,6 +1,6 @@
-import { Balance } from '@iota/wallet'
-import { IPersistedAccountData } from './persisted-account-data.interface'
+import { Balance } from '@iota/sdk/out/types'
 import { IAccount } from './account.interface'
+import { IPersistedAccountData } from './persisted-account-data.interface'
 
 export interface IAccountState extends IAccount, IPersistedAccountData {
     index: number

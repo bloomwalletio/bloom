@@ -1,34 +1,33 @@
 <script lang="ts">
-    import { hasStrongholdLocked, isActiveLedgerProfile, logout, reflectLockedStronghold } from '@core/profile'
-    import { appRouter, dashboardRoute } from '@core/router'
-    import { Idle } from '@ui'
-    import { stopPollingLedgerNanoStatus } from '@core/ledger'
-    import { Platform } from '@core/app'
-    import { Developer } from './developer'
-    import { Settings } from './settings'
-    import { Wallet } from './wallet'
     import { onDestroy, onMount } from 'svelte'
-    import Collectibles from './collectibles/Collectibles.svelte'
-    import { Governance } from './governance'
-    import Sidebar from './Sidebar.svelte'
-    import TopNavigation from './TopNavigation.svelte'
-    import { Drawer } from '@components'
+    import { get } from 'svelte/store'
+    import { NavbarContainer } from '@components'
+    import { Idle } from '@ui'
+    import { selectedAccount, selectedAccountIndex } from '@core/account/stores'
+    import { IS_MAC, Platform } from '@core/app'
+    import { clearLayer2TokensPoll, pollLayer2Tokens } from '@core/layer-2/actions'
     import {
         addNftsToDownloadQueue,
-        downloadingNftId,
         downloadNextNftInQueue,
         interruptNftDownloadAfterTimeout,
-        nftDownloadQueue,
-        resetNftDownloadQueue,
-        selectedAccountNfts,
-    } from '@core/nfts'
-    import { selectedAccount, selectedAccountIndex } from '@core/account'
-    import { get } from 'svelte/store'
+    } from '@core/nfts/actions'
+    import { downloadingNftId, nftDownloadQueue, resetNftDownloadQueue, selectedAccountNfts } from '@core/nfts/stores'
+    import { logout, reflectLockedStronghold } from '@core/profile/actions'
+    import { hasStrongholdLocked } from '@core/profile/stores'
+    import { appRouter, dashboardRoute } from '@core/router'
     import features from '@features/features'
-    import { pollLayer2Tokens, clearLayer2TokensPoll } from '@core/layer-2'
+    import Collectibles from './collectibles/Collectibles.svelte'
+    import { Navbar, Sidebar } from './components'
+    import { Developer } from './developer'
+    import { DashboardDrawerRouterView } from './drawers'
+    import { Governance } from './governance'
+    import { NewDashboard } from './new-dashboard'
+    import { Settings } from './settings'
+    import { Wallet } from './wallet'
 
     const tabs = {
         wallet: Wallet,
+        newDashboard: NewDashboard,
         settings: Settings,
         collectibles: Collectibles,
         governance: Governance,
@@ -57,40 +56,37 @@
             logout()
         })
 
-        Platform.DeepLinkManager.checkDeepLinkRequestExists()
+        Platform.DeepLinkManager.checkForDeepLinkRequest()
 
         void pollLayer2Tokens($selectedAccount)
     })
 
     onDestroy(() => {
         Platform.DeepLinkManager.clearDeepLinkRequest()
-        if ($isActiveLedgerProfile) {
-            stopPollingLedgerNanoStatus()
-        }
         clearLayer2TokensPoll()
     })
 </script>
 
 <Idle />
-<div class="dashboard-wrapper flex flex-col w-full h-full">
-    <TopNavigation />
-    <div class="flex flex-row flex-auto h-1">
+<dashboard class="dashboard-wrapper flex flex-row w-full h-full">
+    <div class="flex flex-col flex-none">
+        {#if IS_MAC}
+            <NavbarContainer draggable={IS_MAC} />
+        {/if}
         <Sidebar />
+    </div>
+    <div class="flex flex-col flex-auto">
+        <Navbar />
         <!-- Dashboard Pane -->
-        <div class="flex flex-col h-full dashboard-w">
+        <div class="flex flex-col h-full w-full">
             <svelte:component this={tabs[$dashboardRoute]} on:next={$appRouter.next} />
-            <Drawer />
+            <DashboardDrawerRouterView />
         </div>
     </div>
-</div>
+</dashboard>
 
 <style lang="scss">
-    :global(:not(body.platform-win32)) .dashboard-wrapper {
+    :global(:not(body.platform-win32)) dashboard {
         margin-top: calc(env(safe-area-inset-top) / 2);
-    }
-
-    .dashboard-w {
-        --sidebar-width: 4.5rem;
-        width: calc(100vw - var(--sidebar-width));
     }
 </style>

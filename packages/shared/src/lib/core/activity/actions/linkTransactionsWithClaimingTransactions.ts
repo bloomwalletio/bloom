@@ -1,10 +1,10 @@
+import { get } from 'svelte/store'
 import { IAccountState } from '@core/account'
 import { addClaimedActivity, claimedActivities } from '@core/activity/stores'
-import { activeProfileId } from '@core/profile'
-import { get } from 'svelte/store'
+import { activeProfileId } from '@core/profile/stores'
 import { ActivityDirection } from '../enums'
-import { isOutputAsync } from '../utils/outputs'
 import { IProcessedTransaction } from '../types'
+import { isOutputAsync } from '../utils/outputs'
 
 /**
  * It takes a list of transactions and links the transactions that are claiming async transactions
@@ -81,7 +81,7 @@ function searchClaimedTransactionInIncomingAsyncTransactions(
     allAsyncTransaction: IProcessedTransaction[],
     transaction: IProcessedTransaction
 ): IProcessedTransaction {
-    return allAsyncTransaction.find((candidate) =>
-        transaction.utxoInputs?.some((input) => input?.transactionId === candidate?.transactionId)
+    return allAsyncTransaction.find(
+        (candidate) => transaction.utxoInputs?.some((input) => input?.transactionId === candidate?.transactionId)
     )
 }

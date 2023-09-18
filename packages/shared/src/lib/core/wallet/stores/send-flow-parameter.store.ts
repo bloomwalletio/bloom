@@ -1,12 +1,6 @@
 import { writable, Writable } from 'svelte/store'
+import { SendFlowType } from '../enums'
 import type { SendFlowParameters } from '../types'
-
-// TODO: Move enum
-export enum SendFlowType {
-    BaseCoinTransfer = 'BaseCoinTransfer',
-    TokenTransfer = 'TokenTransfer',
-    NftTransfer = 'NftTransfer',
-}
 
 export const sendFlowParameters: Writable<SendFlowParameters | undefined> = writable(undefined)
 

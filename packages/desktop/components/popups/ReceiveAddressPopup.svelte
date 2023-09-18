@@ -1,7 +1,7 @@
 <script lang="ts">
     import { QR, Text, FontWeight, AddressBox } from '@ui'
+    import { selectedAccount } from '@core/account/stores'
     import { localize } from '@core/i18n'
-    import { selectedAccount } from '@core/account'
 
     export let title: string = localize('general.receiveFunds')
 

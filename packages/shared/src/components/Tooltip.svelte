@@ -1,7 +1,7 @@
 <script lang="ts">
-    import { appSettings } from '@core/app'
-    import { Position } from './enums'
     import { onMount } from 'svelte'
+    import { appSettings } from '@core/app/stores'
+    import { Position } from './enums'
 
     export let classes = ''
     export let anchor: HTMLElement | null = null

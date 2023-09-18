@@ -1,14 +1,15 @@
 <script lang="ts">
-    import { Button, Text, FontWeight, TextHint, TextType, KeyValueBox } from '@ui'
+    import { Button, FontWeight, Text, TextType } from '@ui'
     import { HTMLButtonType } from '@ui/enums'
-    import { closePopup, openPopup, PopupId } from '@desktop/auxiliary/popup'
-    import { selectedAccount } from '@core/account/stores'
-    import { localize } from '@core/i18n'
-    import { checkActiveProfileAuth, getBaseToken } from '@core/profile/actions'
-    import { formatTokenAmountBestMatch } from '@core/wallet/utils'
+    import { Alert, Table } from '@bloomwalletio/ui'
     import { vote } from '@contexts/governance/actions'
     import { ABSTAIN_VOTE_VALUE } from '@contexts/governance/constants'
     import { selectedProposal } from '@contexts/governance/stores'
+    import { selectedAccount } from '@core/account/stores'
+    import { localize } from '@core/i18n'
+    import { checkActiveProfileAuth, getBaseToken } from '@core/profile/actions'
+    import { formatTokenAmountBestMatch } from '@core/token'
+    import { PopupId, closePopup, openPopup } from '@desktop/auxiliary/popup'
 
     export let selectedAnswerValues: number[]
 
@@ -49,12 +50,12 @@
         })}
     </Text>
     <div class="space-y-4">
-        <KeyValueBox keyText={localize('popups.voteForProposal.key')} valueText={formattedVotingPower} />
+        <Table items={[{ key: localize('popups.voteForProposal.key'), value: formattedVotingPower }]} />
         {#if !hasVotingPower}
-            <TextHint danger text={localize('popups.voteForProposal.noVotingPower')} />
+            <Alert variant="danger" text={localize('popups.voteForProposal.noVotingPower')} />
         {:else if numberOfAbstainedQuestions > 0}
-            <TextHint
-                warning
+            <Alert
+                variant="warning"
                 text={localize('popups.voteForProposal.hasAbstained', {
                     values: { numberOfQuestions: numberOfAbstainedQuestions },
                 })}
@@ -62,9 +63,9 @@
         {/if}
     </div>
     <popup-buttons class="flex flex-row flex-nowrap w-full space-x-4">
-        <Button classes="w-full" disabled={hasGovernanceTransactionInProgress} outline onClick={closePopup}
-            >{localize('actions.cancel')}</Button
-        >
+        <Button classes="w-full" disabled={hasGovernanceTransactionInProgress} outline onClick={closePopup}>
+            {localize('actions.cancel')}
+        </Button>
         <Button
             type={HTMLButtonType.Submit}
             classes="w-full"

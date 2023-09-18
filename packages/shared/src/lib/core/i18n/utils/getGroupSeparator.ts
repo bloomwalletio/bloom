@@ -1,6 +1,6 @@
-import { appSettings } from '@core/app'
-import { activeProfile } from '@core/profile'
 import { get } from 'svelte/store'
+import { appSettings } from '@core/app/stores'
+import { activeProfile } from '@core/profile/stores'
 
 export function getGroupSeparator(currency: string | undefined = undefined): string {
     const appLanguage = get(appSettings).language

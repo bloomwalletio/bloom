@@ -1,31 +1,38 @@
+import { NetworkId } from '@core/network'
 import {
     addPersistedBalanceChange,
     getBalanceChanges,
     addActivityToAccountActivitiesInAllAccountActivities,
 } from '../stores'
+import { ITokenBalanceChange } from '../types'
 import { generateBalanceChangeActivity } from '../utils/generateBalanceChangeActivity'
-import { IAssetBalanceChange } from '../types'
 
-export function calculateAndAddPersistedBalanceChange(
+export async function calculateAndAddPersistedBalanceChange(
     accountIndex: number,
-    chainId: string | number,
-    assetId: string,
-    newBalance: number
-): void {
+    networkId: NetworkId,
+    tokenId: string,
+    newBalance: number,
+    hidden: boolean = false
+): Promise<void> {
     newBalance = newBalance || 0
 
-    const balanceChangesForAsset = getBalanceChanges(accountIndex, chainId)?.[assetId]
+    const balanceChangesForAsset = getBalanceChanges(accountIndex, networkId)?.[tokenId]
     const lastBalanceChange = balanceChangesForAsset?.at(-1)
 
-    if (!lastBalanceChange || lastBalanceChange.newBalance !== newBalance) {
-        const newBalanceChange: IAssetBalanceChange = {
-            changedAt: Date.now(),
-            oldBalance: lastBalanceChange?.newBalance,
-            newBalance,
-        }
-
-        const activity = generateBalanceChangeActivity(Number(chainId), assetId, newBalanceChange)
-        addActivityToAccountActivitiesInAllAccountActivities(accountIndex, activity)
-        addPersistedBalanceChange(accountIndex, chainId, assetId, newBalanceChange)
+    if (lastBalanceChange?.newBalance === newBalance) {
+        return
     }
+
+    const newBalanceChange: ITokenBalanceChange = {
+        changedAt: Date.now(),
+        oldBalance: lastBalanceChange?.newBalance,
+        newBalance: Math.floor(newBalance),
+        hidden,
+    }
+
+    if (!hidden) {
+        const activity = await generateBalanceChangeActivity(networkId, tokenId, newBalanceChange)
+        addActivityToAccountActivitiesInAllAccountActivities(accountIndex, activity)
+    }
+    addPersistedBalanceChange(accountIndex, networkId, tokenId, newBalanceChange)
 }

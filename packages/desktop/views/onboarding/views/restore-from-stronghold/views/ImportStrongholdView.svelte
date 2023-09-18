@@ -1,15 +1,14 @@
 <script lang="ts">
-    import { OnboardingLayout } from '@components'
-    import { ImportFile, updateOnboardingProfile, validateBackupFile, onboardingProfile } from '@contexts/onboarding'
-    import { IS_MOBILE } from '@core/app'
+    import { onMount } from 'svelte'
+    import { Dropzone } from '@ui'
+    import { OnboardingLayout } from '@views/components'
+    import { ImportFile, onboardingProfile, updateOnboardingProfile, validateBackupFile } from '@contexts/onboarding'
     import { CLIENT_ERROR_REGEXES } from '@core/error/constants'
     import { ClientError } from '@core/error/enums'
     import { localize } from '@core/i18n'
     import { restoreBackup } from '@core/profile-manager/api'
     import { STRONGHOLD_VERSION } from '@core/stronghold/constants'
     import { StrongholdVersion } from '@core/stronghold/enums'
-    import { Animation, Button, Dropzone, Text } from '@ui'
-    import { onMount } from 'svelte'
     import { restoreFromStrongholdRouter } from '../../restore-from-stronghold/restore-from-stronghold-router'
 
     interface FileWithPath extends File {
@@ -23,7 +22,9 @@
     let importFilePath = ''
     let dropping = false
 
+    let busy = false
     async function onContinueClick(): Promise<void> {
+        busy = true
         validateBackupFile(importFileName)
         const _shouldMigrate = await shouldMigrate()
         updateOnboardingProfile({
@@ -33,6 +34,7 @@
             strongholdVersion: _shouldMigrate ? StrongholdVersion.V2 : STRONGHOLD_VERSION,
         })
         $restoreFromStrongholdRouter.next()
+        busy = false
     }
 
     function onBackClick(): void {
@@ -72,9 +74,6 @@
 
         reader.onload = (e): void => {
             setFile(e.target.result, fileWithPath)
-            if (IS_MOBILE) {
-                void onContinueClick()
-            }
         }
 
         reader.readAsArrayBuffer(fileWithPath)
@@ -94,42 +93,25 @@
     })
 </script>
 
-<OnboardingLayout {onBackClick}>
-    <div slot="title">
-        <Text type="h2">{localize('views.onboarding.profileRecovery.importStrongholdBackup.title')}</Text>
-    </div>
-    <div slot="leftpane__content">
-        <Text type="p" secondary classes="mb-8"
-            >{localize('views.onboarding.profileRecovery.importStrongholdBackup.body')}</Text
-        >
-        {#if !IS_MOBILE}
-            <Dropzone
-                fileName={importFileName}
-                {allowedExtensions}
-                onDrop={onFileSelection}
-                bind:dropping
-                extentionsLabel={localize('actions.importExtentions')}
-            />
-        {/if}
-    </div>
-    <div slot="leftpane__action" class="flex flex-row flex-wrap justify-between items-center space-x-4">
-        {#if IS_MOBILE}
-            <input
-                class="absolute opacity-0 w-full h-full"
-                type="file"
-                on:change={onFileSelection}
-                accept={allowedExtensions ? allowedExtensions.map((e) => `.${e}`).join(',') : '*'}
-            />
-        {/if}
-        <Button
-            classes="flex-1"
-            disabled={!IS_MOBILE && !importFile}
-            onClick={IS_MOBILE ? onFileSelection : onContinueClick}
-        >
-            {localize(`actions.${IS_MOBILE ? 'chooseFile' : 'continue'}`)}
-        </Button>
-    </div>
-    <div slot="rightpane" class="w-full h-full flex justify-center {!IS_MOBILE && 'bg-pastel-blue dark:bg-gray-900'}">
-        <Animation classes="setup-anim-aspect-ratio" animation="import-from-file-desktop" />
+<OnboardingLayout
+    title={localize('views.onboarding.profileRecovery.importStrongholdBackup.title')}
+    description={localize('views.onboarding.profileRecovery.importStrongholdBackup.body')}
+    continueButton={{
+        onClick: onContinueClick,
+        disabled: !importFile,
+    }}
+    backButton={{
+        onClick: onBackClick,
+    }}
+    {busy}
+>
+    <div slot="content">
+        <Dropzone
+            fileName={importFileName}
+            {allowedExtensions}
+            onDrop={onFileSelection}
+            bind:dropping
+            extentionsLabel={localize('actions.importExtentions')}
+        />
     </div>
 </OnboardingLayout>

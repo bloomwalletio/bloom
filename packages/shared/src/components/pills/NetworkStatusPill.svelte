@@ -1,35 +1,34 @@
 <script lang="ts">
-    import { Pill } from '@ui'
-    import { NetworkHealth } from '@core/network'
+    import { DefaultColors } from 'tailwindcss/types/generated/colors'
+    import { NetworkStatusIndicator } from '@ui'
+    import { Pill } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
+    import { NetworkHealth } from '@core/network'
 
     export let status: NetworkHealth
 
-    let backgroundColor = ''
-    let darkBackgroundColor = ''
-    let textColor = ''
+    let color: keyof DefaultColors | 'primary' = 'primary'
     $: {
         switch (status) {
             case NetworkHealth.Operational:
-                backgroundColor = 'green-100'
-                darkBackgroundColor = 'green-100'
-                textColor = 'green-800'
+                color = 'green'
                 break
             case NetworkHealth.Degraded:
-                backgroundColor = 'yellow-100'
-                darkBackgroundColor = 'yellow-100'
-                textColor = 'yellow-800'
+                color = 'yellow'
                 break
             case NetworkHealth.Disconnected:
             case NetworkHealth.Down:
-                backgroundColor = 'orange-100'
-                darkBackgroundColor = 'orange-100'
-                textColor = 'orange-800'
+                color = 'orange'
                 break
         }
     }
 </script>
 
-<Pill {backgroundColor} {darkBackgroundColor} {textColor}>
-    • {localize(`pills.networkHealth.${status}`)}
+<Pill {color}>
+    <div class="flex flex-row space-x-1 items-center">
+        <NetworkStatusIndicator {status} size="sm" />
+        <div>
+            {localize(`pills.networkHealth.${status}`)}
+        </div>
+    </div>
 </Pill>

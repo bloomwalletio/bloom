@@ -1,5 +1,5 @@
+import type { AnswerStatus } from '@iota/sdk'
 import { round } from '@core/utils/number'
-import type { AnswerStatus } from '@iota/wallet/out/types'
 import { IProposalAnswerPercentages } from '../interfaces'
 
 export function getPercentagesFromAnswerStatuses(answerStatuses: AnswerStatus[]): IProposalAnswerPercentages {

@@ -1,46 +1,53 @@
 <script lang="ts">
-    import { selectedAccount } from '@core/account'
-    import { localize } from '@core/i18n'
-    import { getDestinationNetworkFromAddress, estimateGasForLayer1ToLayer2Transaction } from '@core/layer-2/utils'
-    import { TimePeriod } from '@core/utils/enums'
-    import { SendFlowType, selectedAccountAssets, updateSendFlowParameters } from '@core/wallet/stores'
-    import { AddInputButton, ExpirationTimePicker, OptionalInput, TransactionAssetSection } from '@ui'
     import { onMount } from 'svelte'
-    import StardustTransactionDetails from './StardustTransactionDetails.svelte'
-    import { Output, SendFlowParameters, TokenTransferData } from '@core/wallet'
-    import { INft } from '@core/nfts/interfaces'
-    import { getNetwork } from '@core/network'
+    import { AddInputButton, OptionalInput, TransactionAssetSection } from '@ui'
+    import { selectedAccount } from '@core/account/stores'
     import { getStorageDepositFromOutput } from '@core/activity/utils/helper'
+    import { localize } from '@core/i18n'
+    import { getActiveNetworkId } from '@core/network'
+    import { INft } from '@core/nfts/interfaces'
+    import { selectedAccountTokens } from '@core/token/stores'
+    import { TimePeriod } from '@core/utils/enums'
+    import { Output, SendFlowParameters, SendFlowType, TokenTransferData, validateTag } from '@core/wallet'
+    import { updateSendFlowParameters } from '@core/wallet/stores'
+    import StardustTransactionDetails from './StardustTransactionDetails.svelte'
 
     export let output: Output
     export let sendFlowParameters: SendFlowParameters
+    export let isDisabled: boolean = false
+
+    function validate(): void {
+        tagInputError = ''
+        try {
+            validateTag(tag)
+            isDisabled = false
+        } catch (err) {
+            tagInputError = err.message
+            isDisabled = true
+        }
+    }
 
     let {
         expirationDate,
         timelockDate,
         disableChangeExpiration,
         giftStorageDeposit,
-        layer2Parameters,
+        destinationNetworkId,
         tag,
         metadata,
         disableToggleGift,
     } = sendFlowParameters
 
-    const destinationNetwork = getDestinationNetworkFromAddress(layer2Parameters?.networkAddress)
-    let baseCoinTransfer: TokenTransferData
     let storageDeposit: number
-    let estimatedGas = 0
-    let expirationTimePicker: ExpirationTimePicker
-    let tagInput: OptionalInput
-    let metadataInput: OptionalInput
+    let tagInputError = ''
 
     let selectedExpirationPeriod: TimePeriod | undefined = expirationDate ? TimePeriod.Custom : undefined
     let selectedTimelockPeriod: TimePeriod | undefined = timelockDate ? TimePeriod.Custom : undefined
 
-    $: expirationTimePicker?.setNull(giftStorageDeposit)
     $: isTransferring = !!$selectedAccount.isTransferring
-    $: isToLayer2 = !!layer2Parameters?.networkAddress
     $: updateSendFlowOnChange(expirationDate, timelockDate, giftStorageDeposit, tag, metadata)
+    $: storageDeposit = getStorageDepositFromOutput(output)
+    $: tag, validate()
 
     function updateSendFlowOnChange(
         expirationDate: Date,
@@ -67,33 +74,41 @@
         }
     }
 
-    async function setEstimatedGas(sendFlowParameters: SendFlowParameters): Promise<void> {
-        estimatedGas = await estimateGasForLayer1ToLayer2Transaction(sendFlowParameters)
-    }
-    $: void setEstimatedGas(sendFlowParameters)
-
-    function setBaseCoinAndStorageDeposit(output: Output, estimatedGas: number): void {
-        storageDeposit = getStorageDepositFromOutput(output)
-        baseCoinTransfer = {
-            asset: $selectedAccountAssets?.[getNetwork().getMetadata().id].baseCoin,
-            rawAmount: String(Number(output.amount) - storageDeposit - estimatedGas),
-        }
-    }
-    $: setBaseCoinAndStorageDeposit(output, estimatedGas)
-
-    function getTransactionAsset(sendFlowParameters: SendFlowParameters): {
-        tokenTransfer?: TokenTransferData
+    function getTransactionAssets(
+        output: Output,
+        sendFlowParameters: SendFlowParameters
+    ): {
         nft?: INft
+        tokenTransfer?: TokenTransferData
+        baseCoinTransfer?: TokenTransferData
     } {
-        return {
-            ...(sendFlowParameters.type === SendFlowType.TokenTransfer && {
-                tokenTransfer: sendFlowParameters.tokenTransfer,
-            }),
-            ...(sendFlowParameters.type === SendFlowType.NftTransfer && { nft: sendFlowParameters.nft }),
+        const baseCoin = $selectedAccountTokens?.[getActiveNetworkId()].baseCoin
+        const baseCoinTransfer = {
+            token: baseCoin,
+            rawAmount: String(Number(output.amount) - storageDeposit),
+        }
+
+        switch (sendFlowParameters.type) {
+            case SendFlowType.BaseCoinTransfer:
+                return { baseCoinTransfer }
+            case SendFlowType.TokenTransfer:
+                return {
+                    tokenTransfer: sendFlowParameters.tokenTransfer,
+                    baseCoinTransfer,
+                }
+            case SendFlowType.NftTransfer:
+                return {
+                    nft: sendFlowParameters.nft,
+                    baseCoinTransfer,
+                }
         }
     }
 
-    function getInitialExpirationDate(hasExpirationDate, hasStorageDeposit, giftStorageDeposit): TimePeriod {
+    function getInitialExpirationDate(
+        hasExpirationDate: boolean,
+        hasStorageDeposit: boolean,
+        giftStorageDeposit: boolean
+    ): TimePeriod {
         if (hasExpirationDate) {
             return TimePeriod.Custom
         } else if (hasStorageDeposit && !giftStorageDeposit) {
@@ -103,14 +118,14 @@
         }
     }
 
-    onMount(() => {
-        setBaseCoinAndStorageDeposit(output, estimatedGas)
+    onMount((): void => {
+        storageDeposit = getStorageDepositFromOutput(output)
         selectedExpirationPeriod = getInitialExpirationDate(!!expirationDate, !!storageDeposit, giftStorageDeposit)
     })
 </script>
 
 <div class="w-full space-y-4">
-    <TransactionAssetSection {baseCoinTransfer} {...getTransactionAsset(sendFlowParameters)} />
+    <TransactionAssetSection {...getTransactionAssets(output, sendFlowParameters)} />
 
     <StardustTransactionDetails
         bind:expirationDate
@@ -118,9 +133,8 @@
         bind:selectedExpirationPeriod
         bind:selectedTimelockPeriod
         bind:giftStorageDeposit
-        gasBudget={estimatedGas}
-        storageDeposit={getStorageDepositFromOutput(output)}
-        {destinationNetwork}
+        {storageDeposit}
+        {destinationNetworkId}
         {disableChangeExpiration}
         disableChangeTimelock={disableChangeExpiration}
         disableGiftStorageDeposit={disableToggleGift}
@@ -141,20 +155,16 @@
             onClick={() => (selectedTimelockPeriod = TimePeriod.OneDay)}
         />
         <OptionalInput
-            bind:this={tagInput}
             bind:value={tag}
-            disabled={isTransferring}
+            error={tagInputError}
             label={localize('general.tag')}
             description={localize('tooltips.optionalInput')}
         />
-        {#if !isToLayer2}
-            <OptionalInput
-                bind:this={metadataInput}
-                bind:value={metadata}
-                disabled={isTransferring}
-                label={localize('general.metadata')}
-                description={localize('tooltips.optionalInput')}
-            />
-        {/if}
+        <OptionalInput
+            bind:value={metadata}
+            disabled={isTransferring}
+            label={localize('general.metadata')}
+            description={localize('tooltips.optionalInput')}
+        />
     </optional-inputs>
 </div>

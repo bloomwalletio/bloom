@@ -1,13 +1,4 @@
 <script lang="ts">
-    import { time } from '@core/app'
-    import { Activity, ActivityAsyncStatus, ActivityType, InclusionState } from '@core/activity'
-    import {
-        NotVerifiedStatus,
-        selectedAccountAssets,
-        getAssetFromPersistedAssets,
-        IPersistedAsset,
-        IAsset,
-    } from '@core/wallet'
     import {
         AliasActivityTileContent,
         AsyncActivityTileFooter,
@@ -19,27 +10,34 @@
         TimelockActivityTileFooter,
         TransactionActivityTileContent,
     } from '@ui'
+    import { Activity, ActivityAsyncStatus, ActivityType, InclusionState } from '@core/activity'
+    import { time } from '@core/app/stores'
+    import { IToken, ITokenWithBalance, NotVerifiedStatus } from '@core/token'
+    import { getTokenBalance } from '@core/token/actions'
+    import { getTokenFromSelectedAccountTokens, selectedAccountTokens } from '@core/token/stores'
     import { PopupId, openPopup } from '../../../../desktop/lib/auxiliary/popup'
 
     export let activity: Activity
 
-    let persistedAsset: IPersistedAsset | undefined
-    $: $selectedAccountAssets,
-        (persistedAsset =
+    let token: IToken | undefined
+    $: $selectedAccountTokens,
+        (token =
             activity.type === ActivityType.Basic || activity.type === ActivityType.Foundry
-                ? getAssetFromPersistedAssets(activity.assetId)
+                ? getTokenFromSelectedAccountTokens(
+                      activity.tokenTransfer?.tokenId ?? activity.baseTokenTransfer.tokenId,
+                      activity.sourceNetworkId
+                  )
                 : undefined)
     $: isTimelocked = activity?.asyncData?.timelockDate ? activity?.asyncData?.timelockDate > $time : false
     $: shouldShowAsyncFooter = activity.asyncData && activity.asyncData.asyncStatus !== ActivityAsyncStatus.Claimed
 
     function onTransactionClick(): void {
-        if (persistedAsset?.verification?.status === NotVerifiedStatus.New) {
-            const asset: IAsset = {
-                ...persistedAsset,
-                chainId: activity.chainId ?? 0,
-                balance: {
-                    total: 0,
+        if (token?.verification?.status === NotVerifiedStatus.New) {
+            const _token: ITokenWithBalance = {
+                ...token,
+                balance: getTokenBalance(token.id, activity.sourceNetworkId) ?? {
                     available: 0,
+                    total: 0,
                 },
             }
             openPopup({
@@ -47,7 +45,7 @@
                 overflow: true,
                 props: {
                     activityId: activity.id,
-                    asset,
+                    token: _token,
                 },
             })
         } else {

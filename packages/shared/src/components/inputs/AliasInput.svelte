@@ -1,11 +1,12 @@
 <script lang="ts">
+    import { AddressType } from '@iota/sdk/out/types'
+
     import { Modal, SelectorInput, IOption } from '@ui'
     import { selectedAccount } from '@core/account/stores'
     import { localize } from '@core/i18n'
-    import { validateBech32Address } from '@core/utils/crypto'
-    import { ADDRESS_TYPE_ALIAS } from '@core/wallet/constants'
-    import { convertHexAddressToBech32 } from '@core/wallet/utils'
     import { getNetworkHrp } from '@core/profile/actions'
+    import { api } from '@core/profile-manager'
+    import { validateBech32Address } from '@core/utils/crypto'
 
     export let alias: string = ''
     export let error: string = ''
@@ -15,7 +16,7 @@
 
     const aliasOptions: IOption[] =
         $selectedAccount.balances?.aliases.map((hexAliasId, index) => {
-            const aliasId = convertHexAddressToBech32(ADDRESS_TYPE_ALIAS, hexAliasId)
+            const aliasId = api.aliasIdToBech32(hexAliasId, getNetworkHrp())
             return { key: 'Alias ' + (index + 1), value: aliasId }
         }) ?? []
 
@@ -32,7 +33,7 @@
                 throw new Error(localize('error.aliasMinting.aliasNotInPossession'))
             }
 
-            validateBech32Address(getNetworkHrp(), alias, ADDRESS_TYPE_ALIAS)
+            validateBech32Address(getNetworkHrp(), alias, AddressType.Alias)
         } catch (err) {
             error = err?.message ?? err
             return Promise.reject(error)

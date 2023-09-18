@@ -1,9 +1,8 @@
 <script lang="ts">
-    import { AccountLabel, Icon, Modal } from '@ui'
     import { AccountSwitcherModal } from '@components'
+    import { Modal } from '@ui'
+    import { Indicator, Text } from '@bloomwalletio/ui'
     import { selectedAccount } from '@core/account/stores'
-    import { Icon as IconEnum } from '@auxiliary/icon'
-    import { closeDrawer } from '@desktop/auxiliary/drawer'
 
     let modal: Modal
     let isModalOpened: boolean = false
@@ -13,33 +12,25 @@
     }
 
     function onButtonClick(): void {
-        closeDrawer()
         modal?.toggle()
     }
 </script>
 
 <svelte:window on:click={onOutsideClick} />
-<account-switcher>
-    <button type="button" on:click={onButtonClick} class="flex flex-row justify-center items-center space-x-2">
-        <AccountLabel account={$selectedAccount} />
-        <icon-container class:rotate={isModalOpened}>
-            <Icon height="18" width="18" icon={IconEnum.ChevronDown} classes="text-gray-800 dark:text-white" />
-        </icon-container>
-    </button>
-    <AccountSwitcherModal bind:modal />
-</account-switcher>
+<button
+    type="button"
+    on:click={onButtonClick}
+    class="flex flex-row justify-center items-center space-x-2 px-1.5 rounded-md cursor-pointer"
+>
+    <Indicator color={$selectedAccount?.color} size="sm" />
+    <Text size="sm" weight="semibold" color="#1E1B4E">
+        {$selectedAccount?.name}
+    </Text>
+</button>
+<AccountSwitcherModal bind:modal />
 
 <style lang="scss">
-    account-switcher {
-        @apply block relative;
-        -webkit-app-region: none;
-    }
-
-    icon-container {
-        @apply block transform rotate-0;
-
-        &.rotate {
-            @apply rotate-180;
-        }
+    button:hover {
+        @apply bg-purple-100;
     }
 </style>

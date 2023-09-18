@@ -1,5 +1,6 @@
 <script lang="ts">
-    import { APP_STAGE, appSettings } from '@core/app'
+    import { APP_STAGE } from '@core/app'
+    import { appSettings } from '@core/app/stores'
 
     export let logo = undefined
     export let width = undefined
@@ -30,6 +31,11 @@
             alpha: 'chrysalis_gem.svg',
             beta: 'chrysalis_gem.svg',
             prod: 'chrysalis_gem.svg',
+        },
+        'logo-bloom-full': {
+            alpha: 'bloom_logo_full.svg',
+            beta: 'bloom_logo_full.svg',
+            prod: 'bloom_logo_full.svg',
         },
     }
 </script>

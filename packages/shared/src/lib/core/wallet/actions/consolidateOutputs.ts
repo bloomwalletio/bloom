@@ -1,19 +1,20 @@
-import { get } from 'svelte/store'
-import { selectedAccount, updateSelectedAccount } from '@core/account'
-import { handleError } from '@core/error/handlers'
+import { getSelectedAccount, updateSelectedAccount } from '@core/account/stores'
 import { processAndAddToActivities } from '@core/activity/utils'
+import { handleError } from '@core/error/handlers'
+import { getActiveNetworkId } from '@core/network'
+import { sendPreparedTransaction } from '@core/wallet/utils'
 
 export async function consolidateOutputs(): Promise<void> {
-    const account = get(selectedAccount)
-    if (!account) {
-        return
-    }
     try {
+        const account = getSelectedAccount()
+        const networkId = getActiveNetworkId()
+
         updateSelectedAccount({ isTransferring: true })
 
         const consolidationParams = { force: false, outputThreshold: 2 }
-        const transaction = await account.consolidateOutputs(consolidationParams)
-        await processAndAddToActivities(transaction, account)
+        const preparedTransaction = await account.prepareConsolidateOutputs(consolidationParams)
+        const transaction = await sendPreparedTransaction(preparedTransaction)
+        await processAndAddToActivities(transaction, account, networkId)
     } catch (err) {
         handleError(err)
     } finally {

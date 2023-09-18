@@ -1,10 +1,11 @@
 <script lang="ts">
-    import { Button, Checkbox, PasswordInput, Spinner, Text, TextType, ButtonSize, HTMLButtonType } from '@ui'
+    import zxcvbn from 'zxcvbn'
+    import { Checkbox, PasswordInput, Spinner, Text, TextType } from '@ui'
+    import { Button } from '@bloomwalletio/ui'
+    import { exportStronghold } from '@contexts/settings'
     import { localize } from '@core/i18n'
     import { MAX_STRONGHOLD_PASSWORD_LENGTH } from '@core/profile'
     import { changePasswordAndUnlockStronghold } from '@core/profile-manager'
-    import zxcvbn from 'zxcvbn'
-    import { exportStronghold } from '@contexts/settings'
     import { PASSWORD_REASON_MAP } from '@core/stronghold'
 
     let exportStrongholdChecked: boolean
@@ -155,12 +156,10 @@
         />
         <div class="flex flex-row items-center">
             <Button
-                size={ButtonSize.Medium}
+                text={localize('views.settings.changePassword.title')}
                 disabled={!currentPassword || !newPassword || !confirmedPassword || busy}
-                type={HTMLButtonType.Submit}
-            >
-                {localize('views.settings.changePassword.title')}
-            </Button>
+                type="submit"
+            />
             <Spinner {busy} message={localize(changeMessageLocale)} classes="ml-2" />
         </div>
     </div>

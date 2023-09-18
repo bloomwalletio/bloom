@@ -1,22 +1,23 @@
-import { Transaction } from '@iota/wallet'
-import { getOutputIdFromTransactionIdAndIndex } from './getOutputIdFromTransactionIdAndIndex'
-import { OUTPUT_TYPE_TREASURY } from '@core/wallet/constants'
+import { OutputType, RegularTransactionEssence, Transaction, UTXOInput } from '@iota/sdk/out/types'
 import { IAccountState } from '@core/account'
-import { OutputTypes } from '@iota/types'
-import { getDirectionFromTransaction } from '../getDirectionFromTransaction'
-import { IProcessedTransaction } from '@core/activity/types'
 import { IWrappedOutput } from '@core/wallet/interfaces'
+import { Output } from '@core/wallet/types'
+import { IProcessedTransaction } from '../../types'
+import { getDirectionFromTransaction } from '../getDirectionFromTransaction'
+import { getOutputIdFromTransactionIdAndIndex } from './getOutputIdFromTransactionIdAndIndex'
 
 export async function preprocessTransaction(
     transaction: Transaction,
     account: IAccountState
 ): Promise<IProcessedTransaction> {
+    const transactionEssence = transaction.payload.essence as RegularTransactionEssence
     const outputs = convertTransactionsOutputTypesToWrappedOutputs(
         transaction?.transactionId,
-        transaction.payload.essence.outputs
+        transactionEssence.outputs as Output[]
     )
+
     const direction = getDirectionFromTransaction(outputs, transaction.incoming, account.depositAddress)
-    const utxoInputs = transaction.payload.essence.inputs
+    const utxoInputs = transactionEssence.inputs as UTXOInput[]
     const inputIds = utxoInputs.map((input) =>
         getOutputIdFromTransactionIdAndIndex(input?.transactionId, input.transactionOutputIndex)
     )
@@ -32,24 +33,24 @@ export async function preprocessTransaction(
     }
 }
 
-function convertTransactionsOutputTypesToWrappedOutputs(
-    transactionId: string,
-    outputTypes: OutputTypes[]
-): IWrappedOutput[] {
-    return outputTypes.map((outputType, index) =>
-        convertTransactionOutputTypeToWrappedOutput(transactionId, index, outputType)
-    )
+function convertTransactionsOutputTypesToWrappedOutputs(transactionId: string, outputs: Output[]): IWrappedOutput[] {
+    return outputs
+        .map((outputType, index) => convertTransactionOutputTypeToWrappedOutput(transactionId, index, outputType))
+        .filter((o) => !!o) as IWrappedOutput[]
 }
 
 function convertTransactionOutputTypeToWrappedOutput(
     transactionId: string,
     index: number,
-    outputType: OutputTypes
-): IWrappedOutput {
+    output: Output
+): IWrappedOutput | undefined {
+    if (output.type === OutputType.Treasury) {
+        return undefined
+    }
     const outputId = getOutputIdFromTransactionIdAndIndex(transactionId, index)
     return {
         outputId,
-        output: outputType.type !== OUTPUT_TYPE_TREASURY ? outputType : undefined,
+        output,
         remainder: false,
     }
 }

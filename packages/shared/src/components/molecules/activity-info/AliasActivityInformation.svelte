@@ -1,18 +1,24 @@
 <script lang="ts">
-    import { KeyValueBox } from '@ui'
+    import { Table } from '@bloomwalletio/ui'
+    import { AliasActivity } from '@core/activity'
     import { localize } from '@core/i18n'
-    import { AliasActivity } from '@core/wallet'
 
     export let activity: AliasActivity
-
-    let detailsList: { [key in string]: string }
-    $: detailsList = {
-        aliasId: activity.aliasId,
-        governorAddress: activity.governorAddress,
-        stateControllerAddress: activity.stateControllerAddress,
-    }
 </script>
 
-{#each Object.entries(detailsList) as [key, value]}
-    <KeyValueBox keyText={localize(`general.${key}`)} valueText={value} isCopyable />
-{/each}
+<Table
+    items={[
+        {
+            key: localize('general.aliasId'),
+            value: activity.aliasId,
+        },
+        {
+            key: localize('general.governorAddress'),
+            value: activity.governorAddress,
+        },
+        {
+            key: localize('general.stateControllerAddress'),
+            value: activity.stateControllerAddress,
+        },
+    ]}
+/>

@@ -1,6 +1,6 @@
 import { DEFAULT_CHAIN_CONFIGURATIONS, DEFAULT_NETWORK_METADATA } from '../constants'
-import { NetworkId } from '../enums'
 import { IPersistedNetwork } from '../interfaces'
+import { NetworkId } from '../types'
 
 export function getDefaultPersistedNetwork(networkId: NetworkId): IPersistedNetwork {
     const network = DEFAULT_NETWORK_METADATA?.[networkId]

@@ -1,6 +1,6 @@
-import type { Configuration } from 'electron-builder'
 import path from 'path'
 import { notarize } from 'electron-notarize'
+import type { Configuration } from 'electron-builder'
 
 const STAGE = process.env.STAGE || 'alpha'
 
@@ -80,7 +80,7 @@ const prodConfig: Configuration = {
     artifactName: 'bloom-desktop-${version}.${ext}',
     copyright: 'Bloom Labs Ltd',
     directories: { buildResources: './public', output: './out' },
-    files: ['public/', 'package.json', '!node_modules/@iota/wallet/target/*'],
+    files: ['public/', 'package.json', '!node_modules/@iota/sdk/target/*'],
     appId: APP_ID,
     afterSign: async () => {
         // eslint-disable-next-line no-useless-catch

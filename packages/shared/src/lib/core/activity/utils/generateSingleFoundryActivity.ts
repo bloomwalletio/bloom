@@ -1,75 +1,53 @@
-import { IAccountState } from '@core/account'
-import { getCoinType } from '@core/profile'
-import { ADDRESS_TYPE_ALIAS, UNLOCK_CONDITION_IMMUTABLE_ALIAS } from '@core/wallet/constants'
-import { ActivityType } from '../enums'
-import { IActivityGenerationParameters } from '@core/activity/types'
-import { FoundryActivity } from '../types'
-import type { IAliasAddress, IFoundryOutput, IImmutableAliasUnlockCondition } from '@iota/types'
 import {
-    getAmountFromOutput,
-    getAsyncDataFromOutput,
-    getMetadataFromOutput,
-    getSendingInformation,
-    getTagFromOutput,
-} from './helper'
-import { getNativeTokenFromOutput } from './outputs'
+    AddressType,
+    AliasAddress,
+    FoundryOutput,
+    ImmutableAliasAddressUnlockCondition,
+    SimpleTokenScheme,
+    UnlockConditionType,
+} from '@iota/sdk/out/types'
+import { IAccountState } from '@core/account'
+import { IActivityGenerationParameters } from '@core/activity/types'
+import { NetworkId } from '@core/network/types'
+import { BASE_TOKEN_ID } from '@core/token'
 import { convertHexAddressToBech32 } from '@core/wallet/utils'
+import { ActivityAction, ActivityType } from '../enums'
+import { FoundryActivity } from '../types'
+import { generateBaseActivity } from './generateBaseActivity'
 
-export function generateSingleFoundryActivity(
+export async function generateSingleFoundryActivity(
     account: IAccountState,
-    { action, processedTransaction, wrappedOutput }: IActivityGenerationParameters
-): FoundryActivity {
-    const { transactionId, claimingData, time, direction, inclusionState } = processedTransaction
+    networkId: NetworkId,
+    generationParameters: IActivityGenerationParameters
+): Promise<FoundryActivity> {
+    const baseActivity = await generateBaseActivity(account, networkId, generationParameters)
 
-    const output = wrappedOutput.output as IFoundryOutput
-    const outputId = wrappedOutput.outputId
-    const { mintedTokens, meltedTokens, maximumSupply } = output.tokenScheme
+    const output = generationParameters.wrappedOutput.output as FoundryOutput
+    const { mintedTokens, meltedTokens, maximumSupply } = output.tokenScheme as SimpleTokenScheme
+
+    if (generationParameters.action === ActivityAction.Mint) {
+        baseActivity.storageDeposit = baseActivity.baseTokenTransfer?.rawAmount
+            ? Number(baseActivity.baseTokenTransfer?.rawAmount)
+            : undefined
+        baseActivity.baseTokenTransfer = {
+            tokenId: BASE_TOKEN_ID,
+            rawAmount: '0',
+        }
+    }
 
     const addressUnlockCondition = output.unlockConditions.find(
-        (unlockCondition) => unlockCondition.type === UNLOCK_CONDITION_IMMUTABLE_ALIAS
-    ) as IImmutableAliasUnlockCondition
-    const aliasId = (addressUnlockCondition?.address as IAliasAddress)?.aliasId
-    const aliasAddress = aliasId ? convertHexAddressToBech32(ADDRESS_TYPE_ALIAS, aliasId) : undefined
-
-    const isHidden = false
-    const isAssetHidden = false
-    const containsValue = true
-
-    const id = outputId || transactionId
-    const nativeToken = getNativeTokenFromOutput(output)
-    const assetId = nativeToken?.id ?? getCoinType()
-
-    const storageDeposit = getAmountFromOutput(output)
-    const rawAmount = Number(nativeToken?.amount ?? 0)
-    const metadata = getMetadataFromOutput(output)
-    const tag = getTagFromOutput(output)
-
-    const sendingInfo = getSendingInformation(processedTransaction, output, account)
-    const asyncData = getAsyncDataFromOutput(output, outputId, claimingData, account)
+        (unlockCondition) => unlockCondition.type === UnlockConditionType.ImmutableAliasAddress
+    ) as ImmutableAliasAddressUnlockCondition
+    const aliasId = (addressUnlockCondition?.address as AliasAddress)?.aliasId
+    const aliasAddress = convertHexAddressToBech32(AddressType.Alias, aliasId)
 
     return {
+        ...baseActivity,
         type: ActivityType.Foundry,
-        id,
-        outputId,
-        transactionId,
-        direction,
-        action,
-        assetId,
         aliasAddress,
-        mintedTokens,
-        meltedTokens,
-        maximumSupply,
-        storageDeposit,
-        rawAmount,
-        time,
-        inclusionState,
-        containsValue,
-        isAssetHidden,
-        isHidden,
-        metadata,
-        tag,
-        chainId: undefined,
-        asyncData,
-        ...sendingInfo,
+        mintedTokens: mintedTokens.toString(),
+        meltedTokens: meltedTokens.toString(),
+        maximumSupply: maximumSupply.toString(),
+        containsValue: true, // TODO: check if why we do this
     }
 }

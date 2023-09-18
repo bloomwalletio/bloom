@@ -1,10 +1,9 @@
-import { UNLOCK_CONDITION_STATE_CONTROLLER_ADDRESS } from '@core/wallet/constants'
+import { StateControllerAddressUnlockCondition, AliasOutput, UnlockConditionType } from '@iota/sdk/out/types'
 import { getBech32AddressFromAddressTypes } from '@core/wallet/utils'
-import { IStateControllerAddressUnlockCondition, IAliasOutput } from '@iota/types'
 
-export function getStateControllerAddressFromAliasOutput(output: IAliasOutput): string {
+export function getStateControllerAddressFromAliasOutput(output: AliasOutput): string {
     const stateControllerUnlockCondition = output.unlockConditions.find(
-        (unlockCondition) => unlockCondition.type === UNLOCK_CONDITION_STATE_CONTROLLER_ADDRESS
-    ) as IStateControllerAddressUnlockCondition
+        (unlockCondition) => unlockCondition.type === UnlockConditionType.StateControllerAddress
+    ) as StateControllerAddressUnlockCondition
     return getBech32AddressFromAddressTypes(stateControllerUnlockCondition.address)
 }

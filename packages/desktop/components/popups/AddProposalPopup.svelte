@@ -1,15 +1,17 @@
 <script lang="ts">
-    import { showNotification } from '@auxiliary/notification/actions'
-    import { closePopup, openPopup, PopupId } from '@desktop/auxiliary/popup'
-    import { registerProposalsForAccounts, registeredProposalsForSelectedAccount } from '@contexts/governance'
-    import { selectedAccount } from '@core/account'
-    import { handleError } from '@core/error/handlers/handleError'
-    import { localize } from '@core/i18n'
-    import { activeAccounts, updateActiveAccountPersistedData } from '@core/profile'
-    import { truncateString } from '@core/utils/string'
-    import type { Auth } from '@iota/wallet'
+    import type { IAuth } from '@iota/sdk/out/types'
     import { Button, Checkbox, NodeInput, Text, TextInput, TextType } from '@ui'
     import { HTMLButtonType } from '@ui/enums'
+    import { showNotification } from '@auxiliary/notification/actions'
+    import { registeredProposalsForSelectedAccount, registerProposalsForAccounts } from '@contexts/governance'
+    import { selectedAccount } from '@core/account/stores'
+    import { handleError } from '@core/error/handlers/handleError'
+    import { localize } from '@core/i18n'
+    import { updateActiveAccountPersistedData } from '@core/profile/actions'
+    import { activeAccounts } from '@core/profile/stores'
+    import { HEX_PREFIX } from '@core/utils'
+    import { truncateString } from '@core/utils/string'
+    import { closePopup, openPopup, PopupId } from '@desktop/auxiliary/popup'
 
     export let initialEventId: string
     export let initialNodeUrl: string
@@ -75,7 +77,7 @@
         })
     }
 
-    async function registerParticipationWrapper(auth?: Auth): Promise<void> {
+    async function registerParticipationWrapper(auth?: IAuth): Promise<void> {
         const options = {
             node: { url: nodeUrl, auth },
             eventsToRegister: isRegisteringAllProposals ? [] : [eventId],
@@ -100,7 +102,7 @@
     }
 
     async function validateEventId(checkIfAlreadyRegistered: boolean): Promise<void> {
-        const startsWith0x = eventId?.substring(0, 2) === '0x'
+        const startsWith0x = eventId?.substring(0, 2) === HEX_PREFIX
         if (!startsWith0x) {
             eventIdError = localize('error.eventId.doesNotStartWith0x')
             return Promise.reject(eventIdError)

@@ -1,18 +1,18 @@
 import { get, Writable } from 'svelte/store'
 
-import { ClientOptions } from '@iota/wallet'
+import { IClientOptions } from '@iota/sdk/out/types'
 
 import { ClientError, CLIENT_ERROR_REGEXES } from '@core/error'
 import { IProfileManager } from '@core/profile-manager'
 
-import { copyStrongholdFileToProfileDirectory } from '../helpers'
 import { StrongholdMigrationRequiredError, UnableToRestoreBackupForProfileManagerError } from '../errors'
+import { copyStrongholdFileToProfileDirectory } from '../helpers'
 
 export async function restoreBackupByCopyingFile(
     importFilePath: string,
     storageDirectory: string,
     strongholdPassword: string,
-    clientOptions: ClientOptions,
+    clientOptions: IClientOptions,
     manager: Writable<IProfileManager>
 ): Promise<void> {
     try {

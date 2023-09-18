@@ -1,10 +1,11 @@
 <script lang="ts">
-    import { INft, NFT_MEDIA_FILE_NAME, nftDownloadQueue } from '@core/nfts'
+    import { onMount } from 'svelte'
+    import { MediaDisplay, MediaPlaceholder } from '@ui'
+    import { INft, NFT_MEDIA_FILE_NAME } from '@core/nfts'
+    import { nftDownloadQueue } from '@core/nfts/stores'
     import { DEV_STORAGE_DIRECTORY } from '@core/profile/constants'
     import { getStorageDirectoryOfProfiles } from '@core/profile/utils'
     import features from '@features/features'
-    import { MediaDisplay, MediaPlaceholder } from '@ui'
-    import { onMount } from 'svelte'
 
     export let nft: INft
     export let autoplay: boolean = false

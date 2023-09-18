@@ -1,8 +1,8 @@
 <script lang="ts">
-    import { AssetList, Pane, ReceiveAddressButton } from '@ui'
-    import { AccountSummary, AccountActivity, SendButton } from '@components'
-    import { selectedAccountAssets } from '@core/wallet'
+    import { AccountActivity, AccountSummary, SendButton } from '@components'
+    import { Pane, ReceiveAddressButton, TokenList } from '@ui'
     import { selectedAccount } from '@core/account/stores'
+    import { selectedAccountTokens } from '@core/token/stores'
     import features from '@features/features'
 </script>
 
@@ -28,7 +28,7 @@
                 </div>
                 <Pane classes="h-full">
                     {#if features?.wallet?.assets?.enabled}
-                        <AssetList assets={$selectedAccountAssets} />
+                        <TokenList accountTokens={$selectedAccountTokens} />
                     {/if}
                 </Pane>
                 <Pane classes="h-full">

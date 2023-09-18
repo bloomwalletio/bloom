@@ -1,4 +1,8 @@
 <script lang="ts">
+    import { Pane, Text, TextType } from '@ui'
+    import { selectedAccount } from '@core/account/stores'
+    import { localize } from '@core/i18n'
+    import features from '@features/features'
     import {
         CreateAliasButton,
         FaucetRequestButton,
@@ -6,13 +10,7 @@
         MintNftButton,
         RefreshTokenMetadataButton,
         TestDeepLinkButton,
-    } from '@components'
-    import { Pane, Text, TextType } from '@ui'
-
-    import features from '@features/features'
-
-    import { selectedAccount } from '@core/account/stores'
-    import { localize } from '@core/i18n'
+    } from './components'
 </script>
 
 {#if $selectedAccount}

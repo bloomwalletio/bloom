@@ -1,7 +1,7 @@
 import { derived, get, Readable } from 'svelte/store'
-import type { IAccountState } from '../interfaces'
+import { activeAccounts, updateActiveAccount } from '@core/profile/stores/active-accounts.store'
 import { selectedAccountIndex } from '../stores'
-import { activeAccounts, updateActiveAccount } from '@core/profile/stores'
+import type { IAccountState } from '../interfaces'
 
 export const selectedAccount: Readable<IAccountState | undefined> = derived(
     [selectedAccountIndex, activeAccounts],
@@ -11,8 +11,12 @@ export const selectedAccount: Readable<IAccountState | undefined> = derived(
     }
 )
 
-export function getSelectedAccount(): IAccountState | undefined {
-    return get(selectedAccount)
+export function getSelectedAccount(): IAccountState {
+    const account = get(selectedAccount)
+    if (!account) {
+        throw new Error('Selected account is undefined!')
+    }
+    return account
 }
 
 export function updateSelectedAccount(payload: Partial<IAccountState>): void {

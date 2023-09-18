@@ -1,7 +1,6 @@
 import { get } from 'svelte/store'
-
-import { appSettings } from '@core/app'
-import { activeProfile } from '@core/profile'
+import { appSettings } from '@core/app/stores'
+import { activeProfile } from '@core/profile/stores'
 
 export function formatCurrency(
     value: number | undefined,

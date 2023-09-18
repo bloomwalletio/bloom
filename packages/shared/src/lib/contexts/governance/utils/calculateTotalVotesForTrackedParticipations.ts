@@ -1,7 +1,7 @@
 import { get } from 'svelte/store'
-import { TrackedParticipationOverview } from '@iota/wallet'
-import { networkStatus } from '@core/network/stores'
+import { TrackedParticipationOverview } from '@iota/sdk/out/types'
 import { MILESTONE_NOT_FOUND } from '@core/network/constants'
+import { networkStatus } from '@core/network/stores'
 
 export function calculateTotalVotesForTrackedParticipations(
     trackedParticipations: TrackedParticipationOverview[]

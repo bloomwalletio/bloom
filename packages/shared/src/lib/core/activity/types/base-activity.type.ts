@@ -1,28 +1,51 @@
+import { SmartContract } from '@core/layer-2'
+import { NetworkId } from '@core/network'
 import { Subject } from '@core/wallet/types'
 import { ActivityAsyncStatus, ActivityDirection, InclusionState, ActivityAction } from '../enums'
-import { Layer2Metadata } from '@core/layer-2'
 
 export type BaseActivity = {
+    // meta information
     id: string
-    outputId?: string
+    action: ActivityAction
+    isHidden?: boolean
+    isTokenHidden?: boolean // is this needed?
+    containsValue?: boolean // is this needed?
+
+    // transaction information
     transactionId?: string
+    outputId?: string
     time: Date
     inclusionState: InclusionState
-    isHidden?: boolean
-    containsValue: boolean
-    isAssetHidden: boolean
-    direction: ActivityDirection
-    action: ActivityAction
-    isInternal: boolean
-    storageDeposit: number
-    rawBaseCoinAmount?: number
-    subject: Subject | undefined
-    metadata?: string
     tag?: string
-    chainId: number | undefined
+    metadata?: string
     asyncData?: AsyncData
-    destinationNetwork?: string
-    parsedLayer2Metadata?: Layer2Metadata
+
+    // sender / recipient information
+    sender?: Subject | undefined
+    recipient?: Subject | undefined
+    subject: Subject | undefined
+    isInternal: boolean
+    sourceNetworkId: NetworkId
+    destinationNetworkId: NetworkId
+    direction: ActivityDirection
+
+    // asset information
+    storageDeposit?: number
+    baseTokenTransfer: {
+        rawAmount: string
+        tokenId: string
+    }
+    tokenTransfer?: {
+        rawAmount: string
+        tokenId: string
+    }
+
+    // smart contract information
+    // TODO: move to separate type
+    smartContract?: SmartContract
+    estimatedGasFee?: number
+    maxGasFee?: number
+    transactionFee?: number
 }
 
 export type AsyncData = {
@@ -31,6 +54,6 @@ export type AsyncData = {
     expirationDate: Date
     isRejected: boolean
     isClaiming: boolean
-    claimingTransactionId: string
-    claimedDate: Date
+    claimingTransactionId?: string
+    claimedDate?: Date
 }

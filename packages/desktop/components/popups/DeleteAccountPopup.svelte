@@ -1,11 +1,12 @@
 <script lang="ts">
-    import { Button, PasswordInput, Text, Error, ButtonVariant, HTMLButtonType, TextHint, TextType } from '@ui'
-    import { closePopup } from '@desktop/auxiliary/popup'
-    import { localize } from '@core/i18n'
-    import { setStrongholdPassword } from '@core/profile-manager'
-    import { isSoftwareProfile } from '@core/profile'
-    import { selectedAccount } from '@core/account'
+    import { Button, ButtonVariant, Error, HTMLButtonType, PasswordInput, Text, TextType } from '@ui'
+    import { Alert } from '@bloomwalletio/ui'
+    import { selectedAccount } from '@core/account/stores'
     import { handleError } from '@core/error/handlers/handleError'
+    import { localize } from '@core/i18n'
+    import { isSoftwareProfile } from '@core/profile/stores'
+    import { setStrongholdPassword } from '@core/profile-manager'
+    import { closePopup } from '@desktop/auxiliary/popup'
 
     export let deleteAccount: (index: number) => Promise<void> = async () => {}
 
@@ -47,7 +48,7 @@
 </div>
 <form on:submit|preventDefault={onDeleteClick} class="flex w-full flex-col space-y-5">
     <Text secondary>{localize('popups.deleteAccount.body')}</Text>
-    <TextHint info text={localize('popups.deleteAccount.hint')} />
+    <Alert variant="info" text={localize('popups.deleteAccount.hint')} />
     <div class="flex w-full flex-col space-y-3">
         {#if $isSoftwareProfile}
             <Text secondary>{localize('popups.deleteAccount.typePassword')}</Text>

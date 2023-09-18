@@ -1,11 +1,10 @@
 <script lang="ts">
-    import { OnboardingLayout } from '@components'
+    import { OnboardingLayout } from '@views/components'
+    import { onboardingRouter } from '@views/onboarding/onboarding-router'
+    import { Alert } from '@bloomwalletio/ui'
     import { completeOnboardingProcess, isOnboardingLedgerProfile } from '@contexts/onboarding'
-    import { IS_MOBILE } from '@core/app'
     import { localize } from '@core/i18n'
     import { checkOrConnectLedger } from '@core/ledger'
-    import { Animation, Button, Icon, Text, TextHint } from '@ui'
-    import { onboardingRouter } from '@views/onboarding/onboarding-router'
 
     function onContinueClick(): void {
         if ($isOnboardingLedgerProfile) {
@@ -22,27 +21,19 @@
     }
 </script>
 
-<OnboardingLayout allowBack={false}>
-    <div slot="leftpane__content" class="flex flex-col space-y-6">
-        <div class="relative flex flex-col items-center bg-gray-100 dark:bg-gray-900 rounded-2xl mt-10 p-10 pb-6">
-            <div class="bg-green-500 rounded-2xl absolute -top-6 w-12 h-12 flex items-center justify-center">
-                <Icon icon="success-check" classes="text-white" />
-            </div>
-            <Text type="h2" classes="mb-5 text-center">{localize('views.onboarding.congratulations.title')}</Text>
-            <Text type="p" secondary classes="mb-2 text-center"
-                >{localize('views.onboarding.congratulations.body')}</Text
-            >
-        </div>
+<OnboardingLayout
+    title={localize('views.onboarding.congratulations.title')}
+    description={localize('views.onboarding.congratulations.body')}
+    continueButton={{
+        onClick: onContinueClick,
+    }}
+    backButton={{
+        hidden: true,
+    }}
+>
+    <div slot="content" class="flex flex-col space-y-6">
         {#if $isOnboardingLedgerProfile}
-            <TextHint warning text={localize('views.onboarding.congratulations.ledgerHint')} />
+            <Alert variant="warning" text={localize('views.onboarding.congratulations.ledgerHint')} />
         {/if}
-    </div>
-    <div slot="leftpane__action">
-        <Button classes="w-full" onClick={onContinueClick}>
-            {localize('actions.finishSetup')}
-        </Button>
-    </div>
-    <div slot="rightpane" class="w-full h-full flex justify-center {!IS_MOBILE && 'bg-pastel-yellow dark:bg-gray-900'}">
-        <Animation classes="setup-anim-aspect-ratio" animation="congratulations-desktop" />
     </div>
 </OnboardingLayout>

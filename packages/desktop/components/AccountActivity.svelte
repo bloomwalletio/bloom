@@ -1,6 +1,7 @@
 <script lang="ts">
-    import { time } from '@core/app'
-    import { localize } from '@core/i18n'
+    import VirtualList from '@sveltejs/svelte-virtual-list'
+    import { Filter } from '@components'
+    import { ActivityTile, Text, TextInput, TogglableButton, FontWeight } from '@ui'
     import {
         activityFilter,
         activitySearchTerm,
@@ -8,11 +9,10 @@
         selectedAccountActivities,
         setAsyncStatusOfAccountActivities,
     } from '@core/activity'
-    import { ActivityTile, Text, TextInput, TogglableButton, FontWeight } from '@ui'
-    import { Filter } from '@components'
-    import features from '@features/features'
+    import { time } from '@core/app/stores'
+    import { localize } from '@core/i18n'
     import { debounce, getMonthYear } from '@core/utils'
-    import VirtualList from '@sveltejs/svelte-virtual-list'
+    import features from '@features/features'
 
     let searchActive = false
     let inputElement: HTMLInputElement

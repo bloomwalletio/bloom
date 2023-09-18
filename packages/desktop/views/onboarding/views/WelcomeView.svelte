@@ -1,5 +1,6 @@
 <script lang="ts">
-    import { OnboardingLayout } from '@components'
+    import { OnboardingLayout } from '@views/components'
+    import { Checkbox, Link, Text } from '@bloomwalletio/ui'
     import {
         PRIVACY_POLICY_URL,
         PRIVACY_POLICY_VERSION,
@@ -9,9 +10,6 @@
     import { hasCompletedAppSetup, lastAcceptedPrivacyPolicy, lastAcceptedTermsOfService } from '@core/app/stores'
     import { openUrlInBrowser } from '@core/app/utils'
     import { localize } from '@core/i18n'
-    import { NetworkId, getNetworkNameFromNetworkId } from '@core/network'
-    import features from '@features/features'
-    import { Animation, Button, Checkbox, Link, Text, TextType } from '@ui'
     import { onboardingRouter } from '../onboarding-router'
 
     let termsAccepted: boolean = false
@@ -32,31 +30,46 @@
     }
 </script>
 
-<OnboardingLayout allowBack={false}>
-    <div slot="leftpane__content">
-        <Text type={TextType.h1}
-            >{localize('views.onboarding.appSetup.welcome.title', {
-                values: {
-                    network: features?.onboarding?.iota?.enabled
-                        ? getNetworkNameFromNetworkId(NetworkId.Iota)
-                        : getNetworkNameFromNetworkId(NetworkId.Shimmer),
-                },
-            })}
-        </Text>
-    </div>
-    <div slot="leftpane__action" class="flex flex-col space-y-8">
+<OnboardingLayout
+    size="small"
+    continueButton={{
+        onClick: onContinueClick,
+        disabled: !termsAccepted,
+    }}
+    backButton={{
+        hidden: true,
+    }}
+>
+    <div slot="content" class="flex flex-col space-y-4">
+        <welcome-title class="p-1">
+            <h1>
+                {localize('views.onboarding.appSetup.welcome.title')}
+            </h1>
+            <h1 class="gradient">Bloom.</h1>
+        </welcome-title>
         <Checkbox bind:checked={termsAccepted}>
-            <Text slot="label" type={TextType.p} secondary>
-                I've read and I accept the <Link onClick={onTermsOfServiceClick}>Terms of Service</Link> and <Link
-                    onClick={onPrivacyPolicyClick}>Privacy Policy</Link
-                >
+            <Text slot="label">
+                I've read and I accept the&nbsp
+                <Link on:click={onTermsOfServiceClick}>Terms of Service</Link>
+                &nbspand&nbsp
+                <Link on:click={onPrivacyPolicyClick}>Privacy Policy</Link>
             </Text>
         </Checkbox>
-        <Button classes="w-full" disabled={!termsAccepted} onClick={onContinueClick}
-            >{localize('actions.continue')}</Button
-        >
-    </div>
-    <div slot="rightpane" class="w-full h-full flex justify-center">
-        <Animation classes="setup-anim-aspect-ratio" animation="welcome-desktop" />
     </div>
 </OnboardingLayout>
+
+<style>
+    h1 {
+        color: #3c00a6;
+        font-size: 52px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 60px; /* 134.615% */
+        letter-spacing: -0.52px;
+    }
+    .gradient {
+        background: -webkit-linear-gradient(0deg, #c4b0ff, #a82bdc, #e65426, #feb83a);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+</style>

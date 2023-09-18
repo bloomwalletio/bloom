@@ -1,10 +1,10 @@
 <script lang="ts">
     import { Button, PasswordInput, Text, ButtonVariant } from '@ui'
-    import { isSoftwareProfile } from '@core/profile'
+    import { deleteProfile } from '@contexts/settings'
     import { localize } from '@core/i18n'
+    import { isSoftwareProfile } from '@core/profile/stores'
     import { setStrongholdPassword } from '@core/profile-manager'
     import { closePopup } from '@desktop/auxiliary/popup'
-    import { deleteProfile } from '@contexts/settings'
 
     let isBusy = false
     let error = ''

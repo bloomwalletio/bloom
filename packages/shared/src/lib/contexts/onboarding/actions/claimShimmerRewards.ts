@@ -1,6 +1,9 @@
-import { getDepositAddress } from '@core/account/utils'
+import { get } from 'svelte/store'
+import { getDepositAddress } from '@core/account/utils/getDepositAddress'
 import { logAndNotifyError } from '@core/error/actions'
 import { handleLedgerError } from '@core/ledger/utils'
+import { DEFAULT_BASE_TOKEN, SupportedNetworkId } from '@core/network'
+import { BASE_TOKEN_ID, VerifiedStatus } from '@core/token'
 import {
     DEFAULT_TRANSACTION_OPTIONS,
     SendFlowParameters,
@@ -9,7 +12,6 @@ import {
     getOutputParameters,
     setSendFlowParameters,
 } from '@core/wallet'
-import { get } from 'svelte/store'
 import { ShimmerClaimingAccountState } from '../enums'
 import { IShimmerClaimingAccount } from '../interfaces'
 import {
@@ -69,6 +71,16 @@ async function claimShimmerRewardsForShimmerClaimingAccount(
         },
         type: SendFlowType.BaseCoinTransfer,
         baseCoinTransfer: {
+            token: {
+                id: BASE_TOKEN_ID,
+                ...DEFAULT_BASE_TOKEN[SupportedNetworkId.Shimmer],
+                networkId: SupportedNetworkId.Shimmer,
+                hidden: false,
+                verification: {
+                    status: VerifiedStatus.Official,
+                    verified: true,
+                },
+            },
             rawAmount: rawAmount.toString(),
         },
     }

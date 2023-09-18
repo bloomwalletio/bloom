@@ -1,10 +1,11 @@
 <script lang="ts">
-    import { closePopup, openPopup, PopupId } from '@desktop/auxiliary/popup'
+    import { NodeListTable } from '@components'
+    import { Button } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
-    import { addOfficialNodesToClientOptions as onAddOfficialNodesClick, NetworkId } from '@core/network'
-    import { activeProfile } from '@core/profile'
+    import { addDefaultNodesToClientOptions, isSupportedNetworkId } from '@core/network'
+    import { activeProfile } from '@core/profile/stores'
     import { NetworkSettingsRoute } from '@core/router'
-    import { Button, ButtonSize, NodeListTable } from '@ui'
+    import { PopupId, closePopup, openPopup } from '@desktop/auxiliary/popup'
     import SettingsSection from '../SettingsSection.svelte'
 
     let nodesContainer: HTMLElement
@@ -33,24 +34,18 @@
 <SettingsSection setting={NetworkSettingsRoute.ConfigureNodeList}>
     <NodeListTable bind:nodesContainer />
     <div class="flex flex-row justify-between space-x-3 w-full mt-4">
-        {#if networkId !== NetworkId.Custom}
+        {#if isSupportedNetworkId(networkId)}
             <Button
-                outline
-                size={ButtonSize.Medium}
-                inlineStyle="min-width: 156px;"
-                classes="w-1/2"
-                onClick={onAddOfficialNodesClick}
-            >
-                {localize('actions.addOfficialNodes')}
-            </Button>
+                variant="outline"
+                width="half"
+                on:click={addDefaultNodesToClientOptions}
+                text={localize('actions.addOfficialNodes')}
+            />
         {/if}
         <Button
-            inlineStyle="min-width: 156px;"
-            size={ButtonSize.Medium}
-            classes={networkId === NetworkId.Custom ? '' : 'w-1/2'}
-            onClick={onAddNodeClick}
-        >
-            {localize('actions.addNode')}
-        </Button>
+            width={!isSupportedNetworkId(networkId) ? 'auto' : 'half'}
+            on:click={onAddNodeClick}
+            text={localize('actions.addNode')}
+        />
     </div>
 </SettingsSection>

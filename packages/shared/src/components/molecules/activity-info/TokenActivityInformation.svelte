@@ -1,42 +1,52 @@
 <script lang="ts">
-    import { KeyValueBox } from '@ui'
+    import { Table } from '@bloomwalletio/ui'
+    import { FoundryActivity } from '@core/activity'
     import { localize } from '@core/i18n'
-    import { FoundryActivity, getAssetFromPersistedAssets, IIrc30Metadata } from '@core/wallet'
-    import { IKeyValueBoxList } from '@core/utils'
+    import { IIrc30Metadata } from '@core/token'
+    import { getPersistedToken } from '@core/token/stores'
 
     export let activity: FoundryActivity
 
-    let metadata: IIrc30Metadata
-    $: metadata = <IIrc30Metadata>getAssetFromPersistedAssets(activity.assetId)?.metadata
-
-    let detailsList: IKeyValueBoxList
-    $: detailsList = {
-        ...(metadata?.name && {
-            tokenName: { data: metadata.name },
-        }),
-        ...(metadata?.symbol && {
-            unit: { data: metadata.symbol },
-        }),
-        decimals: { data: String(metadata.decimals) },
-        ...(metadata?.description && {
-            description: { data: metadata.description },
-        }),
-        ...(metadata?.url && {
-            url: { data: metadata.url, isCopyable: true },
-        }),
-        ...(metadata?.logo && {
-            logo: { data: metadata.logo, isCopyable: true },
-        }),
-        ...(metadata?.logoUrl && {
-            logoUrl: { data: metadata.logoUrl, isCopyable: true },
-        }),
-    }
+    let metadata: IIrc30Metadata | undefined
+    $: metadata = <IIrc30Metadata>(
+        getPersistedToken(activity.tokenTransfer?.tokenId ?? activity.baseTokenTransfer.tokenId)?.metadata
+    )
 </script>
 
-{#each Object.entries(detailsList) as [key, value]}
-    <KeyValueBox
-        keyText={localize(`popups.nativeToken.property.${key}`)}
-        valueText={value.data}
-        isCopyable={value.isCopyable}
+{#if metadata}
+    <Table
+        items={[
+            {
+                key: localize('popups.nativeToken.property.tokenName'),
+                value: metadata.name || undefined,
+            },
+            {
+                key: localize('popups.nativeToken.property.unit'),
+                value: metadata.symbol || undefined,
+            },
+            {
+                key: localize('popups.nativeToken.property.decimals'),
+                value: String(metadata.decimals) || undefined,
+            },
+            {
+                key: localize('popups.nativeToken.property.description'),
+                value: metadata.description || undefined,
+            },
+            {
+                key: localize('popups.nativeToken.property.url'),
+                value: metadata.url || undefined,
+                copyable: true,
+            },
+            {
+                key: localize('popups.nativeToken.property.logo'),
+                value: metadata.logo || undefined,
+                copyable: true,
+            },
+            {
+                key: localize('popups.nativeToken.property.logoUrl'),
+                value: metadata.logoUrl || undefined,
+                copyable: true,
+            },
+        ]}
     />
-{/each}
+{/if}

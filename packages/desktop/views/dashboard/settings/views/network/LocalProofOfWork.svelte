@@ -1,9 +1,9 @@
 <script lang="ts">
+    import { Checkbox } from '@ui'
     import { localize } from '@core/i18n'
     import { toggleLocalPowInClientOptions } from '@core/network'
-    import { activeProfile } from '@core/profile'
+    import { activeProfile } from '@core/profile/stores'
     import { NetworkSettingsRoute } from '@core/router'
-    import { Checkbox } from '@ui'
     import SettingsSection from '../SettingsSection.svelte'
 
     $: clientOptions = $activeProfile?.clientOptions

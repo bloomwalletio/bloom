@@ -1,6 +1,6 @@
 <script lang="ts">
-    import { INft } from '@core/nfts'
     import { MediaPlaceholder, NftMedia } from '@ui'
+    import { INft } from '@core/nfts'
 
     export let nft: INft
     export let size: 'small' | 'medium' | 'large' = 'medium'
@@ -20,21 +20,19 @@
     "
 >
     {#if parentType === 'image'}
-        <div class="min-w-full min-h-full object-cover">
-            <NftMedia {nft} {useCaching}>
-                <div
-                    slot="placeholder"
-                    class="
-                        w-full h-full
-                        {size === 'small' && 'p-1'}
-                        {size === 'medium' && 'p-2'}
-                        {size === 'large' && 'p-2'}
-                    "
-                >
-                    <MediaPlaceholder type={nftType} iconOnly />
-                </div>
-            </NftMedia>
-        </div>
+        <NftMedia {nft} {useCaching} classes="h-full w-full object-cover">
+            <div
+                slot="placeholder"
+                class="
+                    w-full h-full
+                    {size === 'small' && 'p-1'}
+                    {size === 'medium' && 'p-2'}
+                    {size === 'large' && 'p-2'}
+                "
+            >
+                <MediaPlaceholder type={nftType} iconOnly />
+            </div>
+        </NftMedia>
     {:else}
         <div
             class="

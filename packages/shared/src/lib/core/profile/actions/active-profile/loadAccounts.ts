@@ -1,6 +1,6 @@
-import { loadAccount } from '@core/account'
-import { getAccounts } from '@core/profile-manager'
 import { get } from 'svelte/store'
+import { loadAccount } from '@core/account/actions'
+import { getAccounts } from '@core/profile-manager'
 import { activeAccounts, activeProfile } from '../../stores'
 
 export async function loadAccounts(): Promise<void> {

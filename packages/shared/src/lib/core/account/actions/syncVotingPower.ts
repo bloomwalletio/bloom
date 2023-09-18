@@ -1,7 +1,7 @@
 import { get } from 'svelte/store'
-import { selectedAccountIndex, updateSelectedAccount } from '../stores'
+import { updateActiveAccount } from '@core/profile/stores'
 import { getVotingPower } from '../api/getVotingPower'
-import { updateActiveAccount } from '@core/profile'
+import { selectedAccountIndex, updateSelectedAccount } from '../stores'
 
 export async function syncVotingPower(accountIndex = get(selectedAccountIndex)): Promise<void> {
     const votingPower = await getVotingPower(accountIndex)

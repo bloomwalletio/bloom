@@ -1,11 +1,11 @@
 <script lang="ts">
+    import { FontWeight, Icon, Text, TextType } from '@ui'
     import { Icon as IconEnum, SETTINGS_ICON_SVG } from '@auxiliary/icon'
     import { ISetting, isSettingVisible } from '@contexts/settings'
     import { localize } from '@core/i18n'
-    import { activeProfile, isActiveLedgerProfile } from '@core/profile'
+    import { activeProfile, isActiveLedgerProfile } from '@core/profile/stores'
     import { SettingsRoute, SettingsRouteNoProfile } from '@core/router'
     import features from '@features/features'
-    import { FontWeight, Icon, Text, TextType } from '@ui'
     import { SETTINGS } from './settings.constant'
 
     export let currentCategory: string

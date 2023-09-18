@@ -1,7 +1,7 @@
-import { selectedAccountIndex, updateSelectedAccount } from '@core/account/stores'
-import { IPersistedAccountData } from '@core/account/interfaces'
-import { updateAccountPersistedDataOnActiveProfile } from '@core/profile'
 import { get } from 'svelte/store'
+import { IPersistedAccountData } from '@core/account/interfaces'
+import { selectedAccountIndex, updateSelectedAccount } from '@core/account/stores'
+import { updateAccountPersistedDataOnActiveProfile } from '@core/profile/stores'
 
 export function updateActiveAccountPersistedData(
     acccountIndex: number,

@@ -1,8 +1,8 @@
 <script lang="ts">
-    import { selectedAccount } from '@core/account'
-    import { appSettings } from '@core/app'
-    import { localize } from '@core/i18n'
     import { QR, Text, FontWeight, AddressBox } from '@ui'
+    import { selectedAccount } from '@core/account/stores'
+    import { appSettings } from '@core/app/stores'
+    import { localize } from '@core/i18n'
 
     let addressBoxElement: AddressBox
 

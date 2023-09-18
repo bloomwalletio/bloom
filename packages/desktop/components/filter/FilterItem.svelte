@@ -6,13 +6,13 @@
         DateFilterItem,
         NumberFilterItem,
         SelectionFilterItem,
-        AssetFilterItem,
+        TokenFilterItem,
         OrderFilterItem,
         NetworkFilterItem,
     } from '@ui'
+    import { Icon as IconEnum } from '@auxiliary/icon'
     import { localize } from '@core/i18n'
     import { FilterUnit } from '@core/utils/interfaces/filter'
-    import { Icon as IconEnum } from '@auxiliary/icon'
 
     export let filterUnit: FilterUnit
     export let isOpen: boolean
@@ -58,8 +58,8 @@
                 <SelectionFilterItem bind:filterUnit />
             {:else if filterUnit.type === 'order'}
                 <OrderFilterItem bind:filterUnit />
-            {:else if filterUnit.type === 'asset'}
-                <AssetFilterItem bind:filterUnit />
+            {:else if filterUnit.type === 'token'}
+                <TokenFilterItem bind:filterUnit />
             {:else if filterUnit.type === 'network'}
                 <NetworkFilterItem bind:filterUnit />
             {/if}

@@ -1,78 +1,54 @@
 <script lang="ts">
-    import { Modal, SelectorInput, IOption } from '@ui'
-    import { activeProfile, getNetworkHrp } from '@core/profile'
-    import { validateBech32Address } from '@core/utils'
-    import { isIscpChain } from '@core/network'
-    import type { ChainConfiguration } from '@core/network'
+    import { IOption, SelectInput } from '@bloomwalletio/ui'
+    import { localize } from '@core/i18n'
+    import { NetworkId, network } from '@core/network'
 
-    export let networkSelection: { networkId: string; address?: string } | undefined
-    export let error: string
-    export let iscpChainAddress: string | undefined = undefined
-    export let showLayer2: boolean = false
+    export let networkId: NetworkId | undefined
+    export let error: string | undefined
+    export let showLayer1: boolean = true
+    export let showLayer2: boolean = true
+    export let validationFunction: ((arg: string) => void) | undefined = undefined
 
-    const inputAttributes = { readonly: true, overrideShowOptions: true }
-    const layer1Network = {
-        key: $activeProfile?.network.name,
-        value: undefined,
+    export function validate(): void {
+        try {
+            if (validationFunction && typeof validationFunction === 'function' && networkId) {
+                validationFunction(networkId as string)
+            }
+        } catch (err) {
+            error = err?.message ?? err
+            throw err
+        }
     }
 
-    let inputElement: HTMLInputElement
-    let modal: Modal
+    const layer1Metadata = $network?.getMetadata()
+    const layer1Network: IOption | undefined = layer1Metadata
+        ? { label: layer1Metadata.name, value: layer1Metadata.id }
+        : undefined
+    const networkOptions = getNetworkOptions(showLayer2)
 
-    $: networkOptions = getNetworkOptions(showLayer2)
-
-    let selected: IOption = networkOptions?.find((option) => option.value === iscpChainAddress) ?? layer1Network
-
-    $: iscpChainAddress = selected?.value
-    $: networkSelection = selected?.key ? { networkId: selected.key, address: selected.value } : undefined
+    let selected: string | undefined = networkOptions[0]?.value
+    $: networkId = selected as NetworkId
 
     function getNetworkOptions(showLayer2: boolean): IOption[] {
-        let layer2Networks: IOption[] = []
+        if (!layer1Network) {
+            return []
+        }
+
+        const options: IOption[] = []
+        if (showLayer1) {
+            options.push(layer1Network)
+        }
+
         if (showLayer2) {
-            layer2Networks =
-                $activeProfile.network?.chainConfigurations?.map((chain) => ({
-                    key: chain.name,
-                    value: getNetworkValue(chain),
-                })) ?? []
+            const layer2Networks: IOption[] =
+                $network?.getChains().map((chain) => {
+                    const chainConfig = chain.getConfiguration()
+                    return { label: chainConfig.name, value: chainConfig.id }
+                }) ?? []
+            options.push(...layer2Networks)
         }
-        return [layer1Network, ...layer2Networks]
-    }
-
-    function getNetworkValue(chainConfiguration: ChainConfiguration): string | undefined {
-        return isIscpChain(chainConfiguration) ? chainConfiguration?.aliasAddress : undefined
-    }
-
-    let input: SelectorInput
-
-    export function validate(): Promise<void> {
-        if ($$restProps?.validationFunction) {
-            /* eslint-disable @typescript-eslint/ban-ts-comment */
-            // @ts-ignore
-            input?.validate()
-        } else {
-            try {
-                if (iscpChainAddress !== undefined) {
-                    validateBech32Address(getNetworkHrp(), iscpChainAddress)
-                }
-                return Promise.resolve()
-            } catch (err) {
-                error = err?.message ?? err
-                return Promise.reject(error)
-            }
-        }
+        return options
     }
 </script>
 
-<SelectorInput
-    labelLocale="general.destinationNetwork"
-    bind:this={input}
-    bind:selected
-    bind:inputElement
-    bind:modal
-    bind:error
-    options={networkOptions}
-    inputClasses="cursor-pointer"
-    containerClasses="cursor-pointer"
-    {...inputAttributes}
-    {...$$restProps}
-/>
+<SelectInput bind:error bind:value={selected} hideValue options={networkOptions} label={localize('general.network')} />

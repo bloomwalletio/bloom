@@ -1,12 +1,11 @@
-import { updateActiveProfile } from '@core/profile'
-import { getActiveProfile } from '@core/profile/stores'
-
-import { buildPersistedAssetFromMetadata } from '../helpers'
-import type { IErc20Metadata } from '../interfaces'
-import { updatePersistedAsset } from '../stores'
+import { NetworkId } from '@core/network/types'
+import { getActiveProfile, updateActiveProfile } from '@core/profile/stores'
+import { IErc20Metadata } from '@core/token/interfaces'
+import { updatePersistedToken } from '@core/token/stores'
+import { buildPersistedTokenFromMetadata } from '@core/token/utils'
 
 export function addNewTrackedTokenToActiveProfile(
-    chainId: number,
+    networkId: NetworkId,
     tokenAddress: string,
     tokenMetadata: IErc20Metadata
 ): void {
@@ -15,12 +14,12 @@ export function addNewTrackedTokenToActiveProfile(
         return
     }
 
-    const trackedTokens = profile.trackedTokens ?? {}
-    const chainIdTrackedTokens = trackedTokens[chainId] ?? []
-    if (!chainIdTrackedTokens.includes(tokenAddress)) {
-        chainIdTrackedTokens.push(tokenAddress)
-        profile.trackedTokens = { ...trackedTokens, [chainId]: chainIdTrackedTokens }
-        updatePersistedAsset(buildPersistedAssetFromMetadata(tokenAddress, tokenMetadata))
+    const trackedTokensOnProfile = profile.trackedTokens ?? {}
+    const trackedTokens = trackedTokensOnProfile[networkId] ?? []
+    if (!trackedTokens.includes(tokenAddress)) {
+        trackedTokens.push(tokenAddress)
+        profile.trackedTokens = { ...trackedTokensOnProfile, [networkId]: trackedTokens }
+        updatePersistedToken(buildPersistedTokenFromMetadata(tokenAddress, tokenMetadata))
         updateActiveProfile(profile)
     }
 }

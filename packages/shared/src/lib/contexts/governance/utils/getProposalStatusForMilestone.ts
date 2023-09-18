@@ -1,18 +1,18 @@
-import { ProposalStatus } from '../enums'
+import { EventStatus } from '@iota/sdk/out/types'
 
 export function getProposalStatusForMilestone(
     milestone: number,
-    milestones: Record<ProposalStatus, number>
-): ProposalStatus {
+    milestones: Record<EventStatus, number>
+): EventStatus | undefined {
     if (!milestone || !milestones) {
         return undefined
-    } else if (milestone >= milestones[ProposalStatus.Ended]) {
-        return ProposalStatus.Ended
-    } else if (milestone >= milestones[ProposalStatus.Holding]) {
-        return ProposalStatus.Holding
-    } else if (milestone >= milestones[ProposalStatus.Commencing]) {
-        return ProposalStatus.Commencing
-    } else if (milestone >= milestones[ProposalStatus.Upcoming]) {
-        return ProposalStatus.Upcoming
+    } else if (milestone >= milestones[EventStatus.Ended]) {
+        return EventStatus.Ended
+    } else if (milestone >= milestones[EventStatus.Holding]) {
+        return EventStatus.Holding
+    } else if (milestone >= milestones[EventStatus.Commencing]) {
+        return EventStatus.Commencing
+    } else if (milestone >= milestones[EventStatus.Upcoming]) {
+        return EventStatus.Upcoming
     }
 }

@@ -1,10 +1,12 @@
 <script lang="ts">
-    import { IAccountState, selectedAccount } from '@core/account'
-    import { visibleActiveAccounts, getBaseToken } from '@core/profile'
-    import { formatTokenAmountBestMatch } from '@core/wallet'
-    import { AccountLabel, Modal, Text, TextType } from '@ui'
-    import { truncateString } from '@core/utils'
     import { fade } from 'svelte/transition'
+    import { AccountLabel, Modal, Text, TextType } from '@ui'
+    import { IAccountState } from '@core/account'
+    import { selectedAccount } from '@core/account/stores'
+    import { getBaseToken } from '@core/profile/actions'
+    import { visibleActiveAccounts } from '@core/profile/stores'
+    import { formatTokenAmountBestMatch } from '@core/token'
+    import { truncateString } from '@core/utils'
 
     export let modal: Modal = undefined
     export let searchValue: string = ''

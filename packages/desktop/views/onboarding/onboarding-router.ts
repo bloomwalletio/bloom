@@ -1,6 +1,6 @@
-import { OnboardingType, onboardingProfile } from '@contexts/onboarding'
-import { hasCompletedAppSetup } from '@core/app'
 import { get, writable } from 'svelte/store'
+import { OnboardingType, onboardingProfile } from '@contexts/onboarding'
+import { hasCompletedAppSetup } from '@core/app/stores'
 import { Router } from '@core/router/classes'
 import { appRouter } from '@core/router/routers/app-router'
 import { OnboardingRoute } from './onboarding-route.enum'

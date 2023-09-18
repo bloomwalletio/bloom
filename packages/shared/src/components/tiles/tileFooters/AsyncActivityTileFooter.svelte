@@ -1,15 +1,16 @@
 <script lang="ts">
-    import { ActivityAsyncStatus, ActivityDirection, Activity } from '@core/activity'
-    import { claimActivity, rejectActivity } from '@core/wallet'
-    import { getTimeDifference } from '@core/utils'
-    import { ActivityAsyncStatusPill, TooltipIcon, Text, Button, TileFooter, FontWeight, ButtonSize } from '@ui'
-    import { time } from '@core/app'
-    import { Icon as IconEnum } from '@lib/auxiliary/icon'
+    import { ActivityAsyncStatusPill, Button, ButtonSize, FontWeight, Text, TileFooter, TooltipIcon } from '@ui'
     import { Position } from '@ui/enums'
+    import { Activity, ActivityAsyncStatus, ActivityDirection } from '@core/activity'
+    import { time } from '@core/app/stores'
     import { localize } from '@core/i18n'
     import { showInternalVerificationPopup } from '@core/ledger'
-    import { checkActiveProfileAuth, isActiveLedgerProfile } from '@core/profile'
-    import { closePopup, openPopup, PopupId } from '../../../../../desktop/lib/auxiliary/popup'
+    import { checkActiveProfileAuth } from '@core/profile/actions'
+    import { isActiveLedgerProfile } from '@core/profile/stores'
+    import { getTimeDifference } from '@core/utils'
+    import { claimActivity, rejectActivity } from '@core/wallet'
+    import { Icon as IconEnum } from '@lib/auxiliary/icon'
+    import { PopupId, closePopup, openPopup } from '../../../../../desktop/lib/auxiliary/popup'
 
     export let activity: Activity
 

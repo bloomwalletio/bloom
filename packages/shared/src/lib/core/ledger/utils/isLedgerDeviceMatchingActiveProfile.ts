@@ -8,12 +8,9 @@ export async function isLedgerDeviceMatchingActiveProfile(): Promise<boolean | u
     if (isLedgerAppOpen(LedgerAppName.Shimmer)) {
         try {
             const account = getSelectedAccount()
-            if (!account) {
-                return undefined
-            }
+            const cachedAddress = account.depositAddress
 
-            const cachedAddress = account?.depositAddress
-            const generatedAddress = await getProfileManager()?.generateAddress(account.index, 0, {
+            const generatedAddress = await getProfileManager()?.generateEd25519Address(account.index, 0, {
                 internal: false,
                 ledgerNanoPrompt: false,
             })

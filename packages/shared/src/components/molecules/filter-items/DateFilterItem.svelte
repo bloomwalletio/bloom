@@ -1,9 +1,10 @@
 <script lang="ts">
-    import { DateInputButton, Dropdown, Icon, Text, NumberInput } from '@ui'
+    import { Dropdown, Icon, Text, NumberInput } from '@ui'
+    import { DateInput } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
     import type { IDropdownItem } from '@core/utils'
-    import { DateFilterUnit } from '@core/utils/interfaces/filter'
     import { DateFilterOption, DateUnit } from '@core/utils/enums/filters'
+    import { DateFilterUnit } from '@core/utils/interfaces/filter'
 
     export let filterUnit: DateFilterUnit
 
@@ -68,12 +69,12 @@
         {#if filterUnit.subunit.type === 'range'}
             <!-- negative right margin prevents dates from wrapping to a second row unless length is MM.DD.YYYY -->
             <div class="flex items-center flex-wrap gap-2 -mr-1">
-                <DateInputButton bind:value={filterUnit.subunit.start} />
+                <DateInput bind:value={filterUnit.subunit.start} />
                 <Text>{localize('general.and')}</Text>
-                <DateInputButton bind:value={filterUnit.subunit.end} />
+                <DateInput bind:value={filterUnit.subunit.end} />
             </div>
         {:else if filterUnit.subunit.type === 'single'}
-            <DateInputButton bind:value={filterUnit.subunit.value} />
+            <DateInput bind:value={filterUnit.subunit.value} />
         {:else if filterUnit.subunit.type === 'unit'}
             <NumberInput bind:value={filterUnit.subunit.amount} placeholder="" />
             <Dropdown value={selectedDateUnit} items={unitChoices} onSelect={onUnitSelect} small />

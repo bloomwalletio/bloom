@@ -1,16 +1,15 @@
 <script lang="ts">
-    import type { AnswerStatus, Question } from '@iota/wallet'
+    import { AnswerStatus, EventStatus, Question } from '@iota/sdk/out/types'
 
     import { ProposalAnswer } from '@components'
     import { Icon, Text, TooltipIcon } from '@ui'
     import { FontWeight, Position } from '@ui/enums'
 
-    import { ABSTAIN_VOTE_VALUE } from '@contexts/governance/constants'
-    import { ProposalStatus } from '@contexts/governance/enums'
-    import { getPercentagesFromAnswerStatuses, IProposalAnswerPercentages } from '@contexts/governance'
-    import { selectedProposal } from '@contexts/governance/stores'
-
     import { Icon as IconEnum } from '@auxiliary/icon'
+    import { getPercentagesFromAnswerStatuses, IProposalAnswerPercentages } from '@contexts/governance'
+    import { ABSTAIN_VOTE_VALUE } from '@contexts/governance/constants'
+    import { selectedProposal } from '@contexts/governance/stores'
+    
 
     export let onQuestionClick: (questionIndex: number) => void
     export let onAnswerClick: (answerValue: number, questionIndex: number) => void
@@ -29,8 +28,8 @@
     $: answers = [...(question?.answers ?? []), { value: 0, text: 'Abstain', additionalInfo: '' }]
     $: percentages = getPercentagesFromAnswerStatuses(answerStatuses)
     $: disabled =
-        $selectedProposal?.status === ProposalStatus.Upcoming ||
-        $selectedProposal?.status === ProposalStatus.Ended ||
+        $selectedProposal?.status === EventStatus.Upcoming ||
+        $selectedProposal?.status === EventStatus.Ended ||
         !!$selectedProposal?.error
     $: answerStatuses, setWinnerAnswerIndex()
     $: showMargin =
@@ -40,7 +39,7 @@
         winnerAnswerIndex !== undefined
 
     function setWinnerAnswerIndex(): void {
-        if ($selectedProposal?.status === ProposalStatus.Ended && answerStatuses?.length > 0) {
+        if ($selectedProposal?.status === EventStatus.Ended && answerStatuses?.length > 0) {
             const answersAccumulated = answerStatuses?.map((answer) => answer.accumulated)
             const maxAccumulated = Math.max(...answersAccumulated)
             winnerAnswerIndex = answersAccumulated?.indexOf(maxAccumulated)

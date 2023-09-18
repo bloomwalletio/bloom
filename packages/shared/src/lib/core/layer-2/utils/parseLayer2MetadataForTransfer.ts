@@ -1,10 +1,10 @@
-import { Converter } from '@core/utils'
-import { TOKEN_ID_BYTE_LENGTH } from '@core/token'
-import { NFT_ID_BYTE_LENGTH } from '@core/nfts/constants'
-import { ILayer2AssetAllowance, ILayer2TransferAllowanceMetadata } from '../interfaces'
-import { CONTRACT_FUNCTIONS, TARGET_CONTRACTS } from '../constants'
-import { Allowance } from '@core/layer-2/enums'
 import { ReadSpecialStream } from '@core/layer-2/classes'
+import { Allowance } from '@core/layer-2/enums'
+import { NFT_ID_BYTE_LENGTH } from '@core/nfts/constants'
+import { TOKEN_ID_BYTE_LENGTH } from '@core/token/constants'
+import { Converter, HEX_PREFIX } from '@core/utils'
+import { CONTRACT_FUNCTIONS, TARGET_CONTRACTS } from '../constants'
+import { ILayer2AssetAllowance, ILayer2TransferAllowanceMetadata } from '../interfaces'
 
 // Function to parse data from the L1 metadata, using the new encoding where the shimmer chainId is 1072
 export function parseLayer2MetadataForTransfer(metadata: Uint8Array): ILayer2TransferAllowanceMetadata {
@@ -13,10 +13,10 @@ export function parseLayer2MetadataForTransfer(metadata: Uint8Array): ILayer2Tra
     const targetContract = readStream.readUInt32('targetContract')
     const contractFunction = readStream.readUInt32('contractFunction')
     // TODO: This is a temporary fix since now the gas is always 500000, when it varies, the length of the gas will change
-    const gasBudget = readStream.readUIntNSpecialEncoding('gasBudget', 3)
+    const gasLimit = readStream.readUIntNSpecialEncoding('gasLimit', 3)
 
     const smartContractParameters = parseSmartContractParameters(readStream)
-    const ethereumAddress = '0x' + smartContractParameters['a'].substring(4)
+    const ethereumAddress = HEX_PREFIX + smartContractParameters['a'].substring(4)
 
     const allowance = parseAssetAllowance(readStream)
 
@@ -24,7 +24,7 @@ export function parseLayer2MetadataForTransfer(metadata: Uint8Array): ILayer2Tra
         senderContract: Converter.decimalToHex(senderContract),
         targetContract: TARGET_CONTRACTS[targetContract] ?? Converter.decimalToHex(targetContract),
         contractFunction: CONTRACT_FUNCTIONS[contractFunction] ?? Converter.decimalToHex(contractFunction),
-        gasBudget: gasBudget.toString(),
+        gasLimit: gasLimit.toString(),
         ethereumAddress,
         baseTokens: allowance?.baseTokens,
         nativeTokens: allowance?.nativeTokens,

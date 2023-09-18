@@ -1,15 +1,15 @@
-import { ipcRenderer } from 'electron'
 import fs from 'fs'
+import { ipcRenderer } from 'electron'
 
+import type { IAppSettings } from '@core/app/interfaces'
 import features from '@features/features'
-import { MENU_STATE } from '../menus/menu-state.constant'
+import type { IFeatureFlag } from '@lib/features/interfaces'
 import DeepLinkManager from '../managers/deep-link.manager'
 import NotificationManager from '../managers/notification.manager'
 import PincodeManager from '../managers/pincode.manager'
-import { bindObjectAcrossContextBridge } from '../utils/context-bridge.utils'
+import { MENU_STATE } from '../menus/menu-state.constant'
+import { bindMethodsAcrossContextBridge } from '../utils/context-bridge.utils'
 
-import type { IAppSettings } from '@core/app/interfaces'
-import type { IFeatureFlag } from '@lib/features/interfaces'
 
 let activeProfileId = null
 const eventListeners = {}
@@ -68,9 +68,9 @@ export default {
             }
         })
     },
-    DeepLinkManager: bindObjectAcrossContextBridge(DeepLinkManager.prototype, new DeepLinkManager()),
-    NotificationManager: bindObjectAcrossContextBridge(NotificationManager.prototype, new NotificationManager()),
-    PincodeManager: bindObjectAcrossContextBridge(PincodeManager.prototype, new PincodeManager()),
+    DeepLinkManager: bindMethodsAcrossContextBridge(DeepLinkManager, new DeepLinkManager()),
+    NotificationManager: bindMethodsAcrossContextBridge(NotificationManager, new NotificationManager()),
+    PincodeManager: bindMethodsAcrossContextBridge(PincodeManager, new PincodeManager()),
     async getStrongholdBackupDestination(defaultPath: unknown): Promise<unknown> {
         return ipcRenderer
             .invoke('show-save-dialog', {
@@ -166,7 +166,7 @@ export default {
         return ipcRenderer.invoke('check-if-file-exists', filePath)
     },
     openUrl(url: unknown): Promise<unknown> {
-        return ipcRenderer.invoke('open-url', url)
+        return ipcRenderer.invoke('open-external-url', url)
     },
     copyFile(sourceFilePath: unknown, destinationFilePath: unknown): Promise<unknown> {
         return ipcRenderer.invoke('copy-file', sourceFilePath, destinationFilePath)

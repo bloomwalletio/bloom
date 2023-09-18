@@ -1,7 +1,7 @@
 <script lang="ts">
     import { default as QrCode } from 'qrious'
-    import { appSettings } from '@core/app'
     import { onMount } from 'svelte'
+    import { appSettings } from '@core/app/stores'
 
     export let data: string
     export let classes: string = ''

@@ -1,12 +1,13 @@
 <script lang="ts">
-    import { Button, Text, TextType, TextHint } from '@ui'
+    import { Button, Text, TextType } from '@ui'
     import { ButtonVariant } from '@ui/enums'
-    import { closePopup } from '@desktop/auxiliary/popup'
+    import { Alert } from '@bloomwalletio/ui'
     import { stopVotingForProposal } from '@contexts/governance/actions'
     import { selectedProposal } from '@contexts/governance/stores'
-    import { localize } from '@core/i18n'
     import { selectedAccount } from '@core/account/stores'
+    import { localize } from '@core/i18n'
     import { checkActiveProfileAuth } from '@core/profile/actions'
+    import { closePopup } from '@desktop/auxiliary/popup'
 
     $: hasGovernanceTransactionInProgress =
         $selectedAccount?.hasVotingPowerTransactionInProgress || $selectedAccount?.hasVotingTransactionInProgress
@@ -29,7 +30,7 @@
         <Text fontSize="15"
             >{localize('popups.stopVoting.body', { values: { proposalName: $selectedProposal?.title } })}</Text
         >
-        <TextHint info text={localize('popups.stopVoting.hint')} />
+        <Alert variant="info" text={localize('popups.stopVoting.hint')} />
     </div>
     <div class="flex w-full space-x-4 mt-6">
         <Button outline classes="w-full" disabled={hasGovernanceTransactionInProgress} onClick={onCancelClick}

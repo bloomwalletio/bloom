@@ -1,7 +1,7 @@
 <script lang="ts">
+    import { FontWeight, Illustration, NftGallery, ReceiveButton, SearchInput, Text } from '@ui'
     import { localize } from '@core/i18n'
-    import { nftSearchTerm, queriedNfts, ownedNfts } from '@core/nfts'
-    import { FontWeight, Illustration, NftGallery, Text, ReceiveButton, SearchInput } from '@ui'
+    import { nftSearchTerm, ownedNfts, queriedNfts } from '@core/nfts/stores'
 </script>
 
 <div class="flex flex-col w-full h-full space-y-4">

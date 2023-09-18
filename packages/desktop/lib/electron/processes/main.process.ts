@@ -1,24 +1,24 @@
 // Modules to control application life and create native browser window
+import fs from 'fs'
+import path from 'path'
 import {
     app,
+    BrowserWindow,
     dialog,
     ipcMain,
-    shell,
-    BrowserWindow,
-    session,
-    utilityProcess,
     nativeTheme,
     PopupOptions,
-    UtilityProcess,
     powerMonitor,
+    session,
+    shell,
+    utilityProcess,
+    UtilityProcess,
 } from 'electron'
 import { WebPreferences } from 'electron/main'
-import path from 'path'
-import fs from 'fs'
-
-import features from '@features/features'
 
 import { LedgerApiMethod } from '@core/ledger/enums'
+import features from '@features/features'
+
 
 import { windows } from '../constants/windows.constant'
 import AutoUpdateManager from '../managers/auto-update.manager'
@@ -27,7 +27,7 @@ import NftDownloadManager from '../managers/nft-download.manager'
 import { contextMenu } from '../menus/context.menu'
 import { initMenu } from '../menus/menu'
 import { initialiseAnalytics } from '../utils/analytics.utils'
-import { checkArgsForDeepLink, initialiseDeepLinks } from '../utils/deep-link.utils'
+import { checkWindowArgsForDeepLinkRequest, initialiseDeepLinks } from '../utils/deep-link.utils'
 import { getDiagnostics } from '../utils/diagnostics.utils'
 import { shouldReportError } from '../utils/error.utils'
 import { getMachineId } from '../utils/os.utils'
@@ -152,7 +152,7 @@ if (app.isPackaged) {
 /**
  * Handles url navigation events
  */
-function handleNavigation(e: Event, url: string): void {
+function tryOpenExternalUrl(e: Event, url: string): void {
     if (url === 'http://localhost:8080/') {
         // if localhost would be opened on the build versions, we need to block it to prevent errors
         if (app.isPackaged) {
@@ -170,7 +170,7 @@ function handleNavigation(e: Event, url: string): void {
     }
 }
 
-function createMainWindow(): BrowserWindow {
+export function createMainWindow(): BrowserWindow {
     const mainWindowState = windowStateKeeper('main', 'settings.json')
 
     // Create the browser window
@@ -178,7 +178,7 @@ function createMainWindow(): BrowserWindow {
         width: mainWindowState.width,
         height: mainWindowState.height,
         minWidth: 1280,
-        minHeight: 720,
+        minHeight: process.platform !== 'darwin' ? 720 : 720 + 28,
         titleBarStyle: process.platform === 'darwin' ? 'hiddenInset' : 'hidden',
         title: app.name,
         frame: process.platform === 'linux',
@@ -231,7 +231,7 @@ function createMainWindow(): BrowserWindow {
      *  The handler only allows navigation to an external browser.
      */
     windows.main.webContents.on('will-navigate', (a, b) => {
-        handleNavigation(a as unknown as Event, b)
+        tryOpenExternalUrl(a as unknown as Event, b)
     })
 
     windows.main.on('close', () => {
@@ -296,6 +296,9 @@ ipcMain.on('start-ledger-process', () => {
                     case LedgerApiMethod.GenerateEvmAddress:
                         windows.main.webContents.send('evm-address', payload)
                         break
+                    case LedgerApiMethod.GetEthereumAppSettings:
+                        windows.main.webContents.send('ethereum-app-settings', payload)
+                        break
                     case LedgerApiMethod.SignEvmTransaction:
                         windows.main.webContents.send('evm-signed-transaction', payload)
                         break
@@ -317,11 +320,13 @@ ipcMain.on(LedgerApiMethod.GenerateEvmAddress, (_e, bip32Path, verify) => {
     ledgerProcess?.postMessage({ method: LedgerApiMethod.GenerateEvmAddress, payload: [bip32Path, verify] })
 })
 
+ipcMain.on(LedgerApiMethod.GetEthereumAppSettings, () => {
+    ledgerProcess?.postMessage({ method: LedgerApiMethod.GetEthereumAppSettings })
+})
+
 ipcMain.on(LedgerApiMethod.SignEvmTransaction, (_e, transactionHex, bip32Path) => {
     ledgerProcess?.postMessage({ method: LedgerApiMethod.SignEvmTransaction, payload: [transactionHex, bip32Path] })
 })
-
-export const getWindow = (windowName: string): BrowserWindow => windows[windowName]
 
 export function getOrInitWindow(windowName: string): BrowserWindow {
     if (!windows[windowName]) {
@@ -377,8 +382,8 @@ powerMonitor.on('lock-screen', () => {
 // IPC handlers for APIs exposed from main process
 
 // URLs
-ipcMain.handle('open-url', (_e, url) => {
-    handleNavigation(_e as unknown as Event, url)
+ipcMain.handle('open-external-url', (_e, url) => {
+    tryOpenExternalUrl(_e as unknown as Event, url)
 })
 
 // Keychain
@@ -450,7 +455,6 @@ ipcMain.handle('update-theme', (_e, theme) => (nativeTheme.themeSource = theme))
  * Create a single instance only
  */
 const isFirstInstance = app.requestSingleInstanceLock()
-
 if (!isFirstInstance) {
     app.quit()
 } else {
@@ -461,10 +465,7 @@ if (!isFirstInstance) {
             }
             windows.main.focus()
 
-            // Deep linking for when the app is already running (Windows, Linux)
-            if (process.platform === 'win32' || process.platform === 'linux') {
-                checkArgsForDeepLink(_e, argv)
-            }
+            checkWindowArgsForDeepLinkRequest(_e, argv)
         }
     })
 }
@@ -581,7 +582,7 @@ function windowStateKeeper(windowName: string, settingsFilename: string): IAppSt
             x: undefined,
             y: undefined,
             width: 1280,
-            height: 720,
+            height: process.platform === 'darwin' ? 720 : 720 + 28,
         }
     }
 

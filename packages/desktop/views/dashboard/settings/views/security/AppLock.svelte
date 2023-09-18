@@ -1,7 +1,8 @@
 <script lang="ts">
     import { Dropdown, Text } from '@ui'
     import { localize } from '@core/i18n'
-    import { activeProfile, DEFAULT_PERSISTED_PROFILE_OBJECT, updateActiveProfileSettings } from '@core/profile'
+    import { DEFAULT_PERSISTED_PROFILE_OBJECT } from '@core/profile'
+    import { activeProfile, updateActiveProfileSettings } from '@core/profile/stores'
     import type { IDropdownItem } from '@core/utils'
 
     function onLockScreenTimeoutChange(option: IDropdownItem<number>): void {

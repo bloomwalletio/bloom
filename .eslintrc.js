@@ -27,7 +27,7 @@ const eslintRules = {
     'no-import-assign': 'error',
     'no-irregular-whitespace': 'error',
     'no-prototype-builtins': 'error',
-    'no-return-await': 'error',
+    'no-return-await': 'off', // OFF b/c it is sometimes necessary when using try/catch blocks
     'no-trailing-spaces': 'error',
     'no-useless-escape': 'error',
     'no-undef': 'error',
@@ -69,6 +69,7 @@ const typescriptEslintRules = {
     '@typescript-eslint/no-non-null-asserted-optional-chain': 'error',
     '@typescript-eslint/no-non-null-assertion': 'error',
     '@typescript-eslint/no-this-alias': 'error',
+    '@typescript-eslint/no-redundant-type-constituents': 'warn',
     '@typescript-eslint/no-unnecessary-type-assertion': 'error',
     '@typescript-eslint/no-unsafe-assignment': 'off', // OFF b/c used in Svelte components for UI logic
     '@typescript-eslint/no-unsafe-call': 'off', // OFF b/c used in Svelte components for UI logic

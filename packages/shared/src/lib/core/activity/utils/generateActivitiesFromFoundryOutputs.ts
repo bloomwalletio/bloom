@@ -1,25 +1,26 @@
+import { OutputType } from '@iota/sdk/out/types'
 import { IAccountState } from '@core/account'
-import { OUTPUT_TYPE_FOUNDRY } from '@core/wallet'
+import { NetworkId } from '@core/network/types'
+import { ActivityAction } from '../enums'
 import { Activity, IProcessedTransaction } from '../types'
 import { generateSingleFoundryActivity } from './generateSingleFoundryActivity'
-import { ActivityAction } from '../enums'
 
-export function generateActivitiesFromFoundryOutputs(
+export async function generateActivitiesFromFoundryOutputs(
     processedTransaction: IProcessedTransaction,
-    account: IAccountState
-): Activity[] {
+    account: IAccountState,
+    networkId: NetworkId
+): Promise<Activity[]> {
     const outputs = processedTransaction.outputs
     const activities = []
 
-    const foundryOutputs = outputs.filter((output) => output.output.type === OUTPUT_TYPE_FOUNDRY)
+    const foundryOutputs = outputs.filter((output) => output.output?.type === OutputType.Foundry)
     for (const foundryOutput of foundryOutputs) {
-        activities.push(
-            generateSingleFoundryActivity(account, {
-                action: ActivityAction.Mint,
-                processedTransaction,
-                wrappedOutput: foundryOutput,
-            })
-        )
+        const activity = await generateSingleFoundryActivity(account, networkId, {
+            action: ActivityAction.Mint,
+            processedTransaction,
+            wrappedOutput: foundryOutput,
+        })
+        activities.push(activity)
     }
     return activities
 }

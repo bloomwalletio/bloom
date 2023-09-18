@@ -2,10 +2,10 @@
     import { onMount } from 'svelte'
     import { fade } from 'svelte/transition'
     import { Icon } from '@ui'
-    import { closePopup, PopupComponentMap, PopupId } from '@desktop/auxiliary/popup'
     import { Icon as IconEnum } from '@auxiliary/icon/enums'
     import { IS_WINDOWS } from '@core/app/constants'
     import { clickOutside } from '@core/utils/ui'
+    import { closePopup, PopupComponentMap, PopupId } from '@desktop/auxiliary/popup'
 
     // Popups
     import AccountSwitcherPopup from './AccountSwitcherPopup.svelte'
@@ -14,8 +14,10 @@
     import AddProposalPopup from './AddProposalPopup.svelte'
     import AliasConfirmationPopup from './AliasConfirmationPopup.svelte'
     import BackupStrongholdPopup from './BackupStrongholdPopup.svelte'
-    import BurnNativeTokensPopup from './BurnNativeTokensPopup.svelte'
+    import BalanceBreakdownPopup from './BalanceBreakdownPopup.svelte'
     import BurnNativeTokensConfirmationPopup from './BurnNativeTokensConfirmationPopup.svelte'
+    import BurnNativeTokensPopup from './BurnNativeTokensPopup.svelte'
+    import CheckForUpdatesPopup from './CheckForUpdatesPopup.svelte'
     import ConfirmationPopup from './ConfirmationPopup.svelte'
     import ConnectLedgerPopup from './ConnectLedgerPopup.svelte'
     import CreateAccountPopup from './CreateAccountPopup.svelte'
@@ -27,7 +29,6 @@
     import ErrorLogPopup from './ErrorLogPopup.svelte'
     import FaucetRequestPopup from './FaucetRequestPopup.svelte'
     import ImportErc20TokenFormPopup from './ImportErc20TokenFormPopup.svelte'
-    import InitWalletConnectPopup from './InitWalletConnectPopup.svelte'
     import LedgerAppGuidePopup from './LedgerAppGuidePopup.svelte'
     import LedgerConnectionGuidePopup from './LedgerConnectionGuidePopup.svelte'
     import LegalUpdatePopup from './LegalUpdatePopup.svelte'
@@ -40,17 +41,15 @@
     import NodeAuthRequiredPopup from './NodeAuthRequiredPopup.svelte'
     import NodeInfoPopup from './NodeInfoPopup.svelte'
     import ReceiveAddressPopup from './ReceiveAddressPopup.svelte'
-    import RemoveNode from './RemoveNode.svelte'
     import RemoveProposalPopup from './RemoveProposalPopup.svelte'
     import RevotePopup from './RevotePopup.svelte'
     import SendFlowPopup from './SendFlowPopup.svelte'
+    import SignMessagePopup from './SignMessagePopup.svelte'
     import StopVotingPopup from './StopVotingPopup.svelte'
-    import BalanceBreakdownPopup from './BalanceBreakdownPopup.svelte'
     import TestDeepLinkFormPopup from './TestDeepLinkFormPopup.svelte'
     import TokenInformationPopup from './TokenInformationPopup.svelte'
     import UnlockStrongholdPopup from './UnlockStrongholdPopup.svelte'
     import VerifyLedgerTransactionPopup from './VerifyLedgerTransactionPopup.svelte'
-    import CheckForUpdatesPopup from './CheckForUpdatesPopup.svelte'
     import VoteForProposal from './VoteForProposalPopup.svelte'
     import VotingPowerToZeroPopup from './VotingPowerToZeroPopup.svelte'
     import WalletFinderPopup from './WalletFinderPopup.svelte'
@@ -110,7 +109,6 @@
         [PopupId.ErrorLog]: ErrorLogPopup,
         [PopupId.FaucetRequest]: FaucetRequestPopup,
         [PopupId.ImportErc20Token]: ImportErc20TokenFormPopup,
-        [PopupId.InitWalletConnect]: InitWalletConnectPopup,
         [PopupId.LedgerAppGuide]: LedgerAppGuidePopup,
         [PopupId.LedgerConnection]: LedgerConnectionGuidePopup,
         [PopupId.LegalUpdate]: LegalUpdatePopup,
@@ -123,10 +121,10 @@
         [PopupId.NodeAuthRequired]: NodeAuthRequiredPopup,
         [PopupId.NodeInfo]: NodeInfoPopup,
         [PopupId.ReceiveAddress]: ReceiveAddressPopup,
-        [PopupId.RemoveNode]: RemoveNode,
         [PopupId.RemoveProposal]: RemoveProposalPopup,
         [PopupId.Revote]: RevotePopup,
         [PopupId.SendFlow]: SendFlowPopup,
+        [PopupId.SignMessage]: SignMessagePopup,
         [PopupId.StopVoting]: StopVotingPopup,
         [PopupId.BalanceBreakdown]: BalanceBreakdownPopup,
         [PopupId.TestDeepLinkForm]: TestDeepLinkFormPopup,

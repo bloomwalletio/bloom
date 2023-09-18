@@ -1,5 +1,6 @@
 <script lang="ts">
-    import { Text, FontWeight, ColoredCircle } from '@ui/'
+    import { FontWeight, Text } from '@ui'
+    import { Indicator } from '@bloomwalletio/ui'
 
     export let color: string
     export let text: string
@@ -7,7 +8,7 @@
 </script>
 
 <div class="flex flex-row items-center space-x-3">
-    <ColoredCircle {color} />
+    <Indicator {color} />
     <Text fontSize="14" fontWeight={FontWeight.semibold} classes={selected ? '' : 'opacity-50'}>
         {text}
     </Text>

@@ -1,16 +1,11 @@
-import { selectedAccount } from '@core/account'
+import { showNotification } from '@auxiliary/notification/actions'
+import { getSelectedAccount } from '@core/account/stores'
 import { localize } from '@core/i18n'
-import { FAUCET_URLS } from '@core/network'
-import { showNotification } from '@auxiliary/notification'
-import { get } from 'svelte/store'
-import { getActiveNetworkId } from '@core/network/utils/getNetworkId'
+import { getActiveNetworkId } from '@core/network/actions'
+import { FAUCET_URLS } from '@core/network/constants'
 
 export async function requestTokensFromFaucet(): Promise<void> {
     const networkId = getActiveNetworkId()
-    if (!networkId) {
-        return
-    }
-
     const url = FAUCET_URLS?.[networkId]
 
     if (!url) {
@@ -19,7 +14,7 @@ export async function requestTokensFromFaucet(): Promise<void> {
     const headers = new Headers()
     headers.append('Content-Type', 'application/json')
 
-    const address = get(selectedAccount)?.depositAddress
+    const address = getSelectedAccount().depositAddress
     const body = JSON.stringify({ address })
 
     const requestInit = {

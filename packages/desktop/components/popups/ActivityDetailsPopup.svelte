@@ -1,17 +1,15 @@
 <script lang="ts">
-    import { localize } from '@core/i18n'
-    import { getOfficialExplorerUrl } from '@core/network/utils'
+    import { onMount, tick } from 'svelte'
     import {
-        Text,
+        ActivityInformation,
+        ActivityStatusPills,
         Button,
         FontWeight,
+        Text,
         TextType,
-        ActivityInformation,
         TransactionAssetSection,
-        ActivityStatusPills,
     } from '@ui'
-    import { openUrlInBrowser } from '@core/app'
-    import { claimActivity, rejectActivity } from '@core/wallet'
+    import { selectedAccountIndex } from '@core/account/stores'
     import {
         Activity,
         ActivityAsyncStatus,
@@ -20,21 +18,21 @@
         getActivityDetailsTitle,
         selectedAccountActivities,
     } from '@core/activity'
-    import { activeProfile, checkActiveProfileAuth } from '@core/profile'
-    import { setClipboard, truncateString } from '@core/utils'
-    import { closePopup, openPopup, PopupId } from '@desktop/auxiliary/popup'
-    import { onMount } from 'svelte'
-    import { ExplorerEndpoint } from '@core/network'
     import { getTransactionAssets } from '@core/activity/utils'
-    import { selectedAccountIndex } from '@core/account/stores'
-    import { getNftByIdFromAllAccountNfts, ownedNfts, selectedNftId } from '@core/nfts'
-    import { CollectiblesRoute, collectiblesRouter, DashboardRoute, dashboardRouter } from '@core/router'
-    import { tick } from 'svelte'
+    import { openUrlInBrowser } from '@core/app'
+    import { localize } from '@core/i18n'
+    import { ExplorerEndpoint } from '@core/network'
+    import { getDefaultExplorerUrl } from '@core/network/utils'
+    import { getNftByIdFromAllAccountNfts } from '@core/nfts/actions'
+    import { ownedNfts, selectedNftId } from '@core/nfts/stores'
+    import { checkActiveProfileAuth } from '@core/profile/actions'
+    import { CollectiblesRoute, DashboardRoute, collectiblesRouter, dashboardRouter } from '@core/router'
+    import { setClipboard, truncateString } from '@core/utils'
+    import { claimActivity, rejectActivity } from '@core/wallet'
+    import { PopupId, closePopup, openPopup } from '@desktop/auxiliary/popup'
 
     export let activityId: string
     export let _onMount: (..._: any[]) => Promise<void> = async () => {}
-
-    const explorerUrl = getOfficialExplorerUrl($activeProfile?.network?.id)
 
     $: activity = $selectedAccountActivities.find((_activity) => _activity.id === activityId)
     $: isTimelocked = activity?.asyncData?.asyncStatus === ActivityAsyncStatus.Timelocked
@@ -49,6 +47,7 @@
             ? getNftByIdFromAllAccountNfts($selectedAccountIndex, activity.nftId)
             : undefined
     $: nftIsOwned = nft ? $ownedNfts.some((_onMountnft) => _onMountnft.id === nft?.id) : false
+    $: explorerUrl = getDefaultExplorerUrl(activity?.sourceNetworkId, ExplorerEndpoint.Transaction)
 
     let title: string | undefined = localize('popups.activityDetails.title.fallback')
     $: void setTitle(activity)
@@ -64,18 +63,18 @@
         $collectiblesRouter.goTo(CollectiblesRoute.Details)
     }
 
-    function onExplorerClick(): void {
-        openUrlInBrowser(`${explorerUrl}/${ExplorerEndpoint.Transaction}/${activity?.transactionId}`)
+    function onExplorerClick(_activity: Activity): void {
+        openUrlInBrowser(`${explorerUrl}/${_activity.transactionId}`)
     }
 
-    function onTransactionIdClick(): void {
-        setClipboard(activity?.transactionId)
+    function onTransactionIdClick(_activity: Activity): void {
+        setClipboard(_activity.transactionId)
     }
 
-    async function onClaimClick(): Promise<void> {
+    async function onClaimClick(_activity: Activity): Promise<void> {
         await checkActiveProfileAuth(
             async () => {
-                await claimActivity(activity)
+                await claimActivity(_activity)
                 openPopup({
                     id: PopupId.ActivityDetails,
                     props: { activityId },
@@ -117,52 +116,54 @@
     })
 </script>
 
-<activity-details-popup class="w-full h-full space-y-6 flex flex-auto flex-col shrink-0">
-    <div class="flex flex-col">
-        <Text type={TextType.h3} fontWeight={FontWeight.semibold} classes="text-left">
-            {title}
-        </Text>
-        {#if explorerUrl && activity?.transactionId}
-            <button
-                class="action w-max flex justify-start text-center font-medium text-14 text-blue-500"
-                on:click={onExplorerClick}
-            >
-                {localize('general.viewOnExplorer')}
-            </button>
-        {:else if activity?.transactionId}
-            <button
-                class="action w-fit flex justify-start text-center font-medium text-14 text-blue-500"
-                on:click={onTransactionIdClick}
-            >
-                {truncateString(activity.transactionId, 12, 12)}
-            </button>
+{#if activity}
+    <activity-details-popup class="w-full h-full space-y-6 flex flex-auto flex-col shrink-0">
+        <div class="flex flex-col">
+            <Text type={TextType.h3} fontWeight={FontWeight.semibold} classes="text-left">
+                {title}
+            </Text>
+            {#if explorerUrl && activity.transactionId}
+                <button
+                    class="action w-max flex justify-start text-center font-medium text-14 text-blue-500"
+                    on:click={() => onExplorerClick(activity)}
+                >
+                    {localize('general.viewOnExplorer')}
+                </button>
+            {:else if activity.transactionId}
+                <button
+                    class="action w-fit flex justify-start text-center font-medium text-14 text-blue-500"
+                    on:click={() => onTransactionIdClick(activity)}
+                >
+                    {truncateString(activity.transactionId, 12, 12)}
+                </button>
+            {/if}
+        </div>
+        <activity-details class="w-full h-full space-y-6 flex flex-auto flex-col shrink-0">
+            <ActivityStatusPills {activity} />
+
+            <TransactionAssetSection {...transactionAssets} onNftClick={nftIsOwned ? onNftClick : undefined} />
+
+            <ActivityInformation {activity} />
+        </activity-details>
+        {#if !isTimelocked && isActivityIncomingAndUnclaimed}
+            <popup-buttons class="flex flex-row flex-nowrap w-full space-x-4">
+                <Button
+                    outline
+                    classes="w-full"
+                    disabled={activity.asyncData?.isClaiming || activity.asyncData?.isRejected}
+                    onClick={onRejectClick}
+                >
+                    {localize('actions.reject')}
+                </Button>
+                <Button
+                    classes="w-full"
+                    disabled={activity.asyncData?.isClaiming}
+                    onClick={() => onClaimClick(activity)}
+                    isBusy={activity.asyncData?.isClaiming}
+                >
+                    {localize('actions.claim')}
+                </Button>
+            </popup-buttons>
         {/if}
-    </div>
-    <activity-details class="w-full h-full space-y-6 flex flex-auto flex-col shrink-0">
-        <ActivityStatusPills {activity} />
-
-        <TransactionAssetSection {...transactionAssets} onNftClick={nftIsOwned ? onNftClick : undefined} />
-
-        <ActivityInformation {activity} />
-    </activity-details>
-    {#if !isTimelocked && isActivityIncomingAndUnclaimed}
-        <popup-buttons class="flex flex-row flex-nowrap w-full space-x-4">
-            <Button
-                outline
-                classes="w-full"
-                disabled={activity.asyncData?.isClaiming || activity.asyncData?.isRejected}
-                onClick={onRejectClick}
-            >
-                {localize('actions.reject')}
-            </Button>
-            <Button
-                classes="w-full"
-                disabled={activity.asyncData?.isClaiming}
-                onClick={onClaimClick}
-                isBusy={activity.asyncData?.isClaiming}
-            >
-                {localize('actions.claim')}
-            </Button>
-        </popup-buttons>
-    {/if}
-</activity-details-popup>
+    </activity-details-popup>
+{/if}

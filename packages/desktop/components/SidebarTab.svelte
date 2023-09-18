@@ -1,5 +1,6 @@
 <script lang="ts">
-    import { Icon, PingingBadge, Position, InformationTooltip } from '@ui'
+    import { Icon, Position, InformationTooltip } from '@ui'
+    import { Indicator } from '@bloomwalletio/ui'
     import { dashboardRoute } from '@core/router'
     import { ISidebarTab } from '@desktop/routers'
 
@@ -27,10 +28,11 @@
 >
     <Icon width="24" height="24" icon={tab?.icon} />
     {#if tab?.notificationType}
-        <PingingBadge
-            innerColor={tab?.notificationType === 'warning' ? 'yellow-600' : 'red-500'}
-            outerColor={tab?.notificationType === 'warning' ? 'yellow-400' : 'red-300'}
-            classes="absolute -top-2 -left-2"
+        <Indicator
+            size="sm"
+            color={tab?.notificationType === 'warning' ? 'yellow' : 'red'}
+            ping
+            class="absolute top-0 right-0"
         />
     {/if}
 </button>

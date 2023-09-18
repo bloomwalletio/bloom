@@ -1,10 +1,11 @@
 <script lang="ts">
-    import { selectedAccount, setNextSelectedAccount } from '@core/account'
-    import { localize } from '@core/i18n'
-    import { activeProfile, nonHiddenActiveAccounts } from '@core/profile'
-    import { updateActiveAccountPersistedData } from '@core/profile/actions'
-    import { Icon } from '@lib/auxiliary/icon'
     import { MenuItem } from '@ui'
+    import { setNextSelectedAccount } from '@core/account/actions'
+    import { selectedAccount } from '@core/account/stores'
+    import { localize } from '@core/i18n'
+    import { updateActiveAccountPersistedData } from '@core/profile/actions'
+    import { activeProfile, nonHiddenActiveAccounts } from '@core/profile/stores'
+    import { Icon } from '@lib/auxiliary/icon'
 
     export let onClick: () => unknown
 

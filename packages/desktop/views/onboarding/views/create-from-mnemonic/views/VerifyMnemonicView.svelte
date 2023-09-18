@@ -1,28 +1,50 @@
 <script lang="ts">
+    import { onMount } from 'svelte'
+    import { Icon, RecoveryPhrase, Text, TextType } from '@ui'
+    import { OnboardingLayout } from '@views/components'
     import { Icon as IconEnum } from '@auxiliary/icon'
-    import { OnboardingLayout } from '@components'
     import { Mnemonic, getWordChoices, onboardingProfile, updateOnboardingProfile } from '@contexts/onboarding'
     import { localize } from '@core/i18n'
-    import { Button, Icon, RecoveryPhrase, Text, TextType } from '@ui'
-    import { onMount } from 'svelte'
     import { createFromMnemonicRouter } from '../create-from-mnemonic-router'
+
+    const VERIFICATION_WORD_COUNT = 6
 
     const verifyRecoveryPhrase: Mnemonic = []
     const wordElements: HTMLButtonElement[] = []
 
-    let wordChoices: string[] = ['', '', '']
-    let verifyIndex: number = 0
+    let wordChoices: [string, string, string, string] = ['', '', '', '']
     let isVerified: boolean = $onboardingProfile?.hasVerifiedMnemonic
+
+    const verifticationIndexes: number[] = generateVerificationIndexes(
+        VERIFICATION_WORD_COUNT,
+        $onboardingProfile?.mnemonic.length
+    )
+    function generateVerificationIndexes(count: number, totalIndexes: number): number[] {
+        const randomNumbers: number[] = []
+
+        while (randomNumbers.length < count) {
+            const randomNumber = Math.floor(Math.random() * totalIndexes)
+            if (!randomNumbers.includes(randomNumber)) {
+                randomNumbers.push(randomNumber)
+            }
+        }
+
+        return randomNumbers.sort((a, b) => a - b)
+    }
+
+    let verifyCount = 0
+    let verifyIndex: number = 0
 
     function onChoiceClick(word: string): void {
         verifyRecoveryPhrase[verifyIndex] = word
         if ($onboardingProfile?.mnemonic[verifyIndex] === word) {
-            if (verifyIndex === $onboardingProfile?.mnemonic.length - 1) {
+            if (verifyCount === VERIFICATION_WORD_COUNT) {
                 isVerified = true
                 updateOnboardingProfile({ hasVerifiedMnemonic: true })
             } else {
-                verifyIndex++
-                wordChoices = getWordChoices(verifyRecoveryPhrase.length)
+                verifyIndex = verifticationIndexes[verifyCount]
+                wordChoices = getWordChoices(verifyIndex)
+                verifyCount++
             }
         }
     }
@@ -47,6 +69,9 @@
                 case '3':
                     wordElements[2].click()
                     break
+                case '4':
+                    wordElements[3].click()
+                    break
                 default:
                     break
             }
@@ -60,33 +85,37 @@
 
 <svelte:window on:keypress={onKeyPress} />
 
-<OnboardingLayout {onBackClick}>
-    <title-container slot="title" class="block">
-        <Text type={TextType.h2} classes={isVerified && 'hidden'}>
-            {localize('views.onboarding.profileBackup.verifyMnemonic.title')}
-        </Text>
-    </title-container>
-    <leftpane-content slot="leftpane__content" class="block">
+<OnboardingLayout
+    title={localize('views.onboarding.profileBackup.verifyMnemonic.title')}
+    description={localize('views.onboarding.profileBackup.verifyMnemonic.body')}
+    continueButton={{
+        onClick: onContinueClick,
+        disabled: !isVerified,
+    }}
+    backButton={{
+        onClick: onBackClick,
+    }}
+>
+    <content slot="content" class="block">
         {#if !isVerified}
-            <Text secondary classes="'mb-10">
-                {localize('views.onboarding.profileBackup.verifyMnemonic.body')}
-            </Text>
+            <RecoveryPhrase recoveryPhrase={$onboardingProfile?.mnemonic} {verifyRecoveryPhrase} hidden={false} />
             <Text classes="mb-4">
                 {localize('views.onboarding.profileBackup.verifyMnemonic.word')} #{verifyIndex + 1}
             </Text>
-            {#each wordChoices as word, i}
-                <button
-                    type="button"
-                    class="w-full flex flex-row p-4 mb-4 rounded-2xl border border-solid items-center justify-between
-                    border-gray-300 dark:border-gray-700 hover:border-gray-500 dark:hover:border-gray-700
-                    focus:border-gray-500 dark:focus:border-gray-700"
-                    on:click={() => onChoiceClick(word)}
-                    bind:this={wordElements[i]}
-                >
-                    <Text smaller classes="ml-3">{`${i + 1}. ${word}`}</Text>
-                    <Icon icon={IconEnum.ChevronRight} classes="text-gray-800 dark:text-white" />
-                </button>
-            {/each}
+            <div class="grid grid-cols-4 gap-2">
+                {#each wordChoices as word, i}
+                    <button
+                        type="button"
+                        class="w-full flex flex-row p-4 mb-4 rounded-2xl border border-solid items-center justify-between
+                        border-gray-300 dark:border-gray-700 hover:border-gray-500 dark:hover:border-gray-700
+                        focus:border-gray-500 dark:focus:border-gray-700"
+                        on:click={() => onChoiceClick(word)}
+                        bind:this={wordElements[i]}
+                    >
+                        <Text smaller>{`${i + 1}. ${word}`}</Text>
+                    </button>
+                {/each}
+            </div>
         {:else}
             <div class="flex flex-col items-center bg-gray-100 dark:bg-gray-900 rounded-2xl mt-10 p-5">
                 <icon-container class="block bg-green-500 rounded-2xl relative -top-10">
@@ -100,15 +129,5 @@
                 </Text>
             </div>
         {/if}
-    </leftpane-content>
-    <leftpane-action slot="leftpane__action" class="block">
-        {#if isVerified}
-            <Button classes="w-full" onClick={onContinueClick}>
-                {localize('actions.continue')}
-            </Button>
-        {/if}
-    </leftpane-action>
-    <rightpane-container slot="rightpane" class="w-full h-full flex flex-col items-center justify-center p-4">
-        <RecoveryPhrase recoveryPhrase={$onboardingProfile?.mnemonic} {verifyRecoveryPhrase} />
-    </rightpane-container>
+    </content>
 </OnboardingLayout>

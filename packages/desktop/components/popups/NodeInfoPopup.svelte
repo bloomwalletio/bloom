@@ -1,12 +1,13 @@
 <script lang="ts">
     import { onMount } from 'svelte'
+    import type { INodeInfo } from '@iota/sdk'
     import { Button, Checkbox, CopyableBox, Spinner, Text } from '@ui'
-    import { formatNumber, localize } from '@core/i18n'
-    import { INode, INodeInfo } from '@core/network'
-    import { closePopup } from '@desktop/auxiliary/popup'
     import { showNotification } from '@auxiliary/notification'
-    import { resolveObjectPath, setClipboard } from '@core/utils'
+    import { formatNumber, localize } from '@core/i18n'
+    import { INode } from '@core/network'
     import { getNodeInfo } from '@core/profile-manager'
+    import { resolveObjectPath, setClipboard } from '@core/utils'
+    import { closePopup } from '@desktop/auxiliary/popup'
 
     enum NodeInfoTab {
         General = 'general',

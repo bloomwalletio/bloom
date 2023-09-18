@@ -1,8 +1,8 @@
+import { getVotingEvent } from '@contexts/governance/actions'
 import { localize } from '@core/i18n'
+import { truncateString } from '@core/utils'
 import { ActivityAction, ActivityType } from '../enums'
 import { Activity } from '../types'
-import { getVotingEvent } from '@contexts/governance/actions'
-import { truncateString } from '@core/utils'
 import { getSubjectLocaleFromActivity } from './helper'
 
 export async function getActivityDetailsTitle(activity: Activity): Promise<string> {
@@ -26,6 +26,8 @@ export async function getActivityDetailsTitle(activity: Activity): Promise<strin
         return localize(key, { proposalName })
     } else if (activity.action === ActivityAction.BalanceChange) {
         return localize('general.balanceChanged')
+    } else if (activity.action === ActivityAction.InitialBalance) {
+        return localize('general.initialBalance')
     } else if (activity.action === ActivityAction.Send) {
         const key = `${localizationPrefix}.${(activity.isInternal ? 'internal.' : 'external.') + activity.direction}.${
             activity.inclusionState
@@ -39,7 +41,7 @@ export async function getActivityDetailsTitle(activity: Activity): Promise<strin
 
         return localize(key, { subject: displayedSubject })
     } else {
-        const key = `${localizationPrefix}.unknown`
+        const key = `${localizationPrefix}.fallback`
         return localize(key)
     }
 }

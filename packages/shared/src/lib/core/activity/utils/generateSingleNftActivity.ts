@@ -1,68 +1,38 @@
+import type { NftOutput } from '@iota/sdk/out/types'
 import { IAccountState } from '@core/account'
-import { ActivityType } from '../enums'
+import { NetworkId } from '@core/network/types'
+import { BASE_TOKEN_ID } from '@core/token/constants'
+import { ActivityAction, ActivityType } from '../enums'
 import { NftActivity } from '../types'
-import type { INftOutput } from '@iota/types'
-import {
-    getAmountFromOutput,
-    getAsyncDataFromOutput,
-    getLayer2ActivityInformation,
-    getMetadataFromOutput,
-    getSendingInformation,
-    getStorageDepositFromOutput,
-    getTagFromOutput,
-} from './helper'
 import { IActivityGenerationParameters } from '../types/activity-generation-parameters.interface'
+import { generateSingleBasicActivity } from './generateSingleBasicActivity'
 import { getNftId } from './outputs'
 
-export function generateSingleNftActivity(
+export async function generateSingleNftActivity(
     account: IAccountState,
-    { action, processedTransaction, wrappedOutput }: IActivityGenerationParameters,
+    networkId: NetworkId,
+    generationParameters: IActivityGenerationParameters,
     nftIdFromInput?: string
-): NftActivity {
-    const { claimingData, time, inclusionState, transactionId, direction } = processedTransaction
-    const outputId = wrappedOutput.outputId
-    const output = wrappedOutput.output as INftOutput
-    const id = outputId || transactionId
+): Promise<NftActivity> {
+    const baseActivity = await generateSingleBasicActivity(account, networkId, generationParameters)
+    baseActivity.tokenTransfer = undefined
 
-    const isHidden = false
-    const isAssetHidden = false
-    const containsValue = true
+    const { output, outputId } = generationParameters.wrappedOutput
+    const nftId = nftIdFromInput ? nftIdFromInput : getNftId((output as NftOutput).nftId, outputId)
 
-    const nftId = nftIdFromInput ? nftIdFromInput : getNftId(output.nftId, outputId)
-    const metadata = getMetadataFromOutput(output)
-    const tag = getTagFromOutput(output)
-
-    const sendingInfo = getSendingInformation(processedTransaction, output, account)
-    const { subject, isInternal } = sendingInfo
-
-    const rawBaseCoinAmount = getAmountFromOutput(output)
-    const storageDeposit = getStorageDepositFromOutput(output)
-
-    const layer2ActivityInformation = getLayer2ActivityInformation(metadata, sendingInfo)
-
-    const asyncData = getAsyncDataFromOutput(output, outputId, claimingData, account)
+    if (generationParameters.action === ActivityAction.Mint) {
+        baseActivity.storageDeposit = baseActivity.baseTokenTransfer?.rawAmount
+            ? Number(baseActivity.baseTokenTransfer?.rawAmount)
+            : undefined
+        baseActivity.baseTokenTransfer = {
+            tokenId: BASE_TOKEN_ID,
+            rawAmount: '0',
+        }
+    }
 
     return {
+        ...baseActivity,
         type: ActivityType.Nft,
-        id,
-        transactionId,
-        outputId,
         nftId,
-        chainId: undefined, // Currently we only support L1 activities
-        time,
-        isHidden,
-        action,
-        rawBaseCoinAmount,
-        isAssetHidden,
-        containsValue,
-        inclusionState,
-        storageDeposit,
-        metadata,
-        tag,
-        asyncData,
-        subject,
-        isInternal,
-        direction,
-        ...layer2ActivityInformation,
     }
 }

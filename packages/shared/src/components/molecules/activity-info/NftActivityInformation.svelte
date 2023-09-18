@@ -1,38 +1,39 @@
 <script lang="ts">
-    import { selectedAccountIndex } from '@core/account'
+    import { AddressType } from '@iota/sdk/out/types'
+    import { Table } from '@bloomwalletio/ui'
+    import { selectedAccountIndex } from '@core/account/stores'
+    import { NftActivity } from '@core/activity'
     import { localize } from '@core/i18n'
-    import { getNftByIdFromAllAccountNfts } from '@core/nfts'
-    import { IKeyValueBoxList } from '@core/utils'
-    import {
-        ADDRESS_TYPE_ALIAS,
-        ADDRESS_TYPE_ED25519,
-        ADDRESS_TYPE_NFT,
-        getBech32AddressFromAddressTypes,
-        getHexAddressFromAddressTypes,
-        NftActivity,
-    } from '@core/wallet'
-    import { KeyValueBox } from '@ui'
+    import { getNftByIdFromAllAccountNfts } from '@core/nfts/actions'
+    import { getBech32AddressFromAddressTypes, getHexAddressFromAddressTypes } from '@core/wallet'
 
     export let activity: NftActivity
 
     $: nft = getNftByIdFromAllAccountNfts($selectedAccountIndex, activity?.nftId)
-    $: issuerAddress = getBech32AddressFromAddressTypes(nft?.issuer)
-    $: collectionId = getHexAddressFromAddressTypes(nft?.issuer)
-
-    let detailsList: IKeyValueBoxList
-    $: detailsList = {
-        nftId: { data: activity?.nftId, isCopyable: true },
-        ...(nft?.issuer?.type === ADDRESS_TYPE_ED25519 && {
-            issuerAddress: { data: issuerAddress, isCopyable: true },
-        }),
-        ...((nft?.issuer?.type === ADDRESS_TYPE_NFT || nft?.issuer?.type === ADDRESS_TYPE_ALIAS) && {
-            collectionId: { data: collectionId, isCopyable: true },
-        }),
-    }
 </script>
 
-{#each Object.entries(detailsList) as [key, value]}
-    {#if value}
-        <KeyValueBox keyText={localize(`general.${key}`)} valueText={value.data} isCopyable={value?.isCopyable} />
-    {/if}
-{/each}
+<Table
+    items={[
+        {
+            key: localize('general.nftId'),
+            value: activity?.nftId,
+            truncate: { firstCharCount: 10, endCharCount: 10 },
+            copyable: true,
+        },
+        {
+            key: localize('general.issuerAddress'),
+            value:
+                nft?.issuer?.type === AddressType.Ed25519 ? getBech32AddressFromAddressTypes(nft?.issuer) : undefined,
+            truncate: { firstCharCount: 10, endCharCount: 10 },
+            copyable: true,
+        },
+        {
+            key: localize('general.collectionId'),
+            value: [AddressType.Nft, AddressType.Alias].includes(nft?.issuer?.type)
+                ? getHexAddressFromAddressTypes(nft?.issuer)
+                : undefined,
+            truncate: { firstCharCount: 10, endCharCount: 10 },
+            copyable: true,
+        },
+    ]}
+/>

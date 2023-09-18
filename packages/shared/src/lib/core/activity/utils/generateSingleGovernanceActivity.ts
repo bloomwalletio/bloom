@@ -1,58 +1,29 @@
+import type { BasicOutput } from '@iota/sdk/out/types'
 import { IAccountState } from '@core/account'
-import { IActivityGenerationParameters } from '@core/activity/types'
-import { GovernanceActivity } from '../types'
-import type { IBasicOutput } from '@iota/types'
+import {} from '../types'
+import { NetworkId } from '@core/network/types'
 import { ActivityType } from '../enums'
-import { activityOutputContainsValue } from '..'
-import {
-    getGovernanceInfo,
-    getMetadataFromOutput,
-    getSendingInformation,
-    getStorageDepositFromOutput,
-    getTagFromOutput,
-} from './helper'
+import { GovernanceActivity, IActivityGenerationParameters } from '../types'
+import { generateBaseActivity } from './generateBaseActivity'
+import { getGovernanceInfo } from './helper'
 
-export function generateSingleGovernanceActivity(
+export async function generateSingleGovernanceActivity(
     account: IAccountState,
-    { action, processedTransaction, wrappedOutput }: IActivityGenerationParameters
-): GovernanceActivity {
-    const { transactionId, direction, time, inclusionState, wrappedInputs } = processedTransaction
+    networkId: NetworkId,
+    generationParameters: IActivityGenerationParameters
+): Promise<GovernanceActivity> {
+    const baseActivity = await generateBaseActivity(account, networkId, generationParameters)
 
-    const isHidden = false
-    const isAssetHidden = false
-    const containsValue = activityOutputContainsValue(wrappedOutput)
-
-    const outputId = wrappedOutput.outputId
-    const id = outputId || transactionId
-
-    const output = wrappedOutput.output as IBasicOutput
-
-    const tag = getTagFromOutput(output)
-    const metadata = getMetadataFromOutput(output)
-
-    const sendingInfo = getSendingInformation(processedTransaction, output, account)
-
-    const storageDeposit = getStorageDepositFromOutput(output)
-    const governanceInfo = getGovernanceInfo(output, wrappedInputs, metadata)
+    const output = generationParameters.wrappedOutput.output as BasicOutput
+    const governanceInfo = getGovernanceInfo(
+        output,
+        generationParameters.processedTransaction.wrappedInputs,
+        baseActivity.metadata ?? ''
+    )
 
     return {
+        ...baseActivity,
         type: ActivityType.Governance,
-        isHidden,
-        id,
-        transactionId,
-        time,
-        direction,
-        action,
-        isAssetHidden,
-        inclusionState,
-        containsValue,
-        outputId,
-        storageDeposit,
-        metadata,
-        tag,
-        chainId: undefined, // Currently we only support L1 activities
-        asyncData: null,
         ...governanceInfo,
-        ...sendingInfo,
     }
 }

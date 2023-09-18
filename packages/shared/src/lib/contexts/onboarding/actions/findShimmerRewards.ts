@@ -1,11 +1,11 @@
+import { get } from 'svelte/store'
 import { showNotification } from '@auxiliary/notification'
 import { IAccount } from '@core/account'
 import { localize } from '@core/i18n'
 import { AccountRecoveryProfileConfiguration, UnableToFindProfileTypeError } from '@core/profile'
 import { RecoverAccountsPayload, recoverAccounts } from '@core/profile-manager'
+import { formatTokenAmountBestMatch } from '@core/token'
 import { zip } from '@core/utils'
-import { formatTokenAmountBestMatch } from '@core/wallet/utils'
-import { get } from 'svelte/store'
 import { SHIMMER_CLAIMING_ACCOUNT_RECOVERY_CONFIGURATION, SHIMMER_CLAIMING_ACCOUNT_SYNC_OPTIONS } from '../constants'
 import { getSortedRenamedBoundAccounts, prepareShimmerClaimingAccount } from '../helpers'
 import {

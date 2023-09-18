@@ -1,0 +1,33 @@
+import { CoinType, INodeInfoWrapper } from '@iota/sdk/out/types'
+import { getTemporaryProfileManagerStorageDirectory } from '@contexts/onboarding/helpers'
+import { Platform } from '@core/app'
+import { IProfileManager, api } from '@core/profile-manager'
+import { initialiseProfileManager } from '@core/profile-manager/actions'
+import { TEST_COIN_TYPE } from '..'
+
+export async function getNodeInfoWhileLoggedOut(url: string): Promise<INodeInfoWrapper> {
+    let storagePath: string | undefined
+    let manager: IProfileManager | undefined
+    let nodeInfoResponse: INodeInfoWrapper | undefined
+    try {
+        storagePath = await getTemporaryProfileManagerStorageDirectory()
+        manager = await initialiseProfileManager(
+            storagePath,
+            TEST_COIN_TYPE as CoinType,
+            { nodes: [{ url }] },
+            { stronghold: { snapshotPath: `${storagePath}/wallet.stronghold` } }
+        )
+        nodeInfoResponse = await manager.getNodeInfo(url)
+        return nodeInfoResponse
+    } catch (error) {
+        return Promise.reject(error)
+    } finally {
+        if (manager) {
+            api.deleteWallet(manager?.id)
+            await manager.destroy()
+        }
+        if (storagePath) {
+            await Platform.removeProfileFolder(storagePath)
+        }
+    }
+}

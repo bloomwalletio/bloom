@@ -1,6 +1,7 @@
 <script lang="ts">
-    import { Modal, RecipientAccountSelector, AccountLabel } from '@ui'
-    import { IAccountState, selectedAccount } from '@core/account'
+    import { AccountLabel, Modal, RecipientAccountSelector } from '@ui'
+    import { IAccountState } from '@core/account'
+    import { selectedAccount } from '@core/account/stores'
 
     export let account: IAccountState = $selectedAccount
 

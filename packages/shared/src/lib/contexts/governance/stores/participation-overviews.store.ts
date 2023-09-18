@@ -1,7 +1,7 @@
 import { derived, get, Readable, writable } from 'svelte/store'
-import type { ParticipationOverview } from '@iota/wallet/out/types'
-import { selectedAccountIndex } from '@core/account/stores'
+import { ParticipationOverview } from '@iota/sdk/out/types'
 import { getParticipationOverview } from '@core/account/api/getParticipationOverview'
+import { selectedAccountIndex } from '@core/account/stores'
 import { DEFAULT_PARTICIPATION_OVERVIEW } from '../constants'
 
 export const allParticipationOverviews = writable<{ [accountId: number]: ParticipationOverview }>({})

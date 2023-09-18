@@ -1,13 +1,16 @@
 <script lang="ts">
     import { onMount } from 'svelte'
-    import { Button, Text, FontWeight, NftImageOrIconBox, Tabs, KeyValueBox } from '@ui'
-    import { localize } from '@core/i18n'
-    import { selectedAccount } from '@core/account'
-    import { buildNftOutputData, formatTokenAmountPrecise, mintNft, mintNftDetails } from '@core/wallet'
-    import { getBaseToken, checkActiveProfileAuth } from '@core/profile'
+    import { Button, FontWeight, NftImageOrIconBox, Tabs, Text, TextType } from '@ui'
+    import { Table } from '@bloomwalletio/ui'
+    import { selectedAccount } from '@core/account/stores'
     import { handleError } from '@core/error/handlers/handleError'
-    import { closePopup, openPopup, PopupId } from '@desktop/auxiliary/popup'
+    import { localize } from '@core/i18n'
     import { CURRENT_IRC27_VERSION } from '@core/nfts'
+    import { checkActiveProfileAuth, getBaseToken } from '@core/profile/actions'
+    import { getClient } from '@core/profile-manager'
+    import { formatTokenAmountPrecise } from '@core/token'
+    import { buildNftOutputBuilderParams, mintNft, mintNftDetails } from '@core/wallet'
+    import { PopupId, closePopup, openPopup } from '@desktop/auxiliary/popup'
 
     export let _onMount: (..._: any[]) => Promise<void> = async () => {}
 
@@ -38,20 +41,10 @@
         ...(attributes && { attributes }),
     }
 
-    let nftTabDetails: { [key in string]: string }
-    $: {
-        nftTabDetails = {
-            name,
-            ...(description && { description }),
-            uri,
-            ...(issuerName && { issuerName }),
-            ...(collectionName && { collectionName }),
-        }
-    }
-
     async function prepareNftOutput(): Promise<void> {
-        const outputData = buildNftOutputData(irc27Metadata, $selectedAccount.depositAddress)
-        const preparedOutput = await $selectedAccount.buildNftOutput(outputData)
+        const outputData = buildNftOutputBuilderParams(irc27Metadata, $selectedAccount.depositAddress)
+        const client = await getClient()
+        const preparedOutput = await client.buildNftOutput(outputData)
         storageDeposit = Number(preparedOutput.amount) ?? 0
         totalStorageDeposit = storageDeposit * quantity
     }
@@ -92,7 +85,7 @@
 </script>
 
 <div class="space-y-6">
-    <Text type="h4" fontSize="18" lineHeight="6" fontWeight={FontWeight.semibold}>
+    <Text type={TextType.h4} fontSize="18" lineHeight="6" fontWeight={FontWeight.semibold}>
         {localize('popups.mintNftForm.title')}
     </Text>
     <div class="space-y-2 max-h-100 scrollable-y flex-1">
@@ -101,35 +94,71 @@
             <activity-details class="w-full h-full space-y-2 flex flex-auto flex-col shrink-0">
                 <Tabs bind:activeTab {tabs} />
                 {#if activeTab === Tab.Transaction}
-                    {#if quantity > 1}
-                        <KeyValueBox keyText={localize('general.quantity')} valueText={quantity} />
-                        <KeyValueBox
-                            keyText={localize('general.storageDepositPerNft')}
-                            valueText={formatTokenAmountPrecise(storageDeposit, getBaseToken())}
-                        />
-                        <KeyValueBox
-                            keyText={localize('general.totalStorageDeposit')}
-                            valueText={formatTokenAmountPrecise(totalStorageDeposit, getBaseToken())}
-                        />
-                    {:else}
-                        <KeyValueBox
-                            keyText={localize('general.storageDeposit')}
-                            valueText={formatTokenAmountPrecise(storageDeposit, getBaseToken())}
-                        />
-                    {/if}
-                    <KeyValueBox
-                        keyText={localize('general.immutableIssuer')}
-                        valueText={$selectedAccount.depositAddress}
+                    <Table
+                        items={[
+                            {
+                                key: localize('general.quantity'),
+                                value: quantity > 1 ? quantity : undefined,
+                            },
+                            {
+                                key: localize('general.storageDepositPerNft'),
+                                value:
+                                    quantity > 1 ? formatTokenAmountPrecise(storageDeposit, getBaseToken()) : undefined,
+                            },
+                            {
+                                key: localize('general.totalStorageDeposit'),
+                                value:
+                                    quantity > 1
+                                        ? formatTokenAmountPrecise(totalStorageDeposit, getBaseToken())
+                                        : undefined,
+                            },
+                            {
+                                key: localize('general.storageDeposit'),
+                                value:
+                                    quantity === 0
+                                        ? formatTokenAmountPrecise(storageDeposit, getBaseToken())
+                                        : undefined,
+                            },
+                            {
+                                key: localize('general.immutableIssuer'),
+                                value: $selectedAccount?.depositAddress,
+                            },
+                        ]}
                     />
                 {:else if activeTab === Tab.Nft}
-                    {#each Object.entries(nftTabDetails) as [key, value]}
-                        <KeyValueBox keyText={localize(`general.${key}`)} valueText={value} />
-                    {/each}
+                    <Table
+                        items={[
+                            {
+                                key: localize('general.name'),
+                                value: name,
+                            },
+                            {
+                                key: localize('general.description'),
+                                value: description ? description : undefined,
+                            },
+                            {
+                                key: localize('general.uri'),
+                                value: uri,
+                            },
+                            {
+                                key: localize('general.issuerName'),
+                                value: issuerName ? issuerName : undefined,
+                            },
+                            {
+                                key: localize('general.collectionName'),
+                                value: collectionName ? collectionName : undefined,
+                            },
+                        ]}
+                    />
                 {:else if activeTab === Tab.Metadata}
-                    <KeyValueBox
-                        keyText={localize('general.metadata')}
-                        valueText={JSON.stringify(irc27Metadata, null, '\t')}
-                        classes="whitespace-pre-wrap"
+                    <Table
+                        items={[
+                            {
+                                key: localize('general.metadata'),
+                                value: irc27Metadata,
+                                copyable: true,
+                            },
+                        ]}
                     />
                 {/if}
             </activity-details>

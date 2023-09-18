@@ -1,6 +1,6 @@
-import { INode, updateClientOptions } from '@core/network'
-import { activeProfile } from '@core/profile'
 import { get } from 'svelte/store'
+import { INode, updateClientOptions } from '@core/network'
+import { activeProfile } from '@core/profile/stores'
 
 export async function removeNodeFromClientOptions(node: INode): Promise<void> {
     const clientOptions = get(activeProfile)?.clientOptions

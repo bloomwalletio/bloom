@@ -1,13 +1,13 @@
 <script lang="ts">
     import { Checkbox, Text } from '@ui'
-    import { appSettings } from '@core/app'
-    import { localize } from '@core/i18n'
     import { Platform } from '@core/app'
+    import { appSettings } from '@core/app/stores'
+    import { localize } from '@core/i18n'
 
     let deepLinkingChecked = $appSettings.deepLinking
 
     $: $appSettings.deepLinking = deepLinkingChecked
-    $: $appSettings.deepLinking && Platform.DeepLinkManager.checkDeepLinkRequestExists()
+    $: $appSettings.deepLinking && Platform.DeepLinkManager.checkForDeepLinkRequest()
 </script>
 
 <Text type="h4" classes="mb-3">{localize('views.settings.deepLinks.title')}</Text>

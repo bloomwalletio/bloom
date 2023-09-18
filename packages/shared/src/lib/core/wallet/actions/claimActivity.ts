@@ -1,19 +1,15 @@
-import { get } from 'svelte/store'
-import { selectedAccount } from '@core/account/stores'
-import { handleError } from '@core/error/handlers'
-
+import { getSelectedAccount } from '@core/account/stores'
 import {
     isActivityHiddenForAccountIndex,
     removeActivityFromHiddenActivities,
     updateAsyncDataByActivityId,
 } from '@core/activity/stores'
 import { Activity } from '@core/activity/types'
+import { handleError } from '@core/error/handlers'
 
 export async function claimActivity(activity: Activity): Promise<void> {
-    const account = get(selectedAccount)
-    if (!account) {
-        return
-    }
+    const account = getSelectedAccount()
+
     try {
         if (isActivityHiddenForAccountIndex(account.index, activity.id)) {
             removeActivityFromHiddenActivities(account.index, activity.id)

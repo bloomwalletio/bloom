@@ -1,5 +1,5 @@
-import { activeProfile, setTimeStrongholdLastUnlocked } from '@core/profile'
 import { get } from 'svelte/store'
+import { activeProfile, setTimeStrongholdLastUnlocked } from '@core/profile/stores'
 import { changeStrongholdPassword, clearStrongholdPassword } from '../api'
 
 export async function changePasswordAndUnlockStronghold(currentPassword: string, newPassword: string): Promise<void> {

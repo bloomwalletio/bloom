@@ -1,6 +1,6 @@
 <script lang="ts">
-    import { Checkbox, Text, Icon } from '@ui'
-    import { appSettings, initAppSettings } from '@core/app'
+    import { Checkbox, Icon, Text } from '@ui'
+    import { appSettings, initAppSettings } from '@core/app/stores'
     import { localize } from '@core/i18n'
 </script>
 

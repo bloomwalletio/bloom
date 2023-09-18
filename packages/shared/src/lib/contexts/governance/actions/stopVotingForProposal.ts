@@ -1,24 +1,26 @@
-import { get } from 'svelte/store'
-import type { Transaction } from '@iota/wallet'
-import { selectedAccount, updateSelectedAccount } from '@core/account/stores'
 import { showNotification } from '@auxiliary/notification/actions'
-import { localize } from '@core/i18n'
-import { handleError } from '@core/error/handlers'
+import { getSelectedAccount, updateSelectedAccount } from '@core/account/stores'
 import { processAndAddToActivities } from '@core/activity/utils'
+import { handleError } from '@core/error/handlers'
+import { localize } from '@core/i18n'
+import { getActiveNetworkId } from '@core/network'
+import { sendPreparedTransaction } from '@core/wallet'
 
-export async function stopVotingForProposal(eventId: string): Promise<Transaction> {
-    const account = get(selectedAccount)
+export async function stopVotingForProposal(eventId: string): Promise<void> {
     try {
-        updateSelectedAccount({ hasVotingTransactionInProgress: true })
-        const transaction = await account?.stopParticipating(eventId)
+        const account = getSelectedAccount()
+        const networkId = getActiveNetworkId()
 
-        await processAndAddToActivities(transaction, account)
+        updateSelectedAccount({ hasVotingTransactionInProgress: true })
+        const preparedTransaction = await account.prepareStopParticipating(eventId)
+        const transaction = await sendPreparedTransaction(preparedTransaction)
+
+        await processAndAddToActivities(transaction, account, networkId)
 
         showNotification({
             variant: 'success',
             text: localize('notifications.stopVoting.success'),
         })
-        return transaction
     } catch (err) {
         handleError(err)
         updateSelectedAccount({ hasVotingTransactionInProgress: false })

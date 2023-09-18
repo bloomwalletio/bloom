@@ -1,45 +1,43 @@
 import { Converter } from '@iota/util.js'
-import { closePopup, openPopup, PopupId } from '../../../../../../desktop/lib/auxiliary/popup'
-import { JsonRpcResponse } from '@walletconnect/jsonrpc-types'
+import { IChain } from '@core/network'
+import { findActiveAccountWithAddress } from '@core/profile/actions'
+import { openPopup, PopupId } from '../../../../../../desktop/lib/auxiliary/popup'
+import { IConnectedDapp } from '../interface'
+import { CallbackParameters } from '../types'
 
 export function handlePersonalSign(
-    id: number,
     params: unknown,
-    responseCallback: (response: JsonRpcResponse) => void
+    dapp: IConnectedDapp | undefined,
+    chain: IChain,
+    responseCallback: (params: CallbackParameters) => void
 ): void {
     if (!params || !Array.isArray(params)) {
-        responseCallback({ id, error: { code: 5000, message: 'Error' }, jsonrpc: '2.0' })
+        responseCallback({ error: 'Unexpected format' })
         return
     }
 
     const hexMessage = params[0]
-    // to access the address for which we want to do the action = params[1]
-
     if (typeof hexMessage !== 'string') {
-        responseCallback({ id, error: { code: 5000, message: 'Error' }, jsonrpc: '2.0' })
+        responseCallback({ error: 'Unexpected message' })
         return
     }
 
+    const account = findActiveAccountWithAddress(params[1], chain.getConfiguration().id)
+    if (!account) {
+        responseCallback({ error: 'Could not find address' })
+        return
+    }
     const message = Converter.hexToUtf8(hexMessage)
-    // sign the message
-    // const signedMessage = await wallet.signMessage(message)
-
-    const signedMessage = 'hello this is signed'
-    const response = { id, result: signedMessage, jsonrpc: '2.0' }
 
     openPopup({
-        id: PopupId.Confirmation,
+        id: PopupId.SignMessage,
         props: {
-            title: 'Personal Sign',
-            description: 'Do you wanna sign the following message: ' + message,
-            onConfirm: () => {
-                responseCallback(response)
-                closePopup()
-            },
-            onCancel: () => {
-                responseCallback({ id, error: { code: 5000, message: 'User rejected' }, jsonrpc: '2.0' })
-                closePopup()
-            },
+            message,
+            dapp,
+            account,
+            chain,
+            callback: responseCallback,
+            onCancelled: () => responseCallback({ error: 'User rejected' }),
         },
     })
 }

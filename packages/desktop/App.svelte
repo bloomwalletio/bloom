@@ -1,45 +1,41 @@
 <script lang="ts">
     import { onDestroy, onMount } from 'svelte'
+    import { Popup, TitleBar } from '@components'
+    import { ToastContainer } from '@ui'
+    import { Dashboard, LoginRouter, Settings, Splash } from '@views'
+    import { OnboardingRouterView } from '@views/onboarding'
+    import { handleDeepLink } from '@auxiliary/deep-link/handlers'
+    import { IS_WINDOWS, Platform } from '@core/app'
+    import { registerAppEvents } from '@core/app/actions'
+    import { appSettings, appVersionDetails, initAppSettings, setAppVersionDetails } from '@core/app/stores'
     import { isLocaleLoaded, localeDirection, setupI18n } from '@core/i18n'
-    import { activeProfile, checkAndMigrateProfiles, cleanupEmptyProfiles, saveActiveProfile } from '@core/profile'
+    import { registerLedgerDeviceEventHandlers } from '@core/ledger'
+    import { downloadNextNftInQueue } from '@core/nfts/actions'
+    import { nftDownloadQueue } from '@core/nfts/stores'
+    import { checkAndMigrateProfiles, cleanupEmptyProfiles, saveActiveProfile } from '@core/profile/actions'
+    import { activeProfile } from '@core/profile/stores'
     import {
         AppRoute,
-        appRoute,
         DashboardRoute,
+        RouterManagerExtensionName,
+        appRoute,
         dashboardRouter,
         initialiseRouterManager,
         routerManager,
-        RouterManagerExtensionName,
     } from '@core/router'
-    import {
-        appSettings,
-        appVersionDetails,
-        initAppSettings,
-        IS_WINDOWS,
-        Platform,
-        registerAppEvents,
-        setAppVersionDetails,
-    } from '@core/app'
-    import { closePopup, openPopup, PopupId, popupState } from '@desktop/auxiliary/popup'
-    import { getLocalisedMenuItems } from './lib/helpers'
-    import { ToastContainer, Transition } from '@ui'
-    import { TitleBar, Popup } from '@components'
-    import { Dashboard, LoginRouter, Settings, Splash } from '@views'
+    import { closeDrawer } from '@desktop/auxiliary/drawer'
+    import { PopupId, closePopup, openPopup, popupState } from '@desktop/auxiliary/popup'
     import {
         getAppRouter,
         getRouterForAppContext,
         goToAppContext,
         initialiseRouters,
+        openSettings,
         resetRouterForAppContext,
         resetRouters,
-        openSettings,
     } from '@desktop/routers'
-    import { downloadNextNftInQueue, nftDownloadQueue } from '@core/nfts'
-    import { closeDrawer } from '@desktop/auxiliary/drawer'
     import features from '@features/features'
-    import { OnboardingRouterView } from '@views/onboarding'
-    import { registerLedgerDeviceEventHandlers } from '@core/ledger'
-    import { handleDeepLink } from '@auxiliary/deep-link/handlers'
+    import { getLocalisedMenuItems } from './lib/helpers'
 
     const { loggedIn } = $activeProfile
 
@@ -77,14 +73,16 @@
         features.analytics.appStart.enabled && Platform.trackEvent('app-start')
         await cleanupEmptyProfiles()
         checkAndMigrateProfiles()
+        Platform.onEvent('deep-link-request', handleDeepLink)
 
         setTimeout(() => {
             splash = false
-            initialiseRouters()
+            // check if deep link request was received while splash screen was active
+            Platform.DeepLinkManager.checkForDeepLinkRequest()
         }, 3000)
-
         initAppSettings.set($appSettings)
 
+        initialiseRouters()
         initialiseRouterManager({
             extensions: [
                 [RouterManagerExtensionName.GetAppRouter, getAppRouter],
@@ -96,8 +94,6 @@
                 [RouterManagerExtensionName.ResetRouters, resetRouters],
             ],
         })
-
-        // await pollMarketData()
 
         // Used for auto updates
         registerAppEvents()
@@ -138,8 +134,6 @@
             openPopup({ id: PopupId.Diagnostics })
         })
 
-        Platform.onEvent('deep-link-request', handleDeepLink)
-
         registerLedgerDeviceEventHandlers()
     })
 
@@ -149,12 +143,11 @@
     })
 </script>
 
-<app-container class="block w-full h-full">
-    <TitleBar />
-    <app-body
-        class="block fixed left-0 right-0 bottom-0 z-50 top-0"
-        class:top-placement={IS_WINDOWS || $appRoute === AppRoute.Dashboard}
-    >
+<app class="w-full h-full flex flex-col">
+    {#if IS_WINDOWS}
+        <TitleBar />
+    {/if}
+    <app-container class="w-screen h-full" class:windows={IS_WINDOWS}>
         {#if !$isLocaleLoaded || splash}
             <Splash />
         {:else}
@@ -170,9 +163,7 @@
                 />
             {/if}
             {#if $appRoute === AppRoute.Dashboard}
-                <Transition>
-                    <Dashboard />
-                </Transition>
+                <Dashboard />
             {:else if $appRoute === AppRoute.Login}
                 <LoginRouter />
             {:else if $appRoute === AppRoute.Onboarding}
@@ -183,8 +174,9 @@
             {/if}
             <ToastContainer classes="absolute right-5 bottom-5 w-100" />
         {/if}
-    </app-body>
-</app-container>
+        <app-container />
+    </app-container></app
+>
 
 <style global lang="scss">
     @tailwind base;
@@ -193,7 +185,7 @@
     @import '../shared/src/style/style.scss';
     html,
     body {
-        @apply bg-white dark:bg-gray-900;
+        @apply bg-slate-100 dark:bg-gray-900;
         @apply select-none;
         -webkit-user-drag: none;
 
@@ -252,13 +244,14 @@
     img {
         -webkit-user-drag: none;
     }
-    app-body.top-placement {
-        @apply top-12;
-    }
     hr {
         @apply border-t;
         @apply border-solid;
         @apply border-gray-200;
         @apply dark:border-gray-800;
+    }
+
+    .windows {
+        height: calc(100vh - 28px);
     }
 </style>
