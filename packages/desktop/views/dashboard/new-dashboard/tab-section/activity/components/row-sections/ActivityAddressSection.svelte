@@ -6,9 +6,10 @@
     export let activity: Activity
 
     $: isSelfTransaction =
-        activity.sender &&
-        activity.sender.address === activity.recipient?.address &&
-        activity.sourceNetworkId === activity.destinationNetworkId
+        (activity.sender &&
+            activity.sender.address === activity.recipient?.address &&
+            activity.sourceNetworkId === activity.destinationNetworkId) ||
+        activity.aliasId !== undefined
 </script>
 
 <div class="flex flex-row items-center">

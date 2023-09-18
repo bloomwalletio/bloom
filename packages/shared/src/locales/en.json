@@ -346,6 +346,7 @@
                 "amount": "Amount"
             },
             "activity": {
+                "tab": "Activity",
                 "asset": "Asset",
                 "action": "Action",
                 "address": "Address",
