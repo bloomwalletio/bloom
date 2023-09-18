@@ -16,9 +16,10 @@
     import { localize } from '@core/i18n'
     import { activeProfileId } from '@core/profile/stores'
     import { PopupId, openPopup } from '@desktop/auxiliary/popup'
-    import { Button, ProposalsDetailsButton, Text } from '@ui'
+    import { Button, Text } from '@ui'
     import { ButtonSize, FontWeight } from '@ui/enums'
     import { onMount } from 'svelte'
+    import { GovernanceDetailsMenu } from './menus'
 
     let details = <IProposalsDetails>{
         totalProposals: null,
@@ -63,7 +64,7 @@
         <Text fontSize="14" fontWeight={FontWeight.semibold}>
             {localize('views.governance.proposalsDetails.title')}
         </Text>
-        <ProposalsDetailsButton modalPosition={{ right: '0px', top: '34px' }} />
+        <GovernanceDetailsMenu />
     </header-container>
     <Table
         items={Object.keys(details).map((key) => ({

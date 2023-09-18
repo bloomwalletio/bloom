@@ -1,43 +1,23 @@
 <script lang="ts">
-    import { onMount } from 'svelte'
-    import { Modal, MenuItem, MeatballMenuButton } from '@ui'
-    import { selectedAccount } from '@core/account/stores'
-    import { handleError } from '@core/error/handlers'
-    import { localize } from '@core/i18n'
+    import { IMenuItem, Menu } from '@bloomwalletio/ui'
     import { IProposal } from '@contexts/governance'
     import { participationOverviewForSelectedAccount } from '@contexts/governance/stores'
     import { isVotingForSelectedProposal } from '@contexts/governance/utils'
-    import { Icon } from '@auxiliary/icon'
-    import { openPopup, PopupId } from '@desktop/auxiliary/popup'
+    import { selectedAccount } from '@core/account/stores'
+    import { handleError } from '@core/error/handlers'
+    import { localize } from '@core/i18n'
+    import { PopupId, openPopup } from '@desktop/auxiliary/popup'
     import features from '@features/features'
+    import { onMount } from 'svelte'
 
     export let proposal: IProposal
 
-    let modal: Modal = undefined
+    let menu: Menu | undefined = undefined
+
     let isVotingForProposal: boolean
-    let isBusy = true // starts in a busy state because data needs to be fetched before displaying selectable options
 
     $: isTransferring = $selectedAccount?.isTransferring
     $: isTransferring, $participationOverviewForSelectedAccount, void updateIsVoting() // vote/stop vote changes the isTransferring value. Relying on this requires less updates than relying on proposalsState
-    $: isBusy = isVotingForProposal === undefined
-
-    $: buttons = [
-        {
-            icon: Icon.Node,
-            title: localize('actions.changeNode'),
-            onClick: onChangeNodeClick,
-        },
-        {
-            icon: Icon.Delete,
-            title: isBusy ? localize('views.governance.details.fetching') : localize('actions.removeProposal'),
-            onClick: onRemoveProposalClick,
-            variant: 'error',
-            isLoading: isBusy,
-            disabled: getDisabled(proposal, isVotingForProposal),
-            enableTooltipVisible: isVotingForProposal !== undefined,
-            tooltip: localize('tooltips.governance.removeProposalWarning'),
-        },
-    ]
 
     function getDisabled(proposal: IProposal, isVoting: boolean): boolean {
         if (features.governance.removeProposals.enabled) {
@@ -60,14 +40,14 @@
             },
             overflow: true,
         })
-        modal.close()
+        menu?.close()
     }
 
     function onRemoveProposalClick(): void {
         openPopup({
             id: PopupId.RemoveProposal,
         })
-        modal.close()
+        menu?.close()
     }
 
     function updateIsVoting(): void {
@@ -78,16 +58,24 @@
         }
     }
 
+    let items: IMenuItem[] = []
+    function setItems(proposal: IProposal, isVotingForProposal: boolean): void {
+        items = [
+            {
+                text: localize('actions.changeNode'),
+                onClick: onChangeNodeClick,
+            },
+            {
+                text: localize('actions.removeProposal'),
+                onClick: onRemoveProposalClick,
+                variant: 'danger',
+                disabled: getDisabled(proposal, isVotingForProposal),
+            },
+        ]
+    }
+    $: setItems(proposal, isVotingForProposal)
+
     onMount(() => void updateIsVoting())
 </script>
 
-<proposal-details-menu class="relative">
-    <MeatballMenuButton onClick={modal?.toggle} />
-    <Modal bind:this={modal} position={{ right: '0' }}>
-        <div class="flex flex-col">
-            {#each buttons as button}
-                <MenuItem {...button} />
-            {/each}
-        </div>
-    </Modal>
-</proposal-details-menu>
+<Menu bind:this={menu} {items} />

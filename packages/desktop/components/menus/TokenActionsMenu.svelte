@@ -13,11 +13,13 @@
     export let modal: Modal | undefined = undefined
     export let token: ITokenWithBalance
 
+    let menu: Menu | undefined = undefined
+
     $: isTrackedToken = $activeProfile?.trackedTokens?.[token.networkId]?.includes(token.id)
 
     function onUntrackTokenClick(): void {
         removeTrackedTokenFromActiveProfile(token.id, token.networkId)
-        modal?.close()
+        menu?.close()
         closePopup()
     }
 
@@ -26,7 +28,7 @@
         updatePopupProps({
             token: { ...token, verification: { verified: false, status: NotVerifiedStatus.Skipped } },
         })
-        modal?.close()
+        menu?.close()
     }
 
     function onVerifyClick(): void {
@@ -34,7 +36,7 @@
         updatePopupProps({
             token: { ...token, verification: { verified: true, status: VerifiedStatus.SelfVerified } },
         })
-        modal?.close()
+        menu?.close()
     }
 
     function onUnhideClick(): void {
@@ -43,7 +45,7 @@
         updatePopupProps({
             token: { ...token, hidden: false },
         })
-        modal?.close()
+        menu?.close()
     }
 
     function onHideClick(): void {
@@ -52,12 +54,12 @@
         updatePopupProps({
             token: { ...token, hidden: true },
         })
-        modal?.close()
+        menu?.close()
     }
 
     function onBurnTokenClick(): void {
-        modal?.close()
         openPopup({ id: PopupId.BurnNativeTokens, props: { token } })
+        menu?.close()
     }
 
     let items: IMenuItem[] = []
@@ -101,4 +103,4 @@
     $: setItems(token)
 </script>
 
-<Menu {items} />
+<Menu bind:this={menu} {items} />

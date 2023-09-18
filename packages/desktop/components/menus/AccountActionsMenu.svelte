@@ -9,17 +9,22 @@
     import { activeAccounts, activeProfile, nonHiddenActiveAccounts, visibleActiveAccounts } from '@core/profile/stores'
     import { PopupId, openPopup } from '@desktop/auxiliary/popup'
 
+    let menu: Menu | undefined = undefined
+
     function onViewBalanceClick(): void {
         openPopup({ id: PopupId.BalanceBreakdown })
+        menu?.close()
     }
 
     function onCustomiseAccountClick(): void {
         openPopup({ id: PopupId.ManageAccount })
+        menu?.close()
     }
 
     function onShowAccountClick(): void {
         if ($selectedAccount) {
             updateActiveAccountPersistedData($selectedAccount.index, { hidden: false })
+            menu?.close()
         }
     }
 
@@ -34,6 +39,7 @@
         } else {
             console.error('Not enough accounts visible: ', $nonHiddenActiveAccounts.length)
         }
+        menu?.close()
     }
 
     function onDeleteAccountClick(): void {
@@ -44,6 +50,7 @@
                 deleteAccount,
             },
         })
+        menu?.close()
     }
 
     let items: IMenuItem[] = []
@@ -86,5 +93,5 @@
 </script>
 
 <account-actions-menu>
-    <Menu {items} />
+    <Menu bind:this={menu} {items} />
 </account-actions-menu>

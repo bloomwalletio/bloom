@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { Menu } from '@bloomwalletio/ui'
     import { openUrlInBrowser } from '@core/app'
     import { time } from '@core/app/stores'
     import { localize } from '@core/i18n'
@@ -8,14 +9,45 @@
     import { CollectiblesRoute, collectiblesRouter } from '@core/router'
     import { burnNft } from '@core/wallet'
     import { PopupId, closePopup, openPopup } from '@desktop/auxiliary/popup'
-    import { MeatballMenuButton, MenuItem, Modal } from '@ui'
 
-    export let modal: Modal = undefined
+    export let menu: Menu = undefined
     export let nft: INft
 
     $: url = nft?.parsedMetadata?.uri && composeUrl(nft.parsedMetadata.uri)
     $: isLocked = nft.timelockTime > $time.getTime()
     $: isCurrentPfp = $activeProfile.pfp?.id === nft.id
+
+    function composeUrl(targetUrl: string): string | undefined {
+        if (!targetUrl) {
+            return undefined
+        }
+        const url = new URL(targetUrl)
+
+        switch (url.protocol) {
+            case 'http:':
+                return targetUrl.replace('http:', 'https:')
+            case 'https:':
+                return targetUrl
+            case 'ipfs:':
+                return rewriteIpfsUri(targetUrl)
+            default:
+                return undefined
+        }
+    }
+
+    function onSetPfpClick(): void {
+        updateActiveProfile({
+            pfp: isCurrentPfp ? undefined : nft,
+        })
+        menu?.close()
+    }
+
+    function onOpenMediaClick(): void {
+        if (url) {
+            openUrlInBrowser(url)
+        }
+        menu?.close()
+    }
 
     function openBurnNft(): void {
         openPopup({
@@ -42,66 +74,27 @@
                 },
             },
         })
-    }
-
-    function composeUrl(targetUrl: string): string | undefined {
-        if (!targetUrl) {
-            return undefined
-        }
-        const url = new URL(targetUrl)
-
-        switch (url.protocol) {
-            case 'http:':
-                return targetUrl.replace('http:', 'https:')
-            case 'https:':
-                return targetUrl
-            case 'ipfs:':
-                return rewriteIpfsUri(targetUrl)
-            default:
-                return undefined
-        }
-    }
-
-    function onSetPfpClick(): void {
-        updateActiveProfile({
-            pfp: isCurrentPfp ? undefined : nft,
-        })
-    }
-
-    function onOpenMediaClick(): void {
-        if (url) {
-            openUrlInBrowser(url)
-        }
+        menu?.close()
     }
 </script>
 
-<collectible-details-menu class="relative">
-    <MeatballMenuButton onClick={modal?.toggle} />
-    <Modal bind:this={modal} position={{ right: '0' }}>
-        <div class="flex flex-col">
-            <MenuItem
-                icon="receive"
-                title={localize('views.collectibles.details.menu.download')}
-                disabled={true}
-                onClick={() => {}}
-            />
-            <MenuItem
-                icon="profile"
-                title={localize(`views.collectibles.details.menu.${isCurrentPfp ? 'unsetPfp' : 'setPfp'}`)}
-                onClick={onSetPfpClick}
-            />
-            <MenuItem
-                icon="export"
-                title={localize('views.collectibles.details.menu.view')}
-                onClick={onOpenMediaClick}
-                disabled={!url}
-            />
-            <MenuItem
-                icon="delete"
-                title={localize('views.collectibles.details.menu.burn')}
-                onClick={openBurnNft}
-                disabled={isLocked}
-            />
-        </div>
-    </Modal>
-</collectible-details-menu>
+<Menu
+    bind:this={menu}
+    items={[
+        {
+            text: localize(`views.collectibles.details.menu.${isCurrentPfp ? 'unsetPfp' : 'setPfp'}`),
+            onClick: onSetPfpClick,
+        },
+        {
+            text: localize('views.collectibles.details.menu.view'),
+            onClick: onOpenMediaClick,
+            disabled: !url,
+        },
+        {
+            text: localize('views.collectibles.details.menu.burn'),
+            onClick: openBurnNft,
+            disabled: isLocked,
+            variant: 'danger',
+        },
+    ]}
+/>

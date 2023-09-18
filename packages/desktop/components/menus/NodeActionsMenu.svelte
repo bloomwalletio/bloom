@@ -14,6 +14,8 @@
     export let node: INode
     export let clientOptions: IClientOptions
 
+    let menu: Menu | undefined = undefined
+
     $: isOfficialNode = getDefaultNodes($activeProfile?.network?.id).some((n) => n.url === node?.url)
     $: allowDisableOrRemove = node?.disabled || clientOptions?.nodes?.filter((node) => !node.disabled)?.length > 1
     $: isPrimary = clientOptions?.primaryNode?.url === node.url
@@ -29,6 +31,7 @@
                 },
             },
         })
+        menu?.close()
     }
 
     async function onTogglePrimaryNodeClick(): Promise<void> {
@@ -49,6 +52,7 @@
         } else {
             await togglePrimaryNodeInClientOptions(node)
         }
+        menu?.close()
     }
 
     function onRemoveNodeClick(): void {
@@ -65,6 +69,7 @@
                 },
             },
         })
+        menu?.close()
     }
 
     function onToggleDisabledNodeClick(): void {
@@ -85,10 +90,12 @@
                 },
             })
         }
+        menu?.close()
     }
 </script>
 
 <Menu
+    bind:this={menu}
     items={[
         {
             text: localize('views.settings.configureNodeList.editDetails'),
