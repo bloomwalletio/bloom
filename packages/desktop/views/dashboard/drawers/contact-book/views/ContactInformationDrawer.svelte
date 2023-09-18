@@ -1,26 +1,15 @@
 <script lang="ts">
-    import { Icon as IconEnum } from '@auxiliary/icon'
     import { Button, IconName } from '@bloomwalletio/ui'
-    import { ContactAddressCard, ContactMetadataTable, DrawerTemplate } from '@components'
+    import { ContactActionsMenu, ContactAddressCard, ContactMetadataTable, DrawerTemplate } from '@components'
     import { ContactManager, selectedContact } from '@core/contact'
     import { localize } from '@core/i18n'
     import { Router } from '@core/router'
-    import { MeatballMenuButton, MenuItem, Modal, ContactAvatar, Text } from '@ui'
-    import { FontWeight } from '@ui/enums'
     import features from '@features/features'
+    import { ContactAvatar, Text } from '@ui'
+    import { FontWeight } from '@ui/enums'
     import { ContactBookRoute } from '../contact-book-route.enum'
 
     export let drawerRouter: Router<unknown>
-
-    let modal: Modal
-
-    function onEditContactClick(): void {
-        drawerRouter.goTo(ContactBookRoute.EditContact)
-    }
-
-    function onRemoveContactClick(): void {
-        drawerRouter.goTo(ContactBookRoute.RemoveContact)
-    }
 
     function onAddNetworkAddressClick(): void {
         drawerRouter.goTo(ContactBookRoute.AddNetworkAddress)
@@ -35,33 +24,7 @@
                 {$selectedContact?.name}
             </Text>
         </div>
-        <contact-information-menu class="block relative mr-4">
-            <MeatballMenuButton onClick={modal?.toggle} />
-            <Modal bind:this={modal} position={{ right: '0' }} classes="mt-1.5">
-                <div class="flex flex-col">
-                    {#if features.contacts.editContact.enabled}
-                        <MenuItem
-                            icon={IconEnum.Edit}
-                            iconProps={{ height: 18 }}
-                            title={localize(
-                                `views.dashboard.drawers.contactBook.${ContactBookRoute.ContactInformation}.editContact`
-                            )}
-                            onClick={onEditContactClick}
-                        />
-                    {/if}
-                    {#if features.contacts.removeContact.enabled}
-                        <MenuItem
-                            icon={IconEnum.Delete}
-                            title={localize(
-                                `views.dashboard.drawers.contactBook.${ContactBookRoute.ContactInformation}.removeContact`
-                            )}
-                            onClick={onRemoveContactClick}
-                            variant="error"
-                        />
-                    {/if}
-                </div>
-            </Modal>
-        </contact-information-menu>
+        <ContactActionsMenu {drawerRouter} />
     </div>
     <div class="flex flex-col gap-3">
         <ContactMetadataTable contactMetadata={$selectedContact} />
