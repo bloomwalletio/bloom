@@ -1,6 +1,5 @@
 <script lang="ts">
     export let active = false
-    export let classes = ''
     export let color = 'blue'
     export let disabled = false
 

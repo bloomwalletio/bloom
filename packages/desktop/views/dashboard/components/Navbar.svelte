@@ -115,9 +115,3 @@
         </div>
     </div>
 </NavbarContainer>
-
-<style lang="scss">
-    button {
-        @apply flex items-center gap-2;
-    }
-</style>
