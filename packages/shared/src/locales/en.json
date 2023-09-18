@@ -1263,7 +1263,7 @@
         "incoming": "Incoming",
         "outgoing": "Outgoing",
         "dev": "Dev",
-        "addAWallet": "Add a wallet",
+        "newAccount": "New account",
         "accountName": "Wallet name",
         "activity": "Activity",
         "security": "Security",

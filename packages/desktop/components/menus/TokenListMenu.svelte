@@ -19,7 +19,7 @@
     items={[
         {
             icon: IconName.Import,
-            text: localize('general.importErc20Token'),
+            title: localize('general.importErc20Token'),
             onClick: onImportErc20TokenClick,
         },
     ]}

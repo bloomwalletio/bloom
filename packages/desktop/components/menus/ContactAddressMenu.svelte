@@ -29,12 +29,12 @@
     items={[
         {
             icon: IconName.Edit,
-            text: localize('actions.edit'),
+            title: localize('actions.edit'),
             onClick: onEditNetworkAddressesClick,
         },
         {
             icon: IconName.Trash,
-            text: localize('actions.delete'),
+            title: localize('actions.delete'),
             variant: 'danger',
             onClick: onRemoveNetworkClick,
         },

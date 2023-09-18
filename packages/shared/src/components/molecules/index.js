@@ -14,4 +14,3 @@ export { default as TransactionAssetSection } from './TransactionAssetSection.sv
 
 export * from './activity-info'
 export * from './filter-items'
-export * from './menu-items'

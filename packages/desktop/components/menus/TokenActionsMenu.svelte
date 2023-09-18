@@ -67,39 +67,39 @@
         if (token.verification?.status === VerifiedStatus.SelfVerified) {
             items.push({
                 icon: IconName.DangerCircle,
-                text: localize('actions.unverifyToken'),
+                title: localize('actions.unverifyToken'),
                 onClick: onUnverifyClick,
             })
         } else {
             items.push({
                 icon: IconName.Verified,
-                text: localize('actions.verifyToken'),
+                title: localize('actions.verifyToken'),
                 onClick: onVerifyClick,
             })
         }
         if (token.hidden) {
             items.push({
                 icon: IconName.Eye,
-                text: localize('actions.unhideToken'),
+                title: localize('actions.unhideToken'),
                 onClick: onUnhideClick,
             })
         } else {
             items.push({
                 icon: IconName.EyeOff,
-                text: localize('actions.hideToken'),
+                title: localize('actions.hideToken'),
                 onClick: onHideClick,
             })
         }
         if (isTrackedToken) {
             items.push({
                 icon: IconName.Trash,
-                text: localize('actions.untrackToken'),
+                title: localize('actions.untrackToken'),
                 onClick: onUntrackTokenClick,
             })
         } else if (isStardustNetwork(token.networkId)) {
             items.push({
                 icon: IconName.Trash,
-                text: localize('actions.burnToken'),
+                title: localize('actions.burnToken'),
                 variant: 'danger',
                 disabled: !features?.wallet?.assets?.burnToken.enabled,
                 onClick: onBurnTokenClick,

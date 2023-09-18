@@ -99,25 +99,25 @@
     items={[
         {
             icon: IconName.Edit,
-            text: localize('views.settings.configureNodeList.editDetails'),
+            title: localize('views.settings.configureNodeList.editDetails'),
             disabled: isOfficialNode,
             onClick: onEditNodeDetailsClick,
         },
         {
             icon: isPrimary ? IconName.BookmarkX : IconName.BookmarkCheck,
-            text: localize(`views.settings.configureNodeList.${isPrimary ? 'unsetAsPrimary' : 'setAsPrimary'}`),
+            title: localize(`views.settings.configureNodeList.${isPrimary ? 'unsetAsPrimary' : 'setAsPrimary'}`),
             disabled: node?.disabled,
             onClick: onTogglePrimaryNodeClick,
         },
         {
             icon: node.disabled ? IconName.PlayCircle : IconName.PauseCircle,
-            text: localize(`views.settings.configureNodeList.${node.disabled ? 'include' : 'exclude'}Node`),
+            title: localize(`views.settings.configureNodeList.${node.disabled ? 'include' : 'exclude'}Node`),
             disabled: !allowDisableOrRemove,
             onClick: onToggleDisabledNodeClick,
         },
         {
             icon: IconName.Trash,
-            text: localize('views.settings.configureNodeList.removeNode'),
+            title: localize('views.settings.configureNodeList.removeNode'),
             variant: 'danger',
             disabled: !allowDisableOrRemove,
             onClick: onRemoveNodeClick,

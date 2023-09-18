@@ -18,7 +18,7 @@
     items={[
         {
             icon: IconName.Redo,
-            text: localize('actions.revote'),
+            title: localize('actions.revote'),
             onClick: onRevoteClick,
         },
     ]}

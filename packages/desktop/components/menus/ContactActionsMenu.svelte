@@ -24,12 +24,12 @@
     items={[
         {
             icon: IconName.Edit,
-            text: localize(`views.dashboard.drawers.contactBook.${ContactBookRoute.ContactInformation}.editContact`),
+            title: localize(`views.dashboard.drawers.contactBook.${ContactBookRoute.ContactInformation}.editContact`),
             onClick: onEditContactClick,
         },
         {
             icon: IconName.Trash,
-            text: localize(`views.dashboard.drawers.contactBook.${ContactBookRoute.ContactInformation}.removeContact`),
+            title: localize(`views.dashboard.drawers.contactBook.${ContactBookRoute.ContactInformation}.removeContact`),
             variant: 'danger',
             onClick: onRemoveContactClick,
         },

@@ -61,7 +61,7 @@
                 description: localize('actions.confirmNftBurn.description'),
                 hint: localize('actions.confirmNftBurn.hint'),
                 warning: true,
-                confirmText: localize('actions.burn'),
+                confirmtitle: localize('actions.burn'),
                 onConfirm: async () => {
                     await checkActiveProfileAuth(
                         async () => {
@@ -83,18 +83,18 @@
     items={[
         {
             icon: isCurrentPfp ? IconName.ImageUserX : IconName.ImageUserCheck,
-            text: localize(`views.collectibles.details.menu.${isCurrentPfp ? 'unsetPfp' : 'setPfp'}`),
+            title: localize(`views.collectibles.details.menu.${isCurrentPfp ? 'unsetPfp' : 'setPfp'}`),
             onClick: onSetPfpClick,
         },
         {
             icon: IconName.LinkExternal,
-            text: localize('views.collectibles.details.menu.view'),
+            title: localize('views.collectibles.details.menu.view'),
             disabled: !url,
             onClick: onOpenMediaClick,
         },
         {
             icon: IconName.Trash,
-            text: localize('views.collectibles.details.menu.burn'),
+            title: localize('views.collectibles.details.menu.burn'),
             variant: 'danger',
             disabled: isLocked,
             onClick: openBurnNft,

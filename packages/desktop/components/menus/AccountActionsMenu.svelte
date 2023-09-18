@@ -58,25 +58,25 @@
         items = [
             {
                 icon: IconName.PieChart,
-                text: localize('actions.viewBalanceBreakdown'),
+                title: localize('actions.viewBalanceBreakdown'),
                 onClick: onViewBalanceClick,
             },
             {
                 icon: IconName.Sliders,
-                text: localize('actions.customizeAcount'),
+                title: localize('actions.customizeAcount'),
                 onClick: onCustomiseAccountClick,
             },
         ]
         if (account?.hidden) {
             items.push({
                 icon: IconName.Eye,
-                text: localize('actions.showAccount'),
+                title: localize('actions.showAccount'),
                 onClick: onShowAccountClick,
             })
         } else {
             items.push({
                 icon: IconName.EyeOff,
-                text: localize('actions.hideAccount'),
+                title: localize('actions.hideAccount'),
                 onClick: onHideAccountClick,
                 disabled: nonHiddenActiveAccounts.length <= 1,
             })
@@ -84,7 +84,7 @@
         if (showDelete) {
             items.push({
                 icon: IconName.Trash,
-                text: localize('actions.deleteAccount'),
+                title: localize('actions.deleteAccount'),
                 variant: 'danger',
                 onClick: onDeleteAccountClick,
             })

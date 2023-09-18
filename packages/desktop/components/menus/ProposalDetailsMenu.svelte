@@ -63,12 +63,12 @@
         items = [
             {
                 icon: IconName.SettingsSliders,
-                text: localize('actions.changeNode'),
+                title: localize('actions.changeNode'),
                 onClick: onChangeNodeClick,
             },
             {
                 icon: IconName.Trash,
-                text: localize('actions.removeProposal'),
+                title: localize('actions.removeProposal'),
                 variant: 'danger',
                 disabled: getDisabled(proposal, isVotingForProposal),
                 onClick: onRemoveProposalClick,
