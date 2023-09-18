@@ -1379,7 +1379,8 @@
         "maxFees": "Max fees",
         "contacts": "Contacts",
         "apps": "Apps",
-        "networks": "Networks"
+        "networks": "Networks",
+        "ledgerDevice": "Ledger device"
     },
     "filters":{
         "title": "Filters",

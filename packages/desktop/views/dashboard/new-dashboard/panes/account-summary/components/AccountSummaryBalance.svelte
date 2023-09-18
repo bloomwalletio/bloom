@@ -5,7 +5,7 @@
 <account-summary-balance class="w-full h-full p-6 flex flex-col justify-between">
     <account-summary-balance-header class="w-full flex flex-row justify-between items-center">
         <Text type="h6" align="center" truncate>Wallet</Text>
-        <IconButton name={IconName.DotsHorizontal} />
+        <IconButton icon={IconName.DotsHorizontal} />
     </account-summary-balance-header>
     <account-summary-balance-amount>
         <Text type="h6" size="6xl" align="center" truncate>$8,567.23</Text>
