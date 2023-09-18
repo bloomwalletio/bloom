@@ -1,6 +1,6 @@
 <script lang="ts">
     import { Activity, ActivityAction, ActivityDirection, ActivityType, getActivityTileTitle } from '@core/activity'
-    import { formatDate } from '@core/i18n'
+    import { formatDate, localize } from '@core/i18n'
     import { FontWeight, Text } from '@ui'
     import { Avatar, IconName } from '@bloomwalletio/ui'
 
@@ -70,10 +70,10 @@
     }
 </script>
 
-<div class="flex flex-row gap-2">
+<div class="flex flex-row items-center gap-2">
     <Avatar size="xxs" backgroundColor={style.color} icon={style.icon} textColor="white" />
     <Text fontWeight={FontWeight.semibold} color={style.color + '-500'} classes="text-start"
-        >{getActivityTileTitle(activity)}</Text
+        >{localize(getActivityTileTitle(activity))}</Text
     >
 </div>
 <Text fontWeight={FontWeight.semibold} secondary classes="text-start"
