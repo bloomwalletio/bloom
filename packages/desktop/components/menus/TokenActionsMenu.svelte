@@ -101,6 +101,4 @@
     $: setItems(token)
 </script>
 
-<token-actions-menu>
-    <Menu {items} />
-</token-actions-menu>
+<Menu {items} />
