@@ -4,7 +4,6 @@ import { getLayer2AccountBalance } from '@core/layer-2/stores'
 import { MarketCoinPrices } from '@core/market'
 import { getNetwork, NetworkId } from '@core/network'
 import { getActiveNetworkId } from '@core/network/actions/getActiveNetworkId'
-import { isStardustNetwork } from '@core/network/utils'
 import { sortTokens } from '@core/token/utils/sortTokens'
 import { BASE_TOKEN_ID } from '../constants'
 import { ITokenWithBalance } from '../interfaces'
@@ -23,7 +22,7 @@ export function getAccountTokensForSelectedAccount(marketCoinPrices: MarketCoinP
 
         for (const chain of chains) {
             const id = chain.getConfiguration().id
-            const chainAssets = getAccountAssetForChain(account.index, id)
+            const chainAssets = getAccountAssetForChain(account.index, marketCoinPrices, id)
             if (chainAssets) {
                 accountAssets[id] = chainAssets
             }
@@ -40,7 +39,6 @@ function getAccountAssetForNetwork(
     marketCoinPrices: MarketCoinPrices,
     networkId: NetworkId
 ): IAccountTokensPerNetwork {
-    const shouldCalculateFiatPrice = isStardustNetwork(networkId)
     const persistedBaseCoin = getPersistedToken(BASE_TOKEN_ID)
     const baseCoin: ITokenWithBalance = {
         ...persistedBaseCoin,
@@ -49,7 +47,7 @@ function getAccountAssetForNetwork(
             total: Number(account?.balances?.baseCoin?.total),
             available: Number(account?.balances?.baseCoin?.available),
         },
-        ...(shouldCalculateFiatPrice && { marketPrices: marketCoinPrices?.shimmer }),
+        marketPrices: marketCoinPrices?.shimmer,
     }
 
     const nativeTokens: ITokenWithBalance[] = []
@@ -74,7 +72,11 @@ function getAccountAssetForNetwork(
     }
 }
 
-function getAccountAssetForChain(accountIndex: number, networkId: NetworkId): IAccountTokensPerNetwork | undefined {
+function getAccountAssetForChain(
+    accountIndex: number,
+    marketCoinPrices: MarketCoinPrices,
+    networkId: NetworkId
+): IAccountTokensPerNetwork | undefined {
     const balanceForNetworkId = getLayer2AccountBalance(accountIndex)?.[networkId]
 
     if (!balanceForNetworkId) {
@@ -97,6 +99,7 @@ function getAccountAssetForChain(accountIndex: number, networkId: NetworkId): IA
                 ...persistedBaseCoin,
                 balance: _balance,
                 networkId,
+                marketPrices: marketCoinPrices?.shimmer,
             }
         } else {
             const persistedAsset = getPersistedToken(tokenId)

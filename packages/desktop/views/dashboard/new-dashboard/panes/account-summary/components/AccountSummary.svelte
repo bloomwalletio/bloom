@@ -38,7 +38,7 @@
 <account-summary class="w-full h-full p-6 flex flex-col justify-between">
     <account-summary-header class="w-full flex flex-row justify-between items-center">
         <Text type="h6" align="center" color="indigo-950" truncate>{account.name}</Text>
-        <IconButton color="gray-500" name={IconName.DotsHorizontal} />
+        <IconButton color="gray-500" icon={IconName.DotsHorizontal} />
     </account-summary-header>
     <account-summary-balance class="flex flex-row">
         <Text type="h6" size="6xl" align="center" color="indigo-950" truncate>{formattedBalance[0]}</Text>
