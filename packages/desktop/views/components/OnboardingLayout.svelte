@@ -100,12 +100,4 @@
             max-width: 630px;
         }
     }
-
-    icon-container {
-        @apply block cursor-pointer text-blue-500;
-
-        &.busy {
-            @apply cursor-default pointer-events-none text-gray-500;
-        }
-    }
 </style>
