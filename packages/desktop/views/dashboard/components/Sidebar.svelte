@@ -113,16 +113,20 @@
             {/each}
         </sidebar-tabs>
     </nav>
-    <button class="flex items-center justify-end rounded-full" on:click={profileModal?.open}>
-        <BackupToast />
-        <div class="relative">
-            <ProfileAvatar profile={$activeProfile} />
-            {#if !$shouldOpenProfileModal && !$appVersionDetails.upToDate}
-                <Indicator size="sm" color="red" border="white" class="absolute top-0 right-0" />
-            {/if}
-        </div>
-    </button>
-    <ProfileActionsModal bind:modal={profileModal} />
+    <div>
+        <toasts>
+            <BackupToast />
+        </toasts>
+        <button class="flex items-center justify-end rounded-full" on:click={profileModal?.open}>
+            <div class="relative">
+                <ProfileAvatar profile={$activeProfile} />
+                {#if !$shouldOpenProfileModal && !$appVersionDetails.upToDate}
+                    <Indicator size="sm" color="red" border="white" class="absolute top-0 right-0" />
+                {/if}
+            </div>
+        </button>
+        <ProfileActionsModal bind:modal={profileModal} />
+    </div>
 </aside>
 
 <style lang="postcss">
@@ -141,6 +145,11 @@
     sidebar-tabs {
         @apply justify-items-start;
         @apply w-full space-y-1;
+        @apply p-4;
+    }
+
+    toasts {
+        @apply flex;
         @apply p-4;
     }
 
