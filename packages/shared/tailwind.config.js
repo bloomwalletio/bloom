@@ -1,4 +1,12 @@
-const colors = require('tailwindcss/colors')
+const colors = require('tailwindcss/colors.js')
+
+// Suppress deprecation warnings during development
+// Remove linting rules at beginning of file and following lines once color schemes of tailwindcss have been updated
+delete colors.lightBlue
+delete colors.warmGray
+delete colors.trueGray
+delete colors.coolGray
+delete colors.blueGray
 
 /* Utilities */
 const pxToRem = (px, base = 16) => `${px / base}rem`
