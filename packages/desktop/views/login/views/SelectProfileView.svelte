@@ -19,6 +19,7 @@
     import { OnboardingRouter, onboardingRouter } from '@views/onboarding'
     import { onMount } from 'svelte'
     import features from '@features/features'
+    import { LoggedOutLayout } from '@views/components'
 
     function onContinueClick(profileId: string): void {
         loadPersistedProfileIntoActiveProfile(profileId)
@@ -59,13 +60,10 @@
     })
 </script>
 
-<select-profile-view class="flex flex-col justify-between items-center w-full h-full bg-slate-100 dark:bg-gray-900">
-    <header class="w-full flex items-center py-8">
-        <logo-container class="pl-12 block">
-            <Logo width="150" logo="logo-bloom-full" />
-        </logo-container>
-    </header>
+<LoggedOutLayout>
+    <Logo slot="header" width="150" logo="logo-bloom-full" />
     <div
+        slot="content"
         class="
         card-conatiner flex flex-row w-full justify-center gap-8 overflow-y-auto overlay-scrollbar pb-8
         {$profiles.length > 4 ? 'grid grid-cols-4' : ''}"
@@ -74,18 +72,19 @@
             <ProfileCard {profile} onClick={onContinueClick} updateRequired={updateRequiredForProfile(profile)} />
         {/each}
     </div>
-    <footer class="flex flex-col w-full relative">
+    <svelte:fragment slot="footer">
         <hr class="border-white dark:border-gray-800" />
         <button type="button" on:click={onAddProfileClick}>
             <Icon name={IconName.Plus} size="sm" />
             {localize('general.addProfile')}
         </button>
-    </footer>
-</select-profile-view>
+    </svelte:fragment>
+</LoggedOutLayout>
 
 <style lang="postcss">
-    select-profile-view > div {
+    .card-conatiner {
         width: 80%;
+        max-width: 1000px;
     }
 
     button {
@@ -101,9 +100,5 @@
     button:after {
         content: '';
         @apply absolute h-full w-1/2 bg-violet-700 blur-3xl opacity-40 left-1/2 -bottom-20 -translate-x-1/2;
-    }
-
-    .card-conatiner {
-        max-width: 1000px;
     }
 </style>
