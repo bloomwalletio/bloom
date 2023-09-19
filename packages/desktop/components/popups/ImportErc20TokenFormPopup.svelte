@@ -25,12 +25,12 @@
 
     async function onImportClick(): Promise<void> {
         busy = true
-
-        if (validate()) {
+        const _tokenAddress = tokenAddress.toLowerCase()
+        if (validate(_tokenAddress)) {
             try {
-                const erc20TokenMetadata = await getErc20TokenMetadata(tokenAddress, networkId, $network)
+                const erc20TokenMetadata = await getErc20TokenMetadata(_tokenAddress, networkId, $network)
                 if (erc20TokenMetadata) {
-                    addNewTrackedTokenToActiveProfile(networkId, tokenAddress, erc20TokenMetadata)
+                    addNewTrackedTokenToActiveProfile(networkId, _tokenAddress, erc20TokenMetadata)
                     showNotification({
                         variant: 'success',
                         text: localize('popups.importErc20Token.success', {
@@ -51,22 +51,17 @@
         busy = false
     }
 
-    function validate(): boolean {
-        tokenAddressError = validateTokenAddress()
-        return !tokenAddressError
-    }
-
-    function validateTokenAddress(): string {
+    function validate(tokenAddress: string): boolean {
         const hasHexPrefix = tokenAddress?.startsWith(HEX_PREFIX)
         const isValidHex = HEXADECIMAL_REGEXP.test(tokenAddress)
-        if (!hasHexPrefix || !isValidHex) {
-            return localize('error.erc20Token.invalidAddressFormat')
-        }
-
         const addressLength = tokenAddress?.substring(2)?.length
-        if (addressLength !== ERC20_TOKEN_ADDRESS_LENGTH) {
-            return localize('error.erc20Token.invalidAddressLength')
+
+        if (!hasHexPrefix || !isValidHex) {
+            tokenAddressError = localize('error.erc20Token.invalidAddressFormat')
+        } else if (addressLength !== ERC20_TOKEN_ADDRESS_LENGTH) {
+            tokenAddressError = localize('error.erc20Token.invalidAddressLength')
         }
+        return !tokenAddressError
     }
 </script>
 
