@@ -1,13 +1,34 @@
 <script lang="ts">
     import { formatCurrency } from '@core/i18n'
     import { getMarketAmountFromTokenValue, getMarketPriceForToken } from '@core/market/actions'
-    import { getNameFromNetworkId } from '@core/network'
-    import { ITokenWithBalance, formatTokenAmountBestMatch, getUnitFromTokenMetadata } from '@core/token'
+    import { SupportedNetworkId, TokenSupply, getActiveNetworkId, getNameFromNetworkId } from '@core/network'
+    import { BASE_TOKEN_ID, ITokenWithBalance, formatTokenAmountBestMatch, getUnitFromTokenMetadata } from '@core/token'
     import { truncateString } from '@core/utils'
     import { PopupId, openPopup } from '@desktop/auxiliary/popup'
     import { FontWeight, Text, TokenAvatar } from '@ui'
 
     export let token: ITokenWithBalance
+
+    function getTokenSupply(token: ITokenWithBalance): string {
+        if (token.id !== BASE_TOKEN_ID) {
+            return '-'
+        }
+
+        let tokenSupply: number | undefined
+        switch (getActiveNetworkId()) {
+            case SupportedNetworkId.Shimmer:
+                tokenSupply = Number(TokenSupply.Shimmer)
+                break
+            case SupportedNetworkId.Testnet:
+                tokenSupply = Number(TokenSupply.Shimmer)
+                break
+            default:
+                tokenSupply = 0
+        }
+
+        const marketPrice = tokenSupply ? getMarketAmountFromTokenValue(Number(TokenSupply.Testnet), token) : undefined
+        return marketPrice ? formatCurrency(marketPrice) : '-'
+    }
 
     function getFormattedMarketPriceForToken(token: ITokenWithBalance): string {
         const marketPrice = getMarketPriceForToken(token)
@@ -43,7 +64,7 @@
         </div>
     </div>
     <Text fontWeight={FontWeight.semibold} classes="text-start">{getNameFromNetworkId(token.networkId)}</Text>
-    <Text fontWeight={FontWeight.semibold} classes="text-start">-</Text>
+    <Text fontWeight={FontWeight.semibold} classes="text-start">{getTokenSupply(token)}</Text>
     <Text fontWeight={FontWeight.semibold} classes="text-start">{getFormattedMarketPriceForToken(token)}</Text>
     <div class="flex flex-col items-end">
         <Text fontWeight={FontWeight.semibold} classes="text-end"
