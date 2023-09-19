@@ -152,8 +152,8 @@
     }
 
     toasts {
-        @apply flex;
-        @apply p-4;
+        @apply flex flex-col;
+        @apply p-4 gap-2;
     }
 
     button {
