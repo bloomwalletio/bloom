@@ -1,33 +1,64 @@
 <script lang="ts">
-    import { Indicator, Text } from '@bloomwalletio/ui'
-    import { AccountSwitcherModal } from '@components'
+    import { IMenuItem, Indicator, Menu, Text } from '@bloomwalletio/ui'
+    import { IAccountState } from '@core/account'
+    import { setSelectedAccount } from '@core/account/actions'
     import { selectedAccount } from '@core/account/stores'
-    import { Modal } from '@ui'
+    import { formatCurrency, localize } from '@core/i18n'
+    import { getMarketAmountFromTokenValue } from '@core/market/actions'
+    import { activeProfile, visibleActiveAccounts } from '@core/profile/stores'
+    import { selectedAccountTokens } from '@core/token/stores'
+    import { PopupId, openPopup } from '@desktop/auxiliary/popup'
 
-    let modal: Modal
-    let isModalOpened: boolean = false
+    const menu: Menu | undefined = undefined
 
-    function onOutsideClick(): void {
-        isModalOpened = modal?.isOpened()
+    $: baseCoin = $selectedAccountTokens[$activeProfile?.network?.id]?.baseCoin
+
+    function onAccountClick(accountIndex: number): void {
+        setSelectedAccount(accountIndex)
+        menu?.close()
     }
 
-    function onButtonClick(): void {
-        modal?.toggle()
+    let items: IMenuItem[] = []
+    function setItems(accounts: IAccountState[], selectedIndex) {
+        items = accounts.map((account) => {
+            return {
+                title: account.name,
+                subtitle: formatCurrency(
+                    getMarketAmountFromTokenValue(Number(account.balances.baseCoin.total), baseCoin)
+                ),
+                selected: selectedIndex === account.index,
+                onClick: () => onAccountClick(account.index),
+            }
+        })
+    }
+    $: setItems($visibleActiveAccounts, $selectedAccount.index)
+
+    function onCreateAccountClick(): void {
+        openPopup({ id: PopupId.CreateAccount })
+        menu?.close()
     }
 </script>
 
-<svelte:window on:click={onOutsideClick} />
-<button
-    type="button"
-    on:click={onButtonClick}
-    class="flex flex-row justify-center items-center space-x-2 px-1.5 rounded-md cursor-pointer"
+<Menu
+    {items}
+    placement="bottom-start"
+    compact={false}
+    button={{
+        text: localize('general.newAccount'),
+        onClick: onCreateAccountClick,
+    }}
 >
-    <Indicator color={$selectedAccount?.color} size="sm" />
-    <Text size="sm" weight="semibold" color="#1E1B4E">
-        {$selectedAccount?.name}
-    </Text>
-</button>
-<AccountSwitcherModal bind:modal />
+    <button
+        slot="anchor"
+        type="button"
+        class="flex flex-row justify-center items-center space-x-2 px-1.5 rounded-md cursor-pointer"
+    >
+        <Indicator color={$selectedAccount?.color} size="sm" />
+        <Text size="sm" weight="semibold" color="#1E1B4E">
+            {$selectedAccount?.name}
+        </Text>
+    </button>
+</Menu>
 
 <style lang="scss">
     button:hover {

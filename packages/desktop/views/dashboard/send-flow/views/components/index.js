@@ -1,4 +1,3 @@
-export { default as DateTimePickerButton } from './DateTimePickerButton.svelte'
 export { default as DateTimePickerMenu } from './DateTimePickerMenu.svelte'
 export { default as EvmTransactionDetails } from './EvmTransactionDetails.svelte'
 export { default as EvmTransactionSummary } from './EvmTransactionSummary.svelte'

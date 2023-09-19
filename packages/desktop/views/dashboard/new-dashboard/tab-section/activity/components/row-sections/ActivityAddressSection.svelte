@@ -1,26 +1,28 @@
 <script lang="ts">
     import { Activity } from '@core/activity'
-    import { truncateString } from '@core/utils/string'
-    import { Subject, SubjectType } from '@core/wallet'
-    import { FontWeight, Text } from '@ui'
+    import AddressWithNetwork from '../AddressWithNetwork.svelte'
+    import { Icon, IconName } from '@bloomwalletio/ui'
 
     export let activity: Activity
 
-    function getDisplayedSubject(subject: Subject | undefined): string {
-        if (!subject) {
-            return 'Unknown'
-        }
-
-        switch (subject.type) {
-            case SubjectType.Contact:
-                return truncateString(subject.contact.name, 13, 0)
-            case SubjectType.Account:
-                return truncateString(subject.account.name, 13, 0)
-            default:
-                return truncateString(subject.address, 6, 6)
-        }
-    }
+    $: isSelfTransaction =
+        (activity.sender &&
+            activity.sender.address === activity.recipient?.address &&
+            activity.sourceNetworkId === activity.destinationNetworkId) ||
+        activity.aliasId !== undefined
 </script>
 
-<Text fontWeight={FontWeight.semibold} classes="text-start">{getDisplayedSubject(activity.sender)}</Text>
-<Text fontWeight={FontWeight.semibold} classes="text-start">{getDisplayedSubject(activity.recipient)}</Text>
+<div class="flex flex-row items-center">
+    <Icon name={IconName.Graph} size="md" color="gray-300" />
+
+    <div class="flex flex-col justify-between">
+        {#if !activity.sender && !activity.recipient}
+            <AddressWithNetwork subject={undefined} networkId={activity.destinationNetworkId} />
+        {:else if isSelfTransaction}
+            <AddressWithNetwork subject={activity.sender} networkId={activity.destinationNetworkId} />
+        {:else}
+            <AddressWithNetwork subject={activity.sender} networkId={activity.sourceNetworkId} />
+            <AddressWithNetwork subject={activity.recipient} networkId={activity.destinationNetworkId} />
+        {/if}
+    </div>
+</div>
