@@ -123,6 +123,7 @@
         @apply justify-between items-center;
         @apply gap-8;
         @apply py-4.5 px-7;
+        border-bottom: 1px solid #f1eef9;
     }
 
     sidebar-tabs {
