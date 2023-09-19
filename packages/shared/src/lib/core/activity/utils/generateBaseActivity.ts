@@ -38,7 +38,12 @@ export async function generateBaseActivity(
     const asyncData = getAsyncDataFromOutput(output, outputId, processedTransaction.claimingData, account)
 
     // sender / recipient information
-    const { recipient, subject, isInternal } = getSendingInformation(processedTransaction, output, account, networkId)
+    const { recipient, sender, subject, isInternal } = getSendingInformation(
+        processedTransaction,
+        output,
+        account,
+        networkId
+    )
 
     // this function is only used to generate an activity on the stardust network
     // even if we unwrap a token the second transaction is sent from the stardust alias
@@ -85,6 +90,8 @@ export async function generateBaseActivity(
         // sender / recipient information
         sourceNetworkId,
         destinationNetworkId,
+        sender,
+        recipient,
         subject,
         direction,
         isInternal,

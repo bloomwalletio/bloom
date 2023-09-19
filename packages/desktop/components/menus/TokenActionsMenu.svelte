@@ -1,23 +1,24 @@
 <script lang="ts">
+    import { IMenuItem, IconName, Menu } from '@bloomwalletio/ui'
     import { hideActivitiesForHiddenTokens } from '@core/activity/actions'
     import { localize } from '@core/i18n'
+    import { isStardustNetwork } from '@core/network'
     import { activeProfile } from '@core/profile/stores'
     import { ITokenWithBalance, NotVerifiedStatus, VerifiedStatus } from '@core/token'
     import { removeTrackedTokenFromActiveProfile } from '@core/token/actions'
     import { hideToken, unhideToken, unverifyToken, verifyToken } from '@core/token/stores'
     import { PopupId, closePopup, openPopup, updatePopupProps } from '@desktop/auxiliary/popup'
     import features from '@features/features'
-    import { Icon } from '@lib/auxiliary/icon'
-    import { MeatballMenuButton, MenuItem, Modal } from '@ui'
 
-    export let modal: Modal | undefined = undefined
     export let token: ITokenWithBalance
+
+    let menu: Menu | undefined = undefined
 
     $: isTrackedToken = $activeProfile?.trackedTokens?.[token.networkId]?.includes(token.id)
 
     function onUntrackTokenClick(): void {
         removeTrackedTokenFromActiveProfile(token.id, token.networkId)
-        modal?.close()
+        menu?.close()
         closePopup()
     }
 
@@ -26,7 +27,7 @@
         updatePopupProps({
             token: { ...token, verification: { verified: false, status: NotVerifiedStatus.Skipped } },
         })
-        modal?.close()
+        menu?.close()
     }
 
     function onVerifyClick(): void {
@@ -34,7 +35,7 @@
         updatePopupProps({
             token: { ...token, verification: { verified: true, status: VerifiedStatus.SelfVerified } },
         })
-        modal?.close()
+        menu?.close()
     }
 
     function onUnhideClick(): void {
@@ -43,7 +44,7 @@
         updatePopupProps({
             token: { ...token, hidden: false },
         })
-        modal?.close()
+        menu?.close()
     }
 
     function onHideClick(): void {
@@ -52,48 +53,60 @@
         updatePopupProps({
             token: { ...token, hidden: true },
         })
-        modal?.close()
+        menu?.close()
     }
 
     function onBurnTokenClick(): void {
-        modal?.close()
         openPopup({ id: PopupId.BurnNativeTokens, props: { token } })
+        menu?.close()
     }
+
+    let items: IMenuItem[] = []
+    function setItems(token: ITokenWithBalance) {
+        items = []
+        if (token.verification?.status === VerifiedStatus.SelfVerified) {
+            items.push({
+                icon: IconName.DangerCircle,
+                title: localize('actions.unverifyToken'),
+                onClick: onUnverifyClick,
+            })
+        } else {
+            items.push({
+                icon: IconName.Verified,
+                title: localize('actions.verifyToken'),
+                onClick: onVerifyClick,
+            })
+        }
+        if (token.hidden) {
+            items.push({
+                icon: IconName.Eye,
+                title: localize('actions.unhideToken'),
+                onClick: onUnhideClick,
+            })
+        } else {
+            items.push({
+                icon: IconName.EyeOff,
+                title: localize('actions.hideToken'),
+                onClick: onHideClick,
+            })
+        }
+        if (isTrackedToken) {
+            items.push({
+                icon: IconName.Trash,
+                title: localize('actions.untrackToken'),
+                onClick: onUntrackTokenClick,
+            })
+        } else if (isStardustNetwork(token.networkId)) {
+            items.push({
+                icon: IconName.Trash,
+                title: localize('actions.burnToken'),
+                variant: 'danger',
+                disabled: !features?.wallet?.assets?.burnToken.enabled,
+                onClick: onBurnTokenClick,
+            })
+        }
+    }
+    $: setItems(token)
 </script>
 
-<token-actions-menu class="relative">
-    <MeatballMenuButton onClick={modal?.toggle} />
-    <Modal bind:this={modal} position={{ right: '0' }} {...$$restProps}>
-        <div class="flex flex-col">
-            {#if isTrackedToken}
-                <MenuItem icon={Icon.Search} title={localize('actions.untrackToken')} onClick={onUntrackTokenClick} />
-            {/if}
-            {#if token.verification?.status === VerifiedStatus.SelfVerified}
-                <MenuItem
-                    icon={Icon.NotVerified}
-                    iconProps={{ secondaryColor: 'white' }}
-                    title={localize('actions.unverifyToken')}
-                    onClick={onUnverifyClick}
-                />
-            {:else}
-                <MenuItem
-                    icon={Icon.NotVerified}
-                    iconProps={{ secondaryColor: 'white' }}
-                    title={localize('actions.verifyToken')}
-                    onClick={onVerifyClick}
-                />
-            {/if}
-            {#if token.hidden}
-                <MenuItem icon={Icon.View} title={localize('actions.unhideToken')} onClick={onUnhideClick} />
-            {:else}
-                <MenuItem icon={Icon.Hide} title={localize('actions.hideToken')} onClick={onHideClick} />
-            {/if}
-            <MenuItem
-                icon={Icon.Delete}
-                disabled={!features?.wallet?.assets?.burnToken.enabled}
-                title={localize('actions.burnToken')}
-                onClick={onBurnTokenClick}
-            />
-        </div>
-    </Modal>
-</token-actions-menu>
+<Menu bind:this={menu} {items} />
