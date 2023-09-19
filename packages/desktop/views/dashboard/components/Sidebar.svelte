@@ -1,6 +1,5 @@
 <script lang="ts">
-    import { DEFAULT_NETWORK_ICON, Icon as IconEnum } from '@auxiliary/icon'
-    import { Indicator } from '@bloomwalletio/ui'
+    import { Icon, IconName, Indicator } from '@bloomwalletio/ui'
     import { BackupToast, ProfileActionsModal, SidebarTab } from '@components'
     import { appVersionDetails } from '@core/app/stores'
     import { localize } from '@core/i18n'
@@ -8,7 +7,7 @@
     import { DashboardRoute, collectiblesRouter, dashboardRouter, governanceRouter, settingsRouter } from '@core/router'
     import { ISidebarTab } from '@desktop/routers'
     import features from '@features/features'
-    import { Icon, Modal, ProfileAvatar } from '@ui'
+    import { Logo, Modal, ProfileAvatar } from '@ui'
 
     let profileModal: Modal
 
@@ -19,7 +18,7 @@
         ...(features?.wallet?.enabled
             ? [
                   {
-                      icon: IconEnum.Wallet,
+                      icon: IconName.Wallet,
                       label: localize('tabs.wallet'),
                       route: DashboardRoute.Wallet,
                       onClick: openWallet,
@@ -29,7 +28,7 @@
         ...(features?.wallet?.newDashboard?.enabled
             ? [
                   {
-                      icon: IconEnum.Wallet,
+                      icon: IconName.Wallet,
                       label: localize('tabs.wallet'),
                       route: DashboardRoute.NewDashboard,
                       onClick: openNewDashboard,
@@ -39,7 +38,7 @@
         ...(features?.collectibles?.enabled
             ? [
                   {
-                      icon: IconEnum.Collectibles,
+                      icon: IconName.Image,
                       label: localize('tabs.collectibles'),
                       route: DashboardRoute.Collectibles,
                       onClick: openCollectibles,
@@ -49,7 +48,7 @@
         ...(features?.governance?.enabled
             ? [
                   {
-                      icon: IconEnum.Governance,
+                      icon: IconName.Bank,
                       label: localize('tabs.governance'),
                       route: DashboardRoute.Governance,
                       onClick: openGovernance,
@@ -59,7 +58,7 @@
         ...(features?.developerTools?.enabled && $activeProfile?.isDeveloperProfile
             ? [
                   {
-                      icon: IconEnum.Tools,
+                      icon: IconName.Brush,
                       label: localize('tabs.developer'),
                       route: DashboardRoute.Developer,
                       onClick: openDeveloper,
@@ -100,39 +99,55 @@
     }
 </script>
 
-<aside
-    class="flex flex-col justify-center items-center bg-white dark:bg-gray-800 h-full relative w-64 px-5 pt-10 pb-5 border-solid border-r border-gray-100 dark:border-gray-800"
->
-    <nav class="flex flex-grow flex-col items-center justify-between">
-        <div class="flex flex-col items-center">
-            <Icon
-                width="48"
-                height="48"
-                icon={DEFAULT_NETWORK_ICON[$activeProfile?.network?.id]}
-                classes="dark:text-white"
-            />
-        </div>
-        <div class="flex flex-col flex-auto items-center justify-center mb-7 space-y-8">
+<aside class="flex flex-col relative">
+    <nav class="flex flex-col w-full h-full">
+        <logo-container class="flex flex-row;">
+            <Logo width="120" logo="logo-bloom-full" />
+            <Icon name={IconName.Collapse} color="gray" />
+        </logo-container>
+        <sidebar-tabs class="flex flex-col">
             {#each sidebarTabs as tab}
                 <div class="flex">
                     <SidebarTab {tab} />
                 </div>
             {/each}
-        </div>
-        <div class="flex flex-col items-center">
-            <BackupToast />
-            <button class="relative flex items-center justify-center rounded-full" on:click={profileModal?.open}>
-                <ProfileAvatar profile={$activeProfile} />
-                {#if !$shouldOpenProfileModal && !$appVersionDetails.upToDate}
-                    <Indicator size="sm" color="red" border="white" class="absolute top-1 right-0" />
-                {/if}
-            </button>
-        </div>
+        </sidebar-tabs>
     </nav>
+    <button class="flex items-center justify-end rounded-full" on:click={profileModal?.open}>
+        <BackupToast />
+        <div class="relative">
+            <ProfileAvatar profile={$activeProfile} />
+            {#if !$shouldOpenProfileModal && !$appVersionDetails.upToDate}
+                <Indicator size="sm" color="red" border="white" class="absolute top-0 right-0" />
+            {/if}
+        </div>
+    </button>
     <ProfileActionsModal bind:modal={profileModal} />
 </aside>
 
-<style lang="scss">
+<style lang="postcss">
+    aside {
+        @apply bg-white dark:bg-gray-800;
+        @apply h-full w-64;
+        @apply border-solid border-r border-gray-100 dark:border-gray-800;
+    }
+
+    logo-container {
+        @apply justify-between items-center;
+        @apply gap-8;
+        @apply py-4.5 px-7;
+    }
+
+    sidebar-tabs {
+        @apply justify-items-start;
+        @apply w-full space-y-1;
+        @apply p-4;
+    }
+
+    button {
+        @apply px-7 py-4;
+    }
+
     :global(body.platform-win32) aside {
         @apply -top-0;
         @apply pt-10;

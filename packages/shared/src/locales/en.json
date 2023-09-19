@@ -1264,7 +1264,7 @@
         "incoming": "Incoming",
         "outgoing": "Outgoing",
         "dev": "Dev",
-        "addAWallet": "Add a wallet",
+        "newAccount": "New account",
         "accountName": "Wallet name",
         "activity": "Activity",
         "security": "Security",
@@ -1380,7 +1380,8 @@
         "maxFees": "Max fees",
         "contacts": "Contacts",
         "apps": "Apps",
-        "networks": "Networks"
+        "networks": "Networks",
+        "ledgerDevice": "Ledger device"
     },
     "filters":{
         "title": "Filters",
