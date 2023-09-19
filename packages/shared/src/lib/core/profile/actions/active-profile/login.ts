@@ -3,7 +3,7 @@ import { initializeRegisteredProposals, registerProposalsFromNodes } from '@cont
 import { cleanupOnboarding } from '@contexts/onboarding/actions'
 import { createNewAccount, setSelectedAccount } from '@core/account/actions'
 import { DEFAULT_SYNC_OPTIONS } from '@core/account/constants'
-import { IAccount, IAccountState } from '@core/account/interfaces'
+import { IAccount } from '@core/account/interfaces'
 import { generateAndStoreActivitiesForAllAccounts } from '@core/activity/actions'
 import { Platform } from '@core/app/classes'
 import { AppContext } from '@core/app/enums'
@@ -30,7 +30,6 @@ import { DEFAULT_ACCOUNT_RECOVERY_CONFIGURATION } from '../../constants'
 import { ProfileType } from '../../enums'
 import { ILoginOptions } from '../../interfaces'
 import {
-    activeAccounts,
     activeProfile,
     incrementLoginProgress,
     resetLoginProgress,
@@ -95,12 +94,12 @@ export async function login(loginOptions?: ILoginOptions): Promise<void> {
          * create one for the new profile.
          */
         if (accounts?.length === 0) {
-            accounts = [await createNewAccount()]
+            await createNewAccount()
         }
 
         // Step 4: load accounts
         incrementLoginProgress()
-        await loadAccounts()
+        const loadedAccounts = await loadAccounts()
 
         // Step 5: load assets
         incrementLoginProgress()
@@ -127,7 +126,7 @@ export async function login(loginOptions?: ILoginOptions): Promise<void> {
 
             const coinType = getNetwork()?.getChains()?.[0]?.getConfiguration()?.coinType
             if (coinType && strongholdUnlocked) {
-                void generateAndStoreEvmAddressForAccounts(type, coinType, ...(accounts as IAccountState[]))
+                void generateAndStoreEvmAddressForAccounts(type, coinType, ...loadedAccounts)
             }
         } else {
             Platform.startLedgerProcess()
@@ -145,7 +144,7 @@ export async function login(loginOptions?: ILoginOptions): Promise<void> {
             pollLedgerDeviceState()
         }
 
-        setSelectedAccount(lastUsedAccountIndex ?? get(activeAccounts)?.[0]?.index ?? null)
+        setSelectedAccount(lastUsedAccountIndex ?? loadedAccounts?.[0]?.index ?? null)
         lastActiveAt.set(new Date())
         loggedIn.set(true)
         setTimeout(() => {
@@ -156,7 +155,7 @@ export async function login(loginOptions?: ILoginOptions): Promise<void> {
         void pollMarketPrices()
         if (Platform.isFeatureFlagEnabled('governance')) {
             void initializeRegisteredProposals()
-            void registerProposalsFromNodes(get(activeAccounts))
+            void registerProposalsFromNodes(loadedAccounts)
         }
         void cleanupOnboarding()
         void initializeWalletConnect()

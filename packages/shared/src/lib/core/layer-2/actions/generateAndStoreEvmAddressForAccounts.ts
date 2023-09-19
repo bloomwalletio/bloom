@@ -15,7 +15,7 @@ export async function generateAndStoreEvmAddressForAccounts(
             continue
         }
 
-        const accountIndex = account.getMetadata().index
+        const accountIndex = account.index
 
         let evmAddress: string | undefined
         if (profileType === ProfileType.Software) {
