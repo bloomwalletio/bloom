@@ -44,7 +44,7 @@
 {#if activity.asyncData?.asyncStatus}
     <Pill color={ASYNC_STATUS_COLOR[activity.asyncData.asyncStatus]}>
         <div class="flex flex-row gap-2">
-            <Icon icon={ASYNC_STATUS_ICON[activity.asyncData.asyncStatus]} />
+            <Icon name={ASYNC_STATUS_ICON[activity.asyncData.asyncStatus]} size="xs" />
             {text}
         </div>
     </Pill>
