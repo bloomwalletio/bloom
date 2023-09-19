@@ -1,7 +1,6 @@
 <script lang="ts">
-    import { Icon as IconEnum } from '@auxiliary/icon'
     import { Button, Copyable } from '@bloomwalletio/ui'
-    import { IContact, IContactAddressMap, setSelectedContactNetworkId } from '@core/contact'
+    import { IContact, IContactAddressMap } from '@core/contact'
     import { localize } from '@core/i18n'
     import { resetLedgerPreparedOutput, resetShowInternalVerificationPopup } from '@core/ledger'
     import { NetworkId, getNameFromNetworkId } from '@core/network'
@@ -11,27 +10,15 @@
     import { closeDrawer } from '@desktop/auxiliary/drawer'
     import { PopupId, openPopup } from '@desktop/auxiliary/popup'
     import features from '@features/features'
-    import { MeatballMenuButton, MenuItem, Modal, NetworkAvatar, Text } from '@ui'
+    import { NetworkAvatar, Text } from '@ui'
     import { FontWeight, TextType } from '@ui/enums'
-    import { ContactBookRoute } from '@views/dashboard/drawers/contact-book/contact-book-route.enum'
     import { SendFlowRouter, sendFlowRouter } from '@views/dashboard/send-flow'
+    import { ContactAddressMenu } from './menus'
 
     export let drawerRouter: Router<unknown>
     export let networkId: NetworkId
     export let contact: IContact
     export let contactAddressMap: IContactAddressMap
-
-    let modal: Modal
-
-    function onEditNetworkAddressesClick(): void {
-        setSelectedContactNetworkId(networkId)
-        drawerRouter.goTo(ContactBookRoute.EditNetworkAddresses)
-    }
-
-    function onRemoveNetworkClick(): void {
-        setSelectedContactNetworkId(networkId)
-        drawerRouter.goTo(ContactBookRoute.RemoveNetworkAddresses)
-    }
 
     function onSendClick(address: string): void {
         setSendFlowParameters({
@@ -58,29 +45,7 @@
             <NetworkAvatar {networkId} size="xs" />
             <Text fontSize="text-16" fontWeight={FontWeight.semibold}>{getNameFromNetworkId(networkId)}</Text>
         </div>
-        <contact-address-menu class="block relative">
-            <MeatballMenuButton onClick={modal?.toggle} classes="py-2" />
-            <Modal bind:this={modal} position={{ right: '0' }} classes="mt-1.5">
-                <div class="flex flex-col">
-                    {#if features.contacts.editNetworkAddresses.enabled}
-                        <MenuItem
-                            icon={IconEnum.Edit}
-                            iconProps={{ height: 18 }}
-                            title={'Edit network addresses'}
-                            onClick={onEditNetworkAddressesClick}
-                        />
-                    {/if}
-                    {#if features.contacts.removeNetwork.enabled}
-                        <MenuItem
-                            icon={IconEnum.Delete}
-                            title={'Remove network'}
-                            onClick={onRemoveNetworkClick}
-                            variant="error"
-                        />
-                    {/if}
-                </div>
-            </Modal>
-        </contact-address-menu>
+        <ContactAddressMenu {drawerRouter} {networkId} />
     </contact-address-head>
     {#each Object.values(contactAddressMap) as contactAddress}
         <contact-address-item class="flex justify-between items-end gap-4">

@@ -67,7 +67,7 @@
 <create-account-popup class="flex flex-col h-full justify-between">
     <div>
         <title-container class="flex flex-row mb-6">
-            <Text type={TextType.h5}>{localize('general.addAWallet')}</Text>
+            <Text type={TextType.h5}>{localize('general.newAccount')}</Text>
         </title-container>
         <create-account-popup-inputs class="w-full flex flex-col justify-between">
             <Input
