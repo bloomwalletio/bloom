@@ -474,6 +474,23 @@
                         "hint": "A third party service wants to connect with your wallet for the first time. You can choose if you wish to trust this connection."
                     }
                 }
+            },
+            "toasts": {
+                "backup": {
+                    "header": "Backup Required",
+                    "body": "You have not backed up your profile yet! We highly recommend backing this up in case you lose access to this device.",
+                    "button": "Backup now"
+                },
+                "version": {
+                    "header": "{version}",
+                    "body": "You are currently using an early version of Bloom.",
+                    "button": "Find out more"
+                },
+                "update": {
+                    "header": "Update Required",
+                    "body": "A new Bloom update is availble today.",
+                    "button": "Update now"
+                }
             }
         },
         "picker": {
@@ -563,13 +580,6 @@
             "changePassword": {
                 "hint": "Your Stronghold was out of date and has been updated. We recommend that you change your Stronghold password."
             }
-        }
-    },
-    "toasts": {
-        "backup": {
-            "headerText": "Backup Required",
-            "bodyText": "You have not backed up your profile yet! We highly recommend backing this up in case you lose access to this device.",
-            "button": "Backup now"
         }
     },
     "popups": {

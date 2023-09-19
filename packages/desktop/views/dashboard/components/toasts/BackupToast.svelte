@@ -9,7 +9,7 @@
     $: lastBackupDate = lastStrongholdBackupTime ? new Date(lastStrongholdBackupTime) : null
     $: requiresBackup = !lastBackupDate || !isRecentDate(lastBackupDate)?.lessThanThreeMonths
 
-    const localeKey = 'toasts.backup'
+    const localeKey = 'views.dashboard.toasts.backup'
 
     function onClick(): void {
         openPopup({
@@ -19,10 +19,12 @@
 </script>
 
 <SidebarToast
-    on:click={onClick}
+    color="yellow"
+    header={localize(`${localeKey}.header`)}
+    body={localize(`${localeKey}.body`)}
+    button={{
+        text: localize(`${localeKey}.button`),
+        onClick,
+    }}
     open={$isSoftwareProfile && requiresBackup}
-    headerColor="yellow"
-    headerText={localize(`${localeKey}.headerText`)}
-    bodyText={localize(`${localeKey}.bodyText`)}
-    buttonText={localize(`${localeKey}.button`)}
 />

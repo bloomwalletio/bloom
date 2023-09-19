@@ -1,6 +1,6 @@
 <script lang="ts">
     import { Icon, IconName, Indicator } from '@bloomwalletio/ui'
-    import { BackupToast, ProfileActionsModal, SidebarTab } from '@components'
+    import { ProfileActionsModal, SidebarTab } from '@components'
     import { appVersionDetails } from '@core/app/stores'
     import { localize } from '@core/i18n'
     import { activeProfile } from '@core/profile/stores'
@@ -8,6 +8,7 @@
     import { ISidebarTab } from '@desktop/routers'
     import features from '@features/features'
     import { Logo, Modal, ProfileAvatar } from '@ui'
+    import { BackupToast, VersionToast, AutoUpdateToast } from './toasts'
 
     let profileModal: Modal
 
@@ -116,6 +117,8 @@
     <div>
         <toasts>
             <BackupToast />
+            <VersionToast />
+            <AutoUpdateToast />
         </toasts>
         <button class="flex items-center justify-end rounded-full" on:click={profileModal?.open}>
             <div class="relative">
