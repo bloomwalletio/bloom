@@ -1,22 +1,13 @@
 <script lang="ts">
-    import { Icon, IconName, Indicator } from '@bloomwalletio/ui'
-    import { ProfileActionsModal, SidebarTab } from '@components'
-    import { appVersionDetails } from '@core/app/stores'
+    import { Icon, IconName } from '@bloomwalletio/ui'
+    import { SidebarTab } from '@components'
     import { localize } from '@core/i18n'
     import { activeProfile } from '@core/profile/stores'
     import { DashboardRoute, collectiblesRouter, dashboardRouter, governanceRouter, settingsRouter } from '@core/router'
-    import { isRecentDate } from '@core/utils'
     import { ISidebarTab } from '@desktop/routers'
     import features from '@features/features'
-    import { Logo, Modal, ProfileAvatar } from '@ui'
-
-    let profileModal: Modal
-
-    const { shouldOpenProfileModal } = $activeProfile
-
-    $: lastStrongholdBackupTime = $activeProfile?.lastStrongholdBackupTime
-    $: lastBackupDate = lastStrongholdBackupTime ? new Date(lastStrongholdBackupTime) : null
-    $: isBackupSafe = lastBackupDate && isRecentDate(lastBackupDate)?.lessThanThreeMonths
+    import { Logo } from '@ui'
+    import { default as ProfileFrame } from './ProfileFrame.svelte'
 
     let sidebarTabs: ISidebarTab[]
     $: sidebarTabs = [
@@ -118,15 +109,7 @@
             {/each}
         </sidebar-tabs>
     </nav>
-    <button class="flex items-center justify-end rounded-full" on:click={profileModal?.open}>
-        <div class="relative">
-            <ProfileAvatar profile={$activeProfile} />
-            {#if !$shouldOpenProfileModal && (!isBackupSafe || !$appVersionDetails.upToDate)}
-                <Indicator size="sm" color="red" border="white" class="absolute top-0 right-0" />
-            {/if}
-        </div>
-    </button>
-    <ProfileActionsModal bind:modal={profileModal} />
+    <ProfileFrame />
 </aside>
 
 <style lang="postcss">
