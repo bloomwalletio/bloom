@@ -10,11 +10,11 @@ export async function generateAndStoreEvmAddressForAccounts(
     coinType: number,
     ...accounts: IAccountState[]
 ): Promise<void> {
-    if (accounts.length > 0 && accounts[0].evmAddresses?.[coinType]) {
-        return
-    }
+    for (const account of accounts ?? []) {
+        if (account.evmAddresses?.[coinType]) {
+            continue
+        }
 
-    for (const account of accounts) {
         const accountIndex = account.getMetadata().index
 
         let evmAddress: string | undefined

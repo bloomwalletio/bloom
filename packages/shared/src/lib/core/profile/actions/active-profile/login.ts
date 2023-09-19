@@ -95,8 +95,7 @@ export async function login(loginOptions?: ILoginOptions): Promise<void> {
          * create one for the new profile.
          */
         if (accounts?.length === 0) {
-            const newAccount = await createNewAccount()
-            accounts.push(newAccount)
+            accounts = [await createNewAccount()]
         }
 
         // Step 4: load accounts
