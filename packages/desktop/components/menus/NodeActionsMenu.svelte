@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { IconName, Menu } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
     import {
         removeNodeFromClientOptions,
@@ -9,11 +10,11 @@
     import { getDefaultNodes } from '@core/network/utils'
     import { activeProfile } from '@core/profile/stores'
     import { PopupId, closePopup, openPopup } from '@desktop/auxiliary/popup'
-    import { MeatballMenuButton, MenuItem, Modal } from '@ui'
 
     export let node: INode
     export let clientOptions: IClientOptions
-    export let modal: Modal = undefined
+
+    let menu: Menu | undefined = undefined
 
     $: isOfficialNode = getDefaultNodes($activeProfile?.network?.id).some((n) => n.url === node?.url)
     $: allowDisableOrRemove = node?.disabled || clientOptions?.nodes?.filter((node) => !node.disabled)?.length > 1
@@ -30,7 +31,7 @@
                 },
             },
         })
-        modal?.toggle()
+        menu?.close()
     }
 
     async function onTogglePrimaryNodeClick(): Promise<void> {
@@ -51,7 +52,7 @@
         } else {
             await togglePrimaryNodeInClientOptions(node)
         }
-        modal?.toggle()
+        menu?.close()
     }
 
     function onRemoveNodeClick(): void {
@@ -68,7 +69,7 @@
                 },
             },
         })
-        modal?.toggle()
+        menu?.close()
     }
 
     function onToggleDisabledNodeClick(): void {
@@ -89,34 +90,37 @@
                 },
             })
         }
-        modal?.toggle()
+        menu?.close()
     }
 </script>
 
-<node-actions-menu>
-    <MeatballMenuButton onClick={modal?.toggle} />
-    <Modal bind:this={modal} size="small" position={{ right: '210px', absolute: true }}>
-        <MenuItem
-            title={localize('views.settings.configureNodeList.editDetails')}
-            onClick={onEditNodeDetailsClick}
-            disabled={isOfficialNode}
-        />
-        <MenuItem
-            disabled={node?.disabled}
-            title={localize(`views.settings.configureNodeList.${isPrimary ? 'unsetAsPrimary' : 'setAsPrimary'}`)}
-            onClick={onTogglePrimaryNodeClick}
-        />
-        <MenuItem
-            disabled={!allowDisableOrRemove}
-            title={localize(`views.settings.configureNodeList.${node.disabled ? 'include' : 'exclude'}Node`)}
-            onClick={onToggleDisabledNodeClick}
-        />
-        <hr />
-        <MenuItem
-            disabled={!allowDisableOrRemove}
-            title={localize('views.settings.configureNodeList.removeNode')}
-            onClick={onRemoveNodeClick}
-            variant="error"
-        />
-    </Modal>
-</node-actions-menu>
+<Menu
+    bind:this={menu}
+    items={[
+        {
+            icon: IconName.Edit,
+            title: localize('views.settings.configureNodeList.editDetails'),
+            disabled: isOfficialNode,
+            onClick: onEditNodeDetailsClick,
+        },
+        {
+            icon: isPrimary ? IconName.BookmarkX : IconName.BookmarkCheck,
+            title: localize(`views.settings.configureNodeList.${isPrimary ? 'unsetAsPrimary' : 'setAsPrimary'}`),
+            disabled: node?.disabled,
+            onClick: onTogglePrimaryNodeClick,
+        },
+        {
+            icon: node.disabled ? IconName.PlayCircle : IconName.PauseCircle,
+            title: localize(`views.settings.configureNodeList.${node.disabled ? 'include' : 'exclude'}Node`),
+            disabled: !allowDisableOrRemove,
+            onClick: onToggleDisabledNodeClick,
+        },
+        {
+            icon: IconName.Trash,
+            title: localize('views.settings.configureNodeList.removeNode'),
+            variant: 'danger',
+            disabled: !allowDisableOrRemove,
+            onClick: onRemoveNodeClick,
+        },
+    ]}
+/>
