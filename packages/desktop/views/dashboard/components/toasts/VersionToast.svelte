@@ -18,7 +18,7 @@
 
 <SidebarToast
     color={TOAST_PROPS[APP_STAGE]}
-    header={localize(`${localeKey}.header.${APP_STAGE}`)}
+    header={localize(`popups.appUpdate.${APP_STAGE}`)}
     body={localize(`${localeKey}.body`)}
     open
     dismissable={false}

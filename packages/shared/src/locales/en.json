@@ -482,13 +482,12 @@
                     "button": "Backup now"
                 },
                 "version": {
-                    "header": "{version}",
                     "body": "You are currently using an early version of Bloom.",
                     "button": "Find out more"
                 },
                 "update": {
                     "header": "Update Required",
-                    "body": "A new Bloom update is availble today.",
+                    "body": "A new Bloom update is available today.",
                     "button": "Update now"
                 }
             }
