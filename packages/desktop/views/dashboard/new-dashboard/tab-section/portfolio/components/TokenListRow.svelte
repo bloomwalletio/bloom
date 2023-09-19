@@ -14,7 +14,7 @@
             return '-'
         }
 
-        let tokenSupply
+        let tokenSupply: number | undefined
         switch (getActiveNetworkId()) {
             case SupportedNetworkId.Shimmer:
                 tokenSupply = Number(TokenSupply.Shimmer)
