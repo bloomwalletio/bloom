@@ -7,6 +7,7 @@
     import { ISidebarTab } from '@desktop/routers'
     import features from '@features/features'
     import { Logo } from '@ui'
+    import { BackupToast, VersionToast, AutoUpdateToast } from './toasts'
     import { default as ProfileFrame } from './ProfileFrame.svelte'
 
     let sidebarTabs: ISidebarTab[]
@@ -98,7 +99,7 @@
 <aside class="flex flex-col relative">
     <nav class="flex flex-col w-full h-full">
         <logo-container class="flex flex-row;">
-            <Logo width="120" logo="logo-bloom-full" />
+            <Logo width="120" logo="bloom" />
             <Icon name={IconName.Collapse} color="gray" />
         </logo-container>
         <sidebar-tabs class="flex flex-col">
@@ -109,7 +110,15 @@
             {/each}
         </sidebar-tabs>
     </nav>
-    <ProfileFrame />
+
+    <div>
+        <toasts>
+            <BackupToast />
+            <VersionToast />
+            <AutoUpdateToast />
+        </toasts>
+        <ProfileFrame />
+    </div>
 </aside>
 
 <style lang="postcss">
@@ -131,6 +140,11 @@
         @apply justify-items-start;
         @apply w-full space-y-1;
         @apply p-4;
+    }
+
+    toasts {
+        @apply flex flex-col;
+        @apply p-4 gap-2;
     }
 
     button {

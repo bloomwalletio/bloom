@@ -1,5 +1,4 @@
-import { debounce, getBackupWarningColor, isBright } from '../ui'
-import { DAYS_PER_WEEK, MILLISECONDS_PER_DAY } from '../constants'
+import { debounce, isBright } from '../ui'
 
 describe('File: ui.ts', () => {
     describe('Function: debounce', () => {
@@ -52,18 +51,7 @@ describe('File: ui.ts', () => {
             expect(isBright('')).toEqual(false)
         })
     })
-    describe('Function: getBackupWarningColor', () => {
-        it('should return a color depending on the last backup date', () => {
-            const oneWeekAgo = new Date(Date.now() - DAYS_PER_WEEK * MILLISECONDS_PER_DAY)
-            const twoMonthsAgo = new Date(Date.now() - 2 * 30 * MILLISECONDS_PER_DAY)
-            const oneYearAgo = new Date(Date.now() - 365 * MILLISECONDS_PER_DAY)
 
-            expect(getBackupWarningColor(oneWeekAgo)).toEqual('blue')
-            expect(getBackupWarningColor(twoMonthsAgo)).toEqual('yellow')
-            expect(getBackupWarningColor(oneYearAgo)).toEqual('orange')
-            expect(getBackupWarningColor(null)).toEqual('red')
-        })
-    })
     describe('Function: slidable', () => {
         // it.todo('needs a UI testing library to test')
     })

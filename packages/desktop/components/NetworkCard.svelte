@@ -2,7 +2,7 @@
     import { Button, Copyable, IconName } from '@bloomwalletio/ui'
     import { selectedAccount } from '@core/account/stores'
     import { localize } from '@core/i18n'
-    import { generateAndStoreEvmAddressForAccount } from '@core/layer-2/actions'
+    import { generateAndStoreEvmAddressForAccounts } from '@core/layer-2/actions'
     import { LedgerAppName } from '@core/ledger'
     import {
         IChain,
@@ -55,10 +55,10 @@
         if (chain) {
             checkActiveProfileAuth(
                 async () => {
-                    await generateAndStoreEvmAddressForAccount(
+                    await generateAndStoreEvmAddressForAccounts(
                         $activeProfile.type,
-                        $selectedAccount,
-                        configuration.coinType
+                        configuration.coinType,
+                        $selectedAccount
                     )
                     if ($activeProfile.type === ProfileType.Ledger) {
                         $networkConfigRouter.goTo(NetworkConfigRoute.ConfirmLedgerEvmAddress)

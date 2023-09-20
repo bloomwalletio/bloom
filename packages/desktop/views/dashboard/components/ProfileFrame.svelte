@@ -12,7 +12,7 @@
 
 <profile-frame>
     <button class="flex w-full items-center justify-between rounded-full" on:click={profileModal?.open}>
-        <Text weight="semibold">{$activeProfile.name}</Text>
+        <Text>{$activeProfile.name}</Text>
         <div class="relative">
             <ProfileAvatar profile={$activeProfile} />
             {#if !$shouldOpenProfileModal && !$appVersionDetails.upToDate}

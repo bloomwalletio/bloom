@@ -1,52 +1,24 @@
 <script lang="ts">
-    import { APP_STAGE } from '@core/app'
     import { appSettings } from '@core/app/stores'
 
-    export let logo = undefined
-    export let width = undefined
-    export let height = undefined
+    export let logo: 'stronghold' | 'bloom'
+    export let width = '100%'
+    export let height = '100%'
     export let classes = ''
-    export let overrideStage: undefined | 'alpha' | 'beta' | 'prod' = undefined
 
     $: darkModeEnabled = $appSettings.darkMode
-    $: selected = logos[logo]?.[overrideStage ?? APP_STAGE]
 
     const logos = {
-        'logo-firefly-full': {
-            alpha: 'firefly_logo_full.svg',
-            beta: 'firefly_logo_full.svg',
-            prod: 'firefly_logo_full.svg',
-        },
-        'logo-firefly': {
-            alpha: 'alpha_firefly_logo.svg',
-            beta: 'beta_firefly_logo.svg',
-            prod: 'prod_firefly_logo.svg',
-        },
-        'logo-stronghold': {
-            alpha: 'stronghold.svg',
-            beta: 'stronghold.svg',
-            prod: 'stronghold.svg',
-        },
-        'logo-chrysalis-gem': {
-            alpha: 'chrysalis_gem.svg',
-            beta: 'chrysalis_gem.svg',
-            prod: 'chrysalis_gem.svg',
-        },
-        'logo-bloom-full': {
-            alpha: 'bloom_logo_full.svg',
-            beta: 'bloom_logo_full.svg',
-            prod: 'bloom_logo_full.svg',
-        },
+        stronghold: 'stronghold.svg',
+        bloom: 'bloom_logo_full.svg',
     }
 </script>
 
-{#if selected}
-    <img
-        data-label="logo"
-        class={classes}
-        width={width || '100%'}
-        height={height || '100%'}
-        src={`assets/logos/${darkModeEnabled ? 'darkmode' : 'lightmode'}/${selected}`}
-        alt=""
-    />
-{/if}
+<img
+    data-label="logo"
+    class={classes}
+    {width}
+    {height}
+    src={`assets/logos/${darkModeEnabled ? 'darkmode' : 'lightmode'}/${logos[logo]}`}
+    alt=""
+/>
