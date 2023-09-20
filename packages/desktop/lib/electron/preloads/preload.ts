@@ -48,6 +48,7 @@ try {
     // This workaround exposes the classes through factory methods
     // The factory method also copies all the prototype methods to the object so that it gets passed through the bridge
 
+    console.log('wallet api: ', WalletApi)
     contextBridge.exposeInMainWorld('__WALLET__API__', WalletApi)
     contextBridge.exposeInMainWorld('__ELECTRON__', ElectronApi)
     contextBridge.exposeInMainWorld('__LEDGER__', LedgerApi)
