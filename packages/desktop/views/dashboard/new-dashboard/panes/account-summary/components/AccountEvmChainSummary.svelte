@@ -41,4 +41,6 @@
     }
 </script>
 
-<AccountNetworkSummary props={buildAccountEvmChainSummaryProps()} />
+{#key account.evmAddresses}
+    <AccountNetworkSummary props={buildAccountEvmChainSummaryProps()} />
+{/key}

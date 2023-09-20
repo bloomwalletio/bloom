@@ -6,6 +6,14 @@
     import { ownedNfts } from '@core/nfts/stores'
     import { selectedAccountTokens } from '@core/token/stores'
     import { IAccountNetworkSummaryProps } from '../interfaces'
+    import { network, setSelectedChain } from '@core/network'
+    import { checkActiveProfileAuth } from '@core/profile/actions'
+    import { generateAndStoreEvmAddressForAccounts } from '@core/layer-2/actions'
+    import { activeProfile } from '@core/profile/stores'
+    import { selectedAccount } from '@core/account/stores'
+    import { LedgerAppName } from '@core/ledger'
+    import { toggleDashboardDrawer } from '@desktop/auxiliary/drawer'
+    import { DashboardDrawerRoute, NetworkConfigRoute } from '@views/dashboard/drawers'
 
     export let props: IAccountNetworkSummaryProps
 
@@ -39,8 +47,26 @@
     }
 
     function onGenerateAddressClick(): void {
-        /* eslint-disable no-console */
-        console.log('generate address')
+        const chain = $network.getChain(networkId)
+        if (!chain) {
+            return
+        }
+        setSelectedChain(chain)
+        checkActiveProfileAuth(
+            async () => {
+                toggleDashboardDrawer({
+                    id: DashboardDrawerRoute.NetworkConfig,
+                    initialSubRoute: NetworkConfigRoute.ConfirmLedgerEvmAddress,
+                })
+                await generateAndStoreEvmAddressForAccounts(
+                    $activeProfile.type,
+                    chain.getConfiguration().coinType,
+                    $selectedAccount
+                )
+            },
+            {},
+            LedgerAppName.Ethereum
+        )
     }
 </script>
 

@@ -14,10 +14,12 @@
     } from './views'
     import { clearSelectedChain } from '@core/network'
 
+    export let initialRoute = NetworkConfigRoute.ConnectedChains
+
     let drawerRouter: Router<NetworkConfigRoute>
 
     onMount(() => {
-        $networkConfigRouter = new NetworkConfigRouter()
+        $networkConfigRouter = new NetworkConfigRouter(initialRoute)
         drawerRouter = $networkConfigRouter
     })
 
