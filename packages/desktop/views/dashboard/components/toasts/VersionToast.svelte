@@ -12,7 +12,7 @@
     const localeKey = 'views.dashboard.toasts.version'
 
     function onClick(): void {
-        openUrlInBrowser('https:www.bloomwallet.io')
+        openUrlInBrowser('https://bloomwallet.io')
     }
 </script>
 
