@@ -5,7 +5,6 @@ import { WalletApiEventValidationError } from '../errors/wallet-api-event-valida
 
 export function validateWalletApiEvent<T>(error: Error, event: Event, walletEventType: WalletEventType): T {
     if (error) {
-        console.log('validation error: ', error)
         throw new WalletApiEventError(error)
     } else {
         const { accountIndex, event: walletEvent } = event
