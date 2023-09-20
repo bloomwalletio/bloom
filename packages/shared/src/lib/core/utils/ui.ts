@@ -1,4 +1,3 @@
-import { isRecentDate, isValidDate } from './date'
 import type { UiEventFunction } from './types'
 
 import type { Action } from 'svelte/action'
@@ -59,26 +58,6 @@ export function isBright(color: string): boolean {
         }
     }
     return false
-}
-
-/**
- * Returns warning text color for last Stronghold backup.
- *      Blue if less than a month.
- *      Yellow if between one and three months.
- *      Orange if three or more months.
- *      Red if never.
- * @param {Date} lastBackupDate
- */
-export function getBackupWarningColor(lastBackupDate: Date | null): string {
-    if (!isValidDate(lastBackupDate)) {
-        return 'red'
-    }
-    const { lessThanAMonth, lessThanThreeMonths } = isRecentDate(lastBackupDate) ?? {
-        lessThanAMonth: false,
-        lessThanThreeMonths: false,
-    }
-
-    return lessThanAMonth ? 'blue' : lessThanThreeMonths ? 'yellow' : 'orange'
 }
 
 /**
