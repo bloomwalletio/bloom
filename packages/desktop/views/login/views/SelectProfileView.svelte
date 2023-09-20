@@ -61,7 +61,7 @@
 </script>
 
 <LoggedOutLayout>
-    <Logo slot="header" width="150" logo="logo-bloom-full" />
+    <Logo slot="header" width="150" logo="bloom" />
     <div
         slot="content"
         class="
