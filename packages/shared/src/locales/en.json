@@ -368,11 +368,6 @@
                         "locked": "Ledger securely locked",
                         "notConnected": "Ledger not connected"
                     }
-                },
-                "version": {
-                    "title": "New update available",
-                    "updateVersion": "Bloom v{version}",
-                    "button": "Update"
                 }
             },
             "drawers": {
