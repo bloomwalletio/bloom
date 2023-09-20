@@ -4,7 +4,7 @@
     import { Pill } from '@bloomwalletio/ui'
     import { DefaultColors } from 'tailwindcss/types/generated/colors'
 
-    export let asyncStatus: ActivityAsyncStatus
+    export let asyncStatus: ActivityAsyncStatus | undefined
 
     const ASYNC_STATUS_COLOR: { [key in ActivityAsyncStatus]: keyof DefaultColors } = {
         [ActivityAsyncStatus.Unclaimed]: 'purple',
