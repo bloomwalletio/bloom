@@ -26,6 +26,7 @@ export function handleTransactionProgressEvent(error: Error, event: Event): void
         event,
         WalletEventType.TransactionProgress
     )
+    console.log('wallet event: ', walletEvent)
     handleTransactionProgressEventInternal(event.accountIndex, walletEvent)
 }
 
