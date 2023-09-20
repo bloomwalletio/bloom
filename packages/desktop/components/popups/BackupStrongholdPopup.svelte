@@ -16,7 +16,7 @@
     </Text>
     <div class="flex flex-col space-y-4">
         <div class="w-full p-10 bg-gray-50 dark:bg-gray-800 flex justify-center content-center">
-            <Logo width="50%" logo="logo-stronghold" />
+            <Logo width="50%" logo="stronghold" />
         </div>
         <div class="w-full">
             <Text type={TextType.p} color="gray-700">
