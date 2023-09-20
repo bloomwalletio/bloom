@@ -337,6 +337,21 @@
                 "disconnected": "Disconnected from node",
                 "status": "الحالة"
             },
+            "portfolio": {
+                "tab": "Porfolio",
+                "asset": "Asset",
+                "network": "Network",
+                "marketCap": "Market cap",
+                "price": "Price",
+                "amount": "Amount"
+            },
+            "activity": {
+                "tab": "Activity",
+                "asset": "Asset",
+                "action": "Action",
+                "address": "Address",
+                "amount": "Amount"
+            },
             "profileModal": {
                 "allSettings": "All settings",
                 "logout": "تسجيل الخروج",
@@ -353,17 +368,6 @@
                         "locked": "Ledger securely locked",
                         "notConnected": "Ledger not connected"
                     }
-                },
-                "backup": {
-                    "title": "النسخ الاحتياطي لمحفظتك",
-                    "lastBackup": "You last backed up {date}",
-                    "notBackedUp": "Not backed up",
-                    "button": "Backup"
-                },
-                "version": {
-                    "title": "New update available",
-                    "updateVersion": "Bloom v{version}",
-                    "button": "تحديث"
                 }
             },
             "drawers": {
@@ -463,6 +467,22 @@
                         "title": "Connect with an application",
                         "hint": "A third party service wants to connect with your wallet for the first time. You can choose if you wish to trust this connection."
                     }
+                }
+            },
+            "toasts": {
+                "backup": {
+                    "header": "Backup Required",
+                    "body": "You have not backed up your profile yet! We highly recommend backing this up in case you lose access to this device.",
+                    "button": "Backup now"
+                },
+                "version": {
+                    "body": "You are currently using an early version of Bloom.",
+                    "button": "Find out more"
+                },
+                "update": {
+                    "header": "Update Required",
+                    "body": "A new Bloom update is available today.",
+                    "button": "Update now"
                 }
             }
         },
@@ -1247,7 +1267,7 @@
         "incoming": "الواردة",
         "outgoing": "الصادرة",
         "dev": "المطور",
-        "addAWallet": "Add a wallet",
+        "newAccount": "New account",
         "accountName": "اسم المحفظة",
         "activity": "Activity",
         "security": "الحماية",
@@ -1360,7 +1380,11 @@
         "gifted": "Gifted",
         "connected": "Connected",
         "estimatedFee": "Estimated fee",
-        "maxFees": "Max fees"
+        "maxFees": "Max fees",
+        "contacts": "Contacts",
+        "apps": "Apps",
+        "networks": "Networks",
+        "ledgerDevice": "Ledger device"
     },
     "filters": {
         "title": "Filters",

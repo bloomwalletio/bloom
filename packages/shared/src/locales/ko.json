@@ -337,6 +337,21 @@
                 "disconnected": "Disconnected from node",
                 "status": "상태"
             },
+            "portfolio": {
+                "tab": "Porfolio",
+                "asset": "Asset",
+                "network": "Network",
+                "marketCap": "Market cap",
+                "price": "Price",
+                "amount": "Amount"
+            },
+            "activity": {
+                "tab": "Activity",
+                "asset": "Asset",
+                "action": "Action",
+                "address": "Address",
+                "amount": "Amount"
+            },
             "profileModal": {
                 "allSettings": "All settings",
                 "logout": "로그아웃",
@@ -353,17 +368,6 @@
                         "locked": "Ledger가 안전하게 잠겼습니다",
                         "notConnected": "Ledger에 연결되지 않았습니다"
                     }
-                },
-                "backup": {
-                    "title": "지갑 백업",
-                    "lastBackup": "{date} 마지막으로 백업했습니다",
-                    "notBackedUp": "백업되지 않음",
-                    "button": "백업"
-                },
-                "version": {
-                    "title": "새 업데이트 있음",
-                    "updateVersion": "Bloom v{version}",
-                    "button": "업데이트"
                 }
             },
             "drawers": {
@@ -463,6 +467,22 @@
                         "title": "Connect with an application",
                         "hint": "A third party service wants to connect with your wallet for the first time. You can choose if you wish to trust this connection."
                     }
+                }
+            },
+            "toasts": {
+                "backup": {
+                    "header": "Backup Required",
+                    "body": "You have not backed up your profile yet! We highly recommend backing this up in case you lose access to this device.",
+                    "button": "Backup now"
+                },
+                "version": {
+                    "body": "You are currently using an early version of Bloom.",
+                    "button": "Find out more"
+                },
+                "update": {
+                    "header": "Update Required",
+                    "body": "A new Bloom update is available today.",
+                    "button": "Update now"
                 }
             }
         },
@@ -1247,7 +1267,7 @@
         "incoming": "받음",
         "outgoing": "보냄",
         "dev": "개발자",
-        "addAWallet": "Add a wallet",
+        "newAccount": "New account",
         "accountName": "지갑 이름",
         "activity": "Activity",
         "security": "보안",
@@ -1360,7 +1380,11 @@
         "gifted": "Gifted",
         "connected": "Connected",
         "estimatedFee": "Estimated fee",
-        "maxFees": "Max fees"
+        "maxFees": "Max fees",
+        "contacts": "Contacts",
+        "apps": "Apps",
+        "networks": "Networks",
+        "ledgerDevice": "Ledger device"
     },
     "filters": {
         "title": "Filters",
