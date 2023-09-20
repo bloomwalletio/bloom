@@ -6,8 +6,8 @@ export const dappConfigRoute = writable<DappConfigRoute | null>(null)
 export const dappConfigRouter = writable<DappConfigRouter | null>(null)
 
 export class DappConfigRouter extends Router<DappConfigRoute> {
-    constructor() {
-        super(DappConfigRoute.ConnectedDapps, dappConfigRoute)
+    constructor(initialRoute: DappConfigRoute = DappConfigRoute.ConnectedDapps) {
+        super(initialRoute, dappConfigRoute)
     }
 
     next(): void {

@@ -1,4 +1,4 @@
-import { DashboardDrawerRoute } from '@views/dashboard/drawers'
+import { DashboardDrawerRoute } from '@views/dashboard/drawers/dashboard-drawer-route.enum'
 import { DrawerDirection, DrawerRoute } from '../enums'
 
 export interface IDrawerState {
@@ -12,4 +12,6 @@ export interface IDrawerState {
 export interface IDashboardDrawerState extends IDrawerState {
     route: DrawerRoute.Dashboard
     id: DashboardDrawerRoute
+    initialSubRoute?: unknown
+    props?: Record<string, unknown>
 }

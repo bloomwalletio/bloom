@@ -4,8 +4,11 @@
     import { DappConfigRoute } from './dapp-config-route.enum'
     import { DappConfigRouter, dappConfigRoute, dappConfigRouter } from './dapp-config.router'
 
+    export let initialRoute = undefined
+    export let props = undefined
+
     onMount(() => {
-        $dappConfigRouter = new DappConfigRouter()
+        $dappConfigRouter = new DappConfigRouter(initialRoute)
     })
 
     onDestroy(() => {
@@ -14,9 +17,9 @@
 </script>
 
 {#if $dappConfigRoute === DappConfigRoute.ConnectedDapps}
-    <ConnectedDappsDrawer drawerRouter={$dappConfigRouter} />
+    <ConnectedDappsDrawer drawerRouter={$dappConfigRouter} {...props} />
 {:else if $dappConfigRoute === DappConfigRoute.ConfirmConnection}
-    <ConfirmConnectionDrawer drawerRouter={$dappConfigRouter} />
+    <ConfirmConnectionDrawer drawerRouter={$dappConfigRouter} {...props} />
 {:else if $dappConfigRoute === DappConfigRoute.InputCode}
-    <InputConnectionCodeDrawer drawerRouter={$dappConfigRouter} />
+    <InputConnectionCodeDrawer drawerRouter={$dappConfigRouter} {...props} />
 {/if}
