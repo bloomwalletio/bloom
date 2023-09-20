@@ -12,6 +12,8 @@ import { getPersistedToken, persistedTokens } from './persisted-tokens.store'
 
 export const tokenFilter: Writable<TokenFilter> = writable(DEFAULT_ASSET_FILTER)
 
+export const tokenSearchTerm: Writable<string> = writable('')
+
 export const selectedAccountTokens: Readable<AccountTokens> = derived(
     [activeProfileId, marketCoinPrices, selectedAccount, persistedTokens, tokenFilter, layer2Balances],
     ([$activeProfileId, $marketCoinPrices]) => {
