@@ -14,7 +14,6 @@ window.addEventListener('error', (event) => {
     }
 
     event.preventDefault()
-    console.info(event)
     console.error(event.error || event)
 })
 
@@ -27,7 +26,6 @@ window.addEventListener('unhandledrejection', (event) => {
     }
 
     event.preventDefault()
-    console.info(event)
     console.error(event.reason)
 })
 
