@@ -28,6 +28,7 @@
         @apply flex justify-between;
         @apply px-7 py-4;
         @apply hover:bg-purple-100;
+        /* TODO: remove the hardcoded color when color system is in place */
         border-top: 1px solid #f1eef9;
     }
 </style>
