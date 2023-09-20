@@ -5,18 +5,14 @@
     import { localize } from '@core/i18n'
     import { activeProfile } from '@core/profile/stores'
     import { DashboardRoute, collectiblesRouter, dashboardRouter, governanceRouter, settingsRouter } from '@core/router'
-    import { isRecentDate } from '@core/utils'
     import { ISidebarTab } from '@desktop/routers'
     import features from '@features/features'
     import { Logo, Modal, ProfileAvatar } from '@ui'
+    import { BackupToast, VersionToast, AutoUpdateToast } from './toasts'
 
     let profileModal: Modal
 
     const { shouldOpenProfileModal } = $activeProfile
-
-    $: lastStrongholdBackupTime = $activeProfile?.lastStrongholdBackupTime
-    $: lastBackupDate = lastStrongholdBackupTime ? new Date(lastStrongholdBackupTime) : null
-    $: isBackupSafe = lastBackupDate && isRecentDate(lastBackupDate)?.lessThanThreeMonths
 
     let sidebarTabs: ISidebarTab[]
     $: sidebarTabs = [
@@ -107,7 +103,7 @@
 <aside class="flex flex-col relative">
     <nav class="flex flex-col w-full h-full">
         <logo-container class="flex flex-row;">
-            <Logo width="120" logo="logo-bloom-full" />
+            <Logo width="120" logo="bloom" />
             <Icon name={IconName.Collapse} color="gray" />
         </logo-container>
         <sidebar-tabs class="flex flex-col">
@@ -118,15 +114,22 @@
             {/each}
         </sidebar-tabs>
     </nav>
-    <button class="flex items-center justify-end rounded-full" on:click={profileModal?.open}>
-        <div class="relative">
-            <ProfileAvatar profile={$activeProfile} />
-            {#if !$shouldOpenProfileModal && (!isBackupSafe || !$appVersionDetails.upToDate)}
-                <Indicator size="sm" color="red" border="white" class="absolute top-0 right-0" />
-            {/if}
-        </div>
-    </button>
-    <ProfileActionsModal bind:modal={profileModal} />
+    <div>
+        <toasts>
+            <BackupToast />
+            <VersionToast />
+            <AutoUpdateToast />
+        </toasts>
+        <button class="flex items-center justify-end rounded-full" on:click={profileModal?.open}>
+            <div class="relative">
+                <ProfileAvatar profile={$activeProfile} />
+                {#if !$shouldOpenProfileModal && !$appVersionDetails.upToDate}
+                    <Indicator size="sm" color="red" border="white" class="absolute top-0 right-0" />
+                {/if}
+            </div>
+        </button>
+        <ProfileActionsModal bind:modal={profileModal} />
+    </div>
 </aside>
 
 <style lang="postcss">
@@ -146,6 +149,11 @@
         @apply justify-items-start;
         @apply w-full space-y-1;
         @apply p-4;
+    }
+
+    toasts {
+        @apply flex flex-col;
+        @apply p-4 gap-2;
     }
 
     button {

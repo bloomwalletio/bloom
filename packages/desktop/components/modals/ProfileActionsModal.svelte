@@ -1,30 +1,21 @@
 <script lang="ts">
-    import { appVersionDetails } from '@core/app/stores'
     import { localize } from '@core/i18n'
     import { LedgerConnectionState, ledgerConnectionState } from '@core/ledger'
     import { lockStronghold, logout } from '@core/profile/actions'
     import { activeProfile, isActiveLedgerProfile, isSoftwareProfile } from '@core/profile/stores'
     import { routerManager } from '@core/router'
     import { checkOrUnlockStronghold } from '@core/stronghold'
-    import { diffDates, getBackupWarningColor, isRecentDate } from '@core/utils'
-    import { PopupId, closePopup, openPopup, popupState } from '@desktop/auxiliary/popup'
-    import { Button, ButtonSize, DeveloperIndicatorPill, Icon, Modal, ProfileAvatar, Text, TextType, Toggle } from '@ui'
+    import { closePopup, popupState } from '@desktop/auxiliary/popup'
+    import { DeveloperIndicatorPill, Icon, Modal, ProfileAvatar, Text, TextType, Toggle } from '@ui'
     import { fade } from 'svelte/transition'
 
     export let modal: Modal = undefined
-
-    const isUpToDate = $appVersionDetails.upToDate
 
     const { isStrongholdLocked, shouldOpenProfileModal } = $activeProfile
 
     let ledgerConnectionText = ''
 
     $: profileName = $activeProfile?.name
-    $: lastStrongholdBackupTime = $activeProfile?.lastStrongholdBackupTime
-    $: lastBackupDate = lastStrongholdBackupTime ? new Date(lastStrongholdBackupTime) : null
-    $: lastBackupDateFormatted = diffDates(lastBackupDate, new Date())
-    $: isBackupSafe = lastBackupDate && isRecentDate(lastBackupDate)?.lessThanAMonth
-    $: backupWarningColor = getBackupWarningColor(lastBackupDate)
     // used to prevent the modal from closing when interacting with the password popup
     // to be able to see the stronghold toggle change
     $: isPasswordPopupOpen = $popupState?.active && $popupState?.id === 'password'
@@ -53,18 +44,6 @@
     function updateLedgerConnectionText(): void {
         ledgerConnectionText = localize(`views.dashboard.profileModal.hardware.statuses.${$ledgerConnectionState}`)
     }
-
-    function onBackupClick(): void {
-        modal?.close()
-        openPopup({
-            id: PopupId.BackupStronghold,
-        })
-    }
-
-    function onVersionUpdateCheckClick(): void {
-        modal?.close()
-        openPopup({ id: PopupId.CheckForUpdates })
-    }
 </script>
 
 <Modal
@@ -88,57 +67,7 @@
             {/if}
         </div>
         <hr />
-        {#if !isUpToDate}
-            <div class="items-center p-3">
-                <div class="flex items-center justify-between bg-blue-50 dark:bg-gray-800 p-3 rounded-lg">
-                    <div class="flex flex-row items-center space-x-3">
-                        <Icon icon="warning" boxed classes="text-blue-500" />
-                        <div>
-                            <Text type={TextType.p}>{localize('views.dashboard.profileModal.version.title')}</Text>
-                            <Text type={TextType.p} overrideColor classes="text-gray-500 -mt-0.5">
-                                {localize('views.dashboard.profileModal.version.updateVersion', {
-                                    values: { version: $appVersionDetails.newVersion },
-                                })}
-                            </Text>
-                        </div>
-                    </div>
-                    <Button size={ButtonSize.Small} onClick={onVersionUpdateCheckClick}>
-                        {localize('views.dashboard.profileModal.version.button')}
-                    </Button>
-                </div>
-            </div>
-            <hr />
-        {/if}
         {#if $isSoftwareProfile}
-            {#if !isBackupSafe}
-                <div class="items-center p-3">
-                    <div
-                        class="flex items-center justify-between bg-{backupWarningColor}-50 dark:bg-{backupWarningColor}-500 dark:bg-opacity-10 p-3 rounded-lg"
-                    >
-                        <div class="flex flex-row items-center space-x-3">
-                            <Icon icon="warning" boxed classes="text-{backupWarningColor}-500" />
-                            <div>
-                                <Text type={TextType.p}>{localize('views.dashboard.profileModal.backup.title')}</Text>
-                                <Text type={TextType.p} overrideColor classes="text-gray-500 -mt-0.5">
-                                    {$activeProfile?.lastStrongholdBackupTime
-                                        ? localize('views.dashboard.profileModal.backup.lastBackup', {
-                                              values: {
-                                                  date: localize(`dates.${lastBackupDateFormatted.unit}`, {
-                                                      values: { time: lastBackupDateFormatted.value },
-                                                  }),
-                                              },
-                                          })
-                                        : localize('views.dashboard.profileModal.backup.notBackedUp')}
-                                </Text>
-                            </div>
-                        </div>
-                        <Button outline size={ButtonSize.Small} onClick={onBackupClick}>
-                            {localize('views.dashboard.profileModal.backup.button')}
-                        </Button>
-                    </div>
-                </div>
-                <hr />
-            {/if}
             <div class="flex justify-between items-center p-3">
                 <div class="flex flex-row items-center space-x-3">
                     <Icon
