@@ -27,6 +27,7 @@
     profile-frame {
         @apply flex justify-between;
         @apply px-7 py-4;
+        @apply hover:bg-purple-100;
         border-top: 1px solid #f1eef9;
     }
 </style>
