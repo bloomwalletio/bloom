@@ -103,7 +103,7 @@
 <aside class="flex flex-col relative">
     <nav class="flex flex-col w-full h-full">
         <logo-container class="flex flex-row;">
-            <Logo width="120" logo="logo-bloom-full" />
+            <Logo width="120" logo="bloom" />
             <Icon name={IconName.Collapse} color="gray" />
         </logo-container>
         <sidebar-tabs class="flex flex-col">
