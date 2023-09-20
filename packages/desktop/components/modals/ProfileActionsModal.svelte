@@ -66,51 +66,6 @@
                 <Icon icon="ledger" classes="text-gray-900 dark:text-gray-100 w-4 h-4" />
             {/if}
         </div>
-        <hr />
-        {#if $isSoftwareProfile}
-            <div class="flex justify-between items-center p-3">
-                <div class="flex flex-row items-center space-x-3">
-                    <Icon
-                        icon={$isStrongholdLocked ? 'lock' : 'unlock'}
-                        boxed
-                        classes="text-blue-500"
-                        boxClasses="bg-blue-100 dark:bg-gray-800"
-                    />
-                    <div>
-                        <Text type={TextType.p}>{localize('views.dashboard.profileModal.stronghold.title')}</Text>
-                        <Text type={TextType.p} overrideColor classes="text-gray-500 -mt-0.5">
-                            {localize(
-                                `views.dashboard.profileModal.stronghold.${$isStrongholdLocked ? 'locked' : 'unlocked'}`
-                            )}
-                        </Text>
-                    </div>
-                </div>
-                <Toggle active={$isStrongholdLocked} onClick={onStrongholdToggleClick} />
-            </div>
-            <hr />
-        {:else}
-            <div class="flex justify-between items-center p-3">
-                <div class="flex flex-row items-center space-x-3">
-                    <Icon
-                        icon="chip"
-                        boxed
-                        classes={$ledgerConnectionState === LedgerConnectionState.CorrectAppOpen
-                            ? 'text-blue-500'
-                            : 'text-gray-500 dark:text-white'}
-                        boxClasses={$ledgerConnectionState === LedgerConnectionState.CorrectAppOpen
-                            ? 'bg-blue-100 dark:bg-gray-800'
-                            : 'bg-gray-100 dark:bg-gray-800'}
-                    />
-                    <div>
-                        <Text type={TextType.p}>{localize('views.dashboard.profileModal.hardware.title')}</Text>
-                        <Text type={TextType.p} overrideColor classes="text-gray-500 -mt-0.5"
-                            >{ledgerConnectionText}</Text
-                        >
-                    </div>
-                </div>
-            </div>
-            <hr />
-        {/if}
         <button
             on:click={onSettingsClick}
             class="group flex flex-row space-x-3 justify-start items-center hover:bg-blue-50 dark:hover:bg-gray-800 dark:hover:bg-opacity-20 py-3 px-3 w-full"
