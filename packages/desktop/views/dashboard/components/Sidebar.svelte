@@ -9,6 +9,7 @@
     import { ISidebarTab } from '@desktop/routers'
     import features from '@features/features'
     import { Logo, Modal, ProfileAvatar } from '@ui'
+    import { default as StrongholdStatusTile } from './StrongholdStatusTile.svelte'
 
     let profileModal: Modal
 
@@ -118,15 +119,20 @@
             {/each}
         </sidebar-tabs>
     </nav>
-    <button class="flex items-center justify-end rounded-full" on:click={profileModal?.open}>
-        <div class="relative">
-            <ProfileAvatar profile={$activeProfile} />
-            {#if !$shouldOpenProfileModal && (!isBackupSafe || !$appVersionDetails.upToDate)}
-                <Indicator size="sm" color="red" border="white" class="absolute top-0 right-0" />
-            {/if}
+    <div>
+        <div class="p-4">
+            <StrongholdStatusTile />
         </div>
-    </button>
-    <ProfileActionsModal bind:modal={profileModal} />
+        <button class="flex items-center justify-end rounded-full" on:click={profileModal?.open}>
+            <div class="relative">
+                <ProfileAvatar profile={$activeProfile} />
+                {#if !$shouldOpenProfileModal && (!isBackupSafe || !$appVersionDetails.upToDate)}
+                    <Indicator size="sm" color="red" border="white" class="absolute top-0 right-0" />
+                {/if}
+            </div>
+        </button>
+        <ProfileActionsModal bind:modal={profileModal} />
+    </div>
 </aside>
 
 <style lang="postcss">
