@@ -10,6 +10,7 @@
         ActivityAssetSection,
         ActivityAmountSection,
         ActivityAddressSection,
+        ActivityStatusSection,
     } from './row-sections'
 
     export let activity: Activity
@@ -51,6 +52,9 @@
     <div class="flex flex-row gap-4 items-start">
         <ActivityAssetSection {token} {nft} />
     </div>
+    <div class="flex flex-row items-start">
+        <ActivityStatusSection {activity} />
+    </div>
     <div class="flex flex-col items-start">
         <ActivityActionSection {activity} />
     </div>
@@ -70,6 +74,6 @@
         @apply hover:bg-gray-50;
 
         @apply grid;
-        grid-template-columns: 2fr 1fr 1fr 1fr;
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
     }
 </style>

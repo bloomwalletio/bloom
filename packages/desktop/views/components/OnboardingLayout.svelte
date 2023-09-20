@@ -1,6 +1,7 @@
 <script lang="ts">
     import { Button, IconName, Text } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
+    import LoggedOutLayout from './LoggedOutLayout.svelte'
 
     interface IButtonProps {
         text: string
@@ -34,20 +35,23 @@
     $: _backButton = { ...DEFAULT_BACK_BUTTON, ...backButton }
 </script>
 
-<onboarding-layout class="w-full h-screen flex justify-center items-center">
-    {#if !_backButton.hidden}
-        <back-container>
-            <Button
-                variant="text"
-                size="md"
-                icon={IconName.ArrowLeft}
-                disabled={busy || !_backButton.onClick || _backButton.disabled}
-                on:click={_backButton.onClick}
-                text={_backButton.text}
-            />
-        </back-container>
-    {/if}
-    <content-container
+<LoggedOutLayout>
+    <div slot="header" class="header flex-none">
+        <div class="flex h-full items-center">
+            {#if !_backButton.hidden}
+                <Button
+                    variant="text"
+                    size="lg"
+                    icon={IconName.ArrowLeft}
+                    disabled={busy || !_backButton.onClick || _backButton.disabled}
+                    on:click={_backButton.onClick}
+                    text={_backButton.text}
+                />
+            {/if}
+        </div>
+    </div>
+    <content
+        slot="content"
         class="{size} flex flex-col space-y-4 p-4 rounded-xl bg-white dark:bg-gray-800 shadow-elevation-4"
     >
         <content-title class="h-full flex flex-col space-y-2">
@@ -78,17 +82,17 @@
                 />
             {/if}
         </content-buttons>
-    </content-container>
-</onboarding-layout>
+    </content>
+    <!-- Ghost footer to make above content centred-->
+    <div slot="footer" class="flex-none h-20" />
+</LoggedOutLayout>
 
 <style lang="scss">
-    back-container {
-        position: absolute;
-        top: 0px;
-        left: 32px;
-        margin-top: 64px;
+    .header {
+        height: 42px;
     }
-    content-container {
+
+    content {
         width: 100%;
         &.small {
             max-width: 360px;

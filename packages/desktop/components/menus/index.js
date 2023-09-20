@@ -1,5 +1,8 @@
 export { default as AccountActionsMenu } from './AccountActionsMenu.svelte'
 export { default as CollectibleDetailsMenu } from './CollectibleDetailsMenu.svelte'
+export { default as ContactActionsMenu } from './ContactActionsMenu.svelte'
+export { default as ContactAddressMenu } from './ContactAddressMenu.svelte'
+export { default as GovernanceDetailsMenu } from './GovernanceDetailsMenu.svelte'
 export { default as NodeActionsMenu } from './NodeActionsMenu.svelte'
 export { default as ProposalDetailsMenu } from './ProposalDetailsMenu.svelte'
 export { default as TokenActionsMenu } from './TokenActionsMenu.svelte'
