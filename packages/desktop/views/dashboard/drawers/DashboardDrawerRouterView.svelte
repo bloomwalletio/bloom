@@ -5,13 +5,13 @@
     import { DashboardDrawerRoute } from './'
 </script>
 
-{#if $drawerState.route === DrawerRoute.Dashboard}
+{#if $drawerState?.route === DrawerRoute.Dashboard}
     <Drawer>
         <div slot="contents" class="flex flex-col h-full">
             {#if $drawerState.id === DashboardDrawerRoute.NetworkConfig}
                 <NetworkConfigRouterView />
             {:else if $drawerState.id === DashboardDrawerRoute.DappConfig}
-                <DappConfigRouterView />
+                <DappConfigRouterView initialRoute={$drawerState.initialSubRoute} props={$drawerState.props} />
             {:else if $drawerState.id === DashboardDrawerRoute.ContactBook}
                 <ContactBookRouterView />
             {/if}
