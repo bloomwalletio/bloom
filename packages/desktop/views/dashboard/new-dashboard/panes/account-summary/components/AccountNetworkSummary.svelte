@@ -54,15 +54,17 @@
         setSelectedChain(chain)
         checkActiveProfileAuth(
             async () => {
-                toggleDashboardDrawer({
-                    id: DashboardDrawerRoute.NetworkConfig,
-                    initialSubRoute: NetworkConfigRoute.ConfirmLedgerEvmAddress,
-                })
                 await generateAndStoreEvmAddressForAccounts(
                     $activeProfile.type,
                     chain.getConfiguration().coinType,
                     $selectedAccount
                 )
+                if ($activeProfile.type) {
+                    toggleDashboardDrawer({
+                        id: DashboardDrawerRoute.NetworkConfig,
+                        initialSubRoute: NetworkConfigRoute.ConfirmLedgerEvmAddress,
+                    })
+                }
             },
             {},
             LedgerAppName.Ethereum
