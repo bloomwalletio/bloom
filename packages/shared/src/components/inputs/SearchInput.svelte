@@ -2,6 +2,7 @@
     import { TextInput, Icon, TogglableButton, FontWeight } from '@ui'
     import { localize } from '@core/i18n'
     import { debounce } from '@core/utils'
+    import { IconName } from '@bloomwalletio/ui'
 
     export let value: string
 
@@ -35,5 +36,5 @@
         </button>
     </TextInput>
 {:else}
-    <TogglableButton icon="search" bind:active={searchActive} />
+    <TogglableButton icon={IconName.Search} bind:active={searchActive} />
 {/if}
