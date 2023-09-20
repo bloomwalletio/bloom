@@ -48,13 +48,13 @@
     <account-network-summary-header class="flex flex-row justify-between items-center gap-2">
         <div class="flex flex-row space-x-3 items-center">
             <NetworkAvatar {networkId} />
-            <Text type="h6" align="center" color="indigo-950" truncate>{networkName}</Text>
+            <Text type="body1" truncate>{networkName}</Text>
         </div>
         <account-network-summary-header-address class="flex flex-row items-center space-x-2">
             {#if networkAddress}
                 <NetworkStatusIndicator status={networkHealth} />
                 <Copyable value={networkAddress}>
-                    <Text type="pre" align="center" color="indigo-950" truncate>{truncateString(networkAddress)}</Text>
+                    <Text type="pre-md" color="text-secondary" truncate>{truncateString(networkAddress)}</Text>
                 </Copyable>
             {:else}
                 <Button text={localize('actions.generateAddress')} variant="text" on:click={onGenerateAddressClick} />
@@ -63,12 +63,10 @@
     </account-network-summary-header>
     <account-network-summary-balance class="middle flex flex-col justify-between items-start">
         <account-network-summary-balance-primary>
-            <Text type="p" weight="semibold" size="3xl" color="indigo-950" align="center" truncate
-                >{networkTokenBalance}</Text
-            >
+            <Text type="h3" truncate>{networkTokenBalance}</Text>
         </account-network-summary-balance-primary>
         <account-network-summary-balance-secondary>
-            <Text type="p" weight="semibold" align="center" truncate>{networkFiatBalance}</Text>
+            <Text type="body2" truncate>{networkFiatBalance}</Text>
         </account-network-summary-balance-secondary>
     </account-network-summary-balance>
     <account-network-summary-assets class="flex flex-row justify-between items-center">
