@@ -4,7 +4,7 @@
     import { PortfolioTab } from './portfolio'
     import { localize } from '@core/i18n'
     import { Filter } from '@components'
-    import { tokenFilter } from '@core/token/stores'
+    import { tokenFilter, tokenSearchTerm } from '@core/token/stores'
     import { SearchInput } from '@ui'
     import { activityFilter, activitySearchTerm } from '@core/activity'
     import { PopupId, openPopup } from '@desktop/auxiliary/popup'
@@ -32,6 +32,9 @@
             <Filter filterStore={activityFilter} />
         {:else if currentTab === 1}
             <IconButton icon={IconName.Plus} on:click={onImportErc20TokenClick} />
+            <div class="flex items-center" style="height: 36px">
+                <SearchInput bind:value={$tokenSearchTerm} />
+            </div>
             <Filter filterStore={tokenFilter} />
         {/if}
     </div>
