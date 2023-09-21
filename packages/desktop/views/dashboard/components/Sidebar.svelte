@@ -1,19 +1,15 @@
 <script lang="ts">
-    import { Icon, IconName, Indicator } from '@bloomwalletio/ui'
-    import { ProfileActionsModal, SidebarTab } from '@components'
-    import { appVersionDetails } from '@core/app/stores'
+    import { Icon, IconName } from '@bloomwalletio/ui'
+    import { SidebarTab } from '@components'
     import { localize } from '@core/i18n'
     import { activeProfile } from '@core/profile/stores'
     import { DashboardRoute, collectiblesRouter, dashboardRouter, governanceRouter, settingsRouter } from '@core/router'
     import { ISidebarTab } from '@desktop/routers'
     import features from '@features/features'
-    import { Logo, Modal, ProfileAvatar } from '@ui'
+    import { Logo } from '@ui'
     import { BackupToast, VersionToast, AutoUpdateToast } from './toasts'
     import { default as StrongholdStatusTile } from './StrongholdStatusTile.svelte'
-
-    let profileModal: Modal
-
-    const { shouldOpenProfileModal } = $activeProfile
+    import { default as ProfileFrame } from './ProfileFrame.svelte'
 
     let sidebarTabs: ISidebarTab[]
     $: sidebarTabs = [
@@ -115,6 +111,7 @@
             {/each}
         </sidebar-tabs>
     </nav>
+
     <div>
         <toasts>
             <BackupToast />
@@ -122,15 +119,7 @@
             <AutoUpdateToast />
             <StrongholdStatusTile />
         </toasts>
-        <button class="flex items-center justify-end rounded-full" on:click={profileModal?.open}>
-            <div class="relative">
-                <ProfileAvatar profile={$activeProfile} />
-                {#if !$shouldOpenProfileModal && !$appVersionDetails.upToDate}
-                    <Indicator size="sm" color="red" border="white" class="absolute top-0 right-0" />
-                {/if}
-            </div>
-        </button>
-        <ProfileActionsModal bind:modal={profileModal} />
+        <ProfileFrame />
     </div>
 </aside>
 
@@ -145,6 +134,8 @@
         @apply justify-between items-center;
         @apply gap-8;
         @apply py-4.5 px-7;
+        /* TODO: remove the hardcoded color when color system is in place */
+        border-bottom: 1px solid #f1eef9;
     }
 
     sidebar-tabs {
@@ -156,10 +147,6 @@
     toasts {
         @apply flex flex-col;
         @apply p-4 gap-2;
-    }
-
-    button {
-        @apply px-7 py-4;
     }
 
     :global(body.platform-win32) aside {
