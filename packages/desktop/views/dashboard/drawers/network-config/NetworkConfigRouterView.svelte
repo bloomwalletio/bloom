@@ -14,7 +14,7 @@
     } from './views'
     import { clearSelectedChain } from '@core/network'
 
-    export let initialRoute = NetworkConfigRoute.ConnectedChains
+    export let initialRoute: NetworkConfigRoute | undefined = undefined
 
     let drawerRouter: Router<NetworkConfigRoute>
 

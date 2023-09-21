@@ -1,18 +1,18 @@
 import { get } from 'svelte/store'
 import { closeDrawer, openDrawer } from '.'
 import { DrawerDirection, DrawerRoute } from '../enums'
-import { IDashboardDrawerState } from '../interfaces'
 import { drawerState } from '../stores'
+import { DrawerState } from '@desktop/auxiliary/drawer/types'
 
 export function toggleDashboardDrawer({
     id,
-    initialSubRoute = undefined,
+    initialSubroute = undefined,
     direction = DrawerDirection.Right,
     hideClose = false,
     preventClose = false,
     overflow = false,
     props = undefined,
-}: Omit<IDashboardDrawerState, 'active' | 'route'>): void {
+}: Omit<DrawerState, 'active' | 'route'>): void {
     const $drawerState = get(drawerState)
     if ($drawerState?.active && $drawerState.route === DrawerRoute.Dashboard && $drawerState.id === id) {
         closeDrawer()
@@ -20,7 +20,7 @@ export function toggleDashboardDrawer({
         openDrawer({
             route: DrawerRoute.Dashboard,
             id,
-            initialSubRoute,
+            initialSubroute,
             hideClose,
             preventClose,
             direction,
