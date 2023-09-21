@@ -47,7 +47,7 @@ export function handleTransactionProgressEventInternal(
 
 function openPopupIfVerificationNeeded(progress: TransactionProgress): void {
     const { type } = progress
-    if (type) {
+    if (type in TransactionProgressType) {
         if (type === TransactionProgressType.PreparedTransaction) {
             openPopup({
                 id: PopupId.VerifyLedgerTransaction,
