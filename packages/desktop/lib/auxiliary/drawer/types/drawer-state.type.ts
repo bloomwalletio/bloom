@@ -1,3 +1,3 @@
-import { IDashboardDrawerState } from '../interfaces'
+import { IContactDrawerState, IDappConfigDrawerState, INetworkConfigDrawerState } from '../interfaces'
 
-export type DrawerState = IDashboardDrawerState
+export type DrawerState = IContactDrawerState | IDappConfigDrawerState | INetworkConfigDrawerState

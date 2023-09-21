@@ -1,5 +1,6 @@
 import { DashboardDrawerRoute } from '@views/dashboard/drawers/dashboard-drawer-route.enum'
 import { DrawerDirection, DrawerRoute } from '../enums'
+import { ContactBookRoute, DappConfigRoute, NetworkConfigRoute } from '@views/dashboard/drawers'
 
 export interface IDrawerState {
     active: boolean
@@ -9,9 +10,23 @@ export interface IDrawerState {
     overflow?: boolean
 }
 
-export interface IDashboardDrawerState extends IDrawerState {
+export interface IContactDrawerState extends IDrawerState {
     route: DrawerRoute.Dashboard
-    id: DashboardDrawerRoute
-    initialSubRoute?: unknown
+    id: DashboardDrawerRoute.ContactBook
+    initialSubRoute?: ContactBookRoute
+    props?: Record<string, unknown>
+}
+
+export interface IDappConfigDrawerState extends IDrawerState {
+    route: DrawerRoute.Dashboard
+    id: DashboardDrawerRoute.DappConfig
+    initialSubRoute?: DappConfigRoute
+    props?: Record<string, unknown>
+}
+
+export interface INetworkConfigDrawerState extends IDrawerState {
+    route: DrawerRoute.Dashboard
+    id: DashboardDrawerRoute.NetworkConfig
+    initialSubRoute?: NetworkConfigRoute
     props?: Record<string, unknown>
 }

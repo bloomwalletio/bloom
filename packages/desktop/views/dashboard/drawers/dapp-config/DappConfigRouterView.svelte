@@ -4,7 +4,7 @@
     import { DappConfigRoute } from './dapp-config-route.enum'
     import { DappConfigRouter, dappConfigRoute, dappConfigRouter } from './dapp-config.router'
 
-    export let initialRoute = undefined
+    export let initialRoute: DappConfigRoute | undefined = undefined
     export let props = undefined
 
     onMount(() => {
