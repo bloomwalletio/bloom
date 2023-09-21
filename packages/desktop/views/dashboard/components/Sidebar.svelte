@@ -8,8 +8,8 @@
     import features from '@features/features'
     import { Logo } from '@ui'
     import { BackupToast, VersionToast, AutoUpdateToast } from './toasts'
-    import { default as StrongholdStatusTile } from './StrongholdStatusTile.svelte'
-    import { default as ProfileFrame } from './ProfileFrame.svelte'
+    import StrongholdStatusTile from './StrongholdStatusTile.svelte'
+    import ProfileFrame from './ProfileFrame.svelte'
 
     let sidebarTabs: ISidebarTab[]
     $: sidebarTabs = [

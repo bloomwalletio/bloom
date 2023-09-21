@@ -1,23 +1,32 @@
 <script lang="ts">
-    import { Icon, IconName, Text, Tile, Toggle } from '@bloomwalletio/ui'
+    import { Avatar, IconName, Text, Tile, Toggle } from '@bloomwalletio/ui'
 
     export let checked = true
-    export let title: string = 'Title'
-    export let subTitle: string = 'Subtitle'
+    export let title: string
+    export let subTitle: string
     export let iconName: IconName | undefined
     export let iconColor: string | undefined
+    export let onClick: () => void
 </script>
 
 <Tile>
     <status-tile>
-        <div class="flex flex-row items-center">
-            <Icon name={iconName} color={iconColor} />
+        <div class="flex flex-row items-center gap-2">
+            <Avatar
+                icon={iconName}
+                backgroundColor="{iconColor}-100"
+                textColor={iconColor}
+                size="sm"
+                shape="squircle"
+            />
             <div>
-                <Text>{title}</Text>
-                <Text>{subTitle}</Text>
+                <Text type="base-md">{title}</Text>
+                <Text type="sm-md" color="gray-500">{subTitle}</Text>
             </div>
         </div>
-        <Toggle label="status" {checked} size="sm" border="rounded-full" />
+        {#if onClick}
+            <Toggle on:click={onClick} label="status" {checked} size="sm" border="rounded-full" />
+        {/if}
     </status-tile>
 </Tile>
 
