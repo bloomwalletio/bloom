@@ -337,6 +337,21 @@
                 "disconnected": "Izgubljena veza s nodeom",
                 "status": "Stanje"
             },
+            "portfolio": {
+                "tab": "Porfolio",
+                "asset": "Asset",
+                "network": "Network",
+                "marketCap": "Market cap",
+                "price": "Price",
+                "amount": "Amount"
+            },
+            "activity": {
+                "tab": "Activity",
+                "asset": "Asset",
+                "action": "Action",
+                "address": "Address",
+                "amount": "Amount"
+            },
             "profileModal": {
                 "allSettings": "Sve postavke",
                 "logout": "Odjavi se",
@@ -353,17 +368,6 @@
                         "locked": "Ledger sigurno zaključan",
                         "notConnected": "Ledger nije spojen"
                     }
-                },
-                "backup": {
-                    "title": "Napravite sigurnosne kopije svojih novčanika",
-                    "lastBackup": "Zadnja sigurnosna kopija napravljena je {date}",
-                    "notBackedUp": "Nije napravljena sigurnosna kopija",
-                    "button": "Stvori sigurnosnu kopiju"
-                },
-                "version": {
-                    "title": "Dostupno je novo ažuriranje",
-                    "updateVersion": "Bloom v{version}",
-                    "button": "Ažuriraj"
                 }
             },
             "drawers": {
@@ -463,6 +467,22 @@
                         "title": "Connect with an application",
                         "hint": "A third party service wants to connect with your wallet for the first time. You can choose if you wish to trust this connection."
                     }
+                }
+            },
+            "toasts": {
+                "backup": {
+                    "header": "Backup Required",
+                    "body": "You have not backed up your profile yet! We highly recommend backing this up in case you lose access to this device.",
+                    "button": "Backup now"
+                },
+                "version": {
+                    "body": "You are currently using an early version of Bloom.",
+                    "button": "Find out more"
+                },
+                "update": {
+                    "header": "Update Required",
+                    "body": "A new Bloom update is available today.",
+                    "button": "Update now"
                 }
             }
         },
@@ -1247,7 +1267,7 @@
         "incoming": "Dolazne transakcije",
         "outgoing": "Odlazne transakcije",
         "dev": "Programer",
-        "addAWallet": "Dodaj novčanik",
+        "newAccount": "New account",
         "accountName": "Ime novčanika",
         "activity": "Aktivnost",
         "security": "Sigurnost",
@@ -1360,7 +1380,11 @@
         "gifted": "Gifted",
         "connected": "Connected",
         "estimatedFee": "Estimated fee",
-        "maxFees": "Max fees"
+        "maxFees": "Max fees",
+        "contacts": "Contacts",
+        "apps": "Apps",
+        "networks": "Networks",
+        "ledgerDevice": "Ledger device"
     },
     "filters": {
         "title": "Filteri",
