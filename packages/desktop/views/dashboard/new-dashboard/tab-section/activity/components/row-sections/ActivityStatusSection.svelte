@@ -5,4 +5,6 @@
     export let activity: Activity
 </script>
 
-<ActivityAsyncStatusPill asyncStatus={activity.asyncData?.asyncStatus} />
+<div>
+    <ActivityAsyncStatusPill asyncStatus={activity.asyncData?.asyncStatus} />
+</div>

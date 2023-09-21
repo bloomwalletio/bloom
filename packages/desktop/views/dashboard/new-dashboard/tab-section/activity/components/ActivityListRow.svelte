@@ -49,24 +49,14 @@
 </script>
 
 <button on:click={onActivityClick} class="activity-row">
-    <div class="flex flex-row gap-4 items-start">
-        <ActivityAssetSection {token} {nft} />
-    </div>
-    <div class="flex flex-row items-start">
-        <ActivityStatusSection {activity} />
-    </div>
-    <div class="flex flex-col items-start">
-        <ActivityActionSection {activity} />
-    </div>
-    <div class="flex flex-col items-start">
-        <ActivityAddressSection {activity} />
-    </div>
-    <div class="flex flex-col items-end">
-        <ActivityAmountSection {activity} {token} />
-    </div>
+    <ActivityAssetSection {token} {nft} />
+    <ActivityStatusSection {activity} />
+    <ActivityActionSection {activity} />
+    <ActivityAddressSection {activity} />
+    <ActivityAmountSection {activity} {token} />
 </button>
 
-<style lang="scss">
+<style lang="scss" scoped>
     .activity-row {
         @apply w-full;
         @apply px-5 py-4;
