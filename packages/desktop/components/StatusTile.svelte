@@ -12,20 +12,14 @@
 <Tile>
     <status-tile>
         <div class="flex flex-row items-center gap-2">
-            <Avatar
-                icon={iconName}
-                backgroundColor="{iconColor}-100"
-                textColor={iconColor}
-                size="sm"
-                shape="squircle"
-            />
+            <Avatar icon={iconName} backgroundColor="{iconColor}-100" textColor={iconColor} size="sm" shape="square" />
             <div>
-                <Text type="base-md">{title}</Text>
-                <Text type="sm-md" color="gray-500">{subTitle}</Text>
+                <Text type="base">{title}</Text>
+                <Text type="xs" color="gray-500">{subTitle}</Text>
             </div>
         </div>
         {#if onClick}
-            <Toggle on:click={onClick} label="status" {checked} size="sm" border="rounded-full" />
+            <Toggle {onClick} label="status" {checked} size="sm" border="rounded-full" />
         {/if}
     </status-tile>
 </Tile>

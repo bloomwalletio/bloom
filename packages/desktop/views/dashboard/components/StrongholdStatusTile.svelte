@@ -8,8 +8,8 @@
 
     const { isStrongholdLocked } = $activeProfile
 
-    const iconName = $isStrongholdLocked ? IconName.Locked : IconName.Unlocked
-    const iconColor = $isStrongholdLocked ? 'green' : 'gray'
+    $: iconName = $isStrongholdLocked ? IconName.LockedFill : IconName.UnlockedFill
+    $: iconColor = $isStrongholdLocked ? 'green' : 'gray'
 
     function onStrongholdToggleClick(): void {
         if ($isStrongholdLocked) {
