@@ -2,7 +2,7 @@ import { DashboardDrawerRoute } from '@views/dashboard/drawers/dashboard-drawer-
 import { DrawerDirection, DrawerRoute } from '../enums'
 import { ContactBookRoute, DappConfigRoute, NetworkConfigRoute } from '@views/dashboard/drawers'
 
-export interface IBaseDrawerState {
+interface IBaseDrawerState {
     active: boolean
     hideClose?: boolean
     preventClose?: boolean
