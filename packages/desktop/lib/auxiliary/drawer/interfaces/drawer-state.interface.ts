@@ -2,31 +2,29 @@ import { DashboardDrawerRoute } from '@views/dashboard/drawers/dashboard-drawer-
 import { DrawerDirection, DrawerRoute } from '../enums'
 import { ContactBookRoute, DappConfigRoute, NetworkConfigRoute } from '@views/dashboard/drawers'
 
-export interface IDrawerState {
+export interface IBaseDrawerState {
     active: boolean
     hideClose?: boolean
     preventClose?: boolean
     direction?: DrawerDirection
     overflow?: boolean
+    props?: Record<string, unknown>
 }
 
-export interface IContactDrawerState extends IDrawerState {
+export interface IContactDrawerState extends IBaseDrawerState {
     route: DrawerRoute.Dashboard
     id: DashboardDrawerRoute.ContactBook
-    initialSubRoute?: ContactBookRoute
-    props?: Record<string, unknown>
+    initialSubroute?: ContactBookRoute
 }
 
-export interface IDappConfigDrawerState extends IDrawerState {
+export interface IDappConfigDrawerState extends IBaseDrawerState {
     route: DrawerRoute.Dashboard
     id: DashboardDrawerRoute.DappConfig
-    initialSubRoute?: DappConfigRoute
-    props?: Record<string, unknown>
+    initialSubroute?: DappConfigRoute
 }
 
-export interface INetworkConfigDrawerState extends IDrawerState {
+export interface INetworkConfigDrawerState extends IBaseDrawerState {
     route: DrawerRoute.Dashboard
     id: DashboardDrawerRoute.NetworkConfig
-    initialSubRoute?: NetworkConfigRoute
-    props?: Record<string, unknown>
+    initialSubroute?: NetworkConfigRoute
 }

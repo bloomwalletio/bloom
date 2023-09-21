@@ -11,7 +11,7 @@
             {#if $drawerState.id === DashboardDrawerRoute.NetworkConfig}
                 <NetworkConfigRouterView />
             {:else if $drawerState.id === DashboardDrawerRoute.DappConfig}
-                <DappConfigRouterView initialRoute={$drawerState.initialSubRoute} props={$drawerState.props} />
+                <DappConfigRouterView initialRoute={$drawerState.initialSubroute} props={$drawerState.props} />
             {:else if $drawerState.id === DashboardDrawerRoute.ContactBook}
                 <ContactBookRouterView />
             {/if}
