@@ -5,19 +5,15 @@
     import { localize } from '@core/i18n'
     import { activeProfile } from '@core/profile/stores'
     import { DashboardRoute, collectiblesRouter, dashboardRouter, governanceRouter, settingsRouter } from '@core/router'
-    import { isRecentDate } from '@core/utils'
     import { ISidebarTab } from '@desktop/routers'
     import features from '@features/features'
     import { Logo, Modal, ProfileAvatar } from '@ui'
+    import { BackupToast, VersionToast, AutoUpdateToast } from './toasts'
     import { default as StrongholdStatusTile } from './StrongholdStatusTile.svelte'
 
     let profileModal: Modal
 
     const { shouldOpenProfileModal } = $activeProfile
-
-    $: lastStrongholdBackupTime = $activeProfile?.lastStrongholdBackupTime
-    $: lastBackupDate = lastStrongholdBackupTime ? new Date(lastStrongholdBackupTime) : null
-    $: isBackupSafe = lastBackupDate && isRecentDate(lastBackupDate)?.lessThanThreeMonths
 
     let sidebarTabs: ISidebarTab[]
     $: sidebarTabs = [
@@ -120,13 +116,16 @@
         </sidebar-tabs>
     </nav>
     <div>
-        <div class="p-4">
+        <toasts>
+            <BackupToast />
+            <VersionToast />
+            <AutoUpdateToast />
             <StrongholdStatusTile />
-        </div>
+        </toasts>
         <button class="flex items-center justify-end rounded-full" on:click={profileModal?.open}>
             <div class="relative">
                 <ProfileAvatar profile={$activeProfile} />
-                {#if !$shouldOpenProfileModal && (!isBackupSafe || !$appVersionDetails.upToDate)}
+                {#if !$shouldOpenProfileModal && !$appVersionDetails.upToDate}
                     <Indicator size="sm" color="red" border="white" class="absolute top-0 right-0" />
                 {/if}
             </div>
@@ -152,6 +151,11 @@
         @apply justify-items-start;
         @apply w-full space-y-1;
         @apply p-4;
+    }
+
+    toasts {
+        @apply flex flex-col;
+        @apply p-4 gap-2;
     }
 
     button {
