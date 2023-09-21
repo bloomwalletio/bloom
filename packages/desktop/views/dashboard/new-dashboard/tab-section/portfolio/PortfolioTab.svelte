@@ -40,43 +40,39 @@
     }
 </script>
 
-{#if $selectedAccountTokens}
-    <div class="h-full flex flex-auto flex-col">
-        <div class="header-row">
-            <Text fontWeight={FontWeight.medium} secondary classes="text-start"
-                >{localize('views.dashboard.portfolio.asset')}</Text
-            >
-            <Text fontWeight={FontWeight.medium} secondary classes="text-start"
-                >{localize('views.dashboard.portfolio.network')}</Text
-            >
-            <Text fontWeight={FontWeight.medium} secondary classes="text-start"
-                >{localize('views.dashboard.portfolio.marketCap')} {currency}</Text
-            >
-            <Text fontWeight={FontWeight.medium} secondary classes="text-start"
-                >{localize('views.dashboard.portfolio.price')} {currency}</Text
-            >
-            <Text fontWeight={FontWeight.medium} secondary classes="text-end"
-                >{localize('views.dashboard.portfolio.amount')}</Text
-            >
+<div class="flex flex-col" style="height: calc(100% - 68px);">
+    <header-row>
+        <Text fontWeight={FontWeight.medium} secondary classes="text-start"
+            >{localize('views.dashboard.portfolio.asset')}</Text
+        >
+        <Text fontWeight={FontWeight.medium} secondary classes="text-start"
+            >{localize('views.dashboard.portfolio.network')}</Text
+        >
+        <Text fontWeight={FontWeight.medium} secondary classes="text-start"
+            >{localize('views.dashboard.portfolio.marketCap')} {currency}</Text
+        >
+        <Text fontWeight={FontWeight.medium} secondary classes="text-start"
+            >{localize('views.dashboard.portfolio.price')} {currency}</Text
+        >
+        <Text fontWeight={FontWeight.medium} secondary classes="text-end"
+            >{localize('views.dashboard.portfolio.amount')}</Text
+        >
+    </header-row>
+    {#if filteredTokenList.length > 0}
+        <VirtualList items={filteredTokenList} let:item>
+            <TokenListRow token={item} />
+        </VirtualList>
+    {:else}
+        <div class="h-full flex flex-col items-center justify-center text-center">
+            <Text secondary>
+                {localize(`general.${isEmptyBecauseOfFilter ? 'noFilteredAsset' : 'noAssets'}`)}
+            </Text>
         </div>
-        <div class="flex-auto h-full">
-            {#if filteredTokenList.length > 0}
-                <VirtualList items={filteredTokenList} let:item>
-                    <TokenListRow token={item} />
-                </VirtualList>
-            {:else}
-                <div class="h-full flex flex-col items-center justify-center text-center">
-                    <Text secondary>
-                        {localize(`general.${isEmptyBecauseOfFilter ? 'noFilteredAsset' : 'noAssets'}`)}
-                    </Text>
-                </div>
-            {/if}
-        </div>
-    </div>
-{/if}
+    {/if}
+</div>
 
 <style lang="scss">
-    .header-row {
+    header-row {
         @apply w-full;
         @apply px-5 py-4;
         @apply bg-gray-50;
