@@ -12,7 +12,7 @@
     let position: string
     let isVertical: boolean
 
-    $: setDirection($drawerState.direction)
+    $: $drawerState && setDirection($drawerState.direction)
     function setDirection(drawerDirection: DrawerDirection): void {
         switch (drawerDirection) {
             case DrawerDirection.Bottom:
@@ -39,14 +39,14 @@
     }
 
     function onCloseClick(): void {
-        if (!$drawerState.preventClose) {
+        if (!$drawerState?.preventClose) {
             onClose && onClose()
             closeDrawer()
         }
     }
 </script>
 
-{#if $drawerState.active}
+{#if $drawerState?.active}
     <drawer class="absolute top-0 left-0 w-full h-full z-20">
         <overlay
             in:fade|local={{ duration: DRAWER_ANIMATION_DURATION_MS }}
