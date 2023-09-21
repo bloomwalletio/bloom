@@ -147,10 +147,6 @@
         @apply p-4 gap-2;
     }
 
-    button {
-        @apply px-7 py-4;
-    }
-
     :global(body.platform-win32) aside {
         @apply -top-0;
         @apply pt-10;
