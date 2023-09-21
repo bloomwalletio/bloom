@@ -2,14 +2,14 @@
     import { getCurrencySymbol, localize } from '@core/i18n'
     import { ITokenWithBalance } from '@core/token'
     import { isVisibleToken } from '@core/token/actions/isVisibleToken'
-    import { selectedAccountTokens, tokenFilter } from '@core/token/stores'
+    import { selectedAccountTokens, tokenFilter, tokenSearchTerm } from '@core/token/stores'
     import VirtualList from '@sveltejs/svelte-virtual-list'
     import { FontWeight, Text } from '@ui'
     import TokenListRow from './components/TokenListRow.svelte'
     import { activeProfile } from '@core/profile/stores'
 
     let filteredTokenList: ITokenWithBalance[]
-    $: $tokenFilter, $selectedAccountTokens, (filteredTokenList = getFilteredTokenList())
+    $: $tokenFilter, $tokenSearchTerm, $selectedAccountTokens, (filteredTokenList = getFilteredTokenList())
     $: $tokenFilter, scrollToTop()
 
     let isEmptyBecauseOfFilter: boolean = false
