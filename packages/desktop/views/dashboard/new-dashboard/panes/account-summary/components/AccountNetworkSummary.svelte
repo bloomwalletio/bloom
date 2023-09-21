@@ -62,7 +62,7 @@
                 if ($activeProfile.type) {
                     toggleDashboardDrawer({
                         id: DashboardDrawerRoute.NetworkConfig,
-                        initialSubRoute: NetworkConfigRoute.ConfirmLedgerEvmAddress,
+                        initialSubroute: NetworkConfigRoute.ConfirmLedgerEvmAddress,
                     })
                 }
             },
