@@ -1,13 +1,3 @@
-const colors = require('tailwindcss/colors.js')
-
-// Suppress deprecation warnings during development
-// Remove linting rules at beginning of file and following lines once color schemes of tailwindcss have been updated
-delete colors.lightBlue
-delete colors.warmGray
-delete colors.trueGray
-delete colors.coolGray
-delete colors.blueGray
-
 /* Utilities */
 const pxToRem = (px, base = 16) => `${px / base}rem`
 
@@ -64,34 +54,6 @@ module.exports = {
     ],
     theme: {
         extend: {
-            colors: {
-                primary: colors.purple,
-                current: 'currentColor',
-                transparent: 'transparent',
-                black: '#000',
-                white: '#fff',
-                pastel: {
-                    blue: '#EEFBFF',
-                    orange: '#FFF8EF',
-                    green: '#F7FFED',
-                    yellow: '#FFF9EF',
-                    pink: '#FFF3F8',
-                    purple: '#EFF0FE',
-                },
-                iota: {
-                    bg: '#FFFFFF',
-                    highlight: '#000000',
-                },
-                shimmer: {
-                    bg: '#020F26',
-                    highlight: '#17E1D5',
-                },
-                assembly: {
-                    bg: '#08080C',
-                    highlight: '#FF3FF2',
-                },
-                'verification-blue': '#3897F0',
-            },
             fontSize: {
                 8: pxToRem(8),
                 9: pxToRem(9),
