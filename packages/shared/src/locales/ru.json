@@ -337,6 +337,21 @@
                 "disconnected": "Отключен от узла",
                 "status": "Статус"
             },
+            "portfolio": {
+                "tab": "Porfolio",
+                "asset": "Asset",
+                "network": "Network",
+                "marketCap": "Market cap",
+                "price": "Price",
+                "amount": "Amount"
+            },
+            "activity": {
+                "tab": "Activity",
+                "asset": "Asset",
+                "action": "Action",
+                "address": "Address",
+                "amount": "Amount"
+            },
             "profileModal": {
                 "allSettings": "Все настройки",
                 "logout": "Выйти",
@@ -353,17 +368,6 @@
                         "locked": "Ledger надежно заперт",
                         "notConnected": "Ledger не подключен"
                     }
-                },
-                "backup": {
-                    "title": "Сделайте резервную копию вашего кошелька",
-                    "lastBackup": "Вы выполнили последнее резервное копирование {date}",
-                    "notBackedUp": "Не резервируется",
-                    "button": "Резервная копия"
-                },
-                "version": {
-                    "title": "Доступно новое обновление",
-                    "updateVersion": "Bloom v{version}",
-                    "button": "Обновить"
                 }
             },
             "drawers": {
@@ -463,6 +467,22 @@
                         "title": "Connect with an application",
                         "hint": "A third party service wants to connect with your wallet for the first time. You can choose if you wish to trust this connection."
                     }
+                }
+            },
+            "toasts": {
+                "backup": {
+                    "header": "Backup Required",
+                    "body": "You have not backed up your profile yet! We highly recommend backing this up in case you lose access to this device.",
+                    "button": "Backup now"
+                },
+                "version": {
+                    "body": "You are currently using an early version of Bloom.",
+                    "button": "Find out more"
+                },
+                "update": {
+                    "header": "Update Required",
+                    "body": "A new Bloom update is available today.",
+                    "button": "Update now"
                 }
             }
         },
@@ -1247,7 +1267,7 @@
         "incoming": "Входящие",
         "outgoing": "Исходящие",
         "dev": "Разработчик",
-        "addAWallet": "Добавить кошелек",
+        "newAccount": "New account",
         "accountName": "Имя кошелька",
         "activity": "Активность",
         "security": "Настройки Безопасности",
@@ -1360,7 +1380,11 @@
         "gifted": "Gifted",
         "connected": "Connected",
         "estimatedFee": "Estimated fee",
-        "maxFees": "Max fees"
+        "maxFees": "Max fees",
+        "contacts": "Contacts",
+        "apps": "Apps",
+        "networks": "Networks",
+        "ledgerDevice": "Ledger device"
     },
     "filters": {
         "title": "Фильтры",

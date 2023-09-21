@@ -337,6 +337,21 @@
                 "disconnected": "已中斷與節點的連線",
                 "status": "狀態"
             },
+            "portfolio": {
+                "tab": "Porfolio",
+                "asset": "Asset",
+                "network": "Network",
+                "marketCap": "Market cap",
+                "price": "Price",
+                "amount": "Amount"
+            },
+            "activity": {
+                "tab": "Activity",
+                "asset": "Asset",
+                "action": "Action",
+                "address": "Address",
+                "amount": "Amount"
+            },
             "profileModal": {
                 "allSettings": "所有設定",
                 "logout": "登出",
@@ -353,17 +368,6 @@
                         "locked": "Ledger 已安全的鎖上",
                         "notConnected": "未連接 Ledger"
                     }
-                },
-                "backup": {
-                    "title": "備份您的錢包",
-                    "lastBackup": "您上次的備份是在 {date}",
-                    "notBackedUp": "尚未備份",
-                    "button": "備份"
-                },
-                "version": {
-                    "title": "有可用的更新",
-                    "updateVersion": "Bloom v{version}",
-                    "button": "更新"
                 }
             },
             "drawers": {
@@ -463,6 +467,22 @@
                         "title": "Connect with an application",
                         "hint": "A third party service wants to connect with your wallet for the first time. You can choose if you wish to trust this connection."
                     }
+                }
+            },
+            "toasts": {
+                "backup": {
+                    "header": "Backup Required",
+                    "body": "You have not backed up your profile yet! We highly recommend backing this up in case you lose access to this device.",
+                    "button": "Backup now"
+                },
+                "version": {
+                    "body": "You are currently using an early version of Bloom.",
+                    "button": "Find out more"
+                },
+                "update": {
+                    "header": "Update Required",
+                    "body": "A new Bloom update is available today.",
+                    "button": "Update now"
                 }
             }
         },
@@ -1247,7 +1267,7 @@
         "incoming": "傳入",
         "outgoing": "發送",
         "dev": "開發者",
-        "addAWallet": "新增錢包",
+        "newAccount": "New account",
         "accountName": "錢包名稱",
         "activity": "活動",
         "security": "安全性",
@@ -1360,7 +1380,11 @@
         "gifted": "Gifted",
         "connected": "Connected",
         "estimatedFee": "Estimated fee",
-        "maxFees": "Max fees"
+        "maxFees": "Max fees",
+        "contacts": "Contacts",
+        "apps": "Apps",
+        "networks": "Networks",
+        "ledgerDevice": "Ledger device"
     },
     "filters": {
         "title": "篩選",
