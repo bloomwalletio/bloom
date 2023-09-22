@@ -12,7 +12,7 @@ const walletFeatures: IWalletFeatures = {
         },
     },
     newDashboard: {
-        enabled: true,
+        enabled: false,
     },
     walletConnect: {
         enabled: false,
