@@ -1,13 +1,13 @@
 <script lang="ts">
     import { IconButton, IconName, IMenuItem, Indicator, Menu, Text } from '@bloomwalletio/ui'
-    import { formatCurrency, localize } from 'shared/src/lib/core/i18n'
+    import { formatCurrency, localize } from '@core/i18n'
     import { openPopup, PopupId } from '@desktop/auxiliary/popup'
-    import { selectedAccountTokens } from 'shared/src/lib/core/token/stores'
-    import { activeProfile, visibleActiveAccounts } from 'shared/src/lib/core/profile/stores'
-    import { setSelectedAccount } from 'shared/src/lib/core/account/actions'
-    import { IAccountState } from 'shared/src/lib/core/account'
-    import { getMarketAmountFromTokenValue } from 'shared/src/lib/core/market/actions'
-    import { selectedAccount } from 'shared/src/lib/core/account/stores'
+    import { selectedAccountTokens } from '@core/token/stores'
+    import { activeProfile, visibleActiveAccounts } from '@core/profile/stores'
+    import { setSelectedAccount } from '@core/account/actions'
+    import { IAccountState } from '@core/account'
+    import { getMarketAmountFromTokenValue } from '@core/market/actions'
+    import { selectedAccount } from '@core/account/stores'
 
     export let hasAccountName: boolean = true
     export let isCompactMenu: boolean = false
