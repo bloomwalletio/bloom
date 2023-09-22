@@ -1,6 +1,6 @@
 <script lang="ts">
     import { Button, IconName, Text } from '@bloomwalletio/ui'
-    import { AccountActionsMenu } from '@components'
+    import { AccountActionsMenu, AccountSwitcher } from '@components'
     import { IAccountState } from '@core/account'
     import { formatCurrency } from '@core/i18n'
     import { resetLedgerPreparedOutput, resetShowInternalVerificationPopup } from '@core/ledger'
@@ -11,7 +11,6 @@
     import { resetSendFlowParameters } from '@core/wallet'
     import { PopupId, openPopup } from '@desktop/auxiliary/popup'
     import { SendFlowRouter, sendFlowRouter } from '@views'
-    import AccountSummaryAccountSwitcher from './AccountSummaryAccountSwitcher.svelte'
 
     export let account: IAccountState
 
@@ -40,8 +39,8 @@
 <account-summary class="w-full h-full px-6 pb-6 pt-4 flex flex-col justify-between">
     <account-summary-header class="w-full flex flex-row justify-between items-center">
         <account-summary-account-switcher class="flex items-center space-x-2 whitespace-nowrap">
-            <Text type="body2">{account.name}</Text>
-            <AccountSummaryAccountSwitcher />
+            <Text type="body1">{account.name}</Text>
+            <AccountSwitcher hasAccountName={false} canCreateAccount={true} />
         </account-summary-account-switcher>
         <AccountActionsMenu />
     </account-summary-header>
