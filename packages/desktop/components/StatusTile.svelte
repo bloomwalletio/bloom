@@ -14,8 +14,8 @@
         <div class="flex flex-row items-center gap-2">
             <Avatar icon={iconName} backgroundColor="{iconColor}-100" textColor={iconColor} size="sm" shape="square" />
             <div>
-                <Text type="base">{title}</Text>
-                <Text type="xs" color="gray-500">{subTitle}</Text>
+                <Text>{title}</Text>
+                <Text type="xs" color="secondary">{subTitle}</Text>
             </div>
         </div>
         {#if onClick}
