@@ -6,8 +6,8 @@ export const networkConfigRoute = writable<NetworkConfigRoute>(null)
 export const networkConfigRouter = writable<NetworkConfigRouter>(null)
 
 export class NetworkConfigRouter extends Router<NetworkConfigRoute> {
-    constructor() {
-        super(NetworkConfigRoute.ConnectedChains, networkConfigRoute)
+    constructor(initialRoute = NetworkConfigRoute.ConnectedChains) {
+        super(initialRoute, networkConfigRoute)
     }
 
     previous(): void {
