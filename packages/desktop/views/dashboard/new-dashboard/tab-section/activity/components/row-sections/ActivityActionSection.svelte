@@ -70,12 +70,14 @@
     }
 </script>
 
-<div class="flex flex-row items-center gap-2">
-    <Avatar size="xxs" backgroundColor={style.color} icon={style.icon} textColor="white" />
-    <Text fontWeight={FontWeight.semibold} color={style.color + '-500'} classes="text-start"
-        >{localize(getActivityTileTitle(activity))}</Text
+<div class="flex flex-col">
+    <div class="flex flex-row items-center gap-2">
+        <Avatar size="xxs" backgroundColor={style.color} icon={style.icon} textColor="white" />
+        <Text fontWeight={FontWeight.semibold} color={style.color + '-500'} classes="text-start"
+            >{localize(getActivityTileTitle(activity))}</Text
+        >
+    </div>
+    <Text fontWeight={FontWeight.semibold} secondary classes="text-start"
+        >{formatDate(activity.time, { year: 'numeric', month: 'short', day: 'numeric' })}</Text
     >
 </div>
-<Text fontWeight={FontWeight.semibold} secondary classes="text-start"
-    >{formatDate(activity.time, { year: 'numeric', month: 'short', day: 'numeric' })}</Text
->

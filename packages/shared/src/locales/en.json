@@ -356,11 +356,6 @@
             "profileModal": {
                 "allSettings": "All settings",
                 "logout": "Log out",
-                "stronghold": {
-                    "title": "Profile lock",
-                    "locked": "Stronghold locked",
-                    "unlocked": "Stronghold unlocked"
-                },
                 "hardware": {
                     "title": "Hardware Device",
                     "statuses": {
@@ -1259,6 +1254,8 @@
         "viewOnExplorer": "View on Explorer",
         "import": "Import",
         "stronghold": "Stronghold",
+        "locked": "Locked",
+        "unlocked": "Unlocked",
         "lightTheme": "Light",
         "darkTheme": "Dark",
         "systemTheme": "System",

@@ -46,7 +46,9 @@
     }
 </script>
 
-<Text fontWeight={FontWeight.semibold} classes="text-end">{getAmount(activity)}</Text>
-{#if getFormattedMarketPrice(activity)}
-    <Text fontWeight={FontWeight.semibold} secondary classes="text-end">{getFormattedMarketPrice(activity)}</Text>
-{/if}
+<div class="flex flex-col">
+    <Text fontWeight={FontWeight.semibold} classes="text-end">{getAmount(activity)}</Text>
+    {#if getFormattedMarketPrice(activity)}
+        <Text fontWeight={FontWeight.semibold} secondary classes="text-end">{getFormattedMarketPrice(activity)}</Text>
+    {/if}
+</div>

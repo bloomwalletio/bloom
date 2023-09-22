@@ -34,21 +34,11 @@
 </script>
 
 <button on:click={onActivityClick} class="activity-row">
-    <div class="flex flex-row gap-4 items-start">
-        <ActivityAssetSection {activity} />
-    </div>
-    <div class="flex flex-row items-start">
-        <ActivityStatusSection {activity} />
-    </div>
-    <div class="flex flex-col items-start">
-        <ActivityActionSection {activity} />
-    </div>
-    <div class="flex flex-col items-start">
-        <ActivityAddressSection {activity} />
-    </div>
-    <div class="flex flex-col items-end">
-        <ActivityAmountSection {activity} />
-    </div>
+    <ActivityAssetSection {activity} />
+    <ActivityStatusSection {activity} />
+    <ActivityActionSection {activity} />
+    <ActivityAddressSection {activity} />
+    <ActivityAmountSection {activity} />
 </button>
 
 <style lang="scss">
