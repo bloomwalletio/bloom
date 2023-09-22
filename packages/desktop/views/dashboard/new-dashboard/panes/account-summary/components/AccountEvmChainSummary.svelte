@@ -18,7 +18,7 @@
     function buildAccountEvmChainSummaryProps(): IAccountNetworkSummaryProps {
         const chain = getNetwork().getChain(networkId)
         const networkTokens = $selectedAccountTokens?.[networkId]
-        const evmChainBaseToken: ITokenWithBalance = $selectedAccountTokens?.[getNetwork().getMetadata().id]?.baseCoin
+        const evmChainBaseToken: ITokenWithBalance = $selectedAccountTokens?.[networkId]?.baseCoin
         const networkTokenBalance = formatTokenAmountBestMatch(
             evmChainBaseToken?.balance.total ?? 0,
             evmChainBaseToken?.metadata
