@@ -5,12 +5,14 @@
     export let subtitle: string
 </script>
 
-<slot />
-<div class="flex flex-col items-start justify-between">
-    <Text>
-        {title}
-    </Text>
-    <Text type="sm" color="secondary">
-        {subtitle}
-    </Text>
+<div class="flex flex-row gap-4">
+    <slot />
+    <div class="flex flex-col items-start justify-between">
+        <Text>
+            {title}
+        </Text>
+        <Text type="sm" color="secondary">
+            {subtitle}
+        </Text>
+    </div>
 </div>
