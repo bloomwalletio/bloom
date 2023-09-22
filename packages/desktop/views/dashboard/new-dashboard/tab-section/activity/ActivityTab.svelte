@@ -32,7 +32,9 @@
         <Text type="sm" fontWeight="medium" color="secondary">{localize('views.dashboard.activity.asset')}</Text>
         <Text type="sm" fontWeight="medium" color="secondary">{localize('views.dashboard.activity.action')}</Text>
         <Text type="sm" fontWeight="medium" color="secondary">{localize('views.dashboard.activity.address')}</Text>
-        <Text type="sm" fontWeight="medium" color="secondary">{localize('views.dashboard.activity.amount')}</Text>
+        <div class="text-end">
+            <Text type="sm" fontWeight="medium" color="secondary">{localize('views.dashboard.activity.amount')}</Text>
+        </div>
     </header-row>
     {#if $queriedActivities.length > 0}
         <VirtualList items={$queriedActivities} let:item>
