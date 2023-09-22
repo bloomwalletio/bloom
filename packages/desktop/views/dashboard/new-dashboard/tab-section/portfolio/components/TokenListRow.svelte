@@ -5,7 +5,8 @@
     import { BASE_TOKEN_ID, ITokenWithBalance, formatTokenAmountBestMatch, getUnitFromTokenMetadata } from '@core/token'
     import { truncateString } from '@core/utils'
     import { PopupId, openPopup } from '@desktop/auxiliary/popup'
-    import { FontWeight, Text, TokenAvatar } from '@ui'
+    import { TokenAvatar } from '@ui'
+    import { Text } from '@bloomwalletio/ui'
 
     export let token: ITokenWithBalance
 
@@ -54,25 +55,32 @@
 <button on:click={onTokenRowClick} class="token-row">
     <div class="flex flex-row gap-4 items-start">
         <TokenAvatar {token} size="md" />
-        <div class="flex flex-col items-start justify-between">
-            <Text fontWeight={FontWeight.semibold}>
+        <div class="flex flex-col items-start justify-between text-start">
+            <Text type="base-semibold">
                 {token.metadata.name ? truncateString(token.metadata.name, 13, 0) : truncateString(token.id, 6, 7)}
             </Text>
-            <Text secondary fontWeight={FontWeight.semibold}>
+            <Text type="sm-semibold" secondary color="secondary">
                 {getUnitFromTokenMetadata(token.metadata)}
             </Text>
         </div>
     </div>
-    <Text fontWeight={FontWeight.semibold} classes="text-start">{getNameFromNetworkId(token.networkId)}</Text>
-    <Text fontWeight={FontWeight.semibold} classes="text-start">{getTokenSupply(token)}</Text>
-    <Text fontWeight={FontWeight.semibold} classes="text-start">{getFormattedMarketPriceForToken(token)}</Text>
-    <div class="flex flex-col items-end">
-        <Text fontWeight={FontWeight.semibold} classes="text-end"
-            >{token.metadata ? formatTokenAmountBestMatch(token.balance.total, token.metadata) : '-'}</Text
-        >
-        <Text fontWeight={FontWeight.semibold} secondary classes="text-end"
-            >{getFormattedMarketPriceForTokenAmount(token)}</Text
-        >
+    <div class="text-start">
+        <Text type="base-semibold">{getNameFromNetworkId(token.networkId)}</Text>
+    </div>
+    <div class="text-start">
+        <Text type="base-semibold">{getTokenSupply(token)}</Text>
+    </div>
+    <div class="text-start">
+        <Text type="base-semibold">{getFormattedMarketPriceForToken(token)}</Text>
+    </div>
+
+    <div class="flex flex-col items-end text-end">
+        <Text type="base-semibold">
+            {token.metadata ? formatTokenAmountBestMatch(token.balance.total, token.metadata) : '-'}
+        </Text>
+        <Text type="base-semibold" color="secondary">
+            {getFormattedMarketPriceForTokenAmount(token)}
+        </Text>
     </div>
 </button>
 
