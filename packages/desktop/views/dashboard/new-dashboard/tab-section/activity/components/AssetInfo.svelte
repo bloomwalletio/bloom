@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { FontWeight, Text } from '@ui'
+    import { Text } from '@bloomwalletio/ui'
 
     export let title: string
     export let subtitle: string
@@ -7,10 +7,10 @@
 
 <slot />
 <div class="flex flex-col items-start justify-between">
-    <Text fontWeight={FontWeight.semibold}>
+    <Text>
         {title}
     </Text>
-    <Text fontWeight={FontWeight.semibold} secondary>
+    <Text type="sm" color="secondary">
         {subtitle}
     </Text>
 </div>
