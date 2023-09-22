@@ -44,27 +44,29 @@
     <div class="h-full flex flex-auto flex-col">
         <div class="header-row">
             <div class="text-start">
-                <Text type="sm-md" color="secondary">{localize('views.dashboard.portfolio.asset')}</Text>
+                <Text type="sm" fontWeight="medium" color="secondary"
+                    >{localize('views.dashboard.portfolio.asset')}</Text
+                >
             </div>
             <div class="text-start">
-                <Text type="sm-md" color="secondary">
+                <Text type="sm" fontWeight="medium" color="secondary">
                     {localize('views.dashboard.portfolio.network')}
                 </Text>
             </div>
             <div class="text-start">
-                <Text type="sm-md" color="secondary">
+                <Text type="sm" fontWeight="medium" color="secondary">
                     {localize('views.dashboard.portfolio.marketCap')}
                     {currency}
                 </Text>
             </div>
             <div class="text-start">
-                <Text type="sm-md" color="secondary">
+                <Text type="sm" fontWeight="medium" color="secondary">
                     {localize('views.dashboard.portfolio.price')}
                     {currency}
                 </Text>
             </div>
             <div class="text-end">
-                <Text type="sm-md" color="secondary">
+                <Text type="sm" fontWeight="medium" color="secondary">
                     {localize('views.dashboard.portfolio.amount')}
                 </Text>
             </div>
@@ -76,7 +78,7 @@
                 </VirtualList>
             {:else}
                 <div class="h-full flex flex-col items-center justify-center text-center">
-                    <Text secondary>
+                    <Text color="secondary">
                         {localize(`general.${isEmptyBecauseOfFilter ? 'noFilteredAsset' : 'noAssets'}`)}
                     </Text>
                 </div>

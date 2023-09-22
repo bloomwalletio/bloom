@@ -56,29 +56,29 @@
     <div class="flex flex-row gap-4 items-start">
         <TokenAvatar {token} size="md" />
         <div class="flex flex-col items-start justify-between text-start">
-            <Text type="base-semibold">
+            <Text type="base" fontWeight="semibold">
                 {token.metadata.name ? truncateString(token.metadata.name, 13, 0) : truncateString(token.id, 6, 7)}
             </Text>
-            <Text type="sm-semibold" color="secondary">
+            <Text type="sm" fontWeight="semibold" color="secondary">
                 {getUnitFromTokenMetadata(token.metadata)}
             </Text>
         </div>
     </div>
     <div class="text-start">
-        <Text type="base-semibold">{getNameFromNetworkId(token.networkId)}</Text>
+        <Text type="base" fontWeight="semibold">{getNameFromNetworkId(token.networkId)}</Text>
     </div>
     <div class="text-start">
-        <Text type="base-semibold">{getTokenSupply(token)}</Text>
+        <Text type="base" fontWeight="semibold">{getTokenSupply(token)}</Text>
     </div>
     <div class="text-start">
-        <Text type="base-semibold">{getFormattedMarketPriceForToken(token)}</Text>
+        <Text type="base" fontWeight="semibold">{getFormattedMarketPriceForToken(token)}</Text>
     </div>
 
     <div class="flex flex-col items-end text-end">
-        <Text type="base-semibold">
+        <Text type="base" fontWeight="semibold">
             {token.metadata ? formatTokenAmountBestMatch(token.balance.total, token.metadata) : '-'}
         </Text>
-        <Text type="base-semibold" color="secondary">
+        <Text type="base" fontWeight="semibold" color="secondary">
             {getFormattedMarketPriceForTokenAmount(token)}
         </Text>
     </div>
