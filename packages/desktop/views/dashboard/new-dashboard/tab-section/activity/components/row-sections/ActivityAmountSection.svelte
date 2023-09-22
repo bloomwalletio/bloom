@@ -17,26 +17,26 @@
     let token: ITokenWithBalance | undefined
     $: $selectedAccountTokens, (token = getTokenFromActivity(activity))
 
-    function getAmount(): string {
-        if (activity.type === ActivityType.Basic || activity.type === ActivityType.Foundry) {
-            const amount = activity.tokenTransfer?.rawAmount ?? activity.baseTokenTransfer.rawAmount
+    function getAmount(_activity: Activity): string {
+        if (_activity.type === ActivityType.Basic || _activity.type === ActivityType.Foundry) {
+            const amount = _activity.tokenTransfer?.rawAmount ?? _activity.baseTokenTransfer.rawAmount
             return token?.metadata ? formatTokenAmountBestMatch(Number(amount), token.metadata) : amount
-        } else if (activity.type === ActivityType.Consolidation) {
-            return String(activity.amountConsolidatedInputs)
-        } else if (activity.type === ActivityType.Governance) {
+        } else if (_activity.type === ActivityType.Consolidation) {
+            return String(_activity.amountConsolidatedInputs)
+        } else if (_activity.type === ActivityType.Governance) {
             const isVotingPowerActivity =
-                activity.governanceAction === GovernanceAction.DecreaseVotingPower ||
-                activity.governanceAction === GovernanceAction.IncreaseVotingPower
+                _activity.governanceAction === GovernanceAction.DecreaseVotingPower ||
+                _activity.governanceAction === GovernanceAction.IncreaseVotingPower
 
-            return isVotingPowerActivity ? getFormattedVotingPowerFromGovernanceActivity(activity) : '-'
+            return isVotingPowerActivity ? getFormattedVotingPowerFromGovernanceActivity(_activity) : '-'
         } else {
             return '-'
         }
     }
 
-    function getFormattedMarketPrice(): string | undefined {
-        if ((activity.type === ActivityType.Basic || activity.type === ActivityType.Foundry) && token) {
-            const amount = activity.tokenTransfer?.rawAmount ?? activity.baseTokenTransfer.rawAmount
+    function getFormattedMarketPrice(_activity: Activity): string | undefined {
+        if ((_activity.type === ActivityType.Basic || _activity.type === ActivityType.Foundry) && token) {
+            const amount = _activity.tokenTransfer?.rawAmount ?? _activity.baseTokenTransfer.rawAmount
 
             const marketPrice = getMarketAmountFromTokenValue(Number(amount), token)
             return marketPrice ? formatCurrency(marketPrice) : '-'
@@ -46,7 +46,7 @@
     }
 </script>
 
-<Text fontWeight={FontWeight.semibold} classes="text-end">{getAmount()}</Text>
-{#if getFormattedMarketPrice()}
-    <Text fontWeight={FontWeight.semibold} secondary classes="text-end">{getFormattedMarketPrice()}</Text>
+<Text fontWeight={FontWeight.semibold} classes="text-end">{getAmount(activity)}</Text>
+{#if getFormattedMarketPrice(activity)}
+    <Text fontWeight={FontWeight.semibold} secondary classes="text-end">{getFormattedMarketPrice(activity)}</Text>
 {/if}
