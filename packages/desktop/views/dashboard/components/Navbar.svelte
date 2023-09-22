@@ -118,6 +118,6 @@
 
 <style lang="scss">
     :global(:root) {
-        --navbar-height: 25px;
+        --navbar-height: 40px;
     }
 </style>

@@ -18,7 +18,7 @@
 
 <style lang="scss">
     wallet-container {
-        height: calc(100vh - var(--navbar-height) - var(--windows-navbar-height));
+        height: calc(100vh - var(--navbar-height, 0px) - var(--windows-navbar-height, 0px));
         @apply p-8 pb-0;
         @apply flex flex-col gap-8;
         @apply relative;
