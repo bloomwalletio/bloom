@@ -113,12 +113,14 @@
     </nav>
 
     <div>
-        <toasts>
-            <BackupToast />
-            <VersionToast />
-            <AutoUpdateToast />
+        <sidebar-middle>
+            <toasts>
+                <BackupToast />
+                <AutoUpdateToast />
+                <VersionToast />
+            </toasts>
             <StrongholdStatusTile />
-        </toasts>
+        </sidebar-middle>
         <ProfileFrame />
     </div>
 </aside>
@@ -144,9 +146,14 @@
         @apply p-4;
     }
 
-    toasts {
+    sidebar-middle {
         @apply flex flex-col;
         @apply p-4 gap-2;
+    }
+
+    toasts {
+        @apply flex flex-col;
+        @apply gap-2;
     }
 
     :global(body.platform-win32) aside {
