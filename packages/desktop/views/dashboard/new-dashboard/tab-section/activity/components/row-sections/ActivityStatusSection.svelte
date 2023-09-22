@@ -5,6 +5,6 @@
     export let activity: Activity
 </script>
 
-<div>
+<div class="flex">
     <ActivityAsyncStatusPill asyncStatus={activity.asyncData?.asyncStatus} />
 </div>
