@@ -9,6 +9,7 @@
     import { Logo } from '@ui'
     import { BackupToast, VersionToast, AutoUpdateToast } from './toasts'
     import StrongholdStatusTile from './StrongholdStatusTile.svelte'
+    import LedgerStatusTile from './LedgerStatusTile.svelte'
     import ProfileFrame from './ProfileFrame.svelte'
 
     let sidebarTabs: ISidebarTab[]
@@ -121,6 +122,8 @@
             </toasts>
             {#if $isSoftwareProfile}
                 <StrongholdStatusTile />
+            {:else}
+                <LedgerStatusTile />
             {/if}
         </sidebar-middle>
         <ProfileFrame />
