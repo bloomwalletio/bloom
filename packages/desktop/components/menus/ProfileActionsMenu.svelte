@@ -31,7 +31,7 @@
         },
     ]}
 >
-    <span slot="anchor">
+    <span class="w-full" slot="anchor">
         <slot />
     </span>
 </Menu>
