@@ -52,7 +52,7 @@
 </script>
 
 <NavbarContainer draggable={IS_MAC}>
-    <div class="h-full flex flex-row justify-between items-center px-4">
+    <div class="flex flex-row justify-between items-center px-4" style:height="var(--navbar-height)">
         <div class="flex flex-row gap-2">
             {#if isBackButtonVisible}
                 <IconButton
@@ -115,3 +115,9 @@
         </div>
     </div>
 </NavbarContainer>
+
+<style lang="scss">
+    :global(:root) {
+        --navbar-height: 40px;
+    }
+</style>

@@ -75,10 +75,10 @@
         {/if}
         <Sidebar />
     </div>
-    <div class="flex flex-col flex-auto">
+    <div class="flex flex-col flex-grow basis-0">
         <Navbar />
         <!-- Dashboard Pane -->
-        <div class="flex flex-col h-full w-full">
+        <div>
             <svelte:component this={tabs[$dashboardRoute]} on:next={$appRouter.next} />
             <DashboardDrawerRouterView />
         </div>
