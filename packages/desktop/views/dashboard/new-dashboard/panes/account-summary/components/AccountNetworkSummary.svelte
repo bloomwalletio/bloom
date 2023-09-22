@@ -51,7 +51,6 @@
         if (!chain) {
             return
         }
-        setSelectedChain(chain)
         checkActiveProfileAuth(
             async () => {
                 await generateAndStoreEvmAddressForAccounts(
@@ -60,6 +59,7 @@
                     $selectedAccount
                 )
                 if ($activeProfile.type) {
+                    setSelectedChain(chain)
                     toggleDashboardDrawer({
                         id: DashboardDrawerRoute.NetworkConfig,
                         initialSubroute: NetworkConfigRoute.ConfirmLedgerEvmAddress,
