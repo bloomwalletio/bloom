@@ -3,6 +3,7 @@ export { default as CollectibleDetailsMenu } from './CollectibleDetailsMenu.svel
 export { default as ContactActionsMenu } from './ContactActionsMenu.svelte'
 export { default as ContactAddressMenu } from './ContactAddressMenu.svelte'
 export { default as GovernanceDetailsMenu } from './GovernanceDetailsMenu.svelte'
+export { default as ProfileActionsMenu } from './ProfileActionsMenu.svelte'
 export { default as NodeActionsMenu } from './NodeActionsMenu.svelte'
 export { default as ProposalDetailsMenu } from './ProposalDetailsMenu.svelte'
 export { default as TokenActionsMenu } from './TokenActionsMenu.svelte'

@@ -352,7 +352,7 @@
                 "address": "Address",
                 "amount": "Amount"
             },
-            "profileModal": {
+            "profileMenu": {
                 "allSettings": "All settings",
                 "logout": "Log out",
                 "stronghold": {
