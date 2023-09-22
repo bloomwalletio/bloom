@@ -2,7 +2,7 @@
     import { Icon, IconName } from '@bloomwalletio/ui'
     import { SidebarTab } from '@components'
     import { localize } from '@core/i18n'
-    import { activeProfile } from '@core/profile/stores'
+    import { isSoftwareProfile, activeProfile } from '@core/profile/stores'
     import { DashboardRoute, collectiblesRouter, dashboardRouter, governanceRouter, settingsRouter } from '@core/router'
     import { ISidebarTab } from '@desktop/routers'
     import features from '@features/features'
@@ -119,7 +119,9 @@
                 <AutoUpdateToast />
                 <VersionToast />
             </toasts>
-            <StrongholdStatusTile />
+            {#if $isSoftwareProfile}
+                <StrongholdStatusTile />
+            {/if}
         </sidebar-middle>
         <ProfileFrame />
     </div>
