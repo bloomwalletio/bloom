@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { IconButton, IconName, IMenuItem, Indicator, Menu, Text } from '@bloomwalletio/ui'
+    import { Icon, IconName, IMenuItem, Indicator, Menu, Text } from '@bloomwalletio/ui'
     import { formatCurrency, localize } from '@core/i18n'
     import { openPopup, PopupId } from '@desktop/auxiliary/popup'
     import { selectedAccountTokens } from '@core/token/stores'
@@ -9,9 +9,9 @@
     import { getMarketAmountFromTokenValue } from '@core/market/actions'
     import { selectedAccount } from '@core/account/stores'
 
-    export let hasAccountName: boolean = true
-    export let isCompactMenu: boolean = false
-    export let canCreateAccount: boolean = false
+    export let compact: boolean = false
+    export let showIndicator: boolean = false
+    export let showSwitcherIcon: boolean = false
 
     const menu: Menu | undefined = undefined
 
@@ -25,14 +25,13 @@
     let items: IMenuItem[] = []
     function setItems(accounts: IAccountState[], selectedIndex) {
         items = accounts.map((account) => {
-            const subtitle = formatCurrency(
-                getMarketAmountFromTokenValue(Number(account.balances.baseCoin.total), baseCoin)
-            )
             return {
                 title: account.name,
+                subtitle: formatCurrency(
+                    getMarketAmountFromTokenValue(Number(account.balances.baseCoin.total), baseCoin)
+                ),
                 selected: selectedIndex === account.index,
                 onClick: () => onAccountClick(account.index),
-                ...(!isCompactMenu && { subtitle }),
             }
         })
     }
@@ -46,25 +45,25 @@
 
 <Menu
     {items}
+    {compact}
+    {...!compact && { button: { text: localize('general.newAccount'), onClick: onCreateAccountClick } }}
     placement="bottom-start"
-    compact={isCompactMenu}
-    {...canCreateAccount && { button: { text: localize('general.newAccount'), onClick: onCreateAccountClick } }}
 >
-    <div slot="anchor" class="flex items-center">
-        {#if hasAccountName}
-            <button
-                type="button"
-                class="flex flex-row justify-center items-center space-x-2 px-1.5 rounded-md cursor-pointer"
-            >
-                <Indicator color={$selectedAccount?.color} size="sm" />
-                <Text type="body2">
-                    {$selectedAccount?.name}
-                </Text>
-            </button>
-        {:else}
-            <IconButton icon={IconName.ChevronSelectorVertical} />
+    <button
+        slot="anchor"
+        type="button"
+        class="flex flex-row justify-center items-center space-x-2 px-1.5 py-1 rounded-md cursor-pointer"
+    >
+        {#if showIndicator}
+            <Indicator color={$selectedAccount?.color} size="sm" />
         {/if}
-    </div>
+        <Text type="body2">
+            {$selectedAccount?.name}
+        </Text>
+        {#if showSwitcherIcon}
+            <Icon name={IconName.ChevronSelectorVertical} color="text-secondary" />
+        {/if}
+    </button>
 </Menu>
 
 <style lang="scss">

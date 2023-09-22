@@ -38,10 +38,7 @@
 
 <account-summary class="w-full h-full px-6 pb-6 pt-4 flex flex-col justify-between">
     <account-summary-header class="w-full flex flex-row justify-between items-center">
-        <account-summary-account-switcher class="flex items-center space-x-2 whitespace-nowrap">
-            <Text type="body1">{account.name}</Text>
-            <AccountSwitcher hasAccountName={false} canCreateAccount={true} />
-        </account-summary-account-switcher>
+        <AccountSwitcher showSwitcherIcon />
         <AccountActionsMenu />
     </account-summary-header>
     <account-summary-balance class="flex flex-row">
