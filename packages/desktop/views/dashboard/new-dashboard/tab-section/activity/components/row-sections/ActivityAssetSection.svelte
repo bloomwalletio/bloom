@@ -52,10 +52,10 @@
         <NftImageOrIconBox {nft} size="md" />
     {:else if activity.type === ActivityType.Alias}
         <!-- TODO: Add icon for alias -->
-        <Avatar icon={IconName.Globe} size="md" shape="circle" backgroundColor="gray-100" />
+        <Avatar icon={IconName.Globe} backgroundColor="gray-100" />
     {:else if activity.type === ActivityType.Consolidation}
-        <Avatar icon={IconName.CoinSwap} size="md" shape="circle" backgroundColor="gray-100" />
+        <Avatar icon={IconName.CoinSwap} backgroundColor="gray-100" />
     {:else if activity.type === ActivityType.Governance}
-        <Avatar icon={IconName.Bank} size="md" shape="circle" backgroundColor="gray-100" />
+        <Avatar icon={IconName.Bank} backgroundColor="gray-100" />
     {/if}
 </AssetInfo>
