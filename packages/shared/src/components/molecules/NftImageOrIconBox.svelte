@@ -3,7 +3,7 @@
     import { MediaPlaceholder, NftMedia } from '@ui'
 
     export let nft: INft
-    export let size: 'xxs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' = 'md'
+    export let size: 'sm' | 'md' | 'lg' = 'md'
     export let useCaching: boolean = true
 
     $: nftType = nft?.parsedMetadata?.type
@@ -46,10 +46,6 @@
 
 <style lang="scss">
     nft-box {
-        &.xl {
-            @apply h-36 w-36;
-        }
-
         &.lg {
             @apply h-20 w-20;
         }
@@ -60,14 +56,6 @@
 
         &.sm {
             @apply h-8 w-8;
-        }
-
-        &.xs {
-            @apply h-6 w-6;
-        }
-
-        &.xxs {
-            @apply h-4 w-4;
         }
     }
 </style>
