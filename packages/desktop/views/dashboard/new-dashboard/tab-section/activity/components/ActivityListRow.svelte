@@ -56,7 +56,7 @@
     <ActivityAmountSection {activity} {token} />
 </button>
 
-<style lang="scss" scoped>
+<style lang="scss">
     .activity-row {
         @apply w-full;
         @apply px-5 py-4;
