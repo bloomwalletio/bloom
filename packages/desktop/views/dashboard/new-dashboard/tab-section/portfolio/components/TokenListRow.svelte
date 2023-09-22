@@ -59,7 +59,7 @@
             <Text type="base-semibold">
                 {token.metadata.name ? truncateString(token.metadata.name, 13, 0) : truncateString(token.id, 6, 7)}
             </Text>
-            <Text type="sm-semibold" secondary color="secondary">
+            <Text type="sm-semibold" color="secondary">
                 {getUnitFromTokenMetadata(token.metadata)}
             </Text>
         </div>
