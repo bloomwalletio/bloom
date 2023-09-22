@@ -4,9 +4,9 @@
     import { isVisibleToken } from '@core/token/actions/isVisibleToken'
     import { selectedAccountTokens, tokenFilter, tokenSearchTerm } from '@core/token/stores'
     import VirtualList from '@sveltejs/svelte-virtual-list'
-    import { FontWeight, Text } from '@ui'
     import TokenListRow from './components/TokenListRow.svelte'
     import { activeProfile } from '@core/profile/stores'
+    import { Text } from '@bloomwalletio/ui'
 
     let filteredTokenList: ITokenWithBalance[]
     $: $tokenFilter, $tokenSearchTerm, $selectedAccountTokens, (filteredTokenList = getFilteredTokenList())
@@ -42,21 +42,31 @@
 
 <div class="flex flex-col" style="height: calc(100% - 68px);">
     <header-row>
-        <Text fontWeight={FontWeight.medium} secondary classes="text-start"
-            >{localize('views.dashboard.portfolio.asset')}</Text
-        >
-        <Text fontWeight={FontWeight.medium} secondary classes="text-start"
-            >{localize('views.dashboard.portfolio.network')}</Text
-        >
-        <Text fontWeight={FontWeight.medium} secondary classes="text-start"
-            >{localize('views.dashboard.portfolio.marketCap')} {currency}</Text
-        >
-        <Text fontWeight={FontWeight.medium} secondary classes="text-start"
-            >{localize('views.dashboard.portfolio.price')} {currency}</Text
-        >
-        <Text fontWeight={FontWeight.medium} secondary classes="text-end"
-            >{localize('views.dashboard.portfolio.amount')}</Text
-        >
+        <div class="text-start">
+            <Text type="sm" fontWeight="medium" color="secondary">{localize('views.dashboard.portfolio.asset')}</Text>
+        </div>
+        <div class="text-start">
+            <Text type="sm" fontWeight="medium" color="secondary">
+                {localize('views.dashboard.portfolio.network')}
+            </Text>
+        </div>
+        <div class="text-start">
+            <Text type="sm" fontWeight="medium" color="secondary">
+                {localize('views.dashboard.portfolio.marketCap')}
+                {currency}
+            </Text>
+        </div>
+        <div class="text-start">
+            <Text type="sm" fontWeight="medium" color="secondary">
+                {localize('views.dashboard.portfolio.price')}
+                {currency}
+            </Text>
+        </div>
+        <div class="text-end">
+            <Text type="sm" fontWeight="medium" color="secondary">
+                {localize('views.dashboard.portfolio.amount')}
+            </Text>
+        </div>
     </header-row>
     {#if filteredTokenList.length > 0}
         <VirtualList items={filteredTokenList} let:item>
@@ -64,7 +74,7 @@
         </VirtualList>
     {:else}
         <div class="h-full flex flex-col items-center justify-center text-center">
-            <Text secondary>
+            <Text color="secondary">
                 {localize(`general.${isEmptyBecauseOfFilter ? 'noFilteredAsset' : 'noAssets'}`)}
             </Text>
         </div>
