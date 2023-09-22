@@ -14,6 +14,7 @@
     import { LedgerAppName } from '@core/ledger'
     import { toggleDashboardDrawer } from '@desktop/auxiliary/drawer'
     import { DashboardDrawerRoute, NetworkConfigRoute } from '@views/dashboard/drawers'
+    import { ProfileType } from 'shared/src/lib/core/profile'
 
     export let props: IAccountNetworkSummaryProps
 
@@ -58,7 +59,7 @@
                     chain.getConfiguration().coinType,
                     $selectedAccount
                 )
-                if ($activeProfile.type) {
+                if ($activeProfile.type === ProfileType.Ledger) {
                     setSelectedChain(chain)
                     toggleDashboardDrawer({
                         id: DashboardDrawerRoute.NetworkConfig,
