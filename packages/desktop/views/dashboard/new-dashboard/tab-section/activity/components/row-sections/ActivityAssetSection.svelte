@@ -20,7 +20,7 @@
             ? getNftByIdFromAllAccountNfts($selectedAccountIndex, activity.nftId)
             : undefined
 
-    let title, subtitle
+    let title: string | undefined, subtitle: string | undefined
     $: setTitleAndSubtitle(activity)
 
     function setTitleAndSubtitle(_activity: Activity): void {
