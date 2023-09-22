@@ -42,26 +42,18 @@
 
 <portfolio-tab>
     <header-row>
-        <div class="text-start">
-            <Text type="sm" fontWeight="medium" color="secondary">{localize('views.dashboard.portfolio.asset')}</Text>
-        </div>
-        <div class="text-start">
-            <Text type="sm" fontWeight="medium" color="secondary">
-                {localize('views.dashboard.portfolio.network')}
-            </Text>
-        </div>
-        <div class="text-start">
-            <Text type="sm" fontWeight="medium" color="secondary">
-                {localize('views.dashboard.portfolio.marketCap')}
-                {currency}
-            </Text>
-        </div>
-        <div class="text-start">
-            <Text type="sm" fontWeight="medium" color="secondary">
-                {localize('views.dashboard.portfolio.price')}
-                {currency}
-            </Text>
-        </div>
+        <Text type="sm" fontWeight="medium" color="secondary">{localize('views.dashboard.portfolio.asset')}</Text>
+        <Text type="sm" fontWeight="medium" color="secondary">
+            {localize('views.dashboard.portfolio.network')}
+        </Text>
+        <Text type="sm" fontWeight="medium" color="secondary">
+            {localize('views.dashboard.portfolio.marketCap')}
+            {currency}
+        </Text>
+        <Text type="sm" fontWeight="medium" color="secondary">
+            {localize('views.dashboard.portfolio.price')}
+            {currency}
+        </Text>
         <div class="text-end">
             <Text type="sm" fontWeight="medium" color="secondary">
                 {localize('views.dashboard.portfolio.amount')}

@@ -3,7 +3,8 @@
     import { NetworkId } from '@core/network'
     import { truncateString } from '@core/utils/string'
     import { Subject, SubjectType } from '@core/wallet'
-    import { FontWeight, NetworkAvatar, Text } from '@ui'
+    import { NetworkAvatar } from '@ui'
+    import { Text } from '@bloomwalletio/ui'
 
     export let subject: Subject | undefined
     export let networkId: NetworkId | undefined
@@ -30,7 +31,9 @@
     {#if networkId}
         <NetworkAvatar size="xxs" {networkId} />
     {/if}
-    <Text fontWeight={isSelectedAccount ? FontWeight.semibold : FontWeight.normal} classes="text-start"
-        >{getDisplayedSubject(subject)}</Text
+    <Text
+        type={subject?.type === SubjectType.Address ? 'pre-sm' : 'sm'}
+        fontWeight={isSelectedAccount ? 'semibold' : 'medium'}
+        classes="text-start">{getDisplayedSubject(subject)}</Text
     >
 </div>

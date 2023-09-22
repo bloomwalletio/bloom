@@ -9,8 +9,8 @@
     import { formatCurrency } from '@core/i18n'
     import { getMarketAmountFromTokenValue } from '@core/market/actions'
     import { ITokenWithBalance, formatTokenAmountBestMatch } from '@core/token'
+    import { Text } from '@bloomwalletio/ui'
     import { selectedAccountTokens } from '@core/token/stores'
-    import { FontWeight, Text } from '@ui'
 
     export let activity: Activity
 
@@ -46,9 +46,9 @@
     }
 </script>
 
-<div class="flex flex-col">
-    <Text fontWeight={FontWeight.semibold} classes="text-end">{getAmount(activity)}</Text>
+<div class="text-end">
+    <Text>{getAmount(activity)}</Text>
     {#if getFormattedMarketPrice(activity)}
-        <Text fontWeight={FontWeight.semibold} secondary classes="text-end">{getFormattedMarketPrice(activity)}</Text>
+        <Text color="secondary">{getFormattedMarketPrice(activity)}</Text>
     {/if}
 </div>
