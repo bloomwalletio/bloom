@@ -12,6 +12,9 @@
     export let account: IAccountState
     export let networkId: NetworkId
 
+    let props: IAccountNetworkSummaryProps | undefined
+    $: $selectedAccountTokens, account, (props = buildAccountEvmChainSummaryProps())
+
     function buildAccountEvmChainSummaryProps(): IAccountNetworkSummaryProps {
         const chain = getNetwork().getChain(networkId)
         const networkTokens = $selectedAccountTokens?.[networkId]
@@ -41,6 +44,4 @@
     }
 </script>
 
-{#key account.evmAddresses}
-    <AccountNetworkSummary props={buildAccountEvmChainSummaryProps()} />
-{/key}
+<AccountNetworkSummary {props} />
