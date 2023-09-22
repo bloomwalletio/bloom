@@ -64,7 +64,7 @@
                 />
             {/if}
             <div class="flex flex-row space-x-2 items-center">
-                <AccountSwitcher />
+                <AccountSwitcher compact showIndicator />
                 <Icon name={IconName.ChevronRight} size="sm" />
                 <Text size="sm" weight="semibold" color="#1E1B4E">
                     {localize(`tabs.${$dashboardRoute}`)}
