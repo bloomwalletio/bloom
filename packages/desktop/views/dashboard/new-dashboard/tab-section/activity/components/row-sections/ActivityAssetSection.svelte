@@ -2,10 +2,20 @@
     import { ITokenWithBalance, getUnitFromTokenMetadata } from '@core/token'
     import { truncateString } from '@core/utils'
     import { FontWeight, NftImageOrIconBox, Text, TokenAvatar } from '@ui'
-    import { INft } from '@core/nfts'
+    import { Activity, ActivityType } from '@core/activity'
+    import { selectedAccountTokens } from '@core/token/stores'
+    import { getNftByIdFromAllAccountNfts } from '@core/nfts/actions'
+    import { selectedAccountIndex } from '@core/account/stores'
+    import { getTokenFromActivity } from '@core/activity/utils/getTokenFromActivity'
 
-    export let token: ITokenWithBalance | undefined
-    export let nft: INft | undefined
+    export let activity: Activity
+
+    let token: ITokenWithBalance | undefined
+    $: $selectedAccountTokens, (token = getTokenFromActivity(activity))
+    $: nft =
+        activity.type === ActivityType.Nft
+            ? getNftByIdFromAllAccountNfts($selectedAccountIndex, activity.nftId)
+            : undefined
 </script>
 
 {#if token}

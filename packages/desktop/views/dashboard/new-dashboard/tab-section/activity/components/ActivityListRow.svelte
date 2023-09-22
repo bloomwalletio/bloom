@@ -1,9 +1,6 @@
 <script lang="ts">
-    import { selectedAccountIndex } from '@core/account/stores'
-    import { Activity, ActivityType } from '@core/activity'
-    import { getNftByIdFromAllAccountNfts } from '@core/nfts/actions'
-    import { ITokenWithBalance, NotVerifiedStatus } from '@core/token'
-    import { getTokenFromSelectedAccountTokens, selectedAccountTokens } from '@core/token/stores'
+    import { Activity } from '@core/activity'
+    import { NotVerifiedStatus } from '@core/token'
     import { PopupId, openPopup } from '@desktop/auxiliary/popup'
     import {
         ActivityActionSection,
@@ -12,24 +9,12 @@
         ActivityAddressSection,
         ActivityStatusSection,
     } from './row-sections'
+    import { getTokenFromActivity } from '@core/activity/utils/getTokenFromActivity'
 
     export let activity: Activity
 
-    let token: ITokenWithBalance | undefined
-    $: $selectedAccountTokens,
-        (token =
-            activity.type === ActivityType.Basic || activity.type === ActivityType.Foundry
-                ? getTokenFromSelectedAccountTokens(
-                      activity.tokenTransfer?.tokenId ?? activity.baseTokenTransfer.tokenId,
-                      activity.sourceNetworkId
-                  )
-                : undefined)
-    $: nft =
-        activity.type === ActivityType.Nft
-            ? getNftByIdFromAllAccountNfts($selectedAccountIndex, activity.nftId)
-            : undefined
-
     function onActivityClick(): void {
+        const token = getTokenFromActivity(activity)
         if (token?.verification?.status === NotVerifiedStatus.New) {
             openPopup({
                 id: PopupId.TokenInformation,
@@ -50,7 +35,7 @@
 
 <button on:click={onActivityClick} class="activity-row">
     <div class="flex flex-row gap-4 items-start">
-        <ActivityAssetSection {token} {nft} />
+        <ActivityAssetSection {activity} />
     </div>
     <div class="flex flex-row items-start">
         <ActivityStatusSection {activity} />
@@ -62,7 +47,7 @@
         <ActivityAddressSection {activity} />
     </div>
     <div class="flex flex-col items-end">
-        <ActivityAmountSection {activity} {token} />
+        <ActivityAmountSection {activity} />
     </div>
 </button>
 

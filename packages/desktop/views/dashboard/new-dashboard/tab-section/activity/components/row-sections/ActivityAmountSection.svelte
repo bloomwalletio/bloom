@@ -5,18 +5,22 @@
         GovernanceAction,
         getFormattedVotingPowerFromGovernanceActivity,
     } from '@core/activity'
+    import { getTokenFromActivity } from '@core/activity/utils/getTokenFromActivity'
     import { formatCurrency } from '@core/i18n'
     import { getMarketAmountFromTokenValue } from '@core/market/actions'
     import { ITokenWithBalance, formatTokenAmountBestMatch } from '@core/token'
+    import { selectedAccountTokens } from '@core/token/stores'
     import { FontWeight, Text } from '@ui'
 
     export let activity: Activity
-    export let token: ITokenWithBalance | undefined
+
+    let token: ITokenWithBalance | undefined
+    $: $selectedAccountTokens, (token = getTokenFromActivity(activity))
 
     function getAmount(): string {
         if (activity.type === ActivityType.Basic || activity.type === ActivityType.Foundry) {
             const amount = activity.tokenTransfer?.rawAmount ?? activity.baseTokenTransfer.rawAmount
-            return token.metadata ? formatTokenAmountBestMatch(Number(amount), token.metadata) : amount
+            return token?.metadata ? formatTokenAmountBestMatch(Number(amount), token.metadata) : amount
         } else if (activity.type === ActivityType.Consolidation) {
             return String(activity.amountConsolidatedInputs)
         } else if (activity.type === ActivityType.Governance) {
@@ -30,8 +34,8 @@
         }
     }
 
-    function getFormattedMarketPrice(): string {
-        if (activity.type === ActivityType.Basic || activity.type === ActivityType.Foundry) {
+    function getFormattedMarketPrice(): string | undefined {
+        if ((activity.type === ActivityType.Basic || activity.type === ActivityType.Foundry) && token) {
             const amount = activity.tokenTransfer?.rawAmount ?? activity.baseTokenTransfer.rawAmount
 
             const marketPrice = getMarketAmountFromTokenValue(Number(amount), token)
