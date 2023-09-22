@@ -46,8 +46,8 @@
         <AccountActionsMenu />
     </account-summary-header>
     <account-summary-balance class="flex flex-row">
-        <Text type="h6" size="6xl" align="center" color="indigo-950" truncate>{formattedBalance[0]}</Text>
-        <Text type="h6" size="6xl" align="center" color="gray-500" truncate>{formattedBalance[1]}</Text>
+        <Text type="h1" truncate>{formattedBalance[0]}</Text>
+        <Text type="h1" color="text-secondary" truncate>{formattedBalance[1]}</Text>
     </account-summary-balance>
     <account-summary-actions class="mt-4 flex flex-row justify-between items-center">
         <Button text="Send" width="full" size="lg" icon={IconName.Send} on:click={onSendClick} />
