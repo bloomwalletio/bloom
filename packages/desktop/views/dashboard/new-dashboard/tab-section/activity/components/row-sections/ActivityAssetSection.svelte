@@ -9,6 +9,7 @@
     import { getTokenFromActivity } from '@core/activity/utils/getTokenFromActivity'
     import AssetInfo from '../AssetInfo.svelte'
     import { IconName, Avatar } from '@bloomwalletio/ui'
+    import { localize } from '@core/i18n'
 
     export let activity: Activity
 
@@ -34,7 +35,9 @@
             subtitle = truncateString(_activity.aliasId, 6, 7)
         } else if (_activity.type === ActivityType.Consolidation) {
             title = 'Consolidation'
-            subtitle = _activity.amountConsolidatedInputs
+            subtitle = localize('views.dashboard.activity.consolidatedOutputs', {
+                amount: _activity.amountConsolidatedInputs,
+            })
         } else if (_activity.type === ActivityType.Governance) {
             title = 'Governance'
             subtitle = truncateString(_activity.participation?.eventId ?? '', 6, 7)
