@@ -40,7 +40,7 @@
     }
 </script>
 
-<div class="flex flex-col" style="height: calc(100% - 68px);">
+<portfolio-tab>
     <header-row>
         <div class="text-start">
             <Text type="sm" fontWeight="medium" color="secondary">{localize('views.dashboard.portfolio.asset')}</Text>
@@ -79,16 +79,23 @@
             </Text>
         </div>
     {/if}
-</div>
+</portfolio-tab>
 
 <style lang="scss">
-    header-row {
-        @apply w-full;
-        @apply px-5 py-4;
-        @apply bg-gray-50;
-        @apply border-b border-solid border-gray-100;
+    $paneHeaderHeight: 68px;
 
-        @apply grid;
-        grid-template-columns: 2fr 2fr 1fr 1fr 2fr;
+    portfolio-tab {
+        @apply flex flex-col flex-grow;
+        height: calc(100% - $paneHeaderHeight);
+
+        header-row {
+            @apply w-full;
+            @apply px-5 py-4;
+            @apply bg-gray-50;
+            @apply border-b border-solid border-gray-100;
+
+            @apply grid;
+            grid-template-columns: 2fr 2fr 1fr 1fr 2fr;
+        }
     }
 </style>
