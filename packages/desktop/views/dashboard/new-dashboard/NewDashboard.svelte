@@ -6,17 +6,22 @@
 </script>
 
 {#if $selectedAccount}
-    <wallet-container
-        class="w-full h-full flex flex-nowrap p-8 relative flex-1
-        bg-white dark:bg-gray-900 justify-center items-center"
-    >
+    <wallet-container>
         {#key $selectedAccount?.index}
-            <div class="h-full w-full flex flex-col gap-8">
-                <AccountSummaryPane account={$selectedAccount} />
-                <Pane classes="flex flex-col flex-grow border border-solid border-gray-100">
-                    <TabSection />
-                </Pane>
-            </div>
+            <AccountSummaryPane account={$selectedAccount} />
+            <Pane classes="flex flex-col flex-grow border border-solid border-gray-100 rounded-b-none">
+                <TabSection />
+            </Pane>
         {/key}
     </wallet-container>
 {/if}
+
+<style lang="scss">
+    wallet-container {
+        height: calc(100vh - var(--navbar-height, 0px) - var(--windows-navbar-height, 0px));
+        @apply p-8 pb-0;
+        @apply flex flex-col gap-8;
+        @apply relative;
+        @apply bg-white dark:bg-gray-900;
+    }
+</style>
