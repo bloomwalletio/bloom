@@ -8,7 +8,7 @@
         selectedAccountActivities,
         setAsyncStatusOfAccountActivities,
     } from '@core/activity'
-    import { Text, FontWeight } from '@ui'
+    import { Text } from '@bloomwalletio/ui'
     import VirtualList from '@sveltejs/svelte-virtual-list'
     import ActivityListRow from './components/ActivityListRow.svelte'
 
@@ -29,18 +29,12 @@
 
 <activity-tab>
     <header-row>
-        <Text fontWeight={FontWeight.medium} secondary classes="text-start"
-            >{localize('views.dashboard.activity.asset')}</Text
-        >
-        <Text fontWeight={FontWeight.medium} secondary classes="text-start"
-            >{localize('views.dashboard.activity.action')}</Text
-        >
-        <Text fontWeight={FontWeight.medium} secondary classes="text-start"
-            >{localize('views.dashboard.activity.address')}</Text
-        >
-        <Text fontWeight={FontWeight.medium} secondary classes="text-end"
-            >{localize('views.dashboard.activity.amount')}</Text
-        >
+        <Text type="sm" fontWeight="medium" color="secondary">{localize('views.dashboard.activity.asset')}</Text>
+        <Text type="sm" fontWeight="medium" color="secondary">{localize('views.dashboard.activity.action')}</Text>
+        <Text type="sm" fontWeight="medium" color="secondary">{localize('views.dashboard.activity.address')}</Text>
+        <div class="text-end">
+            <Text type="sm" fontWeight="medium" color="secondary">{localize('views.dashboard.activity.amount')}</Text>
+        </div>
     </header-row>
     {#if $queriedActivities.length > 0}
         <VirtualList items={$queriedActivities} let:item>
@@ -48,7 +42,7 @@
         </VirtualList>
     {:else}
         <div class="h-full flex flex-col items-center justify-center text-center">
-            <Text secondary>
+            <Text color="secondary">
                 {localize(`general.${isEmptyBecauseOfFilter ? 'noFilteredActivity' : 'noRecentHistory'}`)}
             </Text>
         </div>
