@@ -2,26 +2,33 @@
     import { Button, IconName, Text } from '@bloomwalletio/ui'
     import { AccountActionsMenu } from '@components'
     import { IAccountState } from '@core/account'
-    import { formatCurrency } from '@core/i18n'
+    import { formatCurrency, getDecimalSeparator } from '@core/i18n'
     import { resetLedgerPreparedOutput, resetShowInternalVerificationPopup } from '@core/ledger'
     import { getMarketAmountFromTokenValue } from '@core/market/actions'
-    import { getActiveNetworkId } from '@core/network'
+    import { NetworkId } from '@core/network'
     import { ITokenWithBalance } from '@core/token'
     import { selectedAccountTokens } from '@core/token/stores'
     import { resetSendFlowParameters } from '@core/wallet'
     import { PopupId, openPopup } from '@desktop/auxiliary/popup'
     import { SendFlowRouter, sendFlowRouter } from '@views'
+    import { activeProfile } from '@core/profile/stores'
 
     export let account: IAccountState
+    export let stardustNetworkId: NetworkId
+    export let evmChainNetworkId: NetworkId
 
     let formattedBalance: [string, string]
     $: $selectedAccountTokens, (formattedBalance = getFormattedBalance())
 
     function getFormattedBalance(): [string, string] {
-        const baseCoin: ITokenWithBalance = $selectedAccountTokens?.[getActiveNetworkId()]?.baseCoin
-        const formattedCurrency = formatCurrency(getMarketAmountFromTokenValue(baseCoin.balance.available, baseCoin))
-        const length = formattedCurrency.length
-        return [formattedCurrency.slice(0, length - 3), formattedCurrency.slice(length - 3, length)]
+        const stardustBaseToken: ITokenWithBalance = $selectedAccountTokens?.[stardustNetworkId]?.baseCoin
+        const evmChainBaseToken: ITokenWithBalance = $selectedAccountTokens?.[evmChainNetworkId]?.baseCoin
+        const availableBalance =
+            (stardustBaseToken?.balance?.available ?? 0) + (evmChainBaseToken?.balance?.available ?? 0)
+        const formattedCurrency = formatCurrency(getMarketAmountFromTokenValue(availableBalance, stardustBaseToken))
+        const decimalSeparator = getDecimalSeparator($activeProfile?.settings?.marketCurrency)
+        const [integer, decimals] = formattedCurrency.split(decimalSeparator)
+        return [integer, decimalSeparator + decimals]
     }
 
     function onSendClick(): void {
