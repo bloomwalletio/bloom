@@ -17,10 +17,8 @@
 {/if}
 
 <style lang="scss">
-    $navbarHeight: 39px;
-
     wallet-container {
-        height: calc(100vh - $navbarHeight);
+        height: calc(100vh - var(--navbar-height) - var(--windows-navbar-height));
         @apply p-8 pb-0;
         @apply flex flex-col gap-8;
         @apply relative;
