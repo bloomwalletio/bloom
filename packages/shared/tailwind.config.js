@@ -1,3 +1,5 @@
+const BLOOM_UI_PRESET = require('@bloomwalletio/ui/tailwind-preset')
+
 /* Utilities */
 const pxToRem = (px, base = 16) => `${px / base}rem`
 
@@ -7,7 +9,7 @@ const NODE_MODULES_ROUTES = ['../../node_modules/@bloomwalletio/ui/**/*.{html,js
 
 module.exports = {
     content: [...SHARED_CONTENT_ROUTES, ...NODE_MODULES_ROUTES, ...DESKTOP_CONTENT_ROUTES],
-    presets: [require('@bloomwalletio/ui/tailwind-preset')],
+    presets: [BLOOM_UI_PRESET],
     safelist: [
         {
             pattern: /^from-/,
@@ -17,6 +19,7 @@ module.exports = {
         },
         {
             pattern: /^bg-/,
+            variants: ['dark'],
         },
         {
             pattern: /^border-/,
@@ -51,9 +54,10 @@ module.exports = {
         {
             pattern: /^h-/,
         },
-    ],
+    ].concat(BLOOM_UI_PRESET?.safelist),
     theme: {
         extend: {
+            ...BLOOM_UI_PRESET?.theme?.extend,
             fontSize: {
                 8: pxToRem(8),
                 9: pxToRem(9),

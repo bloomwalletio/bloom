@@ -55,7 +55,7 @@
         {#if navbar}
             <Indicator color={$selectedAccount?.color} size="sm" />
         {/if}
-        <Text type={navbar ? 'base' : 'body1'}>
+        <Text type={navbar ? 'base' : 'body1'} color="primary">
             {$selectedAccount?.name}
         </Text>
         {#if !navbar}
@@ -66,6 +66,6 @@
 
 <style lang="scss">
     button:hover {
-        @apply bg-surface-2;
+        @apply bg-surface-2 dark:bg-surface-2-dark;
     }
 </style>

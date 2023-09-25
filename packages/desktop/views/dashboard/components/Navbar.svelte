@@ -16,8 +16,11 @@
     import { closeDrawer, toggleDashboardDrawer } from '@desktop/auxiliary/drawer'
     import features from '@features/features'
     import { DashboardDrawerRoute } from '../drawers'
+    import { appSettings } from '@core/app/stores'
 
     let isBackButtonVisible = false
+
+    $: dark = $appSettings.darkMode
 
     $: {
         if ($collectiblesRoute || $governanceRoute) {
@@ -59,25 +62,25 @@
                     on:click={onBackClick}
                     icon={IconName.ArrowLeft}
                     tooltip={localize('actions.back')}
-                    color="text-primary"
+                    color={dark ? 'text-primary-dark' : 'text-primary'}
                     size="sm"
                 />
             {/if}
             <div class="flex flex-row space-x-2 items-center">
                 <AccountSwitcher navbar />
-                <Icon name={IconName.ChevronRight} size="sm" />
-                <Text size="sm" weight="semibold" color="#1E1B4E">
+                <Icon name={IconName.ChevronRight} size="sm" color={dark ? 'text-primary-dark' : 'text-primary'} />
+                <Text size="sm" weight="semibold" color="primary">
                     {localize(`tabs.${$dashboardRoute}`)}
                 </Text>
                 {#if $dashboardRoute === DashboardRoute.Collectibles && $collectiblesRoute !== CollectiblesRoute.Gallery}
-                    <Icon name={IconName.ChevronRight} size="sm" />
-                    <Text size="sm" weight="semibold" color="#1E1B4E">
+                    <Icon name={IconName.ChevronRight} size="sm" color={dark ? 'text-primary-dark' : 'text-primary'} />
+                    <Text size="sm" weight="semibold" color="primary">
                         {$collectiblesRoute}
                     </Text>
                 {/if}
                 {#if $dashboardRoute === DashboardRoute.Governance && $governanceRoute !== GovernanceRoute.Proposals}
-                    <Icon name={IconName.ChevronRight} size="sm" />
-                    <Text size="sm" weight="semibold" color="#1E1B4E">
+                    <Icon name={IconName.ChevronRight} size="sm" color={dark ? 'text-primary-dark' : 'text-primary'} />
+                    <Text size="sm" weight="semibold" color="primary">
                         {$governanceRoute}
                     </Text>
                 {/if}
@@ -90,7 +93,7 @@
                     on:click={() => toggleDashboardDrawer({ id: DashboardDrawerRoute.ContactBook })}
                     icon={IconName.Users}
                     tooltip={localize('general.contacts')}
-                    color="text-primary"
+                    color={dark ? 'text-primary-dark' : 'text-primary'}
                     size="sm"
                 />
             {/if}
@@ -99,7 +102,7 @@
                     on:click={() => toggleDashboardDrawer({ id: DashboardDrawerRoute.DappConfig })}
                     icon={IconName.Grid}
                     tooltip={localize('general.apps')}
-                    color="text-primary"
+                    color={dark ? 'text-primary-dark' : 'text-primary'}
                     size="sm"
                 />
             {/if}
@@ -108,7 +111,7 @@
                     on:click={() => toggleDashboardDrawer({ id: DashboardDrawerRoute.NetworkConfig })}
                     icon={IconName.Globe}
                     tooltip={localize('general.networks')}
-                    color="text-primary"
+                    color={dark ? 'text-primary-dark' : 'text-primary'}
                     size="sm"
                 />
             {/if}
