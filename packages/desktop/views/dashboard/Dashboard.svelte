@@ -72,7 +72,7 @@
     <div class="flex flex-col flex-none">
         {#if IS_MAC}
             <NavbarContainer draggable={IS_MAC}>
-                <div style:height="var(--windows-navbar-height)" />
+                <div style:height="var(--navbar-height, 0px)" />
             </NavbarContainer>
         {/if}
         <Sidebar />
