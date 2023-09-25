@@ -59,7 +59,7 @@
             <Text>
                 {token.metadata.name ? truncateString(token.metadata.name, 13, 0) : truncateString(token.id, 6, 7)}
             </Text>
-            <Text type="sm" color="secondary">
+            <Text type="sm" color="secondary" darkColor="secondary-dark">
                 {getUnitFromTokenMetadata(token.metadata)}
             </Text>
         </div>
@@ -78,7 +78,7 @@
         <Text>
             {token.metadata ? formatTokenAmountBestMatch(token.balance.total, token.metadata) : '-'}
         </Text>
-        <Text color="secondary">
+        <Text color="secondary" darkColor="secondary-dark">
             {getFormattedMarketPriceForTokenAmount(token)}
         </Text>
     </div>
@@ -88,8 +88,8 @@
     .token-row {
         @apply w-full;
         @apply px-5 py-4;
-        @apply border-b border-solid border-gray-100;
-        @apply hover:bg-gray-50;
+        @apply border-b border-solid border-stroke dark:border-stroke-dark;
+        @apply hover:bg-surface-2 dark:hover:bg-surface-2-dark;
 
         @apply grid;
         grid-template-columns: 2fr 2fr 1fr 1fr 2fr;
