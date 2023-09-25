@@ -4,7 +4,7 @@ import { isTrackedTokenAddress } from '@core/wallet/actions'
 import { ISC_MAGIC_CONTRACT_ADDRESS, WEI_PER_GLOW } from '../constants'
 import { ERC20_ABI, ISC_SANDBOX_ABI } from '../abis'
 import { AbiDecoder, HEX_PREFIX } from '@core/utils'
-import { Erc20TransferMethodInputs, IscCallMethodInputs } from '../interfaces'
+import { Erc20TransferMethodInputs, IscCallMethodInputs, IscSendMethodInputs } from '../interfaces'
 import { BASE_TOKEN_ID } from '@core/token/constants'
 import { IChain } from '@core/network'
 
@@ -50,6 +50,26 @@ export function getTransferInfoFromTransactionData(
                     rawAmount: String(inputs._value),
                     recipientAddress: inputs._to,
                 }
+            }
+            case 'send': {
+                const inputs = decoded.inputs as IscSendMethodInputs
+
+                if (inputs.assets.baseTokens) {
+                    return {
+                        tokenId: BASE_TOKEN_ID,
+                        rawAmount: inputs.assets.baseTokens,
+                        recipientAddress: inputs.targetAddress.data,
+                    }
+                } else if (inputs.assets.nativeTokens) {
+                    const nativeToken = inputs.assets.nativeTokens[0]
+                    return {
+                        tokenId: nativeToken.ID.data,
+                        rawAmount: nativeToken.amount,
+                        recipientAddress: inputs.targetAddress.data,
+                    }
+                }
+
+                return undefined
             }
             default:
                 return undefined
