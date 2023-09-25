@@ -39,7 +39,7 @@
 </NavbarContainer>
 
 <style lang="scss">
-    :global(:root) {
+    :global(.platform-win32) {
         --windows-navbar-height: 28px;
     }
 
