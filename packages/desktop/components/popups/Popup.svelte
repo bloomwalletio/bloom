@@ -188,7 +188,7 @@
 
 <popup
     in:fade={{ duration: transition ? 100 : 0 }}
-    class={`flex items-center justify-center fixed ${IS_WINDOWS ? 'top-12' : 'top-0'} left-0 w-screen p-6 ${
+    class={`flex items-center justify-center fixed ${IS_WINDOWS ? 'top-7' : 'top-0'} left-0 w-screen p-6 ${
         overflow ? '' : 'overflow-hidden'
     }
                 h-full z-30 ${
