@@ -12,7 +12,7 @@
     function getSplitBalanceText(balance: string): [string, string] {
         const separator = getDecimalSeparator($activeProfile?.settings?.marketCurrency)
         const [integer, decimals] = balance.split(separator)
-        return [integer, separator + decimals]
+        return [integer, decimals ? separator + decimals : '']
     }
 </script>
 
