@@ -1,13 +1,17 @@
 <script lang="ts">
-    import { IMenuItem, Indicator, Menu, Text } from '@bloomwalletio/ui'
-    import { IAccountState } from '@core/account'
-    import { setSelectedAccount } from '@core/account/actions'
-    import { selectedAccount } from '@core/account/stores'
+    import { Icon, IconName, IMenuItem, Indicator, Menu, Text } from '@bloomwalletio/ui'
     import { formatCurrency, localize } from '@core/i18n'
-    import { getMarketAmountFromTokenValue } from '@core/market/actions'
-    import { activeProfile, visibleActiveAccounts } from '@core/profile/stores'
+    import { openPopup, PopupId } from '@desktop/auxiliary/popup'
     import { selectedAccountTokens } from '@core/token/stores'
-    import { PopupId, openPopup } from '@desktop/auxiliary/popup'
+    import { activeProfile, visibleActiveAccounts } from '@core/profile/stores'
+    import { setSelectedAccount } from '@core/account/actions'
+    import { IAccountState } from '@core/account'
+    import { getMarketAmountFromTokenValue } from '@core/market/actions'
+    import { selectedAccount } from '@core/account/stores'
+
+    export let compact: boolean = false
+    export let showIndicator: boolean = false
+    export let showSwitcherIcon: boolean = false
 
     const menu: Menu | undefined = undefined
 
@@ -41,22 +45,24 @@
 
 <Menu
     {items}
+    {compact}
+    {...!compact && { button: { text: localize('general.newAccount'), onClick: onCreateAccountClick } }}
     placement="bottom-start"
-    compact={false}
-    button={{
-        text: localize('general.newAccount'),
-        onClick: onCreateAccountClick,
-    }}
 >
     <button
         slot="anchor"
         type="button"
-        class="flex flex-row justify-center items-center space-x-2 px-1.5 rounded-md cursor-pointer"
+        class="flex flex-row justify-center items-center space-x-2 px-1.5 py-1 rounded-md cursor-pointer"
     >
-        <Indicator color={$selectedAccount?.color} size="sm" />
-        <Text size="sm" weight="semibold" color="#1E1B4E">
+        {#if showIndicator}
+            <Indicator color={$selectedAccount?.color} size="sm" />
+        {/if}
+        <Text type="body2">
             {$selectedAccount?.name}
         </Text>
+        {#if showSwitcherIcon}
+            <Icon name={IconName.ChevronSelectorVertical} color="text-secondary" />
+        {/if}
     </button>
 </Menu>
 

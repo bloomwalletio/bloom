@@ -1,6 +1,6 @@
 <script lang="ts">
     import { Button, IconName, Text } from '@bloomwalletio/ui'
-    import { AccountActionsMenu } from '@components'
+    import { AccountActionsMenu, AccountSwitcher } from '@components'
     import { IAccountState } from '@core/account'
     import { formatCurrency, getDecimalSeparator } from '@core/i18n'
     import { resetLedgerPreparedOutput, resetShowInternalVerificationPopup } from '@core/ledger'
@@ -43,9 +43,9 @@
     }
 </script>
 
-<account-summary class="w-full h-full p-6 flex flex-col justify-between">
+<account-summary class="w-full h-full px-6 pb-6 pt-4 flex flex-col justify-between">
     <account-summary-header class="w-full flex flex-row justify-between items-center">
-        <Text type="body1" align="center" color="indigo-950" truncate>{account.name}</Text>
+        <AccountSwitcher showSwitcherIcon />
         <AccountActionsMenu />
     </account-summary-header>
     <account-summary-balance class="flex flex-row">
