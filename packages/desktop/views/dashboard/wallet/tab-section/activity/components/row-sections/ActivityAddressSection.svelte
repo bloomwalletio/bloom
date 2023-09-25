@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { Activity, ActivityType } from '@core/activity'
+    import { Activity, ActivityAction, ActivityType } from '@core/activity'
     import AddressWithNetwork from '../AddressWithNetwork.svelte'
 
     export let activity: Activity
@@ -8,7 +8,8 @@
         (activity.sender &&
             activity.sender.address === activity.recipient?.address &&
             activity.sourceNetworkId === activity.destinationNetworkId) ||
-        [ActivityType.Consolidation, ActivityType.Alias, ActivityType.Governance].includes(activity.type)
+        [ActivityType.Consolidation, ActivityType.Alias, ActivityType.Governance].includes(activity.type) ||
+        [ActivityAction.Mint, ActivityAction.Burn].includes(activity.action)
 </script>
 
 <div class="h-full w-full flex flex-row items-center">
