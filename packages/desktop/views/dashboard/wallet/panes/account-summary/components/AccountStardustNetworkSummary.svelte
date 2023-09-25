@@ -13,6 +13,9 @@
     export let account: IAccountState
     export let networkId: NetworkId
 
+    let props: IAccountNetworkSummaryProps | undefined
+    $: $selectedAccountTokens, account, (props = buildAccountStardustNetworkSummaryProps())
+
     function buildAccountStardustNetworkSummaryProps(): IAccountNetworkSummaryProps {
         const network = getNetwork()
         const networkTokens = $selectedAccountTokens?.[networkId]
@@ -35,4 +38,4 @@
     }
 </script>
 
-<AccountNetworkSummary props={buildAccountStardustNetworkSummaryProps()} />
+<AccountNetworkSummary {props} />

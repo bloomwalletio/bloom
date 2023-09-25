@@ -6,13 +6,16 @@
 
     export let account: IAccountState
 
+    const stardustNetworkId = getActiveNetworkId()
     const evmChainNetworkId = $network.getChains()[0].getConfiguration().id
 </script>
 
-<Pane classes="w-full flex flex-row shrink-0 justify-between items-center border border-solid border-gray-100">
-    <AccountSummary {account} />
+<Pane
+    classes="w-full flex flex-row shrink-0 justify-between items-center border border-solid border-gray-100 shadow-lg"
+>
+    <AccountSummary {account} {stardustNetworkId} {evmChainNetworkId} />
     <div class="middle w-full">
-        <AccountStardustNetworkSummary {account} networkId={getActiveNetworkId()} />
+        <AccountStardustNetworkSummary {account} networkId={stardustNetworkId} />
     </div>
     <AccountEvmChainSummary {account} networkId={evmChainNetworkId} />
 </Pane>

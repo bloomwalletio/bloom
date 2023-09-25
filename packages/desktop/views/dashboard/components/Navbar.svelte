@@ -52,7 +52,7 @@
 </script>
 
 <NavbarContainer draggable={IS_MAC}>
-    <div class="h-full flex flex-row justify-between items-center px-4">
+    <div class="flex flex-row justify-between items-center px-4" style:height="var(--navbar-height)">
         <div class="flex flex-row gap-2">
             {#if isBackButtonVisible}
                 <IconButton
@@ -64,7 +64,7 @@
                 />
             {/if}
             <div class="flex flex-row space-x-2 items-center">
-                <AccountSwitcher />
+                <AccountSwitcher navbar />
                 <Icon name={IconName.ChevronRight} size="sm" />
                 <Text size="sm" weight="semibold" color="#1E1B4E">
                     {localize(`tabs.${$dashboardRoute}`)}
@@ -115,3 +115,9 @@
         </div>
     </div>
 </NavbarContainer>
+
+<style lang="scss">
+    :global(:root) {
+        --navbar-height: 40px;
+    }
+</style>
