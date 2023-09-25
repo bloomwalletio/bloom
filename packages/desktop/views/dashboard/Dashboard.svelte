@@ -21,13 +21,13 @@
     import { Developer } from './developer'
     import { DashboardDrawerRouterView } from './drawers'
     import { Governance } from './governance'
-    import { NewDashboard } from './new-dashboard'
-    import { Settings } from './settings'
     import { Wallet } from './wallet'
+    import { Settings } from './settings'
+    import { OldWallet } from './old-wallet'
 
     const tabs = {
-        wallet: NewDashboard,
-        oldDashboard: Wallet,
+        wallet: Wallet,
+        oldDashboard: OldWallet,
         settings: Settings,
         collectibles: Collectibles,
         governance: Governance,
