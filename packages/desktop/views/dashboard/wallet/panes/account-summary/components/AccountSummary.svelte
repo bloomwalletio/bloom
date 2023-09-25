@@ -1,6 +1,6 @@
 <script lang="ts">
-    import { Button, IconName, Text } from '@bloomwalletio/ui'
-    import { AccountActionsMenu, AccountSwitcher } from '@components'
+    import { Button, IconName } from '@bloomwalletio/ui'
+    import { AccountActionsMenu, AccountSwitcher, FormattedBalance } from '@components'
     import { IAccountState } from '@core/account'
     import { formatCurrency, getDecimalSeparator } from '@core/i18n'
     import { resetLedgerPreparedOutput, resetShowInternalVerificationPopup } from '@core/ledger'
@@ -48,10 +48,11 @@
         <AccountSwitcher />
         <AccountActionsMenu />
     </account-summary-header>
-    <account-summary-balance class="flex flex-row">
-        <Text type="h1" truncate>{formattedBalance[0]}</Text>
-        <Text type="h1" color="text-secondary" truncate>{formattedBalance[1]}</Text>
-    </account-summary-balance>
+    <!--    <account-summary-balance class="flex flex-row">-->
+    <!--        <Text type="h1" truncate>{formattedBalance[0]}</Text>-->
+    <!--        <Text type="h1" color="text-secondary" truncate>{formattedBalance[1]}</Text>-->
+    <!--    </account-summary-balance>-->
+    <FormattedBalance primaryText={formattedBalance[0]} secondaryText={formattedBalance[1]} />
     <account-summary-actions class="mt-4 flex flex-row justify-between items-center">
         <Button text="Send" width="full" size="lg" icon={IconName.Send} on:click={onSendClick} />
     </account-summary-actions>
