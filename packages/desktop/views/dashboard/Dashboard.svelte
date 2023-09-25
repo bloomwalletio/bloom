@@ -68,7 +68,7 @@
 </script>
 
 <Idle />
-<dashboard class="dashboard-wrapper flex flex-row w-full h-full">
+<dashboard class="flex flex-row w-full h-full">
     <div class="flex flex-col flex-none">
         {#if IS_MAC}
             <NavbarContainer draggable={IS_MAC}>
@@ -80,15 +80,19 @@
     <div class="flex flex-col flex-grow basis-0">
         <Navbar />
         <!-- Dashboard Pane -->
-        <div>
+        <dashboard-container>
             <svelte:component this={tabs[$dashboardRoute]} on:next={$appRouter.next} />
             <DashboardDrawerRouterView />
-        </div>
+        </dashboard-container>
     </div>
 </dashboard>
 
 <style lang="scss">
     :global(:not(body.platform-win32)) dashboard {
         margin-top: calc(env(safe-area-inset-top) / 2);
+    }
+
+    dashboard-container {
+        height: calc(100vh - var(--navbar-height, 0px) - var(--windows-navbar-height, 0px));
     }
 </style>
