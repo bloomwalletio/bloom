@@ -1,3 +1,6 @@
+import { ILayer2SendMetadataParameterParameters } from './layer-2-send-metadata-parameter-parameters.interface'
+import { ILayer2SendOptionsParameter } from './layer-2-send-options-parameter.interface'
+
 export interface IscSendMethodInputs {
     targetAddress: {
         data: string
@@ -16,12 +19,7 @@ export interface IscSendMethodInputs {
     metadata: {
         targetContract: number
         entrypoint: number
-        params: {
-            items: {
-                key: string
-                value: string
-            }[]
-        }
+        params: ILayer2SendMetadataParameterParameters[]
         allowance: {
             baseTokens: string
             nativeTokens: {
@@ -34,13 +32,5 @@ export interface IscSendMethodInputs {
         }
         gasBudget: number
     }
-    sendOptions: {
-        timelock: number
-        expiration: {
-            time: number
-            returnAddress: {
-                data: string
-            }
-        }
-    }
+    sendOptions: ILayer2SendOptionsParameter
 }
