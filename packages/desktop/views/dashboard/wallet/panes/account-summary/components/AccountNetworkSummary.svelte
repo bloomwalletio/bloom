@@ -15,7 +15,7 @@
     import { LedgerAppName } from '@core/ledger'
     import { toggleDashboardDrawer } from '@desktop/auxiliary/drawer'
     import { DashboardDrawerRoute, NetworkConfigRoute } from '@views/dashboard/drawers'
-    import { ProfileType } from 'shared/src/lib/core/profile'
+    import { ProfileType } from '@core/profile'
 
     export let props: IAccountNetworkSummaryProps
 

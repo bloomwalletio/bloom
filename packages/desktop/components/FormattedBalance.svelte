@@ -1,7 +1,7 @@
 <script lang="ts">
     import { Text, TextType } from '@bloomwalletio/ui'
-    import { getDecimalSeparator } from 'shared/src/lib/core/i18n'
-    import { activeProfile } from 'shared/src/lib/core/profile/stores'
+    import { getDecimalSeparator } from '@core/i18n'
+    import { activeProfile } from '@core/profile/stores'
 
     export let balanceText: string = ''
     export let textType: TextType = 'h1'
