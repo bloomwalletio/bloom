@@ -129,7 +129,7 @@
 
 <style lang="postcss">
     aside {
-        @apply bg-white dark:bg-gray-800;
+        @apply bg-surface-1/90 dark:bg-surface-1-dark/60;
         @apply h-full w-64;
         @apply border-solid border-r border-gray-100 dark:border-gray-800;
     }
