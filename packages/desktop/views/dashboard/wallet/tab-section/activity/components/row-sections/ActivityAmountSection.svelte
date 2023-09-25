@@ -3,12 +3,13 @@
         Activity,
         ActivityType,
         GovernanceAction,
+        getFormattedAmountFromActivity,
         getFormattedVotingPowerFromGovernanceActivity,
     } from '@core/activity'
     import { getTokenFromActivity } from '@core/activity/utils/getTokenFromActivity'
     import { formatCurrency } from '@core/i18n'
     import { getMarketAmountFromTokenValue } from '@core/market/actions'
-    import { ITokenWithBalance, formatTokenAmountBestMatch } from '@core/token'
+    import { ITokenWithBalance } from '@core/token'
     import { Text } from '@bloomwalletio/ui'
     import { selectedAccountTokens } from '@core/token/stores'
 
@@ -19,8 +20,7 @@
 
     function getAmount(_activity: Activity): string {
         if (_activity.type === ActivityType.Basic || _activity.type === ActivityType.Foundry) {
-            const amount = _activity.tokenTransfer?.rawAmount ?? _activity.baseTokenTransfer.rawAmount
-            return token?.metadata ? formatTokenAmountBestMatch(Number(amount), token.metadata) : amount
+            return getFormattedAmountFromActivity(_activity)
         } else if (_activity.type === ActivityType.Consolidation) {
             return String(_activity.amountConsolidatedInputs)
         } else if (_activity.type === ActivityType.Governance) {

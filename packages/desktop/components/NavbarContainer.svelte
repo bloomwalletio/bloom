@@ -4,7 +4,7 @@
     export let ghost: boolean = false
 </script>
 
-<navbar class:drag={draggable} class:ghost style:height="{height}px;">
+<navbar class:drag={draggable} class:ghost style:height="{height}px">
     <slot />
 </navbar>
 
