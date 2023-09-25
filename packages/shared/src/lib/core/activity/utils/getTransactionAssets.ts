@@ -1,7 +1,7 @@
 import { INft } from '@core/nfts'
 import { getNftByIdFromAllAccountNfts } from '@core/nfts/actions'
 import { TokenTransferData } from '@core/wallet/types'
-import { ActivityType, GovernanceAction } from '../enums'
+import { ActivityAction, ActivityType, GovernanceAction } from '../enums'
 import { Activity } from '../types'
 import { getPersistedToken } from '@core/token/stores'
 import { BASE_TOKEN_ID, IToken } from '@core/token'
@@ -32,7 +32,7 @@ export function getTransactionAssets(
         const nft = getNftByIdFromAllAccountNfts(accountIndex, activity.nftId)
         return {
             nft,
-            baseCoinTransfer,
+            baseCoinTransfer: activity.action !== ActivityAction.Burn ? baseCoinTransfer : undefined,
         }
     } else if (activity.type === ActivityType.Basic || activity.type === ActivityType.Foundry) {
         const token: IToken | undefined = activity.tokenTransfer?.tokenId
@@ -48,7 +48,7 @@ export function getTransactionAssets(
                           token,
                       }
                     : undefined,
-            baseCoinTransfer,
+            baseCoinTransfer: activity.action !== ActivityAction.Burn ? baseCoinTransfer : undefined,
         }
     } else if (activity.type === ActivityType.Governance) {
         const isVotingPowerActivity =
@@ -64,6 +64,7 @@ export function getTransactionAssets(
     } else if (activity.type === ActivityType.Alias) {
         return {
             aliasId: activity.aliasId,
+            baseCoinTransfer: activity.action !== ActivityAction.Burn ? baseCoinTransfer : undefined,
         }
     }
 }

@@ -67,7 +67,7 @@
     }
 </script>
 
-<account-network-summary class="w-full flex flex-col justify-between">
+<account-network-summary class="h-full w-full flex flex-col justify-between">
     <account-network-summary-header class="flex flex-row justify-between items-center gap-2">
         <div class="flex flex-row space-x-3 items-center">
             <NetworkAvatar {networkId} />
@@ -84,7 +84,7 @@
             {/if}
         </account-network-summary-header-address>
     </account-network-summary-header>
-    <account-network-summary-balance class="middle flex flex-col justify-between items-start">
+    <account-network-summary-balance class="middle flex flex-col justify-between items-start flex-grow">
         <account-network-summary-balance-primary>
             <Text type="h3" truncate>{tokenBalance}</Text>
         </account-network-summary-balance-primary>
