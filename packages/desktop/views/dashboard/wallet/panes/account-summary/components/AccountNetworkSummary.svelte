@@ -1,6 +1,7 @@
 <script lang="ts">
     import { Avatar, Button, Copyable, Text } from '@bloomwalletio/ui'
     import { NetworkAvatar, NetworkStatusIndicator } from '@ui'
+    import { FormattedBalance } from '@components'
     import { truncateString } from '@core/utils'
     import { localize } from '@core/i18n'
     import { ownedNfts } from '@core/nfts/stores'
@@ -18,7 +19,7 @@
 
     export let props: IAccountNetworkSummaryProps
 
-    const {
+    $: ({
         networkId,
         networkName,
         networkHealth,
@@ -27,7 +28,7 @@
         networkFiatBalance,
         networkTokens,
         networkNfts,
-    } = props ?? <IAccountNetworkSummaryProps>{}
+    } = props ?? <IAccountNetworkSummaryProps>{})
 
     $: $selectedAccountTokens, $ownedNfts, updateAssetCounts()
 
@@ -91,12 +92,14 @@
         </account-network-summary-header-address>
     </account-network-summary-header>
     <account-network-summary-balance class="middle flex flex-col justify-between items-start">
-        <account-network-summary-balance-primary>
-            <Text type="h3" truncate>{networkTokenBalance}</Text>
-        </account-network-summary-balance-primary>
-        <account-network-summary-balance-secondary>
-            <Text type="body2" truncate>{networkFiatBalance}</Text>
-        </account-network-summary-balance-secondary>
+        <!--        <account-network-summary-balance-primary>-->
+        <!--            <Text type="h3" truncate>{networkTokenBalance}</Text>-->
+        <!--        </account-network-summary-balance-primary>-->
+        <!--        <account-network-summary-balance-secondary>-->
+        <!--            <Text type="body2" color="text-secondary">{networkFiatBalance}</Text>-->
+        <!--        </account-network-summary-balance-secondary>-->
+        <FormattedBalance balanceText={networkTokenBalance} textType="h3" />
+        <Text type="body2" color="text-secondary">{networkFiatBalance}</Text>
     </account-network-summary-balance>
     <account-network-summary-assets class="flex flex-row justify-between items-center">
         <Avatar backgroundColor="indigo-950" shape="square" text={nftCountFormatted} />

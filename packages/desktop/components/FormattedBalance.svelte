@@ -1,12 +1,22 @@
 <script lang="ts">
     import { Text, TextType } from '@bloomwalletio/ui'
+    import { getDecimalSeparator } from 'shared/src/lib/core/i18n'
+    import { activeProfile } from 'shared/src/lib/core/profile/stores'
 
-    export let primaryText: string = ''
-    export let secondaryText: string = ''
+    export let balanceText: string = ''
     export let textType: TextType = 'h1'
+
+    let splitBalanceText: [string, string]
+    $: splitBalanceText = getSplitBalanceText(balanceText)
+
+    function getSplitBalanceText(balance: string): [string, string] {
+        const separator = getDecimalSeparator($activeProfile?.settings?.marketCurrency)
+        const [integer, decimals] = balance.split(separator)
+        return [integer, separator + decimals]
+    }
 </script>
 
 <formatted-balance class="flex flex-row items-center">
-    <Text type={textType}>{primaryText}</Text>
-    <Text type={textType} color="text-secondary">{secondaryText}</Text>
+    <Text type={textType}>{splitBalanceText[0]}</Text>
+    <Text type={textType} color="text-secondary">{splitBalanceText[1]}</Text>
 </formatted-balance>
