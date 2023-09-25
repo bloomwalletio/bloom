@@ -10,7 +10,7 @@
 
 <div
     class:darkmode={darkModeEnabled}
-    class="bg-surface-0 border border-solid border-stroke rounded-2xl overflow-{overflow} shadow-elevation-1 {classes}"
+    class="bg-surface dark:bg-surface-dark border border-solid border-stroke dark:border-stroke-dark rounded-2xl overflow-{overflow} shadow-elevation-1 {classes}"
 >
     <slot />
 </div>

@@ -22,6 +22,6 @@
         @apply p-8 pb-0;
         @apply flex flex-col gap-8;
         @apply relative;
-        @apply bg-surface-0;
+        @apply bg-surface dark:bg-surface-dark;
     }
 </style>
