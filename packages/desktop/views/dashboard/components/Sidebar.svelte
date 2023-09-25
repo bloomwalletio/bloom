@@ -2,17 +2,18 @@
     import { Icon, IconName } from '@bloomwalletio/ui'
     import { SidebarTab } from '@components'
     import { localize } from '@core/i18n'
-    import { activeProfile } from '@core/profile/stores'
+    import { isSoftwareProfile, activeProfile } from '@core/profile/stores'
     import { DashboardRoute, collectiblesRouter, dashboardRouter, governanceRouter, settingsRouter } from '@core/router'
     import { ISidebarTab } from '@desktop/routers'
     import features from '@features/features'
     import { Logo } from '@ui'
     import { BackupToast, VersionToast, AutoUpdateToast } from './toasts'
-    import { default as ProfileFrame } from './ProfileFrame.svelte'
+    import StrongholdStatusTile from './StrongholdStatusTile.svelte'
+    import ProfileFrame from './ProfileFrame.svelte'
 
     let sidebarTabs: ISidebarTab[]
     $: sidebarTabs = [
-        ...(features?.wallet?.enabled
+        ...(features?.wallet?.newDashboard?.enabled
             ? [
                   {
                       icon: IconName.Wallet,
@@ -22,13 +23,13 @@
                   },
               ]
             : []),
-        ...(features?.wallet?.newDashboard?.enabled
+        ...(features?.wallet?.oldDashboard.enabled
             ? [
                   {
                       icon: IconName.Wallet,
                       label: localize('tabs.wallet'),
-                      route: DashboardRoute.NewDashboard,
-                      onClick: openNewDashboard,
+                      route: DashboardRoute.OldDashboard,
+                      onClick: openOldDashboard,
                   },
               ]
             : []),
@@ -68,9 +69,9 @@
         resetAllRouters()
     }
 
-    function openNewDashboard(): void {
+    function openOldDashboard(): void {
         resetAllRouters()
-        $dashboardRouter.goTo(DashboardRoute.NewDashboard)
+        $dashboardRouter.goTo(DashboardRoute.OldDashboard)
     }
 
     function openCollectibles(): void {
@@ -112,11 +113,16 @@
     </nav>
 
     <div>
-        <toasts>
-            <BackupToast />
-            <VersionToast />
-            <AutoUpdateToast />
-        </toasts>
+        <sidebar-middle>
+            <toasts>
+                <BackupToast />
+                <AutoUpdateToast />
+                <VersionToast />
+            </toasts>
+            {#if $isSoftwareProfile}
+                <StrongholdStatusTile />
+            {/if}
+        </sidebar-middle>
         <ProfileFrame />
     </div>
 </aside>
@@ -142,9 +148,14 @@
         @apply p-4;
     }
 
-    toasts {
+    sidebar-middle {
         @apply flex flex-col;
         @apply p-4 gap-2;
+    }
+
+    toasts {
+        @apply flex flex-col;
+        @apply gap-2;
     }
 
     :global(body.platform-win32) aside {

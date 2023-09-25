@@ -6,6 +6,15 @@
     import { ownedNfts } from '@core/nfts/stores'
     import { selectedAccountTokens } from '@core/token/stores'
     import { IAccountNetworkSummaryProps } from '../interfaces'
+    import { network, setSelectedChain } from '@core/network'
+    import { checkActiveProfileAuth } from '@core/profile/actions'
+    import { generateAndStoreEvmAddressForAccounts } from '@core/layer-2/actions'
+    import { activeProfile } from '@core/profile/stores'
+    import { selectedAccount } from '@core/account/stores'
+    import { LedgerAppName } from '@core/ledger'
+    import { toggleDashboardDrawer } from '@desktop/auxiliary/drawer'
+    import { DashboardDrawerRoute, NetworkConfigRoute } from '@views/dashboard/drawers'
+    import { ProfileType } from 'shared/src/lib/core/profile'
 
     export let props: IAccountNetworkSummaryProps
 
@@ -39,8 +48,28 @@
     }
 
     function onGenerateAddressClick(): void {
-        /* eslint-disable no-console */
-        console.log('generate address')
+        const chain = $network.getChain(networkId)
+        if (!chain) {
+            return
+        }
+        checkActiveProfileAuth(
+            async () => {
+                await generateAndStoreEvmAddressForAccounts(
+                    $activeProfile.type,
+                    chain.getConfiguration().coinType,
+                    $selectedAccount
+                )
+                if ($activeProfile.type === ProfileType.Ledger) {
+                    setSelectedChain(chain)
+                    toggleDashboardDrawer({
+                        id: DashboardDrawerRoute.NetworkConfig,
+                        initialSubroute: NetworkConfigRoute.ConfirmLedgerEvmAddress,
+                    })
+                }
+            },
+            {},
+            LedgerAppName.Ethereum
+        )
     }
 </script>
 
@@ -48,13 +77,13 @@
     <account-network-summary-header class="flex flex-row justify-between items-center gap-2">
         <div class="flex flex-row space-x-3 items-center">
             <NetworkAvatar {networkId} />
-            <Text type="h6" align="center" color="indigo-950" truncate>{networkName}</Text>
+            <Text type="body1" truncate>{networkName}</Text>
         </div>
         <account-network-summary-header-address class="flex flex-row items-center space-x-2">
             {#if networkAddress}
                 <NetworkStatusIndicator status={networkHealth} />
                 <Copyable value={networkAddress}>
-                    <Text type="pre" align="center" color="indigo-950" truncate>{truncateString(networkAddress)}</Text>
+                    <Text type="pre-md" color="text-secondary" truncate>{truncateString(networkAddress)}</Text>
                 </Copyable>
             {:else}
                 <Button text={localize('actions.generateAddress')} variant="text" on:click={onGenerateAddressClick} />
@@ -63,12 +92,10 @@
     </account-network-summary-header>
     <account-network-summary-balance class="middle flex flex-col justify-between items-start">
         <account-network-summary-balance-primary>
-            <Text type="p" weight="semibold" size="3xl" color="indigo-950" align="center" truncate
-                >{networkTokenBalance}</Text
-            >
+            <Text type="h3" truncate>{networkTokenBalance}</Text>
         </account-network-summary-balance-primary>
         <account-network-summary-balance-secondary>
-            <Text type="p" weight="semibold" align="center" truncate>{networkFiatBalance}</Text>
+            <Text type="body2" truncate>{networkFiatBalance}</Text>
         </account-network-summary-balance-secondary>
     </account-network-summary-balance>
     <account-network-summary-assets class="flex flex-row justify-between items-center">

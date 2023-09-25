@@ -12,10 +12,13 @@
     export let account: IAccountState
     export let networkId: NetworkId
 
+    let props: IAccountNetworkSummaryProps | undefined
+    $: $selectedAccountTokens, account, (props = buildAccountEvmChainSummaryProps())
+
     function buildAccountEvmChainSummaryProps(): IAccountNetworkSummaryProps {
         const chain = getNetwork().getChain(networkId)
         const networkTokens = $selectedAccountTokens?.[networkId]
-        const evmChainBaseToken: ITokenWithBalance = $selectedAccountTokens?.[getNetwork().getMetadata().id]?.baseCoin
+        const evmChainBaseToken: ITokenWithBalance = networkTokens?.baseCoin
         const networkTokenBalance = formatTokenAmountBestMatch(
             evmChainBaseToken?.balance.total ?? 0,
             evmChainBaseToken?.metadata
@@ -41,4 +44,4 @@
     }
 </script>
 
-<AccountNetworkSummary props={buildAccountEvmChainSummaryProps()} />
+<AccountNetworkSummary {props} />

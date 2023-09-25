@@ -1,8 +1,8 @@
 <script lang="ts">
     import { Activity, ActivityAction, ActivityDirection, ActivityType, getActivityTileTitle } from '@core/activity'
     import { formatDate, localize } from '@core/i18n'
-    import { FontWeight, Text } from '@ui'
     import { Avatar, IconName } from '@bloomwalletio/ui'
+    import { Text } from '@bloomwalletio/ui'
 
     export let activity: Activity
 
@@ -70,12 +70,10 @@
     }
 </script>
 
-<div class="flex flex-row items-center gap-2">
-    <Avatar size="xxs" backgroundColor={style.color} icon={style.icon} textColor="white" />
-    <Text fontWeight={FontWeight.semibold} color={style.color + '-500'} classes="text-start"
-        >{localize(getActivityTileTitle(activity))}</Text
-    >
+<div class="text-start">
+    <div class="flex flex-row items-center gap-2">
+        <Avatar size="xxs" backgroundColor={style.color} icon={style.icon} textColor="white" />
+        <Text color={style.color + '-500'}>{localize(getActivityTileTitle(activity))}</Text>
+    </div>
+    <Text color="secondary">{formatDate(activity.time, { year: 'numeric', month: 'short', day: 'numeric' })}</Text>
 </div>
-<Text fontWeight={FontWeight.semibold} secondary classes="text-start"
-    >{formatDate(activity.time, { year: 'numeric', month: 'short', day: 'numeric' })}</Text
->

@@ -21,13 +21,13 @@
     import { Developer } from './developer'
     import { DashboardDrawerRouterView } from './drawers'
     import { Governance } from './governance'
-    import { NewDashboard } from './new-dashboard'
-    import { Settings } from './settings'
     import { Wallet } from './wallet'
+    import { Settings } from './settings'
+    import { OldWallet } from './old-wallet'
 
     const tabs = {
         wallet: Wallet,
-        newDashboard: NewDashboard,
+        oldDashboard: OldWallet,
         settings: Settings,
         collectibles: Collectibles,
         governance: Governance,
@@ -75,10 +75,10 @@
         {/if}
         <Sidebar />
     </div>
-    <div class="flex flex-col flex-auto">
+    <div class="flex flex-col flex-grow basis-0">
         <Navbar />
         <!-- Dashboard Pane -->
-        <div class="flex flex-col h-full w-full">
+        <div>
             <svelte:component this={tabs[$dashboardRoute]} on:next={$appRouter.next} />
             <DashboardDrawerRouterView />
         </div>
