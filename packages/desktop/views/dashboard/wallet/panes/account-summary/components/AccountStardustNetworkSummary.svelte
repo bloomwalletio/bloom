@@ -18,24 +18,24 @@
 
     function buildAccountStardustNetworkSummaryProps(): IAccountNetworkSummaryProps {
         const network = getNetwork()
-        const networkTokens = $selectedAccountTokens?.[networkId]
-        const networkBaseCoin: ITokenWithBalance = networkTokens?.baseCoin
-        const networkTokenBalance = formatTokenAmountBestMatch(networkBaseCoin.balance.total, networkBaseCoin.metadata)
-        const networkFiatBalance = formatCurrency(
+        const tokens = $selectedAccountTokens?.[networkId]
+        const networkBaseCoin: ITokenWithBalance = tokens?.baseCoin
+        const tokenBalance = formatTokenAmountBestMatch(networkBaseCoin.balance.total, networkBaseCoin.metadata)
+        const fiatBalance = formatCurrency(
             getMarketAmountFromTokenValue(networkBaseCoin.balance.total, networkBaseCoin)
         )
 
         return {
             networkId,
-            networkName: network.getMetadata().name,
-            networkHealth: network.getStatus()?.health ?? NetworkHealth.Disconnected,
-            networkAddress: account.depositAddress,
-            networkTokenBalance,
-            networkFiatBalance,
-            networkTokens,
-            networkNfts: $ownedNfts,
+            name: network.getMetadata().name,
+            health: network.getStatus()?.health ?? NetworkHealth.Disconnected,
+            address: account.depositAddress,
+            tokenBalance,
+            fiatBalance,
+            tokens,
+            nfts: $ownedNfts,
         }
     }
 </script>
 
-<AccountNetworkSummary {props} />
+<AccountNetworkSummary {...props} />

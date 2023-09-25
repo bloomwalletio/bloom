@@ -4,11 +4,11 @@ import type { IAccountTokensPerNetwork } from '@core/token'
 
 export interface IAccountNetworkSummaryProps {
     networkId: NetworkId
-    networkName: string
-    networkHealth: NetworkHealth
-    networkAddress: string
-    networkTokenBalance: string
-    networkFiatBalance: string
-    networkTokens: IAccountTokensPerNetwork
-    networkNfts: INft[]
+    name: string
+    health: NetworkHealth
+    address: string
+    tokenBalance: string
+    fiatBalance: string
+    tokens: IAccountTokensPerNetwork
+    nfts: INft[]
 }
