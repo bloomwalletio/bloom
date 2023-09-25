@@ -18,7 +18,7 @@
             case LedgerConnectionState.AppNotOpen:
                 iconColor = 'gray'
                 iconName = IconName.Cpu
-                subTitle = 'Unlocked'
+                subTitle = localize('general.unlocked')
                 break
             case LedgerConnectionState.ShimmerAppOpen:
                 iconColor = '#17E1D5'
@@ -34,13 +34,13 @@
             case LedgerConnectionState.Locked:
                 iconColor = 'green'
                 iconName = IconName.Cpu
-                subTitle = 'Locked'
+                subTitle = localize('general.locked')
                 break
             case LedgerConnectionState.NotConnected:
             default:
                 iconColor = 'danger'
                 iconName = IconName.ZapOff
-                subTitle = 'Disconnected'
+                subTitle = localize('general.disconnected')
                 break
         }
 
