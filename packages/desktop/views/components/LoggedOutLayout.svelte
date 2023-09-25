@@ -5,7 +5,9 @@
 </script>
 
 {#if IS_MAC}
-    <NavbarContainer ghost draggable />
+    <NavbarContainer ghost draggable>
+        <div style:height="var(--windows-navbar-height)" />
+    </NavbarContainer>
 {/if}
 <logged-out-layout class="flex flex-col justify-between items-center w-full h-full bg-slate-100 dark:bg-gray-900">
     <header class="w-full flex flex-col px-12 pt-{IS_LINUX ? '8' : '4'} pb-6">

@@ -71,7 +71,9 @@
 <dashboard class="dashboard-wrapper flex flex-row w-full h-full">
     <div class="flex flex-col flex-none">
         {#if IS_MAC}
-            <NavbarContainer draggable={IS_MAC} />
+            <NavbarContainer draggable={IS_MAC}>
+                <div style:height="var(--windows-navbar-height)" />
+            </NavbarContainer>
         {/if}
         <Sidebar />
     </div>
