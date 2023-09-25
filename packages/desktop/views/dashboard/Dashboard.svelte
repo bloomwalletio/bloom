@@ -26,8 +26,8 @@
     import { Wallet } from './wallet'
 
     const tabs = {
-        wallet: Wallet,
-        newDashboard: NewDashboard,
+        wallet: NewDashboard,
+        oldDashboard: Wallet,
         settings: Settings,
         collectibles: Collectibles,
         governance: Governance,
