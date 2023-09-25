@@ -59,7 +59,7 @@
                     on:click={onBackClick}
                     icon={IconName.ArrowLeft}
                     tooltip={localize('actions.back')}
-                    color="#1E1B4E"
+                    color="text-primary"
                     size="sm"
                 />
             {/if}
@@ -90,7 +90,7 @@
                     on:click={() => toggleDashboardDrawer({ id: DashboardDrawerRoute.ContactBook })}
                     icon={IconName.Users}
                     tooltip={localize('general.contacts')}
-                    color="#1E1B4E"
+                    color="text-primary"
                     size="sm"
                 />
             {/if}
@@ -99,7 +99,7 @@
                     on:click={() => toggleDashboardDrawer({ id: DashboardDrawerRoute.DappConfig })}
                     icon={IconName.Grid}
                     tooltip={localize('general.apps')}
-                    color="#1E1B4E"
+                    color="text-primary"
                     size="sm"
                 />
             {/if}
@@ -108,7 +108,7 @@
                     on:click={() => toggleDashboardDrawer({ id: DashboardDrawerRoute.NetworkConfig })}
                     icon={IconName.Globe}
                     tooltip={localize('general.networks')}
-                    color="#1E1B4E"
+                    color="text-primary"
                     size="sm"
                 />
             {/if}

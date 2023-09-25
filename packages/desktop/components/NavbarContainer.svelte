@@ -10,14 +10,13 @@
 
 <style lang="scss">
     navbar {
-        @apply w-full flex-none z-10 bg-white;
-        border-bottom: 1px solid #f1eef9;
-        border-right: 1px solid #f1eef9;
+        @apply w-full flex-none z-10;
+        @apply bg-surface dark:bg-surface-dark;
+        @apply border-r border-b border-solid border-stroke dark:border-stroke-dark;
 
         &.ghost {
             @apply bg-transparent;
-            border-bottom: none;
-            border-right: none;
+            border: none;
         }
 
         &.drag {
