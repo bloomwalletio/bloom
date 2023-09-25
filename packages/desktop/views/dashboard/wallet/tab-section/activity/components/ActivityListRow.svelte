@@ -45,7 +45,7 @@
     .activity-row {
         @apply w-full;
         @apply px-5 py-4;
-        @apply border-b border-solid border-gray-100;
+        @apply border-b border-solid border-stroke;
         @apply hover:bg-gray-50;
 
         @apply grid;

@@ -10,19 +10,10 @@
     const evmChainNetworkId = $network.getChains()[0].getConfiguration().id
 </script>
 
-<Pane
-    classes="w-full flex flex-row shrink-0 justify-between items-center border border-solid border-gray-100 shadow-lg"
->
+<Pane classes="w-full flex flex-row shrink-0 justify-between items-center shadow-lg">
     <AccountSummary {account} {stardustNetworkId} {evmChainNetworkId} />
-    <div class="middle w-full">
+    <div class="middle w-full border-l border-r border-solid border-stroke">
         <AccountStardustNetworkSummary {account} networkId={stardustNetworkId} />
     </div>
     <AccountEvmChainSummary {account} networkId={evmChainNetworkId} />
 </Pane>
-
-<style lang="postcss">
-    .middle {
-        border-left: 1px solid #f1eef9;
-        border-right: 1px solid #f1eef9;
-    }
-</style>
