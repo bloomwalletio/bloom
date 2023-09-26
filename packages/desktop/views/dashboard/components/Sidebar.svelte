@@ -149,7 +149,7 @@
     }
 
     status-container {
-        @apply p-4 pt-2;
+        @apply p-4 pt-0;
     }
 
     toasts {
