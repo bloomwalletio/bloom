@@ -1,17 +1,18 @@
 <script lang="ts">
-    import { QR, Text, FontWeight, AddressBox } from '@ui'
+    import { Button, Text } from '@bloomwalletio/ui'
+    import { QR, AddressBox } from '@ui'
     import { localize } from '@core/i18n'
     import { selectedAccount } from '@core/account/stores'
-
-    export let title: string = localize('general.receiveFunds')
+    import { setClipboard } from '@core/utils'
 
     $: receiveAddress = $selectedAccount.depositAddress
 </script>
 
 <receive-details class="w-full h-full space-y-6 flex flex-auto flex-col shrink-0">
-    <Text type="h3" fontWeight={FontWeight.semibold} classes="text-left">{title}</Text>
-    <div class="flex w-full flex-col items-center space-y-6">
+    <Text type="h5" textColor="text-brand">{localize('actions.receive')}</Text>
+    <div class="w-full flex flex-col items-center space-y-6">
         <QR data={receiveAddress} classes="w-1/2 h-1/2" />
         <AddressBox address={receiveAddress} clearBackground isCopyable />
     </div>
+    <Button text={localize('actions.copyAddress')} on:click={() => setClipboard(receiveAddress)} />
 </receive-details>
