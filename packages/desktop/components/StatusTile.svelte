@@ -1,21 +1,46 @@
+<script lang="ts" context="module">
+    export interface StatusTileProps {
+        checked?: boolean
+        title: string
+        subtitle: string
+        logo?: LogoName
+        iconName?: IconName
+        iconColor?: string
+        iconBackgroundColor?: string
+        onClick?: () => void
+    }
+</script>
+
 <script lang="ts">
     import { Avatar, IconName, Text, Tile, Toggle } from '@bloomwalletio/ui'
+    import { Logo } from '@ui'
+    import { LogoName } from '@auxiliary/logo'
 
     export let checked = true
     export let title: string
-    export let subTitle: string
+    export let subtitle: string
     export let iconName: IconName | undefined
     export let iconColor: string | undefined
-    export let onClick: () => void
+    export let iconBackgroundColor: string | undefined = undefined
+    export let logo: LogoName | undefined = undefined
+    export let onClick: (() => void) | undefined = undefined
+
+    $: backgroundColor = iconBackgroundColor ?? `${iconColor}-200`
 </script>
 
 <Tile>
     <status-tile>
         <div class="flex flex-row items-center gap-2">
-            <Avatar icon={iconName} backgroundColor="{iconColor}-100" textColor={iconColor} size="sm" shape="square" />
+            {#if logo}
+                <Avatar {backgroundColor} size="sm" shape="square">
+                    <Logo {logo} />
+                </Avatar>
+            {:else}
+                <Avatar icon={iconName} {backgroundColor} textColor={iconColor} size="sm" shape="square" />
+            {/if}
             <div>
                 <Text>{title}</Text>
-                <Text type="xs" color="secondary">{subTitle}</Text>
+                <Text type="xs" color="secondary">{subtitle}</Text>
             </div>
         </div>
         {#if onClick}
