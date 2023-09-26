@@ -1,3 +1,16 @@
+<script lang="ts" context="module">
+    export interface StatusTileProps {
+        checked?: boolean
+        title: string
+        subtitle: string
+        logo?: LogoName
+        iconName?: IconName
+        iconColor?: string
+        iconBackgroundColor?: string
+        onClick?: () => void
+    }
+</script>
+
 <script lang="ts">
     import { Avatar, IconName, Text, Tile, Toggle } from '@bloomwalletio/ui'
     import { Logo } from '@ui'
@@ -10,7 +23,7 @@
     export let iconColor: string | undefined
     export let iconBackgroundColor: string | undefined = undefined
     export let logo: LogoName | undefined = undefined
-    export let onClick: () => void | undefined = undefined
+    export let onClick: (() => void) | undefined = undefined
 
     $: backgroundColor = iconBackgroundColor ?? `${iconColor}-200`
 </script>

@@ -1,20 +1,11 @@
 <script lang="ts">
     import { LogoName } from '@auxiliary/logo'
     import { IconName } from '@bloomwalletio/ui'
-    import { StatusTile } from '@components'
+    import { StatusTile, StatusTileProps } from '@components'
     import { localize } from '@core/i18n'
     import { LedgerConnectionState, ledgerConnectionState } from '@core/ledger'
 
     $: statusTileProps = setStatusTileProps($ledgerConnectionState)
-
-    interface StatusTileProps {
-        title: string
-        subtitle: string
-        logo: LogoName
-        iconName: IconName
-        iconColor: string
-        iconBackgroundColor: string
-    }
 
     function setStatusTileProps(connectionState: LedgerConnectionState): StatusTileProps {
         let subtitle: string
@@ -43,7 +34,7 @@
             case LedgerConnectionState.Locked:
                 subtitle = localize('general.locked')
                 iconName = IconName.Cpu
-                iconColor = 'green'
+                iconColor = 'success'
                 break
             case LedgerConnectionState.NotConnected:
             default:
