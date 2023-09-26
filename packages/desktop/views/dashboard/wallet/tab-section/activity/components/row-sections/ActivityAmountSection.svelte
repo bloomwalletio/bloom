@@ -49,6 +49,6 @@
 <div class="text-end">
     <Text>{getAmount(activity)}</Text>
     {#if getFormattedMarketPrice(activity)}
-        <Text color="secondary" darkColor="secondary-dark">{getFormattedMarketPrice(activity)}</Text>
+        <Text color="secondary" darkColor="secondary">{getFormattedMarketPrice(activity)}</Text>
     {/if}
 </div>

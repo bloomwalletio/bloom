@@ -77,7 +77,7 @@
             >{localize(getActivityTileTitle(activity))}</Text
         >
     </div>
-    <Text color="secondary" darkColor="secondary-dark"
+    <Text color="secondary" darkColor="secondary"
         >{formatDate(activity.time, { year: 'numeric', month: 'short', day: 'numeric' })}</Text
     >
 </div>
