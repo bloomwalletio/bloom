@@ -6,7 +6,7 @@
 
 {#if IS_MAC}
     <NavbarContainer ghost draggable>
-        <div style:height="var(--windows-navbar-height)" />
+        <div style:height="var(--navbar-height)" />
     </NavbarContainer>
 {/if}
 <logged-out-layout class="flex flex-col justify-between items-center w-full h-full bg-slate-100 dark:bg-gray-900">
