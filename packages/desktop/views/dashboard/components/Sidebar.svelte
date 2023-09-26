@@ -97,7 +97,7 @@
     }
 </script>
 
-<aside class="">
+<aside>
     <logo-container class="flex flex-row;">
         <Logo width="120" logo="bloom" />
         <Icon name={IconName.Collapse} color="gray" />
