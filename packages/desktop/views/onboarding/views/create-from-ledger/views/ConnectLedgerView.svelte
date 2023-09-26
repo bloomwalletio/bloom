@@ -10,8 +10,7 @@
 
     $: isNotConnected = $ledgerConnectionState === LedgerConnectionState.NotConnected
     $: isLocked = isNotConnected || $ledgerConnectionState === LedgerConnectionState.Locked
-    $: isAppNotOpen = isLocked || $ledgerConnectionState === LedgerConnectionState.AppNotOpen
-    $: isCorrectAppOpen = $ledgerConnectionState === LedgerConnectionState.CorrectAppOpen
+    $: isCorrectAppOpen = $ledgerConnectionState === LedgerConnectionState.ShimmerAppOpen
 
     function handleGuidePopup(): void {
         openPopup({
@@ -57,8 +56,8 @@
             </div>
             <div class="flex flex-row items-center space-x-2">
                 <Icon
-                    icon={`status-${isAppNotOpen ? 'error' : 'success'}`}
-                    classes={`text-white bg-${isAppNotOpen ? 'red' : 'green'}-600 rounded-full`}
+                    icon={`status-${isCorrectAppOpen ? 'success' : 'error'}`}
+                    classes={`text-white bg-${isCorrectAppOpen ? 'green' : 'red'}-600 rounded-full`}
                 />
                 <Text type="p" secondary>{localize('views.connectLedger.openApp')}</Text>
             </div>

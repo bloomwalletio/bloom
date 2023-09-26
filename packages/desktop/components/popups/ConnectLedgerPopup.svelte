@@ -15,12 +15,12 @@
     export let onCancel: () => void
     export let onContinue: () => void
 
-    $: ledgerConnectionState = determineLedgerConnectionState($ledgerDeviceState, ledgerAppName)
+    $: ledgerConnectionState = determineLedgerConnectionState($ledgerDeviceState)
 
     $: isNotConnected = ledgerConnectionState === LedgerConnectionState.NotConnected
     $: isLocked = ledgerConnectionState === LedgerConnectionState.Locked
     $: isAppNotOpen = ledgerConnectionState === LedgerConnectionState.AppNotOpen
-    $: isCorrectAppOpen = ledgerConnectionState === LedgerConnectionState.CorrectAppOpen
+    $: isCorrectAppOpen = ledgerConnectionState === (ledgerAppName as unknown as LedgerConnectionState)
 
     let animation: string
     $: ledgerConnectionState, setAnimation()

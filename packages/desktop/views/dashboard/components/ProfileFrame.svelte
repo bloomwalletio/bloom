@@ -27,13 +27,12 @@
         @apply flex justify-between items-center;
         @apply w-full;
         @apply px-4 py-2;
-        /* TODO: remove the hardcoded color when color system is in place */
-        border-top: 1px solid #f1eef9;
+        @apply border-t border-solid border-stroke dark:border-stroke-dark;
     }
     button {
         @apply flex justify-between items-center;
         @apply w-full rounded;
         @apply px-3 py-2;
-        @apply hover:bg-purple-100;
+        @apply hover:bg-purple-100 dark:hover:bg-surface-2-dark;
     }
 </style>

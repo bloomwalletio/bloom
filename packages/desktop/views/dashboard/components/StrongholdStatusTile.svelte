@@ -24,7 +24,7 @@
     {iconName}
     {iconColor}
     title={localize('general.stronghold')}
-    subTitle={localize(`general.${$isStrongholdLocked ? 'locked' : 'unlocked'}`)}
+    subtitle={localize(`general.${$isStrongholdLocked ? 'locked' : 'unlocked'}`)}
     onClick={onStrongholdToggleClick}
     checked={$isStrongholdLocked}
 />
