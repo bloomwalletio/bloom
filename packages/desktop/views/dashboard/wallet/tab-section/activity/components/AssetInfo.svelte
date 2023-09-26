@@ -11,7 +11,7 @@
         <Text>
             {title}
         </Text>
-        <Text type="sm" color="secondary">
+        <Text type="sm" textColor="secondary">
             {subtitle}
         </Text>
     </div>

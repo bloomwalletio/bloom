@@ -55,11 +55,11 @@
         {#if navbar}
             <Indicator color={$selectedAccount?.color} size="sm" />
         {/if}
-        <Text type={navbar ? 'base' : 'body1'} color="primary">
+        <Text type={navbar ? 'base' : 'body1'}>
             {$selectedAccount?.name}
         </Text>
         {#if !navbar}
-            <Icon name={IconName.ChevronSelectorVertical} size="sm" color="text-secondary" />
+            <Icon name={IconName.ChevronSelectorVertical} size="sm" textColor="secondary" />
         {/if}
     </button>
 </Menu>

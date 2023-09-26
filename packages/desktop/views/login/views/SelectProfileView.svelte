@@ -20,6 +20,7 @@
     import { onMount } from 'svelte'
     import features from '@features/features'
     import { LoggedOutLayout } from '@views/components'
+    import { LogoName } from '@auxiliary/logo/enums'
 
     function onContinueClick(profileId: string): void {
         loadPersistedProfileIntoActiveProfile(profileId)
@@ -61,7 +62,7 @@
 </script>
 
 <LoggedOutLayout>
-    <Logo slot="header" width="150" logo="bloom" />
+    <Logo slot="header" width="150" logo={LogoName.Bloom} />
     <div
         slot="content"
         class="

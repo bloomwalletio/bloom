@@ -14,7 +14,7 @@
 
 <button class:selected={isSelected} on:click={onClick}>
     <div class="flex flex-row relative space-x-4 pr-3">
-        <Icon color={isSelected ? 'primary' : 'text-primary'} name={tab?.icon} />
+        <Icon customColor={isSelected ? 'primary' : 'text-primary'} name={tab?.icon} />
         {#if tab?.notificationType}
             <Indicator
                 size="sm"
@@ -23,10 +23,10 @@
                 class="absolute top-0 right-0"
             />
         {/if}
-        <Text color={isSelected ? 'brand' : 'primary'}>{tab.label}</Text>
+        <Text textColor={isSelected ? 'brand' : 'primary'}>{tab.label}</Text>
     </div>
     {#if isSelected}
-        <Icon color="brand" name={IconName.ChevronRight} />
+        <Icon customColor="brand" name={IconName.ChevronRight} />
     {/if}
 </button>
 

@@ -102,7 +102,7 @@
 <aside>
     <logo-container class="flex flex-row;">
         <Logo width="120" logo={LogoName.Bloom} />
-        <Icon name={IconName.Collapse} color="gray" />
+        <Icon name={IconName.Collapse} customColor="gray" />
     </logo-container>
 
     <sidebar-tabs class="flex flex-col">
