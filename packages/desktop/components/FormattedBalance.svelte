@@ -12,7 +12,13 @@
     function getSplitBalanceText(balance: string): [string, string] {
         const separator = getDecimalSeparator($activeProfile?.settings?.marketCurrency)
         const [integer, decimals] = balance.split(separator)
-        return [integer, decimals ? separator + decimals : '']
+        if (decimals) {
+            return [integer, separator + decimals]
+        } else {
+            const parsedInteger = parseInt(integer).toString()
+            const tokenSymbol = integer.replace(parsedInteger, '').replace(' ', '')
+            return [parsedInteger, `${separator}00 ${tokenSymbol}`]
+        }
     }
 </script>
 
