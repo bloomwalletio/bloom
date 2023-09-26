@@ -15,14 +15,14 @@
 
     const AVATAR_TEXT_COLOR: { [id in SupportedNetworkId]: string } = {
         [SupportedNetworkId.Shimmer]: '#17E1D5',
-        [SupportedNetworkId.Testnet]: 'secondary',
+        [SupportedNetworkId.Testnet]: 'text-secondary',
         [SupportedNetworkId.ShimmerEvm]: '#17E1D5',
-        [SupportedNetworkId.ShimmerEvmTestnet]: 'secondary',
+        [SupportedNetworkId.ShimmerEvmTestnet]: 'text-secondary',
     }
 
     $: isSupported = isSupportedNetworkId(networkId)
-    $: backgroundColor = isSupported ? AVATAR_BACKGROUND_COLOR[networkId as SupportedNetworkId] : 'gray-100'
-    $: customTextColor = isSupported ? AVATAR_TEXT_COLOR[networkId as SupportedNetworkId] : 'red-100'
+    $: backgroundColor = isSupported ? AVATAR_BACKGROUND_COLOR[networkId as SupportedNetworkId] : 'neutral-4'
+    $: customTextColor = isSupported ? AVATAR_TEXT_COLOR[networkId as SupportedNetworkId] : undefined
     $: icon = isSupported ? DEFAULT_NETWORK_ICON[networkId as SupportedNetworkId] : undefined
     $: magnify = networkId === SupportedNetworkId.ShimmerEvm || networkId === SupportedNetworkId.ShimmerEvmTestnet
 </script>
