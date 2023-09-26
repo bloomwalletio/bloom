@@ -9,7 +9,7 @@
     <div slot="contents" class="flex flex-col h-full">
         {#if $drawerState?.route === DrawerRoute.Dashboard}
             {#if $drawerState.id === DashboardDrawerRoute.NetworkConfig}
-                <NetworkConfigRouterView />
+                <NetworkConfigRouterView initialRoute={$drawerState.initialSubroute} />
             {:else if $drawerState.id === DashboardDrawerRoute.DappConfig}
                 <DappConfigRouterView initialRoute={$drawerState.initialSubroute} props={$drawerState.props} />
             {:else if $drawerState.id === DashboardDrawerRoute.ContactBook}

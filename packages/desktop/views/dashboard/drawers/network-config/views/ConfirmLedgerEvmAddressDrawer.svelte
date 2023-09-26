@@ -3,16 +3,15 @@
     import { DrawerTemplate } from '@components'
     import { selectedAccount } from '@core/account/stores'
     import { localize } from '@core/i18n'
-    import { IIscpChainConfiguration } from '@core/network/interfaces'
-    import { selectedChain } from '@core/network/stores'
+    import { network, selectedChain } from '@core/network/stores'
     import { Router } from '@core/router'
     import { Animation, CopyableBox, FontWeight, Pane, Text, TextType } from '@ui'
     import { NetworkConfigRoute, networkConfigRouter } from '../'
 
     export let drawerRouter: Router<NetworkConfigRoute>
 
-    $: configuration = $selectedChain.getConfiguration() as IIscpChainConfiguration
-    $: address = $selectedAccount?.evmAddresses?.[configuration.coinType]
+    $: chain = $selectedChain ?? $network.getChains()[0]
+    $: address = $selectedAccount?.evmAddresses?.[chain.getConfiguration()?.coinType]
 
     function onContinueClick(): void {
         $networkConfigRouter.reset()

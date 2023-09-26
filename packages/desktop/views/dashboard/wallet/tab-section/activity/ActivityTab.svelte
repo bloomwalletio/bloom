@@ -1,0 +1,69 @@
+<script lang="ts">
+    import { time } from '@core/app/stores'
+    import { localize } from '@core/i18n'
+    import {
+        activityFilter,
+        activitySearchTerm,
+        queriedActivities,
+        selectedAccountActivities,
+        setAsyncStatusOfAccountActivities,
+    } from '@core/activity'
+    import { Text } from '@bloomwalletio/ui'
+    import VirtualList from '@sveltejs/svelte-virtual-list'
+    import ActivityListRow from './components/ActivityListRow.svelte'
+
+    $: setAsyncStatusOfAccountActivities($time)
+
+    $: $activityFilter, $activitySearchTerm, scrollToTop()
+    $: isEmptyBecauseOfFilter =
+        $selectedAccountActivities.filter((_activity) => !_activity.isHidden).length > 0 &&
+        $queriedActivities.length === 0
+
+    function scrollToTop(): void {
+        const listElement = document.querySelector('.activity-list')?.querySelector('svelte-virtual-list-viewport')
+        if (listElement) {
+            listElement.scroll(0, 0)
+        }
+    }
+</script>
+
+<activity-tab>
+    <header-row>
+        <Text type="sm" fontWeight="medium" color="secondary">{localize('views.dashboard.activity.asset')}</Text>
+        <Text type="sm" fontWeight="medium" color="secondary">{localize('views.dashboard.activity.action')}</Text>
+        <Text type="sm" fontWeight="medium" color="secondary">{localize('views.dashboard.activity.address')}</Text>
+        <div class="text-end">
+            <Text type="sm" fontWeight="medium" color="secondary">{localize('views.dashboard.activity.amount')}</Text>
+        </div>
+    </header-row>
+    {#if $queriedActivities.length > 0}
+        <VirtualList items={$queriedActivities} let:item>
+            <ActivityListRow activity={item} />
+        </VirtualList>
+    {:else}
+        <div class="h-full flex flex-col items-center justify-center text-center">
+            <Text color="secondary">
+                {localize(`general.${isEmptyBecauseOfFilter ? 'noFilteredActivity' : 'noRecentHistory'}`)}
+            </Text>
+        </div>
+    {/if}
+</activity-tab>
+
+<style lang="scss">
+    $paneHeaderHeight: 68px;
+
+    activity-tab {
+        @apply flex flex-col flex-grow;
+        height: calc(100% - $paneHeaderHeight);
+
+        header-row {
+            @apply w-full;
+            @apply px-5 py-4;
+            @apply bg-gray-50;
+            @apply border-b border-solid border-gray-100;
+
+            @apply grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+        }
+    }
+</style>

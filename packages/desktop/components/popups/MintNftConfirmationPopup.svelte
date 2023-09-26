@@ -90,7 +90,7 @@
     </Text>
     <div class="space-y-2 max-h-100 scrollable-y flex-1">
         <nft-details class="flex flex-col justify-center items-center space-y-4">
-            <NftImageOrIconBox size="large" {type} />
+            <NftImageOrIconBox size="lg" {type} />
             <activity-details class="w-full h-full space-y-2 flex flex-auto flex-col shrink-0">
                 <Tabs bind:activeTab {tabs} />
                 {#if activeTab === Tab.Transaction}

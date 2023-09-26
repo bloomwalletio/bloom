@@ -1,6 +1,6 @@
 export enum DashboardRoute {
     Wallet = 'wallet',
-    NewDashboard = 'newDashboard',
+    OldDashboard = 'oldDashboard',
     Collectibles = 'collectibles',
     Developer = 'developer',
     Governance = 'governance',
