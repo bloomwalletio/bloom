@@ -130,7 +130,7 @@
         @apply h-screen w-64;
         @apply flex flex-col;
         @apply relative;
-        @apply bg-white dark:bg-gray-800;
+        @apply bg-surface-1 dark:bg-surface-1-dark;
         @apply border-solid border-r border-stroke dark:border-stroke-dark;
     }
 
@@ -138,8 +138,7 @@
         @apply justify-between items-center;
         @apply gap-8;
         @apply py-4.5 px-7;
-        /* TODO: remove the hardcoded color when color system is in place */
-        border-bottom: 1px solid #f1eef9;
+        @apply border-b border-solid border-stroke dark:border-stroke-dark;
     }
 
     sidebar-tabs {
