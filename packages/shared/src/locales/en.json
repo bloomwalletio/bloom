@@ -353,18 +353,9 @@
                 "amount": "Amount",
                 "consolidatedOutputs": "{amount} outputs consolidated"
             },
-            "profileModal": {
+            "profileMenu": {
                 "allSettings": "All settings",
-                "logout": "Log out",
-                "hardware": {
-                    "title": "Hardware Device",
-                    "statuses": {
-                        "appNotOpen": "Ledger unlocked but app not open",
-                        "correctAppOpen": "Ledger unlocked and app open ",
-                        "locked": "Ledger securely locked",
-                        "notConnected": "Ledger not connected"
-                    }
-                }
+                "logout": "Log out"
             },
             "drawers": {
                 "networkConfig": {
@@ -1383,7 +1374,8 @@
         "contacts": "Contacts",
         "apps": "Apps",
         "networks": "Networks",
-        "ledgerDevice": "Ledger device"
+        "ledgerDevice": "Ledger device",
+        "disconnected": "Disconnected"
     },
     "filters":{
         "title": "Filters",

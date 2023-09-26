@@ -2,7 +2,7 @@
     import { Button, IconName } from '@bloomwalletio/ui'
     import { AccountActionsMenu, AccountSwitcher, FormattedBalance } from '@components'
     import { IAccountState } from '@core/account'
-    import { formatCurrency } from '@core/i18n'
+    import { formatCurrency, localize } from '@core/i18n'
     import { resetLedgerPreparedOutput, resetShowInternalVerificationPopup } from '@core/ledger'
     import { getMarketAmountFromTokenValue } from '@core/market/actions'
     import { NetworkId } from '@core/network'
@@ -46,6 +46,6 @@
     </account-summary-header>
     <FormattedBalance balanceText={formattedBalance} />
     <account-summary-actions class="mt-4 flex flex-row justify-between items-center">
-        <Button text="Send" width="full" size="lg" icon={IconName.Send} on:click={onSendClick} />
+        <Button text={localize('actions.send')} width="full" size="lg" icon={IconName.Send} on:click={onSendClick} />
     </account-summary-actions>
 </account-summary>

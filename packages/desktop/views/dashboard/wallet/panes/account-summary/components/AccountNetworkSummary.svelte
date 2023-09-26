@@ -6,8 +6,7 @@
     import { localize } from '@core/i18n'
     import { ownedNfts } from '@core/nfts/stores'
     import { selectedAccountTokens } from '@core/token/stores'
-    import { IAccountNetworkSummaryProps } from '../interfaces'
-    import { network, setSelectedChain } from '@core/network'
+    import { NetworkHealth, NetworkId, network, setSelectedChain } from '@core/network'
     import { checkActiveProfileAuth } from '@core/profile/actions'
     import { generateAndStoreEvmAddressForAccounts } from '@core/layer-2/actions'
     import { activeProfile } from '@core/profile/stores'
@@ -15,20 +14,18 @@
     import { LedgerAppName } from '@core/ledger'
     import { toggleDashboardDrawer } from '@desktop/auxiliary/drawer'
     import { DashboardDrawerRoute, NetworkConfigRoute } from '@views/dashboard/drawers'
-    import { ProfileType } from '@core/profile'
+    import { ProfileType } from 'shared/src/lib/core/profile'
+    import { IAccountTokensPerNetwork } from '@core/token'
+    import { INft } from '@core/nfts'
 
-    export let props: IAccountNetworkSummaryProps
-
-    $: ({
-        networkId,
-        networkName,
-        networkHealth,
-        networkAddress,
-        networkTokenBalance,
-        networkFiatBalance,
-        networkTokens,
-        networkNfts,
-    } = props ?? <IAccountNetworkSummaryProps>{})
+    export let networkId: NetworkId
+    export let name: string
+    export let health: NetworkHealth
+    export let address: string
+    export let tokenBalance: string
+    export let fiatBalance: string
+    export let tokens: IAccountTokensPerNetwork
+    export let nfts: INft[]
 
     $: $selectedAccountTokens, $ownedNfts, updateAssetCounts()
 
@@ -36,12 +33,9 @@
     let nftCountFormatted: string
 
     function updateAssetCounts(): void {
-        const networkTokenList = [
-            networkTokens?.baseCoin && networkTokens.baseCoin,
-            ...(networkTokens?.nativeTokens ?? []),
-        ]
+        const networkTokenList = [tokens?.baseCoin && tokens.baseCoin, ...(tokens?.nativeTokens ?? [])]
         tokenCountFormatted = getAvatarGroupCount(networkTokenList)
-        nftCountFormatted = getAvatarGroupCount(networkNfts)
+        nftCountFormatted = getAvatarGroupCount(nfts)
     }
 
     function getAvatarGroupCount(array: unknown[]): string {
@@ -74,17 +68,17 @@
     }
 </script>
 
-<account-network-summary class="w-full flex flex-col justify-between">
+<account-network-summary class="h-full w-full flex flex-col justify-between">
     <account-network-summary-header class="flex flex-row justify-between items-center gap-2">
         <div class="flex flex-row space-x-3 items-center">
             <NetworkAvatar {networkId} />
-            <Text type="body1" truncate>{networkName}</Text>
+            <Text type="body1" truncate>{name}</Text>
         </div>
         <account-network-summary-header-address class="flex flex-row items-center space-x-2">
-            {#if networkAddress}
-                <NetworkStatusIndicator status={networkHealth} />
-                <Copyable value={networkAddress}>
-                    <Text type="pre-md" color="text-secondary" truncate>{truncateString(networkAddress)}</Text>
+            {#if address}
+                <NetworkStatusIndicator status={health} />
+                <Copyable value={address}>
+                    <Text type="pre-md" color="secondary" truncate>{truncateString(address)}</Text>
                 </Copyable>
             {:else}
                 <Button text={localize('actions.generateAddress')} variant="text" on:click={onGenerateAddressClick} />
@@ -92,14 +86,8 @@
         </account-network-summary-header-address>
     </account-network-summary-header>
     <account-network-summary-balance class="middle flex flex-col justify-between items-start">
-        <!--        <account-network-summary-balance-primary>-->
-        <!--            <Text type="h3" truncate>{networkTokenBalance}</Text>-->
-        <!--        </account-network-summary-balance-primary>-->
-        <!--        <account-network-summary-balance-secondary>-->
-        <!--            <Text type="body2" color="text-secondary">{networkFiatBalance}</Text>-->
-        <!--        </account-network-summary-balance-secondary>-->
-        <FormattedBalance balanceText={networkTokenBalance} textType="h3" />
-        <Text type="body2" color="text-secondary">{networkFiatBalance}</Text>
+        <FormattedBalance balanceText={tokenBalance} textType="h3" />
+        <Text type="body2" color="text-secondary">{fiatBalance}</Text>
     </account-network-summary-balance>
     <account-network-summary-assets class="flex flex-row justify-between items-center">
         <Avatar backgroundColor="indigo-950" shape="square" text={nftCountFormatted} />

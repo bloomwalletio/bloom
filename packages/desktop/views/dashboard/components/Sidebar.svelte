@@ -9,7 +9,9 @@
     import { Logo } from '@ui'
     import { BackupToast, VersionToast, AutoUpdateToast } from './toasts'
     import StrongholdStatusTile from './StrongholdStatusTile.svelte'
+    import LedgerStatusTile from './LedgerStatusTile.svelte'
     import ProfileFrame from './ProfileFrame.svelte'
+    import { LogoName } from '@auxiliary/logo'
 
     let sidebarTabs: ISidebarTab[]
     $: sidebarTabs = [
@@ -97,65 +99,67 @@
     }
 </script>
 
-<aside class="flex flex-col relative">
-    <nav class="flex flex-col w-full h-full">
-        <logo-container class="flex flex-row;">
-            <Logo width="120" logo="bloom" />
-            <Icon name={IconName.Collapse} color="gray" />
-        </logo-container>
-        <sidebar-tabs class="flex flex-col">
-            {#each sidebarTabs as tab}
-                <div class="flex">
-                    <SidebarTab {tab} />
-                </div>
-            {/each}
-        </sidebar-tabs>
-    </nav>
+<aside>
+    <logo-container class="flex flex-row;">
+        <Logo width="120" logo={LogoName.Bloom} />
+        <Icon name={IconName.Collapse} textColor="secondary" />
+    </logo-container>
 
-    <div>
-        <sidebar-middle>
-            <toasts>
-                <BackupToast />
-                <AutoUpdateToast />
-                <VersionToast />
-            </toasts>
-            {#if $isSoftwareProfile}
-                <StrongholdStatusTile />
-            {/if}
-        </sidebar-middle>
-        <ProfileFrame />
-    </div>
+    <sidebar-tabs class="flex flex-col">
+        {#each sidebarTabs as tab}
+            <div class="flex">
+                <SidebarTab {tab} />
+            </div>
+        {/each}
+    </sidebar-tabs>
+
+    <toasts>
+        <VersionToast />
+        <AutoUpdateToast />
+        <BackupToast />
+    </toasts>
+
+    <status-container>
+        {#if $isSoftwareProfile}
+            <StrongholdStatusTile />
+        {:else}
+            <LedgerStatusTile />
+        {/if}
+    </status-container>
+    <ProfileFrame />
 </aside>
 
 <style lang="postcss">
     aside {
-        @apply bg-white dark:bg-gray-800;
-        @apply h-full w-64;
-        @apply border-solid border-r border-gray-100 dark:border-gray-800;
+        @apply h-screen w-64;
+        @apply flex flex-col;
+        @apply relative;
+        @apply bg-surface-1/90 dark:bg-surface-1-dark/60;
+        @apply border-solid border-r border-stroke dark:border-stroke-dark;
     }
 
     logo-container {
         @apply justify-between items-center;
         @apply gap-8;
         @apply py-4.5 px-7;
-        /* TODO: remove the hardcoded color when color system is in place */
-        border-bottom: 1px solid #f1eef9;
+        @apply border-b border-solid border-stroke dark:border-stroke-dark;
     }
 
     sidebar-tabs {
         @apply justify-items-start;
         @apply w-full space-y-1;
-        @apply p-4;
+        @apply p-4 pb-2;
     }
 
-    sidebar-middle {
-        @apply flex flex-col;
-        @apply p-4 gap-2;
+    status-container {
+        @apply p-4 pt-0;
     }
 
     toasts {
-        @apply flex flex-col;
-        @apply gap-2;
+        @apply flex flex-col-reverse;
+        @apply overflow-auto;
+        @apply flex-grow;
+        @apply px-4 py-2 gap-2;
     }
 
     :global(body.platform-win32) aside {

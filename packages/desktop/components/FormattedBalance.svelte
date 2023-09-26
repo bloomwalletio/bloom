@@ -18,5 +18,5 @@
 
 <formatted-balance class="flex flex-row items-center">
     <Text type={textType}>{splitBalanceText[0]}</Text>
-    <Text type={textType} color="text-secondary">{splitBalanceText[1]}</Text>
+    <Text type={textType} textColor="text-secondary">{splitBalanceText[1]}</Text>
 </formatted-balance>
