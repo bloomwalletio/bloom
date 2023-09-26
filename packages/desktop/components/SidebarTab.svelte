@@ -4,6 +4,7 @@
     import { ISidebarTab } from '@desktop/routers'
 
     export let tab: ISidebarTab = undefined
+    export let collapsed: boolean = false
 
     let showChevron = false
 
@@ -36,9 +37,11 @@
                 class="absolute top-0 right-0"
             />
         {/if}
-        <Text {color} weight="semibold">{tab.label}</Text>
+        {#if !collapsed}
+            <Text {color} weight="semibold">{tab.label}</Text>
+        {/if}
     </div>
-    {#if showChevron}
+    {#if showChevron && !collapsed}
         <Icon color="primary" name={IconName.ChevronRight} />
     {/if}
 </button>

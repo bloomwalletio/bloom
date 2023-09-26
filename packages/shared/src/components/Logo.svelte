@@ -10,7 +10,9 @@
     $: darkModeEnabled = $appSettings.darkMode
 
     const logos: { [logo in LogoName]: string } = {
-        [LogoName.Bloom]: 'bloom_logo_full.svg',
+        [LogoName.BloomLogo]: 'bloom_logo.svg',
+        [LogoName.BloomLogoFUll]: 'bloom_logo_full.svg',
+        [LogoName.BloomText]: 'bloom_text.svg',
         [LogoName.Stronghold]: 'stronghold.svg',
         [LogoName.Ethereum]: 'ethereum_app.svg',
     }

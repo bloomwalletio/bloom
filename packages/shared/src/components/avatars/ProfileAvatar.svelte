@@ -5,7 +5,7 @@
     import { NftAvatar } from '@ui'
 
     export let profile: IPersistedProfile
-    export let size: (typeof avatarSize)[number] = 'md'
+    export let size: (typeof avatarSize)[number] = 'sm'
     export let shape: 'circle' | 'squircle' | 'square' = 'circle'
 </script>
 

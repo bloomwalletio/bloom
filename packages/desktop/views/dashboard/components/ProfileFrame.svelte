@@ -4,14 +4,17 @@
     import { ProfileActionsModal } from '@components'
     import { Modal, ProfileAvatar } from '@ui'
 
+    export let collapsed = false
     let profileModal: Modal
 
     const { shouldOpenProfileModal } = $activeProfile
 </script>
 
-<profile-frame>
-    <button on:click={profileModal?.open}>
-        <Text>{$activeProfile.name}</Text>
+<frame class="">
+    <button on:click={profileModal?.open} class:collapsed>
+        {#if !collapsed}
+            <Text>{$activeProfile.name}</Text>
+        {/if}
         <div class="relative">
             <ProfileAvatar profile={$activeProfile} />
             {#if !$shouldOpenProfileModal}
@@ -19,21 +22,22 @@
             {/if}
         </div>
     </button>
-</profile-frame>
+</frame>
 <ProfileActionsModal bind:modal={profileModal} />
 
 <style lang="postcss">
-    profile-frame {
-        @apply flex justify-between items-center;
-        @apply w-full;
-        @apply px-4 py-2;
-        /* TODO: remove the hardcoded color when color system is in place */
-        border-top: 1px solid #f1eef9;
+    frame {
+        @apply flex-none w-full h-16 justify-center items-center;
+        @apply border-t border-solid border-stroke;
     }
+
     button {
         @apply flex justify-between items-center;
-        @apply w-full rounded;
-        @apply px-3 py-2;
+        @apply w-full h-full px-7;
         @apply hover:bg-purple-100;
+
+        &.collapsed {
+            @apply justify-center px-0;
+        }
     }
 </style>

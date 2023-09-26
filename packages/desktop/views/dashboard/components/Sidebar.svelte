@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { Icon, IconName } from '@bloomwalletio/ui'
+    import { IconName, IconButton } from '@bloomwalletio/ui'
     import { SidebarTab } from '@components'
     import { localize } from '@core/i18n'
     import { isSoftwareProfile, activeProfile } from '@core/profile/stores'
@@ -12,6 +12,11 @@
     import LedgerStatusTile from './LedgerStatusTile.svelte'
     import ProfileFrame from './ProfileFrame.svelte'
     import { LogoName } from '@auxiliary/logo'
+
+    let collapsed: boolean = false
+    function toggleCollapse(): void {
+        collapsed = !collapsed
+    }
 
     let sidebarTabs: ISidebarTab[]
     $: sidebarTabs = [
@@ -99,35 +104,46 @@
     }
 </script>
 
-<aside class="flex flex-col relative">
+<aside class="flex flex-col relative" class:collapsed>
     <nav class="flex flex-col w-full h-full">
-        <logo-container class="flex flex-row;">
-            <Logo width="120" logo={LogoName.Bloom} />
-            <Icon name={IconName.Collapse} color="gray" />
+        <logo-container class="flex flex-row">
+            <logo class="flex flex-row space-x-4">
+                <button on:click={toggleCollapse} disabled={!collapsed}>
+                    <Logo width="32" logo={LogoName.BloomLogo} />
+                </button>
+                {#if !collapsed}
+                    <Logo width="80" logo={LogoName.BloomText} />
+                {/if}
+            </logo>
+            {#if !collapsed}
+                <IconButton icon={IconName.Collapse} color="gray" on:click={toggleCollapse} />
+            {/if}
         </logo-container>
         <sidebar-tabs class="flex flex-col">
             {#each sidebarTabs as tab}
                 <div class="flex">
-                    <SidebarTab {tab} />
+                    <SidebarTab {tab} {collapsed} />
                 </div>
             {/each}
         </sidebar-tabs>
     </nav>
 
     <div>
-        <sidebar-middle>
-            <toasts>
-                <BackupToast />
-                <AutoUpdateToast />
-                <VersionToast />
-            </toasts>
-            {#if $isSoftwareProfile}
-                <StrongholdStatusTile />
-            {:else}
-                <LedgerStatusTile />
-            {/if}
-        </sidebar-middle>
-        <ProfileFrame />
+        {#if !collapsed}
+            <sidebar-middle>
+                <toasts>
+                    <BackupToast />
+                    <AutoUpdateToast />
+                    <VersionToast />
+                </toasts>
+                {#if $isSoftwareProfile}
+                    <StrongholdStatusTile />
+                {:else}
+                    <LedgerStatusTile />
+                {/if}
+            </sidebar-middle>
+        {/if}
+        <ProfileFrame {collapsed} />
     </div>
 </aside>
 
@@ -136,6 +152,10 @@
         @apply bg-white dark:bg-gray-800;
         @apply h-full w-64;
         @apply border-solid border-r border-gray-100 dark:border-gray-800;
+
+        &.collapsed {
+            @apply w-20;
+        }
     }
 
     logo-container {
