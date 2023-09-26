@@ -9,7 +9,9 @@
     import { Logo } from '@ui'
     import { BackupToast, VersionToast, AutoUpdateToast } from './toasts'
     import StrongholdStatusTile from './StrongholdStatusTile.svelte'
+    import LedgerStatusTile from './LedgerStatusTile.svelte'
     import ProfileFrame from './ProfileFrame.svelte'
+    import { LogoName } from '@auxiliary/logo'
 
     let sidebarTabs: ISidebarTab[]
     $: sidebarTabs = [
@@ -100,7 +102,7 @@
 <aside class="flex flex-col relative">
     <nav class="flex flex-col w-full h-full">
         <logo-container class="flex flex-row;">
-            <Logo width="120" logo="bloom" />
+            <Logo width="120" logo={LogoName.Bloom} />
             <Icon name={IconName.Collapse} color="gray" />
         </logo-container>
         <sidebar-tabs class="flex flex-col">
@@ -121,6 +123,8 @@
             </toasts>
             {#if $isSoftwareProfile}
                 <StrongholdStatusTile />
+            {:else}
+                <LedgerStatusTile />
             {/if}
         </sidebar-middle>
         <ProfileFrame />

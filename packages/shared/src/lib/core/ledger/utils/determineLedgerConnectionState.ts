@@ -1,19 +1,19 @@
 import { LedgerAppName, LedgerConnectionState } from '../enums'
 import { ILedgerDeviceState } from '../interfaces'
 
-export function determineLedgerConnectionState(
-    status: ILedgerDeviceState,
-    appName = LedgerAppName.Shimmer
-): LedgerConnectionState {
+export function determineLedgerConnectionState(status: ILedgerDeviceState): LedgerConnectionState {
     const { connected, locked, app } = status
     if (connected) {
         if (locked) {
             return LedgerConnectionState.Locked
         } else {
-            if (app === appName) {
-                return LedgerConnectionState.CorrectAppOpen
-            } else {
-                return LedgerConnectionState.AppNotOpen
+            switch (app) {
+                case LedgerAppName.Shimmer:
+                    return LedgerConnectionState.ShimmerAppOpen
+                case LedgerAppName.Ethereum:
+                    return LedgerConnectionState.EthereumAppOpen
+                default:
+                    return LedgerConnectionState.AppNotOpen
             }
         }
     } else {
