@@ -1,6 +1,10 @@
+import { LedgerAppName } from './ledger-app-name.enum'
+
 export enum LedgerConnectionState {
     AppNotOpen = 'appNotOpen',
-    CorrectAppOpen = 'correctAppOpen',
     Locked = 'locked',
     NotConnected = 'notConnected',
+    EthereumAppOpen = LedgerAppName.Ethereum,
+    ShimmerAppOpen = LedgerAppName.Shimmer,
+    BolosAppOpen = LedgerAppName.Bolos,
 }

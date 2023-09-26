@@ -19,8 +19,8 @@ export function checkOrConnectLedger(
         }
     }
     try {
-        const ledgerConnectionState = determineLedgerConnectionState(get(ledgerDeviceState), ledgerAppName)
-        const ledgerConnected = ledgerConnectionState === LedgerConnectionState.CorrectAppOpen
+        const ledgerConnectionState = determineLedgerConnectionState(get(ledgerDeviceState))
+        const ledgerConnected = ledgerConnectionState === (ledgerAppName as unknown as LedgerConnectionState)
         if (ledgerConnected) {
             return callback()
         } else {

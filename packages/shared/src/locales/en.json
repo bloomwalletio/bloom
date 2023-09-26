@@ -1383,7 +1383,8 @@
         "contacts": "Contacts",
         "apps": "Apps",
         "networks": "Networks",
-        "ledgerDevice": "Ledger device"
+        "ledgerDevice": "Ledger device",
+        "disconnected": "Disconnected"
     },
     "filters":{
         "title": "Filters",
