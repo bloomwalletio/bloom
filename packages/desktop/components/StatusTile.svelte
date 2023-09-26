@@ -5,7 +5,7 @@
 
     export let checked = true
     export let title: string
-    export let subTitle: string
+    export let subtitle: string
     export let iconName: IconName | undefined
     export let iconColor: string | undefined
     export let iconBackgroundColor: string | undefined = undefined
@@ -27,7 +27,7 @@
             {/if}
             <div>
                 <Text>{title}</Text>
-                <Text type="xs" color="secondary">{subTitle}</Text>
+                <Text type="xs" color="secondary">{subtitle}</Text>
             </div>
         </div>
         {#if onClick}
