@@ -34,6 +34,7 @@
     <Text
         type={subject?.type === SubjectType.Address ? 'pre-sm' : 'sm'}
         fontWeight={isSelectedAccount ? 'semibold' : 'medium'}
-        classes="text-start">{getDisplayedSubject(subject)}</Text
     >
+        {getDisplayedSubject(subject)}
+    </Text>
 </div>
