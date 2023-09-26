@@ -1,7 +1,7 @@
 import { INft } from '@core/nfts'
 import { getNftByIdFromAllAccountNfts } from '@core/nfts/actions'
 import { TokenTransferData } from '@core/wallet/types'
-import { ActivityType, GovernanceAction } from '../enums'
+import { ActivityAction, ActivityType, GovernanceAction } from '../enums'
 import { Activity } from '../types'
 import { getPersistedToken } from '@core/token/stores'
 import { BASE_TOKEN_ID, IToken } from '@core/token'
@@ -23,10 +23,13 @@ export function getTransactionAssets(
         return undefined
     }
 
-    const baseCoinTransfer = {
-        rawAmount: activity.baseTokenTransfer.rawAmount,
-        token: baseCoin,
-    }
+    const baseCoinTransfer =
+        activity.action === ActivityAction.Burn
+            ? undefined
+            : {
+                  rawAmount: activity.baseTokenTransfer.rawAmount,
+                  token: baseCoin,
+              }
 
     if (activity.type === ActivityType.Nft) {
         const nft = getNftByIdFromAllAccountNfts(accountIndex, activity.nftId)

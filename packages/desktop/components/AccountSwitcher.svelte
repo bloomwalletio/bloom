@@ -9,9 +9,7 @@
     import { getMarketAmountFromTokenValue } from '@core/market/actions'
     import { selectedAccount } from '@core/account/stores'
 
-    export let compact: boolean = false
-    export let showIndicator: boolean = false
-    export let showSwitcherIcon: boolean = false
+    export let navbar: boolean = false
 
     const menu: Menu | undefined = undefined
 
@@ -45,29 +43,29 @@
 
 <Menu
     {items}
-    {compact}
-    {...!compact && { button: { text: localize('general.newAccount'), onClick: onCreateAccountClick } }}
+    compact={navbar}
+    {...!navbar && { button: { text: localize('general.newAccount'), onClick: onCreateAccountClick } }}
     placement="bottom-start"
 >
     <button
         slot="anchor"
         type="button"
-        class="flex flex-row justify-center items-center space-x-2 px-1.5 py-1 rounded-md cursor-pointer"
+        class="flex flex-row justify-center items-center space-x-2 px-1 rounded cursor-pointer"
     >
-        {#if showIndicator}
+        {#if navbar}
             <Indicator color={$selectedAccount?.color} size="sm" />
         {/if}
-        <Text type="body2">
+        <Text type={navbar ? 'base' : 'body1'}>
             {$selectedAccount?.name}
         </Text>
-        {#if showSwitcherIcon}
-            <Icon name={IconName.ChevronSelectorVertical} color="text-secondary" />
+        {#if !navbar}
+            <Icon name={IconName.ChevronSelectorVertical} size="sm" color="text-secondary" />
         {/if}
     </button>
 </Menu>
 
 <style lang="scss">
     button:hover {
-        @apply bg-purple-100;
+        @apply bg-surface-2;
     }
 </style>

@@ -45,7 +45,7 @@
 
 <account-summary class="w-full h-full px-6 pb-6 pt-4 flex flex-col justify-between">
     <account-summary-header class="w-full flex flex-row justify-between items-center">
-        <AccountSwitcher showSwitcherIcon />
+        <AccountSwitcher />
         <AccountActionsMenu />
     </account-summary-header>
     <account-summary-balance class="flex flex-row">
