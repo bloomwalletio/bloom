@@ -29,11 +29,13 @@
 
 <activity-tab>
     <header-row>
-        <Text type="sm" fontWeight="medium" color="secondary">{localize('views.dashboard.activity.asset')}</Text>
-        <Text type="sm" fontWeight="medium" color="secondary">{localize('views.dashboard.activity.action')}</Text>
-        <Text type="sm" fontWeight="medium" color="secondary">{localize('views.dashboard.activity.address')}</Text>
+        <Text type="sm" fontWeight="medium" textColor="secondary">{localize('views.dashboard.activity.asset')}</Text>
+        <Text type="sm" fontWeight="medium" textColor="secondary">{localize('views.dashboard.activity.action')}</Text>
+        <Text type="sm" fontWeight="medium" textColor="secondary">{localize('views.dashboard.activity.address')}</Text>
         <div class="text-end">
-            <Text type="sm" fontWeight="medium" color="secondary">{localize('views.dashboard.activity.amount')}</Text>
+            <Text type="sm" fontWeight="medium" textColor="secondary"
+                >{localize('views.dashboard.activity.amount')}</Text
+            >
         </div>
     </header-row>
     {#if $queriedActivities.length > 0}
@@ -42,7 +44,7 @@
         </VirtualList>
     {:else}
         <div class="h-full flex flex-col items-center justify-center text-center">
-            <Text color="secondary">
+            <Text textColor="secondary">
                 {localize(`general.${isEmptyBecauseOfFilter ? 'noFilteredActivity' : 'noRecentHistory'}`)}
             </Text>
         </div>
