@@ -24,12 +24,12 @@ export function getTransactionAssets(
     }
 
     const baseCoinTransfer =
-        activity.action !== ActivityAction.Burn
-            ? {
+        activity.action === ActivityAction.Burn
+            ? undefined
+            : {
                   rawAmount: activity.baseTokenTransfer.rawAmount,
                   token: baseCoin,
               }
-            : undefined
 
     if (activity.type === ActivityType.Nft) {
         const nft = getNftByIdFromAllAccountNfts(accountIndex, activity.nftId)
