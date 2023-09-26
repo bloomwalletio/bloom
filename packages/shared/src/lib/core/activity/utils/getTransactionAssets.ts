@@ -23,16 +23,19 @@ export function getTransactionAssets(
         return undefined
     }
 
-    const baseCoinTransfer = {
-        rawAmount: activity.baseTokenTransfer.rawAmount,
-        token: baseCoin,
-    }
+    const baseCoinTransfer =
+        activity.action !== ActivityAction.Burn
+            ? {
+                  rawAmount: activity.baseTokenTransfer.rawAmount,
+                  token: baseCoin,
+              }
+            : undefined
 
     if (activity.type === ActivityType.Nft) {
         const nft = getNftByIdFromAllAccountNfts(accountIndex, activity.nftId)
         return {
             nft,
-            baseCoinTransfer: activity.action !== ActivityAction.Burn ? baseCoinTransfer : undefined,
+            baseCoinTransfer,
         }
     } else if (activity.type === ActivityType.Basic || activity.type === ActivityType.Foundry) {
         const token: IToken | undefined = activity.tokenTransfer?.tokenId
@@ -48,7 +51,7 @@ export function getTransactionAssets(
                           token,
                       }
                     : undefined,
-            baseCoinTransfer: activity.action !== ActivityAction.Burn ? baseCoinTransfer : undefined,
+            baseCoinTransfer,
         }
     } else if (activity.type === ActivityType.Governance) {
         const isVotingPowerActivity =
@@ -64,7 +67,7 @@ export function getTransactionAssets(
     } else if (activity.type === ActivityType.Alias) {
         return {
             aliasId: activity.aliasId,
-            baseCoinTransfer: activity.action !== ActivityAction.Burn ? baseCoinTransfer : undefined,
+            baseCoinTransfer,
         }
     }
 }
