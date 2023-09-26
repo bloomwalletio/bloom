@@ -15,7 +15,7 @@
 
 <button class:selected={isSelected} on:click={onClick}>
     <div class="flex flex-row relative space-x-4 pr-3">
-        <Icon color={'text-' + color} name={tab?.icon} />
+        <Icon {color} name={tab?.icon} />
         {#if tab?.notificationType}
             <Indicator
                 size="sm"
@@ -24,10 +24,10 @@
                 class="absolute top-0 right-0"
             />
         {/if}
-        <Text {color} darkColor={color + '-dark'}>{tab.label}</Text>
+        <Text {color}>{tab.label}</Text>
     </div>
     {#if isSelected}
-        <Icon color={'text-' + color} name={IconName.ChevronRight} />
+        <Icon {color} name={IconName.ChevronRight} />
     {/if}
 </button>
 
