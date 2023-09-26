@@ -77,7 +77,7 @@
             {#if address}
                 <NetworkStatusIndicator status={health} />
                 <Copyable value={address}>
-                    <Text type="pre-md" color="text-secondary" truncate>{truncateString(address)}</Text>
+                    <Text type="pre-md" color="secondary" truncate>{truncateString(address)}</Text>
                 </Copyable>
             {:else}
                 <Button text={localize('actions.generateAddress')} variant="text" on:click={onGenerateAddressClick} />

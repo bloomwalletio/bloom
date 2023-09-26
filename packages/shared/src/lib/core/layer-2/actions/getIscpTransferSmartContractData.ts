@@ -27,7 +27,7 @@ export function getIscpTransferSmartContractData(
         const accountsCoreContract = getSmartContractHexName('accounts')
         const transferAllowanceTo = getSmartContractHexName('transferAllowanceTo')
 
-        const agentId = evmAddressToAgentId(recipientAddress)
+        const agentId = evmAddressToAgentId(recipientAddress, chain)
         const parameters = getAgentBalanceParameters(agentId)
         const allowance = buildAssetAllowance(transferredAsset)
 
