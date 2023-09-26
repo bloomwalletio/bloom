@@ -1,40 +1,35 @@
 <script lang="ts">
-    import { Indicator, Text } from '@bloomwalletio/ui'
+    import { Text } from '@bloomwalletio/ui'
     import { activeProfile } from '@core/profile/stores'
-    import { ProfileActionsModal } from '@components'
-    import { Modal, ProfileAvatar } from '@ui'
+    import { ProfileActionsMenu } from '@components'
+    import { ProfileAvatar } from '@ui'
 
     export let collapsed = false
-    let profileModal: Modal
-
-    const { shouldOpenProfileModal } = $activeProfile
 </script>
 
-<frame class="">
-    <button on:click={profileModal?.open} class:collapsed>
-        {#if !collapsed}
-            <Text>{$activeProfile.name}</Text>
-        {/if}
-        <div class="relative">
-            <ProfileAvatar profile={$activeProfile} />
-            {#if !$shouldOpenProfileModal}
-                <Indicator size="sm" color="red" border="white" class="absolute top-0 right-0" />
+<profile-frame>
+    <ProfileActionsMenu>
+        <profile-menu class:collapsed>
+            {#if !collapsed}
+                <Text>{$activeProfile.name}</Text>
             {/if}
-        </div>
-    </button>
-</frame>
-<ProfileActionsModal bind:modal={profileModal} />
+            <div class="relative">
+                <ProfileAvatar profile={$activeProfile} />
+            </div>
+        </profile-menu>
+    </ProfileActionsMenu>
+</profile-frame>
 
 <style lang="postcss">
-    frame {
+    profile-frame {
         @apply flex-none w-full h-16 justify-center items-center;
         @apply border-t border-solid border-stroke;
     }
-
-    button {
+    profile-menu {
         @apply flex justify-between items-center;
-        @apply w-full h-full px-7;
-        @apply hover:bg-purple-100;
+        @apply w-full rounded;
+        @apply px-3 py-2;
+        @apply hover:bg-surface-2 dark:hover:bg-surface-2-dark;
 
         &.collapsed {
             @apply justify-center px-0;

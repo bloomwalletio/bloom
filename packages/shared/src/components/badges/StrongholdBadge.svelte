@@ -21,7 +21,7 @@
     on:wheel={() => showTooltip(false)}
     class="block absolute -right-1 -bottom-1"
 >
-    <Avatar icon={IconName.WarningCircle} {size} backgroundColor="yellow" textColor="white" />
+    <Avatar icon={IconName.WarningCircle} {size} backgroundColor="yellow" customTextColor="white" />
 </stronghold-badge>
 {#if isTooltipVisible}
     <Tooltip anchor={tooltipAnchor} size="small" position={Position.Right} offset={6}>

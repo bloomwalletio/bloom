@@ -104,54 +104,54 @@
     }
 </script>
 
-<aside class="flex flex-col relative" class:collapsed>
-    <nav class="flex flex-col w-full h-full">
-        <logo-container class="flex flex-row">
-            <logo class="flex flex-row flex-none space-x-4">
-                <button on:click={toggleCollapse} disabled={!collapsed}>
-                    <Logo width="32" logo={LogoName.BloomLogo} />
-                </button>
-                {#if !collapsed}
-                    <Logo width="80" logo={LogoName.BloomText} />
-                {/if}
-            </logo>
+<aside class:collapsed>
+    <logo-container class="flex flex-row;">
+        <logo class="flex flex-row flex-none space-x-4">
+            <button on:click={toggleCollapse} disabled={!collapsed}>
+                <Logo width="32" logo={LogoName.BloomLogo} />
+            </button>
             {#if !collapsed}
-                <IconButton icon={IconName.Collapse} color="gray" on:click={toggleCollapse} />
+                <Logo width="80" logo={LogoName.BloomText} />
             {/if}
-        </logo-container>
-        <sidebar-tabs class="flex flex-col">
-            {#each sidebarTabs as tab}
-                <div class="flex">
-                    <SidebarTab {tab} {collapsed} />
-                </div>
-            {/each}
-        </sidebar-tabs>
-    </nav>
-
-    <div>
+        </logo>
         {#if !collapsed}
-            <sidebar-middle>
-                <toasts>
-                    <BackupToast />
-                    <AutoUpdateToast />
-                    <VersionToast />
-                </toasts>
-                {#if $isSoftwareProfile}
-                    <StrongholdStatusTile />
-                {:else}
-                    <LedgerStatusTile />
-                {/if}
-            </sidebar-middle>
+            <IconButton icon={IconName.Collapse} textColor="secondary" on:click={toggleCollapse} />
         {/if}
-        <ProfileFrame {collapsed} />
-    </div>
+    </logo-container>
+
+    <sidebar-tabs class="flex flex-col">
+        {#each sidebarTabs as tab}
+            <div class="flex">
+                <SidebarTab {tab} {collapsed} />
+            </div>
+        {/each}
+    </sidebar-tabs>
+
+    {#if !collapsed}
+        <toasts>
+            <VersionToast />
+            <AutoUpdateToast />
+            <BackupToast />
+        </toasts>
+
+        <status-container>
+            {#if $isSoftwareProfile}
+                <StrongholdStatusTile />
+            {:else}
+                <LedgerStatusTile />
+            {/if}
+        </status-container>
+    {/if}
+    <ProfileFrame {collapsed} />
 </aside>
 
 <style lang="postcss">
     aside {
-        @apply bg-white dark:bg-gray-800;
-        @apply h-full w-64;
-        @apply border-solid border-r border-gray-100 dark:border-gray-800;
+        @apply h-screen w-64;
+        @apply flex flex-col;
+        @apply relative;
+        @apply bg-surface-1/90 dark:bg-surface-1-dark/60;
+        @apply border-solid border-r border-stroke dark:border-stroke-dark;
 
         &.collapsed {
             @apply w-20;
@@ -162,24 +162,24 @@
         @apply justify-between items-center;
         @apply gap-8;
         @apply py-4.5 px-6;
-        /* TODO: remove the hardcoded color when color system is in place */
-        border-bottom: 1px solid #f1eef9;
+        @apply border-b border-solid border-stroke dark:border-stroke-dark;
     }
 
     sidebar-tabs {
         @apply justify-items-start;
         @apply w-full space-y-1;
-        @apply p-4;
+        @apply p-4 pb-2;
     }
 
-    sidebar-middle {
-        @apply flex flex-col;
-        @apply p-4 gap-2;
+    status-container {
+        @apply p-4 pt-0;
     }
 
     toasts {
-        @apply flex flex-col;
-        @apply gap-2;
+        @apply flex flex-col-reverse;
+        @apply overflow-auto;
+        @apply flex-grow;
+        @apply px-4 py-2 gap-2;
     }
 
     :global(body.platform-win32) aside {

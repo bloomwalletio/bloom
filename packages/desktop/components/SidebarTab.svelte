@@ -6,29 +6,17 @@
     export let tab: ISidebarTab = undefined
     export let collapsed: boolean = false
 
-    let showChevron = false
-
-    $: isSelected = $dashboardRoute === tab?.route
-    $: color = showChevron || isSelected ? 'primary' : 'black'
+    let hover = false
+    $: selected = $dashboardRoute === tab?.route
 
     function onClick(): void {
-        _showChevron(false)
         tab?.onClick()
-    }
-
-    function _showChevron(show: boolean): void {
-        showChevron = show
     }
 </script>
 
-<button
-    on:mouseenter={() => _showChevron(true)}
-    on:mouseleave={() => _showChevron(false)}
-    class:selected={isSelected}
-    on:click={onClick}
->
+<button class:selected on:click={onClick} on:mouseenter={() => (hover = true)} on:mouseleave={() => (hover = false)}>
     <div class="flex flex-row relative space-x-4 pr-3">
-        <Icon {color} name={tab?.icon} />
+        <Icon name={tab?.icon} textColor={selected ? 'brand' : 'primary'} />
         {#if tab?.notificationType}
             <Indicator
                 size="sm"
@@ -38,11 +26,11 @@
             />
         {/if}
         {#if !collapsed}
-            <Text {color} weight="semibold">{tab.label}</Text>
+            <Text textColor={selected ? 'brand' : 'primary'}>{tab.label}</Text>
         {/if}
     </div>
-    {#if showChevron && !collapsed}
-        <Icon color="primary" name={IconName.ChevronRight} />
+    {#if (selected || hover) && !collapsed}
+        <Icon name={IconName.ChevronRight} textColor={selected ? 'brand' : 'primary'} />
     {/if}
 </button>
 
@@ -50,12 +38,11 @@
     button {
         @apply flex flex-row flex-grow justify-between;
         @apply w-full;
-        @apply hover:bg-purple-100;
-        @apply text-purple-500;
         @apply py-2.5 px-3 rounded-md;
 
-        &.selected {
-            @apply bg-purple-100;
+        &.selected,
+        &:hover {
+            @apply bg-surface-2 dark:bg-surface-2-dark;
         }
     }
 </style>

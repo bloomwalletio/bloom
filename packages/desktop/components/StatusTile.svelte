@@ -36,11 +36,11 @@
                     <Logo {logo} />
                 </Avatar>
             {:else}
-                <Avatar icon={iconName} {backgroundColor} textColor={iconColor} size="sm" shape="square" />
+                <Avatar icon={iconName} {backgroundColor} customTextColor={iconColor} size="sm" shape="square" />
             {/if}
             <div>
                 <Text>{title}</Text>
-                <Text type="xs" color="secondary">{subtitle}</Text>
+                <Text type="xs" textColor="secondary">{subtitle}</Text>
             </div>
         </div>
         {#if onClick}
