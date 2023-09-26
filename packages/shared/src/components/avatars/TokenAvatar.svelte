@@ -53,7 +53,7 @@
 </script>
 
 <div>
-    <Avatar {size} {backgroundColor} {icon} {textColor} text={icon ? undefined : text} />
+    <Avatar {size} {backgroundColor} {icon} customTextColor={textColor} text={icon ? undefined : text} />
     {#if (size === 'sm' || size === 'md') && !hideNetworkBadge}
         <span class="relative flex justify-center items-center bottom-0 right-0">
             <NetworkBadge size="xxs" networkId={token.networkId} />

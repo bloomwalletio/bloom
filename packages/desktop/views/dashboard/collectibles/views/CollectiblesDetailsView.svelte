@@ -84,7 +84,7 @@
         },
         {
             key: localize('general.collectionId'),
-            value: issuer?.type === AddressType.Nfr || issuer?.type === AddressType.Alias ? collectionId : undefined,
+            value: issuer?.type === AddressType.Nft || issuer?.type === AddressType.Alias ? collectionId : undefined,
             copyable: true,
             truncate: { firstCharCount: 20, endCharCount: 20 },
         },

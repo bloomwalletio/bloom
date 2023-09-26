@@ -102,7 +102,7 @@
 <aside>
     <logo-container class="flex flex-row;">
         <Logo width="120" logo={LogoName.Bloom} />
-        <Icon name={IconName.Collapse} color="gray" />
+        <Icon name={IconName.Collapse} textColor="secondary" />
     </logo-container>
 
     <sidebar-tabs class="flex flex-col">
@@ -134,7 +134,7 @@
         @apply h-screen w-64;
         @apply flex flex-col;
         @apply relative;
-        @apply bg-surface-1 dark:bg-surface-1-dark;
+        @apply bg-surface-1/90 dark:bg-surface-1-dark/60;
         @apply border-solid border-r border-stroke dark:border-stroke-dark;
     }
 
