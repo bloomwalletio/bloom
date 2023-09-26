@@ -6,7 +6,6 @@
     export let tab: ISidebarTab = undefined
 
     $: isSelected = $dashboardRoute === tab?.route
-    $: color = isSelected ? 'brand' : 'primary'
 
     function onClick(): void {
         tab?.onClick()
@@ -15,7 +14,7 @@
 
 <button class:selected={isSelected} on:click={onClick}>
     <div class="flex flex-row relative space-x-4 pr-3">
-        <Icon {color} name={tab?.icon} />
+        <Icon color={isSelected ? 'primary' : 'text-primary'} name={tab?.icon} />
         {#if tab?.notificationType}
             <Indicator
                 size="sm"
@@ -24,10 +23,10 @@
                 class="absolute top-0 right-0"
             />
         {/if}
-        <Text {color}>{tab.label}</Text>
+        <Text color={isSelected ? 'brand' : 'primary'}>{tab.label}</Text>
     </div>
     {#if isSelected}
-        <Icon {color} name={IconName.ChevronRight} />
+        <Icon color="brand" name={IconName.ChevronRight} />
     {/if}
 </button>
 
