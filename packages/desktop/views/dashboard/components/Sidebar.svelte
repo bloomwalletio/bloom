@@ -152,7 +152,7 @@
     }
 
     toasts {
-        @apply flex flex-col flex-col-reverse;
+        @apply flex flex-col-reverse;
         @apply overflow-auto;
         @apply flex-grow;
         @apply px-4 py-2 gap-2;

@@ -35,12 +35,12 @@
     button {
         @apply flex flex-row flex-grow justify-between;
         @apply w-full;
-        @apply hover:bg-purple-100 dark:hover:bg-surface-2-dark;
+        @apply hover:bg-surface-2 dark:hover:bg-surface-2-dark;
         @apply text-primary;
         @apply py-2.5 px-3 rounded-md;
 
         &.selected {
-            @apply bg-purple-100 dark:bg-surface-2-dark;
+            @apply bg-surface-2 dark:bg-surface-2-dark;
         }
     }
 </style>
