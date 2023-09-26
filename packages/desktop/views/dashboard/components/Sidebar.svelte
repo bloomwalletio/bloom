@@ -107,7 +107,7 @@
 <aside class="flex flex-col relative" class:collapsed>
     <nav class="flex flex-col w-full h-full">
         <logo-container class="flex flex-row">
-            <logo class="flex flex-row space-x-4">
+            <logo class="flex flex-row flex-none space-x-4">
                 <button on:click={toggleCollapse} disabled={!collapsed}>
                     <Logo width="32" logo={LogoName.BloomLogo} />
                 </button>
@@ -161,7 +161,7 @@
     logo-container {
         @apply justify-between items-center;
         @apply gap-8;
-        @apply py-4.5 px-7;
+        @apply py-4.5 px-6;
         /* TODO: remove the hardcoded color when color system is in place */
         border-bottom: 1px solid #f1eef9;
     }
