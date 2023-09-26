@@ -5,16 +5,17 @@
 
     export let tab: ISidebarTab = undefined
 
-    $: isSelected = $dashboardRoute === tab?.route
+    let hover = false
+    $: selected = $dashboardRoute === tab?.route
 
     function onClick(): void {
         tab?.onClick()
     }
 </script>
 
-<button class:selected={isSelected} on:click={onClick}>
+<button class:selected on:click={onClick} on:mouseenter={() => (hover = true)} on:mouseleave={() => (hover = false)}>
     <div class="flex flex-row relative space-x-4 pr-3">
-        <Icon customColor={isSelected ? 'primary' : 'text-primary'} name={tab?.icon} />
+        <Icon textColor={selected ? 'brand' : 'primary'} name={tab?.icon} />
         {#if tab?.notificationType}
             <Indicator
                 size="sm"
@@ -23,10 +24,10 @@
                 class="absolute top-0 right-0"
             />
         {/if}
-        <Text textColor={isSelected ? 'brand' : 'primary'}>{tab.label}</Text>
+        <Text textColor={selected ? 'brand' : 'primary'}>{tab.label}</Text>
     </div>
-    {#if isSelected}
-        <Icon customColor="brand" name={IconName.ChevronRight} />
+    {#if selected || hover}
+        <Icon textColor={selected ? 'brand' : 'primary'} name={IconName.ChevronRight} />
     {/if}
 </button>
 
