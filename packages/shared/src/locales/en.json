@@ -355,16 +355,7 @@
             },
             "profileMenu": {
                 "allSettings": "All settings",
-                "logout": "Log out",
-                "hardware": {
-                    "title": "Hardware Device",
-                    "statuses": {
-                        "appNotOpen": "Ledger unlocked but app not open",
-                        "correctAppOpen": "Ledger unlocked and app open ",
-                        "locked": "Ledger securely locked",
-                        "notConnected": "Ledger not connected"
-                    }
-                }
+                "logout": "Log out"
             },
             "drawers": {
                 "networkConfig": {
