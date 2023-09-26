@@ -17,7 +17,9 @@ export async function getAndUpdateLedgerDeviceState(
             // sleep to make sure ledger process on iota sdk is wrapped up
             await sleep(50)
             const ethereumAppSettings = await Ledger.getEthereumAppSettings()
-            setLedgerDeviceState(ledgerNanoStatus, ethereumAppSettings)
+            if (ledgerNanoStatus.device || ethereumAppSettings) {
+                setLedgerDeviceState(ledgerNanoStatus, ethereumAppSettings)
+            }
         }
     } catch (err) {
         resetLedgerDeviceState()
