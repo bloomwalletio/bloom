@@ -21,7 +21,8 @@
             networkName = $network.getMetadata().name
             receiveAddress = $selectedAccount.depositAddress
         } else if (isEvmChain(selectedNetworkId)) {
-            networkName = $network.getChain(selectedNetworkId)?.getConfiguration().name
+            const evmChainNetworkId = selectedNetworkId
+            networkName = $network.getChain(evmChainNetworkId)?.getConfiguration().name
             receiveAddress = $selectedAccount.evmAddresses?.[ETHEREUM_COIN_TYPE]
             if (!receiveAddress) {
                 void checkActiveProfileAuth(
@@ -31,10 +32,10 @@
                             ETHEREUM_COIN_TYPE,
                             $selectedAccount
                         )
-                        networkName = $network.getChain(selectedNetworkId)?.getConfiguration().name
+                        networkName = $network.getChain(evmChainNetworkId)?.getConfiguration().name
                         receiveAddress = $selectedAccount.evmAddresses?.[ETHEREUM_COIN_TYPE]
                     },
-                    { ledger: true, stronghold: true, props: { selectedNetworkId } },
+                    { ledger: true, stronghold: true, props: { selectedNetworkId: evmChainNetworkId } },
                     LedgerAppName.Ethereum
                 )
             }
