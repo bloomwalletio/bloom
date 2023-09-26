@@ -1,10 +1,9 @@
 <script lang="ts">
-    export let height: number = 40
     export let draggable: boolean = false
     export let ghost: boolean = false
 </script>
 
-<navbar class:drag={draggable} class:ghost style:height="{height}px">
+<navbar class:drag={draggable} class:ghost>
     <slot />
 </navbar>
 
