@@ -36,7 +36,7 @@
             <Text type="h6" textColor="text-brand"
                 >{localize('popups.receiveAddress.networkAddress', { networkName })}</Text
             >
-            <QR data={receiveAddress} classes="w-1/2 h-1/2" />
+            <QR data={receiveAddress} />
             <AddressBox address={receiveAddress} clearBackground isCopyable />
         </div>
     {/if}
