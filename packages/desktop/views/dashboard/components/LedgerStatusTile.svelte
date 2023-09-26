@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { LogoName } from '@auxiliary/logo'
     import { IconName } from '@bloomwalletio/ui'
     import { StatusTile } from '@components'
     import { localize } from '@core/i18n'
@@ -6,51 +7,59 @@
 
     $: statusTileProps = setStatusTileProps($ledgerConnectionState)
 
-    function setStatusTileProps(connectionState: LedgerConnectionState): any {
-        const title = localize('general.ledgerDevice')
-        let iconColor: string
+    interface StatusTileProps {
+        title: string
+        subtitle: string
+        logo: LogoName
+        iconName: IconName
+        iconColor: string
+        iconBackgroundColor: string
+    }
+
+    function setStatusTileProps(connectionState: LedgerConnectionState): StatusTileProps {
+        let subtitle: string
+        let logo: LogoName
         let iconName: IconName
-        let subTitle: string
+        let iconColor: string
         let iconBackgroundColor: string
-        let logo: string
 
         switch (connectionState) {
             case LedgerConnectionState.AppNotOpen:
-                iconColor = 'gray'
+                subtitle = localize('general.unlocked')
                 iconName = IconName.Cpu
-                subTitle = localize('general.unlocked')
+                iconColor = 'gray'
                 break
             case LedgerConnectionState.ShimmerAppOpen:
+                subtitle = 'Shimmer App'
+                iconName = IconName.Shimmer
                 iconColor = '#17E1D5'
                 iconBackgroundColor = '#002D56'
-                iconName = IconName.Shimmer
-                subTitle = 'Shimmer App'
                 break
             case LedgerConnectionState.EthereumAppOpen:
-                logo = 'ethereum'
+                subtitle = 'Ethereum App'
+                logo = LogoName.Ethereum
                 iconBackgroundColor = '#627EEA'
-                subTitle = 'Ethereum App'
                 break
             case LedgerConnectionState.Locked:
-                iconColor = 'green'
+                subtitle = localize('general.locked')
                 iconName = IconName.Cpu
-                subTitle = localize('general.locked')
+                iconColor = 'green'
                 break
             case LedgerConnectionState.NotConnected:
             default:
-                iconColor = 'danger'
+                subtitle = localize('general.disconnected')
                 iconName = IconName.ZapOff
-                subTitle = localize('general.disconnected')
+                iconColor = 'danger'
                 break
         }
 
         return {
-            iconColor,
-            iconName,
-            title,
-            subTitle,
-            iconBackgroundColor,
+            title: localize('general.ledgerDevice'),
+            subtitle,
             logo,
+            iconName,
+            iconColor,
+            iconBackgroundColor,
         }
     }
 </script>

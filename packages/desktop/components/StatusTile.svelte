@@ -1,6 +1,7 @@
 <script lang="ts">
     import { Avatar, IconName, Text, Tile, Toggle } from '@bloomwalletio/ui'
     import { Logo } from '@ui'
+    import { LogoName } from '@auxiliary/logo'
 
     export let checked = true
     export let title: string
@@ -8,7 +9,7 @@
     export let iconName: IconName | undefined
     export let iconColor: string | undefined
     export let iconBackgroundColor: string | undefined = undefined
-    export let logo: string | undefined = undefined
+    export let logo: LogoName | undefined = undefined
     export let onClick: () => void | undefined = undefined
 
     $: backgroundColor = iconBackgroundColor ?? `${iconColor}-200`
