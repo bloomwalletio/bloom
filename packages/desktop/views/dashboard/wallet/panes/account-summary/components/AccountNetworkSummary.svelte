@@ -70,8 +70,8 @@
 <account-network-summary class="h-full w-full flex flex-col justify-between">
     <account-network-summary-header class="flex flex-row justify-between items-center gap-2">
         <div class="flex flex-row space-x-3 items-center">
-            <NetworkAvatar {networkId} />
-            <Text type="body1" truncate>{name}</Text>
+            <NetworkAvatar {networkId} size="xs" />
+            <Text type="body2" lineClamp={1} class="text-ellipse overflow-hidden">{name}</Text>
         </div>
         <account-network-summary-header-address class="flex flex-row items-center space-x-2">
             {#if address}
@@ -84,7 +84,7 @@
             {/if}
         </account-network-summary-header-address>
     </account-network-summary-header>
-    <account-network-summary-balance class="middle flex flex-col justify-between items-start flex-grow">
+    <account-network-summary-balance class="flex flex-col justify-between items-start flex-grow">
         <account-network-summary-balance-primary>
             <Text type="h3" truncate>{tokenBalance}</Text>
         </account-network-summary-balance-primary>
@@ -99,6 +99,11 @@
 </account-network-summary>
 
 <style lang="postcss">
+    account-network-summary {
+        @apply bg-surface dark:bg-surface-dark;
+        @apply divide-y divide-solid divide-stroke dark:divide-stroke-dark;
+    }
+
     account-network-summary-header {
         @apply px-5 py-4;
     }
@@ -109,11 +114,6 @@
 
     account-network-summary-assets {
         @apply px-5 py-4;
-        @apply bg-purple-50;
-    }
-
-    .middle {
-        border-top: 1px solid #f1eef9;
-        border-bottom: 1px solid #f1eef9;
+        @apply bg-surface-1 dark:bg-surface-1-dark;
     }
 </style>
