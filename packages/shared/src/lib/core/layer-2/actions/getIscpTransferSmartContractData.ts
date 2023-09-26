@@ -1,4 +1,4 @@
-import { ChainType, IChain } from '@core/network'
+import { IChain } from '@core/network'
 import { getSelectedAccount } from '@core/account/stores'
 import { ContractType } from '@core/layer-2/enums'
 import { ISC_MAGIC_CONTRACT_ADDRESS } from '@core/layer-2/constants'
@@ -18,8 +18,7 @@ export function getIscpTransferSmartContractData(
         if (!provider) {
             throw new Error('Unable to find web3 provider.')
         }
-        const chainConfiguration = chain.getConfiguration()
-        const coinType = chainConfiguration.coinType
+        const coinType = chain.getConfiguration().coinType
         const evmAddress = getSelectedAccount()?.evmAddresses?.[coinType]
         if (!evmAddress) {
             throw new Error('No EVM address generated for this account.')
@@ -28,8 +27,7 @@ export function getIscpTransferSmartContractData(
         const accountsCoreContract = getSmartContractHexName('accounts')
         const transferAllowanceTo = getSmartContractHexName('transferAllowanceTo')
 
-        const chainAliasAddress = chainConfiguration.type === ChainType.Iscp ? chainConfiguration.aliasAddress : ''
-        const agentId = evmAddressToAgentId(chainAliasAddress, recipientAddress)
+        const agentId = evmAddressToAgentId(recipientAddress, chain)
         const parameters = getAgentBalanceParameters(agentId)
         const allowance = buildAssetAllowance(transferredAsset)
 

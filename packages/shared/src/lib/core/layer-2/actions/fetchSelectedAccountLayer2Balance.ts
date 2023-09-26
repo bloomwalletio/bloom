@@ -1,7 +1,7 @@
 import { IAccountState } from '@core/account'
 import { calculateAndAddPersistedBalanceChange } from '@core/activity/actions'
 import { ContractType } from '@core/layer-2'
-import { ChainType, IChain, getNetwork } from '@core/network'
+import { IChain, getNetwork } from '@core/network'
 import { getActiveProfile } from '@core/profile/stores'
 import { getOrRequestTokenFromPersistedTokens } from '@core/token/actions'
 import { TOKEN_ID_BYTE_LENGTH } from '@core/token/constants'
@@ -56,10 +56,7 @@ async function getLayer2NativeTokenBalancesForAddress(
 ): Promise<{ balance: number; tokenId: string }[]> {
     const accountsCoreContract = getSmartContractHexName('accounts')
     const getBalanceFunc = getSmartContractHexName('balance')
-
-    const chainConfiguration = chain.getConfiguration()
-    const chainAliasAddress = chainConfiguration.type === ChainType.Iscp ? chainConfiguration.aliasAddress : ''
-    const agentID = evmAddressToAgentId(chainAliasAddress, evmAddress)
+    const agentID = evmAddressToAgentId(evmAddress, chain)
     const parameters = getAgentBalanceParameters(agentID)
     try {
         const contract = chain.getContract(ContractType.IscMagic, ISC_MAGIC_CONTRACT_ADDRESS)
