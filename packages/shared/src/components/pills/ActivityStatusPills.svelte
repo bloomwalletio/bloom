@@ -26,7 +26,7 @@
         {/if}
         {#if activity.smartContract}
             <Pill color="blue">
-                {localize('pills.smartContract')}
+                {localize('general.smartContract')}
             </Pill>
         {/if}
     </transaction-status>

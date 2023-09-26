@@ -1884,8 +1884,7 @@
             "degraded": "Degraded",
             "operational": "Operational",
             "disconnected": "Disconnected"
-        },
-        "smartContract": "Smart Contract"
+        }
     },
     "menus": {
         "dateTimePicker": {
