@@ -1,17 +1,16 @@
 <script lang="ts">
-    import { IconName, IconButton } from '@bloomwalletio/ui'
-    import { SidebarTab } from '@components'
+    import { LogoName } from '@auxiliary/logo'
+    import { IconButton, IconName } from '@bloomwalletio/ui'
+    import { ProfileActionsMenu, SidebarTab } from '@components'
     import { localize } from '@core/i18n'
-    import { isSoftwareProfile, activeProfile } from '@core/profile/stores'
+    import { activeProfile, isSoftwareProfile } from '@core/profile/stores'
     import { DashboardRoute, collectiblesRouter, dashboardRouter, governanceRouter, settingsRouter } from '@core/router'
     import { ISidebarTab } from '@desktop/routers'
     import features from '@features/features'
     import { Logo } from '@ui'
-    import { BackupToast, VersionToast, AutoUpdateToast } from './toasts'
-    import StrongholdStatusTile from './StrongholdStatusTile.svelte'
     import LedgerStatusTile from './LedgerStatusTile.svelte'
-    import ProfileFrame from './ProfileFrame.svelte'
-    import { LogoName } from '@auxiliary/logo'
+    import StrongholdStatusTile from './StrongholdStatusTile.svelte'
+    import { AutoUpdateToast, BackupToast, VersionToast } from './toasts'
 
     let collapsed: boolean = false
     function toggleCollapse(): void {
@@ -104,8 +103,8 @@
     }
 </script>
 
-<aside class:collapsed>
-    <logo-container class="flex flex-row;">
+<aside class:collapsed class="flex flex-col justify-between">
+    <sidebar-header class="flex flex-row justify-between items-center">
         <logo class="flex flex-row flex-none space-x-4">
             <button on:click={toggleCollapse} disabled={!collapsed}>
                 <Logo width="32" logo={LogoName.BloomLogo} />
@@ -117,39 +116,40 @@
         {#if !collapsed}
             <IconButton icon={IconName.Collapse} textColor="secondary" on:click={toggleCollapse} />
         {/if}
-    </logo-container>
+    </sidebar-header>
+    <sidebar-content class="flex flex-col flex-grow justify-between">
+        <sidebar-tabs class="flex flex-col">
+            {#each sidebarTabs as tab}
+                <div class="flex">
+                    <SidebarTab {tab} {collapsed} />
+                </div>
+            {/each}
+        </sidebar-tabs>
 
-    <sidebar-tabs class="flex flex-col">
-        {#each sidebarTabs as tab}
-            <div class="flex">
-                <SidebarTab {tab} {collapsed} />
-            </div>
-        {/each}
-    </sidebar-tabs>
-
-    {#if !collapsed}
-        <toasts>
-            <VersionToast />
-            <AutoUpdateToast />
-            <BackupToast />
-        </toasts>
-
-        <status-container>
-            {#if $isSoftwareProfile}
-                <StrongholdStatusTile />
-            {:else}
-                <LedgerStatusTile />
-            {/if}
-        </status-container>
-    {/if}
-    <ProfileFrame {collapsed} />
+        {#if !collapsed}
+            <sidebar-tiles class="w-full flex flex-col space-y-2">
+                {#if false}
+                    <!-- TODO: logic of when to display toast one at a time -->
+                    <AutoUpdateToast />
+                    <BackupToast />
+                {/if}
+                <VersionToast />
+                {#if $isSoftwareProfile}
+                    <StrongholdStatusTile />
+                {:else}
+                    <LedgerStatusTile />
+                {/if}
+            </sidebar-tiles>
+        {/if}
+    </sidebar-content>
+    <sidebar-footer class="flex-none">
+        <ProfileActionsMenu {collapsed} />
+    </sidebar-footer>
 </aside>
 
 <style lang="postcss">
     aside {
         @apply h-screen w-64;
-        @apply flex flex-col;
-        @apply relative;
         @apply bg-surface-1/90 dark:bg-surface-1-dark/60;
         @apply border-solid border-r border-stroke dark:border-stroke-dark;
 
@@ -158,28 +158,24 @@
         }
     }
 
-    logo-container {
-        @apply justify-between items-center;
+    sidebar-header {
         @apply gap-8;
         @apply py-4.5 px-6;
         @apply border-b border-solid border-stroke dark:border-stroke-dark;
     }
 
-    sidebar-tabs {
-        @apply justify-items-start;
-        @apply w-full space-y-1;
+    sidebar-content {
         @apply p-4 pb-2;
     }
 
-    status-container {
-        @apply p-4 pt-0;
+    sidebar-tabs {
+        @apply justify-items-start;
+        @apply w-full space-y-1;
     }
 
-    toasts {
-        @apply flex flex-col-reverse;
-        @apply overflow-auto;
-        @apply flex-grow;
-        @apply px-4 py-2 gap-2;
+    sidebar-footer {
+        @apply w-full h-16 justify-center items-center;
+        @apply border-t border-solid border-stroke dark:border-stroke-dark;
     }
 
     :global(body.platform-win32) aside {
