@@ -8,8 +8,8 @@
     import { ETHEREUM_COIN_TYPE, isEvmChain, isStardustNetwork, network, NetworkId } from '@core/network'
     import { generateAndStoreEvmAddressForAccounts } from '@core/layer-2/actions'
     import { activeProfile } from '@core/profile/stores'
-    import { checkActiveProfileAuth } from 'shared/src/lib/core/profile/actions'
-    import { LedgerAppName } from 'shared/src/lib/core/ledger'
+    import { checkActiveProfileAuth } from '@core/profile/actions'
+    import { LedgerAppName } from '@core/ledger'
 
     export let selectedNetworkId: NetworkId = $network.getMetadata().id
     $: selectedNetworkId, updateNetworkNameAndAddress()

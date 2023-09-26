@@ -1,15 +1,15 @@
 <script lang="ts">
     import { localize } from '@core/i18n'
+    import { network } from '@core/network'
     import { openPopup, PopupId } from '../../../../desktop/lib/auxiliary/popup'
 
     export let text: string = localize('actions.receive')
-    export let title: string = localize('general.receiveFunds')
 
     function onClick(): void {
         openPopup({
             id: PopupId.ReceiveAddress,
             props: {
-                title,
+                selectedNetworkId: $network.getMetadata().id,
             },
         })
     }
