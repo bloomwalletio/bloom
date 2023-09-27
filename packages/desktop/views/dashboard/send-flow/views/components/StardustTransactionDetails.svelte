@@ -75,11 +75,13 @@
                     classes="ml-1"
                 />
             </div>
-            <DateTimePickerMenu
-                bind:value={expirationDate}
-                bind:selected={selectedExpirationPeriod}
-                disabled={disableChangeExpiration || disableAll}
-            />
+            <div>
+                <DateTimePickerMenu
+                    bind:value={expirationDate}
+                    bind:selected={selectedExpirationPeriod}
+                    disabled={disableChangeExpiration || disableAll}
+                />
+            </div>
         </section>
     {/if}
     {#if selectedTimelockPeriod}
@@ -94,11 +96,14 @@
                     classes="ml-1"
                 />
             </div>
-            <DateTimePickerMenu
-                bind:value={timelockDate}
-                bind:selected={selectedTimelockPeriod}
-                disabled={disableChangeTimelock || disableAll}
-            />
+            <div>
+                <DateTimePickerMenu
+                    bind:value={timelockDate}
+                    bind:selected={selectedTimelockPeriod}
+                    disabled={disableChangeTimelock || disableAll}
+                />
+                <div></div>
+            </div>
         </section>
     {/if}
 </div>
