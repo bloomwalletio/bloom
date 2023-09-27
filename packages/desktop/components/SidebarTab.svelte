@@ -4,7 +4,7 @@
     import { ISidebarTab } from '@desktop/routers'
 
     export let tab: ISidebarTab = undefined
-    export let collapsed: boolean = false
+    export let expanded: boolean = true
 
     let hover = false
     $: selected = $dashboardRoute === tab?.route
@@ -25,11 +25,11 @@
                 class="absolute top-0 right-0"
             />
         {/if}
-        {#if !collapsed}
+        {#if expanded}
             <Text textColor={selected ? 'brand' : 'primary'}>{tab.label}</Text>
         {/if}
     </div>
-    {#if (selected || hover) && !collapsed}
+    {#if (selected || hover) && expanded}
         <Icon name={IconName.ChevronRight} textColor={selected ? 'brand' : 'primary'} />
     {/if}
 </button>

@@ -12,9 +12,9 @@
     import StrongholdStatusTile from './StrongholdStatusTile.svelte'
     import { AutoUpdateToast, BackupToast, VersionToast } from './toasts'
 
-    let collapsed: boolean = false
-    function toggleCollapse(): void {
-        collapsed = !collapsed
+    let expanded = true
+    function toggleExpand(): void {
+        expanded = !expanded
     }
 
     let sidebarTabs: ISidebarTab[]
@@ -103,30 +103,30 @@
     }
 </script>
 
-<aside class:collapsed class="flex flex-col justify-between">
+<aside class:expanded class="flex flex-col justify-between">
     <sidebar-header class="flex flex-row justify-between items-center">
-        <logo class="flex flex-row flex-none space-x-4">
-            <button on:click={toggleCollapse} disabled={!collapsed}>
+        <logo class="flex flex-row flex-none space-x-3">
+            <button on:click={toggleExpand} disabled={expanded}>
                 <Logo width="32" logo={LogoName.BloomLogo} />
             </button>
-            {#if !collapsed}
+            {#if expanded}
                 <Logo width="80" logo={LogoName.BloomText} />
             {/if}
         </logo>
-        {#if !collapsed}
-            <IconButton icon={IconName.Collapse} textColor="secondary" on:click={toggleCollapse} />
+        {#if expanded}
+            <IconButton icon={IconName.Collapse} textColor="secondary" on:click={toggleExpand} />
         {/if}
     </sidebar-header>
     <sidebar-content class="flex flex-col flex-grow justify-between">
         <sidebar-tabs class="flex flex-col">
             {#each sidebarTabs as tab}
                 <div class="flex">
-                    <SidebarTab {tab} {collapsed} />
+                    <SidebarTab {tab} {expanded} />
                 </div>
             {/each}
         </sidebar-tabs>
 
-        {#if !collapsed}
+        {#if expanded}
             <sidebar-tiles class="w-full flex flex-col space-y-2">
                 {#if false}
                     <!-- TODO: logic of when to display toast one at a time -->
@@ -143,18 +143,18 @@
         {/if}
     </sidebar-content>
     <sidebar-footer class="flex-none">
-        <ProfileActionsMenu {collapsed} />
+        <ProfileActionsMenu {expanded} />
     </sidebar-footer>
 </aside>
 
 <style lang="postcss">
     aside {
-        @apply h-screen w-64;
+        @apply h-screen w-20;
         @apply bg-surface-1/90 dark:bg-surface-1-dark/60;
         @apply border-solid border-r border-stroke dark:border-stroke-dark;
 
-        &.collapsed {
-            @apply w-20;
+        &.expanded {
+            @apply w-64;
         }
     }
 

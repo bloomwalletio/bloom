@@ -6,7 +6,7 @@
     import { routerManager } from '@core/router'
     import { ProfileAvatar } from '@ui'
 
-    export let collapsed = false
+    export let expanded = true
     let menu: Menu | undefined = undefined
 
     function onSettingsClick(): void {
@@ -35,25 +35,23 @@
         },
     ]}
 >
-    <profile-menu class:collapsed slot="anchor">
-        {#if !collapsed}
+    <profile-menu class:expanded slot="anchor">
+        {#if expanded}
             <Text>{$activeProfile.name}</Text>
         {/if}
-        <div class="relative">
-            <ProfileAvatar profile={$activeProfile} />
-        </div>
+        <ProfileAvatar profile={$activeProfile} />
     </profile-menu>
 </Menu>
 
 <style lang="postcss">
     profile-menu {
-        @apply flex flex-row justify-between items-center;
+        @apply flex flex-row justify-center items-center;
         @apply w-full h-16;
-        @apply px-7 py-2;
+        @apply px-0 py-2;
         @apply hover:bg-surface-2 dark:hover:bg-surface-2-dark;
 
-        &.collapsed {
-            @apply justify-center px-0;
+        &.expanded {
+            @apply justify-between px-7;
         }
     }
 </style>
