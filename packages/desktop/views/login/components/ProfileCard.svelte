@@ -32,7 +32,7 @@
     <profile-header>
         <badge-container>
             {#if profile.type === ProfileType.Ledger}
-                <TooltipIcon icon={IconName.Cpu} size="sm" tooltip={localize('general.ledgerDevice')} />
+                <TooltipIcon icon={IconName.Hardware} size="sm" tooltip={localize('general.ledgerDevice')} />
             {/if}
         </badge-container>
         {#if features.login.profileActions.enabled}
@@ -40,7 +40,7 @@
         {/if}
     </profile-header>
     <div class="relative">
-        <ProfileAvatarWithBadge {profile} size="lg" {updateRequired} shape={isHovering ? 'squircle' : 'circle'} />
+        <ProfileAvatarWithBadge {profile} size="xxl" {updateRequired} shape={isHovering ? 'squircle' : 'circle'} />
     </div>
     <Text type="h6" align="center" truncate>{profile.name}</Text>
 </button>

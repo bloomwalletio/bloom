@@ -32,11 +32,11 @@
     <status-tile>
         <div class="flex flex-row items-center gap-2">
             {#if logo}
-                <Avatar {backgroundColor} size="sm" shape="square">
+                <Avatar {backgroundColor} size="md" shape="square">
                     <Logo {logo} />
                 </Avatar>
             {:else}
-                <Avatar icon={iconName} {backgroundColor} customTextColor={iconColor} size="sm" shape="square" />
+                <Avatar icon={iconName} {backgroundColor} customTextColor={iconColor} size="md" shape="square" />
             {/if}
             <div>
                 <Text>{title}</Text>

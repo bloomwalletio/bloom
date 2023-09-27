@@ -29,6 +29,7 @@
     description={localize('views.onboarding.profileRecovery.importMnemonicPhrase.body')}
     continueButton={{
         onClick: onContinueClick,
+        disabled: !input,
     }}
     backButton={{
         onClick: onBackClick,

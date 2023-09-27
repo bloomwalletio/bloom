@@ -31,7 +31,7 @@
         <section class="key-value-box border-gray-200 dark:border-gray-700">
             <Text>{localize('general.destinationNetwork')}</Text>
             <div class="flex flex-row items-center gap-2">
-                <NetworkAvatar networkId={destinationNetworkId} size="xs" />
+                <NetworkAvatar networkId={destinationNetworkId} size="sm" />
                 <Text color="gray-600">{destinationNetwork}</Text>
             </div>
         </section>
