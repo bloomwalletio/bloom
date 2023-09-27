@@ -38,7 +38,7 @@
     button {
         @apply flex flex-row flex-grow justify-between;
         @apply w-full;
-        @apply py-2.5 px-3 rounded-md;
+        @apply py-2.5 px-3 rounded-[10px];
 
         &.selected,
         &:hover {
