@@ -14,6 +14,7 @@
     import { onMount } from 'svelte'
     import { OnboardingSelectorTile } from '../../../components'
     import { restoreProfileRouter } from '../restore-profile-router'
+    import { IconName } from '@bloomwalletio/ui'
 
     const networkId = $onboardingProfile?.network?.id
     const networkType = getOnboardingNetworkTypeFromNetworkId(networkId)
@@ -73,7 +74,7 @@
         <OnboardingSelectorTile
             primaryText={localize('views.onboarding.profileSetup.setupRecovered.importMnemonic')}
             secondaryText={localize('views.onboarding.profileSetup.setupRecovered.importMnemonicDescription')}
-            icon="language"
+            icon={IconName.Keyboard}
             hidden={features?.onboarding?.[networkType]?.restoreProfile?.recoveryPhrase?.hidden}
             disabled={!features?.onboarding?.[networkType]?.restoreProfile?.recoveryPhrase?.enabled || busy}
             onClick={() => onProfileTypeClick(RestoreProfileType.Mnemonic)}
@@ -82,7 +83,7 @@
         <OnboardingSelectorTile
             primaryText={localize('views.onboarding.profileSetup.setupRecovered.importFile')}
             secondaryText={localize('views.onboarding.profileSetup.setupRecovered.importFileDescription')}
-            icon="file"
+            icon={IconName.FileLock}
             hidden={features?.onboarding?.[networkType]?.restoreProfile?.strongholdBackup?.hidden}
             disabled={!features?.onboarding?.[networkType]?.restoreProfile?.strongholdBackup?.enabled || busy}
             onClick={() => onProfileTypeClick(RestoreProfileType.Stronghold)}
@@ -91,7 +92,7 @@
         <OnboardingSelectorTile
             primaryText={localize('views.onboarding.profileSetup.setupRecovered.importLedger')}
             secondaryText={localize('views.onboarding.profileSetup.setupRecovered.importLedgerDescription')}
-            icon="chip"
+            icon={IconName.Hardware}
             hidden={features?.onboarding?.[networkType]?.restoreProfile?.ledgerBackup?.hidden}
             disabled={!features?.onboarding?.[networkType]?.restoreProfile?.ledgerBackup?.enabled || busy}
             onClick={() => onProfileTypeClick(RestoreProfileType.Ledger)}

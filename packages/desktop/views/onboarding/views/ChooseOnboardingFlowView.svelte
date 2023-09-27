@@ -7,6 +7,7 @@
     import { onMount } from 'svelte'
     import { OnboardingSelectorTile } from '../components'
     import { onboardingRouter } from '../onboarding-router'
+    import { IconName } from '@bloomwalletio/ui'
 
     const networkId = $onboardingProfile?.network?.id
     const networkType = getOnboardingNetworkTypeFromNetworkId(networkId)
@@ -53,9 +54,7 @@
                 network: displayedNetworkName,
             })}
             secondaryText={localize('actions.createWalletDescription', { network: displayedNetworkName })}
-            icon="plus"
-            iconHeight="11"
-            iconWidth="11"
+            icon={IconName.Plus}
             hidden={features?.onboarding?.[networkType]?.newProfile?.hidden}
             disabled={!features?.onboarding?.[networkType]?.newProfile?.enabled}
             onClick={() => onOnboardingTypeClick(OnboardingType.Create)}
@@ -64,7 +63,7 @@
         <OnboardingSelectorTile
             primaryText={localize(`actions.restoreWallet.${networkType}`)}
             secondaryText={localize(`actions.restoreWalletDescription.${networkType}`)}
-            icon="transfer"
+            icon={IconName.Redo}
             hidden={features?.onboarding?.[networkType]?.restoreProfile?.hidden}
             disabled={!features?.onboarding?.[networkType]?.restoreProfile?.enabled}
             onClick={() => onOnboardingTypeClick(OnboardingType.Restore)}
@@ -73,9 +72,7 @@
         <OnboardingSelectorTile
             primaryText={localize('actions.claimShimmer')}
             secondaryText={localize('actions.claimShimmerDescription')}
-            icon="tokens"
-            iconHeight="24"
-            iconWidth="24"
+            icon={IconName.CoinsHand}
             hidden={features?.onboarding?.[networkType]?.claimRewards?.hidden}
             disabled={!features?.onboarding?.[networkType]?.claimRewards?.enabled}
             onClick={() => onOnboardingTypeClick(OnboardingType.Claim)}

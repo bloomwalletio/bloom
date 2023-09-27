@@ -8,7 +8,7 @@
 
 {#if token}
     <div class="flex flex-row items-center p-2 space-x-2 text-left bg-gray-100 dark:bg-gray-700 rounded-md">
-        <TokenAvatar size="xs" {token} />
+        <TokenAvatar size="sm" {token} />
         <div class="w-full relative" style="max-width: 75px;">
             <Text
                 color="gray-600"
