@@ -7,16 +7,16 @@
     export let size: 'xxs' | 'xs' | 'sm' | 'md' = 'sm'
 
     const AVATAR_BACKGROUND_COLOR: { [id in SupportedNetworkId]: string } = {
-        [SupportedNetworkId.Shimmer]: '#020F26',
-        [SupportedNetworkId.Testnet]: '#020F26',
-        [SupportedNetworkId.ShimmerEvm]: '#020F26',
-        [SupportedNetworkId.ShimmerEvmTestnet]: '#020F26',
+        [SupportedNetworkId.Shimmer]: 'shimmer-background',
+        [SupportedNetworkId.Testnet]: 'shimmer-background',
+        [SupportedNetworkId.ShimmerEvm]: 'shimmer-background',
+        [SupportedNetworkId.ShimmerEvmTestnet]: 'shimmer-background',
     }
 
     const AVATAR_TEXT_COLOR: { [id in SupportedNetworkId]: string } = {
-        [SupportedNetworkId.Shimmer]: '#17E1D5',
+        [SupportedNetworkId.Shimmer]: 'shimmer',
         [SupportedNetworkId.Testnet]: 'text-secondary',
-        [SupportedNetworkId.ShimmerEvm]: '#17E1D5',
+        [SupportedNetworkId.ShimmerEvm]: 'shimmer',
         [SupportedNetworkId.ShimmerEvmTestnet]: 'text-secondary',
     }
 
