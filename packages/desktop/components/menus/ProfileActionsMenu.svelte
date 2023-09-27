@@ -49,6 +49,7 @@
         @apply w-full h-16;
         @apply px-0 py-2;
         @apply hover:bg-surface-2 dark:hover:bg-surface-2-dark;
+        @apply cursor-pointer;
 
         &.expanded {
             @apply justify-between px-7;
