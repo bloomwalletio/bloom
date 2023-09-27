@@ -1,21 +1,22 @@
 <script lang="ts">
     import { Avatar, Button, Copyable, Text } from '@bloomwalletio/ui'
-    import { NetworkAvatar, NetworkStatusIndicator } from '@ui'
-    import { truncateString } from '@core/utils'
-    import { localize } from '@core/i18n'
-    import { ownedNfts } from '@core/nfts/stores'
-    import { selectedAccountTokens } from '@core/token/stores'
-    import { NetworkHealth, NetworkId, network, setSelectedChain } from '@core/network'
-    import { checkActiveProfileAuth } from '@core/profile/actions'
-    import { generateAndStoreEvmAddressForAccounts } from '@core/layer-2/actions'
-    import { activeProfile } from '@core/profile/stores'
     import { selectedAccount } from '@core/account/stores'
+    import { appSettings } from '@core/app/stores'
+    import { localize } from '@core/i18n'
+    import { generateAndStoreEvmAddressForAccounts } from '@core/layer-2/actions'
     import { LedgerAppName } from '@core/ledger'
+    import { NetworkHealth, NetworkId, network, setSelectedChain } from '@core/network'
+    import { INft } from '@core/nfts'
+    import { ownedNfts } from '@core/nfts/stores'
+    import { checkActiveProfileAuth } from '@core/profile/actions'
+    import { activeProfile } from '@core/profile/stores'
+    import { IAccountTokensPerNetwork } from '@core/token'
+    import { selectedAccountTokens } from '@core/token/stores'
+    import { truncateString } from '@core/utils'
     import { toggleDashboardDrawer } from '@desktop/auxiliary/drawer'
+    import { NetworkAvatar, NetworkStatusIndicator } from '@ui'
     import { DashboardDrawerRoute, NetworkConfigRoute } from '@views/dashboard/drawers'
     import { ProfileType } from 'shared/src/lib/core/profile'
-    import { IAccountTokensPerNetwork } from '@core/token'
-    import { INft } from '@core/nfts'
 
     export let networkId: NetworkId
     export let name: string
@@ -26,6 +27,7 @@
     export let tokens: IAccountTokensPerNetwork
     export let nfts: INft[]
 
+    $: dark = $appSettings.darkMode
     $: $selectedAccountTokens, $ownedNfts, updateAssetCounts()
 
     let tokenCountFormatted: string
@@ -70,35 +72,44 @@
 <account-network-summary class="h-full w-full flex flex-col justify-between">
     <account-network-summary-header class="flex flex-row justify-between items-center gap-2">
         <div class="flex flex-row space-x-3 items-center">
-            <NetworkAvatar {networkId} />
-            <Text type="body1" truncate>{name}</Text>
+            <NetworkAvatar {networkId} size="xs" />
+            <Text type="body2" lineClamp={1} class="text-ellipse overflow-hidden">{name}</Text>
         </div>
         <account-network-summary-header-address class="flex flex-row items-center space-x-2">
             {#if address}
                 <NetworkStatusIndicator status={health} />
                 <Copyable value={address}>
-                    <Text type="pre-md" color="secondary" truncate>{truncateString(address)}</Text>
+                    <Text type="pre-md" textColor="secondary" truncate>{truncateString(address)}</Text>
                 </Copyable>
             {:else}
                 <Button text={localize('actions.generateAddress')} variant="text" on:click={onGenerateAddressClick} />
             {/if}
         </account-network-summary-header-address>
     </account-network-summary-header>
-    <account-network-summary-balance class="middle flex flex-col justify-between items-start flex-grow">
+    <account-network-summary-balance class="flex flex-col justify-between items-start flex-grow">
         <account-network-summary-balance-primary>
             <Text type="h3" truncate>{tokenBalance}</Text>
         </account-network-summary-balance-primary>
         <account-network-summary-balance-secondary>
-            <Text type="body2" truncate>{fiatBalance}</Text>
+            <Text type="body1" textColor="secondary" truncate>{fiatBalance}</Text>
         </account-network-summary-balance-secondary>
     </account-network-summary-balance>
     <account-network-summary-assets class="flex flex-row justify-between items-center">
-        <Avatar backgroundColor="indigo-950" shape="square" text={nftCountFormatted} />
-        <Avatar backgroundColor="indigo-950" text={tokenCountFormatted} />
+        <Avatar
+            backgroundColor={dark ? 'surface-invert-dark' : 'surface-invert'}
+            shape="square"
+            text={nftCountFormatted}
+        />
+        <Avatar backgroundColor={dark ? 'surface-invert-dark' : 'surface-invert'} text={tokenCountFormatted} />
     </account-network-summary-assets>
 </account-network-summary>
 
 <style lang="postcss">
+    account-network-summary {
+        @apply bg-surface dark:bg-surface-dark;
+        @apply divide-y divide-solid divide-stroke dark:divide-stroke-dark;
+    }
+
     account-network-summary-header {
         @apply px-5 py-4;
     }
@@ -109,11 +120,6 @@
 
     account-network-summary-assets {
         @apply px-5 py-4;
-        @apply bg-purple-50;
-    }
-
-    .middle {
-        border-top: 1px solid #f1eef9;
-        border-bottom: 1px solid #f1eef9;
+        @apply bg-surface-1 dark:bg-surface-1-dark;
     }
 </style>

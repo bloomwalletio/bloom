@@ -69,7 +69,7 @@
 
 <Idle />
 <dashboard class="flex flex-row w-full h-full">
-    <div class="flex flex-col flex-none">
+    <div class="flex flex-col flex-none z-10">
         {#if IS_MAC}
             <NavbarContainer draggable={IS_MAC}>
                 <div style:height="var(--navbar-height, 0px)" />
