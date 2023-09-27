@@ -8,7 +8,7 @@
     export let shape: 'circle' | 'squircle' | 'square' = 'square'
 </script>
 
-<nft-avatar>
+<nft-avatar class="avatar">
     <Avatar {size} {shape} {...$$restProps}>
         <NftMedia {nft} classes="w-full h-full object-cover" />
     </Avatar>
