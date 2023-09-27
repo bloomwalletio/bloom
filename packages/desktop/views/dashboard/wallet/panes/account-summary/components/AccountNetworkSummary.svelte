@@ -94,7 +94,7 @@
     </account-network-summary-balance>
     <account-network-summary-assets class="flex flex-row justify-between items-center">
         <AvatarGroup avatarSize="md">
-            {#each tokens.nativeTokens ?? [] as token}
+            {#each tokens?.nativeTokens ?? [] as token}
                 <TokenAvatar hideNetworkBadge size="md" {token} />
             {/each}
             <TokenAvatar hideNetworkBadge size="md" token={tokens?.baseCoin} />
