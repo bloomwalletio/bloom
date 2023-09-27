@@ -42,20 +42,20 @@
 
 <portfolio-tab>
     <header-row>
-        <Text type="sm" fontWeight="medium" color="secondary">{localize('views.dashboard.portfolio.asset')}</Text>
-        <Text type="sm" fontWeight="medium" color="secondary">
+        <Text type="sm" fontWeight="medium" textColor="secondary">{localize('views.dashboard.portfolio.asset')}</Text>
+        <Text type="sm" fontWeight="medium" textColor="secondary">
             {localize('views.dashboard.portfolio.network')}
         </Text>
-        <Text type="sm" fontWeight="medium" color="secondary">
+        <Text type="sm" fontWeight="medium" textColor="secondary">
             {localize('views.dashboard.portfolio.marketCap')}
             {currency}
         </Text>
-        <Text type="sm" fontWeight="medium" color="secondary">
+        <Text type="sm" fontWeight="medium" textColor="secondary">
             {localize('views.dashboard.portfolio.price')}
             {currency}
         </Text>
         <div class="text-end">
-            <Text type="sm" fontWeight="medium" color="secondary">
+            <Text type="sm" fontWeight="medium" textColor="secondary">
                 {localize('views.dashboard.portfolio.amount')}
             </Text>
         </div>
@@ -66,7 +66,7 @@
         </VirtualList>
     {:else}
         <div class="h-full flex flex-col items-center justify-center text-center">
-            <Text color="secondary">
+            <Text textColor="secondary">
                 {localize(`general.${isEmptyBecauseOfFilter ? 'noFilteredAsset' : 'noAssets'}`)}
             </Text>
         </div>

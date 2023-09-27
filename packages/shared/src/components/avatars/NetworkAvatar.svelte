@@ -21,11 +21,11 @@
     }
 
     $: isSupported = isSupportedNetworkId(networkId)
-    $: backgroundColor = isSupported ? AVATAR_BACKGROUND_COLOR[networkId as SupportedNetworkId] : 'gray-100'
-    $: textColor = isSupported ? AVATAR_TEXT_COLOR[networkId as SupportedNetworkId] : 'red-100'
+    $: backgroundColor = isSupported ? AVATAR_BACKGROUND_COLOR[networkId as SupportedNetworkId] : 'neutral-4'
+    $: customTextColor = isSupported ? AVATAR_TEXT_COLOR[networkId as SupportedNetworkId] : undefined
     $: icon = isSupported ? DEFAULT_NETWORK_ICON[networkId as SupportedNetworkId] : undefined
     $: magnify = networkId === SupportedNetworkId.ShimmerEvm || networkId === SupportedNetworkId.ShimmerEvmTestnet
 </script>
 
 <!-- TODO: Add initials for not supported network IDs -->
-<Avatar {size} {backgroundColor} {textColor} {icon} {magnify} />
+<Avatar {size} {backgroundColor} {customTextColor} {icon} {magnify} />

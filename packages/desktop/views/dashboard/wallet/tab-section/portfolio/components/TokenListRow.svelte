@@ -59,7 +59,7 @@
             <Text>
                 {token.metadata.name ? truncateString(token.metadata.name, 13, 0) : truncateString(token.id, 6, 7)}
             </Text>
-            <Text type="sm" color="secondary" darkColor="secondary">
+            <Text type="sm" textColor="secondary">
                 {getUnitFromTokenMetadata(token.metadata)}
             </Text>
         </div>
@@ -78,7 +78,7 @@
         <Text>
             {token.metadata ? formatTokenAmountBestMatch(token.balance.total, token.metadata) : '-'}
         </Text>
-        <Text color="secondary" darkColor="secondary">
+        <Text textColor="secondary">
             {getFormattedMarketPriceForTokenAmount(token)}
         </Text>
     </div>

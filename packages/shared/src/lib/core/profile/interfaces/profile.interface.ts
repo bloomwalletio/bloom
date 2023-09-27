@@ -4,7 +4,6 @@ import { IPersistedProfile } from './persisted-profile.interface'
 export interface IProfile extends IPersistedProfile {
     hasLoadedAccounts: Writable<boolean>
     isStrongholdLocked: Writable<boolean>
-    shouldOpenProfileModal: Writable<boolean>
     internalTransfersInProgress: Writable<{
         [key: string]: {
             from: string
