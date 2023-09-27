@@ -11,18 +11,15 @@
 </script>
 
 <Pane
-    classes="w-full flex flex-row shrink-0 justify-between items-center border border-solid border-gray-100 shadow-lg"
+    classes="
+        w-full flex shrink-0 grid grid-cols-3 
+        bg-surface dark:bg-surface-dark 
+        border border-solid border-stroke dark:border-stroke-dark 
+        divide-x divide-solid divide-stroke dark:divide-stroke-dark 
+        shadow-lg
+    "
 >
     <AccountSummary {account} {stardustNetworkId} {evmChainNetworkId} />
-    <div class="middle w-full">
-        <AccountStardustNetworkSummary {account} networkId={stardustNetworkId} />
-    </div>
+    <AccountStardustNetworkSummary {account} networkId={stardustNetworkId} />
     <AccountEvmChainSummary {account} networkId={evmChainNetworkId} />
 </Pane>
-
-<style lang="postcss">
-    .middle {
-        border-left: 1px solid #f1eef9;
-        border-right: 1px solid #f1eef9;
-    }
-</style>
