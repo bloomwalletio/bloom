@@ -26,16 +26,16 @@
     />
     <div class="flex flex-row gap-2 items-center">
         {#if currentTab === 0}
-            <div class="flex items-center" style="height: 36px">
+            <div class="flex items-center" style="height: 32px">
                 <SearchInput bind:value={$activitySearchTerm} />
             </div>
             <Filter filterStore={activityFilter} />
         {:else if currentTab === 1}
-            <IconButton icon={IconName.Plus} on:click={onImportErc20TokenClick} />
-            <div class="flex items-center" style="height: 36px">
+            <div class="flex items-center" style="height: 32px">
                 <SearchInput bind:value={$tokenSearchTerm} />
             </div>
             <Filter filterStore={tokenFilter} />
+            <IconButton icon={IconName.Plus} on:click={onImportErc20TokenClick} />
         {/if}
     </div>
 </top-section>
