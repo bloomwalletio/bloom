@@ -84,36 +84,40 @@
                         {$governanceRoute}
                     </Text>
                 {/if}
-                {#if features.contacts.enabled}
-                    <IconButton
-                        icon={IconName.Users}
-                        tooltip={localize('general.contacts')}
-                        textColor="primary"
-                        size="sm"
-                    />
-                {/if}
-                {#if features?.wallet?.walletConnect?.enabled}
-                    <IconButton
-                        on:click={() => toggleDashboardDrawer({ id: DashboardDrawerRoute.DappConfig })}
-                        icon={IconName.Grid}
-                        tooltip={localize('general.apps')}
-                        textColor="primary"
-                        size="sm"
-                    />
-                {/if}
-                {#if features?.network?.config?.enabled}
-                    <IconButton
-                        on:click={() => toggleDashboardDrawer({ id: DashboardDrawerRoute.NetworkConfig })}
-                        icon={IconName.Globe}
-                        tooltip={localize('general.networks')}
-                        textColor="primary"
-                        size="sm"
-                    />
-                {/if}
             </div>
         </div>
-    </div></NavbarContainer
->
+
+        <div class="right-button flex items-center justify-end gap-2">
+            {#if features.contacts.enabled}
+                <IconButton
+                    on:click={() => toggleDashboardDrawer({ id: DashboardDrawerRoute.ContactBook })}
+                    icon={IconName.Users}
+                    tooltip={localize('general.contacts')}
+                    textColor="primary"
+                    size="sm"
+                />
+            {/if}
+            {#if features?.wallet?.walletConnect?.enabled}
+                <IconButton
+                    on:click={() => toggleDashboardDrawer({ id: DashboardDrawerRoute.DappConfig })}
+                    icon={IconName.Grid}
+                    tooltip={localize('general.apps')}
+                    textColor="primary"
+                    size="sm"
+                />
+            {/if}
+            {#if features?.network?.config?.enabled}
+                <IconButton
+                    on:click={() => toggleDashboardDrawer({ id: DashboardDrawerRoute.NetworkConfig })}
+                    icon={IconName.Globe}
+                    tooltip={localize('general.networks')}
+                    textColor="primary"
+                    size="sm"
+                />
+            {/if}
+        </div>
+    </div>
+</NavbarContainer>
 
 <style lang="scss">
     :global(:root) {

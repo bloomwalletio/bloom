@@ -55,7 +55,7 @@
         {#if navbar}
             <Indicator color={$selectedAccount?.color} size="sm" />
         {/if}
-        <Text type={navbar ? 'base' : 'body1'} color="primary">
+        <Text type={navbar ? 'base' : 'body1'}>
             {$selectedAccount?.name}
         </Text>
         {#if !navbar}
