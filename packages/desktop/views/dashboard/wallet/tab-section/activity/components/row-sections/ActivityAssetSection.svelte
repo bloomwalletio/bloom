@@ -47,15 +47,15 @@
 
 <AssetInfo {title} {subtitle}>
     {#if activity.type === ActivityType.Basic || activity.type === ActivityType.Foundry}
-        <TokenAvatar {token} size="sm" />
+        <TokenAvatar {token} hideNetworkBadge size="lg" />
     {:else if activity.type === ActivityType.Nft}
         <NftImageOrIconBox {nft} size="md" />
     {:else if activity.type === ActivityType.Alias}
         <!-- TODO: Add icon for alias -->
-        <Avatar icon={IconName.Globe} size="sm" backgroundColor="surface-2" />
+        <Avatar icon={IconName.Globe} size="lg" backgroundColor="surface-2" />
     {:else if activity.type === ActivityType.Consolidation}
-        <Avatar icon={IconName.CoinSwap} size="sm" backgroundColor="surface-2" />
+        <Avatar icon={IconName.CoinSwap} size="lg" backgroundColor="surface-2" />
     {:else if activity.type === ActivityType.Governance}
-        <Avatar icon={IconName.Bank} size="sm" backgroundColor="surface-2" />
+        <Avatar icon={IconName.Bank} size="lg" backgroundColor="surface-2" />
     {/if}
 </AssetInfo>

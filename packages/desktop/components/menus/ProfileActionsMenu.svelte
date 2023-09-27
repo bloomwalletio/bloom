@@ -39,7 +39,7 @@
         {#if expanded}
             <Text>{$activeProfile.name}</Text>
         {/if}
-        <ProfileAvatar profile={$activeProfile} size="sm" />
+        <ProfileAvatar profile={$activeProfile} size="lg" />
     </profile-menu>
 </Menu>
 

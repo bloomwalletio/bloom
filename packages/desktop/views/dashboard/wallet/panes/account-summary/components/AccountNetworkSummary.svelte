@@ -72,7 +72,7 @@
 <account-network-summary class="h-full w-full flex flex-col justify-between">
     <account-network-summary-header class="flex flex-row justify-between items-center gap-2">
         <div class="flex flex-row space-x-3 items-center">
-            <NetworkAvatar {networkId} size="xs" />
+            <NetworkAvatar {networkId} />
             <Text type="body2" lineClamp={1} class="text-ellipse overflow-hidden">{name}</Text>
         </div>
         <account-network-summary-header-address class="flex flex-row items-center space-x-2">

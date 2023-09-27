@@ -54,7 +54,7 @@
 
 <button on:click={onTokenRowClick} class="token-row">
     <div class="flex flex-row gap-4 items-start">
-        <TokenAvatar {token} size="md" />
+        <TokenAvatar {token} size="lg" />
         <div class="flex flex-col items-start justify-between text-start">
             <Text>
                 {token.metadata.name ? truncateString(token.metadata.name, 13, 0) : truncateString(token.id, 6, 7)}
