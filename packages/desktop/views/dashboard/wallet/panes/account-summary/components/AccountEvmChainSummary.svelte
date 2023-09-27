@@ -5,7 +5,6 @@
     import { formatCurrency } from '@core/i18n'
     import { getMarketAmountFromTokenValue } from '@core/market/actions'
     import { selectedAccountTokens } from '@core/token/stores'
-
     import AccountNetworkSummary from './AccountNetworkSummary.svelte'
     import type { IAccountNetworkSummaryProps } from '../interfaces'
 
@@ -17,9 +16,9 @@
 
     function buildAccountEvmChainSummaryProps(): IAccountNetworkSummaryProps {
         const chain = getNetwork().getChain(networkId)
-        const networkTokens = $selectedAccountTokens?.[networkId]
-        const evmChainBaseToken: ITokenWithBalance = networkTokens?.baseCoin
-        const networkTokenBalance = formatTokenAmountBestMatch(
+        const tokens = $selectedAccountTokens?.[networkId]
+        const evmChainBaseToken: ITokenWithBalance = tokens?.baseCoin
+        const tokenBalance = formatTokenAmountBestMatch(
             evmChainBaseToken?.balance.total ?? 0,
             evmChainBaseToken?.metadata
         )
@@ -27,21 +26,21 @@
          * NOTE: This logic used the market prices of the base token for L1 as we do not yet have market prices
          * for L2 tokens.
          */
-        const networkFiatBalance =
+        const fiatBalance =
             formatCurrency(getMarketAmountFromTokenValue(evmChainBaseToken?.balance.total ?? 0, evmChainBaseToken)) ??
             ''
 
         return {
             networkId,
-            networkName: chain.getConfiguration().name,
-            networkHealth: chain.getStatus().health,
-            networkAddress: getAddressFromAccountForNetwork(account, networkId),
-            networkTokenBalance,
-            networkFiatBalance,
-            networkTokens,
-            networkNfts: [],
+            name: chain.getConfiguration().name,
+            health: chain.getStatus().health,
+            address: getAddressFromAccountForNetwork(account, networkId),
+            tokenBalance,
+            fiatBalance,
+            tokens,
+            nfts: [],
         }
     }
 </script>
 
-<AccountNetworkSummary {props} />
+<AccountNetworkSummary {...props} />
