@@ -1,12 +1,12 @@
 import { EvmChainId, NetworkNamespace, StardustNetworkName } from '../enums'
 import { NetworkId } from '../types'
 
-type SpitNetworkId =
+type SplitNetworkId =
     | { namespace: NetworkNamespace.Stardust; networkName: StardustNetworkName | string }
     | { namespace: NetworkNamespace.Evm; chainId: EvmChainId }
 
-export function getSplitNetworkId(networkId: NetworkId): SpitNetworkId | undefined {
-    const parts = networkId.split(':')
+export function getSplitNetworkId(networkId: NetworkId): SplitNetworkId | undefined {
+    const parts = networkId?.split(':')
     if ((parts?.[0] as NetworkNamespace) === NetworkNamespace.Stardust && parts?.[1]) {
         return {
             namespace: NetworkNamespace.Stardust,
