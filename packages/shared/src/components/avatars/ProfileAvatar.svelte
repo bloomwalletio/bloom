@@ -5,11 +5,11 @@
     import { NftAvatar } from '@ui'
 
     export let profile: IPersistedProfile
-    export let size: (typeof avatarSize)[number] = 'sm'
+    export let size: (typeof avatarSize)[number] = 'md'
     export let shape: 'circle' | 'squircle' | 'square' = 'circle'
 </script>
 
-<profile-avatar class="relative">
+<profile-avatar>
     {#if profile?.pfp}
         <NftAvatar {size} nft={profile.pfp} {shape} {...$$restProps} />
     {:else if profile?.name}

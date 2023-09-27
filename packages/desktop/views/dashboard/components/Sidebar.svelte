@@ -142,7 +142,7 @@
             </sidebar-tiles>
         {/if}
     </sidebar-content>
-    <sidebar-footer class="flex-none">
+    <sidebar-footer>
         <ProfileActionsMenu {expanded} />
     </sidebar-footer>
 </aside>
