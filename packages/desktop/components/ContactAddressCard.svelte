@@ -42,7 +42,7 @@
 >
     <contact-address-head class="flex justify-between">
         <div class="flex items-center gap-2">
-            <NetworkAvatar {networkId} size="xs" />
+            <NetworkAvatar {networkId} />
             <Text fontSize="text-16" fontWeight={FontWeight.semibold}>{getNameFromNetworkId(networkId)}</Text>
         </div>
         <ContactAddressMenu {drawerRouter} {networkId} />

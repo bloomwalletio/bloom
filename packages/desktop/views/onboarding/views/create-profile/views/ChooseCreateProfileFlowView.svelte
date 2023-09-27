@@ -14,6 +14,7 @@
     import { onMount } from 'svelte'
     import { OnboardingSelectorTile } from '../../../components'
     import { createProfileRouter } from '../create-profile-router'
+    import { IconName } from '@bloomwalletio/ui'
 
     const networkId = $onboardingProfile?.network?.id
     const networkType = getOnboardingNetworkTypeFromNetworkId(networkId)
@@ -68,7 +69,7 @@
         <OnboardingSelectorTile
             primaryText={localize('views.onboarding.profileSetup.setupNew.softwareAccount.title')}
             secondaryText={localize('views.onboarding.profileSetup.setupNew.softwareAccount.description')}
-            icon="file"
+            icon={IconName.FolderLock}
             hidden={features?.onboarding?.[networkType]?.newProfile?.softwareProfile?.hidden}
             disabled={!features?.onboarding?.[networkType]?.newProfile?.softwareProfile?.enabled || busy}
             onClick={() => onProfileTypeClick(CreateProfileType.Mnemonic)}
@@ -77,7 +78,7 @@
         <OnboardingSelectorTile
             primaryText={localize('views.onboarding.profileSetup.setupNew.ledgerAccount.title')}
             secondaryText={localize('views.onboarding.profileSetup.setupNew.ledgerAccount.description')}
-            icon="chip"
+            icon={IconName.Hardware}
             hidden={features?.onboarding?.[networkType]?.newProfile?.ledgerProfile?.hidden}
             disabled={!features?.onboarding?.[networkType]?.newProfile?.ledgerProfile?.enabled || busy}
             onClick={() => onProfileTypeClick(CreateProfileType.Ledger)}
