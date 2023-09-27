@@ -1,6 +1,7 @@
 <script lang="ts">
-    import { Avatar, Button, Copyable, Text } from '@bloomwalletio/ui'
+    import { AvatarGroup, Button, Copyable, Text } from '@bloomwalletio/ui'
     import { FormattedBalance } from '@components'
+    import { NftAvatar, TokenAvatar } from '@ui'
     import { selectedAccount } from '@core/account/stores'
     import { appSettings } from '@core/app/stores'
     import { localize } from '@core/i18n'
@@ -92,12 +93,19 @@
         <Text type="body1" textColor="secondary">{fiatBalance}</Text>
     </account-network-summary-balance>
     <account-network-summary-assets class="flex flex-row justify-between items-center">
-        <Avatar
-            backgroundColor={dark ? 'surface-invert-dark' : 'surface-invert'}
-            shape="square"
-            text={nftCountFormatted}
-        />
-        <Avatar backgroundColor={dark ? 'surface-invert-dark' : 'surface-invert'} text={tokenCountFormatted} />
+        <AvatarGroup avatarSize="md">
+            {#each tokens?.nativeTokens ?? [] as token}
+                <TokenAvatar hideNetworkBadge size="md" {token} />
+            {/each}
+            <TokenAvatar hideNetworkBadge size="md" token={tokens?.baseCoin} />
+        </AvatarGroup>
+        {#if nfts.length > 0}
+            <AvatarGroup avatarSize="md" avatarShape="square">
+                {#each nfts as nft}
+                    <NftAvatar {nft} size="md" shape="square" />
+                {/each}
+            </AvatarGroup>
+        {/if}
     </account-network-summary-assets>
 </account-network-summary>
 
