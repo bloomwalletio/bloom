@@ -1,7 +1,8 @@
 <script lang="ts">
     import { localize } from '@core/i18n'
     import { nftSearchTerm, ownedNfts, queriedNfts } from '@core/nfts/stores'
-    import { FontWeight, Illustration, NftGallery, ReceiveButton, SearchInput, Text } from '@ui'
+    import { FontWeight, Illustration, NftGallery, ReceiveButton, Text } from '@ui'
+    import { SearchInput } from '@bloomwalletio/ui'
 </script>
 
 <div class="flex flex-col w-full h-full space-y-4">

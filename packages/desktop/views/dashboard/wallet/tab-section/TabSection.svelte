@@ -1,11 +1,10 @@
 <script lang="ts">
-    import { Tabs, IconButton, IconName } from '@bloomwalletio/ui'
+    import { Tabs, IconButton, IconName, SearchInput } from '@bloomwalletio/ui'
     import { ActivityTab } from './activity'
     import { PortfolioTab } from './portfolio'
     import { localize } from '@core/i18n'
     import { Filter } from '@components'
     import { tokenFilter, tokenSearchTerm } from '@core/token/stores'
-    import { SearchInput } from '@ui'
     import { activityFilter, activitySearchTerm } from '@core/activity'
     import { PopupId, openPopup } from '@desktop/auxiliary/popup'
 

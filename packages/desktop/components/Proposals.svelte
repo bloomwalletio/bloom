@@ -1,6 +1,7 @@
 <script lang="ts">
     import { Filter, ProposalCard } from '@components'
-    import { SearchInput, Text } from '@ui'
+    import { Text } from '@ui'
+    import { SearchInput } from '@bloomwalletio/ui'
     import { FontWeight } from '@ui/enums'
 
     import { localize } from '@core/i18n'
