@@ -130,7 +130,7 @@ export async function login(loginOptions?: ILoginOptions): Promise<void> {
             }
         } else {
             Platform.startLedgerProcess()
-            incrementLoginProgress(2)
+            incrementLoginProgress(1)
         }
 
         // Step 8: start background sync

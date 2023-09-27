@@ -1,5 +1,7 @@
 <script lang="ts">
-    import { Avatar, Button, Copyable, Text } from '@bloomwalletio/ui'
+    import { AvatarGroup, Button, Copyable, Text } from '@bloomwalletio/ui'
+    import { FormattedBalance } from '@components'
+    import { NftAvatar, TokenAvatar } from '@ui'
     import { selectedAccount } from '@core/account/stores'
     import { appSettings } from '@core/app/stores'
     import { localize } from '@core/i18n'
@@ -72,7 +74,7 @@
 <account-network-summary class="h-full w-full flex flex-col justify-between">
     <account-network-summary-header class="flex flex-row justify-between items-center gap-2">
         <div class="flex flex-row space-x-3 items-center">
-            <NetworkAvatar {networkId} size="xs" />
+            <NetworkAvatar {networkId} />
             <Text type="body2" lineClamp={1} class="text-ellipse overflow-hidden">{name}</Text>
         </div>
         <account-network-summary-header-address class="flex flex-row items-center space-x-2">
@@ -86,21 +88,24 @@
             {/if}
         </account-network-summary-header-address>
     </account-network-summary-header>
-    <account-network-summary-balance class="flex flex-col justify-between items-start flex-grow">
-        <account-network-summary-balance-primary>
-            <Text type="h3" truncate>{tokenBalance}</Text>
-        </account-network-summary-balance-primary>
-        <account-network-summary-balance-secondary>
-            <Text type="body1" textColor="secondary" truncate>{fiatBalance}</Text>
-        </account-network-summary-balance-secondary>
+    <account-network-summary-balance class="middle flex flex-col justify-between items-start">
+        <FormattedBalance balanceText={tokenBalance} textType="h3" />
+        <Text type="body1" textColor="secondary">{fiatBalance}</Text>
     </account-network-summary-balance>
     <account-network-summary-assets class="flex flex-row justify-between items-center">
-        <Avatar
-            backgroundColor={dark ? 'surface-invert-dark' : 'surface-invert'}
-            shape="square"
-            text={nftCountFormatted}
-        />
-        <Avatar backgroundColor={dark ? 'surface-invert-dark' : 'surface-invert'} text={tokenCountFormatted} />
+        <AvatarGroup avatarSize="md">
+            {#each tokens?.nativeTokens ?? [] as token}
+                <TokenAvatar hideNetworkBadge size="md" {token} />
+            {/each}
+            <TokenAvatar hideNetworkBadge size="md" token={tokens?.baseCoin} />
+        </AvatarGroup>
+        {#if nfts.length > 0}
+            <AvatarGroup avatarSize="md" avatarShape="square">
+                {#each nfts as nft}
+                    <NftAvatar {nft} size="md" shape="square" />
+                {/each}
+            </AvatarGroup>
+        {/if}
     </account-network-summary-assets>
 </account-network-summary>
 

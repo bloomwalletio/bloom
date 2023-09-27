@@ -1,0 +1,13 @@
+diff --git a/node_modules/qrious/dist/qrious.js b/node_modules/qrious/dist/qrious.js
+index 4733bf3..db9e7e2 100644
+--- a/node_modules/qrious/dist/qrious.js
++++ b/node_modules/qrious/dist/qrious.js
+@@ -401,7 +401,7 @@
+       var i, j;
+       var qrious = this.qrious;
+       var moduleSize = this.getModuleSize(frame);
+-      var offset = this.getOffset(frame);
++      var offset = parseInt((this.element.width - (frame.width * moduleSize)) / 2);
+       var context = this.element.getContext('2d');
+ 
+       context.fillStyle = qrious.foreground;

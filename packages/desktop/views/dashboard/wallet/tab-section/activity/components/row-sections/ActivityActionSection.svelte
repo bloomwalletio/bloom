@@ -73,7 +73,7 @@
 <div class="text-start">
     <div class="flex flex-row items-center gap-2">
         <Avatar size="xxs" backgroundColor={style.color} icon={style.icon} textColor="primary" />
-        <Text color={style.color + '-500'}>{localize(getActivityTileTitle(activity))}</Text>
+        <Text customColor={style.color + '-500'}>{localize(getActivityTileTitle(activity))}</Text>
     </div>
     <Text textColor="secondary">{formatDate(activity.time, { year: 'numeric', month: 'short', day: 'numeric' })}</Text>
 </div>

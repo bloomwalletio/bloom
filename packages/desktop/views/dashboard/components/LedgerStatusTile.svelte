@@ -35,7 +35,7 @@
             case LedgerConnectionState.Locked:
                 subtitle = localize('general.locked')
                 iconName = IconName.Hardware
-                iconColor = 'green'
+                iconColor = 'success'
                 break
             case LedgerConnectionState.NotConnected:
             default:
