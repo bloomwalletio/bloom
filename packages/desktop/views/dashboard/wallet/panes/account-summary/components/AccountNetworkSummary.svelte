@@ -1,5 +1,6 @@
 <script lang="ts">
     import { Avatar, Button, Copyable, Text } from '@bloomwalletio/ui'
+    import { FormattedBalance } from '@components'
     import { selectedAccount } from '@core/account/stores'
     import { appSettings } from '@core/app/stores'
     import { localize } from '@core/i18n'
@@ -86,13 +87,9 @@
             {/if}
         </account-network-summary-header-address>
     </account-network-summary-header>
-    <account-network-summary-balance class="flex flex-col justify-between items-start flex-grow">
-        <account-network-summary-balance-primary>
-            <Text type="h3" truncate>{tokenBalance}</Text>
-        </account-network-summary-balance-primary>
-        <account-network-summary-balance-secondary>
-            <Text type="body1" textColor="secondary" truncate>{fiatBalance}</Text>
-        </account-network-summary-balance-secondary>
+    <account-network-summary-balance class="middle flex flex-col justify-between items-start">
+        <FormattedBalance balanceText={tokenBalance} textType="h3" />
+        <Text type="body1" textColor="secondary">{fiatBalance}</Text>
     </account-network-summary-balance>
     <account-network-summary-assets class="flex flex-row justify-between items-center">
         <Avatar
