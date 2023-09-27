@@ -1,17 +1,21 @@
 <script lang="ts">
-    import { Icon, IconName } from '@bloomwalletio/ui'
-    import { SidebarTab } from '@components'
+    import { LogoName } from '@auxiliary/logo'
+    import { IconButton, IconName } from '@bloomwalletio/ui'
+    import { ProfileActionsMenu, SidebarTab } from '@components'
     import { localize } from '@core/i18n'
-    import { isSoftwareProfile, activeProfile } from '@core/profile/stores'
+    import { activeProfile, isSoftwareProfile } from '@core/profile/stores'
     import { DashboardRoute, collectiblesRouter, dashboardRouter, governanceRouter, settingsRouter } from '@core/router'
     import { ISidebarTab } from '@desktop/routers'
     import features from '@features/features'
     import { Logo } from '@ui'
-    import { BackupToast, VersionToast, AutoUpdateToast } from './toasts'
-    import StrongholdStatusTile from './StrongholdStatusTile.svelte'
     import LedgerStatusTile from './LedgerStatusTile.svelte'
-    import ProfileFrame from './ProfileFrame.svelte'
-    import { LogoName } from '@auxiliary/logo'
+    import StrongholdStatusTile from './StrongholdStatusTile.svelte'
+    import { AutoUpdateToast, BackupToast, VersionToast } from './toasts'
+
+    let expanded = true
+    function toggleExpand(): void {
+        expanded = !expanded
+    }
 
     let sidebarTabs: ISidebarTab[]
     $: sidebarTabs = [
@@ -99,67 +103,79 @@
     }
 </script>
 
-<aside>
-    <logo-container class="flex flex-row;">
-        <Logo width="120" logo={LogoName.Bloom} />
-        <Icon name={IconName.Collapse} textColor="secondary" />
-    </logo-container>
-
-    <sidebar-tabs class="flex flex-col">
-        {#each sidebarTabs as tab}
-            <div class="flex">
-                <SidebarTab {tab} />
-            </div>
-        {/each}
-    </sidebar-tabs>
-
-    <toasts>
-        <VersionToast />
-        <AutoUpdateToast />
-        <BackupToast />
-    </toasts>
-
-    <status-container>
-        {#if $isSoftwareProfile}
-            <StrongholdStatusTile />
-        {:else}
-            <LedgerStatusTile />
+<aside class:expanded class="flex flex-col justify-between">
+    <sidebar-header class="flex flex-row justify-between items-center">
+        <logo class="flex flex-row flex-none space-x-3">
+            <button on:click={toggleExpand} disabled={expanded}>
+                <Logo width="32" logo={LogoName.BloomLogo} />
+            </button>
+            {#if expanded}
+                <Logo width="80" logo={LogoName.BloomText} />
+            {/if}
+        </logo>
+        {#if expanded}
+            <IconButton icon={IconName.Collapse} textColor="secondary" on:click={toggleExpand} />
         {/if}
-    </status-container>
-    <ProfileFrame />
+    </sidebar-header>
+    <sidebar-content class="flex flex-col flex-grow justify-between">
+        <sidebar-tabs class="flex flex-col">
+            {#each sidebarTabs as tab}
+                <div class="flex">
+                    <SidebarTab {tab} {expanded} />
+                </div>
+            {/each}
+        </sidebar-tabs>
+
+        {#if expanded}
+            <sidebar-tiles class="w-full flex flex-col space-y-2">
+                {#if false}
+                    <!-- TODO: logic of when to display toast one at a time -->
+                    <AutoUpdateToast />
+                    <BackupToast />
+                {/if}
+                <VersionToast />
+                {#if $isSoftwareProfile}
+                    <StrongholdStatusTile />
+                {:else}
+                    <LedgerStatusTile />
+                {/if}
+            </sidebar-tiles>
+        {/if}
+    </sidebar-content>
+    <sidebar-footer>
+        <ProfileActionsMenu {expanded} />
+    </sidebar-footer>
 </aside>
 
 <style lang="postcss">
     aside {
-        @apply h-screen w-64;
-        @apply flex flex-col;
-        @apply relative;
+        @apply h-screen w-20;
         @apply bg-surface-1/90 dark:bg-surface-1-dark/60;
         @apply border-solid border-r border-stroke dark:border-stroke-dark;
+
+        &.expanded {
+            @apply w-64;
+        }
     }
 
-    logo-container {
-        @apply justify-between items-center;
+    sidebar-header {
         @apply gap-8;
-        @apply py-4.5 px-7;
+        @apply py-4.5 px-6;
         @apply border-b border-solid border-stroke dark:border-stroke-dark;
+    }
+
+    sidebar-content {
+        @apply p-4 pb-2;
     }
 
     sidebar-tabs {
         @apply justify-items-start;
         @apply w-full space-y-1;
-        @apply p-4 pb-2;
     }
 
-    status-container {
-        @apply p-4 pt-0;
-    }
-
-    toasts {
-        @apply flex flex-col-reverse;
-        @apply overflow-auto;
-        @apply flex-grow;
-        @apply px-4 py-2 gap-2;
+    sidebar-footer {
+        @apply w-full h-16 justify-center items-center;
+        @apply border-t border-solid border-stroke dark:border-stroke-dark;
     }
 
     :global(body.platform-win32) aside {

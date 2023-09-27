@@ -9,7 +9,7 @@
     import { ITokenWithBalance } from '@core/token'
     import { selectedAccountTokens } from '@core/token/stores'
     import { resetSendFlowParameters } from '@core/wallet'
-    import { PopupId, openPopup } from '@desktop/auxiliary/popup'
+    import { openPopup, PopupId } from '@desktop/auxiliary/popup'
     import { SendFlowRouter, sendFlowRouter } from '@views'
 
     export let account: IAccountState
@@ -37,6 +37,12 @@
             overflow: true,
         })
     }
+
+    function onReceiveClick(): void {
+        openPopup({
+            id: PopupId.ReceiveAddress,
+        })
+    }
 </script>
 
 <account-summary class="w-full h-full px-6 pb-6 pt-4 flex flex-col justify-between">
@@ -45,7 +51,15 @@
         <AccountActionsMenu />
     </account-summary-header>
     <FormattedBalance balanceText={formattedBalance} />
-    <account-summary-actions class="mt-4 flex flex-row justify-between items-center">
-        <Button text={localize('actions.send')} width="full" size="lg" icon={IconName.Send} on:click={onSendClick} />
+    <account-summary-actions class="mt-4 space-x-2 flex flex-row justify-between items-center">
+        <Button text={localize('actions.send')} width="half" size="lg" icon={IconName.Send} on:click={onSendClick} />
+        <Button
+            variant="outline"
+            text={localize('actions.receive')}
+            width="half"
+            size="lg"
+            icon={IconName.Receive}
+            on:click={onReceiveClick}
+        />
     </account-summary-actions>
 </account-summary>
