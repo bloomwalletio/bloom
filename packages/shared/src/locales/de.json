@@ -338,7 +338,7 @@
                 "status": "Status"
             },
             "portfolio": {
-                "tab": "Porfolio",
+                "tab": "Portfolio",
                 "asset": "Asset",
                 "network": "Network",
                 "marketCap": "Market cap",
@@ -350,25 +350,12 @@
                 "asset": "Asset",
                 "action": "Action",
                 "address": "Address",
-                "amount": "Amount"
+                "amount": "Amount",
+                "consolidatedOutputs": "{amount} outputs consolidated"
             },
-            "profileModal": {
-                "allSettings": "Alle Einstellungen",
-                "logout": "Abmelden",
-                "stronghold": {
-                    "title": "Profil sperren",
-                    "locked": "Stronghold gesperrt",
-                    "unlocked": "Stronghold entsperrt"
-                },
-                "hardware": {
-                    "title": "Hardware-Gerät",
-                    "statuses": {
-                        "appNotOpen": "Ledger entsperrt, aber App nicht geöffnet",
-                        "correctAppOpen": "Ledger entsperrt und App geöffnet",
-                        "locked": "Ledger sicher gesperrt",
-                        "notConnected": "Ledger nicht verbunden"
-                    }
-                }
+            "profileMenu": {
+                "allSettings": "All settings",
+                "logout": "Log out"
             },
             "drawers": {
                 "networkConfig": {
@@ -877,9 +864,9 @@
                     "Conflicting": "Failed to burn"
                 },
                 "consolidation": {
-                    "Pending": "Consolidating outputs",
-                    "Confirmed": "Outputs consolidated",
-                    "Conflicting": "Failed to consolidate outputs"
+                    "Pending": "Consolidating",
+                    "Confirmed": "Consolidated",
+                    "Conflicting": "Failed to consolidate"
                 },
                 "alias": {
                     "creation": {
@@ -1046,6 +1033,11 @@
         "nodeAuthRequired": {
             "title": "Anmeldung erforderlich",
             "body": "Diese Node erfordert zusätzliche Authentifizierung. Bitte gib die entsprechenden Informationen ein."
+        },
+        "receiveAddress": {
+            "title": "Receive",
+            "body": "Receive tokens, NFTs, and other digital assets to your account address shown below.",
+            "networkAddress": "{networkName} address"
         }
     },
     "actions": {
@@ -1144,6 +1136,7 @@
         "redo": "Wiederholen",
         "cut": "Ausschneiden",
         "copy": "Kopieren",
+        "copyAddress": "Copy address",
         "copyAllInformation": "Alle Informationen kopieren",
         "paste": "Einfügen",
         "selectAll": "Alles auswählen",
@@ -1236,8 +1229,8 @@
         "burning": "Verbrennen",
         "balanceChanged": "Balance changed",
         "initialBalance": "Initial balance",
-        "consolidated": "Outputs zusammengeführt",
-        "consolidating": "Führt Outputs zusammen",
+        "consolidated": "Consolidated",
+        "consolidating": "Consolidating",
         "aliasCreated": "Alias erstellt",
         "creatingAlias": "Alias erstellen",
         "sendTo": "Senden an",
@@ -1257,6 +1250,8 @@
         "viewOnExplorer": "Im Explorer anzeigen",
         "import": "Importieren",
         "stronghold": "Stronghold",
+        "locked": "Locked",
+        "unlocked": "Unlocked",
         "lightTheme": "Hell",
         "darkTheme": "Dunkel",
         "systemTheme": "System",
@@ -1384,7 +1379,8 @@
         "contacts": "Contacts",
         "apps": "Apps",
         "networks": "Networks",
-        "ledgerDevice": "Ledger device"
+        "ledgerDevice": "Ledger device",
+        "disconnected": "Disconnected"
     },
     "filters": {
         "title": "Filter",

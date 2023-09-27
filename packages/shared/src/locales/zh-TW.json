@@ -338,7 +338,7 @@
                 "status": "狀態"
             },
             "portfolio": {
-                "tab": "Porfolio",
+                "tab": "Portfolio",
                 "asset": "Asset",
                 "network": "Network",
                 "marketCap": "Market cap",
@@ -350,25 +350,12 @@
                 "asset": "Asset",
                 "action": "Action",
                 "address": "Address",
-                "amount": "Amount"
+                "amount": "Amount",
+                "consolidatedOutputs": "{amount} outputs consolidated"
             },
-            "profileModal": {
-                "allSettings": "所有設定",
-                "logout": "登出",
-                "stronghold": {
-                    "title": "設定檔鎖定",
-                    "locked": "Stronghold 已鎖定",
-                    "unlocked": "Stronghold 已解鎖"
-                },
-                "hardware": {
-                    "title": "硬體裝置",
-                    "statuses": {
-                        "appNotOpen": "Ledger 已解鎖但 app 還未啟動",
-                        "correctAppOpen": "Ledger 已解鎖且 app 已啟動 ",
-                        "locked": "Ledger 已安全的鎖上",
-                        "notConnected": "未連接 Ledger"
-                    }
-                }
+            "profileMenu": {
+                "allSettings": "All settings",
+                "logout": "Log out"
             },
             "drawers": {
                 "networkConfig": {
@@ -877,9 +864,9 @@
                     "Conflicting": "Failed to burn"
                 },
                 "consolidation": {
-                    "Pending": "Consolidating outputs",
-                    "Confirmed": "Outputs consolidated",
-                    "Conflicting": "Failed to consolidate outputs"
+                    "Pending": "Consolidating",
+                    "Confirmed": "Consolidated",
+                    "Conflicting": "Failed to consolidate"
                 },
                 "alias": {
                     "creation": {
@@ -1046,6 +1033,11 @@
         "nodeAuthRequired": {
             "title": "需要驗證",
             "body": "This node requires additional authentication. Please fill in the appropriate information."
+        },
+        "receiveAddress": {
+            "title": "Receive",
+            "body": "Receive tokens, NFTs, and other digital assets to your account address shown below.",
+            "networkAddress": "{networkName} address"
         }
     },
     "actions": {
@@ -1144,6 +1136,7 @@
         "redo": "重做",
         "cut": "剪下",
         "copy": "複製",
+        "copyAddress": "Copy address",
         "copyAllInformation": "複製所有資訊",
         "paste": "貼上",
         "selectAll": "全選",
@@ -1236,8 +1229,8 @@
         "burning": "燒毀中",
         "balanceChanged": "Balance changed",
         "initialBalance": "Initial balance",
-        "consolidated": "已合併輸出",
-        "consolidating": "合併輸出中",
+        "consolidated": "Consolidated",
+        "consolidating": "Consolidating",
         "aliasCreated": "已建立別名",
         "creatingAlias": "正在建立別名",
         "sendTo": "發送至",
@@ -1257,6 +1250,8 @@
         "viewOnExplorer": "在區塊鏈瀏覽器上查看",
         "import": "匯入",
         "stronghold": "Stronghold",
+        "locked": "Locked",
+        "unlocked": "Unlocked",
         "lightTheme": "亮色",
         "darkTheme": "深色",
         "systemTheme": "系統",
@@ -1384,7 +1379,8 @@
         "contacts": "Contacts",
         "apps": "Apps",
         "networks": "Networks",
-        "ledgerDevice": "Ledger device"
+        "ledgerDevice": "Ledger device",
+        "disconnected": "Disconnected"
     },
     "filters": {
         "title": "篩選",
