@@ -52,8 +52,8 @@
     $: text = getTokenInitials(token)
 </script>
 
-<div>
-    <Avatar {size} {backgroundColor} {icon} customTextColor={textColor} text={icon ? undefined : text} />
+<div class="avatar">
+    <Avatar {size} {backgroundColor} {icon} customTextColor={textColor} text={icon ? '' : text} />
     {#if (size === 'base' || size === 'md' || size === 'lg') && !hideNetworkBadge}
         <span class="relative flex justify-center items-center bottom-0 right-0">
             <NetworkBadge size="xxs" networkId={token.networkId} />
