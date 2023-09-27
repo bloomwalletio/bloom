@@ -338,7 +338,7 @@
                 "status": "Статус"
             },
             "portfolio": {
-                "tab": "Porfolio",
+                "tab": "Portfolio",
                 "asset": "Asset",
                 "network": "Network",
                 "marketCap": "Market cap",
@@ -350,25 +350,12 @@
                 "asset": "Asset",
                 "action": "Action",
                 "address": "Address",
-                "amount": "Amount"
+                "amount": "Amount",
+                "consolidatedOutputs": "{amount} outputs consolidated"
             },
-            "profileModal": {
-                "allSettings": "Все настройки",
-                "logout": "Выйти",
-                "stronghold": {
-                    "title": "Блокировка профиля",
-                    "locked": "Stronghold заблокирован",
-                    "unlocked": "Stronghold разблокирован"
-                },
-                "hardware": {
-                    "title": "Аппаратное устройство",
-                    "statuses": {
-                        "appNotOpen": "Ledger разблокирован, но приложение не открыто",
-                        "correctAppOpen": "Ledger разблокирован и приложение открыто ",
-                        "locked": "Ledger надежно заперт",
-                        "notConnected": "Ledger не подключен"
-                    }
-                }
+            "profileMenu": {
+                "allSettings": "All settings",
+                "logout": "Log out"
             },
             "drawers": {
                 "networkConfig": {
@@ -877,9 +864,9 @@
                     "Conflicting": "Failed to burn"
                 },
                 "consolidation": {
-                    "Pending": "Consolidating outputs",
-                    "Confirmed": "Outputs consolidated",
-                    "Conflicting": "Failed to consolidate outputs"
+                    "Pending": "Consolidating",
+                    "Confirmed": "Consolidated",
+                    "Conflicting": "Failed to consolidate"
                 },
                 "alias": {
                     "creation": {
@@ -1046,6 +1033,11 @@
         "nodeAuthRequired": {
             "title": "Требуется аутентификация",
             "body": "Этот узел требует дополнительной аутентификации. Пожалуйста, заполните соответствующую информацию."
+        },
+        "receiveAddress": {
+            "title": "Receive",
+            "body": "Receive tokens, NFTs, and other digital assets to your account address shown below.",
+            "networkAddress": "{networkName} address"
         }
     },
     "actions": {
@@ -1144,6 +1136,7 @@
         "redo": "Повторить",
         "cut": "Вырезать",
         "copy": "Копировать",
+        "copyAddress": "Copy address",
         "copyAllInformation": "Скопировать всю информацию",
         "paste": "Вставить",
         "selectAll": "Выбрать все",
@@ -1236,8 +1229,8 @@
         "burning": "Сжигание",
         "balanceChanged": "Balance changed",
         "initialBalance": "Initial balance",
-        "consolidated": "Результаты объединены",
-        "consolidating": "Объединение результатов",
+        "consolidated": "Consolidated",
+        "consolidating": "Consolidating",
         "aliasCreated": "Псевдоним создан",
         "creatingAlias": "Создание псевдонима",
         "sendTo": "Отправить на",
@@ -1257,6 +1250,8 @@
         "viewOnExplorer": "Посмотреть в проводнике",
         "import": "Импорт",
         "stronghold": "Stronghold",
+        "locked": "Locked",
+        "unlocked": "Unlocked",
         "lightTheme": "Светлая",
         "darkTheme": "Тёмная",
         "systemTheme": "Система",
@@ -1384,7 +1379,8 @@
         "contacts": "Contacts",
         "apps": "Apps",
         "networks": "Networks",
-        "ledgerDevice": "Ledger device"
+        "ledgerDevice": "Ledger device",
+        "disconnected": "Disconnected"
     },
     "filters": {
         "title": "Фильтры",
