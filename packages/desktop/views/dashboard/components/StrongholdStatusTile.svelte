@@ -23,14 +23,14 @@
             return {
                 subtitle: localize('general.locked'),
                 iconName: IconName.LockedFill,
-                iconColor: '#B5B8C3',
-                iconBackgroundColor: '#F1EEF9',
+                iconColor: 'success',
             }
         } else {
             return {
                 subtitle: localize('general.unlocked'),
                 iconName: IconName.UnlockedFill,
-                iconColor: 'green',
+                iconColor: '#B5B8C3',
+                iconBackgroundColor: '#F1EEF9',
             }
         }
     }
