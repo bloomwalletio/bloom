@@ -338,7 +338,7 @@
                 "status": "Stato"
             },
             "portfolio": {
-                "tab": "Porfolio",
+                "tab": "Portfolio",
                 "asset": "Asset",
                 "network": "Network",
                 "marketCap": "Market cap",
@@ -350,25 +350,12 @@
                 "asset": "Asset",
                 "action": "Action",
                 "address": "Address",
-                "amount": "Amount"
+                "amount": "Amount",
+                "consolidatedOutputs": "{amount} outputs consolidated"
             },
-            "profileModal": {
+            "profileMenu": {
                 "allSettings": "All settings",
-                "logout": "Elsaluti",
-                "stronghold": {
-                    "title": "Profile lock",
-                    "locked": "Stronghold locked",
-                    "unlocked": "Stronghold unlocked"
-                },
-                "hardware": {
-                    "title": "Hardware Device",
-                    "statuses": {
-                        "appNotOpen": "Ledger unlocked but app not open",
-                        "correctAppOpen": "Ledger unlocked and app open ",
-                        "locked": "Ledger securely locked",
-                        "notConnected": "Ledger not connected"
-                    }
-                }
+                "logout": "Log out"
             },
             "drawers": {
                 "networkConfig": {
@@ -877,9 +864,9 @@
                     "Conflicting": "Failed to burn"
                 },
                 "consolidation": {
-                    "Pending": "Consolidating outputs",
-                    "Confirmed": "Outputs consolidated",
-                    "Conflicting": "Failed to consolidate outputs"
+                    "Pending": "Consolidating",
+                    "Confirmed": "Consolidated",
+                    "Conflicting": "Failed to consolidate"
                 },
                 "alias": {
                     "creation": {
@@ -1046,6 +1033,11 @@
         "nodeAuthRequired": {
             "title": "Authentication required",
             "body": "This node requires additional authentication. Please fill in the appropriate information."
+        },
+        "receiveAddress": {
+            "title": "Receive",
+            "body": "Receive tokens, NFTs, and other digital assets to your account address shown below.",
+            "networkAddress": "{networkName} address"
         }
     },
     "actions": {
@@ -1125,7 +1117,7 @@
         "restart": "Restart",
         "refresh": "Refresh",
         "saveBackup": "Save backup",
-        "customizeAcount": "Personecigi monujon",
+        "customizeAccount": "Personecigi monujon",
         "hideAccount": "Hide wallet",
         "showAccount": "Malkaŝi monujon",
         "deleteAccount": "Delete wallet",
@@ -1144,6 +1136,7 @@
         "redo": "Refari",
         "cut": "Eltranĉi",
         "copy": "Kopi",
+        "copyAddress": "Copy address",
         "copyAllInformation": "Copy all information",
         "paste": "Alglui",
         "selectAll": "Elekti Ĉiujn",
@@ -1236,15 +1229,15 @@
         "burning": "Burning",
         "balanceChanged": "Balance changed",
         "initialBalance": "Initial balance",
-        "consolidated": "Outputs consolidated",
-        "consolidating": "Consolidating outputs",
+        "consolidated": "Consolidated",
+        "consolidating": "Consolidating",
         "aliasCreated": "Alias created",
         "creatingAlias": "Creating Alias",
         "sendTo": "Sendi al",
         "sendAssets": "Send assets",
         "sendAssetToAddress": "Send asset to an address",
         "manageAccount": "Administri monujon",
-        "customizeAcount": "Agordu vian monujon",
+        "customizeAccount": "Agordu vian monujon",
         "account": "Wallet",
         "amount": "Kvanto",
         "addAddress": "Aldoni adreson",
@@ -1257,6 +1250,8 @@
         "viewOnExplorer": "View on Explorer",
         "import": "Importi",
         "stronghold": "Stronghold",
+        "locked": "Locked",
+        "unlocked": "Unlocked",
         "lightTheme": "Hela",
         "darkTheme": "Malhela",
         "systemTheme": "Sistemon",
@@ -1384,7 +1379,8 @@
         "contacts": "Contacts",
         "apps": "Apps",
         "networks": "Networks",
-        "ledgerDevice": "Ledger device"
+        "ledgerDevice": "Ledger device",
+        "disconnected": "Disconnected"
     },
     "filters": {
         "title": "Filters",

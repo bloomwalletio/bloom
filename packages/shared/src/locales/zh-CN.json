@@ -338,7 +338,7 @@
                 "status": "状态"
             },
             "portfolio": {
-                "tab": "Porfolio",
+                "tab": "Portfolio",
                 "asset": "Asset",
                 "network": "Network",
                 "marketCap": "Market cap",
@@ -350,25 +350,12 @@
                 "asset": "Asset",
                 "action": "Action",
                 "address": "Address",
-                "amount": "Amount"
+                "amount": "Amount",
+                "consolidatedOutputs": "{amount} outputs consolidated"
             },
-            "profileModal": {
-                "allSettings": "所有设置",
-                "logout": "退出账号",
-                "stronghold": {
-                    "title": "配置文件锁定",
-                    "locked": "Stronghold已锁定",
-                    "unlocked": "Stronghold已解锁"
-                },
-                "hardware": {
-                    "title": "硬件设备",
-                    "statuses": {
-                        "appNotOpen": "Ledger已解锁，但应用程序未打开",
-                        "correctAppOpen": "Ledger 已解锁，应用程序已打开 ",
-                        "locked": "Ledger 已安全锁定",
-                        "notConnected": "Ledger 未连接"
-                    }
-                }
+            "profileMenu": {
+                "allSettings": "All settings",
+                "logout": "Log out"
             },
             "drawers": {
                 "networkConfig": {
@@ -877,9 +864,9 @@
                     "Conflicting": "Failed to burn"
                 },
                 "consolidation": {
-                    "Pending": "Consolidating outputs",
-                    "Confirmed": "Outputs consolidated",
-                    "Conflicting": "Failed to consolidate outputs"
+                    "Pending": "Consolidating",
+                    "Confirmed": "Consolidated",
+                    "Conflicting": "Failed to consolidate"
                 },
                 "alias": {
                     "creation": {
@@ -1046,6 +1033,11 @@
         "nodeAuthRequired": {
             "title": "需要验证",
             "body": "此节点需要额外的验证。请填写适当的信息。"
+        },
+        "receiveAddress": {
+            "title": "Receive",
+            "body": "Receive tokens, NFTs, and other digital assets to your account address shown below.",
+            "networkAddress": "{networkName} address"
         }
     },
     "actions": {
@@ -1125,7 +1117,7 @@
         "restart": "Restart",
         "refresh": "Refresh",
         "saveBackup": "Save backup",
-        "customizeAcount": "自定义钱包",
+        "customizeAccount": "自定义钱包",
         "hideAccount": "隐藏钱包",
         "showAccount": "取消隐藏该钱包",
         "deleteAccount": "删除钱包",
@@ -1144,6 +1136,7 @@
         "redo": "重做",
         "cut": "剪切",
         "copy": "复制",
+        "copyAddress": "Copy address",
         "copyAllInformation": "复制所有信息",
         "paste": "粘贴",
         "selectAll": "全选",
@@ -1236,15 +1229,15 @@
         "burning": "燃烧中",
         "balanceChanged": "Balance changed",
         "initialBalance": "Initial balance",
-        "consolidated": "合并的Output",
-        "consolidating": "合并中Output",
+        "consolidated": "Consolidated",
+        "consolidating": "Consolidating",
         "aliasCreated": "别名已创建",
         "creatingAlias": "创建别名",
         "sendTo": "发送到",
         "sendAssets": "发送资产",
         "sendAssetToAddress": "将资产发送到地址",
         "manageAccount": "管理钱包",
-        "customizeAcount": "自定义你的钱包",
+        "customizeAccount": "自定义你的钱包",
         "account": "钱包",
         "amount": "金额",
         "addAddress": "新增地址",
@@ -1257,6 +1250,8 @@
         "viewOnExplorer": "在区块浏览器中查看",
         "import": "导入",
         "stronghold": "Stronghold",
+        "locked": "Locked",
+        "unlocked": "Unlocked",
         "lightTheme": "亮色",
         "darkTheme": "暗色",
         "systemTheme": "系统",
@@ -1384,7 +1379,8 @@
         "contacts": "Contacts",
         "apps": "Apps",
         "networks": "Networks",
-        "ledgerDevice": "Ledger device"
+        "ledgerDevice": "Ledger device",
+        "disconnected": "Disconnected"
     },
     "filters": {
         "title": "过滤",

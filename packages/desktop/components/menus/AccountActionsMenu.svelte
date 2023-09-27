@@ -63,7 +63,7 @@
             },
             {
                 icon: IconName.Sliders,
-                title: localize('actions.customizeAcount'),
+                title: localize('actions.customizeAccount'),
                 onClick: onCustomiseAccountClick,
             },
         ]

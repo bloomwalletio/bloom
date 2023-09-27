@@ -338,7 +338,7 @@
                 "status": "Status"
             },
             "portfolio": {
-                "tab": "Porfolio",
+                "tab": "Portfolio",
                 "asset": "Asset",
                 "network": "Network",
                 "marketCap": "Market cap",
@@ -350,25 +350,12 @@
                 "asset": "Asset",
                 "action": "Action",
                 "address": "Address",
-                "amount": "Amount"
+                "amount": "Amount",
+                "consolidatedOutputs": "{amount} outputs consolidated"
             },
-            "profileModal": {
+            "profileMenu": {
                 "allSettings": "All settings",
-                "logout": "Log ud",
-                "stronghold": {
-                    "title": "Profillås",
-                    "locked": "Stronghold låst",
-                    "unlocked": "Stronghold oplåst"
-                },
-                "hardware": {
-                    "title": "Hardware-enhed",
-                    "statuses": {
-                        "appNotOpen": "Ledger-enhed oplåst, men app er ikke åben",
-                        "correctAppOpen": "Ledger-enhed oplåst, og app er åben ",
-                        "locked": "Ledger-enheden sikkert låst",
-                        "notConnected": "Ledger-enheden ikke tilsluttet"
-                    }
-                }
+                "logout": "Log out"
             },
             "drawers": {
                 "networkConfig": {
@@ -877,9 +864,9 @@
                     "Conflicting": "Failed to burn"
                 },
                 "consolidation": {
-                    "Pending": "Consolidating outputs",
-                    "Confirmed": "Outputs consolidated",
-                    "Conflicting": "Failed to consolidate outputs"
+                    "Pending": "Consolidating",
+                    "Confirmed": "Consolidated",
+                    "Conflicting": "Failed to consolidate"
                 },
                 "alias": {
                     "creation": {
@@ -1046,6 +1033,11 @@
         "nodeAuthRequired": {
             "title": "Authentication required",
             "body": "This node requires additional authentication. Please fill in the appropriate information."
+        },
+        "receiveAddress": {
+            "title": "Receive",
+            "body": "Receive tokens, NFTs, and other digital assets to your account address shown below.",
+            "networkAddress": "{networkName} address"
         }
     },
     "actions": {
@@ -1125,7 +1117,7 @@
         "restart": "Restart",
         "refresh": "Opdatér",
         "saveBackup": "Save backup",
-        "customizeAcount": "Tilpas wallet",
+        "customizeAccount": "Tilpas wallet",
         "hideAccount": "Skjul wallet",
         "showAccount": "Vis wallet",
         "deleteAccount": "Delete wallet",
@@ -1144,6 +1136,7 @@
         "redo": "Omgør",
         "cut": "Klip",
         "copy": "Kopiér",
+        "copyAddress": "Copy address",
         "copyAllInformation": "Copy all information",
         "paste": "Indsæt",
         "selectAll": "Vælg alle",
@@ -1236,15 +1229,15 @@
         "burning": "Brænder",
         "balanceChanged": "Balance changed",
         "initialBalance": "Initial balance",
-        "consolidated": "Output konsolideret",
-        "consolidating": "Konsolidering af output",
+        "consolidated": "Consolidated",
+        "consolidating": "Consolidating",
         "aliasCreated": "Alias created",
         "creatingAlias": "Creating Alias",
         "sendTo": "Send To",
         "sendAssets": "Send assets",
         "sendAssetToAddress": "Send asset to an address",
         "manageAccount": "Håndtér Wallet",
-        "customizeAcount": "Tilpas din wallet",
+        "customizeAccount": "Tilpas din wallet",
         "account": "Wallet",
         "amount": "Beløb",
         "addAddress": "Tilføj adresse",
@@ -1257,6 +1250,8 @@
         "viewOnExplorer": "View on Explorer",
         "import": "Importér",
         "stronghold": "Stronghold",
+        "locked": "Locked",
+        "unlocked": "Unlocked",
         "lightTheme": "Light",
         "darkTheme": "Dark",
         "systemTheme": "System",
@@ -1384,7 +1379,8 @@
         "contacts": "Contacts",
         "apps": "Apps",
         "networks": "Networks",
-        "ledgerDevice": "Ledger device"
+        "ledgerDevice": "Ledger device",
+        "disconnected": "Disconnected"
     },
     "filters": {
         "title": "Filtre",

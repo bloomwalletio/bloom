@@ -338,7 +338,7 @@
                 "status": "Statut"
             },
             "portfolio": {
-                "tab": "Porfolio",
+                "tab": "Portfolio",
                 "asset": "Asset",
                 "network": "Network",
                 "marketCap": "Market cap",
@@ -350,25 +350,12 @@
                 "asset": "Asset",
                 "action": "Action",
                 "address": "Address",
-                "amount": "Amount"
+                "amount": "Amount",
+                "consolidatedOutputs": "{amount} outputs consolidated"
             },
-            "profileModal": {
-                "allSettings": "Tous les paramètres",
-                "logout": "Déconnexion",
-                "stronghold": {
-                    "title": "Verrouillage du profil",
-                    "locked": "Stronghold verrouillé",
-                    "unlocked": "Stronghold déverrouillé"
-                },
-                "hardware": {
-                    "title": "Périphérique Matériel",
-                    "statuses": {
-                        "appNotOpen": "Ledger déverrouillé mais l'application n'est pas ouverte",
-                        "correctAppOpen": "Ledger déverrouillé et application ouverte ",
-                        "locked": "Clé Ledger verrouillée",
-                        "notConnected": "Clé Ledger non connectée"
-                    }
-                }
+            "profileMenu": {
+                "allSettings": "All settings",
+                "logout": "Log out"
             },
             "drawers": {
                 "networkConfig": {
@@ -877,9 +864,9 @@
                     "Conflicting": "Failed to burn"
                 },
                 "consolidation": {
-                    "Pending": "Consolidating outputs",
-                    "Confirmed": "Outputs consolidated",
-                    "Conflicting": "Failed to consolidate outputs"
+                    "Pending": "Consolidating",
+                    "Confirmed": "Consolidated",
+                    "Conflicting": "Failed to consolidate"
                 },
                 "alias": {
                     "creation": {
@@ -1046,6 +1033,11 @@
         "nodeAuthRequired": {
             "title": "Authentication required",
             "body": "This node requires additional authentication. Please fill in the appropriate information."
+        },
+        "receiveAddress": {
+            "title": "Receive",
+            "body": "Receive tokens, NFTs, and other digital assets to your account address shown below.",
+            "networkAddress": "{networkName} address"
         }
     },
     "actions": {
@@ -1125,7 +1117,7 @@
         "restart": "Restart",
         "refresh": "Rafraîchir",
         "saveBackup": "Save backup",
-        "customizeAcount": "Personnaliser le portefeuille",
+        "customizeAccount": "Personnaliser le portefeuille",
         "hideAccount": "Masquer le portefeuille",
         "showAccount": "Afficher le portefeuille",
         "deleteAccount": "Supprimer le portefeuille",
@@ -1144,6 +1136,7 @@
         "redo": "Répéter",
         "cut": "Couper",
         "copy": "Copier",
+        "copyAddress": "Copy address",
         "copyAllInformation": "Copier toutes les informations",
         "paste": "Coller",
         "selectAll": "Tout Sélectionner",
@@ -1236,15 +1229,15 @@
         "burning": "En combustion",
         "balanceChanged": "Balance changed",
         "initialBalance": "Initial balance",
-        "consolidated": "Résultats consolidés",
-        "consolidating": "Consolidation des sorties",
+        "consolidated": "Consolidated",
+        "consolidating": "Consolidating",
         "aliasCreated": "Alias created",
         "creatingAlias": "Creating Alias",
         "sendTo": "Envoyer à",
         "sendAssets": "Send assets",
         "sendAssetToAddress": "Send asset to an address",
         "manageAccount": "Gérer le Portefeuille",
-        "customizeAcount": "Personnaliser votre portefeuille",
+        "customizeAccount": "Personnaliser votre portefeuille",
         "account": "Portefeuille",
         "amount": "Montant",
         "addAddress": "Ajouter une Adresse",
@@ -1257,6 +1250,8 @@
         "viewOnExplorer": "Afficher sur Explorer",
         "import": "Importer",
         "stronghold": "Stronghold",
+        "locked": "Locked",
+        "unlocked": "Unlocked",
         "lightTheme": "Clair",
         "darkTheme": "Sombre",
         "systemTheme": "Système",
@@ -1384,7 +1379,8 @@
         "contacts": "Contacts",
         "apps": "Apps",
         "networks": "Networks",
-        "ledgerDevice": "Ledger device"
+        "ledgerDevice": "Ledger device",
+        "disconnected": "Disconnected"
     },
     "filters": {
         "title": "Filters",
