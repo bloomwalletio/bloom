@@ -62,7 +62,7 @@
             @apply w-full;
             @apply px-5 py-4;
             @apply bg-surface-1 dark:bg-surface-1-dark;
-            @apply border-b border-solid border-stroke dark:border-stroke-dark;
+            @apply border-y border-solid border-stroke dark:border-stroke-dark;
 
             @apply grid;
             grid-template-columns: 2fr 1fr 1fr 1fr;
