@@ -6,23 +6,33 @@
     export let balanceText: string = ''
     export let textType: TextType = 'h1'
 
-    let splitBalanceText: [string, string]
-    $: splitBalanceText = getSplitBalanceText(balanceText)
+    $: ({ integer, separator, decimals, unit } = getSplitBalanceText(balanceText))
 
-    function getSplitBalanceText(balance: string): [string, string] {
+    function getSplitBalanceText(balance: string): {
+        integer: string
+        separator: string
+        decimals: string
+        unit: string
+    } {
         const separator = getDecimalSeparator($activeProfile?.settings?.marketCurrency)
         const [integer, decimals] = balance.split(separator)
         if (decimals) {
-            return [integer, separator + decimals]
+            const [_decimals, unit] = decimals.split(/\s/g)
+            return { integer, separator, decimals: _decimals, unit }
         } else {
-            const parsedInteger = parseInt(integer).toString()
-            const tokenSymbol = integer.replace(parsedInteger, '').replace(' ', '')
-            return [parsedInteger, `${separator}00 ${tokenSymbol}`]
+            const [_integer, unit] = integer.split(/\s/g)
+            return { integer: _integer, separator, decimals: '00', unit }
         }
     }
 </script>
 
-<formatted-balance class="flex flex-row items-center">
-    <Text type={textType}>{splitBalanceText[0]}</Text>
-    <Text type={textType} textColor="text-secondary">{splitBalanceText[1]}</Text>
+<formatted-balance class="flex flex-row w-full items-center space-x-2">
+    <div class="flex flex-row items-center overflow-hidden">
+        <Text type={textType}>{integer}</Text>
+        <Text type={textType} textColor="secondary">{separator}</Text>
+        <Text type={textType} textColor="secondary" truncate>{decimals}</Text>
+    </div>
+    {#if unit}
+        <Text type={textType}>{unit}</Text>
+    {/if}
 </formatted-balance>
