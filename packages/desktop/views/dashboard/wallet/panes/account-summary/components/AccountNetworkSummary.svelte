@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { AvatarGroup, Button, Copyable, Text } from '@bloomwalletio/ui'
+    import { AvatarGroup, Copyable, Text } from '@bloomwalletio/ui'
     import { FormattedBalance } from '@components'
     import { NftAvatar, TokenAvatar } from '@ui'
     import { selectedAccount } from '@core/account/stores'
@@ -31,6 +31,9 @@
 
     $: dark = $appSettings.darkMode
     $: $selectedAccountTokens, $ownedNfts, updateAssetCounts()
+
+    $: hasTokens = tokens?.nativeTokens?.length > 0
+    $: hasNfts = nfts?.length > 0
 
     let tokenCountFormatted: string
     let nftCountFormatted: string
@@ -84,7 +87,9 @@
                     <Text type="pre-md" textColor="secondary" truncate>{truncateString(address)}</Text>
                 </Copyable>
             {:else}
-                <Button text={localize('actions.generateAddress')} variant="text" on:click={onGenerateAddressClick} />
+                <p class="generate-address-button" on:click={onGenerateAddressClick}>
+                    {localize('actions.generateAddress')}
+                </p>
             {/if}
         </account-network-summary-header-address>
     </account-network-summary-header>
@@ -93,13 +98,14 @@
         <Text type="body1" textColor="secondary">{fiatBalance}</Text>
     </account-network-summary-balance>
     <account-network-summary-assets class="flex flex-row justify-between items-center">
-        <AvatarGroup avatarSize="md">
-            {#each tokens?.nativeTokens ?? [] as token}
-                <TokenAvatar hideNetworkBadge size="md" {token} />
-            {/each}
-            <TokenAvatar hideNetworkBadge size="md" token={tokens?.baseCoin} />
-        </AvatarGroup>
-        {#if nfts.length > 0}
+        {#if hasTokens}
+            <AvatarGroup avatarSize="md">
+                {#each tokens?.nativeTokens ?? [] as token}
+                    <TokenAvatar hideNetworkBadge size="md" {token} />
+                {/each}
+            </AvatarGroup>
+        {/if}
+        {#if hasNfts}
             <AvatarGroup avatarSize="md" avatarShape="square">
                 {#each nfts as nft}
                     <NftAvatar {nft} size="md" shape="square" />
@@ -116,6 +122,7 @@
     }
 
     account-network-summary-header {
+        height: 56px;
         @apply px-5 py-4;
     }
 
@@ -124,7 +131,15 @@
     }
 
     account-network-summary-assets {
+        height: 64px;
         @apply px-5 py-4;
         @apply bg-surface-1 dark:bg-surface-1-dark;
+    }
+
+    .generate-address-button {
+        @apply text-[0.8125rem] font-semibold;
+        @apply text-primary-500 hover:text-primary-600 focus:text-primary-600;
+        @apply whitespace-nowrap;
+        @apply hover:cursor-pointer;
     }
 </style>
