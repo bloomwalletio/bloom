@@ -1,34 +1,30 @@
 <script lang="ts">
-    import { Button, IconName, Text } from '@bloomwalletio/ui'
-    import { AccountActionsMenu, AccountSwitcher } from '@components'
+    import { Button, IconName } from '@bloomwalletio/ui'
+    import { AccountActionsMenu, AccountSwitcher, FormattedBalance } from '@components'
     import { IAccountState } from '@core/account'
-    import { formatCurrency, getDecimalSeparator, localize } from '@core/i18n'
+    import { formatCurrency, localize } from '@core/i18n'
     import { resetLedgerPreparedOutput, resetShowInternalVerificationPopup } from '@core/ledger'
     import { getMarketAmountFromTokenValue } from '@core/market/actions'
     import { NetworkId } from '@core/network'
     import { ITokenWithBalance } from '@core/token'
     import { selectedAccountTokens } from '@core/token/stores'
     import { resetSendFlowParameters } from '@core/wallet'
-    import { PopupId, openPopup } from '@desktop/auxiliary/popup'
+    import { openPopup, PopupId } from '@desktop/auxiliary/popup'
     import { SendFlowRouter, sendFlowRouter } from '@views'
-    import { activeProfile } from '@core/profile/stores'
 
     export let account: IAccountState
     export let stardustNetworkId: NetworkId
     export let evmChainNetworkId: NetworkId
 
-    let formattedBalance: [string, string]
-    $: $selectedAccountTokens, (formattedBalance = getFormattedBalance())
+    let formattedBalance: string
+    $: $selectedAccountTokens, (formattedBalance = getTotalBalance())
 
-    function getFormattedBalance(): [string, string] {
+    function getTotalBalance(): string {
         const stardustBaseToken: ITokenWithBalance = $selectedAccountTokens?.[stardustNetworkId]?.baseCoin
         const evmChainBaseToken: ITokenWithBalance = $selectedAccountTokens?.[evmChainNetworkId]?.baseCoin
         const availableBalance =
             (stardustBaseToken?.balance?.available ?? 0) + (evmChainBaseToken?.balance?.available ?? 0)
-        const formattedCurrency = formatCurrency(getMarketAmountFromTokenValue(availableBalance, stardustBaseToken))
-        const decimalSeparator = getDecimalSeparator($activeProfile?.settings?.marketCurrency)
-        const [integer, decimals] = formattedCurrency.split(decimalSeparator)
-        return [integer, decimalSeparator + decimals]
+        return formatCurrency(getMarketAmountFromTokenValue(availableBalance, stardustBaseToken))
     }
 
     function onSendClick(): void {
@@ -41,6 +37,12 @@
             overflow: true,
         })
     }
+
+    function onReceiveClick(): void {
+        openPopup({
+            id: PopupId.ReceiveAddress,
+        })
+    }
 </script>
 
 <account-summary class="w-full h-full px-6 pb-6 pt-4 flex flex-col justify-between">
@@ -48,11 +50,16 @@
         <AccountSwitcher />
         <AccountActionsMenu />
     </account-summary-header>
-    <account-summary-balance class="flex flex-row">
-        <Text type="h1" truncate>{formattedBalance[0]}</Text>
-        <Text type="h1" textColor="secondary" truncate>{formattedBalance[1]}</Text>
-    </account-summary-balance>
-    <account-summary-actions class="mt-4 flex flex-row justify-between items-center">
-        <Button text={localize('actions.send')} width="full" size="lg" icon={IconName.Send} on:click={onSendClick} />
+    <FormattedBalance balanceText={formattedBalance} />
+    <account-summary-actions class="mt-4 space-x-2 flex flex-row justify-between items-center">
+        <Button text={localize('actions.send')} width="half" size="lg" icon={IconName.Send} on:click={onSendClick} />
+        <Button
+            variant="outline"
+            text={localize('actions.receive')}
+            width="half"
+            size="lg"
+            icon={IconName.Receive}
+            on:click={onReceiveClick}
+        />
     </account-summary-actions>
 </account-summary>

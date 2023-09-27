@@ -174,7 +174,7 @@ module.exports = {
         },
         fontFamily: {
             'fira-mono': ['"Fira Mono"', 'monospace'],
-            inter: ['Inter'],
+            silka: ['Silka'],
         },
     },
 }

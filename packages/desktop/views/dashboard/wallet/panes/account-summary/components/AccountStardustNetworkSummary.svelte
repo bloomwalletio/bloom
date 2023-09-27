@@ -16,9 +16,12 @@
     let props: IAccountNetworkSummaryProps | undefined
     $: $selectedAccountTokens, account, (props = buildAccountStardustNetworkSummaryProps())
 
-    function buildAccountStardustNetworkSummaryProps(): IAccountNetworkSummaryProps {
+    function buildAccountStardustNetworkSummaryProps(): IAccountNetworkSummaryProps | undefined {
         const network = getNetwork()
         const tokens = $selectedAccountTokens?.[networkId]
+        if (!tokens) {
+            return undefined
+        }
         const networkBaseCoin: ITokenWithBalance = tokens?.baseCoin
         const tokenBalance = formatTokenAmountBestMatch(networkBaseCoin.balance.total, networkBaseCoin.metadata)
         const fiatBalance = formatCurrency(
@@ -38,4 +41,6 @@
     }
 </script>
 
-<AccountNetworkSummary {...props} />
+{#if props}
+    <AccountNetworkSummary {...props} />
+{/if}

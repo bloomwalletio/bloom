@@ -42,7 +42,7 @@
                         >{localize('views.collectibles.gallery.emptyDescription')}</Text
                     >
                 </div>
-                <ReceiveButton text={localize('actions.depositNft')} title={localize('actions.depositNft')} />
+                <ReceiveButton text={localize('actions.depositNft')} />
             </div>
         </div>
     {/if}

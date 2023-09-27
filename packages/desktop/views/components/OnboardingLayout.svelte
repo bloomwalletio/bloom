@@ -52,14 +52,14 @@
     </div>
     <content
         slot="content"
-        class="{size} flex flex-col space-y-4 p-4 rounded-xl bg-white dark:bg-gray-800 shadow-elevation-4"
+        class="{size} flex flex-col space-y-6 p-6 rounded-xl bg-white dark:bg-gray-800 shadow-elevation-4"
     >
-        <content-title class="h-full flex flex-col space-y-2">
-            {#if title}<Text type="h4" textColor="brand">{title}</Text>{/if}
-            {#if description}<Text textColor="secondary">{description}</Text>{/if}
+        <content-title class="h-full flex flex-col space-y-2.5">
+            {#if title}<Text type="h5" textColor="brand">{title}</Text>{/if}
+            {#if description}<Text type="body2" textColor="secondary">{description}</Text>{/if}
         </content-title>
         <slot name="content" />
-        <content-buttons class="block flex flex-row space-x-2">
+        <content-buttons class="block flex flex-row space-x-6">
             {#if !_backButton.hidden}
                 <Button
                     width="full"

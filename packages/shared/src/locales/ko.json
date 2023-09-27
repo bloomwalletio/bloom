@@ -338,7 +338,7 @@
                 "status": "상태"
             },
             "portfolio": {
-                "tab": "Porfolio",
+                "tab": "Portfolio",
                 "asset": "Asset",
                 "network": "Network",
                 "marketCap": "Market cap",
@@ -350,25 +350,12 @@
                 "asset": "Asset",
                 "action": "Action",
                 "address": "Address",
-                "amount": "Amount"
+                "amount": "Amount",
+                "consolidatedOutputs": "{amount} outputs consolidated"
             },
-            "profileModal": {
+            "profileMenu": {
                 "allSettings": "All settings",
-                "logout": "로그아웃",
-                "stronghold": {
-                    "title": "프로필 잠금",
-                    "locked": "Stronghold 잠김",
-                    "unlocked": "Stronghold 잠금 해제됨"
-                },
-                "hardware": {
-                    "title": "하드웨어 장치",
-                    "statuses": {
-                        "appNotOpen": "Ledger의 잠금이 풀렸으나 앱이 열리지 않았습니다",
-                        "correctAppOpen": "Ledger 잠금이 풀렸으며 앱이 열렸습니다 ",
-                        "locked": "Ledger가 안전하게 잠겼습니다",
-                        "notConnected": "Ledger에 연결되지 않았습니다"
-                    }
-                }
+                "logout": "Log out"
             },
             "drawers": {
                 "networkConfig": {
@@ -877,9 +864,9 @@
                     "Conflicting": "Failed to burn"
                 },
                 "consolidation": {
-                    "Pending": "Consolidating outputs",
-                    "Confirmed": "Outputs consolidated",
-                    "Conflicting": "Failed to consolidate outputs"
+                    "Pending": "Consolidating",
+                    "Confirmed": "Consolidated",
+                    "Conflicting": "Failed to consolidate"
                 },
                 "alias": {
                     "creation": {
@@ -1046,6 +1033,11 @@
         "nodeAuthRequired": {
             "title": "Authentication required",
             "body": "This node requires additional authentication. Please fill in the appropriate information."
+        },
+        "receiveAddress": {
+            "title": "Receive",
+            "body": "Receive tokens, NFTs, and other digital assets to your account address shown below.",
+            "networkAddress": "{networkName} address"
         }
     },
     "actions": {
@@ -1125,7 +1117,7 @@
         "restart": "Restart",
         "refresh": "Refresh",
         "saveBackup": "Save backup",
-        "customizeAcount": "취향대로 지갑 설정하기",
+        "customizeAccount": "취향대로 지갑 설정하기",
         "hideAccount": "Hide wallet",
         "showAccount": "지갑 숨김 해제",
         "deleteAccount": "Delete wallet",
@@ -1144,6 +1136,7 @@
         "redo": "다시 실행",
         "cut": "잘라내기",
         "copy": "복사하기",
+        "copyAddress": "Copy address",
         "copyAllInformation": "Copy all information",
         "paste": "붙여넣기",
         "selectAll": "모두 선택",
@@ -1236,15 +1229,15 @@
         "burning": "Burning",
         "balanceChanged": "Balance changed",
         "initialBalance": "Initial balance",
-        "consolidated": "Outputs consolidated",
-        "consolidating": "Consolidating outputs",
+        "consolidated": "Consolidated",
+        "consolidating": "Consolidating",
         "aliasCreated": "Alias created",
         "creatingAlias": "Creating Alias",
         "sendTo": "전송",
         "sendAssets": "Send assets",
         "sendAssetToAddress": "Send asset to an address",
         "manageAccount": "지갑 관리",
-        "customizeAcount": "취향대로 지갑 설정하기",
+        "customizeAccount": "취향대로 지갑 설정하기",
         "account": "Wallet",
         "amount": "수량",
         "addAddress": "주소 추가하기",
@@ -1257,6 +1250,8 @@
         "viewOnExplorer": "View on Explorer",
         "import": "불러오기",
         "stronghold": "Stronghold",
+        "locked": "Locked",
+        "unlocked": "Unlocked",
         "lightTheme": "밝게",
         "darkTheme": "어둡게",
         "systemTheme": "시스템",
@@ -1384,7 +1379,8 @@
         "contacts": "Contacts",
         "apps": "Apps",
         "networks": "Networks",
-        "ledgerDevice": "Ledger device"
+        "ledgerDevice": "Ledger device",
+        "disconnected": "Disconnected"
     },
     "filters": {
         "title": "Filters",

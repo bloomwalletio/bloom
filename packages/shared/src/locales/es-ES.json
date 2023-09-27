@@ -338,7 +338,7 @@
                 "status": "Estado"
             },
             "portfolio": {
-                "tab": "Porfolio",
+                "tab": "Portfolio",
                 "asset": "Asset",
                 "network": "Network",
                 "marketCap": "Market cap",
@@ -350,25 +350,12 @@
                 "asset": "Asset",
                 "action": "Action",
                 "address": "Address",
-                "amount": "Amount"
+                "amount": "Amount",
+                "consolidatedOutputs": "{amount} outputs consolidated"
             },
-            "profileModal": {
-                "allSettings": "Todos los ajustes",
-                "logout": "Cerrar sesión",
-                "stronghold": {
-                    "title": "Perfil bloqueado",
-                    "locked": "Stronghold bloqueado",
-                    "unlocked": "Stronghold desbloqueado"
-                },
-                "hardware": {
-                    "title": "Dispositivo Hardware",
-                    "statuses": {
-                        "appNotOpen": "Ledger desbloqueado pero la aplicación no está abierta",
-                        "correctAppOpen": "Ledger desbloqueado y aplicación abierta ",
-                        "locked": "Ledger bloqueado de forma segura",
-                        "notConnected": "Ledger no conectado"
-                    }
-                }
+            "profileMenu": {
+                "allSettings": "All settings",
+                "logout": "Log out"
             },
             "drawers": {
                 "networkConfig": {
@@ -877,9 +864,9 @@
                     "Conflicting": "Failed to burn"
                 },
                 "consolidation": {
-                    "Pending": "Consolidating outputs",
-                    "Confirmed": "Outputs consolidated",
-                    "Conflicting": "Failed to consolidate outputs"
+                    "Pending": "Consolidating",
+                    "Confirmed": "Consolidated",
+                    "Conflicting": "Failed to consolidate"
                 },
                 "alias": {
                     "creation": {
@@ -1046,6 +1033,11 @@
         "nodeAuthRequired": {
             "title": "Autenticación requerida",
             "body": "Este nodo requiere autenticación adicional. Por favor, rellena la información apropiada."
+        },
+        "receiveAddress": {
+            "title": "Receive",
+            "body": "Receive tokens, NFTs, and other digital assets to your account address shown below.",
+            "networkAddress": "{networkName} address"
         }
     },
     "actions": {
@@ -1125,7 +1117,7 @@
         "restart": "Restart",
         "refresh": "Refresh",
         "saveBackup": "Save backup",
-        "customizeAcount": "Personalizar cartera",
+        "customizeAccount": "Personalizar cartera",
         "hideAccount": "Ocultar cartera",
         "showAccount": "Descubrir cartera",
         "deleteAccount": "Eliminar cartera",
@@ -1144,6 +1136,7 @@
         "redo": "Rehacer",
         "cut": "Cortar",
         "copy": "Copiar",
+        "copyAddress": "Copy address",
         "copyAllInformation": "Copiar toda la información",
         "paste": "Pegar",
         "selectAll": "Seleccionar Todo",
@@ -1236,15 +1229,15 @@
         "burning": "Quemando",
         "balanceChanged": "Balance changed",
         "initialBalance": "Initial balance",
-        "consolidated": "Salidas consolidadas",
-        "consolidating": "Consolidando salidas",
+        "consolidated": "Consolidated",
+        "consolidating": "Consolidating",
         "aliasCreated": "Alias creado",
         "creatingAlias": "Creando alias",
         "sendTo": "Enviar a",
         "sendAssets": "Enviar activos",
         "sendAssetToAddress": "Enviar activo a una dirección",
         "manageAccount": "Administrar Cartera",
-        "customizeAcount": "Personaliza tu cartera",
+        "customizeAccount": "Personaliza tu cartera",
         "account": "Cartera",
         "amount": "Cantidad",
         "addAddress": "Añadir Dirección",
@@ -1257,6 +1250,8 @@
         "viewOnExplorer": "Ver en el explorador",
         "import": "Importar",
         "stronghold": "Stronghold",
+        "locked": "Locked",
+        "unlocked": "Unlocked",
         "lightTheme": "Claro",
         "darkTheme": "Oscuro",
         "systemTheme": "Sistema",
@@ -1384,7 +1379,8 @@
         "contacts": "Contacts",
         "apps": "Apps",
         "networks": "Networks",
-        "ledgerDevice": "Ledger device"
+        "ledgerDevice": "Ledger device",
+        "disconnected": "Disconnected"
     },
     "filters": {
         "title": "Filtros",

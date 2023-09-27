@@ -238,7 +238,7 @@
                 "description": "Perform an extended search of your previously used wallets"
             },
             "hiddenAccounts": {
-                "title": "Hidden wallets",
+                "title": "Hidden accounts",
                 "description": "Selecting this options will show wallets that were previously hidden"
             },
             "deleteProfile": {
@@ -659,7 +659,7 @@
             "body": "It is important to back up your wallet regularly to ensure you have a copy of your wallets and transaction history. If you lose your backup and recovery phrase you will lose access to your funds."
         },
         "deeplinkAccountSwitch": {
-            "title": "Select a wallet",
+            "title": "Select an account",
             "body": "You just followed a deep link. Please select the wallet with which you want to continue."
         },
         "deeplinkError": {
@@ -767,8 +767,8 @@
         "walletFinder": {
             "title": "Wallet finder",
             "body": "Perform a more exhaustive search of addresses to find missing balances and wallets.",
-            "accountsSearched": "Wallets searched",
-            "accountsFound": "Wallets found",
+            "accountsSearched": "Accounts searched",
+            "accountsFound": "Accounts found",
             "totalWalletBalance": "Total balance",
             "searchAgainHint": "Is your balance or number of wallets incorrect? Search again until your full balance is shown."
         },
@@ -1034,6 +1034,11 @@
         "nodeAuthRequired": {
             "title": "Authentication required",
             "body": "This node requires additional authentication. Please fill in the appropriate information."
+        },
+        "receiveAddress": {
+            "title": "Receive",
+            "body": "Receive tokens, NFTs, and other digital assets to your account address shown below.",
+            "networkAddress": "{networkName} address"
         }
     },
     "actions": {
@@ -1113,10 +1118,10 @@
         "restart": "Restart",
         "refresh": "Refresh",
         "saveBackup": "Save backup",
-        "customizeAcount": "Customise wallet",
-        "hideAccount": "Hide wallet",
-        "showAccount": "Unhide wallet",
-        "deleteAccount": "Delete wallet",
+        "customizeAccount": "Customise wallet",
+        "hideAccount": "Hide account",
+        "showAccount": "Unhide account",
+        "deleteAccount": "Delete account",
         "addNode": "Add node",
         "addingNode": "Adding node",
         "addOfficialNodes": "Add official nodes",
@@ -1132,10 +1137,11 @@
         "redo": "Redo",
         "cut": "Cut",
         "copy": "Copy",
+        "copyAddress": "Copy address",
         "copyAllInformation": "Copy all information",
         "paste": "Paste",
         "selectAll": "Select All",
-        "addAccount": "Add Wallet",
+        "addAccount": "Add account",
         "checkForUpdates": "Check for Updates",
         "reportAnIssue": "Report an Issue",
         "clear": "Clear",
@@ -1150,7 +1156,7 @@
         "visitFaq": "Visit FAQ",
         "viewDownloads" : "View downloads",
         "viewBalanceBreakdown": "View balance breakdown",
-        "showHiddenAccounts": "Show hidden wallets",
+        "showHiddenAccounts": "Show hidden accounts",
         "confirm": "Confirm",
         "hideNetworkStatistics": "Hide network statistics",
         "findWallets": "Find wallets",
@@ -1231,9 +1237,9 @@
         "sendTo": "Send To",
         "sendAssets": "Send assets",
         "sendAssetToAddress": "Send asset to an address",
-        "manageAccount": "Manage Wallet",
-        "customizeAcount": "Customize your wallet",
-        "account": "Wallet",
+        "manageAccount": "Manage account",
+        "customizeAccount": "Customize your account",
+        "account": "Account",
         "amount": "Amount",
         "addAddress": "Add Address",
         "to": "To",
@@ -1258,7 +1264,7 @@
         "outgoing": "Outgoing",
         "dev": "Dev",
         "newAccount": "New account",
-        "accountName": "Wallet name",
+        "accountName": "Account name",
         "activity": "Activity",
         "security": "Security",
         "network": "Network",
@@ -1298,7 +1304,7 @@
         "unknown": "Unknown",
         "unknownAddress": "Unknown address",
         "none": "None",
-        "accountColor": "Wallet color",
+        "accountColor": "Account color",
         "transactionTime": "Transaction time",
         "storageDeposit": "Storage deposit",
         "transactionFee": "Transaction fee",

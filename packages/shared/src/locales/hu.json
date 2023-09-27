@@ -338,7 +338,7 @@
                 "status": "Állapot"
             },
             "portfolio": {
-                "tab": "Porfolio",
+                "tab": "Portfolio",
                 "asset": "Asset",
                 "network": "Network",
                 "marketCap": "Market cap",
@@ -350,25 +350,12 @@
                 "asset": "Asset",
                 "action": "Action",
                 "address": "Address",
-                "amount": "Amount"
+                "amount": "Amount",
+                "consolidatedOutputs": "{amount} outputs consolidated"
             },
-            "profileModal": {
-                "allSettings": "Összes beállítás",
-                "logout": "Kijelentkezés",
-                "stronghold": {
-                    "title": "Profilzár",
-                    "locked": "Stronghold lezárva",
-                    "unlocked": "Stronghold kinyitva"
-                },
-                "hardware": {
-                    "title": "Hardvereszköz",
-                    "statuses": {
-                        "appNotOpen": "Hardver tárca nyitva, de az applikáció nem fut",
-                        "correctAppOpen": "Hardver tárca nyitva és az applikáció fut",
-                        "locked": "Hardver tárca biztonságos bezárva",
-                        "notConnected": "Hardver tárca nincs csatlakoztatva"
-                    }
-                }
+            "profileMenu": {
+                "allSettings": "All settings",
+                "logout": "Log out"
             },
             "drawers": {
                 "networkConfig": {
@@ -877,9 +864,9 @@
                     "Conflicting": "Failed to burn"
                 },
                 "consolidation": {
-                    "Pending": "Consolidating outputs",
-                    "Confirmed": "Outputs consolidated",
-                    "Conflicting": "Failed to consolidate outputs"
+                    "Pending": "Consolidating",
+                    "Confirmed": "Consolidated",
+                    "Conflicting": "Failed to consolidate"
                 },
                 "alias": {
                     "creation": {
@@ -1046,6 +1033,11 @@
         "nodeAuthRequired": {
             "title": "Authentication required",
             "body": "This node requires additional authentication. Please fill in the appropriate information."
+        },
+        "receiveAddress": {
+            "title": "Receive",
+            "body": "Receive tokens, NFTs, and other digital assets to your account address shown below.",
+            "networkAddress": "{networkName} address"
         }
     },
     "actions": {
@@ -1125,7 +1117,7 @@
         "restart": "Restart",
         "refresh": "Frissítés",
         "saveBackup": "Save backup",
-        "customizeAcount": "Tárca testre szabása",
+        "customizeAccount": "Tárca testre szabása",
         "hideAccount": "Tárca elrejtése",
         "showAccount": "Tárca megjelenítése",
         "deleteAccount": "Tárca törlése",
@@ -1144,6 +1136,7 @@
         "redo": "Újra",
         "cut": "Kivágás",
         "copy": "Másolás",
+        "copyAddress": "Copy address",
         "copyAllInformation": "Összes információ átmásolása",
         "paste": "Beillesztés",
         "selectAll": "Összes kiválasztása",
@@ -1236,15 +1229,15 @@
         "burning": "Burning",
         "balanceChanged": "Balance changed",
         "initialBalance": "Initial balance",
-        "consolidated": "Outputs consolidated",
-        "consolidating": "Consolidating outputs",
+        "consolidated": "Consolidated",
+        "consolidating": "Consolidating",
         "aliasCreated": "Alias created",
         "creatingAlias": "Creating Alias",
         "sendTo": "Küldés",
         "sendAssets": "Send assets",
         "sendAssetToAddress": "Send asset to an address",
         "manageAccount": "Tárca kezelése",
-        "customizeAcount": "Tárca testre szabása",
+        "customizeAccount": "Tárca testre szabása",
         "account": "Tárca",
         "amount": "Összeg",
         "addAddress": "Cím hozzáadása",
@@ -1257,6 +1250,8 @@
         "viewOnExplorer": "Megtekintés Explorerben",
         "import": "Importálás",
         "stronghold": "Stronghold",
+        "locked": "Locked",
+        "unlocked": "Unlocked",
         "lightTheme": "Világos",
         "darkTheme": "Sötét",
         "systemTheme": "Rendszer",
@@ -1384,7 +1379,8 @@
         "contacts": "Contacts",
         "apps": "Apps",
         "networks": "Networks",
-        "ledgerDevice": "Ledger device"
+        "ledgerDevice": "Ledger device",
+        "disconnected": "Disconnected"
     },
     "filters": {
         "title": "Szűrők",
