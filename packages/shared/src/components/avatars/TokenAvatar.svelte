@@ -8,7 +8,7 @@
     import { NetworkBadge } from '@ui/badges'
 
     export let token: IToken
-    export let size: 'xxs' | 'xs' | 'sm' | 'md' = 'sm'
+    export let size: 'xxs' | 'xs' | 'sm' | 'base' = 'sm'
     export let hideNetworkBadge: boolean = false
 
     const AVATAR_BACKGROUND_COLOR: { [networkId: string]: { [tokenId: string]: string } } = {

@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { IconName } from '@bloomwalletio/ui'
     import {
         OnboardingNetworkType,
         initialiseOnboardingProfile,
@@ -12,11 +13,9 @@
         StardustNetworkName,
         getDefaultClientOptions,
         getDefaultPersistedNetwork,
-        getNetworkIdFromOnboardingNetworkType,
     } from '@core/network'
     import { profiles } from '@core/profile/stores'
     import features from '@features/features'
-    import NetworkAvatar from '@ui/avatars/NetworkAvatar.svelte'
     import { OnboardingLayout } from '@views/components'
     import { onMount } from 'svelte'
     import { OnboardingSelectorTile } from '../../../components'
@@ -78,40 +77,36 @@
         hidden: $profiles.length === 0,
     }}
 >
-    <div slot="content" class="flex flex-col space-y-4">
+    <div slot="content" class="flex flex-col space-y-3">
         <OnboardingSelectorTile
             primaryText={localize(`views.onboarding.networkSetup.chooseNetwork.${OnboardingNetworkType.Shimmer}.title`)}
             secondaryText={localize(
                 `views.onboarding.networkSetup.chooseNetwork.${OnboardingNetworkType.Shimmer}.body`
             )}
+            icon={IconName.Shimmer}
+            iconColor="shimmer"
+            iconSize="base"
+            ,
             hidden={features?.onboarding?.[OnboardingNetworkType.Shimmer]?.hidden}
             disabled={!features?.onboarding?.[OnboardingNetworkType.Shimmer]?.enabled}
             onClick={() => onNetworkClick(OnboardingNetworkType.Shimmer)}
             selected={selectedNetworkType === OnboardingNetworkType.Shimmer}
-        >
-            <div slot="icon">
-                <NetworkAvatar networkId={getNetworkIdFromOnboardingNetworkType(OnboardingNetworkType.Shimmer)} />
-            </div>
-        </OnboardingSelectorTile>
+        />
         <OnboardingSelectorTile
             primaryText={localize(`views.onboarding.networkSetup.chooseNetwork.${OnboardingNetworkType.Testnet}.title`)}
             secondaryText={localize(
                 `views.onboarding.networkSetup.chooseNetwork.${OnboardingNetworkType.Testnet}.body`
             )}
+            icon={IconName.Beaker}
             hidden={features?.onboarding?.[OnboardingNetworkType.Testnet]?.hidden}
             disabled={!features?.onboarding?.[OnboardingNetworkType.Testnet]?.enabled}
             onClick={() => onNetworkClick(OnboardingNetworkType.Testnet)}
             selected={selectedNetworkType === OnboardingNetworkType.Testnet}
-        >
-            <div slot="icon">
-                <NetworkAvatar networkId={getNetworkIdFromOnboardingNetworkType(OnboardingNetworkType.Testnet)} />
-            </div>
-        </OnboardingSelectorTile>
+        />
         <OnboardingSelectorTile
             primaryText={localize(`views.onboarding.networkSetup.chooseNetwork.${OnboardingNetworkType.Custom}.title`)}
             secondaryText={localize(`views.onboarding.networkSetup.chooseNetwork.${OnboardingNetworkType.Custom}.body`)}
-            icon="settings"
-            iconColor="settings"
+            icon={IconName.SettingsSliders}
             hidden={features?.onboarding?.[OnboardingNetworkType.Custom]?.hidden}
             disabled={!features?.onboarding?.[OnboardingNetworkType.Custom]?.enabled}
             onClick={() => onNetworkClick(OnboardingNetworkType.Custom)}

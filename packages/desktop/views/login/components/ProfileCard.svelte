@@ -32,7 +32,7 @@
     <profile-header>
         <badge-container>
             {#if profile.type === ProfileType.Ledger}
-                <TooltipIcon icon={IconName.Cpu} size="sm" tooltip={localize('general.ledgerDevice')} />
+                <TooltipIcon icon={IconName.Hardware} size="sm" tooltip={localize('general.ledgerDevice')} />
             {/if}
         </badge-container>
         {#if features.login.profileActions.enabled}
