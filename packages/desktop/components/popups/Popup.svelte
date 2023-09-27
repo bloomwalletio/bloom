@@ -210,7 +210,7 @@
             <button on:click={tryClosePopup} class="absolute top-6 right-6 focus:text-blue-500">
                 <Icon
                     icon={IconEnum.Close}
-                    classes="text-gray-500 dark:text-white hover:text-gray-600 dark:hover:text-gray-100"
+                    classes="text-gray-500 dark:text-white hover:text-gray-600 dark:hover:text-gray-100 bg-surface-2 rounded-full"
                 />
             </button>
         {/if}
