@@ -9,7 +9,7 @@
     <wallet-container>
         {#key $selectedAccount?.index}
             <AccountSummaryPane account={$selectedAccount} />
-            <Pane classes="flex flex-col flex-grow border border-solid border-gray-100 rounded-b-none">
+            <Pane classes="flex flex-col flex-grow rounded-b-none">
                 <TabSection />
             </Pane>
         {/key}

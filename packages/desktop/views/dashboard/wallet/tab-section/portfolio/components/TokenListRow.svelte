@@ -88,8 +88,8 @@
     .token-row {
         @apply w-full;
         @apply px-5 py-4;
-        @apply border-b border-solid border-gray-100;
-        @apply hover:bg-gray-50;
+        @apply border-b border-solid border-stroke dark:border-stroke-dark;
+        @apply hover:bg-surface-2 dark:hover:bg-surface-2-dark;
 
         @apply grid;
         grid-template-columns: 2fr 2fr 1fr 1fr 2fr;
