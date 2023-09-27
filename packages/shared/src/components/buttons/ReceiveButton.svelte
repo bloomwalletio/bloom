@@ -1,6 +1,6 @@
 <script lang="ts">
     import { localize } from '@core/i18n'
-    import { network } from '@core/network'
+    import { getActiveNetworkId } from '@core/network'
     import { openPopup, PopupId } from '../../../../desktop/lib/auxiliary/popup'
 
     export let text: string = localize('actions.receive')
@@ -9,7 +9,7 @@
         openPopup({
             id: PopupId.ReceiveAddress,
             props: {
-                selectedNetworkId: $network.getMetadata().id,
+                selectedNetworkId: getActiveNetworkId(),
             },
         })
     }
