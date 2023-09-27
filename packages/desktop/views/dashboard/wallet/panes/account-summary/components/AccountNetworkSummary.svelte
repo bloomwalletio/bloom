@@ -79,7 +79,7 @@
             {#if address}
                 <NetworkStatusIndicator status={health} />
                 <Copyable value={address}>
-                    <Text type="pre-md" color="secondary" truncate>{truncateString(address)}</Text>
+                    <Text type="pre-md" textColor="secondary" truncate>{truncateString(address)}</Text>
                 </Copyable>
             {:else}
                 <Button text={localize('actions.generateAddress')} variant="text" on:click={onGenerateAddressClick} />
@@ -91,7 +91,7 @@
             <Text type="h3" truncate>{tokenBalance}</Text>
         </account-network-summary-balance-primary>
         <account-network-summary-balance-secondary>
-            <Text type="body2" truncate>{fiatBalance}</Text>
+            <Text type="body1" textColor="secondary" truncate>{fiatBalance}</Text>
         </account-network-summary-balance-secondary>
     </account-network-summary-balance>
     <account-network-summary-assets class="flex flex-row justify-between items-center">
