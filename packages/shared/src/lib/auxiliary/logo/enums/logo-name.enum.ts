@@ -1,5 +1,7 @@
 export enum LogoName {
-    Bloom = 'bloom',
+    BloomLogo = 'bloom-logo',
+    BloomLogoFull = 'bloom-logo-full',
+    BloomText = 'bloom-text',
     Ethereum = 'ethereum',
     Stronghold = 'stronghold',
 }

@@ -4,6 +4,7 @@
     import { ISidebarTab } from '@desktop/routers'
 
     export let tab: ISidebarTab = undefined
+    export let expanded: boolean = true
 
     let hover = false
     $: selected = $dashboardRoute === tab?.route
@@ -15,7 +16,7 @@
 
 <button class:selected on:click={onClick} on:mouseenter={() => (hover = true)} on:mouseleave={() => (hover = false)}>
     <div class="flex flex-row relative space-x-4 pr-3">
-        <Icon textColor={selected ? 'brand' : 'primary'} name={tab?.icon} />
+        <Icon name={tab?.icon} textColor={selected ? 'brand' : 'primary'} />
         {#if tab?.notificationType}
             <Indicator
                 size="sm"
@@ -24,10 +25,12 @@
                 class="absolute top-0 right-0"
             />
         {/if}
-        <Text textColor={selected ? 'brand' : 'primary'}>{tab.label}</Text>
+        {#if expanded}
+            <Text textColor={selected ? 'brand' : 'primary'}>{tab.label}</Text>
+        {/if}
     </div>
-    {#if selected || hover}
-        <Icon textColor={selected ? 'brand' : 'primary'} name={IconName.ChevronRight} />
+    {#if (selected || hover) && expanded}
+        <Icon name={IconName.ChevronRight} textColor={selected ? 'brand' : 'primary'} />
     {/if}
 </button>
 
@@ -35,7 +38,7 @@
     button {
         @apply flex flex-row flex-grow justify-between;
         @apply w-full;
-        @apply py-2.5 px-3 rounded-md;
+        @apply py-2.5 px-3 rounded-[10px];
 
         &.selected,
         &:hover {
