@@ -1,21 +1,22 @@
 <script lang="ts">
     import { Avatar, Button, Copyable, Text } from '@bloomwalletio/ui'
-    import { NetworkAvatar, NetworkStatusIndicator } from '@ui'
-    import { truncateString } from '@core/utils'
-    import { localize } from '@core/i18n'
-    import { ownedNfts } from '@core/nfts/stores'
-    import { selectedAccountTokens } from '@core/token/stores'
-    import { NetworkHealth, NetworkId, network, setSelectedChain } from '@core/network'
-    import { checkActiveProfileAuth } from '@core/profile/actions'
-    import { generateAndStoreEvmAddressForAccounts } from '@core/layer-2/actions'
-    import { activeProfile } from '@core/profile/stores'
     import { selectedAccount } from '@core/account/stores'
+    import { appSettings } from '@core/app/stores'
+    import { localize } from '@core/i18n'
+    import { generateAndStoreEvmAddressForAccounts } from '@core/layer-2/actions'
     import { LedgerAppName } from '@core/ledger'
+    import { NetworkHealth, NetworkId, network, setSelectedChain } from '@core/network'
+    import { INft } from '@core/nfts'
+    import { ownedNfts } from '@core/nfts/stores'
+    import { checkActiveProfileAuth } from '@core/profile/actions'
+    import { activeProfile } from '@core/profile/stores'
+    import { IAccountTokensPerNetwork } from '@core/token'
+    import { selectedAccountTokens } from '@core/token/stores'
+    import { truncateString } from '@core/utils'
     import { toggleDashboardDrawer } from '@desktop/auxiliary/drawer'
+    import { NetworkAvatar, NetworkStatusIndicator } from '@ui'
     import { DashboardDrawerRoute, NetworkConfigRoute } from '@views/dashboard/drawers'
     import { ProfileType } from 'shared/src/lib/core/profile'
-    import { IAccountTokensPerNetwork } from '@core/token'
-    import { INft } from '@core/nfts'
 
     export let networkId: NetworkId
     export let name: string
@@ -26,6 +27,7 @@
     export let tokens: IAccountTokensPerNetwork
     export let nfts: INft[]
 
+    $: dark = $appSettings.darkMode
     $: $selectedAccountTokens, $ownedNfts, updateAssetCounts()
 
     let tokenCountFormatted: string
@@ -93,8 +95,12 @@
         </account-network-summary-balance-secondary>
     </account-network-summary-balance>
     <account-network-summary-assets class="flex flex-row justify-between items-center">
-        <Avatar backgroundColor="indigo-950" shape="square" text={nftCountFormatted} />
-        <Avatar backgroundColor="indigo-950" text={tokenCountFormatted} />
+        <Avatar
+            backgroundColor={dark ? 'surface-invert-dark' : 'surface-invert'}
+            shape="square"
+            text={nftCountFormatted}
+        />
+        <Avatar backgroundColor={dark ? 'surface-invert-dark' : 'surface-invert'} text={tokenCountFormatted} />
     </account-network-summary-assets>
 </account-network-summary>
 
