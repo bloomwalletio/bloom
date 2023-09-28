@@ -9,9 +9,7 @@
 <div class={'flex flex-col justify-center w-full h-full'}>
     <!-- <Animation classes="h-64 w-64" animation="loading-desktop" loop={true} renderer="canvas" /> -->
     <div class="column flex flex-col items-center w-full">
-        <div class="animate-bounce">
-            <Logo width="100" logo={LogoName.BloomLogo} />
-        </div>
+        <Logo width="100" logo={LogoName.BloomLogo} />
         <div class="flex-col justify-center items-center w-full max-w-lg">
             <Progress size="lg" showLabel {progress} />
         </div>
