@@ -8,8 +8,6 @@
     export let type: MimeType | undefined
     export let isDownloading = false
     export let smallIcon = false
-    export let bgColor = 'gray-500'
-    export let darkBgColor = 'gray-500'
     export let classes = ''
 
     // primaryColor: gives extra color customization outside of default text colors, used in CollectiblesImageLarge to change mountain color
@@ -71,7 +69,7 @@
         height="100%"
         {primaryColor}
         {secondaryColor}
-        classes={`text-white dark:text-gray-800 bg-${bgColor} dark:bg-${darkBgColor} text-center ${
+        classes={`text-white dark:text-gray-800 bg-neutral-3 dark:bg-neutral-3-dark text-center ${
             isDownloading ? 'animate-pulse' : ''
         } ${classes}`}
     />
