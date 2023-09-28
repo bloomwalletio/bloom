@@ -1,7 +1,6 @@
 <script lang="ts">
-    import { Icon, Text, TextType } from '@ui'
+    import { IconButton, IconName, Text } from '@bloomwalletio/ui'
     import { Router } from '@core/router'
-    import { Icon as IconEnum } from '@auxiliary/icon'
 
     export let title: string
     export let drawerRouter: Router<unknown>
@@ -18,18 +17,13 @@
 <drawer-template class="flex flex-col h-full space-y-6 overflow-visible">
     <drawer-header class="flex flex-row items-center gap-2 mr-8">
         {#if showBackButton}
-            <button on:click={onBackClick} class=" focus:text-blue-500">
-                <Icon
-                    icon={IconEnum.ArrowLeft}
-                    classes="text-gray-500 dark:text-white hover:text-gray-600 dark:hover:text-gray-100"
-                />
-            </button>
+            <IconButton icon={IconName.ArrowLeft} on:click={onBackClick} />
         {/if}
 
         {#if $$slots.header}
             <slot name="header" />
         {:else}
-            <Text type={TextType.h4} classes="text-center">
+            <Text type="h6">
                 {title}
             </Text>
         {/if}

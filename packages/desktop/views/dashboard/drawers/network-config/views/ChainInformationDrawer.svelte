@@ -1,16 +1,15 @@
 <script lang="ts">
     import { DrawerTemplate } from '@components'
     import { localize } from '@core/i18n'
-    import { ChainType, IscpChain, selectedChain } from '@core/network'
+    import { ChainConfiguration, ChainType, IscpChain, selectedChain } from '@core/network'
     import { Router } from '@core/router'
-    import { Pane } from '@ui'
     import { onMount } from 'svelte'
     import { NetworkConfigRoute } from '../'
     import { EvmChainInformation, IscpChainInformation } from './components'
 
     export let drawerRouter: Router<NetworkConfigRoute>
 
-    let chainConfiguration
+    let chainConfiguration: ChainConfiguration
 
     function setChainConfiguration(): void {
         if ($selectedChain instanceof IscpChain) {
@@ -25,12 +24,10 @@
 
 <DrawerTemplate title={localize('views.dashboard.drawers.networkConfig.chainInformation.title')} {drawerRouter}>
     <div class="w-full h-full">
-        <Pane>
-            {#if chainConfiguration?.type === ChainType.Iscp}
-                <IscpChainInformation {chainConfiguration} />
-            {:else if chainConfiguration?.type === ChainType.Evm}
-                <EvmChainInformation />
-            {/if}
-        </Pane>
+        {#if chainConfiguration?.type === ChainType.Iscp}
+            <IscpChainInformation {chainConfiguration} />
+        {:else if chainConfiguration?.type === ChainType.Evm}
+            <EvmChainInformation />
+        {/if}
     </div>
 </DrawerTemplate>
