@@ -1,6 +1,6 @@
 import { localize } from '@core/i18n'
 
-export function validateConnectionCode(uri: string): void {
+export function validateConnectionCodeUri(uri: string): void {
     try {
         new URL(uri)
     } catch (_) {
@@ -10,9 +10,5 @@ export function validateConnectionCode(uri: string): void {
     const url = new URL(uri)
     if (url.protocol !== 'wc:') {
         throw Error(localize('error.walletConnect.invalidProtocol'))
-    }
-
-    if (url.pathname.split('@')?.[1] !== '2') {
-        throw Error(localize('error.walletConnect.deprecatedVersion'))
     }
 }
