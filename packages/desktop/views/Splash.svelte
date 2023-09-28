@@ -19,7 +19,6 @@
         <Logo width="400" logo={LogoName.BloomLogoFull} />
     </div>
 </LoggedOutLayout>
-```
 
 <style type="postcss">
     .animate-pulse {
