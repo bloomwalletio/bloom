@@ -1859,7 +1859,8 @@
         "collectibles": "Collectibles",
         "governance": "Governance",
         "developer": "Developer",
-        "tokens": "Tokens"
+        "tokens": "Tokens",
+        "settings": "Settings"
     },
     "pills": {
         "asyncStatus": {
