@@ -1,7 +1,6 @@
 <script lang="ts">
     import { Button, IconName } from '@bloomwalletio/ui'
     import { AccountActionsMenu, AccountSwitcher, FormattedBalance } from '@components'
-    import { IAccountState } from '@core/account'
     import { formatCurrency, localize } from '@core/i18n'
     import { resetLedgerPreparedOutput, resetShowInternalVerificationPopup } from '@core/ledger'
     import { getMarketAmountFromTokenValue } from '@core/market/actions'
@@ -9,10 +8,9 @@
     import { ITokenWithBalance } from '@core/token'
     import { selectedAccountTokens } from '@core/token/stores'
     import { resetSendFlowParameters } from '@core/wallet'
-    import { openPopup, PopupId } from '@desktop/auxiliary/popup'
+    import { PopupId, openPopup } from '@desktop/auxiliary/popup'
     import { SendFlowRouter, sendFlowRouter } from '@views'
 
-    export let account: IAccountState
     export let stardustNetworkId: NetworkId
     export let evmChainNetworkId: NetworkId
 

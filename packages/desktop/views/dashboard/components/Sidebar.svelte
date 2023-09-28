@@ -62,7 +62,7 @@
         ...(features?.developerTools?.enabled && $activeProfile?.isDeveloperProfile
             ? [
                   {
-                      icon: IconName.Brush,
+                      icon: IconName.Developer,
                       label: localize('tabs.developer'),
                       route: DashboardRoute.Developer,
                       onClick: openDeveloper,
