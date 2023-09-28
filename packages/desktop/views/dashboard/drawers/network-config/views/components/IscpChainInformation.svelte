@@ -1,34 +1,35 @@
 <script lang="ts">
     import { localize } from '@core/i18n'
     import { IIscpChainConfiguration } from '@core/network'
-    import { Text, FontWeight, CopyableBox } from '@ui'
+    import { Table } from '@bloomwalletio/ui'
 
     export let chainConfiguration: IIscpChainConfiguration
 
-    $: info = {
-        ...(chainConfiguration.chainId && {
-            chainId: chainConfiguration.chainId,
-        }),
-        ...(chainConfiguration.aliasAddress && {
-            aliasAddress: chainConfiguration.aliasAddress,
-        }),
-        ...(chainConfiguration.iscpEndpoint && {
-            iscpEndpoint: chainConfiguration.iscpEndpoint,
-        }),
-        ...(chainConfiguration.explorerUrl && {
-            explorerUrl: chainConfiguration.explorerUrl,
-        }),
-    }
+    const localeKey = 'views.dashboard.drawers.networkConfig.chain'
 </script>
 
-{#each Object.keys(info) as key}
-    <CopyableBox value={info[key]} classes="bg-transparent">
-        <div class="w-full text-left">
-            <Text fontWeight={FontWeight.medium} fontSize="13" color="gray-600"
-                >{localize(`views.dashboard.drawers.networkConfig.chain.${key}`)}</Text
-            >
-            <Text fontWeight={FontWeight.semibold} fontSize="15" classes="break-words">{info[key]}</Text>
-        </div>
-    </CopyableBox>
-    <hr />
-{/each}
+<Table
+    orientation="vertical"
+    items={[
+        {
+            key: localize(`${localeKey}.chainId`),
+            value: chainConfiguration.chainId ?? undefined,
+            copyable: true,
+        },
+        {
+            key: localize(`${localeKey}.aliasAddress`),
+            value: chainConfiguration.aliasAddress ?? undefined,
+            copyable: true,
+        },
+        {
+            key: localize(`${localeKey}.iscpEndpoint`),
+            value: chainConfiguration.iscpEndpoint ?? undefined,
+            copyable: true,
+        },
+        {
+            key: localize(`${localeKey}.explorerUrl`),
+            value: chainConfiguration.explorerUrl ?? undefined,
+            copyable: true,
+        },
+    ]}
+/>
