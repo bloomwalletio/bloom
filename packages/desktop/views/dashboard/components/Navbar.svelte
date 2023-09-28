@@ -13,7 +13,7 @@
     <div class="flex flex-row justify-between items-center px-4" style:height="var(--navbar-height)">
         <Breadcrumbs />
 
-        <div class="right-button flex items-center justify-end gap-6">
+        <div class="right-button flex items-center justify-end gap-2">
             {#if features.contacts.enabled}
                 <IconButton
                     on:click={() => toggleDashboardDrawer({ id: DashboardDrawerRoute.ContactBook })}
