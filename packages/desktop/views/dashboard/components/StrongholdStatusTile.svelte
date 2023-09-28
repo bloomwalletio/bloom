@@ -6,6 +6,7 @@
     import { activeProfile } from '@core/profile/stores'
     import { checkOrUnlockStronghold } from '@core/stronghold'
 
+    const title = localize('general.stronghold')
     const { isStrongholdLocked } = $activeProfile
 
     $: statusTileProps = setStatusTileProps($isStrongholdLocked)
@@ -34,7 +35,7 @@
         }
 
         return {
-            title: localize('general.stronghold'),
+            title,
             subtitle,
             iconName,
             iconColor,
