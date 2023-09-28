@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { Table } from '@bloomwalletio/ui'
+    import { Table, Avatar } from '@bloomwalletio/ui'
     import { selectedAccount } from '@core/account/stores'
     import { handleError } from '@core/error/handlers/handleError'
     import { localize } from '@core/i18n'
@@ -90,7 +90,9 @@
     </Text>
     <div class="space-y-2 max-h-100 scrollable-y flex-1">
         <nft-details class="flex flex-col justify-center items-center space-y-4">
-            <MediaPlaceholder {type} iconOnly />
+            <Avatar size="lg" shape="square">
+                <MediaPlaceholder {type} iconOnly />
+            </Avatar>
             <activity-details class="w-full h-full space-y-2 flex flex-auto flex-col shrink-0">
                 <Tabs bind:activeTab {tabs} />
                 {#if activeTab === Tab.Transaction}
