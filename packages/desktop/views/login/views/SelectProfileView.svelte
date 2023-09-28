@@ -65,9 +65,7 @@
     <Logo slot="header" width="150" logo={LogoName.BloomLogoFull} />
     <div
         slot="content"
-        class="
-        card-conatiner flex flex-row w-full justify-center gap-8 overflow-y-auto overlay-scrollbar pb-8
-        {$profiles.length > 4 ? 'grid grid-cols-4' : ''}"
+        class="profile-card-container flex flex-row flex-wrap justify-center gap-8 overflow-y-auto overlay-scrollbar pb-8"
     >
         {#each $profiles as profile}
             <ProfileCard {profile} onClick={onContinueClick} updateRequired={updateRequiredForProfile(profile)} />
@@ -83,9 +81,8 @@
 </LoggedOutLayout>
 
 <style lang="postcss">
-    .card-conatiner {
-        width: 80%;
-        max-width: 1000px;
+    .profile-card-container {
+        width: 80vw;
     }
 
     button {
