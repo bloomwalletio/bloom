@@ -1,7 +1,6 @@
 <script lang="ts">
-    import { Icon as IconEnum } from '@auxiliary/icon'
     import { DrawerDirection, closeDrawer, drawerState } from '@desktop/auxiliary/drawer'
-    import { Icon } from '@ui'
+    import { IconButton, IconName } from '@bloomwalletio/ui'
     import { fade, fly } from 'svelte/transition'
 
     export let onClose: () => unknown = () => {}
@@ -58,20 +57,15 @@
         <panel
             in:fly|local={{ ...direction, duration: DRAWER_ANIMATION_DURATION_MS }}
             out:fly|local={{ ...direction, duration: DRAWER_ANIMATION_DURATION_MS }}
-            class="relative flex flex-col bg-gray-50 dark:bg-gray-800 {position} {isVertical
-                ? 'vertical'
-                : 'horizontal'}"
+            class="relative flex flex-col flex-auto overflow-hidden {position} {isVertical ? 'vertical' : 'horizontal'}"
         >
             <div class="flex flex-col h-full">
                 <slot name="contents" />
             </div>
             {#if !$drawerState.hideClose}
-                <button on:click={onCloseClick} class="absolute top-7 right-7 focus:text-blue-500">
-                    <Icon
-                        icon={IconEnum.Close}
-                        classes="text-gray-500 dark:text-white hover:text-gray-600 dark:hover:text-gray-100"
-                    />
-                </button>
+                <div class="absolute top-7 right-7">
+                    <IconButton icon={IconName.CrossClose} on:click={onCloseClick} />
+                </div>
             {/if}
         </panel>
     </drawer>
@@ -81,7 +75,7 @@
     panel {
         @apply fixed;
         @apply h-full;
-        @apply flex flex-col flex-auto overflow-hidden;
+        @apply bg-surface-1 dark:bg-surface-1-dark;
         @apply py-7 px-5;
         transition: right 0.2s ease;
 

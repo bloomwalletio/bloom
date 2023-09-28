@@ -87,7 +87,7 @@
             </div>
         </div>
 
-        <div class="right-button flex items-center justify-end gap-2">
+        <div class="right-button flex items-center justify-end gap-6">
             {#if features.contacts.enabled}
                 <IconButton
                     on:click={() => toggleDashboardDrawer({ id: DashboardDrawerRoute.ContactBook })}
