@@ -4,6 +4,7 @@
     import {
         activityFilter,
         activitySearchTerm,
+        getClaimableActivities,
         queriedActivities,
         selectedAccountActivities,
         setAsyncStatusOfAccountActivities,
@@ -18,6 +19,9 @@
     $: isEmptyBecauseOfFilter =
         $selectedAccountActivities.filter((_activity) => !_activity.isHidden).length > 0 &&
         $queriedActivities.length === 0
+
+    let amountClaimableTransactions = 0
+    $: $selectedAccountActivities, (amountClaimableTransactions = getClaimableActivities()?.length)
 
     function scrollToTop(): void {
         const listElement = document.querySelector('.activity-list')?.querySelector('svelte-virtual-list-viewport')
@@ -38,10 +42,16 @@
             >
         </div>
     </header-row>
-    <info-section class="flex flex-row items-center">
-        <Icon name={IconName.Bell} size="sm" customColor="yellow-600" />
-        <Text customColor="yellow-600">{localize('activityTab.claimableTransactions')}</Text>
-    </info-section>
+    {#if amountClaimableTransactions}
+        <info-section class="flex flex-row items-center">
+            <Icon name={IconName.Bell} size="sm" customColor="yellow-600" />
+            <Text customColor="yellow-600"
+                >{localize('views.dashboard.activity.claimableTransactions', {
+                    amount: amountClaimableTransactions,
+                })}</Text
+            >
+        </info-section>
+    {/if}
     {#if $queriedActivities.length > 0}
         <VirtualList items={$queriedActivities} let:item>
             <ActivityListRow activity={item} />
