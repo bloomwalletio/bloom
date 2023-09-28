@@ -48,12 +48,7 @@
             bind:clientWidth={nftWrapperClientWidth}
             style="height: {nftWrapperClientWidth}px; "
         >
-            <NftMedia
-                {nft}
-                classes="bg-neutral-3 dark:bg-neutral-3-dark min-w-full min-h-full object-cover"
-                loop
-                muted
-            />
+            <NftMedia {nft} classes="min-w-full min-h-full object-cover" loop muted />
             {#if nft.downloadMetadata.error || nft.downloadMetadata.warning}
                 <div class="absolute right-3 top-3">
                     <TooltipIcon
