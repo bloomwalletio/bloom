@@ -97,7 +97,6 @@
             {#each tokens?.nativeTokens ?? [] as token}
                 <TokenAvatar hideNetworkBadge size="md" {token} />
             {/each}
-            <TokenAvatar hideNetworkBadge size="md" token={tokens?.baseCoin} />
         </AvatarGroup>
         {#if nfts.length > 0}
             <AvatarGroup avatarSize="md" avatarShape="square">
