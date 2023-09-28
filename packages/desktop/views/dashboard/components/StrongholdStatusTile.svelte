@@ -19,26 +19,29 @@
     }
 
     function setStatusTileProps(isStrongholdLocked: boolean): StatusTileProps {
+        let subtitle: string
+        let iconName: IconName
+        let iconColor: string
+
         if (isStrongholdLocked) {
-            return {
-                subtitle: localize('general.locked'),
-                iconName: IconName.LockedFill,
-                iconColor: 'success',
-            }
+            subtitle = localize('general.locked')
+            iconName = IconName.LockedFill
+            iconColor = 'success'
         } else {
-            return {
-                subtitle: localize('general.unlocked'),
-                iconName: IconName.UnlockedFill,
-                iconColor: '#B5B8C3',
-                iconBackgroundColor: '#F1EEF9',
-            }
+            subtitle = localize('general.unlocked')
+            iconName = IconName.UnlockedFill
+            iconColor = 'neutral'
+        }
+
+        return {
+            title: localize('general.stronghold'),
+            subtitle,
+            iconName,
+            iconColor,
+            onClick: onStrongholdToggleClick,
+            checked: isStrongholdLocked,
         }
     }
 </script>
 
-<StatusTile
-    title={localize('general.stronghold')}
-    onClick={onStrongholdToggleClick}
-    checked={$isStrongholdLocked}
-    {...statusTileProps}
-/>
+<StatusTile {statusTileProps} />
