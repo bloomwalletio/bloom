@@ -1,11 +1,10 @@
 <script lang="ts">
-    import { AvatarGroup, Button, Copyable, Text } from '@bloomwalletio/ui'
+    import { AvatarGroup, Copyable, Text } from '@bloomwalletio/ui'
     import { FormattedBalance } from '@components'
     import { NftAvatar, TokenAvatar } from '@ui'
     import { selectedAccount } from '@core/account/stores'
-    import { appSettings } from '@core/app/stores'
     import { localize } from '@core/i18n'
-    import { generateAndStoreEvmAddressForAccounts } from '@core/layer-2/actions'
+    import { generateAndStoreEvmAddressForAccounts, pollLayer2Tokens } from '@core/layer-2/actions'
     import { LedgerAppName } from '@core/ledger'
     import { NetworkHealth, NetworkId, network, setSelectedChain } from '@core/network'
     import { INft } from '@core/nfts'
@@ -29,8 +28,10 @@
     export let tokens: IAccountTokensPerNetwork
     export let nfts: INft[]
 
-    $: dark = $appSettings.darkMode
     $: $selectedAccountTokens, $ownedNfts, updateAssetCounts()
+
+    $: hasTokens = tokens?.nativeTokens?.length > 0
+    $: hasNfts = nfts?.length > 0
 
     let tokenCountFormatted: string
     let nftCountFormatted: string
@@ -57,6 +58,7 @@
                     chain.getConfiguration().coinType,
                     $selectedAccount
                 )
+                pollLayer2Tokens($selectedAccount)
                 if ($activeProfile.type === ProfileType.Ledger) {
                     setSelectedChain(chain)
                     toggleDashboardDrawer({
@@ -84,21 +86,25 @@
                     <Text type="pre-md" textColor="secondary" truncate>{truncateString(address)}</Text>
                 </Copyable>
             {:else}
-                <Button text={localize('actions.generateAddress')} variant="text" on:click={onGenerateAddressClick} />
+                <p class="generate-address-button" on:click={onGenerateAddressClick}>
+                    {localize('actions.generateAddress')}
+                </p>
             {/if}
         </account-network-summary-header-address>
     </account-network-summary-header>
-    <account-network-summary-balance class="middle flex flex-col justify-between items-start">
+    <account-network-summary-balance class="flex flex-col flex-grow justify-between items-start">
         <FormattedBalance balanceText={tokenBalance} textType="h3" />
         <Text type="body1" textColor="secondary">{fiatBalance}</Text>
     </account-network-summary-balance>
     <account-network-summary-assets class="flex flex-row justify-between items-center">
-        <AvatarGroup avatarSize="md">
-            {#each tokens?.nativeTokens ?? [] as token}
-                <TokenAvatar hideNetworkBadge size="md" {token} />
-            {/each}
-        </AvatarGroup>
-        {#if nfts.length > 0}
+        {#if hasTokens}
+            <AvatarGroup avatarSize="md">
+                {#each tokens?.nativeTokens ?? [] as token}
+                    <TokenAvatar hideNetworkBadge size="md" {token} />
+                {/each}
+            </AvatarGroup>
+        {/if}
+        {#if hasNfts}
             <AvatarGroup avatarSize="md" avatarShape="square">
                 {#each nfts as nft}
                     <NftAvatar {nft} size="md" shape="square" />
@@ -115,6 +121,7 @@
     }
 
     account-network-summary-header {
+        height: 56px;
         @apply px-5 py-4;
     }
 
@@ -123,7 +130,15 @@
     }
 
     account-network-summary-assets {
+        height: 64px;
         @apply px-5 py-4;
         @apply bg-surface-1 dark:bg-surface-1-dark;
+    }
+
+    .generate-address-button {
+        @apply text-[0.8125rem] font-semibold;
+        @apply text-primary-500 hover:text-primary-600 focus:text-primary-600;
+        @apply whitespace-nowrap;
+        @apply hover:cursor-pointer;
     }
 </style>

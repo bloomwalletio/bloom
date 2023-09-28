@@ -18,13 +18,13 @@
             case LedgerConnectionState.AppNotOpen:
                 subtitle = localize('general.unlocked')
                 iconName = IconName.Hardware
-                iconColor = 'gray'
+                iconColor = 'neutral'
                 break
             case LedgerConnectionState.ShimmerAppOpen:
                 subtitle = 'Shimmer App'
                 iconName = IconName.Shimmer
-                iconColor = '#17E1D5'
-                iconBackgroundColor = '#002D56'
+                iconColor = 'shimmer'
+                iconBackgroundColor = 'shimmer-background'
                 break
             case LedgerConnectionState.EthereumAppOpen:
                 subtitle = 'Ethereum App'
@@ -55,4 +55,4 @@
     }
 </script>
 
-<StatusTile {...statusTileProps} />
+<StatusTile {statusTileProps} />

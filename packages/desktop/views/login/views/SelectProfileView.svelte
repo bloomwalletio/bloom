@@ -62,7 +62,7 @@
 </script>
 
 <LoggedOutLayout>
-    <Logo slot="header" width="150" logo={LogoName.Bloom} />
+    <Logo slot="header" width="150" logo={LogoName.BloomLogoFull} />
     <div
         slot="content"
         class="
