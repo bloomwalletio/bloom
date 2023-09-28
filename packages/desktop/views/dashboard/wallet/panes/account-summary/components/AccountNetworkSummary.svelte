@@ -3,9 +3,8 @@
     import { FormattedBalance } from '@components'
     import { NftAvatar, TokenAvatar } from '@ui'
     import { selectedAccount } from '@core/account/stores'
-    import { appSettings } from '@core/app/stores'
     import { localize } from '@core/i18n'
-    import { generateAndStoreEvmAddressForAccounts } from '@core/layer-2/actions'
+    import { generateAndStoreEvmAddressForAccounts, pollLayer2Tokens } from '@core/layer-2/actions'
     import { LedgerAppName } from '@core/ledger'
     import { NetworkHealth, NetworkId, network, setSelectedChain } from '@core/network'
     import { INft } from '@core/nfts'
@@ -29,7 +28,6 @@
     export let tokens: IAccountTokensPerNetwork
     export let nfts: INft[]
 
-    $: dark = $appSettings.darkMode
     $: $selectedAccountTokens, $ownedNfts, updateAssetCounts()
 
     $: hasTokens = tokens?.nativeTokens?.length > 0
@@ -60,6 +58,7 @@
                     chain.getConfiguration().coinType,
                     $selectedAccount
                 )
+                pollLayer2Tokens($selectedAccount)
                 if ($activeProfile.type === ProfileType.Ledger) {
                     setSelectedChain(chain)
                     toggleDashboardDrawer({
@@ -93,7 +92,7 @@
             {/if}
         </account-network-summary-header-address>
     </account-network-summary-header>
-    <account-network-summary-balance class="middle flex flex-col justify-between items-start">
+    <account-network-summary-balance class="flex flex-col flex-grow justify-between items-start">
         <FormattedBalance balanceText={tokenBalance} textType="h3" />
         <Text type="body1" textColor="secondary">{fiatBalance}</Text>
     </account-network-summary-balance>
