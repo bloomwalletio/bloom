@@ -18,9 +18,13 @@
 
     function onConnectClick(): void {
         if (isValid()) {
-            pairWithNewDapp(walletConnectUri)
+            try {
+                pairWithNewDapp(walletConnectUri)
 
-            drawerRouter.next()
+                drawerRouter.next()
+            } catch (err) {
+                error = err
+            }
         }
     }
 

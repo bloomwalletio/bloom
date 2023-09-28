@@ -17,12 +17,12 @@ export function handleDeepLinkAddWCConnectionOperation(pathnameParts: string[], 
 
         toggleDashboardDrawer({
             id: DashboardDrawerRoute.DappConfig,
-            initialSubRoute: DappConfigRoute.ConfirmConnection,
+            initialSubroute: DappConfigRoute.ConfirmConnection,
         })
     } catch (err) {
         toggleDashboardDrawer({
             id: DashboardDrawerRoute.DappConfig,
-            initialSubRoute: DappConfigRoute.InputCode,
+            initialSubroute: DappConfigRoute.InputCode,
             props: { initialWalletConnectUri: walletConnectUri },
         })
     }
