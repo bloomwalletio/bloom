@@ -20,8 +20,7 @@
     function getTotalBalance(): string {
         const stardustBaseToken: ITokenWithBalance = $selectedAccountTokens?.[stardustNetworkId]?.baseCoin
         const evmChainBaseToken: ITokenWithBalance = $selectedAccountTokens?.[evmChainNetworkId]?.baseCoin
-        const availableBalance =
-            (stardustBaseToken?.balance?.available ?? 0) + (evmChainBaseToken?.balance?.available ?? 0)
+        const availableBalance = (stardustBaseToken?.balance?.total ?? 0) + (evmChainBaseToken?.balance?.total ?? 0)
         return formatCurrency(getMarketAmountFromTokenValue(availableBalance, stardustBaseToken))
     }
 
