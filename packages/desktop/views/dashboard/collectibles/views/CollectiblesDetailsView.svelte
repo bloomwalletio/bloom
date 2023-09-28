@@ -151,7 +151,9 @@
     <Pane classes="flex flex-col p-6 space-y-3 w-full h-full max-w-lg">
         <nft-title class="flex justify-between items-center">
             <Text type={TextType.h3} fontWeight={FontWeight.semibold} classes="truncate">{name}</Text>
-            <CollectibleDetailsMenu bind:modal {nft} />
+            <div>
+                <CollectibleDetailsMenu bind:modal {nft} />
+            </div>
         </nft-title>
         {#if description}
             <nft-description class="overflow-scroll">
