@@ -12,11 +12,11 @@
 </script>
 
 <nft-avatar class="avatar">
-    <Avatar {size} {shape} {...$$restProps}>
+    <Avatar {size} {shape} {...$$restProps} backgroundColor="surface-2">
         {#if parentType === 'image'}
-            <NftMedia {nft} classes="w-full h-full object-cover" />
+            <NftMedia {nft} classes="w-full h-full object-cover" smallIcon />
         {:else}
-            <MediaPlaceholder type={nftType} iconOnly />
+            <MediaPlaceholder type={nftType} smallIcon />
         {/if}
     </Avatar>
 </nft-avatar>

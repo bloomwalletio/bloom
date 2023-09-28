@@ -16,7 +16,7 @@
     {...$$restProps}
 >
     <div class="w-full flex flex-row items-center text-left space-x-4">
-        <NftAvatar {nft} size="md" shape="square" />
+        <NftAvatar {nft} size="lg" shape="square" />
         <div class="flex flex-col gap-1 overflow-hidden">
             <Text classes="text-ellipsis overflow-hidden whitespace-nowrap" fontWeight={FontWeight.semibold}>
                 {nft.name}

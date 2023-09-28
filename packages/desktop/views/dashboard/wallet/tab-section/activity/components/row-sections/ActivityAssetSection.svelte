@@ -49,7 +49,7 @@
     {#if activity.type === ActivityType.Basic || activity.type === ActivityType.Foundry}
         <TokenAvatar {token} hideNetworkBadge size="lg" />
     {:else if activity.type === ActivityType.Nft}
-        <NftAvatar {nft} size="md" shape="square" />
+        <NftAvatar {nft} size="lg" shape="square" />
     {:else if activity.type === ActivityType.Alias}
         <!-- TODO: Add icon for alias -->
         <Avatar icon={IconName.Globe} size="lg" backgroundColor="surface-2" />
