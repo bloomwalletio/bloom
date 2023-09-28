@@ -2,6 +2,7 @@
     import { LOGIN_STEPS } from '@core/profile'
     import { loginProgress } from '@core/profile/stores'
     import { LoadingScreen } from '@ui'
+    import LoggedOutLayout from '@views/components/LoggedOutLayout.svelte'
 
     let progress = 0
 
@@ -17,4 +18,6 @@
     }
 </script>
 
-<LoadingScreen {progress} />
+<LoggedOutLayout>
+    <LoadingScreen slot="content" {progress} />
+</LoggedOutLayout>
