@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { ClickableTile, Text, FontWeight, NftImageOrIconBox } from '@ui'
+    import { ClickableTile, Text, FontWeight, NftAvatar } from '@ui'
     import { INft } from '@core/nfts'
     import { truncateString } from '@core/utils'
 
@@ -16,7 +16,7 @@
     {...$$restProps}
 >
     <div class="w-full flex flex-row items-center text-left space-x-4">
-        <NftImageOrIconBox {nft} />
+        <NftAvatar {nft} size="md" shape="square" />
         <div class="flex flex-col gap-1 overflow-hidden">
             <Text classes="text-ellipsis overflow-hidden whitespace-nowrap" fontWeight={FontWeight.semibold}>
                 {nft.name}

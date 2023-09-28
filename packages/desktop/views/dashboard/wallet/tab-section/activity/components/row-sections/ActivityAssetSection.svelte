@@ -1,7 +1,7 @@
 <script lang="ts">
     import { ITokenWithBalance, getUnitFromTokenMetadata } from '@core/token'
     import { truncateString } from '@core/utils'
-    import { NftImageOrIconBox, TokenAvatar } from '@ui'
+    import { NftAvatar, TokenAvatar } from '@ui'
     import { Activity, ActivityType } from '@core/activity'
     import { selectedAccountTokens } from '@core/token/stores'
     import { getNftByIdFromAllAccountNfts } from '@core/nfts/actions'
@@ -49,7 +49,7 @@
     {#if activity.type === ActivityType.Basic || activity.type === ActivityType.Foundry}
         <TokenAvatar {token} hideNetworkBadge size="lg" />
     {:else if activity.type === ActivityType.Nft}
-        <NftImageOrIconBox {nft} size="md" />
+        <NftAvatar {nft} size="md" shape="square" />
     {:else if activity.type === ActivityType.Alias}
         <!-- TODO: Add icon for alias -->
         <Avatar icon={IconName.Globe} size="lg" backgroundColor="surface-2" />

@@ -9,7 +9,7 @@
     import { formatTokenAmountPrecise } from '@core/token'
     import { buildNftOutputBuilderParams, mintNft, mintNftDetails } from '@core/wallet'
     import { PopupId, closePopup, openPopup } from '@desktop/auxiliary/popup'
-    import { Button, FontWeight, NftImageOrIconBox, Tabs, Text, TextType } from '@ui'
+    import { Button, FontWeight, MediaPlaceholder, Tabs, Text, TextType } from '@ui'
     import { onMount } from 'svelte'
 
     export let _onMount: (..._: any[]) => Promise<void> = async () => {}
@@ -90,7 +90,7 @@
     </Text>
     <div class="space-y-2 max-h-100 scrollable-y flex-1">
         <nft-details class="flex flex-col justify-center items-center space-y-4">
-            <NftImageOrIconBox size="lg" {type} />
+            <MediaPlaceholder {type} iconOnly />
             <activity-details class="w-full h-full space-y-2 flex flex-auto flex-col shrink-0">
                 <Tabs bind:activeTab {tabs} />
                 {#if activeTab === Tab.Transaction}
