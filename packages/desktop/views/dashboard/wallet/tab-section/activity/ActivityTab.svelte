@@ -8,7 +8,7 @@
         selectedAccountActivities,
         setAsyncStatusOfAccountActivities,
     } from '@core/activity'
-    import { Text } from '@bloomwalletio/ui'
+    import { Text, Icon, IconName } from '@bloomwalletio/ui'
     import VirtualList from '@sveltejs/svelte-virtual-list'
     import ActivityListRow from './components/ActivityListRow.svelte'
 
@@ -38,6 +38,10 @@
             >
         </div>
     </header-row>
+    <info-section class="flex flex-row items-center">
+        <Icon name={IconName.Bell} size="sm" customColor="yellow-600" />
+        <Text customColor="yellow-600">{localize('activityTab.claimableTransactions')}</Text>
+    </info-section>
     {#if $queriedActivities.length > 0}
         <VirtualList items={$queriedActivities} let:item>
             <ActivityListRow activity={item} />
@@ -66,6 +70,11 @@
 
             @apply grid;
             grid-template-columns: 2fr 1fr 1fr 1fr;
+        }
+
+        info-section {
+            @apply px-5 py-1.5 gap-2;
+            background-color: rgba(212, 161, 0, 0.1);
         }
     }
 </style>
