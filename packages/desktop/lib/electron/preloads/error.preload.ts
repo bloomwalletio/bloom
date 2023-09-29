@@ -21,7 +21,7 @@ contextBridge.exposeInMainWorld('error', {
         const data = await ipcRenderer.invoke('error-data')
 
         const errorData: ErrorData = {
-            iconPath: './assets/logos/lightmode/bloom_logo.svg',
+            iconPath: './assets/logos/darkmode/bloom_logo.svg',
             version,
             diagnostics: data.diagnostics
                 .map((d: DiagnosticData) => `${d.label.replace('popups.diagnostics.', '')}: ${d.value}`)

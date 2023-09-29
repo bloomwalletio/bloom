@@ -16,7 +16,7 @@ contextBridge.exposeInMainWorld('about', {
         const aboutData: AboutData = {
             appName: productName,
             version: data.strings.version.replace('{version}', version),
-            iconPath: './assets/logos/lightmode/bloom_logo.svg',
+            iconPath: './assets/logos/darkmode/bloom_logo.svg',
         }
 
         return aboutData
