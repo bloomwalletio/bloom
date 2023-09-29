@@ -2,15 +2,21 @@
     import { localize } from '@core/i18n'
     import { nftSearchTerm, ownedNfts, queriedNfts } from '@core/nfts/stores'
     import { Illustration, NftGallery, ReceiveButton, SearchInput } from '@ui'
-    import { Text } from '@bloomwalletio/ui'
+    import { Text, Avatar } from '@bloomwalletio/ui'
 </script>
 
 <div class="flex flex-col w-full h-full space-y-4">
     {#if $ownedNfts.length}
         <div class="flex flex-row justify-between">
-            <div class="flex flex-row text-left space-x-1 items-center">
+            <div class="flex flex-row text-left gap-2 items-center">
                 <Text type="h6" textColor="brand">{localize('views.collectibles.gallery.title')}</Text>
-                <Text textColor="secondary">{$queriedNfts.length}</Text>
+                <Avatar
+                    text={String($queriedNfts.length ?? '')}
+                    size="base"
+                    shape="square"
+                    textColor="secondary"
+                    backgroundColor="neutral/20"
+                />
             </div>
             <div class="flex items-center" style="height: 40px">
                 <SearchInput bind:value={$nftSearchTerm} />
