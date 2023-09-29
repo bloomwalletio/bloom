@@ -44,8 +44,8 @@
     </header-row>
     {#if amountClaimableTransactions}
         <info-section class="flex flex-row items-center">
-            <Icon name={IconName.Bell} size="sm" customColor="yellow-600" />
-            <Text customColor="yellow-600"
+            <Icon name={IconName.Bell} size="sm" customColor="warning" />
+            <Text customColor="warning"
                 >{localize('views.dashboard.activity.claimableTransactions', {
                     amount: amountClaimableTransactions,
                 })}</Text
