@@ -1,6 +1,6 @@
 <script lang="ts">
     import { AddressType } from '@iota/sdk/out/types'
-    import { Alert, Table, type IItem, Text } from '@bloomwalletio/ui'
+    import { Alert, Table, type IItem, Text, Button, IconName } from '@bloomwalletio/ui'
     import { CollectibleDetailsMenu } from '@components'
     import { selectedAccountIndex } from '@core/account/stores'
     import { time } from '@core/app/stores'
@@ -17,10 +17,8 @@
     import { getTimeDifference } from '@core/utils'
     import { setSendFlowParameters } from '@core/wallet/stores'
     import { PopupId, openPopup } from '@desktop/auxiliary/popup'
-    import { Button, Modal, NftMedia, Pane } from '@ui'
+    import { NftMedia, Pane } from '@ui'
     import { SendFlowRoute, SendFlowRouter, sendFlowRouter } from '@views/dashboard/send-flow'
-
-    let modal: Modal
 
     const nft: INft = getNftByIdFromAllAccountNfts($selectedAccountIndex, $selectedNftId)
     const explorerUrl = getDefaultExplorerUrl(nft?.networkId, ExplorerEndpoint.Nft)
@@ -139,13 +137,13 @@
                 </div>
             </div>
         </div>
-        <collectible-information class="flex flex-col p-6 space-y-8 w-full h-full max-w-lg">
+        <collectible-information class="flex flex-col px-6 py-8 space-y-8 w-full h-full max-w-lg">
             <nft-title class="flex justify-between items-center">
                 <div class="truncate">
                     <Text type="h4">{name}</Text>
                 </div>
                 <div>
-                    <CollectibleDetailsMenu bind:modal {nft} />
+                    <CollectibleDetailsMenu {nft} />
                 </div>
             </nft-title>
             {#if description}
@@ -190,14 +188,24 @@
                 {/if}
             </div>
             <buttons-container class="flex w-full space-x-4 self-end mt-auto pt-4">
-                <Button outline classes="flex-1" onClick={onExplorerClick} disabled={!explorerUrl}>
-                    {localize('general.viewOnExplorer')}
-                </Button>
-                <Button classes="flex-1" onClick={onSendClick} disabled={!!timeDiff}>
-                    {timeDiff
+                <Button
+                    text={localize('general.viewOnExplorer')}
+                    on:click={onExplorerClick}
+                    disabled={!explorerUrl}
+                    variant="outline"
+                    width="half"
+                />
+                <Button
+                    text={timeDiff
                         ? localize('popups.balanceBreakdown.locked.title') + ' ' + String(timeDiff)
                         : localize('actions.send')}
-                </Button>
+                    icon={IconName.Send}
+                    on:click={onSendClick}
+                    disabled={!!timeDiff}
+                    width="half"
+                    size="lg"
+                    reverse
+                />
             </buttons-container>
         </collectible-information>
     </collectibles-details-view>
