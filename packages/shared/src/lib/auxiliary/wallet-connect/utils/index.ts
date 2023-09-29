@@ -1,5 +1,4 @@
 export * from './approveSession'
 export * from './disconnectAllDapps'
 export * from './getAllEvmAddresses'
-export * from './isValidWalletConnectVersion'
 export * from './validateConnectionCodeUri'
