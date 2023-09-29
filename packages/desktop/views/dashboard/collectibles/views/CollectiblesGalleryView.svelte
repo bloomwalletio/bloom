@@ -1,19 +1,16 @@
 <script lang="ts">
     import { localize } from '@core/i18n'
     import { nftSearchTerm, ownedNfts, queriedNfts } from '@core/nfts/stores'
-    import { FontWeight, Illustration, NftGallery, ReceiveButton, Text } from '@ui'
-    import { SearchInput } from '@bloomwalletio/ui'
+    import { Illustration, NftGallery, ReceiveButton, SearchInput } from '@ui'
+    import { Text } from '@bloomwalletio/ui'
 </script>
 
 <div class="flex flex-col w-full h-full space-y-4">
     {#if $ownedNfts.length}
         <div class="flex flex-row justify-between">
             <div class="flex flex-row text-left space-x-1 items-center">
-                <Text fontSize="text-14" fontWeight={FontWeight.semibold}
-                    >{localize('views.collectibles.gallery.title')}</Text
-                >
-                <Text fontSize="text-14" fontWeight={FontWeight.semibold} color="gray-500">• {$queriedNfts.length}</Text
-                >
+                <Text type="h6" textColor="brand">{localize('views.collectibles.gallery.title')}</Text>
+                <Text textColor="secondary">{$queriedNfts.length}</Text>
             </div>
             <div class="flex items-center" style="height: 40px">
                 <SearchInput bind:value={$nftSearchTerm} />
@@ -25,9 +22,7 @@
         {:else}
             <div class="w-full h-full flex flex-col items-center justify-center space-y-8">
                 <Illustration illustration="empty-collectibles" width="134" height="134" />
-                <Text fontSize="text-14" fontWeight={FontWeight.semibold} color="gray-500"
-                    >{localize('views.collectibles.gallery.noResults')}</Text
-                >
+                <Text textColor="secondary">{localize('views.collectibles.gallery.noResults')}</Text>
             </div>
         {/if}
     {:else}
@@ -35,12 +30,8 @@
             <div class="flex flex-col items-center space-y-8">
                 <Illustration illustration="empty-collectibles" width="134" height="134" />
                 <div class="flex flex-col items-center">
-                    <Text fontSize="text-14" fontWeight={FontWeight.semibold} color="gray-500"
-                        >{localize('views.collectibles.gallery.emptyTitle')}</Text
-                    >
-                    <Text fontSize="text-14" color="gray-500"
-                        >{localize('views.collectibles.gallery.emptyDescription')}</Text
-                    >
+                    <Text textColor="secondary">{localize('views.collectibles.gallery.emptyTitle')}</Text>
+                    <Text textColor="secondary">{localize('views.collectibles.gallery.emptyDescription')}</Text>
                 </div>
                 <ReceiveButton text={localize('actions.depositNft')} />
             </div>

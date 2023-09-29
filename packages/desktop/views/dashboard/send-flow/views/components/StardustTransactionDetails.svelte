@@ -102,7 +102,6 @@
                     bind:selected={selectedTimelockPeriod}
                     disabled={disableChangeTimelock || disableAll}
                 />
-                <div></div>
             </div>
         </section>
     {/if}
