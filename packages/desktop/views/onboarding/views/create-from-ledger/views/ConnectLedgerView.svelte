@@ -8,7 +8,7 @@
 
     export let router: Subrouter<unknown>
 
-    $: isNotConnected = $ledgerConnectionState === LedgerConnectionState.NotConnected
+    $: isNotConnected = $ledgerConnectionState === LedgerConnectionState.Disconnected
     $: isLocked = isNotConnected || $ledgerConnectionState === LedgerConnectionState.Locked
     $: isCorrectAppOpen = $ledgerConnectionState === LedgerConnectionState.ShimmerAppOpen
 
