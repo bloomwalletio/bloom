@@ -6,5 +6,5 @@
 </script>
 
 <div class="flex">
-    <ActivityAsyncStatusPill asyncStatus={activity.asyncData?.asyncStatus} />
+    <ActivityAsyncStatusPill {activity} />
 </div>

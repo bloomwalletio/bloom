@@ -18,12 +18,7 @@
 
 {#if hasPills}
     <transaction-status class="flex flex-row w-full space-x-2 justify-start">
-        {#if activity.asyncData?.asyncStatus && activity.asyncData?.asyncStatus !== ActivityAsyncStatus.Timelocked}
-            <ActivityAsyncStatusPill asyncStatus={activity.asyncData.asyncStatus} />
-        {/if}
-        {#if isTimelocked}
-            <ActivityAsyncStatusPill asyncStatus={ActivityAsyncStatus.Timelocked} />
-        {/if}
+        <ActivityAsyncStatusPill {activity} />
         {#if activity.smartContract}
             <Pill color="blue">
                 {localize('general.smartContract')}
