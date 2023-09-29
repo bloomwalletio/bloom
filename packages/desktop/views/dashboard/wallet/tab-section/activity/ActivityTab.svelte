@@ -84,7 +84,7 @@
 
         info-section {
             @apply px-5 py-1.5 gap-2;
-            background-color: rgba(212, 161, 0, 0.1);
+            @apply bg-warning/10;
         }
     }
 </style>
