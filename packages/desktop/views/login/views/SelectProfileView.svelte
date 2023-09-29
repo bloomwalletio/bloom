@@ -66,8 +66,8 @@
     <div
         slot="content"
         class="
-        card-conatiner flex flex-row w-full justify-center gap-8 overflow-y-auto overlay-scrollbar pb-8
-        {$profiles.length > 4 ? 'grid grid-cols-4' : ''}"
+        card-conatiner flex flex-row grow w-full justify-center gap-8 overflow-auto overlay-scrollbar pb-8
+        {$profiles.length > 4 ? 'grid grid-cols-4 2xl:grid-cols-5' : ''}"
     >
         {#each $profiles as profile}
             <ProfileCard {profile} onClick={onContinueClick} updateRequired={updateRequiredForProfile(profile)} />
@@ -85,7 +85,6 @@
 <style lang="postcss">
     .card-conatiner {
         width: 80%;
-        max-width: 1000px;
     }
 
     button {

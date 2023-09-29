@@ -14,7 +14,13 @@
         <slot name="header" />
     </header>
     <slot name="content" />
-    <footer class="flex flex-col w-full relative">
+    <footer class="flex flex-col w-full relative bottom-0">
         <slot name="footer" />
     </footer>
 </logged-out-layout>
+
+<style lang="postcss">
+    logged-out-layout {
+        max-height: calc(100vh - var(--navbar-height));
+    }
+</style>

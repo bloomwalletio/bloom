@@ -9,13 +9,14 @@ import { DEFAULT_ASSET_FILTER } from '../constants'
 import { ITokenWithBalance, TokenFilter } from '../interfaces'
 import { AccountTokens, IAccountTokensPerNetwork } from '../interfaces/account-tokens.interface'
 import { getPersistedToken, persistedTokens } from './persisted-tokens.store'
+import { activeProfile } from '@core/profile/stores'
 
 export const tokenFilter: Writable<TokenFilter> = writable(DEFAULT_ASSET_FILTER)
 
 export const tokenSearchTerm: Writable<string> = writable('')
 
 export const selectedAccountTokens: Readable<AccountTokens> = derived(
-    [activeProfileId, marketCoinPrices, selectedAccount, persistedTokens, tokenFilter, layer2Balances],
+    [activeProfileId, marketCoinPrices, activeProfile, selectedAccount, persistedTokens, tokenFilter, layer2Balances],
     ([$activeProfileId, $marketCoinPrices]) => {
         if ($activeProfileId) {
             return getAccountTokensForSelectedAccount($marketCoinPrices)

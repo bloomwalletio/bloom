@@ -19,7 +19,7 @@
         shadow-lg
     "
 >
-    <AccountSummary {account} {stardustNetworkId} {evmChainNetworkId} />
+    <AccountSummary {stardustNetworkId} {evmChainNetworkId} />
     <AccountStardustNetworkSummary {account} networkId={stardustNetworkId} />
     <AccountEvmChainSummary {account} networkId={evmChainNetworkId} />
 </Pane>
