@@ -11,7 +11,7 @@
 
     const logos: { [logo in LogoName]: string } = {
         [LogoName.BloomLogo]: 'bloom_logo.svg',
-        [LogoName.BloomLogoFUll]: 'bloom_logo_full.svg',
+        [LogoName.BloomLogoFull]: 'bloom_logo_full.svg',
         [LogoName.BloomText]: 'bloom_text.svg',
         [LogoName.Stronghold]: 'stronghold.svg',
         [LogoName.Ethereum]: 'ethereum_app.svg',

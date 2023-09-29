@@ -1,12 +1,12 @@
 <script lang="ts">
     import { onMount } from 'svelte'
     import { Button, Text } from '@bloomwalletio/ui'
-    import { AddressBox, NetworkInput, QR } from '@ui'
+    import { AddressBox, NetworkInput } from '@ui'
     import { localize } from '@core/i18n'
     import { selectedAccount } from '@core/account/stores'
     import { setClipboard } from '@core/utils'
     import { isEvmChain, isStardustNetwork, network, NetworkId } from '@core/network'
-    import { generateAndStoreEvmAddressForAccounts } from '@core/layer-2/actions'
+    import { generateAndStoreEvmAddressForAccounts, pollLayer2Tokens } from '@core/layer-2/actions'
     import { activeProfile } from '@core/profile/stores'
     import { checkActiveProfileAuth } from '@core/profile/actions'
     import { LedgerAppName } from '@core/ledger'
@@ -28,6 +28,7 @@
                 void checkActiveProfileAuth(
                     async () => {
                         await generateAndStoreEvmAddressForAccounts($activeProfile.type, coinType, $selectedAccount)
+                        pollLayer2Tokens($selectedAccount)
                         networkName = name
                         receiveAddress = $selectedAccount.evmAddresses?.[coinType]
                     },
@@ -51,12 +52,12 @@
     <Text type="body2" textColor="secondary">{localize('popups.receiveAddress.body')}</Text>
     <NetworkInput bind:networkId={selectedNetworkId} />
     {#if receiveAddress}
-        <div
-            class="w-full py-6 space-y-6 flex flex-col justify-center items-center rounded-xl border border-solid border-stroke dark:border-stroke-dark bg-surface-1 dark:bg-surface-1-dark"
-        >
-            <Text type="h6" textColor="brand">{localize('popups.receiveAddress.networkAddress', { networkName })}</Text>
-            <QR data={receiveAddress} />
-            <AddressBox address={receiveAddress} clearBackground isCopyable />
+        <div class="flex w-full justify-center items-center py-6">
+            <AddressBox
+                address={receiveAddress}
+                title={localize('popups.receiveAddress.networkAddress', { networkName })}
+                showQr
+            />
         </div>
     {/if}
     <Button

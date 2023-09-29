@@ -2,7 +2,7 @@
     import { selectedAccount } from '@core/account/stores'
     import { appSettings } from '@core/app/stores'
     import { localize } from '@core/i18n'
-    import { QR, Text, FontWeight, AddressBox } from '@ui'
+    import { Text, FontWeight, AddressBox } from '@ui'
 
     let addressBoxElement: AddressBox
 
@@ -22,15 +22,7 @@
 >
     <Text type="h5" fontWeight={FontWeight.semibold} classes="text-left">{localize('general.receiveFunds')}</Text>
     <inner-box class="flex flex-col space-y-6 pt-7 pb-6">
-        <QR data={receiveAddress} />
-        <AddressBox
-            bind:this={addressBoxElement}
-            clearBackground
-            clearPadding
-            address={receiveAddress}
-            fontSize="sm"
-            isCopyable
-        />
+        <AddressBox bind:this={addressBoxElement} showQr address={receiveAddress} />
     </inner-box>
 </button>
 

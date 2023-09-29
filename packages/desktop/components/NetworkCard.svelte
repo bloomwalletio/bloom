@@ -1,8 +1,8 @@
 <script lang="ts">
-    import { Button, Copyable, IconName } from '@bloomwalletio/ui'
+    import { Button, Copyable, IconName, Text, Tile } from '@bloomwalletio/ui'
     import { selectedAccount } from '@core/account/stores'
     import { localize } from '@core/i18n'
-    import { generateAndStoreEvmAddressForAccounts } from '@core/layer-2/actions'
+    import { generateAndStoreEvmAddressForAccounts, pollLayer2Tokens } from '@core/layer-2/actions'
     import { LedgerAppName } from '@core/ledger'
     import {
         IChain,
@@ -18,7 +18,7 @@
     import { checkActiveProfileAuth } from '@core/profile/actions'
     import { activeProfile } from '@core/profile/stores'
     import { UiEventFunction, truncateString } from '@core/utils'
-    import { ClickableTile, FontWeight, NetworkAvatar, NetworkStatusPill, Text, TextType } from '@ui'
+    import { NetworkAvatar, NetworkStatusPill } from '@ui'
     import { NetworkConfigRoute, networkConfigRouter } from '@views/dashboard/drawers'
     import { onMount } from 'svelte'
 
@@ -60,6 +60,7 @@
                         configuration.coinType,
                         $selectedAccount
                     )
+                    pollLayer2Tokens($selectedAccount)
                     if ($activeProfile.type === ProfileType.Ledger) {
                         $networkConfigRouter.goTo(NetworkConfigRoute.ConfirmLedgerEvmAddress)
                     }
@@ -75,16 +76,14 @@
     })
 </script>
 
-<ClickableTile classes="bg-white border border-solid border-gray-200 dark:border-transparent" onClick={onCardClick}>
+<Tile onClick={onCardClick}>
     <div class="w-full flex flex-col gap-5">
         <div class="flex flex-row justify-between items-center">
             <div class="flex flex-row gap-2 items-center">
                 {#if networkId}
                     <NetworkAvatar {networkId} />
                 {/if}
-                <Text type={TextType.h4} fontWeight={FontWeight.semibold}>
-                    {name}
-                </Text>
+                <Text type="h6">{name}</Text>
             </div>
             {#key status}
                 <NetworkStatusPill {status} />
@@ -92,12 +91,10 @@
         </div>
         <div class="flex flex-row justify-between items-end">
             <div class="flex flex-col">
-                <Text type={TextType.p} fontWeight={FontWeight.medium} color="gray-600">
-                    {localize('general.myAddress')}
-                </Text>
+                <Text>{localize('general.myAddress')}</Text>
                 {#if address}
                     <Copyable value={address}>
-                        <Text type={TextType.pre} fontSize="16" fontWeight={FontWeight.medium}>
+                        <Text type="pre-md">
                             {truncateString(address, 8, 8)}
                         </Text>
                     </Copyable>
@@ -115,4 +112,4 @@
             {/if}
         </div>
     </div>
-</ClickableTile>
+</Tile>
