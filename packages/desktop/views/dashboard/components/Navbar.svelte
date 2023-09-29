@@ -88,20 +88,20 @@
         </div>
 
         <div class="right-button flex items-center justify-end gap-6">
-            {#if features.contacts.enabled}
-                <IconButton
-                    on:click={() => toggleDashboardDrawer({ id: DashboardDrawerRoute.ContactBook })}
-                    icon={IconName.Users}
-                    tooltip={localize('general.contacts')}
-                    textColor="primary"
-                    size="sm"
-                />
-            {/if}
             {#if features?.wallet?.walletConnect?.enabled}
                 <IconButton
                     on:click={() => toggleDashboardDrawer({ id: DashboardDrawerRoute.DappConfig })}
                     icon={IconName.Grid}
                     tooltip={localize('general.apps')}
+                    textColor="primary"
+                    size="sm"
+                />
+            {/if}
+            {#if features.contacts.enabled}
+                <IconButton
+                    on:click={() => toggleDashboardDrawer({ id: DashboardDrawerRoute.ContactBook })}
+                    icon={IconName.Users}
+                    tooltip={localize('general.contacts')}
                     textColor="primary"
                     size="sm"
                 />
