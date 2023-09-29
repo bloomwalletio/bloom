@@ -1,25 +1,15 @@
 <script lang="ts">
-    import { TextInput, Icon, FontWeight } from '@ui'
+    import { Input, IconName } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
     import { debounce } from '@core/utils'
 
     export let value: string
 
-    let searchValue = ''
+    const searchValue = ''
 
     $: debounce(() => {
         value = searchValue
     })()
 </script>
 
-<TextInput
-    bind:value={searchValue}
-    placeholder={localize('general.search')}
-    fontSize="15"
-    clearPadding
-    containerClasses="py-2 px-3"
-    fontWeight={FontWeight.medium}
-    color="gray-500"
->
-    <Icon slot="left" icon="search" classes="mr-2 text-gray-500 dark:text-white" />
-</TextInput>
+<Input bind:value icon={IconName.Search} placeholder={localize('general.search')} />

@@ -36,7 +36,7 @@
     <div class="flex flex-row justify-between space-x-3 w-full mt-4">
         {#if isSupportedNetworkId(networkId)}
             <Button
-                variant="outline"
+                variant="outlined"
                 width="half"
                 on:click={addDefaultNodesToClientOptions}
                 text={localize('actions.addOfficialNodes')}
