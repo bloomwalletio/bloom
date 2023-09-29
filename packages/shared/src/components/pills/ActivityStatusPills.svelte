@@ -2,18 +2,11 @@
     import { ActivityAsyncStatusPill } from '@ui'
     import { Pill } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
-    import { time } from '@core/app/stores'
-    import { Activity, ActivityAsyncStatus } from '@core/activity'
+    import { Activity } from '@core/activity'
 
     export let activity: Activity
 
-    $: timelockDate = activity.asyncData?.timelockDate
-    $: isTimelocked = timelockDate && timelockDate > $time
-
-    $: hasPills =
-        (activity.asyncData?.asyncStatus && activity.asyncData?.asyncStatus !== ActivityAsyncStatus.Timelocked) ||
-        isTimelocked ||
-        activity.smartContract
+    $: hasPills = activity.asyncData?.asyncStatus || activity.smartContract
 </script>
 
 {#if hasPills}
