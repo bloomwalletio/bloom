@@ -1,3 +1,4 @@
+import { logAndNotifyError } from '@core/error/actions'
 import { getWalletClient } from '../stores'
 
 export async function pairWithNewDapp(uri: string): Promise<void> {
@@ -9,7 +10,12 @@ export async function pairWithNewDapp(uri: string): Promise<void> {
     try {
         await client.core.pairing.pair({ uri })
     } catch (err) {
-        console.error('already connected', err)
-        throw err
+        logAndNotifyError({
+            type: 'walletConnect',
+            message: String(err),
+            logToConsole: true,
+            saveToErrorLog: true,
+            showNotification: false,
+        })
     }
 }
