@@ -4,9 +4,8 @@
     import { DrawerTemplate } from '@components'
     import { localize } from '@core/i18n'
     import { Router } from '@core/router'
-    import { validateConnectionCodeUri } from 'shared/src/lib/auxiliary/wallet-connect/utils/validateConnectionCodeUri'
     import { onMount } from 'svelte'
-    import { isValidWalletConnectVersion } from '@auxiliary/wallet-connect/utils/isValidWalletConnectVersion'
+    import { validateConnectionCodeUri } from '@auxiliary/wallet-connect/utils'
     import { Button, TextInput } from '@ui'
 
     export let drawerRouter: Router<unknown>
@@ -14,7 +13,8 @@
 
     let walletConnectUri: string = initialWalletConnectUri
     let error: string | undefined
-    let isDeprecated: boolean = false
+
+    $: isDeprecated = String(error) === 'Error: ' + localize('error.walletConnect.deprecatedVersion')
 
     function onConnectClick(): void {
         if (isValid()) {
@@ -30,17 +30,12 @@
 
     function isValid(): boolean {
         error = ''
-        isDeprecated = false
         try {
             validateConnectionCodeUri(walletConnectUri)
         } catch (err) {
             error = err
         }
-
-        if (!isValidWalletConnectVersion(walletConnectUri)) {
-            isDeprecated = true
-        }
-        return !error && !isDeprecated
+        return !error
     }
 
     onMount(() => {
