@@ -1,93 +1,19 @@
 <script lang="ts">
-    import { Icon, IconButton, IconName, Text } from '@bloomwalletio/ui'
-    import { AccountSwitcher, NavbarContainer } from '@components'
+    import { IconButton, IconName } from '@bloomwalletio/ui'
+    import { NavbarContainer } from '@components'
     import { IS_MAC } from '@core/app'
     import { localize } from '@core/i18n'
-    import {
-        CollectiblesRoute,
-        DashboardRoute,
-        GovernanceRoute,
-        collectiblesRoute,
-        collectiblesRouter,
-        dashboardRoute,
-        governanceRoute,
-        governanceRouter,
-    } from '@core/router'
-    import { closeDrawer, toggleDashboardDrawer } from '@desktop/auxiliary/drawer'
+    import { toggleDashboardDrawer } from '@desktop/auxiliary/drawer'
     import features from '@features/features'
     import { DashboardDrawerRoute } from '../drawers'
-    import { appSettings } from '@core/app/stores'
-
-    let isBackButtonVisible = false
-
-    $: dark = $appSettings.darkMode
-
-    $: {
-        if ($collectiblesRoute || $governanceRoute) {
-            isBackButtonVisible = isCorrectRoute()
-        }
-    }
-
-    function isCorrectRoute(): boolean {
-        switch ($dashboardRoute) {
-            case DashboardRoute.Collectibles:
-                return $collectiblesRoute !== CollectiblesRoute.Gallery
-            case DashboardRoute.Governance:
-                return $governanceRoute !== GovernanceRoute.Proposals
-            default:
-                break
-        }
-    }
-
-    function onBackClick(): void {
-        closeDrawer()
-        switch ($dashboardRoute) {
-            case DashboardRoute.Collectibles:
-                $collectiblesRouter.previous()
-                break
-            case DashboardRoute.Governance:
-                $governanceRouter.previous()
-                break
-            default:
-                break
-        }
-    }
+    import Breadcrumbs from './Breadcrumbs.svelte'
 </script>
 
 <NavbarContainer draggable={IS_MAC}>
     <div class="flex flex-row justify-between items-center px-4" style:height="var(--navbar-height)">
-        <div class="flex flex-row gap-2">
-            {#if isBackButtonVisible}
-                <IconButton
-                    on:click={onBackClick}
-                    icon={IconName.ArrowLeft}
-                    tooltip={localize('actions.back')}
-                    textColor="primary"
-                    size="sm"
-                />
-            {/if}
-            <div class="flex flex-row space-x-2 items-center">
-                <AccountSwitcher navbar />
-                <Icon name={IconName.ChevronRight} size="sm" textColor="primary" />
-                <Text size="sm" weight="semibold">
-                    {localize(`tabs.${$dashboardRoute}`)}
-                </Text>
-                {#if $dashboardRoute === DashboardRoute.Collectibles && $collectiblesRoute !== CollectiblesRoute.Gallery}
-                    <Icon name={IconName.ChevronRight} size="sm" textColor="primary" />
-                    <Text size="sm" weight="semibold">
-                        {$collectiblesRoute}
-                    </Text>
-                {/if}
-                {#if $dashboardRoute === DashboardRoute.Governance && $governanceRoute !== GovernanceRoute.Proposals}
-                    <Icon name={IconName.ChevronRight} size="sm" textColor="primary" />
-                    <Text size="sm" weight="semibold">
-                        {$governanceRoute}
-                    </Text>
-                {/if}
-            </div>
-        </div>
+        <Breadcrumbs />
 
-        <div class="right-button flex items-center justify-end gap-6">
+        <div class="right-button flex items-center justify-end gap-2">
             {#if features.contacts.enabled}
                 <IconButton
                     on:click={() => toggleDashboardDrawer({ id: DashboardDrawerRoute.ContactBook })}
