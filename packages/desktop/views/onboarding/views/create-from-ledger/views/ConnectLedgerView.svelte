@@ -1,12 +1,10 @@
 <script lang="ts">
     import { localize } from '@core/i18n'
     import { LedgerConnectionState, ledgerConnectionState } from '@core/ledger'
-    import { Subrouter } from '@core/router'
     import { PopupId, openPopup } from '@desktop/auxiliary/popup'
     import { Icon, Link, Text } from '@ui'
     import { OnboardingLayout } from '@views/components'
-
-    export let router: Subrouter<unknown>
+    import { createFromLedgerRouter } from '..'
 
     $: isDisconnected = $ledgerConnectionState === LedgerConnectionState.Disconnected
     $: isLocked = isDisconnected || $ledgerConnectionState === LedgerConnectionState.Locked
@@ -19,11 +17,11 @@
     }
 
     function onContinueClick(): void {
-        router.next()
+        $createFromLedgerRouter.next()
     }
 
     function onBackClick(): void {
-        router.previous()
+        $createFromLedgerRouter.previous()
     }
 </script>
 
