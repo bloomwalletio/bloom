@@ -61,6 +61,7 @@
         $dashboardRouter.goTo(DashboardRoute.Collectibles)
         await tick()
         $collectiblesRouter.goTo(CollectiblesRoute.Details)
+        $collectiblesRouter.setBreadcrumb(nft?.name)
     }
 
     function onExplorerClick(_activity: Activity): void {

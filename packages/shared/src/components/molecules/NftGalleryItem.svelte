@@ -33,6 +33,7 @@
     function onClick(): void {
         $selectedNftId = nft.id
         $collectiblesRouter.goTo(CollectiblesRoute.Details)
+        $collectiblesRouter.setBreadcrumb(nft?.name)
     }
 
     function getTooltipText(key: TooltipType): string | undefined {
