@@ -6,7 +6,7 @@
     import { toggleDashboardDrawer } from '@desktop/auxiliary/drawer'
     import features from '@features/features'
     import { DashboardDrawerRoute } from '../drawers'
-    import { Breadcrumbs } from '.'
+    import Breadcrumbs from './Breadcrumbs.svelte'
 </script>
 
 <NavbarContainer draggable={IS_MAC}>
