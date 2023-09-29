@@ -30,6 +30,7 @@
     function onProposalClick(): void {
         $selectedProposalId = proposal?.id
         $governanceRouter.goTo(GovernanceRoute.Details)
+        $governanceRouter.setBreadcrumb(proposal?.title)
     }
 
     onMount(() => setHasVoted())
