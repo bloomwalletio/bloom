@@ -8,8 +8,8 @@
 
     export let router: Subrouter<unknown>
 
-    $: isNotConnected = $ledgerConnectionState === LedgerConnectionState.Disconnected
-    $: isLocked = isNotConnected || $ledgerConnectionState === LedgerConnectionState.Locked
+    $: isDisconnected = $ledgerConnectionState === LedgerConnectionState.Disconnected
+    $: isLocked = isDisconnected || $ledgerConnectionState === LedgerConnectionState.Locked
     $: isCorrectAppOpen = $ledgerConnectionState === LedgerConnectionState.ShimmerAppOpen
 
     function handleGuidePopup(): void {
@@ -42,8 +42,8 @@
         <div class="flex flex-col flex-nowrap space-y-2">
             <div class="flex flex-row items-center space-x-2">
                 <Icon
-                    icon={`status-${isNotConnected ? 'error' : 'success'}`}
-                    classes={`text-white bg-${isNotConnected ? 'red' : 'green'}-600 rounded-full`}
+                    icon={`status-${isDisconnected ? 'error' : 'success'}`}
+                    classes={`text-white bg-${isDisconnected ? 'red' : 'green'}-600 rounded-full`}
                 />
                 <Text type="p" secondary>{localize('views.connectLedger.connect')}</Text>
             </div>
