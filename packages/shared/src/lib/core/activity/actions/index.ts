@@ -1,6 +1,7 @@
 export * from './calculateAndAddPersistedBalanceChange'
 export * from './generateAndStoreActivitiesForAccount'
 export * from './generateAndStoreActivitiesForAllAccounts'
+export * from './getClaimableActivities'
 export * from './hideActivitiesForFoundries'
 export * from './hideActivitiesForHiddenTokens'
 export * from './linkTransactionsWithClaimingTransactions'
