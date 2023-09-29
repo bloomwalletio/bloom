@@ -1,6 +1,6 @@
 <script lang="ts">
     import { Filter, ProposalCard } from '@components'
-    import { SearchInput, Text } from '@ui'
+    import { Text, SearchInput } from '@ui'
     import { FontWeight } from '@ui/enums'
 
     import { localize } from '@core/i18n'
