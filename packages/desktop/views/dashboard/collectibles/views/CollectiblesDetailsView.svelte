@@ -137,7 +137,7 @@
                 </div>
             </div>
         </div>
-        <collectible-information class="flex flex-col px-6 py-8 space-y-8 w-full h-full max-w-lg">
+        <collectible-information class="flex flex-col px-6 py-8 space-y-3 w-full h-full max-w-lg">
             <nft-title class="flex justify-between items-center">
                 <Text type="h4" truncate>{name}</Text>
                 <div>
@@ -150,7 +150,7 @@
                     <Text textColor="secondary">{description}</Text>
                 </nft-description>
             {/if}
-            <div class="overflow-y-scroll h-full flex flex-col space-y-8 pr-2 -mr-4">
+            <div class="overflow-y-scroll h-full flex flex-col space-y-4 pr-2 -mr-4">
                 <details-list>
                     <Table items={detailsList} />
                 </details-list>
