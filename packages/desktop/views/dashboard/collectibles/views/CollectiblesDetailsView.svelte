@@ -125,7 +125,7 @@
 
 <Pane classes="h-full">
     <collectibles-details-view class="flex flex-row w-full h-full">
-        <div class="flex w-full h-auto items-center justify-center overflow-hidden">
+        <div class="flex w-full h-auto items-center justify-center p-5 overflow-hidden">
             <div class="relative h-auto flex rounded-2xl overflow-hidden">
                 <div class="rounded-2xl overflow-hidden flex-1 object-contain h-auto">
                     <NftMedia {nft} autoplay controls loop muted />
@@ -139,22 +139,21 @@
         </div>
         <collectible-information class="flex flex-col px-6 py-8 space-y-8 w-full h-full max-w-lg">
             <nft-title class="flex justify-between items-center">
-                <div class="truncate">
-                    <Text type="h4">{name}</Text>
-                </div>
+                <Text type="h4" truncate>{name}</Text>
                 <div>
                     <CollectibleDetailsMenu {nft} />
                 </div>
             </nft-title>
             {#if description}
                 <nft-description class="overflow-scroll">
-                    <Text type="h6" textColor="secondary">
-                        {description}
-                    </Text>
+                    <Text type="body1">{localize('general.description')}</Text>
+                    <Text textColor="secondary">{description}</Text>
                 </nft-description>
             {/if}
             <div class="overflow-y-scroll h-full flex flex-col space-y-8 pr-2 -mr-4">
-                <Table items={detailsList} />
+                <details-list>
+                    <Table items={detailsList} />
+                </details-list>
                 {#if attributes?.length > 0}
                     {@const items = attributes.map(({ trait_type, value }) => ({
                         key: trait_type,

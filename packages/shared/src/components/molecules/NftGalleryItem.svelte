@@ -63,9 +63,7 @@
             {/if}
         </div>
         <div class="w-full flex flex-row align-center justify-between p-3.5 bg-surface dark:bg-surface-0-dark">
-            <div class="truncate">
-                <Text type="body2">{nft.name}</Text>
-            </div>
+            <Text type="body2" truncate>{nft.name}</Text>
             {#if isLocked}
                 <TooltipIcon
                     icon={Icon.Timelock}
