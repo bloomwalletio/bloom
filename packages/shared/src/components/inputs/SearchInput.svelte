@@ -5,11 +5,11 @@
 
     export let value: string
 
-    const searchValue = ''
+    let searchValue = ''
 
     $: debounce(() => {
         value = searchValue
     })()
 </script>
 
-<Input bind:value icon={IconName.Search} placeholder={localize('general.search')} />
+<Input bind:value={searchValue} icon={IconName.Search} placeholder={localize('general.search')} />
