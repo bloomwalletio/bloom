@@ -16,6 +16,11 @@
         menu?.close()
     }
 
+    function onSyncAccountsClick(): void {
+        openPopup({ id: PopupId.SyncAccounts })
+        menu?.close()
+    }
+
     function onCustomiseAccountClick(): void {
         openPopup({ id: PopupId.ManageAccount })
         menu?.close()
@@ -58,11 +63,16 @@
         items = [
             {
                 icon: IconName.PieChart,
-                title: localize('actions.viewBalanceBreakdown'),
+                title: localize('general.balanceBreakdown'),
                 onClick: onViewBalanceClick,
             },
             {
-                icon: IconName.Sliders,
+                icon: IconName.Refresh,
+                title: localize('actions.syncAccounts'),
+                onClick: onSyncAccountsClick,
+            },
+            {
+                icon: IconName.SettingsSliders,
                 title: localize('actions.customizeAccount'),
                 onClick: onCustomiseAccountClick,
             },

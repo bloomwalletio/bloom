@@ -52,7 +52,7 @@
     import CheckForUpdatesPopup from './CheckForUpdatesPopup.svelte'
     import VoteForProposal from './VoteForProposalPopup.svelte'
     import VotingPowerToZeroPopup from './VotingPowerToZeroPopup.svelte'
-    import WalletFinderPopup from './WalletFinderPopup.svelte'
+    import SyncAccountsPopup from './SyncAccountsPopup.svelte'
 
     export let id: PopupId
     export let props: any
@@ -96,8 +96,10 @@
         [PopupId.AddProposal]: AddProposalPopup,
         [PopupId.AliasConfirmation]: AliasConfirmationPopup,
         [PopupId.BackupStronghold]: BackupStrongholdPopup,
-        [PopupId.BurnNativeTokens]: BurnNativeTokensPopup,
+        [PopupId.BalanceBreakdown]: BalanceBreakdownPopup,
         [PopupId.BurnNativeTokensConfirmation]: BurnNativeTokensConfirmationPopup,
+        [PopupId.BurnNativeTokens]: BurnNativeTokensPopup,
+        [PopupId.CheckForUpdates]: CheckForUpdatesPopup,
         [PopupId.Confirmation]: ConfirmationPopup,
         [PopupId.ConnectLedger]: ConnectLedgerPopup,
         [PopupId.CreateAccount]: CreateAccountPopup,
@@ -126,15 +128,13 @@
         [PopupId.SendFlow]: SendFlowPopup,
         [PopupId.SignMessage]: SignMessagePopup,
         [PopupId.StopVoting]: StopVotingPopup,
-        [PopupId.BalanceBreakdown]: BalanceBreakdownPopup,
+        [PopupId.SyncAccounts]: SyncAccountsPopup,
         [PopupId.TestDeepLinkForm]: TestDeepLinkFormPopup,
         [PopupId.TokenInformation]: TokenInformationPopup,
         [PopupId.UnlockStronghold]: UnlockStrongholdPopup,
         [PopupId.VerifyLedgerTransaction]: VerifyLedgerTransactionPopup,
-        [PopupId.CheckForUpdates]: CheckForUpdatesPopup,
         [PopupId.VoteForProposal]: VoteForProposal,
         [PopupId.VotingPowerToZero]: VotingPowerToZeroPopup,
-        [PopupId.WalletFinder]: WalletFinderPopup,
     }
 
     function onKey(event: KeyboardEvent): void {
