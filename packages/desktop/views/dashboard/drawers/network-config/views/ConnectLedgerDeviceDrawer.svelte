@@ -57,6 +57,6 @@
         </div>
     </connect-ledger-device-drawer>
     <svelte:fragment slot="footer">
-        <Button variant="outline" text={localize('actions.cancel')} width="full" on:click={onCancelClick} />
+        <Button variant="outlined" text={localize('actions.cancel')} width="full" on:click={onCancelClick} />
     </svelte:fragment>
 </DrawerTemplate>
