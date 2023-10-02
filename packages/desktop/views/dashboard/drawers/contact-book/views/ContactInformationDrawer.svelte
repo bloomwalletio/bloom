@@ -17,7 +17,7 @@
 </script>
 
 <DrawerTemplate title={''} {drawerRouter}>
-    <div slot="header" class="flex justify-between flex-1">
+    <div slot="header" class="flex flex-row w-full justify-between">
         <div class="flex flex-row items-center gap-2">
             <ContactAvatar contact={$selectedContact} />
             <Text fontSize={'text-16'} fontWeight={FontWeight.semibold} classes="w-48 truncate">
@@ -42,7 +42,6 @@
                 text={localize(
                     `views.dashboard.drawers.contactBook.${ContactBookRoute.ContactInformation}.addNetworkAddress`
                 )}
-                width="full"
                 on:click={onAddNetworkAddressClick}
             />
         {/if}
