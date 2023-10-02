@@ -29,10 +29,12 @@
         isBusy = true
         try {
             const signedMessage = await sign()
-
             callback({ result: signedMessage })
-            closePopup()
+        } catch (err) {
+            callback({ error: err })
+            handleError(err)
         } finally {
+            closePopup()
             isBusy = false
         }
     }
