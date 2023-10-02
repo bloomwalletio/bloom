@@ -1,7 +1,6 @@
 <script lang="ts">
     import { Button, IconName } from '@bloomwalletio/ui'
     import { AccountActionsMenu, AccountSwitcher, FormattedBalance } from '@components'
-    import { IAccountState } from '@core/account'
     import { formatCurrency, localize } from '@core/i18n'
     import { resetLedgerPreparedOutput, resetShowInternalVerificationPopup } from '@core/ledger'
     import { getMarketAmountFromTokenValue } from '@core/market/actions'
@@ -9,10 +8,9 @@
     import { ITokenWithBalance } from '@core/token'
     import { selectedAccountTokens } from '@core/token/stores'
     import { resetSendFlowParameters } from '@core/wallet'
-    import { openPopup, PopupId } from '@desktop/auxiliary/popup'
+    import { PopupId, openPopup } from '@desktop/auxiliary/popup'
     import { SendFlowRouter, sendFlowRouter } from '@views'
 
-    export let account: IAccountState
     export let stardustNetworkId: NetworkId
     export let evmChainNetworkId: NetworkId
 
@@ -22,8 +20,7 @@
     function getTotalBalance(): string {
         const stardustBaseToken: ITokenWithBalance = $selectedAccountTokens?.[stardustNetworkId]?.baseCoin
         const evmChainBaseToken: ITokenWithBalance = $selectedAccountTokens?.[evmChainNetworkId]?.baseCoin
-        const availableBalance =
-            (stardustBaseToken?.balance?.available ?? 0) + (evmChainBaseToken?.balance?.available ?? 0)
+        const availableBalance = (stardustBaseToken?.balance?.total ?? 0) + (evmChainBaseToken?.balance?.total ?? 0)
         return formatCurrency(getMarketAmountFromTokenValue(availableBalance, stardustBaseToken))
     }
 
@@ -52,12 +49,11 @@
     </account-summary-header>
     <FormattedBalance balanceText={formattedBalance} />
     <account-summary-actions class="mt-4 space-x-2 flex flex-row justify-between items-center">
-        <Button text={localize('actions.send')} width="half" size="lg" icon={IconName.Send} on:click={onSendClick} />
+        <Button text={localize('actions.send')} width="half" icon={IconName.Send} on:click={onSendClick} />
         <Button
-            variant="outline"
+            variant="outlined"
             text={localize('actions.receive')}
             width="half"
-            size="lg"
             icon={IconName.Receive}
             on:click={onReceiveClick}
         />

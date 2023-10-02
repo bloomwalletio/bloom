@@ -1,6 +1,6 @@
 <script lang="ts">
     import { AddressType } from '@iota/sdk/out/types'
-    import { Alert, Table, type IItem } from '@bloomwalletio/ui'
+    import { Alert, Table, type IItem, Text, Button, IconName } from '@bloomwalletio/ui'
     import { CollectibleDetailsMenu } from '@components'
     import { selectedAccountIndex } from '@core/account/stores'
     import { time } from '@core/app/stores'
@@ -17,17 +17,14 @@
     import { getTimeDifference } from '@core/utils'
     import { setSendFlowParameters } from '@core/wallet/stores'
     import { PopupId, openPopup } from '@desktop/auxiliary/popup'
-    import { Button, Modal, NftMedia, Pane, Text } from '@ui'
-    import { FontWeight, TextType } from '@ui/enums'
+    import { NftMedia, Pane } from '@ui'
     import { SendFlowRoute, SendFlowRouter, sendFlowRouter } from '@views/dashboard/send-flow'
-
-    let modal: Modal
 
     const nft: INft = getNftByIdFromAllAccountNfts($selectedAccountIndex, $selectedNftId)
     const explorerUrl = getDefaultExplorerUrl(nft?.networkId, ExplorerEndpoint.Nft)
 
     const { id, name, issuer, address, metadata, downloadMetadata, storageDeposit } = nft ?? {}
-    const { standard, version, type, uri, description, issuerName, collectionName, attributes, soonaverseAttributes } =
+    const { standard, version, description, issuerName, collectionName, attributes, soonaverseAttributes } =
         nft?.parsedMetadata || {}
 
     const issuerAddress = getBech32AddressFromAddressTypes(issuer)
@@ -58,15 +55,6 @@
         {
             key: localize('general.standard'),
             value: version ? `${standard} - ${version}` : standard,
-        },
-        {
-            key: localize('general.type'),
-            value: type || undefined,
-        },
-        {
-            key: localize('general.uri'),
-            value: uri || undefined,
-            copyable: true,
         },
         {
             key: localize('general.issuer'),
@@ -135,86 +123,94 @@
     }
 </script>
 
-<collectibles-details-view class="flex flex-row w-full h-full space-x-4">
-    <div
-        class="flex w-full h-auto items-center justify-center overflow-hidden bg-neutral-3 dark:bg-neutral-3-dark rounded-2xl"
-    >
-        <div class="relative h-auto flex rounded-2xl overflow-hidden">
-            <div class="rounded-2xl overflow-hidden flex-1 object-contain h-auto">
-                <NftMedia {nft} autoplay controls loop muted />
-            </div>
-            <div class="absolute right-6 bottom-6 w-auto">
-                {#if alertText}
-                    <Alert variant={downloadMetadata?.error ? 'danger' : 'warning'} text={alertText} />
-                {/if}
+<Pane classes="h-full">
+    <collectibles-details-view class="flex flex-row w-full h-full">
+        <div class="flex w-full h-auto items-center justify-center p-5 overflow-hidden">
+            <div class="relative h-auto flex rounded-2xl overflow-hidden">
+                <div class="rounded-2xl overflow-hidden flex-1 object-contain h-auto">
+                    <NftMedia {nft} autoplay controls loop muted />
+                </div>
+                <div class="absolute right-6 bottom-6 w-auto">
+                    {#if alertText}
+                        <Alert variant={downloadMetadata?.error ? 'danger' : 'warning'} text={alertText} />
+                    {/if}
+                </div>
             </div>
         </div>
-    </div>
-    <Pane classes="flex flex-col p-6 space-y-3 w-full h-full max-w-lg">
-        <nft-title class="flex justify-between items-center">
-            <Text type={TextType.h3} fontWeight={FontWeight.semibold} classes="truncate">{name}</Text>
-            <div>
-                <CollectibleDetailsMenu bind:modal {nft} />
-            </div>
-        </nft-title>
-        {#if description}
-            <nft-description class="overflow-scroll">
-                <Text type={TextType.h5} fontWeight={FontWeight.normal} color="gray-700">
-                    {description}
-                </Text>
-            </nft-description>
-        {/if}
-        <div class="overflow-y-scroll h-full flex flex-col space-y-4 pr-2 -mr-4">
-            <nft-details class="flex flex-col space-y-4">
-                <Text type={TextType.h5} fontWeight={FontWeight.semibold}>
-                    {localize('general.details')}
-                </Text>
-                <Table items={detailsList} />
-            </nft-details>
-            {#if attributes?.length > 0}
-                {@const items = attributes.map(({ trait_type, value }) => ({ key: trait_type, value: String(value) }))}
-                <nft-attributes class="flex flex-col space-y-4">
-                    <Text type={TextType.h5} fontWeight={FontWeight.semibold}>
-                        {localize('general.attributes')}
-                    </Text>
-                    <Table {items} />
-                </nft-attributes>
-            {:else}
-                {#if soonaverseAttributes?.props}
-                    {@const items = Object.entries(soonaverseAttributes.props).map(([, { label, value }]) => ({
-                        key: label,
-                        value,
-                    }))}
-                    <nft-attributes class="flex flex-col space-y-4">
-                        <Text type={TextType.h5} fontWeight={FontWeight.semibold}>
-                            {localize('general.properties')}
-                        </Text>
-                        <Table {items} />
-                    </nft-attributes>
-                {/if}
-                {#if soonaverseAttributes?.stats}
-                    {@const items = Object.entries(soonaverseAttributes.stats).map(([, { label, value }]) => ({
-                        key: label,
-                        value,
-                    }))}
-                    <nft-attributes class="flex flex-col space-y-4">
-                        <Text type={TextType.h5} fontWeight={FontWeight.semibold}>
-                            {localize('general.statistics')}
-                        </Text>
-                        <Table {items} />
-                    </nft-attributes>
-                {/if}
+        <collectible-information class="flex flex-col px-6 py-8 space-y-3 w-full h-full max-w-lg">
+            <nft-title class="flex justify-between items-center">
+                <Text type="h4" truncate>{name}</Text>
+                <div>
+                    <CollectibleDetailsMenu {nft} />
+                </div>
+            </nft-title>
+            {#if description}
+                <nft-description class="overflow-scroll">
+                    <Text type="body1">{localize('general.description')}</Text>
+                    <Text textColor="secondary">{description}</Text>
+                </nft-description>
             {/if}
-        </div>
-        <buttons-container class="flex w-full space-x-4 self-end mt-auto pt-4">
-            <Button outline classes="flex-1" onClick={onExplorerClick} disabled={!explorerUrl}>
-                {localize('general.viewOnExplorer')}
-            </Button>
-            <Button classes="flex-1" onClick={onSendClick} disabled={!!timeDiff}>
-                {timeDiff
-                    ? localize('popups.balanceBreakdown.locked.title') + ' ' + String(timeDiff)
-                    : localize('actions.send')}
-            </Button>
-        </buttons-container>
-    </Pane>
-</collectibles-details-view>
+            <div class="overflow-y-scroll h-full flex flex-col space-y-4 pr-2 -mr-4">
+                <details-list>
+                    <Table items={detailsList} />
+                </details-list>
+                {#if attributes?.length > 0}
+                    {@const items = attributes.map(({ trait_type, value }) => ({
+                        key: trait_type,
+                        value: String(value),
+                    }))}
+                    <nft-attributes class="flex flex-col space-y-4">
+                        <Text type="body1">{localize('general.attributes')}</Text>
+                        <Table {items} />
+                    </nft-attributes>
+                {:else}
+                    {#if soonaverseAttributes?.props}
+                        {@const items = Object.entries(soonaverseAttributes.props).map(([, { label, value }]) => ({
+                            key: label,
+                            value,
+                        }))}
+                        <nft-attributes class="flex flex-col space-y-4">
+                            <Text type="body1">{localize('general.properties')}</Text>
+                            <Table {items} />
+                        </nft-attributes>
+                    {/if}
+                    {#if soonaverseAttributes?.stats}
+                        {@const items = Object.entries(soonaverseAttributes.stats).map(([, { label, value }]) => ({
+                            key: label,
+                            value,
+                        }))}
+                        <nft-attributes class="flex flex-col space-y-4">
+                            <Text type="body1">{localize('general.statistics')}</Text>
+                            <Table {items} />
+                        </nft-attributes>
+                    {/if}
+                {/if}
+            </div>
+            <buttons-container class="flex w-full space-x-4 self-end mt-auto pt-4">
+                <Button
+                    text={localize('general.viewOnExplorer')}
+                    on:click={onExplorerClick}
+                    disabled={!explorerUrl}
+                    variant="outlined"
+                    width="half"
+                />
+                <Button
+                    text={timeDiff
+                        ? localize('popups.balanceBreakdown.locked.title') + ' ' + String(timeDiff)
+                        : localize('actions.send')}
+                    icon={IconName.Send}
+                    on:click={onSendClick}
+                    disabled={!!timeDiff}
+                    width="half"
+                    reverse
+                />
+            </buttons-container>
+        </collectible-information>
+    </collectibles-details-view>
+</Pane>
+
+<style lang="scss">
+    collectibles-details-view {
+        @apply divide-x divide-solid divide-stroke dark:divide-stroke-dark;
+    }
+</style>

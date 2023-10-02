@@ -41,7 +41,6 @@
             {#if !_backButton.hidden}
                 <Button
                     variant="text"
-                    size="lg"
                     icon={IconName.ArrowLeft}
                     disabled={busy || !_backButton.onClick || _backButton.disabled}
                     on:click={_backButton.onClick}
@@ -63,8 +62,7 @@
             {#if !_backButton.hidden}
                 <Button
                     width="full"
-                    variant="outline"
-                    size="md"
+                    variant="outlined"
                     disabled={busy || _backButton.disabled || !_backButton.onClick}
                     on:click={_backButton.onClick}
                     text={_backButton.text}
@@ -74,7 +72,6 @@
                 <Button
                     width="full"
                     variant="contained"
-                    size="md"
                     disabled={_continueButton.disabled || !_continueButton.onClick}
                     {busy}
                     on:click={_continueButton.onClick}

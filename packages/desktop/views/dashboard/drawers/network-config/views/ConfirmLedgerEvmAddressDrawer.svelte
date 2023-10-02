@@ -44,7 +44,7 @@
     </confirm-ledger-evm-address-drawer>
     <svelte:fragment slot="footer">
         <Button
-            variant="outline"
+            variant="outlined"
             text={localize('actions.continue')}
             disabled={!address}
             busy={!address}

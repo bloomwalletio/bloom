@@ -32,6 +32,7 @@ module.exports = {
         },
         {
             pattern: /^grid-cols-/,
+            variants: ['sm', 'md', 'lg', 'xl', '2xl'],
         },
         {
             pattern: /^rounded-/,

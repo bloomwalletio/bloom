@@ -21,8 +21,6 @@
     function getAmount(_activity: Activity): string {
         if (_activity.type === ActivityType.Basic || _activity.type === ActivityType.Foundry) {
             return getFormattedAmountFromActivity(_activity)
-        } else if (_activity.type === ActivityType.Consolidation) {
-            return String(_activity.amountConsolidatedInputs)
         } else if (_activity.type === ActivityType.Governance) {
             const isVotingPowerActivity =
                 _activity.governanceAction === GovernanceAction.DecreaseVotingPower ||

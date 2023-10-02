@@ -16,16 +16,10 @@
     import { Logo } from '@ui'
     import { LogoName } from '@auxiliary/logo'
 
-    export let checked = true
-    export let title: string
-    export let subtitle: string
-    export let iconName: IconName | undefined
-    export let iconColor: string | undefined
-    export let iconBackgroundColor: string | undefined = undefined
-    export let logo: LogoName | undefined = undefined
-    export let onClick: (() => void) | undefined = undefined
+    export let statusTileProps: StatusTileProps
 
-    $: backgroundColor = iconBackgroundColor ?? `${iconColor}-200`
+    $: ({ checked, title, subtitle, iconName, iconColor, iconBackgroundColor, logo, onClick } = statusTileProps)
+    $: backgroundColor = iconBackgroundColor ?? `${iconColor}/20`
 </script>
 
 <Tile>
@@ -44,7 +38,7 @@
             </div>
         </div>
         {#if onClick}
-            <Toggle {onClick} label="status" {checked} size="sm" border="rounded-full" />
+            <Toggle {onClick} {checked} label="status" />
         {/if}
     </status-tile>
 </Tile>

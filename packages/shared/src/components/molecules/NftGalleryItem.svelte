@@ -1,6 +1,6 @@
 <script lang="typescript">
-    import { Text, FontWeight, NftMedia, TooltipIcon, Position, TooltipType } from '@ui'
-
+    import { NftMedia, TooltipIcon, Position, TooltipType } from '@ui'
+    import { Text } from '@bloomwalletio/ui'
     import { time } from '@core/app/stores'
     import { localize } from '@core/i18n'
     import { INft } from '@core/nfts'
@@ -33,6 +33,7 @@
     function onClick(): void {
         $selectedNftId = nft.id
         $collectiblesRouter.goTo(CollectiblesRoute.Details)
+        $collectiblesRouter.setBreadcrumb(nft?.name)
     }
 
     function getTooltipText(key: TooltipType): string | undefined {
@@ -62,8 +63,8 @@
                 </div>
             {/if}
         </div>
-        <div class="w-full flex flex-row align-center justify-between p-3.5 bg-white dark:bg-gray-800">
-            <Text fontWeight={FontWeight.semibold} fontSize="12" classes="text-left truncate">{nft.name}</Text>
+        <div class="w-full flex flex-row align-center justify-between p-3.5 bg-surface dark:bg-surface-0-dark">
+            <Text type="body2" truncate>{nft.name}</Text>
             {#if isLocked}
                 <TooltipIcon
                     icon={Icon.Timelock}

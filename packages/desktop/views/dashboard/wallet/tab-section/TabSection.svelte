@@ -31,11 +31,11 @@
             </div>
             <Filter filterStore={activityFilter} />
         {:else if currentTab === 1}
-            <IconButton icon={IconName.Plus} on:click={onImportErc20TokenClick} />
             <div class="flex items-center" style="height: 36px">
                 <SearchInput bind:value={$tokenSearchTerm} />
             </div>
             <Filter filterStore={tokenFilter} />
+            <IconButton icon={IconName.Plus} on:click={onImportErc20TokenClick} />
         {/if}
     </div>
 </top-section>

@@ -39,7 +39,7 @@
         />
     </remove-contact>
     <div slot="footer" class="flex gap-4">
-        <Button variant="outline" text={localize('actions.cancel')} width="half" on:click={onCancelClick} />
-        <Button color="red" text={localize('actions.remove')} width="half" on:click={onRemoveClick} />
+        <Button variant="outlined" text={localize('actions.cancel')} width="half" on:click={onCancelClick} />
+        <Button color="danger" text={localize('actions.remove')} width="half" on:click={onRemoveClick} />
     </div>
 </DrawerTemplate>
