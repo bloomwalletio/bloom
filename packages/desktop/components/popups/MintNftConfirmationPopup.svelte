@@ -90,8 +90,8 @@
     </Text>
     <div class="space-y-2 max-h-100 scrollable-y flex-1">
         <nft-details class="flex flex-col justify-center items-center space-y-4">
-            <Avatar size="lg" shape="square">
-                <MediaPlaceholder {type} iconOnly />
+            <Avatar size="lg" shape="square" surface={2}>
+                <MediaPlaceholder {type} smallIcon />
             </Avatar>
             <activity-details class="w-full h-full space-y-2 flex flex-auto flex-col shrink-0">
                 <Tabs bind:activeTab {tabs} />

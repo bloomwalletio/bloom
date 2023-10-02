@@ -69,7 +69,7 @@
         height="100%"
         {primaryColor}
         {secondaryColor}
-        classes={`text-white dark:text-gray-800 bg-neutral-3 dark:bg-neutral-3-dark text-center ${
+        classes={`text-primary dark:text-primary-dark bg-surface-1 dark:bg-surface-1-dark text-center ${
             isDownloading ? 'animate-pulse' : ''
         } ${classes}`}
     />

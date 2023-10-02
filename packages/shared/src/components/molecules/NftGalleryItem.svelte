@@ -42,7 +42,11 @@
     }
 </script>
 
-<button type="button" on:click={onClick} class="flex flex-col items-center justify-center">
+<button
+    type="button"
+    on:click={onClick}
+    class="flex flex-col items-center justify-center border border-solid border-stroke dark:border-stroke-dark rounded-2xl"
+>
     <div class="w-full rounded-2xl overflow-hidden flex flex-col shadow-elevation-1">
         <div
             class="w-full flex relative"
