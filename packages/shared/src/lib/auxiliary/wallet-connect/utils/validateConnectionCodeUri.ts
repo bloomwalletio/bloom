@@ -15,4 +15,9 @@ export function validateConnectionCodeUri(uri: string): void {
     if (url.pathname.split('@')?.[1] !== '2') {
         throw new Error(localize('error.walletConnect.deprecatedVersion'))
     }
+
+    const isValidV2Uri = url.searchParams.get('symKey') && url.searchParams.get('relay-protocol')
+    if (!isValidV2Uri) {
+        throw new Error(localize('error.walletConnect.invalidV2UriFormat'))
+    }
 }
