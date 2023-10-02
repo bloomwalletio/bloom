@@ -6,13 +6,14 @@ import { Transaction } from '@ethereumjs/tx'
 import { ECDSASignature } from '@ethereumjs/util'
 import type { Bip44 } from '@iota/sdk/out/types'
 import { getSignatureForStringWithStronghold } from './getSignatureForStringWithStronghold'
+import { HEX_PREFIX } from '@core/utils'
 
 export async function signEvmTransactionWithStronghold(
     txData: TxData,
     bip44Path: Bip44,
     chainId: EvmChainId
 ): Promise<string> {
-    const unsignedTransactionMessageHex = '0x' + prepareEvmTransaction(txData, chainId)
+    const unsignedTransactionMessageHex = HEX_PREFIX + prepareEvmTransaction(txData, chainId)
     const transaction = Transaction.fromTxData(txData, getEvmTransactionOptions(chainId))
 
     const signature = await getSignatureForStringWithStronghold(unsignedTransactionMessageHex, bip44Path, chainId)
