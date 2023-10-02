@@ -12,6 +12,8 @@
     import { IChain } from '@core/network'
     import { AccountLabel, Button, FontWeight, Text, TextType } from '@ui'
     import { onMount } from 'svelte'
+    import { checkActiveProfileAuth } from '@core/profile/actions'
+    import { LedgerAppName } from '@core/ledger'
 
     export let _onMount: (..._: any[]) => Promise<void> = async () => {}
     export let message: string
@@ -26,24 +28,22 @@
     let isBusy = false
 
     async function onConfirmClick(): Promise<void> {
+        await checkActiveProfileAuth(sign, { stronghold: false, ledger: false }, LedgerAppName.Ethereum)
+    }
+
+    async function sign(): Promise<void> {
         isBusy = true
         try {
-            const signedMessage = await sign()
-            callback({ result: signedMessage })
+            const { coinType } = chain.getConfiguration()
+            const result = await signMessage(message, coinType, method, account)
+            callback({ result })
         } catch (err) {
             callback({ error: err })
             handleError(err)
         } finally {
-            closePopup()
             isBusy = false
+            closePopup()
         }
-    }
-
-    async function sign(): Promise<string> {
-        const { coinType } = chain.getConfiguration()
-        const signedMessage = await signMessage(message, coinType, method, account)
-
-        return signedMessage
     }
 
     function onCancelClick(): void {
