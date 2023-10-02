@@ -140,9 +140,7 @@
         <collectible-information class="flex flex-col px-6 py-8 space-y-3 w-full h-full max-w-lg">
             <nft-title class="flex justify-between items-center">
                 <Text type="h4" truncate>{name}</Text>
-                <div>
-                    <CollectibleDetailsMenu {nft} />
-                </div>
+                <CollectibleDetailsMenu {nft} />
             </nft-title>
             {#if description}
                 <nft-description class="overflow-scroll">
