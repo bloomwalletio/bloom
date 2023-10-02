@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { Checkbox, Link, Text } from '@bloomwalletio/ui'
+    import { Button, Checkbox, IconName, Link, Text } from '@bloomwalletio/ui'
     import {
         PRIVACY_POLICY_URL,
         PRIVACY_POLICY_VERSION,
@@ -9,7 +9,7 @@
     import { hasCompletedAppSetup, lastAcceptedPrivacyPolicy, lastAcceptedTermsOfService } from '@core/app/stores'
     import { openUrlInBrowser } from '@core/app/utils'
     import { localize } from '@core/i18n'
-    import { OnboardingLayout } from '@views/components'
+    import { Illustration } from '@ui'
     import { onboardingRouter } from '../onboarding-router'
 
     let termsAccepted: boolean = false
@@ -30,46 +30,76 @@
     }
 </script>
 
-<OnboardingLayout
-    size="small"
-    continueButton={{
-        onClick: onContinueClick,
-        disabled: !termsAccepted,
-    }}
-    backButton={{
-        hidden: true,
-    }}
->
-    <div slot="content" class="flex flex-col space-y-4">
-        <welcome-title class="p-1">
-            <h1>
+<welcome-view class="w-full h-full flex items-center justify-center py-24 px-40 gap-12">
+    <div class="flex flex-col gap-8">
+        <div class="flex flex-col gap-2">
+            <Text type="h1">
                 {localize('views.onboarding.appSetup.welcome.title')}
-            </h1>
-            <h1 class="gradient">Bloom.</h1>
-        </welcome-title>
-        <Checkbox bind:checked={termsAccepted}>
-            <Text slot="label">
-                I've read and I accept the&nbsp
-                <Link on:click={onTermsOfServiceClick}>Terms of Service</Link>
-                &nbspand&nbsp
-                <Link on:click={onPrivacyPolicyClick}>Privacy Policy</Link>
+                <br /><strong>Bloom Wallet</strong>
             </Text>
+            <Text type="h5" textColor="secondary">
+                {localize('views.onboarding.appSetup.welcome.subtitle')}
+            </Text>
+        </div>
+        <Checkbox bind:checked={termsAccepted} size="lg">
+            <div slot="label" class="flex flex-col">
+                <Text type="body2" fontWeight="medium">{localize('views.onboarding.appSetup.welcome.legalBody')}</Text>
+                <div class="flex">
+                    <Link on:click={onPrivacyPolicyClick} text="Privacy Policy" textType="body2" />
+                    <Text type="body2" fontWeight="medium">&nbsp&&nbsp</Text>
+                    <Link on:click={onTermsOfServiceClick} text="Terms of Service" textType="body2" />
+                </div>
+            </div>
         </Checkbox>
+        <Button
+            on:click={onContinueClick}
+            text={localize('views.onboarding.appSetup.welcome.button')}
+            icon={IconName.ArrowNarrowRight}
+            reverse
+            width="fit"
+        />
     </div>
-</OnboardingLayout>
+    <illustration-container class="relative">
+        <Illustration illustration="portal" width="536px" height="591px" />
+        <portal-glow></portal-glow>
+    </illustration-container>
+</welcome-view>
 
 <style>
-    h1 {
-        color: #3c00a6;
-        font-size: 52px;
-        font-style: normal;
-        font-weight: 700;
-        line-height: 60px; /* 134.615% */
-        letter-spacing: -0.52px;
-    }
-    .gradient {
-        background: -webkit-linear-gradient(0deg, #c4b0ff, #a82bdc, #e65426, #feb83a);
+    :global(welcome-view h1 strong) {
+        background: linear-gradient(86deg, #c4b0ff 3.99%, #a82bdc 24.99%, #e65426 45.83%, #feb83a 69.6%);
+        background-clip: text;
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
+        font-weight: 600;
+    }
+
+    portal-glow {
+        position: absolute;
+        top: 70px;
+        right: 205px;
+        width: 90px;
+        height: 150px;
+        border-top-left-radius: 999px;
+        border-top-right-radius: 999px;
+        filter: blur(12px);
+        opacity: 0.5;
+        background-color: aqua;
+        animation: portal-glow 5s ease-in-out infinite;
+    }
+
+    @keyframes portal-glow {
+        0% {
+            transform: scale(1);
+            opacity: 0.1;
+        }
+        50% {
+            transform: scale(1.1);
+            opacity: 0.4;
+        }
+        100% {
+            transform: scale(1);
+            opacity: 0.1;
+        }
     }
 </style>
