@@ -129,7 +129,6 @@ export async function login(loginOptions?: ILoginOptions): Promise<void> {
                 void generateAndStoreEvmAddressForAccounts(type, coinType, ...loadedAccounts)
             }
         } else {
-            Platform.startLedgerProcess()
             incrementLoginProgress(1)
         }
 
