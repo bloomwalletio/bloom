@@ -6,11 +6,11 @@
     import { IConnectedDapp } from '@auxiliary/wallet-connect/interface'
     import { CallbackParameters } from '@auxiliary/wallet-connect/types'
     import { signMessage } from '@core/wallet/actions'
-    import { Alert } from '@bloomwalletio/ui'
+    import { Alert, Button, Text } from '@bloomwalletio/ui'
     import { IAccountState } from '@core/account'
     import { selectedAccount } from '@core/account/stores'
     import { IChain } from '@core/network'
-    import { AccountLabel, Button, FontWeight, Text, TextType } from '@ui'
+    import { AccountLabel } from '@ui'
     import { onMount } from 'svelte'
     import { checkActiveProfileAuth } from '@core/profile/actions'
     import { LedgerAppName } from '@core/ledger'
@@ -61,12 +61,12 @@
 </script>
 
 <div class="w-full h-full space-y-6 flex flex-auto flex-col shrink-0">
-    <Text type={TextType.h3} fontWeight={FontWeight.semibold} classes="text-left">
+    <Text type="h5" textColor="primary">
         {localize('popups.signMessage.title')}
     </Text>
     <div class="space-y-4">
         <section class="relative flex flex-col border border-solid border-gray-200 rounded-xl p-6">
-            <Text fontWeight={FontWeight.medium} color="gray-600">{localize('popups.signMessage.message')}</Text>
+            <Text color="gray-600">{localize('popups.signMessage.message')}</Text>
             <Text>{message}</Text>
             {#if dapp}
                 <div class="absolute flex flex-row justify-between" style="top: -12px; left: 18px;">
@@ -76,7 +76,7 @@
                             src={dapp.metadata?.icons?.[0]}
                             alt={dapp.metadata?.name}
                         />
-                        <Text fontSize="10" fontWeight={FontWeight.bold}>
+                        <Text type="xs">
                             {dapp.metadata?.name}
                         </Text>
                     </div>
@@ -85,7 +85,7 @@
         </section>
         <section class="flex flex-row justify-between items-center border border-solid border-gray-200 rounded-xl p-4">
             <AccountLabel {account} />
-            <Text color="gray-600" fontWeight={FontWeight.semibold}>
+            <Text color="gray-600">
                 {address}
             </Text>
         </section>
@@ -99,14 +99,13 @@
         {/if}
     </div>
     <popup-buttons class="flex flex-row flex-nowrap w-full space-x-4">
-        <Button classes="w-full" outline onClick={onCancelClick}>{localize('actions.cancel')}</Button>
+        <Button variant="outlined" width="full" on:click={onCancelClick} text={localize('actions.cancel')} />
         <Button
-            classes="w-full"
             disabled={$selectedAccount.isTransferring || isBusy}
-            isBusy={$selectedAccount.isTransferring || isBusy}
-            onClick={onConfirmClick}
-        >
-            {localize('popups.signMessage.action')}
-        </Button>
+            busy={$selectedAccount.isTransferring || isBusy}
+            on:cick={onConfirmClick}
+            width="full"
+            text={localize('popups.signMessage.action')}
+        />
     </popup-buttons>
 </div>
