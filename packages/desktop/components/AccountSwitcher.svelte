@@ -1,13 +1,13 @@
 <script lang="ts">
-    import { Icon, IconName, IMenuItem, Indicator, Menu, Text } from '@bloomwalletio/ui'
-    import { formatCurrency, localize } from '@core/i18n'
-    import { openPopup, PopupId } from '@desktop/auxiliary/popup'
-    import { selectedAccountTokens } from '@core/token/stores'
-    import { activeProfile, visibleActiveAccounts } from '@core/profile/stores'
-    import { setSelectedAccount } from '@core/account/actions'
+    import { Icon, IconName, IMenuItem, Indicator, Menu, Text, Breadcrumb } from '@bloomwalletio/ui'
     import { IAccountState } from '@core/account'
-    import { getMarketAmountFromTokenValue } from '@core/market/actions'
+    import { setSelectedAccount } from '@core/account/actions'
     import { selectedAccount } from '@core/account/stores'
+    import { formatCurrency, localize } from '@core/i18n'
+    import { getMarketAmountFromTokenValue } from '@core/market/actions'
+    import { activeProfile, visibleActiveAccounts } from '@core/profile/stores'
+    import { selectedAccountTokens } from '@core/token/stores'
+    import { openPopup, PopupId } from '@desktop/auxiliary/popup'
 
     export let navbar: boolean = false
 
@@ -47,21 +47,19 @@
     {...!navbar && { button: { text: localize('general.newAccount'), onClick: onCreateAccountClick } }}
     placement="bottom-start"
 >
-    <button
-        slot="anchor"
-        type="button"
-        class="flex flex-row justify-center items-center space-x-2 px-1 rounded cursor-pointer"
-    >
-        {#if navbar}
-            <Indicator color={$selectedAccount?.color} size="sm" />
-        {/if}
-        <Text type={navbar ? 'base' : 'body1'}>
-            {$selectedAccount?.name}
-        </Text>
-        {#if !navbar}
-            <Icon name={IconName.ChevronSelectorVertical} size="sm" textColor="secondary" />
-        {/if}
-    </button>
+    <Breadcrumb slot="anchor" tooltip={navbar ? localize('actions.switchAccount') : undefined}>
+        <div class="flex flex-row justify-center items-center space-x-2">
+            {#if navbar}
+                <Indicator color={$selectedAccount?.color} size="sm" />
+            {/if}
+            <Text type={navbar ? 'base' : 'body1'}>
+                {$selectedAccount?.name}
+            </Text>
+            {#if !navbar}
+                <Icon name={IconName.ChevronSelectorVertical} size="sm" textColor="secondary" />
+            {/if}
+        </div>
+    </Breadcrumb>
 </Menu>
 
 <style lang="scss">
