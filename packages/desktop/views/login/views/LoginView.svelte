@@ -123,7 +123,6 @@
         <div class="flex h-full items-center">
             <Button
                 variant="text"
-                size="lg"
                 icon={IconName.ArrowLeft}
                 disabled={hasReachedMaxAttempts}
                 on:click={onBackClick}

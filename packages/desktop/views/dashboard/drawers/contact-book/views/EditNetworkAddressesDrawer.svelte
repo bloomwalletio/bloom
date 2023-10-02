@@ -204,8 +204,8 @@
                     />
                 {/if}
                 <Button
-                    variant="outline"
-                    color="red"
+                    variant="outlined"
+                    color="danger"
                     text={localize('actions.remove')}
                     size="sm"
                     width="full"
