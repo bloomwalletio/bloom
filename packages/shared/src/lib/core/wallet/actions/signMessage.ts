@@ -1,7 +1,6 @@
 import { IAccountState } from '@core/account'
 import { updateSelectedAccount } from '@core/account/stores'
 import { handleError } from '@core/error/handlers'
-import { EvmChainId } from '@core/network/enums'
 import { isActiveLedgerProfile, isSoftwareProfile } from '@core/profile/stores'
 import { get } from 'svelte/store'
 import { closePopup } from '../../../../../../desktop/lib/auxiliary/popup'
@@ -9,8 +8,8 @@ import { signMessageWithStronghold } from '@core/stronghold/utils'
 
 export async function signMessage(
     message: string,
-    chainId: EvmChainId,
     coinType: number,
+    method: 'eth_sign' | 'personal_sign',
     account: IAccountState
 ): Promise<string | undefined> {
     try {
@@ -24,7 +23,7 @@ export async function signMessage(
         }
         let signedMessage: string | undefined
         if (get(isSoftwareProfile)) {
-            signedMessage = await signMessageWithStronghold(message, 'eth_sign', bip44Path, account)
+            signedMessage = await signMessageWithStronghold(message, method, bip44Path)
             // } else if (get(isActiveLedgerProfile)) {
             //     signedMessage = await Ledger.signEvmTransaction(txData, chainId, bip44Path)
         }

@@ -18,6 +18,7 @@
     export let account: IAccountState
     export let chain: IChain
     export let dapp: IConnectedDapp | undefined
+    export let method: 'eth_sign' | 'personal_sign' = 'personal_sign'
     export let callback: (params: CallbackParameters) => void
 
     $: address = truncateString(account.evmAddresses[chain.getConfiguration().coinType] ?? '', 8, 8)
@@ -37,8 +38,8 @@
     }
 
     async function sign(): Promise<string> {
-        const { chainId, coinType } = chain.getConfiguration()
-        const signedMessage = await signMessage(message, chainId, coinType, account)
+        const { coinType } = chain.getConfiguration()
+        const signedMessage = await signMessage(message, coinType, method, account)
 
         return signedMessage
     }

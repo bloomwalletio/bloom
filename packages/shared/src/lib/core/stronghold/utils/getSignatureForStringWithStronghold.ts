@@ -1,7 +1,7 @@
 import { EvmChainId } from '@core/network/enums'
 import { getActiveProfile } from '@core/profile/stores'
 import { ECDSASignature, fromRpcSig } from '@ethereumjs/util'
-import type { Bip44 } from '@iota/wallet/types'
+import type { Bip44 } from '@iota/sdk/out/types'
 import { api } from '@core/profile-manager'
 
 export async function getSignatureForStringWithStronghold(
