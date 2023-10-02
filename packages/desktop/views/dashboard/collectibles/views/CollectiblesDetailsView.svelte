@@ -191,7 +191,7 @@
                     text={localize('general.viewOnExplorer')}
                     on:click={onExplorerClick}
                     disabled={!explorerUrl}
-                    variant="outline"
+                    variant="outlined"
                     width="half"
                 />
                 <Button
@@ -202,7 +202,6 @@
                     on:click={onSendClick}
                     disabled={!!timeDiff}
                     width="half"
-                    size="lg"
                     reverse
                 />
             </buttons-container>
