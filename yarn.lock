@@ -17,7 +17,7 @@
   resolved "https://registry.yarnpkg.com/@alloc/quick-lru/-/quick-lru-5.2.0.tgz#7bf68b20c0a350f936915fcae06f58e32007ce30"
   integrity sha512-UrcABB+4bUrFABwbluTIBErXwvbsU/V7TZWfmbgJfbkwiBuziS9gxdODUyuiecfdGQ85jglMW6juS3+z5TsKLw==
 
-"@amplitude/analytics-core@^1.2.1":
+"@amplitude/analytics-core@^1.2.3":
   version "1.2.3"
   resolved "https://registry.yarnpkg.com/@amplitude/analytics-core/-/analytics-core-1.2.3.tgz#ab7adbb07a18190d5cfad992962a430679575c98"
   integrity sha512-3WADE8IcxU7ZERMkBb0+JP7t6EekyFPM0djtNKXQaxgGgH3oqQzMmBCg19UnYYiBSHrZkpiMBLHNAvXL6HM7zg==
@@ -25,16 +25,16 @@
     "@amplitude/analytics-types" "^1.3.3"
     tslib "^2.4.1"
 
-"@amplitude/analytics-node@1.3.1":
-  version "1.3.1"
-  resolved "https://registry.yarnpkg.com/@amplitude/analytics-node/-/analytics-node-1.3.1.tgz#ed7ce8ef2f2b59e47ad2608079f268ef4d44547c"
-  integrity sha512-r65fCDWjXGjJs1iEyNjRDdxfBXxneLyUN2LVtL/MMKNsMOpN/JKOllK4iO1SgRA+K3aHqBycmKLvV6ZqY3f1Pg==
+"@amplitude/analytics-node@1.3.3":
+  version "1.3.3"
+  resolved "https://registry.yarnpkg.com/@amplitude/analytics-node/-/analytics-node-1.3.3.tgz#cc91f3512caedd8d5f1d14f1a2bbe1541adb743c"
+  integrity sha512-G+5EoGcVOOclcNRR57AQcGqg46xNXjG6tsSdF71+Npzc6zTfvDzKDY97ZULBju9TT/FXvhP8LnppAI8umT6qkQ==
   dependencies:
-    "@amplitude/analytics-core" "^1.2.1"
-    "@amplitude/analytics-types" "^1.3.1"
+    "@amplitude/analytics-core" "^1.2.3"
+    "@amplitude/analytics-types" "^1.3.3"
     tslib "^2.4.1"
 
-"@amplitude/analytics-types@^1.3.1", "@amplitude/analytics-types@^1.3.3":
+"@amplitude/analytics-types@^1.3.3":
   version "1.3.3"
   resolved "https://registry.yarnpkg.com/@amplitude/analytics-types/-/analytics-types-1.3.3.tgz#c7b2a21e6ab0eb1670cce4d03127b62c373c6ed4"
   integrity sha512-V4/h+izhG7NyVfIva1uhe6bToI/l5n+UnEomL3KEO9DkFoKiOG7KmXo/fmzfU6UmD1bUEWmy//hUFF16BfrEww==
@@ -343,10 +343,10 @@
   resolved "https://registry.yarnpkg.com/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
-"@bloomwalletio/ui@0.14.2":
-  version "0.14.2"
-  resolved "https://npm.pkg.github.com/download/@bloomwalletio/ui/0.14.2/9c1d8f8fff621c81a2306a18702502e402b450ec#9c1d8f8fff621c81a2306a18702502e402b450ec"
-  integrity sha512-qYplnNfn/vgwSD950VjAqBJzgDW47fgpI9lvKRQl5VrHuV2bJ7JeiCz6bxHJH7tYyEZiCQ/AKzJePEK6qV6DEQ==
+"@bloomwalletio/ui@0.15.4":
+  version "0.15.4"
+  resolved "https://npm.pkg.github.com/download/@bloomwalletio/ui/0.15.4/70cd55b34cfd80761628e397a8375751e8593357#70cd55b34cfd80761628e397a8375751e8593357"
+  integrity sha512-WBAY9frI4xwmDowRKv1nYPttT09+4BD+zy/FadxRyVTg4eBUYgDt4pJPPrjaqFY/Q0mjsS1cf6Qoi0jFCLRx7A==
   dependencies:
     "@floating-ui/dom" "1.4.3"
     "@popperjs/core" "2.11.8"

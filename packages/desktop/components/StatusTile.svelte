@@ -38,7 +38,7 @@
             </div>
         </div>
         {#if onClick}
-            <Toggle {onClick} label="status" {checked} size="sm" border="rounded-full" />
+            <Toggle {onClick} {checked} label="status" />
         {/if}
     </status-tile>
 </Tile>
