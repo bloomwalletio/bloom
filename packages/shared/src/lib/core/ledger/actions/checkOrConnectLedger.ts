@@ -1,7 +1,7 @@
 import { openPopup, PopupId, popupState } from '../../../../../../desktop/lib/auxiliary/popup'
 import { get } from 'svelte/store'
 import { handleError } from '@core/error/handlers/handleError'
-import { determineLedgerConnectionState, LedgerAppName, LedgerConnectionState, ledgerDeviceState } from '..'
+import { LedgerAppName, LedgerConnectionState, ledgerConnectionState } from '..'
 
 export function checkOrConnectLedger(
     callback: () => Promise<unknown> = async (): Promise<void> => {},
@@ -19,8 +19,7 @@ export function checkOrConnectLedger(
         }
     }
     try {
-        const ledgerConnectionState = determineLedgerConnectionState(get(ledgerDeviceState))
-        const ledgerConnected = ledgerConnectionState === (ledgerAppName as unknown as LedgerConnectionState)
+        const ledgerConnected = get(ledgerConnectionState) === (ledgerAppName as unknown as LedgerConnectionState)
         if (ledgerConnected) {
             return callback()
         } else {
