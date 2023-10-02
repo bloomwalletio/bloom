@@ -1,21 +1,28 @@
+import { TxData } from '@ethereumjs/tx'
+import { IAccountState } from '@core/account'
 import { prepareEvmTransaction } from '@core/layer-2/utils'
 import { EvmChainId, getEvmTransactionOptions } from '@core/network'
-import { HEX_PREFIX } from '@core/utils'
 import { removeLeadingZeros } from '@core/utils/buffer'
+import { Transaction } from '@ethereumjs/tx'
 import { ECDSASignature } from '@ethereumjs/util'
 import type { Bip44 } from '@iota/wallet/types'
 import { getSignatureForStringWithStronghold } from './getSignatureForStringWithStronghold'
-import { Transaction, TxData } from '@ethereumjs/tx'
 
 export async function signEvmTransactionWithStronghold(
     txData: TxData,
     bip44Path: Bip44,
-    chainId: EvmChainId
+    chainId: EvmChainId,
+    account: IAccountState
 ): Promise<string> {
-    const unsignedTransactionMessageHex = HEX_PREFIX + prepareEvmTransaction(txData, chainId)
+    const unsignedTransactionMessageHex = '0x' + prepareEvmTransaction(txData, chainId)
     const transaction = Transaction.fromTxData(txData, getEvmTransactionOptions(chainId))
 
-    const signature = await getSignatureForStringWithStronghold(unsignedTransactionMessageHex, bip44Path, chainId)
+    const signature = await getSignatureForStringWithStronghold(
+        unsignedTransactionMessageHex,
+        bip44Path,
+        account,
+        chainId
+    )
     const signedTransaction = createSignedTransaction(transaction, signature, chainId)
     return getHexEncodedTransaction(signedTransaction)
 }
@@ -38,7 +45,7 @@ function createSignedTransaction(
 
 function getHexEncodedTransaction(transaction: Transaction): string {
     const serializedTransaction = transaction.serialize()
-    const hexEncodedTransaction = HEX_PREFIX + serializedTransaction.toString('hex')
+    const hexEncodedTransaction = '0x' + serializedTransaction.toString('hex')
     return hexEncodedTransaction
 }
 

@@ -1,14 +1,15 @@
 <script lang="ts">
+    import { localize } from '@core/i18n'
+    import { closePopup } from '@desktop/auxiliary/popup'
+    import { handleError } from '@core/error/handlers'
+    import { truncateString } from '@core/utils'
     import { IConnectedDapp } from '@auxiliary/wallet-connect/interface'
     import { CallbackParameters } from '@auxiliary/wallet-connect/types'
+    import { signMessage } from '@core/wallet/actions'
     import { Alert } from '@bloomwalletio/ui'
     import { IAccountState } from '@core/account'
     import { selectedAccount } from '@core/account/stores'
-    import { handleError } from '@core/error/handlers'
-    import { localize } from '@core/i18n'
     import { IChain } from '@core/network'
-    import { sleep, truncateString } from '@core/utils'
-    import { closePopup } from '@desktop/auxiliary/popup'
     import { AccountLabel, Button, FontWeight, Text, TextType } from '@ui'
     import { onMount } from 'svelte'
 
@@ -36,9 +37,10 @@
     }
 
     async function sign(): Promise<string> {
-        // TODO: Replace this with the correct signing implementation
-        await sleep(500)
-        return '0x3123'
+        const { chainId, coinType } = chain.getConfiguration()
+        const signedMessage = await signMessage(message, chainId, coinType, account)
+
+        return signedMessage
     }
 
     function onCancelClick(): void {
