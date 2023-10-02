@@ -36,7 +36,7 @@
         />
     </remove-addresses>
     <div slot="footer" class="flex gap-4">
-        <Button variant="outline" text={localize('actions.cancel')} width="half" on:click={onCancelClick} />
-        <Button color="yellow" text={localize('actions.remove')} width="half" on:click={onRemoveClick} />
+        <Button variant="outlined" text={localize('actions.cancel')} width="half" on:click={onCancelClick} />
+        <Button color="warning" text={localize('actions.remove')} width="half" on:click={onRemoveClick} />
     </div>
 </DrawerTemplate>

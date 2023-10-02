@@ -5,7 +5,7 @@
     import { getActivityTileTitle, getSubjectLocaleFromActivity } from '@core/activity/utils'
     import { localize } from '@core/i18n'
     import { getNftByIdFromAllAccountNfts } from '@core/nfts/actions'
-    import { ActivityTileContent, NftImageOrIconBox } from '@ui'
+    import { ActivityTileContent, NftAvatar } from '@ui'
 
     export let activity: NftActivity
 
@@ -26,5 +26,5 @@
 </script>
 
 <ActivityTileContent {action} {subject} {formattedAsset}>
-    <NftImageOrIconBox slot="icon" {nft} size="md" />
+    <NftAvatar slot="icon" {nft} size="md" shape="square" />
 </ActivityTileContent>
