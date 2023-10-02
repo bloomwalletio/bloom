@@ -78,26 +78,28 @@
     }
 </script>
 
-<Menu
-    bind:this={menu}
-    items={[
-        {
-            icon: isCurrentPfp ? IconName.ImageUserX : IconName.ImageUserCheck,
-            title: localize(`views.collectibles.details.menu.${isCurrentPfp ? 'unsetPfp' : 'setPfp'}`),
-            onClick: onSetPfpClick,
-        },
-        {
-            icon: IconName.LinkExternal,
-            title: localize('views.collectibles.details.menu.view'),
-            disabled: !url,
-            onClick: onOpenMediaClick,
-        },
-        {
-            icon: IconName.Trash,
-            title: localize('views.collectibles.details.menu.burn'),
-            variant: 'danger',
-            disabled: isLocked,
-            onClick: openBurnNft,
-        },
-    ]}
-/>
+<collectible-details-menu>
+    <Menu
+        bind:this={menu}
+        items={[
+            {
+                icon: isCurrentPfp ? IconName.ImageUserX : IconName.ImageUserCheck,
+                title: localize(`views.collectibles.details.menu.${isCurrentPfp ? 'unsetPfp' : 'setPfp'}`),
+                onClick: onSetPfpClick,
+            },
+            {
+                icon: IconName.LinkExternal,
+                title: localize('views.collectibles.details.menu.view'),
+                disabled: !url,
+                onClick: onOpenMediaClick,
+            },
+            {
+                icon: IconName.Trash,
+                title: localize('views.collectibles.details.menu.burn'),
+                variant: 'danger',
+                disabled: isLocked,
+                onClick: openBurnNft,
+            },
+        ]}
+    />
+</collectible-details-menu>

@@ -2,7 +2,7 @@ import { get } from 'svelte/store'
 import { closeDrawer, openDrawer } from '.'
 import { DrawerDirection, DrawerRoute } from '../enums'
 import { drawerState } from '../stores'
-import { DrawerState } from '@desktop/auxiliary/drawer/types'
+import { DrawerState } from '../types'
 
 export function toggleDashboardDrawer({
     id,
