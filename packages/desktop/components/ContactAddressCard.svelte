@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { Button, Copyable } from '@bloomwalletio/ui'
+    import { Copyable, IconButton, IconName } from '@bloomwalletio/ui'
     import { IContact, IContactAddressMap } from '@core/contact'
     import { localize } from '@core/i18n'
     import { resetLedgerPreparedOutput, resetShowInternalVerificationPopup } from '@core/ledger'
@@ -60,9 +60,9 @@
                 </Copyable>
             </div>
             {#if features.contacts.sendTo.enabled}
-                <Button
-                    size="sm"
-                    text={localize('actions.send')}
+                <IconButton
+                    icon={IconName.Send}
+                    tooltip={localize('actions.send')}
                     on:click={() => onSendClick(contactAddress.address)}
                 />
             {/if}

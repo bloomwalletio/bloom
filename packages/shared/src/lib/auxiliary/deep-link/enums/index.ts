@@ -1,4 +1,5 @@
 export * from './deep-link-context.enum'
+export * from './dapps-operation.enum'
 export * from './governance-operation.enum'
 export * from './add-proposal-parameter.enum'
 export * from './send-operation-parameter.enum'
