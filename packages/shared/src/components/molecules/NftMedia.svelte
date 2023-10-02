@@ -14,9 +14,7 @@
     export let muted: boolean = false
     export let classes: string = ''
     export let useCaching: boolean = true
-
-    const bgColor = 'gray-200'
-    const darkBgColor = 'gray-700'
+    export let smallIcon = false
 
     let hasMounted: boolean = false
     let basePath: string
@@ -37,7 +35,7 @@
     })
 </script>
 
-{#if hasMounted && nft && nft.composedUrl && nft.parsedMetadata && (!useCaching || nft.downloadMetadata?.isLoaded)}
+{#if hasMounted && nft && nft.composedUrl && true && (!useCaching || nft.downloadMetadata?.isLoaded)}
     <MediaDisplay
         {src}
         expectedType={nft.parsedMetadata.type}
@@ -51,6 +49,6 @@
     />
 {:else}
     <slot name="placeholder">
-        <MediaPlaceholder type={nft?.parsedMetadata?.type} {bgColor} {darkBgColor} {isDownloading} />
+        <MediaPlaceholder type={nft?.parsedMetadata?.type} {isDownloading} {smallIcon} />
     </slot>
 {/if}
