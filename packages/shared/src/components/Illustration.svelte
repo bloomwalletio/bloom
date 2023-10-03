@@ -80,6 +80,12 @@
             lightmode: 'wallet/empty-collectibles.svg',
             darkmode: 'wallet/empty-collectibles-darkmode.svg',
         },
+
+        // Bloom
+        portal: {
+            lightmode: 'onboarding/portal.png',
+            darkmode: 'onboarding/portal.png',
+        },
     }
 </script>
 
