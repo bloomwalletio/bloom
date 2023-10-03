@@ -3,8 +3,7 @@
     import { DrawerTemplate, NetworkCard } from '@components'
     import { localize } from '@core/i18n'
     import { IChain, clearSelectedChain, network, networkStatus, setSelectedChain } from '@core/network'
-    import { Router, SettingsRoute, routerManager, settingsRouter } from '@core/router'
-    import { closeDrawer } from '@desktop/auxiliary/drawer'
+    import { Router } from '@core/router'
     import networkFeatures from '@features/network.features'
     import { Icon } from '@ui'
     import { onMount } from 'svelte'
@@ -13,9 +12,7 @@
     export let drawerRouter: Router<NetworkConfigRoute>
 
     function onL1NetworkCardClick(): void {
-        closeDrawer()
-        $routerManager.openSettings()
-        $settingsRouter.goTo(SettingsRoute.Network)
+        $networkConfigRouter.goTo(NetworkConfigRoute.NetworkSettings)
     }
 
     function onL2NetworkCardClick(chain: IChain): void {

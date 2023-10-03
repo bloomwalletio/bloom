@@ -82,7 +82,9 @@
                     title: localize('popups.excludeNode.title'),
                     description: localize('popups.excludeNode.body', { values: { url: node?.url } }),
                     danger: true,
-                    confirmText: localize('views.settings.configureNodeList.excludeNode'),
+                    confirmText: localize(
+                        'views.dashboard.drawers.networkConfig.networkSettings.configureNodeList.excludeNode'
+                    ),
                     onConfirm: () => {
                         void toggleDisabledNodeInClientOptions(node)
                         closePopup()
@@ -94,33 +96,43 @@
     }
 </script>
 
-<Menu
-    bind:this={menu}
-    items={[
-        {
-            icon: IconName.Edit,
-            title: localize('views.settings.configureNodeList.editDetails'),
-            disabled: isOfficialNode,
-            onClick: onEditNodeDetailsClick,
-        },
-        {
-            icon: isPrimary ? IconName.BookmarkX : IconName.BookmarkCheck,
-            title: localize(`views.settings.configureNodeList.${isPrimary ? 'unsetAsPrimary' : 'setAsPrimary'}`),
-            disabled: node?.disabled,
-            onClick: onTogglePrimaryNodeClick,
-        },
-        {
-            icon: node.disabled ? IconName.PlayCircle : IconName.PauseCircle,
-            title: localize(`views.settings.configureNodeList.${node.disabled ? 'include' : 'exclude'}Node`),
-            disabled: !allowDisableOrRemove,
-            onClick: onToggleDisabledNodeClick,
-        },
-        {
-            icon: IconName.Trash,
-            title: localize('views.settings.configureNodeList.removeNode'),
-            variant: 'danger',
-            disabled: !allowDisableOrRemove,
-            onClick: onRemoveNodeClick,
-        },
-    ]}
-/>
+<node-actions-menu>
+    <Menu
+        bind:this={menu}
+        items={[
+            {
+                icon: IconName.Edit,
+                title: localize('views.dashboard.drawers.networkConfig.networkSettings.configureNodeList.editDetails'),
+                disabled: isOfficialNode,
+                onClick: onEditNodeDetailsClick,
+            },
+            {
+                icon: isPrimary ? IconName.BookmarkX : IconName.BookmarkCheck,
+                title: localize(
+                    `views.dashboard.drawers.networkConfig.networkSettings.configureNodeList.${
+                        isPrimary ? 'unsetAsPrimary' : 'setAsPrimary'
+                    }`
+                ),
+                disabled: node?.disabled,
+                onClick: onTogglePrimaryNodeClick,
+            },
+            {
+                icon: node.disabled ? IconName.PlayCircle : IconName.PauseCircle,
+                title: localize(
+                    `views.dashboard.drawers.networkConfig.networkSettings.configureNodeList.${
+                        node.disabled ? 'include' : 'exclude'
+                    }Node`
+                ),
+                disabled: !allowDisableOrRemove,
+                onClick: onToggleDisabledNodeClick,
+            },
+            {
+                icon: IconName.Trash,
+                title: localize('views.dashboard.drawers.networkConfig.networkSettings.configureNodeList.removeNode'),
+                variant: 'danger',
+                disabled: !allowDisableOrRemove,
+                onClick: onRemoveNodeClick,
+            },
+        ]}
+    />
+</node-actions-menu>
