@@ -1,13 +1,16 @@
 import { WriteStream } from '@iota/util.js'
 import { Converter } from '@core/utils'
-import { EXTERNALLY_OWNED_ACCOUNT_TYPE_ID } from '../constants'
+import { IChain } from '@core/network'
+import { evmAddressToAgentId } from './evmAddressToAgentId'
 
-export function encodeAddress(address: string): string {
-    const encodedAddress = new WriteStream()
-    encodedAddress.writeUInt8('Address Type ID', EXTERNALLY_OWNED_ACCOUNT_TYPE_ID)
+export function encodeAddress(address: string, chain: IChain): Uint8Array {
+    const addressStream = new WriteStream()
     const addressBytes = Converter.hexToBytes(address)
     for (const byte of addressBytes) {
-        encodedAddress.writeUInt8('Address byte', byte)
+        addressStream.writeUInt8('Address byte', byte)
     }
-    return encodedAddress.finalHex()
+    const hexAddress = addressStream.finalHex()
+
+    const encodedAddress = evmAddressToAgentId(hexAddress, chain)
+    return encodedAddress
 }
