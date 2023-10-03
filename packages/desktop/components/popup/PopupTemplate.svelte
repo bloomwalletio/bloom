@@ -33,7 +33,7 @@
     $: _backButton = { ...DEFAULT_BACK_BUTTON, ...backButton }
 </script>
 
-<popup-template class="flex flex-col space-y-6 p-6">
+<popup-template class="flex flex-col space-y-6">
     <content-title class="h-full flex flex-col space-y-2.5">
         {#if title}<Text type="h6">{title}</Text>{/if}
         {#if description}<Text type="body2" textColor="secondary">{description}</Text>{/if}

@@ -185,38 +185,38 @@
 
 <svelte:window on:keydown={onKey} />
 
-<popup
+<overlay
     in:fade={{ duration: transition ? 100 : 0 }}
-    class={`flex items-center justify-center fixed ${IS_WINDOWS ? 'top-7' : 'top-0'} left-0 w-screen p-6 ${
-        overflow ? '' : 'overflow-hidden'
-    }
-                h-full z-30 ${
-                    fullScreen
-                        ? 'bg-white dark:bg-gray-900'
-                        : 'bg-gray-800 bg-opacity-70 dark:bg-black dark:bg-opacity-50'
-                }`}
+    class:overflow-hidden={overflow}
+    class="flex items-center justify-center fixed {IS_WINDOWS
+        ? 'top-7'
+        : 'top-0'} left-0 w-screen h-full z-30 bg-neutral-6/75"
 >
     <button type="button" tabindex="0" on:focus={onFocusFirst} />
-    <popup-content
+    <popup
         use:clickOutside
         on:clickOutside={tryClosePopup}
         bind:this={popupContent}
-        class={`${size} bg-white rounded-xl ${
-            fullScreen ? 'full-screen dark:bg-gray-900' : 'dark:bg-gray-800 shadow-elevation-4'
-        } ${overflow ? 'overflow' : ''} ${relative ? 'relative' : ''}`}
+        class:overflow
+        class:relative
+        class={size}
     >
         {#if !hideClose}
             <CloseButton on:click={tryClosePopup} size="sm" class="absolute top-6 right-6" />
         {/if}
         <svelte:component this={POPUP_MAP[id]} {...props} />
-    </popup-content>
+    </popup>
     <button type="button" tabindex="0" on:focus={onFocusLast} />
-</popup>
+</overlay>
 
 <style lang="scss">
-    popup {
-        popup-content {
-            width: 100%;
+    overlay {
+        popup {
+            @apply w-full p-6 rounded-3xl;
+            @apply bg-surface dark:bg-surface-dark;
+            @apply border border-solid border-stroke dark:border-stroke-dark;
+            @apply shadow-elevation-4;
+
             &.small {
                 max-width: 360px;
             }
