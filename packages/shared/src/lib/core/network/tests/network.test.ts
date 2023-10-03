@@ -21,7 +21,7 @@ describe('File: network.ts', () => {
     }
 
     const EXPECTED_NODE_URLS: Readonly<{ [key in NetworkId]?: string[] }> = {
-        [SupportedNetworkId.Shimmer]: ['https://api.shimmer.network'],
+        [SupportedNetworkId.Shimmer]: ['https://api.shimmer.network', 'https://shimmer-node.tanglebay.com'],
         [SupportedNetworkId.Testnet]: ['https://api.testnet.shimmer.network'],
     }
 

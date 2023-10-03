@@ -3,7 +3,6 @@ import {
     CollectiblesSettingsRoute,
     GeneralSettingsRoute,
     HelpAndInfoRoute,
-    NetworkSettingsRoute,
     ProfileSettingsRoute,
     SecuritySettingsRoute,
 } from '@core/router'
@@ -22,9 +21,6 @@ export const SETTINGS_ICON_SVG = {
     [CollectiblesSettingsRoute.MaxMediaSize]: Icon.File,
     [CollectiblesSettingsRoute.MaxMediaDownloadTime]: Icon.Timer,
     [CollectiblesSettingsRoute.RefreshNftMedia]: Icon.Refresh,
-    [NetworkSettingsRoute.NetworkInformation]: Icon.Wifi,
-    [NetworkSettingsRoute.ConfigureNodeList]: Icon.Customize,
-    [NetworkSettingsRoute.LocalProofOfWork]: Icon.Chip,
     [SecuritySettingsRoute.ExportStronghold]: Icon.Export,
     [SecuritySettingsRoute.StrongholdPasswordTimeout]: Icon.Timelock,
     [SecuritySettingsRoute.AppLock]: Icon.Logout,
