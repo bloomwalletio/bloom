@@ -17,8 +17,6 @@
     import { profiles } from '@core/profile/stores'
     import features from '@features/features'
     import { OnboardingLayout } from '@views/components'
-    import { Logo } from '@ui'
-    import { LogoName } from '@auxiliary/logo/enums'
     import { onMount } from 'svelte'
     import { OnboardingSelectorTile } from '../../../components'
     import { networkSetupRouter } from '../network-setup-router'
@@ -66,9 +64,6 @@
     })
 </script>
 
-<logo-container class="block absolute mt-8 ml-8">
-    <Logo width="150" logo={LogoName.BloomLogoFull} />
-</logo-container>
 <OnboardingLayout
     title={localize('views.onboarding.networkSetup.chooseNetwork.title')}
     description={localize('views.onboarding.networkSetup.chooseNetwork.body')}

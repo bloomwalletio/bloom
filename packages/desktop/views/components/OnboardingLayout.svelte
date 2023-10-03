@@ -1,7 +1,10 @@
 <script lang="ts">
     import { Button, IconName, Text } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
+    import { Logo } from '@ui'
+    import { LogoName } from '@auxiliary/logo/enums'
     import LoggedOutLayout from './LoggedOutLayout.svelte'
+    import BgGradient from './BgGradient.svelte'
 
     interface IButtonProps {
         text: string
@@ -37,8 +40,13 @@
 
 <LoggedOutLayout>
     <div slot="header" class="header flex-none">
+        <BgGradient />
         <div class="flex h-full items-center">
-            {#if !_backButton.hidden}
+            {#if _backButton.hidden}
+                <logo-container class="block absolute mt-8 ml-8">
+                    <Logo width="150" logo={LogoName.BloomLogoFull} />
+                </logo-container>
+            {:else}
                 <Button
                     variant="text"
                     icon={IconName.ArrowLeft}
@@ -51,7 +59,7 @@
     </div>
     <content
         slot="content"
-        class="{size} flex flex-col space-y-6 p-6 rounded-xl bg-white dark:bg-gray-800 shadow-elevation-4"
+        class="{size} flex flex-col space-y-6 p-6 rounded-xl bg-white dark:bg-gray-800 shadow-elevation-4 z-10"
     >
         <content-title class="h-full flex flex-col space-y-2.5">
             {#if title}<Text type="h5" textColor="brand">{title}</Text>{/if}
