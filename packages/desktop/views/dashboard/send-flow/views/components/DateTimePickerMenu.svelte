@@ -50,7 +50,7 @@
 
     function onChooseTimeClick(_selected: TimePeriod): void {
         if (_selected === TimePeriod.Custom) {
-            popover?.open()
+            popover?.show()
         } else {
             customDate = undefined
         }
@@ -65,13 +65,13 @@
             selected = previouslySelected
             setDate()
         }
-        popover?.close()
+        popover?.hide()
     }
 
     function onConfirmClick(): void {
         if (isFutureDateTime(customDate)) {
             value = customDate
-            popover?.close()
+            popover?.hide()
         } else {
             showNotification({
                 variant: 'warning',
