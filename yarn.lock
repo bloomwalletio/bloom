@@ -343,13 +343,14 @@
   resolved "https://registry.yarnpkg.com/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
-"@bloomwalletio/ui@0.15.4":
-  version "0.15.4"
-  resolved "https://npm.pkg.github.com/download/@bloomwalletio/ui/0.15.4/70cd55b34cfd80761628e397a8375751e8593357#70cd55b34cfd80761628e397a8375751e8593357"
-  integrity sha512-WBAY9frI4xwmDowRKv1nYPttT09+4BD+zy/FadxRyVTg4eBUYgDt4pJPPrjaqFY/Q0mjsS1cf6Qoi0jFCLRx7A==
+"@bloomwalletio/ui@0.16.6":
+  version "0.16.6"
+  resolved "https://npm.pkg.github.com/download/@bloomwalletio/ui/0.16.6/a05a21527f5a119e18ff8ef67958a0c3c88e3f95#a05a21527f5a119e18ff8ef67958a0c3c88e3f95"
+  integrity sha512-OT9u1I/a0vrfnu5YvHxP/td4RG65mgxseXUd4CzwHuaBZ0kv8s5RoEg+rCno/1l3oRo1J603SCqQyjLB3dCugg==
   dependencies:
     "@floating-ui/dom" "1.4.3"
     "@popperjs/core" "2.11.8"
+    qrious "4.0.2"
     svelte-json-tree "2.1.0"
     svelty-picker "4.1.4"
     tailwind-merge "1.13.2"
