@@ -1,11 +1,10 @@
 import { EXTERNALLY_OWNED_ACCOUNT_TYPE_ID } from '@core/layer-2/constants'
-import { ChainType, IChain, SupportedNetworkId } from '@core/network'
+import { ChainConfiguration, ChainType, SupportedNetworkId } from '@core/network'
 import { api } from '@core/profile-manager'
 import { Converter } from '@iota/util.js'
 
-export function evmAddressToAgentId(evmStoreAccount: string, chain: IChain): Uint8Array {
-    const chainConfiguration = chain.getConfiguration()
-    const chainAliasAddress = chainConfiguration.type === ChainType.Iscp ? chainConfiguration.aliasAddress : ''
+export function evmAddressToAgentId(evmStoreAccount: string, chainConfig: ChainConfiguration): Uint8Array {
+    const chainAliasAddress = chainConfig.type === ChainType.Iscp ? chainConfig.aliasAddress : ''
 
     // This function constructs an AgentID that is required to be used with contracts
     // Wasp understands different AgentID types and each AgentID needs to provide a certain ID that describes it's address type.
@@ -18,7 +17,7 @@ export function evmAddressToAgentId(evmStoreAccount: string, chain: IChain): Uin
     const receiverAddrBinary = Converter.hexToBytes(evmStoreAccount?.toLowerCase())
 
     // Keep the branch with chainAliasAddressBinary once IF updates the encoding for the EVM testnet
-    if (chainConfiguration.id === SupportedNetworkId.ShimmerEvmTestnet) {
+    if (chainConfig.id === SupportedNetworkId.ShimmerEvmTestnet) {
         return new Uint8Array([agentIDKindEthereumAddress, ...receiverAddrBinary])
     } else {
         const chainAliasAddressBinary = Converter.hexToBytes(api.bech32ToHex(chainAliasAddress))
