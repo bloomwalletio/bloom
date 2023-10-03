@@ -36,7 +36,7 @@
                 iconName = IconName.Hardware
                 iconColor = 'success'
                 break
-            case LedgerConnectionState.NotConnected:
+            case LedgerConnectionState.Disconnected:
             default:
                 subtitle = localize('general.disconnected')
                 iconName = IconName.ZapOff

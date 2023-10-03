@@ -1,12 +1,7 @@
 <script lang="ts">
     import { Alert } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
-    import {
-        LedgerAppName,
-        LedgerConnectionState,
-        determineLedgerConnectionState,
-        ledgerDeviceState,
-    } from '@core/ledger'
+    import { LedgerAppName, LedgerConnectionState, ledgerConnectionState } from '@core/ledger'
     import { isFunction } from '@core/utils'
     import { closePopup } from '@desktop/auxiliary/popup'
     import { Button, FontWeight, LedgerAnimation, Text, TextType } from '@ui'
@@ -15,25 +10,22 @@
     export let onCancel: () => void
     export let onContinue: () => void
 
-    $: ledgerConnectionState = determineLedgerConnectionState($ledgerDeviceState)
-
-    $: isNotConnected = ledgerConnectionState === LedgerConnectionState.NotConnected
-    $: isLocked = ledgerConnectionState === LedgerConnectionState.Locked
-    $: isAppNotOpen = ledgerConnectionState === LedgerConnectionState.AppNotOpen
-    $: isCorrectAppOpen = ledgerConnectionState === (ledgerAppName as unknown as LedgerConnectionState)
+    $: isDisconnected = $ledgerConnectionState === LedgerConnectionState.Disconnected
+    $: isLocked = $ledgerConnectionState === LedgerConnectionState.Locked
+    $: isCorrectAppOpen = $ledgerConnectionState === (ledgerAppName as unknown as LedgerConnectionState)
 
     let animation: string
-    $: ledgerConnectionState, setAnimation()
+    $: $ledgerConnectionState, setAnimation()
     function setAnimation(): void {
-        if (isNotConnected) {
+        if (isDisconnected) {
             animation = 'ledger-disconnected-desktop'
         } else if (isLocked) {
             // TODO: get animation for locked state
             animation = undefined
-        } else if (isAppNotOpen) {
-            animation = 'ledger-app-closed-desktop'
         } else if (isCorrectAppOpen) {
             animation = 'ledger-connected-desktop'
+        } else {
+            animation = 'ledger-app-closed-desktop'
         }
     }
 
@@ -61,14 +53,14 @@
         {localize('popups.ledgerNotConnected.title')}
     </Text>
     <LedgerAnimation {animation} />
-    {#if isNotConnected}
+    {#if isDisconnected}
         <Alert variant="danger" text={localize('popups.ledgerNotConnected.notConnected')} />
     {:else if isLocked}
         <Alert variant="warning" text={localize('popups.ledgerNotConnected.locked')} />
-    {:else if isAppNotOpen}
-        <Alert variant="info" text={localize('popups.ledgerNotConnected.appNotOpen', { appName: ledgerAppName })} />
     {:else if isCorrectAppOpen}
         <Alert variant="success" text={localize('popups.ledgerNotConnected.correctAppOpen')} />
+    {:else}
+        <Alert variant="info" text={localize('popups.ledgerNotConnected.appNotOpen', { appName: ledgerAppName })} />
     {/if}
     <popup-buttons class="flex flex-row flex-nowrap w-full space-x-4">
         <Button classes="w-full" outline onClick={onCancelClick}>
