@@ -67,7 +67,7 @@
                 </div>
             {/if}
         </div>
-        <div class="w-full flex flex-row align-center justify-between p-3.5 bg-surface dark:bg-surface-0-dark">
+        <div class="w-full flex flex-row align-center justify-between p-3 bg-surface dark:bg-surface-0-dark">
             <Text type="body2" truncate>{nft.name}</Text>
             {#if isLocked}
                 <TooltipIcon

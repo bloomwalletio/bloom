@@ -9,7 +9,7 @@
     {#if $ownedNfts.length}
         <div class="flex flex-row justify-between">
             <div class="flex flex-row text-left gap-2 items-center">
-                <Text type="h6" textColor="brand">{localize('views.collectibles.gallery.title')}</Text>
+                <Text type="h6">{localize('views.collectibles.gallery.title')}</Text>
                 <Avatar
                     text={String($queriedNfts.length ?? '')}
                     size="base"
