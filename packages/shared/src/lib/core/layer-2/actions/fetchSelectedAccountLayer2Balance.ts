@@ -56,7 +56,7 @@ async function getLayer2NativeTokenBalancesForAddress(
 ): Promise<{ balance: number; tokenId: string }[]> {
     const accountsCoreContract = getSmartContractHexName('accounts')
     const getBalanceFunc = getSmartContractHexName('balance')
-    const agentID = evmAddressToAgentId(evmAddress, chain)
+    const agentID = evmAddressToAgentId(evmAddress, chain.getConfiguration())
     const parameters = getAgentBalanceParameters(agentID)
     try {
         const contract = chain.getContract(ContractType.IscMagic, ISC_MAGIC_CONTRACT_ADDRESS)
