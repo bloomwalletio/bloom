@@ -62,8 +62,8 @@
         class="{size} flex flex-col space-y-6 p-6 rounded-xl bg-white dark:bg-gray-800 shadow-elevation-4 z-10"
     >
         <content-title class="h-full flex flex-col space-y-2.5">
-            {#if title}<Text type="h5" textColor="brand">{title}</Text>{/if}
-            {#if description}<Text type="body2" textColor="secondary">{description}</Text>{/if}
+            {#if title}<Text type="h4" align="center">{title}</Text>{/if}
+            {#if description}<Text type="body2" textColor="secondary" align="center">{description}</Text>{/if}
         </content-title>
         <slot name="content" />
         <content-buttons class="block flex flex-row space-x-6">
