@@ -1,12 +1,12 @@
+import { TxData } from '@ethereumjs/tx'
 import { prepareEvmTransaction } from '@core/layer-2/utils'
 import { EvmChainId, getEvmTransactionOptions } from '@core/network'
-import { HEX_PREFIX } from '@core/utils'
 import { removeLeadingZeros } from '@core/utils/buffer'
-import { fromRpcSig, ECDSASignature } from '@ethereumjs/util'
-import { api } from '@core/profile-manager'
-import { getActiveProfile } from '@core/profile/stores'
+import { Transaction } from '@ethereumjs/tx'
+import { ECDSASignature } from '@ethereumjs/util'
 import type { Bip44 } from '@iota/sdk/out/types'
-import { Transaction, TxData } from '@ethereumjs/tx'
+import { getSignatureForStringWithStronghold } from './getSignatureForStringWithStronghold'
+import { HEX_PREFIX } from '@core/utils'
 
 export async function signEvmTransactionWithStronghold(
     txData: TxData,
@@ -16,14 +16,8 @@ export async function signEvmTransactionWithStronghold(
     const unsignedTransactionMessageHex = HEX_PREFIX + prepareEvmTransaction(txData, chainId)
     const transaction = Transaction.fromTxData(txData, getEvmTransactionOptions(chainId))
 
-    const manager = await api.getSecretManager(getActiveProfile()?.id)
-    const { signature } = await manager.signSecp256k1Ecdsa(unsignedTransactionMessageHex, bip44Path)
-
-    // Make Secp256k1Ecdsa into an Eip155Compatible Signature
-    const ecdsaSignature = fromRpcSig(signature)
-    ecdsaSignature.v = convertsVToEip155Compatible(ecdsaSignature.v, Number(chainId))
-
-    const signedTransaction = createSignedTransaction(transaction, ecdsaSignature, chainId)
+    const signature = await getSignatureForStringWithStronghold(unsignedTransactionMessageHex, bip44Path, chainId)
+    const signedTransaction = createSignedTransaction(transaction, signature, chainId)
     return getHexEncodedTransaction(signedTransaction)
 }
 
@@ -47,12 +41,6 @@ function getHexEncodedTransaction(transaction: Transaction): string {
     const serializedTransaction = transaction.serialize()
     const hexEncodedTransaction = HEX_PREFIX + serializedTransaction.toString('hex')
     return hexEncodedTransaction
-}
-
-function convertsVToEip155Compatible(v: bigint, chainId: number): bigint {
-    const parity = Number(v) % 27
-    const newV = chainId * 2 + (35 + parity)
-    return BigInt(newV)
 }
 
 function padHexString(str: string): string {
