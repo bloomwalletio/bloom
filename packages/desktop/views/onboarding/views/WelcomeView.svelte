@@ -14,6 +14,7 @@
     import { onboardingRouter } from '../onboarding-router'
 
     let termsAccepted: boolean = false
+    let flash: boolean = false
 
     function onTermsOfServiceClick(): void {
         openUrlInBrowser(TERMS_OF_SERVICE_URL)
@@ -24,6 +25,13 @@
     }
 
     function onContinueClick(): void {
+        if (!termsAccepted) {
+            flash = true
+            setTimeout(() => {
+                flash = false
+            }, 1500)
+            return
+        }
         lastAcceptedTermsOfService.set(TERMS_OF_SERVICE_VERSION)
         lastAcceptedPrivacyPolicy.set(PRIVACY_POLICY_VERSION)
         hasCompletedAppSetup.set(true)
@@ -45,16 +53,20 @@
                 {localize('views.onboarding.appSetup.welcome.subtitle')}
             </Text>
         </div>
-        <Checkbox bind:checked={termsAccepted} size="lg">
-            <div slot="label" class="flex flex-col">
-                <Text type="body2" fontWeight="medium">{localize('views.onboarding.appSetup.welcome.legalBody')}</Text>
-                <div class="flex">
-                    <Link on:click={onPrivacyPolicyClick} text="Privacy Policy" textType="body2" />
-                    <Text type="body2" fontWeight="medium">&nbsp&&nbsp</Text>
-                    <Link on:click={onTermsOfServiceClick} text="Terms of Service" textType="body2" />
+        <checkbox-container class:flash>
+            <Checkbox bind:checked={termsAccepted} size="lg">
+                <div slot="label" class="flex flex-col">
+                    <Text type="body2" fontWeight="medium"
+                        >{localize('views.onboarding.appSetup.welcome.legalBody')}</Text
+                    >
+                    <div class="flex">
+                        <Link on:click={onPrivacyPolicyClick} text="Privacy Policy" textType="body2" />
+                        <Text type="body2" fontWeight="medium">&nbsp&&nbsp</Text>
+                        <Link on:click={onTermsOfServiceClick} text="Terms of Service" textType="body2" />
+                    </div>
                 </div>
-            </div>
-        </Checkbox>
+            </Checkbox>
+        </checkbox-container>
         <Button
             on:click={onContinueClick}
             text={localize('views.onboarding.appSetup.welcome.button')}
@@ -69,7 +81,7 @@
     </illustration-container>
 </welcome-view>
 
-<style>
+<style lang="scss">
     :global(welcome-view h1 strong) {
         background: linear-gradient(86deg, #c4b0ff 3.99%, #a82bdc 24.99%, #e65426 45.83%, #feb83a 69.6%);
         background-clip: text;
@@ -92,6 +104,10 @@
         animation: portal-glow 5s ease-in-out infinite;
     }
 
+    :global(checkbox-container.flash check-box) {
+        animation: flash 0.5s ease-in-out 3;
+    }
+
     @keyframes portal-glow {
         0% {
             transform: scale(1);
@@ -104,6 +120,18 @@
         100% {
             transform: scale(1);
             opacity: 0.1;
+        }
+    }
+
+    @keyframes flash {
+        0% {
+            opacity: 0.6;
+        }
+        50% {
+            opacity: 1;
+        }
+        100% {
+            opacity: 0.6;
         }
     }
 </style>
