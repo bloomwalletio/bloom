@@ -43,7 +43,9 @@
 </script>
 
 <button type="button" on:click={onClick} class="nft-gallery-item flex flex-col items-center justify-center">
-    <div class="w-full rounded-2xl overflow-hidden flex flex-col shadow-elevation-1">
+    <div
+        class="w-full rounded-2xl overflow-hidden flex flex-col shadow-elevation-1 divide-y divide-solid divide-stroke dark:divide-stroke-dark"
+    >
         <div
             class="w-full flex relative"
             bind:clientWidth={nftWrapperClientWidth}
