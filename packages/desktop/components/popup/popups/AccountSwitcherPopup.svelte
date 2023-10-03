@@ -3,7 +3,8 @@
     import { setSelectedAccount } from '@core/account/actions'
     import { localize } from '@core/i18n'
     import { closePopup } from '@desktop/auxiliary/popup'
-    import { AccountInput, Button, FontWeight, Text } from '@ui'
+    import { AccountInput } from '@ui'
+    import PopupTemplate from '../PopupTemplate.svelte'
 
     export let onCancel: () => void
     export let onConfirm: () => void
@@ -21,16 +22,17 @@
     }
 </script>
 
-<account-switcher-popup class="w-full h-full space-y-6 flex flex-auto flex-col shrink-0">
-    <Text type="h3" fontWeight={FontWeight.semibold} classes="text-left">
-        {localize('popups.deeplinkAccountSwitch.title')}
-    </Text>
-    <div class="flex flex-col space-y-4">
-        <Text fontSize="15" color="gray-700" classes="text-left">{localize('popups.deeplinkAccountSwitch.body')}</Text>
-        <AccountInput bind:account />
-    </div>
-    <popup-buttons class="flex flex-row flex-nowrap w-full space-x-4">
-        <Button classes="w-full" outline onClick={onCancelClick}>{localize('actions.cancel')}</Button>
-        <Button classes="w-full" onClick={onConfirmClick}>{localize('actions.confirm')}</Button>
-    </popup-buttons>
-</account-switcher-popup>
+<PopupTemplate
+    title={localize('popups.deeplinkAccountSwitch.title')}
+    description={localize('popups.deeplinkAccountSwitch.body')}
+    backButton={{
+        text: localize('actions.cancel'),
+        onClick: onCancelClick,
+    }}
+    continueButton={{
+        text: localize('actions.confirm'),
+        onClick: onConfirmClick,
+    }}
+>
+    <AccountInput bind:account />
+</PopupTemplate>
