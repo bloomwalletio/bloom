@@ -1,9 +1,8 @@
 <script lang="ts">
     import { onMount } from 'svelte'
     import { fade } from 'svelte/transition'
-    import { Icon } from '@ui'
+    import { CloseButton } from '@bloomwalletio/ui'
     import { closePopup, PopupComponentMap, PopupId } from '@desktop/auxiliary/popup'
-    import { Icon as IconEnum } from '@auxiliary/icon/enums'
     import { IS_WINDOWS } from '@core/app/constants'
     import { clickOutside } from '@core/utils/ui'
 
@@ -202,17 +201,12 @@
         use:clickOutside
         on:clickOutside={tryClosePopup}
         bind:this={popupContent}
-        class={`${size} bg-white rounded-xl pt-6 px-6 pb-6 ${
+        class={`${size} bg-white rounded-xl ${
             fullScreen ? 'full-screen dark:bg-gray-900' : 'dark:bg-gray-800 shadow-elevation-4'
         } ${overflow ? 'overflow' : ''} ${relative ? 'relative' : ''}`}
     >
         {#if !hideClose}
-            <button on:click={tryClosePopup} class="absolute top-6 right-6 focus:text-blue-500">
-                <Icon
-                    icon={IconEnum.Close}
-                    classes="text-gray-500 dark:text-white hover:text-gray-600 dark:hover:text-gray-100 bg-surface-2 rounded-full"
-                />
-            </button>
+            <CloseButton on:click={tryClosePopup} size="sm" class="absolute top-6 right-6" />
         {/if}
         <svelte:component this={POPUP_MAP[id]} {...props} />
     </popup-content>

@@ -8,7 +8,7 @@
     import { Icon as IconEnum } from '@lib/auxiliary/icon'
     import { Button, FontWeight, Text, TextType, TokenAmountTile, TooltipIcon } from '@ui'
     import { SendFlowRoute, SendFlowRouter, sendFlowRouter } from '@views/dashboard/send-flow'
-    import { TokenActionsMenu } from '../menus'
+    import { TokenActionsMenu } from '@components'
 
     export let token: ITokenWithBalance | undefined
     export let activityId: string = undefined

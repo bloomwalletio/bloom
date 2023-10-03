@@ -13,8 +13,9 @@
     import { formatTokenAmountBestMatch } from '@core/token'
     import { refreshAccountTokensForActiveProfile } from '@core/token/actions'
     import { closePopup } from '@desktop/auxiliary/popup'
-    import { Button, FontWeight, Text, TextType } from '@ui'
+    import { Text, TextType } from '@ui'
     import { onDestroy, onMount } from 'svelte'
+    import PopupTemplate from '../PopupTemplate.svelte'
 
     export let searchForBalancesOnLoad = false
 
@@ -85,53 +86,44 @@
     })
 </script>
 
-<Text type={TextType.h4} fontSize="18" lineHeight="6" fontWeight={FontWeight.semibold} classes="mb-6">
-    {localize('popups.walletFinder.title')}
-</Text>
+<PopupTemplate
+    title={localize('popups.walletFinder.title')}
+    backButton={{
+        text: localize('actions.back'),
+        disabled: isBusy,
+        onClick: onCancelClick,
+    }}
+    continueButton={{
+        text: hasUsedWalletFinder ? localize('actions.searchAgain') : localize('actions.search'),
+        disabled: isBusy,
+        onClick: onFindBalancesClick,
+    }}
+>
+    <div class="space-y-4">
+        <Text type={TextType.p} color="gray-600" fontSize="15" lineHeight="5">
+            {localize('popups.walletFinder.body')}
+        </Text>
+        <div class="w-full flex-col space-y-2">
+            <Table
+                items={[
+                    {
+                        key: localize('popups.walletFinder.accountsSearched'),
+                        value: previousAccountGapLimit.toString() || '-',
+                    },
+                    {
+                        key: localize('popups.walletFinder.accountsFound'),
+                        value: $activeAccounts.length.toString() || '0',
+                    },
+                    {
+                        key: localize('popups.walletFinder.totalWalletBalance'),
+                        value: formatTokenAmountBestMatch(totalBalance, getBaseToken()),
+                    },
+                ]}
+            />
+        </div>
 
-<div class="space-y-4">
-    <Text type={TextType.p} color="gray-600" fontSize="15" lineHeight="5">
-        {localize('popups.walletFinder.body')}
-    </Text>
-    <div class="w-full flex-col space-y-2">
-        <Table
-            items={[
-                {
-                    key: localize('popups.walletFinder.accountsSearched'),
-                    value: previousAccountGapLimit.toString() || '-',
-                },
-                {
-                    key: localize('popups.walletFinder.accountsFound'),
-                    value: $activeAccounts.length.toString() || '0',
-                },
-                {
-                    key: localize('popups.walletFinder.totalWalletBalance'),
-                    value: formatTokenAmountBestMatch(totalBalance, getBaseToken()),
-                },
-            ]}
-        />
-    </div>
-
-    {#if hasUsedWalletFinder}
-        <Alert variant="info" text={localize('popups.walletFinder.searchAgainHint')} />
-    {/if}
-</div>
-
-<div class="flex flex-row flex-nowrap w-full space-x-4 mt-6">
-    <Button classes="w-full" outline onClick={onCancelClick} disabled={isBusy}>
-        {localize('actions.cancel')}
-    </Button>
-    <Button
-        classes="w-full"
-        onClick={onFindBalancesClick}
-        disabled={isBusy}
-        {isBusy}
-        busyMessage={localize('actions.searching')}
-    >
         {#if hasUsedWalletFinder}
-            {localize('actions.searchAgain')}
-        {:else}
-            {localize('actions.search')}
+            <Alert variant="info" text={localize('popups.walletFinder.searchAgainHint')} />
         {/if}
-    </Button>
-</div>
+    </div>
+</PopupTemplate>
