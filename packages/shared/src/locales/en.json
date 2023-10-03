@@ -480,6 +480,7 @@
                 "title": "Collectibles",
                 "emptyTitle": "No collectibles",
                 "noResults": "No results",
+                "timelocked": "Locked for {timeDiff}",
                 "emptyDescription": "Deposit or Receive your first collectible now!"
             },
             "details": {
