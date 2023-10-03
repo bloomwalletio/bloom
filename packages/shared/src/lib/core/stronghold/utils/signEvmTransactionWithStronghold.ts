@@ -39,7 +39,7 @@ function createSignedTransaction(
 
 function getHexEncodedTransaction(transaction: Transaction): string {
     const serializedTransaction = transaction.serialize()
-    const hexEncodedTransaction = '0x' + serializedTransaction.toString('hex')
+    const hexEncodedTransaction = HEX_PREFIX + serializedTransaction.toString('hex')
     return hexEncodedTransaction
 }
 
