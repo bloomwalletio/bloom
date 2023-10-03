@@ -9,7 +9,8 @@
     import { hasCompletedAppSetup, lastAcceptedPrivacyPolicy, lastAcceptedTermsOfService } from '@core/app/stores'
     import { openUrlInBrowser } from '@core/app/utils'
     import { localize } from '@core/i18n'
-    import { Illustration } from '@ui'
+    import { Illustration, Logo } from '@ui'
+    import { LogoName } from '@auxiliary/logo/enums'
     import { onboardingRouter } from '../onboarding-router'
 
     let termsAccepted: boolean = false
@@ -30,6 +31,9 @@
     }
 </script>
 
+<logo-container class="block absolute mt-8 ml-8">
+    <Logo width="150" logo={LogoName.BloomLogoFull} />
+</logo-container>
 <welcome-view class="w-full h-full flex items-center justify-center py-24 px-40 gap-12">
     <div class="flex flex-col gap-8">
         <div class="flex flex-col gap-2">
