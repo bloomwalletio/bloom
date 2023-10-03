@@ -88,14 +88,13 @@
 
 <PopupTemplate
     title={localize('popups.walletFinder.title')}
+    busy={isBusy}
     backButton={{
         text: localize('actions.back'),
-        disabled: isBusy,
         onClick: onCancelClick,
     }}
     continueButton={{
         text: hasUsedWalletFinder ? localize('actions.searchAgain') : localize('actions.search'),
-        disabled: isBusy,
         onClick: onFindBalancesClick,
     }}
 >
