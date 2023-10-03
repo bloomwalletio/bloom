@@ -1,47 +1,17 @@
 <script lang="ts">
-    import { Button } from '@bloomwalletio/ui'
+    import { Text } from '@bloomwalletio/ui'
     import { NodeListTable } from '@components'
     import { localize } from '@core/i18n'
-    import { addDefaultNodesToClientOptions, isSupportedNetworkId } from '@core/network'
-    import { activeProfile } from '@core/profile/stores'
-    import { PopupId, closePopup, openPopup } from '@desktop/auxiliary/popup'
 
-    let nodesContainer: HTMLElement
-
-    const networkId = $activeProfile?.network?.id
-
-    function onAddNodeClick(): void {
-        openPopup({
-            id: PopupId.AddNode,
-            props: {
-                onSuccess: () => {
-                    closePopup()
-                    setTimeout(() => {
-                        /**
-                         * NOTE: This automatically scrolls the user to the bottom of the
-                         * nodes container to see the newly added node.
-                         */
-                        nodesContainer.scrollTop = nodesContainer.scrollHeight
-                    }, 100)
-                },
-            },
-        })
-    }
+    export let nodesContainer: HTMLElement
 </script>
 
-<NodeListTable bind:nodesContainer />
-<div class="flex flex-row justify-between space-x-3 w-full mt-4">
-    {#if isSupportedNetworkId(networkId)}
-        <Button
-            variant="outlined"
-            width="half"
-            on:click={addDefaultNodesToClientOptions}
-            text={localize('actions.addOfficialNodes')}
-        />
-    {/if}
-    <Button
-        width={!isSupportedNetworkId(networkId) ? 'auto' : 'half'}
-        on:click={onAddNodeClick}
-        text={localize('actions.addNode')}
-    />
+<div class="flex flex-col space-y-2">
+    <Text type="body1">
+        {localize('views.dashboard.drawers.networkConfig.networkSettings.configureNodeList.title')}
+    </Text>
+    <Text textColor="secondary">
+        {localize('views.dashboard.drawers.networkConfig.networkSettings.configureNodeList.description')}
+    </Text>
+    <NodeListTable bind:nodesContainer />
 </div>

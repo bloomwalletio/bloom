@@ -1,5 +1,4 @@
 export * from './addNodeToClientOptions'
-export * from './addDefaultNodesToClientOptions'
 export * from './chain-polling'
 export * from './editNodeInClientOptions'
 export * from './getActiveNetworkId'
