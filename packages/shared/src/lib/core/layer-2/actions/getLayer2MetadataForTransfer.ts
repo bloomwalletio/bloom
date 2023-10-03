@@ -46,7 +46,7 @@ function getChain(networkId: NetworkId | undefined): IChain {
     }
     const chain = getNetwork()?.getChain(networkId)
     if (!chain) {
-        throw new Error('fdsafsa')
+        throw new Error('Chain is undefined')
     }
     return chain
 }

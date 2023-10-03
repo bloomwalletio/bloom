@@ -1,7 +1,7 @@
 import { Converter } from '@iota/util.js'
 import { parseLayer2MetadataForTransfer } from '../utils/parseLayer2MetadataForTransfer'
 
-describe('Function: parseLayer2MetadataForTransferV2.ts', () => {
+describe('Function: parseLayer2MetadataForTransfer.ts', () => {
     it('should correctly parse metadata with base token', () => {
         const metadata = '0x00000000025e4b3ca1e3f423a0c21e0101611503807d707f59f1345e1063dbb64f2495d1491283a080c0843d'
         const metadataByteArray = Converter.hexToBytes(metadata)
