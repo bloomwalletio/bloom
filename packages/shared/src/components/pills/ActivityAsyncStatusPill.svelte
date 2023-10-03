@@ -48,8 +48,7 @@
             case ActivityAsyncStatus.Expired:
                 return {
                     color: 'neutral',
-                    icon: IconName.ClockPlus,
-                    // icon: IconName.EmptyHourglass,
+                    icon: IconName.EmptyHourglass,
                     text: localize('pills.asyncStatus.expired'),
                 }
             default:
