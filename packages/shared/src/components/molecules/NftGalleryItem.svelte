@@ -42,11 +42,7 @@
     }
 </script>
 
-<button
-    type="button"
-    on:click={onClick}
-    class="flex flex-col items-center justify-center border border-solid border-stroke dark:border-stroke-dark rounded-2xl"
->
+<button type="button" on:click={onClick} class="nft-gallery-item flex flex-col items-center justify-center">
     <div class="w-full rounded-2xl overflow-hidden flex flex-col shadow-elevation-1">
         <div
             class="w-full flex relative"
@@ -67,7 +63,7 @@
                 </div>
             {/if}
         </div>
-        <div class="w-full flex flex-row align-center justify-between p-3 bg-surface dark:bg-surface-0-dark">
+        <div class="w-full flex flex-row align-center justify-between p-3">
             <Text type="body2" truncate>{nft.name}</Text>
             {#if isLocked}
                 <TooltipIcon
@@ -81,3 +77,11 @@
         </div>
     </div>
 </button>
+
+<style lang="scss">
+    .nft-gallery-item {
+        @apply border border-solid border-stroke dark:border-stroke-dark;
+        @apply rounded-2xl;
+        @apply hover:bg-surface-1 dark:hover:bg-surface-1-dark;
+    }
+</style>
