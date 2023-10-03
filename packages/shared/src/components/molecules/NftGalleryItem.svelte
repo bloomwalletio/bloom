@@ -6,6 +6,7 @@
     import { INft } from '@core/nfts'
     import { selectedNftId } from '@core/nfts/stores'
     import { CollectiblesRoute, collectiblesRouter } from '@core/router'
+    import { getTimeDifference } from '@core/utils'
 
     export let nft: INft
 
@@ -35,7 +36,7 @@
             style="height: {nftWrapperClientWidth}px; "
         >
             <NftMedia {nft} classes="min-w-full min-h-full object-cover" loop muted />
-            {#if nft.downloadMetadata.error || nft.downloadMetadata.warning}
+            {#if nft.downloadMetadata.error}
                 <div class="absolute right-3 top-3">
                     <TooltipIcon
                         icon={IconName.DangerCircle}
@@ -45,7 +46,7 @@
                         placement="left"
                     />
                 </div>
-            {:else}
+            {:else if nft.downloadMetadata.warning}
                 <div class="absolute right-3 top-3">
                     <TooltipIcon
                         icon={IconName.WarningCircle}
@@ -57,12 +58,14 @@
                 </div>
             {/if}
         </div>
-        <div class="w-full flex flex-row align-center justify-between p-3">
+        <div class="w-full flex flex-row items-center justify-between p-3 gap-2">
             <Text type="body2" truncate>{nft.name}</Text>
             {#if isLocked}
                 <TooltipIcon
                     icon={IconName.Locked}
-                    tooltip={localize('tooltips.transactionDetails.incoming.timelockDate')}
+                    tooltip={localize('views.collectibles.gallery.timelocked', {
+                        timeDiff: getTimeDifference(new Date(nft.timelockTime), $time),
+                    })}
                     placement="top"
                 />
             {/if}
