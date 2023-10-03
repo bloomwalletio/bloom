@@ -17,6 +17,6 @@ export function determineLedgerConnectionState(status: ILedgerDeviceState): Ledg
             }
         }
     } else {
-        return LedgerConnectionState.NotConnected
+        return LedgerConnectionState.Disconnected
     }
 }

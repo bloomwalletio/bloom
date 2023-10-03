@@ -11,7 +11,8 @@ const DEFAULT_LEDGER_DEVICE_STATE: ILedgerDeviceState = {
 export const ledgerDeviceState = writable<ILedgerDeviceState>(DEFAULT_LEDGER_DEVICE_STATE)
 
 export function setLedgerDeviceState(status: LedgerNanoStatus, ethereumAppSettings?: ILedgerEthereumAppSettings): void {
-    return ledgerDeviceState.set(buildLedgerDeviceState(status, ethereumAppSettings))
+    const deviceState = buildLedgerDeviceState(status, ethereumAppSettings)
+    return ledgerDeviceState.set(deviceState)
 }
 
 export function resetLedgerDeviceState(): void {
