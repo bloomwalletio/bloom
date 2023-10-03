@@ -161,9 +161,6 @@
             "profile": {
                 "title": "Profile"
             },
-            "network": {
-                "title": "Network"
-            },
             "collectibles": {
                 "title": "Collectibles"
             },
@@ -190,10 +187,6 @@
             "notifications": {
                 "title": "Notifications",
                 "description": "System notifications for transaction events"
-            },
-            "networkStatus": {
-                "title": "Network status",
-                "description": "Displays the status of the node you are currently connected to"
             },
             "exportStronghold": {
                 "title": "Export backup",
@@ -251,26 +244,6 @@
             "deepLinks": {
                 "title": "Deep links",
                 "description": "Automatically fill transaction data in Bloom upon clicking a deep link starting with {appProtocol}://"
-            },
-            "networkInformation": {
-                "title": "Network information",
-                "connectedTo": "Connected to"
-            },
-            "configureNodeList": {
-                "title": "Node configuration",
-                "description": "Manage the list of nodes you connect to",
-                "primaryNode": "Primary node",
-                "excludeNode": "Exclude node",
-                "includeNode": "Include node",
-                "editDetails": "Edit details",
-                "setAsPrimary": "Set primary node",
-                "unsetAsPrimary": "Clear primary node",
-                "removeNode": "Remove node",
-                "noNodes": "There are no nodes, unable to connect to the network"
-            },
-            "localProofOfWork": {
-                "title": "Proof of work",
-                "description": "Complete proof of work locally on your device or outsource to the node"
             },
             "errorLog": {
                 "title": "Error log",
@@ -408,6 +381,23 @@
                     },
                     "removeChain": {
                         "title": "Remove chain"
+                    },
+                    "networkSettings": {
+                        "configureNodeList": {
+                            "title": "Node configuration",
+                            "description": "Manage the list of nodes you connect to",
+                            "excludeNode": "Exclude node",
+                            "includeNode": "Include node",
+                            "editDetails": "Edit details",
+                            "setAsPrimary": "Set primary node",
+                            "unsetAsPrimary": "Clear primary node",
+                            "removeNode": "Remove node",
+                            "noNodes": "There are no nodes, unable to connect to the network"
+                        },
+                        "localProofOfWork": {
+                            "title": "Proof of work",
+                            "description": "Complete proof of work locally on your device or outsource to the node"
+                        }
                     }
                 },
                 "contactBook": {
@@ -1387,7 +1377,8 @@
         "apps": "Apps",
         "networks": "Networks",
         "ledgerDevice": "Ledger device",
-        "disconnected": "Disconnected"
+        "disconnected": "Disconnected",
+        "primary": "Primary"
     },
     "filters":{
         "title": "Filters",
