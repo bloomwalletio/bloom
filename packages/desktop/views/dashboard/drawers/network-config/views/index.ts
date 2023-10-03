@@ -5,4 +5,5 @@ export { default as ConfirmLedgerEvmAddressDrawer } from './ConfirmLedgerEvmAddr
 export { default as ConnectedChainsDrawer } from './ConnectedChainsDrawer.svelte'
 export { default as ConnectLedgerDeviceDrawer } from './ConnectLedgerDeviceDrawer.svelte'
 export { default as EditChainDrawer } from './EditChainDrawer.svelte'
+export { default as NetworkSettingsDrawer } from './NetworkSettingsDrawer.svelte'
 export { default as RemoveChainDrawer } from './RemoveChainDrawer.svelte'
