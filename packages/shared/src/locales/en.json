@@ -1867,10 +1867,11 @@
     },
     "pills": {
         "asyncStatus": {
-            "unclaimed": "Claim",
+            "claim": "Claim {timeDiff, select, undefined {} other { {timeDiff} }}",
+            "unclaimed": "Unclaimed {timeDiff, select, undefined {} other { {timeDiff}}}",
             "claimed": "Claimed",
             "expired": "Expired",
-            "timelocked": "Locked"
+            "timelocked": "Locked {timeDiff, select, undefined {} other { {timeDiff}}}"
         },
         "governance": {
             "proposalStatus": {
