@@ -383,7 +383,6 @@
                         "configureNodeList": {
                             "title": "Node configuration",
                             "description": "Manage the list of nodes you connect to",
-                            "primaryNode": "Primary node",
                             "excludeNode": "Exclude node",
                             "includeNode": "Include node",
                             "editDetails": "Edit details",
@@ -1375,7 +1374,8 @@
         "apps": "Apps",
         "networks": "Networks",
         "ledgerDevice": "Ledger device",
-        "disconnected": "Disconnected"
+        "disconnected": "Disconnected",
+        "primary": "Primary"
     },
     "filters":{
         "title": "Filters",
