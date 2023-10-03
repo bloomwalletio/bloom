@@ -1,48 +1,31 @@
 <script lang="typescript">
-    import { NftMedia, TooltipIcon, Position, TooltipType } from '@ui'
-    import { Text } from '@bloomwalletio/ui'
+    import { NftMedia, TooltipType } from '@ui'
+    import { IconName, Text, TooltipIcon } from '@bloomwalletio/ui'
     import { time } from '@core/app/stores'
     import { localize } from '@core/i18n'
     import { INft } from '@core/nfts'
     import { selectedNftId } from '@core/nfts/stores'
     import { CollectiblesRoute, collectiblesRouter } from '@core/router'
 
-    import { Icon } from '@auxiliary/icon'
-
     export let nft: INft
 
     let nftWrapperClientWidth: number
-    let tooltipIconProps: { icon?: Icon; iconClasses?: string; text?: string } = {}
 
     $: isLocked = nft.timelockTime > $time.getTime()
 
-    $: if (nft.downloadMetadata.error) {
-        tooltipIconProps = {
-            icon: Icon.ErrorFilled,
-            iconClasses: 'fill-current text-red-700',
-            text: getTooltipText(TooltipType.Error),
-        }
-    } else if (nft.downloadMetadata.warning) {
-        tooltipIconProps = {
-            icon: Icon.ExclamationFilled,
-            iconClasses: 'fill-current text-yellow-700',
-            text: getTooltipText(TooltipType.Warning),
-        }
-    }
-
-    function onClick(): void {
+    function onNftClick(): void {
         $selectedNftId = nft.id
         $collectiblesRouter.goTo(CollectiblesRoute.Details)
         $collectiblesRouter.setBreadcrumb(nft?.name)
     }
 
-    function getTooltipText(key: TooltipType): string | undefined {
+    function getTooltipText(key: TooltipType): string {
         const { type, message } = nft?.downloadMetadata?.[key] ?? {}
-        return type === 'generic' ? message : localize(`error.nft.${type}.short`)
+        return type === 'generic' ? message ?? localize(`error.nft.${type}.short`) : localize(`error.nft.${type}.short`)
     }
 </script>
 
-<button type="button" on:click={onClick} class="nft-gallery-item flex flex-col items-center justify-center">
+<button type="button" on:click={onNftClick} class="nft-gallery-item flex flex-col items-center justify-center">
     <div
         class="w-full rounded-2xl overflow-hidden flex flex-col shadow-elevation-1 divide-y divide-solid divide-stroke dark:divide-stroke-dark"
     >
@@ -55,12 +38,21 @@
             {#if nft.downloadMetadata.error || nft.downloadMetadata.warning}
                 <div class="absolute right-3 top-3">
                     <TooltipIcon
-                        height={24}
-                        width={24}
-                        size="small"
-                        primaryColor="white"
-                        position={Position.Left}
-                        {...tooltipIconProps}
+                        icon={IconName.DangerCircle}
+                        textColor="danger"
+                        tooltip={getTooltipText(TooltipType.Error)}
+                        size="sm"
+                        placement="left"
+                    />
+                </div>
+            {:else}
+                <div class="absolute right-3 top-3">
+                    <TooltipIcon
+                        icon={IconName.WarningCircle}
+                        textColor="warning"
+                        tooltip={getTooltipText(TooltipType.Warning)}
+                        size="sm"
+                        placement="left"
                     />
                 </div>
             {/if}
@@ -69,11 +61,9 @@
             <Text type="body2" truncate>{nft.name}</Text>
             {#if isLocked}
                 <TooltipIcon
-                    icon={Icon.Timelock}
-                    iconClasses="text-gray-600 dark:text-gray-200"
-                    title={localize('general.timelockDate')}
-                    text={localize('tooltips.transactionDetails.incoming.timelockDate')}
-                    position={Position.Top}
+                    icon={IconName.Locked}
+                    tooltip={localize('tooltips.transactionDetails.incoming.timelockDate')}
+                    placement="top"
                 />
             {/if}
         </div>
