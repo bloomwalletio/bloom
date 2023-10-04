@@ -1,19 +1,12 @@
 <script lang="ts">
-    import { Activity, ActivityAction, ActivityType } from '@core/activity'
+    import { Activity } from '@core/activity'
     import { isSubjectInternal } from '@core/wallet'
 
     export let activity: Activity
-
-    $: isSelfTransaction =
-        (activity.sender &&
-            activity.sender.address === activity.recipient?.address &&
-            activity.sourceNetworkId === activity.destinationNetworkId) ||
-        [ActivityType.Consolidation, ActivityType.Alias, ActivityType.Governance].includes(activity.type) ||
-        [ActivityAction.Mint, ActivityAction.Burn].includes(activity.action)
 </script>
 
 {#if isSubjectInternal(activity.sender) && isSubjectInternal(activity.recipient)}
-    <svg width="11" height="29" viewBox="0 0 11 29" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg width="32" height="30" viewBox="0 0 11 29" fill="none" xmlns="http://www.w3.org/2000/svg">
         <g opacity="0.5">
             <path
                 d="M6.24264 19.0754L9.07107 21.9038C9.85212 22.6848 9.85212 23.9512 9.07107 24.7322L6.24264 27.5606"
@@ -29,7 +22,7 @@
         </g>
     </svg>
 {:else if isSubjectInternal(activity.sender) && !isSubjectInternal(activity.recipient)}
-    <svg width="14" height="30" viewBox="0 0 14 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg width="32" height="30" viewBox="0 0 14 30" fill="none" xmlns="http://www.w3.org/2000/svg">
         <g opacity="0.5">
             <path
                 d="M5.24219 19.5V6.5C5.24219 4.29086 7.03305 2.5 9.24219 2.5H13.2422"
