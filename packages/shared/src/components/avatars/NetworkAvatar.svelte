@@ -5,6 +5,7 @@
 
     export let networkId: NetworkId
     export let size: 'xxs' | 'xs' | 'sm' | 'md' = 'base'
+    export let shape: 'circle' | 'square' | 'squircle' = 'circle'
 
     const AVATAR_BACKGROUND_COLOR: { [id in SupportedNetworkId]: string } = {
         [SupportedNetworkId.Shimmer]: 'shimmer-background',
@@ -28,4 +29,4 @@
 </script>
 
 <!-- TODO: Add initials for not supported network IDs -->
-<Avatar {size} {backgroundColor} {customTextColor} {icon} {magnify} />
+<Avatar {size} {shape} {backgroundColor} {customTextColor} {icon} />
