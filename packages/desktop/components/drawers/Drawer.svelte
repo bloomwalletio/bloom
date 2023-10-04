@@ -52,7 +52,7 @@
             out:fade|local={{ duration: DRAWER_ANIMATION_DURATION_MS }}
             on:click={onCloseClick}
             on:keydown={() => {}}
-            class="fixed h-full left-0 w-full z-0 bg-gray-700 dark:bg-gray-900 bg-opacity-60 dark:bg-opacity-60"
+            class="fixed h-full left-0 w-full z-0 bg-neutral-6/75"
         />
         <panel
             in:fly|local={{ ...direction, duration: DRAWER_ANIMATION_DURATION_MS }}
@@ -75,7 +75,9 @@
     panel {
         @apply fixed;
         @apply h-full;
-        @apply bg-surface-1 dark:bg-surface-1-dark;
+        @apply bg-surface dark:bg-surface-dark;
+        @apply shadow;
+        @apply border border-solid border-stroke dark:border-stroke-dark;
         @apply py-7 px-5;
         transition: right 0.2s ease;
 

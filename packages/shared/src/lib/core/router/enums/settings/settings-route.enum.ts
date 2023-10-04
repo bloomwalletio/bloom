@@ -1,7 +1,6 @@
 export enum SettingsRoute {
     General = 'general',
     Profile = 'profile',
-    Network = 'network',
     Collectibles = 'collectibles',
     Security = 'security',
     Advanced = 'advanced',
