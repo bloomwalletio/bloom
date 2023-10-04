@@ -43,7 +43,7 @@
         onClick: onBackClick,
     }}
 >
-    <content slot="content" class="flex flex-col justify-center">
+    <content slot="content" class="flex flex-col justify-center gap-4">
         <RecoveryPhrase recoveryPhrase={$onboardingProfile?.mnemonic} />
         <Button
             icon={IconName.Download}

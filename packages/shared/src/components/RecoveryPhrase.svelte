@@ -39,7 +39,7 @@
 
 <style lang="postcss">
     recovery-phrase {
-        @apply grid grid-cols-4 w-full mb-8 text-12;
+        @apply grid grid-cols-4 w-full text-12;
         max-width: 460px;
 
         &.boxed {
@@ -47,7 +47,7 @@
         }
 
         &:not(.boxed) {
-            @apply gap-3;
+            @apply gap-2;
         }
     }
 
