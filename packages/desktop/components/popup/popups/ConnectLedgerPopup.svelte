@@ -14,18 +14,18 @@
     $: isLocked = $ledgerConnectionState === LedgerConnectionState.Locked
     $: isCorrectAppOpen = $ledgerConnectionState === (ledgerAppName as unknown as LedgerConnectionState)
 
-    let animation: string
+    let illustration: string
     $: $ledgerConnectionState, setAnimation()
     function setAnimation(): void {
         if (isDisconnected) {
-            animation = 'ledger-disconnected-desktop'
+            illustration = 'ledger-disconnected-desktop'
         } else if (isLocked) {
             // TODO: get animation for locked state
-            animation = undefined
+            illustration = undefined
         } else if (isCorrectAppOpen) {
-            animation = 'ledger-connected-desktop'
+            illustration = 'ledger-connected-desktop'
         } else {
-            animation = 'ledger-app-closed-desktop'
+            illustration = 'ledger-app-closed-desktop'
         }
     }
 
@@ -52,7 +52,7 @@
     <Text type={TextType.h3} fontWeight={FontWeight.semibold} classes="text-left">
         {localize('popups.ledgerNotConnected.title')}
     </Text>
-    <LedgerAnimation {animation} />
+    <LedgerAnimation {illustration} />
     {#if isDisconnected}
         <Alert variant="danger" text={localize('popups.ledgerNotConnected.notConnected')} />
     {:else if isLocked}
