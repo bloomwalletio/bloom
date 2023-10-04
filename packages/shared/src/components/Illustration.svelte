@@ -62,19 +62,33 @@
             lightmode: 'onboarding/ledger-support.svg',
             darkmode: 'onboarding/ledger-support.svg',
         },
-        // Staking
-        'shimmer-info-bg': {
-            lightmode: 'staking/shimmer-info.png',
-            darkmode: 'staking/shimmer-info.png',
+
+        // Ledger Popup
+        'ledger-confirm': {
+            lightmode: 'ledger/ledger-confirm.svg',
+            darkmode: 'ledger/ledger-confirm.svg',
         },
-        'assembly-info-bg': {
-            lightmode: 'staking/assembly-info.png',
-            darkmode: 'staking/assembly-info.png',
+        'ledger-disconnected': {
+            lightmode: 'ledger/ledger-disconnected.svg',
+            darkmode: 'ledger/ledger-disconnected.svg',
         },
-        'staking-notification': {
-            lightmode: 'staking/staking-notification.svg',
-            darkmode: 'staking/staking-notification.svg',
+        'ledger-locked': {
+            lightmode: 'ledger/ledger-locked.svg',
+            darkmode: 'ledger/ledger-locked.svg',
         },
+        'ledger-open-ethereum': {
+            lightmode: 'ledger/ledger-open-ethereum.svg',
+            darkmode: 'ledger/ledger-open-ethereum.svg',
+        },
+        'ledger-open-shimmer': {
+            lightmode: 'ledger/ledger-open-shimmer.svg',
+            darkmode: 'ledger/ledger-open-shimmer.svg',
+        },
+        'ledger-verify': {
+            lightmode: 'ledger/ledger-verify.svg',
+            darkmode: 'ledger/ledger-verify.svg',
+        },
+
         // Wallet
         'empty-collectibles': {
             lightmode: 'wallet/empty-collectibles.svg',
