@@ -1,6 +1,6 @@
 <script lang="ts">
     import { DrawerDirection, closeDrawer, drawerState } from '@desktop/auxiliary/drawer'
-    import { IconButton, IconName } from '@bloomwalletio/ui'
+    import { CloseButton } from '@bloomwalletio/ui'
     import { fade, fly } from 'svelte/transition'
 
     export let onClose: () => unknown = () => {}
@@ -64,7 +64,7 @@
             </div>
             {#if !$drawerState.hideClose}
                 <div class="absolute top-7 right-7">
-                    <IconButton icon={IconName.CrossClose} on:click={onCloseClick} />
+                    <CloseButton size="base" on:click={onCloseClick} />
                 </div>
             {/if}
         </panel>

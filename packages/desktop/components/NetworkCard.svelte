@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { Button, Copyable, IconName, Text, Tile } from '@bloomwalletio/ui'
+    import { Button, Copyable, IconButton, IconName, Text, Tile } from '@bloomwalletio/ui'
     import { selectedAccount } from '@core/account/stores'
     import { localize } from '@core/i18n'
     import { generateAndStoreEvmAddressForAccounts, pollLayer2Tokens } from '@core/layer-2/actions'
@@ -91,10 +91,10 @@
         </div>
         <div class="flex flex-row justify-between items-end">
             <div class="flex flex-col">
-                <Text>{localize('general.myAddress')}</Text>
+                <Text textColor="secondary" fontWeight="medium">{localize('general.myAddress')}</Text>
                 {#if address}
                     <Copyable value={address}>
-                        <Text type="pre-md">
+                        <Text type="body2">
                             {truncateString(address, 8, 8)}
                         </Text>
                     </Copyable>
@@ -108,7 +108,7 @@
                 {/if}
             </div>
             {#if address}
-                <Button variant="text" icon={IconName.QrCode} on:click={onQrCodeIconClick} />
+                <IconButton icon={IconName.QrCode} on:click={onQrCodeIconClick} />
             {/if}
         </div>
     </div>
