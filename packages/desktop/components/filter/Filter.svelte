@@ -48,7 +48,7 @@
     }
 </script>
 
-<filter-container class="block h-6 relative">
+<filter-container class="items-center relative">
     <TogglableButton icon={IconName.Filter} bind:active={filterActive} onClick={modal?.toggle} />
     {#if activeFilterCount}
         <filter-badge
