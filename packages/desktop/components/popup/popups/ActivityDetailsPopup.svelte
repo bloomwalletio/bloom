@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { Link } from '@bloomwalletio/ui'
     import { selectedAccountIndex } from '@core/account/stores'
     import {
         Activity,
@@ -20,16 +21,9 @@
     import { setClipboard, truncateString } from '@core/utils'
     import { claimActivity, rejectActivity } from '@core/wallet'
     import { PopupId, closePopup, openPopup } from '@desktop/auxiliary/popup'
-    import {
-        ActivityInformation,
-        ActivityStatusPills,
-        Button,
-        FontWeight,
-        Text,
-        TextType,
-        TransactionAssetSection,
-    } from '@ui'
+    import { ActivityInformation, ActivityStatusPills, TransactionAssetSection } from '@ui'
     import { onMount, tick } from 'svelte'
+    import PopupTemplate from '../PopupTemplate.svelte'
 
     export let activityId: string
     export let _onMount: (..._: any[]) => Promise<void> = async () => {}
@@ -115,56 +109,40 @@
             console.error(err)
         }
     })
+
+    $: backButton = {
+        text: localize('actions.reject'),
+        disabled: activity.asyncData?.isRejected,
+        onClick: onRejectClick,
+    }
+
+    $: continueButton = {
+        text: localize('actions.claim'),
+        onClick: () => onClaimClick(activity),
+    }
 </script>
 
 {#if activity}
-    <activity-details-popup class="w-full h-full space-y-6 flex flex-auto flex-col shrink-0">
-        <div class="flex flex-col">
-            <Text type={TextType.h3} fontWeight={FontWeight.semibold} classes="text-left">
-                {title}
-            </Text>
+    <PopupTemplate
+        {title}
+        busy={activity.asyncData?.isClaiming}
+        backButton={isTimelocked || !isActivityIncomingAndUnclaimed ? undefined : backButton}
+        continueButton={isTimelocked || !isActivityIncomingAndUnclaimed ? undefined : continueButton}
+    >
+        <div slot="description">
             {#if explorerUrl && activity.transactionId}
-                <button
-                    class="action w-max flex justify-start text-center font-medium text-14 text-blue-500"
-                    on:click={() => onExplorerClick(activity)}
-                >
-                    {localize('general.viewOnExplorer')}
-                </button>
+                <Link text={localize('general.viewOnExplorer')} external on:click={() => onExplorerClick(activity)} />
             {:else if activity.transactionId}
-                <button
-                    class="action w-fit flex justify-start text-center font-medium text-14 text-blue-500"
+                <Link
+                    text={truncateString(activity.transactionId, 12, 12)}
                     on:click={() => onTransactionIdClick(activity)}
-                >
-                    {truncateString(activity.transactionId, 12, 12)}
-                </button>
+                />
             {/if}
         </div>
-        <activity-details class="w-full h-full space-y-6 flex flex-auto flex-col shrink-0">
+        <activity-details class="w-full h-full space-y-4 flex flex-auto flex-col shrink-0">
             <ActivityStatusPills {activity} />
-
             <TransactionAssetSection {...transactionAssets} onNftClick={nftIsOwned ? onNftClick : undefined} />
-
             <ActivityInformation {activity} />
         </activity-details>
-        {#if !isTimelocked && isActivityIncomingAndUnclaimed}
-            <popup-buttons class="flex flex-row flex-nowrap w-full space-x-4">
-                <Button
-                    outline
-                    classes="w-full"
-                    disabled={activity.asyncData?.isClaiming || activity.asyncData?.isRejected}
-                    onClick={onRejectClick}
-                >
-                    {localize('actions.reject')}
-                </Button>
-                <Button
-                    classes="w-full"
-                    disabled={activity.asyncData?.isClaiming}
-                    onClick={() => onClaimClick(activity)}
-                    isBusy={activity.asyncData?.isClaiming}
-                >
-                    {localize('actions.claim')}
-                </Button>
-            </popup-buttons>
-        {/if}
-    </activity-details-popup>
+    </PopupTemplate>
 {/if}
