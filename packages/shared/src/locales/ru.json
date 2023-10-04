@@ -3,7 +3,10 @@
         "onboarding": {
             "appSetup": {
                 "welcome": {
-                    "title": "Welcome to"
+                    "title": "Welcome to",
+                    "subtitle": "A new journey awaits...",
+                    "legalBody": "Check to confirm you've read and accept the",
+                    "button": "Begin setup"
                 },
                 "legal": {
                     "title": "Политика конфиденциальности и Условия предоставления услуг"
@@ -158,9 +161,6 @@
             "profile": {
                 "title": "Профиль"
             },
-            "network": {
-                "title": "Сеть"
-            },
             "collectibles": {
                 "title": "Коллекции"
             },
@@ -187,10 +187,6 @@
             "notifications": {
                 "title": "Оповещения",
                 "description": "Уведомления системы для транзакций"
-            },
-            "networkStatus": {
-                "title": "Статус сети",
-                "description": "Отображает статус узла, к которому вы в данный момент подключены"
             },
             "exportStronghold": {
                 "title": "Экспортировать резервную копию",
@@ -233,12 +229,8 @@
                 "description": "Change your Bloom profile name",
                 "success": "Вы изменили имя своего профиля"
             },
-            "walletFinder": {
-                "title": "Поисковик кошелька",
-                "description": "Выполнить расширенный поиск по ранее использованным кошелькам"
-            },
             "hiddenAccounts": {
-                "title": "Скрытые кошельки",
+                "title": "Hidden accounts",
                 "description": "При выборе этой опции будут показаны кошельки, которые ранее были скрыты"
             },
             "deleteProfile": {
@@ -248,26 +240,6 @@
             "deepLinks": {
                 "title": "Глубокие ссылки",
                 "description": "Automatically fill transaction data in Bloom upon clicking a deep link starting with {appProtocol}://"
-            },
-            "networkInformation": {
-                "title": "Информация о сети",
-                "connectedTo": "Подключено к"
-            },
-            "configureNodeList": {
-                "title": "Настройка узла",
-                "description": "Управление списком узлов, к которым вы подключаетесь",
-                "primaryNode": "Основной узел",
-                "excludeNode": "Исключить узел",
-                "includeNode": "Включить узел",
-                "editDetails": "Изменить детали",
-                "setAsPrimary": "Установить основной узел",
-                "unsetAsPrimary": "Удалить основной узел",
-                "removeNode": "Удалить узел",
-                "noNodes": "Нет узлов, не удается подключиться к сети"
-            },
-            "localProofOfWork": {
-                "title": "Подтверждение работы",
-                "description": "Выполните подтверждение работы локально на своем устройстве или передайте на обслуживание узлу"
             },
             "errorLog": {
                 "title": "Журнал ошибок",
@@ -351,6 +323,7 @@
                 "action": "Action",
                 "address": "Address",
                 "amount": "Amount",
+                "claimableTransactions": "You have {amount} {amount, select, 1 {transaction that requires} other {transactions that require}} claiming",
                 "consolidatedOutputs": "{amount} outputs consolidated"
             },
             "profileMenu": {
@@ -403,6 +376,23 @@
                     },
                     "removeChain": {
                         "title": "Remove chain"
+                    },
+                    "networkSettings": {
+                        "configureNodeList": {
+                            "title": "Node configuration",
+                            "description": "Manage the list of nodes you connect to",
+                            "excludeNode": "Exclude node",
+                            "includeNode": "Include node",
+                            "editDetails": "Edit details",
+                            "setAsPrimary": "Set primary node",
+                            "unsetAsPrimary": "Clear primary node",
+                            "removeNode": "Remove node",
+                            "noNodes": "There are no nodes, unable to connect to the network"
+                        },
+                        "localProofOfWork": {
+                            "title": "Proof of work",
+                            "description": "Complete proof of work locally on your device or outsource to the node"
+                        }
                     }
                 },
                 "contactBook": {
@@ -448,7 +438,8 @@
                     "inputConnectionCode": {
                         "title": "Connect to a dApp",
                         "inputLabel": "Wallet Connect code",
-                        "hint": "Add new dApps by adding a Wallet Connect code below."
+                        "hint": "Add new dApps by adding a Wallet Connect code below.",
+                        "deprecated": "The dApp you try to connect to uses a deprecated version of WalletConnect. Cannot establish connection"
                     },
                     "confirmConnection": {
                         "title": "Connect with an application",
@@ -484,6 +475,7 @@
                 "title": "Коллекции",
                 "emptyTitle": "Нет коллекций",
                 "noResults": "Нет результатов",
+                "timelocked": "Locked for {timeDiff}",
                 "emptyDescription": "Вложи или получи свой первый коллекционный экземпляр сейчас!"
             },
             "details": {
@@ -658,7 +650,7 @@
             "body": "Важно регулярно создавать запасные копии своего кошелька, чтобы быть уверенным, что у вас есть копия вашего кошелька и истории транзакций. Если вы потеряете запасную копию и фразу для восстановления, вы потеряете доступ к своим средствам."
         },
         "deeplinkAccountSwitch": {
-            "title": "Выберите кошелёк",
+            "title": "Select an account",
             "body": "Вы только что перешли по глубокой ссылке. Пожалуйста, выберите кошелек, с которым вы хотите продолжить."
         },
         "deeplinkError": {
@@ -764,10 +756,10 @@
             "surplusIncluded": "Эта транзакция содержит избыточную сумму. Пожалуйста, проверьте, что это именно та сумма, которую вы хотите отправить."
         },
         "walletFinder": {
-            "title": "Поисковик кошелька",
+            "title": "Sync accounts",
             "body": "Проведите более тщательный поиск адресов, чтобы найти недостающие балансы.",
-            "accountsSearched": "Осмотренные кошельки",
-            "accountsFound": "Кошельки найдены",
+            "accountsSearched": "Accounts searched",
+            "accountsFound": "Accounts found",
             "totalWalletBalance": "Общий баланс",
             "searchAgainHint": "Ваш баланс или количество кошельков неверны? Повторите поиск, пока не отобразится полный баланс."
         },
@@ -1117,10 +1109,10 @@
         "restart": "Restart",
         "refresh": "Refresh",
         "saveBackup": "Save backup",
-        "customizeAccount": "Персонализация кошелька",
-        "hideAccount": "Спрятать кошелек",
-        "showAccount": "Раскрыть кошелёк",
-        "deleteAccount": "Удалить кошелек",
+        "customizeAccount": "Customise account",
+        "hideAccount": "Hide account",
+        "showAccount": "Unhide account",
+        "deleteAccount": "Delete account",
         "addNode": "Добавить узел",
         "addingNode": "Добавление узла",
         "addOfficialNodes": "Добавить официальные узлы",
@@ -1140,7 +1132,7 @@
         "copyAllInformation": "Скопировать всю информацию",
         "paste": "Вставить",
         "selectAll": "Выбрать все",
-        "addAccount": "Добавить кошелёк",
+        "addAccount": "Add account",
         "checkForUpdates": "Проверять обновления",
         "reportAnIssue": "Сообщить об ошибке",
         "clear": "Очистить",
@@ -1154,11 +1146,9 @@
         "readDocumentation": "Читать документацию",
         "visitFaq": "Посетить FAQ",
         "viewDownloads": "View downloads",
-        "viewBalanceBreakdown": "View balance breakdown",
-        "showHiddenAccounts": "Показать скрытые кошельки",
+        "showHiddenAccounts": "Show hidden accounts",
         "confirm": "Подтвердить",
         "hideNetworkStatistics": "Скрыть статистику сети",
-        "findWallets": "Найти кошельки",
         "search": "Искать",
         "searching": "Поиск",
         "searchAgain": "Повторный поиск",
@@ -1191,7 +1181,10 @@
         "revote": "Переголосовать",
         "skipAndKeep": "Skip and keep old password",
         "addChain": "Add chain",
-        "untrackToken": "Untrack token"
+        "untrackToken": "Untrack token",
+        "switchAccount": "Switch account",
+        "syncAccounts": "Sync accounts",
+        "importErc20Token": "Import ERC20 token"
     },
     "general": {
         "recipient": "Получатель",
@@ -1236,9 +1229,8 @@
         "sendTo": "Отправить на",
         "sendAssets": "Отправить активы",
         "sendAssetToAddress": "Отправить актив на адрес",
-        "manageAccount": "Управление кошельками",
-        "customizeAccount": "Персонализируйте свой кошелек",
-        "account": "Кошелёк",
+        "manageAccount": "Manage account",
+        "account": "Account",
         "amount": "Сумма",
         "addAddress": "Добавить Адрес",
         "to": "Кому",
@@ -1263,7 +1255,7 @@
         "outgoing": "Исходящие",
         "dev": "Разработчик",
         "newAccount": "New account",
-        "accountName": "Имя кошелька",
+        "accountName": "Account name",
         "activity": "Активность",
         "security": "Настройки Безопасности",
         "network": "Сеть",
@@ -1280,7 +1272,7 @@
         "noAssets": "Нет активов",
         "noFilteredAsset": "Нет соответствующих активов",
         "thisMonth": "Этот месяц",
-        "search": "Искать",
+        "search": "Search...",
         "passwordUpdating": "Обновление пароля...",
         "passwordSuccess": "Пароль успешно обновлен",
         "passwordFailed": "Не удалось обновить пароль",
@@ -1303,7 +1295,7 @@
         "unknown": "Неизвестно",
         "unknownAddress": "Неизвестный адрес",
         "none": "Отсутствует",
-        "accountColor": "Цвет кошелька",
+        "accountColor": "Account color",
         "transactionTime": "Время транзакции",
         "storageDeposit": "Депозит для хранения",
         "transactionFee": "Transaction fee",
@@ -1332,7 +1324,6 @@
         "mintNativeTokenDescription": "Чеканить собственный токен в соответствии со стандартом IRC30",
         "mintNftDescription": "Чеканить NFT следуя стандарту IRC27",
         "faucetRequestDescription": "Запросить токены из смесителя {network}",
-        "refreshTokenMetadataDescription": "Сброс и обновление всех метаданных токена",
         "refreshTokenMetadataHint": "Это сбросит все метаданные ваших токенов, включая статус проверки, и снимет все скрытые активы.",
         "excluded": "Исключено",
         "developerTools": "Инструменты разработчика",
@@ -1370,7 +1361,6 @@
         "coinType": "Coin type",
         "custom": "Custom",
         "evmAddress": "EVM address",
-        "importErc20Token": "Import ERC20 token",
         "optionalField": "{field} (optional)",
         "gifted": "Gifted",
         "connected": "Connected",
@@ -1380,7 +1370,9 @@
         "apps": "Apps",
         "networks": "Networks",
         "ledgerDevice": "Ledger device",
-        "disconnected": "Disconnected"
+        "disconnected": "Disconnected",
+        "balanceBreakdown": "Balance breakdown",
+        "primary": "Primary"
     },
     "filters": {
         "title": "Фильтры",
@@ -1779,7 +1771,8 @@
         "walletConnect": {
             "invalidUri": "Invalid URI",
             "invalidProtocol": "Invalid protocol, must start with 'wc'.",
-            "deprecatedVersion": "dApp uses a deprecated wallet connect version."
+            "deprecatedVersion": "dApp uses a deprecated wallet connect version.",
+            "invalidV2UriFormat": "The link doesn't adhere to the WalletConnect V2 specification."
         },
         "web3": {
             "unableToGetProvider": "Unable to get web3 provider.",
@@ -1857,14 +1850,16 @@
         "collectibles": "Коллекционные экземпляры",
         "governance": "Управление",
         "developer": "Разработчик",
-        "tokens": "Токены"
+        "tokens": "Токены",
+        "settings": "Settings"
     },
     "pills": {
         "asyncStatus": {
-            "unclaimed": "невостребовано",
-            "claimed": "востребовано",
-            "expired": "истекло",
-            "timelocked": "timelocked"
+            "claim": "Claim {timeDiff, select, undefined {} other { {timeDiff} }}",
+            "unclaimed": "Unclaimed {timeDiff, select, undefined {} other { {timeDiff}}}",
+            "claimed": "Claimed",
+            "expired": "Expired",
+            "timelocked": "Locked {timeDiff, select, undefined {} other { {timeDiff}}}"
         },
         "governance": {
             "proposalStatus": {

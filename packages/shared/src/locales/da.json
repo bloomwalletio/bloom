@@ -3,7 +3,10 @@
         "onboarding": {
             "appSetup": {
                 "welcome": {
-                    "title": "Welcome to"
+                    "title": "Welcome to",
+                    "subtitle": "A new journey awaits...",
+                    "legalBody": "Check to confirm you've read and accept the",
+                    "button": "Begin setup"
                 },
                 "legal": {
                     "title": "Fortrolighedspolitik og Tjenestevilkår"
@@ -158,9 +161,6 @@
             "profile": {
                 "title": "Profil"
             },
-            "network": {
-                "title": "Netværk"
-            },
             "collectibles": {
                 "title": "Samleobjekter"
             },
@@ -187,10 +187,6 @@
             "notifications": {
                 "title": "Notifikationer",
                 "description": "Systemnotifikationer for transaktionsbegivenheder"
-            },
-            "networkStatus": {
-                "title": "Netværksstatus",
-                "description": "Viser status for den node, man pt. er forbundet til"
             },
             "exportStronghold": {
                 "title": "Eksportere sikkerhedskopi",
@@ -233,12 +229,8 @@
                 "description": "Change your Bloom profile name",
                 "success": "Profilnavnet er skiftet"
             },
-            "walletFinder": {
-                "title": "Wallet finder",
-                "description": "Perform an extended search of your previously used wallets"
-            },
             "hiddenAccounts": {
-                "title": "Skjulte wallets",
+                "title": "Hidden accounts",
                 "description": "Valg af denne indstilling vil vise wallets, som tidligere var skjult"
             },
             "deleteProfile": {
@@ -248,26 +240,6 @@
             "deepLinks": {
                 "title": "Deep links",
                 "description": "Automatically fill transaction data in Bloom upon clicking a deep link starting with {appProtocol}://"
-            },
-            "networkInformation": {
-                "title": "Netværksinformation",
-                "connectedTo": "Forbundet til"
-            },
-            "configureNodeList": {
-                "title": "Node-opsætning",
-                "description": "Håndtér node-listen, som wallet'en forbinder til",
-                "primaryNode": "Primær node",
-                "excludeNode": "Udeluk node",
-                "includeNode": "Inkludér node",
-                "editDetails": "Redigér detaljer",
-                "setAsPrimary": "Opsæt primærnode",
-                "unsetAsPrimary": "Ryd primærnode",
-                "removeNode": "Fjern node",
-                "noNodes": "Der er ingen noder, kan ikke oprettes forbindelse til netværket"
-            },
-            "localProofOfWork": {
-                "title": "Proof of work",
-                "description": "Udfør enten proof of work lokalt på enheden eller outsource til noden"
             },
             "errorLog": {
                 "title": "Fejllog",
@@ -351,6 +323,7 @@
                 "action": "Action",
                 "address": "Address",
                 "amount": "Amount",
+                "claimableTransactions": "You have {amount} {amount, select, 1 {transaction that requires} other {transactions that require}} claiming",
                 "consolidatedOutputs": "{amount} outputs consolidated"
             },
             "profileMenu": {
@@ -403,6 +376,23 @@
                     },
                     "removeChain": {
                         "title": "Fjern kæde"
+                    },
+                    "networkSettings": {
+                        "configureNodeList": {
+                            "title": "Node configuration",
+                            "description": "Manage the list of nodes you connect to",
+                            "excludeNode": "Exclude node",
+                            "includeNode": "Include node",
+                            "editDetails": "Edit details",
+                            "setAsPrimary": "Set primary node",
+                            "unsetAsPrimary": "Clear primary node",
+                            "removeNode": "Remove node",
+                            "noNodes": "There are no nodes, unable to connect to the network"
+                        },
+                        "localProofOfWork": {
+                            "title": "Proof of work",
+                            "description": "Complete proof of work locally on your device or outsource to the node"
+                        }
                     }
                 },
                 "contactBook": {
@@ -448,7 +438,8 @@
                     "inputConnectionCode": {
                         "title": "Connect to a dApp",
                         "inputLabel": "Wallet Connect code",
-                        "hint": "Add new dApps by adding a Wallet Connect code below."
+                        "hint": "Add new dApps by adding a Wallet Connect code below.",
+                        "deprecated": "The dApp you try to connect to uses a deprecated version of WalletConnect. Cannot establish connection"
                     },
                     "confirmConnection": {
                         "title": "Connect with an application",
@@ -484,6 +475,7 @@
                 "title": "Samlinger",
                 "emptyTitle": "Ingen samlinger",
                 "noResults": "Ingen resultater",
+                "timelocked": "Locked for {timeDiff}",
                 "emptyDescription": "Indbetal eller modtag det første samleremne nu!"
             },
             "details": {
@@ -658,7 +650,7 @@
             "body": "It is important to back up your wallet regularly to ensure you have a copy of your wallets and transaction history. If you lose your backup and recovery phrase you will lose access to your funds."
         },
         "deeplinkAccountSwitch": {
-            "title": "Vælg wallet",
+            "title": "Select an account",
             "body": "Du har netop fulgt et dybt link. Vælg den wallet, der skal fortsættes med."
         },
         "deeplinkError": {
@@ -764,10 +756,10 @@
             "surplusIncluded": "Denne transaktion indeholder et overskudsbeløb. Dobbelttjek, at dette er dét beløb, der ønskes sendt."
         },
         "walletFinder": {
-            "title": "Wallet finder",
+            "title": "Sync accounts",
             "body": "Perform a more exhaustive search of addresses to find missing balances and wallets.",
-            "accountsSearched": "Wallets searched",
-            "accountsFound": "Wallets found",
+            "accountsSearched": "Accounts searched",
+            "accountsFound": "Accounts found",
             "totalWalletBalance": "Total balance",
             "searchAgainHint": "Is your balance or number of wallets incorrect? Search again until your full balance is shown."
         },
@@ -1117,10 +1109,10 @@
         "restart": "Restart",
         "refresh": "Opdatér",
         "saveBackup": "Save backup",
-        "customizeAccount": "Tilpas wallet",
-        "hideAccount": "Skjul wallet",
-        "showAccount": "Vis wallet",
-        "deleteAccount": "Delete wallet",
+        "customizeAccount": "Customise account",
+        "hideAccount": "Hide account",
+        "showAccount": "Unhide account",
+        "deleteAccount": "Delete account",
         "addNode": "Tilføj node",
         "addingNode": "Tilføjer node",
         "addOfficialNodes": "Tilføj officielle noder",
@@ -1140,7 +1132,7 @@
         "copyAllInformation": "Copy all information",
         "paste": "Indsæt",
         "selectAll": "Vælg alle",
-        "addAccount": "Tilføj Wallet",
+        "addAccount": "Add account",
         "checkForUpdates": "Tjek for opdateringer",
         "reportAnIssue": "Rapportér et problem",
         "clear": "Ryd",
@@ -1154,11 +1146,9 @@
         "readDocumentation": "Læs dokumentationen",
         "visitFaq": "Besøg FAQ",
         "viewDownloads": "Se downloads",
-        "viewBalanceBreakdown": "View balance breakdown",
-        "showHiddenAccounts": "Vis skjulte wallets",
+        "showHiddenAccounts": "Show hidden accounts",
         "confirm": "Bekræft",
         "hideNetworkStatistics": "Skjul netværksstatistik",
-        "findWallets": "Find wallets",
         "search": "Search",
         "searching": "Searching",
         "searchAgain": "Søg igen",
@@ -1191,7 +1181,10 @@
         "revote": "Stem igen",
         "skipAndKeep": "Overspring og behold gammel adgangskode",
         "addChain": "Tilføj kæde",
-        "untrackToken": "Untrack token"
+        "untrackToken": "Untrack token",
+        "switchAccount": "Switch account",
+        "syncAccounts": "Sync accounts",
+        "importErc20Token": "Import ERC20 token"
     },
     "general": {
         "recipient": "Recipient",
@@ -1236,9 +1229,8 @@
         "sendTo": "Send To",
         "sendAssets": "Send assets",
         "sendAssetToAddress": "Send asset to an address",
-        "manageAccount": "Håndtér Wallet",
-        "customizeAccount": "Tilpas din wallet",
-        "account": "Wallet",
+        "manageAccount": "Manage account",
+        "account": "Account",
         "amount": "Beløb",
         "addAddress": "Tilføj adresse",
         "to": "Til",
@@ -1263,7 +1255,7 @@
         "outgoing": "Udgående",
         "dev": "Udvikler",
         "newAccount": "New account",
-        "accountName": "Wallet navn",
+        "accountName": "Account name",
         "activity": "Activity",
         "security": "Sikkerhed",
         "network": "Network",
@@ -1280,7 +1272,7 @@
         "noAssets": "Ingen aktiver",
         "noFilteredAsset": "Ingen matchende aktiver",
         "thisMonth": "This month",
-        "search": "Search",
+        "search": "Search...",
         "passwordUpdating": "Opdaterer adgangskode...",
         "passwordSuccess": "Adgangskode opdateret",
         "passwordFailed": "Opdatering af adgangskode mislykkedes",
@@ -1303,7 +1295,7 @@
         "unknown": "Unknown",
         "unknownAddress": "Unknown address",
         "none": "None",
-        "accountColor": "Wallet color",
+        "accountColor": "Account color",
         "transactionTime": "Transaction time",
         "storageDeposit": "Storage deposit",
         "transactionFee": "Transaction fee",
@@ -1332,7 +1324,6 @@
         "mintNativeTokenDescription": "Mint native tokener efter IRC30-standarden",
         "mintNftDescription": "Mint NFT following IRC27 standard",
         "faucetRequestDescription": "Anmod om tokener fra {network}-faucet'en",
-        "refreshTokenMetadataDescription": "Nulstil og opfrisk alle tokenmetadata",
         "refreshTokenMetadataHint": "Dette nulstiller alle tokeners metadata, herunder bekræftelsesstatus og viser evt. ellers skjulte aktiver.",
         "excluded": "Udelukkede",
         "developerTools": "Udviklingsværktøjer",
@@ -1370,7 +1361,6 @@
         "coinType": "Mønttyper",
         "custom": "Tilpasset",
         "evmAddress": "EVM-adresse",
-        "importErc20Token": "Importér ERC20-token",
         "optionalField": "{field} (optional)",
         "gifted": "Gifted",
         "connected": "Connected",
@@ -1380,7 +1370,9 @@
         "apps": "Apps",
         "networks": "Networks",
         "ledgerDevice": "Ledger device",
-        "disconnected": "Disconnected"
+        "disconnected": "Disconnected",
+        "balanceBreakdown": "Balance breakdown",
+        "primary": "Primary"
     },
     "filters": {
         "title": "Filtre",
@@ -1779,7 +1771,8 @@
         "walletConnect": {
             "invalidUri": "Invalid URI",
             "invalidProtocol": "Invalid protocol, must start with 'wc'.",
-            "deprecatedVersion": "dApp uses a deprecated wallet connect version."
+            "deprecatedVersion": "dApp uses a deprecated wallet connect version.",
+            "invalidV2UriFormat": "The link doesn't adhere to the WalletConnect V2 specification."
         },
         "web3": {
             "unableToGetProvider": "Unable to get web3 provider.",
@@ -1857,14 +1850,16 @@
         "collectibles": "Collectibles",
         "governance": "Governance",
         "developer": "Udvikler",
-        "tokens": "Tokens"
+        "tokens": "Tokens",
+        "settings": "Settings"
     },
     "pills": {
         "asyncStatus": {
-            "unclaimed": "unclaimed",
-            "claimed": "claimed",
-            "expired": "expired",
-            "timelocked": "timelocked"
+            "claim": "Claim {timeDiff, select, undefined {} other { {timeDiff} }}",
+            "unclaimed": "Unclaimed {timeDiff, select, undefined {} other { {timeDiff}}}",
+            "claimed": "Claimed",
+            "expired": "Expired",
+            "timelocked": "Locked {timeDiff, select, undefined {} other { {timeDiff}}}"
         },
         "governance": {
             "proposalStatus": {

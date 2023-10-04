@@ -3,7 +3,10 @@
         "onboarding": {
             "appSetup": {
                 "welcome": {
-                    "title": "Welcome to"
+                    "title": "Welcome to",
+                    "subtitle": "A new journey awaits...",
+                    "legalBody": "Check to confirm you've read and accept the",
+                    "button": "Begin setup"
                 },
                 "legal": {
                     "title": "Tietosuojakäytäntö ja käyttöehdot"
@@ -158,9 +161,6 @@
             "profile": {
                 "title": "Profiili"
             },
-            "network": {
-                "title": "Network"
-            },
             "collectibles": {
                 "title": "Collectibles"
             },
@@ -187,10 +187,6 @@
             "notifications": {
                 "title": "Ilmoitukset",
                 "description": "Järjestelmäilmoitukset transaktiotapahtumista"
-            },
-            "networkStatus": {
-                "title": "Verkon tila",
-                "description": "Näyttää tilan solmulle, johon olet tällä hetkellä yhteydessä"
             },
             "exportStronghold": {
                 "title": "Vie varmuuskopio",
@@ -233,12 +229,8 @@
                 "description": "Change your Bloom profile name",
                 "success": "Olet muuttanut profiilisi nimeä"
             },
-            "walletFinder": {
-                "title": "Lompakon etsijä",
-                "description": "Suorita laajennettu haku aiemmin käytetyistä lompakoista"
-            },
             "hiddenAccounts": {
-                "title": "Piilotetut lompakot",
+                "title": "Hidden accounts",
                 "description": "Tämän asetuksen valitseminen näyttää aiemmin piilotetut lompakot"
             },
             "deleteProfile": {
@@ -248,26 +240,6 @@
             "deepLinks": {
                 "title": "Syvälinkit",
                 "description": "Automatically fill transaction data in Bloom upon clicking a deep link starting with {appProtocol}://"
-            },
-            "networkInformation": {
-                "title": "Network information",
-                "connectedTo": "Connected to"
-            },
-            "configureNodeList": {
-                "title": "Solmuasetukset",
-                "description": "Hallinnoi listaa solmuista, joihin yhdistät",
-                "primaryNode": "Ensisijainen solmu",
-                "excludeNode": "Hylkää solmu",
-                "includeNode": "Sisällytä solmu",
-                "editDetails": "Muokkaa tietoja",
-                "setAsPrimary": "Aseta ensisijainen solmu",
-                "unsetAsPrimary": "Tyhjennä ensisijainen solmu",
-                "removeNode": "Poista solmu",
-                "noNodes": "Solmuja ei ole, yhteyden muodostaminen verkkoon ei ole mahdollista"
-            },
-            "localProofOfWork": {
-                "title": "Proof of work",
-                "description": "Complete proof of work locally on your device or outsource to the node"
             },
             "errorLog": {
                 "title": "Virheloki",
@@ -351,6 +323,7 @@
                 "action": "Action",
                 "address": "Address",
                 "amount": "Amount",
+                "claimableTransactions": "You have {amount} {amount, select, 1 {transaction that requires} other {transactions that require}} claiming",
                 "consolidatedOutputs": "{amount} outputs consolidated"
             },
             "profileMenu": {
@@ -403,6 +376,23 @@
                     },
                     "removeChain": {
                         "title": "Remove chain"
+                    },
+                    "networkSettings": {
+                        "configureNodeList": {
+                            "title": "Node configuration",
+                            "description": "Manage the list of nodes you connect to",
+                            "excludeNode": "Exclude node",
+                            "includeNode": "Include node",
+                            "editDetails": "Edit details",
+                            "setAsPrimary": "Set primary node",
+                            "unsetAsPrimary": "Clear primary node",
+                            "removeNode": "Remove node",
+                            "noNodes": "There are no nodes, unable to connect to the network"
+                        },
+                        "localProofOfWork": {
+                            "title": "Proof of work",
+                            "description": "Complete proof of work locally on your device or outsource to the node"
+                        }
                     }
                 },
                 "contactBook": {
@@ -448,7 +438,8 @@
                     "inputConnectionCode": {
                         "title": "Connect to a dApp",
                         "inputLabel": "Wallet Connect code",
-                        "hint": "Add new dApps by adding a Wallet Connect code below."
+                        "hint": "Add new dApps by adding a Wallet Connect code below.",
+                        "deprecated": "The dApp you try to connect to uses a deprecated version of WalletConnect. Cannot establish connection"
                     },
                     "confirmConnection": {
                         "title": "Connect with an application",
@@ -484,6 +475,7 @@
                 "title": "Collectibles",
                 "emptyTitle": "No collectibles",
                 "noResults": "No results",
+                "timelocked": "Locked for {timeDiff}",
                 "emptyDescription": "Deposit or Receive your first collectible now!"
             },
             "details": {
@@ -658,7 +650,7 @@
             "body": "On tärkeää varmuuskopioida lompakkosi säännöllisesti varmistaaksesi, että sinulla on kopio lompakostasi ja transaktiohistoriastasi. Jos menetät varmuuskopiosi ja palautuslausekkeesi, menetät pääsyn varoihisi."
         },
         "deeplinkAccountSwitch": {
-            "title": "Valitse lompakko",
+            "title": "Select an account",
             "body": "Olet juuri seurannut syvälinkkiä. Ole hyvä ja valitse lompakko, jolla haluat jatkaa."
         },
         "deeplinkError": {
@@ -764,10 +756,10 @@
             "surplusIncluded": "Tämä transaktio sisältää ylijäämän. Ole hyvä ja tarkista, että haluat lähettää tämän summan."
         },
         "walletFinder": {
-            "title": "Lompakon etsijä",
+            "title": "Sync accounts",
             "body": "Suorita kattavampi haku osoitteistasi etsimään puuttuvia saldoja ja lompakkoja.",
-            "accountsSearched": "Etsityt lompakot",
-            "accountsFound": "Löydetyt lompakot",
+            "accountsSearched": "Accounts searched",
+            "accountsFound": "Accounts found",
             "totalWalletBalance": "Kokonaissaldo",
             "searchAgainHint": "Onko saldosi tai lompakkojesi lukumäärä väärin? Hae uudelleen, kunnes koko saldosi näkyy."
         },
@@ -1117,10 +1109,10 @@
         "restart": "Restart",
         "refresh": "Refresh",
         "saveBackup": "Save backup",
-        "customizeAccount": "Mukauta lompakkoa",
-        "hideAccount": "Piilota lompakko",
-        "showAccount": "Näytä lompakko",
-        "deleteAccount": "Poista lompakko",
+        "customizeAccount": "Customise account",
+        "hideAccount": "Hide account",
+        "showAccount": "Unhide account",
+        "deleteAccount": "Delete account",
         "addNode": "Lisää solmu",
         "addingNode": "Lisätään solmua",
         "addOfficialNodes": "Lisää viralliset solmut",
@@ -1140,7 +1132,7 @@
         "copyAllInformation": "Kopioi kaikki tiedot",
         "paste": "Liitä",
         "selectAll": "Valitse kaikki",
-        "addAccount": "Lisää lompakko",
+        "addAccount": "Add account",
         "checkForUpdates": "Tarkista päivitykset",
         "reportAnIssue": "Ilmoita ongelmasta",
         "clear": "Tyhjennä",
@@ -1154,11 +1146,9 @@
         "readDocumentation": "Lue dokumentaatio",
         "visitFaq": "Katso usein kysytyt kysymykset",
         "viewDownloads": "View downloads",
-        "viewBalanceBreakdown": "View balance breakdown",
-        "showHiddenAccounts": "Näytä piilotetut lompakot",
+        "showHiddenAccounts": "Show hidden accounts",
         "confirm": "Vahvista",
         "hideNetworkStatistics": "Piilota verkkotilastot",
-        "findWallets": "Löydä lompakot",
         "search": "Etsi",
         "searching": "Etsitään",
         "searchAgain": "Hae uudelleen",
@@ -1191,7 +1181,10 @@
         "revote": "Revote",
         "skipAndKeep": "Skip and keep old password",
         "addChain": "Add chain",
-        "untrackToken": "Untrack token"
+        "untrackToken": "Untrack token",
+        "switchAccount": "Switch account",
+        "syncAccounts": "Sync accounts",
+        "importErc20Token": "Import ERC20 token"
     },
     "general": {
         "recipient": "Vastaanottaja",
@@ -1236,9 +1229,8 @@
         "sendTo": "Lähetä",
         "sendAssets": "Send assets",
         "sendAssetToAddress": "Send asset to an address",
-        "manageAccount": "Hallitse lompakkoa",
-        "customizeAccount": "Mukauta lompakkoasi",
-        "account": "Lompakko",
+        "manageAccount": "Manage account",
+        "account": "Account",
         "amount": "Määrä",
         "addAddress": "Lisää osoite",
         "to": "Mihin",
@@ -1263,7 +1255,7 @@
         "outgoing": "Lähtevä",
         "dev": "Kehitys",
         "newAccount": "New account",
-        "accountName": "Lompakon nimi",
+        "accountName": "Account name",
         "activity": "Aktiviteetti",
         "security": "Suojaus",
         "network": "Verkko",
@@ -1280,7 +1272,7 @@
         "noAssets": "Ei varoja",
         "noFilteredAsset": "Ei vastaavia nimikkeitä",
         "thisMonth": "Tässä kuussa",
-        "search": "Etsi",
+        "search": "Search...",
         "passwordUpdating": "Päivitetään salasanaa...",
         "passwordSuccess": "Salasanan päivitys onnistui",
         "passwordFailed": "Salasanan päivittäminen epäonnistui",
@@ -1303,7 +1295,7 @@
         "unknown": "Tuntematon",
         "unknownAddress": "Tuntematon osoite",
         "none": "Ei mikään",
-        "accountColor": "Lompakon väri",
+        "accountColor": "Account color",
         "transactionTime": "Transaktion aika",
         "storageDeposit": "Tallennusvakuus",
         "transactionFee": "Transaction fee",
@@ -1332,7 +1324,6 @@
         "mintNativeTokenDescription": "Lyö natiiveja tokeneita IRC30-standardin mukaisesti",
         "mintNftDescription": "Mint NFT following IRC27 standard",
         "faucetRequestDescription": "Pyydä tokeneita {network}-faucetista",
-        "refreshTokenMetadataDescription": "Palauta ja päivitä kaikki tokeneiden metatiedot",
         "refreshTokenMetadataHint": "Tämä palauttaa kaikki tokeneittesi metatiedot mukaan lukien vahvistustilan ja näyttää kaikki piilotetut varat.",
         "excluded": "Rajattu",
         "developerTools": "Kehittäjätyökalut",
@@ -1370,7 +1361,6 @@
         "coinType": "Coin type",
         "custom": "Custom",
         "evmAddress": "EVM address",
-        "importErc20Token": "Import ERC20 token",
         "optionalField": "{field} (optional)",
         "gifted": "Gifted",
         "connected": "Connected",
@@ -1380,7 +1370,9 @@
         "apps": "Apps",
         "networks": "Networks",
         "ledgerDevice": "Ledger device",
-        "disconnected": "Disconnected"
+        "disconnected": "Disconnected",
+        "balanceBreakdown": "Balance breakdown",
+        "primary": "Primary"
     },
     "filters": {
         "title": "Suodattimet",
@@ -1779,7 +1771,8 @@
         "walletConnect": {
             "invalidUri": "Invalid URI",
             "invalidProtocol": "Invalid protocol, must start with 'wc'.",
-            "deprecatedVersion": "dApp uses a deprecated wallet connect version."
+            "deprecatedVersion": "dApp uses a deprecated wallet connect version.",
+            "invalidV2UriFormat": "The link doesn't adhere to the WalletConnect V2 specification."
         },
         "web3": {
             "unableToGetProvider": "Unable to get web3 provider.",
@@ -1857,14 +1850,16 @@
         "collectibles": "Collectibles",
         "governance": "Hallinnointi",
         "developer": "Kehittäjä",
-        "tokens": "Tokenit"
+        "tokens": "Tokenit",
+        "settings": "Settings"
     },
     "pills": {
         "asyncStatus": {
-            "unclaimed": "lunastamaton",
-            "claimed": "lunastettu",
-            "expired": "erääntynyt",
-            "timelocked": "timelocked"
+            "claim": "Claim {timeDiff, select, undefined {} other { {timeDiff} }}",
+            "unclaimed": "Unclaimed {timeDiff, select, undefined {} other { {timeDiff}}}",
+            "claimed": "Claimed",
+            "expired": "Expired",
+            "timelocked": "Locked {timeDiff, select, undefined {} other { {timeDiff}}}"
         },
         "governance": {
             "proposalStatus": {
