@@ -9,6 +9,8 @@
 
     $: dark = $appSettings.darkMode
 
+    $: shouldMagnifyIcon = [IconName.Receive, IconName.Send].includes(style?.icon)
+
     let style: { icon: IconName; color: string } | undefined
     $: dark, (style = getActionStyle())
     function getActionStyle(): { icon: IconName; color: string } {
@@ -22,22 +24,22 @@
         }
         if (type === ActivityType.Governance) {
             return {
-                icon: IconName.Bank,
+                icon: IconName.ArrowLeftRight,
                 color: dark ? 'neutral-1' : 'neutral-7',
             }
         } else if (type === ActivityType.Consolidation) {
             return {
-                icon: IconName.Refresh,
+                icon: IconName.ArrowLeftRight,
                 color: dark ? 'neutral-1' : 'neutral-7',
             }
         } else if (action === ActivityAction.Mint) {
             return {
-                icon: IconName.Import,
+                icon: IconName.ArrowDown,
                 color: 'success',
             }
         } else if (action === ActivityAction.Burn) {
             return {
-                icon: IconName.Refresh,
+                icon: IconName.ArrowUp,
                 color: 'danger',
             }
         } else if (action === ActivityAction.InitialBalance) {
@@ -48,7 +50,7 @@
         } else if (action === ActivityAction.Send || action === ActivityAction.BalanceChange) {
             if (isInternal) {
                 return {
-                    icon: IconName.Refresh,
+                    icon: IconName.ArrowLeftRight,
                     color: dark ? 'neutral-1' : 'neutral-7',
                 }
             }
@@ -75,7 +77,13 @@
 
 <div class="text-start">
     <div class="flex flex-row items-center gap-2">
-        <Avatar size="xxs" backgroundColor={style.color} icon={style.icon} textColor="primary" />
+        <Avatar
+            size="xxs"
+            backgroundColor={style.color}
+            icon={style.icon}
+            textColor="primary"
+            magnify={shouldMagnifyIcon}
+        />
         <Text customColor={style.color}>{localize(getActivityTileTitle(activity))}</Text>
     </div>
     <Text textColor="secondary">{formatDate(activity.time, { year: 'numeric', month: 'short', day: 'numeric' })}</Text>
