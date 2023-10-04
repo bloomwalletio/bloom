@@ -30,13 +30,7 @@
     {/if}
 
     <div class="flex flex-col justify-between">
-        {#if !activity.sender && !activity.recipient}
-            <AddressWithNetwork subject={undefined} networkId={activity.destinationNetworkId} />
-        {:else if isSelfTransaction}
-            <AddressWithNetwork subject={activity.sender} networkId={activity.destinationNetworkId} />
-        {:else}
-            <AddressWithNetwork subject={activity.sender} networkId={activity.sourceNetworkId} />
-            <AddressWithNetwork subject={activity.recipient} networkId={activity.destinationNetworkId} />
-        {/if}
+        <AddressWithNetwork subject={activity.sender} networkId={activity.sourceNetworkId} />
+        <AddressWithNetwork subject={activity.recipient} networkId={activity.destinationNetworkId} />
     </div>
 </div>
