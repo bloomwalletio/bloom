@@ -74,12 +74,10 @@
 </script>
 
 {#if pillProps}
-    <div>
-        <Pill color={pillProps.color} compact>
-            <div class="flex flex-row items-center gap-1">
-                <Icon name={pillProps.icon} size="xxs" customColor={pillProps.color} />
-                {pillProps.text}
-            </div>
-        </Pill>
-    </div>
+    <Pill color={pillProps.color} compact>
+        <div class="flex flex-row items-center gap-1">
+            <Icon name={pillProps.icon} size="xxs" customColor={pillProps.color} />
+            {pillProps.text}
+        </div>
+    </Pill>
 {/if}
