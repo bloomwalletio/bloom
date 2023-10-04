@@ -1,32 +1,39 @@
 <script lang="ts">
     import { Button, Text } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
-
-    interface IButtonProps {
+    import { HTMLButtonType } from '@ui'
+    interface IBaseButtonProps {
         text: string
-        disabled: boolean
-        hidden: boolean
+        disabled?: boolean
+        restProps?: Record<string, unknown> | undefined
+    }
+
+    interface IFormButtonProps extends IBaseButtonProps {
+        type: HTMLButtonType.Submit
+        form: string
+    }
+
+    interface IButtonProps extends IBaseButtonProps {
+        type: HTMLButtonType.Button
         onClick: (() => unknown) | undefined
     }
 
-    const DEFAULT_CONTINUE_BUTTON: IButtonProps = {
+    type ButtonProps = IFormButtonProps | Omit<IButtonProps, 'type'>
+
+    const DEFAULT_CONTINUE_BUTTON = {
+        type: HTMLButtonType.Button,
         text: localize('actions.continue'),
-        disabled: false,
-        hidden: false,
-        onClick: undefined,
     }
 
-    const DEFAULT_BACK_BUTTON: IButtonProps = {
+    const DEFAULT_BACK_BUTTON = {
+        type: HTMLButtonType.Button,
         text: localize('actions.back'),
-        disabled: false,
-        hidden: false,
-        onClick: undefined,
     }
 
     export let title: string | undefined = undefined
     export let description: string | undefined = undefined
-    export let continueButton: Partial<IButtonProps> | undefined = DEFAULT_CONTINUE_BUTTON
-    export let backButton: Partial<IButtonProps> | undefined = DEFAULT_BACK_BUTTON
+    export let continueButton: ButtonProps | undefined = undefined
+    export let backButton: ButtonProps | undefined = undefined
     export let busy: boolean = false
 
     $: _continueButton = { ...DEFAULT_CONTINUE_BUTTON, ...continueButton }
@@ -45,25 +52,31 @@
     <popup-content>
         <slot />
     </popup-content>
-    {#if !_backButton.hidden || !_continueButton.hidden}
+    {#if backButton || continueButton}
         <popup-buttons class="block flex flex-row space-x-6">
-            {#if !_backButton.hidden}
+            {#if backButton}
                 <Button
-                    width="full"
+                    type={_backButton.type}
                     variant="outlined"
-                    disabled={busy || _backButton.disabled || !_backButton.onClick}
-                    on:click={_backButton.onClick}
                     text={_backButton.text}
+                    disabled={busy || _backButton.disabled}
+                    width="full"
+                    form={_backButton.type === HTMLButtonType.Submit ? _backButton.form : undefined}
+                    on:click={_backButton.type === HTMLButtonType.Button && _backButton.onClick}
+                    {..._backButton.restProps}
                 />
             {/if}
-            {#if !_continueButton.hidden}
+            {#if continueButton}
                 <Button
-                    width="full"
+                    type={_continueButton.type}
                     variant="contained"
-                    disabled={_continueButton.disabled || !_continueButton.onClick}
-                    {busy}
-                    on:click={_continueButton.onClick}
                     text={_continueButton.text}
+                    disabled={_continueButton.disabled}
+                    {busy}
+                    width="full"
+                    form={_continueButton.type === HTMLButtonType.Submit ? _continueButton.form : undefined}
+                    on:click={_continueButton.type === HTMLButtonType.Button && _continueButton.onClick}
+                    {..._continueButton.restProps}
                 />
             {/if}
         </popup-buttons>
