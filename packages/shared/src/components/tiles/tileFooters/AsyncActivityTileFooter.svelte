@@ -98,7 +98,7 @@
                 {localize('actions.claim')}
             </Button>
         {:else}
-            <ActivityAsyncStatusPill asyncStatus={activity.asyncData?.asyncStatus} />
+            <ActivityAsyncStatusPill {activity} />
         {/if}
     </svelte:fragment>
 </TileFooter>
