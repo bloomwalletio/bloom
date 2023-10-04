@@ -20,12 +20,14 @@
 
     type ButtonProps = IFormButtonProps | Omit<IButtonProps, 'type'>
 
-    const DEFAULT_CONTINUE_BUTTON = {
+    type ButtonWithType = IFormButtonProps | IButtonProps
+
+    const DEFAULT_CONTINUE_BUTTON: { type: HTMLButtonType.Button; text: string } = {
         type: HTMLButtonType.Button,
         text: localize('actions.continue'),
     }
 
-    const DEFAULT_BACK_BUTTON = {
+    const DEFAULT_BACK_BUTTON: { type: HTMLButtonType.Button; text: string } = {
         type: HTMLButtonType.Button,
         text: localize('actions.back'),
     }
@@ -36,6 +38,8 @@
     export let backButton: ButtonProps | undefined = undefined
     export let busy: boolean = false
 
+    let _continueButton: ButtonWithType
+    let _backButton: ButtonWithType
     $: _continueButton = { ...DEFAULT_CONTINUE_BUTTON, ...continueButton }
     $: _backButton = { ...DEFAULT_BACK_BUTTON, ...backButton }
 </script>
