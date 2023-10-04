@@ -9,7 +9,7 @@
 
     $: dark = $appSettings.darkMode
 
-    $: shouldMagnifyIcon = [IconName.Receive, IconName.Send].includes(style?.icon)
+    $: shouldMagnifyIcon = [IconName.Receive, IconName.Send, IconName.ArrowDown, IconName.ArrowUp].includes(style?.icon)
 
     let style: { icon: IconName; color: string } | undefined
     $: dark, (style = getActionStyle())
