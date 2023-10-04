@@ -109,8 +109,7 @@
             "profileRecovery": {
                 "importMnemonicPhrase": {
                     "title": "Enter your recovery phrase",
-                    "body": "A recovery phrase is 24 words long, all lower case, with spaces between. This is used to recover existing Bloom profiles.",
-                    "enter": "Enter your secret recovery phrase",
+                    "body": "A recovery phrase is 24 words long, all lower case, with spaces between. Separate each word by spaces or commas.",
                     "phraseDetected": "24 word recovery phrase detected"
                 },
                 "importStrongholdBackup": {
