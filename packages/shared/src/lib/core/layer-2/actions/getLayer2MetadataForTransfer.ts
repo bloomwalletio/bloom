@@ -5,17 +5,29 @@ import { SpecialStream } from '../classes'
 import { ACCOUNTS_CONTRACT, EXTERNALLY_OWNED_ACCOUNT, GAS_LIMIT_MULTIPLIER, TRANSFER_ALLOWANCE } from '../constants'
 import { encodeAddress, encodeAssetAllowance, encodeSmartContractParameters } from '../helpers'
 import { estimateGasForLayer1ToLayer2Transaction } from './estimateGasForLayer1ToLayer2Transaction'
+import { EvmChainId, getChainConfiguration } from '@core/network'
 
 export async function getLayer2MetadataForTransfer(sendFlowParameters: SendFlowParameters): Promise<string> {
     const metadataStream = new SpecialStream()
-
-    const address = sendFlowParameters.recipient?.address
-    const encodedAddress = address ? encodeAddress(address.toLowerCase()) : ''
+    const chainConfig = sendFlowParameters.destinationNetworkId
+        ? getChainConfiguration(sendFlowParameters.destinationNetworkId)
+        : undefined
+    if (!chainConfig) {
+        throw new Error('Chain is undefined')
+    }
+    const address = sendFlowParameters.recipient?.address ?? ''
+    const encodedAddress = encodeAddress(address.toLowerCase(), chainConfig)
 
     const estimatedGas = await estimateGasForLayer1ToLayer2Transaction(sendFlowParameters as TokenSendFlowParameters)
     const gasLimit = Math.floor(estimatedGas * GAS_LIMIT_MULTIPLIER)
 
-    metadataStream.writeUInt32('senderContract', EXTERNALLY_OWNED_ACCOUNT)
+    // TODO: use writeUInt8 once EVM Testnet encoding reaches parity with ShimmerEVM
+    if (chainConfig.chainId === EvmChainId.ShimmerEvmTestnet) {
+        metadataStream.writeUInt32('senderContract', EXTERNALLY_OWNED_ACCOUNT)
+    } else {
+        metadataStream.writeUInt8('senderContract', EXTERNALLY_OWNED_ACCOUNT)
+    }
+
     metadataStream.writeUInt32('targetContract', ACCOUNTS_CONTRACT)
     metadataStream.writeUInt32('contractFunction', TRANSFER_ALLOWANCE)
     // Gas budget is the ISC equivalent of gas limit in ethereum and what we use throughout the code

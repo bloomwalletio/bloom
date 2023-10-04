@@ -1,15 +1,13 @@
 <script lang="ts">
     import { localize } from '@core/i18n'
     import { LedgerConnectionState, ledgerConnectionState } from '@core/ledger'
-    import { Subrouter } from '@core/router'
     import { PopupId, openPopup } from '@desktop/auxiliary/popup'
     import { Icon, Link, Text } from '@ui'
     import { OnboardingLayout } from '@views/components'
+    import { createFromLedgerRouter } from '..'
 
-    export let router: Subrouter<unknown>
-
-    $: isNotConnected = $ledgerConnectionState === LedgerConnectionState.NotConnected
-    $: isLocked = isNotConnected || $ledgerConnectionState === LedgerConnectionState.Locked
+    $: isDisconnected = $ledgerConnectionState === LedgerConnectionState.Disconnected
+    $: isLocked = isDisconnected || $ledgerConnectionState === LedgerConnectionState.Locked
     $: isCorrectAppOpen = $ledgerConnectionState === LedgerConnectionState.ShimmerAppOpen
 
     function handleGuidePopup(): void {
@@ -19,11 +17,11 @@
     }
 
     function onContinueClick(): void {
-        router.next()
+        $createFromLedgerRouter.next()
     }
 
     function onBackClick(): void {
-        router.previous()
+        $createFromLedgerRouter.previous()
     }
 </script>
 
@@ -42,8 +40,8 @@
         <div class="flex flex-col flex-nowrap space-y-2">
             <div class="flex flex-row items-center space-x-2">
                 <Icon
-                    icon={`status-${isNotConnected ? 'error' : 'success'}`}
-                    classes={`text-white bg-${isNotConnected ? 'red' : 'green'}-600 rounded-full`}
+                    icon={`status-${isDisconnected ? 'error' : 'success'}`}
+                    classes={`text-white bg-${isDisconnected ? 'red' : 'green'}-600 rounded-full`}
                 />
                 <Text type="p" secondary>{localize('views.connectLedger.connect')}</Text>
             </div>

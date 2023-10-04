@@ -10,6 +10,7 @@
         ConnectedChainsDrawer,
         ConnectLedgerDeviceDrawer,
         EditChainDrawer,
+        NetworkSettingsDrawer,
         RemoveChainDrawer,
     } from './views'
     import { clearSelectedChain } from '@core/network'
@@ -33,6 +34,8 @@
     <ConnectedChainsDrawer {drawerRouter} />
 {:else if $networkConfigRoute === NetworkConfigRoute.ChainInformation}
     <ChainInformationDrawer {drawerRouter} />
+{:else if $networkConfigRoute === NetworkConfigRoute.NetworkSettings}
+    <NetworkSettingsDrawer {drawerRouter} />
 {:else if $networkConfigRoute === NetworkConfigRoute.EditChain}
     <EditChainDrawer {drawerRouter} />
 {:else if $networkConfigRoute === NetworkConfigRoute.RemoveChain}
