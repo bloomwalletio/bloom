@@ -1,37 +1,50 @@
 <script lang="ts">
     import { localize } from '@core/i18n'
-    import { Activity, ActivityAsyncStatus, ActivityDirection, AsyncData } from '@core/activity'
+    import { Activity, ActivityAsyncStatus, ActivityDirection } from '@core/activity'
     import { Pill, Icon, IconName } from '@bloomwalletio/ui'
     import { getTimeDifference } from '@core/utils/time'
     import { time } from '@core/app/stores'
 
     export let activity: Activity
 
-    let timeDiff: string | undefined = undefined
-    $: $time, (timeDiff = getTimeDiff(activity.asyncData))
-
     let pillStyle: { color: string; icon: IconName; text: string } | undefined
-    $: timeDiff, activity, (pillStyle = getPillStyle())
+    $: $time, activity, (pillStyle = getPillStyle())
 
     function getPillStyle(): { color: string; icon: IconName; text: string } | undefined {
         if (!activity.asyncData?.asyncStatus) {
             return undefined
         }
+        const { asyncStatus, expirationDate, timelockDate } = activity.asyncData
 
-        switch (activity.asyncData.asyncStatus) {
-            case ActivityAsyncStatus.Claimed:
+        switch (asyncStatus) {
+            case ActivityAsyncStatus.Claimed: {
                 return undefined
-            case ActivityAsyncStatus.Timelocked:
+            }
+            case ActivityAsyncStatus.Timelocked: {
                 if (activity.direction === ActivityDirection.Outgoing) {
-                    return undefined
+                    if (expirationDate) {
+                        return {
+                            color: 'warning',
+                            icon: IconName.Hourglass,
+                            text: localize('pills.asyncStatus.unclaimed', {
+                                timeDiff: getTimeDifference(expirationDate, $time),
+                            }),
+                        }
+                    } else {
+                        return undefined
+                    }
                 } else {
                     return {
                         color: 'neutral',
                         icon: IconName.Locked,
-                        text: localize('pills.asyncStatus.timelocked', { timeDiff }),
+                        text: localize('pills.asyncStatus.timelocked', {
+                            timeDiff: getTimeDifference(timelockDate, $time),
+                        }),
                     }
                 }
-            case ActivityAsyncStatus.Unclaimed:
+            }
+            case ActivityAsyncStatus.Unclaimed: {
+                const timeDiff = expirationDate ? getTimeDifference(expirationDate, $time) : undefined
                 if (activity.direction === ActivityDirection.Outgoing) {
                     return {
                         color: 'warning',
@@ -45,28 +58,17 @@
                         text: localize('pills.asyncStatus.claim', { timeDiff }),
                     }
                 }
-            case ActivityAsyncStatus.Expired:
+            }
+            case ActivityAsyncStatus.Expired: {
                 return {
                     color: 'neutral',
                     icon: IconName.EmptyHourglass,
                     text: localize('pills.asyncStatus.expired'),
                 }
-            default:
+            }
+            default: {
                 return undefined
-        }
-    }
-
-    function getTimeDiff(asyncData: AsyncData | undefined): string | undefined {
-        if (!asyncData) {
-            return undefined
-        }
-
-        const { asyncStatus, expirationDate, timelockDate } = asyncData
-        if (asyncStatus === ActivityAsyncStatus.Timelocked) {
-            return getTimeDifference(timelockDate, $time)
-        }
-        if (asyncStatus !== ActivityAsyncStatus.Claimed && expirationDate) {
-            return getTimeDifference(expirationDate, $time)
+            }
         }
     }
 </script>
