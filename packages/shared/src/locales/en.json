@@ -117,6 +117,10 @@
                     "title": "Import your Stronghold backup",
                     "body": "Import a Stronghold backup file to restore your profile."
                 },
+                "unlockStronghold": {
+                    "title": "Unlock your backup",
+                    "body": "Please provide your backup password below."
+                },
                 "backupPassword": {
                     "body1": "Please enter your backup password.",
                     "body2": "This is the password you set when you first created your backup."
