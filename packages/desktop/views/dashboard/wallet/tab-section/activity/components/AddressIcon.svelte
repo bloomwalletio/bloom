@@ -6,47 +6,47 @@
 </script>
 
 {#if isSubjectInternal(activity.sender) && isSubjectInternal(activity.recipient)}
-    <svg width="32" height="30" viewBox="0 0 11 29" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg width="32" height="30" viewBox="0 0 11 28" fill="none" xmlns="http://www.w3.org/2000/svg">
         <g opacity="0.5">
             <path
-                d="M6.24264 19.0754L9.07107 21.9038C9.85212 22.6848 9.85212 23.9512 9.07107 24.7322L6.24264 27.5606"
-                stroke="#6F778A"
-                stroke-width="2"
-            />
-            <path
-                d="M1 18.0753C1 13.6854 1 10.7409 1 7.07539C1 4.86625 2.79086 3.07532 5 3.07532H9"
-                stroke="#6F778A"
-                stroke-width="2"
-            />
-            <path d="M1 6.81799V19.0753C1 21.2845 2.79086 23.0753 5 23.0753H9" stroke="#6F778A" stroke-width="2" />
-        </g>
-    </svg>
-{:else if isSubjectInternal(activity.sender) && !isSubjectInternal(activity.recipient)}
-    <svg width="32" height="30" viewBox="0 0 14 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <g opacity="0.5">
-            <path
-                d="M5.24219 19.5V6.5C5.24219 4.29086 7.03305 2.5 9.24219 2.5H13.2422"
-                stroke="#6F778A"
-                stroke-width="2"
-            />
-            <path
-                d="M1.00028 15.2426L3.82871 18.0711C4.60976 18.8521 5.87608 18.8521 6.65713 18.0711L9.48556 15.2426"
-                stroke="#6F778A"
-                stroke-width="2"
-            />
-        </g>
-        <circle cx="5" cy="24.5" r="4" stroke="#B7BBC5" stroke-width="2" />
-    </svg>
-{:else if !isSubjectInternal(activity.sender) && isSubjectInternal(activity.recipient)}
-    <svg width="32" height="30" viewBox="0 0 15 31" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <g>
-            <circle cx="5" cy="5.25735" r="4" stroke="currentColor" stroke-width="2" />
-            <path
-                d="M10.2426 21.2574L13.0711 24.0858C13.8521 24.8668 13.8521 26.1332 13.0711 26.9142L10.2426 29.7426"
+                d="M6.24264 18.636L9.07107 21.4644C9.85212 22.2455 9.85212 23.5118 9.07107 24.2929L6.24264 27.1213"
                 stroke="currentColor"
                 stroke-width="2"
             />
-            <path d="M5 9V21.2574C5 23.4665 6.79086 25.2574 9 25.2574H13" stroke="currentColor" stroke-width="2" />
+            <path
+                d="M1 16.5607C1 13.3736 1 11.1388 1 8.56105C1 6.35191 2.79086 4.56067 5 4.56067H9"
+                stroke="currentColor"
+                stroke-width="2"
+            />
+            <path d="M1 8.56067V18.5607C1 20.7698 2.79086 22.5607 5 22.5607H9" stroke="currentColor" stroke-width="2" />
+        </g>
+    </svg>
+{:else if isSubjectInternal(activity.sender) && !isSubjectInternal(activity.recipient)}
+    <svg width="32" height="30" viewBox="0 0 13 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <g opacity="0.5">
+            <circle cx="5" cy="19" r="4" stroke="currentColor" stroke-width="2" />
+            <path
+                d="M9.24264 10.2426L6.41421 13.0711C5.63316 13.8521 4.36683 13.8521 3.58579 13.0711L0.757359 10.2426"
+                stroke="currentColor"
+                stroke-width="2"
+            />
+            <path d="M5 13V5C5 2.79086 6.79086 1 9 1H13" stroke="currentColor" stroke-width="2" />
+        </g>
+    </svg>
+{:else if !isSubjectInternal(activity.sender) && isSubjectInternal(activity.recipient)}
+    <svg width="32" height="30" viewBox="0 0 15 29" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <g opacity="0.5">
+            <circle cx="5" cy="5" r="4" stroke="currentColor" stroke-width="2" />
+            <path
+                d="M10.2426 19L13.0711 21.8285C13.8521 22.6095 13.8521 23.8758 13.0711 24.6569L10.2426 27.4853"
+                stroke="currentColor"
+                stroke-width="2"
+            />
+            <path
+                d="M5 8.74268V18.7427C5 20.9518 6.79086 22.7427 9 22.7427H13"
+                stroke="currentColor"
+                stroke-width="2"
+            />
         </g>
     </svg>
 {:else}
