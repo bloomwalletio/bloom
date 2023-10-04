@@ -19,7 +19,7 @@
         if (type === ActivityType.Basic && activity.isShimmerClaiming) {
             return {
                 icon: IconName.Receive,
-                color: 'brand',
+                color: 'info',
             }
         }
         if (type === ActivityType.Governance) {
@@ -57,13 +57,13 @@
             if (direction === ActivityDirection.Incoming || direction === ActivityDirection.SelfTransaction) {
                 return {
                     icon: IconName.Receive,
-                    color: 'brand',
+                    color: 'info',
                 }
             }
             if (direction === ActivityDirection.Outgoing) {
                 return {
                     icon: IconName.Send,
-                    color: 'info',
+                    color: 'brand',
                 }
             }
         } else {
