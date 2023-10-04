@@ -64,7 +64,7 @@
             </div>
             {#if !$drawerState.hideClose}
                 <div class="absolute top-7 right-7">
-                    <CloseButton size="base" on:click={onCloseClick} />
+                    <CloseButton size="sm" on:click={onCloseClick} />
                 </div>
             {/if}
         </panel>

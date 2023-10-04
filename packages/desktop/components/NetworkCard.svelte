@@ -76,26 +76,26 @@
     })
 </script>
 
-<Tile onClick={onCardClick}>
-    <div class="w-full flex flex-col gap-5">
-        <div class="flex flex-row justify-between items-center">
-            <div class="flex flex-row gap-2 items-center">
+<Tile border onClick={onCardClick}>
+    <div class="w-full flex flex-col gap-4">
+        <div class="flex flex-row justify-between items-center gap-1">
+            <div class="flex flex-row gap-3 items-center">
                 {#if networkId}
-                    <NetworkAvatar {networkId} />
+                    <NetworkAvatar {networkId} shape="squircle" />
                 {/if}
-                <Text type="h6">{name}</Text>
+                <Text type="body1" truncate>{name}</Text>
             </div>
             {#key status}
                 <NetworkStatusPill {status} />
             {/key}
         </div>
-        <div class="flex flex-row justify-between items-end">
-            <div class="flex flex-col">
-                <Text textColor="secondary" fontWeight="medium">{localize('general.myAddress')}</Text>
+        <div class="flex flex-row justify-between items-end space-x-1">
+            <div class="flex flex-col gap-1">
+                <Text>{localize('general.myAddress')}</Text>
                 {#if address}
                     <Copyable value={address}>
-                        <Text type="body2">
-                            {truncateString(address, 8, 8)}
+                        <Text type="pre-lg" textColor="secondary">
+                            {truncateString(address, 10, 10)}
                         </Text>
                     </Copyable>
                 {:else}
