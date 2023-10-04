@@ -1,20 +1,85 @@
 <script lang="ts">
     import { localize } from '@core/i18n'
-    import { ActivityAsyncStatus } from '@core/activity'
-    import { Pill } from '@bloomwalletio/ui'
+    import { Activity, ActivityAsyncStatus, ActivityDirection } from '@core/activity'
+    import { Pill, Icon, IconName } from '@bloomwalletio/ui'
+    import { getTimeDifference } from '@core/utils/time'
+    import { time } from '@core/app/stores'
 
-    export let asyncStatus: ActivityAsyncStatus | undefined
+    export let activity: Activity
 
-    const ASYNC_STATUS_COLOR: { [key in ActivityAsyncStatus]: string } = {
-        [ActivityAsyncStatus.Unclaimed]: 'purple',
-        [ActivityAsyncStatus.Claimed]: 'blue',
-        [ActivityAsyncStatus.Expired]: 'neutral',
-        [ActivityAsyncStatus.Timelocked]: 'warning',
+    let pillProps: { color: string; icon: IconName; text: string } | undefined
+    $: $time, activity, (pillProps = getPillStyle())
+
+    function getPillStyle(): { color: string; icon: IconName; text: string } | undefined {
+        if (!activity.asyncData?.asyncStatus) {
+            return undefined
+        }
+        const { asyncStatus, expirationDate, timelockDate } = activity.asyncData
+
+        switch (asyncStatus) {
+            case ActivityAsyncStatus.Claimed: {
+                return undefined
+            }
+            case ActivityAsyncStatus.Timelocked: {
+                if (activity.direction === ActivityDirection.Outgoing) {
+                    if (expirationDate) {
+                        return {
+                            color: 'warning',
+                            icon: IconName.Hourglass,
+                            text: localize('pills.asyncStatus.unclaimed', {
+                                timeDiff: getTimeDifference(expirationDate, $time),
+                            }),
+                        }
+                    } else {
+                        return undefined
+                    }
+                } else {
+                    return {
+                        color: 'neutral',
+                        icon: IconName.Locked,
+                        text: localize('pills.asyncStatus.timelocked', {
+                            timeDiff: getTimeDifference(timelockDate, $time),
+                        }),
+                    }
+                }
+            }
+            case ActivityAsyncStatus.Unclaimed: {
+                const timeDiff = expirationDate ? getTimeDifference(expirationDate, $time) : undefined
+                if (activity.direction === ActivityDirection.Outgoing) {
+                    return {
+                        color: 'warning',
+                        icon: IconName.Hourglass,
+                        text: localize('pills.asyncStatus.unclaimed', { timeDiff }),
+                    }
+                } else {
+                    return {
+                        color: 'warning',
+                        icon: IconName.Hourglass,
+                        text: localize('pills.asyncStatus.claim', { timeDiff }),
+                    }
+                }
+            }
+            case ActivityAsyncStatus.Expired: {
+                return {
+                    color: 'neutral',
+                    icon: IconName.EmptyHourglass,
+                    text: localize('pills.asyncStatus.expired'),
+                }
+            }
+            default: {
+                return undefined
+            }
+        }
     }
 </script>
 
-{#if asyncStatus}
-    <Pill color={ASYNC_STATUS_COLOR[asyncStatus]} compact>
-        {localize('pills.asyncStatus.' + asyncStatus)}
-    </Pill>
+{#if pillProps}
+    <div>
+        <Pill color={pillProps.color} compact>
+            <div class="flex flex-row items-center gap-1">
+                <Icon name={pillProps.icon} size="xxs" customColor={pillProps.color} />
+                {pillProps.text}
+            </div>
+        </Pill>
+    </div>
 {/if}

@@ -11,6 +11,11 @@
 
     let menu: Menu | undefined = undefined
 
+    function onSyncAccountsClick(): void {
+        openPopup({ id: PopupId.SyncAccounts })
+        menu?.close()
+    }
+
     function onViewBalanceClick(): void {
         openPopup({ id: PopupId.BalanceBreakdown })
         menu?.close()
@@ -57,12 +62,17 @@
     function setItems(account: IAccountState, nonHiddenActiveAccounts: IAccountState[], showDelete: boolean) {
         items = [
             {
+                icon: IconName.Refresh,
+                title: localize('actions.syncAccounts'),
+                onClick: onSyncAccountsClick,
+            },
+            {
                 icon: IconName.PieChart,
-                title: localize('actions.viewBalanceBreakdown'),
+                title: localize('general.balanceBreakdown'),
                 onClick: onViewBalanceClick,
             },
             {
-                icon: IconName.Sliders,
+                icon: IconName.SettingsSliders,
                 title: localize('actions.customizeAccount'),
                 onClick: onCustomiseAccountClick,
             },

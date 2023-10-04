@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { Activity } from '@core/activity'
+    import { Activity, ActivityAsyncStatus } from '@core/activity'
     import { NotVerifiedStatus } from '@core/token'
     import { PopupId, openPopup } from '@desktop/auxiliary/popup'
     import {
@@ -33,7 +33,11 @@
     }
 </script>
 
-<button on:click={onActivityClick} class="activity-row">
+<button
+    on:click={onActivityClick}
+    class="activity-row"
+    class:expired={activity.asyncData?.asyncStatus === ActivityAsyncStatus.Expired}
+>
     <ActivityAssetSection {activity} />
     <ActivityStatusSection {activity} />
     <ActivityActionSection {activity} />
@@ -50,5 +54,9 @@
 
         @apply grid;
         grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+
+        &.expired {
+            opacity: 0.5;
+        }
     }
 </style>
