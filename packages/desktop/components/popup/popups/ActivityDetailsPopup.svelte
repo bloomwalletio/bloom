@@ -109,23 +109,26 @@
             console.error(err)
         }
     })
+
+    $: backButton = {
+        text: localize('actions.reject'),
+        disabled: activity.asyncData?.isRejected,
+        onClick: onRejectClick,
+    }
+
+    $: continueButton = {
+        text: localize('actions.claim'),
+        hidden: isTimelocked || !isActivityIncomingAndUnclaimed,
+        onClick: () => onClaimClick(activity),
+    }
 </script>
 
 {#if activity}
     <PopupTemplate
         {title}
         busy={activity.asyncData?.isClaiming}
-        backButton={{
-            text: localize('actions.reject'),
-            hidden: isTimelocked || !isActivityIncomingAndUnclaimed,
-            disabled: activity.asyncData?.isRejected,
-            onClick: onRejectClick,
-        }}
-        continueButton={{
-            text: localize('actions.claim'),
-            hidden: isTimelocked || !isActivityIncomingAndUnclaimed,
-            onClick: () => onClaimClick(activity),
-        }}
+        backButton={isTimelocked || !isActivityIncomingAndUnclaimed ? undefined : backButton}
+        continueButton={isTimelocked || !isActivityIncomingAndUnclaimed ? undefined : continueButton}
     >
         <div slot="description">
             {#if explorerUrl && activity.transactionId}
