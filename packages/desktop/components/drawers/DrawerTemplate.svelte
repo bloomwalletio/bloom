@@ -17,13 +17,13 @@
 <drawer-template class="flex flex-col h-full space-y-6 overflow-visible">
     <drawer-header class="flex flex-row items-center gap-2 mr-8">
         {#if showBackButton}
-            <IconButton icon={IconName.ArrowLeft} on:click={onBackClick} />
+            <IconButton icon={IconName.ArrowLeft} size="sm" on:click={onBackClick} />
         {/if}
 
         {#if $$slots.header}
             <slot name="header" />
         {:else}
-            <Text type="h6">
+            <Text type="h5">
                 {title}
             </Text>
         {/if}

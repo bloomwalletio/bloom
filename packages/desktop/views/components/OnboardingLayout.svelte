@@ -1,7 +1,10 @@
 <script lang="ts">
     import { Button, IconName, Text } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
+    import { Logo } from '@ui'
+    import { LogoName } from '@auxiliary/logo/enums'
     import LoggedOutLayout from './LoggedOutLayout.svelte'
+    import BgGradient from './BgGradient.svelte'
 
     interface IButtonProps {
         text: string
@@ -37,8 +40,13 @@
 
 <LoggedOutLayout>
     <div slot="header" class="header flex-none">
+        <BgGradient />
         <div class="flex h-full items-center">
-            {#if !_backButton.hidden}
+            {#if _backButton.hidden}
+                <logo-container class="block absolute mt-8 ml-8">
+                    <Logo width="150" logo={LogoName.BloomLogoFull} />
+                </logo-container>
+            {:else}
                 <Button
                     variant="text"
                     icon={IconName.ArrowLeft}
@@ -49,13 +57,10 @@
             {/if}
         </div>
     </div>
-    <content
-        slot="content"
-        class="{size} flex flex-col space-y-6 p-6 rounded-xl bg-white dark:bg-gray-800 shadow-elevation-4"
-    >
+    <content slot="content" class={size}>
         <content-title class="h-full flex flex-col space-y-2.5">
-            {#if title}<Text type="h5" textColor="brand">{title}</Text>{/if}
-            {#if description}<Text type="body2" textColor="secondary">{description}</Text>{/if}
+            {#if title}<Text type="h4" align="center">{title}</Text>{/if}
+            {#if description}<Text type="body2" textColor="secondary" align="center">{description}</Text>{/if}
         </content-title>
         <slot name="content" />
         <content-buttons class="block flex flex-row space-x-6">
@@ -90,7 +95,10 @@
     }
 
     content {
-        width: 100%;
+        @apply rounded-[2rem] w-full flex flex-col gap-6 p-6 z-10;
+        @apply bg-surface dark:bg-surface-dark shadow-elevation-4;
+        @apply border border-solid border-stroke dark:border-stroke-dark;
+
         &.small {
             max-width: 360px;
         }
