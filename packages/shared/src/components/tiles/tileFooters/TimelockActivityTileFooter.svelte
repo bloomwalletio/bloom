@@ -32,5 +32,5 @@
         <Text fontSize="13" color="gray-600" fontWeight={FontWeight.semibold}>{timeDiff}</Text>
     </svelte:fragment>
 
-    <ActivityAsyncStatusPill slot="right" asyncStatus={ActivityAsyncStatus.Timelocked} />
+    <ActivityAsyncStatusPill slot="right" {activity} />
 </TileFooter>

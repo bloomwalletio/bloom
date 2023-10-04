@@ -1,7 +1,7 @@
 <script lang="ts">
     import { isLocaleLoaded } from '@core/i18n'
     import { dashboardRouter, settingsRouter } from '@core/router'
-    import { Icon } from '@ui'
+    import { IconButton, IconName } from '@bloomwalletio/ui'
     import { onDestroy } from 'svelte'
     import { SettingsViewer } from './views'
 
@@ -20,9 +20,9 @@
     })
 </script>
 
-<div class="relative h-full w-full p-8 md:bg-white md:dark:bg-gray-900 flex flex-1">
-    <button on:click={handleClose || closeSettings} class="absolute top-8 right-8">
-        <Icon icon="close" classes="text-gray-800 dark:text-white" />
-    </button>
+<div class="relative h-full w-full p-8 bg-surface dark:bg-surface-dark flex flex-1">
+    <div class="absolute top-8 right-8">
+        <IconButton icon={IconName.CrossClose} on:click={handleClose || closeSettings} />
+    </div>
     <SettingsViewer />
 </div>

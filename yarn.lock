@@ -343,10 +343,10 @@
   resolved "https://registry.yarnpkg.com/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
-"@bloomwalletio/ui@0.16.6":
-  version "0.16.6"
-  resolved "https://npm.pkg.github.com/download/@bloomwalletio/ui/0.16.6/a05a21527f5a119e18ff8ef67958a0c3c88e3f95#a05a21527f5a119e18ff8ef67958a0c3c88e3f95"
-  integrity sha512-OT9u1I/a0vrfnu5YvHxP/td4RG65mgxseXUd4CzwHuaBZ0kv8s5RoEg+rCno/1l3oRo1J603SCqQyjLB3dCugg==
+"@bloomwalletio/ui@0.16.9":
+  version "0.16.8"
+  resolved "https://npm.pkg.github.com/download/@bloomwalletio/ui/0.16.8/ed6471c5702a010524bd8543ea228612e6492b79#ed6471c5702a010524bd8543ea228612e6492b79"
+  integrity sha512-y/EXS0AQIrY743tcOl/zrau84HVCMvHdlJgVc5QHEZ/TFXnjYbUqmS8CpFmy15nvdiuV/DJvvSR/Mxsbq4eKRg==
   dependencies:
     "@floating-ui/dom" "1.4.3"
     "@popperjs/core" "2.11.8"
@@ -1358,10 +1358,10 @@
   resolved "https://registry.yarnpkg.com/@iota/pad/-/pad-1.0.0-beta.30.tgz#de19728f8f1b09c20e2365d0da34945006760082"
   integrity sha512-fnhPMPul18WunLq9Ni4rxzBFmhna6eaG8WroDg6GdQqSK/eN62uFHV8tpspJHXuCqwgCUVp6NpuUna7+B2OV9g==
 
-"@iota/sdk@1.0.9":
-  version "1.0.9"
-  resolved "https://registry.yarnpkg.com/@iota/sdk/-/sdk-1.0.9.tgz#5aa791b8dd28332fbf97f42dc9e53bc72cd3a435"
-  integrity sha512-7q/TGh0ABGu+wkhpjS/H7rNuKFwV+4ayDvTGvvdGu4C6o3siDFJkeYrMgbcsMq2O6qEN1w2TJnIE9BYl0yyz9A==
+"@iota/sdk@1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@iota/sdk/-/sdk-1.1.0.tgz#0566f80071abf6699febc57403a90146ddc8ebce"
+  integrity sha512-+sPYFPICCTk5/Gr+7nGUma2GWtd335g0CQyQcpALe1ivexn/HcuExwcMs4naJPx41/4f3WAD27cIHa59yIZrgA==
   dependencies:
     "@types/node" "^18.15.12"
     cargo-cp-artifact "^0.1.6"
