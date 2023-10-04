@@ -3,7 +3,10 @@
         "onboarding": {
             "appSetup": {
                 "welcome": {
-                    "title": "Welcome to"
+                    "title": "Welcome to",
+                    "subtitle": "A new journey awaits...",
+                    "legalBody": "Check to confirm you've read and accept the",
+                    "button": "Begin setup"
                 },
                 "legal": {
                     "title": "Política de Privacidad & Términos de Servicio"
@@ -158,9 +161,6 @@
             "profile": {
                 "title": "Perfil"
             },
-            "network": {
-                "title": "Network"
-            },
             "collectibles": {
                 "title": "Collectibles"
             },
@@ -187,10 +187,6 @@
             "notifications": {
                 "title": "Notificaciones",
                 "description": "Notificaciones del sistema para eventos de transacción"
-            },
-            "networkStatus": {
-                "title": "Estado de la red",
-                "description": "Muestra el estado del nodo al que estás conectado actualmente"
             },
             "exportStronghold": {
                 "title": "Exportar copia de seguridad",
@@ -233,12 +229,8 @@
                 "description": "Change your Bloom profile name",
                 "success": "Has cambiado tu nombre de perfil"
             },
-            "walletFinder": {
-                "title": "Buscador de cartera",
-                "description": "Realizar una búsqueda extendida de sus billeteras previamente usadas"
-            },
             "hiddenAccounts": {
-                "title": "Carteras ocultas",
+                "title": "Hidden accounts",
                 "description": "Seleccionando estas opciones se mostrarán billeteras que previamente estaban ocultas"
             },
             "deleteProfile": {
@@ -248,26 +240,6 @@
             "deepLinks": {
                 "title": "Enlaces profundos",
                 "description": "Automatically fill transaction data in Bloom upon clicking a deep link starting with {appProtocol}://"
-            },
-            "networkInformation": {
-                "title": "Información de Red",
-                "connectedTo": "Conectado a"
-            },
-            "configureNodeList": {
-                "title": "Configuración de nodo",
-                "description": "Administra la lista de nodos a los que se conecta tu cartera",
-                "primaryNode": "Nodo primario",
-                "excludeNode": "Excluir nodo",
-                "includeNode": "Incluir nodo",
-                "editDetails": "Editar detalles",
-                "setAsPrimary": "Establecer como nodo primario",
-                "unsetAsPrimary": "Borrar nodo primario",
-                "removeNode": "Eliminar nodo",
-                "noNodes": "No hay nodos, no se puede conectar a la red"
-            },
-            "localProofOfWork": {
-                "title": "Prueba de trabajo",
-                "description": "Completa la prueba de trabajo localmente en tu dispositivo o delégala al nodo"
             },
             "errorLog": {
                 "title": "Registro de errores",
@@ -351,6 +323,7 @@
                 "action": "Action",
                 "address": "Address",
                 "amount": "Amount",
+                "claimableTransactions": "You have {amount} {amount, select, 1 {transaction that requires} other {transactions that require}} claiming",
                 "consolidatedOutputs": "{amount} outputs consolidated"
             },
             "profileMenu": {
@@ -403,6 +376,23 @@
                     },
                     "removeChain": {
                         "title": "Remove chain"
+                    },
+                    "networkSettings": {
+                        "configureNodeList": {
+                            "title": "Node configuration",
+                            "description": "Manage the list of nodes you connect to",
+                            "excludeNode": "Exclude node",
+                            "includeNode": "Include node",
+                            "editDetails": "Edit details",
+                            "setAsPrimary": "Set primary node",
+                            "unsetAsPrimary": "Clear primary node",
+                            "removeNode": "Remove node",
+                            "noNodes": "There are no nodes, unable to connect to the network"
+                        },
+                        "localProofOfWork": {
+                            "title": "Proof of work",
+                            "description": "Complete proof of work locally on your device or outsource to the node"
+                        }
                     }
                 },
                 "contactBook": {
@@ -448,7 +438,8 @@
                     "inputConnectionCode": {
                         "title": "Connect to a dApp",
                         "inputLabel": "Wallet Connect code",
-                        "hint": "Add new dApps by adding a Wallet Connect code below."
+                        "hint": "Add new dApps by adding a Wallet Connect code below.",
+                        "deprecated": "The dApp you try to connect to uses a deprecated version of WalletConnect. Cannot establish connection"
                     },
                     "confirmConnection": {
                         "title": "Connect with an application",
@@ -484,6 +475,7 @@
                 "title": "Coleccionables",
                 "emptyTitle": "No coleccionables",
                 "noResults": "No hay resultados",
+                "timelocked": "Locked for {timeDiff}",
                 "emptyDescription": "¡Deposita o recibe tu primer recolectable ahora!"
             },
             "details": {
@@ -658,7 +650,7 @@
             "body": "Es importante hacer una copia de seguridad de su cartera regularmente para asegurarse de que tiene una copia de tus billeteras e historial de transacciones. Si pierde su copia de seguridad y su frase de recuperación perderá el acceso a sus fondos."
         },
         "deeplinkAccountSwitch": {
-            "title": "Seleccione una cartera",
+            "title": "Select an account",
             "body": "Ha seguido un enlace profundo. Por favor, seleccione la cartera con la que desea continuar."
         },
         "deeplinkError": {
@@ -764,10 +756,10 @@
             "surplusIncluded": "Esta transacción contiene una cantidad excedente.  Verifique que esta sea la cantidad que desea enviar."
         },
         "walletFinder": {
-            "title": "Buscador de cartera",
+            "title": "Sync accounts",
             "body": "Realizar una búsqueda más exhaustiva de direcciones para encontrar saldos y billeteras que faltan.",
-            "accountsSearched": "Carteras buscadas",
-            "accountsFound": "Carteras encontradas",
+            "accountsSearched": "Accounts searched",
+            "accountsFound": "Accounts found",
             "totalWalletBalance": "Balance total",
             "searchAgainHint": "¿Su saldo o número de billeteras es incorrecto? Busque de nuevo hasta que se muestre su saldo completo."
         },
@@ -1117,10 +1109,10 @@
         "restart": "Restart",
         "refresh": "Refresh",
         "saveBackup": "Save backup",
-        "customizeAccount": "Personalizar cartera",
-        "hideAccount": "Ocultar cartera",
-        "showAccount": "Descubrir cartera",
-        "deleteAccount": "Eliminar cartera",
+        "customizeAccount": "Customise account",
+        "hideAccount": "Hide account",
+        "showAccount": "Unhide account",
+        "deleteAccount": "Delete account",
         "addNode": "Añadir nodo",
         "addingNode": "Añadiendo nodo",
         "addOfficialNodes": "Añadir nodos oficiales",
@@ -1140,7 +1132,7 @@
         "copyAllInformation": "Copiar toda la información",
         "paste": "Pegar",
         "selectAll": "Seleccionar Todo",
-        "addAccount": "Añadir Cartera",
+        "addAccount": "Add account",
         "checkForUpdates": "Buscar actualizaciones",
         "reportAnIssue": "Informar de un problema",
         "clear": "Limpiar",
@@ -1154,11 +1146,9 @@
         "readDocumentation": "Leer la documentación",
         "visitFaq": "Ver las preguntas frecuentes resueltas",
         "viewDownloads": "View downloads",
-        "viewBalanceBreakdown": "Ver desglose de saldo",
-        "showHiddenAccounts": "Mostrar carteras ocultas",
+        "showHiddenAccounts": "Show hidden accounts",
         "confirm": "Confirmar",
         "hideNetworkStatistics": "Ocultar estadísticas de la red",
-        "findWallets": "Encontrar carteras",
         "search": "Buscar",
         "searching": "Buscando",
         "searchAgain": "Buscar de nuevo",
@@ -1191,7 +1181,10 @@
         "revote": "Volver a votar",
         "skipAndKeep": "Skip and keep old password",
         "addChain": "Añadir cadena",
-        "untrackToken": "Untrack token"
+        "untrackToken": "Untrack token",
+        "switchAccount": "Switch account",
+        "syncAccounts": "Sync accounts",
+        "importErc20Token": "Import ERC20 token"
     },
     "general": {
         "recipient": "Destinatario",
@@ -1236,9 +1229,8 @@
         "sendTo": "Enviar a",
         "sendAssets": "Enviar activos",
         "sendAssetToAddress": "Enviar activo a una dirección",
-        "manageAccount": "Administrar Cartera",
-        "customizeAccount": "Personaliza tu cartera",
-        "account": "Cartera",
+        "manageAccount": "Manage account",
+        "account": "Account",
         "amount": "Cantidad",
         "addAddress": "Añadir Dirección",
         "to": "Para",
@@ -1263,7 +1255,7 @@
         "outgoing": "Saliente",
         "dev": "Desarrollador",
         "newAccount": "New account",
-        "accountName": "Nombre de cartera",
+        "accountName": "Account name",
         "activity": "Actividad",
         "security": "Seguridad",
         "network": "Red",
@@ -1280,7 +1272,7 @@
         "noAssets": "No hay activos",
         "noFilteredAsset": "No hay activos coincidentes",
         "thisMonth": "Este mes",
-        "search": "Buscar",
+        "search": "Search...",
         "passwordUpdating": "Actualizando contraseña...",
         "passwordSuccess": "Contraseña actualizada correctamente",
         "passwordFailed": "Error al actualizar la contraseña",
@@ -1303,7 +1295,7 @@
         "unknown": "Desconocido",
         "unknownAddress": "Dirección desconocida",
         "none": "Ninguno",
-        "accountColor": "Color de la billetera",
+        "accountColor": "Account color",
         "transactionTime": "Tiempo de transacción",
         "storageDeposit": "Depósito de almacenamiento",
         "transactionFee": "Transaction fee",
@@ -1332,7 +1324,6 @@
         "mintNativeTokenDescription": "Acuñar token nativo siguiendo el estándar IRC30",
         "mintNftDescription": "Acuñar NFT siguiendo el estándar IRC27",
         "faucetRequestDescription": "Solicitar tokens desde la llave {network}",
-        "refreshTokenMetadataDescription": "Restablecer y actualizar todos los metadatos de token",
         "refreshTokenMetadataHint": "Esto restablecerá todos los metadatos de sus tokens, incluyendo el estado de verificación y desocultará cualquier recurso oculto.",
         "excluded": "Excluido",
         "developerTools": "Herramientas de desarrollador",
@@ -1370,7 +1361,6 @@
         "coinType": "Coin type",
         "custom": "Custom",
         "evmAddress": "EVM address",
-        "importErc20Token": "Import ERC20 token",
         "optionalField": "{field} (optional)",
         "gifted": "Gifted",
         "connected": "Connected",
@@ -1380,7 +1370,9 @@
         "apps": "Apps",
         "networks": "Networks",
         "ledgerDevice": "Ledger device",
-        "disconnected": "Disconnected"
+        "disconnected": "Disconnected",
+        "balanceBreakdown": "Balance breakdown",
+        "primary": "Primary"
     },
     "filters": {
         "title": "Filtros",
@@ -1779,7 +1771,8 @@
         "walletConnect": {
             "invalidUri": "Invalid URI",
             "invalidProtocol": "Invalid protocol, must start with 'wc'.",
-            "deprecatedVersion": "dApp uses a deprecated wallet connect version."
+            "deprecatedVersion": "dApp uses a deprecated wallet connect version.",
+            "invalidV2UriFormat": "The link doesn't adhere to the WalletConnect V2 specification."
         },
         "web3": {
             "unableToGetProvider": "Unable to get web3 provider.",
@@ -1857,14 +1850,16 @@
         "collectibles": "Coleccionables",
         "governance": "Gobernanza",
         "developer": "Desarrollador",
-        "tokens": "Tokens"
+        "tokens": "Tokens",
+        "settings": "Settings"
     },
     "pills": {
         "asyncStatus": {
-            "unclaimed": "no reclamado",
-            "claimed": "reclamado",
-            "expired": "expirado",
-            "timelocked": "timelocked"
+            "claim": "Claim {timeDiff, select, undefined {} other { {timeDiff} }}",
+            "unclaimed": "Unclaimed {timeDiff, select, undefined {} other { {timeDiff}}}",
+            "claimed": "Claimed",
+            "expired": "Expired",
+            "timelocked": "Locked {timeDiff, select, undefined {} other { {timeDiff}}}"
         },
         "governance": {
             "proposalStatus": {

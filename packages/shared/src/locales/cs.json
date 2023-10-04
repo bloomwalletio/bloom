@@ -3,7 +3,10 @@
         "onboarding": {
             "appSetup": {
                 "welcome": {
-                    "title": "Welcome to"
+                    "title": "Welcome to",
+                    "subtitle": "A new journey awaits...",
+                    "legalBody": "Check to confirm you've read and accept the",
+                    "button": "Begin setup"
                 },
                 "legal": {
                     "title": "Privacy Policy & Terms of Service"
@@ -158,9 +161,6 @@
             "profile": {
                 "title": "Profil"
             },
-            "network": {
-                "title": "Network"
-            },
             "collectibles": {
                 "title": "Collectibles"
             },
@@ -187,10 +187,6 @@
             "notifications": {
                 "title": "Oznámení",
                 "description": "Systémová oznámení o transakcích"
-            },
-            "networkStatus": {
-                "title": "Stav sítě",
-                "description": "Zobrazí stav uzlu, ke kterému jste aktuálně připojeni"
             },
             "exportStronghold": {
                 "title": "Exportovat zálohu",
@@ -233,12 +229,8 @@
                 "description": "Change your Bloom profile name",
                 "success": "Změnili jste jméno profilu"
             },
-            "walletFinder": {
-                "title": "Wallet finder",
-                "description": "Perform an extended search of your previously used wallets"
-            },
             "hiddenAccounts": {
-                "title": "Skryté peněženky",
+                "title": "Hidden accounts",
                 "description": "Výběrem této možností se zobrazí peněženky, které byly dříve skryty"
             },
             "deleteProfile": {
@@ -248,26 +240,6 @@
             "deepLinks": {
                 "title": "Deep links",
                 "description": "Automatically fill transaction data in Bloom upon clicking a deep link starting with {appProtocol}://"
-            },
-            "networkInformation": {
-                "title": "Network information",
-                "connectedTo": "Connected to"
-            },
-            "configureNodeList": {
-                "title": "Konfigurace uzlu",
-                "description": "Spravovat seznam uzlů, ke kterým se připojíte",
-                "primaryNode": "Primární Node",
-                "excludeNode": "Vyloučit node",
-                "includeNode": "Zahrnout node",
-                "editDetails": "Upravit podrobnosti",
-                "setAsPrimary": "Set primary node",
-                "unsetAsPrimary": "Clear primary node",
-                "removeNode": "Remove node",
-                "noNodes": "Nejsou k dispozici žádné uzly, nelze se připojit k síti"
-            },
-            "localProofOfWork": {
-                "title": "Proof of work",
-                "description": "Complete proof of work locally on your device or outsource to the node"
             },
             "errorLog": {
                 "title": "Záznam chyb",
@@ -351,6 +323,7 @@
                 "action": "Action",
                 "address": "Address",
                 "amount": "Amount",
+                "claimableTransactions": "You have {amount} {amount, select, 1 {transaction that requires} other {transactions that require}} claiming",
                 "consolidatedOutputs": "{amount} outputs consolidated"
             },
             "profileMenu": {
@@ -403,6 +376,23 @@
                     },
                     "removeChain": {
                         "title": "Remove chain"
+                    },
+                    "networkSettings": {
+                        "configureNodeList": {
+                            "title": "Node configuration",
+                            "description": "Manage the list of nodes you connect to",
+                            "excludeNode": "Exclude node",
+                            "includeNode": "Include node",
+                            "editDetails": "Edit details",
+                            "setAsPrimary": "Set primary node",
+                            "unsetAsPrimary": "Clear primary node",
+                            "removeNode": "Remove node",
+                            "noNodes": "There are no nodes, unable to connect to the network"
+                        },
+                        "localProofOfWork": {
+                            "title": "Proof of work",
+                            "description": "Complete proof of work locally on your device or outsource to the node"
+                        }
                     }
                 },
                 "contactBook": {
@@ -448,7 +438,8 @@
                     "inputConnectionCode": {
                         "title": "Connect to a dApp",
                         "inputLabel": "Wallet Connect code",
-                        "hint": "Add new dApps by adding a Wallet Connect code below."
+                        "hint": "Add new dApps by adding a Wallet Connect code below.",
+                        "deprecated": "The dApp you try to connect to uses a deprecated version of WalletConnect. Cannot establish connection"
                     },
                     "confirmConnection": {
                         "title": "Connect with an application",
@@ -484,6 +475,7 @@
                 "title": "Collectibles",
                 "emptyTitle": "No collectibles",
                 "noResults": "No results",
+                "timelocked": "Locked for {timeDiff}",
                 "emptyDescription": "Deposit or Receive your first collectible now!"
             },
             "details": {
@@ -658,7 +650,7 @@
             "body": "It is important to back up your wallet regularly to ensure you have a copy of your wallets and transaction history. If you lose your backup and recovery phrase you will lose access to your funds."
         },
         "deeplinkAccountSwitch": {
-            "title": "Select a wallet",
+            "title": "Select an account",
             "body": "You just followed a deep link. Please select the wallet with which you want to continue."
         },
         "deeplinkError": {
@@ -764,10 +756,10 @@
             "surplusIncluded": "This transaction contains a surplus amount. Please double check this is the amount you want to send."
         },
         "walletFinder": {
-            "title": "Wallet finder",
+            "title": "Sync accounts",
             "body": "Perform a more exhaustive search of addresses to find missing balances and wallets.",
-            "accountsSearched": "Wallets searched",
-            "accountsFound": "Wallets found",
+            "accountsSearched": "Accounts searched",
+            "accountsFound": "Accounts found",
             "totalWalletBalance": "Total balance",
             "searchAgainHint": "Is your balance or number of wallets incorrect? Search again until your full balance is shown."
         },
@@ -1117,10 +1109,10 @@
         "restart": "Restart",
         "refresh": "Refresh",
         "saveBackup": "Save backup",
-        "customizeAccount": "Přizpůsobit peněženku",
-        "hideAccount": "Hide wallet",
-        "showAccount": "Zobrazit peněženku",
-        "deleteAccount": "Delete wallet",
+        "customizeAccount": "Customise account",
+        "hideAccount": "Hide account",
+        "showAccount": "Unhide account",
+        "deleteAccount": "Delete account",
         "addNode": "Přidat uzel",
         "addingNode": "Adding node",
         "addOfficialNodes": "Add official nodes",
@@ -1140,7 +1132,7 @@
         "copyAllInformation": "Copy all information",
         "paste": "Vložit",
         "selectAll": "Vybrat vše",
-        "addAccount": "Přidat peněženku",
+        "addAccount": "Add account",
         "checkForUpdates": "Kontrola aktualizací",
         "reportAnIssue": "Nahlásit problém",
         "clear": "Vymazat",
@@ -1154,11 +1146,9 @@
         "readDocumentation": "Přečtěte si dokumentaci",
         "visitFaq": "Navštivte FAQ",
         "viewDownloads": "View downloads",
-        "viewBalanceBreakdown": "View balance breakdown",
-        "showHiddenAccounts": "Zobrazit skryté peněženky",
+        "showHiddenAccounts": "Show hidden accounts",
         "confirm": "Potvrdit",
         "hideNetworkStatistics": "Skrýt statistiky sítě",
-        "findWallets": "Find wallets",
         "search": "Search",
         "searching": "Searching",
         "searchAgain": "Hledat znovu",
@@ -1191,7 +1181,10 @@
         "revote": "Revote",
         "skipAndKeep": "Skip and keep old password",
         "addChain": "Add chain",
-        "untrackToken": "Untrack token"
+        "untrackToken": "Untrack token",
+        "switchAccount": "Switch account",
+        "syncAccounts": "Sync accounts",
+        "importErc20Token": "Import ERC20 token"
     },
     "general": {
         "recipient": "Recipient",
@@ -1236,9 +1229,8 @@
         "sendTo": "Poslat",
         "sendAssets": "Send assets",
         "sendAssetToAddress": "Send asset to an address",
-        "manageAccount": "Spravovat peněženku",
-        "customizeAccount": "Přizpůsobit peněženku",
-        "account": "Wallet",
+        "manageAccount": "Manage account",
+        "account": "Account",
         "amount": "Částka",
         "addAddress": "Přidat adresu",
         "to": "Komu",
@@ -1263,7 +1255,7 @@
         "outgoing": "Odchozí",
         "dev": "Vývojář",
         "newAccount": "New account",
-        "accountName": "Název peněženky",
+        "accountName": "Account name",
         "activity": "Activity",
         "security": "Zabezpečení",
         "network": "Síť",
@@ -1280,7 +1272,7 @@
         "noAssets": "No assets",
         "noFilteredAsset": "No matching assets",
         "thisMonth": "This month",
-        "search": "Search",
+        "search": "Search...",
         "passwordUpdating": "Aktualizuji heslo...",
         "passwordSuccess": "Heslo bylo úspěšně aktualizováno",
         "passwordFailed": "Aktualizace hesla se nezdařila",
@@ -1303,7 +1295,7 @@
         "unknown": "Neznámý",
         "unknownAddress": "Unknown address",
         "none": "Žádný",
-        "accountColor": "Barva peněženky",
+        "accountColor": "Account color",
         "transactionTime": "Transaction time",
         "storageDeposit": "Storage deposit",
         "transactionFee": "Transaction fee",
@@ -1332,7 +1324,6 @@
         "mintNativeTokenDescription": "Mint native token following IRC30 standard",
         "mintNftDescription": "Mint NFT following IRC27 standard",
         "faucetRequestDescription": "Request tokens from the {network} faucet",
-        "refreshTokenMetadataDescription": "Reset and refresh all token metadata",
         "refreshTokenMetadataHint": "This will reset all your tokens' metadata including the verification status and unhide any hidden assets.",
         "excluded": "Excluded",
         "developerTools": "Developer tools",
@@ -1370,7 +1361,6 @@
         "coinType": "Coin type",
         "custom": "Custom",
         "evmAddress": "EVM address",
-        "importErc20Token": "Import ERC20 token",
         "optionalField": "{field} (optional)",
         "gifted": "Gifted",
         "connected": "Connected",
@@ -1380,7 +1370,9 @@
         "apps": "Apps",
         "networks": "Networks",
         "ledgerDevice": "Ledger device",
-        "disconnected": "Disconnected"
+        "disconnected": "Disconnected",
+        "balanceBreakdown": "Balance breakdown",
+        "primary": "Primary"
     },
     "filters": {
         "title": "Filters",
@@ -1779,7 +1771,8 @@
         "walletConnect": {
             "invalidUri": "Invalid URI",
             "invalidProtocol": "Invalid protocol, must start with 'wc'.",
-            "deprecatedVersion": "dApp uses a deprecated wallet connect version."
+            "deprecatedVersion": "dApp uses a deprecated wallet connect version.",
+            "invalidV2UriFormat": "The link doesn't adhere to the WalletConnect V2 specification."
         },
         "web3": {
             "unableToGetProvider": "Unable to get web3 provider.",
@@ -1857,14 +1850,16 @@
         "collectibles": "Collectibles",
         "governance": "Governance",
         "developer": "Developer",
-        "tokens": "Tokeny"
+        "tokens": "Tokeny",
+        "settings": "Settings"
     },
     "pills": {
         "asyncStatus": {
-            "unclaimed": "unclaimed",
-            "claimed": "claimed",
-            "expired": "expired",
-            "timelocked": "timelocked"
+            "claim": "Claim {timeDiff, select, undefined {} other { {timeDiff} }}",
+            "unclaimed": "Unclaimed {timeDiff, select, undefined {} other { {timeDiff}}}",
+            "claimed": "Claimed",
+            "expired": "Expired",
+            "timelocked": "Locked {timeDiff, select, undefined {} other { {timeDiff}}}"
         },
         "governance": {
             "proposalStatus": {
