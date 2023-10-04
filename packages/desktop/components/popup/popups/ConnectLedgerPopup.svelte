@@ -12,7 +12,7 @@
 
     $: isDisconnected = $ledgerConnectionState === LedgerConnectionState.Disconnected
     $: isLocked = $ledgerConnectionState === LedgerConnectionState.Locked
-    $: isCorrectAppOpen = ledgerAppName as unknown as LedgerConnectionState
+    $: isCorrectAppOpen = $ledgerConnectionState === (ledgerAppName as unknown as LedgerConnectionState)
 
     let illustration: string
     $: $ledgerConnectionState, setAnimation()
@@ -24,7 +24,7 @@
         } else if (isCorrectAppOpen) {
             illustration = 'ledger-confirm'
         } else {
-            illustration = `ledger-open-${ledgerAppName}`
+            illustration = `ledger-open-${ledgerAppName.toLowerCase()}`
         }
     }
 
