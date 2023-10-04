@@ -15,8 +15,8 @@
     $: isCorrectAppOpen = $ledgerConnectionState === (ledgerAppName as unknown as LedgerConnectionState)
 
     let illustration: string
-    $: $ledgerConnectionState, setAnimation()
-    function setAnimation(): void {
+    $: $ledgerConnectionState, setIllustration()
+    function setIllustration(): void {
         if (isDisconnected) {
             illustration = 'ledger-disconnected'
         } else if (isLocked) {
