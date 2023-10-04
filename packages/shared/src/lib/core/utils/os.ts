@@ -27,7 +27,7 @@ export function setClipboard(input: string, shouldNotify: boolean = true): boole
         document.body.removeChild(textArea)
 
         if (shouldNotify) {
-            showNotification({ variant: 'info', text: localize('notifications.copiedToClipboard') })
+            showNotification({ variant: 'success', text: localize('notifications.copiedToClipboard') })
         }
 
         return true
