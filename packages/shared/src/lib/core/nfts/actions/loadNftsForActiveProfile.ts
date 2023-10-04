@@ -25,10 +25,10 @@ async function loadNftsForAccount(account: IAccountState): Promise<void> {
         }
     }
 
-    const allOutputs = await account.outputs()
-    const sortedNftOutputs = allOutputs
-        .filter((output) => output.output.type === OutputType.Nft)
-        .sort((a, b) => b.metadata.milestoneTimestampBooked - a.metadata.milestoneTimestampBooked)
+    const nftOutputs = await account.outputs({ outputTypes: [OutputType.Nft] })
+    const sortedNftOutputs = nftOutputs.sort(
+        (a, b) => b.metadata.milestoneTimestampBooked - a.metadata.milestoneTimestampBooked
+    )
     for (const outputData of sortedNftOutputs) {
         if (outputData.output.type === OutputType.Nft) {
             const nftOutput = outputData.output as NftOutput

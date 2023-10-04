@@ -54,6 +54,10 @@ export class AccountMock implements IAccount {
         return Promise.resolve([])
     }
 
+    burn(burn: Burn, transactionOptions?: TransactionOptions): Promise<Transaction> {
+        throw new Error('Method not implemented.')
+    }
+
     consolidateOutputs(params: ConsolidationParams): Promise<Transaction> {
         throw new Error('Method not implemented.')
     }
@@ -63,6 +67,14 @@ export class AccountMock implements IAccount {
     }
 
     claimOutputs(): Promise<Transaction> {
+        throw new Error('Method not implemented.')
+    }
+
+    createAliasOutput(params?: AliasOutputParams, transactionOptions?: TransactionOptions): Promise<Transaction> {
+        throw new Error('Method not implemented.')
+    }
+
+    createNativeToken(params: CreateNativeTokenParams, transactionOptions?: TransactionOptions): Promise<Transaction> {
         throw new Error('Method not implemented.')
     }
 
@@ -150,6 +162,26 @@ export class AccountMock implements IAccount {
     }
 
     incomingTransactions(): Promise<Transaction[]> {
+        throw new Error('Method not implemented.')
+    }
+
+    meltNativeToken(
+        tokenId: TokenId,
+        meltAmount: bigint,
+        transactionOptions?: TransactionOptions
+    ): Promise<Transaction> {
+        throw new Error('Method not implemented.')
+    }
+
+    mintNativeToken(
+        tokenId: TokenId,
+        mintAmount: bigint,
+        transactionOptions?: TransactionOptions
+    ): Promise<Transaction> {
+        throw new Error('Method not implemented.')
+    }
+
+    mintNfts(params: MintNftParams[], transactionOptions?: TransactionOptions): Promise<Transaction> {
         throw new Error('Method not implemented.')
     }
 
@@ -275,6 +307,18 @@ export class AccountMock implements IAccount {
     }
 
     send(amount: bigint | string, address: string, transactionOptions?: TransactionOptions): Promise<Transaction> {
+        throw new Error('Method not implemented.')
+    }
+
+    sendNativeTokens(params: SendNativeTokensParams[], transactionOptions?: TransactionOptions): Promise<Transaction> {
+        throw new Error('Method not implemented.')
+    }
+
+    sendTransaction(outputs: Output[], options?: TransactionOptions): Promise<Transaction> {
+        throw new Error('Method not implemented.')
+    }
+
+    sendNft(params: SendNftParams[], transactionOptions?: TransactionOptions): Promise<Transaction> {
         throw new Error('Method not implemented.')
     }
 
