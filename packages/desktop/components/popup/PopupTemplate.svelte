@@ -34,32 +34,40 @@
 </script>
 
 <popup-template class="flex flex-col space-y-6">
-    <content-title class="h-full flex flex-col space-y-2.5">
+    <popup-title class="h-full flex flex-col space-y-2.5">
         {#if title}<Text type="h6">{title}</Text>{/if}
-        {#if description}<Text type="body2" textColor="secondary">{description}</Text>{/if}
-    </content-title>
-    <slot />
-    <content-buttons class="block flex flex-row space-x-6">
-        {#if !_backButton.hidden}
-            <Button
-                width="full"
-                variant="outlined"
-                disabled={busy || _backButton.disabled || !_backButton.onClick}
-                on:click={_backButton.onClick}
-                text={_backButton.text}
-            />
+        {#if $$slots.description}
+            <slot name="description" />
+        {:else if description}
+            <Text type="body2" textColor="secondary">{description}</Text>
         {/if}
-        {#if !_continueButton.hidden}
-            <Button
-                width="full"
-                variant="contained"
-                disabled={_continueButton.disabled || !_continueButton.onClick}
-                {busy}
-                on:click={_continueButton.onClick}
-                text={_continueButton.text}
-            />
-        {/if}
-    </content-buttons>
+    </popup-title>
+    <popup-content>
+        <slot />
+    </popup-content>
+    {#if !_backButton.hidden || !_continueButton.hidden}
+        <popup-buttons class="block flex flex-row space-x-6">
+            {#if !_backButton.hidden}
+                <Button
+                    width="full"
+                    variant="outlined"
+                    disabled={busy || _backButton.disabled || !_backButton.onClick}
+                    on:click={_backButton.onClick}
+                    text={_backButton.text}
+                />
+            {/if}
+            {#if !_continueButton.hidden}
+                <Button
+                    width="full"
+                    variant="contained"
+                    disabled={_continueButton.disabled || !_continueButton.onClick}
+                    {busy}
+                    on:click={_continueButton.onClick}
+                    text={_continueButton.text}
+                />
+            {/if}
+        </popup-buttons>
+    {/if}
 </popup-template>
 
 <style lang="scss">
