@@ -48,17 +48,15 @@
 </script>
 
 <receive-address-popup class="w-full h-full space-y-4 flex flex-auto flex-col shrink-0">
-    <Text type="h5" textColor="brand">{localize('popups.receiveAddress.title')}</Text>
+    <Text type="h5">{localize('popups.receiveAddress.title')}</Text>
     <Text type="body2" textColor="secondary">{localize('popups.receiveAddress.body')}</Text>
     <NetworkInput bind:networkId={selectedNetworkId} />
     {#if receiveAddress}
-        <div class="flex w-full justify-center items-center py-6">
-            <AddressBox
-                address={receiveAddress}
-                title={localize('popups.receiveAddress.networkAddress', { networkName })}
-                showQr
-            />
-        </div>
+        <AddressBox
+            address={receiveAddress}
+            title={localize('popups.receiveAddress.networkAddress', { networkName })}
+            showQr
+        />
     {/if}
     <Button
         text={localize('actions.copyAddress')}
