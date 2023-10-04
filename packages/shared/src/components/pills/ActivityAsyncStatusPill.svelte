@@ -7,8 +7,8 @@
 
     export let activity: Activity
 
-    let pillStyle: { color: string; icon: IconName; text: string } | undefined
-    $: $time, activity, (pillStyle = getPillStyle())
+    let pillProps: { color: string; icon: IconName; text: string } | undefined
+    $: $time, activity, (pillProps = getPillStyle())
 
     function getPillStyle(): { color: string; icon: IconName; text: string } | undefined {
         if (!activity.asyncData?.asyncStatus) {
@@ -73,11 +73,13 @@
     }
 </script>
 
-{#if pillStyle}
-    <Pill color={pillStyle.color} compact>
-        <div class="flex flex-row items-center gap-2">
-            <Icon name={pillStyle.icon} size="xxs" customColor={pillStyle.color} />
-            {pillStyle.text}
-        </div>
-    </Pill>
+{#if pillProps}
+    <div>
+        <Pill color={pillProps.color} compact>
+            <div class="flex flex-row items-center gap-1">
+                <Icon name={pillProps.icon} size="xxs" customColor={pillProps.color} />
+                {pillProps.text}
+            </div>
+        </Pill>
+    </div>
 {/if}
