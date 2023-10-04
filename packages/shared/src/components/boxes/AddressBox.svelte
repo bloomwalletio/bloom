@@ -44,7 +44,8 @@
 <style lang="scss">
     address-container {
         @apply border border-solid border-stroke dark:border-stroke-dark rounded-xl;
-        @apply bg-surface-1 dark:bg-surface-1-dark;
+        @apply bg-surface dark:bg-surface-dark;
+        @apply hover:bg-surface-1 dark:hover:bg-surface-1-dark;
         @apply p-4 gap-2;
         @apply cursor-pointer;
     }

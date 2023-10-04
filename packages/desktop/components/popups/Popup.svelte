@@ -191,11 +191,7 @@
     class={`flex items-center justify-center fixed ${IS_WINDOWS ? 'top-7' : 'top-0'} left-0 w-screen p-6 ${
         overflow ? '' : 'overflow-hidden'
     }
-                h-full z-30 ${
-                    fullScreen
-                        ? 'bg-white dark:bg-gray-900'
-                        : 'bg-gray-800 bg-opacity-70 dark:bg-black dark:bg-opacity-50'
-                }`}
+                h-full z-30 ${fullScreen ? 'bg-surface dark:bg-surface-dark' : 'bg-neutral-6/75'}`}
 >
     <button type="button" tabindex="0" on:focus={onFocusFirst} />
     <popup-content
