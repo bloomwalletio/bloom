@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { Text, Button } from '@ui'
+    import { Button, IconName, Text } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
 
     export let extentionsLabel = ''
@@ -18,34 +18,20 @@
     }
 </script>
 
-<dropzone
-    class="flex items-center justify-center p-7 w-full rounded-lg border border-solid bg-gray-50 dark:bg-gray-800 border-gray-300 dark:border-gray-700"
-    on:drop={onDrop}
-    on:dragenter={onEnter}
-    on:dragleave={onLeave}
-    on:dragover|preventDefault
->
+<dropzone on:drop={onDrop} on:dragenter={onEnter} on:dragleave={onLeave} on:dragover|preventDefault>
     <content class:dropping class="flex flex-col items-center relative text-center">
         {#if dropping}
-            <Text type="p" secondary smaller>{localize('actions.dropHere')}</Text>
+            <Text fontWeight="medium" textColor="secondary">{localize('actions.dropHere')}</Text>
         {:else if fileName}
-            <Text type="p" secondary smaller>{fileName}</Text>
+            <Text fontWeight="medium" textColor="secondary">{fileName}</Text>
         {:else}
-            <svg
-                class="block mt-4 mb-8"
-                width="50"
-                height="34"
-                viewBox="0 0 50 34"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-            >
+            <svg xmlns="http://www.w3.org/2000/svg" width="60" height="61" viewBox="0 0 60 61" fill="none">
                 <path
-                    class="text-blue-500 fill-current"
-                    d="M0 25C0 29.6326 3.50005 33.4476 8 33.9451V34H21C22.1046 34 23 33.1046 23 32V17.6445L17.6782 22.556C17.2724
-                    22.9306 16.6397 22.9052 16.2651 22.4993C15.8906 22.0935 15.9159 21.4608 16.3218 21.0863L24 14L31.6782
-                    21.0863C32.0841 21.4608 32.1094 22.0935 31.7349 22.4993C31.3603 22.9052 30.7276 22.9306 30.3218 22.556L25
-                    17.6445L25 32C25 33.1045 25.8954 34 27 34L38 34C44.6274 34 50 28.6274 50 22C50 15.658 45.0802 10.4651 38.8489
-                    10.0296C36.4827 4.15025 30.726 0 24 0C15.1634 0 8 7.16344 8 16L8.00009 16.0549C3.5001 16.5523 0 20.3674 0 25Z"
+                    d="M20 40.502L30 30.502M30 30.502L40 40.502M30 30.502V53.002M50 42.359C53.0538 39.8371 55 36.0218 55 31.752C55 24.158 48.8439 18.002 41.25 18.002C40.7037 18.002 40.1926 17.7169 39.9153 17.2463C36.6551 11.714 30.6361 8.00195 23.75 8.00195C13.3947 8.00195 5 16.3966 5 26.752C5 31.9172 7.08862 36.5946 10.4674 39.9858"
+                    stroke="#7C41C9"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
                 />
             </svg>
             <input
@@ -54,16 +40,21 @@
                 on:change={onDrop}
                 accept={allowedExtensions ? allowedExtensions.map((e) => `.${e}`).join(',') : '*'}
             />
-            <Text type="h4">{localize('actions.dragDrop')}</Text>
-            <Text classes="mb-12" type="p" secondary smaller>{extentionsLabel}</Text>
-            <Button outline onClick={onDrop}>{localize('actions.chooseFile')}</Button>
+            <div class="mt-2 mb-6">
+                <Text type="body2">{localize('actions.dragDrop')}</Text>
+                <Text fontWeight="medium" textColor="secondary">{extentionsLabel}</Text>
+            </div>
+            <Button size="sm" icon={IconName.Send} reverse on:click={onDrop} text={localize('actions.chooseFile')} />
         {/if}
     </content>
 </dropzone>
 
 <style lang="scss">
     dropzone {
-        height: 290px;
+        @apply flex items-center justify-center p-7 w-full h-[233px];
+        @apply bg-surface-1 dark:bg-surface-1-dark;
+        @apply rounded-lg border border-solid border-stroke dark:border-stroke-dark;
+
         content {
             &.dropping {
                 @apply pointer-events-none;
