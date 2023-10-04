@@ -3,7 +3,10 @@
         "onboarding": {
             "appSetup": {
                 "welcome": {
-                    "title": "Welcome to"
+                    "title": "Welcome to",
+                    "subtitle": "A new journey awaits...",
+                    "legalBody": "Check to confirm you've read and accept the",
+                    "button": "Begin setup"
                 },
                 "legal": {
                     "title": "Privacy Policy & Terms of Service"
@@ -158,9 +161,6 @@
             "profile": {
                 "title": "පැතිකඩ"
             },
-            "network": {
-                "title": "Network"
-            },
             "collectibles": {
                 "title": "Collectibles"
             },
@@ -187,10 +187,6 @@
             "notifications": {
                 "title": "දැනුම්දීම්",
                 "description": "ගනුදෙනු සිදුවීම් සඳහා පද්ධති දැනුම්දීම්"
-            },
-            "networkStatus": {
-                "title": "ජාල තත්ත්වය",
-                "description": "ඔබ දැනට සම්බන්ධ කර ඇති නෝඩයේ තත්ත්වය පෙන්වයි"
             },
             "exportStronghold": {
                 "title": "උපස්ථ අපනයනය කරන්න",
@@ -233,12 +229,8 @@
                 "description": "Change your Bloom profile name",
                 "success": "ඔබ ඔබේ පැතිකඩ නම වෙනස් කර ඇත"
             },
-            "walletFinder": {
-                "title": "Wallet finder",
-                "description": "Perform an extended search of your previously used wallets"
-            },
             "hiddenAccounts": {
-                "title": "සැඟවුණු පසුම්බි",
+                "title": "Hidden accounts",
                 "description": "මෙම විකල්පයන් තේරීමෙන් කලින් සඟවා තිබූ මුදල් පසුම්බි පෙන්වනු ඇත"
             },
             "deleteProfile": {
@@ -248,26 +240,6 @@
             "deepLinks": {
                 "title": "Deep links",
                 "description": "Automatically fill transaction data in Bloom upon clicking a deep link starting with {appProtocol}://"
-            },
-            "networkInformation": {
-                "title": "Network information",
-                "connectedTo": "Connected to"
-            },
-            "configureNodeList": {
-                "title": "නෝඩ් වින්‍යාසය",
-                "description": "ඔබ සම්බන්ධ කරන නෝඩ් ලැයිස්තුව කළමනාකරණය කරන්න",
-                "primaryNode": "ප්රාථමික නෝඩය",
-                "excludeNode": "නෝඩය බැහැර කරන්න",
-                "includeNode": "නෝඩය ඇතුළත් කරන්න",
-                "editDetails": "විස්තර සංස්කරණය කරන්න",
-                "setAsPrimary": "Set primary node",
-                "unsetAsPrimary": "Clear primary node",
-                "removeNode": "නෝඩය ඉවත් කරන්න",
-                "noNodes": "නෝඩ් නොමැත, ජාලයට සම්බන්ධ විය නොහැක"
-            },
-            "localProofOfWork": {
-                "title": "Proof of work",
-                "description": "Complete proof of work locally on your device or outsource to the node"
             },
             "errorLog": {
                 "title": "දෝෂ ලොගය",
@@ -351,6 +323,7 @@
                 "action": "Action",
                 "address": "Address",
                 "amount": "Amount",
+                "claimableTransactions": "You have {amount} {amount, select, 1 {transaction that requires} other {transactions that require}} claiming",
                 "consolidatedOutputs": "{amount} outputs consolidated"
             },
             "profileMenu": {
@@ -403,6 +376,23 @@
                     },
                     "removeChain": {
                         "title": "Remove chain"
+                    },
+                    "networkSettings": {
+                        "configureNodeList": {
+                            "title": "Node configuration",
+                            "description": "Manage the list of nodes you connect to",
+                            "excludeNode": "Exclude node",
+                            "includeNode": "Include node",
+                            "editDetails": "Edit details",
+                            "setAsPrimary": "Set primary node",
+                            "unsetAsPrimary": "Clear primary node",
+                            "removeNode": "Remove node",
+                            "noNodes": "There are no nodes, unable to connect to the network"
+                        },
+                        "localProofOfWork": {
+                            "title": "Proof of work",
+                            "description": "Complete proof of work locally on your device or outsource to the node"
+                        }
                     }
                 },
                 "contactBook": {
@@ -448,7 +438,8 @@
                     "inputConnectionCode": {
                         "title": "Connect to a dApp",
                         "inputLabel": "Wallet Connect code",
-                        "hint": "Add new dApps by adding a Wallet Connect code below."
+                        "hint": "Add new dApps by adding a Wallet Connect code below.",
+                        "deprecated": "The dApp you try to connect to uses a deprecated version of WalletConnect. Cannot establish connection"
                     },
                     "confirmConnection": {
                         "title": "Connect with an application",
@@ -484,6 +475,7 @@
                 "title": "Collectibles",
                 "emptyTitle": "No collectibles",
                 "noResults": "No results",
+                "timelocked": "Locked for {timeDiff}",
                 "emptyDescription": "Deposit or Receive your first collectible now!"
             },
             "details": {
@@ -658,7 +650,7 @@
             "body": "It is important to back up your wallet regularly to ensure you have a copy of your wallets and transaction history. If you lose your backup and recovery phrase you will lose access to your funds."
         },
         "deeplinkAccountSwitch": {
-            "title": "Select a wallet",
+            "title": "Select an account",
             "body": "You just followed a deep link. Please select the wallet with which you want to continue."
         },
         "deeplinkError": {
@@ -764,10 +756,10 @@
             "surplusIncluded": "This transaction contains a surplus amount. Please double check this is the amount you want to send."
         },
         "walletFinder": {
-            "title": "Wallet finder",
+            "title": "Sync accounts",
             "body": "Perform a more exhaustive search of addresses to find missing balances and wallets.",
-            "accountsSearched": "Wallets searched",
-            "accountsFound": "Wallets found",
+            "accountsSearched": "Accounts searched",
+            "accountsFound": "Accounts found",
             "totalWalletBalance": "Total balance",
             "searchAgainHint": "Is your balance or number of wallets incorrect? Search again until your full balance is shown."
         },
@@ -1117,10 +1109,10 @@
         "restart": "Restart",
         "refresh": "Refresh",
         "saveBackup": "Save backup",
-        "customizeAccount": "මුදල් පසුම්බිය අභිරුචිකරණය කරන්න",
-        "hideAccount": "මුදල් පසුම්බිය සඟවන්න",
-        "showAccount": "මුදල් පසුම්බිය සඟවන්න",
-        "deleteAccount": "මුදල් පසුම්බිය මකන්න",
+        "customizeAccount": "Customise account",
+        "hideAccount": "Hide account",
+        "showAccount": "Unhide account",
+        "deleteAccount": "Delete account",
         "addNode": "නෝඩ් එකතු කරන්න",
         "addingNode": "Adding node",
         "addOfficialNodes": "Add official nodes",
@@ -1140,7 +1132,7 @@
         "copyAllInformation": "Copy all information",
         "paste": "අලවන්න",
         "selectAll": "සියල්ල තෝරන්න",
-        "addAccount": "Wallet එකතු කරන්න",
+        "addAccount": "Add account",
         "checkForUpdates": "යාවත්කාලීන සඳහා පරීක්ෂා කරන්න",
         "reportAnIssue": "ගැටලුවක් වාර්තා කරන්න",
         "clear": "පැහැදිලිව",
@@ -1154,11 +1146,9 @@
         "readDocumentation": "ලියකියවිලි කියවන්න",
         "visitFaq": "නිතර අසන පැන වෙත පිවිසෙන්න",
         "viewDownloads": "View downloads",
-        "viewBalanceBreakdown": "View balance breakdown",
-        "showHiddenAccounts": "සැඟවුණු පසුම්බි පෙන්වන්න",
+        "showHiddenAccounts": "Show hidden accounts",
         "confirm": "තහවුරු කරන්න",
         "hideNetworkStatistics": "ජාල සංඛ්‍යාලේඛන සඟවන්න",
-        "findWallets": "Find wallets",
         "search": "Search",
         "searching": "Searching",
         "searchAgain": "නැවත සොයන්න",
@@ -1191,7 +1181,10 @@
         "revote": "Revote",
         "skipAndKeep": "Skip and keep old password",
         "addChain": "Add chain",
-        "untrackToken": "Untrack token"
+        "untrackToken": "Untrack token",
+        "switchAccount": "Switch account",
+        "syncAccounts": "Sync accounts",
+        "importErc20Token": "Import ERC20 token"
     },
     "general": {
         "recipient": "Recipient",
@@ -1236,9 +1229,8 @@
         "sendTo": "වෙත යවන්න",
         "sendAssets": "Send assets",
         "sendAssetToAddress": "Send asset to an address",
-        "manageAccount": "Wallet කළමනාකරණය කරන්න",
-        "customizeAccount": "ඔබේ මුදල් පසුම්බිය අභිරුචිකරණය කරන්න",
-        "account": "පසුම්බිය",
+        "manageAccount": "Manage account",
+        "account": "Account",
         "amount": "ප්රමාණය",
         "addAddress": "ලිපිනය එකතු කරන්න",
         "to": "වෙත",
@@ -1263,7 +1255,7 @@
         "outgoing": "පිටතට යන",
         "dev": "දේව්",
         "newAccount": "New account",
-        "accountName": "පසුම්බියේ නම",
+        "accountName": "Account name",
         "activity": "Activity",
         "security": "ආරක්ෂක",
         "network": "ජාල",
@@ -1280,7 +1272,7 @@
         "noAssets": "No assets",
         "noFilteredAsset": "No matching assets",
         "thisMonth": "This month",
-        "search": "Search",
+        "search": "Search...",
         "passwordUpdating": "මුරපදය යාවත්කාලීන කරමින්...",
         "passwordSuccess": "මුරපදය සාර්ථකව යාවත්කාලීන කරන ලදී",
         "passwordFailed": "මුරපදය යාවත්කාලීන කිරීම අසාර්ථක විය",
@@ -1303,7 +1295,7 @@
         "unknown": "නොදන්නා",
         "unknownAddress": "Unknown address",
         "none": "කිසිවක් නැත",
-        "accountColor": "පසුම්බිය වර්ණය",
+        "accountColor": "Account color",
         "transactionTime": "Transaction time",
         "storageDeposit": "Storage deposit",
         "transactionFee": "Transaction fee",
@@ -1332,7 +1324,6 @@
         "mintNativeTokenDescription": "Mint native token following IRC30 standard",
         "mintNftDescription": "Mint NFT following IRC27 standard",
         "faucetRequestDescription": "Request tokens from the {network} faucet",
-        "refreshTokenMetadataDescription": "Reset and refresh all token metadata",
         "refreshTokenMetadataHint": "This will reset all your tokens' metadata including the verification status and unhide any hidden assets.",
         "excluded": "Excluded",
         "developerTools": "Developer tools",
@@ -1370,7 +1361,6 @@
         "coinType": "Coin type",
         "custom": "Custom",
         "evmAddress": "EVM address",
-        "importErc20Token": "Import ERC20 token",
         "optionalField": "{field} (optional)",
         "gifted": "Gifted",
         "connected": "Connected",
@@ -1380,7 +1370,9 @@
         "apps": "Apps",
         "networks": "Networks",
         "ledgerDevice": "Ledger device",
-        "disconnected": "Disconnected"
+        "disconnected": "Disconnected",
+        "balanceBreakdown": "Balance breakdown",
+        "primary": "Primary"
     },
     "filters": {
         "title": "Filters",
@@ -1779,7 +1771,8 @@
         "walletConnect": {
             "invalidUri": "Invalid URI",
             "invalidProtocol": "Invalid protocol, must start with 'wc'.",
-            "deprecatedVersion": "dApp uses a deprecated wallet connect version."
+            "deprecatedVersion": "dApp uses a deprecated wallet connect version.",
+            "invalidV2UriFormat": "The link doesn't adhere to the WalletConnect V2 specification."
         },
         "web3": {
             "unableToGetProvider": "Unable to get web3 provider.",
@@ -1857,14 +1850,16 @@
         "collectibles": "Collectibles",
         "governance": "පාලනය",
         "developer": "Developer",
-        "tokens": "ටෝකන"
+        "tokens": "ටෝකන",
+        "settings": "Settings"
     },
     "pills": {
         "asyncStatus": {
-            "unclaimed": "unclaimed",
-            "claimed": "claimed",
-            "expired": "expired",
-            "timelocked": "timelocked"
+            "claim": "Claim {timeDiff, select, undefined {} other { {timeDiff} }}",
+            "unclaimed": "Unclaimed {timeDiff, select, undefined {} other { {timeDiff}}}",
+            "claimed": "Claimed",
+            "expired": "Expired",
+            "timelocked": "Locked {timeDiff, select, undefined {} other { {timeDiff}}}"
         },
         "governance": {
             "proposalStatus": {
