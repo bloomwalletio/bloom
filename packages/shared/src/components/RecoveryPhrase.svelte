@@ -1,22 +1,16 @@
 <script lang="ts">
-    import { Button, Text } from '@bloomwalletio/ui'
-    import { localize } from '@core/i18n'
+    import { Text } from '@bloomwalletio/ui'
 
     export let recoveryPhrase: string[] = []
     export let verifyRecoveryPhrase: string[] | undefined = undefined
 
-    export let hidden: boolean = true
     export let disabled: boolean = true
     export let boxed: boolean = false
-
-    function showRecoveryPhrase(): void {
-        hidden = false
-    }
 </script>
 
 {#if recoveryPhrase}
     <div class="relative">
-        <recovery-phrase data-label="recovery-phrase" class:blurred={hidden} class:boxed>
+        <recovery-phrase data-label="recovery-phrase" class:boxed>
             {#each recoveryPhrase as word, i}
                 {@const errored =
                     verifyRecoveryPhrase && verifyRecoveryPhrase[i] && verifyRecoveryPhrase[i] !== recoveryPhrase[i]}
@@ -35,34 +29,18 @@
                 >
                     <Text type="sm" fontWeight="medium" customColor="brand-400">{`${i + 1}. `}</Text>
                     <Text type="sm" fontWeight="medium" textColor="primary">
-                        {hidden || errored || unmatched ? '*****' : word}
+                        {errored || unmatched ? '*****' : word}
                     </Text>
                 </recovery-word>
             {/each}
         </recovery-phrase>
-        {#if hidden}
-            <button-container>
-                <Button
-                    on:click={showRecoveryPhrase}
-                    text={localize('views.onboarding.profileBackup.viewMnemonic.revealRecoveryPhrase')}
-                />
-            </button-container>
-        {/if}
     </div>
 {/if}
 
 <style lang="postcss">
-    button-container {
-        @apply flex absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full justify-center;
-    }
-
     recovery-phrase {
         @apply grid grid-cols-4 w-full mb-8 text-12;
         max-width: 460px;
-
-        &.blurred {
-            @apply filter blur-sm;
-        }
 
         &.boxed {
             @apply overflow-y-auto p-3 rounded-2xl border border-solid border-gray-300;
