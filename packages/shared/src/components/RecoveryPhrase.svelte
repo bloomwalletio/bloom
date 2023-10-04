@@ -8,6 +8,7 @@
     export let hidden: boolean = true
     export let disabled: boolean = true
     export let boxed: boolean = false
+    export let verification: boolean = false
 
     function showRecoveryPhrase(): void {
         hidden = false
@@ -17,26 +18,22 @@
 {#if recoveryPhrase}
     <div class="relative">
         <recovery-phrase data-label="recovery-phrase" class:blurred={hidden} class:boxed>
-            {#each recoveryPhrase as word, i}
-                {@const errored =
-                    verifyRecoveryPhrase && verifyRecoveryPhrase[i] && verifyRecoveryPhrase[i] !== recoveryPhrase[i]}
+            {#each new Array(recoveryPhrase.length) as _, i}
+                {@const word = verification ? verifyRecoveryPhrase?.[i] ?? recoveryPhrase[i] : recoveryPhrase[i]}
                 {@const selected =
                     verifyRecoveryPhrase &&
                     verifyRecoveryPhrase.length === i &&
                     verifyRecoveryPhrase[i - 1] === recoveryPhrase[i - 1]}
-                {@const unmatched = verifyRecoveryPhrase && !verifyRecoveryPhrase[i]}
-                <recovery-word
-                    id="recovery-word-{i}"
-                    class:boxed
-                    class:disabled
-                    class:errored
-                    class:selected
-                    class:unmatched
-                >
-                    <Text type="sm" fontWeight="medium" customColor="brand-400">{`${i + 1}. `}</Text>
-                    <Text type="sm" fontWeight="medium" textColor="primary">
-                        {hidden || errored || unmatched ? '*****' : word}
-                    </Text>
+                {@const matched = verification ? verifyRecoveryPhrase && verifyRecoveryPhrase[i] : true}
+                <recovery-word id="recovery-word-{i}" class:boxed class:disabled class:selected class:matched>
+                    {#if selected}
+                        <Text type="sm" fontWeight="medium" customColor="neutral-1">{i + 1}</Text>
+                    {:else}
+                        <Text type="sm" fontWeight="medium" customColor="brand-400">{`${i + 1}. `}</Text>
+                        <Text type="sm" fontWeight="medium" textColor="primary">
+                            {hidden || !matched ? '*****' : word}
+                        </Text>
+                    {/if}
                 </recovery-word>
             {/each}
         </recovery-phrase>
@@ -57,8 +54,7 @@
     }
 
     recovery-phrase {
-        @apply grid grid-cols-4 w-full mb-8 text-12;
-        max-width: 460px;
+        @apply grid grid-cols-4 w-full mb-8 text-12 max-w-[460px];
 
         &.blurred {
             @apply filter blur-sm;
@@ -84,12 +80,12 @@
     recovery-word:not(.boxed) {
         @apply px-2 py-2 rounded-lg bg-surface-2 dark:bg-surface-2-dark;
 
-        &.unmatched {
-            @apply filter blur-sm;
+        &.selected {
+            @apply justify-center bg-surface-brand text-white;
         }
 
-        &.errored {
-            @apply bg-red-500 filter blur-sm;
+        &.matched {
+            @apply bg-surface-brand/20;
         }
     }
 
@@ -97,13 +93,8 @@
         @apply p-3 border border-solid border-transparent bg-transparent text-gray-500;
 
         &.selected {
-            @apply rounded border border-solid border-blue-500 bg-blue-50;
+            @apply rounded border border-solid border-blue-500 bg-blue-50 justify-center;
             @apply dark:bg-blue-300 dark:bg-opacity-10;
-        }
-
-        &.errored {
-            @apply rounded border border-solid border-red-500 bg-red-50;
-            @apply dark:bg-red-300 dark:bg-opacity-10;
         }
     }
 </style>
