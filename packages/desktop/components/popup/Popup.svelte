@@ -1,58 +1,57 @@
 <script lang="ts">
     import { onMount } from 'svelte'
     import { fade } from 'svelte/transition'
-    import { Icon } from '@ui'
+    import { CloseButton } from '@bloomwalletio/ui'
     import { closePopup, PopupComponentMap, PopupId } from '@desktop/auxiliary/popup'
-    import { Icon as IconEnum } from '@auxiliary/icon/enums'
     import { IS_WINDOWS } from '@core/app/constants'
     import { clickOutside } from '@core/utils/ui'
 
     // Popups
-    import AccountSwitcherPopup from './AccountSwitcherPopup.svelte'
-    import ActivityDetailsPopup from './ActivityDetailsPopup.svelte'
-    import AddNodePopup from './AddNodePopup.svelte'
-    import AddProposalPopup from './AddProposalPopup.svelte'
-    import AliasConfirmationPopup from './AliasConfirmationPopup.svelte'
-    import BackupStrongholdPopup from './BackupStrongholdPopup.svelte'
-    import BurnNativeTokensPopup from './BurnNativeTokensPopup.svelte'
-    import BurnNativeTokensConfirmationPopup from './BurnNativeTokensConfirmationPopup.svelte'
-    import ConfirmationPopup from './ConfirmationPopup.svelte'
-    import ConnectLedgerPopup from './ConnectLedgerPopup.svelte'
-    import CreateAccountPopup from './CreateAccountPopup.svelte'
-    import DeepLinkErrorPopup from './DeepLinkErrorPopup.svelte'
-    import DeleteAccountPopup from './DeleteAccountPopup.svelte'
-    import DeleteProfilePopup from './DeleteProfilePopup.svelte'
-    import DiagnosticsPopup from './DiagnosticsPopup.svelte'
-    import EnableLedgerBlindSigningPopup from './EnableLedgerBlindSigningPopup.svelte'
-    import ErrorLogPopup from './ErrorLogPopup.svelte'
-    import FaucetRequestPopup from './FaucetRequestPopup.svelte'
-    import ImportErc20TokenFormPopup from './ImportErc20TokenFormPopup.svelte'
-    import LedgerAppGuidePopup from './LedgerAppGuidePopup.svelte'
-    import LedgerConnectionGuidePopup from './LedgerConnectionGuidePopup.svelte'
-    import LegalUpdatePopup from './LegalUpdatePopup.svelte'
-    import ManageAccountPopup from './ManageAccountPopup.svelte'
-    import ManageVotingPowerPopup from './ManageVotingPowerPopup.svelte'
-    import MintNativeTokenConfirmationPopup from './MintNativeTokenConfirmationPopup.svelte'
-    import MintNativeTokenFormPopup from './MintNativeTokenFormPopup.svelte'
-    import MintNftConfirmationPopup from './MintNftConfirmationPopup.svelte'
-    import MintNftFormPopup from './MintNftFormPopup.svelte'
-    import NodeAuthRequiredPopup from './NodeAuthRequiredPopup.svelte'
-    import NodeInfoPopup from './NodeInfoPopup.svelte'
-    import ReceiveAddressPopup from './ReceiveAddressPopup.svelte'
-    import RemoveProposalPopup from './RemoveProposalPopup.svelte'
-    import RevotePopup from './RevotePopup.svelte'
-    import SignMessagePopup from './SignMessagePopup.svelte'
-    import SendFlowPopup from './SendFlowPopup.svelte'
-    import StopVotingPopup from './StopVotingPopup.svelte'
-    import BalanceBreakdownPopup from './BalanceBreakdownPopup.svelte'
-    import TestDeepLinkFormPopup from './TestDeepLinkFormPopup.svelte'
-    import TokenInformationPopup from './TokenInformationPopup.svelte'
-    import UnlockStrongholdPopup from './UnlockStrongholdPopup.svelte'
-    import VerifyLedgerTransactionPopup from './VerifyLedgerTransactionPopup.svelte'
-    import CheckForUpdatesPopup from './CheckForUpdatesPopup.svelte'
-    import VoteForProposal from './VoteForProposalPopup.svelte'
-    import VotingPowerToZeroPopup from './VotingPowerToZeroPopup.svelte'
-    import WalletFinderPopup from './WalletFinderPopup.svelte'
+    import AccountSwitcherPopup from './popups/AccountSwitcherPopup.svelte'
+    import ActivityDetailsPopup from './popups/ActivityDetailsPopup.svelte'
+    import AddNodePopup from './popups/AddNodePopup.svelte'
+    import AddProposalPopup from './popups/AddProposalPopup.svelte'
+    import AliasConfirmationPopup from './popups/AliasConfirmationPopup.svelte'
+    import BalanceBreakdownPopup from './popups/BalanceBreakdownPopup.svelte'
+    import BackupStrongholdPopup from './popups/BackupStrongholdPopup.svelte'
+    import BurnNativeTokensPopup from './popups/BurnNativeTokensPopup.svelte'
+    import BurnNativeTokensConfirmationPopup from './popups/BurnNativeTokensConfirmationPopup.svelte'
+    import ConfirmationPopup from './popups/ConfirmationPopup.svelte'
+    import ConnectLedgerPopup from './popups/ConnectLedgerPopup.svelte'
+    import CreateAccountPopup from './popups/CreateAccountPopup.svelte'
+    import DeepLinkErrorPopup from './popups/DeepLinkErrorPopup.svelte'
+    import DeleteAccountPopup from './popups/DeleteAccountPopup.svelte'
+    import DeleteProfilePopup from './popups/DeleteProfilePopup.svelte'
+    import DiagnosticsPopup from './popups/DiagnosticsPopup.svelte'
+    import EnableLedgerBlindSigningPopup from './popups/EnableLedgerBlindSigningPopup.svelte'
+    import ErrorLogPopup from './popups/ErrorLogPopup.svelte'
+    import FaucetRequestPopup from './popups/FaucetRequestPopup.svelte'
+    import ImportErc20TokenFormPopup from './popups/ImportErc20TokenFormPopup.svelte'
+    import LedgerAppGuidePopup from './popups/LedgerAppGuidePopup.svelte'
+    import LedgerConnectionGuidePopup from './popups/LedgerConnectionGuidePopup.svelte'
+    import LegalUpdatePopup from './popups/LegalUpdatePopup.svelte'
+    import ManageAccountPopup from './popups/ManageAccountPopup.svelte'
+    import ManageVotingPowerPopup from './popups/ManageVotingPowerPopup.svelte'
+    import MintNativeTokenConfirmationPopup from './popups/MintNativeTokenConfirmationPopup.svelte'
+    import MintNativeTokenFormPopup from './popups/MintNativeTokenFormPopup.svelte'
+    import MintNftConfirmationPopup from './popups/MintNftConfirmationPopup.svelte'
+    import MintNftFormPopup from './popups/MintNftFormPopup.svelte'
+    import NodeAuthRequiredPopup from './popups/NodeAuthRequiredPopup.svelte'
+    import NodeInfoPopup from './popups/NodeInfoPopup.svelte'
+    import ReceiveAddressPopup from './popups/ReceiveAddressPopup.svelte'
+    import RemoveProposalPopup from './popups/RemoveProposalPopup.svelte'
+    import RevotePopup from './popups/RevotePopup.svelte'
+    import SignMessagePopup from './popups/SignMessagePopup.svelte'
+    import SendFlowPopup from './popups/SendFlowPopup.svelte'
+    import StopVotingPopup from './popups/StopVotingPopup.svelte'
+    import SyncAccountsPopup from './popups/SyncAccountsPopup.svelte'
+    import TestDeepLinkFormPopup from './popups/TestDeepLinkFormPopup.svelte'
+    import TokenInformationPopup from './popups/TokenInformationPopup.svelte'
+    import UnlockStrongholdPopup from './popups/UnlockStrongholdPopup.svelte'
+    import VerifyLedgerTransactionPopup from './popups/VerifyLedgerTransactionPopup.svelte'
+    import CheckForUpdatesPopup from './popups/CheckForUpdatesPopup.svelte'
+    import VoteForProposal from './popups/VoteForProposalPopup.svelte'
+    import VotingPowerToZeroPopup from './popups/VotingPowerToZeroPopup.svelte'
 
     export let id: PopupId
     export let props: any
@@ -96,8 +95,10 @@
         [PopupId.AddProposal]: AddProposalPopup,
         [PopupId.AliasConfirmation]: AliasConfirmationPopup,
         [PopupId.BackupStronghold]: BackupStrongholdPopup,
-        [PopupId.BurnNativeTokens]: BurnNativeTokensPopup,
+        [PopupId.BalanceBreakdown]: BalanceBreakdownPopup,
         [PopupId.BurnNativeTokensConfirmation]: BurnNativeTokensConfirmationPopup,
+        [PopupId.BurnNativeTokens]: BurnNativeTokensPopup,
+        [PopupId.CheckForUpdates]: CheckForUpdatesPopup,
         [PopupId.Confirmation]: ConfirmationPopup,
         [PopupId.ConnectLedger]: ConnectLedgerPopup,
         [PopupId.CreateAccount]: CreateAccountPopup,
@@ -126,15 +127,13 @@
         [PopupId.SendFlow]: SendFlowPopup,
         [PopupId.SignMessage]: SignMessagePopup,
         [PopupId.StopVoting]: StopVotingPopup,
-        [PopupId.BalanceBreakdown]: BalanceBreakdownPopup,
+        [PopupId.SyncAccounts]: SyncAccountsPopup,
         [PopupId.TestDeepLinkForm]: TestDeepLinkFormPopup,
         [PopupId.TokenInformation]: TokenInformationPopup,
         [PopupId.UnlockStronghold]: UnlockStrongholdPopup,
         [PopupId.VerifyLedgerTransaction]: VerifyLedgerTransactionPopup,
-        [PopupId.CheckForUpdates]: CheckForUpdatesPopup,
         [PopupId.VoteForProposal]: VoteForProposal,
         [PopupId.VotingPowerToZero]: VotingPowerToZeroPopup,
-        [PopupId.WalletFinder]: WalletFinderPopup,
     }
 
     function onKey(event: KeyboardEvent): void {
@@ -186,39 +185,38 @@
 
 <svelte:window on:keydown={onKey} />
 
-<popup
+<overlay
     in:fade={{ duration: transition ? 100 : 0 }}
-    class={`flex items-center justify-center fixed ${IS_WINDOWS ? 'top-7' : 'top-0'} left-0 w-screen p-6 ${
-        overflow ? '' : 'overflow-hidden'
-    }
-                h-full z-30 ${fullScreen ? 'bg-surface dark:bg-surface-dark' : 'bg-neutral-6/75'}`}
+    class:overflow-hidden={overflow}
+    class="flex items-center justify-center fixed {IS_WINDOWS
+        ? 'top-7'
+        : 'top-0'} left-0 w-screen h-full z-30 bg-neutral-6/75"
 >
     <button type="button" tabindex="0" on:focus={onFocusFirst} />
-    <popup-content
+    <popup
         use:clickOutside
         on:clickOutside={tryClosePopup}
         bind:this={popupContent}
-        class={`${size} bg-white rounded-xl pt-6 px-6 pb-6 ${
-            fullScreen ? 'full-screen dark:bg-gray-900' : 'dark:bg-gray-800 shadow-elevation-4'
-        } ${overflow ? 'overflow' : ''} ${relative ? 'relative' : ''}`}
+        class:overflow
+        class:relative
+        class={size}
     >
         {#if !hideClose}
-            <button on:click={tryClosePopup} class="absolute top-6 right-6 focus:text-blue-500">
-                <Icon
-                    icon={IconEnum.Close}
-                    classes="text-gray-500 dark:text-white hover:text-gray-600 dark:hover:text-gray-100 bg-surface-2 rounded-full"
-                />
-            </button>
+            <CloseButton on:click={tryClosePopup} size="sm" class="absolute top-6 right-6" />
         {/if}
         <svelte:component this={POPUP_MAP[id]} {...props} />
-    </popup-content>
+    </popup>
     <button type="button" tabindex="0" on:focus={onFocusLast} />
-</popup>
+</overlay>
 
 <style lang="scss">
-    popup {
-        popup-content {
-            width: 100%;
+    overlay {
+        popup {
+            @apply w-full p-6 rounded-3xl;
+            @apply bg-surface dark:bg-surface-dark;
+            @apply border border-solid border-stroke dark:border-stroke-dark;
+            @apply shadow-elevation-4;
+
             &.small {
                 max-width: 360px;
             }

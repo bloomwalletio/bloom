@@ -6,7 +6,8 @@
     import { EMPTY_NODE, INode, addNodeToClientOptions, editNodeInClientOptions } from '@core/network'
     import { activeAccounts, activeProfile } from '@core/profile/stores'
     import { closePopup } from '@desktop/auxiliary/popup'
-    import { Button, HTMLButtonType, NodeConfigurationForm, Text, TextType } from '@ui'
+    import { HTMLButtonType, NodeConfigurationForm } from '@ui'
+    import PopupTemplate from '../PopupTemplate.svelte'
 
     export let node: INode = structuredClone(EMPTY_NODE)
     export let isEditingNode: boolean = false
@@ -50,8 +51,20 @@
     }
 </script>
 
-<div class="flex flex-col space-y-6">
-    <Text type={TextType.h4}>{localize(`popups.node.title${isEditingNode ? 'Update' : 'Add'}`)}</Text>
+<PopupTemplate
+    title={localize(`popups.node.title${isEditingNode ? 'Update' : 'Add'}`)}
+    busy={isBusy}
+    backButton={{
+        text: localize('actions.cancel'),
+        onClick: closePopup,
+    }}
+    continueButton={{
+        type: HTMLButtonType.Submit,
+        form: 'node-configuration-form',
+        text: localize(`actions.${isEditingNode ? 'updateNode' : 'addNode'}`),
+        disabled: !node.url,
+    }}
+>
     <NodeConfigurationForm
         bind:this={nodeConfigurationForm}
         bind:node
@@ -59,19 +72,4 @@
         {isBusy}
         isDeveloperProfile={$activeProfile.isDeveloperProfile}
     />
-    <div class="flex flex-row justify-between space-x-4 w-full">
-        <Button outline classes="w-1/2" onClick={closePopup} disabled={isBusy}>
-            {localize('actions.cancel')}
-        </Button>
-        <Button
-            disabled={!node.url || isBusy}
-            type={HTMLButtonType.Submit}
-            form="node-configuration-form"
-            classes="w-1/2"
-            {isBusy}
-            busyMessage={localize(`popups.node.${isEditingNode ? 'updatingNode' : 'addingNode'}`)}
-        >
-            {localize(`actions.${isEditingNode ? 'updateNode' : 'addNode'}`)}
-        </Button>
-    </div>
-</div>
+</PopupTemplate>

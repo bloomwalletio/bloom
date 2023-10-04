@@ -229,10 +229,6 @@
                 "description": "Change your Bloom profile name",
                 "success": "You changed your profile name"
             },
-            "walletFinder": {
-                "title": "Wallet finder",
-                "description": "Perform an extended search of your previously used wallets"
-            },
             "hiddenAccounts": {
                 "title": "Hidden accounts",
                 "description": "Selecting this options will show wallets that were previously hidden"
@@ -758,7 +754,7 @@
             "surplusIncluded": "This transaction contains a surplus amount. Please double check this is the amount you want to send."
         },
         "walletFinder": {
-            "title": "Wallet finder",
+            "title": "Sync accounts",
             "body": "Perform a more exhaustive search of addresses to find missing balances and wallets.",
             "accountsSearched": "Accounts searched",
             "accountsFound": "Accounts found",
@@ -1111,7 +1107,7 @@
         "restart": "Restart",
         "refresh": "Refresh",
         "saveBackup": "Save backup",
-        "customizeAccount": "Customise wallet",
+        "customizeAccount": "Customise account",
         "hideAccount": "Hide account",
         "showAccount": "Unhide account",
         "deleteAccount": "Delete account",
@@ -1148,11 +1144,9 @@
         "readDocumentation": "Read the documentation",
         "visitFaq": "Visit FAQ",
         "viewDownloads" : "View downloads",
-        "viewBalanceBreakdown": "View balance breakdown",
         "showHiddenAccounts": "Show hidden accounts",
         "confirm": "Confirm",
         "hideNetworkStatistics": "Hide network statistics",
-        "findWallets": "Find wallets",
         "search": "Search",
         "searching": "Searching",
         "searchAgain": "Search again",
@@ -1186,7 +1180,11 @@
         "skipAndKeep": "Skip and keep old password",
         "addChain": "Add chain",
         "untrackToken": "Untrack token",
-        "switchAccount": "Switch account"
+        "switchAccount": "Switch account",
+        "syncAccounts": "Sync accounts",
+        "importErc20Token": "Import ERC20 token"
+
+
     },
     "general": {
         "recipient": "Recipient",
@@ -1232,7 +1230,6 @@
         "sendAssets": "Send assets",
         "sendAssetToAddress": "Send asset to an address",
         "manageAccount": "Manage account",
-        "customizeAccount": "Customize your account",
         "account": "Account",
         "amount": "Amount",
         "addAddress": "Add Address",
@@ -1327,7 +1324,6 @@
         "mintNativeTokenDescription": "Mint native token following IRC30 standard",
         "mintNftDescription": "Mint NFT following IRC27 standard",
         "faucetRequestDescription": "Request tokens from the {network} faucet",
-        "refreshTokenMetadataDescription": "Reset and refresh all token metadata",
         "refreshTokenMetadataHint" : "This will reset all your tokens' metadata including the verification status and unhide any hidden assets.",
         "excluded": "Excluded",
         "developerTools": "Developer tools",
@@ -1365,7 +1361,6 @@
         "coinType":"Coin type",
         "custom": "Custom",
         "evmAddress": "EVM address",
-        "importErc20Token": "Import ERC20 token",
         "optionalField": "{field} (optional)",
         "gifted": "Gifted",
         "connected": "Connected",
@@ -1376,6 +1371,7 @@
         "networks": "Networks",
         "ledgerDevice": "Ledger device",
         "disconnected": "Disconnected",
+        "balanceBreakdown": "Balance breakdown",
         "primary": "Primary"
     },
     "filters":{
@@ -1859,10 +1855,11 @@
     },
     "pills": {
         "asyncStatus": {
-            "unclaimed": "unclaimed",
-            "claimed": "claimed",
-            "expired": "expired",
-            "timelocked": "timelocked"
+            "claim": "Claim {timeDiff, select, undefined {} other { {timeDiff} }}",
+            "unclaimed": "Unclaimed {timeDiff, select, undefined {} other { {timeDiff}}}",
+            "claimed": "Claimed",
+            "expired": "Expired",
+            "timelocked": "Locked {timeDiff, select, undefined {} other { {timeDiff}}}"
         },
         "governance": {
             "proposalStatus": {
