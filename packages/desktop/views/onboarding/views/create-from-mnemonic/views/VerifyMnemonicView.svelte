@@ -96,12 +96,7 @@
 >
     <content slot="content" class="block">
         {#if !isVerified}
-            <RecoveryPhrase
-                recoveryPhrase={$onboardingProfile?.mnemonic}
-                {verifyRecoveryPhrase}
-                hidden={false}
-                verification
-            />
+            <RecoveryPhrase recoveryPhrase={$onboardingProfile?.mnemonic} {verifyRecoveryPhrase} verification />
             <Text textColor="secondary">
                 {localize(`${localeKey}.word`)} #{verifyIndex + 1}: {localize(`${localeKey}.match`)}
             </Text>
