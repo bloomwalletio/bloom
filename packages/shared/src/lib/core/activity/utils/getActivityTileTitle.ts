@@ -34,7 +34,12 @@ export function getActivityTileTitle(activity: Activity): string | undefined {
         return 'general.initialBalance'
     } else if (action === ActivityAction.Send) {
         if (isInternal) {
-            return isConfirmed ? 'general.transfer' : 'general.transferring'
+            if (direction === ActivityDirection.Incoming || direction === ActivityDirection.SelfTransaction) {
+                return isConfirmed ? 'general.transferIn' : 'general.transferringIn'
+            }
+            if (direction === ActivityDirection.Outgoing) {
+                return isConfirmed ? 'general.transferOut' : 'general.transferringOut'
+            }
         }
         if (direction === ActivityDirection.Incoming || direction === ActivityDirection.SelfTransaction) {
             return isConfirmed ? 'general.received' : 'general.receiving'
