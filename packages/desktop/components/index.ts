@@ -3,7 +3,7 @@ export * from './filter'
 export * from './menus'
 export * from './modals'
 export * from './panes'
-export * from './popups'
+export * from './popup'
 
 export { default as AccountActivity } from './AccountActivity.svelte'
 export { default as AccountSummary } from './AccountSummary.svelte'
