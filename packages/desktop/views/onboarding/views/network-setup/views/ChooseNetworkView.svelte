@@ -66,7 +66,6 @@
 
 <OnboardingLayout
     title={localize('views.onboarding.networkSetup.chooseNetwork.title')}
-    description={localize('views.onboarding.networkSetup.chooseNetwork.body')}
     continueButton={{
         onClick: onContinueClick,
         disabled: !selectedNetworkType,
@@ -84,6 +83,7 @@
                 `views.onboarding.networkSetup.chooseNetwork.${OnboardingNetworkType.Shimmer}.body`
             )}
             icon={IconName.Shimmer}
+            iconSize="md"
             iconColor="blue"
             iconColorShade="900"
             backgroundColor="shimmer"

@@ -57,10 +57,7 @@
             {/if}
         </div>
     </div>
-    <content
-        slot="content"
-        class="{size} flex flex-col space-y-6 p-6 rounded-xl bg-white dark:bg-gray-800 shadow-elevation-4 z-10"
-    >
+    <content slot="content" class={size}>
         <content-title class="h-full flex flex-col space-y-2.5">
             {#if title}<Text type="h4" align="center">{title}</Text>{/if}
             {#if description}<Text type="body2" textColor="secondary" align="center">{description}</Text>{/if}
@@ -98,7 +95,9 @@
     }
 
     content {
-        width: 100%;
+        @apply rounded-[2rem] w-full flex flex-col gap-6 p-6 z-10;
+        @apply bg-white dark:bg-gray-800 shadow-elevation-4;
+
         &.small {
             max-width: 360px;
         }

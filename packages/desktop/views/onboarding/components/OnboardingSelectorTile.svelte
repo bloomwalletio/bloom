@@ -1,11 +1,12 @@
 <script lang="ts">
-    import { Icon, IconName, Tile, Text, TailwindPreset } from '@bloomwalletio/ui'
+    import { Icon, IconName, type IconSize, Tile, Text, TailwindPreset } from '@bloomwalletio/ui'
 
     const colors = TailwindPreset.theme.extend.colors
 
     export let primaryText: string = ''
     export let secondaryText: string = ''
     export let icon: IconName | undefined = undefined
+    export let iconSize: IconSize = 'base'
     export let iconColor: keyof typeof colors = 'brand'
     export let iconColorShade: string = 'DEFAULT'
     export let backgroundColor: string | undefined = undefined
@@ -17,16 +18,18 @@
 </script>
 
 {#if !hidden}
-    <Tile width="full" variant="outlined" {onClick} {disabled} {selected}>
+    <Tile width="full" variant="outlined" {onClick} {disabled} {selected} surface={1}>
         {#if icon || $$slots.icon}
             <div class="flex justify-center items-center">
                 {#if $$slots.icon}
                     <slot name="icon" />
                 {:else if icon}
                     <icon-container
-                        class="p-3 rounded-xl {backgroundColor ? `bg-${backgroundColor}` : `bg-${iconColor}-100`}"
+                        class="w-12 h-12 flex justify-center items-center rounded-xl {backgroundColor
+                            ? `bg-${backgroundColor}`
+                            : `bg-${iconColor}-100`}"
                     >
-                        <Icon name={icon} customColor={colors[iconColor][iconColorShade]} />
+                        <Icon name={icon} customColor={colors[iconColor][iconColorShade]} size={iconSize} />
                     </icon-container>
                 {/if}
             </div>
