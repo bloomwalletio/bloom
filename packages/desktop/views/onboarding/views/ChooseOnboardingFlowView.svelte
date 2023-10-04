@@ -54,7 +54,7 @@
                 network: displayedNetworkName,
             })}
             secondaryText={localize('actions.createWalletDescription', { network: displayedNetworkName })}
-            icon={IconName.Plus}
+            icon={IconName.UserPlus}
             hidden={features?.onboarding?.[networkType]?.newProfile?.hidden}
             disabled={!features?.onboarding?.[networkType]?.newProfile?.enabled}
             onClick={() => onOnboardingTypeClick(OnboardingType.Create)}
@@ -63,7 +63,8 @@
         <OnboardingSelectorTile
             primaryText={localize(`actions.restoreWallet.${networkType}`)}
             secondaryText={localize(`actions.restoreWalletDescription.${networkType}`)}
-            icon={IconName.Redo}
+            icon={IconName.Refresh2}
+            iconColor="orange"
             hidden={features?.onboarding?.[networkType]?.restoreProfile?.hidden}
             disabled={!features?.onboarding?.[networkType]?.restoreProfile?.enabled}
             onClick={() => onOnboardingTypeClick(OnboardingType.Restore)}
@@ -73,6 +74,7 @@
             primaryText={localize('actions.claimShimmer')}
             secondaryText={localize('actions.claimShimmerDescription')}
             icon={IconName.CoinsHand}
+            iconColor="info"
             hidden={features?.onboarding?.[networkType]?.claimRewards?.hidden}
             disabled={!features?.onboarding?.[networkType]?.claimRewards?.enabled}
             onClick={() => onOnboardingTypeClick(OnboardingType.Claim)}
