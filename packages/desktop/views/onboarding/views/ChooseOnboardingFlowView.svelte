@@ -37,9 +37,6 @@
     title={localize('views.onboarding.profileSetup.setup.title', {
         network: displayedNetworkName,
     })}
-    description={localize('views.onboarding.profileSetup.setup.body', {
-        network: displayedNetworkName,
-    })}
     continueButton={{
         onClick: onContinueClick,
         disabled: !selectedOnboardingType,

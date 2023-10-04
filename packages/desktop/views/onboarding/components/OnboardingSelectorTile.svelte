@@ -27,7 +27,7 @@
                     <icon-container
                         class="w-12 h-12 flex justify-center items-center rounded-xl {backgroundColor
                             ? `bg-${backgroundColor}`
-                            : `bg-${iconColor}-100`}"
+                            : `bg-${iconColor}/20`}"
                     >
                         <Icon name={icon} customColor={colors[iconColor][iconColorShade]} size={iconSize} />
                     </icon-container>

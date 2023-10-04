@@ -96,7 +96,8 @@
 
     content {
         @apply rounded-[2rem] w-full flex flex-col gap-6 p-6 z-10;
-        @apply bg-white dark:bg-gray-800 shadow-elevation-4;
+        @apply bg-surface dark:bg-surface-dark shadow-elevation-4;
+        @apply border border-solid border-stroke dark:border-stroke-dark;
 
         &.small {
             max-width: 360px;
