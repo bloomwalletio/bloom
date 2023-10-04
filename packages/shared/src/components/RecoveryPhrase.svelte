@@ -34,9 +34,9 @@
                     class:unmatched
                 >
                     <Text type="sm" fontWeight="medium" customColor="brand-400">{`${i + 1}. `}</Text>
-                    <Text type="sm" fontWeight="medium" textColor="primary"
-                        >{hidden || errored || unmatched ? '*****' : word}</Text
-                    >
+                    <Text type="sm" fontWeight="medium" textColor="primary">
+                        {hidden || errored || unmatched ? '*****' : word}
+                    </Text>
                 </recovery-word>
             {/each}
         </recovery-phrase>
