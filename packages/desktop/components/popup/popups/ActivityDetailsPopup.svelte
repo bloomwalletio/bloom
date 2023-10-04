@@ -118,7 +118,6 @@
 
     $: continueButton = {
         text: localize('actions.claim'),
-        hidden: isTimelocked || !isActivityIncomingAndUnclaimed,
         onClick: () => onClaimClick(activity),
     }
 </script>

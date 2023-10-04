@@ -82,6 +82,3 @@
         </popup-buttons>
     {/if}
 </popup-template>
-
-<style lang="scss">
-</style>
