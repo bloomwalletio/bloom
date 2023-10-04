@@ -66,7 +66,6 @@
 
 <OnboardingLayout
     title={localize('views.onboarding.networkSetup.chooseNetwork.title')}
-    description={localize('views.onboarding.networkSetup.chooseNetwork.body')}
     continueButton={{
         onClick: onContinueClick,
         disabled: !selectedNetworkType,
@@ -77,16 +76,17 @@
         hidden: $profiles.length === 0,
     }}
 >
-    <div slot="content" class="flex flex-col space-y-3">
+    <div slot="content" class="flex flex-col space-y-4">
         <OnboardingSelectorTile
             primaryText={localize(`views.onboarding.networkSetup.chooseNetwork.${OnboardingNetworkType.Shimmer}.title`)}
             secondaryText={localize(
                 `views.onboarding.networkSetup.chooseNetwork.${OnboardingNetworkType.Shimmer}.body`
             )}
             icon={IconName.Shimmer}
-            iconColor="shimmer"
-            iconSize="base"
-            ,
+            iconSize="md"
+            iconColor="blue"
+            iconColorShade="900"
+            backgroundColor="shimmer"
             hidden={features?.onboarding?.[OnboardingNetworkType.Shimmer]?.hidden}
             disabled={!features?.onboarding?.[OnboardingNetworkType.Shimmer]?.enabled}
             onClick={() => onNetworkClick(OnboardingNetworkType.Shimmer)}
@@ -107,6 +107,7 @@
             primaryText={localize(`views.onboarding.networkSetup.chooseNetwork.${OnboardingNetworkType.Custom}.title`)}
             secondaryText={localize(`views.onboarding.networkSetup.chooseNetwork.${OnboardingNetworkType.Custom}.body`)}
             icon={IconName.SettingsSliders}
+            iconColor="info"
             hidden={features?.onboarding?.[OnboardingNetworkType.Custom]?.hidden}
             disabled={!features?.onboarding?.[OnboardingNetworkType.Custom]?.enabled}
             onClick={() => onNetworkClick(OnboardingNetworkType.Custom)}

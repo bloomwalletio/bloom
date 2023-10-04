@@ -351,9 +351,6 @@
                         "title": "Chain deposit address",
                         "networkTitle": "Network deposit address"
                     },
-                    "chainInformation": {
-                        "title": "Chain information"
-                    },
                     "confirmLedgerEvmAddress": {
                         "title": "Confirm EVM address",
                         "header": "We have generated your EVM address"
