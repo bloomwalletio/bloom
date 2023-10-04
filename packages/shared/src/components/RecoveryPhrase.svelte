@@ -1,6 +1,5 @@
 <script lang="ts">
-    import { appSettings } from '@core/app/stores'
-    import { Button } from '@bloomwalletio/ui'
+    import { Button, Text } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
 
     export let recoveryPhrase: string[] = []
@@ -9,8 +8,6 @@
     export let hidden: boolean = true
     export let disabled: boolean = true
     export let boxed: boolean = false
-
-    $: dark = $appSettings.darkMode
 
     function showRecoveryPhrase(): void {
         hidden = false
@@ -31,14 +28,15 @@
                 <recovery-word
                     id="recovery-word-{i}"
                     class:boxed
-                    class:dark
                     class:disabled
                     class:errored
                     class:selected
                     class:unmatched
                 >
-                    <span class="text-gray-500">{`${i + 1}. `}</span>
-                    <span class="text-gray-700 dark:text-white">{hidden || errored || unmatched ? '*****' : word}</span>
+                    <Text type="sm" fontWeight="medium" customColor="brand-400">{`${i + 1}. `}</Text>
+                    <Text type="sm" fontWeight="medium" textColor="primary"
+                        >{hidden || errored || unmatched ? '*****' : word}</Text
+                    >
                 </recovery-word>
             {/each}
         </recovery-phrase>
@@ -53,9 +51,9 @@
     </div>
 {/if}
 
-<style lang="scss">
+<style lang="postcss">
     button-container {
-        @apply flex absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2;
+        @apply flex absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full justify-center;
     }
 
     recovery-phrase {
@@ -76,7 +74,7 @@
     }
 
     recovery-word {
-        @apply flex flex-row items-center space-x-1;
+        @apply flex flex-row items-center gap-1;
 
         &.disabled {
             @apply pointer-events-none;
@@ -84,11 +82,7 @@
     }
 
     recovery-word:not(.boxed) {
-        @apply px-2 py-2 rounded-lg bg-gray-200;
-
-        &.dark {
-            @apply bg-gray-800;
-        }
+        @apply px-2 py-2 rounded-lg bg-surface-2 dark:bg-surface-2-dark;
 
         &.unmatched {
             @apply filter blur-sm;
@@ -104,18 +98,12 @@
 
         &.selected {
             @apply rounded border border-solid border-blue-500 bg-blue-50;
+            @apply dark:bg-blue-300 dark:bg-opacity-10;
         }
 
         &.errored {
             @apply rounded border border-solid border-red-500 bg-red-50;
-        }
-
-        &.dark.selected {
-            @apply bg-blue-300 bg-opacity-10;
-        }
-
-        &.dark.errored {
-            @apply bg-red-300 bg-opacity-10;
+            @apply dark:bg-red-300 dark:bg-opacity-10;
         }
     }
 </style>
