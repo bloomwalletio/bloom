@@ -47,7 +47,7 @@
 
 <style lang="scss">
     .activity-row {
-        @apply w-full;
+        @apply w-full items-center justify-center;
         @apply px-5 py-4;
         @apply border-b border-solid border-stroke dark:border-stroke-dark;
         @apply hover:bg-surface-2 dark:hover:bg-surface-2-dark;
