@@ -10,6 +10,8 @@
     import AssetInfo from '../AssetInfo.svelte'
     import { IconName, Avatar } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
+    import { appSettings } from '@core/app/stores'
+    import { ActivityAsyncStatusPill } from '@ui'
 
     export let activity: Activity
 
@@ -45,17 +47,21 @@
     }
 </script>
 
-<AssetInfo {title} {subtitle}>
-    {#if activity.type === ActivityType.Basic || activity.type === ActivityType.Foundry}
-        <TokenAvatar {token} hideNetworkBadge size="lg" />
-    {:else if activity.type === ActivityType.Nft}
-        <NftAvatar {nft} size="lg" shape="square" />
-    {:else if activity.type === ActivityType.Alias}
-        <!-- TODO: Add icon for alias -->
-        <Avatar icon={IconName.Globe} size="lg" backgroundColor="surface-2" />
-    {:else if activity.type === ActivityType.Consolidation}
-        <Avatar icon={IconName.CoinSwap} size="lg" backgroundColor="surface-2" />
-    {:else if activity.type === ActivityType.Governance}
-        <Avatar icon={IconName.Bank} size="lg" backgroundColor="surface-2" />
-    {/if}
-</AssetInfo>
+<div class="flex flex-row justify-between">
+    <AssetInfo {title} {subtitle}>
+        {#if token}
+            <TokenAvatar {token} hideNetworkBadge size="lg" />
+        {:else if activity.type === ActivityType.Nft}
+            <NftAvatar {nft} size="lg" shape="square" />
+        {:else if activity.type === ActivityType.Alias}
+            <Avatar
+                icon={IconName.Alias}
+                size="lg"
+                textColor="brand"
+                backgroundColor={$appSettings.darkMode ? 'surface-2-dark' : 'surface-2'}
+            />
+        {/if}
+    </AssetInfo>
+
+    <ActivityAsyncStatusPill {activity} />
+</div>

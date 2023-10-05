@@ -98,10 +98,19 @@
                 },
                 "verifyMnemonic": {
                     "title": "Verify recovery phrase",
-                    "body": "Let's check you wrote down the phrase correctly. Please select each word in numbered order. Tip: You can press the number next to the word in your keyboard to select it.",
+                    "body": "Let’s check you wrote down your phrase correctly. Please select the right word with the corresponding number.",
                     "word": "Word",
-                    "verified": "Recovery phrase verified",
-                    "verifiedBody": "Remember to keep it private and safely stored."
+                    "match": "Match from below",
+                    "success": {
+                        "title": "Verification success",
+                        "body1": "The recovery phrase matched",
+                        "body2": "Remember to keep your copy private and safely stored"
+                    },
+                    "failure": {
+                        "title": "Verification failure",
+                        "body1": "The recovery phrase did not match",
+                        "body2": "Please check your records"
+                    }
                 }
             },
             "profileRecovery": {
@@ -139,10 +148,9 @@
             }
         },
         "ledgerInstallationGuide": {
-            "title": "Have you installed the {network} app on your Ledger device?",
-            "body1": "Before you proceed, you must use Ledger Live to find and install the {network} app.",
-            "body2": "Make sure your Ledger firmware is up-to-date. Any pre-installed apps should be updated to their latest versions.",
-            "action": "Yes, I've installed the {network} app"
+            "title": "Have you installed the necessary Ledger app?",
+            "body": "Use Ledger Live to find and install the {network} app.",
+            "action": "Yes, let's continue"
         },
         "connectLedger": {
             "title": "Connect your Ledger to Bloom",
@@ -1209,21 +1217,31 @@
         "revoting": "Revoting",
         "unvoted": "Unvoted",
         "unvoting": "Unvoting",
-        "transfer": "Transfer",
-        "transferring": "Transferring",
+        "transferIn": "Transfer in",
+        "transferringIn": "Transferring in",
+        "transferOut": "Transfer out",
+        "transferringOut": "Transferring out",
         "shimmerClaimed": "Claimed",
         "shimmerClaiming": "Claiming",
         "shimmerGenesis": "Shimmer Genesis",
-        "minted": "Minted",
-        "minting": "Minting",
-        "burned": "Burned",
-        "burning": "Burning",
+        "mintedalias": "Minted alias",
+        "mintingalias": "Minting alias",
+        "mintednft": "Minted NFT",
+        "mintingnft": "Minting NFT",
+        "mintedfoundry": "Minted token",
+        "mintingfoundry": "Minting token",
+        "burnedalias": "Burned alias",
+        "burningalias": "Burning alias",
+        "burnednft": "Burned NFT",
+        "burningnft": "Burning NFT",
+        "burnedfoundry": "Burned token",
+        "burningfoundry": "Burning token",
+        "burnedbasic": "Burned token",
+        "burningbasic": "Burning token",
         "balanceChanged": "Balance changed",
         "initialBalance": "Initial balance",
         "consolidated": "Consolidated",
         "consolidating": "Consolidating",
-        "aliasCreated": "Alias created",
-        "creatingAlias": "Creating Alias",
         "sendTo": "Send To",
         "sendAssets": "Send assets",
         "sendAssetToAddress": "Send asset to an address",

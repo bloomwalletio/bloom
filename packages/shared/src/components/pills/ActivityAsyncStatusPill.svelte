@@ -74,7 +74,7 @@
 </script>
 
 {#if pillProps}
-    <div>
+    <div class="flex flex-col w-1/2 items-center justify-center">
         <Pill color={pillProps.color} compact>
             <div class="flex flex-row items-center gap-1">
                 <Icon name={pillProps.icon} size="xxs" customColor={pillProps.color} />
