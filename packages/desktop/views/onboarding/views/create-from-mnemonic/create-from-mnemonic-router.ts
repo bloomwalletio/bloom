@@ -19,6 +19,9 @@ export class CreateFromMnemonicRouter extends Subrouter<CreateFromMnemonicRoute>
                 nextRoute = CreateFromMnemonicRoute.VerifyMnemonic
                 break
             case CreateFromMnemonicRoute.VerifyMnemonic:
+                nextRoute = CreateFromMnemonicRoute.VerifyMnemonicStatus
+                break
+            case CreateFromMnemonicRoute.VerifyMnemonicStatus:
                 nextRoute = CreateFromMnemonicRoute.EncryptMnemonic
                 break
             case CreateFromMnemonicRoute.EncryptMnemonic:
