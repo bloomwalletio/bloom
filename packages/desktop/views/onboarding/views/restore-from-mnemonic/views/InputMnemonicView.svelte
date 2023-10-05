@@ -1,7 +1,7 @@
 <script lang="ts">
     import { updateOnboardingProfile } from '@contexts/onboarding'
     import { localize } from '@core/i18n'
-    import { ImportTextfield } from '@ui'
+    import { MnemonicInput } from '@ui'
     import { OnboardingLayout } from '@views/components'
     import { onMount } from 'svelte'
     import { restoreFromMnemonicRouter } from '../restore-from-mnemonic-router'
@@ -36,6 +36,6 @@
     }}
 >
     <form slot="content" on:submit|preventDefault={onContinueClick} id="text-import-form">
-        <ImportTextfield bind:value={input} />
+        <MnemonicInput bind:value={input} />
     </form>
 </OnboardingLayout>
