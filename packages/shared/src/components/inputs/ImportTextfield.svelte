@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { Text } from '@ui'
+    import { Error, TextArea } from '@bloomwalletio/ui'
     import { english } from '@auxiliary/wordlists'
     import { localize } from '@core/i18n'
     import { verifyMnemonic } from '@core/profile-manager'
@@ -72,38 +72,16 @@
 </script>
 
 <div>
-    <!-- svelte-ignore a11y-autofocus -->
-    <textarea
-        {disabled}
+    <TextArea
         bind:value={content}
         on:input={debounce(handleKeyDown)}
         on:keydown={debounce(handleKeyDown)}
-        placeholder=""
-        spellcheck={false}
+        {disabled}
+        {minHeight}
+        error={error ? statusMessage : ''}
         autofocus
-        class:error
-        style:min-height="{minHeight}px"
     />
     {#if error}
-        <div class="flex flex-row items-start justify-between">
-            <Text type="p" secondary {error}>{statusMessage}&nbsp;</Text>
-        </div>
+        <Error error={statusMessage} />
     {/if}
 </div>
-
-<style lang="scss">
-    textarea {
-        @apply resize-none w-full p-4 pb-3 rounded-xl bg-white dark:bg-gray-800;
-        @apply text-14 leading-140 text-primary font-semibold;
-        @apply border border-solid border-stroke dark:border-stroke-dark;
-
-        &.error {
-            @apply border-danger-300 hover:border-danger-500 focus:border-danger-500;
-        }
-
-        &:disabled {
-            @apply pointer-events-none;
-            @apply opacity-50;
-        }
-    }
-</style>
