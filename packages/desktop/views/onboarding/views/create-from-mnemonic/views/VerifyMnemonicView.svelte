@@ -7,7 +7,7 @@
     import { onMount } from 'svelte'
     import { createFromMnemonicRouter } from '../create-from-mnemonic-router'
 
-    const VERIFICATION_WORD_COUNT = 24
+    const VERIFICATION_WORD_COUNT = 8
 
     const verifyRecoveryPhrase: Mnemonic = []
     const wordElements: HTMLButtonElement[] = []
@@ -17,15 +17,33 @@
     let wordChoices: [string, string, string, string] = ['', '', '', '']
     let isVerified: boolean = $onboardingProfile?.hasVerifiedMnemonic ?? false
     let isVerifiedSuccess: boolean = false
+
+    const verificationIndexes: number[] = generateVerificationIndexes(
+        VERIFICATION_WORD_COUNT,
+        $onboardingProfile?.mnemonic.length
+    )
+    function generateVerificationIndexes(count: number, totalIndexes: number): number[] {
+        const randomNumbers: number[] = []
+
+        while (randomNumbers.length < count) {
+            const randomNumber = Math.floor(Math.random() * totalIndexes)
+            if (!randomNumbers.includes(randomNumber)) {
+                randomNumbers.push(randomNumber)
+            }
+        }
+
+        return randomNumbers.sort((a, b) => a - b)
+    }
     let verifyCount = 0
     let verifyIndex: number = 0
 
     function onChoiceClick(word: string): void {
         verifyRecoveryPhrase[verifyIndex] = word
         if (verifyCount === VERIFICATION_WORD_COUNT) {
+            isVerified = true
             updateOnboardingProfile({ hasVerifiedMnemonic: true })
         } else {
-            verifyIndex++
+            verifyIndex = verificationIndexes[verifyCount]
             wordChoices = getWordChoices(verifyIndex)
             verifyCount++
         }
