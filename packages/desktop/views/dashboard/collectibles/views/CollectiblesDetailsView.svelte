@@ -123,7 +123,7 @@
     }
 </script>
 
-<Pane classes="h-full">
+<Pane classes="h-full shadow-lg">
     <collectibles-details-view class="flex flex-row w-full h-full">
         <div class="flex w-full h-auto items-center justify-center p-5 overflow-hidden">
             <div class="relative h-auto flex rounded-2xl overflow-hidden">
