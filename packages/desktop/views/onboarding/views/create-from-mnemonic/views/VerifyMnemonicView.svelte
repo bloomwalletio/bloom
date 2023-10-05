@@ -94,18 +94,20 @@
         hidden: isVerified && !isVerifiedSuccess,
     }}
 >
-    <content slot="content" class="block">
+    <content slot="content" class="flex flex-col gap-6">
         {#if !isVerified}
             <RecoveryPhrase recoveryPhrase={$onboardingProfile?.mnemonic} {verifyRecoveryPhrase} verification />
-            <Text textColor="secondary">
-                {localize(`${localeKey}.word`)} #{verifyIndex + 1}: {localize(`${localeKey}.match`)}
-            </Text>
-            <div class="grid grid-cols-4 gap-2 mt-4">
-                {#each wordChoices as word, i}
-                    <button type="button" on:click={() => onChoiceClick(word)} bind:this={wordElements[i]}>
-                        <Text type="sm" fontWeight="medium" textColor="current">{word}</Text>
-                    </button>
-                {/each}
+            <div class="flex flex-col gap-4">
+                <Text textColor="secondary">
+                    {localize(`${localeKey}.word`)} #{verifyIndex + 1}: {localize(`${localeKey}.match`)}
+                </Text>
+                <div class="grid grid-cols-4 gap-2">
+                    {#each wordChoices as word, i}
+                        <button type="button" on:click={() => onChoiceClick(word)} bind:this={wordElements[i]}>
+                            <Text type="sm" fontWeight="medium" textColor="current">{word}</Text>
+                        </button>
+                    {/each}
+                </div>
             </div>
         {:else}
             <div class="flex flex-col items-center border border-solid border-stroke rounded-2xl py-6 px-4 gap-3">
