@@ -25,19 +25,21 @@ export function getActivityTileTitle(activity: Activity): string | undefined {
     } else if (activity.type === ActivityType.Consolidation) {
         return isConfirmed ? 'general.consolidated' : 'general.consolidating'
     } else if (action === ActivityAction.Mint) {
-        if (type === ActivityType.Alias) {
-            return isConfirmed ? 'general.aliasCreated' : 'general.creatingAlias'
-        }
-        return isConfirmed ? 'general.minted' : 'general.minting'
+        return isConfirmed ? `general.minted${type}` : `general.minting${type}`
     } else if (action === ActivityAction.Burn) {
-        return isConfirmed ? 'general.burned' : 'general.burning'
+        return isConfirmed ? `general.burned${type}` : `general.burning${type}`
     } else if (action === ActivityAction.BalanceChange) {
         return 'general.balanceChanged'
     } else if (action === ActivityAction.InitialBalance) {
         return 'general.initialBalance'
     } else if (action === ActivityAction.Send) {
         if (isInternal) {
-            return isConfirmed ? 'general.transfer' : 'general.transferring'
+            if (direction === ActivityDirection.Incoming || direction === ActivityDirection.SelfTransaction) {
+                return isConfirmed ? 'general.transferIn' : 'general.transferringIn'
+            }
+            if (direction === ActivityDirection.Outgoing) {
+                return isConfirmed ? 'general.transferOut' : 'general.transferringOut'
+            }
         }
         if (direction === ActivityDirection.Incoming || direction === ActivityDirection.SelfTransaction) {
             return isConfirmed ? 'general.received' : 'general.receiving'

@@ -3,68 +3,81 @@
     import { formatDate, localize } from '@core/i18n'
     import { Avatar, IconName } from '@bloomwalletio/ui'
     import { Text } from '@bloomwalletio/ui'
+    import { appSettings } from '@core/app/stores'
 
     export let activity: Activity
 
-    $: style = getActionStyle()
+    $: dark = $appSettings.darkMode
 
+    $: shouldMagnifyIcon = [IconName.Receive, IconName.Send, IconName.ArrowDown, IconName.ArrowUp].includes(style?.icon)
+
+    let style: { icon: IconName; color: string } | undefined
+    $: activity, dark, (style = getActionStyle())
     function getActionStyle(): { icon: IconName; color: string } {
         const { type, isInternal, direction, action } = activity
 
         if (type === ActivityType.Basic && activity.isShimmerClaiming) {
             return {
                 icon: IconName.Receive,
-                color: 'purple',
+                color: 'info',
             }
         }
         if (type === ActivityType.Governance) {
             return {
-                icon: IconName.Bank,
-                color: 'green',
+                icon: IconName.ArrowLeftRight,
+                color: dark ? 'neutral-1' : 'neutral-7',
             }
         } else if (type === ActivityType.Consolidation) {
             return {
-                icon: IconName.CoinSwap,
-                color: 'purple',
+                icon: IconName.ArrowLeftRight,
+                color: dark ? 'neutral-1' : 'neutral-7',
             }
         } else if (action === ActivityAction.Mint) {
             return {
-                icon: IconName.Receive,
-                color: 'purple',
+                icon: IconName.ArrowDown,
+                color: 'success',
             }
         } else if (action === ActivityAction.Burn) {
             return {
-                icon: IconName.Send,
-                color: 'red',
+                icon: IconName.ArrowUp,
+                color: 'danger',
             }
         } else if (action === ActivityAction.InitialBalance) {
             return {
                 icon: IconName.Receive,
-                color: 'purple',
+                color: dark ? 'neutral-1' : 'neutral-7',
             }
         } else if (action === ActivityAction.Send || action === ActivityAction.BalanceChange) {
             if (isInternal) {
-                return {
-                    icon: IconName.Refresh,
-                    color: 'purple',
+                if (direction === ActivityDirection.Incoming || direction === ActivityDirection.SelfTransaction) {
+                    return {
+                        icon: IconName.ArrowLeftRight,
+                        color: 'info',
+                    }
+                }
+                if (direction === ActivityDirection.Outgoing) {
+                    return {
+                        icon: IconName.ArrowLeftRight,
+                        color: 'brand',
+                    }
                 }
             }
             if (direction === ActivityDirection.Incoming || direction === ActivityDirection.SelfTransaction) {
                 return {
                     icon: IconName.Receive,
-                    color: 'purple',
+                    color: 'info',
                 }
             }
             if (direction === ActivityDirection.Outgoing) {
                 return {
                     icon: IconName.Send,
-                    color: 'blue',
+                    color: 'brand',
                 }
             }
         } else {
             return {
                 icon: IconName.HelpCircle,
-                color: 'gray',
+                color: dark ? 'neutral-1' : 'neutral-7',
             }
         }
     }
@@ -72,8 +85,14 @@
 
 <div class="text-start">
     <div class="flex flex-row items-center gap-2">
-        <Avatar size="xxs" backgroundColor={style.color} icon={style.icon} textColor="primary" />
-        <Text customColor={style.color + '-500'}>{localize(getActivityTileTitle(activity))}</Text>
+        <Avatar
+            size="xxs"
+            backgroundColor={style.color}
+            icon={style.icon}
+            textColor="primary"
+            magnify={shouldMagnifyIcon}
+        />
+        <Text customColor={style.color}>{localize(getActivityTileTitle(activity))}</Text>
     </div>
     <Text textColor="secondary">{formatDate(activity.time, { year: 'numeric', month: 'short', day: 'numeric' })}</Text>
 </div>
