@@ -1,9 +1,9 @@
 <script lang="ts">
     import { appSettings } from '@core/app/stores'
 
-    export let illustration = undefined
-    export let width = undefined
-    export let height = undefined
+    export let illustration: string | undefined = undefined
+    export let width: number | undefined = undefined
+    export let height: number | undefined = undefined
     export let classes = ''
 
     $: darkModeEnabled = $appSettings.darkMode
@@ -64,29 +64,9 @@
         },
 
         // Ledger Popup
-        'ledger-confirm': {
-            lightmode: 'ledger/ledger-confirm.svg',
-            darkmode: 'ledger/ledger-confirm.svg',
-        },
-        'ledger-disconnected': {
-            lightmode: 'ledger/ledger-disconnected.svg',
-            darkmode: 'ledger/ledger-disconnected.svg',
-        },
-        'ledger-locked': {
-            lightmode: 'ledger/ledger-locked.svg',
-            darkmode: 'ledger/ledger-locked.svg',
-        },
-        'ledger-open-ethereum': {
-            lightmode: 'ledger/ledger-open-ethereum.svg',
-            darkmode: 'ledger/ledger-open-ethereum.svg',
-        },
-        'ledger-open-shimmer': {
-            lightmode: 'ledger/ledger-open-shimmer.svg',
-            darkmode: 'ledger/ledger-open-shimmer.svg',
-        },
-        'ledger-verify': {
-            lightmode: 'ledger/ledger-verify.svg',
-            darkmode: 'ledger/ledger-verify.svg',
+        'ledger-base': {
+            lightmode: 'ledger/ledger-base.svg',
+            darkmode: 'ledger/ledger-base.svg',
         },
 
         // Wallet
