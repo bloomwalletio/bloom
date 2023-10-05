@@ -3,6 +3,7 @@
     import { DrawerTemplate } from '@components'
     import { localize } from '@core/i18n'
     import { Router } from '@core/router'
+    import { activeProfile } from '@core/profile/stores'
     import { NetworkConfigRoute } from '..'
     import { ConfigureNodeList, LocalProofOfWork } from '../components'
     import { PopupId, closePopup, openPopup } from '@desktop/auxiliary/popup'
@@ -30,7 +31,7 @@
     }
 </script>
 
-<DrawerTemplate title={localize('views.dashboard.drawers.networkConfig.chainInformation.title')} {drawerRouter}>
+<DrawerTemplate title={$activeProfile.network.name} {drawerRouter}>
     <div class="flex flex-col w-full space-y-4">
         <ConfigureNodeList bind:nodesContainer />
         <LocalProofOfWork />
