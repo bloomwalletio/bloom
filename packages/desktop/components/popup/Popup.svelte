@@ -72,7 +72,6 @@
     let size: PopupSize = PopupSize.Medium
 
     $: switch (id) {
-        case PopupId.ConnectLedger:
         case PopupId.CreateAccount:
         case PopupId.ManageAccount:
             size = PopupSize.Small
@@ -212,7 +211,7 @@
 <style lang="scss">
     overlay {
         popup {
-            @apply w-full p-6 rounded-3xl;
+            @apply p-6 rounded-3xl;
             @apply bg-surface dark:bg-surface-dark;
             @apply border border-solid border-stroke dark:border-stroke-dark;
             @apply shadow-elevation-4;

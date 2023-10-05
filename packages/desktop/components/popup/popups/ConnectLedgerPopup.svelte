@@ -1,10 +1,10 @@
 <script lang="ts">
-    import { Alert } from '@bloomwalletio/ui'
+    import { Alert, Pill } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
     import { LedgerAppName, LedgerConnectionState, ledgerConnectionState } from '@core/ledger'
     import { isFunction } from '@core/utils'
     import { closePopup } from '@desktop/auxiliary/popup'
-    import { LedgerAnimation } from '@ui'
+    import { LedgerAnimation, Pane } from '@ui'
     import PopupTemplate from '../PopupTemplate.svelte'
 
     export let ledgerAppName: LedgerAppName
@@ -15,17 +15,37 @@
     $: isLocked = $ledgerConnectionState === LedgerConnectionState.Locked
     $: isCorrectAppOpen = $ledgerConnectionState === (ledgerAppName as unknown as LedgerConnectionState)
 
-    let illustration: string
-    $: $ledgerConnectionState, setIllustration()
-    function setIllustration(): void {
+    let ledgerSectionProps: { illustration: string; color: string; text: string; pillText: string | undefined }
+    $: $ledgerConnectionState, setLedgerSectionProps()
+    function setLedgerSectionProps(): void {
         if (isDisconnected) {
-            illustration = 'ledger-disconnected'
+            ledgerSectionProps = {
+                illustration: 'ledger-disconnected',
+                color: 'danger',
+                text: localize('popups.ledgerNotConnected.notConnected'),
+                pillText: localize('pills.ledgerStatus.notConnected'),
+            }
         } else if (isLocked) {
-            illustration = 'ledger-locked'
+            ledgerSectionProps = {
+                illustration: 'ledger-locked',
+                color: 'warning',
+                text: localize('popups.ledgerNotConnected.locked'),
+                pillText: localize('pills.ledgerStatus.locked'),
+            }
         } else if (isCorrectAppOpen) {
-            illustration = 'ledger-confirm'
+            ledgerSectionProps = {
+                illustration: 'ledger-confirm',
+                color: 'success',
+                text: localize('popups.ledgerNotConnected.correctAppOpen'),
+                pillText: undefined,
+            }
         } else {
-            illustration = `ledger-open-${ledgerAppName.toLowerCase()}`
+            ledgerSectionProps = {
+                illustration: `ledger-open-${ledgerAppName.toLowerCase()}`,
+                color: 'warning',
+                text: localize('popups.ledgerNotConnected.appNotOpen', { appName: ledgerAppName }),
+                pillText: localize('pills.ledgerStatus.appNotOpen'),
+            }
         }
     }
 
@@ -61,15 +81,20 @@
 
 <PopupTemplate title={localize('popups.ledgerNotConnected.title')} {backButton} {continueButton}>
     <div class="space-y-6">
-        <LedgerAnimation {illustration} />
-        {#if isDisconnected}
-            <Alert variant="danger" text={localize('popups.ledgerNotConnected.notConnected')} />
-        {:else if isLocked}
-            <Alert variant="warning" text={localize('popups.ledgerNotConnected.locked')} />
-        {:else if isCorrectAppOpen}
-            <Alert variant="success" text={localize('popups.ledgerNotConnected.correctAppOpen')} />
-        {:else}
-            <Alert variant="info" text={localize('popups.ledgerNotConnected.appNotOpen', { appName: ledgerAppName })} />
-        {/if}
+        <Pane classes="flex relative box-border pl-4 pt-4">
+            {#if ledgerSectionProps.pillText}
+                <status-pill class="absolute">
+                    <Pill color={ledgerSectionProps.color}>{ledgerSectionProps.pillText}</Pill>
+                </status-pill>
+            {/if}
+            <LedgerAnimation illustration={ledgerSectionProps.illustration} />
+        </Pane>
+        <Alert variant={ledgerSectionProps.color} text={ledgerSectionProps.text} />
     </div>
 </PopupTemplate>
+
+<style lang="postcss">
+    pane {
+        @apply box-border pl-4 pt-4;
+    }
+</style>

@@ -68,6 +68,10 @@
             lightmode: 'ledger/ledger-base.svg',
             darkmode: 'ledger/ledger-base.svg',
         },
+        'ledger-pin-input': {
+            lightmode: 'ledger/ledger-pin.svg',
+            darkmode: 'ledger/ledger-pin.svg',
+        },
 
         // Wallet
         'empty-collectibles': {
