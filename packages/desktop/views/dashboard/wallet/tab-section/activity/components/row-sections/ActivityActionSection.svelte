@@ -12,7 +12,7 @@
     $: shouldMagnifyIcon = [IconName.Receive, IconName.Send, IconName.ArrowDown, IconName.ArrowUp].includes(style?.icon)
 
     let style: { icon: IconName; color: string } | undefined
-    $: dark, (style = getActionStyle())
+    $: activity, dark, (style = getActionStyle())
     function getActionStyle(): { icon: IconName; color: string } {
         const { type, isInternal, direction, action } = activity
 
@@ -49,9 +49,17 @@
             }
         } else if (action === ActivityAction.Send || action === ActivityAction.BalanceChange) {
             if (isInternal) {
-                return {
-                    icon: IconName.ArrowLeftRight,
-                    color: dark ? 'neutral-1' : 'neutral-7',
+                if (direction === ActivityDirection.Incoming || direction === ActivityDirection.SelfTransaction) {
+                    return {
+                        icon: IconName.ArrowLeftRight,
+                        color: 'info',
+                    }
+                }
+                if (direction === ActivityDirection.Outgoing) {
+                    return {
+                        icon: IconName.ArrowLeftRight,
+                        color: 'brand',
+                    }
                 }
             }
             if (direction === ActivityDirection.Incoming || direction === ActivityDirection.SelfTransaction) {
