@@ -1,5 +1,5 @@
 export enum RestoreFromStrongholdRoute {
     ImportStronghold = 'importStronghold',
-    UnlockStronghold = 'unlockStronghold',
+    UnlockBackup = 'unlockBackup',
     UpdateStronghold = 'updateStronghold',
 }
