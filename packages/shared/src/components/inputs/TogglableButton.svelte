@@ -11,4 +11,4 @@
     }
 </script>
 
-<IconButton {icon} size="sm" textColor={active ? 'primary' : 'secondary'} on:click={clickToggle} />
+<IconButton {icon} textColor={active ? 'primary' : 'secondary'} on:click={clickToggle} />
