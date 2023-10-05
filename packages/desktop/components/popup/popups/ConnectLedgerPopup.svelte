@@ -1,10 +1,11 @@
 <script lang="ts">
-    import { Alert, Button, Text } from '@bloomwalletio/ui'
+    import { Alert } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
     import { LedgerAppName, LedgerConnectionState, ledgerConnectionState } from '@core/ledger'
     import { isFunction } from '@core/utils'
     import { closePopup } from '@desktop/auxiliary/popup'
     import { LedgerAnimation } from '@ui'
+    import PopupTemplate from '../PopupTemplate.svelte'
 
     export let ledgerAppName: LedgerAppName
     export let onCancel: () => void
@@ -45,29 +46,30 @@
             closePopup()
         }
     }
+
+    const backButton = {
+        text: localize('actions.cancel'),
+        onClick: onCancelClick,
+    }
+
+    $: continueButton = {
+        text: localize('actions.continue'),
+        onClick: onContinueClick,
+        disabled: !isCorrectAppOpen,
+    }
 </script>
 
-<connect-ledger-popup class="w-full h-full space-y-6 flex flex-auto flex-col shrink-0">
-    <Text type="h6" classes="text-left">
-        {localize('popups.ledgerNotConnected.title')}
-    </Text>
-    <LedgerAnimation {illustration} />
-    {#if isDisconnected}
-        <Alert variant="danger" text={localize('popups.ledgerNotConnected.notConnected')} />
-    {:else if isLocked}
-        <Alert variant="warning" text={localize('popups.ledgerNotConnected.locked')} />
-    {:else if isCorrectAppOpen}
-        <Alert variant="success" text={localize('popups.ledgerNotConnected.correctAppOpen')} />
-    {:else}
-        <Alert variant="info" text={localize('popups.ledgerNotConnected.appNotOpen', { appName: ledgerAppName })} />
-    {/if}
-    <popup-buttons class="flex flex-row flex-nowrap w-full space-x-4">
-        <Button width="full" variant="outline" on:click={onCancelClick} text={localize('actions.cancel')} />
-        <Button
-            width="full"
-            disabled={!isCorrectAppOpen}
-            on:click={onContinueClick}
-            text={localize('actions.continue')}
-        />
-    </popup-buttons>
-</connect-ledger-popup>
+<PopupTemplate title={localize('popups.ledgerNotConnected.title')} {backButton} {continueButton}>
+    <div class="space-y-6">
+        <LedgerAnimation {illustration} />
+        {#if isDisconnected}
+            <Alert variant="danger" text={localize('popups.ledgerNotConnected.notConnected')} />
+        {:else if isLocked}
+            <Alert variant="warning" text={localize('popups.ledgerNotConnected.locked')} />
+        {:else if isCorrectAppOpen}
+            <Alert variant="success" text={localize('popups.ledgerNotConnected.correctAppOpen')} />
+        {:else}
+            <Alert variant="info" text={localize('popups.ledgerNotConnected.appNotOpen', { appName: ledgerAppName })} />
+        {/if}
+    </div>
+</PopupTemplate>
