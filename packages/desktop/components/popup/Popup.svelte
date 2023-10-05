@@ -211,7 +211,7 @@
 <style lang="scss">
     overlay {
         popup {
-            @apply p-6 rounded-3xl;
+            @apply w-full p-6 rounded-3xl;
             @apply bg-surface dark:bg-surface-dark;
             @apply border border-solid border-stroke dark:border-stroke-dark;
             @apply shadow-elevation-4;

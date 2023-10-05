@@ -68,7 +68,7 @@
             lightmode: 'ledger/ledger-base.svg',
             darkmode: 'ledger/ledger-base.svg',
         },
-        'ledger-pin-input': {
+        'ledger-pin': {
             lightmode: 'ledger/ledger-pin.svg',
             darkmode: 'ledger/ledger-pin.svg',
         },
