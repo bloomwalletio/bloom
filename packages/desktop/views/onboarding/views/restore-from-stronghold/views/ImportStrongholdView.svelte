@@ -111,6 +111,6 @@
         {allowedExtensions}
         onDrop={onFileSelection}
         bind:dropping
-        extentionsLabel={localize('actions.importExtentions')}
+        extentionsLabel={localize('actions.importExtensions')}
     />
 </OnboardingLayout>
