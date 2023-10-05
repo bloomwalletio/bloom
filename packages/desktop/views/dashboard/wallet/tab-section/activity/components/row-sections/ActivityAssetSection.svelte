@@ -10,6 +10,7 @@
     import AssetInfo from '../AssetInfo.svelte'
     import { IconName, Avatar } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
+    import { appSettings } from '@core/app/stores'
 
     export let activity: Activity
 
@@ -51,7 +52,11 @@
     {:else if activity.type === ActivityType.Nft}
         <NftAvatar {nft} size="lg" shape="square" />
     {:else if activity.type === ActivityType.Alias}
-        <!-- TODO: Add icon for alias -->
-        <Avatar icon={IconName.Globe} size="lg" backgroundColor="surface-2" />
+        <Avatar
+            icon={IconName.Alias}
+            size="lg"
+            textColor="brand"
+            backgroundColor={$appSettings.darkMode ? 'surface-2-dark' : 'surface-2'}
+        />
     {/if}
 </AssetInfo>
