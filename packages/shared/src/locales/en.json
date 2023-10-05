@@ -1878,7 +1878,7 @@
         },
         "ledgerStatus": {
             "notConnected": "Not connected",
-            "deviceLocked": "Device locked",
+            "locked": "Device locked",
             "appNotOpen": "App not open"
         }         
     },
