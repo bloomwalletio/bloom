@@ -125,15 +125,15 @@
 
 <Pane classes="h-full">
     <collectibles-details-view class="flex flex-row w-full h-full">
-        <media-container class="flex w-full items-center justify-center p-5 overflow-hidden">
+        <media-container class="relative flex w-full items-center justify-center p-5 overflow-hidden">
             <NftMedia {nft} autoplay controls loop muted />
-            <div class="absolute right-6 bottom-6 w-auto">
+            <div class="absolute left-6 top-6 w-auto">
                 {#if alertText}
                     <Alert variant={downloadMetadata?.error ? 'danger' : 'warning'} text={alertText} />
                 {/if}
             </div>
         </media-container>
-        <collectible-information class="flex flex-col px-6 py-8 space-y-3 w-full h-full max-w-lg">
+        <details-container class="flex flex-col px-6 py-8 space-y-3 w-full h-full max-w-sm">
             <nft-title class="flex justify-between items-center gap-4">
                 <Text type="h4" truncate>{name}</Text>
                 <CollectibleDetailsMenu {nft} />
@@ -199,7 +199,7 @@
                     reverse
                 />
             </buttons-container>
-        </collectible-information>
+        </details-container>
     </collectibles-details-view>
 </Pane>
 
@@ -216,5 +216,9 @@
             max-width: 100%;
             max-height: 100%;
         }
+    }
+
+    details-container {
+        @apply max-w-lg;
     }
 </style>
