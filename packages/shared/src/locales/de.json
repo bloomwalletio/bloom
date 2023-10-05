@@ -3,7 +3,10 @@
         "onboarding": {
             "appSetup": {
                 "welcome": {
-                    "title": "Welcome to"
+                    "title": "Welcome to",
+                    "subtitle": "A new journey awaits...",
+                    "legalBody": "Check to confirm you've read and accept the",
+                    "button": "Begin setup"
                 },
                 "legal": {
                     "title": "Datenschutzerklärung & Nutzungsbedingungen"
@@ -158,9 +161,6 @@
             "profile": {
                 "title": "Profil"
             },
-            "network": {
-                "title": "Netzwerk"
-            },
             "collectibles": {
                 "title": "Sammlerstücke"
             },
@@ -187,10 +187,6 @@
             "notifications": {
                 "title": "Benachrichtigungen",
                 "description": "Systembenachrichtigungen bei Transaktionen"
-            },
-            "networkStatus": {
-                "title": "Netzwerkstatus",
-                "description": "Zeigt den Status des Nodes an, mit welchem du gerade verbunden bist"
             },
             "exportStronghold": {
                 "title": "Backup exportieren",
@@ -233,12 +229,8 @@
                 "description": "Change your Bloom profile name",
                 "success": "Du hast deinen Profilnamen geändert"
             },
-            "walletFinder": {
-                "title": "Wallet-Suche",
-                "description": "Führe eine erweitere Suche nach zuvor genutzten Wallets durch"
-            },
             "hiddenAccounts": {
-                "title": "Ausgeblendete Wallets",
+                "title": "Hidden accounts",
                 "description": "Wähle diese Option um zuvor ausgeblendete Wallets wieder anzuzeigen"
             },
             "deleteProfile": {
@@ -248,26 +240,6 @@
             "deepLinks": {
                 "title": "Deep-Links",
                 "description": "Automatically fill transaction data in Bloom upon clicking a deep link starting with {appProtocol}://"
-            },
-            "networkInformation": {
-                "title": "Netzwerk-Informationen",
-                "connectedTo": "Verbunden mit"
-            },
-            "configureNodeList": {
-                "title": "Node-Konfiguration",
-                "description": "Verwalte die Liste der Nodes, mit denen du dich verbindest",
-                "primaryNode": "Primärer Node",
-                "excludeNode": "Node ausschließen",
-                "includeNode": "Node einbeziehen",
-                "editDetails": "Bearbeiten",
-                "setAsPrimary": "Als primäre Node festlegen",
-                "unsetAsPrimary": "Primäre Node löschen",
-                "removeNode": "Node entfernen",
-                "noNodes": "Es sind keine Nodes vorhanden, Verbindung zum Netzwerk fehlgeschlagen"
-            },
-            "localProofOfWork": {
-                "title": "Proof of Work",
-                "description": "Proof of Work lokal auf deinem Gerät ausführen oder an den Node ausgliedern"
             },
             "errorLog": {
                 "title": "Fehlerprotokoll",
@@ -351,6 +323,7 @@
                 "action": "Action",
                 "address": "Address",
                 "amount": "Amount",
+                "claimableTransactions": "You have {amount} {amount, select, 1 {transaction that requires} other {transactions that require}} claiming",
                 "consolidatedOutputs": "{amount} outputs consolidated"
             },
             "profileMenu": {
@@ -403,6 +376,23 @@
                     },
                     "removeChain": {
                         "title": "Blockchain entfernen"
+                    },
+                    "networkSettings": {
+                        "configureNodeList": {
+                            "title": "Node configuration",
+                            "description": "Manage the list of nodes you connect to",
+                            "excludeNode": "Exclude node",
+                            "includeNode": "Include node",
+                            "editDetails": "Edit details",
+                            "setAsPrimary": "Set primary node",
+                            "unsetAsPrimary": "Clear primary node",
+                            "removeNode": "Remove node",
+                            "noNodes": "There are no nodes, unable to connect to the network"
+                        },
+                        "localProofOfWork": {
+                            "title": "Proof of work",
+                            "description": "Complete proof of work locally on your device or outsource to the node"
+                        }
                     }
                 },
                 "contactBook": {
@@ -448,7 +438,8 @@
                     "inputConnectionCode": {
                         "title": "Connect to a dApp",
                         "inputLabel": "Wallet Connect code",
-                        "hint": "Add new dApps by adding a Wallet Connect code below."
+                        "hint": "Add new dApps by adding a Wallet Connect code below.",
+                        "deprecated": "The dApp you try to connect to uses a deprecated version of WalletConnect. Cannot establish connection"
                     },
                     "confirmConnection": {
                         "title": "Connect with an application",
@@ -484,6 +475,7 @@
                 "title": "Sammlerstücke",
                 "emptyTitle": "Keine Sammlerstücke",
                 "noResults": "Keine Treffer",
+                "timelocked": "Locked for {timeDiff}",
                 "emptyDescription": "Empfange oder Erhalte dein erstes Sammlerstück jetzt!"
             },
             "details": {
@@ -658,7 +650,7 @@
             "body": "Es ist wichtig, regelmäßig ein Backup deiner Wallet durchzuführen. Damit stellst du sicher, dass du eine Kopie deiner Wallets mit vollständigem Transaktionsverlauf besitzt. Wenn du dein Backup und deine Wiederherstellungsphrase verlierst, hast du keinen Zugriff mehr auf dein Guthaben."
         },
         "deeplinkAccountSwitch": {
-            "title": "Wallet wählen",
+            "title": "Select an account",
             "body": "Du hast einen Deep Link ausgeführt. Bitte wähle die Wallet, mit der du fortfahren möchtest."
         },
         "deeplinkError": {
@@ -764,10 +756,10 @@
             "surplusIncluded": "Diese Transaktion enthält einen Überschuss. Bitte überprüfe, ob dies der Betrag ist, den du senden möchtest."
         },
         "walletFinder": {
-            "title": "Walletsuche",
+            "title": "Sync accounts",
             "body": "Führe eine erweiterte Suche nach Adressen durch, um fehlendes Guthaben und fehlende Wallets zu finden.",
-            "accountsSearched": "Durchsuchte Wallets",
-            "accountsFound": "Gefundene Wallets",
+            "accountsSearched": "Accounts searched",
+            "accountsFound": "Accounts found",
             "totalWalletBalance": "Gesamtguthaben",
             "searchAgainHint": "Ist das angezeigte Guthaben oder die Anzahl der Wallets nicht korrekt? Dann suche erneut, bis dein gesamtes Guthaben angezeigt wird."
         },
@@ -1117,10 +1109,10 @@
         "restart": "Restart",
         "refresh": "Aktualisieren",
         "saveBackup": "Save backup",
-        "customizeAccount": "Wallet anpassen",
-        "hideAccount": "Wallet ausblenden",
-        "showAccount": "Wallet einblenden",
-        "deleteAccount": "Wallet löschen",
+        "customizeAccount": "Customise account",
+        "hideAccount": "Hide account",
+        "showAccount": "Unhide account",
+        "deleteAccount": "Delete account",
         "addNode": "Node hinzufügen",
         "addingNode": "Node hinzufügen",
         "addOfficialNodes": "Offizielle Nodes hinzufügen",
@@ -1140,7 +1132,7 @@
         "copyAllInformation": "Alle Informationen kopieren",
         "paste": "Einfügen",
         "selectAll": "Alles auswählen",
-        "addAccount": "Wallet hinzufügen",
+        "addAccount": "Add account",
         "checkForUpdates": "Suche nach Updates",
         "reportAnIssue": "Ein Problem melden",
         "clear": "Löschen",
@@ -1154,11 +1146,9 @@
         "readDocumentation": "Lese die Dokumentation",
         "visitFaq": "Gehe zu den FAQs",
         "viewDownloads": "Downloads anzeigen",
-        "viewBalanceBreakdown": "Saldenaufteilung anzeigen",
-        "showHiddenAccounts": "Ausgeblendete Wallets anzeigen",
+        "showHiddenAccounts": "Show hidden accounts",
         "confirm": "Bestätigen",
         "hideNetworkStatistics": "Netzwerk Statistiken verbergen",
-        "findWallets": "Wallets suchen",
         "search": "Suchen",
         "searching": "Suche läuft",
         "searchAgain": "Erneut suchen",
@@ -1191,7 +1181,10 @@
         "revote": "Wiederabstimmen",
         "skipAndKeep": "Überspringen und altes Passwort behalten",
         "addChain": "Add chain",
-        "untrackToken": "Untrack token"
+        "untrackToken": "Untrack token",
+        "switchAccount": "Switch account",
+        "syncAccounts": "Sync accounts",
+        "importErc20Token": "Import ERC20 token"
     },
     "general": {
         "recipient": "Empfänger",
@@ -1236,9 +1229,8 @@
         "sendTo": "Senden an",
         "sendAssets": "Assets senden",
         "sendAssetToAddress": "Asset an eine Adresse senden",
-        "manageAccount": "Wallet verwalten",
-        "customizeAccount": "Deine Wallet anpassen",
-        "account": "Wallet",
+        "manageAccount": "Manage account",
+        "account": "Account",
         "amount": "Betrag",
         "addAddress": "Adresse hinzufügen",
         "to": "An",
@@ -1263,7 +1255,7 @@
         "outgoing": "Ausgehend",
         "dev": "Entwickler",
         "newAccount": "New account",
-        "accountName": "Wallet-Name",
+        "accountName": "Account name",
         "activity": "Aktivität",
         "security": "Sicherheit",
         "network": "Netzwerk",
@@ -1280,7 +1272,7 @@
         "noAssets": "Keine Assets",
         "noFilteredAsset": "Keine passenden Assets",
         "thisMonth": "Aktueller Monat",
-        "search": "Suche",
+        "search": "Search...",
         "passwordUpdating": "Ändere Passwort...",
         "passwordSuccess": "Passwort erfolgreich geändert",
         "passwordFailed": "Passwortänderung fehlgeschlagen",
@@ -1303,7 +1295,7 @@
         "unknown": "Unbekannt",
         "unknownAddress": "Unbekannte Adresse",
         "none": "Keine",
-        "accountColor": "Wallet-Farbe",
+        "accountColor": "Account color",
         "transactionTime": "Transaktionszeit",
         "storageDeposit": "Storage Deposit",
         "transactionFee": "Transaction fee",
@@ -1332,7 +1324,6 @@
         "mintNativeTokenDescription": "Nativen Token nach IRC30 Standard minten",
         "mintNftDescription": "Minte NFT nach IRC27 Standard",
         "faucetRequestDescription": "Tokens vom {network} Faucet anfordern",
-        "refreshTokenMetadataDescription": "Alle Token-Metadaten zurücksetzen und aktualisieren",
         "refreshTokenMetadataHint": "Dies wird all deine Token-Metadaten zurücksetzen, einschließlich des Verifizierungsstatus und alle ausgeblendeten Assets werden wieder angezeigt.",
         "excluded": "Ausgeschlossen",
         "developerTools": "Entwicklerwerkzeuge",
@@ -1370,7 +1361,6 @@
         "coinType": "Cointyp",
         "custom": "Benutzerdefiniert",
         "evmAddress": "EVM-Adresse",
-        "importErc20Token": "ERC20-Token importieren",
         "optionalField": "{field} (optional)",
         "gifted": "Gifted",
         "connected": "Connected",
@@ -1380,7 +1370,9 @@
         "apps": "Apps",
         "networks": "Networks",
         "ledgerDevice": "Ledger device",
-        "disconnected": "Disconnected"
+        "disconnected": "Disconnected",
+        "balanceBreakdown": "Balance breakdown",
+        "primary": "Primary"
     },
     "filters": {
         "title": "Filter",
@@ -1779,7 +1771,8 @@
         "walletConnect": {
             "invalidUri": "Invalid URI",
             "invalidProtocol": "Invalid protocol, must start with 'wc'.",
-            "deprecatedVersion": "dApp uses a deprecated wallet connect version."
+            "deprecatedVersion": "dApp uses a deprecated wallet connect version.",
+            "invalidV2UriFormat": "The link doesn't adhere to the WalletConnect V2 specification."
         },
         "web3": {
             "unableToGetProvider": "Unable to get web3 provider.",
@@ -1857,14 +1850,16 @@
         "collectibles": "Sammlerstücke",
         "governance": "Governance",
         "developer": "Entwickler*in",
-        "tokens": "Token"
+        "tokens": "Token",
+        "settings": "Settings"
     },
     "pills": {
         "asyncStatus": {
-            "unclaimed": "unbeansprucht",
-            "claimed": "beansprucht",
-            "expired": "abgelaufen",
-            "timelocked": "timelocked"
+            "claim": "Claim {timeDiff, select, undefined {} other { {timeDiff} }}",
+            "unclaimed": "Unclaimed {timeDiff, select, undefined {} other { {timeDiff}}}",
+            "claimed": "Claimed",
+            "expired": "Expired",
+            "timelocked": "Locked {timeDiff, select, undefined {} other { {timeDiff}}}"
         },
         "governance": {
             "proposalStatus": {
