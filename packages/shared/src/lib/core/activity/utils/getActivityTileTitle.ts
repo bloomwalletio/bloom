@@ -27,7 +27,7 @@ export function getActivityTileTitle(activity: Activity): string | undefined {
     } else if (action === ActivityAction.Mint) {
         return isConfirmed ? `general.minted${type}` : `general.minting${type}`
     } else if (action === ActivityAction.Burn) {
-        return isConfirmed ? 'general.burned' : 'general.burning'
+        return isConfirmed ? `general.burned${type}` : `general.burning${type}`
     } else if (action === ActivityAction.BalanceChange) {
         return 'general.balanceChanged'
     } else if (action === ActivityAction.InitialBalance) {
