@@ -36,12 +36,12 @@
         onClick: onBackClick,
     }}
 >
-    <div slot="content" class="flex flex-col justify-center items-center gap-4">
+    <div slot="content" class="flex flex-col justify-center items-center gap-8">
         <div class="flex flex-nowrap gap-2 justify-center items-center">
             <connect-card class:success={!isDisconnected}>
                 <status-icon-container>
                     <Icon
-                        name={!isDisconnected ? IconName.Check : IconName.CrossClose}
+                        name={isDisconnected ? IconName.CrossClose : IconName.Check}
                         size="xs"
                         customColor="neutral-1"
                     />
@@ -53,7 +53,7 @@
             </connect-card>
             <connect-card class:success={!isLocked}>
                 <status-icon-container>
-                    <Icon name={!isLocked ? IconName.Check : IconName.CrossClose} size="xs" customColor="neutral-1" />
+                    <Icon name={isLocked ? IconName.CrossClose : IconName.Check} size="xs" customColor="neutral-1" />
                 </status-icon-container>
                 <icon-container>
                     <Icon name={IconName.Unlocked} textColor="current" />
@@ -113,7 +113,7 @@
     }
 
     status-icon-container {
-        @apply absolute top-2 left-2 rounded-full p-1;
+        @apply absolute top-2 left-2 rounded-full p-1.5;
     }
 
     icon-container {
