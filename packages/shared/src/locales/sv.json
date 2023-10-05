@@ -3,7 +3,10 @@
         "onboarding": {
             "appSetup": {
                 "welcome": {
-                    "title": "Welcome to"
+                    "title": "Welcome to",
+                    "subtitle": "A new journey awaits...",
+                    "legalBody": "Check to confirm you've read and accept the",
+                    "button": "Begin setup"
                 },
                 "legal": {
                     "title": "Integritetspolicy och användarvillkor"
@@ -158,9 +161,6 @@
             "profile": {
                 "title": "Profil"
             },
-            "network": {
-                "title": "Network"
-            },
             "collectibles": {
                 "title": "Collectibles"
             },
@@ -187,10 +187,6 @@
             "notifications": {
                 "title": "Aviseringar",
                 "description": "Systemaviseringar för transaktionshändelser"
-            },
-            "networkStatus": {
-                "title": "Nätverksstatus",
-                "description": "Visar status för noden du är ansluten till"
             },
             "exportStronghold": {
                 "title": "Exportera säkerhetskopian",
@@ -233,12 +229,8 @@
                 "description": "Change your Bloom profile name",
                 "success": "Du ändrade ditt profilnamn"
             },
-            "walletFinder": {
-                "title": "Hitta saldo",
-                "description": "Utför en utökad sökning av dina tidigare använda plånböcker"
-            },
             "hiddenAccounts": {
-                "title": "Dolda plånböcker",
+                "title": "Hidden accounts",
                 "description": "Genom att välja detta alternativ visas plånböcker som tidigare varit dolda"
             },
             "deleteProfile": {
@@ -248,26 +240,6 @@
             "deepLinks": {
                 "title": "Hyperlänkar",
                 "description": "Automatically fill transaction data in Bloom upon clicking a deep link starting with {appProtocol}://"
-            },
-            "networkInformation": {
-                "title": "Network information",
-                "connectedTo": "Connected to"
-            },
-            "configureNodeList": {
-                "title": "Konfiguration av nod",
-                "description": "Hantera listan över noder som du ansluter till",
-                "primaryNode": "Primär nod",
-                "excludeNode": "Exkludera nod",
-                "includeNode": "Inkludera nod",
-                "editDetails": "Redigera detaljer",
-                "setAsPrimary": "Ange primär nod",
-                "unsetAsPrimary": "Rensa primär nod",
-                "removeNode": "Ta bort nod",
-                "noNodes": "Det finns inga noder, det går inte att ansluta till nätverket"
-            },
-            "localProofOfWork": {
-                "title": "Proof of work",
-                "description": "Complete proof of work locally on your device or outsource to the node"
             },
             "errorLog": {
                 "title": "Felmeddelanden",
@@ -351,6 +323,7 @@
                 "action": "Action",
                 "address": "Address",
                 "amount": "Amount",
+                "claimableTransactions": "You have {amount} {amount, select, 1 {transaction that requires} other {transactions that require}} claiming",
                 "consolidatedOutputs": "{amount} outputs consolidated"
             },
             "profileMenu": {
@@ -403,6 +376,23 @@
                     },
                     "removeChain": {
                         "title": "Remove chain"
+                    },
+                    "networkSettings": {
+                        "configureNodeList": {
+                            "title": "Node configuration",
+                            "description": "Manage the list of nodes you connect to",
+                            "excludeNode": "Exclude node",
+                            "includeNode": "Include node",
+                            "editDetails": "Edit details",
+                            "setAsPrimary": "Set primary node",
+                            "unsetAsPrimary": "Clear primary node",
+                            "removeNode": "Remove node",
+                            "noNodes": "There are no nodes, unable to connect to the network"
+                        },
+                        "localProofOfWork": {
+                            "title": "Proof of work",
+                            "description": "Complete proof of work locally on your device or outsource to the node"
+                        }
                     }
                 },
                 "contactBook": {
@@ -448,7 +438,8 @@
                     "inputConnectionCode": {
                         "title": "Connect to a dApp",
                         "inputLabel": "Wallet Connect code",
-                        "hint": "Add new dApps by adding a Wallet Connect code below."
+                        "hint": "Add new dApps by adding a Wallet Connect code below.",
+                        "deprecated": "The dApp you try to connect to uses a deprecated version of WalletConnect. Cannot establish connection"
                     },
                     "confirmConnection": {
                         "title": "Connect with an application",
@@ -484,6 +475,7 @@
                 "title": "Samlingar",
                 "emptyTitle": "Inga samlingar",
                 "noResults": "Inga resultat",
+                "timelocked": "Locked for {timeDiff}",
                 "emptyDescription": "Sätt in eller ta emot ditt första samlarobjekt nu!"
             },
             "details": {
@@ -658,7 +650,7 @@
             "body": "Det är viktigt att säkerhetskopiera plånboken regelbundet för att se till att du har en kopia av din plånbok och transaktionshistorik. Om du förlorar din backup och återställningsfras förlorar du åtkomst till dina tillgångar."
         },
         "deeplinkAccountSwitch": {
-            "title": "Välj en plånbok",
+            "title": "Select an account",
             "body": "Du har precis följt en hyperlänk. Vänligen välj den plånbok du vill fortsätta med."
         },
         "deeplinkError": {
@@ -764,10 +756,10 @@
             "surplusIncluded": "Denna transaktion innehåller ett överskott. Dubbelkolla att detta är det belopp du vill skicka."
         },
         "walletFinder": {
-            "title": "Hitta saldo",
+            "title": "Sync accounts",
             "body": "Utför en mer uttömmande sökning av adresser för att hitta saknade saldon och plånböcker.",
-            "accountsSearched": "Plånböcker genomsökta",
-            "accountsFound": "Plånböcker hittade",
+            "accountsSearched": "Accounts searched",
+            "accountsFound": "Accounts found",
             "totalWalletBalance": "Totalt saldo",
             "searchAgainHint": "Är ditt saldo eller antal plånböcker felaktiga? Tryck på sök igen tills ditt saldo visas."
         },
@@ -1117,10 +1109,10 @@
         "restart": "Restart",
         "refresh": "Refresh",
         "saveBackup": "Save backup",
-        "customizeAccount": "Anpassa plånbok",
-        "hideAccount": "Dölj plånbok",
-        "showAccount": "Visa plånbok",
-        "deleteAccount": "Ta bort plånbok",
+        "customizeAccount": "Customise account",
+        "hideAccount": "Hide account",
+        "showAccount": "Unhide account",
+        "deleteAccount": "Delete account",
         "addNode": "Lägg till nod",
         "addingNode": "Lägger till nod",
         "addOfficialNodes": "Lägg till officiella noder",
@@ -1140,7 +1132,7 @@
         "copyAllInformation": "Kopiera all information",
         "paste": "Klistra in",
         "selectAll": "Välj alla",
-        "addAccount": "Lägg till plånbok",
+        "addAccount": "Add account",
         "checkForUpdates": "Sök efter uppdateringar",
         "reportAnIssue": "Rapportera ett fel",
         "clear": "Rensa",
@@ -1154,11 +1146,9 @@
         "readDocumentation": "Läs dokumentationen",
         "visitFaq": "Besök FAQ",
         "viewDownloads": "View downloads",
-        "viewBalanceBreakdown": "View balance breakdown",
-        "showHiddenAccounts": "Visa dolda plånböcker",
+        "showHiddenAccounts": "Show hidden accounts",
         "confirm": "Bekräfta",
         "hideNetworkStatistics": "Dölj nätverksstatistik",
-        "findWallets": "Hitta plånböcker",
         "search": "Sök",
         "searching": "Söker",
         "searchAgain": "Sök igen",
@@ -1191,7 +1181,10 @@
         "revote": "Revote",
         "skipAndKeep": "Skip and keep old password",
         "addChain": "Add chain",
-        "untrackToken": "Untrack token"
+        "untrackToken": "Untrack token",
+        "switchAccount": "Switch account",
+        "syncAccounts": "Sync accounts",
+        "importErc20Token": "Import ERC20 token"
     },
     "general": {
         "recipient": "Mottagare",
@@ -1236,9 +1229,8 @@
         "sendTo": "Skicka till",
         "sendAssets": "Send assets",
         "sendAssetToAddress": "Send asset to an address",
-        "manageAccount": "Hantera plånbok",
-        "customizeAccount": "Anpassa din plånbok",
-        "account": "Plånbok",
+        "manageAccount": "Manage account",
+        "account": "Account",
         "amount": "Belopp",
         "addAddress": "Lägg till adress",
         "to": "Till",
@@ -1263,7 +1255,7 @@
         "outgoing": "Utgående",
         "dev": "Utvecklare",
         "newAccount": "New account",
-        "accountName": "Plånboksnamn",
+        "accountName": "Account name",
         "activity": "Aktivitet",
         "security": "Säkerhet",
         "network": "Nätverk",
@@ -1280,7 +1272,7 @@
         "noAssets": "Inga tillgångar",
         "noFilteredAsset": "Inga matchande tillgångar",
         "thisMonth": "Denna månad",
-        "search": "Sök",
+        "search": "Search...",
         "passwordUpdating": "Uppdaterar lösenord...",
         "passwordSuccess": "Lösenordet har uppdaterats",
         "passwordFailed": "Det gick inte att uppdatera lösenord",
@@ -1303,7 +1295,7 @@
         "unknown": "Okänd",
         "unknownAddress": "Okänd adress",
         "none": "Ingen",
-        "accountColor": "Plånboksfärg",
+        "accountColor": "Account color",
         "transactionTime": "Transaktionstid",
         "storageDeposit": "Lagringsdeposition",
         "transactionFee": "Transaction fee",
@@ -1332,7 +1324,6 @@
         "mintNativeTokenDescription": "Minta imhemsk token som följer IRC30 standard",
         "mintNftDescription": "Minta NFT enligt IRC27 standard",
         "faucetRequestDescription": "Begär tokens från {network} faucet",
-        "refreshTokenMetadataDescription": "Återställ och uppdatera all metadata för alla tokens",
         "refreshTokenMetadataHint": "Detta kommer att återställa alla dina tokens metadata inklusive verifieringsstatus och visa dina dolda tillgångar.",
         "excluded": "Exkluderad",
         "developerTools": "Utvecklarverktyg",
@@ -1370,7 +1361,6 @@
         "coinType": "Coin type",
         "custom": "Custom",
         "evmAddress": "EVM address",
-        "importErc20Token": "Import ERC20 token",
         "optionalField": "{field} (optional)",
         "gifted": "Gifted",
         "connected": "Connected",
@@ -1380,7 +1370,9 @@
         "apps": "Apps",
         "networks": "Networks",
         "ledgerDevice": "Ledger device",
-        "disconnected": "Disconnected"
+        "disconnected": "Disconnected",
+        "balanceBreakdown": "Balance breakdown",
+        "primary": "Primary"
     },
     "filters": {
         "title": "Filter",
@@ -1779,7 +1771,8 @@
         "walletConnect": {
             "invalidUri": "Invalid URI",
             "invalidProtocol": "Invalid protocol, must start with 'wc'.",
-            "deprecatedVersion": "dApp uses a deprecated wallet connect version."
+            "deprecatedVersion": "dApp uses a deprecated wallet connect version.",
+            "invalidV2UriFormat": "The link doesn't adhere to the WalletConnect V2 specification."
         },
         "web3": {
             "unableToGetProvider": "Unable to get web3 provider.",
@@ -1857,14 +1850,16 @@
         "collectibles": "Samlarobjekt",
         "governance": "Styrning",
         "developer": "Utvecklare",
-        "tokens": "Tokens"
+        "tokens": "Tokens",
+        "settings": "Settings"
     },
     "pills": {
         "asyncStatus": {
-            "unclaimed": "ej taget i anspråk",
-            "claimed": "anspråkstaget",
-            "expired": "löpt ut",
-            "timelocked": "timelocked"
+            "claim": "Claim {timeDiff, select, undefined {} other { {timeDiff} }}",
+            "unclaimed": "Unclaimed {timeDiff, select, undefined {} other { {timeDiff}}}",
+            "claimed": "Claimed",
+            "expired": "Expired",
+            "timelocked": "Locked {timeDiff, select, undefined {} other { {timeDiff}}}"
         },
         "governance": {
             "proposalStatus": {
