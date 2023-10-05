@@ -1,7 +1,7 @@
 <script lang="ts">
     import { updateOnboardingProfile } from '@contexts/onboarding'
     import { localize } from '@core/i18n'
-    import { MnemonicInput } from '@ui'
+    import { MnemonicInput } from '../../../components'
     import { OnboardingLayout } from '@views/components'
     import { onMount } from 'svelte'
     import { restoreFromMnemonicRouter } from '../restore-from-mnemonic-router'
