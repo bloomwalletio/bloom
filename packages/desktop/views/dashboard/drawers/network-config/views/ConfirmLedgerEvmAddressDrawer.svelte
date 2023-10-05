@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { Button, IItem, Table, Text } from '@bloomwalletio/ui'
+    import { Button, Table, Text } from '@bloomwalletio/ui'
     import { DrawerTemplate } from '@components'
     import { selectedAccount } from '@core/account/stores'
     import { localize } from '@core/i18n'
@@ -16,15 +16,6 @@
         $networkConfigRouter.reset()
         $networkConfigRouter.goTo(NetworkConfigRoute.ConnectedChains)
     }
-
-    let items: IItem[]
-    $: items = [
-        {
-            key: localize('general.evmAddress'),
-            value: address,
-            copyable: true,
-        },
-    ]
 </script>
 
 <DrawerTemplate title={localize('views.dashboard.drawers.networkConfig.confirmLedgerEvmAddress.title')} {drawerRouter}>
@@ -34,13 +25,21 @@
                 <Text type="body2" textColor="secondary">
                     {localize('views.dashboard.drawers.networkConfig.confirmLedgerEvmAddress.header')}
                 </Text>
-                <Table orientation="vertical" {items} />
+                <Table
+                    orientation="vertical"
+                    items={[
+                        {
+                            key: localize('general.evmAddress'),
+                            value: address,
+                            copyable: true,
+                        },
+                    ]}
+                />
             {/if}
         </div>
     </confirm-ledger-evm-address-drawer>
     <svelte:fragment slot="footer">
         <Button
-            variant="outline"
             text={localize('actions.continue')}
             disabled={!address}
             busy={!address}
