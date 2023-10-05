@@ -36,14 +36,14 @@
 
 <style lang="postcss">
     recovery-phrase {
-        @apply grid grid-cols-4 w-full mb-8 text-12 max-w-[460px];
+        @apply grid grid-cols-4 w-full text-12 max-w-[460px];
 
         &.boxed {
             @apply overflow-y-auto p-3 rounded-2xl border border-solid border-gray-300;
         }
 
         &:not(.boxed) {
-            @apply gap-3;
+            @apply gap-2;
         }
     }
 
