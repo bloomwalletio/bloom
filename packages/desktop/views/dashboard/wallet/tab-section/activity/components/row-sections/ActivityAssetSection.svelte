@@ -11,6 +11,7 @@
     import { IconName, Avatar } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
     import { appSettings } from '@core/app/stores'
+    import { ActivityAsyncStatusPill } from '@ui'
 
     export let activity: Activity
 
@@ -46,17 +47,21 @@
     }
 </script>
 
-<AssetInfo {title} {subtitle}>
-    {#if token}
-        <TokenAvatar {token} hideNetworkBadge size="lg" />
-    {:else if activity.type === ActivityType.Nft}
-        <NftAvatar {nft} size="lg" shape="square" />
-    {:else if activity.type === ActivityType.Alias}
-        <Avatar
-            icon={IconName.Alias}
-            size="lg"
-            textColor="brand"
-            backgroundColor={$appSettings.darkMode ? 'surface-2-dark' : 'surface-2'}
-        />
-    {/if}
-</AssetInfo>
+<div class="flex flex-row justify-between">
+    <AssetInfo {title} {subtitle}>
+        {#if token}
+            <TokenAvatar {token} hideNetworkBadge size="lg" />
+        {:else if activity.type === ActivityType.Nft}
+            <NftAvatar {nft} size="lg" shape="square" />
+        {:else if activity.type === ActivityType.Alias}
+            <Avatar
+                icon={IconName.Alias}
+                size="lg"
+                textColor="brand"
+                backgroundColor={$appSettings.darkMode ? 'surface-2-dark' : 'surface-2'}
+            />
+        {/if}
+    </AssetInfo>
+
+    <ActivityAsyncStatusPill {activity} />
+</div>
