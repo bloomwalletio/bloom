@@ -62,14 +62,13 @@
     }}
     {busy}
 >
-    <div slot="content">
-        <PasswordInput
-            label=""
-            {error}
-            bind:value={strongholdPassword}
-            disabled={busy}
-            autofocus
-            on:submit={onContinueClick}
-        />
-    </div>
+    <PasswordInput
+        bind:value={strongholdPassword}
+        slot="content"
+        label={localize('general.password')}
+        {error}
+        disabled={busy}
+        autofocus
+        on:submit={onContinueClick}
+    />
 </OnboardingLayout>
