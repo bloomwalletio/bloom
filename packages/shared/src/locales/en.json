@@ -98,10 +98,19 @@
                 },
                 "verifyMnemonic": {
                     "title": "Verify recovery phrase",
-                    "body": "Let's check you wrote down the phrase correctly. Please select each word in numbered order. Tip: You can press the number next to the word in your keyboard to select it.",
+                    "body": "Let’s check you wrote down your phrase correctly. Please select the right word with the corresponding number.",
                     "word": "Word",
-                    "verified": "Recovery phrase verified",
-                    "verifiedBody": "Remember to keep it private and safely stored."
+                    "match": "Match from below",
+                    "success": {
+                        "title": "Verification success",
+                        "body1": "The recovery phrase matched",
+                        "body2": "Remember to keep your copy private and safely stored"
+                    },
+                    "failure": {
+                        "title": "Verification failure",
+                        "body1": "The recovery phrase did not match",
+                        "body2": "Please check your records"
+                    }
                 }
             },
             "profileRecovery": {
