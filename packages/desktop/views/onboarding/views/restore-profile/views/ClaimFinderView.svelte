@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { Button, IconName } from '@bloomwalletio/ui'
     import {
         ClaimShimmerRewardsError,
         FindShimmerRewardsError,
@@ -31,7 +32,7 @@
     } from '@core/ledger'
     import { unsubscribeFromWalletApiEvents } from '@core/profile-manager'
     import { closePopup } from '@desktop/auxiliary/popup'
-    import { Button, ShimmerClaimingAccountList } from '@ui'
+    import { ShimmerClaimingAccountList } from '@ui'
     import { OnboardingLayout } from '@views/components'
     import { onDestroy, onMount } from 'svelte'
     import { restoreProfileRouter } from '../restore-profile-router'
@@ -41,7 +42,6 @@
     let isSettingUp = false
     let isSearchingForRewards = false
     let hasSearchedForRewardsBefore = false
-
     let hasTriedClaimingRewards = false
 
     $: isClaimingRewards = shimmerClaimingAccounts.some(
@@ -186,7 +186,7 @@
 
 <OnboardingLayout
     title={localize('views.onboarding.shimmerClaiming.claimRewards.title')}
-    description={localize('views.onboarding.shimmerClaiming.claimRewards.description')}
+    description={localize('views.onboarding.shimmerClaiming.claimRewards.body')}
     continueButton={{
         hidden: true,
     }}
@@ -194,33 +194,35 @@
         hidden: true,
     }}
 >
-    <div slot="content" class="h-full flex flex-col space-y-4">
+    <div slot="content" class="h-full flex flex-col gap-4">
         <ShimmerClaimingAccountList {shimmerClaimingAccounts} baseToken={$onboardingProfile?.network?.baseToken} />
-        <div class="block space-y-2">
+        <div class="flex flex-col gap-6">
             <Button
-                classes="w-full"
+                on:click={onSearchForRewardsClick}
+                width="full"
                 disabled={!shouldSearchForRewardsButtonBeEnabled}
-                outline
-                onClick={onSearchForRewardsClick}
-                isBusy={isSettingUp || isSearchingForRewards}
-                busyMessage={localize('actions.searching')}
-            >
-                {localize(`actions.${hasSearchedForRewardsBefore ? 'searchAgain' : 'searchForRewards'}`)}
-            </Button>
+                variant="text"
+                icon={IconName.Refresh}
+                busy={isSettingUp || isSearchingForRewards}
+                busyText={localize('actions.searching')}
+                text={localize(`actions.${hasSearchedForRewardsBefore ? 'searchAgain' : 'useFinder'}`)}
+            />
             {#if shouldShowContinueButton}
-                <Button classes="w-full" disabled={isSearchingForRewards} onClick={onContinueClick}>
-                    {localize('actions.continue')}
-                </Button>
+                <Button
+                    width="full"
+                    disabled={isSearchingForRewards}
+                    on:click={onContinueClick}
+                    text={localize('actions.continue')}
+                />
             {:else}
                 <Button
-                    classes="w-full"
+                    on:click={onClaimRewardsClick}
+                    width="full"
                     disabled={!shouldClaimRewardsButtonBeEnabled}
-                    onClick={onClaimRewardsClick}
-                    isBusy={isClaimingRewards}
-                    busyMessage={localize('actions.claiming')}
-                >
-                    {localize(`actions.${hasTriedClaimingRewards ? 'rerunClaimProcess' : 'claimRewards'}`)}
-                </Button>
+                    busy={isClaimingRewards}
+                    busyText={localize('actions.claiming')}
+                    text={localize(`actions.${hasTriedClaimingRewards ? 'rerunClaimProcess' : 'claimRewards'}`)}
+                />
             {/if}
         </div>
     </div>

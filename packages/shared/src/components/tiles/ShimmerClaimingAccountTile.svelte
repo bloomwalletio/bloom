@@ -1,8 +1,8 @@
 <script lang="ts">
+    import { Icon, IconName, Text, Tile } from '@bloomwalletio/ui'
     import { IShimmerClaimingAccount, ShimmerClaimingAccountState } from '@contexts/onboarding'
     import { localize } from '@core/i18n'
     import { IBaseToken, formatTokenAmountBestMatch } from '@core/token'
-    import { FontWeight, Icon, Text, TextType, Tile } from '@ui'
 
     export let shimmerClaimingAccount: IShimmerClaimingAccount
     export let baseToken: IBaseToken
@@ -15,44 +15,34 @@
 </script>
 
 {#if shimmerClaimingAccount}
-    <Tile isGhost classes="rounded-xl">
-        <div class="w-full flex flex-row justify-between items-center space-x-4">
-            <div class="flex flex-row items-center text-left space-x-2">
-                <Icon icon="wallet" width={28} height={28} classes="text-blue-500" />
-                <Text type={TextType.p} fontWeight={FontWeight.medium}>
+    <Tile border>
+        <div class="w-full flex flex-row justify-between items-center gap-4">
+            <div class="flex flex-row items-center text-left gap-2">
+                <Icon name={IconName.Wallet} textColor="brand" />
+                <Text type="body1">
                     {shimmerClaimingAccount?.getMetadata()?.alias}
                 </Text>
             </div>
             <div class="flex flex-col">
                 {#if shimmerClaimingAccount?.state === ShimmerClaimingAccountState.Claiming}
-                    <Text type={TextType.p} secondary fontWeight={FontWeight.semibold}>
+                    <Text textColor="secondary">
                         {`${localize('actions.claimingRewards')}...`}
                     </Text>
                 {:else}
                     {#if shouldDisplayUnclaimedRewards}
-                        <div class="flex flex-row justify-end items-center text-right space-x-2">
+                        <div class="flex flex-row justify-end items-center text-right gap-2">
                             {#if shouldDisplayFailedState}
-                                <Icon
-                                    width="16"
-                                    height="16"
-                                    icon="status-error"
-                                    classes="text-white bg-red-500 rounded-full"
-                                />
+                                <Icon size="xs" name={IconName.CrossSquare} textColor="danger" />
                             {/if}
-                            <Text type={TextType.p} fontWeight={FontWeight.semibold}>
+                            <Text textColor="secondary">
                                 {formatTokenAmountBestMatch(shimmerClaimingAccount?.unclaimedRewards, baseToken)}
                             </Text>
                         </div>
                     {/if}
                     {#if shouldDisplayClaimedRewards && !shouldDisplayFailedState}
-                        <div class="flex flex-row justify-end items-center text-right space-x-2">
-                            <Icon
-                                width="16"
-                                height="16"
-                                icon="success-check"
-                                classes="text-white bg-green-600 rounded-full"
-                            />
-                            <Text type={TextType.p} fontWeight={FontWeight.semibold} secondary classes="flex-grow">
+                        <div class="flex flex-row justify-end items-center text-right gap-2">
+                            <Icon size="xs" name={IconName.SuccessCircle} textColor="success" />
+                            <Text textColor="secondary">
                                 {localize('general.amountClaimed', {
                                     values: {
                                         amount: formatTokenAmountBestMatch(
