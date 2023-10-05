@@ -92,9 +92,7 @@
             "profileBackup": {
                 "viewMnemonic": {
                     "title": "Recovery phrase",
-                    "body1": "In your Recovery Kit, write down the words in the exact order shown.",
-                    "body2": "Keep this private and safely stored.",
-                    "body3": "It is important to have a written backup. Computers often fail and files can corrupt.",
+                    "body": "Carefully copy the words in the exact order below. Keep this private and safely stored.",
                     "revealRecoveryPhrase": "Reveal recovery phrase",
                     "hideRecoveryPhrase": "Hide recovery phrase"
                 },
@@ -356,9 +354,6 @@
                     "chainDepositAddress": {
                         "title": "Chain deposit address",
                         "networkTitle": "Network deposit address"
-                    },
-                    "chainInformation": {
-                        "title": "Chain information"
                     },
                     "confirmLedgerEvmAddress": {
                         "title": "Confirm EVM address",
@@ -1145,7 +1140,7 @@
         "no": "No",
         "skip": "Skip",
         "reset": "Reset",
-        "downloadRecoveryKit": "Save Recovery Kit template",
+        "downloadRecoveryKit": "Download recovery kit template",
         "skipBackup": "Skip wallet backup",
         "finishSetup": "Finish setup",
         "readDocumentation": "Read the documentation",
@@ -1316,6 +1311,7 @@
         "governorAddress": "Governor Address",
         "stateControllerAddress": "State Controller Address",
         "copiedToClipboard": "Copied to clipboard",
+        "copiedThis": "I've copied this",
         "availableBalanceWithValue": "Available balance: {balance}",
         "amountClaimed": "{amount} claimed",
         "metadata": "Metadata",

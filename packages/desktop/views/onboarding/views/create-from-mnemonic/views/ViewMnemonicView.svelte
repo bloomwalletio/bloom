@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { Button, Text } from '@bloomwalletio/ui'
+    import { Button, IconName } from '@bloomwalletio/ui'
     import {
         generateMnemonicForOnboardingProfile,
         onboardingProfile,
@@ -34,20 +34,22 @@
 
 <OnboardingLayout
     title={localize('views.onboarding.profileBackup.viewMnemonic.title')}
-    description={localize('views.onboarding.profileBackup.viewMnemonic.body1')}
+    description={localize('views.onboarding.profileBackup.viewMnemonic.body')}
     continueButton={{
         onClick: onContinueClick,
+        text: localize('general.copiedThis'),
     }}
     backButton={{
         onClick: onBackClick,
     }}
 >
-    <content slot="content">
-        <Text>
-            {localize('views.onboarding.profileBackup.viewMnemonic.body2')}
-        </Text>
-        <Text>{localize('views.onboarding.profileBackup.viewMnemonic.body3')}</Text>
-        <RecoveryPhrase recoveryPhrase={$onboardingProfile?.mnemonic} boxed />
-        <Button variant="text" on:click={onDownloadClick} text={localize('actions.downloadRecoveryKit')} />
+    <content slot="content" class="flex flex-col justify-center gap-4">
+        <RecoveryPhrase recoveryPhrase={$onboardingProfile?.mnemonic} />
+        <Button
+            icon={IconName.Download}
+            variant="text"
+            on:click={onDownloadClick}
+            text={localize('actions.downloadRecoveryKit')}
+        />
     </content>
 </OnboardingLayout>
