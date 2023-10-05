@@ -65,14 +65,9 @@
                     "importLedgerDescription": "Restore from your Ledger Nano S or X device"
                 },
                 "enterName": {
-                    "title": "Create your {network} profile",
+                    "title": "Define your {network} profile",
                     "profileName": "Profile name",
-                    "body1": "You can create multiple user profiles to organise your wallets and improve privacy.",
-                    "body2": {
-                        "first": "For now, let's start with your first profile name.",
-                        "nonFirst": "For now, let's start with your profile name."
-                    },
-                    "addMore": "You can add more profiles later."
+                    "body": "Please define a new name for your profile."
                 }
             },
             "strongholdSetup": {
@@ -116,12 +111,11 @@
             "profileRecovery": {
                 "importMnemonicPhrase": {
                     "title": "Enter your recovery phrase",
-                    "body": "A recovery phrase is 24 words long, all lower case, with spaces between. This is used to recover existing Bloom profiles.",
-                    "enter": "Enter your secret recovery phrase",
+                    "body": "A recovery phrase is 24 words long, all lower case, with spaces between. Separate each word by spaces or commas.",
                     "phraseDetected": "24 word recovery phrase detected"
                 },
                 "importStrongholdBackup": {
-                    "title": "Import your Stronghold backup",
+                    "title": "Restore your profile",
                     "body": "Import a Stronghold backup file to restore your profile."
                 },
                 "backupPassword": {
@@ -154,7 +148,7 @@
         },
         "connectLedger": {
             "title": "Connect your Ledger to Bloom",
-            "body": "For your Ledger device to be found by Bloom, please ensure that the official Ledger Live application is closed.",
+            "body": "For your Ledger device to be found by Bloom, please ensure that the official Ledger Live application is closed and the following steps are followed.",
             "connect": "Connect your Ledger device",
             "unlock": "Unlock your Ledger with its pin",
             "openApp": "Open the Shimmer app on your Ledger"
@@ -1094,10 +1088,9 @@
         "updateAndContinue": "Update and continue",
         "tryAgain": "Try again",
         "visitDiscord": "Visit Discord",
-        "dragDrop": "Drag & Drop",
-        "importExtentions": ".stronghold file",
-        "chooseFile": "Choose a File",
+        "importExtensions": ".stronghold file",
         "dropHere": "Drop your file here",
+        "dropOrBrowse": "Drop here or browse your files",
         "import": "Import",
         "importing": "Importing",
         "export": "Export",
@@ -1217,21 +1210,31 @@
         "revoting": "Revoting",
         "unvoted": "Unvoted",
         "unvoting": "Unvoting",
-        "transfer": "Transfer",
-        "transferring": "Transferring",
+        "transferIn": "Transfer in",
+        "transferringIn": "Transferring in",
+        "transferOut": "Transfer out",
+        "transferringOut": "Transferring out",
         "shimmerClaimed": "Claimed",
         "shimmerClaiming": "Claiming",
         "shimmerGenesis": "Shimmer Genesis",
-        "minted": "Minted",
-        "minting": "Minting",
-        "burned": "Burned",
-        "burning": "Burning",
+        "mintedalias": "Minted alias",
+        "mintingalias": "Minting alias",
+        "mintednft": "Minted NFT",
+        "mintingnft": "Minting NFT",
+        "mintedfoundry": "Minted token",
+        "mintingfoundry": "Minting token",
+        "burnedalias": "Burned alias",
+        "burningalias": "Burning alias",
+        "burnednft": "Burned NFT",
+        "burningnft": "Burning NFT",
+        "burnedfoundry": "Burned token",
+        "burningfoundry": "Burning token",
+        "burnedbasic": "Burned token",
+        "burningbasic": "Burning token",
         "balanceChanged": "Balance changed",
         "initialBalance": "Initial balance",
         "consolidated": "Consolidated",
         "consolidating": "Consolidating",
-        "aliasCreated": "Alias created",
-        "creatingAlias": "Creating Alias",
         "sendTo": "Send To",
         "sendAssets": "Send assets",
         "sendAssetToAddress": "Send asset to an address",
