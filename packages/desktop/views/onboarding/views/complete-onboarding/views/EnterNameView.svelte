@@ -11,6 +11,7 @@
 
     function onContinueClick(): void {
         try {
+            error = ''
             validateProfileName(profileName)
             updateOnboardingProfile({ name: profileName })
             $completeOnboardingRouter.next()
