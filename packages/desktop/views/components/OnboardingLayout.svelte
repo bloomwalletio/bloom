@@ -63,7 +63,7 @@
             {#if description}<Text type="body2" textColor="secondary" align="center">{description}</Text>{/if}
         </content-title>
         <slot name="content" />
-        <content-buttons class="block flex flex-row space-x-6">
+        <content-buttons class="block flex flex-row space-x-3">
             {#if !_backButton.hidden}
                 <Button
                     width="full"
