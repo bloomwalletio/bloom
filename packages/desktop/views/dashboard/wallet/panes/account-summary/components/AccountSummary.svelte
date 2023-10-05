@@ -55,6 +55,7 @@
             text={localize('actions.receive')}
             width="half"
             icon={IconName.Receive}
+            color="info"
             on:click={onReceiveClick}
         />
     </account-summary-actions>
