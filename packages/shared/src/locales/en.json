@@ -115,7 +115,7 @@
                     "phraseDetected": "24 word recovery phrase detected"
                 },
                 "importStrongholdBackup": {
-                    "title": "Import your Stronghold backup",
+                    "title": "Restore your profile",
                     "body": "Import a Stronghold backup file to restore your profile."
                 },
                 "backupPassword": {
@@ -1088,10 +1088,9 @@
         "updateAndContinue": "Update and continue",
         "tryAgain": "Try again",
         "visitDiscord": "Visit Discord",
-        "dragDrop": "Drag & Drop",
-        "importExtentions": ".stronghold file",
-        "chooseFile": "Choose a File",
+        "importExtensions": ".stronghold file",
         "dropHere": "Drop your file here",
+        "dropOrBrowse": "Drop here or browse your files",
         "import": "Import",
         "importing": "Importing",
         "export": "Export",
