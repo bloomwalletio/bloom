@@ -1,8 +1,8 @@
 <script lang="ts">
+    import { Icon, IconName, Link, Text } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
     import { LedgerConnectionState, ledgerConnectionState } from '@core/ledger'
     import { PopupId, openPopup } from '@desktop/auxiliary/popup'
-    import { Icon, Link, Text } from '@ui'
     import { OnboardingLayout } from '@views/components'
     import { createFromLedgerRouter } from '..'
 
@@ -36,32 +36,87 @@
         onClick: onBackClick,
     }}
 >
-    <div slot="content" class="space-y-4">
-        <div class="flex flex-col flex-nowrap space-y-2">
-            <div class="flex flex-row items-center space-x-2">
-                <Icon
-                    icon={`status-${isDisconnected ? 'error' : 'success'}`}
-                    classes={`text-white bg-${isDisconnected ? 'red' : 'green'}-600 rounded-full`}
-                />
-                <Text type="p" secondary>{localize('views.connectLedger.connect')}</Text>
-            </div>
-            <div class="flex flex-row items-center space-x-2">
-                <Icon
-                    icon={`status-${isLocked ? 'error' : 'success'}`}
-                    classes={`text-white bg-${isLocked ? 'red' : 'green'}-600 rounded-full`}
-                />
-                <Text type="p" secondary>{localize('views.connectLedger.unlock')}</Text>
-            </div>
-            <div class="flex flex-row items-center space-x-2">
-                <Icon
-                    icon={`status-${isCorrectAppOpen ? 'success' : 'error'}`}
-                    classes={`text-white bg-${isCorrectAppOpen ? 'green' : 'red'}-600 rounded-full`}
-                />
-                <Text type="p" secondary>{localize('views.connectLedger.openApp')}</Text>
-            </div>
+    <div slot="content" class="flex flex-col justify-center items-center gap-8">
+        <div class="flex flex-nowrap gap-2 justify-center items-center">
+            <connect-card class:success={!isDisconnected}>
+                <status-icon-container>
+                    <Icon
+                        name={isDisconnected ? IconName.CrossClose : IconName.Check}
+                        size="xs"
+                        customColor="neutral-1"
+                    />
+                </status-icon-container>
+                <icon-container>
+                    <Icon name={IconName.Link} textColor="current" />
+                </icon-container>
+                <Text align="center">{localize('views.connectLedger.connect')}</Text>
+            </connect-card>
+            <connect-card class:success={!isLocked}>
+                <status-icon-container>
+                    <Icon name={isLocked ? IconName.CrossClose : IconName.Check} size="xs" customColor="neutral-1" />
+                </status-icon-container>
+                <icon-container>
+                    <Icon name={IconName.Unlocked} textColor="current" />
+                </icon-container>
+                <Text align="center">{localize('views.connectLedger.unlock')}</Text>
+            </connect-card>
+            <connect-card class:success={isCorrectAppOpen}>
+                <status-icon-container>
+                    <Icon
+                        name={isCorrectAppOpen ? IconName.Check : IconName.CrossClose}
+                        size="xs"
+                        customColor="neutral-1"
+                    />
+                </status-icon-container>
+                <icon-container>
+                    <Icon name={IconName.LinkExternal} textColor="current" />
+                </icon-container>
+                <Text align="center">{localize('views.connectLedger.openApp')}</Text>
+            </connect-card>
         </div>
-        <Link icon="info" onClick={handleGuidePopup}>
-            {localize('popups.ledgerConnectionGuide.title')}
-        </Link>
+        <div class="flex gap-2 justify-center items-center">
+            <Icon name={IconName.InfoCircle} size="xs" textColor="brand" />
+            <Link
+                on:click={handleGuidePopup}
+                text={localize('popups.ledgerConnectionGuide.title')}
+                fontWeight="medium"
+            />
+        </div>
     </div>
 </OnboardingLayout>
+
+<style lang="scss">
+    connect-card {
+        @apply relative flex flex-col items-center;
+        @apply w-36 h-[11.25rem] px-4 pb-4 pt-10 gap-4;
+        @apply rounded-xl bg-surface-1;
+
+        &.success {
+            @apply ring-2 ring-success/50;
+
+            status-icon-container {
+                @apply bg-success;
+            }
+
+            icon-container {
+                @apply bg-success/20 text-success;
+            }
+        }
+
+        status-icon-container {
+            @apply bg-warning;
+        }
+
+        icon-container {
+            @apply bg-warning/20 text-warning;
+        }
+    }
+
+    status-icon-container {
+        @apply absolute top-2 left-2 rounded-full p-1.5;
+    }
+
+    icon-container {
+        @apply p-3 rounded-xl;
+    }
+</style>
