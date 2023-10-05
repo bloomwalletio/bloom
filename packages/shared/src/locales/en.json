@@ -65,14 +65,9 @@
                     "importLedgerDescription": "Restore from your Ledger Nano S or X device"
                 },
                 "enterName": {
-                    "title": "Create your {network} profile",
+                    "title": "Define your {network} profile",
                     "profileName": "Profile name",
-                    "body1": "You can create multiple user profiles to organise your wallets and improve privacy.",
-                    "body2": {
-                        "first": "For now, let's start with your first profile name.",
-                        "nonFirst": "For now, let's start with your profile name."
-                    },
-                    "addMore": "You can add more profiles later."
+                    "body": "Please define a new name for your profile."
                 }
             },
             "strongholdSetup": {
@@ -116,12 +111,11 @@
             "profileRecovery": {
                 "importMnemonicPhrase": {
                     "title": "Enter your recovery phrase",
-                    "body": "A recovery phrase is 24 words long, all lower case, with spaces between. This is used to recover existing Bloom profiles.",
-                    "enter": "Enter your secret recovery phrase",
+                    "body": "A recovery phrase is 24 words long, all lower case, with spaces between. Separate each word by spaces or commas.",
                     "phraseDetected": "24 word recovery phrase detected"
                 },
                 "importStrongholdBackup": {
-                    "title": "Import your Stronghold backup",
+                    "title": "Restore your profile",
                     "body": "Import a Stronghold backup file to restore your profile."
                 },
                 "unlockBackup": {
@@ -1094,10 +1088,9 @@
         "updateAndContinue": "Update and continue",
         "tryAgain": "Try again",
         "visitDiscord": "Visit Discord",
-        "dragDrop": "Drag & Drop",
-        "importExtentions": ".stronghold file",
-        "chooseFile": "Choose a File",
+        "importExtensions": ".stronghold file",
         "dropHere": "Drop your file here",
+        "dropOrBrowse": "Drop here or browse your files",
         "import": "Import",
         "importing": "Importing",
         "export": "Export",

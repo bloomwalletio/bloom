@@ -22,7 +22,7 @@
     $: backgroundColor = iconBackgroundColor ?? `${iconColor}/20`
 </script>
 
-<Tile>
+<Tile border>
     <status-tile>
         <div class="flex flex-row items-center gap-2">
             {#if logo}
