@@ -765,7 +765,7 @@
             "locked": "Unlock your Ledger device to continue.",
             "appNotOpen": "Open the {appName} app on your Ledger device to continue.",
             "correctAppOpen": "Ledger successfully connected, please continue."
-        },
+        }, 
         "ledgerAppGuide": {
             "title": "Guide to installing the {legacy} app",
             "steps": {
@@ -1875,7 +1875,12 @@
             "degraded": "Degraded",
             "operational": "Operational",
             "disconnected": "Disconnected"
-        }
+        },
+        "ledgerStatus": {
+            "notConnected": "Not connected",
+            "deviceLocked": "Device locked",
+            "appNotOpen": "App not open"
+        }         
     },
     "menus": {
         "dateTimePicker": {
