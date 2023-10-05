@@ -6,7 +6,7 @@
 </script>
 
 {#if isSubjectInternal(activity.sender) && isSubjectInternal(activity.recipient)}
-    <svg width="32" height="30" viewBox="0 0 16 29" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg width="32" height="29" viewBox="0 0 16 29" fill="none" xmlns="http://www.w3.org/2000/svg">
         <g opacity="0.5">
             <path
                 d="M11.2426 18.7574L14.0711 21.5858C14.8521 22.3668 14.8521 23.6332 14.0711 24.4142L11.2426 27.2426"
@@ -24,7 +24,7 @@
         </g>
     </svg>
 {:else if isSubjectInternal(activity.sender) && !isSubjectInternal(activity.recipient)}
-    <svg width="32" height="30" viewBox="0 0 14 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg width="32" height="28" viewBox="0 0 14 28" fill="none" xmlns="http://www.w3.org/2000/svg">
         <g opacity="0.5">
             <circle cx="7" cy="23" r="3" stroke="#6F778A" stroke-width="2" />
             <path
@@ -40,7 +40,7 @@
         </g>
     </svg>
 {:else if !isSubjectInternal(activity.sender) && isSubjectInternal(activity.recipient)}
-    <svg width="32" height="30" viewBox="0 0 16 29" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg width="32" height="29" viewBox="0 0 16 29" fill="none" xmlns="http://www.w3.org/2000/svg">
         <g opacity="0.5">
             <circle cx="7" cy="5" r="3" stroke="#6F778A" stroke-width="2" />
             <path
