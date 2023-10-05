@@ -1,6 +1,5 @@
 <script lang="ts">
     import { DrawerTemplate } from '@components'
-    import { localize } from '@core/i18n'
     import { ChainConfiguration, ChainType, IscpChain, selectedChain } from '@core/network'
     import { Router } from '@core/router'
     import { onMount } from 'svelte'
@@ -22,7 +21,7 @@
     })
 </script>
 
-<DrawerTemplate title={localize('views.dashboard.drawers.networkConfig.chainInformation.title')} {drawerRouter}>
+<DrawerTemplate title={chainConfiguration?.name} {drawerRouter}>
     <div class="w-full h-full">
         {#if chainConfiguration?.type === ChainType.Iscp}
             <IscpChainInformation {chainConfiguration} />
