@@ -35,9 +35,7 @@
         onClick: onBackClick,
     }}
 >
-    <div slot="content">
-        <form on:submit|preventDefault={onContinueClick} id="text-import-form">
-            <ImportTextfield bind:value={input} />
-        </form>
-    </div>
+    <form slot="content" on:submit|preventDefault={onContinueClick} id="text-import-form">
+        <ImportTextfield bind:value={input} />
+    </form>
 </OnboardingLayout>
