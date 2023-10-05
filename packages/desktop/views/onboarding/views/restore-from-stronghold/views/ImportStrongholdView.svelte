@@ -105,13 +105,12 @@
     }}
     {busy}
 >
-    <div slot="content">
-        <Dropzone
-            fileName={importFileName}
-            {allowedExtensions}
-            onDrop={onFileSelection}
-            bind:dropping
-            extentionsLabel={localize('actions.importExtentions')}
-        />
-    </div>
+    <Dropzone
+        slot="content"
+        fileName={importFileName}
+        {allowedExtensions}
+        onDrop={onFileSelection}
+        bind:dropping
+        extentionsLabel={localize('actions.importExtentions')}
+    />
 </OnboardingLayout>
