@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { Text } from '@ui'
+    import { Error, TextArea } from '@bloomwalletio/ui'
     import { english } from '@auxiliary/wordlists'
     import { localize } from '@core/i18n'
     import { verifyMnemonic } from '@core/profile-manager'
@@ -8,7 +8,7 @@
 
     export let value: string
     export let disabled = false
-    export let minHeight: number = 200
+    export let minHeight: number = 168
 
     let statusMessage = ''
     let content = ''
@@ -51,7 +51,7 @@
         const trimmedContent = content?.trim()
 
         if (trimmedContent.length >= 3) {
-            const words = trimmedContent?.split(' ')
+            const words = trimmedContent?.split(/[\s,]+/)
             const mnemonicValidations = checkMnemonic(words)
             if (mnemonicValidations) {
                 statusMessage = mnemonicValidations
@@ -72,33 +72,16 @@
 </script>
 
 <div>
-    <!-- svelte-ignore a11y-autofocus -->
-    <textarea
-        {disabled}
-        class="text-14 leading-140 resize-none w-full p-4 pb-3 rounded-xl border border-solid {error
-            ? 'border-red-300 hover:border-red-500 focus:border-red-500'
-            : 'border-gray-300 hover:border-gray-500 dark:border-gray-700 dark:hover:border-gray-700'}
-        text-gray-500 dark:text-white bg-white dark:bg-gray-800"
+    <TextArea
         bind:value={content}
         on:input={debounce(handleKeyDown)}
         on:keydown={debounce(handleKeyDown)}
-        placeholder=""
-        spellcheck={false}
+        {disabled}
+        {minHeight}
+        error={error ? statusMessage : ''}
         autofocus
-        style:min-height="{minHeight}px"
     />
-    <div class="flex flex-row items-start justify-between">
-        <Text type="p" secondary {error}>{statusMessage}&nbsp;</Text>
-    </div>
+    {#if error}
+        <Error error={statusMessage} />
+    {/if}
 </div>
-
-<style lang="scss">
-    textarea {
-        min-height: var(--min-height);
-
-        &:disabled {
-            @apply pointer-events-none;
-            @apply opacity-50;
-        }
-    }
-</style>

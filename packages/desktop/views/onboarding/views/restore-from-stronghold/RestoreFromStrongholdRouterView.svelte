@@ -4,7 +4,7 @@
     import { UpdateStrongholdRouterView } from '@views/update-stronghold'
     import { RestoreFromStrongholdRoute } from './restore-from-stronghold-route.enum'
     import { restoreFromStrongholdRoute } from './restore-from-stronghold-router'
-    import { ImportStrongholdView, UnlockStrongholdView } from './views'
+    import { ImportStrongholdView, UnlockBackupView } from './views'
 
     $: if (features.analytics.onboardingRoute.enabled && $restoreFromStrongholdRoute) {
         Platform.trackEvent('restore-from-stronghold-route', { route: $restoreFromStrongholdRoute })
@@ -13,8 +13,8 @@
 
 {#if $restoreFromStrongholdRoute === RestoreFromStrongholdRoute.ImportStronghold}
     <ImportStrongholdView />
-{:else if $restoreFromStrongholdRoute === RestoreFromStrongholdRoute.UnlockStronghold}
-    <UnlockStrongholdView />
+{:else if $restoreFromStrongholdRoute === RestoreFromStrongholdRoute.UnlockBackup}
+    <UnlockBackupView />
 {:else if $restoreFromStrongholdRoute === RestoreFromStrongholdRoute.UpdateStronghold}
     <UpdateStrongholdRouterView isRecovery />
 {/if}
