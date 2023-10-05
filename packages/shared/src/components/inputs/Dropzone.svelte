@@ -18,26 +18,31 @@
     }
 </script>
 
-<dropzone on:drop={onDrop} on:dragenter={onEnter} on:dragleave={onLeave} on:dragover|preventDefault>
-    <content class:dropping class="flex flex-col items-center relative text-center gap-4">
-        {#if dropping}
-            <Text fontWeight="medium" textColor="secondary">{localize('actions.dropHere')}</Text>
-        {:else if fileName}
-            <Text fontWeight="medium" textColor="secondary">{fileName}</Text>
-        {:else}
-            <Icon name={IconName.Download} textColor="brand" size="xl" />
-            <input
-                class="absolute opacity-0 w-full h-full"
-                type="file"
-                on:change={onDrop}
-                accept={allowedExtensions ? allowedExtensions.map((e) => `.${e}`).join(',') : '*'}
-            />
-            <div>
-                <Text type="body2">{localize('actions.dropOrBrowse')}</Text>
-                <Text fontWeight="medium" textColor="secondary">{extentionsLabel}</Text>
-            </div>
-        {/if}
-    </content>
+<dropzone
+    on:drop={onDrop}
+    on:dragenter={onEnter}
+    on:dragleave={onLeave}
+    on:dragover|preventDefault
+    class:dropping
+    class="flex flex-col items-center relative text-center gap-4"
+>
+    {#if dropping}
+        <Text fontWeight="medium" textColor="secondary">{localize('actions.dropHere')}</Text>
+    {:else if fileName}
+        <Text fontWeight="medium" textColor="secondary">{fileName}</Text>
+    {:else}
+        <Icon name={IconName.Download} textColor="brand" size="lg" />
+        <input
+            class="absolute opacity-0 w-full h-full"
+            type="file"
+            on:change={onDrop}
+            accept={allowedExtensions ? allowedExtensions.map((e) => `.${e}`).join(',') : '*'}
+        />
+        <div>
+            <Text type="body2">{localize('actions.dropOrBrowse')}</Text>
+            <Text fontWeight="medium" textColor="secondary">{extentionsLabel}</Text>
+        </div>
+    {/if}
 </dropzone>
 
 <style lang="scss">
@@ -46,13 +51,11 @@
         @apply bg-surface-1 dark:bg-surface-1-dark hover:bg-surface-2 dark:hover:bg-surface-2-dark focus:bg-surface-2 dark:focus:bg-surface-2-dark;
         @apply rounded-lg border border-solid border-stroke dark:border-stroke-dark;
 
-        content {
-            &.dropping {
-                @apply pointer-events-none;
-            }
-            * {
-                @apply cursor-pointer;
-            }
+        &.dropping {
+            @apply pointer-events-none;
+        }
+        * {
+            @apply cursor-pointer;
         }
     }
 </style>
