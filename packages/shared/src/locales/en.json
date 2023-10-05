@@ -139,7 +139,7 @@
             }
         },
         "ledgerInstallationGuide": {
-            "title": "Have you installed the necessary Ledger apps?",
+            "title": "Have you installed the necessary Ledger app?",
             "body": "Use Ledger Live to find and install the {network} app.",
             "action": "Yes, let's continue"
         },
