@@ -1,13 +1,12 @@
 <script lang="ts">
-    import { Table } from '@bloomwalletio/ui'
+    import { Table, TableRow, Toggle } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
     import { getBaseToken } from '@core/profile/actions'
-    import { formatTokenAmountBestMatch } from '@core/token'
+    import { formatTokenAmountBestMatch, formatTokenAmountPrecise } from '@core/token'
     import { TimePeriod } from '@core/utils'
     import { BigIntLike } from '@ethereumjs/util'
-    import { NetworkLabel, Text, TooltipIcon } from '@ui'
+    import { NetworkLabel } from '@ui'
     import { NetworkId } from '@core/network'
-    import StorageDepositButton from './StorageDepositButton.svelte'
     import { DateTimePickerMenu } from '.'
 
     export let destinationNetworkId: NetworkId = undefined
@@ -23,6 +22,10 @@
     export let disableGiftStorageDeposit: boolean | undefined = undefined
     export let disableAll: boolean | undefined = undefined
 
+    function toggleGiftStorageDeposit(): void {
+        giftStorageDeposit = !giftStorageDeposit
+    }
+
     $: items = [
         {
             key: localize('general.destinationNetwork'),
@@ -34,90 +37,63 @@
             },
             show: destinationNetworkId,
         },
+        {
+            key: localize('general.storageDeposit'),
+            value: formatTokenAmountPrecise(storageDeposit ?? 0, getBaseToken()),
+            tooltip: localize('tooltips.transactionDetails.outgoing.storageDeposit'),
+            show: storageDeposit,
+        },
+        {
+            key: localize('actions.giftStorageDeposit'),
+            slot: {
+                component: Toggle,
+                props: {
+                    onClick: toggleGiftStorageDeposit,
+                    label: 'giftStorageDeposit',
+                },
+                value: giftStorageDeposit,
+            },
+            show: disableGiftStorageDeposit || disableAll || storageDeposit,
+        },
+        {
+            key: localize('general.transactionFee'),
+            value: formatTokenAmountBestMatch(Number(transactionFee), getBaseToken()),
+            show: transactionFee,
+        },
     ]
 </script>
 
-<Table items={items.filter((item) => item.show)} />
-
-<div class="border border-solid border-gray-200 dark:border-gray-700 rounded-lg">
-    {#if storageDeposit}
-        <section class="key-value-box border-gray-200 dark:border-gray-700">
-            <div class="flex flex-row">
-                <Text>{localize('general.storageDeposit')}</Text>
-                <TooltipIcon
-                    title={localize('general.storageDeposit')}
-                    text={localize('tooltips.transactionDetails.outgoing.storageDeposit')}
-                    width={15}
-                    height={15}
-                    classes="ml-1"
-                />
-            </div>
-            <StorageDepositButton
-                bind:giftStorageDeposit
-                {storageDeposit}
-                disabled={disableGiftStorageDeposit || disableAll}
-            />
-        </section>
-    {/if}
-    {#if transactionFee}
-        <section class="key-value-box border-gray-200 dark:border-gray-700">
-            <div class="flex flex-row">
-                <Text>{localize('general.transactionFee')}</Text>
-            </div>
-            <Text color="gray-600">{formatTokenAmountBestMatch(Number(transactionFee), getBaseToken())}</Text>
-        </section>
-    {/if}
+<Table items={items.filter((item) => item.show)}>
     {#if selectedExpirationPeriod}
-        <section class="key-value-box border-gray-200 dark:border-gray-700">
-            <div class="flex flex-row">
-                <Text>{localize('general.expirationTime')}</Text>
-                <TooltipIcon
-                    title={localize('general.expirationTime')}
-                    text={localize('tooltips.transactionDetails.outgoing.expirationTime')}
-                    width={15}
-                    height={15}
-                    classes="ml-1"
-                />
-            </div>
-            <div>
+        <TableRow
+            item={{
+                key: localize('general.expirationTime'),
+                tooltip: localize('tooltips.transactionDetails.outgoing.expirationTime'),
+            }}
+        >
+            <div slot="boundValue">
                 <DateTimePickerMenu
                     bind:value={expirationDate}
                     bind:selected={selectedExpirationPeriod}
                     disabled={disableChangeExpiration || disableAll}
                 />
             </div>
-        </section>
+        </TableRow>
     {/if}
     {#if selectedTimelockPeriod}
-        <section class="key-value-box border-gray-200 dark:border-gray-700">
-            <div class="flex flex-row">
-                <Text>{localize('general.timelockDate')}</Text>
-                <TooltipIcon
-                    title={localize('general.timelockDate')}
-                    text={localize('tooltips.transactionDetails.outgoing.timelockDate')}
-                    width={15}
-                    height={15}
-                    classes="ml-1"
-                />
-            </div>
-            <div>
+        <TableRow
+            item={{
+                key: localize('general.timelockDate'),
+                tooltip: localize('tooltips.transactionDetails.outgoing.timelockDate'),
+            }}
+        >
+            <div slot="boundValue">
                 <DateTimePickerMenu
                     bind:value={timelockDate}
                     bind:selected={selectedTimelockPeriod}
                     disabled={disableChangeTimelock || disableAll}
                 />
             </div>
-        </section>
+        </TableRow>
     {/if}
-</div>
-
-<style lang="scss">
-    .key-value-box {
-        @apply flex flex-row justify-between items-center p-4;
-        @apply border-b border-solid;
-
-        &:last-child {
-            @apply border-0;
-        }
-    }
-</style>
+</Table>
