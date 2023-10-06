@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { IconName, Button } from '@bloomwalletio/ui'
+    import { IconName, Text, Icon } from '@bloomwalletio/ui'
     import { ProfileCard } from '../components'
     import { initialiseOnboardingProfile, onboardingProfile } from '@contexts/onboarding'
     import {
@@ -76,7 +76,8 @@
     <svelte:fragment slot="footer">
         <hr class="border-white dark:border-gray-800" />
         <button type="button" on:click={onAddProfileClick}>
-            <Button variant="text" text={localize('general.addProfile')} icon={IconName.Plus} />
+            <Icon name={IconName.Plus} size="base" textColor="current" />
+            <Text type="body2" textColor="current" align="center">{localize('general.addProfile')}</Text>
         </button>
     </svelte:fragment>
 </LoggedOutLayout>
