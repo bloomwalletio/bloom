@@ -19,6 +19,7 @@
     import { sendFlowRouter } from '../send-flow.router'
     import SendFlowTemplate from './SendFlowTemplate.svelte'
     import { EvmTransactionSummary, StardustTransactionSummary, StardustToEvmTransactionSummary } from './components'
+    import { Spinner } from '@bloomwalletio/ui'
 
     export let _onMount: (..._: any[]) => Promise<void> = async () => {}
 
@@ -26,8 +27,9 @@
     $: isSourceNetworkLayer2 = !!chain
     $: isDestinationNetworkLayer2 = isEvmChain($sendFlowParameters.destinationNetworkId)
     $: isTransferring = !!$selectedAccount.isTransferring
+    $: isDisabled = isInvalid || isTransferring || (!preparedTransaction && !preparedOutput)
 
-    let isDisabled: boolean
+    let isInvalid: boolean
     let recipientAddress: string
     let preparedOutput: Output | undefined
     let preparedTransaction: EvmTransactionData | undefined
@@ -97,7 +99,7 @@
     rightButton={{
         text: localize('actions.confirm'),
         onClick: onConfirmClick,
-        disabled: isDisabled || isTransferring,
+        disabled: isDisabled,
         isBusy: isTransferring,
     }}
 >
@@ -108,10 +110,14 @@
             <StardustToEvmTransactionSummary output={preparedOutput} sendFlowParameters={$sendFlowParameters} />
         {:else}
             <StardustTransactionSummary
-                bind:isDisabled
+                bind:isInvalid
                 output={preparedOutput}
                 sendFlowParameters={$sendFlowParameters}
             />
         {/if}
+    {:else}
+        <div class="flex justify-center">
+            <Spinner />
+        </div>
     {/if}
 </SendFlowTemplate>

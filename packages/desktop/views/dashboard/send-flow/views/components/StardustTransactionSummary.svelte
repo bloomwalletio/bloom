@@ -14,16 +14,16 @@
 
     export let output: Output
     export let sendFlowParameters: SendFlowParameters
-    export let isDisabled: boolean = false
+    export let isInvalid: boolean = false
 
     function validate(): void {
         tagInputError = ''
         try {
             validateTag(tag)
-            isDisabled = false
+            isInvalid = false
         } catch (err) {
             tagInputError = err.message
-            isDisabled = true
+            isInvalid = true
         }
     }
 
