@@ -45,6 +45,7 @@
         },
         {
             key: localize('actions.giftStorageDeposit'),
+            tooltip: localize('tooltips.transactionDetails.outgoing.giftedStorageDeposit'),
             slot: {
                 component: Toggle,
                 props: {
