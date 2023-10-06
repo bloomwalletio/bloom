@@ -1,10 +1,10 @@
 <script lang="ts">
-    import LedgerIllustration from './LedgerIllustration.svelte'
     import { Avatar, AvatarShape, IconName } from '@bloomwalletio/ui'
     import { Illustration, Logo } from '@ui'
-    import { LedgerIllustrationVariant } from './ledger-illustration-variant.enum'
-    import { Color } from '@bloomwalletio/ui/dist/constants/colors.constant'
+    import { Color } from '@bloomwalletio/ui'
     import { LogoName } from '@auxiliary/logo'
+    import { LedgerIllustration } from '../atoms'
+    import { LedgerIllustrationVariant } from '../enums'
 
     export let variant: LedgerIllustrationVariant
 
