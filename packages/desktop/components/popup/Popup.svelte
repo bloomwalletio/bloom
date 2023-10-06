@@ -27,7 +27,6 @@
     import ErrorLogPopup from './popups/ErrorLogPopup.svelte'
     import FaucetRequestPopup from './popups/FaucetRequestPopup.svelte'
     import ImportErc20TokenFormPopup from './popups/ImportErc20TokenFormPopup.svelte'
-    import LedgerAppGuidePopup from './popups/LedgerAppGuidePopup.svelte'
     import LedgerConnectionGuidePopup from './popups/LedgerConnectionGuidePopup.svelte'
     import LegalUpdatePopup from './popups/LegalUpdatePopup.svelte'
     import ManageAccountPopup from './popups/ManageAccountPopup.svelte'
@@ -77,7 +76,6 @@
         case PopupId.ManageAccount:
             size = PopupSize.Small
             break
-        case PopupId.LedgerAppGuide:
         case PopupId.LedgerConnection:
             size = PopupSize.Large
             break
@@ -110,7 +108,6 @@
         [PopupId.ErrorLog]: ErrorLogPopup,
         [PopupId.FaucetRequest]: FaucetRequestPopup,
         [PopupId.ImportErc20Token]: ImportErc20TokenFormPopup,
-        [PopupId.LedgerAppGuide]: LedgerAppGuidePopup,
         [PopupId.LedgerConnection]: LedgerConnectionGuidePopup,
         [PopupId.LegalUpdate]: LegalUpdatePopup,
         [PopupId.ManageAccount]: ManageAccountPopup,
