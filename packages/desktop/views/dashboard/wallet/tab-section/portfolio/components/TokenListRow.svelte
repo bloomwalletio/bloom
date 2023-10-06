@@ -57,10 +57,10 @@
         <TokenAvatar {token} size="lg" />
         <div class="flex flex-col items-start justify-between text-start">
             <Text>
-                {token.metadata.name ? truncateString(token.metadata.name, 13, 0) : truncateString(token.id, 6, 7)}
+                {token.metadata?.name ? truncateString(token.metadata.name, 13, 0) : truncateString(token.id, 6, 7)}
             </Text>
             <Text type="sm" textColor="secondary">
-                {getUnitFromTokenMetadata(token.metadata)}
+                {token.metadata ? getUnitFromTokenMetadata(token.metadata) : ''}
             </Text>
         </div>
     </div>
