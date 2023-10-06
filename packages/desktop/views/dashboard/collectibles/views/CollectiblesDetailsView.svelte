@@ -211,10 +211,8 @@
     media-container {
         :global(*) {
             @apply rounded-xl;
-            object-fit: contain;
-            object-position: center;
-            max-width: 100%;
-            max-height: 100%;
+            @apply object-contain object-center;
+            @apply max-w-full max-h-full;
         }
     }
 
