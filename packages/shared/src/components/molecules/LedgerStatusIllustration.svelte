@@ -63,7 +63,7 @@
 
 <LedgerIllustration {pill}>
     {#if icon}
-        <Avatar {backgroundColor} {icon} {shape} />
+        <Avatar {backgroundColor} size="md" {icon} {shape} />
     {:else if logo}
         <Avatar {backgroundColor} size="md" shape="square">
             <Logo {logo} />

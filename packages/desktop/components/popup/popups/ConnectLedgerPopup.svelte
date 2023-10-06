@@ -4,7 +4,7 @@
     import { LedgerAppName, LedgerConnectionState, ledgerConnectionState } from '@core/ledger'
     import { isFunction } from '@core/utils'
     import { closePopup } from '@desktop/auxiliary/popup'
-    import { LedgerStatusIllustration, LedgerIllustrationVariant } from 'shared/src/components'
+    import { LedgerStatusIllustration, LedgerIllustrationVariant } from '@ui'
     import PopupTemplate from '../PopupTemplate.svelte'
 
     export let ledgerAppName: LedgerAppName
@@ -37,11 +37,21 @@
                 variant: LedgerIllustrationVariant.Success,
             }
         } else {
+            const variant = getIllustrationVariant(ledgerAppName)
             ledgerSectionProps = {
                 color: 'warning',
                 text: localize('popups.ledgerNotConnected.appNotOpen', { appName: ledgerAppName }),
-                variant: LedgerIllustrationVariant.OpenEthereum,
+                variant,
             }
+        }
+    }
+
+    function getIllustrationVariant(appName: LedgerAppName): LedgerIllustrationVariant {
+        switch (appName) {
+            case LedgerAppName.Ethereum:
+                return LedgerIllustrationVariant.OpenEthereum
+            default:
+                return LedgerIllustrationVariant.OpenShimmer
         }
     }
 
