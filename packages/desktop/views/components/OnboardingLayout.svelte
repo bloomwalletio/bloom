@@ -63,16 +63,7 @@
             {#if description}<Text type="body2" textColor="secondary" align="center">{description}</Text>{/if}
         </content-title>
         <slot name="content" />
-        <content-buttons class="block flex flex-row space-x-3">
-            {#if !_backButton.hidden}
-                <Button
-                    width="full"
-                    variant="outlined"
-                    disabled={busy || _backButton.disabled || !_backButton.onClick}
-                    on:click={_backButton.onClick}
-                    text={_backButton.text}
-                />
-            {/if}
+        <content-buttons class="flex flex-row-reverse space-x-3">
             {#if !_continueButton.hidden}
                 <Button
                     width="full"
@@ -81,6 +72,15 @@
                     {busy}
                     on:click={_continueButton.onClick}
                     text={_continueButton.text}
+                />
+            {/if}
+            {#if !_backButton.hidden}
+                <Button
+                    width="full"
+                    variant="outlined"
+                    disabled={busy || _backButton.disabled || !_backButton.onClick}
+                    on:click={_backButton.onClick}
+                    text={_backButton.text}
                 />
             {/if}
         </content-buttons>
