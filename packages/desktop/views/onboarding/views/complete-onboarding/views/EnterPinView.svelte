@@ -64,17 +64,17 @@
     <form
         slot="content"
         id="setup-pin"
-        class="flex flex-col justify-center items-center rounded-2xl p-4 gap-7 bg-surface-1 dark:bg-surface-1-dark"
+        class="flex flex-col justify-center items-center gap-7"
         on:submit|preventDefault={onSetPinClick}
     >
-        <pin-input-container class="flex flex-col w-fit gap-2">
+        <pin-input-container class="flex flex-col w-fit gap-3">
             <Text fontWeight="medium" textColor="secondary">
                 {localize('actions.setPin')}
             </Text>
             <PinInput bind:value={setPinInput} autofocus disabled={busy} error={!!setPinInputError} />
             <Error error={setPinInputError} />
         </pin-input-container>
-        <pin-input-container class="flex flex-col w-fit gap-2">
+        <pin-input-container class="flex flex-col w-fit gap-3">
             <Text fontWeight="medium" textColor="secondary">
                 {localize('actions.confirmPin')}
             </Text>
