@@ -1,8 +1,7 @@
 <script lang="ts">
     import { formatDate, localize } from '@core/i18n'
-    import { Text } from '@ui'
     import { showNotification } from '@auxiliary/notification'
-    import { DateTimePicker, IconName, Menu, Popover } from '@bloomwalletio/ui'
+    import { DateTimePicker, IconName, Menu, Popover, Text } from '@bloomwalletio/ui'
     import { MILLISECONDS_PER_SECOND, SECONDS_PER_MINUTE, TimePeriod, isFutureDateTime } from '@core/utils'
 
     export let value: Date
@@ -137,13 +136,8 @@
         class="flex items-center justify-center {disabled ? 'cursor-default' : 'cursor-pointer'}"
         {disabled}
     >
-        <div class="flex flex-row hover:text-blue-600 items-center">
-            <Text
-                highlighted={!disabled}
-                color="gray-600"
-                darkColor="gray-500"
-                classes={disabled ? '' : 'hover:text-blue-600'}
-            >
+        <div class="flex flex-row items-center">
+            <Text textColor="brand" fontWeight="medium">
                 {value ? formatDate(value, { dateStyle: 'long', timeStyle: 'medium' }) : localize('general.none')}
             </Text>
         </div>
