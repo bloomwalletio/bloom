@@ -53,14 +53,14 @@
         openPopup({
             id: PopupId.Confirmation,
             props: {
+                variant: 'danger',
                 title: localize('actions.confirmNftBurn.title', {
                     values: {
                         nftName: nft.name,
                     },
                 }),
                 description: localize('actions.confirmNftBurn.description'),
-                hint: localize('actions.confirmNftBurn.hint'),
-                warning: true,
+                alert: { variant: 'warning', text: localize('actions.confirmNftBurn.hint') },
                 confirmText: localize('actions.burn'),
                 onConfirm: async () => {
                     await checkActiveProfileAuth(
