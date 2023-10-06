@@ -27,7 +27,7 @@
         onClick: undefined,
     }
 
-    export let size: 'small' | 'medium' | 'large' = 'medium'
+    export let size: 'small' | 'medium' | 'large' | 'fit' = 'medium'
     export let title: string | undefined = undefined
     export let description: string | undefined = undefined
     export let continueButton: Partial<IButtonProps> | undefined = DEFAULT_CONTINUE_BUTTON
@@ -107,6 +107,10 @@
         }
         &.large {
             max-width: 630px;
+        }
+
+        &.fit {
+            max-width: fit-content;
         }
     }
 </style>
