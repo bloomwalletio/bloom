@@ -74,7 +74,7 @@
     title={localize('popups.createAccount.title')}
     busy={isBusy}
     backButton={{
-        text: localize('actions.back'),
+        text: localize('actions.cancel'),
         onClick: onCancelClick,
     }}
     continueButton={{

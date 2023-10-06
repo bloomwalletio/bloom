@@ -5,17 +5,18 @@
     import { updateActiveAccountPersistedData } from '@core/profile/actions'
     import { getTrimmedLength } from '@core/utils'
     import { closePopup } from '@desktop/auxiliary/popup'
-    import { Button, ColorPicker, Input, Text, TextType } from '@ui'
+    import PopupTemplate from '../PopupTemplate.svelte'
+    import { ColorPicker, Input, Text } from '@bloomwalletio/ui'
 
     export let error = ''
 
     let isBusy = false
-    let accountAlias = $selectedAccount.name
+    let accountName = $selectedAccount.name
     let color = $selectedAccount.color
 
-    $: accountAlias, (error = '')
-    $: trimmedAccountAlias = accountAlias.trim()
-    $: invalidAliasUpdate = !getTrimmedLength(accountAlias) || isBusy || accountAlias === $selectedAccount.name
+    $: accountName, (error = '')
+    $: trimmedAccountAlias = accountName.trim()
+    $: invalidAliasUpdate = !getTrimmedLength(accountName) || isBusy || accountName === $selectedAccount.name
     $: hasColorChanged = $selectedAccount.color !== color
 
     async function onSaveClick(): Promise<void> {
@@ -49,41 +50,27 @@
     }
 </script>
 
-<manage-account-popup class="flex flex-col h-full justify-between">
-    <div>
-        <title-container class="flex flex-row mb-6">
-            <Text type={TextType.h5}>{localize('general.manageAccount')}</Text>
-        </title-container>
-        <manage-account-popup-inputs class="w-full flex flex-col justify-between">
-            <Input
-                {error}
-                bind:value={accountAlias}
-                placeholder={localize('general.accountName')}
-                autofocus
-                submitHandler={onSaveClick}
-                disabled={isBusy}
-                classes="mb-4"
-            />
-            <ColorPicker
-                title={localize('general.accountColor')}
-                bind:active={color}
-                classes="mb-4"
-                isCustomColorEnabled
-            />
-        </manage-account-popup-inputs>
+<PopupTemplate
+    title={localize('general.manageAccount')}
+    busy={isBusy}
+    backButton={{
+        text: localize('actions.cancel'),
+        onClick: onCancelClick,
+    }}
+    continueButton={{
+        text: localize('actions.save'),
+        disabled: invalidAliasUpdate && !hasColorChanged,
+        onClick: onSaveClick,
+    }}
+>
+    <div class="flex flex-col gap-4">
+        <div class="flex flex-col gap-2">
+            <Text type="body1">{localize('general.name')}</Text>
+            <Input bind:value={accountName} label={localize('general.accountName')} disabled={isBusy} {error} />
+        </div>
+        <div class="flex flex-col gap-2">
+            <Text type="body1">{localize('general.color')}</Text>
+            <ColorPicker bind:value={color} />
+        </div>
     </div>
-    <manage-account-popup-actions class="flex flex-row justify-between mt-2 px-2">
-        <Button outline classes="-mx-2 w-1/2" onClick={onCancelClick} disabled={isBusy}>
-            {localize('actions.cancel')}
-        </Button>
-        <Button
-            classes="-mx-2 w-1/2"
-            onClick={onSaveClick}
-            disabled={invalidAliasUpdate && !hasColorChanged}
-            {isBusy}
-            busyMessage={localize('general.updating')}
-        >
-            {localize('actions.save')}
-        </Button>
-    </manage-account-popup-actions>
-</manage-account-popup>
+</PopupTemplate>
