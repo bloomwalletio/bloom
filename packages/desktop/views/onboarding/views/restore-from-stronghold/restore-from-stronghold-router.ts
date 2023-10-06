@@ -20,13 +20,13 @@ export class RestoreFromStrongholdRouter extends Subrouter<RestoreFromStronghold
         switch (currentRoute) {
             case RestoreFromStrongholdRoute.ImportStronghold:
                 if (isLatestStrongholdVersion(get(onboardingProfile)?.strongholdVersion)) {
-                    nextRoute = RestoreFromStrongholdRoute.UnlockStronghold
+                    nextRoute = RestoreFromStrongholdRoute.UnlockBackup
                 } else {
                     updateStrongholdRouter.set(new UpdateStrongholdRouter(this))
                     nextRoute = RestoreFromStrongholdRoute.UpdateStronghold
                 }
                 break
-            case RestoreFromStrongholdRoute.UnlockStronghold:
+            case RestoreFromStrongholdRoute.UnlockBackup:
             case RestoreFromStrongholdRoute.UpdateStronghold:
                 this.parentRouter.next()
                 return

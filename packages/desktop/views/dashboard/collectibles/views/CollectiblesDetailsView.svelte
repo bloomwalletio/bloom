@@ -125,19 +125,15 @@
 
 <Pane classes="h-full shadow-lg">
     <collectibles-details-view class="flex flex-row w-full h-full">
-        <div class="flex w-full h-auto items-center justify-center p-5 overflow-hidden">
-            <div class="relative h-auto flex rounded-2xl overflow-hidden">
-                <div class="rounded-2xl overflow-hidden flex-1 object-contain h-auto">
-                    <NftMedia {nft} autoplay controls loop muted />
-                </div>
-                <div class="absolute right-6 bottom-6 w-auto">
-                    {#if alertText}
-                        <Alert variant={downloadMetadata?.error ? 'danger' : 'warning'} text={alertText} />
-                    {/if}
-                </div>
+        <media-container class="relative flex w-full items-center justify-center p-5 overflow-hidden">
+            <NftMedia {nft} autoplay controls loop muted />
+            <div class="absolute left-6 top-6 w-auto">
+                {#if alertText}
+                    <Alert variant={downloadMetadata?.error ? 'danger' : 'warning'} text={alertText} />
+                {/if}
             </div>
-        </div>
-        <collectible-information class="flex flex-col px-6 py-8 space-y-3 w-full h-full max-w-lg">
+        </media-container>
+        <details-container class="flex flex-col px-6 py-8 space-y-3 w-full h-full max-w-sm">
             <nft-title class="flex justify-between items-center gap-4">
                 <Text type="h4" truncate>{name}</Text>
                 <CollectibleDetailsMenu {nft} />
@@ -203,12 +199,24 @@
                     reverse
                 />
             </buttons-container>
-        </collectible-information>
+        </details-container>
     </collectibles-details-view>
 </Pane>
 
 <style lang="scss">
     collectibles-details-view {
         @apply divide-x divide-solid divide-stroke dark:divide-stroke-dark;
+    }
+
+    media-container {
+        :global(*) {
+            @apply rounded-xl;
+            @apply object-contain object-center;
+            @apply max-w-full max-h-full;
+        }
+    }
+
+    details-container {
+        @apply max-w-lg;
     }
 </style>

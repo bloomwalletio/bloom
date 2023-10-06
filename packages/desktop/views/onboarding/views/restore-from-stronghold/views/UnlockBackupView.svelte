@@ -1,9 +1,9 @@
 <script lang="ts">
+    import { PasswordInput } from '@bloomwalletio/ui'
     import { showNotification } from '@auxiliary/notification'
     import { restoreBackupFromStrongholdFile, updateOnboardingProfile } from '@contexts/onboarding'
     import { CLIENT_ERROR_REGEXES, ClientError } from '@core/error'
     import { localize } from '@core/i18n'
-    import { PasswordInput, Text } from '@ui'
     import { OnboardingLayout } from '@views/components'
     import { onMount } from 'svelte'
     import { restoreFromStrongholdRouter } from '../restore-from-stronghold-router'
@@ -51,8 +51,8 @@
 </script>
 
 <OnboardingLayout
-    title={`${localize('general.import')} ${localize('general.stronghold')}`}
-    description={localize('views.onboarding.profileRecovery.backupPassword.body1')}
+    title={localize('views.onboarding.profileRecovery.unlockBackup.title')}
+    description={localize('views.onboarding.profileRecovery.unlockBackup.body')}
     continueButton={{
         onClick: onContinueClick,
         disabled: !strongholdPassword,
@@ -62,18 +62,13 @@
     }}
     {busy}
 >
-    <div slot="content">
-        <Text type="p" secondary classes="mb-8"
-            >{localize('views.onboarding.profileRecovery.backupPassword.body2')}</Text
-        >
-        <PasswordInput
-            classes="mb-6"
-            {error}
-            bind:value={strongholdPassword}
-            showRevealToggle
-            autofocus
-            disabled={busy}
-            submitHandler={onContinueClick}
-        />
-    </div>
+    <PasswordInput
+        bind:value={strongholdPassword}
+        slot="content"
+        label={localize('general.password')}
+        {error}
+        disabled={busy}
+        autofocus
+        on:submit={onContinueClick}
+    />
 </OnboardingLayout>

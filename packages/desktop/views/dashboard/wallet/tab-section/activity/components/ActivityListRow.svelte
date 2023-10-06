@@ -7,7 +7,6 @@
         ActivityAssetSection,
         ActivityAmountSection,
         ActivityAddressSection,
-        ActivityStatusSection,
     } from './row-sections'
     import { getTokenFromActivity } from '@core/activity/utils/getTokenFromActivity'
 
@@ -39,7 +38,6 @@
     class:expired={activity.asyncData?.asyncStatus === ActivityAsyncStatus.Expired}
 >
     <ActivityAssetSection {activity} />
-    <ActivityStatusSection {activity} />
     <ActivityActionSection {activity} />
     <ActivityAddressSection {activity} />
     <ActivityAmountSection {activity} />
@@ -47,13 +45,13 @@
 
 <style lang="scss">
     .activity-row {
-        @apply w-full;
+        @apply w-full items-center justify-center;
         @apply px-5 py-4;
         @apply border-b border-solid border-stroke dark:border-stroke-dark;
         @apply hover:bg-surface-2 dark:hover:bg-surface-2-dark;
 
-        @apply grid;
-        grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+        @apply grid gap-2;
+        grid-template-columns: 3fr 2fr 1fr 2fr;
 
         &.expired {
             opacity: 0.5;

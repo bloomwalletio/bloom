@@ -65,14 +65,9 @@
                     "importLedgerDescription": "Restore from your Ledger Nano S or X device"
                 },
                 "enterName": {
-                    "title": "Create your {network} profile",
+                    "title": "Define your {network} profile",
                     "profileName": "Profile name",
-                    "body1": "You can create multiple user profiles to organise your wallets and improve privacy.",
-                    "body2": {
-                        "first": "For now, let's start with your first profile name.",
-                        "nonFirst": "For now, let's start with your profile name."
-                    },
-                    "addMore": "You can add more profiles later."
+                    "body": "Please define a new name for your profile."
                 }
             },
             "strongholdSetup": {
@@ -98,26 +93,34 @@
                 },
                 "verifyMnemonic": {
                     "title": "Verify recovery phrase",
-                    "body": "Let's check you wrote down the phrase correctly. Please select each word in numbered order. Tip: You can press the number next to the word in your keyboard to select it.",
+                    "body": "Let’s check you wrote down your phrase correctly. Please select the right word with the corresponding number.",
                     "word": "Word",
-                    "verified": "Recovery phrase verified",
-                    "verifiedBody": "Remember to keep it private and safely stored."
+                    "match": "Match from below",
+                    "success": {
+                        "title": "Verification success",
+                        "body1": "The recovery phrase matched",
+                        "body2": "Remember to keep your copy private and safely stored"
+                    },
+                    "failure": {
+                        "title": "Verification failure",
+                        "body1": "The recovery phrase did not match",
+                        "body2": "Please check your records"
+                    }
                 }
             },
             "profileRecovery": {
                 "importMnemonicPhrase": {
                     "title": "Enter your recovery phrase",
-                    "body": "A recovery phrase is 24 words long, all lower case, with spaces between. This is used to recover existing Bloom profiles.",
-                    "enter": "Enter your secret recovery phrase",
+                    "body": "A recovery phrase is 24 words long, all lower case, with spaces between. Separate each word by spaces or commas.",
                     "phraseDetected": "24 word recovery phrase detected"
                 },
                 "importStrongholdBackup": {
-                    "title": "Import your Stronghold backup",
+                    "title": "Restore your profile",
                     "body": "Import a Stronghold backup file to restore your profile."
                 },
-                "backupPassword": {
-                    "body1": "Please enter your backup password.",
-                    "body2": "This is the password you set when you first created your backup."
+                "unlockBackup": {
+                    "title": "Unlock your backup",
+                    "body": "Please provide your backup password below."
                 }
             },
             "shimmerClaiming": {
@@ -139,14 +142,13 @@
             }
         },
         "ledgerInstallationGuide": {
-            "title": "Have you installed the {network} app on your Ledger device?",
-            "body1": "Before you proceed, you must use Ledger Live to find and install the {network} app.",
-            "body2": "Make sure your Ledger firmware is up-to-date. Any pre-installed apps should be updated to their latest versions.",
-            "action": "Yes, I've installed the {network} app"
+            "title": "Have you installed the necessary Ledger app?",
+            "body": "Use Ledger Live to find and install the {network} app.",
+            "action": "Yes, let's continue"
         },
         "connectLedger": {
             "title": "Connect your Ledger to Bloom",
-            "body": "For your Ledger device to be found by Bloom, please ensure that the official Ledger Live application is closed.",
+            "body": "For your Ledger device to be found by Bloom, please ensure that the official Ledger Live application is closed and the following steps are followed.",
             "connect": "Connect your Ledger device",
             "unlock": "Unlock your Ledger with its pin",
             "openApp": "Open the Shimmer app on your Ledger"
@@ -765,16 +767,6 @@
             "locked": "Unlock your Ledger device to continue.",
             "appNotOpen": "Open the {appName} app on your Ledger device to continue.",
             "correctAppOpen": "Ledger successfully connected, please continue."
-        }, 
-        "ledgerAppGuide": {
-            "title": "Guide to installing the {legacy} app",
-            "steps": {
-                "0": "Install and open the Ledger Live application",
-                "1": "Ensure that your Ledger is connected",
-                "2": "Search for the {legacy} app. You may need to enable Ledger Live developer mode.",
-                "3": "Install the {legacy} app",
-                "4": "Remember that it's important to close Ledger Live before returning to Bloom"
-            }
         },
         "ledgerConnectionGuide": {
             "title": "Tips if your Ledger isn’t connecting",
@@ -907,10 +899,6 @@
             "tosCheckbox": "I've read and I accept the updated Terms of Service",
             "privPolicyCheckbox": "I've read and I accept the updated Privacy Policy"
         },
-        "giftedStorageDeposit": {
-            "tooltipTitle": "Gift storage deposit",
-            "tooltipDescription": "Amount kept by the recipient"
-        },
         "tokenInformation": {
             "verificationWarning": "This token is unverified. Compare the token metadata against the relevant team’s official website. Only verify tokens that you trust.",
             "tokenMetadata": {
@@ -1026,6 +1014,9 @@
             "title": "Receive",
             "body": "Receive tokens, NFTs, and other digital assets to your account address shown below.",
             "networkAddress": "{networkName} address"
+        },
+        "createAccount": {
+            "title": "Create account"
         }
     },
     "actions": {
@@ -1086,10 +1077,9 @@
         "updateAndContinue": "Update and continue",
         "tryAgain": "Try again",
         "visitDiscord": "Visit Discord",
-        "dragDrop": "Drag & Drop",
-        "importExtentions": ".stronghold file",
-        "chooseFile": "Choose a File",
+        "importExtensions": ".stronghold file",
         "dropHere": "Drop your file here",
+        "dropOrBrowse": "Drop here or browse your files",
         "import": "Import",
         "importing": "Importing",
         "export": "Export",
@@ -1180,9 +1170,8 @@
         "untrackToken": "Untrack token",
         "switchAccount": "Switch account",
         "syncAccounts": "Sync accounts",
-        "importErc20Token": "Import ERC20 token"
-
-
+        "importErc20Token": "Import ERC20 token",
+        "giftStorageDeposit": "Gift storage deposit"
     },
     "general": {
         "recipient": "Recipient",
@@ -1209,21 +1198,31 @@
         "revoting": "Revoting",
         "unvoted": "Unvoted",
         "unvoting": "Unvoting",
-        "transfer": "Transfer",
-        "transferring": "Transferring",
+        "transferIn": "Transfer in",
+        "transferringIn": "Transferring in",
+        "transferOut": "Transfer out",
+        "transferringOut": "Transferring out",
         "shimmerClaimed": "Claimed",
         "shimmerClaiming": "Claiming",
         "shimmerGenesis": "Shimmer Genesis",
-        "minted": "Minted",
-        "minting": "Minting",
-        "burned": "Burned",
-        "burning": "Burning",
+        "mintedalias": "Minted alias",
+        "mintingalias": "Minting alias",
+        "mintednft": "Minted NFT",
+        "mintingnft": "Minting NFT",
+        "mintedfoundry": "Minted token",
+        "mintingfoundry": "Minting token",
+        "burnedalias": "Burned alias",
+        "burningalias": "Burning alias",
+        "burnednft": "Burned NFT",
+        "burningnft": "Burning NFT",
+        "burnedfoundry": "Burned token",
+        "burningfoundry": "Burning token",
+        "burnedbasic": "Burned token",
+        "burningbasic": "Burning token",
         "balanceChanged": "Balance changed",
         "initialBalance": "Initial balance",
         "consolidated": "Consolidated",
         "consolidating": "Consolidating",
-        "aliasCreated": "Alias created",
-        "creatingAlias": "Creating Alias",
         "sendTo": "Send To",
         "sendAssets": "Send assets",
         "sendAssetToAddress": "Send asset to an address",
@@ -1361,7 +1360,6 @@
         "custom": "Custom",
         "evmAddress": "EVM address",
         "optionalField": "{field} (optional)",
-        "gifted": "Gifted",
         "connected": "Connected",
         "estimatedFee": "Estimated fee",
         "maxFees": "Max fees",
@@ -1371,7 +1369,8 @@
         "ledgerDevice": "Ledger device",
         "disconnected": "Disconnected",
         "balanceBreakdown": "Balance breakdown",
-        "primary": "Primary"
+        "primary": "Primary",
+        "color": "Color"
     },
     "filters":{
         "title": "Filters",
@@ -1799,7 +1798,7 @@
             },
             "outgoing": {
                 "storageDeposit": "A storage deposit is a refundable deposit needed to store your transaction on the Tangle.",
-                "giftedStorageDeposit": "The recipient does not need to refund the deposit.",
+                "tooltips.transactionDetails.outgoing": "The recipient does not need to refund the deposit.",
                 "expirationTime": "If the recipient does not claim in time your tokens will be returned to you.",
                 "timelockDate": "You added a timelock to this transaction. The recipient will not be able to spend these funds until the timelock expires.",
                 "metadata": "An optional data field for storing data persistently on the Tangle.",
