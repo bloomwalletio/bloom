@@ -20,6 +20,7 @@
     import ConfirmationPopup from './popups/ConfirmationPopup.svelte'
     import ConnectLedgerPopup from './popups/ConnectLedgerPopup.svelte'
     import CreateAccountPopup from './popups/CreateAccountPopup.svelte'
+    import CustomiseAccountPopup from './popups/CustomiseAccountPopup.svelte'
     import DeepLinkErrorPopup from './popups/DeepLinkErrorPopup.svelte'
     import DeleteAccountPopup from './popups/DeleteAccountPopup.svelte'
     import DeleteProfilePopup from './popups/DeleteProfilePopup.svelte'
@@ -30,7 +31,6 @@
     import ImportErc20TokenFormPopup from './popups/ImportErc20TokenFormPopup.svelte'
     import LedgerConnectionGuidePopup from './popups/LedgerConnectionGuidePopup.svelte'
     import LegalUpdatePopup from './popups/LegalUpdatePopup.svelte'
-    import ManageAccountPopup from './popups/ManageAccountPopup.svelte'
     import ManageVotingPowerPopup from './popups/ManageVotingPowerPopup.svelte'
     import MintNativeTokenConfirmationPopup from './popups/MintNativeTokenConfirmationPopup.svelte'
     import MintNativeTokenFormPopup from './popups/MintNativeTokenFormPopup.svelte'
@@ -72,7 +72,6 @@
 
     $: switch (id) {
         case PopupId.ConnectLedger:
-        case PopupId.ManageAccount:
             size = PopupSize.Small
             break
         case PopupId.LedgerConnection:
@@ -99,6 +98,7 @@
         [PopupId.Confirmation]: ConfirmationPopup,
         [PopupId.ConnectLedger]: ConnectLedgerPopup,
         [PopupId.CreateAccount]: CreateAccountPopup,
+        [PopupId.CustomiseAccount]: CustomiseAccountPopup,
         [PopupId.DeepLinkError]: DeepLinkErrorPopup,
         [PopupId.DeleteAccount]: DeleteAccountPopup,
         [PopupId.DeleteProfile]: DeleteProfilePopup,
@@ -109,7 +109,6 @@
         [PopupId.ImportErc20Token]: ImportErc20TokenFormPopup,
         [PopupId.LedgerConnection]: LedgerConnectionGuidePopup,
         [PopupId.LegalUpdate]: LegalUpdatePopup,
-        [PopupId.ManageAccount]: ManageAccountPopup,
         [PopupId.ManageVotingPower]: ManageVotingPowerPopup,
         [PopupId.MintNativeTokenConfirmation]: MintNativeTokenConfirmationPopup,
         [PopupId.MintNativeTokenForm]: MintNativeTokenFormPopup,

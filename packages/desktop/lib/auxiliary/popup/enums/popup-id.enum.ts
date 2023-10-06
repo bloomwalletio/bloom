@@ -22,7 +22,7 @@ export enum PopupId {
     ImportErc20Token = 'importErc20Token',
     LedgerConnection = 'ledgerConnection',
     LegalUpdate = 'legalUpdate',
-    ManageAccount = 'manageAccount',
+    CustomiseAccount = 'manageAccount',
     ManageVotingPower = 'manageVotingPower',
     MintNativeTokenConfirmation = 'mintNativeTokenConfirmation',
     MintNativeTokenForm = 'mintNativeTokenForm',

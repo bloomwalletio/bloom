@@ -22,7 +22,7 @@
     }
 
     function onCustomiseAccountClick(): void {
-        openPopup({ id: PopupId.ManageAccount })
+        openPopup({ id: PopupId.CustomiseAccount })
         menu?.close()
     }
 
