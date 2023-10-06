@@ -17,7 +17,7 @@ export async function getNodeInfoWhileLoggedOut(url: string): Promise<INodeInfoW
             { nodes: [{ url }] },
             { stronghold: { snapshotPath: `${storagePath}/wallet.stronghold` } }
         )
-        nodeInfoResponse = await manager.getNodeInfo(url)
+        nodeInfoResponse = await api.getNodeInfo(manager.id, url)
         return nodeInfoResponse
     } catch (error) {
         return Promise.reject(error)
