@@ -22,8 +22,6 @@
     import CreateAccountPopup from './popups/CreateAccountPopup.svelte'
     import CustomiseAccountPopup from './popups/CustomiseAccountPopup.svelte'
     import DeepLinkErrorPopup from './popups/DeepLinkErrorPopup.svelte'
-    import DeleteAccountPopup from './popups/DeleteAccountPopup.svelte'
-    import DeleteProfilePopup from './popups/DeleteProfilePopup.svelte'
     import DiagnosticsPopup from './popups/DiagnosticsPopup.svelte'
     import EnableLedgerBlindSigningPopup from './popups/EnableLedgerBlindSigningPopup.svelte'
     import ErrorLogPopup from './popups/ErrorLogPopup.svelte'
@@ -100,8 +98,6 @@
         [PopupId.CreateAccount]: CreateAccountPopup,
         [PopupId.CustomiseAccount]: CustomiseAccountPopup,
         [PopupId.DeepLinkError]: DeepLinkErrorPopup,
-        [PopupId.DeleteAccount]: DeleteAccountPopup,
-        [PopupId.DeleteProfile]: DeleteProfilePopup,
         [PopupId.Diagnostics]: DiagnosticsPopup,
         [PopupId.EnableLedgerBlindSigning]: EnableLedgerBlindSigningPopup,
         [PopupId.ErrorLog]: ErrorLogPopup,

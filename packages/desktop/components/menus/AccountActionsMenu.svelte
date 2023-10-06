@@ -5,9 +5,9 @@
     import { selectedAccount } from '@core/account/stores'
     import { localize } from '@core/i18n'
     import { deleteAccount } from '@core/profile-manager/actions'
-    import { updateActiveAccountPersistedData } from '@core/profile/actions'
+    import { checkActiveProfileAuth, updateActiveAccountPersistedData } from '@core/profile/actions'
     import { activeAccounts, activeProfile, nonHiddenActiveAccounts, visibleActiveAccounts } from '@core/profile/stores'
-    import { PopupId, openPopup } from '@desktop/auxiliary/popup'
+    import { PopupId, closePopup, openPopup } from '@desktop/auxiliary/popup'
 
     let menu: Menu | undefined = undefined
 
@@ -49,10 +49,21 @@
 
     function onDeleteAccountClick(): void {
         openPopup({
-            id: PopupId.DeleteAccount,
+            id: PopupId.Confirmation,
             props: {
-                account: selectedAccount,
-                deleteAccount,
+                variant: 'danger',
+                title: localize('popups.deleteAccount.title', { values: { name: $selectedAccount?.name } }),
+                alert: { variant: 'warning', text: localize('popups.deleteAccount.hint') },
+                confirmText: localize('actions.delete'),
+                onConfirm: async () => {
+                    await checkActiveProfileAuth(
+                        async () => {
+                            await deleteAccount($selectedAccount?.index)
+                            closePopup()
+                        },
+                        { stronghold: true }
+                    )
+                },
             },
         })
         menu?.close()
