@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { ColorPicker, Input, Text } from '@bloomwalletio/ui'
     import { getRandomAccountColor } from '@core/account'
     import { tryCreateAdditionalAccount, validateAccountName } from '@core/account/actions'
     import { handleError } from '@core/error/handlers/handleError'
@@ -6,99 +7,90 @@
     import { checkActiveProfileAuth } from '@core/profile/actions'
     import { getTrimmedLength } from '@core/utils'
     import { closePopup, updatePopupProps } from '@desktop/auxiliary/popup'
-    import { Button, ColorPicker, Input, Text, TextType } from '@ui'
     import { onMount } from 'svelte'
+    import PopupTemplate from '../PopupTemplate.svelte'
 
-    export let accountAlias = ''
-    export let error: string
-    export let color = getRandomAccountColor()
-    export let isBusy = false
-    export let _onMount: (..._: any[]) => Promise<void> = async () => {}
+    export let accountName: string | undefined = undefined
+    export let error: string | undefined = undefined
+    export let color: string | undefined = getRandomAccountColor()
+    export let _onMount: ((..._: any[]) => Promise<void>) | undefined = undefined
 
-    $: accountAlias, (error = null)
-    $: trimmedAccountAlias = accountAlias.trim()
+    let isBusy: boolean = false
+
+    $: accountName, (error = null)
 
     async function onCreateClick(): Promise<void> {
         try {
-            if (!trimmedAccountAlias) {
+            if (!accountName) {
                 return
             }
             isBusy = true
             error = null
-            await validateAccountName(trimmedAccountAlias)
-            updatePopupProps({ accountAlias, color, error, isBusy })
+            await validateAccountName(accountName.trim())
+            updatePopupProps({ accountAlias: accountName, color, error })
             await checkActiveProfileAuth(_create, { stronghold: true, ledger: true })
-            isBusy = false
         } catch (err) {
             error = err.error
             handleError(err)
+        } finally {
+            isBusy = false
+        }
+    }
+
+    async function _create(): Promise<void> {
+        try {
+            isBusy = true
+            if (accountName && color) {
+                await tryCreateAdditionalAccount(accountName.trim(), color.toString())
+                closePopup()
+            }
+        } catch (err) {
+            error = err.error
+        } finally {
             isBusy = false
         }
     }
 
     function onCancelClick(): void {
-        isBusy = false
         closePopup()
     }
 
-    async function _create(): Promise<void> {
-        if (trimmedAccountAlias && color) {
+    onMount(async () => {
+        if (_onMount) {
             try {
-                await tryCreateAdditionalAccount(trimmedAccountAlias, color.toString())
-                closePopup()
+                isBusy = true
+                await _onMount()
             } catch (err) {
+                error = err.error
+                handleError(err)
+            } finally {
                 isBusy = false
             }
         }
-    }
-
-    onMount(async () => {
-        isBusy = true
-        try {
-            await _onMount()
-        } catch (err) {
-            error = err.error
-            handleError(err)
-        }
-        isBusy = false
     })
 </script>
 
-<create-account-popup class="flex flex-col h-full justify-between">
-    <div>
-        <title-container class="flex flex-row mb-6">
-            <Text type={TextType.h5}>{localize('general.newAccount')}</Text>
-        </title-container>
-        <create-account-popup-inputs class="w-full flex flex-col justify-between">
-            <Input
-                {error}
-                bind:value={accountAlias}
-                placeholder={localize('general.accountName')}
-                autofocus
-                submitHandler={onCreateClick}
-                disabled={isBusy}
-                classes="mb-4"
-            />
-            <ColorPicker
-                title={localize('general.accountColor')}
-                bind:active={color}
-                classes="mb-4"
-                isCustomColorEnabled
-            />
-        </create-account-popup-inputs>
+<PopupTemplate
+    title={localize('popups.createAccount.title')}
+    busy={isBusy}
+    backButton={{
+        text: localize('actions.back'),
+        onClick: onCancelClick,
+    }}
+    continueButton={{
+        text: localize('actions.create'),
+        disabled: !getTrimmedLength(accountName),
+        onClick: onCreateClick,
+    }}
+>
+    <div class="flex flex-col gap-4">
+        <div class="flex flex-col gap-2">
+            <Text type="body1">{localize('general.name')}</Text>
+            <Input bind:value={accountName} label={localize('general.accountName')} disabled={isBusy} {error} />
+        </div>
+        <div class="flex flex-col gap-2">
+            <Text type="body1">{localize('general.color')}</Text>
+            <ColorPicker bind:value={color} />
+        </div>
     </div>
-    <create-account-popup-actions class="flex flex-row justify-between px-2">
-        <Button outline classes="-mx-2 w-1/2" onClick={onCancelClick} disabled={isBusy}>
-            {localize('actions.cancel')}
-        </Button>
-        <Button
-            disabled={!getTrimmedLength(accountAlias) || isBusy}
-            classes="-mx-2 w-1/2"
-            onClick={onCreateClick}
-            {isBusy}
-            busyMessage={localize('general.creating')}
-        >
-            {localize('actions.create')}
-        </Button>
-    </create-account-popup-actions>
-</create-account-popup>
+</PopupTemplate>
