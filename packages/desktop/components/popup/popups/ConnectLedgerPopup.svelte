@@ -4,9 +4,8 @@
     import { LedgerAppName, LedgerConnectionState, ledgerConnectionState } from '@core/ledger'
     import { isFunction } from '@core/utils'
     import { closePopup } from '@desktop/auxiliary/popup'
-    import { LedgerStatusIllustration } from '@ui'
+    import { LedgerStatusIllustration, LedgerIllustrationVariant } from 'shared/src/components'
     import PopupTemplate from '../PopupTemplate.svelte'
-    import { LedgerIllustrationVariant } from '@ui/atoms/ledger-illustration-variant.enum'
 
     export let ledgerAppName: LedgerAppName
     export let onCancel: () => void
