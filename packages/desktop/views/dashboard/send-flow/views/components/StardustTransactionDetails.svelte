@@ -1,13 +1,13 @@
 <script lang="ts">
+    import { Table } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
     import { getBaseToken } from '@core/profile/actions'
     import { formatTokenAmountBestMatch } from '@core/token'
     import { TimePeriod } from '@core/utils'
     import { BigIntLike } from '@ethereumjs/util'
-    import { NetworkAvatar, Text, TooltipIcon } from '@ui'
+    import { NetworkLabel, Text, TooltipIcon } from '@ui'
     import { NetworkId } from '@core/network'
     import StorageDepositButton from './StorageDepositButton.svelte'
-    import { getNameFromNetworkId } from '@core/network/actions/getNameFromNetworkId'
     import { DateTimePickerMenu } from '.'
 
     export let destinationNetworkId: NetworkId = undefined
@@ -23,20 +23,24 @@
     export let disableGiftStorageDeposit: boolean | undefined = undefined
     export let disableAll: boolean | undefined = undefined
 
-    $: destinationNetwork = getNameFromNetworkId(destinationNetworkId)
+    $: items = [
+        {
+            key: localize('general.destinationNetwork'),
+            slot: {
+                component: NetworkLabel,
+                props: {
+                    networkId: destinationNetworkId,
+                },
+            },
+            show: destinationNetworkId,
+        },
+    ]
 </script>
 
+<Table items={items.filter((item) => item.show)} />
+
 <div class="border border-solid border-gray-200 dark:border-gray-700 rounded-lg">
-    {#if destinationNetworkId}
-        <section class="key-value-box border-gray-200 dark:border-gray-700">
-            <Text>{localize('general.destinationNetwork')}</Text>
-            <div class="flex flex-row items-center gap-2">
-                <NetworkAvatar networkId={destinationNetworkId} size="sm" />
-                <Text color="gray-600">{destinationNetwork}</Text>
-            </div>
-        </section>
-    {/if}
-    {#if storageDeposit || giftStorageDeposit}
+    {#if storageDeposit}
         <section class="key-value-box border-gray-200 dark:border-gray-700">
             <div class="flex flex-row">
                 <Text>{localize('general.storageDeposit')}</Text>
