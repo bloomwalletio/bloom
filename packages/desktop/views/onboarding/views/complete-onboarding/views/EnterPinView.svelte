@@ -68,14 +68,14 @@
         on:submit|preventDefault={onSetPinClick}
     >
         <pin-input-container class="flex flex-col w-fit gap-3">
-            <Text fontWeight="medium" textColor="secondary">
+            <Text type="body1">
                 {localize('actions.setPin')}
             </Text>
             <PinInput bind:value={setPinInput} autofocus disabled={busy} error={!!setPinInputError} />
             <Error error={setPinInputError} />
         </pin-input-container>
         <pin-input-container class="flex flex-col w-fit gap-3">
-            <Text fontWeight="medium" textColor="secondary">
+            <Text type="body1">
                 {localize('actions.confirmPin')}
             </Text>
             <PinInput
