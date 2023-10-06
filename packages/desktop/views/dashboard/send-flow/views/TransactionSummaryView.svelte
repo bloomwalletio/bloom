@@ -28,7 +28,7 @@
     $: isDestinationNetworkLayer2 = isEvmChain($sendFlowParameters.destinationNetworkId)
     $: isTransferring = !!$selectedAccount.isTransferring
     $: isDisabled = isInvalid || isTransferring || (!preparedTransaction && !preparedOutput)
-    
+
     let isInvalid: boolean
     let recipientAddress: string
     let preparedOutput: Output | undefined
