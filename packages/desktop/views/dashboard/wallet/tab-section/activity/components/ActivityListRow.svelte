@@ -51,7 +51,7 @@
         @apply hover:bg-surface-2 dark:hover:bg-surface-2-dark;
 
         @apply grid gap-2;
-        grid-template-columns: 3fr 2fr 2fr 1fr;
+        grid-template-columns: 3fr 2fr 1fr 2fr;
 
         &.expired {
             opacity: 0.5;
