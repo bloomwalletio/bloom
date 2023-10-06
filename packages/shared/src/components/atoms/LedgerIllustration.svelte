@@ -5,7 +5,7 @@
     export let pill: { localeKey: string; color: string }
 </script>
 
-<ledger-illustration class="flex relative justify-center items-center w-full h-80 {$$restProps.class}">
+<ledger-illustration class="flex relative justify-center items-center w-full">
     {#if pill}
         <pill class="absolute">
             <Pill color={pill.color}>
@@ -21,6 +21,7 @@
         @apply rounded-xl border border-solid border-stroke dark:border-stroke-dark;
         @apply bg-surface-1 dark:bg-surface-1-dark;
         @apply bg-[url('./assets/illustrations/ledger/ledger-base.svg')] bg-cover bg-center;
+        @apply h-[254px];
     }
 
     pill {

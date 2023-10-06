@@ -1,5 +1,5 @@
 export enum LedgerIllustrationVariant {
-    Danger,
+    NotConnected,
     Pin,
     OpenEthereum,
     OpenShimmer,

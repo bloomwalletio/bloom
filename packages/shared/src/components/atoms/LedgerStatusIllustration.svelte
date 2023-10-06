@@ -1,6 +1,6 @@
 <script lang="ts">
     import LedgerIllustration from './LedgerIllustration.svelte'
-    import { Avatar, IconName } from '@bloomwalletio/ui'
+    import { Avatar, AvatarShape, IconName } from '@bloomwalletio/ui'
     import { Illustration, Logo } from '@ui'
     import { LedgerIllustrationVariant } from './ledger-illustration-variant.enum'
     import { Color } from '@bloomwalletio/ui/dist/constants/colors.constant'
@@ -13,17 +13,19 @@
     let pill: any
     let illustration: string
     let logo: LogoName | undefined
+    let shape: AvatarShape
 
     $: setLedgerIllustrationProps(variant)
-    function setLedgerIllustrationProps(variant: LedgerIllustrationVariant) {
+    function setLedgerIllustrationProps(variant: LedgerIllustrationVariant): void {
         icon = undefined
         logo = undefined
         pill = undefined
         switch (variant) {
-            case LedgerIllustrationVariant.Danger: {
+            case LedgerIllustrationVariant.NotConnected: {
                 icon = IconName.WarningCircle
                 backgroundColor = 'danger'
                 pill = { localeKey: 'pills.ledgerStatus.notConnected', color: backgroundColor }
+                shape = 'circle'
                 break
             }
             case LedgerIllustrationVariant.Pin: {
@@ -33,26 +35,35 @@
             }
             case LedgerIllustrationVariant.OpenEthereum:
                 logo = LogoName.Ethereum
+                // @ts-ignore
                 backgroundColor = '#627EEA'
                 pill = { localeKey: 'pills.ledgerStatus.appNotOpen', color: 'warning' }
+                shape = 'square'
                 break
             case LedgerIllustrationVariant.OpenShimmer:
                 icon = IconName.Shimmer
                 backgroundColor = 'neutral'
                 pill = { localeKey: 'pills.ledgerStatus.appNotOpen', color: 'warning' }
+                shape = 'square'
                 break
             case LedgerIllustrationVariant.Warning:
+                icon = IconName.HelpCircle
+                backgroundColor = 'warning'
+                shape = 'circle'
                 break
             case LedgerIllustrationVariant.Success:
+                icon = IconName.SuccessCircle
+                backgroundColor = 'success'
+                shape = 'circle'
                 break
             default:
         }
     }
 </script>
 
-<LedgerIllustration class={$$restProps.class} {pill}>
+<LedgerIllustration {pill}>
     {#if icon}
-        <Avatar {backgroundColor} {icon} shape="square" />
+        <Avatar {backgroundColor} {icon} {shape} />
     {:else if logo}
         <Avatar {backgroundColor} size="md" shape="square">
             <Logo {logo} />

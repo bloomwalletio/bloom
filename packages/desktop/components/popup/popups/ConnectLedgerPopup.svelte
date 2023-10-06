@@ -23,7 +23,7 @@
             ledgerSectionProps = {
                 color: 'danger',
                 text: localize('popups.ledgerNotConnected.notConnected'),
-                variant: LedgerIllustrationVariant.Danger,
+                variant: LedgerIllustrationVariant.NotConnected,
             }
         } else if (isLocked) {
             ledgerSectionProps = {
@@ -78,7 +78,7 @@
 
 <PopupTemplate title={localize('popups.ledgerNotConnected.title')} {backButton} {continueButton}>
     <div class="space-y-6">
-        <LedgerStatusIllustration variant={ledgerSectionProps.variant} class="h-[254px]" />,
+        <LedgerStatusIllustration variant={ledgerSectionProps.variant} />,
         <Alert variant={ledgerSectionProps.color} text={ledgerSectionProps.text} />,
     </div>
 </PopupTemplate>
