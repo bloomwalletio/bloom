@@ -64,7 +64,7 @@
     <form
         slot="content"
         id="setup-pin"
-        class="flex flex-col justify-center items-center gap-7"
+        class="flex flex-col justify-center items-center gap-4"
         on:submit|preventDefault={onSetPinClick}
     >
         <pin-input-container class="flex flex-col w-fit gap-3">
