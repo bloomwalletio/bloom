@@ -6,7 +6,7 @@
 
 {#if IS_MAC}
     <NavbarContainer ghost draggable>
-        <div style:height="var(--navbar-height)" />
+        <div style:height="var(--navbar-height)" style:--macos-navbar-height="var(--navbar-height)" />
     </NavbarContainer>
 {/if}
 <logged-out-layout class="flex flex-col justify-between items-center w-full h-full bg-slate-100 dark:bg-gray-900">
@@ -21,6 +21,6 @@
 
 <style lang="postcss">
     logged-out-layout {
-        max-height: calc(100vh - var(--navbar-height));
+        max-height: calc(100vh - var(--macos-navbar-height, 0px));
     }
 </style>
