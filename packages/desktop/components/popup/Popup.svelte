@@ -12,10 +12,11 @@
     import AddNodePopup from './popups/AddNodePopup.svelte'
     import AddProposalPopup from './popups/AddProposalPopup.svelte'
     import AliasConfirmationPopup from './popups/AliasConfirmationPopup.svelte'
-    import BalanceBreakdownPopup from './popups/BalanceBreakdownPopup.svelte'
     import BackupStrongholdPopup from './popups/BackupStrongholdPopup.svelte'
-    import BurnNativeTokensPopup from './popups/BurnNativeTokensPopup.svelte'
+    import BalanceBreakdownPopup from './popups/BalanceBreakdownPopup.svelte'
     import BurnNativeTokensConfirmationPopup from './popups/BurnNativeTokensConfirmationPopup.svelte'
+    import BurnNativeTokensPopup from './popups/BurnNativeTokensPopup.svelte'
+    import CheckForUpdatesPopup from './popups/CheckForUpdatesPopup.svelte'
     import ConfirmationPopup from './popups/ConfirmationPopup.svelte'
     import ConnectLedgerPopup from './popups/ConnectLedgerPopup.svelte'
     import CreateAccountPopup from './popups/CreateAccountPopup.svelte'
@@ -40,15 +41,14 @@
     import ReceiveAddressPopup from './popups/ReceiveAddressPopup.svelte'
     import RemoveProposalPopup from './popups/RemoveProposalPopup.svelte'
     import RevotePopup from './popups/RevotePopup.svelte'
-    import SignMessagePopup from './popups/SignMessagePopup.svelte'
     import SendFlowPopup from './popups/SendFlowPopup.svelte'
+    import SignMessagePopup from './popups/SignMessagePopup.svelte'
     import StopVotingPopup from './popups/StopVotingPopup.svelte'
     import SyncAccountsPopup from './popups/SyncAccountsPopup.svelte'
     import TestDeepLinkFormPopup from './popups/TestDeepLinkFormPopup.svelte'
     import TokenInformationPopup from './popups/TokenInformationPopup.svelte'
     import UnlockStrongholdPopup from './popups/UnlockStrongholdPopup.svelte'
     import VerifyLedgerTransactionPopup from './popups/VerifyLedgerTransactionPopup.svelte'
-    import CheckForUpdatesPopup from './popups/CheckForUpdatesPopup.svelte'
     import VoteForProposal from './popups/VoteForProposalPopup.svelte'
     import VotingPowerToZeroPopup from './popups/VotingPowerToZeroPopup.svelte'
 
@@ -72,7 +72,6 @@
 
     $: switch (id) {
         case PopupId.ConnectLedger:
-        case PopupId.CreateAccount:
         case PopupId.ManageAccount:
             size = PopupSize.Small
             break
