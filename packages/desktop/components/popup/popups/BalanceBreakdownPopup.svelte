@@ -1,12 +1,13 @@
 <script lang="ts">
-    import { UnlockCondition, UnlockConditionType, CommonOutput, OutputType } from '@iota/sdk/out/types'
-    import { closePopup, openPopup, PopupId } from '@desktop/auxiliary/popup'
     import { selectedAccount } from '@core/account/stores'
+    import { getStorageDepositFromOutput } from '@core/activity/utils/helper'
     import { localize } from '@core/i18n'
     import { checkActiveProfileAuth } from '@core/profile/actions'
     import { consolidateOutputs } from '@core/wallet/actions/consolidateOutputs'
-    import { getStorageDepositFromOutput } from '@core/activity/utils/helper'
-    import { BalanceSummarySection, Button, FontWeight, Text, TextType } from '@ui'
+    import { PopupId, closePopup, openPopup } from '@desktop/auxiliary/popup'
+    import { CommonOutput, OutputType, UnlockCondition, UnlockConditionType } from '@iota/sdk/out/types'
+    import { BalanceSummarySection } from '@ui'
+    import PopupTemplate from '../PopupTemplate.svelte'
 
     interface BalanceBreakdown {
         amount: number
@@ -134,10 +135,13 @@
     }
 </script>
 
-<div class="flex flex-col space-y-6">
-    <Text type={TextType.h3} fontWeight={FontWeight.semibold} lineHeight="6">
-        {localize('popups.balanceBreakdown.title')}
-    </Text>
+<PopupTemplate
+    title={localize('popups.balanceBreakdown.title')}
+    continueButton={{
+        text: localize('popups.balanceBreakdown.minimizeStorageDepositButton'),
+        onClick: onConsolidationClick,
+    }}
+>
     <div class="flex flex-col space-y-8">
         {#each Object.keys(breakdown) as breakdownKey}
             <BalanceSummarySection
@@ -149,7 +153,4 @@
         {/each}
         <BalanceSummarySection titleKey="totalBalance" amount={Number(accountBalance?.baseCoin?.total ?? 0)} bold />
     </div>
-    <Button onClick={onConsolidationClick}>
-        {localize('popups.balanceBreakdown.minimizeStorageDepositButton')}
-    </Button>
-</div>
+</PopupTemplate>
