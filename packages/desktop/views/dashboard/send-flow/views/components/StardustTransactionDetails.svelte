@@ -1,13 +1,14 @@
 <script lang="ts">
-    import { Table, TableRow, Toggle } from '@bloomwalletio/ui'
+    import { Table, TableRow } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
     import { getBaseToken } from '@core/profile/actions'
-    import { formatTokenAmountBestMatch, formatTokenAmountPrecise } from '@core/token'
+    import { formatTokenAmountBestMatch } from '@core/token'
     import { TimePeriod } from '@core/utils'
     import { BigIntLike } from '@ethereumjs/util'
     import { NetworkLabel } from '@ui'
     import { NetworkId } from '@core/network'
     import { DateTimePickerMenu } from '.'
+    import StorageDepositButton from './StorageDepositButton.svelte'
 
     export let destinationNetworkId: NetworkId = undefined
     export let storageDeposit: number | undefined = undefined
@@ -22,10 +23,6 @@
     export let disableGiftStorageDeposit: boolean | undefined = undefined
     export let disableAll: boolean | undefined = undefined
 
-    function toggleGiftStorageDeposit(): void {
-        giftStorageDeposit = !giftStorageDeposit
-    }
-
     $: items = [
         {
             key: localize('general.destinationNetwork'),
@@ -38,25 +35,6 @@
             show: destinationNetworkId,
         },
         {
-            key: localize('general.storageDeposit'),
-            value: formatTokenAmountPrecise(storageDeposit ?? 0, getBaseToken()),
-            tooltip: localize('tooltips.transactionDetails.outgoing.storageDeposit'),
-            show: storageDeposit,
-        },
-        {
-            key: localize('actions.giftStorageDeposit'),
-            tooltip: localize('tooltips.transactionDetails.outgoing.giftedStorageDeposit'),
-            slot: {
-                component: Toggle,
-                props: {
-                    onClick: toggleGiftStorageDeposit,
-                    label: 'giftStorageDeposit',
-                },
-                value: giftStorageDeposit,
-            },
-            show: disableGiftStorageDeposit || disableAll || storageDeposit,
-        },
-        {
             key: localize('general.transactionFee'),
             value: formatTokenAmountBestMatch(Number(transactionFee), getBaseToken()),
             show: transactionFee,
@@ -65,6 +43,22 @@
 </script>
 
 <Table items={items.filter((item) => item.show)}>
+    {#if storageDeposit || giftStorageDeposit}
+        <TableRow
+            item={{
+                key: localize('general.storageDeposit'),
+                tooltip: localize('tooltips.transactionDetails.outgoing.storageDeposit'),
+            }}
+        >
+            <div slot="boundValue">
+                <StorageDepositButton
+                    bind:giftStorageDeposit
+                    {storageDeposit}
+                    disabled={disableGiftStorageDeposit || disableAll}
+                />
+            </div>
+        </TableRow>
+    {/if}
     {#if selectedExpirationPeriod}
         <TableRow
             item={{
