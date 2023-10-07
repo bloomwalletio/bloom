@@ -48,7 +48,7 @@
     >
         <div class="flex flex-col text-left">
             <Text>{localize('popups.giftedStorageDeposit.tooltipTitle')}</Text>
-            <Text color="secondary" fontWeight="normal">
+            <Text type="xs" textColor="secondary">
                 {localize('popups.giftedStorageDeposit.tooltipDescription')}
             </Text>
         </div>
