@@ -18,6 +18,6 @@
 
 <style lang="postcss">
     .column {
-        @apply space-y-16;
+        @apply gap-[64px];
     }
 </style>
