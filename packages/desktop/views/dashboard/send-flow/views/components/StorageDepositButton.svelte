@@ -18,11 +18,7 @@
 </script>
 
 <div class="relative" bind:this={anchor}>
-    <button
-        class="flex items-center justify-center {disabled ? 'cursor-default' : 'cursor-pointer'}"
-        {disabled}
-        on:click={popover?.show}
-    >
+    <button class="flex items-center justify-center {disabled ? 'cursor-default' : 'cursor-pointer'}" {disabled}>
         <div class="flex flex-row hover:text-blue-600 items-center gap-1">
             <Text textColor={disabled ? 'secondary' : 'brand'} type="base" fontWeight="medium">
                 {giftStorageDeposit
@@ -39,6 +35,7 @@
 <Popover
     bind:this={popover}
     {anchor}
+    event="click"
     placement="top-end"
     class="border border-solid border-purple-50 rounded-xl shadow-lg overflow-hidden"
 >
