@@ -1,11 +1,9 @@
 <script lang="ts">
-    import { Icon as IconEnum } from '@auxiliary/icon'
     import { localize } from '@core/i18n'
     import { getBaseToken } from '@core/profile/actions'
     import { formatTokenAmountPrecise } from '@core/token'
-    import { Icon } from '@ui'
     import { fade } from 'svelte/transition'
-    import { Toggle, Popover, Text } from '@bloomwalletio/ui'
+    import { Toggle, Popover, Text, Icon, IconName } from '@bloomwalletio/ui'
 
     export let storageDeposit: number
     export let giftStorageDeposit: boolean
@@ -25,19 +23,14 @@
         {disabled}
         on:click={popover?.show}
     >
-        <div class="flex flex-row hover:text-blue-600 items-center">
-            <Text
-                highlighted={!disabled}
-                color="gray-600"
-                darkColor="gray-500"
-                classes={disabled ? '' : 'hover:text-blue-600'}
-            >
+        <div class="flex flex-row hover:text-blue-600 items-center gap-1">
+            <Text textColor={disabled ? 'secondary' : 'brand'} type="base" fontWeight="medium">
                 {giftStorageDeposit
                     ? localize('general.gifted')
                     : formatTokenAmountPrecise(storageDeposit, getBaseToken())}
             </Text>
             {#if !disabled}
-                <Icon icon={IconEnum.ChevronDown} width="10" height="13" classes="text-blue-500 ml-1" />
+                <Icon name={IconName.ChevronDown} size="xxs" textColor="brand" />
             {/if}
         </div>
     </button>
@@ -55,7 +48,7 @@
     >
         <div class="flex flex-col text-left">
             <Text>{localize('popups.giftedStorageDeposit.tooltipTitle')}</Text>
-            <Text color="secondary">
+            <Text color="secondary" fontWeight="normal">
                 {localize('popups.giftedStorageDeposit.tooltipDescription')}
             </Text>
         </div>
