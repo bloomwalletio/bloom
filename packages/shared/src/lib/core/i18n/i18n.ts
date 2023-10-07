@@ -81,14 +81,8 @@ export function localize(path: string, options?: unknown): string {
  * Sets the locale dictionary to a given language, resetting the dictionary
  * if already initialized.
  */
-export const setLanguage = (item: { value }): void => {
-    const locale = Object.keys(SUPPORTED_LOCALES).find((key) => SUPPORTED_LOCALES[key] === item.value)
-    appSettings.set({
-        ...get(appSettings),
-        language: locale,
-    })
-
-    void setupI18n({ fallbackLocale: 'en', initialLocale: locale })
+export const setLanguage = (language: string): void => {
+    void setupI18n({ fallbackLocale: 'en', initialLocale: language })
 }
 
 /**
