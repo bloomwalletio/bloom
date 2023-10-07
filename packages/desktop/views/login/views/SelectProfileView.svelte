@@ -1,6 +1,6 @@
 <script lang="ts">
-    import { IconName, Button } from '@bloomwalletio/ui'
-    import { ProfileCard } from '../components'
+    import { LogoName } from '@auxiliary/logo/enums'
+    import { Button, IconName } from '@bloomwalletio/ui'
     import { initialiseOnboardingProfile, onboardingProfile } from '@contexts/onboarding'
     import {
         AppContext,
@@ -15,12 +15,12 @@
     import { profiles } from '@core/profile/stores'
     import { loginRouter, routerManager } from '@core/router'
     import { PopupId, openPopup } from '@desktop/auxiliary/popup'
+    import features from '@features/features'
     import { Logo } from '@ui'
+    import { LoggedOutLayout } from '@views/components'
     import { OnboardingRouter, onboardingRouter } from '@views/onboarding'
     import { onMount } from 'svelte'
-    import features from '@features/features'
-    import { LoggedOutLayout } from '@views/components'
-    import { LogoName } from '@auxiliary/logo/enums'
+    import { ProfileCard } from '../components'
 
     function onContinueClick(profileId: string): void {
         loadPersistedProfileIntoActiveProfile(profileId)
@@ -74,10 +74,12 @@
         {/each}
     </div>
     <svelte:fragment slot="footer">
-        <hr class="border-white dark:border-gray-800" />
-        <button type="button" on:click={onAddProfileClick}>
-            <Button variant="text" text={localize('general.addProfile')} icon={IconName.Plus} />
-        </button>
+        {#if features.login.selectProfile.createNewProfile.enabled}
+            <hr class="border-white dark:border-gray-800" />
+            <button type="button" on:click={onAddProfileClick}>
+                <Button variant="text" text={localize('general.addProfile')} icon={IconName.Plus} />
+            </button>
+        {/if}
     </svelte:fragment>
 </LoggedOutLayout>
 

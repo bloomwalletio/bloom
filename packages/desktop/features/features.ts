@@ -12,6 +12,7 @@ import analyticsFeatures from './analytics.features'
 import { IDesktopFeatures } from './interfaces'
 
 const features: IDesktopFeatures = {
+    analytics: analyticsFeatures,
     collectibles: collectiblesFeatures,
     contacts: contactsFeatures,
     developerTools: developerToolsFeatures,
@@ -22,7 +23,6 @@ const features: IDesktopFeatures = {
     onboarding: onboardingFeatures,
     settings: settingsFeatures,
     wallet: walletFeatures,
-    analytics: analyticsFeatures,
 }
 
 export default features
