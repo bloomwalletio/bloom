@@ -19,7 +19,7 @@
 
 <div class="relative" bind:this={anchor}>
     <button class="flex items-center justify-center {disabled ? 'cursor-default' : 'cursor-pointer'}" {disabled}>
-        <div class="flex flex-row hover:text-blue-600 items-center gap-1">
+        <div class="flex flex-row items-center gap-1">
             <Text textColor={disabled ? 'secondary' : 'brand'} type="base" fontWeight="medium">
                 {giftStorageDeposit
                     ? localize('general.gifted')
