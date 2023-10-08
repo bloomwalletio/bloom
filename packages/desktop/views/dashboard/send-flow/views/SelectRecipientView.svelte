@@ -26,7 +26,7 @@
     import { INetworkRecipientSelectorOption, NetworkRecipientSelector } from '@ui'
     import { onMount } from 'svelte'
     import { sendFlowRouter } from '../send-flow.router'
-    import SendFlowTemplate from './SendFlowTemplate.svelte'
+    import { PopupTemplate } from '@components'
     import { getTokenStandardFromSendFlowParameters } from '@core/wallet/utils'
     import { TokenStandard } from '@core/token'
     import { canAccountMakeEvmTransaction } from '@core/layer-2/actions'
@@ -229,15 +229,15 @@
     })
 </script>
 
-<SendFlowTemplate
+<PopupTemplate
     title={localize('popups.transaction.selectRecipient', {
         values: { assetName },
     })}
-    leftButton={{
+    backButton={{
         text: localize($sendFlowRouter.hasHistory() ? 'actions.back' : 'actions.cancel'),
         onClick: onBackClick,
     }}
-    rightButton={{
+    continueButton={{
         text: localize('actions.continue'),
         onClick: onContinueClick,
         disabled: !selectedNetworkId || !selectedRecipient?.address,
@@ -252,4 +252,4 @@
     {#if hasNetworkRecipientError}
         <Alert variant="danger" text={localize('error.send.insufficientFundsGasFee')} />
     {/if}
-</SendFlowTemplate>
+</PopupTemplate>

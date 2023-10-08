@@ -8,9 +8,9 @@
         openPopup({
             id: PopupId.Confirmation,
             props: {
+                variant: 'danger',
                 title: localize('popups.deleteProfile.title'),
-                hint: localize('popups.deleteProfile.confirmation'),
-                warning: true,
+                alert: { variant: 'warning', text: localize('popups.deleteProfile.confirmation') },
                 confirmText: localize('actions.delete'),
                 onConfirm: deleteProfile,
             },

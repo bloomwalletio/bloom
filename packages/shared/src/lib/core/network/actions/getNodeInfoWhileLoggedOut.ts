@@ -1,11 +1,11 @@
 import { getTemporaryProfileManagerStorageDirectory } from '@contexts/onboarding/helpers'
 import { IProfileManager, api } from '@core/profile-manager'
 import { initialiseProfileManager } from '@core/profile-manager/actions'
-import { TEST_COIN_TYPE } from '..'
+import { IAuth, TEST_COIN_TYPE } from '..'
 import { Platform } from '@core/app'
 import { CoinType, INodeInfoWrapper } from '@iota/sdk/out/types'
 
-export async function getNodeInfoWhileLoggedOut(url: string): Promise<INodeInfoWrapper> {
+export async function getNodeInfoWhileLoggedOut(url: string, auth: IAuth): Promise<INodeInfoWrapper> {
     let storagePath: string | undefined
     let manager: IProfileManager | undefined
     let nodeInfoResponse: INodeInfoWrapper | undefined
@@ -17,7 +17,7 @@ export async function getNodeInfoWhileLoggedOut(url: string): Promise<INodeInfoW
             { nodes: [{ url }] },
             { stronghold: { snapshotPath: `${storagePath}/wallet.stronghold` } }
         )
-        nodeInfoResponse = await manager.getNodeInfo(url)
+        nodeInfoResponse = await api.getNodeInfo(manager.id, url, auth)
         return nodeInfoResponse
     } catch (error) {
         return Promise.reject(error)

@@ -120,7 +120,6 @@
                 title: localize('popups.minimizeStorageDeposit.title'),
                 description: localize('popups.minimizeStorageDeposit.description'),
                 confirmText: localize('popups.minimizeStorageDeposit.confirmButton'),
-                info: true,
                 onConfirm: async () => {
                     await checkActiveProfileAuth(
                         async () => {

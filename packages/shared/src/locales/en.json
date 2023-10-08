@@ -80,8 +80,7 @@
             "storageProtectionSetup": {
                 "setupPinProtection": {
                     "title": "Set up PIN code",
-                    "body1": "Enter a 6-digit PIN below. You will be asked for your PIN to access your profile.",
-                    "body2": "Use numbers only"
+                    "body": "Enter a 6-digit PIN below. Use numbers only."
                 }
             },
             "profileBackup": {
@@ -1018,6 +1017,9 @@
             "title": "Receive",
             "body": "Receive tokens, NFTs, and other digital assets to your account address shown below.",
             "networkAddress": "{networkName} address"
+        },
+        "createAccount": {
+            "title": "Create account"
         }
     },
     "actions": {
@@ -1172,8 +1174,6 @@
         "switchAccount": "Switch account",
         "syncAccounts": "Sync accounts",
         "importErc20Token": "Import ERC20 token"
-
-
     },
     "general": {
         "recipient": "Recipient",
@@ -1372,7 +1372,8 @@
         "ledgerDevice": "Ledger device",
         "disconnected": "Disconnected",
         "balanceBreakdown": "Balance breakdown",
-        "primary": "Primary"
+        "primary": "Primary",
+        "color": "Color"
     },
     "filters":{
         "title": "Filters",

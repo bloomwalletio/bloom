@@ -3,23 +3,20 @@
     import { handleError } from '@core/error/handlers'
     import { localize } from '@core/i18n'
     import { closePopup } from '@desktop/auxiliary/popup'
-    import { Button, ButtonVariant, FontWeight, Text, TextType } from '@ui'
     import { onMount } from 'svelte'
+    import PopupTemplate from '../PopupTemplate.svelte'
 
+    export let variant: 'primary' | 'success' | 'warning' | 'danger' | 'info' = 'primary'
     export let title: string
     export let description: string = ''
-    export let hint: string = ''
-    export let info: boolean = false
-    export let success: boolean = false
-    export let warning: boolean = false
-    export let danger: boolean = false
+    export let alert: { variant?: 'success' | 'warning' | 'danger' | 'info'; text: string } | undefined = undefined
+    export let backText: string = localize('actions.cancel')
     export let confirmText: string = localize('actions.confirm')
-    export let onConfirm: () => Promise<void> = undefined
-    export let onCancel: () => void = undefined
-    export let _onMount: (..._: any[]) => Promise<void> = async () => {}
+    export let onConfirm: () => Promise<void>
+    export let onCancel: (() => void) | undefined = undefined
+    export let _onMount: ((..._: any[]) => Promise<void>) | undefined = async () => {}
 
     let isBusy = false
-    $: variant = info ? 'info' : success ? 'success' : warning ? 'warning' : danger ? 'danger' : 'info'
 
     async function onConfirmClick(): Promise<void> {
         isBusy = true
@@ -43,36 +40,31 @@
     }
 
     onMount(async () => {
-        try {
-            await _onMount()
-        } catch (err) {
-            handleError(err)
+        if (_onMount) {
+            try {
+                await _onMount()
+            } catch (err) {
+                handleError(err)
+            }
         }
     })
 </script>
 
-<div class="w-full h-full space-y-6 flex flex-auto flex-col shrink-0">
-    <Text type={TextType.h3} fontWeight={FontWeight.semibold} classes="text-left">
-        {title}
-    </Text>
-    <div class="space-y-4">
-        {#if description}
-            <Text fontSize="14" classes="text-left break-words">{description}</Text>
-        {/if}
-        {#if hint}
-            <Alert {variant} text={hint} />
-        {/if}
-    </div>
-    <popup-buttons class="flex flex-row flex-nowrap w-full space-x-4">
-        <Button classes="w-full" outline onClick={onCancelClick}>{localize('actions.cancel')}</Button>
-        <Button
-            classes="w-full"
-            variant={warning || danger ? ButtonVariant.Warning : ButtonVariant.Primary}
-            disabled={isBusy}
-            {isBusy}
-            onClick={onConfirmClick}
-        >
-            {confirmText}
-        </Button>
-    </popup-buttons>
-</div>
+<PopupTemplate
+    {title}
+    {description}
+    busy={isBusy}
+    backButton={{
+        text: backText,
+        onClick: onCancelClick,
+    }}
+    continueButton={{
+        color: variant,
+        text: confirmText,
+        onClick: onConfirmClick,
+    }}
+>
+    {#if alert}
+        <Alert {...alert} />
+    {/if}
+</PopupTemplate>
