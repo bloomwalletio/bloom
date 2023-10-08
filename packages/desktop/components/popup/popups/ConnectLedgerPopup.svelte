@@ -87,7 +87,7 @@
 
 <PopupTemplate title={localize('popups.ledgerNotConnected.title')} {backButton} {continueButton}>
     <div class="space-y-6">
-        <LedgerStatusIllustration variant={ledgerSectionProps.variant} />,
-        <Alert variant={ledgerSectionProps.color} text={ledgerSectionProps.text} />,
+        <LedgerStatusIllustration variant={ledgerSectionProps.variant} />
+        <Alert variant={ledgerSectionProps.color} text={ledgerSectionProps.text} />
     </div>
 </PopupTemplate>
