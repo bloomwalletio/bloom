@@ -1,8 +1,8 @@
 <script lang="ts">
+    import { Error, PinInput, Text } from '@bloomwalletio/ui'
     import { initialisePincodeManager } from '@contexts/onboarding'
     import { localize } from '@core/i18n'
     import { isValidPin } from '@core/utils'
-    import { PinInput, Text } from '@ui'
     import { OnboardingLayout } from '@views/components'
     import { completeOnboardingRouter } from '../complete-onboarding-router'
 
@@ -50,7 +50,7 @@
 
 <OnboardingLayout
     title={localize('views.onboarding.storageProtectionSetup.setupPinProtection.title')}
-    description={localize('views.onboarding.storageProtectionSetup.setupPinProtection.body1')}
+    description={localize('views.onboarding.storageProtectionSetup.setupPinProtection.body')}
     continueButton={{
         onClick: onContinueClick,
         disabled: !arePinInputsValid || !arePinInputsMatching,
@@ -59,35 +59,32 @@
         onClick: onBackClick,
     }}
     {busy}
+    size="fit"
 >
-    <div slot="content">
-        <div class="flex flex-col mb-8">
-            <Text type="p" secondary highlighted
-                >{localize('views.onboarding.storageProtectionSetup.setupPinProtection.body2')}</Text
-            >
-        </div>
-        <form id="setup-pin" class="flex flex-col" on:submit|preventDefault={onSetPinClick}>
-            <PinInput
-                bind:value={setPinInput}
-                glimpse
-                classes="w-full mx-auto block mb-4"
-                autofocus
-                disabled={busy}
-                error={setPinInputError}
-                label={localize('actions.setPin')}
-                on:filled={confirmPinInputElement.focus}
-                on:submit={onSetPinClick}
-            />
+    <form
+        slot="content"
+        id="setup-pin"
+        class="flex flex-col justify-center items-center gap-4"
+        on:submit|preventDefault={onSetPinClick}
+    >
+        <pin-input-container class="flex flex-col w-fit gap-3">
+            <Text type="body1">
+                {localize('actions.setPin')}
+            </Text>
+            <PinInput bind:value={setPinInput} autofocus disabled={busy} error={!!setPinInputError} />
+            <Error error={setPinInputError} />
+        </pin-input-container>
+        <pin-input-container class="flex flex-col w-fit gap-3">
+            <Text type="body1">
+                {localize('actions.confirmPin')}
+            </Text>
             <PinInput
                 bind:value={confirmPinInput}
-                glimpse
-                classes="w-full mx-auto block"
                 disabled={busy}
-                error={confirmPinInputError}
-                label={localize('actions.confirmPin')}
+                error={!!confirmPinInputError}
                 bind:this={confirmPinInputElement}
-                on:submit={onSetPinClick}
             />
-        </form>
-    </div>
+            <Error error={confirmPinInputError} />
+        </pin-input-container>
+    </form>
 </OnboardingLayout>

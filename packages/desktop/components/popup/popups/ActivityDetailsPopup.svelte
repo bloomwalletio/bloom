@@ -83,12 +83,14 @@
         openPopup({
             id: PopupId.Confirmation,
             props: {
+                variant: 'danger',
                 title: localize('actions.confirmRejection.title'),
                 description: localize('actions.confirmRejection.description'),
-                hint: localize('actions.confirmRejection.node'),
-                info: true,
+                alert: {
+                    variant: 'warning',
+                    text: localize('actions.confirmRejection.node'),
+                },
                 confirmText: localize('actions.reject'),
-                warning: true,
                 onConfirm: () => {
                     rejectActivity(activityId)
                     closePopup()

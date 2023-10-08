@@ -27,7 +27,7 @@
         onClick: undefined,
     }
 
-    export let size: 'small' | 'medium' | 'large' = 'medium'
+    export let size: 'small' | 'medium' | 'large' | 'fit' = 'medium'
     export let title: string | undefined = undefined
     export let description: string | undefined = undefined
     export let continueButton: Partial<IButtonProps> | undefined = DEFAULT_CONTINUE_BUTTON
@@ -63,16 +63,7 @@
             {#if description}<Text type="body2" textColor="secondary" align="center">{description}</Text>{/if}
         </content-title>
         <slot name="content" />
-        <content-buttons class="block flex flex-row space-x-6">
-            {#if !_backButton.hidden}
-                <Button
-                    width="full"
-                    variant="outlined"
-                    disabled={busy || _backButton.disabled || !_backButton.onClick}
-                    on:click={_backButton.onClick}
-                    text={_backButton.text}
-                />
-            {/if}
+        <content-buttons class="flex flex-row-reverse gap-3">
             {#if !_continueButton.hidden}
                 <Button
                     width="full"
@@ -81,6 +72,15 @@
                     {busy}
                     on:click={_continueButton.onClick}
                     text={_continueButton.text}
+                />
+            {/if}
+            {#if !_backButton.hidden}
+                <Button
+                    width="full"
+                    variant="outlined"
+                    disabled={busy || _backButton.disabled || !_backButton.onClick}
+                    on:click={_backButton.onClick}
+                    text={_backButton.text}
                 />
             {/if}
         </content-buttons>
@@ -107,6 +107,10 @@
         }
         &.large {
             max-width: 630px;
+        }
+
+        &.fit {
+            max-width: fit-content;
         }
     }
 </style>
