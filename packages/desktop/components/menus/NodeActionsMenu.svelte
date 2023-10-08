@@ -39,9 +39,9 @@
             openPopup({
                 id: PopupId.Confirmation,
                 props: {
+                    variant: 'danger',
                     title: localize('popups.unsetAsPrimaryNode.title'),
                     description: localize('popups.unsetAsPrimaryNode.body', { values: { url: node.url } }),
-                    danger: true,
                     confirmText: localize('actions.clear'),
                     onConfirm: () => {
                         void togglePrimaryNodeInClientOptions(node)
@@ -59,9 +59,9 @@
         openPopup({
             id: PopupId.Confirmation,
             props: {
+                variant: 'danger',
                 title: localize('popups.node.titleRemove'),
                 description: localize('popups.node.removeConfirmation'),
-                danger: true,
                 confirmText: localize('actions.removeNode'),
                 onConfirm: () => {
                     void removeNodeFromClientOptions(node)
@@ -79,9 +79,9 @@
             openPopup({
                 id: PopupId.Confirmation,
                 props: {
+                    variant: 'danger',
                     title: localize('popups.excludeNode.title'),
                     description: localize('popups.excludeNode.body', { values: { url: node?.url } }),
-                    danger: true,
                     confirmText: localize(
                         'views.dashboard.drawers.networkConfig.networkSettings.configureNodeList.excludeNode'
                     ),
