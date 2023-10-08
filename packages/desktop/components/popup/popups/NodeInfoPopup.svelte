@@ -1,13 +1,13 @@
 <script lang="ts">
-    import type { INodeInfo } from '@iota/sdk'
-    import { onMount } from 'svelte'
-    import { Button, Checkbox, CopyableBox, Spinner, Text } from '@ui'
+    import { showNotification } from '@auxiliary/notification'
+    import { IItem, Table, Tabs } from '@bloomwalletio/ui'
     import { formatNumber, localize } from '@core/i18n'
     import { INode } from '@core/network'
-    import { closePopup } from '@desktop/auxiliary/popup'
-    import { showNotification } from '@auxiliary/notification'
-    import { resolveObjectPath, setClipboard } from '@core/utils'
     import { getNodeInfo } from '@core/profile-manager'
+    import { closePopup } from '@desktop/auxiliary/popup'
+    import type { INodeInfo } from '@iota/sdk'
+    import { onMount } from 'svelte'
+    import PopupTemplate from '../PopupTemplate.svelte'
 
     enum NodeInfoTab {
         General = 'general',
@@ -17,97 +17,118 @@
     }
 
     export let node: INode = { url: '' }
-    export let nodeInfoTab: NodeInfoTab = NodeInfoTab.General
-
-    const NODE_INFO_LOCALE_BASE_PATH = 'popups.node.info'
-    const NODE_INFO_TAB_MAP: Readonly<{
-        [key in NodeInfoTab]: { [key: string]: { localeKey: string; nodeInfoPath: string } }
-    }> = {
-        [NodeInfoTab.General]: {
-            url: { localeKey: 'general.url', nodeInfoPath: undefined },
-            name: { localeKey: 'general.name', nodeInfoPath: 'name' },
-            version: { localeKey: 'general.version', nodeInfoPath: 'version' },
-            pruningIndex: { localeKey: 'general.pruningIndex', nodeInfoPath: 'status.pruningIndex' },
-            features: { localeKey: 'general.features', nodeInfoPath: 'features' },
-        },
-        [NodeInfoTab.Metrics]: {
-            blocksPerSecond: { localeKey: 'metrics.blocksPerSecond', nodeInfoPath: 'metrics.blocksPerSecond' },
-            referencedBlocksPerSecond: {
-                localeKey: 'metrics.referencedBlocksPerSecond',
-                nodeInfoPath: 'metrics.referencedBlocksPerSecond',
-            },
-            referencedRate: { localeKey: 'metrics.referencedRate', nodeInfoPath: 'metrics.referencedRate' },
-            latestMilestone: { localeKey: 'metrics.latestMilestone', nodeInfoPath: 'status.latestMilestone.index' },
-            confirmedMilestone: {
-                localeKey: 'metrics.confirmedMilestone',
-                nodeInfoPath: 'status.confirmedMilestone.index',
-            },
-        },
-        [NodeInfoTab.Protocol]: {
-            network: { localeKey: 'protocol.network', nodeInfoPath: 'protocol.networkName' },
-            bech32Hrp: { localeKey: 'protocol.bech32Hrp', nodeInfoPath: 'protocol.bech32Hrp' },
-            tokenSupply: { localeKey: 'protocol.tokenSupply', nodeInfoPath: 'protocol.tokenSupply' },
-            version: { localeKey: 'protocol.version', nodeInfoPath: 'protocol.version' },
-            minPowScore: { localeKey: 'protocol.minPowScore', nodeInfoPath: 'protocol.minPowScore' },
-        },
-        [NodeInfoTab.BaseToken]: {
-            token: { localeKey: 'baseToken.token', nodeInfoPath: 'baseToken.name' },
-            tickerSymbol: { localeKey: 'baseToken.tickerSymbol', nodeInfoPath: 'baseToken.tickerSymbol' },
-            unit: { localeKey: 'baseToken.unit', nodeInfoPath: 'baseToken.unit' },
-            subUnit: { localeKey: 'baseToken.subunit', nodeInfoPath: 'baseToken.subunit' },
-            decimals: { localeKey: 'baseToken.decimals', nodeInfoPath: 'baseToken.decimals' },
-            /**
-             * TODO: Need a design fix.
-             * See: https://cdn.discordapp.com/attachments/948228742596161577/986252727430574140/Screenshot_2022-06-14_at_14.55.24.png
-             *
-             * Currently, it just shows an empty checkbox and upon clicking, it just display a toast notification that it was copied, which is wrong.
-             *
-             * useMetricPrefix: { localeKey: 'baseToken.useMetricPrefix', nodeInfoPath: 'baseToken.useMetricPrefix' },
-             */
-        },
-    }
+    export let selectedTab: { key: string; value: string }
 
     let nodeInfo: INodeInfo
 
-    function processNodeInfoMapTab(
-        _nodeInfoTab: NodeInfoTab,
-        key: string
-    ): { localeKey: string; nodeInfoValue: unknown } {
-        const nodeInfoTabObject = NODE_INFO_TAB_MAP[_nodeInfoTab]
-        const localeKey = nodeInfoTabObject[key].localeKey
-        let nodeInfoValue = ''
-        if (key === 'url') {
-            nodeInfoValue = node.url
-        } else {
-            nodeInfoValue = resolveObjectPath(nodeInfo, nodeInfoTabObject[key]?.nodeInfoPath, null) as string
-            if (key === 'referencedRate' || key === 'blocksPerSecond' || key === 'referencedBlocksPerSecond') {
-                const numberValue = Number(nodeInfoValue)
-                if (numberValue >= 0) {
-                    if (key === 'referencedRate') {
-                        nodeInfoValue = `${formatNumber(Math.min(numberValue, 100), 1, 1)}%`
-                    } else {
-                        nodeInfoValue = formatNumber(numberValue, 1, 1)
-                    }
-                } else {
-                    nodeInfoValue = ''
-                }
-            }
-        }
+    let generalItems: IItem[]
+    $: generalItems =
+        node && nodeInfo
+            ? [
+                  { key: localize('popups.node.info.general.url'), value: node.url, copyable: true },
+                  { key: localize('popups.node.info.general.name'), value: nodeInfo.name, copyable: true },
+                  { key: localize('popups.node.info.general.version'), value: nodeInfo.version, copyable: true },
+                  {
+                      key: localize('popups.node.info.general.pruningIndex'),
+                      value: nodeInfo.status.pruningIndex,
+                      copyable: true,
+                  },
+                  { key: localize('popups.node.info.general.features'), value: nodeInfo.features, copyable: true },
+              ]
+            : []
 
-        return {
-            localeKey,
-            nodeInfoValue,
-        }
+    let metricsItems: IItem[]
+    $: metricsItems = nodeInfo
+        ? [
+              {
+                  key: localize('popups.node.info.metrics.blocksPerSecond'),
+                  value: formatNumber(nodeInfo.metrics.blocksPerSecond, 1, 1),
+                  copyable: true,
+              },
+              {
+                  key: localize('popups.node.info.metrics.referencedBlocksPerSecond'),
+                  value: formatNumber(nodeInfo.metrics.referencedBlocksPerSecond, 1, 1),
+                  copyable: true,
+              },
+              {
+                  key: localize('popups.node.info.metrics.referencedRate'),
+                  value: `${formatNumber(Math.min(nodeInfo.metrics.referencedRate, 100), 1, 1)}%`,
+                  copyable: true,
+              },
+              {
+                  key: localize('popups.node.info.metrics.latestMilestone'),
+                  value: nodeInfo.status.latestMilestone.index,
+                  copyable: true,
+              },
+              {
+                  key: localize('popups.node.info.metrics.confirmedMilestone'),
+                  value: nodeInfo.status.confirmedMilestone.index,
+                  copyable: true,
+              },
+          ]
+        : []
+
+    let protocolItems: IItem[]
+    $: protocolItems = nodeInfo
+        ? [
+              {
+                  key: localize('popups.node.info.protocol.network'),
+                  value: nodeInfo.protocol.networkName,
+                  copyable: true,
+              },
+              {
+                  key: localize('popups.node.info.protocol.bech32Hrp'),
+                  value: nodeInfo.protocol.bech32Hrp,
+                  copyable: true,
+              },
+              {
+                  key: localize('popups.node.info.protocol.tokenSupply'),
+                  value: nodeInfo.protocol.tokenSupply,
+                  copyable: true,
+              },
+              { key: localize('popups.node.info.protocol.version'), value: nodeInfo.protocol.version, copyable: true },
+              {
+                  key: localize('popups.node.info.protocol.minPowScore'),
+                  value: nodeInfo.protocol.minPowScore,
+                  copyable: true,
+              },
+          ]
+        : []
+
+    let baseTokenItems: IItem[]
+    $: baseTokenItems = nodeInfo
+        ? [
+              { key: localize('popups.node.info.baseToken.token'), value: nodeInfo.baseToken.name, copyable: true },
+              {
+                  key: localize('popups.node.info.baseToken.tickerSymbol'),
+                  value: nodeInfo.baseToken.tickerSymbol,
+                  copyable: true,
+              },
+              { key: localize('popups.node.info.baseToken.unit'), value: nodeInfo.baseToken.unit, copyable: true },
+              {
+                  key: localize('popups.node.info.baseToken.subunit'),
+                  value: nodeInfo.baseToken.subunit,
+                  copyable: true,
+              },
+              {
+                  key: localize('popups.node.info.baseToken.decimals'),
+                  value: nodeInfo.baseToken.decimals,
+                  copyable: true,
+              },
+          ]
+        : []
+
+    let itemsMap: {
+        [NodeInfoTab.General]: IItem[]
+        [NodeInfoTab.Metrics]: IItem[]
+        [NodeInfoTab.Protocol]: IItem[]
+        [NodeInfoTab.BaseToken]: IItem[]
     }
-
-    function onNodeInfoTabClick(tab: NodeInfoTab): void {
-        if (!tab) return
-        nodeInfoTab = tab
-    }
-
-    function onCopyAllInformationClick(): void {
-        if (!nodeInfo) return
-        setClipboard(JSON.stringify(nodeInfo, null, '\t'))
+    $: itemsMap = {
+        [NodeInfoTab.General]: generalItems,
+        [NodeInfoTab.Metrics]: metricsItems,
+        [NodeInfoTab.Protocol]: protocolItems,
+        [NodeInfoTab.BaseToken]: baseTokenItems,
     }
 
     onMount(() => {
@@ -125,56 +146,10 @@
     })
 </script>
 
-<div class="mb-5">
-    <Text type="h4" classes="mb-4">{localize('popups.node.titleInfo')}</Text>
-</div>
-{#if nodeInfo && nodeInfoTab}
-    <div class="mb-4 flex flex-row">
-        {#key nodeInfoTab}
-            {#each Object.values(NodeInfoTab) as _nodeInfoTab}
-                <button on:click={() => onNodeInfoTabClick(_nodeInfoTab)} class="mr-3">
-                    <Text
-                        fontSize="sm"
-                        classes="font-11 hover:text-blue-500"
-                        highlighted={_nodeInfoTab === nodeInfoTab}
-                    >
-                        {localize(`${NODE_INFO_LOCALE_BASE_PATH}.${_nodeInfoTab}.tab`)}
-                    </Text>
-                </button>
-            {/each}
-        {/key}
-    </div>
-    <div class="flex flex-col space-y-2">
-        {#each Object.keys(NODE_INFO_TAB_MAP[nodeInfoTab]).map( (nodeInfoTabKey) => processNodeInfoMapTab(nodeInfoTab, nodeInfoTabKey) ) as { localeKey, nodeInfoValue }}
-            <CopyableBox value={nodeInfoValue}>
-                <div class="w-full h-full flex flex-row justify-between items-center">
-                    <Text type="p" fontSize="sm" fontWeight="font-600" secondary
-                        >{localize(`${NODE_INFO_LOCALE_BASE_PATH}.${localeKey}`)}</Text
-                    >
-                    {#if typeof nodeInfoValue === 'boolean'}
-                        <Checkbox disabled checked={nodeInfoValue} />
-                    {:else if Array.isArray(nodeInfoValue)}
-                        <div class="text-right w-5/6">
-                            {#if nodeInfoValue.length}
-                                <Text type="p" fontSize="sm" classes="w-full break-words" secondary
-                                    >{nodeInfoValue.join(', ')}</Text
-                                >
-                            {:else}
-                                <Text type="p" fontSize="sm" secondary>{localize('general.none')}</Text>
-                            {/if}
-                        </div>
-                    {:else}
-                        <Text type="p" fontSize="sm" secondary>{nodeInfoValue}</Text>
-                    {/if}
-                </div>
-            </CopyableBox>
-        {/each}
-    </div>
-    <div class="flex w-full justify-center pt-6">
-        <Button classes="w-full" outline onClick={onCopyAllInformationClick} disabled={!nodeInfo}>
-            {localize('actions.copyAllInformation')}
-        </Button>
-    </div>
-{:else}
-    <Spinner busy message={localize('popups.node.loadingNodeInfo')} classes="my-12 justify-center" />
-{/if}
+<PopupTemplate title={localize('popups.node.titleInfo')}>
+    <Tabs
+        bind:selectedTab
+        tabs={Object.values(NodeInfoTab).map((key) => ({ key, value: localize(`popups.node.info.${key}.tab`) }))}
+    />
+    <Table items={itemsMap[selectedTab?.key] ?? []} />
+</PopupTemplate>
