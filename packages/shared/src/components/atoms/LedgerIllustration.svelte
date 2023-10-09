@@ -15,13 +15,14 @@
     {/if}
     <img
         data-label="illustration"
-        class="absolute inset-0"
         width="100%"
         height="100%"
         src={'assets/illustrations/ledger/ledger-base.svg'}
         alt=""
     />
-    <slot />
+    <div class="absolute">
+        <slot />
+    </div>
 </ledger-illustration>
 
 <style lang="postcss">
