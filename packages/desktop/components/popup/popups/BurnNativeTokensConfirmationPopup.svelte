@@ -60,7 +60,7 @@
         text: localize('actions.burnToken'),
         onClick: onBurnTokenClick,
         disabled: $selectedAccount.isTransferring,
-        color: 'warning',
+        color: 'danger',
     }}
     busy={$selectedAccount.isTransferring}
 >
