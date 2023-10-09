@@ -1,7 +1,6 @@
 <script lang="ts">
     import { Avatar, AvatarShape, IconName } from '@bloomwalletio/ui'
     import { Illustration, Logo } from '@ui'
-    import { Color } from '@bloomwalletio/ui'
     import { LogoName } from '@auxiliary/logo'
     import { LedgerIllustration } from '../atoms'
     import { LedgerIllustrationVariant } from '../enums'
@@ -9,7 +8,8 @@
     export let variant: LedgerIllustrationVariant
 
     let icon: IconName | undefined
-    let backgroundColor: Color
+    let backgroundColor: string
+    let customTextColor: string | undefined
     let pill: any
     let illustration: string
     let logo: LogoName | undefined
@@ -18,6 +18,7 @@
     $: setLedgerIllustrationProps(variant)
     function setLedgerIllustrationProps(variant: LedgerIllustrationVariant): void {
         icon = undefined
+        customTextColor = undefined
         logo = undefined
         pill = undefined
         switch (variant) {
@@ -35,25 +36,20 @@
             }
             case LedgerIllustrationVariant.OpenEthereum:
                 logo = LogoName.Ethereum
-                // @ts-ignore
                 backgroundColor = '#627EEA'
                 pill = { localeKey: 'pills.ledgerStatus.appNotOpen', color: 'warning' }
                 shape = 'square'
                 break
             case LedgerIllustrationVariant.OpenShimmer:
                 icon = IconName.Shimmer
-                backgroundColor = 'neutral'
+                customTextColor = 'shimmer'
+                backgroundColor = 'shimmer-background'
                 pill = { localeKey: 'pills.ledgerStatus.appNotOpen', color: 'warning' }
                 shape = 'square'
                 break
             case LedgerIllustrationVariant.Warning:
                 icon = IconName.HelpCircle
                 backgroundColor = 'warning'
-                shape = 'circle'
-                break
-            case LedgerIllustrationVariant.Success:
-                icon = IconName.SuccessCircle
-                backgroundColor = 'success'
                 shape = 'circle'
                 break
             default:
@@ -63,7 +59,7 @@
 
 <LedgerIllustration {pill}>
     {#if icon}
-        <Avatar {backgroundColor} size="md" {icon} {shape} />
+        <Avatar {backgroundColor} size="md" {icon} {customTextColor} {shape} />
     {:else if logo}
         <Avatar {backgroundColor} size="md" shape="square">
             <Logo {logo} />

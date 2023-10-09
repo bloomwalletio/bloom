@@ -18,7 +18,9 @@
     let ledgerSectionProps: { color: string; text: string; variant: LedgerIllustrationVariant }
     $: $ledgerConnectionState, setLedgerSectionProps()
     function setLedgerSectionProps(): void {
-        if (isDisconnected) {
+        if (isCorrectAppOpen) {
+            continueFlow()
+        } else if (isDisconnected) {
             ledgerSectionProps = {
                 color: 'danger',
                 text: localize('popups.ledgerNotConnected.notConnected'),
@@ -29,12 +31,6 @@
                 color: 'warning',
                 text: localize('popups.ledgerNotConnected.locked'),
                 variant: LedgerIllustrationVariant.Pin,
-            }
-        } else if (isCorrectAppOpen) {
-            ledgerSectionProps = {
-                color: 'success',
-                text: localize('popups.ledgerNotConnected.correctAppOpen'),
-                variant: LedgerIllustrationVariant.Success,
             }
         } else {
             const variant = getIllustrationVariant(ledgerAppName)
@@ -64,7 +60,7 @@
         }
     }
 
-    function onContinueClick(): void {
+    function continueFlow(): void {
         if (isFunction(onContinue)) {
             closePopup()
             onContinue()
@@ -77,15 +73,9 @@
         text: localize('actions.cancel'),
         onClick: onCancelClick,
     }
-
-    $: continueButton = {
-        text: localize('actions.continue'),
-        onClick: onContinueClick,
-        disabled: !isCorrectAppOpen,
-    }
 </script>
 
-<PopupTemplate title={localize('popups.ledgerNotConnected.title')} {backButton} {continueButton}>
+<PopupTemplate title={localize('popups.ledgerNotConnected.title')} {backButton}>
     <div class="space-y-6">
         <LedgerStatusIllustration variant={ledgerSectionProps.variant} />
         <Alert variant={ledgerSectionProps.color} text={ledgerSectionProps.text} />

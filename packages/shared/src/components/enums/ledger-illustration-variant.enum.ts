@@ -4,5 +4,4 @@ export enum LedgerIllustrationVariant {
     OpenEthereum,
     OpenShimmer,
     Warning,
-    Success,
 }
