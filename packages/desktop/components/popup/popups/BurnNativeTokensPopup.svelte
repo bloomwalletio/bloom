@@ -3,7 +3,8 @@
     import { localize } from '@core/i18n'
     import { ITokenWithBalance } from '@core/token'
     import { PopupId, closePopup, openPopup } from '@desktop/auxiliary/popup'
-    import { Button, FontWeight, Text, TextType, TokenAmountWithSliderInput } from '@ui'
+    import { TokenAmountWithSliderInput } from '@ui'
+    import PopupTemplate from '../PopupTemplate.svelte'
 
     export let token: ITokenWithBalance
     export let rawAmount: string = '0'
@@ -23,20 +24,23 @@
     }
 </script>
 
-<div class="w-full h-full space-y-6 flex flex-auto flex-col shrink-0">
-    <Text type={TextType.h3} fontWeight={FontWeight.semibold} classes="text-left">
-        {localize('actions.confirmTokenBurn.title', {
-            values: {
-                assetName: token?.metadata?.name,
-            },
-        })}
-    </Text>
+<PopupTemplate
+    title={localize('actions.confirmTokenBurn.title', {
+        values: {
+            assetName: token?.metadata?.name,
+        },
+    })}
+    backButton={{
+        text: localize('actions.cancel'),
+        onClick: closePopup,
+    }}
+    continueButton={{
+        text: localize('actions.continue'),
+        onClick: onContinueClick,
+    }}
+>
     <div class="space-y-5">
         <TokenAmountWithSliderInput bind:this={tokenAmountInput} bind:rawAmount {token} />
         <Alert variant="warning" text={localize('actions.confirmTokenBurn.hint')} />
     </div>
-    <popup-buttons class="flex flex-row flex-nowrap w-full space-x-4">
-        <Button classes="w-full" outline onClick={closePopup}>{localize('actions.cancel')}</Button>
-        <Button classes="w-full" onClick={onContinueClick}>{localize('actions.continue')}</Button>
-    </popup-buttons>
-</div>
+</PopupTemplate>
