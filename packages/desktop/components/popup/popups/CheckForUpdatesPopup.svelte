@@ -34,7 +34,7 @@
 
 <Text type={TextType.h5} classes="mb-5">{localize('popups.appUpdate.title')}</Text>
 <div class="flex w-full flex-col space-y-6">
-    <div class="flex w-full flex-col space-y-2">
+    <div class="flex w-full flex-col space-y-5">
         <Table
             items={[
                 {
