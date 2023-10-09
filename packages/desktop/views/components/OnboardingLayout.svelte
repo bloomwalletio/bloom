@@ -76,7 +76,7 @@
     }
 
     content {
-        @apply p-6 z-10 rounded-[2rem];
+        @apply p-8 z-10 rounded-[2rem];
         @apply bg-surface dark:bg-surface-dark shadow-elevation-4;
         @apply border border-solid border-stroke dark:border-stroke-dark;
 
