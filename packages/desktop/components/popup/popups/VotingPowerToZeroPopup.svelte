@@ -36,7 +36,7 @@
     }
 </script>
 
-<form class="space-y-4" on:submit|preventDefault={onSubmit}>
+<form class="space-y-5" on:submit|preventDefault={onSubmit}>
     <Text type={TextType.h4} classes="mb-3">{localize('popups.manageVotingPower.title')}</Text>
     <Alert variant="warning" text={localize('popups.manageVotingPower.amountZero')} />
     <div class="flex flex-row flex-nowrap w-full space-x-4">

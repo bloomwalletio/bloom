@@ -4,7 +4,8 @@
     import { LedgerAppName, LedgerConnectionState, ledgerConnectionState } from '@core/ledger'
     import { isFunction } from '@core/utils'
     import { closePopup } from '@desktop/auxiliary/popup'
-    import { Button, FontWeight, LedgerAnimation, Text, TextType } from '@ui'
+    import { LedgerStatusIllustration, LedgerIllustrationVariant } from '@ui'
+    import PopupTemplate from '../PopupTemplate.svelte'
 
     export let ledgerAppName: LedgerAppName
     export let onCancel: () => void
@@ -14,18 +15,39 @@
     $: isLocked = $ledgerConnectionState === LedgerConnectionState.Locked
     $: isCorrectAppOpen = $ledgerConnectionState === (ledgerAppName as unknown as LedgerConnectionState)
 
-    let animation: string
-    $: $ledgerConnectionState, setAnimation()
-    function setAnimation(): void {
-        if (isDisconnected) {
-            animation = 'ledger-disconnected-desktop'
+    let ledgerSectionProps: { color: string; text: string; variant: LedgerIllustrationVariant }
+    $: $ledgerConnectionState, setLedgerSectionProps()
+    function setLedgerSectionProps(): void {
+        if (isCorrectAppOpen) {
+            continueFlow()
+        } else if (isDisconnected) {
+            ledgerSectionProps = {
+                color: 'danger',
+                text: localize('popups.ledgerNotConnected.notConnected'),
+                variant: LedgerIllustrationVariant.NotConnected,
+            }
         } else if (isLocked) {
-            // TODO: get animation for locked state
-            animation = undefined
-        } else if (isCorrectAppOpen) {
-            animation = 'ledger-connected-desktop'
+            ledgerSectionProps = {
+                color: 'warning',
+                text: localize('popups.ledgerNotConnected.locked'),
+                variant: LedgerIllustrationVariant.Pin,
+            }
         } else {
-            animation = 'ledger-app-closed-desktop'
+            const variant = getIllustrationVariant(ledgerAppName)
+            ledgerSectionProps = {
+                color: 'warning',
+                text: localize('popups.ledgerNotConnected.appNotOpen', { appName: ledgerAppName }),
+                variant,
+            }
+        }
+    }
+
+    function getIllustrationVariant(appName: LedgerAppName): LedgerIllustrationVariant {
+        switch (appName) {
+            case LedgerAppName.Ethereum:
+                return LedgerIllustrationVariant.OpenEthereum
+            default:
+                return LedgerIllustrationVariant.OpenShimmer
         }
     }
 
@@ -38,7 +60,7 @@
         }
     }
 
-    function onContinueClick(): void {
+    function continueFlow(): void {
         if (isFunction(onContinue)) {
             closePopup()
             onContinue()
@@ -46,28 +68,16 @@
             closePopup()
         }
     }
+
+    const backButton = {
+        text: localize('actions.cancel'),
+        onClick: onCancelClick,
+    }
 </script>
 
-<connect-ledger-popup class="w-full h-full space-y-6 flex flex-auto flex-col shrink-0">
-    <Text type={TextType.h3} fontWeight={FontWeight.semibold} classes="text-left">
-        {localize('popups.ledgerNotConnected.title')}
-    </Text>
-    <LedgerAnimation {animation} />
-    {#if isDisconnected}
-        <Alert variant="danger" text={localize('popups.ledgerNotConnected.notConnected')} />
-    {:else if isLocked}
-        <Alert variant="warning" text={localize('popups.ledgerNotConnected.locked')} />
-    {:else if isCorrectAppOpen}
-        <Alert variant="success" text={localize('popups.ledgerNotConnected.correctAppOpen')} />
-    {:else}
-        <Alert variant="info" text={localize('popups.ledgerNotConnected.appNotOpen', { appName: ledgerAppName })} />
-    {/if}
-    <popup-buttons class="flex flex-row flex-nowrap w-full space-x-4">
-        <Button classes="w-full" outline onClick={onCancelClick}>
-            {localize('actions.cancel')}
-        </Button>
-        <Button classes="w-full" disabled={!isCorrectAppOpen} onClick={onContinueClick}>
-            {localize('actions.continue')}
-        </Button>
-    </popup-buttons>
-</connect-ledger-popup>
+<PopupTemplate title={localize('popups.ledgerNotConnected.title')} {backButton}>
+    <div class="space-y-6">
+        <LedgerStatusIllustration variant={ledgerSectionProps.variant} />
+        <Alert variant={ledgerSectionProps.color} text={ledgerSectionProps.text} />
+    </div>
+</PopupTemplate>

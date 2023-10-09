@@ -71,7 +71,6 @@
     let size: PopupSize = PopupSize.Medium
 
     $: switch (id) {
-        case PopupId.ConnectLedger:
         case PopupId.ManageAccount:
             size = PopupSize.Small
             break
@@ -197,10 +196,10 @@
         class:relative
         class={size}
     >
-        {#if !hideClose}
-            <CloseButton on:click={tryClosePopup} size="sm" class="absolute top-6 right-6" />
-        {/if}
         <svelte:component this={POPUP_MAP[id]} {...props} />
+        {#if !hideClose}
+            <CloseButton on:click={tryClosePopup} size="sm" class="absolute top-8 right-8 p-2" />
+        {/if}
     </popup>
     <button type="button" tabindex="0" on:focus={onFocusLast} />
 </overlay>
@@ -208,10 +207,11 @@
 <style lang="scss">
     overlay {
         popup {
-            @apply w-full p-6 rounded-3xl;
+            @apply w-full p-8;
             @apply bg-surface dark:bg-surface-dark;
             @apply border border-solid border-stroke dark:border-stroke-dark;
             @apply shadow-elevation-4;
+            border-radius: 32px;
 
             &.small {
                 max-width: 360px;

@@ -29,7 +29,5 @@
         onClick: onTestClick,
     }}
 >
-    <div class="space-y-4 max-h-100 scrollable-y flex-1">
-        <TextInput bind:value={url} label={localize('general.url')} />
-    </div>
+    <TextInput bind:value={url} label={localize('general.url')} />
 </PopupTemplate>

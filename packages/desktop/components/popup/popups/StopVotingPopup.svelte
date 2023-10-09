@@ -26,7 +26,7 @@
 
 <stop-voting>
     <Text type={TextType.h3}>{localize('popups.stopVoting.title')}</Text>
-    <div class="flex flex-col w-full space-y-4 mt-6">
+    <div class="flex flex-col w-full space-y-5 mt-6">
         <Text fontSize="15"
             >{localize('popups.stopVoting.body', { values: { proposalName: $selectedProposal?.title } })}</Text
         >
