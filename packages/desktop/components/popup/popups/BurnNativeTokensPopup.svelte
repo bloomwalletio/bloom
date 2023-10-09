@@ -31,7 +31,7 @@
             },
         })}
     </Text>
-    <div class="space-y-4">
+    <div class="space-y-5">
         <TokenAmountWithSliderInput bind:this={tokenAmountInput} bind:rawAmount {token} />
         <Alert variant="warning" text={localize('actions.confirmTokenBurn.hint')} />
     </div>

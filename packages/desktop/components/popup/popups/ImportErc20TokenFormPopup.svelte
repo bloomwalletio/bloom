@@ -70,7 +70,7 @@
         {localize('popups.importErc20Token.title')}
     </Text>
 
-    <div class="space-y-4 max-h-100 flex-1">
+    <div class="space-y-5 max-h-100 flex-1">
         <NetworkInput bind:networkId showLayer1={false} />
         <TextInput
             bind:value={tokenAddress}

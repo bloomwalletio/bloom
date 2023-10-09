@@ -54,7 +54,7 @@
             },
         })}
     </Text>
-    <div class="space-y-4">
+    <div class="space-y-5">
         <Table
             items={[
                 {
