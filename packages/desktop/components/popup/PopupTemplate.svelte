@@ -4,6 +4,7 @@
     import { HTMLButtonType } from '@ui'
     interface IBaseButtonProps {
         text: string
+        color?: 'primary' | 'success' | 'danger' | 'info' | 'warning'
         disabled?: boolean
         restProps?: Record<string, unknown> | undefined
     }
@@ -22,14 +23,24 @@
 
     type ButtonWithType = IFormButtonProps | IButtonProps
 
-    const DEFAULT_CONTINUE_BUTTON: { type: HTMLButtonType.Button; text: string } = {
+    const DEFAULT_CONTINUE_BUTTON: {
+        type: HTMLButtonType.Button
+        text: string
+        color: 'primary' | 'success' | 'danger' | 'info' | 'warning'
+    } = {
         type: HTMLButtonType.Button,
         text: localize('actions.continue'),
+        color: 'primary',
     }
 
-    const DEFAULT_BACK_BUTTON: { type: HTMLButtonType.Button; text: string } = {
+    const DEFAULT_BACK_BUTTON: {
+        type: HTMLButtonType.Button
+        text: string
+        color: 'primary' | 'success' | 'danger' | 'info' | 'warning'
+    } = {
         type: HTMLButtonType.Button,
         text: localize('actions.back'),
+        color: 'primary',
     }
 
     export let title: string | undefined = undefined
@@ -53,9 +64,9 @@
             <Text type="body2" textColor="secondary">{description}</Text>
         {/if}
     </popup-title>
-    <popup-content>
+    {#if $$slots.default}
         <slot />
-    </popup-content>
+    {/if}
     {#if backButton || continueButton}
         <popup-buttons class="block flex flex-row space-x-3">
             {#if backButton}
@@ -74,6 +85,7 @@
                 <Button
                     type={_continueButton.type}
                     variant="contained"
+                    color={_continueButton.color}
                     text={_continueButton.text}
                     disabled={_continueButton.disabled}
                     {busy}

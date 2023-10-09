@@ -1,7 +1,6 @@
 <script lang="ts">
     import { AddressType } from '@iota/sdk/out/types'
-
-    import { Modal, SelectorInput, IOption } from '@ui'
+    import { IOption, SelectInput } from '@bloomwalletio/ui'
     import { selectedAccount } from '@core/account/stores'
     import { localize } from '@core/i18n'
     import { validateBech32Address } from '@core/utils/crypto'
@@ -11,17 +10,14 @@
     export let alias: string = ''
     export let error: string = ''
 
-    let inputElement: HTMLInputElement = undefined
-    let modal: Modal = undefined
-
     const aliasOptions: IOption[] =
-        $selectedAccount.balances?.aliases.map((hexAliasId, index) => {
+        $selectedAccount?.balances?.aliases.map((hexAliasId, index) => {
             const aliasId = api.aliasIdToBech32(hexAliasId, getNetworkHrp())
-            return { key: 'Alias ' + (index + 1), value: aliasId }
+            return { label: 'Alias ' + (index + 1), value: aliasId }
         }) ?? []
 
-    let selected: IOption = aliasOptions.find((option) => option.value === alias)
-    $: alias = selected?.value
+    let selected = aliasOptions.find((option) => option.value === alias)?.value
+    $: alias = selected ?? ''
 
     export async function validate(): Promise<void> {
         try {
@@ -41,11 +37,9 @@
     }
 </script>
 
-<SelectorInput
-    labelLocale="popups.nativeToken.property.alias"
-    bind:selected
-    bind:inputElement
-    bind:modal
+<SelectInput
+    label={localize('popups.nativeToken.property.alias')}
+    bind:value={selected}
     options={aliasOptions}
-    {error}
+    bind:error
 />

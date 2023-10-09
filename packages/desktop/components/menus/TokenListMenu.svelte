@@ -28,9 +28,9 @@
         openPopup({
             id: PopupId.Confirmation,
             props: {
+                variant: 'danger',
                 title: localize('actions.refreshTokenMetadata'),
-                hint: localize('general.refreshTokenMetadataHint'),
-                warning: true,
+                alert: { variant: ['warning'], text: localize('general.refreshTokenMetadataHint') },
                 confirmText: localize('actions.reset'),
                 onConfirm: refreshTokenMetadata,
             },

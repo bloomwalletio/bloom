@@ -1,10 +1,12 @@
 <script lang="ts">
+    import { PasswordInput } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
     import { unlockStronghold } from '@core/profile/actions'
     import { closePopup } from '@desktop/auxiliary/popup'
-    import { Button, HTMLButtonType, PasswordInput, Text } from '@ui'
+    import { HTMLButtonType } from '@ui'
+    import PopupTemplate from '../PopupTemplate.svelte'
 
-    export let subtitle: string = ''
+    export let subtitle: string | undefined = undefined
     export let returnPassword = false
 
     export let onSuccess: (..._: any[]) => void = () => {}
@@ -36,32 +38,22 @@
     }
 </script>
 
-<div class="mb-5">
-    <Text type="h4">{localize('popups.password.title')}</Text>
-    <Text type="p" secondary>{subtitle ?? localize('popups.password.subtitle')}</Text>
-</div>
-<form
-    id="password-popup-form"
-    class="flex justify-center w-full flex-row flex-wrap"
-    on:submit|preventDefault={onSubmit}
+<PopupTemplate
+    title={localize('popups.password.title')}
+    description={subtitle ?? localize('popups.password.subtitle')}
+    busy={isBusy}
+    backButton={{
+        text: localize('actions.cancel'),
+        onClick: onCancelClick,
+    }}
+    continueButton={{
+        type: HTMLButtonType.Submit,
+        form: 'password-popup-form',
+        text: localize('actions.unlock'),
+        disabled: !password || password.length === 0,
+    }}
 >
-    <PasswordInput
-        bind:error
-        bind:value={password}
-        classes="w-full mb-5"
-        showRevealToggle
-        placeholder={localize('general.password')}
-        autofocus
-    />
-    <div class="flex flex-row justify-between w-full space-x-4">
-        <Button outline classes="w-1/2" disabled={isBusy} onClick={onCancelClick}>{localize('actions.cancel')}</Button>
-        <Button
-            classes="w-1/2"
-            type={HTMLButtonType.Submit}
-            disabled={!password || password.length === 0 || isBusy}
-            {isBusy}
-        >
-            {localize('actions.unlock')}
-        </Button>
-    </div>
-</form>
+    <form id="password-popup-form" class="flex w-full flex-col" on:submit|preventDefault={onSubmit}>
+        <PasswordInput bind:value={password} label={localize('general.password')} autofocus {error} />
+    </form>
+</PopupTemplate>

@@ -14,10 +14,10 @@
     } from '@iota/sdk/out/types'
     import { closePopup } from '@desktop/auxiliary/popup'
     import { api, getClient } from '@core/profile-manager'
-    import { Button, FontWeight, Text, TextType } from '@ui'
     import { onMount } from 'svelte'
     import { formatTokenAmountPrecise } from '@core/token'
     import { getActiveNetworkId } from '@core/network'
+    import PopupTemplate from '../PopupTemplate.svelte'
 
     export let _onMount: (..._: any[]) => Promise<void> = async () => {}
 
@@ -81,9 +81,20 @@
     })
 </script>
 
-<send-confirmation-popup class="w-full h-full space-y-6 flex flex-auto flex-col shrink-0">
-    <Text type={TextType.h3} fontWeight={FontWeight.semibold} classes="text-left">{localize('popups.alias.title')}</Text
-    >
+<PopupTemplate
+    title={localize('popups.alias.title')}
+    backButton={{
+        text: localize('actions.cancel'),
+        onClick: onCancelClick,
+        disabled: isTransferring,
+    }}
+    continueButton={{
+        text: localize('actions.confirm'),
+        onClick: onConfirmClick,
+        disabled: isTransferring,
+    }}
+    busy={isTransferring}
+>
     <div class="w-full flex-col space-y-2">
         <Table
             items={[
@@ -99,7 +110,7 @@
                     copyable: true,
                 },
                 {
-                    key: localize('popups.walletFinder.totalWalletBalance'),
+                    key: localize('general.stateControllerAddress'),
                     value: $selectedAccount.depositAddress,
                     truncate: { firstCharCount: 10, endCharCount: 10 },
                     copyable: true,
@@ -107,12 +118,4 @@
             ]}
         />
     </div>
-    <popup-buttons class="flex flex-row flex-nowrap w-full space-x-4">
-        <Button classes="w-full" outline onClick={onCancelClick} disabled={isTransferring}>
-            {localize('actions.cancel')}
-        </Button>
-        <Button autofocus classes="w-full" onClick={onConfirmClick} disabled={isTransferring} isBusy={isTransferring}>
-            {localize('actions.confirm')}
-        </Button>
-    </popup-buttons>
-</send-confirmation-popup>
+</PopupTemplate>

@@ -17,7 +17,7 @@
     import { closePopup } from '@desktop/auxiliary/popup'
     import { onMount } from 'svelte'
     import { sendFlowRouter } from '../send-flow.router'
-    import SendFlowTemplate from './SendFlowTemplate.svelte'
+    import { PopupTemplate } from '@components'
     import { EvmTransactionSummary, StardustTransactionSummary, StardustToEvmTransactionSummary } from './components'
     import { Spinner } from '@bloomwalletio/ui'
 
@@ -89,19 +89,19 @@
     })
 </script>
 
-<SendFlowTemplate
+<PopupTemplate
     title={localize('popups.transaction.transactionSummary', { values: { recipient: recipientAddress } })}
-    leftButton={{
+    backButton={{
         text: localize($sendFlowRouter.hasHistory() ? 'actions.back' : 'actions.cancel'),
         onClick: onBackClick,
         disabled: isTransferring,
     }}
-    rightButton={{
+    continueButton={{
         text: localize('actions.confirm'),
         onClick: onConfirmClick,
         disabled: isDisabled,
-        isBusy: isTransferring,
     }}
+    busy={isTransferring}
 >
     {#if isSourceNetworkLayer2 && preparedTransaction}
         <EvmTransactionSummary transaction={preparedTransaction} sendFlowParameters={$sendFlowParameters} />
@@ -120,4 +120,4 @@
             <Spinner />
         </div>
     {/if}
-</SendFlowTemplate>
+</PopupTemplate>
