@@ -18,8 +18,7 @@
                 id: PopupId.Confirmation,
                 props: {
                     title: localize('popups.noAlias.title'),
-                    hint: localize('popups.noAlias.description'),
-                    warning: true,
+                    alert: { variant: 'warning', text: localize('popups.noAlias.description') },
                     confirmText: localize('actions.createAlias'),
                     onConfirm: () => {
                         closePopup()

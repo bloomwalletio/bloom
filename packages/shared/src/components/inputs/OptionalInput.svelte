@@ -39,14 +39,12 @@
     })
 </script>
 
-<optional-input class={`${isOpen ? 'order-first' : 'order-last'} ${classes}`} class:w-full={isOpen}>
+<optional-input class="{isOpen ? 'w-full order-first' : 'order-last'} {classes}">
     <ClosableInput
-        bind:buttonElement
         bind:open={isOpen}
         bind:value
         {error}
         {label}
-        placeholder={label}
         {fontSize}
         fontWeight={FontWeight.medium}
         {disabled}

@@ -14,7 +14,7 @@
     import { closePopup } from '@desktop/auxiliary/popup'
     import { IconInput, TokenAmountTile } from '@ui'
     import { sendFlowRouter } from '../send-flow.router'
-    import SendFlowTemplate from './SendFlowTemplate.svelte'
+    import { PopupTemplate } from '@components'
 
     let searchValue: string = ''
     let selectedToken: IToken =
@@ -118,10 +118,10 @@
     }
 </script>
 
-<SendFlowTemplate
+<PopupTemplate
     title={localize('popups.transaction.selectToken')}
-    leftButton={{ text: localize('actions.cancel'), onClick: onCancelClick }}
-    rightButton={{
+    backButton={{ text: localize('actions.cancel'), onClick: onCancelClick }}
+    continueButton={{
         text: localize('actions.continue'),
         onClick: onContinueClick,
         disabled: !selectedToken || hasTokenError,
@@ -144,7 +144,7 @@
     {#if hasTokenError}
         <Alert variant="danger" text={localize('error.send.insufficientFundsGasFee')} />
     {/if}
-</SendFlowTemplate>
+</PopupTemplate>
 
 <style lang="scss">
     .token-list {
