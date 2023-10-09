@@ -1879,7 +1879,12 @@
             "degraded": "Degraded",
             "operational": "Operational",
             "disconnected": "Disconnected"
-        }
+        },
+        "ledgerStatus": {
+            "notConnected": "Not connected",
+            "locked": "Device locked",
+            "appNotOpen": "App not open"
+        }         
     },
     "menus": {
         "dateTimePicker": {

@@ -15,7 +15,7 @@
     <Text type={TextType.h4}>
         {localize('popups.backupStronghold.title')}
     </Text>
-    <div class="flex flex-col space-y-4">
+    <div class="flex flex-col space-y-5">
         <div class="w-full p-10 bg-gray-50 dark:bg-gray-800 flex justify-center content-center">
             <Logo width="50%" logo={LogoName.Stronghold} />
         </div>

@@ -38,7 +38,7 @@
 <form id="node-auth-required" on:submit|preventDefault={handleSubmit}>
     <Text type={TextType.h3} classes="mb-6">{localize('popups.nodeAuthRequired.title')}</Text>
     <Text fontSize="15">{localize('popups.nodeAuthRequired.body')}</Text>
-    <div class="flex flex-col w-full space-y-4 mt-4">
+    <div class="flex flex-col w-full space-y-5 mt-4">
         <TextInput
             bind:value={jwt}
             bind:error={jwtError}
