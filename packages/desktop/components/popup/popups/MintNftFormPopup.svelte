@@ -13,8 +13,8 @@
     import { IMintNftDetails } from '@core/wallet'
     import { mintNftDetails, setMintNftDetails } from '@core/wallet/stores'
     import { PopupId, closePopup, openPopup } from '@desktop/auxiliary/popup'
-    import { Error, OptionalInput } from '@ui'
-    import { TextInput } from '@bloomwalletio/ui'
+    import { OptionalInput } from '@ui'
+    import { Error, TextInput } from '@bloomwalletio/ui'
     import { onMount } from 'svelte'
     import PopupTemplate from '../PopupTemplate.svelte'
 

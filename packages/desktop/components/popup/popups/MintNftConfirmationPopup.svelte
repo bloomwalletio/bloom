@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { Table, Avatar } from '@bloomwalletio/ui'
+    import { Table, Avatar, Tabs } from '@bloomwalletio/ui'
     import { selectedAccount } from '@core/account/stores'
     import { handleError } from '@core/error/handlers/handleError'
     import { localize } from '@core/i18n'
@@ -9,20 +9,24 @@
     import { formatTokenAmountPrecise } from '@core/token'
     import { buildNftOutputBuilderParams, mintNft, mintNftDetails } from '@core/wallet'
     import { PopupId, closePopup, openPopup } from '@desktop/auxiliary/popup'
-    import { MediaPlaceholder, Tabs } from '@ui'
+    import { MediaPlaceholder } from '@ui'
     import { onMount } from 'svelte'
     import PopupTemplate from '../PopupTemplate.svelte'
 
     export let _onMount: (..._: any[]) => Promise<void> = async () => {}
 
     enum Tab {
-        Transaction = 'general.transaction',
-        Nft = 'general.nft',
-        Metadata = 'general.metadata',
+        Transaction = 'transaction',
+        Nft = 'nft',
+        Metadata = 'metadata',
     }
+    const TABS = [
+        { key: Tab.Transaction, value: localize('general.transaction') },
+        { key: Tab.Nft, value: localize('general.nft') },
+        { key: Tab.Metadata, value: localize('general.metadata') },
+    ]
 
-    const tabs: Tab[] = [Tab.Transaction, Tab.Nft, Tab.Metadata]
-    let activeTab = Tab.Transaction
+    let selectedTab = TABS[0]
 
     let storageDeposit: number = 0
     let totalStorageDeposit: number = 0
@@ -104,9 +108,11 @@
             <Avatar size="lg" shape="square" surface={2}>
                 <MediaPlaceholder {type} smallIcon />
             </Avatar>
-            <activity-details class="w-full h-full space-y-2 flex flex-auto flex-col shrink-0">
-                <Tabs bind:activeTab {tabs} />
-                {#if activeTab === Tab.Transaction}
+            <activity-details class="w-full h-full space-y-2 flex flex-auto flex-col items-start shrink-0">
+                <div>
+                    <Tabs bind:selectedTab tabs={TABS} />
+                </div>
+                {#if selectedTab.key === Tab.Transaction}
                     <Table
                         items={[
                             {
@@ -139,7 +145,7 @@
                             },
                         ]}
                     />
-                {:else if activeTab === Tab.Nft}
+                {:else if selectedTab.key === Tab.Nft}
                     <Table
                         items={[
                             {
@@ -165,7 +171,7 @@
                             },
                         ]}
                     />
-                {:else if activeTab === Tab.Metadata}
+                {:else if selectedTab.key === Tab.Metadata}
                     <Table
                         items={[
                             {

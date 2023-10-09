@@ -110,7 +110,7 @@
                     copyable: true,
                 },
                 {
-                    key: localize('popups.walletFinder.totalWalletBalance'),
+                    key: localize('general.stateControllerAddress'),
                     value: $selectedAccount.depositAddress,
                     truncate: { firstCharCount: 10, endCharCount: 10 },
                     copyable: true,
