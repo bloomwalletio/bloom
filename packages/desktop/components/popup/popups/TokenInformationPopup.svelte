@@ -74,13 +74,13 @@
         onClick: isNewToken ? onVerifyClick : onSendClick,
     }}
 >
-    <div slot="topRight">
+    <div slot="menu">
         {#if token.standard === TokenStandard.Irc30 || token.standard === TokenStandard.Erc20}
             <TokenActionsMenu {token} />
         {/if}
     </div>
     {#if token}
-        <div class="space-y-6">
+        <div class="space-y-5">
             <TokenAmountTile {token} amount={token.balance.available} />
             <Table
                 items={[

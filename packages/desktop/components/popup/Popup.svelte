@@ -197,10 +197,10 @@
         class:relative
         class={size}
     >
-        {#if !hideClose}
-            <CloseButton on:click={tryClosePopup} size="sm" class="absolute top-6 right-6" />
-        {/if}
         <svelte:component this={POPUP_MAP[id]} {...props} />
+        {#if !hideClose}
+            <CloseButton on:click={tryClosePopup} size="sm" class="absolute top-6 right-6 p-2" />
+        {/if}
     </popup>
     <button type="button" tabindex="0" on:focus={onFocusLast} />
 </overlay>
