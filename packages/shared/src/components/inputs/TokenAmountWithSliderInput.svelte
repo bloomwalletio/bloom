@@ -8,7 +8,8 @@
         getUnitFromTokenMetadata,
     } from '@core/token'
     import { getMaxDecimalsFromTokenMetadata } from '@core/token/utils'
-    import { AmountInput, InputContainer, SliderInput, Text, TokenLabel, UnitInput } from '@ui'
+    import { AmountInput, InputContainer, SliderInput, TokenLabel, UnitInput } from '@ui'
+    import { Text } from '@bloomwalletio/ui'
     import Big from 'big.js'
 
     export let inputElement: HTMLInputElement | undefined = undefined
@@ -85,10 +86,8 @@
     <div class="flex flex-col mt-5">
         <SliderInput bind:value={amount} {max} decimals={allowedDecimals} {disabled} />
         <div class="flex flex-row justify-between">
-            <Text color="gray-800" darkColor="gray-500" fontSize="xs"
-                >{formatTokenAmountDefault(0, token?.metadata, unit)} {unit}</Text
-            >
-            <Text color="gray-800" darkColor="gray-500" fontSize="xs"
+            <Text textColor="secondary" type="sm">{formatTokenAmountDefault(0, token?.metadata, unit)} {unit}</Text>
+            <Text textColor="secondary" type="sm"
                 >{formatTokenAmountDefault(availableBalance, token?.metadata, unit)} {unit}</Text
             >
         </div>
