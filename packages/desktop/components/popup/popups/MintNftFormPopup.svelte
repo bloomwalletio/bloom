@@ -267,7 +267,7 @@
         onClick: onContinueClick,
     }}
 >
-    <popup-inputs class="block space-y-4 max-h-100 scrollable-y overflow-x-hidden flex-1">
+    <popup-inputs class="block space-y-5 max-h-100 scrollable-y overflow-x-hidden flex-1">
         <TextInput bind:value={uri} bind:error={uriError} label={localize('general.uri')} />
         <TextInput bind:value={name} bind:error={nameError} label={localize('general.name')} />
         <optional-inputs class="flex flex-row flex-wrap gap-4">

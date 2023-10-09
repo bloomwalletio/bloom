@@ -8,11 +8,9 @@
     import { LedgerAppName } from '@core/ledger'
     import { NetworkHealth, NetworkId, network, setSelectedChain } from '@core/network'
     import { INft } from '@core/nfts'
-    import { ownedNfts } from '@core/nfts/stores'
     import { checkActiveProfileAuth } from '@core/profile/actions'
     import { activeProfile } from '@core/profile/stores'
     import { IAccountTokensPerNetwork } from '@core/token'
-    import { selectedAccountTokens } from '@core/token/stores'
     import { truncateString } from '@core/utils'
     import { toggleDashboardDrawer } from '@desktop/auxiliary/drawer'
     import { NetworkAvatar, NetworkStatusIndicator } from '@ui'
@@ -28,23 +26,8 @@
     export let tokens: IAccountTokensPerNetwork
     export let nfts: INft[]
 
-    $: $selectedAccountTokens, $ownedNfts, updateAssetCounts()
-
     $: hasTokens = tokens?.nativeTokens?.length > 0
     $: hasNfts = nfts?.length > 0
-
-    let tokenCountFormatted: string
-    let nftCountFormatted: string
-
-    function updateAssetCounts(): void {
-        const networkTokenList = [tokens?.baseCoin && tokens.baseCoin, ...(tokens?.nativeTokens ?? [])]
-        tokenCountFormatted = getAvatarGroupCount(networkTokenList)
-        nftCountFormatted = getAvatarGroupCount(nfts)
-    }
-
-    function getAvatarGroupCount(array: unknown[]): string {
-        return array.length > 99 ? '99+' : array.length.toString()
-    }
 
     function onGenerateAddressClick(): void {
         const chain = $network.getChain(networkId)

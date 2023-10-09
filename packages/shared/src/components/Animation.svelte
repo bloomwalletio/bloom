@@ -107,10 +107,6 @@
             lightmode: 'loading-desktop.json',
             darkmode: 'loading-desktop.json',
         },
-        'ledger-bg-desktop': {
-            lightmode: 'ledger/ledger-bg-desktop.json',
-            darkmode: 'ledger/ledger-bg-desktop-darkmode.json',
-        },
         'ledger-prompt-confirmed-desktop': {
             lightmode: 'ledger/ledger-prompt-confirmed-desktop.json',
             darkmode: 'ledger/ledger-prompt-confirmed-desktop.json',

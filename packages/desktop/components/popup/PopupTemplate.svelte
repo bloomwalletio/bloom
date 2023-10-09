@@ -55,20 +55,25 @@
     $: _backButton = { ...DEFAULT_BACK_BUTTON, ...backButton }
 </script>
 
-<popup-template class="flex flex-col space-y-6">
-    <popup-title class="h-full flex flex-col space-y-2.5">
-        {#if title}<Text type="h6">{title}</Text>{/if}
+<popup-template class="flex flex-col gap-6">
+    <popup-header class="flex flex-col space-y-2.5">
+        <title-row class="flex flex-row space-x-2 justify-between">
+            {#if title}<Text type="h6">{title}</Text>{/if}
+            {#if $$slots.menu}
+                <slot name="menu" class="flex-0" />
+            {/if}
+        </title-row>
         {#if $$slots.description}
             <slot name="description" />
         {:else if description}
             <Text type="body2" textColor="secondary">{description}</Text>
         {/if}
-    </popup-title>
+    </popup-header>
     {#if $$slots.default}
         <slot />
     {/if}
     {#if backButton || continueButton}
-        <popup-buttons class="block flex flex-row space-x-3">
+        <popup-footer class="block flex flex-row space-x-3">
             {#if backButton}
                 <Button
                     type={_backButton.type}
@@ -95,6 +100,12 @@
                     {..._continueButton.restProps}
                 />
             {/if}
-        </popup-buttons>
+        </popup-footer>
     {/if}
 </popup-template>
+
+<style lang="postcss">
+    title-row {
+        margin-right: 28px;
+    }
+</style>
