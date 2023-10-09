@@ -2,7 +2,7 @@ import { IAccountState } from '@core/account'
 import { IActivityGenerationParameters } from '@core/activity/types'
 import { NetworkId } from '@core/network/types'
 import { BASE_TOKEN_ID } from '@core/token'
-import { convertHexAddressToBech32 } from '@core/wallet/utils'
+import { convertHexAddressToBech32, getSubjectFromAddress } from '@core/wallet/utils'
 import {
     AddressType,
     AliasAddress,
@@ -43,6 +43,7 @@ export async function generateSingleFoundryActivity(
 
     return {
         ...baseActivity,
+        recipient: getSubjectFromAddress(account.depositAddress, networkId),
         type: ActivityType.Foundry,
         aliasAddress,
         mintedTokens: mintedTokens.toString(),
