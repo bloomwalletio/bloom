@@ -144,7 +144,7 @@
     {#if IS_WINDOWS}
         <TitleBar />
     {/if}
-    <app-container class="w-screen h-full flex flex-col" class:windows={IS_WINDOWS}>
+    <app-container class="relative w-screen h-full flex flex-col" class:windows={IS_WINDOWS}>
         {#if !$isLocaleLoaded || splash}
             <Splash />
         {:else}
@@ -167,7 +167,9 @@
                 <OnboardingRouterView />
             {/if}
             {#if settings}
-                <Settings handleClose={() => (settings = false)} />
+                <div class="absolute top-0 left-0 w-screen h-screen">
+                    <Settings handleClose={() => (settings = false)} />
+                </div>
             {/if}
             <ToastContainer classes="absolute right-5 bottom-5 w-100" />
         {/if}
