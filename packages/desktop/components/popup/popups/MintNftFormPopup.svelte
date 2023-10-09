@@ -13,8 +13,10 @@
     import { IMintNftDetails } from '@core/wallet'
     import { mintNftDetails, setMintNftDetails } from '@core/wallet/stores'
     import { PopupId, closePopup, openPopup } from '@desktop/auxiliary/popup'
-    import { Button, Error, FontWeight, OptionalInput, Text, TextInput, TextType, TooltipIcon } from '@ui'
+    import { Error, OptionalInput } from '@ui'
+    import { TextInput } from '@bloomwalletio/ui'
     import { onMount } from 'svelte'
+    import PopupTemplate from '../PopupTemplate.svelte'
 
     export let _onMount: (..._: any[]) => Promise<void> = async () => {}
 
@@ -254,33 +256,20 @@
     })
 </script>
 
-<div class="space-y-6">
-    <Text type={TextType.h4} fontSize="18" lineHeight="6" fontWeight={FontWeight.semibold}>
-        {localize('popups.mintNftForm.title')}
-    </Text>
-
+<PopupTemplate
+    title={localize('popups.mintNftForm.title')}
+    backButton={{
+        text: localize('actions.cancel'),
+        onClick: onCancelClick,
+    }}
+    continueButton={{
+        text: localize('actions.continue'),
+        onClick: onContinueClick,
+    }}
+>
     <popup-inputs class="block space-y-4 max-h-100 scrollable-y overflow-x-hidden flex-1">
-        <TextInput
-            bind:value={uri}
-            bind:error={uriError}
-            label={localize('general.uri')}
-            placeholder={localize('general.uri')}
-        >
-            <TooltipIcon
-                slot="right"
-                text={localize('tooltips.mintNftForm.uri')}
-                title={localize('general.uri')}
-                width={15}
-                height={15}
-                classes="ml-1 flex items-center"
-            />
-        </TextInput>
-        <TextInput
-            bind:value={name}
-            bind:error={nameError}
-            label={localize('general.name')}
-            placeholder={localize('general.name')}
-        />
+        <TextInput bind:value={uri} bind:error={uriError} label={localize('general.uri')} />
+        <TextInput bind:value={name} bind:error={nameError} label={localize('general.name')} />
         <optional-inputs class="flex flex-row flex-wrap gap-4">
             {#each Object.keys(optionalInputs) as key}
                 <OptionalInput
@@ -299,12 +288,4 @@
             <Error error={error?.message} />
         {/if}
     </popup-inputs>
-    <popup-buttons class="flex flex-row flex-nowrap w-full space-x-4">
-        <Button outline classes="w-full" onClick={onCancelClick}>
-            {localize('actions.cancel')}
-        </Button>
-        <Button classes="w-full" onClick={onContinueClick}>
-            {localize('actions.continue')}
-        </Button>
-    </popup-buttons>
-</div>
+</PopupTemplate>
