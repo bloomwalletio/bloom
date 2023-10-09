@@ -1,12 +1,12 @@
 <script lang="ts">
-    import { Button, NetworkInput, FontWeight, Spinner, Text, TextInput, TextType } from '@ui'
-
+    import { TextInput } from '@bloomwalletio/ui'
+    import { NetworkInput } from '@ui'
     import { localize } from '@core/i18n'
     import { ERC20_TOKEN_ADDRESS_LENGTH } from '@core/layer-2'
     import { getErc20TokenMetadata } from '@core/layer-2/utils'
     import { NetworkId, network } from '@core/network'
     import { HEX_PREFIX, HEXADECIMAL_REGEXP } from '@core/utils'
-
+    import PopupTemplate from '../PopupTemplate.svelte'
     import { closePopup } from '@desktop/auxiliary/popup'
     import { showNotification } from '@auxiliary/notification'
     import { addNewTrackedTokenToActiveProfile } from '@core/wallet'
@@ -65,31 +65,25 @@
     }
 </script>
 
-<import-erc20-token-popup class="space-y-6">
-    <Text type={TextType.h4} fontSize="18" lineHeight="6" fontWeight={FontWeight.semibold}>
-        {localize('popups.importErc20Token.title')}
-    </Text>
-
-    <div class="space-y-5 max-h-100 flex-1">
+<PopupTemplate
+    title={localize('popups.importErc20Token.title')}
+    {busy}
+    backButton={{
+        text: localize('actions.cancel'),
+        onClick: onCancelClick,
+    }}
+    continueButton={{
+        text: localize('actions.import'),
+        onClick: onImportClick,
+        disabled: !networkId || !tokenAddress,
+    }}
+>
+    <div class="space-y-4 max-h-100 flex-1">
         <NetworkInput bind:networkId showLayer1={false} />
         <TextInput
             bind:value={tokenAddress}
             label={localize('popups.importErc20Token.property.tokenAddress')}
-            placeholder={localize('popups.importErc20Token.property.tokenAddress')}
             error={tokenAddressError}
         />
     </div>
-
-    <div class="flex flex-row flex-nowrap w-full space-x-4">
-        <Button outline classes="w-full" disabled={busy} onClick={onCancelClick}>
-            {localize('actions.cancel')}
-        </Button>
-        <Button classes="w-full" disabled={busy || !networkId || !tokenAddress} onClick={onImportClick}>
-            {#if busy}
-                <Spinner busy message={localize('actions.importing')} />
-            {:else}
-                {localize('actions.import')}
-            {/if}
-        </Button>
-    </div>
-</import-erc20-token-popup>
+</PopupTemplate>
