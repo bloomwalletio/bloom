@@ -134,9 +134,10 @@
                 }
             },
             "congratulations": {
-                "title": "Profile setup almost complete...",
-                "body": "Your new profile will be ready once the dashboard has successfully loaded.",
-                "ledgerHint": "Do not disconnect your Ledger device until the dashboard has finished loading."
+                "title": "Setup complete",
+                "body1": "Bloom is ready",
+                "body2": "Seamlessly manage your keys, assets and transactions.",
+                "action": "Enter Bloom"
             }
         },
         "ledgerInstallationGuide": {
