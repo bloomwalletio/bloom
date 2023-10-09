@@ -103,8 +103,8 @@
     }}
     busy={$selectedAccount.isTransferring}
 >
-    <div class="space-y-2 max-h-100 scrollable-y flex-1">
-        <nft-details class="flex flex-col justify-center items-center space-y-4">
+    <div class="max-h-100 scrollable-y flex-1">
+        <nft-details class="flex flex-col justify-center items-center space-y-5">
             <Avatar size="lg" shape="square" surface={2}>
                 <MediaPlaceholder {type} smallIcon />
             </Avatar>

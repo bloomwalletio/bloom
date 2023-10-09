@@ -141,7 +141,7 @@
                 />
             {/if}
         </div>
-        <activity-details class="w-full h-full space-y-4 flex flex-auto flex-col shrink-0">
+        <activity-details class="w-full h-full space-y-5 flex flex-auto flex-col shrink-0">
             <ActivityStatusPills {activity} />
             <TransactionAssetSection {...transactionAssets} onNftClick={nftIsOwned ? onNftClick : undefined} />
             <ActivityInformation {activity} />
