@@ -109,7 +109,7 @@
 >
     {#if $mintTokenDetails}
         {@const { name: tokenName, symbol, aliasId, url, logoUrl, decimals, totalSupply } = $mintTokenDetails}
-        <div class="space-y-2 max-h-100 scrollable-y flex-1">
+        <div class="max-h-100 scrollable-y flex-1">
             <Table
                 items={[
                     {
