@@ -4,7 +4,7 @@
 
     export let strength: 0 | 1 | 2 | 3 | 4 | undefined = undefined
 
-    const STRENGTH_COLORS = ['neutral-4', 'danger-400', 'warning-400', 'success-400', 'teal-400']
+    const STRENGTH_COLORS = ['neutral-4', 'danger-400', 'orange-400', 'warning-400', 'success-400']
     const STRENGTH_LEVELS = 4
 </script>
 

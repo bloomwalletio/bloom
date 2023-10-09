@@ -87,7 +87,7 @@
     }}
     {busy}
 >
-    <form on:submit|preventDefault={onContinueClick} id="password-form" slot="content" class="flex flex-col gap-6">
+    <form on:submit|preventDefault={onContinueClick} id="password-form" slot="content" class="flex flex-col space-y-5">
         <StrengthMeter strength={passwordStrength?.score ?? 0} />
         <div class="flex flex-col gap-4">
             <PasswordInput
