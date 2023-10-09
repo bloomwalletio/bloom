@@ -3,7 +3,7 @@
     import { localize } from '@core/i18n'
     import { network } from '@core/network'
     import { closePopup } from '@desktop/auxiliary/popup'
-    import { Error } from '@ui'
+    import { Error } from '@bloomwalletio/ui'
     import { handleError } from '@core/error/handlers/handleError'
     import PopupTemplate from '../PopupTemplate.svelte'
 
