@@ -74,12 +74,12 @@
 
         header-row {
             @apply w-full;
-            @apply px-5 py-4;
+            @apply px-5 py-2;
             @apply bg-surface-1 dark:bg-surface-1-dark;
             @apply border-y border-solid border-stroke dark:border-stroke-dark;
 
             @apply grid;
-            grid-template-columns: 3fr 2fr 1fr 2fr;
+            grid-template-columns: 4fr 3fr 2fr 3fr;
         }
 
         info-section {
