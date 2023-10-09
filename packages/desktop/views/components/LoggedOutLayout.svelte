@@ -24,7 +24,7 @@
     <slot />
 </logged-out-layout>
 
-<style lang="postcss">
+<style lang="scss">
     logged-out-layout {
         max-height: calc(100vh - var(--navbar-height));
     }
