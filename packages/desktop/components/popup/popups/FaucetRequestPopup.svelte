@@ -26,7 +26,7 @@
         }
     }
 
-    function onBackClick(): void {
+    function onCancelClick(): void {
         closePopup()
     }
 </script>
@@ -37,8 +37,8 @@
         values: { token: networkData.baseToken.name, network: networkData.networkName },
     })}
     backButton={{
-        text: localize('actions.back'),
-        onClick: onBackClick,
+        text: localize('actions.cancel'),
+        onClick: onCancelClick,
         disabled: isBusy,
     }}
     continueButton={{

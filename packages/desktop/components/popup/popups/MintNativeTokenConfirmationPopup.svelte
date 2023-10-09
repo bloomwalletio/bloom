@@ -7,9 +7,9 @@
     import { getBaseToken, checkActiveProfileAuth } from '@core/profile/actions'
     import { mintNativeToken, mintTokenDetails, buildFoundryOutputBuilderParams, IMintTokenDetails } from '@core/wallet'
     import { closePopup, openPopup, PopupId } from '@desktop/auxiliary/popup'
-    import { Button, Text, FontWeight, TextType } from '@ui'
     import { IIrc30Metadata, TokenStandard, formatTokenAmountPrecise } from '@core/token'
     import { getClient } from '@core/profile-manager'
+    import PopupTemplate from '../PopupTemplate.svelte'
 
     export let _onMount: (..._: any[]) => Promise<void> = async () => {}
 
@@ -93,10 +93,20 @@
     })
 </script>
 
-<div class="space-y-6">
-    <Text type={TextType.h4} fontSize="18" lineHeight="6" fontWeight={FontWeight.semibold}>
-        {localize('popups.nativeToken.confirmationTitle')}
-    </Text>
+<PopupTemplate
+    title={localize('popups.nativeToken.confirmationTitle')}
+    backButton={{
+        text: localize('actions.back'),
+        onClick: onBackClick,
+        disabled: isTransferring,
+    }}
+    continueButton={{
+        text: localize('actions.confirm'),
+        onClick: onConfirmClick,
+        disabled: isTransferring,
+    }}
+    busy={isTransferring}
+>
     {#if $mintTokenDetails}
         {@const { name: tokenName, symbol, aliasId, url, logoUrl, decimals, totalSupply } = $mintTokenDetails}
         <div class="space-y-2 max-h-100 scrollable-y flex-1">
@@ -106,6 +116,7 @@
                         key: localize('popups.nativeToken.property.alias'),
                         value: aliasId,
                         copyable: true,
+                        truncate: true,
                     },
                     {
                         key: localize('popups.nativeToken.property.storageDeposit'),
@@ -129,22 +140,14 @@
                     },
                     {
                         key: localize('popups.nativeToken.property.url'),
-                        value: url,
+                        value: url || undefined,
                     },
                     {
                         key: localize('popups.nativeToken.property.logoUrl'),
-                        value: logoUrl,
+                        value: logoUrl || undefined,
                     },
                 ]}
             />
         </div>
     {/if}
-    <div class="flex flex-row flex-nowrap w-full space-x-4">
-        <Button outline classes="w-full" disabled={isTransferring} onClick={onBackClick}>
-            {localize('actions.back')}
-        </Button>
-        <Button classes="w-full" disabled={isTransferring} onClick={onConfirmClick} isBusy={isTransferring}>
-            {localize('actions.confirm')}
-        </Button>
-    </div>
-</div>
+</PopupTemplate>
