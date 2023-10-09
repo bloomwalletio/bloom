@@ -57,7 +57,7 @@
 
 <popup-template class="flex flex-col space-y-6">
     <popup-title class="h-full flex flex-col space-y-2.5">
-        {#if title}<Text type="h6">{title}</Text>{/if}
+        {#if title}<Text type="h5">{title}</Text>{/if}
         {#if $$slots.description}
             <slot name="description" />
         {:else if description}

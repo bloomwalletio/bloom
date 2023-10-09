@@ -208,10 +208,11 @@
 <style lang="scss">
     overlay {
         popup {
-            @apply w-full p-8 rounded-3xl;
+            @apply w-full p-8;
             @apply bg-surface dark:bg-surface-dark;
             @apply border border-solid border-stroke dark:border-stroke-dark;
             @apply shadow-elevation-4;
+            border-radius: 32px;
 
             &.small {
                 max-width: 360px;
