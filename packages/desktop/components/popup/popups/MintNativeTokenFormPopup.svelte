@@ -183,7 +183,7 @@
         onClick: onContinueClick,
     }}
 >
-    <div class="space-y-4 max-h-100 scrollable-y flex-1">
+    <div class="space-y-5 max-h-100 scrollable-y flex-1">
         <AliasInput bind:this={aliasInput} bind:alias={aliasId} bind:error={aliasIdError} />
         <TextInput bind:value={tokenName} label={localize('popups.nativeToken.property.tokenName')} error={nameError} />
         <TextInput

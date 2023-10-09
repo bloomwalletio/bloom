@@ -25,7 +25,7 @@
     }
 </script>
 
-<div class="w-full space-y-4">
+<div class="w-full space-y-5">
     <TransactionAssetSection
         baseCoinTransfer={sendFlowParameters.baseCoinTransfer}
         {...getTransactionAsset(sendFlowParameters)}

@@ -5,7 +5,7 @@
     export let subtitle: string
 </script>
 
-<div class="flex flex-row gap-4">
+<div class="flex flex-row gap-4 items-center">
     <slot />
     <div class="flex flex-col items-start justify-between">
         <Text>
