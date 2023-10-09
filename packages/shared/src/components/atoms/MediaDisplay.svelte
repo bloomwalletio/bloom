@@ -26,13 +26,13 @@
 
     function startPlaying() {
         if (!autoplay && Media instanceof HTMLVideoElement) {
-            Media.play()
+            Media.paused && Media.play()
         }
     }
 
     function stopPlaying() {
-        if (!autoplay && Media instanceof HTMLVideoElement) {
-            Media.pause()
+        if (!autoplay && Media instanceof HTMLVideoElement && !Media.paused) {
+            !Media.paused && Media.pause()
         }
     }
 
