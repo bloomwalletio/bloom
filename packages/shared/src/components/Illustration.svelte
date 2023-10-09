@@ -1,9 +1,9 @@
 <script lang="ts">
     import { appSettings } from '@core/app/stores'
 
-    export let illustration = undefined
-    export let width = undefined
-    export let height = undefined
+    export let illustration: string | undefined = undefined
+    export let width: number | undefined = undefined
+    export let height: number | undefined = undefined
     export let classes = ''
 
     $: darkModeEnabled = $appSettings.darkMode
@@ -41,19 +41,17 @@
             lightmode: 'onboarding/ledger-support.svg',
             darkmode: 'onboarding/ledger-support.svg',
         },
-        // Staking
-        'shimmer-info-bg': {
-            lightmode: 'staking/shimmer-info.png',
-            darkmode: 'staking/shimmer-info.png',
+
+        // Ledger Popup
+        'ledger-base': {
+            lightmode: 'ledger/ledger-base.svg',
+            darkmode: 'ledger/ledger-base.svg',
         },
-        'assembly-info-bg': {
-            lightmode: 'staking/assembly-info.png',
-            darkmode: 'staking/assembly-info.png',
+        'ledger-pin': {
+            lightmode: 'ledger/ledger-pin.svg',
+            darkmode: 'ledger/ledger-pin.svg',
         },
-        'staking-notification': {
-            lightmode: 'staking/staking-notification.svg',
-            darkmode: 'staking/staking-notification.svg',
-        },
+
         // Wallet
         'empty-collectibles': {
             lightmode: 'wallet/empty-collectibles.svg',

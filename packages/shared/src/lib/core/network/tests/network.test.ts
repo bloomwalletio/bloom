@@ -1,7 +1,7 @@
 import { SupportedNetworkId } from '../enums'
-import { IClientOptions, INode } from '../interfaces'
+import { INode } from '../interfaces'
 import { NetworkId } from '../types'
-import { checkNodeUrlValidity, getDefaultClientOptions, getDefaultNodes, isSupportedNetworkId } from '../utils'
+import { getDefaultNodes, isSupportedNetworkId } from '../utils'
 
 describe('File: network.ts', () => {
     function _buildNode(url: string | undefined): INode | undefined {
