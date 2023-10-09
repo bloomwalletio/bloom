@@ -16,15 +16,11 @@
 {#if open}
     {#if inputType === 'text'}
         <TextInput bind:value autofocus {error} {label} {...$$restProps}>
-            <div slot="right">
-                <IconButton icon={IconName.CrossClose} on:click={onCloseClick} />
-            </div>
+            <IconButton icon={IconName.CrossClose} on:click={onCloseClick} size="xs" />
         </TextInput>
     {:else if inputType === 'number'}
         <NumberInput bind:value bind:error autofocus {label} {...$$restProps}>
-            <div slot="right">
-                <IconButton icon={IconName.CrossClose} on:click={onCloseClick} />
-            </div>
+            <IconButton icon={IconName.CrossClose} on:click={onCloseClick} size="xs" />
         </NumberInput>
     {/if}
 {/if}
