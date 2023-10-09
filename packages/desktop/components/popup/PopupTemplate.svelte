@@ -55,8 +55,8 @@
     $: _backButton = { ...DEFAULT_BACK_BUTTON, ...backButton }
 </script>
 
-<popup-template class="flex flex-col space-y-6">
-    <popup-title class="h-full flex flex-col space-y-2.5">
+<popup-template class="flex flex-col gap-6 relative">
+    <popup-title class="relative h-full flex flex-col space-y-2.5">
         {#if title}<Text type="h6">{title}</Text>{/if}
         {#if $$slots.description}
             <slot name="description" />
@@ -66,6 +66,11 @@
     </popup-title>
     {#if $$slots.default}
         <slot />
+    {/if}
+    {#if $$slots.topRight}
+        <div class="absolute top-0 right-8">
+            <slot name="topRight" />
+        </div>
     {/if}
     {#if backButton || continueButton}
         <popup-buttons class="block flex flex-row space-x-3">
