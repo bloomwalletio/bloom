@@ -3,10 +3,12 @@
     import { localize } from '@core/i18n'
     import { setMintTokenDetails, mintTokenDetails, IMintTokenDetails } from '@core/wallet'
     import { closePopup, openPopup, PopupId } from '@desktop/auxiliary/popup'
-    import { Button, Error, NumberInput, Text, TextInput, OptionalInput, FontWeight, AliasInput, TextType } from '@ui'
+    import { Error, OptionalInput, AliasInput } from '@ui'
+    import { NumberInput, TextInput } from '@bloomwalletio/ui'
     import { onMount } from 'svelte'
     import { MAX_SUPPORTED_DECIMALS } from '@core/wallet/constants/max-supported-decimals.constants'
     import { handleError } from '@core/error/handlers/handleError'
+    import PopupTemplate from '../PopupTemplate.svelte'
 
     export let _onMount: (..._: any[]) => Promise<void> = async () => {}
 
@@ -170,38 +172,36 @@
     })
 </script>
 
-<div class="space-y-6">
-    <Text type={TextType.h4} fontSize="18" lineHeight="6" fontWeight={FontWeight.semibold}>
-        {localize('popups.nativeToken.formTitle')}
-    </Text>
-
+<PopupTemplate
+    title={localize('popups.nativeToken.formTitle')}
+    backButton={{
+        text: localize('actions.cancel'),
+        onClick: onCancelClick,
+    }}
+    continueButton={{
+        text: localize('actions.continue'),
+        onClick: onContinueClick,
+    }}
+>
     <div class="space-y-4 max-h-100 scrollable-y flex-1">
         <AliasInput bind:this={aliasInput} bind:alias={aliasId} bind:error={aliasIdError} />
-        <TextInput
-            bind:value={tokenName}
-            label={localize('popups.nativeToken.property.tokenName')}
-            placeholder={localize('popups.nativeToken.property.tokenName')}
-            error={nameError}
-        />
+        <TextInput bind:value={tokenName} label={localize('popups.nativeToken.property.tokenName')} error={nameError} />
         <TextInput
             bind:value={symbol}
             label={localize('popups.nativeToken.property.symbol')}
-            placeholder={localize('popups.nativeToken.property.symbol')}
             maxlength={5}
             error={symbolError}
         />
         <NumberInput
             bind:value={totalSupply}
-            isInteger
+            integer
             label={localize('popups.nativeToken.property.totalSupply')}
-            placeholder={localize('popups.nativeToken.property.totalSupply')}
             error={totalSupplyError}
         />
         <NumberInput
             bind:value={circulatingSupply}
-            isInteger
+            integer
             label={localize('popups.nativeToken.property.circulatingSupply')}
-            placeholder={localize('popups.nativeToken.property.circulatingSupply')}
             error={circulatingSupplyError}
         />
         <optional-inputs class="flex flex-row flex-wrap gap-4">
@@ -238,13 +238,4 @@
             <Error error={error?.message} />
         {/if}
     </div>
-
-    <div class="flex flex-row flex-nowrap w-full space-x-4">
-        <Button outline classes="w-full" onClick={onCancelClick}>
-            {localize('actions.cancel')}
-        </Button>
-        <Button classes="w-full" onClick={onContinueClick}>
-            {localize('actions.continue')}
-        </Button>
-    </div>
-</div>
+</PopupTemplate>

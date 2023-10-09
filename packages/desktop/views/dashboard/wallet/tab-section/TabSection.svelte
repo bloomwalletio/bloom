@@ -8,19 +8,21 @@
     import { ActivityTab } from './activity'
     import { PortfolioTab } from './portfolio'
 
-    let currentTab = 0
+    const TABS = [
+        { key: 'activity', value: localize('views.dashboard.activity.tab') },
+        { key: 'portfolio', value: localize('views.dashboard.portfolio.tab') },
+    ]
+
+    let selectedTab = TABS[0]
 </script>
 
 <top-section class="flex flex-row justify-between px-5 py-4 items-center">
-    <Tabs
-        bind:currentTab
-        tabs={[localize('views.dashboard.activity.tab'), localize('views.dashboard.portfolio.tab')]}
-    />
+    <Tabs bind:selectedTab tabs={TABS} />
     <div class="flex flex-row gap-1 items-center">
-        {#if currentTab === 0}
+        {#if selectedTab.key === 'activity'}
             <SearchInput bind:value={$activitySearchTerm} />
             <Filter filterStore={activityFilter} />
-        {:else if currentTab === 1}
+        {:else if selectedTab.key === 'portfolio'}
             <SearchInput bind:value={$tokenSearchTerm} />
             <Filter filterStore={tokenFilter} />
             <TokenListMenu />
@@ -28,8 +30,8 @@
     </div>
 </top-section>
 
-{#if currentTab === 0}
+{#if selectedTab.key === 'activity'}
     <ActivityTab />
-{:else if currentTab === 1}
+{:else if selectedTab.key === 'portfolio'}
     <PortfolioTab />
 {/if}

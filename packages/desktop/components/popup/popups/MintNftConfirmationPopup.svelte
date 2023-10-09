@@ -9,8 +9,9 @@
     import { formatTokenAmountPrecise } from '@core/token'
     import { buildNftOutputBuilderParams, mintNft, mintNftDetails } from '@core/wallet'
     import { PopupId, closePopup, openPopup } from '@desktop/auxiliary/popup'
-    import { Button, FontWeight, MediaPlaceholder, Tabs, Text, TextType } from '@ui'
+    import { MediaPlaceholder, Tabs } from '@ui'
     import { onMount } from 'svelte'
+    import PopupTemplate from '../PopupTemplate.svelte'
 
     export let _onMount: (..._: any[]) => Promise<void> = async () => {}
 
@@ -84,10 +85,20 @@
     })
 </script>
 
-<div class="space-y-6">
-    <Text type={TextType.h4} fontSize="18" lineHeight="6" fontWeight={FontWeight.semibold}>
-        {localize('popups.mintNftForm.title')}
-    </Text>
+<PopupTemplate
+    title={localize('popups.mintNftForm.title')}
+    backButton={{
+        text: localize('actions.back'),
+        disabled: $selectedAccount.isTransferring,
+        onClick: onBackClick,
+    }}
+    continueButton={{
+        text: localize('actions.confirm'),
+        disabled: $selectedAccount.isTransferring,
+        onClick: onConfirmClick,
+    }}
+    busy={$selectedAccount.isTransferring}
+>
     <div class="space-y-2 max-h-100 scrollable-y flex-1">
         <nft-details class="flex flex-col justify-center items-center space-y-4">
             <Avatar size="lg" shape="square" surface={2}>
@@ -124,6 +135,7 @@
                             {
                                 key: localize('general.immutableIssuer'),
                                 value: $selectedAccount?.depositAddress,
+                                truncate: true,
                             },
                         ]}
                     />
@@ -141,6 +153,7 @@
                             {
                                 key: localize('general.uri'),
                                 value: uri,
+                                truncate: true,
                             },
                             {
                                 key: localize('general.issuerName'),
@@ -166,17 +179,4 @@
             </activity-details>
         </nft-details>
     </div>
-    <div class="flex flex-row flex-nowrap w-full space-x-4">
-        <Button outline classes="w-full" disabled={$selectedAccount.isTransferring} onClick={onBackClick}>
-            {localize('actions.back')}
-        </Button>
-        <Button
-            classes="w-full"
-            disabled={$selectedAccount.isTransferring}
-            onClick={onConfirmClick}
-            isBusy={$selectedAccount.isTransferring}
-        >
-            {localize('actions.confirm')}
-        </Button>
-    </div>
-</div>
+</PopupTemplate>
