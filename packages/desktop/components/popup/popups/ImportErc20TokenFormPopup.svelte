@@ -67,17 +67,16 @@
 
 <PopupTemplate
     title={localize('popups.importErc20Token.title')}
+    {busy}
     backButton={{
         text: localize('actions.cancel'),
         onClick: onCancelClick,
-        disabled: busy,
     }}
     continueButton={{
         text: localize('actions.import'),
         onClick: onImportClick,
-        disabled: busy || !networkId || !tokenAddress,
+        disabled: !networkId || !tokenAddress,
     }}
-    {busy}
 >
     <div class="space-y-4 max-h-100 flex-1">
         <NetworkInput bind:networkId showLayer1={false} />
