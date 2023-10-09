@@ -1,6 +1,5 @@
 <script lang="ts">
-    import { Icon, Text } from '@ui'
-    import { Icon as IconEnum } from '@auxiliary/icon'
+    import { Icon, IconName, Text } from '@bloomwalletio/ui'
 
     export let buttonElement: HTMLButtonElement | undefined = undefined
     export let text: string
@@ -14,19 +13,27 @@
 {#if !open}
     <button
         bind:this={buttonElement}
-        class="py-1.5 px-3 w-max bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-500 rounded-md
-            {!disabled
-            ? 'hover:bg-gray-200 focus:bg-gray-200 dark:hover:bg-gray-900 dark:focus:bg-gray-900'
-            : 'bg-gray-200 dark:bg-gray-700 dark:bg-opacity-10 cursor-default'}
-        "
+        class="closable-button"
+        class:disabled
         {disabled}
         on:click={onClick}
         on:mouseenter={onMouseEnter}
         on:mouseleave={onMouseLeave}
     >
         <div class="flex flex-row items-center space-x-2">
-            <Icon icon={IconEnum.Plus} height="10" width="10" classes="text-gray-600" />
-            <Text fontSize="12" color="gray-600">{text}</Text>
+            <Icon name={IconName.Plus} textColor="secondary" size="xxs" />
+            <Text type="base" textColor="secondary">{text}</Text>
         </div>
     </button>
 {/if}
+
+<style lang="scss">
+    .closable-button {
+        @apply w-max py-1.5 px-3 rounded-md;
+        @apply bg-surface-2 dark:bg-surface-2-dark hover:bg-surface-1 focus:bg-surface-1 dark:hover:bg-surface-1-dark dark:focus:bg-surface-1-dark;
+
+        &.disabled {
+            @apply bg-opacity-10 cursor-default;
+        }
+    }
+</style>
