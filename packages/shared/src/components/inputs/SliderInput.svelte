@@ -159,11 +159,11 @@
             <progress-bar
                 bind:this={progressBar}
                 class="range__track--highlighted
-                {disabled ? 'bg-gray-400' : 'bg-blue-500'}"
+                {disabled ? 'bg-neutral' : 'bg-primary'}"
             />
             <range-thumb
                 class="range__thumb
-                {disabled ? 'bg-gray-400' : 'bg-blue-500'}"
+                {disabled ? 'bg-neutral' : 'bg-primary'}"
                 class:range__thumb--holding={holding}
                 class:cursor-pointer={!disabled}
                 bind:this={thumb}
@@ -208,7 +208,7 @@
         &:focus-visible > .range__track {
             box-shadow:
                 0 0 0 2px white,
-                0 0 0 3px var(--track-focus, #6185ff);
+                0 0 0 3px var(--track-focus, #874cdb);
         }
     }
 
