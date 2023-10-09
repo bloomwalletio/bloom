@@ -68,7 +68,7 @@
         <slot />
     {/if}
     {#if backButton || continueButton}
-        <popup-buttons class="block flex flex-row space-x-3">
+        <popup-buttons class="block flex flex-row space-x-6">
             {#if backButton}
                 <Button
                     type={_backButton.type}

@@ -129,7 +129,7 @@
 >
     <IconInput bind:value={searchValue} icon={IconEnum.Search} placeholder={localize('general.search')} />
     <div class="-mr-3">
-        <div class="token-list w-full flex flex-col -mr-1 pr-1.5 gap-2">
+        <div class="token-list w-full flex flex-col mr-1 pr-1.5 gap-2">
             {#each tokenList as token}
                 <TokenAmountTile
                     {token}
@@ -146,9 +146,10 @@
     {/if}
 </PopupTemplate>
 
-<style lang="scss">
+<style lang="postcss">
     .token-list {
         max-height: 400px;
         overflow-y: scroll;
+        @apply p-0.5;
     }
 </style>
