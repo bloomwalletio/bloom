@@ -141,13 +141,7 @@
             <Alert variant="warning" text={localize('views.login.hintStronghold')} />
         {/if}
         <div class="flex flex-col gap-4 w-full items-center justify-center flex-grow">
-            <PinInput
-                bind:this={pinInput}
-                bind:value={pinCode}
-                on:submit={onSubmit}
-                disabled={hasReachedMaxAttempts || isBusy}
-                autofocus
-            />
+            <PinInput bind:this={pinInput} bind:value={pinCode} disabled={hasReachedMaxAttempts || isBusy} autofocus />
             <Text bold align="center">
                 {attempts > 0
                     ? localize('views.login.incorrectAttempts', {

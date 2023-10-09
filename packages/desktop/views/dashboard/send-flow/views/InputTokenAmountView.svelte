@@ -18,7 +18,7 @@
     } from '@core/wallet'
     import { TokenAmountInput, TokenAvailableBalanceTile } from '@ui'
     import { sendFlowRouter } from '../send-flow.router'
-    import SendFlowTemplate from './SendFlowTemplate.svelte'
+    import { PopupTemplate } from '@components'
     import { onMount } from 'svelte'
     import { isEvmChain } from '@core/network/utils'
     import { getNetwork } from '@core/network/stores'
@@ -123,12 +123,12 @@
     })
 </script>
 
-<SendFlowTemplate
+<PopupTemplate
     title={localize('popups.transaction.selectAmount', {
         values: { tokenName: token.metadata.name },
     })}
-    leftButton={{ text: localize('actions.back'), onClick: onBackClick }}
-    rightButton={{ text: localize('actions.continue'), onClick: onContinueClick, disabled: !amount }}
+    backButton={{ text: localize('actions.back'), onClick: onBackClick }}
+    continueButton={{ text: localize('actions.continue'), onClick: onContinueClick, disabled: !amount }}
 >
     <TokenAmountInput
         bind:this={tokenAmountInput}
@@ -153,4 +153,4 @@
             ]}
         />
     {/if}
-</SendFlowTemplate>
+</PopupTemplate>
