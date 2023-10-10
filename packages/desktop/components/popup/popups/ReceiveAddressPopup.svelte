@@ -56,7 +56,7 @@
         disabled: !receiveAddress,
     }}
 >
-    <div class="space-y-4 flex flex-auto flex-col shrink-0">
+    <div class="space-y-5 flex flex-auto flex-col shrink-0">
         <NetworkInput bind:networkId={selectedNetworkId} />
         {#if receiveAddress}
             <AddressBox
