@@ -1,18 +1,16 @@
 <script lang="ts">
-    import { ClickableTile } from '@ui'
     import { setClipboard, truncateString } from '@core/utils'
-    import { Text, IconName, Avatar } from '@bloomwalletio/ui'
+    import { Text, IconName, Avatar, Tile } from '@bloomwalletio/ui'
 
     export let aliasId: string
     export let fullWidth = true
-    export let classes = ''
 
     function onTileClick(): void {
         setClipboard(aliasId, true)
     }
 </script>
 
-<ClickableTile onClick={onTileClick} classes="border-2 border-solid border-transparent {classes}" {...$$restProps}>
+<Tile onClick={onTileClick}>
     <div class="w-full flex flex-row items-center text-left space-x-4">
         <Avatar icon={IconName.Alias} size="lg" textColor="brand" backgroundColor="surface-2" />
 
@@ -23,4 +21,4 @@
             </Text>
         </div>
     </div>
-</ClickableTile>
+</Tile>

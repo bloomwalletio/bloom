@@ -3,13 +3,12 @@
     import { getMarketAmountFromTokenValue, getMarketPriceForToken } from '@core/market/actions'
     import { ITokenWithBalance, formatTokenAmountBestMatch } from '@core/token'
     import { truncateString } from '@core/utils'
-    import { ClickableTile, TokenAvatar } from '@ui'
-    import { Text } from '@bloomwalletio/ui'
+    import { TokenAvatar } from '@ui'
+    import { Text, Tile } from '@bloomwalletio/ui'
 
     export let token: ITokenWithBalance
     export let onClick: (() => unknown) | undefined = undefined
     export let selected = false
-    export let classes = ''
     export let amount: number = 0
     export let hideTokenInfo: boolean = false
     export let hasError: boolean = false
@@ -19,16 +18,7 @@
 </script>
 
 {#if token && token.metadata}
-    <ClickableTile
-        {onClick}
-        classes="border-2 border-solid {hasError
-            ? 'border-red-500 dark:border-red-200'
-            : selected
-            ? 'border-blue-500 dark:border-gray-500'
-            : 'border-transparent'} {classes}"
-        fullWidth={!hideTokenInfo}
-        {...$$restProps}
-    >
+    <Tile {onClick} {selected} error={hasError} fullWidth={!hideTokenInfo}>
         <div class="w-full flex flex-row justify-between items-center gap-2">
             <div class="flex flex-row items-center text-left space-x-4">
                 <TokenAvatar {token} />
@@ -57,5 +47,5 @@
                 </Text>
             </div>
         </div>
-    </ClickableTile>
+    </Tile>
 {/if}
