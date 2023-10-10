@@ -23,7 +23,7 @@
         {#if $$slots.header}
             <slot name="header" />
         {:else}
-            <Text type="h5">
+            <Text type="h6">
                 {title}
             </Text>
         {/if}

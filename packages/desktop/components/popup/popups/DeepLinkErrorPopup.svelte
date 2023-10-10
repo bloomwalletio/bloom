@@ -11,7 +11,7 @@
     <Text type="h3" fontWeight={FontWeight.semibold} classes="text-left">
         {localize('popups.deeplinkError.title')}
     </Text>
-    <div class="flex flex-col space-y-4">
+    <div class="flex flex-col space-y-5">
         <Text fontSize="15" color="gray-700" classes="text-left">{localize('popups.deeplinkError.body')}</Text>
         <Alert variant="danger" text={error.message} />
     </div>

@@ -7,8 +7,8 @@
     import { ITokenWithBalance, formatTokenAmountBestMatch } from '@core/token'
     import { burnToken } from '@core/wallet'
     import { PopupId, closePopup, openPopup } from '@desktop/auxiliary/popup'
-    import { Button, ButtonVariant, FontWeight, Text, TextType } from '@ui'
     import { onMount } from 'svelte'
+    import PopupTemplate from '../PopupTemplate.svelte'
 
     export let token: ITokenWithBalance
     export let rawAmount: string
@@ -46,15 +46,25 @@
     })
 </script>
 
-<div class="w-full h-full space-y-6 flex flex-auto flex-col shrink-0">
-    <Text type={TextType.h3} fontWeight={FontWeight.semibold} classes="text-left">
-        {localize('actions.confirmTokenBurn.title', {
-            values: {
-                assetName: token?.metadata.name,
-            },
-        })}
-    </Text>
-    <div class="space-y-4">
+<PopupTemplate
+    title={localize('actions.confirmTokenBurn.title', {
+        values: {
+            assetName: token?.metadata.name,
+        },
+    })}
+    backButton={{
+        text: localize('actions.back'),
+        onClick: onBackClick,
+    }}
+    continueButton={{
+        text: localize('actions.burnToken'),
+        onClick: onBurnTokenClick,
+        disabled: $selectedAccount.isTransferring,
+        color: 'danger',
+    }}
+    busy={$selectedAccount.isTransferring}
+>
+    <div class="space-y-5">
         <Table
             items={[
                 {
@@ -70,16 +80,4 @@
         />
         <Alert variant="warning" text={localize('actions.confirmTokenBurn.hint')} />
     </div>
-    <popup-buttons class="flex flex-row flex-nowrap w-full space-x-4">
-        <Button classes="w-full" outline onClick={onBackClick}>{localize('actions.back')}</Button>
-        <Button
-            classes="w-full"
-            variant={ButtonVariant.Warning}
-            isBusy={$selectedAccount.isTransferring}
-            disabled={$selectedAccount.isTransferring}
-            onClick={onBurnTokenClick}
-        >
-            {localize('actions.burnToken')}
-        </Button>
-    </popup-buttons>
-</div>
+</PopupTemplate>

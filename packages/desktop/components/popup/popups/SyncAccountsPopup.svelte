@@ -98,7 +98,7 @@
         onClick: onFindBalancesClick,
     }}
 >
-    <div class="space-y-4">
+    <div class="space-y-5">
         <Text type={TextType.p} color="gray-600" fontSize="15" lineHeight="5">
             {localize('popups.walletFinder.body')}
         </Text>
