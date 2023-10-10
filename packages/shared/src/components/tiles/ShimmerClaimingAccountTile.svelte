@@ -19,8 +19,9 @@
         <div class="w-full flex flex-row justify-between items-center gap-4">
             <div class="flex flex-row items-center text-left gap-2">
                 <Icon name={IconName.Wallet} textColor="brand" />
-                <Text type="body1">
-                    {shimmerClaimingAccount?.getMetadata()?.alias}
+                <Text type="body2">
+                    {localize('general.account')}
+                    {Number(shimmerClaimingAccount?.getMetadata()?.alias) + 1}
                 </Text>
             </div>
             <div class="flex flex-col">
@@ -31,17 +32,16 @@
                 {:else}
                     {#if shouldDisplayUnclaimedRewards}
                         <div class="flex flex-row justify-end items-center text-right gap-2">
-                            {#if shouldDisplayFailedState}
-                                <Icon size="xs" name={IconName.CrossSquare} textColor="danger" />
-                            {/if}
                             <Text textColor="secondary">
                                 {formatTokenAmountBestMatch(shimmerClaimingAccount?.unclaimedRewards, baseToken)}
                             </Text>
+                            {#if shouldDisplayFailedState}
+                                <Icon size="xs" name={IconName.CrossSquare} textColor="danger" />
+                            {/if}
                         </div>
                     {/if}
                     {#if shouldDisplayClaimedRewards && !shouldDisplayFailedState}
                         <div class="flex flex-row justify-end items-center text-right gap-2">
-                            <Icon size="xs" name={IconName.SuccessCircle} textColor="success" />
                             <Text textColor="secondary">
                                 {localize('general.amountClaimed', {
                                     values: {
@@ -52,6 +52,7 @@
                                     },
                                 })}
                             </Text>
+                            <Icon size="xs" name={IconName.SuccessCircle} textColor="success" />
                         </div>
                     {/if}
                 {/if}
