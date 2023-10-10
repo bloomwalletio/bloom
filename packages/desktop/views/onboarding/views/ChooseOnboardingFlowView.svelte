@@ -45,7 +45,7 @@
         onClick: onBackClick,
     }}
 >
-    <div slot="content" class="flex flex-col space-y-4">
+    <div slot="content" class="flex flex-col space-y-3">
         <OnboardingSelectorTile
             primaryText={localize('actions.createWallet', {
                 network: displayedNetworkName,
