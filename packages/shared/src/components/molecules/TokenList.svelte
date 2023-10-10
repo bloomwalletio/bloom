@@ -62,13 +62,11 @@
         <div class="flex-auto h-full pb-10">
             {#if filteredTokenList.length > 0}
                 <VirtualList items={filteredTokenList} let:item>
-                    <div class="mb-2">
-                        <TokenAmountTile
-                            onClick={() => onTokenAmountTileClick(item)}
-                            token={item}
-                            amount={item.balance.total}
-                        />
-                    </div>
+                    <TokenAmountTile
+                        onClick={() => onTokenAmountTileClick(item)}
+                        token={item}
+                        amount={item.balance.total}
+                    />
                 </VirtualList>
             {:else}
                 <div class="h-full flex flex-col items-center justify-center text-center">
