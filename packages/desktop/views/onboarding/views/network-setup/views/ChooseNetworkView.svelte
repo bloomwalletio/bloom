@@ -76,7 +76,7 @@
         hidden: $profiles.length === 0,
     }}
 >
-    <div slot="content" class="flex flex-col space-y-4">
+    <div slot="content" class="flex flex-col space-y-3">
         <OnboardingSelectorTile
             primaryText={localize(`views.onboarding.networkSetup.chooseNetwork.${OnboardingNetworkType.Shimmer}.title`)}
             secondaryText={localize(
