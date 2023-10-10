@@ -3,7 +3,8 @@
     import { getMarketAmountFromTokenValue, getMarketPriceForToken } from '@core/market/actions'
     import { ITokenWithBalance, formatTokenAmountBestMatch } from '@core/token'
     import { truncateString } from '@core/utils'
-    import { ClickableTile, FontWeight, Text, TextType, TokenAvatar } from '@ui'
+    import { ClickableTile, TokenAvatar } from '@ui'
+    import { Text } from '@bloomwalletio/ui'
 
     export let token: ITokenWithBalance
     export let onClick: (() => unknown) | undefined = undefined
@@ -33,13 +34,13 @@
                 <TokenAvatar {token} />
                 {#if !hideTokenInfo}
                     <div class="flex flex-col">
-                        <Text type={TextType.p} fontWeight={FontWeight.semibold}>
+                        <Text>
                             {token.metadata.name
                                 ? truncateString(token.metadata.name, 13, 0)
                                 : truncateString(token.id, 6, 7)}
                         </Text>
                         <div class="flex flex-row justify-between items-center text-left">
-                            <Text type={TextType.p} secondary smaller
+                            <Text fontWeight="medium" textColor="secondary"
                                 >{marketPrice ? formatCurrency(marketPrice) : ''}</Text
                             >
                             <slot name="subLabel" />
@@ -48,14 +49,12 @@
                 {/if}
             </div>
             <div class="flex flex-col text-right">
-                <Text type={TextType.p} fontWeight={FontWeight.semibold} whitespace="nowrap">
+                <Text>
                     {token.metadata ? formatTokenAmountBestMatch(amount, token.metadata) : '-'}
                 </Text>
-                <div class="flex flex-row justify-between items-center text-right">
-                    <Text type={TextType.p} secondary smaller classes="flex-grow">
-                        {marketBalance ? `≈ ${formatCurrency(marketBalance)}` : ''}
-                    </Text>
-                </div>
+                <Text fontWeight="medium" textColor="secondary">
+                    {marketBalance ? `≈ ${formatCurrency(marketBalance)}` : ''}
+                </Text>
             </div>
         </div>
     </ClickableTile>
