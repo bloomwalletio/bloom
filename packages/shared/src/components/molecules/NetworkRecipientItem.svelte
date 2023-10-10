@@ -58,6 +58,7 @@
 
 <Tile
     surface={1}
+    border
     selected={selected && !hasError}
     disabled={item.disabled || hasError}
     error={hasError}
