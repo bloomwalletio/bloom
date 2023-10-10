@@ -129,16 +129,19 @@
                 </div>
             {:else}
                 <div class="flex flex-col gap-6 w-full items-center justify-center flex-grow">
-                    <Text type="h5" align="center">{localize('actions.enterYourPin')}</Text>
-                    <PinInput
-                        bind:this={pinInput}
-                        bind:value={pinCode}
-                        error={!!error}
-                        maxlength={PINCODE_MAX_LENGTH}
-                        disabled={hasReachedMaxAttempts || isBusy}
-                        glimpse={0}
-                        autofocus
-                    />
+                    <Text type="h4" align="center">{$activeProfile?.name}</Text>
+                    <div class="flex flex-col gap-3">
+                        <Text type="body1" align="center">{localize('actions.enterYourPin')}</Text>
+                        <PinInput
+                            bind:this={pinInput}
+                            bind:value={pinCode}
+                            error={!!error}
+                            maxlength={PINCODE_MAX_LENGTH}
+                            disabled={hasReachedMaxAttempts || isBusy}
+                            glimpse={0}
+                            autofocus
+                        />
+                    </div>
                     <Error {error} />
                 </div>
             {/if}
@@ -159,7 +162,7 @@
     }
 
     profile-container {
-        @apply flex flex-col w-full items-center flex-grow -mt-20;
+        @apply flex flex-col w-full items-center flex-grow -mt-18;
     }
 
     text-container.login-view {
