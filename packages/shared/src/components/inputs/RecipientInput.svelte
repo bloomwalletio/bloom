@@ -17,11 +17,12 @@
     export let disabled = false
     export let isEvmChain = false
 
+    let value: any
     let error: string
-    let selected: IOption = getSelectedRecipient(recipient)
+    const selected: IOption = getSelectedRecipient(recipient)
 
     $: isEvmChain, (error = '')
-    $: recipient = selected?.value ? getSubjectFromAddress(selected.value, networkId) : undefined
+    $: recipient = getSubjectFromAddress(value, networkId)
 
     export function validate(): void {
         try {
@@ -77,8 +78,9 @@
 
 <SelectInput
     label={localize('general.recipient')}
-    bind:selected
+    bind:value
     bind:error
+    {selected}
     {disabled}
     {options}
     {...$$restProps}
