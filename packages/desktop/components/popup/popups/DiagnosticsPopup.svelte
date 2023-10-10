@@ -4,8 +4,9 @@
     import { localize } from '@core/i18n'
     import { activeProfile } from '@core/profile/stores'
     import { setClipboard } from '@core/utils'
-    import { Button, Text } from '@ui'
+    import { Text } from '@bloomwalletio/ui'
     import { onMount } from 'svelte'
+    import PopupTemplate from '../PopupTemplate.svelte'
 
     const { loggedIn } = $activeProfile ?? {}
 
@@ -28,7 +29,7 @@
         if ($activeProfile && $loggedIn) {
             appVars.push({
                 label: 'views.settings.currency.title',
-                value: $activeProfile?.settings?.currency,
+                value: $activeProfile?.settings?.marketCurrency,
             })
             appVars.push({
                 label: 'general.nodeList',
@@ -48,11 +49,13 @@
     }
 </script>
 
-<div class="mb-5">
-    <Text type="h4">{localize('popups.diagnostics.title')}</Text>
-</div>
-<Text type="pre" secondary>{contentApp}</Text>
-<Text type="pre" secondary>{contentSystem}</Text>
-<div class="flex w-full justify-center mt-8">
-    <Button classes="w-full" onClick={onCopyClick}>{localize('actions.copy')}</Button>
-</div>
+<PopupTemplate
+    title={localize('popups.diagnostics.title')}
+    continueButton={{
+        text: localize('actions.copy'),
+        onClick: onCopyClick,
+    }}
+>
+    <Text type="pre-sm" fontWeight="normal" textColor="secondary">{contentApp}</Text>
+    <Text type="pre-sm" fontWeight="normal" textColor="secondary">{contentSystem}</Text>
+</PopupTemplate>
