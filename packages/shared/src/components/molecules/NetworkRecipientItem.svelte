@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { Icon, IOption, IconName, Text } from '@bloomwalletio/ui'
+    import { Icon, IOption, IconName, Text, Tile } from '@bloomwalletio/ui'
     import { isEvmChain } from '@core/network'
     import { Subject, SubjectType } from '@core/wallet'
     import { NetworkAvatar, RecipientInput } from '@ui'
@@ -56,57 +56,39 @@
     }
 </script>
 
-<!-- svelte-ignore a11y-click-events-have-key-events -->
-<network-recipient-item
-    class:selected={selected && !hasError}
-    class:disabled={item.disabled || hasError}
-    class:error={hasError}
-    on:click={onItemClick}
+<Tile
+    surface={1}
+    selected={selected && !hasError}
+    disabled={item.disabled || hasError}
+    error={hasError}
+    onClick={onItemClick}
 >
-    <network-recipient-item-name>
-        <div class="flex flex-row justify-between items-center space-x-4">
-            <div class="flex flex-row space-x-3 items-center">
-                <NetworkAvatar networkId={item.networkId} />
-                <Text type="body2">
-                    {item.name}
-                </Text>
+    <div class="flex flex-col w-full space-y-4 justify-between">
+        <network-recipient-item-name>
+            <div class="flex flex-row justify-between items-center space-x-4">
+                <div class="flex flex-row space-x-3 items-center">
+                    <NetworkAvatar networkId={item.networkId} />
+                    <Text type="body2">
+                        {item.name}
+                    </Text>
+                </div>
+                {#if selected}
+                    <Icon name={IconName.SuccessCircle} size="sm" customColor="primary" />
+                {/if}
             </div>
-            {#if selected}
-                <Icon name={IconName.SuccessCircle} size="sm" customColor="primary" />
-            {/if}
-        </div>
-    </network-recipient-item-name>
-    {#if selected}
-        <network-recipient-item-address>
-            <RecipientInput
-                bind:this={recipientInput}
-                bind:inputElement={recipientInputElement}
-                bind:recipient={item.selectedRecipient}
-                {options}
-                networkId={item.networkId}
-                isEvmChain={isEvmChain(item.networkId)}
-            />
-        </network-recipient-item-address>
-    {/if}
-</network-recipient-item>
-
-<style lang="postcss">
-    network-recipient-item {
-        @apply w-full relative cursor-pointer;
-        @apply p-4;
-        @apply rounded-10;
-        @apply flex flex-col space-y-4;
-        @apply rounded-10 border-solid border border-gray-300;
-        &.selected {
-            @apply border-2 border-primary;
-        }
-        &.disabled {
-            @apply pointer-events-none;
-            @apply opacity-50;
-            @apply cursor-not-allowed;
-        }
-        &.error {
-            @apply border-2 border-red-500;
-        }
-    }
-</style>
+        </network-recipient-item-name>
+        {#if selected}
+            <network-recipient-item-address>
+                <RecipientInput
+                    bind:this={recipientInput}
+                    bind:inputElement={recipientInputElement}
+                    bind:recipient={item.selectedRecipient}
+                    disabled={!selected}
+                    {options}
+                    networkId={item.networkId}
+                    isEvmChain={isEvmChain(item.networkId)}
+                />
+            </network-recipient-item-address>
+        {/if}
+    </div>
+</Tile>
