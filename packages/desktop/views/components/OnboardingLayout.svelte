@@ -31,6 +31,7 @@
     export let continueButton: Partial<IButtonProps> | undefined = DEFAULT_CONTINUE_BUTTON
     export let backButton: Partial<IButtonProps> | undefined = DEFAULT_BACK_BUTTON
     export let busy: boolean = false
+    export let busyText: string = ''
 
     $: _continueButton = { ...DEFAULT_CONTINUE_BUTTON, ...continueButton }
     $: _backButton = { ...DEFAULT_BACK_BUTTON, ...backButton }
@@ -52,6 +53,7 @@
                         variant="contained"
                         disabled={_continueButton.disabled || !_continueButton.onClick}
                         {busy}
+                        {busyText}
                         on:click={_continueButton.onClick}
                         text={_continueButton.text}
                     />
