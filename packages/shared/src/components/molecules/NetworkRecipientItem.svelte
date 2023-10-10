@@ -1,8 +1,8 @@
 <script lang="ts">
-    import { Icon as IconEnum } from '@auxiliary/icon'
+    import { Icon, IOption, IconName, Text } from '@bloomwalletio/ui'
     import { isEvmChain } from '@core/network'
     import { Subject, SubjectType } from '@core/wallet'
-    import { FontWeight, Icon, IOption, NetworkAvatar, RecipientInput, Text, TextType } from '@ui'
+    import { NetworkAvatar, RecipientInput } from '@ui'
     import { INetworkRecipientSelectorOption } from '../interfaces'
     import { ContactManager } from '@core/contact'
 
@@ -29,8 +29,7 @@
             case SubjectType.Account:
                 return [
                     {
-                        id: recipient.account.index,
-                        key: recipient.account.name,
+                        label: recipient.account.name,
                         value: recipient.address,
                         color: recipient.account.color,
                     },
@@ -40,8 +39,7 @@
                     ContactManager.getNetworkContactAddressMapForContact(recipient.contact.id)[item.networkId] ?? {}
                 )
                 return addresses.map<IOption>((address) => ({
-                    id: recipient.contact.id,
-                    key: recipient.contact.name,
+                    label: recipient.contact.name,
                     value: address.address,
                     displayedValue: address.addressName,
                     color: recipient.contact.color,
@@ -69,14 +67,12 @@
         <div class="flex flex-row justify-between items-center space-x-4">
             <div class="flex flex-row space-x-3 items-center">
                 <NetworkAvatar networkId={item.networkId} />
-                <Text type={TextType.h4} fontWeight={FontWeight.semibold}>
+                <Text type="body2">
                     {item.name}
                 </Text>
             </div>
             {#if selected}
-                <network-recipient-item-checkbox>
-                    <Icon icon={IconEnum.CheckboxRound} width={16} height={16} classes="active" />
-                </network-recipient-item-checkbox>
+                <Icon name={IconName.SuccessCircle} size="sm" customColor="primary" />
             {/if}
         </div>
     </network-recipient-item-name>
@@ -94,7 +90,7 @@
     {/if}
 </network-recipient-item>
 
-<style lang="scss">
+<style lang="postcss">
     network-recipient-item {
         @apply w-full relative cursor-pointer;
         @apply p-4;
@@ -102,7 +98,7 @@
         @apply flex flex-col space-y-4;
         @apply rounded-10 border-solid border border-gray-300;
         &.selected {
-            @apply border-2 border-blue-500;
+            @apply border-2 border-primary;
         }
         &.disabled {
             @apply pointer-events-none;
@@ -112,9 +108,5 @@
         &.error {
             @apply border-2 border-red-500;
         }
-    }
-    :global(network-recipient-item-checkbox svg.active path) {
-        @apply text-blue-500;
-        @apply fill-current;
     }
 </style>
