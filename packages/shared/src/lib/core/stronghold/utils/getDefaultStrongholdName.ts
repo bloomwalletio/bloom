@@ -6,5 +6,5 @@ export function getDefaultStrongholdName(): string {
     const timezoneOffset = new Date().getTimezoneOffset() * MILLISECONDS_PER_SECOND * SECONDS_PER_MINUTE // offset in milliseconds
     const localIsoTime = new Date(Date.now() - timezoneOffset).toISOString()
     const date = localIsoTime.slice(0, -5).replace(/:/g, '-')
-    return `firefly-backup-${date}.stronghold`
+    return `bloom-backup-${date}.stronghold`
 }
