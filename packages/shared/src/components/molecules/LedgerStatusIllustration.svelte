@@ -36,7 +36,7 @@
             }
             case LedgerIllustrationVariant.OpenEthereum:
                 logo = LogoName.Ethereum
-                backgroundColor = '#627EEA'
+                backgroundColor = 'ethereum'
                 pill = { localeKey: 'pills.ledgerStatus.appNotOpen', color: 'warning' }
                 shape = 'square'
                 break
