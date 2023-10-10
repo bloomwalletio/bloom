@@ -11,14 +11,14 @@
     export let selected = false
     export let amount: number = 0
     export let hideTokenInfo: boolean = false
-    export let hasError: boolean = false
+    export let error: boolean = false
 
     $: marketPrice = getMarketPriceForToken(token)
     $: marketBalance = getMarketAmountFromTokenValue(amount, token)
 </script>
 
 {#if token && token.metadata}
-    <Tile {onClick} border {selected} {hasError} surface={1} fullWidth={!hideTokenInfo}>
+    <Tile {onClick} {selected} {error} surface={1} fullWidth={!hideTokenInfo}>
         <div class="w-full flex flex-row justify-between items-center gap-2">
             <div class="flex flex-row items-center text-left space-x-3">
                 <TokenAvatar {token} />
@@ -38,13 +38,13 @@
                     </div>
                 {/if}
             </div>
-            <div class="flex flex-col">
+            <div class="flex flex-col text-right">
                 <Text>
                     {token.metadata ? formatTokenAmountBestMatch(amount, token.metadata) : '-'}
                 </Text>
-                <div class="flex flex-row justify-end items-center">
+                <div class="flex flex-row items-center">
                     <Text fontWeight="medium" textColor="secondary">
-                        {marketBalance ? `≈ ${formatCurrency(marketBalance)}` : ''}
+                        {marketBalance !== undefined ? `≈ ${formatCurrency(marketBalance)}` : ''}
                     </Text>
                 </div>
             </div>

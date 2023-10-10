@@ -134,7 +134,7 @@
                     <TokenAmountTile
                         {token}
                         amount={getTokenBalance(token.id, token.networkId)?.available}
-                        hasError={token === selectedToken && hasTokenError}
+                        error={token === selectedToken && hasTokenError}
                         onClick={() => onTokenClick(token)}
                         selected={selectedToken?.id === token.id && selectedToken?.networkId === token?.networkId}
                     />
