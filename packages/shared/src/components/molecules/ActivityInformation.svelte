@@ -12,12 +12,14 @@
         NftMetadataInformation,
         SmartContractActivityInformation,
         TokenActivityInformation,
+        Tab,
+        KeyValue,
+        getTabItems,
     } from '@ui'
     import { Tabs } from '@bloomwalletio/ui'
-    import { localize } from '@core/i18n'
 
     export let activity: Activity
-    export let selectedTab: { key: string; value: string } = { key: 'transaction', value: localize('transaction') }
+    export let selectedTab: KeyValue<string> = getTabItems([Tab.Transaction])[0]
 
     let hasMetadata = false
     $: {
@@ -28,45 +30,30 @@
         hasMetadata = !!storedNft?.metadata
     }
 
-    let tabs: { key: string; value: string }[] = []
+    let tabs: KeyValue<string>[] = []
     $: {
         switch (activity.type) {
             case ActivityType.Basic:
-                tabs = [
-                    { key: 'transaction', value: localize('general.transaction') },
-                    ...(activity.smartContract
-                        ? [{ key: 'smartContract', value: localize('general.transaction') }]
-                        : []),
-                ]
-                break
-            case ActivityType.Governance:
-                tabs = [{ key: 'transaction', value: localize('general.transaction') }]
-                break
-            case ActivityType.Consolidation:
-                tabs = [{ key: 'transaction', value: localize('general.transaction') }]
+                tabs = getTabItems([Tab.Transaction, ...(activity.smartContract ? [Tab.SmartContract] : [])])
                 break
             case ActivityType.Alias:
-                tabs = [
-                    { key: 'transaction', value: localize('general.transaction') },
-                    { key: 'alias', value: localize('general.alias') },
-                ]
+                tabs = getTabItems([Tab.Transaction, Tab.Alias])
                 break
             case ActivityType.Nft:
-                tabs = [
-                    { key: 'transaction', value: localize('general.transaction') },
-                    { key: 'nft', value: localize('general.nft') },
-                    ...(hasMetadata ? [{ key: 'nftMetadata', value: localize('general.metadata') }] : []),
-                    ...(activity.smartContract
-                        ? [{ key: 'smartContract', value: localize('general.smartContract') }]
-                        : []),
-                ]
+                tabs = getTabItems([
+                    Tab.Transaction,
+                    Tab.Nft,
+                    ...(hasMetadata ? [Tab.NftMetadata] : []),
+                    ...(activity.smartContract ? [Tab.SmartContract] : []),
+                ])
                 break
             case ActivityType.Foundry:
-                tabs = [
-                    { key: 'transaction', value: localize('general.transaction') },
-                    { key: 'foundry', value: localize('general.foundry') },
-                    { key: 'token', value: localize('general.token') },
-                ]
+                tabs = getTabItems([Tab.Transaction, Tab.Foundry, Tab.Token])
+                break
+            case ActivityType.Consolidation:
+            case ActivityType.Governance:
+            default:
+                tabs = getTabItems([Tab.Transaction])
                 break
         }
     }
@@ -78,7 +65,7 @@
             <Tabs bind:selectedTab {tabs} />
         </div>
     {/if}
-    {#if selectedTab.key === 'transaction'}
+    {#if selectedTab.key === Tab.Transaction}
         {#if activity.type === ActivityType.Governance}
             <GovernanceActivityInformation {activity} />
         {:else if activity.type === ActivityType.Consolidation}
@@ -86,17 +73,17 @@
         {:else}
             <GenericActivityInformation {activity} />
         {/if}
-    {:else if selectedTab.key === 'alias' && activity.type === ActivityType.Alias}
+    {:else if selectedTab.key === Tab.Alias && activity.type === ActivityType.Alias}
         <AliasActivityInformation {activity} />
-    {:else if selectedTab.key === 'nft' && activity.type === ActivityType.Nft}
+    {:else if selectedTab.key === Tab.Nft && activity.type === ActivityType.Nft}
         <NftActivityInformation {activity} />
-    {:else if selectedTab.key === 'foundry'}
+    {:else if selectedTab.key === Tab.Foundry}
         <FoundryActivityInformation {activity} />
-    {:else if selectedTab.key === 'token'}
+    {:else if selectedTab.key === Tab.Token}
         <TokenActivityInformation {activity} />
-    {:else if selectedTab.key === 'nftMetadata' && activity.type === ActivityType.Nft}
+    {:else if selectedTab.key === Tab.NftMetadata && activity.type === ActivityType.Nft}
         <NftMetadataInformation {activity} />
-    {:else if selectedTab.key === 'smartContract'}
+    {:else if selectedTab.key === Tab.SmartContract}
         <SmartContractActivityInformation {activity} />
     {/if}
 </activity-details>

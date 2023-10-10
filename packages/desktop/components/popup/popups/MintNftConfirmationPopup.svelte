@@ -9,22 +9,13 @@
     import { formatTokenAmountPrecise } from '@core/token'
     import { buildNftOutputBuilderParams, mintNft, mintNftDetails } from '@core/wallet'
     import { PopupId, closePopup, openPopup } from '@desktop/auxiliary/popup'
-    import { MediaPlaceholder } from '@ui'
+    import { MediaPlaceholder, Tab, getTabItems } from '@ui'
     import { onMount } from 'svelte'
     import PopupTemplate from '../PopupTemplate.svelte'
 
     export let _onMount: (..._: any[]) => Promise<void> = async () => {}
 
-    enum Tab {
-        Transaction = 'transaction',
-        Nft = 'nft',
-        Metadata = 'metadata',
-    }
-    const TABS = [
-        { key: Tab.Transaction, value: localize('general.transaction') },
-        { key: Tab.Nft, value: localize('general.nft') },
-        { key: Tab.Metadata, value: localize('general.metadata') },
-    ]
+    const TABS = getTabItems([Tab.Transaction, Tab.Nft, Tab.NftMetadata])
 
     let selectedTab = TABS[0]
 
@@ -171,7 +162,7 @@
                             },
                         ]}
                     />
-                {:else if selectedTab.key === Tab.Metadata}
+                {:else if selectedTab.key === Tab.NftMetadata}
                     <Table
                         items={[
                             {
