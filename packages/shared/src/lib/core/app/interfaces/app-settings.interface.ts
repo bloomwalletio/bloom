@@ -1,4 +1,4 @@
-import { AppTheme } from '../enums'
+import { AppTheme } from '../enums/app-theme.enum'
 
 /**
  * The application settings, used across multiple profiles.

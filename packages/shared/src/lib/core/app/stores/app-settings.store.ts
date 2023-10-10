@@ -3,7 +3,7 @@ import { writable } from 'svelte/store'
 import { persistent } from '@core/utils/store'
 
 import { DEFAULT_APP_SETTINGS } from '../constants/default-app-settings.constant'
-import { IAppSettings } from '../interfaces'
+import { IAppSettings } from '../interfaces/app-settings.interface'
 
 /**
  * The store containing the application settings used throughout the entire app.
