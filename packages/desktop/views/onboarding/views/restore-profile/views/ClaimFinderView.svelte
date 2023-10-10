@@ -188,11 +188,19 @@
     title={localize('views.onboarding.shimmerClaiming.claimRewards.title')}
     description={localize('views.onboarding.shimmerClaiming.claimRewards.body')}
     continueButton={{
-        hidden: true,
+        text: localize(
+            `actions.${
+                shouldShowContinueButton ? 'continue' : hasTriedClaimingRewards ? 'rerunClaimProcess' : 'claimRewards'
+            }`
+        ),
+        disabled: shouldShowContinueButton ? isSearchingForRewards : !shouldClaimRewardsButtonBeEnabled,
+        onClick: shouldShowContinueButton ? onContinueClick : onClaimRewardsClick,
     }}
     backButton={{
         hidden: true,
     }}
+    busy={shouldShowContinueButton ? undefined : isClaimingRewards}
+    busyText={shouldShowContinueButton ? '' : localize('actions.claiming')}
 >
     <div slot="content" class="h-full flex flex-col gap-4">
         <ShimmerClaimingAccountList {shimmerClaimingAccounts} baseToken={$onboardingProfile?.network?.baseToken} />
@@ -207,23 +215,6 @@
                 busyText={localize('actions.searching')}
                 text={localize(`actions.${hasSearchedForRewardsBefore ? 'searchAgain' : 'useFinder'}`)}
             />
-            {#if shouldShowContinueButton}
-                <Button
-                    width="full"
-                    disabled={isSearchingForRewards}
-                    on:click={onContinueClick}
-                    text={localize('actions.continue')}
-                />
-            {:else}
-                <Button
-                    on:click={onClaimRewardsClick}
-                    width="full"
-                    disabled={!shouldClaimRewardsButtonBeEnabled}
-                    busy={isClaimingRewards}
-                    busyText={localize('actions.claiming')}
-                    text={localize(`actions.${hasTriedClaimingRewards ? 'rerunClaimProcess' : 'claimRewards'}`)}
-                />
-            {/if}
         </div>
     </div>
 </OnboardingLayout>
