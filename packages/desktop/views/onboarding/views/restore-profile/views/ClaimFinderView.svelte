@@ -204,17 +204,15 @@
 >
     <div slot="content" class="h-full flex flex-col gap-4">
         <ShimmerClaimingAccountList {shimmerClaimingAccounts} baseToken={$onboardingProfile?.network?.baseToken} />
-        <div class="flex flex-col gap-6">
-            <Button
-                on:click={onSearchForRewardsClick}
-                width="full"
-                disabled={!shouldSearchForRewardsButtonBeEnabled}
-                variant="text"
-                icon={IconName.Refresh}
-                busy={isSettingUp || isSearchingForRewards}
-                busyText={localize('actions.searching')}
-                text={localize(`actions.${hasSearchedForRewardsBefore ? 'searchAgain' : 'useFinder'}`)}
-            />
-        </div>
+        <Button
+            on:click={onSearchForRewardsClick}
+            width="full"
+            disabled={!shouldSearchForRewardsButtonBeEnabled}
+            variant="text"
+            icon={IconName.Refresh}
+            busy={isSettingUp || isSearchingForRewards}
+            busyText={localize('actions.searching')}
+            text={localize(`actions.${hasSearchedForRewardsBefore ? 'searchAgain' : 'useFinder'}`)}
+        />
     </div>
 </OnboardingLayout>
