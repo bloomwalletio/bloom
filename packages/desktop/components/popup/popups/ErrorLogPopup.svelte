@@ -1,9 +1,10 @@
 <script lang="ts">
-    import { Button, Text } from '@ui'
+    import { Text } from '@bloomwalletio/ui'
     import { errorLog } from '@core/error'
     import { localize } from '@core/i18n'
     import { closePopup } from '@desktop/auxiliary/popup'
     import { setClipboard } from '@core/utils'
+    import PopupTemplate from '../PopupTemplate.svelte'
 
     function onClearClick(): void {
         errorLog.set([])
@@ -23,30 +24,37 @@
     }
 </script>
 
-<div class="mb-5">
-    <Text type="h4">{localize('popups.errorLog.title')}</Text>
-</div>
-<div class="log overflow-y-auto">
-    {#if $errorLog.length > 0}
-        {#each $errorLog as error}
-            <div class="mb-7">
-                <Text type="p" secondary>{new Date(error.time).toUTCString()}</Text>
-                <Text type="p">
-                    {error.type}:
-                    {error.message}
-                </Text>
-            </div>
-        {/each}
-    {:else}
-        <Text type="p" secondary>{localize('popups.errorLog.empty')}</Text>
-    {/if}
-</div>
-{#if $errorLog.length > 0}
-    <div class="flex w-full justify-center pt-8 space-x-4">
-        <Button classes="w-1/2" onClick={onClearClick}>{localize('actions.clear')}</Button>
-        <Button classes="w-1/2" onClick={onCopyClick}>{localize('actions.copy')}</Button>
+<PopupTemplate
+    title={localize('popups.errorLog.title')}
+    backButton={$errorLog.length > 0
+        ? {
+              text: localize('actions.clear'),
+              onClick: onClearClick,
+          }
+        : undefined}
+    continueButton={$errorLog.length > 0
+        ? {
+              text: localize('actions.copy'),
+              onClick: onCopyClick,
+          }
+        : undefined}
+>
+    <div class="log overflow-y-auto">
+        {#if $errorLog.length > 0}
+            {#each $errorLog as error}
+                <div class="mb-7">
+                    <Text textColor="secondary">{new Date(error.time).toUTCString()}</Text>
+                    <Text>
+                        {error.type}:
+                        {error.message}
+                    </Text>
+                </div>
+            {/each}
+        {:else}
+            <Text textColor="secondary">{localize('popups.errorLog.empty')}</Text>
+        {/if}
     </div>
-{/if}
+</PopupTemplate>
 
 <style lang="scss">
     .log {
