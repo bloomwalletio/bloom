@@ -65,67 +65,66 @@
                     "importLedgerDescription": "从您的 Ledger Nano S 或 X 设备恢复"
                 },
                 "enterName": {
-                    "title": "Create your {network} profile",
+                    "title": "Define your {network} profile",
                     "profileName": "配置名称",
-                    "body1": "您可以创建多个用户配置文件来管理您的钱包和改善隐私。",
-                    "body2": {
-                        "first": "现在，让我们从您的第一个配置文件的名称开始。",
-                        "nonFirst": "现在，让我们从您的配置名称开始。"
-                    },
-                    "addMore": "您可以稍后添加更多的配置文件。"
+                    "body": "Please define a new name for your profile."
                 }
             },
             "strongholdSetup": {
                 "setupStrongholdPassword": {
-                    "title": "创建密码",
-                    "body1": "您需要一个强健的密码来保护您的资金。譬如使用一种单词的组合，并避免常见的短语，名称或日期。",
-                    "body2": "建议您在Recovery Kit中抄写下您的密码。"
+                    "title": "Secure Recovery Phrase",
+                    "body": "Your password needs to be highly secure to encrypt and recover your Stronghold vault. Also, you will need this to send tokens from your wallet."
                 }
             },
             "storageProtectionSetup": {
                 "setupPinProtection": {
                     "title": "设置 PIN 码",
-                    "body1": "请在下方输入 6 位数字作为 PIN 码。您在登录钱包时会被要求输入您设置的 PIN 码。",
-                    "body2": "仅限数字"
+                    "body": "Enter a 6-digit PIN below. Use numbers only."
                 }
             },
             "profileBackup": {
                 "viewMnemonic": {
                     "title": "恢复助记词",
-                    "body1": "在您的Recovery Kit中，按显示的准确顺序填写单词。",
-                    "body2": "秘密保管并安全存储",
-                    "body3": "一个书面备份非常重要。计算机常常会出错，文件可能损坏。",
+                    "body": "Carefully copy the words in the exact order below. Keep this private and safely stored.",
                     "revealRecoveryPhrase": "显示恢复密语",
                     "hideRecoveryPhrase": "隐藏恢复密语"
                 },
                 "verifyMnemonic": {
                     "title": "验证恢复密语",
-                    "body": "让我们检查您是否正确地写下了短语。请按编号顺序选择每个单词。 提示：您可以点击键盘中单词旁边的数字来选择它。",
+                    "body": "Let’s check you wrote down your phrase correctly. Please select the right word with the corresponding number.",
                     "word": "单词",
-                    "verified": "恢复密语已验证",
-                    "verifiedBody": "请记住将它秘密保管和安全存储。"
+                    "match": "Match from below",
+                    "success": {
+                        "title": "Verification success",
+                        "body1": "The recovery phrase matched",
+                        "body2": "Remember to keep your copy private and safely stored"
+                    },
+                    "failure": {
+                        "title": "Verification failure",
+                        "body1": "The recovery phrase did not match",
+                        "body2": "Please check your records"
+                    }
                 }
             },
             "profileRecovery": {
                 "importMnemonicPhrase": {
                     "title": "输入您的恢复短语",
-                    "body": "A recovery phrase is 24 words long, all lower case, with spaces between. This is used to recover existing Bloom profiles.",
-                    "enter": "输入您的恢复短语",
+                    "body": "A recovery phrase is 24 words long, all lower case, with spaces between. Separate each word by spaces or commas.",
                     "phraseDetected": "检测到24个单词恢复密语"
                 },
                 "importStrongholdBackup": {
-                    "title": "导入您的 Stronghold 备份文件",
+                    "title": "Restore your profile",
                     "body": "导入 StrongHold 备份文件以恢复您的配置。"
                 },
-                "backupPassword": {
-                    "body1": "请输入您的备份密码",
-                    "body2": "这是您首次创建备份时设置的密码。"
+                "unlockBackup": {
+                    "title": "Unlock your backup",
+                    "body": "Please provide your backup password below."
                 }
             },
             "shimmerClaiming": {
                 "claimRewards": {
-                    "title": "您的 Shimmer 质押奖励",
-                    "body": "检查你的 Shimmer 质押奖励是否正确。你可能需要多次搜索才能找到你的全部余额。"
+                    "title": "Shimmer staking rewards",
+                    "body": "Please check if your Shimmer staking rewards balance is correct. If not, please use the balance finder."
                 },
                 "success": {
                     "title": "已认领 Shimmer",
@@ -135,20 +134,20 @@
                 }
             },
             "congratulations": {
-                "title": "配置文件设置快要完成...",
-                "body": "一旦仪表板成功加载，你的新配置文件就会准备就绪。",
-                "ledgerHint": "在仪表盘加载完成之前，请不要断开您的Ledger设备。"
+                "title": "Setup complete",
+                "body1": "Bloom is ready",
+                "body2": "Seamlessly manage your keys, assets and transactions.",
+                "action": "Enter Bloom"
             }
         },
         "ledgerInstallationGuide": {
-            "title": "Have you installed the {network} app on your Ledger device?",
-            "body1": "Before you proceed, you must use Ledger Live to find and install the {network} app.",
-            "body2": "请确保您的Ledger固件是最新的。任何预安装的应用都应更新到他们的最新版本。",
-            "action": "Yes, I've installed the {network} app"
+            "title": "Have you installed the necessary Ledger app?",
+            "body": "Use Ledger Live to find and install the {network} app.",
+            "action": "Yes, let's continue"
         },
         "connectLedger": {
             "title": "Connect your Ledger to Bloom",
-            "body": "For your Ledger device to be found by Bloom, please ensure that the official Ledger Live application is closed.",
+            "body": "For your Ledger device to be found by Bloom, please ensure that the official Ledger Live application is closed and the following steps are followed.",
             "connect": "连接您的 Ledger 设备",
             "unlock": "用密码解锁你的 Ledger",
             "openApp": "在您的Ledger上打开 Shimmer 应用"
@@ -351,9 +350,6 @@
                     "chainDepositAddress": {
                         "title": "Chain deposit address",
                         "networkTitle": "Network deposit address"
-                    },
-                    "chainInformation": {
-                        "title": "Chain information"
                     },
                     "confirmLedgerEvmAddress": {
                         "title": "Confirm EVM address",
@@ -569,24 +565,20 @@
                 "title": "Available",
                 "subtitle": "Funds fully available for spending"
             },
-            "pending": {
-                "title": "Pending",
-                "subtitle": "Temporarily locked in transactions"
-            },
-            "locked": {
-                "title": "Locked",
-                "subtitle": "Temporarily locked for governance"
+            "unavailable": {
+                "title": "Unavailable",
+                "subtitle": "Locked or temporarily unavailable in transactions"
             },
             "storageDeposit": {
                 "title": "Storage deposit",
-                "subtitle": "These funds are reserved for storing native assets."
+                "subtitle": "Reserved for storing native assets."
             },
             "totalBalance": {
                 "title": "Total balance",
                 "subtitle": ""
             },
             "basicOutputs": {
-                "title": "Native Tokens",
+                "title": "Native tokens",
                 "subtitle": "Reserved for Native Token storage"
             },
             "nftOutputs": {
@@ -606,11 +598,11 @@
                 "subtitle": "Temporarily locked in unclaimed transactions"
             },
             "timelock": {
-                "title": "Time lock",
+                "title": "Timelocked",
                 "subtitle": "Temporarily locked in timelocked transactions"
             },
             "storageDepositReturn": {
-                "title": "SDRUC",
+                "title": "Storage deposit return",
                 "subtitle": "Temporarily locked in Storage Deposit Return"
             },
             "governance": {
@@ -739,6 +731,8 @@
         },
         "diagnostics": {
             "title": "诊断程序",
+            "app": "App",
+            "system": "System",
             "node": "节点",
             "platform": "平台",
             "platformVersion": "平台版本",
@@ -769,16 +763,6 @@
             "locked": "解锁您的Ledger设备以继续。",
             "appNotOpen": "Open the Shimmer app on your Ledger device to continue.",
             "correctAppOpen": "Ledger连接成功，请继续。"
-        },
-        "ledgerAppGuide": {
-            "title": "{legacy} 应用安装指南",
-            "steps": {
-                "0": "安装并打开 Ledger Live 应用程序",
-                "1": "请确保您的Ledger设备已连接",
-                "2": "搜索 {legacy} 应用。您可能需要启用 Ledger Live 开发者模式。",
-                "3": "安装 {legacy} 应用程序",
-                "4": "Remember that it's important to close Ledger Live before returning to Bloom"
-            }
         },
         "ledgerConnectionGuide": {
             "title": "Ledger无法连接时的处理技巧",
@@ -945,6 +929,7 @@
                 "url": "URL",
                 "logoUrl": "Logo URL",
                 "logo": "Logo",
+                "unit": "Unit",
                 "alias": "别名",
                 "tokenId": "资产 Id"
             }
@@ -1030,6 +1015,9 @@
             "title": "Receive",
             "body": "Receive tokens, NFTs, and other digital assets to your account address shown below.",
             "networkAddress": "{networkName} address"
+        },
+        "createAccount": {
+            "title": "Create account"
         }
     },
     "actions": {
@@ -1090,10 +1078,9 @@
         "updateAndContinue": "Update and continue",
         "tryAgain": "重试",
         "visitDiscord": "访问 Discord",
-        "dragDrop": "拖放",
         "importExtensions": ".stronghold file",
-        "chooseFile": "选择一个文件",
         "dropHere": "将您的文件拖放至此处",
+        "dropOrBrowse": "Drop here or browse your files",
         "import": "导入",
         "importing": "正在导入",
         "export": "导出",
@@ -1140,7 +1127,7 @@
         "no": "否",
         "skip": "跳过",
         "reset": "重置",
-        "downloadRecoveryKit": "保存Recovery Kit模板",
+        "downloadRecoveryKit": "Download recovery kit template",
         "skipBackup": "Skip wallet backup",
         "finishSetup": "完成设置",
         "readDocumentation": "阅读文档",
@@ -1153,9 +1140,9 @@
         "searching": "正在搜索...",
         "searchAgain": "重新搜索",
         "generateAddress": "生成地址",
-        "searchForRewards": "搜索奖励",
         "claimRewards": "认领奖励",
         "rerunClaimProcess": "再次运行认领流程",
+        "useFinder": "Use balance finder",
         "backup": "备份",
         "mint": "锻造",
         "mintNativeToken": "铸造原生代币",
@@ -1211,21 +1198,31 @@
         "revoting": "重新投票",
         "unvoted": "已取消投票",
         "unvoting": "取消投票中...",
-        "transfer": "转帐",
-        "transferring": "转账中",
+        "transferIn": "Transfer in",
+        "transferringIn": "Transferring in",
+        "transferOut": "Transfer out",
+        "transferringOut": "Transferring out",
         "shimmerClaimed": "已认领",
         "shimmerClaiming": "认领中...",
         "shimmerGenesis": "Shimmer 创世块",
-        "minted": "已锻造",
-        "minting": "锻造中",
-        "burned": "烧毁的",
-        "burning": "燃烧中",
+        "mintedalias": "Minted alias",
+        "mintingalias": "Minting alias",
+        "mintednft": "Minted NFT",
+        "mintingnft": "Minting NFT",
+        "mintedfoundry": "Minted token",
+        "mintingfoundry": "Minting token",
+        "burnedalias": "Burned alias",
+        "burningalias": "Burning alias",
+        "burnednft": "Burned NFT",
+        "burningnft": "Burning NFT",
+        "burnedfoundry": "Burned token",
+        "burningfoundry": "Burning token",
+        "burnedbasic": "Burned token",
+        "burningbasic": "Burning token",
         "balanceChanged": "Balance changed",
         "initialBalance": "Initial balance",
         "consolidated": "Consolidated",
         "consolidating": "Consolidating",
-        "aliasCreated": "别名已创建",
-        "creatingAlias": "创建别名",
         "sendTo": "发送到",
         "sendAssets": "发送资产",
         "sendAssetToAddress": "将资产发送到地址",
@@ -1291,7 +1288,7 @@
         "fromAddress": "来自 {account}",
         "toAddress": "发到 {account}",
         "capsLock": "大写锁定键已开启",
-        "version": "版本 {version}",
+        "version": "Version",
         "unknown": "未知",
         "unknownAddress": "未知地址",
         "none": "无",
@@ -1309,6 +1306,7 @@
         "governorAddress": "治理者地址",
         "stateControllerAddress": "状态控制器地址",
         "copiedToClipboard": "复制到剪贴板",
+        "copiedThis": "I've copied this",
         "availableBalanceWithValue": "可用余额: {balance}",
         "amountClaimed": "{amount} 已认领",
         "metadata": "元数据",
@@ -1372,7 +1370,8 @@
         "ledgerDevice": "Ledger device",
         "disconnected": "Disconnected",
         "balanceBreakdown": "Balance breakdown",
-        "primary": "Primary"
+        "primary": "Primary",
+        "color": "Color"
     },
     "filters": {
         "title": "过滤",
@@ -1876,6 +1875,11 @@
             "degraded": "Degraded",
             "operational": "Operational",
             "disconnected": "Disconnected"
+        },
+        "ledgerStatus": {
+            "notConnected": "Not connected",
+            "locked": "Device locked",
+            "appNotOpen": "App not open"
         }
     },
     "menus": {

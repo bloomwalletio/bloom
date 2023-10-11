@@ -65,67 +65,66 @@
                     "importLedgerDescription": "Restaurar desde tu dispositivo Ledger Nano S o X"
                 },
                 "enterName": {
-                    "title": "Create your {network} profile",
+                    "title": "Define your {network} profile",
                     "profileName": "Nombre de perfil",
-                    "body1": "Puedes crear múltiples perfiles de usuario para organizar tus carteras y mejorar la privacidad.",
-                    "body2": {
-                        "first": "Por ahora, empecemos con el nombre de tu primer perfil.",
-                        "nonFirst": "Por ahora, empecemos con el nombre de tu primer perfil."
-                    },
-                    "addMore": "Puedes añadir más perfiles después."
+                    "body": "Please define a new name for your profile."
                 }
             },
             "strongholdSetup": {
                 "setupStrongholdPassword": {
-                    "title": "Crear una contraseña",
-                    "body1": "Necesitas una contraseña robusta para proteger tus fondos. Usa una combinación de palabras y evita frases, nombres o fechas comunes.",
-                    "body2": "Es recomendable que escribas tu contraseña en tu Kit de Recuperación."
+                    "title": "Secure Recovery Phrase",
+                    "body": "Your password needs to be highly secure to encrypt and recover your Stronghold vault. Also, you will need this to send tokens from your wallet."
                 }
             },
             "storageProtectionSetup": {
                 "setupPinProtection": {
                     "title": "Establecer código PIN",
-                    "body1": "Introduce un PIN de 6 dígitos. Se te pedirá el PIN para acceder a tu perfil.",
-                    "body2": "Usa sólo números"
+                    "body": "Enter a 6-digit PIN below. Use numbers only."
                 }
             },
             "profileBackup": {
                 "viewMnemonic": {
                     "title": "Frase de recuperación",
-                    "body1": "En tu Kit de Recuperación, escribe las palabras en el orden exacto en el que se muestran.",
-                    "body2": "Mantén esto en privado y almacenado de forma segura.",
-                    "body3": "Es importante tener una copia de seguridad por escrito. Los ordenadores a menudo fallan y los archivos pueden corromperse.",
+                    "body": "Carefully copy the words in the exact order below. Keep this private and safely stored.",
                     "revealRecoveryPhrase": "Mostrar frase de recuperación",
                     "hideRecoveryPhrase": "Ocultar frase de recuperación"
                 },
                 "verifyMnemonic": {
                     "title": "Verificar frase de recuperación",
-                    "body": "Vamos a comprobar que escribiste correctamente la frase. Por favor, selecciona cada palabra en orden numerado. Consejo: Puedes pulsar el número junto a la palabra en tu teclado para seleccionarlo.",
+                    "body": "Let’s check you wrote down your phrase correctly. Please select the right word with the corresponding number.",
                     "word": "Palabra",
-                    "verified": "Frase de recuperación verificada",
-                    "verifiedBody": "Recuerda mantenerla en privado y almacenada de forma segura."
+                    "match": "Match from below",
+                    "success": {
+                        "title": "Verification success",
+                        "body1": "The recovery phrase matched",
+                        "body2": "Remember to keep your copy private and safely stored"
+                    },
+                    "failure": {
+                        "title": "Verification failure",
+                        "body1": "The recovery phrase did not match",
+                        "body2": "Please check your records"
+                    }
                 }
             },
             "profileRecovery": {
                 "importMnemonicPhrase": {
                     "title": "Ingresa tu frase de recuperación",
-                    "body": "A recovery phrase is 24 words long, all lower case, with spaces between. This is used to recover existing Bloom profiles.",
-                    "enter": "Introduce tu frase de recuperación secreta",
+                    "body": "A recovery phrase is 24 words long, all lower case, with spaces between. Separate each word by spaces or commas.",
                     "phraseDetected": "Frase de recuperación de 24 palabras detectada"
                 },
                 "importStrongholdBackup": {
-                    "title": "Importar tu copia de seguridad de Stronghold",
+                    "title": "Restore your profile",
                     "body": "Importa una copia de seguridad de Stronghold para restaurar tu perfil."
                 },
-                "backupPassword": {
-                    "body1": "Por favor, introduce la contraseña de tu copia de seguridad.",
-                    "body2": "Esta es la contraseña que pusiste cuando por primera vez creaste tu copia de seguridad."
+                "unlockBackup": {
+                    "title": "Unlock your backup",
+                    "body": "Please provide your backup password below."
                 }
             },
             "shimmerClaiming": {
                 "claimRewards": {
-                    "title": "Tus recompensas de staking de Shimmer",
-                    "body": "Compruebe que sus recompensas de staking de Shimmer son correctas. Puede que necesite buscar varias veces para encontrar su balance completo."
+                    "title": "Shimmer staking rewards",
+                    "body": "Please check if your Shimmer staking rewards balance is correct. If not, please use the balance finder."
                 },
                 "success": {
                     "title": "Shimmer reclamado",
@@ -135,20 +134,20 @@
                 }
             },
             "congratulations": {
-                "title": "Configuración del perfil casi completa...",
-                "body": "Tu nuevo perfil estará listo una vez que el panel se haya cargado correctamente.",
-                "ledgerHint": "No desconecte su dispositivo Ledger hasta que el panel de control haya terminado de cargar."
+                "title": "Setup complete",
+                "body1": "Bloom is ready",
+                "body2": "Seamlessly manage your keys, assets and transactions.",
+                "action": "Enter Bloom"
             }
         },
         "ledgerInstallationGuide": {
-            "title": "Have you installed the {network} app on your Ledger device?",
-            "body1": "Before you proceed, you must use Ledger Live to find and install the {network} app.",
-            "body2": "Asegúrese de que su firmware Ledger esté actualizado. Cualquier aplicación preinstalada debe actualizarse a sus últimas versiones.",
-            "action": "Yes, I've installed the {network} app"
+            "title": "Have you installed the necessary Ledger app?",
+            "body": "Use Ledger Live to find and install the {network} app.",
+            "action": "Yes, let's continue"
         },
         "connectLedger": {
             "title": "Connect your Ledger to Bloom",
-            "body": "For your Ledger device to be found by Bloom, please ensure that the official Ledger Live application is closed.",
+            "body": "For your Ledger device to be found by Bloom, please ensure that the official Ledger Live application is closed and the following steps are followed.",
             "connect": "Conecte su dispositivo Ledger",
             "unlock": "Desbloquea tu Ledger con su pin",
             "openApp": "Abre la aplicación Shimmer en tu Ledger"
@@ -351,9 +350,6 @@
                     "chainDepositAddress": {
                         "title": "Chain deposit address",
                         "networkTitle": "Network deposit address"
-                    },
-                    "chainInformation": {
-                        "title": "Chain information"
                     },
                     "confirmLedgerEvmAddress": {
                         "title": "Confirmar dirección EVM",
@@ -569,24 +565,20 @@
                 "title": "Disponible",
                 "subtitle": "Fondos totalmente disponibles para gastar"
             },
-            "pending": {
-                "title": "Pendiente",
-                "subtitle": "Bloqueado temporalmente en transacciones"
-            },
-            "locked": {
-                "title": "Bloqueado",
-                "subtitle": "Bloqueado temporalmente para gobernanza"
+            "unavailable": {
+                "title": "Unavailable",
+                "subtitle": "Locked or temporarily unavailable in transactions"
             },
             "storageDeposit": {
                 "title": "Depósito de almacenamiento",
-                "subtitle": "Estos fondos están reservados para almacenar activos nativos."
+                "subtitle": "Reserved for storing native assets."
             },
             "totalBalance": {
                 "title": "Saldo total",
                 "subtitle": ""
             },
             "basicOutputs": {
-                "title": "Tokens nativos",
+                "title": "Native tokens",
                 "subtitle": "Reservado para almacenamiento de Tokens Nativos"
             },
             "nftOutputs": {
@@ -606,11 +598,11 @@
                 "subtitle": "Bloqueado temporalmente en transacciones no reclamadas"
             },
             "timelock": {
-                "title": "Bloqueo de tiempo",
+                "title": "Timelocked",
                 "subtitle": "Bloqueado temporalmente en transacciones con bloqueo de tiempo"
             },
             "storageDepositReturn": {
-                "title": "SDRUC",
+                "title": "Storage deposit return",
                 "subtitle": "Temporalmente bloqueado en devolución de depósito de almacenamiento"
             },
             "governance": {
@@ -739,6 +731,8 @@
         },
         "diagnostics": {
             "title": "Diagnósticos",
+            "app": "App",
+            "system": "System",
             "node": "Nodo",
             "platform": "Plataforma",
             "platformVersion": "Versión de la plataforma",
@@ -769,16 +763,6 @@
             "locked": "Desbloquea tu dispositivo Ledger para continuar.",
             "appNotOpen": "Open the Shimmer app on your Ledger device to continue.",
             "correctAppOpen": "Ledger conectado con éxito, por favor continúe."
-        },
-        "ledgerAppGuide": {
-            "title": "Guide to installing the {legacy} app",
-            "steps": {
-                "0": "Instalar y abrir la aplicación Ledger Live",
-                "1": "Asegúrate de que tu Ledger está conectado",
-                "2": "Search for the {legacy} app. You may need to enable Ledger Live developer mode.",
-                "3": "Install the {legacy} app",
-                "4": "Remember that it's important to close Ledger Live before returning to Bloom"
-            }
         },
         "ledgerConnectionGuide": {
             "title": "Sugerencias si tu Ledger no se conecta",
@@ -945,6 +929,7 @@
                 "url": "URL",
                 "logoUrl": "URL del logo",
                 "logo": "Logo",
+                "unit": "Unit",
                 "alias": "Alias",
                 "tokenId": "ID del activo"
             }
@@ -1030,6 +1015,9 @@
             "title": "Receive",
             "body": "Receive tokens, NFTs, and other digital assets to your account address shown below.",
             "networkAddress": "{networkName} address"
+        },
+        "createAccount": {
+            "title": "Create account"
         }
     },
     "actions": {
@@ -1090,10 +1078,9 @@
         "updateAndContinue": "Update and continue",
         "tryAgain": "Intentar de nuevo",
         "visitDiscord": "Visita Discord",
-        "dragDrop": "Arrastrar & Soltar",
         "importExtensions": ".stronghold file",
-        "chooseFile": "Seleccionar un Archivo",
         "dropHere": "Suelta tu archivo aquí",
+        "dropOrBrowse": "Drop here or browse your files",
         "import": "Importar",
         "importing": "Importando",
         "export": "Exportar",
@@ -1140,7 +1127,7 @@
         "no": "No",
         "skip": "Omitir",
         "reset": "Reiniciar",
-        "downloadRecoveryKit": "Guardar plantilla de Kit de Recuperación",
+        "downloadRecoveryKit": "Download recovery kit template",
         "skipBackup": "Skip wallet backup",
         "finishSetup": "Finalizar configuración",
         "readDocumentation": "Leer la documentación",
@@ -1153,9 +1140,9 @@
         "searching": "Buscando",
         "searchAgain": "Buscar de nuevo",
         "generateAddress": "Generar dirección",
-        "searchForRewards": "Buscar recompensas",
         "claimRewards": "Reclamar recompensas",
         "rerunClaimProcess": "Reejecutar proceso de reclamación",
+        "useFinder": "Use balance finder",
         "backup": "Respaldo",
         "mint": "Crear (Mintear)",
         "mintNativeToken": "Acuñar token nativo",
@@ -1211,21 +1198,31 @@
         "revoting": "Votando de nuevo",
         "unvoted": "Sin votar",
         "unvoting": "No votar",
-        "transfer": "Transferir",
-        "transferring": "Transfiriendo",
+        "transferIn": "Transfer in",
+        "transferringIn": "Transferring in",
+        "transferOut": "Transfer out",
+        "transferringOut": "Transferring out",
         "shimmerClaimed": "Reclamado",
         "shimmerClaiming": "Reclamando",
         "shimmerGenesis": "Shimmer Genesis",
-        "minted": "Creado (Acuñado)",
-        "minting": "Creando (Acuñando)",
-        "burned": "Quemado(s)",
-        "burning": "Quemando",
+        "mintedalias": "Minted alias",
+        "mintingalias": "Minting alias",
+        "mintednft": "Minted NFT",
+        "mintingnft": "Minting NFT",
+        "mintedfoundry": "Minted token",
+        "mintingfoundry": "Minting token",
+        "burnedalias": "Burned alias",
+        "burningalias": "Burning alias",
+        "burnednft": "Burned NFT",
+        "burningnft": "Burning NFT",
+        "burnedfoundry": "Burned token",
+        "burningfoundry": "Burning token",
+        "burnedbasic": "Burned token",
+        "burningbasic": "Burning token",
         "balanceChanged": "Balance changed",
         "initialBalance": "Initial balance",
         "consolidated": "Consolidated",
         "consolidating": "Consolidating",
-        "aliasCreated": "Alias creado",
-        "creatingAlias": "Creando alias",
         "sendTo": "Enviar a",
         "sendAssets": "Enviar activos",
         "sendAssetToAddress": "Enviar activo a una dirección",
@@ -1291,7 +1288,7 @@
         "fromAddress": "de {account}",
         "toAddress": "a {account}",
         "capsLock": "Bloqueo de mayúsculas activado",
-        "version": "Versión {version}",
+        "version": "Version",
         "unknown": "Desconocido",
         "unknownAddress": "Dirección desconocida",
         "none": "Ninguno",
@@ -1309,6 +1306,7 @@
         "governorAddress": "Dirección del Gobernador",
         "stateControllerAddress": "Dirección del controlador de estado",
         "copiedToClipboard": "Copiado al portapapeles",
+        "copiedThis": "I've copied this",
         "availableBalanceWithValue": "Saldo disponible: {balance}",
         "amountClaimed": "{amount} reclamado",
         "metadata": "Metadata",
@@ -1372,7 +1370,8 @@
         "ledgerDevice": "Ledger device",
         "disconnected": "Disconnected",
         "balanceBreakdown": "Balance breakdown",
-        "primary": "Primary"
+        "primary": "Primary",
+        "color": "Color"
     },
     "filters": {
         "title": "Filtros",
@@ -1876,6 +1875,11 @@
             "degraded": "Degraded",
             "operational": "Operational",
             "disconnected": "Disconnected"
+        },
+        "ledgerStatus": {
+            "notConnected": "Not connected",
+            "locked": "Device locked",
+            "appNotOpen": "App not open"
         }
     },
     "menus": {
