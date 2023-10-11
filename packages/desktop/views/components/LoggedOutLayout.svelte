@@ -9,7 +9,7 @@
 
 {#if IS_MAC}
     <NavbarContainer draggable>
-        <div style:height="var(--navbar-height)" />
+        <div style:height="var(--macos-navbar-height)" style:--macos-navbar-height="40px" />
     </NavbarContainer>
 {/if}
 <logged-out-layout class="flex flex-col items-center w-full h-full bg-surface dark:bg-surface-dark">
@@ -26,7 +26,7 @@
 
 <style lang="scss">
     logged-out-layout {
-        max-height: calc(100vh - var(--navbar-height));
+        max-height: calc(100vh - var(--macos-navbar-height, 0px));
     }
 
     header {
