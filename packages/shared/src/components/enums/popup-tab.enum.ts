@@ -1,4 +1,4 @@
-export enum Tab {
+export enum PopupTab {
     Transaction = 'transaction',
     Alias = 'alias',
     Nft = 'nft',
