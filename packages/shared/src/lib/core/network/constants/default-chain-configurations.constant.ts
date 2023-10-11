@@ -11,8 +11,7 @@ export const DEFAULT_CHAIN_CONFIGURATIONS: Readonly<{ [id in NetworkId]?: ChainC
         namespace: NetworkNamespace.Evm,
         coinType: DEFAULT_COIN_TYPE[SupportedNetworkId.ShimmerEvm],
         aliasAddress: 'smr1prxvwqvwf7nru5q5xvh5thwg54zsm2y4wfnk6yk56hj3exxkg92mx20wl3s',
-        iscpEndpoint:
-            'https://api.evm.shimmer.network/v1/chains/smr1prxvwqvwf7nru5q5xvh5thwg54zsm2y4wfnk6yk56hj3exxkg92mx20wl3s',
+        iscpEndpoint: 'https://json-rpc.evm.shimmer.network/',
         explorerUrl: 'https://explorer.evm.shimmer.network',
     },
     [SupportedNetworkId.Testnet]: {

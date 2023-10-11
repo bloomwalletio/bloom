@@ -72,9 +72,8 @@
             },
             "strongholdSetup": {
                 "setupStrongholdPassword": {
-                    "title": "Create a password",
-                    "body1": "You need a strong password to protect your funds. Use a combination of words, and avoid common phrases, names or dates.",
-                    "body2": "It is recommended that you write down your password in your Recovery Kit."
+                    "title": "Secure Recovery Phrase",
+                    "body": "Your password needs to be highly secure to encrypt and recover your Stronghold vault. Also, you will need this to send tokens from your wallet."
                 }
             },
             "storageProtectionSetup": {
@@ -124,8 +123,8 @@
             },
             "shimmerClaiming": {
                 "claimRewards": {
-                    "title": "Your Shimmer staking rewards",
-                    "body": "Check that your Shimmer staking rewards are correct. You may need to search multiple times to find your full balance."
+                    "title": "Shimmer staking rewards",
+                    "body": "Please check if your Shimmer staking rewards balance is correct. If not, please use the balance finder."
                 },
                 "success": {
                     "title": "Shimmer claimed",
@@ -135,9 +134,10 @@
                 }
             },
             "congratulations": {
-                "title": "Profile setup almost complete...",
-                "body": "Your new profile will be ready once the dashboard has successfully loaded.",
-                "ledgerHint": "Do not disconnect your Ledger device until the dashboard has finished loading."
+                "title": "Setup complete",
+                "body1": "Bloom is ready",
+                "body2": "Seamlessly manage your keys, assets and transactions.",
+                "action": "Enter Bloom"
             }
         },
         "ledgerInstallationGuide": {
@@ -736,6 +736,8 @@
         },
         "diagnostics": {
             "title": "Diagnostics",
+            "app": "App",
+            "system": "System",
             "node": "Node",
             "platform": "Platform",
             "platformVersion": "Platform Version",
@@ -1143,9 +1145,9 @@
         "searching": "Searching",
         "searchAgain": "Search again",
         "generateAddress": "Generate address",
-        "searchForRewards": "Search for rewards",
         "claimRewards": "Claim rewards",
         "rerunClaimProcess": "Rerun claim process",
+        "useFinder": "Use balance finder",
         "backup": "Backup",
         "mint": "Mint",
         "mintNativeToken": "Mint native token",
@@ -1291,7 +1293,7 @@
         "fromAddress": "from {account}",
         "toAddress": "to {account}",
         "capsLock": "Caps Lock is on",
-        "version": "Version {version}",
+        "version": "Version",
         "unknown": "Unknown",
         "unknownAddress": "Unknown address",
         "none": "None",
@@ -1878,7 +1880,12 @@
             "degraded": "Degraded",
             "operational": "Operational",
             "disconnected": "Disconnected"
-        }
+        },
+        "ledgerStatus": {
+            "notConnected": "Not connected",
+            "locked": "Device locked",
+            "appNotOpen": "App not open"
+        }         
     },
     "menus": {
         "dateTimePicker": {

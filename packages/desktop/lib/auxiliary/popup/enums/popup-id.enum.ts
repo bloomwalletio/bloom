@@ -13,8 +13,6 @@ export enum PopupId {
     ConnectLedger = 'connectLedger',
     CreateAccount = 'createAccount',
     DeepLinkError = 'deepLinkError',
-    DeleteAccount = 'deleteAccount',
-    DeleteProfile = 'deleteProfile',
     Diagnostics = 'diagnostics',
     EnableLedgerBlindSigning = 'enableLedgerBlindSigning',
     ErrorLog = 'errorLog',

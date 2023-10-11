@@ -49,7 +49,7 @@
             },
         })}
     </Text>
-    <div class="space-y-4">
+    <div class="space-y-5">
         <Table items={[{ key: localize('popups.voteForProposal.key'), value: formattedVotingPower }]} />
         {#if !hasVotingPower}
             <Alert variant="danger" text={localize('popups.voteForProposal.noVotingPower')} />

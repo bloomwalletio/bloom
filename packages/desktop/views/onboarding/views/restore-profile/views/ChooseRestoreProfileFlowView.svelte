@@ -70,7 +70,7 @@
     }}
     {busy}
 >
-    <div slot="content" class="flex flex-col space-y-4">
+    <div slot="content" class="flex flex-col space-y-3">
         <OnboardingSelectorTile
             primaryText={localize('views.onboarding.profileSetup.setupRecovered.importMnemonic')}
             secondaryText={localize('views.onboarding.profileSetup.setupRecovered.importMnemonicDescription')}

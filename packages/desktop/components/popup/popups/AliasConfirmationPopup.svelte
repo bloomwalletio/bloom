@@ -95,27 +95,25 @@
     }}
     busy={isTransferring}
 >
-    <div class="w-full flex-col space-y-2">
-        <Table
-            items={[
-                {
-                    key: localize('general.storageDeposit'),
-                    value: storageDeposit,
-                    tooltip: localize('tooltips.transactionDetails.incoming.storageDeposit'),
-                },
-                {
-                    key: localize('general.governorAddress'),
-                    value: $selectedAccount.depositAddress,
-                    truncate: { firstCharCount: 10, endCharCount: 10 },
-                    copyable: true,
-                },
-                {
-                    key: localize('general.stateControllerAddress'),
-                    value: $selectedAccount.depositAddress,
-                    truncate: { firstCharCount: 10, endCharCount: 10 },
-                    copyable: true,
-                },
-            ]}
-        />
-    </div>
+    <Table
+        items={[
+            {
+                key: localize('general.storageDeposit'),
+                value: storageDeposit,
+                tooltip: localize('tooltips.transactionDetails.incoming.storageDeposit'),
+            },
+            {
+                key: localize('general.governorAddress'),
+                value: $selectedAccount.depositAddress,
+                truncate: { firstCharCount: 10, endCharCount: 10 },
+                copyable: true,
+            },
+            {
+                key: localize('general.stateControllerAddress'),
+                value: $selectedAccount.depositAddress,
+                truncate: { firstCharCount: 10, endCharCount: 10 },
+                copyable: true,
+            },
+        ]}
+    />
 </PopupTemplate>

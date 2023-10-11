@@ -9,22 +9,13 @@
     import { formatTokenAmountPrecise } from '@core/token'
     import { buildNftOutputBuilderParams, mintNft, mintNftDetails } from '@core/wallet'
     import { PopupId, closePopup, openPopup } from '@desktop/auxiliary/popup'
-    import { MediaPlaceholder } from '@ui'
+    import { MediaPlaceholder, PopupTab, getTabItems } from '@ui'
     import { onMount } from 'svelte'
     import PopupTemplate from '../PopupTemplate.svelte'
 
     export let _onMount: (..._: any[]) => Promise<void> = async () => {}
 
-    enum Tab {
-        Transaction = 'transaction',
-        Nft = 'nft',
-        Metadata = 'metadata',
-    }
-    const TABS = [
-        { key: Tab.Transaction, value: localize('general.transaction') },
-        { key: Tab.Nft, value: localize('general.nft') },
-        { key: Tab.Metadata, value: localize('general.metadata') },
-    ]
+    const TABS = getTabItems([PopupTab.Transaction, PopupTab.Nft, PopupTab.NftMetadata])
 
     let selectedTab = TABS[0]
 
@@ -103,8 +94,8 @@
     }}
     busy={$selectedAccount.isTransferring}
 >
-    <div class="space-y-2 max-h-100 scrollable-y flex-1">
-        <nft-details class="flex flex-col justify-center items-center space-y-4">
+    <div class="max-h-100 scrollable-y flex-1">
+        <nft-details class="flex flex-col justify-center items-center space-y-5">
             <Avatar size="lg" shape="square" surface={2}>
                 <MediaPlaceholder {type} smallIcon />
             </Avatar>
@@ -112,7 +103,7 @@
                 <div>
                     <Tabs bind:selectedTab tabs={TABS} />
                 </div>
-                {#if selectedTab.key === Tab.Transaction}
+                {#if selectedTab.key === PopupTab.Transaction}
                     <Table
                         items={[
                             {
@@ -145,7 +136,7 @@
                             },
                         ]}
                     />
-                {:else if selectedTab.key === Tab.Nft}
+                {:else if selectedTab.key === PopupTab.Nft}
                     <Table
                         items={[
                             {
@@ -171,7 +162,7 @@
                             },
                         ]}
                     />
-                {:else if selectedTab.key === Tab.Metadata}
+                {:else if selectedTab.key === PopupTab.NftMetadata}
                     <Table
                         items={[
                             {
