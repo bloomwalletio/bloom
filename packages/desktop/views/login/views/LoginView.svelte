@@ -1,7 +1,12 @@
 <script lang="ts">
     import { onDestroy } from 'svelte'
-    import { Button, CloseButton, Error, Icon, IconName, PinInput, Text } from '@bloomwalletio/ui'
-    import { Platform, needsToAcceptLatestPrivacyPolicy, needsToAcceptLatestTermsOfService } from '@core/app'
+    import { Alert, Button, CloseButton, Error, Icon, IconName, PinInput, Text } from '@bloomwalletio/ui'
+    import {
+        Platform,
+        isLatestStrongholdVersion,
+        needsToAcceptLatestPrivacyPolicy,
+        needsToAcceptLatestTermsOfService,
+    } from '@core/app'
     import { localize } from '@core/i18n'
     import { login, resetActiveProfile } from '@core/profile/actions'
     import { activeProfile } from '@core/profile/stores'
@@ -10,6 +15,8 @@
     import { PopupId, openPopup, popupState } from '@desktop/auxiliary/popup'
     import { ProfileAvatarWithBadge } from '@ui'
     import LoggedOutLayout from '@views/components/LoggedOutLayout.svelte'
+    import { ProfileType } from '@core/profile/enums'
+    import features from '@features/features'
 
     let attempts: number = 0
     let error: string = ''
@@ -34,6 +41,10 @@
         })
     }
 
+    $: updateRequired =
+        $activeProfile?.type === ProfileType.Software &&
+        !isLatestStrongholdVersion($activeProfile?.strongholdVersion) &&
+        features.onboarding.strongholdVersionCheck.enabled
     $: hasReachedMaxAttempts = attempts >= MAX_PINCODE_INCORRECT_ATTEMPTS
     $: pinInput && !$popupState.active && pinInput?.focus()
     $: pinCode && (error = '')
@@ -73,7 +84,9 @@
             isBusy = true
             const isVerified = await Platform.PincodeManager.verify($activeProfile?.id, pinCode)
             if (isVerified) {
-                await login()
+                if (!updateRequired) {
+                    await login()
+                }
                 $loginRouter.next()
             } else {
                 shake = true
@@ -102,7 +115,7 @@
     <div class="flex flex-col w-full h-full justify-center items-center">
         <login-container class:shake>
             <profile-container>
-                <ProfileAvatarWithBadge profile={$activeProfile} size="xxxl" shape="square" />
+                <ProfileAvatarWithBadge profile={$activeProfile} size="xxxl" shape="square" {updateRequired} />
             </profile-container>
             {#if hasReachedMaxAttempts}
                 <div class="flex flex-col justify-center items-center gap-3">
@@ -135,6 +148,9 @@
                 >
                     <div class="flex flex-col gap-6 w-full items-center justify-center flex-grow">
                         <Text type="h4" align="center">{$activeProfile?.name}</Text>
+                        {#if updateRequired}
+                            <Alert variant="warning" text={localize('views.login.hintStronghold')} />
+                        {/if}
                         <div class="flex flex-col gap-3">
                             <Text type="body1" align="center">{localize('actions.enterYourPin')}</Text>
                             <PinInput
