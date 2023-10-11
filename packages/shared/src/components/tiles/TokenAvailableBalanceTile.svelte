@@ -30,7 +30,10 @@
                 </div>
             </div>
             <div class="flex flex-col text-right">
-                <button on:click={onMaxClick} class="py-2 px-3 rounded-md bg-surface-2 dark:bg-surface-2-dark">
+                <button
+                    on:click={onMaxClick}
+                    class="py-2 px-3 rounded-md hover:bg-surface-2 hover:dark:bg-surface-2-dark border border-solid border-stroke"
+                >
                     <Text textColor="secondary">
                         {localize('actions.useMax')}
                     </Text>
