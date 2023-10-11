@@ -47,14 +47,21 @@
 
 <style lang="postcss">
     .profile {
+        @apply duration-300;
         @apply flex flex-col items-center justify-between;
         @apply px-4 py-6 w-56 h-56;
-        @apply border-2 border-solid border-white dark:border-gray-800 rounded-2xl;
-        @apply transition-all duration-300;
-        @apply hover:shadow-lg dark:hover:shadow-violet-900/25 focus:shadow-lg;
-        @apply bg-white/0 hover:bg-white/100 focus:bg-white/100;
-        @apply bg-white/0 dark:hover:bg-white/10 dark:focus:bg-white/10;
-        @apply disabled:pointer-events-none;
+        @apply border border-solid border-stroke dark:border-stroke-dark rounded-2xl;
+        @apply bg-surface-1 dark:bg-surface-1-dark;
+        @apply bg-surface-1 dark:bg-surface-1-dark;
+        @apply disabled:pointer-events-none disabled:opacity-50;
+        transition-property: background-color, border-color, box-shadow;
+
+        &:hover,
+        &:focus {
+            @apply shadow-lg dark:shadow-violet-900/25;
+            @apply border-2 border-brand-500;
+            @apply bg-surface dark:bg-surface-dark;
+        }
     }
 
     :global(profile-avatar avatar) {
