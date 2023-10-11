@@ -68,20 +68,21 @@
         icon={IconName.Plus}
         on:click={onAddProfileClick}
     />
-    <profile-card-list class="overlay-scrollbar">
-        {#each $profiles as profile}
+    <profile-card-list class="">
+        {#each $profiles.slice(0, 13) as profile}
             <ProfileCard {profile} onClick={onContinueClick} updateRequired={updateRequiredForProfile(profile)} />
         {/each}
     </profile-card-list>
 </LoggedOutLayout>
 
-<style lang="postcss">
+<style lang="scss">
     :global(profile-card-list) {
         --profile-card-width: 14rem;
     }
     profile-card-list {
-        @apply grid gap-5 overflow-auto pr-4 -mr-4 my-auto pt-[4.75rem];
-        @apply max-w-[80vw] max-h-full;
-        grid-template-columns: repeat(auto-fill, minmax(var(--profile-card-width), 1fr));
+        @apply pr-4 -mr-4 my-auto pt-[4.75rem] pb-16 gap-5 justify-center items-center;
+        @apply max-w-[80vw] max-h-full overflow-auto;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(var(--profile-card-width, 1fr), 1fr));
     }
 </style>
