@@ -23,11 +23,17 @@
 {#if baseCoinTransfer || tokenTransfer || nft || aliasId}
     <asset-section class="w-full flex flex-row gap-2 justify-between overflow-hidden">
         {#if tokenTransfer?.token && tokenWithBalance}
-            <TokenAmountTile token={tokenWithBalance} amount={Number(tokenTransfer.rawAmount)} />
+            <div class="flex-grow overflow-hidden">
+                <TokenAmountTile token={tokenWithBalance} amount={Number(tokenTransfer.rawAmount)} />
+            </div>
         {:else if nft}
-            <NftTile {nft} fullWidth={!hasBaseCoinAmount} onClick={onNftClick} classes="flex-grow" />
+            <div class="flex-grow overflow-hidden">
+                <NftTile {nft} fullWidth={!hasBaseCoinAmount} onClick={onNftClick} />
+            </div>
         {:else if aliasId}
-            <AliasTile {aliasId} fullWidth={!hasBaseCoinAmount} classes="flex-grow" />
+            <div class="flex-grow overflow-hidden">
+                <AliasTile {aliasId} fullWidth={!hasBaseCoinAmount} />
+            </div>
         {/if}
         {#if baseCoinTransfer?.token && baseTokenWithBalance && Number(baseCoinTransfer?.rawAmount) > 0}
             <TokenAmountTile
