@@ -13,9 +13,9 @@ on:
                 required: false
                 type: string
             sign:
-              required: false
-              type: boolean
-              default: false
+                required: false
+                type: boolean
+                default: false
             upload:
                 required: false
                 type: boolean
@@ -28,6 +28,7 @@ jobs:
         env:
             VERSION: ${{ inputs.version }}
             STAGE: ${{ inputs.stage }}
+            NODE_OPTIONS: '--max-old-space-size=12288' # Set the desired heap size here
         steps:
             - uses: actions/checkout@v2
 
@@ -115,8 +116,8 @@ jobs:
             - name: Build unsigned Electron app (MacOS)
               run: yarn compile:${STAGE}:mac
               env:
-                GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-                MACOS_SKIP_NOTARIZATION: true
+                  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                  MACOS_SKIP_NOTARIZATION: true
               working-directory: packages/desktop
               if: ${{ ! inputs.sign && inputs.os == 'macos-11' }}
 
@@ -132,7 +133,7 @@ jobs:
             - name: Build unsigned Electron app (Windows)
               run: yarn compile:${env:STAGE}:win
               env:
-                GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
               working-directory: packages/desktop
               if: ${{ ! inputs.sign && inputs.os == 'windows-2019' }}
 
@@ -153,7 +154,7 @@ jobs:
               if: inputs.sign && inputs.os == 'ubuntu-20.04'
 
             - name: Sign AppImage (Linux)
-              run:     echo "$GPG_PASSPHRASE" | gpg --pinentry-mode loopback --batch --passphrase-fd 0 --armor --detach-sign --local-user 5CB8BB19 bloom-desktop*.AppImage
+              run: echo "$GPG_PASSPHRASE" | gpg --pinentry-mode loopback --batch --passphrase-fd 0 --armor --detach-sign --local-user 5CB8BB19 bloom-desktop*.AppImage
               working-directory: packages/desktop/out
               env:
                   GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}

@@ -1,5 +1,4 @@
 <script lang="ts">
-    import { Modal, SelectorInput, IOption } from '@ui'
     import { getRandomAccountColor } from '@core/account/utils'
     import { localize } from '@core/i18n'
     import { getNetworkHrp } from '@core/profile/actions'
@@ -8,7 +7,7 @@
     import { SubjectType } from '@core/wallet'
     import { Subject } from '@core/wallet/types'
     import { getSubjectFromAddress } from '@core/wallet/utils'
-    import { Indicator } from '@bloomwalletio/ui'
+    import { Indicator, IOption, SelectInput } from '@bloomwalletio/ui'
     import { NetworkId } from '@core/network'
     import { ContactManager } from '@core/contact/classes'
 
@@ -18,14 +17,12 @@
     export let disabled = false
     export let isEvmChain = false
 
-    let inputElement: HTMLInputElement | undefined = undefined
-    let modal: Modal | undefined = undefined
-
+    let value: any
     let error: string
-    let selected: IOption = getSelectedRecipient(recipient)
+    const selected: IOption = getSelectedRecipient(recipient)
 
     $: isEvmChain, (error = '')
-    $: recipient = selected?.value ? getSubjectFromAddress(selected.value, networkId) : undefined
+    $: recipient = getSubjectFromAddress(value, networkId)
 
     export function validate(): void {
         try {
@@ -44,24 +41,25 @@
         }
     }
 
-    export function getAccountColorById(id: number): string | undefined {
-        return $visibleActiveAccounts?.find((account) => account.index === id)?.color
+    export function getAccountColor(name: string | undefined): string | undefined {
+        return $visibleActiveAccounts?.find((account) => account.name === name)?.color
     }
 
     function getSelectedRecipient(recipient: Subject | undefined): IOption {
         if (recipient) {
             switch (recipient.type) {
-                case SubjectType.Account:
-                    return { key: recipient.account.name, value: recipient.address }
+                case SubjectType.Account: {
+                    const label = recipient.account.name
+                    return { label, value: recipient.address, color: getAccountColor(label) }
+                }
                 case SubjectType.Address:
-                    return { value: recipient.address }
+                    return { value: recipient.address, color: getRandomAccountColor() }
                 case SubjectType.Contact: {
                     const address = ContactManager.getNetworkContactAddressMapForContact(recipient.contact.id)?.[
                         networkId
                     ]?.[recipient.address]
                     return {
-                        id: recipient.contact.id,
-                        key: recipient.contact.name,
+                        label: recipient.contact.name,
                         value: recipient.address,
                         color: recipient.contact.color,
                         ...(address && { displayedValue: address.addressName }),
@@ -74,23 +72,18 @@
             }
         }
     }
-
-    function getRecipientColor(option: IOption): string {
-        return option.color ?? getAccountColorById(option?.id) ?? getRandomAccountColor()
-    }
 </script>
 
-<SelectorInput
-    labelLocale="general.recipient"
-    bind:selected
-    bind:inputElement
-    bind:modal
+<SelectInput
+    label={localize('general.recipient')}
+    bind:value
     bind:error
+    {selected}
     {disabled}
     {options}
-    maxHeight="max-h-48"
     {...$$restProps}
-    let:option
+    customValue={true}
+    let:color
 >
-    <Indicator color={getRecipientColor(option)} />
-</SelectorInput>
+    <Indicator {color} size="sm" />
+</SelectInput>
