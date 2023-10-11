@@ -741,6 +741,8 @@
         },
         "diagnostics": {
             "title": "Diagnostics",
+            "app": "App",
+            "system": "System",
             "node": "Node",
             "platform": "Platform",
             "platformVersion": "Platform Version",
@@ -1296,7 +1298,7 @@
         "fromAddress": "from {account}",
         "toAddress": "to {account}",
         "capsLock": "Caps Lock is on",
-        "version": "Version {version}",
+        "version": "Version",
         "unknown": "Unknown",
         "unknownAddress": "Unknown address",
         "none": "None",
