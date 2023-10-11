@@ -1,6 +1,6 @@
 <script lang="ts">
     import { onDestroy } from 'svelte'
-    import { CloseButton, Error, PinInput, Text } from '@bloomwalletio/ui'
+    import { Button, CloseButton, Error, Icon, IconName, PinInput, Text } from '@bloomwalletio/ui'
     import { Platform, needsToAcceptLatestPrivacyPolicy, needsToAcceptLatestTermsOfService } from '@core/app'
     import { localize } from '@core/i18n'
     import { login, resetActiveProfile } from '@core/profile/actions'
@@ -35,7 +35,6 @@
     }
 
     $: hasReachedMaxAttempts = attempts >= MAX_PINCODE_INCORRECT_ATTEMPTS
-    $: isValidPin(pinCode) && void onSubmit()
     $: pinInput && !$popupState.active && pinInput?.focus()
     $: pinCode && (error = '')
 
@@ -74,13 +73,14 @@
             isBusy = true
             const isVerified = await Platform.PincodeManager.verify($activeProfile?.id, pinCode)
             if (isVerified) {
-                void login()
+                await login()
                 $loginRouter.next()
             } else {
                 shake = true
                 error = localize('views.login.incorrectPin')
                 setShakeTimeout()
             }
+            isBusy = false
         }
     }
 
@@ -128,22 +128,40 @@
                     </text-container>
                 </div>
             {:else}
-                <div class="flex flex-col gap-6 w-full items-center justify-center flex-grow">
-                    <Text type="h4" align="center">{$activeProfile?.name}</Text>
-                    <div class="flex flex-col gap-3">
-                        <Text type="body1" align="center">{localize('actions.enterYourPin')}</Text>
-                        <PinInput
-                            bind:this={pinInput}
-                            bind:value={pinCode}
-                            error={!!error}
-                            maxlength={PINCODE_MAX_LENGTH}
-                            disabled={hasReachedMaxAttempts || isBusy}
-                            glimpse={0}
-                            autofocus
-                        />
+                <form
+                    id="login"
+                    on:submit|preventDefault={onSubmit}
+                    class="flex flex-col items-center justify-center gap-8"
+                >
+                    <div class="flex flex-col gap-6 w-full items-center justify-center flex-grow">
+                        <Text type="h4" align="center">{$activeProfile?.name}</Text>
+                        <div class="flex flex-col gap-3">
+                            <Text type="body1" align="center">{localize('actions.enterYourPin')}</Text>
+                            <PinInput
+                                bind:this={pinInput}
+                                bind:value={pinCode}
+                                error={!!error}
+                                maxlength={PINCODE_MAX_LENGTH}
+                                disabled={hasReachedMaxAttempts || isBusy}
+                                glimpse={0}
+                                autofocus
+                            />
+                        </div>
+                        {#if error}
+                            <div class="flex items-center justify-center gap-3">
+                                <Icon name={IconName.InfoCircle} size="xs" textColor="danger" />
+                                <Error {error} />
+                            </div>
+                        {/if}
                     </div>
-                    <Error {error} />
-                </div>
+                    <Button
+                        type="submit"
+                        width="half"
+                        disabled={!isValidPin(pinCode)}
+                        busy={isBusy}
+                        text={localize('actions.continue')}
+                    />
+                </form>
             {/if}
         </login-container>
     </div>
