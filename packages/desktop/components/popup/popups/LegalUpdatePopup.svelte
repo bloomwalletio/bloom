@@ -11,7 +11,8 @@
     import { lastAcceptedPrivacyPolicy, lastAcceptedTermsOfService } from '@core/app/stores'
     import { localize } from '@core/i18n'
     import { closePopup } from '@desktop/auxiliary/popup'
-    import { Button, Checkbox, Link, Text } from '@ui'
+    import { Checkbox, Link } from '@bloomwalletio/ui'
+    import PopupTemplate from '../PopupTemplate.svelte'
 
     let checked = false
     const tos = needsToAcceptLatestTermsOfService()
@@ -38,7 +39,7 @@
 
     function getTitleText(): string {
         if (tos && privacyPolicy) {
-            return 'views.legal.title'
+            return 'views.onboarding.appSetup.legal.title'
         } else if (tos) {
             return 'popups.legalUpdate.tosTitle'
         } else if (privacyPolicy) {
@@ -67,28 +68,35 @@
     }
 </script>
 
-<div class="mb-6">
-    <Text type="h4" classes="mb-4">{localize(getTitleText())}</Text>
-    <Text type="p" secondary>{localize(getBodyText())}</Text>
-    {#if tos && privacyPolicy}
-        <ul>
-            <li><Link onClick={onViewTosClick}>{localize('popups.legalUpdate.tosTitle')}</Link></li>
-            <li><Link onClick={onViewPrivPolicyClick}>{localize('popups.legalUpdate.privPolicyTitle')}</Link></li>
-        </ul>
-    {:else if tos}
-        <ul>
-            <li><Link onClick={onViewTosClick}>{localize('popups.legalUpdate.tosTitle')}</Link></li>
-        </ul>
-    {:else if privacyPolicy}
-        <ul>
-            <li><Link onClick={onViewPrivPolicyClick}>{localize('popups.legalUpdate.privPolicyTitle')}</Link></li>
-        </ul>
-    {/if}
-    <Checkbox label={localize(getCheckboxText())} bind:checked classes="mt-4" />
-</div>
-<div class="flex flex-row flex-nowrap w-full space-x-4">
-    <Button classes="w-full" onClick={onConfirmClick} disabled={!checked}>{localize('actions.confirm')}</Button>
-</div>
+<PopupTemplate
+    title={localize(getTitleText())}
+    description={localize(getBodyText())}
+    continueButton={{
+        text: localize('actions.confirm'),
+        onClick: onConfirmClick,
+        disabled: !checked,
+    }}
+>
+    <div class="flex flex-col gap-2">
+        {#if tos && privacyPolicy}
+            <ul>
+                <li><Link on:click={onViewTosClick} text={localize('popups.legalUpdate.tosTitle')} /></li>
+                <li><Link on:click={onViewPrivPolicyClick} text={localize('popups.legalUpdate.privPolicyTitle')} /></li>
+            </ul>
+        {:else if tos}
+            <ul>
+                <li><Link on:click={onViewTosClick} text={localize('popups.legalUpdate.tosTitle')} /></li>
+            </ul>
+        {:else if privacyPolicy}
+            <ul>
+                <li><Link on:click={onViewPrivPolicyClick} text={localize('popups.legalUpdate.privPolicyTitle')} /></li>
+            </ul>
+        {/if}
+        <div class="mt-2">
+            <Checkbox label={localize(getCheckboxText())} bind:checked />
+        </div>
+    </div>
+</PopupTemplate>
 
 <style lang="scss">
     ul {
