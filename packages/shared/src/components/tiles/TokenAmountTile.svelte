@@ -18,7 +18,7 @@
 </script>
 
 {#if token && token.metadata}
-    <Tile {onClick} {selected} {error} surface={1} fullWidth={!hideTokenInfo}>
+    <Tile {onClick} {selected} {error} surface={1} width={hideTokenInfo ? 'auto' : 'full'}>
         <div class="w-full flex flex-row justify-between items-center gap-2">
             <div class="flex flex-row items-center text-left space-x-3">
                 <TokenAvatar {token} />
