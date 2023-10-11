@@ -65,67 +65,66 @@
                     "importLedgerDescription": "Återställ från din Ledger Nano S eller X enhet"
                 },
                 "enterName": {
-                    "title": "Create your {network} profile",
+                    "title": "Define your {network} profile",
                     "profileName": "Profilnamn",
-                    "body1": "Du kan skapa flera användarprofiler för att organisera dina plånböcker och förbättra sekretessen.",
-                    "body2": {
-                        "first": "För tillfället, låt oss börja med ditt första profilnamn.",
-                        "nonFirst": "För tillfället, låt oss börja med ditt profilnamn."
-                    },
-                    "addMore": "Du kan lägga till fler profiler senare."
+                    "body": "Please define a new name for your profile."
                 }
             },
             "strongholdSetup": {
                 "setupStrongholdPassword": {
-                    "title": "Skapa ett lösenord",
-                    "body1": "Du behöver ett starkt lösenord för att skydda dina tillgångar. Använd en kombination av ord och undvik vanliga fraser, namn eller datum.",
-                    "body2": "Det rekommenderas att du skriver ner ditt lösenord i ditt återställningsblad."
+                    "title": "Secure Recovery Phrase",
+                    "body": "Your password needs to be highly secure to encrypt and recover your Stronghold vault. Also, you will need this to send tokens from your wallet."
                 }
             },
             "storageProtectionSetup": {
                 "setupPinProtection": {
                     "title": "Ställ in PIN-kod",
-                    "body1": "Ange en 6-siffrig PIN-kod nedan. Du kommer bli ombedd att ange din PIN-kod för att komma åt din profil.",
-                    "body2": "Använd endast nummer"
+                    "body": "Enter a 6-digit PIN below. Use numbers only."
                 }
             },
             "profileBackup": {
                 "viewMnemonic": {
                     "title": "Återställningsfras",
-                    "body1": "I ditt återställningsblad, skriv ner orden i exakt den ordning som visas.",
-                    "body2": "Håll detta privat och lagrat på ett säkert sätt.",
-                    "body3": "Det är viktigt att ha en fysisk säkerhetskopia. Datorer kan krascha och filer kan bli korrupta.",
+                    "body": "Carefully copy the words in the exact order below. Keep this private and safely stored.",
                     "revealRecoveryPhrase": "Visa återställningsfras",
                     "hideRecoveryPhrase": "Dölj återställningsfras"
                 },
                 "verifyMnemonic": {
                     "title": "Verifiera återställningsfras",
-                    "body": "Låt oss kontrollera att du skrev ner frasen korrekt. Välj varje ord i numrerad ordning. Tips: Du kan trycka på numret bredvid ordet på tangentbordet för att välja det.",
+                    "body": "Let’s check you wrote down your phrase correctly. Please select the right word with the corresponding number.",
                     "word": "Ord",
-                    "verified": "Återställningsfras verifierad",
-                    "verifiedBody": "Kom ihåg att hålla den privat och lagrad på ett säkert sätt."
+                    "match": "Match from below",
+                    "success": {
+                        "title": "Verification success",
+                        "body1": "The recovery phrase matched",
+                        "body2": "Remember to keep your copy private and safely stored"
+                    },
+                    "failure": {
+                        "title": "Verification failure",
+                        "body1": "The recovery phrase did not match",
+                        "body2": "Please check your records"
+                    }
                 }
             },
             "profileRecovery": {
                 "importMnemonicPhrase": {
                     "title": "Ange din återställningsfras",
-                    "body": "A recovery phrase is 24 words long, all lower case, with spaces between. This is used to recover existing Bloom profiles.",
-                    "enter": "Ange din hemliga återställningsfras",
+                    "body": "A recovery phrase is 24 words long, all lower case, with spaces between. Separate each word by spaces or commas.",
                     "phraseDetected": "24 ord lång återställningsfras upptäckt"
                 },
                 "importStrongholdBackup": {
-                    "title": "Importera din Stronghold säkerhetskopia",
+                    "title": "Restore your profile",
                     "body": "Importera en Stronghold säkerhetskopia för att återställa din profil."
                 },
-                "backupPassword": {
-                    "body1": "Ange lösenordet för din säkerhetskopia.",
-                    "body2": "Detta är lösenordet du valde när du skapade din säkerhetskopia."
+                "unlockBackup": {
+                    "title": "Unlock your backup",
+                    "body": "Please provide your backup password below."
                 }
             },
             "shimmerClaiming": {
                 "claimRewards": {
-                    "title": "Dina staking-belöningar från Shimmer",
-                    "body": "Kontrollera att dina Shimmer staking-belöningar är korrekta. Du kan behöva söka flera gånger för att hitta ditt saldo."
+                    "title": "Shimmer staking rewards",
+                    "body": "Please check if your Shimmer staking rewards balance is correct. If not, please use the balance finder."
                 },
                 "success": {
                     "title": "Shimmer hämtade",
@@ -135,20 +134,20 @@
                 }
             },
             "congratulations": {
-                "title": "Konfigurationen av profilen är nästan klar...",
-                "body": "Din nya profil kommer att vara klar när översikten har laddats.",
-                "ledgerHint": "Koppla inte från Ledger-enheten förrän översikten har laddats klart."
+                "title": "Setup complete",
+                "body1": "Bloom is ready",
+                "body2": "Seamlessly manage your keys, assets and transactions.",
+                "action": "Enter Bloom"
             }
         },
         "ledgerInstallationGuide": {
-            "title": "Have you installed the {network} app on your Ledger device?",
-            "body1": "Before you proceed, you must use Ledger Live to find and install the {network} app.",
-            "body2": "Se till att din firmware från Ledger är uppdaterad. Alla förinstallerade appar bör uppdateras till sina senaste versioner.",
-            "action": "Yes, I've installed the {network} app"
+            "title": "Have you installed the necessary Ledger app?",
+            "body": "Use Ledger Live to find and install the {network} app.",
+            "action": "Yes, let's continue"
         },
         "connectLedger": {
             "title": "Connect your Ledger to Bloom",
-            "body": "For your Ledger device to be found by Bloom, please ensure that the official Ledger Live application is closed.",
+            "body": "For your Ledger device to be found by Bloom, please ensure that the official Ledger Live application is closed and the following steps are followed.",
             "connect": "Anslut din Ledger-enhet",
             "unlock": "Lås upp din Ledger med dess PIN-kod",
             "openApp": "Öppna Shimmer-appen på din Ledger"
@@ -351,9 +350,6 @@
                     "chainDepositAddress": {
                         "title": "Chain deposit address",
                         "networkTitle": "Network deposit address"
-                    },
-                    "chainInformation": {
-                        "title": "Chain information"
                     },
                     "confirmLedgerEvmAddress": {
                         "title": "Confirm EVM address",
@@ -569,24 +565,20 @@
                 "title": "Available",
                 "subtitle": "Funds fully available for spending"
             },
-            "pending": {
-                "title": "Pending",
-                "subtitle": "Temporarily locked in transactions"
-            },
-            "locked": {
-                "title": "Locked",
-                "subtitle": "Temporarily locked for governance"
+            "unavailable": {
+                "title": "Unavailable",
+                "subtitle": "Locked or temporarily unavailable in transactions"
             },
             "storageDeposit": {
                 "title": "Storage deposit",
-                "subtitle": "These funds are reserved for storing native assets."
+                "subtitle": "Reserved for storing native assets."
             },
             "totalBalance": {
                 "title": "Total balance",
                 "subtitle": ""
             },
             "basicOutputs": {
-                "title": "Native Tokens",
+                "title": "Native tokens",
                 "subtitle": "Reserved for Native Token storage"
             },
             "nftOutputs": {
@@ -606,11 +598,11 @@
                 "subtitle": "Temporarily locked in unclaimed transactions"
             },
             "timelock": {
-                "title": "Time lock",
+                "title": "Timelocked",
                 "subtitle": "Temporarily locked in timelocked transactions"
             },
             "storageDepositReturn": {
-                "title": "SDRUC",
+                "title": "Storage deposit return",
                 "subtitle": "Temporarily locked in Storage Deposit Return"
             },
             "governance": {
@@ -739,6 +731,8 @@
         },
         "diagnostics": {
             "title": "Diagnostik",
+            "app": "App",
+            "system": "System",
             "node": "Nod",
             "platform": "Plattform",
             "platformVersion": "Plattformsversion",
@@ -769,16 +763,6 @@
             "locked": "Lås upp din Ledger-enhet för att fortsätta.",
             "appNotOpen": "Open the Shimmer app on your Ledger device to continue.",
             "correctAppOpen": "Ledger har anslutits framgångsrikt, vänligen fortsätt."
-        },
-        "ledgerAppGuide": {
-            "title": "Guide för att installera {legacy} appen",
-            "steps": {
-                "0": "Installera och öppna programmet Ledger Live",
-                "1": "Se till att din Ledger är ansluten",
-                "2": "Sök efter {legacy} appen. Du kan behöva aktivera Ledger Live-utvecklarläge.",
-                "3": "Installera {legacy} appen",
-                "4": "Remember that it's important to close Ledger Live before returning to Bloom"
-            }
         },
         "ledgerConnectionGuide": {
             "title": "Tips om din Ledger inte ansluter",
@@ -945,6 +929,7 @@
                 "url": "URL",
                 "logoUrl": "Logotyp URL",
                 "logo": "Logotyp",
+                "unit": "Unit",
                 "alias": "Alias",
                 "tokenId": "Tillgångs-ID"
             }
@@ -1030,6 +1015,9 @@
             "title": "Receive",
             "body": "Receive tokens, NFTs, and other digital assets to your account address shown below.",
             "networkAddress": "{networkName} address"
+        },
+        "createAccount": {
+            "title": "Create account"
         }
     },
     "actions": {
@@ -1090,10 +1078,9 @@
         "updateAndContinue": "Update and continue",
         "tryAgain": "Försök igen",
         "visitDiscord": "Besök Discord",
-        "dragDrop": "Dra & Släpp",
         "importExtensions": ".stronghold file",
-        "chooseFile": "Välj en fil",
         "dropHere": "Släpp din fil här",
+        "dropOrBrowse": "Drop here or browse your files",
         "import": "Importera",
         "importing": "Importerar",
         "export": "Exportera",
@@ -1140,7 +1127,7 @@
         "no": "Nej",
         "skip": "Hoppa över",
         "reset": "Återställ",
-        "downloadRecoveryKit": "Spara återställningsblad",
+        "downloadRecoveryKit": "Download recovery kit template",
         "skipBackup": "Skip wallet backup",
         "finishSetup": "Slutför installationen",
         "readDocumentation": "Läs dokumentationen",
@@ -1153,9 +1140,9 @@
         "searching": "Söker",
         "searchAgain": "Sök igen",
         "generateAddress": "Generera adress",
-        "searchForRewards": "Sök efter belöningar",
         "claimRewards": "Hämta belöningar",
         "rerunClaimProcess": "Kör anspråks-processen igen",
+        "useFinder": "Use balance finder",
         "backup": "Säkerhetskopiera",
         "mint": "Minta",
         "mintNativeToken": "Minta inhemska tokens",
@@ -1211,21 +1198,31 @@
         "revoting": "Revoting",
         "unvoted": "Tog bort röst",
         "unvoting": "Avröstar",
-        "transfer": "Överföring",
-        "transferring": "Överför",
+        "transferIn": "Transfer in",
+        "transferringIn": "Transferring in",
+        "transferOut": "Transfer out",
+        "transferringOut": "Transferring out",
         "shimmerClaimed": "Anspråkstagen",
         "shimmerClaiming": "Gör anspråk",
         "shimmerGenesis": "Shimmer genesis",
-        "minted": "Mintad",
-        "minting": "Mintar",
-        "burned": "Burned",
-        "burning": "Burning",
+        "mintedalias": "Minted alias",
+        "mintingalias": "Minting alias",
+        "mintednft": "Minted NFT",
+        "mintingnft": "Minting NFT",
+        "mintedfoundry": "Minted token",
+        "mintingfoundry": "Minting token",
+        "burnedalias": "Burned alias",
+        "burningalias": "Burning alias",
+        "burnednft": "Burned NFT",
+        "burningnft": "Burning NFT",
+        "burnedfoundry": "Burned token",
+        "burningfoundry": "Burning token",
+        "burnedbasic": "Burned token",
+        "burningbasic": "Burning token",
         "balanceChanged": "Balance changed",
         "initialBalance": "Initial balance",
         "consolidated": "Consolidated",
         "consolidating": "Consolidating",
-        "aliasCreated": "Alias created",
-        "creatingAlias": "Creating Alias",
         "sendTo": "Skicka till",
         "sendAssets": "Send assets",
         "sendAssetToAddress": "Send asset to an address",
@@ -1291,7 +1288,7 @@
         "fromAddress": "från {account}",
         "toAddress": "till {account}",
         "capsLock": "Caps Lock är på",
-        "version": "Version {version}",
+        "version": "Version",
         "unknown": "Okänd",
         "unknownAddress": "Okänd adress",
         "none": "Ingen",
@@ -1309,6 +1306,7 @@
         "governorAddress": "Governor Address",
         "stateControllerAddress": "State Controller Address",
         "copiedToClipboard": "Kopierad till urklipp",
+        "copiedThis": "I've copied this",
         "availableBalanceWithValue": "Tillgängligt saldo: {balance}",
         "amountClaimed": "{amount} taget i anspråk",
         "metadata": "Metadata",
@@ -1372,7 +1370,8 @@
         "ledgerDevice": "Ledger device",
         "disconnected": "Disconnected",
         "balanceBreakdown": "Balance breakdown",
-        "primary": "Primary"
+        "primary": "Primary",
+        "color": "Color"
     },
     "filters": {
         "title": "Filter",
@@ -1876,6 +1875,11 @@
             "degraded": "Degraded",
             "operational": "Operational",
             "disconnected": "Disconnected"
+        },
+        "ledgerStatus": {
+            "notConnected": "Not connected",
+            "locked": "Device locked",
+            "appNotOpen": "App not open"
         }
     },
     "menus": {
