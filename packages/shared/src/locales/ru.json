@@ -65,67 +65,66 @@
                     "importLedgerDescription": "Восстановление с устройства Ledger Nano S или X"
                 },
                 "enterName": {
-                    "title": "Создайте свой профиль {network}",
+                    "title": "Define your {network} profile",
                     "profileName": "Имя профиля",
-                    "body1": "Вы можете создать несколько профилей пользователей, чтобы организовать свои кошельки и повысить уровень секретности.",
-                    "body2": {
-                        "first": "А сейчас, давайте начнем с вашего первого имени профиля.",
-                        "nonFirst": "А сейчас, давайте начнем с вашего имени профиля."
-                    },
-                    "addMore": "Вы можете добавить больше профилей позже."
+                    "body": "Please define a new name for your profile."
                 }
             },
             "strongholdSetup": {
                 "setupStrongholdPassword": {
-                    "title": "Создайте пароль",
-                    "body1": "Вам нужен надежный пароль для защиты ваших средств. Используйте комбинацию слов и избегайте распространенных фраз, имен или дат.",
-                    "body2": "Рекомендуется записать пароль в документ для восстановления."
+                    "title": "Secure Recovery Phrase",
+                    "body": "Your password needs to be highly secure to encrypt and recover your Stronghold vault. Also, you will need this to send tokens from your wallet."
                 }
             },
             "storageProtectionSetup": {
                 "setupPinProtection": {
                     "title": "Установить PIN-код",
-                    "body1": "Введите 6-значный PIN-код ниже. Вам будет предложено ввести PIN-код для доступа к вашему профилю.",
-                    "body2": "Использовать только цифры"
+                    "body": "Enter a 6-digit PIN below. Use numbers only."
                 }
             },
             "profileBackup": {
                 "viewMnemonic": {
                     "title": "Фраза восстановления",
-                    "body1": "В твоём документе для восстановления запиши слова в точном порядке.",
-                    "body2": "Храни этот доумент приватно и безопасно.",
-                    "body3": "Важно иметь письменную резервную копию. Компьютеры часто выходят из строя, и файлы могут быть повреждены.",
+                    "body": "Carefully copy the words in the exact order below. Keep this private and safely stored.",
                     "revealRecoveryPhrase": "Показать фразу восстановления",
                     "hideRecoveryPhrase": "Скрыть фразу восстановления"
                 },
                 "verifyMnemonic": {
                     "title": "Проверить фразу восстановления",
-                    "body": "Давайте проверим, правильно ли вы записали фразу. Пожалуйста, выберите каждое слово в пронумерованном порядке. Совет: Вы можете нажать цифру рядом со словом на клавиатуре, чтобы выбрать его.",
+                    "body": "Let’s check you wrote down your phrase correctly. Please select the right word with the corresponding number.",
                     "word": "Слово",
-                    "verified": "Фраза для восстановления проверена",
-                    "verifiedBody": "Не забывайте о конфиденциальности и надежном хранении."
+                    "match": "Match from below",
+                    "success": {
+                        "title": "Verification success",
+                        "body1": "The recovery phrase matched",
+                        "body2": "Remember to keep your copy private and safely stored"
+                    },
+                    "failure": {
+                        "title": "Verification failure",
+                        "body1": "The recovery phrase did not match",
+                        "body2": "Please check your records"
+                    }
                 }
             },
             "profileRecovery": {
                 "importMnemonicPhrase": {
                     "title": "Введите фразу восстановления",
-                    "body": "A recovery phrase is 24 words long, all lower case, with spaces between. This is used to recover existing Bloom profiles.",
-                    "enter": "Введите вашу секретную фразу восстановления",
+                    "body": "A recovery phrase is 24 words long, all lower case, with spaces between. Separate each word by spaces or commas.",
                     "phraseDetected": "Обнаружено 24 фразы для восстановления слов"
                 },
                 "importStrongholdBackup": {
-                    "title": "Импортировать файл резервной копии Stronghold",
+                    "title": "Restore your profile",
                     "body": "Импортируйте файл резервной копии Stronghold для восстановления профиля."
                 },
-                "backupPassword": {
-                    "body1": "Пожалуйста, введите ваш пароль от резервной копии.",
-                    "body2": "Это пароль, который вы установили при первом создании резервной копии."
+                "unlockBackup": {
+                    "title": "Unlock your backup",
+                    "body": "Please provide your backup password below."
                 }
             },
             "shimmerClaiming": {
                 "claimRewards": {
-                    "title": "Вознаграждение за ставку в Shimmer",
-                    "body": "Проверьте, правильно ли указаны ваши вознаграждения за ставку в Shimmer. Возможно, вам придется выполнить поиск несколько раз, чтобы найти свой полный баланс."
+                    "title": "Shimmer staking rewards",
+                    "body": "Please check if your Shimmer staking rewards balance is correct. If not, please use the balance finder."
                 },
                 "success": {
                     "title": "Shimmer востребован",
@@ -135,20 +134,20 @@
                 }
             },
             "congratulations": {
-                "title": "Настройка профиля почти завершена...",
-                "body": "Ваш новый профиль будет готов после успешной загрузки информационной панели.",
-                "ledgerHint": "Не отключайте устройство Ledger до окончания загрузки информационной панели."
+                "title": "Setup complete",
+                "body1": "Bloom is ready",
+                "body2": "Seamlessly manage your keys, assets and transactions.",
+                "action": "Enter Bloom"
             }
         },
         "ledgerInstallationGuide": {
-            "title": "Установили ли вы приложение {network} на своем устройстве Ledger?",
-            "body1": "Прежде чем продолжить, необходимо с помощью Ledger Live найти и установить приложение {network}.",
-            "body2": "Убедитесь, что прошивка Ledger актуальна. Любые предварительно установленные приложения должны быть обновлены до их последних версий.",
-            "action": "Да, я установил приложение {network}"
+            "title": "Have you installed the necessary Ledger app?",
+            "body": "Use Ledger Live to find and install the {network} app.",
+            "action": "Yes, let's continue"
         },
         "connectLedger": {
             "title": "Connect your Ledger to Bloom",
-            "body": "For your Ledger device to be found by Bloom, please ensure that the official Ledger Live application is closed.",
+            "body": "For your Ledger device to be found by Bloom, please ensure that the official Ledger Live application is closed and the following steps are followed.",
             "connect": "Подключите ваше устройство Ledger",
             "unlock": "Разблокируйте ваш Ledger с помощью пин-кода",
             "openApp": "Откройте приложение Shimmer на вашем Ledger"
@@ -351,9 +350,6 @@
                     "chainDepositAddress": {
                         "title": "Адрес вклада цепочки",
                         "networkTitle": "Network deposit address"
-                    },
-                    "chainInformation": {
-                        "title": "Информация о цепочке"
                     },
                     "confirmLedgerEvmAddress": {
                         "title": "Подтвердите адрес EVM",
@@ -569,24 +565,20 @@
                 "title": "Available",
                 "subtitle": "Funds fully available for spending"
             },
-            "pending": {
-                "title": "Pending",
-                "subtitle": "Temporarily locked in transactions"
-            },
-            "locked": {
-                "title": "Locked",
-                "subtitle": "Temporarily locked for governance"
+            "unavailable": {
+                "title": "Unavailable",
+                "subtitle": "Locked or temporarily unavailable in transactions"
             },
             "storageDeposit": {
                 "title": "Storage deposit",
-                "subtitle": "These funds are reserved for storing native assets."
+                "subtitle": "Reserved for storing native assets."
             },
             "totalBalance": {
                 "title": "Total balance",
                 "subtitle": ""
             },
             "basicOutputs": {
-                "title": "Native Tokens",
+                "title": "Native tokens",
                 "subtitle": "Reserved for Native Token storage"
             },
             "nftOutputs": {
@@ -606,11 +598,11 @@
                 "subtitle": "Temporarily locked in unclaimed transactions"
             },
             "timelock": {
-                "title": "Time lock",
+                "title": "Timelocked",
                 "subtitle": "Temporarily locked in timelocked transactions"
             },
             "storageDepositReturn": {
-                "title": "SDRUC",
+                "title": "Storage deposit return",
                 "subtitle": "Temporarily locked in Storage Deposit Return"
             },
             "governance": {
@@ -739,6 +731,8 @@
         },
         "diagnostics": {
             "title": "Диагностика",
+            "app": "App",
+            "system": "System",
             "node": "Узел",
             "platform": "Платформа",
             "platformVersion": "Версия платформы",
@@ -769,16 +763,6 @@
             "locked": "Разблокируйте ваше устройство Ledger, чтобы продолжить.",
             "appNotOpen": "Open the Shimmer app on your Ledger device to continue.",
             "correctAppOpen": "Ledger успешно подключен, пожалуйста, продолжайте."
-        },
-        "ledgerAppGuide": {
-            "title": "Руководство по установке приложения {legacy}",
-            "steps": {
-                "0": "Установите и откройте приложение Ledger Live",
-                "1": "Убедитесь, что ваш Ledger подключен",
-                "2": "Найдите приложение {legacy}. Возможно, вам потребуется включить режим разработчика Ledger Live.",
-                "3": "Установите приложение {legacy}",
-                "4": "Remember that it's important to close Ledger Live before returning to Bloom"
-            }
         },
         "ledgerConnectionGuide": {
             "title": "Советы, если ваш Ledger не подключается",
@@ -945,6 +929,7 @@
                 "url": "URL",
                 "logoUrl": "URL Логотипа",
                 "logo": "Логотип",
+                "unit": "Unit",
                 "alias": "Псевдоним",
                 "tokenId": "Id Актива"
             }
@@ -1030,6 +1015,9 @@
             "title": "Receive",
             "body": "Receive tokens, NFTs, and other digital assets to your account address shown below.",
             "networkAddress": "{networkName} address"
+        },
+        "createAccount": {
+            "title": "Create account"
         }
     },
     "actions": {
@@ -1090,10 +1078,9 @@
         "updateAndContinue": "Update and continue",
         "tryAgain": "Попрoбуйте снова",
         "visitDiscord": "Перейти в Discord",
-        "dragDrop": "Перетащить",
         "importExtensions": ".stronghold file",
-        "chooseFile": "Выберите файл",
         "dropHere": "Перенесите файл сюда",
+        "dropOrBrowse": "Drop here or browse your files",
         "import": "Импортировать",
         "importing": "Импортирование",
         "export": "Экспортировать",
@@ -1140,7 +1127,7 @@
         "no": "Нет",
         "skip": "Пропустить",
         "reset": "Сбросить",
-        "downloadRecoveryKit": "Сохранить шаблон документа для востановления",
+        "downloadRecoveryKit": "Download recovery kit template",
         "skipBackup": "Skip wallet backup",
         "finishSetup": "Завершить настройку",
         "readDocumentation": "Читать документацию",
@@ -1153,9 +1140,9 @@
         "searching": "Поиск",
         "searchAgain": "Повторный поиск",
         "generateAddress": "Сгенерировать адрес",
-        "searchForRewards": "Искать вознаграждения",
         "claimRewards": "Запросить вознаграждения",
         "rerunClaimProcess": "Перезапустить процесс запроса",
+        "useFinder": "Use balance finder",
         "backup": "Резервное копирование",
         "mint": "Чеканить",
         "mintNativeToken": "Чеканить собственный токен",
@@ -1211,21 +1198,31 @@
         "revoting": "Переголосование",
         "unvoted": "Отозвал голос",
         "unvoting": "Отмена голосования",
-        "transfer": "Перевести",
-        "transferring": "Передача",
+        "transferIn": "Transfer in",
+        "transferringIn": "Transferring in",
+        "transferOut": "Transfer out",
+        "transferringOut": "Transferring out",
         "shimmerClaimed": "Востребовано",
         "shimmerClaiming": "Востребование",
         "shimmerGenesis": "Shimmer Genesis",
-        "minted": "Отчеканено",
-        "minting": "Чеканка",
-        "burned": "Сожжено",
-        "burning": "Сжигание",
+        "mintedalias": "Minted alias",
+        "mintingalias": "Minting alias",
+        "mintednft": "Minted NFT",
+        "mintingnft": "Minting NFT",
+        "mintedfoundry": "Minted token",
+        "mintingfoundry": "Minting token",
+        "burnedalias": "Burned alias",
+        "burningalias": "Burning alias",
+        "burnednft": "Burned NFT",
+        "burningnft": "Burning NFT",
+        "burnedfoundry": "Burned token",
+        "burningfoundry": "Burning token",
+        "burnedbasic": "Burned token",
+        "burningbasic": "Burning token",
         "balanceChanged": "Balance changed",
         "initialBalance": "Initial balance",
         "consolidated": "Consolidated",
         "consolidating": "Consolidating",
-        "aliasCreated": "Псевдоним создан",
-        "creatingAlias": "Создание псевдонима",
         "sendTo": "Отправить на",
         "sendAssets": "Отправить активы",
         "sendAssetToAddress": "Отправить актив на адрес",
@@ -1291,7 +1288,7 @@
         "fromAddress": "с {account}",
         "toAddress": "по {account}",
         "capsLock": "Включен Caps Lock",
-        "version": "Версия {version}",
+        "version": "Version",
         "unknown": "Неизвестно",
         "unknownAddress": "Неизвестный адрес",
         "none": "Отсутствует",
@@ -1309,6 +1306,7 @@
         "governorAddress": "Адрес управляющего",
         "stateControllerAddress": "Адрес контроллера состояния",
         "copiedToClipboard": "Скопировано в буфер обмена",
+        "copiedThis": "I've copied this",
         "availableBalanceWithValue": "Доступный баланс: {balance}",
         "amountClaimed": "{amount} запрошено",
         "metadata": "Полезные данные",
@@ -1372,7 +1370,8 @@
         "ledgerDevice": "Ledger device",
         "disconnected": "Disconnected",
         "balanceBreakdown": "Balance breakdown",
-        "primary": "Primary"
+        "primary": "Primary",
+        "color": "Color"
     },
     "filters": {
         "title": "Фильтры",
@@ -1876,6 +1875,11 @@
             "degraded": "Degraded",
             "operational": "Operational",
             "disconnected": "Disconnected"
+        },
+        "ledgerStatus": {
+            "notConnected": "Not connected",
+            "locked": "Device locked",
+            "appNotOpen": "App not open"
         }
     },
     "menus": {
