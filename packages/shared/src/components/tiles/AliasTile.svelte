@@ -10,7 +10,7 @@
     }
 </script>
 
-<Tile onClick={onTileClick}>
+<Tile onClick={onTileClick} surface={1}>
     <div class="w-full flex flex-row items-center text-left space-x-4">
         <Avatar icon={IconName.Alias} size="lg" textColor="brand" backgroundColor="surface-2" />
 

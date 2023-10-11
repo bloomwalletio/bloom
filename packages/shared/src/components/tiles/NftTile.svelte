@@ -10,7 +10,7 @@
     export let fullWidth = true
 </script>
 
-<Tile {selected} {onClick}>
+<Tile {selected} {onClick} surface={1}>
     <div class="w-full flex flex-row items-center text-left space-x-4">
         <NftAvatar {nft} size="lg" shape="square" />
         <div class="flex flex-col overflow-hidden">
