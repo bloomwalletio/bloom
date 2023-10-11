@@ -571,24 +571,20 @@
                 "title": "Available",
                 "subtitle": "Funds fully available for spending"
             },
-            "pending": {
-                "title": "Pending",
-                "subtitle": "Temporarily locked in transactions"
-            },
-            "locked": {
-                "title": "Locked",
-                "subtitle": "Temporarily locked for governance"
+            "unavailable": {
+                "title": "Unavailable",
+                "subtitle": "Locked or temporarily unavailable in transactions"
             },
             "storageDeposit": {
                 "title": "Storage deposit",
-                "subtitle": "These funds are reserved for storing native assets."
+                "subtitle": "Reserved for storing native assets."
             },
             "totalBalance": {
                 "title": "Total balance",
                 "subtitle": ""
             },
             "basicOutputs": {
-                "title": "Native Tokens",
+                "title": "Native tokens",
                 "subtitle": "Reserved for Native Token storage"
             },
             "nftOutputs": {
@@ -608,11 +604,11 @@
                 "subtitle": "Temporarily locked in unclaimed transactions"
             },
             "timelock": {
-                "title": "Time lock",
+                "title": "Timelocked",
                 "subtitle": "Temporarily locked in timelocked transactions"
             },
             "storageDepositReturn": {
-                "title": "SDRUC",
+                "title": "Storage deposit return",
                 "subtitle": "Temporarily locked in Storage Deposit Return"
             },
             "governance": {
