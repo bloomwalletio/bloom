@@ -12,7 +12,10 @@
         <div style:height="var(--macos-navbar-height)" style:--macos-navbar-height="40px" />
     </NavbarContainer>
 {/if}
-<logged-out-layout class="flex flex-col items-center w-full h-full bg-surface dark:bg-surface-dark">
+<logged-out-layout
+    class="flex flex-col items-center w-full h-full bg-surface dark:bg-surface-dark"
+    style:--macos-navbar-height={IS_MAC ? '40px' : undefined}
+>
     <header class="w-full flex flex-row items-center justify-between px-6" class:glass>
         <logo class="flex flex-row flex-none space-x-3">
             <Logo width="32" logo={LogoName.BloomLogo} />
