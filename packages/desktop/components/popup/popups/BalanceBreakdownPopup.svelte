@@ -142,7 +142,7 @@
         onClick: onConsolidationClick,
     }}
 >
-    <div class="flex flex-col space-y-8">
+    <div class="flex flex-col space-y-1">
         {#each Object.keys(breakdown) as breakdownKey}
             <BalanceSummarySection
                 titleKey={breakdownKey}
