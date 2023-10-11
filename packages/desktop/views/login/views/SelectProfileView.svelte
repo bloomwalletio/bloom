@@ -69,7 +69,7 @@
         on:click={onAddProfileClick}
     />
     <profile-card-list class="">
-        {#each $profiles.slice(0, 13) as profile}
+        {#each $profiles as profile}
             <ProfileCard {profile} onClick={onContinueClick} updateRequired={updateRequiredForProfile(profile)} />
         {/each}
     </profile-card-list>
@@ -80,7 +80,7 @@
         --profile-card-width: 14rem;
     }
     profile-card-list {
-        @apply pr-4 -mr-4 my-auto pt-[4.75rem] pb-16 gap-5 justify-center items-center;
+        @apply pr-4 -mr-4 my-auto pt-[4.75rem] pb-16 gap-5 items-center;
         @apply max-w-[80vw] max-h-full overflow-auto;
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(var(--profile-card-width, 1fr), 1fr));
