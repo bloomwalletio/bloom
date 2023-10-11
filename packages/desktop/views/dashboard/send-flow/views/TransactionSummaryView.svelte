@@ -36,6 +36,10 @@
     let chain: IChain | undefined
 
     async function updateSendFlow(sendFlowParameters: SendFlowParameters): Promise<void> {
+        if (isTransferring) {
+            return
+        }
+
         try {
             const { recipient } = sendFlowParameters
 

@@ -2,7 +2,7 @@ import { Address, AddressType, AliasAddress, Ed25519Address, NftAddress } from '
 import { api } from '@core/profile-manager'
 import { getNetworkHrp } from '@core/profile/actions'
 
-export function getBech32AddressFromAddressTypes(address: Address): string | undefined {
+export function getBech32AddressFromAddressTypes(address: Address | undefined): string | undefined {
     const hrp = getNetworkHrp()
     switch (address?.type) {
         case AddressType.Ed25519:
