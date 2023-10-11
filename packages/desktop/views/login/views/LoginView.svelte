@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { Button, Error, IconName, PinInput, Text, Alert } from '@bloomwalletio/ui'
+    import { Alert, CloseButton, Error, PinInput, Text } from '@bloomwalletio/ui'
     import {
         Platform,
         isLatestStrongholdVersion,
@@ -14,9 +14,9 @@
     import { isValidPin } from '@core/utils'
     import { PopupId, openPopup, popupState } from '@desktop/auxiliary/popup'
     import features from '@features/features'
-    import { onDestroy } from 'svelte'
     import { ProfileAvatarWithBadge } from '@ui'
     import LoggedOutLayout from '@views/components/LoggedOutLayout.svelte'
+    import { onDestroy } from 'svelte'
 
     let attempts: number = 0
     let pinCode: string = ''
@@ -119,41 +119,34 @@
 </script>
 
 <LoggedOutLayout>
-    <div slot="header" class="header flex-none">
-        <div class="flex h-full items-center">
-            <Button
-                variant="text"
-                icon={IconName.ArrowLeft}
-                disabled={hasReachedMaxAttempts}
-                on:click={onBackClick}
-                text={localize('actions.back')}
-            />
+    <CloseButton slot="button" on:click={onBackClick} />
+    <div class:shake class="flex flex-col w-full h-full justify-center items-center">
+        <div>
+            <div class="flex flex-col gap-4 w-full items-center flex-grow mb-8">
+                <ProfileAvatarWithBadge profile={$activeProfile} size="xxxl" {updateRequired} shape="square" />
+                <Text type="h6" align="center" truncate>{$activeProfile.name}</Text>
+            </div>
+            {#if updateRequired}
+                <Alert variant="warning" text={localize('views.login.hintStronghold')} />
+            {/if}
+            <div class="flex flex-col gap-4 w-full items-center justify-center flex-grow">
+                <PinInput
+                    bind:this={pinInput}
+                    bind:value={pinCode}
+                    disabled={hasReachedMaxAttempts || isBusy}
+                    autofocus
+                />
+                <Text bold align="center">
+                    {attempts > 0
+                        ? localize('views.login.incorrectAttempts', {
+                              values: { attempts: attempts.toString() },
+                          })
+                        : localize('actions.enterYourPin')}
+                </Text>
+            </div>
+            <Error error={errorText} />
         </div>
     </div>
-
-    <div class:shake slot="content">
-        <div class="flex flex-col gap-4 w-full items-center flex-grow mb-8">
-            <ProfileAvatarWithBadge profile={$activeProfile} size="xxxl" {updateRequired} shape="square" />
-            <Text type="h6" align="center" truncate>{$activeProfile.name}</Text>
-        </div>
-
-        {#if updateRequired}
-            <Alert variant="warning" text={localize('views.login.hintStronghold')} />
-        {/if}
-        <div class="flex flex-col gap-4 w-full items-center justify-center flex-grow">
-            <PinInput bind:this={pinInput} bind:value={pinCode} disabled={hasReachedMaxAttempts || isBusy} autofocus />
-            <Text bold align="center">
-                {attempts > 0
-                    ? localize('views.login.incorrectAttempts', {
-                          values: { attempts: attempts.toString() },
-                      })
-                    : localize('actions.enterYourPin')}
-            </Text>
-        </div>
-        <Error error={errorText} />
-    </div>
-    <!-- Ghost footer to make above content centred-->
-    <div slot="footer" class="flex-none h-20" />
 </LoggedOutLayout>
 
 <style lang="scss">
