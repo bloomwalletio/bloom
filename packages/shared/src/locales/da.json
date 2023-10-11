@@ -65,67 +65,66 @@
                     "importLedgerDescription": "Gendan fra Ledger Nano S-/X-enhed"
                 },
                 "enterName": {
-                    "title": "Opret {network}-profilen",
+                    "title": "Define your {network} profile",
                     "profileName": "Profilnavn",
-                    "body1": "Der kan oprettes flere brugerprofiler for at organisere wallets samt øge fortroligheden.",
-                    "body2": {
-                        "first": "For nu, lad os starte med det første profilnavn.",
-                        "nonFirst": "For nu, lad os starte med profilnavnet."
-                    },
-                    "addMore": "Flere profiler kan tilføjes senere."
+                    "body": "Please define a new name for your profile."
                 }
             },
             "strongholdSetup": {
                 "setupStrongholdPassword": {
-                    "title": "Opret adgangskode",
-                    "body1": "En stærk adgangskode kræves til beskyttelse af midlerne. Brug en kombination af ord, men undgå alm. sætninger, navne eller datoer.",
-                    "body2": "Det anbefales at nedskrive adgangskoden i Recovery Kit'et."
+                    "title": "Secure Recovery Phrase",
+                    "body": "Your password needs to be highly secure to encrypt and recover your Stronghold vault. Also, you will need this to send tokens from your wallet."
                 }
             },
             "storageProtectionSetup": {
                 "setupPinProtection": {
                     "title": "Opsæt PIN-kode",
-                    "body1": "Angiv den 6-cifrede PIN-kode nedenfor, der skal angives, når profilen tilgås.",
-                    "body2": "Brug kun cifre"
+                    "body": "Enter a 6-digit PIN below. Use numbers only."
                 }
             },
             "profileBackup": {
                 "viewMnemonic": {
                     "title": "Gendannelsesssætning",
-                    "body1": "Nedskriv gendannelsessætningen i Recovery Kit'et i den eksakte rækkefølge, de fremgår.",
-                    "body2": "Opbevar denne fortroligt og sikkert.",
-                    "body3": "Det er vigtigt at have en skriftlig sikkerhedskopi. Computere kan fejle, og filer kan mistes.",
+                    "body": "Carefully copy the words in the exact order below. Keep this private and safely stored.",
                     "revealRecoveryPhrase": "Vis gendannelsessætning",
                     "hideRecoveryPhrase": "Skjul gendannelsessætning"
                 },
                 "verifyMnemonic": {
                     "title": "Bekræft gendannelsessætning",
-                    "body": "Lad os tjekke, om gendannelsessætningen blev nedskrevet korrekt. Vælg hvert ord i nummereret rækkefølge. Tip: Angiv vha. tastaturet tallet ved siden af et ord for at vælge det.",
+                    "body": "Let’s check you wrote down your phrase correctly. Please select the right word with the corresponding number.",
                     "word": "Ord",
-                    "verified": "Gendannelsessætning bekræftet",
-                    "verifiedBody": "Husk at holde den fortrolig og sikkert opbevaret."
+                    "match": "Match from below",
+                    "success": {
+                        "title": "Verification success",
+                        "body1": "The recovery phrase matched",
+                        "body2": "Remember to keep your copy private and safely stored"
+                    },
+                    "failure": {
+                        "title": "Verification failure",
+                        "body1": "The recovery phrase did not match",
+                        "body2": "Please check your records"
+                    }
                 }
             },
             "profileRecovery": {
                 "importMnemonicPhrase": {
                     "title": "Angiv genoprettelsessætningen",
-                    "body": "A recovery phrase is 24 words long, all lower case, with spaces between. This is used to recover existing Bloom profiles.",
-                    "enter": "Angiv den hemmelige genoprettelsessætning",
+                    "body": "A recovery phrase is 24 words long, all lower case, with spaces between. Separate each word by spaces or commas.",
                     "phraseDetected": "24-ords gendannelsessætning fundet"
                 },
                 "importStrongholdBackup": {
-                    "title": "Importér Stronghold-sikkerhedskopien",
+                    "title": "Restore your profile",
                     "body": "Importér en Stronghold-sikkerhedskopifil for at gendanne profilen."
                 },
-                "backupPassword": {
-                    "body1": "Angiv sikkerhedskopiadgangskoden.",
-                    "body2": "Dette er adgangskoden, der blev angivet ifm. oprettelsen af sikkerhedskopien."
+                "unlockBackup": {
+                    "title": "Unlock your backup",
+                    "body": "Please provide your backup password below."
                 }
             },
             "shimmerClaiming": {
                 "claimRewards": {
-                    "title": "Shimmer-staking belønninger",
-                    "body": "Tjek at Shimmer staking-belønningerne er korrekte. Man skal muligvis søge flere gange for at finde sin fulde saldo."
+                    "title": "Shimmer staking rewards",
+                    "body": "Please check if your Shimmer staking rewards balance is correct. If not, please use the balance finder."
                 },
                 "success": {
                     "title": "Shimmer indløst",
@@ -135,20 +134,20 @@
                 }
             },
             "congratulations": {
-                "title": "Profilopsætning næsten færdig...",
-                "body": "Den nye profil vil være klar til brug, når kontrolpanelet er indlæst.",
-                "ledgerHint": "Frakobl ikke Ledger-enheden, før kontrolpanelet er fuldstændigt indlæst."
+                "title": "Setup complete",
+                "body1": "Bloom is ready",
+                "body2": "Seamlessly manage your keys, assets and transactions.",
+                "action": "Enter Bloom"
             }
         },
         "ledgerInstallationGuide": {
-            "title": "Er {network}-appen installeret på Ledger-enheden?",
-            "body1": "Før der fortsættes, så brug Ledger Live til at finde og installere {network}-appen.",
-            "body2": "Sørg for, at Ledger-firmwaren er opdateret. Alle præinstallerede apps bør opdateres til seneste versioner.",
-            "action": "Ja, {network}-appen er installeret"
+            "title": "Have you installed the necessary Ledger app?",
+            "body": "Use Ledger Live to find and install the {network} app.",
+            "action": "Yes, let's continue"
         },
         "connectLedger": {
             "title": "Connect your Ledger to Bloom",
-            "body": "For your Ledger device to be found by Bloom, please ensure that the official Ledger Live application is closed.",
+            "body": "For your Ledger device to be found by Bloom, please ensure that the official Ledger Live application is closed and the following steps are followed.",
             "connect": "Tilslut Ledger-enheden",
             "unlock": "Oplås Ledger-enheden PIN-koden",
             "openApp": "Åbn Shimmer-appen på Ledger-enheden"
@@ -351,9 +350,6 @@
                     "chainDepositAddress": {
                         "title": "Kædeindbetalingsadresse",
                         "networkTitle": "Netværksindbetalingsadresse"
-                    },
-                    "chainInformation": {
-                        "title": "Kædeinformation"
                     },
                     "confirmLedgerEvmAddress": {
                         "title": "Bekræft EVM-adresse",
@@ -569,24 +565,20 @@
                 "title": "Tilgængelig",
                 "subtitle": "Midler fuldt tilgængelige til forbrug"
             },
-            "pending": {
-                "title": "Afventer",
-                "subtitle": "Midlertidigt fastlåste transaktioner"
-            },
-            "locked": {
-                "title": "Låst",
-                "subtitle": "Midlertidigt fastlåst for forvaltning"
+            "unavailable": {
+                "title": "Unavailable",
+                "subtitle": "Locked or temporarily unavailable in transactions"
             },
             "storageDeposit": {
                 "title": "Lagerindskud",
-                "subtitle": "Disse midler er reserveret til lagring af henhørende aktiver."
+                "subtitle": "Reserved for storing native assets."
             },
             "totalBalance": {
                 "title": "Saldo i alt",
                 "subtitle": ""
             },
             "basicOutputs": {
-                "title": "Henhørende Tokener",
+                "title": "Native tokens",
                 "subtitle": "Reserveret til lagring af Henhørende Tokener"
             },
             "nftOutputs": {
@@ -606,11 +598,11 @@
                 "subtitle": "Temporarily locked in unclaimed transactions"
             },
             "timelock": {
-                "title": "Time lock",
+                "title": "Timelocked",
                 "subtitle": "Temporarily locked in timelocked transactions"
             },
             "storageDepositReturn": {
-                "title": "SDRUC",
+                "title": "Storage deposit return",
                 "subtitle": "Temporarily locked in Storage Deposit Return"
             },
             "governance": {
@@ -739,6 +731,8 @@
         },
         "diagnostics": {
             "title": "Diagnostik",
+            "app": "App",
+            "system": "System",
             "node": "Node",
             "platform": "Platform",
             "platformVersion": "Platformsversion",
@@ -769,16 +763,6 @@
             "locked": "Oplås Ledger-enheden for at fortsætte.",
             "appNotOpen": "Åbn Shimmer-appen på Ledger-enheden for at fortsætte.",
             "correctAppOpen": "Ledger-enheden er tilsluttet, fortsæt."
-        },
-        "ledgerAppGuide": {
-            "title": "Guide til at installere {legacy}-appen",
-            "steps": {
-                "0": "Install and open the Ledger Live application",
-                "1": "Ensure that your Ledger is connected",
-                "2": "Søg efter {legacy}-appen. Ledger Live-udviklertilstanden skal muligvis aktiveres.",
-                "3": "Installér {legacy}-appen",
-                "4": "Remember that it's important to close Ledger Live before returning to Bloom"
-            }
         },
         "ledgerConnectionGuide": {
             "title": "Tips if your Ledger isn’t connecting",
@@ -945,6 +929,7 @@
                 "url": "URL",
                 "logoUrl": "Logo URL",
                 "logo": "Logo",
+                "unit": "Unit",
                 "alias": "Alias",
                 "tokenId": "Token Id"
             }
@@ -1030,6 +1015,9 @@
             "title": "Receive",
             "body": "Receive tokens, NFTs, and other digital assets to your account address shown below.",
             "networkAddress": "{networkName} address"
+        },
+        "createAccount": {
+            "title": "Create account"
         }
     },
     "actions": {
@@ -1090,10 +1078,9 @@
         "updateAndContinue": "Opdtér og fortsæt",
         "tryAgain": "Prøv igen",
         "visitDiscord": "Besøg Discord",
-        "dragDrop": "Træk Og Slip",
         "importExtensions": ".stronghold file",
-        "chooseFile": "Vælg fil",
         "dropHere": "Slip din fil her",
+        "dropOrBrowse": "Drop here or browse your files",
         "import": "Importér",
         "importing": "Importerer",
         "export": "Eksportér",
@@ -1140,7 +1127,7 @@
         "no": "Nej",
         "skip": "Spring over",
         "reset": "Nulstil",
-        "downloadRecoveryKit": "Gem Recovery Kit skabelon",
+        "downloadRecoveryKit": "Download recovery kit template",
         "skipBackup": "Overspring wallet-sikkerhedskopiering",
         "finishSetup": "Afslut opsætning",
         "readDocumentation": "Læs dokumentationen",
@@ -1153,9 +1140,9 @@
         "searching": "Searching",
         "searchAgain": "Søg igen",
         "generateAddress": "Generate address",
-        "searchForRewards": "Søg efter belønninger",
         "claimRewards": "Claim rewards",
         "rerunClaimProcess": "Rerun claim process",
+        "useFinder": "Use balance finder",
         "backup": "Backup",
         "mint": "Mint",
         "mintNativeToken": "Mint native tokener",
@@ -1211,21 +1198,31 @@
         "revoting": "Revoting",
         "unvoted": "Unvoted",
         "unvoting": "Unvoting",
-        "transfer": "Transfer",
-        "transferring": "Transferring",
+        "transferIn": "Transfer in",
+        "transferringIn": "Transferring in",
+        "transferOut": "Transfer out",
+        "transferringOut": "Transferring out",
         "shimmerClaimed": "Modtaget",
         "shimmerClaiming": "Modtager",
         "shimmerGenesis": "Shimmer Genesis",
-        "minted": "Mintet",
-        "minting": "Mintning",
-        "burned": "Brændt",
-        "burning": "Brænder",
+        "mintedalias": "Minted alias",
+        "mintingalias": "Minting alias",
+        "mintednft": "Minted NFT",
+        "mintingnft": "Minting NFT",
+        "mintedfoundry": "Minted token",
+        "mintingfoundry": "Minting token",
+        "burnedalias": "Burned alias",
+        "burningalias": "Burning alias",
+        "burnednft": "Burned NFT",
+        "burningnft": "Burning NFT",
+        "burnedfoundry": "Burned token",
+        "burningfoundry": "Burning token",
+        "burnedbasic": "Burned token",
+        "burningbasic": "Burning token",
         "balanceChanged": "Balance changed",
         "initialBalance": "Initial balance",
         "consolidated": "Consolidated",
         "consolidating": "Consolidating",
-        "aliasCreated": "Alias created",
-        "creatingAlias": "Creating Alias",
         "sendTo": "Send To",
         "sendAssets": "Send assets",
         "sendAssetToAddress": "Send asset to an address",
@@ -1291,7 +1288,7 @@
         "fromAddress": "from {account}",
         "toAddress": "to {account}",
         "capsLock": "Caps Lock er slået til",
-        "version": "Version {version}",
+        "version": "Version",
         "unknown": "Unknown",
         "unknownAddress": "Unknown address",
         "none": "None",
@@ -1309,6 +1306,7 @@
         "governorAddress": "Governor Address",
         "stateControllerAddress": "State Controller Address",
         "copiedToClipboard": "Copied to clipboard",
+        "copiedThis": "I've copied this",
         "availableBalanceWithValue": "Disponibel saldo: {balance}",
         "amountClaimed": "{amount} claimed",
         "metadata": "Metadata",
@@ -1372,7 +1370,8 @@
         "ledgerDevice": "Ledger device",
         "disconnected": "Disconnected",
         "balanceBreakdown": "Balance breakdown",
-        "primary": "Primary"
+        "primary": "Primary",
+        "color": "Color"
     },
     "filters": {
         "title": "Filtre",
@@ -1876,6 +1875,11 @@
             "degraded": "Forringet",
             "operational": "I drift",
             "disconnected": "Afbrudt"
+        },
+        "ledgerStatus": {
+            "notConnected": "Not connected",
+            "locked": "Device locked",
+            "appNotOpen": "App not open"
         }
     },
     "menus": {

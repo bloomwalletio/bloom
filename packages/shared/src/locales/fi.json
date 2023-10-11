@@ -65,67 +65,66 @@
                     "importLedgerDescription": "Palauta Ledger Nano S tai X -laitteestasi"
                 },
                 "enterName": {
-                    "title": "Create your {network} profile",
+                    "title": "Define your {network} profile",
                     "profileName": "Profiilin nimi",
-                    "body1": "Voit luoda useita käyttäjäprofiileja lompakkojesi järjestämiseksi ja yksityisyyden parantamiseksi.",
-                    "body2": {
-                        "first": "Aloitetaan nyt ensimmäisen profiilisi nimellä.",
-                        "nonFirst": "Aloitetaan nyt profiilisi nimellä."
-                    },
-                    "addMore": "Voit tehdä lisää profiileja myöhemmin."
+                    "body": "Please define a new name for your profile."
                 }
             },
             "strongholdSetup": {
                 "setupStrongholdPassword": {
-                    "title": "Luo salasana",
-                    "body1": "Tarvitset vahvan salasanan turvataksesi varasi. Käytä sanojen yhdistelmää ja vältä yleisiä ilmaisuja, nimiä tai päivämääriä.",
-                    "body2": "On suositeltavaa, että kirjoitat salasanasi palautussivulle."
+                    "title": "Secure Recovery Phrase",
+                    "body": "Your password needs to be highly secure to encrypt and recover your Stronghold vault. Also, you will need this to send tokens from your wallet."
                 }
             },
             "storageProtectionSetup": {
                 "setupPinProtection": {
                     "title": "Määritä PIN-koodi",
-                    "body1": "Syötä 6-numeroinen PIN-koodi alla. Sinua pyydetään syöttämään PIN-koodisi käyttääksesi profiiliasi.",
-                    "body2": "Käytä vain numeroita"
+                    "body": "Enter a 6-digit PIN below. Use numbers only."
                 }
             },
             "profileBackup": {
                 "viewMnemonic": {
                     "title": "Palautuslauseke",
-                    "body1": "Kirjoita sanat ylös täsmälleen näytetyssä järjestyksessä palautussivullesi.",
-                    "body2": "Pidä tämä salassa ja turvallisesti talletettuna.",
-                    "body3": "On tärkeää olla kirjallinen varmuuskopio. Tietokoneet voivat vikaantua ja tiedostot korruptoitua.",
+                    "body": "Carefully copy the words in the exact order below. Keep this private and safely stored.",
                     "revealRecoveryPhrase": "Näytä palautuslauseke",
                     "hideRecoveryPhrase": "Piilota palautuslauseke"
                 },
                 "verifyMnemonic": {
                     "title": "Vahvista palautuslauseke",
-                    "body": "Tarkistetaan, että kirjoitit lausekkeen oikein. Valitse jokainen sana numeroidussa järjestyksessä. Vinkki: voit painaa sanan vieressä olevaa numeroa näppäimistössäsi valitaksesi sen.",
+                    "body": "Let’s check you wrote down your phrase correctly. Please select the right word with the corresponding number.",
                     "word": "Sana",
-                    "verified": "Palautuslauseke vahvistettu",
-                    "verifiedBody": "Muista pitää se salassa ja turvallisesti talletettuna."
+                    "match": "Match from below",
+                    "success": {
+                        "title": "Verification success",
+                        "body1": "The recovery phrase matched",
+                        "body2": "Remember to keep your copy private and safely stored"
+                    },
+                    "failure": {
+                        "title": "Verification failure",
+                        "body1": "The recovery phrase did not match",
+                        "body2": "Please check your records"
+                    }
                 }
             },
             "profileRecovery": {
                 "importMnemonicPhrase": {
                     "title": "Syötä palautuslausekkeesi",
-                    "body": "A recovery phrase is 24 words long, all lower case, with spaces between. This is used to recover existing Bloom profiles.",
-                    "enter": "Syötä salainen palautuslausekkeesi",
+                    "body": "A recovery phrase is 24 words long, all lower case, with spaces between. Separate each word by spaces or commas.",
                     "phraseDetected": "24 sanan palautuslauseke havaittu"
                 },
                 "importStrongholdBackup": {
-                    "title": "Tuo Stronghold-varmuuskopiosi",
+                    "title": "Restore your profile",
                     "body": "Tuo Stronghold-varmuuskopiotiedosto palauttaaksesi profiilisi."
                 },
-                "backupPassword": {
-                    "body1": "Syötä varmuuskopion salasanasi.",
-                    "body2": "Asetit tämän salasanan, kun loit varmuuskopion."
+                "unlockBackup": {
+                    "title": "Unlock your backup",
+                    "body": "Please provide your backup password below."
                 }
             },
             "shimmerClaiming": {
                 "claimRewards": {
-                    "title": "Sinun Shimmer-palkkiosi stakingista",
-                    "body": "Tarkista, että Shimmer-stakingin palkkiot ovat oikein. Saatat joutua etsimään useita kertoja löytääksesi koko saldosi."
+                    "title": "Shimmer staking rewards",
+                    "body": "Please check if your Shimmer staking rewards balance is correct. If not, please use the balance finder."
                 },
                 "success": {
                     "title": "Shimmer lunastettu",
@@ -135,20 +134,20 @@
                 }
             },
             "congratulations": {
-                "title": "Profiilin määritys melkein valmis...",
-                "body": "Uusi profiilisi on valmis, kunhan kojelauta on ladattu onnistuneesti.",
-                "ledgerHint": "Älä katkaise yhteyttä Ledger-laitteeseesi ennen kuin kojelauta on ladannut loppuun."
+                "title": "Setup complete",
+                "body1": "Bloom is ready",
+                "body2": "Seamlessly manage your keys, assets and transactions.",
+                "action": "Enter Bloom"
             }
         },
         "ledgerInstallationGuide": {
-            "title": "Have you installed the {network} app on your Ledger device?",
-            "body1": "Before you proceed, you must use Ledger Live to find and install the {network} app.",
-            "body2": "Varmista, että Ledger-laitteesi laiteohjelmisto on ajan tasalla. Kaikki valmiiksi asennetut sovellukset tulee päivittää uusimpiin versioihin.",
-            "action": "Yes, I've installed the {network} app"
+            "title": "Have you installed the necessary Ledger app?",
+            "body": "Use Ledger Live to find and install the {network} app.",
+            "action": "Yes, let's continue"
         },
         "connectLedger": {
             "title": "Connect your Ledger to Bloom",
-            "body": "For your Ledger device to be found by Bloom, please ensure that the official Ledger Live application is closed.",
+            "body": "For your Ledger device to be found by Bloom, please ensure that the official Ledger Live application is closed and the following steps are followed.",
             "connect": "Yhdistä Ledger-laitteesi",
             "unlock": "Avaa Ledger-laitteesi sen PIN-koodilla",
             "openApp": "Avaa Shimmer-sovellus Ledger-laitteessasi"
@@ -351,9 +350,6 @@
                     "chainDepositAddress": {
                         "title": "Chain deposit address",
                         "networkTitle": "Network deposit address"
-                    },
-                    "chainInformation": {
-                        "title": "Chain information"
                     },
                     "confirmLedgerEvmAddress": {
                         "title": "Confirm EVM address",
@@ -569,24 +565,20 @@
                 "title": "Available",
                 "subtitle": "Funds fully available for spending"
             },
-            "pending": {
-                "title": "Pending",
-                "subtitle": "Temporarily locked in transactions"
-            },
-            "locked": {
-                "title": "Locked",
-                "subtitle": "Temporarily locked for governance"
+            "unavailable": {
+                "title": "Unavailable",
+                "subtitle": "Locked or temporarily unavailable in transactions"
             },
             "storageDeposit": {
                 "title": "Storage deposit",
-                "subtitle": "These funds are reserved for storing native assets."
+                "subtitle": "Reserved for storing native assets."
             },
             "totalBalance": {
                 "title": "Total balance",
                 "subtitle": ""
             },
             "basicOutputs": {
-                "title": "Native Tokens",
+                "title": "Native tokens",
                 "subtitle": "Reserved for Native Token storage"
             },
             "nftOutputs": {
@@ -606,11 +598,11 @@
                 "subtitle": "Temporarily locked in unclaimed transactions"
             },
             "timelock": {
-                "title": "Time lock",
+                "title": "Timelocked",
                 "subtitle": "Temporarily locked in timelocked transactions"
             },
             "storageDepositReturn": {
-                "title": "SDRUC",
+                "title": "Storage deposit return",
                 "subtitle": "Temporarily locked in Storage Deposit Return"
             },
             "governance": {
@@ -739,6 +731,8 @@
         },
         "diagnostics": {
             "title": "Diagnostiikka",
+            "app": "App",
+            "system": "System",
             "node": "Solmu",
             "platform": "Alusta",
             "platformVersion": "Alustan versio",
@@ -769,16 +763,6 @@
             "locked": "Avaa Ledger-laitteesi jatkaaksesi.",
             "appNotOpen": "Open the Shimmer app on your Ledger device to continue.",
             "correctAppOpen": "Ledger yhdistetty onnistuneesti, ole hyvä ja jatka."
-        },
-        "ledgerAppGuide": {
-            "title": "Opas {legacy}-sovelluksen asentamiseen",
-            "steps": {
-                "0": "Asenna ja avaa Ledger Live -sovellus",
-                "1": "Varmista, että Ledger-laitteesi on yhdistetty",
-                "2": "Etsi {legacy}-sovellusta. Saatat joutua ottamaan käyttöön Ledger Liven kehittäjätilan.",
-                "3": "Asenna {legacy} sovellus",
-                "4": "Remember that it's important to close Ledger Live before returning to Bloom"
-            }
         },
         "ledgerConnectionGuide": {
             "title": "Vinkkejä, jos Ledger ei yhdistä",
@@ -945,6 +929,7 @@
                 "url": "URL",
                 "logoUrl": "Logo URL",
                 "logo": "Logo",
+                "unit": "Unit",
                 "alias": "Alias",
                 "tokenId": "Token Id"
             }
@@ -1030,6 +1015,9 @@
             "title": "Receive",
             "body": "Receive tokens, NFTs, and other digital assets to your account address shown below.",
             "networkAddress": "{networkName} address"
+        },
+        "createAccount": {
+            "title": "Create account"
         }
     },
     "actions": {
@@ -1090,10 +1078,9 @@
         "updateAndContinue": "Update and continue",
         "tryAgain": "Yritä uudelleen",
         "visitDiscord": "Vieraile Discordissa",
-        "dragDrop": "Vedä ja pudota",
         "importExtensions": ".stronghold file",
-        "chooseFile": "Valitse tiedosto",
         "dropHere": "Pudota tiedosto tähän",
+        "dropOrBrowse": "Drop here or browse your files",
         "import": "Tuo",
         "importing": "Tuodaan",
         "export": "Vie",
@@ -1140,7 +1127,7 @@
         "no": "Ei",
         "skip": "Ohita",
         "reset": "Nollaa",
-        "downloadRecoveryKit": "Tallenna palautussivun malli",
+        "downloadRecoveryKit": "Download recovery kit template",
         "skipBackup": "Skip wallet backup",
         "finishSetup": "Viimeistele asennus",
         "readDocumentation": "Lue dokumentaatio",
@@ -1153,9 +1140,9 @@
         "searching": "Etsitään",
         "searchAgain": "Hae uudelleen",
         "generateAddress": "Luo osoite",
-        "searchForRewards": "Etsi palkkioita",
         "claimRewards": "Lunasta palkkiot",
         "rerunClaimProcess": "Suorita lunastusprosessi uudelleen",
+        "useFinder": "Use balance finder",
         "backup": "Varmuuskopioi",
         "mint": "Lyö",
         "mintNativeToken": "Lyö natiivi token",
@@ -1211,21 +1198,31 @@
         "revoting": "Revoting",
         "unvoted": "Äänestys poistettu",
         "unvoting": "Äänestyksen poistaminen",
-        "transfer": "Siirto",
-        "transferring": "Siirretään",
+        "transferIn": "Transfer in",
+        "transferringIn": "Transferring in",
+        "transferOut": "Transfer out",
+        "transferringOut": "Transferring out",
         "shimmerClaimed": "Lunastettu",
         "shimmerClaiming": "Lunastetaan",
         "shimmerGenesis": "Shimmer Genesis",
-        "minted": "Lyöty",
-        "minting": "Lyönti",
-        "burned": "Burned",
-        "burning": "Burning",
+        "mintedalias": "Minted alias",
+        "mintingalias": "Minting alias",
+        "mintednft": "Minted NFT",
+        "mintingnft": "Minting NFT",
+        "mintedfoundry": "Minted token",
+        "mintingfoundry": "Minting token",
+        "burnedalias": "Burned alias",
+        "burningalias": "Burning alias",
+        "burnednft": "Burned NFT",
+        "burningnft": "Burning NFT",
+        "burnedfoundry": "Burned token",
+        "burningfoundry": "Burning token",
+        "burnedbasic": "Burned token",
+        "burningbasic": "Burning token",
         "balanceChanged": "Balance changed",
         "initialBalance": "Initial balance",
         "consolidated": "Consolidated",
         "consolidating": "Consolidating",
-        "aliasCreated": "Alias created",
-        "creatingAlias": "Creating Alias",
         "sendTo": "Lähetä",
         "sendAssets": "Send assets",
         "sendAssetToAddress": "Send asset to an address",
@@ -1291,7 +1288,7 @@
         "fromAddress": "tililtä {account}",
         "toAddress": "tilille {account}",
         "capsLock": "Caps Lock on päällä",
-        "version": "Versio {version}",
+        "version": "Version",
         "unknown": "Tuntematon",
         "unknownAddress": "Tuntematon osoite",
         "none": "Ei mikään",
@@ -1309,6 +1306,7 @@
         "governorAddress": "Governor Address",
         "stateControllerAddress": "State Controller Address",
         "copiedToClipboard": "Kopioitu leikepöydälle",
+        "copiedThis": "I've copied this",
         "availableBalanceWithValue": "Käytettävissä oleva saldo: {balance}",
         "amountClaimed": "{amount} lunastettu",
         "metadata": "Metatiedot",
@@ -1372,7 +1370,8 @@
         "ledgerDevice": "Ledger device",
         "disconnected": "Disconnected",
         "balanceBreakdown": "Balance breakdown",
-        "primary": "Primary"
+        "primary": "Primary",
+        "color": "Color"
     },
     "filters": {
         "title": "Suodattimet",
@@ -1876,6 +1875,11 @@
             "degraded": "Degraded",
             "operational": "Operational",
             "disconnected": "Disconnected"
+        },
+        "ledgerStatus": {
+            "notConnected": "Not connected",
+            "locked": "Device locked",
+            "appNotOpen": "App not open"
         }
     },
     "menus": {
