@@ -6,6 +6,7 @@ import { resetSendFlowParameters } from '@core/wallet/stores'
 import { Output } from '@core/wallet/types'
 import { validateSendConfirmation } from '@core/wallet/utils'
 import { signAndSendStardustTransaction } from './signAndSendStardustTransaction'
+import { handleError } from '@core/error/handlers'
 
 export async function sendOutputFromStardust(
     output: Output,
@@ -20,9 +21,13 @@ export async function sendOutputFromStardust(
 
     await checkActiveProfileAuth(
         async () => {
-            await signAndSendStardustTransaction(output, account)
-            callback()
-            resetSendFlowParameters()
+            try {
+                await signAndSendStardustTransaction(output, account)
+                callback()
+                resetSendFlowParameters()
+            } catch (err) {
+                handleError(err)
+            }
         },
         { stronghold: true, ledger: false }
     )
