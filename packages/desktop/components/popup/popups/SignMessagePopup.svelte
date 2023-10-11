@@ -103,7 +103,7 @@
         <Button
             disabled={$selectedAccount.isTransferring || isBusy}
             busy={$selectedAccount.isTransferring || isBusy}
-            on:cick={onConfirmClick}
+            on:click={onConfirmClick}
             width="full"
             text={localize('popups.signMessage.action')}
         />

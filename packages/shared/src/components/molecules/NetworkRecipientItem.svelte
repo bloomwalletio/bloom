@@ -1,8 +1,8 @@
 <script lang="ts">
-    import { Icon as IconEnum } from '@auxiliary/icon'
+    import { Icon, IOption, IconName, Text, Tile } from '@bloomwalletio/ui'
     import { isEvmChain } from '@core/network'
     import { Subject, SubjectType } from '@core/wallet'
-    import { FontWeight, Icon, IOption, NetworkAvatar, RecipientInput, Text, TextType } from '@ui'
+    import { NetworkAvatar, RecipientInput } from '@ui'
     import { INetworkRecipientSelectorOption } from '../interfaces'
     import { ContactManager } from '@core/contact'
 
@@ -29,8 +29,7 @@
             case SubjectType.Account:
                 return [
                     {
-                        id: recipient.account.index,
-                        key: recipient.account.name,
+                        label: recipient.account.name,
                         value: recipient.address,
                         color: recipient.account.color,
                     },
@@ -40,8 +39,7 @@
                     ContactManager.getNetworkContactAddressMapForContact(recipient.contact.id)[item.networkId] ?? {}
                 )
                 return addresses.map<IOption>((address) => ({
-                    id: recipient.contact.id,
-                    key: recipient.contact.name,
+                    label: recipient.contact.name,
                     value: address.address,
                     displayedValue: address.addressName,
                     color: recipient.contact.color,
@@ -58,63 +56,40 @@
     }
 </script>
 
-<!-- svelte-ignore a11y-click-events-have-key-events -->
-<network-recipient-item
-    class:selected={selected && !hasError}
-    class:disabled={item.disabled || hasError}
-    class:error={hasError}
-    on:click={onItemClick}
+<Tile
+    surface={1}
+    border
+    selected={selected && !hasError}
+    disabled={item.disabled || hasError}
+    error={hasError}
+    onClick={onItemClick}
 >
-    <network-recipient-item-name>
-        <div class="flex flex-row justify-between items-center space-x-4">
-            <div class="flex flex-row space-x-3 items-center">
-                <NetworkAvatar networkId={item.networkId} />
-                <Text type={TextType.h4} fontWeight={FontWeight.semibold}>
-                    {item.name}
-                </Text>
+    <div class="flex flex-col w-full space-y-4 justify-between">
+        <network-recipient-item-name>
+            <div class="flex flex-row justify-between items-center space-x-4">
+                <div class="flex flex-row space-x-3 items-center">
+                    <NetworkAvatar networkId={item.networkId} />
+                    <Text type="body2">
+                        {item.name}
+                    </Text>
+                </div>
+                {#if selected}
+                    <Icon name={IconName.SuccessCircle} size="sm" customColor="primary" />
+                {/if}
             </div>
-            {#if selected}
-                <network-recipient-item-checkbox>
-                    <Icon icon={IconEnum.CheckboxRound} width={16} height={16} classes="active" />
-                </network-recipient-item-checkbox>
-            {/if}
-        </div>
-    </network-recipient-item-name>
-    {#if selected}
-        <network-recipient-item-address>
-            <RecipientInput
-                bind:this={recipientInput}
-                bind:inputElement={recipientInputElement}
-                bind:recipient={item.selectedRecipient}
-                {options}
-                networkId={item.networkId}
-                isEvmChain={isEvmChain(item.networkId)}
-            />
-        </network-recipient-item-address>
-    {/if}
-</network-recipient-item>
-
-<style lang="scss">
-    network-recipient-item {
-        @apply w-full relative cursor-pointer;
-        @apply p-4;
-        @apply rounded-10;
-        @apply flex flex-col space-y-4;
-        @apply rounded-10 border-solid border border-gray-300;
-        &.selected {
-            @apply border-2 border-blue-500;
-        }
-        &.disabled {
-            @apply pointer-events-none;
-            @apply opacity-50;
-            @apply cursor-not-allowed;
-        }
-        &.error {
-            @apply border-2 border-red-500;
-        }
-    }
-    :global(network-recipient-item-checkbox svg.active path) {
-        @apply text-blue-500;
-        @apply fill-current;
-    }
-</style>
+        </network-recipient-item-name>
+        {#if selected}
+            <network-recipient-item-address>
+                <RecipientInput
+                    bind:this={recipientInput}
+                    bind:inputElement={recipientInputElement}
+                    bind:recipient={item.selectedRecipient}
+                    disabled={!selected}
+                    {options}
+                    networkId={item.networkId}
+                    isEvmChain={isEvmChain(item.networkId)}
+                />
+            </network-recipient-item-address>
+        {/if}
+    </div>
+</Tile>
