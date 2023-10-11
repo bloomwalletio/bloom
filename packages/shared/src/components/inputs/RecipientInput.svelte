@@ -48,10 +48,12 @@
     function getSelectedRecipient(recipient: Subject | undefined): IOption {
         if (recipient) {
             switch (recipient.type) {
-                case SubjectType.Account:
-                    return { label: recipient.account.name, value: recipient.address }
+                case SubjectType.Account: {
+                    const label = recipient.account.name
+                    return { label, value: recipient.address, color: getAccountColor(label) }
+                }
                 case SubjectType.Address:
-                    return { value: recipient.address }
+                    return { value: recipient.address, color: getRandomAccountColor() }
                 case SubjectType.Contact: {
                     const address = ContactManager.getNetworkContactAddressMapForContact(recipient.contact.id)?.[
                         networkId
@@ -70,10 +72,6 @@
             }
         }
     }
-
-    function getRecipientColor(option: IOption): string {
-        return option.color ?? getAccountColor(option?.label) ?? getRandomAccountColor()
-    }
 </script>
 
 <SelectInput
@@ -85,7 +83,7 @@
     {options}
     {...$$restProps}
     customValue={true}
-    let:option
+    let:color
 >
-    <Indicator color={getRecipientColor(option)} />
+    <Indicator {color} size="sm" />
 </SelectInput>
