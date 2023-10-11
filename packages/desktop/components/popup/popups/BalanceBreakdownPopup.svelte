@@ -122,6 +122,18 @@
             },
         })
     }
+
+    let currentExpandedSection: string
+    const expanded: { [key: string]: boolean } = {}
+    function expandOne(breakdownKey) {
+        if (currentExpandedSection === breakdownKey) {
+            expanded[currentExpandedSection] = false
+        } else {
+            expanded[currentExpandedSection] = false
+            expanded[breakdownKey] = true
+            currentExpandedSection = breakdownKey
+        }
+    }
 </script>
 
 <PopupTemplate
@@ -138,6 +150,8 @@
                 subtitleKey={breakdownKey}
                 amount={breakdown[breakdownKey].amount}
                 subBreakdown={breakdown[breakdownKey].subBreakdown}
+                expanded={expanded[breakdownKey]}
+                onClick={() => expandOne(breakdownKey)}
             />
         {/each}
         <BalanceSummarySection titleKey="totalBalance" amount={Number(accountBalance?.baseCoin?.total ?? 0)} bold />

@@ -12,8 +12,8 @@
     export let subBreakdown: { [key: string]: number } = {}
     export let amount: number
     export let bold: boolean = false
-
-    let expanded = false
+    export let expanded = false
+    export let onClick: (() => void) | undefined = undefined
 
     $: hasChildren = !!Object.keys(subBreakdown ?? {}).length
     $: baseCoin = $selectedAccountTokens?.[$activeProfile?.network?.id]?.baseCoin
@@ -27,8 +27,8 @@
     }
 
     function toggleExpandedView(): void {
-        if (hasChildren) {
-            expanded = !expanded
+        if (hasChildren && onClick) {
+            onClick()
         }
     }
 
