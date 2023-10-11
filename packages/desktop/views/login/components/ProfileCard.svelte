@@ -76,6 +76,7 @@
     }
 
     badge-container {
+        @apply absolute left-6 top-6;
         @apply flex gap-2 text-gray-500 dark:text-gray-100;
     }
 
