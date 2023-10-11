@@ -85,7 +85,7 @@
             const isVerified = await Platform.PincodeManager.verify($activeProfile?.id, pinCode)
             if (isVerified) {
                 if (!updateRequired) {
-                    await login()
+                    void login()
                 }
                 $loginRouter.next()
             } else {
