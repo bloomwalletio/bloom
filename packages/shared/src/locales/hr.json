@@ -65,67 +65,66 @@
                     "importLedgerDescription": "Oporavi pomoću Ledger Nano S ili Ledger Nano X uređaja"
                 },
                 "enterName": {
-                    "title": "Create your {network} profile",
+                    "title": "Define your {network} profile",
                     "profileName": "Ime profila",
-                    "body1": "Možete stvoriti više korisničkih profila kako biste organizirali svoje novčanike i poboljšali privatnost.",
-                    "body2": {
-                        "first": "Počnimo s imenom tvojeg prvog profila.",
-                        "nonFirst": "Počnimo s imenom tvojeg profila."
-                    },
-                    "addMore": "Kasnije možeš dodati još profila."
+                    "body": "Please define a new name for your profile."
                 }
             },
             "strongholdSetup": {
                 "setupStrongholdPassword": {
-                    "title": "Stvori lozinku",
-                    "body1": "Kako biste zaštitili svoja sredstva, treba vam jaka lozinka. Koristite kombinaciju riječi a izbjegavajte uobičajene fraze, imena i datume.",
-                    "body2": "Preporučamo vam da zapišete svoju lozinku u Recovery Kit."
+                    "title": "Secure Recovery Phrase",
+                    "body": "Your password needs to be highly secure to encrypt and recover your Stronghold vault. Also, you will need this to send tokens from your wallet."
                 }
             },
             "storageProtectionSetup": {
                 "setupPinProtection": {
                     "title": "Postavi PIN",
-                    "body1": "Unesite PIN od šest znamenki. Za pristup profilu uvijek ćete morati unijeti ovaj PIN.",
-                    "body2": "Koristite samo znamenke"
+                    "body": "Enter a 6-digit PIN below. Use numbers only."
                 }
             },
             "profileBackup": {
                 "viewMnemonic": {
                     "title": "Fraza za oporavak",
-                    "body1": "Zapišite riječi u svoj Recovery Kit, točnim redoslijedom.",
-                    "body2": "Držite ovo privatnim i na sigurnom mjestu.",
-                    "body3": "Važno je imati pohranjenu pisanu sigurnosnu kopiju. Računala se često kvare, a datoteke se mogu oštetiti.",
+                    "body": "Carefully copy the words in the exact order below. Keep this private and safely stored.",
                     "revealRecoveryPhrase": "Prikaži frazu za oporavak",
                     "hideRecoveryPhrase": "Sakrij frazu za oporavak"
                 },
                 "verifyMnemonic": {
                     "title": "Potvrdite frazu za oporavak",
-                    "body": "Provjerimo jeste li točno zapisali riječi fraze za oporavak. Odaberite svaku riječ numeriranim redoslijedom. Savjet: možete pritisnuti broj pored riječi na tipkovnici da biste je odabrali.",
+                    "body": "Let’s check you wrote down your phrase correctly. Please select the right word with the corresponding number.",
                     "word": "Riječ",
-                    "verified": "Fraza za oporavak je potvrđena",
-                    "verifiedBody": "Držite ju na sigurnom, izvan dosega drugih."
+                    "match": "Match from below",
+                    "success": {
+                        "title": "Verification success",
+                        "body1": "The recovery phrase matched",
+                        "body2": "Remember to keep your copy private and safely stored"
+                    },
+                    "failure": {
+                        "title": "Verification failure",
+                        "body1": "The recovery phrase did not match",
+                        "body2": "Please check your records"
+                    }
                 }
             },
             "profileRecovery": {
                 "importMnemonicPhrase": {
                     "title": "Unesi frazu za oporavak",
-                    "body": "A recovery phrase is 24 words long, all lower case, with spaces between. This is used to recover existing Bloom profiles.",
-                    "enter": "Unesi tajnu frazu za oporavak",
+                    "body": "A recovery phrase is 24 words long, all lower case, with spaces between. Separate each word by spaces or commas.",
                     "phraseDetected": "Fraza od 24 riječi prepoznata"
                 },
                 "importStrongholdBackup": {
-                    "title": "Uvezi svoju Stronghold sigurnosnu kopiju",
+                    "title": "Restore your profile",
                     "body": "Uvezi sigurnosnu kopiju Stronghold datoteke za oporavak profila."
                 },
-                "backupPassword": {
-                    "body1": "Molimo unesite lozinku za sigurnosnu kopiju.",
-                    "body2": "Ovo je lozinka koju ste postavili kada ste izradili sigurnosnu kopiju."
+                "unlockBackup": {
+                    "title": "Unlock your backup",
+                    "body": "Please provide your backup password below."
                 }
             },
             "shimmerClaiming": {
                 "claimRewards": {
-                    "title": "Vaše Shimmer staking nagrade",
-                    "body": "Provjerite jesu li vaše Shimmer staking nagrade točne. Možda ćete morati pretraživati više puta kako bi pronašli puni iznos."
+                    "title": "Shimmer staking rewards",
+                    "body": "Please check if your Shimmer staking rewards balance is correct. If not, please use the balance finder."
                 },
                 "success": {
                     "title": "Shimmer preuzet",
@@ -135,20 +134,20 @@
                 }
             },
             "congratulations": {
-                "title": "Postavljanje profila uskoro dovršeno...",
-                "body": "Vaš novi profil bit će spreman za korištenje nakon uspješnog učitavanja nadzorne ploče.",
-                "ledgerHint": "Nemojte odspajati svoj Ledger uređaj dok se nadzorna ploča uspješno ne učita."
+                "title": "Setup complete",
+                "body1": "Bloom is ready",
+                "body2": "Seamlessly manage your keys, assets and transactions.",
+                "action": "Enter Bloom"
             }
         },
         "ledgerInstallationGuide": {
-            "title": "Have you installed the {network} app on your Ledger device?",
-            "body1": "Before you proceed, you must use Ledger Live to find and install the {network} app.",
-            "body2": "Uvjeri se da je tvoj Ledger na najnovijoj verziji firmwarea. Sve predinstalirane aplikacije trebaju biti na najnovijim verzijama.",
-            "action": "Yes, I've installed the {network} app"
+            "title": "Have you installed the necessary Ledger app?",
+            "body": "Use Ledger Live to find and install the {network} app.",
+            "action": "Yes, let's continue"
         },
         "connectLedger": {
             "title": "Connect your Ledger to Bloom",
-            "body": "For your Ledger device to be found by Bloom, please ensure that the official Ledger Live application is closed.",
+            "body": "For your Ledger device to be found by Bloom, please ensure that the official Ledger Live application is closed and the following steps are followed.",
             "connect": "Spojite svoj Ledger uređaj",
             "unlock": "Otključajte svoj Ledger s pinom",
             "openApp": "Otvorite Shimmer aplikaciju na vašem Ledgeru"
@@ -351,9 +350,6 @@
                     "chainDepositAddress": {
                         "title": "Chain deposit address",
                         "networkTitle": "Network deposit address"
-                    },
-                    "chainInformation": {
-                        "title": "Chain information"
                     },
                     "confirmLedgerEvmAddress": {
                         "title": "Confirm EVM address",
@@ -569,24 +565,20 @@
                 "title": "Available",
                 "subtitle": "Funds fully available for spending"
             },
-            "pending": {
-                "title": "Pending",
-                "subtitle": "Temporarily locked in transactions"
-            },
-            "locked": {
-                "title": "Locked",
-                "subtitle": "Temporarily locked for governance"
+            "unavailable": {
+                "title": "Unavailable",
+                "subtitle": "Locked or temporarily unavailable in transactions"
             },
             "storageDeposit": {
                 "title": "Storage deposit",
-                "subtitle": "These funds are reserved for storing native assets."
+                "subtitle": "Reserved for storing native assets."
             },
             "totalBalance": {
                 "title": "Total balance",
                 "subtitle": ""
             },
             "basicOutputs": {
-                "title": "Native Tokens",
+                "title": "Native tokens",
                 "subtitle": "Reserved for Native Token storage"
             },
             "nftOutputs": {
@@ -606,11 +598,11 @@
                 "subtitle": "Temporarily locked in unclaimed transactions"
             },
             "timelock": {
-                "title": "Time lock",
+                "title": "Timelocked",
                 "subtitle": "Temporarily locked in timelocked transactions"
             },
             "storageDepositReturn": {
-                "title": "SDRUC",
+                "title": "Storage deposit return",
                 "subtitle": "Temporarily locked in Storage Deposit Return"
             },
             "governance": {
@@ -739,6 +731,8 @@
         },
         "diagnostics": {
             "title": "Dijagnostika",
+            "app": "App",
+            "system": "System",
             "node": "Node",
             "platform": "Platforma",
             "platformVersion": "Verzija sustava",
@@ -769,16 +763,6 @@
             "locked": "Otključaj svoj Ledger uređaj za nastavak.",
             "appNotOpen": "Open the Shimmer app on your Ledger device to continue.",
             "correctAppOpen": "Ledger uspješno spojen, molimo nastavite."
-        },
-        "ledgerAppGuide": {
-            "title": "Vodič za instaliranje {legacy} aplikacije",
-            "steps": {
-                "0": "Instaliraj i otvori Ledger Live aplikaciju",
-                "1": "Uvjeri se da je tvoj Ledger spojen",
-                "2": "Potražite {legacy} aplikaciju. Možda ćete morati omogućiti Ledger Live developer način rada.",
-                "3": "Instaliraj {legacy} aplikaciju",
-                "4": "Remember that it's important to close Ledger Live before returning to Bloom"
-            }
         },
         "ledgerConnectionGuide": {
             "title": "Savjeti u slučaju da se vaš Ledger ne želi spojiti",
@@ -945,6 +929,7 @@
                 "url": "URL",
                 "logoUrl": "Logo URL",
                 "logo": "Logo",
+                "unit": "Unit",
                 "alias": "Alias",
                 "tokenId": "Token Id"
             }
@@ -1030,6 +1015,9 @@
             "title": "Receive",
             "body": "Receive tokens, NFTs, and other digital assets to your account address shown below.",
             "networkAddress": "{networkName} address"
+        },
+        "createAccount": {
+            "title": "Create account"
         }
     },
     "actions": {
@@ -1090,10 +1078,9 @@
         "updateAndContinue": "Update and continue",
         "tryAgain": "Pokušaj ponovno",
         "visitDiscord": "Posjetite Discord",
-        "dragDrop": "Vuci i ispusti",
         "importExtensions": ".stronghold file",
-        "chooseFile": "Izaberite datoteku",
         "dropHere": "Ispustite datoteku ovdje",
+        "dropOrBrowse": "Drop here or browse your files",
         "import": "Uvezi",
         "importing": "Uvoz u tijeku",
         "export": "Izvezi",
@@ -1140,7 +1127,7 @@
         "no": "Ne",
         "skip": "Preskoči",
         "reset": "Resetiraj",
-        "downloadRecoveryKit": "Spremi predložak Recovery Kita",
+        "downloadRecoveryKit": "Download recovery kit template",
         "skipBackup": "Skip wallet backup",
         "finishSetup": "Završi postavljanje",
         "readDocumentation": "Pročitajte dokumentaciju",
@@ -1153,9 +1140,9 @@
         "searching": "Pretraga",
         "searchAgain": "Traži ponovno",
         "generateAddress": "Generiraj adresu",
-        "searchForRewards": "Potraži nagrade",
         "claimRewards": "Preuzmi nagrade",
         "rerunClaimProcess": "Ponovno pokreni postupak preuzimanja",
+        "useFinder": "Use balance finder",
         "backup": "Stvori sigurnosnu kopiju",
         "mint": "Mintaj",
         "mintNativeToken": "Mintaj nativni token",
@@ -1211,21 +1198,31 @@
         "revoting": "Revoting",
         "unvoted": "Glasanje prekinuto",
         "unvoting": "Prekid glasanja",
-        "transfer": "Prijenos",
-        "transferring": "Prijenos u tijeku",
+        "transferIn": "Transfer in",
+        "transferringIn": "Transferring in",
+        "transferOut": "Transfer out",
+        "transferringOut": "Transferring out",
         "shimmerClaimed": "Preuzeto",
         "shimmerClaiming": "Preuzimanje",
         "shimmerGenesis": "Shimmer Genesis",
-        "minted": "Mintano",
-        "minting": "Mintanje",
-        "burned": "Burned",
-        "burning": "Burning",
+        "mintedalias": "Minted alias",
+        "mintingalias": "Minting alias",
+        "mintednft": "Minted NFT",
+        "mintingnft": "Minting NFT",
+        "mintedfoundry": "Minted token",
+        "mintingfoundry": "Minting token",
+        "burnedalias": "Burned alias",
+        "burningalias": "Burning alias",
+        "burnednft": "Burned NFT",
+        "burningnft": "Burning NFT",
+        "burnedfoundry": "Burned token",
+        "burningfoundry": "Burning token",
+        "burnedbasic": "Burned token",
+        "burningbasic": "Burning token",
         "balanceChanged": "Balance changed",
         "initialBalance": "Initial balance",
         "consolidated": "Consolidated",
         "consolidating": "Consolidating",
-        "aliasCreated": "Alias created",
-        "creatingAlias": "Creating Alias",
         "sendTo": "Pošalji",
         "sendAssets": "Send assets",
         "sendAssetToAddress": "Send asset to an address",
@@ -1291,7 +1288,7 @@
         "fromAddress": "s {account}",
         "toAddress": "na {account}",
         "capsLock": "Caps Lock je uključen",
-        "version": "Verzija {version}",
+        "version": "Version",
         "unknown": "Nepoznato",
         "unknownAddress": "Nepoznata adresa",
         "none": "Nijedan",
@@ -1309,6 +1306,7 @@
         "governorAddress": "Governor Address",
         "stateControllerAddress": "State Controller Address",
         "copiedToClipboard": "Kopirano u međuspremnik",
+        "copiedThis": "I've copied this",
         "availableBalanceWithValue": "Raspoloživo stanje: {balance}",
         "amountClaimed": "{amount} preuzeto",
         "metadata": "Metapodaci",
@@ -1372,7 +1370,8 @@
         "ledgerDevice": "Ledger device",
         "disconnected": "Disconnected",
         "balanceBreakdown": "Balance breakdown",
-        "primary": "Primary"
+        "primary": "Primary",
+        "color": "Color"
     },
     "filters": {
         "title": "Filteri",
@@ -1876,6 +1875,11 @@
             "degraded": "Degraded",
             "operational": "Operational",
             "disconnected": "Disconnected"
+        },
+        "ledgerStatus": {
+            "notConnected": "Not connected",
+            "locked": "Device locked",
+            "appNotOpen": "App not open"
         }
     },
     "menus": {
