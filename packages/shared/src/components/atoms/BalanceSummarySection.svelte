@@ -9,7 +9,7 @@
 
     export let titleKey: string
     export let subtitleKey: string = ''
-    export let subBreakdown: { [key: string]: { amount: number } } = {}
+    export let subBreakdown: { [key: string]: number } = {}
     export let amount: number
     export let bold: boolean = false
 
@@ -35,7 +35,7 @@
     let items: IItem[] = []
     $: items = Object.keys(subBreakdown ?? {}).map((key) => ({
         key: localize(`popups.balanceBreakdown.${key}.title`),
-        value: getAmount(subBreakdown[key].amount ?? 0),
+        value: getAmount(subBreakdown[key] ?? 0),
     }))
 </script>
 

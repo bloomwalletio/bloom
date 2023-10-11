@@ -11,10 +11,10 @@
 
     interface BalanceBreakdown {
         amount: number
-        subBreakdown?: { [key: string]: { amount: number } }
+        subBreakdown?: { [key: string]: number }
     }
 
-    enum PendingFundsType {
+    enum UnavailableAmountType {
         Unclaimed = 'unclaimed',
         StorageDepositReturn = 'storageDepositReturn',
         Timelock = 'timelock',
@@ -26,14 +26,12 @@
     $: accountBalance, void setBreakdown()
     async function setBreakdown(): Promise<void> {
         const availableBreakdown = getAvailableBreakdown()
-        const pendingBreakdown = await getPendingBreakdown()
-        const lockedBreakdown = getLockedBreakdown()
+        const pendingBreakdown = await getUnavailableBreakdown()
         const storageDepositBreakdown = getStorageDepositBreakdown()
 
         breakdown = {
             available: availableBreakdown,
-            pending: pendingBreakdown,
-            locked: lockedBreakdown,
+            unavailable: pendingBreakdown,
             storageDeposit: storageDepositBreakdown,
         }
     }
@@ -42,10 +40,16 @@
         return { amount: Number(accountBalance?.baseCoin?.available ?? 0) }
     }
 
-    async function getPendingBreakdown(): Promise<BalanceBreakdown> {
-        let pendingOutputsStorageDeposit = 0
+    async function getUnavailableBreakdown(): Promise<BalanceBreakdown> {
+        const governanceAmount = parseInt($selectedAccount?.votingPower, 10)
 
-        const subBreakdown = {}
+        let unavailableTotalAmount = governanceAmount
+        const subBreakdown: { [key: string]: number } = {
+            unclaimed: 0,
+            storageDepositReturn: 0,
+            timelock: 0,
+            governance: governanceAmount,
+        }
         for (const [outputId, unlocked] of Object.entries(accountBalance?.potentiallyLockedOutputs ?? {})) {
             if (!unlocked) {
                 const output = (await $selectedAccount.getOutput(outputId)).output
@@ -55,40 +59,25 @@
                 if (output.type !== OutputType.Treasury) {
                     const commonOutput = output as CommonOutput
                     if (containsUnlockCondition(commonOutput.unlockConditions, UnlockConditionType.Expiration)) {
-                        type = PendingFundsType.Unclaimed
+                        type = UnavailableAmountType.Unclaimed
                         amount = Number(output.amount)
                     } else if (
                         containsUnlockCondition(commonOutput.unlockConditions, UnlockConditionType.StorageDepositReturn)
                     ) {
-                        type = PendingFundsType.StorageDepositReturn
+                        type = UnavailableAmountType.StorageDepositReturn
                         amount = getStorageDepositFromOutput(commonOutput)
                     } else if (containsUnlockCondition(commonOutput.unlockConditions, UnlockConditionType.Timelock)) {
-                        type = PendingFundsType.Timelock
+                        type = UnavailableAmountType.Timelock
                         amount = Number(output.amount)
                     }
                 }
 
-                if (!subBreakdown[type]) {
-                    subBreakdown[type] = amount
-                } else {
-                    subBreakdown[type] += amount
-                }
-                pendingOutputsStorageDeposit += amount
+                subBreakdown[type] += amount
+                unavailableTotalAmount += amount
             }
         }
 
-        return { amount: pendingOutputsStorageDeposit, subBreakdown }
-    }
-
-    function getLockedBreakdown(): BalanceBreakdown {
-        const governanceAmount = parseInt($selectedAccount?.votingPower, 10)
-        const totalLockedAmount = governanceAmount
-
-        const subBreakdown = {
-            governance: { amount: governanceAmount },
-        }
-
-        return { amount: totalLockedAmount, subBreakdown }
+        return { amount: unavailableTotalAmount, subBreakdown }
     }
 
     function getStorageDepositBreakdown(): BalanceBreakdown {
@@ -101,10 +90,10 @@
             : 0
 
         const subBreakdown = {
-            basicOutputs: { amount: Number(storageDeposits?.basic ?? 0) },
-            nftOutputs: { amount: Number(storageDeposits?.nft ?? 0) },
-            aliasOutputs: { amount: Number(storageDeposits?.alias ?? 0) },
-            foundryOutputs: { amount: Number(storageDeposits?.foundry ?? 0) },
+            basicOutputs: Number(storageDeposits?.basic ?? 0),
+            nftOutputs: Number(storageDeposits?.nft ?? 0),
+            aliasOutputs: Number(storageDeposits?.alias ?? 0),
+            foundryOutputs: Number(storageDeposits?.foundry ?? 0),
         }
 
         return { amount: totalStorageDeposit, subBreakdown }
