@@ -174,7 +174,7 @@
 
     login-container {
         @apply flex flex-col justify-center items-center gap-8 px-8 pb-12;
-        @apply border border-solid border-stroke rounded-[2rem];
+        @apply border border-solid border-stroke dark:border-stroke-dark rounded-[2rem];
         @apply bg-surface dark:bg-surface-dark;
         box-shadow: 0px 20px 64px -16px rgba(0, 0, 0, 0.1);
     }
