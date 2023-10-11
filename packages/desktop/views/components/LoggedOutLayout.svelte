@@ -4,7 +4,7 @@
     import { IS_MAC } from '@core/app'
     import { Logo } from '@ui'
 
-    export const glass: boolean = false
+    export let glass: boolean = false
 </script>
 
 {#if IS_MAC}

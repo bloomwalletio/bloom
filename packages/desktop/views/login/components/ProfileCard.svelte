@@ -42,19 +42,20 @@
     <div class="relative">
         <ProfileAvatarWithBadge {profile} size="xxl" {updateRequired} shape={isHovering ? 'squircle' : 'circle'} />
     </div>
-    <Text type="h6" align="center" truncate>{profile.name}</Text>
+    <Text type="body2" align="center" truncate>{profile.name}</Text>
 </button>
 
 <style lang="postcss">
     .profile {
         @apply duration-300;
-        @apply flex flex-col items-center justify-between;
-        @apply px-4 py-6 w-56 h-56;
+        @apply relative flex flex-col items-center justify-center gap-5 p-10;
         @apply border border-solid border-stroke dark:border-stroke-dark rounded-2xl;
         @apply bg-surface-1 dark:bg-surface-1-dark;
         @apply bg-surface-1 dark:bg-surface-1-dark;
         @apply disabled:pointer-events-none disabled:opacity-50;
         transition-property: background-color, border-color, box-shadow;
+        width: var(--profile-card-width, 14rem);
+        height: var(--profile-card-width, 14rem);
 
         &:hover,
         &:focus {
@@ -79,7 +80,7 @@
     }
 
     profile-header {
-        @apply flex justify-between items-center w-full h-2;
+        @apply absolute top-0 flex justify-between items-center w-full px-10 pt-5;
     }
 
     button.menu {
