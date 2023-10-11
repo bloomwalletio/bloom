@@ -4,55 +4,67 @@
     import { localize } from '@core/i18n'
     import { activeProfile } from '@core/profile/stores'
     import { setClipboard } from '@core/utils'
-    import { Button, Text } from '@ui'
     import { onMount } from 'svelte'
+    import PopupTemplate from '../PopupTemplate.svelte'
+    import { IItem, Table, Tabs } from '@bloomwalletio/ui'
 
-    const { loggedIn } = $activeProfile ?? {}
+    enum Tab {
+        App = 'app',
+        System = 'system',
+    }
 
-    let contentApp = ''
-    let contentSystem = ''
+    let selectedTab: { key: string; value: string }
 
-    onMount(() => {
-        const appVars = [
+    let itemsMap: {
+        [Tab.App]: IItem[]
+        [Tab.System]: IItem[]
+    } = {
+        [Tab.App]: [],
+        [Tab.System]: [],
+    }
+
+    onMount(async () => {
+        const appInfo = [
+            { key: localize('general.version'), value: $appVersionDetails?.currentVersion },
+            { key: localize('views.settings.language.title'), value: $appSettings?.language },
+            { key: localize('views.settings.currency.title'), value: $activeProfile?.settings?.marketCurrency },
             {
-                label: '',
-                value: localize('general.version', {
-                    values: { version: $appVersionDetails?.currentVersion },
-                }),
-            },
-            {
-                label: 'views.settings.language.title',
-                value: $appSettings?.language,
+                key: localize('general.nodeList'),
+                value: $activeProfile?.clientOptions?.nodes?.map((node) => node?.url)?.toString(),
             },
         ]
-        if ($activeProfile && $loggedIn) {
-            appVars.push({
-                label: 'views.settings.currency.title',
-                value: $activeProfile?.settings?.currency,
-            })
-            appVars.push({
-                label: 'general.nodeList',
-                value: $activeProfile?.clientOptions?.nodes?.map((node) => node?.url)?.toString(),
-            })
+
+        const rawSystemInfo = await Platform.getDiagnostics()
+        const systemInfo = rawSystemInfo.map((val) => ({ key: localize(val.label), value: val.value }))
+        itemsMap = {
+            [Tab.App]: appInfo,
+            [Tab.System]: systemInfo,
         }
-        contentApp = concatenateInfo(appVars)
-        void Platform.getDiagnostics().then((values) => (contentSystem = concatenateInfo(values)))
     })
 
     function onCopyClick(): void {
-        setClipboard(contentApp + '\r\n' + contentSystem)
+        setClipboard(concatenateInfo(itemsMap[Tab.App]) + '\r\n' + concatenateInfo(itemsMap[Tab.System]))
     }
 
-    function concatenateInfo(infoList: { label?: string; value: string }[]): string {
-        return infoList.map((info) => (info.label ? `${localize(info.label)}: ${info.value}` : info.value)).join('\r\n')
+    function concatenateInfo(infoList: IItem[]): string {
+        return infoList
+            .map((info) => (info.key ? `${localize(info.key)}: ${String(info.value)}` : info.value))
+            .join('\r\n')
     }
 </script>
 
-<div class="mb-5">
-    <Text type="h4">{localize('popups.diagnostics.title')}</Text>
-</div>
-<Text type="pre" secondary>{contentApp}</Text>
-<Text type="pre" secondary>{contentSystem}</Text>
-<div class="flex w-full justify-center mt-8">
-    <Button classes="w-full" onClick={onCopyClick}>{localize('actions.copy')}</Button>
-</div>
+<PopupTemplate
+    title={localize('popups.diagnostics.title')}
+    continueButton={{
+        text: localize('actions.copy'),
+        onClick: onCopyClick,
+    }}
+>
+    <div class="flex">
+        <Tabs
+            bind:selectedTab
+            tabs={Object.values(Tab).map((key) => ({ key, value: localize(`popups.diagnostics.${key}`) }))}
+        />
+    </div>
+    <Table items={itemsMap[selectedTab?.key] ?? []} />
+</PopupTemplate>
