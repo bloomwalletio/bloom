@@ -128,6 +128,7 @@
     function expandOne(breakdownKey) {
         if (currentExpandedSection === breakdownKey) {
             expanded[currentExpandedSection] = false
+            currentExpandedSection = undefined
         } else {
             expanded[currentExpandedSection] = false
             expanded[breakdownKey] = true
