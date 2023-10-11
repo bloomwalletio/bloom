@@ -44,7 +44,7 @@
             {#each $errorLog as error}
                 <div class="mb-7">
                     <Text textColor="secondary">{new Date(error.time).toUTCString()}</Text>
-                    <Text>
+                    <Text class="break-words">
                         {error.type}:
                         {error.message}
                     </Text>
