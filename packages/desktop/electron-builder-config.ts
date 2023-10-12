@@ -1,8 +1,6 @@
 import type { Configuration } from 'electron-builder'
 import path from 'path'
 import { notarize } from '@electron/notarize'
-import fs from 'fs'
-
 
 const STAGE = process.env.STAGE || 'alpha'
 
@@ -53,12 +51,6 @@ function getIconPath(): string {
 }
 
 async function notarizeMacos(appBundleId, appName): Promise<void> {
-    console.log('Notarization - start')
-    console.log('Notarization - appBundleId', appBundleId)
-    console.log('Notarization - appName', appName)
-    console.log('Notarization - process.platform', process.platform)
-    console.log('Notarization - process.env.MACOS_SKIP_NOTARIZATION', process.env.MACOS_SKIP_NOTARIZATION)
-
     if (process.platform !== 'darwin' || process.env.MACOS_SKIP_NOTARIZATION === 'true') {
         return
     }
@@ -67,30 +59,13 @@ async function notarizeMacos(appBundleId, appName): Promise<void> {
     const APPLE_ID_PASSWORD = process.env.BLOOM_APPLE_ID_PASSWORD
 
     if (!APPLE_ID) {
-        console.log('Notarization - failed: Environment variable "BLOOM_APPLE_ID" is not defined')
         throw Error('Notarization failed: Environment variable "BLOOM_APPLE_ID" is not defined')
     }
 
     if (!APPLE_ID_PASSWORD) {
-        console.log('Notarization - failed: Environment variable "BLOOM_APPLE_ID_PASSWORD" is not defined')
         throw Error('Notarization failed: Environment variable "BLOOM_APPLE_ID_PASSWORD" is not defined')
     }
 
-    console.log('appPath:', path.resolve(__dirname, `./out/mac/${appName}.app`),)
-    fs.readdir(path.resolve(__dirname, './out'), (err, files) => {
-        if (err) {
-            console.error('Error reading directory:', err);
-            return;
-        }
-
-
-        console.log('Files at', path.resolve(__dirname, './out'), ':');
-        files.forEach(file => {
-            console.log(file);
-        });
-    });
-
-    console.log('Notarization - start notarization')
     await notarize({
         tool: 'notarytool',
         appPath: path.resolve(__dirname, `./out/mac/${appName}.app`),
@@ -98,7 +73,6 @@ async function notarizeMacos(appBundleId, appName): Promise<void> {
         appleIdPassword: APPLE_ID_PASSWORD,
         teamId: 'C2FJNDH9G2',
     })
-    console.log('Notarization - finished')
 }
 
 const prodConfig: Configuration = {
@@ -113,7 +87,6 @@ const prodConfig: Configuration = {
         try {
             await notarizeMacos(APP_ID, APP_NAME)
         } catch (err) {
-            console.log('Notarization - failed', err)
             // This catch is necessary or the promise rejection is swallowed
             throw err
         }
