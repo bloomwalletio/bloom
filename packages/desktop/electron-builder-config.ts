@@ -1,6 +1,6 @@
 import type { Configuration } from 'electron-builder'
 import path from 'path'
-import { notarize } from 'electron-notarize'
+import { notarize } from '@electron/notarize'
 
 const STAGE = process.env.STAGE || 'alpha'
 
