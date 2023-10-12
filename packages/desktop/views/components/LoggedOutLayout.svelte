@@ -9,7 +9,7 @@
 
 {#if IS_MAC}
     <NavbarContainer draggable>
-        <div style:height="var(--macos-navbar-height)" style:--macos-navbar-height="40px" />
+        <div style:height="var(--macos-navbar-height)" />
     </NavbarContainer>
 {/if}
 <logged-out-layout

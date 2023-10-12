@@ -99,10 +99,8 @@
             <Avatar size="lg" shape="square" surface={2}>
                 <MediaPlaceholder {type} smallIcon />
             </Avatar>
-            <activity-details class="w-full h-full space-y-2 flex flex-auto flex-col items-start shrink-0">
-                <div>
-                    <Tabs bind:selectedTab tabs={TABS} />
-                </div>
+            <activity-details class="w-full h-full space-y-2 flex flex-auto flex-col shrink-0">
+                <Tabs bind:selectedTab tabs={TABS} />
                 {#if selectedTab.key === PopupTab.Transaction}
                     <Table
                         items={[
