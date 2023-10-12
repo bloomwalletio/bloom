@@ -55,8 +55,8 @@ async function notarizeMacos(appBundleId, appName): Promise<void> {
         return
     }
 
-    const APPLE_ID = process.env.BLOOM_APPLE_ID
-    const APPLE_ID_PASSWORD = process.env.BLOOM_APPLE_ID_PASSWORD
+    const APPLE_ID = process.env.BLOOM_APPLE_ID // Requires prefix of BLOOM otherwise electron builder tries to notarize the app using the env variables
+    const APPLE_ID_PASSWORD = process.env.BLOOM_APPLE_ID_PASSWORD // Requires prefix of BLOOM otherwise electron builder tries to notarize the app using the env variables
 
     if (!APPLE_ID) {
         throw Error('Notarization failed: Environment variable "BLOOM_APPLE_ID" is not defined')
@@ -133,7 +133,7 @@ const prodConfig: Configuration = {
         entitlementsInherit: './entitlements.mac.plist',
         hardenedRuntime: true,
         gatekeeperAssess: false,
-        notarize: false,
+        notarize: false, // Disable notarize in electron builder as we use @electron/notarize instead
         asarUnpack: ['**/*.node'],
     },
     publish: {
