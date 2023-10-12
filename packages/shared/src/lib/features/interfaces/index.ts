@@ -1,3 +1,4 @@
+export * from './app-features.interface'
 export * from './collectibles-features.interface'
 export * from './contacts-features.interface'
 export * from './developer-features.interface'

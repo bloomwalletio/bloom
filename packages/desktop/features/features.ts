@@ -1,3 +1,4 @@
+import appFeatures from './app.features'
 import collectiblesFeatures from './collectibles.features'
 import contactsFeatures from './contacts.features'
 import developerToolsFeatures from './developer-tools.features'
@@ -12,6 +13,8 @@ import analyticsFeatures from './analytics.features'
 import { IDesktopFeatures } from './interfaces'
 
 const features: IDesktopFeatures = {
+    app: appFeatures,
+    analytics: analyticsFeatures,
     collectibles: collectiblesFeatures,
     contacts: contactsFeatures,
     developerTools: developerToolsFeatures,
@@ -22,7 +25,6 @@ const features: IDesktopFeatures = {
     onboarding: onboardingFeatures,
     settings: settingsFeatures,
     wallet: walletFeatures,
-    analytics: analyticsFeatures,
 }
 
 export default features
