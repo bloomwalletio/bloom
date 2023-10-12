@@ -76,15 +76,15 @@ async function notarizeMacos(appBundleId, appName): Promise<void> {
         throw Error('Notarization failed: Environment variable "BLOOM_APPLE_ID_PASSWORD" is not defined')
     }
 
-    console.log('appPath:', path.resolve(__dirname, `../out/mac/${appName}.app`),)
-    fs.readdir(path.resolve(__dirname), (err, files) => {
+    console.log('appPath:', path.resolve(__dirname, `./out/mac/${appName}.app`),)
+    fs.readdir(path.resolve(__dirname, './out'), (err, files) => {
         if (err) {
             console.error('Error reading directory:', err);
             return;
         }
 
 
-        console.log('Files at', path.resolve(__dirname), ':');
+        console.log('Files at', path.resolve(__dirname, './out'), ':');
         files.forEach(file => {
             console.log(file);
         });
@@ -93,7 +93,7 @@ async function notarizeMacos(appBundleId, appName): Promise<void> {
     console.log('Notarization - start notarization')
     await notarize({
         tool: 'notarytool',
-        appPath: path.resolve(__dirname, `../out/mac/${appName}.app`),
+        appPath: path.resolve(__dirname, `./out/mac/${appName}.app`),
         appleId: APPLE_ID,
         appleIdPassword: APPLE_ID_PASSWORD,
         teamId: 'C2FJNDH9G2',
