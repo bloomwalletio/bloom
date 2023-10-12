@@ -8,7 +8,13 @@
     export let account: IAccountState | undefined = $selectedAccount
 
     let value: any
-    const selected: IOption | undefined = undefined
+    const selected: IOption | undefined = $selectedAccount
+        ? {
+              value: $selectedAccount.depositAddress,
+              label: $selectedAccount.name,
+              color: $selectedAccount.color,
+          }
+        : undefined
 
     $: account = $visibleActiveAccounts.find((acc) => acc.depositAddress === value)
 
