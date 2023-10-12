@@ -65,7 +65,7 @@ jobs:
               if: inputs.os == 'macos-11'
 
             - name: Verify ditto accessibility
-              run: ditto --version
+              run: ditto package.json package.json.copy
               if: inputs.os == 'macos-11'
 
             - name: Install required packages (Linux)
