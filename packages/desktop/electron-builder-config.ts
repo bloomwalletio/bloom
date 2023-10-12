@@ -1,6 +1,8 @@
 import type { Configuration } from 'electron-builder'
 import path from 'path'
 import { notarize } from '@electron/notarize'
+import fs from 'fs'
+
 
 const STAGE = process.env.STAGE || 'alpha'
 
@@ -75,6 +77,18 @@ async function notarizeMacos(appBundleId, appName): Promise<void> {
     }
 
     console.log('appPath:', path.resolve(__dirname, `../out/mac/${appName}.app`),)
+    fs.readdir(path.resolve(__dirname, '../out/mac'), (err, files) => {
+        if (err) {
+            console.error('Error reading directory:', err);
+            return;
+        }
+
+
+        console.log('Files at', path.resolve(__dirname, '../out/mac'), ':');
+        files.forEach(file => {
+            console.log(file);
+        });
+    });
 
     console.log('Notarization - start notarization')
     await notarize({
