@@ -901,6 +901,10 @@
             "tosCheckbox": "I've read and I accept the updated Terms of Service",
             "privPolicyCheckbox": "I've read and I accept the updated Privacy Policy"
         },
+        "giftedStorageDeposit": {
+            "tooltipTitle": "Gift storage deposit",
+            "tooltipDescription": "Amount kept by the recipient"
+        },
         "tokenInformation": {
             "verificationWarning": "This token is unverified. Compare the token metadata against the relevant team’s official website. Only verify tokens that you trust.",
             "tokenMetadata": {
@@ -1173,8 +1177,7 @@
         "untrackToken": "Untrack token",
         "switchAccount": "Switch account",
         "syncAccounts": "Sync accounts",
-        "importErc20Token": "Import ERC20 token",
-        "giftStorageDeposit": "Gift storage deposit"
+        "importErc20Token": "Import ERC20 token"
     },
     "general": {
         "recipient": "Recipient",
@@ -1363,6 +1366,7 @@
         "custom": "Custom",
         "evmAddress": "EVM address",
         "optionalField": "{field} (optional)",
+        "gifted": "Gifted",
         "connected": "Connected",
         "estimatedFee": "Estimated fee",
         "maxFees": "Max fees",
@@ -1801,7 +1805,7 @@
             },
             "outgoing": {
                 "storageDeposit": "A storage deposit is a refundable deposit needed to store your transaction on the Tangle.",
-                "tooltips.transactionDetails.outgoing": "The recipient does not need to refund the deposit.",
+                "giftedStorageDeposit": "The recipient does not need to refund the deposit.",
                 "expirationTime": "If the recipient does not claim in time your tokens will be returned to you.",
                 "timelockDate": "You added a timelock to this transaction. The recipient will not be able to spend these funds until the timelock expires.",
                 "metadata": "An optional data field for storing data persistently on the Tangle.",
