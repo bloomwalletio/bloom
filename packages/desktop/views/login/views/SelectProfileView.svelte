@@ -60,16 +60,14 @@
 </script>
 
 <LoggedOutLayout glass>
-    {#if features.login.selectProfile.createNewProfile.enabled}
-        <Button
-            slot="button"
-            variant="outlined"
-            size="sm"
-            text={localize('general.addProfile')}
-            icon={IconName.Plus}
-            on:click={onAddProfileClick}
-        />
-    {/if}
+    <Button
+        slot="button"
+        variant="outlined"
+        size="sm"
+        text={localize('general.addProfile')}
+        icon={IconName.Plus}
+        on:click={onAddProfileClick}
+    />
     <profile-card-list class="">
         {#each $profiles as profile}
             <ProfileCard {profile} onClick={onContinueClick} updateRequired={updateRequiredForProfile(profile)} />

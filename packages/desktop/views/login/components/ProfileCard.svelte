@@ -35,7 +35,7 @@
                 <TooltipIcon icon={IconName.Hardware} size="sm" tooltip={localize('general.ledgerDevice')} />
             {/if}
         </badge-container>
-        {#if features.login.selectProfile.profileActions.enabled}
+        {#if features.login.profileActions.enabled}
             <button type="button" class="menu"></button>
         {/if}
     </profile-header>
