@@ -10,9 +10,6 @@ const appFeatures: IAppFeatures = {
         },
     },
     translations: {
-        system: {
-            enabled: false,
-        },
         languages: {
             en: {
                 enabled: true,

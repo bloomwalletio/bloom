@@ -6,7 +6,6 @@ export interface IAppFeatures {
         system: IFeatureFlag
     }
     translations: {
-        system: IFeatureFlag
         languages: {
             en: IFeatureFlag
         }
