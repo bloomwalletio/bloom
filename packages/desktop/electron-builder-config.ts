@@ -24,7 +24,7 @@ function getAppProtocol(): string {
 }
 
 function getAppId(): string {
-    const defaultAppId = 'org.bloom-labs.bloom'
+    const defaultAppId = 'io.bloomwallet.bloom'
     if (STAGE === 'prod') {
         return defaultAppId
     }
@@ -51,7 +51,7 @@ function getIconPath(): string {
 }
 
 async function notarizeMacos(appBundleId, appName): Promise<void> {
-    if (process.platform !== 'darwin' || process.env.MACOS_SKIP_NOTARIZATION) {
+    if (process.platform !== 'darwin' || process.env.MACOS_SKIP_NOTARIZATION === 'true') {
         return
     }
 
@@ -71,7 +71,7 @@ async function notarizeMacos(appBundleId, appName): Promise<void> {
         appPath: path.resolve(__dirname, `../out/mac/${appName}.app`),
         appleId: APPLE_ID,
         appleIdPassword: APPLE_ID_PASSWORD,
-        ascProvider: 'UG77RJKZHH',
+        ascProvider: 'C2FJNDH9G2',
     })
 }
 
