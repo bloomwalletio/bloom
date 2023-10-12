@@ -17,7 +17,9 @@
 </script>
 
 <top-section class="flex flex-row justify-between px-5 py-4 items-center">
-    <Tabs bind:selectedTab tabs={TABS} />
+    <div class="w-64">
+        <Tabs bind:selectedTab tabs={TABS} />
+    </div>
     <div class="flex flex-row gap-1 items-center">
         {#if selectedTab.key === 'activity'}
             <SearchInput bind:value={$activitySearchTerm} />

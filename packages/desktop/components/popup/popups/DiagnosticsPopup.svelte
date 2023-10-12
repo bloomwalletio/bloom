@@ -60,11 +60,9 @@
         onClick: onCopyClick,
     }}
 >
-    <div class="flex">
-        <Tabs
-            bind:selectedTab
-            tabs={Object.values(Tab).map((key) => ({ key, value: localize(`popups.diagnostics.${key}`) }))}
-        />
-    </div>
+    <Tabs
+        bind:selectedTab
+        tabs={Object.values(Tab).map((key) => ({ key, value: localize(`popups.diagnostics.${key}`) }))}
+    />
     <Table items={itemsMap[selectedTab?.key] ?? []} />
 </PopupTemplate>
