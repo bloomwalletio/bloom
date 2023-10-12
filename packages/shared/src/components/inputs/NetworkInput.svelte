@@ -26,8 +26,8 @@
         : undefined
     const networkOptions = getNetworkOptions(showLayer2)
 
-    let selected: string | undefined = networkOptions[0]?.value
-    $: networkId = selected as NetworkId
+    let selected = networkOptions[0]
+    $: networkId = selected?.value as NetworkId
 
     function getNetworkOptions(showLayer2: boolean): IOption[] {
         if (!layer1Network) {
@@ -51,4 +51,4 @@
     }
 </script>
 
-<SelectInput bind:error bind:value={selected} hideValue options={networkOptions} label={localize('general.network')} />
+<SelectInput bind:error bind:selected hideValue options={networkOptions} label={localize('general.network')} />

@@ -11,6 +11,9 @@ export const externalAllowedLinks = [
     'explorer.iota.org',
     'govern.iota.org',
 
+    // Bloom
+    'bloomwallet.io',
+
     // Assembly / Shimmer
     'assembly.sc',
     'shimmer.network',

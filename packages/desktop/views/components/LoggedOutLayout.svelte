@@ -1,26 +1,44 @@
 <script lang="ts">
+    import { LogoName } from '@auxiliary/logo'
     import { NavbarContainer } from '@components'
     import { IS_MAC } from '@core/app'
-    import { IS_LINUX } from 'shared/src/lib/core/app'
+    import { Logo } from '@ui'
+
+    export let glass: boolean = false
 </script>
 
 {#if IS_MAC}
-    <NavbarContainer ghost draggable>
-        <div style:height="var(--navbar-height)" />
+    <NavbarContainer draggable>
+        <div style:height="var(--macos-navbar-height)" style:--macos-navbar-height="40px" />
     </NavbarContainer>
 {/if}
-<logged-out-layout class="flex flex-col justify-between items-center w-full h-full bg-slate-100 dark:bg-gray-900">
-    <header class="w-full flex flex-col px-12 pt-{IS_LINUX ? '8' : '4'} pb-6">
-        <slot name="header" />
+<logged-out-layout
+    class="flex flex-col items-center w-full h-full bg-surface dark:bg-surface-dark"
+    style:--macos-navbar-height={IS_MAC ? '40px' : undefined}
+>
+    <header class="w-full flex flex-row items-center justify-between px-6" class:glass>
+        <logo class="flex flex-row flex-none space-x-3">
+            <Logo width="32" logo={LogoName.BloomLogo} />
+            <Logo width="80" logo={LogoName.BloomText} />
+        </logo>
+        <slot name="button" />
     </header>
     <slot name="content" />
-    <footer class="flex flex-col w-full relative bottom-0">
-        <slot name="footer" />
-    </footer>
+    <slot />
 </logged-out-layout>
 
-<style lang="postcss">
+<style lang="scss">
     logged-out-layout {
-        max-height: calc(100vh - var(--navbar-height));
+        max-height: calc(100vh - var(--macos-navbar-height, 0px));
+    }
+
+    header {
+        @apply fixed z-10;
+        height: 67px;
+
+        &.glass {
+            @apply bg-surface/90 dark:bg-surface-dark/60;
+            backdrop-filter: blur(16px);
+        }
     }
 </style>

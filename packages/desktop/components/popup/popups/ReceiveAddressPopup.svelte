@@ -1,6 +1,5 @@
 <script lang="ts">
     import { onMount } from 'svelte'
-    import { Button, Text } from '@bloomwalletio/ui'
     import { AddressBox, NetworkInput } from '@ui'
     import { localize } from '@core/i18n'
     import { selectedAccount } from '@core/account/stores'
@@ -10,6 +9,7 @@
     import { activeProfile } from '@core/profile/stores'
     import { checkActiveProfileAuth } from '@core/profile/actions'
     import { LedgerAppName } from '@core/ledger'
+    import PopupTemplate from '../PopupTemplate.svelte'
 
     export let selectedNetworkId: NetworkId = $network.getMetadata().id
     $: selectedNetworkId, updateNetworkNameAndAddress()
@@ -47,20 +47,23 @@
     })
 </script>
 
-<receive-address-popup class="w-full h-full space-y-4 flex flex-auto flex-col shrink-0">
-    <Text type="h5">{localize('popups.receiveAddress.title')}</Text>
-    <Text type="body2" textColor="secondary">{localize('popups.receiveAddress.body')}</Text>
-    <NetworkInput bind:networkId={selectedNetworkId} />
-    {#if receiveAddress}
-        <AddressBox
-            address={receiveAddress}
-            title={localize('popups.receiveAddress.networkAddress', { networkName })}
-            showQr
-        />
-    {/if}
-    <Button
-        text={localize('actions.copyAddress')}
-        disabled={!receiveAddress}
-        on:click={() => setClipboard(receiveAddress)}
-    />
-</receive-address-popup>
+<PopupTemplate
+    title={localize('popups.receiveAddress.title')}
+    description={localize('popups.receiveAddress.body')}
+    continueButton={{
+        text: localize('actions.copyAddress'),
+        onClick: () => setClipboard(receiveAddress),
+        disabled: !receiveAddress,
+    }}
+>
+    <div class="space-y-5 flex flex-auto flex-col shrink-0">
+        <NetworkInput bind:networkId={selectedNetworkId} />
+        {#if receiveAddress}
+            <AddressBox
+                address={receiveAddress}
+                title={localize('popups.receiveAddress.networkAddress', { networkName })}
+                showQr
+            />
+        {/if}
+    </div>
+</PopupTemplate>

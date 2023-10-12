@@ -198,7 +198,7 @@ export default {
         return ipcRenderer
             .invoke('show-save-dialog', {
                 properties: ['createDirectory', 'showOverwriteConfirmation'],
-                defaultPath: 'firefly-recovery-kit.pdf',
+                defaultPath: 'bloom-recovery-kit.pdf',
                 filters: [
                     { name: 'Pdf Document', extensions: ['pdf'] },
                     { name: 'All Files', extensions: ['*'] },

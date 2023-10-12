@@ -74,7 +74,7 @@
     title={localize('popups.createAccount.title')}
     busy={isBusy}
     backButton={{
-        text: localize('actions.back'),
+        text: localize('actions.cancel'),
         onClick: onCancelClick,
     }}
     continueButton={{
@@ -83,7 +83,7 @@
         onClick: onCreateClick,
     }}
 >
-    <div class="flex flex-col gap-4">
+    <div class="flex flex-col space-y-5">
         <div class="flex flex-col gap-2">
             <Text type="body1">{localize('general.name')}</Text>
             <Input bind:value={accountName} label={localize('general.accountName')} disabled={isBusy} {error} />
