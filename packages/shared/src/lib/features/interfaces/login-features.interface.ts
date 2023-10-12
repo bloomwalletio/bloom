@@ -1,7 +1,8 @@
 import { IFeatureFlag } from './feature-flag.interface'
 
 export interface ILoginFeatures {
-    profileActions: IFeatureFlag & {
+    profileActions: {
+        enabled: boolean
         edit: IFeatureFlag
         remove: IFeatureFlag
         viewInFiles: IFeatureFlag

@@ -17,3 +17,7 @@ export const appSettings = persistent<IAppSettings>('settings', DEFAULT_APP_SETT
  * CAUTION: This variable is READ-ONLY - you write at your own risk.
  */
 export const initAppSettings = writable<Readonly<Partial<IAppSettings>>>(DEFAULT_APP_SETTINGS)
+
+export function updateAppSettings(partialSettings: Partial<IAppSettings>): void {
+    appSettings.update((state) => ({ ...state, ...partialSettings }))
+}
