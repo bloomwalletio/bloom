@@ -106,6 +106,8 @@ jobs:
               env:
                   CSC_LINK: ${{ secrets.APPLE_DEVELOPER_ID_APPLICATION_CERT_BASE64 }}
                   CSC_KEY_PASSWORD: ${{ secrets.APPLE_DEVELOPER_ID_APPLICATION_CERT_PASSWORD }}
+                  CSC_INSTALLER_LINK: ${{ secrets.APPLE_DEVELOPER_ID_INSTALLER_CERT_BASE64 }}
+                  CSC_INSTALLER_KEY_PASSWORD: ${{ secrets.APPLE_DEVELOPER_ID_INSTALLER_CERT_PASSWORD }}
                   BLOOM_APPLE_ID: ${{ secrets.APPLE_ID }}
                   BLOOM_APPLE_ID_PASSWORD: ${{ secrets.APPLE_ID_PASSWORD }}
                   GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
