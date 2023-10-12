@@ -63,8 +63,8 @@ async function notarizeMacos(appBundleId, appName): Promise<void> {
         return
     }
 
-    const APPLE_ID = process.env.BLOOM_APPLE_ID
-    const APPLE_ID_PASSWORD = process.env.BLOOM_APPLE_ID_PASSWORD
+    const APPLE_ID = process.env.APPLE_ID
+    const APPLE_ID_PASSWORD = process.env.APPLE_ID_PASSWORD
 
     if (!APPLE_ID) {
         console.log('Notarization - failed: Environment variable "BLOOM_APPLE_ID" is not defined')
