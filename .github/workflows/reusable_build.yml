@@ -114,6 +114,7 @@ jobs:
                   CSC_INSTALLER_KEY_PASSWORD: ${{ secrets.APPLE_DEVELOPER_ID_INSTALLER_CERT_PASSWORD }}
                   APPLE_ID: ${{ secrets.APPLE_ID }}
                   APPLE_ID_PASSWORD: ${{ secrets.APPLE_ID_PASSWORD }}
+                  APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.APPLE_ID_PASSWORD }}
                   GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
                   MACOS_SKIP_NOTARIZATION: false
               working-directory: packages/desktop
