@@ -7,7 +7,8 @@ export interface IAppFeatures {
     }
     translations: {
         languages: {
-            en: IFeatureFlag
+            en: boolean
+            de: boolean
         }
     }
 }
