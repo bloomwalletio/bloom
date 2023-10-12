@@ -77,14 +77,14 @@ async function notarizeMacos(appBundleId, appName): Promise<void> {
     }
 
     console.log('appPath:', path.resolve(__dirname, `../out/mac/${appName}.app`),)
-    fs.readdir(path.resolve(__dirname, '../out/mac'), (err, files) => {
+    fs.readdir(path.resolve(__dirname), (err, files) => {
         if (err) {
             console.error('Error reading directory:', err);
             return;
         }
 
 
-        console.log('Files at', path.resolve(__dirname, '../out/mac'), ':');
+        console.log('Files at', path.resolve(__dirname), ':');
         files.forEach(file => {
             console.log(file);
         });
