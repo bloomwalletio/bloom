@@ -54,13 +54,13 @@ jobs:
         needs: [setup]
         strategy:
             matrix:
-                os: [ubuntu-20.04]
+                os: [ubuntu-20.04, windows-2019, macos-11]
             fail-fast: true
         with:
             os: ${{ matrix.os }}
             version: ${{ needs.setup.outputs.version }}
             stage: ${{ inputs.stage || needs.setup.outputs.stage }}
-            sign: true
+            sign: ${{ matrix.os != 'windows-2019' }}
             upload: true
         secrets: inherit
 
