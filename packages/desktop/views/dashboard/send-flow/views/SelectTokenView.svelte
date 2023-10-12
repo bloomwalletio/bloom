@@ -1,5 +1,4 @@
 <script lang="ts">
-    import { Icon as IconEnum } from '@auxiliary/icon'
     import { Alert } from '@bloomwalletio/ui'
     import { selectedAccountIndex } from '@core/account/stores'
     import { handleError } from '@core/error/handlers'
@@ -12,9 +11,9 @@
     import { selectedAccountTokens } from '@core/token/stores'
     import { SendFlowType, sendFlowParameters, setSendFlowParameters } from '@core/wallet'
     import { closePopup } from '@desktop/auxiliary/popup'
-    import { IconInput, TokenAmountTile } from '@ui'
+    import { SearchInput, TokenAmountTile } from '@ui'
     import { sendFlowRouter } from '../send-flow.router'
-    import SendFlowTemplate from './SendFlowTemplate.svelte'
+    import { PopupTemplate } from '@components'
 
     let searchValue: string = ''
     let selectedToken: IToken =
@@ -118,37 +117,41 @@
     }
 </script>
 
-<SendFlowTemplate
+<PopupTemplate
     title={localize('popups.transaction.selectToken')}
-    leftButton={{ text: localize('actions.cancel'), onClick: onCancelClick }}
-    rightButton={{
+    backButton={{ text: localize('actions.cancel'), onClick: onCancelClick }}
+    continueButton={{
         text: localize('actions.continue'),
         onClick: onContinueClick,
         disabled: !selectedToken || hasTokenError,
     }}
 >
-    <IconInput bind:value={searchValue} icon={IconEnum.Search} placeholder={localize('general.search')} />
-    <div class="-mr-3">
-        <div class="token-list w-full flex flex-col -mr-1 pr-1.5 gap-2">
-            {#each tokenList as token}
-                <TokenAmountTile
-                    {token}
-                    amount={getTokenBalance(token.id, token.networkId)?.available}
-                    hasError={token === selectedToken && hasTokenError}
-                    onClick={() => onTokenClick(token)}
-                    selected={selectedToken?.id === token.id && selectedToken?.networkId === token?.networkId}
-                />
-            {/each}
+    <div class="space-y-4">
+        <SearchInput bind:value={searchValue} />
+        <div class="-mr-3">
+            <token-list class="w-full flex flex-col">
+                {#each tokenList as token}
+                    <TokenAmountTile
+                        {token}
+                        amount={getTokenBalance(token.id, token.networkId)?.available}
+                        error={token === selectedToken && hasTokenError}
+                        onClick={() => onTokenClick(token)}
+                        selected={selectedToken?.id === token.id && selectedToken?.networkId === token?.networkId}
+                    />
+                {/each}
+            </token-list>
         </div>
+        {#if hasTokenError}
+            <Alert variant="danger" text={localize('error.send.insufficientFundsGasFee')} />
+        {/if}
     </div>
-    {#if hasTokenError}
-        <Alert variant="danger" text={localize('error.send.insufficientFundsGasFee')} />
-    {/if}
-</SendFlowTemplate>
+</PopupTemplate>
 
-<style lang="scss">
-    .token-list {
+<style lang="postcss">
+    token-list {
         max-height: 400px;
         overflow-y: scroll;
+        @apply p-0.5 pr-1.5;
+        @apply gap-2;
     }
 </style>

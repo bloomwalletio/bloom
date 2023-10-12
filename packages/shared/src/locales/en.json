@@ -72,9 +72,8 @@
             },
             "strongholdSetup": {
                 "setupStrongholdPassword": {
-                    "title": "Create a password",
-                    "body1": "You need a strong password to protect your funds. Use a combination of words, and avoid common phrases, names or dates.",
-                    "body2": "It is recommended that you write down your password in your Recovery Kit."
+                    "title": "Secure Recovery Phrase",
+                    "body": "Your password needs to be highly secure to encrypt and recover your Stronghold vault. Also, you will need this to send tokens from your wallet."
                 }
             },
             "storageProtectionSetup": {
@@ -124,8 +123,8 @@
             },
             "shimmerClaiming": {
                 "claimRewards": {
-                    "title": "Your Shimmer staking rewards",
-                    "body": "Check that your Shimmer staking rewards are correct. You may need to search multiple times to find your full balance."
+                    "title": "Shimmer staking rewards",
+                    "body": "Please check if your Shimmer staking rewards balance is correct. If not, please use the balance finder."
                 },
                 "success": {
                     "title": "Shimmer claimed",
@@ -135,9 +134,10 @@
                 }
             },
             "congratulations": {
-                "title": "Profile setup almost complete...",
-                "body": "Your new profile will be ready once the dashboard has successfully loaded.",
-                "ledgerHint": "Do not disconnect your Ledger device until the dashboard has finished loading."
+                "title": "Setup complete",
+                "body1": "Bloom is ready",
+                "body2": "Seamlessly manage your keys, assets and transactions.",
+                "action": "Enter Bloom"
             }
         },
         "ledgerInstallationGuide": {
@@ -283,9 +283,14 @@
             }
         },
         "login": {
-            "pleaseWait": "Please wait {time, plural, one {# second} other {# seconds}}",
-            "incorrectAttempts": "{attempts, plural, one {# incorrect attempt} other {# incorrect attempts}}",
-            "hintStronghold": "Your Stronghold's version is out of date. Please log in to update your Stronghold."
+            "incorrectPin": "Incorrect PIN code",
+            "maxAttempts": {
+                "title": "Couldn't sign you in",
+                "body1": "You have entered an",
+                "body2": "incorrect PIN code {times, plural, one {# time} other {# times}}.",
+                "body3": "For security purposes, your profile has been temporarily locked. Please wait for",
+                "body4": "before attempting to login again."
+            }
         },
         "loadProfile": {
             "loginSteps": {
@@ -566,24 +571,20 @@
                 "title": "Available",
                 "subtitle": "Funds fully available for spending"
             },
-            "pending": {
-                "title": "Pending",
-                "subtitle": "Temporarily locked in transactions"
-            },
-            "locked": {
-                "title": "Locked",
-                "subtitle": "Temporarily locked for governance"
+            "unavailable": {
+                "title": "Unavailable",
+                "subtitle": "Locked or temporarily unavailable in transactions"
             },
             "storageDeposit": {
                 "title": "Storage deposit",
-                "subtitle": "These funds are reserved for storing native assets."
+                "subtitle": "Reserved for storing native assets."
             },
             "totalBalance": {
                 "title": "Total balance",
                 "subtitle": ""
             },
             "basicOutputs": {
-                "title": "Native Tokens",
+                "title": "Native tokens",
                 "subtitle": "Reserved for Native Token storage"
             },
             "nftOutputs": {
@@ -603,11 +604,11 @@
                 "subtitle": "Temporarily locked in unclaimed transactions"
             },
             "timelock": {
-                "title": "Time lock",
+                "title": "Timelocked",
                 "subtitle": "Temporarily locked in timelocked transactions"
             },
             "storageDepositReturn": {
-                "title": "SDRUC",
+                "title": "Storage deposit return",
                 "subtitle": "Temporarily locked in Storage Deposit Return"
             },
             "governance": {
@@ -736,6 +737,8 @@
         },
         "diagnostics": {
             "title": "Diagnostics",
+            "app": "App",
+            "system": "System",
             "node": "Node",
             "platform": "Platform",
             "platformVersion": "Platform Version",
@@ -898,6 +901,10 @@
             "tosCheckbox": "I've read and I accept the updated Terms of Service",
             "privPolicyCheckbox": "I've read and I accept the updated Privacy Policy"
         },
+        "giftedStorageDeposit": {
+            "tooltipTitle": "Gift storage deposit",
+            "tooltipDescription": "Amount kept by the recipient"
+        },
         "tokenInformation": {
             "verificationWarning": "This token is unverified. Compare the token metadata against the relevant team’s official website. Only verify tokens that you trust.",
             "tokenMetadata": {
@@ -928,6 +935,7 @@
                 "url": "URL",
                 "logoUrl": "Logo URL",
                 "logo": "Logo",
+                "unit": "Unit",
                 "alias": "Alias",
                 "tokenId": "Token Id"
             }
@@ -1138,9 +1146,9 @@
         "searching": "Searching",
         "searchAgain": "Search again",
         "generateAddress": "Generate address",
-        "searchForRewards": "Search for rewards",
         "claimRewards": "Claim rewards",
         "rerunClaimProcess": "Rerun claim process",
+        "useFinder": "Use balance finder",
         "backup": "Backup",
         "mint": "Mint",
         "mintNativeToken": "Mint native token",
@@ -1169,8 +1177,7 @@
         "untrackToken": "Untrack token",
         "switchAccount": "Switch account",
         "syncAccounts": "Sync accounts",
-        "importErc20Token": "Import ERC20 token",
-        "giftStorageDeposit": "Gift storage deposit"
+        "importErc20Token": "Import ERC20 token"
     },
     "general": {
         "recipient": "Recipient",
@@ -1287,7 +1294,7 @@
         "fromAddress": "from {account}",
         "toAddress": "to {account}",
         "capsLock": "Caps Lock is on",
-        "version": "Version {version}",
+        "version": "Version",
         "unknown": "Unknown",
         "unknownAddress": "Unknown address",
         "none": "None",
@@ -1359,6 +1366,7 @@
         "custom": "Custom",
         "evmAddress": "EVM address",
         "optionalField": "{field} (optional)",
+        "gifted": "Gifted",
         "connected": "Connected",
         "estimatedFee": "Estimated fee",
         "maxFees": "Max fees",
@@ -1797,7 +1805,7 @@
             },
             "outgoing": {
                 "storageDeposit": "A storage deposit is a refundable deposit needed to store your transaction on the Tangle.",
-                "tooltips.transactionDetails.outgoing": "The recipient does not need to refund the deposit.",
+                "giftedStorageDeposit": "The recipient does not need to refund the deposit.",
                 "expirationTime": "If the recipient does not claim in time your tokens will be returned to you.",
                 "timelockDate": "You added a timelock to this transaction. The recipient will not be able to spend these funds until the timelock expires.",
                 "metadata": "An optional data field for storing data persistently on the Tangle.",
@@ -1873,7 +1881,12 @@
             "degraded": "Degraded",
             "operational": "Operational",
             "disconnected": "Disconnected"
-        }
+        },
+        "ledgerStatus": {
+            "notConnected": "Not connected",
+            "locked": "Device locked",
+            "appNotOpen": "App not open"
+        }         
     },
     "menus": {
         "dateTimePicker": {

@@ -64,7 +64,7 @@
     <Text type="h5" textColor="primary">
         {localize('popups.signMessage.title')}
     </Text>
-    <div class="space-y-4">
+    <div class="space-y-5">
         <section class="relative flex flex-col border border-solid border-gray-200 rounded-xl p-6">
             <Text color="gray-600">{localize('popups.signMessage.message')}</Text>
             <Text>{message}</Text>
@@ -103,7 +103,7 @@
         <Button
             disabled={$selectedAccount.isTransferring || isBusy}
             busy={$selectedAccount.isTransferring || isBusy}
-            on:cick={onConfirmClick}
+            on:click={onConfirmClick}
             width="full"
             text={localize('popups.signMessage.action')}
         />

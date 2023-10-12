@@ -11,13 +11,15 @@
         NftActivityInformation,
         NftMetadataInformation,
         SmartContractActivityInformation,
-        Tabs,
         TokenActivityInformation,
+        PopupTab,
+        KeyValue,
+        getTabItems,
     } from '@ui'
-    import { Tab } from '@ui/enums'
+    import { Tabs } from '@bloomwalletio/ui'
 
     export let activity: Activity
-    export let activeTab: Tab = Tab.Transaction
+    export let selectedTab: KeyValue<string> = getTabItems([PopupTab.Transaction])[0]
 
     let hasMetadata = false
     $: {
@@ -28,31 +30,30 @@
         hasMetadata = !!storedNft?.metadata
     }
 
-    let tabs: Tab[] = []
+    let tabs: KeyValue<string>[] = []
     $: {
         switch (activity.type) {
             case ActivityType.Basic:
-                tabs = [Tab.Transaction, ...(activity.smartContract ? [Tab.SmartContract] : [])]
-                break
-            case ActivityType.Governance:
-                tabs = [Tab.Transaction]
-                break
-            case ActivityType.Consolidation:
-                tabs = [Tab.Transaction]
+                tabs = getTabItems([PopupTab.Transaction, ...(activity.smartContract ? [PopupTab.SmartContract] : [])])
                 break
             case ActivityType.Alias:
-                tabs = [Tab.Transaction, Tab.Alias]
+                tabs = getTabItems([PopupTab.Transaction, PopupTab.Alias])
                 break
             case ActivityType.Nft:
-                tabs = [
-                    Tab.Transaction,
-                    Tab.Nft,
-                    ...(hasMetadata ? [Tab.NftMetadata] : []),
-                    ...(activity.smartContract ? [Tab.SmartContract] : []),
-                ]
+                tabs = getTabItems([
+                    PopupTab.Transaction,
+                    PopupTab.Nft,
+                    ...(hasMetadata ? [PopupTab.NftMetadata] : []),
+                    ...(activity.smartContract ? [PopupTab.SmartContract] : []),
+                ])
                 break
             case ActivityType.Foundry:
-                tabs = [Tab.Transaction, Tab.Foundry, Tab.Token]
+                tabs = getTabItems([PopupTab.Transaction, PopupTab.Foundry, PopupTab.Token])
+                break
+            case ActivityType.Consolidation:
+            case ActivityType.Governance:
+            default:
+                tabs = getTabItems([PopupTab.Transaction])
                 break
         }
     }
@@ -60,9 +61,9 @@
 
 <activity-details class="w-full h-full space-y-2 flex flex-auto flex-col shrink-0">
     {#if tabs.length > 1}
-        <Tabs bind:activeTab {tabs} />
+        <Tabs bind:selectedTab {tabs} />
     {/if}
-    {#if activeTab === Tab.Transaction}
+    {#if selectedTab.key === PopupTab.Transaction}
         {#if activity.type === ActivityType.Governance}
             <GovernanceActivityInformation {activity} />
         {:else if activity.type === ActivityType.Consolidation}
@@ -70,17 +71,17 @@
         {:else}
             <GenericActivityInformation {activity} />
         {/if}
-    {:else if activeTab === Tab.Alias && activity.type === ActivityType.Alias}
+    {:else if selectedTab.key === PopupTab.Alias && activity.type === ActivityType.Alias}
         <AliasActivityInformation {activity} />
-    {:else if activeTab === Tab.Nft && activity.type === ActivityType.Nft}
+    {:else if selectedTab.key === PopupTab.Nft && activity.type === ActivityType.Nft}
         <NftActivityInformation {activity} />
-    {:else if activeTab === Tab.Foundry}
+    {:else if selectedTab.key === PopupTab.Foundry}
         <FoundryActivityInformation {activity} />
-    {:else if activeTab === Tab.Token}
+    {:else if selectedTab.key === PopupTab.Token}
         <TokenActivityInformation {activity} />
-    {:else if activeTab === Tab.NftMetadata && activity.type === ActivityType.Nft}
+    {:else if selectedTab.key === PopupTab.NftMetadata && activity.type === ActivityType.Nft}
         <NftMetadataInformation {activity} />
-    {:else if activeTab === Tab.SmartContract}
+    {:else if selectedTab.key === PopupTab.SmartContract}
         <SmartContractActivityInformation {activity} />
     {/if}
 </activity-details>

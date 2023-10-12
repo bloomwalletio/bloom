@@ -42,19 +42,27 @@
     <div class="relative">
         <ProfileAvatarWithBadge {profile} size="xxl" {updateRequired} shape={isHovering ? 'squircle' : 'circle'} />
     </div>
-    <Text type="h6" align="center" truncate>{profile.name}</Text>
+    <Text type="body2" align="center" truncate>{profile.name}</Text>
 </button>
 
 <style lang="postcss">
     .profile {
-        @apply flex flex-col items-center justify-between;
-        @apply px-4 py-6 w-56 h-56;
-        @apply border-2 border-solid border-white dark:border-gray-800 rounded-2xl;
-        @apply transition-all duration-300;
-        @apply hover:shadow-lg dark:hover:shadow-violet-900/25 focus:shadow-lg;
-        @apply bg-white/0 hover:bg-white/100 focus:bg-white/100;
-        @apply bg-white/0 dark:hover:bg-white/10 dark:focus:bg-white/10;
-        @apply disabled:pointer-events-none;
+        @apply duration-300;
+        @apply relative flex flex-col items-center justify-center gap-5 p-10;
+        @apply border border-solid border-stroke dark:border-stroke-dark rounded-2xl;
+        @apply bg-surface-1 dark:bg-surface-1-dark;
+        @apply bg-surface-1 dark:bg-surface-1-dark;
+        @apply disabled:pointer-events-none disabled:opacity-50;
+        transition-property: background-color, border-color, box-shadow;
+        width: var(--profile-card-width, 14rem);
+        height: var(--profile-card-width, 14rem);
+
+        &:hover,
+        &:focus {
+            @apply shadow-lg dark:shadow-violet-900/25;
+            @apply border-2 border-brand-500;
+            @apply bg-surface dark:bg-surface-dark;
+        }
     }
 
     :global(profile-avatar avatar) {
@@ -68,11 +76,12 @@
     }
 
     badge-container {
+        @apply absolute left-6 top-6;
         @apply flex gap-2 text-gray-500 dark:text-gray-100;
     }
 
     profile-header {
-        @apply flex justify-between items-center w-full h-2;
+        @apply absolute top-0 flex justify-between items-center w-full px-10 pt-5;
     }
 
     button.menu {

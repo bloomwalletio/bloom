@@ -13,7 +13,6 @@
     import { formatTokenAmountBestMatch } from '@core/token'
     import { refreshAccountTokensForActiveProfile } from '@core/token/actions'
     import { closePopup } from '@desktop/auxiliary/popup'
-    import { Text, TextType } from '@ui'
     import { onDestroy, onMount } from 'svelte'
     import PopupTemplate from '../PopupTemplate.svelte'
 
@@ -88,6 +87,7 @@
 
 <PopupTemplate
     title={localize('popups.walletFinder.title')}
+    description={localize('popups.walletFinder.body')}
     busy={isBusy}
     backButton={{
         text: localize('actions.back'),
@@ -98,29 +98,23 @@
         onClick: onFindBalancesClick,
     }}
 >
-    <div class="space-y-4">
-        <Text type={TextType.p} color="gray-600" fontSize="15" lineHeight="5">
-            {localize('popups.walletFinder.body')}
-        </Text>
-        <div class="w-full flex-col space-y-2">
-            <Table
-                items={[
-                    {
-                        key: localize('popups.walletFinder.accountsSearched'),
-                        value: previousAccountGapLimit.toString() || '-',
-                    },
-                    {
-                        key: localize('popups.walletFinder.accountsFound'),
-                        value: $activeAccounts.length.toString() || '0',
-                    },
-                    {
-                        key: localize('popups.walletFinder.totalWalletBalance'),
-                        value: formatTokenAmountBestMatch(totalBalance, getBaseToken()),
-                    },
-                ]}
-            />
-        </div>
-
+    <div class="space-y-5">
+        <Table
+            items={[
+                {
+                    key: localize('popups.walletFinder.accountsSearched'),
+                    value: previousAccountGapLimit.toString() || '-',
+                },
+                {
+                    key: localize('popups.walletFinder.accountsFound'),
+                    value: $activeAccounts.length.toString() || '0',
+                },
+                {
+                    key: localize('popups.walletFinder.totalWalletBalance'),
+                    value: formatTokenAmountBestMatch(totalBalance, getBaseToken()),
+                },
+            ]}
+        />
         {#if hasUsedWalletFinder}
             <Alert variant="info" text={localize('popups.walletFinder.searchAgainHint')} />
         {/if}

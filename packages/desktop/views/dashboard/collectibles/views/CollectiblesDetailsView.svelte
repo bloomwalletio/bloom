@@ -123,7 +123,7 @@
     }
 </script>
 
-<Pane classes="h-full">
+<Pane classes="h-full shadow-lg">
     <collectibles-details-view class="flex flex-row w-full h-full">
         <media-container class="relative flex w-full items-center justify-center p-5 overflow-hidden">
             <NftMedia {nft} autoplay controls loop muted />

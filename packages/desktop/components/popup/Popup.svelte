@@ -20,9 +20,8 @@
     import ConfirmationPopup from './popups/ConfirmationPopup.svelte'
     import ConnectLedgerPopup from './popups/ConnectLedgerPopup.svelte'
     import CreateAccountPopup from './popups/CreateAccountPopup.svelte'
+    import CustomiseAccountPopup from './popups/CustomiseAccountPopup.svelte'
     import DeepLinkErrorPopup from './popups/DeepLinkErrorPopup.svelte'
-    import DeleteAccountPopup from './popups/DeleteAccountPopup.svelte'
-    import DeleteProfilePopup from './popups/DeleteProfilePopup.svelte'
     import DiagnosticsPopup from './popups/DiagnosticsPopup.svelte'
     import EnableLedgerBlindSigningPopup from './popups/EnableLedgerBlindSigningPopup.svelte'
     import ErrorLogPopup from './popups/ErrorLogPopup.svelte'
@@ -30,7 +29,6 @@
     import ImportErc20TokenFormPopup from './popups/ImportErc20TokenFormPopup.svelte'
     import LedgerConnectionGuidePopup from './popups/LedgerConnectionGuidePopup.svelte'
     import LegalUpdatePopup from './popups/LegalUpdatePopup.svelte'
-    import ManageAccountPopup from './popups/ManageAccountPopup.svelte'
     import ManageVotingPowerPopup from './popups/ManageVotingPowerPopup.svelte'
     import MintNativeTokenConfirmationPopup from './popups/MintNativeTokenConfirmationPopup.svelte'
     import MintNativeTokenFormPopup from './popups/MintNativeTokenFormPopup.svelte'
@@ -71,10 +69,6 @@
     let size: PopupSize = PopupSize.Medium
 
     $: switch (id) {
-        case PopupId.ConnectLedger:
-        case PopupId.ManageAccount:
-            size = PopupSize.Small
-            break
         case PopupId.LedgerConnection:
             size = PopupSize.Large
             break
@@ -99,9 +93,8 @@
         [PopupId.Confirmation]: ConfirmationPopup,
         [PopupId.ConnectLedger]: ConnectLedgerPopup,
         [PopupId.CreateAccount]: CreateAccountPopup,
+        [PopupId.CustomiseAccount]: CustomiseAccountPopup,
         [PopupId.DeepLinkError]: DeepLinkErrorPopup,
-        [PopupId.DeleteAccount]: DeleteAccountPopup,
-        [PopupId.DeleteProfile]: DeleteProfilePopup,
         [PopupId.Diagnostics]: DiagnosticsPopup,
         [PopupId.EnableLedgerBlindSigning]: EnableLedgerBlindSigningPopup,
         [PopupId.ErrorLog]: ErrorLogPopup,
@@ -109,7 +102,6 @@
         [PopupId.ImportErc20Token]: ImportErc20TokenFormPopup,
         [PopupId.LedgerConnection]: LedgerConnectionGuidePopup,
         [PopupId.LegalUpdate]: LegalUpdatePopup,
-        [PopupId.ManageAccount]: ManageAccountPopup,
         [PopupId.ManageVotingPower]: ManageVotingPowerPopup,
         [PopupId.MintNativeTokenConfirmation]: MintNativeTokenConfirmationPopup,
         [PopupId.MintNativeTokenForm]: MintNativeTokenFormPopup,
@@ -197,10 +189,10 @@
         class:relative
         class={size}
     >
-        {#if !hideClose}
-            <CloseButton on:click={tryClosePopup} size="sm" class="absolute top-6 right-6" />
-        {/if}
         <svelte:component this={POPUP_MAP[id]} {...props} />
+        {#if !hideClose}
+            <CloseButton on:click={tryClosePopup} size="sm" class="absolute top-8 right-8 p-2" />
+        {/if}
     </popup>
     <button type="button" tabindex="0" on:focus={onFocusLast} />
 </overlay>
@@ -208,14 +200,12 @@
 <style lang="scss">
     overlay {
         popup {
-            @apply w-full p-6 rounded-3xl;
+            @apply w-full p-8;
             @apply bg-surface dark:bg-surface-dark;
             @apply border border-solid border-stroke dark:border-stroke-dark;
             @apply shadow-elevation-4;
+            border-radius: 32px;
 
-            &.small {
-                max-width: 360px;
-            }
             &.medium {
                 max-width: 480px;
             }

@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { LogoName } from '@auxiliary/logo/enums'
+    import { onMount } from 'svelte'
     import { Button, IconName } from '@bloomwalletio/ui'
     import { initialiseOnboardingProfile, onboardingProfile } from '@contexts/onboarding'
     import {
@@ -16,10 +16,8 @@
     import { loginRouter, routerManager } from '@core/router'
     import { PopupId, openPopup } from '@desktop/auxiliary/popup'
     import features from '@features/features'
-    import { Logo } from '@ui'
     import { LoggedOutLayout } from '@views/components'
     import { OnboardingRouter, onboardingRouter } from '@views/onboarding'
-    import { onMount } from 'svelte'
     import { ProfileCard } from '../components'
 
     function onContinueClick(profileId: string): void {
@@ -61,45 +59,32 @@
     })
 </script>
 
-<LoggedOutLayout>
-    <Logo slot="header" width="150" logo={LogoName.BloomLogoFull} />
-    <div
-        slot="content"
-        class="
-        card-conatiner flex flex-row grow w-full justify-center gap-8 overflow-auto overlay-scrollbar pb-8
-        {$profiles.length > 4 ? 'grid grid-cols-4 2xl:grid-cols-5' : ''}"
-    >
+<LoggedOutLayout glass>
+    {#if features.login.selectProfile.createNewProfile.enabled}
+        <Button
+            slot="button"
+            variant="outlined"
+            size="sm"
+            text={localize('general.addProfile')}
+            icon={IconName.Plus}
+            on:click={onAddProfileClick}
+        />
+    {/if}
+    <profile-card-list class="">
         {#each $profiles as profile}
             <ProfileCard {profile} onClick={onContinueClick} updateRequired={updateRequiredForProfile(profile)} />
         {/each}
-    </div>
-    <svelte:fragment slot="footer">
-        {#if features.login.selectProfile.createNewProfile.enabled}
-            <hr class="border-white dark:border-gray-800" />
-            <button type="button" on:click={onAddProfileClick}>
-                <Button variant="text" text={localize('general.addProfile')} icon={IconName.Plus} />
-            </button>
-        {/if}
-    </svelte:fragment>
+    </profile-card-list>
 </LoggedOutLayout>
 
-<style lang="postcss">
-    .card-conatiner {
-        width: 80%;
+<style lang="scss">
+    :global(profile-card-list) {
+        --profile-card-width: 14rem;
     }
-
-    button {
-        @apply bg-transparent h-full w-full flex justify-center gap-2 text-violet-500 font-bold py-8 duration-300;
-        transition-property: background;
-        transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-
-        &:hover {
-            background: linear-gradient(to left, rgba(0, 0, 0, 0), rgba(255, 255, 255, 0.75), rgba(0, 0, 0, 0));
-        }
-    }
-
-    button:after {
-        content: '';
-        @apply absolute h-full w-1/2 bg-violet-700 blur-3xl opacity-40 left-1/2 -bottom-20 -translate-x-1/2;
+    profile-card-list {
+        @apply pr-4 -mr-4 my-auto pt-[4.75rem] pb-16 gap-5 items-center;
+        @apply max-w-[80vw] max-h-full overflow-auto;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(var(--profile-card-width, 1fr), 1fr));
     }
 </style>

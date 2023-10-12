@@ -125,7 +125,7 @@
         >{localize(`popups.${isEditMode ? 'editProposal' : 'addProposal'}.title`)}</Text
     >
     <Text fontSize="15">{localize(`popups.${isEditMode ? 'editProposal' : 'addProposal'}.body`)}</Text>
-    <div class="flex flex-col w-full space-y-4 mt-4">
+    <div class="flex flex-col w-full space-y-5 mt-4">
         <NodeInput bind:this={nodeInput} bind:nodeUrl bind:error={nodeInputError} />
         {#if !isEditMode}
             <Checkbox label="Add all proposals on this node" bind:checked={isRegisteringAllProposals} />

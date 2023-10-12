@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { Button, IconName } from '@bloomwalletio/ui'
     import {
         ClaimShimmerRewardsError,
         FindShimmerRewardsError,
@@ -31,7 +32,7 @@
     } from '@core/ledger'
     import { unsubscribeFromWalletApiEvents } from '@core/profile-manager'
     import { closePopup } from '@desktop/auxiliary/popup'
-    import { Button, ShimmerClaimingAccountList } from '@ui'
+    import { ShimmerClaimingAccountList } from '@ui'
     import { OnboardingLayout } from '@views/components'
     import { onDestroy, onMount } from 'svelte'
     import { restoreProfileRouter } from '../restore-profile-router'
@@ -41,7 +42,6 @@
     let isSettingUp = false
     let isSearchingForRewards = false
     let hasSearchedForRewardsBefore = false
-
     let hasTriedClaimingRewards = false
 
     $: isClaimingRewards = shimmerClaimingAccounts.some(
@@ -186,42 +186,33 @@
 
 <OnboardingLayout
     title={localize('views.onboarding.shimmerClaiming.claimRewards.title')}
-    description={localize('views.onboarding.shimmerClaiming.claimRewards.description')}
+    description={localize('views.onboarding.shimmerClaiming.claimRewards.body')}
     continueButton={{
-        hidden: true,
+        text: localize(
+            `actions.${
+                shouldShowContinueButton ? 'continue' : hasTriedClaimingRewards ? 'rerunClaimProcess' : 'claimRewards'
+            }`
+        ),
+        disabled: shouldShowContinueButton ? isSearchingForRewards : !shouldClaimRewardsButtonBeEnabled,
+        onClick: shouldShowContinueButton ? onContinueClick : onClaimRewardsClick,
     }}
     backButton={{
         hidden: true,
     }}
+    busy={shouldShowContinueButton ? undefined : isClaimingRewards}
+    busyText={shouldShowContinueButton ? '' : localize('actions.claiming')}
 >
-    <div slot="content" class="h-full flex flex-col space-y-4">
+    <div slot="content" class="h-full flex flex-col gap-4">
         <ShimmerClaimingAccountList {shimmerClaimingAccounts} baseToken={$onboardingProfile?.network?.baseToken} />
-        <div class="block space-y-2">
-            <Button
-                classes="w-full"
-                disabled={!shouldSearchForRewardsButtonBeEnabled}
-                outline
-                onClick={onSearchForRewardsClick}
-                isBusy={isSettingUp || isSearchingForRewards}
-                busyMessage={localize('actions.searching')}
-            >
-                {localize(`actions.${hasSearchedForRewardsBefore ? 'searchAgain' : 'searchForRewards'}`)}
-            </Button>
-            {#if shouldShowContinueButton}
-                <Button classes="w-full" disabled={isSearchingForRewards} onClick={onContinueClick}>
-                    {localize('actions.continue')}
-                </Button>
-            {:else}
-                <Button
-                    classes="w-full"
-                    disabled={!shouldClaimRewardsButtonBeEnabled}
-                    onClick={onClaimRewardsClick}
-                    isBusy={isClaimingRewards}
-                    busyMessage={localize('actions.claiming')}
-                >
-                    {localize(`actions.${hasTriedClaimingRewards ? 'rerunClaimProcess' : 'claimRewards'}`)}
-                </Button>
-            {/if}
-        </div>
+        <Button
+            on:click={onSearchForRewardsClick}
+            width="full"
+            disabled={!shouldSearchForRewardsButtonBeEnabled}
+            variant="text"
+            icon={IconName.Refresh}
+            busy={isSettingUp || isSearchingForRewards}
+            busyText={localize('actions.searching')}
+            text={localize(`actions.${hasSearchedForRewardsBefore ? 'searchAgain' : 'useFinder'}`)}
+        />
     </div>
 </OnboardingLayout>

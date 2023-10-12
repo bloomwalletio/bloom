@@ -1,5 +1,6 @@
 <script lang="ts">
-    import { Button, Error, IconName, PinInput, Text, Alert } from '@bloomwalletio/ui'
+    import { onDestroy } from 'svelte'
+    import { Alert, Button, CloseButton, Error, Icon, IconName, PinInput, Text } from '@bloomwalletio/ui'
     import {
         Platform,
         isLatestStrongholdVersion,
@@ -7,28 +8,26 @@
         needsToAcceptLatestTermsOfService,
     } from '@core/app'
     import { localize } from '@core/i18n'
-    import { ProfileType } from '@core/profile'
     import { login, resetActiveProfile } from '@core/profile/actions'
     import { activeProfile } from '@core/profile/stores'
     import { loginRouter } from '@core/router'
     import { isValidPin } from '@core/utils'
     import { PopupId, openPopup, popupState } from '@desktop/auxiliary/popup'
-    import features from '@features/features'
-    import { onDestroy } from 'svelte'
     import { ProfileAvatarWithBadge } from '@ui'
     import LoggedOutLayout from '@views/components/LoggedOutLayout.svelte'
+    import { ProfileType } from '@core/profile/enums'
+    import features from '@features/features'
 
     let attempts: number = 0
-    let pinCode: string = ''
+    let error: string = ''
     let isBusy: boolean = false
-    let shake: boolean = false
+    let pinCode: string = ''
     let pinInput: PinInput
+    let shake: boolean = false
 
-    /** Maximum number of consecutive (incorrect) attempts allowed to the user */
     const MAX_PINCODE_INCORRECT_ATTEMPTS = 3
-
-    /** Waiting time in seconds after which a user should be allowed to enter pin again */
     const WAITING_TIME_AFTER_MAX_INCORRECT_ATTEMPTS = 30
+    const PINCODE_MAX_LENGTH = 6
 
     let timeRemainingBeforeNextAttempt: number = WAITING_TIME_AFTER_MAX_INCORRECT_ATTEMPTS
     let maxAttemptsTimer: ReturnType<typeof setTimeout> = null
@@ -41,24 +40,14 @@
             preventClose: true,
         })
     }
+
     $: updateRequired =
         $activeProfile?.type === ProfileType.Software &&
         !isLatestStrongholdVersion($activeProfile?.strongholdVersion) &&
         features.onboarding.strongholdVersionCheck.enabled
     $: hasReachedMaxAttempts = attempts >= MAX_PINCODE_INCORRECT_ATTEMPTS
-    $: errorText = hasReachedMaxAttempts
-        ? localize('views.login.pleaseWait', { values: { time: timeRemainingBeforeNextAttempt.toString() } })
-        : ''
-    $: {
-        if (isValidPin(pinCode)) {
-            void onSubmit()
-        }
-    }
-    $: {
-        if (pinInput && !$popupState.active) {
-            pinInput?.focus()
-        }
-    }
+    $: pinInput && !$popupState.active && pinInput?.focus()
+    $: pinCode && (error = '')
 
     function setShakeTimeout(): void {
         shakeTimeout = setTimeout(() => {
@@ -79,8 +68,9 @@
             return
         }
 
-        if (timeRemainingBeforeNextAttempt === -1) {
+        if (timeRemainingBeforeNextAttempt === 1) {
             clearInterval(maxAttemptsTimer)
+            error = ''
             attempts = 0
             timeRemainingBeforeNextAttempt = WAITING_TIME_AFTER_MAX_INCORRECT_ATTEMPTS
             pinInput?.resetAndFocus()
@@ -100,8 +90,10 @@
                 $loginRouter.next()
             } else {
                 shake = true
+                error = localize('views.login.incorrectPin')
                 setShakeTimeout()
             }
+            isBusy = false
         }
     }
 
@@ -119,66 +111,103 @@
 </script>
 
 <LoggedOutLayout>
-    <div slot="header" class="header flex-none">
-        <div class="flex h-full items-center">
-            <Button
-                variant="text"
-                icon={IconName.ArrowLeft}
-                disabled={hasReachedMaxAttempts}
-                on:click={onBackClick}
-                text={localize('actions.back')}
-            />
-        </div>
+    <CloseButton slot="button" on:click={onBackClick} />
+    <div class="flex flex-col w-full h-full justify-center items-center">
+        <login-container class:shake>
+            <profile-container>
+                <ProfileAvatarWithBadge profile={$activeProfile} size="xxxl" shape="square" {updateRequired} />
+            </profile-container>
+            {#if hasReachedMaxAttempts}
+                <div class="flex flex-col justify-center items-center gap-3">
+                    <Text type="h4" align="center">{localize('views.login.maxAttempts.title')}</Text>
+                    <text-container class="login-view">
+                        <Text type="body2" fontWeight="medium" textColor="secondary">
+                            {localize('views.login.maxAttempts.body1')}
+                        </Text>
+                        <Text type="body2" fontWeight="medium" textColor="danger">
+                            {localize('views.login.maxAttempts.body2', {
+                                values: { times: MAX_PINCODE_INCORRECT_ATTEMPTS.toString() },
+                            })}
+                        </Text>
+                        <Text type="body2" fontWeight="medium" textColor="secondary">
+                            {localize('views.login.maxAttempts.body3')}
+                        </Text>
+                        <Text type="body2" fontWeight="medium" textColor="brand">
+                            {localize('times.second', { values: { time: timeRemainingBeforeNextAttempt.toString() } })}
+                        </Text>
+                        <Text type="body2" fontWeight="medium" textColor="secondary">
+                            {localize('views.login.maxAttempts.body4')}
+                        </Text>
+                    </text-container>
+                </div>
+            {:else}
+                <form
+                    id="login"
+                    on:submit|preventDefault={onSubmit}
+                    class="flex flex-col items-center justify-center gap-8"
+                >
+                    <div class="flex flex-col gap-6 w-full items-center justify-center flex-grow">
+                        <Text type="h4" align="center">{$activeProfile?.name}</Text>
+                        {#if updateRequired}
+                            <Alert variant="warning" text={localize('views.login.hintStronghold')} />
+                        {/if}
+                        <div class="flex flex-col gap-3">
+                            <Text type="body1" align="center">{localize('actions.enterYourPin')}</Text>
+                            <PinInput
+                                bind:this={pinInput}
+                                bind:value={pinCode}
+                                error={!!error}
+                                maxlength={PINCODE_MAX_LENGTH}
+                                disabled={hasReachedMaxAttempts || isBusy}
+                                glimpse={0}
+                                autofocus
+                            />
+                        </div>
+                        {#if error}
+                            <div class="flex items-center justify-center gap-3">
+                                <Icon name={IconName.InfoCircle} size="xs" textColor="danger" />
+                                <Error {error} />
+                            </div>
+                        {/if}
+                    </div>
+                    <Button
+                        type="submit"
+                        width="half"
+                        disabled={!isValidPin(pinCode)}
+                        busy={isBusy}
+                        text={localize('actions.continue')}
+                    />
+                </form>
+            {/if}
+        </login-container>
     </div>
-
-    <div class:shake slot="content">
-        <div class="flex flex-col gap-4 w-full items-center flex-grow mb-8">
-            <ProfileAvatarWithBadge profile={$activeProfile} size="xxxl" {updateRequired} shape="square" />
-            <Text type="h6" align="center" truncate>{$activeProfile.name}</Text>
-        </div>
-
-        {#if updateRequired}
-            <Alert variant="warning" text={localize('views.login.hintStronghold')} />
-        {/if}
-        <div class="flex flex-col gap-4 w-full items-center justify-center flex-grow">
-            <PinInput
-                bind:this={pinInput}
-                bind:value={pinCode}
-                on:submit={onSubmit}
-                disabled={hasReachedMaxAttempts || isBusy}
-                autofocus
-            />
-            <Text bold align="center">
-                {attempts > 0
-                    ? localize('views.login.incorrectAttempts', {
-                          values: { attempts: attempts.toString() },
-                      })
-                    : localize('actions.enterYourPin')}
-            </Text>
-        </div>
-        <Error error={errorText} />
-    </div>
-    <!-- Ghost footer to make above content centred-->
-    <div slot="footer" class="flex-none h-20" />
 </LoggedOutLayout>
 
-<style lang="scss">
+<style lang="postcss">
     .header {
-        height: 42px;
-    }
-    enter-pin-view {
-        @apply flex flex-col w-full h-full items-center bg-slate-100 dark:bg-gray-900 p-12;
-
-        > div {
-            @apply flex flex-col gap-12 w-full items-center justify-center flex-grow;
-
-            > div {
-                @apply flex flex-col w-full justify-center items-center gap-6;
-            }
-        }
+        @apply h-[2.625rem];
     }
 
-    :global(enter-pin-view.shake input) {
+    login-container {
+        @apply flex flex-col justify-center items-center gap-8 px-8 pb-12;
+        @apply border border-solid border-stroke dark:border-stroke-dark rounded-[2rem];
+        @apply bg-surface dark:bg-surface-dark;
+        box-shadow: 0px 20px 64px -16px rgba(0, 0, 0, 0.1);
+    }
+
+    profile-container {
+        @apply flex flex-col w-full items-center flex-grow -mt-18;
+    }
+
+    text-container.login-view {
+        @apply w-96 text-center;
+    }
+
+    login-container > text-container > :global(*) {
+        @apply inline;
+    }
+
+    login-container.shake :global(input) {
         @apply animate-shake;
     }
 </style>

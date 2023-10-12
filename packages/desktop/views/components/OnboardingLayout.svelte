@@ -1,10 +1,8 @@
 <script lang="ts">
-    import { Button, IconName, Text } from '@bloomwalletio/ui'
+    import { Button, Text } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
-    import { Logo } from '@ui'
-    import { LogoName } from '@auxiliary/logo/enums'
-    import LoggedOutLayout from './LoggedOutLayout.svelte'
     import BgGradient from './BgGradient.svelte'
+    import LoggedOutLayout from './LoggedOutLayout.svelte'
 
     interface IButtonProps {
         text: string
@@ -33,60 +31,45 @@
     export let continueButton: Partial<IButtonProps> | undefined = DEFAULT_CONTINUE_BUTTON
     export let backButton: Partial<IButtonProps> | undefined = DEFAULT_BACK_BUTTON
     export let busy: boolean = false
+    export let busyText: string = ''
 
     $: _continueButton = { ...DEFAULT_CONTINUE_BUTTON, ...continueButton }
     $: _backButton = { ...DEFAULT_BACK_BUTTON, ...backButton }
 </script>
 
 <LoggedOutLayout>
-    <div slot="header" class="header flex-none">
-        <BgGradient />
-        <div class="flex h-full items-center">
-            {#if _backButton.hidden}
-                <logo-container class="block absolute mt-8 ml-8">
-                    <Logo width="150" logo={LogoName.BloomLogoFull} />
-                </logo-container>
-            {:else}
-                <Button
-                    variant="text"
-                    icon={IconName.ArrowLeft}
-                    disabled={busy || !_backButton.onClick || _backButton.disabled}
-                    on:click={_backButton.onClick}
-                    text={_backButton.text}
-                />
-            {/if}
-        </div>
-    </div>
-    <content slot="content" class={size}>
-        <content-title class="h-full flex flex-col space-y-2.5">
-            {#if title}<Text type="h4" align="center">{title}</Text>{/if}
-            {#if description}<Text type="body2" textColor="secondary" align="center">{description}</Text>{/if}
-        </content-title>
-        <slot name="content" />
-        <content-buttons class="flex flex-row-reverse gap-3">
-            {#if !_continueButton.hidden}
-                <Button
-                    width="full"
-                    variant="contained"
-                    disabled={_continueButton.disabled || !_continueButton.onClick}
-                    {busy}
-                    on:click={_continueButton.onClick}
-                    text={_continueButton.text}
-                />
-            {/if}
-            {#if !_backButton.hidden}
-                <Button
-                    width="full"
-                    variant="outlined"
-                    disabled={busy || _backButton.disabled || !_backButton.onClick}
-                    on:click={_backButton.onClick}
-                    text={_backButton.text}
-                />
-            {/if}
-        </content-buttons>
-    </content>
-    <!-- Ghost footer to make above content centred-->
-    <div slot="footer" class="flex-none h-20" />
+    <BgGradient />
+    <content-container class="flex flex-col w-full h-full items-center justify-center">
+        <content class="flex flex-col w-full gap-6 {size}">
+            <content-title class="flex flex-col space-y-2.5">
+                {#if title}<Text type="h4" align="center">{title}</Text>{/if}
+                {#if description}<Text type="body2" textColor="secondary" align="center">{description}</Text>{/if}
+            </content-title>
+            <slot name="content" />
+            <content-buttons class="flex flex-row-reverse gap-3">
+                {#if !_continueButton.hidden}
+                    <Button
+                        width="full"
+                        variant="contained"
+                        disabled={_continueButton.disabled || !_continueButton.onClick}
+                        {busy}
+                        {busyText}
+                        on:click={_continueButton.onClick}
+                        text={_continueButton.text}
+                    />
+                {/if}
+                {#if !_backButton.hidden}
+                    <Button
+                        width="full"
+                        variant="outlined"
+                        disabled={busy || _backButton.disabled || !_backButton.onClick}
+                        on:click={_backButton.onClick}
+                        text={_backButton.text}
+                    />
+                {/if}
+            </content-buttons>
+        </content>
+    </content-container>
 </LoggedOutLayout>
 
 <style lang="scss">
@@ -95,7 +78,7 @@
     }
 
     content {
-        @apply rounded-[2rem] w-full flex flex-col gap-6 p-6 z-10;
+        @apply p-8 z-10 rounded-[2rem];
         @apply bg-surface dark:bg-surface-dark shadow-elevation-4;
         @apply border border-solid border-stroke dark:border-stroke-dark;
 
