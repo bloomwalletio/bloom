@@ -12,12 +12,8 @@
 </script>
 
 <Text type="h4" classes="mb-3">{localize('views.settings.theme.title')}</Text>
-{#if features.app.themes.light.enabled}
-    <Radio value={'light'} bind:group={appTheme} label={localize('general.lightTheme')} />
-{/if}
-{#if features.app.themes.dark.enabled}
-    <Radio value={'dark'} bind:group={appTheme} label={localize('general.darkTheme')} />
-{/if}
+<Radio value={'light'} bind:group={appTheme} label={localize('general.lightTheme')} />
+<Radio value={'dark'} bind:group={appTheme} label={localize('general.darkTheme')} />
 {#if features.app.themes.system.enabled}
     <Radio value={'system'} bind:group={appTheme} label={localize('general.systemTheme')} />
 {/if}
