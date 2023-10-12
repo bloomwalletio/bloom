@@ -1,19 +1,25 @@
 <script lang="ts">
-    import { IAccountState } from '@core/account'
+    import { localize } from '@core/i18n'
+    import { visibleActiveAccounts } from '@core/profile/stores'
+    import { Indicator, IOption, SelectInput } from '@bloomwalletio/ui'
     import { selectedAccount } from '@core/account/stores'
-    import { AccountLabel, Modal, RecipientAccountSelector } from '@ui'
+    import { IAccountState } from '@core/account'
 
-    export let account: IAccountState = $selectedAccount
+    export let account: IAccountState | undefined = $selectedAccount
 
-    let modal: Modal
+    let value: any
+    const selected: IOption | undefined = undefined
+
+    $: account = $visibleActiveAccounts.find((acc) => acc.depositAddress === value)
+
+    const options: IOption[] =
+        $visibleActiveAccounts?.map((account) => ({
+            value: account.depositAddress,
+            label: account.name,
+            color: account.color,
+        })) ?? []
 </script>
 
-<account-input class="w-full h-full relative">
-    <button
-        on:click={() => modal?.open()}
-        class="w-full flex flex-row flex-1 justify-between px-4 py-3 rounded-lg border border-solid border-gray-300 dark:border-gray-700 hover:border-gray-500 dark:hover:border-gray-700 focus:border-blue-500 dark:focus:border-gray-600"
-    >
-        <AccountLabel {account} />
-    </button>
-    <RecipientAccountSelector bind:modal bind:selected={account} showBalance includeSelectedAccount />
-</account-input>
+<SelectInput label={localize('general.account')} bind:value {selected} {options} customValue={true} let:color>
+    <Indicator {color} size="sm" />
+</SelectInput>
