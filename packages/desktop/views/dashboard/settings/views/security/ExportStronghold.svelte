@@ -1,9 +1,8 @@
 <script lang="ts">
-    import { Spinner } from '@ui'
     import { localize } from '@core/i18n'
     import { PopupId, openPopup } from '@desktop/auxiliary/popup'
     import { exportStronghold } from '@contexts/settings'
-    import { Button, Text } from '@bloomwalletio/ui'
+    import { Button, Text, Spinner } from '@bloomwalletio/ui'
 
     let busy = false
     let message = ''
@@ -50,7 +49,14 @@
 <div class="mb-5">
     <Text textColor="secondary">{localize('views.settings.exportStronghold.description')}</Text>
 </div>
-<div class="flex flex-row items-center">
+<div class="flex flex-row items-center gap-4">
     <Button text={localize('actions.export')} disabled={busy} on:click={onExportClick} />
-    <Spinner {busy} {message} classes="ml-2" />
+    <div class="flex flex-row items-center gap-2">
+        {#if busy}
+            <Spinner textColor="secondary" />
+        {/if}
+        {#if message}
+            <Text textColor="secondary">{message}</Text>
+        {/if}
+    </div>
 </div>

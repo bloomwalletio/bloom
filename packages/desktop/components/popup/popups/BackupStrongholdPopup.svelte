@@ -1,6 +1,7 @@
 <script lang="ts">
     import { localize } from '@core/i18n'
-    import { Logo, Text, TextType } from '@ui'
+    import { Logo } from '@ui'
+    import { Text } from '@bloomwalletio/ui'
     import { PopupId, closePopup, openPopup } from '@desktop/auxiliary/popup'
     import { LogoName } from '@auxiliary/logo'
     import PopupTemplate from '../PopupTemplate.svelte'
@@ -63,11 +64,11 @@
     {busy}
 >
     <div class="flex flex-col space-y-5">
-        <div class="w-full p-10 bg-gray-50 dark:bg-gray-800 flex justify-center content-center">
+        <div class="w-full p-10 bg-surface-1 dark:bg-surface-1-dark rounded-xl flex justify-center content-center">
             <Logo width="50%" logo={LogoName.Stronghold} />
         </div>
         <div class="w-full">
-            <Text type={TextType.p} color="gray-700">
+            <Text textColor="secondary" align="justify">
                 {localize('popups.backupStronghold.body')}
             </Text>
         </div>
