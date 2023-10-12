@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { appSettings, updateAppSettings } from '@core/app/stores'
+    import { appSettings } from '@core/app/stores'
     import { SUPPORTED_LOCALES, localize, setLanguage } from '@core/i18n'
     import type { IDropdownItem } from '@core/utils'
     import features from '@features/features'
@@ -11,7 +11,6 @@
 
     function onLanguageChange(selected: IDropdownItem<string>): void {
         setLanguage(selected.value)
-        updateAppSettings({ language: selected.value })
     }
 </script>
 
