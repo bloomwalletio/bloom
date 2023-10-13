@@ -64,6 +64,10 @@ jobs:
               run: echo "MACOSX_DEPLOYMENT_TARGET=10.14" >> $GITHUB_ENV # TODO: set this to 10.12 once rocksDB issue is fixed
               if: inputs.os == 'macos-11'
 
+            - name: Verify ditto accessibility
+              run: ditto package.json package.json.copy
+              if: inputs.os == 'macos-11'
+
             - name: Install required packages (Linux)
               run: |
                   sudo apt update

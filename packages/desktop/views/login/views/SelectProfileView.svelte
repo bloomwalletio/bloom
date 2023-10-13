@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { onMount } from 'svelte'
     import { Button, IconName } from '@bloomwalletio/ui'
     import { initialiseOnboardingProfile, onboardingProfile } from '@contexts/onboarding'
     import {
@@ -17,7 +18,6 @@
     import features from '@features/features'
     import { LoggedOutLayout } from '@views/components'
     import { OnboardingRouter, onboardingRouter } from '@views/onboarding'
-    import { onMount } from 'svelte'
     import { ProfileCard } from '../components'
 
     function onContinueClick(profileId: string): void {
