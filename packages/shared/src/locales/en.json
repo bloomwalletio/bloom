@@ -284,6 +284,7 @@
         },
         "login": {
             "incorrectPin": "Incorrect PIN code",
+            "hintStronghold": "Your Stronghold's version is out of date. Please log in to update your Stronghold.",
             "maxAttempts": {
                 "title": "Couldn't sign you in",
                 "body1": "You have entered an",

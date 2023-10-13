@@ -64,6 +64,10 @@ jobs:
               run: echo "MACOSX_DEPLOYMENT_TARGET=10.14" >> $GITHUB_ENV # TODO: set this to 10.12 once rocksDB issue is fixed
               if: inputs.os == 'macos-11'
 
+            - name: Verify ditto accessibility
+              run: ditto package.json package.json.copy
+              if: inputs.os == 'macos-11'
+
             - name: Install required packages (Linux)
               run: |
                   sudo apt update
@@ -104,10 +108,13 @@ jobs:
             - name: Build signed Electron app (MacOS)
               run: yarn compile:${STAGE}:mac
               env:
-                  CSC_LINK: ${{ secrets.APPLE_DEVELOPER_ID_INSTALLER_CERT_BASE64 }}
-                  CSC_KEY_PASSWORD: ${{ secrets.APPLE_DEVELOPER_ID_INSTALLER_CERT_PASSWORD }}
-                  BLOOM_APPLE_ID: ${{ secrets.APPLE_ID }}
-                  BLOOM_APPLE_ID_PASSWORD: ${{ secrets.APPLE_ID_PASSWORD }}
+                  CSC_LINK: ${{ secrets.APPLE_DEVELOPER_ID_APPLICATION_CERT_BASE64 }}
+                  CSC_KEY_PASSWORD: ${{ secrets.APPLE_DEVELOPER_ID_APPLICATION_CERT_PASSWORD }}
+                  CSC_INSTALLER_LINK: ${{ secrets.APPLE_DEVELOPER_ID_INSTALLER_CERT_BASE64 }}
+                  CSC_INSTALLER_KEY_PASSWORD: ${{ secrets.APPLE_DEVELOPER_ID_INSTALLER_CERT_PASSWORD }}
+                  BLOOM_APPLE_ID: ${{ secrets.APPLE_ID }} # Requires prefix of BLOOM otherwise electron builder tries to notarize the app using the env variables
+                  BLOOM_APPLE_ID_PASSWORD: ${{ secrets.APPLE_ID_PASSWORD }} # Requires prefix of BLOOM otherwise electron builder tries to notarize the app using the env variables
+                  APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.APPLE_ID_PASSWORD }}
                   GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
                   MACOS_SKIP_NOTARIZATION: false
               working-directory: packages/desktop
