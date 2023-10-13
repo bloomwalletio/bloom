@@ -11,14 +11,17 @@
         {
             key: localize('general.aliasId'),
             value: activity.aliasId,
+            truncate: true,
         },
         {
             key: localize('general.governorAddress'),
             value: activity.governorAddress,
+            truncate: true,
         },
         {
             key: localize('general.stateControllerAddress'),
             value: activity.stateControllerAddress,
+            truncate: true,
         },
     ]}
 />
