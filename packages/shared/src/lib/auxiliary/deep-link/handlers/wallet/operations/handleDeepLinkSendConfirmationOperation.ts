@@ -2,7 +2,7 @@ import { getActiveNetworkId } from '@core/network/actions'
 import { getNetworkHrp } from '@core/profile/actions'
 import { getUnitFromTokenMetadata, validateTokenId } from '@core/token'
 import { getTokenFromSelectedAccountTokens, selectedAccountTokens } from '@core/token/stores'
-import { getByteLengthOfString, isStringTrue, isValidBech32AddressAndPrefix } from '@core/utils'
+import { getByteLengthOfString, isStringTrue, validateBech32Address } from '@core/utils'
 import {
     MetadataLengthError,
     SendFlowParameters,
@@ -104,7 +104,10 @@ function parseSendConfirmationOperation(searchParams: URLSearchParams): SendFlow
     if (!address) {
         throw new NoAddressSpecifiedError()
     }
-    if (!isValidBech32AddressAndPrefix(address, getNetworkHrp())) {
+
+    try {
+        validateBech32Address(getNetworkHrp(), address)
+    } catch (error) {
         throw new InvalidAddressError()
     }
 

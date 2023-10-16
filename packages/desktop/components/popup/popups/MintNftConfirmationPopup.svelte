@@ -148,7 +148,6 @@
                             {
                                 key: localize('general.uri'),
                                 value: uri,
-                                truncate: true,
                             },
                             {
                                 key: localize('general.issuerName'),
