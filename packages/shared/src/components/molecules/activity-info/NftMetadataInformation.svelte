@@ -31,7 +31,6 @@
                 key: localize('general.uri'),
                 value: metadata.uri,
                 copyable: true,
-                truncate: true,
             },
             {
                 key: localize('general.description'),

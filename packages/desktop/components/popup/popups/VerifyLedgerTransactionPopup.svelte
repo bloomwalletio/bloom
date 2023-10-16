@@ -41,10 +41,12 @@
 <div class="flex flex-col space-y-2">
     {#if hasSendConfirmationProps}
         <Table
+            orientation="vertical"
             items={[
                 {
                     key: localize('general.hash'),
                     value: useBlindSigning ? formatHexString(hash) : undefined,
+                    copyable: true,
                 },
                 {
                     key: localize('general.bipPath'),
@@ -57,10 +59,12 @@
                 {
                     key: localize('general.address'),
                     value: !useBlindSigning && isEvmTransaction ? toAddress : undefined,
+                    copyable: true,
                 },
                 {
                     key: localize('general.network'),
                     value: !useBlindSigning && isEvmTransaction ? chainId : undefined,
+                    copyable: true,
                 },
                 {
                     key: localize('general.maxFees'),
@@ -72,6 +76,7 @@
                 {
                     key: localize('general.sendTo'),
                     value: !useBlindSigning && !isEvmTransaction ? toAddress : undefined,
+                    copyable: true,
                 },
                 {
                     key: localize('general.amount'),
