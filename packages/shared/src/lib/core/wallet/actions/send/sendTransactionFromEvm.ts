@@ -11,7 +11,7 @@ import { getAddressFromAccountForNetwork } from '@core/account'
 import { updateL2BalanceWithoutActivity } from '../updateL2BalanceWithoutActivity'
 
 export async function sendTransactionFromEvm(
-    transaction: EvmTransactionData,
+    preparedTransaction: EvmTransactionData,
     chain: IChain,
     callback?: () => void
 ): Promise<void> {
@@ -24,7 +24,7 @@ export async function sendTransactionFromEvm(
             const chainId = chain.getConfiguration().chainId
             const coinType = chain.getConfiguration().coinType
             const transactionReceipt = await signAndSendEvmTransaction(
-                transaction,
+                preparedTransaction,
                 chainId,
                 coinType,
                 provider,
@@ -32,7 +32,7 @@ export async function sendTransactionFromEvm(
             )
             if (transactionReceipt) {
                 const evmTransaction: PersistedEvmTransaction = {
-                    ...transaction,
+                    ...preparedTransaction,
                     ...transactionReceipt,
                 }
                 addPersistedTransaction(account.index, networkId, evmTransaction)
@@ -62,7 +62,7 @@ export async function sendTransactionFromEvm(
                 }
             }
         },
-        { stronghold: true, ledger: true },
+        { stronghold: true, ledger: true, props: { preparedTransaction } },
         LedgerAppName.Ethereum
     )
 }
