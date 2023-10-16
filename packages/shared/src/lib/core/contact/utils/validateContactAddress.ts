@@ -1,6 +1,6 @@
 import { localize } from '@core/i18n'
 import { IValidationOptions } from '@core/utils/interfaces'
-import { isAccountAddress, isValidAddressFormatForNetwork } from '@core/account/actions'
+import { isAccountAddress, validateAddressFormatForNetwork } from '@core/account/actions'
 import { ContactManager } from '../classes'
 import { NetworkId } from '@core/network'
 
@@ -12,10 +12,7 @@ export function validateContactAddress(options: IValidationOptions, networkId: N
         throw new Error(localize('error.input.required', { field: localize('general.address') }))
     }
 
-    const addressFormatError = isValidAddressFormatForNetwork(address, networkId)
-    if (addressFormatError) {
-        throw new Error(addressFormatError)
-    }
+    validateAddressFormatForNetwork(address, networkId)
 
     if (isAccountAddress(address, networkId)) {
         throw new Error(localize('error.address.belongsToAccount'))
