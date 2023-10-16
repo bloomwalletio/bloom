@@ -1,10 +1,11 @@
 <script lang="ts">
-    import { Text } from '@bloomwalletio/ui'
+    import { Button, Text } from '@bloomwalletio/ui'
     import { Mnemonic, getWordChoices, onboardingProfile, updateOnboardingProfile } from '@contexts/onboarding'
     import { localize } from '@core/i18n'
     import { RecoveryPhrase } from '@ui'
     import { OnboardingLayout } from '@views/components'
     import { createFromMnemonicRouter } from '../create-from-mnemonic-router'
+    import features from '@features/features'
 
     const VERIFICATION_WORD_COUNT = 8
     const LOCALE_KEY = 'views.onboarding.profileBackup.verifyMnemonic'
@@ -55,7 +56,7 @@
     $: isVerified = areArraysEqual(recoveryPhrase, verifiedRecoveryPhrase)
 
     function onContinueClick(): void {
-        updateOnboardingProfile({ hasVerifiedMnemonic: isVerified })
+        updateOnboardingProfile({ hasVerifiedMnemonic: features.onboarding.skipVerification.enabled || isVerified })
         $createFromMnemonicRouter.next()
     }
 
@@ -92,6 +93,9 @@
             </div>
         {/if}
     </content>
+    <div slot="footer" class:hidden={!features.onboarding.skipVerification.enabled}>
+        <Button variant="text" width="full" text={localize('actions.skip')} on:click={onContinueClick} />
+    </div>
 </OnboardingLayout>
 
 <style lang="postcss">

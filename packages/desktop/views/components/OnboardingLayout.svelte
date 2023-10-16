@@ -68,6 +68,7 @@
                     />
                 {/if}
             </content-buttons>
+            <slot name="footer" />
         </content>
     </content-container>
 </LoggedOutLayout>

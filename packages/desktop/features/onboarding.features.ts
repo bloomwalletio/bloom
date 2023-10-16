@@ -123,6 +123,9 @@ const onboardingFeatures: OnboardingFeatures = {
     strongholdVersionCheck: {
         enabled: true,
     },
+    skipVerification: {
+        enabled: false,
+    },
 }
 
 export default onboardingFeatures
