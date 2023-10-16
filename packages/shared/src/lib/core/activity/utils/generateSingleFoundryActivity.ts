@@ -2,7 +2,7 @@ import { IAccountState } from '@core/account'
 import { IActivityGenerationParameters } from '@core/activity/types'
 import { NetworkId } from '@core/network/types'
 import { BASE_TOKEN_ID } from '@core/token'
-import { convertHexAddressToBech32, getSubjectFromAddress } from '@core/wallet/utils'
+import { convertHexAddressToBech32 } from '@core/wallet/utils'
 import {
     AddressType,
     AliasAddress,
@@ -14,6 +14,7 @@ import {
 import { ActivityAction, ActivityType } from '../enums'
 import { FoundryActivity } from '../types'
 import { generateBaseActivity } from './generateBaseActivity'
+import { SubjectType } from '@core/wallet/enums'
 
 export async function generateSingleFoundryActivity(
     account: IAccountState,
@@ -43,7 +44,7 @@ export async function generateSingleFoundryActivity(
 
     return {
         ...baseActivity,
-        recipient: getSubjectFromAddress(account.depositAddress, networkId),
+        recipient: { type: SubjectType.Account, account, address: account.depositAddress },
         type: ActivityType.Foundry,
         aliasAddress,
         mintedTokens: mintedTokens.toString(),
