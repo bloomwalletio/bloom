@@ -10,6 +10,7 @@ import { ActivityAction, ActivityType } from '../enums'
 import { AliasActivity } from '../types'
 import { generateBaseActivity } from './generateBaseActivity'
 import { getGovernorAddressFromAliasOutput, getStateControllerAddressFromAliasOutput } from './helper'
+import { SubjectType } from '@core/wallet/enums'
 
 export async function generateSingleAliasActivity(
     account: IAccountState,
@@ -37,6 +38,7 @@ export async function generateSingleAliasActivity(
     return {
         type: ActivityType.Alias,
         ...baseActivity,
+        recipient: { type: SubjectType.Account, account, address: account.depositAddress },
         aliasId,
         governorAddress,
         stateControllerAddress,
