@@ -1,4 +1,4 @@
-import { IRentStructure } from './rent-structure.interface'
+import type { IRent } from '@iota/sdk/out/types'
 
 export interface IProtocol {
     version: number
@@ -6,6 +6,6 @@ export interface IProtocol {
     bech32Hrp: string
     minPowScore: number
     belowMaxDepth?: number
-    rentStructure: IRentStructure
+    rentStructure: IRent
     tokenSupply: string
 }
