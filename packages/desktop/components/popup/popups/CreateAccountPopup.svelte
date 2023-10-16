@@ -60,7 +60,6 @@
                 isBusy = true
                 await _onMount()
             } catch (err) {
-                error = err.error
                 handleError(err)
             } finally {
                 isBusy = false
