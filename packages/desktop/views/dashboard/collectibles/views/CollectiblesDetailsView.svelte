@@ -40,13 +40,13 @@
             key: localize('general.nftId'),
             value: id || undefined,
             copyable: true,
-            truncate: { firstCharCount: 20, endCharCount: 20 },
+            truncate: { firstCharCount: 15, endCharCount: 15 },
         },
         {
             key: localize('general.address'),
             value: address || undefined,
             copyable: true,
-            truncate: { firstCharCount: 20, endCharCount: 20 },
+            truncate: { firstCharCount: 15, endCharCount: 15 },
         },
         {
             key: localize('general.storageDeposit'),
@@ -64,7 +64,7 @@
             key: localize('general.issuerAddress'),
             value: issuer?.type === AddressType.Ed25519 ? issuerAddress : undefined,
             copyable: true,
-            truncate: { firstCharCount: 20, endCharCount: 20 },
+            truncate: { firstCharCount: 15, endCharCount: 15 },
         },
         {
             key: localize('general.collection'),
@@ -74,7 +74,7 @@
             key: localize('general.collectionId'),
             value: issuer?.type === AddressType.Nft || issuer?.type === AddressType.Alias ? collectionId : undefined,
             copyable: true,
-            truncate: { firstCharCount: 20, endCharCount: 20 },
+            truncate: { firstCharCount: 15, endCharCount: 15 },
         },
         {
             key: localize('general.metadata'),
