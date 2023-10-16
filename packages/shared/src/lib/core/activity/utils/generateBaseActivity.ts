@@ -66,7 +66,7 @@ export async function generateBaseActivity(
         persistedToken && nativeToken
             ? {
                   tokenId: persistedToken.id,
-                  rawAmount: String(nativeToken.amount),
+                  rawAmount: String(Number(nativeToken.amount)),
               }
             : undefined
 
