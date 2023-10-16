@@ -9,27 +9,27 @@ import { signAndSendStardustTransaction } from './signAndSendStardustTransaction
 import { handleError } from '@core/error/handlers'
 
 export async function sendOutputFromStardust(
-    output: Output,
+    preparedOutput: Output,
     account: IAccountState,
     callback: () => void
 ): Promise<void> {
-    validateSendConfirmation(output)
+    validateSendConfirmation(preparedOutput)
 
     if (getIsActiveLedgerProfile()) {
-        ledgerPreparedOutput.set(output)
+        ledgerPreparedOutput.set(preparedOutput)
     }
 
     await checkActiveProfileAuth(
         async () => {
             try {
-                await signAndSendStardustTransaction(output, account)
+                await signAndSendStardustTransaction(preparedOutput, account)
                 callback()
                 resetSendFlowParameters()
             } catch (err) {
                 handleError(err)
             }
         },
-        { stronghold: true, ledger: false }
+        { stronghold: true, ledger: false, props: { preparedOutput } }
     )
     return
 }

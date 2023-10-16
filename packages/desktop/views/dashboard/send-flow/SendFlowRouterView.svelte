@@ -3,9 +3,15 @@
     import features from '@features/features'
     import { SendFlowRoute } from './send-flow-route.enum'
     import { sendFlowRoute } from './send-flow.router'
-    import { InputTokenAmountView, SelectRecipientView, SelectTokenView, TransactionSummaryView } from './views'
+    import {
+        InputTokenAmountView,
+        SelectRecipientView,
+        SelectTokenView,
+        TransactionSummaryView,
+        TransactionSummaryProps,
+    } from './views'
 
-    export let onTransactionSummaryMount: (..._: any[]) => Promise<void> = async () => {}
+    export let transactionSummaryProps: TransactionSummaryProps | undefined = undefined
 
     $: if (features.analytics.dashboardRoute.wallet.sendFlow.enabled && $sendFlowRoute) {
         Platform.trackEvent('send-flow-route', { route: $sendFlowRoute })
@@ -20,6 +26,6 @@
     {:else if $sendFlowRoute === SendFlowRoute.SelectRecipient}
         <SelectRecipientView />
     {:else if $sendFlowRoute === SendFlowRoute.TransactionSummary}
-        <TransactionSummaryView _onMount={onTransactionSummaryMount} />
+        <TransactionSummaryView {transactionSummaryProps} />
     {/if}
 </send-flow-router>
