@@ -29,9 +29,8 @@
             await validateAccountName(accountName.trim())
             updatePopupProps({ accountAlias: accountName, color, error })
             await checkActiveProfileAuth(_create, { stronghold: true, ledger: true })
-        } catch (err) {
-            error = err.error
-            handleError(err)
+        } catch ({ message }) {
+            error = message
         } finally {
             isBusy = false
         }
