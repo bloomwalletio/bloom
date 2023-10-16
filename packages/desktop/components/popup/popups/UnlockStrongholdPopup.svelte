@@ -54,6 +54,6 @@
     }}
 >
     <form id="password-popup-form" class="flex w-full flex-col" on:submit|preventDefault={onSubmit}>
-        <PasswordInput bind:value={password} label={localize('general.password')} autofocus {error} />
+        <PasswordInput bind:value={password} label={localize('general.password')} autofocus bind:error />
     </form>
 </PopupTemplate>

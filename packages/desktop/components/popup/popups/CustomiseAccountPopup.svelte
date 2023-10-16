@@ -66,7 +66,7 @@
     <div class="flex flex-col gap-4">
         <div class="flex flex-col gap-2">
             <Text type="body1">{localize('general.name')}</Text>
-            <Input bind:value={accountName} label={localize('general.accountName')} disabled={isBusy} {error} />
+            <Input bind:value={accountName} label={localize('general.accountName')} disabled={isBusy} bind:error />
         </div>
         <div class="flex flex-col gap-2">
             <Text type="body1">{localize('general.color')}</Text>
