@@ -3,7 +3,9 @@ import type {
     Client,
     CreateAccountPayload,
     FoundryId,
+    IRent,
     NftId,
+    Output,
     OutputId,
     TransactionId,
     WalletOptions,
@@ -44,4 +46,5 @@ export interface IApi {
     aliasIdToBech32(aliasId: string, bech32Hrp: string): string
     nftIdToBech32(nftId: string, bech32Hrp: string): string
     computeOutputId(id: TransactionId, index: number): Promise<OutputId>
+    computeStorageDeposit(output: Output, rent: IRent): Promise<OutputId>
 }
