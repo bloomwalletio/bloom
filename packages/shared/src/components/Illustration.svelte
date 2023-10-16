@@ -63,6 +63,14 @@
             lightmode: 'onboarding/portal.png',
             darkmode: 'onboarding/portal.png',
         },
+        landscape: {
+            lightmode: 'onboarding/landscape.png',
+            darkmode: 'onboarding/landscape.png',
+        },
+        balloon: {
+            lightmode: 'onboarding/balloon.png',
+            darkmode: 'onboarding/balloon.png',
+        },
     }
 </script>
 
