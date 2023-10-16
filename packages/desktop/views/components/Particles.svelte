@@ -97,4 +97,4 @@
     })
 </script>
 
-<canvas bind:this={canvas} class="absolute inset-0"></canvas>
+<canvas bind:this={canvas} class="absolute inset-0 pointer-events-none"></canvas>
