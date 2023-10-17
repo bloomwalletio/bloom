@@ -58,15 +58,6 @@
             truncate: { firstCharCount: 15, endCharCount: 15 },
         },
         {
-            key: localize('general.network'),
-            slot: {
-                component: NetworkLabel,
-                props: {
-                    networkId: nft.networkId,
-                },
-            },
-        },
-        {
             key: localize('general.storageDeposit'),
             value: storageDeposit ? formatTokenAmountPrecise(storageDeposit, getBaseToken()) : undefined,
         },

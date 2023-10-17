@@ -64,9 +64,7 @@ export function createEvmChainToEvmChainTransaction(
     }
 
     let data: string | undefined
-    if ((!token || token.metadata?.standard === TokenStandard.BaseToken) && !nft) {
-        data = undefined
-    } else {
+    if (token?.standard === TokenStandard.Irc30 || token?.standard === TokenStandard.Erc20 || nft) {
         data = getDataForTransaction(chain, recipientAddress, token, amount, nft)
         // set amount to zero after using it to build the smart contract data,
         // as we do not want to send any base token
@@ -74,6 +72,8 @@ export function createEvmChainToEvmChainTransaction(
         if (!data) {
             throw new Error(localize('error.web3.unableToFormSmartContractData'))
         }
+    } else {
+        data = undefined
     }
 
     return buildEvmTransactionData(provider, originAddress, destinationAddress, amount ?? '0', data)
@@ -101,14 +101,8 @@ function getDataForTransaction(
                 return undefined
         }
     } else if (nft) {
-        return getIscpTransferSmartContractData(
-            recipientAddress,
-            {
-                type: AssetType.Nft,
-                nft,
-            },
-            chain
-        )
+        const transferredAsset = { type: AssetType.Nft, nft } as TransferredAsset
+        return getIscpTransferSmartContractData(recipientAddress, transferredAsset, chain)
     }
 }
 
