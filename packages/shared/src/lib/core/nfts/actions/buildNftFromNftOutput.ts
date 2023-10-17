@@ -12,7 +12,8 @@ import { getActiveNetworkId } from '@core/network'
 export function buildNftFromNftOutput(
     wrappedOutput: IWrappedOutput,
     accountAddress: string,
-    calculateStatus: boolean = true
+    calculateStatus: boolean = true,
+    isLayer2: boolean = false
 ): INft {
     const nftOutput = wrappedOutput.output as NftOutput
 
@@ -40,7 +41,7 @@ export function buildNftFromNftOutput(
         address,
         name: parsedMetadata?.name ?? DEFAULT_NFT_NAME,
         issuer,
-        isSpendable,
+        isSpendable: isLayer2 ? true : isSpendable,
         timelockTime: timeLockTime ? Number(timeLockTime) : undefined,
         metadata,
         parsedMetadata,

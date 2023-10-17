@@ -9,7 +9,8 @@ import { Converter } from '@core/utils/convert'
 import { ISC_MAGIC_CONTRACT_ADDRESS } from '../constants'
 import { evmAddressToAgentId, getAgentBalanceParameters, getSmartContractHexName } from '../helpers'
 import { setLayer2AccountBalanceForChain } from '../stores'
-import { getIrc27MetadataForNftIds } from '@core/nfts/utils/getIrc27MetadataForNftIds'
+import { getNftsFromNftIds } from '@core/nfts/utils'
+import { addOrUpdateNftInAllAccountNfts } from '@core/nfts/actions'
 
 export function fetchLayer2BalanceForAccount(account: IAccountState): void {
     const { evmAddresses, index } = account
@@ -20,6 +21,8 @@ export function fetchLayer2BalanceForAccount(account: IAccountState): void {
         if (!evmAddress) {
             return
         }
+
+        await fetchLayer2Nfts(evmAddress, chain, account.index)
 
         const balances = await getLayer2BalanceForAddress(evmAddress, chain)
         if (!balances) {
@@ -47,8 +50,6 @@ async function getLayer2BalanceForAddress(
     chain: IChain
 ): Promise<{ balance: number; tokenId: string }[] | undefined> {
     const layer2BaseAndIrc30Balances = await getLayer2NativeTokenBalancesForAddress(evmAddress, chain)
-    const layer2NftIds = await getLayer2NftsForAddress(evmAddress, chain)
-    getIrc27MetadataForNftIds(layer2NftIds)
     const erc20Balances = await getLayer2Erc20BalancesForAddress(evmAddress, chain)
     return [...layer2BaseAndIrc30Balances, ...erc20Balances]
 }
@@ -78,23 +79,6 @@ async function getLayer2NativeTokenBalancesForAddress(
     }
 }
 
-async function getLayer2NftsForAddress(evmAddress: string, chain: IChain): Promise<string[]> {
-    const accountsCoreContract = getSmartContractHexName('accounts')
-    const getBalanceFunc = getSmartContractHexName('accountNFTs')
-    const agentID = evmAddressToAgentId(evmAddress, chain.getConfiguration())
-    const parameters = getAgentBalanceParameters(agentID)
-    try {
-        const contract = chain.getContract(ContractType.IscMagic, ISC_MAGIC_CONTRACT_ADDRESS)
-        const nftResult = (await contract.methods
-            .callView(accountsCoreContract, getBalanceFunc, parameters)
-            .call()) as { key: string; value: string }[]
-
-        return nftResult.map((item) => item.value)
-    } catch (e) {
-        return []
-    }
-}
-
 async function getLayer2Erc20BalancesForAddress(
     evmAddress: string,
     chain: IChain
@@ -117,4 +101,23 @@ async function getLayer2Erc20BalancesForAddress(
         }
     }
     return erc20TokenBalances
+}
+
+async function fetchLayer2Nfts(evmAddress: string, chain: IChain, accountIndex: number): Promise<void> {
+    const accountsCoreContract = getSmartContractHexName('accounts')
+    const getBalanceFunc = getSmartContractHexName('accountNFTs')
+    const agentID = evmAddressToAgentId(evmAddress, chain.getConfiguration())
+    const parameters = getAgentBalanceParameters(agentID)
+    try {
+        const contract = chain.getContract(ContractType.IscMagic, ISC_MAGIC_CONTRACT_ADDRESS)
+        const nftResult = (await contract.methods
+            .callView(accountsCoreContract, getBalanceFunc, parameters)
+            .call()) as { items: { key: string; value: string }[] }
+
+        const nftIds = nftResult.items.filter((item) => item.value !== '0x04').map((item) => item.value)
+        const nfts = await getNftsFromNftIds(nftIds)
+        addOrUpdateNftInAllAccountNfts(accountIndex, ...nfts)
+    } catch (err) {
+        console.error(err)
+    }
 }
