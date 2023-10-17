@@ -33,7 +33,7 @@
 >
     <div slot="content">
         <TextInput
-            {error}
+            bind:error
             bind:value={profileName}
             label={localize('views.onboarding.profileSetup.enterName.profileName')}
             autofocus

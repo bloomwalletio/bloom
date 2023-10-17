@@ -29,9 +29,8 @@
             await validateAccountName(accountName.trim())
             updatePopupProps({ accountAlias: accountName, color, error })
             await checkActiveProfileAuth(_create, { stronghold: true, ledger: true })
-        } catch (err) {
-            error = err.error
-            handleError(err)
+        } catch ({ message }) {
+            error = message
         } finally {
             isBusy = false
         }
@@ -61,7 +60,6 @@
                 isBusy = true
                 await _onMount()
             } catch (err) {
-                error = err.error
                 handleError(err)
             } finally {
                 isBusy = false
@@ -86,7 +84,7 @@
     <div class="flex flex-col space-y-5">
         <div class="flex flex-col gap-2">
             <Text type="body1">{localize('general.name')}</Text>
-            <Input bind:value={accountName} label={localize('general.accountName')} disabled={isBusy} {error} />
+            <Input bind:value={accountName} label={localize('general.accountName')} disabled={isBusy} bind:error />
         </div>
         <div class="flex flex-col gap-2">
             <Text type="body1">{localize('general.color')}</Text>
