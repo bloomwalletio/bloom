@@ -1,4 +1,3 @@
-export * from './auth.interface'
 export * from './block.interface'
 export * from './chain-configuration.interface'
 export * from './chain-metadata.interface'
