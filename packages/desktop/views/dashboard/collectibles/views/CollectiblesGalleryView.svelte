@@ -34,14 +34,14 @@
             <NftGallery nfts={$queriedNfts} />
         {:else}
             <div class="w-full h-full flex flex-col items-center justify-center gap-6">
-                <Avatar icon={IconName.Image} size="xxxl" customTextColor="primary-500" backgroundColor="surface" />
+                <Avatar icon={IconName.Data} size="xxxl" customTextColor="primary-500" backgroundColor="surface" />
                 <Text type="h6">{localize('views.collectibles.gallery.noResults')}</Text>
             </div>
         {/if}
     {:else}
         <div class="w-full h-full flex items-center justify-center grow-1">
             <div class="flex flex-col items-center gap-6">
-                <Avatar icon={IconName.Image} size="xxxl" customTextColor="primary-500" backgroundColor="surface" />
+                <Avatar icon={IconName.Data} size="xxxl" customTextColor="primary-500" backgroundColor="surface" />
                 <div class="flex flex-col items-center gap-4">
                     <Text type="h6">{localize('views.collectibles.gallery.emptyTitle')}</Text>
                     <Text textColor="secondary">{localize('views.collectibles.gallery.emptyDescription')}</Text>
