@@ -3,9 +3,10 @@
     import { Activity } from '@core/activity'
     import { openUrlInBrowser } from '@core/app'
     import { getFormattedTimeStamp, localize } from '@core/i18n'
-    import { ExplorerEndpoint, getDefaultExplorerUrl, getNameFromNetworkId } from '@core/network'
+    import { ExplorerEndpoint, getDefaultExplorerUrl } from '@core/network'
     import { getBaseToken } from '@core/profile/actions'
     import { formatTokenAmountPrecise } from '@core/token'
+    import { NetworkLabel } from '@ui'
 
     export let activity: Activity
 
@@ -41,7 +42,12 @@
     items={[
         {
             key: localize('general.destinationNetwork'),
-            value: getNameFromNetworkId(activity.destinationNetworkId),
+            slot: {
+                component: NetworkLabel,
+                props: {
+                    networkId: activity.destinationNetworkId,
+                },
+            },
         },
         {
             key: localize('general.transactionTime'),

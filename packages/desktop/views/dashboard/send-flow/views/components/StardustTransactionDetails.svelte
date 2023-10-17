@@ -32,17 +32,15 @@
                     networkId: destinationNetworkId,
                 },
             },
-            show: destinationNetworkId,
         },
         {
             key: localize('general.transactionFee'),
-            value: formatTokenAmountBestMatch(Number(transactionFee), getBaseToken()),
-            show: transactionFee,
+            value: transactionFee ? formatTokenAmountBestMatch(Number(transactionFee), getBaseToken()) : undefined,
         },
     ]
 </script>
 
-<Table items={items.filter((item) => item.show)}>
+<Table {items}>
     {#if storageDeposit || giftStorageDeposit}
         <TableRow
             item={{

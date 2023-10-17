@@ -7,10 +7,12 @@ import { get } from 'svelte/store'
 import { DEFAULT_NFT_NAME } from '../constants'
 import { INft } from '../interfaces'
 import { composeUrlFromNftUri, getSpendableStatusFromUnspentNftOutput, parseNftMetadata } from '../utils'
-import { getActiveNetworkId } from '@core/network'
+import { NetworkId } from '@core/network/types'
+import { isEvmChain } from '@core/network'
 
 export function buildNftFromNftOutput(
     wrappedOutput: IWrappedOutput,
+    networkId: NetworkId,
     accountAddress: string,
     calculateStatus: boolean = true
 ): INft {
@@ -40,7 +42,7 @@ export function buildNftFromNftOutput(
         address,
         name: parsedMetadata?.name ?? DEFAULT_NFT_NAME,
         issuer,
-        isSpendable,
+        isSpendable: isEvmChain(networkId) ? true : isSpendable,
         timelockTime: timeLockTime ? Number(timeLockTime) : undefined,
         metadata,
         parsedMetadata,
@@ -49,7 +51,7 @@ export function buildNftFromNftOutput(
         downloadUrl: composedUrl,
         filePath,
         storageDeposit,
-        networkId: getActiveNetworkId(),
+        networkId,
         downloadMetadata: {
             error: undefined,
             warning: undefined,
