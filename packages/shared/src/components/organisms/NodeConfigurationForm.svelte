@@ -129,6 +129,7 @@
     {#if networkEditable}
         <SelectInput
             bind:value={networkType}
+            selected={networkOptions[0]}
             label={localize('general.network')}
             options={networkOptions}
             disabled={isBusy}
