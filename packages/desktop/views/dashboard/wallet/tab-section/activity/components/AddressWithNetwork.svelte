@@ -5,6 +5,7 @@
     import { Subject, SubjectType } from '@core/wallet'
     import { NetworkAvatar } from '@ui'
     import { Text } from '@bloomwalletio/ui'
+    import { localize } from '@core/i18n'
 
     export let subject: Subject | undefined
     export let networkId: NetworkId | undefined
@@ -13,7 +14,7 @@
 
     function getDisplayedSubject(subject: Subject | undefined): string {
         if (!subject) {
-            return '-'
+            return localize('general.unknown')
         }
 
         switch (subject.type) {
