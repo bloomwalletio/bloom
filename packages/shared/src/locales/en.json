@@ -1296,6 +1296,7 @@
         "toAddress": "to {account}",
         "capsLock": "Caps Lock is on",
         "version": "Version",
+        "versionFull": "Version {version}",
         "unknown": "Unknown",
         "unknownAddress": "Unknown address",
         "none": "None",
@@ -1887,7 +1888,7 @@
             "notConnected": "Not connected",
             "locked": "Device locked",
             "appNotOpen": "App not open"
-        }         
+        }
     },
     "menus": {
         "dateTimePicker": {
