@@ -9,8 +9,9 @@ import { Converter } from '@core/utils/convert'
 import { ISC_MAGIC_CONTRACT_ADDRESS } from '../constants'
 import { evmAddressToAgentId, getAgentBalanceParameters, getSmartContractHexName } from '../helpers'
 import { setLayer2AccountBalanceForChain } from '../stores'
+import { getIrc27MetadataForNftIds } from '@core/nfts/utils/getIrc27MetadataForNftIds'
 
-export function fetchSelectedAccountLayer2Balance(account: IAccountState): void {
+export function fetchLayer2BalanceForAccount(account: IAccountState): void {
     const { evmAddresses, index } = account
     const chains = getNetwork()?.getChains() ?? []
     chains.forEach(async (chain) => {
@@ -46,7 +47,8 @@ async function getLayer2BalanceForAddress(
     chain: IChain
 ): Promise<{ balance: number; tokenId: string }[] | undefined> {
     const layer2BaseAndIrc30Balances = await getLayer2NativeTokenBalancesForAddress(evmAddress, chain)
-    const layer2Irc37Balances = await getLayer2NftsForAddress(evmAddress, chain)
+    const layer2NftIds = await getLayer2NftsForAddress(evmAddress, chain)
+    getIrc27MetadataForNftIds(layer2NftIds)
     const erc20Balances = await getLayer2Erc20BalancesForAddress(evmAddress, chain)
     return [...layer2BaseAndIrc30Balances, ...erc20Balances]
 }
@@ -76,10 +78,7 @@ async function getLayer2NativeTokenBalancesForAddress(
     }
 }
 
-async function getLayer2NftsForAddress(
-    evmAddress: string,
-    chain: IChain
-): Promise<{ nftId: string }[]> {
+async function getLayer2NftsForAddress(evmAddress: string, chain: IChain): Promise<string[]> {
     const accountsCoreContract = getSmartContractHexName('accounts')
     const getBalanceFunc = getSmartContractHexName('accountNFTs')
     const agentID = evmAddressToAgentId(evmAddress, chain.getConfiguration())
@@ -90,9 +89,7 @@ async function getLayer2NftsForAddress(
             .callView(accountsCoreContract, getBalanceFunc, parameters)
             .call()) as { key: string; value: string }[]
 
-        return nftResult.map((item) => ({
-            nftId: item.value,
-        }))
+        return nftResult.map((item) => item.value)
     } catch (e) {
         return []
     }
