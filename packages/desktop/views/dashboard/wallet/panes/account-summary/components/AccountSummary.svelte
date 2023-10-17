@@ -37,7 +37,7 @@
 
     function onReceiveClick(): void {
         openPopup({
-            id: PopupId.VerifyLedgerTransaction,
+            id: PopupId.ReceiveAddress,
         })
     }
 </script>
