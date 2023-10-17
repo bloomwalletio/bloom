@@ -7,20 +7,22 @@ import { get } from 'svelte/store'
 import { INft } from '../interfaces'
 import { buildNftFromNftOutput } from './buildNftFromNftOutput'
 import { setAccountNftsInAllAccountNfts } from './setAccountNftsInAllAccountNfts'
+import { NetworkId, getActiveNetworkId } from '@core/network'
 
 export async function loadNftsForActiveProfile(): Promise<void> {
     const allAccounts = get(activeAccounts)
+    const networkId = getActiveNetworkId()
     for (const account of allAccounts) {
-        await loadNftsForAccount(account)
+        await loadNftsForAccount(account, networkId)
     }
 }
 
-async function loadNftsForAccount(account: IAccountState): Promise<void> {
+async function loadNftsForAccount(account: IAccountState, networkId: NetworkId): Promise<void> {
     const accountNfts: INft[] = []
     const unspentOutputs = await account.unspentOutputs()
     for (const outputData of unspentOutputs) {
         if (outputData.output.type === OutputType.Nft) {
-            const nft = buildNftFromNftOutput(outputData as IWrappedOutput, account.depositAddress)
+            const nft = buildNftFromNftOutput(outputData as IWrappedOutput, networkId, account.depositAddress)
             accountNfts.push(nft)
         }
     }
@@ -34,7 +36,12 @@ async function loadNftsForAccount(account: IAccountState): Promise<void> {
             const nftOutput = outputData.output as NftOutput
             const nftId = getNftId(nftOutput.nftId, outputData.outputId)
             if (!accountNfts.some((nft) => nft.id === nftId)) {
-                const nft = buildNftFromNftOutput(outputData as IWrappedOutput, account.depositAddress, false)
+                const nft = buildNftFromNftOutput(
+                    outputData as IWrappedOutput,
+                    networkId,
+                    account.depositAddress,
+                    false
+                )
                 accountNfts.push(nft)
             }
         }
