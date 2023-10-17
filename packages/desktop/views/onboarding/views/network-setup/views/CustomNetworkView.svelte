@@ -1,9 +1,9 @@
 <script lang="ts">
+    import { INode } from '@iota/sdk/out/types'
     import { showNotification } from '@auxiliary/notification'
     import { OnboardingNetworkType, updateOnboardingProfile } from '@contexts/onboarding'
     import { localize } from '@core/i18n'
     import {
-        INode,
         NetworkNamespace,
         buildPersistedNetworkFromNodeInfoResponse,
         getNetworkIdFromOnboardingNetworkType,

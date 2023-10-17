@@ -1,9 +1,9 @@
 <script lang="ts">
     import { OnboardingNetworkType } from '@contexts/onboarding'
     import { localize } from '@core/i18n'
-    import { IAuth } from '@iota/sdk/out/types'
+    import { IAuth, INode } from '@iota/sdk/out/types'
     import { DEFAULT_NETWORK_METADATA, EMPTY_NODE } from '@core/network/constants'
-    import { IClientOptions, INode, INodeInfoResponse } from '@core/network/interfaces'
+    import { IClientOptions, INodeInfoResponse } from '@core/network/interfaces'
     import { nodeInfo } from '@core/network/stores'
     import {
         checkIfOnSameNetwork,

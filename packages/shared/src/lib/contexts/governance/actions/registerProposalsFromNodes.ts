@@ -1,7 +1,7 @@
 import { get } from 'svelte/store'
+import { INode } from '@iota/sdk/out/types'
 
 import { IAccountState } from '@core/account/interfaces'
-import { INode } from '@core/network/interfaces'
 import { activeProfile } from '@core/profile/stores'
 
 import { registerProposalsForAccounts } from './registerProposalsForAccounts'

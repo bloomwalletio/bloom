@@ -1,9 +1,10 @@
 <script lang="ts">
+    import { INode } from '@iota/sdk/out/types'
     import { showNotification } from '@auxiliary/notification'
     import { registerProposalsForAccounts } from '@contexts/governance'
     import { Platform } from '@core/app'
     import { localize } from '@core/i18n'
-    import { EMPTY_NODE, INode, addNodeToClientOptions, editNodeInClientOptions } from '@core/network'
+    import { EMPTY_NODE, addNodeToClientOptions, editNodeInClientOptions } from '@core/network'
     import { activeAccounts, activeProfile } from '@core/profile/stores'
     import { closePopup } from '@desktop/auxiliary/popup'
     import { HTMLButtonType, NodeConfigurationForm } from '@ui'
