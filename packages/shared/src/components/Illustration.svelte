@@ -60,16 +60,16 @@
 
         // Bloom
         portal: {
-            lightmode: 'onboarding/portal.png',
-            darkmode: 'onboarding/portal.png',
+            lightmode: 'onboarding/portal.webp',
+            darkmode: 'onboarding/portal.webp',
         },
         landscape: {
-            lightmode: 'onboarding/landscape.png',
-            darkmode: 'onboarding/landscape.png',
+            lightmode: 'onboarding/landscape.webp',
+            darkmode: 'onboarding/landscape.webp',
         },
         balloon: {
-            lightmode: 'onboarding/balloon.png',
-            darkmode: 'onboarding/balloon.png',
+            lightmode: 'onboarding/balloon.webp',
+            darkmode: 'onboarding/balloon.webp',
         },
     }
 </script>
