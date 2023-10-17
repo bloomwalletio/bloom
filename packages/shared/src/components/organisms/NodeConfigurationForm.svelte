@@ -14,7 +14,7 @@
     import { activeProfile } from '@core/profile/stores'
     import { cleanUrl } from '@core/utils'
     import features from '@features/features'
-    import { Error, IOption, NumberInput, SelectInput, TextInput } from '@bloomwalletio/ui'
+    import { Error, IOption, NumberInput, PasswordInput, SelectInput, TextInput } from '@bloomwalletio/ui'
 
     interface INodeValidationOptions {
         checkNodeInfo: boolean
@@ -35,11 +35,14 @@
 
     const networkOptions: IOption[] = getNetworkTypeOptions()
 
+    let [username, password] = node.auth?.basicAuthNamePwd ?? ['', '']
     let jwt = node.auth?.jwt ?? ''
 
     $: networkType, (coinType = '')
     $: networkType, coinType, node.url, (formError = '')
     $: jwt,
+        username,
+        password,
         (node = {
             url: node.url,
             auth: getAuth(),
@@ -60,6 +63,9 @@
 
     function getAuth(): IAuth {
         const auth: IAuth = {}
+        if ([username, password].every((value) => value !== '')) {
+            auth.basicAuthNamePwd = [username, password]
+        }
         if (jwt !== '') {
             auth.jwt = jwt
         }
@@ -138,6 +144,13 @@
         disabled={isBusy}
         on:change={cleanNodeUrl}
     />
-    <TextInput bind:value={jwt} label={localize('popups.node.optionalJwt')} disabled={isBusy} />
+    <TextInput bind:value={username} label={localize('popups.node.optionalUsername')} disabled={isBusy} />
+    <PasswordInput
+        bind:value={password}
+        label={localize('popups.node.optionalPassword')}
+        required={!!username}
+        disabled={isBusy}
+    />
+    <PasswordInput bind:value={jwt} label={localize('popups.node.optionalJwt')} required={false} disabled={isBusy} />
     {#if formError}<Error error={formError} />{/if}
 </form>
