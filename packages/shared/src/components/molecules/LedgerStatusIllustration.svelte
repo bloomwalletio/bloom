@@ -34,6 +34,10 @@
                 pill = { localeKey: 'pills.ledgerStatus.locked', color: 'warning' }
                 break
             }
+            case LedgerIllustrationVariant.Hash: {
+                illustration = 'ledger-hash'
+                break
+            }
             case LedgerIllustrationVariant.OpenEthereum:
                 logo = LogoName.Ethereum
                 backgroundColor = 'ethereum'
