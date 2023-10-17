@@ -43,7 +43,7 @@
     <ClosableInput
         bind:open={isOpen}
         bind:value
-        {error}
+        bind:error
         {label}
         {fontSize}
         fontWeight={FontWeight.medium}
