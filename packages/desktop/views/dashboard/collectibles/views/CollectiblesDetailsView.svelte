@@ -17,7 +17,7 @@
     import { getTimeDifference } from '@core/utils'
     import { setSendFlowParameters } from '@core/wallet/stores'
     import { PopupId, openPopup } from '@desktop/auxiliary/popup'
-    import { NftMedia, Pane } from '@ui'
+    import { NetworkLabel, NftMedia, Pane } from '@ui'
     import { SendFlowRoute, SendFlowRouter, sendFlowRouter } from '@views/dashboard/send-flow'
 
     const nft: INft = getNftByIdFromAllAccountNfts($selectedAccountIndex, $selectedNftId)
@@ -36,6 +36,15 @@
 
     let detailsList: IItem[] = []
     $: detailsList = [
+        {
+            key: localize('general.network'),
+            slot: {
+                component: NetworkLabel,
+                props: {
+                    networkId: nft.networkId,
+                },
+            },
+        },
         {
             key: localize('general.nftId'),
             value: id || undefined,

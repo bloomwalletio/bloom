@@ -9,8 +9,16 @@ import { Converter } from '@core/utils/convert'
 import { ISC_MAGIC_CONTRACT_ADDRESS } from '../constants'
 import { evmAddressToAgentId, getAgentBalanceParameters, getSmartContractHexName } from '../helpers'
 import { setLayer2AccountBalanceForChain } from '../stores'
+import { getNftsFromNftIds } from '@core/nfts/utils'
+import {
+    addNftsToDownloadQueue,
+    addOrUpdateNftInAllAccountNfts,
+    setNftInAllAccountNftsToUnspendable,
+} from '@core/nfts/actions'
+import { selectedAccountNfts } from '@core/nfts/stores'
+import { get } from 'svelte/store'
 
-export function fetchSelectedAccountLayer2Balance(account: IAccountState): void {
+export function fetchLayer2BalanceForAccount(account: IAccountState): void {
     const { evmAddresses, index } = account
     const chains = getNetwork()?.getChains() ?? []
     chains.forEach(async (chain) => {
@@ -19,6 +27,8 @@ export function fetchSelectedAccountLayer2Balance(account: IAccountState): void 
         if (!evmAddress) {
             return
         }
+
+        await fetchLayer2Nfts(evmAddress, chain, account.index)
 
         const balances = await getLayer2BalanceForAddress(evmAddress, chain)
         if (!balances) {
@@ -97,4 +107,36 @@ async function getLayer2Erc20BalancesForAddress(
         }
     }
     return erc20TokenBalances
+}
+
+async function fetchLayer2Nfts(evmAddress: string, chain: IChain, accountIndex: number): Promise<void> {
+    const accountsCoreContract = getSmartContractHexName('accounts')
+    const getBalanceFunc = getSmartContractHexName('accountNFTs')
+    const agentID = evmAddressToAgentId(evmAddress, chain.getConfiguration())
+    const parameters = getAgentBalanceParameters(agentID)
+    try {
+        const contract = chain.getContract(ContractType.IscMagic, ISC_MAGIC_CONTRACT_ADDRESS)
+        const nftResult = (await contract.methods
+            .callView(accountsCoreContract, getBalanceFunc, parameters)
+            .call()) as { items: { key: string; value: string }[] }
+
+        // the element with `key: "0x69"` just represents the length of the list, so it needs to be excluded
+        const nftIds = nftResult.items.filter((item) => item.key !== '0x69').map((item) => item.value)
+
+        const networkId = chain.getConfiguration().id
+        const nftsForChain = get(selectedAccountNfts).filter((nft) => nft.networkId === networkId)
+
+        const newNftIds = nftIds.filter((nftId) => !nftsForChain.some((nft) => nft.id === nftId))
+
+        const nfts = await getNftsFromNftIds(newNftIds, networkId)
+        addOrUpdateNftInAllAccountNfts(accountIndex, ...nfts)
+
+        const unspendableNftIds: string[] = nftsForChain
+            .filter((nft) => !nftIds.some((nftId) => nft.id === nftId))
+            .map((nft) => nft.id)
+        setNftInAllAccountNftsToUnspendable(accountIndex, ...unspendableNftIds)
+        void addNftsToDownloadQueue(accountIndex, nfts)
+    } catch (err) {
+        console.error(err)
+    }
 }
