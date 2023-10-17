@@ -3,13 +3,18 @@
  */
 export enum SendOperationParameter {
     Address = 'address',
+    BaseCoinAmount = 'baseCoinAmount',
     TokenId = 'tokenId',
-    Amount = 'amount',
-    Unit = 'unit',
+    TokenAmount = 'tokenAmount',
     Metadata = 'metadata',
     Tag = 'tag',
     GiftStorageDeposit = 'giftStorageDeposit',
-    Surplus = 'surplus',
     DisableToggleGift = 'disableToggleGift',
     DisableChangeExpiration = 'disableChangeExpiration',
+    DisableChangeTimelock = 'disableChangeTimelock',
+
+    // Firefly Specific
+    Surplus = 'surplus',
+    Amount = 'amount',
+    Unit = 'unit',
 }
