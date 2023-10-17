@@ -115,7 +115,7 @@ async function fetchLayer2Nfts(evmAddress: string, chain: IChain, accountIndex: 
             .call()) as { items: { key: string; value: string }[] }
 
         const nftIds = nftResult.items.filter((item) => item.value !== '0x04').map((item) => item.value)
-        const nfts = await getNftsFromNftIds(nftIds)
+        const nfts = await getNftsFromNftIds(nftIds, chain.getConfiguration().id)
         addOrUpdateNftInAllAccountNfts(accountIndex, ...nfts)
     } catch (err) {
         console.error(err)
