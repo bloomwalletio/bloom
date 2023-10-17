@@ -11,6 +11,8 @@ import { evmAddressToAgentId, getAgentBalanceParameters, getSmartContractHexName
 import { setLayer2AccountBalanceForChain } from '../stores'
 import { getNftsFromNftIds } from '@core/nfts/utils'
 import { addNftsToDownloadQueue, addOrUpdateNftInAllAccountNfts } from '@core/nfts/actions'
+import { selectedAccountNfts } from '@core/nfts/stores'
+import { get } from 'svelte/store'
 
 export function fetchLayer2BalanceForAccount(account: IAccountState): void {
     const { evmAddresses, index } = account
@@ -115,7 +117,13 @@ async function fetchLayer2Nfts(evmAddress: string, chain: IChain, accountIndex: 
             .call()) as { items: { key: string; value: string }[] }
 
         const nftIds = nftResult.items.filter((item) => item.value !== '0x04').map((item) => item.value)
-        const nfts = await getNftsFromNftIds(nftIds, chain.getConfiguration().id)
+
+        const networkId = chain.getConfiguration().id
+        const newNftIds = nftIds.filter(
+            (nftId) => !get(selectedAccountNfts).some((nft) => nft.id === nftId && nft.networkId === networkId)
+        )
+
+        const nfts = await getNftsFromNftIds(newNftIds, networkId)
         addOrUpdateNftInAllAccountNfts(accountIndex, ...nfts)
         void addNftsToDownloadQueue(accountIndex, nfts)
     } catch (err) {
