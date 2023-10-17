@@ -30,7 +30,7 @@ export async function handleNewOutputEventInternal(
     const networkId = getActiveNetworkId()
     const output = walletEvent?.output
 
-    if (!account || !output || !networkId) return
+    if (!account || !output) return
 
     const address = getBech32AddressFromAddressTypes(output?.address)
     const outputData = output.output as AliasOutput
@@ -57,7 +57,7 @@ export async function handleNewOutputEventInternal(
     }
 
     if (isNftOutput) {
-        const nft = buildNftFromNftOutput(output as IWrappedOutput, account.depositAddress)
+        const nft = buildNftFromNftOutput(output as IWrappedOutput, networkId, account.depositAddress)
         addOrUpdateNftInAllAccountNfts(account.index, nft)
         void addNftsToDownloadQueue(accountIndex, [nft])
 

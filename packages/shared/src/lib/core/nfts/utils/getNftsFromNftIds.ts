@@ -3,8 +3,9 @@ import { buildNftFromNftOutput } from '../actions'
 import { INft } from '../interfaces'
 import { getClient } from '@core/profile-manager'
 import { getOutputIdFromTransactionIdAndIndex } from '@core/activity'
+import { NetworkId } from '@core/network/types'
 
-export async function getNftsFromNftIds(nftIds: string[]): Promise<INft[]> {
+export async function getNftsFromNftIds(nftIds: string[], networkId: NetworkId): Promise<INft[]> {
     const client = await getClient()
     const nftOutputIds = []
     for (const nftId of nftIds) {
@@ -33,7 +34,7 @@ export async function getNftsFromNftIds(nftIds: string[]): Promise<INft[]> {
             nftOutput.metadata.outputIndex
         )
         const wrappedOutput = { outputId, output: nftOutput.output as NftOutput }
-        const nft = buildNftFromNftOutput(wrappedOutput, '', false, true)
+        const nft = buildNftFromNftOutput(wrappedOutput, networkId, '', false)
         nfts.push(nft)
     }
     return nfts
