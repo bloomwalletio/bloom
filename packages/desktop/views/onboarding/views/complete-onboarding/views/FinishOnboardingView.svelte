@@ -1,6 +1,6 @@
 <script lang="ts">
     import { Button, IconName, Text } from '@bloomwalletio/ui'
-    import { Illustration } from '@ui'
+    import { Animation, Illustration } from '@ui'
     import { completeOnboardingProcess, isOnboardingLedgerProfile } from '@contexts/onboarding'
     import { localize } from '@core/i18n'
     import { checkOrConnectLedger } from '@core/ledger'
@@ -31,6 +31,9 @@
     <LoggedOutLayout hideLogo>
         <setup-complete>
             <SuccessSvg />
+            <animation-container>
+                <Animation loop={false} animation="confetti" />
+            </animation-container>
             <div class="flex flex-col justify-center items-center gap-3">
                 <div class="flex flex-col justify-center items-center">
                     <Text type="h5" customColor="success-500">{localize(`${LOCALE_KEY}.title`)}</Text>
@@ -65,6 +68,9 @@
         <div slot="content" class="flex flex-col justify-center items-center gap-8">
             <svg-container>
                 <SuccessSvg />
+                <animation-container>
+                    <Animation loop={false} animation="confetti" />
+                </animation-container>
             </svg-container>
             <div class="flex flex-col justify-center items-center gap-3">
                 <div class="flex flex-col justify-center items-center">
@@ -98,6 +104,10 @@
 
     svg-container {
         @apply block -mt-[5.5rem];
+    }
+
+    animation-container {
+        @apply absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-3/4 pointer-events-none;
     }
 
     @keyframes floatingBalloon {
