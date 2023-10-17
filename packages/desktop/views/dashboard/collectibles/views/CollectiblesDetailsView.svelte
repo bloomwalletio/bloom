@@ -37,6 +37,15 @@
     let detailsList: IItem[] = []
     $: detailsList = [
         {
+            key: localize('general.network'),
+            slot: {
+                component: NetworkLabel,
+                props: {
+                    networkId: nft.networkId,
+                },
+            },
+        },
+        {
             key: localize('general.nftId'),
             value: id || undefined,
             copyable: true,

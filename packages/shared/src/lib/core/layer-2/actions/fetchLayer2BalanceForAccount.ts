@@ -120,7 +120,8 @@ async function fetchLayer2Nfts(evmAddress: string, chain: IChain, accountIndex: 
             .callView(accountsCoreContract, getBalanceFunc, parameters)
             .call()) as { items: { key: string; value: string }[] }
 
-        const nftIds = nftResult.items.filter((item) => item.value !== '0x04').map((item) => item.value)
+        // the element with `key: "0x69"` just represents the length of the list, so it needs to be excluded
+        const nftIds = nftResult.items.filter((item) => item.key !== '0x69').map((item) => item.value)
 
         const networkId = chain.getConfiguration().id
         const nftsForChain = get(selectedAccountNfts).filter((nft) => nft.networkId === networkId)
