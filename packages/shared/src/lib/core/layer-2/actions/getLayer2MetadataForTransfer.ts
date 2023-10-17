@@ -5,7 +5,7 @@ import { SpecialStream } from '../classes'
 import { ACCOUNTS_CONTRACT, EXTERNALLY_OWNED_ACCOUNT, GAS_LIMIT_MULTIPLIER, TRANSFER_ALLOWANCE } from '../constants'
 import { encodeAddress, encodeAssetAllowance, encodeSmartContractParameters } from '../helpers'
 import { estimateGasForLayer1ToLayer2Transaction } from './estimateGasForLayer1ToLayer2Transaction'
-import { EvmChainId, getChainConfiguration } from '@core/network'
+import { getChainConfiguration } from '@core/network'
 
 export async function getLayer2MetadataForTransfer(sendFlowParameters: SendFlowParameters): Promise<string> {
     const metadataStream = new SpecialStream()
@@ -21,12 +21,7 @@ export async function getLayer2MetadataForTransfer(sendFlowParameters: SendFlowP
     const estimatedGas = await estimateGasForLayer1ToLayer2Transaction(sendFlowParameters as TokenSendFlowParameters)
     const gasLimit = Math.floor(estimatedGas * GAS_LIMIT_MULTIPLIER)
 
-    // TODO: use writeUInt8 once EVM Testnet encoding reaches parity with ShimmerEVM
-    if (chainConfig.chainId === EvmChainId.ShimmerEvmTestnet) {
-        metadataStream.writeUInt32('senderContract', EXTERNALLY_OWNED_ACCOUNT)
-    } else {
-        metadataStream.writeUInt8('senderContract', EXTERNALLY_OWNED_ACCOUNT)
-    }
+    metadataStream.writeUInt8('senderContract', EXTERNALLY_OWNED_ACCOUNT)
 
     metadataStream.writeUInt32('targetContract', ACCOUNTS_CONTRACT)
     metadataStream.writeUInt32('contractFunction', TRANSFER_ALLOWANCE)
