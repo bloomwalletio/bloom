@@ -10,7 +10,7 @@ import { ISC_MAGIC_CONTRACT_ADDRESS } from '../constants'
 import { evmAddressToAgentId, getAgentBalanceParameters, getSmartContractHexName } from '../helpers'
 import { setLayer2AccountBalanceForChain } from '../stores'
 import { getNftsFromNftIds } from '@core/nfts/utils'
-import { addOrUpdateNftInAllAccountNfts } from '@core/nfts/actions'
+import { addNftsToDownloadQueue, addOrUpdateNftInAllAccountNfts } from '@core/nfts/actions'
 
 export function fetchLayer2BalanceForAccount(account: IAccountState): void {
     const { evmAddresses, index } = account
@@ -117,6 +117,7 @@ async function fetchLayer2Nfts(evmAddress: string, chain: IChain, accountIndex: 
         const nftIds = nftResult.items.filter((item) => item.value !== '0x04').map((item) => item.value)
         const nfts = await getNftsFromNftIds(nftIds, chain.getConfiguration().id)
         addOrUpdateNftInAllAccountNfts(accountIndex, ...nfts)
+        void addNftsToDownloadQueue(accountIndex, nfts)
     } catch (err) {
         console.error(err)
     }
