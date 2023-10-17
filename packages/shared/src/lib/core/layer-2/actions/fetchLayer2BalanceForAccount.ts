@@ -10,7 +10,11 @@ import { ISC_MAGIC_CONTRACT_ADDRESS } from '../constants'
 import { evmAddressToAgentId, getAgentBalanceParameters, getSmartContractHexName } from '../helpers'
 import { setLayer2AccountBalanceForChain } from '../stores'
 import { getNftsFromNftIds } from '@core/nfts/utils'
-import { addNftsToDownloadQueue, addOrUpdateNftInAllAccountNfts } from '@core/nfts/actions'
+import {
+    addNftsToDownloadQueue,
+    addOrUpdateNftInAllAccountNfts,
+    setNftInAllAccountNftsToUnspendable,
+} from '@core/nfts/actions'
 import { selectedAccountNfts } from '@core/nfts/stores'
 import { get } from 'svelte/store'
 
@@ -119,12 +123,17 @@ async function fetchLayer2Nfts(evmAddress: string, chain: IChain, accountIndex: 
         const nftIds = nftResult.items.filter((item) => item.value !== '0x04').map((item) => item.value)
 
         const networkId = chain.getConfiguration().id
-        const newNftIds = nftIds.filter(
-            (nftId) => !get(selectedAccountNfts).some((nft) => nft.id === nftId && nft.networkId === networkId)
-        )
+        const nftsForChain = get(selectedAccountNfts).filter((nft) => nft.networkId === networkId)
+
+        const newNftIds = nftIds.filter((nftId) => !nftsForChain.some((nft) => nft.id === nftId))
 
         const nfts = await getNftsFromNftIds(newNftIds, networkId)
         addOrUpdateNftInAllAccountNfts(accountIndex, ...nfts)
+
+        const unspendableNftIds: string[] = nftsForChain
+            .filter((nft) => !nftIds.some((nftId) => nft.id === nftId))
+            .map((nft) => nft.id)
+        setNftInAllAccountNftsToUnspendable(accountIndex, ...unspendableNftIds)
         void addNftsToDownloadQueue(accountIndex, nfts)
     } catch (err) {
         console.error(err)
