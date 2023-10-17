@@ -97,6 +97,7 @@
             destinationNetworkId: $sendFlowParameters?.destinationNetworkId,
             addSenderFeature: $sendFlowParameters?.addSenderFeature,
             disableChangeExpiration: $sendFlowParameters?.disableChangeExpiration,
+            disableChangeTimelock: $sendFlowParameters?.disableChangeTimelock,
             disableToggleGift: $sendFlowParameters?.disableToggleGift,
         }
 
