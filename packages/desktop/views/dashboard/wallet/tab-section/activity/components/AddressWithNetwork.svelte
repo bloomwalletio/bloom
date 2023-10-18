@@ -22,6 +22,8 @@
                 return truncateString(subject.contact.name, 13, 0)
             case SubjectType.Account:
                 return truncateString(subject.account.name, 13, 0)
+            case SubjectType.Network:
+                return truncateString(subject.name, 13, 0)
             default:
                 return truncateString(subject.address, 5, 5)
         }

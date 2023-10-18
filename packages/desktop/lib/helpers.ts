@@ -34,5 +34,5 @@ export const getLocalisedMenuItems = (): unknown => ({
     documentation: localize('views.settings.documentation.title'),
     discord: localize('views.settings.discord.title'),
     reportAnIssue: localize('actions.reportAnIssue'),
-    version: localize('general.version'),
+    version: localize('general.versionFull'),
 })

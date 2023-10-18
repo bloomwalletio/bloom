@@ -62,6 +62,9 @@ const api: IApi = {
             resolve()
         })
     },
+    bech32ToHex(address: string): string {
+        return ''
+    },
 }
 
 window['__WALLET__API__'] = api
