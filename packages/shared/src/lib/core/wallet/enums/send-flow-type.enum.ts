@@ -3,4 +3,5 @@ export enum SendFlowType {
     TokenTransfer = 'tokenTransfer',
     TokenUnwrap = 'tokenUnwrap',
     NftTransfer = 'nftTransfer',
+    NftUnwrap = 'nftUnwrap',
 }
