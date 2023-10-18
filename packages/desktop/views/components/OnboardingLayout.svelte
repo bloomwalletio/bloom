@@ -1,8 +1,7 @@
 <script lang="ts">
     import { Button, Text } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
-    import BgGradient from './BgGradient.svelte'
-    import LoggedOutLayout from './LoggedOutLayout.svelte'
+    import { BgGradient, LoggedOutLayout } from '.'
 
     interface IButtonProps {
         text: string
