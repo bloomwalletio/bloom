@@ -104,6 +104,6 @@
         @apply hover:bg-surface-2 dark:hover:bg-surface-2-dark;
 
         @apply grid gap-2;
-        grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+        grid-template-columns: 3fr 2fr 2fr 2fr 2fr 2fr;
     }
 </style>
