@@ -1,7 +1,8 @@
-import { buildPersistedNetworkFromNodeInfoResponse } from '@core/network'
-import { getAndUpdateNodeInfo } from '@core/network/actions'
-import { activeProfile, updateActiveProfile } from '@core/profile/stores'
 import { get } from 'svelte/store'
+import { localize } from '@core/i18n'
+import { getAndUpdateNodeInfo } from '@core/network/actions'
+import { buildPersistedNetworkFromNodeInfoResponse } from '@core/network/utils'
+import { activeProfile, updateActiveProfile } from '@core/profile/stores'
 
 export async function checkAndUpdateActiveProfileNetwork(): Promise<void> {
     const $activeProfile = get(activeProfile)
@@ -12,6 +13,6 @@ export async function checkAndUpdateActiveProfileNetwork(): Promise<void> {
         network.chainConfigurations = $activeProfile.network?.chainConfigurations || []
         updateActiveProfile({ network })
     } else {
-        throw new Error('error.node.networkIdMismatch')
+        throw new Error(localize('error.network.mismatch', { networkId: network.id }))
     }
 }

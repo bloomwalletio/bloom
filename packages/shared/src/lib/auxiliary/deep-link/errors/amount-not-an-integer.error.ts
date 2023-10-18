@@ -2,7 +2,7 @@ import { BaseError } from '@core/error'
 import { localize } from '@core/i18n'
 
 export class AmountNotAnIntegerError extends BaseError {
-    constructor(amount: string) {
+    constructor(amount: string | null) {
         const message = localize('notifications.deepLinkingRequest.invalidAmount', { values: { amount } })
         super({
             message,

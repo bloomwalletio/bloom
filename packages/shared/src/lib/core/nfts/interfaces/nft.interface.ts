@@ -11,7 +11,7 @@ export interface INft {
     issuer?: Address
     parsedMetadata?: IIrc27Metadata
     isSpendable: boolean
-    timelockTime: number
+    timelockTime?: number
     latestOutputId: string
     composedUrl: string
     downloadUrl: string

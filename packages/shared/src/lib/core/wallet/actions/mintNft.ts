@@ -52,7 +52,7 @@ export async function mintNft(metadata: IIrc27Metadata, quantity: number): Promi
                 addActivityToAccountActivitiesInAllAccountActivities(account.index, activity)
 
                 // Store NFT metadata for each minted NFT
-                const nft = buildNftFromNftOutput(output, account.depositAddress, false)
+                const nft = buildNftFromNftOutput(output, networkId, account.depositAddress, false)
                 addOrUpdateNftInAllAccountNfts(account.index, nft)
             }
         }

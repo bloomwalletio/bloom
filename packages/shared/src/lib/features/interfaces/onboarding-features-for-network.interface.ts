@@ -2,7 +2,9 @@ import { IFeatureFlag } from './feature-flag.interface'
 
 export interface IOnboardingFeaturesForNetwork extends IFeatureFlag {
     newProfile: IFeatureFlag & {
-        softwareProfile: IFeatureFlag
+        softwareProfile: IFeatureFlag & {
+            skipVerification: IFeatureFlag
+        }
         ledgerProfile: IFeatureFlag
     }
     restoreProfile: IFeatureFlag & {

@@ -91,14 +91,14 @@
         <StrengthMeter strength={passwordStrength?.score ?? 0} />
         <div class="flex flex-col gap-4">
             <PasswordInput
-                {error}
+                bind:error
                 bind:value={strongholdPassword}
                 label={localize('general.password')}
                 autofocus
                 disabled={busy}
             />
             <PasswordInput
-                error={errorConfirm}
+                bind:error={errorConfirm}
                 bind:value={confirmedStrongholdPassword}
                 label={localize('general.confirmPassword')}
                 disabled={busy}

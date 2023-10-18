@@ -1,6 +1,7 @@
 <script lang="ts">
     import {
         EvmTransactionData,
+        L2_TO_L1_STORAGE_DEPOSIT_BUFFER,
         calculateEstimatedGasFeeFromTransactionData,
         calculateMaxGasFeeFromTransactionData,
     } from '@core/layer-2'
@@ -12,27 +13,42 @@
     export let transaction: EvmTransactionData
     export let sendFlowParameters: SendFlowParameters
 
-    function getTransactionAsset(sendFlowParameters: SendFlowParameters): {
+    $: transactionAsset = getTransactionAsset(sendFlowParameters)
+    function getTransactionAsset(_sendFlowParameters: SendFlowParameters): {
         tokenTransfer?: TokenTransferData
         nft?: INft
     } {
         return {
-            ...(sendFlowParameters.type === SendFlowType.TokenTransfer && {
-                tokenTransfer: sendFlowParameters.tokenTransfer,
+            ...(_sendFlowParameters.type === SendFlowType.TokenTransfer && {
+                tokenTransfer: _sendFlowParameters.tokenTransfer,
             }),
-            ...(sendFlowParameters.type === SendFlowType.NftTransfer && { nft: sendFlowParameters.nft }),
+            ...(_sendFlowParameters.type === SendFlowType.NftTransfer && { nft: _sendFlowParameters.nft }),
+        }
+    }
+
+    $: storageDeposit = getTransactionStorageDeposit(sendFlowParameters)
+    function getTransactionStorageDeposit(_sendFlowParameters: SendFlowParameters) {
+        if (_sendFlowParameters.type === SendFlowType.TokenTransfer) {
+            if (_sendFlowParameters.destinationNetworkId !== _sendFlowParameters.tokenTransfer.token.networkId) {
+                return L2_TO_L1_STORAGE_DEPOSIT_BUFFER[SendFlowType.TokenUnwrap] ?? 0
+            }
+        } else if (_sendFlowParameters.type === SendFlowType.NftTransfer) {
+            if (_sendFlowParameters.destinationNetworkId !== _sendFlowParameters.nft?.networkId) {
+                return (
+                    (_sendFlowParameters.nft?.storageDeposit ?? 0) +
+                    (L2_TO_L1_STORAGE_DEPOSIT_BUFFER[SendFlowType.NftUnwrap] ?? 0)
+                )
+            }
         }
     }
 </script>
 
 <div class="w-full space-y-5">
-    <TransactionAssetSection
-        baseCoinTransfer={sendFlowParameters.baseCoinTransfer}
-        {...getTransactionAsset(sendFlowParameters)}
-    />
+    <TransactionAssetSection baseCoinTransfer={sendFlowParameters.baseCoinTransfer} {...transactionAsset} />
 
     <EvmTransactionDetails
         destinationNetworkId={sendFlowParameters?.destinationNetworkId}
+        {storageDeposit}
         estimatedGasFee={calculateEstimatedGasFeeFromTransactionData(transaction)}
         maxGasFee={calculateMaxGasFeeFromTransactionData(transaction)}
     />

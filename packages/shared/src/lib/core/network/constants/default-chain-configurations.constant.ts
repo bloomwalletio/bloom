@@ -12,7 +12,7 @@ export const DEFAULT_CHAIN_CONFIGURATIONS: Readonly<{ [id in NetworkId]?: ChainC
         coinType: DEFAULT_COIN_TYPE[SupportedNetworkId.ShimmerEvm],
         aliasAddress: 'smr1prxvwqvwf7nru5q5xvh5thwg54zsm2y4wfnk6yk56hj3exxkg92mx20wl3s',
         iscpEndpoint: 'https://json-rpc.evm.shimmer.network/',
-        explorerUrl: 'https://explorer.evm.shimmer.network',
+        explorerUrl: 'https://explorer.evm.shimmer.network/',
     },
     [SupportedNetworkId.Testnet]: {
         id: SupportedNetworkId.ShimmerEvmTestnet,
@@ -21,8 +21,8 @@ export const DEFAULT_CHAIN_CONFIGURATIONS: Readonly<{ [id in NetworkId]?: ChainC
         chainId: EvmChainId.ShimmerEvmTestnet,
         namespace: NetworkNamespace.Evm,
         coinType: DEFAULT_COIN_TYPE[SupportedNetworkId.ShimmerEvmTestnet],
-        aliasAddress: 'rms1pr75wa5xuepg2hew44vnr28wz5h6n6x99zptk2g68sp2wuu2karywgrztx3',
-        iscpEndpoint: 'https://json-rpc.evm.testnet.shimmer.network',
-        explorerUrl: 'https://explorer.evm.testnet.shimmer.network',
+        aliasAddress: 'rms1ppp00k5mmd2m8my8ukkp58nd3rskw6rx8l09aj35984k74uuc5u2cywn3ex',
+        iscpEndpoint: 'https://json-rpc.evm.testnet.shimmer.network/',
+        explorerUrl: 'https://explorer.evm.testnet.shimmer.network/',
     },
 }
