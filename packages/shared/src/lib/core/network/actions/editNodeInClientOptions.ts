@@ -1,4 +1,5 @@
-import { INode, updateClientOptions } from '@core/network'
+import { INode } from '@iota/sdk/out/types'
+import { updateClientOptions } from '@core/network'
 import { activeProfile } from '@core/profile/stores'
 import { get } from 'svelte/store'
 
