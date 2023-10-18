@@ -4,7 +4,7 @@
         BASE_TOKEN_ID,
         ITokenWithBalance,
         formatTokenAmountDefault,
-        formatTokenAmountPrecise,
+        formatTokenAmountBestMatch,
         getUnitFromTokenMetadata,
     } from '@core/token'
     import { getTokenFromSelectedAccountTokens } from '@core/token/stores'
@@ -148,7 +148,7 @@
             items={[
                 {
                     key: localize('general.transactionFee'),
-                    value: formatTokenAmountPrecise(maxGasFee, getBaseToken()),
+                    value: formatTokenAmountBestMatch(maxGasFee, getBaseToken()),
                 },
             ]}
         />
