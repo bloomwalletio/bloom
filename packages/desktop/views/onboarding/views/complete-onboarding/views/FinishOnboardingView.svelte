@@ -49,7 +49,7 @@
             <Illustration illustration="landscape" />
         </landscape-container>
         <balloon-container>
-            <Illustration illustration="balloon" />
+            <Illustration illustration="balloon" width={152} height={200} />
         </balloon-container>
     </LoggedOutLayout>
 {:else}
