@@ -26,7 +26,7 @@ export async function getLayer2MetadataForTransfer(sendFlowParameters: SendFlowP
     metadataStream.writeUInt32('targetContract', ACCOUNTS_CONTRACT)
     metadataStream.writeUInt32('contractFunction', TRANSFER_ALLOWANCE)
     // Gas budget is the ISC equivalent of gas limit in ethereum and what we use throughout the code
-    metadataStream.writeUInt64SpecialEncoding('gasBudget', BigInteger(gasLimit))
+    metadataStream.writeUInt64SpecialEncoding('gasLimit', BigInteger(gasLimit))
 
     const smartContractParameters = Object.entries({ a: encodedAddress })
     const parameters = encodeSmartContractParameters(smartContractParameters)
