@@ -1,45 +1,30 @@
+import { APP_STAGE } from '@core/app'
 import { get } from 'svelte/store'
 import { PROFILE_VERSION } from '../../constants'
-import { currentProfileVersion, profiles } from '../../stores'
-import { removeProfileFolder } from '@core/profile/utils'
+import { profiles, updateProfile } from '../../stores'
+import { PROFILE_MIGRATION_STAGE_MAP } from '../migrations/profile-migration-stage-map'
 
 /**
  * Migrates profile data in need of being modified to accommodate changes
  * in a newer Bloom version.
  */
 export async function checkAndMigrateProfiles(): Promise<void> {
-    const shouldMigratePersistedProfiles = get(currentProfileVersion) < PROFILE_VERSION
-    if (shouldMigratePersistedProfiles) {
-        await migrateEachVersion()
-    }
+    await migratePersistedProfiles()
 }
 
-async function migrateEachVersion(): Promise<void> {
-    let migrationVersion = get(currentProfileVersion)
-    for (migrationVersion; migrationVersion < PROFILE_VERSION; migrationVersion++) {
-        await migratePersistedProfile(migrationVersion)
-        currentProfileVersion.set(migrationVersion + 1)
-    }
-}
-
-async function migratePersistedProfile(migrationVersion: number): Promise<void> {
+async function migratePersistedProfiles(): Promise<void> {
     const _profiles = get(profiles)
     for (const profile of _profiles) {
         try {
-            await persistedProfileMigrationsMap?.[migrationVersion]?.(profile)
+            let currentVersion = profile.version
+
+            for (currentVersion; currentVersion < PROFILE_VERSION?.[APP_STAGE]; currentVersion++) {
+                await PROFILE_MIGRATION_STAGE_MAP?.[APP_STAGE]?.[currentVersion]?.(profile)
+                currentVersion = currentVersion + 1
+                updateProfile(profile.id, { version: currentVersion })
+            }
         } catch (err) {
             console.error(err)
         }
-    }
-}
-
-const persistedProfileMigrationsMap: Record<number, (existingProfile: unknown) => Promise<void>> = {
-    1: removeProfile,
-}
-
-async function removeProfile(existingProfile: unknown): Promise<void> {
-    const profileId = (existingProfile as { id?: string })?.id
-    if (profileId) {
-        await removeProfileFolder(profileId)
     }
 }
