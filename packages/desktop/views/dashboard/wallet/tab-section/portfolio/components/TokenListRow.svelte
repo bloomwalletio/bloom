@@ -67,10 +67,10 @@
     <div class="text-start">
         <Text>{getNameFromNetworkId(token.networkId)}</Text>
     </div>
-    <div class="text-start">
+    <div class="text-end">
         <Text>{getTokenSupply(token)}</Text>
     </div>
-    <div class="text-start">
+    <div class="text-end">
         <Text>{getFormattedMarketPriceForToken(token)}</Text>
     </div>
 
@@ -92,6 +92,6 @@
         @apply hover:bg-surface-2 dark:hover:bg-surface-2-dark;
 
         @apply grid gap-2;
-        grid-template-columns: 2fr 2fr 1fr 1fr 2fr;
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
     }
 </style>
