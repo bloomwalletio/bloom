@@ -9,27 +9,29 @@
     import { Text } from '@bloomwalletio/ui'
 
     let filteredTokenList: ITokenWithBalance[]
-    $: $tokenFilter, $tokenSearchTerm, $selectedAccountTokens, (filteredTokenList = getFilteredTokenList())
+    $: $tokenFilter, $tokenSearchTerm, $selectedAccountTokens, (filteredTokenList = getFilteredTokens())
     $: $tokenFilter, scrollToTop()
 
     let isEmptyBecauseOfFilter: boolean = false
-    $: $selectedAccountTokens, (isEmptyBecauseOfFilter = getTokenList().length > 0 && filteredTokenList.length === 0)
+    $: $selectedAccountTokens,
+        (isEmptyBecauseOfFilter = getSortedTokenForAllNetworks().length > 0 && filteredTokenList.length === 0)
     $: currency = getCurrencySymbol($activeProfile?.settings?.marketCurrency)
 
-    function getFilteredTokenList(): ITokenWithBalance[] {
-        const list = getTokenList()
-        return list.filter((_nativeToken) => isVisibleToken(_nativeToken))
+    function getFilteredTokens(): ITokenWithBalance[] {
+        const sortedTokens = getSortedTokenForAllNetworks()
+        return sortedTokens.filter((_nativeToken) => isVisibleToken(_nativeToken))
     }
 
-    function getTokenList(): ITokenWithBalance[] {
-        const list = []
+    function getSortedTokenForAllNetworks(): ITokenWithBalance[] {
+        const baseCoins: ITokenWithBalance[] = []
+        const nativeTokens: ITokenWithBalance[] = []
         for (const networkTokens of Object.values($selectedAccountTokens)) {
             if (networkTokens?.baseCoin) {
-                list.push(networkTokens.baseCoin)
+                baseCoins.push(networkTokens.baseCoin)
             }
-            list.push(...(networkTokens?.nativeTokens ?? []))
+            nativeTokens.push(...(networkTokens?.nativeTokens ?? []))
         }
-        return list
+        return [...baseCoins, ...nativeTokens.sort((a, b) => a.metadata.name.localeCompare(b.metadata.name))]
     }
 
     function scrollToTop() {
