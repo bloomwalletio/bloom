@@ -67,7 +67,7 @@
         </div>
     </header-row>
     {#if filteredTokenList.length > 0}
-        <VirtualList items={filteredTokenList} let:item>
+        <VirtualList items={filteredTokenList} let:item itemHeight={73}>
             <TokenListRow token={item} />
         </VirtualList>
     {:else}

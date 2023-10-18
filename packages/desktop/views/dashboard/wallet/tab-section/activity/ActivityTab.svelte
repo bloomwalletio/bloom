@@ -53,7 +53,7 @@
         </info-section>
     {/if}
     {#if $queriedActivities.length > 0}
-        <VirtualList items={$queriedActivities} let:item>
+        <VirtualList items={$queriedActivities} let:item itemHeight={69}>
             <ActivityListRow activity={item} />
         </VirtualList>
     {:else}
