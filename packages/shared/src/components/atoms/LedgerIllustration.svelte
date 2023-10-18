@@ -1,8 +1,9 @@
 <script lang="ts">
-    import { Pill } from '@bloomwalletio/ui'
+    import { Icon, IconName, Pill } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
 
     export let pill: { localeKey: string; color: string }
+    export let showArrows: boolean = false
 </script>
 
 <ledger-illustration class="flex relative justify-center items-center w-full">
@@ -23,6 +24,12 @@
     <div class="absolute">
         <slot />
     </div>
+    {#if showArrows}
+        <arrows class="absolute flex flex-row">
+            <Icon name={IconName.ArrowsDown} />
+            <Icon name={IconName.ArrowsDown} />
+        </arrows>
+    {/if}
 </ledger-illustration>
 
 <style lang="postcss">
@@ -34,5 +41,9 @@
 
     pill {
         @apply top-3 left-4;
+    }
+
+    arrows {
+        @apply gap-16 top-16 animate-bounce;
     }
 </style>

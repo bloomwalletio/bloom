@@ -7,6 +7,7 @@
     import { selectedAccountTokens } from '@core/token/stores'
     import AccountNetworkSummary from './AccountNetworkSummary.svelte'
     import type { IAccountNetworkSummaryProps } from '../interfaces'
+    import { ownedNfts } from '@core/nfts/stores'
 
     export let account: IAccountState
     export let networkId: NetworkId
@@ -38,7 +39,7 @@
             tokenBalance,
             fiatBalance,
             tokens,
-            nfts: [],
+            nfts: $ownedNfts.filter((nft) => nft.networkId === networkId),
         }
     }
 </script>
