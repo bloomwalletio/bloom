@@ -6,7 +6,7 @@ export function getAgentBalanceParameters(agentID: Uint8Array): {
     return {
         items: [
             {
-                key: Converter.utf8ToBytes('a'),
+                key: Converter.utf8ToBytes('agentId'),
                 value: agentID,
             },
         ],
