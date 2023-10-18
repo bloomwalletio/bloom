@@ -7,7 +7,7 @@
     import { closePopup } from '@desktop/auxiliary/popup'
     import features from '@features/features'
     import { onMount } from 'svelte'
-    import PopupTemplate from '../PopupTemplate.svelte'
+    import { PopupTemplate, ButtonProps } from '..'
 
     let hasAutoUpdate = false
 
@@ -24,7 +24,7 @@
         closePopup()
     }
 
-    let continueButton
+    let continueButton: ButtonProps
     function setContinueButton(): void {
         if (hasAutoUpdate && !$appVersionDetails.upToDate) {
             continueButton = {
