@@ -1,5 +1,5 @@
 import { EXTERNALLY_OWNED_ACCOUNT_TYPE_ID } from '@core/layer-2/constants'
-import { ChainConfiguration, ChainType, SupportedNetworkId } from '@core/network'
+import { ChainConfiguration, ChainType } from '@core/network'
 import { api } from '@core/profile-manager'
 import { Converter } from '@iota/util.js'
 
@@ -15,12 +15,7 @@ export function evmAddressToAgentId(evmStoreAccount: string, chainConfig: ChainC
     // otherwise fetching balances using the iscmagic contract will fail,
     // because evm addresses are case-insensitive but hexToBytes is not.
     const receiverAddrBinary = Converter.hexToBytes(evmStoreAccount?.toLowerCase())
+    const chainAliasAddressBinary = Converter.hexToBytes(api.bech32ToHex(chainAliasAddress))
 
-    // Keep the branch with chainAliasAddressBinary once IF updates the encoding for the EVM testnet
-    if (chainConfig.id === SupportedNetworkId.ShimmerEvmTestnet) {
-        return new Uint8Array([agentIDKindEthereumAddress, ...receiverAddrBinary])
-    } else {
-        const chainAliasAddressBinary = Converter.hexToBytes(api.bech32ToHex(chainAliasAddress))
-        return new Uint8Array([agentIDKindEthereumAddress, ...chainAliasAddressBinary, ...receiverAddrBinary])
-    }
+    return new Uint8Array([agentIDKindEthereumAddress, ...chainAliasAddressBinary, ...receiverAddrBinary])
 }
