@@ -18,6 +18,7 @@ import { getOrRequestTokenFromPersistedTokens } from '@core/token/actions'
 import { getActiveNetworkId, isStardustNetwork } from '@core/network'
 import { parseLayer2Metadata } from '@core/layer-2/utils'
 import { getSubjectFromAddress } from '@core/wallet/utils'
+import { HEX_PREFIX } from '@core/utils'
 
 export async function generateBaseActivity(
     account: IAccountState,
@@ -78,7 +79,9 @@ export async function generateBaseActivity(
     if (recipient?.address && smartContract?.ethereumAddress) {
         const networkId = getNetworkIdFromAddress(recipient?.address)
         if (networkId) {
-            recipient = getSubjectFromAddress(smartContract.ethereumAddress, destinationNetworkId)
+            const l2Address =
+                HEX_PREFIX + smartContract.ethereumAddress.substring(smartContract.ethereumAddress.length - 40)
+            recipient = getSubjectFromAddress(l2Address, destinationNetworkId)
         }
     }
 
