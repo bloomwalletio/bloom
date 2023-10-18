@@ -13,6 +13,7 @@
     import { LogoName } from '@auxiliary/logo/enums'
     import { onboardingRouter } from '../onboarding-router'
     import BgGradient from '@views/components/BgGradient.svelte'
+    import Particles from '@views/components/Particles.svelte'
 
     let termsAccepted: boolean = false
     let flash: boolean = false
@@ -43,6 +44,7 @@
 <logo-container class="block absolute mt-8 ml-8">
     <Logo width="150" logo={LogoName.BloomLogoFull} />
 </logo-container>
+<Particles />
 <welcome-view class="w-full h-full flex items-center justify-center py-24 px-40 gap-12">
     <div class="flex flex-col gap-8">
         <div class="flex flex-col gap-2">
