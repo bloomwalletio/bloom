@@ -9,16 +9,16 @@
 
     const AVATAR_BACKGROUND_COLOR: { [id in SupportedNetworkId]: string } = {
         [SupportedNetworkId.Shimmer]: 'shimmer-background',
-        [SupportedNetworkId.Testnet]: 'shimmer-background',
+        [SupportedNetworkId.Testnet]: 'text-secondary',
         [SupportedNetworkId.ShimmerEvm]: 'shimmer-background',
-        [SupportedNetworkId.TestnetEvm]: 'shimmer-background',
+        [SupportedNetworkId.TestnetEvm]: 'text-secondary',
     }
 
     const AVATAR_TEXT_COLOR: { [id in SupportedNetworkId]: string } = {
         [SupportedNetworkId.Shimmer]: 'shimmer',
-        [SupportedNetworkId.Testnet]: 'text-secondary',
+        [SupportedNetworkId.Testnet]: 'shimmer-background',
         [SupportedNetworkId.ShimmerEvm]: 'shimmer',
-        [SupportedNetworkId.TestnetEvm]: 'text-secondary',
+        [SupportedNetworkId.TestnetEvm]: 'shimmer-background',
     }
 
     $: isSupported = isSupportedNetworkId(networkId)
