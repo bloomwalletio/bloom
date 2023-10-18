@@ -11,21 +11,21 @@
         [SupportedNetworkId.Shimmer]: 'shimmer-background',
         [SupportedNetworkId.Testnet]: 'shimmer-background',
         [SupportedNetworkId.ShimmerEvm]: 'shimmer-background',
-        [SupportedNetworkId.ShimmerEvmTestnet]: 'shimmer-background',
+        [SupportedNetworkId.TestnetEvm]: 'shimmer-background',
     }
 
     const AVATAR_TEXT_COLOR: { [id in SupportedNetworkId]: string } = {
         [SupportedNetworkId.Shimmer]: 'shimmer',
         [SupportedNetworkId.Testnet]: 'text-secondary',
         [SupportedNetworkId.ShimmerEvm]: 'shimmer',
-        [SupportedNetworkId.ShimmerEvmTestnet]: 'text-secondary',
+        [SupportedNetworkId.TestnetEvm]: 'text-secondary',
     }
 
     $: isSupported = isSupportedNetworkId(networkId)
     $: backgroundColor = isSupported ? AVATAR_BACKGROUND_COLOR[networkId as SupportedNetworkId] : 'neutral-4'
     $: customTextColor = isSupported ? AVATAR_TEXT_COLOR[networkId as SupportedNetworkId] : undefined
     $: icon = isSupported ? DEFAULT_NETWORK_ICON[networkId as SupportedNetworkId] : undefined
-    $: magnify = networkId === SupportedNetworkId.ShimmerEvm || networkId === SupportedNetworkId.ShimmerEvmTestnet
+    $: magnify = networkId === SupportedNetworkId.ShimmerEvm || networkId === SupportedNetworkId.TestnetEvm
 </script>
 
 <!-- TODO: Add initials for not supported network IDs -->

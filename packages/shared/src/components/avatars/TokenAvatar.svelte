@@ -21,7 +21,7 @@
         [SupportedNetworkId.ShimmerEvm]: {
             [BASE_TOKEN_ID]: 'shimmer',
         },
-        [SupportedNetworkId.ShimmerEvmTestnet]: {
+        [SupportedNetworkId.TestnetEvm]: {
             [BASE_TOKEN_ID]: 'shimmer',
         },
     }
@@ -36,7 +36,7 @@
         [SupportedNetworkId.ShimmerEvm]: {
             [BASE_TOKEN_ID]: 'shimmer-background',
         },
-        [SupportedNetworkId.ShimmerEvmTestnet]: {
+        [SupportedNetworkId.TestnetEvm]: {
             [BASE_TOKEN_ID]: 'shimmer-background',
         },
     }
