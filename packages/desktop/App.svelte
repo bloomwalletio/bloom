@@ -160,10 +160,9 @@
                 />
             {/if}
             {#if settings}
-                <div class="absolute top-0 left-0 w-screen h-screen overflow-hidden z-10">
-                    <Settings handleClose={() => (settings = false)} />
-                </div>
-            {:else if $appRoute === AppRoute.Dashboard}
+                <Settings handleClose={() => (settings = false)} />
+            {/if}
+            {#if $appRoute === AppRoute.Dashboard}
                 <Dashboard />
             {:else if $appRoute === AppRoute.Login}
                 <LoginRouter />
