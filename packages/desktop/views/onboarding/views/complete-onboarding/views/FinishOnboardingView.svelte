@@ -8,6 +8,7 @@
     import { OnboardingLayout } from '@views/components'
     import SuccessSvg from '@views/onboarding/components/SuccessSvg.svelte'
     import { onboardingRouter } from '@views/onboarding/onboarding-router'
+    import LoggedOutLayout from '@views/components/LoggedOutLayout.svelte'
 
     const LOCALE_KEY = 'views.onboarding.congratulations'
 
@@ -27,28 +28,30 @@
 </script>
 
 {#if $profiles.length === 0}
-    <setup-complete>
-        <SuccessSvg />
-        <div class="flex flex-col justify-center items-center gap-3">
-            <div class="flex flex-col justify-center items-center">
-                <Text type="h5" customColor="success-500">{localize(`${LOCALE_KEY}.title`)}</Text>
-                <Text type="h1">{localize(`${LOCALE_KEY}.body1`)}</Text>
+    <LoggedOutLayout hideLogo>
+        <setup-complete>
+            <SuccessSvg />
+            <div class="flex flex-col justify-center items-center gap-3">
+                <div class="flex flex-col justify-center items-center">
+                    <Text type="h5" customColor="success-500">{localize(`${LOCALE_KEY}.title`)}</Text>
+                    <Text type="h1">{localize(`${LOCALE_KEY}.body1`)}</Text>
+                </div>
+                <Text type="body2" fontWeight="medium" textColor="secondary">{localize(`${LOCALE_KEY}.body3`)}</Text>
             </div>
-            <Text type="body2" fontWeight="medium" textColor="secondary">{localize(`${LOCALE_KEY}.body3`)}</Text>
-        </div>
-        <Button
-            on:click={onContinueClick}
-            icon={IconName.ArrowNarrowRight}
-            reverse
-            text={localize(`${LOCALE_KEY}.action`)}
-        />
-    </setup-complete>
-    <landscape-container>
-        <Illustration illustration="landscape" />
-    </landscape-container>
-    <balloon-container>
-        <Illustration illustration="balloon" />
-    </balloon-container>
+            <Button
+                on:click={onContinueClick}
+                icon={IconName.ArrowNarrowRight}
+                reverse
+                text={localize(`${LOCALE_KEY}.action`)}
+            />
+        </setup-complete>
+        <landscape-container>
+            <Illustration illustration="landscape" />
+        </landscape-container>
+        <balloon-container>
+            <Illustration illustration="balloon" />
+        </balloon-container>
+    </LoggedOutLayout>
 {:else}
     <OnboardingLayout
         continueButton={{
