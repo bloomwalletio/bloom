@@ -8,6 +8,7 @@
     import { Table } from '@bloomwalletio/ui'
 
     export let destinationNetworkId: NetworkId | undefined = undefined
+    export let storageDeposit: BigIntLike | undefined = undefined
     export let estimatedGasFee: BigIntLike | undefined = undefined
     export let maxGasFee: BigIntLike | undefined = undefined
 </script>
@@ -22,6 +23,10 @@
                     networkId: destinationNetworkId,
                 },
             },
+        },
+        {
+            key: localize('general.storageDeposit'),
+            value: storageDeposit ? formatTokenAmountBestMatch(Number(storageDeposit), getBaseToken()) : undefined,
         },
         {
             key: localize('general.estimatedFee'),

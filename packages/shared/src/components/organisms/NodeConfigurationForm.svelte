@@ -1,9 +1,9 @@
 <script lang="ts">
     import { OnboardingNetworkType } from '@contexts/onboarding'
     import { localize } from '@core/i18n'
-    import { IAuth } from '@core/network'
+    import { IAuth, INode } from '@iota/sdk/out/types'
     import { DEFAULT_NETWORK_METADATA, EMPTY_NODE } from '@core/network/constants'
-    import { IClientOptions, INode, INodeInfoResponse } from '@core/network/interfaces'
+    import { IClientOptions, INodeInfoResponse } from '@core/network/interfaces'
     import { nodeInfo } from '@core/network/stores'
     import {
         checkIfOnSameNetwork,
@@ -12,9 +12,9 @@
     } from '@core/network/utils'
     import { getNodeInfo } from '@core/profile-manager'
     import { activeProfile } from '@core/profile/stores'
-    import { IDropdownItem, cleanUrl } from '@core/utils'
+    import { cleanUrl } from '@core/utils'
     import features from '@features/features'
-    import { Dropdown, Error, NumberInput, PasswordInput, TextInput } from '@ui'
+    import { Error, IOption, NumberInput, PasswordInput, SelectInput, TextInput } from '@bloomwalletio/ui'
 
     interface INodeValidationOptions {
         checkNodeInfo: boolean
@@ -33,10 +33,10 @@
     export let onSubmit: () => void = () => {}
     export let networkEditable: boolean = false
 
-    const networkItems: IDropdownItem<OnboardingNetworkType>[] = getNetworkTypeOptions()
+    const networkOptions: IOption[] = getNetworkTypeOptions()
 
     let [username, password] = node.auth?.basicAuthNamePwd ?? ['', '']
-    let jwt = node.auth?.jwt
+    let jwt = node.auth?.jwt ?? ''
 
     $: networkType, (coinType = '')
     $: networkType, coinType, node.url, (formError = '')
@@ -48,7 +48,7 @@
             auth: getAuth(),
         })
 
-    function getNetworkTypeOptions(): IDropdownItem<OnboardingNetworkType>[] {
+    function getNetworkTypeOptions(): IOption[] {
         const options = Object.values(DEFAULT_NETWORK_METADATA).map((network) => ({
             label: network?.name,
             value: getOnboardingNetworkTypeFromNetworkId(network?.id),
@@ -127,48 +127,31 @@
 
 <form id="node-configuration-form" class="w-full h-full flex-col space-y-3" on:submit|preventDefault={onSubmit}>
     {#if networkEditable}
-        <Dropdown
+        <SelectInput
             bind:value={networkType}
+            selected={networkOptions[0]}
             label={localize('general.network')}
-            placeholder={localize('general.network')}
-            items={networkItems}
+            options={networkOptions}
             disabled={isBusy}
         />
         {#if networkType === OnboardingNetworkType.Custom}
-            <NumberInput
-                bind:value={coinType}
-                placeholder={localize('general.coinType')}
-                label={localize('general.coinType')}
-                disabled={isBusy}
-                isInteger
-            />
+            <NumberInput bind:value={coinType} label={localize('general.coinType')} disabled={isBusy} isInteger />
         {/if}
     {/if}
 
     <TextInput
         bind:value={node.url}
-        placeholder={localize('popups.node.nodeAddress')}
         label={localize('popups.node.nodeAddress')}
         disabled={isBusy}
         on:change={cleanNodeUrl}
     />
-    <TextInput
-        bind:value={username}
-        placeholder={localize('popups.node.optionalUsername')}
-        label={localize('popups.node.optionalUsername')}
-        disabled={isBusy}
-    />
+    <TextInput bind:value={username} label={localize('popups.node.optionalUsername')} disabled={isBusy} />
     <PasswordInput
         bind:value={password}
         label={localize('popups.node.optionalPassword')}
-        placeholder={localize('popups.node.optionalPassword')}
+        required={!!username}
         disabled={isBusy}
     />
-    <PasswordInput
-        bind:value={jwt}
-        placeholder={localize('popups.node.optionalJwt')}
-        label={localize('popups.node.optionalJwt')}
-        disabled={isBusy}
-    />
+    <PasswordInput bind:value={jwt} label={localize('popups.node.optionalJwt')} required={false} disabled={isBusy} />
     {#if formError}<Error error={formError} />{/if}
 </form>

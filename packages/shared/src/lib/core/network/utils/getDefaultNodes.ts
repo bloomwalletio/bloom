@@ -1,5 +1,5 @@
+import { INode } from '@iota/sdk/out/types'
 import { DEFAULT_NODE_URLS } from '../constants'
-import { INode } from '../interfaces'
 import { NetworkId } from '../types'
 
 /**
