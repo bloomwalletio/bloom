@@ -14,6 +14,7 @@
     let illustration: string
     let logo: LogoName | undefined
     let shape: AvatarShape
+    let showArrows: boolean = false
 
     $: setLedgerIllustrationProps(variant)
     function setLedgerIllustrationProps(variant: LedgerIllustrationVariant): void {
@@ -32,6 +33,11 @@
             case LedgerIllustrationVariant.Pin: {
                 illustration = 'ledger-pin'
                 pill = { localeKey: 'pills.ledgerStatus.locked', color: 'warning' }
+                break
+            }
+            case LedgerIllustrationVariant.Hash: {
+                illustration = 'ledger-hash'
+                showArrows = true
                 break
             }
             case LedgerIllustrationVariant.OpenEthereum:
@@ -57,7 +63,7 @@
     }
 </script>
 
-<LedgerIllustration {pill}>
+<LedgerIllustration {pill} {showArrows}>
     {#if icon}
         <Avatar {backgroundColor} size="md" {icon} {customTextColor} {shape} />
     {:else if logo}

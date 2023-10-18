@@ -24,7 +24,7 @@ function convertToRawAmountFromMetadata(
             const decimals = IOTA_UNIT_MAP?.[selectedUnit?.substring(0, 1) as IotaUnit]?.decimalPlaces ?? 0
             return convertAmountToMatchUnit(amount, decimals)
         } else {
-            if (selectedUnit === tokenMetadata.unit) {
+            if (!selectedUnit || selectedUnit === tokenMetadata.unit) {
                 const decimals = Math.min(tokenMetadata.decimals, MAX_SUPPORTED_DECIMALS)
                 return convertAmountToMatchUnit(amount, decimals)
             } else if (selectedUnit === tokenMetadata.subunit) {

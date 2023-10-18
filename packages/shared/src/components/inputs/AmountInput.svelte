@@ -1,5 +1,7 @@
 <script lang="ts">
     import { NumberInput, FontWeight } from '@ui'
+    import { getDecimalSeparator } from '@core/i18n'
+    import { activeProfile } from '@core/profile/stores'
 
     export let inputElement: HTMLInputElement | undefined = undefined
     export let fontSize = 24
@@ -8,11 +10,17 @@
     export let hasFocus = false
     export let amount: string = ''
 
-    $: amount, addLeadingZeroToDecimalSeparator()
+    $: amount, onAmountInputChange()
 
-    function addLeadingZeroToDecimalSeparator(): void {
-        if (amount?.[0] === '.' || amount?.[0] === ',') {
+    function onAmountInputChange(): void {
+        const separator = getDecimalSeparator($activeProfile?.settings?.marketCurrency)
+        // Add leading zero if decimal separator was entered first
+        if (amount?.[0] === separator) {
             amount = '0' + amount
+        }
+        // Prevent additional leading zeroes from being entered
+        else if (amount?.[0] === '0' && amount?.[1] !== separator) {
+            amount = amount.slice(1)
         }
     }
 </script>

@@ -52,6 +52,7 @@
                     const label = recipient.account.name
                     return { label, value: recipient.address, color: getAccountColor(label) }
                 }
+                case SubjectType.Network:
                 case SubjectType.Address:
                     return { value: recipient.address, color: getRandomAccountColor() }
                 case SubjectType.Contact: {

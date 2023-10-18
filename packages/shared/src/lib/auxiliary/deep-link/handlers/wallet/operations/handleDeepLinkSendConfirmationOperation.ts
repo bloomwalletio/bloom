@@ -1,6 +1,6 @@
 import { getActiveNetworkId } from '@core/network/actions'
 import { getNetworkHrp } from '@core/profile/actions'
-import { getUnitFromTokenMetadata, validateTokenId } from '@core/token'
+import { validateTokenId } from '@core/token'
 import { getTokenFromSelectedAccountTokens, selectedAccountTokens } from '@core/token/stores'
 import { getByteLengthOfString, isStringTrue, validateBech32Address } from '@core/utils'
 import {
@@ -20,13 +20,7 @@ import {
     sendFlowRouter,
 } from '../../../../../../../../desktop/views/dashboard/send-flow/send-flow.router'
 import { SendOperationParameter } from '../../../enums'
-import {
-    InvalidAddressError,
-    NoAddressSpecifiedError,
-    SurplusNotANumberError,
-    SurplusNotSupportedError,
-    UnknownAssetError,
-} from '../../../errors'
+import { InvalidAddressError, NoAddressSpecifiedError, UnknownAssetError } from '../../../errors'
 import { getRawAmountFromSearchParam } from '../../../utils'
 
 export function handleDeepLinkSendConfirmationOperation(searchParams: URLSearchParams): void {
@@ -56,47 +50,41 @@ export function handleDeepLinkSendConfirmationOperation(searchParams: URLSearchP
  */
 function parseSendConfirmationOperation(searchParams: URLSearchParams): SendFlowParameters {
     const networkId = getActiveNetworkId()
+    const baseCoin = get(selectedAccountTokens)?.[networkId]?.baseCoin
+    if (!baseCoin) {
+        throw new Error('No base coin')
+    }
+
+    let baseCoinTransfer: TokenTransferData | undefined
+    const baseCoinAmount = getRawAmountFromSearchParam(searchParams, SendOperationParameter.BaseCoinAmount)
+    if (baseCoinAmount) {
+        baseCoinTransfer = {
+            token: baseCoin,
+            rawAmount: baseCoinAmount,
+        }
+    }
 
     const tokenId = searchParams.get(SendOperationParameter.TokenId)
     if (tokenId) {
         validateTokenId(tokenId)
     }
 
-    const type = tokenId ? SendFlowType.TokenTransfer : SendFlowType.BaseCoinTransfer
-
-    const surplus = searchParams.get(SendOperationParameter.Surplus)
-    if (surplus && parseInt(surplus).toString() !== surplus) {
-        throw new SurplusNotANumberError(surplus)
-    } else if (surplus && type === SendFlowType.TokenTransfer) {
-        throw new SurplusNotSupportedError()
-    }
-
-    let baseCoinTransfer: TokenTransferData | undefined
     let tokenTransfer: TokenTransferData | undefined
-    if (type === SendFlowType.BaseCoinTransfer) {
-        baseCoinTransfer = {
-            token: get(selectedAccountTokens)?.[networkId]?.baseCoin,
-            rawAmount: getRawAmountFromSearchParam(searchParams),
-            unit: searchParams.get(SendOperationParameter.Unit) ?? 'glow',
-        }
-    } else if (type === SendFlowType.TokenTransfer && tokenId) {
+    const tokenAmount = getRawAmountFromSearchParam(searchParams, SendOperationParameter.TokenAmount)
+    if (tokenId && tokenAmount) {
         const token = getTokenFromSelectedAccountTokens(tokenId, networkId)
         if (token?.metadata) {
             tokenTransfer = {
                 token,
-                rawAmount: getRawAmountFromSearchParam(searchParams),
-                unit: searchParams.get(SendOperationParameter.Unit) ?? getUnitFromTokenMetadata(token.metadata),
-            }
-            if (surplus) {
-                baseCoinTransfer = {
-                    token: get(selectedAccountTokens)?.[networkId]?.baseCoin,
-                    rawAmount: surplus,
-                    unit: 'glow',
-                }
+                rawAmount: tokenAmount,
             }
         } else {
             throw new UnknownAssetError()
         }
+    }
+
+    if (!baseCoinTransfer && !tokenTransfer) {
+        throw new Error('No transfer')
     }
 
     // Check address exists and is valid this is not optional.
@@ -124,9 +112,11 @@ function parseSendConfirmationOperation(searchParams: URLSearchParams): SendFlow
     const giftStorageDeposit = isStringTrue(searchParams.get(SendOperationParameter.GiftStorageDeposit) ?? '')
     const disableToggleGift = isStringTrue(searchParams.get(SendOperationParameter.DisableToggleGift) ?? '')
     const disableChangeExpiration = isStringTrue(searchParams.get(SendOperationParameter.DisableChangeExpiration) ?? '')
+    const disableChangeTimelock = isStringTrue(searchParams.get(SendOperationParameter.DisableChangeTimelock) ?? '')
 
     return {
-        type,
+        type: tokenTransfer ? SendFlowType.TokenTransfer : SendFlowType.BaseCoinTransfer,
+        destinationNetworkId: networkId,
         ...(baseCoinTransfer && { baseCoinTransfer }),
         ...(tokenTransfer && { tokenTransfer }),
         ...(address && { recipient: { type: SubjectType.Address, address } }),
@@ -135,5 +125,6 @@ function parseSendConfirmationOperation(searchParams: URLSearchParams): SendFlow
         ...(giftStorageDeposit && { giftStorageDeposit }),
         ...(disableToggleGift && { disableToggleGift }),
         ...(disableChangeExpiration && { disableChangeExpiration }),
+        ...(disableChangeTimelock && { disableChangeTimelock }),
     }
 }

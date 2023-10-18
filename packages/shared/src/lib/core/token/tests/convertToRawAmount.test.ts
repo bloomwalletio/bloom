@@ -53,8 +53,9 @@ describe('File: convertToRawAmount.ts', () => {
             it('should return same Big(amount) if selectedUnit is subunit', () => {
                 expect(convertToRawAmount('1', DEFAULT_BASE_TOKEN[networkId], 'glow')).toStrictEqual(Big('1'))
             })
-            it('should return undefined if a unit is not provided', () => {
-                expect(convertToRawAmount('1', DEFAULT_BASE_TOKEN[networkId])).toStrictEqual(undefined)
+            it('should return tokens unit if no unit is provided', () => {
+                let value = convertToRawAmount('1', DEFAULT_BASE_TOKEN[networkId])
+                expect(value).toStrictEqual(Big('1').mul(Big(10).pow(DEFAULT_BASE_TOKEN[networkId].decimals)))
             })
             it('should return undefined if provided unit does not match the tokenMetadata unit or subunit', () => {
                 expect(convertToRawAmount('1', DEFAULT_BASE_TOKEN[networkId], 'test')).toStrictEqual(undefined)

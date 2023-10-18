@@ -19,32 +19,29 @@
 
 {#if token && token.metadata}
     <Tile {onClick} {selected} {error} surface={1} width={hideTokenInfo ? 'auto' : 'full'}>
-        <div class="w-full flex flex-row justify-between items-center gap-2">
-            <div class="flex flex-row items-center text-left space-x-3">
-                <TokenAvatar {token} />
-                {#if !hideTokenInfo}
-                    <div class="flex flex-col">
+        <div class="w-full flex flex-row items-center gap-2">
+            <TokenAvatar {token} />
+            <div class="flex flex-col w-full">
+                <div class="flex flex-row w-full {hideTokenInfo ? 'justify-end' : 'justify-between'}">
+                    {#if !hideTokenInfo}
                         <Text>
                             {token.metadata.name
                                 ? truncateString(token.metadata.name, 13, 0)
                                 : truncateString(token.id, 6, 7)}
                         </Text>
-                        <div class="flex flex-row justify-between items-center text-left">
-                            <Text fontWeight="medium" textColor="secondary">
-                                {marketPrice ? formatCurrency(marketPrice) : ''}
-                            </Text>
-                            <slot name="subLabel" />
-                        </div>
-                    </div>
-                {/if}
-            </div>
-            <div class="flex flex-col text-right">
-                <Text>
-                    {token.metadata ? formatTokenAmountBestMatch(amount, token.metadata) : '-'}
-                </Text>
-                <div class="flex flex-row items-center">
-                    <Text fontWeight="medium" textColor="secondary">
-                        {marketBalance !== undefined ? `≈ ${formatCurrency(marketBalance)}` : ''}
+                    {/if}
+                    <Text align="right">
+                        {token.metadata ? formatTokenAmountBestMatch(amount, token.metadata) : '-'}
+                    </Text>
+                </div>
+                <div class="flex flex-row w-full {hideTokenInfo ? 'justify-end' : 'justify-between'}">
+                    {#if !hideTokenInfo}
+                        <Text fontWeight="medium" textColor="secondary">
+                            {marketPrice ? formatCurrency(marketPrice) : ''}
+                        </Text>
+                    {/if}
+                    <Text fontWeight="medium" textColor="secondary" align="right">
+                        {marketBalance !== undefined ? `≈ ${formatCurrency(marketBalance)}` : '-'}
                     </Text>
                 </div>
             </div>
