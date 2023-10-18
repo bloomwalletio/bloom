@@ -2,7 +2,7 @@ import { APP_STAGE } from '@core/app'
 import { get } from 'svelte/store'
 import { PROFILE_VERSION } from '../../constants'
 import { profiles, updateProfile } from '../../stores'
-import { PROFILE_MIGRATION_STAGE_MAP } from '../migrations/profile-migration-stage-map'
+import { PROFILE_MIGRATION_STAGE_MAP } from '../../migrations/profile-migration-stage-map'
 
 /**
  * Migrates profile data in need of being modified to accommodate changes
