@@ -62,7 +62,12 @@
         </div>
         <div class="text-end">
             <Text type="sm" fontWeight="medium" textColor="secondary">
-                {localize('views.dashboard.portfolio.amount')}
+                {localize('views.dashboard.portfolio.available')}
+            </Text>
+        </div>
+        <div class="text-end">
+            <Text type="sm" fontWeight="medium" textColor="secondary">
+                {localize('views.dashboard.portfolio.total')}
             </Text>
         </div>
     </header-row>
@@ -93,7 +98,7 @@
             @apply border-y border-solid border-stroke dark:border-stroke-dark;
 
             @apply grid gap-2;
-            grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+            grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
         }
     }
 </style>

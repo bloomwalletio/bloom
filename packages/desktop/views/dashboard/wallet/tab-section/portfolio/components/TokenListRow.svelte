@@ -36,7 +36,12 @@
         return marketPrice ? formatCurrency(marketPrice) : '-'
     }
 
-    function getFormattedMarketPriceForTokenAmount(token: ITokenWithBalance): string {
+    function getFormattedMarketPriceForTokenAvailable(token: ITokenWithBalance): string {
+        const marketPrice = getMarketAmountFromTokenValue(token.balance.available, token)
+        return marketPrice ? formatCurrency(marketPrice) : '-'
+    }
+
+    function getFormattedMarketPriceForTokenTotal(token: ITokenWithBalance): string {
         const marketPrice = getMarketAmountFromTokenValue(token.balance.total, token)
         return marketPrice ? formatCurrency(marketPrice) : '-'
     }
@@ -73,13 +78,20 @@
     <div class="text-end">
         <Text>{getFormattedMarketPriceForToken(token)}</Text>
     </div>
-
+    <div class="flex flex-col items-end text-end">
+        <Text>
+            {token.metadata ? formatTokenAmountBestMatch(token.balance.available, token.metadata) : '-'}
+        </Text>
+        <Text textColor="secondary">
+            {getFormattedMarketPriceForTokenAvailable(token)}
+        </Text>
+    </div>
     <div class="flex flex-col items-end text-end">
         <Text>
             {token.metadata ? formatTokenAmountBestMatch(token.balance.total, token.metadata) : '-'}
         </Text>
         <Text textColor="secondary">
-            {getFormattedMarketPriceForTokenAmount(token)}
+            {getFormattedMarketPriceForTokenTotal(token)}
         </Text>
     </div>
 </button>
@@ -92,6 +104,6 @@
         @apply hover:bg-surface-2 dark:hover:bg-surface-2-dark;
 
         @apply grid gap-2;
-        grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
     }
 </style>
