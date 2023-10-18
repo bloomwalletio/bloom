@@ -15,7 +15,7 @@
 
 {#if open}
     {#if inputType === 'text'}
-        <TextInput bind:value autofocus {error} {label} {...$$restProps}>
+        <TextInput bind:value autofocus bind:error {label} {...$$restProps}>
             <IconButton icon={IconName.CrossClose} on:click={onCloseClick} size="xs" />
         </TextInput>
     {:else if inputType === 'number'}

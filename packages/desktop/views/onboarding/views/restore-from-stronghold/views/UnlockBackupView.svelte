@@ -66,7 +66,7 @@
         bind:value={strongholdPassword}
         slot="content"
         label={localize('general.password')}
-        {error}
+        bind:error
         disabled={busy}
         autofocus
         on:submit={onContinueClick}

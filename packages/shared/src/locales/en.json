@@ -476,10 +476,10 @@
         "collectibles": {
             "gallery": {
                 "title": "Collectibles",
-                "emptyTitle": "No collectibles",
-                "noResults": "No results",
+                "emptyTitle": "No collectibles found",
+                "noResults": "No results found",
                 "timelocked": "Locked for {timeDiff}",
-                "emptyDescription": "Deposit or Receive your first collectible now!"
+                "emptyDescription": "Deposit or receive your first collectible!"
             },
             "details": {
                 "storageDepositDescription": "A refundable deposit required to store your NFT on the Tangle.",
@@ -1166,7 +1166,7 @@
         "testDeepLink": "Test deep link",
         "delete": "Delete",
         "remove": "Remove",
-        "depositNft": "Deposit NFTs",
+        "getStarted": "Get started",
         "vote": "Vote",
         "addProposal": "Add proposal",
         "removeProposal": "Remove proposal",
@@ -1296,6 +1296,7 @@
         "toAddress": "to {account}",
         "capsLock": "Caps Lock is on",
         "version": "Version",
+        "versionFull": "Version {version}",
         "unknown": "Unknown",
         "unknownAddress": "Unknown address",
         "none": "None",
@@ -1887,7 +1888,7 @@
             "notConnected": "Not connected",
             "locked": "Device locked",
             "appNotOpen": "App not open"
-        }         
+        }
     },
     "menus": {
         "dateTimePicker": {
