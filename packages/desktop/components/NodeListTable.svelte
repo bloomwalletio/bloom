@@ -1,7 +1,8 @@
 <script lang="ts">
     import { Pill, Text } from '@bloomwalletio/ui'
+    import { INode } from '@iota/sdk/out/types'
     import { localize } from '@core/i18n'
-    import { INode, getDefaultNodes } from '@core/network'
+    import { getDefaultNodes } from '@core/network'
     import { activeProfile } from '@core/profile/stores'
     import { PopupId, openPopup } from '@desktop/auxiliary/popup'
     import { NodeActionsMenu } from './menus'
