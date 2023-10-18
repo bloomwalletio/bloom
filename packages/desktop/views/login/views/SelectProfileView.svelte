@@ -11,7 +11,7 @@
     import { localize } from '@core/i18n'
     import { IPersistedProfile, ProfileType, removeProfileFolder } from '@core/profile'
     import { destroyProfileManager } from '@core/profile-manager/actions'
-    import { loadPersistedProfileIntoActiveProfile } from '@core/profile/actions'
+    import { loadPersistedProfileIntoActiveProfile, resetActiveProfile } from '@core/profile/actions'
     import { profiles } from '@core/profile/stores'
     import { loginRouter, routerManager } from '@core/router'
     import { PopupId, openPopup } from '@desktop/auxiliary/popup'
@@ -56,6 +56,9 @@
             }
             $onboardingProfile = undefined
         }
+
+        // Ensure there is no active profile set from previous app activity
+        resetActiveProfile()
     })
 </script>
 
