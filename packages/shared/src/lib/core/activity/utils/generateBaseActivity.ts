@@ -15,7 +15,9 @@ import {
 } from './helper'
 import { getNativeTokenFromOutput } from './outputs'
 import { getOrRequestTokenFromPersistedTokens } from '@core/token/actions'
-import { getActiveNetworkId } from '@core/network'
+import { getActiveNetworkId, isStardustNetwork } from '@core/network'
+import { parseLayer2Metadata } from '@core/layer-2/utils'
+import { getSubjectFromAddress } from '@core/wallet/utils'
 
 export async function generateBaseActivity(
     account: IAccountState,
@@ -38,7 +40,7 @@ export async function generateBaseActivity(
     const asyncData = getAsyncDataFromOutput(output, outputId, processedTransaction.claimingData, account)
 
     // sender / recipient information
-    const { recipient, sender, subject, isInternal } = getSendingInformation(
+    let { recipient, sender, subject, isInternal } = getSendingInformation(
         processedTransaction,
         output,
         account,
@@ -49,7 +51,7 @@ export async function generateBaseActivity(
     // even if we unwrap a token the second transaction is sent from the stardust alias
     // controlling the sub chain to our stardust address
     const sourceNetworkId = getActiveNetworkId()
-    const destinationNetworkId = getNetworkIdFromAddress(recipient?.address, sourceNetworkId)
+    const destinationNetworkId = getNetworkIdFromAddress(recipient?.address) ?? sourceNetworkId
     const direction = processedTransaction.direction
 
     // asset information
@@ -69,6 +71,16 @@ export async function generateBaseActivity(
                   rawAmount: String(Number(nativeToken.amount)),
               }
             : undefined
+
+    const isL1toL2 = isStardustNetwork(sourceNetworkId) && sourceNetworkId !== destinationNetworkId
+    const smartContract = isL1toL2 ? parseLayer2Metadata(metadata) : undefined
+
+    if (recipient?.address && smartContract?.ethereumAddress) {
+        const networkId = getNetworkIdFromAddress(recipient?.address)
+        if (networkId) {
+            recipient = getSubjectFromAddress(smartContract.ethereumAddress, destinationNetworkId)
+        }
+    }
 
     return {
         // meta information
@@ -100,5 +112,6 @@ export async function generateBaseActivity(
         storageDeposit,
         baseTokenTransfer,
         tokenTransfer,
+        smartContract,
     }
 }
