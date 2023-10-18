@@ -11,5 +11,5 @@ export const FALLBACK_ESTIMATED_GAS: { [key in SendFlowType]: number } = {
     [SendFlowType.TokenTransfer]: 24_350,
     [SendFlowType.NftTransfer]: 24_700,
     [SendFlowType.TokenUnwrap]: 54_800,
-    [SendFlowType.NftUnwrap]: 70_000,
+    [SendFlowType.NftUnwrap]: 44_000,
 }

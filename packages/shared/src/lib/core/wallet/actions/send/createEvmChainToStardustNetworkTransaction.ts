@@ -30,7 +30,7 @@ export async function createEvmChainToStardustNetworkTransaction(
             buildUnwrapAssetParameters(recipientAddress)
 
         let transferredAsset: TransferredAsset | undefined
-        let estimatedGas = FALLBACK_ESTIMATED_GAS[SendFlowType.TokenUnwrap]
+        let fundsForStorageDeposit = FALLBACK_ESTIMATED_GAS[SendFlowType.TokenUnwrap]
         if (
             sendFlowParameters.type === SendFlowType.TokenTransfer ||
             sendFlowParameters.type === SendFlowType.BaseCoinTransfer
@@ -40,7 +40,8 @@ export async function createEvmChainToStardustNetworkTransaction(
             const assetType = isBaseCoin ? AssetType.BaseCoin : AssetType.Token
             transferredAsset = token && amount ? { type: assetType, token, amount } : undefined
         } else {
-            estimatedGas = FALLBACK_ESTIMATED_GAS[SendFlowType.NftUnwrap]
+            fundsForStorageDeposit =
+                (sendFlowParameters.nft?.storageDeposit ?? 0) + FALLBACK_ESTIMATED_GAS[SendFlowType.NftUnwrap]
             transferredAsset = sendFlowParameters.nft ? { type: AssetType.Nft, nft: sendFlowParameters.nft } : undefined
         }
 
@@ -48,7 +49,7 @@ export async function createEvmChainToStardustNetworkTransaction(
             return
         }
 
-        const assetAllowance = buildAssetAllowance(transferredAsset, estimatedGas)
+        const assetAllowance = buildAssetAllowance(transferredAsset, fundsForStorageDeposit)
         const contract = chain?.getContract(ContractType.IscMagic, ISC_MAGIC_CONTRACT_ADDRESS)
         const data =
             (await contract?.methods
