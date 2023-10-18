@@ -3,6 +3,7 @@ import type {
     Client,
     CreateAccountPayload,
     FoundryId,
+    IAuth,
     IRent,
     NftId,
     Output,
@@ -12,7 +13,7 @@ import type {
 } from '@iota/sdk'
 
 import type { IAccount } from '@core/account/interfaces'
-import type { IAuth, INodeInfoResponse } from '@core/network/interfaces'
+import type { INodeInfoResponse } from '@core/network/interfaces'
 import type { ISecretManager } from '@core/secret-manager/interfaces'
 
 import type { IProfileManager } from './profile-manager.interface'

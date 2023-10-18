@@ -1,9 +1,9 @@
 import { getTemporaryProfileManagerStorageDirectory } from '@contexts/onboarding/helpers'
 import { IProfileManager, api } from '@core/profile-manager'
 import { initialiseProfileManager } from '@core/profile-manager/actions'
-import { IAuth, TEST_COIN_TYPE } from '..'
+import { TEST_COIN_TYPE } from '..'
 import { Platform } from '@core/app'
-import { CoinType, INodeInfoWrapper } from '@iota/sdk/out/types'
+import { CoinType, IAuth, INodeInfoWrapper } from '@iota/sdk/out/types'
 
 export async function getNodeInfoWhileLoggedOut(url: string, auth: IAuth): Promise<INodeInfoWrapper> {
     let storagePath: string | undefined

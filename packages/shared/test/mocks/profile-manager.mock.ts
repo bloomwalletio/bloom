@@ -6,6 +6,7 @@ import type {
     AccountId,
     CreateAccountPayload,
     SyncOptions,
+    IAuth,
     IClientOptions,
     WalletEventType,
     WalletEvent,
@@ -14,7 +15,7 @@ import type {
 } from '@iota/sdk/out/types'
 
 import { IAccount } from '@core/account'
-import { IAuth, INodeInfoResponse } from '@core/network'
+import { INodeInfoResponse } from '@core/network'
 import { IProfileManager, WalletApiEventHandler } from '@core/profile-manager'
 
 export class ProfileManagerMock implements IProfileManager {

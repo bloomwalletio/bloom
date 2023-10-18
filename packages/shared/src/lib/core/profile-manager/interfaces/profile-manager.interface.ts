@@ -1,4 +1,5 @@
 import type {
+    IAuth,
     IClientOptions,
     WalletEventType,
     GenerateAddressOptions,
@@ -8,7 +9,6 @@ import type {
 } from '@iota/sdk'
 
 import { IAccount } from '@core/account/interfaces'
-import { IAuth } from '@core/network/interfaces'
 
 import { WalletApiEventHandler } from '../types'
 
