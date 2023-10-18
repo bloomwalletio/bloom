@@ -19,7 +19,7 @@
     style:--macos-navbar-height={IS_MAC ? '40px' : undefined}
 >
     <Particles />
-    {#if hideLogo}
+    {#if !hideLogo}
         <header class="w-full flex flex-row items-center justify-between px-6" class:glass>
             <logo class="flex flex-row flex-none space-x-3">
                 <Logo width="32" logo={LogoName.BloomLogo} />
