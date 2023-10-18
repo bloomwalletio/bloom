@@ -19,6 +19,7 @@ import { getActiveNetworkId, isStardustNetwork } from '@core/network'
 import { parseLayer2Metadata } from '@core/layer-2/utils'
 import { getSubjectFromAddress } from '@core/wallet/utils'
 import { HEX_PREFIX } from '@core/utils'
+import { SubjectType } from '@core/wallet'
 
 export async function generateBaseActivity(
     account: IAccountState,
@@ -76,13 +77,15 @@ export async function generateBaseActivity(
     const isL1toL2 = isStardustNetwork(sourceNetworkId) && sourceNetworkId !== destinationNetworkId
     const smartContract = isL1toL2 ? parseLayer2Metadata(metadata) : undefined
 
-    if (recipient?.address && smartContract?.ethereumAddress) {
-        const networkId = getNetworkIdFromAddress(recipient?.address)
-        if (networkId) {
-            const l2Address =
-                HEX_PREFIX + smartContract.ethereumAddress.substring(smartContract.ethereumAddress.length - 40)
-            recipient = getSubjectFromAddress(l2Address, destinationNetworkId)
+    if (recipient?.type === SubjectType.Network && smartContract?.ethereumAddress) {
+        const l2Address =
+            HEX_PREFIX + smartContract.ethereumAddress.substring(smartContract.ethereumAddress.length - 40)
+        const l2Recipient = getSubjectFromAddress(l2Address, destinationNetworkId)
+
+        if (recipient.address === subject?.address) {
+            subject = l2Recipient
         }
+        recipient = l2Recipient
     }
 
     return {
