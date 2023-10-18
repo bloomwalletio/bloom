@@ -2,10 +2,14 @@
     import { Button, Text } from '@bloomwalletio/ui'
     import { Mnemonic, getWordChoices, onboardingProfile, updateOnboardingProfile } from '@contexts/onboarding'
     import { localize } from '@core/i18n'
+    import { getOnboardingNetworkTypeFromNetworkId } from '@core/network'
+    import features from '@features/features'
     import { RecoveryPhrase } from '@ui'
     import { OnboardingLayout } from '@views/components'
     import { createFromMnemonicRouter } from '../create-from-mnemonic-router'
-    import features from '@features/features'
+
+    const networkId = $onboardingProfile?.network?.id
+    const networkType = getOnboardingNetworkTypeFromNetworkId(networkId)
 
     const VERIFICATION_WORD_COUNT = 8
     const LOCALE_KEY = 'views.onboarding.profileBackup.verifyMnemonic'
@@ -56,7 +60,11 @@
     $: isVerified = areArraysEqual(recoveryPhrase, verifiedRecoveryPhrase)
 
     function onContinueClick(): void {
-        updateOnboardingProfile({ hasVerifiedMnemonic: features.onboarding.skipVerification.enabled || isVerified })
+        updateOnboardingProfile({
+            hasVerifiedMnemonic:
+                features?.onboarding?.[networkType]?.newProfile?.softwareProfile?.skipVerification?.enabled ||
+                isVerified,
+        })
         $createFromMnemonicRouter.next()
     }
 
@@ -92,10 +100,16 @@
                 </div>
             </div>
         {/if}
+        {#if features?.onboarding?.[networkType]?.newProfile?.softwareProfile?.skipVerification?.enabled}
+            <Button
+                variant="outlined"
+                color="warning"
+                width="full"
+                text={localize('actions.skip')}
+                on:click={onContinueClick}
+            />
+        {/if}
     </content>
-    <div slot="footer" class:hidden={!features.onboarding.skipVerification.enabled}>
-        <Button variant="text" width="full" text={localize('actions.skip')} on:click={onContinueClick} />
-    </div>
 </OnboardingLayout>
 
 <style lang="postcss">

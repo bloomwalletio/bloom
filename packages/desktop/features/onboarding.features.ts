@@ -7,6 +7,9 @@ const onboardingFeaturesForShimmer: IOnboardingFeaturesForNetwork = {
         enabled: true,
         softwareProfile: {
             enabled: true,
+            skipVerification: {
+                enabled: false,
+            },
         },
         ledgerProfile: {
             enabled: true,
@@ -45,6 +48,9 @@ const onboardingFeaturesForTestnet: IOnboardingFeaturesForNetwork = {
         enabled: true,
         softwareProfile: {
             enabled: true,
+            skipVerification: {
+                enabled: false,
+            },
         },
         ledgerProfile: {
             enabled: true,
@@ -83,6 +89,9 @@ const onboardingFeaturesForCustom: IOnboardingFeaturesForNetwork = {
         enabled: true,
         softwareProfile: {
             enabled: true,
+            skipVerification: {
+                enabled: false,
+            },
         },
         ledgerProfile: {
             enabled: true,
@@ -122,9 +131,6 @@ const onboardingFeatures: OnboardingFeatures = {
     custom: onboardingFeaturesForCustom,
     strongholdVersionCheck: {
         enabled: true,
-    },
-    skipVerification: {
-        enabled: false,
     },
 }
 
