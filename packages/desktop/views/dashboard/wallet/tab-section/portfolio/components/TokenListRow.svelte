@@ -5,7 +5,7 @@
     import { BASE_TOKEN_ID, ITokenWithBalance, formatTokenAmountBestMatch, getUnitFromTokenMetadata } from '@core/token'
     import { truncateString } from '@core/utils'
     import { PopupId, openPopup } from '@desktop/auxiliary/popup'
-    import { TokenAvatar } from '@ui'
+    import { TokenAvatar, NetworkAvatar } from '@ui'
     import { Text } from '@bloomwalletio/ui'
 
     export let token: ITokenWithBalance
@@ -69,7 +69,8 @@
             </Text>
         </div>
     </div>
-    <div class="text-start">
+    <div class="flex flex-row gap-2 text-start items-center">
+        <NetworkAvatar size="xs" networkId={token.networkId} />
         <Text>{getNameFromNetworkId(token.networkId)}</Text>
     </div>
     <div class="text-end">
