@@ -1,5 +1,5 @@
+import { INode } from '@iota/sdk/out/types'
 import { isValidHttpsUrl, isValidUrl } from '@core/utils'
-import { INode } from '../interfaces'
 
 /**
  * Check if a node's URL is valid.

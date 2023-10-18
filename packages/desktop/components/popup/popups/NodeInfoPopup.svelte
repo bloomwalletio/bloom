@@ -2,10 +2,9 @@
     import { showNotification } from '@auxiliary/notification'
     import { IItem, Table, Tabs } from '@bloomwalletio/ui'
     import { formatNumber, localize } from '@core/i18n'
-    import { INode } from '@core/network'
     import { getNodeInfo } from '@core/profile-manager'
     import { closePopup } from '@desktop/auxiliary/popup'
-    import type { INodeInfo } from '@iota/sdk'
+    import type { INode, INodeInfo } from '@iota/sdk'
     import { onMount } from 'svelte'
     import PopupTemplate from '../PopupTemplate.svelte'
 

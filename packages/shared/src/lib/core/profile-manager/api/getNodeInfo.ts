@@ -1,4 +1,4 @@
-import { IAuth } from '@core/network'
+import { IAuth } from '@iota/sdk/out/types'
 import { INodeInfoResponse } from '@core/network/interfaces/node-info-response.interface'
 import { getProfileManager } from '../stores'
 import { api } from '../api'
