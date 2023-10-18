@@ -3,6 +3,7 @@
     import { NavbarContainer } from '@components'
     import { IS_MAC } from '@core/app'
     import { Logo } from '@ui'
+    import { Particles } from '.'
 
     export let glass: boolean = false
 </script>
@@ -16,6 +17,7 @@
     class="flex flex-col items-center w-full h-full bg-surface dark:bg-surface-dark"
     style:--macos-navbar-height={IS_MAC ? '40px' : undefined}
 >
+    <Particles />
     <header class="w-full flex flex-row items-center justify-between px-6" class:glass>
         <logo class="flex flex-row flex-none space-x-3">
             <Logo width="32" logo={LogoName.BloomLogo} />
