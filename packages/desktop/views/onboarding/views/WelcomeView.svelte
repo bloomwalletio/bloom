@@ -76,7 +76,7 @@
         />
     </div>
     <illustration-container class="relative">
-        <Illustration illustration="portal" width="536px" height="591px" />
+        <Illustration illustration="portal" width={536} height={591} />
         <portal-glow></portal-glow>
     </illustration-container>
 </welcome-view>
