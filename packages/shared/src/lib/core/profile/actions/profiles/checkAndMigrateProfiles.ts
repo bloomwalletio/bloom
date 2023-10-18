@@ -34,10 +34,12 @@ async function migratePersistedProfile(migrationVersion: number): Promise<void> 
 }
 
 const persistedProfileMigrationsMap: Record<number, (existingProfile: unknown) => Promise<void>> = {
-    1: async (existingProfile: unknown) => {
-        const profileId = (existingProfile as { id?: string })?.id
-        if (profileId) {
-            await removeProfileFolder(profileId)
-        }
-    },
+    1: removeProfile,
+}
+
+async function removeProfile(existingProfile: unknown): Promise<void> {
+    const profileId = (existingProfile as { id?: string })?.id
+    if (profileId) {
+        await removeProfileFolder(profileId)
+    }
 }
