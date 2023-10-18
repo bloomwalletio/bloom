@@ -18,6 +18,7 @@ export interface BaseSendFlowParameters {
     addSenderFeature?: boolean
     disableToggleGift?: boolean
     disableChangeExpiration?: boolean
+    disableChangeTimelock?: boolean
     baseCoinTransfer?: TokenTransferData
 }
 

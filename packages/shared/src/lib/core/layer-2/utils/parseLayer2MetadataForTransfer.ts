@@ -6,10 +6,9 @@ import { Converter, HEX_PREFIX } from '@core/utils'
 import { CONTRACT_FUNCTIONS, TARGET_CONTRACTS } from '../constants'
 import { ILayer2AssetAllowance, ILayer2TransferAllowanceMetadata } from '../interfaces'
 
-// Function to parse data from the L1 metadata, using the new encoding where the shimmer chainId is 1072
 export function parseLayer2MetadataForTransfer(metadata: Uint8Array): ILayer2TransferAllowanceMetadata {
     const readStream = new ReadSpecialStream(metadata)
-    const senderContract = readStream.readUInt32('senderContract')
+    const senderContract = readStream.readUInt8('senderContract')
     const targetContract = readStream.readUInt32('targetContract')
     const contractFunction = readStream.readUInt32('contractFunction')
     // TODO: This is a temporary fix since now the gas is always 500000, when it varies, the length of the gas will change

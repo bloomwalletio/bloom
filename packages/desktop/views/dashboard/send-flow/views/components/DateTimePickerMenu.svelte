@@ -82,6 +82,7 @@
 
 <Menu
     bind:this={menu}
+    {disabled}
     compact={false}
     placement="top-end"
     button={{
@@ -137,7 +138,7 @@
         {disabled}
     >
         <div class="flex flex-row items-center">
-            <Text textColor="brand" fontWeight="medium">
+            <Text textColor={disabled ? 'secondary' : 'brand'} fontWeight="medium">
                 {value ? formatDate(value, { dateStyle: 'long', timeStyle: 'medium' }) : localize('general.none')}
             </Text>
         </div>

@@ -6,7 +6,7 @@
     import { time } from '@core/app/stores'
     import { openUrlInBrowser } from '@core/app/utils'
     import { localize } from '@core/i18n'
-    import { ExplorerEndpoint, getDefaultExplorerUrl } from '@core/network'
+    import { ExplorerEndpoint, getActiveNetworkId, getDefaultExplorerUrl } from '@core/network'
     import { INft, NftDownloadMetadata } from '@core/nfts'
     import { getNftByIdFromAllAccountNfts } from '@core/nfts/actions'
     import { allAccountNfts, selectedNftId } from '@core/nfts/stores'
@@ -17,11 +17,12 @@
     import { getTimeDifference } from '@core/utils'
     import { setSendFlowParameters } from '@core/wallet/stores'
     import { PopupId, openPopup } from '@desktop/auxiliary/popup'
-    import { NftMedia, Pane } from '@ui'
+    import { NetworkLabel, NftMedia, Pane } from '@ui'
     import { SendFlowRoute, SendFlowRouter, sendFlowRouter } from '@views/dashboard/send-flow'
 
     const nft: INft = getNftByIdFromAllAccountNfts($selectedAccountIndex, $selectedNftId)
-    const explorerUrl = getDefaultExplorerUrl(nft?.networkId, ExplorerEndpoint.Nft)
+    // We don't use `nft.networkId` on this one, as for IRC27 nfts we still want the L1 explorer
+    const explorerUrl = getDefaultExplorerUrl(getActiveNetworkId(), ExplorerEndpoint.Nft)
 
     const { id, name, issuer, address, metadata, downloadMetadata, storageDeposit } = nft ?? {}
     const { standard, version, description, issuerName, collectionName, attributes, soonaverseAttributes } =
@@ -36,6 +37,15 @@
 
     let detailsList: IItem[] = []
     $: detailsList = [
+        {
+            key: localize('general.network'),
+            slot: {
+                component: NetworkLabel,
+                props: {
+                    networkId: nft.networkId,
+                },
+            },
+        },
         {
             key: localize('general.nftId'),
             value: id || undefined,

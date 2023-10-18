@@ -110,6 +110,7 @@
                         clearBackground
                         clearPadding
                         clearBorder
+                        autofocus
                     />
                 </amount-wrapper>
             </div>
