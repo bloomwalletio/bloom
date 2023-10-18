@@ -1,8 +1,8 @@
 import { OnboardingType, onboardingProfile } from '@contexts/onboarding'
-import { hasCompletedAppSetup } from '@core/app/stores'
-import { get, writable } from 'svelte/store'
+import { profiles } from '@core/profile/stores'
 import { Router } from '@core/router/classes'
 import { appRouter } from '@core/router/routers/app-router'
+import { get, writable } from 'svelte/store'
 import { OnboardingRoute } from './onboarding-route.enum'
 import { CompleteOnboardingRouter, completeOnboardingRouter } from './views/complete-onboarding'
 import { CreateProfileRouter, createProfileRouter } from './views/create-profile'
@@ -71,7 +71,7 @@ export class OnboardingRouter extends Router<OnboardingRoute> {
 }
 
 function getInitialRoute(): OnboardingRoute {
-    if (get(hasCompletedAppSetup)) {
+    if (get(profiles).length > 0) {
         return OnboardingRoute.NetworkSetup
     } else {
         return OnboardingRoute.Welcome

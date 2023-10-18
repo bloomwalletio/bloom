@@ -6,7 +6,7 @@
         TERMS_OF_SERVICE_URL,
         TERMS_OF_SERVICE_VERSION,
     } from '@core/app/constants'
-    import { hasCompletedAppSetup, lastAcceptedPrivacyPolicy, lastAcceptedTermsOfService } from '@core/app/stores'
+    import { lastAcceptedPrivacyPolicy, lastAcceptedTermsOfService } from '@core/app/stores'
     import { openUrlInBrowser } from '@core/app/utils'
     import { localize } from '@core/i18n'
     import { Illustration, Logo } from '@ui'
@@ -36,7 +36,6 @@
         }
         lastAcceptedTermsOfService.set(TERMS_OF_SERVICE_VERSION)
         lastAcceptedPrivacyPolicy.set(PRIVACY_POLICY_VERSION)
-        hasCompletedAppSetup.set(true)
         $onboardingRouter.next()
     }
 </script>
