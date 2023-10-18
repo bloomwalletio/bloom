@@ -37,7 +37,7 @@
 </script>
 
 <LoggedOutLayout>
-    <BgGradient />
+    <BgGradient variant="center" />
     <content-container class="flex flex-col w-full h-full items-center justify-center">
         <content class="flex flex-col w-full gap-6 {size}">
             <content-title class="flex flex-col space-y-2.5">
