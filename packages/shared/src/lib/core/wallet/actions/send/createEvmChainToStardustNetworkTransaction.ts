@@ -3,7 +3,7 @@ import Web3 from 'web3'
 import { IAccountState } from '@core/account/interfaces'
 import { localize } from '@core/i18n'
 import { buildEvmTransactionData, buildUnwrapAssetParameters } from '@core/layer-2/actions'
-import { FALLBACK_ESTIMATED_GAS, ISC_MAGIC_CONTRACT_ADDRESS } from '@core/layer-2/constants'
+import { ISC_MAGIC_CONTRACT_ADDRESS, L2_TO_L1_STORAGE_DEPOSIT_BUFFER } from '@core/layer-2/constants'
 import { AssetType, ContractType, EvmErrorMessage } from '@core/layer-2/enums'
 import { EvmTransactionData, TransferredAsset } from '@core/layer-2/types'
 import { buildAssetAllowance } from '@core/layer-2/utils'
@@ -30,7 +30,7 @@ export async function createEvmChainToStardustNetworkTransaction(
             buildUnwrapAssetParameters(recipientAddress)
 
         let transferredAsset: TransferredAsset | undefined
-        let fundsForStorageDeposit = FALLBACK_ESTIMATED_GAS[SendFlowType.TokenUnwrap]
+        let storageDepositRequired = 0
         if (
             sendFlowParameters.type === SendFlowType.TokenTransfer ||
             sendFlowParameters.type === SendFlowType.BaseCoinTransfer
@@ -38,10 +38,12 @@ export async function createEvmChainToStardustNetworkTransaction(
             const { token, amount } = getAmountAndTokenFromSendFlowParameters(sendFlowParameters)
             const isBaseCoin = token?.standard === TokenStandard.BaseToken
             const assetType = isBaseCoin ? AssetType.BaseCoin : AssetType.Token
+            storageDepositRequired = L2_TO_L1_STORAGE_DEPOSIT_BUFFER[SendFlowType.TokenUnwrap] ?? 0
             transferredAsset = token && amount ? { type: assetType, token, amount } : undefined
         } else {
-            fundsForStorageDeposit =
-                (sendFlowParameters.nft?.storageDeposit ?? 0) + FALLBACK_ESTIMATED_GAS[SendFlowType.NftUnwrap]
+            storageDepositRequired =
+                (sendFlowParameters.nft?.storageDeposit ?? 0) +
+                (L2_TO_L1_STORAGE_DEPOSIT_BUFFER[SendFlowType.NftUnwrap] ?? 0)
             transferredAsset = sendFlowParameters.nft ? { type: AssetType.Nft, nft: sendFlowParameters.nft } : undefined
         }
 
@@ -49,7 +51,7 @@ export async function createEvmChainToStardustNetworkTransaction(
             return
         }
 
-        const assetAllowance = buildAssetAllowance(transferredAsset, fundsForStorageDeposit)
+        const assetAllowance = buildAssetAllowance(transferredAsset, storageDepositRequired)
         const contract = chain?.getContract(ContractType.IscMagic, ISC_MAGIC_CONTRACT_ADDRESS)
         const data =
             (await contract?.methods
