@@ -27,5 +27,6 @@ export function convertOnboardingProfileToPersistedProfile(
         }),
         ...(onboardingProfile?.clientOptions && { clientOptions: onboardingProfile.clientOptions }),
         ...(onboardingProfile?.color && { color: onboardingProfile.color }),
+        ...(onboardingProfile?.version !== undefined && { version: onboardingProfile.version }),
     }
 }
