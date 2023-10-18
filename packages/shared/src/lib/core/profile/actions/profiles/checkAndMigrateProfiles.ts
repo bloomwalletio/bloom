@@ -16,7 +16,7 @@ async function migratePersistedProfiles(): Promise<void> {
     const _profiles = get(profiles)
     for (const profile of _profiles) {
         try {
-            let currentVersion = profile.version
+            let currentVersion = profile.version ?? 0
 
             for (currentVersion; currentVersion < PROFILE_VERSION?.[APP_STAGE]; currentVersion++) {
                 await PROFILE_MIGRATION_STAGE_MAP?.[APP_STAGE]?.[currentVersion]?.(profile)
