@@ -1,4 +1,8 @@
-<div>
+<script lang="ts">
+    export let variant: 'spread' | 'center'
+</script>
+
+<div class={variant}>
     <bg-gradient-container>
         <bg-gradient></bg-gradient>
         <bg-gradient></bg-gradient>
@@ -6,53 +10,72 @@
     </bg-gradient-container>
 </div>
 
-<style lang="postcss">
+<style lang="scss">
     div {
         @apply absolute inset-0 flex items-center justify-center;
         @apply dark:mix-blend-color-dodge;
         @apply pointer-events-none;
+        @apply blur-3xl;
     }
 
-    bg-gradient-container {
-        @apply flex items-center justify-center;
-        @apply opacity-40 dark:opacity-20;
-        transform: rotate(-60deg) scale(0.75);
-        margin-left: 150px;
-        margin-bottom: 50px;
-        filter: blur(64px);
+    bg-gradient {
+        @apply block rounded-full;
     }
 
-    bg-gradient:nth-of-type(1) {
-        display: block;
-        min-width: 600px;
-        min-height: 600px;
-        border-radius: 9999px;
-        background-color: #89be9b;
-        margin-right: -750px;
-        margin-top: -450px;
-        position: relative;
-        mix-blend-mode: color;
-        opacity: 0.5;
+    .center {
+        bg-gradient-container {
+            @apply flex items-center justify-center;
+            @apply opacity-40 dark:opacity-20;
+            @apply rotate-[-60deg] scale-75;
+            @apply ml-[9.375rem] mb-[3.125rem];
+        }
+
+        bg-gradient {
+            @apply min-w-[37.5rem] min-h-[37.5rem] mix-blend-color opacity-50;
+        }
+
+        bg-gradient:nth-of-type(1) {
+            @apply relative;
+            @apply bg-[#89be9b] mr-[-46.875rem] mt-[-28.125rem];
+        }
+
+        bg-gradient:nth-of-type(2) {
+            @apply bg-[#c395ff];
+        }
+
+        bg-gradient:nth-of-type(3) {
+            @apply bg-[#72aaff] ml-[-18.75rem];
+        }
     }
 
-    bg-gradient:nth-of-type(2) {
-        display: block;
-        min-width: 600px;
-        min-height: 600px;
-        border-radius: 9999px;
-        background-color: #c395ff;
-        mix-blend-mode: color;
-        opacity: 0.5;
-    }
+    .spread {
+        bg-gradient-container {
+            @apply opacity-40 dark:opacity-20;
+        }
 
-    bg-gradient:nth-of-type(3) {
-        display: block;
-        min-width: 600px;
-        min-height: 600px;
-        border-radius: 9999px;
-        background-color: #72aaff;
-        mix-blend-mode: color;
-        margin-left: -300px;
-        opacity: 0.5;
+        bg-gradient:nth-of-type(1) {
+            @apply absolute opacity-50;
+            @apply rotate-[100deg];
+            @apply min-w-[18.75rem] min-h-[18.75rem];
+            @apply left-[-16rem] top-0 bottom-0;
+            @apply mix-blend-color;
+            background: conic-gradient(from 66deg at 51.51% 32.01%, #c395ff 70deg, #f4a5f6 286deg);
+        }
+
+        bg-gradient:nth-of-type(2) {
+            @apply absolute opacity-50;
+            @apply min-w-[18.75rem] min-h-[18.75rem];
+            @apply bottom-[-8rem] right-[25rem];
+            @apply mix-blend-color;
+            background: conic-gradient(from 66deg at 51.51% 32.01%, #72aaff 70deg, #c395ff 178deg, #f4a5f6 286deg);
+        }
+
+        bg-gradient:nth-of-type(3) {
+            @apply absolute opacity-50;
+            @apply min-w-[18.75rem] min-h-[18.75rem];
+            @apply top-[-4.5rem] right-[-2.5rem];
+            @apply mix-blend-color;
+            background: conic-gradient(from 66deg at 51.51% 32.01%, #72aaff 70deg, #c395ff 178deg, #f4a5f6 286deg);
+        }
     }
 </style>
