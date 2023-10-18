@@ -17,6 +17,7 @@ import { showNotification } from '@auxiliary/notification'
 import { localize } from '@core/i18n'
 import { addError } from '@core/error/stores'
 import { URL_CLEANUP_REGEX } from '../constants'
+import { closeDrawer } from '../../../../../../desktop/lib/auxiliary/drawer'
 
 /**
  * Parses an IOTA deep link, i.e. a URL that begins with the app protocol i.e "firefly://".
@@ -46,6 +47,9 @@ export function handleDeepLink(input: string): void {
         if (url.protocol !== `${process.env.APP_PROTOCOL}:`) {
             throw new Error(`Does not start with ${process.env.APP_PROTOCOL}://`)
         }
+
+        closePopup()
+        closeDrawer()
 
         handleDeepLinkForHostname(url)
     } catch (err) {
