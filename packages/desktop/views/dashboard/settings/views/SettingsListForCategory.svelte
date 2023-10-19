@@ -21,7 +21,7 @@
         ) ?? []
 </script>
 
-<div class="flex flex-col p-8 space-y-5">
+<div class="flex flex-col px-8 space-y-5">
     {#each visibleSettings as { component, childRoute, props }, index}
         <section id={childRoute} class="w-full sm:w-3/4">
             <svelte:component this={component} {...props} route={childRoute} />
