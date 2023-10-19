@@ -94,6 +94,16 @@
                     }
                 }
             },
+            "restoreFromMnemonic": {
+                "inputMnemonic": {
+                    "title": "Enter your recovery phrase",
+                    "description": "A recovery phrase is a 12 or 24 word master key to all your funds that you will have recorded when making an existing profile. Enter it below and separate each word with spaces.",
+                    "phraseDetected":  {
+                        "12": "12 word recovery phrase detected",
+                        "24": "24 word recovery phrase detected"
+                    }
+                }
+            },
             "shared": {
                 "encryptMnemonic": {
                     "title": "Secure your profile",
