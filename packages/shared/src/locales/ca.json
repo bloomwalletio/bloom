@@ -136,7 +136,8 @@
             "congratulations": {
                 "title": "Setup complete",
                 "body1": "Bloom is ready",
-                "body2": "Seamlessly manage your keys, assets and transactions.",
+                "body2": "Profile is ready",
+                "body3": "Seamlessly manage your keys, assets and transactions.",
                 "action": "Enter Bloom"
             }
         },
@@ -283,9 +284,15 @@
             }
         },
         "login": {
-            "pleaseWait": "Si us plau espereu {time, plural, one {1 segon} other {# segons}}",
-            "incorrectAttempts": "{attempts, plural, one {1 intent incorrecte} other {# intents incorrectes}}",
-            "hintStronghold": "Your Stronghold's version is out of date. Please log in to update your Stronghold."
+            "incorrectPin": "Incorrect PIN code",
+            "hintStronghold": "Your Stronghold's version is out of date. Please log in to update your Stronghold.",
+            "maxAttempts": {
+                "title": "Couldn't sign you in",
+                "body1": "You have entered an",
+                "body2": "incorrect PIN code {times, plural, one {# time} other {# times}}.",
+                "body3": "For security purposes, your profile has been temporarily locked. Please wait for",
+                "body4": "before attempting to login again."
+            }
         },
         "loadProfile": {
             "loginSteps": {
@@ -469,10 +476,10 @@
         "collectibles": {
             "gallery": {
                 "title": "col·leccionable",
-                "emptyTitle": "No col·leccionable",
-                "noResults": "No hi ha resultats",
+                "emptyTitle": "No collectibles found",
+                "noResults": "No results found",
                 "timelocked": "Locked for {timeDiff}",
-                "emptyDescription": "Depositar o rebre el teu primer col·leccionable ara mateix"
+                "emptyDescription": "Deposit or receive your first collectible!"
             },
             "details": {
                 "storageDepositDescription": "Es requereix un dipòsit reemborsable per emmagatzemar el vostre NFT al Tangle.",
@@ -1159,7 +1166,7 @@
         "testDeepLink": "Test deep link",
         "delete": "Delete",
         "remove": "Remove",
-        "depositNft": "Deposit NFTs",
+        "getStarted": "Get started",
         "vote": "Vote",
         "addProposal": "Add proposal",
         "removeProposal": "Remove proposal",
@@ -1289,6 +1296,7 @@
         "toAddress": "to {account}",
         "capsLock": "El bloqueig de majúscules està activat",
         "version": "Version",
+        "versionFull": "Version {version}",
         "unknown": "Desconegut",
         "unknownAddress": "Unknown address",
         "none": "None",

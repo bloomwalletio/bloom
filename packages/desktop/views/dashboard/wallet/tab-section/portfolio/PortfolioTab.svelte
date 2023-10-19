@@ -46,14 +46,18 @@
         <Text type="sm" fontWeight="medium" textColor="secondary">
             {localize('views.dashboard.portfolio.network')}
         </Text>
-        <Text type="sm" fontWeight="medium" textColor="secondary">
-            {localize('views.dashboard.portfolio.marketCap')}
-            {currency}
-        </Text>
-        <Text type="sm" fontWeight="medium" textColor="secondary">
-            {localize('views.dashboard.portfolio.price')}
-            {currency}
-        </Text>
+        <div class="text-end">
+            <Text type="sm" fontWeight="medium" textColor="secondary">
+                {localize('views.dashboard.portfolio.marketCap')}
+                {currency}
+            </Text>
+        </div>
+        <div class="text-end">
+            <Text type="sm" fontWeight="medium" textColor="secondary">
+                {localize('views.dashboard.portfolio.price')}
+                {currency}
+            </Text>
+        </div>
         <div class="text-end">
             <Text type="sm" fontWeight="medium" textColor="secondary">
                 {localize('views.dashboard.portfolio.amount')}
@@ -82,12 +86,12 @@
 
         header-row {
             @apply w-full;
-            @apply px-5 py-3.5;
+            @apply px-5 py-2;
             @apply bg-surface-1 dark:bg-surface-1-dark;
             @apply border-y border-solid border-stroke dark:border-stroke-dark;
 
-            @apply grid;
-            grid-template-columns: 2fr 2fr 1fr 1fr 2fr;
+            @apply grid gap-2;
+            grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
         }
     }
 </style>
