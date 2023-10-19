@@ -5,7 +5,7 @@
     import { localize } from '@core/i18n'
     import { activeProfile, isSoftwareProfile } from '@core/profile/stores'
     import { DashboardRoute, collectiblesRouter, dashboardRouter, governanceRouter, settingsRouter } from '@core/router'
-    import { ISidebarTab } from '@desktop/routers'
+    import { IDashboardSidebarTab } from '@desktop/routers'
     import features from '@features/features'
     import { Logo } from '@ui'
     import LedgerStatusTile from './LedgerStatusTile.svelte'
@@ -17,7 +17,7 @@
         expanded = !expanded
     }
 
-    let sidebarTabs: ISidebarTab[]
+    let sidebarTabs: IDashboardSidebarTab[]
     $: sidebarTabs = [
         ...(features?.wallet?.newDashboard?.enabled
             ? [
