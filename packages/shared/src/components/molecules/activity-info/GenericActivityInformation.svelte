@@ -12,7 +12,7 @@
 
     export let activity: Activity
 
-    $: claimedTime = getFormattedTimeStamp(activity.asyncData?.claimedDate)
+    $: claimedTime = activity.asyncData?.claimedDate ? getFormattedTimeStamp(activity.asyncData.claimedDate) : undefined
     $: gasLimit = activity.smartContract?.gasLimit
 
     $: formattedTransactionTime = getFormattedTimeStamp(activity.time)
@@ -84,16 +84,16 @@
             key: localize('general.timelockDate'),
             tooltip: localize(`tooltips.transactionDetails.${activity.direction}.timelockDate`),
             slot:
-                activity.asyncData?.timelockDate && ActivityAsyncStatus.Timelocked
+                activity.asyncData?.timelockDate && activity.asyncData?.asyncStatus === ActivityAsyncStatus.Timelocked
                     ? {
-                        component: TimelockActivityPill,
-                        props: {
-                            direction: activity.direction,
-                            timeDiff: activity.asyncData?.timelockDate
-                                ? getTimeDifference(activity.asyncData?.timelockDate, $time)
-                                : undefined,
-                        },
-                    }
+                          component: TimelockActivityPill,
+                          props: {
+                              direction: activity.direction,
+                              timeDiff: activity.asyncData?.timelockDate
+                                  ? getTimeDifference(activity.asyncData?.timelockDate, $time)
+                                  : undefined,
+                          },
+                      }
                     : undefined,
         },
         {
@@ -102,11 +102,11 @@
             slot:
                 activity.asyncData?.asyncStatus === ActivityAsyncStatus.Expired
                     ? {
-                        component: ExpiredActivityPill,
-                        props: {
-                            direction: activity.direction,
-                        },
-                    }
+                          component: ExpiredActivityPill,
+                          props: {
+                              direction: activity.direction,
+                          },
+                      }
                     : undefined,
         },
         {
@@ -115,13 +115,13 @@
             slot:
                 activity.asyncData?.asyncStatus !== ActivityAsyncStatus.Expired && activity.asyncData?.expirationDate
                     ? {
-                        component: UnclaimedActivityPill,
-                        props: {
-                            direction: activity.direction,
-                            timeDiff: activity.asyncData?.expirationDate
-                                ? getTimeDifference(activity.asyncData?.expirationDate, $time)
-                                : undefined,
-                        },
+                          component: UnclaimedActivityPill,
+                          props: {
+                              direction: activity.direction,
+                              timeDiff: activity.asyncData?.expirationDate
+                                  ? getTimeDifference(activity.asyncData?.expirationDate, $time)
+                                  : undefined,
+                          },
                       }
                     : undefined,
         },
