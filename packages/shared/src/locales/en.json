@@ -92,8 +92,8 @@
                 "verifyMnemonic": {
                     "title": "Verify recovery phrase",
                     "body": "Let’s check you wrote down your phrase correctly. Please select the right word with the corresponding number.",
-                    "word": "Word",
-                    "match": "Match from below",
+                    "matchWord": "Match word #{number}",
+                    "error": "Does not match",
                     "success": {
                         "title": "Verification success",
                         "body1": "Recovery phrase matched",

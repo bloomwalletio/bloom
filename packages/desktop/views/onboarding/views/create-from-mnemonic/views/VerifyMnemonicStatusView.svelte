@@ -23,9 +23,9 @@
     }}
 >
     <content slot="content" class="flex flex-col justify-center items-center">
-        <div class="flex flex-col justify-center items-center gap-3">
+        <div class="flex flex-col justify-center items-center gap-4">
             <SuccessSvg />
-            <Text type="body1" textColor="success">
+            <Text type="body1" customColor="success-500">
                 {localize(`${LOCALE_KEY}.body1`)}
             </Text>
         </div>
