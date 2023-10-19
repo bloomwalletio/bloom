@@ -1,10 +1,9 @@
 <script lang="ts">
-    import { IconName } from '@bloomwalletio/ui'
+    import { IconName, Text } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
     import { activeProfile } from '@core/profile/stores'
     import { SettingsRoute, settingsRoute, SettingsRouteNoProfile, settingsRouter } from '@core/router'
     import features from '@features/features'
-    import { Text, TextType } from '@ui'
     import { SidebarTab } from '@components'
     import { ISettingsSidebarTab } from '@desktop/routers'
 
@@ -44,7 +43,7 @@
 
 <aside class="flex flex-col w-1/3 h-full justify-start items-start">
     <settings-sidebar-header>
-        <Text type={TextType.h2} classes="mb-7">
+        <Text type="h6" class="mb-7">
             {localize('views.settings.settings')}
         </Text>
     </settings-sidebar-header>
