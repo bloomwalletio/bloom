@@ -97,6 +97,12 @@
                     }
                 }
             },
+            "shared": {
+                "encryptMnemonic": {
+                    "title": "Secure your profile",
+                    "description": "Make your password highly secure to encrypt your keys. This will be required to send tokens and assets."
+                }
+            },
             "profileSetup": {
                 "setup": {
                     "title": "Set up {network, select, IOTA {an} Shimmer {a} Testnet {a} other {a}} {network} profile",
@@ -117,12 +123,6 @@
                     "title": "Define your {network} profile",
                     "profileName": "Profile name",
                     "body": "Please define a new name for your profile."
-                }
-            },
-            "strongholdSetup": {
-                "setupStrongholdPassword": {
-                    "title": "Secure Recovery Phrase",
-                    "body": "Your password needs to be highly secure to encrypt and recover your Stronghold vault. Also, you will need this to send tokens from your wallet."
                 }
             },
             "storageProtectionSetup": {
