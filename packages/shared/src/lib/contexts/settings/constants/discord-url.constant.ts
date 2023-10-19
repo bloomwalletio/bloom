@@ -1,1 +1,1 @@
-export const DISCORD_URL = 'https://discord.bloomwallet.io'
+export const DISCORD_URL = 'https://discord.gg/RjX3jEc7K7 '
