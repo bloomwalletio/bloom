@@ -1,5 +1,4 @@
 <script lang="ts">
-    import { Scroller } from '@components'
     import { _ } from '@core/i18n'
     import { settingsRoute, settingsRouter } from '@core/router'
     import { onMount } from 'svelte'
@@ -28,11 +27,16 @@
     <settings-viewer class="h-full flex flex-1 flex-row items-start">
         <SettingsSidebar />
         <div class="h-full w-full">
-            <Scroller classes="w-full md:w-3/4 h-full md:pr-100" threshold={100}>
-                <div class="md:w-11/12">
-                    <SettingsListForCategory category={$settingsRoute} />
-                </div>
-            </Scroller>
+            <div class="scroller w-full h-full scrollable-y">
+                <SettingsListForCategory category={$settingsRoute} />
+            </div>
         </div>
     </settings-viewer>
 {/key}
+
+<style lang="postcss">
+    .scroller {
+        border-top: 32px transparent solid;
+        border-bottom: 32px transparent solid;
+    }
+</style>
