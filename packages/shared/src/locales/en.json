@@ -34,16 +34,16 @@
             "chooseOnboardingFlow": {
                 "title": "Choose your setup type",
                 "new": {
-                    "primary": "New Profile",
-                    "secondary": "Create a new profile with mnemonic or ledger"
+                    "primary": "New profile",
+                    "secondary": "Create a new profile with a mnemonic or ledger"
                 },
                 "restore": {
-                    "primary": "Restore Profile",
-                    "secondary": "Restore existing profile with backup or ledger"
+                    "primary": "Restore profile",
+                    "secondary": "Restore existing profile with a backup or ledger"
                 },
                 "claim": {
-                    "primary": "Claim Shimmer Rewards",
-                    "secondary": "Claim staking rewards using IOTA backup"
+                    "primary": "Claim Shimmer rewards",
+                    "secondary": "Claim staking rewards using an IOTA backup"
                 }
             },
             "createProfile": {
@@ -56,6 +56,23 @@
                     "hardware": {
                         "primary": "Hardware storage",
                         "secondary": "Store your keys on a Ledger Nano device"
+                    }
+                }
+            },
+            "restoreProfile": {
+                "chooseRestoreProfileFlow": {
+                    "title": "Choose your recovery method",
+                    "mnemonic": {
+                        "primary": "Recovery phrase",
+                        "secondary": "Restore keys with a 12 or 24 word recovery phrase"
+                    },
+                    "file": {
+                        "primary": "Backup file",
+                        "secondary": "Restore profile with a Stronghold backup file"
+                    },
+                    "hardware": {
+                        "primary": "Hardware device",
+                        "secondary": "Restore profile with a Ledger Nano device"
                     }
                 }
             },
