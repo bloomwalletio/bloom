@@ -96,13 +96,8 @@
                     "match": "Match from below",
                     "success": {
                         "title": "Verification success",
-                        "body1": "The recovery phrase matched",
+                        "body1": "Recovery phrase matched",
                         "body2": "Remember to keep your copy private and safely stored"
-                    },
-                    "failure": {
-                        "title": "Verification failure",
-                        "body1": "The recovery phrase did not match",
-                        "body2": "Please check your records"
                     }
                 }
             },
