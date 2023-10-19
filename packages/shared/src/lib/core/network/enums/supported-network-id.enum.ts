@@ -6,5 +6,5 @@ export enum SupportedNetworkId {
     Shimmer = `${NetworkNamespace.Stardust}:${StardustNetworkName.Shimmer}`,
     Testnet = `${NetworkNamespace.Stardust}:${StardustNetworkName.Testnet}`,
     ShimmerEvm = `${NetworkNamespace.Evm}:${EvmChainId.ShimmerEvm}`,
-    ShimmerEvmTestnet = `${NetworkNamespace.Evm}:${EvmChainId.ShimmerEvmTestnet}`,
+    TestnetEvm = `${NetworkNamespace.Evm}:${EvmChainId.TestnetEvm}`,
 }

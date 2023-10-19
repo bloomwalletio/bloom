@@ -92,17 +92,12 @@
                 "verifyMnemonic": {
                     "title": "Verify recovery phrase",
                     "body": "Let’s check you wrote down your phrase correctly. Please select the right word with the corresponding number.",
-                    "word": "Word",
-                    "match": "Match from below",
+                    "matchWord": "Match word #{number}",
+                    "error": "Does not match",
                     "success": {
                         "title": "Verification success",
-                        "body1": "The recovery phrase matched",
+                        "body1": "Recovery phrase matched",
                         "body2": "Remember to keep your copy private and safely stored"
-                    },
-                    "failure": {
-                        "title": "Verification failure",
-                        "body1": "The recovery phrase did not match",
-                        "body2": "Please check your records"
                     }
                 }
             },
@@ -321,7 +316,8 @@
                 "network": "Network",
                 "marketCap": "Market cap",
                 "price": "Price",
-                "amount": "Amount"
+                "total": "Total",
+                "available": "Available"
             },
             "activity": {
                 "tab": "Activity",
@@ -635,7 +631,7 @@
         "appUpdate": {
             "title": "Check for updates",
             "installedVersion": "Installed version",
-            "newVerion": "New version",
+            "newVersion": "New version",
             "stage": "Stage",
             "prod": "Production",
             "alpha": "Alpha",
