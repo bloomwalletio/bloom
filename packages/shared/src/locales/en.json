@@ -104,52 +104,19 @@
                 "enterName": {
                     "title": "Give your profile a name",
                     "description": "Be as creative as you like! You can change this later."
-                }
-            },
-            "profileSetup": {
-                "setup": {
-                    "title": "Set up {network, select, IOTA {an} Shimmer {a} Testnet {a} other {a}} {network} profile",
-                    "body": "Select the appropriate method to set up your {network} profile."
                 },
-                
-                "setupRecovered": {
-                    "title": "Recover {network} profile",
-                    "body": "If you have an existing mnemonic or Stronghold backup file, you can import it here.",
-                    "importMnemonic": "Use recovery phrase",
-                    "importMnemonicDescription": "Enter your 24-word mnemonic phrase",
-                    "importFile": "Use Stronghold backup",
-                    "importFileDescription": "Import your Stronghold backup file",
-                    "importLedger": "Use Ledger device",
-                    "importLedgerDescription": "Restore from your Ledger Nano S or X device"
+                "enterPin": {
+                    "title": "Add a PIN number",
+                    "description": "The 6-digit PIN gives you quick entry to your profile and helps prevent unwanted access."
                 },
-                "enterName": {
-                    "title": "Define your {network} profile",
-                    "profileName": "Profile name",
-                    "body": "Please define a new name for your profile."
-                }
-            },
-            "storageProtectionSetup": {
-                "setupPinProtection": {
-                    "title": "Set up PIN code",
-                    "body": "Enter a 6-digit PIN below. Use numbers only."
-                }
-            },
-            "profileBackup": {
-                "viewMnemonic": {
-                    "title": "Recovery phrase",
-                    "body": "Carefully copy the words in the exact order below. Keep this private and safely stored.",
-                    "revealRecoveryPhrase": "Reveal recovery phrase",
-                    "hideRecoveryPhrase": "Hide recovery phrase"
-                },
-                "verifyMnemonic": {
-                    "title": "Verify recovery phrase",
-                    "body": "Let’s check you wrote down your phrase correctly. Please select the right word with the corresponding number.",
-                    "matchWord": "Match word #{number}",
-                    "error": "Does not match",
-                    "success": {
-                        "title": "Verification success",
-                        "body1": "Recovery phrase matched",
-                        "body2": "Remember to keep your copy private and safely stored"
+                "finishOnboarding": {
+                    "status": "Setup complete",
+                    "appSetup": {
+                        "title": "Bloom is ready",
+                        "action": "Enter Bloom"
+                    },
+                    "profileSetup": {
+                        "title": "Profile is ready"
                     }
                 }
             },
