@@ -7,15 +7,14 @@
     import { getBaseToken } from '@core/profile/actions'
     import { formatTokenAmountBestMatch } from '@core/token'
     import { NetworkLabel } from '@ui'
+    import ActivityAsyncStatusPill from '@ui/pills/ActivityAsyncStatusPill.svelte'
 
     export let activity: Activity
 
-    $: expirationTime = getFormattedTimeStamp(activity.asyncData?.expirationDate)
     $: claimedTime = getFormattedTimeStamp(activity.asyncData?.claimedDate)
     $: gasLimit = activity.smartContract?.gasLimit
 
     $: formattedTransactionTime = getFormattedTimeStamp(activity.time)
-    $: formattedTimelockDate = getFormattedTimeStamp(activity.asyncData?.timelockDate)
     $: formattedStorageDeposit = formatAmount(activity.storageDeposit ?? 0)
 
     $: formattedEstimatedGasFee = formatAmount(Number(gasLimit ?? 0))
@@ -81,19 +80,24 @@
             value: formattedTransactionFee,
         },
         {
-            key: localize('general.expirationTime'),
-            value: expirationTime,
-            tooltip: localize(`tooltips.transactionDetails.${activity.direction}.expirationTime`),
-        },
-        {
             key: localize('general.timelockDate'),
-            value: activity.asyncData?.timelockDate ? formattedTimelockDate : undefined,
             tooltip: localize(`tooltips.transactionDetails.${activity.direction}.timelockDate`),
+            slot: {
+                component: ActivityAsyncStatusPill,
+                props: {
+                    activity,
+                },
+            },
         },
         {
-            key: localize('general.expirationDate'),
-            value: activity.asyncData?.expirationDate ? formattedTimelockDate : undefined,
-            tooltip: localize(`tooltips.transactionDetails.${activity.direction}.expirationDate`),
+            key: localize('general.expirationTime'),
+            tooltip: localize(`tooltips.transactionDetails.${activity.direction}.expirationTime`),
+            slot: {
+                component: ActivityAsyncStatusPill,
+                props: {
+                    activity,
+                },
+            },
         },
         {
             key: localize('general.claimedTime'),
