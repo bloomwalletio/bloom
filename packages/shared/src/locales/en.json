@@ -801,7 +801,6 @@
         },
         "signMessage": {
             "title": "Sign message",
-            "message": "Message",
             "hint": "No balance will be sent to {dappName} in the process of signing this message.",
             "warning": "dApp cannot be determined. No balance will be sent in the process of signing this message.",
             "action": "Sign message"
@@ -1381,7 +1380,8 @@
         "disconnected": "Disconnected",
         "balanceBreakdown": "Balance breakdown",
         "primary": "Primary",
-        "color": "Color"
+        "color": "Color",
+        "message": "Message"
     },
     "filters":{
         "title": "Filters",
