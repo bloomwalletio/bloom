@@ -83,17 +83,18 @@
         {
             key: localize('general.timelockDate'),
             tooltip: localize(`tooltips.transactionDetails.${activity.direction}.timelockDate`),
-            slot: activity.asyncData?.timelockDate
-                ? {
-                      component: TimelockActivityPill,
-                      props: {
-                          direction: activity.direction,
-                          timeDiff: activity.asyncData?.timelockDate
-                              ? getTimeDifference(activity.asyncData?.timelockDate, $time)
-                              : undefined,
-                      },
-                  }
-                : undefined,
+            slot:
+                activity.asyncData?.timelockDate && ActivityAsyncStatus.Timelocked
+                    ? {
+                          component: TimelockActivityPill,
+                          props: {
+                              direction: activity.direction,
+                              timeDiff: activity.asyncData?.timelockDate
+                                  ? getTimeDifference(activity.asyncData?.timelockDate, $time)
+                                  : undefined,
+                          },
+                      }
+                    : undefined,
         },
         {
             key: localize('general.expirationTime'),
