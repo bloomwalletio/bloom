@@ -18,22 +18,13 @@
     }
 </script>
 
-<dropzone
-    on:drop={onDrop}
-    on:dragenter={onEnter}
-    on:dragleave={onLeave}
-    on:dragover|preventDefault
-    class="flex flex-col items-center relative text-center gap-4"
->
-    {#if dropping}
-        <Text fontWeight="medium" textColor="secondary">{localize('actions.dropHere')}</Text>
-    {:else if fileName}
+<dropzone on:drop={onDrop} on:dragenter={onEnter} on:dragleave={onLeave} on:dragover|preventDefault class:dropping>
+    {#if fileName}
         <Text fontWeight="medium" textColor="secondary">{fileName}</Text>
     {:else}
         <Icon name={IconName.Download} textColor="brand" size="lg" />
         <input
             class="absolute opacity-0 w-full h-full"
-            class:dropping
             type="file"
             on:change={onDrop}
             accept={allowedExtensions ? allowedExtensions.map((e) => `.${e}`).join(',') : '*'}
@@ -47,12 +38,13 @@
 
 <style lang="scss">
     dropzone {
-        @apply flex items-center justify-center p-7 w-full transition-colors min-h-[198px];
+        @apply relative flex flex-col items-center justify-center text-center;
+        @apply gap-4 p-7 w-full transition-colors select-none min-h-[198px];
         @apply bg-surface-1 dark:bg-surface-1-dark hover:bg-surface-2 dark:hover:bg-surface-2-dark focus:bg-surface-2 dark:focus:bg-surface-2-dark;
         @apply rounded-lg border border-solid border-stroke dark:border-stroke-dark;
 
-        .dropping {
-            @apply pointer-events-none;
+        &.dropping {
+            @apply border-2 border-dashed border-text-brand dark:border-text-brand-dark;
         }
 
         * {
