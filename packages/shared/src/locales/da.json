@@ -634,7 +634,7 @@
         "appUpdate": {
             "title": "Søg efter opdateringer",
             "installedVersion": "Installeret version",
-            "newVerion": "Ny version",
+            "newVersion": "Ny version",
             "stage": "Trin",
             "prod": "Produktion",
             "alpha": "Alpha",
