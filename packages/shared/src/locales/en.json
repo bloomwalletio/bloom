@@ -1283,7 +1283,7 @@
         "pinCodeSuccess": "Updated PIN code successfully",
         "pinCodeFailed": "Updating PIN code failed",
         "passwordStrength": "Password strength",
-        "passwordStrength0": "Bad",
+        "passwordStrength0": "Very weak",
         "passwordStrength1": "Poor",
         "passwordStrength2": "Weak",
         "passwordStrength3": "Average",
