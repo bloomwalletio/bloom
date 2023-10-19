@@ -81,6 +81,13 @@
                 "installLedger": {
                     "title": "Install the Ledger apps",
                     "description": "Use Ledger Live to find and install the required apps on your Ledger Nano device."
+                },
+                "connectLedger": {
+                    "title": "Connect your Ledger to Bloom",
+                    "description": "Please ensure that the official Ledger Live application is closed and follow the steps below.",
+                    "connect": "Connect your Ledger device",
+                    "unlock": "Unlock your Ledger with its pin",
+                    "open": "Open the Shimmer app on your Ledger"
                 }
             },
             "restoreProfile": {
@@ -158,13 +165,6 @@
                     "successfullyFound": "Successfully found {amount}"
                 }
             }
-        },
-        "connectLedger": {
-            "title": "Connect your Ledger to Bloom",
-            "body": "For your Ledger device to be found by Bloom, please ensure that the official Ledger Live application is closed and the following steps are followed.",
-            "connect": "Connect your Ledger device",
-            "unlock": "Unlock your Ledger with its pin",
-            "openApp": "Open the Shimmer app on your Ledger"
         },
         "settings": {
             "settings": "Settings",
