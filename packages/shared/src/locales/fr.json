@@ -634,7 +634,7 @@
         "appUpdate": {
             "title": "Vérifier les mises à jour",
             "installedVersion": "Version installée",
-            "newVerion": "Nouvelle version",
+            "newVersion": "Nouvelle version",
             "stage": "Étape",
             "prod": "Production",
             "alpha": "Alpha",

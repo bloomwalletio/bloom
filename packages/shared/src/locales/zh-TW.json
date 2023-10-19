@@ -634,7 +634,7 @@
         "appUpdate": {
             "title": "檢查更新",
             "installedVersion": "已安裝版本",
-            "newVerion": "新版本",
+            "newVersion": "新版本",
             "stage": "階段",
             "prod": "生產",
             "alpha": "Alpha",
