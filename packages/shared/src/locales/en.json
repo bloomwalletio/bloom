@@ -103,6 +103,12 @@
                     "description": "Make your password highly secure to encrypt your keys. This will be required to send tokens and assets."
                 }
             },
+            "completeOnboarding": {
+                "enterName": {
+                    "title": "Give your profile a name",
+                    "description": "Be as creative as you like! You can change this later."
+                }
+            },
             "profileSetup": {
                 "setup": {
                     "title": "Set up {network, select, IOTA {an} Shimmer {a} Testnet {a} other {a}} {network} profile",
