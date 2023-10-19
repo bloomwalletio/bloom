@@ -110,7 +110,7 @@
     })
 </script>
 
-<LoggedOutLayout>
+<LoggedOutLayout gradient="center">
     <CloseButton slot="button" on:click={onBackClick} />
     <div class="flex flex-col w-full h-full justify-center items-center">
         <login-container class:shake>

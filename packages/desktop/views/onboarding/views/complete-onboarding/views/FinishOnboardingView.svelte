@@ -28,7 +28,7 @@
 </script>
 
 {#if $profiles.length === 0}
-    <LoggedOutLayout hideLogo>
+    <LoggedOutLayout hideLogo gradient="spread">
         <setup-complete>
             <SuccessSvg />
             <div class="flex flex-col justify-center items-center gap-3">
