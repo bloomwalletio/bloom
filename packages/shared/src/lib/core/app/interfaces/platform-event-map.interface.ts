@@ -20,7 +20,8 @@ export interface IPlatformEventMap {
     'nft-download-interrupted': INFTDownloadState
     'ethereum-app-settings': ILedgerEthereumAppSettings
     'evm-address': IEvmAddress
-    'evm-signed-transaction': IEvmTransactionSignature
+    'evm-signed-transaction': IEvmTransactionSignature,
+    'signed-message': IEvmTransactionSignature,
     'ledger-error': Error
     'lock-screen': void
 }

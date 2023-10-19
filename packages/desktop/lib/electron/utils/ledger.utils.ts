@@ -64,3 +64,45 @@ export async function signTransactionData(
         }
     }
 }
+
+export async function signMessage(
+    messageHex: string,
+    bip32Path: string
+): Promise<IEvmTransactionSignature> {
+    try {
+        const appEth = new AppEth(transport)
+        const signature = await appEth.signPersonalMessage(bip32Path, messageHex)
+        return {
+            r: HEX_PREFIX + signature.r,
+            v: HEX_PREFIX + signature.v,
+            s: HEX_PREFIX + signature.s,
+        }
+    } catch (error) {
+        return {
+            r: error.message,
+            v: error.error,
+            s: error.toString(),
+        }
+    }
+}
+
+// async function trySigningFunction(func: async () => {
+//     v: number;
+//     s: string;
+//     r: string;
+// }): Promise<IEvmTransactionSignature> {
+//     try {
+//         const signature = await func()
+//         return {
+//             r: HEX_PREFIX + signature.r,
+//             v: HEX_PREFIX + signature.v,
+//             s: HEX_PREFIX + signature.s,
+//         }
+//     } catch (error) {
+//         return {
+//             r: '',
+//             v: '',
+//             s: '',
+//         }
+//     }
+// }

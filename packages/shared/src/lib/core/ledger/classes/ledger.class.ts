@@ -22,6 +22,9 @@ import {
     isBlindSigningRequiredForEvmTransaction,
 } from '@core/ledger'
 import { EvmChainId } from '@core/network/enums'
+import { toRpcSig } from '@ethereumjs/util'
+import { Converter } from '@core/utils'
+
 
 declare global {
     interface Window {
@@ -135,6 +138,75 @@ export class Ledger {
                 } else {
                     reject(localize('error.send.cancelled'))
                 }
+            }
+        })
+    }
+
+    static async signMessage(
+        rawMessage: string,
+        bip44: Bip44
+    ): Promise<string | undefined> {
+        /* eslint-disable no-async-promise-executor */
+        /* eslint-disable @typescript-eslint/no-misused-promises */
+        return new Promise<string | undefined>(async (resolve, reject) => {
+            const bip32Path = buildBip32PathFromBip44(bip44)
+
+            // const mustEnableBlindSigning =
+            //     isBlindSigningRequiredForEvmTransaction(transactionData) && !(await this.isBlindSigningEnabledForEvm())
+            // if (mustEnableBlindSigning) {
+            //     let canResolve = true
+            //     openPopup({
+            //         id: PopupId.EnableLedgerBlindSigning,
+            //         props: {
+            //             appName: LedgerAppName.Ethereum,
+            //             onEnabled: async () => {
+            //                 canResolve = false
+            //                 try {
+            //                     resolve(await this.signEvmTransaction(transactionData, chainId, bip44))
+            //                 } catch (err) {
+            //                     reject(err)
+            //                 }
+            //             },
+            //             onClose: () => {
+            //                 if (canResolve) {
+            //                     canResolve = false
+            //                     resolve()
+            //                 }
+            //             },
+            //         },
+            //     })
+            // } else {
+        //    openPopup({
+        //         id: PopupId.VerifyLedgerTransaction,
+        //         hideClose: true,
+        //         preventClose: true,
+        //         props: {
+        //             isEvmTransaction: true,
+        //             hash: rawMessage,
+        //         }
+        //     })
+
+            const messageHex = Converter.utf8ToHex(rawMessage)
+            console.log('messageHex', messageHex)
+            const transactionSignature = await this.callLedgerApiAsync<IEvmTransactionSignature>(
+                () =>
+                    ledgerApiBridge.makeRequest(
+                        LedgerApiMethod.SignMessage,
+                        messageHex,
+                        bip32Path
+                    ),
+                'signed-message'
+            )
+            console.log('Signature:', transactionSignature)
+            const { r, v, s } = transactionSignature
+            if (r && v && s) {
+                const vBig = BigInt(v)
+                const rBuffer = Buffer.from(r, 'utf8');
+                const sBuffer = Buffer.from(s, 'utf8');
+
+                resolve(toRpcSig(vBig, rBuffer, sBuffer))
+            } else {
+                reject(localize('error.send.cancelled'))
             }
         })
     }
