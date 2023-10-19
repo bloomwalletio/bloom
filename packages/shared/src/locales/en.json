@@ -1,40 +1,49 @@
 {
     "views": {
         "onboarding": {
-            "appSetup": {
-                "welcome": {
-                    "title": "Welcome to",
-                    "subtitle": "A new journey awaits...",
-                    "legalBody": "Check to confirm you've read and accept the",
-                    "button": "Begin setup"
-                },
-                "legal": {
-                    "title": "Privacy Policy & Terms of Service"
-                }
+            "welcome": {
+                "title": "Welcome to",
+                "subtitle": "A new journey awaits...",
+                "legalAction": "Confirm you've read and accept the",
+                "button": "Begin setup"
             },
             "networkSetup": {
                 "chooseNetwork": {
-                    "title": "Choose network",
-                    "body": "Set the network for your profile.",
+                    "title": "Choose your network",
                     "iota": {
-                        "title": "IOTA",
-                        "body": "IOTA Mainnet"
+                        "title": "IOTA Mainnet",
+                        "body": "Production network with stable features"
                     },
                     "shimmer": {
                         "title": "Shimmer",
-                        "body": "Staging network for IOTA"
+                        "body": "Experimental network with the latest features"
                     },
                     "testnet": {
                         "title": "Testnet",
-                        "body": "Public beta network for Shimmer"
+                        "body": "Test network using valueless tokens"
                     },
                     "custom": {
-                        "title": "Custom network",
-                        "body": "Support for custom networks and/or nodes"
+                        "title": "Advanced configuration",
+                        "body": "Connect to any network with custom settings"
                     }
                 },
                 "setupCustomNetwork": {
-                    "title": "Connect to a custom network or node"
+                    "title": "Advanced configuration"
+                }
+            },
+            "chooseOnboardingFlow": {
+                "title": "Choose your setup type",
+                "new": {
+                    "title": "New Profile",
+                    "body": "Create a new profile with mnemonic or ledger"
+                },
+                "restore": {
+                    "title": "Restore Profile",
+                    "body": "Restore existing profile with backup or ledger"
+                },
+                "claim": {
+                    "title": "Claim Shimmer Rewards",
+                    "body": "Claim staking rewards using IOTA backup"
                 }
             },
             "profileSetup": {
@@ -1381,7 +1390,9 @@
         "disconnected": "Disconnected",
         "balanceBreakdown": "Balance breakdown",
         "primary": "Primary",
-        "color": "Color"
+        "color": "Color",
+        "privacyPolicy": "Privacy Policy",
+        "termsOfService": "Terms of Service"
     },
     "filters":{
         "title": "Filters",
