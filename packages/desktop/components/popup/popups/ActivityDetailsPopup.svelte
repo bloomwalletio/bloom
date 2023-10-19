@@ -21,7 +21,7 @@
     import { setClipboard, truncateString } from '@core/utils'
     import { claimActivity, rejectActivity } from '@core/wallet'
     import { PopupId, closePopup, openPopup } from '@desktop/auxiliary/popup'
-    import { ActivityInformation, ActivityStatusPills, TransactionAssetSection } from '@ui'
+    import { ActivityInformation, TransactionAssetSection } from '@ui'
     import { onMount, tick } from 'svelte'
     import PopupTemplate from '../PopupTemplate.svelte'
 
@@ -142,7 +142,6 @@
             {/if}
         </div>
         <activity-details class="w-full h-full space-y-5 flex flex-auto flex-col shrink-0">
-            <ActivityStatusPills {activity} />
             <TransactionAssetSection {...transactionAssets} onNftClick={nftIsOwned ? onNftClick : undefined} />
             <ActivityInformation {activity} />
         </activity-details>

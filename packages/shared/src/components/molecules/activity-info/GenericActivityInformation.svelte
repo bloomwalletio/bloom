@@ -5,7 +5,7 @@
     import { getFormattedTimeStamp, localize } from '@core/i18n'
     import { ExplorerEndpoint, getDefaultExplorerUrl } from '@core/network'
     import { getBaseToken } from '@core/profile/actions'
-    import { formatTokenAmountPrecise } from '@core/token'
+    import { formatTokenAmountBestMatch } from '@core/token'
     import { NetworkLabel } from '@ui'
 
     export let activity: Activity
@@ -34,7 +34,7 @@
             return undefined
         }
 
-        return formatTokenAmountPrecise(amount, getBaseToken())
+        return formatTokenAmountBestMatch(amount, getBaseToken())
     }
 </script>
 
@@ -89,6 +89,11 @@
             key: localize('general.timelockDate'),
             value: activity.asyncData?.timelockDate ? formattedTimelockDate : undefined,
             tooltip: localize(`tooltips.transactionDetails.${activity.direction}.timelockDate`),
+        },
+        {
+            key: localize('general.expirationDate'),
+            value: activity.asyncData?.expirationDate ? formattedTimelockDate : undefined,
+            tooltip: localize(`tooltips.transactionDetails.${activity.direction}.expirationDate`),
         },
         {
             key: localize('general.claimedTime'),
