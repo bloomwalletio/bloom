@@ -1,4 +1,4 @@
 export enum EvmChainId {
     ShimmerEvm = '148',
-    ShimmerEvmTestnet = '1073',
+    TestnetEvm = '1073',
 }

@@ -31,7 +31,8 @@ export async function calculateAndAddPersistedBalanceChange(
         hidden,
     }
 
-    if (!hidden) {
+    const hasZeroStartingBalance = newBalanceChange.newBalance === 0 && newBalanceChange.oldBalance === undefined
+    if (!hidden && !hasZeroStartingBalance) {
         const activity = await generateBalanceChangeActivity(networkId, tokenId, newBalanceChange, account)
         addActivityToAccountActivitiesInAllAccountActivities(account.index, activity)
     }
