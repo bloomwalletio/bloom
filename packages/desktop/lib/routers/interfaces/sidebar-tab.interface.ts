@@ -1,5 +1,5 @@
 import { IconName } from '@bloomwalletio/ui'
-import { DashboardRoute, SettingsRoute } from '@core/router/enums'
+import { DashboardRoute, SettingsRoute, SettingsRouteNoProfile } from '@core/router/enums'
 import { NotificationVariant } from '@auxiliary/notification'
 
 interface IBaseSidebarTab {
@@ -14,5 +14,5 @@ export interface IDashboardSidebarTab extends IBaseSidebarTab {
 }
 
 export interface ISettingsSidebarTab extends IBaseSidebarTab {
-    route: SettingsRoute
+    route: SettingsRoute | SettingsRouteNoProfile
 }
