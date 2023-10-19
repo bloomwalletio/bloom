@@ -22,7 +22,7 @@
                     {:else}
                         <Text type="sm" fontWeight="medium" textColor="secondary">{`${i + 1}. `}</Text>
                         <Text type="sm" fontWeight="medium" textColor="primary">
-                            {verification ? '• • • • • •' : word}
+                            {verification && !matched ? '• • • • • •' : word}
                         </Text>
                     {/if}
                 </recovery-word>

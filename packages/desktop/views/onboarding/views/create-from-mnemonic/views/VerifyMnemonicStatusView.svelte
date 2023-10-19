@@ -13,8 +13,6 @@
 </script>
 
 <OnboardingLayout
-    title={undefined}
-    description={undefined}
     continueButton={{
         onClick: onContinueClick,
     }}

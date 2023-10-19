@@ -11,7 +11,7 @@
     const networkId = $onboardingProfile?.network?.id
     const networkType = getOnboardingNetworkTypeFromNetworkId(networkId)
 
-    const VERIFICATION_WORD_COUNT = 8
+    const VERIFICATION_WORD_COUNT = 24
     const LOCALE_KEY = 'views.onboarding.profileBackup.verifyMnemonic'
 
     function generateVerificationIndexes(count: number, totalIndexes: number): number[] {
@@ -37,10 +37,6 @@
     let choiceError: string = ''
     let chosenWord: string = ''
 
-    function onChoiceClick(word: string): void {
-        chosenWord = word
-    }
-
     function areArraysEqual(a: unknown[], b: unknown[]): boolean {
         if (a.length !== b.length) return false
         for (let i = 0; i < a.length; i++) {
@@ -54,7 +50,8 @@
 
     let verifyCount = 0
     let verifyIndex: number = verificationIndexes[0]
-    function onNextClick(): void {
+    function onChoiceClick(word): void {
+        chosenWord = word
         if (chosenWord !== recoveryPhrase[verifyIndex]) {
             choiceError = chosenWord
         } else {
@@ -87,9 +84,9 @@
 <OnboardingLayout
     title={localize(`${LOCALE_KEY}.title`)}
     continueButton={{
-        onClick: isComplete ? onContinueClick : onNextClick,
-        disabled: choiceError === chosenWord || !chosenWord,
-        text: isComplete ? localize('actions.continue') : localize('actions.next'),
+        onClick: onContinueClick,
+        disabled: !isComplete,
+        text: localize('actions.continue'),
     }}
     backButton={{
         onClick: onBackClick,
@@ -101,7 +98,7 @@
             <div class="flex flex-col gap-4">
                 <div class="flex justify-between items-center">
                     <Text textColor="secondary">
-                        {localize(`${LOCALE_KEY}.matchWord`, { values: { number: verifyIndex + 1 } })}:
+                        {localize(`${LOCALE_KEY}.matchWord`, { number: verifyIndex + 1 })}:
                     </Text>
                     {#if choiceError}
                         <div class="flex justify-center items-center gap-2">
@@ -117,7 +114,7 @@
                         {@const error = choiceError === word && chosenWord === word}
                         {@const selected = chosenWord === word}
                         <button type="button" on:click={() => onChoiceClick(word)} class:error class:selected>
-                            <Text type="sm" fontWeight="medium" textColor="current">{word}</Text>
+                            <Text type="sm" fontWeight="medium" textColor="current" align="center">{word}</Text>
                         </button>
                     {/each}
                 </div>
@@ -138,7 +135,7 @@
 <style lang="postcss">
     button {
         @apply transition-colors;
-        @apply flex flex-row items-center justify-between w-full px-3 py-2 rounded-lg;
+        @apply flex flex-row items-center justify-center w-full px-3 py-2 rounded-lg;
         @apply text-primary dark:text-primary-dark active:text-neutral-1;
         @apply bg-transparent hover:bg-surface-brand/10 focus-visible:bg-surface-brand/10 active:bg-surface-brand;
         @apply border border-solid border-stroke dark:border-stroke-dark;
