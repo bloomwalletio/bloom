@@ -6,10 +6,10 @@
     import { createFromMnemonicRouter } from '../create-from-mnemonic-router'
     import { SuccessSvg } from '@views/onboarding/components'
 
-    const LOCALE_KEY = 'views.onboarding.profileBackup.verifyMnemonic'
+    const LOCALE_KEY = 'views.onboarding.createFromMnemonic.verifyMnemonic'
 
     $: isVerified = $onboardingProfile?.hasVerifiedMnemonic
-    $: verificationStatusLocaleKey = isVerified ? 'success' : 'failure'
+    $: verificationStatusLocaleKey = isVerified ? 'Success' : 'Failure'
 
     function onContinueClick(): void {
         $createFromMnemonicRouter.next()
@@ -21,8 +21,7 @@
 </script>
 
 <OnboardingLayout
-    title={localize(`${LOCALE_KEY}.${verificationStatusLocaleKey}.title`)}
-    description={isVerified ? undefined : localize(`${LOCALE_KEY}.body`)}
+    title={localize(`${LOCALE_KEY}${verificationStatusLocaleKey}.status`)}
     continueButton={{
         onClick: isVerified ? onContinueClick : onBackClick,
         text: isVerified ? localize('actions.continue') : localize('actions.tryAgain'),
@@ -67,10 +66,10 @@
         {/if}
         <div class="flex flex-col justify-center items-center gap-2.5">
             <Text type="body2">
-                {localize(`${LOCALE_KEY}.${verificationStatusLocaleKey}.body1`)}
+                {localize(`${LOCALE_KEY}${verificationStatusLocaleKey}.title`)}
             </Text>
             <Text type="sm" textColor="secondary" fontWeight="medium">
-                {localize(`${LOCALE_KEY}.${verificationStatusLocaleKey}.body2`)}
+                {localize(`${LOCALE_KEY}${verificationStatusLocaleKey}.description`)}
             </Text>
         </div>
     </content>

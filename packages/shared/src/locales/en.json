@@ -63,6 +63,21 @@
                 "viewMnemonic": {
                     "title": "Record your recovery phrase",
                     "description": "This recovery phrase is your most important secret. It is the master key to all your funds. Do not show this to anyone."
+                },
+                "verifyMnemonic": {
+                    "title": "Verify your recovery phrase",
+                    "description": "Let’s check you wrote down your phrase correctly. Please select the word with the corresponding number below.",
+                    "matchWord":  "Match word #{number}:"
+                },
+                "verifyMnemonicSuccess": {
+                    "status": "Verification Success",
+                    "title": "Recovery phrase matched",
+                    "description": "Remember to keep your copies private and secure"
+                },
+                "verifyMnemonicFailure": {
+                    "status": "Verification Failure",
+                    "title": "Recovery phrase did not match",
+                    "description": "Please check your records and try again"
                 }
             },
             "restoreProfile": {
