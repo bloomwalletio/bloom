@@ -1,13 +1,14 @@
 <script lang="ts">
     import { Table } from '@bloomwalletio/ui'
-    import { Activity } from '@core/activity'
+    import { Activity, ActivityAsyncStatus } from '@core/activity'
     import { openUrlInBrowser } from '@core/app'
+    import { time } from '@core/app/stores'
     import { getFormattedTimeStamp, localize } from '@core/i18n'
     import { ExplorerEndpoint, getDefaultExplorerUrl } from '@core/network'
     import { getBaseToken } from '@core/profile/actions'
     import { formatTokenAmountBestMatch } from '@core/token'
-    import { NetworkLabel } from '@ui'
-    import ActivityAsyncStatusPill from '@ui/pills/ActivityAsyncStatusPill.svelte'
+    import { getTimeDifference } from '@core/utils/time'
+    import { NetworkLabel, ExpiredActivityPill, TimelockActivityPill, UnclaimedActivityPill } from '@ui'
 
     export let activity: Activity
 
@@ -82,22 +83,46 @@
         {
             key: localize('general.timelockDate'),
             tooltip: localize(`tooltips.transactionDetails.${activity.direction}.timelockDate`),
-            slot: {
-                component: ActivityAsyncStatusPill,
-                props: {
-                    activity,
-                },
-            },
+            slot: activity.asyncData?.timelockDate
+                ? {
+                      component: TimelockActivityPill,
+                      props: {
+                          direction: activity.direction,
+                          timeDiff: activity.asyncData?.timelockDate
+                              ? getTimeDifference(activity.asyncData?.timelockDate, $time)
+                              : undefined,
+                      },
+                  }
+                : undefined,
         },
         {
             key: localize('general.expirationTime'),
             tooltip: localize(`tooltips.transactionDetails.${activity.direction}.expirationTime`),
-            slot: {
-                component: ActivityAsyncStatusPill,
-                props: {
-                    activity,
-                },
-            },
+            slot:
+                activity.asyncData?.asyncStatus === ActivityAsyncStatus.Expired
+                    ? {
+                          component: ExpiredActivityPill,
+                          props: {
+                              direction: activity.direction,
+                          },
+                      }
+                    : undefined,
+        },
+        {
+            key: localize('general.expirationTime'),
+            tooltip: localize(`tooltips.transactionDetails.${activity.direction}.expirationTime`),
+            slot:
+                activity.asyncData?.asyncStatus !== ActivityAsyncStatus.Expired && activity.asyncData?.expirationDate
+                    ? {
+                          component: UnclaimedActivityPill,
+                          props: {
+                              direction: activity.direction,
+                              timeDiff: activity.asyncData?.expirationDate
+                                  ? getTimeDifference(activity.asyncData?.expirationDate, $time)
+                                  : undefined,
+                          },
+                      }
+                    : undefined,
         },
         {
             key: localize('general.claimedTime'),
