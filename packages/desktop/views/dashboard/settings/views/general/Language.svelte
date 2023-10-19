@@ -1,18 +1,20 @@
 <script lang="ts">
+    import { IOption, SelectInput, Text } from '@bloomwalletio/ui'
     import { appSettings } from '@core/app/stores'
     import { SUPPORTED_LOCALES, localize, setLanguage } from '@core/i18n'
-    import type { IDropdownItem } from '@core/utils'
     import features from '@features/features'
-    import { Dropdown, Text } from '@ui'
 
-    const items: IDropdownItem<string>[] = Object.entries(SUPPORTED_LOCALES)
+    const items: IOption[] = Object.entries(SUPPORTED_LOCALES)
         .filter(([key]) => features.app.translations.languages[key])
         .map(([key, value]) => ({ label: value, value: key }))
 
-    function onLanguageChange(selected: IDropdownItem<string>): void {
+    let selected = items.find((item) => item.value === $appSettings.language)
+    $: if (selected && selected.value !== $appSettings.language) onLanguageChange(selected)
+
+    function onLanguageChange(selected: IOption): void {
         setLanguage(selected.value)
     }
 </script>
 
-<Text type="h4" classes="mb-3">{localize('views.settings.language.title')}</Text>
-<Dropdown value={$appSettings.language} {items} sortItems={true} onSelect={onLanguageChange} enableTyping />
+<Text type="body2" class="mb-6">{localize('views.settings.language.title')}</Text>
+<SelectInput bind:selected options={items} label={localize('views.settings.language.title')} />

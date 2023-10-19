@@ -1,9 +1,11 @@
 <script lang="ts">
+    import { Text } from '@bloomwalletio/ui'
     import { ISetting, isSettingVisible } from '@contexts/settings'
     import { activeProfile, isActiveLedgerProfile } from '@core/profile/stores'
     import { SettingsRoute } from '@core/router'
     import features from '@features/features'
     import { SETTINGS } from './settings.constant'
+    import { localize } from '@core/i18n'
 
     export let category: SettingsRoute
 
@@ -22,12 +24,12 @@
 </script>
 
 <div class="flex flex-col p-8 space-y-5">
+    <Text type="h6">
+        {localize(`views.settings.${category}.title`)}
+    </Text>
     {#each visibleSettings as { component, childRoute, props }, index}
-        <section id={childRoute} class="w-full sm:w-3/4">
+        <section id={childRoute} class="w-full sm:w-3/4 pb-6 border-solid border-b border-stroke">
             <svelte:component this={component} {...props} route={childRoute} />
         </section>
-        {#if index < visibleSettings.length - 1}
-            <hr />
-        {/if}
     {/each}
 </div>
