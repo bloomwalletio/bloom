@@ -5,20 +5,20 @@
     import { localize } from '@core/i18n'
     import { activeProfile, isSoftwareProfile } from '@core/profile/stores'
     import { DashboardRoute, collectiblesRouter, dashboardRouter, governanceRouter, settingsRouter } from '@core/router'
-    import { ISidebarTab } from '@desktop/routers'
+    import { IDashboardSidebarTab } from '@desktop/routers'
     import features from '@features/features'
     import { Logo } from '@ui'
     import LedgerStatusTile from './LedgerStatusTile.svelte'
     import StrongholdStatusTile from './StrongholdStatusTile.svelte'
     import { AutoUpdateToast, BackupToast, VersionToast } from './toasts'
+    import { dashboardRoute } from '@core/router'
 
     let expanded = true
     function toggleExpand(): void {
         expanded = !expanded
     }
 
-    let sidebarTabs: ISidebarTab[]
-    $: sidebarTabs = [
+    const sidebarTabs: IDashboardSidebarTab[] = [
         ...(features?.wallet?.newDashboard?.enabled
             ? [
                   {
@@ -104,7 +104,7 @@
 </script>
 
 <aside class:expanded class="flex flex-col justify-between">
-    <sidebar-header class="flex flex-row justify-between items-center">
+    <dashboard-sidebar-header class="flex flex-row justify-between items-center">
         <logo class="flex flex-row flex-none space-x-3">
             <button on:click={toggleExpand} disabled={expanded}>
                 <Logo width="32" logo={LogoName.BloomLogo} />
@@ -116,18 +116,18 @@
         {#if expanded}
             <IconButton icon={IconName.Collapse} textColor="secondary" on:click={toggleExpand} />
         {/if}
-    </sidebar-header>
-    <sidebar-content class="flex flex-col flex-grow justify-between">
-        <sidebar-tabs class="flex flex-col">
+    </dashboard-sidebar-header>
+    <dashboard-sidebar-content class="flex flex-col flex-grow justify-between">
+        <dashboard-sidebar-tabs class="flex flex-col">
             {#each sidebarTabs as tab}
                 <div class="flex">
-                    <SidebarTab {tab} {expanded} />
+                    <SidebarTab {tab} {expanded} selected={$dashboardRoute === tab.route} />
                 </div>
             {/each}
-        </sidebar-tabs>
+        </dashboard-sidebar-tabs>
 
         {#if expanded}
-            <sidebar-tiles class="w-full flex flex-col space-y-2">
+            <dashboard-sidebar-tiles class="w-full flex flex-col space-y-2">
                 {#if false}
                     <!-- TODO: logic of when to display toast one at a time -->
                     <AutoUpdateToast />
@@ -139,12 +139,12 @@
                 {:else}
                     <LedgerStatusTile />
                 {/if}
-            </sidebar-tiles>
+            </dashboard-sidebar-tiles>
         {/if}
-    </sidebar-content>
-    <sidebar-footer>
+    </dashboard-sidebar-content>
+    <dashboard-sidebar-footer>
         <ProfileActionsMenu {expanded} />
-    </sidebar-footer>
+    </dashboard-sidebar-footer>
 </aside>
 
 <style lang="postcss">
@@ -158,22 +158,22 @@
         }
     }
 
-    sidebar-header {
+    dashboard-sidebar-header {
         @apply gap-8;
         @apply py-4.5 px-6;
         @apply border-b border-solid border-stroke dark:border-stroke-dark;
     }
 
-    sidebar-content {
+    dashboard-sidebar-content {
         @apply p-4 pb-2;
     }
 
-    sidebar-tabs {
+    dashboard-sidebar-tabs {
         @apply justify-items-start;
         @apply w-full space-y-1;
     }
 
-    sidebar-footer {
+    dashboard-sidebar-footer {
         @apply w-full h-16 justify-center items-center;
         @apply border-t border-solid border-stroke dark:border-stroke-dark;
     }

@@ -1,11 +1,18 @@
 import { IconName } from '@bloomwalletio/ui'
-import { DashboardRoute } from '@core/router'
+import { DashboardRoute, SettingsRoute, SettingsRouteNoProfile } from '@core/router/enums'
 import { NotificationVariant } from '@auxiliary/notification'
 
-export interface ISidebarTab {
+interface IBaseSidebarTab {
     icon: IconName
     label: string
-    route: DashboardRoute
     onClick: () => void
     notificationType?: NotificationVariant
+}
+
+export interface IDashboardSidebarTab extends IBaseSidebarTab {
+    route: DashboardRoute
+}
+
+export interface ISettingsSidebarTab extends IBaseSidebarTab {
+    route: SettingsRoute | SettingsRouteNoProfile
 }

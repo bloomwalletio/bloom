@@ -1,14 +1,14 @@
 import { get, writable } from 'svelte/store'
 
 import { Router } from '../classes'
-import { SettingsRoute } from '../enums'
+import { SettingsRoute, SettingsRouteNoProfile } from '../enums'
 
 export const settingsRouter = writable<SettingsRouter>(null)
 export const settingsRoute = writable<SettingsRoute>(null)
 
 const settingsChildRoute = writable<string>(null)
 
-export class SettingsRouter extends Router<SettingsRoute> {
+export class SettingsRouter extends Router<SettingsRoute | SettingsRouteNoProfile> {
     constructor() {
         super(SettingsRoute.General, settingsRoute)
     }

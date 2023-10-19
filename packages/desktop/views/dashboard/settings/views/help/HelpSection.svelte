@@ -3,9 +3,9 @@
     import { Text } from '@ui'
     import { localize } from '@core/i18n'
     import { openUrlInBrowser } from '@core/app'
-    import { HelpAndInfoRoute } from '@core/router'
+    import { HelpRoute } from '@core/router'
 
-    export let route: HelpAndInfoRoute
+    export let route: HelpRoute
     export let url: string
     export let actionLocale: string
 

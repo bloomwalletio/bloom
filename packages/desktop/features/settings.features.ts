@@ -86,7 +86,7 @@ const settingsFeatures: ISettingsFeatures = {
             enabled: true,
         },
     },
-    helpAndInfo: {
+    help: {
         enabled: true,
         diagnostics: {
             enabled: true,

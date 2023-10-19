@@ -56,5 +56,5 @@ export interface ISettingsFeatures extends IFeatureFlag {
     collectibles: ICollectiblesSettingsFeatures
     network: INetworkSettingsFeatures
     advanced: IAdvancedSettingsFeatures
-    helpAndInfo: IHelpAndInfoSettingsFeatures
+    help: IHelpAndInfoSettingsFeatures
 }

@@ -31,7 +31,7 @@
 
 <style lang="scss">
     settings-popup {
-        @apply w-full p-8;
+        @apply w-full;
         @apply bg-surface dark:bg-surface-dark;
         border-radius: 32px;
     }
