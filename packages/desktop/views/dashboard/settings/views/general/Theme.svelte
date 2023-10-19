@@ -1,25 +1,28 @@
 <script lang="ts">
+    import { Alert, IOption, RadioGroup, Text } from '@bloomwalletio/ui'
     import { AppTheme, shouldBeDarkMode } from '@core/app'
     import { appSettings } from '@core/app/stores'
     import { localize } from '@core/i18n'
     import features from '@features/features'
-    import { Icon, Radio, Text } from '@ui'
 
-    let appTheme: AppTheme = $appSettings.theme
+    const appTheme: AppTheme = $appSettings.theme
 
     $: $appSettings.theme = appTheme
     $: $appSettings.darkMode = shouldBeDarkMode($appSettings.theme)
+
+    const options: IOption[] = [
+        { value: 'light', label: localize('general.lightTheme') },
+        { value: 'dark', label: localize('general.darkTheme') },
+        ...(features.app.themes.system.enabled ? [{ value: 'system', label: localize('general.systemTheme') }] : []),
+    ]
+
+    let selected: IOption = options.find((option) => option.value === $appSettings.theme)
 </script>
 
-<Text type="h4" classes="mb-3">{localize('views.settings.theme.title')}</Text>
-<Radio value={'light'} bind:group={appTheme} label={localize('general.lightTheme')} />
-<Radio value={'dark'} bind:group={appTheme} label={localize('general.darkTheme')} />
-{#if features.app.themes.system.enabled}
-    <Radio value={'system'} bind:group={appTheme} label={localize('general.systemTheme')} />
-{/if}
+<Text type="body2" class="mb-6">{localize('views.settings.theme.title')}</Text>
+<RadioGroup bind:selectedValue={selected} {options} />
 {#if appTheme === 'system'}
-    <div class="flex flex-row items-center mb-5">
-        <Icon icon="info" classes="mr-3 fill-current text-black dark:text-white" />
-        <Text fontSize="14" lineHeight="5">{localize('views.settings.theme.advice')}</Text>
+    <div class="mt-6">
+        <Alert text={localize('views.settings.theme.advice')} />
     </div>
 {/if}
