@@ -59,6 +59,12 @@
                     }
                 }
             },
+            "createFromMnemonic": {
+                "viewMnemonic": {
+                    "title": "Record your recovery phrase",
+                    "description": "This recovery phrase is your most important secret. It is the master key to all your funds. Do not show this to anyone."
+                }
+            },
             "restoreProfile": {
                 "chooseRestoreProfileFlow": {
                     "title": "Choose your recovery method",
@@ -1328,7 +1334,6 @@
         "governorAddress": "Governor Address",
         "stateControllerAddress": "State Controller Address",
         "copiedToClipboard": "Copied to clipboard",
-        "copiedThis": "I've copied this",
         "availableBalanceWithValue": "Available balance: {balance}",
         "amountClaimed": "{amount} claimed",
         "metadata": "Metadata",
