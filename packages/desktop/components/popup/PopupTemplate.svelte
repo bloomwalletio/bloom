@@ -1,7 +1,4 @@
-<script lang="ts">
-    import { Button, Text } from '@bloomwalletio/ui'
-    import { localize } from '@core/i18n'
-    import { HTMLButtonType } from '@ui'
+<script lang="ts" context="module">
     interface IBaseButtonProps {
         text: string
         color?: 'primary' | 'success' | 'danger' | 'info' | 'warning'
@@ -19,9 +16,14 @@
         onClick: (() => unknown) | undefined
     }
 
-    type ButtonProps = IFormButtonProps | Omit<IButtonProps, 'type'>
+    export type ButtonProps = IFormButtonProps | Omit<IButtonProps, 'type'>
+    export type ButtonPropsWithType = IFormButtonProps | IButtonProps
+</script>
 
-    type ButtonWithType = IFormButtonProps | IButtonProps
+<script lang="ts">
+    import { Button, Text } from '@bloomwalletio/ui'
+    import { localize } from '@core/i18n'
+    import { HTMLButtonType } from '@ui'
 
     const DEFAULT_CONTINUE_BUTTON: {
         type: HTMLButtonType.Button
@@ -49,8 +51,8 @@
     export let backButton: ButtonProps | undefined = undefined
     export let busy: boolean = false
 
-    let _continueButton: ButtonWithType
-    let _backButton: ButtonWithType
+    let _continueButton: ButtonPropsWithType
+    let _backButton: ButtonPropsWithType
     $: _continueButton = { ...DEFAULT_CONTINUE_BUTTON, ...continueButton }
     $: _backButton = { ...DEFAULT_BACK_BUTTON, ...backButton }
 </script>
