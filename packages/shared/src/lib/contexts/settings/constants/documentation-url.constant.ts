@@ -1,1 +1,1 @@
-export const DOCUMENTATION_URL = 'https://wiki.iota.org/use/wallets/firefly/general'
+export const DOCUMENTATION_URL = 'https://docs.bloomwallet.io/'
