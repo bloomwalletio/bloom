@@ -105,6 +105,12 @@
                         "primary": "Hardware device",
                         "secondary": "Restore profile with a Ledger Nano device"
                     }
+                },
+                "claimFinder": {
+                    "title": "Claim your Shimmer rewards",
+                    "description": "Use the balance finder below, and check if your Shimmer staking rewards balance is correct before claiming.",
+                    "success": "Successfully found {amount}"
+
                 }
             },
             "restoreFromMnemonic": {
@@ -151,18 +157,6 @@
                     "profileSetup": {
                         "title": "Profile is ready"
                     }
-                }
-            },
-            "shimmerClaiming": {
-                "claimRewards": {
-                    "title": "Shimmer staking rewards",
-                    "body": "Please check if your Shimmer staking rewards balance is correct. If not, please use the balance finder."
-                },
-                "success": {
-                    "title": "Shimmer claimed",
-                    "body": "You have successfully claimed your Shimmer tokens.",
-                    "totalRewards": "Total rewards",
-                    "successfullyFound": "Successfully found {amount}"
                 }
             }
         },

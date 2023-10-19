@@ -185,8 +185,8 @@
 </script>
 
 <OnboardingLayout
-    title={localize('views.onboarding.shimmerClaiming.claimRewards.title')}
-    description={localize('views.onboarding.shimmerClaiming.claimRewards.body')}
+    title={localize('views.onboarding.restoreProfile.claimFinder.title')}
+    description={localize('views.onboarding.restoreProfile.claimFinder.description')}
     continueButton={{
         text: localize(
             `actions.${
