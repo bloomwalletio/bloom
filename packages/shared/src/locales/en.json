@@ -11,20 +11,20 @@
                 "chooseNetwork": {
                     "title": "Choose your network",
                     "iota": {
-                        "title": "IOTA Mainnet",
-                        "body": "Production network with stable features"
+                        "primary": "IOTA Mainnet",
+                        "secondary": "Production network with stable features"
                     },
                     "shimmer": {
-                        "title": "Shimmer",
-                        "body": "Experimental network with the latest features"
+                        "primary": "Shimmer",
+                        "secondary": "Experimental network with the latest features"
                     },
                     "testnet": {
-                        "title": "Testnet",
-                        "body": "Test network using valueless tokens"
+                        "primary": "Testnet",
+                        "secondary": "Test network using valueless tokens"
                     },
                     "custom": {
-                        "title": "Advanced configuration",
-                        "body": "Connect to any network with custom settings"
+                        "primary": "Advanced configuration",
+                        "secondary": "Connect to any network with custom settings"
                     }
                 },
                 "setupCustomNetwork": {
@@ -34,16 +34,29 @@
             "chooseOnboardingFlow": {
                 "title": "Choose your setup type",
                 "new": {
-                    "title": "New Profile",
-                    "body": "Create a new profile with mnemonic or ledger"
+                    "primary": "New Profile",
+                    "secondary": "Create a new profile with mnemonic or ledger"
                 },
                 "restore": {
-                    "title": "Restore Profile",
-                    "body": "Restore existing profile with backup or ledger"
+                    "primary": "Restore Profile",
+                    "secondary": "Restore existing profile with backup or ledger"
                 },
                 "claim": {
-                    "title": "Claim Shimmer Rewards",
-                    "body": "Claim staking rewards using IOTA backup"
+                    "primary": "Claim Shimmer Rewards",
+                    "secondary": "Claim staking rewards using IOTA backup"
+                }
+            },
+            "createProfile": {
+                "chooseCreateProfileFlow": {
+                    "title": "Choose your key storage",
+                    "software": {
+                        "primary": "Software storage",
+                        "secondary": "Store keys in Stronghold file with a recovery phrase"
+                    },
+                    "hardware": {
+                        "primary": "Hardware storage",
+                        "secondary": "Store your keys on a Ledger Nano device"
+                    }
                 }
             },
             "profileSetup": {
@@ -51,18 +64,7 @@
                     "title": "Set up {network, select, IOTA {an} Shimmer {a} Testnet {a} other {a}} {network} profile",
                     "body": "Select the appropriate method to set up your {network} profile."
                 },
-                "setupNew": {
-                    "title": "Create a profile",
-                    "body": "You can choose a regular software wallet, or if you have a Ledger device, you can set up a hardware wallet.",
-                    "softwareAccount": {
-                        "title": "Create a software profile",
-                        "description": "Provides a Stronghold file and recovery phrase"
-                    },
-                    "ledgerAccount": {
-                        "title": "Create a hardware profile",
-                        "description": "Ledger Nano S or Nano X required"
-                    }
-                },
+                
                 "setupRecovered": {
                     "title": "Recover {network} profile",
                     "body": "If you have an existing mnemonic or Stronghold backup file, you can import it here.",
@@ -1065,26 +1067,10 @@
             "hint": "Please note that burning an NFT frees the storage deposit attached to it and is not reversible."
         },
         "save": "Save",
-        "restoreWallet": {
-            "iota": "Migrate or restore a wallet",
-            "shimmer": "Restore Shimmer profile",
-            "testnet": "Restore Testnet profile",
-            "custom": "Restore Custom Network profile"
-        },
-        "restoreWalletDescription": {
-            "iota": "Migrate to Chrysalis or restore an existing wallet",
-            "shimmer": "Restore an existing Shimmer profile",
-            "testnet": "Restore an existing Testnet profile",
-            "custom": "Restore an existing Custom Network profile"
-        },
         "refreshNftMedia": {
             "title": "Refresh NFT media",
             "description": "Do you want to delete and re-download all NFT media for this account?"
         },
-        "createWallet": "Create a new {network} profile",
-        "createWalletDescription": "Create a fresh profile running on {network, select, iota {Chrysalis} shimmer {Shimmer} testnet {Testnet} custom {Custom Network} other {Unknown}}",
-        "claimShimmer": "Claim Shimmer staking rewards",
-        "claimShimmerDescription": "Import IOTA profile and claim staking rewards",
         "createAlias": "Create alias",
         "createAliasDescription": "Create alias output",
         "setPin": "Set PIN",
