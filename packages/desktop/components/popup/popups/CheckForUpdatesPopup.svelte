@@ -9,7 +9,8 @@
     import { onMount } from 'svelte'
     import { PopupTemplate, ButtonProps } from '..'
 
-    let hasAutoUpdate = false
+    const hasAutoUpdate = features.electron.autoUpdate[OS]?.enabled
+    const continueButton = getContinueButtonProps()
 
     function onDownloadClick(): void {
         downloadAppUpdate()
@@ -24,16 +25,15 @@
         closePopup()
     }
 
-    let continueButton: ButtonProps
-    function setContinueButton(): void {
+    function getContinueButtonProps(): ButtonProps {
         if (hasAutoUpdate && !$appVersionDetails.upToDate) {
-            continueButton = {
+            return {
                 onClick: onDownloadClick,
                 disabled: $appUpdateState.busy,
                 text: localize('actions.updateBloom'),
             }
         } else if (!$appVersionDetails.upToDate) {
-            continueButton = {
+            return {
                 onClick: onVisitDownloadsClick,
                 text: localize('actions.viewDownloads'),
             }
@@ -46,15 +46,13 @@
         if (process.env.NODE_ENV !== 'development') {
             checkForAppUpdate()
         }
-        hasAutoUpdate = features.electron.autoUpdate[OS]?.enabled
-        setContinueButton()
     })
 </script>
 
 <PopupTemplate
     title={localize('popups.appUpdate.title')}
     backButton={{
-        text: localize('actions.cancel'),
+        text: localize('actions.close'),
         onClick: onCloseClick,
     }}
     {continueButton}
@@ -77,7 +75,7 @@
         <Table
             items={[
                 {
-                    key: localize('popups.appUpdate.newVerion'),
+                    key: localize('popups.appUpdate.newVersion'),
                     value: $appVersionDetails.newVersion,
                 },
                 {
