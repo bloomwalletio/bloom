@@ -25,7 +25,6 @@ import { EvmChainId } from '@core/network/enums'
 import { toRpcSig } from '@ethereumjs/util'
 import { Converter } from '@core/utils'
 
-
 declare global {
     interface Window {
         __LEDGER__: ILedgerApiBridge
@@ -142,10 +141,7 @@ export class Ledger {
         })
     }
 
-    static async signMessage(
-        rawMessage: string,
-        bip44: Bip44
-    ): Promise<string | undefined> {
+    static async signMessage(rawMessage: string, bip44: Bip44): Promise<string | undefined> {
         /* eslint-disable no-async-promise-executor */
         /* eslint-disable @typescript-eslint/no-misused-promises */
         return new Promise<string | undefined>(async (resolve, reject) => {
@@ -176,34 +172,25 @@ export class Ledger {
             //         },
             //     })
             // } else {
-        //    openPopup({
-        //         id: PopupId.VerifyLedgerTransaction,
-        //         hideClose: true,
-        //         preventClose: true,
-        //         props: {
-        //             isEvmTransaction: true,
-        //             hash: rawMessage,
-        //         }
-        //     })
-
-            const messageHex = Converter.utf8ToHex(rawMessage)
-            console.log('messageHex', messageHex)
+            //    openPopup({
+            //         id: PopupId.VerifyLedgerTransaction,
+            //         hideClose: true,
+            //         preventClose: true,
+            //         props: {
+            //             isEvmTransaction: true,
+            //             hash: rawMessage,
+            //         }
+            //     })
+            const messageHex = Converter.utf8ToHex(rawMessage, false)
             const transactionSignature = await this.callLedgerApiAsync<IEvmTransactionSignature>(
-                () =>
-                    ledgerApiBridge.makeRequest(
-                        LedgerApiMethod.SignMessage,
-                        messageHex,
-                        bip32Path
-                    ),
+                () => ledgerApiBridge.makeRequest(LedgerApiMethod.SignMessage, messageHex, bip32Path),
                 'signed-message'
             )
-            console.log('Signature:', transactionSignature)
             const { r, v, s } = transactionSignature
             if (r && v && s) {
                 const vBig = BigInt(v)
-                const rBuffer = Buffer.from(r, 'utf8');
-                const sBuffer = Buffer.from(s, 'utf8');
-
+                const rBuffer = Buffer.from(r, 'hex')
+                const sBuffer = Buffer.from(s, 'hex')
                 resolve(toRpcSig(vBig, rBuffer, sBuffer))
             } else {
                 reject(localize('error.send.cancelled'))

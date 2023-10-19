@@ -46,8 +46,7 @@ async function messageHandler(message: ILedgerProcessMessage): Promise<void> {
             }
             case LedgerApiMethod.SignMessage: {
                 data = await signMessage(payload[0] as string, payload[1] as string)
-                process.parentPort.postMessage({ error: 'data to be signed in Ledger porcess:', data})
-            break
+                break
             }
             default:
                 break
