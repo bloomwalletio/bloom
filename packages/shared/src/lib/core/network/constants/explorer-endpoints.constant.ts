@@ -13,7 +13,7 @@ export const EXPLORER_ENDPOINTS: Readonly<{ [key in NetworkId]?: { [key in Explo
     [SupportedNetworkId.ShimmerEvm]: {
         [ExplorerEndpoint.Transaction]: 'tx',
     },
-    [SupportedNetworkId.ShimmerEvmTestnet]: {
+    [SupportedNetworkId.TestnetEvm]: {
         [ExplorerEndpoint.Transaction]: 'tx',
     },
 }
