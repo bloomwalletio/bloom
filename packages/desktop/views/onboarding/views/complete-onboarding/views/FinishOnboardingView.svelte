@@ -9,6 +9,7 @@
     import SuccessSvg from '@views/onboarding/components/SuccessSvg.svelte'
     import { onboardingRouter } from '@views/onboarding/onboarding-router'
     import LoggedOutLayout from '@views/components/LoggedOutLayout.svelte'
+    import features from '@features/features'
 
     const LOCALE_KEY = 'views.onboarding.congratulations'
 
@@ -31,9 +32,11 @@
     <LoggedOutLayout hideLogo>
         <setup-complete>
             <SuccessSvg />
-            <animation-container>
-                <Animation loop={false} animation="confetti" />
-            </animation-container>
+            {#if features.onboarding.confetti.enabled}
+                <animation-container>
+                    <Animation loop={false} animation="confetti" />
+                </animation-container>
+            {/if}
             <div class="flex flex-col justify-center items-center gap-3">
                 <div class="flex flex-col justify-center items-center">
                     <Text type="h5" customColor="success-500">{localize(`${LOCALE_KEY}.title`)}</Text>
@@ -68,9 +71,11 @@
         <div slot="content" class="flex flex-col justify-center items-center gap-8">
             <svg-container>
                 <SuccessSvg />
-                <animation-container>
-                    <Animation loop={false} animation="confetti" />
-                </animation-container>
+                {#if features.onboarding.confetti.enabled}
+                    <animation-container>
+                        <Animation loop={false} animation="confetti" />
+                    </animation-container>
+                {/if}
             </svg-container>
             <div class="flex flex-col justify-center items-center gap-3">
                 <div class="flex flex-col justify-center items-center">

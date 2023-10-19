@@ -132,6 +132,9 @@ const onboardingFeatures: OnboardingFeatures = {
     strongholdVersionCheck: {
         enabled: true,
     },
+    confetti: {
+        enabled: false,
+    },
 }
 
 export default onboardingFeatures
