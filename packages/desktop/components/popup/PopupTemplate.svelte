@@ -17,7 +17,7 @@
     }
 
     export type ButtonProps = IFormButtonProps | Omit<IButtonProps, 'type'>
-    export type ButtonWithType = IFormButtonProps | IButtonProps
+    export type ButtonPropsWithType = IFormButtonProps | IButtonProps
 </script>
 
 <script lang="ts">
@@ -51,8 +51,8 @@
     export let backButton: ButtonProps | undefined = undefined
     export let busy: boolean = false
 
-    let _continueButton: ButtonWithType
-    let _backButton: ButtonWithType
+    let _continueButton: ButtonPropsWithType
+    let _backButton: ButtonPropsWithType
     $: _continueButton = { ...DEFAULT_CONTINUE_BUTTON, ...continueButton }
     $: _backButton = { ...DEFAULT_BACK_BUTTON, ...backButton }
 </script>
