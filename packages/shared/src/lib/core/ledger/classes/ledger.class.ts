@@ -142,46 +142,18 @@ export class Ledger {
     }
 
     static async signMessage(rawMessage: string, bip44: Bip44): Promise<string | undefined> {
-        /* eslint-disable no-async-promise-executor */
-        /* eslint-disable @typescript-eslint/no-misused-promises */
         return new Promise<string | undefined>(async (resolve, reject) => {
-            const bip32Path = buildBip32PathFromBip44(bip44)
+            openPopup({
+                id: PopupId.VerifyLedgerTransaction,
+                hideClose: true,
+                preventClose: false,
+                props: {
+                    rawMessage,
+                },
+            })
 
-            // const mustEnableBlindSigning =
-            //     isBlindSigningRequiredForEvmTransaction(transactionData) && !(await this.isBlindSigningEnabledForEvm())
-            // if (mustEnableBlindSigning) {
-            //     let canResolve = true
-            //     openPopup({
-            //         id: PopupId.EnableLedgerBlindSigning,
-            //         props: {
-            //             appName: LedgerAppName.Ethereum,
-            //             onEnabled: async () => {
-            //                 canResolve = false
-            //                 try {
-            //                     resolve(await this.signEvmTransaction(transactionData, chainId, bip44))
-            //                 } catch (err) {
-            //                     reject(err)
-            //                 }
-            //             },
-            //             onClose: () => {
-            //                 if (canResolve) {
-            //                     canResolve = false
-            //                     resolve()
-            //                 }
-            //             },
-            //         },
-            //     })
-            // } else {
-            //    openPopup({
-            //         id: PopupId.VerifyLedgerTransaction,
-            //         hideClose: true,
-            //         preventClose: true,
-            //         props: {
-            //             isEvmTransaction: true,
-            //             hash: rawMessage,
-            //         }
-            //     })
             const messageHex = Converter.utf8ToHex(rawMessage, false)
+            const bip32Path = buildBip32PathFromBip44(bip44)
             const transactionSignature = await this.callLedgerApiAsync<IEvmTransactionSignature>(
                 () => ledgerApiBridge.makeRequest(LedgerApiMethod.SignMessage, messageHex, bip32Path),
                 'signed-message'

@@ -794,6 +794,10 @@
             "info": "Please confirm the internal transaction on your ledger.",
             "hint": "All assets will remain on your wallet when sending an internal transaction."
         },
+        "verifyMessageSigning": {
+            "title": "Verify message signing",
+            "info": "Please confirm the message signing on your ledger."
+        },
         "crashReporting": {
             "title": "Crash reporting",
             "body": "Help the developers improve Bloom by automatically sending diagnostic data when an error or crash occurs. If selected, this will take effect after restarting Bloom.",
