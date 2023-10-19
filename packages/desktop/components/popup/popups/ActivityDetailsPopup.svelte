@@ -131,7 +131,7 @@
         backButton={isTimelocked || !isActivityIncomingAndUnclaimed ? undefined : backButton}
         continueButton={isTimelocked || !isActivityIncomingAndUnclaimed ? undefined : continueButton}
     >
-        <div slot="description">
+        <div slot="description" class="flex">
             {#if explorerUrl && activity.transactionId}
                 <Link text={localize('general.viewOnExplorer')} external on:click={() => onExplorerClick(activity)} />
             {:else if activity.transactionId}
