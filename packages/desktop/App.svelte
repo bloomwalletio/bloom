@@ -70,8 +70,8 @@
 
     onMount(async () => {
         features.analytics.appStart.enabled && Platform.trackEvent('app-start')
+        await checkAndMigrateProfiles()
         await cleanupEmptyProfiles()
-        checkAndMigrateProfiles()
         Platform.onEvent('deep-link-request', handleDeepLink)
 
         setTimeout(() => {

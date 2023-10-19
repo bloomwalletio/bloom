@@ -6,12 +6,14 @@
         TERMS_OF_SERVICE_URL,
         TERMS_OF_SERVICE_VERSION,
     } from '@core/app/constants'
-    import { hasCompletedAppSetup, lastAcceptedPrivacyPolicy, lastAcceptedTermsOfService } from '@core/app/stores'
+    import { lastAcceptedPrivacyPolicy, lastAcceptedTermsOfService } from '@core/app/stores'
     import { openUrlInBrowser } from '@core/app/utils'
     import { localize } from '@core/i18n'
     import { Illustration, Logo } from '@ui'
     import { LogoName } from '@auxiliary/logo/enums'
     import { onboardingRouter } from '../onboarding-router'
+    import BgGradient from '@views/components/BgGradient.svelte'
+    import Particles from '@views/components/Particles.svelte'
 
     let termsAccepted: boolean = false
     let flash: boolean = false
@@ -34,7 +36,6 @@
         }
         lastAcceptedTermsOfService.set(TERMS_OF_SERVICE_VERSION)
         lastAcceptedPrivacyPolicy.set(PRIVACY_POLICY_VERSION)
-        hasCompletedAppSetup.set(true)
         $onboardingRouter.next()
     }
 </script>
@@ -42,6 +43,7 @@
 <logo-container class="block absolute mt-8 ml-8">
     <Logo width="150" logo={LogoName.BloomLogoFull} />
 </logo-container>
+<Particles />
 <welcome-view class="w-full h-full flex items-center justify-center py-24 px-40 gap-12">
     <div class="flex flex-col gap-8">
         <div class="flex flex-col gap-2">
@@ -80,6 +82,7 @@
         <portal-glow></portal-glow>
     </illustration-container>
 </welcome-view>
+<BgGradient variant="spread" />
 
 <style lang="scss">
     :global(welcome-view h1 strong) {
@@ -104,7 +107,7 @@
         animation: portal-glow 5s ease-in-out infinite;
     }
 
-    :global(checkbox-container.flash check-box) {
+    :global(checkbox-container.flash button) {
         animation: flash 0.5s ease-in-out 3;
     }
 

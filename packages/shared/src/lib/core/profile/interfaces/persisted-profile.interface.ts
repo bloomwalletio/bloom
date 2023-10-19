@@ -9,6 +9,7 @@ import { TrackedTokens } from '@core/token/types'
 
 export interface IPersistedProfile {
     id: string
+    version: number
     name: string
     type: ProfileType
     network: IPersistedNetwork

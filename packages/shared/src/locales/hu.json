@@ -136,7 +136,8 @@
             "congratulations": {
                 "title": "Setup complete",
                 "body1": "Bloom is ready",
-                "body2": "Seamlessly manage your keys, assets and transactions.",
+                "body2": "Profile is ready",
+                "body3": "Seamlessly manage your keys, assets and transactions.",
                 "action": "Enter Bloom"
             }
         },
@@ -283,9 +284,15 @@
             }
         },
         "login": {
-            "pleaseWait": "Kérjük várjon {time, plural, one {# másodpercet} other {# másodpercet}}",
-            "incorrectAttempts": "{attempts, plural, one {# hibás próbálkozás} other {# hibás próbálkozás}}",
-            "hintStronghold": "Az ön Strongholdjának verziója elavult. Kérjük, jelentkezzen be a Stronghold frissítéséhez."
+            "incorrectPin": "Incorrect PIN code",
+            "hintStronghold": "Az ön Strongholdjának verziója elavult. Kérjük, jelentkezzen be a Stronghold frissítéséhez.",
+            "maxAttempts": {
+                "title": "Couldn't sign you in",
+                "body1": "You have entered an",
+                "body2": "incorrect PIN code {times, plural, one {# time} other {# times}}.",
+                "body3": "For security purposes, your profile has been temporarily locked. Please wait for",
+                "body4": "before attempting to login again."
+            }
         },
         "loadProfile": {
             "loginSteps": {
@@ -469,10 +476,10 @@
         "collectibles": {
             "gallery": {
                 "title": "Gyűjtemények",
-                "emptyTitle": "Nincsenek gyűjtemények",
-                "noResults": "Nincs találat",
+                "emptyTitle": "No collectibles found",
+                "noResults": "No results found",
                 "timelocked": "Locked for {timeDiff}",
-                "emptyDescription": "Szerezze be vagy helyezze letétbe gyűjteménye első elemét!"
+                "emptyDescription": "Deposit or receive your first collectible!"
             },
             "details": {
                 "storageDepositDescription": "Visszatéríthető letéti díj az NFT Tangle-ben történő tárolásához.",
@@ -1159,7 +1166,7 @@
         "testDeepLink": "Mélyhivatkozás tesztelése",
         "delete": "Törlés",
         "remove": "Remove",
-        "depositNft": "Deposit NFTs",
+        "getStarted": "Get started",
         "vote": "Vote",
         "addProposal": "Add proposal",
         "removeProposal": "Remove proposal",
@@ -1289,6 +1296,7 @@
         "toAddress": "{account} részére",
         "capsLock": "A nagybetűzár be van kapcsolva",
         "version": "Version",
+        "versionFull": "Version {version}",
         "unknown": "Ismeretlen",
         "unknownAddress": "Ismeretlen cím",
         "none": "Nincs",

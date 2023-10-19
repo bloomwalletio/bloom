@@ -1,31 +1,30 @@
+import { APP_STAGE } from '@core/app'
 import { get } from 'svelte/store'
 import { PROFILE_VERSION } from '../../constants'
-import { currentProfileVersion, profiles } from '../../stores'
+import { profiles, updateProfile } from '../../stores'
+import { PROFILE_MIGRATION_STAGE_MAP } from '../../migrations/profile-migration-stage-map'
 
 /**
  * Migrates profile data in need of being modified to accommodate changes
  * in a newer Bloom version.
  */
-export function checkAndMigrateProfiles(): void {
-    const shouldMigratePersistedProfiles = get(currentProfileVersion) < PROFILE_VERSION
-    if (shouldMigratePersistedProfiles) {
-        migrateEachVersion()
-    }
+export async function checkAndMigrateProfiles(): Promise<void> {
+    await migratePersistedProfiles()
 }
 
-function migrateEachVersion(): void {
-    let migrationVersion = get(currentProfileVersion)
-    for (migrationVersion; migrationVersion < PROFILE_VERSION; migrationVersion++) {
-        migratePersistedProfile(migrationVersion)
-        currentProfileVersion.set(migrationVersion + 1)
-    }
-}
-
-function migratePersistedProfile(migrationVersion: number): void {
+async function migratePersistedProfiles(): Promise<void> {
     const _profiles = get(profiles)
     for (const profile of _profiles) {
-        persistedProfileMigrationsMap?.[migrationVersion]?.(profile)
+        try {
+            let currentVersion = profile.version ?? 0
+
+            for (currentVersion; currentVersion < PROFILE_VERSION?.[APP_STAGE]; currentVersion++) {
+                await PROFILE_MIGRATION_STAGE_MAP?.[APP_STAGE]?.[currentVersion]?.(profile)
+                currentVersion = currentVersion + 1
+                updateProfile(profile.id, { version: currentVersion })
+            }
+        } catch (err) {
+            console.error(err)
+        }
     }
 }
-
-const persistedProfileMigrationsMap: Record<number, (existingProfile: unknown) => void> = {}
