@@ -74,7 +74,7 @@
 
         header-row {
             @apply w-full;
-            @apply px-5 py-2;
+            @apply pl-5 py-2 pr-7;
             @apply bg-surface-1 dark:bg-surface-1-dark;
             @apply border-y border-solid border-stroke dark:border-stroke-dark;
 
