@@ -4,7 +4,7 @@ import { listen } from '@ledgerhq/logs'
 import type { ILedgerEthereumAppSettings } from '@core/ledger/interfaces'
 
 // import specifity for core modules to prevent circular dependencies
-import { IEvmTransactionSignature } from '@core/layer-2/interfaces'
+import { IEvmAddress, IEvmSignature } from '@core/layer-2/interfaces'
 import { HEX_PREFIX } from '@core/utils/constants'
 
 let transport: TransportNodeHid
@@ -37,17 +37,14 @@ export async function getEthereumAppSettings(): Promise<ILedgerEthereumAppSettin
     }
 }
 
-export async function getEvmAddress(bip32Path: string): Promise<{ evmAddress: string; bip32Path: string }> {
+export async function getEvmAddress(bip32Path: string): Promise<IEvmAddress> {
     const appEth = new AppEth(transport)
     const data = await appEth.getAddress(bip32Path)
 
     return { evmAddress: data.address, bip32Path }
 }
 
-export async function signTransactionData(
-    transactionHex: string,
-    bip32Path: string
-): Promise<IEvmTransactionSignature> {
+export async function signTransactionData(transactionHex: string, bip32Path: string): Promise<IEvmSignature> {
     try {
         const appEth = new AppEth(transport)
         const signature = await appEth.signTransaction(bip32Path, transactionHex, null)
@@ -65,7 +62,7 @@ export async function signTransactionData(
     }
 }
 
-export async function signMessage(messageHex: string, bip32Path: string): Promise<IEvmTransactionSignature> {
+export async function signMessage(messageHex: string, bip32Path: string): Promise<IEvmSignature> {
     try {
         const appEth = new AppEth(transport)
         const signature = await appEth.signPersonalMessage(bip32Path, messageHex)

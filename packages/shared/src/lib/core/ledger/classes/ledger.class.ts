@@ -2,7 +2,7 @@ import { buildBip32PathFromBip44 } from '@core/account/utils/buildBip32PathFromB
 import { Platform } from '@core/app/classes'
 import { IPlatformEventMap } from '@core/app/interfaces'
 import { localize } from '@core/i18n'
-import { IEvmAddress, IEvmTransactionSignature } from '@core/layer-2/interfaces'
+import { IEvmAddress, IEvmSignature } from '@core/layer-2/interfaces'
 import {
     calculateMaxGasFeeFromTransactionData,
     getAmountFromEvmTransactionValue,
@@ -114,7 +114,7 @@ export class Ledger {
                     },
                 })
 
-                const transactionSignature = await this.callLedgerApiAsync<IEvmTransactionSignature>(
+                const transactionSignature = await this.callLedgerApiAsync<IEvmSignature>(
                     () =>
                         ledgerApiBridge.makeRequest(
                             LedgerApiMethod.SignEvmTransaction,
@@ -154,7 +154,7 @@ export class Ledger {
 
             const messageHex = Converter.utf8ToHex(rawMessage, false)
             const bip32Path = buildBip32PathFromBip44(bip44)
-            const transactionSignature = await this.callLedgerApiAsync<IEvmTransactionSignature>(
+            const transactionSignature = await this.callLedgerApiAsync<IEvmSignature>(
                 () => ledgerApiBridge.makeRequest(LedgerApiMethod.SignMessage, messageHex, bip32Path),
                 'signed-message'
             )

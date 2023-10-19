@@ -16,6 +16,7 @@ import {
     signMessage,
     signTransactionData,
 } from '../utils/ledger.utils'
+import type { LedgerApiRequestResponse } from '@core/ledger'
 
 /**
  * CAUTION: `process` is initialized using `utilityProcess.fork()`.
@@ -29,7 +30,7 @@ async function messageHandler(message: ILedgerProcessMessage): Promise<void> {
     try {
         await openTransport()
 
-        let data
+        let data: LedgerApiRequestResponse
         const { method, payload } = message
         switch (method) {
             case LedgerApiMethod.GenerateEvmAddress: {
