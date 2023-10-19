@@ -10,5 +10,5 @@ export const DEFAULT_COIN_TYPE: Readonly<{ [id in NetworkId]: number }> = {
     [SupportedNetworkId.Shimmer]: SHIMMER_COIN_TYPE,
     [SupportedNetworkId.Testnet]: TEST_COIN_TYPE,
     [SupportedNetworkId.ShimmerEvm]: ETHEREUM_COIN_TYPE,
-    [SupportedNetworkId.ShimmerEvmTestnet]: ETHEREUM_COIN_TYPE,
+    [SupportedNetworkId.TestnetEvm]: ETHEREUM_COIN_TYPE,
 }

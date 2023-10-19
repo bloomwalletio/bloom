@@ -321,7 +321,8 @@
                 "network": "Network",
                 "marketCap": "Market cap",
                 "price": "Price",
-                "amount": "Amount"
+                "total": "Total",
+                "available": "Available"
             },
             "activity": {
                 "tab": "Activity",
