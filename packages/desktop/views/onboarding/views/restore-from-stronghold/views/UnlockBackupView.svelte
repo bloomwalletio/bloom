@@ -51,8 +51,8 @@
 </script>
 
 <OnboardingLayout
-    title={localize('views.onboarding.profileRecovery.unlockBackup.title')}
-    description={localize('views.onboarding.profileRecovery.unlockBackup.body')}
+    title={localize('views.onboarding.restoreFromStronghold.unlockBackup.title')}
+    description={localize('views.onboarding.restoreFromStronghold.unlockBackup.description')}
     continueButton={{
         onClick: onContinueClick,
         disabled: !strongholdPassword,
