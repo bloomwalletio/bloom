@@ -9,12 +9,12 @@
     import { ISettingsSidebarTab } from '@desktop/routers'
 
     const SETTINGS_ICON_MAP: { [key in SettingsRoute]: IconName } = {
-        [SettingsRoute.General]: IconName.Settings, // IconName.Tool,
-        [SettingsRoute.Profile]: IconName.Settings, // IconName.User,
+        [SettingsRoute.General]: IconName.Tool,
+        [SettingsRoute.Profile]: IconName.User,
         [SettingsRoute.Collectibles]: IconName.Image,
         [SettingsRoute.Security]: IconName.Locked,
         [SettingsRoute.Advanced]: IconName.SettingsSliders,
-        [SettingsRoute.HelpAndInfo]: IconName.Settings, // IconName.LifeBuoy,
+        [SettingsRoute.HelpAndInfo]: IconName.LifeBuoy,
     }
 
     const { loggedIn } = $activeProfile
