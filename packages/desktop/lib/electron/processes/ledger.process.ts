@@ -13,8 +13,10 @@ import {
     getEthereumAppSettings,
     getEvmAddress,
     openTransport,
+    signMessage,
     signTransactionData,
 } from '../utils/ledger.utils'
+import type { LedgerApiRequestResponse } from '@core/ledger'
 
 /**
  * CAUTION: `process` is initialized using `utilityProcess.fork()`.
@@ -28,7 +30,7 @@ async function messageHandler(message: ILedgerProcessMessage): Promise<void> {
     try {
         await openTransport()
 
-        let data
+        let data: LedgerApiRequestResponse
         const { method, payload } = message
         switch (method) {
             case LedgerApiMethod.GenerateEvmAddress: {
@@ -41,6 +43,10 @@ async function messageHandler(message: ILedgerProcessMessage): Promise<void> {
             }
             case LedgerApiMethod.SignEvmTransaction: {
                 data = await signTransactionData(payload[0] as string, payload[1] as string)
+                break
+            }
+            case LedgerApiMethod.SignMessage: {
+                data = await signMessage(payload[0] as string, payload[1] as string)
                 break
             }
             default:

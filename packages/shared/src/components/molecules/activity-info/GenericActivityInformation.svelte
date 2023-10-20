@@ -1,21 +1,21 @@
 <script lang="ts">
     import { Table } from '@bloomwalletio/ui'
-    import { Activity } from '@core/activity'
+    import { Activity, ActivityAsyncStatus } from '@core/activity'
     import { openUrlInBrowser } from '@core/app'
+    import { time } from '@core/app/stores'
     import { getFormattedTimeStamp, localize } from '@core/i18n'
     import { ExplorerEndpoint, getDefaultExplorerUrl } from '@core/network'
     import { getBaseToken } from '@core/profile/actions'
-    import { formatTokenAmountPrecise } from '@core/token'
-    import { NetworkLabel } from '@ui'
+    import { formatTokenAmountBestMatch } from '@core/token'
+    import { getTimeDifference } from '@core/utils/time'
+    import { NetworkLabel, ExpiredActivityPill, TimelockActivityPill, UnclaimedActivityPill } from '@ui'
 
     export let activity: Activity
 
-    $: expirationTime = getFormattedTimeStamp(activity.asyncData?.expirationDate)
-    $: claimedTime = getFormattedTimeStamp(activity.asyncData?.claimedDate)
+    $: claimedTime = activity.asyncData?.claimedDate ? getFormattedTimeStamp(activity.asyncData.claimedDate) : undefined
     $: gasLimit = activity.smartContract?.gasLimit
 
     $: formattedTransactionTime = getFormattedTimeStamp(activity.time)
-    $: formattedTimelockDate = getFormattedTimeStamp(activity.asyncData?.timelockDate)
     $: formattedStorageDeposit = formatAmount(activity.storageDeposit ?? 0)
 
     $: formattedEstimatedGasFee = formatAmount(Number(gasLimit ?? 0))
@@ -34,7 +34,7 @@
             return undefined
         }
 
-        return formatTokenAmountPrecise(amount, getBaseToken())
+        return formatTokenAmountBestMatch(amount, getBaseToken())
     }
 </script>
 
@@ -81,14 +81,51 @@
             value: formattedTransactionFee,
         },
         {
-            key: localize('general.expirationTime'),
-            value: expirationTime,
-            tooltip: localize(`tooltips.transactionDetails.${activity.direction}.expirationTime`),
+            key: localize('general.timelockDate'),
+            tooltip: localize(`tooltips.transactionDetails.${activity.direction}.timelockDate`),
+            slot:
+                activity.asyncData?.timelockDate && activity.asyncData?.asyncStatus === ActivityAsyncStatus.Timelocked
+                    ? {
+                          component: TimelockActivityPill,
+                          props: {
+                              direction: activity.direction,
+                              timeDiff: activity.asyncData?.timelockDate
+                                  ? getTimeDifference(activity.asyncData?.timelockDate, $time)
+                                  : undefined,
+                          },
+                      }
+                    : undefined,
         },
         {
-            key: localize('general.timelockDate'),
-            value: activity.asyncData?.timelockDate ? formattedTimelockDate : undefined,
-            tooltip: localize(`tooltips.transactionDetails.${activity.direction}.timelockDate`),
+            key: localize('general.expiration'),
+            tooltip: localize(`tooltips.transactionDetails.${activity.direction}.expirationTime`),
+            slot:
+                activity.asyncData?.asyncStatus === ActivityAsyncStatus.Expired
+                    ? {
+                          component: ExpiredActivityPill,
+                          props: {
+                              direction: activity.direction,
+                          },
+                      }
+                    : undefined,
+        },
+        {
+            key: localize('general.expiration'),
+            tooltip: localize(`tooltips.transactionDetails.${activity.direction}.expirationTime`),
+            slot:
+                activity.asyncData?.asyncStatus !== ActivityAsyncStatus.Expired &&
+                activity.asyncData?.asyncStatus !== ActivityAsyncStatus.Claimed &&
+                activity.asyncData?.expirationDate
+                    ? {
+                          component: UnclaimedActivityPill,
+                          props: {
+                              direction: activity.direction,
+                              timeDiff: activity.asyncData?.expirationDate
+                                  ? getTimeDifference(activity.asyncData?.expirationDate, $time)
+                                  : undefined,
+                          },
+                      }
+                    : undefined,
         },
         {
             key: localize('general.claimedTime'),

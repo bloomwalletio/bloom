@@ -2,7 +2,7 @@
     import { Popover, Text, Toggle } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
     import { getBaseToken } from '@core/profile/actions'
-    import { formatTokenAmountPrecise } from '@core/token'
+    import { formatTokenAmountBestMatch } from '@core/token'
     import { fade } from 'svelte/transition'
 
     export let storageDeposit: number
@@ -23,7 +23,7 @@
             <Text textColor={disabled ? 'secondary' : 'brand'} type="base" fontWeight="medium">
                 {giftStorageDeposit
                     ? localize('general.gifted')
-                    : formatTokenAmountPrecise(storageDeposit, getBaseToken())}
+                    : formatTokenAmountBestMatch(storageDeposit, getBaseToken())}
             </Text>
         </div>
     </button>
