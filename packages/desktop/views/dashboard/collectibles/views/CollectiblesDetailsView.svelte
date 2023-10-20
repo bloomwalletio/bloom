@@ -137,18 +137,14 @@
     <collectibles-details-view class="flex flex-row w-full h-full">
         <media-container class="relative flex w-full items-center justify-center p-5 overflow-hidden">
             <NftMedia {nft} autoplay controls loop muted iconSize="lg" />
-            <error-container>
-                {#if alertText}
-                    <Pane>
-                        <div class="flex flex-col items-start gap-2 p-4">
-                            <Pill color={downloadMetadata?.error ? 'danger' : 'warning'}
-                                >{localize('general.' + (downloadMetadata?.error ? 'error' : 'warning'))}</Pill
-                            >
-                            <Text>{alertText}</Text>
-                        </div>
-                    </Pane>
-                {/if}
-            </error-container>
+            {#if alertText}
+                <error-container>
+                    <Pill color={downloadMetadata?.error ? 'danger' : 'warning'}
+                        >{localize('general.' + (downloadMetadata?.error ? 'error' : 'warning'))}</Pill
+                    >
+                    <Text fontWeight="medium">{alertText}</Text>
+                </error-container>
+            {/if}
         </media-container>
         <details-container class="flex flex-col px-6 py-8 space-y-3 w-full h-full max-w-sm">
             <nft-title class="flex justify-between items-center gap-4">
@@ -234,7 +230,10 @@
     }
 
     error-container {
-        @apply absolute left-8 top-8 w-auto;
+        @apply flex flex-col items-start gap-2 p-4;
+        @apply absolute left-8 top-8 w-auto rounded-2xl overflow-hidden;
+        @apply border border-solid border-[#FEE2E2];
+        @apply bg-[#FEF2F2];
     }
 
     details-container {
