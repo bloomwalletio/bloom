@@ -1375,7 +1375,9 @@
         "color": "Color",
         "privacyPolicy": "Privacy Policy",
         "termsOfService": "Terms of Service",
-        "message": "Message"
+        "message": "Message",
+        "error": "Error",
+        "Warning": "Warning"
     },
     "filters":{
         "title": "Filters",

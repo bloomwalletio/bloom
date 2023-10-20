@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { TextColor } from '@bloomwalletio/ui'
     import { INft, NFT_MEDIA_FILE_NAME } from '@core/nfts'
     import { nftDownloadQueue } from '@core/nfts/stores'
     import { DEV_STORAGE_DIRECTORY } from '@core/profile/constants'
@@ -14,7 +15,7 @@
     export let muted: boolean = false
     export let classes: string = ''
     export let useCaching: boolean = true
-    export let smallIcon = false
+    export let iconSize: 'md' | 'lg' = 'md'
 
     let hasMounted: boolean = false
     let basePath: string
@@ -25,7 +26,11 @@
             ? `${basePath}/${nft.filePath}/${NFT_MEDIA_FILE_NAME}`
             : nft.downloadUrl
 
-    $: placeHolderColor = nft.downloadMetadata.error ? 'danger' : nft.downloadMetadata.error ? 'warning' : 'brand'
+    $: placeHolderColor = nft.downloadMetadata.error
+        ? 'danger'
+        : nft.downloadMetadata.error
+        ? 'warning'
+        : ('brand' as TextColor)
 
     onMount(async () => {
         if (process.env.NODE_ENV === 'development') {
@@ -51,6 +56,11 @@
     />
 {:else}
     <slot name="placeholder">
-        <MediaPlaceholder type={nft?.parsedMetadata?.type} {isDownloading} {smallIcon} textColor={placeHolderColor} />
+        <MediaPlaceholder
+            type={nft?.parsedMetadata?.type}
+            {isDownloading}
+            textColor={placeHolderColor}
+            size={iconSize}
+        />
     </slot>
 {/if}

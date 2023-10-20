@@ -1,6 +1,6 @@
 <script lang="ts">
     import { AddressType } from '@iota/sdk/out/types'
-    import { Alert, Table, type IItem, Text, Button, IconName } from '@bloomwalletio/ui'
+    import { Table, type IItem, Text, Button, IconName, Pill } from '@bloomwalletio/ui'
     import { CollectibleDetailsMenu } from '@components'
     import { selectedAccountIndex } from '@core/account/stores'
     import { time } from '@core/app/stores'
@@ -133,13 +133,22 @@
     }
 </script>
 
-<Pane classes="h-full shadow-lg">
+<Pane classes="h-full">
     <collectibles-details-view class="flex flex-row w-full h-full">
-        <media-container class="relative flex w-full items-center justify-center p-5 overflow-hidden">
-            <NftMedia {nft} autoplay controls loop muted />
+        <media-container
+            class="relative flex w-full items-center justify-center p-5 overflow-hidden bg-surface-2 dark:bg-surface-2-dark"
+        >
+            <NftMedia {nft} autoplay controls loop muted iconSize="lg" />
             <div class="absolute left-6 top-6 w-auto">
                 {#if alertText}
-                    <Alert variant={downloadMetadata?.error ? 'danger' : 'warning'} text={alertText} />
+                    <Pane>
+                        <div class="flex flex-col items-start gap-2 p-4">
+                            <Pill color={downloadMetadata?.error ? 'danger' : 'warning'}
+                                >{localize('general.' + (downloadMetadata?.error ? 'error' : 'warning'))}</Pill
+                            >
+                            <Text>{alertText}</Text>
+                        </div>
+                    </Pane>
                 {/if}
             </div>
         </media-container>
