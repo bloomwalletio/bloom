@@ -95,21 +95,21 @@
     <Text type="body2" class="mb-2">{localize('views.settings.changePincode.title')}</Text>
     <Text type="base" textColor="secondary" class="mb-6">{localize('views.settings.changePincode.description')}</Text>
     <pin-input-container class="flex flex-col w-fit gap-3 mb-3">
-        <Text type="body2">
+        <Text type="body2" fontWeight="medium">
             {localize('views.settings.changePincode.currentPincode')}
         </Text>
         <PinInput bind:value={currentPincode} autofocus disabled={busy} error={!!currentPincodeError} />
         <Error error={currentPincodeError} />
     </pin-input-container>
     <pin-input-container class="flex flex-col w-fit gap-3 mb-3">
-        <Text type="body2">
+        <Text type="body2" fontWeight="medium">
             {localize('views.settings.changePincode.newPincode')}
         </Text>
         <PinInput bind:value={newPincode} disabled={busy} error={!!newPincodeError} />
         <Error error={newPincodeError} />
     </pin-input-container>
     <pin-input-container class="flex flex-col w-fit gap-3 mb-6">
-        <Text type="body2">
+        <Text type="body2" fontWeight="medium">
             {localize('actions.confirmPin')}
         </Text>
         <PinInput bind:value={confirmedPincode} disabled={busy} error={!!confirmationPincodeError} />
