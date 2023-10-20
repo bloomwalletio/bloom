@@ -30,7 +30,7 @@ export async function syncShimmerClaimingAccount(account: IAccount): Promise<voi
 
         showNotification({
             variant: 'success',
-            text: localize('views.onboarding.shimmerClaiming.success.successfullyFound', {
+            text: localize('views.onboarding.restoreProfile.claimFinder.success', {
                 values: { amount: foundRewardsAmountFormatted },
             }),
         })

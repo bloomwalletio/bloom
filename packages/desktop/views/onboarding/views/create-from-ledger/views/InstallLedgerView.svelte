@@ -21,11 +21,10 @@
 </script>
 
 <OnboardingLayout
-    title={localize('views.ledgerInstallationGuide.title')}
-    description={localize('views.ledgerInstallationGuide.body', { values: { network: LedgerAppName.Shimmer } })}
+    title={localize('views.onboarding.createFromLedger.installLedger.title')}
+    description={localize('views.onboarding.createFromLedger.installLedger.description')}
     continueButton={{
         onClick: onContinueClick,
-        text: localize('views.ledgerInstallationGuide.action'),
     }}
     backButton={{
         onClick: onBackClick,

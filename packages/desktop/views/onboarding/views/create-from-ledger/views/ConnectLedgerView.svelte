@@ -26,8 +26,8 @@
 </script>
 
 <OnboardingLayout
-    title={localize('views.connectLedger.title')}
-    description={localize('views.connectLedger.body')}
+    title={localize('views.onboarding.createFromLedger.connectLedger.title')}
+    description={localize('views.onboarding.createFromLedger.connectLedger.description')}
     continueButton={{
         onClick: onContinueClick,
         disabled: !isCorrectAppOpen,
@@ -49,7 +49,7 @@
                 <icon-container>
                     <Icon name={IconName.Link} textColor="current" />
                 </icon-container>
-                <Text align="center">{localize('views.connectLedger.connect')}</Text>
+                <Text align="center">{localize('views.onboarding.createFromLedger.connectLedger.connect')}</Text>
             </connect-card>
             <connect-card class:success={!isLocked}>
                 <status-icon-container>
@@ -58,7 +58,7 @@
                 <icon-container>
                     <Icon name={IconName.Unlocked} textColor="current" />
                 </icon-container>
-                <Text align="center">{localize('views.connectLedger.unlock')}</Text>
+                <Text align="center">{localize('views.onboarding.createFromLedger.connectLedger.unlock')}</Text>
             </connect-card>
             <connect-card class:success={isCorrectAppOpen}>
                 <status-icon-container>
@@ -71,7 +71,7 @@
                 <icon-container>
                     <Icon name={IconName.LinkExternal} textColor="current" />
                 </icon-container>
-                <Text align="center">{localize('views.connectLedger.openApp')}</Text>
+                <Text align="center">{localize('views.onboarding.createFromLedger.connectLedger.open')}</Text>
             </connect-card>
         </div>
         <div class="flex gap-2 justify-center items-center">

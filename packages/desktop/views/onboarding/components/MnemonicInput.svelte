@@ -15,7 +15,7 @@
     let error = false
 
     function checkMnemonic(words: Mnemonic): string | undefined {
-        if (words.length > 24) {
+        if (!(words.length === 24 || words.length === 12)) {
             return localize('error.backup.phraseWordCount', {
                 values: {
                     length: words.length,
@@ -59,7 +59,9 @@
             } else {
                 try {
                     await verifyMnemonic(trimmedContent)
-                    statusMessage = localize('views.onboarding.profileRecovery.importMnemonicPhrase.phraseDetected')
+                    statusMessage = localize(
+                        `views.onboarding.restoreFromMnemonic.inputMnemonic.phraseDetected.${words.length}}`
+                    )
                     value = trimmedContent
                 } catch (err) {
                     error = true

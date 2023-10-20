@@ -49,8 +49,8 @@
 </script>
 
 <OnboardingLayout
-    title={localize('views.onboarding.storageProtectionSetup.setupPinProtection.title')}
-    description={localize('views.onboarding.storageProtectionSetup.setupPinProtection.body')}
+    title={localize('views.onboarding.completeOnboarding.enterPin.title')}
+    description={localize('views.onboarding.completeOnboarding.enterPin.description')}
     continueButton={{
         onClick: onContinueClick,
         disabled: !arePinInputsValid || !arePinInputsMatching,
@@ -59,7 +59,6 @@
         onClick: onBackClick,
     }}
     {busy}
-    size="fit"
 >
     <form
         slot="content"
