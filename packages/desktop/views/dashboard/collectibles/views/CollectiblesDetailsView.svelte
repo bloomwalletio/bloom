@@ -135,11 +135,9 @@
 
 <Pane classes="h-full">
     <collectibles-details-view class="flex flex-row w-full h-full">
-        <media-container
-            class="relative flex w-full items-center justify-center p-5 overflow-hidden bg-surface-2 dark:bg-surface-2-dark"
-        >
+        <media-container class="relative flex w-full items-center justify-center p-5 overflow-hidden">
             <NftMedia {nft} autoplay controls loop muted iconSize="lg" />
-            <div class="absolute left-6 top-6 w-auto">
+            <error-container>
                 {#if alertText}
                     <Pane>
                         <div class="flex flex-col items-start gap-2 p-4">
@@ -150,7 +148,7 @@
                         </div>
                     </Pane>
                 {/if}
-            </div>
+            </error-container>
         </media-container>
         <details-container class="flex flex-col px-6 py-8 space-y-3 w-full h-full max-w-sm">
             <nft-title class="flex justify-between items-center gap-4">
@@ -233,6 +231,10 @@
             @apply object-contain object-center;
             @apply max-w-full max-h-full;
         }
+    }
+
+    error-container {
+        @apply absolute left-8 top-8 w-auto;
     }
 
     details-container {

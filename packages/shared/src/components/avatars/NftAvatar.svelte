@@ -14,9 +14,9 @@
 <nft-avatar class="avatar">
     <Avatar {size} {shape} {...$$restProps} surface={2}>
         {#if parentType === 'image'}
-            <NftMedia {nft} classes="w-full h-full object-cover" />
+            <NftMedia {nft} classes="w-full h-full object-cover" iconSize={size} />
         {:else}
-            <MediaPlaceholder type={nftType} />
+            <MediaPlaceholder type={nftType} {size} />
         {/if}
     </Avatar>
 </nft-avatar>

@@ -55,12 +55,12 @@
         alt={`Media display for ${nft.name}`}
     />
 {:else}
-    <slot name="placeholder">
+    <div class="w-full h-full flex justify-center items-center bg-surface-2 dark:bg-center-2-dark">
         <MediaPlaceholder
             type={nft?.parsedMetadata?.type}
             {isDownloading}
             textColor={placeHolderColor}
             size={iconSize}
         />
-    </slot>
+    </div>
 {/if}

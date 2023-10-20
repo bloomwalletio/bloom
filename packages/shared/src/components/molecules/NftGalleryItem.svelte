@@ -31,7 +31,7 @@
         class="w-full rounded-2xl overflow-hidden flex flex-col divide-y divide-solid divide-stroke dark:divide-stroke-dark"
     >
         <div
-            class="w-full flex justify-center items-center relative bg-surface-2 dark:bg-surface-2-dark"
+            class="w-full flex relative bg-surface-2 dark:bg-surface-2-dark"
             bind:clientWidth={nftWrapperClientWidth}
             style="height: {nftWrapperClientWidth}px; "
         >
