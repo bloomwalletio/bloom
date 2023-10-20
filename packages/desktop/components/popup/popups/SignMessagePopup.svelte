@@ -66,7 +66,7 @@
     </Text>
     <div class="space-y-5">
         <section class="relative flex flex-col border border-solid border-gray-200 rounded-xl p-6">
-            <Text color="gray-600">{localize('popups.signMessage.message')}</Text>
+            <Text color="gray-600">{localize('general.message')}</Text>
             <Text>{message}</Text>
             {#if dapp}
                 <div class="absolute flex flex-row justify-between" style="top: -12px; left: 18px;">
