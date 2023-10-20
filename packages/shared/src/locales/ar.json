@@ -192,11 +192,11 @@
                 "title": "تصدير النسخ الاحتياطية من الملف المُحصَّن",
                 "description": "تصدير نسخة احتياطية مشفرة إلى ملف Stronghold - لكامل محتويات المحافظ الخاصة بك مع أخر سجلات المعاملات لديك"
             },
-            "appLock": {
+            "autoLogout": {
                 "title": "Automatic logout",
                 "description": "فترة عدم النشاط قبل قفل محافظك وتسجيل الخروج"
             },
-            "strongholdPasswordTimeout": {
+            "strongholdTimeout": {
                 "title": "Stronghold Timeout",
                 "description": "Length of time before your Stronghold password is required again"
             },

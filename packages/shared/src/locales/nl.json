@@ -192,11 +192,11 @@
                 "title": "Exporteer back-up",
                 "description": "Exporteren naar een Stronghold bestand - een complete versleutelde back-up van uw portemonnees en de nieuwste transactiegeschiedenis"
             },
-            "appLock": {
+            "autoLogout": {
                 "title": "Automatic logout",
                 "description": "Inactiviteit tijd voordat uw portemonnees vergrendelen en u bent uitgelogd"
             },
-            "strongholdPasswordTimeout": {
+            "strongholdTimeout": {
                 "title": "Stronghold Timeout",
                 "description": "Length of time before your Stronghold password is required again"
             },

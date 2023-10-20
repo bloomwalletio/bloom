@@ -192,11 +192,11 @@
                 "title": "Exportera säkerhetskopian",
                 "description": "Exportera till en Stronghold-fil - en komplett krypterad säkerhetskopia av dina plånböcker och senaste transaktionshistorik"
             },
-            "appLock": {
+            "autoLogout": {
                 "title": "Automatic logout",
                 "description": "Inaktivitetstid innan din plånbok låses och du loggas ut"
             },
-            "strongholdPasswordTimeout": {
+            "strongholdTimeout": {
                 "title": "Stronghold Timeout",
                 "description": "Length of time before your Stronghold password is required again"
             },

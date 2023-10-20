@@ -192,11 +192,11 @@
                 "title": "උපස්ථ අපනයනය කරන්න",
                 "description": "Stronghold ගොනුවකට අපනයනය කරන්න - ඔබගේ මුදල් පසුම්බි සහ නවතම ගණුදෙණු ඉතිහාසය සම්පූර්ණ සංකේතාත්මක උපස්ථයක්"
             },
-            "appLock": {
+            "autoLogout": {
                 "title": "Automatic logout",
                 "description": "ඔබගේ මුදල් පසුම්බි අගුළු දැමීමට පෙර අක්‍රිය කාලය සහ ඔබ ලොග් අවුට් වී ඇත"
             },
-            "strongholdPasswordTimeout": {
+            "strongholdTimeout": {
                 "title": "Stronghold Timeout",
                 "description": "Length of time before your Stronghold password is required again"
             },

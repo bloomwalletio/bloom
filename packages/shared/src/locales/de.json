@@ -192,11 +192,11 @@
                 "title": "Backup exportieren",
                 "description": "In eine Stronghold-Datei exportieren - ein komplett verschlüsseltes Backup deiner Wallets und Transaktionsverläufe"
             },
-            "appLock": {
+            "autoLogout": {
                 "title": "Automatische Abmeldung",
                 "description": "Zeit bei Inaktivität, bis die Wallet gesperrt und du ausgeloggt wirst"
             },
-            "strongholdPasswordTimeout": {
+            "strongholdTimeout": {
                 "title": "Stronghold Timeout",
                 "description": "Dauer der Zeit, bis dein Stronghold Passwort erneut benötigt wird"
             },

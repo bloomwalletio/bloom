@@ -192,11 +192,11 @@
                 "title": "匯出備份",
                 "description": "匯出到Stronghold檔案 - 完整加密備份您的錢包與最新交易紀錄。"
             },
-            "appLock": {
+            "autoLogout": {
                 "title": "自動登出",
                 "description": "錢包鎖定並登出前的閒置時間"
             },
-            "strongholdPasswordTimeout": {
+            "strongholdTimeout": {
                 "title": "Stronghold Timeout",
                 "description": "Length of time before your Stronghold password is required again"
             },

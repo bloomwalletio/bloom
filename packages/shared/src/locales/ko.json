@@ -192,11 +192,11 @@
                 "title": "백업 내보내기",
                 "description": "Stronghold 파일로 내보내기 - 지갑과 최신 거래 내역의 완전한 암호화 백업"
             },
-            "appLock": {
+            "autoLogout": {
                 "title": "Automatic logout",
                 "description": "지갑이 잠기고 로그아웃 되기 전 비활성 시간"
             },
-            "strongholdPasswordTimeout": {
+            "strongholdTimeout": {
                 "title": "Stronghold Timeout",
                 "description": "Length of time before your Stronghold password is required again"
             },
