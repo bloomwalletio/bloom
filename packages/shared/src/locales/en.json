@@ -79,8 +79,8 @@
             },
             "createFromLedger": {
                 "installLedger": {
-                    "title": "Install the Ledger apps",
-                    "description": "Use Ledger Live to find and install the required apps on your Ledger Nano device."
+                    "title": "Install the Ledger app",
+                    "description": "Use Ledger Live to find and install the required app on your Ledger Nano device."
                 },
                 "connectLedger": {
                     "title": "Connect your Ledger to Bloom",
@@ -902,8 +902,6 @@
             }
         },
         "legalUpdate": {
-            "tosTitle": "Terms of Service",
-            "privPolicyTitle": "Privacy Policy",
             "tosAndPrivPolicyBody": "We have updated Bloom's Terms of Service and Privacy Policy.",
             "tosBody": "We have updated Bloom's Terms of Service.",
             "privPolicyBody": "We have updated Bloom's Privacy Policy.",
