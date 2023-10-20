@@ -22,24 +22,34 @@
     export let hash: string
     export let bipPath: string
 
-    $: hasSendConfirmationProps = (toAddress !== undefined && toAmount !== undefined) || hash !== undefined
+    // EIP-192 RPC Methods
+    export let rawMessage: string
 
-    $: locale = $showInternalVerificationPopup
-        ? 'popups.verifyInternalLedgerTransaction'
-        : 'popups.verifyLedgerTransaction'
+    $: showTable = (!!toAddress && !!toAmount) || !!hash || !!rawMessage
+
+    const locale = getLocale()
+    function getLocale(): string {
+        if (rawMessage) {
+            return 'verifyMessageSigning'
+        } else if ($showInternalVerificationPopup) {
+            return 'verifyInternalLedgerTransaction'
+        } else {
+            return 'verifyLedgerTransaction'
+        }
+    }
 
     onDestroy(() => {
         resetShowInternalVerificationPopup()
     })
 </script>
 
-<PopupTemplate title={localize(`${locale}.title`)} description={localize(`${locale}.info`)}>
+<PopupTemplate title={localize(`popups.${locale}.title`)} description={localize(`popups.${locale}.info`)}>
     <div class="flex flex-col gap-4">
         <div class="w-full h-full space-y-6 flex flex-auto flex-col shrink-0">
             <LedgerStatusIllustration variant={LedgerIllustrationVariant.Hash} />
         </div>
         <div class="flex flex-col space-y-2">
-            {#if hasSendConfirmationProps}
+            {#if showTable}
                 <Table
                     orientation="vertical"
                     items={[
@@ -81,6 +91,10 @@
                         {
                             key: localize('general.amount'),
                             value: !useBlindSigning && !isEvmTransaction ? toAmount : undefined,
+                        },
+                        {
+                            key: localize('general.message'),
+                            value: rawMessage,
                         },
                     ]}
                 />

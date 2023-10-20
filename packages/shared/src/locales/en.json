@@ -789,6 +789,10 @@
             "info": "Please confirm the internal transaction on your ledger.",
             "hint": "All assets will remain on your wallet when sending an internal transaction."
         },
+        "verifyMessageSigning": {
+            "title": "Verify message signing",
+            "info": "Please confirm the message signing on your ledger."
+        },
         "crashReporting": {
             "title": "Crash reporting",
             "body": "Help the developers improve Bloom by automatically sending diagnostic data when an error or crash occurs. If selected, this will take effect after restarting Bloom.",
@@ -796,7 +800,6 @@
         },
         "signMessage": {
             "title": "Sign message",
-            "message": "Message",
             "hint": "No balance will be sent to {dappName} in the process of signing this message.",
             "warning": "dApp cannot be determined. No balance will be sent in the process of signing this message.",
             "action": "Sign message"
@@ -1376,7 +1379,8 @@
         "disconnected": "Disconnected",
         "balanceBreakdown": "Balance breakdown",
         "primary": "Primary",
-        "color": "Color"
+        "color": "Color",
+        "message": "Message"
     },
     "filters":{
         "title": "Filters",

@@ -289,6 +289,7 @@ ipcMain.on('start-ledger-process', () => {
         // Handler for message from Ledger process
         ledgerProcess.on('message', (message: ILedgerProcessMessage) => {
             const { method, payload, error } = message
+
             if (error) {
                 windows.main.webContents.send('ledger-error', error)
             } else {
@@ -301,6 +302,9 @@ ipcMain.on('start-ledger-process', () => {
                         break
                     case LedgerApiMethod.SignEvmTransaction:
                         windows.main.webContents.send('evm-signed-transaction', payload)
+                        break
+                    case LedgerApiMethod.SignMessage:
+                        windows.main.webContents.send('signed-message', payload)
                         break
                     default:
                         /* eslint-disable-next-line no-console */
@@ -326,6 +330,10 @@ ipcMain.on(LedgerApiMethod.GetEthereumAppSettings, () => {
 
 ipcMain.on(LedgerApiMethod.SignEvmTransaction, (_e, transactionHex, bip32Path) => {
     ledgerProcess?.postMessage({ method: LedgerApiMethod.SignEvmTransaction, payload: [transactionHex, bip32Path] })
+})
+
+ipcMain.on(LedgerApiMethod.SignMessage, (_e, messageHex, bip32Path) => {
+    ledgerProcess?.postMessage({ method: LedgerApiMethod.SignMessage, payload: [messageHex, bip32Path] })
 })
 
 export function getOrInitWindow(windowName: string): BrowserWindow {
