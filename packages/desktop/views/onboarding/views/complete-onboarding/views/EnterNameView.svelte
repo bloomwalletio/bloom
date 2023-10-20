@@ -22,10 +22,10 @@
 </script>
 
 <OnboardingLayout
-    title={localize('views.onboarding.profileSetup.enterName.title', {
+    title={localize('views.onboarding.completeOnboarding.enterName.title', {
         network: $onboardingProfile?.network?.name,
     })}
-    description={localize('views.onboarding.profileSetup.enterName.body')}
+    description={localize('views.onboarding.completeOnboarding.enterName.description')}
     continueButton={{
         onClick: onContinueClick,
         disabled: !profileName,
@@ -35,7 +35,7 @@
         <TextInput
             bind:error
             bind:value={profileName}
-            label={localize('views.onboarding.profileSetup.enterName.profileName')}
+            label={localize('general.name')}
             autofocus
             on:submit={onContinueClick}
         />

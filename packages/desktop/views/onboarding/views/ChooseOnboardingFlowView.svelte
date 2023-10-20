@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { IconName } from '@bloomwalletio/ui'
     import { OnboardingType, onboardingProfile, updateOnboardingProfile } from '@contexts/onboarding'
     import { localize } from '@core/i18n'
     import { getOnboardingNetworkTypeFromNetworkId } from '@core/network'
@@ -7,11 +8,9 @@
     import { onMount } from 'svelte'
     import { OnboardingSelectorTile } from '../components'
     import { onboardingRouter } from '../onboarding-router'
-    import { IconName } from '@bloomwalletio/ui'
 
     const networkId = $onboardingProfile?.network?.id
     const networkType = getOnboardingNetworkTypeFromNetworkId(networkId)
-    const displayedNetworkName = $onboardingProfile?.network?.name
 
     let selectedOnboardingType: OnboardingType | undefined = undefined
     function onOnboardingTypeClick(onboardingType: OnboardingType): void {
@@ -34,9 +33,7 @@
 </script>
 
 <OnboardingLayout
-    title={localize('views.onboarding.profileSetup.setup.title', {
-        network: displayedNetworkName,
-    })}
+    title={localize('views.onboarding.chooseOnboardingFlow.title')}
     continueButton={{
         onClick: onContinueClick,
         disabled: !selectedOnboardingType,
@@ -47,10 +44,8 @@
 >
     <div slot="content" class="flex flex-col space-y-3">
         <OnboardingSelectorTile
-            primaryText={localize('actions.createWallet', {
-                network: displayedNetworkName,
-            })}
-            secondaryText={localize('actions.createWalletDescription', { network: displayedNetworkName })}
+            primaryText={localize('views.onboarding.chooseOnboardingFlow.new.primary')}
+            secondaryText={localize('views.onboarding.chooseOnboardingFlow.new.secondary')}
             icon={IconName.UserPlus}
             hidden={features?.onboarding?.[networkType]?.newProfile?.hidden}
             disabled={!features?.onboarding?.[networkType]?.newProfile?.enabled}
@@ -58,8 +53,8 @@
             selected={selectedOnboardingType === OnboardingType.Create}
         />
         <OnboardingSelectorTile
-            primaryText={localize(`actions.restoreWallet.${networkType}`)}
-            secondaryText={localize(`actions.restoreWalletDescription.${networkType}`)}
+            primaryText={localize('views.onboarding.chooseOnboardingFlow.restore.primary')}
+            secondaryText={localize('views.onboarding.chooseOnboardingFlow.restore.secondary')}
             icon={IconName.Refresh2}
             iconColor="orange"
             hidden={features?.onboarding?.[networkType]?.restoreProfile?.hidden}
@@ -68,8 +63,8 @@
             selected={selectedOnboardingType === OnboardingType.Restore}
         />
         <OnboardingSelectorTile
-            primaryText={localize('actions.claimShimmer')}
-            secondaryText={localize('actions.claimShimmerDescription')}
+            primaryText={localize('views.onboarding.chooseOnboardingFlow.claim.primary')}
+            secondaryText={localize('views.onboarding.chooseOnboardingFlow.claim.secondary')}
             icon={IconName.CoinsHand}
             iconColor="info"
             hidden={features?.onboarding?.[networkType]?.claimRewards?.hidden}
