@@ -149,7 +149,7 @@ function showRewardsFoundNotification(updatedTotalUnclaimedShimmerRewards: numbe
     const foundRewardsAmountFormatted = formatTokenAmountBestMatch(foundRewardsAmount, getOnboardingBaseToken())
     showNotification({
         variant: 'success',
-        text: localize('views.onboarding.shimmerClaiming.success.successfullyFound', {
+        text: localize('views.onboarding.restoreProfile.claimFinder.success', {
             values: { amount: foundRewardsAmountFormatted },
         }),
     })

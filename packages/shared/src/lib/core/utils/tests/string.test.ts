@@ -127,6 +127,62 @@ describe('File: string.ts', () => {
             const result = getInitials('John Doe', 10)
             expect(result).toBe('JD')
         })
+
+        test('should ignore punctuation', () => {
+            const result = getInitials('John? Doe!', 2)
+            expect(result).toBe('JD')
+        })
+
+        test('should ignore symbols', () => {
+            const result = getInitials('John & Doe', 2)
+            expect(result).toBe('JD')
+        })
+
+        test('should handle names with only symbols', () => {
+            const result = getInitials('!!! ???', 2)
+            expect(result).toBe('')
+        })
+
+        test('should handle names with mixed symbols and letters', () => {
+            const result = getInitials('!Jo!hn ?Do!e', 2)
+            expect(result).toBe('JD')
+        })
+
+        test('should handle names with only numbers', () => {
+            const result = getInitials('123 456', 2)
+            expect(result).toBe('14')
+        })
+
+        test('should handle names with mixed numbers and letters', () => {
+            const result = getInitials('John1 Doe2', 2)
+            expect(result).toBe('JD')
+        })
+
+        test('should handle combined emojis', () => {
+            const result = getInitials('👨‍👩‍👧 Family', 2)
+            expect(result).not.toBe('👨F')
+            expect(result).toBe('👨‍👩‍👧F')
+        })
+
+        test('should handle mixed-case names', () => {
+            const result = getInitials('jOhN dOe', 2)
+            expect(result).toBe('JD')
+        })
+
+        test('should return all initials when maxChars is not provided', () => {
+            const result = getInitials('John Doe')
+            expect(result).toBe('JD')
+        })
+
+        test('should handle international characters as initials', () => {
+            const result = getInitials('Österreich Republic', 2)
+            expect(result).toBe('ÖR')
+        })
+
+        test('should handle names with only emojis', () => {
+            const result = getInitials('😀 😃', 2)
+            expect(result).toBe('😀😃')
+        })
     })
 
     describe('getTrimmedLength', () => {

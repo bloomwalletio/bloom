@@ -3,13 +3,13 @@ import { HEX_PREFIX } from '@core/utils'
 import { RLP } from '@ethereumjs/rlp'
 import { Transaction } from '@ethereumjs/tx'
 import { bufArrToArr } from '@ethereumjs/util'
-import { IEvmTransactionSignature } from '../interfaces'
+import { IEvmSignature } from '../interfaces'
 import { EvmTransactionData } from '../types'
 
 export function prepareEvmTransaction(
     transactionData: EvmTransactionData,
     chainId: EvmChainId,
-    transactionSignature?: IEvmTransactionSignature
+    transactionSignature?: IEvmSignature
 ): string {
     const { r, v, s } = transactionSignature ?? {}
     const isSigned = r && v && s
