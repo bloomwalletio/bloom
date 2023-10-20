@@ -136,7 +136,8 @@
             "congratulations": {
                 "title": "Setup complete",
                 "body1": "Bloom is ready",
-                "body2": "Seamlessly manage your keys, assets and transactions.",
+                "body2": "Profile is ready",
+                "body3": "Seamlessly manage your keys, assets and transactions.",
                 "action": "Enter Bloom"
             }
         },
@@ -283,9 +284,15 @@
             }
         },
         "login": {
-            "pleaseWait": "Bitte warte {time, plural, one {1 Sekunde} other {# Sekunden}}",
-            "incorrectAttempts": "{attempts, plural, one {1 falscher Versuch} other {# falsche Versuche}}",
-            "hintStronghold": "Deine Stronghold-Version ist veraltet. Bitte melde dich an, um deine Stronghold-Version zu aktualisieren."
+            "incorrectPin": "Incorrect PIN code",
+            "hintStronghold": "Deine Stronghold-Version ist veraltet. Bitte melde dich an, um deine Stronghold-Version zu aktualisieren.",
+            "maxAttempts": {
+                "title": "Couldn't sign you in",
+                "body1": "You have entered an",
+                "body2": "incorrect PIN code {times, plural, one {# time} other {# times}}.",
+                "body3": "For security purposes, your profile has been temporarily locked. Please wait for",
+                "body4": "before attempting to login again."
+            }
         },
         "loadProfile": {
             "loginSteps": {
@@ -469,10 +476,10 @@
         "collectibles": {
             "gallery": {
                 "title": "Sammlerstücke",
-                "emptyTitle": "Keine Sammlerstücke",
-                "noResults": "Keine Treffer",
+                "emptyTitle": "No collectibles found",
+                "noResults": "No results found",
                 "timelocked": "Locked for {timeDiff}",
-                "emptyDescription": "Empfange oder Erhalte dein erstes Sammlerstück jetzt!"
+                "emptyDescription": "Deposit or receive your first collectible!"
             },
             "details": {
                 "storageDepositDescription": "Eine rückzahlbare Kaution ist erforderlich, um dein NFT auf dem Tangle aufzubewahren.",
@@ -627,7 +634,7 @@
         "appUpdate": {
             "title": "Nach Updates suchen",
             "installedVersion": "Installierte Version",
-            "newVerion": "Neue Version",
+            "newVersion": "Neue Version",
             "stage": "Phase",
             "prod": "Produktion",
             "alpha": "Alpha",
@@ -1159,7 +1166,7 @@
         "testDeepLink": "Deep-Link testen",
         "delete": "Löschen",
         "remove": "Entfernen",
-        "depositNft": "NFTs einzahlen",
+        "getStarted": "Get started",
         "vote": "Abstimmen",
         "addProposal": "Vorschlag hinzufügen",
         "removeProposal": "Abstimmung entfernen",
@@ -1289,6 +1296,7 @@
         "toAddress": "zu {account}",
         "capsLock": "Feststelltaste ist aktiviert",
         "version": "Version",
+        "versionFull": "Version {version}",
         "unknown": "Unbekannt",
         "unknownAddress": "Unbekannte Adresse",
         "none": "Keine",

@@ -136,7 +136,8 @@
             "congratulations": {
                 "title": "Setup complete",
                 "body1": "Bloom is ready",
-                "body2": "Seamlessly manage your keys, assets and transactions.",
+                "body2": "Profile is ready",
+                "body3": "Seamlessly manage your keys, assets and transactions.",
                 "action": "Enter Bloom"
             }
         },
@@ -283,9 +284,15 @@
             }
         },
         "login": {
-            "pleaseWait": "Attendere {time, plural, one {1 secondo} other {# secondi}}",
-            "incorrectAttempts": "{attempts, plural, one {1 tentativo errato} other {# tentativi errati}}",
-            "hintStronghold": "La tua versione di Stronghold è obsoleta. Effettua il login per aggiornare la tua Stronghold."
+            "incorrectPin": "Incorrect PIN code",
+            "hintStronghold": "La tua versione di Stronghold è obsoleta. Effettua il login per aggiornare la tua Stronghold.",
+            "maxAttempts": {
+                "title": "Couldn't sign you in",
+                "body1": "You have entered an",
+                "body2": "incorrect PIN code {times, plural, one {# time} other {# times}}.",
+                "body3": "For security purposes, your profile has been temporarily locked. Please wait for",
+                "body4": "before attempting to login again."
+            }
         },
         "loadProfile": {
             "loginSteps": {
@@ -469,10 +476,10 @@
         "collectibles": {
             "gallery": {
                 "title": "Collezionabili",
-                "emptyTitle": "Nessun collectibles",
-                "noResults": "Nessun risultato",
+                "emptyTitle": "No collectibles found",
+                "noResults": "No results found",
                 "timelocked": "Locked for {timeDiff}",
-                "emptyDescription": "Deposita o Ricevi il tuo primo collezionabile ora!"
+                "emptyDescription": "Deposit or receive your first collectible!"
             },
             "details": {
                 "storageDepositDescription": "Un deposito rimborsabile è richiesto per memorizzare il vostro NFT sul Tangle.",
@@ -627,7 +634,7 @@
         "appUpdate": {
             "title": "Check for updates",
             "installedVersion": "Installed version",
-            "newVerion": "New version",
+            "newVersion": "New version",
             "stage": "Stage",
             "prod": "Production",
             "alpha": "Alpha",
@@ -1159,7 +1166,7 @@
         "testDeepLink": "Test deep link",
         "delete": "Elimina",
         "remove": "Rimuovi",
-        "depositNft": "Deposita NFTs",
+        "getStarted": "Get started",
         "vote": "Vota",
         "addProposal": "Aggiungi proposta",
         "removeProposal": "Rimuovi la proposta",
@@ -1289,6 +1296,7 @@
         "toAddress": "Inviato a {account}",
         "capsLock": "Blocco maiuscole è attivo",
         "version": "Version",
+        "versionFull": "Version {version}",
         "unknown": "Sconosciuto",
         "unknownAddress": "Indirizzo sconosciuto",
         "none": "Nessuno",

@@ -3,10 +3,11 @@
     import { localize } from '@core/i18n'
     import { resetShowInternalVerificationPopup, showInternalVerificationPopup } from '@core/ledger'
     import { getBaseToken } from '@core/profile/actions'
+    import { LedgerStatusIllustration, LedgerIllustrationVariant } from '@ui'
     import { formatTokenAmountBestMatch } from '@core/token/utils'
     import { formatHexString } from '@core/utils'
-    import { LedgerAnimation, Text, TextType } from '@ui'
     import { onDestroy } from 'svelte'
+    import PopupTemplate from '../PopupTemplate.svelte'
 
     export let isEvmTransaction: boolean
     export let useBlindSigning: boolean
@@ -32,59 +33,60 @@
     })
 </script>
 
-<Text type={TextType.h4} classes="mb-4">{localize(`${locale}.title`)}</Text>
-<Text type={TextType.p} classes="mb-4" secondary>{localize(`${locale}.info`)}</Text>
-
-<div class="w-full h-full space-y-6 flex flex-auto flex-col shrink-0">
-    <LedgerAnimation animation="ledger-confirm-prompt-desktop" />
-</div>
-<div class="flex flex-col space-y-2">
-    {#if hasSendConfirmationProps}
-        <Table
-            orientation="vertical"
-            items={[
-                {
-                    key: localize('general.hash'),
-                    value: useBlindSigning ? formatHexString(hash) : undefined,
-                    copyable: true,
-                },
-                {
-                    key: localize('general.bipPath'),
-                    value: useBlindSigning && bipPath ? bipPath : undefined,
-                },
-                {
-                    key: localize('general.amount'),
-                    value: !useBlindSigning && isEvmTransaction ? toAmount : undefined,
-                },
-                {
-                    key: localize('general.address'),
-                    value: !useBlindSigning && isEvmTransaction ? toAddress : undefined,
-                    copyable: true,
-                },
-                {
-                    key: localize('general.network'),
-                    value: !useBlindSigning && isEvmTransaction ? chainId : undefined,
-                    copyable: true,
-                },
-                {
-                    key: localize('general.maxFees'),
-                    value:
-                        !useBlindSigning && isEvmTransaction
-                            ? formatTokenAmountBestMatch(Number(maxGasFee), getBaseToken())
-                            : undefined,
-                },
-                {
-                    key: localize('general.sendTo'),
-                    value: !useBlindSigning && !isEvmTransaction ? toAddress : undefined,
-                    copyable: true,
-                },
-                {
-                    key: localize('general.amount'),
-                    value: !useBlindSigning && !isEvmTransaction ? toAmount : undefined,
-                },
-            ]}
-        />
-    {:else if $showInternalVerificationPopup}
-        <Alert variant="info" text={localize('popups.verifyInternalLedgerTransaction.hint')} />
-    {/if}
-</div>
+<PopupTemplate title={localize(`${locale}.title`)} description={localize(`${locale}.info`)}>
+    <div class="flex flex-col gap-4">
+        <div class="w-full h-full space-y-6 flex flex-auto flex-col shrink-0">
+            <LedgerStatusIllustration variant={LedgerIllustrationVariant.Hash} />
+        </div>
+        <div class="flex flex-col space-y-2">
+            {#if hasSendConfirmationProps}
+                <Table
+                    orientation="vertical"
+                    items={[
+                        {
+                            key: localize('general.hash'),
+                            value: useBlindSigning ? formatHexString(hash) : undefined,
+                            copyable: true,
+                        },
+                        {
+                            key: localize('general.bipPath'),
+                            value: useBlindSigning && bipPath ? bipPath : undefined,
+                        },
+                        {
+                            key: localize('general.amount'),
+                            value: !useBlindSigning && isEvmTransaction ? toAmount : undefined,
+                        },
+                        {
+                            key: localize('general.address'),
+                            value: !useBlindSigning && isEvmTransaction ? toAddress : undefined,
+                            copyable: true,
+                        },
+                        {
+                            key: localize('general.network'),
+                            value: !useBlindSigning && isEvmTransaction ? chainId : undefined,
+                            copyable: true,
+                        },
+                        {
+                            key: localize('general.maxFees'),
+                            value:
+                                !useBlindSigning && isEvmTransaction
+                                    ? formatTokenAmountBestMatch(Number(maxGasFee), getBaseToken())
+                                    : undefined,
+                        },
+                        {
+                            key: localize('general.sendTo'),
+                            value: !useBlindSigning && !isEvmTransaction ? toAddress : undefined,
+                            copyable: true,
+                        },
+                        {
+                            key: localize('general.amount'),
+                            value: !useBlindSigning && !isEvmTransaction ? toAmount : undefined,
+                        },
+                    ]}
+                />
+            {:else if $showInternalVerificationPopup}
+                <Alert variant="info" text={localize('popups.verifyInternalLedgerTransaction.hint')} />
+            {/if}
+        </div>
+    </div>
+</PopupTemplate>

@@ -31,6 +31,7 @@
         expirationDate,
         timelockDate,
         disableChangeExpiration,
+        disableChangeTimelock,
         giftStorageDeposit,
         destinationNetworkId,
         tag,
@@ -136,24 +137,28 @@
         {storageDeposit}
         {destinationNetworkId}
         {disableChangeExpiration}
-        disableChangeTimelock={disableChangeExpiration}
+        {disableChangeTimelock}
         disableGiftStorageDeposit={disableToggleGift}
         disableAll={isTransferring}
     />
 
     <optional-inputs class="flex flex-row flex-wrap gap-4">
-        <AddInputButton
-            open={!!selectedExpirationPeriod}
-            disabled={isTransferring}
-            text={localize('general.expirationTime')}
-            onClick={() => (selectedExpirationPeriod = TimePeriod.OneDay)}
-        />
-        <AddInputButton
-            open={!!selectedTimelockPeriod}
-            disabled={isTransferring}
-            text={localize('general.timelockDate')}
-            onClick={() => (selectedTimelockPeriod = TimePeriod.OneDay)}
-        />
+        {#if !disableChangeExpiration}
+            <AddInputButton
+                open={!!selectedExpirationPeriod}
+                disabled={isTransferring}
+                text={localize('general.expirationTime')}
+                onClick={() => (selectedExpirationPeriod = TimePeriod.OneDay)}
+            />
+        {/if}
+        {#if !disableChangeTimelock}
+            <AddInputButton
+                open={!!selectedTimelockPeriod}
+                disabled={isTransferring}
+                text={localize('general.timelockDate')}
+                onClick={() => (selectedTimelockPeriod = TimePeriod.OneDay)}
+            />
+        {/if}
         <OptionalInput
             bind:value={tag}
             error={tagInputError}

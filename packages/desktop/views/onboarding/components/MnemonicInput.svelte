@@ -15,7 +15,7 @@
     let error = false
 
     function checkMnemonic(words: Mnemonic): string | undefined {
-        if (words.length !== 24) {
+        if (words.length > 24) {
             return localize('error.backup.phraseWordCount', {
                 values: {
                     length: words.length,

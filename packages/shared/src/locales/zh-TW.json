@@ -136,7 +136,8 @@
             "congratulations": {
                 "title": "Setup complete",
                 "body1": "Bloom is ready",
-                "body2": "Seamlessly manage your keys, assets and transactions.",
+                "body2": "Profile is ready",
+                "body3": "Seamlessly manage your keys, assets and transactions.",
                 "action": "Enter Bloom"
             }
         },
@@ -283,9 +284,15 @@
             }
         },
         "login": {
-            "pleaseWait": "請等候 {time, plural, one {# 秒} other {# 秒}}",
-            "incorrectAttempts": "{attempts, plural, one {錯誤輸入 # 次} other {輸入錯誤 # 次}}",
-            "hintStronghold": "您的 Stronghold 版本已過時，請登入來更新它。"
+            "incorrectPin": "Incorrect PIN code",
+            "hintStronghold": "您的 Stronghold 版本已過時，請登入來更新它。",
+            "maxAttempts": {
+                "title": "Couldn't sign you in",
+                "body1": "You have entered an",
+                "body2": "incorrect PIN code {times, plural, one {# time} other {# times}}.",
+                "body3": "For security purposes, your profile has been temporarily locked. Please wait for",
+                "body4": "before attempting to login again."
+            }
         },
         "loadProfile": {
             "loginSteps": {
@@ -469,10 +476,10 @@
         "collectibles": {
             "gallery": {
                 "title": "收藏品",
-                "emptyTitle": "暫無收藏品",
-                "noResults": "沒有結果",
+                "emptyTitle": "No collectibles found",
+                "noResults": "No results found",
                 "timelocked": "Locked for {timeDiff}",
-                "emptyDescription": "現在就存入或接收您的第一件收藏品！"
+                "emptyDescription": "Deposit or receive your first collectible!"
             },
             "details": {
                 "storageDepositDescription": "將您的 NFT 儲存在 Tangle 上所須的可退還押金。",
@@ -627,7 +634,7 @@
         "appUpdate": {
             "title": "檢查更新",
             "installedVersion": "已安裝版本",
-            "newVerion": "新版本",
+            "newVersion": "新版本",
             "stage": "階段",
             "prod": "生產",
             "alpha": "Alpha",
@@ -1159,7 +1166,7 @@
         "testDeepLink": "測試深度連結",
         "delete": "刪除",
         "remove": "移除",
-        "depositNft": "存入 NFT",
+        "getStarted": "Get started",
         "vote": "投票",
         "addProposal": "新增提案",
         "removeProposal": "移除提案",
@@ -1289,6 +1296,7 @@
         "toAddress": "至{account}",
         "capsLock": "大寫鎖定已啟用",
         "version": "Version",
+        "versionFull": "Version {version}",
         "unknown": "未知",
         "unknownAddress": "未知地址",
         "none": "無",

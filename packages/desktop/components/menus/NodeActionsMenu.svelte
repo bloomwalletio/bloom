@@ -1,12 +1,13 @@
 <script lang="ts">
     import { IconName, Menu } from '@bloomwalletio/ui'
+    import { INode } from '@iota/sdk/out/types'
     import { localize } from '@core/i18n'
     import {
         removeNodeFromClientOptions,
         toggleDisabledNodeInClientOptions,
         togglePrimaryNodeInClientOptions,
     } from '@core/network/actions'
-    import { IClientOptions, INode } from '@core/network/interfaces'
+    import { IClientOptions } from '@core/network/interfaces'
     import { getDefaultNodes } from '@core/network/utils'
     import { activeProfile } from '@core/profile/stores'
     import { PopupId, closePopup, openPopup } from '@desktop/auxiliary/popup'

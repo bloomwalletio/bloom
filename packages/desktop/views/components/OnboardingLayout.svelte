@@ -1,8 +1,7 @@
 <script lang="ts">
     import { Button, Text } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
-    import BgGradient from './BgGradient.svelte'
-    import LoggedOutLayout from './LoggedOutLayout.svelte'
+    import { BgGradient, LoggedOutLayout } from '.'
 
     interface IButtonProps {
         text: string
@@ -38,7 +37,7 @@
 </script>
 
 <LoggedOutLayout>
-    <BgGradient />
+    <BgGradient variant="center" />
     <content-container class="flex flex-col w-full h-full items-center justify-center">
         <content class="flex flex-col w-full gap-6 {size}">
             <content-title class="flex flex-col space-y-2.5">

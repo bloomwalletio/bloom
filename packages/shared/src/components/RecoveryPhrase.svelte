@@ -20,9 +20,9 @@
                     {#if selected}
                         <Text type="sm" fontWeight="medium" customColor="neutral-1">{i + 1}</Text>
                     {:else}
-                        <Text type="sm" fontWeight="medium" customColor="brand-400">{`${i + 1}. `}</Text>
+                        <Text type="sm" fontWeight="medium" textColor="secondary">{`${i + 1}. `}</Text>
                         <Text type="sm" fontWeight="medium" textColor="primary">
-                            {verification && !matched ? '*****' : word}
+                            {verification && !matched ? '• • • • • •' : word}
                         </Text>
                     {/if}
                 </recovery-word>
@@ -39,7 +39,8 @@
 
     recovery-word {
         @apply flex flex-row items-center gap-1;
-        @apply px-2 py-2 rounded-lg bg-surface-2 dark:bg-surface-2-dark;
+        @apply p-2 rounded-lg;
+        @apply rounded-lg border-[1.5px] border-solid border-stroke dark:border-stroke-dark;
 
         &.disabled {
             @apply pointer-events-none;
@@ -50,7 +51,7 @@
         }
 
         &.matched {
-            @apply bg-surface-brand/20;
+            @apply border-success/50;
         }
     }
 </style>

@@ -23,7 +23,6 @@
     on:dragenter={onEnter}
     on:dragleave={onLeave}
     on:dragover|preventDefault
-    class:dropping
     class="flex flex-col items-center relative text-center gap-4"
 >
     {#if dropping}
@@ -34,6 +33,7 @@
         <Icon name={IconName.Download} textColor="brand" size="lg" />
         <input
             class="absolute opacity-0 w-full h-full"
+            class:dropping
             type="file"
             on:change={onDrop}
             accept={allowedExtensions ? allowedExtensions.map((e) => `.${e}`).join(',') : '*'}
@@ -51,9 +51,10 @@
         @apply bg-surface-1 dark:bg-surface-1-dark hover:bg-surface-2 dark:hover:bg-surface-2-dark focus:bg-surface-2 dark:focus:bg-surface-2-dark;
         @apply rounded-lg border border-solid border-stroke dark:border-stroke-dark;
 
-        &.dropping {
+        .dropping {
             @apply pointer-events-none;
         }
+
         * {
             @apply cursor-pointer;
         }

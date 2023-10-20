@@ -36,7 +36,7 @@
             tokenBalance,
             fiatBalance,
             tokens,
-            nfts: $ownedNfts,
+            nfts: $ownedNfts.filter((nft) => nft.networkId === networkId),
         }
     }
 </script>

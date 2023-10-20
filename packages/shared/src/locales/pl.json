@@ -136,7 +136,8 @@
             "congratulations": {
                 "title": "Setup complete",
                 "body1": "Bloom is ready",
-                "body2": "Seamlessly manage your keys, assets and transactions.",
+                "body2": "Profile is ready",
+                "body3": "Seamlessly manage your keys, assets and transactions.",
                 "action": "Enter Bloom"
             }
         },
@@ -283,9 +284,15 @@
             }
         },
         "login": {
-            "pleaseWait": "Zaczekaj {time, plural, one {# sekundę} few {# sekundy} many {# sekund} other {# sekund}}",
-            "incorrectAttempts": "{attempts, plural, one {# nieudana próba} few {# nieudane próby} many {# nieudanych prób} other {# nieudanych prób}}",
-            "hintStronghold": "Wersja Twojej kopii Stronghold jest przestarzała. Zaloguj się, aby zaktualizować Twoją kopię Stronghold."
+            "incorrectPin": "Incorrect PIN code",
+            "hintStronghold": "Wersja Twojej kopii Stronghold jest przestarzała. Zaloguj się, aby zaktualizować Twoją kopię Stronghold.",
+            "maxAttempts": {
+                "title": "Couldn't sign you in",
+                "body1": "You have entered an",
+                "body2": "incorrect PIN code {times, plural, one {# time} other {# times}}.",
+                "body3": "For security purposes, your profile has been temporarily locked. Please wait for",
+                "body4": "before attempting to login again."
+            }
         },
         "loadProfile": {
             "loginSteps": {
@@ -469,10 +476,10 @@
         "collectibles": {
             "gallery": {
                 "title": "Kolekcje",
-                "emptyTitle": "Brak kolekcji",
-                "noResults": "Brak wyników",
+                "emptyTitle": "No collectibles found",
+                "noResults": "No results found",
                 "timelocked": "Locked for {timeDiff}",
-                "emptyDescription": "Prześlij lub odbierz swoją pierwszą kolekcję już teraz!"
+                "emptyDescription": "Deposit or receive your first collectible!"
             },
             "details": {
                 "storageDepositDescription": "Zwrotny depozyt, wymagany do przechowywania Twojego NFT w sieci Tangle.",
@@ -627,7 +634,7 @@
         "appUpdate": {
             "title": "Sprawdź dostępność aktualizacji",
             "installedVersion": "Zainstalowana wersja",
-            "newVerion": "Nowa wersja",
+            "newVersion": "Nowa wersja",
             "stage": "Kanał",
             "prod": "Oficjalny",
             "alpha": "Alpha",
@@ -1159,7 +1166,7 @@
         "testDeepLink": "Testuj deep link",
         "delete": "Usuń",
         "remove": "Usuń",
-        "depositNft": "Odbierz NFT",
+        "getStarted": "Get started",
         "vote": "Głosuj",
         "addProposal": "Dodaj propozycję",
         "removeProposal": "Usuń propozycję",
@@ -1289,6 +1296,7 @@
         "toAddress": "do {account}",
         "capsLock": "Caps Lock jest włączony",
         "version": "Version",
+        "versionFull": "Version {version}",
         "unknown": "Brak informacji",
         "unknownAddress": "Nieznany adres",
         "none": "Brak",

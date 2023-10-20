@@ -51,6 +51,10 @@
             lightmode: 'ledger/ledger-pin.svg',
             darkmode: 'ledger/ledger-pin.svg',
         },
+        'ledger-hash': {
+            lightmode: 'ledger/ledger-hash.svg',
+            darkmode: 'ledger/ledger-hash.svg',
+        },
 
         // Wallet
         'empty-collectibles': {
@@ -60,8 +64,16 @@
 
         // Bloom
         portal: {
-            lightmode: 'onboarding/portal.png',
-            darkmode: 'onboarding/portal.png',
+            lightmode: 'onboarding/portal.webp',
+            darkmode: 'onboarding/portal.webp',
+        },
+        landscape: {
+            lightmode: 'onboarding/landscape.webp',
+            darkmode: 'onboarding/landscape.webp',
+        },
+        balloon: {
+            lightmode: 'onboarding/balloon.webp',
+            darkmode: 'onboarding/balloon.webp',
         },
     }
 </script>

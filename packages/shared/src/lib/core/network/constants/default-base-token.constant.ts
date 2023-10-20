@@ -27,5 +27,5 @@ export const DEFAULT_BASE_TOKEN: Readonly<{ [id in NetworkId]: IBaseToken }> = {
     [SupportedNetworkId.Shimmer]: DEFAULT_SHIMMER_BASE_TOKEN,
     [SupportedNetworkId.Testnet]: DEFAULT_TESTNET_BASE_TOKEN,
     [SupportedNetworkId.ShimmerEvm]: DEFAULT_SHIMMER_BASE_TOKEN,
-    [SupportedNetworkId.ShimmerEvmTestnet]: DEFAULT_TESTNET_BASE_TOKEN,
+    [SupportedNetworkId.TestnetEvm]: DEFAULT_TESTNET_BASE_TOKEN,
 }

@@ -13,14 +13,14 @@ export const HELP_SETTINGS = [
             actionLocale: 'readDocumentation',
         },
     },
-    {
-        component: HelpSection,
-        childRoute: HelpAndInfoRoute.Faq,
-        props: {
-            url: FAQ_URL,
-            actionLocale: 'visitFaq',
-        },
-    },
+    // {
+    //     component: HelpSection,
+    //     childRoute: HelpAndInfoRoute.Faq,
+    //     props: {
+    //         url: FAQ_URL,
+    //         actionLocale: 'visitFaq',
+    //     },
+    // },
     {
         component: HelpSection,
         childRoute: HelpAndInfoRoute.Discord,

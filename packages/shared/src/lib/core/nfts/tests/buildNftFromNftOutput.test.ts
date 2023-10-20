@@ -13,6 +13,7 @@ import { buildNftFromNftOutput } from '../actions/buildNftFromNftOutput'
 import { NetworkNamespace, StardustNetworkName } from '../../network/enums'
 
 const accountAddress = 'rms1qr47ee0fhahukrzec088v9lngv7w5k2sn3jjtwvkcpjfgxhhsazlsurxrx9'
+const networkId = `${NetworkNamespace.Stardust}:${StardustNetworkName.Shimmer}`
 
 const outputId = '0x16cc2007c1f0120b4832f89950ac5099f804c9730f54c4c1865f485b7b12a7870000'
 const type = 6
@@ -55,7 +56,7 @@ jest.mock('../../../../lib/core/wallet/utils/getBech32AddressFromAddressTypes.ts
 
 jest.mock('../../network/actions/getActiveNetworkId.ts', () => ({
     getActiveNetworkId: jest.fn(() => {
-        return `${NetworkNamespace.Stardust}:${StardustNetworkName.Shimmer}`
+        return networkId
     }),
 }))
 
@@ -73,7 +74,7 @@ describe('File: buildNFtFromOutput.ts', () => {
                 immutableFeatures,
             },
         }
-        let nft = buildNftFromNftOutput(outputData, accountAddress, true)
+        let nft = buildNftFromNftOutput(outputData, networkId, accountAddress, true)
         expect(nft.isSpendable).toBe(true)
     })
 
@@ -88,7 +89,7 @@ describe('File: buildNFtFromOutput.ts', () => {
                 immutableFeatures,
             },
         }
-        const nft = buildNftFromNftOutput(outputData, accountAddress)
+        const nft = buildNftFromNftOutput(outputData, networkId, accountAddress)
         expect(nft.isSpendable).toBe(true)
         expect(nft.timelockTime).toBe(2876367917000)
     })
@@ -104,7 +105,7 @@ describe('File: buildNFtFromOutput.ts', () => {
                 immutableFeatures,
             },
         }
-        const nft = buildNftFromNftOutput(outputData, accountAddress)
+        const nft = buildNftFromNftOutput(outputData, networkId, accountAddress)
         expect(nft.isSpendable).toBe(true)
         expect(nft.timelockTime).toBe(136367917000)
     })
@@ -119,7 +120,7 @@ describe('File: buildNFtFromOutput.ts', () => {
                 unlockConditions: incomingUnlockConditions,
             },
         }
-        let nft = buildNftFromNftOutput(outputData, accountAddress, false)
+        let nft = buildNftFromNftOutput(outputData, networkId, accountAddress, false)
         expect(nft.isSpendable).toBe(false)
         expect(nft.timelockTime).toBe(undefined)
 
@@ -132,7 +133,7 @@ describe('File: buildNFtFromOutput.ts', () => {
                 unlockConditions: incomingTimelockedCondition,
             },
         }
-        nft = buildNftFromNftOutput(outputData, accountAddress, false)
+        nft = buildNftFromNftOutput(outputData, networkId, accountAddress, false)
         expect(nft.isSpendable).toBe(false)
         expect(nft.timelockTime).toBe(undefined)
 
@@ -146,7 +147,7 @@ describe('File: buildNFtFromOutput.ts', () => {
                 immutableFeatures,
             },
         }
-        nft = buildNftFromNftOutput(outputData, accountAddress, false)
+        nft = buildNftFromNftOutput(outputData, networkId, accountAddress, false)
         expect(nft.isSpendable).toBe(false)
         expect(nft.timelockTime).toBe(undefined)
     })
@@ -162,7 +163,7 @@ describe('File: buildNFtFromOutput.ts', () => {
                 immutableFeatures,
             },
         }
-        let nft = buildNftFromNftOutput(outputData, accountAddress)
+        let nft = buildNftFromNftOutput(outputData, networkId, accountAddress)
 
         let expectedParsedMetadata = {
             standard: 'IRC27',
