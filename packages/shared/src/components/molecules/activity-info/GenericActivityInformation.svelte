@@ -113,7 +113,9 @@
             key: localize('general.expirationTime'),
             tooltip: localize(`tooltips.transactionDetails.${activity.direction}.expirationTime`),
             slot:
-                activity.asyncData?.asyncStatus !== ActivityAsyncStatus.Expired && activity.asyncData?.expirationDate
+                activity.asyncData?.asyncStatus !== ActivityAsyncStatus.Expired &&
+                activity.asyncData?.asyncStatus !== ActivityAsyncStatus.Claimed &&
+                activity.asyncData?.expirationDate
                     ? {
                           component: UnclaimedActivityPill,
                           props: {
