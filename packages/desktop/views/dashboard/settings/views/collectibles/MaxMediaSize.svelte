@@ -69,7 +69,7 @@
     }
 </script>
 
-<Text type="body1" class="mb-2">
+<Text type="body2" class="mb-2">
     {localize('views.settings.maxMediaSize.title')}
 </Text>
 <Text type="base" textColor="secondary" class="mb-6">
