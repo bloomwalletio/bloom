@@ -15,8 +15,8 @@ interface IProfileSettingsFeatures extends IFeatureFlag {
 }
 
 interface ISecuritySettingsFeatures extends IFeatureFlag {
-    appLock: IFeatureFlag
-    strongholdPasswordTimeout: IFeatureFlag
+    autoLogout: IFeatureFlag
+    strongholdTimeout: IFeatureFlag
     changePincode: IFeatureFlag
     changePassword: IFeatureFlag
     exportStronghold: IFeatureFlag

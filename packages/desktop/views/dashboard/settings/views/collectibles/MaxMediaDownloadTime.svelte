@@ -10,8 +10,8 @@
     }))
     let selected: IOption = options.find(
         (option) =>
-            option.value === $activeProfile?.settings.maxMediaDownloadTimeInSeconds.toString() ||
-            option.value === DEFAULT_MAX_NFT_DOWNLOADING_TIME_IN_SECONDS.toString()
+            option.value === $activeProfile?.settings.maxMediaDownloadTimeInSeconds.toString() ??
+            DEFAULT_MAX_NFT_DOWNLOADING_TIME_IN_SECONDS.toString()
     )
     $: if (selected) onMaxMediaDownloadTimeChange(selected)
 

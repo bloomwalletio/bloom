@@ -1,6 +1,6 @@
 export enum SecuritySettingsRoute {
-    AppLock = 'appLock',
-    StrongholdPasswordTimeout = 'strongholdPasswordTimeout',
+    AutoLogout = 'autoLogout',
+    StrongholdTimeout = 'strongholdTimeout',
     ChangePincode = 'changePincode',
     ChangePassword = 'changePassword',
     ExportStronghold = 'exportStronghold',

@@ -34,10 +34,10 @@ const settingsFeatures: ISettingsFeatures = {
     },
     security: {
         enabled: true,
-        appLock: {
+        autoLogout: {
             enabled: true,
         },
-        strongholdPasswordTimeout: {
+        strongholdTimeout: {
             enabled: true,
         },
         changePincode: {
