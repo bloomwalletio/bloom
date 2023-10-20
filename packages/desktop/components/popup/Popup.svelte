@@ -54,6 +54,7 @@
     export let props: any
     export let hideClose: boolean = false
     export let preventClose: boolean = false
+    export let disableCloseOnOutsideClick = false
     export let fullScreen: boolean
     export let transition = true
     export let overflow = false
@@ -163,6 +164,12 @@
         event.preventDefault()
     }
 
+    function onClickOutside(): void {
+        if (!disableCloseOnOutsideClick) {
+            tryClosePopup()
+        }
+    }
+
     onMount(() => {
         const elems = focusableElements()
         if (elems && elems.length > 0) {
@@ -183,7 +190,7 @@
     <button type="button" tabindex="0" on:focus={onFocusFirst} />
     <popup
         use:clickOutside
-        on:clickOutside={tryClosePopup}
+        on:clickOutside={onClickOutside}
         bind:this={popupContent}
         class:overflow
         class:relative

@@ -7,6 +7,7 @@ export function openPopup(
         props = null,
         hideClose = false,
         preventClose = false,
+        disableCloseOnOutsideClick = false,
         fullScreen = false,
         transition = undefined,
         overflow = false,
@@ -15,7 +16,18 @@ export function openPopup(
     forceClose: boolean = false
 ): void {
     modifyPopupState(
-        { active: true, id: id, hideClose, preventClose, fullScreen, transition, props, overflow, relative },
+        {
+            active: true,
+            id: id,
+            hideClose,
+            preventClose,
+            disableCloseOnOutsideClick,
+            fullScreen,
+            transition,
+            props,
+            overflow,
+            relative,
+        },
         forceClose
     )
 }

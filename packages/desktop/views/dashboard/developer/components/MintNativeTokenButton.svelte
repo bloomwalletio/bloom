@@ -16,6 +16,7 @@
         } else {
             openPopup({
                 id: PopupId.Confirmation,
+                disableCloseOnOutsideClick: true,
                 props: {
                     title: localize('popups.noAlias.title'),
                     alert: { variant: 'warning', text: localize('popups.noAlias.description') },
