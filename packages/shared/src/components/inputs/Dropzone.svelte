@@ -9,16 +9,32 @@
 
     export let onDrop: (event?: Event) => void
 
+    let leaveTimeout: number | null = null
+
     function onEnter(): void {
+        if (leaveTimeout !== null) {
+            clearTimeout(leaveTimeout)
+            leaveTimeout = null
+        }
         dropping = true
     }
 
     function onLeave(): void {
-        dropping = false
+        leaveTimeout = setTimeout(() => {
+            dropping = false
+        }, 50)
+    }
+
+    function onOver(event: DragEvent): void {
+        if (leaveTimeout !== null) {
+            clearTimeout(leaveTimeout)
+            leaveTimeout = null
+        }
+        event.preventDefault() // prevent default is needed here to allow drops
     }
 </script>
 
-<dropzone on:drop={onDrop} on:dragenter={onEnter} on:dragleave={onLeave} on:dragover|preventDefault class:dropping>
+<dropzone on:drop={onDrop} on:dragenter={onEnter} on:dragleave={onLeave} on:dragover={onOver} class:dropping>
     {#if fileName}
         <Text fontWeight="medium" textColor="secondary">{fileName}</Text>
     {:else}
@@ -45,6 +61,10 @@
 
         &.dropping {
             @apply border-2 border-dashed border-text-brand dark:border-text-brand-dark;
+
+            input {
+                @apply pointer-events-none;
+            }
         }
 
         * {
