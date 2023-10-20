@@ -35,11 +35,11 @@
                 "title": "Choose your setup type",
                 "new": {
                     "primary": "New profile",
-                    "secondary": "Create a new profile with a mnemonic or ledger"
+                    "secondary": "Create a new profile with a mnemonic or Ledger Nano"
                 },
                 "restore": {
                     "primary": "Restore profile",
-                    "secondary": "Restore existing profile with a backup or ledger"
+                    "secondary": "Restore existing profile with a backup or Ledger Nano"
                 },
                 "claim": {
                     "primary": "Claim Shimmer rewards",
@@ -51,11 +51,11 @@
                     "title": "Choose your key storage",
                     "software": {
                         "primary": "Software storage",
-                        "secondary": "Store keys in Stronghold file with a recovery phrase"
+                        "secondary": "Store keys in a Stronghold file with your recovery phrase"
                     },
                     "hardware": {
                         "primary": "Hardware storage",
-                        "secondary": "Store your keys on a Ledger Nano device"
+                        "secondary": "Use the keys stored on your Ledger Nano device"
                     }
                 }
             },
