@@ -57,10 +57,9 @@
 </script>
 
 <OnboardingLayout
-    title={localize('views.onboarding.profileSetup.setupRecovered.title', {
+    title={localize('views.onboarding.restoreProfile.chooseRestoreProfileFlow.title', {
         network: displayedNetworkName,
     })}
-    description={localize('views.onboarding.profileSetup.setupRecovered.body')}
     continueButton={{
         onClick: onContinueClick,
         disabled: !selectedRestoreProfileType,
@@ -72,8 +71,8 @@
 >
     <div slot="content" class="flex flex-col space-y-3">
         <OnboardingSelectorTile
-            primaryText={localize('views.onboarding.profileSetup.setupRecovered.importMnemonic')}
-            secondaryText={localize('views.onboarding.profileSetup.setupRecovered.importMnemonicDescription')}
+            primaryText={localize('views.onboarding.restoreProfile.chooseRestoreProfileFlow.mnemonic.primary')}
+            secondaryText={localize('views.onboarding.restoreProfile.chooseRestoreProfileFlow.mnemonic.secondary')}
             icon={IconName.Keyboard}
             iconColor="info"
             hidden={features?.onboarding?.[networkType]?.restoreProfile?.recoveryPhrase?.hidden}
@@ -82,8 +81,8 @@
             selected={selectedRestoreProfileType === RestoreProfileType.Mnemonic}
         />
         <OnboardingSelectorTile
-            primaryText={localize('views.onboarding.profileSetup.setupRecovered.importFile')}
-            secondaryText={localize('views.onboarding.profileSetup.setupRecovered.importFileDescription')}
+            primaryText={localize('views.onboarding.restoreProfile.chooseRestoreProfileFlow.file.primary')}
+            secondaryText={localize('views.onboarding.restoreProfile.chooseRestoreProfileFlow.file.secondary')}
             icon={IconName.Folder}
             iconColor="orange"
             hidden={features?.onboarding?.[networkType]?.restoreProfile?.strongholdBackup?.hidden}
@@ -92,8 +91,8 @@
             selected={selectedRestoreProfileType === RestoreProfileType.Stronghold}
         />
         <OnboardingSelectorTile
-            primaryText={localize('views.onboarding.profileSetup.setupRecovered.importLedger')}
-            secondaryText={localize('views.onboarding.profileSetup.setupRecovered.importLedgerDescription')}
+            primaryText={localize('views.onboarding.restoreProfile.chooseRestoreProfileFlow.hardware.primary')}
+            secondaryText={localize('views.onboarding.restoreProfile.chooseRestoreProfileFlow.hardware.secondary')}
             icon={IconName.Hardware}
             iconColor="success"
             hidden={features?.onboarding?.[networkType]?.restoreProfile?.ledgerBackup?.hidden}

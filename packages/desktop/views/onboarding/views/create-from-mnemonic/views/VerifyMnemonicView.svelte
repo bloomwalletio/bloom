@@ -12,7 +12,7 @@
     const networkType = getOnboardingNetworkTypeFromNetworkId(networkId)
 
     const VERIFICATION_WORD_COUNT = 24
-    const LOCALE_KEY = 'views.onboarding.profileBackup.verifyMnemonic'
+    const LOCALE_KEY = 'views.onboarding.createFromMnemonic.verifyMnemonic'
 
     function generateVerificationIndexes(count: number, totalIndexes: number): number[] {
         const randomNumbers: number[] = []
@@ -83,6 +83,7 @@
 
 <OnboardingLayout
     title={localize(`${LOCALE_KEY}.title`)}
+    description={localize(`${LOCALE_KEY}.description`)}
     continueButton={{
         onClick: onContinueClick,
         disabled: !isComplete,
@@ -98,13 +99,13 @@
             <div class="flex flex-col gap-4">
                 <div class="flex justify-between items-center">
                     <Text textColor="secondary">
-                        {localize(`${LOCALE_KEY}.matchWord`, { number: verifyIndex + 1 })}:
+                        {localize(`${LOCALE_KEY}.matchWord`, { number: verifyIndex + 1 })}
                     </Text>
                     {#if choiceError}
                         <div class="flex justify-center items-center gap-2">
                             <Icon name={IconName.InfoCircle} size="xs" textColor="danger" />
                             <Text type="sm" fontWeight="medium" textColor="danger"
-                                >{localize(`${LOCALE_KEY}.error`)}</Text
+                                >{localize(`${LOCALE_KEY}.noMatch`)}</Text
                             >
                         </div>
                     {/if}

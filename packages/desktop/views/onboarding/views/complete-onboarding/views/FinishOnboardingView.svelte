@@ -11,7 +11,7 @@
     import LoggedOutLayout from '@views/components/LoggedOutLayout.svelte'
     import features from '@features/features'
 
-    const LOCALE_KEY = 'views.onboarding.congratulations'
+    const LOCALE_KEY = 'views.onboarding.completeOnboarding.finishOnboarding'
 
     function onContinueClick(): void {
         if ($isOnboardingLedgerProfile) {
@@ -28,7 +28,7 @@
     }
 </script>
 
-{#if $profiles.length === 0}
+{#if $profiles.length !== 0}
     <LoggedOutLayout hideLogo>
         <setup-complete>
             <SuccessSvg />
@@ -37,18 +37,15 @@
                     <Animation loop={false} animation="confetti" />
                 </animation-container>
             {/if}
-            <div class="flex flex-col justify-center items-center gap-3">
-                <div class="flex flex-col justify-center items-center">
-                    <Text type="h5" customColor="success-500">{localize(`${LOCALE_KEY}.title`)}</Text>
-                    <Text type="h1">{localize(`${LOCALE_KEY}.body1`)}</Text>
-                </div>
-                <Text type="body2" fontWeight="medium" textColor="secondary">{localize(`${LOCALE_KEY}.body3`)}</Text>
+            <div class="flex flex-col justify-center items-center space-y-6">
+                <Text type="h5" customColor="success-500">{localize(`${LOCALE_KEY}.status`)}</Text>
+                <Text type="h1">{localize(`${LOCALE_KEY}.appSetup.title`)}</Text>
             </div>
             <Button
                 on:click={onContinueClick}
                 icon={IconName.ArrowNarrowRight}
                 reverse
-                text={localize(`${LOCALE_KEY}.action`)}
+                text={localize(`${LOCALE_KEY}.appSetup.action`)}
             />
         </setup-complete>
         <landscape-container>
@@ -66,7 +63,6 @@
         backButton={{
             hidden: true,
         }}
-        size="fit"
     >
         <div slot="content" class="flex flex-col justify-center items-center gap-8">
             <svg-container>
@@ -77,11 +73,9 @@
                     </animation-container>
                 {/if}
             </svg-container>
-            <div class="flex flex-col justify-center items-center gap-3">
-                <div class="flex flex-col justify-center items-center">
-                    <Text type="h5" customColor="success-500">{localize(`${LOCALE_KEY}.title`)}</Text>
-                    <Text type="h1">{localize(`${LOCALE_KEY}.body2`)}</Text>
-                </div>
+            <div class="flex flex-col justify-center items-center space-y-6">
+                <Text type="h5" customColor="success-500">{localize(`${LOCALE_KEY}.status`)}</Text>
+                <Text type="h1">{localize(`${LOCALE_KEY}.profileSetup.title`)}</Text>
             </div>
             <Button
                 on:click={onContinueClick}

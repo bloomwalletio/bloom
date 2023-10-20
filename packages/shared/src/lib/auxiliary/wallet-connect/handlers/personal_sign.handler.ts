@@ -38,7 +38,6 @@ export function handlePersonalSign(
             chain,
             method: 'personal_sign',
             callback: responseCallback,
-            onCancelled: () => responseCallback({ error: 'User rejected' }),
         },
     })
 }
