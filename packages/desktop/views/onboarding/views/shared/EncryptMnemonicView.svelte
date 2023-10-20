@@ -76,8 +76,8 @@
 </script>
 
 <OnboardingLayout
-    title={localize('views.onboarding.strongholdSetup.setupStrongholdPassword.title')}
-    description={localize('views.onboarding.strongholdSetup.setupStrongholdPassword.body')}
+    title={localize('views.onboarding.shared.encryptMnemonic.title')}
+    description={localize('views.onboarding.shared.encryptMnemonic.description')}
     continueButton={{
         onClick: onContinueClick,
         disabled: !strongholdPassword || !confirmedStrongholdPassword,

@@ -5,7 +5,7 @@
     import { createFromMnemonicRouter } from '../create-from-mnemonic-router'
     import { SuccessSvg } from '@views/onboarding/components'
 
-    const LOCALE_KEY = 'views.onboarding.profileBackup.verifyMnemonic.success'
+    const LOCALE_KEY = 'views.onboarding.createFromMnemonic.verifyMnemonicSuccess'
 
     function onContinueClick(): void {
         $createFromMnemonicRouter.next()
@@ -24,7 +24,7 @@
         <div class="flex flex-col justify-center items-center gap-4">
             <SuccessSvg />
             <Text type="body1" customColor="success-500">
-                {localize(`${LOCALE_KEY}.body1`)}
+                {localize(`${LOCALE_KEY}.status`)}
             </Text>
         </div>
         <div class="flex flex-col justify-center items-center gap-3">
@@ -32,7 +32,7 @@
                 {localize(`${LOCALE_KEY}.title`)}
             </Text>
             <Text type="sm" textColor="secondary" fontWeight="medium">
-                {localize(`${LOCALE_KEY}.body2`)}
+                {localize(`${LOCALE_KEY}.description`)}
             </Text>
         </div>
     </content>

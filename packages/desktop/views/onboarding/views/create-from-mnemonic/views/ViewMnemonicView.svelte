@@ -33,11 +33,11 @@
 </script>
 
 <OnboardingLayout
-    title={localize('views.onboarding.profileBackup.viewMnemonic.title')}
-    description={localize('views.onboarding.profileBackup.viewMnemonic.body')}
+    title={localize('views.onboarding.createFromMnemonic.viewMnemonic.title')}
+    description={localize('views.onboarding.createFromMnemonic.viewMnemonic.description')}
     continueButton={{
         onClick: onContinueClick,
-        text: localize('general.copiedThis'),
+        text: localize('actions.continue'),
     }}
     backButton={{
         onClick: onBackClick,

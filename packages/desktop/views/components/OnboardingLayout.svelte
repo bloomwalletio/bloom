@@ -85,7 +85,7 @@
             max-width: 360px;
         }
         &.medium {
-            max-width: 480px;
+            max-width: 528px;
         }
         &.large {
             max-width: 630px;
