@@ -28,10 +28,10 @@
 
 <button type="button" on:click={onNftClick} class="nft-gallery-item flex flex-col items-center justify-center">
     <div
-        class="w-full rounded-2xl overflow-hidden flex flex-col shadow-elevation-1 divide-y divide-solid divide-stroke dark:divide-stroke-dark"
+        class="w-full rounded-2xl overflow-hidden flex flex-col divide-y divide-solid divide-stroke dark:divide-stroke-dark"
     >
         <div
-            class="w-full flex relative"
+            class="w-full flex justify-center items-center relative bg-surface-2 dark:bg-surface-2-dark"
             bind:clientWidth={nftWrapperClientWidth}
             style="height: {nftWrapperClientWidth}px; "
         >
