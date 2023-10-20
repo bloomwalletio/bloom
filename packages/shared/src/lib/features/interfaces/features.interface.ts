@@ -1,3 +1,4 @@
+import { IAppFeatures } from './app-features.interface'
 import { ICollectiblesFeatures } from './collectibles-features.interface'
 import { IContactsFeatures } from './contacts-features.interface'
 import { IDeveloperFeatures } from './developer-features.interface'
@@ -9,6 +10,7 @@ import { IWalletFeatures } from './wallet-features.interface'
 import { OnboardingFeatures } from '../types/onboarding-features.type'
 
 export interface IFeatures {
+    app: IAppFeatures
     collectibles: ICollectiblesFeatures
     contacts: IContactsFeatures
     developerTools: IDeveloperFeatures

@@ -29,14 +29,14 @@
             case LedgerConnectionState.EthereumAppOpen:
                 subtitle = 'Ethereum App'
                 logo = LogoName.Ethereum
-                iconBackgroundColor = '#627EEA'
+                iconBackgroundColor = 'ethereum'
                 break
             case LedgerConnectionState.Locked:
                 subtitle = localize('general.locked')
                 iconName = IconName.Hardware
                 iconColor = 'success'
                 break
-            case LedgerConnectionState.NotConnected:
+            case LedgerConnectionState.Disconnected:
             default:
                 subtitle = localize('general.disconnected')
                 iconName = IconName.ZapOff

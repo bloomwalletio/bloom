@@ -14,6 +14,7 @@ import {
 import { ActivityAction, ActivityType } from '../enums'
 import { FoundryActivity } from '../types'
 import { generateBaseActivity } from './generateBaseActivity'
+import { SubjectType } from '@core/wallet/enums'
 
 export async function generateSingleFoundryActivity(
     account: IAccountState,
@@ -43,6 +44,7 @@ export async function generateSingleFoundryActivity(
 
     return {
         ...baseActivity,
+        recipient: { type: SubjectType.Account, account, address: account.depositAddress },
         type: ActivityType.Foundry,
         aliasAddress,
         mintedTokens: mintedTokens.toString(),

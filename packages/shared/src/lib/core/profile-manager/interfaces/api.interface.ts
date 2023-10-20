@@ -3,14 +3,17 @@ import type {
     Client,
     CreateAccountPayload,
     FoundryId,
+    IAuth,
+    IRent,
     NftId,
+    Output,
     OutputId,
     TransactionId,
     WalletOptions,
 } from '@iota/sdk'
 
 import type { IAccount } from '@core/account/interfaces'
-import type { IAuth, INodeInfoResponse } from '@core/network/interfaces'
+import type { INodeInfoResponse } from '@core/network/interfaces'
 import type { ISecretManager } from '@core/secret-manager/interfaces'
 
 import type { IProfileManager } from './profile-manager.interface'
@@ -44,4 +47,5 @@ export interface IApi {
     aliasIdToBech32(aliasId: string, bech32Hrp: string): string
     nftIdToBech32(nftId: string, bech32Hrp: string): string
     computeOutputId(id: TransactionId, index: number): Promise<OutputId>
+    computeStorageDeposit(output: Output, rent: IRent): Promise<OutputId>
 }

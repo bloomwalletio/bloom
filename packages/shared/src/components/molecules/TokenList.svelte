@@ -66,7 +66,6 @@
                         onClick={() => onTokenAmountTileClick(item)}
                         token={item}
                         amount={item.balance.total}
-                        classes="mb-2"
                     />
                 </VirtualList>
             {:else}

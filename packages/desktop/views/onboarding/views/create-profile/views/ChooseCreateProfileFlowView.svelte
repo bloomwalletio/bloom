@@ -65,11 +65,12 @@
     }}
     {busy}
 >
-    <div slot="content" class="flex flex-col space-y-4">
+    <div slot="content" class="flex flex-col space-y-3">
         <OnboardingSelectorTile
             primaryText={localize('views.onboarding.profileSetup.setupNew.softwareAccount.title')}
             secondaryText={localize('views.onboarding.profileSetup.setupNew.softwareAccount.description')}
-            icon={IconName.FolderLock}
+            icon={IconName.Folder}
+            iconColor="orange"
             hidden={features?.onboarding?.[networkType]?.newProfile?.softwareProfile?.hidden}
             disabled={!features?.onboarding?.[networkType]?.newProfile?.softwareProfile?.enabled || busy}
             onClick={() => onProfileTypeClick(CreateProfileType.Mnemonic)}
@@ -79,6 +80,7 @@
             primaryText={localize('views.onboarding.profileSetup.setupNew.ledgerAccount.title')}
             secondaryText={localize('views.onboarding.profileSetup.setupNew.ledgerAccount.description')}
             icon={IconName.Hardware}
+            iconColor="success"
             hidden={features?.onboarding?.[networkType]?.newProfile?.ledgerProfile?.hidden}
             disabled={!features?.onboarding?.[networkType]?.newProfile?.ledgerProfile?.enabled || busy}
             onClick={() => onProfileTypeClick(CreateProfileType.Ledger)}

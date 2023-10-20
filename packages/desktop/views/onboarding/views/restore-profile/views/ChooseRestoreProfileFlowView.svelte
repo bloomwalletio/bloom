@@ -70,11 +70,12 @@
     }}
     {busy}
 >
-    <div slot="content" class="flex flex-col space-y-4">
+    <div slot="content" class="flex flex-col space-y-3">
         <OnboardingSelectorTile
             primaryText={localize('views.onboarding.profileSetup.setupRecovered.importMnemonic')}
             secondaryText={localize('views.onboarding.profileSetup.setupRecovered.importMnemonicDescription')}
             icon={IconName.Keyboard}
+            iconColor="info"
             hidden={features?.onboarding?.[networkType]?.restoreProfile?.recoveryPhrase?.hidden}
             disabled={!features?.onboarding?.[networkType]?.restoreProfile?.recoveryPhrase?.enabled || busy}
             onClick={() => onProfileTypeClick(RestoreProfileType.Mnemonic)}
@@ -83,7 +84,8 @@
         <OnboardingSelectorTile
             primaryText={localize('views.onboarding.profileSetup.setupRecovered.importFile')}
             secondaryText={localize('views.onboarding.profileSetup.setupRecovered.importFileDescription')}
-            icon={IconName.FileLock}
+            icon={IconName.Folder}
+            iconColor="orange"
             hidden={features?.onboarding?.[networkType]?.restoreProfile?.strongholdBackup?.hidden}
             disabled={!features?.onboarding?.[networkType]?.restoreProfile?.strongholdBackup?.enabled || busy}
             onClick={() => onProfileTypeClick(RestoreProfileType.Stronghold)}
@@ -93,6 +95,7 @@
             primaryText={localize('views.onboarding.profileSetup.setupRecovered.importLedger')}
             secondaryText={localize('views.onboarding.profileSetup.setupRecovered.importLedgerDescription')}
             icon={IconName.Hardware}
+            iconColor="success"
             hidden={features?.onboarding?.[networkType]?.restoreProfile?.ledgerBackup?.hidden}
             disabled={!features?.onboarding?.[networkType]?.restoreProfile?.ledgerBackup?.enabled || busy}
             onClick={() => onProfileTypeClick(RestoreProfileType.Ledger)}

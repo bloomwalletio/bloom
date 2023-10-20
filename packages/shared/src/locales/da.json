@@ -3,7 +3,10 @@
         "onboarding": {
             "appSetup": {
                 "welcome": {
-                    "title": "Welcome to"
+                    "title": "Welcome to",
+                    "subtitle": "A new journey awaits...",
+                    "legalBody": "Check to confirm you've read and accept the",
+                    "button": "Begin setup"
                 },
                 "legal": {
                     "title": "Fortrolighedspolitik og Tjenestevilkår"
@@ -62,67 +65,66 @@
                     "importLedgerDescription": "Gendan fra Ledger Nano S-/X-enhed"
                 },
                 "enterName": {
-                    "title": "Opret {network}-profilen",
+                    "title": "Define your {network} profile",
                     "profileName": "Profilnavn",
-                    "body1": "Der kan oprettes flere brugerprofiler for at organisere wallets samt øge fortroligheden.",
-                    "body2": {
-                        "first": "For nu, lad os starte med det første profilnavn.",
-                        "nonFirst": "For nu, lad os starte med profilnavnet."
-                    },
-                    "addMore": "Flere profiler kan tilføjes senere."
+                    "body": "Please define a new name for your profile."
                 }
             },
             "strongholdSetup": {
                 "setupStrongholdPassword": {
-                    "title": "Opret adgangskode",
-                    "body1": "En stærk adgangskode kræves til beskyttelse af midlerne. Brug en kombination af ord, men undgå alm. sætninger, navne eller datoer.",
-                    "body2": "Det anbefales at nedskrive adgangskoden i Recovery Kit'et."
+                    "title": "Secure Recovery Phrase",
+                    "body": "Your password needs to be highly secure to encrypt and recover your Stronghold vault. Also, you will need this to send tokens from your wallet."
                 }
             },
             "storageProtectionSetup": {
                 "setupPinProtection": {
                     "title": "Opsæt PIN-kode",
-                    "body1": "Angiv den 6-cifrede PIN-kode nedenfor, der skal angives, når profilen tilgås.",
-                    "body2": "Brug kun cifre"
+                    "body": "Enter a 6-digit PIN below. Use numbers only."
                 }
             },
             "profileBackup": {
                 "viewMnemonic": {
                     "title": "Gendannelsesssætning",
-                    "body1": "Nedskriv gendannelsessætningen i Recovery Kit'et i den eksakte rækkefølge, de fremgår.",
-                    "body2": "Opbevar denne fortroligt og sikkert.",
-                    "body3": "Det er vigtigt at have en skriftlig sikkerhedskopi. Computere kan fejle, og filer kan mistes.",
+                    "body": "Carefully copy the words in the exact order below. Keep this private and safely stored.",
                     "revealRecoveryPhrase": "Vis gendannelsessætning",
                     "hideRecoveryPhrase": "Skjul gendannelsessætning"
                 },
                 "verifyMnemonic": {
                     "title": "Bekræft gendannelsessætning",
-                    "body": "Lad os tjekke, om gendannelsessætningen blev nedskrevet korrekt. Vælg hvert ord i nummereret rækkefølge. Tip: Angiv vha. tastaturet tallet ved siden af et ord for at vælge det.",
+                    "body": "Let’s check you wrote down your phrase correctly. Please select the right word with the corresponding number.",
                     "word": "Ord",
-                    "verified": "Gendannelsessætning bekræftet",
-                    "verifiedBody": "Husk at holde den fortrolig og sikkert opbevaret."
+                    "match": "Match from below",
+                    "success": {
+                        "title": "Verification success",
+                        "body1": "The recovery phrase matched",
+                        "body2": "Remember to keep your copy private and safely stored"
+                    },
+                    "failure": {
+                        "title": "Verification failure",
+                        "body1": "The recovery phrase did not match",
+                        "body2": "Please check your records"
+                    }
                 }
             },
             "profileRecovery": {
                 "importMnemonicPhrase": {
                     "title": "Angiv genoprettelsessætningen",
-                    "body": "A recovery phrase is 24 words long, all lower case, with spaces between. This is used to recover existing Bloom profiles.",
-                    "enter": "Angiv den hemmelige genoprettelsessætning",
+                    "body": "A recovery phrase is 24 words long, all lower case, with spaces between. Separate each word by spaces or commas.",
                     "phraseDetected": "24-ords gendannelsessætning fundet"
                 },
                 "importStrongholdBackup": {
-                    "title": "Importér Stronghold-sikkerhedskopien",
+                    "title": "Restore your profile",
                     "body": "Importér en Stronghold-sikkerhedskopifil for at gendanne profilen."
                 },
-                "backupPassword": {
-                    "body1": "Angiv sikkerhedskopiadgangskoden.",
-                    "body2": "Dette er adgangskoden, der blev angivet ifm. oprettelsen af sikkerhedskopien."
+                "unlockBackup": {
+                    "title": "Unlock your backup",
+                    "body": "Please provide your backup password below."
                 }
             },
             "shimmerClaiming": {
                 "claimRewards": {
-                    "title": "Shimmer-staking belønninger",
-                    "body": "Tjek at Shimmer staking-belønningerne er korrekte. Man skal muligvis søge flere gange for at finde sin fulde saldo."
+                    "title": "Shimmer staking rewards",
+                    "body": "Please check if your Shimmer staking rewards balance is correct. If not, please use the balance finder."
                 },
                 "success": {
                     "title": "Shimmer indløst",
@@ -132,20 +134,21 @@
                 }
             },
             "congratulations": {
-                "title": "Profilopsætning næsten færdig...",
-                "body": "Den nye profil vil være klar til brug, når kontrolpanelet er indlæst.",
-                "ledgerHint": "Frakobl ikke Ledger-enheden, før kontrolpanelet er fuldstændigt indlæst."
+                "title": "Setup complete",
+                "body1": "Bloom is ready",
+                "body2": "Profile is ready",
+                "body3": "Seamlessly manage your keys, assets and transactions.",
+                "action": "Enter Bloom"
             }
         },
         "ledgerInstallationGuide": {
-            "title": "Er {network}-appen installeret på Ledger-enheden?",
-            "body1": "Før der fortsættes, så brug Ledger Live til at finde og installere {network}-appen.",
-            "body2": "Sørg for, at Ledger-firmwaren er opdateret. Alle præinstallerede apps bør opdateres til seneste versioner.",
-            "action": "Ja, {network}-appen er installeret"
+            "title": "Have you installed the necessary Ledger app?",
+            "body": "Use Ledger Live to find and install the {network} app.",
+            "action": "Yes, let's continue"
         },
         "connectLedger": {
             "title": "Connect your Ledger to Bloom",
-            "body": "For your Ledger device to be found by Bloom, please ensure that the official Ledger Live application is closed.",
+            "body": "For your Ledger device to be found by Bloom, please ensure that the official Ledger Live application is closed and the following steps are followed.",
             "connect": "Tilslut Ledger-enheden",
             "unlock": "Oplås Ledger-enheden PIN-koden",
             "openApp": "Åbn Shimmer-appen på Ledger-enheden"
@@ -157,9 +160,6 @@
             },
             "profile": {
                 "title": "Profil"
-            },
-            "network": {
-                "title": "Netværk"
             },
             "collectibles": {
                 "title": "Samleobjekter"
@@ -187,10 +187,6 @@
             "notifications": {
                 "title": "Notifikationer",
                 "description": "Systemnotifikationer for transaktionsbegivenheder"
-            },
-            "networkStatus": {
-                "title": "Netværksstatus",
-                "description": "Viser status for den node, man pt. er forbundet til"
             },
             "exportStronghold": {
                 "title": "Eksportere sikkerhedskopi",
@@ -233,12 +229,8 @@
                 "description": "Change your Bloom profile name",
                 "success": "Profilnavnet er skiftet"
             },
-            "walletFinder": {
-                "title": "Wallet finder",
-                "description": "Perform an extended search of your previously used wallets"
-            },
             "hiddenAccounts": {
-                "title": "Skjulte wallets",
+                "title": "Hidden accounts",
                 "description": "Valg af denne indstilling vil vise wallets, som tidligere var skjult"
             },
             "deleteProfile": {
@@ -248,26 +240,6 @@
             "deepLinks": {
                 "title": "Deep links",
                 "description": "Automatically fill transaction data in Bloom upon clicking a deep link starting with {appProtocol}://"
-            },
-            "networkInformation": {
-                "title": "Netværksinformation",
-                "connectedTo": "Forbundet til"
-            },
-            "configureNodeList": {
-                "title": "Node-opsætning",
-                "description": "Håndtér node-listen, som wallet'en forbinder til",
-                "primaryNode": "Primær node",
-                "excludeNode": "Udeluk node",
-                "includeNode": "Inkludér node",
-                "editDetails": "Redigér detaljer",
-                "setAsPrimary": "Opsæt primærnode",
-                "unsetAsPrimary": "Ryd primærnode",
-                "removeNode": "Fjern node",
-                "noNodes": "Der er ingen noder, kan ikke oprettes forbindelse til netværket"
-            },
-            "localProofOfWork": {
-                "title": "Proof of work",
-                "description": "Udfør enten proof of work lokalt på enheden eller outsource til noden"
             },
             "errorLog": {
                 "title": "Fejllog",
@@ -312,9 +284,15 @@
             }
         },
         "login": {
-            "pleaseWait": "Afvent {time, plural, one {1 sekund} other {# sekunder}}",
-            "incorrectAttempts": "{attempts, plural, one {1 forkert forsøg} other {# forkerte forsøg}}",
-            "hintStronghold": "Aktuel Stronghold-version forældet, log ind for at opdatere."
+            "incorrectPin": "Incorrect PIN code",
+            "hintStronghold": "Aktuel Stronghold-version forældet, log ind for at opdatere.",
+            "maxAttempts": {
+                "title": "Couldn't sign you in",
+                "body1": "You have entered an",
+                "body2": "incorrect PIN code {times, plural, one {# time} other {# times}}.",
+                "body3": "For security purposes, your profile has been temporarily locked. Please wait for",
+                "body4": "before attempting to login again."
+            }
         },
         "loadProfile": {
             "loginSteps": {
@@ -351,6 +329,7 @@
                 "action": "Action",
                 "address": "Address",
                 "amount": "Amount",
+                "claimableTransactions": "You have {amount} {amount, select, 1 {transaction that requires} other {transactions that require}} claiming",
                 "consolidatedOutputs": "{amount} outputs consolidated"
             },
             "profileMenu": {
@@ -379,9 +358,6 @@
                         "title": "Kædeindbetalingsadresse",
                         "networkTitle": "Netværksindbetalingsadresse"
                     },
-                    "chainInformation": {
-                        "title": "Kædeinformation"
-                    },
                     "confirmLedgerEvmAddress": {
                         "title": "Bekræft EVM-adresse",
                         "header": "Vi har genereret din EVM-adresse"
@@ -403,6 +379,23 @@
                     },
                     "removeChain": {
                         "title": "Fjern kæde"
+                    },
+                    "networkSettings": {
+                        "configureNodeList": {
+                            "title": "Node configuration",
+                            "description": "Manage the list of nodes you connect to",
+                            "excludeNode": "Exclude node",
+                            "includeNode": "Include node",
+                            "editDetails": "Edit details",
+                            "setAsPrimary": "Set primary node",
+                            "unsetAsPrimary": "Clear primary node",
+                            "removeNode": "Remove node",
+                            "noNodes": "There are no nodes, unable to connect to the network"
+                        },
+                        "localProofOfWork": {
+                            "title": "Proof of work",
+                            "description": "Complete proof of work locally on your device or outsource to the node"
+                        }
                     }
                 },
                 "contactBook": {
@@ -448,7 +441,8 @@
                     "inputConnectionCode": {
                         "title": "Connect to a dApp",
                         "inputLabel": "Wallet Connect code",
-                        "hint": "Add new dApps by adding a Wallet Connect code below."
+                        "hint": "Add new dApps by adding a Wallet Connect code below.",
+                        "deprecated": "The dApp you try to connect to uses a deprecated version of WalletConnect. Cannot establish connection"
                     },
                     "confirmConnection": {
                         "title": "Connect with an application",
@@ -482,9 +476,10 @@
         "collectibles": {
             "gallery": {
                 "title": "Samlinger",
-                "emptyTitle": "Ingen samlinger",
-                "noResults": "Ingen resultater",
-                "emptyDescription": "Indbetal eller modtag det første samleremne nu!"
+                "emptyTitle": "No collectibles found",
+                "noResults": "No results found",
+                "timelocked": "Locked for {timeDiff}",
+                "emptyDescription": "Deposit or receive your first collectible!"
             },
             "details": {
                 "storageDepositDescription": "En refunderbar tokenindbetaling kræves for at gemme NFT'en på Tangle.",
@@ -577,24 +572,20 @@
                 "title": "Tilgængelig",
                 "subtitle": "Midler fuldt tilgængelige til forbrug"
             },
-            "pending": {
-                "title": "Afventer",
-                "subtitle": "Midlertidigt fastlåste transaktioner"
-            },
-            "locked": {
-                "title": "Låst",
-                "subtitle": "Midlertidigt fastlåst for forvaltning"
+            "unavailable": {
+                "title": "Unavailable",
+                "subtitle": "Locked or temporarily unavailable in transactions"
             },
             "storageDeposit": {
                 "title": "Lagerindskud",
-                "subtitle": "Disse midler er reserveret til lagring af henhørende aktiver."
+                "subtitle": "Reserved for storing native assets."
             },
             "totalBalance": {
                 "title": "Saldo i alt",
                 "subtitle": ""
             },
             "basicOutputs": {
-                "title": "Henhørende Tokener",
+                "title": "Native tokens",
                 "subtitle": "Reserveret til lagring af Henhørende Tokener"
             },
             "nftOutputs": {
@@ -614,11 +605,11 @@
                 "subtitle": "Temporarily locked in unclaimed transactions"
             },
             "timelock": {
-                "title": "Time lock",
+                "title": "Timelocked",
                 "subtitle": "Temporarily locked in timelocked transactions"
             },
             "storageDepositReturn": {
-                "title": "SDRUC",
+                "title": "Storage deposit return",
                 "subtitle": "Temporarily locked in Storage Deposit Return"
             },
             "governance": {
@@ -643,7 +634,7 @@
         "appUpdate": {
             "title": "Søg efter opdateringer",
             "installedVersion": "Installeret version",
-            "newVerion": "Ny version",
+            "newVersion": "Ny version",
             "stage": "Trin",
             "prod": "Produktion",
             "alpha": "Alpha",
@@ -658,7 +649,7 @@
             "body": "It is important to back up your wallet regularly to ensure you have a copy of your wallets and transaction history. If you lose your backup and recovery phrase you will lose access to your funds."
         },
         "deeplinkAccountSwitch": {
-            "title": "Vælg wallet",
+            "title": "Select an account",
             "body": "Du har netop fulgt et dybt link. Vælg den wallet, der skal fortsættes med."
         },
         "deeplinkError": {
@@ -747,6 +738,8 @@
         },
         "diagnostics": {
             "title": "Diagnostik",
+            "app": "App",
+            "system": "System",
             "node": "Node",
             "platform": "Platform",
             "platformVersion": "Platformsversion",
@@ -764,10 +757,10 @@
             "surplusIncluded": "Denne transaktion indeholder et overskudsbeløb. Dobbelttjek, at dette er dét beløb, der ønskes sendt."
         },
         "walletFinder": {
-            "title": "Wallet finder",
+            "title": "Sync accounts",
             "body": "Perform a more exhaustive search of addresses to find missing balances and wallets.",
-            "accountsSearched": "Wallets searched",
-            "accountsFound": "Wallets found",
+            "accountsSearched": "Accounts searched",
+            "accountsFound": "Accounts found",
             "totalWalletBalance": "Total balance",
             "searchAgainHint": "Is your balance or number of wallets incorrect? Search again until your full balance is shown."
         },
@@ -777,16 +770,6 @@
             "locked": "Oplås Ledger-enheden for at fortsætte.",
             "appNotOpen": "Åbn Shimmer-appen på Ledger-enheden for at fortsætte.",
             "correctAppOpen": "Ledger-enheden er tilsluttet, fortsæt."
-        },
-        "ledgerAppGuide": {
-            "title": "Guide til at installere {legacy}-appen",
-            "steps": {
-                "0": "Install and open the Ledger Live application",
-                "1": "Ensure that your Ledger is connected",
-                "2": "Søg efter {legacy}-appen. Ledger Live-udviklertilstanden skal muligvis aktiveres.",
-                "3": "Installér {legacy}-appen",
-                "4": "Remember that it's important to close Ledger Live before returning to Bloom"
-            }
         },
         "ledgerConnectionGuide": {
             "title": "Tips if your Ledger isn’t connecting",
@@ -953,6 +936,7 @@
                 "url": "URL",
                 "logoUrl": "Logo URL",
                 "logo": "Logo",
+                "unit": "Unit",
                 "alias": "Alias",
                 "tokenId": "Token Id"
             }
@@ -1038,6 +1022,9 @@
             "title": "Receive",
             "body": "Receive tokens, NFTs, and other digital assets to your account address shown below.",
             "networkAddress": "{networkName} address"
+        },
+        "createAccount": {
+            "title": "Create account"
         }
     },
     "actions": {
@@ -1098,10 +1085,9 @@
         "updateAndContinue": "Opdtér og fortsæt",
         "tryAgain": "Prøv igen",
         "visitDiscord": "Besøg Discord",
-        "dragDrop": "Træk Og Slip",
-        "importExtentions": ".stronghold file",
-        "chooseFile": "Vælg fil",
+        "importExtensions": ".stronghold file",
         "dropHere": "Slip din fil her",
+        "dropOrBrowse": "Drop here or browse your files",
         "import": "Importér",
         "importing": "Importerer",
         "export": "Eksportér",
@@ -1117,10 +1103,10 @@
         "restart": "Restart",
         "refresh": "Opdatér",
         "saveBackup": "Save backup",
-        "customizeAccount": "Tilpas wallet",
-        "hideAccount": "Skjul wallet",
-        "showAccount": "Vis wallet",
-        "deleteAccount": "Delete wallet",
+        "customizeAccount": "Customise account",
+        "hideAccount": "Hide account",
+        "showAccount": "Unhide account",
+        "deleteAccount": "Delete account",
         "addNode": "Tilføj node",
         "addingNode": "Tilføjer node",
         "addOfficialNodes": "Tilføj officielle noder",
@@ -1140,7 +1126,7 @@
         "copyAllInformation": "Copy all information",
         "paste": "Indsæt",
         "selectAll": "Vælg alle",
-        "addAccount": "Tilføj Wallet",
+        "addAccount": "Add account",
         "checkForUpdates": "Tjek for opdateringer",
         "reportAnIssue": "Rapportér et problem",
         "clear": "Ryd",
@@ -1148,24 +1134,22 @@
         "no": "Nej",
         "skip": "Spring over",
         "reset": "Nulstil",
-        "downloadRecoveryKit": "Gem Recovery Kit skabelon",
+        "downloadRecoveryKit": "Download recovery kit template",
         "skipBackup": "Overspring wallet-sikkerhedskopiering",
         "finishSetup": "Afslut opsætning",
         "readDocumentation": "Læs dokumentationen",
         "visitFaq": "Besøg FAQ",
         "viewDownloads": "Se downloads",
-        "viewBalanceBreakdown": "View balance breakdown",
-        "showHiddenAccounts": "Vis skjulte wallets",
+        "showHiddenAccounts": "Show hidden accounts",
         "confirm": "Bekræft",
         "hideNetworkStatistics": "Skjul netværksstatistik",
-        "findWallets": "Find wallets",
         "search": "Search",
         "searching": "Searching",
         "searchAgain": "Søg igen",
         "generateAddress": "Generate address",
-        "searchForRewards": "Søg efter belønninger",
         "claimRewards": "Claim rewards",
         "rerunClaimProcess": "Rerun claim process",
+        "useFinder": "Use balance finder",
         "backup": "Backup",
         "mint": "Mint",
         "mintNativeToken": "Mint native tokener",
@@ -1182,7 +1166,7 @@
         "testDeepLink": "Test dybt link",
         "delete": "Slet",
         "remove": "Remove",
-        "depositNft": "Deposit NFTs",
+        "getStarted": "Get started",
         "vote": "Vote",
         "addProposal": "Add proposal",
         "removeProposal": "Remove proposal",
@@ -1191,7 +1175,10 @@
         "revote": "Stem igen",
         "skipAndKeep": "Overspring og behold gammel adgangskode",
         "addChain": "Tilføj kæde",
-        "untrackToken": "Untrack token"
+        "untrackToken": "Untrack token",
+        "switchAccount": "Switch account",
+        "syncAccounts": "Sync accounts",
+        "importErc20Token": "Import ERC20 token"
     },
     "general": {
         "recipient": "Recipient",
@@ -1218,27 +1205,36 @@
         "revoting": "Revoting",
         "unvoted": "Unvoted",
         "unvoting": "Unvoting",
-        "transfer": "Transfer",
-        "transferring": "Transferring",
+        "transferIn": "Transfer in",
+        "transferringIn": "Transferring in",
+        "transferOut": "Transfer out",
+        "transferringOut": "Transferring out",
         "shimmerClaimed": "Modtaget",
         "shimmerClaiming": "Modtager",
         "shimmerGenesis": "Shimmer Genesis",
-        "minted": "Mintet",
-        "minting": "Mintning",
-        "burned": "Brændt",
-        "burning": "Brænder",
+        "mintedalias": "Minted alias",
+        "mintingalias": "Minting alias",
+        "mintednft": "Minted NFT",
+        "mintingnft": "Minting NFT",
+        "mintedfoundry": "Minted token",
+        "mintingfoundry": "Minting token",
+        "burnedalias": "Burned alias",
+        "burningalias": "Burning alias",
+        "burnednft": "Burned NFT",
+        "burningnft": "Burning NFT",
+        "burnedfoundry": "Burned token",
+        "burningfoundry": "Burning token",
+        "burnedbasic": "Burned token",
+        "burningbasic": "Burning token",
         "balanceChanged": "Balance changed",
         "initialBalance": "Initial balance",
         "consolidated": "Consolidated",
         "consolidating": "Consolidating",
-        "aliasCreated": "Alias created",
-        "creatingAlias": "Creating Alias",
         "sendTo": "Send To",
         "sendAssets": "Send assets",
         "sendAssetToAddress": "Send asset to an address",
-        "manageAccount": "Håndtér Wallet",
-        "customizeAccount": "Tilpas din wallet",
-        "account": "Wallet",
+        "manageAccount": "Manage account",
+        "account": "Account",
         "amount": "Beløb",
         "addAddress": "Tilføj adresse",
         "to": "Til",
@@ -1263,7 +1259,7 @@
         "outgoing": "Udgående",
         "dev": "Udvikler",
         "newAccount": "New account",
-        "accountName": "Wallet navn",
+        "accountName": "Account name",
         "activity": "Activity",
         "security": "Sikkerhed",
         "network": "Network",
@@ -1280,7 +1276,7 @@
         "noAssets": "Ingen aktiver",
         "noFilteredAsset": "Ingen matchende aktiver",
         "thisMonth": "This month",
-        "search": "Search",
+        "search": "Search...",
         "passwordUpdating": "Opdaterer adgangskode...",
         "passwordSuccess": "Adgangskode opdateret",
         "passwordFailed": "Opdatering af adgangskode mislykkedes",
@@ -1299,11 +1295,12 @@
         "fromAddress": "from {account}",
         "toAddress": "to {account}",
         "capsLock": "Caps Lock er slået til",
-        "version": "Version {version}",
+        "version": "Version",
+        "versionFull": "Version {version}",
         "unknown": "Unknown",
         "unknownAddress": "Unknown address",
         "none": "None",
-        "accountColor": "Wallet color",
+        "accountColor": "Account color",
         "transactionTime": "Transaction time",
         "storageDeposit": "Storage deposit",
         "transactionFee": "Transaction fee",
@@ -1317,6 +1314,7 @@
         "governorAddress": "Governor Address",
         "stateControllerAddress": "State Controller Address",
         "copiedToClipboard": "Copied to clipboard",
+        "copiedThis": "I've copied this",
         "availableBalanceWithValue": "Disponibel saldo: {balance}",
         "amountClaimed": "{amount} claimed",
         "metadata": "Metadata",
@@ -1332,7 +1330,6 @@
         "mintNativeTokenDescription": "Mint native tokener efter IRC30-standarden",
         "mintNftDescription": "Mint NFT following IRC27 standard",
         "faucetRequestDescription": "Anmod om tokener fra {network}-faucet'en",
-        "refreshTokenMetadataDescription": "Nulstil og opfrisk alle tokenmetadata",
         "refreshTokenMetadataHint": "Dette nulstiller alle tokeners metadata, herunder bekræftelsesstatus og viser evt. ellers skjulte aktiver.",
         "excluded": "Udelukkede",
         "developerTools": "Udviklingsværktøjer",
@@ -1370,7 +1367,6 @@
         "coinType": "Mønttyper",
         "custom": "Tilpasset",
         "evmAddress": "EVM-adresse",
-        "importErc20Token": "Importér ERC20-token",
         "optionalField": "{field} (optional)",
         "gifted": "Gifted",
         "connected": "Connected",
@@ -1380,7 +1376,10 @@
         "apps": "Apps",
         "networks": "Networks",
         "ledgerDevice": "Ledger device",
-        "disconnected": "Disconnected"
+        "disconnected": "Disconnected",
+        "balanceBreakdown": "Balance breakdown",
+        "primary": "Primary",
+        "color": "Color"
     },
     "filters": {
         "title": "Filtre",
@@ -1779,7 +1778,8 @@
         "walletConnect": {
             "invalidUri": "Invalid URI",
             "invalidProtocol": "Invalid protocol, must start with 'wc'.",
-            "deprecatedVersion": "dApp uses a deprecated wallet connect version."
+            "deprecatedVersion": "dApp uses a deprecated wallet connect version.",
+            "invalidV2UriFormat": "The link doesn't adhere to the WalletConnect V2 specification."
         },
         "web3": {
             "unableToGetProvider": "Unable to get web3 provider.",
@@ -1857,14 +1857,16 @@
         "collectibles": "Collectibles",
         "governance": "Governance",
         "developer": "Udvikler",
-        "tokens": "Tokens"
+        "tokens": "Tokens",
+        "settings": "Settings"
     },
     "pills": {
         "asyncStatus": {
-            "unclaimed": "unclaimed",
-            "claimed": "claimed",
-            "expired": "expired",
-            "timelocked": "timelocked"
+            "claim": "Claim {timeDiff, select, undefined {} other { {timeDiff} }}",
+            "unclaimed": "Unclaimed {timeDiff, select, undefined {} other { {timeDiff}}}",
+            "claimed": "Claimed",
+            "expired": "Expired",
+            "timelocked": "Locked {timeDiff, select, undefined {} other { {timeDiff}}}"
         },
         "governance": {
             "proposalStatus": {
@@ -1881,6 +1883,11 @@
             "degraded": "Forringet",
             "operational": "I drift",
             "disconnected": "Afbrudt"
+        },
+        "ledgerStatus": {
+            "notConnected": "Not connected",
+            "locked": "Device locked",
+            "appNotOpen": "App not open"
         }
     },
     "menus": {

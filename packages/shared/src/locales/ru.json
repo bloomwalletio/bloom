@@ -3,7 +3,10 @@
         "onboarding": {
             "appSetup": {
                 "welcome": {
-                    "title": "Welcome to"
+                    "title": "Welcome to",
+                    "subtitle": "A new journey awaits...",
+                    "legalBody": "Check to confirm you've read and accept the",
+                    "button": "Begin setup"
                 },
                 "legal": {
                     "title": "Политика конфиденциальности и Условия предоставления услуг"
@@ -62,67 +65,66 @@
                     "importLedgerDescription": "Восстановление с устройства Ledger Nano S или X"
                 },
                 "enterName": {
-                    "title": "Создайте свой профиль {network}",
+                    "title": "Define your {network} profile",
                     "profileName": "Имя профиля",
-                    "body1": "Вы можете создать несколько профилей пользователей, чтобы организовать свои кошельки и повысить уровень секретности.",
-                    "body2": {
-                        "first": "А сейчас, давайте начнем с вашего первого имени профиля.",
-                        "nonFirst": "А сейчас, давайте начнем с вашего имени профиля."
-                    },
-                    "addMore": "Вы можете добавить больше профилей позже."
+                    "body": "Please define a new name for your profile."
                 }
             },
             "strongholdSetup": {
                 "setupStrongholdPassword": {
-                    "title": "Создайте пароль",
-                    "body1": "Вам нужен надежный пароль для защиты ваших средств. Используйте комбинацию слов и избегайте распространенных фраз, имен или дат.",
-                    "body2": "Рекомендуется записать пароль в документ для восстановления."
+                    "title": "Secure Recovery Phrase",
+                    "body": "Your password needs to be highly secure to encrypt and recover your Stronghold vault. Also, you will need this to send tokens from your wallet."
                 }
             },
             "storageProtectionSetup": {
                 "setupPinProtection": {
                     "title": "Установить PIN-код",
-                    "body1": "Введите 6-значный PIN-код ниже. Вам будет предложено ввести PIN-код для доступа к вашему профилю.",
-                    "body2": "Использовать только цифры"
+                    "body": "Enter a 6-digit PIN below. Use numbers only."
                 }
             },
             "profileBackup": {
                 "viewMnemonic": {
                     "title": "Фраза восстановления",
-                    "body1": "В твоём документе для восстановления запиши слова в точном порядке.",
-                    "body2": "Храни этот доумент приватно и безопасно.",
-                    "body3": "Важно иметь письменную резервную копию. Компьютеры часто выходят из строя, и файлы могут быть повреждены.",
+                    "body": "Carefully copy the words in the exact order below. Keep this private and safely stored.",
                     "revealRecoveryPhrase": "Показать фразу восстановления",
                     "hideRecoveryPhrase": "Скрыть фразу восстановления"
                 },
                 "verifyMnemonic": {
                     "title": "Проверить фразу восстановления",
-                    "body": "Давайте проверим, правильно ли вы записали фразу. Пожалуйста, выберите каждое слово в пронумерованном порядке. Совет: Вы можете нажать цифру рядом со словом на клавиатуре, чтобы выбрать его.",
+                    "body": "Let’s check you wrote down your phrase correctly. Please select the right word with the corresponding number.",
                     "word": "Слово",
-                    "verified": "Фраза для восстановления проверена",
-                    "verifiedBody": "Не забывайте о конфиденциальности и надежном хранении."
+                    "match": "Match from below",
+                    "success": {
+                        "title": "Verification success",
+                        "body1": "The recovery phrase matched",
+                        "body2": "Remember to keep your copy private and safely stored"
+                    },
+                    "failure": {
+                        "title": "Verification failure",
+                        "body1": "The recovery phrase did not match",
+                        "body2": "Please check your records"
+                    }
                 }
             },
             "profileRecovery": {
                 "importMnemonicPhrase": {
                     "title": "Введите фразу восстановления",
-                    "body": "A recovery phrase is 24 words long, all lower case, with spaces between. This is used to recover existing Bloom profiles.",
-                    "enter": "Введите вашу секретную фразу восстановления",
+                    "body": "A recovery phrase is 24 words long, all lower case, with spaces between. Separate each word by spaces or commas.",
                     "phraseDetected": "Обнаружено 24 фразы для восстановления слов"
                 },
                 "importStrongholdBackup": {
-                    "title": "Импортировать файл резервной копии Stronghold",
+                    "title": "Restore your profile",
                     "body": "Импортируйте файл резервной копии Stronghold для восстановления профиля."
                 },
-                "backupPassword": {
-                    "body1": "Пожалуйста, введите ваш пароль от резервной копии.",
-                    "body2": "Это пароль, который вы установили при первом создании резервной копии."
+                "unlockBackup": {
+                    "title": "Unlock your backup",
+                    "body": "Please provide your backup password below."
                 }
             },
             "shimmerClaiming": {
                 "claimRewards": {
-                    "title": "Вознаграждение за ставку в Shimmer",
-                    "body": "Проверьте, правильно ли указаны ваши вознаграждения за ставку в Shimmer. Возможно, вам придется выполнить поиск несколько раз, чтобы найти свой полный баланс."
+                    "title": "Shimmer staking rewards",
+                    "body": "Please check if your Shimmer staking rewards balance is correct. If not, please use the balance finder."
                 },
                 "success": {
                     "title": "Shimmer востребован",
@@ -132,20 +134,21 @@
                 }
             },
             "congratulations": {
-                "title": "Настройка профиля почти завершена...",
-                "body": "Ваш новый профиль будет готов после успешной загрузки информационной панели.",
-                "ledgerHint": "Не отключайте устройство Ledger до окончания загрузки информационной панели."
+                "title": "Setup complete",
+                "body1": "Bloom is ready",
+                "body2": "Profile is ready",
+                "body3": "Seamlessly manage your keys, assets and transactions.",
+                "action": "Enter Bloom"
             }
         },
         "ledgerInstallationGuide": {
-            "title": "Установили ли вы приложение {network} на своем устройстве Ledger?",
-            "body1": "Прежде чем продолжить, необходимо с помощью Ledger Live найти и установить приложение {network}.",
-            "body2": "Убедитесь, что прошивка Ledger актуальна. Любые предварительно установленные приложения должны быть обновлены до их последних версий.",
-            "action": "Да, я установил приложение {network}"
+            "title": "Have you installed the necessary Ledger app?",
+            "body": "Use Ledger Live to find and install the {network} app.",
+            "action": "Yes, let's continue"
         },
         "connectLedger": {
             "title": "Connect your Ledger to Bloom",
-            "body": "For your Ledger device to be found by Bloom, please ensure that the official Ledger Live application is closed.",
+            "body": "For your Ledger device to be found by Bloom, please ensure that the official Ledger Live application is closed and the following steps are followed.",
             "connect": "Подключите ваше устройство Ledger",
             "unlock": "Разблокируйте ваш Ledger с помощью пин-кода",
             "openApp": "Откройте приложение Shimmer на вашем Ledger"
@@ -157,9 +160,6 @@
             },
             "profile": {
                 "title": "Профиль"
-            },
-            "network": {
-                "title": "Сеть"
             },
             "collectibles": {
                 "title": "Коллекции"
@@ -187,10 +187,6 @@
             "notifications": {
                 "title": "Оповещения",
                 "description": "Уведомления системы для транзакций"
-            },
-            "networkStatus": {
-                "title": "Статус сети",
-                "description": "Отображает статус узла, к которому вы в данный момент подключены"
             },
             "exportStronghold": {
                 "title": "Экспортировать резервную копию",
@@ -233,12 +229,8 @@
                 "description": "Change your Bloom profile name",
                 "success": "Вы изменили имя своего профиля"
             },
-            "walletFinder": {
-                "title": "Поисковик кошелька",
-                "description": "Выполнить расширенный поиск по ранее использованным кошелькам"
-            },
             "hiddenAccounts": {
-                "title": "Скрытые кошельки",
+                "title": "Hidden accounts",
                 "description": "При выборе этой опции будут показаны кошельки, которые ранее были скрыты"
             },
             "deleteProfile": {
@@ -248,26 +240,6 @@
             "deepLinks": {
                 "title": "Глубокие ссылки",
                 "description": "Automatically fill transaction data in Bloom upon clicking a deep link starting with {appProtocol}://"
-            },
-            "networkInformation": {
-                "title": "Информация о сети",
-                "connectedTo": "Подключено к"
-            },
-            "configureNodeList": {
-                "title": "Настройка узла",
-                "description": "Управление списком узлов, к которым вы подключаетесь",
-                "primaryNode": "Основной узел",
-                "excludeNode": "Исключить узел",
-                "includeNode": "Включить узел",
-                "editDetails": "Изменить детали",
-                "setAsPrimary": "Установить основной узел",
-                "unsetAsPrimary": "Удалить основной узел",
-                "removeNode": "Удалить узел",
-                "noNodes": "Нет узлов, не удается подключиться к сети"
-            },
-            "localProofOfWork": {
-                "title": "Подтверждение работы",
-                "description": "Выполните подтверждение работы локально на своем устройстве или передайте на обслуживание узлу"
             },
             "errorLog": {
                 "title": "Журнал ошибок",
@@ -312,9 +284,15 @@
             }
         },
         "login": {
-            "pleaseWait": "Пожалуйста подождите {time, plural, one {# секунду} other {# секунд}}",
-            "incorrectAttempts": "{attempts, plural, one {# неправильная попытка} other {# неправильные попытки}}",
-            "hintStronghold": "Версия вашего Stronghold устарела. Пожалуйста, войдите в систему, чтобы обновить свой Stronghold."
+            "incorrectPin": "Incorrect PIN code",
+            "hintStronghold": "Версия вашего Stronghold устарела. Пожалуйста, войдите в систему, чтобы обновить свой Stronghold.",
+            "maxAttempts": {
+                "title": "Couldn't sign you in",
+                "body1": "You have entered an",
+                "body2": "incorrect PIN code {times, plural, one {# time} other {# times}}.",
+                "body3": "For security purposes, your profile has been temporarily locked. Please wait for",
+                "body4": "before attempting to login again."
+            }
         },
         "loadProfile": {
             "loginSteps": {
@@ -351,6 +329,7 @@
                 "action": "Action",
                 "address": "Address",
                 "amount": "Amount",
+                "claimableTransactions": "You have {amount} {amount, select, 1 {transaction that requires} other {transactions that require}} claiming",
                 "consolidatedOutputs": "{amount} outputs consolidated"
             },
             "profileMenu": {
@@ -379,9 +358,6 @@
                         "title": "Адрес вклада цепочки",
                         "networkTitle": "Network deposit address"
                     },
-                    "chainInformation": {
-                        "title": "Информация о цепочке"
-                    },
                     "confirmLedgerEvmAddress": {
                         "title": "Подтвердите адрес EVM",
                         "header": "Мы создали ваш адрес EVM"
@@ -403,6 +379,23 @@
                     },
                     "removeChain": {
                         "title": "Remove chain"
+                    },
+                    "networkSettings": {
+                        "configureNodeList": {
+                            "title": "Node configuration",
+                            "description": "Manage the list of nodes you connect to",
+                            "excludeNode": "Exclude node",
+                            "includeNode": "Include node",
+                            "editDetails": "Edit details",
+                            "setAsPrimary": "Set primary node",
+                            "unsetAsPrimary": "Clear primary node",
+                            "removeNode": "Remove node",
+                            "noNodes": "There are no nodes, unable to connect to the network"
+                        },
+                        "localProofOfWork": {
+                            "title": "Proof of work",
+                            "description": "Complete proof of work locally on your device or outsource to the node"
+                        }
                     }
                 },
                 "contactBook": {
@@ -448,7 +441,8 @@
                     "inputConnectionCode": {
                         "title": "Connect to a dApp",
                         "inputLabel": "Wallet Connect code",
-                        "hint": "Add new dApps by adding a Wallet Connect code below."
+                        "hint": "Add new dApps by adding a Wallet Connect code below.",
+                        "deprecated": "The dApp you try to connect to uses a deprecated version of WalletConnect. Cannot establish connection"
                     },
                     "confirmConnection": {
                         "title": "Connect with an application",
@@ -482,9 +476,10 @@
         "collectibles": {
             "gallery": {
                 "title": "Коллекции",
-                "emptyTitle": "Нет коллекций",
-                "noResults": "Нет результатов",
-                "emptyDescription": "Вложи или получи свой первый коллекционный экземпляр сейчас!"
+                "emptyTitle": "No collectibles found",
+                "noResults": "No results found",
+                "timelocked": "Locked for {timeDiff}",
+                "emptyDescription": "Deposit or receive your first collectible!"
             },
             "details": {
                 "storageDepositDescription": "Для хранения вашего NFT на Tangle требуется возвратный взнос.",
@@ -577,24 +572,20 @@
                 "title": "Available",
                 "subtitle": "Funds fully available for spending"
             },
-            "pending": {
-                "title": "Pending",
-                "subtitle": "Temporarily locked in transactions"
-            },
-            "locked": {
-                "title": "Locked",
-                "subtitle": "Temporarily locked for governance"
+            "unavailable": {
+                "title": "Unavailable",
+                "subtitle": "Locked or temporarily unavailable in transactions"
             },
             "storageDeposit": {
                 "title": "Storage deposit",
-                "subtitle": "These funds are reserved for storing native assets."
+                "subtitle": "Reserved for storing native assets."
             },
             "totalBalance": {
                 "title": "Total balance",
                 "subtitle": ""
             },
             "basicOutputs": {
-                "title": "Native Tokens",
+                "title": "Native tokens",
                 "subtitle": "Reserved for Native Token storage"
             },
             "nftOutputs": {
@@ -614,11 +605,11 @@
                 "subtitle": "Temporarily locked in unclaimed transactions"
             },
             "timelock": {
-                "title": "Time lock",
+                "title": "Timelocked",
                 "subtitle": "Temporarily locked in timelocked transactions"
             },
             "storageDepositReturn": {
-                "title": "SDRUC",
+                "title": "Storage deposit return",
                 "subtitle": "Temporarily locked in Storage Deposit Return"
             },
             "governance": {
@@ -643,7 +634,7 @@
         "appUpdate": {
             "title": "Check for updates",
             "installedVersion": "Установленная версия",
-            "newVerion": "Новая версия",
+            "newVersion": "Новая версия",
             "stage": "Стадия",
             "prod": "Производство",
             "alpha": "Альфа",
@@ -658,7 +649,7 @@
             "body": "Важно регулярно создавать запасные копии своего кошелька, чтобы быть уверенным, что у вас есть копия вашего кошелька и истории транзакций. Если вы потеряете запасную копию и фразу для восстановления, вы потеряете доступ к своим средствам."
         },
         "deeplinkAccountSwitch": {
-            "title": "Выберите кошелёк",
+            "title": "Select an account",
             "body": "Вы только что перешли по глубокой ссылке. Пожалуйста, выберите кошелек, с которым вы хотите продолжить."
         },
         "deeplinkError": {
@@ -747,6 +738,8 @@
         },
         "diagnostics": {
             "title": "Диагностика",
+            "app": "App",
+            "system": "System",
             "node": "Узел",
             "platform": "Платформа",
             "platformVersion": "Версия платформы",
@@ -764,10 +757,10 @@
             "surplusIncluded": "Эта транзакция содержит избыточную сумму. Пожалуйста, проверьте, что это именно та сумма, которую вы хотите отправить."
         },
         "walletFinder": {
-            "title": "Поисковик кошелька",
+            "title": "Sync accounts",
             "body": "Проведите более тщательный поиск адресов, чтобы найти недостающие балансы.",
-            "accountsSearched": "Осмотренные кошельки",
-            "accountsFound": "Кошельки найдены",
+            "accountsSearched": "Accounts searched",
+            "accountsFound": "Accounts found",
             "totalWalletBalance": "Общий баланс",
             "searchAgainHint": "Ваш баланс или количество кошельков неверны? Повторите поиск, пока не отобразится полный баланс."
         },
@@ -777,16 +770,6 @@
             "locked": "Разблокируйте ваше устройство Ledger, чтобы продолжить.",
             "appNotOpen": "Open the Shimmer app on your Ledger device to continue.",
             "correctAppOpen": "Ledger успешно подключен, пожалуйста, продолжайте."
-        },
-        "ledgerAppGuide": {
-            "title": "Руководство по установке приложения {legacy}",
-            "steps": {
-                "0": "Установите и откройте приложение Ledger Live",
-                "1": "Убедитесь, что ваш Ledger подключен",
-                "2": "Найдите приложение {legacy}. Возможно, вам потребуется включить режим разработчика Ledger Live.",
-                "3": "Установите приложение {legacy}",
-                "4": "Remember that it's important to close Ledger Live before returning to Bloom"
-            }
         },
         "ledgerConnectionGuide": {
             "title": "Советы, если ваш Ledger не подключается",
@@ -953,6 +936,7 @@
                 "url": "URL",
                 "logoUrl": "URL Логотипа",
                 "logo": "Логотип",
+                "unit": "Unit",
                 "alias": "Псевдоним",
                 "tokenId": "Id Актива"
             }
@@ -1038,6 +1022,9 @@
             "title": "Receive",
             "body": "Receive tokens, NFTs, and other digital assets to your account address shown below.",
             "networkAddress": "{networkName} address"
+        },
+        "createAccount": {
+            "title": "Create account"
         }
     },
     "actions": {
@@ -1098,10 +1085,9 @@
         "updateAndContinue": "Update and continue",
         "tryAgain": "Попрoбуйте снова",
         "visitDiscord": "Перейти в Discord",
-        "dragDrop": "Перетащить",
-        "importExtentions": ".stronghold file",
-        "chooseFile": "Выберите файл",
+        "importExtensions": ".stronghold file",
         "dropHere": "Перенесите файл сюда",
+        "dropOrBrowse": "Drop here or browse your files",
         "import": "Импортировать",
         "importing": "Импортирование",
         "export": "Экспортировать",
@@ -1117,10 +1103,10 @@
         "restart": "Restart",
         "refresh": "Refresh",
         "saveBackup": "Save backup",
-        "customizeAccount": "Персонализация кошелька",
-        "hideAccount": "Спрятать кошелек",
-        "showAccount": "Раскрыть кошелёк",
-        "deleteAccount": "Удалить кошелек",
+        "customizeAccount": "Customise account",
+        "hideAccount": "Hide account",
+        "showAccount": "Unhide account",
+        "deleteAccount": "Delete account",
         "addNode": "Добавить узел",
         "addingNode": "Добавление узла",
         "addOfficialNodes": "Добавить официальные узлы",
@@ -1140,7 +1126,7 @@
         "copyAllInformation": "Скопировать всю информацию",
         "paste": "Вставить",
         "selectAll": "Выбрать все",
-        "addAccount": "Добавить кошелёк",
+        "addAccount": "Add account",
         "checkForUpdates": "Проверять обновления",
         "reportAnIssue": "Сообщить об ошибке",
         "clear": "Очистить",
@@ -1148,24 +1134,22 @@
         "no": "Нет",
         "skip": "Пропустить",
         "reset": "Сбросить",
-        "downloadRecoveryKit": "Сохранить шаблон документа для востановления",
+        "downloadRecoveryKit": "Download recovery kit template",
         "skipBackup": "Skip wallet backup",
         "finishSetup": "Завершить настройку",
         "readDocumentation": "Читать документацию",
         "visitFaq": "Посетить FAQ",
         "viewDownloads": "View downloads",
-        "viewBalanceBreakdown": "View balance breakdown",
-        "showHiddenAccounts": "Показать скрытые кошельки",
+        "showHiddenAccounts": "Show hidden accounts",
         "confirm": "Подтвердить",
         "hideNetworkStatistics": "Скрыть статистику сети",
-        "findWallets": "Найти кошельки",
         "search": "Искать",
         "searching": "Поиск",
         "searchAgain": "Повторный поиск",
         "generateAddress": "Сгенерировать адрес",
-        "searchForRewards": "Искать вознаграждения",
         "claimRewards": "Запросить вознаграждения",
         "rerunClaimProcess": "Перезапустить процесс запроса",
+        "useFinder": "Use balance finder",
         "backup": "Резервное копирование",
         "mint": "Чеканить",
         "mintNativeToken": "Чеканить собственный токен",
@@ -1182,7 +1166,7 @@
         "testDeepLink": "Проверка глубинной ссылки",
         "delete": "Удалить",
         "remove": "Удалить",
-        "depositNft": "Пополнить NFTs",
+        "getStarted": "Get started",
         "vote": "Голосовать",
         "addProposal": "Добавить предложение",
         "removeProposal": "Удалить предложение",
@@ -1191,7 +1175,10 @@
         "revote": "Переголосовать",
         "skipAndKeep": "Skip and keep old password",
         "addChain": "Add chain",
-        "untrackToken": "Untrack token"
+        "untrackToken": "Untrack token",
+        "switchAccount": "Switch account",
+        "syncAccounts": "Sync accounts",
+        "importErc20Token": "Import ERC20 token"
     },
     "general": {
         "recipient": "Получатель",
@@ -1218,27 +1205,36 @@
         "revoting": "Переголосование",
         "unvoted": "Отозвал голос",
         "unvoting": "Отмена голосования",
-        "transfer": "Перевести",
-        "transferring": "Передача",
+        "transferIn": "Transfer in",
+        "transferringIn": "Transferring in",
+        "transferOut": "Transfer out",
+        "transferringOut": "Transferring out",
         "shimmerClaimed": "Востребовано",
         "shimmerClaiming": "Востребование",
         "shimmerGenesis": "Shimmer Genesis",
-        "minted": "Отчеканено",
-        "minting": "Чеканка",
-        "burned": "Сожжено",
-        "burning": "Сжигание",
+        "mintedalias": "Minted alias",
+        "mintingalias": "Minting alias",
+        "mintednft": "Minted NFT",
+        "mintingnft": "Minting NFT",
+        "mintedfoundry": "Minted token",
+        "mintingfoundry": "Minting token",
+        "burnedalias": "Burned alias",
+        "burningalias": "Burning alias",
+        "burnednft": "Burned NFT",
+        "burningnft": "Burning NFT",
+        "burnedfoundry": "Burned token",
+        "burningfoundry": "Burning token",
+        "burnedbasic": "Burned token",
+        "burningbasic": "Burning token",
         "balanceChanged": "Balance changed",
         "initialBalance": "Initial balance",
         "consolidated": "Consolidated",
         "consolidating": "Consolidating",
-        "aliasCreated": "Псевдоним создан",
-        "creatingAlias": "Создание псевдонима",
         "sendTo": "Отправить на",
         "sendAssets": "Отправить активы",
         "sendAssetToAddress": "Отправить актив на адрес",
-        "manageAccount": "Управление кошельками",
-        "customizeAccount": "Персонализируйте свой кошелек",
-        "account": "Кошелёк",
+        "manageAccount": "Manage account",
+        "account": "Account",
         "amount": "Сумма",
         "addAddress": "Добавить Адрес",
         "to": "Кому",
@@ -1263,7 +1259,7 @@
         "outgoing": "Исходящие",
         "dev": "Разработчик",
         "newAccount": "New account",
-        "accountName": "Имя кошелька",
+        "accountName": "Account name",
         "activity": "Активность",
         "security": "Настройки Безопасности",
         "network": "Сеть",
@@ -1280,7 +1276,7 @@
         "noAssets": "Нет активов",
         "noFilteredAsset": "Нет соответствующих активов",
         "thisMonth": "Этот месяц",
-        "search": "Искать",
+        "search": "Search...",
         "passwordUpdating": "Обновление пароля...",
         "passwordSuccess": "Пароль успешно обновлен",
         "passwordFailed": "Не удалось обновить пароль",
@@ -1299,11 +1295,12 @@
         "fromAddress": "с {account}",
         "toAddress": "по {account}",
         "capsLock": "Включен Caps Lock",
-        "version": "Версия {version}",
+        "version": "Version",
+        "versionFull": "Version {version}",
         "unknown": "Неизвестно",
         "unknownAddress": "Неизвестный адрес",
         "none": "Отсутствует",
-        "accountColor": "Цвет кошелька",
+        "accountColor": "Account color",
         "transactionTime": "Время транзакции",
         "storageDeposit": "Депозит для хранения",
         "transactionFee": "Transaction fee",
@@ -1317,6 +1314,7 @@
         "governorAddress": "Адрес управляющего",
         "stateControllerAddress": "Адрес контроллера состояния",
         "copiedToClipboard": "Скопировано в буфер обмена",
+        "copiedThis": "I've copied this",
         "availableBalanceWithValue": "Доступный баланс: {balance}",
         "amountClaimed": "{amount} запрошено",
         "metadata": "Полезные данные",
@@ -1332,7 +1330,6 @@
         "mintNativeTokenDescription": "Чеканить собственный токен в соответствии со стандартом IRC30",
         "mintNftDescription": "Чеканить NFT следуя стандарту IRC27",
         "faucetRequestDescription": "Запросить токены из смесителя {network}",
-        "refreshTokenMetadataDescription": "Сброс и обновление всех метаданных токена",
         "refreshTokenMetadataHint": "Это сбросит все метаданные ваших токенов, включая статус проверки, и снимет все скрытые активы.",
         "excluded": "Исключено",
         "developerTools": "Инструменты разработчика",
@@ -1370,7 +1367,6 @@
         "coinType": "Coin type",
         "custom": "Custom",
         "evmAddress": "EVM address",
-        "importErc20Token": "Import ERC20 token",
         "optionalField": "{field} (optional)",
         "gifted": "Gifted",
         "connected": "Connected",
@@ -1380,7 +1376,10 @@
         "apps": "Apps",
         "networks": "Networks",
         "ledgerDevice": "Ledger device",
-        "disconnected": "Disconnected"
+        "disconnected": "Disconnected",
+        "balanceBreakdown": "Balance breakdown",
+        "primary": "Primary",
+        "color": "Color"
     },
     "filters": {
         "title": "Фильтры",
@@ -1779,7 +1778,8 @@
         "walletConnect": {
             "invalidUri": "Invalid URI",
             "invalidProtocol": "Invalid protocol, must start with 'wc'.",
-            "deprecatedVersion": "dApp uses a deprecated wallet connect version."
+            "deprecatedVersion": "dApp uses a deprecated wallet connect version.",
+            "invalidV2UriFormat": "The link doesn't adhere to the WalletConnect V2 specification."
         },
         "web3": {
             "unableToGetProvider": "Unable to get web3 provider.",
@@ -1857,14 +1857,16 @@
         "collectibles": "Коллекционные экземпляры",
         "governance": "Управление",
         "developer": "Разработчик",
-        "tokens": "Токены"
+        "tokens": "Токены",
+        "settings": "Settings"
     },
     "pills": {
         "asyncStatus": {
-            "unclaimed": "невостребовано",
-            "claimed": "востребовано",
-            "expired": "истекло",
-            "timelocked": "timelocked"
+            "claim": "Claim {timeDiff, select, undefined {} other { {timeDiff} }}",
+            "unclaimed": "Unclaimed {timeDiff, select, undefined {} other { {timeDiff}}}",
+            "claimed": "Claimed",
+            "expired": "Expired",
+            "timelocked": "Locked {timeDiff, select, undefined {} other { {timeDiff}}}"
         },
         "governance": {
             "proposalStatus": {
@@ -1881,6 +1883,11 @@
             "degraded": "Degraded",
             "operational": "Operational",
             "disconnected": "Disconnected"
+        },
+        "ledgerStatus": {
+            "notConnected": "Not connected",
+            "locked": "Device locked",
+            "appNotOpen": "App not open"
         }
     },
     "menus": {

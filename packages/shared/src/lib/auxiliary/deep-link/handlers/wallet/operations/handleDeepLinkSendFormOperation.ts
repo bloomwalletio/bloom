@@ -46,13 +46,17 @@ function parseSendFormOperation(searchParams: URLSearchParams): SendFlowParamete
 
     const tokenId = searchParams.get(SendOperationParameter.TokenId)
     const type = tokenId ? SendFlowType.TokenTransfer : SendFlowType.BaseCoinTransfer
+    const baseCoin = get(selectedAccountTokens)?.[networkId]?.baseCoin
+    if (!baseCoin) {
+        throw new Error('No base coin')
+    }
 
     let baseCoinTransfer: TokenTransferData | undefined
     let tokenTransfer: TokenTransferData | undefined
     if (type === SendFlowType.BaseCoinTransfer) {
         baseCoinTransfer = {
-            token: get(selectedAccountTokens)?.[networkId]?.baseCoin,
-            rawAmount: getRawAmountFromSearchParam(searchParams),
+            token: baseCoin,
+            rawAmount: getRawAmountFromSearchParam(searchParams, SendOperationParameter.BaseCoinAmount),
             unit: searchParams.get(SendOperationParameter.Unit) ?? 'glow',
         }
     } else if (type === SendFlowType.TokenTransfer && tokenId) {
@@ -60,7 +64,7 @@ function parseSendFormOperation(searchParams: URLSearchParams): SendFlowParamete
         if (token?.metadata) {
             tokenTransfer = {
                 token,
-                rawAmount: getRawAmountFromSearchParam(searchParams),
+                rawAmount: getRawAmountFromSearchParam(searchParams, SendOperationParameter.TokenAmount),
                 unit: searchParams.get(SendOperationParameter.Unit) ?? getUnitFromTokenMetadata(token.metadata),
             }
         } else {

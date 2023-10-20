@@ -1,6 +1,6 @@
 <script lang="ts">
     import { DrawerDirection, closeDrawer, drawerState } from '@desktop/auxiliary/drawer'
-    import { IconButton, IconName } from '@bloomwalletio/ui'
+    import { CloseButton } from '@bloomwalletio/ui'
     import { fade, fly } from 'svelte/transition'
 
     export let onClose: () => unknown = () => {}
@@ -52,7 +52,7 @@
             out:fade|local={{ duration: DRAWER_ANIMATION_DURATION_MS }}
             on:click={onCloseClick}
             on:keydown={() => {}}
-            class="fixed h-full left-0 w-full z-0 bg-gray-700 dark:bg-gray-900 bg-opacity-60 dark:bg-opacity-60"
+            class="fixed h-full left-0 w-full z-0 bg-neutral-6/75"
         />
         <panel
             in:fly|local={{ ...direction, duration: DRAWER_ANIMATION_DURATION_MS }}
@@ -63,8 +63,8 @@
                 <slot name="contents" />
             </div>
             {#if !$drawerState.hideClose}
-                <div class="absolute top-7 right-7">
-                    <IconButton icon={IconName.CrossClose} on:click={onCloseClick} />
+                <div class="absolute top-8 right-8">
+                    <CloseButton size="sm" on:click={onCloseClick} />
                 </div>
             {/if}
         </panel>
@@ -75,8 +75,10 @@
     panel {
         @apply fixed;
         @apply h-full;
-        @apply bg-surface-1 dark:bg-surface-1-dark;
-        @apply py-7 px-5;
+        @apply bg-surface dark:bg-surface-dark;
+        @apply shadow;
+        @apply border border-solid border-stroke dark:border-stroke-dark;
+        @apply p-8;
         transition: right 0.2s ease;
 
         &.vertical {

@@ -5,7 +5,6 @@
     import { registerAppEvents } from '@core/app/actions'
     import { appSettings, appVersionDetails, initAppSettings, setAppVersionDetails } from '@core/app/stores'
     import { isLocaleLoaded, localeDirection, setupI18n } from '@core/i18n'
-    import { registerLedgerDeviceEventHandlers } from '@core/ledger'
     import { downloadNextNftInQueue } from '@core/nfts/actions'
     import { nftDownloadQueue } from '@core/nfts/stores'
     import { checkAndMigrateProfiles, cleanupEmptyProfiles, saveActiveProfile } from '@core/profile/actions'
@@ -71,8 +70,8 @@
 
     onMount(async () => {
         features.analytics.appStart.enabled && Platform.trackEvent('app-start')
+        await checkAndMigrateProfiles()
         await cleanupEmptyProfiles()
-        checkAndMigrateProfiles()
         Platform.onEvent('deep-link-request', handleDeepLink)
 
         setTimeout(() => {
@@ -133,8 +132,6 @@
             closeDrawer()
             openPopup({ id: PopupId.Diagnostics })
         })
-
-        registerLedgerDeviceEventHandlers()
     })
 
     onDestroy(() => {
@@ -147,7 +144,7 @@
     {#if IS_WINDOWS}
         <TitleBar />
     {/if}
-    <app-container class="w-screen h-full flex flex-col" class:windows={IS_WINDOWS}>
+    <app-container class="relative w-screen h-full flex flex-col" class:windows={IS_WINDOWS}>
         {#if !$isLocaleLoaded || splash}
             <Splash />
         {:else}
@@ -162,16 +159,18 @@
                     relative={$popupState.relative}
                 />
             {/if}
-            {#if $appRoute === AppRoute.Dashboard}
+            {#if settings}
+                <div class="absolute top-0 left-0 w-screen h-screen overflow-hidden z-10">
+                    <Settings handleClose={() => (settings = false)} />
+                </div>
+            {:else if $appRoute === AppRoute.Dashboard}
                 <Dashboard />
             {:else if $appRoute === AppRoute.Login}
                 <LoginRouter />
             {:else if $appRoute === AppRoute.Onboarding}
                 <OnboardingRouterView />
             {/if}
-            {#if settings}
-                <Settings handleClose={() => (settings = false)} />
-            {/if}
+
             <ToastContainer classes="absolute right-5 bottom-5 w-100" />
         {/if}
         <app-container />

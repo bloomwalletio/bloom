@@ -1,10 +1,10 @@
 <script lang="ts">
-    import { Pill } from '@bloomwalletio/ui'
+    import { Pill, Text } from '@bloomwalletio/ui'
+    import { INode } from '@iota/sdk/out/types'
     import { localize } from '@core/i18n'
-    import { INode, getDefaultNodes, isSupportedNetworkId } from '@core/network'
+    import { getDefaultNodes } from '@core/network'
     import { activeProfile } from '@core/profile/stores'
     import { PopupId, openPopup } from '@desktop/auxiliary/popup'
-    import { Text } from '@ui'
     import { NodeActionsMenu } from './menus'
 
     export let nodesContainer: HTMLElement | undefined = undefined
@@ -25,41 +25,46 @@
     }
 </script>
 
-<div
-    class="max-h-80 flex flex-col border border-solid border-gray-300 dark:border-gray-700 hover:border-gray-500 dark:hover:border-gray-700 rounded-2xl overflow-auto"
-    bind:this={nodesContainer}
->
-    {#if clientOptions?.nodes && clientOptions.nodes.length < 1 && !isSupportedNetworkId($activeProfile?.network?.id)}
-        <Text classes="p-3">
-            {localize('views.settings.configureNodeList.noNodes')}
-        </Text>
-    {:else}
+<node-list-table class="max-h-80 flex flex-col overflow-auto" bind:this={nodesContainer}>
+    {#if clientOptions?.nodes}
         {@const nodes =
-            clientOptions?.nodes && clientOptions?.nodes?.length > 0
-                ? clientOptions?.nodes
-                : getDefaultNodes($activeProfile?.network?.id)}
+            clientOptions?.nodes?.length > 0 ? clientOptions?.nodes : getDefaultNodes($activeProfile?.network?.id)}
         {#each nodes as node}
-            <button
-                class="flex flex-row items-center justify-between py-4 px-3 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:bg-opacity-20"
-                on:click={() => onViewNodeInfoClick(node)}
-            >
-                <div class="flex flex-row items-center space-x-4 overflow-hidden">
-                    <Text classes={'self-start overflow-hidden whitespace-nowrap text-ellipsis'}>
+            <div class="flex flex-row items-center justify-between">
+                <button
+                    on:click={() => onViewNodeInfoClick(node)}
+                    class="flex flex-row w-full items-center space-x-4 overflow-hidden"
+                >
+                    <Text truncate>
                         {node.url}
                     </Text>
                     {#if isPrimary(node)}
-                        <Pill color="blue">
-                            {localize('views.settings.configureNodeList.primaryNode').toLowerCase()}
+                        <Pill color="info">
+                            {localize('general.primary').toLowerCase()}
                         </Pill>
                     {/if}
                     {#if node?.disabled}
-                        <Pill color="red">
+                        <Pill color="danger">
                             {localize('general.excluded').toLowerCase()}
                         </Pill>
                     {/if}
-                </div>
+                </button>
                 <NodeActionsMenu {node} {clientOptions} />
-            </button>
+            </div>
         {/each}
     {/if}
-</div>
+</node-list-table>
+
+<style lang="postcss">
+    node-list-table {
+        @apply border border-solid border-stroke dark:border-stroke-dark;
+        @apply rounded-xl;
+        @apply p-2;
+    }
+
+    button {
+        @apply hover:bg-surface-2 dark:hover:bg-surface-2-dark;
+        @apply rounded-lg;
+        @apply p-2;
+    }
+</style>

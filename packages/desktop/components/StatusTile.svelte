@@ -22,7 +22,7 @@
     $: backgroundColor = iconBackgroundColor ?? `${iconColor}/20`
 </script>
 
-<Tile>
+<Tile border>
     <status-tile>
         <div class="flex flex-row items-center gap-2">
             {#if logo}
@@ -38,7 +38,7 @@
             </div>
         </div>
         {#if onClick}
-            <Toggle {onClick} label="status" {checked} size="sm" border="rounded-full" />
+            <Toggle {onClick} {checked} label="status" />
         {/if}
     </status-tile>
 </Tile>

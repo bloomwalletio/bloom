@@ -1,4 +1,4 @@
 export enum EvmChainId {
-    ShimmerEvm = '1071', // TODO: We dont know this value yet
-    ShimmerEvmTestnet = '7779',
+    ShimmerEvm = '148',
+    TestnetEvm = '1073',
 }

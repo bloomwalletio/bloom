@@ -16,4 +16,7 @@ export interface IWalletFeatures extends IFeatureFlag {
         sync: IFeatureFlag
         search: IFeatureFlag
     }
+    portfolio: {
+        filter: IFeatureFlag
+    }
 }

@@ -1,7 +1,7 @@
 <script lang="ts">
     import { updateOnboardingProfile } from '@contexts/onboarding'
     import { localize } from '@core/i18n'
-    import { ImportTextfield, Text } from '@ui'
+    import { MnemonicInput } from '../../../components'
     import { OnboardingLayout } from '@views/components'
     import { onMount } from 'svelte'
     import { restoreFromMnemonicRouter } from '../restore-from-mnemonic-router'
@@ -35,10 +35,7 @@
         onClick: onBackClick,
     }}
 >
-    <div slot="content">
-        <Text type="h5" classes="mb-3">{localize('views.onboarding.profileRecovery.importMnemonicPhrase.enter')}</Text>
-        <form on:submit|preventDefault={onContinueClick} id="text-import-form">
-            <ImportTextfield bind:value={input} />
-        </form>
-    </div>
+    <form slot="content" on:submit|preventDefault={onContinueClick} id="text-import-form">
+        <MnemonicInput bind:value={input} />
+    </form>
 </OnboardingLayout>

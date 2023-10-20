@@ -3,7 +3,10 @@
         "onboarding": {
             "appSetup": {
                 "welcome": {
-                    "title": "Welcome to"
+                    "title": "Welcome to",
+                    "subtitle": "A new journey awaits...",
+                    "legalBody": "Check to confirm you've read and accept the",
+                    "button": "Begin setup"
                 },
                 "legal": {
                     "title": "隐私政策和服务条款"
@@ -62,67 +65,66 @@
                     "importLedgerDescription": "从您的 Ledger Nano S 或 X 设备恢复"
                 },
                 "enterName": {
-                    "title": "Create your {network} profile",
+                    "title": "Define your {network} profile",
                     "profileName": "配置名称",
-                    "body1": "您可以创建多个用户配置文件来管理您的钱包和改善隐私。",
-                    "body2": {
-                        "first": "现在，让我们从您的第一个配置文件的名称开始。",
-                        "nonFirst": "现在，让我们从您的配置名称开始。"
-                    },
-                    "addMore": "您可以稍后添加更多的配置文件。"
+                    "body": "Please define a new name for your profile."
                 }
             },
             "strongholdSetup": {
                 "setupStrongholdPassword": {
-                    "title": "创建密码",
-                    "body1": "您需要一个强健的密码来保护您的资金。譬如使用一种单词的组合，并避免常见的短语，名称或日期。",
-                    "body2": "建议您在Recovery Kit中抄写下您的密码。"
+                    "title": "Secure Recovery Phrase",
+                    "body": "Your password needs to be highly secure to encrypt and recover your Stronghold vault. Also, you will need this to send tokens from your wallet."
                 }
             },
             "storageProtectionSetup": {
                 "setupPinProtection": {
                     "title": "设置 PIN 码",
-                    "body1": "请在下方输入 6 位数字作为 PIN 码。您在登录钱包时会被要求输入您设置的 PIN 码。",
-                    "body2": "仅限数字"
+                    "body": "Enter a 6-digit PIN below. Use numbers only."
                 }
             },
             "profileBackup": {
                 "viewMnemonic": {
                     "title": "恢复助记词",
-                    "body1": "在您的Recovery Kit中，按显示的准确顺序填写单词。",
-                    "body2": "秘密保管并安全存储",
-                    "body3": "一个书面备份非常重要。计算机常常会出错，文件可能损坏。",
+                    "body": "Carefully copy the words in the exact order below. Keep this private and safely stored.",
                     "revealRecoveryPhrase": "显示恢复密语",
                     "hideRecoveryPhrase": "隐藏恢复密语"
                 },
                 "verifyMnemonic": {
                     "title": "验证恢复密语",
-                    "body": "让我们检查您是否正确地写下了短语。请按编号顺序选择每个单词。 提示：您可以点击键盘中单词旁边的数字来选择它。",
+                    "body": "Let’s check you wrote down your phrase correctly. Please select the right word with the corresponding number.",
                     "word": "单词",
-                    "verified": "恢复密语已验证",
-                    "verifiedBody": "请记住将它秘密保管和安全存储。"
+                    "match": "Match from below",
+                    "success": {
+                        "title": "Verification success",
+                        "body1": "The recovery phrase matched",
+                        "body2": "Remember to keep your copy private and safely stored"
+                    },
+                    "failure": {
+                        "title": "Verification failure",
+                        "body1": "The recovery phrase did not match",
+                        "body2": "Please check your records"
+                    }
                 }
             },
             "profileRecovery": {
                 "importMnemonicPhrase": {
                     "title": "输入您的恢复短语",
-                    "body": "A recovery phrase is 24 words long, all lower case, with spaces between. This is used to recover existing Bloom profiles.",
-                    "enter": "输入您的恢复短语",
+                    "body": "A recovery phrase is 24 words long, all lower case, with spaces between. Separate each word by spaces or commas.",
                     "phraseDetected": "检测到24个单词恢复密语"
                 },
                 "importStrongholdBackup": {
-                    "title": "导入您的 Stronghold 备份文件",
+                    "title": "Restore your profile",
                     "body": "导入 StrongHold 备份文件以恢复您的配置。"
                 },
-                "backupPassword": {
-                    "body1": "请输入您的备份密码",
-                    "body2": "这是您首次创建备份时设置的密码。"
+                "unlockBackup": {
+                    "title": "Unlock your backup",
+                    "body": "Please provide your backup password below."
                 }
             },
             "shimmerClaiming": {
                 "claimRewards": {
-                    "title": "您的 Shimmer 质押奖励",
-                    "body": "检查你的 Shimmer 质押奖励是否正确。你可能需要多次搜索才能找到你的全部余额。"
+                    "title": "Shimmer staking rewards",
+                    "body": "Please check if your Shimmer staking rewards balance is correct. If not, please use the balance finder."
                 },
                 "success": {
                     "title": "已认领 Shimmer",
@@ -132,20 +134,21 @@
                 }
             },
             "congratulations": {
-                "title": "配置文件设置快要完成...",
-                "body": "一旦仪表板成功加载，你的新配置文件就会准备就绪。",
-                "ledgerHint": "在仪表盘加载完成之前，请不要断开您的Ledger设备。"
+                "title": "Setup complete",
+                "body1": "Bloom is ready",
+                "body2": "Profile is ready",
+                "body3": "Seamlessly manage your keys, assets and transactions.",
+                "action": "Enter Bloom"
             }
         },
         "ledgerInstallationGuide": {
-            "title": "Have you installed the {network} app on your Ledger device?",
-            "body1": "Before you proceed, you must use Ledger Live to find and install the {network} app.",
-            "body2": "请确保您的Ledger固件是最新的。任何预安装的应用都应更新到他们的最新版本。",
-            "action": "Yes, I've installed the {network} app"
+            "title": "Have you installed the necessary Ledger app?",
+            "body": "Use Ledger Live to find and install the {network} app.",
+            "action": "Yes, let's continue"
         },
         "connectLedger": {
             "title": "Connect your Ledger to Bloom",
-            "body": "For your Ledger device to be found by Bloom, please ensure that the official Ledger Live application is closed.",
+            "body": "For your Ledger device to be found by Bloom, please ensure that the official Ledger Live application is closed and the following steps are followed.",
             "connect": "连接您的 Ledger 设备",
             "unlock": "用密码解锁你的 Ledger",
             "openApp": "在您的Ledger上打开 Shimmer 应用"
@@ -157,9 +160,6 @@
             },
             "profile": {
                 "title": "个人档案"
-            },
-            "network": {
-                "title": "Network"
             },
             "collectibles": {
                 "title": "Collectibles"
@@ -187,10 +187,6 @@
             "notifications": {
                 "title": "通知",
                 "description": "交易事件的系统通知"
-            },
-            "networkStatus": {
-                "title": "网络状态",
-                "description": "显示你现在所连接的节点状态"
             },
             "exportStronghold": {
                 "title": "导出备份",
@@ -233,12 +229,8 @@
                 "description": "Change your Bloom profile name",
                 "success": "您更改了您的配置文件名称"
             },
-            "walletFinder": {
-                "title": "钱包查找器",
-                "description": "对您以前使用过的钱包进行扩展搜索"
-            },
             "hiddenAccounts": {
-                "title": "隐藏钱包列表",
+                "title": "Hidden accounts",
                 "description": "选择此选项将显示以前隐藏的钱包"
             },
             "deleteProfile": {
@@ -248,26 +240,6 @@
             "deepLinks": {
                 "title": "深链接",
                 "description": "Automatically fill transaction data in Bloom upon clicking a deep link starting with {appProtocol}://"
-            },
-            "networkInformation": {
-                "title": "Network information",
-                "connectedTo": "Connected to"
-            },
-            "configureNodeList": {
-                "title": "节点配置",
-                "description": "管理您连接的节点列表",
-                "primaryNode": "主节点",
-                "excludeNode": "排除此节点",
-                "includeNode": "包含此节点",
-                "editDetails": "编辑详情",
-                "setAsPrimary": "设为主节点",
-                "unsetAsPrimary": "清除主节点",
-                "removeNode": "移除节点",
-                "noNodes": "没有节点，无法连接到网络"
-            },
-            "localProofOfWork": {
-                "title": "Proof of work",
-                "description": "Complete proof of work locally on your device or outsource to the node"
             },
             "errorLog": {
                 "title": "错误日志",
@@ -312,9 +284,15 @@
             }
         },
         "login": {
-            "pleaseWait": "请等待 {time, plural, one {1 秒} other {# 秒}}",
-            "incorrectAttempts": "{attempts, plural, one {1 次失败重试} other {# 次失败重试}}",
-            "hintStronghold": "Your Stronghold's version is out of date. Please log in to update your Stronghold."
+            "incorrectPin": "Incorrect PIN code",
+            "hintStronghold": "Your Stronghold's version is out of date. Please log in to update your Stronghold.",
+            "maxAttempts": {
+                "title": "Couldn't sign you in",
+                "body1": "You have entered an",
+                "body2": "incorrect PIN code {times, plural, one {# time} other {# times}}.",
+                "body3": "For security purposes, your profile has been temporarily locked. Please wait for",
+                "body4": "before attempting to login again."
+            }
         },
         "loadProfile": {
             "loginSteps": {
@@ -351,6 +329,7 @@
                 "action": "Action",
                 "address": "Address",
                 "amount": "Amount",
+                "claimableTransactions": "You have {amount} {amount, select, 1 {transaction that requires} other {transactions that require}} claiming",
                 "consolidatedOutputs": "{amount} outputs consolidated"
             },
             "profileMenu": {
@@ -379,9 +358,6 @@
                         "title": "Chain deposit address",
                         "networkTitle": "Network deposit address"
                     },
-                    "chainInformation": {
-                        "title": "Chain information"
-                    },
                     "confirmLedgerEvmAddress": {
                         "title": "Confirm EVM address",
                         "header": "We have generated your EVM address"
@@ -403,6 +379,23 @@
                     },
                     "removeChain": {
                         "title": "Remove chain"
+                    },
+                    "networkSettings": {
+                        "configureNodeList": {
+                            "title": "Node configuration",
+                            "description": "Manage the list of nodes you connect to",
+                            "excludeNode": "Exclude node",
+                            "includeNode": "Include node",
+                            "editDetails": "Edit details",
+                            "setAsPrimary": "Set primary node",
+                            "unsetAsPrimary": "Clear primary node",
+                            "removeNode": "Remove node",
+                            "noNodes": "There are no nodes, unable to connect to the network"
+                        },
+                        "localProofOfWork": {
+                            "title": "Proof of work",
+                            "description": "Complete proof of work locally on your device or outsource to the node"
+                        }
                     }
                 },
                 "contactBook": {
@@ -448,7 +441,8 @@
                     "inputConnectionCode": {
                         "title": "Connect to a dApp",
                         "inputLabel": "Wallet Connect code",
-                        "hint": "Add new dApps by adding a Wallet Connect code below."
+                        "hint": "Add new dApps by adding a Wallet Connect code below.",
+                        "deprecated": "The dApp you try to connect to uses a deprecated version of WalletConnect. Cannot establish connection"
                     },
                     "confirmConnection": {
                         "title": "Connect with an application",
@@ -482,9 +476,10 @@
         "collectibles": {
             "gallery": {
                 "title": "合集",
-                "emptyTitle": "暂无合集",
-                "noResults": "没有结果",
-                "emptyDescription": "现在存入或接收你的第一个合集！"
+                "emptyTitle": "No collectibles found",
+                "noResults": "No results found",
+                "timelocked": "Locked for {timeDiff}",
+                "emptyDescription": "Deposit or receive your first collectible!"
             },
             "details": {
                 "storageDepositDescription": "一个可退还的押金，用于将你的NFT易存储在Tangle上。",
@@ -577,24 +572,20 @@
                 "title": "Available",
                 "subtitle": "Funds fully available for spending"
             },
-            "pending": {
-                "title": "Pending",
-                "subtitle": "Temporarily locked in transactions"
-            },
-            "locked": {
-                "title": "Locked",
-                "subtitle": "Temporarily locked for governance"
+            "unavailable": {
+                "title": "Unavailable",
+                "subtitle": "Locked or temporarily unavailable in transactions"
             },
             "storageDeposit": {
                 "title": "Storage deposit",
-                "subtitle": "These funds are reserved for storing native assets."
+                "subtitle": "Reserved for storing native assets."
             },
             "totalBalance": {
                 "title": "Total balance",
                 "subtitle": ""
             },
             "basicOutputs": {
-                "title": "Native Tokens",
+                "title": "Native tokens",
                 "subtitle": "Reserved for Native Token storage"
             },
             "nftOutputs": {
@@ -614,11 +605,11 @@
                 "subtitle": "Temporarily locked in unclaimed transactions"
             },
             "timelock": {
-                "title": "Time lock",
+                "title": "Timelocked",
                 "subtitle": "Temporarily locked in timelocked transactions"
             },
             "storageDepositReturn": {
-                "title": "SDRUC",
+                "title": "Storage deposit return",
                 "subtitle": "Temporarily locked in Storage Deposit Return"
             },
             "governance": {
@@ -643,7 +634,7 @@
         "appUpdate": {
             "title": "Check for updates",
             "installedVersion": "Installed version",
-            "newVerion": "New version",
+            "newVersion": "New version",
             "stage": "Stage",
             "prod": "Production",
             "alpha": "Alpha",
@@ -658,7 +649,7 @@
             "body": "定期备份你的钱包很重要，这样可以确保你有一个钱包和交易记录的副本。如果你失去了你的备份和恢复短语，你将失去对资金的访问权限。"
         },
         "deeplinkAccountSwitch": {
-            "title": "选择钱包",
+            "title": "Select an account",
             "body": "您刚刚激活了一个深链接。请选择您想要继续的钱包。"
         },
         "deeplinkError": {
@@ -747,6 +738,8 @@
         },
         "diagnostics": {
             "title": "诊断程序",
+            "app": "App",
+            "system": "System",
             "node": "节点",
             "platform": "平台",
             "platformVersion": "平台版本",
@@ -764,10 +757,10 @@
             "surplusIncluded": "此交易包含一个剩余的金额。请仔细检查这是你要发送的金额。"
         },
         "walletFinder": {
-            "title": "钱包查找器",
+            "title": "Sync accounts",
             "body": "对地址进行更详尽的搜索，以找到丢失的余额和钱包。",
-            "accountsSearched": "已搜索钱包",
-            "accountsFound": "找到钱包",
+            "accountsSearched": "Accounts searched",
+            "accountsFound": "Accounts found",
             "totalWalletBalance": "总余额",
             "searchAgainHint": "你的余额或钱包数量不正确吗？再次搜索，直到显示你的全部余额。"
         },
@@ -777,16 +770,6 @@
             "locked": "解锁您的Ledger设备以继续。",
             "appNotOpen": "Open the Shimmer app on your Ledger device to continue.",
             "correctAppOpen": "Ledger连接成功，请继续。"
-        },
-        "ledgerAppGuide": {
-            "title": "{legacy} 应用安装指南",
-            "steps": {
-                "0": "安装并打开 Ledger Live 应用程序",
-                "1": "请确保您的Ledger设备已连接",
-                "2": "搜索 {legacy} 应用。您可能需要启用 Ledger Live 开发者模式。",
-                "3": "安装 {legacy} 应用程序",
-                "4": "Remember that it's important to close Ledger Live before returning to Bloom"
-            }
         },
         "ledgerConnectionGuide": {
             "title": "Ledger无法连接时的处理技巧",
@@ -953,6 +936,7 @@
                 "url": "URL",
                 "logoUrl": "Logo URL",
                 "logo": "Logo",
+                "unit": "Unit",
                 "alias": "别名",
                 "tokenId": "资产 Id"
             }
@@ -1038,6 +1022,9 @@
             "title": "Receive",
             "body": "Receive tokens, NFTs, and other digital assets to your account address shown below.",
             "networkAddress": "{networkName} address"
+        },
+        "createAccount": {
+            "title": "Create account"
         }
     },
     "actions": {
@@ -1098,10 +1085,9 @@
         "updateAndContinue": "Update and continue",
         "tryAgain": "重试",
         "visitDiscord": "访问 Discord",
-        "dragDrop": "拖放",
-        "importExtentions": ".stronghold file",
-        "chooseFile": "选择一个文件",
+        "importExtensions": ".stronghold file",
         "dropHere": "将您的文件拖放至此处",
+        "dropOrBrowse": "Drop here or browse your files",
         "import": "导入",
         "importing": "正在导入",
         "export": "导出",
@@ -1117,10 +1103,10 @@
         "restart": "Restart",
         "refresh": "Refresh",
         "saveBackup": "Save backup",
-        "customizeAccount": "自定义钱包",
-        "hideAccount": "隐藏钱包",
-        "showAccount": "取消隐藏该钱包",
-        "deleteAccount": "删除钱包",
+        "customizeAccount": "Customise account",
+        "hideAccount": "Hide account",
+        "showAccount": "Unhide account",
+        "deleteAccount": "Delete account",
         "addNode": "添加节点",
         "addingNode": "添加节点",
         "addOfficialNodes": "添加官方节点",
@@ -1140,7 +1126,7 @@
         "copyAllInformation": "复制所有信息",
         "paste": "粘贴",
         "selectAll": "全选",
-        "addAccount": "添加钱包",
+        "addAccount": "Add account",
         "checkForUpdates": "检查更新",
         "reportAnIssue": "反馈问题",
         "clear": "清除",
@@ -1148,24 +1134,22 @@
         "no": "否",
         "skip": "跳过",
         "reset": "重置",
-        "downloadRecoveryKit": "保存Recovery Kit模板",
+        "downloadRecoveryKit": "Download recovery kit template",
         "skipBackup": "Skip wallet backup",
         "finishSetup": "完成设置",
         "readDocumentation": "阅读文档",
         "visitFaq": "访问常见问题",
         "viewDownloads": "View downloads",
-        "viewBalanceBreakdown": "View balance breakdown",
-        "showHiddenAccounts": "显示隐藏钱包",
+        "showHiddenAccounts": "Show hidden accounts",
         "confirm": "确认",
         "hideNetworkStatistics": "隐藏网络统计信息",
-        "findWallets": "查找钱包",
         "search": "搜索",
         "searching": "正在搜索...",
         "searchAgain": "重新搜索",
         "generateAddress": "生成地址",
-        "searchForRewards": "搜索奖励",
         "claimRewards": "认领奖励",
         "rerunClaimProcess": "再次运行认领流程",
+        "useFinder": "Use balance finder",
         "backup": "备份",
         "mint": "锻造",
         "mintNativeToken": "铸造原生代币",
@@ -1182,7 +1166,7 @@
         "testDeepLink": "测试深链接",
         "delete": "删除",
         "remove": "移除",
-        "depositNft": "存入NFT",
+        "getStarted": "Get started",
         "vote": "投票",
         "addProposal": "增加提案",
         "removeProposal": "移除提案",
@@ -1191,7 +1175,10 @@
         "revote": "重新投票",
         "skipAndKeep": "Skip and keep old password",
         "addChain": "Add chain",
-        "untrackToken": "Untrack token"
+        "untrackToken": "Untrack token",
+        "switchAccount": "Switch account",
+        "syncAccounts": "Sync accounts",
+        "importErc20Token": "Import ERC20 token"
     },
     "general": {
         "recipient": "接收人",
@@ -1218,27 +1205,36 @@
         "revoting": "重新投票",
         "unvoted": "已取消投票",
         "unvoting": "取消投票中...",
-        "transfer": "转帐",
-        "transferring": "转账中",
+        "transferIn": "Transfer in",
+        "transferringIn": "Transferring in",
+        "transferOut": "Transfer out",
+        "transferringOut": "Transferring out",
         "shimmerClaimed": "已认领",
         "shimmerClaiming": "认领中...",
         "shimmerGenesis": "Shimmer 创世块",
-        "minted": "已锻造",
-        "minting": "锻造中",
-        "burned": "烧毁的",
-        "burning": "燃烧中",
+        "mintedalias": "Minted alias",
+        "mintingalias": "Minting alias",
+        "mintednft": "Minted NFT",
+        "mintingnft": "Minting NFT",
+        "mintedfoundry": "Minted token",
+        "mintingfoundry": "Minting token",
+        "burnedalias": "Burned alias",
+        "burningalias": "Burning alias",
+        "burnednft": "Burned NFT",
+        "burningnft": "Burning NFT",
+        "burnedfoundry": "Burned token",
+        "burningfoundry": "Burning token",
+        "burnedbasic": "Burned token",
+        "burningbasic": "Burning token",
         "balanceChanged": "Balance changed",
         "initialBalance": "Initial balance",
         "consolidated": "Consolidated",
         "consolidating": "Consolidating",
-        "aliasCreated": "别名已创建",
-        "creatingAlias": "创建别名",
         "sendTo": "发送到",
         "sendAssets": "发送资产",
         "sendAssetToAddress": "将资产发送到地址",
-        "manageAccount": "管理钱包",
-        "customizeAccount": "自定义你的钱包",
-        "account": "钱包",
+        "manageAccount": "Manage account",
+        "account": "Account",
         "amount": "金额",
         "addAddress": "新增地址",
         "to": "到",
@@ -1263,7 +1259,7 @@
         "outgoing": "转出",
         "dev": "开发者",
         "newAccount": "New account",
-        "accountName": "钱包名称",
+        "accountName": "Account name",
         "activity": "活动",
         "security": "安全设置",
         "network": "网络",
@@ -1280,7 +1276,7 @@
         "noAssets": "没有资产",
         "noFilteredAsset": "没有匹配的资产",
         "thisMonth": "本月",
-        "search": "搜索",
+        "search": "Search...",
         "passwordUpdating": "正在更新密码...",
         "passwordSuccess": "密码更新成功",
         "passwordFailed": "更新密码失败",
@@ -1299,11 +1295,12 @@
         "fromAddress": "来自 {account}",
         "toAddress": "发到 {account}",
         "capsLock": "大写锁定键已开启",
-        "version": "版本 {version}",
+        "version": "Version",
+        "versionFull": "Version {version}",
         "unknown": "未知",
         "unknownAddress": "未知地址",
         "none": "无",
-        "accountColor": "钱包颜色",
+        "accountColor": "Account color",
         "transactionTime": "交易时间",
         "storageDeposit": "存储押金",
         "transactionFee": "Transaction fee",
@@ -1317,6 +1314,7 @@
         "governorAddress": "治理者地址",
         "stateControllerAddress": "状态控制器地址",
         "copiedToClipboard": "复制到剪贴板",
+        "copiedThis": "I've copied this",
         "availableBalanceWithValue": "可用余额: {balance}",
         "amountClaimed": "{amount} 已认领",
         "metadata": "元数据",
@@ -1332,7 +1330,6 @@
         "mintNativeTokenDescription": "按照 IRC30 标准锻造原生代币",
         "mintNftDescription": "按照IRC27标准Mint NFT",
         "faucetRequestDescription": "从 {network} 水龙头中申请免费代币",
-        "refreshTokenMetadataDescription": "重置并刷新所有代币元数据",
         "refreshTokenMetadataHint": "这将重置您所有的代币元数据，包括验证状态并取消隐藏任何隐藏的资产。",
         "excluded": "排除",
         "developerTools": "开发工具",
@@ -1370,7 +1367,6 @@
         "coinType": "Coin type",
         "custom": "Custom",
         "evmAddress": "EVM address",
-        "importErc20Token": "Import ERC20 token",
         "optionalField": "{field} (optional)",
         "gifted": "Gifted",
         "connected": "Connected",
@@ -1380,7 +1376,10 @@
         "apps": "Apps",
         "networks": "Networks",
         "ledgerDevice": "Ledger device",
-        "disconnected": "Disconnected"
+        "disconnected": "Disconnected",
+        "balanceBreakdown": "Balance breakdown",
+        "primary": "Primary",
+        "color": "Color"
     },
     "filters": {
         "title": "过滤",
@@ -1779,7 +1778,8 @@
         "walletConnect": {
             "invalidUri": "Invalid URI",
             "invalidProtocol": "Invalid protocol, must start with 'wc'.",
-            "deprecatedVersion": "dApp uses a deprecated wallet connect version."
+            "deprecatedVersion": "dApp uses a deprecated wallet connect version.",
+            "invalidV2UriFormat": "The link doesn't adhere to the WalletConnect V2 specification."
         },
         "web3": {
             "unableToGetProvider": "Unable to get web3 provider.",
@@ -1857,14 +1857,16 @@
         "collectibles": "合集",
         "governance": "治理",
         "developer": "开发者",
-        "tokens": "代币"
+        "tokens": "代币",
+        "settings": "Settings"
     },
     "pills": {
         "asyncStatus": {
-            "unclaimed": "未认领",
-            "claimed": "已认领",
-            "expired": "已过期",
-            "timelocked": "timelocked"
+            "claim": "Claim {timeDiff, select, undefined {} other { {timeDiff} }}",
+            "unclaimed": "Unclaimed {timeDiff, select, undefined {} other { {timeDiff}}}",
+            "claimed": "Claimed",
+            "expired": "Expired",
+            "timelocked": "Locked {timeDiff, select, undefined {} other { {timeDiff}}}"
         },
         "governance": {
             "proposalStatus": {
@@ -1881,6 +1883,11 @@
             "degraded": "Degraded",
             "operational": "Operational",
             "disconnected": "Disconnected"
+        },
+        "ledgerStatus": {
+            "notConnected": "Not connected",
+            "locked": "Device locked",
+            "appNotOpen": "App not open"
         }
     },
     "menus": {

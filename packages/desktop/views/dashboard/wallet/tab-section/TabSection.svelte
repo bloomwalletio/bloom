@@ -1,47 +1,42 @@
 <script lang="ts">
-    import { Tabs, IconButton, IconName } from '@bloomwalletio/ui'
-    import { ActivityTab } from './activity'
-    import { PortfolioTab } from './portfolio'
+    import { Tabs } from '@bloomwalletio/ui'
+    import { Filter, TokenListMenu } from '@components'
+    import { activityFilter, activitySearchTerm } from '@core/activity'
     import { localize } from '@core/i18n'
-    import { Filter } from '@components'
     import { tokenFilter, tokenSearchTerm } from '@core/token/stores'
     import { SearchInput } from '@ui'
-    import { activityFilter, activitySearchTerm } from '@core/activity'
-    import { PopupId, openPopup } from '@desktop/auxiliary/popup'
+    import { ActivityTab } from './activity'
+    import { PortfolioTab } from './portfolio'
+    import features from '@features/features'
 
-    let currentTab = 0
+    const TABS = [
+        { key: 'activity', value: localize('views.dashboard.activity.tab') },
+        { key: 'portfolio', value: localize('views.dashboard.portfolio.tab') },
+    ]
 
-    function onImportErc20TokenClick(): void {
-        openPopup({
-            id: PopupId.ImportErc20Token,
-            overflow: true,
-        })
-    }
+    let selectedTab = TABS[0]
 </script>
 
-<top-section class="flex flex-row justify-between px-5 py-4">
-    <Tabs
-        bind:currentTab
-        tabs={[localize('views.dashboard.activity.tab'), localize('views.dashboard.portfolio.tab')]}
-    />
+<top-section class="flex flex-row justify-between px-5 py-4 items-center">
+    <div class="w-64">
+        <Tabs bind:selectedTab tabs={TABS} />
+    </div>
     <div class="flex flex-row gap-2 items-center">
-        {#if currentTab === 0}
-            <div class="flex items-center" style="height: 36px">
-                <SearchInput bind:value={$activitySearchTerm} />
-            </div>
+        {#if selectedTab.key === 'activity'}
+            <SearchInput bind:value={$activitySearchTerm} />
             <Filter filterStore={activityFilter} />
-        {:else if currentTab === 1}
-            <div class="flex items-center" style="height: 36px">
-                <SearchInput bind:value={$tokenSearchTerm} />
-            </div>
-            <Filter filterStore={tokenFilter} />
-            <IconButton icon={IconName.Plus} on:click={onImportErc20TokenClick} />
+        {:else if selectedTab.key === 'portfolio'}
+            <SearchInput bind:value={$tokenSearchTerm} />
+            {#if features.wallet.portfolio.filter.enabled}
+                <Filter filterStore={tokenFilter} />
+            {/if}
+            <TokenListMenu />
         {/if}
     </div>
 </top-section>
 
-{#if currentTab === 0}
+{#if selectedTab.key === 'activity'}
     <ActivityTab />
-{:else if currentTab === 1}
+{:else if selectedTab.key === 'portfolio'}
     <PortfolioTab />
 {/if}

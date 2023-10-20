@@ -17,7 +17,12 @@ export async function generateActivitiesFromBalanceChanges(account: IAccountStat
         for (const tokenId of tokenIds) {
             for (const balanceChangeForAsset of balanceChanges[tokenId]) {
                 if (!balanceChangeForAsset.hidden) {
-                    const activity = await generateBalanceChangeActivity(networkId, tokenId, balanceChangeForAsset)
+                    const activity = await generateBalanceChangeActivity(
+                        networkId,
+                        tokenId,
+                        balanceChangeForAsset,
+                        account
+                    )
                     activities.push(activity)
                 }
             }

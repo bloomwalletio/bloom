@@ -49,13 +49,13 @@
     </account-summary-header>
     <FormattedBalance balanceText={formattedBalance} />
     <account-summary-actions class="mt-4 space-x-2 flex flex-row justify-between items-center">
-        <Button text={localize('actions.send')} width="half" size="lg" icon={IconName.Send} on:click={onSendClick} />
+        <Button text={localize('actions.send')} width="half" icon={IconName.Send} on:click={onSendClick} />
         <Button
-            variant="outline"
+            variant="outlined"
             text={localize('actions.receive')}
             width="half"
-            size="lg"
             icon={IconName.Receive}
+            color="info"
             on:click={onReceiveClick}
         />
     </account-summary-actions>

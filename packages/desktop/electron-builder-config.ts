@@ -1,6 +1,6 @@
 import type { Configuration } from 'electron-builder'
 import path from 'path'
-import { notarize } from 'electron-notarize'
+import { notarize } from '@electron/notarize'
 
 const STAGE = process.env.STAGE || 'alpha'
 
@@ -24,7 +24,7 @@ function getAppProtocol(): string {
 }
 
 function getAppId(): string {
-    const defaultAppId = 'org.bloom-labs.bloom'
+    const defaultAppId = 'io.bloomwallet.bloom'
     if (STAGE === 'prod') {
         return defaultAppId
     }
@@ -51,12 +51,12 @@ function getIconPath(): string {
 }
 
 async function notarizeMacos(appBundleId, appName): Promise<void> {
-    if (process.platform !== 'darwin' || process.env.MACOS_SKIP_NOTARIZATION) {
+    if (process.platform !== 'darwin' || process.env.MACOS_SKIP_NOTARIZATION === 'true') {
         return
     }
 
-    const APPLE_ID = process.env.BLOOM_APPLE_ID
-    const APPLE_ID_PASSWORD = process.env.BLOOM_APPLE_ID_PASSWORD
+    const APPLE_ID = process.env.BLOOM_APPLE_ID // Requires prefix of BLOOM otherwise electron builder tries to notarize the app using the env variables
+    const APPLE_ID_PASSWORD = process.env.BLOOM_APPLE_ID_PASSWORD // Requires prefix of BLOOM otherwise electron builder tries to notarize the app using the env variables
 
     if (!APPLE_ID) {
         throw Error('Notarization failed: Environment variable "BLOOM_APPLE_ID" is not defined')
@@ -67,11 +67,11 @@ async function notarizeMacos(appBundleId, appName): Promise<void> {
     }
 
     await notarize({
-        appBundleId: appBundleId,
-        appPath: path.resolve(__dirname, `../out/mac/${appName}.app`),
+        tool: 'notarytool',
+        appPath: path.resolve(__dirname, `./out/mac/${appName}.app`),
         appleId: APPLE_ID,
         appleIdPassword: APPLE_ID_PASSWORD,
-        ascProvider: 'UG77RJKZHH',
+        teamId: 'C2FJNDH9G2',
     })
 }
 
@@ -133,6 +133,7 @@ const prodConfig: Configuration = {
         entitlementsInherit: './entitlements.mac.plist',
         hardenedRuntime: true,
         gatekeeperAssess: false,
+        notarize: false, // Disable notarize in electron builder as we use @electron/notarize instead
         asarUnpack: ['**/*.node'],
     },
     publish: {

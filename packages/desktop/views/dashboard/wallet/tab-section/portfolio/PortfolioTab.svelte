@@ -9,27 +9,29 @@
     import { Text } from '@bloomwalletio/ui'
 
     let filteredTokenList: ITokenWithBalance[]
-    $: $tokenFilter, $tokenSearchTerm, $selectedAccountTokens, (filteredTokenList = getFilteredTokenList())
+    $: $tokenFilter, $tokenSearchTerm, $selectedAccountTokens, (filteredTokenList = getFilteredTokens())
     $: $tokenFilter, scrollToTop()
 
     let isEmptyBecauseOfFilter: boolean = false
-    $: $selectedAccountTokens, (isEmptyBecauseOfFilter = getTokenList().length > 0 && filteredTokenList.length === 0)
+    $: $selectedAccountTokens,
+        (isEmptyBecauseOfFilter = getSortedTokenForAllNetworks().length > 0 && filteredTokenList.length === 0)
     $: currency = getCurrencySymbol($activeProfile?.settings?.marketCurrency)
 
-    function getFilteredTokenList(): ITokenWithBalance[] {
-        const list = getTokenList()
-        return list.filter((_nativeToken) => isVisibleToken(_nativeToken))
+    function getFilteredTokens(): ITokenWithBalance[] {
+        const sortedTokens = getSortedTokenForAllNetworks()
+        return sortedTokens.filter((_nativeToken) => isVisibleToken(_nativeToken))
     }
 
-    function getTokenList(): ITokenWithBalance[] {
-        const list = []
+    function getSortedTokenForAllNetworks(): ITokenWithBalance[] {
+        const baseCoins: ITokenWithBalance[] = []
+        const nativeTokens: ITokenWithBalance[] = []
         for (const networkTokens of Object.values($selectedAccountTokens)) {
             if (networkTokens?.baseCoin) {
-                list.push(networkTokens.baseCoin)
+                baseCoins.push(networkTokens.baseCoin)
             }
-            list.push(...(networkTokens?.nativeTokens ?? []))
+            nativeTokens.push(...(networkTokens?.nativeTokens ?? []))
         }
-        return list
+        return [...baseCoins, ...nativeTokens.sort((a, b) => a.metadata.name.localeCompare(b.metadata.name))]
     }
 
     function scrollToTop() {
@@ -46,22 +48,31 @@
         <Text type="sm" fontWeight="medium" textColor="secondary">
             {localize('views.dashboard.portfolio.network')}
         </Text>
-        <Text type="sm" fontWeight="medium" textColor="secondary">
-            {localize('views.dashboard.portfolio.marketCap')}
-            {currency}
-        </Text>
-        <Text type="sm" fontWeight="medium" textColor="secondary">
-            {localize('views.dashboard.portfolio.price')}
-            {currency}
-        </Text>
         <div class="text-end">
             <Text type="sm" fontWeight="medium" textColor="secondary">
-                {localize('views.dashboard.portfolio.amount')}
+                {localize('views.dashboard.portfolio.marketCap')}
+                {currency}
+            </Text>
+        </div>
+        <div class="text-end">
+            <Text type="sm" fontWeight="medium" textColor="secondary">
+                {localize('views.dashboard.portfolio.price')}
+                {currency}
+            </Text>
+        </div>
+        <div class="text-end">
+            <Text type="sm" fontWeight="medium" textColor="secondary">
+                {localize('views.dashboard.portfolio.available')}
+            </Text>
+        </div>
+        <div class="text-end">
+            <Text type="sm" fontWeight="medium" textColor="secondary">
+                {localize('views.dashboard.portfolio.total')}
             </Text>
         </div>
     </header-row>
     {#if filteredTokenList.length > 0}
-        <VirtualList items={filteredTokenList} let:item>
+        <VirtualList items={filteredTokenList} let:item itemHeight={73}>
             <TokenListRow token={item} />
         </VirtualList>
     {:else}
@@ -82,12 +93,12 @@
 
         header-row {
             @apply w-full;
-            @apply px-5 py-4;
+            @apply pl-5 py-2 pr-7;
             @apply bg-surface-1 dark:bg-surface-1-dark;
             @apply border-y border-solid border-stroke dark:border-stroke-dark;
 
-            @apply grid;
-            grid-template-columns: 2fr 2fr 1fr 1fr 2fr;
+            @apply grid gap-2;
+            grid-template-columns: 3fr 2fr 2fr 2fr 2fr 2fr;
         }
     }
 </style>

@@ -57,7 +57,7 @@ export const getBestTimeDuration = (millis: number, noDurationUnit: Duration = '
     return zeroTime
 }
 
-export function getTimeDifference(lateDate: Date, earlyDate: Date): string | undefined {
+export function getTimeDifference(lateDate: Date, earlyDate: Date): string {
     const elapsedTime = lateDate.getTime() - earlyDate.getTime()
     const days = Math.floor(elapsedTime / (MILLISECONDS_PER_SECOND * SECONDS_PER_DAY))
     const hours = Math.floor(
@@ -73,6 +73,6 @@ export function getTimeDifference(lateDate: Date, earlyDate: Date): string | und
     } else if (seconds > 0) {
         return '<1min'
     } else {
-        return undefined
+        return ''
     }
 }

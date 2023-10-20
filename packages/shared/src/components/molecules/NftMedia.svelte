@@ -14,9 +14,7 @@
     export let muted: boolean = false
     export let classes: string = ''
     export let useCaching: boolean = true
-
-    const bgColor = 'gray-200'
-    const darkBgColor = 'gray-700'
+    export let smallIcon = false
 
     let hasMounted: boolean = false
     let basePath: string
@@ -51,6 +49,6 @@
     />
 {:else}
     <slot name="placeholder">
-        <MediaPlaceholder type={nft?.parsedMetadata?.type} {bgColor} {darkBgColor} {isDownloading} />
+        <MediaPlaceholder type={nft?.parsedMetadata?.type} {isDownloading} {smallIcon} />
     </slot>
 {/if}

@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { PasswordInput } from '@bloomwalletio/ui'
     import { showNotification } from '@auxiliary/notification'
     import { updateOnboardingProfile, verifyAndStoreMnemonic } from '@contexts/onboarding'
     import { localize } from '@core/i18n'
@@ -6,8 +7,8 @@
     import { setStrongholdPassword } from '@core/profile-manager'
     import { Subrouter } from '@core/router'
     import { PASSWORD_REASON_MAP } from '@core/stronghold'
-    import { PasswordInput, Text, TextType } from '@ui'
     import { OnboardingLayout } from '@views/components'
+    import { StrengthMeter } from '@ui'
     import zxcvbn from 'zxcvbn'
 
     export let router: Subrouter<unknown>
@@ -76,7 +77,7 @@
 
 <OnboardingLayout
     title={localize('views.onboarding.strongholdSetup.setupStrongholdPassword.title')}
-    description={localize('views.onboarding.strongholdSetup.setupStrongholdPassword.body1')}
+    description={localize('views.onboarding.strongholdSetup.setupStrongholdPassword.body')}
     continueButton={{
         onClick: onContinueClick,
         disabled: !strongholdPassword || !confirmedStrongholdPassword,
@@ -86,30 +87,22 @@
     }}
     {busy}
 >
-    <div slot="content">
-        <form on:submit|preventDefault={onContinueClick} id="password-form">
-            <Text type={TextType.p} classes="mb-10" secondary
-                >{localize('views.onboarding.strongholdSetup.setupStrongholdPassword.body2')}</Text
-            >
+    <form on:submit|preventDefault={onContinueClick} id="password-form" slot="content" class="flex flex-col space-y-5">
+        <StrengthMeter strength={passwordStrength?.score ?? 0} />
+        <div class="flex flex-col gap-4">
             <PasswordInput
-                {error}
-                classes="mb-4"
+                bind:error
                 bind:value={strongholdPassword}
-                strengthLevels={4}
-                showRevealToggle
-                showStrengthLevel
-                strength={passwordStrength?.score}
+                label={localize('general.password')}
                 autofocus
                 disabled={busy}
             />
             <PasswordInput
-                error={errorConfirm}
+                bind:error={errorConfirm}
                 bind:value={confirmedStrongholdPassword}
-                classes="mb-5"
-                placeholder={localize('general.confirmPassword')}
-                showRevealToggle
+                label={localize('general.confirmPassword')}
                 disabled={busy}
             />
-        </form>
-    </div>
+        </div>
+    </form>
 </OnboardingLayout>

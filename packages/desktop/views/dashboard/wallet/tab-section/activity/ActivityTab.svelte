@@ -44,7 +44,7 @@
     </header-row>
     {#if amountClaimableTransactions}
         <info-section class="flex flex-row items-center">
-            <Icon name={IconName.Bell} size="sm" customColor="warning" />
+            <Icon name={IconName.BellRinging} size="sm" customColor="warning" />
             <Text customColor="warning"
                 >{localize('views.dashboard.activity.claimableTransactions', {
                     amount: amountClaimableTransactions,
@@ -53,7 +53,7 @@
         </info-section>
     {/if}
     {#if $queriedActivities.length > 0}
-        <VirtualList items={$queriedActivities} let:item>
+        <VirtualList items={$queriedActivities} let:item itemHeight={69}>
             <ActivityListRow activity={item} />
         </VirtualList>
     {:else}
@@ -74,12 +74,12 @@
 
         header-row {
             @apply w-full;
-            @apply px-5 py-4;
+            @apply pl-5 py-2 pr-7;
             @apply bg-surface-1 dark:bg-surface-1-dark;
             @apply border-y border-solid border-stroke dark:border-stroke-dark;
 
             @apply grid;
-            grid-template-columns: 2fr 1fr 1fr 1fr;
+            grid-template-columns: 3fr 2fr 2fr 2fr;
         }
 
         info-section {

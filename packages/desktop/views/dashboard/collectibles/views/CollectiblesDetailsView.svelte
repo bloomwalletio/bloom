@@ -6,7 +6,7 @@
     import { time } from '@core/app/stores'
     import { openUrlInBrowser } from '@core/app/utils'
     import { localize } from '@core/i18n'
-    import { ExplorerEndpoint, getDefaultExplorerUrl } from '@core/network'
+    import { ExplorerEndpoint, getActiveNetworkId, getDefaultExplorerUrl } from '@core/network'
     import { INft, NftDownloadMetadata } from '@core/nfts'
     import { getNftByIdFromAllAccountNfts } from '@core/nfts/actions'
     import { allAccountNfts, selectedNftId } from '@core/nfts/stores'
@@ -17,11 +17,12 @@
     import { getTimeDifference } from '@core/utils'
     import { setSendFlowParameters } from '@core/wallet/stores'
     import { PopupId, openPopup } from '@desktop/auxiliary/popup'
-    import { NftMedia, Pane } from '@ui'
+    import { NetworkLabel, NftMedia, Pane } from '@ui'
     import { SendFlowRoute, SendFlowRouter, sendFlowRouter } from '@views/dashboard/send-flow'
 
     const nft: INft = getNftByIdFromAllAccountNfts($selectedAccountIndex, $selectedNftId)
-    const explorerUrl = getDefaultExplorerUrl(nft?.networkId, ExplorerEndpoint.Nft)
+    // We don't use `nft.networkId` on this one, as for IRC27 nfts we still want the L1 explorer
+    const explorerUrl = getDefaultExplorerUrl(getActiveNetworkId(), ExplorerEndpoint.Nft)
 
     const { id, name, issuer, address, metadata, downloadMetadata, storageDeposit } = nft ?? {}
     const { standard, version, description, issuerName, collectionName, attributes, soonaverseAttributes } =
@@ -37,16 +38,25 @@
     let detailsList: IItem[] = []
     $: detailsList = [
         {
+            key: localize('general.network'),
+            slot: {
+                component: NetworkLabel,
+                props: {
+                    networkId: nft.networkId,
+                },
+            },
+        },
+        {
             key: localize('general.nftId'),
             value: id || undefined,
             copyable: true,
-            truncate: { firstCharCount: 20, endCharCount: 20 },
+            truncate: { firstCharCount: 15, endCharCount: 15 },
         },
         {
             key: localize('general.address'),
             value: address || undefined,
             copyable: true,
-            truncate: { firstCharCount: 20, endCharCount: 20 },
+            truncate: { firstCharCount: 15, endCharCount: 15 },
         },
         {
             key: localize('general.storageDeposit'),
@@ -64,7 +74,7 @@
             key: localize('general.issuerAddress'),
             value: issuer?.type === AddressType.Ed25519 ? issuerAddress : undefined,
             copyable: true,
-            truncate: { firstCharCount: 20, endCharCount: 20 },
+            truncate: { firstCharCount: 15, endCharCount: 15 },
         },
         {
             key: localize('general.collection'),
@@ -74,7 +84,7 @@
             key: localize('general.collectionId'),
             value: issuer?.type === AddressType.Nft || issuer?.type === AddressType.Alias ? collectionId : undefined,
             copyable: true,
-            truncate: { firstCharCount: 20, endCharCount: 20 },
+            truncate: { firstCharCount: 15, endCharCount: 15 },
         },
         {
             key: localize('general.metadata'),
@@ -123,26 +133,20 @@
     }
 </script>
 
-<Pane classes="h-full">
+<Pane classes="h-full shadow-lg">
     <collectibles-details-view class="flex flex-row w-full h-full">
-        <div class="flex w-full h-auto items-center justify-center p-5 overflow-hidden">
-            <div class="relative h-auto flex rounded-2xl overflow-hidden">
-                <div class="rounded-2xl overflow-hidden flex-1 object-contain h-auto">
-                    <NftMedia {nft} autoplay controls loop muted />
-                </div>
-                <div class="absolute right-6 bottom-6 w-auto">
-                    {#if alertText}
-                        <Alert variant={downloadMetadata?.error ? 'danger' : 'warning'} text={alertText} />
-                    {/if}
-                </div>
+        <media-container class="relative flex w-full items-center justify-center p-5 overflow-hidden">
+            <NftMedia {nft} autoplay controls loop muted />
+            <div class="absolute left-6 top-6 w-auto">
+                {#if alertText}
+                    <Alert variant={downloadMetadata?.error ? 'danger' : 'warning'} text={alertText} />
+                {/if}
             </div>
-        </div>
-        <collectible-information class="flex flex-col px-6 py-8 space-y-3 w-full h-full max-w-lg">
-            <nft-title class="flex justify-between items-center">
+        </media-container>
+        <details-container class="flex flex-col px-6 py-8 space-y-3 w-full h-full max-w-sm">
+            <nft-title class="flex justify-between items-center gap-4">
                 <Text type="h4" truncate>{name}</Text>
-                <div>
-                    <CollectibleDetailsMenu {nft} />
-                </div>
+                <CollectibleDetailsMenu {nft} />
             </nft-title>
             {#if description}
                 <nft-description class="overflow-scroll">
@@ -191,7 +195,7 @@
                     text={localize('general.viewOnExplorer')}
                     on:click={onExplorerClick}
                     disabled={!explorerUrl}
-                    variant="outline"
+                    variant="outlined"
                     width="half"
                 />
                 <Button
@@ -202,16 +206,27 @@
                     on:click={onSendClick}
                     disabled={!!timeDiff}
                     width="half"
-                    size="lg"
                     reverse
                 />
             </buttons-container>
-        </collectible-information>
+        </details-container>
     </collectibles-details-view>
 </Pane>
 
 <style lang="scss">
     collectibles-details-view {
         @apply divide-x divide-solid divide-stroke dark:divide-stroke-dark;
+    }
+
+    media-container {
+        :global(*) {
+            @apply rounded-xl;
+            @apply object-contain object-center;
+            @apply max-w-full max-h-full;
+        }
+    }
+
+    details-container {
+        @apply max-w-lg;
     }
 </style>

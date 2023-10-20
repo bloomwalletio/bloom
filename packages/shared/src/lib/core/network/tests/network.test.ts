@@ -1,7 +1,7 @@
+import { INode } from '@iota/sdk/out/types'
 import { SupportedNetworkId } from '../enums'
-import { IClientOptions, INode } from '../interfaces'
 import { NetworkId } from '../types'
-import { checkNodeUrlValidity, getDefaultClientOptions, getDefaultNodes, isSupportedNetworkId } from '../utils'
+import { getDefaultNodes, isSupportedNetworkId } from '../utils'
 
 describe('File: network.ts', () => {
     function _buildNode(url: string | undefined): INode | undefined {
@@ -21,7 +21,7 @@ describe('File: network.ts', () => {
     }
 
     const EXPECTED_NODE_URLS: Readonly<{ [key in NetworkId]?: string[] }> = {
-        [SupportedNetworkId.Shimmer]: ['https://api.shimmer.network'],
+        [SupportedNetworkId.Shimmer]: ['https://api.shimmer.network', 'https://shimmer-node.tanglebay.com'],
         [SupportedNetworkId.Testnet]: ['https://api.testnet.shimmer.network'],
     }
 

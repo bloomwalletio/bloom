@@ -3,7 +3,10 @@
         "onboarding": {
             "appSetup": {
                 "welcome": {
-                    "title": "Welcome to"
+                    "title": "Welcome to",
+                    "subtitle": "A new journey awaits...",
+                    "legalBody": "Check to confirm you've read and accept the",
+                    "button": "Begin setup"
                 },
                 "legal": {
                     "title": "隱私政策和服務條款"
@@ -62,67 +65,66 @@
                     "importLedgerDescription": "還原自您的Ledger Nano S 或 X"
                 },
                 "enterName": {
-                    "title": "Create your {network} profile",
+                    "title": "Define your {network} profile",
                     "profileName": "設定檔名稱",
-                    "body1": "您可以創建多個使用者檔案來管理錢包和加強隱私。",
-                    "body2": {
-                        "first": "現在，讓我們從您的第一個設定檔名稱開始。",
-                        "nonFirst": "現在，讓我們從設定您的檔案名稱開始。"
-                    },
-                    "addMore": "您可以在稍後添加更多檔案。"
+                    "body": "Please define a new name for your profile."
                 }
             },
             "strongholdSetup": {
                 "setupStrongholdPassword": {
-                    "title": "設定密碼",
-                    "body1": "您需要強大的密碼來保護資金。請使用字詞組合，並避免常見的短語、名稱或日期。",
-                    "body2": "建議您在 Recovery Kit 中寫下密碼。"
+                    "title": "Secure Recovery Phrase",
+                    "body": "Your password needs to be highly secure to encrypt and recover your Stronghold vault. Also, you will need this to send tokens from your wallet."
                 }
             },
             "storageProtectionSetup": {
                 "setupPinProtection": {
                     "title": "設置 PIN 碼",
-                    "body1": "在下方輸入一個 6 位數的 PIN 碼。系統將要求您提供 PIN 碼以存取您的設定檔。",
-                    "body2": "只能使用數字"
+                    "body": "Enter a 6-digit PIN below. Use numbers only."
                 }
             },
             "profileBackup": {
                 "viewMnemonic": {
                     "title": "還原助記詞",
-                    "body1": "在 Recovery Kit 中，按照顯示的確切順序寫下單字。",
-                    "body2": "將此內容保密並安全地存儲。",
-                    "body3": "進行書面備份很重要。電腦往往會故障，文件亦可能會損壞。",
+                    "body": "Carefully copy the words in the exact order below. Keep this private and safely stored.",
                     "revealRecoveryPhrase": "顯示助記詞",
                     "hideRecoveryPhrase": "隱藏助記詞"
                 },
                 "verifyMnemonic": {
                     "title": "驗證助記詞",
-                    "body": "讓我們檢查您是否有正確寫下助記詞。請依照數字順序選取單字。技巧：你可以用鍵盤選擇伴隨單字的數字。",
+                    "body": "Let’s check you wrote down your phrase correctly. Please select the right word with the corresponding number.",
                     "word": "單字",
-                    "verified": "助記詞已驗證",
-                    "verifiedBody": "請記住將其保密並安全地存儲。"
+                    "match": "Match from below",
+                    "success": {
+                        "title": "Verification success",
+                        "body1": "The recovery phrase matched",
+                        "body2": "Remember to keep your copy private and safely stored"
+                    },
+                    "failure": {
+                        "title": "Verification failure",
+                        "body1": "The recovery phrase did not match",
+                        "body2": "Please check your records"
+                    }
                 }
             },
             "profileRecovery": {
                 "importMnemonicPhrase": {
                     "title": "輸入您的還原助記詞",
-                    "body": "A recovery phrase is 24 words long, all lower case, with spaces between. This is used to recover existing Bloom profiles.",
-                    "enter": "輸入您的還原助記詞",
+                    "body": "A recovery phrase is 24 words long, all lower case, with spaces between. Separate each word by spaces or commas.",
                     "phraseDetected": "檢測到 24 個單字的助記詞"
                 },
                 "importStrongholdBackup": {
-                    "title": "匯入你的 Stronghold 備份檔",
+                    "title": "Restore your profile",
                     "body": "導入Stronghold 檔案備份來恢復您的個人設定檔"
                 },
-                "backupPassword": {
-                    "body1": "請輸入您的備份密碼。",
-                    "body2": "這是您首次備份時設置的密碼。"
+                "unlockBackup": {
+                    "title": "Unlock your backup",
+                    "body": "Please provide your backup password below."
                 }
             },
             "shimmerClaiming": {
                 "claimRewards": {
-                    "title": "您的Shimmer質押獎勵",
-                    "body": "檢查您的Shimmer質押獎勵是否正確。您或許需要檢索數次才能找到完整餘額。"
+                    "title": "Shimmer staking rewards",
+                    "body": "Please check if your Shimmer staking rewards balance is correct. If not, please use the balance finder."
                 },
                 "success": {
                     "title": "已領取Shimmer",
@@ -132,20 +134,21 @@
                 }
             },
             "congratulations": {
-                "title": "個人設定檔將近完成...",
-                "body": "當儀表成功加載後，你的新設定檔就會準備好",
-                "ledgerHint": "儀表板上顯示載入完成前，請勿中斷你的 Ledger 裝置。"
+                "title": "Setup complete",
+                "body1": "Bloom is ready",
+                "body2": "Profile is ready",
+                "body3": "Seamlessly manage your keys, assets and transactions.",
+                "action": "Enter Bloom"
             }
         },
         "ledgerInstallationGuide": {
-            "title": "Have you installed the {network} app on your Ledger device?",
-            "body1": "Before you proceed, you must use Ledger Live to find and install the {network} app.",
-            "body2": "請確認您的Ledger韌體是最新版本。所有已安裝的軟體都必須更新至最新版本。",
-            "action": "Yes, I've installed the {network} app"
+            "title": "Have you installed the necessary Ledger app?",
+            "body": "Use Ledger Live to find and install the {network} app.",
+            "action": "Yes, let's continue"
         },
         "connectLedger": {
             "title": "Connect your Ledger to Bloom",
-            "body": "For your Ledger device to be found by Bloom, please ensure that the official Ledger Live application is closed.",
+            "body": "For your Ledger device to be found by Bloom, please ensure that the official Ledger Live application is closed and the following steps are followed.",
             "connect": "連接您的 Ledger 裝置",
             "unlock": "使用 Pin 碼解鎖你的 Ledger",
             "openApp": "在你的 Ledger 上啟動 Shimmer app"
@@ -157,9 +160,6 @@
             },
             "profile": {
                 "title": "用戶設定檔"
-            },
-            "network": {
-                "title": "網路"
             },
             "collectibles": {
                 "title": "收藏品"
@@ -187,10 +187,6 @@
             "notifications": {
                 "title": "通知",
                 "description": "交易通知"
-            },
-            "networkStatus": {
-                "title": "網路狀態",
-                "description": "顯示您目前所連接的節點狀態"
             },
             "exportStronghold": {
                 "title": "匯出備份",
@@ -233,12 +229,8 @@
                 "description": "Change your Bloom profile name",
                 "success": "您已更換您的設定檔名稱"
             },
-            "walletFinder": {
-                "title": "搜尋錢包",
-                "description": "執行進階的搜尋以尋找您之前用過的錢包"
-            },
             "hiddenAccounts": {
-                "title": "隱藏錢包",
+                "title": "Hidden accounts",
                 "description": "選擇以顯示隱藏的錢包"
             },
             "deleteProfile": {
@@ -248,26 +240,6 @@
             "deepLinks": {
                 "title": "深度連結",
                 "description": "Automatically fill transaction data in Bloom upon clicking a deep link starting with {appProtocol}://"
-            },
-            "networkInformation": {
-                "title": "Network information",
-                "connectedTo": "已連接至"
-            },
-            "configureNodeList": {
-                "title": "節點設定",
-                "description": "管理你連接的節點列表",
-                "primaryNode": "主節點",
-                "excludeNode": "排除節點",
-                "includeNode": "加入節點",
-                "editDetails": "編輯(節點)資料",
-                "setAsPrimary": "設定主要節點",
-                "unsetAsPrimary": "清除主要節點",
-                "removeNode": "移除節點",
-                "noNodes": "目前找不到結點，無法連上網絡"
-            },
-            "localProofOfWork": {
-                "title": "工作量證明",
-                "description": "Complete proof of work locally on your device or outsource to the node"
             },
             "errorLog": {
                 "title": "錯誤日誌",
@@ -312,9 +284,15 @@
             }
         },
         "login": {
-            "pleaseWait": "請等候 {time, plural, one {# 秒} other {# 秒}}",
-            "incorrectAttempts": "{attempts, plural, one {錯誤輸入 # 次} other {輸入錯誤 # 次}}",
-            "hintStronghold": "您的 Stronghold 版本已過時，請登入來更新它。"
+            "incorrectPin": "Incorrect PIN code",
+            "hintStronghold": "您的 Stronghold 版本已過時，請登入來更新它。",
+            "maxAttempts": {
+                "title": "Couldn't sign you in",
+                "body1": "You have entered an",
+                "body2": "incorrect PIN code {times, plural, one {# time} other {# times}}.",
+                "body3": "For security purposes, your profile has been temporarily locked. Please wait for",
+                "body4": "before attempting to login again."
+            }
         },
         "loadProfile": {
             "loginSteps": {
@@ -351,6 +329,7 @@
                 "action": "Action",
                 "address": "Address",
                 "amount": "Amount",
+                "claimableTransactions": "You have {amount} {amount, select, 1 {transaction that requires} other {transactions that require}} claiming",
                 "consolidatedOutputs": "{amount} outputs consolidated"
             },
             "profileMenu": {
@@ -379,9 +358,6 @@
                         "title": "Chain deposit address",
                         "networkTitle": "Network deposit address"
                     },
-                    "chainInformation": {
-                        "title": "Chain information"
-                    },
                     "confirmLedgerEvmAddress": {
                         "title": "Confirm EVM address",
                         "header": "We have generated your EVM address"
@@ -403,6 +379,23 @@
                     },
                     "removeChain": {
                         "title": "Remove chain"
+                    },
+                    "networkSettings": {
+                        "configureNodeList": {
+                            "title": "Node configuration",
+                            "description": "Manage the list of nodes you connect to",
+                            "excludeNode": "Exclude node",
+                            "includeNode": "Include node",
+                            "editDetails": "Edit details",
+                            "setAsPrimary": "Set primary node",
+                            "unsetAsPrimary": "Clear primary node",
+                            "removeNode": "Remove node",
+                            "noNodes": "There are no nodes, unable to connect to the network"
+                        },
+                        "localProofOfWork": {
+                            "title": "Proof of work",
+                            "description": "Complete proof of work locally on your device or outsource to the node"
+                        }
                     }
                 },
                 "contactBook": {
@@ -448,7 +441,8 @@
                     "inputConnectionCode": {
                         "title": "Connect to a dApp",
                         "inputLabel": "Wallet Connect code",
-                        "hint": "Add new dApps by adding a Wallet Connect code below."
+                        "hint": "Add new dApps by adding a Wallet Connect code below.",
+                        "deprecated": "The dApp you try to connect to uses a deprecated version of WalletConnect. Cannot establish connection"
                     },
                     "confirmConnection": {
                         "title": "Connect with an application",
@@ -482,9 +476,10 @@
         "collectibles": {
             "gallery": {
                 "title": "收藏品",
-                "emptyTitle": "暫無收藏品",
-                "noResults": "沒有結果",
-                "emptyDescription": "現在就存入或接收您的第一件收藏品！"
+                "emptyTitle": "No collectibles found",
+                "noResults": "No results found",
+                "timelocked": "Locked for {timeDiff}",
+                "emptyDescription": "Deposit or receive your first collectible!"
             },
             "details": {
                 "storageDepositDescription": "將您的 NFT 儲存在 Tangle 上所須的可退還押金。",
@@ -577,24 +572,20 @@
                 "title": "可用金額",
                 "subtitle": "資金完全可用於支付"
             },
-            "pending": {
-                "title": "等待中",
-                "subtitle": "暫時鎖定於交易中"
-            },
-            "locked": {
-                "title": "已鎖定",
-                "subtitle": "暫時鎖定於治理中"
+            "unavailable": {
+                "title": "Unavailable",
+                "subtitle": "Locked or temporarily unavailable in transactions"
             },
             "storageDeposit": {
                 "title": "存儲空間費用",
-                "subtitle": "這些資金保留給原生資產的儲存。"
+                "subtitle": "Reserved for storing native assets."
             },
             "totalBalance": {
                 "title": "總餘額",
                 "subtitle": ""
             },
             "basicOutputs": {
-                "title": "原生代幣",
+                "title": "Native tokens",
                 "subtitle": "保留給原生代幣的儲存"
             },
             "nftOutputs": {
@@ -614,11 +605,11 @@
                 "subtitle": "暫時鎖定於未領取的交易中"
             },
             "timelock": {
-                "title": "時間鎖",
+                "title": "Timelocked",
                 "subtitle": "暫時鎖定於鎖時交易中"
             },
             "storageDepositReturn": {
-                "title": "SDRUC",
+                "title": "Storage deposit return",
                 "subtitle": "暫時鎖定於返還的儲存空間押金"
             },
             "governance": {
@@ -643,7 +634,7 @@
         "appUpdate": {
             "title": "檢查更新",
             "installedVersion": "已安裝版本",
-            "newVerion": "新版本",
+            "newVersion": "新版本",
             "stage": "階段",
             "prod": "生產",
             "alpha": "Alpha",
@@ -658,7 +649,7 @@
             "body": "定期備份錢包您的錢包很重要，以確保擁有錢包備份與交易記錄。若您遺失備份檔與助記詞，將失去資金權限。"
         },
         "deeplinkAccountSwitch": {
-            "title": "選擇一個錢包",
+            "title": "Select an account",
             "body": "您剛剛點擊了一個深層鏈接。請選擇您要繼續使用的錢包。"
         },
         "deeplinkError": {
@@ -747,6 +738,8 @@
         },
         "diagnostics": {
             "title": "應用診斷",
+            "app": "App",
+            "system": "System",
             "node": "節點",
             "platform": "平台",
             "platformVersion": "平台版本",
@@ -764,10 +757,10 @@
             "surplusIncluded": "該交易包含盈餘金額。請仔細檢查這是您要發送的金額。"
         },
         "walletFinder": {
-            "title": "搜尋錢包",
+            "title": "Sync accounts",
             "body": "對地址執行更詳盡的搜索，以尋找遺漏的資金與錢包。",
-            "accountsSearched": "已搜尋錢包",
-            "accountsFound": "錢包尋獲",
+            "accountsSearched": "Accounts searched",
+            "accountsFound": "Accounts found",
             "totalWalletBalance": "總餘額",
             "searchAgainHint": "您的錢包餘額或數字是否有誤？請重新搜尋直至顯示所有餘額。"
         },
@@ -777,16 +770,6 @@
             "locked": "解鎖你的 Ledger 裝置以繼續",
             "appNotOpen": "Open the Shimmer app on your Ledger device to continue.",
             "correctAppOpen": "Ledger 已成功的連接，請繼續。"
-        },
-        "ledgerAppGuide": {
-            "title": "{legacy} app 安裝指南",
-            "steps": {
-                "0": "安裝並開啟 Ledger Live 軟體",
-                "1": "確保您的 Ledger 裝置已連上",
-                "2": "搜索 {legacy} 應用。您可能需要啟用 Ledger Live 開發者模式。",
-                "3": "安裝 {legacy} app",
-                "4": "Remember that it's important to close Ledger Live before returning to Bloom"
-            }
         },
         "ledgerConnectionGuide": {
             "title": "Ledger無法連結時的處理技巧",
@@ -953,6 +936,7 @@
                 "url": "網址",
                 "logoUrl": "標誌 URL",
                 "logo": "標誌",
+                "unit": "Unit",
                 "alias": "別名",
                 "tokenId": "資產 ID"
             }
@@ -1038,6 +1022,9 @@
             "title": "Receive",
             "body": "Receive tokens, NFTs, and other digital assets to your account address shown below.",
             "networkAddress": "{networkName} address"
+        },
+        "createAccount": {
+            "title": "Create account"
         }
     },
     "actions": {
@@ -1098,10 +1085,9 @@
         "updateAndContinue": "更新並繼續",
         "tryAgain": "重新嘗試",
         "visitDiscord": "探訪 Discord",
-        "dragDrop": "拖曳並釋放",
-        "importExtentions": ".stronghold file",
-        "chooseFile": "選擇一個檔案",
+        "importExtensions": ".stronghold file",
         "dropHere": "將檔案拖至此處",
+        "dropOrBrowse": "Drop here or browse your files",
         "import": "匯入",
         "importing": "匯入中",
         "export": "匯出",
@@ -1117,10 +1103,10 @@
         "restart": "Restart",
         "refresh": "重新整理",
         "saveBackup": "Save backup",
-        "customizeAccount": "自訂錢包",
-        "hideAccount": "隱藏錢包",
-        "showAccount": "取消隱藏錢包",
-        "deleteAccount": "刪除錢包",
+        "customizeAccount": "Customise account",
+        "hideAccount": "Hide account",
+        "showAccount": "Unhide account",
+        "deleteAccount": "Delete account",
         "addNode": "增加節點",
         "addingNode": "增加節點",
         "addOfficialNodes": "添加官方節點",
@@ -1140,7 +1126,7 @@
         "copyAllInformation": "複製所有資訊",
         "paste": "貼上",
         "selectAll": "全選",
-        "addAccount": "新增錢包",
+        "addAccount": "Add account",
         "checkForUpdates": "檢查更新",
         "reportAnIssue": "回報問題",
         "clear": "清除",
@@ -1148,24 +1134,22 @@
         "no": "否",
         "skip": "跳過",
         "reset": "重置",
-        "downloadRecoveryKit": "保存 Recovery Kit 範本",
+        "downloadRecoveryKit": "Download recovery kit template",
         "skipBackup": "跳過錢包備份",
         "finishSetup": "完成設置",
         "readDocumentation": "閱讀文檔",
         "visitFaq": "訪問常見問題解答",
         "viewDownloads": "查看下載",
-        "viewBalanceBreakdown": "檢視餘額明細",
-        "showHiddenAccounts": "顯示隱藏錢包",
+        "showHiddenAccounts": "Show hidden accounts",
         "confirm": "確認",
         "hideNetworkStatistics": "隱藏網路統計數據",
-        "findWallets": "尋找錢包",
         "search": "搜尋",
         "searching": "搜尋中",
         "searchAgain": "重新搜尋",
         "generateAddress": "產生新地址",
-        "searchForRewards": "搜索獎勵",
         "claimRewards": "領取報酬",
         "rerunClaimProcess": "重新執行領取程序",
+        "useFinder": "Use balance finder",
         "backup": "備份",
         "mint": "鑄造代幣",
         "mintNativeToken": "鑄造原生代幣",
@@ -1182,7 +1166,7 @@
         "testDeepLink": "測試深度連結",
         "delete": "刪除",
         "remove": "移除",
-        "depositNft": "存入 NFT",
+        "getStarted": "Get started",
         "vote": "投票",
         "addProposal": "新增提案",
         "removeProposal": "移除提案",
@@ -1191,7 +1175,10 @@
         "revote": "重新投票",
         "skipAndKeep": "跳過並保留舊密碼",
         "addChain": "Add chain",
-        "untrackToken": "Untrack token"
+        "untrackToken": "Untrack token",
+        "switchAccount": "Switch account",
+        "syncAccounts": "Sync accounts",
+        "importErc20Token": "Import ERC20 token"
     },
     "general": {
         "recipient": "接收方",
@@ -1218,27 +1205,36 @@
         "revoting": "重新投票中",
         "unvoted": "已取消投票",
         "unvoting": "取消投票中",
-        "transfer": "傳送",
-        "transferring": "傳送中",
+        "transferIn": "Transfer in",
+        "transferringIn": "Transferring in",
+        "transferOut": "Transfer out",
+        "transferringOut": "Transferring out",
         "shimmerClaimed": "已領取",
         "shimmerClaiming": "領取中",
         "shimmerGenesis": "Shimmer 創世",
-        "minted": "已鑄造",
-        "minting": "鑄造中",
-        "burned": "已燒毀",
-        "burning": "燒毀中",
+        "mintedalias": "Minted alias",
+        "mintingalias": "Minting alias",
+        "mintednft": "Minted NFT",
+        "mintingnft": "Minting NFT",
+        "mintedfoundry": "Minted token",
+        "mintingfoundry": "Minting token",
+        "burnedalias": "Burned alias",
+        "burningalias": "Burning alias",
+        "burnednft": "Burned NFT",
+        "burningnft": "Burning NFT",
+        "burnedfoundry": "Burned token",
+        "burningfoundry": "Burning token",
+        "burnedbasic": "Burned token",
+        "burningbasic": "Burning token",
         "balanceChanged": "Balance changed",
         "initialBalance": "Initial balance",
         "consolidated": "Consolidated",
         "consolidating": "Consolidating",
-        "aliasCreated": "已建立別名",
-        "creatingAlias": "正在建立別名",
         "sendTo": "發送至",
         "sendAssets": "發送資產",
         "sendAssetToAddress": "發送資產至另一個地址",
-        "manageAccount": "管理錢包",
-        "customizeAccount": "自訂您的錢包",
-        "account": "錢包",
+        "manageAccount": "Manage account",
+        "account": "Account",
         "amount": "數量",
         "addAddress": "添加地址",
         "to": "至",
@@ -1263,7 +1259,7 @@
         "outgoing": "發送",
         "dev": "開發者",
         "newAccount": "New account",
-        "accountName": "錢包名稱",
+        "accountName": "Account name",
         "activity": "活動",
         "security": "安全性",
         "network": "網路",
@@ -1280,7 +1276,7 @@
         "noAssets": "沒有資產",
         "noFilteredAsset": "無相符的資產",
         "thisMonth": "本月",
-        "search": "搜尋",
+        "search": "Search...",
         "passwordUpdating": "正在更新密碼...",
         "passwordSuccess": "成功更新密碼",
         "passwordFailed": "更新密碼失敗",
@@ -1299,11 +1295,12 @@
         "fromAddress": "來自{account}",
         "toAddress": "至{account}",
         "capsLock": "大寫鎖定已啟用",
-        "version": "版本 {version}",
+        "version": "Version",
+        "versionFull": "Version {version}",
         "unknown": "未知",
         "unknownAddress": "未知地址",
         "none": "無",
-        "accountColor": "錢包顏色",
+        "accountColor": "Account color",
         "transactionTime": "交易時間",
         "storageDeposit": "存儲空間費用",
         "transactionFee": "Transaction fee",
@@ -1317,6 +1314,7 @@
         "governorAddress": "治理者地址",
         "stateControllerAddress": "狀態控制者地址",
         "copiedToClipboard": "複製到剪貼簿",
+        "copiedThis": "I've copied this",
         "availableBalanceWithValue": "可用餘額：{balance}",
         "amountClaimed": "已領取{amount}",
         "metadata": "元數據",
@@ -1332,7 +1330,6 @@
         "mintNativeTokenDescription": "依據 IRC30 標準鑄造原生代幣",
         "mintNftDescription": "依照 IRC27 標準鑄造 NFT",
         "faucetRequestDescription": "從 {network} 水龍頭請求代幣",
-        "refreshTokenMetadataDescription": "重置並刷新所有代幣元數據",
         "refreshTokenMetadataHint": "這將重置所有代幣的元數據，包括驗證狀態並取消隱藏任何隱藏資產。",
         "excluded": "排除",
         "developerTools": "開發人員工具",
@@ -1370,7 +1367,6 @@
         "coinType": "Coin type",
         "custom": "Custom",
         "evmAddress": "EVM address",
-        "importErc20Token": "Import ERC20 token",
         "optionalField": "{field} (optional)",
         "gifted": "Gifted",
         "connected": "Connected",
@@ -1380,7 +1376,10 @@
         "apps": "Apps",
         "networks": "Networks",
         "ledgerDevice": "Ledger device",
-        "disconnected": "Disconnected"
+        "disconnected": "Disconnected",
+        "balanceBreakdown": "Balance breakdown",
+        "primary": "Primary",
+        "color": "Color"
     },
     "filters": {
         "title": "篩選",
@@ -1779,7 +1778,8 @@
         "walletConnect": {
             "invalidUri": "Invalid URI",
             "invalidProtocol": "Invalid protocol, must start with 'wc'.",
-            "deprecatedVersion": "dApp uses a deprecated wallet connect version."
+            "deprecatedVersion": "dApp uses a deprecated wallet connect version.",
+            "invalidV2UriFormat": "The link doesn't adhere to the WalletConnect V2 specification."
         },
         "web3": {
             "unableToGetProvider": "Unable to get web3 provider.",
@@ -1857,14 +1857,16 @@
         "collectibles": "收藏品",
         "governance": "治理",
         "developer": "開發人員",
-        "tokens": "代幣"
+        "tokens": "代幣",
+        "settings": "Settings"
     },
     "pills": {
         "asyncStatus": {
-            "unclaimed": "未領取",
-            "claimed": "已領取",
-            "expired": "逾期",
-            "timelocked": "timelocked"
+            "claim": "Claim {timeDiff, select, undefined {} other { {timeDiff} }}",
+            "unclaimed": "Unclaimed {timeDiff, select, undefined {} other { {timeDiff}}}",
+            "claimed": "Claimed",
+            "expired": "Expired",
+            "timelocked": "Locked {timeDiff, select, undefined {} other { {timeDiff}}}"
         },
         "governance": {
             "proposalStatus": {
@@ -1881,6 +1883,11 @@
             "degraded": "Degraded",
             "operational": "Operational",
             "disconnected": "Disconnected"
+        },
+        "ledgerStatus": {
+            "notConnected": "Not connected",
+            "locked": "Device locked",
+            "appNotOpen": "App not open"
         }
     },
     "menus": {

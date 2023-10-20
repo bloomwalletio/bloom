@@ -8,7 +8,6 @@
         FaucetRequestButton,
         MintNativeTokenButton,
         MintNftButton,
-        RefreshTokenMetadataButton,
         TestDeepLinkButton,
     } from './components'
 </script>
@@ -42,9 +41,6 @@
                     {/if}
                     {#if features.developerTools.deeplink.enabled}
                         <TestDeepLinkButton />
-                    {/if}
-                    {#if features.developerTools.refreshTokens.enabled}
-                        <RefreshTokenMetadataButton />
                     {/if}
                 </Pane>
             </div>

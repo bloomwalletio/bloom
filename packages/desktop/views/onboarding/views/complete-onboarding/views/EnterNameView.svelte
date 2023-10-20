@@ -1,19 +1,17 @@
 <script lang="ts">
+    import { TextInput } from '@bloomwalletio/ui'
     import { onboardingProfile, updateOnboardingProfile } from '@contexts/onboarding'
     import { localize } from '@core/i18n'
     import { validateProfileName } from '@core/profile'
-    import { profiles } from '@core/profile/stores'
-    import { Input, Text } from '@ui'
     import { OnboardingLayout } from '@views/components'
     import { completeOnboardingRouter } from '../complete-onboarding-router'
 
     let error = ''
     let profileName = $onboardingProfile?.name ?? ''
 
-    $: profileName, (error = '') // Error clears when profileName changes
-
     function onContinueClick(): void {
         try {
+            error = ''
             validateProfileName(profileName)
             updateOnboardingProfile({ name: profileName })
             $completeOnboardingRouter.next()
@@ -27,26 +25,19 @@
     title={localize('views.onboarding.profileSetup.enterName.title', {
         network: $onboardingProfile?.network?.name,
     })}
-    description={localize('views.onboarding.profileSetup.enterName.body1')}
+    description={localize('views.onboarding.profileSetup.enterName.body')}
     continueButton={{
         onClick: onContinueClick,
         disabled: !profileName,
     }}
 >
     <div slot="content">
-        <Text secondary classes="mb-10">
-            {localize(
-                `views.onboarding.profileSetup.enterName.body2.${$profiles?.length === 0 ? 'first' : 'nonFirst'}`
-            )}
-            {localize('views.onboarding.profileSetup.enterName.addMore')}
-        </Text>
-        <Input
-            {error}
+        <TextInput
+            bind:error
             bind:value={profileName}
-            placeholder={localize('views.onboarding.profileSetup.enterName.profileName')}
-            classes="w-full mb-6"
+            label={localize('views.onboarding.profileSetup.enterName.profileName')}
             autofocus
-            submitHandler={onContinueClick}
+            on:submit={onContinueClick}
         />
     </div>
 </OnboardingLayout>

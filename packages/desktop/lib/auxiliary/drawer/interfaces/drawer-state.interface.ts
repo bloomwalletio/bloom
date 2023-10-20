@@ -1,6 +1,10 @@
-import { DashboardDrawerRoute } from '@views/dashboard/drawers/dashboard-drawer-route.enum'
 import { DrawerDirection, DrawerRoute } from '../enums'
-import { ContactBookRoute, DappConfigRoute, NetworkConfigRoute } from '@views/dashboard/drawers'
+import {
+    ContactBookRoute,
+    DappConfigRoute,
+    DashboardDrawerRoute,
+    NetworkConfigRoute,
+} from '../../../../views/dashboard/drawers'
 
 interface IBaseDrawerState {
     active: boolean

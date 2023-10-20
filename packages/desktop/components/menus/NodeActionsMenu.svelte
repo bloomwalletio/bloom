@@ -1,12 +1,13 @@
 <script lang="ts">
     import { IconName, Menu } from '@bloomwalletio/ui'
+    import { INode } from '@iota/sdk/out/types'
     import { localize } from '@core/i18n'
     import {
         removeNodeFromClientOptions,
         toggleDisabledNodeInClientOptions,
         togglePrimaryNodeInClientOptions,
     } from '@core/network/actions'
-    import { IClientOptions, INode } from '@core/network/interfaces'
+    import { IClientOptions } from '@core/network/interfaces'
     import { getDefaultNodes } from '@core/network/utils'
     import { activeProfile } from '@core/profile/stores'
     import { PopupId, closePopup, openPopup } from '@desktop/auxiliary/popup'
@@ -39,9 +40,9 @@
             openPopup({
                 id: PopupId.Confirmation,
                 props: {
+                    variant: 'danger',
                     title: localize('popups.unsetAsPrimaryNode.title'),
                     description: localize('popups.unsetAsPrimaryNode.body', { values: { url: node.url } }),
-                    danger: true,
                     confirmText: localize('actions.clear'),
                     onConfirm: () => {
                         void togglePrimaryNodeInClientOptions(node)
@@ -59,9 +60,9 @@
         openPopup({
             id: PopupId.Confirmation,
             props: {
+                variant: 'danger',
                 title: localize('popups.node.titleRemove'),
                 description: localize('popups.node.removeConfirmation'),
-                danger: true,
                 confirmText: localize('actions.removeNode'),
                 onConfirm: () => {
                     void removeNodeFromClientOptions(node)
@@ -79,10 +80,12 @@
             openPopup({
                 id: PopupId.Confirmation,
                 props: {
+                    variant: 'danger',
                     title: localize('popups.excludeNode.title'),
                     description: localize('popups.excludeNode.body', { values: { url: node?.url } }),
-                    danger: true,
-                    confirmText: localize('views.settings.configureNodeList.excludeNode'),
+                    confirmText: localize(
+                        'views.dashboard.drawers.networkConfig.networkSettings.configureNodeList.excludeNode'
+                    ),
                     onConfirm: () => {
                         void toggleDisabledNodeInClientOptions(node)
                         closePopup()
@@ -94,33 +97,43 @@
     }
 </script>
 
-<Menu
-    bind:this={menu}
-    items={[
-        {
-            icon: IconName.Edit,
-            title: localize('views.settings.configureNodeList.editDetails'),
-            disabled: isOfficialNode,
-            onClick: onEditNodeDetailsClick,
-        },
-        {
-            icon: isPrimary ? IconName.BookmarkX : IconName.BookmarkCheck,
-            title: localize(`views.settings.configureNodeList.${isPrimary ? 'unsetAsPrimary' : 'setAsPrimary'}`),
-            disabled: node?.disabled,
-            onClick: onTogglePrimaryNodeClick,
-        },
-        {
-            icon: node.disabled ? IconName.PlayCircle : IconName.PauseCircle,
-            title: localize(`views.settings.configureNodeList.${node.disabled ? 'include' : 'exclude'}Node`),
-            disabled: !allowDisableOrRemove,
-            onClick: onToggleDisabledNodeClick,
-        },
-        {
-            icon: IconName.Trash,
-            title: localize('views.settings.configureNodeList.removeNode'),
-            variant: 'danger',
-            disabled: !allowDisableOrRemove,
-            onClick: onRemoveNodeClick,
-        },
-    ]}
-/>
+<node-actions-menu>
+    <Menu
+        bind:this={menu}
+        items={[
+            {
+                icon: IconName.Edit,
+                title: localize('views.dashboard.drawers.networkConfig.networkSettings.configureNodeList.editDetails'),
+                disabled: isOfficialNode,
+                onClick: onEditNodeDetailsClick,
+            },
+            {
+                icon: isPrimary ? IconName.BookmarkX : IconName.BookmarkCheck,
+                title: localize(
+                    `views.dashboard.drawers.networkConfig.networkSettings.configureNodeList.${
+                        isPrimary ? 'unsetAsPrimary' : 'setAsPrimary'
+                    }`
+                ),
+                disabled: node?.disabled,
+                onClick: onTogglePrimaryNodeClick,
+            },
+            {
+                icon: node.disabled ? IconName.PlayCircle : IconName.PauseCircle,
+                title: localize(
+                    `views.dashboard.drawers.networkConfig.networkSettings.configureNodeList.${
+                        node.disabled ? 'include' : 'exclude'
+                    }Node`
+                ),
+                disabled: !allowDisableOrRemove,
+                onClick: onToggleDisabledNodeClick,
+            },
+            {
+                icon: IconName.Trash,
+                title: localize('views.dashboard.drawers.networkConfig.networkSettings.configureNodeList.removeNode'),
+                variant: 'danger',
+                disabled: !allowDisableOrRemove,
+                onClick: onRemoveNodeClick,
+            },
+        ]}
+    />
+</node-actions-menu>

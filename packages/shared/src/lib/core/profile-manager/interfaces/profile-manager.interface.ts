@@ -1,15 +1,14 @@
 import type {
+    IAuth,
     IClientOptions,
     WalletEventType,
     GenerateAddressOptions,
     LedgerNanoStatus,
-    INodeInfoWrapper,
     SyncOptions,
     WalletEvent,
 } from '@iota/sdk'
 
 import { IAccount } from '@core/account/interfaces'
-import { IAuth } from '@core/network/interfaces'
 
 import { WalletApiEventHandler } from '../types'
 
@@ -31,9 +30,7 @@ export interface IProfileManager {
     getAccountIndexes(): Promise<number[]>
     getAccount(accountIndex: number): Promise<IAccount>
     getAccounts(): Promise<IAccount[]>
-    getNodeInfo(url?: string, auth?: IAuth): Promise<INodeInfoWrapper>
     getLedgerNanoStatus(): Promise<LedgerNanoStatus>
-    hexToBech32(hex: string, bech32Hrp?: string): Promise<string>
     isStrongholdPasswordAvailable(): Promise<boolean>
     listen(eventTypes: WalletEventType[], callback: WalletApiEventHandler): Promise<void>
     clearListeners(eventTypes: WalletEventType[]): Promise<void>

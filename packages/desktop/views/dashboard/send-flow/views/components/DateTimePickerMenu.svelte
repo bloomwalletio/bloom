@@ -1,8 +1,7 @@
 <script lang="ts">
     import { formatDate, localize } from '@core/i18n'
-    import { Text } from '@ui'
     import { showNotification } from '@auxiliary/notification'
-    import { DateTimePicker, IconName, Menu } from '@bloomwalletio/ui'
+    import { DateTimePicker, IconName, Menu, Popover, Text } from '@bloomwalletio/ui'
     import { MILLISECONDS_PER_SECOND, SECONDS_PER_MINUTE, TimePeriod, isFutureDateTime } from '@core/utils'
 
     export let value: Date
@@ -15,7 +14,7 @@
     let customDate = new Date(Date.now() + 5 * SECONDS_PER_MINUTE * MILLISECONDS_PER_SECOND)
 
     let menu: Menu | undefined = undefined
-    let dateTimePicker: DateTimePicker | undefined = undefined
+    let popover: Popover | undefined = undefined
     let anchor: HTMLElement | undefined = undefined
 
     const dateIn1Hour = new Date(DATE_NOW)
@@ -50,7 +49,7 @@
 
     function onChooseTimeClick(_selected: TimePeriod): void {
         if (_selected === TimePeriod.Custom) {
-            dateTimePicker?.open()
+            popover?.show()
         } else {
             customDate = undefined
         }
@@ -65,13 +64,13 @@
             selected = previouslySelected
             setDate()
         }
-        dateTimePicker?.close()
+        popover?.hide()
     }
 
     function onConfirmClick(): void {
         if (isFutureDateTime(customDate)) {
             value = customDate
-            dateTimePicker?.close()
+            popover?.hide()
         } else {
             showNotification({
                 variant: 'warning',
@@ -83,6 +82,7 @@
 
 <Menu
     bind:this={menu}
+    {disabled}
     compact={false}
     placement="top-end"
     button={{
@@ -137,23 +137,23 @@
         class="flex items-center justify-center {disabled ? 'cursor-default' : 'cursor-pointer'}"
         {disabled}
     >
-        <div class="flex flex-row hover:text-blue-600 items-center">
-            <Text
-                highlighted={!disabled}
-                color="gray-600"
-                darkColor="gray-500"
-                classes={disabled ? '' : 'hover:text-blue-600'}
-            >
+        <div class="flex flex-row items-center">
+            <Text textColor={disabled ? 'secondary' : 'brand'} fontWeight="medium">
                 {value ? formatDate(value, { dateStyle: 'long', timeStyle: 'medium' }) : localize('general.none')}
             </Text>
         </div>
     </button>
 </Menu>
-<DateTimePicker
-    bind:this={dateTimePicker}
-    bind:value={customDate}
+<Popover
+    bind:this={popover}
     {anchor}
-    on:cancel={onCancelClick}
-    on:confirm={onConfirmClick}
-    startDate={new Date()}
-/>
+    placement="top-end"
+    class="border border-solid border-purple-50 rounded-xl shadow-lg overflow-hidden"
+>
+    <DateTimePicker
+        bind:value={customDate}
+        on:cancel={onCancelClick}
+        on:confirm={onConfirmClick}
+        startDate={new Date()}
+    />
+</Popover>

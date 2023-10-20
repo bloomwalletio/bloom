@@ -3,7 +3,6 @@
     import { shouldBeDarkMode } from '@core/app'
     import { appSettings } from '@core/app/stores'
     import { Logo } from '@ui'
-    import LoggedOutLayout from './components/LoggedOutLayout.svelte'
 
     // Why is this here?
     /**
@@ -14,11 +13,11 @@
     $: $appSettings.darkMode = shouldBeDarkMode($appSettings.theme)
 </script>
 
-<LoggedOutLayout>
-    <div slot="content" class="animate-pulse pr-100">
-        <Logo width="400" logo={LogoName.BloomLogoFull} />
-    </div>
-</LoggedOutLayout>
+<div
+    class="w-full h-full flex flex-col justify-center items-center animate-pulse pr-100 bg-surface dark:bg-surface-dark"
+>
+    <Logo width="400" logo={LogoName.BloomLogoFull} />
+</div>
 
 <style type="postcss">
     .animate-pulse {

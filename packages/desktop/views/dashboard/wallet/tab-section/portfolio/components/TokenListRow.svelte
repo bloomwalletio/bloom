@@ -5,7 +5,7 @@
     import { BASE_TOKEN_ID, ITokenWithBalance, formatTokenAmountBestMatch, getUnitFromTokenMetadata } from '@core/token'
     import { truncateString } from '@core/utils'
     import { PopupId, openPopup } from '@desktop/auxiliary/popup'
-    import { TokenAvatar } from '@ui'
+    import { TokenAvatar, NetworkAvatar } from '@ui'
     import { Text } from '@bloomwalletio/ui'
 
     export let token: ITokenWithBalance
@@ -36,9 +36,14 @@
         return marketPrice ? formatCurrency(marketPrice) : '-'
     }
 
-    function getFormattedMarketPriceForTokenAmount(token: ITokenWithBalance): string {
+    function getFormattedMarketPriceForTokenAvailable(token: ITokenWithBalance): string {
+        const marketPrice = getMarketAmountFromTokenValue(token.balance.available, token)
+        return marketPrice || marketPrice === 0 ? formatCurrency(marketPrice) : '-'
+    }
+
+    function getFormattedMarketPriceForTokenTotal(token: ITokenWithBalance): string {
         const marketPrice = getMarketAmountFromTokenValue(token.balance.total, token)
-        return marketPrice ? formatCurrency(marketPrice) : '-'
+        return marketPrice || marketPrice === 0 ? formatCurrency(marketPrice) : '-'
     }
 
     function onTokenRowClick(): void {
@@ -57,29 +62,37 @@
         <TokenAvatar {token} size="lg" />
         <div class="flex flex-col items-start justify-between text-start">
             <Text>
-                {token.metadata.name ? truncateString(token.metadata.name, 13, 0) : truncateString(token.id, 6, 7)}
+                {token.metadata?.name ? truncateString(token.metadata.name, 13, 0) : truncateString(token.id, 6, 7)}
             </Text>
             <Text type="sm" textColor="secondary">
-                {getUnitFromTokenMetadata(token.metadata)}
+                {token.metadata ? getUnitFromTokenMetadata(token.metadata) : ''}
             </Text>
         </div>
     </div>
-    <div class="text-start">
+    <div class="flex flex-row gap-2 text-start items-center">
+        <NetworkAvatar size="xs" networkId={token.networkId} />
         <Text>{getNameFromNetworkId(token.networkId)}</Text>
     </div>
-    <div class="text-start">
+    <div class="text-end">
         <Text>{getTokenSupply(token)}</Text>
     </div>
-    <div class="text-start">
+    <div class="text-end">
         <Text>{getFormattedMarketPriceForToken(token)}</Text>
     </div>
-
+    <div class="flex flex-col items-end text-end">
+        <Text>
+            {token.metadata ? formatTokenAmountBestMatch(token.balance.available, token.metadata) : '-'}
+        </Text>
+        <Text textColor="secondary">
+            {getFormattedMarketPriceForTokenAvailable(token)}
+        </Text>
+    </div>
     <div class="flex flex-col items-end text-end">
         <Text>
             {token.metadata ? formatTokenAmountBestMatch(token.balance.total, token.metadata) : '-'}
         </Text>
         <Text textColor="secondary">
-            {getFormattedMarketPriceForTokenAmount(token)}
+            {getFormattedMarketPriceForTokenTotal(token)}
         </Text>
     </div>
 </button>
@@ -91,7 +104,7 @@
         @apply border-b border-solid border-stroke dark:border-stroke-dark;
         @apply hover:bg-surface-2 dark:hover:bg-surface-2-dark;
 
-        @apply grid;
-        grid-template-columns: 2fr 2fr 1fr 1fr 2fr;
+        @apply grid gap-2;
+        grid-template-columns: 3fr 2fr 2fr 2fr 2fr 2fr;
     }
 </style>

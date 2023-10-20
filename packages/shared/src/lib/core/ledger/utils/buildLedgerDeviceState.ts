@@ -6,12 +6,12 @@ export function buildLedgerDeviceState(
     status: LedgerNanoStatus,
     ethereumAppSettings?: ILedgerEthereumAppSettings
 ): ILedgerDeviceState {
-    const app = status.app
+    const { app, connected, locked, device } = status
 
     return <ILedgerDeviceState>{
-        connected: ethereumAppSettings ? true : status.connected,
-        locked: ethereumAppSettings ? false : status.locked,
-        device: status.device,
+        connected,
+        locked,
+        device,
         app: app?.name as LedgerAppName,
         settings: <ILedgerAppSettings>{
             ...(app &&

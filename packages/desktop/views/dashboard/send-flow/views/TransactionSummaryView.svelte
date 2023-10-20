@@ -2,10 +2,9 @@
     import { selectedAccount } from '@core/account/stores'
     import { handleError } from '@core/error/handlers'
     import { localize } from '@core/i18n'
-    import { EvmTransactionData } from '@core/layer-2'
     import { IChain, getNetwork, isEvmChain } from '@core/network'
     import { truncateString } from '@core/utils'
-    import { Output, SendFlowParameters, SubjectType } from '@core/wallet'
+    import { SendFlowParameters, SubjectType } from '@core/wallet'
     import {
         createEvmTransactionFromSendFlowParameters,
         createStardustOutputFromSendFlowParameters,
@@ -17,23 +16,30 @@
     import { closePopup } from '@desktop/auxiliary/popup'
     import { onMount } from 'svelte'
     import { sendFlowRouter } from '../send-flow.router'
-    import SendFlowTemplate from './SendFlowTemplate.svelte'
+    import { PopupTemplate } from '@components'
     import { EvmTransactionSummary, StardustTransactionSummary, StardustToEvmTransactionSummary } from './components'
+    import { TransactionSummaryProps } from './types'
+    import { Spinner } from '@bloomwalletio/ui'
 
-    export let _onMount: (..._: any[]) => Promise<void> = async () => {}
+    export let transactionSummaryProps: TransactionSummaryProps
+    let { _onMount, preparedOutput, preparedTransaction } = transactionSummaryProps ?? {}
 
-    $: void updateSendFlow($sendFlowParameters)
+    $: void prepareTransactions($sendFlowParameters)
     $: isSourceNetworkLayer2 = !!chain
     $: isDestinationNetworkLayer2 = isEvmChain($sendFlowParameters.destinationNetworkId)
     $: isTransferring = !!$selectedAccount.isTransferring
+    $: isDisabled = isInvalid || isTransferring || (!preparedTransaction && !preparedOutput)
 
-    let isDisabled: boolean
+    let isInvalid: boolean
     let recipientAddress: string
-    let preparedOutput: Output | undefined
-    let preparedTransaction: EvmTransactionData | undefined
     let chain: IChain | undefined
 
-    async function updateSendFlow(sendFlowParameters: SendFlowParameters): Promise<void> {
+    async function prepareTransactions(sendFlowParameters: SendFlowParameters): Promise<void> {
+        if (_onMount) {
+            // The unlock stronghold/ledger flow passes the _onMount prop and the preparedTransactions
+            return
+        }
+
         try {
             const { recipient } = sendFlowParameters
 
@@ -80,26 +86,28 @@
 
     onMount(async () => {
         try {
-            await _onMount()
+            if (_onMount) {
+                await _onMount()
+            }
         } catch (err) {
             handleError(err)
         }
     })
 </script>
 
-<SendFlowTemplate
+<PopupTemplate
     title={localize('popups.transaction.transactionSummary', { values: { recipient: recipientAddress } })}
-    leftButton={{
+    backButton={{
         text: localize($sendFlowRouter.hasHistory() ? 'actions.back' : 'actions.cancel'),
         onClick: onBackClick,
         disabled: isTransferring,
     }}
-    rightButton={{
+    continueButton={{
         text: localize('actions.confirm'),
         onClick: onConfirmClick,
-        disabled: isDisabled || isTransferring,
-        isBusy: isTransferring,
+        disabled: isDisabled,
     }}
+    busy={isTransferring}
 >
     {#if isSourceNetworkLayer2 && preparedTransaction}
         <EvmTransactionSummary transaction={preparedTransaction} sendFlowParameters={$sendFlowParameters} />
@@ -108,10 +116,14 @@
             <StardustToEvmTransactionSummary output={preparedOutput} sendFlowParameters={$sendFlowParameters} />
         {:else}
             <StardustTransactionSummary
-                bind:isDisabled
+                bind:isInvalid
                 output={preparedOutput}
                 sendFlowParameters={$sendFlowParameters}
             />
         {/if}
+    {:else}
+        <div class="flex justify-center">
+            <Spinner />
+        </div>
     {/if}
-</SendFlowTemplate>
+</PopupTemplate>
