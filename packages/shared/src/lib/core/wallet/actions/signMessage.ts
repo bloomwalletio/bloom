@@ -3,6 +3,7 @@ import { isActiveLedgerProfile, isSoftwareProfile } from '@core/profile/stores'
 import { get } from 'svelte/store'
 import { closePopup } from '../../../../../../desktop/lib/auxiliary/popup'
 import { signMessageWithStronghold } from '@core/stronghold/utils'
+import { Ledger } from '@core/ledger/classes'
 
 export async function signMessage(
     message: string,
@@ -19,8 +20,8 @@ export async function signMessage(
     let signedMessage: string | undefined
     if (get(isSoftwareProfile)) {
         signedMessage = await signMessageWithStronghold(message, method, bip44Path)
-        // } else if (get(isActiveLedgerProfile)) {
-        //     signedMessage = await Ledger.signEvmTransaction(txData, chainId, bip44Path)
+    } else if (get(isActiveLedgerProfile)) {
+        signedMessage = await Ledger.signMessage(message, bip44Path)
     }
 
     if (!signedMessage) {
