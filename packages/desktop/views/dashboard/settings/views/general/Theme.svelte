@@ -16,11 +16,11 @@
         ...(features.app.themes.system.enabled ? [{ value: 'system', label: localize('general.systemTheme') }] : []),
     ]
 
-    let selected: IOption = options.find((option) => option.value === $appSettings.theme)
+    const selected: IOption = options.find((option) => option.value === $appSettings.theme)
 </script>
 
 <Text type="body2" class="mb-6">{localize('views.settings.theme.title')}</Text>
-<RadioGroup bind:selectedValue={selected} {options} />
+<RadioGroup selectedValue={selected.value} {options} />
 {#if appTheme === 'system'}
     <div class="mt-6">
         <Alert text={localize('views.settings.theme.advice')} />
