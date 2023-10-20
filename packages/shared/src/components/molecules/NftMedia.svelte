@@ -25,6 +25,8 @@
             ? `${basePath}/${nft.filePath}/${NFT_MEDIA_FILE_NAME}`
             : nft.downloadUrl
 
+    $: placeHolderColor = nft.downloadMetadata.error ? 'danger' : nft.downloadMetadata.error ? 'warning' : 'brand'
+
     onMount(async () => {
         if (process.env.NODE_ENV === 'development') {
             basePath = DEV_STORAGE_DIRECTORY
@@ -49,6 +51,6 @@
     />
 {:else}
     <slot name="placeholder">
-        <MediaPlaceholder type={nft?.parsedMetadata?.type} {isDownloading} {smallIcon} />
+        <MediaPlaceholder type={nft?.parsedMetadata?.type} {isDownloading} {smallIcon} textColor={placeHolderColor} />
     </slot>
 {/if}
