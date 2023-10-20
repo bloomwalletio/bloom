@@ -138,7 +138,7 @@
         <media-container class="relative flex w-full items-center justify-center p-5 overflow-hidden">
             <NftMedia {nft} autoplay controls loop muted iconSize="lg" />
             {#if alertText}
-                <error-container>
+                <error-container class={downloadMetadata?.error ? 'error' : 'warning'}>
                     <Pill color={downloadMetadata?.error ? 'danger' : 'warning'}
                         >{localize('general.' + (downloadMetadata?.error ? 'error' : 'warning'))}</Pill
                     >
@@ -232,8 +232,17 @@
     error-container {
         @apply flex flex-col items-start gap-2 p-4;
         @apply absolute left-8 top-8 w-auto rounded-2xl overflow-hidden;
-        @apply border border-solid border-[#FEE2E2];
-        @apply bg-[#FEF2F2];
+        @apply border border-solid;
+
+        &.error {
+            @apply border-[#FEE2E2];
+            @apply bg-[#FEF2F2];
+        }
+
+        &.warning {
+            @apply border-[#FEF0C3];
+            @apply bg-[#FEFEE8];
+        }
     }
 
     details-container {

@@ -1377,7 +1377,7 @@
         "termsOfService": "Terms of Service",
         "message": "Message",
         "error": "Error",
-        "Warning": "Warning"
+        "warning": "Warning"
     },
     "filters":{
         "title": "Filters",

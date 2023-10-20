@@ -28,7 +28,7 @@
 
     $: placeHolderColor = nft.downloadMetadata.error
         ? 'danger'
-        : nft.downloadMetadata.error
+        : nft.downloadMetadata.warning
         ? 'warning'
         : ('brand' as TextColor)
 
