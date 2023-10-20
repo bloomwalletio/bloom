@@ -11,7 +11,7 @@ import {
 import { MILLISECONDS_PER_SECOND, sleep } from '@core/utils'
 import { TxData } from '@ethereumjs/tx'
 import type { Bip44 } from '@iota/sdk/out/types'
-import { PopupId, openPopup } from '../../../../../../desktop/lib/auxiliary/popup'
+import { PopupId, closePopup, openPopup } from '../../../../../../desktop/lib/auxiliary/popup'
 import { DEFAULT_LEDGER_API_REQUEST_OPTIONS } from '../constants'
 import { LedgerApiMethod, LedgerAppName } from '../enums'
 import { ILedgerApiBridge } from '../interfaces'
@@ -24,6 +24,7 @@ import {
 import { EvmChainId } from '@core/network/enums'
 import { toRpcSig } from '@ethereumjs/util'
 import { Converter } from '@core/utils'
+import { handleError } from '@core/error/handlers'
 
 declare global {
     interface Window {
@@ -69,9 +70,7 @@ export class Ledger {
         chainId: EvmChainId,
         bip44: Bip44
     ): Promise<string | void> {
-        /* eslint-disable no-async-promise-executor */
-        /* eslint-disable @typescript-eslint/no-misused-promises */
-        return new Promise<string | void>(async (resolve, reject) => {
+        try {
             const unsignedTransactionMessageHex = prepareEvmTransaction(transactionData, chainId)
             const bip32Path = buildBip32PathFromBip44(bip44)
             const maxGasFee = calculateMaxGasFeeFromTransactionData(transactionData)
@@ -86,16 +85,11 @@ export class Ledger {
                         appName: LedgerAppName.Ethereum,
                         onEnabled: async () => {
                             canResolve = false
-                            try {
-                                resolve(await this.signEvmTransaction(transactionData, chainId, bip44))
-                            } catch (err) {
-                                reject(err)
-                            }
+                                await this.signEvmTransaction(transactionData, chainId, bip44)
                         },
                         onClose: () => {
                             if (canResolve) {
                                 canResolve = false
-                                resolve()
                             }
                         },
                     },
@@ -107,7 +101,7 @@ export class Ledger {
                     preventClose: true,
                     props: {
                         isEvmTransaction: true,
-                        toAmount: getAmountFromEvmTransactionValue(transactionData?.value?.toString()),
+                        toAmount: getAmountFromEvmTransactionValue(transactionData.value?.toString() ?? '0'),
                         toAddress: transactionData.to,
                         chainId,
                         maxGasFee,
@@ -133,17 +127,18 @@ export class Ledger {
 
                 const { r, v, s } = transactionSignature
                 if (r && v && s) {
-                    resolve(prepareEvmTransaction(transactionData, chainId, { r, v, s }))
-                } else {
-                    reject(localize('error.send.cancelled'))
+                    return prepareEvmTransaction(transactionData, chainId, { r, v, s })
                 }
             }
-        })
+        } catch (err) {
+            closePopup(true)
+            handleError(err)
+        }
     }
 
     static async signMessage(rawMessage: string, bip44: Bip44): Promise<string | undefined> {
-        return new Promise<string | undefined>(async (resolve, reject) => {
-            openPopup({
+        try {
+                openPopup({
                 id: PopupId.VerifyLedgerTransaction,
                 hideClose: true,
                 preventClose: false,
@@ -163,11 +158,12 @@ export class Ledger {
                 const vBig = BigInt(v)
                 const rBuffer = Buffer.from(r, 'hex')
                 const sBuffer = Buffer.from(s, 'hex')
-                resolve(toRpcSig(vBig, rBuffer, sBuffer))
-            } else {
-                reject(localize('error.send.cancelled'))
+                return toRpcSig(vBig, rBuffer, sBuffer)
             }
-        })
+        } catch (err) {
+            closePopup(true)
+            handleError(err)
+        }
     }
 
     private static async callLedgerApiAsync<R extends LedgerApiRequestResponse>(
@@ -191,7 +187,7 @@ export class Ledger {
             returnValue = <R>value
         })
 
-        for (let count = 0; count < iterationCount; count++) {
+        for (let count = 0; count < 1; count++) {
             if (!isGenerating) {
                 Platform.removeListenersForEvent(responseEvent)
                 if (returnValue && Object.keys(returnValue).length !== 0) {
