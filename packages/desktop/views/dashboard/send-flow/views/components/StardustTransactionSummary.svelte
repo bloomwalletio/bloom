@@ -142,11 +142,11 @@
         disableAll={isTransferring}
     />
 
-    <optional-inputs class="flex flex-row flex-wrap gap-4">
+    <optional-inputs class="flex flex-row flex-wrap gap-2">
         {#if !disableChangeExpiration}
             <AddInputButton
                 open={!!selectedExpirationPeriod}
-                text={localize('general.expirationTime')}
+                text={localize('general.expiration')}
                 onClick={() => (selectedExpirationPeriod = TimePeriod.OneDay)}
                 disabled={isTransferring}
             />

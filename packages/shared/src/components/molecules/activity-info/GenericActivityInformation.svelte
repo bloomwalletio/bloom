@@ -97,7 +97,7 @@
                     : undefined,
         },
         {
-            key: localize('general.expirationTime'),
+            key: localize('general.expiration'),
             tooltip: localize(`tooltips.transactionDetails.${activity.direction}.expirationTime`),
             slot:
                 activity.asyncData?.asyncStatus === ActivityAsyncStatus.Expired
@@ -110,7 +110,7 @@
                     : undefined,
         },
         {
-            key: localize('general.expirationTime'),
+            key: localize('general.expiration'),
             tooltip: localize(`tooltips.transactionDetails.${activity.direction}.expirationTime`),
             slot:
                 activity.asyncData?.asyncStatus !== ActivityAsyncStatus.Expired &&

@@ -1301,6 +1301,7 @@
         "storageDepositPerNft": "Storage deposit per NFT",
         "totalStorageDeposit": "Total storage deposit",
         "expirationTime": "Expiration time",
+        "expiration": "Expiration",
         "timelockDate": "Timelock",
         "claimedTime": "Claimed at",
         "nftId": "NFT ID",
