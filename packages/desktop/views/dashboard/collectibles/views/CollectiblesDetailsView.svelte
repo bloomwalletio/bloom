@@ -1,6 +1,5 @@
 <script lang="ts">
-    import { AddressType } from '@iota/sdk/out/types'
-    import { Table, type IItem, Text, Button, IconName, Pill } from '@bloomwalletio/ui'
+    import { Alert, Button, IconName, Table, Text, type IItem } from '@bloomwalletio/ui'
     import { CollectibleDetailsMenu } from '@components'
     import { selectedAccountIndex } from '@core/account/stores'
     import { time } from '@core/app/stores'
@@ -13,10 +12,11 @@
     import { getBaseToken } from '@core/profile/actions'
     import { collectiblesRouter } from '@core/router/routers'
     import { formatTokenAmountPrecise } from '@core/token'
-    import { getBech32AddressFromAddressTypes, getHexAddressFromAddressTypes, SendFlowType } from '@core/wallet'
     import { getTimeDifference } from '@core/utils'
+    import { SendFlowType, getBech32AddressFromAddressTypes, getHexAddressFromAddressTypes } from '@core/wallet'
     import { setSendFlowParameters } from '@core/wallet/stores'
     import { PopupId, openPopup } from '@desktop/auxiliary/popup'
+    import { AddressType } from '@iota/sdk/out/types'
     import { NetworkLabel, NftMedia, Pane } from '@ui'
     import { SendFlowRoute, SendFlowRouter, sendFlowRouter } from '@views/dashboard/send-flow'
 
@@ -138,11 +138,8 @@
         <media-container class="relative flex w-full items-center justify-center p-5 overflow-hidden">
             <NftMedia {nft} autoplay controls loop muted iconSize="lg" />
             {#if alertText}
-                <error-container class={downloadMetadata?.error ? 'error' : 'warning'}>
-                    <Pill color={downloadMetadata?.error ? 'danger' : 'warning'}
-                        >{localize('general.' + (downloadMetadata?.error ? 'error' : 'warning'))}</Pill
-                    >
-                    <Text fontWeight="medium">{alertText}</Text>
+                <error-container>
+                    <Alert variant={downloadMetadata?.error ? 'danger' : 'warning'} text={alertText} border />
                 </error-container>
             {/if}
         </media-container>
@@ -230,19 +227,7 @@
     }
 
     error-container {
-        @apply flex flex-col items-start gap-2 p-4;
-        @apply absolute left-8 top-8 w-auto rounded-2xl overflow-hidden;
-        @apply border border-solid;
-
-        &.error {
-            @apply border-[#FEE2E2];
-            @apply bg-[#FEF2F2];
-        }
-
-        &.warning {
-            @apply border-[#FEF0C3];
-            @apply bg-[#FEFEE8];
-        }
+        @apply absolute left-8 top-8 w-100 overflow-hidden;
     }
 
     details-container {

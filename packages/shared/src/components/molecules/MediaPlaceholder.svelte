@@ -35,9 +35,9 @@
 
 <style lang="scss">
     media-placeholder {
-        @apply flex items-center justify-center text-center;
         @apply rounded-full;
         @apply bg-surface dark:bg-surface-dark;
+        @apply flex items-center justify-center text-center;
 
         &.md {
             @apply h-20 w-20;

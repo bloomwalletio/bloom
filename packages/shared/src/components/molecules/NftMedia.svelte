@@ -55,7 +55,7 @@
         alt={`Media display for ${nft.name}`}
     />
 {:else}
-    <div class="w-full h-full flex justify-center items-center bg-surface-2 dark:bg-center-2-dark">
+    <div class="w-full h-full flex justify-center items-center bg-surface-2 dark:bg-surface-2-dark">
         <MediaPlaceholder
             type={nft?.parsedMetadata?.type}
             {isDownloading}
