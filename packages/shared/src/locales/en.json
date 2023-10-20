@@ -1281,7 +1281,7 @@
         "pinCodeFailed": "Updating PIN code failed",
         "passwordStrength": "Password strength",
         "passwordStrength0": "Bad",
-        "passwordStrength1": "Poor",
+        "passwordStrength1": "Very weak",
         "passwordStrength2": "Weak",
         "passwordStrength3": "Average",
         "passwordStrength4": "Strong",
