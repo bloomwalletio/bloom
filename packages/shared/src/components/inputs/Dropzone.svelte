@@ -35,16 +35,16 @@
 </script>
 
 <dropzone on:drop={onDrop} on:dragenter={onEnter} on:dragleave={onLeave} on:dragover={onOver} class:dropping>
+    <input
+        class="absolute opacity-0 w-full h-full"
+        type="file"
+        on:change={onDrop}
+        accept={allowedExtensions ? allowedExtensions.map((e) => `.${e}`).join(',') : '*'}
+    />
     {#if fileName}
         <Text fontWeight="medium" textColor="secondary">{fileName}</Text>
     {:else}
         <Icon name={IconName.Download} textColor="brand" size="lg" />
-        <input
-            class="absolute opacity-0 w-full h-full"
-            type="file"
-            on:change={onDrop}
-            accept={allowedExtensions ? allowedExtensions.map((e) => `.${e}`).join(',') : '*'}
-        />
         <div>
             <Text type="body2">{localize('actions.dropOrBrowse')}</Text>
             <Text fontWeight="medium" textColor="secondary">{extentionsLabel}</Text>
