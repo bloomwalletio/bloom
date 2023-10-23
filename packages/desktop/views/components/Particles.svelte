@@ -2,9 +2,9 @@
     import { onMount, onDestroy } from 'svelte'
 
     export let density: number = 7
-
-    export let speed: number = 0.5
-    export let maxParticleSize = 10
+    export let maxParticleSize = 5
+    export let minSpeed = 3
+    export let maxSpeed = 7
 
     let canvas: HTMLCanvasElement
     let ctx: CanvasRenderingContext2D
@@ -25,6 +25,7 @@
         x: number
         y: number
         size: number
+        speed: number
         color: string
 
         constructor() {
@@ -33,11 +34,12 @@
             this.x = randomInt(0, canvas?.width || 0)
             this.y = randomInt(0, canvas?.height || 0)
             this.size = randomInt(1, maxParticleSize)
+            this.speed = randomInt(minSpeed, maxSpeed) / 10
             this.color = randomColor()
         }
 
         update(): void {
-            if (this.size > 0.2) this.size -= 0.1 * speed
+            if (this.size > 0.2) this.size -= 0.1 * this.speed
         }
 
         draw(): void {
