@@ -7,6 +7,7 @@
     export let nftId: string
     export let textColor: TextColor = 'primary'
     export let size: AvatarSize
+    export let surface: 0 | 1 | 2 | 'invert' | 'brand' = 0
 
     $: isDownloading = $nftDownloadQueue.some((queueItem) => queueItem.nft.id === nftId)
 
@@ -34,7 +35,7 @@
 </script>
 
 <media-placeholder class:downloading={isDownloading}>
-    <Avatar icon={getIcon(type)} {textColor} {size} surface={0} />
+    <Avatar icon={getIcon(type)} {textColor} {size} {surface} />
 </media-placeholder>
 
 <style lang="scss">
