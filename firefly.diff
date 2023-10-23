@@ -61,7 +61,6 @@
  delete mode 100644 docs/static/icon_firefly.svg
  delete mode 100644 docs/static/send-confirmation-popup.png
  delete mode 100644 docs/static/send-form-popup.png
- create mode 100644 firefly.diff
  create mode 100644 packages/desktop/components/ContactAddressCard.svelte
  create mode 100644 packages/desktop/components/ContactCard.svelte
  create mode 100644 packages/desktop/components/ContactMetadataTable.svelte
