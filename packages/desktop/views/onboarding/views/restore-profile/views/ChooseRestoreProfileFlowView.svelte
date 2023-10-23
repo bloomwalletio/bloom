@@ -30,7 +30,11 @@
 
     let selectedRestoreProfileType: RestoreProfileType | undefined = undefined
     function onProfileTypeClick(restoreProfileType: RestoreProfileType): void {
-        selectedRestoreProfileType = restoreProfileType
+        if (restoreProfileType === selectedRestoreProfileType) {
+            onContinueClick()
+        } else {
+            selectedRestoreProfileType = restoreProfileType
+        }
     }
 
     async function onContinueClick(): Promise<void> {
