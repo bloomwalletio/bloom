@@ -3,9 +3,6 @@ name: Generate Diff
 on:
   schedule:
     - cron: '0 9 * * 5' # Every Friday at 9AM GMT (London time)
-  push:
-    branches:
-      - 1195-generate-diff-file-for-bloomfirefly-repos
 
 jobs:
   generate-diff:
