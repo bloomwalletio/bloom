@@ -69,3 +69,7 @@ export function updateLayer2AccountBalanceForTokenOnChain(
     })
     return newBalance
 }
+
+export function clearLayer2Balance(): void {
+    layer2Balances.set(undefined)
+}

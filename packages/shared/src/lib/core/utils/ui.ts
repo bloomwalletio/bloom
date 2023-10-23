@@ -33,11 +33,11 @@ export const clickOutside: Action = function (node) {
         }
     }
 
-    document.addEventListener('click', onClick, true)
+    document.addEventListener('mousedown', onClick, true)
 
     return {
         destroy(): void {
-            document.removeEventListener('click', onClick, true)
+            document.removeEventListener('mousedown', onClick, true)
         },
     }
 }

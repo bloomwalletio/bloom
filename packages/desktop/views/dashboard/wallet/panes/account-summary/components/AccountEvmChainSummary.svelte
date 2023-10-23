@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { getNetwork, NetworkId } from '@core/network'
+    import { getNetwork, NetworkHealth, NetworkId } from '@core/network'
     import { getAddressFromAccountForNetwork, IAccountState } from '@core/account'
     import { formatTokenAmountBestMatch, ITokenWithBalance } from '@core/token'
     import { formatCurrency } from '@core/i18n'
@@ -16,7 +16,7 @@
     $: $selectedAccountTokens, account, (props = buildAccountEvmChainSummaryProps())
 
     function buildAccountEvmChainSummaryProps(): IAccountNetworkSummaryProps | undefined {
-        const chain = getNetwork().getChain(networkId)
+        const chain = getNetwork()?.getChain(networkId)
         const tokens = $selectedAccountTokens?.[networkId]
         const evmChainBaseToken: ITokenWithBalance = tokens?.baseCoin
         const tokenBalance = formatTokenAmountBestMatch(
@@ -33,8 +33,8 @@
 
         return {
             networkId,
-            name: chain.getConfiguration().name,
-            health: chain.getStatus().health,
+            name: chain?.getConfiguration().name ?? '',
+            health: chain?.getStatus().health ?? NetworkHealth.Disconnected,
             address: getAddressFromAccountForNetwork(account, networkId),
             tokenBalance,
             fiatBalance,
