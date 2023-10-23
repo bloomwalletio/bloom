@@ -14,7 +14,11 @@
 
     let selectedOnboardingType: OnboardingType | undefined = undefined
     function onOnboardingTypeClick(onboardingType: OnboardingType): void {
-        selectedOnboardingType = onboardingType
+        if (selectedOnboardingType === onboardingType) {
+            onContinueClick()
+        } else {
+            selectedOnboardingType = onboardingType
+        }
     }
 
     function onContinueClick(): void {
