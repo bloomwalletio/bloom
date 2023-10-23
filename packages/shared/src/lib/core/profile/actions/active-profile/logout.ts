@@ -19,6 +19,7 @@ import { IProfileManager } from '@core/profile-manager/interfaces'
 import { profileManager } from '@core/profile-manager/stores'
 import { routerManager } from '@core/router/stores'
 import { clearFilters } from '@core/utils/clearFilters'
+import { clearLayer2Balance } from '@core/layer-2/stores'
 
 /**
  * Logout from active profile
@@ -31,6 +32,7 @@ export function logout(clearActiveProfile = true, _lockStronghold = true): void 
     }
 
     clearNetworkPoll()
+    clearLayer2Balance()
     clearChainStatusesPoll()
     clearMarketPricesPoll()
 
