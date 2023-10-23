@@ -15,15 +15,13 @@
             : []),
     ]
 
-    const selected: IOption = options.find((option) => option.value === $appSettings.theme)
-    $: if (selected && selected.value !== $appSettings.theme) {
-        updateAppSettings({ theme: selected.value as AppTheme })
-    }
+    let selected: string = options.find((option) => option.value === $appSettings.theme).value
+    $: if (selected && selected !== $appSettings.theme) updateAppSettings({ theme: selected as AppTheme })
 </script>
 
 <Text type="body2" class="mb-6">{localize('views.settings.theme.title')}</Text>
-<RadioGroup selected={selected.value} {options} />
-{#if selected.value === AppTheme.System}
+<RadioGroup bind:selected {options} />
+{#if selected === AppTheme.System}
     <div class="mt-6">
         <Alert text={localize('views.settings.theme.advice')} />
     </div>

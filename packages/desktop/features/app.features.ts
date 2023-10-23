@@ -3,7 +3,7 @@ import { IAppFeatures } from '@lib/features/interfaces'
 const appFeatures: IAppFeatures = {
     themes: {
         dark: {
-            enabled: true,
+            enabled: false,
         },
         system: {
             enabled: false,
