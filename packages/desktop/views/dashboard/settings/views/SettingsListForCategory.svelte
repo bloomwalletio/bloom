@@ -23,7 +23,7 @@
         ) ?? []
 </script>
 
-<div class="flex flex-col p-8 space-y-5">
+<div class="flex flex-col px-8 pb-8 space-y-5">
     <Text type="h6">
         {localize(`views.settings.${category}.title`)}
     </Text>
