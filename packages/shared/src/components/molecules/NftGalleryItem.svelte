@@ -49,8 +49,18 @@
             style="height: {nftWrapperClientWidth}px; "
         >
             <NftMedia {nft} classes="min-w-full min-h-full object-cover" loop muted showErrorColor>
-                <div class="w-full h-full flex justify-center items-center bg-surface-2 dark:bg-surface-2-dark">
-                    <MediaPlaceholder type={nft?.parsedMetadata?.type} nftId={nft.id} textColor={placeHolderColor} />
+                <div
+                    class="w-full h-full flex justify-center items-center bg-surface-2 dark:bg-surface-2-dark"
+                    slot="placeholder"
+                >
+                    <placeholder-container>
+                        <MediaPlaceholder
+                            type={nft?.parsedMetadata?.type}
+                            nftId={nft.id}
+                            textColor={placeHolderColor}
+                            size="md"
+                        />
+                    </placeholder-container>
                 </div>
             </NftMedia>
             <error-container bind:this={anchor}>
@@ -86,5 +96,11 @@
 
     error-container {
         @apply absolute left-3 top-3;
+    }
+    placeholder-container {
+        @apply rounded-full;
+        @apply bg-surface dark:bg-surface-dark;
+        @apply flex items-center justify-center text-center;
+        @apply h-20 w-20;
     }
 </style>

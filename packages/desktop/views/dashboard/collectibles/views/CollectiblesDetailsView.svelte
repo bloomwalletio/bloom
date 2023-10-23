@@ -143,13 +143,18 @@
     <collectibles-details-view class="flex flex-row w-full h-full">
         <media-container class="relative flex w-full items-center justify-center p-5 overflow-hidden">
             <NftMedia {nft} autoplay controls loop muted showErrorColor>
-                <div class="w-full h-full flex justify-center items-center bg-surface-2 dark:bg-surface-2-dark">
-                    <MediaPlaceholder
-                        type={nft?.parsedMetadata?.type}
-                        nftId={nft.id}
-                        textColor={placeHolderColor}
-                        size="lg"
-                    />
+                <div
+                    class="w-full h-full flex justify-center items-center bg-surface-2 dark:bg-surface-2-dark"
+                    slot="placeholder"
+                >
+                    <placeholder-container>
+                        <MediaPlaceholder
+                            type={nft?.parsedMetadata?.type}
+                            nftId={nft.id}
+                            textColor={placeHolderColor}
+                            size="lg"
+                        />
+                    </placeholder-container>
                 </div>
             </NftMedia>
             {#if alertText}
@@ -247,5 +252,12 @@
 
     details-container {
         @apply max-w-lg;
+    }
+
+    placeholder-container {
+        @apply rounded-full;
+        @apply bg-surface dark:bg-surface-dark;
+        @apply flex items-center justify-center text-center;
+        @apply h-24 w-24;
     }
 </style>

@@ -1,6 +1,6 @@
 <script lang="ts">
     import { MimeType, ParentMimeType } from '@core/nfts'
-    import { TextColor, Icon, IconName, AvatarSize } from '@bloomwalletio/ui'
+    import { TextColor, IconName, AvatarSize, Avatar } from '@bloomwalletio/ui'
     import { nftDownloadQueue } from '@core/nfts/stores'
 
     export let type: MimeType | undefined
@@ -33,26 +33,14 @@
     }
 </script>
 
-<media-placeholder class={size} class:downloading={isDownloading}>
-    <Icon name={getIcon(type)} {textColor} {size} />
+<media-placeholder class:downloading={isDownloading}>
+    <Avatar icon={getIcon(type)} {textColor} {size} surface={0} />
 </media-placeholder>
 
 <style lang="scss">
     media-placeholder {
-        @apply rounded-full;
-        @apply bg-surface dark:bg-surface-dark;
-        @apply flex items-center justify-center text-center;
-
         &.downloading {
             @apply animate-pulse;
-        }
-
-        &.md {
-            @apply h-20 w-20;
-        }
-
-        &.lg {
-            @apply h-24 w-24;
         }
     }
 </style>
