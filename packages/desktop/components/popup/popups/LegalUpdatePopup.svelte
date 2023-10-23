@@ -39,11 +39,11 @@
 
     function getTitleText(): string {
         if (tos && privacyPolicy) {
-            return 'views.onboarding.appSetup.legal.title'
+            return localize('general.privacyPolicy') + ' & ' + localize('general.termsOfService')
         } else if (tos) {
-            return 'popups.legalUpdate.tosTitle'
+            return localize('general.termsOfService')
         } else if (privacyPolicy) {
-            return 'popups.legalUpdate.privPolicyTitle'
+            return localize('general.privacyPolicy')
         }
     }
 
@@ -69,11 +69,21 @@
 >
     <Checkbox bind:checked size="lg">
         <div slot="label" class="flex flex-col">
-            <Text type="body2" fontWeight="medium">{localize('views.onboarding.appSetup.welcome.legalBody')}</Text>
+            <Text type="body2" fontWeight="medium">{localize('views.onboarding.welcome.legalAction')}</Text>
             <div class="flex">
-                <Link on:click={onPrivacyPolicyClick} text="Privacy Policy" textType="body2" external />
+                <Link
+                    on:click={onPrivacyPolicyClick}
+                    text={localize('general.privacyPolicy')}
+                    textType="body2"
+                    external
+                />
                 <Text type="body2" fontWeight="medium">&nbsp&&nbsp</Text>
-                <Link on:click={onTermsOfServiceClick} text="Terms of Service" textType="body2" external />
+                <Link
+                    on:click={onTermsOfServiceClick}
+                    text={localize('general.termsOfService')}
+                    textType="body2"
+                    external
+                />
             </div>
         </div>
     </Checkbox>

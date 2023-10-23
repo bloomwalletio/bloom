@@ -16,7 +16,7 @@ export async function unwrapStardustAsset(
         const { targetAddress, adjustMinimumStorageDeposit, sendMetadata, sendOptions } =
             buildUnwrapAssetParameters(recipientAddress)
 
-        const chain = getNetwork()?.getChain(SupportedNetworkId.ShimmerEvmTestnet as NetworkId)
+        const chain = getNetwork()?.getChain(SupportedNetworkId.TestnetEvm as NetworkId)
         const contract = chain?.getContract(ContractType.IscMagic, ISC_MAGIC_CONTRACT_ADDRESS)
         const data =
             (await contract?.methods

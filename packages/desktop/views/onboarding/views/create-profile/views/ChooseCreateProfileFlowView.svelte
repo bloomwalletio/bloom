@@ -54,8 +54,7 @@
 </script>
 
 <OnboardingLayout
-    title={localize('views.onboarding.profileSetup.setupNew.title')}
-    description={localize('views.onboarding.profileSetup.setupNew.body')}
+    title={localize('views.onboarding.createProfile.chooseCreateProfileFlow.title')}
     continueButton={{
         onClick: onContinueClick,
         disabled: !selectedCreateProfileType,
@@ -67,8 +66,8 @@
 >
     <div slot="content" class="flex flex-col space-y-3">
         <OnboardingSelectorTile
-            primaryText={localize('views.onboarding.profileSetup.setupNew.softwareAccount.title')}
-            secondaryText={localize('views.onboarding.profileSetup.setupNew.softwareAccount.description')}
+            primaryText={localize('views.onboarding.createProfile.chooseCreateProfileFlow.software.primary')}
+            secondaryText={localize('views.onboarding.createProfile.chooseCreateProfileFlow.software.secondary')}
             icon={IconName.Folder}
             iconColor="orange"
             hidden={features?.onboarding?.[networkType]?.newProfile?.softwareProfile?.hidden}
@@ -77,8 +76,8 @@
             selected={selectedCreateProfileType === CreateProfileType.Mnemonic}
         />
         <OnboardingSelectorTile
-            primaryText={localize('views.onboarding.profileSetup.setupNew.ledgerAccount.title')}
-            secondaryText={localize('views.onboarding.profileSetup.setupNew.ledgerAccount.description')}
+            primaryText={localize('views.onboarding.createProfile.chooseCreateProfileFlow.hardware.primary')}
+            secondaryText={localize('views.onboarding.createProfile.chooseCreateProfileFlow.hardware.secondary')}
             icon={IconName.Hardware}
             iconColor="success"
             hidden={features?.onboarding?.[networkType]?.newProfile?.ledgerProfile?.hidden}

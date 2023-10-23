@@ -634,7 +634,7 @@
         "appUpdate": {
             "title": "Check for updates",
             "installedVersion": "Установленная версия",
-            "newVerion": "Новая версия",
+            "newVersion": "Новая версия",
             "stage": "Стадия",
             "prod": "Производство",
             "alpha": "Альфа",

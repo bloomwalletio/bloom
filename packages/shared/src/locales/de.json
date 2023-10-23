@@ -634,7 +634,7 @@
         "appUpdate": {
             "title": "Nach Updates suchen",
             "installedVersion": "Installierte Version",
-            "newVerion": "Neue Version",
+            "newVersion": "Neue Version",
             "stage": "Phase",
             "prod": "Produktion",
             "alpha": "Alpha",

@@ -1,6 +1,6 @@
 export enum CreateFromMnemonicRoute {
     ViewMnemonic = 'viewMnemonic',
     VerifyMnemonic = 'verifyMnemonic',
-    VerifyMnemonicStatus = 'verifyMnemonicStatus',
+    VerifyMnemonicSuccess = 'verifyMnemonicSuccess',
     EncryptMnemonic = 'encryptMnemonic',
 }

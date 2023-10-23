@@ -7,6 +7,7 @@
     import { SearchInput } from '@ui'
     import { ActivityTab } from './activity'
     import { PortfolioTab } from './portfolio'
+    import features from '@features/features'
 
     const TABS = [
         { key: 'activity', value: localize('views.dashboard.activity.tab') },
@@ -20,13 +21,15 @@
     <div class="w-64">
         <Tabs bind:selectedTab tabs={TABS} />
     </div>
-    <div class="flex flex-row gap-1 items-center">
+    <div class="flex flex-row gap-2 items-center">
         {#if selectedTab.key === 'activity'}
             <SearchInput bind:value={$activitySearchTerm} />
             <Filter filterStore={activityFilter} />
         {:else if selectedTab.key === 'portfolio'}
             <SearchInput bind:value={$tokenSearchTerm} />
-            <Filter filterStore={tokenFilter} />
+            {#if features.wallet.portfolio.filter.enabled}
+                <Filter filterStore={tokenFilter} />
+            {/if}
             <TokenListMenu />
         {/if}
     </div>

@@ -142,21 +142,21 @@
         disableAll={isTransferring}
     />
 
-    <optional-inputs class="flex flex-row flex-wrap gap-4">
+    <optional-inputs class="flex flex-row flex-wrap gap-2">
         {#if !disableChangeExpiration}
             <AddInputButton
                 open={!!selectedExpirationPeriod}
-                disabled={isTransferring}
-                text={localize('general.expirationTime')}
+                text={localize('general.expiration')}
                 onClick={() => (selectedExpirationPeriod = TimePeriod.OneDay)}
+                disabled={isTransferring}
             />
         {/if}
         {#if !disableChangeTimelock}
             <AddInputButton
                 open={!!selectedTimelockPeriod}
-                disabled={isTransferring}
                 text={localize('general.timelockDate')}
                 onClick={() => (selectedTimelockPeriod = TimePeriod.OneDay)}
+                disabled={isTransferring}
             />
         {/if}
         <OptionalInput
@@ -164,12 +164,13 @@
             error={tagInputError}
             label={localize('general.tag')}
             description={localize('tooltips.optionalInput')}
+            disabled={isTransferring}
         />
         <OptionalInput
             bind:value={metadata}
-            disabled={isTransferring}
             label={localize('general.metadata')}
             description={localize('tooltips.optionalInput')}
+            disabled={isTransferring}
         />
     </optional-inputs>
 </div>
