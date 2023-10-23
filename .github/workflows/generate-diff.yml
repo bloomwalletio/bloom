@@ -1,0 +1,35 @@
+name: Generate Diff
+
+on:
+  schedule:
+    - cron: '0 9 * * 5' # Every Friday at 9AM GMT (London time)
+
+jobs:
+  generate-diff:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Setup Git Configuration
+      run: |
+        git config diff.renameLimit 999999
+        git config user.name "GitHub Actions"
+        git config user.email "actions@github.com"
+
+    - name: Generate Diff File # The referenced SHA is the last common ancestor commit.
+      run: |
+        git diff --summary --diff-filter=DMR 310c3f50ab7ae076b80c20f2cf20d5f42e095256 HEAD -- ':!firefly.diff' > firefly.diff
+
+    - name: Create Pull Request
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        git checkout -b "generate-diff-$(date +'%Y-%m-%d')"
+        git add firefly.diff
+        git commit -m "Generated diff for $(date +'%Y-%m-%d')"
+        git push origin "generate-diff-$(date +'%Y-%m-%d')"
+        gh pr create --title "Generated diff for $(date +'%Y-%m-%d')" --body "This PR contains the generated diff." --base develop
