@@ -20,7 +20,7 @@
 </script>
 
 <Text type="body2" class="mb-6">{localize('views.settings.theme.title')}</Text>
-<RadioGroup selectedValue={selected.value} {options} />
+<RadioGroup selected={selected.value} {options} />
 {#if appTheme === 'system'}
     <div class="mt-6">
         <Alert text={localize('views.settings.theme.advice')} />
