@@ -16,6 +16,7 @@
     export let classes: string = ''
     export let useCaching: boolean = true
     export let iconSize: 'md' | 'lg' = 'md'
+    export let showErrorColor: boolean = false
 
     let hasMounted: boolean = false
     let basePath: string
@@ -26,11 +27,22 @@
             ? `${basePath}/${nft.filePath}/${NFT_MEDIA_FILE_NAME}`
             : nft.downloadUrl
 
-    $: placeHolderColor = nft.downloadMetadata.error
-        ? 'danger'
-        : nft.downloadMetadata.warning
-        ? 'warning'
-        : ('brand' as TextColor)
+    let placeHolderColor: TextColor = 'brand'
+    $: nft, showErrorColor, (placeHolderColor = getPlaceHolderColor())
+
+    function getPlaceHolderColor(): TextColor {
+        if (!showErrorColor) {
+            return 'brand'
+        }
+
+        if (nft.downloadMetadata.error) {
+            return 'danger'
+        } else if (nft.downloadMetadata.warning) {
+            return 'warning'
+        } else {
+            return 'brand'
+        }
+    }
 
     onMount(async () => {
         if (process.env.NODE_ENV === 'development') {

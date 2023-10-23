@@ -43,7 +43,7 @@
             bind:clientWidth={nftWrapperClientWidth}
             style="height: {nftWrapperClientWidth}px; "
         >
-            <NftMedia {nft} classes="min-w-full min-h-full object-cover" loop muted />
+            <NftMedia {nft} classes="min-w-full min-h-full object-cover" loop muted showErrorColor />
             <error-container bind:this={anchor}>
                 {#if nft.downloadMetadata.error || nft.downloadMetadata.warning}
                     <Pill color={nft.downloadMetadata?.error ? 'danger' : 'warning'}>
