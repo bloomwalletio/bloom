@@ -16,7 +16,6 @@
         appRoute,
         dashboardRouter,
         initialiseRouterManager,
-        routerManager,
     } from '@core/router'
     import { closeDrawer } from '@desktop/auxiliary/drawer'
     import { PopupId, closePopup, openPopup, popupState } from '@desktop/auxiliary/popup'
@@ -25,7 +24,6 @@
         getRouterForAppContext,
         goToAppContext,
         initialiseRouters,
-        openSettings,
         resetRouterForAppContext,
         resetRouters,
     } from '@desktop/routers'
@@ -35,12 +33,8 @@
     import { OnboardingRouterView } from '@views/onboarding'
     import { onDestroy, onMount } from 'svelte'
     import { getLocalisedMenuItems } from './lib/helpers'
+    import { settingsState, openSettings } from '@contexts/settings/stores'
 
-    const { loggedIn } = $activeProfile
-
-    $: if ($activeProfile && !$loggedIn) {
-        closePopup(true)
-    }
     $: $activeProfile, saveActiveProfile()
 
     async function handleCrashReporting(sendCrashReports: boolean): Promise<void> {
@@ -64,7 +58,6 @@
     $: Platform.updateTheme($appSettings.theme)
 
     let splash = true
-    let settings = false
 
     void setupI18n({ fallbackLocale: 'en', initialLocale: $appSettings.language })
 
@@ -107,13 +100,9 @@
             $dashboardRouter.goTo(DashboardRoute.Wallet)
         })
         Platform.onEvent('menu-navigate-settings', () => {
-            if ($loggedIn) {
-                closePopup()
-                closeDrawer()
-                $routerManager.openSettings()
-            } else {
-                settings = true
-            }
+            closePopup()
+            closeDrawer()
+            openSettings()
         })
         Platform.onEvent('menu-check-for-update', () => {
             closeDrawer()
@@ -148,6 +137,9 @@
         {#if !$isLocaleLoaded || splash}
             <Splash />
         {:else}
+            {#if $settingsState.open}
+                <Settings />
+            {/if}
             {#if $popupState.active}
                 <Popup
                     id={$popupState.id}
@@ -158,9 +150,6 @@
                     overflow={$popupState.overflow}
                     relative={$popupState.relative}
                 />
-            {/if}
-            {#if settings}
-                <Settings handleClose={() => (settings = false)} />
             {/if}
             {#if $appRoute === AppRoute.Dashboard}
                 <Dashboard />
@@ -173,8 +162,8 @@
             <ToastContainer classes="absolute right-5 bottom-5 w-100" />
         {/if}
         <app-container />
-    </app-container></app
->
+    </app-container>
+</app>
 
 <style global lang="scss">
     @tailwind base;
