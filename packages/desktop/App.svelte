@@ -34,6 +34,7 @@
     import { onDestroy, onMount } from 'svelte'
     import { getLocalisedMenuItems } from './lib/helpers'
     import { settingsState, openSettings } from '@contexts/settings/stores'
+    import { _ } from '@core/i18n'
 
     $: $activeProfile, saveActiveProfile()
 
@@ -43,11 +44,7 @@
 
     $: void handleCrashReporting($appSettings.sendCrashReports)
 
-    $: {
-        if ($isLocaleLoaded) {
-            Platform.updateMenu('strings', getLocalisedMenuItems())
-        }
-    }
+    $: $_, Platform.updateMenu('strings', getLocalisedMenuItems())
 
     $: if (document.dir !== $localeDirection) {
         document.dir = $localeDirection
@@ -133,36 +130,38 @@
     {#if IS_WINDOWS}
         <TitleBar />
     {/if}
-    <app-container class="relative w-screen h-full flex flex-col" class:windows={IS_WINDOWS}>
-        {#if !$isLocaleLoaded || splash}
-            <Splash />
-        {:else}
-            {#if $settingsState.open}
-                <Settings />
-            {/if}
-            {#if $popupState.active}
-                <Popup
-                    id={$popupState.id}
-                    props={$popupState.props}
-                    hideClose={$popupState.hideClose}
-                    fullScreen={$popupState.fullScreen}
-                    transition={$popupState.transition}
-                    overflow={$popupState.overflow}
-                    relative={$popupState.relative}
-                />
-            {/if}
-            {#if $appRoute === AppRoute.Dashboard}
-                <Dashboard />
-            {:else if $appRoute === AppRoute.Login}
-                <LoginRouter />
-            {:else if $appRoute === AppRoute.Onboarding}
-                <OnboardingRouterView />
-            {/if}
+    {#key $_}
+        <app-container class="relative w-screen h-full flex flex-col" class:windows={IS_WINDOWS}>
+            {#if !$isLocaleLoaded || splash}
+                <Splash />
+            {:else}
+                {#if $settingsState.open}
+                    <Settings />
+                {/if}
+                {#if $popupState.active}
+                    <Popup
+                        id={$popupState.id}
+                        props={$popupState.props}
+                        hideClose={$popupState.hideClose}
+                        fullScreen={$popupState.fullScreen}
+                        transition={$popupState.transition}
+                        overflow={$popupState.overflow}
+                        relative={$popupState.relative}
+                    />
+                {/if}
+                {#if $appRoute === AppRoute.Dashboard}
+                    <Dashboard />
+                {:else if $appRoute === AppRoute.Login}
+                    <LoginRouter />
+                {:else if $appRoute === AppRoute.Onboarding}
+                    <OnboardingRouterView />
+                {/if}
 
-            <ToastContainer classes="absolute right-5 bottom-5 w-100" />
-        {/if}
-        <app-container />
-    </app-container>
+                <ToastContainer classes="absolute right-5 bottom-5 w-100" />
+            {/if}
+            <app-container />
+        </app-container>
+    {/key}
 </app>
 
 <style global lang="scss">
