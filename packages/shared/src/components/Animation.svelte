@@ -164,6 +164,10 @@
             lightmode: 'special-token.json',
             darkmode: 'special-token.json',
         },
+        confetti: {
+            lightmode: 'confetti.json',
+            darkmode: 'confetti.json',
+        },
     }
 
     let container: HTMLElement
