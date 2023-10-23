@@ -1,17 +1,20 @@
 <script lang="ts">
     import { ITokenWithBalance, getUnitFromTokenMetadata } from '@core/token'
     import { truncateString } from '@core/utils'
-    import { NftAvatar, TokenAvatar } from '@ui'
-    import { Activity, ActivityType } from '@core/activity'
+    import { ExpiredActivityPill, NftAvatar, TokenAvatar, UnclaimedActivityPill } from '@ui'
+    import { ActivityType } from '@core/activity'
     import { selectedAccountTokens } from '@core/token/stores'
     import { getNftByIdFromAllAccountNfts } from '@core/nfts/actions'
     import { selectedAccountIndex } from '@core/account/stores'
     import { getTokenFromActivity } from '@core/activity/utils/getTokenFromActivity'
     import AssetInfo from '../AssetInfo.svelte'
     import { IconName, Avatar } from '@bloomwalletio/ui'
-    import { localize } from '@core/i18n'
     import { appSettings } from '@core/app/stores'
-    import { ActivityAsyncStatusPill } from '@ui'
+    import { localize } from '@core/i18n'
+    import { Activity, ActivityAsyncStatus, ActivityDirection } from '@core/activity'
+    import { getTimeDifference } from '@core/utils/time'
+    import { time } from '@core/app/stores'
+    import TimelockActivityPill from '@ui/pills/TimelockActivityPill.svelte'
 
     export let activity: Activity
 
@@ -45,6 +48,53 @@
             subtitle = truncateString(_activity.participation?.eventId ?? '', 6, 7)
         }
     }
+
+    $: $time, activity, setPill()
+
+    let pill: 'timelock' | 'unclaimed' | 'expired' | undefined = undefined
+    let timeDiff: string | undefined
+
+    function setPill(): void {
+        if (!activity?.asyncData?.asyncStatus) {
+            pill = undefined
+            return
+        }
+
+        const { asyncStatus, expirationDate, timelockDate } = activity.asyncData
+
+        switch (asyncStatus) {
+            case ActivityAsyncStatus.Claimed: {
+                pill = undefined
+                break
+            }
+            case ActivityAsyncStatus.Timelocked: {
+                if (activity.direction === ActivityDirection.Outgoing) {
+                    if (expirationDate) {
+                        timeDiff = getTimeDifference(expirationDate, $time)
+                        pill = 'unclaimed'
+                    } else {
+                        pill = undefined
+                    }
+                } else {
+                    timeDiff = getTimeDifference(timelockDate, $time)
+                    pill = 'timelock'
+                }
+                break
+            }
+            case ActivityAsyncStatus.Unclaimed: {
+                timeDiff = expirationDate ? getTimeDifference(expirationDate, $time) : undefined
+                pill = 'unclaimed'
+                break
+            }
+            case ActivityAsyncStatus.Expired: {
+                pill = 'expired'
+                break
+            }
+            default: {
+                pill = undefined
+            }
+        }
+    }
 </script>
 
 <div class="flex flex-row justify-between">
@@ -63,5 +113,15 @@
         {/if}
     </AssetInfo>
 
-    <ActivityAsyncStatusPill {activity} />
+    {#if pill}
+        <div class="flex flex-col w-1/2 items-center justify-center">
+            {#if pill === 'unclaimed'}
+                <UnclaimedActivityPill {timeDiff} direction={activity.direction} />
+            {:else if pill === 'expired'}
+                <ExpiredActivityPill />
+            {:else if pill === 'timelock'}
+                <TimelockActivityPill {timeDiff} />
+            {/if}
+        </div>
+    {/if}
 </div>

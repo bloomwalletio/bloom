@@ -78,9 +78,11 @@
 >
     <div slot="content" class="flex flex-col space-y-3">
         <OnboardingSelectorTile
-            primaryText={localize(`views.onboarding.networkSetup.chooseNetwork.${OnboardingNetworkType.Shimmer}.title`)}
+            primaryText={localize(
+                `views.onboarding.networkSetup.chooseNetwork.${OnboardingNetworkType.Shimmer}.primary`
+            )}
             secondaryText={localize(
-                `views.onboarding.networkSetup.chooseNetwork.${OnboardingNetworkType.Shimmer}.body`
+                `views.onboarding.networkSetup.chooseNetwork.${OnboardingNetworkType.Shimmer}.secondary`
             )}
             icon={IconName.Shimmer}
             iconSize="md"
@@ -93,9 +95,11 @@
             selected={selectedNetworkType === OnboardingNetworkType.Shimmer}
         />
         <OnboardingSelectorTile
-            primaryText={localize(`views.onboarding.networkSetup.chooseNetwork.${OnboardingNetworkType.Testnet}.title`)}
+            primaryText={localize(
+                `views.onboarding.networkSetup.chooseNetwork.${OnboardingNetworkType.Testnet}.primary`
+            )}
             secondaryText={localize(
-                `views.onboarding.networkSetup.chooseNetwork.${OnboardingNetworkType.Testnet}.body`
+                `views.onboarding.networkSetup.chooseNetwork.${OnboardingNetworkType.Testnet}.secondary`
             )}
             icon={IconName.Beaker}
             hidden={features?.onboarding?.[OnboardingNetworkType.Testnet]?.hidden}
@@ -104,8 +108,12 @@
             selected={selectedNetworkType === OnboardingNetworkType.Testnet}
         />
         <OnboardingSelectorTile
-            primaryText={localize(`views.onboarding.networkSetup.chooseNetwork.${OnboardingNetworkType.Custom}.title`)}
-            secondaryText={localize(`views.onboarding.networkSetup.chooseNetwork.${OnboardingNetworkType.Custom}.body`)}
+            primaryText={localize(
+                `views.onboarding.networkSetup.chooseNetwork.${OnboardingNetworkType.Custom}.primary`
+            )}
+            secondaryText={localize(
+                `views.onboarding.networkSetup.chooseNetwork.${OnboardingNetworkType.Custom}.secondary`
+            )}
             icon={IconName.SettingsSliders}
             iconColor="info"
             hidden={features?.onboarding?.[OnboardingNetworkType.Custom]?.hidden}

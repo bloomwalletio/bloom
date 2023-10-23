@@ -634,7 +634,7 @@
         "appUpdate": {
             "title": "Sprawdź dostępność aktualizacji",
             "installedVersion": "Zainstalowana wersja",
-            "newVerion": "Nowa wersja",
+            "newVersion": "Nowa wersja",
             "stage": "Kanał",
             "prod": "Oficjalny",
             "alpha": "Alpha",

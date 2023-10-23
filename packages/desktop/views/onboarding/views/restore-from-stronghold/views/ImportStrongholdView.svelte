@@ -94,8 +94,8 @@
 </script>
 
 <OnboardingLayout
-    title={localize('views.onboarding.profileRecovery.importStrongholdBackup.title')}
-    description={localize('views.onboarding.profileRecovery.importStrongholdBackup.body')}
+    title={localize('views.onboarding.restoreFromStronghold.importStronghold.title')}
+    description={localize('views.onboarding.restoreFromStronghold.importStronghold.description')}
     continueButton={{
         onClick: onContinueClick,
         disabled: !importFile,

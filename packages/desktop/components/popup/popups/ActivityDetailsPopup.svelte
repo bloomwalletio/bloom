@@ -21,7 +21,7 @@
     import { setClipboard, truncateString } from '@core/utils'
     import { claimActivity, rejectActivity } from '@core/wallet'
     import { PopupId, closePopup, openPopup } from '@desktop/auxiliary/popup'
-    import { ActivityInformation, ActivityStatusPills, TransactionAssetSection } from '@ui'
+    import { ActivityInformation, TransactionAssetSection } from '@ui'
     import { onMount, tick } from 'svelte'
     import PopupTemplate from '../PopupTemplate.svelte'
 
@@ -131,7 +131,7 @@
         backButton={isTimelocked || !isActivityIncomingAndUnclaimed ? undefined : backButton}
         continueButton={isTimelocked || !isActivityIncomingAndUnclaimed ? undefined : continueButton}
     >
-        <div slot="description">
+        <div slot="description" class="flex">
             {#if explorerUrl && activity.transactionId}
                 <Link text={localize('general.viewOnExplorer')} external on:click={() => onExplorerClick(activity)} />
             {:else if activity.transactionId}
@@ -142,7 +142,6 @@
             {/if}
         </div>
         <activity-details class="w-full h-full space-y-5 flex flex-auto flex-col shrink-0">
-            <ActivityStatusPills {activity} />
             <TransactionAssetSection {...transactionAssets} onNftClick={nftIsOwned ? onNftClick : undefined} />
             <ActivityInformation {activity} />
         </activity-details>
