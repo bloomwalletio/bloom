@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { Alert } from '@bloomwalletio/ui'
+    import { Alert, Tabs } from '@bloomwalletio/ui'
     import { selectedAccountIndex } from '@core/account/stores'
     import { handleError } from '@core/error/handlers'
     import { localize } from '@core/i18n'
@@ -16,6 +16,7 @@
     import { PopupTemplate } from '@components'
 
     let searchValue: string = ''
+
     let selectedToken: IToken =
         $sendFlowParameters?.type === SendFlowType.BaseCoinTransfer && $sendFlowParameters.baseCoinTransfer?.token
             ? $sendFlowParameters.baseCoinTransfer.token
@@ -25,7 +26,7 @@
 
     let accountTokens: AccountTokens
     $: accountTokens = getAccountTokensForSelectedAccount($marketCoinPrices)
-    $: accountTokens, searchValue, setFilteredTokenList()
+    $: accountTokens, searchValue, selectedTab, setFilteredTokenList()
 
     let hasTokenError: boolean = false
     $: if (isEvmChain(selectedToken?.networkId)) {
@@ -36,6 +37,19 @@
         )
     } else {
         hasTokenError = false
+    }
+
+    let selectedTab: { key: string; value: string } = { key: 'all', value: 'All' }
+    function setTabs() {
+        const tabs: { key: string; value: string }[] = [{ key: 'all', value: 'All' }]
+        const networkMetadata = getNetwork().getMetadata()
+        tabs.push({ key: networkMetadata.id, value: networkMetadata.name })
+        const chains = getNetwork().getChains()
+        for (const chain of chains) {
+            const chainMetadata = chain.getConfiguration()
+            tabs.push({ key: chainMetadata.id, value: chainMetadata.name })
+        }
+        return tabs
     }
 
     let tokenList: ITokenWithBalance[]
@@ -66,10 +80,17 @@
         const ticker =
             token?.metadata?.standard === TokenStandard.BaseToken ? token?.metadata.unit : token?.metadata.symbol
 
-        return (
-            (name && name.toLowerCase().includes(_searchValue)) ||
-            (ticker && ticker.toLowerCase().includes(_searchValue))
-        )
+        const visibleNetwork = selectedTab.key === 'all' || selectedTab.key === token.networkId
+
+        if (_searchValue) {
+            return (
+                visibleNetwork &&
+                ((name && name.toLowerCase().includes(_searchValue)) ||
+                    (ticker && ticker.toLowerCase().includes(_searchValue)))
+            )
+        } else {
+            return visibleNetwork
+        }
     }
 
     function onTokenClick(token: ITokenWithBalance): void {
@@ -130,6 +151,7 @@
 >
     <div class="space-y-4">
         <SearchInput bind:value={searchValue} />
+        <Tabs bind:selectedTab tabs={setTabs()} />
         <div class="-mr-3">
             <token-list class="w-full flex flex-col">
                 {#each tokenList as token}
