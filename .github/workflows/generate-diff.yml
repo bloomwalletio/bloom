@@ -17,6 +17,8 @@ jobs:
     - name: Setup Git Configuration
       run: |
         git config diff.renameLimit 999999
+        git config user.name "GitHub Actions"
+        git config user.email "actions@github.com"
 
     - name: Generate Diff File # The referenced SHA is the last common ancestor commit.
       run: |
