@@ -634,7 +634,7 @@
         "appUpdate": {
             "title": "Frissítések keresése",
             "installedVersion": "Telepített verzió",
-            "newVerion": "Új verzió",
+            "newVersion": "Új verzió",
             "stage": "Szakasz",
             "prod": "Termelés",
             "alpha": "Alfa",

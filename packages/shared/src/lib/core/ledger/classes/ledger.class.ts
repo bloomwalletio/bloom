@@ -2,7 +2,7 @@ import { buildBip32PathFromBip44 } from '@core/account/utils/buildBip32PathFromB
 import { Platform } from '@core/app/classes'
 import { IPlatformEventMap } from '@core/app/interfaces'
 import { localize } from '@core/i18n'
-import { IEvmAddress, IEvmTransactionSignature } from '@core/layer-2/interfaces'
+import { IEvmAddress, IEvmSignature } from '@core/layer-2/interfaces'
 import {
     calculateMaxGasFeeFromTransactionData,
     getAmountFromEvmTransactionValue,
@@ -22,6 +22,8 @@ import {
     isBlindSigningRequiredForEvmTransaction,
 } from '@core/ledger'
 import { EvmChainId } from '@core/network/enums'
+import { toRpcSig } from '@ethereumjs/util'
+import { Converter } from '@core/utils'
 
 declare global {
     interface Window {
@@ -112,7 +114,7 @@ export class Ledger {
                     },
                 })
 
-                const transactionSignature = await this.callLedgerApiAsync<IEvmTransactionSignature>(
+                const transactionSignature = await this.callLedgerApiAsync<IEvmSignature>(
                     () =>
                         ledgerApiBridge.makeRequest(
                             LedgerApiMethod.SignEvmTransaction,
@@ -135,6 +137,35 @@ export class Ledger {
                 } else {
                     reject(localize('error.send.cancelled'))
                 }
+            }
+        })
+    }
+
+    static async signMessage(rawMessage: string, bip44: Bip44): Promise<string | undefined> {
+        return new Promise<string | undefined>(async (resolve, reject) => {
+            openPopup({
+                id: PopupId.VerifyLedgerTransaction,
+                hideClose: true,
+                preventClose: false,
+                props: {
+                    rawMessage,
+                },
+            })
+
+            const messageHex = Converter.utf8ToHex(rawMessage, false)
+            const bip32Path = buildBip32PathFromBip44(bip44)
+            const transactionSignature = await this.callLedgerApiAsync<IEvmSignature>(
+                () => ledgerApiBridge.makeRequest(LedgerApiMethod.SignMessage, messageHex, bip32Path),
+                'signed-message'
+            )
+            const { r, v, s } = transactionSignature
+            if (r && v && s) {
+                const vBig = BigInt(v)
+                const rBuffer = Buffer.from(r, 'hex')
+                const sBuffer = Buffer.from(s, 'hex')
+                resolve(toRpcSig(vBig, rBuffer, sBuffer))
+            } else {
+                reject(localize('error.send.cancelled'))
             }
         })
     }

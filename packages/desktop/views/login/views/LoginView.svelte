@@ -1,6 +1,6 @@
 <script lang="ts">
-    import { onDestroy } from 'svelte'
-    import { Alert, Button, CloseButton, Error, Icon, IconName, PinInput, Text } from '@bloomwalletio/ui'
+    import { onDestroy, tick } from 'svelte'
+    import { Alert, CloseButton, Error, Icon, IconName, PinInput, Text } from '@bloomwalletio/ui'
     import {
         Platform,
         isLatestStrongholdVersion,
@@ -11,7 +11,6 @@
     import { login, resetActiveProfile } from '@core/profile/actions'
     import { activeProfile } from '@core/profile/stores'
     import { loginRouter } from '@core/router'
-    import { isValidPin } from '@core/utils'
     import { PopupId, openPopup, popupState } from '@desktop/auxiliary/popup'
     import { ProfileAvatarWithBadge } from '@ui'
     import LoggedOutLayout from '@views/components/LoggedOutLayout.svelte'
@@ -79,6 +78,14 @@
         }
     }
 
+    async function onPinInputFilled(): Promise<void> {
+        await tick()
+        ;(document.activeElement as HTMLInputElement).blur()
+        setTimeout(() => {
+            void onSubmit()
+        }, 200)
+    }
+
     async function onSubmit(): Promise<void> {
         if (!hasReachedMaxAttempts) {
             isBusy = true
@@ -141,43 +148,31 @@
                     </text-container>
                 </div>
             {:else}
-                <form
-                    id="login"
-                    on:submit|preventDefault={onSubmit}
-                    class="flex flex-col items-center justify-center gap-8"
-                >
-                    <div class="flex flex-col gap-6 w-full items-center justify-center flex-grow">
-                        <Text type="h4" align="center">{$activeProfile?.name}</Text>
-                        {#if updateRequired}
-                            <Alert variant="warning" text={localize('views.login.hintStronghold')} />
-                        {/if}
-                        <div class="flex flex-col gap-3">
-                            <Text type="body1" align="center">{localize('actions.enterYourPin')}</Text>
-                            <PinInput
-                                bind:this={pinInput}
-                                bind:value={pinCode}
-                                error={!!error}
-                                maxlength={PINCODE_MAX_LENGTH}
-                                disabled={hasReachedMaxAttempts || isBusy}
-                                glimpse={0}
-                                autofocus
-                            />
-                        </div>
-                        {#if error}
-                            <div class="flex items-center justify-center gap-3">
-                                <Icon name={IconName.InfoCircle} size="xs" textColor="danger" />
-                                <Error {error} />
-                            </div>
-                        {/if}
+                <div class="flex flex-col gap-6 w-full items-center justify-center flex-grow">
+                    <Text type="h4" align="center">{$activeProfile?.name}</Text>
+                    {#if updateRequired}
+                        <Alert variant="warning" text={localize('views.login.hintStronghold')} />
+                    {/if}
+                    <div class="flex flex-col gap-3">
+                        <Text type="body1" align="center">{localize('actions.enterYourPin')}</Text>
+                        <PinInput
+                            on:filled={onPinInputFilled}
+                            bind:this={pinInput}
+                            bind:value={pinCode}
+                            error={!!error}
+                            maxlength={PINCODE_MAX_LENGTH}
+                            disabled={hasReachedMaxAttempts || isBusy}
+                            glimpse={0}
+                            autofocus
+                        />
                     </div>
-                    <Button
-                        type="submit"
-                        width="half"
-                        disabled={!isValidPin(pinCode)}
-                        busy={isBusy}
-                        text={localize('actions.continue')}
-                    />
-                </form>
+                    {#if error}
+                        <div class="flex items-center justify-center gap-3">
+                            <Icon name={IconName.InfoCircle} size="xs" textColor="danger" />
+                            <Error {error} />
+                        </div>
+                    {/if}
+                </div>
             {/if}
         </login-container>
     </div>

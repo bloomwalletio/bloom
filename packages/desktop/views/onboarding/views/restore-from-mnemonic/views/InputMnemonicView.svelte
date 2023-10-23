@@ -25,8 +25,8 @@
 </script>
 
 <OnboardingLayout
-    title={localize('views.onboarding.profileRecovery.importMnemonicPhrase.title')}
-    description={localize('views.onboarding.profileRecovery.importMnemonicPhrase.body')}
+    title={localize('views.onboarding.restoreFromMnemonic.inputMnemonic.title')}
+    description={localize('views.onboarding.restoreFromMnemonic.inputMnemonic.description')}
     continueButton={{
         onClick: onContinueClick,
         disabled: !input,
