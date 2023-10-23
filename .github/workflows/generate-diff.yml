@@ -22,7 +22,7 @@ jobs:
 
     - name: Generate Diff File # The referenced SHA is the last common ancestor commit.
       run: |
-        git diff --summary 310c3f50ab7ae076b80c20f2cf20d5f42e095256 HEAD -- ':!firefly.diff' > firefly.diff
+        git diff --summary --diff-filter=DMR 310c3f50ab7ae076b80c20f2cf20d5f42e095256 HEAD -- ':!firefly.diff' > firefly.diff
 
     - name: Create Pull Request
       env:
