@@ -41,7 +41,7 @@ export function getTransferInfoFromTransactionData(
                             tokenId: nativeToken.ID.data,
                             rawAmount: nativeToken.amount,
                         },
-                        recipientAddress: HEX_PREFIX + agentId?.slice(4),
+                        recipientAddress: HEX_PREFIX + agentId?.substring(agentId.length - 40),
                     }
                 } else if (nftId) {
                     return {
@@ -49,7 +49,7 @@ export function getTransferInfoFromTransactionData(
                             type: AssetType.Nft,
                             nftId,
                         },
-                        recipientAddress: HEX_PREFIX + agentId?.slice(4),
+                        recipientAddress: HEX_PREFIX + agentId?.substring(agentId.length - 40),
                     }
                 } else {
                     return undefined
