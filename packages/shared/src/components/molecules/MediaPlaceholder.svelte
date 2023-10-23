@@ -4,6 +4,7 @@
 
     export let type: MimeType | undefined
     export let textColor: TextColor = 'primary'
+    export let isDownloading: boolean = true
     export let size: 'md' | 'lg' = 'lg'
 
     function getIcon(type: MimeType | undefined): IconName {
@@ -29,7 +30,7 @@
     }
 </script>
 
-<media-placeholder class={size}>
+<media-placeholder class={size} class:downloading={isDownloading}>
     <Icon name={getIcon(type)} {textColor} {size} />
 </media-placeholder>
 
@@ -38,6 +39,10 @@
         @apply rounded-full;
         @apply bg-surface dark:bg-surface-dark;
         @apply flex items-center justify-center text-center;
+
+        &.downloading {
+            @apply animate-pulse;
+        }
 
         &.md {
             @apply h-20 w-20;
