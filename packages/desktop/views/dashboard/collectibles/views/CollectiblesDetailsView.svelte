@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { Alert, Button, IconName, Table, Text, type IItem } from '@bloomwalletio/ui'
+    import { Alert, Button, IconName, Table, Text, type IItem, TextColor } from '@bloomwalletio/ui'
     import { CollectibleDetailsMenu } from '@components'
     import { selectedAccountIndex } from '@core/account/stores'
     import { time } from '@core/app/stores'
@@ -17,7 +17,7 @@
     import { setSendFlowParameters } from '@core/wallet/stores'
     import { PopupId, openPopup } from '@desktop/auxiliary/popup'
     import { AddressType } from '@iota/sdk/out/types'
-    import { NetworkLabel, NftMedia, Pane } from '@ui'
+    import { MediaPlaceholder, NetworkLabel, NftMedia, Pane } from '@ui'
     import { SendFlowRoute, SendFlowRouter, sendFlowRouter } from '@views/dashboard/send-flow'
 
     const nft: INft = getNftByIdFromAllAccountNfts($selectedAccountIndex, $selectedNftId)
@@ -93,6 +93,12 @@
         },
     ]
 
+    $: placeHolderColor = nft.downloadMetadata.error
+        ? 'danger'
+        : nft.downloadMetadata.warning
+        ? 'warning'
+        : ('brand' as TextColor)
+
     function returnIfNftWasSent(ownedNfts: INft[], currentTime: Date): void {
         const nft = ownedNfts.find((nft) => nft.id === id)
         const isLocked = nft.timelockTime > currentTime.getTime()
@@ -136,7 +142,16 @@
 <Pane classes="h-full">
     <collectibles-details-view class="flex flex-row w-full h-full">
         <media-container class="relative flex w-full items-center justify-center p-5 overflow-hidden">
-            <NftMedia {nft} autoplay controls loop muted showErrorColor iconSize="lg" />
+            <NftMedia {nft} autoplay controls loop muted showErrorColor>
+                <div class="w-full h-full flex justify-center items-center bg-surface-2 dark:bg-surface-2-dark">
+                    <MediaPlaceholder
+                        type={nft?.parsedMetadata?.type}
+                        nftId={nft.id}
+                        textColor={placeHolderColor}
+                        size="lg"
+                    />
+                </div>
+            </NftMedia>
             {#if alertText}
                 <error-container>
                     <Alert variant={downloadMetadata?.error ? 'danger' : 'warning'} text={alertText} border />

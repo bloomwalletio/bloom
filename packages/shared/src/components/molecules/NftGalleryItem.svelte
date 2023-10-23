@@ -1,6 +1,6 @@
 <script lang="typescript">
-    import { NftMedia } from '@ui'
-    import { IconName, Pill, Text, Tooltip, TooltipIcon } from '@bloomwalletio/ui'
+    import { MediaPlaceholder, NftMedia } from '@ui'
+    import { IconName, Pill, Text, TextColor, Tooltip, TooltipIcon } from '@bloomwalletio/ui'
     import { time } from '@core/app/stores'
     import { localize } from '@core/i18n'
     import { INft, NftDownloadMetadata } from '@core/nfts'
@@ -13,7 +13,12 @@
     let nftWrapperClientWidth: number
     let anchor: HTMLElement
 
-    $: isLocked = nft.timelockTime > $time.getTime()
+    $: isLocked = nft.timelockTime && nft.timelockTime > $time.getTime()
+    $: placeHolderColor = nft.downloadMetadata.error
+        ? 'danger'
+        : nft.downloadMetadata.warning
+        ? 'warning'
+        : ('brand' as TextColor)
 
     function onNftClick(): void {
         $selectedNftId = nft.id
@@ -43,7 +48,11 @@
             bind:clientWidth={nftWrapperClientWidth}
             style="height: {nftWrapperClientWidth}px; "
         >
-            <NftMedia {nft} classes="min-w-full min-h-full object-cover" loop muted showErrorColor />
+            <NftMedia {nft} classes="min-w-full min-h-full object-cover" loop muted showErrorColor>
+                <div class="w-full h-full flex justify-center items-center bg-surface-2 dark:bg-surface-2-dark">
+                    <MediaPlaceholder type={nft?.parsedMetadata?.type} nftId={nft.id} textColor={placeHolderColor} />
+                </div>
+            </NftMedia>
             <error-container bind:this={anchor}>
                 {#if nft.downloadMetadata.error || nft.downloadMetadata.warning}
                     <Pill color={nft.downloadMetadata?.error ? 'danger' : 'warning'}>

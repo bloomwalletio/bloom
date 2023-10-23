@@ -1,19 +1,22 @@
 <script lang="ts">
     import { MimeType, ParentMimeType } from '@core/nfts'
-    import { TextColor, Icon, IconName } from '@bloomwalletio/ui'
+    import { TextColor, Icon, IconName, AvatarSize } from '@bloomwalletio/ui'
+    import { nftDownloadQueue } from '@core/nfts/stores'
 
     export let type: MimeType | undefined
+    export let nftId: string
     export let textColor: TextColor = 'primary'
-    export let isDownloading: boolean = true
-    export let size: 'md' | 'lg' = 'lg'
+    export let size: AvatarSize
+
+    $: isDownloading = $nftDownloadQueue.some((queueItem) => queueItem.nft.id === nftId)
 
     function getIcon(type: MimeType | undefined): IconName {
         const parentMimeType = type?.split('/', 1)?.[0]
         switch (parentMimeType) {
             case ParentMimeType.Image:
-                return IconName.Image
+                return IconName.ImageBorderless
             case ParentMimeType.Video:
-                return IconName.Video
+                return IconName.PlaySquare
             case ParentMimeType.Audio:
                 return IconName.Audio
             case ParentMimeType.Text:

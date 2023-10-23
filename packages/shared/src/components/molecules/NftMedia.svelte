@@ -1,11 +1,10 @@
 <script lang="ts">
     import { TextColor } from '@bloomwalletio/ui'
     import { INft, NFT_MEDIA_FILE_NAME } from '@core/nfts'
-    import { nftDownloadQueue } from '@core/nfts/stores'
     import { DEV_STORAGE_DIRECTORY } from '@core/profile/constants'
     import { getStorageDirectoryOfProfiles } from '@core/profile/utils'
     import features from '@features/features'
-    import { MediaDisplay, MediaPlaceholder } from '@ui'
+    import { MediaDisplay } from '@ui'
     import { onMount } from 'svelte'
 
     export let nft: INft
@@ -15,13 +14,11 @@
     export let muted: boolean = false
     export let classes: string = ''
     export let useCaching: boolean = true
-    export let iconSize: 'md' | 'lg' = 'md'
     export let showErrorColor: boolean = false
 
     let hasMounted: boolean = false
     let basePath: string
 
-    $: isDownloading = $nftDownloadQueue.some((queueItem) => queueItem.nft.id === nft.id)
     $: src =
         features?.collectibles?.useCaching?.enabled && useCaching
             ? `${basePath}/${nft.filePath}/${NFT_MEDIA_FILE_NAME}`
@@ -67,12 +64,5 @@
         alt={`Media display for ${nft.name}`}
     />
 {:else}
-    <div class="w-full h-full flex justify-center items-center bg-surface-2 dark:bg-surface-2-dark">
-        <MediaPlaceholder
-            type={nft?.parsedMetadata?.type}
-            {isDownloading}
-            textColor={placeHolderColor}
-            size={iconSize}
-        />
-    </div>
+    <slot name="placeholder" />
 {/if}
