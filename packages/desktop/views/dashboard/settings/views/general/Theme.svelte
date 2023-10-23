@@ -1,27 +1,29 @@
 <script lang="ts">
     import { Alert, IOption, RadioGroup, Text } from '@bloomwalletio/ui'
     import { AppTheme, shouldBeDarkMode } from '@core/app'
-    import { appSettings } from '@core/app/stores'
+    import { appSettings, updateAppSettings } from '@core/app/stores'
     import { localize } from '@core/i18n'
     import features from '@features/features'
 
-    const appTheme: AppTheme = $appSettings.theme
-
-    $: $appSettings.theme = appTheme
     $: $appSettings.darkMode = shouldBeDarkMode($appSettings.theme)
 
     const options: IOption[] = [
-        { value: 'light', label: localize('general.lightTheme') },
-        { value: 'dark', label: localize('general.darkTheme') },
-        ...(features.app.themes.system.enabled ? [{ value: 'system', label: localize('general.systemTheme') }] : []),
+        { value: AppTheme.Light, label: localize('general.lightTheme') },
+        { value: AppTheme.Dark, label: localize('general.darkTheme') },
+        ...(features.app.themes.system.enabled
+            ? [{ value: AppTheme.System, label: localize('general.systemTheme') }]
+            : []),
     ]
 
     const selected: IOption = options.find((option) => option.value === $appSettings.theme)
+    $: if (selected && selected.value !== $appSettings.theme) {
+        updateAppSettings({ theme: selected.value as AppTheme })
+    }
 </script>
 
 <Text type="body2" class="mb-6">{localize('views.settings.theme.title')}</Text>
 <RadioGroup selected={selected.value} {options} />
-{#if appTheme === 'system'}
+{#if selected.value === AppTheme.System}
     <div class="mt-6">
         <Alert text={localize('views.settings.theme.advice')} />
     </div>
