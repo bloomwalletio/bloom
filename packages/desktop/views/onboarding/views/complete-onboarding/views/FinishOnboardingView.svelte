@@ -28,7 +28,7 @@
     }
 </script>
 
-{#if $profiles.length !== 0}
+{#if $profiles.length === 0}
     <LoggedOutLayout hideLogo>
         <setup-complete>
             <SuccessSvg />
