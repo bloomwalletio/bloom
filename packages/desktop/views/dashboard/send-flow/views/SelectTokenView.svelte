@@ -39,21 +39,22 @@
     }
 
     let tokenList: ITokenWithBalance[]
-    function getTokenList(): ITokenWithBalance[] {
-        const list = []
-        for (const tokensPerNetwork of Object.values(accountTokens)) {
-            if (tokensPerNetwork?.baseCoin) {
-                list.push(tokensPerNetwork.baseCoin)
+    function getSortedTokenForAllNetworks(): ITokenWithBalance[] {
+        const baseCoins: ITokenWithBalance[] = []
+        const nativeTokens: ITokenWithBalance[] = []
+        for (const networkTokens of Object.values(accountTokens)) {
+            if (networkTokens?.baseCoin) {
+                baseCoins.push(networkTokens.baseCoin)
             }
-            list.push(...(tokensPerNetwork?.nativeTokens ?? []))
+            nativeTokens.push(...(networkTokens?.nativeTokens ?? []))
         }
-        return list
+        return [...baseCoins, ...nativeTokens.sort((a, b) => a.metadata.name.localeCompare(b.metadata.name))]
     }
 
     function setFilteredTokenList(): void {
-        const list = getTokenList()
+        const sortedTokens = getSortedTokenForAllNetworks()
 
-        tokenList = list.filter(isVisibleToken)
+        tokenList = sortedTokens.filter(isVisibleToken)
         if (!tokenList.some((token) => token.id === selectedToken?.id)) {
             selectedToken = undefined
         }
