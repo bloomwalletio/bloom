@@ -10,11 +10,9 @@
 <style lang="scss">
     navbar {
         @apply w-full flex-none z-10;
-        @apply bg-surface dark:bg-surface-dark;
         @apply border-r border-b border-solid border-stroke dark:border-stroke-dark;
 
         &.ghost {
-            @apply bg-transparent;
             border: none;
         }
 

@@ -184,7 +184,7 @@
     @import '../shared/src/style/style.scss';
     html,
     body {
-        @apply bg-slate-100 dark:bg-gray-900;
+        @apply bg-surface dark:bg-surface-dark;
         @apply select-none;
         -webkit-user-drag: none;
 
