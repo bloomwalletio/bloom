@@ -3,22 +3,24 @@
     import { NavbarContainer } from '@components'
     import { IS_MAC } from '@core/app'
     import { Logo } from '@ui'
-    import { Particles } from '.'
+    import { Background } from '.'
 
     export let glass: boolean = false
     export let hideLogo: boolean = false
+    export let gradient: 'spread' | 'center' | undefined = undefined
+    export let particles: boolean = false
 </script>
 
+<Background {gradient} {particles} />
 {#if IS_MAC}
     <NavbarContainer draggable>
         <div style:height="var(--macos-navbar-height)" style:--macos-navbar-height="40px" />
     </NavbarContainer>
 {/if}
 <logged-out-layout
-    class="flex flex-col items-center w-full h-full bg-surface dark:bg-surface-dark"
+    class="flex flex-col items-center w-full h-full z-10"
     style:--macos-navbar-height={IS_MAC ? '40px' : undefined}
 >
-    <Particles />
     {#if !hideLogo}
         <header class="w-full flex flex-row items-center justify-between px-6" class:glass>
             <logo class="flex flex-row flex-none space-x-3">

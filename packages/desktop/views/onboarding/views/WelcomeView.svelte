@@ -9,11 +9,9 @@
     import { lastAcceptedPrivacyPolicy, lastAcceptedTermsOfService } from '@core/app/stores'
     import { openUrlInBrowser } from '@core/app/utils'
     import { localize } from '@core/i18n'
-    import { Illustration, Logo } from '@ui'
-    import { LogoName } from '@auxiliary/logo/enums'
+    import { Illustration } from '@ui'
     import { onboardingRouter } from '../onboarding-router'
-    import BgGradient from '@views/components/BgGradient.svelte'
-    import Particles from '@views/components/Particles.svelte'
+    import { LoggedOutLayout } from '@views/components'
 
     let termsAccepted: boolean = false
     let flash: boolean = false
@@ -40,55 +38,52 @@
     }
 </script>
 
-<logo-container class="block absolute mt-8 ml-8">
-    <Logo width="150" logo={LogoName.BloomLogoFull} />
-</logo-container>
-<Particles />
-<welcome-view class="w-full h-full flex items-center justify-center py-24 px-40 gap-12">
-    <div class="flex flex-col gap-8">
-        <div class="flex flex-col gap-2">
-            <Text type="h1">
-                {localize('views.onboarding.welcome.title')}
-                <br /><strong>Bloom Wallet</strong>
-            </Text>
-            <Text type="h5" textColor="secondary">
-                {localize('views.onboarding.welcome.subtitle')}
-            </Text>
-        </div>
-        <checkbox-container class:flash>
-            <Checkbox bind:checked={termsAccepted} size="lg">
-                <div slot="label" class="flex flex-col">
-                    <Text type="body2" fontWeight="medium">{localize('views.onboarding.welcome.legalAction')}</Text>
-                    <div class="flex">
-                        <Link
-                            on:click={onPrivacyPolicyClick}
-                            text={localize('general.privacyPolicy')}
-                            textType="body2"
-                        />
-                        <Text type="body2" fontWeight="medium">&nbsp&&nbsp</Text>
-                        <Link
-                            on:click={onTermsOfServiceClick}
-                            text={localize('general.termsOfService')}
-                            textType="body2"
-                        />
+<LoggedOutLayout gradient="spread">
+    <welcome-view class="w-full h-full flex items-center justify-center py-24 px-40 gap-12 z-10">
+        <div class="flex flex-col gap-8">
+            <div class="flex flex-col gap-2">
+                <Text type="h1">
+                    {localize('views.onboarding.welcome.title')}
+                    <br /><strong>Bloom Wallet</strong>
+                </Text>
+                <Text type="h5" textColor="secondary">
+                    {localize('views.onboarding.welcome.subtitle')}
+                </Text>
+            </div>
+            <checkbox-container class:flash>
+                <Checkbox bind:checked={termsAccepted} size="lg">
+                    <div slot="label" class="flex flex-col">
+                        <Text type="body2" fontWeight="medium">{localize('views.onboarding.welcome.legalAction')}</Text>
+                        <div class="flex">
+                            <Link
+                                on:click={onPrivacyPolicyClick}
+                                text={localize('general.privacyPolicy')}
+                                textType="body2"
+                            />
+                            <Text type="body2" fontWeight="medium">&nbsp&&nbsp</Text>
+                            <Link
+                                on:click={onTermsOfServiceClick}
+                                text={localize('general.termsOfService')}
+                                textType="body2"
+                            />
+                        </div>
                     </div>
-                </div>
-            </Checkbox>
-        </checkbox-container>
-        <Button
-            on:click={onContinueClick}
-            text={localize('views.onboarding.welcome.button')}
-            icon={IconName.ArrowNarrowRight}
-            reverse
-            width="fit"
-        />
-    </div>
-    <illustration-container class="relative">
-        <Illustration illustration="portal" width={536} height={591} />
-        <portal-glow></portal-glow>
-    </illustration-container>
-</welcome-view>
-<BgGradient variant="spread" />
+                </Checkbox>
+            </checkbox-container>
+            <Button
+                on:click={onContinueClick}
+                text={localize('views.onboarding.welcome.button')}
+                icon={IconName.ArrowNarrowRight}
+                reverse
+                width="fit"
+            />
+        </div>
+        <illustration-container class="relative">
+            <Illustration illustration="portal" width={536} height={591} />
+            <portal-glow></portal-glow>
+        </illustration-container>
+    </welcome-view>
+</LoggedOutLayout>
 
 <style lang="scss">
     :global(welcome-view h1 strong) {

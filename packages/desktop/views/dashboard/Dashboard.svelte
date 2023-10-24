@@ -17,13 +17,14 @@
     import { onDestroy, onMount } from 'svelte'
     import { get } from 'svelte/store'
     import Collectibles from './collectibles/Collectibles.svelte'
-    import { Navbar, Sidebar } from './components'
+    import { Navbar, DashboardSidebar } from './components'
     import { Developer } from './developer'
     import { DashboardDrawerRouterView } from './drawers'
     import { Governance } from './governance'
     import { Wallet } from './wallet'
     import { Settings } from './settings'
     import { OldWallet } from './old-wallet'
+    import { Background } from '@views/components'
 
     const tabs = {
         wallet: Wallet,
@@ -68,6 +69,7 @@
 </script>
 
 <Idle />
+<Background />
 <dashboard class="flex flex-row w-full h-full">
     <div class="flex flex-col flex-none z-10">
         {#if IS_MAC}
@@ -75,7 +77,7 @@
                 <div style:height="var(--navbar-height, 0px)" />
             </NavbarContainer>
         {/if}
-        <Sidebar />
+        <DashboardSidebar />
     </div>
     <div class="flex flex-col flex-grow basis-0">
         <Navbar />

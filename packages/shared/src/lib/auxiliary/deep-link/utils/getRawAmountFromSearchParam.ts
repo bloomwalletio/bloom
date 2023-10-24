@@ -1,8 +1,8 @@
-import { AmountNotAnIntegerError, SendOperationParameter } from '@auxiliary/deep-link'
+import { AmountNotAnIntegerError, SendTransactionParameter } from '@auxiliary/deep-link'
 
 export function getRawAmountFromSearchParam(
     searchParams: URLSearchParams,
-    parameterKey: SendOperationParameter
+    parameterKey: SendTransactionParameter
 ): string {
     let rawAmount = searchParams.get(parameterKey)
     const amount = Number(rawAmount)

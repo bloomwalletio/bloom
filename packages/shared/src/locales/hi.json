@@ -192,11 +192,11 @@
                 "title": "Export backup",
                 "description": "एक स्ट्रॉन्गहोल्ड फ़ाइल में निर्यात करें - अपने वॉलेट और नवीनतम लेनदेन इतिहास का एक पूर्ण एन्क्रिप्टेड बैकअप।"
             },
-            "appLock": {
+            "autoLogout": {
                 "title": "Automatic logout",
                 "description": "आपकी जेब लॉक होने से पहले निष्क्रियता का समय और आप लॉग आउट हो गए हैं"
             },
-            "strongholdPasswordTimeout": {
+            "strongholdTimeout": {
                 "title": "Stronghold Timeout",
                 "description": "Length of time before your Stronghold password is required again"
             },

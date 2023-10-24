@@ -192,11 +192,11 @@
                 "title": "Biztonsági mentés",
                 "description": "Biztonsági mentés Stronghold-ba: a tárcák és a legutóbbi tranzakciók titkosított fájlba mentése"
             },
-            "appLock": {
+            "autoLogout": {
                 "title": "Automatikus kiléptetés",
                 "description": "Tétlenség ideje, mielőtt tárcája automatikusan zárolódik és kilépteti Önt"
             },
-            "strongholdPasswordTimeout": {
+            "strongholdTimeout": {
                 "title": "Stronghold időtúllépés",
                 "description": "Az időtartam, amely eltelte után újból meg kell adnia a Stronghold jelszavát"
             },

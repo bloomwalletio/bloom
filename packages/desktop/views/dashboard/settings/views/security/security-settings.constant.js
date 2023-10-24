@@ -1,11 +1,11 @@
-import { AppLock, ChangePassword, ChangePincode, ExportStronghold, StrongholdPasswordTimeout } from './'
+import { AutoLogout, ChangePassword, ChangePincode, ExportStronghold, StrongholdTimeout } from './'
 import { SecuritySettingsRoute } from '@core/router'
 
 export const SECURITY_SETTINGS = [
-    { component: AppLock, childRoute: SecuritySettingsRoute.AppLock },
+    { component: AutoLogout, childRoute: SecuritySettingsRoute.AutoLogout },
     {
-        component: StrongholdPasswordTimeout,
-        childRoute: SecuritySettingsRoute.StrongholdPasswordTimeout,
+        component: StrongholdTimeout,
+        childRoute: SecuritySettingsRoute.StrongholdTimeout,
         requiresSoftwareProfile: true,
     },
     { component: ChangePincode, childRoute: SecuritySettingsRoute.ChangePincode },

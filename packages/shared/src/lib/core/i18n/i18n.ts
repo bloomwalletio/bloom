@@ -1,8 +1,6 @@
 import { Writable, get } from 'svelte/store'
 import { addMessages, dictionary, getLocaleFromNavigator, init, _, getDateFormatter } from 'svelte-i18n'
 
-import { updateAppSettings } from '@core/app/stores'
-
 import { DEFAULT_LOCALE_OPTIONS, SUPPORTED_LOCALES } from './constants'
 import { LocaleOptions } from './types'
 
@@ -49,8 +47,6 @@ export async function setupI18n(options: LocaleOptions = { fallbackLocale: 'en',
 
     if (!hasLoadedLocale(locale)) {
         await loadLocaleMessages(locale)
-
-        updateAppSettings({ language: locale })
 
         // Load English locale dictionary as fallback for unsupported translations
         if (locale !== 'en' && !hasLoadedLocale('en')) {

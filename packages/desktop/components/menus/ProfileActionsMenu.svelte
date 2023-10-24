@@ -1,16 +1,20 @@
 <script lang="ts">
     import { IconName, Menu, Text } from '@bloomwalletio/ui'
+    import { openSettings } from '@contexts/settings/stores'
     import { localize } from '@core/i18n'
     import { logout } from '@core/profile/actions'
     import { activeProfile } from '@core/profile/stores'
-    import { routerManager } from '@core/router'
+    import { closeDrawer } from '@desktop/auxiliary/drawer/actions'
+    import { closePopup } from '@desktop/auxiliary/popup/actions'
     import { ProfileAvatar } from '@ui'
 
     export let expanded = true
     let menu: Menu | undefined = undefined
 
     function onSettingsClick(): void {
-        $routerManager.openSettings()
+        closePopup()
+        closeDrawer()
+        openSettings()
         menu?.close()
     }
 

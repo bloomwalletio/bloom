@@ -18,10 +18,6 @@
     }
 </script>
 
-<div class="mb-3">
-    <Text type="h4">{localize('views.settings.deleteProfile.title')}</Text>
-</div>
-<div class="mb-5">
-    <Text type="body1" textColor="secondary">{localize('views.settings.deleteProfile.description')}</Text>
-</div>
+<Text type="body2" class="mb-2">{localize('views.settings.deleteProfile.title')}</Text>
+<Text type="base" textColor="secondary" class="mb-6">{localize('views.settings.deleteProfile.description')}</Text>
 <Button color="danger" text={localize('views.settings.deleteProfile.title')} on:click={onDeleteClick} />

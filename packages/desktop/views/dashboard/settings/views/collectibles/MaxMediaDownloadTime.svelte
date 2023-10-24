@@ -1,35 +1,33 @@
 <script lang="ts">
-    import { Dropdown, Text } from '@ui'
-    import { TextType } from '@ui/enums'
+    import { IOption, SelectInput, Text } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
     import { activeProfile, updateActiveProfileSettings } from '@core/profile/stores'
-    import { DEFAULT_MAX_NFT_DOWNLOADING_TIME_IN_SECONDS } from '@core/nfts'
-    import { IDropdownItem } from '@core/utils'
 
-    function onMaxMediaDownloadTimeChange(option: IDropdownItem<number>): void {
-        const maxMediaDownloadTimeInSeconds = option.value
+    const options: IOption[] = [30, 60, 90, 120, 150, 180].map((amount) => ({
+        value: amount.toString(),
+        label: assignMaxMediaDownloadTimeOptionLabel(amount),
+    }))
+    let selected: IOption = options.find(
+        (option) => option.value === $activeProfile?.settings.maxMediaDownloadTimeInSeconds?.toString()
+    )
 
-        updateActiveProfileSettings({ maxMediaDownloadTimeInSeconds })
+    $: onMaxMediaDownloadTimeChange(selected)
+    function onMaxMediaDownloadTimeChange(option: IOption | undefined): void {
+        if (option) {
+            const maxMediaDownloadTimeInSeconds = parseInt(option.value)
+            updateActiveProfileSettings({ maxMediaDownloadTimeInSeconds })
+        }
     }
 
     function assignMaxMediaDownloadTimeOptionLabel(amount: number): string {
         return amount ? localize('times.second', { values: { time: amount } }) : localize('general.none')
     }
-
-    const maxSizeOptions: IDropdownItem<number>[] = [30, 60, 90, 120, 150, 180].map((amount) => ({
-        value: amount,
-        label: assignMaxMediaDownloadTimeOptionLabel(amount),
-    }))
 </script>
 
-<Text type={TextType.h4} classes="mb-3">
+<Text type="body2" class="mb-2">
     {localize('views.settings.maxMediaDownloadTime.title')}
 </Text>
-<Text secondary classes="mb-5">
+<Text type="base" textColor="secondary" class="mb-6">
     {localize('views.settings.maxMediaDownloadTime.description')}
 </Text>
-<Dropdown
-    onSelect={onMaxMediaDownloadTimeChange}
-    value={$activeProfile?.settings.maxMediaDownloadTimeInSeconds || DEFAULT_MAX_NFT_DOWNLOADING_TIME_IN_SECONDS}
-    items={maxSizeOptions}
-/>
+<SelectInput bind:selected value={selected.value} {options} />
