@@ -25,7 +25,7 @@
     // EIP-192 RPC Methods
     export let rawMessage: string
 
-    $: showTable = (!!toAddress && !!toAmount) || !!hash || !!rawMessage
+    $: showTable = (!!toAddress && toAmount !== undefined) || !!hash || !!rawMessage
 
     const locale = getLocale()
     function getLocale(): string {

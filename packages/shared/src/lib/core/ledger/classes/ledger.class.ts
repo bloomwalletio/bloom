@@ -11,7 +11,7 @@ import {
 import { MILLISECONDS_PER_SECOND, sleep } from '@core/utils'
 import { TxData } from '@ethereumjs/tx'
 import type { Bip44 } from '@iota/sdk/out/types'
-import { PopupId, openPopup } from '../../../../../../desktop/lib/auxiliary/popup'
+import { PopupId, openPopup, closePopup } from '../../../../../../desktop/lib/auxiliary/popup'
 import { DEFAULT_LEDGER_API_REQUEST_OPTIONS } from '../constants'
 import { LedgerApiMethod, LedgerAppName } from '../enums'
 import { ILedgerApiBridge } from '../interfaces'
@@ -24,6 +24,7 @@ import {
 import { EvmChainId } from '@core/network/enums'
 import { toRpcSig } from '@ethereumjs/util'
 import { Converter } from '@core/utils'
+import { handleError } from '@core/error/handlers'
 
 declare global {
     interface Window {
@@ -52,26 +53,35 @@ export class Ledger {
         return Boolean((await this.getEthereumAppSettings())?.blindSigningEnabled)
     }
 
-    static async generateEvmAddress(accountIndex: number, coinType: number, verify?: boolean): Promise<string> {
-        const bip32Path = buildBip32PathFromBip44({
-            coinType,
-            account: accountIndex,
-        })
-        const response = await this.callLedgerApiAsync<IEvmAddress>(
-            () => ledgerApiBridge.makeRequest(LedgerApiMethod.GenerateEvmAddress, bip32Path, verify ?? false),
-            'evm-address'
-        )
-        return response.evmAddress
+    static async generateEvmAddress(
+        accountIndex: number,
+        coinType: number,
+        verify?: boolean
+    ): Promise<string | undefined> {
+        try {
+            const bip32Path = buildBip32PathFromBip44({
+                coinType,
+                account: accountIndex,
+            })
+            const response = await this.callLedgerApiAsync<IEvmAddress>(
+                () => ledgerApiBridge.makeRequest(LedgerApiMethod.GenerateEvmAddress, bip32Path, verify ?? false),
+                'evm-address'
+            )
+            return response.evmAddress
+        } catch (err) {
+            closePopup(true)
+            handleError(err)
+        }
     }
 
     static async signEvmTransaction(
         transactionData: TxData,
         chainId: EvmChainId,
         bip44: Bip44
-    ): Promise<string | void> {
+    ): Promise<string | undefined> {
         /* eslint-disable no-async-promise-executor */
         /* eslint-disable @typescript-eslint/no-misused-promises */
-        return new Promise<string | void>(async (resolve, reject) => {
+        return new Promise<string | undefined>(async (resolve, reject) => {
             const unsignedTransactionMessageHex = prepareEvmTransaction(transactionData, chainId)
             const bip32Path = buildBip32PathFromBip44(bip44)
             const maxGasFee = calculateMaxGasFeeFromTransactionData(transactionData)
@@ -114,15 +124,20 @@ export class Ledger {
                     },
                 })
 
-                const transactionSignature = await this.callLedgerApiAsync<IEvmSignature>(
-                    () =>
-                        ledgerApiBridge.makeRequest(
-                            LedgerApiMethod.SignEvmTransaction,
-                            unsignedTransactionMessageHex,
-                            bip32Path
-                        ),
-                    'evm-signed-transaction'
-                )
+                let transactionSignature: IEvmSignature | undefined
+                try {
+                    transactionSignature = await this.callLedgerApiAsync<IEvmSignature>(
+                        () =>
+                            ledgerApiBridge.makeRequest(
+                                LedgerApiMethod.SignEvmTransaction,
+                                unsignedTransactionMessageHex,
+                                bip32Path
+                            ),
+                        'evm-signed-transaction'
+                    )
+                } catch (err) {
+                    reject(err)
+                }
 
                 openPopup(
                     {
@@ -131,11 +146,15 @@ export class Ledger {
                     true
                 )
 
-                const { r, v, s } = transactionSignature
-                if (r && v && s) {
-                    resolve(prepareEvmTransaction(transactionData, chainId, { r, v, s }))
+                if (transactionSignature) {
+                    const { r, v, s } = transactionSignature
+                    if (r && v && s) {
+                        resolve(prepareEvmTransaction(transactionData, chainId, { r, v, s }))
+                    } else {
+                        reject(localize('error.send.cancelled'))
+                    }
                 } else {
-                    reject(localize('error.send.cancelled'))
+                    resolve(undefined)
                 }
             }
         })
