@@ -83,6 +83,7 @@ async function claimShimmerRewardsForShimmerClaimingAccount(
             },
             rawAmount: rawAmount.toString(),
         },
+        destinationNetworkId: SupportedNetworkId.Shimmer,
     }
     setSendFlowParameters(sendFlowParameters)
 

@@ -12,6 +12,9 @@
     import StrongholdStatusTile from './StrongholdStatusTile.svelte'
     import { AutoUpdateToast, BackupToast, VersionToast } from './toasts'
     import { dashboardRoute } from '@core/router'
+    import { fade } from 'svelte/transition'
+
+    const TRANSITION_DURATION = 200 // ms
 
     let expanded = true
     function toggleExpand(): void {
@@ -104,7 +107,7 @@
     }
 </script>
 
-<aside class:expanded class="flex flex-col justify-between">
+<aside class:expanded class="flex flex-col justify-between" style:--transition-duration={TRANSITION_DURATION + 'ms'}>
     <dashboard-sidebar-header class="flex flex-row justify-between items-center">
         <logo class="flex flex-row flex-none space-x-3">
             <button on:click={toggleExpand} disabled={expanded}>
@@ -128,7 +131,10 @@
         </dashboard-sidebar-tabs>
 
         {#if expanded}
-            <dashboard-sidebar-tiles class="w-full flex flex-col space-y-2">
+            <dashboard-sidebar-tiles
+                class="w-full flex flex-col space-y-2"
+                in:fade={{ delay: TRANSITION_DURATION, duration: TRANSITION_DURATION }}
+            >
                 {#if false}
                     <!-- TODO: logic of when to display toast one at a time -->
                     <AutoUpdateToast />
@@ -150,9 +156,11 @@
 
 <style lang="postcss">
     aside {
+        @apply transition-[width];
         @apply h-screen w-20;
         @apply bg-surface-1/90 dark:bg-surface-1-dark/60;
         @apply border-solid border-r border-stroke dark:border-stroke-dark;
+        transition-duration: var(--transition-duration);
 
         &.expanded {
             @apply w-64;

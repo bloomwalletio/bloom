@@ -23,7 +23,11 @@
 
     let selectedNetworkType: OnboardingNetworkType = OnboardingNetworkType.Shimmer
     function onNetworkClick(networkType: OnboardingNetworkType): void {
-        selectedNetworkType = networkType
+        if (selectedNetworkType === networkType) {
+            onContinueClick()
+        } else {
+            selectedNetworkType = networkType
+        }
     }
 
     function onContinueClick(): void {
