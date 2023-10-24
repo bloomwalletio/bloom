@@ -6,7 +6,7 @@
     export let particles: boolean = false
 </script>
 
-<div class=" absolute inset-0 flex items-center justify-center bg-surface-{surface} dark:bg-surface-{surface}-dark">
+<div class="absolute inset-0 flex items-center justify-center bg-surface-{surface} dark:bg-surface-{surface}-dark">
     {#if gradient}
         <BgGradient variant={gradient} />
     {/if}

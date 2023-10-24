@@ -24,7 +24,7 @@
     import { Wallet } from './wallet'
     import { Settings } from './settings'
     import { OldWallet } from './old-wallet'
-    import Background from '@views/components/Background.svelte'
+    import { Background } from '@views/components'
 
     const tabs = {
         wallet: Wallet,
