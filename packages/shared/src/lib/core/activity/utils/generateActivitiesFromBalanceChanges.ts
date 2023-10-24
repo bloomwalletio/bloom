@@ -11,7 +11,7 @@ export async function generateActivitiesFromBalanceChanges(account: IAccountStat
     const chains = get(network)?.getChains() ?? []
     for (const chain of chains) {
         const networkId = chain.getConfiguration().id
-        const balanceChanges = getBalanceChanges(account.index, networkId)
+        const balanceChanges = getBalanceChanges(account.index, networkId)?.tokens
         const tokenIds = balanceChanges ? Object.keys(balanceChanges) : []
 
         for (const tokenId of tokenIds) {

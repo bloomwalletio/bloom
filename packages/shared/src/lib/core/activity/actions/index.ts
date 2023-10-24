@@ -1,4 +1,4 @@
-export * from './calculateAndAddPersistedBalanceChange'
+export * from './calculateAndAddPersistedTokenBalanceChange'
 export * from './generateAndStoreActivitiesForAccount'
 export * from './generateAndStoreActivitiesForAllAccounts'
 export * from './getClaimableActivities'

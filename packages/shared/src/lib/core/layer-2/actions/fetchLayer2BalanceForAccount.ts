@@ -1,5 +1,5 @@
 import { IAccountState } from '@core/account'
-import { calculateAndAddPersistedBalanceChange } from '@core/activity/actions'
+import { calculateAndAddPersistedTokenBalanceChange } from '@core/activity/actions'
 import { ContractType } from '@core/layer-2'
 import { IChain, getNetwork } from '@core/network'
 import { getActiveProfile } from '@core/profile/stores'
@@ -44,7 +44,7 @@ export function fetchLayer2BalanceForAccount(account: IAccountState): void {
             if (isNativeToken || isErc20TrackedToken) {
                 await getOrRequestTokenFromPersistedTokens(tokenId, networkId)
             }
-            await calculateAndAddPersistedBalanceChange(account, networkId, tokenId, adjustedBalance)
+            await calculateAndAddPersistedTokenBalanceChange(account, networkId, tokenId, adjustedBalance)
             layer2Balance[tokenId] = adjustedBalance
         }
         setLayer2AccountBalanceForChain(index, networkId, layer2Balance)
