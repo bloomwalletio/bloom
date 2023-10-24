@@ -122,7 +122,7 @@
     <div class="flex flex-col w-full h-full justify-center items-center">
         <login-container class:shake>
             <profile-container>
-                <ProfileAvatarWithBadge profile={$activeProfile} size="xxxl" shape="square" {updateRequired} />
+                <ProfileAvatarWithBadge profile={$activeProfile} size="xxxl" {updateRequired} />
             </profile-container>
             {#if hasReachedMaxAttempts}
                 <div class="flex flex-col justify-center items-center gap-3">
