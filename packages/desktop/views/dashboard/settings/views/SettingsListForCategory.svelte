@@ -11,7 +11,7 @@
 
     const { loggedIn } = $activeProfile
 
-    $: visibleSettings = // (SETTINGS?.[category] as ISetting[])
+    $: visibleSettings =
         (SETTINGS?.[category] as ISetting[])?.filter((setting) =>
             isSettingVisible(
                 setting,
