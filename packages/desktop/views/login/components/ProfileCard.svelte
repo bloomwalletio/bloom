@@ -40,7 +40,7 @@
         {/if}
     </profile-header>
     <div class="relative">
-        <ProfileAvatarWithBadge {profile} size="xxl" {updateRequired} shape={isHovering ? 'squircle' : 'circle'} />
+        <ProfileAvatarWithBadge {profile} size="xxl" {updateRequired} />
     </div>
     <Text type="body2" align="center" truncate>{profile.name}</Text>
 </button>
