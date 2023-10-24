@@ -7,24 +7,44 @@ import { get } from 'svelte/store'
 import { INft } from '../interfaces'
 import { buildNftFromNftOutput } from './buildNftFromNftOutput'
 import { setAccountNftsInAllAccountNfts } from './setAccountNftsInAllAccountNfts'
-import { NetworkId, getActiveNetworkId } from '@core/network'
+import { getActiveNetworkId, getNetwork } from '@core/network'
+import { getPersistedEvmTransactions } from '@core/activity'
+import { getTransferInfoFromTransactionData } from '@core/layer-2/utils/getTransferInfoFromTransactionData'
+import { AssetType } from '@core/layer-2'
+import { addNftsToDownloadQueue } from './addNftsToDownloadQueue'
+import { getNftsFromNftIds } from '../utils'
 
 export async function loadNftsForActiveProfile(): Promise<void> {
     const allAccounts = get(activeAccounts)
-    const networkId = getActiveNetworkId()
     for (const account of allAccounts) {
-        await loadNftsForAccount(account, networkId)
+        await loadNftsForAccount(account)
     }
 }
 
-async function loadNftsForAccount(account: IAccountState, networkId: NetworkId): Promise<void> {
+async function loadNftsForAccount(account: IAccountState): Promise<void> {
     const accountNfts: INft[] = []
     const unspentOutputs = await account.unspentOutputs()
+    const networkId = getActiveNetworkId()
     for (const outputData of unspentOutputs) {
         if (outputData.output.type === OutputType.Nft) {
             const nft = buildNftFromNftOutput(outputData as IWrappedOutput, networkId, account.depositAddress)
             accountNfts.push(nft)
         }
+    }
+
+    for (const chain of getNetwork()?.getChains() ?? []) {
+        const transactionsOnChain = getPersistedEvmTransactions(account.index, chain.getConfiguration().id)
+        const nftIdsOnChain = []
+        for (const transaction of transactionsOnChain) {
+            const { asset } = getTransferInfoFromTransactionData(transaction, transaction.to, networkId, chain) ?? {}
+            if (asset?.type !== AssetType.Nft || accountNfts.some((nft) => nft.id === asset.nftId)) {
+                continue
+            }
+
+            nftIdsOnChain.push(asset.nftId)
+        }
+        const nfts = await getNftsFromNftIds(nftIdsOnChain, networkId)
+        accountNfts.push(...nfts)
     }
 
     const nftOutputs = await account.outputs({ outputTypes: [OutputType.Nft] })
@@ -47,4 +67,5 @@ async function loadNftsForAccount(account: IAccountState, networkId: NetworkId):
         }
     }
     setAccountNftsInAllAccountNfts(account.index, accountNfts)
+    void addNftsToDownloadQueue(account.index, accountNfts)
 }

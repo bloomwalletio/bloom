@@ -1,7 +1,7 @@
 <script lang="ts">
     import { ITokenWithBalance, getUnitFromTokenMetadata } from '@core/token'
     import { truncateString } from '@core/utils'
-    import { ExpiredActivityPill, NftAvatar, TokenAvatar, UnclaimedActivityPill } from '@ui'
+    import { ExpiredActivityPill, TimelockActivityPill, NftAvatar, TokenAvatar, UnclaimedActivityPill } from '@ui'
     import { ActivityType } from '@core/activity'
     import { selectedAccountTokens } from '@core/token/stores'
     import { getNftByIdFromAllAccountNfts } from '@core/nfts/actions'
@@ -14,16 +14,20 @@
     import { Activity, ActivityAsyncStatus, ActivityDirection } from '@core/activity'
     import { getTimeDifference } from '@core/utils/time'
     import { time } from '@core/app/stores'
-    import TimelockActivityPill from '@ui/pills/TimelockActivityPill.svelte'
+    import { selectedAccountNfts } from '@core/nfts/stores'
+    import { INft } from '@core/nfts/interfaces'
 
     export let activity: Activity
 
     let token: ITokenWithBalance | undefined
     $: $selectedAccountTokens, (token = getTokenFromActivity(activity))
-    $: nft =
-        activity.type === ActivityType.Nft
-            ? getNftByIdFromAllAccountNfts($selectedAccountIndex, activity.nftId)
-            : undefined
+
+    let nft: INft | undefined
+    $: $selectedAccountNfts,
+        (nft =
+            activity.type === ActivityType.Nft
+                ? getNftByIdFromAllAccountNfts($selectedAccountIndex, activity.nftId)
+                : undefined)
 
     let title: string | undefined, subtitle: string | undefined
     $: setTitleAndSubtitle(activity)
@@ -33,8 +37,8 @@
             title = token.metadata.name ? truncateString(token.metadata.name, 13, 0) : truncateString(token.id, 6, 7)
             subtitle = getUnitFromTokenMetadata(token.metadata)
         } else if (_activity.type === ActivityType.Nft) {
-            title = nft.parsedMetadata?.name ? truncateString(nft.parsedMetadata?.name, 13, 0) : 'NFT'
-            subtitle = truncateString(nft.id, 6, 7)
+            title = nft?.parsedMetadata?.name ? truncateString(nft.parsedMetadata.name, 13, 0) : 'NFT'
+            subtitle = nft ? truncateString(nft.id, 6, 7) : ''
         } else if (_activity.type === ActivityType.Alias) {
             title = 'Alias'
             subtitle = truncateString(_activity.aliasId, 6, 7)
