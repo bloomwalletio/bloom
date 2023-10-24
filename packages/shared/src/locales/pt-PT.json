@@ -192,11 +192,11 @@
                 "title": "Exportar cópia de segurança",
                 "description": "Exportar arquivo Stronghold - um backup completo encriptado da sua carteira e do histórico recente de transações"
             },
-            "appLock": {
+            "autoLogout": {
                 "title": "Automatic logout",
                 "description": "Tempo de inatividade antes do bloqueio das suas carteiras e encerra a sessão"
             },
-            "strongholdPasswordTimeout": {
+            "strongholdTimeout": {
                 "title": "Stronghold Timeout",
                 "description": "Length of time before your Stronghold password is required again"
             },

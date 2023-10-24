@@ -42,12 +42,6 @@ export function handleTransactionInclusionEventForShimmerClaimingInternal(
                     ...shimmerClaimingAccount,
                     state: ShimmerClaimingAccountState.FullyClaimed,
                 })
-                showNotification({
-                    variant: 'success',
-                    text: localize('notifications.claimShimmerRewards.success', {
-                        values: { accountAlias: shimmerClaimingAccount?.getMetadata()?.alias },
-                    }),
-                })
             } else if (inclusionState === InclusionState.Pending) {
                 /**
                  * NOTE: If the transaction is still pending, it's

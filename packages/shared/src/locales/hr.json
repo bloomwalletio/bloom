@@ -192,11 +192,11 @@
                 "title": "Izvezi sigurnosnu kopiju",
                 "description": "Izvoz u Stronghold datoteku - potpunu enkriptiranu kopiju vaših novčanika i najnovijih transakcija"
             },
-            "appLock": {
+            "autoLogout": {
                 "title": "Automatic logout",
                 "description": "Vrijeme neaktivnosti preostalo do zaključavanja novčanika i odjave iz sustava"
             },
-            "strongholdPasswordTimeout": {
+            "strongholdTimeout": {
                 "title": "Stronghold Timeout",
                 "description": "Length of time before your Stronghold password is required again"
             },

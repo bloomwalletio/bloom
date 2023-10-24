@@ -192,11 +192,11 @@
                 "title": "Експортувати резервну копію",
                 "description": "Експорт у файл Stronghold - повна зашифрована резервна копія ваших гаманців та найновіша історія транзакцій"
             },
-            "appLock": {
+            "autoLogout": {
                 "title": "Automatic logout",
                 "description": "Час бездіяльності, перш ніж ваші гаманці заблокуються, і ви вийдете"
             },
-            "strongholdPasswordTimeout": {
+            "strongholdTimeout": {
                 "title": "Stronghold Timeout",
                 "description": "Length of time before your Stronghold password is required again"
             },

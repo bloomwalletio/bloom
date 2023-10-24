@@ -1,8 +1,8 @@
 <script lang="ts">
+    import { Button, Text } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
     import { PopupId, openPopup } from '@desktop/auxiliary/popup'
     import { exportStronghold } from '@contexts/settings'
-    import { Button, Text, Spinner } from '@bloomwalletio/ui'
 
     let busy = false
     let message = ''
@@ -43,20 +43,6 @@
     }
 </script>
 
-<div class="mb-3">
-    <Text type="h4">{localize('views.settings.exportStronghold.title')}</Text>
-</div>
-<div class="mb-5">
-    <Text textColor="secondary">{localize('views.settings.exportStronghold.description')}</Text>
-</div>
-<div class="flex flex-row items-center gap-4">
-    <Button text={localize('actions.export')} disabled={busy} on:click={onExportClick} />
-    <div class="flex flex-row items-center gap-2">
-        {#if busy}
-            <Spinner textColor="secondary" />
-        {/if}
-        {#if message}
-            <Text textColor="secondary">{message}</Text>
-        {/if}
-    </div>
-</div>
+<Text type="body2" class="mb-2">{localize('views.settings.exportStronghold.title')}</Text>
+<Text type="base" textColor="secondary" class="mb-6">{localize('views.settings.exportStronghold.description')}</Text>
+<Button text={localize('actions.export')} {busy} disabled={busy} on:click={onExportClick} />

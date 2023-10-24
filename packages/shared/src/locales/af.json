@@ -192,11 +192,11 @@
                 "title": "Voer back-up uit",
                 "description": "Uitvoer na 'n Stronghold lêer - 'n volledige geïnkripteer back-up van jou beursies en die nuutste transaksiegeskiedenis"
             },
-            "appLock": {
+            "autoLogout": {
                 "title": "Automatic logout",
                 "description": "Onaktiwiteitstyd voordat jou beursies sluit en jou uitgeteken"
             },
-            "strongholdPasswordTimeout": {
+            "strongholdTimeout": {
                 "title": "Stronghold Timeout",
                 "description": "Length of time before your Stronghold password is required again"
             },

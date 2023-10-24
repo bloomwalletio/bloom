@@ -192,11 +192,11 @@
                 "title": "Eksportere sikkerhedskopi",
                 "description": "Eksportér til en Stronghold-fil - en komplet, krypteret sikkerhedskopi af wallets og seneste transaktionshistorik"
             },
-            "appLock": {
+            "autoLogout": {
                 "title": "Automatisk udlogning",
                 "description": "Inaktivitetstid før wallets låses, og man logges ud"
             },
-            "strongholdPasswordTimeout": {
+            "strongholdTimeout": {
                 "title": "Stronghold-timeout",
                 "description": "Tidsperiode, inden Stronghold igen afkræver adgangskode"
             },
