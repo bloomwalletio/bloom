@@ -23,8 +23,8 @@ import { SendTransactionParameter } from '../../../enums'
 import { InvalidAddressError, NoAddressSpecifiedError, UnknownAssetError } from '../../../errors'
 import { getRawAmountFromSearchParam } from '../../../utils'
 
-export function handleDeepLinkSendConfirmationOperation(searchParams: URLSearchParams): void {
-    const sendFlowParameters = parseSendConfirmationOperation(searchParams)
+export function handleDeepLinkSendTransactionOperation(searchParams: URLSearchParams): void {
+    const sendFlowParameters = parseSendTransactionOperation(searchParams)
 
     if (sendFlowParameters) {
         setSendFlowParameters(sendFlowParameters)
@@ -42,13 +42,13 @@ export function handleDeepLinkSendConfirmationOperation(searchParams: URLSearchP
 /**
  * Parses a deep link for the send operation.
  *
- * @method parseSendConfirmationOperation
+ * @method parseSendTransactionOperation
  *
  * @param {URLSearchParams} searchParams The query parameters of the deep link URL.
  *
  * @return {SendFlowParameters} The formatted parameters for the send operation.
  */
-function parseSendConfirmationOperation(searchParams: URLSearchParams): SendFlowParameters {
+function parseSendTransactionOperation(searchParams: URLSearchParams): SendFlowParameters {
     const networkId = getActiveNetworkId()
     const baseCoin = get(selectedAccountTokens)?.[networkId]?.baseCoin
     if (!baseCoin) {
