@@ -19,7 +19,7 @@ import {
     SendFlowRouter,
     sendFlowRouter,
 } from '../../../../../../../../desktop/views/dashboard/send-flow/send-flow.router'
-import { SendOperationParameter } from '../../../enums'
+import { SendTransactionParameter } from '../../../enums'
 import { InvalidAddressError, NoAddressSpecifiedError, UnknownAssetError } from '../../../errors'
 import { getRawAmountFromSearchParam } from '../../../utils'
 
@@ -56,7 +56,7 @@ function parseSendConfirmationOperation(searchParams: URLSearchParams): SendFlow
     }
 
     let baseCoinTransfer: TokenTransferData | undefined
-    const baseCoinAmount = getRawAmountFromSearchParam(searchParams, SendOperationParameter.BaseCoinAmount)
+    const baseCoinAmount = getRawAmountFromSearchParam(searchParams, SendTransactionParameter.BaseCoinAmount)
     if (baseCoinAmount) {
         baseCoinTransfer = {
             token: baseCoin,
@@ -64,13 +64,13 @@ function parseSendConfirmationOperation(searchParams: URLSearchParams): SendFlow
         }
     }
 
-    const tokenId = searchParams.get(SendOperationParameter.TokenId)
+    const tokenId = searchParams.get(SendTransactionParameter.TokenId)
     if (tokenId) {
         validateTokenId(tokenId)
     }
 
     let tokenTransfer: TokenTransferData | undefined
-    const tokenAmount = getRawAmountFromSearchParam(searchParams, SendOperationParameter.TokenAmount)
+    const tokenAmount = getRawAmountFromSearchParam(searchParams, SendTransactionParameter.TokenAmount)
     if (tokenId && tokenAmount) {
         const token = getTokenFromSelectedAccountTokens(tokenId, networkId)
         if (token?.metadata) {
@@ -88,7 +88,7 @@ function parseSendConfirmationOperation(searchParams: URLSearchParams): SendFlow
     }
 
     // Check address exists and is valid this is not optional.
-    const address = searchParams.get(SendOperationParameter.Address)
+    const address = searchParams.get(SendTransactionParameter.Address)
     if (!address) {
         throw new NoAddressSpecifiedError()
     }
@@ -99,20 +99,22 @@ function parseSendConfirmationOperation(searchParams: URLSearchParams): SendFlow
         throw new InvalidAddressError()
     }
 
-    const metadata = searchParams.get(SendOperationParameter.Metadata)
+    const metadata = searchParams.get(SendTransactionParameter.Metadata)
     if (metadata && getByteLengthOfString(metadata) > 8192) {
         throw new MetadataLengthError()
     }
 
-    const tag = searchParams.get(SendOperationParameter.Tag)
+    const tag = searchParams.get(SendTransactionParameter.Tag)
     if (tag) {
         validateTag(tag)
     }
 
-    const giftStorageDeposit = isStringTrue(searchParams.get(SendOperationParameter.GiftStorageDeposit) ?? '')
-    const disableToggleGift = isStringTrue(searchParams.get(SendOperationParameter.DisableToggleGift) ?? '')
-    const disableChangeExpiration = isStringTrue(searchParams.get(SendOperationParameter.DisableChangeExpiration) ?? '')
-    const disableChangeTimelock = isStringTrue(searchParams.get(SendOperationParameter.DisableChangeTimelock) ?? '')
+    const giftStorageDeposit = isStringTrue(searchParams.get(SendTransactionParameter.GiftStorageDeposit) ?? '')
+    const disableToggleGift = isStringTrue(searchParams.get(SendTransactionParameter.DisableToggleGift) ?? '')
+    const disableChangeExpiration = isStringTrue(
+        searchParams.get(SendTransactionParameter.DisableChangeExpiration) ?? ''
+    )
+    const disableChangeTimelock = isStringTrue(searchParams.get(SendTransactionParameter.DisableChangeTimelock) ?? '')
 
     return {
         type: tokenTransfer ? SendFlowType.TokenTransfer : SendFlowType.BaseCoinTransfer,
