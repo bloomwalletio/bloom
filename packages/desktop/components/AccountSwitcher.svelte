@@ -33,7 +33,7 @@
             }
         })
     }
-    $: setItems($visibleActiveAccounts, $selectedAccount.index)
+    $: setItems($visibleActiveAccounts, $selectedAccount?.index)
 
     function onCreateAccountClick(): void {
         openPopup({ id: PopupId.CreateAccount })

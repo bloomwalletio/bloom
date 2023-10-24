@@ -15,7 +15,9 @@ export async function generateActivitiesFromChains(account: IAccountState): Prom
         const transactions = getPersistedEvmTransactions(account.index, networkId)
         for (const transaction of transactions) {
             const activity = await generateActivityFromEvmTransaction(transaction, networkId, chain)
-            activities.push(activity)
+            if (activity) {
+                activities.push(activity)
+            }
         }
     }
 

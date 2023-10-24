@@ -10,7 +10,7 @@
     export let shape: 'circle' | 'squircle' | 'square' = 'circle'
 
     const BADGE_SIZES: { [key: string]: 'xxs' | 'xs' | 'sm' | 'md' | 'lg' } = {
-        ['xxxl']: 'lg',
+        ['xxxl']: 'md',
         ['xxl']: 'md',
         ['xl']: 'md',
         ['lg']: 'sm',

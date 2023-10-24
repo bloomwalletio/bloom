@@ -1,6 +1,6 @@
 import { localize } from '@core/i18n'
 import { WalletOperation } from '../../enums'
-import { handleDeepLinkSendConfirmationOperation, handleDeepLinkSendFormOperation } from './operations'
+import { handleDeepLinkSendTransactionOperation, handleDeepLinkSendFormOperation } from './operations'
 
 /**
  * Parses a deep link within the wallet context.
@@ -16,8 +16,8 @@ export function handleDeepLinkWalletContext(pathnameParts: string[], searchParam
         case WalletOperation.SendForm:
             handleDeepLinkSendFormOperation(searchParams)
             break
-        case WalletOperation.SendConfirmation:
-            handleDeepLinkSendConfirmationOperation(searchParams)
+        case WalletOperation.SendTransaction:
+            handleDeepLinkSendTransactionOperation(searchParams)
             break
         default: {
             throw new Error(
