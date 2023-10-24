@@ -6,7 +6,7 @@ import { IChain } from '@core/network'
 import { checkActiveProfileAuth } from '@core/profile/actions'
 import { signAndSendEvmTransaction } from './signAndSendEvmTransaction'
 import { generateActivityFromEvmTransaction } from '@core/activity/utils/generateActivityFromEvmTransaction'
-import { PersistedEvmTransaction } from '@core/activity'
+import { ActivityType, PersistedEvmTransaction, calculateAndAddPersistedNftBalanceChange } from '@core/activity'
 import { getAddressFromAccountForNetwork } from '@core/account'
 import { updateL2BalanceWithoutActivity } from '../updateL2BalanceWithoutActivity'
 
@@ -43,6 +43,15 @@ export async function sendTransactionFromEvm(
 
                     if (getAddressFromAccountForNetwork(account, networkId) !== activity.subject?.address) {
                         // Currently only support outgoing transactions being added to activities so we can assume outgoing balance change
+                        if (activity.type === ActivityType.Nft) {
+                            await calculateAndAddPersistedNftBalanceChange(
+                                account,
+                                networkId,
+                                activity.nftId,
+                                false,
+                                true
+                            )
+                        }
                         if (activity.tokenTransfer) {
                             await updateL2BalanceWithoutActivity(
                                 Number(activity.tokenTransfer.rawAmount),
