@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { IOption, SelectInput, Text } from '@bloomwalletio/ui'
     import { selectedAccountIndex } from '@core/account/stores'
     import { Platform } from '@core/app'
     import { localize } from '@core/i18n'
@@ -6,26 +7,29 @@
     import { addNftsToDownloadQueue, updateNftInAllAccountNfts } from '@core/nfts/actions'
     import { persistedNftForActiveProfile, selectedAccountNfts } from '@core/nfts/stores'
     import { activeProfile, updateActiveProfileSettings } from '@core/profile/stores'
-    import type { IDropdownItem } from '@core/utils'
-    import { Dropdown, Text } from '@ui'
-    import { TextType } from '@ui/enums'
 
-    function onMaxMediaSizeChange(option: IDropdownItem<number>): void {
-        const maxMediaSizeInMegaBytes = option.value
+    const options: IOption[] = getMaxMediaSizeOptions()
+    let selected: IOption = options.find(
+        (option) => option.value === $activeProfile?.settings.maxMediaSizeInMegaBytes?.toString()
+    )
 
-        updateActiveProfileSettings({ maxMediaSizeInMegaBytes })
-
-        const maxMediaSizeInBytes = maxMediaSizeInMegaBytes && maxMediaSizeInMegaBytes * 1024 * 1024
-        deleteOrDownloadNfts(maxMediaSizeInBytes)
+    $: onMaxMediaSizeChange(selected)
+    function onMaxMediaSizeChange(option: IOption | undefined): void {
+        if (option) {
+            const maxMediaSizeInMegaBytes = parseInt(option.value)
+            updateActiveProfileSettings({ maxMediaSizeInMegaBytes })
+            const maxMediaSizeInBytes = maxMediaSizeInMegaBytes && maxMediaSizeInMegaBytes * 1024 * 1024
+            deleteOrDownloadNfts(maxMediaSizeInBytes)
+        }
     }
 
     function assignMaxMediaSizeOptionLabel(amount: number): string {
         return amount ? amount + ' MB' : localize('general.none')
     }
 
-    function maxMediaSizeOptions(): IDropdownItem<number>[] {
+    function getMaxMediaSizeOptions(): IOption[] {
         return [5, 10, 25, 50, 100, undefined].map((amount) => ({
-            value: amount,
+            value: amount ? amount.toString() : '-',
             label: assignMaxMediaSizeOptionLabel(amount),
         }))
     }
@@ -65,14 +69,10 @@
     }
 </script>
 
-<Text type={TextType.h4} classes="mb-3">
+<Text type="body2" class="mb-2">
     {localize('views.settings.maxMediaSize.title')}
 </Text>
-<Text type={TextType.p} secondary classes="mb-5">
+<Text type="base" textColor="secondary" class="mb-6">
     {localize('views.settings.maxMediaSize.description')}
 </Text>
-<Dropdown
-    value={$activeProfile?.settings.maxMediaSizeInMegaBytes}
-    items={maxMediaSizeOptions()}
-    onSelect={onMaxMediaSizeChange}
-/>
+<SelectInput bind:selected value={selected.value} {options} />

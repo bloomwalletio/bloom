@@ -5,19 +5,19 @@ const settingsFeatures: ISettingsFeatures = {
     general: {
         enabled: true,
         theme: {
-            enabled: true,
+            enabled: false,
         },
         language: {
             enabled: true,
         },
         notifications: {
-            enabled: true,
+            enabled: false,
         },
         crashReporting: {
             enabled: false,
         },
         deepLinks: {
-            enabled: true,
+            enabled: false,
         },
     },
     profile: {
@@ -34,10 +34,10 @@ const settingsFeatures: ISettingsFeatures = {
     },
     security: {
         enabled: true,
-        appLock: {
+        autoLogout: {
             enabled: true,
         },
-        strongholdPasswordTimeout: {
+        strongholdTimeout: {
             enabled: true,
         },
         changePincode: {
@@ -86,7 +86,7 @@ const settingsFeatures: ISettingsFeatures = {
             enabled: true,
         },
     },
-    helpAndInfo: {
+    help: {
         enabled: true,
         diagnostics: {
             enabled: true,

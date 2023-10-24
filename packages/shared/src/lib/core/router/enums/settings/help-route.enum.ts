@@ -1,4 +1,4 @@
-export enum HelpAndInfoRoute {
+export enum HelpRoute {
     Diagnostics = 'diagnostics',
     ErrorLog = 'errorLog',
     Documentation = 'documentation',

@@ -192,11 +192,11 @@
                 "title": "Eksportuj kopię zapasową",
                 "description": "Eksport do pliku Stronghold - kompletna zaszyfrowana kopia zapasowa portfeli wraz z ostatnią historią transakcji"
             },
-            "appLock": {
+            "autoLogout": {
                 "title": "Automatyczne wylogowanie",
                 "description": "Czas bezczynności przed zablokowaniem ekranu aplikacji i wylogowaniem z portfeli"
             },
-            "strongholdPasswordTimeout": {
+            "strongholdTimeout": {
                 "title": "Limit czasu Stronghold",
                 "description": "Czas, po którym hasło do Stronghold będzie ponownie wymagane"
             },
