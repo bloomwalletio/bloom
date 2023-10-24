@@ -79,7 +79,7 @@
             unitTextElement.style.fontSize = fontSizeValue
         }
         for (const child of Array.from(textContainerRef.children)) {
-            (child as HTMLElement).style.fontSize = fontSizeValue
+            ;(child as HTMLElement).style.fontSize = fontSizeValue
         }
     }
 
