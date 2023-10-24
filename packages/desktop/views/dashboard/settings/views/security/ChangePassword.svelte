@@ -128,7 +128,6 @@
             bind:value={currentPassword}
             label={localize('general.currentPassword')}
             disabled={busy}
-            autofocus
         />
         <StrengthMeter strength={passwordStrength?.score ?? 0} />
         <PasswordInput bind:value={newPassword} label={localize('general.newPassword')} disabled={busy} />

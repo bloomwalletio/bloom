@@ -99,7 +99,7 @@
             <Text type="base">
                 {localize('views.settings.changePincode.currentPincode')}
             </Text>
-            <PinInput bind:value={currentPincode} autofocus disabled={busy} error={!!currentPincodeError} />
+            <PinInput bind:value={currentPincode} disabled={busy} error={!!currentPincodeError} />
             <Error error={currentPincodeError} />
         </pin-input-container>
         <pin-input-container class="flex flex-col w-fit gap-3">
