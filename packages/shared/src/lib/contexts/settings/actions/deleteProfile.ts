@@ -1,17 +1,8 @@
-import { removePersistedShimmerClaimingTransactions } from '@contexts/onboarding/stores'
-import {
-    removeClaimedActivitiesForProfile,
-    removeHiddenActivitiesForProfile,
-    removePersistedBalanceChangesForProfile,
-    removePersistedEvmTransactionsForProfile,
-} from '@core/activity'
 import { AppContext } from '@core/app/enums'
-import { removePersistedNtsForProfile } from '@core/nfts/stores'
 import { removeProfileFolder } from '@core/profile'
-import { logout } from '@core/profile/actions'
-import { activeProfileId, profiles, removeProfile } from '@core/profile/stores'
+import { logout, removeAllProfileData } from '@core/profile/actions'
+import { activeProfileId, profiles } from '@core/profile/stores'
 import { routerManager } from '@core/router/stores'
-import { removePersistedTokensForProfile } from '@core/token/stores'
 import { get } from 'svelte/store'
 
 /**
@@ -36,14 +27,7 @@ export async function deleteProfile(): Promise<void> {
          * CAUTION: The profile and its data must be removed from the
          * app's list of profiles that lives as a Svelte store.
          */
-        removeProfile(_activeProfileId)
-        removePersistedEvmTransactionsForProfile(_activeProfileId)
-        removePersistedBalanceChangesForProfile(_activeProfileId)
-        removeClaimedActivitiesForProfile(_activeProfileId)
-        removePersistedNtsForProfile(_activeProfileId)
-        removePersistedTokensForProfile(_activeProfileId)
-        removePersistedShimmerClaimingTransactions(_activeProfileId)
-        removeHiddenActivitiesForProfile(_activeProfileId)
+        removeAllProfileData(_activeProfileId)
 
         /**
          * CAUTION: This removes the actual directory for the profile,
