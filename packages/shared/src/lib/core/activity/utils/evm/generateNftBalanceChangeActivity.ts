@@ -1,20 +1,18 @@
 import { NetworkId, getChainConfiguration, isStardustNetwork } from '@core/network'
 import { BASE_TOKEN_ID } from '@core/token'
 import { generateRandomId } from '@core/utils'
-import { ActivityAction, ActivityDirection, ActivityType, InclusionState } from '../enums'
-import { ITokenBalanceChange, TransactionActivity } from '../types'
-import { getOrRequestTokenFromPersistedTokens } from '@core/token/actions'
+import { ActivityAction, ActivityDirection, ActivityType, InclusionState } from '../../enums'
+import { INftBalanceChange, NftActivity } from '../../types'
 import { IAccountState } from '@core/account'
 import { Subject, SubjectType } from '@core/wallet'
 
-export async function generateBalanceChangeActivity(
+export function generateNftBalanceChangeActivity(
     networkId: NetworkId,
-    tokenId: string,
-    balanceChange: ITokenBalanceChange,
+    nftId: string,
+    balanceChange: INftBalanceChange,
     account: IAccountState
-): Promise<TransactionActivity> {
-    const difference = balanceChange.newBalance - (balanceChange.oldBalance ?? 0)
-    const direction = difference >= 0 ? ActivityDirection.Incoming : ActivityDirection.Outgoing
+): Promise<NftActivity> {
+    const direction = balanceChange.owned ? ActivityDirection.Incoming : ActivityDirection.Outgoing
 
     let accountSubject: Subject | undefined
     if (isStardustNetwork(networkId)) {
@@ -30,26 +28,15 @@ export async function generateBalanceChangeActivity(
 
     const baseTokenTransfer = {
         tokenId: BASE_TOKEN_ID,
-        rawAmount: tokenId === BASE_TOKEN_ID ? String(Math.abs(difference)) : '0',
-    }
-
-    let tokenTransfer
-    if (tokenId !== BASE_TOKEN_ID) {
-        const persistedTokens = await getOrRequestTokenFromPersistedTokens(tokenId, networkId)
-        tokenTransfer = persistedTokens
-            ? {
-                  tokenId: persistedTokens.id,
-                  rawAmount: String(Math.abs(difference)),
-              }
-            : undefined
+        rawAmount: '0',
     }
 
     return {
-        type: ActivityType.Basic,
+        type: ActivityType.Nft,
 
         // meta information
         id: generateRandomId(),
-        action: balanceChange.oldBalance !== undefined ? ActivityAction.BalanceChange : ActivityAction.InitialBalance,
+        action: ActivityAction.Send,
         containsValue: true, // TODO: check if why we do this
 
         // transaction information
@@ -59,7 +46,7 @@ export async function generateBalanceChangeActivity(
         // sender / recipient information
         sourceNetworkId: networkId,
         destinationNetworkId: networkId,
-        subject: undefined,
+        subject: balanceChange.owned ? sender : recipient,
         recipient,
         sender,
         direction,
@@ -67,6 +54,6 @@ export async function generateBalanceChangeActivity(
 
         // asset information
         baseTokenTransfer,
-        tokenTransfer,
+        nftId,
     }
 }

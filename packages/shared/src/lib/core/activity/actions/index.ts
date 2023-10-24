@@ -1,3 +1,4 @@
+export * from './calculateAndAddPersistedNftBalanceChange'
 export * from './calculateAndAddPersistedTokenBalanceChange'
 export * from './generateAndStoreActivitiesForAccount'
 export * from './generateAndStoreActivitiesForAllAccounts'

@@ -3,7 +3,7 @@ import {
     getBalanceChanges,
     addActivityToAccountActivitiesInAllAccountActivities,
 } from '../stores'
-import { generateBalanceChangeActivity } from '../utils/generateBalanceChangeActivity'
+import { generateTokenBalanceChangeActivity } from '../utils/evm'
 import { ITokenBalanceChange } from '../types'
 import { NetworkId } from '@core/network'
 import { IAccountState } from '@core/account'
@@ -33,7 +33,7 @@ export async function calculateAndAddPersistedTokenBalanceChange(
 
     const hasZeroStartingBalance = newBalanceChange.newBalance === 0 && newBalanceChange.oldBalance === undefined
     if (!hidden && !hasZeroStartingBalance) {
-        const activity = await generateBalanceChangeActivity(networkId, tokenId, newBalanceChange, account)
+        const activity = await generateTokenBalanceChangeActivity(networkId, tokenId, newBalanceChange, account)
         addActivityToAccountActivitiesInAllAccountActivities(account.index, activity)
     }
     addPersistedTokenBalanceChange(account.index, networkId, tokenId, newBalanceChange)
