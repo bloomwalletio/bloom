@@ -9,15 +9,15 @@
 
     const AVATAR_BACKGROUND_COLOR: { [id in SupportedNetworkId]: string } = {
         [SupportedNetworkId.Shimmer]: 'shimmer-background',
-        [SupportedNetworkId.Testnet]: 'text-secondary',
+        [SupportedNetworkId.Testnet]: 'shimmer-background',
         [SupportedNetworkId.ShimmerEvm]: 'shimmer-background',
         [SupportedNetworkId.TestnetEvm]: 'text-secondary',
     }
 
     const AVATAR_TEXT_COLOR: { [id in SupportedNetworkId]: string } = {
         [SupportedNetworkId.Shimmer]: 'shimmer',
-        [SupportedNetworkId.Testnet]: 'shimmer-background',
-        [SupportedNetworkId.ShimmerEvm]: 'shimmer',
+        [SupportedNetworkId.Testnet]: 'text-secondary',
+        [SupportedNetworkId.ShimmerEvm]: 'text-invert',
         [SupportedNetworkId.TestnetEvm]: 'shimmer-background',
     }
 
