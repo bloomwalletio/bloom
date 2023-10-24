@@ -24,6 +24,7 @@
     import { Wallet } from './wallet'
     import { Settings } from './settings'
     import { OldWallet } from './old-wallet'
+    import { Background } from '@views/components'
 
     const tabs = {
         wallet: Wallet,
@@ -68,6 +69,7 @@
 </script>
 
 <Idle />
+<Background />
 <dashboard class="flex flex-row w-full h-full">
     <div class="flex flex-col flex-none z-10">
         {#if IS_MAC}

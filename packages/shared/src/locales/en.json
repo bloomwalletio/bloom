@@ -1310,13 +1310,13 @@
         "stateControllerAddress": "State Controller Address",
         "copiedToClipboard": "Copied to clipboard",
         "availableBalanceWithValue": "Available balance: {balance}",
-        "amountClaimed": "{amount} claimed",
         "metadata": "Metadata",
         "amountConsolidatedInputs": "Consolidated outputs",
         "name": "Name",
         "note": "Note",
         "tag": "Tag",
         "nodeList": "Node list",
+        "claimed": "claimed",
         "claimedIn": "Claimed in",
         "claimingIn": "Claiming in",
         "assets": "Assets",
@@ -1376,7 +1376,8 @@
         "color": "Color",
         "privacyPolicy": "Privacy Policy",
         "termsOfService": "Terms of Service",
-        "message": "Message"
+        "message": "Message",
+        "failed": "failed"
     },
     "filters":{
         "title": "Filters",

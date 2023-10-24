@@ -14,9 +14,9 @@
 </script>
 
 <div
-    class="w-full h-full flex flex-col justify-center items-center animate-pulse pr-100 bg-surface dark:bg-surface-dark"
+    class="w-full h-full flex flex-col justify-center items-center animate-pulse -mt-0.5 pr-100 bg-surface dark:bg-surface-dark"
 >
-    <Logo width="400" logo={LogoName.BloomLogoFull} />
+    <Logo width="300" logo={LogoName.BloomLogoFull} />
 </div>
 
 <style type="postcss">
