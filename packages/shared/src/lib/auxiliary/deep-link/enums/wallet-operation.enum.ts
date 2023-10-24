@@ -3,5 +3,5 @@
  */
 export enum WalletOperation {
     SendForm = 'sendForm',
-    SendConfirmation = 'sendConfirmation',
+    SendTransaction = 'sendTransaction',
 }

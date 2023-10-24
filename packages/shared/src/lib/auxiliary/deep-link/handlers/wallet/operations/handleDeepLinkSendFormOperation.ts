@@ -14,7 +14,7 @@ import {
     SendFlowRouter,
     sendFlowRouter,
 } from '../../../../../../../../desktop/views/dashboard/send-flow/send-flow.router'
-import { SendOperationParameter } from '../../../enums'
+import { SendTransactionParameter } from '../../../enums'
 import { UnknownAssetError } from '../../../errors'
 import { getRawAmountFromSearchParam } from '../../../utils'
 import { getUnitFromTokenMetadata } from '@core/token/utils'
@@ -44,7 +44,7 @@ export function handleDeepLinkSendFormOperation(searchParams: URLSearchParams): 
 function parseSendFormOperation(searchParams: URLSearchParams): SendFlowParameters | undefined {
     const networkId = getActiveNetworkId()
 
-    const tokenId = searchParams.get(SendOperationParameter.TokenId)
+    const tokenId = searchParams.get(SendTransactionParameter.TokenId)
     const type = tokenId ? SendFlowType.TokenTransfer : SendFlowType.BaseCoinTransfer
     const baseCoin = get(selectedAccountTokens)?.[networkId]?.baseCoin
     if (!baseCoin) {
@@ -56,25 +56,25 @@ function parseSendFormOperation(searchParams: URLSearchParams): SendFlowParamete
     if (type === SendFlowType.BaseCoinTransfer) {
         baseCoinTransfer = {
             token: baseCoin,
-            rawAmount: getRawAmountFromSearchParam(searchParams, SendOperationParameter.BaseCoinAmount),
-            unit: searchParams.get(SendOperationParameter.Unit) ?? 'glow',
+            rawAmount: getRawAmountFromSearchParam(searchParams, SendTransactionParameter.BaseCoinAmount),
+            unit: searchParams.get(SendTransactionParameter.Unit) ?? 'glow',
         }
     } else if (type === SendFlowType.TokenTransfer && tokenId) {
         const token = getTokenFromSelectedAccountTokens(tokenId, networkId)
         if (token?.metadata) {
             tokenTransfer = {
                 token,
-                rawAmount: getRawAmountFromSearchParam(searchParams, SendOperationParameter.TokenAmount),
-                unit: searchParams.get(SendOperationParameter.Unit) ?? getUnitFromTokenMetadata(token.metadata),
+                rawAmount: getRawAmountFromSearchParam(searchParams, SendTransactionParameter.TokenAmount),
+                unit: searchParams.get(SendTransactionParameter.Unit) ?? getUnitFromTokenMetadata(token.metadata),
             }
         } else {
             throw new UnknownAssetError()
         }
     }
 
-    const address = searchParams.get(SendOperationParameter.Address)
-    const metadata = searchParams.get(SendOperationParameter.Metadata)
-    const tag = searchParams.get(SendOperationParameter.Tag)
+    const address = searchParams.get(SendTransactionParameter.Address)
+    const metadata = searchParams.get(SendTransactionParameter.Metadata)
+    const tag = searchParams.get(SendTransactionParameter.Tag)
     const recipient: Subject | undefined = address ? { type: SubjectType.Address, address } : undefined
 
     return {
