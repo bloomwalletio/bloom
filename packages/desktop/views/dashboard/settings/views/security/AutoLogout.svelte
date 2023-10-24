@@ -10,10 +10,12 @@
             option.value === $activeProfile?.settings?.lockScreenTimeoutInMinutes.toString() ??
             DEFAULT_PERSISTED_PROFILE_OBJECT.settings.lockScreenTimeoutInMinutes.toString()
     )
-    $: if (selected) onLockScreenTimeoutChange(selected)
+    $: onLockScreenTimeoutChange(selected)
 
     function onLockScreenTimeoutChange(option: IOption): void {
-        updateActiveProfileSettings({ lockScreenTimeoutInMinutes: parseInt(option.value) })
+        if (option) {
+            updateActiveProfileSettings({ lockScreenTimeoutInMinutes: parseInt(option.value) })
+        }
     }
 
     function assignTimeoutOptionLabel(timeInMinutes: number): string {

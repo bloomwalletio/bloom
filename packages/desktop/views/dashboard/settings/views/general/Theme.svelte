@@ -18,7 +18,13 @@
     ]
 
     let selected: string = options.find((option) => option.value === $appSettings.theme)?.value ?? AppTheme.Light
-    $: if (selected && selected !== $appSettings.theme) updateAppSettings({ theme: selected as AppTheme })
+    $: updateAppTheme(selected)
+
+    function updateAppTheme(option: string | undefined): void {
+        if (option) {
+            updateAppSettings({ theme: option as AppTheme })
+        }
+    }
 </script>
 
 <Text type="body2" class="mb-6">{localize('views.settings.theme.title')}</Text>

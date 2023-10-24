@@ -2,23 +2,21 @@
     import { IOption, SelectInput, Text } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
     import { activeProfile, updateActiveProfileSettings } from '@core/profile/stores'
-    import { DEFAULT_MAX_NFT_DOWNLOADING_TIME_IN_SECONDS } from '@core/nfts'
 
     const options: IOption[] = [30, 60, 90, 120, 150, 180].map((amount) => ({
         value: amount.toString(),
         label: assignMaxMediaDownloadTimeOptionLabel(amount),
     }))
     let selected: IOption = options.find(
-        (option) =>
-            option.value === $activeProfile?.settings.maxMediaDownloadTimeInSeconds?.toString() ??
-            DEFAULT_MAX_NFT_DOWNLOADING_TIME_IN_SECONDS.toString()
+        (option) => option.value === $activeProfile?.settings.maxMediaDownloadTimeInSeconds?.toString()
     )
-    $: if (selected) onMaxMediaDownloadTimeChange(selected)
 
-    function onMaxMediaDownloadTimeChange(option: IOption): void {
-        const maxMediaDownloadTimeInSeconds = parseInt(option.value)
-
-        updateActiveProfileSettings({ maxMediaDownloadTimeInSeconds })
+    $: onMaxMediaDownloadTimeChange(selected)
+    function onMaxMediaDownloadTimeChange(option: IOption | undefined): void {
+        if (option) {
+            const maxMediaDownloadTimeInSeconds = parseInt(option.value)
+            updateActiveProfileSettings({ maxMediaDownloadTimeInSeconds })
+        }
     }
 
     function assignMaxMediaDownloadTimeOptionLabel(amount: number): string {

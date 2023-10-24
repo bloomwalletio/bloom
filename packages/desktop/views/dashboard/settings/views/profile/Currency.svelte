@@ -9,10 +9,12 @@
         .sort()
 
     let selected: IOption = options.find((option) => option.value === $activeProfile?.settings?.marketCurrency)
-    $: if (selected) onCurrencyChange(selected)
+    $: onCurrencyChange(selected)
 
-    function onCurrencyChange(option: IOption): void {
-        updateActiveProfileSettings({ marketCurrency: option.value as MarketCurrency })
+    function onCurrencyChange(option: IOption | undefined): void {
+        if (option) {
+            updateActiveProfileSettings({ marketCurrency: option.value as MarketCurrency })
+        }
     }
 </script>
 

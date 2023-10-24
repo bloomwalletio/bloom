@@ -12,12 +12,14 @@
             option.value === $activeProfile?.settings?.strongholdPasswordTimeoutInMinutes.toString() ??
             DEFAULT_PERSISTED_PROFILE_OBJECT.settings.strongholdPasswordTimeoutInMinutes.toString()
     )
-    $: if (selected) onStrongholdPasswordTimeoutChange(selected)
+    $: onStrongholdPasswordTimeoutChange(selected)
 
     function onStrongholdPasswordTimeoutChange(option: IOption): void {
-        const strongholdPasswordTimeoutInMinutes = parseInt(option.value)
-        updateActiveProfileSettings({ strongholdPasswordTimeoutInMinutes })
-        void setStrongholdPasswordClearInterval(strongholdPasswordTimeoutInMinutes * SECONDS_PER_MINUTE)
+        if (option) {
+            const strongholdPasswordTimeoutInMinutes = parseInt(option.value)
+            updateActiveProfileSettings({ strongholdPasswordTimeoutInMinutes })
+            void setStrongholdPasswordClearInterval(strongholdPasswordTimeoutInMinutes * SECONDS_PER_MINUTE)
+        }
     }
 
     function assignTimeoutOptionLabel(timeInMinutes: number): string {
