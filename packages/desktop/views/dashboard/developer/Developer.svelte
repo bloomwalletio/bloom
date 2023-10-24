@@ -12,8 +12,13 @@
         TestDeepLinkButton,
     } from './components'
     import { DashboardRoute, dashboardRouter } from '@core/router'
+    import { Platform } from '@core/app'
 
     $: !$activeProfile.isDeveloperProfile && $dashboardRouter.goTo(DashboardRoute.Wallet)
+
+    $: if (features.analytics.dashboardRoute.developer.enabled) {
+        Platform.trackEvent('developer-route', { route: DashboardRoute.Developer })
+    }
 </script>
 
 {#if $selectedAccount}

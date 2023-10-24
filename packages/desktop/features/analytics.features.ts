@@ -5,20 +5,35 @@ const analyticsFeatures: IAnalyticsFeatures = {
     appStart: {
         enabled: true,
     },
-    onboardingRoute: {
-        enabled: true,
-    },
-    loginRoute: {
-        enabled: true,
-    },
     dashboardRoute: {
         enabled: true,
+        collectibles: {
+            enabled: true,
+        },
+        developer: {
+            enabled: true,
+        },
+        governance: {
+            enabled: false,
+        },
+        settings: {
+            enabled: true,
+        },
         wallet: {
             enabled: true,
             sendFlow: {
                 enabled: true,
             },
         },
+    },
+    loginRoute: {
+        enabled: true,
+    },
+    onboardingRoute: {
+        enabled: true,
+    },
+    updateStrongholdRoute: {
+        enabled: true,
     },
 }
 

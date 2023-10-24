@@ -1,10 +1,16 @@
 <script lang="ts">
+    import features from '@features/features'
     import { isLocaleLoaded } from '@core/i18n'
-    import { settingsRouter } from '@core/router'
+    import { settingsRoute, settingsRouter } from '@core/router'
     import { CloseButton } from '@bloomwalletio/ui'
     import { onDestroy } from 'svelte'
     import { SettingsViewer } from './views'
     import { closeSettings } from '@contexts/settings/stores'
+    import { Platform } from '@core/app'
+
+    $: if (features.analytics.dashboardRoute.settings.enabled && $settingsRoute) {
+        Platform.trackEvent('settings-route', { route: $settingsRoute })
+    }
 
     onDestroy((): void => {
         // When a new locale is loaded the pages are reloaded
