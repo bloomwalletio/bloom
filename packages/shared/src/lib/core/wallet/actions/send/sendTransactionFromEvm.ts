@@ -38,24 +38,26 @@ export async function sendTransactionFromEvm(
                 addPersistedTransaction(account.index, networkId, evmTransaction)
 
                 const activity = await generateActivityFromEvmTransaction(evmTransaction, networkId, chain)
-                addActivitiesToAccountActivitiesInAllAccountActivities(account.index, [activity])
+                if (activity) {
+                    addActivitiesToAccountActivitiesInAllAccountActivities(account.index, [activity])
 
-                if (getAddressFromAccountForNetwork(account, networkId) !== activity.subject?.address) {
-                    // Currently only support outgoing transactions being added to activities so we can assume outgoing balance change
-                    if (activity.tokenTransfer) {
+                    if (getAddressFromAccountForNetwork(account, networkId) !== activity.subject?.address) {
+                        // Currently only support outgoing transactions being added to activities so we can assume outgoing balance change
+                        if (activity.tokenTransfer) {
+                            await updateL2BalanceWithoutActivity(
+                                Number(activity.tokenTransfer.rawAmount),
+                                activity.tokenTransfer.tokenId,
+                                account,
+                                networkId
+                            )
+                        }
                         await updateL2BalanceWithoutActivity(
-                            Number(activity.tokenTransfer.rawAmount),
-                            activity.tokenTransfer.tokenId,
+                            Number(activity.baseTokenTransfer.rawAmount) + Number(activity.transactionFee ?? 0),
+                            activity.baseTokenTransfer.tokenId,
                             account,
                             networkId
                         )
                     }
-                    await updateL2BalanceWithoutActivity(
-                        Number(activity.baseTokenTransfer.rawAmount) + Number(activity?.transactionFee ?? 0),
-                        activity.baseTokenTransfer.tokenId,
-                        account,
-                        networkId
-                    )
                 }
                 if (callback && typeof callback === 'function') {
                     callback()
