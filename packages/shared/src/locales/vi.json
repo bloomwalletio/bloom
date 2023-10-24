@@ -192,11 +192,11 @@
                 "title": "Xuất bản sao lưu",
                 "description": "Xuất một tập tin Stronghold - một bản sao lưu được mã hóa của ví của bạn và lịch sử giao dịch mới nhất"
             },
-            "appLock": {
+            "autoLogout": {
                 "title": "Automatic logout",
                 "description": "Thời gian không hoạt động trước khi ví của bạn khóa và bạn đã đăng xuất"
             },
-            "strongholdPasswordTimeout": {
+            "strongholdTimeout": {
                 "title": "Stronghold Timeout",
                 "description": "Length of time before your Stronghold password is required again"
             },

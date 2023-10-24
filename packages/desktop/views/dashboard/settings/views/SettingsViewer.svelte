@@ -1,5 +1,4 @@
 <script lang="ts">
-    import { _ } from '@core/i18n'
     import { settingsRoute, settingsRouter } from '@core/router'
     import { onMount } from 'svelte'
     import { SettingsListForCategory, SettingsSidebar } from './'
@@ -23,16 +22,14 @@
     })
 </script>
 
-{#key $_}
-    <settings-viewer class="h-full flex flex-1 flex-row items-start">
-        <SettingsSidebar />
-        <div class="h-full w-full">
-            <div class="scroller w-full h-full scrollable-y">
-                <SettingsListForCategory category={$settingsRoute} />
-            </div>
+<settings-viewer class="h-full flex flex-1 flex-row items-start">
+    <SettingsSidebar />
+    <div class="h-full w-full">
+        <div class="scroller w-full h-full scrollable-y">
+            <SettingsListForCategory category={$settingsRoute} />
         </div>
-    </settings-viewer>
-{/key}
+    </div>
+</settings-viewer>
 
 <style lang="postcss">
     .scroller {

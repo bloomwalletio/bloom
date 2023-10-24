@@ -21,7 +21,8 @@
         expanded = !expanded
     }
 
-    const sidebarTabs: IDashboardSidebarTab[] = [
+    let sidebarTabs: IDashboardSidebarTab[]
+    $: sidebarTabs = [
         ...(features?.wallet?.newDashboard?.enabled
             ? [
                   {

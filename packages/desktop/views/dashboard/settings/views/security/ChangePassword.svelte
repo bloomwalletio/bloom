@@ -1,11 +1,11 @@
 <script lang="ts">
-    import { Button } from '@bloomwalletio/ui'
+    import { Button, PasswordInput, Text } from '@bloomwalletio/ui'
+    import { StrengthMeter } from '@ui'
     import { exportStronghold } from '@contexts/settings'
     import { localize } from '@core/i18n'
     import { MAX_STRONGHOLD_PASSWORD_LENGTH } from '@core/profile'
     import { changePasswordAndUnlockStronghold } from '@core/profile-manager'
     import { PASSWORD_REASON_MAP } from '@core/stronghold'
-    import { Checkbox, PasswordInput, Spinner, Text, TextType } from '@ui'
     import zxcvbn from 'zxcvbn'
 
     let exportStrongholdChecked: boolean
@@ -120,47 +120,29 @@
 </script>
 
 <form id="form-change-password" on:submit|preventDefault={changePassword}>
-    <Text type={TextType.h4} classes="mb-3">{localize('views.settings.changePassword.title')}</Text>
-    <div class="flex flex-col w-full space-y-5">
-        <Text type={TextType.p} secondary>{localize('views.settings.changePassword.description')}</Text>
+    <Text type="body2" class="mb-2">{localize('views.settings.changePassword.title')}</Text>
+    <Text type="base" textColor="secondary" class="mb-6">{localize('views.settings.changePassword.description')}</Text>
+    <div class="flex flex-col w-full gap-4 mb-6">
         <PasswordInput
             error={localize(currentPasswordError)}
             bind:value={currentPassword}
-            showRevealToggle
-            placeholder={localize('general.currentPassword')}
+            label={localize('general.currentPassword')}
             disabled={busy}
-            submitHandler={isPasswordValid}
+            autofocus
         />
+        <StrengthMeter strength={passwordStrength?.score ?? 0} />
+        <PasswordInput bind:value={newPassword} label={localize('general.newPassword')} disabled={busy} />
         <PasswordInput
             error={newPasswordError}
-            bind:value={newPassword}
-            showRevealToggle
-            strengthLevels={4}
-            showStrengthLevel
-            strength={passwordStrength.score}
-            placeholder={localize('general.newPassword')}
-            disabled={busy}
-            submitHandler={isPasswordValid}
-        />
-        <PasswordInput
             bind:value={confirmedPassword}
-            showRevealToggle
-            placeholder={localize('general.confirmNewPassword')}
-            disabled={busy}
-            submitHandler={isPasswordValid}
-        />
-        <Checkbox
-            label={localize('actions.exportNewStronghold')}
-            bind:checked={exportStrongholdChecked}
+            label={localize('general.confirmNewPassword')}
             disabled={busy}
         />
-        <div class="flex flex-row items-center">
-            <Button
-                text={localize('views.settings.changePassword.title')}
-                disabled={!currentPassword || !newPassword || !confirmedPassword || busy}
-                type="submit"
-            />
-            <Spinner {busy} message={localize(changeMessageLocale)} classes="ml-2" />
-        </div>
     </div>
+    <Button
+        text={localize('views.settings.changePassword.title')}
+        {busy}
+        disabled={!currentPassword || !newPassword || !confirmedPassword || busy}
+        type="submit"
+    />
 </form>
