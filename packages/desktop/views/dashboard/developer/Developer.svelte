@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { activeProfile } from '@core/profile/stores'
     import { selectedAccount } from '@core/account/stores'
     import { localize } from '@core/i18n'
     import features from '@features/features'
@@ -10,6 +11,9 @@
         MintNftButton,
         TestDeepLinkButton,
     } from './components'
+    import { DashboardRoute, dashboardRouter } from '@core/router'
+
+    $: !$activeProfile.isDeveloperProfile && $dashboardRouter.goTo(DashboardRoute.Wallet)
 </script>
 
 {#if $selectedAccount}

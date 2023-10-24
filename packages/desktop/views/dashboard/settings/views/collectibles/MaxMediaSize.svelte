@@ -9,18 +9,18 @@
     import { activeProfile, updateActiveProfileSettings } from '@core/profile/stores'
 
     const options: IOption[] = getMaxMediaSizeOptions()
-    let selected: IOption = options.find(
-        (option) => option.value === $activeProfile?.settings.maxMediaSizeInMegaBytes.toString()
-    )
-    $: if (selected) onMaxMediaSizeChange(selected)
+    let selected: IOption =
+        options.find((option) => option.value === $activeProfile?.settings.maxMediaSizeInMegaBytes?.toString()) ??
+        options[0]
 
+    $: onMaxMediaSizeChange(selected)
     function onMaxMediaSizeChange(option: IOption): void {
-        const maxMediaSizeInMegaBytes = parseInt(option.value)
-
-        updateActiveProfileSettings({ maxMediaSizeInMegaBytes })
-
-        const maxMediaSizeInBytes = maxMediaSizeInMegaBytes && maxMediaSizeInMegaBytes * 1024 * 1024
-        deleteOrDownloadNfts(maxMediaSizeInBytes)
+        if (selected && selected.value === option.value) {
+            const maxMediaSizeInMegaBytes = parseInt(option.value)
+            updateActiveProfileSettings({ maxMediaSizeInMegaBytes })
+            const maxMediaSizeInBytes = maxMediaSizeInMegaBytes && maxMediaSizeInMegaBytes * 1024 * 1024
+            deleteOrDownloadNfts(maxMediaSizeInBytes)
+        }
     }
 
     function assignMaxMediaSizeOptionLabel(amount: number): string {
