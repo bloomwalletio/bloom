@@ -130,7 +130,7 @@
     title={localize(`views.dashboard.drawers.contactBook.${ContactBookRoute.EditNetworkAddresses}.title`)}
     {drawerRouter}
 >
-    <update-addresses class="flex flex-col gap-4">
+    <form on:submit|preventDefault={onSaveClick} id="edit-network-addresses-form" class="flex flex-col gap-4">
         {#each [...savedAddresses, ...newAddresses] as address, index}
             <div
                 class="flex flex-col justify-between gap-2 p-4 border border-solid border-gray-300 rounded-lg dark:border-transparent dark:bg-gray-900"
@@ -221,8 +221,13 @@
             width="full"
             on:click={onAddNewAddressClick}
         />
-    </update-addresses>
-    <div slot="footer">
-        <Button on:click={onSaveClick} width="full" text={localize('actions.save')} />
-    </div>
+    </form>
+    <Button
+        slot="footer"
+        type="submit"
+        form="edit-network-addresses-form"
+        on:click={onSaveClick}
+        width="full"
+        text={localize('actions.save')}
+    />
 </DrawerTemplate>

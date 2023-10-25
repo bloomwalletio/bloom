@@ -8,6 +8,7 @@
         disabled: boolean
         hidden: boolean
         onClick: (() => unknown) | undefined
+        form?: string
     }
 
     const DEFAULT_CONTINUE_BUTTON: IButtonProps = {
@@ -47,6 +48,8 @@
             <content-buttons class="flex flex-row-reverse gap-3">
                 {#if !_continueButton.hidden}
                     <Button
+                        type={_continueButton.form ? 'submit' : 'button'}
+                        form={_continueButton.form}
                         width="full"
                         variant="contained"
                         disabled={_continueButton.disabled || !_continueButton.onClick}
@@ -58,6 +61,7 @@
                 {/if}
                 {#if !_backButton.hidden}
                     <Button
+                        type="button"
                         width="full"
                         variant="outlined"
                         disabled={busy || _backButton.disabled || !_backButton.onClick}
