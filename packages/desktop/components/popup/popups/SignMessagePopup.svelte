@@ -70,7 +70,6 @@
     continueButton={{
         text: localize('popups.signMessage.action'),
         onClick: onConfirmClick,
-        disabled: $selectedAccount.isTransferring || isBusy,
     }}
     busy={$selectedAccount.isTransferring || isBusy}
 >
