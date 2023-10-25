@@ -22,16 +22,14 @@ export async function generateTokenActivity(
         rawAmount: tokenId === BASE_TOKEN_ID ? rawAmount ?? '0' : '0',
     }
 
-    if (tokenId === BASE_TOKEN_ID) {
-        if (tokenId && tokenId !== BASE_TOKEN_ID) {
-            const persistedToken = await getOrRequestTokenFromPersistedTokens(tokenId, networkId)
-            tokenTransfer = persistedToken
-                ? {
-                      tokenId: persistedToken.id,
-                      rawAmount: rawAmount ?? '0',
-                  }
-                : undefined
-        }
+    if (tokenId && tokenId !== BASE_TOKEN_ID) {
+        const persistedToken = await getOrRequestTokenFromPersistedTokens(tokenId, networkId)
+        tokenTransfer = persistedToken
+            ? {
+                  tokenId: persistedToken.id,
+                  rawAmount: rawAmount ?? '0',
+              }
+            : undefined
     }
 
     return {
