@@ -13,6 +13,16 @@
     import { ContactBookRoute } from './contact-book-route.enum'
     import { ContactBookRouter, contactBookRouter, contactBookRoute } from './contact-book-router'
     import { clearSelectedContact } from '@core/contact'
+    import features from '@features/features'
+    import { Platform } from '@core/app'
+
+    $: if (
+        features.analytics.drawerRoute.enabled &&
+        features.analytics.drawerRoute.contactBook.enabled &&
+        $contactBookRoute
+    ) {
+        Platform.trackEvent('contact-book-route', { route: $contactBookRoute })
+    }
 
     onMount(() => {
         $contactBookRouter = new ContactBookRouter()

@@ -5,6 +5,18 @@ const analyticsFeatures: IAnalyticsFeatures = {
     appStart: {
         enabled: true,
     },
+    drawerRoute: {
+        enabled: true,
+        contactBook: {
+            enabled: true,
+        },
+        dappConfig: {
+            enabled: true,
+        },
+        networkConfig: {
+            enabled: true,
+        },
+    },
     dashboardRoute: {
         enabled: true,
         collectibles: {
@@ -14,7 +26,7 @@ const analyticsFeatures: IAnalyticsFeatures = {
             enabled: true,
         },
         governance: {
-            enabled: false,
+            enabled: true,
         },
         settings: {
             enabled: true,
