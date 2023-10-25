@@ -27,11 +27,13 @@
     })}
     description={localize('views.onboarding.completeOnboarding.enterName.description')}
     continueButton={{
+        type: 'submit',
+        form: 'profile-name-form',
         onClick: onContinueClick,
         disabled: !profileName,
     }}
 >
-    <div slot="content">
+    <form on:submit|preventDefault={onContinueClick} id="profile-name-form" slot="content">
         <TextInput
             bind:error
             bind:value={profileName}
@@ -39,5 +41,5 @@
             autofocus
             on:submit={onContinueClick}
         />
-    </div>
+    </form>
 </OnboardingLayout>
