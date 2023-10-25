@@ -14,6 +14,8 @@ import { TokenVerification } from '../types'
 import { buildPersistedTokenFromMetadata } from '../utils'
 import { NetworkId } from '@core/network/types'
 import { isEvmChain, isStardustNetwork } from '@core/network'
+import { selectedAccount } from '@core/account/stores'
+import { handleError } from '@core/error/handlers'
 
 export async function requestPersistedToken(
     tokenId: string,
@@ -22,11 +24,24 @@ export async function requestPersistedToken(
     let tokenMetadata: IIrc30Metadata | IErc20Metadata | undefined
     if (networkId && isEvmChain(networkId)) {
         try {
-            validateEthereumAddress(tokenId)
-            /* eslint-disable @typescript-eslint/no-unnecessary-type-assertion */
-            tokenMetadata = await getErc20TokenMetadata(tokenId, networkId, get(network) as INetwork)
-        } catch {
-            // do nothing
+            let isErc20Token = true
+            try {
+                validateEthereumAddress(tokenId)
+            } catch {
+                isErc20Token = false
+            }
+
+            if (isErc20Token) {
+                /* eslint-disable @typescript-eslint/no-unnecessary-type-assertion */
+                tokenMetadata = await getErc20TokenMetadata(tokenId, networkId, get(network) as INetwork)
+            } else {
+                const account = get(selectedAccount)
+                if (account) {
+                    tokenMetadata = await getIrc30MetadataFromFoundryOutput(tokenId, account)
+                }
+            }
+        } catch (err) {
+            handleError(err)
         }
     } else if (networkId && isStardustNetwork(networkId)) {
         const account = get(activeAccounts)?.[0]
