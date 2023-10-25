@@ -1,11 +1,10 @@
 <script lang="ts">
     import { showNotification } from '@auxiliary/notification'
-    import { Alert } from '@bloomwalletio/ui'
+    import { Alert, Button } from '@bloomwalletio/ui'
     import { updateOnboardingProfile } from '@contexts/onboarding/stores'
     import { exportStronghold } from '@contexts/settings/actions'
     import { localize } from '@core/i18n'
     import { login } from '@core/profile/actions'
-    import { Button } from '@ui'
     import { OnboardingLayout } from '@views/components'
     import { updateStrongholdRouter } from '../update-stronghold-router'
 
@@ -64,7 +63,7 @@
 </script>
 
 <OnboardingLayout
-    title={localize(`views.updateStronghold.updateBackup.${isRecovery ? 'recoveryTitle' : 'loginTitle'}`)}
+    title={localize('views.updateStronghold.updateBackup.title')}
     description={localize(`views.updateStronghold.updateBackup.${isRecovery ? 'recoveryBody' : 'loginBody'}`)}
     continueButton={{
         text: localize('actions.skip'),
@@ -78,8 +77,6 @@
 >
     <div slot="content" class="space-y-4">
         <Alert variant="warning" text={localize('views.updateStronghold.updateBackup.hint')} />
-        <Button classes="w-full" disabled={busy} isBusy={busy} onClick={onBackupClick}>
-            {localize('actions.saveBackup')}
-        </Button>
+        <Button text={localize('actions.saveBackup')} width="full" {busy} on:click={onBackupClick} />
     </div>
 </OnboardingLayout>

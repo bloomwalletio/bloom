@@ -1,9 +1,9 @@
 <script lang="ts">
+    import { PasswordInput } from '@bloomwalletio/ui'
     import { migrateStrongholdFromOnboardingProfile } from '@contexts/onboarding/actions'
     import { localize } from '@core/i18n'
     import { migrateStrongholdFromActiveProfile } from '@core/profile/actions/active-profile'
     import { isValidJson } from '@core/utils'
-    import { PasswordInput } from '@ui'
     import { OnboardingLayout } from '@views/components'
     import { updateStrongholdRouter } from '../update-stronghold-router'
 
@@ -48,9 +48,13 @@
     }}
     {busy}
 >
-    <div slot="content">
-        <form on:submit|preventDefault={onSubmit} id="update-stronghold-form">
-            <PasswordInput bind:value={password} bind:error={passwordError} autofocus showRevealToggle />
-        </form>
-    </div>
+    <PasswordInput
+        bind:value={password}
+        slot="content"
+        label={localize('general.password')}
+        bind:error={passwordError}
+        disabled={busy}
+        autofocus
+        on:submit={onSubmit}
+    />
 </OnboardingLayout>
