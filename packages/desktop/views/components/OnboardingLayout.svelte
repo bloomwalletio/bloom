@@ -9,7 +9,7 @@
         disabled: boolean
         hidden: boolean
         onClick: (() => unknown) | undefined
-        formId?: string
+        form?: string
     }
 
     const DEFAULT_CONTINUE_BUTTON: IButtonProps = {
@@ -52,7 +52,7 @@
                 {#if !_continueButton.hidden}
                     <Button
                         type={_continueButton.type ?? 'button'}
-                        form={_continueButton.formId}
+                        form={_continueButton.form}
                         width="full"
                         variant="contained"
                         disabled={_continueButton.disabled || !_continueButton.onClick}

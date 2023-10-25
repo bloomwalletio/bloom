@@ -128,16 +128,24 @@
         values: { tokenName: token.metadata.name },
     })}
     backButton={{ text: localize('actions.back'), onClick: onBackClick }}
-    continueButton={{ text: localize('actions.continue'), onClick: onContinueClick, disabled: !amount }}
+    continueButton={{
+        type: 'submit',
+        form: 'token-amount-form',
+        text: localize('actions.continue'),
+        onClick: onContinueClick,
+        disabled: !amount,
+    }}
 >
-    <TokenAmountInput
-        bind:this={tokenAmountInput}
-        bind:token
-        bind:rawAmount
-        bind:inputtedAmount={amount}
-        {unit}
-        availableBalance={token?.balance?.available}
-    />
+    <form on:submit|preventDefault={onContinueClick} id="token-amount-form" class="flex flex-col gap-6">
+        <TokenAmountInput
+            bind:this={tokenAmountInput}
+            bind:token
+            bind:rawAmount
+            bind:inputtedAmount={amount}
+            {unit}
+            availableBalance={token?.balance?.available}
+        />
+    </form>
     <TokenAvailableBalanceTile
         token={{ ...token, balance: { ...token.balance, available: token.balance.available - Number(maxGasFee) } }}
         onMaxClick={setToMax}

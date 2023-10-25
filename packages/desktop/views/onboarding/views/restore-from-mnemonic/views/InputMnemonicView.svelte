@@ -28,6 +28,8 @@
     title={localize('views.onboarding.restoreFromMnemonic.inputMnemonic.title')}
     description={localize('views.onboarding.restoreFromMnemonic.inputMnemonic.description')}
     continueButton={{
+        type: 'submit',
+        form: 'text-import-form',
         onClick: onContinueClick,
         disabled: !input,
     }}
@@ -36,6 +38,6 @@
     }}
 >
     <form slot="content" on:submit|preventDefault={onContinueClick} id="text-import-form">
-        <MnemonicInput bind:value={input} />
+        <MnemonicInput bind:value={input} on:submit={onContinueClick} />
     </form>
 </OnboardingLayout>

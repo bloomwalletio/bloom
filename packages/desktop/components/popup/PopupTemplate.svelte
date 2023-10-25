@@ -7,12 +7,12 @@
     }
 
     interface IFormButtonProps extends IBaseButtonProps {
-        type: HTMLButtonType.Submit
+        type: 'submit'
         form: string
     }
 
     interface IButtonProps extends IBaseButtonProps {
-        type: HTMLButtonType.Button
+        type: 'button'
         onClick: (() => unknown) | undefined
     }
 
@@ -23,24 +23,23 @@
 <script lang="ts">
     import { Button, Text } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
-    import { HTMLButtonType } from '@ui'
 
     const DEFAULT_CONTINUE_BUTTON: {
-        type: HTMLButtonType.Button
+        type: 'button'
         text: string
         color: 'primary' | 'success' | 'danger' | 'info' | 'warning'
     } = {
-        type: HTMLButtonType.Button,
+        type: 'button',
         text: localize('actions.continue'),
         color: 'primary',
     }
 
     const DEFAULT_BACK_BUTTON: {
-        type: HTMLButtonType.Button
+        type: 'button'
         text: string
         color: 'primary' | 'success' | 'danger' | 'info' | 'warning'
     } = {
-        type: HTMLButtonType.Button,
+        type: 'button',
         text: localize('actions.back'),
         color: 'primary',
     }
@@ -83,8 +82,8 @@
                     text={_backButton.text}
                     disabled={busy || _backButton.disabled}
                     width="full"
-                    form={_backButton.type === HTMLButtonType.Submit ? _backButton.form : undefined}
-                    on:click={_backButton.type === HTMLButtonType.Button && _backButton.onClick}
+                    form={_backButton.type === 'submit' ? _backButton.form : undefined}
+                    on:click={_backButton.type === 'button' && _backButton.onClick}
                     {..._backButton.restProps}
                 />
             {/if}
@@ -97,8 +96,8 @@
                     disabled={_continueButton.disabled}
                     {busy}
                     width="full"
-                    form={_continueButton.type === HTMLButtonType.Submit ? _continueButton.form : undefined}
-                    on:click={_continueButton.type === HTMLButtonType.Button && _continueButton.onClick}
+                    form={_continueButton.type === 'submit' ? _continueButton.form : undefined}
+                    on:click={_continueButton.type === 'button' && _continueButton.onClick}
                     {..._continueButton.restProps}
                 />
             {/if}
