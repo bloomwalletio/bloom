@@ -11,7 +11,7 @@ export function generateNftBalanceChangeActivity(
     nftId: string,
     balanceChange: INftBalanceChange,
     account: IAccountState
-): Promise<NftActivity> {
+): NftActivity {
     const direction = balanceChange.owned ? ActivityDirection.Incoming : ActivityDirection.Outgoing
 
     let accountSubject: Subject | undefined
