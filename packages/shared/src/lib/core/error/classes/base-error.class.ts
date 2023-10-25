@@ -13,7 +13,7 @@ export class BaseError extends Error implements IBaseError {
     message: string
     cause?: unknown
     timestamp?: number
-    localizationKey?: string
+    locale?: string
 
     constructor(err: IBaseError) {
         super(err.message, { cause: err.cause })
@@ -22,7 +22,7 @@ export class BaseError extends Error implements IBaseError {
         this.message = err.message
         this.cause = err.cause
         this.timestamp = err.timestamp ?? Date.now()
-        this.localizationKey = err.localizationKey
+        this.locale = err.locale
     }
 
     log(): void {

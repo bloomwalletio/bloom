@@ -1788,6 +1788,9 @@
         },
         "token": {
             "missingMetadata": "The token metadata is missing."
+        },
+        "wallet": {
+            "incorrectPassword": "The password entered is incorrect."
         }
     },
     "warning": {

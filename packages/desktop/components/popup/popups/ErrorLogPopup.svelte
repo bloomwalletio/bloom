@@ -2,8 +2,8 @@
     import { Text } from '@bloomwalletio/ui'
     import { errorLog } from '@core/error'
     import { localize } from '@core/i18n'
-    import { closePopup } from '@desktop/auxiliary/popup'
     import { setClipboard } from '@core/utils'
+    import { closePopup } from '@desktop/auxiliary/popup'
     import PopupTemplate from '../PopupTemplate.svelte'
 
     function onClearClick(): void {
@@ -15,7 +15,7 @@
         const str = []
 
         for (const err of $errorLog) {
-            str.push(new Date(err.time).toUTCString())
+            str.push(new Date(err.timestamp).toUTCString())
             str.push(`${err.type}: ${err.message}`)
             str.push('')
         }
@@ -43,7 +43,7 @@
         {#if $errorLog.length > 0}
             {#each $errorLog as error}
                 <div class="mb-7">
-                    <Text textColor="secondary">{new Date(error.time).toUTCString()}</Text>
+                    <Text textColor="secondary">{new Date(error.timestamp).toUTCString()}</Text>
                     <Text class="break-words">
                         {error.type}:
                         {error.message}
@@ -58,9 +58,9 @@
 
 <style lang="scss">
     .log {
-        max-height: 50vh;
+        max-height: 70vh;
         @screen md {
-            max-height: 30vh;
+            max-height: 50vh;
         }
     }
 </style>

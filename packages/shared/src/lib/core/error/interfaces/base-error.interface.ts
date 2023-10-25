@@ -5,6 +5,6 @@ export interface IBaseError {
     error: unknown
     message: string
     cause?: unknown
-    localizationKey?: string
+    locale?: string
     timestamp?: number
 }
