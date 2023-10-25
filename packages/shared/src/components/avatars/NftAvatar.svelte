@@ -1,7 +1,7 @@
 <script lang="ts">
     import { Avatar, avatarSize } from '@bloomwalletio/ui'
     import { INft } from '@core/nfts'
-    import { MediaPlaceholder, NftMedia } from '@ui'
+    import { MediaIcon, NftMedia } from '@ui'
 
     export let nft: INft
     export let size: (typeof avatarSize)[number]
@@ -14,9 +14,11 @@
 <nft-avatar class="avatar">
     <Avatar {size} {shape} {...$$restProps} surface={2}>
         {#if parentType === 'image'}
-            <NftMedia {nft} classes="w-full h-full object-cover" smallIcon />
+            <NftMedia {nft} classes="w-full h-full object-cover">
+                <MediaIcon type={nftType} nftId={nft?.id} {size} surface={2} slot="placeholder" />
+            </NftMedia>
         {:else}
-            <MediaPlaceholder type={nftType} smallIcon />
+            <MediaIcon type={nftType} nftId={nft?.id} {size} surface={2} />
         {/if}
     </Avatar>
 </nft-avatar>

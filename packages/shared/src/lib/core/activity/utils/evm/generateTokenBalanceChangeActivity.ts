@@ -1,13 +1,13 @@
 import { NetworkId, getChainConfiguration, isStardustNetwork } from '@core/network'
 import { BASE_TOKEN_ID } from '@core/token'
 import { generateRandomId } from '@core/utils'
-import { ActivityAction, ActivityDirection, ActivityType, InclusionState } from '../enums'
-import { ITokenBalanceChange, TransactionActivity } from '../types'
+import { ActivityAction, ActivityDirection, ActivityType, InclusionState } from '../../enums'
+import { ITokenBalanceChange, TransactionActivity } from '../../types'
 import { getOrRequestTokenFromPersistedTokens } from '@core/token/actions'
 import { IAccountState } from '@core/account'
 import { Subject, SubjectType } from '@core/wallet'
 
-export async function generateBalanceChangeActivity(
+export async function generateTokenBalanceChangeActivity(
     networkId: NetworkId,
     tokenId: string,
     balanceChange: ITokenBalanceChange,

@@ -1,7 +1,7 @@
 import { APP_STAGE } from '@core/app'
 import { get } from 'svelte/store'
 import { PROFILE_VERSION } from '../../constants'
-import { profiles, updateProfile } from '../../stores'
+import { profiles, updatePersistedProfile } from '../../stores'
 import { PROFILE_MIGRATION_STAGE_MAP } from '../../migrations/profile-migration-stage-map'
 
 /**
@@ -21,7 +21,7 @@ async function migratePersistedProfiles(): Promise<void> {
             for (currentVersion; currentVersion < PROFILE_VERSION?.[APP_STAGE]; currentVersion++) {
                 await PROFILE_MIGRATION_STAGE_MAP?.[APP_STAGE]?.[currentVersion]?.(profile)
                 currentVersion = currentVersion + 1
-                updateProfile(profile.id, { version: currentVersion })
+                updatePersistedProfile(profile.id, { version: currentVersion })
             }
         } catch (err) {
             console.error(err)

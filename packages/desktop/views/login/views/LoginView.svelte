@@ -179,10 +179,6 @@
 </LoggedOutLayout>
 
 <style lang="postcss">
-    .header {
-        @apply h-[2.625rem];
-    }
-
     login-container {
         @apply flex flex-col justify-center items-center gap-8 px-8 pb-12;
         @apply border border-solid border-stroke dark:border-stroke-dark rounded-[2rem];

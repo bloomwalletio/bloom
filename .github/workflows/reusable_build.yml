@@ -113,6 +113,7 @@ jobs:
                   BLOOM_APPLE_ID: ${{ secrets.APPLE_ID }} # Requires prefix of BLOOM otherwise electron builder tries to notarize the app using the env variables
                   BLOOM_APPLE_ID_PASSWORD: ${{ secrets.APPLE_ID_PASSWORD }} # Requires prefix of BLOOM otherwise electron builder tries to notarize the app using the env variables
                   GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                  PRIVATE_REPO_ACCESS_TOKEN: ${{ vars.PRIVATE_REPO_ACCESS_TOKEN }} # TODO: Remove following lines after we're open source
                   MACOS_SKIP_NOTARIZATION: false
               working-directory: packages/desktop
               if: ${{ inputs.sign && inputs.os == 'macos-11' }}
@@ -122,6 +123,7 @@ jobs:
               env:
                   GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
                   MACOS_SKIP_NOTARIZATION: true
+                  PRIVATE_REPO_ACCESS_TOKEN: ${{ vars.PRIVATE_REPO_ACCESS_TOKEN }} # TODO: Remove following lines after we're open source
               working-directory: packages/desktop
               if: ${{ ! inputs.sign && inputs.os == 'macos-11' }}
 
@@ -131,6 +133,7 @@ jobs:
                   CSC_LINK: ${{ secrets.WIN_CERT_BASE64 }}
                   CSC_KEY_PASSWORD: ${{ secrets.WIN_CERT_PASSWORD }}
                   GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                  PRIVATE_REPO_ACCESS_TOKEN: ${{ vars.PRIVATE_REPO_ACCESS_TOKEN }} # TODO: Remove following lines after we're open source
               working-directory: packages/desktop
               if: ${{ inputs.sign && inputs.os == 'windows-2019' }}
 
@@ -138,6 +141,7 @@ jobs:
               run: yarn compile:${env:STAGE}:win
               env:
                   GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                  PRIVATE_REPO_ACCESS_TOKEN: ${{ vars.PRIVATE_REPO_ACCESS_TOKEN }} # TODO: Remove following lines after we're open source
               working-directory: packages/desktop
               if: ${{ ! inputs.sign && inputs.os == 'windows-2019' }}
 
@@ -147,7 +151,7 @@ jobs:
               if: inputs.os == 'ubuntu-20.04'
               env:
                   GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
+                  PRIVATE_REPO_ACCESS_TOKEN: ${{ vars.PRIVATE_REPO_ACCESS_TOKEN }} # TODO: Remove following lines after we're open source
             - name: Import GPG key (Linux)
               run: |
                   echo "$GPG_PRIVATE_KEY" | base64 -d > /tmp/private.key && \
@@ -165,19 +169,19 @@ jobs:
               if: inputs.sign && inputs.os == 'ubuntu-20.04'
 
             - name: Compute checksums (Linux)
-              run: for i in `ls | grep 'bloom-desktop*'` ; do sha256sum $i | awk {'print $1'} > $i.sha256 ; done
+              run: for i in `ls | grep 'bloom-desktop-*'` ; do sha256sum $i | awk {'print $1'} > $i.sha256 ; done
               working-directory: packages/desktop/out
-              if: inputs.sign && inputs.os == 'ubuntu-20.04'
+              if: inputs.os == 'ubuntu-20.04'
 
             - name: Compute checksums (MacOS)
-              run: for i in `ls | grep 'bloom-desktop*'` ; do shasum -a 256 $i | awk {'print $1'} > $i.sha256 ; done
+              run: for i in `ls | grep 'bloom-desktop-*'` ; do shasum -a 256 $i | awk {'print $1'} > $i.sha256 ; done
               working-directory: packages/desktop/out
-              if: inputs.sign && inputs.os == 'macos-11'
+              if: inputs.os == 'macos-11'
 
             - name: Compute checksums (Windows)
-              run: Get-ChildItem "." -Filter bloom-desktop* | Foreach-Object { $(Get-FileHash -Path $_.FullName -Algorithm SHA256).Hash | Set-Content ($_.FullName + '.sha256') }
+              run: Get-ChildItem "." -Filter bloom-desktop-* | Foreach-Object { $(Get-FileHash -Path $_.FullName -Algorithm SHA256).Hash | Set-Content ($_.FullName + '.sha256') }
               working-directory: packages/desktop/out
-              if: inputs.sign && inputs.os == 'windows-2019'
+              if: inputs.os == 'windows-2019'
 
             - name: Upload artifacts
               if: inputs.upload
