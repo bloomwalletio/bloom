@@ -44,13 +44,7 @@ export async function sendTransactionFromEvm(
                     if (getAddressFromAccountForNetwork(account, networkId) !== activity.subject?.address) {
                         // Currently only support outgoing transactions being added to activities so we can assume outgoing balance change
                         if (activity.type === ActivityType.Nft) {
-                            await calculateAndAddPersistedNftBalanceChange(
-                                account,
-                                networkId,
-                                activity.nftId,
-                                false,
-                                true
-                            )
+                            calculateAndAddPersistedNftBalanceChange(account, networkId, activity.nftId, false, true)
                         }
                         if (activity.tokenTransfer) {
                             await updateL2BalanceWithoutActivity(

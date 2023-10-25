@@ -8,13 +8,13 @@ import { INftBalanceChange } from '../types'
 import { NetworkId } from '@core/network'
 import { IAccountState } from '@core/account'
 
-export async function calculateAndAddPersistedNftBalanceChange(
+export function calculateAndAddPersistedNftBalanceChange(
     account: IAccountState,
     networkId: NetworkId,
     nftId: string,
     owned: boolean,
     hidden: boolean = false
-): Promise<void> {
+): void {
     const balanceChangesForAsset = getBalanceChanges(account.index, networkId)?.nfts?.[nftId]
     const lastBalanceChange = balanceChangesForAsset?.at(-1)
 
@@ -29,7 +29,7 @@ export async function calculateAndAddPersistedNftBalanceChange(
     }
 
     if (!hidden) {
-        const activity = await generateNftBalanceChangeActivity(networkId, nftId, newBalanceChange, account)
+        const activity = generateNftBalanceChangeActivity(networkId, nftId, newBalanceChange, account)
         addActivityToAccountActivitiesInAllAccountActivities(account.index, activity)
     }
     addPersistedNftBalanceChange(account.index, networkId, nftId, newBalanceChange)
