@@ -78,6 +78,7 @@
         bind:value={content}
         on:input={debounce(handleKeyDown)}
         on:keydown={debounce(handleKeyDown)}
+        on:submit
         {disabled}
         {minHeight}
         error={error ? statusMessage : ''}

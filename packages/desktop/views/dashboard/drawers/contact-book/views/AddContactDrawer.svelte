@@ -78,7 +78,7 @@
     title={localize(`views.dashboard.drawers.contactBook.${ContactBookRoute.AddContact}.title`)}
     {drawerRouter}
 >
-    <add-contact class="flex flex-col gap-4">
+    <form on:submit|preventDefault={onSaveClick} id="add-contact-form" class="flex flex-col gap-4">
         <TextInput
             bind:this={nameInput}
             bind:value={name}
@@ -118,8 +118,13 @@
             validationFunction={() =>
                 validateContactAddress({ value: address, isRequired: true, mustBeUnique: true }, selectedNetworkId)}
         />
-    </add-contact>
-    <div slot="footer">
-        <Button text={localize('actions.save')} on:click={onSaveClick} width="full" />
-    </div>
+    </form>
+    <Button
+        slot="footer"
+        type="submit"
+        form="add-contact-form"
+        text={localize('actions.save')}
+        on:click={onSaveClick}
+        width="full"
+    />
 </DrawerTemplate>
