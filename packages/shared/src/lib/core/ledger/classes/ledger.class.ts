@@ -105,7 +105,7 @@ export class Ledger {
                         onClose: () => {
                             if (canResolve) {
                                 canResolve = false
-                                resolve()
+                                resolve(undefined)
                             }
                         },
                     },
@@ -117,7 +117,7 @@ export class Ledger {
                     preventClose: true,
                     props: {
                         isEvmTransaction: true,
-                        toAmount: getAmountFromEvmTransactionValue(transactionData?.value?.toString()),
+                        toAmount: getAmountFromEvmTransactionValue(transactionData.value?.toString() ?? '0'),
                         toAddress: transactionData.to,
                         chainId,
                         maxGasFee,
@@ -173,18 +173,24 @@ export class Ledger {
 
             const messageHex = Converter.utf8ToHex(rawMessage, false)
             const bip32Path = buildBip32PathFromBip44(bip44)
-            const transactionSignature = await this.callLedgerApiAsync<IEvmSignature>(
-                () => ledgerApiBridge.makeRequest(LedgerApiMethod.SignMessage, messageHex, bip32Path),
-                'signed-message'
-            )
-            const { r, v, s } = transactionSignature
-            if (r && v && s) {
+
+            let transactionSignature: IEvmSignature | undefined
+            try {
+                transactionSignature = await this.callLedgerApiAsync<IEvmSignature>(
+                    () => ledgerApiBridge.makeRequest(LedgerApiMethod.SignMessage, messageHex, bip32Path),
+                    'signed-message'
+                )
+            } catch (err) {
+                reject(err)
+            }
+            if (transactionSignature) {
+                const { r, v, s } = transactionSignature
                 const vBig = BigInt(v)
                 const rBuffer = Buffer.from(r, 'hex')
                 const sBuffer = Buffer.from(s, 'hex')
                 resolve(toRpcSig(vBig, rBuffer, sBuffer))
             } else {
-                reject(localize('error.send.cancelled'))
+                resolve(undefined)
             }
         })
     }
