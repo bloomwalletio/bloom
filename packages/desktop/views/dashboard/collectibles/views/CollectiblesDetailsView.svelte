@@ -1,6 +1,5 @@
 <script lang="ts">
-    import { AddressType } from '@iota/sdk/out/types'
-    import { Alert, Table, type IItem, Text, Button, IconName } from '@bloomwalletio/ui'
+    import { Alert, Button, IconName, Table, Text, type IItem } from '@bloomwalletio/ui'
     import { CollectibleDetailsMenu } from '@components'
     import { selectedAccountIndex } from '@core/account/stores'
     import { time } from '@core/app/stores'
@@ -13,11 +12,12 @@
     import { getBaseToken } from '@core/profile/actions'
     import { collectiblesRouter } from '@core/router/routers'
     import { formatTokenAmountPrecise } from '@core/token'
-    import { getBech32AddressFromAddressTypes, getHexAddressFromAddressTypes, SendFlowType } from '@core/wallet'
     import { getTimeDifference } from '@core/utils'
+    import { SendFlowType, getBech32AddressFromAddressTypes, getHexAddressFromAddressTypes } from '@core/wallet'
     import { setSendFlowParameters } from '@core/wallet/stores'
     import { PopupId, openPopup } from '@desktop/auxiliary/popup'
-    import { NetworkLabel, NftMedia, Pane } from '@ui'
+    import { AddressType } from '@iota/sdk/out/types'
+    import { MediaPlaceholder, NetworkLabel, NftMedia, Pane } from '@ui'
     import { SendFlowRoute, SendFlowRouter, sendFlowRouter } from '@views/dashboard/send-flow'
 
     const nft: INft = getNftByIdFromAllAccountNfts($selectedAccountIndex, $selectedNftId)
@@ -133,15 +133,19 @@
     }
 </script>
 
-<Pane classes="h-full shadow-lg">
+<Pane classes="h-full">
     <collectibles-details-view class="flex flex-row w-full h-full">
         <media-container class="relative flex w-full items-center justify-center p-5 overflow-hidden">
-            <NftMedia {nft} autoplay controls loop muted />
-            <div class="absolute left-6 top-6 w-auto">
-                {#if alertText}
-                    <Alert variant={downloadMetadata?.error ? 'danger' : 'warning'} text={alertText} />
-                {/if}
-            </div>
+            <NftMedia {nft} autoplay controls loop muted showErrorColor>
+                <div class="w-full h-full" slot="placeholder">
+                    <MediaPlaceholder {nft} size="lg" />
+                </div>
+            </NftMedia>
+            {#if alertText}
+                <error-container>
+                    <Alert variant={downloadMetadata?.error ? 'danger' : 'warning'} text={alertText} border />
+                </error-container>
+            {/if}
         </media-container>
         <details-container class="flex flex-col px-6 py-8 space-y-3 w-full h-full max-w-sm">
             <nft-title class="flex justify-between items-center gap-4">
@@ -224,6 +228,10 @@
             @apply object-contain object-center;
             @apply max-w-full max-h-full;
         }
+    }
+
+    error-container {
+        @apply absolute left-8 top-8 w-100 overflow-hidden;
     }
 
     details-container {

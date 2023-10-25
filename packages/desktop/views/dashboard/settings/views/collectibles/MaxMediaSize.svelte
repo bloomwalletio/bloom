@@ -29,7 +29,7 @@
 
     function getMaxMediaSizeOptions(): IOption[] {
         return [5, 10, 25, 50, 100, undefined].map((amount) => ({
-            value: amount ? amount.toString() : '-',
+            value: amount ? amount.toString() : 'NaN',
             label: assignMaxMediaSizeOptionLabel(amount),
         }))
     }
@@ -75,4 +75,4 @@
 <Text type="base" textColor="secondary" class="mb-6">
     {localize('views.settings.maxMediaSize.description')}
 </Text>
-<SelectInput bind:selected value={selected.value} {options} />
+<SelectInput bind:selected value={selected?.value} {options} />

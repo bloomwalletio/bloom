@@ -1220,7 +1220,8 @@
         "burningfoundry": "Burning token",
         "burnedbasic": "Burned token",
         "burningbasic": "Burning token",
-        "balanceChanged": "Balance changed",
+        "balanceDecreased": "Balance decreased",
+        "balanceIncreased": "Balance increased",
         "initialBalance": "Initial balance",
         "consolidated": "Consolidated",
         "consolidating": "Consolidating",
@@ -1377,6 +1378,8 @@
         "privacyPolicy": "Privacy Policy",
         "termsOfService": "Terms of Service",
         "message": "Message",
+        "error": "Error",
+        "warning": "Warning",
         "failed": "failed"
     },
     "filters":{

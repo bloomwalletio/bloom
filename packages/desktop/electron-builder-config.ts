@@ -7,7 +7,6 @@ const STAGE = process.env.STAGE || 'alpha'
 const APP_NAME = getAppName()
 const APP_ID = getAppId()
 const APP_PROTOCOL = getAppProtocol()
-const CHANNEL_NAME = getChannelName()
 
 /**
  * If stage = 'prod' -> 'Bloom'
@@ -29,17 +28,6 @@ function getAppId(): string {
         return defaultAppId
     }
     return `${defaultAppId}.${STAGE}`
-}
-
-function getChannelName(): string {
-    switch (STAGE) {
-        case 'alpha':
-            return 'alpha'
-        case 'beta':
-            return 'beta'
-        default:
-            return 'latest'
-    }
 }
 
 function getIconPath(): string {
@@ -141,11 +129,11 @@ const prodConfig: Configuration = {
         repo: 'bloom',
         owner: 'bloomwalletio',
         vPrefixedTagName: false,
-        // Following lines are required as long as we're closed source
-        // private: true,
-        // token: 'SOME_PRIVATE_GITHUB_ACCESS_TOKEN',
-        channel: CHANNEL_NAME,
+        channel: 'latest',
         publishAutoUpdate: true,
+        // TODO: Remove following lines after we're open source
+        private: true,
+        token: process.env.PRIVATE_REPO_ACCESS_TOKEN,
     },
 }
 
