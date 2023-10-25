@@ -44,9 +44,7 @@
             style="height: {nftWrapperClientWidth}px; "
         >
             <NftMedia {nft} classes="min-w-full min-h-full object-cover" loop muted showErrorColor>
-                <div class="w-full" slot="placeholder">
-                    <MediaPlaceholder {nft} size="md" />
-                </div>
+                <MediaPlaceholder {nft} size="md" slot="placeholder" />
             </NftMedia>
             <error-container bind:this={anchor}>
                 {#if nft.downloadMetadata.error || nft.downloadMetadata.warning}

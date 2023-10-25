@@ -13,14 +13,14 @@
         : ('brand' as TextColor)
 </script>
 
-<div class="w-full h-full flex justify-center items-center bg-surface-2 dark:bg-surface-2-dark">
-    <placeholder-container class={size}>
+<media-placeholder class="w-full h-full flex justify-center items-center bg-surface-2 dark:bg-surface-2-dark">
+    <icon-container class={size}>
         <MediaIcon type={nft?.parsedMetadata?.type} nftId={nft.id} textColor={placeHolderColor} {size} />
-    </placeholder-container>
-</div>
+    </icon-container>
+</media-placeholder>
 
 <style lang="scss">
-    placeholder-container {
+    icon-container {
         @apply rounded-full;
         @apply bg-surface dark:bg-surface-dark;
         @apply flex items-center justify-center text-center;
