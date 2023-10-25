@@ -5,20 +5,42 @@ const analyticsFeatures: IAnalyticsFeatures = {
     appStart: {
         enabled: true,
     },
-    onboardingRoute: {
-        enabled: true,
-    },
-    loginRoute: {
-        enabled: true,
+    drawerRoute: {
+        contactBook: {
+            enabled: true,
+        },
+        dappConfig: {
+            enabled: true,
+        },
+        networkConfig: {
+            enabled: true,
+        },
     },
     dashboardRoute: {
         enabled: true,
-        wallet: {
+        collectibles: {
             enabled: true,
+        },
+        governance: {
+            enabled: true,
+        },
+        settings: {
+            enabled: true,
+        },
+        wallet: {
             sendFlow: {
                 enabled: true,
             },
         },
+    },
+    loginRoute: {
+        enabled: true,
+    },
+    onboardingRoute: {
+        enabled: true,
+    },
+    updateStrongholdRoute: {
+        enabled: true,
     },
 }
 

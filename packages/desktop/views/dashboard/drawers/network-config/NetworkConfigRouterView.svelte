@@ -14,10 +14,16 @@
         RemoveChainDrawer,
     } from './views'
     import { clearSelectedChain } from '@core/network'
+    import features from '@features/features'
+    import { Platform } from '@core/app'
 
     export let initialRoute: NetworkConfigRoute | undefined = undefined
 
     let drawerRouter: Router<NetworkConfigRoute>
+
+    $: if (features.analytics.drawerRoute.networkConfig.enabled && $networkConfigRoute) {
+        Platform.trackEvent('network-config-route', { route: $networkConfigRoute })
+    }
 
     onMount(() => {
         $networkConfigRouter = new NetworkConfigRouter(initialRoute)
