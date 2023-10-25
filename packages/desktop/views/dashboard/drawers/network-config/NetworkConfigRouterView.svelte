@@ -21,11 +21,7 @@
 
     let drawerRouter: Router<NetworkConfigRoute>
 
-    $: if (
-        features.analytics.drawerRoute.enabled &&
-        features.analytics.drawerRoute.networkConfig.enabled &&
-        $networkConfigRoute
-    ) {
+    $: if (features.analytics.drawerRoute.networkConfig.enabled && $networkConfigRoute) {
         Platform.trackEvent('network-config-route', { route: $networkConfigRoute })
     }
 

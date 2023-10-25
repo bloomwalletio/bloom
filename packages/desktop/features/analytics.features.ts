@@ -6,7 +6,6 @@ const analyticsFeatures: IAnalyticsFeatures = {
         enabled: true,
     },
     drawerRoute: {
-        enabled: true,
         contactBook: {
             enabled: true,
         },
@@ -22,9 +21,6 @@ const analyticsFeatures: IAnalyticsFeatures = {
         collectibles: {
             enabled: true,
         },
-        developer: {
-            enabled: true,
-        },
         governance: {
             enabled: true,
         },
@@ -32,7 +28,6 @@ const analyticsFeatures: IAnalyticsFeatures = {
             enabled: true,
         },
         wallet: {
-            enabled: true,
             sendFlow: {
                 enabled: true,
             },

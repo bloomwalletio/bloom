@@ -9,11 +9,7 @@
     export let initialRoute: DappConfigRoute | undefined = undefined
     export let props = undefined
 
-    $: if (
-        features.analytics.drawerRoute.enabled &&
-        features.analytics.drawerRoute.dappConfig.enabled &&
-        $dappConfigRoute
-    ) {
+    $: if (features.analytics.drawerRoute.dappConfig.enabled && $dappConfigRoute) {
         Platform.trackEvent('dapp-config-route', { route: $dappConfigRoute })
     }
 

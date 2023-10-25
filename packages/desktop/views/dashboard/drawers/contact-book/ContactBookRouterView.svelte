@@ -16,11 +16,7 @@
     import features from '@features/features'
     import { Platform } from '@core/app'
 
-    $: if (
-        features.analytics.drawerRoute.enabled &&
-        features.analytics.drawerRoute.contactBook.enabled &&
-        $contactBookRoute
-    ) {
+    $: if (features.analytics.drawerRoute.contactBook.enabled && $contactBookRoute) {
         Platform.trackEvent('contact-book-route', { route: $contactBookRoute })
     }
 
