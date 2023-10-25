@@ -1,9 +1,7 @@
 <script lang="ts">
-    import { Scroller } from '@components'
-    import { _ } from '@core/i18n'
     import { settingsRoute, settingsRouter } from '@core/router'
     import { onMount } from 'svelte'
-    import { SettingsListForCategory, SettingsNavigator } from './'
+    import { SettingsListForCategory, SettingsSidebar } from './'
 
     function scrollIntoView(id: string, options = null): void {
         if (id) {
@@ -24,15 +22,18 @@
     })
 </script>
 
-{#key $_}
-    <settings-viewer class="flex flex-1 flex-row items-start">
-        <SettingsNavigator bind:currentCategory={$settingsRoute} onSettingClick={(id) => scrollIntoView(id)} />
-        <div class="h-full w-full">
-            <Scroller classes="w-full md:w-3/4 h-full md:pr-100" threshold={100}>
-                <div class="md:w-11/12">
-                    <SettingsListForCategory category={$settingsRoute} />
-                </div>
-            </Scroller>
+<settings-viewer class="h-full flex flex-1 flex-row items-start">
+    <SettingsSidebar />
+    <div class="h-full w-full">
+        <div class="scroller w-full h-full scrollable-y">
+            <SettingsListForCategory category={$settingsRoute} />
         </div>
-    </settings-viewer>
-{/key}
+    </div>
+</settings-viewer>
+
+<style lang="postcss">
+    .scroller {
+        border-top: 32px transparent solid;
+        border-bottom: 32px transparent solid;
+    }
+</style>

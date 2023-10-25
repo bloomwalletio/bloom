@@ -192,11 +192,11 @@
                 "title": "Export backup",
                 "description": "Експортирај во Stronghold датотека - целосна енкриптирана резервна копија од вашите паричници и историја на неодамнешни трансакции"
             },
-            "appLock": {
+            "autoLogout": {
                 "title": "Automatic logout",
                 "description": "Време на неактивност пред вашите паричници да се заклучат и да бидете одјавени"
             },
-            "strongholdPasswordTimeout": {
+            "strongholdTimeout": {
                 "title": "Stronghold Timeout",
                 "description": "Length of time before your Stronghold password is required again"
             },

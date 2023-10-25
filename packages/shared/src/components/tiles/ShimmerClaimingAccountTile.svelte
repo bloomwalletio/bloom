@@ -8,15 +8,13 @@
     export let baseToken: IBaseToken
 
     $: shouldDisplayFailedState = shimmerClaimingAccount?.state === ShimmerClaimingAccountState.Failed
-    $: shouldDisplayUnclaimedRewards = shimmerClaimingAccount?.state !== ShimmerClaimingAccountState.FullyClaimed
-    $: shouldDisplayClaimedRewards =
-        shimmerClaimingAccount?.state !== ShimmerClaimingAccountState.UnclaimedWithRewards &&
-        shimmerClaimingAccount?.state !== ShimmerClaimingAccountState.UnclaimedWithoutRewards
+    $: shouldDisplayClaimedState = shimmerClaimingAccount?.state === ShimmerClaimingAccountState.FullyClaimed
+    $: total = shimmerClaimingAccount?.unclaimedRewards + shimmerClaimingAccount?.claimedRewards
 </script>
 
 {#if shimmerClaimingAccount}
     <Tile border>
-        <div class="w-full flex flex-row justify-between items-center gap-4">
+        <container class="w-full flex flex-row justify-between items-center gap-4">
             <div class="flex flex-row items-center text-left gap-3.5">
                 <Icon name={IconName.Wallet} textColor="brand" />
                 <Text type="body1">
@@ -26,23 +24,23 @@
             </div>
             <div class="flex flex-col justify-end items-end">
                 <Text type="body1" align="right">
-                    {formatTokenAmountBestMatch(shimmerClaimingAccount?.unclaimedRewards, baseToken)}
+                    {formatTokenAmountBestMatch(total, baseToken)}
                 </Text>
                 {#if shimmerClaimingAccount?.state === ShimmerClaimingAccountState.Claiming}
                     <div class="flex justify-end items-center gap-1">
                         <Spinner size="xxs" textColor="warning" />
                         <Text type="sm" textColor="warning">
-                            {localize('actions.claimingRewards').toLocaleLowerCase()}...
+                            {localize('actions.claimingRewards').toLocaleLowerCase()}
                         </Text>
                     </div>
-                {:else if shouldDisplayUnclaimedRewards && shouldDisplayFailedState}
+                {:else if !shouldDisplayClaimedState && shouldDisplayFailedState}
                     <div class="flex justify-end items-center gap-1">
                         <Icon size="xxs" name={IconName.CrossClose} textColor="danger" />
                         <Text type="sm" textColor="danger">
                             {localize('general.failed')}
                         </Text>
                     </div>
-                {:else if shouldDisplayClaimedRewards && !shouldDisplayFailedState}
+                {:else if shouldDisplayClaimedState && !shouldDisplayFailedState}
                     <div class="flex justify-end items-center gap-1">
                         <Icon size="xxs" name={IconName.Check} textColor="success" />
                         <Text type="sm" textColor="success">
@@ -51,6 +49,12 @@
                     </div>
                 {/if}
             </div>
-        </div>
+        </container>
     </Tile>
 {/if}
+
+<style lang="scss">
+    container {
+        height: 44px;
+    }
+</style>

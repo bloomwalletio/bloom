@@ -192,11 +192,11 @@
                 "title": "Exportar copia de seguridad",
                 "description": "Exportar a un archivo Stronghold - una copia respaldo completamente encriptada de sus billeteras y el historial de transacciones"
             },
-            "appLock": {
+            "autoLogout": {
                 "title": "Automatic logout",
                 "description": "Tiempo de inactividad antes de que se bloqueen tus billeteras y se te cierre la sesión"
             },
-            "strongholdPasswordTimeout": {
+            "strongholdTimeout": {
                 "title": "Stronghold Timeout",
                 "description": "Length of time before your Stronghold password is required again"
             },
