@@ -1,15 +1,8 @@
 <script lang="ts">
-    import features from '@features/features'
     import { Pane } from '@ui'
     import { AccountSummaryPane } from './panes'
     import { selectedAccount } from '@core/account/stores'
     import TabSection from './tab-section/TabSection.svelte'
-    import { Platform } from '@core/app'
-    import { DashboardRoute } from '@core/router/enums'
-
-    $: if (features.analytics.dashboardRoute.wallet.enabled) {
-        Platform.trackEvent('wallet-route', DashboardRoute.Wallet)
-    }
 </script>
 
 {#if $selectedAccount}
