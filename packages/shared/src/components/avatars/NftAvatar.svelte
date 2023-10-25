@@ -15,10 +15,10 @@
     <Avatar {size} {shape} {...$$restProps} surface={2}>
         {#if parentType === 'image'}
             <NftMedia {nft} classes="w-full h-full object-cover">
-                <MediaIcon type={nftType} nftId={nft.id} {size} surface={2} slot="placeholder" />
+                <MediaIcon type={nftType} nftId={nft?.id} {size} surface={2} slot="placeholder" />
             </NftMedia>
         {:else}
-            <MediaIcon type={nftType} nftId={nft.id} {size} surface={2} />
+            <MediaIcon type={nftType} nftId={nft?.id} {size} surface={2} />
         {/if}
     </Avatar>
 </nft-avatar>
