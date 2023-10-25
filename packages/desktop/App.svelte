@@ -16,7 +16,6 @@
         appRoute,
         dashboardRouter,
         initialiseRouterManager,
-        routerManager,
     } from '@core/router'
     import { closeDrawer } from '@desktop/auxiliary/drawer'
     import { PopupId, closePopup, openPopup, popupState } from '@desktop/auxiliary/popup'
@@ -25,7 +24,6 @@
         getRouterForAppContext,
         goToAppContext,
         initialiseRouters,
-        openSettings,
         resetRouterForAppContext,
         resetRouters,
     } from '@desktop/routers'
@@ -35,12 +33,9 @@
     import { OnboardingRouterView } from '@views/onboarding'
     import { onDestroy, onMount } from 'svelte'
     import { getLocalisedMenuItems } from './lib/helpers'
+    import { settingsState, openSettings } from '@contexts/settings/stores'
+    import { _ } from '@core/i18n'
 
-    const { loggedIn } = $activeProfile
-
-    $: if ($activeProfile && !$loggedIn) {
-        closePopup(true)
-    }
     $: $activeProfile, saveActiveProfile()
 
     async function handleCrashReporting(sendCrashReports: boolean): Promise<void> {
@@ -49,11 +44,7 @@
 
     $: void handleCrashReporting($appSettings.sendCrashReports)
 
-    $: {
-        if ($isLocaleLoaded) {
-            Platform.updateMenu('strings', getLocalisedMenuItems())
-        }
-    }
+    $: $_, Platform.updateMenu('strings', getLocalisedMenuItems())
 
     $: if (document.dir !== $localeDirection) {
         document.dir = $localeDirection
@@ -64,12 +55,14 @@
     $: Platform.updateTheme($appSettings.theme)
 
     let splash = true
-    let settings = false
 
     void setupI18n({ fallbackLocale: 'en', initialLocale: $appSettings.language })
 
     onMount(async () => {
-        features.analytics.appStart.enabled && Platform.trackEvent('app-start')
+        if (features.analytics.appStart.enabled) {
+            Platform.trackEvent('app-start')
+        }
+
         await checkAndMigrateProfiles()
         await cleanupEmptyProfiles()
         Platform.onEvent('deep-link-request', handleDeepLink)
@@ -107,13 +100,9 @@
             $dashboardRouter.goTo(DashboardRoute.Wallet)
         })
         Platform.onEvent('menu-navigate-settings', () => {
-            if ($loggedIn) {
-                closePopup()
-                closeDrawer()
-                $routerManager.openSettings()
-            } else {
-                settings = true
-            }
+            closePopup()
+            closeDrawer()
+            openSettings()
         })
         Platform.onEvent('menu-check-for-update', () => {
             closeDrawer()
@@ -144,38 +133,39 @@
     {#if IS_WINDOWS}
         <TitleBar />
     {/if}
-    <app-container class="relative w-screen h-full flex flex-col" class:windows={IS_WINDOWS}>
-        {#if !$isLocaleLoaded || splash}
-            <Splash />
-        {:else}
-            {#if $popupState.active}
-                <Popup
-                    id={$popupState.id}
-                    props={$popupState.props}
-                    hideClose={$popupState.hideClose}
-                    fullScreen={$popupState.fullScreen}
-                    transition={$popupState.transition}
-                    overflow={$popupState.overflow}
-                    relative={$popupState.relative}
-                />
-            {/if}
-            {#if settings}
-                <div class="absolute top-0 left-0 w-screen h-screen overflow-hidden z-10">
-                    <Settings handleClose={() => (settings = false)} />
-                </div>
-            {:else if $appRoute === AppRoute.Dashboard}
-                <Dashboard />
-            {:else if $appRoute === AppRoute.Login}
-                <LoginRouter />
-            {:else if $appRoute === AppRoute.Onboarding}
-                <OnboardingRouterView />
-            {/if}
+    {#key $_}
+        <app-container class="relative w-screen h-full flex flex-col" class:windows={IS_WINDOWS}>
+            {#if !$isLocaleLoaded || splash}
+                <Splash />
+            {:else}
+                {#if $settingsState.open}
+                    <Settings />
+                {/if}
+                {#if $popupState.active}
+                    <Popup
+                        id={$popupState.id}
+                        props={$popupState.props}
+                        hideClose={$popupState.hideClose}
+                        fullScreen={$popupState.fullScreen}
+                        transition={$popupState.transition}
+                        overflow={$popupState.overflow}
+                        relative={$popupState.relative}
+                    />
+                {/if}
+                {#if $appRoute === AppRoute.Dashboard}
+                    <Dashboard />
+                {:else if $appRoute === AppRoute.Login}
+                    <LoginRouter />
+                {:else if $appRoute === AppRoute.Onboarding}
+                    <OnboardingRouterView />
+                {/if}
 
-            <ToastContainer classes="absolute right-5 bottom-5 w-100" />
-        {/if}
-        <app-container />
-    </app-container></app
->
+                <ToastContainer classes="absolute right-5 bottom-5 w-100" />
+            {/if}
+            <app-container />
+        </app-container>
+    {/key}
+</app>
 
 <style global lang="scss">
     @tailwind base;
@@ -184,7 +174,7 @@
     @import '../shared/src/style/style.scss';
     html,
     body {
-        @apply bg-slate-100 dark:bg-gray-900;
+        @apply bg-surface dark:bg-surface-dark;
         @apply select-none;
         -webkit-user-drag: none;
 

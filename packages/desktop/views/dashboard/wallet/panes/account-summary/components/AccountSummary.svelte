@@ -47,7 +47,7 @@
         <AccountSwitcher />
         <AccountActionsMenu />
     </account-summary-header>
-    <FormattedBalance balanceText={formattedBalance} />
+    <FormattedBalance balanceText={formattedBalance} autoAdjustFontSize />
     <account-summary-actions class="mt-4 space-x-2 flex flex-row justify-between items-center">
         <Button text={localize('actions.send')} width="half" icon={IconName.Send} on:click={onSendClick} />
         <Button

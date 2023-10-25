@@ -4,15 +4,15 @@
         color?: 'primary' | 'success' | 'danger' | 'info' | 'warning'
         disabled?: boolean
         restProps?: Record<string, unknown> | undefined
+        form?: string
     }
 
     interface IFormButtonProps extends IBaseButtonProps {
-        type: HTMLButtonType.Submit
-        form: string
+        type: 'submit'
     }
 
     interface IButtonProps extends IBaseButtonProps {
-        type: HTMLButtonType.Button
+        type: 'button'
         onClick: (() => unknown) | undefined
     }
 
@@ -23,24 +23,23 @@
 <script lang="ts">
     import { Button, Text } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
-    import { HTMLButtonType } from '@ui'
 
     const DEFAULT_CONTINUE_BUTTON: {
-        type: HTMLButtonType.Button
+        type: 'button'
         text: string
         color: 'primary' | 'success' | 'danger' | 'info' | 'warning'
     } = {
-        type: HTMLButtonType.Button,
+        type: 'button',
         text: localize('actions.continue'),
         color: 'primary',
     }
 
     const DEFAULT_BACK_BUTTON: {
-        type: HTMLButtonType.Button
+        type: 'button'
         text: string
         color: 'primary' | 'success' | 'danger' | 'info' | 'warning'
     } = {
-        type: HTMLButtonType.Button,
+        type: 'button',
         text: localize('actions.back'),
         color: 'primary',
     }
@@ -78,27 +77,27 @@
         <popup-footer class="block flex flex-row space-x-3">
             {#if backButton}
                 <Button
-                    type={_backButton.type}
+                    type="button"
                     variant="outlined"
                     text={_backButton.text}
                     disabled={busy || _backButton.disabled}
                     width="full"
-                    form={_backButton.type === HTMLButtonType.Submit ? _backButton.form : undefined}
-                    on:click={_backButton.type === HTMLButtonType.Button && _backButton.onClick}
+                    form={_backButton.type === 'submit' ? _backButton.form : undefined}
+                    on:click={_backButton.type === 'button' && _backButton.onClick}
                     {..._backButton.restProps}
                 />
             {/if}
             {#if continueButton}
                 <Button
-                    type={_continueButton.type}
+                    type={_continueButton.form ? 'submit' : 'button'}
+                    form={_continueButton.form}
                     variant="contained"
                     color={_continueButton.color}
                     text={_continueButton.text}
                     disabled={_continueButton.disabled}
                     {busy}
                     width="full"
-                    form={_continueButton.type === HTMLButtonType.Submit ? _continueButton.form : undefined}
-                    on:click={_continueButton.type === HTMLButtonType.Button && _continueButton.onClick}
+                    on:click={_continueButton.type === 'button' && _continueButton.onClick}
                     {..._continueButton.restProps}
                 />
             {/if}

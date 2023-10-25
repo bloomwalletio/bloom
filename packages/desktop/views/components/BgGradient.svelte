@@ -13,8 +13,11 @@
 <style lang="scss">
     div {
         @apply absolute inset-0 flex items-center justify-center;
-        @apply dark:mix-blend-color-dodge;
         @apply pointer-events-none;
+    }
+
+    bg-gradient-container {
+        @apply dark:mix-blend-color-dodge;
         @apply blur-3xl;
     }
 

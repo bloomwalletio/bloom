@@ -177,8 +177,8 @@
             "advanced": {
                 "title": "Advanced"
             },
-            "helpAndInfo": {
-                "title": "Help & Information"
+            "help": {
+                "title": "Help"
             },
             "theme": {
                 "title": "Theme",
@@ -199,12 +199,12 @@
                 "title": "Export backup",
                 "description": "Export to a Stronghold file - a complete encrypted backup of your wallets and latest transaction history"
             },
-            "appLock": {
+            "autoLogout": {
                 "title": "Automatic logout",
                 "description": "Inactivity time before your wallets lock and you are logged out"
             },
-            "strongholdPasswordTimeout": {
-                "title": "Stronghold Timeout",
+            "strongholdTimeout": {
+                "title": "Stronghold timeout",
                 "description": "Length of time before your Stronghold password is required again"
             },
             "maxMediaSize": {
@@ -550,19 +550,19 @@
         },
         "updateStronghold": {
             "update": {
-                "title": "Update Stronghold",
+                "title": "Update your Stronghold",
                 "loginBody": "Your Stronghold's version is out of date. Provide your password to update Stronghold.",
                 "recoveryBody": "The imported Stronghold’s version is out of date, to continue we will need to update the stronghold to the latest version."
             },
             "updateBackup": {
-                "loginTitle": "Stronghold updated",
+                "title": "Stronghold updated",
                 "loginBody": "It's all good now - you're running the latest Stronghold version",
-                "recoveryTitle": "Stronghold is successfully recovered and updated",
                 "recoveryBody": "You can now continue setting up your wallet",
                 "hint": "We highly recommend to delete all previous Stronghold backup files and save a new one"
             },
             "changePassword": {
-                "hint": "Your Stronghold was out of date and has been updated. We recommend that you change your Stronghold password."
+                "title": "Change your password",
+                "hint": "Your Stronghold was out of date and has been updated. We recommend that you change your password."
             }
         }
     },
@@ -1220,7 +1220,8 @@
         "burningfoundry": "Burning token",
         "burnedbasic": "Burned token",
         "burningbasic": "Burning token",
-        "balanceChanged": "Balance changed",
+        "balanceDecreased": "Balance decreased",
+        "balanceIncreased": "Balance increased",
         "initialBalance": "Initial balance",
         "consolidated": "Consolidated",
         "consolidating": "Consolidating",
@@ -1310,13 +1311,13 @@
         "stateControllerAddress": "State Controller Address",
         "copiedToClipboard": "Copied to clipboard",
         "availableBalanceWithValue": "Available balance: {balance}",
-        "amountClaimed": "{amount} claimed",
         "metadata": "Metadata",
         "amountConsolidatedInputs": "Consolidated outputs",
         "name": "Name",
         "note": "Note",
         "tag": "Tag",
         "nodeList": "Node list",
+        "claimed": "claimed",
         "claimedIn": "Claimed in",
         "claimingIn": "Claiming in",
         "assets": "Assets",
@@ -1376,7 +1377,10 @@
         "color": "Color",
         "privacyPolicy": "Privacy Policy",
         "termsOfService": "Terms of Service",
-        "message": "Message"
+        "message": "Message",
+        "error": "Error",
+        "warning": "Warning",
+        "failed": "failed"
     },
     "filters":{
         "title": "Filters",

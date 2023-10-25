@@ -29,7 +29,7 @@ export function getActivityTileTitle(activity: Activity): string | undefined {
     } else if (action === ActivityAction.Burn) {
         return isConfirmed ? `general.burned${type}` : `general.burning${type}`
     } else if (action === ActivityAction.BalanceChange) {
-        return 'general.balanceChanged'
+        return direction === ActivityDirection.Outgoing ? 'general.balanceDecreased' : 'general.balanceIncreased'
     } else if (action === ActivityAction.InitialBalance) {
         return 'general.initialBalance'
     } else if (action === ActivityAction.Send) {

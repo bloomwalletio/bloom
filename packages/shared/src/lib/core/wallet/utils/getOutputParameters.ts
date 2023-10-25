@@ -1,6 +1,6 @@
 import { OutputParams, Assets } from '@iota/sdk/out/types'
 import { getGasFeesForLayer1ToLayer2Transaction, getLayer2MetadataForTransfer } from '@core/layer-2/actions'
-import { ChainConfiguration, ChainType, getActiveNetworkId, getChainConfiguration, isEvmChain } from '@core/network'
+import { ChainConfiguration, ChainType, getChainConfiguration, isEvmChain } from '@core/network'
 import { BASE_TOKEN_ID } from '@core/token'
 import { Converter, convertDateToUnixTimestamp } from '@core/utils'
 import { SendFlowParameters, Subject } from '@core/wallet/types'
@@ -24,14 +24,16 @@ export async function getOutputParameters(
 
     const tag = sendFlowParameters?.tag ? Converter.utf8ToHex(sendFlowParameters?.tag) : undefined
 
-    const metadata = await getMetadata(sendFlowParameters)
-
     const expirationUnixTime = expirationDate ? convertDateToUnixTimestamp(expirationDate) : undefined
     const timelockUnixTime = timelockDate ? convertDateToUnixTimestamp(timelockDate) : undefined
 
+    let metadata: string
     if (isToLayer2) {
+        metadata = await getLayer2MetadataForTransfer(sendFlowParameters)
         const { maxGasFee } = await getGasFeesForLayer1ToLayer2Transaction(sendFlowParameters)
         amount = (parseInt(amount, 10) + Number(maxGasFee ?? 0)).toString()
+    } else {
+        metadata = Converter.utf8ToHex(sendFlowParameters?.metadata ?? '')
     }
 
     return <OutputParams>{
@@ -91,12 +93,4 @@ function getAssetsFromTransactionData(sendFlowParameters: SendFlowParameters): A
     }
 
     return assets
-}
-
-function getMetadata(sendFlowParameters: SendFlowParameters): Promise<string> {
-    if (sendFlowParameters.destinationNetworkId !== getActiveNetworkId()) {
-        return getLayer2MetadataForTransfer(sendFlowParameters)
-    } else {
-        return Promise.resolve(Converter.utf8ToHex(sendFlowParameters?.metadata ?? ''))
-    }
 }

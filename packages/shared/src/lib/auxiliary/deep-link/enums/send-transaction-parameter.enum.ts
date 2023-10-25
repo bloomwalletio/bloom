@@ -1,7 +1,7 @@
 /**
  * The query parameters available in a send operation.
  */
-export enum SendOperationParameter {
+export enum SendTransactionParameter {
     Address = 'address',
     BaseCoinAmount = 'baseCoinAmount',
     TokenId = 'tokenId',

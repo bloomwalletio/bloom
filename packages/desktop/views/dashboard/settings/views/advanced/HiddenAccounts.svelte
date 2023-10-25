@@ -1,8 +1,8 @@
 <script lang="ts">
+    import { Checkbox, Text } from '@bloomwalletio/ui'
     import { setNextSelectedAccount } from '@core/account/actions'
     import { localize } from '@core/i18n'
     import { activeProfile, updateActiveProfile } from '@core/profile/stores'
-    import { Checkbox, Text } from '@ui'
 
     let showHiddenAccounts = $activeProfile?.showHiddenAccounts
     $: updateActiveProfile({ showHiddenAccounts: showHiddenAccounts })
@@ -12,6 +12,6 @@
     }
 </script>
 
-<Text type="h4" classes="mb-3">{localize('views.settings.hiddenAccounts.title')}</Text>
-<Text type="p" secondary classes="mb-5">{localize('views.settings.hiddenAccounts.description')}</Text>
+<Text type="body2" class="mb-2">{localize('views.settings.hiddenAccounts.title')}</Text>
+<Text type="base" textColor="secondary" class="mb-6">{localize('views.settings.hiddenAccounts.description')}</Text>
 <Checkbox label={localize('actions.showHiddenAccounts')} bind:checked={showHiddenAccounts} />

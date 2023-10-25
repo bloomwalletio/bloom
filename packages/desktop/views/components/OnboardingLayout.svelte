@@ -1,13 +1,14 @@
 <script lang="ts">
     import { Button, Text } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
-    import { BgGradient, LoggedOutLayout } from '.'
+    import { LoggedOutLayout } from '.'
 
     interface IButtonProps {
         text: string
         disabled: boolean
         hidden: boolean
         onClick: (() => unknown) | undefined
+        form?: string
     }
 
     const DEFAULT_CONTINUE_BUTTON: IButtonProps = {
@@ -36,8 +37,7 @@
     $: _backButton = { ...DEFAULT_BACK_BUTTON, ...backButton }
 </script>
 
-<LoggedOutLayout>
-    <BgGradient variant="center" />
+<LoggedOutLayout gradient="center" particles>
     <content-container class="flex flex-col w-full h-full items-center justify-center">
         <content class="flex flex-col w-full gap-6 {size}">
             <content-title class="flex flex-col space-y-2.5">
@@ -48,6 +48,8 @@
             <content-buttons class="flex flex-row-reverse gap-3">
                 {#if !_continueButton.hidden}
                     <Button
+                        type={_continueButton.form ? 'submit' : 'button'}
+                        form={_continueButton.form}
                         width="full"
                         variant="contained"
                         disabled={_continueButton.disabled || !_continueButton.onClick}
@@ -59,6 +61,7 @@
                 {/if}
                 {#if !_backButton.hidden}
                     <Button
+                        type="button"
                         width="full"
                         variant="outlined"
                         disabled={busy || _backButton.disabled || !_backButton.onClick}
@@ -77,7 +80,7 @@
     }
 
     content {
-        @apply p-8 z-10 rounded-[2rem];
+        @apply p-8 z-20 rounded-[2rem];
         @apply bg-surface dark:bg-surface-dark shadow-elevation-4;
         @apply border border-solid border-stroke dark:border-stroke-dark;
 

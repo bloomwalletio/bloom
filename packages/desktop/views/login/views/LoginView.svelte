@@ -117,7 +117,7 @@
     })
 </script>
 
-<LoggedOutLayout>
+<LoggedOutLayout gradient="center">
     <CloseButton slot="button" on:click={onBackClick} />
     <div class="flex flex-col w-full h-full justify-center items-center">
         <login-container class:shake>
@@ -179,10 +179,6 @@
 </LoggedOutLayout>
 
 <style lang="postcss">
-    .header {
-        @apply h-[2.625rem];
-    }
-
     login-container {
         @apply flex flex-col justify-center items-center gap-8 px-8 pb-12;
         @apply border border-solid border-stroke dark:border-stroke-dark rounded-[2rem];

@@ -35,20 +35,19 @@ export default {
             }
         })
     },
-    async removeProfileFolder(profilePath: fs.PathLike): Promise<unknown> {
-        return ipcRenderer.invoke('get-path', 'userData').then((userDataPath) => {
-            // Check that the removing profile path matches the user data path
-            // so that we don't try and remove things outside our scope
-            if ((profilePath as string).startsWith(userDataPath)) {
-                try {
-                    // Sometime the DB can still be locked while it is flushing
-                    // so retry if we receive a busy exception
-                    fs.rmdirSync(profilePath, { recursive: true, maxRetries: 30, retryDelay: 500 })
-                } catch (err) {
-                    console.error(err)
-                }
+    async removeProfileFolder(profilePath: fs.PathLike): Promise<void> {
+        const userDataPath = await ipcRenderer.invoke('get-path', 'userData')
+        // Check that the removing profile path matches the user data path
+        // so that we don't try and remove things outside our scope
+        if ((profilePath as string).startsWith(userDataPath)) {
+            try {
+                // Sometime the DB can still be locked while it is flushing
+                // so retry if we receive a busy exception
+                await fs.promises.rmdir(profilePath, { recursive: true, maxRetries: 30, retryDelay: 500 })
+            } catch (err) {
+                console.error(err)
             }
-        })
+        }
     },
     async listProfileFolders(profileStoragePath: fs.PathLike): Promise<unknown> {
         return ipcRenderer.invoke('get-path', 'userData').then((userDataPath) => {
@@ -216,8 +215,12 @@ export default {
                 }
             })
     },
-    trackEvent(eventName: string, eventProperties: unknown): Promise<unknown> {
-        return ipcRenderer.invoke('track-event', eventName, eventProperties)
+    trackEvent(eventName: string, eventProperties?: unknown): Promise<unknown | undefined> {
+        if (features.analytics.enabled) {
+            return ipcRenderer.invoke('track-event', eventName, eventProperties)
+        } else {
+            return undefined
+        }
     },
     isFeatureFlagEnabled(keyPath: string): boolean {
         const feature = keyPath

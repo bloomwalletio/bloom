@@ -56,7 +56,7 @@
     <Avatar {size} {backgroundColor} {icon} customTextColor={textColor} text={icon ? '' : text} />
     {#if (size === 'base' || size === 'md' || size === 'lg') && !hideNetworkBadge}
         <span class="relative flex justify-center items-center bottom-0 right-0">
-            <NetworkBadge size="xxs" networkId={token.networkId} />
+            <NetworkBadge size="xs" networkId={token.networkId} />
         </span>
     {/if}
 </div>
