@@ -27,6 +27,7 @@ export async function cleanupEmptyProfiles(): Promise<void> {
         }
 
         for (const profileId of storedProfileIdsToRemove) {
+            removeAllProfileData(profileId)
             await removeProfileFolder(profileId)
         }
     } catch (err) {
