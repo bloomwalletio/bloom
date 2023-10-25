@@ -34,10 +34,8 @@
     }
 </script>
 
-<button type="button" on:click={onNftClick} class="nft-gallery-item flex flex-col items-center justify-center">
-    <div
-        class="w-full rounded-2xl overflow-hidden flex flex-col divide-y divide-solid divide-stroke dark:divide-stroke-dark"
-    >
+<button type="button" on:click={onNftClick} class="nft-gallery-item">
+    <container>
         <div
             class="w-full flex relative bg-surface-2 dark:bg-surface-2-dark"
             bind:clientWidth={nftWrapperClientWidth}
@@ -67,22 +65,27 @@
                 />
             {/if}
         </nft-name>
-    </div>
+    </container>
 </button>
 
 <style lang="scss">
     .nft-gallery-item {
-        @apply border border-solid border-stroke dark:border-stroke-dark;
-        @apply bg-surface-1 dark:bg-surface-1-dark;
-        @apply rounded-2xl;
-        @apply duration-300;
-        transition-property: background-color, border-color, box-shadow;
+        container {
+            @apply w-full overflow-hidden flex flex-col divide-y divide-solid divide-stroke dark:divide-stroke-dark;
+            @apply border border-solid border-stroke dark:border-stroke-dark;
+            @apply bg-surface-1 dark:bg-surface-1-dark;
+            @apply rounded-2xl;
+            @apply duration-300;
+            transition-property: background-color, border-color, box-shadow;
+        }
 
         &:hover,
         &:focus {
-            @apply shadow-lg dark:shadow-violet-900/25;
-            @apply border-2 border-brand-500;
-            @apply bg-surface dark:bg-surface-dark;
+            container {
+                @apply shadow-lg dark:shadow-violet-900/25;
+                @apply border-2 border-brand-500;
+                @apply bg-surface dark:bg-surface-dark;
+            }
         }
     }
 
