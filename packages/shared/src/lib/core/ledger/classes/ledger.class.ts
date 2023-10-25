@@ -161,38 +161,29 @@ export class Ledger {
     }
 
     static async signMessage(rawMessage: string, bip44: Bip44): Promise<string | undefined> {
-        return new Promise<string | undefined>(async (resolve, reject) => {
-            openPopup({
-                id: PopupId.VerifyLedgerTransaction,
-                hideClose: true,
-                preventClose: false,
-                props: {
-                    rawMessage,
-                },
-            })
-
-            const messageHex = Converter.utf8ToHex(rawMessage, false)
-            const bip32Path = buildBip32PathFromBip44(bip44)
-
-            let transactionSignature: IEvmSignature | undefined
-            try {
-                transactionSignature = await this.callLedgerApiAsync<IEvmSignature>(
-                    () => ledgerApiBridge.makeRequest(LedgerApiMethod.SignMessage, messageHex, bip32Path),
-                    'signed-message'
-                )
-            } catch (err) {
-                reject(err)
-            }
-            if (transactionSignature) {
-                const { r, v, s } = transactionSignature
-                const vBig = BigInt(v)
-                const rBuffer = Buffer.from(r, 'hex')
-                const sBuffer = Buffer.from(s, 'hex')
-                resolve(toRpcSig(vBig, rBuffer, sBuffer))
-            } else {
-                resolve(undefined)
-            }
+        openPopup({
+            id: PopupId.VerifyLedgerTransaction,
+            hideClose: true,
+            preventClose: false,
+            props: {
+                rawMessage,
+            },
         })
+
+        const messageHex = Converter.utf8ToHex(rawMessage, false)
+        const bip32Path = buildBip32PathFromBip44(bip44)
+
+        const transactionSignature = await this.callLedgerApiAsync<IEvmSignature>(
+            () => ledgerApiBridge.makeRequest(LedgerApiMethod.SignMessage, messageHex, bip32Path),
+            'signed-message'
+        )
+        if (transactionSignature) {
+            const { r, v, s } = transactionSignature
+            const vBig = BigInt(v)
+            const rBuffer = Buffer.from(r, 'hex')
+            const sBuffer = Buffer.from(s, 'hex')
+            return toRpcSig(vBig, rBuffer, sBuffer)
+        }
     }
 
     private static async callLedgerApiAsync<R extends LedgerApiRequestResponse>(
