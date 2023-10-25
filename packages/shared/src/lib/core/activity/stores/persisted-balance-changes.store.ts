@@ -1,5 +1,6 @@
 import { persistent } from '@core/utils/store'
 import { ITokenBalanceChange } from '../types/token-balance-change.interface'
+import { INftBalanceChange } from '../types/nft-balance-change.interface'
 import { get } from 'svelte/store'
 import { NetworkId } from '@core/network'
 import { activeProfileId } from '@core/profile/stores'
@@ -8,7 +9,12 @@ type IPersistedBalanceChangesStore = {
     [profileId: string]: {
         [accountId: string]: {
             [networkId in NetworkId]?: {
-                [tokenId: string]: ITokenBalanceChange[]
+                nfts: {
+                    [nftId: string]: INftBalanceChange[]
+                }
+                tokens: {
+                    [tokenId: string]: ITokenBalanceChange[]
+                }
             }
         }
     }
@@ -19,15 +25,22 @@ export const persistedBalanceChanges = persistent<IPersistedBalanceChangesStore>
 export function getBalanceChanges(
     accountIndex: number,
     networkId: NetworkId
-): { [tokenId: string]: ITokenBalanceChange[] } {
-    return get(persistedBalanceChanges)?.[get(activeProfileId)]?.[accountIndex]?.[networkId] ?? {}
+): {
+    nfts: {
+        [nftId: string]: INftBalanceChange[]
+    }
+    tokens: {
+        [tokenId: string]: ITokenBalanceChange[]
+    }
+} {
+    return get(persistedBalanceChanges)?.[get(activeProfileId)]?.[accountIndex]?.[networkId] ?? { nfts: {}, tokens: {} }
 }
 
-export function addPersistedBalanceChange(
+export function addPersistedTokenBalanceChange(
     accountIndex: number,
     networkId: NetworkId,
     tokenId: string,
-    ...newPersistedAssets: ITokenBalanceChange[]
+    ...newPersistedTokenBalanceChanges: ITokenBalanceChange[]
 ): void {
     persistedBalanceChanges.update((state) => {
         let profileBalanceChanges = state[get(activeProfileId)]
@@ -44,13 +57,57 @@ export function addPersistedBalanceChange(
         let networkBalanceChanges = accountBalanceChanges[networkId]
         if (!networkBalanceChanges) {
             networkBalanceChanges = {
-                [tokenId]: newPersistedAssets,
+                tokens: {
+                    [tokenId]: newPersistedTokenBalanceChanges,
+                },
+                nfts: {},
             }
         } else {
-            if (networkBalanceChanges[tokenId]) {
-                networkBalanceChanges[tokenId].push(...newPersistedAssets)
+            if (networkBalanceChanges.tokens[tokenId]) {
+                networkBalanceChanges.tokens[tokenId].push(...newPersistedTokenBalanceChanges)
             } else {
-                networkBalanceChanges[tokenId] = newPersistedAssets
+                networkBalanceChanges.tokens[tokenId] = newPersistedTokenBalanceChanges
+            }
+        }
+
+        accountBalanceChanges[networkId] = networkBalanceChanges
+        profileBalanceChanges[accountIndex] = accountBalanceChanges
+        state[get(activeProfileId)] = profileBalanceChanges
+        return state
+    })
+}
+
+export function addPersistedNftBalanceChange(
+    accountIndex: number,
+    networkId: NetworkId,
+    nftId: string,
+    ...newPersistedNftBalanceChanges: INftBalanceChange[]
+): void {
+    persistedBalanceChanges.update((state) => {
+        let profileBalanceChanges = state[get(activeProfileId)]
+
+        if (!profileBalanceChanges) {
+            profileBalanceChanges = {}
+        }
+
+        let accountBalanceChanges = profileBalanceChanges[accountIndex]
+        if (!accountBalanceChanges) {
+            accountBalanceChanges = {}
+        }
+
+        let networkBalanceChanges = accountBalanceChanges[networkId]
+        if (!networkBalanceChanges) {
+            networkBalanceChanges = {
+                nfts: {
+                    [nftId]: newPersistedNftBalanceChanges,
+                },
+                tokens: {},
+            }
+        } else {
+            if (networkBalanceChanges.nfts[nftId]) {
+                networkBalanceChanges.nfts[nftId].push(...newPersistedNftBalanceChanges)
+            } else {
+                networkBalanceChanges.nfts[nftId] = newPersistedNftBalanceChanges
             }
         }
 

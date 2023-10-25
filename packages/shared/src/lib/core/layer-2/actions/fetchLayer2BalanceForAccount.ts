@@ -1,5 +1,8 @@
 import { IAccountState } from '@core/account'
-import { calculateAndAddPersistedBalanceChange } from '@core/activity/actions'
+import {
+    calculateAndAddPersistedNftBalanceChange,
+    calculateAndAddPersistedTokenBalanceChange,
+} from '@core/activity/actions'
 import { ContractType } from '@core/layer-2'
 import { IChain, getNetwork } from '@core/network'
 import { getActiveProfile } from '@core/profile/stores'
@@ -28,7 +31,7 @@ export function fetchLayer2BalanceForAccount(account: IAccountState): void {
             return
         }
 
-        await fetchLayer2Nfts(evmAddress, chain, account.index)
+        await fetchLayer2Nfts(evmAddress, chain, account)
 
         const balances = await getLayer2BalanceForAddress(evmAddress, chain)
         if (!balances) {
@@ -44,7 +47,7 @@ export function fetchLayer2BalanceForAccount(account: IAccountState): void {
             if (isNativeToken || isErc20TrackedToken) {
                 await getOrRequestTokenFromPersistedTokens(tokenId, networkId)
             }
-            await calculateAndAddPersistedBalanceChange(account, networkId, tokenId, adjustedBalance)
+            await calculateAndAddPersistedTokenBalanceChange(account, networkId, tokenId, adjustedBalance)
             layer2Balance[tokenId] = adjustedBalance
         }
         setLayer2AccountBalanceForChain(index, networkId, layer2Balance)
@@ -109,7 +112,7 @@ async function getLayer2Erc20BalancesForAddress(
     return erc20TokenBalances
 }
 
-async function fetchLayer2Nfts(evmAddress: string, chain: IChain, accountIndex: number): Promise<void> {
+async function fetchLayer2Nfts(evmAddress: string, chain: IChain, account: IAccountState): Promise<void> {
     const accountsCoreContract = getSmartContractHexName('accounts')
     const getBalanceFunc = getSmartContractHexName('accountNFTs')
     const agentID = evmAddressToAgentId(evmAddress, chain.getConfiguration())
@@ -129,13 +132,20 @@ async function fetchLayer2Nfts(evmAddress: string, chain: IChain, accountIndex: 
         const newNftIds = nftIds.filter((nftId) => !nftsForChain.some((nft) => nft.id === nftId))
 
         const nfts = await getNftsFromNftIds(newNftIds, networkId)
-        addOrUpdateNftInAllAccountNfts(accountIndex, ...nfts)
+        addOrUpdateNftInAllAccountNfts(account.index, ...nfts)
 
         const unspendableNftIds: string[] = nftsForChain
             .filter((nft) => !nftIds.some((nftId) => nft.id === nftId))
             .map((nft) => nft.id)
-        setNftInAllAccountNftsToUnspendable(accountIndex, ...unspendableNftIds)
-        void addNftsToDownloadQueue(accountIndex, nfts)
+        setNftInAllAccountNftsToUnspendable(account.index, ...unspendableNftIds)
+        void addNftsToDownloadQueue(account.index, nfts)
+
+        for (const nft of nfts) {
+            calculateAndAddPersistedNftBalanceChange(account, networkId, nft.id, true)
+        }
+        for (const nftId of unspendableNftIds) {
+            calculateAndAddPersistedNftBalanceChange(account, networkId, nftId, false)
+        }
     } catch (err) {
         console.error(err)
     }
