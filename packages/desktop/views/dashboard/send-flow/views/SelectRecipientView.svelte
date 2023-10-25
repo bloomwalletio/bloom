@@ -238,7 +238,6 @@
         onClick: onBackClick,
     }}
     continueButton={{
-        type: 'submit',
         form: 'select-recipient-form',
         text: localize('actions.continue'),
         onClick: onContinueClick,

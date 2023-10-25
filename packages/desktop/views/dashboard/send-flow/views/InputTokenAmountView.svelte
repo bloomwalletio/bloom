@@ -129,7 +129,6 @@
     })}
     backButton={{ text: localize('actions.back'), onClick: onBackClick }}
     continueButton={{
-        type: 'submit',
         form: 'token-amount-form',
         text: localize('actions.continue'),
         onClick: onContinueClick,

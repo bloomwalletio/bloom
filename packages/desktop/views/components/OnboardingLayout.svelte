@@ -4,7 +4,6 @@
     import { LoggedOutLayout } from '.'
 
     interface IButtonProps {
-        type: 'button' | 'submit'
         text: string
         disabled: boolean
         hidden: boolean
@@ -13,7 +12,6 @@
     }
 
     const DEFAULT_CONTINUE_BUTTON: IButtonProps = {
-        type: 'button',
         text: localize('actions.continue'),
         disabled: false,
         hidden: false,
@@ -21,7 +19,6 @@
     }
 
     const DEFAULT_BACK_BUTTON: IButtonProps = {
-        type: 'button',
         text: localize('actions.back'),
         disabled: false,
         hidden: false,
@@ -51,7 +48,7 @@
             <content-buttons class="flex flex-row-reverse gap-3">
                 {#if !_continueButton.hidden}
                     <Button
-                        type={_continueButton.type ?? 'button'}
+                        type={_continueButton.form ? 'submit' : 'button'}
                         form={_continueButton.form}
                         width="full"
                         variant="contained"
@@ -64,7 +61,7 @@
                 {/if}
                 {#if !_backButton.hidden}
                     <Button
-                        type={_backButton.type ?? 'button'}
+                        type="button"
                         width="full"
                         variant="outlined"
                         disabled={busy || _backButton.disabled || !_backButton.onClick}

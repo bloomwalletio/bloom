@@ -58,7 +58,6 @@
         onClick: onCancelClick,
     }}
     continueButton={{
-        type: 'submit',
         form: 'customise-account-form',
         text: localize('actions.save'),
         disabled: invalidAliasUpdate && !hasColorChanged,

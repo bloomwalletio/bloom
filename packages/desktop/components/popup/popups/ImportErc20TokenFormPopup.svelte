@@ -73,7 +73,6 @@
         onClick: onCancelClick,
     }}
     continueButton={{
-        type: 'submit',
         form: 'import-erc20-token-form',
         text: localize('actions.import'),
         onClick: onImportClick,

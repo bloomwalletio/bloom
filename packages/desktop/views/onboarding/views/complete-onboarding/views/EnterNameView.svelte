@@ -27,7 +27,6 @@
     })}
     description={localize('views.onboarding.completeOnboarding.enterName.description')}
     continueButton={{
-        type: 'submit',
         form: 'profile-name-form',
         onClick: onContinueClick,
         disabled: !profileName,

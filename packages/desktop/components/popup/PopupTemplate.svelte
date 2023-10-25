@@ -4,11 +4,11 @@
         color?: 'primary' | 'success' | 'danger' | 'info' | 'warning'
         disabled?: boolean
         restProps?: Record<string, unknown> | undefined
+        form?: string
     }
 
     interface IFormButtonProps extends IBaseButtonProps {
         type: 'submit'
-        form: string
     }
 
     interface IButtonProps extends IBaseButtonProps {
@@ -77,7 +77,7 @@
         <popup-footer class="block flex flex-row space-x-3">
             {#if backButton}
                 <Button
-                    type={_backButton.type}
+                    type="button"
                     variant="outlined"
                     text={_backButton.text}
                     disabled={busy || _backButton.disabled}
@@ -89,14 +89,14 @@
             {/if}
             {#if continueButton}
                 <Button
-                    type={_continueButton.type}
+                    type={_continueButton.form ? 'submit' : 'button'}
+                    form={_continueButton.form}
                     variant="contained"
                     color={_continueButton.color}
                     text={_continueButton.text}
                     disabled={_continueButton.disabled}
                     {busy}
                     width="full"
-                    form={_continueButton.type === 'submit' ? _continueButton.form : undefined}
                     on:click={_continueButton.type === 'button' && _continueButton.onClick}
                     {..._continueButton.restProps}
                 />

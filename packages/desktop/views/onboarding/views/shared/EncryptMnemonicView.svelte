@@ -79,7 +79,6 @@
     title={localize('views.onboarding.shared.encryptMnemonic.title')}
     description={localize('views.onboarding.shared.encryptMnemonic.description')}
     continueButton={{
-        type: 'submit',
         form: 'password-form',
         onClick: onContinueClick,
         disabled: !strongholdPassword || !confirmedStrongholdPassword,

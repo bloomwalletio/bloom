@@ -28,7 +28,6 @@
     title={localize('views.onboarding.restoreFromMnemonic.inputMnemonic.title')}
     description={localize('views.onboarding.restoreFromMnemonic.inputMnemonic.description')}
     continueButton={{
-        type: 'submit',
         form: 'text-import-form',
         onClick: onContinueClick,
         disabled: !input,
