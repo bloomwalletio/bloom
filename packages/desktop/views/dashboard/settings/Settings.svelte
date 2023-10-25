@@ -1,15 +1,10 @@
 <script lang="ts">
     import { isLocaleLoaded } from '@core/i18n'
-    import { dashboardRouter, settingsRouter } from '@core/router'
-    import { IconButton, IconName } from '@bloomwalletio/ui'
+    import { settingsRouter } from '@core/router'
+    import { CloseButton } from '@bloomwalletio/ui'
     import { onDestroy } from 'svelte'
     import { SettingsViewer } from './views'
-
-    export let handleClose: () => void = undefined
-
-    function closeSettings(): void {
-        $dashboardRouter.previous()
-    }
+    import { closeSettings } from '@contexts/settings/stores'
 
     onDestroy((): void => {
         // When a new locale is loaded the pages are reloaded
@@ -20,9 +15,20 @@
     })
 </script>
 
-<div class="relative h-full w-full p-8 bg-surface dark:bg-surface-dark flex flex-1">
-    <div class="absolute top-8 right-8">
-        <IconButton icon={IconName.CrossClose} on:click={handleClose || closeSettings} />
-    </div>
-    <SettingsViewer />
-</div>
+<overlay class="fixed h-screen w-screen flex flex-1 justify-center items-center bg-neutral-6/75 z-30">
+    <settings-popup class="relative">
+        <div class="absolute top-8 right-8">
+            <CloseButton on:click={closeSettings} />
+        </div>
+        <SettingsViewer />
+    </settings-popup>
+</overlay>
+
+<style lang="scss">
+    settings-popup {
+        @apply bg-surface dark:bg-surface-dark;
+        width: 1216px;
+        height: 632px;
+        border-radius: 32px;
+    }
+</style>

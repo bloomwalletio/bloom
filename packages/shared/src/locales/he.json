@@ -192,11 +192,11 @@
                 "title": "ייצא גיבוי",
                 "description": "מיצא לקובץ ה stronghold - גיבוי מוצפן מלא של הארנקים שלך והיסטורית העיסקאות האחרונות"
             },
-            "appLock": {
+            "autoLogout": {
                 "title": "Automatic logout",
                 "description": "זמן שהיה לפני נעילת הארנקים והתנתקות"
             },
-            "strongholdPasswordTimeout": {
+            "strongholdTimeout": {
                 "title": "Stronghold Timeout",
                 "description": "Length of time before your Stronghold password is required again"
             },

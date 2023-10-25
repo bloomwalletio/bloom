@@ -196,9 +196,7 @@
         disabled: shouldShowContinueButton ? isSearchingForRewards : !shouldClaimRewardsButtonBeEnabled,
         onClick: shouldShowContinueButton ? onContinueClick : onClaimRewardsClick,
     }}
-    backButton={{
-        hidden: true,
-    }}
+    backButton={undefined}
     busy={shouldShowContinueButton ? undefined : isClaimingRewards}
     busyText={shouldShowContinueButton ? '' : localize('actions.claiming')}
 >

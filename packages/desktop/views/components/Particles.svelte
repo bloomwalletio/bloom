@@ -1,8 +1,10 @@
 <script lang="ts">
     import { onMount, onDestroy } from 'svelte'
 
-    export let density: number = 2
-    export let speed: number = 0.25
+    export let density: number = 7
+    export let maxParticleSize = 5
+    export let minSpeed = 3
+    export let maxSpeed = 7
 
     let canvas: HTMLCanvasElement
     let ctx: CanvasRenderingContext2D
@@ -10,43 +12,34 @@
     let particles: Particle[] = []
     let isCanvasReady: boolean = false
 
-    function gaussianRand(): number {
-        let rand = 0
+    function randomInt(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min
+    }
 
-        for (let i = 0; i < 6; i += 1) {
-            rand += Math.random()
-        }
-
-        return rand / 6
+    function randomColor(): string {
+        const colors = ['#A1D4AB', '#7C41C9', '#1D64F3']
+        return colors[Math.floor(Math.random() * colors.length)]
     }
 
     class Particle {
         x: number
         y: number
         size: number
+        speed: number
         color: string
 
         constructor() {
             if (!isCanvasReady) return
 
-            this.x =
-                Math.random() < 0.5
-                    ? Math.random() * ((canvas?.width || 0) / 3)
-                    : (2 * (canvas?.width || 0)) / 3 + Math.random() * ((canvas?.width || 0) / 3)
-            const center = (canvas?.height || 0) / 2
-            const variance = (canvas?.height || 0) / 1
-            this.y = center + (gaussianRand() - 0.5) * variance
-            this.size = Math.random() * 4 + 1
-            this.color = this.generateColor()
-        }
-
-        generateColor(): string {
-            const colors = ['#A1D4AB', '#7C41C9', '#1D64F3']
-            return colors[Math.floor(Math.random() * colors.length)]
+            this.x = randomInt(0, canvas?.width || 0)
+            this.y = randomInt(0, canvas?.height || 0)
+            this.size = randomInt(1, maxParticleSize)
+            this.speed = randomInt(minSpeed, maxSpeed) / 10
+            this.color = randomColor()
         }
 
         update(): void {
-            if (this.size > 0.2) this.size -= 0.1 * speed
+            if (this.size > 0.2) this.size -= 0.1 * this.speed
         }
 
         draw(): void {

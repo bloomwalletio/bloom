@@ -192,11 +192,11 @@
                 "title": "Exporter la sauvegarde",
                 "description": "Exporter vers un fichier Stronghold - une sauvegarde chiffrée complète de vos portefeuilles et l'historique récent des transactions"
             },
-            "appLock": {
+            "autoLogout": {
                 "title": "Automatic logout",
                 "description": "Temps d'inactivité avant le verrouillage de vos portefeuilles et vous êtes déconnecté"
             },
-            "strongholdPasswordTimeout": {
+            "strongholdTimeout": {
                 "title": "Stronghold Timeout",
                 "description": "Length of time before your Stronghold password is required again"
             },

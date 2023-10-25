@@ -19,6 +19,9 @@ import { IProfileManager } from '@core/profile-manager/interfaces'
 import { profileManager } from '@core/profile-manager/stores'
 import { routerManager } from '@core/router/stores'
 import { clearFilters } from '@core/utils/clearFilters'
+import { closePopup } from '../../../../../../../desktop/lib/auxiliary/popup'
+import { closeDrawer } from '../../../../../../../desktop/lib/auxiliary/drawer'
+import { closeSettings } from '@contexts/settings/stores'
 import { clearLayer2Balance } from '@core/layer-2/stores'
 
 /**
@@ -30,6 +33,10 @@ export function logout(clearActiveProfile = true, _lockStronghold = true): void 
     } else if (isLedgerProfile(get(activeProfile).type)) {
         get(isPollingLedgerDeviceState) && stopPollingLedgerDeviceState()
     }
+
+    closePopup()
+    closeDrawer()
+    closeSettings()
 
     clearNetworkPoll()
     clearLayer2Balance()

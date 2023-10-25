@@ -1,13 +1,12 @@
 <script lang="ts">
     import { Icon, IconName, Indicator, Text } from '@bloomwalletio/ui'
-    import { dashboardRoute } from '@core/router'
-    import { ISidebarTab } from '@desktop/routers'
+    import { IDashboardSidebarTab, ISettingsSidebarTab } from '@desktop/routers'
 
-    export let tab: ISidebarTab = undefined
+    export let tab: IDashboardSidebarTab | ISettingsSidebarTab = undefined
+    export let selected: boolean = false
     export let expanded: boolean = true
 
     let hover = false
-    $: selected = $dashboardRoute === tab?.route
 
     function onClick(): void {
         tab?.onClick()

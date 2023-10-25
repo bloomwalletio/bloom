@@ -192,11 +192,11 @@
                 "title": "Export backup",
                 "description": "ایک سٹرانگ ہولڈ کی فائل میں برآمد کریں - آپ کے والیٹس اور ٹرانزیکشن کی تازہ ترین تاریخ کا ایک مکمل مرموز کردہ بیک اپ"
             },
-            "appLock": {
+            "autoLogout": {
                 "title": "Automatic logout",
                 "description": "غیر فعال ہونے کا وقت جب آپ کے والیٹس لاک ہوجاتے ہیں اور آپ لاگ آؤٹ ہوجاتے ہیں"
             },
-            "strongholdPasswordTimeout": {
+            "strongholdTimeout": {
                 "title": "Stronghold Timeout",
                 "description": "Length of time before your Stronghold password is required again"
             },
