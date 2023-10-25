@@ -12,12 +12,12 @@
         variant="success"
         text={localize('notifications.updateReady')}
         action={{ text: localize('actions.restart'), callback: Platform.installAppUpdate }}
-        dismissable={false}
+        dismissible={false}
     />
 {:else if error}
     <Toast variant="danger" text={localize('notifications.updateError')} />
 {:else if busy}
-    <Toast variant="info" text={localize('notifications.downloadingUpdate')} dismissable={false}>
-        <Progress slot="content" {progress} />
+    <Toast variant="info" text={localize('notifications.downloadingUpdate')} dismissible={false}>
+        <Progress slot="content" {progress} size="sm" />
     </Toast>
 {/if}
