@@ -1377,6 +1377,8 @@
         "privacyPolicy": "Privacy Policy",
         "termsOfService": "Terms of Service",
         "message": "Message",
+        "error": "Error",
+        "warning": "Warning",
         "failed": "failed"
     },
     "filters":{
