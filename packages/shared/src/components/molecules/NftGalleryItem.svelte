@@ -55,7 +55,7 @@
             </error-container>
             <Tooltip {anchor} placement="bottom" event="hover" text={getAlertText(nft.downloadMetadata)} />
         </div>
-        <div class="w-full flex flex-row items-center justify-between p-3 gap-2">
+        <nft-name class="w-full flex flex-row items-center justify-between p-3 gap-2">
             <Text type="body2" truncate>{nft.name}</Text>
             {#if isLocked}
                 <TooltipIcon
@@ -66,15 +66,24 @@
                     placement="top"
                 />
             {/if}
-        </div>
+        </nft-name>
     </div>
 </button>
 
 <style lang="scss">
     .nft-gallery-item {
-        @apply border border-solid border-stroke dark:border-stroke-dark;
+        @apply border border-solid border-stroke dark:border-stroke-dark
+        @apply bg-surface-1 dark:bg-surface-1-dark;
         @apply rounded-2xl;
-        @apply hover:bg-surface-1 dark:hover:bg-surface-1-dark;
+        @apply duration-300;
+        transition-property: background-color, border-color, box-shadow;
+
+        &:hover,
+        &:focus {
+            @apply shadow-lg dark:shadow-violet-900/25;
+            @apply border-2 border-brand-500;
+            @apply bg-surface dark:bg-surface-dark;
+        }
     }
 
     error-container {
