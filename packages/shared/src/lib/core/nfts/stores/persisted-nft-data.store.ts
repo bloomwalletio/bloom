@@ -21,7 +21,7 @@ export function addPersistedNftData(nftId: string, newPersistedNft: IPersistedNf
     })
 }
 
-export function removePersistedNtsForProfile(profileId: string): void {
+export function removePersistedNftsForProfile(profileId: string): void {
     persistedNfts.update((state) => {
         delete state[profileId]
         return state

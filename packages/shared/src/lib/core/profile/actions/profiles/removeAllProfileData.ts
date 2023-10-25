@@ -5,7 +5,7 @@ import {
     removePersistedBalanceChangesForProfile,
     removePersistedEvmTransactionsForProfile,
 } from '@core/activity/stores'
-import { removePersistedNtsForProfile } from '@core/nfts/stores'
+import { removePersistedNftsForProfile } from '@core/nfts/stores'
 import { removePersistedProfile } from '@core/profile/stores'
 import { removePersistedTokensForProfile } from '@core/token/stores'
 
@@ -14,7 +14,7 @@ export function removeAllProfileData(profileId: string): void {
     removePersistedEvmTransactionsForProfile(profileId)
     removePersistedBalanceChangesForProfile(profileId)
     removeClaimedActivitiesForProfile(profileId)
-    removePersistedNtsForProfile(profileId)
+    removePersistedNftsForProfile(profileId)
     removePersistedTokensForProfile(profileId)
     removePersistedShimmerClaimingTransactions(profileId)
     removeHiddenActivitiesForProfile(profileId)
