@@ -11,7 +11,7 @@ import {
 import { MILLISECONDS_PER_SECOND, sleep } from '@core/utils'
 import { TxData } from '@ethereumjs/tx'
 import type { Bip44 } from '@iota/sdk/out/types'
-import { PopupId, openPopup, closePopup } from '../../../../../../desktop/lib/auxiliary/popup'
+import { PopupId, openPopup } from '../../../../../../desktop/lib/auxiliary/popup'
 import { DEFAULT_LEDGER_API_REQUEST_OPTIONS } from '../constants'
 import { LedgerApiMethod, LedgerAppName } from '../enums'
 import { ILedgerApiBridge } from '../interfaces'
@@ -24,7 +24,6 @@ import {
 import { EvmChainId } from '@core/network/enums'
 import { toRpcSig } from '@ethereumjs/util'
 import { Converter } from '@core/utils'
-import { handleError } from '@core/error/handlers'
 
 declare global {
     interface Window {
@@ -53,25 +52,16 @@ export class Ledger {
         return Boolean((await this.getEthereumAppSettings())?.blindSigningEnabled)
     }
 
-    static async generateEvmAddress(
-        accountIndex: number,
-        coinType: number,
-        verify?: boolean
-    ): Promise<string | undefined> {
-        try {
-            const bip32Path = buildBip32PathFromBip44({
-                coinType,
-                account: accountIndex,
-            })
-            const response = await this.callLedgerApiAsync<IEvmAddress>(
-                () => ledgerApiBridge.makeRequest(LedgerApiMethod.GenerateEvmAddress, bip32Path, verify ?? false),
-                'evm-address'
-            )
-            return response.evmAddress
-        } catch (err) {
-            closePopup(true)
-            handleError(err)
-        }
+    static async generateEvmAddress(accountIndex: number, coinType: number, verify?: boolean): Promise<string> {
+        const bip32Path = buildBip32PathFromBip44({
+            coinType,
+            account: accountIndex,
+        })
+        const response = await this.callLedgerApiAsync<IEvmAddress>(
+            () => ledgerApiBridge.makeRequest(LedgerApiMethod.GenerateEvmAddress, bip32Path, verify ?? false),
+            'evm-address'
+        )
+        return response.evmAddress
     }
 
     static async signEvmTransaction(
