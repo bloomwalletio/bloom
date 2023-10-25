@@ -1,5 +1,5 @@
 import { IAccountState } from '@core/account/interfaces'
-import { calculateAndAddPersistedBalanceChange } from '@core/activity/actions'
+import { calculateAndAddPersistedTokenBalanceChange } from '@core/activity/actions'
 import { updateLayer2AccountBalanceForTokenOnChain } from '@core/layer-2/stores'
 import { NetworkId } from '@core/network/types'
 
@@ -11,5 +11,5 @@ export async function updateL2BalanceWithoutActivity(
 ): Promise<void> {
     const delta = rawAmount * -1
     const newBalance = updateLayer2AccountBalanceForTokenOnChain(account.index, networkId, tokenId, delta)
-    await calculateAndAddPersistedBalanceChange(account, networkId, tokenId, newBalance, true)
+    await calculateAndAddPersistedTokenBalanceChange(account, networkId, tokenId, newBalance, true)
 }
