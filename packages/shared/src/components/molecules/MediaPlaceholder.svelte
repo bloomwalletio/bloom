@@ -1,47 +1,36 @@
 <script lang="ts">
-    import { MimeType, ParentMimeType } from '@core/nfts'
-    import { TextColor, IconName, AvatarSize, Avatar } from '@bloomwalletio/ui'
-    import { nftDownloadQueue } from '@core/nfts/stores'
+    import { INft } from '@core/nfts'
+    import { TextColor, AvatarSize } from '@bloomwalletio/ui'
+    import MediaIcon from './MediaIcon.svelte'
 
-    export let type: MimeType | undefined
-    export let nftId: string
-    export let textColor: TextColor = 'primary'
+    export let nft: INft
     export let size: AvatarSize
-    export let surface: 0 | 1 | 2 | 'invert' | 'brand' = 0
 
-    $: isDownloading = $nftDownloadQueue.some((queueItem) => queueItem.nft.id === nftId)
-
-    function getIcon(type: MimeType | undefined): IconName {
-        const parentMimeType = type?.split('/', 1)?.[0]
-        switch (parentMimeType) {
-            case ParentMimeType.Image:
-                return IconName.ImageBorderless
-            case ParentMimeType.Video:
-                return IconName.PlaySquare
-            case ParentMimeType.Audio:
-                return IconName.Audio
-            case ParentMimeType.Text:
-                return IconName.TextFile
-            case ParentMimeType.Application:
-                return IconName.Application
-            case ParentMimeType.Model:
-                return IconName.Cube
-            case ParentMimeType.Font:
-                return IconName.Font
-            default:
-                return IconName.UnknownMediaType
-        }
-    }
+    $: placeHolderColor = nft.downloadMetadata.error
+        ? 'danger'
+        : nft.downloadMetadata.warning
+        ? 'warning'
+        : ('brand' as TextColor)
 </script>
 
-<media-placeholder class:downloading={isDownloading}>
-    <Avatar icon={getIcon(type)} {textColor} {size} {surface} />
-</media-placeholder>
+<div class="w-full h-full flex justify-center items-center bg-surface-2 dark:bg-surface-2-dark">
+    <placeholder-container class={size}>
+        <MediaIcon type={nft?.parsedMetadata?.type} nftId={nft.id} textColor={placeHolderColor} {size} />
+    </placeholder-container>
+</div>
 
 <style lang="scss">
-    media-placeholder {
-        &.downloading {
-            @apply animate-pulse;
+    placeholder-container {
+        @apply rounded-full;
+        @apply bg-surface dark:bg-surface-dark;
+        @apply flex items-center justify-center text-center;
+
+        &.md {
+            @apply h-20 w-20;
+        }
+
+        &.lg {
+            @apply h-24 w-24;
         }
     }
 </style>

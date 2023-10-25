@@ -9,7 +9,7 @@
     import { formatTokenAmountPrecise } from '@core/token'
     import { buildNftOutputBuilderParams, mintNft, mintNftDetails } from '@core/wallet'
     import { PopupId, closePopup, openPopup } from '@desktop/auxiliary/popup'
-    import { MediaPlaceholder, PopupTab, getTabItems } from '@ui'
+    import { MediaIcon, PopupTab, getTabItems } from '@ui'
     import { onMount } from 'svelte'
     import PopupTemplate from '../PopupTemplate.svelte'
 
@@ -97,7 +97,7 @@
     <div class="max-h-100 scrollable-y flex-1">
         <nft-details class="flex flex-col justify-center items-center space-y-5">
             <Avatar size="lg" shape="square" surface={2}>
-                <MediaPlaceholder {type} />
+                <MediaIcon {type} />
             </Avatar>
             <activity-details class="w-full h-full space-y-2 flex flex-auto flex-col shrink-0">
                 <Tabs bind:selectedTab tabs={TABS} />

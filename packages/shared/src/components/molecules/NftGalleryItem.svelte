@@ -1,6 +1,6 @@
 <script lang="typescript">
     import { MediaPlaceholder, NftMedia } from '@ui'
-    import { IconName, Pill, Text, TextColor, Tooltip, TooltipIcon } from '@bloomwalletio/ui'
+    import { IconName, Pill, Text, Tooltip, TooltipIcon } from '@bloomwalletio/ui'
     import { time } from '@core/app/stores'
     import { localize } from '@core/i18n'
     import { INft, NftDownloadMetadata } from '@core/nfts'
@@ -14,11 +14,6 @@
     let anchor: HTMLElement
 
     $: isLocked = nft.timelockTime && nft.timelockTime > $time.getTime()
-    $: placeHolderColor = nft.downloadMetadata.error
-        ? 'danger'
-        : nft.downloadMetadata.warning
-        ? 'warning'
-        : ('brand' as TextColor)
 
     function onNftClick(): void {
         $selectedNftId = nft.id
@@ -49,18 +44,8 @@
             style="height: {nftWrapperClientWidth}px; "
         >
             <NftMedia {nft} classes="min-w-full min-h-full object-cover" loop muted showErrorColor>
-                <div
-                    class="w-full h-full flex justify-center items-center bg-surface-2 dark:bg-surface-2-dark"
-                    slot="placeholder"
-                >
-                    <placeholder-container>
-                        <MediaPlaceholder
-                            type={nft?.parsedMetadata?.type}
-                            nftId={nft.id}
-                            textColor={placeHolderColor}
-                            size="md"
-                        />
-                    </placeholder-container>
+                <div class="w-full" slot="placeholder">
+                    <MediaPlaceholder {nft} size="md" />
                 </div>
             </NftMedia>
             <error-container bind:this={anchor}>
@@ -96,11 +81,5 @@
 
     error-container {
         @apply absolute left-3 top-3;
-    }
-    placeholder-container {
-        @apply rounded-full;
-        @apply bg-surface dark:bg-surface-dark;
-        @apply flex items-center justify-center text-center;
-        @apply h-20 w-20;
     }
 </style>

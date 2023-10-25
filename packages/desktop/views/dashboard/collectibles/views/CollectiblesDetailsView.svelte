@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { Alert, Button, IconName, Table, Text, type IItem, TextColor } from '@bloomwalletio/ui'
+    import { Alert, Button, IconName, Table, Text, type IItem } from '@bloomwalletio/ui'
     import { CollectibleDetailsMenu } from '@components'
     import { selectedAccountIndex } from '@core/account/stores'
     import { time } from '@core/app/stores'
@@ -93,12 +93,6 @@
         },
     ]
 
-    $: placeHolderColor = nft.downloadMetadata.error
-        ? 'danger'
-        : nft.downloadMetadata.warning
-        ? 'warning'
-        : ('brand' as TextColor)
-
     function returnIfNftWasSent(ownedNfts: INft[], currentTime: Date): void {
         const nft = ownedNfts.find((nft) => nft.id === id)
         const isLocked = nft.timelockTime > currentTime.getTime()
@@ -143,18 +137,8 @@
     <collectibles-details-view class="flex flex-row w-full h-full">
         <media-container class="relative flex w-full items-center justify-center p-5 overflow-hidden">
             <NftMedia {nft} autoplay controls loop muted showErrorColor>
-                <div
-                    class="w-full h-full flex justify-center items-center bg-surface-2 dark:bg-surface-2-dark"
-                    slot="placeholder"
-                >
-                    <placeholder-container>
-                        <MediaPlaceholder
-                            type={nft?.parsedMetadata?.type}
-                            nftId={nft.id}
-                            textColor={placeHolderColor}
-                            size="lg"
-                        />
-                    </placeholder-container>
+                <div class="w-full h-full" slot="placeholder">
+                    <MediaPlaceholder {nft} size="lg" />
                 </div>
             </NftMedia>
             {#if alertText}
@@ -252,12 +236,5 @@
 
     details-container {
         @apply max-w-lg;
-    }
-
-    placeholder-container {
-        @apply rounded-full;
-        @apply bg-surface dark:bg-surface-dark;
-        @apply flex items-center justify-center text-center;
-        @apply h-24 w-24;
     }
 </style>
