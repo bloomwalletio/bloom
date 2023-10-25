@@ -1,5 +1,5 @@
 import { localize } from '@core/i18n'
-import { ActivityAction, ActivityType } from '../enums'
+import { ActivityAction, ActivityDirection, ActivityType } from '../enums'
 import { Activity } from '../types'
 import { getVotingEvent } from '@contexts/governance/actions'
 import { truncateString } from '@core/utils'
@@ -25,7 +25,9 @@ export async function getActivityDetailsTitle(activity: Activity): Promise<strin
         const key = `${localizationPrefix}.governance.${activity.governanceAction}.${activity.inclusionState}`
         return localize(key, { proposalName })
     } else if (activity.action === ActivityAction.BalanceChange) {
-        return localize('general.balanceChanged')
+        return localize(
+            activity.direction === ActivityDirection.Outgoing ? 'general.balanceDecreased' : 'general.balanceIncreased'
+        )
     } else if (activity.action === ActivityAction.InitialBalance) {
         return localize('general.initialBalance')
     } else if (activity.action === ActivityAction.Send) {

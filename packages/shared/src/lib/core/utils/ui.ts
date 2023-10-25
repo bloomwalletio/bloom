@@ -2,6 +2,10 @@ import type { UiEventFunction } from './types'
 
 import type { Action } from 'svelte/action'
 
+export function pxToRem(px: number, base: number = 16): number {
+    return px / base
+}
+
 /**
  * Debounce function to limit the rate at which a function can fire;
  * prevents repeated calls to callback until wait timeout finishes
