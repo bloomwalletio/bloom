@@ -72,7 +72,7 @@
 
 <style lang="scss">
     .nft-gallery-item {
-        @apply border border-solid border-stroke dark:border-stroke-dark
+        @apply border border-solid border-stroke dark:border-stroke-dark;
         @apply bg-surface-1 dark:bg-surface-1-dark;
         @apply rounded-2xl;
         @apply duration-300;
