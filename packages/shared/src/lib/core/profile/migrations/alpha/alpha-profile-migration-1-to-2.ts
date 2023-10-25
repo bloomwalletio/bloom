@@ -1,7 +1,7 @@
 import { ITokenBalanceChange, persistedBalanceChanges } from '@core/activity'
 import { NetworkId } from '@core/network'
 
-export async function alphaProfileMigration0To2(existingProfile: unknown): Promise<void> {
+export async function alphaProfileMigration1To2(existingProfile: unknown): Promise<void> {
     const profileId = (existingProfile as { id?: string })?.id
     if (profileId) {
         persistedBalanceChanges.update((state) => {
