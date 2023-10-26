@@ -75,4 +75,10 @@
 <Text type="base" textColor="secondary" class="mb-6">
     {localize('views.settings.maxMediaSize.description')}
 </Text>
-<SelectInput bind:selected value={selected?.value} {options} />
+<SelectInput
+    label={localize('views.settings.maxMediaSize.input')}
+    bind:selected
+    value={selected?.value}
+    {options}
+    hideValue
+/>

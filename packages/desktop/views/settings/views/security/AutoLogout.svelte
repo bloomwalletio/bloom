@@ -36,4 +36,10 @@
 
 <Text type="body2" class="mb-2">{localize('views.settings.autoLogout.title')}</Text>
 <Text type="base" textColor="secondary" class="mb-6">{localize('views.settings.autoLogout.description')}</Text>
-<SelectInput bind:selected value={selected.value} {options} />
+<SelectInput
+    label={localize('views.settings.autoLogout.title')}
+    bind:selected
+    value={selected.value}
+    {options}
+    hideValue
+/>
