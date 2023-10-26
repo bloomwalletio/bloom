@@ -40,11 +40,11 @@
     }
 
     header {
-        @apply fixed z-20;
+        @apply fixed;
         height: 67px;
 
         &.glass {
-            @apply bg-surface/90 dark:bg-surface-dark/60;
+            @apply bg-surface/90 dark:bg-surface-dark/60 z-20;
             backdrop-filter: blur(16px);
         }
     }
