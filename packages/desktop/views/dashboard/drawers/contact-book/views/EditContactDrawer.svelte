@@ -54,7 +54,7 @@
     title={localize(`views.dashboard.drawers.contactBook.${ContactBookRoute.EditContact}.title`)}
     {drawerRouter}
 >
-    <update-contact class="flex flex-col justify-between gap-4">
+    <form on:submit|preventDefault={updateContact} id="edit-contact-form" class="flex flex-col justify-between gap-4">
         <TextInput
             bind:this={nameInput}
             bind:value={contactName}
@@ -69,8 +69,13 @@
             label={localize('general.note')}
             validationFunction={validateContactNote}
         />
-    </update-contact>
-    <div slot="footer">
-        <Button text={localize('actions.save')} width="full" on:click={updateContact} />
-    </div>
+    </form>
+    <Button
+        slot="footer"
+        type="submit"
+        form="edit-contact-form"
+        text={localize('actions.save')}
+        width="full"
+        on:click={updateContact}
+    />
 </DrawerTemplate>

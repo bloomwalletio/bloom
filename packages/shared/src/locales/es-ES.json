@@ -1,157 +1,162 @@
 {
     "views": {
         "onboarding": {
-            "appSetup": {
-                "welcome": {
-                    "title": "Welcome to",
-                    "subtitle": "A new journey awaits...",
-                    "legalBody": "Check to confirm you've read and accept the",
-                    "button": "Begin setup"
-                },
-                "legal": {
-                    "title": "Política de Privacidad & Términos de Servicio"
-                }
+            "welcome": {
+                "title": "Welcome to",
+                "subtitle": "A new journey awaits...",
+                "legalAction": "Confirm you've read and accept the",
+                "button": "Begin setup"
             },
             "networkSetup": {
                 "chooseNetwork": {
-                    "title": "Seleccionar red",
-                    "body": "Establecer la red para tu perfil.",
+                    "title": "Choose your network",
                     "iota": {
-                        "title": "IOTA",
-                        "body": "Red principal IOTA"
+                        "primary": "IOTA Mainnet",
+                        "secondary": "Production network with stable features"
                     },
                     "shimmer": {
-                        "title": "Shimmer",
-                        "body": "Red de pruebas para IOTA"
+                        "primary": "Shimmer",
+                        "secondary": "Experimental network with the latest features"
                     },
                     "testnet": {
-                        "title": "Red de pruebas",
-                        "body": "Red beta pública para Shimmer"
+                        "primary": "Testnet",
+                        "secondary": "Test network using valueless tokens"
                     },
                     "custom": {
-                        "title": "Red personalizada",
-                        "body": "Soporte para redes y/o nodos personalizados"
+                        "primary": "Advanced configuration",
+                        "secondary": "Connect to any network with custom settings"
                     }
                 },
                 "setupCustomNetwork": {
-                    "title": "Conectar a una red o nodo personalizado"
+                    "title": "Advanced configuration"
                 }
             },
-            "profileSetup": {
-                "setup": {
-                    "title": "Set up {network, select, IOTA {an} Shimmer {a} Testnet {a} other {a}} {network} profile",
-                    "body": "Select the appropriate method to set up your {network} profile."
+            "chooseOnboardingFlow": {
+                "title": "Choose your setup type",
+                "new": {
+                    "primary": "New profile",
+                    "secondary": "Create a new profile with a mnemonic or Ledger Nano"
                 },
-                "setupNew": {
-                    "title": "Crear un perfil",
-                    "body": "Puedes elegir una cartera de software normal o, si tienes un dispositivo Ledger puedes configurar una cartera de hardware.",
-                    "softwareAccount": {
-                        "title": "Crear un perfil de software",
-                        "description": "Proporciona un archivo Stronghold y una frase de recuperación"
+                "restore": {
+                    "primary": "Restore profile",
+                    "secondary": "Restore existing profile with a backup or Ledger Nano"
+                },
+                "claim": {
+                    "primary": "Claim Shimmer rewards",
+                    "secondary": "Claim staking rewards using an IOTA backup"
+                }
+            },
+            "createProfile": {
+                "chooseCreateProfileFlow": {
+                    "title": "Choose your key storage",
+                    "software": {
+                        "primary": "Software storage",
+                        "secondary": "Store keys in a Stronghold file with your recovery phrase"
                     },
-                    "ledgerAccount": {
-                        "title": "Crear un perfil de hardware",
-                        "description": "Se necesita un Ledger Nano S o Nano X"
+                    "hardware": {
+                        "primary": "Hardware storage",
+                        "secondary": "Use the keys stored on your Ledger Nano device"
                     }
-                },
-                "setupRecovered": {
-                    "title": "Recover {network} profile",
-                    "body": "Si tienes una frase de recuperación o una copia de seguridad Stronghold, puedes importarla aquí.",
-                    "importMnemonic": "Usar frase de recuperación",
-                    "importMnemonicDescription": "Introduzca su frase de recuperación de 24 palabras",
-                    "importFile": "Usar copia de seguridad de Stronghold",
-                    "importFileDescription": "Importa tu copia de seguridad de Stronghold",
-                    "importLedger": "Usar dispositivo Ledger",
-                    "importLedgerDescription": "Restaurar desde tu dispositivo Ledger Nano S o X"
-                },
-                "enterName": {
-                    "title": "Define your {network} profile",
-                    "profileName": "Nombre de perfil",
-                    "body": "Please define a new name for your profile."
                 }
             },
-            "strongholdSetup": {
-                "setupStrongholdPassword": {
-                    "title": "Secure Recovery Phrase",
-                    "body": "Your password needs to be highly secure to encrypt and recover your Stronghold vault. Also, you will need this to send tokens from your wallet."
-                }
-            },
-            "storageProtectionSetup": {
-                "setupPinProtection": {
-                    "title": "Establecer código PIN",
-                    "body": "Enter a 6-digit PIN below. Use numbers only."
-                }
-            },
-            "profileBackup": {
+            "createFromMnemonic": {
                 "viewMnemonic": {
-                    "title": "Frase de recuperación",
-                    "body": "Carefully copy the words in the exact order below. Keep this private and safely stored.",
-                    "revealRecoveryPhrase": "Mostrar frase de recuperación",
-                    "hideRecoveryPhrase": "Ocultar frase de recuperación"
+                    "title": "Record your recovery phrase",
+                    "description": "This recovery phrase is your most important secret. It is the master key to all your funds. Do not show this to anyone."
                 },
                 "verifyMnemonic": {
-                    "title": "Verificar frase de recuperación",
-                    "body": "Let’s check you wrote down your phrase correctly. Please select the right word with the corresponding number.",
-                    "word": "Palabra",
-                    "match": "Match from below",
-                    "success": {
-                        "title": "Verification success",
-                        "body1": "The recovery phrase matched",
-                        "body2": "Remember to keep your copy private and safely stored"
+                    "title": "Verify your recovery phrase",
+                    "description": "Let’s check you wrote down your phrase correctly. Please select the word with the corresponding number below.",
+                    "matchWord": "Match word #{number}:",
+                    "noMatch": "Does not match"
+                },
+                "verifyMnemonicSuccess": {
+                    "status": "Verification Success",
+                    "title": "Recovery phrase matched",
+                    "description": "Remember to keep your copies private and secure"
+                }
+            },
+            "createFromLedger": {
+                "installLedger": {
+                    "title": "Install the Ledger app",
+                    "description": "Use Ledger Live to find and install the required app on your Ledger Nano device."
+                },
+                "connectLedger": {
+                    "title": "Connect your Ledger to Bloom",
+                    "description": "Please ensure that the official Ledger Live application is closed and follow the steps below.",
+                    "connect": "Connect your Ledger device",
+                    "unlock": "Unlock your Ledger with its pin",
+                    "open": "Open the Shimmer app on your Ledger"
+                }
+            },
+            "restoreProfile": {
+                "chooseRestoreProfileFlow": {
+                    "title": "Choose your recovery method",
+                    "mnemonic": {
+                        "primary": "Recovery phrase",
+                        "secondary": "Restore keys with a 12 or 24 word recovery phrase"
                     },
-                    "failure": {
-                        "title": "Verification failure",
-                        "body1": "The recovery phrase did not match",
-                        "body2": "Please check your records"
+                    "file": {
+                        "primary": "Backup file",
+                        "secondary": "Restore profile with a Stronghold backup file"
+                    },
+                    "hardware": {
+                        "primary": "Hardware device",
+                        "secondary": "Restore profile with a Ledger Nano device"
+                    }
+                },
+                "claimFinder": {
+                    "title": "Claim your Shimmer rewards",
+                    "description": "Use the balance finder below, and check if your Shimmer staking rewards balance is correct before claiming.",
+                    "success": "Successfully found {amount}"
+                }
+            },
+            "restoreFromMnemonic": {
+                "inputMnemonic": {
+                    "title": "Enter your recovery phrase",
+                    "description": "A recovery phrase is a 12 or 24 word master key to all your funds that you will have recorded when making an existing profile. Enter it below and separate each word with spaces.",
+                    "phraseDetected": {
+                        "12": "12 word recovery phrase detected",
+                        "24": "24 word recovery phrase detected"
                     }
                 }
             },
-            "profileRecovery": {
-                "importMnemonicPhrase": {
-                    "title": "Ingresa tu frase de recuperación",
-                    "body": "A recovery phrase is 24 words long, all lower case, with spaces between. Separate each word by spaces or commas.",
-                    "phraseDetected": "Frase de recuperación de 24 palabras detectada"
-                },
-                "importStrongholdBackup": {
-                    "title": "Restore your profile",
-                    "body": "Importa una copia de seguridad de Stronghold para restaurar tu perfil."
+            "restoreFromStronghold": {
+                "importStronghold": {
+                    "title": "Import your backup file",
+                    "description": "Drop your Stronghold backup file or choose one from the file explorer to restore your profile."
                 },
                 "unlockBackup": {
                     "title": "Unlock your backup",
-                    "body": "Please provide your backup password below."
+                    "description": "Please provide the password for the backup below to decrypt your keys."
                 }
             },
-            "shimmerClaiming": {
-                "claimRewards": {
-                    "title": "Shimmer staking rewards",
-                    "body": "Please check if your Shimmer staking rewards balance is correct. If not, please use the balance finder."
+            "shared": {
+                "encryptMnemonic": {
+                    "title": "Secure your profile",
+                    "description": "Make your password highly secure to encrypt your keys. This will be required to send tokens and assets."
+                }
+            },
+            "completeOnboarding": {
+                "enterName": {
+                    "title": "Give your profile a name",
+                    "description": "Be as creative as you like! You can change this later."
                 },
-                "success": {
-                    "title": "Shimmer reclamado",
-                    "body": "Has reclamado con éxito tus tokens de Shimmer.",
-                    "totalRewards": "Total de recompensas",
-                    "successfullyFound": "Successfully found {amount}"
+                "enterPin": {
+                    "title": "Add a PIN number",
+                    "description": "The 6-digit PIN gives you quick entry to your profile and helps prevent unwanted access."
+                },
+                "finishOnboarding": {
+                    "status": "Setup complete",
+                    "appSetup": {
+                        "title": "Bloom is ready",
+                        "action": "Enter Bloom"
+                    },
+                    "profileSetup": {
+                        "title": "Profile is ready"
+                    }
                 }
-            },
-            "congratulations": {
-                "title": "Setup complete",
-                "body1": "Bloom is ready",
-                "body2": "Profile is ready",
-                "body3": "Seamlessly manage your keys, assets and transactions.",
-                "action": "Enter Bloom"
             }
-        },
-        "ledgerInstallationGuide": {
-            "title": "Have you installed the necessary Ledger app?",
-            "body": "Use Ledger Live to find and install the {network} app.",
-            "action": "Yes, let's continue"
-        },
-        "connectLedger": {
-            "title": "Connect your Ledger to Bloom",
-            "body": "For your Ledger device to be found by Bloom, please ensure that the official Ledger Live application is closed and the following steps are followed.",
-            "connect": "Conecte su dispositivo Ledger",
-            "unlock": "Desbloquea tu Ledger con su pin",
-            "openApp": "Abre la aplicación Shimmer en tu Ledger"
         },
         "settings": {
             "settings": "Ajustes",
@@ -170,8 +175,8 @@
             "advanced": {
                 "title": "Avanzado"
             },
-            "helpAndInfo": {
-                "title": "Ayuda & Información"
+            "help": {
+                "title": "Help"
             },
             "theme": {
                 "title": "Tema",
@@ -194,10 +199,10 @@
             },
             "autoLogout": {
                 "title": "Automatic logout",
-                "description": "Tiempo de inactividad antes de que se bloqueen tus carteras y se te cierre la sesión"
+                "description": "Inactivity time before your wallets lock and you are logged out"
             },
             "strongholdTimeout": {
-                "title": "Stronghold Timeout",
+                "title": "Stronghold timeout",
                 "description": "Length of time before your Stronghold password is required again"
             },
             "maxMediaSize": {
@@ -321,7 +326,8 @@
                 "network": "Network",
                 "marketCap": "Market cap",
                 "price": "Price",
-                "amount": "Amount"
+                "total": "Total",
+                "available": "Available"
             },
             "activity": {
                 "tab": "Activity",
@@ -792,6 +798,10 @@
             "info": "Por favor, confirme la transacción interna en su Ledger.",
             "hint": "Todos los activos permanecerán en su cartera al enviar una transacción interna."
         },
+        "verifyMessageSigning": {
+            "title": "Verify message signing",
+            "info": "Please confirm the message signing on your ledger."
+        },
         "crashReporting": {
             "title": "Informes de fallos",
             "body": "Help the developers improve Bloom by automatically sending diagnostic data when an error or crash occurs. If selected, this will take effect after restarting Bloom.",
@@ -799,7 +809,6 @@
         },
         "signMessage": {
             "title": "Sign message",
-            "message": "Message",
             "hint": "No balance will be sent to {dappName} in the process of signing this message.",
             "warning": "dApp cannot be determined. No balance will be sent in the process of signing this message.",
             "action": "Sign message"
@@ -893,8 +902,6 @@
             }
         },
         "legalUpdate": {
-            "tosTitle": "Términos del Servicio",
-            "privPolicyTitle": "Política de Privacidad",
             "tosAndPrivPolicyBody": "We have updated Bloom's Terms of Service and Privacy Policy.",
             "tosBody": "We have updated Bloom's Terms of Service.",
             "privPolicyBody": "We have updated Bloom's Privacy Policy.",
@@ -1054,26 +1061,10 @@
             "hint": "Por favor, ten en cuenta que quemar un NFT libera el depósito asociado al mismo y no es reversible."
         },
         "save": "Guardar",
-        "restoreWallet": {
-            "iota": "Migrar o restaurar una cartera",
-            "shimmer": "Restaurar perfil de Shimmer",
-            "testnet": "Restore Testnet profile",
-            "custom": "Restore Custom Network profile"
-        },
-        "restoreWalletDescription": {
-            "iota": "Migrar a Chrysalis o restaurar una cartera existente",
-            "shimmer": "Restaurar un perfil de Shimmer existente",
-            "testnet": "Restore an existing Testnet profile",
-            "custom": "Restore an existing Custom Network profile"
-        },
         "refreshNftMedia": {
             "title": "Refresh NFT media",
             "description": "Do you want to delete and re-download all NFT media for this account?"
         },
-        "createWallet": "Create a new {network} profile",
-        "createWalletDescription": "Create a fresh profile running on {network, select, iota {Chrysalis} shimmer {Shimmer} testnet {Testnet} custom {Custom Network} other {Unknown}}",
-        "claimShimmer": "Reclamar recompensas de staking de Shimmer",
-        "claimShimmerDescription": "Importar perfil IOTA y reclamar recompensas de staking",
         "createAlias": "Crear alias",
         "createAliasDescription": "Crear salida de alias",
         "setPin": "Establecer PIN",
@@ -1226,7 +1217,8 @@
         "burningfoundry": "Burning token",
         "burnedbasic": "Burned token",
         "burningbasic": "Burning token",
-        "balanceChanged": "Balance changed",
+        "balanceDecreased": "Balance decreased",
+        "balanceIncreased": "Balance increased",
         "initialBalance": "Initial balance",
         "consolidated": "Consolidated",
         "consolidating": "Consolidating",
@@ -1287,7 +1279,7 @@
         "pinCodeFailed": "Error al actualizar el código PIN",
         "passwordStrength": "Robustez de la contraseña",
         "passwordStrength0": "Mala",
-        "passwordStrength1": "Pobre",
+        "passwordStrength1": "Very weak",
         "passwordStrength2": "Débil",
         "passwordStrength3": "Promedio",
         "passwordStrength4": "Fuerte",
@@ -1307,6 +1299,7 @@
         "storageDepositPerNft": "Storage deposit per NFT",
         "totalStorageDeposit": "Total storage deposit",
         "expirationTime": "Tiempo de expiración",
+        "expiration": "Expiration",
         "timelockDate": "Bloqueo de tiempo",
         "claimedTime": "Reclamado ( Claimed at )",
         "nftId": "ID de NFT",
@@ -1314,15 +1307,14 @@
         "governorAddress": "Dirección del Gobernador",
         "stateControllerAddress": "Dirección del controlador de estado",
         "copiedToClipboard": "Copiado al portapapeles",
-        "copiedThis": "I've copied this",
         "availableBalanceWithValue": "Saldo disponible: {balance}",
-        "amountClaimed": "{amount} reclamado",
         "metadata": "Metadata",
         "amountConsolidatedInputs": "Salidas consolidadas",
         "name": "Nombre",
         "note": "Note",
         "tag": "Etiqueta",
         "nodeList": "Lista de nodos",
+        "claimed": "claimed",
         "claimedIn": "Reclamado ( Claimed in )",
         "claimingIn": "Reclamando (Claiming in)",
         "assets": "Activos",
@@ -1379,7 +1371,13 @@
         "disconnected": "Disconnected",
         "balanceBreakdown": "Balance breakdown",
         "primary": "Primary",
-        "color": "Color"
+        "color": "Color",
+        "privacyPolicy": "Privacy Policy",
+        "termsOfService": "Terms of Service",
+        "message": "Message",
+        "error": "Error",
+        "warning": "Warning",
+        "failed": "failed"
     },
     "filters": {
         "title": "Filtros",
@@ -1676,7 +1674,7 @@
             "invalid": "The backup file was not recognized.",
             "destination": "El destino de la copia de seguridad no era válido.",
             "migrationRequired": "Se requiere migrar Stronghold.",
-            "phraseWordCount": "Debe haber 24 palabras en tu frase de recuperación, ahora mismo tiene {length, plural, one {1} other {#}}.",
+            "phraseWordCount": "Your recovery phrase consists of 12 or 24 words, currently there {length, plural, one {is #} other {are #}}.",
             "phraseUnrecognizedWord": "No se reconoce la palabra \"{word}\" en tu frase de recuperación",
             "phraseCaseWord": "La palabra \"{word}\" debe estar en minúsculas",
             "unableToCopyFile": "No se puede copiar el archivo de copia de seguridad de Stronghold",

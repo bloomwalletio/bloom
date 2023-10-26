@@ -2,11 +2,20 @@ import { IFeatureFlag } from '@lib/features/interfaces'
 
 export interface IAnalyticsFeatures extends IFeatureFlag {
     appStart: IFeatureFlag
-    onboardingRoute: IFeatureFlag
-    loginRoute: IFeatureFlag
+    drawerRoute: {
+        contactBook: IFeatureFlag
+        dappConfig: IFeatureFlag
+        networkConfig: IFeatureFlag
+    }
     dashboardRoute: IFeatureFlag & {
-        wallet: IFeatureFlag & {
+        collectibles: IFeatureFlag
+        governance: IFeatureFlag
+        settings: IFeatureFlag
+        wallet: {
             sendFlow: IFeatureFlag
         }
     }
+    loginRoute: IFeatureFlag
+    onboardingRoute: IFeatureFlag
+    updateStrongholdRoute: IFeatureFlag
 }

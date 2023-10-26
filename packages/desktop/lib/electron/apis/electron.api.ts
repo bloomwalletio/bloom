@@ -215,8 +215,12 @@ export default {
                 }
             })
     },
-    trackEvent(eventName: string, eventProperties: unknown): Promise<unknown> {
-        return ipcRenderer.invoke('track-event', eventName, eventProperties)
+    trackEvent(eventName: string, eventProperties?: unknown): Promise<unknown | undefined> {
+        if (features.analytics.enabled) {
+            return ipcRenderer.invoke('track-event', eventName, eventProperties)
+        } else {
+            return undefined
+        }
     },
     isFeatureFlagEnabled(keyPath: string): boolean {
         const feature = keyPath
