@@ -122,7 +122,7 @@
 <form id="form-change-password" on:submit|preventDefault={changePassword}>
     <Text type="body2" class="mb-2">{localize('views.settings.changePassword.title')}</Text>
     <Text type="base" textColor="secondary" class="mb-6">{localize('views.settings.changePassword.description')}</Text>
-    <div class="flex flex-col w-full gap-4 mb-6">
+    <div class="flex flex-col w-2/3 gap-4 mb-6">
         <PasswordInput
             error={localize(currentPasswordError)}
             bind:value={currentPassword}
