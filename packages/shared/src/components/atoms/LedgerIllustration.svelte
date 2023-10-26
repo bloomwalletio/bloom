@@ -5,6 +5,8 @@
     export let pill: { localeKey: string; color: string }
     export let showArrows: boolean = false
     export let illustration: 'ledger-device' | 'ledger-live' = 'ledger-device'
+
+    const isLedgerDeviceIllustration = illustration === 'ledger-device'
 </script>
 
 <ledger-illustration class="flex relative justify-center items-center w-full">
@@ -17,9 +19,9 @@
     {/if}
     <img
         data-label="illustration"
-        width="100%"
-        height="100%"
-        src={`assets/illustrations/ledger/${illustration === 'ledger-device' ? 'ledger-base' : illustration}.svg`}
+        width={isLedgerDeviceIllustration ? '100%' : '80%'}
+        height={isLedgerDeviceIllustration ? '100%' : '80%'}
+        src={`assets/illustrations/ledger/${isLedgerDeviceIllustration ? 'ledger-base' : illustration}.svg`}
         alt="Ledger Device"
     />
     <div class="absolute">

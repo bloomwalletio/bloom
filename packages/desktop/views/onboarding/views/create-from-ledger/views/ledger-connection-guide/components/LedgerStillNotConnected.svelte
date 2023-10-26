@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { Link, Text } from '@bloomwalletio/ui'
+    import { Avatar, IconName, Link, Text } from '@bloomwalletio/ui'
     import { LedgerIllustration } from '@ui'
     import { localize } from '@core/i18n'
     import { openUrlInBrowser } from '@core/app'
@@ -24,6 +24,16 @@
         external
     />
 </div>
-<div class="flex justify-center items-center">
-    <LedgerIllustration />
+<div class="flex flex-col justify-center items-center">
+    <LedgerIllustration illustration="ledger-live">
+        <div class="tool-avatar">
+            <Avatar icon={IconName.Tool2} size="md" backgroundColor="yellow-600" />
+        </div>
+    </LedgerIllustration>
 </div>
+
+<style lang="postcss">
+    .tool-avatar {
+        transform: translateY(52px);
+    }
+</style>
