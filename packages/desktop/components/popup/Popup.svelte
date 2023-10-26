@@ -54,7 +54,6 @@
     export let props: any
     export let hideClose: boolean = false
     export let preventClose: boolean = false
-    export let fullScreen: boolean
     export let transition = true
     export let overflow = false
     export let autofocusContent = true
@@ -211,10 +210,6 @@
 
         &.fit {
             max-width: fit-content;
-        }
-
-        &:not(.full-screen) {
-            max-height: calc(100vh - 50px);
         }
     }
 </style>
