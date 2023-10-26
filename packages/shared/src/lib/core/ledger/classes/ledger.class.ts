@@ -76,7 +76,7 @@ export class Ledger {
         const mustEnableBlindSigning =
             isBlindSigningRequiredForEvmTransaction(transactionData) && !(await this.isBlindSigningEnabledForEvm())
         if (mustEnableBlindSigning) {
-            await this.enableBlindSigning()
+            await this.userEnablesBlindSigning()
         }
 
         openPopup({
@@ -181,7 +181,7 @@ export class Ledger {
         return Promise.reject(localize('error.ledger.timeout'))
     }
 
-    private static enableBlindSigning(): Promise<void> {
+    private static userEnablesBlindSigning(): Promise<void> {
         return new Promise((resolve, reject) => {
             let isDisabled = true
             openPopup({
@@ -194,7 +194,7 @@ export class Ledger {
                     },
                     onClose: () => {
                         if (isDisabled) {
-                            reject('must enable blind siging')
+                            reject(localize('popups.enableLedgerBlindSigning.info'))
                         }
                     },
                 },
