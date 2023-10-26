@@ -186,9 +186,4 @@
         @apply w-full h-16 justify-center items-center;
         @apply border-t border-solid border-stroke dark:border-stroke-dark;
     }
-
-    :global(body.platform-win32) aside {
-        @apply -top-0;
-        @apply pt-10;
-    }
 </style>
