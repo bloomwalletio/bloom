@@ -64,11 +64,15 @@
         Small = 'small',
         Medium = 'medium',
         Large = 'large',
+        Fit = 'fit',
     }
 
     let size: PopupSize = PopupSize.Medium
 
     $: switch (id) {
+        case PopupId.VerifyLedgerTransaction:
+            size = PopupSize.Fit
+            break
         case PopupId.LedgerConnection:
             size = PopupSize.Large
             break
@@ -181,14 +185,7 @@
         : 'top-0'} left-0 w-screen h-full z-30 bg-neutral-6/75"
 >
     <button type="button" tabindex="0" on:focus={onFocusFirst} />
-    <popup
-        use:clickOutside
-        on:clickOutside={tryClosePopup}
-        bind:this={popupContent}
-        class:overflow
-        class:relative
-        class={size}
-    >
+    <popup use:clickOutside on:clickOutside={tryClosePopup} bind:this={popupContent} class:relative class={size}>
         <svelte:component this={POPUP_MAP[id]} {...props} />
         {#if !hideClose}
             <CloseButton on:click={tryClosePopup} size="sm" class="absolute top-8 right-8 p-2" />
@@ -197,25 +194,27 @@
     <button type="button" tabindex="0" on:focus={onFocusLast} />
 </overlay>
 
-<style lang="scss">
-    overlay {
-        popup {
-            @apply w-full p-8;
-            @apply bg-surface dark:bg-surface-dark;
-            @apply border border-solid border-stroke dark:border-stroke-dark;
-            @apply shadow-elevation-4;
-            border-radius: 32px;
+<style lang="postcss">
+    popup {
+        @apply w-full p-8;
+        @apply bg-surface dark:bg-surface-dark;
+        @apply border border-solid border-stroke dark:border-stroke-dark;
+        @apply shadow-elevation-4;
+        border-radius: 32px;
 
-            &.medium {
-                max-width: 480px;
-            }
-            &.large {
-                max-width: 630px;
-            }
-            &:not(.full-screen):not(.overflow) {
-                @apply overflow-y-auto;
-                max-height: calc(100vh - 50px);
-            }
+        &.medium {
+            max-width: 480px;
+        }
+        &.large {
+            max-width: 630px;
+        }
+
+        &.fit {
+            max-width: fit-content;
+        }
+
+        &:not(.full-screen) {
+            max-height: calc(100vh - 50px);
         }
     }
 </style>
