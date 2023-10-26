@@ -135,12 +135,15 @@ export class Ledger {
             () => ledgerApiBridge.makeRequest(LedgerApiMethod.SignMessage, messageHex, bip32Path),
             'signed-message'
         )
-        if (transactionSignature) {
-            const { r, v, s } = transactionSignature
+
+        const { r, v, s } = transactionSignature
+        if (r && v && s) {
             const vBig = BigInt(v)
             const rBuffer = Buffer.from(r, 'hex')
             const sBuffer = Buffer.from(s, 'hex')
             return toRpcSig(vBig, rBuffer, sBuffer)
+        } else {
+            throw new Error(localize('error.ledger.rejected'))
         }
     }
 
@@ -157,22 +160,16 @@ export class Ledger {
 
         callback()
 
-        let receivedResponse = false
         let returnValue: R | undefined = undefined
 
         Platform.onEvent(responseEvent, (value) => {
-            receivedResponse = true
             returnValue = <R>value
         })
 
         for (let count = 0; count < iterationCount; count++) {
-            if (receivedResponse) {
+            if (returnValue) {
                 Platform.removeListenersForEvent(responseEvent)
-                if (returnValue && Object.keys(returnValue).length !== 0) {
-                    return returnValue
-                } else {
-                    return Promise.reject('error.ledger.rejected')
-                }
+                return returnValue
             }
             await sleep(pollingInterval)
         }
