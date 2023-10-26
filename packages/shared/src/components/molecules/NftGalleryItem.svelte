@@ -34,10 +34,8 @@
     }
 </script>
 
-<button type="button" on:click={onNftClick} class="nft-gallery-item flex flex-col items-center justify-center">
-    <div
-        class="w-full rounded-2xl overflow-hidden flex flex-col divide-y divide-solid divide-stroke dark:divide-stroke-dark"
-    >
+<button type="button" on:click={onNftClick} class="nft-gallery-item">
+    <container>
         <div
             class="w-full flex relative bg-surface-2 dark:bg-surface-2-dark"
             bind:clientWidth={nftWrapperClientWidth}
@@ -55,7 +53,7 @@
             </error-container>
             <Tooltip {anchor} placement="bottom" event="hover" text={getAlertText(nft.downloadMetadata)} />
         </div>
-        <div class="w-full flex flex-row items-center justify-between p-3 gap-2">
+        <nft-name class="w-full flex flex-row items-center justify-between p-3 gap-2">
             <Text type="body2" truncate>{nft.name}</Text>
             {#if isLocked}
                 <TooltipIcon
@@ -66,15 +64,29 @@
                     placement="top"
                 />
             {/if}
-        </div>
-    </div>
+        </nft-name>
+    </container>
 </button>
 
 <style lang="scss">
     .nft-gallery-item {
-        @apply border border-solid border-stroke dark:border-stroke-dark;
-        @apply rounded-2xl;
-        @apply hover:bg-surface-1 dark:hover:bg-surface-1-dark;
+        container {
+            @apply w-full overflow-hidden flex flex-col divide-y divide-solid divide-stroke dark:divide-stroke-dark;
+            @apply border border-solid border-stroke dark:border-stroke-dark;
+            @apply bg-surface-1 dark:bg-surface-1-dark;
+            @apply rounded-2xl;
+            @apply duration-300;
+            transition-property: background-color, border-color, box-shadow;
+        }
+
+        &:hover,
+        &:focus {
+            container {
+                @apply shadow-lg dark:shadow-violet-900/25;
+                @apply border-2 border-brand-500;
+                @apply bg-surface dark:bg-surface-dark;
+            }
+        }
     }
 
     error-container {

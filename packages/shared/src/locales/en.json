@@ -569,7 +569,7 @@
     "popups": {
         "enableLedgerBlindSigning": {
             "title": "Enable Blind Signing",
-            "info": "In order to confirm this transaction you need to enable Blind Signing on your Ledger device.",
+            "info": "You need to enable Blind Signing on your Ledger device to confirm this transaction.",
             "step_1": "Connect and unlock your Ledger device",
             "step_2": "Open the {appName} application",
             "step_3": "Press the right button to navigate to Settings, then press both buttons to validate. Your Ledger device displays Blind Signing.",
