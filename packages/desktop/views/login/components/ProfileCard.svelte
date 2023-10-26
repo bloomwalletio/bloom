@@ -47,20 +47,23 @@
 
 <style lang="postcss">
     .profile {
+        @apply z-10;
         @apply duration-300;
         @apply relative flex flex-col items-center justify-center gap-5 p-10;
         @apply border border-solid border-stroke dark:border-stroke-dark rounded-2xl;
         @apply bg-surface-1 dark:bg-surface-1-dark;
         @apply disabled:pointer-events-none disabled:opacity-50;
-        transition-property: background-color, border-color, box-shadow;
+        transition-property: background-color, border-color, box-shadow, z-index;
         width: var(--profile-card-width, 14rem);
         height: var(--profile-card-width, 14rem);
 
         &:hover,
         &:focus {
-            @apply shadow-lg dark:shadow-violet-900/25;
+            @apply z-0;
             @apply border-2 border-brand-500;
             @apply bg-surface dark:bg-surface-dark;
+            @apply shadow-[-20px_-20px_64px_15px_rgba(137,190,155,0.10),-20px_20px_64px_15px_rgba(195,149,255,0.10),20px_0px_64px_15px_rgba(114,170,255,0.10),0px_12px_32px_-12px_rgba(0,0,0,0.15)];
+            @apply dark:shadow-[0px_12px_32px_-12px_rgba(0,0,0,0.5),-10px_-20px_64px_15px_rgba(0,101,255,0.1),10px_20px_64px_15px_rgba(217,43,221,0.05)];
         }
     }
 
