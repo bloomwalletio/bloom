@@ -59,9 +59,10 @@
 
         &:hover,
         &:focus {
-            @apply shadow-lg dark:shadow-violet-900/25;
             @apply border-2 border-brand-500;
             @apply bg-surface dark:bg-surface-dark;
+            @apply shadow-[0px_4px_64px_rgba(221,135,223,0.10),0px_8px_64px_rgba(195,149,255,0.10),0px_12px_64px_rgba(114,170,255,0.10),0px_12px_32px_-12px_rgba(0,0,0,0.15)];
+            @apply dark:shadow-[0px_4px_64px_rgba(214,0,218,0.1),0px_8px_64px_rgba(111,0,255,0.1),0px_12px_64px_rgba(0,102,255,0.1),0px_12px_32px_-12px_rgba(0,0,0,0.15)];
         }
     }
 
