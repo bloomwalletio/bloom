@@ -71,7 +71,9 @@
         {/if}
     </popup-header>
     {#if $$slots.default}
-        <slot />
+        <popup-slot>
+            <slot />
+        </popup-slot>
     {/if}
     {#if backButton || continueButton}
         <popup-footer class="block flex flex-row space-x-3">
@@ -108,5 +110,10 @@
 <style lang="postcss">
     title-row {
         margin-right: 28px;
+    }
+
+    popup-slot {
+        @apply overflow-y-auto;
+        max-height: 70vh;
     }
 </style>
