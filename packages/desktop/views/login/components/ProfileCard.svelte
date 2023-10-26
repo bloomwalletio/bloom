@@ -51,7 +51,6 @@
         @apply relative flex flex-col items-center justify-center gap-5 p-10;
         @apply border border-solid border-stroke dark:border-stroke-dark rounded-2xl;
         @apply bg-surface-1 dark:bg-surface-1-dark;
-        @apply bg-surface-1 dark:bg-surface-1-dark;
         @apply disabled:pointer-events-none disabled:opacity-50;
         transition-property: background-color, border-color, box-shadow;
         width: var(--profile-card-width, 14rem);
