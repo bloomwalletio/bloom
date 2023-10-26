@@ -84,7 +84,7 @@
     }
     profile-card-list {
         @apply max-w-[80vw] max-h-full overflow-auto box-content;
-        @apply pl-12 pr-16 -mr-4 my-auto pt-[4.75rem] pb-16 gap-5 items-center;
+        @apply pl-24 pr-24 -mr-4 my-auto pt-[4.75rem] pb-16 gap-5 items-center;
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(var(--profile-card-width, 1fr), 1fr));
     }
