@@ -21,6 +21,6 @@
     header={localize(`popups.appUpdate.${APP_STAGE}`)}
     body={localize(`${localeKey}.body`)}
     open
-    dismissable={false}
+    dismissible={false}
     button={APP_STAGE === AppStage.PROD ? { text: localize(`${localeKey}.button`), onClick } : undefined}
 />

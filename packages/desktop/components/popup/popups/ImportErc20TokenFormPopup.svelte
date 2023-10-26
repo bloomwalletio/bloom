@@ -73,17 +73,18 @@
         onClick: onCancelClick,
     }}
     continueButton={{
+        form: 'import-erc20-token-form',
         text: localize('actions.import'),
         onClick: onImportClick,
         disabled: !networkId || !tokenAddress,
     }}
 >
-    <div class="space-y-4 max-h-100 flex-1">
+    <form on:submit|preventDefault={onImportClick} id="import-erc20-token-form" class="space-y-4 max-h-100 flex-1">
         <NetworkInput bind:networkId showLayer1={false} />
         <TextInput
             bind:value={tokenAddress}
             label={localize('popups.importErc20Token.property.tokenAddress')}
             error={tokenAddressError}
         />
-    </div>
+    </form>
 </PopupTemplate>

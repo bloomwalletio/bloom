@@ -65,7 +65,7 @@
     title={localize(`views.dashboard.drawers.contactBook.${ContactBookRoute.AddNetworkAddress}.title`)}
     {drawerRouter}
 >
-    <add-address class="flex flex-col gap-4">
+    <form on:submit|preventDefault={onSaveClick} form="add-network-address-form" class="flex flex-col gap-4">
         <NetworkInput
             bind:this={networkSelectionInput}
             bind:networkId={selectedNetworkId}
@@ -94,8 +94,13 @@
             validationFunction={() =>
                 validateContactAddress({ value: address, isRequired: true, mustBeUnique: true }, selectedNetworkId)}
         />
-    </add-address>
-    <div slot="footer">
-        <Button text={localize('actions.save')} width="full" on:click={onSaveClick} />
-    </div>
+    </form>
+    <Button
+        slot="footer"
+        type="submit"
+        form="add-network-address-form"
+        text={localize('actions.save')}
+        width="full"
+        on:click={onSaveClick}
+    />
 </DrawerTemplate>

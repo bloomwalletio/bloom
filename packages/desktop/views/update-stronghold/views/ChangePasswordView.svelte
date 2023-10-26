@@ -1,6 +1,6 @@
 <script lang="ts">
     import { showNotification } from '@auxiliary/notification'
-    import { Alert } from '@bloomwalletio/ui'
+    import { Alert, Button, PasswordInput } from '@bloomwalletio/ui'
     import { onboardingProfile, updateOnboardingProfile } from '@contexts/onboarding'
     import { handleError } from '@core/error/handlers'
     import { localize } from '@core/i18n'
@@ -12,7 +12,7 @@
     import { unlockStronghold } from '@core/profile/actions'
     import { activeProfile, updateActiveProfile } from '@core/profile/stores'
     import { PASSWORD_REASON_MAP } from '@core/stronghold'
-    import { Button, PasswordInput } from '@ui'
+    import { StrengthMeter } from '@ui'
     import { HTMLButtonType } from '@ui/enums'
     import { OnboardingLayout } from '@views/components'
     import { onMount } from 'svelte'
@@ -117,7 +117,7 @@
 </script>
 
 <OnboardingLayout
-    title={localize('views.settings.changePassword.title')}
+    title={localize('views.updateStronghold.changePassword.title')}
     continueButton={{
         text: localize('actions.skip'),
         onClick: onSkipClick,
@@ -130,36 +130,30 @@
 >
     <div slot="content" class="space-y-4">
         <Alert variant="warning" text={localize('views.updateStronghold.changePassword.hint')} />
-        <form on:submit|preventDefault={onChangeClick} id="update-stronghold-form" class="space-y-4">
-            <PasswordInput
-                bind:value={newPassword}
-                showRevealToggle
-                strengthLevels={4}
-                showStrengthLevel
-                strength={passwordStrength.score}
-                placeholder={localize('general.password')}
-                label={localize('general.password')}
-                disabled={busy}
-                submitHandler={validatePassword}
-            />
-            <PasswordInput
-                bind:error={passwordError}
-                bind:value={confirmPassword}
-                showRevealToggle
-                placeholder={localize('general.confirmPassword')}
-                label={localize('general.confirmPassword')}
-                disabled={busy}
-                submitHandler={validatePassword}
-            />
+        <form on:submit|preventDefault={onChangeClick} id="update-stronghold-form" class="flex flex-col space-y-5">
+            <StrengthMeter strength={passwordStrength?.score ?? 0} />
+            <div class="flex flex-col gap-4">
+                <PasswordInput
+                    bind:value={newPassword}
+                    label={localize('general.password')}
+                    autofocus
+                    disabled={busy}
+                />
+                <PasswordInput
+                    bind:error={passwordError}
+                    bind:value={confirmPassword}
+                    label={localize('general.confirmPassword')}
+                    disabled={busy}
+                />
+            </div>
         </form>
         <Button
             form="update-stronghold-form"
             type={HTMLButtonType.Submit}
-            classes="w-full"
+            text={localize('views.settings.changePassword.title')}
+            width="full"
             disabled={!newPassword || !confirmPassword || busy}
-            isBusy={isChangeBusy}
-        >
-            {localize('views.settings.changePassword.title')}
-        </Button>
+            busy={isChangeBusy}
+        />
     </div>
 </OnboardingLayout>

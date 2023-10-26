@@ -1,157 +1,162 @@
 {
     "views": {
         "onboarding": {
-            "appSetup": {
-                "welcome": {
-                    "title": "Welcome to",
-                    "subtitle": "A new journey awaits...",
-                    "legalBody": "Check to confirm you've read and accept the",
-                    "button": "Begin setup"
-                },
-                "legal": {
-                    "title": "Adatvédelmi irányelvek és Felhasználási feltételek"
-                }
+            "welcome": {
+                "title": "Welcome to",
+                "subtitle": "A new journey awaits...",
+                "legalAction": "Confirm you've read and accept the",
+                "button": "Begin setup"
             },
             "networkSetup": {
                 "chooseNetwork": {
-                    "title": "Válasszon hálózatot",
-                    "body": "Állítsa be a hálózatot a profiljához.",
+                    "title": "Choose your network",
                     "iota": {
-                        "title": "IOTA",
-                        "body": "IOTA éles hálózat"
+                        "primary": "IOTA Mainnet",
+                        "secondary": "Production network with stable features"
                     },
                     "shimmer": {
-                        "title": "Shimmer",
-                        "body": "Átmeneti hálózat az IOTA számára"
+                        "primary": "Shimmer",
+                        "secondary": "Experimental network with the latest features"
                     },
                     "testnet": {
-                        "title": "Teszt hálózat",
-                        "body": "Publikus béta hálózat a Shimmer számára"
+                        "primary": "Testnet",
+                        "secondary": "Test network using valueless tokens"
                     },
                     "custom": {
-                        "title": "Egyéni hálózat",
-                        "body": "Támogatás egyéni hálózatok és/vagy csomópontok számára"
+                        "primary": "Advanced configuration",
+                        "secondary": "Connect to any network with custom settings"
                     }
                 },
                 "setupCustomNetwork": {
-                    "title": "Csatlakozás egyéni hálózathoz vagy csomóponthoz"
+                    "title": "Advanced configuration"
                 }
             },
-            "profileSetup": {
-                "setup": {
-                    "title": "Állítson be {network, select, IOTA {egy} Shimmer {egy} Testnet {egy} other {egy}} {network} profilt",
-                    "body": "Válassza ki a(z) {network} profil beállításának megfelelő módját."
+            "chooseOnboardingFlow": {
+                "title": "Choose your setup type",
+                "new": {
+                    "primary": "New profile",
+                    "secondary": "Create a new profile with a mnemonic or Ledger Nano"
                 },
-                "setupNew": {
-                    "title": "Profil létrehozása",
-                    "body": "Választhatja a hagyományos szoftver tárcát vagy ha van Ledger eszköze, létrehozhat egy hardver tárcát.",
-                    "softwareAccount": {
-                        "title": "Szoftverprofil létrehozása",
-                        "description": "Egy Stronghold-fájlt és egy helyreállító kódszólistát hoz létre"
+                "restore": {
+                    "primary": "Restore profile",
+                    "secondary": "Restore existing profile with a backup or Ledger Nano"
+                },
+                "claim": {
+                    "primary": "Claim Shimmer rewards",
+                    "secondary": "Claim staking rewards using an IOTA backup"
+                }
+            },
+            "createProfile": {
+                "chooseCreateProfileFlow": {
+                    "title": "Choose your key storage",
+                    "software": {
+                        "primary": "Software storage",
+                        "secondary": "Store keys in a Stronghold file with your recovery phrase"
                     },
-                    "ledgerAccount": {
-                        "title": "Hardverprofil létrehozása",
-                        "description": "Ledger Nano S vagy Nano X szükséges"
+                    "hardware": {
+                        "primary": "Hardware storage",
+                        "secondary": "Use the keys stored on your Ledger Nano device"
                     }
-                },
-                "setupRecovered": {
-                    "title": "{network} profil helyreállítása",
-                    "body": "Ha rendelkezik már meglévő helyreállító kódszólistával vagy Stronghold biztonsági mentéssel, akkor itt importálhatja azokat.",
-                    "importMnemonic": "Helyreállító kódszólista használata",
-                    "importMnemonicDescription": "Adja meg a 24 szóból álló helyreállító kódszólistáját",
-                    "importFile": "Stonghold biztonsági mentés használata",
-                    "importFileDescription": "Importálja a Stronghold biztonsági mentés fájlját",
-                    "importLedger": "Ledger eszköz használata",
-                    "importLedgerDescription": "Profil helyreállítása Ledger Nano S vagy X eszközről"
-                },
-                "enterName": {
-                    "title": "Define your {network} profile",
-                    "profileName": "Profilnév",
-                    "body": "Please define a new name for your profile."
                 }
             },
-            "strongholdSetup": {
-                "setupStrongholdPassword": {
-                    "title": "Secure Recovery Phrase",
-                    "body": "Your password needs to be highly secure to encrypt and recover your Stronghold vault. Also, you will need this to send tokens from your wallet."
-                }
-            },
-            "storageProtectionSetup": {
-                "setupPinProtection": {
-                    "title": "PIN-kód létrehozása",
-                    "body": "Enter a 6-digit PIN below. Use numbers only."
-                }
-            },
-            "profileBackup": {
+            "createFromMnemonic": {
                 "viewMnemonic": {
-                    "title": "Helyreállító kódszólista",
-                    "body": "Carefully copy the words in the exact order below. Keep this private and safely stored.",
-                    "revealRecoveryPhrase": "Helyreállító kódszólista megjelenítése",
-                    "hideRecoveryPhrase": "Helyreállító kódszólista elrejtése"
+                    "title": "Record your recovery phrase",
+                    "description": "This recovery phrase is your most important secret. It is the master key to all your funds. Do not show this to anyone."
                 },
                 "verifyMnemonic": {
-                    "title": "Helyreállító kódszólista ellenőrzése",
-                    "body": "Let’s check you wrote down your phrase correctly. Please select the right word with the corresponding number.",
-                    "word": "Szó",
-                    "match": "Match from below",
-                    "success": {
-                        "title": "Verification success",
-                        "body1": "The recovery phrase matched",
-                        "body2": "Remember to keep your copy private and safely stored"
+                    "title": "Verify your recovery phrase",
+                    "description": "Let’s check you wrote down your phrase correctly. Please select the word with the corresponding number below.",
+                    "matchWord": "Match word #{number}:",
+                    "noMatch": "Does not match"
+                },
+                "verifyMnemonicSuccess": {
+                    "status": "Verification Success",
+                    "title": "Recovery phrase matched",
+                    "description": "Remember to keep your copies private and secure"
+                }
+            },
+            "createFromLedger": {
+                "installLedger": {
+                    "title": "Install the Ledger app",
+                    "description": "Use Ledger Live to find and install the required app on your Ledger Nano device."
+                },
+                "connectLedger": {
+                    "title": "Connect your Ledger to Bloom",
+                    "description": "Please ensure that the official Ledger Live application is closed and follow the steps below.",
+                    "connect": "Connect your Ledger device",
+                    "unlock": "Unlock your Ledger with its pin",
+                    "open": "Open the Shimmer app on your Ledger"
+                }
+            },
+            "restoreProfile": {
+                "chooseRestoreProfileFlow": {
+                    "title": "Choose your recovery method",
+                    "mnemonic": {
+                        "primary": "Recovery phrase",
+                        "secondary": "Restore keys with a 12 or 24 word recovery phrase"
                     },
-                    "failure": {
-                        "title": "Verification failure",
-                        "body1": "The recovery phrase did not match",
-                        "body2": "Please check your records"
+                    "file": {
+                        "primary": "Backup file",
+                        "secondary": "Restore profile with a Stronghold backup file"
+                    },
+                    "hardware": {
+                        "primary": "Hardware device",
+                        "secondary": "Restore profile with a Ledger Nano device"
+                    }
+                },
+                "claimFinder": {
+                    "title": "Claim your Shimmer rewards",
+                    "description": "Use the balance finder below, and check if your Shimmer staking rewards balance is correct before claiming.",
+                    "success": "Successfully found {amount}"
+                }
+            },
+            "restoreFromMnemonic": {
+                "inputMnemonic": {
+                    "title": "Enter your recovery phrase",
+                    "description": "A recovery phrase is a 12 or 24 word master key to all your funds that you will have recorded when making an existing profile. Enter it below and separate each word with spaces.",
+                    "phraseDetected": {
+                        "12": "12 word recovery phrase detected",
+                        "24": "24 word recovery phrase detected"
                     }
                 }
             },
-            "profileRecovery": {
-                "importMnemonicPhrase": {
-                    "title": "Adja meg a helyreállító kódszólistát",
-                    "body": "A recovery phrase is 24 words long, all lower case, with spaces between. Separate each word by spaces or commas.",
-                    "phraseDetected": "24 szóból álló helyreállító kódszólista észlelve"
-                },
-                "importStrongholdBackup": {
-                    "title": "Restore your profile",
-                    "body": "Importálja a Stronghold biztonsági mentés fájlját a profilja helyreállításához."
+            "restoreFromStronghold": {
+                "importStronghold": {
+                    "title": "Import your backup file",
+                    "description": "Drop your Stronghold backup file or choose one from the file explorer to restore your profile."
                 },
                 "unlockBackup": {
                     "title": "Unlock your backup",
-                    "body": "Please provide your backup password below."
+                    "description": "Please provide the password for the backup below to decrypt your keys."
                 }
             },
-            "shimmerClaiming": {
-                "claimRewards": {
-                    "title": "Shimmer staking rewards",
-                    "body": "Please check if your Shimmer staking rewards balance is correct. If not, please use the balance finder."
+            "shared": {
+                "encryptMnemonic": {
+                    "title": "Secure your profile",
+                    "description": "Make your password highly secure to encrypt your keys. This will be required to send tokens and assets."
+                }
+            },
+            "completeOnboarding": {
+                "enterName": {
+                    "title": "Give your profile a name",
+                    "description": "Be as creative as you like! You can change this later."
                 },
-                "success": {
-                    "title": "Shimmer jóváírva",
-                    "body": "Sikeresen igényelte a Shimmer jutalmát.",
-                    "totalRewards": "Összes jutalom",
-                    "successfullyFound": "{amount} sikeresen megtalálva"
+                "enterPin": {
+                    "title": "Add a PIN number",
+                    "description": "The 6-digit PIN gives you quick entry to your profile and helps prevent unwanted access."
+                },
+                "finishOnboarding": {
+                    "status": "Setup complete",
+                    "appSetup": {
+                        "title": "Bloom is ready",
+                        "action": "Enter Bloom"
+                    },
+                    "profileSetup": {
+                        "title": "Profile is ready"
+                    }
                 }
-            },
-            "congratulations": {
-                "title": "Setup complete",
-                "body1": "Bloom is ready",
-                "body2": "Profile is ready",
-                "body3": "Seamlessly manage your keys, assets and transactions.",
-                "action": "Enter Bloom"
             }
-        },
-        "ledgerInstallationGuide": {
-            "title": "Have you installed the necessary Ledger app?",
-            "body": "Use Ledger Live to find and install the {network} app.",
-            "action": "Yes, let's continue"
-        },
-        "connectLedger": {
-            "title": "Connect your Ledger to Bloom",
-            "body": "For your Ledger device to be found by Bloom, please ensure that the official Ledger Live application is closed and the following steps are followed.",
-            "connect": "Csatlakoztassa hardver tárcáját",
-            "unlock": "Nyissa ki hardver tárcáját a PIN-kód megadásával",
-            "openApp": "Nyissa meg a Shimmer applikációt a hardver tárcáján"
         },
         "settings": {
             "settings": "Beállítások",
@@ -170,8 +175,8 @@
             "advanced": {
                 "title": "Haladó"
             },
-            "helpAndInfo": {
-                "title": "Segítség és egyéb információk"
+            "help": {
+                "title": "Help"
             },
             "theme": {
                 "title": "Megjelenés",
@@ -193,12 +198,12 @@
                 "description": "Biztonsági mentés Stronghold-ba: a tárcák és a legutóbbi tranzakciók titkosított fájlba mentése"
             },
             "autoLogout": {
-                "title": "Automatikus kiléptetés",
-                "description": "Tétlenség ideje, mielőtt tárcája automatikusan zárolódik és kilépteti Önt"
+                "title": "Automatic logout",
+                "description": "Inactivity time before your wallets lock and you are logged out"
             },
             "strongholdTimeout": {
-                "title": "Stronghold időtúllépés",
-                "description": "Az időtartam, amely eltelte után újból meg kell adnia a Stronghold jelszavát"
+                "title": "Stronghold timeout",
+                "description": "Length of time before your Stronghold password is required again"
             },
             "maxMediaSize": {
                 "title": "Maximális médiafájl méret",
@@ -321,7 +326,8 @@
                 "network": "Network",
                 "marketCap": "Market cap",
                 "price": "Price",
-                "amount": "Amount"
+                "total": "Total",
+                "available": "Available"
             },
             "activity": {
                 "tab": "Activity",
@@ -634,7 +640,7 @@
         "appUpdate": {
             "title": "Frissítések keresése",
             "installedVersion": "Telepített verzió",
-            "newVersion": "Új verzió",
+            "newVersion": "New version",
             "stage": "Szakasz",
             "prod": "Termelés",
             "alpha": "Alfa",
@@ -792,6 +798,10 @@
             "info": "Kérjük hagyja jóvá a tárcán belüli tranzakciót a hardver tárcán.",
             "hint": "Minden token a tárcájában marad a tárcán belüli tranzakció végrehajtása során."
         },
+        "verifyMessageSigning": {
+            "title": "Verify message signing",
+            "info": "Please confirm the message signing on your ledger."
+        },
         "crashReporting": {
             "title": "Hibajelentés",
             "body": "Help the developers improve Bloom by automatically sending diagnostic data when an error or crash occurs. If selected, this will take effect after restarting Bloom.",
@@ -799,7 +809,6 @@
         },
         "signMessage": {
             "title": "Sign message",
-            "message": "Message",
             "hint": "No balance will be sent to {dappName} in the process of signing this message.",
             "warning": "dApp cannot be determined. No balance will be sent in the process of signing this message.",
             "action": "Sign message"
@@ -893,8 +902,6 @@
             }
         },
         "legalUpdate": {
-            "tosTitle": "Szolgáltatási feltételek",
-            "privPolicyTitle": "Adatvédelmi irányelvek",
             "tosAndPrivPolicyBody": "We have updated Bloom's Terms of Service and Privacy Policy.",
             "tosBody": "We have updated Bloom's Terms of Service.",
             "privPolicyBody": "We have updated Bloom's Privacy Policy.",
@@ -1054,26 +1061,10 @@
             "hint": "Please note that burning an NFT frees the storage deposit attached to it and is not reversible."
         },
         "save": "Mentés",
-        "restoreWallet": {
-            "iota": "Tárca átköltöztetése vagy helyreállítása",
-            "shimmer": "Shimmer-profil helyreállítása",
-            "testnet": "Teszt hálózati profil helyreállítása",
-            "custom": "Egyéni hálózati profil helyreállítása"
-        },
-        "restoreWalletDescription": {
-            "iota": "Költöztetés a Chrysalis-hálózatra vagy egy meglévő tárca helyreállítása",
-            "shimmer": "Egy meglévő Shimmer-profil helyreállítása",
-            "testnet": "Meglévő teszt hálózati profil helyreállítása",
-            "custom": "Meglévő egyéni hálózati profil helyreállítása"
-        },
         "refreshNftMedia": {
             "title": "NFT-média frissítése",
             "description": "Szeretné törölni és újra letölteni a jelen fiókhoz tartozó összes NFT-médiát?"
         },
-        "createWallet": "Hozzon létre egy új {network}-profilt",
-        "createWalletDescription": "Hozzon létre egy új profilt {network, select, iota {Chrysalis} shimmer {Shimmer} testnet {teszt hálózat} custom {egyéni hálózat} other {ismeretlen}} protokollon",
-        "claimShimmer": "Shimmer jutalom igénylése",
-        "claimShimmerDescription": "IOTA profil importálása és Shimmer jutalom igénylése",
         "createAlias": "Create alias",
         "createAliasDescription": "Create alias output",
         "setPin": "PIN beállítása",
@@ -1226,7 +1217,8 @@
         "burningfoundry": "Burning token",
         "burnedbasic": "Burned token",
         "burningbasic": "Burning token",
-        "balanceChanged": "Balance changed",
+        "balanceDecreased": "Balance decreased",
+        "balanceIncreased": "Balance increased",
         "initialBalance": "Initial balance",
         "consolidated": "Consolidated",
         "consolidating": "Consolidating",
@@ -1287,7 +1279,7 @@
         "pinCodeFailed": "A PIN-kód frissítése sikertelen",
         "passwordStrength": "Jelszó erőssége",
         "passwordStrength0": "Rossz",
-        "passwordStrength1": "Nagyon gyenge",
+        "passwordStrength1": "Very weak",
         "passwordStrength2": "Gyenge",
         "passwordStrength3": "Átlagos",
         "passwordStrength4": "Erős",
@@ -1307,6 +1299,7 @@
         "storageDepositPerNft": "Letéti díj NFT-nként",
         "totalStorageDeposit": "Összes letéti díj",
         "expirationTime": "Lejárati idő",
+        "expiration": "Expiration",
         "timelockDate": "Időzár",
         "claimedTime": "Igénylés ideje:",
         "nftId": "NFT ID",
@@ -1314,15 +1307,14 @@
         "governorAddress": "Governor Address",
         "stateControllerAddress": "State Controller Address",
         "copiedToClipboard": "Vágólapra másolva",
-        "copiedThis": "I've copied this",
         "availableBalanceWithValue": "Elérhető egyenleg: {balance}",
-        "amountClaimed": "{amount} igényelve",
         "metadata": "Metaadatok",
         "amountConsolidatedInputs": "Consolidated outputs",
         "name": "Name",
         "note": "Note",
         "tag": "Címke",
         "nodeList": "Csomópontok listája",
+        "claimed": "claimed",
         "claimedIn": "Igénylés tranzakcióazonosítója:",
         "claimingIn": "Igénylés tranzakcióazonosítója:",
         "assets": "Pénzeszközök",
@@ -1379,7 +1371,13 @@
         "disconnected": "Disconnected",
         "balanceBreakdown": "Balance breakdown",
         "primary": "Primary",
-        "color": "Color"
+        "color": "Color",
+        "privacyPolicy": "Privacy Policy",
+        "termsOfService": "Terms of Service",
+        "message": "Message",
+        "error": "Error",
+        "warning": "Warning",
+        "failed": "failed"
     },
     "filters": {
         "title": "Szűrők",
@@ -1676,7 +1674,7 @@
             "invalid": "The backup file was not recognized.",
             "destination": "A biztonsági mentés elérési útvonala érvénytelen.",
             "migrationRequired": "Stronghold-átköltöztetés szükséges.",
-            "phraseWordCount": "24 helyett csak {length, plural, one {#} other {#}} helyreállító kódszót adott meg.",
+            "phraseWordCount": "Your recovery phrase consists of 12 or 24 words, currently there {length, plural, one {is #} other {are #}}.",
             "phraseUnrecognizedWord": "Ismeretlen szó \"{word}\" található a helyreállító kódszólistában",
             "phraseCaseWord": "A “{word}” szó csak kisbetűkből állhat",
             "unableToCopyFile": "Nem sikerült a Stronghold biztonsági mentést átmásolni",
