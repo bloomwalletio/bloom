@@ -20,4 +20,6 @@
 </script>
 
 <Text type="body2" class="mb-6">{localize('views.settings.language.title')}</Text>
-<SelectInput bind:selected {options} label={localize('views.settings.language.title')} hideValue />
+<div class="w-1/2">
+    <SelectInput bind:selected {options} label={localize('views.settings.language.title')} hideValue />
+</div>

@@ -30,10 +30,12 @@
 <Text type="base" textColor="secondary" class="mb-6">
     {localize('views.settings.maxMediaDownloadTime.description')}
 </Text>
-<SelectInput
-    label={localize('views.settings.maxMediaDownloadTime.input')}
-    bind:selected
-    value={selected.value}
-    {options}
-    hideValue
-/>
+<div class="w-1/2">
+    <SelectInput
+        label={localize('views.settings.maxMediaDownloadTime.input')}
+        bind:selected
+        value={selected.value}
+        {options}
+        hideValue
+    />
+</div>

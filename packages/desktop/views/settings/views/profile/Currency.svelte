@@ -20,10 +20,12 @@
 
 <Text type="body2" class="mb-2">{localize('views.settings.currency.title')}</Text>
 <Text type="base" textColor="secondary" class="mb-6">{localize('views.settings.currency.description')}</Text>
-<SelectInput
-    label={localize('views.settings.currency.title')}
-    bind:selected
-    value={selected.value}
-    {options}
-    hideValue
-/>
+<div class="w-1/2">
+    <SelectInput
+        label={localize('views.settings.currency.title')}
+        bind:selected
+        value={selected.value}
+        {options}
+        hideValue
+    />
+</div>
