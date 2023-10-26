@@ -4,6 +4,7 @@
 
     export let pill: { localeKey: string; color: string }
     export let showArrows: boolean = false
+    export let illustration: 'ledger-device' | 'ledger-live' = 'ledger-device'
 </script>
 
 <ledger-illustration class="flex relative justify-center items-center w-full">
@@ -18,7 +19,7 @@
         data-label="illustration"
         width="100%"
         height="100%"
-        src="assets/illustrations/ledger/ledger-base.svg"
+        src={`assets/illustrations/ledger/${illustration === 'ledger-device' ? 'ledger-base' : illustration}.svg`}
         alt="Ledger Device"
     />
     <div class="absolute">
