@@ -3,7 +3,7 @@ import { get } from 'svelte/store'
 import { IPopupState } from '../interfaces'
 import { popupState } from '../stores'
 
-export function modifyPopupState(state: IPopupState, forceClose: boolean = false): void {
+export function modifyPopupState(newState: Partial<IPopupState>, forceClose: boolean = false): void {
     /**
      * NOTE: There are some cases where a popup needs to stay open despite
      * trying to perhaps close it or open another one. This is accomplished
@@ -17,6 +17,6 @@ export function modifyPopupState(state: IPopupState, forceClose: boolean = false
             text: localize('error.popup.preventClose'),
         }) */
     } else {
-        popupState.set({ ...state })
+        popupState.update((state) => ({ ...state, ...newState }))
     }
 }

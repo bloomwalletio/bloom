@@ -11,4 +11,5 @@ export interface IPopupState {
     props?: PopupProps
     overflow?: boolean
     relative?: boolean
+    confirmClickOutside?: boolean
 }

@@ -49,6 +49,7 @@
     import VerifyLedgerTransactionPopup from './popups/VerifyLedgerTransactionPopup.svelte'
     import VoteForProposal from './popups/VoteForProposalPopup.svelte'
     import VotingPowerToZeroPopup from './popups/VotingPowerToZeroPopup.svelte'
+    import { modifyPopupState } from '@desktop/auxiliary/popup/helpers'
 
     export let id: PopupId
     export let props: any
@@ -59,6 +60,7 @@
     export let overflow = false
     export let autofocusContent = true
     export let relative = true
+    export let confirmClickOutside = false
 
     enum PopupSize {
         Small = 'small',
@@ -135,7 +137,27 @@
             if ('function' === typeof props?.onCancelled) {
                 props?.onCancelled()
             }
+            modifyPopupState({ confirmClickOutside: false })
             closePopup()
+        }
+    }
+
+    function tryClosePopupOnClickOutside(): void {
+        if (!preventClose) {
+            if ('function' === typeof props?.onCancelled) {
+                props?.onCancelled()
+            }
+            if (confirmClickOutside) {
+                const confirm = window.confirm(
+                    'Are you sure you want to close the popup? You will loose your progress if you close it now.'
+                )
+                if (confirm) {
+                    modifyPopupState({ confirmClickOutside: false })
+                    closePopup()
+                }
+            } else {
+                closePopup()
+            }
         }
     }
 
@@ -183,7 +205,7 @@
     <button type="button" tabindex="0" on:focus={onFocusFirst} />
     <popup
         use:clickOutside
-        on:clickOutside={tryClosePopup}
+        on:clickOutside={tryClosePopupOnClickOutside}
         bind:this={popupContent}
         class:overflow
         class:relative
