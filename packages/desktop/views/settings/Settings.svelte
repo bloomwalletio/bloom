@@ -7,6 +7,7 @@
     import { SettingsViewer } from './views'
     import { closeSettings } from '@contexts/settings/stores'
     import { Platform } from '@core/app'
+    import { clickOutside } from '@core/utils'
 
     $: if (features.analytics.dashboardRoute.settings.enabled && $settingsRoute) {
         Platform.trackEvent('settings-route', { route: $settingsRoute })
@@ -22,7 +23,7 @@
 </script>
 
 <overlay class="fixed h-screen w-screen flex flex-1 justify-center items-center bg-neutral-6/75 z-30">
-    <settings-popup class="relative">
+    <settings-popup use:clickOutside on:clickOutside={closeSettings} class="relative">
         <div class="absolute top-8 right-8">
             <CloseButton on:click={closeSettings} />
         </div>
