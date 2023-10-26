@@ -14,4 +14,4 @@
 <Text type="base" textColor="secondary" class="mb-6"
     >{localize('views.settings.deepLinks.description', { values: { appProtocol: process.env.APP_PROTOCOL } })}</Text
 >
-<Checkbox label={localize('actions.enableDeepLinks')} bind:checked={deepLinkingChecked} />
+<Checkbox size="lg" textType="base" label={localize('actions.enableDeepLinks')} bind:checked={deepLinkingChecked} />
