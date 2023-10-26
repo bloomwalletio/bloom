@@ -1,6 +1,6 @@
 <script lang="ts">
     import { Text } from '@bloomwalletio/ui'
-    import { LedgerIllustration } from '@ui'
+    import { Illustration, LedgerIllustration } from '@ui'
     import { localize } from '@core/i18n'
 </script>
 
@@ -8,5 +8,7 @@
     {localize('views.onboarding.createFromLedger.ledgerConnectionGuide.ledgerDeviceUnlocked')}
 </Text>
 <div class="flex justify-center items-center">
-    <LedgerIllustration />
+    <LedgerIllustration showArrows>
+        <Illustration illustration="ledger-pin" />
+    </LedgerIllustration>
 </div>

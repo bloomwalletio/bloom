@@ -1,6 +1,7 @@
 <script lang="ts">
-    import { Text } from '@bloomwalletio/ui'
-    import { LedgerIllustration } from '@ui'
+    import { Avatar, IconName, Text } from '@bloomwalletio/ui'
+    import { LedgerIllustration, Logo } from '@ui'
+    import { LogoName } from '@auxiliary/logo'
     import { localize } from '@core/i18n'
     import { LedgerAppName } from '@core/ledger'
 
@@ -11,5 +12,19 @@
     {localize('views.onboarding.createFromLedger.ledgerConnectionGuide.ledgerAppOpen', { appName })}
 </Text>
 <div class="flex justify-center items-center">
-    <LedgerIllustration />
+    <LedgerIllustration showArrows>
+        {#if appName === LedgerAppName.Ethereum}
+            <Avatar size="md" shape="square" backgroundColor="ethereum">
+                <Logo logo={LogoName.Ethereum} />
+            </Avatar>
+        {:else if appName === LedgerAppName.Shimmer}
+            <Avatar
+                icon={IconName.Shimmer}
+                size="md"
+                shape="square"
+                customTextColor="shimmer"
+                backgroundColor="shimmer-background"
+            />
+        {/if}
+    </LedgerIllustration>
 </div>
