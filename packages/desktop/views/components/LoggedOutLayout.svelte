@@ -40,7 +40,7 @@
     }
 
     header {
-        @apply fixed;
+        @apply fixed z-10;
         height: 67px;
 
         &.glass {
