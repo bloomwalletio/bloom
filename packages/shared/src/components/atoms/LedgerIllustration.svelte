@@ -36,7 +36,7 @@
     ledger-illustration {
         @apply rounded-xl border border-solid border-stroke dark:border-stroke-dark;
         @apply bg-surface-1 dark:bg-surface-1-dark;
-        @apply w-[430px] h-[200px];
+        @apply w-[448px] h-[200px];
     }
 
     pill {
