@@ -58,12 +58,13 @@
         onClick: onCancelClick,
     }}
     continueButton={{
+        form: 'customise-account-form',
         text: localize('actions.save'),
         disabled: invalidAliasUpdate && !hasColorChanged,
         onClick: onSaveClick,
     }}
 >
-    <div class="flex flex-col gap-4">
+    <form on:submit|preventDefault={onSaveClick} id="customise-account-form" class="flex flex-col gap-4">
         <div class="flex flex-col gap-2">
             <Text type="body1">{localize('general.name')}</Text>
             <Input bind:value={accountName} label={localize('general.accountName')} disabled={isBusy} bind:error />
@@ -72,5 +73,5 @@
             <Text type="body1">{localize('general.color')}</Text>
             <ColorPicker bind:value={color} />
         </div>
-    </div>
+    </form>
 </PopupTemplate>

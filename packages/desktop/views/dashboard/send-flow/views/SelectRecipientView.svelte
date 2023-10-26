@@ -238,17 +238,20 @@
         onClick: onBackClick,
     }}
     continueButton={{
+        form: 'select-recipient-form',
         text: localize('actions.continue'),
         onClick: onContinueClick,
         disabled: !selectedNetworkId || !selectedRecipient?.address,
     }}
 >
-    <NetworkRecipientSelector
-        hasError={hasNetworkRecipientError}
-        bind:this={selector}
-        bind:options={selectorOptions}
-        bind:selectedIndex
-    />
+    <form on:submit|preventDefault={onContinueClick} id="select-recipient-form">
+        <NetworkRecipientSelector
+            hasError={hasNetworkRecipientError}
+            bind:this={selector}
+            bind:options={selectorOptions}
+            bind:selectedIndex
+        />
+    </form>
     {#if hasNetworkRecipientError}
         <Alert variant="danger" text={localize('error.send.insufficientFundsGasFee')} />
     {/if}

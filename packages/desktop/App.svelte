@@ -59,7 +59,10 @@
     void setupI18n({ fallbackLocale: 'en', initialLocale: $appSettings.language })
 
     onMount(async () => {
-        features.analytics.appStart.enabled && Platform.trackEvent('app-start')
+        if (features.analytics.appStart.enabled) {
+            Platform.trackEvent('app-start')
+        }
+
         await checkAndMigrateProfiles()
         await cleanupEmptyProfiles()
         Platform.onEvent('deep-link-request', handleDeepLink)
