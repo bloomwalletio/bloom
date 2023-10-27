@@ -50,6 +50,7 @@
     import VoteForProposal from './popups/VoteForProposalPopup.svelte'
     import VotingPowerToZeroPopup from './popups/VotingPowerToZeroPopup.svelte'
     import { modifyPopupState } from '@desktop/auxiliary/popup/helpers'
+    import { localize } from '@core/i18n'
 
     export let id: PopupId
     export let props: any
@@ -148,9 +149,7 @@
                 props?.onCancelled()
             }
             if (confirmClickOutside) {
-                const confirm = window.confirm(
-                    'Are you sure you want to close the popup? You will loose your progress if you close it now.'
-                )
+                const confirm = window.confirm(localize('warning.closePopup'))
                 if (confirm) {
                     modifyPopupState({ confirmClickOutside: false })
                     closePopup()
