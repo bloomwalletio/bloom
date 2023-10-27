@@ -69,9 +69,6 @@
     let size: PopupSize = PopupSize.Medium
 
     $: switch (id) {
-        case PopupId.VerifyLedgerTransaction:
-            size = PopupSize.Fit
-            break
         case PopupId.LedgerConnection:
             size = PopupSize.Large
             break
@@ -206,10 +203,6 @@
         }
         &.large {
             max-width: 630px;
-        }
-
-        &.fit {
-            max-width: fit-content;
         }
     }
 </style>
