@@ -194,10 +194,6 @@
         @apply w-96 text-center;
     }
 
-    login-container > text-container > :global(*) {
-        @apply inline;
-    }
-
     login-container.shake :global(input) {
         @apply animate-shake;
     }

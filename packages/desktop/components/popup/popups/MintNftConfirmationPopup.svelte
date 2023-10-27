@@ -97,7 +97,7 @@
     <div class="max-h-100 scrollable-y flex-1">
         <nft-details class="flex flex-col justify-center items-center space-y-5">
             <Avatar size="lg" shape="square" surface={2}>
-                <MediaIcon {type} />
+                <MediaIcon {type} size="base" />
             </Avatar>
             <activity-details class="w-full h-full space-y-2 flex flex-auto flex-col shrink-0">
                 <Tabs bind:selectedTab tabs={TABS} />
