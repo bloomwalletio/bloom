@@ -69,7 +69,7 @@
                     <Text type="pre-md" textColor="secondary" truncate>{truncateString(address)}</Text>
                 </Copyable>
             {:else}
-                <button class="generate-address-button" on:click={onGenerateAddressClick}>
+                <button type="button" class="generate-address-button" on:click={onGenerateAddressClick}>
                     {localize('actions.generateAddress')}
                 </button>
             {/if}
