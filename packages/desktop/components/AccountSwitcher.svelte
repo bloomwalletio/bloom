@@ -61,9 +61,3 @@
         </div>
     </Breadcrumb>
 </Menu>
-
-<style lang="scss">
-    button:hover {
-        @apply bg-surface-2 dark:bg-surface-2-dark;
-    }
-</style>

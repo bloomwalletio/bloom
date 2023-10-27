@@ -136,7 +136,7 @@
 <Pane classes="h-full">
     <collectibles-details-view class="flex flex-row w-full h-full">
         <media-container class="relative flex w-full items-center justify-center p-5 overflow-hidden">
-            <NftMedia {nft} autoplay controls loop muted showErrorColor>
+            <NftMedia {nft} autoplay controls loop muted>
                 <div class="w-full h-full" slot="placeholder">
                     <MediaPlaceholder {nft} size="lg" />
                 </div>

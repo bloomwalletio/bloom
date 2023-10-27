@@ -194,13 +194,11 @@
         />
         <NumberInput
             bind:value={totalSupply}
-            integer
             label={localize('popups.nativeToken.property.totalSupply')}
             error={totalSupplyError}
         />
         <NumberInput
             bind:value={circulatingSupply}
-            integer
             label={localize('popups.nativeToken.property.circulatingSupply')}
             error={circulatingSupplyError}
         />
