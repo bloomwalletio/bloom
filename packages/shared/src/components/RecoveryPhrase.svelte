@@ -5,7 +5,6 @@
     export let verifiedRecoveryPhrase: string[] | undefined = undefined
 
     export let disabled: boolean = true
-    export let boxed: boolean = false
     export let verification: boolean = false
 </script>
 

@@ -5,7 +5,6 @@ export const DEFAULT_POPUP_STATE: IPopupState = {
     id: undefined,
     hideClose: false,
     preventClose: false,
-    fullScreen: false,
     transition: undefined,
     props: null,
     overflow: false,

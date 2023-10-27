@@ -7,7 +7,6 @@ export function closePopup(forceClose: boolean = false): void {
             id: null,
             hideClose: false,
             preventClose: false,
-            fullScreen: false,
             props: null,
             overflow: false,
             relative: false,
