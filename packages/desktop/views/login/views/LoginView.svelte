@@ -128,21 +128,21 @@
                 <div class="flex flex-col justify-center items-center gap-3">
                     <Text type="h4" align="center">{localize('views.login.maxAttempts.title')}</Text>
                     <text-container class="login-view">
-                        <Text type="body2" fontWeight="medium" textColor="secondary">
+                        <Text type="body2" fontWeight="medium" textColor="secondary" inline>
                             {localize('views.login.maxAttempts.body1')}
                         </Text>
-                        <Text type="body2" fontWeight="medium" textColor="danger">
+                        <Text type="body2" fontWeight="medium" textColor="danger" inline>
                             {localize('views.login.maxAttempts.body2', {
                                 values: { times: MAX_PINCODE_INCORRECT_ATTEMPTS.toString() },
                             })}
                         </Text>
-                        <Text type="body2" fontWeight="medium" textColor="secondary">
+                        <Text type="body2" fontWeight="medium" textColor="secondary" inline>
                             {localize('views.login.maxAttempts.body3')}
                         </Text>
-                        <Text type="body2" fontWeight="medium" textColor="brand">
+                        <Text type="body2" fontWeight="medium" textColor="brand" inline>
                             {localize('times.second', { values: { time: timeRemainingBeforeNextAttempt.toString() } })}
                         </Text>
-                        <Text type="body2" fontWeight="medium" textColor="secondary">
+                        <Text type="body2" fontWeight="medium" textColor="secondary" inline>
                             {localize('views.login.maxAttempts.body4')}
                         </Text>
                     </text-container>
@@ -192,6 +192,10 @@
 
     text-container.login-view {
         @apply w-96 text-center;
+    }
+
+    login-container > text-container > :global(*) {
+        @apply inline;
     }
 
     login-container.shake :global(input) {
