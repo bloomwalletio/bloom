@@ -33,33 +33,3 @@
         </div>
     {/key}
 </DrawerTemplate>
-
-<style lang="scss">
-    address-container {
-        &:hover {
-            @apply bg-blue-50;
-            @apply border-gray-500;
-        }
-        &:active,
-        &:focus {
-            @apply bg-blue-100;
-            @apply border-blue-400;
-        }
-        &.darkmode {
-            @apply border-gray-700;
-            &:hover,
-            &:focus,
-            &:active {
-                @apply bg-gray-700;
-                @apply bg-opacity-20;
-                @apply border-opacity-50;
-            }
-            &:disabled {
-                @apply bg-gray-700;
-                @apply bg-opacity-10;
-                @apply border-gray-700;
-                @apply border-opacity-10;
-            }
-        }
-    }
-</style>

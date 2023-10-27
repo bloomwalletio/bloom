@@ -6,7 +6,6 @@ export interface IPopupState {
     id: PopupId
     hideClose?: boolean
     preventClose?: boolean
-    fullScreen?: boolean
     transition?: boolean
     props?: PopupProps
     overflow?: boolean

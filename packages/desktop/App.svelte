@@ -146,7 +146,6 @@
                         id={$popupState.id}
                         props={$popupState.props}
                         hideClose={$popupState.hideClose}
-                        fullScreen={$popupState.fullScreen}
                         transition={$popupState.transition}
                         overflow={$popupState.overflow}
                         relative={$popupState.relative}
