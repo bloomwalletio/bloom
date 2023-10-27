@@ -16,7 +16,7 @@
     }
 </script>
 
-<div class="flex flex-col w-full h-full space-y-4">
+<collectibles-gallery-view>
     {#if $ownedNfts.length}
         <div class="flex flex-row justify-between">
             <div class="flex flex-row text-left gap-2 items-center">
@@ -54,9 +54,13 @@
             </div>
         </div>
     {/if}
-</div>
+</collectibles-gallery-view>
 
-<style lang="scss">
+<style lang="postcss">
+    collectibles-gallery-view {
+        @apply flex flex-col w-full h-full gap-4;
+    }
+
     empty-list-icon {
         @apply flex items-center justify-center text-center;
         @apply h-24 w-24 rounded-full shadow-elevation-4;

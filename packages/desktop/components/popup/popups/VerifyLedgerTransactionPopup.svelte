@@ -9,23 +9,23 @@
     import { onDestroy } from 'svelte'
     import PopupTemplate from '../PopupTemplate.svelte'
 
-    export let isEvmTransaction: boolean
-    export let useBlindSigning: boolean
+    export let isEvmTransaction: boolean = undefined
+    export let useBlindSigning: boolean = undefined
 
     // Regular transaction
-    export let toAddress: string
-    export let toAmount: string
-    export let chainId: string
-    export let maxGasFee: string
+    export let toAddress: string = undefined
+    export let toAmount: string = undefined
+    export let chainId: string = undefined
+    export let maxGasFee: string = undefined
 
     // Blindly signed transaction
-    export let hash: string
-    export let bipPath: string
+    export let hash: string = undefined
+    export let bipPath: string = undefined
 
     // EIP-192 RPC Methods
-    export let rawMessage: string
+    export let rawMessage: string = undefined
 
-    $: showTable = (!!toAddress && !!toAmount) || !!hash || !!rawMessage
+    $: showTable = (!!toAddress && toAmount !== undefined) || !!hash || !!rawMessage
 
     const locale = getLocale()
     function getLocale(): string {
