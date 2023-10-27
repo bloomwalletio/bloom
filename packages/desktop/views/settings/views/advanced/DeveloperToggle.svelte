@@ -9,4 +9,4 @@
 
 <Text type="body2" class="mb-2">{localize('views.settings.developerToggle.title')}</Text>
 <Text type="base" textColor="secondary" class="mb-6">{localize('views.settings.developerToggle.description')}</Text>
-<Checkbox label={localize('actions.enableDeveloperMode')} bind:checked={isDeveloperProfile} />
+<Checkbox size="lg" textType="base" label={localize('actions.enableDeveloperMode')} bind:checked={isDeveloperProfile} />
