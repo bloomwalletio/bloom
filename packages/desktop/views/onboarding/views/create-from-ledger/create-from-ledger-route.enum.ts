@@ -1,5 +1,5 @@
 export enum CreateFromLedgerRoute {
     InstallLedger = 'installLedger',
     ConnectLedger = 'connectLedger',
-    ledgerConnectionGuide = 'ledgerConnectionGuide',
+    LedgerConnectionGuide = 'ledgerConnectionGuide',
 }

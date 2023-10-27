@@ -17,6 +17,6 @@
 
 <style lang="postcss">
     .cross-avatar {
-        transform: translateY(52px);
+        transform: translateY(36px);
     }
 </style>

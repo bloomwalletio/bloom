@@ -12,7 +12,7 @@
 
 {#if $createFromLedgerRoute === CreateFromLedgerRoute.InstallLedger}
     <InstallLedgerView />
-{:else if $createFromLedgerRoute === CreateFromLedgerRoute.ledgerConnectionGuide}
+{:else if $createFromLedgerRoute === CreateFromLedgerRoute.LedgerConnectionGuide}
     <LedgerConnectionGuideView />
 {:else if $createFromLedgerRoute === CreateFromLedgerRoute.ConnectLedger}
     <ConnectLedgerView />

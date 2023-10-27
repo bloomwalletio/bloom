@@ -4,14 +4,15 @@
     import { LedgerAppOpen, LedgerDeviceUnlocked, LedgerLiveNotOpen, LedgerStillNotConnected } from './components'
     import { createFromLedgerRouter } from '../../create-from-ledger-router'
 
-    let stepIndex: number = 0
+    let stepIndex = 0
 
-    const LEDGER_CONNECTION_GUIDE_STEPS: unknown[] = [
+    const LEDGER_CONNECTION_GUIDE_STEPS = [
         LedgerLiveNotOpen,
         LedgerDeviceUnlocked,
         LedgerAppOpen,
         LedgerStillNotConnected,
     ]
+    const MAX_STEP_INDEX = LEDGER_CONNECTION_GUIDE_STEPS.length - 1
 
     function onBackClick(): void {
         if (stepIndex > 0) {
@@ -22,7 +23,7 @@
     }
 
     function onNextClick(): void {
-        if (stepIndex < LEDGER_CONNECTION_GUIDE_STEPS.length - 1) {
+        if (stepIndex < MAX_STEP_INDEX) {
             stepIndex += 1
         } else {
             $createFromLedgerRouter.next()
@@ -37,7 +38,7 @@
         onClick: onBackClick,
     }}
     continueButton={{
-        text: localize(`actions.${stepIndex === LEDGER_CONNECTION_GUIDE_STEPS.length - 1 ? 'close' : 'next'}`),
+        text: localize(`actions.${stepIndex === MAX_STEP_INDEX ? 'close' : 'next'}`),
         onClick: onNextClick,
     }}
 >

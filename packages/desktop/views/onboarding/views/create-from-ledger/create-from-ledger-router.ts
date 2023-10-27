@@ -18,7 +18,7 @@ export class CreateFromLedgerRouter extends Subrouter<CreateFromLedgerRoute> {
             case CreateFromLedgerRoute.InstallLedger:
                 nextRoute = CreateFromLedgerRoute.ConnectLedger
                 break
-            case CreateFromLedgerRoute.ledgerConnectionGuide:
+            case CreateFromLedgerRoute.LedgerConnectionGuide:
                 this.previous()
                 return
             case CreateFromLedgerRoute.ConnectLedger:

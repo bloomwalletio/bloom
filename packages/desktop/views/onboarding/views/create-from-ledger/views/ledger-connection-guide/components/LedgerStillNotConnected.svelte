@@ -34,6 +34,6 @@
 
 <style lang="postcss">
     .tool-avatar {
-        transform: translateY(52px);
+        transform: translateY(36px);
     }
 </style>

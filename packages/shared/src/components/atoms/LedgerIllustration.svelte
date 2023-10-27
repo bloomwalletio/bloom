@@ -2,11 +2,11 @@
     import { Icon, IconName, Pill } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
 
-    export let pill: { localeKey: string; color: string }
+    export let pill: { localeKey: string; color: string } | undefined = undefined
     export let showArrows: boolean = false
     export let illustration: 'ledger-device' | 'ledger-live' = 'ledger-device'
 
-    const isLedgerDeviceIllustration = illustration === 'ledger-device'
+    const isLedgerLiveIllustration = illustration === 'ledger-live'
 </script>
 
 <ledger-illustration class="flex relative justify-center items-center w-full">
@@ -19,9 +19,9 @@
     {/if}
     <img
         data-label="illustration"
-        width={isLedgerDeviceIllustration ? '100%' : '80%'}
-        height={isLedgerDeviceIllustration ? '100%' : '80%'}
-        src={`assets/illustrations/ledger/${isLedgerDeviceIllustration ? 'ledger-base' : illustration}.svg`}
+        width={isLedgerLiveIllustration ? '60%' : '100%'}
+        height={isLedgerLiveIllustration ? '60%' : '100%'}
+        src={`assets/illustrations/ledger/${illustration}.svg`}
         alt="Ledger Device"
     />
     <div class="absolute">

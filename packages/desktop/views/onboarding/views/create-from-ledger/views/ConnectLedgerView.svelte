@@ -11,7 +11,7 @@
     $: isCorrectAppOpen = $ledgerConnectionState === LedgerConnectionState.ShimmerAppOpen
 
     function onConnectionGuideClick(): void {
-        $createFromLedgerRouter.goTo(CreateFromLedgerRoute.ledgerConnectionGuide)
+        $createFromLedgerRouter.goTo(CreateFromLedgerRoute.LedgerConnectionGuide)
     }
 
     function onContinueClick(): void {

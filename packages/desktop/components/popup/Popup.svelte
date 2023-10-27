@@ -68,9 +68,6 @@
     let size: PopupSize = PopupSize.Medium
 
     $: switch (id) {
-        case PopupId.LedgerConnection:
-            size = PopupSize.Large
-            break
         default:
             size = PopupSize.Medium
             break
