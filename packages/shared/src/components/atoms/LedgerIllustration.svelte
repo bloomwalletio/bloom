@@ -39,7 +39,7 @@
     ledger-illustration {
         @apply rounded-xl border border-solid border-stroke dark:border-stroke-dark;
         @apply bg-surface-1 dark:bg-surface-1-dark;
-        @apply w-[430px] h-[288px];
+        @apply w-[412px] h-[200px];
     }
 
     pill {
@@ -47,6 +47,6 @@
     }
 
     arrows {
-        @apply gap-16 top-16 animate-bounce;
+        @apply gap-16 top-8 animate-bounce;
     }
 </style>
