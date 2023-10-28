@@ -10,7 +10,6 @@ export { default as NftGalleryItem } from './NftGalleryItem.svelte'
 export { default as NftMedia } from './NftMedia.svelte'
 export { default as SelectorInput } from './SelectorInput.svelte'
 export { default as ShimmerClaimingAccountList } from './ShimmerClaimingAccountList.svelte'
-export { default as TokenList } from './TokenList.svelte'
 export { default as TransactionAssetSection } from './TransactionAssetSection.svelte'
 
 export * from './activity-info'

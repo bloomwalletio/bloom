@@ -33,16 +33,6 @@
                   },
               ]
             : []),
-        ...(features?.wallet?.oldDashboard.enabled
-            ? [
-                  {
-                      icon: IconName.Wallet,
-                      label: localize('tabs.wallet'),
-                      route: DashboardRoute.OldDashboard,
-                      onClick: openOldDashboard,
-                  },
-              ]
-            : []),
         ...(features?.collectibles?.enabled
             ? [
                   {
@@ -77,11 +67,6 @@
 
     function openWallet(): void {
         resetAllRouters()
-    }
-
-    function openOldDashboard(): void {
-        resetAllRouters()
-        $dashboardRouter.goTo(DashboardRoute.OldDashboard)
     }
 
     function openCollectibles(): void {

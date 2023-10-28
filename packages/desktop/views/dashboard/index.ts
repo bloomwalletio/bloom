@@ -1,6 +1,6 @@
 export * from './collectibles'
 export * from './developer'
-export * from './old-wallet'
+export * from './settings'
 export * from './governance'
 export * from './send-flow'
 

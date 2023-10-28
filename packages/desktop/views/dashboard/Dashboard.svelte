@@ -22,13 +22,11 @@
     import { DashboardDrawerRouterView } from './drawers'
     import { Governance } from './governance'
     import { Wallet } from './wallet'
-    import { Settings } from '../settings'
-    import { OldWallet } from './old-wallet'
+    import { Settings } from './settings'
     import { Background } from '@views/components'
 
     const tabs = {
         wallet: Wallet,
-        oldDashboard: OldWallet,
         settings: Settings,
         collectibles: Collectibles,
         governance: Governance,
