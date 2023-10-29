@@ -13,23 +13,25 @@ const core = new Core({
 })
 
 export async function initializeWalletConnect(): Promise<void> {
-    if (get(walletClient) !== undefined || !features?.wallet?.walletConnect?.enabled) {
+    if (!features?.wallet?.walletConnect?.enabled) {
         return
     }
 
-    const client = await Web3Wallet.init({
-        core,
-        metadata: WALLET_METADATA,
-    })
-    walletClient.set(client)
-    setConnectedDapps()
+    if (!get(walletClient)) {
+        const client = await Web3Wallet.init({
+            core,
+            metadata: WALLET_METADATA,
+        })
+        walletClient.set(client)
+        setConnectedDapps()
 
-    try {
-        await updateActiveSessionsToActiveProfile()
-    } catch (error) {
-        console.error(error)
+        client.on('session_proposal', (sessionProposal) => void onSessionProposal(sessionProposal))
+        client.on('session_request', (event) => onSessionRequest(event))
+    } else {
+        try {
+            await updateActiveSessionsToActiveProfile()
+        } catch (error) {
+            console.error(error)
+        }
     }
-
-    client.on('session_proposal', (sessionProposal) => void onSessionProposal(sessionProposal))
-    client.on('session_request', (event) => onSessionRequest(event))
 }
