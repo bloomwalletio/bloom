@@ -6,7 +6,12 @@
 
 <Text type="body2" class="mb-2">{localize('views.settings.crashReporting.title')}</Text>
 <Text type="base" textColor="secondary" class="mb-6">{localize('views.settings.crashReporting.body')}</Text>
-<Checkbox label={localize('views.settings.crashReporting.checkbox')} bind:checked={$appSettings.sendCrashReports} />
+<Checkbox
+    size="lg"
+    textType="base"
+    label={localize('views.settings.crashReporting.checkbox')}
+    bind:checked={$appSettings.sendCrashReports}
+/>
 {#if $appSettings.sendCrashReports !== $initAppSettings.sendCrashReports}
     <div class="mt-6">
         <Alert
