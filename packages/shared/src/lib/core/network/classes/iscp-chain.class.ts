@@ -50,6 +50,30 @@ export class IscpChain implements IChain {
         return new this._provider.eth.Contract(abi, address)
     }
 
+    async getGasEstimate(hex: string): Promise<unknown> {
+        const URL = `${this._configuration.iscpEndpoint}/estimategas-onledger`
+        const body = JSON.stringify({ outputBytes: hex })
+
+        const requestInit: RequestInit = {
+            method: 'POST',
+            body,
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
+        }
+
+        const response = await fetch(URL, requestInit)
+
+        if (response.status === 200) {
+            const data = await response.json()
+            const gasBurned = Number(data.gasBurned as string)
+            const gasFeeCharged = Number(data.gasFeeCharged as string)
+
+            return { gasBurned, gasFeeCharged }
+        }
+    }
+
     getMetadata(): Promise<ChainMetadata> {
         if (this._metadata) {
             return Promise.resolve(this._metadata)

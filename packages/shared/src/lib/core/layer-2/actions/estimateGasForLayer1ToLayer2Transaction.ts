@@ -6,6 +6,22 @@ import { AssetType } from '../enums'
 import { TransferredAsset } from '../types'
 import { getIscpTransferSmartContractData } from './getIscpTransferSmartContractData'
 
+export async function getGasEstimateFromProvider(sendFlowParameters: SendFlowParameters): Promise<unknown> {
+    // console.log('send flow params: ', sendFlowParameters)
+
+    const chain = getNetwork()?.getChain(sendFlowParameters.destinationNetworkId)
+    if (!chain) {
+        return Promise.reject('Invalid chain')
+    }
+
+    // TODO: Encode the output of the send flow parameter to hex
+    // const hex = encode
+    const estimate = chain.getGasEstimate(hex)
+    // console.log('estimate: ', estimate)
+
+    return estimate
+}
+
 export async function estimateGasForLayer1ToLayer2Transaction(sendFlowParameters: SendFlowParameters): Promise<number> {
     const { recipient, destinationNetworkId } = sendFlowParameters ?? {}
 
@@ -19,6 +35,7 @@ export async function estimateGasForLayer1ToLayer2Transaction(sendFlowParameters
     }
 
     try {
+        await getGasEstimateFromProvider(destinationNetworkId, recipient?.address, transferredAsset)
         const gas = await getGasEstimateForMagicContractCall(destinationNetworkId, recipient?.address, transferredAsset)
         return gas
     } catch (err) {

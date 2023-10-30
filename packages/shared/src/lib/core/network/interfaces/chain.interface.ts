@@ -10,6 +10,7 @@ export interface IChain {
     getStatus(): IChainStatus
     getProvider(): Web3Provider
 
+    getGasEstimate(hex: string): Promise<unknown>
     getMetadata(): Promise<ChainMetadata>
     getContract(type: ContractType, address: string): Contract
 
