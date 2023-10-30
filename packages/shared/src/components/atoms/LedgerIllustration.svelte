@@ -1,8 +1,8 @@
 <script lang="ts">
-    import { Icon, IconName, Pill } from '@bloomwalletio/ui'
+    import { Color, Icon, IconName, Pill } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
 
-    export let pill: { localeKey: string; color: string } | undefined = undefined
+    export let pill: { localeKey: string; color: Color } | undefined = undefined
     export let showArrows: boolean = false
     export let illustration: 'ledger-device' | 'ledger-live' = 'ledger-device'
 
@@ -39,7 +39,7 @@
     ledger-illustration {
         @apply rounded-xl border border-solid border-stroke dark:border-stroke-dark;
         @apply bg-surface-1 dark:bg-surface-1-dark;
-        @apply w-[412px] h-[200px];
+        @apply w-full h-[200px];
     }
 
     pill {
