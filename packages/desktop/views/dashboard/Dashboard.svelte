@@ -22,7 +22,7 @@
     import { DashboardDrawerRouterView } from './drawers'
     import { Governance } from './governance'
     import { Wallet } from './wallet'
-    import { Settings } from './settings'
+    import { Settings } from '../settings'
     import { Background } from '@views/components'
 
     const tabs = {
