@@ -1,0 +1,41 @@
+<script lang="ts">
+    import { IOption, SelectInput, Text } from '@bloomwalletio/ui'
+    import { localize } from '@core/i18n'
+    import { activeProfile, updateActiveProfileSettings } from '@core/profile/stores'
+
+    const options: IOption[] = [30, 60, 90, 120, 150, 180].map((amount) => ({
+        value: amount.toString(),
+        label: assignMaxMediaDownloadTimeOptionLabel(amount),
+    }))
+    let selected: IOption = options.find(
+        (option) => option.value === $activeProfile?.settings.maxMediaDownloadTimeInSeconds?.toString()
+    )
+
+    $: onMaxMediaDownloadTimeChange(selected)
+    function onMaxMediaDownloadTimeChange(option: IOption | undefined): void {
+        if (option) {
+            const maxMediaDownloadTimeInSeconds = parseInt(option.value)
+            updateActiveProfileSettings({ maxMediaDownloadTimeInSeconds })
+        }
+    }
+
+    function assignMaxMediaDownloadTimeOptionLabel(amount: number): string {
+        return amount ? localize('times.second', { values: { time: amount } }) : localize('general.none')
+    }
+</script>
+
+<Text type="body2" class="mb-2">
+    {localize('views.settings.maxMediaDownloadTime.title')}
+</Text>
+<Text type="base" textColor="secondary" class="mb-6">
+    {localize('views.settings.maxMediaDownloadTime.description')}
+</Text>
+<div class="w-1/2">
+    <SelectInput
+        label={localize('views.settings.maxMediaDownloadTime.input')}
+        bind:selected
+        value={selected.value}
+        {options}
+        hideValue
+    />
+</div>

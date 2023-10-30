@@ -1,9 +1,12 @@
 <script lang="ts">
-    import { Icon, IconName, Pill } from '@bloomwalletio/ui'
+    import { Color, Icon, IconName, Pill } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
 
-    export let pill: { localeKey: string; color: string }
+    export let pill: { localeKey: string; color: Color } | undefined = undefined
     export let showArrows: boolean = false
+    export let illustration: 'ledger-device' | 'ledger-live' = 'ledger-device'
+
+    const isLedgerLiveIllustration = illustration === 'ledger-live'
 </script>
 
 <ledger-illustration class="flex relative justify-center items-center w-full">
@@ -16,9 +19,9 @@
     {/if}
     <img
         data-label="illustration"
-        width="100%"
-        height="100%"
-        src="assets/illustrations/ledger/ledger-base.svg"
+        width={isLedgerLiveIllustration ? '60%' : '100%'}
+        height={isLedgerLiveIllustration ? '60%' : '100%'}
+        src={`assets/illustrations/ledger/${illustration}.svg`}
         alt="Ledger Device"
     />
     <div class="absolute">
@@ -36,7 +39,7 @@
     ledger-illustration {
         @apply rounded-xl border border-solid border-stroke dark:border-stroke-dark;
         @apply bg-surface-1 dark:bg-surface-1-dark;
-        @apply w-[430px] h-[288px];
+        @apply w-full h-[200px];
     }
 
     pill {
@@ -44,6 +47,6 @@
     }
 
     arrows {
-        @apply gap-16 top-16 animate-bounce;
+        @apply gap-16 top-8 animate-bounce;
     }
 </style>

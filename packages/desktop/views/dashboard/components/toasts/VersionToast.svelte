@@ -1,9 +1,9 @@
 <script lang="ts">
-    import { SidebarToast } from '@bloomwalletio/ui'
+    import { Color, SidebarToast } from '@bloomwalletio/ui'
     import { APP_STAGE, AppStage, openUrlInBrowser } from '@core/app'
     import { localize } from '@core/i18n'
 
-    const TOAST_PROPS: { [key in AppStage]: string } = {
+    const TOAST_PROPS: { [key in AppStage]: Color } = {
         [AppStage.ALPHA]: 'cyan',
         [AppStage.BETA]: 'sky',
         [AppStage.PROD]: 'blue',
@@ -21,6 +21,6 @@
     header={localize(`popups.appUpdate.${APP_STAGE}`)}
     body={localize(`${localeKey}.body`)}
     open
-    dismissible={false}
+    dismissable={false}
     button={APP_STAGE === AppStage.PROD ? { text: localize(`${localeKey}.button`), onClick } : undefined}
 />
