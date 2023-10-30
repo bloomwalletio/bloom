@@ -5,19 +5,19 @@ const settingsFeatures: ISettingsFeatures = {
     general: {
         enabled: true,
         theme: {
-            enabled: false,
+            enabled: true,
         },
         language: {
             enabled: true,
         },
         notifications: {
-            enabled: false,
+            enabled: true,
         },
         crashReporting: {
-            enabled: false,
+            enabled: true,
         },
         deepLinks: {
-            enabled: false,
+            enabled: true,
         },
     },
     profile: {
