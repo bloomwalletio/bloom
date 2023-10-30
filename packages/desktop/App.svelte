@@ -1,6 +1,7 @@
 <script lang="ts">
-    import { handleDeepLink } from '@auxiliary/deep-link/handlers'
-    import { Popup, TitleBar } from '@components'
+    import { handleDeepLink } from '@auxiliary/deep-link/handlers/handleDeepLink'
+    import { Popup } from '@components/popup'
+    import TitleBar from '@components/TitleBar.svelte'
     import { IS_WINDOWS, Platform } from '@core/app'
     import { registerAppEvents } from '@core/app/actions'
     import { appSettings, appVersionDetails, initAppSettings, setAppVersionDetails } from '@core/app/stores'
