@@ -23,16 +23,12 @@
 
     let sidebarTabs: IDashboardSidebarTab[]
     $: sidebarTabs = [
-        ...(features?.wallet?.newDashboard?.enabled
-            ? [
-                  {
-                      icon: IconName.Wallet,
-                      label: localize('tabs.wallet'),
-                      route: DashboardRoute.Wallet,
-                      onClick: openWallet,
-                  },
-              ]
-            : []),
+        {
+            icon: IconName.Wallet,
+            label: localize('tabs.wallet'),
+            route: DashboardRoute.Wallet,
+            onClick: openWallet,
+        },
         ...(features?.collectibles?.enabled
             ? [
                   {
