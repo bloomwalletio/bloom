@@ -99,21 +99,21 @@
             <Text type="base">
                 {localize('views.settings.changePincode.currentPincode')}
             </Text>
-            <PinInput bind:value={currentPincode} disabled={busy} error={!!currentPincodeError} />
+            <PinInput bind:value={currentPincode} disabled={busy} size="md" error={!!currentPincodeError} />
             <Error error={currentPincodeError} />
         </pin-input-container>
         <pin-input-container class="flex flex-col w-fit gap-3">
             <Text type="base">
                 {localize('views.settings.changePincode.newPincode')}
             </Text>
-            <PinInput bind:value={newPincode} disabled={busy} error={!!newPincodeError} />
+            <PinInput bind:value={newPincode} disabled={busy} size="md" error={!!newPincodeError} />
             <Error error={newPincodeError} />
         </pin-input-container>
         <pin-input-container class="flex flex-col w-fit gap-3">
             <Text type="base">
                 {localize('actions.confirmPin')}
             </Text>
-            <PinInput bind:value={confirmedPincode} disabled={busy} error={!!confirmationPincodeError} />
+            <PinInput bind:value={confirmedPincode} disabled={busy} size="md" error={!!confirmationPincodeError} />
             <Error error={confirmationPincodeError} />
         </pin-input-container>
     </div>
