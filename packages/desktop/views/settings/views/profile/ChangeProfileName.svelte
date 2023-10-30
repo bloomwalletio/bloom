@@ -39,7 +39,7 @@
     <Text type="base" textColor="secondary" class="mb-6">
         {localize('views.settings.changeProfileName.description')}
     </Text>
-    <div class="mb-6">
+    <div class="w-1/2 mb-6">
         <TextInput
             {error}
             placeholder={newName ? $activeProfile?.name : ''}

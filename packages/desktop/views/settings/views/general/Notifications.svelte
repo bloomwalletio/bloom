@@ -10,4 +10,9 @@
 
 <Text type="body2" class="mb-2">{localize('views.settings.notifications.title')}</Text>
 <Text type="base" textColor="secondary" class="mb-6">{localize('views.settings.notifications.description')}</Text>
-<Checkbox label={localize('actions.enableSystemNotifications')} bind:checked={notificationsChecked} />
+<Checkbox
+    size="lg"
+    textType="base"
+    label={localize('actions.enableSystemNotifications')}
+    bind:checked={notificationsChecked}
+/>

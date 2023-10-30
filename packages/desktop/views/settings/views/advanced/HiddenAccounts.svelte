@@ -14,4 +14,4 @@
 
 <Text type="body2" class="mb-2">{localize('views.settings.hiddenAccounts.title')}</Text>
 <Text type="base" textColor="secondary" class="mb-6">{localize('views.settings.hiddenAccounts.description')}</Text>
-<Checkbox label={localize('actions.showHiddenAccounts')} bind:checked={showHiddenAccounts} />
+<Checkbox size="lg" textType="base" label={localize('actions.showHiddenAccounts')} bind:checked={showHiddenAccounts} />
