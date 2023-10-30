@@ -8,7 +8,6 @@
     import PopupTemplate from '../PopupTemplate.svelte'
 
     export let ledgerAppName: LedgerAppName
-    export let onCancel: () => void
     export let onContinue: () => void
 
     $: isDisconnected = $ledgerConnectionState === LedgerConnectionState.Disconnected
@@ -51,15 +50,6 @@
         }
     }
 
-    function onCancelClick(): void {
-        if (isFunction(onCancel)) {
-            closePopup()
-            onCancel()
-        } else {
-            closePopup()
-        }
-    }
-
     function continueFlow(): void {
         if (isFunction(onContinue)) {
             closePopup()
@@ -71,7 +61,7 @@
 
     const backButton = {
         text: localize('actions.cancel'),
-        onClick: onCancelClick,
+        onClick: closePopup,
     }
 </script>
 
