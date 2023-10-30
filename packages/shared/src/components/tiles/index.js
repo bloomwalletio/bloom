@@ -1,7 +1,3 @@
-export * from './tileContents'
-export * from './tileFooters'
-
-export { default as ActivityTile } from './ActivityTile.svelte'
 export { default as AliasTile } from './AliasTile.svelte'
 export { default as TokenAmountTile } from './TokenAmountTile.svelte'
 export { default as TokenAvailableBalanceTile } from './TokenAvailableBalanceTile.svelte'
