@@ -4,7 +4,7 @@
     import { openPopup, PopupId } from '@desktop/auxiliary/popup'
 
     function onDiagnosticsClick(): void {
-        openPopup({ id: PopupId.Diagnostics })
+        openPopup({ id: PopupId.Diagnostics }, false, false)
     }
 </script>
 

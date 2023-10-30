@@ -1,5 +1,7 @@
+import { getActiveProfile } from '@core/profile/stores'
 import { modifyPopupState } from '../helpers'
 import { IPopupState } from '../interfaces'
+import { get } from 'svelte/store'
 
 export function openPopup(
     {
@@ -11,10 +13,13 @@ export function openPopup(
         overflow = false,
         relative = true,
     }: Omit<IPopupState, 'active'>,
-    forceClose: boolean = false
+    forceClose: boolean = false,
+    requiresLogin = true
 ): void {
-    modifyPopupState(
-        { active: true, id: id, hideClose, preventClose, transition, props, overflow, relative },
-        forceClose
-    )
+    if (requiresLogin) {
+        if (!get(getActiveProfile().loggedIn)) {
+            return
+        }
+    }
+    modifyPopupState({ active: true, id, hideClose, preventClose, transition, props, overflow, relative }, forceClose)
 }

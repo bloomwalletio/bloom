@@ -57,9 +57,7 @@
 
         Platform.DeepLinkManager.checkForDeepLinkRequest()
 
-        if ($selectedAccount) {
-            void pollLayer2Tokens($selectedAccount)
-        }
+        void pollLayer2Tokens($selectedAccount)
     })
 
     onDestroy(() => {

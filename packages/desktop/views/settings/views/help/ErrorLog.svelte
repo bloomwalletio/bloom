@@ -4,7 +4,7 @@
     import { openPopup, PopupId } from '@desktop/auxiliary/popup'
 
     function onErrorLogClick(): void {
-        openPopup({ id: PopupId.ErrorLog })
+        openPopup({ id: PopupId.ErrorLog }, false, false)
     }
 </script>
 
