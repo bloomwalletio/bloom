@@ -6,6 +6,7 @@
     import { activeProfile } from '@core/profile/stores'
     import { PIN_LENGTH } from '@core/utils'
     import { get } from 'svelte/store'
+    import SettingsSection from '../SettingsSection.svelte'
 
     let currentPincode: string = ''
     let newPincode: string = ''
@@ -91,39 +92,42 @@
     }
 </script>
 
-<form on:submit|preventDefault={changePincode} id="pincode-change-form">
-    <Text type="body2" class="mb-2">{localize('views.settings.changePincode.title')}</Text>
-    <Text type="base" textColor="secondary" class="mb-6">{localize('views.settings.changePincode.description')}</Text>
-    <div class="flex flex-col gap-4 mb-6">
-        <pin-input-container class="flex flex-col w-fit gap-3">
-            <Text type="base">
-                {localize('views.settings.changePincode.currentPincode')}
-            </Text>
-            <PinInput bind:value={currentPincode} disabled={busy} error={!!currentPincodeError} />
-            <Error error={currentPincodeError} />
-        </pin-input-container>
-        <pin-input-container class="flex flex-col w-fit gap-3">
-            <Text type="base">
-                {localize('views.settings.changePincode.newPincode')}
-            </Text>
-            <PinInput bind:value={newPincode} disabled={busy} error={!!newPincodeError} />
-            <Error error={newPincodeError} />
-        </pin-input-container>
-        <pin-input-container class="flex flex-col w-fit gap-3">
-            <Text type="base">
-                {localize('actions.confirmPin')}
-            </Text>
-            <PinInput bind:value={confirmedPincode} disabled={busy} error={!!confirmationPincodeError} />
-            <Error error={confirmationPincodeError} />
-        </pin-input-container>
-    </div>
-    <Button
-        text={localize('views.settings.changePincode.action')}
-        type="submit"
-        disabled={busy ||
-            currentPincode?.length < PIN_LENGTH ||
-            newPincode?.length < PIN_LENGTH ||
-            confirmedPincode?.length < PIN_LENGTH}
-        {busy}
-    />
-</form>
+<SettingsSection
+    title={localize('views.settings.changePincode.title')}
+    description={localize('views.settings.changePincode.description')}
+>
+    <form on:submit|preventDefault={changePincode} id="pincode-change-form">
+        <div class="flex flex-col gap-4 mb-6">
+            <pin-input-container class="flex flex-col w-fit gap-3">
+                <Text type="base">
+                    {localize('views.settings.changePincode.currentPincode')}
+                </Text>
+                <PinInput bind:value={currentPincode} disabled={busy} error={!!currentPincodeError} />
+                <Error error={currentPincodeError} />
+            </pin-input-container>
+            <pin-input-container class="flex flex-col w-fit gap-3">
+                <Text type="base">
+                    {localize('views.settings.changePincode.newPincode')}
+                </Text>
+                <PinInput bind:value={newPincode} disabled={busy} error={!!newPincodeError} />
+                <Error error={newPincodeError} />
+            </pin-input-container>
+            <pin-input-container class="flex flex-col w-fit gap-3">
+                <Text type="base">
+                    {localize('actions.confirmPin')}
+                </Text>
+                <PinInput bind:value={confirmedPincode} disabled={busy} error={!!confirmationPincodeError} />
+                <Error error={confirmationPincodeError} />
+            </pin-input-container>
+        </div>
+        <Button
+            text={localize('views.settings.changePincode.action')}
+            type="submit"
+            disabled={busy ||
+                currentPincode?.length < PIN_LENGTH ||
+                newPincode?.length < PIN_LENGTH ||
+                confirmedPincode?.length < PIN_LENGTH}
+            {busy}
+        />
+    </form>
+</SettingsSection>
