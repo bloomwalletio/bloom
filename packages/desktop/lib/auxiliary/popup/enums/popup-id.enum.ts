@@ -18,7 +18,6 @@ export enum PopupId {
     ErrorLog = 'errorLog',
     FaucetRequest = 'faucetRequest',
     ImportErc20Token = 'importErc20Token',
-    LedgerConnection = 'ledgerConnection',
     LegalUpdate = 'legalUpdate',
     CustomiseAccount = 'manageAccount',
     ManageVotingPower = 'manageVotingPower',

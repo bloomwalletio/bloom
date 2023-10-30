@@ -2,18 +2,16 @@
     import { Icon, IconName, Link, Text } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
     import { LedgerConnectionState, ledgerConnectionState } from '@core/ledger'
-    import { PopupId, openPopup } from '@desktop/auxiliary/popup'
     import { OnboardingLayout } from '@views/components'
     import { createFromLedgerRouter } from '..'
+    import { CreateFromLedgerRoute } from '../create-from-ledger-route.enum'
 
     $: isDisconnected = $ledgerConnectionState === LedgerConnectionState.Disconnected
     $: isLocked = isDisconnected || $ledgerConnectionState === LedgerConnectionState.Locked
     $: isCorrectAppOpen = $ledgerConnectionState === LedgerConnectionState.ShimmerAppOpen
 
-    function handleGuidePopup(): void {
-        openPopup({
-            id: PopupId.LedgerConnection,
-        })
+    function onConnectionGuideClick(): void {
+        $createFromLedgerRouter.goTo(CreateFromLedgerRoute.LedgerConnectionGuide)
     }
 
     function onContinueClick(): void {
@@ -77,8 +75,8 @@
         <div class="flex gap-2 justify-center items-center">
             <Icon name={IconName.InfoCircle} size="xs" textColor="brand" />
             <Link
-                on:click={handleGuidePopup}
-                text={localize('popups.ledgerConnectionGuide.title')}
+                on:click={onConnectionGuideClick}
+                text={localize('views.onboarding.createFromLedger.connectLedger.tip')}
                 fontWeight="medium"
             />
         </div>
