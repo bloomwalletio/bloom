@@ -1,7 +1,6 @@
-import { getActiveProfile } from '@core/profile/stores'
+import { isLoggedIn } from '@core/profile/stores'
 import { modifyPopupState } from '../helpers'
 import { IPopupState } from '../interfaces'
-import { get } from 'svelte/store'
 
 export function openPopup(
     {
@@ -17,7 +16,7 @@ export function openPopup(
     requiresLogin = true
 ): void {
     if (requiresLogin) {
-        if (!get(getActiveProfile().loggedIn)) {
+        if (!isLoggedIn()) {
             return
         }
     }
