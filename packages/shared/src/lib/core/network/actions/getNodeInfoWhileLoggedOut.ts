@@ -2,7 +2,7 @@ import { getTemporaryProfileManagerStorageDirectory } from '@contexts/onboarding
 import { IProfileManager, api } from '@core/profile-manager'
 import { initialiseProfileManager } from '@core/profile-manager/actions'
 import { TEST_COIN_TYPE } from '..'
-import { Platform } from '@core/app'
+import { Platform } from '@core/app/classes'
 import { CoinType, IAuth, INodeInfoWrapper } from '@iota/sdk/out/types'
 
 export async function getNodeInfoWhileLoggedOut(url: string, auth: IAuth): Promise<INodeInfoWrapper> {

@@ -1,6 +1,6 @@
 import { get } from 'svelte/store'
 
-import { Platform } from '@core/app'
+import { Platform } from '@core/app/classes'
 
 import { onboardingProfile } from '../stores'
 

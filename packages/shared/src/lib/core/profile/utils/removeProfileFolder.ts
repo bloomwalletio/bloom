@@ -1,4 +1,4 @@
-import { Platform } from '@core/app'
+import { Platform } from '@core/app/classes'
 import { getStorageDirectoryOfProfile } from '@core/profile'
 
 /**
