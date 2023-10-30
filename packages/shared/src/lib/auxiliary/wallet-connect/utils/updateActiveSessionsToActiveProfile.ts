@@ -4,7 +4,7 @@ import { getAllEvmAddresses } from './getAllEvmAddresses'
 
 export async function updateActiveSessionsToActiveProfile(): Promise<void> {
     const chains = ['eip155:1', 'eip155:5']
-    const addresses: string[] = getAllEvmAddresses(chains)
+    const addresses = getAllEvmAddresses(chains)
 
     const updatedNamespaces = {
         eip155: {
