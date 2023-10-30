@@ -84,15 +84,15 @@
     title={localize('popups.mintNftForm.title')}
     backButton={{
         text: localize('actions.back'),
-        disabled: $selectedAccount.isTransferring,
+        disabled: $selectedAccount?.isTransferring,
         onClick: onBackClick,
     }}
     continueButton={{
         text: localize('actions.confirm'),
-        disabled: $selectedAccount.isTransferring,
+        disabled: $selectedAccount?.isTransferring,
         onClick: onConfirmClick,
     }}
-    busy={$selectedAccount.isTransferring}
+    busy={$selectedAccount?.isTransferring}
 >
     <div class="max-h-100 scrollable-y flex-1">
         <nft-details class="flex flex-col justify-center items-center space-y-5">
