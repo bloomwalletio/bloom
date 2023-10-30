@@ -1,4 +1,12 @@
+import { Platform } from '@core/app/classes'
 import { localize } from '@core/i18n'
+import { DashboardRoute } from '@core/router/enums'
+import { dashboardRouter } from '@core/router/routers'
+import { get } from 'svelte/store'
+import { PopupId, closePopup, openPopup } from './auxiliary/popup'
+import { closeDrawer } from './auxiliary/drawer'
+import { openSettings } from '@contexts/settings/stores'
+import { appVersionDetails } from '@core/app/stores'
 
 /**
  * Returns localised Electron menu items
@@ -36,3 +44,31 @@ export const getLocalisedMenuItems = (): unknown => ({
     reportAnIssue: localize('actions.reportAnIssue'),
     version: localize('general.versionFull'),
 })
+
+export function registerMenuButtons(): void {
+    Platform.onEvent('menu-navigate-wallet', () => {
+        get(dashboardRouter).goTo(DashboardRoute.Wallet)
+    })
+    Platform.onEvent('menu-navigate-settings', () => {
+        closePopup()
+        closeDrawer()
+        openSettings()
+    })
+    Platform.onEvent('menu-check-for-update', () => {
+        closeDrawer()
+        openPopup({
+            id: PopupId.CheckForUpdates,
+            props: {
+                currentVersion: get(appVersionDetails).currentVersion,
+            },
+        })
+    })
+    Platform.onEvent('menu-error-log', () => {
+        closeDrawer()
+        openPopup({ id: PopupId.ErrorLog })
+    })
+    Platform.onEvent('menu-diagnostics', () => {
+        closeDrawer()
+        openPopup({ id: PopupId.Diagnostics })
+    })
+}
