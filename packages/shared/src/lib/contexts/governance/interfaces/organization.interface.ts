@@ -1,6 +1,6 @@
-import { Icon } from '@auxiliary/icon'
+import { IconName } from '@bloomwalletio/ui'
 
 export interface IOrganization {
     name: string
-    icon: Icon
+    icon: IconName
 }
