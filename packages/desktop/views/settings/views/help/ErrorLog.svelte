@@ -5,7 +5,7 @@
     import SettingsSection from '../SettingsSection.svelte'
 
     function onErrorLogClick(): void {
-        openPopup({ id: PopupId.ErrorLog })
+        openPopup({ id: PopupId.ErrorLog }, false, false)
     }
 </script>
 

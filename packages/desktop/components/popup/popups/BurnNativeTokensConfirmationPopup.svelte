@@ -59,10 +59,10 @@
     continueButton={{
         text: localize('actions.burnToken'),
         onClick: onBurnTokenClick,
-        disabled: $selectedAccount.isTransferring,
+        disabled: $selectedAccount?.isTransferring,
         color: 'danger',
     }}
-    busy={$selectedAccount.isTransferring}
+    busy={$selectedAccount?.isTransferring}
 >
     <div class="space-y-5">
         <Table

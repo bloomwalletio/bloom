@@ -9,7 +9,7 @@
     $: isUpToDate = $appVersionDetails.upToDate
 
     function onClick(): void {
-        openPopup({ id: PopupId.CheckForUpdates })
+        openPopup({ id: PopupId.CheckForUpdates }, false, false)
     }
 </script>
 

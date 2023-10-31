@@ -71,7 +71,7 @@
         text: localize('popups.signMessage.action'),
         onClick: onConfirmClick,
     }}
-    busy={$selectedAccount.isTransferring || isBusy}
+    busy={$selectedAccount?.isTransferring || isBusy}
 >
     <div class="space-y-5">
         <section class="relative flex flex-col border border-solid border-gray-200 rounded-xl p-6">

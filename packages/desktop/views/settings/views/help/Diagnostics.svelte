@@ -5,7 +5,7 @@
     import SettingsSection from '../SettingsSection.svelte'
 
     function onDiagnosticsClick(): void {
-        openPopup({ id: PopupId.Diagnostics })
+        openPopup({ id: PopupId.Diagnostics }, false, false)
     }
 </script>
 

@@ -17,8 +17,8 @@
     }
 
     const { loggedIn } = $activeProfile
-    const routes = Object.values($loggedIn ? SettingsRoute : SettingsRouteNoProfile)
-    const sidebarTabs: ISettingsSidebarTab[] = routes.map((route) => getSidebarTab(route)).filter((tab) => Boolean(tab))
+    $: routes = Object.values($loggedIn ? SettingsRoute : SettingsRouteNoProfile)
+    $: sidebarTabs = routes.map((route) => getSidebarTab(route)).filter((tab) => Boolean(tab))
 
     function getSidebarTab(route: SettingsRoute | SettingsRouteNoProfile): ISettingsSidebarTab | undefined {
         const isSettingEnabled = features?.settings?.[route]?.enabled

@@ -4,7 +4,7 @@ import { DEFAULT_LEDGER_DEVICE_STATE_POLL_INTERVAL } from '../constants'
 import { ILedgerDeviceStatePollingConfiguration } from '../interfaces'
 import { isPollingLedgerDeviceState } from '../stores'
 import { getAndUpdateLedgerDeviceState, registerLedgerDeviceEventHandlers } from '.'
-import { Platform } from '@core/app'
+import { Platform } from '@core/app/classes'
 
 let intervalTimer: number | undefined
 
