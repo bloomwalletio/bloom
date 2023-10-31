@@ -9,7 +9,6 @@ export async function updateL2BalanceWithoutActivity(
     account: IAccountState,
     networkId: NetworkId
 ): Promise<void> {
-    const delta = rawAmount * -1
-    const newBalance = updateLayer2AccountBalanceForTokenOnChain(account.index, networkId, tokenId, delta)
+    const newBalance = updateLayer2AccountBalanceForTokenOnChain(account.index, networkId, tokenId, rawAmount)
     await calculateAndAddPersistedTokenBalanceChange(account, networkId, tokenId, newBalance, true)
 }

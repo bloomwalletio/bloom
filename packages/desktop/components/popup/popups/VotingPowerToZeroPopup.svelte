@@ -1,13 +1,13 @@
 <script lang="ts">
-    import { Alert } from '@bloomwalletio/ui'
+    import { Alert, Button } from '@bloomwalletio/ui'
     import { setVotingPower } from '@contexts/governance/actions'
     import { selectedAccount } from '@core/account/stores'
     import { handleError } from '@core/error/handlers'
     import { localize } from '@core/i18n'
     import { checkActiveProfileAuth } from '@core/profile/actions'
     import { PopupId, closePopup, openPopup, popupState } from '@desktop/auxiliary/popup'
-    import { Button, Text } from '@ui'
-    import { HTMLButtonType, TextType } from '@ui/enums'
+    import { Text } from '@ui'
+    import { TextType } from '@ui/enums'
 
     const ZERO_VOTING_POWER = '0'
 
@@ -40,11 +40,13 @@
     <Text type={TextType.h4} classes="mb-3">{localize('popups.manageVotingPower.title')}</Text>
     <Alert variant="warning" text={localize('popups.manageVotingPower.amountZero')} />
     <div class="flex flex-row flex-nowrap w-full space-x-4">
-        <Button outline classes="w-full" onClick={onCancelClick}>
-            {localize('actions.cancel')}
-        </Button>
-        <Button type={HTMLButtonType.Submit} isBusy={isTransferring} disabled={isTransferring} classes="w-full">
-            {localize('actions.confirm')}
-        </Button>
+        <Button variant="outlined" width="full" on:click={onCancelClick} text={localize('actions.cancel')} />
+        <Button
+            type="submit"
+            busy={isTransferring}
+            disabled={isTransferring}
+            width="full"
+            text={localize('actions.confirm')}
+        />
     </div>
 </form>

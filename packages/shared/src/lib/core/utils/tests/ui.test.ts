@@ -1,4 +1,4 @@
-import { debounce, isBright } from '../ui'
+import { debounce } from '../ui'
 
 describe('File: ui.ts', () => {
     describe('Function: debounce', () => {
@@ -34,22 +34,6 @@ describe('File: ui.ts', () => {
     })
     describe('Function: clickOutside', () => {
         // it.todo('needs a UI testing library to test')
-    })
-    describe('Function: isBright', () => {
-        it('should return true if color is bright', () => {
-            expect(isBright('#FFFFFF')).toEqual(true)
-            expect(isBright('255,255,255')).toEqual(true)
-        })
-        it('should return the same boolean for identical 3 and 6 value HEX colors', () => {
-            expect(isBright('#CCC')).toEqual(isBright('#CCCCCC'))
-        })
-        it('should return false if color is not bright', () => {
-            expect(isBright('#000000')).toEqual(false)
-            expect(isBright('0,0,0')).toEqual(false)
-        })
-        it('should return false if color is empty', () => {
-            expect(isBright('')).toEqual(false)
-        })
     })
 
     describe('Function: slidable', () => {

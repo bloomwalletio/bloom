@@ -5,8 +5,9 @@
     import { formatTokenAmountBestMatch } from '@core/token'
     import { visibleSelectedAccountTokens } from '@core/token/stores'
     import { PopupId, openPopup } from '@desktop/auxiliary/popup'
-    import { Button, Text } from '@ui'
-    import { ButtonSize, FontWeight, TextType } from '@ui/enums'
+    import { Text } from '@ui'
+    import { FontWeight, TextType } from '@ui/enums'
+    import { Button } from '@bloomwalletio/ui'
 
     const token = $visibleSelectedAccountTokens?.[$activeProfile?.network.id]?.baseCoin
 
@@ -35,12 +36,10 @@
         {localize('views.governance.votingPower.maximal', { values: { value: formattedMaxVotingPower } })}
     </Text>
     <Button
-        size={ButtonSize.Medium}
-        onClick={onManageVotingPowerClick}
-        classes="w-full"
+        on:click={onManageVotingPowerClick}
+        width="full"
         disabled={hasTransactionInProgress}
-        isBusy={hasTransactionInProgress}
-    >
-        {localize('views.governance.votingPower.manage')}
-    </Button>
+        busy={hasTransactionInProgress}
+        text={localize('views.governance.votingPower.manage')}
+    />
 </voting-power>

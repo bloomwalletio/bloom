@@ -13,7 +13,6 @@
     import { activeProfile, updateActiveProfile } from '@core/profile/stores'
     import { PASSWORD_REASON_MAP } from '@core/stronghold'
     import { StrengthMeter } from '@ui'
-    import { HTMLButtonType } from '@ui/enums'
     import { OnboardingLayout } from '@views/components'
     import { onMount } from 'svelte'
     import zxcvbn from 'zxcvbn'
@@ -149,7 +148,7 @@
         </form>
         <Button
             form="update-stronghold-form"
-            type={HTMLButtonType.Submit}
+            type="submit"
             text={localize('views.settings.changePassword.title')}
             width="full"
             disabled={!newPassword || !confirmPassword || busy}

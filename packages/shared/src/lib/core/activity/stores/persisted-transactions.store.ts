@@ -3,6 +3,7 @@ import { persistent } from '@core/utils/store'
 import { get } from 'svelte/store'
 import { PersistedEvmTransaction } from '../types'
 import { NetworkId } from '@core/network/types'
+import { IChain } from '@core/network/interfaces'
 
 type PersistedEvmTransactions = {
     [profileId: string]: {
@@ -14,15 +15,17 @@ type PersistedEvmTransactions = {
 
 export const persistedEvmTransactions = persistent<PersistedEvmTransactions>('evmTransactions', {})
 
-export function getPersistedEvmTransactions(accountIndex: number, networkId: NetworkId): PersistedEvmTransaction[] {
+export function getPersistedEvmTransactions(accountIndex: number, chain: IChain): PersistedEvmTransaction[] {
+    const networkId = chain.getConfiguration().id
     return get(persistedEvmTransactions)?.[get(activeProfileId)]?.[accountIndex]?.[networkId] ?? []
 }
 
 export function addPersistedTransaction(
     accountIndex: number,
-    networkId: NetworkId,
+    chain: IChain,
     ...newTransactions: PersistedEvmTransaction[]
 ): void {
+    const networkId = chain.getConfiguration().id
     const profileId = get(activeProfileId)
     persistedEvmTransactions.update((state) => {
         if (!state[profileId]) {

@@ -7,7 +7,7 @@
     import { EMPTY_NODE, addNodeToClientOptions, editNodeInClientOptions } from '@core/network'
     import { activeAccounts, activeProfile } from '@core/profile/stores'
     import { closePopup } from '@desktop/auxiliary/popup'
-    import { HTMLButtonType, NodeConfigurationForm } from '@ui'
+    import { NodeConfigurationForm } from '@ui'
     import PopupTemplate from '../PopupTemplate.svelte'
 
     export let node: INode = structuredClone(EMPTY_NODE)
@@ -60,7 +60,7 @@
         onClick: closePopup,
     }}
     continueButton={{
-        type: HTMLButtonType.Submit,
+        type: 'submit',
         form: 'node-configuration-form',
         text: localize(`actions.${isEditingNode ? 'updateNode' : 'addNode'}`),
         disabled: !node.url,

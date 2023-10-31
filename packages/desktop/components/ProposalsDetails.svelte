@@ -16,10 +16,11 @@
     import { localize } from '@core/i18n'
     import { activeProfileId } from '@core/profile/stores'
     import { PopupId, openPopup } from '@desktop/auxiliary/popup'
-    import { Button, Text } from '@ui'
-    import { ButtonSize, FontWeight } from '@ui/enums'
+    import { Text } from '@ui'
+    import { FontWeight } from '@ui/enums'
     import { onMount } from 'svelte'
     import { GovernanceDetailsMenu } from './menus'
+    import { Button } from '@bloomwalletio/ui'
 
     let details = <IProposalsDetails>{
         totalProposals: null,
@@ -72,7 +73,5 @@
             value: details[key] ?? 0,
         }))}
     />
-    <Button size={ButtonSize.Medium} outline onClick={onAddProposalClick} classes="w-full">
-        {localize('actions.addProposal')}
-    </Button>
+    <Button variant="outlined" on:click={onAddProposalClick} width="full" text={localize('actions.addProposal')} />
 </proposals-details>
