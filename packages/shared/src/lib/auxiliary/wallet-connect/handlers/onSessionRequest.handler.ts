@@ -1,8 +1,7 @@
 import { handleEthSendTransaction } from './eth_sendTransaction.handler'
-import { handleEthSign } from './eth_sign.handler'
+import { handleSignMessage } from './sign_message.handler'
 import { handleEthSignTransaction } from './eth_signTransaction.handler'
 import { handleEthSignTypedData } from './eth_signTypedData.handler'
-import { handlePersonalSign } from './personal_sign.handler'
 import { JsonRpcResponse } from '@walletconnect/jsonrpc-types'
 import { Web3WalletTypes } from '@walletconnect/web3wallet'
 import { getConnectedDappByOrigin, getWalletClient } from '../stores'
@@ -55,10 +54,8 @@ export function onSessionRequest(event: Web3WalletTypes.SessionRequest): void {
             handleEthSignTransaction()
             break
         case 'eth_sign':
-            handleEthSign(request.params, dapp, chain, returnResponse)
-            break
         case 'personal_sign':
-            handlePersonalSign(request.params, dapp, chain, returnResponse)
+            handleSignMessage(request.params, dapp, method, chain, returnResponse)
             break
         case 'eth_signTypedData':
             handleEthSignTypedData()
