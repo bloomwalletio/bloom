@@ -4,7 +4,7 @@
     import { NftAvatar, TokenAvatar } from '@ui'
     import { selectedAccount } from '@core/account/stores'
     import { localize } from '@core/i18n'
-    import { generateAndStoreEvmAddressForAccounts, pollLayer2Tokens } from '@core/layer-2/actions'
+    import { generateAndStoreEvmAddressForAccounts, pollLayer2BalanceForAccount } from '@core/layer-2/actions'
     import { LedgerAppName } from '@core/ledger'
     import { NetworkHealth, NetworkId, network, setSelectedChain } from '@core/network'
     import { INft } from '@core/nfts'
@@ -41,7 +41,7 @@
                     chain.getConfiguration().coinType,
                     $selectedAccount
                 )
-                pollLayer2Tokens($selectedAccount)
+                pollLayer2BalanceForAccount($selectedAccount)
                 if ($activeProfile.type === ProfileType.Ledger) {
                     setSelectedChain(chain)
                     toggleDashboardDrawer({

@@ -4,7 +4,7 @@ import { IAccountState } from '@core/account'
 
 let pollInterval: number
 
-export function pollLayer2Tokens(account: IAccountState): void {
+export function pollLayer2BalanceForAccount(account: IAccountState): void {
     clearLayer2TokensPoll()
     fetchLayer2BalanceForAccount(account)
     pollInterval = window.setInterval(() => {

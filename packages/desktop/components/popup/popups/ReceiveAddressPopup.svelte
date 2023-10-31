@@ -5,7 +5,7 @@
     import { selectedAccount } from '@core/account/stores'
     import { setClipboard } from '@core/utils'
     import { isEvmChain, isStardustNetwork, network, NetworkId } from '@core/network'
-    import { generateAndStoreEvmAddressForAccounts, pollLayer2Tokens } from '@core/layer-2/actions'
+    import { generateAndStoreEvmAddressForAccounts, pollLayer2BalanceForAccount } from '@core/layer-2/actions'
     import { activeProfile } from '@core/profile/stores'
     import { checkActiveProfileAuth } from '@core/profile/actions'
     import { LedgerAppName } from '@core/ledger'
@@ -28,7 +28,7 @@
                 void checkActiveProfileAuth(
                     async () => {
                         await generateAndStoreEvmAddressForAccounts($activeProfile.type, coinType, $selectedAccount)
-                        pollLayer2Tokens($selectedAccount)
+                        pollLayer2BalanceForAccount($selectedAccount)
                         networkName = name
                         receiveAddress = $selectedAccount.evmAddresses?.[coinType]
                     },
