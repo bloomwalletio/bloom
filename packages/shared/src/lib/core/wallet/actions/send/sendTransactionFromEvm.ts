@@ -26,7 +26,6 @@ export async function sendTransactionFromEvm(
 
     await checkActiveProfileAuth(
         async () => {
-            const networkId = chain.getConfiguration().id
             const chainId = chain.getConfiguration().chainId
             const coinType = chain.getConfiguration().coinType
             const transactionReceipt = await signAndSendEvmTransaction(
@@ -36,51 +35,56 @@ export async function sendTransactionFromEvm(
                 provider,
                 account
             )
+            if (!transactionReceipt) {
+                return
+            }
 
             // We manually add a timestamp to mitigate balance change activities
             // taking precedence over send/receive activities
-            if (transactionReceipt) {
-                const evmTransaction: PersistedEvmTransaction = {
-                    ...preparedTransaction,
-                    ...transactionReceipt,
-                    timestamp: Date.now(),
-                }
-                addPersistedTransaction(account.index, networkId, evmTransaction)
-                const activity = await generateActivityFromEvmTransaction(evmTransaction, networkId, chain, account)
-                if (activity) {
-                    addActivitiesToAccountActivitiesInAllAccountActivities(account.index, [activity])
+            const evmTransaction: PersistedEvmTransaction = {
+                ...preparedTransaction,
+                ...transactionReceipt,
+                timestamp: Date.now(),
+            }
+            await persistEvmTransaction(evmTransaction, chain, account)
 
-                    if (getAddressFromAccountForNetwork(account, networkId) !== activity.subject?.address) {
-                        await createHiddenBalanceChange(account, activity)
-                    }
-
-                    if (activity.recipient?.type === 'account') {
-                        const recipientAccount = activity.recipient.account
-                        addPersistedTransaction(recipientAccount.index, networkId, evmTransaction)
-                        const receiveActivity = await generateActivityFromEvmTransaction(
-                            evmTransaction,
-                            networkId,
-                            chain,
-                            recipientAccount
-                        )
-
-                        if (receiveActivity) {
-                            addActivitiesToAccountActivitiesInAllAccountActivities(recipientAccount.index, [
-                                receiveActivity,
-                            ])
-                            await createHiddenBalanceChange(recipientAccount, receiveActivity)
-                        }
-                    }
-                }
-
-                if (callback && typeof callback === 'function') {
-                    callback()
-                }
+            if (callback && typeof callback === 'function') {
+                callback()
             }
         },
         { stronghold: true, ledger: true, props: { preparedTransaction } },
         LedgerAppName.Ethereum
     )
+}
+
+async function persistEvmTransaction(
+    evmTransaction: PersistedEvmTransaction,
+    chain: IChain,
+    account: IAccountState
+): Promise<void> {
+    addPersistedTransaction(account.index, chain, evmTransaction)
+
+    const activity = await generateActivityFromEvmTransaction(evmTransaction, chain, account)
+    if (!activity) {
+        return
+    }
+
+    addActivitiesToAccountActivitiesInAllAccountActivities(account.index, [activity])
+    if (getAddressFromAccountForNetwork(account, chain.getConfiguration().id) !== activity.subject?.address) {
+        await createHiddenBalanceChange(account, activity)
+    }
+
+    if (activity.recipient?.type === 'account') {
+        const recipientAccount = activity.recipient.account
+        addPersistedTransaction(recipientAccount.index, chain, evmTransaction)
+        const receiveActivity = await generateActivityFromEvmTransaction(evmTransaction, chain, recipientAccount)
+        if (!receiveActivity) {
+            return
+        }
+
+        addActivitiesToAccountActivitiesInAllAccountActivities(recipientAccount.index, [receiveActivity])
+        await createHiddenBalanceChange(recipientAccount, receiveActivity)
+    }
 }
 
 // Hidden balance changes mitigate duplicate activities for L2 transactions (balance changed & sent/receive activities).

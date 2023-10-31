@@ -1,4 +1,3 @@
-import { NetworkId } from '@core/network/types'
 import { MILLISECONDS_PER_SECOND } from '@core/utils/constants'
 import { getSubjectFromAddress, isSubjectInternal } from '@core/wallet'
 import { ActivityAction, ActivityDirection, InclusionState } from '../../enums'
@@ -10,13 +9,12 @@ import { getAddressFromAccountForNetwork } from '@core/account/utils'
 
 export async function generateBaseEvmActivity(
     transaction: PersistedEvmTransaction,
-    networkId: NetworkId,
     chain: IChain,
     recipientAddress: string | undefined,
     account: IAccountState
 ): Promise<BaseEvmActivity> {
     const provider = chain.getProvider()
-
+    const networkId = chain.getConfiguration().id
     const direction =
         getAddressFromAccountForNetwork(account, networkId) === recipientAddress
             ? ActivityDirection.Incoming

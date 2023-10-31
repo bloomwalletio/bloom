@@ -1,5 +1,4 @@
 import { PersistedEvmTransaction } from '@core/activity/types/persisted-evm-transaction.interface'
-import { NetworkId } from '@core/network/types'
 import { isTrackedTokenAddress } from '@core/wallet/actions'
 import { ISC_MAGIC_CONTRACT_ADDRESS, WEI_PER_GLOW } from '../constants'
 import { ERC20_ABI, ISC_SANDBOX_ABI } from '../abis'
@@ -12,9 +11,9 @@ import { AssetType, TransferredAssetId } from '..'
 export function getTransferInfoFromTransactionData(
     transaction: PersistedEvmTransaction,
     address: string,
-    networkId: NetworkId,
     chain: IChain
 ): { asset: TransferredAssetId; recipientAddress: string } | undefined {
+    const networkId = chain.getConfiguration().id
     if (transaction.data) {
         const isErc20 = isTrackedTokenAddress(networkId, address)
         const isIscContract = address === ISC_MAGIC_CONTRACT_ADDRESS
