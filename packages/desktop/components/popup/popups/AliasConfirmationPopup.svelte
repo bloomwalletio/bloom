@@ -35,7 +35,7 @@
 
     void setStorageDeposit(aliasOutputParams)
 
-    $: isTransferring = $selectedAccount.isTransferring
+    $: isTransferring = $selectedAccount?.isTransferring
 
     async function setStorageDeposit(params: AliasOutputBuilderParams): Promise<void> {
         try {

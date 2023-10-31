@@ -1,27 +1,14 @@
 <script lang="ts">
-    import { localize } from '@core/i18n'
-    import { Text, TextType } from '@ui'
+    import { Text } from '@bloomwalletio/ui'
 
-    export let setting: string
-
-    $: title =
-        localize(`views.settings.${setting}.title`) === `views.settings.${setting}.title`
-            ? null
-            : localize(`views.settings.${setting}.title`)
-    $: description =
-        localize(`views.settings.${setting}.description`) === `views.settings.${setting}.description`
-            ? null
-            : localize(`views.settings.${setting}.description`)
+    export let title: string
+    export let description: string | undefined = undefined
 </script>
 
-<settings-section class="space-y-5">
-    <div class="space-y-3">
-        {#if title}
-            <Text type={TextType.h4}>{title}</Text>
-        {/if}
-        {#if description}
-            <Text type={TextType.p} secondary>{description}</Text>
-        {/if}
-    </div>
+<settings-section>
+    <Text type="body2" class="mb-{description ? 2 : 6}">{title}</Text>
+    {#if description}
+        <Text type="base" textColor="secondary" class="mb-6">{description}</Text>
+    {/if}
     <slot />
 </settings-section>

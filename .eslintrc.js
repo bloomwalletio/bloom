@@ -13,7 +13,7 @@ const eslintRules = {
     'linebreak-style': 'off', // OFF b/c Windows (Git) puts CRLF line endings
     'missing-declaration': 'off', // OFF b/c throws errors on imports / require statements
     'multiline-ternary': 'off', // OFF b/c causes problems between Prettier and ESLint
-    'no-alert': 'error',
+    'no-alert': 'off', // OFF b/c we use confirm windows for preventing close of popup
     'no-async-promise-executor': 'error',
     'no-case-declarations': 'error',
     'no-console': ['error', { allow: ['error', 'warn'] }],

@@ -1,4 +1,6 @@
 <script lang="ts">
+    import { Spinner } from '@bloomwalletio/ui'
+    import { PopupTemplate } from '@components'
     import { selectedAccount } from '@core/account/stores'
     import { handleError } from '@core/error/handlers'
     import { localize } from '@core/i18n'
@@ -11,15 +13,14 @@
         sendOutputFromStardust,
         sendTransactionFromEvm,
     } from '@core/wallet/actions'
-    import { getNetworkIdFromSendFlowParameters } from '@core/wallet/utils'
     import { sendFlowParameters } from '@core/wallet/stores'
+    import { getNetworkIdFromSendFlowParameters } from '@core/wallet/utils'
     import { closePopup } from '@desktop/auxiliary/popup'
+    import { modifyPopupState } from '@desktop/auxiliary/popup/helpers'
     import { onMount } from 'svelte'
     import { sendFlowRouter } from '../send-flow.router'
-    import { PopupTemplate } from '@components'
-    import { EvmTransactionSummary, StardustTransactionSummary, StardustToEvmTransactionSummary } from './components'
+    import { EvmTransactionSummary, StardustToEvmTransactionSummary, StardustTransactionSummary } from './components'
     import { TransactionSummaryProps } from './types'
-    import { Spinner } from '@bloomwalletio/ui'
 
     export let transactionSummaryProps: TransactionSummaryProps
     let { _onMount, preparedOutput, preparedTransaction } = transactionSummaryProps ?? {}
@@ -27,7 +28,7 @@
     $: void prepareTransactions($sendFlowParameters)
     $: isSourceNetworkLayer2 = !!chain
     $: isDestinationNetworkLayer2 = isEvmChain($sendFlowParameters.destinationNetworkId)
-    $: isTransferring = !!$selectedAccount.isTransferring
+    $: isTransferring = !!$selectedAccount?.isTransferring
     $: isDisabled = isInvalid || isTransferring || (!preparedTransaction && !preparedOutput)
 
     let isInvalid: boolean
@@ -64,12 +65,17 @@
         }
     }
 
+    function finish(): void {
+        modifyPopupState({ confirmClickOutside: false })
+        closePopup()
+    }
+
     async function onConfirmClick(): Promise<void> {
         try {
             if (isSourceNetworkLayer2) {
-                await sendTransactionFromEvm(preparedTransaction, chain, closePopup)
+                await sendTransactionFromEvm(preparedTransaction, chain, finish)
             } else {
-                await sendOutputFromStardust(preparedOutput, $selectedAccount, closePopup)
+                await sendOutputFromStardust(preparedOutput, $selectedAccount, finish)
             }
         } catch (err) {
             handleError(err)

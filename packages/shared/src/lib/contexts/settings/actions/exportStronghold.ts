@@ -1,4 +1,4 @@
-import { Platform } from '@core/app'
+import { Platform } from '@core/app/classes'
 import { backup } from '@core/profile-manager'
 import { updateActiveProfile } from '@core/profile/stores'
 import { getDefaultStrongholdName } from '@core/stronghold'

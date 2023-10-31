@@ -48,6 +48,8 @@
     import VerifyLedgerTransactionPopup from './popups/VerifyLedgerTransactionPopup.svelte'
     import VoteForProposal from './popups/VoteForProposalPopup.svelte'
     import VotingPowerToZeroPopup from './popups/VotingPowerToZeroPopup.svelte'
+    import { modifyPopupState } from '@desktop/auxiliary/popup/helpers'
+    import { localize } from '@core/i18n'
 
     export let id: PopupId
     export let props: any
@@ -57,6 +59,7 @@
     export let overflow = false
     export let autofocusContent = true
     export let relative = true
+    export let confirmClickOutside = false
 
     enum PopupSize {
         Small = 'small',
@@ -130,7 +133,25 @@
             if ('function' === typeof props?.onCancelled) {
                 props?.onCancelled()
             }
+            modifyPopupState({ confirmClickOutside: false })
             closePopup()
+        }
+    }
+
+    function tryClosePopupOnClickOutside(): void {
+        if (!preventClose) {
+            if ('function' === typeof props?.onCancelled) {
+                props?.onCancelled()
+            }
+            if (confirmClickOutside) {
+                const confirm = window.confirm(localize('warning.closePopup'))
+                if (confirm) {
+                    modifyPopupState({ confirmClickOutside: false })
+                    closePopup()
+                }
+            } else {
+                closePopup()
+            }
         }
     }
 
@@ -176,7 +197,13 @@
         : 'top-0'} left-0 w-screen h-full z-30 bg-neutral-6/75"
 >
     <button type="button" tabindex="0" on:focus={onFocusFirst} />
-    <popup use:clickOutside on:clickOutside={tryClosePopup} bind:this={popupContent} class:relative class={size}>
+    <popup
+        use:clickOutside
+        on:clickOutside={tryClosePopupOnClickOutside}
+        bind:this={popupContent}
+        class:relative
+        class={size}
+    >
         <svelte:component this={POPUP_MAP[id]} {...props} />
         {#if !hideClose}
             <CloseButton on:click={tryClosePopup} size="sm" class="absolute top-8 right-8 p-2" />

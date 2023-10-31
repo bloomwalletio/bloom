@@ -92,7 +92,7 @@
         if (process.env.NODE_ENV !== 'development') {
             await setAppVersionDetails()
             if ($appVersionDetails.upToDate === false) {
-                openPopup({ id: PopupId.CheckForUpdates })
+                openPopup({ id: PopupId.CheckForUpdates }, false, false)
             }
         }
 
@@ -106,20 +106,24 @@
         })
         Platform.onEvent('menu-check-for-update', () => {
             closeDrawer()
-            openPopup({
-                id: PopupId.CheckForUpdates,
-                props: {
-                    currentVersion: $appVersionDetails.currentVersion,
+            openPopup(
+                {
+                    id: PopupId.CheckForUpdates,
+                    props: {
+                        currentVersion: $appVersionDetails.currentVersion,
+                    },
                 },
-            })
+                false,
+                false
+            )
         })
         Platform.onEvent('menu-error-log', () => {
             closeDrawer()
-            openPopup({ id: PopupId.ErrorLog })
+            openPopup({ id: PopupId.ErrorLog }, false, false)
         })
         Platform.onEvent('menu-diagnostics', () => {
             closeDrawer()
-            openPopup({ id: PopupId.Diagnostics })
+            openPopup({ id: PopupId.Diagnostics }, false, false)
         })
     })
 
@@ -149,6 +153,7 @@
                         transition={$popupState.transition}
                         overflow={$popupState.overflow}
                         relative={$popupState.relative}
+                        confirmClickOutside={$popupState.confirmClickOutside}
                     />
                 {/if}
                 {#if $appRoute === AppRoute.Dashboard}
