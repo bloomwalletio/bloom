@@ -1,9 +1,10 @@
 <script lang="ts">
     import type { Writable } from 'svelte/store'
     import { TogglableButton, Modal } from '@ui'
-    import { FilterItem, FilterModal } from '@components'
     import { Filter } from '@core/utils'
     import { IconName } from '@bloomwalletio/ui'
+    import { FilterItem } from '.'
+    import { FilterModal } from '../modals'
 
     export let filterStore: Writable<Filter>
     let filter: Filter = structuredClone($filterStore)
