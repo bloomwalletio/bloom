@@ -55,7 +55,7 @@ export function onSessionRequest(event: Web3WalletTypes.SessionRequest): void {
             handleEthSignTransaction()
             break
         case 'eth_sign':
-            handleEthSign()
+            handleEthSign(request.params, dapp, chain, returnResponse)
             break
         case 'personal_sign':
             handlePersonalSign(request.params, dapp, chain, returnResponse)

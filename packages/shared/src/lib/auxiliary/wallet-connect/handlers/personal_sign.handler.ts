@@ -5,6 +5,7 @@ import { findActiveAccountWithAddress } from '@core/profile/actions'
 import { IChain } from '@core/network'
 import { CallbackParameters } from '../types'
 
+// Type for `personal_sign` params: [ hexMessage, address ]
 export function handlePersonalSign(
     params: unknown,
     dapp: IConnectedDapp | undefined,

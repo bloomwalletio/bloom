@@ -23,7 +23,6 @@ import {
 } from '@core/ledger'
 import { EvmChainId } from '@core/network/enums'
 import { toRpcSig } from '@ethereumjs/util'
-import { Converter } from '@core/utils'
 
 declare global {
     interface Window {
@@ -118,7 +117,7 @@ export class Ledger {
         }
     }
 
-    static async signMessage(rawMessage: string, bip44: Bip44): Promise<string | undefined> {
+    static async signMessage(rawMessage: string, messageHex: string, bip44: Bip44): Promise<string | undefined> {
         openPopup({
             id: PopupId.VerifyLedgerTransaction,
             hideClose: true,
@@ -128,7 +127,6 @@ export class Ledger {
             },
         })
 
-        const messageHex = Converter.utf8ToHex(rawMessage, false)
         const bip32Path = buildBip32PathFromBip44(bip44)
 
         const transactionSignature = await this.callLedgerApiAsync<IEvmSignature>(
