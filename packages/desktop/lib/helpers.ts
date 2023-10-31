@@ -56,12 +56,16 @@ export function registerMenuButtons(): void {
     })
     Platform.onEvent('menu-check-for-update', () => {
         closeDrawer()
-        openPopup({
-            id: PopupId.CheckForUpdates,
-            props: {
-                currentVersion: get(appVersionDetails).currentVersion,
+        openPopup(
+            {
+                id: PopupId.CheckForUpdates,
+                props: {
+                    currentVersion: get(appVersionDetails).currentVersion,
+                },
             },
-        })
+            false,
+            false
+        )
     })
     Platform.onEvent('menu-error-log', () => {
         closeDrawer()
