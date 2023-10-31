@@ -1,6 +1,7 @@
 <script lang="ts">
     import { clickOutside } from '@core/utils'
-    import { Box, Error } from '@ui'
+    import { Box } from '@ui'
+    import { Error } from '@bloomwalletio/ui'
 
     export let inputElement: HTMLInputElement | undefined = undefined
     export let isFocused: boolean = false
