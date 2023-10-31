@@ -23,26 +23,12 @@
 
     let sidebarTabs: IDashboardSidebarTab[]
     $: sidebarTabs = [
-        ...(features?.wallet?.newDashboard?.enabled
-            ? [
-                  {
-                      icon: IconName.Wallet,
-                      label: localize('tabs.wallet'),
-                      route: DashboardRoute.Wallet,
-                      onClick: openWallet,
-                  },
-              ]
-            : []),
-        ...(features?.wallet?.oldDashboard.enabled
-            ? [
-                  {
-                      icon: IconName.Wallet,
-                      label: localize('tabs.wallet'),
-                      route: DashboardRoute.OldDashboard,
-                      onClick: openOldDashboard,
-                  },
-              ]
-            : []),
+        {
+            icon: IconName.Wallet,
+            label: localize('tabs.wallet'),
+            route: DashboardRoute.Wallet,
+            onClick: openWallet,
+        },
         ...(features?.collectibles?.enabled
             ? [
                   {
@@ -77,11 +63,6 @@
 
     function openWallet(): void {
         resetAllRouters()
-    }
-
-    function openOldDashboard(): void {
-        resetAllRouters()
-        $dashboardRouter.goTo(DashboardRoute.OldDashboard)
     }
 
     function openCollectibles(): void {

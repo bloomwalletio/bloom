@@ -149,6 +149,7 @@
                         transition={$popupState.transition}
                         overflow={$popupState.overflow}
                         relative={$popupState.relative}
+                        confirmClickOutside={$popupState.confirmClickOutside}
                     />
                 {/if}
                 {#if $appRoute === AppRoute.Dashboard}

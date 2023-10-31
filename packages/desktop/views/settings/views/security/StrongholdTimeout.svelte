@@ -1,10 +1,11 @@
 <script lang="ts">
-    import { IOption, SelectInput, Text } from '@bloomwalletio/ui'
+    import { IOption, SelectInput } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
     import { DEFAULT_PERSISTED_PROFILE_OBJECT } from '@core/profile'
     import { setStrongholdPasswordClearInterval } from '@core/profile-manager'
     import { activeProfile, updateActiveProfileSettings } from '@core/profile/stores'
     import { SECONDS_PER_MINUTE } from '@core/utils'
+    import SettingsSection from '../SettingsSection.svelte'
 
     const options: IOption[] = getStrongholdPasswordTimeoutOptions()
     let selected: IOption = options.find(
@@ -38,14 +39,17 @@
     }
 </script>
 
-<Text type="body2" class="mb-2">{localize('views.settings.strongholdTimeout.title')}</Text>
-<Text type="base" textColor="secondary" class="mb-6">{localize('views.settings.strongholdTimeout.description')}</Text>
-<div class="w-1/2">
-    <SelectInput
-        label={localize('views.settings.strongholdTimeout.title')}
-        bind:selected
-        value={selected.value}
-        {options}
-        hideValue
-    />
-</div>
+<SettingsSection
+    title={localize('views.settings.strongholdTimeout.title')}
+    description={localize('views.settings.strongholdTimeout.description')}
+>
+    <div class="w-1/2">
+        <SelectInput
+            label={localize('views.settings.strongholdTimeout.title')}
+            bind:selected
+            value={selected.value}
+            {options}
+            hideValue
+        />
+    </div>
+</SettingsSection>
