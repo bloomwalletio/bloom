@@ -3,8 +3,9 @@
     import { EventStatus } from '@iota/sdk/out/types'
 
     import { ProposalStatusInfo } from '@components'
-    import { Text, TooltipIcon } from '@ui'
-    import { FontWeight, Position } from '@ui/enums'
+    import { Text } from '@ui'
+    import { FontWeight } from '@ui/enums'
+    import { TooltipIcon, IconName } from '@bloomwalletio/ui'
 
     import { appSettings } from '@core/app/stores'
     import { localize } from '@core/i18n'
@@ -13,8 +14,6 @@
     import { IProposal } from '@contexts/governance/interfaces'
     import { participationOverviewForSelectedAccount, selectedProposalId } from '@contexts/governance/stores'
     import { isVotingForProposal } from '@contexts/governance/utils'
-
-    import { Icon } from '@auxiliary/icon/enums'
 
     export let proposal: IProposal
 
@@ -46,25 +45,19 @@
 >
     <div class="flex items-center gap-1.5 mb-4">
         {#if proposal.organization}
-            <TooltipIcon
-                icon={proposal.organization.icon}
-                text={proposal.organization.name}
-                size="small"
-                classes="p-0.5 rounded-full bg-black text-white"
-                iconClasses="text-white"
-            />
+            <TooltipIcon icon={proposal.organization.icon} tooltip={proposal.organization.name} size="sm" />
         {/if}
         <Text fontWeight={FontWeight.semibold} fontSize="14" classes="truncate" lineHeight="5">{proposal.title}</Text>
     </div>
     <div class="flex justify-between items-center">
         <ProposalStatusInfo {proposal} />
         {#if hasVoted}
+            <!-- TODO: Add correct icon once we have designs -->
             <TooltipIcon
-                text={localize('views.governance.proposals.voted')}
-                icon={Icon.Voted}
-                size="small"
-                position={Position.Left}
-                iconClasses="text-gray-500"
+                tooltip={localize('views.governance.proposals.voted')}
+                icon={IconName.Bank}
+                size="sm"
+                placement="left"
             />
         {/if}
     </div>
