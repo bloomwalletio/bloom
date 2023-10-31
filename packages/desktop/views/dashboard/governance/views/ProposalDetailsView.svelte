@@ -5,7 +5,7 @@
         VotingEventPayload,
         TrackedParticipationOverview,
     } from '@iota/sdk/out/types'
-    import { Alert, Table } from '@bloomwalletio/ui'
+    import { Alert, Button, Table } from '@bloomwalletio/ui'
     import { ProposalDetailsMenu, ProposalInformationPane, ProposalQuestion } from '@components'
     import { getVotingEvent } from '@contexts/governance/actions'
     import {
@@ -35,7 +35,7 @@
     import { visibleSelectedAccountTokens } from '@core/token/stores'
     import { getBestTimeDuration, milestoneToDate } from '@core/utils'
     import { PopupId, openPopup } from '@desktop/auxiliary/popup'
-    import { Button, MarkdownBlock, Pane, ProposalStatusPill, Text, TextType } from '@ui'
+    import { MarkdownBlock, Pane, ProposalStatusPill, Text, TextType } from '@ui'
     import { onDestroy, onMount } from 'svelte'
 
     const { metadata } = $visibleSelectedAccountTokens?.[$activeProfile?.network?.id]?.baseCoin ?? {}
@@ -279,17 +279,20 @@
                 areSelectedAndVotedAnswersEqual}
             <buttons-container class="flex w-full space-x-4 mt-6">
                 <Button
-                    outline
-                    classes="w-full"
-                    onClick={onStopVotingClick}
+                    variant="outlined"
+                    width="full"
+                    on:click={onStopVotingClick}
                     disabled={isStopVotingDisabled}
-                    isBusy={isStoppingVote}
-                >
-                    {localize('actions.stopVoting')}
-                </Button>
-                <Button classes="w-full" onClick={onVoteClick} disabled={isVotingDisabled} isBusy={isVoting}>
-                    {localize('actions.vote')}
-                </Button>
+                    busy={isStoppingVote}
+                    text={localize('actions.stopVoting')}
+                />
+                <Button
+                    width="full"
+                    on:click={onVoteClick}
+                    disabled={isVotingDisabled}
+                    busy={isVoting}
+                    text={localize('actions.vote')}
+                />
             </buttons-container>
         {/if}
     </Pane>

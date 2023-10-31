@@ -43,28 +43,6 @@ export const clickOutside: Action = function (node) {
 }
 
 /**
- * Returns a boolean indicating if color is bright using YIQ conversion
- * @param color The color to be tested (can be HEX or RGB)
- * @returns Boolean true if color is bright
- */
-export function isBright(color: string): boolean {
-    if (color) {
-        if (color.includes('#') && color.length === 4) {
-            color = `#${color[1]}${color[1]}${color[2]}${color[2]}${color[3]}${color[3]}`
-        }
-        const rgb =
-            color.includes('#') && color.length === 7
-                ? color.match(/\w\w/g)?.map((x) => parseInt(x, 16))
-                : color.match(/[0-9]+/g)?.map((c) => parseInt(c, 10))
-        if (rgb) {
-            const yiq = (rgb[0] * 299 + rgb[1] * 587 + rgb[2] * 114) / 1000
-            return yiq >= 186
-        }
-    }
-    return false
-}
-
-/**
  * Action function that can be used by Svelte
  * Dispatches slide events abstracted from touch events
  * @param node HTMLElement to attach events to

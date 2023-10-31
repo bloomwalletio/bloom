@@ -1,7 +1,7 @@
 import { get } from 'svelte/store'
 
 import { destroyProfileManager } from '@core/profile-manager'
-import { Platform } from '@core/app'
+import { Platform } from '@core/app/classes'
 
 import { getTemporaryProfileManagerStorageDirectory } from '../helpers'
 import { shimmerClaimingProfileManager } from '../stores'

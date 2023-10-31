@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { Button, PasswordInput, Text } from '@bloomwalletio/ui'
+    import { Button, PasswordInput } from '@bloomwalletio/ui'
     import { StrengthMeter } from '@ui'
     import { exportStronghold } from '@contexts/settings'
     import { localize } from '@core/i18n'
@@ -7,6 +7,7 @@
     import { changePasswordAndUnlockStronghold } from '@core/profile-manager'
     import { PASSWORD_REASON_MAP } from '@core/stronghold'
     import zxcvbn from 'zxcvbn'
+    import SettingsSection from '../SettingsSection.svelte'
 
     let exportStrongholdChecked: boolean
     let startOfPasswordChange: number
@@ -119,29 +120,32 @@
     }
 </script>
 
-<form id="form-change-password" on:submit|preventDefault={changePassword}>
-    <Text type="body2" class="mb-2">{localize('views.settings.changePassword.title')}</Text>
-    <Text type="base" textColor="secondary" class="mb-6">{localize('views.settings.changePassword.description')}</Text>
-    <div class="flex flex-col w-2/3 gap-4 mb-6">
-        <PasswordInput
-            error={localize(currentPasswordError)}
-            bind:value={currentPassword}
-            label={localize('general.currentPassword')}
-            disabled={busy}
+<SettingsSection
+    title={localize('views.settings.changePassword.title')}
+    description={localize('views.settings.changePassword.description')}
+>
+    <form id="form-change-password" on:submit|preventDefault={changePassword}>
+        <div class="flex flex-col w-2/3 gap-4 mb-6">
+            <PasswordInput
+                error={localize(currentPasswordError)}
+                bind:value={currentPassword}
+                label={localize('general.currentPassword')}
+                disabled={busy}
+            />
+            <StrengthMeter strength={passwordStrength?.score ?? 0} />
+            <PasswordInput bind:value={newPassword} label={localize('general.newPassword')} disabled={busy} />
+            <PasswordInput
+                error={newPasswordError}
+                bind:value={confirmedPassword}
+                label={localize('general.confirmNewPassword')}
+                disabled={busy}
+            />
+        </div>
+        <Button
+            text={localize('views.settings.changePassword.title')}
+            {busy}
+            disabled={!currentPassword || !newPassword || !confirmedPassword || busy}
+            type="submit"
         />
-        <StrengthMeter strength={passwordStrength?.score ?? 0} />
-        <PasswordInput bind:value={newPassword} label={localize('general.newPassword')} disabled={busy} />
-        <PasswordInput
-            error={newPasswordError}
-            bind:value={confirmedPassword}
-            label={localize('general.confirmNewPassword')}
-            disabled={busy}
-        />
-    </div>
-    <Button
-        text={localize('views.settings.changePassword.title')}
-        {busy}
-        disabled={!currentPassword || !newPassword || !confirmedPassword || busy}
-        type="submit"
-    />
-</form>
+    </form>
+</SettingsSection>

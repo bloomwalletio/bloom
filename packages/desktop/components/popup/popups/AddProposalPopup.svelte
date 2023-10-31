@@ -10,8 +10,8 @@
     import { truncateString } from '@core/utils/string'
     import type { IAuth } from '@iota/sdk/out/types'
     import { closePopup, openPopup, PopupId } from '@desktop/auxiliary/popup'
-    import { Button, Checkbox, NodeInput, Text, TextInput, TextType } from '@ui'
-    import { HTMLButtonType } from '@ui/enums'
+    import { Checkbox, NodeInput, Text, TextInput, TextType } from '@ui'
+    import { Button } from '@bloomwalletio/ui'
 
     export let initialEventId: string
     export let initialNodeUrl: string
@@ -142,9 +142,7 @@
         {/if}
     </div>
     <div class="flex w-full space-x-4 mt-6">
-        <Button outline classes="w-full" onClick={onCancelClick}>{localize('actions.cancel')}</Button>
-        <Button type={HTMLButtonType.Submit} {disabled} {isBusy} classes="w-full">
-            {localize('actions.confirm')}
-        </Button>
+        <Button variant="outlined" width="full" on:click={onCancelClick} text={localize('actions.cancel')} />
+        <Button type="submit" {disabled} busy={isBusy} width="full" text={localize('actions.confirm')} />
     </div>
 </form>

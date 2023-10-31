@@ -1,8 +1,9 @@
 <script lang="ts">
-    import { Button, Text } from '@bloomwalletio/ui'
+    import { Button } from '@bloomwalletio/ui'
     import { deleteProfile } from '@contexts/settings'
     import { localize } from '@core/i18n'
     import { PopupId, openPopup } from '@desktop/auxiliary/popup'
+    import SettingsSection from '../SettingsSection.svelte'
 
     function onDeleteClick(): void {
         openPopup({
@@ -18,6 +19,9 @@
     }
 </script>
 
-<Text type="body2" class="mb-2">{localize('views.settings.deleteProfile.title')}</Text>
-<Text type="base" textColor="secondary" class="mb-6">{localize('views.settings.deleteProfile.description')}</Text>
-<Button color="danger" text={localize('views.settings.deleteProfile.title')} on:click={onDeleteClick} />
+<SettingsSection
+    title={localize('views.settings.deleteProfile.title')}
+    description={localize('views.settings.deleteProfile.description')}
+>
+    <Button color="danger" text={localize('views.settings.deleteProfile.title')} on:click={onDeleteClick} />
+</SettingsSection>

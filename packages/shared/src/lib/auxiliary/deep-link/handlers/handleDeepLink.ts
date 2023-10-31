@@ -1,7 +1,7 @@
 import { get } from 'svelte/store'
 
 import { closePopup, openPopup, PopupId } from '../../../../../../desktop/lib/auxiliary/popup'
-import { getActiveProfile, visibleActiveAccounts } from '@core/profile/stores'
+import { isLoggedIn, visibleActiveAccounts } from '@core/profile/stores'
 import { dashboardRouter } from '@core/router/routers'
 import { DashboardRoute } from '@core/router/enums'
 
@@ -26,9 +26,7 @@ import { closeDrawer } from '../../../../../../desktop/lib/auxiliary/drawer'
  * @returns {void}
  */
 export function handleDeepLink(input: string): void {
-    const { loggedIn } = getActiveProfile()
-
-    if (!get(loggedIn)) {
+    if (!isLoggedIn()) {
         showNotification({
             variant: 'info',
             text: localize('notifications.deepLinkingRequest.receivedWhileLoggedOut'),

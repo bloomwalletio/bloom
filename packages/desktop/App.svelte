@@ -85,7 +85,7 @@
         if (process.env.NODE_ENV !== 'development') {
             await setAppVersionDetails()
             if ($appVersionDetails.upToDate === false) {
-                openPopup({ id: PopupId.CheckForUpdates })
+                openPopup({ id: PopupId.CheckForUpdates }, false, false)
             }
         }
 
@@ -118,6 +118,7 @@
                         transition={$popupState.transition}
                         overflow={$popupState.overflow}
                         relative={$popupState.relative}
+                        confirmClickOutside={$popupState.confirmClickOutside}
                     />
                 {/if}
                 {#if $appRoute === AppRoute.Dashboard}

@@ -12,6 +12,11 @@ export function getActiveProfile(): IProfile {
     return get(activeProfile)
 }
 
+export function isLoggedIn(): boolean {
+    const activeProfile = getActiveProfile()
+    return get(activeProfile.loggedIn)
+}
+
 export function updateActiveProfile(payload: Partial<IProfile>): void {
     activeProfile?.update((state) => ({ ...state, ...payload }))
 }

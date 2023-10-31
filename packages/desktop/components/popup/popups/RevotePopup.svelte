@@ -5,7 +5,8 @@
     import { localize } from '@core/i18n'
     import { checkActiveProfileAuth } from '@core/profile/actions'
     import { closePopup } from '@desktop/auxiliary/popup'
-    import { Button, HTMLButtonType, Text, TextType } from '@ui'
+    import { Text, TextType } from '@ui'
+    import { Button } from '@bloomwalletio/ui'
 
     $: hasGovernanceTransactionInProgress =
         $selectedAccount?.hasVotingPowerTransactionInProgress || $selectedAccount?.hasVotingTransactionInProgress
@@ -23,11 +24,10 @@
     <Text type={TextType.p}>{localize('popups.revote.body')}</Text>
     <Alert variant="info" text={localize('popups.revote.hint')} />
     <Button
-        type={HTMLButtonType.Submit}
+        type="submit"
         disabled={hasGovernanceTransactionInProgress}
-        isBusy={hasGovernanceTransactionInProgress}
-        classes="w-full"
-    >
-        {localize('actions.revote')}
-    </Button>
+        busy={hasGovernanceTransactionInProgress}
+        width="full"
+        text={localize('actions.revote')}
+    />
 </form>
