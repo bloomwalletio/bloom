@@ -95,3 +95,7 @@ export function updateAsyncDataByTransactionId(
         return state
     })
 }
+
+export function clearAccountActivities(): void {
+    allAccountActivities.set([])
+}
