@@ -1,6 +1,5 @@
 export { default as AppUpdateToast } from './AppUpdateToast.svelte'
 export { default as Animation } from './Animation.svelte'
-export { default as ColorPicker } from './ColorPicker.svelte'
 export { default as Error } from './Error.svelte'
 export { default as Idle } from './Idle.svelte'
 export { default as Illustration } from './Illustration.svelte'
