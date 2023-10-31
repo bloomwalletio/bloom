@@ -36,13 +36,16 @@ export async function sendTransactionFromEvm(
                 provider,
                 account
             )
+
+            // We manually add a timestamp to mitigate balance change activities
+            // taking precedence over send/receive activities
             if (transactionReceipt) {
                 const evmTransaction: PersistedEvmTransaction = {
                     ...preparedTransaction,
                     ...transactionReceipt,
+                    timestamp: Date.now(),
                 }
                 addPersistedTransaction(account.index, networkId, evmTransaction)
-
                 const activity = await generateActivityFromEvmTransaction(evmTransaction, networkId, chain, account)
                 if (activity) {
                     addActivitiesToAccountActivitiesInAllAccountActivities(account.index, [activity])
@@ -69,6 +72,7 @@ export async function sendTransactionFromEvm(
                         }
                     }
                 }
+
                 if (callback && typeof callback === 'function') {
                     callback()
                 }
@@ -93,6 +97,7 @@ async function createHiddenBalanceChange(account: IAccountState, activity: Activ
         const amount = received ? rawAmount : -1 * rawAmount
         await updateL2BalanceWithoutActivity(amount, activity.tokenTransfer.tokenId, account, networkId)
     }
+
     const rawBaseTokenAmount = received
         ? Number(activity.baseTokenTransfer.rawAmount)
         : (Number(activity.baseTokenTransfer.rawAmount) + Number(activity.transactionFee ?? 0)) * -1
