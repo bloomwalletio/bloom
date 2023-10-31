@@ -12,7 +12,7 @@
     import features from '@features/features'
     import { OnboardingLayout } from '@views/components'
     import { onMount } from 'svelte'
-    import { OnboardingSelectorTile } from '../../../components'
+    import { ButtonTile } from '../../../../components'
     import { createProfileRouter } from '../create-profile-router'
     import { IconName } from '@bloomwalletio/ui'
 
@@ -69,7 +69,7 @@
     {busy}
 >
     <div slot="content" class="flex flex-col space-y-3">
-        <OnboardingSelectorTile
+        <ButtonTile
             primaryText={localize('views.onboarding.createProfile.chooseCreateProfileFlow.software.primary')}
             secondaryText={localize('views.onboarding.createProfile.chooseCreateProfileFlow.software.secondary')}
             icon={IconName.Folder}
@@ -79,7 +79,7 @@
             onClick={() => onProfileTypeClick(CreateProfileType.Mnemonic)}
             selected={selectedCreateProfileType === CreateProfileType.Mnemonic}
         />
-        <OnboardingSelectorTile
+        <ButtonTile
             primaryText={localize('views.onboarding.createProfile.chooseCreateProfileFlow.hardware.primary')}
             secondaryText={localize('views.onboarding.createProfile.chooseCreateProfileFlow.hardware.secondary')}
             icon={IconName.Hardware}

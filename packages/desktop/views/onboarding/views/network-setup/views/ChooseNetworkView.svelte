@@ -18,7 +18,7 @@
     import features from '@features/features'
     import { OnboardingLayout } from '@views/components'
     import { onMount } from 'svelte'
-    import { OnboardingSelectorTile } from '../../../components'
+    import { ButtonTile } from '../../../../components'
     import { networkSetupRouter } from '../network-setup-router'
 
     let selectedNetworkType: OnboardingNetworkType = OnboardingNetworkType.Shimmer
@@ -81,7 +81,7 @@
     }}
 >
     <div slot="content" class="flex flex-col space-y-3">
-        <OnboardingSelectorTile
+        <ButtonTile
             primaryText={localize(
                 `views.onboarding.networkSetup.chooseNetwork.${OnboardingNetworkType.Shimmer}.primary`
             )}
@@ -98,7 +98,7 @@
             onClick={() => onNetworkClick(OnboardingNetworkType.Shimmer)}
             selected={selectedNetworkType === OnboardingNetworkType.Shimmer}
         />
-        <OnboardingSelectorTile
+        <ButtonTile
             primaryText={localize(
                 `views.onboarding.networkSetup.chooseNetwork.${OnboardingNetworkType.Testnet}.primary`
             )}
@@ -111,7 +111,7 @@
             onClick={() => onNetworkClick(OnboardingNetworkType.Testnet)}
             selected={selectedNetworkType === OnboardingNetworkType.Testnet}
         />
-        <OnboardingSelectorTile
+        <ButtonTile
             primaryText={localize(
                 `views.onboarding.networkSetup.chooseNetwork.${OnboardingNetworkType.Custom}.primary`
             )}

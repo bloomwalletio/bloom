@@ -1,5 +1,6 @@
 <script lang="ts">
-    import { OnboardingButton } from '@ui'
+    import { IconName } from '@bloomwalletio/ui'
+    import { ButtonTile } from '../../../components'
     import { localize } from '@core/i18n'
     import { openPopup, PopupId } from '@desktop/auxiliary/popup'
 
@@ -10,8 +11,9 @@
     }
 </script>
 
-<OnboardingButton
+<ButtonTile
     primaryText={localize('actions.testDeepLink')}
     secondaryText={localize('general.testDeepLinkDescription')}
     {onClick}
+    icon={IconName.DeepLink}
 />
