@@ -14,8 +14,8 @@
     import { updateActiveAccountPersistedData } from '@core/profile/actions'
     import { governanceRouter } from '@core/router'
     import { closePopup } from '@desktop/auxiliary/popup'
-    import { Button, Text, TextType } from '@ui'
-    import { ButtonVariant } from '@ui/enums'
+    import { Text, TextType } from '@ui'
+    import { Button } from '@bloomwalletio/ui'
 
     function onCancelClick(): void {
         closePopup()
@@ -59,9 +59,7 @@
         {/if}
     </div>
     <div class="flex w-full space-x-4 mt-6">
-        <Button outline classes="w-full" onClick={onCancelClick}>{localize('actions.cancel')}</Button>
-        <Button variant={ButtonVariant.Warning} classes="w-full" onClick={onConfirmClick}
-            >{localize('actions.remove')}</Button
-        >
+        <Button variant="outlined" width="full" on:click={onCancelClick} text={localize('actions.cancel')} />
+        <Button color="warning" width="full" on:click={onConfirmClick} text={localize('actions.remove')} />
     </div>
 </remove-proposal>
