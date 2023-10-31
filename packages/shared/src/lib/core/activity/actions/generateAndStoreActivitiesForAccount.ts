@@ -1,6 +1,6 @@
 import { IAccountState } from '@core/account/interfaces'
 
-import { setAccountActivitiesInAllAccountActivities } from '../stores'
+import { setAccountActivities } from '../stores'
 
 import { preprocessTransactionsForAccount } from './preprocessTransactionsForAccount'
 import { preprocessOutputsForAccount } from './preprocessOutputsForAccount'
@@ -38,7 +38,7 @@ export async function generateAndStoreActivitiesForAccount(
     activities.push(...chainActivities)
 
     // Step 4: set account activities with generated activities
-    setAccountActivitiesInAllAccountActivities(account.index, activities)
+    setAccountActivities(account.index, activities)
 
     hideActivitiesForFoundries(account)
     await setOutgoingAsyncActivitiesToClaimed(account)
