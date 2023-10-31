@@ -5,6 +5,7 @@ import { PersistedEvmTransaction, TransactionActivity } from '../../types'
 import { getOrRequestTokenFromPersistedTokens } from '@core/token/actions'
 import { IChain } from '@core/network'
 import { generateBaseEvmActivity } from './generateBaseEvmActivity'
+import { IAccountState } from '@core/account/interfaces'
 
 export async function generateTokenActivity(
     transaction: PersistedEvmTransaction,
@@ -12,9 +13,10 @@ export async function generateTokenActivity(
     chain: IChain,
     tokenId: string,
     rawAmount: string,
-    recipientAddress: string | undefined
+    recipientAddress: string | undefined,
+    account: IAccountState
 ): Promise<TransactionActivity> {
-    const baseEvmActivity = await generateBaseEvmActivity(transaction, networkId, chain, recipientAddress)
+    const baseEvmActivity = await generateBaseEvmActivity(transaction, networkId, chain, recipientAddress, account)
 
     let tokenTransfer
     const baseTokenTransfer = {

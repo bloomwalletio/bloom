@@ -6,8 +6,14 @@ import { IChain } from '@core/network'
 import { checkActiveProfileAuth } from '@core/profile/actions'
 import { signAndSendEvmTransaction } from './signAndSendEvmTransaction'
 import { generateActivityFromEvmTransaction } from '@core/activity/utils/generateActivityFromEvmTransaction'
-import { ActivityType, PersistedEvmTransaction, calculateAndAddPersistedNftBalanceChange } from '@core/activity'
-import { getAddressFromAccountForNetwork } from '@core/account'
+import {
+    Activity,
+    ActivityDirection,
+    ActivityType,
+    PersistedEvmTransaction,
+    calculateAndAddPersistedNftBalanceChange,
+} from '@core/activity'
+import { IAccountState, getAddressFromAccountForNetwork } from '@core/account'
 import { updateL2BalanceWithoutActivity } from '../updateL2BalanceWithoutActivity'
 
 export async function sendTransactionFromEvm(
@@ -37,29 +43,30 @@ export async function sendTransactionFromEvm(
                 }
                 addPersistedTransaction(account.index, networkId, evmTransaction)
 
-                const activity = await generateActivityFromEvmTransaction(evmTransaction, networkId, chain)
+                const activity = await generateActivityFromEvmTransaction(evmTransaction, networkId, chain, account)
                 if (activity) {
                     addActivitiesToAccountActivitiesInAllAccountActivities(account.index, [activity])
 
                     if (getAddressFromAccountForNetwork(account, networkId) !== activity.subject?.address) {
-                        // Currently only support outgoing transactions being added to activities so we can assume outgoing balance change
-                        if (activity.type === ActivityType.Nft) {
-                            calculateAndAddPersistedNftBalanceChange(account, networkId, activity.nftId, false, true)
-                        }
-                        if (activity.tokenTransfer) {
-                            await updateL2BalanceWithoutActivity(
-                                Number(activity.tokenTransfer.rawAmount),
-                                activity.tokenTransfer.tokenId,
-                                account,
-                                networkId
-                            )
-                        }
-                        await updateL2BalanceWithoutActivity(
-                            Number(activity.baseTokenTransfer.rawAmount) + Number(activity.transactionFee ?? 0),
-                            activity.baseTokenTransfer.tokenId,
-                            account,
-                            networkId
+                        await createHiddenBalanceChange(account, activity)
+                    }
+
+                    if (activity.recipient?.type === 'account') {
+                        const recipientAccount = activity.recipient.account
+                        addPersistedTransaction(recipientAccount.index, networkId, evmTransaction)
+                        const receiveActivity = await generateActivityFromEvmTransaction(
+                            evmTransaction,
+                            networkId,
+                            chain,
+                            recipientAccount
                         )
+
+                        if (receiveActivity) {
+                            addActivitiesToAccountActivitiesInAllAccountActivities(recipientAccount.index, [
+                                receiveActivity,
+                            ])
+                            await createHiddenBalanceChange(recipientAccount, receiveActivity)
+                        }
                     }
                 }
                 if (callback && typeof callback === 'function') {
@@ -70,4 +77,24 @@ export async function sendTransactionFromEvm(
         { stronghold: true, ledger: true, props: { preparedTransaction } },
         LedgerAppName.Ethereum
     )
+}
+
+// Hidden balance changes mitigate duplicate activities for L2 transactions (balance changed & sent/receive activities).
+async function createHiddenBalanceChange(account: IAccountState, activity: Activity): Promise<void> {
+    const received = activity.direction === ActivityDirection.Incoming
+    const networkId = activity.sourceNetworkId
+
+    if (activity.type === ActivityType.Nft) {
+        const owned = received ? true : false
+        calculateAndAddPersistedNftBalanceChange(account, networkId, activity.nftId, owned, true)
+    }
+    if (activity.tokenTransfer) {
+        const rawAmount = Number(activity.tokenTransfer.rawAmount)
+        const amount = received ? rawAmount : -1 * rawAmount
+        await updateL2BalanceWithoutActivity(amount, activity.tokenTransfer.tokenId, account, networkId)
+    }
+    const rawBaseTokenAmount = received
+        ? Number(activity.baseTokenTransfer.rawAmount)
+        : (Number(activity.baseTokenTransfer.rawAmount) + Number(activity.transactionFee ?? 0)) * -1
+    await updateL2BalanceWithoutActivity(rawBaseTokenAmount, activity.baseTokenTransfer.tokenId, account, networkId)
 }

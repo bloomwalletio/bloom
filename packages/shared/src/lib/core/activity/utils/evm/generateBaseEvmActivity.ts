@@ -5,19 +5,27 @@ import { ActivityAction, ActivityDirection, InclusionState } from '../../enums'
 import { BaseEvmActivity, PersistedEvmTransaction } from '../../types'
 import { calculateGasFeeInGlow } from '@core/layer-2/helpers'
 import { IChain } from '@core/network'
+import { IAccountState } from '@core/account/interfaces'
+import { getAddressFromAccountForNetwork } from '@core/account/utils'
 
 export async function generateBaseEvmActivity(
     transaction: PersistedEvmTransaction,
     networkId: NetworkId,
     chain: IChain,
-    recipientAddress: string | undefined
+    recipientAddress: string | undefined,
+    account: IAccountState
 ): Promise<BaseEvmActivity> {
     const provider = chain.getProvider()
 
-    const direction = ActivityDirection.Outgoing // Currently only sent transactions are supported
+    const direction =
+        getAddressFromAccountForNetwork(account, networkId) === recipientAddress
+            ? ActivityDirection.Incoming
+            : ActivityDirection.Outgoing
 
     const sender = getSubjectFromAddress(transaction.from, networkId)
     const recipient = getSubjectFromAddress(recipientAddress ?? transaction.to, networkId)
+
+    const subject = direction === ActivityDirection.Outgoing ? recipient : sender
     const isInternal = isSubjectInternal(recipient)
     const timestamp = (await provider.eth.getBlock(transaction.blockNumber)).timestamp
     const transactionFee = transaction.gasPrice
@@ -40,7 +48,7 @@ export async function generateBaseEvmActivity(
         destinationNetworkId: networkId, // TODO: what if sending to L1 ?
         sender,
         recipient,
-        subject: recipient, // TODO: currently only support sending transaction activity
+        subject,
         direction,
         isInternal,
 
