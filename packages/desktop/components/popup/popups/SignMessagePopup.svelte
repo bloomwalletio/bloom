@@ -15,6 +15,7 @@
     import { checkActiveProfileAuth } from '@core/profile/actions'
     import { LedgerAppName } from '@core/ledger'
     import PopupTemplate from '../PopupTemplate.svelte'
+    import { showNotification } from '@auxiliary/notification/actions'
 
     export let _onMount: (..._: any[]) => Promise<void> = async () => {}
     export let message: string
@@ -36,6 +37,11 @@
         try {
             const { coinType } = chain.getConfiguration()
             const result = await signMessage(message, coinType, account)
+
+            showNotification({
+                variant: 'success',
+                text: localize('notifications.signMessage.success'),
+            })
             callback({ result })
         } catch (err) {
             callback({ error: err })
