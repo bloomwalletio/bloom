@@ -6,7 +6,7 @@
     import features from '@features/features'
     import { OnboardingLayout } from '@views/components'
     import { onMount } from 'svelte'
-    import { OnboardingSelectorTile } from '../components'
+    import { ButtonTile } from '../../components'
     import { onboardingRouter } from '../onboarding-router'
 
     const networkId = $onboardingProfile?.network?.id
@@ -47,7 +47,7 @@
     }}
 >
     <div slot="content" class="flex flex-col space-y-3">
-        <OnboardingSelectorTile
+        <ButtonTile
             primaryText={localize('views.onboarding.chooseOnboardingFlow.new.primary')}
             secondaryText={localize('views.onboarding.chooseOnboardingFlow.new.secondary')}
             icon={IconName.UserPlus}
@@ -56,7 +56,7 @@
             onClick={() => onOnboardingTypeClick(OnboardingType.Create)}
             selected={selectedOnboardingType === OnboardingType.Create}
         />
-        <OnboardingSelectorTile
+        <ButtonTile
             primaryText={localize('views.onboarding.chooseOnboardingFlow.restore.primary')}
             secondaryText={localize('views.onboarding.chooseOnboardingFlow.restore.secondary')}
             icon={IconName.Refresh2}
@@ -66,7 +66,7 @@
             onClick={() => onOnboardingTypeClick(OnboardingType.Restore)}
             selected={selectedOnboardingType === OnboardingType.Restore}
         />
-        <OnboardingSelectorTile
+        <ButtonTile
             primaryText={localize('views.onboarding.chooseOnboardingFlow.claim.primary')}
             secondaryText={localize('views.onboarding.chooseOnboardingFlow.claim.secondary')}
             icon={IconName.CoinsHand}
