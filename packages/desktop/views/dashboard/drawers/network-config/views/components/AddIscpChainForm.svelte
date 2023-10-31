@@ -21,9 +21,9 @@
     const isBusy = false
     let nameError = ''
     let aliasAddressError = ''
-    let iscpEndpointError = ''
+    let rpcEndpointError = ''
     let explorerUrlError = ''
-    $: submitDisabled = !chain.name || !chain.aliasAddress || !chain.iscpEndpoint
+    $: submitDisabled = !chain.name || !chain.aliasAddress || !chain.rpcEndpoint
 
     const chain: IIscpChainConfiguration = {
         type: ChainType.Iscp,
@@ -32,7 +32,8 @@
         chainId: '' as EvmChainId,
         name: '',
         aliasAddress: '',
-        iscpEndpoint: '',
+        rpcEndpoint: '',
+        apiEndpoint: '',
         coinType: ETHEREUM_COIN_TYPE,
     }
 
@@ -63,9 +64,9 @@
         }
     }
 
-    function validateIscpEndpoint(): void {
-        if (!isValidHttpsUrl(chain.iscpEndpoint)) {
-            iscpEndpointError = localize(`${localeKey}.errors.invalidUrl`)
+    function validaterpcEndpoint(): void {
+        if (!isValidHttpsUrl(chain.rpcEndpoint)) {
+            rpcEndpointError = localize(`${localeKey}.errors.invalidUrl`)
         }
     }
 
@@ -78,21 +79,21 @@
     function validate(): void {
         validateName()
         validateAliasAddress()
-        validateIscpEndpoint()
+        validaterpcEndpoint()
         validateExplorerUrl()
     }
 
     function resetErrors(): void {
         nameError = ''
         aliasAddressError = ''
-        iscpEndpointError = ''
+        rpcEndpointError = ''
         explorerUrlError = ''
     }
 
     function onSubmitClick(): void {
         resetErrors()
         validate()
-        const hasError = !!nameError || !!aliasAddressError || !!iscpEndpointError || !!explorerUrlError
+        const hasError = !!nameError || !!aliasAddressError || !!rpcEndpointError || !!explorerUrlError
         if (!hasError) {
             // TODO: https://github.com/iotaledger/firefly/issues/6375
         }
@@ -109,10 +110,10 @@
             error={aliasAddressError}
         />
         <Input
-            bind:value={chain.iscpEndpoint}
-            placeholder={localize(`${localeKey}.iscpEndpoint`)}
+            bind:value={chain.rpcEndpoint}
+            placeholder={localize(`${localeKey}.rpcEndpoint`)}
             disabled={isBusy}
-            error={iscpEndpointError}
+            error={rpcEndpointError}
         />
         <Input
             bind:value={chain.explorerUrl}

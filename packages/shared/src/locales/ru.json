@@ -350,7 +350,7 @@
                     "chain": {
                         "chainId": "ID цепочки",
                         "aliasAddress": "Псевдоним адреса",
-                        "iscpEndpoint": "ISCP Конечная точка",
+                        "rpcEndpoint": "ISCP Конечная точка",
                         "explorerUrl": "Explorer URL (optional)",
                         "errors": {
                             "cannotBeEmpty": "Имя не должно быть пустым",

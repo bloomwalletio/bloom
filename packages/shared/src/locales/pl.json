@@ -350,7 +350,7 @@
                     "chain": {
                         "chainId": "Identyfikator łańcucha",
                         "aliasAddress": "Adres aliasu",
-                        "iscpEndpoint": "ISCP Endpoint",
+                        "rpcEndpoint": "ISCP Endpoint",
                         "explorerUrl": "Explorer URL (optional)",
                         "errors": {
                             "cannotBeEmpty": "Nazwa nie może być pusta",
