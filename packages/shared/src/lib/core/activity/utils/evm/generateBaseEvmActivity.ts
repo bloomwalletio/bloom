@@ -28,8 +28,10 @@ export async function generateBaseEvmActivity(
     const subject = direction === ActivityDirection.Outgoing ? recipient : sender
     const isInternal = isSubjectInternal(recipient)
     const timestamp = (await provider.eth.getBlock(transaction.blockNumber)).timestamp
+    // For native token transfers on L2, gasUsed is 0. Therefor we fallback to the estimatedGas
+    // https://discord.com/channels/397872799483428865/930642258427019354/1168854453005332490
     const transactionFee = transaction.gasPrice
-        ? Number(calculateGasFeeInGlow(transaction.gasUsed, transaction.gasPrice))
+        ? Number(calculateGasFeeInGlow(transaction.gasUsed ?? transaction.estimatedGas, transaction.gasPrice))
         : undefined
 
     return {
