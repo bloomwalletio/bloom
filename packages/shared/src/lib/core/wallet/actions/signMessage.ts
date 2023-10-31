@@ -9,7 +9,6 @@ import { Converter } from '@core/utils'
 export async function signMessage(
     message: string,
     coinType: number,
-    method: 'eth_sign' | 'personal_sign',
     account: IAccountState
 ): Promise<string | undefined> {
     const bip44Path = {
@@ -18,8 +17,6 @@ export async function signMessage(
         change: 0,
         addressIndex: 0,
     }
-    // Apparently this differentiation is not needed
-    // const prefix = method === 'personal_sign' ? '\x19Ethereum Signed Message:\n' + message.length : ''
     const prefix = '\x19Ethereum Signed Message:\n' + message.length
     const hexMessage = Converter.utf8ToHex(prefix + message)
 

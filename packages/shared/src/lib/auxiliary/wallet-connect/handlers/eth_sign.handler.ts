@@ -37,7 +37,6 @@ export function handleEthSign(
             dapp,
             account,
             chain,
-            method: 'eth_sign',
             callback: responseCallback,
         },
     })

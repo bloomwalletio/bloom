@@ -37,7 +37,6 @@ export function handlePersonalSign(
             dapp,
             account,
             chain,
-            method: 'personal_sign',
             callback: responseCallback,
         },
     })

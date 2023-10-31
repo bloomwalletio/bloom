@@ -21,7 +21,6 @@
     export let account: IAccountState
     export let chain: IChain
     export let dapp: IConnectedDapp | undefined
-    export let method: 'eth_sign' | 'personal_sign' = 'personal_sign'
     export let callback: (params: CallbackParameters) => void
 
     $: address = truncateString(account.evmAddresses[chain.getConfiguration().coinType] ?? '', 8, 8)
@@ -36,7 +35,7 @@
         isBusy = true
         try {
             const { coinType } = chain.getConfiguration()
-            const result = await signMessage(message, coinType, method, account)
+            const result = await signMessage(message, coinType, account)
             callback({ result })
         } catch (err) {
             callback({ error: err })
