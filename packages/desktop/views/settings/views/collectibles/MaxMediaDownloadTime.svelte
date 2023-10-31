@@ -1,7 +1,8 @@
 <script lang="ts">
-    import { IOption, SelectInput, Text } from '@bloomwalletio/ui'
+    import { IOption, SelectInput } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
     import { activeProfile, updateActiveProfileSettings } from '@core/profile/stores'
+    import SettingsSection from '../SettingsSection.svelte'
 
     const options: IOption[] = [30, 60, 90, 120, 150, 180].map((amount) => ({
         value: amount.toString(),
@@ -24,18 +25,17 @@
     }
 </script>
 
-<Text type="body2" class="mb-2">
-    {localize('views.settings.maxMediaDownloadTime.title')}
-</Text>
-<Text type="base" textColor="secondary" class="mb-6">
-    {localize('views.settings.maxMediaDownloadTime.description')}
-</Text>
-<div class="w-1/2">
-    <SelectInput
-        label={localize('views.settings.maxMediaDownloadTime.input')}
-        bind:selected
-        value={selected.value}
-        {options}
-        hideValue
-    />
-</div>
+<SettingsSection
+    title={localize('views.settings.maxMediaDownloadTime.title')}
+    description={localize('views.settings.maxMediaDownloadTime.description')}
+>
+    <div class="w-1/2">
+        <SelectInput
+            label={localize('views.settings.maxMediaDownloadTime.input')}
+            bind:selected
+            value={selected.value}
+            {options}
+            hideValue
+        />
+    </div>
+</SettingsSection>

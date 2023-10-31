@@ -1,8 +1,9 @@
 <script lang="ts">
-    import { IOption, SelectInput, Text } from '@bloomwalletio/ui'
+    import { IOption, SelectInput } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
     import { DEFAULT_PERSISTED_PROFILE_OBJECT } from '@core/profile'
     import { activeProfile, updateActiveProfileSettings } from '@core/profile/stores'
+    import SettingsSection from '../SettingsSection.svelte'
 
     const options: IOption[] = getLockScreenTimeoutOptions()
     let selected: IOption = options.find(
@@ -34,14 +35,17 @@
     }
 </script>
 
-<Text type="body2" class="mb-2">{localize('views.settings.autoLogout.title')}</Text>
-<Text type="base" textColor="secondary" class="mb-6">{localize('views.settings.autoLogout.description')}</Text>
-<div class="w-1/2">
-    <SelectInput
-        label={localize('views.settings.autoLogout.title')}
-        bind:selected
-        value={selected.value}
-        {options}
-        hideValue
-    />
-</div>
+<SettingsSection
+    title={localize('views.settings.autoLogout.title')}
+    description={localize('views.settings.autoLogout.description')}
+>
+    <div class="w-1/2">
+        <SelectInput
+            label={localize('views.settings.autoLogout.title')}
+            bind:selected
+            value={selected.value}
+            {options}
+            hideValue
+        />
+    </div>
+</SettingsSection>

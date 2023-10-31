@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { IOption, SelectInput, Text } from '@bloomwalletio/ui'
+    import { IOption, SelectInput } from '@bloomwalletio/ui'
     import { selectedAccountIndex } from '@core/account/stores'
     import { Platform } from '@core/app'
     import { localize } from '@core/i18n'
@@ -7,6 +7,7 @@
     import { addNftsToDownloadQueue, updateNftInAllAccountNfts } from '@core/nfts/actions'
     import { persistedNftForActiveProfile, selectedAccountNfts } from '@core/nfts/stores'
     import { activeProfile, updateActiveProfileSettings } from '@core/profile/stores'
+    import SettingsSection from '../SettingsSection.svelte'
 
     const options: IOption[] = getMaxMediaSizeOptions()
     let selected: IOption = options.find(
@@ -69,18 +70,17 @@
     }
 </script>
 
-<Text type="body2" class="mb-2">
-    {localize('views.settings.maxMediaSize.title')}
-</Text>
-<Text type="base" textColor="secondary" class="mb-6">
-    {localize('views.settings.maxMediaSize.description')}
-</Text>
-<div class="w-1/2">
-    <SelectInput
-        label={localize('views.settings.maxMediaSize.input')}
-        bind:selected
-        value={selected?.value}
-        {options}
-        hideValue
-    />
-</div>
+<SettingsSection
+    title={localize('views.settings.maxMediaSize.title')}
+    description={localize('views.settings.maxMediaSize.description')}
+>
+    <div class="w-1/2">
+        <SelectInput
+            label={localize('views.settings.maxMediaSize.input')}
+            bind:selected
+            value={selected?.value}
+            {options}
+            hideValue
+        />
+    </div>
+</SettingsSection>
