@@ -1,8 +1,9 @@
 <script lang="ts">
-    import { Button, Text } from '@bloomwalletio/ui'
+    import { Button } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
     import { PopupId, openPopup } from '@desktop/auxiliary/popup'
     import { exportStronghold } from '@contexts/settings'
+    import SettingsSection from '../SettingsSection.svelte'
 
     let busy = false
     let message = ''
@@ -43,6 +44,9 @@
     }
 </script>
 
-<Text type="body2" class="mb-2">{localize('views.settings.exportStronghold.title')}</Text>
-<Text type="base" textColor="secondary" class="mb-6">{localize('views.settings.exportStronghold.description')}</Text>
-<Button text={localize('actions.export')} {busy} disabled={busy} on:click={onExportClick} />
+<SettingsSection
+    title={localize('views.settings.exportStronghold.title')}
+    description={localize('views.settings.exportStronghold.description')}
+>
+    <Button text={localize('actions.export')} {busy} disabled={busy} on:click={onExportClick} />
+</SettingsSection>

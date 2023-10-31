@@ -1,4 +1,4 @@
-import { Platform } from '@core/app'
+import { Platform } from '@core/app/classes'
 import { get } from 'svelte/store'
 import { profiles } from '../../stores'
 import { getStorageDirectoryOfProfiles, removeProfileFolder } from '../../utils'

@@ -27,10 +27,12 @@ export async function handleNewOutputEventInternal(
     walletEvent: NewOutputWalletEvent
 ): Promise<void> {
     const account = get(activeAccounts)?.find((account) => account.index === accountIndex)
-    const networkId = getActiveNetworkId()
-    const output = walletEvent?.output
+    if (!account) {
+        return
+    }
 
-    if (!account || !output) return
+    const networkId = getActiveNetworkId()
+    const output = walletEvent.output
 
     const address = getBech32AddressFromAddressTypes(output?.address)
     const outputData = output.output as AliasOutput

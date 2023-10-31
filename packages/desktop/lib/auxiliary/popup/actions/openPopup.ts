@@ -1,3 +1,4 @@
+import { isLoggedIn } from '@core/profile/stores'
 import { modifyPopupState } from '../helpers'
 import { IPopupState } from '../interfaces'
 
@@ -11,10 +12,13 @@ export function openPopup(
         overflow = false,
         relative = true,
     }: Omit<IPopupState, 'active'>,
-    forceClose: boolean = false
+    forceClose: boolean = false,
+    requiresLogin = true
 ): void {
-    modifyPopupState(
-        { active: true, id: id, hideClose, preventClose, transition, props, overflow, relative },
-        forceClose
-    )
+    if (requiresLogin) {
+        if (!isLoggedIn()) {
+            return
+        }
+    }
+    modifyPopupState({ active: true, id, hideClose, preventClose, transition, props, overflow, relative }, forceClose)
 }

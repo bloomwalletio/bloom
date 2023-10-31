@@ -143,7 +143,7 @@ export async function login(loginOptions?: ILoginOptions): Promise<void> {
             pollLedgerDeviceState()
         }
 
-        setSelectedAccount(lastUsedAccountIndex ?? loadedAccounts?.[0]?.index ?? null)
+        setSelectedAccount(lastUsedAccountIndex ?? loadedAccounts?.[0]?.index)
         lastActiveAt.set(new Date())
         loggedIn.set(true)
         setTimeout(() => {

@@ -1,4 +1,4 @@
-import { Platform } from '@core/app'
+import { Platform } from '@core/app/classes'
 
 import { PROFILE_STORAGE_DIRECTORY } from '../constants'
 

@@ -1,8 +1,9 @@
 <script lang="ts">
-    import { IOption, SelectInput, Text } from '@bloomwalletio/ui'
+    import { IOption, SelectInput } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
     import { MarketCurrency } from '@core/market'
     import { activeProfile, updateActiveProfileSettings } from '@core/profile/stores'
+    import SettingsSection from '../SettingsSection.svelte'
 
     const options: IOption[] = Object.values(MarketCurrency)
         .map((currency) => ({ value: currency, label: currency.toUpperCase() }))
@@ -18,14 +19,17 @@
     }
 </script>
 
-<Text type="body2" class="mb-2">{localize('views.settings.currency.title')}</Text>
-<Text type="base" textColor="secondary" class="mb-6">{localize('views.settings.currency.description')}</Text>
-<div class="w-1/2">
-    <SelectInput
-        label={localize('views.settings.currency.title')}
-        bind:selected
-        value={selected.value}
-        {options}
-        hideValue
-    />
-</div>
+<SettingsSection
+    title={localize('views.settings.currency.title')}
+    description={localize('views.settings.currency.description')}
+>
+    <div class="w-1/2">
+        <SelectInput
+            label={localize('views.settings.currency.title')}
+            bind:selected
+            value={selected.value}
+            {options}
+            hideValue
+        />
+    </div>
+</SettingsSection>
