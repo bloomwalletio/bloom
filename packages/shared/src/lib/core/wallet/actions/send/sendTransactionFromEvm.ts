@@ -69,7 +69,10 @@ async function persistEvmTransaction(
     }
 
     addAccountActivity(account.index, activity)
-    if (getAddressFromAccountForNetwork(account, chain.getConfiguration().id) !== activity.subject?.address) {
+
+    const hideGasFeeActivity =
+        getAddressFromAccountForNetwork(account, chain.getConfiguration().id) !== activity.subject?.address
+    if (hideGasFeeActivity) {
         await createHiddenBalanceChange(account, activity)
     }
 
@@ -103,6 +106,6 @@ async function createHiddenBalanceChange(account: IAccountState, activity: Activ
 
     const rawBaseTokenAmount = received
         ? Number(activity.baseTokenTransfer.rawAmount)
-        : (Number(activity.baseTokenTransfer.rawAmount) + Number(activity.transactionFee ?? 0)) * -1
+        : -1 * (Number(activity.baseTokenTransfer.rawAmount) + Number(activity.transactionFee ?? 0))
     await updateL2BalanceWithoutActivity(rawBaseTokenAmount, activity.baseTokenTransfer.tokenId, account, networkId)
 }
