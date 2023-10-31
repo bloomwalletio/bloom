@@ -1,5 +1,5 @@
 import { getSelectedAccount } from '@core/account/stores'
-import { addActivitiesToAccountActivitiesInAllAccountActivities, addPersistedTransaction } from '@core/activity/stores'
+import { addAccountActivity, addPersistedTransaction } from '@core/activity/stores'
 import { EvmTransactionData } from '@core/layer-2'
 import { LedgerAppName } from '@core/ledger'
 import { IChain } from '@core/network'
@@ -56,7 +56,6 @@ export async function sendTransactionFromEvm(
         LedgerAppName.Ethereum
     )
 }
-
 async function persistEvmTransaction(
     evmTransaction: PersistedEvmTransaction,
     chain: IChain,
@@ -69,7 +68,7 @@ async function persistEvmTransaction(
         return
     }
 
-    addActivitiesToAccountActivitiesInAllAccountActivities(account.index, [activity])
+    addAccountActivity(account.index, activity)
     if (getAddressFromAccountForNetwork(account, chain.getConfiguration().id) !== activity.subject?.address) {
         await createHiddenBalanceChange(account, activity)
     }
@@ -82,7 +81,7 @@ async function persistEvmTransaction(
             return
         }
 
-        addActivitiesToAccountActivitiesInAllAccountActivities(recipientAccount.index, [receiveActivity])
+        addAccountActivity(recipientAccount.index, receiveActivity)
         await createHiddenBalanceChange(recipientAccount, receiveActivity)
     }
 }

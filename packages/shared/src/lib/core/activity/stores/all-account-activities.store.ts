@@ -3,11 +3,11 @@ import { Activity, AsyncData, BaseActivity } from '../types'
 
 export const allAccountActivities = writable<Activity[][]>([])
 
-export function addEmptyAccountActivitiesToAllAccountActivities(accountIndex: number): void {
-    setAccountActivitiesInAllAccountActivities(accountIndex, [])
+export function addEmptyAccountActivities(accountIndex: number): void {
+    setAccountActivities(accountIndex, [])
 }
 
-export function addActivityToAccountActivitiesInAllAccountActivities(accountIndex: number, activity: Activity): void {
+export function addAccountActivity(accountIndex: number, activity: Activity): void {
     allAccountActivities.update((state) => {
         if (!state[accountIndex]) {
             state[accountIndex] = []
@@ -17,10 +17,7 @@ export function addActivityToAccountActivitiesInAllAccountActivities(accountInde
     })
 }
 
-export function addActivitiesToAccountActivitiesInAllAccountActivities(
-    accountIndex: number,
-    activities: Activity[]
-): void {
+export function addAccountActivities(accountIndex: number, activities: Activity[]): void {
     allAccountActivities.update((state) => {
         if (!state[accountIndex]) {
             state[accountIndex] = []
@@ -30,7 +27,7 @@ export function addActivitiesToAccountActivitiesInAllAccountActivities(
     })
 }
 
-export function setAccountActivitiesInAllAccountActivities(accountIndex: number, accountActivities: Activity[]): void {
+export function setAccountActivities(accountIndex: number, accountActivities: Activity[]): void {
     allAccountActivities.update((state) => {
         state[accountIndex] = accountActivities
         return state
