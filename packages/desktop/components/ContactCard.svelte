@@ -1,22 +1,23 @@
 <script lang="ts">
-    import { ClickableTile, FontWeight, Icon, ContactAvatar, Text, TextType } from '@ui'
+    import { Icon, IconName, Text } from '@bloomwalletio/ui'
+    import { ClickableTile, ContactAvatar } from '@ui'
     import { UiEventFunction } from '@core/utils'
     import { IContact } from '@core/contact'
-    import { Icon as IconEnum } from '@auxiliary/icon'
 
     export let contact: IContact | undefined = undefined
     export let onCardClick: UiEventFunction
 </script>
 
 <ClickableTile
-    classes="flex justify-between items-center bg-white border border-solid border-gray-200 dark:border-transparent"
+    classes="flex justify-between gap-2 items-center bg-white border border-solid border-gray-200 dark:border-transparent"
     onClick={onCardClick}
 >
-    <div class="w-full flex flex-row items-center gap-2">
-        <ContactAvatar {contact} />
-        <Text type={TextType.h4} fontWeight={FontWeight.semibold} classes="truncate">
+    <ContactAvatar {contact} />
+    <div class="flex w-full text-left overflow-hidden">
+        <Text type="base" truncate>
             {contact.name}
         </Text>
     </div>
-    <Icon icon={IconEnum.ChevronRight} classes="text-gray-400 dark:text-gray-500" />
+
+    <Icon name={IconName.ChevronRight} textColor="secondary" />
 </ClickableTile>
