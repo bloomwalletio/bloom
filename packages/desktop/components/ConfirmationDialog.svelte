@@ -28,8 +28,8 @@
 </script>
 
 {#if visible}
-    <overlay in:fade={{ duration: 100 }} out:fade={{ duration: 50 }}>
-        <dialog-container>
+    <overlay in:fade={{ duration: 100 }}>
+        <dialog-container class="popup">
             <PopupTemplate
                 {title}
                 {description}
@@ -57,11 +57,6 @@
     }
 
     dialog-container {
-        @apply p-8;
-        @apply bg-surface dark:bg-surface-dark;
-        @apply border border-solid border-stroke dark:border-stroke-dark;
-        @apply shadow-elevation-4;
         @apply max-w-[25rem];
-        border-radius: 32px;
     }
 </style>

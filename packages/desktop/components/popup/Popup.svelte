@@ -201,7 +201,7 @@
         on:clickOutside={tryClosePopupOnClickOutside}
         bind:this={popupContent}
         class:relative
-        class={size}
+        class="popup {size}"
     >
         <svelte:component this={POPUP_MAP[id]} {...props} />
         {#if !hideClose}
@@ -225,18 +225,18 @@
 {/if}
 
 <style lang="postcss">
-    popup {
+    :global(.popup) {
         @apply w-full p-8;
         @apply bg-surface dark:bg-surface-dark;
         @apply border border-solid border-stroke dark:border-stroke-dark;
         @apply shadow-elevation-4;
         border-radius: 32px;
+    }
 
-        &.medium {
-            max-width: 480px;
-        }
-        &.large {
-            max-width: 630px;
-        }
+    .medium {
+        max-width: 480px;
+    }
+    .large {
+        max-width: 630px;
     }
 </style>
