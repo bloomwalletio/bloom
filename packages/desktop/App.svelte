@@ -1,6 +1,7 @@
 <script lang="ts">
-    import { handleDeepLink } from '@auxiliary/deep-link/handlers'
-    import { Popup, TitleBar } from '@components'
+    import { handleDeepLink } from '@auxiliary/deep-link/handlers/handleDeepLink'
+    import { Popup } from '@components/popup'
+    import TitleBar from '@components/TitleBar.svelte'
     import { IS_WINDOWS, Platform } from '@core/app'
     import { registerAppEvents } from '@core/app/actions'
     import { appSettings, appVersionDetails, initAppSettings, setAppVersionDetails } from '@core/app/stores'
@@ -9,16 +10,8 @@
     import { nftDownloadQueue } from '@core/nfts/stores'
     import { checkAndMigrateProfiles, cleanupEmptyProfiles, saveActiveProfile } from '@core/profile/actions'
     import { activeProfile } from '@core/profile/stores'
-    import {
-        AppRoute,
-        DashboardRoute,
-        RouterManagerExtensionName,
-        appRoute,
-        dashboardRouter,
-        initialiseRouterManager,
-    } from '@core/router'
-    import { closeDrawer } from '@desktop/auxiliary/drawer'
-    import { PopupId, closePopup, openPopup, popupState } from '@desktop/auxiliary/popup'
+    import { AppRoute, RouterManagerExtensionName, appRoute, initialiseRouterManager } from '@core/router'
+    import { PopupId, openPopup, popupState } from '@desktop/auxiliary/popup'
     import {
         getAppRouter,
         getRouterForAppContext,
@@ -32,7 +25,7 @@
     import { Dashboard, LoginRouter, Settings, Splash } from '@views'
     import { OnboardingRouterView } from '@views/onboarding'
     import { onDestroy, onMount } from 'svelte'
-    import { getLocalisedMenuItems } from './lib/helpers'
+    import { getLocalisedMenuItems, registerMenuButtons } from './lib/helpers'
     import { settingsState, openSettings } from '@contexts/settings/stores'
     import { _ } from '@core/i18n'
 
@@ -96,35 +89,7 @@
             }
         }
 
-        Platform.onEvent('menu-navigate-wallet', () => {
-            $dashboardRouter.goTo(DashboardRoute.Wallet)
-        })
-        Platform.onEvent('menu-navigate-settings', () => {
-            closePopup()
-            closeDrawer()
-            openSettings()
-        })
-        Platform.onEvent('menu-check-for-update', () => {
-            closeDrawer()
-            openPopup(
-                {
-                    id: PopupId.CheckForUpdates,
-                    props: {
-                        currentVersion: $appVersionDetails.currentVersion,
-                    },
-                },
-                false,
-                false
-            )
-        })
-        Platform.onEvent('menu-error-log', () => {
-            closeDrawer()
-            openPopup({ id: PopupId.ErrorLog }, false, false)
-        })
-        Platform.onEvent('menu-diagnostics', () => {
-            closeDrawer()
-            openPopup({ id: PopupId.Diagnostics }, false, false)
-        })
+        registerMenuButtons()
     })
 
     onDestroy(() => {

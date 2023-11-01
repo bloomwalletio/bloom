@@ -4,10 +4,7 @@ import { ActivityType } from '@core/activity/enums'
 import { checkAndRemoveProfilePicture } from '@core/profile/actions'
 import { activeAccounts } from '@core/profile/stores'
 import { IWrappedOutput } from '@core/wallet/interfaces'
-import {
-    addActivitiesToAccountActivitiesInAllAccountActivities,
-    allAccountActivities,
-} from '@core/activity/stores/all-account-activities.store'
+import { addAccountActivities, allAccountActivities } from '@core/activity/stores/all-account-activities.store'
 import { generateActivities } from '@core/activity/utils'
 import { preprocessGroupedOutputs } from '@core/activity/utils/outputs'
 import { getActiveNetworkId } from '@core/network'
@@ -55,7 +52,7 @@ export async function handleNewOutputEventInternal(
                 getOrRequestTokenFromPersistedTokens(tokenId, activity.sourceNetworkId)
             }
         }
-        addActivitiesToAccountActivitiesInAllAccountActivities(account.index, activities)
+        addAccountActivities(account.index, activities)
     }
 
     if (isNftOutput) {

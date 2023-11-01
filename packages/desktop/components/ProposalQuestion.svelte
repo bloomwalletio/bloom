@@ -2,8 +2,9 @@
     import { AnswerStatus, EventStatus, Question } from '@iota/sdk/out/types'
 
     import { ProposalAnswer } from '@components'
-    import { Icon, Text, TooltipIcon } from '@ui'
-    import { FontWeight, Position } from '@ui/enums'
+    import { Icon, Text } from '@ui'
+    import { FontWeight } from '@ui/enums'
+    import { TooltipIcon } from '@bloomwalletio/ui'
 
     import { ABSTAIN_VOTE_VALUE } from '@contexts/governance/constants'
     import { getPercentagesFromAnswerStatuses, IProposalAnswerPercentages } from '@contexts/governance'
@@ -68,13 +69,7 @@
                     {question.text}
                 </Text>
                 {#if question.additionalInfo}
-                    <TooltipIcon
-                        iconClasses="text-gray-600 dark:text-gray-500"
-                        text={question.additionalInfo}
-                        position={Position.Bottom}
-                        width={13}
-                        height={13}
-                    />
+                    <TooltipIcon tooltip={question.additionalInfo} placement="bottom" size="xxs" />
                 {/if}
             </div>
         </div>
