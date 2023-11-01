@@ -1,12 +1,12 @@
 <script lang="ts">
     import { pairWithNewDapp } from '@auxiliary/wallet-connect/actions'
-    import { Alert } from '@bloomwalletio/ui'
+    import { Alert, Button } from '@bloomwalletio/ui'
     import { DrawerTemplate } from '@components'
     import { localize } from '@core/i18n'
     import { Router } from '@core/router'
     import { onMount } from 'svelte'
     import { validateConnectionCodeUri } from '@auxiliary/wallet-connect/utils'
-    import { Button, TextInput } from '@ui'
+    import { TextInput } from '@ui'
 
     export let drawerRouter: Router<unknown>
     export let initialWalletConnectUri: string = ''
@@ -59,7 +59,11 @@
             <Alert variant="warning" text={localize('views.dashboard.drawers.dapps.inputConnectionCode.deprecated')} />
         {/if}
     </div>
-    <Button slot="footer" classes="w-full" onClick={onConnectClick} disabled={!walletConnectUri}>
-        {localize('actions.continue')}
-    </Button>
+    <Button
+        slot="footer"
+        width="full"
+        on:click={onConnectClick}
+        disabled={!walletConnectUri}
+        text={localize('actions.continue')}
+    />
 </DrawerTemplate>

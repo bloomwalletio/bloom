@@ -1,9 +1,10 @@
 <script lang="ts">
-    import { Button, HTMLButtonType, Text, TextInput, TextType } from '@ui'
+    import { Text, TextInput, TextType } from '@ui'
     import type { IAuth } from '@iota/sdk'
     import { handleError } from '@core/error/handlers'
     import { localize } from '@core/i18n'
     import { closePopup } from '@desktop/auxiliary/popup'
+    import { Button } from '@bloomwalletio/ui'
 
     export let onSubmit: (auth: IAuth) => unknown = () => {}
 
@@ -47,9 +48,7 @@
         />
     </div>
     <div class="flex w-full space-x-4 mt-6">
-        <Button outline classes="w-full" onClick={closePopup}>{localize('actions.cancel')}</Button>
-        <Button {disabled} {isBusy} type={HTMLButtonType.Submit} classes="w-full">
-            {localize('actions.confirm')}
-        </Button>
+        <Button variant="outlined" width="full" on:click={() => closePopup()} text={localize('actions.cancel')} />
+        <Button {disabled} busy={isBusy} type="submit" width="full" text={localize('actions.confirm')} />
     </div>
 </form>

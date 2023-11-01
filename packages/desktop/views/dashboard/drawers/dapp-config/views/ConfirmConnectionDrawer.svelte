@@ -1,5 +1,6 @@
 <script lang="ts">
-    import { Button, Spinner } from '@ui'
+    import { Button } from '@bloomwalletio/ui'
+    import { Spinner } from '@ui'
     import { localize } from '@core/i18n'
     import { Router } from '@core/router'
     import { DrawerTemplate } from '@components'
@@ -49,11 +50,10 @@
     </div>
     <Button
         slot="footer"
-        classes="w-full"
-        onClick={onConfirmClick}
+        width="full"
+        on:click={onConfirmClick}
         disabled={!addresses.length || loading}
-        isBusy={loading}
-    >
-        {localize('actions.confirm')}
-    </Button>
+        busy={loading}
+        text={localize('actions.confirm')}
+    />
 </DrawerTemplate>

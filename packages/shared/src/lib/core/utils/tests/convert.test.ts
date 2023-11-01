@@ -1,7 +1,6 @@
 import {
     convertBytesToHexString,
     convertDateToUnixTimestamp,
-    convertHexToRgba,
     convertUInt16NumberToLittleEndianHex,
     convertUnixTimestampToDate,
 } from '../convert'
@@ -73,24 +72,6 @@ describe('File: convert.ts', () => {
             expect(convertBytesToHexString([50, 41, 52, 54, 49, 43, 49, 50, 41, 54, 45], false)).toEqual(
                 '32293436312b313229362d'
             )
-        })
-    })
-
-    describe('Function: convertHexToRgba', () => {
-        it('should handle valid input', () => {
-            expect(convertHexToRgba('7f11e0')).toEqual('rgba(127,17,224,1)')
-            expect(convertHexToRgba('#7f11e0')).toEqual('rgba(127,17,224,1)')
-            expect(convertHexToRgba('7f11e0', 50)).toEqual('rgba(127,17,224,0.5)')
-            expect(convertHexToRgba('#7f11e0', 1)).toEqual('rgba(127,17,224,0.01)')
-            expect(convertHexToRgba('#7f11e0', 0)).toEqual('rgba(127,17,224,0)')
-        })
-        it('should handle invalid input', () => {
-            expect(convertHexToRgba('')).toEqual('rgba(0,0,0,1)')
-            expect(convertHexToRgba('', 50)).toEqual('rgba(0,0,0,0.5)')
-            expect(convertHexToRgba('', 150)).toEqual('rgba(0,0,0,1)')
-            expect(convertHexToRgba('randomString')).toEqual('rgba(0,0,0,1)')
-            expect(convertHexToRgba('randomString', 25)).toEqual('rgba(0,0,0,0.25)')
-            expect(convertHexToRgba(undefined)).toEqual('rgba(0,0,0,1)')
         })
     })
 })

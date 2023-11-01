@@ -1,4 +1,4 @@
-import { addEmptyAccountActivitiesToAllAccountActivities } from '@core/activity/stores'
+import { addEmptyAccountActivities } from '@core/activity/stores'
 import { localize } from '@core/i18n'
 import { createAccount } from '@core/profile-manager'
 import {
@@ -22,7 +22,7 @@ export async function createNewAccount(name?: string, color?: string): Promise<I
     const accountIndex = newAccount.getMetadata().index
     addAccountToActiveAccounts(newAccount)
     addAccountPersistedDataToActiveProfile(accountIndex, accountPersistedData)
-    addEmptyAccountActivitiesToAllAccountActivities(accountIndex)
+    addEmptyAccountActivities(accountIndex)
 
     return newAccount
 }

@@ -3,7 +3,6 @@
 import { HEX_PREFIX, MILLISECONDS_PER_SECOND } from './constants'
 import { isValidDate } from './date'
 import { Base64 } from './encode'
-import { clamp } from './math'
 
 /**
  * Returns a UNIX timestamp from a given Date object.
@@ -44,39 +43,6 @@ export function convertBytesToHexString(bytes: number[], withHexPrefix = true): 
 
     const hex = bytes.map((byte) => ('0' + (byte & 0xff).toString(16)).slice(-2)).join('')
     return withHexPrefix ? HEX_PREFIX + hex : hex
-}
-
-/**
- * Convert HEX color to RGBA
- * @param hexCode: hex color to convert
- * @param opacity: [0,100], default = 100
- */
-export function convertHexToRgba(hexCode: string, opacity: number = 100): string {
-    const clampedOpacity = clamp(opacity, 0, 100)
-
-    if (!hexCode) {
-        return `rgba(0,0,0,${clampedOpacity / 100})`
-    }
-
-    let hex = hexCode.replace('#', '')
-
-    if (hex.length === 3) {
-        hex = `${hex[0]}${hex[0]}${hex[1]}${hex[1]}${hex[2]}${hex[2]}`
-    }
-
-    const r = fixNaN(parseInt(hex.substring(0, 2), 16))
-    const g = fixNaN(parseInt(hex.substring(2, 4), 16))
-    const b = fixNaN(parseInt(hex.substring(4, 6), 16))
-
-    return `rgba(${r},${g},${b},${clampedOpacity / 100})`
-}
-
-function fixNaN(n: number): number {
-    if (Number.isNaN(n)) {
-        return 0
-    } else {
-        return n
-    }
 }
 
 // Copyright 2020 IOTA Stiftung
