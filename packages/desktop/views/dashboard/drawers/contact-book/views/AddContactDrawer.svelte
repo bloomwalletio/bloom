@@ -1,8 +1,8 @@
 <script lang="ts">
     import { ContactBookRoute } from '../contact-book-route.enum'
-    import { Button } from '@bloomwalletio/ui'
+    import { Button, TextInput } from '@bloomwalletio/ui'
 
-    import { NetworkInput, TextInput } from '@ui'
+    import { NetworkInput } from '@ui'
     import { DrawerTemplate } from '@components'
 
     import {
@@ -10,7 +10,6 @@
         validateContactAddress,
         validateContactAddressName,
         validateContactName,
-        validateContactNetworkSelection,
         validateContactNote,
     } from '@core/contact'
     import { localize } from '@core/i18n'
@@ -33,13 +32,30 @@
      */
     $: selectedNetworkId, resetErrors()
 
-    let addressError,
-        addressNameError,
-        networkSelectionError = ''
+    enum ContactField {
+        Name = 'name',
+        Note = 'note',
+        Network = 'network',
+        AddressName = 'addressName',
+        Address = 'address',
+    }
+
+    let validationErrors: Record<ContactField, string | undefined> = {
+        [ContactField.Name]: undefined,
+        [ContactField.Note]: undefined,
+        [ContactField.Network]: undefined,
+        [ContactField.AddressName]: undefined,
+        [ContactField.Address]: undefined,
+    }
+
     function resetErrors(): void {
-        addressError = ''
-        addressNameError = ''
-        networkSelectionError = ''
+        validationErrors = {
+            [ContactField.Name]: undefined,
+            [ContactField.Note]: undefined,
+            [ContactField.Network]: undefined,
+            [ContactField.AddressName]: undefined,
+            [ContactField.Address]: undefined,
+        }
     }
 
     function onSaveClick(): void {
@@ -58,19 +74,28 @@
     }
 
     function validate(): boolean {
-        /**
-         * NOTE: This variable allows us to run all the input validation functions,
-         * displaying all errors at once rather than one by one.
-         */
-        let handledError = false
-        for (const input of [nameInput, noteInput, networkSelectionInput, addressNameInput, addressInput]) {
-            try {
-                input.validate()
-            } catch (err) {
-                handledError = true
+        tryValidationFunction(() => validateContactName(name), ContactField.Name)
+        tryValidationFunction(() => validateContactNote(note), ContactField.Note)
+        tryValidationFunction(
+            () => validateContactAddressName({ value: addressName, isRequired: true, checkLength: true }),
+            ContactField.AddressName
+        )
+        tryValidationFunction(
+            () => validateContactAddress({ value: address, isRequired: true, mustBeUnique: true }, selectedNetworkId),
+            ContactField.Address
+        )
+
+        return Object.values(validationErrors).filter((value) => !!value).length < 1
+    }
+
+    function tryValidationFunction(validationFunction: () => void, fieldName: ContactField): void {
+        try {
+            validationFunction()
+        } catch (err) {
+            if (fieldName in validationErrors) {
+                validationErrors[fieldName] = err.message
             }
         }
-        return !handledError
     }
 </script>
 
@@ -82,41 +107,34 @@
         <TextInput
             bind:this={nameInput}
             bind:value={name}
-            placeholder={localize('general.name')}
+            bind:error={validationErrors[ContactField.Name]}
             label={localize('general.name')}
-            validationFunction={validateContactName}
         />
         <TextInput
             bind:this={noteInput}
             bind:value={note}
-            placeholder={localize('general.optionalField', { field: localize('general.note') })}
-            label={localize('general.note')}
-            validationFunction={validateContactNote}
+            bind:error={validationErrors[ContactField.Note]}
+            label={localize('general.optionalField', { field: localize('general.note') })}
         />
-        <hr />
+        <div class="py-2">
+            <hr />
+        </div>
         <NetworkInput
             bind:this={networkSelectionInput}
             bind:networkId={selectedNetworkId}
-            bind:error={networkSelectionError}
-            validationFunction={validateContactNetworkSelection}
+            bind:error={validationErrors[ContactField.Network]}
         />
         <TextInput
             bind:this={addressNameInput}
             bind:value={addressName}
-            bind:error={addressNameError}
-            placeholder={localize('general.addressName')}
+            bind:error={validationErrors[ContactField.AddressName]}
             label={localize('general.addressName')}
-            validationFunction={() =>
-                validateContactAddressName({ value: addressName, isRequired: true, checkLength: true })}
         />
         <TextInput
             bind:this={addressInput}
             bind:value={address}
-            bind:error={addressError}
-            placeholder={localize('general.address')}
+            bind:error={validationErrors[ContactField.Address]}
             label={localize('general.address')}
-            validationFunction={() =>
-                validateContactAddress({ value: address, isRequired: true, mustBeUnique: true }, selectedNetworkId)}
         />
     </form>
     <Button
@@ -128,3 +146,9 @@
         width="full"
     />
 </DrawerTemplate>
+
+<style lang="scss">
+    hr {
+        @apply border-stroke dark:border-stroke-dark;
+    }
+</style>
