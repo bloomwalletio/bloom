@@ -45,6 +45,7 @@ import { subscribeToWalletApiEventsForActiveProfile } from './subscribeToWalletA
 import { refreshAccountTokensForActiveProfile } from '@core/token/actions'
 import { generateAndStoreEvmAddressForAccounts, updateEvmChainGasPrices } from '@core/layer-2/actions'
 import { getNetwork } from '@core/network'
+import { fetchL2BalanceForAllAccounts } from '@core/layer-2/utils'
 
 export async function login(loginOptions?: ILoginOptions): Promise<void> {
     const loginRouter = get(routerManager).getRouterForAppContext(AppContext.Login)
@@ -152,6 +153,7 @@ export async function login(loginOptions?: ILoginOptions): Promise<void> {
         }, 500)
 
         void pollMarketPrices()
+        fetchL2BalanceForAllAccounts()
         if (Platform.isFeatureFlagEnabled('governance')) {
             void initializeRegisteredProposals()
             void registerProposalsFromNodes(loadedAccounts)
