@@ -95,7 +95,7 @@
 
     function onTokenClick(token: ITokenWithBalance): void {
         try {
-            if (token === selectedToken) {
+            if (token === selectedToken && !hasTokenError) {
                 onContinueClick()
             } else {
                 selectedToken = token
