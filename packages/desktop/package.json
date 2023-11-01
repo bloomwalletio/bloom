@@ -58,7 +58,7 @@
         "electron": "25.9.0",
         "electron-builder": "24.6.3",
         "@electron/notarize": "2.1.0",
-        "esbuild": "0.19.2",
+        "esbuild": "0.19.5",
         "esbuild-loader": "3.0.1",
         "mini-css-extract-plugin": "2.7.6",
         "node-loader": "2.0.0",
