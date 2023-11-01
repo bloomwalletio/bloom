@@ -1,6 +1,3 @@
-export * from './button-type.enum'
-export * from './button-variant.enum'
-export * from './button-size.enum'
 export * from './font-weight.enum'
 export * from './ledger-illustration-variant.enum'
 export * from './nft-media-size.enum'

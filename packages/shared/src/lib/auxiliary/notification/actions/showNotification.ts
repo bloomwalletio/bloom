@@ -1,4 +1,4 @@
-import { Platform } from '@core/app'
+import { Platform } from '@core/app/classes'
 import { appSettings } from '@core/app/stores'
 import { generateRandomId, PartiallyOptional } from '@core/utils'
 import { get } from 'svelte/store'

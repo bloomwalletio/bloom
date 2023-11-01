@@ -1329,7 +1329,7 @@
         "refreshTokenMetadataHint" : "This will reset all your tokens' metadata including the verification status and unhide any hidden assets.",
         "excluded": "Excluded",
         "developerTools": "Developer tools",
-        "testDeepLinkDescription": "Simulate a deep link request sent to firefly",
+        "testDeepLinkDescription": "Simulate a deep link request sent to Bloom",
         "url": "URL",
         "hash": "Hash",
         "creating": "Creating",
@@ -1797,7 +1797,8 @@
     "warning": {
         "transaction": {
             "invalidDateTime": "The chosen date must be in the future."
-        }
+        },
+        "closePopup": "Are you sure about closing the popup? Your current progress will be lost."
     },
     "tooltips": {
         "optionalInput": "This optional data will be public on the explorer and viewable by everyone.",

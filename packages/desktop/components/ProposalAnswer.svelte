@@ -1,13 +1,13 @@
 <script lang="ts">
     import { Answer, EventStatus } from '@iota/sdk/out/types'
 
-    import { Icon, Text, TooltipIcon } from '@ui'
+    import { Icon, Text } from '@ui'
 
     import { appSettings } from '@core/app/stores'
 
     import { Icon as IconEnum } from '@auxiliary/icon'
-    import { Indicator } from '@bloomwalletio/ui'
-    import { FontWeight, Position } from '@ui/enums'
+    import { Indicator, TooltipIcon } from '@bloomwalletio/ui'
+    import { FontWeight } from '@ui/enums'
 
     export let onAnswerClick: () => void
 
@@ -93,15 +93,9 @@
             </Text>
         {/if}
         {#if answer.additionalInfo}
-            <TooltipIcon
-                icon={IconEnum.Info}
-                classes="w-3 h-3"
-                iconClasses="text-gray-600 dark:text-gray-500"
-                text={answer.additionalInfo}
-                position={Position.Left}
-                width={12}
-                height={12}
-            />
+            <div class="w-3 h-3">
+                <TooltipIcon tooltip={answer.additionalInfo} placement="left" size="xxs" />
+            </div>
         {/if}
     </div>
 </button>

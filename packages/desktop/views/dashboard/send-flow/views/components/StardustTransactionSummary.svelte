@@ -45,7 +45,7 @@
     let selectedExpirationPeriod: TimePeriod | undefined = expirationDate ? TimePeriod.Custom : undefined
     let selectedTimelockPeriod: TimePeriod | undefined = timelockDate ? TimePeriod.Custom : undefined
 
-    $: isTransferring = !!$selectedAccount.isTransferring
+    $: isTransferring = !!$selectedAccount?.isTransferring
     $: updateSendFlowOnChange(expirationDate, timelockDate, giftStorageDeposit, tag, metadata)
     $: storageDeposit = getStorageDepositFromOutput(output)
     $: tag, validate()

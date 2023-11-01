@@ -3,7 +3,6 @@
     import { localize } from '@core/i18n'
     import { unlockStronghold } from '@core/profile/actions'
     import { closePopup } from '@desktop/auxiliary/popup'
-    import { HTMLButtonType } from '@ui'
     import PopupTemplate from '../PopupTemplate.svelte'
 
     export let subtitle: string | undefined = undefined
@@ -46,7 +45,7 @@
         onClick: onCancelClick,
     }}
     continueButton={{
-        type: HTMLButtonType.Submit,
+        type: 'submit',
         form: 'password-popup-form',
         text: localize('actions.unlock'),
         disabled: !password || password.length === 0,

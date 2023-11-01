@@ -1,8 +1,9 @@
 <script lang="ts">
-    import { IOption, SelectInput, Text } from '@bloomwalletio/ui'
+    import { IOption, SelectInput } from '@bloomwalletio/ui'
     import { appSettings, updateAppSettings } from '@core/app/stores'
     import { SUPPORTED_LOCALES, localize, setLanguage } from '@core/i18n'
     import features from '@features/features'
+    import SettingsSection from '../SettingsSection.svelte'
 
     const options: IOption[] = Object.entries(SUPPORTED_LOCALES)
         .filter(([key]) => features.app.translations.languages[key])
@@ -19,7 +20,8 @@
     }
 </script>
 
-<Text type="body2" class="mb-6">{localize('views.settings.language.title')}</Text>
-<div class="w-1/2">
-    <SelectInput bind:selected {options} label={localize('views.settings.language.title')} hideValue />
-</div>
+<SettingsSection title={localize('views.settings.language.title')}>
+    <div class="w-1/2">
+        <SelectInput bind:selected {options} label={localize('views.settings.language.title')} hideValue />
+    </div>
+</SettingsSection>

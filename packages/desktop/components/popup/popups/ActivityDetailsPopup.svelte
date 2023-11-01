@@ -1,6 +1,6 @@
 <script lang="ts">
     import { Link } from '@bloomwalletio/ui'
-    import { selectedAccountIndex } from '@core/account/stores'
+    import { selectedAccount, selectedAccountIndex } from '@core/account/stores'
     import {
         Activity,
         ActivityAsyncStatus,
@@ -35,18 +35,20 @@
         (activity?.direction === ActivityDirection.Incoming ||
             activity?.direction === ActivityDirection.SelfTransaction) &&
         activity?.asyncData?.asyncStatus === ActivityAsyncStatus.Unclaimed
-    $: transactionAssets = getTransactionAssets(activity, $selectedAccountIndex)
+    $: transactionAssets = activity ? getTransactionAssets(activity, $selectedAccountIndex) : undefined
     $: nft =
-        activity.type === ActivityType.Nft
-            ? getNftByIdFromAllAccountNfts($selectedAccountIndex, activity.nftId)
+        activity?.type === ActivityType.Nft
+            ? getNftByIdFromAllAccountNfts($selectedAccountIndex, activity?.nftId)
             : undefined
     $: nftIsOwned = nft ? $ownedNfts.some((_onMountnft) => _onMountnft.id === nft?.id) : false
     $: explorerUrl = getDefaultExplorerUrl(activity?.sourceNetworkId, ExplorerEndpoint.Transaction)
 
-    let title: string | undefined = localize('popups.activityDetails.title.fallback')
+    let title: string = localize('popups.activityDetails.title.fallback')
     $: void setTitle(activity)
-    async function setTitle(_activity: Activity): Promise<void> {
-        title = await getActivityDetailsTitle(_activity)
+    async function setTitle(_activity: Activity | undefined): Promise<void> {
+        if (_activity) {
+            title = await getActivityDetailsTitle(_activity)
+        }
     }
 
     async function onNftClick(): Promise<void> {
@@ -58,8 +60,8 @@
         $collectiblesRouter.setBreadcrumb(nft?.name)
     }
 
-    function onExplorerClick(_activity: Activity): void {
-        openUrlInBrowser(`${explorerUrl}/${_activity.transactionId}`)
+    function onExplorerClick(_activity: Activity | undefined): void {
+        openUrlInBrowser(`${explorerUrl}/${_activity?.transactionId}`)
     }
 
     function onTransactionIdClick(_activity: Activity): void {
@@ -69,7 +71,7 @@
     async function onClaimClick(_activity: Activity): Promise<void> {
         await checkActiveProfileAuth(
             async () => {
-                await claimActivity(_activity)
+                await claimActivity(_activity, $selectedAccount)
                 openPopup({
                     id: PopupId.ActivityDetails,
                     props: { activityId },
@@ -114,7 +116,7 @@
 
     $: backButton = {
         text: localize('actions.reject'),
-        disabled: activity.asyncData?.isRejected,
+        disabled: activity?.asyncData?.isRejected,
         onClick: onRejectClick,
     }
 

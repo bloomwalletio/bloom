@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { Alert, Table } from '@bloomwalletio/ui'
+    import { Alert, Button, Table } from '@bloomwalletio/ui'
     import { vote } from '@contexts/governance/actions'
     import { ABSTAIN_VOTE_VALUE } from '@contexts/governance/constants'
     import { selectedProposal } from '@contexts/governance/stores'
@@ -8,8 +8,7 @@
     import { checkActiveProfileAuth, getBaseToken } from '@core/profile/actions'
     import { formatTokenAmountBestMatch } from '@core/token'
     import { PopupId, closePopup, openPopup } from '@desktop/auxiliary/popup'
-    import { Button, FontWeight, Text, TextType } from '@ui'
-    import { HTMLButtonType } from '@ui/enums'
+    import { FontWeight, Text, TextType } from '@ui'
 
     export let selectedAnswerValues: number[]
 
@@ -63,16 +62,19 @@
         {/if}
     </div>
     <popup-buttons class="flex flex-row flex-nowrap w-full space-x-4">
-        <Button classes="w-full" disabled={hasGovernanceTransactionInProgress} outline onClick={closePopup}>
-            {localize('actions.cancel')}
-        </Button>
         <Button
-            type={HTMLButtonType.Submit}
-            classes="w-full"
+            width="full"
             disabled={hasGovernanceTransactionInProgress}
-            isBusy={hasGovernanceTransactionInProgress}
-        >
-            {hasVotingPower ? localize('actions.vote') : localize('views.governance.votingPower.manage')}
-        </Button>
+            variant="outlined"
+            on:click={() => closePopup()}
+            text={localize('actions.cancel')}
+        />
+        <Button
+            type="submit"
+            width="full"
+            disabled={hasGovernanceTransactionInProgress}
+            busy={hasGovernanceTransactionInProgress}
+            text={hasVotingPower ? localize('actions.vote') : localize('views.governance.votingPower.manage')}
+        />
     </popup-buttons>
 </form>

@@ -6,8 +6,8 @@
     import { localize } from '@core/i18n'
     import { checkActiveProfileAuth } from '@core/profile/actions'
     import { closePopup } from '@desktop/auxiliary/popup'
-    import { Button, Text, TextType } from '@ui'
-    import { ButtonVariant } from '@ui/enums'
+    import { Text, TextType } from '@ui'
+    import { Button } from '@bloomwalletio/ui'
 
     $: hasGovernanceTransactionInProgress =
         $selectedAccount?.hasVotingPowerTransactionInProgress || $selectedAccount?.hasVotingTransactionInProgress
@@ -33,17 +33,19 @@
         <Alert variant="info" text={localize('popups.stopVoting.hint')} />
     </div>
     <div class="flex w-full space-x-4 mt-6">
-        <Button outline classes="w-full" disabled={hasGovernanceTransactionInProgress} onClick={onCancelClick}
-            >{localize('actions.cancel')}</Button
-        >
         <Button
-            variant={ButtonVariant.Primary}
-            classes="w-full"
-            onClick={onStopVotingClick}
+            variant="outlined"
+            width="full"
             disabled={hasGovernanceTransactionInProgress}
-            isBusy={hasGovernanceTransactionInProgress}
-        >
-            {localize('actions.stopVoting')}</Button
-        >
+            on:click={onCancelClick}
+            text={localize('actions.cancel')}
+        />
+        <Button
+            width="full"
+            on:click={onStopVotingClick}
+            disabled={hasGovernanceTransactionInProgress}
+            busy={hasGovernanceTransactionInProgress}
+            text={localize('actions.stopVoting')}
+        />
     </div>
 </stop-voting>

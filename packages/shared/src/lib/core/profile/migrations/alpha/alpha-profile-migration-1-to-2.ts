@@ -7,7 +7,7 @@ export async function alphaProfileMigration1To2(existingProfile: unknown): Promi
         persistedBalanceChanges.update((state) => {
             const balanceChangesFoProfile = state[profileId]
 
-            for (const accountId of Object.keys(balanceChangesFoProfile)) {
+            for (const accountId of Object.keys(balanceChangesFoProfile ?? {})) {
                 const balanceChangesFoProfileForAccount = state[profileId][accountId]
 
                 for (const networkId of Object.keys(balanceChangesFoProfileForAccount)) {

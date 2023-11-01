@@ -10,9 +10,10 @@
     import { convertToRawAmount } from '@core/token'
     import { visibleSelectedAccountTokens } from '@core/token/stores'
     import { PopupId, closePopup, openPopup, popupState } from '@desktop/auxiliary/popup'
-    import { Button, Text, TokenAmountWithSliderInput } from '@ui'
-    import { HTMLButtonType, TextType } from '@ui/enums'
+    import { Text, TokenAmountWithSliderInput } from '@ui'
+    import { TextType } from '@ui/enums'
     import { onMount } from 'svelte'
+    import { Button } from '@bloomwalletio/ui'
 
     export let _onMount: (..._: any[]) => Promise<void> = async () => {}
     export let newVotingPower: string = undefined
@@ -90,16 +91,19 @@
         <Alert variant="info" text={localize('popups.manageVotingPower.hint')} />
     </div>
     <div class="flex flex-row flex-nowrap w-full space-x-4">
-        <Button outline disabled={hasTransactionInProgress} classes="w-full" onClick={onCancelClick}>
-            {localize('actions.cancel')}
-        </Button>
         <Button
-            type={HTMLButtonType.Submit}
+            variant="outlined"
+            disabled={hasTransactionInProgress}
+            width="full"
+            on:click={onCancelClick}
+            text={localize('actions.cancel')}
+        />
+        <Button
+            type="submit"
             disabled={confirmDisabled}
-            isBusy={hasTransactionInProgress}
-            classes="w-full"
-        >
-            {localize('actions.confirm')}
-        </Button>
+            busy={hasTransactionInProgress}
+            width="full"
+            text={localize('actions.confirm')}
+        />
     </div>
 </form>

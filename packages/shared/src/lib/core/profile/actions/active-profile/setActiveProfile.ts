@@ -1,4 +1,4 @@
-import { Platform } from '@core/app'
+import { Platform } from '@core/app/classes'
 import { INITIAL_ACTIVE_PROFILE, IPersistedProfile, IProfile } from '@core/profile'
 import { activeProfile, activeProfileId } from '@core/profile/stores'
 
