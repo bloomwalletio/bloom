@@ -8,7 +8,7 @@ import {
     getAmountFromEvmTransactionValue,
     prepareEvmTransaction,
 } from '@core/layer-2/utils'
-import { MILLISECONDS_PER_SECOND, sleep } from '@core/utils'
+import { Converter, MILLISECONDS_PER_SECOND, sleep } from '@core/utils'
 import { TxData } from '@ethereumjs/tx'
 import type { Bip44 } from '@iota/sdk/out/types'
 import { PopupId, openPopup } from '../../../../../../desktop/lib/auxiliary/popup'
@@ -117,7 +117,7 @@ export class Ledger {
         }
     }
 
-    static async signMessage(rawMessage: string, messageHex: string, bip44: Bip44): Promise<string | undefined> {
+    static async signMessage(rawMessage: string, bip44: Bip44): Promise<string | undefined> {
         openPopup({
             id: PopupId.VerifyLedgerTransaction,
             hideClose: true,
@@ -127,10 +127,11 @@ export class Ledger {
             },
         })
 
+        const messageHex = Converter.utf8ToHex(rawMessage, false)
         const bip32Path = buildBip32PathFromBip44(bip44)
 
         const transactionSignature = await this.callLedgerApiAsync<IEvmSignature>(
-            () => ledgerApiBridge.makeRequest(LedgerApiMethod.SignMessage, messageHex, bip32Path),
+            () => ledgerApiBridge.makeRequest(LedgerApiMethod.SignMessage, messageHex.substring(2), bip32Path),
             'signed-message'
         )
 
