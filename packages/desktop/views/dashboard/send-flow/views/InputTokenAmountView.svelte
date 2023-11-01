@@ -84,7 +84,6 @@
         $sendFlowRouter.previous()
     }
 
-    $: setMaxGasFee($sendFlowParameters)
     async function setMaxGasFee(sendFlowParams: SendFlowParameters): Promise<void> {
         if (token.id !== BASE_TOKEN_ID) {
             return
@@ -95,7 +94,7 @@
             ...sendFlowParams,
             [sendFlowType]: {
                 token,
-                rawAmount: token.balance.available,
+                rawAmount: token.balance.available.toString(),
                 unit,
             },
         }
@@ -118,8 +117,8 @@
         }
     }
 
-    onMount(async () => {
-        await setMaxGasFee($sendFlowParameters)
+    onMount(() => {
+        void setMaxGasFee($sendFlowParameters)
     })
 </script>
 
