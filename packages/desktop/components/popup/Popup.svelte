@@ -136,7 +136,6 @@
             if ('function' === typeof props?.onCancelled) {
                 props?.onCancelled()
             }
-            modifyPopupState({ confirmClickOutside: false })
             closePopup()
         }
     }
