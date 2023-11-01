@@ -3,8 +3,11 @@
     import { fade } from 'svelte/transition'
     import { CloseButton } from '@bloomwalletio/ui'
     import { closePopup, PopupComponentMap, PopupId } from '@desktop/auxiliary/popup'
+    import { modifyPopupState } from '@desktop/auxiliary/popup/helpers'
+
     import { IS_WINDOWS } from '@core/app/constants'
     import { clickOutside } from '@core/utils/ui'
+    import ConfirmationDialog from '../ConfirmationDialog.svelte'
 
     // Popups
     import AccountSwitcherPopup from './popups/AccountSwitcherPopup.svelte'
@@ -48,7 +51,6 @@
     import VerifyLedgerTransactionPopup from './popups/VerifyLedgerTransactionPopup.svelte'
     import VoteForProposal from './popups/VoteForProposalPopup.svelte'
     import VotingPowerToZeroPopup from './popups/VotingPowerToZeroPopup.svelte'
-    import { modifyPopupState } from '@desktop/auxiliary/popup/helpers'
     import { localize } from '@core/i18n'
 
     export let id: PopupId
@@ -77,6 +79,7 @@
     }
 
     let popupContent
+    let confirmationDialog: ConfirmationDialog
 
     const POPUP_MAP: PopupComponentMap = {
         [PopupId.AccountSwitcher]: AccountSwitcherPopup,
@@ -144,11 +147,7 @@
                 props?.onCancelled()
             }
             if (confirmClickOutside) {
-                const confirm = window.confirm(localize('warning.closePopup'))
-                if (confirm) {
-                    modifyPopupState({ confirmClickOutside: false })
-                    closePopup()
-                }
+                confirmationDialog?.openDialog()
             } else {
                 closePopup()
             }
@@ -211,6 +210,19 @@
     </popup>
     <button type="button" tabindex="0" on:focus={onFocusLast} />
 </overlay>
+{#if confirmClickOutside}
+    <ConfirmationDialog
+        bind:this={confirmationDialog}
+        onConfirm={() => {
+            modifyPopupState({ confirmClickOutside: false })
+            closePopup()
+        }}
+        confirmText={localize('actions.close')}
+        title="Close popup"
+        variant="danger"
+        alert={{ variant: 'danger', text: localize('warning.closePopup') }}
+    />
+{/if}
 
 <style lang="postcss">
     popup {
