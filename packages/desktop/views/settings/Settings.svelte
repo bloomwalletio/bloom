@@ -9,16 +9,24 @@
     import { onDestroy } from 'svelte'
     import { fade } from 'svelte/transition'
     import { SettingsViewer } from './views'
+    import { popupState } from '@desktop/auxiliary/popup/stores'
 
     $: if (features.analytics.dashboardRoute.settings.enabled && $settingsRoute) {
         Platform.trackEvent('settings-route', { route: $settingsRoute })
     }
 
     function onKey(event: KeyboardEvent): void {
-        if (event.key === 'Escape') {
+        if (event.key === 'Escape' && !$popupState?.active) {
             closeSettings()
         }
     }
+
+    function onClickOutside(): void {
+        if (!$popupState?.active) {
+            closeSettings()
+        }
+    }
+
     onDestroy((): void => {
         // When a new locale is loaded the pages are reloaded
         // so don't reset the router in this case
@@ -35,7 +43,7 @@
     out:fade={{ duration: 50 }}
     class="fixed h-screen w-screen flex flex-1 justify-center items-center bg-neutral-6/75 z-30"
 >
-    <settings-popup class="relative" use:clickOutside on:clickOutside={closeSettings}>
+    <settings-popup class="relative" use:clickOutside on:clickOutside={onClickOutside}>
         <div class="absolute top-8 right-8">
             <CloseButton on:click={closeSettings} />
         </div>
