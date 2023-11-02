@@ -25,45 +25,34 @@
         <Text type="h6">{localize(`${localeKey}.title`)}</Text>
         <DappActionsMenu {drawerRouter} dapp={$selectedDapp} />
     </div>
-    <div class="w-full h-full">
-        <section>
-            <div class="flex flex-row gap-3">
-                <img class="dapp-icon" src={$selectedDapp.metadata.icons[0]} alt={$selectedDapp.metadata.name} />
-                <div class="flex flex-col items-start">
-                    <Text type="body1" fontWeight="bold">{$selectedDapp.metadata.name}</Text>
-                    <Link
-                        text={$selectedDapp.metadata.url}
-                        on:click={() => openUrlInBrowser($selectedDapp.metadata.url)}
-                    />
-                </div>
+    <div class="w-full h-full flex flex-col gap-8">
+        <div class="flex flex-row gap-3">
+            <img class="dapp-icon" src={$selectedDapp.metadata.icons[0]} alt={$selectedDapp.metadata.name} />
+            <div class="flex flex-col items-start">
+                <Text type="body1" fontWeight="bold">{$selectedDapp.metadata.name}</Text>
+                <Link text={$selectedDapp.metadata.url} on:click={() => openUrlInBrowser($selectedDapp.metadata.url)} />
             </div>
-            {#if $selectedDapp.metadata}
-                <Table
-                    orientation="vertical"
-                    items={[
-                        {
-                            key: localize(`${localeKey}.description`),
-                            value: $selectedDapp.metadata.description ?? undefined,
-                        },
-                        {
-                            key: localize(`${localeKey}.verifyUrl`), // TODO: instead of showing this url, show a boolean if it is verified or not
-                            value: $selectedDapp.metadata.verifyUrl ?? undefined,
-                            copyable: true,
-                        },
-                    ]}
-                />
-            {/if}
-        </section>
+        </div>
+        {#if $selectedDapp.metadata?.description || $selectedDapp.metadata?.verifyUrl}
+            <Table
+                orientation="vertical"
+                items={[
+                    {
+                        key: localize(`${localeKey}.description`),
+                        value: $selectedDapp.metadata.description || undefined,
+                    },
+                    {
+                        key: localize(`${localeKey}.verifyUrl`), // TODO: instead of showing this url, show a boolean if it is verified or not
+                        value: $selectedDapp.metadata.verifyUrl || undefined,
+                        copyable: true,
+                    },
+                ]}
+            />
+        {/if}
     </div>
 </DrawerTemplate>
 
 <style lang="scss">
-    section {
-        @apply border border-solid border-stroke dark:border-stroke-dark;
-        @apply rounded-xl;
-        @apply flex flex-col gap-4 p-6;
-    }
-
     .dapp-icon {
         @apply w-10 h-10 rounded-full;
     }
