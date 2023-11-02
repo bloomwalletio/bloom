@@ -4,7 +4,6 @@
     import { Link, Table, Text } from '@bloomwalletio/ui'
     import { Router } from '@core/router'
     import { onMount } from 'svelte'
-    import { DappConfigRoute } from '../dapp-config-route.enum'
     import { localize } from '@core/i18n'
     import { openUrlInBrowser } from '@core/app/utils'
     import { DappActionsMenu } from '@components/menus'
@@ -15,7 +14,7 @@
 
     onMount(() => {
         if (!$selectedDapp) {
-            drawerRouter.goTo(DappConfigRoute.ConnectedDapps)
+            drawerRouter.previous()
         }
     })
 </script>
