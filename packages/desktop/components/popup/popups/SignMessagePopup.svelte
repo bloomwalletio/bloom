@@ -15,13 +15,13 @@
     import { checkActiveProfileAuth } from '@core/profile/actions'
     import { LedgerAppName } from '@core/ledger'
     import PopupTemplate from '../PopupTemplate.svelte'
+    import { showNotification } from '@auxiliary/notification/actions'
 
     export let _onMount: (..._: any[]) => Promise<void> = async () => {}
     export let message: string
     export let account: IAccountState
     export let chain: IChain
     export let dapp: IConnectedDapp | undefined
-    export let method: 'eth_sign' | 'personal_sign' = 'personal_sign'
     export let callback: (params: CallbackParameters) => void
 
     $: address = truncateString(account.evmAddresses[chain.getConfiguration().coinType] ?? '', 8, 8)
@@ -36,7 +36,12 @@
         isBusy = true
         try {
             const { coinType } = chain.getConfiguration()
-            const result = await signMessage(message, coinType, method, account)
+            const result = await signMessage(message, coinType, account)
+
+            showNotification({
+                variant: 'success',
+                text: localize('notifications.signMessage.success'),
+            })
             callback({ result })
         } catch (err) {
             callback({ error: err })

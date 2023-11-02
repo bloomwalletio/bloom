@@ -1552,6 +1552,9 @@
             "wrongProtocol": "Protocol doesn't match coin type found in Stronghold backup",
             "wrongProtocolForClaiming": "You must use an IOTA-based Stronghold backup to claim Shimmer rewards"
         },
+        "signMessage": {
+            "success": "Message successfully signed"
+        },
         "findShimmerRewards": {
             "error": "An error occurred while searching for rewards"
         },
