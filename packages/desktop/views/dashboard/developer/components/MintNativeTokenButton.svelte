@@ -13,6 +13,7 @@
         if (hasAliases) {
             openPopup({
                 id: PopupId.MintNativeTokenForm,
+                confirmClickOutside: true,
             })
         } else {
             openPopup({
