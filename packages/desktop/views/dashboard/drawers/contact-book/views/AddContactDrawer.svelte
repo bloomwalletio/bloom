@@ -15,6 +15,7 @@
     import { localize } from '@core/i18n'
     import { Router } from '@core/router'
     import { NetworkId } from '@core/network'
+    import { closeDrawer } from '@desktop/auxiliary/drawer'
 
     export let drawerRouter: Router<unknown>
 
@@ -70,6 +71,14 @@
                 drawerRouter.goTo(ContactBookRoute.ContactList)
                 drawerRouter.resetHistory()
             }
+        }
+    }
+
+    function onCancelClick(): void {
+        if (drawerRouter.hasHistory()) {
+            drawerRouter.previous()
+        } else {
+            closeDrawer()
         }
     }
 
@@ -137,14 +146,16 @@
             label={localize('general.address')}
         />
     </form>
-    <Button
-        slot="footer"
-        type="submit"
-        form="add-contact-form"
-        text={localize('actions.save')}
-        on:click={onSaveClick}
-        width="full"
-    />
+    <div slot="footer" class="flex gap-4">
+        <Button variant="outlined" text={localize('actions.cancel')} width="half" on:click={onCancelClick} />
+        <Button
+            type="submit"
+            form="add-contact-form"
+            text={localize('actions.save')}
+            on:click={onSaveClick}
+            width="half"
+        />
+    </div>
 </DrawerTemplate>
 
 <style lang="scss">

@@ -5,10 +5,12 @@
     import { IContact } from '@core/contact'
 
     export let contact: IContact | undefined = undefined
-    export let onCardClick: UiEventFunction
+    export let showRightArrow = true
+    export let error = false
+    export let onCardClick: UiEventFunction | undefined = undefined
 </script>
 
-<Tile border onClick={onCardClick}>
+<Tile border {error} onClick={onCardClick}>
     <div class="flex w-full justify-between gap-2 items-center">
         <ContactAvatar {contact} />
         <div class="flex w-full text-left overflow-hidden">
@@ -16,6 +18,8 @@
                 {contact.name}
             </Text>
         </div>
-        <Icon name={IconName.ChevronRight} textColor="secondary" />
+        {#if showRightArrow}
+            <Icon name={IconName.ChevronRight} textColor="secondary" />
+        {/if}
     </div>
 </Tile>
