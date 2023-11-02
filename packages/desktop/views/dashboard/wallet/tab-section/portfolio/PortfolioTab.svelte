@@ -51,13 +51,11 @@
         <div class="text-end">
             <Text type="sm" fontWeight="medium" textColor="secondary">
                 {localize('views.dashboard.portfolio.marketCap')}
-                {currency}
             </Text>
         </div>
         <div class="text-end">
             <Text type="sm" fontWeight="medium" textColor="secondary">
                 {localize('views.dashboard.portfolio.price')}
-                {currency}
             </Text>
         </div>
         <div class="text-end">
