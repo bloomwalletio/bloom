@@ -10,6 +10,7 @@ export function openPopup(
         preventClose = false,
         transition = undefined,
         overflow = false,
+        confirmClickOutside = false,
         relative = true,
     }: Omit<IPopupState, 'active'>,
     forceClose: boolean = false,
@@ -20,5 +21,8 @@ export function openPopup(
             return
         }
     }
-    modifyPopupState({ active: true, id, hideClose, preventClose, transition, props, overflow, relative }, forceClose)
+    modifyPopupState(
+        { active: true, id, hideClose, preventClose, confirmClickOutside, transition, props, overflow, relative },
+        forceClose
+    )
 }
