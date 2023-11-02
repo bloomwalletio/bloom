@@ -5,9 +5,10 @@ import { findActiveAccountWithAddress } from '@core/profile/actions'
 import { IChain } from '@core/network'
 import { CallbackParameters } from '../types'
 
-export function handlePersonalSign(
+export function handleSignMessage(
     params: unknown,
     dapp: IConnectedDapp | undefined,
+    method: 'personal_sign' | 'eth_sign',
     chain: IChain,
     responseCallback: (params: CallbackParameters) => void
 ): void {
@@ -15,16 +16,20 @@ export function handlePersonalSign(
         responseCallback({ error: 'Unexpected format' })
         return
     }
+    // Type for `eth_sign` params: [ address, hexMessage ]
+    // Type for `personal_sign` params: [ hexMessage, address ]
 
-    const hexMessage = params[0]
-    if (typeof hexMessage !== 'string') {
-        responseCallback({ error: 'Unexpected message' })
+    const hexMessage = method === 'personal_sign' ? params[0] : params[1]
+    const accountAddress = method === 'personal_sign' ? params[1] : params[0]
+
+    const account = findActiveAccountWithAddress(accountAddress, chain.getConfiguration().id)
+    if (!account) {
+        responseCallback({ error: 'Could not find address' })
         return
     }
 
-    const account = findActiveAccountWithAddress(params[1], chain.getConfiguration().id)
-    if (!account) {
-        responseCallback({ error: 'Could not find address' })
+    if (typeof hexMessage !== 'string') {
+        responseCallback({ error: 'Unexpected message' })
         return
     }
     const message = Converter.hexToUtf8(hexMessage)
@@ -36,7 +41,6 @@ export function handlePersonalSign(
             dapp,
             account,
             chain,
-            method: 'personal_sign',
             callback: responseCallback,
         },
     })
