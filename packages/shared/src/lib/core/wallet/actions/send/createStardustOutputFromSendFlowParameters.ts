@@ -7,6 +7,7 @@ export async function createStardustOutputFromSendFlowParameters(
     sendFlowParameters: SendFlowParameters,
     account: IAccountState
 ): Promise<Output> {
-    const outputParams = await getOutputParameters(sendFlowParameters, account.depositAddress)
-    return await prepareOutput(account.index, outputParams, DEFAULT_TRANSACTION_OPTIONS)
+    const outputParams = getOutputParameters(sendFlowParameters, account.depositAddress)
+    const preparedOutput = await prepareOutput(account.index, outputParams, DEFAULT_TRANSACTION_OPTIONS)
+    return preparedOutput
 }

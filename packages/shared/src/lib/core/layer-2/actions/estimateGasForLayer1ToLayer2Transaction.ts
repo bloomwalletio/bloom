@@ -1,10 +1,9 @@
 import { NetworkId, getNetwork, isStardustNetwork } from '@core/network'
 import { getSelectedAccount } from '@core/account/stores'
-import { DEFAULT_TRANSACTION_OPTIONS, SendFlowParameters, SendFlowType, getOutputParameters } from '@core/wallet'
+import { SendFlowParameters, SendFlowType, createStardustOutputFromSendFlowParameters } from '@core/wallet'
 import { FALLBACK_ESTIMATED_GAS } from '../constants'
 import { AssetType } from '../enums'
 import { TransferredAsset } from '../types'
-import { prepareOutput } from '@core/account'
 import { outputHexBytes } from '@core/wallet/api'
 import { IGasCostEstimate } from '@core/network/interfaces/gas-cost-estimate.type'
 
@@ -24,6 +23,7 @@ export async function estimateGasForLayer1ToLayer2Transaction(sendFlowParameters
         const gasEstimate = await getGasEstimateForOnLedgerIscpCall(destinationNetworkId, sendFlowParameters)
         return gasEstimate.gasFeeCharged ?? 0
     } catch (err) {
+        console.error(err)
         return FALLBACK_ESTIMATED_GAS[sendFlowParameters.type]
     }
 }
@@ -36,9 +36,8 @@ async function getGasEstimateForOnLedgerIscpCall(
     if (!chain) {
         return Promise.reject('Invalid chain')
     }
-    const { index, depositAddress } = getSelectedAccount()
-    const outputParams = getOutputParameters(sendFlowParameters, depositAddress)
-    const tempOutput = await prepareOutput(index, outputParams, DEFAULT_TRANSACTION_OPTIONS)
+    const account = getSelectedAccount()
+    const tempOutput = await createStardustOutputFromSendFlowParameters(sendFlowParameters, account)
     const outputBytes = await outputHexBytes(tempOutput)
     return chain.getGasEstimate(outputBytes)
 }
