@@ -131,7 +131,7 @@ export class Ledger {
         const bip32Path = buildBip32PathFromBip44(bip44)
 
         const transactionSignature = await this.callLedgerApiAsync<IEvmSignature>(
-            () => ledgerApiBridge.makeRequest(LedgerApiMethod.SignMessage, messageHex.substring(2), bip32Path),
+            () => ledgerApiBridge.makeRequest(LedgerApiMethod.SignMessage, messageHex, bip32Path),
             'signed-message'
         )
 
