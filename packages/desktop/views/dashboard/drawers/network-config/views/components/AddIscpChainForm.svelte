@@ -46,7 +46,7 @@
     }
 
     function validateAliasAddress(): void {
-        const chains = $activeProfile.network.chains
+        const chains = $activeProfile.network.chainConfigurations
         let isValidBechAddress = false
         try {
             validateBech32Address(getNetworkHrp(), chain.aliasAddress, AddressType.Alias)
@@ -64,7 +64,7 @@
         }
     }
 
-    function validaterpcEndpoint(): void {
+    function validateRpcEndpoint(): void {
         if (!isValidHttpsUrl(chain.rpcEndpoint)) {
             rpcEndpointError = localize(`${localeKey}.errors.invalidUrl`)
         }
@@ -79,7 +79,7 @@
     function validate(): void {
         validateName()
         validateAliasAddress()
-        validaterpcEndpoint()
+        validateRpcEndpoint()
         validateExplorerUrl()
     }
 
