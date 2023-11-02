@@ -2,11 +2,11 @@
     import { IconName, Menu } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
     import { Router } from '@core/router'
-    import { setConnectedDapps } from '@auxiliary/wallet-connect/stores'
     import { PopupId, closePopup, openPopup } from '@desktop/auxiliary/popup'
     import { disconnectDapp } from '@auxiliary/wallet-connect/actions/disconnectDapp'
     import { showNotification } from '@auxiliary/notification'
     import { IConnectedDapp } from '@auxiliary/wallet-connect/interface'
+    import { handleError } from '@core/error/handlers'
 
     export let drawerRouter: Router<unknown>
     export let dapp: IConnectedDapp
@@ -27,17 +27,15 @@
                 onConfirm: async () => {
                     try {
                         await disconnectDapp(dapp.topic)
+                        showNotification({
+                            variant: 'success',
+                            text: localize('notifications.disconnectDapp.success', { dappName }),
+                        })
+                        closePopup()
+                        drawerRouter.previous()
                     } catch (error) {
-                        console.error(error)
+                        handleError(error)
                     }
-
-                    setConnectedDapps()
-                    showNotification({
-                        variant: 'success',
-                        text: localize('notifications.disconnectDapp.success'),
-                    })
-                    closePopup()
-                    drawerRouter.previous()
                 },
             },
         })

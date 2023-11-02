@@ -1,5 +1,5 @@
 import { logAndNotifyError } from '@core/error/actions'
-import { getWalletClient } from '../stores'
+import { getWalletClient, setConnectedDapps } from '../stores'
 import { getSdkError } from '@walletconnect/utils'
 
 export async function disconnectDapp(topic: string): Promise<void> {
@@ -19,6 +19,7 @@ export async function disconnectDapp(topic: string): Promise<void> {
             })
         }
         await client.core.pairing.disconnect({ topic })
+        setConnectedDapps()
     } catch (err) {
         logAndNotifyError({
             type: 'walletConnect',
