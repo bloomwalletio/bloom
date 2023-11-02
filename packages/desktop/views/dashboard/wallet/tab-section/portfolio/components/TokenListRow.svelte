@@ -7,7 +7,7 @@
     import { PopupId, openPopup } from '@desktop/auxiliary/popup'
     import { TokenAvatar, NetworkAvatar } from '@ui'
     import { Text } from '@bloomwalletio/ui'
-    import { activeProfile } from 'shared/src/lib/core/profile/stores'
+    import { activeProfile } from '@core/profile/stores'
 
     export let token: ITokenWithBalance
 
