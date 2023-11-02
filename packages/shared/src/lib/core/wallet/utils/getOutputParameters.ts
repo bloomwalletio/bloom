@@ -62,7 +62,7 @@ function getDestinationAddress(recipient: Subject | undefined, chainConfig: Chai
 
 function getAmountFromTransactionData(sendFlowParameters: SendFlowParameters): string {
     const gasFee = sendFlowParameters.gasFee ?? 0
-    const rawAmount = Number(sendFlowParameters.baseCoinTransfer?.rawAmount) ?? 0
+    const rawAmount = Number(sendFlowParameters.baseCoinTransfer?.rawAmount ?? 0)
     return (rawAmount + gasFee).toString()
 }
 
