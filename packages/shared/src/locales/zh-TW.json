@@ -86,7 +86,18 @@
                     "description": "Please ensure that the official Ledger Live application is closed and follow the steps below.",
                     "connect": "Connect your Ledger device",
                     "unlock": "Unlock your Ledger with its pin",
-                    "open": "Open the Shimmer app on your Ledger"
+                    "open": "Open the Shimmer app on your Ledger",
+                    "tip": "Tips if your Ledger isn't connecting"
+                },
+                "ledgerConnectionGuide": {
+                    "title": "Ledger isn't connecting?",
+                    "ledgerLiveNotOpen": "Ensure the Ledger Live app is not open on your computer",
+                    "ledgerDeviceUnlocked": "Ensure your Ledger device is unlocked with your PIN",
+                    "ledgerAppOpen": "Open the {appName} app on your Ledger device",
+                    "ledgerStillNotConnected": {
+                        "question": "Still not working?",
+                        "answer": "Try the official Ledger support"
+                    }
                 }
             },
             "restoreProfile": {
@@ -207,11 +218,13 @@
             },
             "maxMediaSize": {
                 "title": "最大媒體大小",
-                "description": "超出此大小限制的 NFT 媒體將不會被下載，而由該媒體類型的佔位符號代替呈現。"
+                "description": "超出此大小限制的 NFT 媒體將不會被下載，而由該媒體類型的佔位符號代替呈現。",
+                "input": "Media size"
             },
             "maxMediaDownloadTime": {
                 "title": "Maximum download time",
-                "description": "NFT media which take longer than this limit to download will be canceled and a placeholder representing the media type will be displayed instead"
+                "description": "NFT media which take longer than this limit to download will be canceled and a placeholder representing the media type will be displayed instead",
+                "input": "Download time"
             },
             "refreshNftMedia": {
                 "title": "Refresh NFT media",
@@ -350,7 +363,7 @@
                     "chain": {
                         "chainId": "Chain ID",
                         "aliasAddress": "Alias Address",
-                        "iscpEndpoint": "ISCP Endpoint",
+                        "rpcEndpoint": "ISCP Endpoint",
                         "explorerUrl": "Explorer URL (optional)",
                         "errors": {
                             "cannotBeEmpty": "Name cannot be empty",
@@ -547,26 +560,26 @@
         },
         "updateStronghold": {
             "update": {
-                "title": "更新 Stringhold",
+                "title": "Update your Stronghold",
                 "loginBody": "您的 Stronghold 版本已過時，請提供您的 Stronghold 密碼來更新它。",
                 "recoveryBody": "匯入的 Stronghold 版本已過時，我們必須將它更新到最新版本才能繼續。"
             },
             "updateBackup": {
-                "loginTitle": "Stronghold 已更新",
+                "title": "Stronghold updated",
                 "loginBody": "一切狀況良好 - 您正在運行最新版的 Stronghold",
-                "recoveryTitle": "已成功把 Stronghold 還原並更新",
                 "recoveryBody": "您現在可以繼續設定您的錢包",
                 "hint": "我們強烈建議您刪除所有先前的 Stronghold 備份檔案，並儲存一個新的。"
             },
             "changePassword": {
-                "hint": "您先前過時的 Stronghold 已更新。我們建議變更您的 Stronghold 密碼。"
+                "title": "Change your password",
+                "hint": "Your Stronghold was out of date and has been updated. We recommend that you change your password."
             }
         }
     },
     "popups": {
         "enableLedgerBlindSigning": {
             "title": "啟用 Blind Signing",
-            "info": "In order to confirm this transaction you need to enable Blind Signing on your Ledger device.",
+            "info": "You need to enable Blind Signing on your Ledger device to confirm this transaction.",
             "step_1": "Connect and unlock your Ledger device",
             "step_2": "Open the {appName} application",
             "step_3": "Press the right button to navigate to Settings, then press both buttons to validate. Your Ledger device displays Blind Signing.",
@@ -776,18 +789,6 @@
             "locked": "解鎖你的 Ledger 裝置以繼續",
             "appNotOpen": "Open the Shimmer app on your Ledger device to continue.",
             "correctAppOpen": "Ledger 已成功的連接，請繼續。"
-        },
-        "ledgerConnectionGuide": {
-            "title": "Ledger無法連結時的處理技巧",
-            "steps": {
-                "0": "確保 Ledger Live 尚未於您的電腦上開啟",
-                "1": "確認您已經輸入 PIN 碼來解鎖您的 Ledger 裝置",
-                "2": "在您的 Ledger 裝置上開啟新版 IOTA app",
-                "3": {
-                    "text": "仍未成功嗎？",
-                    "link": "嘗試 Ledger 的官方支援頁面"
-                }
-            }
         },
         "verifyLedgerTransaction": {
             "title": "驗證交易",
@@ -1325,7 +1326,7 @@
         "refreshTokenMetadataHint": "這將重置所有代幣的元數據，包括驗證狀態並取消隱藏任何隱藏資產。",
         "excluded": "排除",
         "developerTools": "開發人員工具",
-        "testDeepLinkDescription": "模擬將一個深度連結的請求傳送至 Firefly 錢包",
+        "testDeepLinkDescription": "Simulate a deep link request sent to Bloom",
         "url": "網址",
         "hash": "雜湊",
         "creating": "正在創建",
@@ -1790,7 +1791,8 @@
     "warning": {
         "transaction": {
             "invalidDateTime": "The chosen date must be in the future."
-        }
+        },
+        "closePopup": "Are you sure about closing the popup? Your current progress will be lost."
     },
     "tooltips": {
         "optionalInput": "此可選數據將在資源管理器上公開，每個人都可以查看。",

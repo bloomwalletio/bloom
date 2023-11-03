@@ -21,6 +21,7 @@
     import { sendFlowRouter } from '../send-flow.router'
     import { EvmTransactionSummary, StardustToEvmTransactionSummary, StardustTransactionSummary } from './components'
     import { TransactionSummaryProps } from './types'
+    import { setGasFee } from '@core/layer-2/actions'
 
     export let transactionSummaryProps: TransactionSummaryProps
     let { _onMount, preparedOutput, preparedTransaction } = transactionSummaryProps ?? {}
@@ -28,9 +29,10 @@
     $: void prepareTransactions($sendFlowParameters)
     $: isSourceNetworkLayer2 = !!chain
     $: isDestinationNetworkLayer2 = isEvmChain($sendFlowParameters.destinationNetworkId)
-    $: isTransferring = !!$selectedAccount?.isTransferring
-    $: isDisabled = isInvalid || isTransferring || (!preparedTransaction && !preparedOutput)
+    $: busy = !!$selectedAccount?.isTransferring || !hasMounted
+    $: isDisabled = isInvalid || busy || (!preparedTransaction && !preparedOutput)
 
+    let hasMounted = false
     let isInvalid: boolean
     let recipientAddress: string
     let chain: IChain | undefined
@@ -94,9 +96,13 @@
         try {
             if (_onMount) {
                 await _onMount()
+            } else {
+                await setGasFee($sendFlowParameters, $selectedAccount)
             }
         } catch (err) {
             handleError(err)
+        } finally {
+            hasMounted = true
         }
     })
 </script>
@@ -106,14 +112,14 @@
     backButton={{
         text: localize($sendFlowRouter.hasHistory() ? 'actions.back' : 'actions.cancel'),
         onClick: onBackClick,
-        disabled: isTransferring,
+        disabled: busy,
     }}
     continueButton={{
         text: localize('actions.confirm'),
         onClick: onConfirmClick,
         disabled: isDisabled,
     }}
-    busy={isTransferring}
+    {busy}
 >
     {#if isSourceNetworkLayer2 && preparedTransaction}
         <EvmTransactionSummary transaction={preparedTransaction} sendFlowParameters={$sendFlowParameters} />

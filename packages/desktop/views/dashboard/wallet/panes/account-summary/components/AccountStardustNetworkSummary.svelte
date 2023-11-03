@@ -4,7 +4,7 @@
     import { formatTokenAmountBestMatch, ITokenWithBalance } from '@core/token'
     import { formatCurrency } from '@core/i18n'
     import { getMarketAmountFromTokenValue } from '@core/market/actions'
-    import { ownedNfts } from '@core/nfts/stores'
+    import { ownedNfts, selectedAccountNfts } from '@core/nfts/stores'
     import { selectedAccountTokens } from '@core/token/stores'
 
     import AccountNetworkSummary from './AccountNetworkSummary.svelte'
@@ -14,7 +14,7 @@
     export let networkId: NetworkId
 
     let props: IAccountNetworkSummaryProps | undefined
-    $: $selectedAccountTokens, account, (props = buildAccountStardustNetworkSummaryProps())
+    $: $selectedAccountTokens, $selectedAccountNfts, account, (props = buildAccountStardustNetworkSummaryProps())
 
     function buildAccountStardustNetworkSummaryProps(): IAccountNetworkSummaryProps | undefined {
         const network = getNetwork()
