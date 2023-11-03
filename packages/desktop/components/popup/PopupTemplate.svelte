@@ -59,7 +59,7 @@
 <popup-template class="flex flex-col gap-6">
     <popup-header class="flex flex-col space-y-2.5">
         <title-row class="flex flex-row space-x-2 justify-between">
-            {#if title}<Text type="h6">{title}</Text>{/if}
+            {#if title}<Text type="h6" truncate>{title}</Text>{/if}
             {#if $$slots.menu}
                 <slot name="menu" class="flex-0" />
             {/if}
