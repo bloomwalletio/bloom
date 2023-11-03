@@ -16,7 +16,7 @@
     }
 </script>
 
-<DrawerTemplate title={''} {drawerRouter}>
+<DrawerTemplate {drawerRouter}>
     <div slot="header" class="flex flex-row w-full justify-between">
         <div class="flex flex-row items-center gap-2">
             <ContactAvatar contact={$selectedContact} />
