@@ -1,9 +1,10 @@
+import { getAllNetworkIds } from '@core/network'
 import { SUPPORTED_EVENTS, SUPPORTED_METHODS } from '../constants'
 import { getWalletClient } from '../stores'
 import { getAllEvmAddresses } from './getAllEvmAddresses'
 
 export async function updateActiveSessionsToActiveProfile(): Promise<void> {
-    const chains = ['eip155:1', 'eip155:5']
+    const chains = getAllNetworkIds()
     const addresses = getAllEvmAddresses(chains)
 
     const updatedNamespaces = {
