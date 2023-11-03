@@ -8,7 +8,6 @@ import { Ledger } from '@core/ledger/classes'
 export async function signMessage(
     message: string,
     coinType: number,
-    method: 'eth_sign' | 'personal_sign',
     account: IAccountState
 ): Promise<string | undefined> {
     const bip44Path = {
@@ -17,9 +16,10 @@ export async function signMessage(
         change: 0,
         addressIndex: 0,
     }
+
     let signedMessage: string | undefined
     if (get(isSoftwareProfile)) {
-        signedMessage = await signMessageWithStronghold(message, method, bip44Path)
+        signedMessage = await signMessageWithStronghold(message, bip44Path)
     } else if (get(isActiveLedgerProfile)) {
         signedMessage = await Ledger.signMessage(message, bip44Path)
     }

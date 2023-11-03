@@ -10,12 +10,11 @@
     import { closeDrawer } from '@desktop/auxiliary/drawer'
     import { handleError } from '@core/error/handlers'
     import { showNotification } from '@auxiliary/notification'
+    import { getAllNetworkIds } from '@core/network/utils'
 
     export let drawerRouter: Router<unknown>
 
-    // This is used so that we can test with different dapps, as there are no shimmerEvm dapps ready for test
-    // EIP155: 1 is for Ethereum main chain and EIP155:5 is for the Goerli testnet
-    const chains = ['eip155:1', 'eip155:5']
+    const chains = getAllNetworkIds()
     const addresses: string[] = getAllEvmAddresses(chains)
 
     let loading = false
