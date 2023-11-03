@@ -17,7 +17,7 @@
         "@sveltejs/svelte-virtual-list": "3.0.1",
         "@walletconnect/jsonrpc-types": "1.0.3",
         "@walletconnect/types": "2.9.0",
-        "@walletconnect/web3wallet": "1.8.2",
+        "@walletconnect/web3wallet": "1.9.3",
         "big-integer": "1.6.51",
         "big.js": "6.2.1",
         "lottie-web": "5.12.2",
