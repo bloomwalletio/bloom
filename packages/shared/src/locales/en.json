@@ -1329,7 +1329,7 @@
         "refreshTokenMetadataHint" : "This will reset all your tokens' metadata including the verification status and unhide any hidden assets.",
         "excluded": "Excluded",
         "developerTools": "Developer tools",
-        "testDeepLinkDescription": "Simulate a deep link request sent to firefly",
+        "testDeepLinkDescription": "Simulate a deep link request sent to Bloom",
         "url": "URL",
         "hash": "Hash",
         "creating": "Creating",
@@ -1551,6 +1551,9 @@
         "restoreFromStrongholdBackup": {
             "wrongProtocol": "Protocol doesn't match coin type found in Stronghold backup",
             "wrongProtocolForClaiming": "You must use an IOTA-based Stronghold backup to claim Shimmer rewards"
+        },
+        "signMessage": {
+            "success": "Message successfully signed"
         },
         "findShimmerRewards": {
             "error": "An error occurred while searching for rewards"

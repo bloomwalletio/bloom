@@ -12,7 +12,7 @@
     import features from '@features/features'
     import { OnboardingLayout } from '@views/components'
     import { onMount } from 'svelte'
-    import { OnboardingSelectorTile } from '../../../components'
+    import { ButtonTile } from '../../../../components'
     import { restoreProfileRouter } from '../restore-profile-router'
     import { IconName } from '@bloomwalletio/ui'
 
@@ -74,7 +74,7 @@
     {busy}
 >
     <div slot="content" class="flex flex-col space-y-3">
-        <OnboardingSelectorTile
+        <ButtonTile
             primaryText={localize('views.onboarding.restoreProfile.chooseRestoreProfileFlow.mnemonic.primary')}
             secondaryText={localize('views.onboarding.restoreProfile.chooseRestoreProfileFlow.mnemonic.secondary')}
             icon={IconName.Keyboard}
@@ -84,7 +84,7 @@
             onClick={() => onProfileTypeClick(RestoreProfileType.Mnemonic)}
             selected={selectedRestoreProfileType === RestoreProfileType.Mnemonic}
         />
-        <OnboardingSelectorTile
+        <ButtonTile
             primaryText={localize('views.onboarding.restoreProfile.chooseRestoreProfileFlow.file.primary')}
             secondaryText={localize('views.onboarding.restoreProfile.chooseRestoreProfileFlow.file.secondary')}
             icon={IconName.Folder}
@@ -94,7 +94,7 @@
             onClick={() => onProfileTypeClick(RestoreProfileType.Stronghold)}
             selected={selectedRestoreProfileType === RestoreProfileType.Stronghold}
         />
-        <OnboardingSelectorTile
+        <ButtonTile
             primaryText={localize('views.onboarding.restoreProfile.chooseRestoreProfileFlow.hardware.primary')}
             secondaryText={localize('views.onboarding.restoreProfile.chooseRestoreProfileFlow.hardware.secondary')}
             icon={IconName.Hardware}

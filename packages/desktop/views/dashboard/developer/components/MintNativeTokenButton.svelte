@@ -1,9 +1,10 @@
 <script lang="ts">
+    import { IconName } from '@bloomwalletio/ui'
     import { selectedAccount } from '@core/account/stores'
     import { localize } from '@core/i18n'
     import { resetMintTokenDetails } from '@core/wallet'
     import { closePopup, openPopup, PopupId } from '@desktop/auxiliary/popup'
-    import { OnboardingButton } from '@ui'
+    import { ButtonTile } from '../../../components'
 
     $: hasAliases = $selectedAccount.balances?.aliases.length > 0
 
@@ -12,6 +13,7 @@
         if (hasAliases) {
             openPopup({
                 id: PopupId.MintNativeTokenForm,
+                confirmClickOutside: true,
             })
         } else {
             openPopup({
@@ -32,8 +34,9 @@
     }
 </script>
 
-<OnboardingButton
+<ButtonTile
     primaryText={localize('actions.mintNativeToken')}
     secondaryText={localize('general.mintNativeTokenDescription')}
     onClick={onMintNativeTokenClick}
+    icon={IconName.CoinSwap}
 />
