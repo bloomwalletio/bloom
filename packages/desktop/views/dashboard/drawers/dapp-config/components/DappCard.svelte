@@ -4,13 +4,10 @@
     import DappStatusPill from './DappStatusPill.svelte'
 
     export let connectedDapp: IConnectedDapp = undefined
-
-    function onCardClick(): void {
-        // TODO
-    }
+    export let onClick: (() => unknown) | undefined = undefined
 </script>
 
-<ClickableTile classes="bg-white border border-solid border-gray-200 dark:border-transparent" onClick={onCardClick}>
+<ClickableTile classes="bg-white border border-solid border-gray-200 dark:border-transparent" {onClick}>
     <div class="w-full flex flex-row justify-between items-center p-2">
         <div class="flex flex-row gap-4 items-center">
             <img

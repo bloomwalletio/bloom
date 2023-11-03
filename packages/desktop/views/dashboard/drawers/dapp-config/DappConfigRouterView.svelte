@@ -1,6 +1,11 @@
 <script lang="ts">
     import { onDestroy, onMount } from 'svelte'
-    import { ConfirmConnectionDrawer, ConnectedDappsDrawer, InputConnectionCodeDrawer } from './views'
+    import {
+        ConfirmConnectionDrawer,
+        ConnectedDappsDrawer,
+        DappDetailsDrawer,
+        InputConnectionCodeDrawer,
+    } from './views'
     import { DappConfigRoute } from './dapp-config-route.enum'
     import { DappConfigRouter, dappConfigRoute, dappConfigRouter } from './dapp-config.router'
     import features from '@features/features'
@@ -28,4 +33,6 @@
     <ConfirmConnectionDrawer drawerRouter={$dappConfigRouter} {...props} />
 {:else if $dappConfigRoute === DappConfigRoute.InputCode}
     <InputConnectionCodeDrawer drawerRouter={$dappConfigRouter} {...props} />
+{:else if $dappConfigRoute === DappConfigRoute.DappDetails}
+    <DappDetailsDrawer drawerRouter={$dappConfigRouter} {...props} />
 {/if}
