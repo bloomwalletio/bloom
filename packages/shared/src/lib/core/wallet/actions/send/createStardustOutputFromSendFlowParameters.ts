@@ -12,7 +12,7 @@ export async function createStardustOutputFromSendFlowParameters(
 
     const { gasFee } = sendFlowParameters
     if (gasFee) {
-        // @ts-expect-error we need to override the read-only amount due to the gas fee.
+        // @ts-expect-error the gas calculation overrides the read-only amount property of the SDK.
         preparedOutput.amount = (Number(preparedOutput.amount) + gasFee).toString()
     }
     return preparedOutput
