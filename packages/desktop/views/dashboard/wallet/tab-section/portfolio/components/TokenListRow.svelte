@@ -101,7 +101,7 @@
 <style lang="scss">
     .token-row {
         @apply w-full;
-        @apply px-5 py-4;
+        @apply px-5 py-3.5;
         @apply border-b border-solid border-stroke dark:border-stroke-dark;
         @apply hover:bg-surface-2 dark:hover:bg-surface-2-dark;
 
