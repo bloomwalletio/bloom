@@ -1,13 +1,13 @@
 import { NetworkId, getNetwork, isStardustNetwork } from '@core/network'
 import { getSelectedAccount } from '@core/account/stores'
-import { SendFlowParameters, SendFlowType } from '@core/wallet'
-import { FALLBACK_ESTIMATED_GAS, ISC_MAGIC_CONTRACT_ADDRESS } from '../constants'
+import { SendFlowParameters, SendFlowType, createStardustOutputFromSendFlowParameters } from '@core/wallet'
+import { FALLBACK_ESTIMATED_GAS } from '../constants'
 import { AssetType } from '../enums'
 import { TransferredAsset } from '../types'
-import { getIscpTransferSmartContractData } from './getIscpTransferSmartContractData'
+import { outputHexBytes } from '@core/wallet/api'
 
-export async function estimateGasForLayer1ToLayer2Transaction(sendFlowParameters: SendFlowParameters): Promise<number> {
-    const { recipient, destinationNetworkId } = sendFlowParameters ?? {}
+export async function getGasFeeForLayer1ToLayer2Transaction(sendFlowParameters: SendFlowParameters): Promise<number> {
+    const { destinationNetworkId } = sendFlowParameters ?? {}
 
     if (!destinationNetworkId || (destinationNetworkId && isStardustNetwork(destinationNetworkId))) {
         return 0
@@ -19,44 +19,26 @@ export async function estimateGasForLayer1ToLayer2Transaction(sendFlowParameters
     }
 
     try {
-        const gas = await getGasEstimateForMagicContractCall(destinationNetworkId, recipient?.address, transferredAsset)
-        return gas
+        const gasEstimate = await getGasEstimateForIscpCall(destinationNetworkId, sendFlowParameters)
+        return gasEstimate
     } catch (err) {
+        console.error(err)
         return FALLBACK_ESTIMATED_GAS[sendFlowParameters.type]
     }
 }
 
-async function getGasEstimateForMagicContractCall(
+async function getGasEstimateForIscpCall(
     networkId: NetworkId,
-    address: string | undefined,
-    transferredAsset: TransferredAsset
+    sendFlowParameters: SendFlowParameters
 ): Promise<number> {
     const chain = getNetwork()?.getChain(networkId)
     if (!chain) {
         return Promise.reject('Invalid chain')
     }
-
-    const provider = chain?.getProvider()
-    if (!provider) {
-        return Promise.reject('Invalid provider')
-    }
-
-    if (!address) {
-        return Promise.reject('Invalid address')
-    }
-
-    const data = getIscpTransferSmartContractData(address, transferredAsset, chain)
-    if (!data) {
-        return Promise.reject('Invalid data')
-    }
-
-    const coinType = chain.getConfiguration().coinType
-    const evmAddress = getSelectedAccount()?.evmAddresses?.[coinType]
-    return provider.eth.estimateGas({
-        from: evmAddress,
-        to: ISC_MAGIC_CONTRACT_ADDRESS,
-        data,
-    })
+    const account = getSelectedAccount()
+    const tempOutput = await createStardustOutputFromSendFlowParameters(sendFlowParameters, account)
+    const outputBytes = await outputHexBytes(tempOutput)
+    return chain.getGasEstimate(outputBytes)
 }
 
 function getTransferredAsset(sendFlowParameters: SendFlowParameters): TransferredAsset | undefined {

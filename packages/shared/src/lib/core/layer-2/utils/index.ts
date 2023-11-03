@@ -1,6 +1,7 @@
 export * from './buildAssetAllowance'
 export * from './calculateEstimatedGasFeeFromTransactionData'
 export * from './calculateMaxGasFeeFromTransactionData'
+export * from './fetchL2BalanceForAllAccounts'
 export * from './getAbiForContractType'
 export * from './getAmountFromEvmTransactionValue'
 export * from './getErc20TokenMetadata'

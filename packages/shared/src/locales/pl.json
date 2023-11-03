@@ -86,7 +86,18 @@
                     "description": "Please ensure that the official Ledger Live application is closed and follow the steps below.",
                     "connect": "Connect your Ledger device",
                     "unlock": "Unlock your Ledger with its pin",
-                    "open": "Open the Shimmer app on your Ledger"
+                    "open": "Open the Shimmer app on your Ledger",
+                    "tip": "Tips if your Ledger isn't connecting"
+                },
+                "ledgerConnectionGuide": {
+                    "title": "Ledger isn't connecting?",
+                    "ledgerLiveNotOpen": "Ensure the Ledger Live app is not open on your computer",
+                    "ledgerDeviceUnlocked": "Ensure your Ledger device is unlocked with your PIN",
+                    "ledgerAppOpen": "Open the {appName} app on your Ledger device",
+                    "ledgerStillNotConnected": {
+                        "question": "Still not working?",
+                        "answer": "Try the official Ledger support"
+                    }
                 }
             },
             "restoreProfile": {
@@ -207,11 +218,13 @@
             },
             "maxMediaSize": {
                 "title": "Maksymalny rozmiar pliku",
-                "description": "NFT o rozmiarach większych niż ten limit nie zostaną pobrane, a zamiast nich zostanie wyświetlony placeholder reprezentujący typ nośnika"
+                "description": "NFT o rozmiarach większych niż ten limit nie zostaną pobrane, a zamiast nich zostanie wyświetlony placeholder reprezentujący typ nośnika",
+                "input": "Media size"
             },
             "maxMediaDownloadTime": {
                 "title": "Maksymalny czas pobierania",
-                "description": "Media NFT, których pobranie trwa dłużej niż ten limit zostanie anulowane, a zamiast tego wyświetlony zostanie symbol zastępczy reprezentujący typ multimediów"
+                "description": "Media NFT, których pobranie trwa dłużej niż ten limit zostanie anulowane, a zamiast tego wyświetlony zostanie symbol zastępczy reprezentujący typ multimediów",
+                "input": "Download time"
             },
             "refreshNftMedia": {
                 "title": "Odśwież media NFT",
@@ -350,7 +363,7 @@
                     "chain": {
                         "chainId": "Identyfikator łańcucha",
                         "aliasAddress": "Adres aliasu",
-                        "iscpEndpoint": "ISCP Endpoint",
+                        "rpcEndpoint": "ISCP Endpoint",
                         "explorerUrl": "Explorer URL (optional)",
                         "errors": {
                             "cannotBeEmpty": "Nazwa nie może być pusta",
@@ -547,26 +560,26 @@
         },
         "updateStronghold": {
             "update": {
-                "title": "Zaktualizuj Stronghold",
+                "title": "Update your Stronghold",
                 "loginBody": "Wersja Twojej kopii Stronghold jest przestarzała. Wpisz swoje hasło, aby zaktualizować Stronghold.",
                 "recoveryBody": "Importowana kopia Stronghold jest nieaktualna, aby kontynuować, będziemy musieli zaktualizować stronghold do najnowszej wersji."
             },
             "updateBackup": {
-                "loginTitle": "Stronghold zaktualizowany",
+                "title": "Stronghold updated",
                 "loginBody": "Wszystko w porządku - używasz najnowszej wersji Stronghold",
-                "recoveryTitle": "Stronghold został pomyślnie przywrócony i zaktualizowany",
                 "recoveryBody": "Możesz teraz kontynuować konfigurację portfela",
                 "hint": "Zalecamy usunięcie wszystkich poprzednich plików kopii Stronghold i zapisanie jedynie tej nowej"
             },
             "changePassword": {
-                "hint": "Twoja kopia Stronghold była nieaktualna i została zaktualizowana. Zalecamy zmianę hasła do Twojej kopii Stronghold."
+                "title": "Change your password",
+                "hint": "Your Stronghold was out of date and has been updated. We recommend that you change your password."
             }
         }
     },
     "popups": {
         "enableLedgerBlindSigning": {
             "title": "Włącz Blind Signing",
-            "info": "In order to confirm this transaction you need to enable Blind Signing on your Ledger device.",
+            "info": "You need to enable Blind Signing on your Ledger device to confirm this transaction.",
             "step_1": "Connect and unlock your Ledger device",
             "step_2": "Open the {appName} application",
             "step_3": "Press the right button to navigate to Settings, then press both buttons to validate. Your Ledger device displays Blind Signing.",
@@ -776,18 +789,6 @@
             "locked": "Odblokuj swoje urządzenie Ledger, aby kontynuować.",
             "appNotOpen": "Otwórz aplikację Shimmer na urządzeniu Ledger, aby kontynuować.",
             "correctAppOpen": "Ledger pomyślnie podłączony, proszę kontynuować."
-        },
-        "ledgerConnectionGuide": {
-            "title": "Mój Ledger nie może się połączyć. Co robić?",
-            "steps": {
-                "0": "Upewnij się, że program Ledger Live nie jest otwarty na Twoim komputerze",
-                "1": "Upewnij się, że Ledger został odblokowany za pomocą kodu PIN",
-                "2": "Otwórz nową aplikację IOTA na swoim urządzeniu Ledger",
-                "3": {
-                    "text": "Nadal nie działa?",
-                    "link": "Odwiedź oficjalną stronę pomocy Ledger"
-                }
-            }
         },
         "verifyLedgerTransaction": {
             "title": "Zweryfikuj transakcję",
@@ -1325,7 +1326,7 @@
         "refreshTokenMetadataHint": "Spowoduje to zresetowanie wszystkich metadanych Twoich tokenów (wraz z ich statusem weryfikacji) oraz odkrycie wszelkich ukrytych aktywów.",
         "excluded": "Wykluczone",
         "developerTools": "Narzędzia deweloperskie",
-        "testDeepLinkDescription": "Symulacja deep linku wysłanego do firefly",
+        "testDeepLinkDescription": "Simulate a deep link request sent to Bloom",
         "url": "URL",
         "hash": "Hash",
         "creating": "Tworzenie",
@@ -1790,7 +1791,8 @@
     "warning": {
         "transaction": {
             "invalidDateTime": "The chosen date must be in the future."
-        }
+        },
+        "closePopup": "Are you sure about closing the popup? Your current progress will be lost."
     },
     "tooltips": {
         "optionalInput": "To opcjonalne pole będzie publiczne w eksploratorze i widoczne dla wszystkich.",
