@@ -7,7 +7,7 @@ import { TransferredAsset } from '../types'
 import { outputHexBytes } from '@core/wallet/api'
 import { IGasCostEstimate } from '@core/network/interfaces/gas-cost-estimate.type'
 
-export async function estimateGasForLayer1ToLayer2Transaction(sendFlowParameters: SendFlowParameters): Promise<number> {
+export async function getGasForLayer1ToLayer2Transaction(sendFlowParameters: SendFlowParameters): Promise<number> {
     const { destinationNetworkId } = sendFlowParameters ?? {}
 
     if (!destinationNetworkId || (destinationNetworkId && isStardustNetwork(destinationNetworkId))) {

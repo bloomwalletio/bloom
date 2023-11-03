@@ -18,7 +18,7 @@ export function getOutputParameters(sendFlowParameters: SendFlowParameters, send
     const chainConfig = isToLayer2 ? getChainConfiguration(destinationNetworkId) : undefined
     const destinationAddress = getDestinationAddress(recipient, chainConfig)
 
-    const amount = getAmountFromTransactionData(sendFlowParameters)
+    const amount = sendFlowParameters.baseCoinTransfer?.rawAmount ?? '0'
     const assets = getAssetsFromTransactionData(sendFlowParameters)
 
     const tag = sendFlowParameters?.tag ? Converter.utf8ToHex(sendFlowParameters?.tag) : undefined
@@ -58,12 +58,6 @@ function getDestinationAddress(recipient: Subject | undefined, chainConfig: Chai
     } else {
         return ''
     }
-}
-
-function getAmountFromTransactionData(sendFlowParameters: SendFlowParameters): string {
-    const gasFee = sendFlowParameters.gasFee ?? 0
-    const rawAmount = Number(sendFlowParameters.baseCoinTransfer?.rawAmount ?? 0)
-    return (rawAmount + gasFee).toString()
 }
 
 function getAssetsFromTransactionData(sendFlowParameters: SendFlowParameters): Assets | undefined {

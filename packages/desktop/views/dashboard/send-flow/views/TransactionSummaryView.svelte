@@ -21,6 +21,7 @@
     import { sendFlowRouter } from '../send-flow.router'
     import { EvmTransactionSummary, StardustToEvmTransactionSummary, StardustTransactionSummary } from './components'
     import { TransactionSummaryProps } from './types'
+    import { setGasFee } from '@core/layer-2/actions'
 
     export let transactionSummaryProps: TransactionSummaryProps
     let { _onMount, preparedOutput, preparedTransaction } = transactionSummaryProps ?? {}
@@ -94,6 +95,8 @@
         try {
             if (_onMount) {
                 await _onMount()
+            } else {
+                await setGasFee($sendFlowParameters, $selectedAccount)
             }
         } catch (err) {
             handleError(err)

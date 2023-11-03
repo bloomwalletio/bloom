@@ -94,8 +94,8 @@ jest.mock('../../layer-2/actions/getGasPriceForNetwork', () => ({
     getGasPriceForNetwork: jest.fn((_) => 1_000_000_000_000n),
 }))
 
-jest.mock('../../layer-2/actions/estimateGasForLayer1ToLayer2Transaction', () => ({
-    estimateGasForLayer1ToLayer2Transaction: jest.fn(({ type }) => FALLBACK_ESTIMATED_GAS[type]),
+jest.mock('../../layer-2/actions/getGasFeeForLayer1ToLayer2Transaction', () => ({
+    getGasFeeForLayer1ToLayer2Transaction: jest.fn(({ type }) => FALLBACK_ESTIMATED_GAS[type]),
 }))
 
 jest.mock('../../layer-2/constants/gas-limit-multiplier.constant', () => ({
