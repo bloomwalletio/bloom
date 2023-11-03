@@ -11,10 +11,11 @@
     import { handleError } from '@core/error/handlers'
     import { showNotification } from '@auxiliary/notification'
     import { getAllNetworkIds } from '@core/network/utils'
+    import { visibleActiveAccounts } from '@core/profile/stores'
 
     export let drawerRouter: Router<unknown>
 
-    type Selections = Record<string, { checked: boolean; required: boolean }>
+    type Selections = Record<string, { label: string; checked: boolean; required: boolean }>
 
     const chains = getAllNetworkIds()
     const addresses: string[] = getAllEvmAddresses(chains)
@@ -29,6 +30,59 @@
 
     let currentStep = 0
     const steps = [ConfirmSteps.Permission, ConfirmSteps.Networks, ConfirmSteps.Accounts]
+
+    let networkSelections: Selections = {}
+    let methodSelections: Selections = {}
+    let accountSelections: Selections = {}
+    $: {
+        if ($sessionProposal) {
+            setNetworkSelections()
+            setMethodSelections()
+            setAccountSelections()
+        }
+    }
+
+    function setAccountSelections(): void {
+        const accounts: Selections = {}
+        for (const account of $visibleActiveAccounts) {
+            accounts[account.index] = { label: account.name, checked: true, required: true }
+        }
+        accountSelections = accounts
+    }
+
+    function setNetworkSelections(): void {
+        const networks: Selections = {}
+        for (const namespace of Object.values($sessionProposal.params.requiredNamespaces)) {
+            for (const chain of namespace.chains) {
+                networks[chain] = { label: chain, checked: true, required: true }
+            }
+        }
+        for (const namespace of Object.values($sessionProposal.params.optionalNamespaces)) {
+            for (const chain of namespace.chains) {
+                if (!networks[chain]) {
+                    networks[chain] = { label: chain, checked: true, required: false }
+                }
+            }
+        }
+        networkSelections = networks
+    }
+
+    function setMethodSelections(): void {
+        const methods: Selections = {}
+        for (const namespace of Object.values($sessionProposal.params.requiredNamespaces)) {
+            for (const method of namespace.methods) {
+                methods[method] = { label: method, checked: true, required: true }
+            }
+        }
+        for (const namespace of Object.values($sessionProposal.params.optionalNamespaces)) {
+            for (const method of namespace.methods) {
+                if (!methods[method]) {
+                    methods[method] = { label: method, checked: true, required: false }
+                }
+            }
+        }
+        methodSelections = methods
+    }
 
     function onCancelClick(): void {
         $sessionProposal = undefined
@@ -58,58 +112,6 @@
         } finally {
             loading = false
         }
-    }
-
-    let networkSelections: Selections = {}
-    $: $sessionProposal, setNetworkSelections()
-
-    let methodSelections: Selections = {}
-    $: $sessionProposal, setMethodSelections()
-
-    function setNetworkSelections(): Selections {
-        if (!$sessionProposal) {
-            networkSelections = {}
-            return
-        }
-
-        const networks: Selections = {}
-        for (const namespace of Object.values($sessionProposal.params.requiredNamespaces)) {
-            for (const chain of namespace.chains) {
-                networks[chain] = { checked: true, required: true }
-            }
-        }
-        for (const namespace of Object.values($sessionProposal.params.optionalNamespaces)) {
-            for (const chain of namespace.chains) {
-                if (networks[chain]) {
-                    continue
-                }
-                networks[chain] = { checked: true, required: false }
-            }
-        }
-        networkSelections = networks
-    }
-
-    function setMethodSelections(): Selections {
-        if (!$sessionProposal) {
-            methodSelections = {}
-            return
-        }
-
-        const methods: Selections = {}
-        for (const namespace of Object.values($sessionProposal.params.requiredNamespaces)) {
-            for (const method of namespace.methods) {
-                methods[method] = { checked: true, required: true }
-            }
-        }
-        for (const namespace of Object.values($sessionProposal.params.optionalNamespaces)) {
-            for (const method of namespace.methods) {
-                if (methods[method]) {
-                    continue
-                }
-                methods[method] = { checked: true, required: false }
-            }
-        }
-        methodSelections = methods
     }
 </script>
 
