@@ -77,7 +77,7 @@
         {/if}
         <DashboardSidebar />
     </div>
-    <div class="flex flex-col flex-grow basis-0">
+    <div class="flex flex-col flex-grow basis-0 overflow-x-hidden">
         <Navbar />
         <!-- Dashboard Pane -->
         <dashboard-container>
