@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { Alert, Button, Link, Text, Tile } from '@bloomwalletio/ui'
+    import { Alert, Button, Checkbox } from '@bloomwalletio/ui'
     import { Spinner } from '@ui'
     import { localize } from '@core/i18n'
     import { Router } from '@core/router'
@@ -10,15 +10,17 @@
     import { handleError } from '@core/error/handlers'
     import { showNotification } from '@auxiliary/notification'
     import { getAllNetworkIds } from '@core/network/utils'
+    import DappInformationCard from '../components/DappInformationCard.svelte'
 
     export let drawerRouter: Router<unknown>
 
     const chains = getAllNetworkIds()
     const addresses: string[] = getAllEvmAddresses(chains)
 
-    $: isInsecure = !$sessionProposal || $sessionProposal.verifyContext.verified.validation !== 'VALID'
-
+    let acceptedInsecureConnection = false
     let loading = false
+
+    $: isInsecure = !$sessionProposal || $sessionProposal.verifyContext.verified.validation !== 'VALID'
 
     function onRejectClick(): void {
         $sessionProposal = undefined
@@ -51,20 +53,19 @@
 <DrawerTemplate title={localize('views.dashboard.drawers.dapps.confirmConnection.title')} {drawerRouter}>
     <div class="w-full h-full flex flex-col justify-between">
         {#if $sessionProposal}
-            <Tile variant="contained">
-                {@const metadata = $sessionProposal?.params.proposer.metadata}
-                <div class="flex flex-row gap-4 items-center">
-                    <img class="dapp-image" src={metadata?.icons?.[0]} alt={metadata?.name} />
-                    <div class="flex flex-col">
-                        <Text type="body1" fontWeight="bold">
-                            {metadata?.name}
-                        </Text>
-                        <Link text={metadata?.url} />
-                    </div>
-                </div>
-            </Tile>
+            <DappInformationCard metadata={$sessionProposal.params.proposer.metadata} />
+
             {#if isInsecure}
-                <Alert variant="danger" text={localize('views.dashboard.drawers.dapps.confirmConnection.insecure')} />
+                <div class="flex flex-col gap-8">
+                    <Alert
+                        variant="danger"
+                        text={localize('views.dashboard.drawers.dapps.confirmConnection.insecure')}
+                    />
+                    <Checkbox
+                        label={localize('views.dashboard.drawers.dapps.confirmConnection.acceptInsecureConnection')}
+                        bind:checked={acceptedInsecureConnection}
+                    />
+                </div>
             {:else}
                 <Alert variant="warning" text={localize('views.dashboard.drawers.dapps.confirmConnection.hint')} />
             {/if}
@@ -80,23 +81,14 @@
             variant="outlined"
             on:click={onRejectClick}
             disabled={!addresses.length || loading}
-            busy={loading}
             text={localize('actions.reject')}
         />
         <Button
             width="full"
             on:click={onConfirmClick}
-            disabled={!addresses.length || loading || isInsecure}
+            disabled={!addresses.length || loading || (isInsecure && !acceptedInsecureConnection)}
             busy={loading}
             text={localize('actions.confirm')}
         />
     </div>
 </DrawerTemplate>
-
-<style lang="scss">
-    .dapp-image {
-        width: 40px;
-        height: 40px;
-        border-radius: 40px;
-    }
-</style>
