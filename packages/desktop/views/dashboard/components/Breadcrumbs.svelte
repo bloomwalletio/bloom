@@ -48,7 +48,7 @@
     }
 </script>
 
-<div class="flex flex-row space-x-0.5 items-center">
+<div class="flex flex-row space-x-0.5 items-center overflow-hidden">
     <IconButton
         on:click={onBackClick}
         icon={IconName.ArrowLeft}
