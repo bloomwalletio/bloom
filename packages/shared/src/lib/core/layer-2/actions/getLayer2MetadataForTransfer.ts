@@ -1,13 +1,12 @@
 import { HEX_PREFIX } from '@core/utils'
-import type { SendFlowParameters, TokenSendFlowParameters } from '@core/wallet/types'
+import type { SendFlowParameters } from '@core/wallet/types'
 import BigInteger from 'big-integer'
 import { SpecialStream } from '../classes'
 import { ACCOUNTS_CONTRACT, EXTERNALLY_OWNED_ACCOUNT, GAS_LIMIT_MULTIPLIER, TRANSFER_ALLOWANCE } from '../constants'
 import { encodeAddress, encodeAssetAllowance, encodeSmartContractParameters } from '../helpers'
-import { estimateGasForLayer1ToLayer2Transaction } from './estimateGasForLayer1ToLayer2Transaction'
 import { getChainConfiguration } from '@core/network'
 
-export async function getLayer2MetadataForTransfer(sendFlowParameters: SendFlowParameters): Promise<string> {
+export function getLayer2MetadataForTransfer(sendFlowParameters: SendFlowParameters): string {
     const metadataStream = new SpecialStream()
     const chainConfig = sendFlowParameters.destinationNetworkId
         ? getChainConfiguration(sendFlowParameters.destinationNetworkId)
@@ -18,7 +17,7 @@ export async function getLayer2MetadataForTransfer(sendFlowParameters: SendFlowP
     const address = sendFlowParameters.recipient?.address ?? ''
     const encodedAddress = encodeAddress(address.toLowerCase(), chainConfig)
 
-    const estimatedGas = await estimateGasForLayer1ToLayer2Transaction(sendFlowParameters as TokenSendFlowParameters)
+    const estimatedGas = sendFlowParameters.gasFee ?? 0
     const gasLimit = Math.floor(estimatedGas * GAS_LIMIT_MULTIPLIER)
 
     metadataStream.writeUInt8('senderContract', EXTERNALLY_OWNED_ACCOUNT)

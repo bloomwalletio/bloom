@@ -363,7 +363,7 @@
                     "chain": {
                         "chainId": "ID de la cadena",
                         "aliasAddress": "Dirección del alias",
-                        "iscpEndpoint": "Endpoint del ISCP",
+                        "rpcEndpoint": "Endpoint del ISCP",
                         "explorerUrl": "Explorer URL (optional)",
                         "errors": {
                             "cannotBeEmpty": "El nombre no puede estar vacío",
