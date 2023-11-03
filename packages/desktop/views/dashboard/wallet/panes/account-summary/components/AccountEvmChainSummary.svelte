@@ -7,13 +7,13 @@
     import { selectedAccountTokens } from '@core/token/stores'
     import AccountNetworkSummary from './AccountNetworkSummary.svelte'
     import type { IAccountNetworkSummaryProps } from '../interfaces'
-    import { ownedNfts } from '@core/nfts/stores'
+    import { ownedNfts, selectedAccountNfts } from '@core/nfts/stores'
 
     export let account: IAccountState
     export let networkId: NetworkId
 
     let props: IAccountNetworkSummaryProps | undefined
-    $: $selectedAccountTokens, account, (props = buildAccountEvmChainSummaryProps())
+    $: $selectedAccountTokens, $selectedAccountNfts, account, (props = buildAccountEvmChainSummaryProps())
 
     function buildAccountEvmChainSummaryProps(): IAccountNetworkSummaryProps | undefined {
         const chain = getNetwork()?.getChain(networkId)
