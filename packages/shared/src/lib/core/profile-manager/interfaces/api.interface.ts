@@ -3,6 +3,7 @@ import type {
     Client,
     CreateAccountPayload,
     FoundryId,
+    HexEncodedString,
     IAuth,
     IRent,
     NftId,
@@ -48,4 +49,5 @@ export interface IApi {
     nftIdToBech32(nftId: string, bech32Hrp: string): string
     computeOutputId(id: TransactionId, index: number): Promise<OutputId>
     computeStorageDeposit(output: Output, rent: IRent): Promise<OutputId>
+    outputHexBytes(output: Output): Promise<HexEncodedString>
 }

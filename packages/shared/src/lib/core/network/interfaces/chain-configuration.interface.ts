@@ -4,12 +4,11 @@ import { NetworkId } from '../types'
 export interface IIscpChainConfiguration extends IBaseChainConfiguration {
     type: ChainType.Iscp
     aliasAddress: string
-    iscpEndpoint: string
+    apiEndpoint: string
 }
 
 export interface IEvmChainConfiguration extends IBaseChainConfiguration {
     type: ChainType.Evm
-    rpcEndpoint: string
     symbol: string
     ticker: string
 }
@@ -22,4 +21,5 @@ export interface IBaseChainConfiguration {
     coinType: number
     name: string
     explorerUrl?: string
+    rpcEndpoint: string
 }

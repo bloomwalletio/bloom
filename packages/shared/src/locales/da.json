@@ -86,7 +86,18 @@
                     "description": "Please ensure that the official Ledger Live application is closed and follow the steps below.",
                     "connect": "Connect your Ledger device",
                     "unlock": "Unlock your Ledger with its pin",
-                    "open": "Open the Shimmer app on your Ledger"
+                    "open": "Open the Shimmer app on your Ledger",
+                    "tip": "Tips if your Ledger isn't connecting"
+                },
+                "ledgerConnectionGuide": {
+                    "title": "Ledger isn't connecting?",
+                    "ledgerLiveNotOpen": "Ensure the Ledger Live app is not open on your computer",
+                    "ledgerDeviceUnlocked": "Ensure your Ledger device is unlocked with your PIN",
+                    "ledgerAppOpen": "Open the {appName} app on your Ledger device",
+                    "ledgerStillNotConnected": {
+                        "question": "Still not working?",
+                        "answer": "Try the official Ledger support"
+                    }
                 }
             },
             "restoreProfile": {
@@ -207,11 +218,13 @@
             },
             "maxMediaSize": {
                 "title": "Maks. mediestørrelse",
-                "description": "NFT-mediestørrelser over end denne grænse downloades ikke, men en pladsholder for medietypen vises i stedet"
+                "description": "NFT-mediestørrelser over end denne grænse downloades ikke, men en pladsholder for medietypen vises i stedet",
+                "input": "Media size"
             },
             "maxMediaDownloadTime": {
                 "title": "Maks. downloadtid",
-                "description": "NFT-medie, hvis downloadtid overskrider denne grænse, afbrydes, og en pladsholder for medietypen vises i stedet"
+                "description": "NFT-medie, hvis downloadtid overskrider denne grænse, afbrydes, og en pladsholder for medietypen vises i stedet",
+                "input": "Download time"
             },
             "refreshNftMedia": {
                 "title": "Opdatér NFT-medier",
@@ -350,7 +363,7 @@
                     "chain": {
                         "chainId": "Kæde-ID",
                         "aliasAddress": "Aliasadresse",
-                        "iscpEndpoint": "ISCP-slutpunkt",
+                        "rpcEndpoint": "ISCP-slutpunkt",
                         "explorerUrl": "Explorer URL (optional)",
                         "errors": {
                             "cannotBeEmpty": "Navn er obligatorisk",
@@ -547,26 +560,26 @@
         },
         "updateStronghold": {
             "update": {
-                "title": "Opdatér Stronghold",
+                "title": "Update your Stronghold",
                 "loginBody": "Aktuel Stronghold-version forældet. Angiv adgangskode for at opdatere den.",
                 "recoveryBody": "Importeret Stronghold-version forældet. For at fortsætte, skal den opdateres til seneste version."
             },
             "updateBackup": {
-                "loginTitle": "Stronghold opdateret",
+                "title": "Stronghold updated",
                 "loginBody": "Alt er fint nu - den seneste Stronghold-version anvendes",
-                "recoveryTitle": "Stronghold hermed genoprettet og opdateret",
                 "recoveryBody": "Opsætningen af en wallet kan nu fortsættes",
                 "hint": "Det anbefales kraftigt at slette alle tidligere Stronghold-sikkerhedskopifiler og generere en ny"
             },
             "changePassword": {
-                "hint": "Stronghold-versionen var forældet og er blevet opdateret. Det anbefales, at der skiftes Stronghold-adgangskode."
+                "title": "Change your password",
+                "hint": "Your Stronghold was out of date and has been updated. We recommend that you change your password."
             }
         }
     },
     "popups": {
         "enableLedgerBlindSigning": {
             "title": "Aktivér Blind Signering",
-            "info": "In order to confirm this transaction you need to enable Blind Signing on your Ledger device.",
+            "info": "You need to enable Blind Signing on your Ledger device to confirm this transaction.",
             "step_1": "Connect and unlock your Ledger device",
             "step_2": "Open the {appName} application",
             "step_3": "Press the right button to navigate to Settings, then press both buttons to validate. Your Ledger device displays Blind Signing.",
@@ -776,18 +789,6 @@
             "locked": "Oplås Ledger-enheden for at fortsætte.",
             "appNotOpen": "Åbn Shimmer-appen på Ledger-enheden for at fortsætte.",
             "correctAppOpen": "Ledger-enheden er tilsluttet, fortsæt."
-        },
-        "ledgerConnectionGuide": {
-            "title": "Tips if your Ledger isn’t connecting",
-            "steps": {
-                "0": "Make sure Ledger Live is not open on your computer",
-                "1": "Ensure you have unlocked your Ledger device with your PIN",
-                "2": "Open the new IOTA app on your Ledger device",
-                "3": {
-                    "text": "Still no luck?",
-                    "link": "Try the official Ledger support page"
-                }
-            }
         },
         "verifyLedgerTransaction": {
             "title": "Bekræft transaktion",
@@ -1325,7 +1326,7 @@
         "refreshTokenMetadataHint": "Dette nulstiller alle tokeners metadata, herunder bekræftelsesstatus og viser evt. ellers skjulte aktiver.",
         "excluded": "Udelukkede",
         "developerTools": "Udviklingsværktøjer",
-        "testDeepLinkDescription": "Simulér en anmodning om et dybt link sendt til Firefly",
+        "testDeepLinkDescription": "Simulate a deep link request sent to Bloom",
         "url": "URL",
         "hash": "Hash",
         "creating": "Oprettelse",
@@ -1790,7 +1791,8 @@
     "warning": {
         "transaction": {
             "invalidDateTime": "The chosen date must be in the future."
-        }
+        },
+        "closePopup": "Are you sure about closing the popup? Your current progress will be lost."
     },
     "tooltips": {
         "optionalInput": "Disse valgfrie data vil være offentlige i Explorer og synlige for alle.",

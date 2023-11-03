@@ -86,7 +86,18 @@
                     "description": "Please ensure that the official Ledger Live application is closed and follow the steps below.",
                     "connect": "Connect your Ledger device",
                     "unlock": "Unlock your Ledger with its pin",
-                    "open": "Open the Shimmer app on your Ledger"
+                    "open": "Open the Shimmer app on your Ledger",
+                    "tip": "Tips if your Ledger isn't connecting"
+                },
+                "ledgerConnectionGuide": {
+                    "title": "Ledger isn't connecting?",
+                    "ledgerLiveNotOpen": "Ensure the Ledger Live app is not open on your computer",
+                    "ledgerDeviceUnlocked": "Ensure your Ledger device is unlocked with your PIN",
+                    "ledgerAppOpen": "Open the {appName} app on your Ledger device",
+                    "ledgerStillNotConnected": {
+                        "question": "Still not working?",
+                        "answer": "Try the official Ledger support"
+                    }
                 }
             },
             "restoreProfile": {
@@ -207,11 +218,13 @@
             },
             "maxMediaSize": {
                 "title": "Mida màxima del contingut multimèdia",
-                "description": "Els mitjans NFT amb mides superiors a aquest límit no es baixaran i es mostrarà un marcador de posició que representa el tipus de suport"
+                "description": "Els mitjans NFT amb mides superiors a aquest límit no es baixaran i es mostrarà un marcador de posició que representa el tipus de suport",
+                "input": "Media size"
             },
             "maxMediaDownloadTime": {
                 "title": "Maximum download time",
-                "description": "NFT media which take longer than this limit to download will be canceled and a placeholder representing the media type will be displayed instead"
+                "description": "NFT media which take longer than this limit to download will be canceled and a placeholder representing the media type will be displayed instead",
+                "input": "Download time"
             },
             "refreshNftMedia": {
                 "title": "Refresh NFT media",
@@ -350,7 +363,7 @@
                     "chain": {
                         "chainId": "Chain ID",
                         "aliasAddress": "Alias Address",
-                        "iscpEndpoint": "ISCP Endpoint",
+                        "rpcEndpoint": "ISCP Endpoint",
                         "explorerUrl": "Explorer URL (optional)",
                         "errors": {
                             "cannotBeEmpty": "Name cannot be empty",
@@ -547,26 +560,26 @@
         },
         "updateStronghold": {
             "update": {
-                "title": "Update Stronghold",
+                "title": "Update your Stronghold",
                 "loginBody": "Your Stronghold's version is out of date. Provide your password to update Stronghold.",
                 "recoveryBody": "The imported Stronghold’s version is out of date, to continue we will need to update the stronghold to the latest version."
             },
             "updateBackup": {
-                "loginTitle": "Stronghold updated",
+                "title": "Stronghold updated",
                 "loginBody": "It's all good now - you're running the latest Stronghold version",
-                "recoveryTitle": "Stronghold is successfully recovered and updated",
                 "recoveryBody": "You can now continue setting up your wallet",
                 "hint": "We highly recommend to delete all previous Stronghold backup files and save a new one"
             },
             "changePassword": {
-                "hint": "Your Stronghold was out of date and has been updated. We recommend that you change your Stronghold password."
+                "title": "Change your password",
+                "hint": "Your Stronghold was out of date and has been updated. We recommend that you change your password."
             }
         }
     },
     "popups": {
         "enableLedgerBlindSigning": {
             "title": "Enable Blind Signing",
-            "info": "In order to confirm this transaction you need to enable Blind Signing on your Ledger device.",
+            "info": "You need to enable Blind Signing on your Ledger device to confirm this transaction.",
             "step_1": "Connect and unlock your Ledger device",
             "step_2": "Open the {appName} application",
             "step_3": "Press the right button to navigate to Settings, then press both buttons to validate. Your Ledger device displays Blind Signing.",
@@ -776,18 +789,6 @@
             "locked": "Unlock your Ledger device to continue.",
             "appNotOpen": "Open the Shimmer app on your Ledger device to continue.",
             "correctAppOpen": "Ledger successfully connected, please continue."
-        },
-        "ledgerConnectionGuide": {
-            "title": "Consells si el teu Ledger no pot connectar",
-            "steps": {
-                "0": "Assegura't que Ledger Live no està obert al teu ordinador",
-                "1": "Assegura't que has bloquejat el teu dispositu Ledger amb el teu PIN",
-                "2": "Obre la nova aplicació de IOTA al teu Ledger",
-                "3": {
-                    "text": "Continueu sense trobar-ho?",
-                    "link": "Proveu a la pàgina de suport oficial de Ledger"
-                }
-            }
         },
         "verifyLedgerTransaction": {
             "title": "Verify transaction",
@@ -1325,7 +1326,7 @@
         "refreshTokenMetadataHint": "This will reset all your tokens' metadata including the verification status and unhide any hidden assets.",
         "excluded": "Excluded",
         "developerTools": "Developer tools",
-        "testDeepLinkDescription": "Simulate a deep link request sent to firefly",
+        "testDeepLinkDescription": "Simulate a deep link request sent to Bloom",
         "url": "URL",
         "hash": "Hash",
         "creating": "Creating",
@@ -1790,7 +1791,8 @@
     "warning": {
         "transaction": {
             "invalidDateTime": "The chosen date must be in the future."
-        }
+        },
+        "closePopup": "Are you sure about closing the popup? Your current progress will be lost."
     },
     "tooltips": {
         "optionalInput": "This optional data will be public on the explorer and viewable by everyone.",
