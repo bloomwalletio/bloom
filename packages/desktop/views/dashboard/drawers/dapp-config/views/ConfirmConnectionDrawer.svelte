@@ -12,6 +12,12 @@
     import { getAllNetworkIds } from '@core/network/utils'
     import DappInformationCard from '../components/DappInformationCard.svelte'
 
+    enum SessionVerification {
+        Valid = 'VALID',
+        Invalid = 'INVALID',
+        Unknown = 'UNKNOWN',
+    }
+
     export let drawerRouter: Router<unknown>
 
     const chains = getAllNetworkIds()
@@ -20,7 +26,8 @@
     let acceptedInsecureConnection = false
     let loading = false
 
-    $: isInsecure = !$sessionProposal || $sessionProposal.verifyContext.verified.validation !== 'VALID'
+    $: isInsecure =
+        !$sessionProposal || $sessionProposal.verifyContext.verified.validation !== SessionVerification.Valid
 
     function onRejectClick(): void {
         $sessionProposal = undefined
