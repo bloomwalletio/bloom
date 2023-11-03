@@ -19,7 +19,7 @@ export async function getGasFeeForLayer1ToLayer2Transaction(sendFlowParameters: 
     }
 
     try {
-        const gasEstimate = await getGasEstimateForOnLedgerIscpCall(destinationNetworkId, sendFlowParameters)
+        const gasEstimate = await getGasEstimateForIscpCall(destinationNetworkId, sendFlowParameters)
         return gasEstimate
     } catch (err) {
         console.error(err)
@@ -27,7 +27,7 @@ export async function getGasFeeForLayer1ToLayer2Transaction(sendFlowParameters: 
     }
 }
 
-async function getGasEstimateForOnLedgerIscpCall(
+async function getGasEstimateForIscpCall(
     networkId: NetworkId,
     sendFlowParameters: SendFlowParameters
 ): Promise<number> {
