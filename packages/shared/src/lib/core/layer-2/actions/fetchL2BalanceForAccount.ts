@@ -21,7 +21,7 @@ import {
 import { selectedAccountNfts } from '@core/nfts/stores'
 import { get } from 'svelte/store'
 
-export function fetchLayer2BalanceForAccount(account: IAccountState): void {
+export function fetchL2BalanceForAccount(account: IAccountState): void {
     const { evmAddresses, index } = account
     const chains = getNetwork()?.getChains() ?? []
     chains.forEach(async (chain) => {

@@ -9,6 +9,7 @@
         resetMintNftDetails()
         openPopup({
             id: PopupId.MintNftForm,
+            confirmClickOutside: true,
         })
     }
 </script>

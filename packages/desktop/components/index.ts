@@ -6,6 +6,7 @@ export * from './panes'
 export * from './popup'
 
 export { default as AccountSwitcher } from './AccountSwitcher.svelte'
+export { default as ConfirmationDialog } from './ConfirmationDialog.svelte'
 export { default as ContactAddressCard } from './ContactAddressCard.svelte'
 export { default as ContactCard } from './ContactCard.svelte'
 export { default as ContactMetadataTable } from './ContactMetadataTable.svelte'

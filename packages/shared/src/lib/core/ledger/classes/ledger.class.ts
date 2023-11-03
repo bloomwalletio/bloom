@@ -8,7 +8,7 @@ import {
     getAmountFromEvmTransactionValue,
     prepareEvmTransaction,
 } from '@core/layer-2/utils'
-import { MILLISECONDS_PER_SECOND, sleep } from '@core/utils'
+import { Converter, MILLISECONDS_PER_SECOND, sleep } from '@core/utils'
 import { TxData } from '@ethereumjs/tx'
 import type { Bip44 } from '@iota/sdk/out/types'
 import { PopupId, openPopup } from '../../../../../../desktop/lib/auxiliary/popup'
@@ -23,7 +23,6 @@ import {
 } from '@core/ledger'
 import { EvmChainId } from '@core/network/enums'
 import { toRpcSig } from '@ethereumjs/util'
-import { Converter } from '@core/utils'
 
 declare global {
     interface Window {

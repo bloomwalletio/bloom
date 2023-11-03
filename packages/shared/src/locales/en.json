@@ -365,7 +365,7 @@
                     "chain": {
                         "chainId": "Chain ID",
                         "aliasAddress": "Alias Address",
-                        "iscpEndpoint": "ISCP Endpoint",
+                        "rpcEndpoint": "RPC Endpoint",
                         "explorerUrl": "Explorer URL (optional)",
                         "errors": {
                             "cannotBeEmpty": "Name cannot be empty",
@@ -469,6 +469,19 @@
                     "confirmConnection": {
                         "title": "Connect with an application",
                         "hint": "A third party service wants to connect with your wallet for the first time. You can choose if you wish to trust this connection."
+                    },
+                    "details": {
+                        "title": "Connection details",
+                        "falbackName": "dApp",
+                        "name": "Name",
+                        "description": "Description",
+                        "url": "URL",
+                        "verifyUrl": "Verify URL",
+                        "disconnectTitle": "Disconnect",
+                        "disconnectDescription": "Do you want to disconnect from {dappName}",
+                        "actions": {
+                            "disconnect": "Disconnect"
+                        }
                     }
                 }
             },
@@ -1523,6 +1536,9 @@
                 "unrecognizedOperation": "Unrecognized wallet operation: {operation}"
             }
         },
+        "disconnectDapp": {
+            "success": "Disconnected from dApp"
+        },
         "claimed": {
             "success": "Transaction claimed",
             "error": "Claiming transaction failed"
@@ -1551,6 +1567,9 @@
         "restoreFromStrongholdBackup": {
             "wrongProtocol": "Protocol doesn't match coin type found in Stronghold backup",
             "wrongProtocolForClaiming": "You must use an IOTA-based Stronghold backup to claim Shimmer rewards"
+        },
+        "signMessage": {
+            "success": "Message successfully signed"
         },
         "findShimmerRewards": {
             "error": "An error occurred while searching for rewards"

@@ -1,6 +1,6 @@
 <script lang="ts">
     import { Icon as IconEnum } from '@auxiliary/icon'
-    import { connectedDapps } from '@auxiliary/wallet-connect/stores'
+    import { connectedDapps, setSelectedDapp } from '@auxiliary/wallet-connect/stores'
     import { Alert } from '@bloomwalletio/ui'
     import { DrawerTemplate } from '@components'
     import { localize } from '@core/i18n'
@@ -8,8 +8,14 @@
     import { Icon } from '@ui'
     import DappCard from '../components/DappCard.svelte'
     import { DappConfigRoute } from '../dapp-config-route.enum'
+    import { IConnectedDapp } from '@auxiliary/wallet-connect/interface'
 
     export let drawerRouter: Router<unknown>
+
+    function onDappCardClick(connectedDapp: IConnectedDapp): void {
+        setSelectedDapp(connectedDapp)
+        drawerRouter.goTo(DappConfigRoute.DappDetails)
+    }
 
     function onConnectDappClick(): void {
         drawerRouter.goTo(DappConfigRoute.InputCode)
@@ -21,7 +27,7 @@
         <connected-dapps class="flex flex-col gap-4 scrollable">
             {#each $connectedDapps as connectedDapp}
                 {#if connectedDapp.metadata}
-                    <DappCard {connectedDapp} />
+                    <DappCard {connectedDapp} onClick={() => onDappCardClick(connectedDapp)} />
                 {/if}
             {/each}
         </connected-dapps>
