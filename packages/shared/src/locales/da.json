@@ -363,7 +363,7 @@
                     "chain": {
                         "chainId": "Kæde-ID",
                         "aliasAddress": "Aliasadresse",
-                        "iscpEndpoint": "ISCP-slutpunkt",
+                        "rpcEndpoint": "ISCP-slutpunkt",
                         "explorerUrl": "Explorer URL (optional)",
                         "errors": {
                             "cannotBeEmpty": "Navn er obligatorisk",

@@ -12,6 +12,6 @@ export interface IChain {
 
     getMetadata(): Promise<ChainMetadata>
     getContract(type: ContractType, address: string): Contract
-
+    getGasEstimate(hex: string): Promise<number>
     getLatestBlock(): Promise<IBlock>
 }

@@ -363,7 +363,7 @@
                     "chain": {
                         "chainId": "Lánc AZ",
                         "aliasAddress": "Álnév címe",
-                        "iscpEndpoint": "ISCP végpont",
+                        "rpcEndpoint": "ISCP végpont",
                         "explorerUrl": "Explorer URL (optional)",
                         "errors": {
                             "cannotBeEmpty": "A név nem lehet üres",
