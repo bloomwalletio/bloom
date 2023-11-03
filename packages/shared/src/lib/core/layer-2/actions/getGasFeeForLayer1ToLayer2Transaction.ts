@@ -5,9 +5,8 @@ import { FALLBACK_ESTIMATED_GAS } from '../constants'
 import { AssetType } from '../enums'
 import { TransferredAsset } from '../types'
 import { outputHexBytes } from '@core/wallet/api'
-import { IGasCostEstimate } from '@core/network/interfaces/gas-cost-estimate.type'
 
-export async function getGasForLayer1ToLayer2Transaction(sendFlowParameters: SendFlowParameters): Promise<number> {
+export async function getGasFeeForLayer1ToLayer2Transaction(sendFlowParameters: SendFlowParameters): Promise<number> {
     const { destinationNetworkId } = sendFlowParameters ?? {}
 
     if (!destinationNetworkId || (destinationNetworkId && isStardustNetwork(destinationNetworkId))) {
@@ -21,7 +20,7 @@ export async function getGasForLayer1ToLayer2Transaction(sendFlowParameters: Sen
 
     try {
         const gasEstimate = await getGasEstimateForOnLedgerIscpCall(destinationNetworkId, sendFlowParameters)
-        return gasEstimate.gasFeeCharged ?? 0
+        return gasEstimate
     } catch (err) {
         console.error(err)
         return FALLBACK_ESTIMATED_GAS[sendFlowParameters.type]
@@ -31,7 +30,7 @@ export async function getGasForLayer1ToLayer2Transaction(sendFlowParameters: Sen
 async function getGasEstimateForOnLedgerIscpCall(
     networkId: NetworkId,
     sendFlowParameters: SendFlowParameters
-): Promise<IGasCostEstimate> {
+): Promise<number> {
     const chain = getNetwork()?.getChain(networkId)
     if (!chain) {
         return Promise.reject('Invalid chain')

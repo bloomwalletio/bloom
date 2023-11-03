@@ -4,7 +4,6 @@ import { NetworkHealth } from '../enums'
 import { IBlock, IChain, IChainStatus, IIscpChainConfiguration, IIscpChainMetadata } from '../interfaces'
 import { chainStatuses } from '../stores'
 import { ChainConfiguration, ChainMetadata, Web3Provider } from '../types'
-import { IGasCostEstimate } from '@core/network/interfaces'
 import { Contract } from '@core/layer-2/types'
 import { ContractType } from '@core/layer-2/enums'
 import { getAbiForContractType } from '@core/layer-2/utils'
@@ -83,7 +82,7 @@ export class IscpChain implements IChain {
         return this._provider.eth.getBlock(number)
     }
 
-    async getGasEstimate(hex: string): Promise<IGasCostEstimate> {
+    async getGasEstimate(hex: string): Promise<number> {
         const URL = `${this._chainApi}/estimategas-onledger`
         const body = JSON.stringify({ outputBytes: hex })
 
@@ -100,9 +99,7 @@ export class IscpChain implements IChain {
         const data = await response.json()
 
         if (response.status === 200) {
-            const gasBurned = Number(data.gasBurned as string)
-            const gasFeeCharged = Number(data.gasFeeCharged as string)
-            return { gasBurned, gasFeeCharged }
+            return Number(data.gasFeeCharged ?? '0')
         } else {
             throw new Error(data)
         }
