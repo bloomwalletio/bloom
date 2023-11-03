@@ -17,20 +17,20 @@
   resolved "https://registry.yarnpkg.com/@alloc/quick-lru/-/quick-lru-5.2.0.tgz#7bf68b20c0a350f936915fcae06f58e32007ce30"
   integrity sha512-UrcABB+4bUrFABwbluTIBErXwvbsU/V7TZWfmbgJfbkwiBuziS9gxdODUyuiecfdGQ85jglMW6juS3+z5TsKLw==
 
-"@amplitude/analytics-core@^1.2.3":
-  version "1.2.3"
-  resolved "https://registry.yarnpkg.com/@amplitude/analytics-core/-/analytics-core-1.2.3.tgz#ab7adbb07a18190d5cfad992962a430679575c98"
-  integrity sha512-3WADE8IcxU7ZERMkBb0+JP7t6EekyFPM0djtNKXQaxgGgH3oqQzMmBCg19UnYYiBSHrZkpiMBLHNAvXL6HM7zg==
+"@amplitude/analytics-core@^1.2.4":
+  version "1.2.4"
+  resolved "https://registry.yarnpkg.com/@amplitude/analytics-core/-/analytics-core-1.2.4.tgz#d13ac0b7ce69d19e76ccdc22a6bd52317627e96c"
+  integrity sha512-i4wx7hhjx0vjpudx21UTIM0Uxn+yL7P82Uh4NHxIGVVrTmPG9f9lZvdLQRbYg229CwH9FnmLCAiicRtTTtnq7g==
   dependencies:
     "@amplitude/analytics-types" "^1.3.3"
     tslib "^2.4.1"
 
-"@amplitude/analytics-node@1.3.3":
-  version "1.3.3"
-  resolved "https://registry.yarnpkg.com/@amplitude/analytics-node/-/analytics-node-1.3.3.tgz#cc91f3512caedd8d5f1d14f1a2bbe1541adb743c"
-  integrity sha512-G+5EoGcVOOclcNRR57AQcGqg46xNXjG6tsSdF71+Npzc6zTfvDzKDY97ZULBju9TT/FXvhP8LnppAI8umT6qkQ==
+"@amplitude/analytics-node@1.3.4":
+  version "1.3.4"
+  resolved "https://registry.yarnpkg.com/@amplitude/analytics-node/-/analytics-node-1.3.4.tgz#df5e7be70e1c3fb8dcf073732ae12dcb99fe3559"
+  integrity sha512-R0H+fYV5KIfl1Q1symBynfTDiylLD7JfvIOFl0oZBynvFwg6v93xh09nG/oDqIQcnvn5fzlSjusXcMGebPjRYw==
   dependencies:
-    "@amplitude/analytics-core" "^1.2.3"
+    "@amplitude/analytics-core" "^1.2.4"
     "@amplitude/analytics-types" "^1.3.3"
     tslib "^2.4.1"
 
@@ -1401,10 +1401,10 @@
   resolved "https://registry.yarnpkg.com/@iota/pad/-/pad-1.0.0-beta.30.tgz#de19728f8f1b09c20e2365d0da34945006760082"
   integrity sha512-fnhPMPul18WunLq9Ni4rxzBFmhna6eaG8WroDg6GdQqSK/eN62uFHV8tpspJHXuCqwgCUVp6NpuUna7+B2OV9g==
 
-"@iota/sdk@1.1.1":
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/@iota/sdk/-/sdk-1.1.1.tgz#0b6ea359a38ceea42a8e788cebe8728e9ee179bb"
-  integrity sha512-63WcGZGwlIwZpIhk+F+ozxm9miRy+eDmCoyIS/8actUNlH8zG5DXmjtWqxZx89se9UEAZyr4eZH7JJlwfkieqQ==
+"@iota/sdk@1.1.3":
+  version "1.1.3"
+  resolved "https://registry.yarnpkg.com/@iota/sdk/-/sdk-1.1.3.tgz#ab54cf72d9fa46321ae635cdd7fb2e085e888d95"
+  integrity sha512-Igy1Pl4mLPIGJddepcJ0i3xF/6Yup8pMl0eSTknN1A97qhsNtvmV1iDDhSxAshmJYyBQ8LEzd0DrMrq5tioYyg==
   dependencies:
     "@types/node" "^18.15.12"
     cargo-cp-artifact "^0.1.6"
