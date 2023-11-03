@@ -61,12 +61,15 @@
     }
 
     let networkSelections: Selections = {}
-    let methodSelections: Selections = {}
-    $: $sessionProposal, (networkSelections = getNetworksFromProposal()), (methodSelections = getMethodsFromProposal())
+    $: $sessionProposal, setNetworkSelections()
 
-    function getNetworksFromProposal(): Selections {
+    let methodSelections: Selections = {}
+    $: $sessionProposal, setMethodSelections()
+
+    function setNetworkSelections(): Selections {
         if (!$sessionProposal) {
-            return {}
+            networkSelections = {}
+            return
         }
 
         const networks: Selections = {}
@@ -83,12 +86,13 @@
                 networks[chain] = { checked: true, required: false }
             }
         }
-        return networks
+        networkSelections = networks
     }
 
-    function getMethodsFromProposal(): Selections {
+    function setMethodSelections(): Selections {
         if (!$sessionProposal) {
-            return {}
+            methodSelections = {}
+            return
         }
 
         const methods: Selections = {}
@@ -105,7 +109,7 @@
                 methods[method] = { checked: true, required: false }
             }
         }
-        return methods
+        methodSelections = methods
     }
 </script>
 
@@ -131,7 +135,7 @@
                         {#if methodSelections[method].required}
                             <Text textColor="success">Required</Text>
                         {:else}
-                            <Checkbox bind:checked={methodSelections[method].checked} />
+                            <Checkbox bind:checked={methodSelections[method].checked} size="lg" />
                         {/if}
                     </div>
                 {/each}
@@ -142,7 +146,7 @@
                         {#if networkSelections[networkId].required}
                             <Text textColor="success">Required</Text>
                         {:else}
-                            <Checkbox bind:checked={networkSelections[networkId].checked} />
+                            <Checkbox bind:checked={networkSelections[networkId].checked} size="lg" />
                         {/if}
                     </div>
                 {/each}
