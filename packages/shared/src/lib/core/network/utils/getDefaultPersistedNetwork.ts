@@ -3,8 +3,8 @@ import { NetworkId } from '../types'
 import { IPersistedNetwork } from '../interfaces'
 
 export function getDefaultPersistedNetwork(networkId: NetworkId): IPersistedNetwork {
-    const network = DEFAULT_NETWORK_METADATA?.[networkId]
-    const configuration = DEFAULT_CHAIN_CONFIGURATIONS?.[networkId]
+    const network = structuredClone(DEFAULT_NETWORK_METADATA?.[networkId])
+    const configuration = structuredClone(DEFAULT_CHAIN_CONFIGURATIONS?.[networkId])
     const chainConfigurations = configuration ? [configuration] : []
     if (network) {
         return {

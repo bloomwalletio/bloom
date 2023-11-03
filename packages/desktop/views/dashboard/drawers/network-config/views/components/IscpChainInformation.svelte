@@ -22,8 +22,8 @@
             copyable: true,
         },
         {
-            key: localize(`${localeKey}.iscpEndpoint`),
-            value: chainConfiguration.iscpEndpoint ?? undefined,
+            key: localize(`${localeKey}.rpcEndpoint`),
+            value: chainConfiguration.rpcEndpoint ?? undefined,
             copyable: true,
         },
         {
