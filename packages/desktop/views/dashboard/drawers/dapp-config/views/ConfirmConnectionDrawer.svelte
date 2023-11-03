@@ -5,20 +5,20 @@
     import { Router } from '@core/router'
     import { DrawerTemplate } from '@components'
     import { sessionProposal } from '@auxiliary/wallet-connect/stores'
-    import { getAllEvmAddresses, approveSession } from '@auxiliary/wallet-connect/utils'
+    import { approveSession } from '@auxiliary/wallet-connect/utils'
     import DappInformationCard from '../components/DappInformationCard.svelte'
     import { closeDrawer } from '@desktop/auxiliary/drawer'
     import { handleError } from '@core/error/handlers'
     import { showNotification } from '@auxiliary/notification'
     import { getAllNetworkIds } from '@core/network/utils'
     import { visibleActiveAccounts } from '@core/profile/stores'
+    import { SUPPORTED_EVENTS, SUPPORTED_METHODS } from '@auxiliary/wallet-connect/constants'
+    import { getAddressFromAccountForNetwork } from '@core/account'
+    import { NetworkId } from '@core/network'
 
     export let drawerRouter: Router<unknown>
 
     type Selections = Record<string, { label: string; checked: boolean; required: boolean }>
-
-    const chains = getAllNetworkIds()
-    const addresses: string[] = getAllEvmAddresses(chains)
 
     let loading = false
 
@@ -45,7 +45,7 @@
     function setAccountSelections(): void {
         const accounts: Selections = {}
         for (const account of $visibleActiveAccounts) {
-            accounts[account.index] = { label: account.name, checked: true, required: true }
+            accounts[account.index] = { label: account.name, checked: true, required: false }
         }
         accountSelections = accounts
     }
@@ -57,9 +57,10 @@
                 networks[chain] = { label: chain, checked: true, required: true }
             }
         }
+        const supportedNetworks = getAllNetworkIds()
         for (const namespace of Object.values($sessionProposal.params.optionalNamespaces)) {
             for (const chain of namespace.chains) {
-                if (!networks[chain]) {
+                if (!networks[chain] && supportedNetworks.includes(chain)) {
                     networks[chain] = { label: chain, checked: true, required: false }
                 }
             }
@@ -76,7 +77,7 @@
         }
         for (const namespace of Object.values($sessionProposal.params.optionalNamespaces)) {
             for (const method of namespace.methods) {
-                if (!methods[method]) {
+                if (!methods[method] && SUPPORTED_METHODS.includes(method)) {
                     methods[method] = { label: method, checked: true, required: false }
                 }
             }
@@ -97,10 +98,56 @@
         currentStep++
     }
 
+    function getNamespaceForSelections() {
+        const requiredNamespaces = $sessionProposal.params.requiredNamespaces
+        const optionalNamespaces = $sessionProposal.params.optionalNamespaces
+
+        const supportedNamespaces = {}
+        const allNamespaceIds = new Set([...Object.keys(requiredNamespaces), ...Object.keys(optionalNamespaces)])
+
+        for (const namespaceId of allNamespaceIds) {
+            const availablChains = [
+                ...new Set([...requiredNamespaces[namespaceId].chains, ...optionalNamespaces[namespaceId].chains]),
+            ]
+            const availableMethods = [
+                ...new Set([...requiredNamespaces[namespaceId].methods, ...optionalNamespaces[namespaceId].methods]),
+            ]
+
+            const allowedChains = availablChains.filter((chain) => networkSelections[chain]?.checked)
+            const allowedMethods = availableMethods.filter((chain) => methodSelections[chain]?.checked)
+
+            const addresses = []
+            for (const chain of allowedChains) {
+                for (const [accountIndex, accountSelection] of Object.entries(accountSelections)) {
+                    if (accountSelection.checked) {
+                        const address = getAddressFromAccountForNetwork(
+                            $visibleActiveAccounts.find((acc) => String(acc.index) === accountIndex),
+                            chain as NetworkId
+                        )
+                        if (address) {
+                            addresses.push(`${chain}:${address}`)
+                        }
+                    }
+                }
+            }
+
+            supportedNamespaces[namespaceId] = {
+                chains: allowedChains,
+                methods: allowedMethods,
+                events: SUPPORTED_EVENTS,
+                accounts: addresses,
+            }
+        }
+
+        return supportedNamespaces
+    }
+
     async function onConfirmClick(): Promise<void> {
         try {
             loading = true
-            await approveSession($sessionProposal, addresses)
+
+            const supportedNamespaces = getNamespaceForSelections()
+            await approveSession($sessionProposal, supportedNamespaces)
 
             showNotification({
                 variant: 'success',
@@ -131,28 +178,39 @@
             </div>
 
             {#if currentStep === 0}
-                {#each Object.keys(methodSelections) as method}
+                {#each Object.values(methodSelections) as method}
                     <div class="w-full flex flex-row justify-between p-4">
-                        <Text>{method}</Text>
-                        {#if methodSelections[method].required}
+                        <Text>{method.label}</Text>
+                        {#if method.required}
                             <Text textColor="success">Required</Text>
                         {:else}
-                            <Checkbox bind:checked={methodSelections[method].checked} size="lg" />
+                            <Checkbox bind:checked={method.checked} size="lg" />
                         {/if}
                     </div>
                 {/each}
             {:else if currentStep === 1}
-                {#each Object.keys(networkSelections) as networkId}
+                {#each Object.values(networkSelections) as network}
                     <div class="w-full flex flex-row justify-between p-4">
-                        <Text>{networkId}</Text>
-                        {#if networkSelections[networkId].required}
+                        <Text>{network.label}</Text>
+                        {#if network.required}
                             <Text textColor="success">Required</Text>
                         {:else}
-                            <Checkbox bind:checked={networkSelections[networkId].checked} size="lg" />
+                            <Checkbox bind:checked={network.checked} size="lg" />
                         {/if}
                     </div>
                 {/each}
-            {:else}{/if}
+            {:else}
+                {#each Object.values(accountSelections) as account}
+                    <div class="w-full flex flex-row justify-between p-4">
+                        <Text>{account.label}</Text>
+                        {#if account.required}
+                            <Text textColor="success">Required</Text>
+                        {:else}
+                            <Checkbox bind:checked={account.checked} size="lg" />
+                        {/if}
+                    </div>
+                {/each}
+            {/if}
         {:else}
             <div class="w-full h-full flex items-center justify-center">
                 <Spinner busy size={50} />
