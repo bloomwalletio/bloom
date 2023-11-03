@@ -80,20 +80,24 @@
         <Text type="body1" textColor="secondary">{fiatBalance}</Text>
     </account-network-summary-balance>
     <account-network-summary-assets class="flex flex-row justify-between items-center">
-        {#if hasTokens}
-            <AvatarGroup avatarSize="md">
-                {#each tokens?.nativeTokens ?? [] as token}
-                    <TokenAvatar hideNetworkBadge size="md" {token} />
-                {/each}
-            </AvatarGroup>
-        {/if}
-        {#if hasNfts}
-            <AvatarGroup avatarSize="md" avatarShape="square">
-                {#each nfts as nft}
-                    <NftAvatar {nft} size="md" shape="square" />
-                {/each}
-            </AvatarGroup>
-        {/if}
+        <div>
+            {#if hasTokens}
+                <AvatarGroup avatarSize="md">
+                    {#each tokens?.nativeTokens ?? [] as token}
+                        <TokenAvatar hideNetworkBadge size="md" {token} />
+                    {/each}
+                </AvatarGroup>
+            {/if}
+        </div>
+        <div>
+            {#if hasNfts}
+                <AvatarGroup avatarSize="md" avatarShape="square">
+                    {#each nfts as nft}
+                        <NftAvatar {nft} size="md" shape="square" />
+                    {/each}
+                </AvatarGroup>
+            {/if}
+        </div>
     </account-network-summary-assets>
 </account-network-summary>
 
