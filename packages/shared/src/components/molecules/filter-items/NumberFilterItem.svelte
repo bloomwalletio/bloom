@@ -14,6 +14,8 @@
 
     $: selected && onSelect(selected)
     function onSelect(item: IOption): void {
+        if (filterUnit.selected === item.value) return
+
         filterUnit.selected = item.value as NumberFilterOption
         switch (filterUnit.selected) {
             case NumberFilterOption.Equal:

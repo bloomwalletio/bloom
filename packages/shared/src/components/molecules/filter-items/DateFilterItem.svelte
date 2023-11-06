@@ -22,8 +22,9 @@
 
     $: selected && onSelect(selected)
     function onSelect(item: IOption): void {
-        filterUnit.selected = item.value as DateFilterOption
+        if (filterUnit.selected === item.value) return
 
+        filterUnit.selected = item.value as DateFilterOption
         switch (filterUnit.selected) {
             case DateFilterOption.Equals:
             case DateFilterOption.After:
