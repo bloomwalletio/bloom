@@ -49,7 +49,7 @@ const onboardingFeaturesForTestnet: IOnboardingFeaturesForNetwork = {
         softwareProfile: {
             enabled: true,
             skipVerification: {
-                enabled: true,
+                enabled: false,
             },
         },
         ledgerProfile: {
