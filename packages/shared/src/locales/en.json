@@ -469,6 +469,19 @@
                     "confirmConnection": {
                         "title": "Connect with an application",
                         "hint": "A third party service wants to connect with your wallet for the first time. You can choose if you wish to trust this connection."
+                    },
+                    "details": {
+                        "title": "Connection details",
+                        "falbackName": "dApp",
+                        "name": "Name",
+                        "description": "Description",
+                        "url": "URL",
+                        "verifyUrl": "Verify URL",
+                        "disconnectTitle": "Disconnect",
+                        "disconnectDescription": "Do you want to disconnect from {dappName}",
+                        "actions": {
+                            "disconnect": "Disconnect"
+                        }
                     }
                 }
             },
@@ -1522,6 +1535,9 @@
             "wallet": {
                 "unrecognizedOperation": "Unrecognized wallet operation: {operation}"
             }
+        },
+        "disconnectDapp": {
+            "success": "Disconnected from dApp"
         },
         "claimed": {
             "success": "Transaction claimed",

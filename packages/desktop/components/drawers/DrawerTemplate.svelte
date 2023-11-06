@@ -2,7 +2,7 @@
     import { IconButton, IconName, Text } from '@bloomwalletio/ui'
     import { Router } from '@core/router'
 
-    export let title: string
+    export let title: string = ''
     export let drawerRouter: Router<unknown>
 
     $: showBackButton = drawerRouter?.hasHistory()
