@@ -17,6 +17,7 @@
     import { Table } from '@bloomwalletio/ui'
     import { getBaseToken } from '@core/profile/actions'
     import { setGasFee } from '@core/layer-2/actions'
+    import { isEvmChain } from '@core/network'
 
     let tokenAmountInput: TokenAmountInput
     let token: ITokenWithBalance
@@ -24,6 +25,7 @@
     let amount: string
     let unit: string
 
+    const showGasFee = isEvmChain($sendFlowParameters.destinationNetworkId)
     const sendFlowType = $sendFlowParameters.type
     if (sendFlowType === SendFlowType.BaseCoinTransfer || sendFlowType === SendFlowType.TokenTransfer) {
         token = getTokenFromSelectedAccountTokens(
@@ -76,7 +78,8 @@
         $sendFlowRouter.previous()
     }
 
-    onMount(() => {
+    let fetchingGasFee = true
+    async function _onMount(): Promise<void> {
         const tempSendFlowParams: SendFlowParameters = {
             ...$sendFlowParameters,
             [sendFlowType]: {
@@ -85,7 +88,12 @@
                 unit,
             },
         }
-        void setGasFee(tempSendFlowParams, $selectedAccount)
+        await setGasFee(tempSendFlowParams, $selectedAccount)
+        fetchingGasFee = false
+    }
+
+    onMount(() => {
+        void _onMount()
     })
 </script>
 
@@ -113,14 +121,16 @@
     </form>
     <TokenAvailableBalanceTile token={{ ...token, balance: { ...token.balance, available } }} onMaxClick={setToMax} />
 
-    {#if gasFee}
-        <Table
-            items={[
-                {
-                    key: localize('general.transactionFee'),
-                    value: formatTokenAmountBestMatch(gasFee, getBaseToken()),
-                },
-            ]}
-        />
+    {#if showGasFee}
+        <div class={fetchingGasFee ? 'animate-pulse' : ''}>
+            <Table
+                items={[
+                    {
+                        key: localize('general.transactionFee'),
+                        value: formatTokenAmountBestMatch(gasFee, getBaseToken()),
+                    },
+                ]}
+            />
+        </div>
     {/if}
 </PopupTemplate>
