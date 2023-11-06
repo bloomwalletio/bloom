@@ -261,12 +261,6 @@
     </form>
     <div slot="footer" class="flex gap-4">
         <Button variant="outlined" text={localize('actions.cancel')} width="half" on:click={onCancelClick} />
-        <Button
-            type="submit"
-            form="edit-network-addresses-form"
-            on:click={onSaveClick}
-            width="half"
-            text={localize('actions.save')}
-        />
+        <Button type="submit" form="edit-network-addresses-form" width="half" text={localize('actions.save')} />
     </div>
 </DrawerTemplate>

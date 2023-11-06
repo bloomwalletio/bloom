@@ -84,12 +84,6 @@
     </form>
     <div slot="footer" class="flex gap-4">
         <Button variant="outlined" text={localize('actions.cancel')} width="half" on:click={onCancelClick} />
-        <Button
-            type="submit"
-            form="edit-contact-form"
-            text={localize('actions.save')}
-            width="half"
-            on:click={onSaveClick}
-        />
+        <Button type="submit" form="edit-contact-form" text={localize('actions.save')} width="half" />
     </div>
 </DrawerTemplate>
