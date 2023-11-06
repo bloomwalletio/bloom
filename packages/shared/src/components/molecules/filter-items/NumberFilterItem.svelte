@@ -44,7 +44,7 @@
         <Icon name={IconName.ArrowNarrowRight} size="sm" textColor="secondary" />
         {#if filterUnit.subunit.type === 'range'}
             <NumberInput bind:value={filterUnit.subunit.start} autofocus />
-            <Text>{localize('general.and')}</Text>
+            <Text textColor="secondary">{localize('general.and')}</Text>
             <NumberInput bind:value={filterUnit.subunit.end} />
         {:else}
             <NumberInput bind:value={filterUnit.subunit.amount} autofocus />

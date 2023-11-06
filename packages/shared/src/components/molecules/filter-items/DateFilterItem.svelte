@@ -71,7 +71,7 @@
             <!-- negative right margin prevents dates from wrapping to a second row unless length is MM.DD.YYYY -->
             <div class="flex items-center flex-wrap gap-2 -mr-1">
                 <DateInput bind:value={filterUnit.subunit.start} />
-                <Text>{localize('general.and')}</Text>
+                <Text textColor="secondary">{localize('general.and')}</Text>
                 <DateInput bind:value={filterUnit.subunit.end} />
             </div>
         {:else if filterUnit.subunit.type === 'single'}
