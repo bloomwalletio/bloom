@@ -26,16 +26,12 @@
                   } as IMenuItem,
               ]
             : []),
-        ...(!hasActiveSession
-            ? [
-                  {
-                      icon: IconName.Trash,
-                      title: localize(`${localeKey}.actions.remove`),
-                      variant: 'danger',
-                      onClick: onRemoveClick,
-                  } as IMenuItem,
-              ]
-            : []),
+        {
+            icon: IconName.Trash,
+            title: localize(`${localeKey}.actions.remove`),
+            variant: 'danger',
+            onClick: onRemoveClick,
+        } as IMenuItem,
     ]
 
     $: dappName = dapp.metadata?.name ?? localize(`${localeKey}.fallbackName`)

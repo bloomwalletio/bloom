@@ -15,7 +15,6 @@ export async function disconnectDapp(dapp: IConnectedDapp): Promise<void> {
                 topic: dapp.session.topic,
                 reason: getSdkError('USER_DISCONNECTED'),
             })
-            setConnectedDapps()
         }
         setConnectedDapps()
     } catch (err) {

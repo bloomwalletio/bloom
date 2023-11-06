@@ -479,11 +479,11 @@
                         "verifyUrl": "Verify URL",
                         "disconnect": {
                             "title": "Disconnect",
-                            "description": "Do you want to disconnect from {dappName}"
+                            "description": "Do you want to disconnect from {dappName}?"
                         },
                         "remove": {
                             "title": "Remove",
-                            "description": "Do you want to remove {dappName}"
+                            "description": "Do you want to disconnect from {dappName} and remove it from here?"
                         },
                         "actions": {
                             "disconnect": "Disconnect",
