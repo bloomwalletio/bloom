@@ -50,7 +50,9 @@
 
     async function updateMaxHeight(): Promise<void> {
         await tick()
-        if (!show || !modal) return
+        if (!show || !modal) {
+            return
+        }
         const viewportHeight = window.innerHeight
         const modalRect = modal?.getBoundingClientRect()
         const spaceAbove = modalRect?.top
