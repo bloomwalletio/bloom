@@ -8,7 +8,13 @@
         getUnitFromTokenMetadata,
     } from '@core/token'
     import { getTokenFromSelectedAccountTokens } from '@core/token/stores'
-    import { SendFlowParameters, SendFlowType, sendFlowParameters, updateSendFlowParameters } from '@core/wallet'
+    import {
+        SendFlowParameters,
+        SendFlowType,
+        getNetworkIdFromSendFlowParameters,
+        sendFlowParameters,
+        updateSendFlowParameters,
+    } from '@core/wallet'
     import { TokenAmountInput, TokenAvailableBalanceTile } from '@ui'
     import { sendFlowRouter } from '../send-flow.router'
     import { PopupTemplate } from '@components'
@@ -25,7 +31,9 @@
     let amount: string
     let unit: string
 
-    const showGasFee = isEvmChain($sendFlowParameters.destinationNetworkId)
+    const showGasFee =
+        isEvmChain($sendFlowParameters.destinationNetworkId) ||
+        isEvmChain(getNetworkIdFromSendFlowParameters($sendFlowParameters))
     const sendFlowType = $sendFlowParameters.type
     if (sendFlowType === SendFlowType.BaseCoinTransfer || sendFlowType === SendFlowType.TokenTransfer) {
         token = getTokenFromSelectedAccountTokens(
