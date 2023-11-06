@@ -8,7 +8,7 @@
     export let filterUnit: NetworkFilterUnit
 
     let options: IOption[] = []
-    $: value = options?.find((choice) => choice.value === filterUnit.selected)?.value ?? ''
+    let selected: IOption | undefined = undefined
 
     onMount(buildOptions)
 
@@ -30,11 +30,13 @@
             value: chain.getConfiguration().id,
         }))
         options = [layer1Network, ...iscpChainsOptions]
+        selected = options.find((option) => option.value === filterUnit.selected)
     }
 
+    $: selected && onSelect(selected)
     function onSelect(item: IOption): void {
         filterUnit.selected = item.value
     }
 </script>
 
-<SelectInput {value} {options} {onSelect} small hideValue />
+<SelectInput bind:selected {options} hideValue />

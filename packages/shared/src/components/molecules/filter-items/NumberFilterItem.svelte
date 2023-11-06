@@ -1,7 +1,6 @@
 <script lang="ts">
     import { SelectInput, Icon, Text, NumberInput, IOption, IconName } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
-    import type { IDropdownItem } from '@core/utils'
     import { NumberFilterUnit } from '@core/utils/interfaces/filter'
     import { NumberFilterOption } from '@core/utils/enums/filters'
 
@@ -11,12 +10,11 @@
         label: localize(`${filterUnit.localeKey}.${choice}`),
         value: choice,
     }))
+    let selected = options.find((option) => option.value === filterUnit.selected)
 
-    $: value = localize(`${filterUnit.localeKey}.${filterUnit.selected}`)
-
-    function onSelect(item: IDropdownItem<NumberFilterOption>): void {
-        filterUnit.selected = item.value
-
+    $: selected && onSelect(selected)
+    function onSelect(item: IOption): void {
+        filterUnit.selected = item.value as NumberFilterOption
         switch (filterUnit.selected) {
             case NumberFilterOption.Equal:
             case NumberFilterOption.Greater:
@@ -37,7 +35,7 @@
     }
 </script>
 
-<SelectInput {value} {options} {onSelect} small hideValue />
+<SelectInput bind:selected {options} hideValue />
 
 {#if filterUnit.selected}
     <div class="flex flex-row items-center space-x-2 mt-2">

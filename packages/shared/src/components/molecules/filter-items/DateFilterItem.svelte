@@ -10,18 +10,19 @@
         label: localize(`${filterUnit.localeKey}.${choice}`),
         value: choice,
     }))
+    let selected = options.find((option) => option.value === filterUnit.selected)
 
     const unitChoices: IOption[] = Object.keys(DateUnit).map((val) => ({
         label: localize(`${filterUnit.localeKey}.${val}`),
         value: val,
     }))
+    let selectedDateUnit = options.find((option) =>
+        filterUnit.subunit.type === 'unit' ? option.value === filterUnit.subunit.unit : false
+    )
 
-    $: selectedDateFilterOption = localize(`${filterUnit.localeKey}.${filterUnit.selected}`)
-    $: selectedDateUnit =
-        filterUnit.subunit.type === 'unit' ? localize(`${filterUnit.localeKey}.${filterUnit.subunit.unit}`) : ''
-
+    $: selected && onSelect(selected)
     function onSelect(item: IOption): void {
-        filterUnit.selected = item.value
+        filterUnit.selected = item.value as DateFilterOption
 
         switch (filterUnit.selected) {
             case DateFilterOption.Equals:
@@ -43,13 +44,14 @@
             case DateFilterOption.Last:
                 filterUnit.subunit = {
                     type: 'unit',
-                    amount: '0',
+                    amount: 0,
                     unit: DateUnit.Days,
                 }
                 break
         }
     }
 
+    $: selectedDateUnit && onUnitSelect(selectedDateUnit)
     function onUnitSelect(item: IOption): void {
         if (filterUnit.subunit.type === 'unit') {
             filterUnit.subunit.unit = <DateUnit>item.value
@@ -57,7 +59,7 @@
     }
 </script>
 
-<SelectInput value={selectedDateFilterOption} {options} {onSelect} small hideValue />
+<SelectInput bind:selected {options} hideValue />
 
 {#if filterUnit.selected}
     <div class="flex flex-row items-center space-x-2 mt-2">
@@ -75,7 +77,7 @@
             <DateInput bind:value={filterUnit.subunit.value} />
         {:else if filterUnit.subunit.type === 'unit'}
             <NumberInput bind:value={filterUnit.subunit.amount} />
-            <SelectInput value={selectedDateUnit} options={unitChoices} onSelect={onUnitSelect} small hideValue />
+            <SelectInput bind:selected={selectedDateUnit} options={unitChoices} hideValue />
         {/if}
     </div>
 {/if}

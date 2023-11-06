@@ -9,12 +9,12 @@
         label: localize(`${filterUnit.localeKey}.${choice}`),
         value: choice,
     }))
+    let selected = options.find((option) => option.value === filterUnit.selected)
 
-    $: value = localize(`${filterUnit.localeKey}.${filterUnit.selected}`)
-
+    $: selected && onSelect(selected)
     function onSelect(item: IOption): void {
         filterUnit.selected = item.value
     }
 </script>
 
-<SelectInput {value} {options} {onSelect} small hideValue />
+<SelectInput bind:selected {options} hideValue />

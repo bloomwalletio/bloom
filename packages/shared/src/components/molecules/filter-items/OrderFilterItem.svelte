@@ -10,25 +10,26 @@
         label: localize(`${filterUnit.localeKey}.${choice}`),
         value: choice,
     }))
+    let selected = options.find((option) => option.value === filterUnit.selected)
 
     const ascDescOptions: IOption[] = [OrderOption.Asc, OrderOption.Desc].map((choice) => ({
         label: localize(`filters.ascDesc.${choice}`),
         value: choice,
     }))
+    let selectedAscDesc = options.find((option) => option.value === filterUnit.selected)
 
-    $: value = localize(`${filterUnit.localeKey}.${filterUnit.selected}`)
-    $: ascDescvalue = localize(`filters.ascDesc.${filterUnit.ascDesc}`)
-
+    $: selected && onSelect(selected)
     function onSelect(item: IOption): void {
         filterUnit.selected = item.value
     }
 
+    $: selectedAscDesc && onSelectAscDesc(selectedAscDesc)
     function onSelectAscDesc(item: IOption): void {
-        filterUnit.ascDesc = item.value
+        filterUnit.ascDesc = item.value as OrderOption
     }
 </script>
 
 <div class="flex flex-row justify-between space-x-2">
-    <SelectInput {value} {options} {onSelect} small hideValue />
-    <SelectInput value={ascDescvalue} options={ascDescOptions} onSelect={onSelectAscDesc} small hideValue />
+    <SelectInput bind:selected {options} hideValue />
+    <SelectInput bind:selected={selectedAscDesc} options={ascDescOptions} hideValue />
 </div>
