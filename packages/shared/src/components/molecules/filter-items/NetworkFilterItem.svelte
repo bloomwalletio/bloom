@@ -1,15 +1,14 @@
 <script lang="ts">
     import { ChainType, network } from '@core/network'
-    import type { IDropdownItem } from '@core/utils'
     import { NetworkFilterUnit } from '@core/utils/interfaces/filter'
     import features from '@features/features'
-    import { Dropdown } from '@ui'
+    import { IOption, SelectInput } from '@bloomwalletio/ui'
     import { onMount } from 'svelte'
 
     export let filterUnit: NetworkFilterUnit
 
-    let choices: IDropdownItem<string>[] = []
-    $: value = choices?.find((choice) => choice.value === filterUnit.selected)?.value ?? ''
+    let options: IOption[] = []
+    $: value = options?.find((choice) => choice.value === filterUnit.selected)?.value ?? ''
 
     onMount(buildOptions)
 
@@ -30,12 +29,12 @@
             label: chain.getConfiguration().name,
             value: chain.getConfiguration().id,
         }))
-        choices = [layer1Network, ...iscpChainsOptions]
+        options = [layer1Network, ...iscpChainsOptions]
     }
 
-    function onSelect(item: IDropdownItem<string>): void {
+    function onSelect(item: IOption): void {
         filterUnit.selected = item.value
     }
 </script>
 
-<Dropdown {value} items={choices} {onSelect} small />
+<SelectInput {value} {options} {onSelect} small hideValue />

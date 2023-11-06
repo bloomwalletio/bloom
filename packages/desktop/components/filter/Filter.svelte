@@ -52,9 +52,7 @@
 <filter-container class="items-center relative">
     <TogglableButton icon={IconName.Filter} bind:active={filterActive} onClick={modal?.toggle} />
     {#if activeFilterCount}
-        <filter-badge
-            class="inline-flex items-center justify-center h-3 w-3 -ml-2 -mt-0.5 absolute rounded-full bg-blue-500 text-white text-8"
-        >
+        <filter-badge>
             {activeFilterCount}
         </filter-badge>
     {/if}
@@ -69,3 +67,12 @@
         {/each}
     </FilterModal>
 </filter-container>
+
+<style lang="scss">
+    filter-badge {
+        @apply absolute h-3 w-3 -ml-2 -mt-0.5 rounded-full;
+        @apply inline-flex items-center justify-center;
+        @apply text-white text-8;
+        @apply bg-surface-brand dark:bg-surface-brand-dark;
+    }
+</style>

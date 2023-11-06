@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { Dropdown, Icon, Text, NumberInput } from '@ui'
+    import { SelectInput, Icon, Text, NumberInput, IOption, IconName } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
     import type { IDropdownItem } from '@core/utils'
     import { NumberFilterUnit } from '@core/utils/interfaces/filter'
@@ -7,7 +7,7 @@
 
     export let filterUnit: NumberFilterUnit
 
-    const choices: IDropdownItem<NumberFilterOption>[] = filterUnit.choices.map((choice) => ({
+    const options: IOption[] = filterUnit.choices.map((choice) => ({
         label: localize(`${filterUnit.localeKey}.${choice}`),
         value: choice,
     }))
@@ -23,31 +23,31 @@
             case NumberFilterOption.Less:
                 filterUnit.subunit = {
                     type: 'single',
-                    amount: '',
+                    amount: undefined,
                 }
                 break
             case NumberFilterOption.Range:
                 filterUnit.subunit = {
                     type: 'range',
-                    start: '',
-                    end: '',
+                    start: undefined,
+                    end: undefined,
                 }
                 break
         }
     }
 </script>
 
-<Dropdown {value} items={choices} {onSelect} small />
+<SelectInput {value} {options} {onSelect} small hideValue />
 
 {#if filterUnit.selected}
     <div class="flex flex-row items-center space-x-2 mt-2">
-        <Icon height="24" width="20" icon="arrow-right" />
+        <Icon name={IconName.ArrowNarrowRight} size="sm" textColor="secondary" />
         {#if filterUnit.subunit.type === 'range'}
-            <NumberInput bind:value={filterUnit.subunit.start} autofocus placeholder="" />
+            <NumberInput bind:value={filterUnit.subunit.start} autofocus />
             <Text>{localize('general.and')}</Text>
-            <NumberInput bind:value={filterUnit.subunit.end} placeholder="" />
+            <NumberInput bind:value={filterUnit.subunit.end} />
         {:else}
-            <NumberInput bind:value={filterUnit.subunit.amount} autofocus placeholder="" />
+            <NumberInput bind:value={filterUnit.subunit.amount} autofocus />
         {/if}
     </div>
 {/if}

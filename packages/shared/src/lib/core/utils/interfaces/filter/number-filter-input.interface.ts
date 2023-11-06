@@ -2,11 +2,11 @@ export type NumberFilterInput = SingleNumberFilterInput | RangeNumberFilterInput
 
 export type SingleNumberFilterInput = {
     type: 'single'
-    amount: string
+    amount: number | undefined
 }
 
 export type RangeNumberFilterInput = {
     type: 'range'
-    start: string
-    end: string
+    start: number | undefined
+    end: number | undefined
 }

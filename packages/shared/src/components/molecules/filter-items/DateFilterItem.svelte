@@ -1,19 +1,17 @@
 <script lang="ts">
-    import { DateInput } from '@bloomwalletio/ui'
-    import { Dropdown, Icon, Text, NumberInput } from '@ui'
+    import { DateInput, Icon, Text, IconName, IOption, NumberInput, SelectInput } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
-    import type { IDropdownItem } from '@core/utils'
     import { DateFilterUnit } from '@core/utils/interfaces/filter'
     import { DateFilterOption, DateUnit } from '@core/utils/enums/filters'
 
     export let filterUnit: DateFilterUnit
 
-    const choices: IDropdownItem<DateFilterOption>[] = filterUnit.choices.map((choice) => ({
+    const options: IOption[] = filterUnit.choices.map((choice) => ({
         label: localize(`${filterUnit.localeKey}.${choice}`),
         value: choice,
     }))
 
-    const unitChoices: IDropdownItem<string>[] = Object.keys(DateUnit).map((val) => ({
+    const unitChoices: IOption[] = Object.keys(DateUnit).map((val) => ({
         label: localize(`${filterUnit.localeKey}.${val}`),
         value: val,
     }))
@@ -22,7 +20,7 @@
     $: selectedDateUnit =
         filterUnit.subunit.type === 'unit' ? localize(`${filterUnit.localeKey}.${filterUnit.subunit.unit}`) : ''
 
-    function onSelect(item: IDropdownItem<DateFilterOption>): void {
+    function onSelect(item: IOption): void {
         filterUnit.selected = item.value
 
         switch (filterUnit.selected) {
@@ -52,19 +50,19 @@
         }
     }
 
-    function onUnitSelect(item: IDropdownItem<string>): void {
+    function onUnitSelect(item: IOption): void {
         if (filterUnit.subunit.type === 'unit') {
             filterUnit.subunit.unit = <DateUnit>item.value
         }
     }
 </script>
 
-<Dropdown value={selectedDateFilterOption} items={choices} {onSelect} small />
+<SelectInput value={selectedDateFilterOption} {options} {onSelect} small hideValue />
 
 {#if filterUnit.selected}
     <div class="flex flex-row items-center space-x-2 mt-2">
         {#if filterUnit.selected !== DateFilterOption.Range}
-            <Icon height="24" width="20" icon="arrow-right" />
+            <Icon name={IconName.ArrowNarrowRight} size="sm" textColor="secondary" />
         {/if}
         {#if filterUnit.subunit.type === 'range'}
             <!-- negative right margin prevents dates from wrapping to a second row unless length is MM.DD.YYYY -->
@@ -76,8 +74,8 @@
         {:else if filterUnit.subunit.type === 'single'}
             <DateInput bind:value={filterUnit.subunit.value} />
         {:else if filterUnit.subunit.type === 'unit'}
-            <NumberInput bind:value={filterUnit.subunit.amount} placeholder="" />
-            <Dropdown value={selectedDateUnit} items={unitChoices} onSelect={onUnitSelect} small />
+            <NumberInput bind:value={filterUnit.subunit.amount} />
+            <SelectInput value={selectedDateUnit} options={unitChoices} onSelect={onUnitSelect} small hideValue />
         {/if}
     </div>
 {/if}

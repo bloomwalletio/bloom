@@ -1,21 +1,20 @@
 <script lang="ts">
-    import { Dropdown } from '@ui'
+    import { IOption, SelectInput } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
-    import type { IDropdownItem } from '@core/utils'
     import { SelectionFilterUnit } from '@core/utils/interfaces/filter'
 
     export let filterUnit: SelectionFilterUnit
 
-    const choices: IDropdownItem<string>[] = filterUnit.choices.map((choice) => ({
+    const options: IOption[] = filterUnit.choices.map((choice) => ({
         label: localize(`${filterUnit.localeKey}.${choice}`),
         value: choice,
     }))
 
     $: value = localize(`${filterUnit.localeKey}.${filterUnit.selected}`)
 
-    function onSelect(item: IDropdownItem<string>): void {
+    function onSelect(item: IOption): void {
         filterUnit.selected = item.value
     }
 </script>
 
-<Dropdown {value} items={choices} {onSelect} small />
+<SelectInput {value} {options} {onSelect} small hideValue />

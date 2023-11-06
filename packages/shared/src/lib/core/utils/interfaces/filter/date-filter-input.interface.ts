@@ -4,17 +4,17 @@ export type DateFilterInput = SingleDateFilterInput | RangeDateFilterInput | Uni
 
 export type SingleDateFilterInput = {
     type: 'single'
-    value: string
+    value: number | undefined
 }
 
 export type UnitDateFilterInput = {
     type: 'unit'
-    amount: string
+    amount: number | undefined
     unit: DateUnit
 }
 
 export type RangeDateFilterInput = {
     type: 'range'
-    start: string
-    end: string
+    start: number | undefined
+    end: number | undefined
 }
