@@ -1,7 +1,6 @@
 <script lang="ts">
     import { ContactBookRoute } from '../contact-book-route.enum'
-    import { Button } from '@bloomwalletio/ui'
-    import { TextInput } from '@ui'
+    import { Button, TextInput } from '@bloomwalletio/ui'
     import { DrawerTemplate } from '@components'
     import { ContactManager, selectedContact, validateContactName, validateContactNote } from '@core/contact'
     import { localize } from '@core/i18n'
@@ -10,11 +9,21 @@
 
     export let drawerRouter: Router<unknown>
 
+    enum ContactField {
+        Name = 'name',
+        Note = 'note',
+    }
+
+    const validationErrors: { [key in ContactField]: string | undefined } = {
+        [ContactField.Name]: undefined,
+        [ContactField.Note]: undefined,
+    }
+
     let nameInput, noteInput: TextInput
     let contactName = $selectedContact.name
     let contactNote = $selectedContact.note
 
-    function updateContact(): void {
+    function onSaveClick(): void {
         try {
             if (validate()) {
                 const contact = { ...$selectedContact, name: contactName, note: contactNote }
@@ -34,19 +43,24 @@
     }
 
     function validate(): boolean {
-        /**
-         * NOTE: This variable allows us to run all the input validation functions,
-         * displaying all errors at once rather than one by one.
-         */
-        let handledError = false
-        for (const input of [nameInput, noteInput]) {
-            try {
-                input.validate()
-            } catch (err) {
-                handledError = true
+        tryValidationFunction(() => validateContactName(contactName), ContactField.Name)
+        tryValidationFunction(() => validateContactNote(contactNote), ContactField.Note)
+
+        return !Object.values(validationErrors).some((error) => Boolean(error))
+    }
+
+    function tryValidationFunction(validationFunction: () => void, fieldName: ContactField): void {
+        try {
+            validationFunction()
+        } catch (err) {
+            if (fieldName in validationErrors) {
+                validationErrors[fieldName] = err.message
             }
         }
-        return !handledError
+    }
+
+    function onCancelClick(): void {
+        drawerRouter.previous()
     }
 </script>
 
@@ -54,28 +68,22 @@
     title={localize(`views.dashboard.drawers.contactBook.${ContactBookRoute.EditContact}.title`)}
     {drawerRouter}
 >
-    <form on:submit|preventDefault={updateContact} id="edit-contact-form" class="flex flex-col justify-between gap-4">
+    <form on:submit|preventDefault={onSaveClick} id="edit-contact-form" class="flex flex-col justify-between gap-4">
         <TextInput
             bind:this={nameInput}
             bind:value={contactName}
-            placeholder={localize('general.name')}
+            bind:error={validationErrors[ContactField.Name]}
             label={localize('general.name')}
-            validationFunction={validateContactName}
         />
         <TextInput
             bind:this={noteInput}
             bind:value={contactNote}
-            placeholder={localize('general.optionalField', { field: localize('general.note') })}
-            label={localize('general.note')}
-            validationFunction={validateContactNote}
+            bind:error={validationErrors[ContactField.Note]}
+            label={localize('general.optionalField', { field: localize('general.note') })}
         />
     </form>
-    <Button
-        slot="footer"
-        type="submit"
-        form="edit-contact-form"
-        text={localize('actions.save')}
-        width="full"
-        on:click={updateContact}
-    />
+    <div slot="footer" class="flex gap-4">
+        <Button variant="outlined" text={localize('actions.cancel')} width="half" on:click={onCancelClick} />
+        <Button type="submit" form="edit-contact-form" text={localize('actions.save')} width="half" />
+    </div>
 </DrawerTemplate>

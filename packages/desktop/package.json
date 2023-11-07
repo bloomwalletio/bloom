@@ -1,7 +1,7 @@
 {
     "name": "desktop",
     "productName": "Bloom",
-    "version": "0.1.0-alpha-12",
+    "version": "0.1.0-alpha-4",
     "description": "Simple and secure web3 wallet for the IOTA and Shimmer ecosystem",
     "main": "public/build/main.process.js",
     "repository": "git@github.com:bloomwalletio/bloom.git",
@@ -35,7 +35,7 @@
         "@ethereumjs/tx": "4.1.2",
         "@ethereumjs/util": "9.0.0",
         "@ledgerhq/evm-tools": "1.0.4",
-        "@ledgerhq/hw-app-eth": "6.34.1",
+        "@ledgerhq/hw-app-eth": "6.34.8",
         "@ledgerhq/hw-transport-node-hid": "6.27.21",
         "@ledgerhq/logs": "6.10.1",
         "@types/webpack-dev-server": "4.7.2",
