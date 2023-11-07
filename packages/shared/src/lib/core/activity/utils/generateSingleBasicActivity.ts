@@ -6,7 +6,6 @@ import { ActivityType } from '../enums'
 import { TransactionActivity } from '../types'
 import { generateBaseActivity } from './generateBaseActivity'
 import { getOrRequestTokenFromPersistedTokens } from '@core/token/actions'
-import { getGasPriceForNetwork } from '@core/layer-2/actions'
 
 export async function generateSingleBasicActivity(
     account: IAccountState,
@@ -21,10 +20,6 @@ export async function generateSingleBasicActivity(
         const transferAmount = baseActivity.smartContract.baseTokens
             ? Number(baseActivity.smartContract.baseTokens ?? 0)
             : 0
-
-        const gasPrice = await getGasPriceForNetwork(networkId)
-        const gasLimit = Number(baseActivity.smartContract.gasLimit ?? '0')
-
         const transferDelta = baseActivity.baseTokenTransfer?.rawAmount
             ? Number(baseActivity.baseTokenTransfer.rawAmount) - transferAmount
             : 0
@@ -32,9 +27,7 @@ export async function generateSingleBasicActivity(
             tokenId: BASE_TOKEN_ID,
             rawAmount: String(transferAmount),
         }
-
-        baseActivity.storageDeposit = transferDelta - gasLimit
-        baseActivity.transactionFee = Number(gasPrice ?? '0') * gasLimit
+        baseActivity.transactionFee = transferDelta
     }
 
     if (overrideTokenId && overrideTokenId !== BASE_TOKEN_ID && overrideAmount !== undefined) {

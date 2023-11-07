@@ -11,8 +11,10 @@
 
     const { destinationNetworkId } = sendFlowParameters
 
-    $: transactionFee = sendFlowParameters?.gasFee
-    $: storageDeposit = getStorageDeposit(sendFlowParameters)
+    $: transactionFee =
+        sendFlowParameters.type === SendFlowType.BaseCoinTransfer
+            ? String(Number(output.amount) - Number(sendFlowParameters.baseCoinTransfer.rawAmount))
+            : output.amount
 
     function getTransactionAssets(sendFlowParameters: SendFlowParameters): {
         nft?: INft
@@ -40,18 +42,10 @@
                 }
         }
     }
-
-    function getStorageDeposit(sendFlowParameters: SendFlowParameters): number {
-        const amountWithTransactionFee =
-            sendFlowParameters.type === SendFlowType.BaseCoinTransfer
-                ? Number(output.amount) - Number(sendFlowParameters.baseCoinTransfer.rawAmount)
-                : Number(output.amount)
-        return amountWithTransactionFee - sendFlowParameters.gasFee
-    }
 </script>
 
 <div class="w-full space-y-5">
     <TransactionAssetSection {...getTransactionAssets(sendFlowParameters)} />
 
-    <StardustTransactionDetails {transactionFee} {storageDeposit} {destinationNetworkId} disableAll />
+    <StardustTransactionDetails {transactionFee} {destinationNetworkId} disableAll />
 </div>
