@@ -67,7 +67,9 @@
         {#if $$slots.description}
             <slot name="description" />
         {:else if description}
-            <Text type="body2" textColor="secondary">{description}</Text>
+            <div class="break-words">
+                <Text type="body2" textColor="secondary">{description}</Text>
+            </div>
         {/if}
     </popup-header>
     {#if $$slots.default}
