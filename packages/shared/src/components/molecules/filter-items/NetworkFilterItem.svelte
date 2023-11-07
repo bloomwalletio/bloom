@@ -3,20 +3,17 @@
     import { NetworkFilterUnit } from '@core/utils/interfaces/filter'
     import features from '@features/features'
     import { IOption, SelectInput } from '@bloomwalletio/ui'
-    import { onMount } from 'svelte'
 
     export let filterUnit: NetworkFilterUnit
 
-    let options: IOption[] = []
-    let selected: IOption | undefined = undefined
+    const options: IOption[] = getOptions()
+    let selected: IOption | undefined = options.find((option) => option.value === filterUnit.selected) ?? options?.[0]
 
-    onMount(buildOptions)
-
-    function buildOptions(): void {
+    function getOptions(): IOption[] {
         if (!$network) {
-            return
+            return []
         }
-        // L1 network, we consider layer 1 as "chain 0"
+        // L1 network
         const layer1Network = {
             label: $network.getMetadata().name,
             value: $network.getMetadata().id,
@@ -29,14 +26,18 @@
             label: chain.getConfiguration().name,
             value: chain.getConfiguration().id,
         }))
-        options = [layer1Network, ...iscpChainsOptions]
-        selected = options.find((option) => option.value === filterUnit.selected)
+        return [layer1Network, ...iscpChainsOptions]
     }
 
     $: selected && onSelect(selected)
     function onSelect(item: IOption): void {
+        if (!item) {
+            return
+        }
         filterUnit.selected = item.value
     }
 </script>
 
-<SelectInput bind:selected {options} hideValue />
+{#if options}
+    <SelectInput bind:selected {options} hideValue />
+{/if}
