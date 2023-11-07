@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { Button } from '@bloomwalletio/ui'
+    import { Button, TextInput } from '@bloomwalletio/ui'
     import { DrawerTemplate } from '@components'
     import {
         ContactManager,
@@ -10,7 +10,7 @@
     } from '@core/contact'
     import { localize } from '@core/i18n'
     import { Router } from '@core/router'
-    import { NetworkInput, TextInput } from '@ui'
+    import { NetworkInput } from '@ui'
     import { ContactBookRoute } from '../contact-book-route.enum'
     import { NetworkId } from '@core/network'
 
@@ -28,6 +28,18 @@
      */
     $: selectedNetworkId, resetErrors()
 
+    enum AddressField {
+        Address = 'address',
+        Name = 'name',
+        Network = 'network',
+    }
+
+    const validationErrors: { [key in AddressField]: string | undefined } = {
+        [AddressField.Address]: undefined,
+        [AddressField.Name]: undefined,
+        [AddressField.Network]: undefined,
+    }
+
     let addressError,
         addressNameError,
         networkSelectionError = ''
@@ -44,20 +56,35 @@
         }
     }
 
+    function onCancelClick(): void {
+        drawerRouter.previous()
+    }
+
     function validate(): boolean {
-        /**
-         * NOTE: This variable allows us to run all the input validation functions,
-         * displaying all errors at once rather than one by one.
-         */
-        let handledError = false
-        for (const input of [addressInput, addressNameInput, networkSelectionInput]) {
-            try {
-                input.validate()
-            } catch (err) {
-                handledError = true
-            }
+        tryValidationFunction(() => validateContactNetworkSelection(selectedNetworkId), AddressField.Network)
+        tryValidationFunction(
+            () =>
+                validateContactAddressName(
+                    { value: addressName, isRequired: true, checkLength: true, mustBeUnique: true },
+                    $selectedContact?.id,
+                    selectedNetworkId
+                ),
+            AddressField.Name
+        )
+        tryValidationFunction(
+            () => validateContactAddress({ value: address, isRequired: true, mustBeUnique: true }, selectedNetworkId),
+            AddressField.Address
+        )
+
+        return !Object.values(validationErrors).some((error) => error !== undefined && error !== '')
+    }
+
+    function tryValidationFunction(validationFunction: () => void, fieldName: AddressField): void {
+        try {
+            validationFunction()
+        } catch (err) {
+            validationErrors[fieldName] = err.message
         }
-        return !handledError
     }
 </script>
 
@@ -65,42 +92,27 @@
     title={localize(`views.dashboard.drawers.contactBook.${ContactBookRoute.AddNetworkAddress}.title`)}
     {drawerRouter}
 >
-    <form on:submit|preventDefault={onSaveClick} form="add-network-address-form" class="flex flex-col gap-4">
+    <form on:submit|preventDefault={onSaveClick} id="add-network-address-form" class="flex flex-col gap-4">
         <NetworkInput
             bind:this={networkSelectionInput}
             bind:networkId={selectedNetworkId}
-            bind:error={networkSelectionError}
-            validationFunction={() => validateContactNetworkSelection(selectedNetworkId)}
+            bind:error={validationErrors[AddressField.Network]}
         />
         <TextInput
             bind:this={addressNameInput}
             bind:value={addressName}
-            bind:error={addressNameError}
-            placeholder={localize('general.addressName')}
+            bind:error={validationErrors[AddressField.Name]}
             label={localize('general.addressName')}
-            validationFunction={() =>
-                validateContactAddressName(
-                    { value: addressName, isRequired: true, checkLength: true, mustBeUnique: true },
-                    $selectedContact?.id,
-                    selectedNetworkId
-                )}
         />
         <TextInput
             bind:this={addressInput}
             bind:value={address}
-            bind:error={addressError}
-            placeholder={localize('general.address')}
+            bind:error={validationErrors[AddressField.Address]}
             label={localize('general.address')}
-            validationFunction={() =>
-                validateContactAddress({ value: address, isRequired: true, mustBeUnique: true }, selectedNetworkId)}
         />
     </form>
-    <Button
-        slot="footer"
-        type="submit"
-        form="add-network-address-form"
-        text={localize('actions.save')}
-        width="full"
-        on:click={onSaveClick}
-    />
+    <div slot="footer" class="flex gap-4">
+        <Button variant="outlined" text={localize('actions.cancel')} width="half" on:click={onCancelClick} />
+        <Button type="submit" form="add-network-address-form" text={localize('actions.save')} width="half" />
+    </div>
 </DrawerTemplate>
