@@ -3,10 +3,8 @@
 
     import { onMount } from 'svelte'
 
-    import { Button, IconName } from '@bloomwalletio/ui'
+    import { Button, IconName, TextInput } from '@bloomwalletio/ui'
     import { DrawerTemplate } from '@components'
-    import { TextInput } from '@ui'
-
     import {
         ContactManager,
         IContactAddress,
@@ -31,7 +29,15 @@
     let newAddressInputs: TextInput[] = []
     let newAddressNameInputs: TextInput[] = []
 
+    enum NetworkAddressField {
+        Name = 'name',
+        Address = 'address',
+    }
+
+    let validationErrors: { [key in NetworkAddressField]: string | undefined }[] = []
+
     function onRemoveAddressClick(indexToRemove: number): void {
+        validationErrors = validationErrors.filter((_, index) => index !== indexToRemove)
         const isSavedAddress = indexToRemove < savedAddresses.length
         if (isSavedAddress) {
             addressesToRemove = [...addressesToRemove, savedAddresses[indexToRemove].address]
@@ -52,6 +58,7 @@
     }
 
     function onAddNewAddressClick(): void {
+        validationErrors.push({ [NetworkAddressField.Name]: undefined, [NetworkAddressField.Address]: undefined })
         newAddressInputs.push(undefined)
         newAddressNameInputs.push(undefined)
         newAddresses.push({
@@ -85,24 +92,88 @@
         }
     }
 
+    function onCancelClick(): void {
+        drawerRouter.previous()
+    }
+
     function validate(): boolean {
-        /**
-         * NOTE: This variable allows us to run all the input validation functions,
-         * displaying all errors at once rather than one by one.
-         */
         let handledError = false
-        for (const input of [...savedAddressNameInputs, ...newAddressInputs, ...newAddressNameInputs]) {
-            try {
-                if (input && typeof input.validate === 'function') {
-                    /* eslint-disable @typescript-eslint/ban-ts-comment */
-                    // @ts-ignore
-                    input.validate()
-                }
-            } catch (err) {
+        const addresses = [...savedAddresses, ...newAddresses]
+        addresses.forEach((_, index) => {
+            if (index < savedAddresses.length) {
+                tryValidationFunction(
+                    () => {
+                        if (hasAddressNameChanged(savedAddresses[index].addressName, savedAddresses[index].address)) {
+                            validateContactAddressName(
+                                {
+                                    value: savedAddresses[index].addressName,
+                                    isRequired: true,
+                                    mustBeUnique: addressesToRemove.includes(savedAddresses[index].address),
+                                    checkLength: true,
+                                },
+                                $selectedContact?.id,
+                                $selectedContactNetworkId
+                            )
+                        }
+                    },
+                    index,
+                    NetworkAddressField.Name
+                )
+            } else {
+                tryValidationFunction(
+                    () =>
+                        validateContactAddressName(
+                            {
+                                value: newAddresses[index - savedAddresses.length].addressName,
+                                mustBeUnique: !addressesToRemove.includes(
+                                    newAddresses[index - savedAddresses.length].address
+                                ),
+                                isRequired: true,
+                                checkLength: true,
+                            },
+                            $selectedContact?.id,
+                            $selectedContactNetworkId
+                        ),
+                    index,
+                    NetworkAddressField.Name
+                )
+                tryValidationFunction(
+                    () => {
+                        validateContactAddress(
+                            {
+                                value: newAddresses[index - savedAddresses.length].address,
+                                isRequired: true,
+                                mustBeUnique: !addressesToRemove.includes(
+                                    newAddresses[index - savedAddresses.length].address
+                                ),
+                            },
+                            $selectedContactNetworkId
+                        )
+                    },
+                    index,
+                    NetworkAddressField.Address
+                )
+            }
+
+            if (Object.values(validationErrors[index]).some((error) => Boolean(error))) {
                 handledError = true
             }
-        }
+        })
+
         return !handledError
+    }
+
+    function tryValidationFunction(
+        validationFunction: () => void,
+        fieldIndex: number,
+        fieldName: NetworkAddressField
+    ): void {
+        try {
+            validationFunction()
+        } catch (err) {
+            if (validationErrors[fieldIndex] && fieldName in validationErrors[fieldIndex])
+                validationErrors[fieldIndex][fieldName] = err.message
+        }
     }
 
     function hasAddressNameChanged(name: string, address: string): boolean {
@@ -123,6 +194,12 @@
         const contactAddresses = ContactManager.getNetworkContactAddressMapForContact($selectedContact?.id)
         savedAddresses = Object.values(contactAddresses?.[$selectedContactNetworkId] ?? {}) || []
         savedAddressNameInputs = savedAddresses.map(() => undefined)
+        savedAddresses.forEach((contactAddress) => {
+            validationErrors.push({
+                [NetworkAddressField.Name]: contactAddress.addressName,
+                [NetworkAddressField.Address]: contactAddress.address,
+            })
+        })
     })
 </script>
 
@@ -130,77 +207,37 @@
     title={localize(`views.dashboard.drawers.contactBook.${ContactBookRoute.EditNetworkAddresses}.title`)}
     {drawerRouter}
 >
-    <form on:submit|preventDefault={onSaveClick} id="edit-network-addresses-form" class="flex flex-col gap-4">
+    <form on:submit|preventDefault={onSaveClick} id="edit-network-addresses-form" class="flex flex-col gap-6">
         {#each [...savedAddresses, ...newAddresses] as address, index}
             <div
-                class="flex flex-col justify-between gap-2 p-4 border border-solid border-gray-300 rounded-lg dark:border-transparent dark:bg-gray-900"
+                class="flex flex-col justify-between gap-3 p-4 bg-surface dark:bg-surface-dark
+                border border-solid border-stroke dark:border-stroke-dark rounded-lg"
             >
                 {#if index < savedAddresses.length}
                     <TextInput
                         bind:this={savedAddressNameInputs[index]}
                         bind:value={savedAddresses[index].addressName}
-                        placeholder={localize('general.addressName')}
+                        bind:error={validationErrors[index][NetworkAddressField.Name]}
                         label={localize('general.addressName')}
-                        validationFunction={() => {
-                            if (
-                                hasAddressNameChanged(savedAddresses[index].addressName, savedAddresses[index].address)
-                            ) {
-                                validateContactAddressName(
-                                    {
-                                        value: savedAddresses[index].addressName,
-                                        isRequired: true,
-                                        mustBeUnique: addressesToRemove.includes(savedAddresses[index].address),
-                                        checkLength: true,
-                                    },
-                                    $selectedContact?.id,
-                                    $selectedContactNetworkId
-                                )
-                            }
-                        }}
                     />
                     <TextInput
                         bind:value={savedAddresses[index].address}
+                        bind:error={validationErrors[index][NetworkAddressField.Address]}
                         disabled
-                        placeholder={localize('general.address')}
                         label={localize('general.address')}
                     />
                 {:else}
                     <TextInput
                         bind:this={newAddressNameInputs[index - savedAddresses.length]}
                         bind:value={newAddresses[index - savedAddresses.length].addressName}
-                        placeholder={localize('general.addressName')}
+                        bind:error={validationErrors[index][NetworkAddressField.Name]}
                         label={localize('general.addressName')}
-                        validationFunction={() =>
-                            validateContactAddressName(
-                                {
-                                    value: newAddresses[index - savedAddresses.length].addressName,
-                                    mustBeUnique: !addressesToRemove.includes(
-                                        newAddresses[index - savedAddresses.length].address
-                                    ),
-                                    isRequired: true,
-                                    checkLength: true,
-                                },
-                                $selectedContact?.id,
-                                $selectedContactNetworkId
-                            )}
                     />
                     <TextInput
                         bind:this={newAddressInputs[index - savedAddresses.length]}
                         bind:value={newAddresses[index - savedAddresses.length].address}
-                        placeholder={localize('general.address')}
+                        bind:error={validationErrors[index][NetworkAddressField.Address]}
                         label={localize('general.address')}
-                        validationFunction={() => {
-                            validateContactAddress(
-                                {
-                                    value: newAddresses[index - savedAddresses.length].address,
-                                    isRequired: true,
-                                    mustBeUnique: !addressesToRemove.includes(
-                                        newAddresses[index - savedAddresses.length].address
-                                    ),
-                                },
-                                $selectedContactNetworkId
-                            )
-                        }}
                     />
                 {/if}
                 <Button
@@ -222,12 +259,8 @@
             on:click={onAddNewAddressClick}
         />
     </form>
-    <Button
-        slot="footer"
-        type="submit"
-        form="edit-network-addresses-form"
-        on:click={onSaveClick}
-        width="full"
-        text={localize('actions.save')}
-    />
+    <div slot="footer" class="flex gap-4">
+        <Button variant="outlined" text={localize('actions.cancel')} width="half" on:click={onCancelClick} />
+        <Button type="submit" form="edit-network-addresses-form" width="half" text={localize('actions.save')} />
+    </div>
 </DrawerTemplate>

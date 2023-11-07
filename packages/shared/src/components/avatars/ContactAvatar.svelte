@@ -4,7 +4,7 @@
     import { getInitials } from '@core/utils'
 
     export let contact: IContact
-    export let size: (typeof avatarSize)[number] = 'xs'
+    export let size: (typeof avatarSize)[number] = 'base'
 </script>
 
 <contact-avatar>
