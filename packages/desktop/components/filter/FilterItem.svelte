@@ -22,9 +22,7 @@
     }
 
     function onCheckBoxClick(): void {
-        if (filterUnit.active) {
-            dispatch('open')
-        }
+        dispatch(filterUnit.active ? 'open' : 'close')
     }
 </script>
 

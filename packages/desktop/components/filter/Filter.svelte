@@ -62,6 +62,7 @@
                 bind:filterUnit={filter[filterUnit]}
                 on:toggle={() => toggleFilterItem(index)}
                 on:open={() => openFilterItem(index)}
+                on:close={() => (openFilterItemIndex = -1)}
                 isOpen={openFilterItemIndex === index}
             />
         {/each}
