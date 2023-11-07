@@ -12,7 +12,9 @@ export function getFormattedAmountFromActivity(
     const transferData = activity.tokenTransfer ?? activity.baseTokenTransfer
 
     const metadata = getPersistedToken(transferData?.tokenId)?.metadata
-    const amount = metadata ? formatTokenAmountBestMatch(Number(transferData.rawAmount), metadata, 2) : undefined
+    const amount = metadata
+        ? formatTokenAmountBestMatch(Math.abs(Number(transferData.rawAmount)), metadata, 2)
+        : undefined
     if (activity.type === ActivityType.Basic) {
         return `${
             (activity.direction === ActivityDirection.Outgoing || activity.action === ActivityAction.Burn) && signed

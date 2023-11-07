@@ -12,6 +12,7 @@
     import { ITokenWithBalance } from '@core/token'
     import { Text } from '@bloomwalletio/ui'
     import { selectedAccountTokens } from '@core/token/stores'
+    import { handleError } from '@core/error/handlers'
 
     export let activity: Activity
 
@@ -19,16 +20,20 @@
     $: $selectedAccountTokens, (token = getTokenFromActivity(activity))
 
     function getAmount(_activity: Activity): string {
-        if (_activity.type === ActivityType.Basic || _activity.type === ActivityType.Foundry) {
-            return getFormattedAmountFromActivity(_activity)
-        } else if (_activity.type === ActivityType.Governance) {
-            const isVotingPowerActivity =
-                _activity.governanceAction === GovernanceAction.DecreaseVotingPower ||
-                _activity.governanceAction === GovernanceAction.IncreaseVotingPower
+        try {
+            if (_activity.type === ActivityType.Basic || _activity.type === ActivityType.Foundry) {
+                return getFormattedAmountFromActivity(_activity)
+            } else if (_activity.type === ActivityType.Governance) {
+                const isVotingPowerActivity =
+                    _activity.governanceAction === GovernanceAction.DecreaseVotingPower ||
+                    _activity.governanceAction === GovernanceAction.IncreaseVotingPower
 
-            return isVotingPowerActivity ? getFormattedVotingPowerFromGovernanceActivity(_activity) : '-'
-        } else {
-            return '-'
+                return isVotingPowerActivity ? getFormattedVotingPowerFromGovernanceActivity(_activity) : '-'
+            } else {
+                return '-'
+            }
+        } catch (err) {
+            handleError(err)
         }
     }
 
