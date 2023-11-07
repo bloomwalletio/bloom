@@ -45,7 +45,7 @@
             case DateFilterOption.Last:
                 filterUnit.subunit = {
                     type: 'unit',
-                    amount: 0,
+                    amount: '0',
                     unit: DateUnit.Days,
                 }
                 break

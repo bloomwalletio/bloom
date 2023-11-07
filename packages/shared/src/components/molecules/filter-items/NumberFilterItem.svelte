@@ -23,14 +23,14 @@
             case NumberFilterOption.Less:
                 filterUnit.subunit = {
                     type: 'single',
-                    amount: undefined,
+                    amount: '',
                 }
                 break
             case NumberFilterOption.Range:
                 filterUnit.subunit = {
                     type: 'range',
-                    start: undefined,
-                    end: undefined,
+                    start: '',
+                    end: '',
                 }
                 break
         }

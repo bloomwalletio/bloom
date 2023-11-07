@@ -17,7 +17,7 @@ export const DEFAULT_ACTIVITY_FILTER: ActivityFilter = {
         choices: Object.values(NumberFilterOption),
         subunit: {
             type: 'single',
-            amount: undefined,
+            amount: '',
         },
     },
     token: {

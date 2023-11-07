@@ -109,7 +109,7 @@ function isVisibleWithActiveAmountFilter(activity: Activity, filter: ActivityFil
         if (
             filter.amount.selected === NumberFilterOption.Equal &&
             filter.amount.subunit.type === 'single' &&
-            filter.amount.subunit.amount !== undefined
+            filter.amount.subunit.amount
         ) {
             const amount = convertToRawAmount(String(filter.amount.subunit.amount), token.metadata)
             const isEqual = activityAmount.eq(amount)
@@ -120,8 +120,8 @@ function isVisibleWithActiveAmountFilter(activity: Activity, filter: ActivityFil
         if (
             filter.amount.selected === NumberFilterOption.Range &&
             filter.amount.subunit.type === 'range' &&
-            filter.amount.subunit.start !== undefined &&
-            filter.amount.subunit.end !== undefined
+            filter.amount.subunit.start &&
+            filter.amount.subunit.end
         ) {
             const startAmount = convertToRawAmount(String(filter.amount.subunit.start), token.metadata)
             const endAmount = convertToRawAmount(String(filter.amount.subunit.end), token.metadata)
@@ -133,7 +133,7 @@ function isVisibleWithActiveAmountFilter(activity: Activity, filter: ActivityFil
         if (
             filter.amount.selected === NumberFilterOption.Greater &&
             filter.amount.subunit.type === 'single' &&
-            filter.amount.subunit.amount !== undefined
+            filter.amount.subunit.amount
         ) {
             const amount = convertToRawAmount(String(filter.amount.subunit.amount), token.metadata)
             const isGreater = activityAmount.gte(amount)
@@ -144,7 +144,7 @@ function isVisibleWithActiveAmountFilter(activity: Activity, filter: ActivityFil
         if (
             filter.amount.selected === NumberFilterOption.Less &&
             filter.amount.subunit.type === 'single' &&
-            filter.amount.subunit.amount !== undefined
+            filter.amount.subunit.amount
         ) {
             const amount = convertToRawAmount(String(filter.amount.subunit.amount), token.metadata)
             const isLess = activityAmount.lte(amount)
