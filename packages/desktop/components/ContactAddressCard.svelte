@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { Copyable, IconButton, IconName } from '@bloomwalletio/ui'
+    import { Copyable, IconButton, IconName, Text } from '@bloomwalletio/ui'
     import { IContact, IContactAddressMap } from '@core/contact'
     import { localize } from '@core/i18n'
     import { resetLedgerPreparedOutput, resetShowInternalVerificationPopup } from '@core/ledger'
@@ -10,8 +10,7 @@
     import { closeDrawer } from '@desktop/auxiliary/drawer'
     import { PopupId, openPopup } from '@desktop/auxiliary/popup'
     import features from '@features/features'
-    import { NetworkAvatar, Text } from '@ui'
-    import { FontWeight, TextType } from '@ui/enums'
+    import { NetworkAvatar } from '@ui'
     import { SendFlowRouter, sendFlowRouter } from '@views/dashboard/send-flow'
     import { ContactAddressMenu } from './menus'
 
@@ -38,23 +37,23 @@
 </script>
 
 <contact-address-card
-    class="flex flex-col justify-between bg-gray-50 dark:bg-gray-900 p-4 gap-4 border border-solid border-gray-200 dark:border-transparent rounded-xl"
+    class="flex flex-col justify-between bg-surface dark:bg-surface-dark p-4 gap-4 border border-solid border-stroke dark:border-stroke-dark rounded-xl"
 >
     <contact-address-head class="flex justify-between">
         <div class="flex items-center gap-2">
             <NetworkAvatar {networkId} />
-            <Text fontSize="text-16" fontWeight={FontWeight.semibold}>{getNameFromNetworkId(networkId)}</Text>
+            <Text type="body2">{getNameFromNetworkId(networkId)}</Text>
         </div>
         <ContactAddressMenu {drawerRouter} {networkId} />
     </contact-address-head>
     {#each Object.values(contactAddressMap) as contactAddress}
         <contact-address-item class="flex justify-between items-end gap-4">
             <div class="flex flex-col">
-                <Text overrideColor classes="text-gray-600 text-left w-full truncate" fontWeight={FontWeight.medium}>
-                    {contactAddress.addressName}
+                <Text width="full" align="left" truncate>
+                    [{contactAddress.addressName}]
                 </Text>
                 <Copyable value={contactAddress.address}>
-                    <Text type={TextType.pre} fontSize="16" fontWeight={FontWeight.medium}>
+                    <Text type="pre-md" textColor="secondary" fontWeight="medium">
                         {truncateString(contactAddress.address, 9, 9)}
                     </Text>
                 </Copyable>

@@ -1245,7 +1245,7 @@
         "manageAccount": "Manage account",
         "account": "Account",
         "amount": "Amount",
-        "addAddress": "Add Address",
+        "addAddress": "Add address",
         "to": "To",
         "and": "and",
         "receiveFunds": "Receive funds",
@@ -1833,7 +1833,8 @@
                 "expirationTime": "If the recipient does not claim in time your tokens will be returned to you.",
                 "timelockDate": "You added a timelock to this transaction. The recipient will not be able to spend these funds until the timelock expires.",
                 "metadata": "An optional data field for storing data persistently on the Tangle.",
-                "tag": "A short optional data field. Tagging groups of transactions can make them easier to search for."
+                "tag": "A short optional data field. Tagging groups of transactions can make them easier to search for.",
+                "transactionFee": "The transaction fee contains the gas fee for the code execution and the storage deposit fee."
             },
             "nftMetadata": {
                 "type": "The MimeType of the NFT. e.g. image/png.",
