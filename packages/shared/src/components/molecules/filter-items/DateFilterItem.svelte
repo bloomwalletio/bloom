@@ -16,13 +16,16 @@
         label: localize(`${filterUnit.localeKey}.${val}`),
         value: val,
     }))
-    let selectedDateUnit = options.find((option) =>
-        filterUnit.subunit.type === 'unit' ? option.value === filterUnit.subunit.unit : false
-    )
+    let selectedDateUnit =
+        unitChoices.find((option) =>
+            filterUnit.subunit.type === 'unit' ? option.value === filterUnit.subunit.unit : false
+        ) ?? unitChoices[0]
 
     $: selected && onSelect(selected)
     function onSelect(item: IOption): void {
-        if (filterUnit.selected === item.value) return
+        if (filterUnit.selected === item.value) {
+            return
+        }
 
         filterUnit.selected = item.value as DateFilterOption
         switch (filterUnit.selected) {
