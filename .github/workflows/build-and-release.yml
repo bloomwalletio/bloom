@@ -60,7 +60,7 @@ jobs:
             os: ${{ matrix.os }}
             version: ${{ needs.setup.outputs.version }}
             stage: ${{ inputs.stage || needs.setup.outputs.stage }}
-            sign: ${{ matrix.os != 'windows-2022' }}
+            sign: true
             upload: true
         secrets: inherit
 
