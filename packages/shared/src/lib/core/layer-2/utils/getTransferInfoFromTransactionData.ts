@@ -13,7 +13,7 @@ export function getTransferInfoFromTransactionData(
     transaction: PersistedEvmTransaction,
     address: string,
     chain: IChain
-): { asset: TransferredAssetId; recipientAddress: string } | undefined {
+): { asset: TransferredAssetId; additionalBaseTokenAmount?: string; recipientAddress: string } | undefined {
     const networkId = chain.getConfiguration().id
     if (transaction.data) {
         const isErc20 = isTrackedTokenAddress(networkId, address)
@@ -70,7 +70,7 @@ export function getTransferInfoFromTransactionData(
             case 'send': {
                 const inputs = decoded.inputs as IscSendMethodInputs
 
-                if (inputs.assets.nativeTokens) {
+                if (inputs.assets.nativeTokens?.length) {
                     const nativeToken = inputs.assets.nativeTokens[0]
                     return {
                         asset: {
@@ -78,6 +78,7 @@ export function getTransferInfoFromTransactionData(
                             tokenId: nativeToken.ID.data,
                             rawAmount: nativeToken.amount,
                         },
+                        additionalBaseTokenAmount: inputs.assets.baseTokens,
                         recipientAddress: convertHexAddressToBech32(0, inputs.targetAddress.data),
                     }
                 } else if (inputs.assets.baseTokens) {
