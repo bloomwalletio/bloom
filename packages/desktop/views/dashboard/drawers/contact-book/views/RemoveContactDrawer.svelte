@@ -1,12 +1,11 @@
 <script lang="ts">
-    import { Alert, Button } from '@bloomwalletio/ui'
-    import { DrawerTemplate } from '@components'
+    import { Alert, Button, Text } from '@bloomwalletio/ui'
+    import { ContactCard, DrawerTemplate } from '@components'
     import { ContactManager, doesProfileHaveContacts, selectedContact } from '@core/contact'
     import { localize } from '@core/i18n'
     import { activeProfile } from '@core/profile/stores'
     import { Router } from '@core/router'
     import { closeDrawer } from '@desktop/auxiliary/drawer'
-    import { Text } from '@ui'
     import { ContactBookRoute } from '../contact-book-route.enum'
 
     export let drawerRouter: Router<unknown>
@@ -30,9 +29,12 @@
     {drawerRouter}
 >
     <remove-contact class="flex flex-col gap-4">
-        <Text>
+        <Text type="base">
             {localize(`views.dashboard.drawers.contactBook.${ContactBookRoute.RemoveContact}.body`)}
         </Text>
+        <div class="px-1">
+            <ContactCard contact={$selectedContact} showRightArrow={false} error />
+        </div>
         <Alert
             variant="warning"
             text={localize(`views.dashboard.drawers.contactBook.${ContactBookRoute.RemoveContact}.hint`)}

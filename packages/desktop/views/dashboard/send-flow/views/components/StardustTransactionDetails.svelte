@@ -23,6 +23,7 @@
     export let disableGiftStorageDeposit: boolean | undefined = undefined
     export let disableAll: boolean | undefined = undefined
 
+    const localeKey = 'tooltips.transactionDetails.outgoing.'
     $: items = [
         {
             key: localize('general.destinationNetwork'),
@@ -36,6 +37,7 @@
         {
             key: localize('general.transactionFee'),
             value: transactionFee ? formatTokenAmountBestMatch(Number(transactionFee), getBaseToken()) : undefined,
+            tooltip: localize(localeKey + 'transactionFee'),
         },
     ]
 </script>
@@ -45,7 +47,7 @@
         <TableRow
             item={{
                 key: localize('general.storageDeposit'),
-                tooltip: localize('tooltips.transactionDetails.outgoing.storageDeposit'),
+                tooltip: localize(localeKey + 'storageDeposit'),
             }}
         >
             <div slot="boundValue">
@@ -61,7 +63,7 @@
         <TableRow
             item={{
                 key: localize('general.expirationTime'),
-                tooltip: localize('tooltips.transactionDetails.outgoing.expirationTime'),
+                tooltip: localize(localeKey + 'expirationTime'),
             }}
         >
             <div slot="boundValue">
@@ -77,7 +79,7 @@
         <TableRow
             item={{
                 key: localize('general.timelockDate'),
-                tooltip: localize('tooltips.transactionDetails.outgoing.timelockDate'),
+                tooltip: localize(localeKey + 'timelockDate'),
             }}
         >
             <div slot="boundValue">

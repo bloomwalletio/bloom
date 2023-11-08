@@ -41,7 +41,7 @@
             bind:clientWidth={nftWrapperClientWidth}
             style="height: {nftWrapperClientWidth}px; "
         >
-            <NftMedia {nft} classes="min-w-full min-h-full object-cover" loop muted showErrorColor>
+            <NftMedia {nft} classes="min-w-full min-h-full object-cover" loop muted>
                 <MediaPlaceholder {nft} size="md" slot="placeholder" />
             </NftMedia>
             <error-container bind:this={anchor}>
