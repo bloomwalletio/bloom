@@ -64,6 +64,7 @@ export default class AutoUpdateManager {
     }
 
     private handleError(err: Error): void {
+        this.downloadCancellation = undefined
         getOrInitWindow('main').webContents.send('version-error', err)
     }
 
