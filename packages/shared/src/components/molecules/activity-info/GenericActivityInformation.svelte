@@ -18,7 +18,6 @@
     $: formattedTransactionTime = getFormattedTimeStamp(activity.time)
     $: formattedStorageDeposit = formatAmount(activity.storageDeposit ?? 0)
 
-    $: formattedEstimatedGasFee = formatAmount(Number(gasLimit ?? 0))
     $: formattedMaxGasFee = formatAmount(Number(gasLimit ?? 0))
     $: formattedTransactionFee = formatAmount(Number(activity.transactionFee ?? 0))
 
@@ -67,10 +66,6 @@
             key: localize('general.storageDeposit'),
             value: activity.storageDeposit ? formattedStorageDeposit : undefined,
             tooltip: localize(`tooltips.transactionDetails.${activity.direction}.storageDeposit`),
-        },
-        {
-            key: localize('general.estimatedFee'),
-            value: !formattedTransactionFee ? formattedEstimatedGasFee : undefined,
         },
         {
             key: localize('general.maxFees'),
