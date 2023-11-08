@@ -7,7 +7,6 @@ import { Erc20TransferMethodInputs, IscCallMethodInputs, IscSendMethodInputs } f
 import { BASE_TOKEN_ID } from '@core/token/constants'
 import { IChain } from '@core/network'
 import { AssetType, TransferredAssetId } from '..'
-import { convertHexAddressToBech32 } from '@core/wallet/utils'
 
 export function getTransferInfoFromTransactionData(
     transaction: PersistedEvmTransaction,
@@ -79,7 +78,7 @@ export function getTransferInfoFromTransactionData(
                             rawAmount: nativeToken.amount,
                         },
                         additionalBaseTokenAmount: inputs.assets.baseTokens,
-                        recipientAddress: convertHexAddressToBech32(0, inputs.targetAddress.data),
+                        recipientAddress: transaction.to, // for now, set it to the magic contract address
                     }
                 } else if (inputs.assets.baseTokens) {
                     return {
@@ -88,7 +87,7 @@ export function getTransferInfoFromTransactionData(
                             tokenId: BASE_TOKEN_ID,
                             rawAmount: inputs.assets.baseTokens,
                         },
-                        recipientAddress: convertHexAddressToBech32(0, inputs.targetAddress.data),
+                        recipientAddress: transaction.to, // for now, set it to the magic contract address
                     }
                 }
 
