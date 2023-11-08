@@ -9,9 +9,6 @@ contact_links:
     - name: General feedback
       url: https://github.com/bloomwalletio/bloom/discussions/categories/general
       about: Leave us some feedback
-    - name: Translation issues
-      url: https://crowdin.com/project/bloom-wallet
-      about: Issues with translations can be resolved on Crowdin
     - name: Join our Discord
-      url: https://discord.iota.org/
-      about: Chat with the devs and the IF community
+      url: https://discord.gg/RjX3jEc7K7
+      about: Chat with the devs and the Bloom community

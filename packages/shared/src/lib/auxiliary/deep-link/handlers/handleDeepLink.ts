@@ -20,7 +20,7 @@ import { URL_CLEANUP_REGEX } from '../constants'
 import { closeDrawer } from '../../../../../../desktop/lib/auxiliary/drawer'
 
 /**
- * Parses an IOTA deep link, i.e. a URL that begins with the app protocol i.e "firefly://".
+ * Parses an Bloom deep link, i.e. a URL that begins with the app protocol i.e "bloom://".
  * @method parseDeepLinkRequest
  * @param {string} input The URL that was opened by the user.
  * @returns {void}
