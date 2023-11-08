@@ -1,12 +1,11 @@
 <script lang="ts">
     import { pairWithNewDapp } from '@auxiliary/wallet-connect/actions'
-    import { Alert, Button } from '@bloomwalletio/ui'
+    import { Alert, Button, TextInput } from '@bloomwalletio/ui'
     import { DrawerTemplate } from '@components'
     import { localize } from '@core/i18n'
     import { Router } from '@core/router'
     import { onMount } from 'svelte'
     import { validateConnectionCodeUri } from '@auxiliary/wallet-connect/utils'
-    import { TextInput } from '@ui'
 
     export let drawerRouter: Router<unknown>
     export let initialWalletConnectUri: string = ''
@@ -46,17 +45,17 @@
 </script>
 
 <DrawerTemplate title={localize('views.dashboard.drawers.dapps.inputConnectionCode.title')} {drawerRouter}>
-    <div class="flex flex-col gap-4">
-        <Alert variant="info" text={localize('views.dashboard.drawers.dapps.inputConnectionCode.hint')} />
-
-        <TextInput
-            bind:value={walletConnectUri}
-            {error}
-            label={localize('views.dashboard.drawers.dapps.inputConnectionCode.inputLabel')}
-            placeholder={localize('views.dashboard.drawers.dapps.inputConnectionCode.inputLabel')}
-        />
+    <div class="h-full flex flex-col gap-4 justify-between">
+        <div class="flex flex-col gap-4">
+            <Alert variant="info" text={localize('views.dashboard.drawers.dapps.inputConnectionCode.hint')} />
+            <TextInput
+                bind:value={walletConnectUri}
+                {error}
+                label={localize('views.dashboard.drawers.dapps.inputConnectionCode.inputLabel')}
+            />
+        </div>
         {#if isDeprecated}
-            <Alert variant="warning" text={localize('views.dashboard.drawers.dapps.inputConnectionCode.deprecated')} />
+            <Alert variant="danger" text={localize('views.dashboard.drawers.dapps.inputConnectionCode.deprecated')} />
         {/if}
     </div>
     <Button
