@@ -1,8 +1,6 @@
 <script lang="ts">
     import { createEventDispatcher } from 'svelte'
     import {
-        Checkbox,
-        Icon,
         DateFilterItem,
         NumberFilterItem,
         SelectionFilterItem,
@@ -10,9 +8,9 @@
         OrderFilterItem,
         NetworkFilterItem,
     } from '@ui'
+    import { Checkbox, IconButton, IconName } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
     import { FilterUnit } from '@core/utils/interfaces/filter'
-    import { Icon as IconEnum } from '@auxiliary/icon'
 
     export let filterUnit: FilterUnit
     export let isOpen: boolean
@@ -24,9 +22,7 @@
     }
 
     function onCheckBoxClick(): void {
-        if (filterUnit.active) {
-            dispatch('open')
-        }
+        dispatch(filterUnit.active ? 'open' : 'close')
     }
 </script>
 
@@ -35,18 +31,11 @@
         <Checkbox
             label={localize(filterUnit.labelKey ?? filterUnit.localeKey + '.label')}
             bind:checked={filterUnit.active}
-            small
-            keepSameColor
-            onClick={onCheckBoxClick}
+            size="md"
+            on:click={onCheckBoxClick}
         />
-        <button on:click={onArrowClick}>
-            <Icon
-                icon={isOpen ? IconEnum.SmallChevronUp : IconEnum.SmallChevronDown}
-                width="16"
-                height="16"
-                classes="cursor-pointer fill-current text-gray-500 dark:text-white"
-            />
-        </button>
+
+        <IconButton icon={isOpen ? IconName.ChevronUp : IconName.ChevronDown} size="sm" on:click={onArrowClick} />
     </filter-item-toggle>
     {#if isOpen}
         <filter-item-type class="block expanded px-4 py-3 bg-gray-50 dark:bg-transparent">
