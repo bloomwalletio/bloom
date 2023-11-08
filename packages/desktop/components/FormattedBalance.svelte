@@ -47,8 +47,8 @@
 
         // Reduce font size until the content fits or until reaching the smallest size.
         while (fontSize > MIN_FONT_SIZE) {
-            const lastElementOfWrapper = wrapperRef.lastElementChild
-            const lastElementOfTextContainer = textContainerRef.lastElementChild
+            const lastElementOfWrapper = wrapperRef?.lastElementChild
+            const lastElementOfTextContainer = textContainerRef?.lastElementChild
 
             if (!lastElementOfWrapper || !lastElementOfTextContainer) {
                 return
