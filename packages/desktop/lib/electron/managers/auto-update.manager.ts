@@ -64,12 +64,15 @@ export default class AutoUpdateManager {
     }
 
     private handleError(err: Error): void {
+        this.downloadCancellation = undefined
         getOrInitWindow('main').webContents.send('version-error', err)
     }
 
     private updateDownload(): void {
-        this.downloadCancellation = new CancellationToken()
-        void autoUpdater.downloadUpdate(this.downloadCancellation)
+        if (!this.downloadCancellation) {
+            this.downloadCancellation = new CancellationToken()
+            void autoUpdater.downloadUpdate(this.downloadCancellation)
+        }
     }
 
     private updateCancel(): void {
