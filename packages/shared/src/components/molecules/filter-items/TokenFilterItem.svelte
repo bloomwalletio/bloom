@@ -1,41 +1,22 @@
 <script lang="ts">
     import { activeProfile } from '@core/profile/stores'
-    import type { IDropdownItem } from '@core/utils'
+    import { IOption, SelectInput } from '@bloomwalletio/ui'
     import { visibleSelectedAccountTokens } from '@core/token/stores'
     import { TokenFilterUnit } from '@core/utils/interfaces/filter'
-    import { Dropdown } from '@ui/inputs'
 
     export let filterUnit: TokenFilterUnit
     const { baseCoin, nativeTokens } = $visibleSelectedAccountTokens[$activeProfile?.network?.id]
 
-    const choices: IDropdownItem<string>[] = [baseCoin, ...nativeTokens].map((choice) => ({
-        label: choice.metadata?.name ?? '',
-        value: choice.metadata?.name ?? '',
+    const options: IOption[] = [baseCoin, ...nativeTokens].map((choice) => ({
+        label: choice.metadata?.name,
+        value: choice.id,
     }))
+    let selected = options.find((option) => option.value === filterUnit.selected)
 
-    if (!filterUnit.selected) {
-        filterUnit.selected = baseCoin.id
-    }
-
-    let value: string | undefined
-    $: {
-        const tokenId = filterUnit.selected
-        if (tokenId === baseCoin?.id) {
-            value = baseCoin?.metadata.name
-        } else {
-            value = nativeTokens.find((_nativeToken) => _nativeToken.id === tokenId)?.metadata?.name
-        }
-    }
-
-    function onSelect(item: IDropdownItem<string>): void {
-        let token = undefined
-        if (item.value === baseCoin.metadata.name) {
-            token = baseCoin
-        } else {
-            token = nativeTokens.find((_nativeToken) => _nativeToken.metadata?.name === item.value)
-        }
-        filterUnit.selected = token?.id || ''
+    $: selected && onSelect(selected)
+    function onSelect(item: IOption): void {
+        filterUnit.selected = item.value
     }
 </script>
 
-<Dropdown {value} items={choices} {onSelect} small />
+<SelectInput bind:selected {options} hideValue />

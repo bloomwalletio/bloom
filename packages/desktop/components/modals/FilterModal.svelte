@@ -16,6 +16,7 @@
             filter[key].value = undefined
         }
         setFilters()
+        modal.close()
     }
 
     function onConfirmClick(): void {
