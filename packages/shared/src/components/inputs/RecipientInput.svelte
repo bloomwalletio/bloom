@@ -54,6 +54,7 @@
                 }
                 case SubjectType.Network:
                 case SubjectType.Address:
+                case SubjectType.SmartContract:
                     return { value: recipient.address, color: getRandomAccountColor() }
                 case SubjectType.Contact: {
                     const address = ContactManager.getNetworkContactAddressMapForContact(recipient.contact.id)?.[
