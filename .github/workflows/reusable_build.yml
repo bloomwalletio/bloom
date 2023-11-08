@@ -166,6 +166,7 @@ jobs:
                   CERTIFICATE_FINGERPRINT: ${{ secrets.SM_CODE_SIGNING_CERT_SHA1_HASH }}
                   GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
                   PRIVATE_REPO_ACCESS_TOKEN: ${{ vars.PRIVATE_REPO_ACCESS_TOKEN }} # TODO: Remove following lines after we're open source
+                  SIGN: true
               working-directory: packages/desktop
               if: ${{ inputs.sign && inputs.os == 'windows-2022' }}
 
@@ -174,6 +175,7 @@ jobs:
               env:
                   GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
                   PRIVATE_REPO_ACCESS_TOKEN: ${{ vars.PRIVATE_REPO_ACCESS_TOKEN }} # TODO: Remove following lines after we're open source
+                  SIGN: false
               working-directory: packages/desktop
               if: ${{ ! inputs.sign && inputs.os == 'windows-2022' }}
 
