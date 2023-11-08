@@ -1355,6 +1355,7 @@
         "nft": "NFT",
         "type": "Type",
         "immutableIssuer": "Immutable Issuer",
+        "magicContract": "Magic Contract",
         "smartContract": "Smart Contract",
         "targetContract": "Target contract",
         "contractFunction": "Contract function",

@@ -100,6 +100,8 @@ function getFieldsToSearchFromActivity(activity: Activity): string[] {
         fieldsToSearch.push(activity.subject.account?.name)
     } else if (activity.subject?.type === SubjectType.Contact) {
         fieldsToSearch.push(activity.subject.contact.name)
+    } else if (activity.subject?.type === SubjectType.SmartContract) {
+        fieldsToSearch.push(activity.subject.name)
     } else if (activity.subject?.type === SubjectType.Network) {
         fieldsToSearch.push(activity.subject.name)
     }
