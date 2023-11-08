@@ -7,6 +7,7 @@ import { Erc20TransferMethodInputs, IscCallMethodInputs, IscSendMethodInputs } f
 import { BASE_TOKEN_ID } from '@core/token/constants'
 import { IChain } from '@core/network'
 import { AssetType, TransferredAssetId } from '..'
+import { convertHexAddressToBech32 } from '@core/wallet/utils'
 
 export function getTransferInfoFromTransactionData(
     transaction: PersistedEvmTransaction,
@@ -69,16 +70,7 @@ export function getTransferInfoFromTransactionData(
             case 'send': {
                 const inputs = decoded.inputs as IscSendMethodInputs
 
-                if (inputs.assets.baseTokens) {
-                    return {
-                        asset: {
-                            type: AssetType.BaseCoin,
-                            tokenId: BASE_TOKEN_ID,
-                            rawAmount: inputs.assets.baseTokens,
-                        },
-                        recipientAddress: inputs.targetAddress.data,
-                    }
-                } else if (inputs.assets.nativeTokens) {
+                if (inputs.assets.nativeTokens) {
                     const nativeToken = inputs.assets.nativeTokens[0]
                     return {
                         asset: {
@@ -86,7 +78,16 @@ export function getTransferInfoFromTransactionData(
                             tokenId: nativeToken.ID.data,
                             rawAmount: nativeToken.amount,
                         },
-                        recipientAddress: inputs.targetAddress.data,
+                        recipientAddress: convertHexAddressToBech32(0, inputs.targetAddress.data),
+                    }
+                } else if (inputs.assets.baseTokens) {
+                    return {
+                        asset: {
+                            type: AssetType.BaseCoin,
+                            tokenId: BASE_TOKEN_ID,
+                            rawAmount: inputs.assets.baseTokens,
+                        },
+                        recipientAddress: convertHexAddressToBech32(0, inputs.targetAddress.data),
                     }
                 }
 
