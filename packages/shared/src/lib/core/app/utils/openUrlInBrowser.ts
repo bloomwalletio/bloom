@@ -24,7 +24,6 @@ export function openUrlInBrowser(targetUrl: string): void {
             props: {
                 title: localize('popups.externalUrl.title'),
                 description: localize('popups.externalUrl.body', { values: { url: targetUrl } }),
-                hint: { variant: 'warning', text: localize('popups.externalUrl.hint') },
                 confirmText: localize('popups.externalUrl.action'),
                 onConfirm: () => {
                     openHttpsUrlsOnly(url.protocol, targetUrl)

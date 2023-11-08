@@ -16,6 +16,7 @@
             filter[key].value = undefined
         }
         setFilters()
+        modal.close()
     }
 
     function onConfirmClick(): void {
@@ -29,6 +30,7 @@
     on:close={closeFilters}
     position={{ absolute: true, right: '0', top: '30px' }}
     classes="overflow-visible"
+    autoMaxHeight
 >
     <filter-modal>
         <filter-modal-header
