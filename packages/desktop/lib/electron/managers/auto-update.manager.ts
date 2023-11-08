@@ -68,8 +68,10 @@ export default class AutoUpdateManager {
     }
 
     private updateDownload(): void {
-        this.downloadCancellation = new CancellationToken()
-        void autoUpdater.downloadUpdate(this.downloadCancellation)
+        if (!this.downloadCancellation) {
+            this.downloadCancellation = new CancellationToken()
+            void autoUpdater.downloadUpdate(this.downloadCancellation)
+        }
     }
 
     private updateCancel(): void {
