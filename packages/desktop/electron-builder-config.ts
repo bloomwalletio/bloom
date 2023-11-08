@@ -103,7 +103,7 @@ const prodConfig: Configuration = {
         target: 'nsis',
         timeStampServer: 'http://timestamp.sectigo.com',
         rfc3161TimeStampServer: 'http://timestamp.sectigo.com',
-        sign: './customSign.js',
+        sign: process.env.SIGN ? './customSign.js' : null,
     },
     linux: {
         target: ['AppImage'],

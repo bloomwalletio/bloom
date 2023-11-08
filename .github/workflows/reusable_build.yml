@@ -148,6 +148,7 @@ jobs:
                   GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
                   PRIVATE_REPO_ACCESS_TOKEN: ${{ vars.PRIVATE_REPO_ACCESS_TOKEN }} # TODO: Remove following lines after we're open source
                   MACOS_SKIP_NOTARIZATION: false
+                  SIGN: ${{ inputs.sign }}
               working-directory: packages/desktop
               if: ${{ inputs.sign && inputs.os == 'macos-11' }}
 
