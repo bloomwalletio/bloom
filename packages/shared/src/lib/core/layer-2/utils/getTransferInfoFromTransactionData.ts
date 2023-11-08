@@ -68,24 +68,36 @@ export function getTransferInfoFromTransactionData(
             }
             case 'send': {
                 const inputs = decoded.inputs as IscSendMethodInputs
+                const nativeToken = inputs?.assets?.nativeTokens?.[0]
+                const nftId = inputs?.assets?.nfts?.[0]
+                const baseTokenAmount = inputs.assets.baseTokens
 
-                if (inputs.assets.nativeTokens?.length) {
-                    const nativeToken = inputs.assets.nativeTokens[0]
+                if (nativeToken) {
                     return {
                         asset: {
                             type: AssetType.Token,
                             tokenId: nativeToken.ID.data,
                             rawAmount: nativeToken.amount,
                         },
-                        additionalBaseTokenAmount: inputs.assets.baseTokens,
+                        additionalBaseTokenAmount: baseTokenAmount,
                         recipientAddress: transaction.to, // for now, set it to the magic contract address
                     }
-                } else if (inputs.assets.baseTokens) {
+                }
+                if (nftId) {
+                    return {
+                        asset: {
+                            type: AssetType.Nft,
+                            nftId,
+                        },
+                        additionalBaseTokenAmount: baseTokenAmount,
+                        recipientAddress: transaction.to, // for now, set it to the magic contract address
+                    }
+                } else if (baseTokenAmount) {
                     return {
                         asset: {
                             type: AssetType.BaseCoin,
                             tokenId: BASE_TOKEN_ID,
-                            rawAmount: inputs.assets.baseTokens,
+                            rawAmount: baseTokenAmount,
                         },
                         recipientAddress: transaction.to, // for now, set it to the magic contract address
                     }
