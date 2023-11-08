@@ -9,6 +9,7 @@ export async function generateNftActivity(
     transaction: PersistedEvmTransaction,
     chain: IChain,
     nftId: string,
+    baseTokenAmount: string | undefined,
     recipientAddress: string | undefined,
     account: IAccountState
 ): Promise<NftActivity> {
@@ -16,7 +17,7 @@ export async function generateNftActivity(
 
     const baseTokenTransfer = {
         tokenId: BASE_TOKEN_ID,
-        rawAmount: '0',
+        rawAmount: baseTokenAmount ?? '0',
     }
     return {
         ...baseEvmActivity,

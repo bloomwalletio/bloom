@@ -11,6 +11,7 @@ export async function generateTokenActivity(
     chain: IChain,
     tokenId: string,
     rawAmount: string,
+    baseTokenAmount: string | undefined,
     recipientAddress: string | undefined,
     account: IAccountState
 ): Promise<TransactionActivity> {
@@ -20,7 +21,7 @@ export async function generateTokenActivity(
     let tokenTransfer
     const baseTokenTransfer = {
         tokenId: BASE_TOKEN_ID,
-        rawAmount: tokenId === BASE_TOKEN_ID ? rawAmount ?? '0' : '0',
+        rawAmount: tokenId === BASE_TOKEN_ID ? rawAmount ?? '0' : baseTokenAmount ?? '0',
     }
 
     if (tokenId && tokenId !== BASE_TOKEN_ID) {

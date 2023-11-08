@@ -12,7 +12,7 @@ export function getTransferInfoFromTransactionData(
     transaction: PersistedEvmTransaction,
     address: string,
     chain: IChain
-): { asset: TransferredAssetId; recipientAddress: string } | undefined {
+): { asset: TransferredAssetId; additionalBaseTokenAmount?: string; recipientAddress: string } | undefined {
     const networkId = chain.getConfiguration().id
     if (transaction.data) {
         const isErc20 = isTrackedTokenAddress(networkId, address)
@@ -68,25 +68,38 @@ export function getTransferInfoFromTransactionData(
             }
             case 'send': {
                 const inputs = decoded.inputs as IscSendMethodInputs
+                const nativeToken = inputs?.assets?.nativeTokens?.[0]
+                const nftId = inputs?.assets?.nfts?.[0]
+                const baseTokenAmount = inputs.assets.baseTokens
 
-                if (inputs.assets.baseTokens) {
-                    return {
-                        asset: {
-                            type: AssetType.BaseCoin,
-                            tokenId: BASE_TOKEN_ID,
-                            rawAmount: inputs.assets.baseTokens,
-                        },
-                        recipientAddress: inputs.targetAddress.data,
-                    }
-                } else if (inputs.assets.nativeTokens) {
-                    const nativeToken = inputs.assets.nativeTokens[0]
+                if (nativeToken) {
                     return {
                         asset: {
                             type: AssetType.Token,
                             tokenId: nativeToken.ID.data,
                             rawAmount: nativeToken.amount,
                         },
-                        recipientAddress: inputs.targetAddress.data,
+                        additionalBaseTokenAmount: baseTokenAmount,
+                        recipientAddress: transaction.to, // for now, set it to the magic contract address
+                    }
+                }
+                if (nftId) {
+                    return {
+                        asset: {
+                            type: AssetType.Nft,
+                            nftId,
+                        },
+                        additionalBaseTokenAmount: baseTokenAmount,
+                        recipientAddress: transaction.to, // for now, set it to the magic contract address
+                    }
+                } else if (baseTokenAmount) {
+                    return {
+                        asset: {
+                            type: AssetType.BaseCoin,
+                            tokenId: BASE_TOKEN_ID,
+                            rawAmount: baseTokenAmount,
+                        },
+                        recipientAddress: transaction.to, // for now, set it to the magic contract address
                     }
                 }
 
