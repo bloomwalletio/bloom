@@ -32,7 +32,7 @@ function getAppId(): string {
 
 function getIconPath(): string {
     const PATH = './public/assets/icons'
-    const NAME = 'icon1024x1024'
+    const NAME = 'icon256x256'
     const EXTENSION = 'ico'
     const platform = getPlatform()
     return `${PATH}/${STAGE}/${platform}/${NAME}.${EXTENSION}`
