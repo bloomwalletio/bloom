@@ -1,29 +1,38 @@
 <script lang="ts">
     import { clickOutside } from '@core/utils'
     import { fade } from 'svelte/transition'
-    import { createEventDispatcher } from 'svelte'
+    import { createEventDispatcher, onDestroy, onMount, tick } from 'svelte'
 
     export let position: { top?: string; right?: string; bottom?: string; left?: string; absolute?: boolean } = {}
     export let size: 'small' | 'medium' | 'large' = 'medium'
     export let classes: string = ''
     export let disableOnClickOutside = false
     export let fixed = false
+    export let autoMaxHeight = false
 
     export function close(): void {
         setShow(false)
     }
+
     export function open(): void {
         setShow(true)
     }
+
     export function toggle(): void {
         show ? close() : open()
     }
+
     export function isOpened(): boolean {
         return show
     }
 
     const { top = 'inherit', right = 'inherit', bottom = 'inherit', left = 'inherit', absolute = 'true' } = position
     const dispatch = createEventDispatcher()
+
+    let isBlockedByTimeout = false
+    let show = false
+    let modal: HTMLElement
+    let maxHeight: number
 
     function setShow(bool: boolean): void {
         if (!isBlockedByTimeout) {
@@ -39,38 +48,66 @@
         close()
     }
 
-    let isBlockedByTimeout = false
-    let show = false
+    async function updateMaxHeight(): Promise<void> {
+        await tick()
+        if (!show || !modal) {
+            return
+        }
+        const viewportHeight = window.innerHeight
+        const modalRect = modal?.getBoundingClientRect()
+        const spaceAbove = modalRect?.top
+        const spaceBelow = viewportHeight - modalRect?.bottom
+        const maxSpace =
+            spaceBelow > 0 ? modalRect?.height - Math.abs(spaceAbove) : modalRect?.height - Math.abs(spaceBelow)
+        maxHeight = maxSpace - 10
+    }
+
+    onMount(() => {
+        if (autoMaxHeight) {
+            window.addEventListener('resize', () => void updateMaxHeight())
+            void updateMaxHeight()
+        }
+    })
+
+    onDestroy(() => {
+        if (autoMaxHeight) {
+            window.removeEventListener('resize', () => void updateMaxHeight())
+        }
+    })
+
+    $: show, autoMaxHeight && void updateMaxHeight()
 </script>
 
 {#if show}
     <modal-content
+        bind:this={modal}
         in:fade={{ duration: 100 }}
         use:clickOutside
         on:clickOutside={onClickOutside}
-        class="{size} shadow-elevation-4 bg-white dark:bg-gray-900 border border-solid border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden z-10 {classes}"
-        style="--modal-position-top: {top}; --modal-position-right: {right}; --modal-position-bottom: {bottom}; --modal-position-left: {left}; --modal-position: {fixed
-            ? 'fixed'
-            : absolute
-            ? 'absolute'
-            : 'relative'};"
+        class="{size} {classes}"
+        style:max-height={maxHeight ? `${maxHeight}px` : undefined}
+        style:top
+        style:right
+        style:bottom
+        style:left
+        style:position={fixed ? 'fixed' : absolute ? 'absolute' : 'relative'}
     >
         <slot />
     </modal-content>
 {/if}
 
-<style lang="scss">
+<style lang="postcss">
     modal-content {
-        position: var(--modal-position);
-        top: var(--modal-position-top);
-        right: var(--modal-position-right);
-        bottom: var(--modal-position-bottom);
-        left: var(--modal-position-left);
-        &.medium {
-            min-width: 230px;
-        }
-        &.large {
-            min-width: 420px;
-        }
+        @apply bg-white dark:bg-gray-900 shadow-elevation-4;
+        @apply rounded-xl border border-solid border-gray-200 dark:border-gray-700;
+        @apply overflow-y-scroll overflow-x-hidden z-10;
+    }
+
+    .medium {
+        min-width: 230px;
+    }
+
+    .large {
+        min-width: 420px;
     }
 </style>
