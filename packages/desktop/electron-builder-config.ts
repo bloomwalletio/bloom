@@ -34,10 +34,19 @@ function getIconPath(): string {
     const PATH = './public/assets/icons'
     const NAME = 'icon1024x1024'
     const EXTENSION = 'png'
-
-    return `${PATH}/${STAGE}/${NAME}.${EXTENSION}`
+    const platform = getPlatform()
+    return `${PATH}/${STAGE}/${platform}/${NAME}.${EXTENSION}`
 }
 
+function getPlatform(): string {
+    switch (process.platform) {
+        case 'win32':
+        case 'darwin':
+            return process.platform
+        default:
+            return 'linux'
+    }
+}
 async function notarizeMacos(appBundleId, appName): Promise<void> {
     if (process.platform !== 'darwin' || process.env.MACOS_SKIP_NOTARIZATION === 'true') {
         return
