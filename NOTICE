@@ -2,7 +2,7 @@ PolyForm Strict License 1.0.0
 
 This product, Bloom Wallet, is a fork of the original project Firefly developed by the IOTA Foundation, which was originally licensed under the Apache License, Version 2.0.
 
-The original project Firefly is Copyright © 2023 IOTA Foundation.
+The original project Firefly is Copyright © 2023 IOTA Foundation, a copy of the original license can be found in the FIREFLY_LICENSE file.
 
 Forked from Firefly at commit 310c3f50ab7ae076b80c20f2cf20d5f42e095256. You can find a summary of the modified, renamed or deleted files in the firefly.diff file.
 
