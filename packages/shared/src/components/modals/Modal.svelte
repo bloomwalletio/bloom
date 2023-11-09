@@ -62,20 +62,24 @@
         maxHeight = maxSpace - 10
     }
 
+    function handleResize() {
+        updateMaxHeight()
+    }
+
     onMount(() => {
         if (autoMaxHeight) {
-            window.addEventListener('resize', () => void updateMaxHeight())
-            void updateMaxHeight()
+            window.addEventListener('resize', handleResize)
+            updateMaxHeight()
         }
     })
 
     onDestroy(() => {
         if (autoMaxHeight) {
-            window.removeEventListener('resize', () => void updateMaxHeight())
+            window.removeEventListener('resize', handleResize)
         }
     })
 
-    $: show, autoMaxHeight && void updateMaxHeight()
+    $: if (show && autoMaxHeight) updateMaxHeight()
 </script>
 
 {#if show}
