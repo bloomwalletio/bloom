@@ -29,7 +29,7 @@ describe('Function: parseLayer2MetadataForTransfer.ts', () => {
             gasLimit: '11000',
             ethereumAddress:
                 '0x42f7da9bdb55b3ec87e5ac1a1e6d88e16768663fde5eca3429eb6f579cc538ac0611dabb31ea69bc4983566005f277611eee1ec9',
-            baseTokens: '10_000_999_999',
+            baseTokens: '10000999999',
             nativeTokens: [],
             nfts: [],
         }
