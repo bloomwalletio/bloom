@@ -26,7 +26,7 @@
         }
     }
 
-    $: storageDeposit = getTransactionStorageDeposit(sendFlowParameters)
+    $: storageDeposit = getTransactionStorageDeposit(sendFlowParameters) ?? 0
     function getTransactionStorageDeposit(_sendFlowParameters: SendFlowParameters) {
         if (_sendFlowParameters.type === SendFlowType.TokenTransfer) {
             if (_sendFlowParameters.destinationNetworkId !== _sendFlowParameters.tokenTransfer.token.networkId) {
