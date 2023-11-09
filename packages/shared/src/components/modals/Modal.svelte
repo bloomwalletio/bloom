@@ -53,13 +53,12 @@
         if (!show || !modal) {
             return
         }
+
         const viewportHeight = window.innerHeight
-        const modalRect = modal?.getBoundingClientRect()
-        const spaceAbove = modalRect?.top
-        const spaceBelow = viewportHeight - modalRect?.bottom
-        const maxSpace =
-            spaceBelow > 0 ? modalRect?.height - Math.abs(spaceAbove) : modalRect?.height - Math.abs(spaceBelow)
-        maxHeight = maxSpace - 10
+        const modalRect = modal.getBoundingClientRect()
+
+        const availableSpace = position.top ? viewportHeight - modalRect.top : modalRect.bottom
+        maxHeight = availableSpace - 10
     }
 
     function handleResize() {
@@ -82,23 +81,22 @@
     $: if (show && autoMaxHeight) updateMaxHeight()
 </script>
 
-{#if show}
-    <modal-content
-        bind:this={modal}
-        in:fade={{ duration: 100 }}
-        use:clickOutside
-        on:clickOutside={onClickOutside}
-        class="{size} {classes}"
-        style:max-height={maxHeight ? `${maxHeight}px` : undefined}
-        style:top
-        style:right
-        style:bottom
-        style:left
-        style:position={fixed ? 'fixed' : absolute ? 'absolute' : 'relative'}
-    >
-        <slot />
-    </modal-content>
-{/if}
+<modal-content
+    bind:this={modal}
+    in:fade={{ duration: 100 }}
+    use:clickOutside
+    on:clickOutside={onClickOutside}
+    class="{size} {classes}"
+    class:hidden={!show}
+    style:max-height={maxHeight ? `${maxHeight}px` : undefined}
+    style:top
+    style:right
+    style:bottom
+    style:left
+    style:position={fixed ? 'fixed' : absolute ? 'absolute' : 'relative'}
+>
+    <slot />
+</modal-content>
 
 <style lang="postcss">
     modal-content {
