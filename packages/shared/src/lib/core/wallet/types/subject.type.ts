@@ -1,3 +1,9 @@
-import { IAccountSubject, IContactSubject, IAddressSubject, INetworkSubject } from '../interfaces'
+import {
+    IAccountSubject,
+    IContactSubject,
+    IAddressSubject,
+    INetworkSubject,
+    ISmartContractSubject,
+} from '../interfaces'
 
-export type Subject = IAccountSubject | IContactSubject | IAddressSubject | INetworkSubject
+export type Subject = IAccountSubject | IContactSubject | IAddressSubject | INetworkSubject | ISmartContractSubject

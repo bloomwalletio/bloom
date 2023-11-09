@@ -204,7 +204,7 @@
                 />
                 <Button
                     text={timeDiff
-                        ? localize('popups.balanceBreakdown.locked.title') + ' ' + String(timeDiff)
+                        ? localize('views.collectibles.gallery.timelocked', { timeDiff })
                         : localize('actions.send')}
                     icon={IconName.Send}
                     on:click={onSendClick}

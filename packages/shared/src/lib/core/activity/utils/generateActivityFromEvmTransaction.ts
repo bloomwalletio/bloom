@@ -11,11 +11,27 @@ export async function generateActivityFromEvmTransaction(
     chain: IChain,
     account: IAccountState
 ): Promise<Activity | undefined> {
-    const { asset, recipientAddress } = getTransferInfoFromTransactionData(transaction, transaction.to, chain) ?? {}
+    const { asset, additionalBaseTokenAmount, recipientAddress } =
+        getTransferInfoFromTransactionData(transaction, transaction.to, chain) ?? {}
 
     if (asset?.type === AssetType.Token || asset?.type === AssetType.BaseCoin) {
-        return generateTokenActivity(transaction, chain, asset.tokenId, asset.rawAmount, recipientAddress, account)
+        return generateTokenActivity(
+            transaction,
+            chain,
+            asset.tokenId,
+            asset.rawAmount,
+            additionalBaseTokenAmount,
+            recipientAddress,
+            account
+        )
     } else if (asset?.type === AssetType.Nft) {
-        return generateNftActivity(transaction, chain, asset.nftId, recipientAddress, account)
+        return generateNftActivity(
+            transaction,
+            chain,
+            asset.nftId,
+            additionalBaseTokenAmount,
+            recipientAddress,
+            account
+        )
     }
 }

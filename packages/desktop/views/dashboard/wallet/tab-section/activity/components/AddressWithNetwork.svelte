@@ -20,6 +20,8 @@
         switch (subject.type) {
             case SubjectType.Contact:
                 return truncateString(subject.contact.name, 13, 0)
+            case SubjectType.SmartContract:
+                return truncateString(subject.name, 13, 0)
             case SubjectType.Account:
                 return truncateString(subject.account.name, 13, 0)
             case SubjectType.Network:
