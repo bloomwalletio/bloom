@@ -30,5 +30,5 @@ export async function createStardustOutputFromSendFlowParameters(
 }
 
 function addGasFeeToAmount(amount: string | bigint, gasFee: number | undefined): string {
-    return (Number(amount) + (gasFee ?? 0)).toString()
+    return (BigInt(amount) + BigInt(gasFee ?? 0)).toString()
 }
