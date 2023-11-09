@@ -3,7 +3,7 @@ import { Allowance } from '@core/layer-2/enums'
 import { NFT_ID_BYTE_LENGTH } from '@core/nfts/constants'
 import { TOKEN_ID_BYTE_LENGTH } from '@core/token/constants'
 import { Converter, HEX_PREFIX } from '@core/utils'
-import { CONTRACT_FUNCTIONS, TARGET_CONTRACTS } from '../constants'
+import { CONTRACT_FUNCTIONS, ETHEREUM_ADDRESS_LENGTH, TARGET_CONTRACTS } from '../constants'
 import { ILayer2AssetAllowance, ILayer2TransferAllowanceMetadata } from '../interfaces'
 
 export function parseLayer2MetadataForTransfer(metadata: Uint8Array): ILayer2TransferAllowanceMetadata {
@@ -29,7 +29,7 @@ export function parseLayer2MetadataForTransfer(metadata: Uint8Array): ILayer2Tra
 
 function parseEvmAddress(readStream: ReadSpecialStream): string {
     const smartContractParameters = parseSmartContractParameters(readStream)
-    return HEX_PREFIX + smartContractParameters['a'].slice(-40)
+    return HEX_PREFIX + smartContractParameters['a'].slice(-ETHEREUM_ADDRESS_LENGTH)
 }
 
 function parseSmartContractParameters(readStream: ReadSpecialStream): Record<string, string> {
