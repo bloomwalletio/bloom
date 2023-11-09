@@ -23,7 +23,11 @@ export function encodeAssetAllowance(sendFlowParameters: SendFlowParameters): Ui
 }
 
 function encodeBaseTokenTransfer(buffer: SpecialStream, rawAmount: string): void {
-    buffer.writeUInt64SpecialEncoding('baseTokenAmount', BigInteger(rawAmount))
+    const rawAmountBigInt = BigInteger(rawAmount)
+    if (rawAmountBigInt.lesser(0)) {
+        throw new Error('Base token amount is negative!')
+    }
+    buffer.writeUInt64SpecialEncoding('baseTokenAmount', rawAmountBigInt)
 }
 
 function encodeNativeTokenTransfer(
@@ -35,7 +39,11 @@ function encodeNativeTokenTransfer(
     const tokenIdBytes = Converter.hexToBytes(token.id)
     buffer.writeBytes('tokenId', tokenIdBytes.length, tokenIdBytes)
 
-    const encodedAmount = specialNativeTokenAmountEncoding(BigInt(tokenTransfer?.rawAmount ?? '0'))
+    const rawTokenAmount = BigInt(tokenTransfer?.rawAmount ?? '0')
+    if (rawTokenAmount < 0) {
+        throw new Error('Native token amount is negative!')
+    }
+    const encodedAmount = specialNativeTokenAmountEncoding(rawTokenAmount)
     buffer.writeUInt32SpecialEncoding('nativeTokenAmountLength', encodedAmount.length)
     buffer.writeBytes('nativeTokenAmount', encodedAmount.length, encodedAmount)
 }
