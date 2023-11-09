@@ -33,11 +33,11 @@
         if (fetchingGasFee) {
             return
         }
-
+        const available = token.id === BASE_TOKEN_ID ? token.balance.available - gasFee : token.balance.available
         if (token?.metadata?.decimals) {
-            amount = formatTokenAmountDefault(token.balance.available - gasFee, token?.metadata, unit, false)
+            amount = formatTokenAmountDefault(available, token?.metadata, unit, false)
         } else {
-            amount = (token.balance.available - gasFee).toString() ?? '0'
+            amount = available.toString() ?? '0'
         }
     }
 
