@@ -5,7 +5,7 @@
     import { localize } from '@core/i18n'
     import { canAccountMakeEvmTransaction } from '@core/layer-2/actions'
     import { marketCoinPrices } from '@core/market/stores'
-    import { getNetwork, isEvmChain } from '@core/network'
+    import { canAccountMakeStardustTransaction, getNetwork, isEvmChain, isStardustNetwork } from '@core/network'
     import { AccountTokens, BASE_TOKEN_ID, IToken, ITokenWithBalance, TokenStandard } from '@core/token'
     import { getAccountTokensForSelectedAccount, getTokenBalance } from '@core/token/actions'
     import { selectedAccountTokens } from '@core/token/stores'
@@ -28,15 +28,23 @@
     $: accountTokens = getAccountTokensForSelectedAccount($marketCoinPrices)
     $: accountTokens, searchValue, selectedTab, setFilteredTokenList()
 
-    let hasTokenError: boolean = false
+    let tokenError: string = ''
     $: if (isEvmChain(selectedToken?.networkId)) {
-        hasTokenError = !canAccountMakeEvmTransaction(
-            $selectedAccountIndex,
-            selectedToken.networkId,
-            $sendFlowParameters?.type
-        )
+        if (!canAccountMakeEvmTransaction($selectedAccountIndex, selectedToken.networkId, $sendFlowParameters?.type)) {
+            tokenError = localize('error.send.insufficientFundsTransaction')
+        }
+    } else if (isStardustNetwork(selectedToken?.networkId)) {
+        if (
+            !canAccountMakeStardustTransaction(
+                $selectedAccountIndex,
+                selectedToken.networkId,
+                $sendFlowParameters?.type
+            )
+        ) {
+            tokenError = localize('error.send.insufficientFundsTransaction')
+        }
     } else {
-        hasTokenError = false
+        tokenError = ''
     }
 
     let selectedTab: { key: string; value: string } = { key: 'all', value: 'All' }
@@ -95,7 +103,7 @@
 
     function onTokenClick(token: ITokenWithBalance): void {
         try {
-            if (token === selectedToken && !hasTokenError) {
+            if (token === selectedToken && !tokenError) {
                 onContinueClick()
             } else {
                 selectedToken = token
@@ -150,7 +158,7 @@
     continueButton={{
         text: localize('actions.continue'),
         onClick: onContinueClick,
-        disabled: !selectedToken || hasTokenError,
+        disabled: !selectedToken || tokenError,
     }}
 >
     <div class="space-y-4">
@@ -159,18 +167,20 @@
         <div class="-mr-3">
             <token-list class="w-full flex flex-col">
                 {#each tokenList as token}
+                    {@const selected = selectedToken?.id === token.id && selectedToken?.networkId === token?.networkId}
+                    {@const error = selected ? Boolean(tokenError) : false}
                     <TokenAmountTile
                         {token}
+                        {error}
+                        {selected}
                         amount={getTokenBalance(token.id, token.networkId)?.available}
-                        error={token === selectedToken && hasTokenError}
                         onClick={() => onTokenClick(token)}
-                        selected={selectedToken?.id === token.id && selectedToken?.networkId === token?.networkId}
                     />
                 {/each}
             </token-list>
         </div>
-        {#if hasTokenError}
-            <Alert variant="danger" text={localize('error.send.insufficientFundsGasFee')} />
+        {#if tokenError}
+            <Alert variant="danger" text={tokenError} />
         {/if}
     </div>
 </PopupTemplate>
