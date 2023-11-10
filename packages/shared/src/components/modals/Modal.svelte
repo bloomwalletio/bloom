@@ -81,22 +81,23 @@
     $: if (show && autoMaxHeight) updateMaxHeight()
 </script>
 
-<modal-content
-    bind:this={modal}
-    in:fade={{ duration: 100 }}
-    use:clickOutside
-    on:clickOutside={onClickOutside}
-    class="{size} {classes}"
-    class:hidden={!show}
-    style:max-height={maxHeight ? `${maxHeight}px` : undefined}
-    style:top
-    style:right
-    style:bottom
-    style:left
-    style:position={fixed ? 'fixed' : absolute ? 'absolute' : 'relative'}
->
-    <slot />
-</modal-content>
+{#if show}
+    <modal-content
+        bind:this={modal}
+        in:fade={{ duration: 100 }}
+        use:clickOutside
+        on:clickOutside={onClickOutside}
+        class="{size} {classes}"
+        style:max-height={maxHeight ? `${maxHeight}px` : undefined}
+        style:top
+        style:right
+        style:bottom
+        style:left
+        style:position={fixed ? 'fixed' : absolute ? 'absolute' : 'relative'}
+    >
+        <slot />
+    </modal-content>
+{/if}
 
 <style lang="postcss">
     modal-content {
