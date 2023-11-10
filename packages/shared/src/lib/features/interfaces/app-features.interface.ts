@@ -12,4 +12,5 @@ export interface IAppFeatures {
             de: boolean
         }
     }
+    particles: IFeatureFlag
 }

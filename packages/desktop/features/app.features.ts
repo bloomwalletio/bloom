@@ -18,6 +18,9 @@ const appFeatures: IAppFeatures = {
             de: false,
         },
     },
+    particles: {
+        enabled: false,
+    },
 }
 
 export default appFeatures
