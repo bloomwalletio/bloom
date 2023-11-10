@@ -28,8 +28,19 @@
         {localize(`views.settings.${category}.title`)}
     </Text>
     {#each visibleSettings as { component, childRoute, props }, index}
-        <section id={childRoute} class="w-full sm:w-3/4 pb-6 border-solid border-b border-stroke">
+        <section id={childRoute}>
             <svelte:component this={component} {...props} route={childRoute} />
         </section>
     {/each}
 </div>
+
+<style lang="scss">
+    section {
+        @apply w-full sm:w-3/4 pb-6;
+        @apply border-solid border-b border-stroke dark:border-stroke-dark;
+
+        &:last-child {
+            @apply border-none;
+        }
+    }
+</style>
