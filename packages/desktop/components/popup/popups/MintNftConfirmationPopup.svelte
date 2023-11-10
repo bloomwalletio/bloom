@@ -37,12 +37,17 @@
         ...(attributes && { attributes }),
     }
 
-    async function prepareNftOutput(): Promise<void> {
-        const outputData = buildNftOutputBuilderParams(irc27Metadata, $selectedAccount.depositAddress)
-        const client = await getClient()
-        const preparedOutput = await client.buildNftOutput(outputData)
-        storageDeposit = Number(preparedOutput.amount) ?? 0
-        totalStorageDeposit = storageDeposit * quantity
+    async function setStorageDeposit(): Promise<void> {
+        try {
+            const outputData = buildNftOutputBuilderParams(irc27Metadata, $selectedAccount.depositAddress)
+            const client = await getClient()
+            const preparedOutput = await client.buildNftOutput(outputData)
+
+            storageDeposit = Number(preparedOutput.amount) ?? 0
+            totalStorageDeposit = storageDeposit * quantity
+        } catch (err) {
+            handleError(err)
+        }
     }
 
     async function mintAction(): Promise<void> {
@@ -72,8 +77,8 @@
 
     onMount(async () => {
         try {
+            void setStorageDeposit()
             await _onMount()
-            await prepareNftOutput()
         } catch (err) {
             handleError(err)
         }
@@ -97,7 +102,7 @@
     <div class="max-h-100 scrollable-y flex-1">
         <nft-details class="flex flex-col justify-center items-center space-y-5">
             <Avatar size="lg" shape="square" surface={2}>
-                <MediaIcon {type} size="base" />
+                <MediaIcon {type} size="base" surface={2} />
             </Avatar>
             <activity-details class="w-full h-full space-y-2 flex flex-auto flex-col shrink-0">
                 <Tabs bind:selectedTab tabs={TABS} />
@@ -123,7 +128,7 @@
                             {
                                 key: localize('general.storageDeposit'),
                                 value:
-                                    quantity === 0
+                                    quantity === 1
                                         ? formatTokenAmountPrecise(storageDeposit, getBaseToken())
                                         : undefined,
                             },
