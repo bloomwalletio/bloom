@@ -1,8 +1,8 @@
 <script lang="ts">
     import { NavbarContainer } from '@components'
-    import { selectedAccount, selectedAccountIndex } from '@core/account/stores'
+    import { selectedAccountIndex } from '@core/account/stores'
     import { IS_MAC, Platform } from '@core/app'
-    import { clearL2TokensPoll, pollL2BalanceForAccount } from '@core/layer-2/actions'
+    import { clearL2TokensPoll } from '@core/layer-2/actions'
     import {
         addNftsToDownloadQueue,
         downloadNextNftInQueue,
@@ -56,8 +56,6 @@
         })
 
         Platform.DeepLinkManager.checkForDeepLinkRequest()
-
-        void pollL2BalanceForAccount($selectedAccount)
     })
 
     onDestroy(() => {
