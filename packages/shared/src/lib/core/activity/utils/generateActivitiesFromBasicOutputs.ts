@@ -23,6 +23,11 @@ export async function generateActivitiesFromBasicOutputs(
         account.depositAddress,
         processedTransaction.direction
     )
+    const tokensBurned = didTokensGetBurned(
+        processedTransaction.outputs,
+        processedTransaction.wrappedInputs,
+        processedTransaction.direction
+    )
     const burnedNftInputs = getBurnedNftInputs(processedTransaction)
     for (const basicOutput of basicOutputs) {
         let activity: Activity
@@ -33,10 +38,7 @@ export async function generateActivitiesFromBasicOutputs(
         )
 
         let burnedNativeToken = undefined
-        if (
-            burnedNftInputIndex < 0 &&
-            didTokensGetBurned(basicOutputs, processedTransaction.wrappedInputs, processedTransaction.direction)
-        ) {
+        if (burnedNftInputIndex < 0 && tokensBurned) {
             burnedNativeToken = getBurnedNativeTokens(basicOutput, processedTransaction)
         }
         if (isSelfTransaction && burnedNftInputIndex >= 0) {
