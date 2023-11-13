@@ -29,20 +29,16 @@
     $: accountTokens, searchValue, selectedTab, setFilteredTokenList()
 
     let tokenError: string = ''
-    $: if (isEvmChain(selectedToken?.networkId)) {
-        if (!canAccountMakeEvmTransaction($selectedAccountIndex, selectedToken.networkId, $sendFlowParameters?.type)) {
-            tokenError = localize('error.send.insufficientFundsTransaction')
-        }
-    } else if (isStardustNetwork(selectedToken?.networkId)) {
-        if (
-            !canAccountMakeStardustTransaction(
-                $selectedAccountIndex,
-                selectedToken.networkId,
-                $sendFlowParameters?.type
-            )
-        ) {
-            tokenError = localize('error.send.insufficientFundsTransaction')
-        }
+    $: if (
+        isEvmChain(selectedToken?.networkId) &&
+        !canAccountMakeEvmTransaction($selectedAccountIndex, selectedToken.networkId, $sendFlowParameters?.type)
+    ) {
+        tokenError = localize('error.send.insufficientFundsTransaction')
+    } else if (
+        isStardustNetwork(selectedToken?.networkId) &&
+        !canAccountMakeStardustTransaction($selectedAccountIndex, selectedToken.networkId, $sendFlowParameters?.type)
+    ) {
+        tokenError = localize('error.send.insufficientFundsTransaction')
     } else {
         tokenError = ''
     }

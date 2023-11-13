@@ -28,14 +28,19 @@ export async function signAndSendEvmTransaction(
 
         const bip44Path = {
             coinType,
-            account: account.index,
+            account: 0,
             change: 0,
             addressIndex: 0,
         }
+        const { index } = account
+
         let signedTransaction: string | undefined
         if (get(isSoftwareProfile)) {
+            // Follow MetaMask's convention around incrementing address indices instead of account indices
+            bip44Path.addressIndex = index
             signedTransaction = await signEvmTransactionWithStronghold(transaction, bip44Path, chainId)
         } else if (get(isActiveLedgerProfile)) {
+            bip44Path.account = index
             signedTransaction = (await Ledger.signEvmTransaction(txData, chainId, bip44Path)) as string
         }
 
