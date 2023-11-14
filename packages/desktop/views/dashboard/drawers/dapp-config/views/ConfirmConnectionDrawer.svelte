@@ -1,25 +1,20 @@
 <script lang="ts">
-    import { Button, Checkbox, Text } from '@bloomwalletio/ui'
+    import { Button, Text } from '@bloomwalletio/ui'
     import { Spinner } from '@ui'
     import { localize } from '@core/i18n'
     import { Router } from '@core/router'
     import { DrawerTemplate } from '@components'
     import { sessionProposal } from '@auxiliary/wallet-connect/stores'
     import { approveSession } from '@auxiliary/wallet-connect/utils'
-    import DappInformationCard from '../components/DappInformationCard.svelte'
+    import { AccountSelection, DappInformationCard, NetworkSelection, PermissionSelection } from '../components'
     import { closeDrawer } from '@desktop/auxiliary/drawer'
     import { handleError } from '@core/error/handlers'
     import { showNotification } from '@auxiliary/notification'
-    import { getAllNetworkIds } from '@core/network/utils'
-    import { visibleActiveAccounts } from '@core/profile/stores'
-    import { METHODS_FOR_PERMISSION, SUPPORTED_EVENTS } from '@auxiliary/wallet-connect/constants'
-    import { getAddressFromAccountForNetwork } from '@core/account'
+    import { SUPPORTED_EVENTS } from '@auxiliary/wallet-connect/constants'
+    import { IAccountState, getAddressFromAccountForNetwork } from '@core/account'
     import { NetworkId } from '@core/network'
-    import { DappPermission } from '@auxiliary/wallet-connect/enums'
 
     export let drawerRouter: Router<unknown>
-
-    type Selections = Record<string, { label: string; checked: boolean; required: boolean }>
 
     let loading = false
 
@@ -32,62 +27,9 @@
     let currentStep = 0
     const steps = [ConfirmSteps.Permission, ConfirmSteps.Networks, ConfirmSteps.Accounts]
 
-    let networkSelections: Selections = {}
-    let permissionSelections: Selections = {}
-    let accountSelections: Selections = {}
-    $: {
-        if ($sessionProposal) {
-            setNetworkSelections()
-            setPermissionSelections()
-            setAccountSelections()
-        }
-    }
-
-    function setAccountSelections(): void {
-        const accounts: Selections = {}
-        for (const account of $visibleActiveAccounts) {
-            accounts[account.index] = { label: account.name, checked: true, required: false }
-        }
-        accountSelections = accounts
-    }
-
-    function setNetworkSelections(): void {
-        const networks: Selections = {}
-        for (const namespace of Object.values($sessionProposal.params.requiredNamespaces)) {
-            for (const chain of namespace.chains) {
-                networks[chain] = { label: chain, checked: true, required: true }
-            }
-        }
-        const supportedNetworks = getAllNetworkIds()
-        for (const namespace of Object.values($sessionProposal.params.optionalNamespaces)) {
-            for (const chain of namespace.chains) {
-                if (!networks[chain] && supportedNetworks.includes(chain)) {
-                    networks[chain] = { label: chain, checked: true, required: false }
-                }
-            }
-        }
-        networkSelections = networks
-    }
-
-    function setPermissionSelections(): void {
-        const permissions: Selections = {}
-        const namespaces = Object.entries($sessionProposal.params.requiredNamespaces)
-
-        for (const permission of Object.values(DappPermission)) {
-            const supportedMethods = METHODS_FOR_PERMISSION[permission]
-
-            const isRequired = namespaces.some(([namespaceId, namespace]) => {
-                const requiredMethods = namespace.methods
-                const supportedMethodsForNamespace: string[] = supportedMethods[namespaceId] ?? []
-
-                return supportedMethodsForNamespace.some((method) => requiredMethods.includes(method))
-            })
-
-            permissions[permission] = { label: permission, checked: true, required: isRequired }
-        }
-
-        permissionSelections = permissions
-    }
+    let checkedAccounts: IAccountState[] = []
+    let checkedNetworks: string[] = []
+    let checkedMethods: string[] = []
 
     function onCancelClick(): void {
         $sessionProposal = undefined
@@ -110,33 +52,12 @@
         const allNamespaceIds = new Set([...Object.keys(requiredNamespaces), ...Object.keys(optionalNamespaces)])
 
         for (const namespaceId of allNamespaceIds) {
-            const availablChains = [
-                ...new Set([...requiredNamespaces[namespaceId].chains, ...optionalNamespaces[namespaceId].chains]),
-            ]
-            const availableMethods = [
-                ...new Set([...requiredNamespaces[namespaceId].methods, ...optionalNamespaces[namespaceId].methods]),
-            ]
+            const allowedChains = getAllowedChainsForNamespace(namespaceId)
+            const allowedMethods = getAllowedMethodsForNamespace(namespaceId)
 
-            const allowedChains = availablChains.filter((chain) => networkSelections[chain]?.checked)
-            const allowedMethods = availableMethods.filter((chain) => permissionSelections[chain]?.checked)
-
-            const addresses = []
-            for (const chain of allowedChains) {
-                for (const [accountIndex, accountSelection] of Object.entries(accountSelections)) {
-                    if (accountSelection.checked) {
-                        const address = getAddressFromAccountForNetwork(
-                            $visibleActiveAccounts.find((acc) => String(acc.index) === accountIndex),
-                            chain as NetworkId
-                        )
-                        if (address) {
-                            addresses.push(`${chain}:${address}`)
-                        }
-                    }
-                }
-            }
-
+            const addresses = getAddressWithPrefixForAccounts(checkedAccounts, allowedChains)
             supportedNamespaces[namespaceId] = {
-                chains: allowedChains,
+                chains: checkedNetworks,
                 methods: allowedMethods,
                 events: SUPPORTED_EVENTS,
                 accounts: addresses,
@@ -144,6 +65,42 @@
         }
 
         return supportedNamespaces
+    }
+
+    function getAllowedMethodsForNamespace(namespaceId: string): string[] {
+        const requiredNamespaces = $sessionProposal.params.requiredNamespaces
+        const optionalNamespaces = $sessionProposal.params.optionalNamespaces
+
+        const availableMethods = [
+            ...new Set([...requiredNamespaces[namespaceId].methods, ...optionalNamespaces[namespaceId].methods]),
+        ]
+
+        return checkedMethods.filter((network) => availableMethods.includes(network))
+    }
+
+    function getAllowedChainsForNamespace(namespaceId: string): string[] {
+        const requiredNamespaces = $sessionProposal.params.requiredNamespaces
+        const optionalNamespaces = $sessionProposal.params.optionalNamespaces
+
+        const availablChains = [
+            ...new Set([...requiredNamespaces[namespaceId].chains, ...optionalNamespaces[namespaceId].chains]),
+        ]
+
+        return checkedNetworks.filter((network) => availablChains.includes(network))
+    }
+
+    function getAddressWithPrefixForAccounts(accounts: IAccountState[], networkIds: string[]): string[] {
+        const addresses: string[] = []
+        for (const chain of networkIds) {
+            for (const account of accounts) {
+                const address = getAddressFromAccountForNetwork(account, chain as NetworkId)
+                if (address) {
+                    addresses.push(`${chain}:${address}`)
+                }
+            }
+        }
+
+        return addresses
     }
 
     async function onConfirmClick(): Promise<void> {
@@ -182,38 +139,11 @@
             </div>
 
             {#if currentStep === 0}
-                {#each Object.values(permissionSelections) as method}
-                    <div class="w-full flex flex-row justify-between p-4">
-                        <Text>{method.label}</Text>
-                        {#if method.required}
-                            <Text textColor="success">Required</Text>
-                        {:else}
-                            <Checkbox bind:checked={method.checked} size="lg" />
-                        {/if}
-                    </div>
-                {/each}
+                <PermissionSelection bind:checkedMethods />
             {:else if currentStep === 1}
-                {#each Object.values(networkSelections) as network}
-                    <div class="w-full flex flex-row justify-between p-4">
-                        <Text>{network.label}</Text>
-                        {#if network.required}
-                            <Text textColor="success">Required</Text>
-                        {:else}
-                            <Checkbox bind:checked={network.checked} size="lg" />
-                        {/if}
-                    </div>
-                {/each}
+                <NetworkSelection bind:checkedNetworks />
             {:else}
-                {#each Object.values(accountSelections) as account}
-                    <div class="w-full flex flex-row justify-between p-4">
-                        <Text>{account.label}</Text>
-                        {#if account.required}
-                            <Text textColor="success">Required</Text>
-                        {:else}
-                            <Checkbox bind:checked={account.checked} size="lg" />
-                        {/if}
-                    </div>
-                {/each}
+                <AccountSelection bind:checkedAccounts />
             {/if}
         {:else}
             <div class="w-full h-full flex items-center justify-center">
