@@ -1,7 +1,7 @@
 <h1 align="center">
   <br>
   <a href="https://bloomwallet.io">
-    <img src="https://github.com/bloomwalletio/bloom/assets/42754063/a98e54c7-837e-46d7-8165-ea11c399c7ba" />
+    <img src="https://github.com/bloomwalletio/bloom/assets/42754063/316c882c-6e1b-46fc-9527-2e9408598935" />
   </a>
 </h1>
 
