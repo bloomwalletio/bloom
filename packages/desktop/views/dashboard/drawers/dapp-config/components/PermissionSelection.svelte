@@ -10,15 +10,14 @@
     let permissionSelections: { label: string; value: string; checked: boolean; required: boolean }[] = []
     function setPermissionSelections(): void {
         const permissions: { label: string; value: string; checked: boolean; required: boolean }[] = []
-        const namespaces = Object.entries($sessionProposal.params.requiredNamespaces)
+        const namespaces = Object.values($sessionProposal.params.requiredNamespaces)
 
         for (const permission of Object.values(DappPermission)) {
             const supportedMethods = METHODS_FOR_PERMISSION[permission]
 
-            const isRequired = namespaces.some(([namespaceId, namespace]) => {
+            const isRequired = namespaces.some((namespace) => {
                 const requiredMethods = namespace.methods
-                const supportedMethodsForNamespace: string[] = supportedMethods[namespaceId] ?? []
-
+                const supportedMethodsForNamespace: string[] = supportedMethods ?? []
                 return supportedMethodsForNamespace.some((method) => requiredMethods.includes(method))
             })
 
@@ -48,7 +47,7 @@
     })
 </script>
 
-{#each Object.values(permissionSelections) as permission}
+{#each permissionSelections as permission}
     <div class="w-full flex flex-row justify-between p-4">
         <Text>{permission.label}</Text>
         {#if permission.required}
