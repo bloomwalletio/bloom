@@ -141,9 +141,6 @@ const prodConfig: Configuration = {
         vPrefixedTagName: false,
         channel: 'latest',
         publishAutoUpdate: true,
-        // TODO: Remove following lines after we're open source
-        private: true,
-        token: process.env.PRIVATE_REPO_ACCESS_TOKEN,
     },
 }
 
