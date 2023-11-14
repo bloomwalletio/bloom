@@ -23,7 +23,7 @@
     })
 </script>
 
-{#each Object.values(accountSelections) as account}
+{#each accountSelections as account}
     <div class="w-full flex flex-row justify-between p-4">
         <Text>{account.label}</Text>
         {#if account.required}

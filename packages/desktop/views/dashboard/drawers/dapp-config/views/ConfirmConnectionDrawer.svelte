@@ -138,13 +138,15 @@
                 {/each}
             </div>
 
-            {#if currentStep === 0}
+            <div class={currentStep === 0 ? 'visible' : 'hidden'}>
                 <PermissionSelection bind:checkedMethods />
-            {:else if currentStep === 1}
+            </div>
+            <div class={currentStep === 1 ? 'visible' : 'hidden'}>
                 <NetworkSelection bind:checkedNetworks />
-            {:else}
+            </div>
+            <div class={currentStep === 2 ? 'visible' : 'hidden'}>
                 <AccountSelection bind:checkedAccounts />
-            {/if}
+            </div>
         {:else}
             <div class="w-full h-full flex items-center justify-center">
                 <Spinner busy size={50} />
