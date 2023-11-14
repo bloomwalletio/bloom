@@ -12,9 +12,10 @@
     import { showNotification } from '@auxiliary/notification'
     import { getAllNetworkIds } from '@core/network/utils'
     import { visibleActiveAccounts } from '@core/profile/stores'
-    import { SUPPORTED_EVENTS, SUPPORTED_METHODS } from '@auxiliary/wallet-connect/constants'
+    import { METHODS_FOR_PERMISSION, SUPPORTED_EVENTS } from '@auxiliary/wallet-connect/constants'
     import { getAddressFromAccountForNetwork } from '@core/account'
     import { NetworkId } from '@core/network'
+    import { DappPermission } from '@auxiliary/wallet-connect/enums'
 
     export let drawerRouter: Router<unknown>
 
@@ -32,12 +33,12 @@
     const steps = [ConfirmSteps.Permission, ConfirmSteps.Networks, ConfirmSteps.Accounts]
 
     let networkSelections: Selections = {}
-    let methodSelections: Selections = {}
+    let permissionSelections: Selections = {}
     let accountSelections: Selections = {}
     $: {
         if ($sessionProposal) {
             setNetworkSelections()
-            setMethodSelections()
+            setPermissionSelections()
             setAccountSelections()
         }
     }
@@ -68,21 +69,24 @@
         networkSelections = networks
     }
 
-    function setMethodSelections(): void {
-        const methods: Selections = {}
-        for (const namespace of Object.values($sessionProposal.params.requiredNamespaces)) {
-            for (const method of namespace.methods) {
-                methods[method] = { label: method, checked: true, required: true }
-            }
+    function setPermissionSelections(): void {
+        const permissions: Selections = {}
+        const namespaces = Object.entries($sessionProposal.params.requiredNamespaces)
+
+        for (const permission of Object.values(DappPermission)) {
+            const supportedMethods = METHODS_FOR_PERMISSION[permission]
+
+            const isRequired = namespaces.some(([namespaceId, namespace]) => {
+                const requiredMethods = namespace.methods
+                const supportedMethodsForNamespace: string[] = supportedMethods[namespaceId] ?? []
+
+                return supportedMethodsForNamespace.some((method) => requiredMethods.includes(method))
+            })
+
+            permissions[permission] = { label: permission, checked: true, required: isRequired }
         }
-        for (const namespace of Object.values($sessionProposal.params.optionalNamespaces)) {
-            for (const method of namespace.methods) {
-                if (!methods[method] && SUPPORTED_METHODS.includes(method)) {
-                    methods[method] = { label: method, checked: true, required: false }
-                }
-            }
-        }
-        methodSelections = methods
+
+        permissionSelections = permissions
     }
 
     function onCancelClick(): void {
@@ -114,7 +118,7 @@
             ]
 
             const allowedChains = availablChains.filter((chain) => networkSelections[chain]?.checked)
-            const allowedMethods = availableMethods.filter((chain) => methodSelections[chain]?.checked)
+            const allowedMethods = availableMethods.filter((chain) => permissionSelections[chain]?.checked)
 
             const addresses = []
             for (const chain of allowedChains) {
@@ -178,7 +182,7 @@
             </div>
 
             {#if currentStep === 0}
-                {#each Object.values(methodSelections) as method}
+                {#each Object.values(permissionSelections) as method}
                     <div class="w-full flex flex-row justify-between p-4">
                         <Text>{method.label}</Text>
                         {#if method.required}
