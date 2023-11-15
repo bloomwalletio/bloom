@@ -3,6 +3,7 @@
     import {
         ConfirmConnectionDrawer,
         ConnectedDappsDrawer,
+        ConnectionRequestDrawer,
         DappDetailsDrawer,
         InputConnectionCodeDrawer,
     } from './views'
@@ -10,7 +11,6 @@
     import { DappConfigRouter, dappConfigRoute, dappConfigRouter } from './dapp-config.router'
     import features from '@features/features'
     import { Platform } from '@core/app'
-    import ConnectionRequestDrawer from './views/ConnectionRequestDrawer.svelte'
 
     export let initialRoute: DappConfigRoute | undefined = undefined
     export let props = undefined
