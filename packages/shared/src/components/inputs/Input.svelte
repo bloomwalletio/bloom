@@ -43,7 +43,7 @@
         }
     }
 
-    const dispatch = createEventDispatcher()
+    const dispatch = createEventDispatcher<{ change: null }>()
     const decimalSeparator = getDecimalSeparator()
 
     let capsLockOn = false

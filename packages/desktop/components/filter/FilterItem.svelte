@@ -17,7 +17,7 @@
     export let filterUnit: FilterUnit
     export let isOpen: boolean
 
-    const dispatch = createEventDispatcher()
+    const dispatch = createEventDispatcher<{ toggle: null; open: null }>()
 
     function onArrowClick(): void {
         dispatch('toggle')

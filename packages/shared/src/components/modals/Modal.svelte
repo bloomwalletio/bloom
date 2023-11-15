@@ -23,7 +23,7 @@
     }
 
     const { top = 'inherit', right = 'inherit', bottom = 'inherit', left = 'inherit', absolute = 'true' } = position
-    const dispatch = createEventDispatcher()
+    const dispatch = createEventDispatcher<{ open: null; close: null }>()
 
     function setShow(bool: boolean): void {
         if (!isBlockedByTimeout) {
