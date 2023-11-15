@@ -1,8 +1,9 @@
 <script lang="ts">
-    import { Checkbox, Text } from '@bloomwalletio/ui'
     import { IAccountState } from '@core/account'
     import { visibleActiveAccounts } from '@core/profile/stores'
     import { onMount } from 'svelte'
+    import Selection from './Selection.svelte'
+    import { localize } from '@core/i18n'
 
     export let checkedAccounts: IAccountState[]
 
@@ -23,13 +24,7 @@
     })
 </script>
 
-{#each accountSelections as account}
-    <div class="w-full flex flex-row justify-between p-4">
-        <Text>{account.label}</Text>
-        {#if account.required}
-            <Text textColor="success">Required</Text>
-        {:else}
-            <Checkbox bind:checked={account.checked} size="lg" />
-        {/if}
-    </div>
-{/each}
+<Selection
+    bind:selectionOptions={accountSelections}
+    title={localize('views.dashboard.drawers.dapps.confirmConnection.accounts.title')}
+/>

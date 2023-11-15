@@ -1,9 +1,10 @@
 <script lang="ts">
-    import { Checkbox, Text } from '@bloomwalletio/ui'
     import { sessionProposal } from '@auxiliary/wallet-connect/stores'
     import { METHODS_FOR_PERMISSION } from '@auxiliary/wallet-connect/constants'
     import { DappPermission } from '@auxiliary/wallet-connect/enums'
     import { onMount } from 'svelte'
+    import Selection from './Selection.svelte'
+    import { localize } from '@core/i18n'
 
     export let checkedMethods: string[]
 
@@ -47,13 +48,7 @@
     })
 </script>
 
-{#each permissionSelections as permission}
-    <div class="w-full flex flex-row justify-between p-4">
-        <Text>{permission.label}</Text>
-        {#if permission.required}
-            <Text textColor="success">Required</Text>
-        {:else}
-            <Checkbox bind:checked={permission.checked} size="lg" />
-        {/if}
-    </div>
-{/each}
+<Selection
+    bind:selectionOptions={permissionSelections}
+    title={localize('views.dashboard.drawers.dapps.confirmConnection.permissions.title')}
+/>

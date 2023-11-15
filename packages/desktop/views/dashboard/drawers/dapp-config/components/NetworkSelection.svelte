@@ -1,8 +1,9 @@
 <script lang="ts">
-    import { Checkbox, Text } from '@bloomwalletio/ui'
     import { sessionProposal } from '@auxiliary/wallet-connect/stores'
     import { getAllNetworkIds } from '@core/network/utils'
     import { onMount } from 'svelte'
+    import Selection from './Selection.svelte'
+    import { localize } from '@core/i18n'
 
     export let checkedNetworks: string[]
 
@@ -32,13 +33,7 @@
     })
 </script>
 
-{#each networkSelections as network}
-    <div class="w-full flex flex-row justify-between p-4">
-        <Text>{network.label}</Text>
-        {#if network.required}
-            <Text textColor="success">Required</Text>
-        {:else}
-            <Checkbox bind:checked={network.checked} size="lg" />
-        {/if}
-    </div>
-{/each}
+<Selection
+    bind:selectionOptions={networkSelections}
+    title={localize('views.dashboard.drawers.dapps.confirmConnection.networks.title')}
+/>
