@@ -1,7 +1,7 @@
 import { IContactsFeatures } from '@lib/features/interfaces'
 
 const contactsFeatures: IContactsFeatures = {
-    enabled: false,
+    enabled: true,
     sendTo: {
         enabled: true,
     },
