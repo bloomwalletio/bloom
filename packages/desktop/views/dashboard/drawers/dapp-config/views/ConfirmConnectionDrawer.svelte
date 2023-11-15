@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { Button, Text } from '@bloomwalletio/ui'
+    import { Button, Steps } from '@bloomwalletio/ui'
     import { Spinner } from '@ui'
     import { localize } from '@core/i18n'
     import { Router } from '@core/router'
@@ -124,28 +124,22 @@
 </script>
 
 <DrawerTemplate title={localize('views.dashboard.drawers.dapps.confirmConnection.title')} {drawerRouter}>
-    <div class="w-full h-full">
+    <div class="w-full h-full space-y-6">
         {#if $sessionProposal}
             <DappInformationCard />
 
-            <div class="w-full flex flex-row justify-between gap-2 p-4">
-                {#each steps as step, index}
-                    {@const isPastStep = index < currentStep}
-                    {@const isCurrentStep = index === currentStep}
-                    <Text textColor={isCurrentStep ? 'brand' : isPastStep ? 'secondary' : 'secondary'}
-                        >{index + 1}. {step}</Text
-                    >
-                {/each}
-            </div>
+            <div>
+                <Steps bind:currentStep {steps} />
 
-            <div class={currentStep === 0 ? 'visible' : 'hidden'}>
-                <PermissionSelection bind:checkedMethods />
-            </div>
-            <div class={currentStep === 1 ? 'visible' : 'hidden'}>
-                <NetworkSelection bind:checkedNetworks />
-            </div>
-            <div class={currentStep === 2 ? 'visible' : 'hidden'}>
-                <AccountSelection bind:checkedAccounts />
+                <div class={currentStep === 0 ? 'visible' : 'hidden'}>
+                    <PermissionSelection bind:checkedMethods />
+                </div>
+                <div class={currentStep === 1 ? 'visible' : 'hidden'}>
+                    <NetworkSelection bind:checkedNetworks />
+                </div>
+                <div class={currentStep === 2 ? 'visible' : 'hidden'}>
+                    <AccountSelection bind:checkedAccounts />
+                </div>
             </div>
         {:else}
             <div class="w-full h-full flex items-center justify-center">
