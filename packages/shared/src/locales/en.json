@@ -466,9 +466,14 @@
                         "hint": "Add new dApps by adding a Wallet Connect code below.",
                         "deprecated": "The dApp you try to connect to uses a deprecated version of WalletConnect. Cannot establish connection"
                     },
+                    "connectionRequest": {
+                        "title": "Connection request",
+                        "hint": "A third party service wants to connect with your wallet for the first time. You can choose if you wish to trust this connection.",
+                        "insecure": "The URL for this dApp cannot be verified. Your connection to this application may not be secure.",
+                        "acceptInsecureConnection": "I understand this dApp may be insecure and still want to connect."
+                    },
                     "confirmConnection": {
                         "title": "Connect with an application",
-                        "hint": "A third party service wants to connect with your wallet for the first time. You can choose if you wish to trust this connection.",
                         "permissions": {
                             "step": "Permission",
                             "title": "This dApp will be abe to ask to:",
@@ -483,9 +488,7 @@
                         "accounts": {
                             "step": "Accounts",
                             "title": "Select accounts"
-                        },
-                        "insecure": "The URL for this dApp cannot be verified. Your connection to this application may not be secure.",
-                        "acceptInsecureConnection": "I understand this dApp may be insecure and still want to connect."
+                        }
                     },
                     "details": {
                         "title": "Connection details",

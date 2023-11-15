@@ -1,6 +1,7 @@
 export enum DappConfigRoute {
     ConnectedDapps = 'connectedDapps',
-    ConfirmConnection = 'ConfirmConnection',
-    DappDetails = 'DappDetails',
+    ConnectionRequest = 'connectionRequest',
+    ConfirmConnection = 'confirmConnection',
+    DappDetails = 'dappDetails',
     InputCode = 'inputCode',
 }

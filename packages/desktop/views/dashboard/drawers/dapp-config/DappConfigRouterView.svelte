@@ -10,6 +10,7 @@
     import { DappConfigRouter, dappConfigRoute, dappConfigRouter } from './dapp-config.router'
     import features from '@features/features'
     import { Platform } from '@core/app'
+    import ConnectionRequestDrawer from './views/ConnectionRequestDrawer.svelte'
 
     export let initialRoute: DappConfigRoute | undefined = undefined
     export let props = undefined
@@ -33,6 +34,8 @@
     <ConfirmConnectionDrawer drawerRouter={$dappConfigRouter} {...props} />
 {:else if $dappConfigRoute === DappConfigRoute.InputCode}
     <InputConnectionCodeDrawer drawerRouter={$dappConfigRouter} {...props} />
+{:else if $dappConfigRoute === DappConfigRoute.ConnectionRequest}
+    <ConnectionRequestDrawer drawerRouter={$dappConfigRouter} {...props} />
 {:else if $dappConfigRoute === DappConfigRoute.DappDetails}
     <DappDetailsDrawer drawerRouter={$dappConfigRouter} {...props} />
 {/if}
