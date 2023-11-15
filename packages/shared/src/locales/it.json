@@ -476,10 +476,17 @@
                         "description": "Description",
                         "url": "URL",
                         "verifyUrl": "Verify URL",
-                        "disconnectTitle": "Disconnect",
-                        "disconnectDescription": "Do you want to disconnect from {dappName}",
+                        "disconnect": {
+                            "title": "Disconnect",
+                            "description": "Do you want to disconnect from {dappName}?"
+                        },
+                        "remove": {
+                            "title": "Remove",
+                            "description": "Do you want to disconnect from {dappName} and remove it from here?"
+                        },
                         "actions": {
-                            "disconnect": "Disconnect"
+                            "disconnect": "Disconnect",
+                            "remove": "Remove"
                         }
                     }
                 }
@@ -1352,6 +1359,7 @@
         "nft": "NFT",
         "type": "Tipo",
         "immutableIssuer": "Emittente Immutabile",
+        "magicContract": "Magic Contract",
         "smartContract": "Smart Contract",
         "targetContract": "Contratto di destinazione",
         "contractFunction": "Funzione del contratto",
@@ -1538,7 +1546,10 @@
             }
         },
         "disconnectDapp": {
-            "success": "Disconnected from dApp"
+            "success": "Disconnected from {dappName}"
+        },
+        "removeDapp": {
+            "success": "{dappName} removed"
         },
         "claimed": {
             "success": "Transazione rivendicata",
@@ -1657,6 +1668,7 @@
             "insufficientFunds": "Questo wallet non ha fondi sufficienti.",
             "insufficientFundsGasFee": "Insufficient funds to cover the gas fee.",
             "insufficientFundsStorageDeposit": "Fondi insufficienti per coprire lo torage deposit.",
+            "insufficientFundsTransaction": "Insufficient funds to make a transaction.",
             "ongoingTransaction": "Se hai transazioni in corso, attendi la loro conferma.",
             "cancelled": "La transazione è stata annullata.",
             "invalidExpirationDateTime": "La data di scadenza/ora scelta non è valida.",
