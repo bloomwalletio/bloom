@@ -468,7 +468,9 @@
                     },
                     "confirmConnection": {
                         "title": "Connect with an application",
-                        "hint": "A third party service wants to connect with your wallet for the first time. You can choose if you wish to trust this connection."
+                        "hint": "A third party service wants to connect with your wallet for the first time. You can choose if you wish to trust this connection.",
+                        "insecure": "The URL for this dApp cannot be verified. Your connection to this application may not be secure.",
+                        "acceptInsecureConnection": "I understand this dApp may be insecure and still want to connect."
                     },
                     "details": {
                         "title": "Connection details",
@@ -678,7 +680,7 @@
             "installedVersion": "Installed version",
             "newVersion": "New version",
             "stage": "Stage",
-            "prod": "Production",
+            "prod": "Early Access",
             "alpha": "Alpha",
             "beta": "Beta",
             "releasedAt": "Released at",
@@ -707,7 +709,6 @@
         "externalUrl": {
             "title": "Open URL in Browser",
             "body": "Are you sure you want to open \"{url}\" in the browser?",
-            "hint": "This URL is unknown to Bloom. Please double check the URL before opening it.",
             "action": "Open URL",
             "invalidProtocol": "Cannot open URL with invalid protocol"
         },
@@ -1252,7 +1253,7 @@
         "manageAccount": "Manage account",
         "account": "Account",
         "amount": "Amount",
-        "addAddress": "Add Address",
+        "addAddress": "Add address",
         "to": "To",
         "and": "and",
         "receiveFunds": "Receive funds",
@@ -1361,6 +1362,7 @@
         "nft": "NFT",
         "type": "Type",
         "immutableIssuer": "Immutable Issuer",
+        "magicContract": "Magic Contract",
         "smartContract": "Smart Contract",
         "targetContract": "Target contract",
         "contractFunction": "Contract function",
@@ -1529,7 +1531,10 @@
         "updateReady": "Update ready to install",
         "updateError": "Update failed, please try again",
         "copiedToClipboard": "Copied to clipboard",
-        "newDappConnected": "Connected to new dApp",
+        "newDappConnection": {
+            "success": "Connected to new dApp",
+            "rejected": "Connection rejected"
+        },
         "deepLinkingRequest": {
             "receivedWhileLoggedOut": "Please login to initiate the deep link",
             "invalidFormat": "The deep link you followed is invalid",
@@ -1666,6 +1671,7 @@
             "insufficientFunds": "This wallet has insufficient funds.",
             "insufficientFundsGasFee": "Insufficient funds to cover the gas fee.",
             "insufficientFundsStorageDeposit": "Insufficient funds to cover the storage deposit.",
+            "insufficientFundsTransaction": "Insufficient funds to make a transaction.",
             "ongoingTransaction": "If you have ongoing transactions, please wait for their confirmation.",
             "cancelled": "The transaction was cancelled.",
             "invalidExpirationDateTime": "The chosen expiration date/time is invalid.",
@@ -1843,7 +1849,8 @@
                 "expirationTime": "If the recipient does not claim in time your tokens will be returned to you.",
                 "timelockDate": "You added a timelock to this transaction. The recipient will not be able to spend these funds until the timelock expires.",
                 "metadata": "An optional data field for storing data persistently on the Tangle.",
-                "tag": "A short optional data field. Tagging groups of transactions can make them easier to search for."
+                "tag": "A short optional data field. Tagging groups of transactions can make them easier to search for.",
+                "transactionFee": "The transaction fee contains the gas fee for the code execution and the storage deposit fee."
             },
             "nftMetadata": {
                 "type": "The MimeType of the NFT. e.g. image/png.",

@@ -1,23 +1,19 @@
 <script lang="ts">
     import { ChainType, network } from '@core/network'
-    import type { IDropdownItem } from '@core/utils'
     import { NetworkFilterUnit } from '@core/utils/interfaces/filter'
     import features from '@features/features'
-    import { Dropdown } from '@ui'
-    import { onMount } from 'svelte'
+    import { IOption, SelectInput } from '@bloomwalletio/ui'
 
     export let filterUnit: NetworkFilterUnit
 
-    let choices: IDropdownItem<string>[] = []
-    $: value = choices?.find((choice) => choice.value === filterUnit.selected)?.value ?? ''
+    const options: IOption[] = getOptions()
+    let selected: IOption | undefined = options.find((option) => option.value === filterUnit.selected) ?? options?.[0]
 
-    onMount(buildOptions)
-
-    function buildOptions(): void {
+    function getOptions(): IOption[] {
         if (!$network) {
-            return
+            return []
         }
-        // L1 network, we consider layer 1 as "chain 0"
+        // L1 network
         const layer1Network = {
             label: $network.getMetadata().name,
             value: $network.getMetadata().id,
@@ -30,12 +26,18 @@
             label: chain.getConfiguration().name,
             value: chain.getConfiguration().id,
         }))
-        choices = [layer1Network, ...iscpChainsOptions]
+        return [layer1Network, ...iscpChainsOptions]
     }
 
-    function onSelect(item: IDropdownItem<string>): void {
+    $: selected && onSelect(selected)
+    function onSelect(item: IOption): void {
+        if (!item) {
+            return
+        }
         filterUnit.selected = item.value
     }
 </script>
 
-<Dropdown {value} items={choices} {onSelect} small />
+{#if options}
+    <SelectInput bind:selected {options} hideValue />
+{/if}

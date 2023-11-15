@@ -18,14 +18,14 @@ export async function generateSingleBasicActivity(
 
     if (baseActivity.smartContract) {
         const transferAmount = baseActivity.smartContract.baseTokens
-            ? Number(baseActivity.smartContract.baseTokens ?? 0)
+            ? Number(baseActivity.smartContract.baseTokens ?? '0')
             : 0
         const transferDelta = baseActivity.baseTokenTransfer?.rawAmount
             ? Number(baseActivity.baseTokenTransfer.rawAmount) - transferAmount
             : 0
         baseActivity.baseTokenTransfer = {
             tokenId: BASE_TOKEN_ID,
-            rawAmount: String(transferAmount),
+            rawAmount: String(Math.max(transferAmount, 0)),
         }
         baseActivity.transactionFee = transferDelta
     }
@@ -35,7 +35,7 @@ export async function generateSingleBasicActivity(
         baseActivity.tokenTransfer = persistedToken
             ? {
                   tokenId: overrideTokenId,
-                  rawAmount: String(overrideAmount),
+                  rawAmount: String(Math.max(overrideAmount, 0)),
               }
             : undefined
     }

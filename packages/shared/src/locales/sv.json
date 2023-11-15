@@ -363,7 +363,7 @@
                     "chain": {
                         "chainId": "Chain ID",
                         "aliasAddress": "Alias Address",
-                        "rpcEndpoint": "ISCP Endpoint",
+                        "rpcEndpoint": "RPC Endpoint",
                         "explorerUrl": "Explorer URL (optional)",
                         "errors": {
                             "cannotBeEmpty": "Name cannot be empty",
@@ -465,7 +465,22 @@
                     },
                     "confirmConnection": {
                         "title": "Connect with an application",
-                        "hint": "A third party service wants to connect with your wallet for the first time. You can choose if you wish to trust this connection."
+                        "hint": "A third party service wants to connect with your wallet for the first time. You can choose if you wish to trust this connection.",
+                        "insecure": "The URL for this dApp cannot be verified. Your connection to this application may not be secure.",
+                        "acceptInsecureConnection": "I understand this dApp may be insecure and still want to connect."
+                    },
+                    "details": {
+                        "title": "Connection details",
+                        "falbackName": "dApp",
+                        "name": "Name",
+                        "description": "Description",
+                        "url": "URL",
+                        "verifyUrl": "Verify URL",
+                        "disconnectTitle": "Disconnect",
+                        "disconnectDescription": "Do you want to disconnect from {dappName}",
+                        "actions": {
+                            "disconnect": "Disconnect"
+                        }
                     }
                 }
             },
@@ -684,7 +699,6 @@
         "externalUrl": {
             "title": "Öppna URL i webbläsare",
             "body": "Är du säker på att du vill öppna \"{url}\" i webbläsaren?",
-            "hint": "This URL is unknown to Bloom. Please double check the URL before opening it.",
             "action": "Öppna URL",
             "invalidProtocol": "Kan inte öppna URL med ogiltigt protokoll"
         },
@@ -1229,7 +1243,7 @@
         "manageAccount": "Manage account",
         "account": "Account",
         "amount": "Belopp",
-        "addAddress": "Lägg till adress",
+        "addAddress": "Add address",
         "to": "Till",
         "and": "och",
         "receiveFunds": "Ta emot tillgångar",
@@ -1506,7 +1520,10 @@
         "updateReady": "Uppdatering redo",
         "updateError": "Ett fel inträffade under uppdateringen, försök igen",
         "copiedToClipboard": "Kopierad till urklipp",
-        "newDappConnected": "Connected to new dApp",
+        "newDappConnection": {
+            "success": "Connected to new dApp",
+            "rejected": "Connection rejected"
+        },
         "deepLinkingRequest": {
             "receivedWhileLoggedOut": "Vänligen logga in för att initiera hyperlänken",
             "invalidFormat": "Hyperlänken du följde är ogiltig",
@@ -1519,6 +1536,9 @@
             "wallet": {
                 "unrecognizedOperation": "Okänd plånboksoperation: {operation}"
             }
+        },
+        "disconnectDapp": {
+            "success": "Disconnected from dApp"
         },
         "claimed": {
             "success": "Transaktion anspråkstagen",
@@ -1548,6 +1568,9 @@
         "restoreFromStrongholdBackup": {
             "wrongProtocol": "Protokollet matchar inte den mynttyp som finns i Stronghold-backupen",
             "wrongProtocolForClaiming": "Du måste använda en IOTA-baserad Stronghold säkerhetskopia för att hämta Shimmer-belöningar"
+        },
+        "signMessage": {
+            "success": "Message successfully signed"
         },
         "findShimmerRewards": {
             "error": "Ett fel inträffade vid sökning efter belöningar"
@@ -1811,7 +1834,8 @@
                 "expirationTime": "Om mottagaren inte gör anspråk i tid kommer dina tokens att returneras till dig.",
                 "timelockDate": "Du har lagt till en tidsgräns för denna transaktion. Mottagaren kommer inte kunna spendera dessa tillgångar förrän tidsfristen löpt ut.",
                 "metadata": "Ett valfritt datafält för att lagra data konstant på Tangle.",
-                "tag": "Ett kort valfritt datafält. Taggningsgrupper av transaktioner kan göra dem enklare att söka efter."
+                "tag": "Ett kort valfritt datafält. Taggningsgrupper av transaktioner kan göra dem enklare att söka efter.",
+                "transactionFee": "The transaction fee contains the gas fee for the code execution and the storage deposit fee."
             },
             "nftMetadata": {
                 "type": "MimeType av NFT. t.ex. image/png.",

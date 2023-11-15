@@ -11,7 +11,7 @@
     <div class="column flex flex-col items-center w-full">
         <Logo width="100" logo={LogoName.BloomLogo} />
         <div class="flex-col justify-center items-center w-full max-w-lg">
-            <Progress size="lg" showLabel {progress} />
+            <Progress bordered size="lg" showLabel {progress} />
         </div>
     </div>
 </div>

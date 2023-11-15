@@ -75,7 +75,7 @@
     panel {
         @apply fixed;
         @apply h-full;
-        @apply bg-surface dark:bg-surface-dark;
+        @apply bg-surface-1 dark:bg-surface-1-dark;
         @apply shadow;
         @apply border border-solid border-stroke dark:border-stroke-dark;
         @apply p-8;

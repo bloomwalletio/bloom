@@ -20,15 +20,19 @@ export async function generateAndStoreEvmAddressForAccounts(
         let evmAddress: string | undefined
         if (profileType === ProfileType.Software) {
             const manager = await api.getSecretManager(getProfileManager().id)
-            evmAddress = (
-                await manager.generateEvmAddresses({
-                    coinType,
-                    accountIndex,
-                    options: {
-                        internal: false,
-                    },
-                })
-            )?.[0]
+            // Follow MetaMask's convention around incrementing address indices instead of account indices
+            const addresses = await manager.generateEvmAddresses({
+                coinType,
+                accountIndex: 0,
+                range: {
+                    start: accountIndex,
+                    end: accountIndex + 1,
+                },
+                options: {
+                    internal: false,
+                },
+            })
+            evmAddress = addresses?.[0]
         } else {
             evmAddress = await Ledger.generateEvmAddress(accountIndex, coinType)
             evmAddress = evmAddress.toLowerCase()

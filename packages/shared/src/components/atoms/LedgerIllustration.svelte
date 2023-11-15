@@ -9,7 +9,7 @@
     const isLedgerLiveIllustration = illustration === 'ledger-live'
 </script>
 
-<ledger-illustration class="flex relative justify-center items-center w-full">
+<ledger-illustration class="flex relative justify-center items-center w-full overflow-hidden">
     {#if pill}
         <pill class="absolute">
             <Pill color={pill.color}>

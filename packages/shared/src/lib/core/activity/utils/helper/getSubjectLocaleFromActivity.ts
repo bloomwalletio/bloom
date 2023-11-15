@@ -13,6 +13,8 @@ export function getSubjectLocaleFromActivity(activity: Activity): string {
         return truncateString(subject.account?.name, 13, 0)
     } else if (subject?.type === SubjectType.Contact) {
         return truncateString(subject.contact?.name, 13, 0)
+    } else if (subject?.type === SubjectType.SmartContract) {
+        return truncateString(subject.name, 13, 0)
     } else if (subject?.type === SubjectType.Network) {
         return truncateString(subject.name, 13, 0)
     } else if (subject?.type === SubjectType.Address) {
