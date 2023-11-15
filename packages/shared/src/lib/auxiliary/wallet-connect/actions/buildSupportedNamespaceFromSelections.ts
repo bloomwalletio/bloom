@@ -41,14 +41,14 @@ export function buildSupportedNamespacesFromSelections(
 
 function buildSupportedNamespace(
     selections: Selections,
-    requiredNamespace: ProposalTypes.RequiredNamespace,
-    optionalNamespace: ProposalTypes.RequiredNamespace
+    requiredNamespace: ProposalTypes.RequiredNamespace | undefined,
+    optionalNamespace: ProposalTypes.RequiredNamespace | undefined
 ): ISupportedNamespace {
     const allowedChains = selections.chains.filter(
-        (network) => requiredNamespace.chains?.includes(network) || optionalNamespace.chains?.includes(network)
+        (network) => requiredNamespace?.chains?.includes(network) || optionalNamespace?.chains?.includes(network)
     )
     const allowedMethods = selections.methods.filter(
-        (method) => requiredNamespace.methods?.includes(method) || optionalNamespace.methods?.includes(method)
+        (method) => requiredNamespace?.methods?.includes(method) || optionalNamespace?.methods?.includes(method)
     )
 
     const addresses: string[] = []
