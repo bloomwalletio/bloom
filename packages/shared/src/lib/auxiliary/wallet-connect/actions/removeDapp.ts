@@ -3,7 +3,7 @@ import { getWalletClient, setConnectedDapps } from '../stores'
 import { getSdkError } from '@walletconnect/utils'
 import { IConnectedDapp } from '../interface'
 
-export async function disconnectDapp(dapp: IConnectedDapp): Promise<void> {
+export async function removeDapp(dapp: IConnectedDapp): Promise<void> {
     const client = getWalletClient()
     if (!client) {
         return
@@ -16,6 +16,7 @@ export async function disconnectDapp(dapp: IConnectedDapp): Promise<void> {
                 reason: getSdkError('USER_DISCONNECTED'),
             })
         }
+        await client.core.pairing.disconnect({ topic: dapp.topic })
         setConnectedDapps()
     } catch (err) {
         logAndNotifyError({
