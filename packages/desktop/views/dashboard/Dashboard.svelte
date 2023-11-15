@@ -1,8 +1,8 @@
 <script lang="ts">
     import { NavbarContainer } from '@components'
-    import { selectedAccount, selectedAccountIndex } from '@core/account/stores'
+    import { selectedAccountIndex } from '@core/account/stores'
     import { IS_MAC, Platform } from '@core/app'
-    import { clearLayer2TokensPoll, pollLayer2Tokens } from '@core/layer-2/actions'
+    import { clearL2TokensPoll } from '@core/layer-2/actions'
     import {
         addNftsToDownloadQueue,
         downloadNextNftInQueue,
@@ -56,13 +56,11 @@
         })
 
         Platform.DeepLinkManager.checkForDeepLinkRequest()
-
-        void pollLayer2Tokens($selectedAccount)
     })
 
     onDestroy(() => {
         Platform.DeepLinkManager.clearDeepLinkRequest()
-        clearLayer2TokensPoll()
+        clearL2TokensPoll()
     })
 </script>
 
@@ -77,7 +75,7 @@
         {/if}
         <DashboardSidebar />
     </div>
-    <div class="flex flex-col flex-grow basis-0">
+    <div class="flex flex-col flex-grow basis-0 overflow-hidden">
         <Navbar />
         <!-- Dashboard Pane -->
         <dashboard-container>

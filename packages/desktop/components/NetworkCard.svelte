@@ -2,7 +2,7 @@
     import { Button, Copyable, IconButton, IconName, Text, Tile } from '@bloomwalletio/ui'
     import { selectedAccount } from '@core/account/stores'
     import { localize } from '@core/i18n'
-    import { generateAndStoreEvmAddressForAccounts, pollLayer2Tokens } from '@core/layer-2/actions'
+    import { generateAndStoreEvmAddressForAccounts, pollL2BalanceForAccount } from '@core/layer-2/actions'
     import { LedgerAppName } from '@core/ledger'
     import {
         IChain,
@@ -60,7 +60,7 @@
                         configuration.coinType,
                         $selectedAccount
                     )
-                    pollLayer2Tokens($selectedAccount)
+                    pollL2BalanceForAccount($selectedAccount)
                     if ($activeProfile.type === ProfileType.Ledger) {
                         $networkConfigRouter.goTo(NetworkConfigRoute.ConfirmLedgerEvmAddress)
                     }

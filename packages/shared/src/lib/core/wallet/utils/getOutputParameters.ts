@@ -1,25 +1,24 @@
 import { OutputParams, Assets } from '@iota/sdk/out/types'
-import { getGasFeesForLayer1ToLayer2Transaction, getLayer2MetadataForTransfer } from '@core/layer-2/actions'
+import { getLayer2MetadataForTransfer } from '@core/layer-2/actions'
 import { ChainConfiguration, ChainType, getChainConfiguration, isEvmChain } from '@core/network'
 import { BASE_TOKEN_ID } from '@core/token'
 import { Converter, convertDateToUnixTimestamp } from '@core/utils'
 import { SendFlowParameters, Subject } from '@core/wallet/types'
-import { ReturnStrategy } from '../enums'
-import { SendFlowType } from '../enums'
+import { ReturnStrategy, SendFlowType } from '../enums'
 
-export async function getOutputParameters(
-    sendFlowParameters: SendFlowParameters,
-    senderAddress?: string
-): Promise<OutputParams> {
+export function getOutputParameters(sendFlowParameters: SendFlowParameters, senderAddress?: string): OutputParams {
     const { recipient, expirationDate, timelockDate, giftStorageDeposit, destinationNetworkId } =
         sendFlowParameters ?? {}
 
     const isToLayer2 = destinationNetworkId && isEvmChain(destinationNetworkId)
+    if (isToLayer2 && !senderAddress) {
+        throw new Error('Sender address must be defined if sending to Layer 2')
+    }
+
     const chainConfig = isToLayer2 ? getChainConfiguration(destinationNetworkId) : undefined
     const destinationAddress = getDestinationAddress(recipient, chainConfig)
 
-    let amount = getAmountFromTransactionData(sendFlowParameters)
-
+    const amount = getAmountFromTransactionData(sendFlowParameters)
     const assets = getAssetsFromTransactionData(sendFlowParameters)
 
     const tag = sendFlowParameters?.tag ? Converter.utf8ToHex(sendFlowParameters?.tag) : undefined
@@ -27,14 +26,9 @@ export async function getOutputParameters(
     const expirationUnixTime = expirationDate ? convertDateToUnixTimestamp(expirationDate) : undefined
     const timelockUnixTime = timelockDate ? convertDateToUnixTimestamp(timelockDate) : undefined
 
-    let metadata: string
-    if (isToLayer2) {
-        metadata = await getLayer2MetadataForTransfer(sendFlowParameters)
-        const { maxGasFee } = await getGasFeesForLayer1ToLayer2Transaction(sendFlowParameters)
-        amount = (parseInt(amount, 10) + Number(maxGasFee ?? 0)).toString()
-    } else {
-        metadata = Converter.utf8ToHex(sendFlowParameters?.metadata ?? '')
-    }
+    const metadata = isToLayer2
+        ? getLayer2MetadataForTransfer(sendFlowParameters)
+        : Converter.utf8ToHex(sendFlowParameters?.metadata ?? '')
 
     return <OutputParams>{
         recipientAddress: destinationAddress,

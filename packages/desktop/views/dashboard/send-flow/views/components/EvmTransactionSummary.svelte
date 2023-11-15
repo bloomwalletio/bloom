@@ -26,7 +26,7 @@
         }
     }
 
-    $: storageDeposit = getTransactionStorageDeposit(sendFlowParameters)
+    $: storageDeposit = getTransactionStorageDeposit(sendFlowParameters) ?? 0
     function getTransactionStorageDeposit(_sendFlowParameters: SendFlowParameters) {
         if (_sendFlowParameters.type === SendFlowType.TokenTransfer) {
             if (_sendFlowParameters.destinationNetworkId !== _sendFlowParameters.tokenTransfer.token.networkId) {
@@ -48,8 +48,7 @@
 
     <EvmTransactionDetails
         destinationNetworkId={sendFlowParameters?.destinationNetworkId}
-        {storageDeposit}
-        estimatedGasFee={calculateEstimatedGasFeeFromTransactionData(transaction)}
-        maxGasFee={calculateMaxGasFeeFromTransactionData(transaction)}
+        estimatedGasFee={calculateEstimatedGasFeeFromTransactionData(transaction) + storageDeposit}
+        maxGasFee={calculateMaxGasFeeFromTransactionData(transaction) + storageDeposit}
     />
 </div>

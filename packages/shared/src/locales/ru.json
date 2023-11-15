@@ -86,7 +86,18 @@
                     "description": "Please ensure that the official Ledger Live application is closed and follow the steps below.",
                     "connect": "Connect your Ledger device",
                     "unlock": "Unlock your Ledger with its pin",
-                    "open": "Open the Shimmer app on your Ledger"
+                    "open": "Open the Shimmer app on your Ledger",
+                    "tip": "Tips if your Ledger isn't connecting"
+                },
+                "ledgerConnectionGuide": {
+                    "title": "Ledger isn't connecting?",
+                    "ledgerLiveNotOpen": "Ensure the Ledger Live app is not open on your computer",
+                    "ledgerDeviceUnlocked": "Ensure your Ledger device is unlocked with your PIN",
+                    "ledgerAppOpen": "Open the {appName} app on your Ledger device",
+                    "ledgerStillNotConnected": {
+                        "question": "Still not working?",
+                        "answer": "Try the official Ledger support"
+                    }
                 }
             },
             "restoreProfile": {
@@ -207,11 +218,13 @@
             },
             "maxMediaSize": {
                 "title": "Максимальный размер медиафайла",
-                "description": "Медиафайлы NFT с размерами, превышающими этот предел, не будут загружены, и вместо них будет отображено место, представляющее тип медиафайла"
+                "description": "Медиафайлы NFT с размерами, превышающими этот предел, не будут загружены, и вместо них будет отображено место, представляющее тип медиафайла",
+                "input": "Media size"
             },
             "maxMediaDownloadTime": {
                 "title": "Максимальная скорость загрузки",
-                "description": "Медиафайлы NFT, загрузка которых длится дольше указанного предела, будут отменены, а вместо них будет отображено место, представляющее тип медиафайла"
+                "description": "Медиафайлы NFT, загрузка которых длится дольше указанного предела, будут отменены, а вместо них будет отображено место, представляющее тип медиафайла",
+                "input": "Download time"
             },
             "refreshNftMedia": {
                 "title": "Обновить медиафайлы NFT",
@@ -350,7 +363,7 @@
                     "chain": {
                         "chainId": "ID цепочки",
                         "aliasAddress": "Псевдоним адреса",
-                        "iscpEndpoint": "ISCP Конечная точка",
+                        "rpcEndpoint": "RPC Endpoint",
                         "explorerUrl": "Explorer URL (optional)",
                         "errors": {
                             "cannotBeEmpty": "Имя не должно быть пустым",
@@ -452,7 +465,22 @@
                     },
                     "confirmConnection": {
                         "title": "Connect with an application",
-                        "hint": "A third party service wants to connect with your wallet for the first time. You can choose if you wish to trust this connection."
+                        "hint": "A third party service wants to connect with your wallet for the first time. You can choose if you wish to trust this connection.",
+                        "insecure": "The URL for this dApp cannot be verified. Your connection to this application may not be secure.",
+                        "acceptInsecureConnection": "I understand this dApp may be insecure and still want to connect."
+                    },
+                    "details": {
+                        "title": "Connection details",
+                        "falbackName": "dApp",
+                        "name": "Name",
+                        "description": "Description",
+                        "url": "URL",
+                        "verifyUrl": "Verify URL",
+                        "disconnectTitle": "Disconnect",
+                        "disconnectDescription": "Do you want to disconnect from {dappName}",
+                        "actions": {
+                            "disconnect": "Disconnect"
+                        }
                     }
                 }
             },
@@ -547,26 +575,26 @@
         },
         "updateStronghold": {
             "update": {
-                "title": "Update Stronghold",
+                "title": "Update your Stronghold",
                 "loginBody": "Your Stronghold's version is out of date. Provide your password to update Stronghold.",
                 "recoveryBody": "The imported Stronghold’s version is out of date, to continue we will need to update the stronghold to the latest version."
             },
             "updateBackup": {
-                "loginTitle": "Stronghold updated",
+                "title": "Stronghold updated",
                 "loginBody": "It's all good now - you're running the latest Stronghold version",
-                "recoveryTitle": "Stronghold is successfully recovered and updated",
                 "recoveryBody": "You can now continue setting up your wallet",
                 "hint": "We highly recommend to delete all previous Stronghold backup files and save a new one"
             },
             "changePassword": {
-                "hint": "Your Stronghold was out of date and has been updated. We recommend that you change your Stronghold password."
+                "title": "Change your password",
+                "hint": "Your Stronghold was out of date and has been updated. We recommend that you change your password."
             }
         }
     },
     "popups": {
         "enableLedgerBlindSigning": {
             "title": "Включить слепое подписание",
-            "info": "In order to confirm this transaction you need to enable Blind Signing on your Ledger device.",
+            "info": "You need to enable Blind Signing on your Ledger device to confirm this transaction.",
             "step_1": "Connect and unlock your Ledger device",
             "step_2": "Open the {appName} application",
             "step_3": "Press the right button to navigate to Settings, then press both buttons to validate. Your Ledger device displays Blind Signing.",
@@ -671,7 +699,6 @@
         "externalUrl": {
             "title": "Открыть URL в браузере",
             "body": "Вы уверены, что хотите открыть \"{url}\" в браузере?",
-            "hint": "This URL is unknown to Bloom. Please double check the URL before opening it.",
             "action": "Открыть URL",
             "invalidProtocol": "Невозможно открыть URL с неправильным протоколом"
         },
@@ -776,18 +803,6 @@
             "locked": "Разблокируйте ваше устройство Ledger, чтобы продолжить.",
             "appNotOpen": "Open the Shimmer app on your Ledger device to continue.",
             "correctAppOpen": "Ledger успешно подключен, пожалуйста, продолжайте."
-        },
-        "ledgerConnectionGuide": {
-            "title": "Советы, если ваш Ledger не подключается",
-            "steps": {
-                "0": "Убедитесь, что на вашем компьютере не открыта программа Ledger Live",
-                "1": "Убедитесь, что вы разблокировали свое устройство Ledger с помощью PIN-кода",
-                "2": "Откройте новое приложение IOTA на своем устройстве Ledger",
-                "3": {
-                    "text": "Все еще не везёт?",
-                    "link": "Попробуйте зайти на официальную страницу поддержки Ledger"
-                }
-            }
         },
         "verifyLedgerTransaction": {
             "title": "Проверить транзакцию",
@@ -1228,7 +1243,7 @@
         "manageAccount": "Manage account",
         "account": "Account",
         "amount": "Сумма",
-        "addAddress": "Добавить Адрес",
+        "addAddress": "Add address",
         "to": "Кому",
         "and": "и",
         "receiveFunds": "Получить средства",
@@ -1325,7 +1340,7 @@
         "refreshTokenMetadataHint": "Это сбросит все метаданные ваших токенов, включая статус проверки, и снимет все скрытые активы.",
         "excluded": "Исключено",
         "developerTools": "Инструменты разработчика",
-        "testDeepLinkDescription": "Имитация запроса глубокой ссылки, отправленного на firefly",
+        "testDeepLinkDescription": "Simulate a deep link request sent to Bloom",
         "url": "URL",
         "hash": "Хеш",
         "creating": "Создание",
@@ -1505,7 +1520,10 @@
         "updateReady": "Обновление готово",
         "updateError": "Во время обновления произошла ошибка, попробуйте ещё раз",
         "copiedToClipboard": "Скопировано в буфер обмена",
-        "newDappConnected": "Connected to new dApp",
+        "newDappConnection": {
+            "success": "Connected to new dApp",
+            "rejected": "Connection rejected"
+        },
         "deepLinkingRequest": {
             "receivedWhileLoggedOut": "Пожалуйста, войдите, чтобы открыть глубокую ссылку",
             "invalidFormat": "Глубокая ссылка, по которой вы перешли, недействительна",
@@ -1518,6 +1536,9 @@
             "wallet": {
                 "unrecognizedOperation": "Нераспознанная операция с кошельком: {operation}"
             }
+        },
+        "disconnectDapp": {
+            "success": "Disconnected from dApp"
         },
         "claimed": {
             "success": "Транзакция востребована",
@@ -1547,6 +1568,9 @@
         "restoreFromStrongholdBackup": {
             "wrongProtocol": "Протокол не соответствует типу монет, найденных в резервной копии Stronghold",
             "wrongProtocolForClaiming": "Вы должны использовать резервную копию Stronghold на базе IOTA, чтобы получить Shimmer вознаграждение"
+        },
+        "signMessage": {
+            "success": "Message successfully signed"
         },
         "findShimmerRewards": {
             "error": "Произошла ошибка при поиске вознаграждений"
@@ -1790,7 +1814,8 @@
     "warning": {
         "transaction": {
             "invalidDateTime": "The chosen date must be in the future."
-        }
+        },
+        "closePopup": "Are you sure about closing the popup? Your current progress will be lost."
     },
     "tooltips": {
         "optionalInput": "Эти необязательные данные будут открыты в проводнике и доступны для просмотра всем желающим.",
@@ -1809,7 +1834,8 @@
                 "expirationTime": "Если получатель не востребовал вовремя, ваши токены будут возвращены вам.",
                 "timelockDate": "Вы добавили временную блокировку к этой транзакции. Получатель не сможет потратить эти средства до истечения срока блокировки.",
                 "metadata": "Необязательное поле данных для постоянного хранения данных в Tangle.",
-                "tag": "Короткое необязательное поле данных. Пометка групп транзакций может облегчить их поиск."
+                "tag": "Короткое необязательное поле данных. Пометка групп транзакций может облегчить их поиск.",
+                "transactionFee": "The transaction fee contains the gas fee for the code execution and the storage deposit fee."
             },
             "nftMetadata": {
                 "type": "MimeType NFT. например, image/png.",

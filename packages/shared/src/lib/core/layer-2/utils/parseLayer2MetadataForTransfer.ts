@@ -3,7 +3,7 @@ import { Allowance } from '@core/layer-2/enums'
 import { NFT_ID_BYTE_LENGTH } from '@core/nfts/constants'
 import { TOKEN_ID_BYTE_LENGTH } from '@core/token/constants'
 import { Converter, HEX_PREFIX } from '@core/utils'
-import { CONTRACT_FUNCTIONS, TARGET_CONTRACTS } from '../constants'
+import { CONTRACT_FUNCTIONS, ETHEREUM_ADDRESS_LENGTH, TARGET_CONTRACTS } from '../constants'
 import { ILayer2AssetAllowance, ILayer2TransferAllowanceMetadata } from '../interfaces'
 
 export function parseLayer2MetadataForTransfer(metadata: Uint8Array): ILayer2TransferAllowanceMetadata {
@@ -11,12 +11,8 @@ export function parseLayer2MetadataForTransfer(metadata: Uint8Array): ILayer2Tra
     const senderContract = readStream.readUInt8('senderContract')
     const targetContract = readStream.readUInt32('targetContract')
     const contractFunction = readStream.readUInt32('contractFunction')
-    // TODO: This is a temporary fix since now the gas is always 500000, when it varies, the length of the gas will change
-    const gasLimit = readStream.readUIntNSpecialEncoding('gasLimit', 3)
-
-    const smartContractParameters = parseSmartContractParameters(readStream)
-    const ethereumAddress = HEX_PREFIX + smartContractParameters['a'].substring(4)
-
+    const gasLimit = readStream.readUInt64SpecialEncoding('gasLimit')
+    const ethereumAddress = parseEvmAddress(readStream)
     const allowance = parseAssetAllowance(readStream)
 
     return {
@@ -29,6 +25,11 @@ export function parseLayer2MetadataForTransfer(metadata: Uint8Array): ILayer2Tra
         nativeTokens: allowance?.nativeTokens,
         nfts: allowance?.nfts,
     }
+}
+
+function parseEvmAddress(readStream: ReadSpecialStream): string {
+    const smartContractParameters = parseSmartContractParameters(readStream)
+    return HEX_PREFIX + smartContractParameters['a'].slice(-ETHEREUM_ADDRESS_LENGTH)
 }
 
 function parseSmartContractParameters(readStream: ReadSpecialStream): Record<string, string> {

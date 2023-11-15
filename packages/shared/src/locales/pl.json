@@ -86,7 +86,18 @@
                     "description": "Please ensure that the official Ledger Live application is closed and follow the steps below.",
                     "connect": "Connect your Ledger device",
                     "unlock": "Unlock your Ledger with its pin",
-                    "open": "Open the Shimmer app on your Ledger"
+                    "open": "Open the Shimmer app on your Ledger",
+                    "tip": "Tips if your Ledger isn't connecting"
+                },
+                "ledgerConnectionGuide": {
+                    "title": "Ledger isn't connecting?",
+                    "ledgerLiveNotOpen": "Ensure the Ledger Live app is not open on your computer",
+                    "ledgerDeviceUnlocked": "Ensure your Ledger device is unlocked with your PIN",
+                    "ledgerAppOpen": "Open the {appName} app on your Ledger device",
+                    "ledgerStillNotConnected": {
+                        "question": "Still not working?",
+                        "answer": "Try the official Ledger support"
+                    }
                 }
             },
             "restoreProfile": {
@@ -207,11 +218,13 @@
             },
             "maxMediaSize": {
                 "title": "Maksymalny rozmiar pliku",
-                "description": "NFT o rozmiarach większych niż ten limit nie zostaną pobrane, a zamiast nich zostanie wyświetlony placeholder reprezentujący typ nośnika"
+                "description": "NFT o rozmiarach większych niż ten limit nie zostaną pobrane, a zamiast nich zostanie wyświetlony placeholder reprezentujący typ nośnika",
+                "input": "Media size"
             },
             "maxMediaDownloadTime": {
                 "title": "Maksymalny czas pobierania",
-                "description": "Media NFT, których pobranie trwa dłużej niż ten limit zostanie anulowane, a zamiast tego wyświetlony zostanie symbol zastępczy reprezentujący typ multimediów"
+                "description": "Media NFT, których pobranie trwa dłużej niż ten limit zostanie anulowane, a zamiast tego wyświetlony zostanie symbol zastępczy reprezentujący typ multimediów",
+                "input": "Download time"
             },
             "refreshNftMedia": {
                 "title": "Odśwież media NFT",
@@ -350,7 +363,7 @@
                     "chain": {
                         "chainId": "Identyfikator łańcucha",
                         "aliasAddress": "Adres aliasu",
-                        "iscpEndpoint": "ISCP Endpoint",
+                        "rpcEndpoint": "RPC Endpoint",
                         "explorerUrl": "Explorer URL (optional)",
                         "errors": {
                             "cannotBeEmpty": "Nazwa nie może być pusta",
@@ -452,7 +465,22 @@
                     },
                     "confirmConnection": {
                         "title": "Connect with an application",
-                        "hint": "A third party service wants to connect with your wallet for the first time. You can choose if you wish to trust this connection."
+                        "hint": "A third party service wants to connect with your wallet for the first time. You can choose if you wish to trust this connection.",
+                        "insecure": "The URL for this dApp cannot be verified. Your connection to this application may not be secure.",
+                        "acceptInsecureConnection": "I understand this dApp may be insecure and still want to connect."
+                    },
+                    "details": {
+                        "title": "Connection details",
+                        "falbackName": "dApp",
+                        "name": "Name",
+                        "description": "Description",
+                        "url": "URL",
+                        "verifyUrl": "Verify URL",
+                        "disconnectTitle": "Disconnect",
+                        "disconnectDescription": "Do you want to disconnect from {dappName}",
+                        "actions": {
+                            "disconnect": "Disconnect"
+                        }
                     }
                 }
             },
@@ -547,26 +575,26 @@
         },
         "updateStronghold": {
             "update": {
-                "title": "Zaktualizuj Stronghold",
+                "title": "Update your Stronghold",
                 "loginBody": "Wersja Twojej kopii Stronghold jest przestarzała. Wpisz swoje hasło, aby zaktualizować Stronghold.",
                 "recoveryBody": "Importowana kopia Stronghold jest nieaktualna, aby kontynuować, będziemy musieli zaktualizować stronghold do najnowszej wersji."
             },
             "updateBackup": {
-                "loginTitle": "Stronghold zaktualizowany",
+                "title": "Stronghold updated",
                 "loginBody": "Wszystko w porządku - używasz najnowszej wersji Stronghold",
-                "recoveryTitle": "Stronghold został pomyślnie przywrócony i zaktualizowany",
                 "recoveryBody": "Możesz teraz kontynuować konfigurację portfela",
                 "hint": "Zalecamy usunięcie wszystkich poprzednich plików kopii Stronghold i zapisanie jedynie tej nowej"
             },
             "changePassword": {
-                "hint": "Twoja kopia Stronghold była nieaktualna i została zaktualizowana. Zalecamy zmianę hasła do Twojej kopii Stronghold."
+                "title": "Change your password",
+                "hint": "Your Stronghold was out of date and has been updated. We recommend that you change your password."
             }
         }
     },
     "popups": {
         "enableLedgerBlindSigning": {
             "title": "Włącz Blind Signing",
-            "info": "In order to confirm this transaction you need to enable Blind Signing on your Ledger device.",
+            "info": "You need to enable Blind Signing on your Ledger device to confirm this transaction.",
             "step_1": "Connect and unlock your Ledger device",
             "step_2": "Open the {appName} application",
             "step_3": "Press the right button to navigate to Settings, then press both buttons to validate. Your Ledger device displays Blind Signing.",
@@ -642,7 +670,7 @@
             "installedVersion": "Zainstalowana wersja",
             "newVersion": "New version",
             "stage": "Kanał",
-            "prod": "Oficjalny",
+            "prod": "Early Access",
             "alpha": "Alpha",
             "beta": "Beta",
             "releasedAt": "Opublikowano",
@@ -671,7 +699,6 @@
         "externalUrl": {
             "title": "Otwórz URL w przeglądarce",
             "body": "Czy na pewno chcesz otworzyć \"{url}\" w przeglądarce?",
-            "hint": "This URL is unknown to Bloom. Please double check the URL before opening it.",
             "action": "Otwórz URL",
             "invalidProtocol": "Nie można otworzyć adresu URL z nieprawidłowym protokołem"
         },
@@ -776,18 +803,6 @@
             "locked": "Odblokuj swoje urządzenie Ledger, aby kontynuować.",
             "appNotOpen": "Otwórz aplikację Shimmer na urządzeniu Ledger, aby kontynuować.",
             "correctAppOpen": "Ledger pomyślnie podłączony, proszę kontynuować."
-        },
-        "ledgerConnectionGuide": {
-            "title": "Mój Ledger nie może się połączyć. Co robić?",
-            "steps": {
-                "0": "Upewnij się, że program Ledger Live nie jest otwarty na Twoim komputerze",
-                "1": "Upewnij się, że Ledger został odblokowany za pomocą kodu PIN",
-                "2": "Otwórz nową aplikację IOTA na swoim urządzeniu Ledger",
-                "3": {
-                    "text": "Nadal nie działa?",
-                    "link": "Odwiedź oficjalną stronę pomocy Ledger"
-                }
-            }
         },
         "verifyLedgerTransaction": {
             "title": "Zweryfikuj transakcję",
@@ -1228,7 +1243,7 @@
         "manageAccount": "Manage account",
         "account": "Account",
         "amount": "Ilość",
-        "addAddress": "Dodaj adres",
+        "addAddress": "Add address",
         "to": "Do",
         "and": "i",
         "receiveFunds": "Odbierz środki",
@@ -1325,7 +1340,7 @@
         "refreshTokenMetadataHint": "Spowoduje to zresetowanie wszystkich metadanych Twoich tokenów (wraz z ich statusem weryfikacji) oraz odkrycie wszelkich ukrytych aktywów.",
         "excluded": "Wykluczone",
         "developerTools": "Narzędzia deweloperskie",
-        "testDeepLinkDescription": "Symulacja deep linku wysłanego do firefly",
+        "testDeepLinkDescription": "Simulate a deep link request sent to Bloom",
         "url": "URL",
         "hash": "Hash",
         "creating": "Tworzenie",
@@ -1337,6 +1352,7 @@
         "nft": "NFT",
         "type": "Typ",
         "immutableIssuer": "Niezmienny wydawca",
+        "magicContract": "Magic Contract",
         "smartContract": "Smart kontrakt",
         "targetContract": "Kontrakt docelowy",
         "contractFunction": "Funkcja kontraktu",
@@ -1505,7 +1521,10 @@
         "updateReady": "Aktualizacja jest gotowa",
         "updateError": "Podczas aktualizacji wystąpił błąd, spróbuj ponownie",
         "copiedToClipboard": "Skopiowano do schowka",
-        "newDappConnected": "Connected to new dApp",
+        "newDappConnection": {
+            "success": "Connected to new dApp",
+            "rejected": "Connection rejected"
+        },
         "deepLinkingRequest": {
             "receivedWhileLoggedOut": "Zaloguj się, aby zainicjować deep link",
             "invalidFormat": "Deep link, który wybrałeś, jest nieprawidłowy",
@@ -1518,6 +1537,9 @@
             "wallet": {
                 "unrecognizedOperation": "Nierozpoznana operacja w portfelu: {operation}"
             }
+        },
+        "disconnectDapp": {
+            "success": "Disconnected from dApp"
         },
         "claimed": {
             "success": "Transakcja odebrana",
@@ -1547,6 +1569,9 @@
         "restoreFromStrongholdBackup": {
             "wrongProtocol": "Protokół nie pasuje do typu tokena znalezionego w kopii Stronghold",
             "wrongProtocolForClaiming": "Musisz użyć kopii zapasowej Stronghold opartej na IOTA, aby odebrać nagrody Shimmer"
+        },
+        "signMessage": {
+            "success": "Message successfully signed"
         },
         "findShimmerRewards": {
             "error": "Wystąpił błąd podczas wyszukiwania nagród"
@@ -1633,6 +1658,7 @@
             "insufficientFunds": "Brak wystarczających środków na tym portfelu.",
             "insufficientFundsGasFee": "Insufficient funds to cover the gas fee.",
             "insufficientFundsStorageDeposit": "Niewystarczające środki na pokrycie depozytu magazynowego.",
+            "insufficientFundsTransaction": "Insufficient funds to make a transaction.",
             "ongoingTransaction": "Jeśli posiadasz trwające transakcje, zaczekaj na ich potwierdzenie.",
             "cancelled": "Transakcja została anulowana.",
             "invalidExpirationDateTime": "Wybrany czas wygaśnięcia jest nieprawidłowy.",
@@ -1790,7 +1816,8 @@
     "warning": {
         "transaction": {
             "invalidDateTime": "The chosen date must be in the future."
-        }
+        },
+        "closePopup": "Are you sure about closing the popup? Your current progress will be lost."
     },
     "tooltips": {
         "optionalInput": "To opcjonalne pole będzie publiczne w eksploratorze i widoczne dla wszystkich.",
@@ -1809,7 +1836,8 @@
                 "expirationTime": "Jeśli odbiorca nie odbierze środków w terminie, Twoje tokeny zostaną Ci zwrócone.",
                 "timelockDate": "Dodałeś blokadę czasową do tej transakcji. Odbiorca nie będzie mógł wydać tych środków do czasu wygaśnięcia blokady czasowej.",
                 "metadata": "Opcjonalne pole danych do trwałego przechowywania danych w sieci Tangle.",
-                "tag": "Krótkie, opcjonalne pole danych. Oznaczanie grup transakcji może ułatwić ich wyszukiwanie."
+                "tag": "Krótkie, opcjonalne pole danych. Oznaczanie grup transakcji może ułatwić ich wyszukiwanie.",
+                "transactionFee": "The transaction fee contains the gas fee for the code execution and the storage deposit fee."
             },
             "nftMetadata": {
                 "type": "MimeType NFT, np. image/png.",

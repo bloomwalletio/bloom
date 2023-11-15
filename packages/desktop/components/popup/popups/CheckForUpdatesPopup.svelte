@@ -12,9 +12,12 @@
     const hasAutoUpdate = features.electron.autoUpdate[OS]?.enabled
     const continueButton = getContinueButtonProps()
 
+    let hasClickedDownload = false
+    $: hasClickedDownload && $appUpdateState.progress > 0 && closePopup()
+
     function onDownloadClick(): void {
         downloadAppUpdate()
-        closePopup()
+        hasClickedDownload = true
     }
 
     function onVisitDownloadsClick(): void {
@@ -43,7 +46,7 @@
     }
 
     onMount(() => {
-        if (process.env.NODE_ENV !== 'development') {
+        if (process.env.NODE_ENV !== 'development' && !$appUpdateState.busy) {
             checkForAppUpdate()
         }
     })
@@ -56,6 +59,7 @@
         onClick: onCloseClick,
     }}
     {continueButton}
+    busy={$appUpdateState.busy}
 >
     <Table
         items={[

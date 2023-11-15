@@ -86,7 +86,18 @@
                     "description": "Please ensure that the official Ledger Live application is closed and follow the steps below.",
                     "connect": "Connect your Ledger device",
                     "unlock": "Unlock your Ledger with its pin",
-                    "open": "Open the Shimmer app on your Ledger"
+                    "open": "Open the Shimmer app on your Ledger",
+                    "tip": "Tips if your Ledger isn't connecting"
+                },
+                "ledgerConnectionGuide": {
+                    "title": "Ledger isn't connecting?",
+                    "ledgerLiveNotOpen": "Ensure the Ledger Live app is not open on your computer",
+                    "ledgerDeviceUnlocked": "Ensure your Ledger device is unlocked with your PIN",
+                    "ledgerAppOpen": "Open the {appName} app on your Ledger device",
+                    "ledgerStillNotConnected": {
+                        "question": "Still not working?",
+                        "answer": "Try the official Ledger support"
+                    }
                 }
             },
             "restoreProfile": {
@@ -207,11 +218,13 @@
             },
             "maxMediaSize": {
                 "title": "Maximális médiafájl méret",
-                "description": "Az ennél nagyobb méretű NFT média fájlokat nem tölti le, csak a média típusát jelölő ikont jeleníti meg"
+                "description": "Az ennél nagyobb méretű NFT média fájlokat nem tölti le, csak a média típusát jelölő ikont jeleníti meg",
+                "input": "Media size"
             },
             "maxMediaDownloadTime": {
                 "title": "Maximális letöltési idő",
-                "description": "Azok az NFT-médiák, amelyek letöltése ennél a határértéknél tovább tart, törlődnek, és helyette egy, a médiatípust képviselő helyőrző jelenik meg"
+                "description": "Azok az NFT-médiák, amelyek letöltése ennél a határértéknél tovább tart, törlődnek, és helyette egy, a médiatípust képviselő helyőrző jelenik meg",
+                "input": "Download time"
             },
             "refreshNftMedia": {
                 "title": "NFT-média frissítése",
@@ -350,7 +363,7 @@
                     "chain": {
                         "chainId": "Lánc AZ",
                         "aliasAddress": "Álnév címe",
-                        "iscpEndpoint": "ISCP végpont",
+                        "rpcEndpoint": "RPC Endpoint",
                         "explorerUrl": "Explorer URL (optional)",
                         "errors": {
                             "cannotBeEmpty": "A név nem lehet üres",
@@ -452,7 +465,22 @@
                     },
                     "confirmConnection": {
                         "title": "Connect with an application",
-                        "hint": "A third party service wants to connect with your wallet for the first time. You can choose if you wish to trust this connection."
+                        "hint": "A third party service wants to connect with your wallet for the first time. You can choose if you wish to trust this connection.",
+                        "insecure": "The URL for this dApp cannot be verified. Your connection to this application may not be secure.",
+                        "acceptInsecureConnection": "I understand this dApp may be insecure and still want to connect."
+                    },
+                    "details": {
+                        "title": "Connection details",
+                        "falbackName": "dApp",
+                        "name": "Name",
+                        "description": "Description",
+                        "url": "URL",
+                        "verifyUrl": "Verify URL",
+                        "disconnectTitle": "Disconnect",
+                        "disconnectDescription": "Do you want to disconnect from {dappName}",
+                        "actions": {
+                            "disconnect": "Disconnect"
+                        }
                     }
                 }
             },
@@ -547,26 +575,26 @@
         },
         "updateStronghold": {
             "update": {
-                "title": "Stronghold frissítése",
+                "title": "Update your Stronghold",
                 "loginBody": "Az ön Strongholdjának verziója elavult. Adja meg a jelszavát a Stronghold frissítéséhez.",
                 "recoveryBody": "Az importált Stronghold verziója elavult, a folytatáshoz frissíteni kell a Stronghold legújabb verziójára."
             },
             "updateBackup": {
-                "loginTitle": "Stronghold frissítve",
+                "title": "Stronghold updated",
                 "loginBody": "Most már minden rendben - ön a legújabb Stronghold verziót futtatja",
-                "recoveryTitle": "Stronghold sikeresen helyreállítva és frissítve",
                 "recoveryBody": "Most már folytathatja a tárcája beállítását",
                 "hint": "Javasoljuk, hogy törölje az összes korábbi Stronghold biztonsági mentési fájlt, és mentsen egy el újat"
             },
             "changePassword": {
-                "hint": "Az ön Stronghold verziója elavult volt, és frissítettük. Javasoljuk, hogy változtassa meg Stronghold-jelszavát."
+                "title": "Change your password",
+                "hint": "Your Stronghold was out of date and has been updated. We recommend that you change your password."
             }
         }
     },
     "popups": {
         "enableLedgerBlindSigning": {
             "title": "Vak aláírás engedélyezése",
-            "info": "In order to confirm this transaction you need to enable Blind Signing on your Ledger device.",
+            "info": "You need to enable Blind Signing on your Ledger device to confirm this transaction.",
             "step_1": "Connect and unlock your Ledger device",
             "step_2": "Open the {appName} application",
             "step_3": "Press the right button to navigate to Settings, then press both buttons to validate. Your Ledger device displays Blind Signing.",
@@ -671,7 +699,6 @@
         "externalUrl": {
             "title": "URL megnyitása böngészőben",
             "body": "Biztosan meg akarja nyitni a \"{url}\" oldalt a böngészőben?",
-            "hint": "This URL is unknown to Bloom. Please double check the URL before opening it.",
             "action": "URL megnyitása",
             "invalidProtocol": "Az URL hibás protokollt tartalmaz"
         },
@@ -776,18 +803,6 @@
             "locked": "A folytatáshoz nyissa ki hardver tárcáját.",
             "appNotOpen": "A folytatáshoz nyissa meg a Shimmer appot a Ledger-eszközén.",
             "correctAppOpen": "Hardver tárca csatlakoztatva, kérjük folytassa."
-        },
-        "ledgerConnectionGuide": {
-            "title": "Javaslatok, ha a Ledger nem csatlakozik",
-            "steps": {
-                "0": "Győződjön meg, hogy a Ledger Live nincs megnyitva a számítógépén",
-                "1": "Győződjön meg, hogy feloldotta a Ledger eszközét a PIN-kódjával",
-                "2": "Nyissa meg az új IOTA alkalmazást Ledger eszközén",
-                "3": {
-                    "text": "A probléma még mindig fennáll?",
-                    "link": "Próbáljon megoldást keresni a hivatalos Ledger támogatás weboldalán"
-                }
-            }
         },
         "verifyLedgerTransaction": {
             "title": "Tranzakció ellenőrzése",
@@ -1228,7 +1243,7 @@
         "manageAccount": "Manage account",
         "account": "Account",
         "amount": "Összeg",
-        "addAddress": "Cím hozzáadása",
+        "addAddress": "Add address",
         "to": "Címzett",
         "and": "és",
         "receiveFunds": "Pénzeszközök fogadása",
@@ -1325,7 +1340,7 @@
         "refreshTokenMetadataHint": "Ez alaphelyzetbe állítja az összes tokenjének metaadatát, beleértve az ellenőrzés állapotát és bármely rejtett pénzeszközt.",
         "excluded": "Mellőzve",
         "developerTools": "Fejlesztői eszközök",
-        "testDeepLinkDescription": "Firefly-nak küldött mélyhivatkozás kipróbálása",
+        "testDeepLinkDescription": "Simulate a deep link request sent to Bloom",
         "url": "URL",
         "hash": "Ellenőrző összeg",
         "creating": "Létrehozás",
@@ -1505,7 +1520,10 @@
         "updateReady": "A frissítés készen áll",
         "updateError": "Hiba történt a frissítés közben. Kérjük, próbálja újra!",
         "copiedToClipboard": "A vágólapra másolva",
-        "newDappConnected": "Connected to new dApp",
+        "newDappConnection": {
+            "success": "Connected to new dApp",
+            "rejected": "Connection rejected"
+        },
         "deepLinkingRequest": {
             "receivedWhileLoggedOut": "Kérjük, jelentkezzen be a mélyhivatkozás érvényesítéséhez",
             "invalidFormat": "A megadott mélyhivatkozás érvénytelen",
@@ -1518,6 +1536,9 @@
             "wallet": {
                 "unrecognizedOperation": "Ismeretlen tárca művelet: {operation}"
             }
+        },
+        "disconnectDapp": {
+            "success": "Disconnected from dApp"
         },
         "claimed": {
             "success": "Igénylési tranzakció sikeres",
@@ -1547,6 +1568,9 @@
         "restoreFromStrongholdBackup": {
             "wrongProtocol": "A protokoll nem egyezik a Stronghold biztonsági mentésben lévő token típusával",
             "wrongProtocolForClaiming": "IOTA-alapú Stronghold biztonsági mentés szükséges a Shimmer jutalom beváltásához"
+        },
+        "signMessage": {
+            "success": "Message successfully signed"
         },
         "findShimmerRewards": {
             "error": "Hiba történt a jutalom keresése közben"
@@ -1790,7 +1814,8 @@
     "warning": {
         "transaction": {
             "invalidDateTime": "The chosen date must be in the future."
-        }
+        },
+        "closePopup": "Are you sure about closing the popup? Your current progress will be lost."
     },
     "tooltips": {
         "optionalInput": "Ez az adat opcionális, és a token explorer-ben mindenki által látható lesz.",
@@ -1809,7 +1834,8 @@
                 "expirationTime": "Ha a fogadó fél nem igényli időben a tokeneket, azok visszakerülnek Önhöz.",
                 "timelockDate": "Időzárral látta el ezt a tranzakciót. A fogadó fél csak annak lejárta után tudja ezt az összeget felhasználni.",
                 "metadata": "Opcionális adatmező, mely a Tangle-ben hosszútávon tárolásra kerül.",
-                "tag": "Rövid opcionális adatmező. Tranzakciók egy csoportjának felcímkézése segíthet könnyebben megtalálni őket."
+                "tag": "Rövid opcionális adatmező. Tranzakciók egy csoportjának felcímkézése segíthet könnyebben megtalálni őket.",
+                "transactionFee": "The transaction fee contains the gas fee for the code execution and the storage deposit fee."
             },
             "nftMetadata": {
                 "type": "The MimeType of the NFT. e.g. image/png.",

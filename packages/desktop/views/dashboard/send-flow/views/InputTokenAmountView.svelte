@@ -1,40 +1,20 @@
 <script lang="ts">
     import { localize } from '@core/i18n'
-    import {
-        BASE_TOKEN_ID,
-        ITokenWithBalance,
-        formatTokenAmountDefault,
-        formatTokenAmountBestMatch,
-        getUnitFromTokenMetadata,
-    } from '@core/token'
+    import { BASE_TOKEN_ID, ITokenWithBalance, formatTokenAmountDefault, getUnitFromTokenMetadata } from '@core/token'
     import { getTokenFromSelectedAccountTokens } from '@core/token/stores'
-    import {
-        SendFlowParameters,
-        SendFlowType,
-        createEvmTransactionFromSendFlowParameters,
-        getNetworkIdFromSendFlowParameters,
-        sendFlowParameters,
-        updateSendFlowParameters,
-    } from '@core/wallet'
+    import { SendFlowParameters, SendFlowType, sendFlowParameters, updateSendFlowParameters } from '@core/wallet'
     import { TokenAmountInput, TokenAvailableBalanceTile } from '@ui'
     import { sendFlowRouter } from '../send-flow.router'
     import { PopupTemplate } from '@components'
     import { onMount } from 'svelte'
-    import { isEvmChain } from '@core/network/utils'
-    import { getNetwork } from '@core/network/stores'
     import { selectedAccount } from '@core/account/stores'
-    import { calculateMaxGasFeeFromTransactionData } from '@core/layer-2/utils'
-    import { Table } from '@bloomwalletio/ui'
-    import { getBaseToken } from '@core/profile/actions'
-    import { estimateGasForLayer1ToLayer2Transaction } from '@core/layer-2/actions'
-    import { GAS_LIMIT_MULTIPLIER } from '@core/layer-2'
+    import { setGasFee } from '@core/layer-2/actions'
 
     let tokenAmountInput: TokenAmountInput
     let token: ITokenWithBalance
     let rawAmount: string
     let amount: string
     let unit: string
-    let maxGasFee: number = 0
 
     const sendFlowType = $sendFlowParameters.type
     if (sendFlowType === SendFlowType.BaseCoinTransfer || sendFlowType === SendFlowType.TokenTransfer) {
@@ -46,11 +26,18 @@
         unit = $sendFlowParameters[sendFlowType].unit || getUnitFromTokenMetadata(token?.metadata)
     }
 
+    $: gasFee = Number($sendFlowParameters.gasFee ?? 0)
+    $: available = token.balance.available - (token.id === BASE_TOKEN_ID ? gasFee : 0)
+
     function setToMax(): void {
+        if (fetchingGasFee) {
+            return
+        }
+        const available = token.id === BASE_TOKEN_ID ? token.balance.available - gasFee : token.balance.available
         if (token?.metadata?.decimals) {
-            amount = formatTokenAmountDefault(token.balance.available - Number(maxGasFee), token?.metadata, unit, false)
+            amount = formatTokenAmountDefault(available, token?.metadata, unit, false)
         } else {
-            amount = (token.balance.available - Number(maxGasFee))?.toString() ?? '0'
+            amount = available.toString() ?? '0'
         }
     }
 
@@ -80,46 +67,27 @@
                 rawAmount: undefined,
                 unit,
             },
+            gasFee: 0,
         })
         $sendFlowRouter.previous()
     }
 
-    $: setMaxGasFee($sendFlowParameters)
-    async function setMaxGasFee(sendFlowParams: SendFlowParameters): Promise<void> {
-        if (token.id !== BASE_TOKEN_ID) {
-            return
-        }
-
-        const networkId = getNetworkIdFromSendFlowParameters(sendFlowParams)
-        const tempSendFlowParams = {
-            ...sendFlowParams,
+    let fetchingGasFee = true
+    async function _onMount(): Promise<void> {
+        const tempSendFlowParams: SendFlowParameters = {
+            ...$sendFlowParameters,
             [sendFlowType]: {
                 token,
-                rawAmount: token.balance.available,
+                rawAmount: token.balance.available.toString(),
                 unit,
             },
         }
-
-        if (isEvmChain(networkId)) {
-            const chain = getNetwork()?.getChain(networkId)
-            try {
-                const txData = await createEvmTransactionFromSendFlowParameters(
-                    tempSendFlowParams,
-                    chain,
-                    $selectedAccount
-                )
-                maxGasFee = txData ? Number(calculateMaxGasFeeFromTransactionData(txData)) : undefined
-            } catch (error) {
-                console.error(error)
-            }
-        } else if (isEvmChain(sendFlowParams.destinationNetworkId)) {
-            const estimatedGas = await estimateGasForLayer1ToLayer2Transaction(tempSendFlowParams)
-            maxGasFee = Math.floor(estimatedGas * GAS_LIMIT_MULTIPLIER)
-        }
+        await setGasFee(tempSendFlowParams, $selectedAccount)
+        fetchingGasFee = false
     }
 
-    onMount(async () => {
-        await setMaxGasFee($sendFlowParameters)
+    onMount(() => {
+        void _onMount()
     })
 </script>
 
@@ -145,19 +113,10 @@
             availableBalance={token?.balance?.available}
         />
     </form>
-    <TokenAvailableBalanceTile
-        token={{ ...token, balance: { ...token.balance, available: token.balance.available - Number(maxGasFee) } }}
-        onMaxClick={setToMax}
-    />
-
-    {#if token.id === BASE_TOKEN_ID && maxGasFee}
-        <Table
-            items={[
-                {
-                    key: localize('general.transactionFee'),
-                    value: formatTokenAmountBestMatch(maxGasFee, getBaseToken()),
-                },
-            ]}
+    <div class={fetchingGasFee ? 'animate-pulse' : ''}>
+        <TokenAvailableBalanceTile
+            token={{ ...token, balance: { ...token.balance, available } }}
+            onMaxClick={setToMax}
         />
-    {/if}
+    </div>
 </PopupTemplate>

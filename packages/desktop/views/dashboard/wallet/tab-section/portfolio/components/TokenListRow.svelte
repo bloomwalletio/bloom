@@ -7,6 +7,7 @@
     import { PopupId, openPopup } from '@desktop/auxiliary/popup'
     import { TokenAvatar, NetworkAvatar } from '@ui'
     import { Text } from '@bloomwalletio/ui'
+    import { activeProfile } from '@core/profile/stores'
 
     export let token: ITokenWithBalance
 
@@ -28,7 +29,7 @@
         }
 
         const marketPrice = tokenSupply ? getMarketAmountFromTokenValue(Number(TokenSupply.Testnet), token) : undefined
-        return marketPrice ? formatCurrency(marketPrice) : '-'
+        return marketPrice ? formatCurrency(marketPrice, $activeProfile.settings.marketCurrency, true) : '-'
     }
 
     function getFormattedMarketPriceForToken(token: ITokenWithBalance): string {
@@ -100,7 +101,7 @@
 <style lang="scss">
     .token-row {
         @apply w-full;
-        @apply px-5 py-4;
+        @apply px-5 py-3.5;
         @apply border-b border-solid border-stroke dark:border-stroke-dark;
         @apply hover:bg-surface-2 dark:hover:bg-surface-2-dark;
 

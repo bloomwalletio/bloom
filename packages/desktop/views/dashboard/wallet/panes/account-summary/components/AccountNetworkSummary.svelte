@@ -4,7 +4,7 @@
     import { NftAvatar, TokenAvatar } from '@ui'
     import { selectedAccount } from '@core/account/stores'
     import { localize } from '@core/i18n'
-    import { generateAndStoreEvmAddressForAccounts, pollLayer2Tokens } from '@core/layer-2/actions'
+    import { generateAndStoreEvmAddressForAccounts, pollL2BalanceForAccount } from '@core/layer-2/actions'
     import { LedgerAppName } from '@core/ledger'
     import { NetworkHealth, NetworkId, network, setSelectedChain } from '@core/network'
     import { INft } from '@core/nfts'
@@ -41,7 +41,7 @@
                     chain.getConfiguration().coinType,
                     $selectedAccount
                 )
-                pollLayer2Tokens($selectedAccount)
+                pollL2BalanceForAccount($selectedAccount)
                 if ($activeProfile.type === ProfileType.Ledger) {
                     setSelectedChain(chain)
                     toggleDashboardDrawer({
@@ -80,20 +80,24 @@
         <Text type="body1" textColor="secondary">{fiatBalance}</Text>
     </account-network-summary-balance>
     <account-network-summary-assets class="flex flex-row justify-between items-center">
-        {#if hasTokens}
-            <AvatarGroup avatarSize="md">
-                {#each tokens?.nativeTokens ?? [] as token}
-                    <TokenAvatar hideNetworkBadge size="md" {token} />
-                {/each}
-            </AvatarGroup>
-        {/if}
-        {#if hasNfts}
-            <AvatarGroup avatarSize="md" avatarShape="square">
-                {#each nfts as nft}
-                    <NftAvatar {nft} size="md" shape="square" />
-                {/each}
-            </AvatarGroup>
-        {/if}
+        <div>
+            {#if hasTokens}
+                <AvatarGroup avatarSize="md">
+                    {#each tokens?.nativeTokens ?? [] as token}
+                        <TokenAvatar hideNetworkBadge size="md" {token} />
+                    {/each}
+                </AvatarGroup>
+            {/if}
+        </div>
+        <div>
+            {#if hasNfts}
+                <AvatarGroup avatarSize="md" avatarShape="square">
+                    {#each nfts as nft}
+                        <NftAvatar {nft} size="md" shape="square" />
+                    {/each}
+                </AvatarGroup>
+            {/if}
+        </div>
     </account-network-summary-assets>
 </account-network-summary>
 
