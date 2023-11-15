@@ -1,3 +1,4 @@
+export * from './buildSupportedNamespaceFromSelections'
 export * from './disconnectDapp'
 export * from './initializeWalletConnect'
 export * from './pairWithNewDapp'
