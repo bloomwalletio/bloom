@@ -363,7 +363,7 @@
                     "chain": {
                         "chainId": "ID de la cadena",
                         "aliasAddress": "Dirección del alias",
-                        "rpcEndpoint": "Endpoint del ISCP",
+                        "rpcEndpoint": "RPC Endpoint",
                         "explorerUrl": "Explorer URL (optional)",
                         "errors": {
                             "cannotBeEmpty": "El nombre no puede estar vacío",
@@ -465,7 +465,22 @@
                     },
                     "confirmConnection": {
                         "title": "Connect with an application",
-                        "hint": "A third party service wants to connect with your wallet for the first time. You can choose if you wish to trust this connection."
+                        "hint": "A third party service wants to connect with your wallet for the first time. You can choose if you wish to trust this connection.",
+                        "insecure": "The URL for this dApp cannot be verified. Your connection to this application may not be secure.",
+                        "acceptInsecureConnection": "I understand this dApp may be insecure and still want to connect."
+                    },
+                    "details": {
+                        "title": "Connection details",
+                        "falbackName": "dApp",
+                        "name": "Name",
+                        "description": "Description",
+                        "url": "URL",
+                        "verifyUrl": "Verify URL",
+                        "disconnectTitle": "Disconnect",
+                        "disconnectDescription": "Do you want to disconnect from {dappName}",
+                        "actions": {
+                            "disconnect": "Disconnect"
+                        }
                     }
                 }
             },
@@ -655,7 +670,7 @@
             "installedVersion": "Installed version",
             "newVersion": "New version",
             "stage": "Stage",
-            "prod": "Production",
+            "prod": "Early Access",
             "alpha": "Alpha",
             "beta": "Beta",
             "releasedAt": "Released at",
@@ -684,7 +699,6 @@
         "externalUrl": {
             "title": "Abrir URL en el navegador",
             "body": "¿Estás seguro de que deseas abrir \"{url}\" en el navegador?",
-            "hint": "This URL is unknown to Bloom. Please double check the URL before opening it.",
             "action": "Abrir URL",
             "invalidProtocol": "No se puede abrir la URL con protocolo inválido"
         },
@@ -1229,7 +1243,7 @@
         "manageAccount": "Manage account",
         "account": "Account",
         "amount": "Cantidad",
-        "addAddress": "Añadir Dirección",
+        "addAddress": "Add address",
         "to": "Para",
         "and": "y",
         "receiveFunds": "Recibir fondos",
@@ -1338,6 +1352,7 @@
         "nft": "NFT",
         "type": "Tipo",
         "immutableIssuer": "Emisor inmutable",
+        "magicContract": "Magic Contract",
         "smartContract": "Contrato inteligente",
         "targetContract": "Contrato de destino",
         "contractFunction": "Función de contrato",
@@ -1506,7 +1521,10 @@
         "updateReady": "Actualización lista",
         "updateError": "Se ha producido un error durante la actualización, por favor inténtalo de nuevo",
         "copiedToClipboard": "Copiado al portapapeles",
-        "newDappConnected": "Connected to new dApp",
+        "newDappConnection": {
+            "success": "Connected to new dApp",
+            "rejected": "Connection rejected"
+        },
         "deepLinkingRequest": {
             "receivedWhileLoggedOut": "Inicie sesión para iniciar el enlace profundo",
             "invalidFormat": "El enlace profundo que has seguido no es válido",
@@ -1519,6 +1537,9 @@
             "wallet": {
                 "unrecognizedOperation": "Operación de cartera no reconocida: {operation}"
             }
+        },
+        "disconnectDapp": {
+            "success": "Disconnected from dApp"
         },
         "claimed": {
             "success": "Transacción reclamada",
@@ -1548,6 +1569,9 @@
         "restoreFromStrongholdBackup": {
             "wrongProtocol": "El protocolo no coincide con el tipo de moneda encontrado en la copia de seguridad de Stronghold",
             "wrongProtocolForClaiming": "Debe usar una copia de seguridad de Stronghold basada en IOTA para reclamar las recompensas de Shimmer"
+        },
+        "signMessage": {
+            "success": "Message successfully signed"
         },
         "findShimmerRewards": {
             "error": "Se ha producido un error al buscar recompensas"
@@ -1634,6 +1658,7 @@
             "insufficientFunds": "Esta cartera tiene fondos insuficientes.",
             "insufficientFundsGasFee": "Insufficient funds to cover the gas fee.",
             "insufficientFundsStorageDeposit": "Fondos insuficientes para cubrir el depósito de almacenamiento.",
+            "insufficientFundsTransaction": "Insufficient funds to make a transaction.",
             "ongoingTransaction": "Si tiene transacciones en curso, por favor espere su confirmación.",
             "cancelled": "La transacción fue cancelada.",
             "invalidExpirationDateTime": "La fecha/hora de vencimiento elegida no es válida.",
@@ -1811,7 +1836,8 @@
                 "expirationTime": "Si el destinatario no reclama a tiempo, sus tokens le serán devueltos.",
                 "timelockDate": "Ha añadido un tiempo de bloqueo a esta transacción. El destinatario no podrá gastar estos fondos hasta que el tiempo de bloqueo expire.",
                 "metadata": "Un campo de datos opcional para almacenar datos persistentemente en el Tangle.",
-                "tag": "Un campo de datos opcional corto. Etiquetar grupos de transacciones puede facilitarles su búsqueda."
+                "tag": "Un campo de datos opcional corto. Etiquetar grupos de transacciones puede facilitarles su búsqueda.",
+                "transactionFee": "The transaction fee contains the gas fee for the code execution and the storage deposit fee."
             },
             "nftMetadata": {
                 "type": "El MimeType del NFT, por ejemplo, image/png.",

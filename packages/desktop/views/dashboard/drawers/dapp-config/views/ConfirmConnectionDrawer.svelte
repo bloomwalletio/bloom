@@ -1,46 +1,42 @@
 <script lang="ts">
-    import { Button, Steps } from '@bloomwalletio/ui'
+    import { Alert, Button, Checkbox } from '@bloomwalletio/ui'
     import { Spinner } from '@ui'
     import { localize } from '@core/i18n'
     import { Router } from '@core/router'
     import { DrawerTemplate } from '@components'
     import { sessionProposal } from '@auxiliary/wallet-connect/stores'
-    import { buildSupportedNamespacesFromSelections } from '@auxiliary/wallet-connect/actions'
-    import { approveSession } from '@auxiliary/wallet-connect/utils'
-    import { AccountSelection, DappInformationCard, NetworkSelection, PermissionSelection } from '../components'
+    import { getAllEvmAddresses, approveSession } from '@auxiliary/wallet-connect/utils'
     import { closeDrawer } from '@desktop/auxiliary/drawer'
     import { handleError } from '@core/error/handlers'
     import { showNotification } from '@auxiliary/notification'
-    import { IAccountState } from '@core/account'
+    import { getAllNetworkIds } from '@core/network/utils'
+    import DappInformationCard from '../components/DappInformationCard.svelte'
+
+    enum SessionVerification {
+        Valid = 'VALID',
+        Invalid = 'INVALID',
+        Unknown = 'UNKNOWN',
+    }
 
     export let drawerRouter: Router<unknown>
 
+    const chains = getAllNetworkIds()
+    const addresses: string[] = getAllEvmAddresses(chains)
+
+    let acceptedInsecureConnection = false
     let loading = false
 
-    enum ConfirmSteps {
-        Permission = 'permission',
-        Networks = 'networks',
-        Accounts = 'accounts',
-    }
+    $: isInsecure =
+        !$sessionProposal || $sessionProposal.verifyContext.verified.validation !== SessionVerification.Valid
 
-    let currentStep = 0
-    const steps = [ConfirmSteps.Permission, ConfirmSteps.Networks, ConfirmSteps.Accounts]
-
-    let checkedAccounts: IAccountState[] = []
-    let checkedNetworks: string[] = []
-    let checkedMethods: string[] = []
-
-    function onCancelClick(): void {
+    function onRejectClick(): void {
         $sessionProposal = undefined
         closeDrawer()
-    }
 
-    function onBackClick(): void {
-        currentStep--
-    }
-
-    function onNextClick(): void {
-        currentStep++
+        showNotification({
+            variant: 'error',
+            text: localize('notifications.newDappConnection.rejected'),
+        })
     }
 
     async function onConfirmClick(): Promise<void> {
@@ -60,9 +56,9 @@
 
             showNotification({
                 variant: 'success',
-                text: localize('notifications.newDappConnected'),
+                text: localize('notifications.newDappConnection.success'),
             })
-            closeDrawer()
+            drawerRouter.reset()
         } catch (error) {
             handleError(error)
         } finally {
@@ -72,44 +68,44 @@
 </script>
 
 <DrawerTemplate title={localize('views.dashboard.drawers.dapps.confirmConnection.title')} {drawerRouter}>
-    <div class="w-full h-full space-y-6">
+    <div class="w-full h-full flex flex-col justify-between">
         {#if $sessionProposal}
-            <DappInformationCard />
+            <DappInformationCard metadata={$sessionProposal.params.proposer.metadata} />
 
-            <div>
-                <Steps bind:currentStep {steps} />
-
-                <div class={currentStep === 0 ? 'visible' : 'hidden'}>
-                    <PermissionSelection bind:checkedMethods />
+            {#if isInsecure}
+                <div class="flex flex-col gap-8">
+                    <Alert
+                        variant="danger"
+                        text={localize('views.dashboard.drawers.dapps.confirmConnection.insecure')}
+                    />
+                    <Checkbox
+                        label={localize('views.dashboard.drawers.dapps.confirmConnection.acceptInsecureConnection')}
+                        bind:checked={acceptedInsecureConnection}
+                    />
                 </div>
-                <div class={currentStep === 1 ? 'visible' : 'hidden'}>
-                    <NetworkSelection bind:checkedNetworks />
-                </div>
-                <div class={currentStep === 2 ? 'visible' : 'hidden'}>
-                    <AccountSelection bind:checkedAccounts />
-                </div>
-            </div>
+            {:else}
+                <Alert variant="warning" text={localize('views.dashboard.drawers.dapps.confirmConnection.hint')} />
+            {/if}
         {:else}
             <div class="w-full h-full flex items-center justify-center">
                 <Spinner busy size={50} />
             </div>
         {/if}
     </div>
-    <div slot="footer" class="flex flex-row gap-2">
+    <div class="flex flex-row gap-2" slot="footer">
         <Button
+            width="full"
             variant="outlined"
-            width="full"
-            on:click={currentStep === 0 ? onCancelClick : onBackClick}
-            disabled={loading}
-            text={localize(`actions.${currentStep === 0 ? 'cancel' : 'back'}`)}
+            on:click={onRejectClick}
+            disabled={!addresses.length || loading}
+            text={localize('actions.reject')}
         />
-        {@const isLastStep = currentStep === steps.length - 1}
         <Button
             width="full"
-            on:click={isLastStep ? onConfirmClick : onNextClick}
-            disabled={loading}
+            on:click={onConfirmClick}
+            disabled={!addresses.length || loading || (isInsecure && !acceptedInsecureConnection)}
             busy={loading}
-            text={localize(`actions.${isLastStep ? 'confirm' : 'next'}`)}
+            text={localize('actions.confirm')}
         />
     </div>
 </DrawerTemplate>

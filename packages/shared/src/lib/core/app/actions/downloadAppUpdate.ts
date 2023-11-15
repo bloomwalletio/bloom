@@ -1,7 +1,7 @@
 import { addAppNotification } from '@auxiliary/notification'
 import { generateRandomId } from '@core/utils'
 import { Platform } from '../classes'
-import { resetAppUpdateState } from '../stores'
+import { resetAppUpdateState, updateAppUpdateState } from '../stores'
 
 /**
  * Initializes the download for an application update.
@@ -9,6 +9,7 @@ import { resetAppUpdateState } from '../stores'
 export function downloadAppUpdate(): void {
     resetAppUpdateState()
     void Platform.downloadAppUpdate()
+    updateAppUpdateState({ busy: true })
     addAppNotification({
         id: generateRandomId(),
         variant: 'appUpdate',

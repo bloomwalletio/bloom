@@ -363,7 +363,7 @@
                     "chain": {
                         "chainId": "Chain ID",
                         "aliasAddress": "Alias Address",
-                        "rpcEndpoint": "ISCP Endpoint",
+                        "rpcEndpoint": "RPC Endpoint",
                         "explorerUrl": "Explorer URL (optional)",
                         "errors": {
                             "cannotBeEmpty": "Name cannot be empty",
@@ -465,7 +465,22 @@
                     },
                     "confirmConnection": {
                         "title": "Connect with an application",
-                        "hint": "A third party service wants to connect with your wallet for the first time. You can choose if you wish to trust this connection."
+                        "hint": "A third party service wants to connect with your wallet for the first time. You can choose if you wish to trust this connection.",
+                        "insecure": "The URL for this dApp cannot be verified. Your connection to this application may not be secure.",
+                        "acceptInsecureConnection": "I understand this dApp may be insecure and still want to connect."
+                    },
+                    "details": {
+                        "title": "Connection details",
+                        "falbackName": "dApp",
+                        "name": "Name",
+                        "description": "Description",
+                        "url": "URL",
+                        "verifyUrl": "Verify URL",
+                        "disconnectTitle": "Disconnect",
+                        "disconnectDescription": "Do you want to disconnect from {dappName}",
+                        "actions": {
+                            "disconnect": "Disconnect"
+                        }
                     }
                 }
             },
@@ -655,7 +670,7 @@
             "installedVersion": "Installed version",
             "newVersion": "New version",
             "stage": "Stage",
-            "prod": "Production",
+            "prod": "Early Access",
             "alpha": "Alpha",
             "beta": "Beta",
             "releasedAt": "Released at",
@@ -684,7 +699,6 @@
         "externalUrl": {
             "title": "在浏览器中打开",
             "body": "您确定要在浏览器中打开 \"{url}\" 吗？",
-            "hint": "This URL is unknown to Bloom. Please double check the URL before opening it.",
             "action": "打开 URL",
             "invalidProtocol": "无法打开含有无效协议的 URL"
         },
@@ -1229,7 +1243,7 @@
         "manageAccount": "Manage account",
         "account": "Account",
         "amount": "金额",
-        "addAddress": "新增地址",
+        "addAddress": "Add address",
         "to": "到",
         "and": "和",
         "receiveFunds": "接收资金",
@@ -1338,6 +1352,7 @@
         "nft": "NFT",
         "type": "类型",
         "immutableIssuer": "不可变发行者",
+        "magicContract": "Magic Contract",
         "smartContract": "智能合约",
         "targetContract": "目标合约",
         "contractFunction": "合约功能",
@@ -1506,7 +1521,10 @@
         "updateReady": "更新已准备就绪",
         "updateError": "更新过程中发生错误，请重试",
         "copiedToClipboard": "复制到剪贴板",
-        "newDappConnected": "Connected to new dApp",
+        "newDappConnection": {
+            "success": "Connected to new dApp",
+            "rejected": "Connection rejected"
+        },
         "deepLinkingRequest": {
             "receivedWhileLoggedOut": "请登录以启动深链接",
             "invalidFormat": "您使用的深链接无效",
@@ -1519,6 +1537,9 @@
             "wallet": {
                 "unrecognizedOperation": "无法识别的钱包操作: {operation}"
             }
+        },
+        "disconnectDapp": {
+            "success": "Disconnected from dApp"
         },
         "claimed": {
             "success": "已认领的交易",
@@ -1548,6 +1569,9 @@
         "restoreFromStrongholdBackup": {
             "wrongProtocol": "协议与在 Stronghold 备份中发现的代币类型不匹配",
             "wrongProtocolForClaiming": "您必须使用基于 IOTA的 Stronghold 备份来认领 Shimmer 奖励。"
+        },
+        "signMessage": {
+            "success": "Message successfully signed"
         },
         "findShimmerRewards": {
             "error": "查找奖励时出现错误"
@@ -1634,6 +1658,7 @@
             "insufficientFunds": "该账户资金不足。",
             "insufficientFundsGasFee": "Insufficient funds to cover the gas fee.",
             "insufficientFundsStorageDeposit": "Insufficient funds to cover the storage deposit.",
+            "insufficientFundsTransaction": "Insufficient funds to make a transaction.",
             "ongoingTransaction": "If you have ongoing transactions, please wait for their confirmation.",
             "cancelled": "您的交易已被取消。",
             "invalidExpirationDateTime": "选择的过期日期/时间无效。",
@@ -1811,7 +1836,8 @@
                 "expirationTime": "如果接收人没有及时认领，你的代币将被退回给你。",
                 "timelockDate": "您为这笔交易添加了一个时间锁。收件人将无法花费这些资金，直到时间锁到期。",
                 "metadata": "一个可选的数据字段，用于在Tangle上持久性地存储数据。",
-                "tag": "一个简短的可选数据字段。对各组交易分别进行标记可以使它们更容易被搜索到。"
+                "tag": "一个简短的可选数据字段。对各组交易分别进行标记可以使它们更容易被搜索到。",
+                "transactionFee": "The transaction fee contains the gas fee for the code execution and the storage deposit fee."
             },
             "nftMetadata": {
                 "type": "NFT的MimeType，例如：image/png。",

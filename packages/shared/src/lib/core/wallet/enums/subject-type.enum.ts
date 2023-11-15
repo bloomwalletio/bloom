@@ -3,4 +3,5 @@ export enum SubjectType {
     Contact = 'contact',
     Account = 'account',
     Network = 'network',
+    SmartContract = 'smartContract',
 }

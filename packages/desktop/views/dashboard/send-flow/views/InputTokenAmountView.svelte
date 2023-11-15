@@ -1,12 +1,6 @@
 <script lang="ts">
     import { localize } from '@core/i18n'
-    import {
-        BASE_TOKEN_ID,
-        ITokenWithBalance,
-        formatTokenAmountDefault,
-        formatTokenAmountBestMatch,
-        getUnitFromTokenMetadata,
-    } from '@core/token'
+    import { BASE_TOKEN_ID, ITokenWithBalance, formatTokenAmountDefault, getUnitFromTokenMetadata } from '@core/token'
     import { getTokenFromSelectedAccountTokens } from '@core/token/stores'
     import { SendFlowParameters, SendFlowType, sendFlowParameters, updateSendFlowParameters } from '@core/wallet'
     import { TokenAmountInput, TokenAvailableBalanceTile } from '@ui'
@@ -14,8 +8,6 @@
     import { PopupTemplate } from '@components'
     import { onMount } from 'svelte'
     import { selectedAccount } from '@core/account/stores'
-    import { Table } from '@bloomwalletio/ui'
-    import { getBaseToken } from '@core/profile/actions'
     import { setGasFee } from '@core/layer-2/actions'
 
     let tokenAmountInput: TokenAmountInput
@@ -38,10 +30,14 @@
     $: available = token.balance.available - (token.id === BASE_TOKEN_ID ? gasFee : 0)
 
     function setToMax(): void {
+        if (fetchingGasFee) {
+            return
+        }
+        const available = token.id === BASE_TOKEN_ID ? token.balance.available - gasFee : token.balance.available
         if (token?.metadata?.decimals) {
-            amount = formatTokenAmountDefault(token.balance.available - gasFee, token?.metadata, unit, false)
+            amount = formatTokenAmountDefault(available, token?.metadata, unit, false)
         } else {
-            amount = (token.balance.available - gasFee).toString() ?? '0'
+            amount = available.toString() ?? '0'
         }
     }
 
@@ -76,7 +72,8 @@
         $sendFlowRouter.previous()
     }
 
-    onMount(() => {
+    let fetchingGasFee = true
+    async function _onMount(): Promise<void> {
         const tempSendFlowParams: SendFlowParameters = {
             ...$sendFlowParameters,
             [sendFlowType]: {
@@ -85,7 +82,12 @@
                 unit,
             },
         }
-        void setGasFee(tempSendFlowParams, $selectedAccount)
+        await setGasFee(tempSendFlowParams, $selectedAccount)
+        fetchingGasFee = false
+    }
+
+    onMount(() => {
+        void _onMount()
     })
 </script>
 
@@ -111,16 +113,10 @@
             availableBalance={token?.balance?.available}
         />
     </form>
-    <TokenAvailableBalanceTile token={{ ...token, balance: { ...token.balance, available } }} onMaxClick={setToMax} />
-
-    {#if gasFee}
-        <Table
-            items={[
-                {
-                    key: localize('general.transactionFee'),
-                    value: formatTokenAmountBestMatch(gasFee, getBaseToken()),
-                },
-            ]}
+    <div class={fetchingGasFee ? 'animate-pulse' : ''}>
+        <TokenAvailableBalanceTile
+            token={{ ...token, balance: { ...token.balance, available } }}
+            onMaxClick={setToMax}
         />
-    {/if}
+    </div>
 </PopupTemplate>

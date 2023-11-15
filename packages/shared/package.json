@@ -2,7 +2,7 @@
     "name": "shared",
     "version": "0.1.0",
     "description": "TypeScript library for the Bloom application",
-    "author": "Charlie Varley <charlie@bloomwallet.io>",
+    "author": "Bloom Labs Ltd <contact@bloomwallet.io>",
     "license": "Apache-2.0",
     "dependencies": {
         "@bloomwalletio/ui": "0.18.32",

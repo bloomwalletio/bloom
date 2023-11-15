@@ -98,7 +98,7 @@ const settingsFeatures: ISettingsFeatures = {
             enabled: true,
         },
         faq: {
-            enabled: true,
+            enabled: false,
         },
         discord: {
             enabled: true,

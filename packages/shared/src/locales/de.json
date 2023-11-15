@@ -2,39 +2,39 @@
     "views": {
         "onboarding": {
             "welcome": {
-                "title": "Welcome to",
+                "title": "Willkommen zu",
                 "subtitle": "A new journey awaits...",
                 "legalAction": "Confirm you've read and accept the",
-                "button": "Begin setup"
+                "button": "Starte Setup"
             },
             "networkSetup": {
                 "chooseNetwork": {
-                    "title": "Choose your network",
+                    "title": "Wähle dein Netzwerk",
                     "iota": {
                         "primary": "IOTA Mainnet",
                         "secondary": "Production network with stable features"
                     },
                     "shimmer": {
-                        "primary": "Shimmer",
-                        "secondary": "Experimental network with the latest features"
+                        "primary": "Schimmer",
+                        "secondary": "Experimentelles Netzwerk mit den neuesten Funktionen"
                     },
                     "testnet": {
-                        "primary": "Testnet",
-                        "secondary": "Test network using valueless tokens"
+                        "primary": "Testnetz",
+                        "secondary": "Testnetz mit wertlosen Token"
                     },
                     "custom": {
-                        "primary": "Advanced configuration",
+                        "primary": "Fortgeschrittene Konfiguration",
                         "secondary": "Connect to any network with custom settings"
                     }
                 },
                 "setupCustomNetwork": {
-                    "title": "Advanced configuration"
+                    "title": "Fortgeschrittene Konfiguration"
                 }
             },
             "chooseOnboardingFlow": {
                 "title": "Choose your setup type",
                 "new": {
-                    "primary": "New profile",
+                    "primary": "Neues Profil",
                     "secondary": "Create a new profile with a mnemonic or Ledger Nano"
                 },
                 "restore": {
@@ -363,7 +363,7 @@
                     "chain": {
                         "chainId": "Chain ID",
                         "aliasAddress": "Alias Address",
-                        "rpcEndpoint": "ISCP Endpoint",
+                        "rpcEndpoint": "RPC Endpoint",
                         "explorerUrl": "Explorer URL (optional)",
                         "errors": {
                             "cannotBeEmpty": "Name cannot be empty",
@@ -465,7 +465,22 @@
                     },
                     "confirmConnection": {
                         "title": "Connect with an application",
-                        "hint": "A third party service wants to connect with your wallet for the first time. You can choose if you wish to trust this connection."
+                        "hint": "A third party service wants to connect with your wallet for the first time. You can choose if you wish to trust this connection.",
+                        "insecure": "The URL for this dApp cannot be verified. Your connection to this application may not be secure.",
+                        "acceptInsecureConnection": "I understand this dApp may be insecure and still want to connect."
+                    },
+                    "details": {
+                        "title": "Connection details",
+                        "falbackName": "dApp",
+                        "name": "Name",
+                        "description": "Description",
+                        "url": "URL",
+                        "verifyUrl": "Verify URL",
+                        "disconnectTitle": "Disconnect",
+                        "disconnectDescription": "Do you want to disconnect from {dappName}",
+                        "actions": {
+                            "disconnect": "Disconnect"
+                        }
                     }
                 }
             },
@@ -655,7 +670,7 @@
             "installedVersion": "Installierte Version",
             "newVersion": "New version",
             "stage": "Phase",
-            "prod": "Produktion",
+            "prod": "Early Access",
             "alpha": "Alpha",
             "beta": "Beta",
             "releasedAt": "Veröffentlicht am",
@@ -684,7 +699,6 @@
         "externalUrl": {
             "title": "Im Browser öffnen",
             "body": "Bist du sicher, dass du \"{url}\" im Browser öffnen möchtest?",
-            "hint": "This URL is unknown to Bloom. Please double check the URL before opening it.",
             "action": "URL öffnen",
             "invalidProtocol": "Kann URL mit ungültigem Protokoll nicht öffnen"
         },
@@ -1229,7 +1243,7 @@
         "manageAccount": "Manage account",
         "account": "Account",
         "amount": "Betrag",
-        "addAddress": "Adresse hinzufügen",
+        "addAddress": "Add address",
         "to": "An",
         "and": "und",
         "receiveFunds": "Guthaben empfangen",
@@ -1338,6 +1352,7 @@
         "nft": "NFT",
         "type": "Typ",
         "immutableIssuer": "Unveränderlicher Aussteller",
+        "magicContract": "Magic Contract",
         "smartContract": "Smart Contract",
         "targetContract": "Zielvertrag",
         "contractFunction": "Vertragsfunktion",
@@ -1506,7 +1521,10 @@
         "updateReady": "Update bereit",
         "updateError": "Während des Updates ist ein Fehler aufgetreten. Bitte versuche es erneut",
         "copiedToClipboard": "In die Zwischenablage kopiert",
-        "newDappConnected": "Connected to new dApp",
+        "newDappConnection": {
+            "success": "Connected to new dApp",
+            "rejected": "Connection rejected"
+        },
         "deepLinkingRequest": {
             "receivedWhileLoggedOut": "Bitte melde dich an, um den Deep-Link zu initiieren",
             "invalidFormat": "Der gewählte Deep-Link ist ungültig",
@@ -1519,6 +1537,9 @@
             "wallet": {
                 "unrecognizedOperation": "Keine bekannte Wallet-Operation: {operation}"
             }
+        },
+        "disconnectDapp": {
+            "success": "Disconnected from dApp"
         },
         "claimed": {
             "success": "Transaktion beansprucht",
@@ -1548,6 +1569,9 @@
         "restoreFromStrongholdBackup": {
             "wrongProtocol": "Protokoll stimmt nicht mit dem Münztyp in der Stronghold-Sicherung überein",
             "wrongProtocolForClaiming": "Du musst ein IOTA Stronghold-Backup verwenden, um Shimmer Rewards zu beanspruchen"
+        },
+        "signMessage": {
+            "success": "Message successfully signed"
         },
         "findShimmerRewards": {
             "error": "Bei der Suche nach den Rewards ist ein Fehler aufgetreten"
@@ -1634,6 +1658,7 @@
             "insufficientFunds": "Diese Wallet hat unzureichendes Guthaben.",
             "insufficientFundsGasFee": "Insufficient funds to cover the gas fee.",
             "insufficientFundsStorageDeposit": "Unzureichendes Guthaben, um den Storage Deposit abzudecken.",
+            "insufficientFundsTransaction": "Insufficient funds to make a transaction.",
             "ongoingTransaction": "Wenn du laufende Transaktionen hast, warte bitte auf deren Bestätigung.",
             "cancelled": "Die Transaktion wurde abgebrochen.",
             "invalidExpirationDateTime": "Das gewählte Ablaufdatum bzw. die gewählte Ablaufzeit ist ungültig.",
@@ -1811,7 +1836,8 @@
                 "expirationTime": "Wenn der Empfänger die Token nicht rechtzeitig beansprucht, werden Ihre Token an dich zurückgeschickt.",
                 "timelockDate": "Du hast eine Zeitsperre definiert. Der Empfänger ist nicht in der Lage die Guthaben auszugeben, bevor die Zeitsperre verfällt.",
                 "metadata": "Ein optionales Datenfeld zur dauerhaften Speicherung von Daten auf dem Tangle.",
-                "tag": "Ein kurzes optionales Datenfeld. Tag Gruppen von Transaktionen können die Suche erleichtern."
+                "tag": "Ein kurzes optionales Datenfeld. Tag Gruppen von Transaktionen können die Suche erleichtern.",
+                "transactionFee": "The transaction fee contains the gas fee for the code execution and the storage deposit fee."
             },
             "nftMetadata": {
                 "type": "Der MimeType des NFT, z.B. image/png.",

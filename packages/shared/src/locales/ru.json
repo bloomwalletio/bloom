@@ -363,7 +363,7 @@
                     "chain": {
                         "chainId": "ID цепочки",
                         "aliasAddress": "Псевдоним адреса",
-                        "rpcEndpoint": "ISCP Конечная точка",
+                        "rpcEndpoint": "RPC Endpoint",
                         "explorerUrl": "Explorer URL (optional)",
                         "errors": {
                             "cannotBeEmpty": "Имя не должно быть пустым",
@@ -465,7 +465,22 @@
                     },
                     "confirmConnection": {
                         "title": "Connect with an application",
-                        "hint": "A third party service wants to connect with your wallet for the first time. You can choose if you wish to trust this connection."
+                        "hint": "A third party service wants to connect with your wallet for the first time. You can choose if you wish to trust this connection.",
+                        "insecure": "The URL for this dApp cannot be verified. Your connection to this application may not be secure.",
+                        "acceptInsecureConnection": "I understand this dApp may be insecure and still want to connect."
+                    },
+                    "details": {
+                        "title": "Connection details",
+                        "falbackName": "dApp",
+                        "name": "Name",
+                        "description": "Description",
+                        "url": "URL",
+                        "verifyUrl": "Verify URL",
+                        "disconnectTitle": "Disconnect",
+                        "disconnectDescription": "Do you want to disconnect from {dappName}",
+                        "actions": {
+                            "disconnect": "Disconnect"
+                        }
                     }
                 }
             },
@@ -684,7 +699,6 @@
         "externalUrl": {
             "title": "Открыть URL в браузере",
             "body": "Вы уверены, что хотите открыть \"{url}\" в браузере?",
-            "hint": "This URL is unknown to Bloom. Please double check the URL before opening it.",
             "action": "Открыть URL",
             "invalidProtocol": "Невозможно открыть URL с неправильным протоколом"
         },
@@ -1229,7 +1243,7 @@
         "manageAccount": "Manage account",
         "account": "Account",
         "amount": "Сумма",
-        "addAddress": "Добавить Адрес",
+        "addAddress": "Add address",
         "to": "Кому",
         "and": "и",
         "receiveFunds": "Получить средства",
@@ -1506,7 +1520,10 @@
         "updateReady": "Обновление готово",
         "updateError": "Во время обновления произошла ошибка, попробуйте ещё раз",
         "copiedToClipboard": "Скопировано в буфер обмена",
-        "newDappConnected": "Connected to new dApp",
+        "newDappConnection": {
+            "success": "Connected to new dApp",
+            "rejected": "Connection rejected"
+        },
         "deepLinkingRequest": {
             "receivedWhileLoggedOut": "Пожалуйста, войдите, чтобы открыть глубокую ссылку",
             "invalidFormat": "Глубокая ссылка, по которой вы перешли, недействительна",
@@ -1519,6 +1536,9 @@
             "wallet": {
                 "unrecognizedOperation": "Нераспознанная операция с кошельком: {operation}"
             }
+        },
+        "disconnectDapp": {
+            "success": "Disconnected from dApp"
         },
         "claimed": {
             "success": "Транзакция востребована",
@@ -1548,6 +1568,9 @@
         "restoreFromStrongholdBackup": {
             "wrongProtocol": "Протокол не соответствует типу монет, найденных в резервной копии Stronghold",
             "wrongProtocolForClaiming": "Вы должны использовать резервную копию Stronghold на базе IOTA, чтобы получить Shimmer вознаграждение"
+        },
+        "signMessage": {
+            "success": "Message successfully signed"
         },
         "findShimmerRewards": {
             "error": "Произошла ошибка при поиске вознаграждений"
@@ -1811,7 +1834,8 @@
                 "expirationTime": "Если получатель не востребовал вовремя, ваши токены будут возвращены вам.",
                 "timelockDate": "Вы добавили временную блокировку к этой транзакции. Получатель не сможет потратить эти средства до истечения срока блокировки.",
                 "metadata": "Необязательное поле данных для постоянного хранения данных в Tangle.",
-                "tag": "Короткое необязательное поле данных. Пометка групп транзакций может облегчить их поиск."
+                "tag": "Короткое необязательное поле данных. Пометка групп транзакций может облегчить их поиск.",
+                "transactionFee": "The transaction fee contains the gas fee for the code execution and the storage deposit fee."
             },
             "nftMetadata": {
                 "type": "MimeType NFT. например, image/png.",

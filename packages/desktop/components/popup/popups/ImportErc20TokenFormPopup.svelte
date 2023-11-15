@@ -2,7 +2,7 @@
     import { TextInput } from '@bloomwalletio/ui'
     import { NetworkInput } from '@ui'
     import { localize } from '@core/i18n'
-    import { ERC20_TOKEN_ADDRESS_LENGTH } from '@core/layer-2'
+    import { ETHEREUM_ADDRESS_LENGTH } from '@core/layer-2'
     import { getErc20TokenMetadata } from '@core/layer-2/utils'
     import { NetworkId, network } from '@core/network'
     import { HEX_PREFIX, HEXADECIMAL_REGEXP } from '@core/utils'
@@ -58,7 +58,7 @@
 
         if (!hasHexPrefix || !isValidHex) {
             tokenAddressError = localize('error.erc20Token.invalidAddressFormat')
-        } else if (addressLength !== ERC20_TOKEN_ADDRESS_LENGTH) {
+        } else if (addressLength !== ETHEREUM_ADDRESS_LENGTH) {
             tokenAddressError = localize('error.erc20Token.invalidAddressLength')
         }
         return !tokenAddressError
