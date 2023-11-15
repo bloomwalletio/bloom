@@ -14,7 +14,7 @@
         <Breadcrumbs />
 
         <div class="right-button flex items-center justify-end gap-2">
-            {#if features?.wallet?.walletConnect?.enabled}
+            {#if features?.walletConnect?.enabled}
                 <IconButton
                     on:click={() => toggleDashboardDrawer({ id: DashboardDrawerRoute.DappConfig })}
                     icon={IconName.Grid}

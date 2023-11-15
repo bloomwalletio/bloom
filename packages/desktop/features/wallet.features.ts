@@ -11,9 +11,6 @@ const walletFeatures: IWalletFeatures = {
             enabled: true,
         },
     },
-    walletConnect: {
-        enabled: false,
-    },
     assets: {
         enabled: true,
         burnToken: {
