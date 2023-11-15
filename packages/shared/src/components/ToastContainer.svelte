@@ -7,10 +7,10 @@
 </script>
 
 {#if $appNotifications?.length > 0}
-    <toast-container class={`flex flex-col z-50 ${classes}`} transition:fade|local={{ duration: 0 }}>
+    <toast-container class={`flex flex-col z-50 ${classes}`} transition:fade={{ duration: 0 }}>
         <ul class="space-y-2">
             {#each $appNotifications as notification (notification.id)}
-                <li transition:fade|local={{ duration: 0 }}>
+                <li transition:fade={{ duration: 0 }}>
                     <ToastWrapper {notification} />
                 </li>
             {/each}

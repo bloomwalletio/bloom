@@ -48,15 +48,15 @@
 {#if $drawerState?.active}
     <drawer class="absolute top-0 left-0 w-full h-full z-20">
         <overlay
-            in:fade|local={{ duration: DRAWER_ANIMATION_DURATION_MS }}
-            out:fade|local={{ duration: DRAWER_ANIMATION_DURATION_MS }}
+            in:fade={{ duration: DRAWER_ANIMATION_DURATION_MS }}
+            out:fade={{ duration: DRAWER_ANIMATION_DURATION_MS }}
             on:click={onCloseClick}
             on:keydown={() => {}}
             class="fixed h-full left-0 w-full z-0 bg-neutral-6/75"
         />
         <panel
-            in:fly|local={{ ...direction, duration: DRAWER_ANIMATION_DURATION_MS }}
-            out:fly|local={{ ...direction, duration: DRAWER_ANIMATION_DURATION_MS }}
+            in:fly={{ ...direction, duration: DRAWER_ANIMATION_DURATION_MS }}
+            out:fly={{ ...direction, duration: DRAWER_ANIMATION_DURATION_MS }}
             class="relative flex flex-col flex-auto overflow-hidden {position} {isVertical ? 'vertical' : 'horizontal'}"
         >
             <div class="flex flex-col h-full">
