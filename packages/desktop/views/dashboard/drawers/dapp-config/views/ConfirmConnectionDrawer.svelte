@@ -17,11 +17,12 @@
 
     let loading = false
 
+    const localeKey = 'views.dashboard.drawers.dapps.confirmConnection'
     let currentStep = 0
     const steps = [
-        localize('views.dashboard.drawers.dapps.confirmConnection.permissions.step'),
-        localize('views.dashboard.drawers.dapps.confirmConnection.networks.step'),
-        localize('views.dashboard.drawers.dapps.confirmConnection.accounts.step'),
+        localize(`${localeKey}.permissions.step`),
+        localize(`${localeKey}.networks.step`),
+        localize(`${localeKey}.accounts.step`),
     ]
 
     let checkedAccounts: IAccountState[] = []
@@ -68,7 +69,7 @@
     }
 </script>
 
-<DrawerTemplate title={localize('views.dashboard.drawers.dapps.confirmConnection.title')} {drawerRouter}>
+<DrawerTemplate title={localize(`${localeKey}.title`)} {drawerRouter}>
     <div class="w-full h-full space-y-6">
         {#if $sessionProposal}
             <DappInformationCard metadata={$sessionProposal.params.proposer.metadata} />
