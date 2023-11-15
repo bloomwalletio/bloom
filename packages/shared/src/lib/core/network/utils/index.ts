@@ -1,5 +1,6 @@
 export * from './buildChainFromNetwork'
 export * from './buildPersistedNetworkFromNodeInfoResponse'
+export * from './canAccountMakeStardustTransaction'
 export * from './checkIfOnSameNetwork'
 export * from './checkNodeUrlValidity'
 export * from './doesNodeHavePlugin'

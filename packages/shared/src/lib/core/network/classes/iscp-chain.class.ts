@@ -99,7 +99,12 @@ export class IscpChain implements IChain {
         const data = await response.json()
 
         if (response.status === 200) {
-            return Number(data.gasFeeCharged ?? '0')
+            const gasEstimate = Number(data.gasFeeCharged ?? '0')
+            if (Number.isNaN(gasEstimate) || gasEstimate === 0) {
+                throw new Error(`Gas fee has an invalid value: ${gasEstimate}!`)
+            }
+
+            return gasEstimate
         } else {
             throw new Error(data)
         }

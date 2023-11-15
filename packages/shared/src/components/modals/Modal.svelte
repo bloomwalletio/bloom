@@ -53,29 +53,32 @@
         if (!show || !modal) {
             return
         }
+
         const viewportHeight = window.innerHeight
-        const modalRect = modal?.getBoundingClientRect()
-        const spaceAbove = modalRect?.top
-        const spaceBelow = viewportHeight - modalRect?.bottom
-        const maxSpace =
-            spaceBelow > 0 ? modalRect?.height - Math.abs(spaceAbove) : modalRect?.height - Math.abs(spaceBelow)
-        maxHeight = maxSpace - 10
+        const modalRect = modal.getBoundingClientRect()
+
+        const availableSpace = position.top ? viewportHeight - modalRect.top : modalRect.bottom
+        maxHeight = availableSpace - 10
+    }
+
+    function handleResize() {
+        updateMaxHeight()
     }
 
     onMount(() => {
         if (autoMaxHeight) {
-            window.addEventListener('resize', () => void updateMaxHeight())
-            void updateMaxHeight()
+            window.addEventListener('resize', handleResize)
+            updateMaxHeight()
         }
     })
 
     onDestroy(() => {
         if (autoMaxHeight) {
-            window.removeEventListener('resize', () => void updateMaxHeight())
+            window.removeEventListener('resize', handleResize)
         }
     })
 
-    $: show, autoMaxHeight && void updateMaxHeight()
+    $: if (show && autoMaxHeight) updateMaxHeight()
 </script>
 
 {#if show}

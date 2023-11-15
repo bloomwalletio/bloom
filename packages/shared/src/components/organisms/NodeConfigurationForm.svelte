@@ -133,6 +133,7 @@
             label={localize('general.network')}
             options={networkOptions}
             disabled={isBusy}
+            hideValue
         />
         {#if networkType === OnboardingNetworkType.Custom}
             <NumberInput bind:value={coinType} label={localize('general.coinType')} disabled={isBusy} isInteger />
