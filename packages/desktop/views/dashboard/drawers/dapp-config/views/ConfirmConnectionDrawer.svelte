@@ -5,14 +5,12 @@
     import { Router } from '@core/router'
     import { DrawerTemplate } from '@components'
     import { sessionProposal } from '@auxiliary/wallet-connect/stores'
-    import { approveSession } from '@auxiliary/wallet-connect/utils'
+    import { approveSession, buildSupportedNamespacesFromSelections } from '@auxiliary/wallet-connect/utils'
     import { AccountSelection, DappInformationCard, NetworkSelection, PermissionSelection } from '../components'
     import { closeDrawer } from '@desktop/auxiliary/drawer'
     import { handleError } from '@core/error/handlers'
     import { showNotification } from '@auxiliary/notification'
-    import { SUPPORTED_EVENTS } from '@auxiliary/wallet-connect/constants'
-    import { IAccountState, getAddressFromAccountForNetwork } from '@core/account'
-    import { NetworkId } from '@core/network'
+    import { IAccountState } from '@core/account'
 
     export let drawerRouter: Router<unknown>
 
@@ -44,70 +42,19 @@
         currentStep++
     }
 
-    function getNamespaceForSelections() {
-        const requiredNamespaces = $sessionProposal.params.requiredNamespaces
-        const optionalNamespaces = $sessionProposal.params.optionalNamespaces
-
-        const supportedNamespaces = {}
-        const allNamespaceIds = new Set([...Object.keys(requiredNamespaces), ...Object.keys(optionalNamespaces)])
-
-        for (const namespaceId of allNamespaceIds) {
-            const allowedChains = getAllowedChainsForNamespace(namespaceId)
-            const allowedMethods = getAllowedMethodsForNamespace(namespaceId)
-
-            const addresses = getAddressWithPrefixForAccounts(checkedAccounts, allowedChains)
-            supportedNamespaces[namespaceId] = {
-                chains: checkedNetworks,
-                methods: allowedMethods,
-                events: SUPPORTED_EVENTS,
-                accounts: addresses,
-            }
-        }
-
-        return supportedNamespaces
-    }
-
-    function getAllowedMethodsForNamespace(namespaceId: string): string[] {
-        const requiredNamespaces = $sessionProposal.params.requiredNamespaces
-        const optionalNamespaces = $sessionProposal.params.optionalNamespaces
-
-        const availableMethods = [
-            ...new Set([...requiredNamespaces[namespaceId].methods, ...optionalNamespaces[namespaceId].methods]),
-        ]
-
-        return checkedMethods.filter((network) => availableMethods.includes(network))
-    }
-
-    function getAllowedChainsForNamespace(namespaceId: string): string[] {
-        const requiredNamespaces = $sessionProposal.params.requiredNamespaces
-        const optionalNamespaces = $sessionProposal.params.optionalNamespaces
-
-        const availablChains = [
-            ...new Set([...requiredNamespaces[namespaceId].chains, ...optionalNamespaces[namespaceId].chains]),
-        ]
-
-        return checkedNetworks.filter((network) => availablChains.includes(network))
-    }
-
-    function getAddressWithPrefixForAccounts(accounts: IAccountState[], networkIds: string[]): string[] {
-        const addresses: string[] = []
-        for (const chain of networkIds) {
-            for (const account of accounts) {
-                const address = getAddressFromAccountForNetwork(account, chain as NetworkId)
-                if (address) {
-                    addresses.push(`${chain}:${address}`)
-                }
-            }
-        }
-
-        return addresses
-    }
-
     async function onConfirmClick(): Promise<void> {
         try {
             loading = true
 
-            const supportedNamespaces = getNamespaceForSelections()
+            const supportedNamespaces = buildSupportedNamespacesFromSelections(
+                {
+                    chains: checkedNetworks,
+                    methods: checkedMethods,
+                    accounts: checkedAccounts,
+                },
+                $sessionProposal.params.requiredNamespaces,
+                $sessionProposal.params.optionalNamespaces
+            )
             await approveSession($sessionProposal, supportedNamespaces)
 
             showNotification({

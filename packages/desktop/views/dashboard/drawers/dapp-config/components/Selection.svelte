@@ -3,7 +3,6 @@
 
     export let selectionOptions: { label: string; value: unknown; checked: boolean; required: boolean }[]
     export let title: string
-    export let allowSelectAll: boolean = false
 </script>
 
 <selection-component class="flex flex-col gap-4">
