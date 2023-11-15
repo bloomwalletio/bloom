@@ -17,26 +17,23 @@
 
     let loading = false
 
-    enum ConfirmSteps {
-        Permission = 'permission',
-        Networks = 'networks',
-        Accounts = 'accounts',
-    }
-
     let currentStep = 0
-    const steps = [ConfirmSteps.Permission, ConfirmSteps.Networks, ConfirmSteps.Accounts]
+    const steps = [
+        localize('views.dashboard.drawers.dapps.confirmConnection.permissions.step'),
+        localize('views.dashboard.drawers.dapps.confirmConnection.networks.step'),
+        localize('views.dashboard.drawers.dapps.confirmConnection.accounts.step'),
+    ]
 
     let checkedAccounts: IAccountState[] = []
     let checkedNetworks: string[] = []
     let checkedMethods: string[] = []
 
-    function onCancelClick(): void {
-        $sessionProposal = undefined
-        closeDrawer()
-    }
-
     function onBackClick(): void {
-        currentStep--
+        if (currentStep === 0) {
+            drawerRouter.previous()
+        } else {
+            currentStep--
+        }
     }
 
     function onNextClick(): void {
@@ -76,7 +73,7 @@
         {#if $sessionProposal}
             <DappInformationCard metadata={$sessionProposal.params.proposer.metadata} />
 
-            <div>
+            <div class="flex flex-col gap-8">
                 <Steps bind:currentStep {steps} />
 
                 <div class={currentStep === 0 ? 'visible' : 'hidden'}>
@@ -99,9 +96,9 @@
         <Button
             variant="outlined"
             width="full"
-            on:click={currentStep === 0 ? onCancelClick : onBackClick}
+            on:click={onBackClick}
             disabled={loading}
-            text={localize(`actions.${currentStep === 0 ? 'cancel' : 'back'}`)}
+            text={localize('actions.back')}
         />
         {@const isLastStep = currentStep === steps.length - 1}
         <Button
