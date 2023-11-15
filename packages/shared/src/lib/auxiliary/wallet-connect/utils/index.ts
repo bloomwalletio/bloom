@@ -1,5 +1,4 @@
 export * from './approveSession'
-export * from './buildSupportNamespaceFromSelections'
 export * from './disconnectAllDapps'
 export * from './getAllEvmAddresses'
 export * from './updateActiveSessionsToActiveProfile'
