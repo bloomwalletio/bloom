@@ -48,7 +48,7 @@
                 variant: 'success',
                 text: localize('notifications.newDappConnection.success'),
             })
-            closeDrawer()
+            drawerRouter.reset()
         } catch (error) {
             handleError(error)
         } finally {
