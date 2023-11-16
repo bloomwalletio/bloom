@@ -7,6 +7,7 @@ import { IGovernanceFeatures } from './governance-features.interface'
 import { INetworkFeatures } from './network-features.interface'
 import { ISettingsFeatures } from './settings-features.interface'
 import { IWalletFeatures } from './wallet-features.interface'
+import { IWalletConnectFeatures } from './wallet-connect-features.interface'
 import { OnboardingFeatures } from '../types/onboarding-features.type'
 
 export interface IFeatures {
@@ -20,4 +21,5 @@ export interface IFeatures {
     onboarding: OnboardingFeatures
     settings: ISettingsFeatures
     wallet: IWalletFeatures
+    walletConnect: IWalletConnectFeatures
 }

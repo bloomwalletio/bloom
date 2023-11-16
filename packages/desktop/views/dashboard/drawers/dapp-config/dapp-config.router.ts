@@ -18,6 +18,9 @@ export class DappConfigRouter extends Router<DappConfigRoute> {
             case DappConfigRoute.ConnectedDapps:
                 return
             case DappConfigRoute.InputCode:
+                nextRoute = DappConfigRoute.ConnectionRequest
+                break
+            case DappConfigRoute.ConnectionRequest:
                 nextRoute = DappConfigRoute.ConfirmConnection
                 break
             case DappConfigRoute.ConfirmConnection:

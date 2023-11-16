@@ -13,7 +13,7 @@ const core = new Core({
 })
 
 export async function initializeWalletConnect(): Promise<void> {
-    if (!features?.wallet?.walletConnect?.enabled) {
+    if (!features?.walletConnect?.enabled) {
         return
     }
 
