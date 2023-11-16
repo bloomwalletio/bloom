@@ -3,15 +3,7 @@ import { SUPPORTED_EVENTS } from '../constants'
 import { getAddressFromAccountForNetwork } from '@core/account/utils'
 import { NetworkId } from '@core/network/types'
 import { IAccountState } from '@core/account'
-
-type SupportedNamespaces = Record<string, ISupportedNamespace>
-
-interface ISupportedNamespace {
-    chains: string[]
-    methods: string[]
-    events: string[]
-    accounts: string[]
-}
+import { ISupportedNamespace, SupportedNamespaces } from '../types'
 
 interface Selections {
     chains: string[]
