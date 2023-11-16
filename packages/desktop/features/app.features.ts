@@ -6,10 +6,10 @@ const appFeatures: IAppFeatures = {
             enabled: true,
         },
         dark: {
-            enabled: false,
+            enabled: true,
         },
         system: {
-            enabled: false,
+            enabled: true,
         },
     },
     translations: {
