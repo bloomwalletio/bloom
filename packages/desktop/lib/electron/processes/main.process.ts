@@ -379,12 +379,12 @@ app.once('ready', () => {
 
 powerMonitor.on('suspend', () => {
     // MacOS, Windows and Linux
-    windows.main.webContents.send('lock-screen')
+    windows.main?.webContents?.send('lock-screen')
 })
 
 powerMonitor.on('lock-screen', () => {
     // MacOS and Windows
-    windows.main.webContents.send('lock-screen')
+    windows.main?.webContents?.send('lock-screen')
 })
 
 // IPC handlers for APIs exposed from main process
