@@ -11,7 +11,7 @@
 </script>
 
 <Tile border {error} onClick={onCardClick}>
-    <div class="flex w-full justify-between gap-2 items-center">
+    <div class="flex w-full justify-between gap-2 items-center p-1">
         <ContactAvatar {contact} />
         <div class="flex w-full text-left overflow-hidden">
             <Text type="base" truncate>
