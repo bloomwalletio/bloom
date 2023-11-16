@@ -1,10 +1,13 @@
 import { get } from 'svelte/store'
+
 import Web3 from 'web3'
+
+import { DEFAULT_EXPLORER_URLS, DEFAULT_GET_ADDRESS_BALANCE_OPTIONS } from '../constants'
 import { NetworkHealth } from '../enums'
 import { IBlock, IChain, IChainStatus, IIscpChainConfiguration, IIscpChainMetadata } from '../interfaces'
 import { chainStatuses } from '../stores'
 import { ChainConfiguration, ChainMetadata, Web3Provider } from '../types'
-import { Contract } from '@core/layer-2/types'
+import { Contract, Layer2AccountBalance } from '@core/layer-2/types'
 import { ContractType } from '@core/layer-2/enums'
 import { getAbiForContractType } from '@core/layer-2/utils'
 
@@ -38,6 +41,10 @@ export class IscpChain implements IChain {
          * which can be found here: https://editor.swagger.io/?url=https://raw.githubusercontent.com/iotaledger/wasp/develop/clients/apiclient/api/openapi.yaml.
          */
         return `v1/chains/${aliasAddress}/evm`
+    }
+
+    private buildExplorerApiUrl(): string {
+        return `${DEFAULT_EXPLORER_URLS[this._configuration.id]}/api/v2`
     }
 
     getConfiguration(): ChainConfiguration {
@@ -108,5 +115,42 @@ export class IscpChain implements IChain {
         } else {
             throw new Error(data)
         }
+    }
+
+    async getBalanceOfAddress(
+        address: string,
+        options = DEFAULT_GET_ADDRESS_BALANCE_OPTIONS
+    ): Promise<Layer2AccountBalance> {
+        let typeQueryString: string = ''
+        for (const type of options.types) {
+            if (!type.includes('ERC')) {
+                continue
+            }
+
+            if (typeQueryString) {
+                typeQueryString = `${typeQueryString},${type.replace('ERC', 'ERC-')}`
+            } else {
+                typeQueryString = `type=${type.replace('ERC', 'ERC-')}`
+            }
+        }
+        const apiUrl = `${this.buildExplorerApiUrl()}/addresses/${address}/tokens${
+            typeQueryString ? '?' : ''
+        }${typeQueryString}`
+        const requestInit: RequestInit = {
+            method: 'GET',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
+        }
+        const response = await fetch(apiUrl, requestInit)
+        const data = await response.json()
+
+        const accountBalance: { [tokenId: string]: bigint } = {}
+        for (const { token, value } of data.items) {
+            accountBalance[token.address] = BigInt(value)
+        }
+
+        return { [this._configuration.id]: accountBalance }
     }
 }

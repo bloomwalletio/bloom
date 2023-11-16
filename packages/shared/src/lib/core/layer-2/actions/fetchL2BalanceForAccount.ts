@@ -109,7 +109,9 @@ async function getLayer2Erc20BalancesForAddress(
             console.error(error)
         }
     }
-    return erc20TokenBalances
+
+    const balance = await chain.getBalanceOfAddress(evmAddress)
+    return Object.keys(balance[networkId]).map((tokenId) => ({ tokenId, balance: balance[networkId][tokenId] }))
 }
 
 async function fetchLayer2Nfts(evmAddress: string, chain: IChain, account: IAccountState): Promise<void> {
