@@ -1,23 +1,29 @@
 <script lang="ts">
     import { Copyable, IconButton, IconName, Text } from '@bloomwalletio/ui'
-    import { IContact, IContactAddressMap } from '@core/contact'
+    import { IContact, IContactAddress, IContactAddressMap, setSelectedContactNetworkAddress } from '@core/contact'
     import { localize } from '@core/i18n'
     import { resetLedgerPreparedOutput, resetShowInternalVerificationPopup } from '@core/ledger'
-    import { NetworkId, getNameFromNetworkId } from '@core/network'
+    import { getNameFromNetworkId, NetworkId } from '@core/network'
     import { Router } from '@core/router'
     import { truncateString } from '@core/utils'
-    import { SendFlowType, SubjectType, setSendFlowParameters } from '@core/wallet'
+    import { SendFlowType, setSendFlowParameters, SubjectType } from '@core/wallet'
     import { closeDrawer } from '@desktop/auxiliary/drawer'
-    import { PopupId, openPopup } from '@desktop/auxiliary/popup'
+    import { openPopup, PopupId } from '@desktop/auxiliary/popup'
     import features from '@features/features'
     import { NetworkAvatar } from '@ui'
     import { SendFlowRouter, sendFlowRouter } from '@views/dashboard/send-flow'
     import { ContactAddressMenu } from './menus'
+    import { ContactBookRoute } from '../views/dashboard/drawers'
 
-    export let drawerRouter: Router<unknown>
+    export let drawerRouter: Router<ContactBookRoute>
     export let networkId: NetworkId
     export let contact: IContact
     export let contactAddressMap: IContactAddressMap
+
+    function onQrCodeClick(contactAddress: IContactAddress): void {
+        setSelectedContactNetworkAddress(contactAddress)
+        drawerRouter.goTo(ContactBookRoute.ContactAddress)
+    }
 
     function onSendClick(address: string): void {
         setSendFlowParameters({
@@ -58,13 +64,20 @@
                     </Text>
                 </Copyable>
             </div>
-            {#if features.contacts.sendTo.enabled}
+            <div class="flex flex-row gap-2">
                 <IconButton
-                    icon={IconName.Send}
-                    tooltip={localize('actions.send')}
-                    on:click={() => onSendClick(contactAddress.address)}
+                    icon={IconName.QrCode}
+                    tooltip={localize('general.address')}
+                    on:click={() => onQrCodeClick(contactAddress)}
                 />
-            {/if}
+                {#if features.contacts.sendTo.enabled}
+                    <IconButton
+                        icon={IconName.Send}
+                        tooltip={localize('actions.send')}
+                        on:click={() => onSendClick(contactAddress.address)}
+                    />
+                {/if}
+            </div>
         </contact-address-item>
     {/each}
 </contact-address-card>

@@ -433,6 +433,9 @@
                         "removeContact": "Remove contact",
                         "addNetworkAddress": "Add network address"
                     },
+                    "contactAddress": {
+                        "title": "Contact address"
+                    },
                     "addContact": {
                         "title": "Add contact",
                         "identity": "Identity",
