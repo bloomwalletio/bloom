@@ -413,6 +413,14 @@ ipcMain.handle('get-path', (_e, path) => {
     return app.getPath(path)
 })
 ipcMain.handle('get-version-details', () => versionDetails)
+ipcMain.handle('focus-window', () => {
+    if (windows.main) {
+        if (windows.main.isMinimized()) {
+            windows.main.restore()
+        }
+        windows.main.focus()
+    }
+})
 
 function ensureDirectoryExistence(filePath: string): void | boolean {
     const dirname = path.dirname(filePath)

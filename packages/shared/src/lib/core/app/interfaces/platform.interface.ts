@@ -37,6 +37,7 @@ export interface IPlatform {
     NotificationManager: INotificationManager | undefined
     PincodeManager: IPincodeManager | undefined
 
+    focusWindow(): Promise<void>
     getAppVersionDetails(): Promise<IAppVersionDetails>
 
     checkForAppUpdate(): Promise<void>
