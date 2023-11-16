@@ -25,7 +25,8 @@ export function updateAppSettings(partialSettings: Partial<IAppSettings>): void 
 }
 
 appSettings.subscribe(async (state) => {
-    if (state.theme) {
+    const currentTheme = await Platform.getTheme()
+    if (currentTheme !== state.theme) {
         await Platform.updateTheme(state.theme)
         const shouldBeDarkMode = await Platform.shouldBeDarkMode()
         darkMode.set(shouldBeDarkMode)

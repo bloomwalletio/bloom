@@ -10,6 +10,7 @@ import { bindMethodsAcrossContextBridge } from '../utils/context-bridge.utils'
 
 import type { IAppSettings } from '@core/app/interfaces'
 import type { IFeatureFlag } from '@lib/features/interfaces'
+import { AppTheme } from '@core/app/enums'
 
 let activeProfileId = null
 const eventListeners = {}
@@ -230,6 +231,9 @@ export default {
                 features
             ) as IFeatureFlag
         return feature?.enabled ?? false
+    },
+    getTheme(): Promise<AppTheme> {
+        return ipcRenderer.invoke('get-theme')
     },
     updateTheme(theme: string): Promise<void> {
         return ipcRenderer.invoke('update-theme', theme)

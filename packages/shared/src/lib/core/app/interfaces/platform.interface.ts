@@ -53,6 +53,8 @@ export interface IPlatform {
     trackEvent(eventName: string, eventProperties?: Record<string, unknown>): void
 
     getLanguageCode(): Promise<string>
+
+    getTheme(): Promise<AppTheme>
     updateTheme(theme: AppTheme): Promise<void>
     shouldBeDarkMode(): Promise<boolean>
 
