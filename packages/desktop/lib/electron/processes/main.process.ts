@@ -184,7 +184,7 @@ export function createMainWindow(): BrowserWindow {
         frame: process.platform === 'linux',
         icon:
             process.platform === 'linux'
-                ? path.join(__dirname, `../assets/icons/${process.env.STAGE}/linux/icon.png`)
+                ? path.join(__dirname, `./icons/${process.env.STAGE}/linux/icon.png`)
                 : undefined,
         webPreferences: {
             ...DEFAULT_WEB_PREFERENCES,
