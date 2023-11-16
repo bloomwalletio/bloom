@@ -432,7 +432,9 @@
                         "addNetworkAddress": "Add network address"
                     },
                     "addContact": {
-                        "title": "Add contact"
+                        "title": "Add contact",
+                        "identity": "Identity",
+                        "details": "Details"
                     },
                     "editContact": {
                         "title": "Edit contact"

@@ -99,16 +99,16 @@
             bind:error={validationErrors[AddressField.Network]}
         />
         <TextInput
-            bind:this={addressNameInput}
-            bind:value={addressName}
-            bind:error={validationErrors[AddressField.Name]}
-            label={localize('general.addressName')}
-        />
-        <TextInput
             bind:this={addressInput}
             bind:value={address}
             bind:error={validationErrors[AddressField.Address]}
             label={localize('general.address')}
+        />
+        <TextInput
+            bind:this={addressNameInput}
+            bind:value={addressName}
+            bind:error={validationErrors[AddressField.Name]}
+            label={localize('general.addressName')}
         />
     </form>
     <div slot="footer" class="flex gap-4">

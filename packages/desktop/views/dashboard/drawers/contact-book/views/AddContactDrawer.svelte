@@ -1,6 +1,6 @@
 <script lang="ts">
     import { ContactBookRoute } from '../contact-book-route.enum'
-    import { Button, TextInput } from '@bloomwalletio/ui'
+    import { Button, Text, TextInput } from '@bloomwalletio/ui'
 
     import { NetworkInput } from '@ui'
     import { DrawerTemplate } from '@components'
@@ -113,6 +113,9 @@
     {drawerRouter}
 >
     <form on:submit|preventDefault={onSaveClick} id="add-contact-form" class="flex flex-col gap-4">
+        <Text type="body1">
+            {localize(`views.dashboard.drawers.contactBook.${ContactBookRoute.AddContact}.identity`)}
+        </Text>
         <TextInput
             bind:this={nameInput}
             bind:value={name}
@@ -125,25 +128,25 @@
             bind:error={validationErrors[ContactField.Note]}
             label={localize('general.optionalField', { field: localize('general.note') })}
         />
-        <div class="py-2">
-            <hr />
-        </div>
+        <Text type="body1">
+            {localize(`views.dashboard.drawers.contactBook.${ContactBookRoute.AddContact}.details`)}
+        </Text>
         <NetworkInput
             bind:this={networkSelectionInput}
             bind:networkId={selectedNetworkId}
             bind:error={validationErrors[ContactField.Network]}
         />
         <TextInput
-            bind:this={addressNameInput}
-            bind:value={addressName}
-            bind:error={validationErrors[ContactField.AddressName]}
-            label={localize('general.addressName')}
-        />
-        <TextInput
             bind:this={addressInput}
             bind:value={address}
             bind:error={validationErrors[ContactField.Address]}
             label={localize('general.address')}
+        />
+        <TextInput
+            bind:this={addressNameInput}
+            bind:value={addressName}
+            bind:error={validationErrors[ContactField.AddressName]}
+            label={localize('general.addressName')}
         />
     </form>
     <div slot="footer" class="flex gap-4">
