@@ -130,6 +130,9 @@ export default {
     checkForAppUpdate(): Promise<unknown> {
         return ipcRenderer.invoke('update-check')
     },
+    focusWindow(): Promise<unknown> {
+        return ipcRenderer.invoke('focus-window')
+    },
     getAppVersionDetails(): Promise<unknown> {
         return ipcRenderer.invoke('get-version-details')
     },

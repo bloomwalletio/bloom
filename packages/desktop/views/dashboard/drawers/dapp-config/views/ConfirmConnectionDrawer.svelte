@@ -4,7 +4,7 @@
     import { localize } from '@core/i18n'
     import { Router } from '@core/router'
     import { DrawerTemplate } from '@components'
-    import { sessionProposal } from '@auxiliary/wallet-connect/stores'
+    import { persistDappNamespacesForDapp, sessionProposal } from '@auxiliary/wallet-connect/stores'
     import { buildSupportedNamespacesFromSelections } from '@auxiliary/wallet-connect/actions'
     import { approveSession } from '@auxiliary/wallet-connect/utils'
     import { AccountSelection, DappInformationCard, NetworkSelection, PermissionSelection } from '../components'
@@ -54,11 +54,12 @@
                 $sessionProposal.params.requiredNamespaces,
                 $sessionProposal.params.optionalNamespaces
             )
+            persistDappNamespacesForDapp($sessionProposal.params.proposer.publicKey, supportedNamespaces)
             await approveSession($sessionProposal, supportedNamespaces)
 
             showNotification({
                 variant: 'success',
-                text: localize('notifications.newDappConnected'),
+                text: localize('notifications.newDappConnection.success'),
             })
             closeDrawer()
         } catch (error) {

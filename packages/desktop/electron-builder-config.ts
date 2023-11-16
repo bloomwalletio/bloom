@@ -31,7 +31,7 @@ function getAppId(): string {
 }
 
 function getIconPath(): string {
-    const PATH = './public/assets/icons'
+    const PATH = './public/build/icons'
     const NAME = 'icon'
     const platform = getPlatform()
     const extension = platform === 'win32' ? 'ico' : 'png'
