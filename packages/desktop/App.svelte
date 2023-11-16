@@ -45,8 +45,6 @@
 
     $: $nftDownloadQueue, downloadNextNftInQueue()
 
-    $: Platform.updateTheme($appSettings.theme)
-
     let splash = true
 
     void setupI18n({ fallbackLocale: 'en', initialLocale: $appSettings.language })

@@ -458,6 +458,7 @@ ipcMain.handle('get-machine-id', () => getMachineId())
 // Settings
 ipcMain.handle('update-app-settings', (_e, settings) => updateSettings(settings))
 ipcMain.handle('update-theme', (_e, theme) => (nativeTheme.themeSource = theme))
+ipcMain.handle('should-be-dark-mode', () => nativeTheme.shouldUseDarkColors)
 
 /**
  * Create a single instance only

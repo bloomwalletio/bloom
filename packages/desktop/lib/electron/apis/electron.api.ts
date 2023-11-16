@@ -234,6 +234,9 @@ export default {
     updateTheme(theme: string): Promise<void> {
         return ipcRenderer.invoke('update-theme', theme)
     },
+    shouldBeDarkMode(): Promise<boolean> {
+        return ipcRenderer.invoke('should-be-dark-mode')
+    },
     startLedgerProcess(): void {
         return ipcRenderer.send('start-ledger-process')
     },

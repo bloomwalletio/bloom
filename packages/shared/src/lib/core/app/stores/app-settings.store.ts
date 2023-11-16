@@ -4,6 +4,8 @@ import { persistent } from '@core/utils/store'
 
 import { DEFAULT_APP_SETTINGS } from '../constants/default-app-settings.constant'
 import { IAppSettings } from '../interfaces'
+import { darkMode } from './dark-mode.store'
+import { Platform } from '../classes/platform.class'
 
 /**
  * The store containing the application settings used throughout the entire app.
@@ -21,3 +23,11 @@ export const initAppSettings = writable<Readonly<Partial<IAppSettings>>>(DEFAULT
 export function updateAppSettings(partialSettings: Partial<IAppSettings>): void {
     appSettings.update((state) => ({ ...state, ...partialSettings }))
 }
+
+appSettings.subscribe(async (state) => {
+    if (state.theme) {
+        await Platform.updateTheme(state.theme)
+        const shouldBeDarkMode = await Platform.shouldBeDarkMode()
+        darkMode.set(shouldBeDarkMode)
+    }
+})
