@@ -5,7 +5,6 @@ export interface IWalletFeatures extends IFeatureFlag {
     sendAndReceive: IFeatureFlag & {
         nft: IFeatureFlag
     }
-    walletConnect: IFeatureFlag
     assets: IFeatureFlag & {
         burnToken: IFeatureFlag
         unwrapToken: IFeatureFlag
