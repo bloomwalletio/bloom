@@ -436,10 +436,13 @@
                     "addContact": {
                         "title": "Add contact",
                         "identity": "Identity",
-                        "details": "Details"
+                        "details": "Details",
+                        "color": "Color"
                     },
                     "editContact": {
-                        "title": "Edit contact"
+                        "title": "Edit contact",
+                        "identity": "Identity",
+                        "color": "Color"
                     },
                     "removeContact": {
                         "title": "Remove contact",

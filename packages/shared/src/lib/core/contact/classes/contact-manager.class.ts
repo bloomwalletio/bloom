@@ -17,7 +17,7 @@ export class ContactManager {
     }
 
     static addContact(
-        { name, note }: Pick<IContactMetadata, 'name' | 'note'>,
+        { name, note, color }: Pick<IContactMetadata, 'name' | 'note' | 'color'>,
         { networkId, addressName, address }: Omit<IContactAddress, 'contactId'>
     ): void {
         const profile = getActiveProfile()
@@ -29,7 +29,7 @@ export class ContactManager {
         profile.contacts[id] = <IContact>{
             id,
             name,
-            color: getIconColorFromString(id),
+            color: color ?? getIconColorFromString(id),
             addresses: [],
             note,
         }

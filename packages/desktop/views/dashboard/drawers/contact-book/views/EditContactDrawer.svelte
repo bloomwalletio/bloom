@@ -1,6 +1,6 @@
 <script lang="ts">
     import { ContactBookRoute } from '../contact-book-route.enum'
-    import { Button, TextInput } from '@bloomwalletio/ui'
+    import { Button, ColorPicker, Text, TextInput } from '@bloomwalletio/ui'
     import { DrawerTemplate } from '@components'
     import { ContactManager, selectedContact, validateContactName, validateContactNote } from '@core/contact'
     import { localize } from '@core/i18n'
@@ -22,11 +22,12 @@
     let nameInput, noteInput: TextInput
     let contactName = $selectedContact.name
     let contactNote = $selectedContact.note
+    let contactColor = $selectedContact.color
 
     function onSaveClick(): void {
         try {
             if (validate()) {
-                const contact = { ...$selectedContact, name: contactName, note: contactNote }
+                const contact = { ...$selectedContact, name: contactName, note: contactNote, color: contactColor }
                 ContactManager.updateContact($selectedContact.id, contact)
                 showNotification({
                     variant: 'success',
@@ -69,6 +70,9 @@
     {drawerRouter}
 >
     <form on:submit|preventDefault={onSaveClick} id="edit-contact-form" class="flex flex-col justify-between gap-4">
+        <Text type="body1">
+            {localize(`views.dashboard.drawers.contactBook.${ContactBookRoute.EditContact}.identity`)}
+        </Text>
         <TextInput
             bind:this={nameInput}
             bind:value={contactName}
@@ -81,6 +85,10 @@
             bind:error={validationErrors[ContactField.Note]}
             label={localize('general.optionalField', { field: localize('general.note') })}
         />
+        <Text type="body1">
+            {localize(`views.dashboard.drawers.contactBook.${ContactBookRoute.EditContact}.color`)}
+        </Text>
+        <ColorPicker bind:value={contactColor} />
     </form>
     <div slot="footer" class="flex gap-4">
         <Button variant="outlined" text={localize('actions.cancel')} width="half" on:click={onCancelClick} />
