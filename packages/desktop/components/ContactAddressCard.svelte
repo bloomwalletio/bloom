@@ -67,7 +67,7 @@
             <div class="flex flex-row gap-2">
                 <IconButton
                     icon={IconName.QrCode}
-                    tooltip={localize('general.address')}
+                    tooltip={localize('views.dashboard.drawers.contactBook.contactAddress.viewQrCode')}
                     on:click={() => onQrCodeClick(contactAddress)}
                 />
                 {#if features.contacts.sendTo.enabled}
