@@ -5,7 +5,7 @@ const settingsFeatures: ISettingsFeatures = {
     general: {
         enabled: true,
         theme: {
-            enabled: false,
+            enabled: true,
         },
         language: {
             enabled: true,
