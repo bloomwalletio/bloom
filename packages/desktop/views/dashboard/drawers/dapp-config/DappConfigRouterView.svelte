@@ -3,6 +3,7 @@
     import {
         ConfirmConnectionDrawer,
         ConnectedDappsDrawer,
+        ConnectionRequestDrawer,
         DappDetailsDrawer,
         InputConnectionCodeDrawer,
     } from './views'
@@ -33,6 +34,8 @@
     <ConfirmConnectionDrawer drawerRouter={$dappConfigRouter} {...props} />
 {:else if $dappConfigRoute === DappConfigRoute.InputCode}
     <InputConnectionCodeDrawer drawerRouter={$dappConfigRouter} {...props} />
+{:else if $dappConfigRoute === DappConfigRoute.ConnectionRequest}
+    <ConnectionRequestDrawer drawerRouter={$dappConfigRouter} {...props} />
 {:else if $dappConfigRoute === DappConfigRoute.DappDetails}
     <DappDetailsDrawer drawerRouter={$dappConfigRouter} {...props} />
 {/if}
