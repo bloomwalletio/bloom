@@ -28,6 +28,7 @@
     let inputLength = 0
     let fontSize = 64
     let maxLength = 0
+    let inputFiatAmount = false
 
     $: inputtedAmount,
         (error = ''),
@@ -94,8 +95,16 @@
         }
     }
 
+    function getBigAmount(inputtedAmount: string): number | BigInt | undefined {
+        if (inputFiatAmount) {
+            // calculate rawAmount in crypto units
+        } else {
+            // return number as is
+        }
+    }
+
     function onSwitchClick(): void {
-        // console.log('switch!')
+        inputFiatAmount != inputFiatAmount
         // throw new Error('Function not implemented.')
     }
 </script>
@@ -105,20 +114,37 @@
     <InputContainer {error} clearBackground clearPadding clearBorder classes="w-full flex flex-col items-center">
         <div class="flex flex-row items-end space-x-0.5">
             <div class="flex flex-row w-full items-center">
-                <amount-wrapper style:--max-width={`${(inputLength * fontSize * 2) / 3}px`}>
-                    <AmountInput
-                        bind:inputElement={amountInputElement}
-                        bind:amount={inputtedAmount}
-                        maxDecimals={allowedDecimals}
-                        maxlength={maxLength}
-                        isInteger={allowedDecimals === 0}
-                        {fontSize}
-                        clearBackground
-                        clearPadding
-                        clearBorder
-                        autofocus
-                    />
-                </amount-wrapper>
+                {#if inputFiatAmount}
+                    <amount-wrapper style:--max-width={`${(inputLength * fontSize * 2) / 3}px`}>
+                        <AmountInput
+                            bind:inputElement={amountInputElement}
+                            bind:amount={inputtedAmount}
+                            maxDecimals={2}
+                            maxlength={maxLength}
+                            isInteger={allowedDecimals === 0}
+                            {fontSize}
+                            clearBackground
+                            clearPadding
+                            clearBorder
+                            autofocus
+                        />
+                    </amount-wrapper>
+                {:else}
+                    <amount-wrapper style:--max-width={`${(inputLength * fontSize * 2) / 3}px`}>
+                        <AmountInput
+                            bind:inputElement={amountInputElement}
+                            bind:amount={inputtedAmount}
+                            maxDecimals={allowedDecimals}
+                            maxlength={maxLength}
+                            isInteger={allowedDecimals === 0}
+                            {fontSize}
+                            clearBackground
+                            clearPadding
+                            clearBorder
+                            autofocus
+                        />
+                    </amount-wrapper>
+                {/if}
             </div>
 
             <Text fontWeight={FontWeight.semibold} classes={inputLength < 14 ? 'py-4' : 'py-2'}>
@@ -126,12 +152,12 @@
             </Text>
         </div>
     </InputContainer>
-    <div class="flex flex-row">
+    <div class="flex flex-row items-center">
         <Text fontWeight={FontWeight.semibold} color="gray-600" darkColor="gray-600">
             {formatCurrency(fiatAmount) || '--'}
         </Text>
         {#if true}
-            <IconButton icon={IconName.Alias} textColor="secondary" size="sm" on:click={onSwitchClick} />
+            <IconButton icon={IconName.ArrowUpDown} textColor="secondary" size="xs" on:click={onSwitchClick} />
         {/if}
     </div>
 </div>
