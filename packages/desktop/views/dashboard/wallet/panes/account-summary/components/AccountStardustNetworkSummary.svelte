@@ -3,7 +3,7 @@
     import { IAccountState } from '@core/account'
     import { formatTokenAmountBestMatch, ITokenWithBalance } from '@core/token'
     import { formatCurrency } from '@core/i18n'
-    import { getMarketAmountFromTokenValue } from '@core/market/actions'
+    import { getFiatAmountFromTokenValue } from '@core/market/actions'
     import { ownedNfts, selectedAccountNfts } from '@core/nfts/stores'
     import { selectedAccountTokens } from '@core/token/stores'
 
@@ -24,9 +24,7 @@
         }
         const networkBaseCoin: ITokenWithBalance = tokens?.baseCoin
         const tokenBalance = formatTokenAmountBestMatch(networkBaseCoin.balance.total, networkBaseCoin.metadata)
-        const fiatBalance = formatCurrency(
-            getMarketAmountFromTokenValue(networkBaseCoin.balance.total, networkBaseCoin)
-        )
+        const fiatBalance = formatCurrency(getFiatAmountFromTokenValue(networkBaseCoin.balance.total, networkBaseCoin))
 
         return {
             networkId,

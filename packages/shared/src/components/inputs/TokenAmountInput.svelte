@@ -1,6 +1,7 @@
 <script lang="ts">
+    import { IconButton, IconName } from '@bloomwalletio/ui'
     import { formatCurrency, getDecimalSeparator } from '@core/i18n'
-    import { getMarketAmountFromTokenValue } from '@core/market/actions'
+    import { getFiatAmountFromTokenValue } from '@core/market/actions'
     import { activeProfile } from '@core/profile/stores'
     import {
         ITokenWithBalance,
@@ -35,7 +36,7 @@
         (maxLength = getMaxAmountOfDigits())
     $: allowedDecimals = token?.metadata && unit ? getMaxDecimalsFromTokenMetadata(token.metadata, unit) : 0
     $: bigAmount = inputtedAmount && token?.metadata ? convertToRawAmount(inputtedAmount, token.metadata, unit) : 0
-    $: marketAmount = token ? getMarketAmountFromTokenValue(bigAmount, token) : undefined
+    $: fiatAmount = token ? getFiatAmountFromTokenValue(bigAmount, token) : undefined
     $: rawAmount = bigAmount?.toString()
 
     function getInputLength(): number {
@@ -92,6 +93,11 @@
             return Promise.reject()
         }
     }
+
+    function onSwitchClick(): void {
+        // console.log('switch!')
+        // throw new Error('Function not implemented.')
+    }
 </script>
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
@@ -120,12 +126,17 @@
             </Text>
         </div>
     </InputContainer>
-    <Text fontWeight={FontWeight.semibold} color="gray-600" darkColor="gray-600">
-        {formatCurrency(marketAmount) || '--'}
-    </Text>
+    <div class="flex flex-row">
+        <Text fontWeight={FontWeight.semibold} color="gray-600" darkColor="gray-600">
+            {formatCurrency(fiatAmount) || '--'}
+        </Text>
+        {#if true}
+            <IconButton icon={IconName.Alias} textColor="secondary" size="sm" on:click={onSwitchClick} />
+        {/if}
+    </div>
 </div>
 
-<style lang="scss">
+<style lang="postcss">
     amount-wrapper {
         max-width: var(--max-width);
         @apply flex;

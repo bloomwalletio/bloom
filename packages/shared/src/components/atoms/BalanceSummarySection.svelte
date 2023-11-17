@@ -1,7 +1,7 @@
 <script lang="ts">
     import { Table, IItem } from '@bloomwalletio/ui'
     import { formatCurrency, localize } from '@core/i18n'
-    import { getMarketAmountFromTokenValue } from '@core/market/actions'
+    import { getFiatAmountFromTokenValue } from '@core/market/actions'
     import { activeProfile } from '@core/profile/stores'
     import { formatTokenAmountBestMatch } from '@core/token'
     import { selectedAccountTokens } from '@core/token/stores'
@@ -23,7 +23,7 @@
     }
 
     function getCurrencyAmount(amount: number): string {
-        return baseCoin ? formatCurrency(getMarketAmountFromTokenValue(amount, baseCoin)) : ''
+        return baseCoin ? formatCurrency(getFiatAmountFromTokenValue(amount, baseCoin)) : ''
     }
 
     function toggleExpandedView(): void {

@@ -8,7 +8,7 @@
     } from '@core/activity'
     import { getTokenFromActivity } from '@core/activity/utils/getTokenFromActivity'
     import { formatCurrency } from '@core/i18n'
-    import { getMarketAmountFromTokenValue } from '@core/market/actions'
+    import { getFiatAmountFromTokenValue } from '@core/market/actions'
     import { ITokenWithBalance } from '@core/token'
     import { Text } from '@bloomwalletio/ui'
     import { selectedAccountTokens } from '@core/token/stores'
@@ -36,7 +36,7 @@
         if ((_activity.type === ActivityType.Basic || _activity.type === ActivityType.Foundry) && token) {
             const amount = _activity.tokenTransfer?.rawAmount ?? _activity.baseTokenTransfer.rawAmount
 
-            const marketPrice = getMarketAmountFromTokenValue(Number(amount), token)
+            const marketPrice = getFiatAmountFromTokenValue(Number(amount), token)
             return marketPrice ? formatCurrency(marketPrice) : '-'
         } else {
             return undefined
