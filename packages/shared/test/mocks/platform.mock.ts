@@ -97,6 +97,12 @@ const Platform: IPlatform = {
         return Promise.resolve('')
     },
     updateTheme(): void {},
+    getTheme(): string {
+        return 'dark'
+    },
+    shouldBeDarkMode(): boolean {
+        return true
+    },
 }
 
 window['__CAPACITOR__'] = Platform
