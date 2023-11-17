@@ -148,6 +148,14 @@ const mainPlugins = [
         'process.env.APP_PROTOCOL': JSON.stringify(appProtocol),
         'process.env.AMPLITUDE_API_KEY': JSON.stringify(process.env.AMPLITUDE_API_KEY),
     }),
+    new CopyPlugin({
+        patterns: [
+            {
+                from: './public/assets/icons',
+                to: './build/icons',
+            },
+        ],
+    }),
 ]
 
 const rendererPlugins = [

@@ -423,6 +423,8 @@
                 "contactBook": {
                     "contactList": {
                         "title": "Contact list",
+                        "emptyHeader": "No contacts found",
+                        "emptyBody": "Connect with your favorite people in Bloom.",
                         "addContact": "Add contact"
                     },
                     "contactInformation": {
@@ -432,7 +434,9 @@
                         "addNetworkAddress": "Add network address"
                     },
                     "addContact": {
-                        "title": "Add contact"
+                        "title": "Add contact",
+                        "identity": "Identity",
+                        "details": "Details"
                     },
                     "editContact": {
                         "title": "Edit contact"

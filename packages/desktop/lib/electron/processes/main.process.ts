@@ -184,7 +184,7 @@ export function createMainWindow(): BrowserWindow {
         frame: process.platform === 'linux',
         icon:
             process.platform === 'linux'
-                ? path.join(__dirname, `../assets/icons/${process.env.STAGE}/linux/icon.png`)
+                ? path.join(__dirname, `./icons/${process.env.STAGE}/linux/icon.png`)
                 : undefined,
         webPreferences: {
             ...DEFAULT_WEB_PREFERENCES,
@@ -379,12 +379,12 @@ app.once('ready', () => {
 
 powerMonitor.on('suspend', () => {
     // MacOS, Windows and Linux
-    windows.main.webContents.send('lock-screen')
+    windows.main?.webContents?.send('lock-screen')
 })
 
 powerMonitor.on('lock-screen', () => {
     // MacOS and Windows
-    windows.main.webContents.send('lock-screen')
+    windows.main?.webContents?.send('lock-screen')
 })
 
 // IPC handlers for APIs exposed from main process
@@ -413,6 +413,14 @@ ipcMain.handle('get-path', (_e, path) => {
     return app.getPath(path)
 })
 ipcMain.handle('get-version-details', () => versionDetails)
+ipcMain.handle('focus-window', () => {
+    if (windows.main) {
+        if (windows.main.isMinimized()) {
+            windows.main.restore()
+        }
+        windows.main.focus()
+    }
+})
 
 function ensureDirectoryExistence(filePath: string): void | boolean {
     const dirname = path.dirname(filePath)
