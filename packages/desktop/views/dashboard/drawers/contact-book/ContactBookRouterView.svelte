@@ -3,6 +3,7 @@
     import {
         AddContactDrawer,
         AddNetworkAddressDrawer,
+        ContactAddressDrawer,
         ContactInformationDrawer,
         ContactListDrawer,
         EditContactDrawer,
@@ -39,6 +40,8 @@
     <AddNetworkAddressDrawer drawerRouter={$contactBookRouter} />
 {:else if $contactBookRoute === ContactBookRoute.ContactInformation}
     <ContactInformationDrawer drawerRouter={$contactBookRouter} />
+{:else if $contactBookRoute === ContactBookRoute.ContactAddress}
+    <ContactAddressDrawer drawerRouter={$contactBookRouter} />
 {:else if $contactBookRoute === ContactBookRoute.EditContact}
     <EditContactDrawer drawerRouter={$contactBookRouter} />
 {:else if $contactBookRoute === ContactBookRoute.RemoveContact}
