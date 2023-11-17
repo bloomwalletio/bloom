@@ -433,13 +433,20 @@
                         "removeContact": "Remove contact",
                         "addNetworkAddress": "Add network address"
                     },
+                    "contactAddress": {
+                        "title": "Contact address",
+                        "viewQrCode": "Vew QR code"
+                    },
                     "addContact": {
                         "title": "Add contact",
                         "identity": "Identity",
-                        "details": "Details"
+                        "details": "Details",
+                        "color": "Color"
                     },
                     "editContact": {
-                        "title": "Edit contact"
+                        "title": "Edit contact",
+                        "identity": "Identity",
+                        "color": "Color"
                     },
                     "removeContact": {
                         "title": "Remove contact",
