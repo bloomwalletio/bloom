@@ -1,7 +1,7 @@
-import { logAndNotifyError } from '@core/error/actions'
 import { getWalletClient, setConnectedDapps } from '../stores'
 import { getSdkError } from '@walletconnect/utils'
 import { IConnectedDapp } from '../interface'
+import { handleError } from '@core/error/handlers'
 
 export async function disconnectDapp(dapp: IConnectedDapp): Promise<void> {
     const client = getWalletClient()
@@ -18,12 +18,6 @@ export async function disconnectDapp(dapp: IConnectedDapp): Promise<void> {
         }
         setConnectedDapps()
     } catch (err) {
-        logAndNotifyError({
-            type: 'walletConnect',
-            message: String(err),
-            logToConsole: true,
-            saveToErrorLog: true,
-            showNotification: false,
-        })
+        handleError(err)
     }
 }
