@@ -29,6 +29,9 @@ const Platform: IPlatform = {
     getAppVersionDetails(): Promise<IAppVersionDetails> {
         return Promise.resolve(undefined)
     },
+    focusWindow(): Promise<void> {
+        return Promise.resolve(undefined)
+    },
     isMaximized(): Promise<boolean> {
         return Promise.resolve(false)
     },

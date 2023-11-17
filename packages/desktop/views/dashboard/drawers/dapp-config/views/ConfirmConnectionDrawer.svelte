@@ -5,7 +5,7 @@
     import { Router } from '@core/router'
     import { DrawerTemplate } from '@components'
     import { persistDappNamespacesForDapp, sessionProposal } from '@auxiliary/wallet-connect/stores'
-    import { buildSupportedNamespacesFromSelections } from '@auxiliary/wallet-connect/actions'
+    import { buildSupportedNamespacesFromSelections, clearOldPairings } from '@auxiliary/wallet-connect/actions'
     import { approveSession } from '@auxiliary/wallet-connect/utils'
     import { AccountSelection, DappInformationCard, NetworkSelection, PermissionSelection } from '../components'
     import { closeDrawer } from '@desktop/auxiliary/drawer'
@@ -55,6 +55,7 @@
                 $sessionProposal.params.optionalNamespaces
             )
             persistDappNamespacesForDapp($sessionProposal.params.proposer.publicKey, supportedNamespaces)
+            await clearOldPairings($sessionProposal.params.proposer.metadata.url)
             await approveSession($sessionProposal, supportedNamespaces)
 
             showNotification({
