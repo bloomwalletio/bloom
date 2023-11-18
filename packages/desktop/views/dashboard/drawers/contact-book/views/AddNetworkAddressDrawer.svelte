@@ -92,7 +92,7 @@
     title={localize(`views.dashboard.drawers.contactBook.${ContactBookRoute.AddNetworkAddress}.title`)}
     {drawerRouter}
 >
-    <form on:submit|preventDefault={onSaveClick} id="add-network-address-form" class="flex flex-col gap-4">
+    <form on:submit|preventDefault={onSaveClick} id="add-network-address-form" class="flex flex-col gap-4 px-6">
         <NetworkInput
             bind:this={networkSelectionInput}
             bind:networkId={selectedNetworkId}
