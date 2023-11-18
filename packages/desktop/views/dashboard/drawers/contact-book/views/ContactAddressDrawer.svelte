@@ -17,7 +17,7 @@
 </script>
 
 <DrawerTemplate {drawerRouter} title={localize('views.dashboard.drawers.contactBook.contactAddress.title')}>
-    <div class="w-full h-full flex items-center justify-center">
+    <div class="w-full h-full flex items-center justify-center px-6">
         <AddressBox {address} showQr title={addressName} />
     </div>
 </DrawerTemplate>

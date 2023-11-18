@@ -24,7 +24,7 @@
         <Text type="h6">{localize(`${localeKey}.title`)}</Text>
         <DappActionsMenu {drawerRouter} dapp={$selectedDapp} />
     </div>
-    <div class="w-full h-full flex flex-col gap-8">
+    <div class="w-full h-full flex flex-col gap-8 px-6">
         <div class="flex flex-row gap-3">
             <img class="dapp-icon" src={$selectedDapp.metadata.icons[0]} alt={$selectedDapp.metadata.name} />
             <div class="flex flex-col items-start">

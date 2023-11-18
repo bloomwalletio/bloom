@@ -207,7 +207,7 @@
     title={localize(`views.dashboard.drawers.contactBook.${ContactBookRoute.EditNetworkAddresses}.title`)}
     {drawerRouter}
 >
-    <form on:submit|preventDefault={onSaveClick} id="edit-network-addresses-form" class="flex flex-col gap-6">
+    <form on:submit|preventDefault={onSaveClick} id="edit-network-addresses-form" class="flex flex-col gap-6 px-6">
         {#each [...savedAddresses, ...newAddresses] as address, index}
             <div
                 class="flex flex-col justify-between gap-3 p-4 bg-surface dark:bg-surface-dark
