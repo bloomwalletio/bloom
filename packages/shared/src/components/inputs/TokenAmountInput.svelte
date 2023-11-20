@@ -112,7 +112,11 @@
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <div class="flex flex-col items-center w-full" on:click={() => amountInputElement?.focus()}>
     <InputContainer {error} clearBackground clearPadding clearBorder classes="w-full flex flex-col items-center">
-        <div class="flex flex-row items-end space-x-0.5">
+        {@const showUnitOnLeft = (unit?.length ?? 0) < 3}
+        <div
+            class="flex flex-row space-x-0.5 {showUnitOnLeft ? 'items-start' : 'items-end'}"
+            class:flex-reverse={showUnitOnLeft}
+        >
             <div class="flex flex-row w-full items-center">
                 {#if inputFiatAmount}
                     <amount-wrapper style:--max-width={`${(inputLength * fontSize * 2) / 3}px`}>
