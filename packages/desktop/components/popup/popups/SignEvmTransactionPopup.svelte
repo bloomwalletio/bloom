@@ -18,6 +18,7 @@
     import { EvmTransactionDetails } from '@views/dashboard/send-flow/views/components'
     import {
         AssetType,
+        TransferredAssetId,
         calculateEstimatedGasFeeFromTransactionData,
         calculateMaxGasFeeFromTransactionData,
     } from '@core/layer-2'
@@ -43,41 +44,34 @@
 
     setTokenTransfer()
     function setTokenTransfer(): void {
-        const transactionInfo = getTransferInfoFromTransactionData(transaction, chain)
-        switch (transactionInfo?.asset.type) {
+        const { asset } = getTransferInfoFromTransactionData(transaction, chain) ?? {}
+        switch (asset.type) {
             case AssetType.BaseCoin: {
-                const token = getTokenFromSelectedAccountTokens('0x0', id)
-                baseCoinTransfer = {
-                    rawAmount: transactionInfo?.asset?.rawAmount,
-                    token,
-                }
+                baseCoinTransfer = getTokenTransferData(asset)
                 break
             }
             case AssetType.Token: {
-                const token = getTokenFromSelectedAccountTokens(
-                    '0x080ad771d46c28f267403a4af352ab2e278e5f1fe9b7ab5579106e98f826bc14640100000000',
-                    id
-                )
-                tokenTransfer = {
-                    rawAmount: transactionInfo?.asset?.rawAmount,
-                    token,
-                }
+                tokenTransfer = getTokenTransferData(asset)
                 break
             }
             case AssetType.Nft: {
-                nft = getNftByIdFromAllAccountNfts($selectedAccount.index, transactionInfo.asset.nftId)
+                nft = getNftByIdFromAllAccountNfts($selectedAccount.index, asset.nftId)
                 break
             }
             default: {
-                const token = getTokenFromSelectedAccountTokens(
-                    '0x080ad771d46c28f267403a4af352ab2e278e5f1fe9b7ab5579106e98f826bc14640100000000',
-                    id
-                )
-                tokenTransfer = {
-                    rawAmount: '12',
-                    token,
-                }
+                break
             }
+        }
+    }
+
+    function getTokenTransferData(asset: TransferredAssetId): TokenTransferData | undefined {
+        if (asset.type === AssetType.Nft) {
+            return
+        }
+        const token = getTokenFromSelectedAccountTokens(asset.tokenId, id)
+        return {
+            token,
+            rawAmount: asset.rawAmount,
         }
     }
 
