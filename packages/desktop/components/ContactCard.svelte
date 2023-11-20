@@ -10,13 +10,13 @@
 
     let showBreadcrumb = false
 
-    function setShowBreadcrumb(_showBreadcrumb: boolean): void {
-        showBreadcrumb = _showBreadcrumb
+    function toggleShowBreadcrumb(): void {
+        showBreadcrumb = !showBreadcrumb
     }
 </script>
 
 <!-- TODO: simplify use of tile and surfaces? and support hover events for group -->
-<div on:mouseenter={() => setShowBreadcrumb(true)} on:mouseleave={() => setShowBreadcrumb(false)}>
+<div on:mouseenter={toggleShowBreadcrumb} on:mouseleave={toggleShowBreadcrumb}>
     <Tile border {error} onClick={onCardClick}>
         <div class="flex w-full justify-between gap-2 items-center p-1">
             <ContactAvatar {contact} />

@@ -445,8 +445,8 @@
                     },
                     "editContact": {
                         "title": "Edit contact",
-                        "identity": "Identity",
-                        "color": "Color"
+                        "identity": "Their identity",
+                        "color": "Contact color"
                     },
                     "removeContact": {
                         "title": "Remove contact",
