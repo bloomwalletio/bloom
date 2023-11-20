@@ -1436,7 +1436,10 @@
         "message": "Message",
         "error": "Error",
         "warning": "Warning",
-        "failed": "failed"
+        "failed": "failed",
+        "required": "Required",
+        "yes": "Yes",
+        "no": "No"
     },
     "filters":{
         "title": "Filters",
