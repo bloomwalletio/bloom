@@ -34,7 +34,7 @@
             <EmptyListPlaceholder
                 title={localize('views.dashboard.drawers.dapps.dappsList.emptyTitle')}
                 subtitle={localize('views.dashboard.drawers.dapps.dappsList.emptySubtitle')}
-                icon={IconName.Data}
+                icon={IconName.LinkBroken}
             />
         </div>
     {/if}
