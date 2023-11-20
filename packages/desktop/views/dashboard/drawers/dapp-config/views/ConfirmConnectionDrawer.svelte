@@ -87,31 +87,33 @@
 </script>
 
 <DrawerTemplate title={localize(`${localeKey}.title`)} {drawerRouter}>
-    <div class="w-full h-full space-y-6 px-6">
+    <div class="w-full h-full space-y-6">
         {#if $sessionProposal}
             <DappInformationCard metadata={$sessionProposal.params.proposer.metadata} />
 
-            {#if persistedDappNamespace}
-                <ConnectionSummary
-                    requiredNamespaces={$sessionProposal.params.requiredNamespaces}
-                    optionalNamespaces={$sessionProposal.params.optionalNamespaces}
-                    {persistedDappNamespace}
-                />
-            {:else}
-                <div class="flex flex-col gap-8">
-                    <Steps bind:currentStep {steps} />
+            <div class="px-6">
+                {#if persistedDappNamespace}
+                    <ConnectionSummary
+                        requiredNamespaces={$sessionProposal.params.requiredNamespaces}
+                        optionalNamespaces={$sessionProposal.params.optionalNamespaces}
+                        {persistedDappNamespace}
+                    />
+                {:else}
+                    <div class="flex flex-col gap-8">
+                        <Steps bind:currentStep {steps} />
 
-                    <div class={currentStep === 0 ? 'visible' : 'hidden'}>
-                        <PermissionSelection bind:checkedMethods />
+                        <div class={currentStep === 0 ? 'visible' : 'hidden'}>
+                            <PermissionSelection bind:checkedMethods />
+                        </div>
+                        <div class={currentStep === 1 ? 'visible' : 'hidden'}>
+                            <NetworkSelection bind:checkedNetworks />
+                        </div>
+                        <div class={currentStep === 2 ? 'visible' : 'hidden'}>
+                            <AccountSelection bind:checkedAccounts />
+                        </div>
                     </div>
-                    <div class={currentStep === 1 ? 'visible' : 'hidden'}>
-                        <NetworkSelection bind:checkedNetworks />
-                    </div>
-                    <div class={currentStep === 2 ? 'visible' : 'hidden'}>
-                        <AccountSelection bind:checkedAccounts />
-                    </div>
-                </div>
-            {/if}
+                {/if}
+            </div>
         {:else}
             <div class="w-full h-full flex items-center justify-center">
                 <Spinner busy size={50} />
