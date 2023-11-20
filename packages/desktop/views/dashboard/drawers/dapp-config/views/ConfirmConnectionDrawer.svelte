@@ -76,7 +76,7 @@
         {#if $sessionProposal}
             <DappInformationCard metadata={$sessionProposal.params.proposer.metadata} />
 
-            <div class="flex flex-col gap-8">
+            <div class="flex flex-col gap-8 px-6">
                 <Steps bind:currentStep {steps} />
 
                 <div class={currentStep === 0 ? 'visible' : 'hidden'}>

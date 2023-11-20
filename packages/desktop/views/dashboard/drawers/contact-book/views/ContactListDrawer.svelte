@@ -33,9 +33,11 @@
     {drawerRouter}
 >
     {#if hasContacts}
-        <ContactList {contacts} {onContactClick} />
+        <div class="px-6">
+            <ContactList {contacts} {onContactClick} />
+        </div>
     {:else}
-        <div class="w-full h-full flex flex-col items-center justify-center gap-6">
+        <div class="w-full h-full flex flex-col items-center justify-center gap-6 px-6">
             <empty-list-icon>
                 <Icon name={IconName.Users} size="md" customColor="primary-500" />
             </empty-list-icon>

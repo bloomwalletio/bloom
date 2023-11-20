@@ -32,7 +32,7 @@
 </script>
 
 <DrawerTemplate title={$activeProfile.network.name} {drawerRouter}>
-    <div class="flex flex-col w-full space-y-4">
+    <div class="flex flex-col w-full space-y-4 px-6">
         <ConfigureNodeList bind:nodesContainer />
         <LocalProofOfWork />
     </div>
