@@ -4,6 +4,8 @@ import { IConnectedDapp } from '../interface'
 import { findActiveAccountWithAddress } from '@core/profile/actions'
 import { IChain } from '@core/network'
 import { CallbackParameters } from '../types'
+import { selectedAccountIndex } from '@core/account/stores'
+import { get } from 'svelte/store'
 
 export function handleSignMessage(
     params: unknown,
@@ -16,9 +18,9 @@ export function handleSignMessage(
         responseCallback({ error: 'Unexpected format' })
         return
     }
+
     // Type for `eth_sign` params: [ address, hexMessage ]
     // Type for `personal_sign` params: [ hexMessage, address ]
-
     const hexMessage = method === 'personal_sign' ? params[0] : params[1]
     const accountAddress = method === 'personal_sign' ? params[1] : params[0]
 
@@ -34,14 +36,28 @@ export function handleSignMessage(
     }
     const message = Converter.hexToUtf8(hexMessage)
 
-    openPopup({
-        id: PopupId.SignMessage,
-        props: {
-            message,
-            dapp,
-            account,
-            chain,
-            callback: responseCallback,
-        },
-    })
+    const handler: () => void = () =>
+        openPopup({
+            id: PopupId.SignMessage,
+            props: {
+                message,
+                dapp,
+                account,
+                chain,
+                callback: responseCallback,
+            },
+        })
+
+    if (account.index !== get(selectedAccountIndex)) {
+        openPopup({
+            id: PopupId.DappAccountSwitcher,
+            props: {
+                account,
+                onCancel: responseCallback({ error: 'Request rejected by Wallet' }),
+                onConfirm: handler,
+            },
+        })
+    } else {
+        handler()
+    }
 }
