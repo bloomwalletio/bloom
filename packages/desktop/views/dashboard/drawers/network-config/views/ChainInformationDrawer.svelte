@@ -22,7 +22,7 @@
 </script>
 
 <DrawerTemplate title={chainConfiguration?.name} {drawerRouter}>
-    <div class="w-full h-full">
+    <div class="w-full h-full px-6">
         {#if chainConfiguration?.type === ChainType.Iscp}
             <IscpChainInformation {chainConfiguration} />
         {:else if chainConfiguration?.type === ChainType.Evm}

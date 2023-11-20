@@ -37,7 +37,7 @@
 </script>
 
 <DrawerTemplate title={localize('views.dashboard.drawers.dapps.connectionRequest.title')} {drawerRouter}>
-    <div class="w-full h-full flex flex-col justify-between">
+    <div class="w-full h-full flex flex-col justify-between px-6">
         {#if $sessionProposal}
             <DappInformationCard metadata={$sessionProposal.params.proposer.metadata} />
 
