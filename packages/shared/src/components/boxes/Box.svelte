@@ -3,8 +3,8 @@
     export let row = false
     export let clearBackground = false
     export let clearPadding = false
-    export let backgroundColor = 'gray-50'
-    export let darkBackgroundColor = 'gray-900'
+    export let backgroundColor = 'surface'
+    export let darkBackgroundColor = 'surface-dark'
     export let classes = ''
 </script>
 
