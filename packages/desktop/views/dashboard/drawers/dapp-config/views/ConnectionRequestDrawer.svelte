@@ -37,24 +37,26 @@
 </script>
 
 <DrawerTemplate title={localize('views.dashboard.drawers.dapps.connectionRequest.title')} {drawerRouter}>
-    <div class="w-full h-full flex flex-col justify-between px-6">
+    <div class="w-full h-full flex flex-col justify-between">
         {#if $sessionProposal}
             <DappInformationCard metadata={$sessionProposal.params.proposer.metadata} />
 
-            {#if isInsecure}
-                <div class="flex flex-col gap-8">
-                    <Alert
-                        variant="danger"
-                        text={localize('views.dashboard.drawers.dapps.connectionRequest.insecure')}
-                    />
-                    <Checkbox
-                        label={localize('views.dashboard.drawers.dapps.connectionRequest.acceptInsecureConnection')}
-                        bind:checked={acceptedInsecureConnection}
-                    />
-                </div>
-            {:else}
-                <Alert variant="warning" text={localize('views.dashboard.drawers.dapps.connectionRequest.hint')} />
-            {/if}
+            <div class="px-6">
+                {#if isInsecure}
+                    <div class="flex flex-col gap-8">
+                        <Alert
+                            variant="danger"
+                            text={localize('views.dashboard.drawers.dapps.connectionRequest.insecure')}
+                        />
+                        <Checkbox
+                            label={localize('views.dashboard.drawers.dapps.connectionRequest.acceptInsecureConnection')}
+                            bind:checked={acceptedInsecureConnection}
+                        />
+                    </div>
+                {:else}
+                    <Alert variant="warning" text={localize('views.dashboard.drawers.dapps.connectionRequest.hint')} />
+                {/if}
+            </div>
         {:else}
             <div class="w-full h-full flex items-center justify-center">
                 <Spinner busy size={50} />
