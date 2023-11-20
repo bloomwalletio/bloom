@@ -146,7 +146,6 @@
                     </amount-wrapper>
                 {/if}
             </div>
-
             <Text fontWeight={FontWeight.semibold} classes={inputLength < 14 ? 'py-4' : 'py-2'}>
                 {unit}
             </Text>
@@ -156,7 +155,7 @@
         <Text fontWeight={FontWeight.semibold} color="gray-600" darkColor="gray-600">
             {formatCurrency(fiatAmount) || '--'}
         </Text>
-        {#if true}
+        {#if formatCurrency(fiatAmount)}
             <IconButton icon={IconName.ArrowUpDown} textColor="secondary" size="xs" on:click={onSwitchClick} />
         {/if}
     </div>
