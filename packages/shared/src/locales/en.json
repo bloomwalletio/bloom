@@ -439,14 +439,14 @@
                     },
                     "addContact": {
                         "title": "Add contact",
-                        "identity": "Identity",
-                        "details": "Details",
-                        "color": "Color"
+                        "identity": "Their identity",
+                        "address": "Their address",
+                        "color": "Contact color"
                     },
                     "editContact": {
                         "title": "Edit contact",
-                        "identity": "Identity",
-                        "color": "Color"
+                        "identity": "Their identity",
+                        "color": "Contact color"
                     },
                     "removeContact": {
                         "title": "Remove contact",
@@ -1294,7 +1294,8 @@
         "address": "Address",
         "addressName": "Address name",
         "myAddress": "My address",
-        "viewOnExplorer": "View on Explorer",
+        "viewOnExplorer": "View on explorer",
+        "viewQrCode": "View QR code",
         "import": "Import",
         "stronghold": "Stronghold",
         "locked": "Locked",
