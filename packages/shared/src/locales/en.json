@@ -469,7 +469,8 @@
                     "dappsList": {
                         "title": "Connected dApps",
                         "connectDapp": "Connect dApp",
-                        "hint": "WalletConnect allows you to connect Bloom with dApps directly or with a connection code."
+                        "emptyTitle": "No apps found",
+                        "emptySubtitle": "Connect Bloom with your favourite dApps"
                     },
                     "inputConnectionCode": {
                         "title": "Connect to a dApp",
