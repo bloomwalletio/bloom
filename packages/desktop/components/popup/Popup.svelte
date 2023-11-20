@@ -24,6 +24,7 @@
     import ConnectLedgerPopup from './popups/ConnectLedgerPopup.svelte'
     import CreateAccountPopup from './popups/CreateAccountPopup.svelte'
     import CustomiseAccountPopup from './popups/CustomiseAccountPopup.svelte'
+    import DappAccountSwitcherPopup from './popups/DappAccountSwitcherPopup.svelte'
     import DeepLinkErrorPopup from './popups/DeepLinkErrorPopup.svelte'
     import DiagnosticsPopup from './popups/DiagnosticsPopup.svelte'
     import EnableLedgerBlindSigningPopup from './popups/EnableLedgerBlindSigningPopup.svelte'
@@ -97,6 +98,7 @@
         [PopupId.ConnectLedger]: ConnectLedgerPopup,
         [PopupId.CreateAccount]: CreateAccountPopup,
         [PopupId.CustomiseAccount]: CustomiseAccountPopup,
+        [PopupId.DappAccountSwitcher]: DappAccountSwitcherPopup,
         [PopupId.DeepLinkError]: DeepLinkErrorPopup,
         [PopupId.Diagnostics]: DiagnosticsPopup,
         [PopupId.EnableLedgerBlindSigning]: EnableLedgerBlindSigningPopup,

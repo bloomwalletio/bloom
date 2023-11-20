@@ -691,6 +691,10 @@
             },
             "minimizeStorageDepositButton": "Minimize storage deposit"
         },
+        "dappAccountSwitcher": {
+            "title": "Switch account",
+            "body": "The dApp requires you to switch to the following account. Do you want to continue?"
+        },
         "minimizeStorageDeposit": {
             "title": "Minimize storage deposit",
             "description": "Consolidate outputs to minimize your required storage deposit and increase your available balance.",
@@ -1436,7 +1440,10 @@
         "message": "Message",
         "error": "Error",
         "warning": "Warning",
-        "failed": "failed"
+        "failed": "failed",
+        "required": "Required",
+        "yes": "Yes",
+        "no": "No"
     },
     "filters":{
         "title": "Filters",
