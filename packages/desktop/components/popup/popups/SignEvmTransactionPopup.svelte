@@ -5,7 +5,6 @@
     import { IConnectedDapp } from '@auxiliary/wallet-connect/interface'
     import { CallbackParameters } from '@auxiliary/wallet-connect/types'
     import { signEvmTransaction } from '@core/wallet/actions'
-    import { Text } from '@bloomwalletio/ui'
     import { IAccountState } from '@core/account'
     import { selectedAccount } from '@core/account/stores'
     import { IChain } from '@core/network'
@@ -27,6 +26,7 @@
     import { TokenTransferData } from '@core/wallet'
     import { INft } from '@core/nfts'
     import { getNftByIdFromAllAccountNfts } from '@core/nfts/actions'
+    import DappDataBox from '@components/DappDataBox.svelte'
 
     export let transaction: EvmTransactionData
     export let account: IAccountState
@@ -117,23 +117,9 @@
     busy={$selectedAccount?.isTransferring || isBusy}
 >
     <div class="space-y-5">
-        <section class="relative flex flex-col border border-solid border-gray-200 rounded-xl p-6">
+        <DappDataBox {dapp}>
             <TransactionAssetSection {baseCoinTransfer} {tokenTransfer} {nft} />
-            {#if dapp}
-                <div class="absolute flex flex-row justify-between" style="top: -12px; left: 18px;">
-                    <div class="flex flex-row gap-1 bg-white dark:bg-gray-800 items-center px-2">
-                        <img
-                            style="width: 24px; height: 24px; border-radius: 24px;"
-                            src={dapp.metadata?.icons?.[0]}
-                            alt={dapp.metadata?.name}
-                        />
-                        <Text type="xs">
-                            {dapp.metadata?.name}
-                        </Text>
-                    </div>
-                </div>
-            {/if}
-        </section>
+        </DappDataBox>
         <EvmTransactionDetails
             destinationNetworkId={id}
             estimatedGasFee={calculateEstimatedGasFeeFromTransactionData(transaction)}
