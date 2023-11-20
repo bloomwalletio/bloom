@@ -5,7 +5,7 @@ const settingsFeatures: ISettingsFeatures = {
     general: {
         enabled: true,
         theme: {
-            enabled: false,
+            enabled: true,
         },
         language: {
             enabled: true,
@@ -98,7 +98,7 @@ const settingsFeatures: ISettingsFeatures = {
             enabled: true,
         },
         faq: {
-            enabled: true,
+            enabled: false,
         },
         discord: {
             enabled: true,

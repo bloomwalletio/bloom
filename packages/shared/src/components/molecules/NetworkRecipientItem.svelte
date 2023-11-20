@@ -39,7 +39,7 @@
                     ContactManager.getNetworkContactAddressMapForContact(recipient.contact.id)[item.networkId] ?? {}
                 )
                 return addresses.map<IOption>((address) => ({
-                    label: recipient.contact.name,
+                    label: `${recipient.contact.name} (${address.addressName})`,
                     value: address.address,
                     displayedValue: address.addressName,
                     color: recipient.contact.color,

@@ -31,7 +31,7 @@ function getAppId(): string {
 }
 
 function getIconPath(): string {
-    const PATH = './public/assets/icons'
+    const PATH = './public/build/icons'
     const NAME = 'icon'
     const platform = getPlatform()
     const extension = platform === 'win32' ? 'ico' : 'png'
@@ -141,9 +141,6 @@ const prodConfig: Configuration = {
         vPrefixedTagName: false,
         channel: 'latest',
         publishAutoUpdate: true,
-        // TODO: Remove following lines after we're open source
-        private: true,
-        token: process.env.PRIVATE_REPO_ACCESS_TOKEN,
     },
 }
 

@@ -1,6 +1,6 @@
 <script lang="ts">
     import { ContactBookRoute } from '../contact-book-route.enum'
-    import { Button, TextInput } from '@bloomwalletio/ui'
+    import { Button, ColorPicker, Text, TextInput } from '@bloomwalletio/ui'
 
     import { NetworkInput } from '@ui'
     import { DrawerTemplate } from '@components'
@@ -26,6 +26,7 @@
     let selectedNetworkId: NetworkId | undefined
     let nameInput, noteInput, addressNameInput, addressInput: TextInput
     let networkSelectionInput: NetworkInput
+    let color: string = ''
 
     /**
      * NOTE: This improves UX slightly by forcing the address-related input errors
@@ -60,7 +61,7 @@
     }
 
     function onSaveClick(): void {
-        const contact = { name, note }
+        const contact = { name, note, color }
         const networkAddress = { networkId: selectedNetworkId, addressName, address }
 
         if (validate()) {
@@ -112,7 +113,10 @@
     title={localize(`views.dashboard.drawers.contactBook.${ContactBookRoute.AddContact}.title`)}
     {drawerRouter}
 >
-    <form on:submit|preventDefault={onSaveClick} id="add-contact-form" class="flex flex-col gap-4">
+    <form on:submit|preventDefault={onSaveClick} id="add-contact-form" class="flex flex-col gap-4 px-6">
+        <Text type="body1">
+            {localize(`views.dashboard.drawers.contactBook.${ContactBookRoute.AddContact}.identity`)}
+        </Text>
         <TextInput
             bind:this={nameInput}
             bind:value={name}
@@ -125,19 +129,13 @@
             bind:error={validationErrors[ContactField.Note]}
             label={localize('general.optionalField', { field: localize('general.note') })}
         />
-        <div class="py-2">
-            <hr />
-        </div>
+        <Text type="body1">
+            {localize(`views.dashboard.drawers.contactBook.${ContactBookRoute.AddContact}.details`)}
+        </Text>
         <NetworkInput
             bind:this={networkSelectionInput}
             bind:networkId={selectedNetworkId}
             bind:error={validationErrors[ContactField.Network]}
-        />
-        <TextInput
-            bind:this={addressNameInput}
-            bind:value={addressName}
-            bind:error={validationErrors[ContactField.AddressName]}
-            label={localize('general.addressName')}
         />
         <TextInput
             bind:this={addressInput}
@@ -145,6 +143,16 @@
             bind:error={validationErrors[ContactField.Address]}
             label={localize('general.address')}
         />
+        <TextInput
+            bind:this={addressNameInput}
+            bind:value={addressName}
+            bind:error={validationErrors[ContactField.AddressName]}
+            label={localize('general.addressName')}
+        />
+        <Text type="body1">
+            {localize(`views.dashboard.drawers.contactBook.${ContactBookRoute.AddContact}.color`)}
+        </Text>
+        <ColorPicker bind:value={color} />
     </form>
     <div slot="footer" class="flex gap-4">
         <Button variant="outlined" text={localize('actions.cancel')} width="half" on:click={onCancelClick} />

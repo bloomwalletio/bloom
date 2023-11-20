@@ -1,26 +1,24 @@
 import { Web3WalletTypes } from '@walletconnect/web3wallet'
-import { SUPPORTED_EVENTS, SUPPORTED_METHODS } from '../constants'
 import { buildApprovedNamespaces } from '@walletconnect/utils'
 import { getWalletClient, setConnectedDapps } from '../stores'
-import { getAllNetworkIds } from '@core/network'
 
 export async function approveSession(
     sessionProposal: Web3WalletTypes.SessionProposal,
-    addresses: string[]
+    supportedNamespaces: Record<
+        string,
+        {
+            chains: string[]
+            methods: string[]
+            events: string[]
+            accounts: string[]
+        }
+    >
 ): Promise<void> {
     const { id, params } = sessionProposal
 
-    const chains = getAllNetworkIds()
     const approvedNamespaces = buildApprovedNamespaces({
         proposal: params,
-        supportedNamespaces: {
-            eip155: {
-                chains,
-                methods: SUPPORTED_METHODS,
-                events: SUPPORTED_EVENTS,
-                accounts: addresses,
-            },
-        },
+        supportedNamespaces,
     })
 
     await getWalletClient()?.approveSession({ id, namespaces: approvedNamespaces })

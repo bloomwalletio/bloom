@@ -1,6 +1,6 @@
 import features from '@features/features'
 import { WALLET_METADATA } from '../constants'
-import { onSessionProposal, onSessionRequest } from '../handlers'
+import { onSessionDelete, onSessionProposal, onSessionRequest } from '../handlers'
 import { walletClient } from '../stores'
 import { Web3Wallet } from '@walletconnect/web3wallet'
 import { Core } from '@walletconnect/core'
@@ -13,7 +13,7 @@ const core = new Core({
 })
 
 export async function initializeWalletConnect(): Promise<void> {
-    if (!features?.wallet?.walletConnect?.enabled) {
+    if (!features?.walletConnect?.enabled) {
         return
     }
 
@@ -27,6 +27,7 @@ export async function initializeWalletConnect(): Promise<void> {
 
         client.on('session_proposal', (sessionProposal) => void onSessionProposal(sessionProposal))
         client.on('session_request', (event) => onSessionRequest(event))
+        client.on('session_delete', (event) => onSessionDelete(event))
     } else {
         try {
             await updateActiveSessionsToActiveProfile()

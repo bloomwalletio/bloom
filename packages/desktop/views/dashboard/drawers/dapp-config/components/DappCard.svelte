@@ -20,7 +20,7 @@
             </Text>
         </div>
 
-        <DappStatusPill active={connectedDapp.active} />
+        <DappStatusPill active={!!connectedDapp.session} />
     </div>
 </ClickableTile>
 
