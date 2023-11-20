@@ -58,17 +58,17 @@
         try {
             loading = true
 
-            const supportedNamespaces = persistedDappNamespace
-                ? persistedDappNamespace
-                : buildSupportedNamespacesFromSelections(
-                      {
-                          chains: checkedNetworks,
-                          methods: checkedMethods,
-                          accounts: checkedAccounts,
-                      },
-                      $sessionProposal.params.requiredNamespaces,
-                      $sessionProposal.params.optionalNamespaces
-                  )
+            const supportedNamespaces =
+                persistedDappNamespace ??
+                buildSupportedNamespacesFromSelections(
+                    {
+                        chains: checkedNetworks,
+                        methods: checkedMethods,
+                        accounts: checkedAccounts,
+                    },
+                    $sessionProposal.params.requiredNamespaces,
+                    $sessionProposal.params.optionalNamespaces
+                )
             await clearOldPairings($sessionProposal.params.proposer.metadata.url)
             await approveSession($sessionProposal, supportedNamespaces)
             persistDappNamespacesForDapp($sessionProposal.params.proposer.metadata.url, supportedNamespaces)

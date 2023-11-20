@@ -16,9 +16,11 @@
 
     const localeKey = 'views.dashboard.drawers.dapps.confirmConnection'
 
-    let permissionPreferences: { label: string; enabled: boolean; required: boolean }[] = []
+    type PermissionPreference = { label: string; enabled: boolean; required: boolean }
+
+    let permissionPreferences: PermissionPreference[] = []
     function setPermissionPreferences(): void {
-        const permissions: { label: string; enabled: boolean; required: boolean }[] = []
+        const permissions: PermissionPreference[] = []
         const namespaces = Object.values($sessionProposal.params.requiredNamespaces)
         const persistedNamespaces = Object.values(persistedDappNamespace)
 
@@ -107,7 +109,7 @@
     </table>
 </selection-component>
 
-<style lagn="scss">
+<style lang="postcss">
     table {
         @apply bg-surface-0 dark:bg-surface-0-dark;
         @apply border border-solid border-stroke dark:border-stroke-dark;
