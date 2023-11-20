@@ -45,7 +45,7 @@
     setTokenTransfer()
     function setTokenTransfer(): void {
         const { asset } = getTransferInfoFromTransactionData(transaction, chain) ?? {}
-        switch (asset.type) {
+        switch (asset?.type) {
             case AssetType.BaseCoin: {
                 baseCoinTransfer = getTokenTransferData(asset)
                 break

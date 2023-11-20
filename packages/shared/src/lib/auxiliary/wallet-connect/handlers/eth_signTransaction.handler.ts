@@ -1,4 +1,3 @@
-import { SendFlowParameters, SendFlowType, SubjectType, setSendFlowParameters } from '@core/wallet'
 import { PopupId, openPopup } from '../../../../../../desktop/lib/auxiliary/popup'
 import { TransactionConfig } from 'web3-core'
 import { IChain } from '@core/network'
@@ -22,12 +21,6 @@ export function handleEthSignTransaction(
         return
     }
 
-    const sendFlowParameters: SendFlowParameters = {
-        type: SendFlowType.BaseCoinTransfer,
-        recipient: { type: SubjectType.Address, address: evmTransactionData.to },
-    }
-    // TODO: Deduplicate
-    setSendFlowParameters(sendFlowParameters)
     openPopup({
         id: PopupId.SignEvmTransaction,
         props: {
