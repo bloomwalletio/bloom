@@ -15,6 +15,7 @@
     import { LedgerAppName } from '@core/ledger'
     import PopupTemplate from '../PopupTemplate.svelte'
     import { showNotification } from '@auxiliary/notification/actions'
+    import { DappDataBox } from '@components'
 
     export let _onMount: (..._: any[]) => Promise<void> = async () => {}
     export let message: string
@@ -76,26 +77,12 @@
     busy={$selectedAccount?.isTransferring || isBusy}
 >
     <div class="space-y-5">
-        <section
-            class="relative flex flex-col border border-solid border-stroke dark:border-stroke-dark rounded-xl p-6"
-        >
-            <Text textColor="secondary">{localize('general.message')}</Text>
-            <Text>{message}</Text>
-            {#if dapp}
-                <div class="absolute flex flex-row justify-between" style="top: -12px; left: 18px;">
-                    <div class="flex flex-row gap-1 bg-surface-0 dark:bg-surface-0-dark items-center px-2">
-                        <img
-                            style="width: 24px; height: 24px; border-radius: 24px;"
-                            src={dapp.metadata?.icons?.[0]}
-                            alt={dapp.metadata?.name}
-                        />
-                        <Text type="xs">
-                            {dapp.metadata?.name}
-                        </Text>
-                    </div>
-                </div>
-            {/if}
-        </section>
+        <DappDataBox {dapp}>
+            <div>
+                <Text fontWeight="medium">{localize('general.message')}</Text>
+                <Text textColor="secondary" type="sm" fontWeight="medium">{message}</Text>
+            </div>
+        </DappDataBox>
         <Table
             items={[
                 {
