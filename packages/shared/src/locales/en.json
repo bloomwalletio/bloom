@@ -423,6 +423,8 @@
                 "contactBook": {
                     "contactList": {
                         "title": "Contact list",
+                        "emptyHeader": "No contacts found",
+                        "emptyBody": "Connect with your favorite people in Bloom.",
                         "addContact": "Add contact"
                     },
                     "contactInformation": {
@@ -431,13 +433,20 @@
                         "removeContact": "Remove contact",
                         "addNetworkAddress": "Add network address"
                     },
+                    "contactAddress": {
+                        "title": "Contact address",
+                        "viewQrCode": "Vew QR code"
+                    },
                     "addContact": {
                         "title": "Add contact",
                         "identity": "Identity",
-                        "details": "Details"
+                        "details": "Details",
+                        "color": "Color"
                     },
                     "editContact": {
-                        "title": "Edit contact"
+                        "title": "Edit contact",
+                        "identity": "Identity",
+                        "color": "Color"
                     },
                     "removeContact": {
                         "title": "Remove contact",
@@ -681,6 +690,10 @@
                 "subtitle": "Reserved for voting power"
             },
             "minimizeStorageDepositButton": "Minimize storage deposit"
+        },
+        "dappAccountSwitcher": {
+            "title": "Switch account",
+            "body": "The dApp requires you to switch to the following account. Do you want to continue?"
         },
         "minimizeStorageDeposit": {
             "title": "Minimize storage deposit",
@@ -1423,7 +1436,10 @@
         "message": "Message",
         "error": "Error",
         "warning": "Warning",
-        "failed": "failed"
+        "failed": "failed",
+        "required": "Required",
+        "yes": "Yes",
+        "no": "No"
     },
     "filters":{
         "title": "Filters",

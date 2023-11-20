@@ -63,7 +63,7 @@
                 <slot name="contents" />
             </div>
             {#if !$drawerState.hideClose}
-                <div class="absolute top-8 right-8">
+                <div class="absolute top-6 right-6">
                     <CloseButton size="sm" on:click={onCloseClick} />
                 </div>
             {/if}
@@ -78,7 +78,6 @@
         @apply bg-surface-1 dark:bg-surface-1-dark;
         @apply shadow;
         @apply border border-solid border-stroke dark:border-stroke-dark;
-        @apply p-8;
         transition: right 0.2s ease;
 
         &.vertical {

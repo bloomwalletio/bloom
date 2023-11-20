@@ -23,7 +23,7 @@
     title={localize(`views.dashboard.drawers.contactBook.${ContactBookRoute.RemoveNetworkAddresses}.title`)}
     {drawerRouter}
 >
-    <remove-addresses class="flex flex-col gap-4">
+    <remove-addresses class="flex flex-col gap-4 px-6">
         <Text type="base">
             {localize(`views.dashboard.drawers.contactBook.${ContactBookRoute.RemoveNetworkAddresses}.body`, {
                 values: { network: getNameFromNetworkId($selectedContactNetworkId) },
