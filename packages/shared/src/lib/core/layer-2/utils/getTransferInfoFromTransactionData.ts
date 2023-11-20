@@ -1,4 +1,4 @@
-import { PersistedEvmTransaction } from '@core/activity/types/persisted-evm-transaction.interface'
+import { TxData } from '@ethereumjs/tx'
 import { isTrackedTokenAddress } from '@core/wallet/actions'
 import { ISC_MAGIC_CONTRACT_ADDRESS, WEI_PER_GLOW } from '../constants'
 import { ERC20_ABI, ISC_SANDBOX_ABI } from '../abis'
@@ -9,11 +9,15 @@ import { IChain } from '@core/network'
 import { AssetType, TransferredAssetId } from '..'
 
 export function getTransferInfoFromTransactionData(
-    transaction: PersistedEvmTransaction,
-    address: string,
+    transaction: TxData,
     chain: IChain
 ): { asset: TransferredAssetId; additionalBaseTokenAmount?: string; recipientAddress: string } | undefined {
     const networkId = chain.getConfiguration().id
+    const address = transaction.to?.toString()
+    if (!address) {
+        return undefined
+    }
+
     if (transaction.data) {
         const isErc20 = isTrackedTokenAddress(networkId, address)
         const isIscContract = address === ISC_MAGIC_CONTRACT_ADDRESS

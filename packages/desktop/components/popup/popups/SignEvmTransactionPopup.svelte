@@ -43,7 +43,7 @@
 
     setTokenTransfer()
     function setTokenTransfer(): void {
-        const transactionInfo = getTransferInfoFromTransactionData(transaction, transaction.to as string, chain)
+        const transactionInfo = getTransferInfoFromTransactionData(transaction, chain)
         switch (transactionInfo?.asset.type) {
             case AssetType.BaseCoin: {
                 const token = getTokenFromSelectedAccountTokens('0x0', id)
