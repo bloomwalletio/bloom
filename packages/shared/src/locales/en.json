@@ -867,6 +867,10 @@
             "warning": "dApp cannot be determined. No balance will be sent in the process of signing this message.",
             "action": "Sign message"
         },
+        "signTransaction": {
+            "title": "Sign transaction",
+            "action": "Sign transaction"
+        },
         "activityDetails": {
             "title": {
                 "fallback": "Activity details",
@@ -1614,6 +1618,9 @@
         },
         "signMessage": {
             "success": "Message successfully signed"
+        },
+        "signTransaction": {
+            "success": "Transaction successfully signed"
         },
         "findShimmerRewards": {
             "error": "An error occurred while searching for rewards"
