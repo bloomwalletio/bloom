@@ -14,7 +14,7 @@
     }
 </script>
 
-<drawer-template class="flex flex-col h-full space-y-6 overflow-visible">
+<drawer-template class="flex flex-col h-full overflow-visible">
     <drawer-header class="flex flex-row items-center gap-2 p-6 mr-8">
         {#if showBackButton}
             <IconButton icon={IconName.ArrowLeft} size="sm" on:click={onBackClick} />
