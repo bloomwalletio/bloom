@@ -69,7 +69,11 @@
     title={localize(`views.dashboard.drawers.contactBook.${ContactBookRoute.EditContact}.title`)}
     {drawerRouter}
 >
-    <form on:submit|preventDefault={onSaveClick} id="edit-contact-form" class="flex flex-col justify-between gap-4">
+    <form
+        on:submit|preventDefault={onSaveClick}
+        id="edit-contact-form"
+        class="flex flex-col justify-between gap-4 px-6"
+    >
         <Text type="body1">
             {localize(`views.dashboard.drawers.contactBook.${ContactBookRoute.EditContact}.identity`)}
         </Text>

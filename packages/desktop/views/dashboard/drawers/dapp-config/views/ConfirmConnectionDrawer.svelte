@@ -72,7 +72,7 @@
 </script>
 
 <DrawerTemplate title={localize(`${localeKey}.title`)} {drawerRouter}>
-    <div class="w-full h-full space-y-6">
+    <div class="w-full h-full space-y-6 px-6">
         {#if $sessionProposal}
             <DappInformationCard metadata={$sessionProposal.params.proposer.metadata} />
 

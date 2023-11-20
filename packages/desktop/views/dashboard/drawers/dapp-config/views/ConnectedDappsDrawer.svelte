@@ -22,7 +22,7 @@
 
 <DrawerTemplate title={localize('views.dashboard.drawers.dapps.dappsList.title')} {drawerRouter}>
     {#if $connectedDapps.length}
-        <connected-dapps class="flex flex-col gap-4 scrollable">
+        <connected-dapps class="flex flex-col gap-4 scrollable px-6">
             {#each $connectedDapps as connectedDapp}
                 {#if connectedDapp.metadata}
                     <DappCard {connectedDapp} onClick={() => onDappCardClick(connectedDapp)} />

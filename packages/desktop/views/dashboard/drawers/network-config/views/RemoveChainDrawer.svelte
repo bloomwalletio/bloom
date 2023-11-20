@@ -8,5 +8,5 @@
 </script>
 
 <DrawerTemplate title={localize('views.dashboard.drawers.networkConfig.removeChain.title')} {drawerRouter}>
-    <remove-chain-drawer class="flex flex-col justify-between mb-6"> Remove chain </remove-chain-drawer>
+    <remove-chain-drawer class="flex flex-col justify-between mb-6 px-6"> Remove chain </remove-chain-drawer>
 </DrawerTemplate>

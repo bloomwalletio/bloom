@@ -28,7 +28,7 @@
     title={localize(`views.dashboard.drawers.contactBook.${ContactBookRoute.RemoveContact}.title`)}
     {drawerRouter}
 >
-    <remove-contact class="flex flex-col gap-4">
+    <remove-contact class="flex flex-col gap-4 px-6">
         <Text type="base">
             {localize(`views.dashboard.drawers.contactBook.${ContactBookRoute.RemoveContact}.body`)}
         </Text>
