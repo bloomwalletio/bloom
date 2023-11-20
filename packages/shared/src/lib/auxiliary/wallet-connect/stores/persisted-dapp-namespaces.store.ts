@@ -5,25 +5,25 @@ import { getActiveProfile } from '@core/profile/stores'
 
 interface IPersistedNamespaces {
     [profileId: string]: {
-        [dappId: string]: SupportedNamespaces
+        [dappOrigin: string]: SupportedNamespaces
     }
 }
 
 export const persistedDappNamespaces: Writable<IPersistedNamespaces> = persistent('persistedDappNamespaces', {})
 
-export function getPersistedDappNamespacesForDapp(dappId: string): SupportedNamespaces | undefined {
+export function getPersistedDappNamespacesForDapp(dappOrigin: string): SupportedNamespaces | undefined {
     const profileId = getActiveProfile()?.id
-    return get(persistedDappNamespaces)?.[profileId]?.[dappId]
+    return get(persistedDappNamespaces)?.[profileId]?.[dappOrigin]
 }
 
-export function persistDappNamespacesForDapp(dappId: string, namespaces: SupportedNamespaces): void {
+export function persistDappNamespacesForDapp(dappOrigin: string, namespaces: SupportedNamespaces): void {
     const profileId = getActiveProfile()?.id
 
     return persistedDappNamespaces.update((state) => {
         if (!state[profileId]) {
             state[profileId] = {}
         }
-        state[profileId][dappId] = namespaces
+        state[profileId][dappOrigin] = namespaces
         return state
     })
 }
