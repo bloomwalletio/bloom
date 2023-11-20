@@ -13,14 +13,15 @@ export function getTransferInfoFromTransactionData(
     chain: IChain
 ): { asset: TransferredAssetId; additionalBaseTokenAmount?: string; recipientAddress: string } | undefined {
     const networkId = chain.getConfiguration().id
-    const address = transaction.to?.toString()
-    if (!address) {
+
+    const recipientAddress = transaction.to?.toString()
+    if (!recipientAddress) {
         return undefined
     }
 
     if (transaction.data) {
-        const isErc20 = isTrackedTokenAddress(networkId, address)
-        const isIscContract = address === ISC_MAGIC_CONTRACT_ADDRESS
+        const isErc20 = isTrackedTokenAddress(networkId, recipientAddress)
+        const isIscContract = recipientAddress === ISC_MAGIC_CONTRACT_ADDRESS
 
         const abi = isErc20 ? ERC20_ABI : isIscContract ? ISC_SANDBOX_ABI : undefined
 
@@ -64,7 +65,7 @@ export function getTransferInfoFromTransactionData(
                 return {
                     asset: {
                         type: AssetType.Token,
-                        tokenId: address,
+                        tokenId: recipientAddress,
                         rawAmount: String(inputs._value),
                     },
                     recipientAddress: inputs._to,
@@ -84,7 +85,7 @@ export function getTransferInfoFromTransactionData(
                             rawAmount: nativeToken.amount,
                         },
                         additionalBaseTokenAmount: baseTokenAmount,
-                        recipientAddress: transaction.to, // for now, set it to the magic contract address
+                        recipientAddress, // for now, set it to the magic contract address
                     }
                 }
                 if (nftId) {
@@ -94,7 +95,7 @@ export function getTransferInfoFromTransactionData(
                             nftId,
                         },
                         additionalBaseTokenAmount: baseTokenAmount,
-                        recipientAddress: transaction.to, // for now, set it to the magic contract address
+                        recipientAddress, // for now, set it to the magic contract address
                     }
                 } else if (baseTokenAmount) {
                     return {
@@ -103,7 +104,7 @@ export function getTransferInfoFromTransactionData(
                             tokenId: BASE_TOKEN_ID,
                             rawAmount: baseTokenAmount,
                         },
-                        recipientAddress: transaction.to, // for now, set it to the magic contract address
+                        recipientAddress, // for now, set it to the magic contract address
                     }
                 }
 
@@ -119,7 +120,7 @@ export function getTransferInfoFromTransactionData(
                 tokenId: BASE_TOKEN_ID,
                 rawAmount: String(Number(transaction.value) / Number(WEI_PER_GLOW)),
             },
-            recipientAddress: address,
+            recipientAddress,
         }
     }
 }
