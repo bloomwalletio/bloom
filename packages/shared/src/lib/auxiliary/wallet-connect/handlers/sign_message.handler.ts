@@ -4,8 +4,7 @@ import { IConnectedDapp } from '../interface'
 import { findActiveAccountWithAddress } from '@core/profile/actions'
 import { IChain } from '@core/network'
 import { CallbackParameters } from '../types'
-import { selectedAccountIndex } from '@core/account/stores'
-import { get } from 'svelte/store'
+import { getSelectedAccountIndex } from '@core/account/stores'
 
 export function handleSignMessage(
     params: unknown,
@@ -36,7 +35,7 @@ export function handleSignMessage(
     }
     const message = Converter.hexToUtf8(hexMessage)
 
-    const handler: () => void = () =>
+    const openSignMessagePopup: () => void = () =>
         openPopup({
             id: PopupId.SignMessage,
             props: {
@@ -48,16 +47,16 @@ export function handleSignMessage(
             },
         })
 
-    if (account.index !== get(selectedAccountIndex)) {
+    if (account.index !== getSelectedAccountIndex()) {
         openPopup({
             id: PopupId.DappAccountSwitcher,
             props: {
                 account,
-                onCancel: responseCallback({ error: 'Request rejected by Wallet' }),
-                onConfirm: handler,
+                onCancel: () => responseCallback({ error: 'Request rejected by Wallet' }),
+                onConfirm: openSignMessagePopup,
             },
         })
     } else {
-        handler()
+        openSignMessagePopup()
     }
 }
