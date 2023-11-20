@@ -2,11 +2,10 @@
     import { localize } from '@core/i18n'
     import { closePopup } from '@desktop/auxiliary/popup'
     import { handleError } from '@core/error/handlers'
-    import { truncateString } from '@core/utils'
     import { IConnectedDapp } from '@auxiliary/wallet-connect/interface'
     import { CallbackParameters } from '@auxiliary/wallet-connect/types'
     import { signMessage } from '@core/wallet/actions'
-    import { Alert, Text } from '@bloomwalletio/ui'
+    import { Alert, Table, Text } from '@bloomwalletio/ui'
     import { IAccountState } from '@core/account'
     import { selectedAccount } from '@core/account/stores'
     import { IChain } from '@core/network'
@@ -23,8 +22,6 @@
     export let chain: IChain
     export let dapp: IConnectedDapp | undefined
     export let callback: (params: CallbackParameters) => void
-
-    $: address = truncateString(account.evmAddresses[chain.getConfiguration().coinType] ?? '', 8, 8)
 
     let isBusy = false
 
@@ -79,12 +76,14 @@
     busy={$selectedAccount?.isTransferring || isBusy}
 >
     <div class="space-y-5">
-        <section class="relative flex flex-col border border-solid border-gray-200 rounded-xl p-6">
+        <section
+            class="relative flex flex-col border border-solid border-stroke dark:border-stroke-dark rounded-xl p-6"
+        >
             <Text textColor="secondary">{localize('general.message')}</Text>
             <Text>{message}</Text>
             {#if dapp}
                 <div class="absolute flex flex-row justify-between" style="top: -12px; left: 18px;">
-                    <div class="flex flex-row gap-1 bg-white dark:bg-gray-800 items-center px-2">
+                    <div class="flex flex-row gap-1 bg-surface-0 dark:bg-surface-0-dark items-center px-2">
                         <img
                             style="width: 24px; height: 24px; border-radius: 24px;"
                             src={dapp.metadata?.icons?.[0]}
@@ -97,12 +96,19 @@
                 </div>
             {/if}
         </section>
-        <section class="flex flex-row justify-between items-center border border-solid border-gray-200 rounded-xl p-4">
-            <AccountLabel {account} />
-            <Text textColor="secondary">
-                {address}
-            </Text>
-        </section>
+        <Table
+            items={[
+                {
+                    key: localize('general.account'),
+                    slot: {
+                        component: AccountLabel,
+                        props: {
+                            account,
+                        },
+                    },
+                },
+            ]}
+        />
         {#if dapp}
             <Alert
                 variant="info"
