@@ -72,11 +72,11 @@
 </script>
 
 <DrawerTemplate title={localize(`${localeKey}.title`)} {drawerRouter}>
-    <div class="w-full h-full space-y-6 px-6">
+    <div class="w-full h-full space-y-6">
         {#if $sessionProposal}
             <DappInformationCard metadata={$sessionProposal.params.proposer.metadata} />
 
-            <div class="flex flex-col gap-8">
+            <div class="flex flex-col gap-8 px-6">
                 <Steps bind:currentStep {steps} />
 
                 <div class={currentStep === 0 ? 'visible' : 'hidden'}>

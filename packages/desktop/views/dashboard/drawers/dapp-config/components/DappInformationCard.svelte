@@ -18,7 +18,7 @@
 <style lang="scss">
     dapp-information {
         @apply w-full p-6;
-        @apply flex flex-row items-center justify-center gap-4;
+        @apply flex flex-row items-center justify-center gap-3;
         @apply bg-surface-0 dark:bg-surface-0-dark;
     }
 
