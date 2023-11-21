@@ -17,7 +17,6 @@
     import { EvmTransactionDetails } from '@views/dashboard/send-flow/views/components'
     import {
         AssetType,
-        TransferredAssetId,
         calculateEstimatedGasFeeFromTransactionData,
         calculateMaxGasFeeFromTransactionData,
     } from '@core/layer-2'
@@ -69,7 +68,6 @@
             }
         }
     }
-
 
     async function onConfirmClick(): Promise<void> {
         await checkActiveProfileAuth(sign, { stronghold: false, ledger: false }, LedgerAppName.Ethereum)
