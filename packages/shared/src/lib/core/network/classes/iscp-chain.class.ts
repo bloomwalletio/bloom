@@ -2,22 +2,15 @@ import { get } from 'svelte/store'
 
 import Web3 from 'web3'
 
-import { DEFAULT_EXPLORER_URLS, DEFAULT_GET_ADDRESS_BALANCE_OPTIONS } from '../constants'
+import { DEFAULT_EXPLORER_URLS } from '../constants'
 import { NetworkHealth } from '../enums'
-import {
-    IBlock,
-    IChain,
-    IChainStatus,
-    IGetAddressBalanceOptions,
-    IIscpChainConfiguration,
-    IIscpChainMetadata,
-} from '../interfaces'
+import { IBlock, IChain, IChainStatus, IIscpChainConfiguration, IIscpChainMetadata } from '../interfaces'
 import { chainStatuses } from '../stores'
 import { ChainConfiguration, ChainMetadata, Web3Provider } from '../types'
 import { Contract } from '@core/layer-2/types'
 import { ContractType } from '@core/layer-2/enums'
 import { getAbiForContractType } from '@core/layer-2/utils'
-import { TokenStandard } from '@core/token'
+import { IErc20TokenWithBalance, TokenStandard } from '@core/token'
 
 export class IscpChain implements IChain {
     private readonly _provider: Web3Provider
@@ -125,27 +118,8 @@ export class IscpChain implements IChain {
         }
     }
 
-    async getBalanceOfAddress(address: string, options?: IGetAddressBalanceOptions): Promise<unknown[]> {
-        const _options: IGetAddressBalanceOptions = {
-            ...DEFAULT_GET_ADDRESS_BALANCE_OPTIONS,
-            ...options,
-        }
-
-        let typeQueryString: string = ''
-        for (const type of _options.types) {
-            if (!type.includes('ERC')) {
-                continue
-            }
-
-            if (typeQueryString) {
-                typeQueryString = `${typeQueryString},${type.replace('ERC', 'ERC-')}`
-            } else {
-                typeQueryString = `type=${type.replace('ERC', 'ERC-')}`
-            }
-        }
-        const apiUrl = `${this.buildExplorerApiUrl()}/addresses/${address}/tokens${
-            typeQueryString ? '?' : ''
-        }${typeQueryString}`
+    async getBalanceOfAddress(address: string, standard = TokenStandard.Erc20): Promise<IErc20TokenWithBalance[]> {
+        const apiUrl = `${this.buildExplorerApiUrl()}/addresses/${address}/tokens?type=${standard}`
         const requestInit: RequestInit = {
             method: 'GET',
             headers: {
@@ -154,25 +128,18 @@ export class IscpChain implements IChain {
             },
         }
         const response = await fetch(apiUrl, requestInit)
-        const data = await response.json()
+        const data: { items: { token: IErc20TokenWithBalance & { type: TokenStandard.Erc20 }; value: string }[] } =
+            await response.json()
 
-        const result: unknown[] = []
+        const result: IErc20TokenWithBalance[] = []
         for (const { token, value } of data.items) {
-            const standard =
-                token.type === 'ERC-20'
-                    ? TokenStandard.Erc20
-                    : token.type === 'ERC-721'
-                    ? TokenStandard.Erc721
-                    : undefined
             result.push({
                 address: token.address,
                 value: BigInt(value),
-                ...(_options.withMetadata && {
-                    name: token.name,
-                    symbol: token.symbol,
-                    decimals: token.decimals,
-                    standard,
-                }),
+                name: token.name,
+                symbol: token.symbol,
+                decimals: token.decimals,
+                standard: token.type,
             })
         }
 

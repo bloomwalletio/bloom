@@ -21,7 +21,6 @@ import { Converter } from '@core/utils/convert'
 import { ISC_MAGIC_CONTRACT_ADDRESS } from '../constants'
 import { evmAddressToAgentId, getAgentBalanceParameters, getSmartContractHexName } from '../helpers'
 import { setLayer2AccountBalanceForChain } from '../stores'
-import { checkForUntrackedTokens } from './checkForUntrackedTokens'
 
 export function fetchL2BalanceForAccount(account: IAccountState): void {
     const { evmAddresses, index } = account
@@ -35,7 +34,6 @@ export function fetchL2BalanceForAccount(account: IAccountState): void {
 
         await fetchLayer2Nfts(evmAddress, chain, account)
 
-        await checkForUntrackedTokens(evmAddress, chain)
         const balances = await getLayer2BalanceForAddress(evmAddress, chain)
         if (!balances) {
             return
