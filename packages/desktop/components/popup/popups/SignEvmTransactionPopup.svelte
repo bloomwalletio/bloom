@@ -47,11 +47,17 @@
         const { asset } = getTransferInfoFromTransactionData(transaction, chain) ?? {}
         switch (asset?.type) {
             case AssetType.BaseCoin: {
-                baseCoinTransfer = getTokenTransferData(asset)
+                baseCoinTransfer = {
+                    token: getTokenFromSelectedAccountTokens(asset.tokenId, id),
+                    rawAmount: asset.rawAmount,
+                }
                 break
             }
             case AssetType.Token: {
-                tokenTransfer = getTokenTransferData(asset)
+                tokenTransfer = {
+                    token: getTokenFromSelectedAccountTokens(asset.tokenId, id),
+                    rawAmount: asset.rawAmount,
+                }
                 break
             }
             case AssetType.Nft: {
@@ -64,16 +70,6 @@
         }
     }
 
-    function getTokenTransferData(asset: TransferredAssetId): TokenTransferData | undefined {
-        if (asset.type === AssetType.Nft) {
-            return
-        }
-        const token = getTokenFromSelectedAccountTokens(asset.tokenId, id)
-        return {
-            token,
-            rawAmount: asset.rawAmount,
-        }
-    }
 
     async function onConfirmClick(): Promise<void> {
         await checkActiveProfileAuth(sign, { stronghold: false, ledger: false }, LedgerAppName.Ethereum)
