@@ -131,18 +131,21 @@ export class IscpChain implements IChain {
         const data: { items: { token: IErc20TokenWithBalance & { type: TokenStandard.Erc20 }; value: string }[] } =
             await response.json()
 
-        const result: IErc20TokenWithBalance[] = []
-        for (const { token, value } of data.items) {
-            result.push({
-                address: token.address,
-                value: BigInt(value),
-                name: token.name,
-                symbol: token.symbol,
-                decimals: token.decimals,
-                standard: token.type,
-            })
+        if (data.items) {
+            const result: IErc20TokenWithBalance[] = []
+            for (const { token, value } of data.items) {
+                result.push({
+                    address: token.address,
+                    value: BigInt(value),
+                    name: token.name,
+                    symbol: token.symbol,
+                    decimals: token.decimals,
+                    standard: token.type,
+                })
+            }
+            return result
+        } else {
+            return []
         }
-
-        return result
     }
 }
