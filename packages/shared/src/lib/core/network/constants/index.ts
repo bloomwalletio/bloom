@@ -1,7 +1,11 @@
+/**
+ * CAUTION: If this file is exported in alphabetical order, it will
+ * break the dependency flow. It MUST be exported first!
+ */
+export * from './default-coin-type.constant'
 export * from './chain-statuses-poll-interval.constant'
 export * from './default-base-token.constant'
 export * from './default-chain-configurations.constant'
-export * from './default-coin-type.constant'
 export * from './default-explorer-urls.constant'
 export * from './default-get-address-balance-options.constant'
 export * from './default-network-metadata.constant'

@@ -192,8 +192,7 @@
                 "title": "Help"
             },
             "theme": {
-                "title": "Theme",
-                "advice": "If you change your system theme, you may need to restart Bloom to see the effects"
+                "title": "Theme"
             },
             "language": {
                 "title": "Language"
@@ -439,14 +438,14 @@
                     },
                     "addContact": {
                         "title": "Add contact",
-                        "identity": "Identity",
-                        "details": "Details",
-                        "color": "Color"
+                        "identity": "Their identity",
+                        "address": "Their address",
+                        "color": "Contact color"
                     },
                     "editContact": {
                         "title": "Edit contact",
-                        "identity": "Identity",
-                        "color": "Color"
+                        "identity": "Their identity",
+                        "color": "Contact color"
                     },
                     "removeContact": {
                         "title": "Remove contact",
@@ -469,7 +468,8 @@
                     "dappsList": {
                         "title": "Connected dApps",
                         "connectDapp": "Connect dApp",
-                        "hint": "WalletConnect allows you to connect Bloom with dApps directly or with a connection code."
+                        "emptyTitle": "No apps found",
+                        "emptySubtitle": "Connect Bloom with your favourite dApps"
                     },
                     "inputConnectionCode": {
                         "title": "Connect to a dApp",
@@ -870,6 +870,10 @@
             "hint": "No balance will be sent to {dappName} in the process of signing this message.",
             "warning": "dApp cannot be determined. No balance will be sent in the process of signing this message.",
             "action": "Sign message"
+        },
+        "signTransaction": {
+            "title": "Sign transaction",
+            "action": "Sign transaction"
         },
         "activityDetails": {
             "title": {
@@ -1293,7 +1297,8 @@
         "address": "Address",
         "addressName": "Address name",
         "myAddress": "My address",
-        "viewOnExplorer": "View on Explorer",
+        "viewOnExplorer": "View on explorer",
+        "viewQrCode": "View QR code",
         "import": "Import",
         "stronghold": "Stronghold",
         "locked": "Locked",
@@ -1621,6 +1626,9 @@
         },
         "signMessage": {
             "success": "Message successfully signed"
+        },
+        "signTransaction": {
+            "success": "Transaction successfully signed"
         },
         "findShimmerRewards": {
             "error": "An error occurred while searching for rewards"

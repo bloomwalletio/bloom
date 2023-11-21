@@ -43,6 +43,7 @@
     import RemoveProposalPopup from './popups/RemoveProposalPopup.svelte'
     import RevotePopup from './popups/RevotePopup.svelte'
     import SendFlowPopup from './popups/SendFlowPopup.svelte'
+    import SignEvmTransactionPopup from './popups/SignEvmTransactionPopup.svelte'
     import SignMessagePopup from './popups/SignMessagePopup.svelte'
     import StopVotingPopup from './popups/StopVotingPopup.svelte'
     import SyncAccountsPopup from './popups/SyncAccountsPopup.svelte'
@@ -117,6 +118,7 @@
         [PopupId.Revote]: RevotePopup,
         [PopupId.SendFlow]: SendFlowPopup,
         [PopupId.SignMessage]: SignMessagePopup,
+        [PopupId.SignEvmTransaction]: SignEvmTransactionPopup,
         [PopupId.StopVoting]: StopVotingPopup,
         [PopupId.SyncAccounts]: SyncAccountsPopup,
         [PopupId.TestDeepLinkForm]: TestDeepLinkFormPopup,

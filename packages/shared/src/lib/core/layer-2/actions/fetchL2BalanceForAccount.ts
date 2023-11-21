@@ -1,17 +1,12 @@
-import { IAccountState } from '@core/account'
+import { get } from 'svelte/store'
+import { IAccountState } from '@core/account/interfaces'
 import {
     calculateAndAddPersistedNftBalanceChange,
     calculateAndAddPersistedTokenBalanceChange,
 } from '@core/activity/actions'
 import { ContractType } from '@core/layer-2'
-import { IChain, getNetwork } from '@core/network'
-import { getActiveProfile } from '@core/profile/stores'
-import { getOrRequestTokenFromPersistedTokens } from '@core/token/actions'
-import { TOKEN_ID_BYTE_LENGTH } from '@core/token/constants'
-import { Converter } from '@core/utils/convert'
-import { ISC_MAGIC_CONTRACT_ADDRESS } from '../constants'
-import { evmAddressToAgentId, getAgentBalanceParameters, getSmartContractHexName } from '../helpers'
-import { setLayer2AccountBalanceForChain } from '../stores'
+import { IChain } from '@core/network/interfaces'
+import { getNetwork } from '@core/network/stores'
 import { getNftsFromNftIds } from '@core/nfts/utils'
 import {
     addNftsToDownloadQueue,
@@ -19,7 +14,24 @@ import {
     setNftInAllAccountNftsToUnspendable,
 } from '@core/nfts/actions'
 import { selectedAccountNfts } from '@core/nfts/stores'
-import { get } from 'svelte/store'
+import { getActiveProfile } from '@core/profile/stores'
+import { getOrRequestTokenFromPersistedTokens } from '@core/token/actions'
+import { TOKEN_ID_BYTE_LENGTH } from '@core/token/constants'
+import { Converter } from '@core/utils/convert'
+import { ISC_MAGIC_CONTRACT_ADDRESS } from '../constants'
+import { evmAddressToAgentId, getAgentBalanceParameters, getSmartContractHexName } from '../helpers'
+import { setLayer2AccountBalanceForChain } from '../stores'
+import { addNewTrackedTokenToActiveProfile, isTrackedTokenAddress } from '@core/wallet'
+
+export async function checkForUntrackedTokens(evmAddress: string, chain: IChain): Promise<void> {
+    const tokens = await chain.getBalanceOfAddress(evmAddress, { withMetadata: true })
+    const networkId = chain.getConfiguration().id
+    const untrackedTokens = tokens.filter((token) => !isTrackedTokenAddress(networkId, token.address))
+    untrackedTokens.forEach((token) => {
+        const { address, standard, name, symbol, decimals } = token
+        addNewTrackedTokenToActiveProfile(networkId, address, { standard, name, symbol, decimals })
+    })
+}
 
 export function fetchL2BalanceForAccount(account: IAccountState): void {
     const { evmAddresses, index } = account
@@ -33,6 +45,7 @@ export function fetchL2BalanceForAccount(account: IAccountState): void {
 
         await fetchLayer2Nfts(evmAddress, chain, account)
 
+        await checkForUntrackedTokens(evmAddress, chain)
         const balances = await getLayer2BalanceForAddress(evmAddress, chain)
         if (!balances) {
             return
@@ -109,9 +122,7 @@ async function getLayer2Erc20BalancesForAddress(
             console.error(error)
         }
     }
-
-    const balance = await chain.getBalanceOfAddress(evmAddress)
-    return Object.keys(balance[networkId]).map((tokenId) => ({ tokenId, balance: balance[networkId][tokenId] }))
+    return erc20TokenBalances
 }
 
 async function fetchLayer2Nfts(evmAddress: string, chain: IChain, account: IAccountState): Promise<void> {

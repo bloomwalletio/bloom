@@ -1,16 +1,6 @@
 <script lang="ts">
     import { LogoName } from '@auxiliary/logo'
-    import { shouldBeDarkMode } from '@core/app'
-    import { appSettings } from '@core/app/stores'
     import { Logo } from '@ui'
-
-    // Why is this here?
-    /**
-     * NOTE: This reactive dependency ensures that darkMode is set to the
-     * correct value in the case that the system's settings have changed since
-     * the app was last opened.
-     */
-    $: $appSettings.darkMode = shouldBeDarkMode($appSettings.theme)
 </script>
 
 <div

@@ -7,7 +7,7 @@
     import { FontWeight } from '@ui/enums'
     import { TooltipIcon, IconName } from '@bloomwalletio/ui'
 
-    import { appSettings } from '@core/app/stores'
+    import { darkMode } from '@core/app/stores'
     import { localize } from '@core/i18n'
     import { GovernanceRoute, governanceRouter } from '@core/router'
 
@@ -20,7 +20,6 @@
     let hasVoted = false
 
     $: $participationOverviewForSelectedAccount, setHasVoted()
-    $: dark = $appSettings.darkMode
 
     function setHasVoted(): void {
         hasVoted = isVotingForProposal(proposal?.id)
@@ -38,7 +37,7 @@
 <proposal-card
     on:click={onProposalClick}
     on:keydown={(e) => e.key === 'Enter' && onProposalClick()}
-    class:dark
+    class:dark={$darkMode}
     class:ended={proposal?.status === EventStatus.Ended}
     class="flex flex-col p-6 border border-solid border-gray-200 dark:border-transparent rounded-xl cursor-pointer h-fit shadow-elevation-1 focus:shadow-inner
     {proposal?.status === EventStatus.Ended ? 'bg-transparent dark:bg-gray-900' : 'bg-white dark:bg-gray-800'}"

@@ -4,12 +4,20 @@ import Web3 from 'web3'
 
 import { DEFAULT_EXPLORER_URLS, DEFAULT_GET_ADDRESS_BALANCE_OPTIONS } from '../constants'
 import { NetworkHealth } from '../enums'
-import { IBlock, IChain, IChainStatus, IIscpChainConfiguration, IIscpChainMetadata } from '../interfaces'
+import {
+    IBlock,
+    IChain,
+    IChainStatus,
+    IGetAddressBalanceOptions,
+    IIscpChainConfiguration,
+    IIscpChainMetadata,
+} from '../interfaces'
 import { chainStatuses } from '../stores'
 import { ChainConfiguration, ChainMetadata, Web3Provider } from '../types'
-import { Contract, Layer2AccountBalance } from '@core/layer-2/types'
+import { Contract } from '@core/layer-2/types'
 import { ContractType } from '@core/layer-2/enums'
 import { getAbiForContractType } from '@core/layer-2/utils'
+import { TokenStandard } from '@core/token'
 
 export class IscpChain implements IChain {
     private readonly _provider: Web3Provider
@@ -117,12 +125,14 @@ export class IscpChain implements IChain {
         }
     }
 
-    async getBalanceOfAddress(
-        address: string,
-        options = DEFAULT_GET_ADDRESS_BALANCE_OPTIONS
-    ): Promise<Layer2AccountBalance> {
+    async getBalanceOfAddress(address: string, options?: IGetAddressBalanceOptions): Promise<unknown[]> {
+        const _options: IGetAddressBalanceOptions = {
+            ...DEFAULT_GET_ADDRESS_BALANCE_OPTIONS,
+            ...options,
+        }
+
         let typeQueryString: string = ''
-        for (const type of options.types) {
+        for (const type of _options.types) {
             if (!type.includes('ERC')) {
                 continue
             }
@@ -146,11 +156,26 @@ export class IscpChain implements IChain {
         const response = await fetch(apiUrl, requestInit)
         const data = await response.json()
 
-        const accountBalance: { [tokenId: string]: bigint } = {}
+        const result: unknown[] = []
         for (const { token, value } of data.items) {
-            accountBalance[token.address] = BigInt(value)
+            const standard =
+                token.type === 'ERC-20'
+                    ? TokenStandard.Erc20
+                    : token.type === 'ERC-721'
+                    ? TokenStandard.Erc721
+                    : undefined
+            result.push({
+                address: token.address,
+                value: BigInt(value),
+                ...(_options.withMetadata && {
+                    name: token.name,
+                    symbol: token.symbol,
+                    decimals: token.decimals,
+                    standard,
+                }),
+            })
         }
 
-        return { [this._configuration.id]: accountBalance }
+        return result
     }
 }

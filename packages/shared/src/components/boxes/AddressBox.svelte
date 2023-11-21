@@ -1,6 +1,6 @@
 <script lang="ts">
     import { Copyable, Text } from '@bloomwalletio/ui'
-    import { appSettings } from '@core/app/stores'
+    import { darkMode } from '@core/app/stores'
     import { QR } from '@ui'
 
     export let title = ''
@@ -15,7 +15,7 @@
 </script>
 
 <Copyable value={address}>
-    <address-container class="flex flex-col" class:darkmode={$appSettings.darkMode}>
+    <address-container class="flex flex-col" class:darkmode={$darkMode}>
         <inner-box class="flex flex-col gap-6 pt-7 pb-6">
             <Text type="h6" textColor="brand">{title}</Text>
             {#if showQr}

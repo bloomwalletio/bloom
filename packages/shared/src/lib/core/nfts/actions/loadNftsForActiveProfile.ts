@@ -36,7 +36,7 @@ async function loadNftsForAccount(account: IAccountState): Promise<void> {
         const transactionsOnChain = getPersistedEvmTransactions(account.index, chain)
         const nftIdsOnChain = []
         for (const transaction of transactionsOnChain) {
-            const { asset } = getTransferInfoFromTransactionData(transaction, transaction.to, chain) ?? {}
+            const { asset } = getTransferInfoFromTransactionData(transaction, chain) ?? {}
             if (asset?.type !== AssetType.Nft || accountNfts.some((nft) => nft.id === asset.nftId)) {
                 continue
             }
