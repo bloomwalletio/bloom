@@ -1,11 +1,11 @@
 <script lang="ts">
     import { default as QrCode } from 'qrious'
-    import { appSettings } from '@core/app/stores'
+    import { darkMode } from '@core/app/stores'
     import { onMount } from 'svelte'
 
     export let data: string
 
-    $: color = $appSettings.darkMode ? '#ffffff' : '#000000'
+    $: color = $darkMode ? '#ffffff' : '#000000'
 
     const QRcode = new QrCode()
     let image = ''

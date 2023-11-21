@@ -1,9 +1,8 @@
 import { writable } from 'svelte/store'
-
 import { persistent } from '@core/utils/store'
-
 import { DEFAULT_APP_SETTINGS } from '../constants/default-app-settings.constant'
 import { IAppSettings } from '../interfaces'
+import { Platform } from '../classes/platform.class'
 
 /**
  * The store containing the application settings used throughout the entire app.
@@ -21,3 +20,10 @@ export const initAppSettings = writable<Readonly<Partial<IAppSettings>>>(DEFAULT
 export function updateAppSettings(partialSettings: Partial<IAppSettings>): void {
     appSettings.update((state) => ({ ...state, ...partialSettings }))
 }
+
+appSettings.subscribe(async (state) => {
+    const currentTheme = await Platform.getTheme()
+    if (currentTheme !== state.theme) {
+        await Platform.updateTheme(state.theme)
+    }
+})
