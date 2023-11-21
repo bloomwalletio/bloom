@@ -24,4 +24,5 @@ export interface IPlatformEventMap {
     'signed-message': IEvmSignature
     'ledger-error': Error
     'lock-screen': void
+    'native-theme-updated': void
 }

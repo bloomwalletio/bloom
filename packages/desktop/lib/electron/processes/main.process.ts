@@ -467,6 +467,10 @@ ipcMain.handle('get-machine-id', () => getMachineId())
 ipcMain.handle('update-app-settings', (_e, settings) => updateSettings(settings))
 
 // Theme
+nativeTheme.on('updated', () => {
+    windows.main.webContents.send('native-theme-updated')
+})
+
 ipcMain.handle('get-theme', () => nativeTheme.themeSource)
 ipcMain.handle('update-theme', (_e, theme) => (nativeTheme.themeSource = theme))
 ipcMain.handle('should-be-dark-mode', () => nativeTheme.shouldUseDarkColors)

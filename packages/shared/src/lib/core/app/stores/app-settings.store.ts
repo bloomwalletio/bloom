@@ -1,10 +1,7 @@
 import { writable } from 'svelte/store'
-
 import { persistent } from '@core/utils/store'
-
 import { DEFAULT_APP_SETTINGS } from '../constants/default-app-settings.constant'
 import { IAppSettings } from '../interfaces'
-import { darkMode } from './dark-mode.store'
 import { Platform } from '../classes/platform.class'
 
 /**
@@ -28,7 +25,5 @@ appSettings.subscribe(async (state) => {
     const currentTheme = await Platform.getTheme()
     if (currentTheme !== state.theme) {
         await Platform.updateTheme(state.theme)
-        const shouldBeDarkMode = await Platform.shouldBeDarkMode()
-        darkMode.set(shouldBeDarkMode)
     }
 })
