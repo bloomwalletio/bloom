@@ -5,6 +5,7 @@
     import { NetworkInput } from '@ui'
     import { DrawerTemplate } from '@components'
 
+    import { getRandomAccountColor } from '@core/account'
     import {
         ContactManager,
         validateContactAddress,
@@ -26,7 +27,7 @@
     let selectedNetworkId: NetworkId | undefined
     let nameInput, noteInput, addressNameInput, addressInput: TextInput
     let networkSelectionInput: NetworkInput
-    let color: string = ''
+    let color: string = getRandomAccountColor()
 
     /**
      * NOTE: This improves UX slightly by forcing the address-related input errors
@@ -113,7 +114,7 @@
     title={localize(`views.dashboard.drawers.contactBook.${ContactBookRoute.AddContact}.title`)}
     {drawerRouter}
 >
-    <form on:submit|preventDefault={onSaveClick} id="add-contact-form" class="flex flex-col gap-4">
+    <form on:submit|preventDefault={onSaveClick} id="add-contact-form" class="flex flex-col gap-4 px-6">
         <Text type="body1">
             {localize(`views.dashboard.drawers.contactBook.${ContactBookRoute.AddContact}.identity`)}
         </Text>
@@ -130,7 +131,7 @@
             label={localize('general.optionalField', { field: localize('general.note') })}
         />
         <Text type="body1">
-            {localize(`views.dashboard.drawers.contactBook.${ContactBookRoute.AddContact}.details`)}
+            {localize(`views.dashboard.drawers.contactBook.${ContactBookRoute.AddContact}.address`)}
         </Text>
         <NetworkInput
             bind:this={networkSelectionInput}

@@ -10,8 +10,8 @@ import { HEX_PREFIX } from '@core/utils'
 
 export async function signEvmTransactionWithStronghold(
     txData: TxData,
-    bip44Path: Bip44,
-    chainId: EvmChainId
+    chainId: EvmChainId,
+    bip44Path: Bip44
 ): Promise<string> {
     const unsignedTransactionMessageHex = HEX_PREFIX + prepareEvmTransaction(txData, chainId)
     const transaction = Transaction.fromTxData(txData, getEvmTransactionOptions(chainId))

@@ -5,7 +5,7 @@ import { handleEthSignTypedData } from './eth_signTypedData.handler'
 import { JsonRpcResponse } from '@walletconnect/jsonrpc-types'
 import { Web3WalletTypes } from '@walletconnect/web3wallet'
 import { getConnectedDappByOrigin, getWalletClient } from '../stores'
-import { NetworkId, SupportedNetworkId, getNetwork } from '@core/network'
+import { NetworkId, getNetwork } from '@core/network'
 import { CallbackParameters } from '../types'
 import { Platform } from '@core/app'
 
@@ -41,9 +41,7 @@ export function onSessionRequest(event: Web3WalletTypes.SessionRequest): void {
         }
     }
 
-    // TODO: the commented code is the correct one, but as long as there are no shimmerevm dapps, we need to hardcode it
-    // const chain = getNetwork()?.getChain(chainId as NetworkId)
-    const chain = getNetwork()?.getChain(SupportedNetworkId.TestnetEvm ?? (chainId as NetworkId))
+    const chain = getNetwork()?.getChain(chainId as NetworkId)
     if (!chain) {
         returnResponse({ error: 'Chain not supported' })
         return
@@ -54,7 +52,7 @@ export function onSessionRequest(event: Web3WalletTypes.SessionRequest): void {
             handleEthSendTransaction(request.params, returnResponse)
             break
         case 'eth_signTransaction':
-            handleEthSignTransaction()
+            handleEthSignTransaction(request.params[0], dapp, chain, returnResponse)
             break
         case 'eth_sign':
         case 'personal_sign':

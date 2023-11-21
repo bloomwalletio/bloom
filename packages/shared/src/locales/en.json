@@ -438,14 +438,14 @@
                     },
                     "addContact": {
                         "title": "Add contact",
-                        "identity": "Identity",
-                        "details": "Details",
-                        "color": "Color"
+                        "identity": "Their identity",
+                        "address": "Their address",
+                        "color": "Contact color"
                     },
                     "editContact": {
                         "title": "Edit contact",
-                        "identity": "Identity",
-                        "color": "Color"
+                        "identity": "Their identity",
+                        "color": "Contact color"
                     },
                     "removeContact": {
                         "title": "Remove contact",
@@ -468,7 +468,8 @@
                     "dappsList": {
                         "title": "Connected dApps",
                         "connectDapp": "Connect dApp",
-                        "hint": "WalletConnect allows you to connect Bloom with dApps directly or with a connection code."
+                        "emptyTitle": "No apps found",
+                        "emptySubtitle": "Connect Bloom with your favourite dApps"
                     },
                     "inputConnectionCode": {
                         "title": "Connect to a dApp",
@@ -690,6 +691,10 @@
             },
             "minimizeStorageDepositButton": "Minimize storage deposit"
         },
+        "dappAccountSwitcher": {
+            "title": "Switch account",
+            "body": "The dApp requires you to switch to the following account. Do you want to continue?"
+        },
         "minimizeStorageDeposit": {
             "title": "Minimize storage deposit",
             "description": "Consolidate outputs to minimize your required storage deposit and increase your available balance.",
@@ -865,6 +870,10 @@
             "hint": "No balance will be sent to {dappName} in the process of signing this message.",
             "warning": "dApp cannot be determined. No balance will be sent in the process of signing this message.",
             "action": "Sign message"
+        },
+        "signTransaction": {
+            "title": "Sign transaction",
+            "action": "Sign transaction"
         },
         "activityDetails": {
             "title": {
@@ -1288,7 +1297,8 @@
         "address": "Address",
         "addressName": "Address name",
         "myAddress": "My address",
-        "viewOnExplorer": "View on Explorer",
+        "viewOnExplorer": "View on explorer",
+        "viewQrCode": "View QR code",
         "import": "Import",
         "stronghold": "Stronghold",
         "locked": "Locked",
@@ -1431,7 +1441,10 @@
         "message": "Message",
         "error": "Error",
         "warning": "Warning",
-        "failed": "failed"
+        "failed": "failed",
+        "required": "Required",
+        "yes": "Yes",
+        "no": "No"
     },
     "filters":{
         "title": "Filters",
@@ -1613,6 +1626,9 @@
         },
         "signMessage": {
             "success": "Message successfully signed"
+        },
+        "signTransaction": {
+            "success": "Transaction successfully signed"
         },
         "findShimmerRewards": {
             "error": "An error occurred while searching for rewards"

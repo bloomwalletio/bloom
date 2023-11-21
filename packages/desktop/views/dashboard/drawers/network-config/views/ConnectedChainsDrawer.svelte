@@ -37,7 +37,7 @@
 </script>
 
 <DrawerTemplate title={localize('views.dashboard.drawers.networkConfig.connectedChains.title')} {drawerRouter}>
-    <connected-chains-drawer class="h-full flex flex-col justify-between">
+    <connected-chains-drawer class="h-full flex flex-col justify-between px-6">
         <div class="flex flex-col gap-4">
             {#key $networkStatus}
                 <NetworkCard

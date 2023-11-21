@@ -24,6 +24,7 @@
     import ConnectLedgerPopup from './popups/ConnectLedgerPopup.svelte'
     import CreateAccountPopup from './popups/CreateAccountPopup.svelte'
     import CustomiseAccountPopup from './popups/CustomiseAccountPopup.svelte'
+    import DappAccountSwitcherPopup from './popups/DappAccountSwitcherPopup.svelte'
     import DeepLinkErrorPopup from './popups/DeepLinkErrorPopup.svelte'
     import DiagnosticsPopup from './popups/DiagnosticsPopup.svelte'
     import EnableLedgerBlindSigningPopup from './popups/EnableLedgerBlindSigningPopup.svelte'
@@ -42,6 +43,7 @@
     import RemoveProposalPopup from './popups/RemoveProposalPopup.svelte'
     import RevotePopup from './popups/RevotePopup.svelte'
     import SendFlowPopup from './popups/SendFlowPopup.svelte'
+    import SignEvmTransactionPopup from './popups/SignEvmTransactionPopup.svelte'
     import SignMessagePopup from './popups/SignMessagePopup.svelte'
     import StopVotingPopup from './popups/StopVotingPopup.svelte'
     import SyncAccountsPopup from './popups/SyncAccountsPopup.svelte'
@@ -96,6 +98,7 @@
         [PopupId.ConnectLedger]: ConnectLedgerPopup,
         [PopupId.CreateAccount]: CreateAccountPopup,
         [PopupId.CustomiseAccount]: CustomiseAccountPopup,
+        [PopupId.DappAccountSwitcher]: DappAccountSwitcherPopup,
         [PopupId.DeepLinkError]: DeepLinkErrorPopup,
         [PopupId.Diagnostics]: DiagnosticsPopup,
         [PopupId.EnableLedgerBlindSigning]: EnableLedgerBlindSigningPopup,
@@ -115,6 +118,7 @@
         [PopupId.Revote]: RevotePopup,
         [PopupId.SendFlow]: SendFlowPopup,
         [PopupId.SignMessage]: SignMessagePopup,
+        [PopupId.SignEvmTransaction]: SignEvmTransactionPopup,
         [PopupId.StopVoting]: StopVotingPopup,
         [PopupId.SyncAccounts]: SyncAccountsPopup,
         [PopupId.TestDeepLinkForm]: TestDeepLinkFormPopup,

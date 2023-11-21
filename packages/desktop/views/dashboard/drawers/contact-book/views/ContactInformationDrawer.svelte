@@ -26,7 +26,7 @@
         </div>
         <ContactActionsMenu {drawerRouter} />
     </div>
-    <div class="flex flex-col gap-3">
+    <div class="flex flex-col gap-3 px-6">
         <ContactMetadataTable contactMetadata={$selectedContact} />
         <contact-addresses class="flex flex-col gap-4">
             {#each Object.entries(ContactManager.getNetworkContactAddressMapForContact($selectedContact.id)) as [networkId, contactAddressMap]}

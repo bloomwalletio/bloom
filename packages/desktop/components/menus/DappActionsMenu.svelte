@@ -19,7 +19,7 @@
         ...(hasActiveSession
             ? [
                   {
-                      icon: IconName.Trash,
+                      icon: IconName.LinkBroken,
                       title: localize(`${localeKey}.actions.disconnect`),
                       variant: 'danger',
                       onClick: onDisconnectClick,

@@ -5,21 +5,29 @@
     import { IContact } from '@core/contact'
 
     export let contact: IContact | undefined = undefined
-    export let showRightArrow = true
     export let error = false
     export let onCardClick: UiEventFunction | undefined = undefined
+
+    let showBreadcrumb = false
+
+    function toggleShowBreadcrumb(): void {
+        showBreadcrumb = !showBreadcrumb
+    }
 </script>
 
-<Tile border {error} onClick={onCardClick}>
-    <div class="flex w-full justify-between gap-2 items-center p-1">
-        <ContactAvatar {contact} />
-        <div class="flex w-full text-left overflow-hidden">
-            <Text type="base" truncate>
-                {contact.name}
-            </Text>
+<!-- TODO: simplify use of tile and surfaces? and support hover events for group -->
+<div on:mouseenter={toggleShowBreadcrumb} on:mouseleave={toggleShowBreadcrumb}>
+    <Tile border {error} onClick={onCardClick}>
+        <div class="flex w-full justify-between gap-2 items-center p-1">
+            <ContactAvatar {contact} />
+            <div class="flex w-full text-left overflow-hidden">
+                <Text type="base" truncate>
+                    {contact.name}
+                </Text>
+            </div>
+            {#if showBreadcrumb}
+                <Icon name={IconName.ChevronRight} textColor="secondary" />
+            {/if}
         </div>
-        {#if showRightArrow}
-            <Icon name={IconName.ChevronRight} textColor="secondary" />
-        {/if}
-    </div>
-</Tile>
+    </Tile>
+</div>
