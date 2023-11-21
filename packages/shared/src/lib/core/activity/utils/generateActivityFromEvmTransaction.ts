@@ -12,7 +12,7 @@ export async function generateActivityFromEvmTransaction(
     account: IAccountState
 ): Promise<Activity | undefined> {
     const { asset, additionalBaseTokenAmount, recipientAddress } =
-        getTransferInfoFromTransactionData(transaction, transaction.to, chain) ?? {}
+        getTransferInfoFromTransactionData(transaction, chain) ?? {}
 
     if (asset?.type === AssetType.Token || asset?.type === AssetType.BaseCoin) {
         return generateTokenActivity(
