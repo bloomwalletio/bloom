@@ -54,14 +54,14 @@
             Platform.trackEvent('app-start')
         }
 
-        await checkAndMigrateProfiles()
-        await cleanupEmptyProfiles()
-        Platform.onEvent('deep-link-request', handleDeepLink)
-
         // Theme
         Platform.onEvent('native-theme-updated', getAndUpdateDarkMode)
         // Set dark mode initially in case the native theme is already in system
         await getAndUpdateDarkMode()
+
+        await checkAndMigrateProfiles()
+        await cleanupEmptyProfiles()
+        Platform.onEvent('deep-link-request', handleDeepLink)
 
         setTimeout(() => {
             splash = false
