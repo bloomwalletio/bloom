@@ -4,6 +4,7 @@ import { Contract } from '@core/layer-2/types'
 import { ChainConfiguration, ChainMetadata, Web3Provider } from '../types'
 import { IBlock } from './block.interface'
 import { IChainStatus } from './chain-status.interface'
+import { IErc20TokenWithBalance } from '@core/token/interfaces'
 
 export interface IChain {
     getConfiguration(): ChainConfiguration
@@ -12,6 +13,8 @@ export interface IChain {
 
     getMetadata(): Promise<ChainMetadata>
     getContract(type: ContractType, address: string): Contract
-    getGasEstimate(hex: string): Promise<number>
     getLatestBlock(): Promise<IBlock>
+    getGasEstimate(hex: string): Promise<number>
+
+    getBalanceOfAddress(address: string): Promise<IErc20TokenWithBalance[]>
 }

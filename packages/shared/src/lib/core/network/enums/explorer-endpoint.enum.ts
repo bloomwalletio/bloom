@@ -1,5 +1,6 @@
 export enum ExplorerEndpoint {
-    Transaction = 'transaction',
-    Nft = 'nft',
     Address = 'address',
+    Nft = 'nft',
+    Tokens = 'tokens',
+    Transaction = 'transaction',
 }
