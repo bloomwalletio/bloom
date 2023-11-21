@@ -19,6 +19,13 @@ export function addNewTrackedTokenToActiveProfile(
     if (!trackedTokens.includes(tokenAddress)) {
         trackedTokens.push(tokenAddress)
         profile.trackedTokens = { ...trackedTokensOnProfile, [networkId]: trackedTokens }
+
+        const untrackedTokensOnProfile = profile.untrackedTokens ?? {}
+        if (networkId in untrackedTokensOnProfile && tokenAddress in untrackedTokensOnProfile[networkId]) {
+            delete untrackedTokensOnProfile[networkId][tokenAddress]
+        }
+        profile.untrackedTokens = untrackedTokensOnProfile
+
         updatePersistedToken(buildPersistedTokenFromMetadata(tokenAddress, tokenMetadata))
         updateActiveProfile(profile)
     }
