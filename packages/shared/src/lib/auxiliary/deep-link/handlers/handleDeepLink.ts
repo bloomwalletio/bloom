@@ -73,7 +73,7 @@ function handleDeepLinkForHostname(url: URL): void {
                 get(dashboardRouter).goTo(DashboardRoute.Governance)
                 openAccountSwitcherFirst(() => handleDeepLinkGovernanceContext(pathnameParts, url.searchParams), url)
                 break
-            case DeepLinkContext.Dapps:
+            case DeepLinkContext.WalletConnect:
                 handleDeepLinkDappsContext(pathnameParts, url.search)
                 break
             default:

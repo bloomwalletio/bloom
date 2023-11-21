@@ -476,10 +476,17 @@
                         "description": "Description",
                         "url": "URL",
                         "verifyUrl": "Verify URL",
-                        "disconnectTitle": "Disconnect",
-                        "disconnectDescription": "Do you want to disconnect from {dappName}",
+                        "disconnect": {
+                            "title": "Disconnect",
+                            "description": "Do you want to disconnect from {dappName}?"
+                        },
+                        "remove": {
+                            "title": "Remove",
+                            "description": "Do you want to disconnect from {dappName} and remove it from here?"
+                        },
                         "actions": {
-                            "disconnect": "Disconnect"
+                            "disconnect": "Disconnect",
+                            "remove": "Remove"
                         }
                     }
                 }
@@ -670,7 +677,7 @@
             "installedVersion": "Installed version",
             "newVersion": "New version",
             "stage": "Stage",
-            "prod": "Production",
+            "prod": "Early Access",
             "alpha": "Alpha",
             "beta": "Beta",
             "releasedAt": "Released at",
@@ -1352,6 +1359,7 @@
         "nft": "NFT",
         "type": "Tipo",
         "immutableIssuer": "Emisor inmutable",
+        "magicContract": "Magic Contract",
         "smartContract": "Contrato inteligente",
         "targetContract": "Contrato de destino",
         "contractFunction": "Función de contrato",
@@ -1538,7 +1546,10 @@
             }
         },
         "disconnectDapp": {
-            "success": "Disconnected from dApp"
+            "success": "Disconnected from {dappName}"
+        },
+        "removeDapp": {
+            "success": "{dappName} removed"
         },
         "claimed": {
             "success": "Transacción reclamada",
@@ -1657,6 +1668,7 @@
             "insufficientFunds": "Esta cartera tiene fondos insuficientes.",
             "insufficientFundsGasFee": "Insufficient funds to cover the gas fee.",
             "insufficientFundsStorageDeposit": "Fondos insuficientes para cubrir el depósito de almacenamiento.",
+            "insufficientFundsTransaction": "Insufficient funds to make a transaction.",
             "ongoingTransaction": "Si tiene transacciones en curso, por favor espere su confirmación.",
             "cancelled": "La transacción fue cancelada.",
             "invalidExpirationDateTime": "La fecha/hora de vencimiento elegida no es válida.",

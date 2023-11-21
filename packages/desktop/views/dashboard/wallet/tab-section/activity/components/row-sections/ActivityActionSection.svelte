@@ -3,16 +3,14 @@
     import { formatDate, localize } from '@core/i18n'
     import { Avatar, IconName } from '@bloomwalletio/ui'
     import { Text } from '@bloomwalletio/ui'
-    import { appSettings } from '@core/app/stores'
+    import { darkMode } from '@core/app/stores'
 
     export let activity: Activity
-
-    $: dark = $appSettings.darkMode
 
     $: shouldMagnifyIcon = [IconName.Receive, IconName.Send, IconName.ArrowDown, IconName.ArrowUp].includes(style?.icon)
 
     let style: { icon: IconName; color: string } | undefined
-    $: activity, dark, (style = getActionStyle())
+    $: activity, $darkMode, (style = getActionStyle())
     function getActionStyle(): { icon: IconName; color: string } {
         const { type, isInternal, direction, action } = activity
 
@@ -25,12 +23,12 @@
         if (type === ActivityType.Governance) {
             return {
                 icon: IconName.ArrowLeftRight,
-                color: dark ? 'neutral-1' : 'neutral-7',
+                color: $darkMode ? 'neutral-1' : 'neutral-7',
             }
         } else if (type === ActivityType.Consolidation) {
             return {
                 icon: IconName.ArrowLeftRight,
-                color: dark ? 'neutral-1' : 'neutral-7',
+                color: $darkMode ? 'neutral-1' : 'neutral-7',
             }
         } else if (action === ActivityAction.Mint) {
             return {
@@ -45,7 +43,7 @@
         } else if (action === ActivityAction.InitialBalance) {
             return {
                 icon: IconName.Receive,
-                color: dark ? 'neutral-1' : 'neutral-7',
+                color: $darkMode ? 'neutral-1' : 'neutral-7',
             }
         } else if (action === ActivityAction.Send || action === ActivityAction.BalanceChange) {
             if (isInternal) {
@@ -77,7 +75,7 @@
         } else {
             return {
                 icon: IconName.HelpCircle,
-                color: dark ? 'neutral-1' : 'neutral-7',
+                color: $darkMode ? 'neutral-1' : 'neutral-7',
             }
         }
     }

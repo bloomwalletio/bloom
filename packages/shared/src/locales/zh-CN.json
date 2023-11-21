@@ -476,10 +476,17 @@
                         "description": "Description",
                         "url": "URL",
                         "verifyUrl": "Verify URL",
-                        "disconnectTitle": "Disconnect",
-                        "disconnectDescription": "Do you want to disconnect from {dappName}",
+                        "disconnect": {
+                            "title": "Disconnect",
+                            "description": "Do you want to disconnect from {dappName}?"
+                        },
+                        "remove": {
+                            "title": "Remove",
+                            "description": "Do you want to disconnect from {dappName} and remove it from here?"
+                        },
                         "actions": {
-                            "disconnect": "Disconnect"
+                            "disconnect": "Disconnect",
+                            "remove": "Remove"
                         }
                     }
                 }
@@ -670,7 +677,7 @@
             "installedVersion": "Installed version",
             "newVersion": "New version",
             "stage": "Stage",
-            "prod": "Production",
+            "prod": "Early Access",
             "alpha": "Alpha",
             "beta": "Beta",
             "releasedAt": "Released at",
@@ -1352,6 +1359,7 @@
         "nft": "NFT",
         "type": "类型",
         "immutableIssuer": "不可变发行者",
+        "magicContract": "Magic Contract",
         "smartContract": "智能合约",
         "targetContract": "目标合约",
         "contractFunction": "合约功能",
@@ -1538,7 +1546,10 @@
             }
         },
         "disconnectDapp": {
-            "success": "Disconnected from dApp"
+            "success": "Disconnected from {dappName}"
+        },
+        "removeDapp": {
+            "success": "{dappName} removed"
         },
         "claimed": {
             "success": "已认领的交易",
@@ -1657,6 +1668,7 @@
             "insufficientFunds": "该账户资金不足。",
             "insufficientFundsGasFee": "Insufficient funds to cover the gas fee.",
             "insufficientFundsStorageDeposit": "Insufficient funds to cover the storage deposit.",
+            "insufficientFundsTransaction": "Insufficient funds to make a transaction.",
             "ongoingTransaction": "If you have ongoing transactions, please wait for their confirmation.",
             "cancelled": "您的交易已被取消。",
             "invalidExpirationDateTime": "选择的过期日期/时间无效。",

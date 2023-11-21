@@ -476,10 +476,17 @@
                         "description": "Description",
                         "url": "URL",
                         "verifyUrl": "Verify URL",
-                        "disconnectTitle": "Disconnect",
-                        "disconnectDescription": "Do you want to disconnect from {dappName}",
+                        "disconnect": {
+                            "title": "Disconnect",
+                            "description": "Do you want to disconnect from {dappName}?"
+                        },
+                        "remove": {
+                            "title": "Remove",
+                            "description": "Do you want to disconnect from {dappName} and remove it from here?"
+                        },
                         "actions": {
-                            "disconnect": "Disconnect"
+                            "disconnect": "Disconnect",
+                            "remove": "Remove"
                         }
                     }
                 }
@@ -670,7 +677,7 @@
             "installedVersion": "Zainstalowana wersja",
             "newVersion": "New version",
             "stage": "Kanał",
-            "prod": "Oficjalny",
+            "prod": "Early Access",
             "alpha": "Alpha",
             "beta": "Beta",
             "releasedAt": "Opublikowano",
@@ -1352,6 +1359,7 @@
         "nft": "NFT",
         "type": "Typ",
         "immutableIssuer": "Niezmienny wydawca",
+        "magicContract": "Magic Contract",
         "smartContract": "Smart kontrakt",
         "targetContract": "Kontrakt docelowy",
         "contractFunction": "Funkcja kontraktu",
@@ -1538,7 +1546,10 @@
             }
         },
         "disconnectDapp": {
-            "success": "Disconnected from dApp"
+            "success": "Disconnected from {dappName}"
+        },
+        "removeDapp": {
+            "success": "{dappName} removed"
         },
         "claimed": {
             "success": "Transakcja odebrana",
@@ -1657,6 +1668,7 @@
             "insufficientFunds": "Brak wystarczających środków na tym portfelu.",
             "insufficientFundsGasFee": "Insufficient funds to cover the gas fee.",
             "insufficientFundsStorageDeposit": "Niewystarczające środki na pokrycie depozytu magazynowego.",
+            "insufficientFundsTransaction": "Insufficient funds to make a transaction.",
             "ongoingTransaction": "Jeśli posiadasz trwające transakcje, zaczekaj na ich potwierdzenie.",
             "cancelled": "Transakcja została anulowana.",
             "invalidExpirationDateTime": "Wybrany czas wygaśnięcia jest nieprawidłowy.",

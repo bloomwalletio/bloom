@@ -45,7 +45,7 @@
 </script>
 
 <DrawerTemplate title={localize('views.dashboard.drawers.dapps.inputConnectionCode.title')} {drawerRouter}>
-    <div class="h-full flex flex-col gap-4 justify-between">
+    <div class="h-full flex flex-col gap-4 justify-between px-6">
         <div class="flex flex-col gap-4">
             <Alert variant="info" text={localize('views.dashboard.drawers.dapps.inputConnectionCode.hint')} />
             <TextInput

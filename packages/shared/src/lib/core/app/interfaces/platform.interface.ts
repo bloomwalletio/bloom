@@ -37,6 +37,7 @@ export interface IPlatform {
     NotificationManager: INotificationManager | undefined
     PincodeManager: IPincodeManager | undefined
 
+    focusWindow(): Promise<void>
     getAppVersionDetails(): Promise<IAppVersionDetails>
 
     checkForAppUpdate(): Promise<void>
@@ -53,7 +54,10 @@ export interface IPlatform {
     trackEvent(eventName: string, eventProperties?: Record<string, unknown>): void
 
     getLanguageCode(): Promise<string>
-    updateTheme(theme: AppTheme): void
+
+    getTheme(): Promise<AppTheme>
+    updateTheme(theme: AppTheme): Promise<void>
+    shouldBeDarkMode(): Promise<boolean>
 
     startLedgerProcess(): void
     killLedgerProcess(): void

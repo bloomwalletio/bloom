@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { appSettings } from '@core/app/stores'
+    import { darkMode } from '@core/app/stores'
     import { Position } from './enums'
     import { onMount } from 'svelte'
 
@@ -30,7 +30,6 @@
         height: 0,
     }
 
-    $: darkModeEnabled = $appSettings.darkMode
     $: refresh, refreshPosition()
 
     onMount(refreshPosition)
@@ -72,7 +71,7 @@
     class="{size} shadow-elevation-4 fixed text-center z-10 whitespace-pre-line
     {size === 'small' ? 'px-2 py-1 rounded-md' : 'p-4 rounded-xl'}
     w-auto max-w-60 shadow-lg border border-solid bg-{backgroundColor} dark:bg-{darkBackgroundColor} border-{borderColor} dark:border-{darkBorderColor} {position} {classes}"
-    class:darkmode={darkModeEnabled}
+    class:darkmode={$darkMode}
     style="top: {top}px; left:{left}px; {inlineStyle}"
     bind:this={tooltip}
 >

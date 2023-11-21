@@ -1,32 +1,23 @@
-import { logAndNotifyError } from '@core/error/actions'
 import { getWalletClient, setConnectedDapps } from '../stores'
 import { getSdkError } from '@walletconnect/utils'
+import { IConnectedDapp } from '../interface'
+import { handleError } from '@core/error/handlers'
 
-export async function disconnectDapp(topic: string): Promise<void> {
+export async function disconnectDapp(dapp: IConnectedDapp): Promise<void> {
     const client = getWalletClient()
     if (!client) {
         return
     }
 
     try {
-        const sessionIdForPairing = Object.values(client.getActiveSessions()).find(
-            (session) => session.pairingTopic === topic
-        )?.topic
-        if (sessionIdForPairing) {
+        if (dapp.session) {
             await client.disconnectSession({
-                topic: sessionIdForPairing,
+                topic: dapp.session.topic,
                 reason: getSdkError('USER_DISCONNECTED'),
             })
         }
-        await client.core.pairing.disconnect({ topic })
         setConnectedDapps()
     } catch (err) {
-        logAndNotifyError({
-            type: 'walletConnect',
-            message: String(err),
-            logToConsole: true,
-            saveToErrorLog: true,
-            showNotification: false,
-        })
+        handleError(err)
     }
 }

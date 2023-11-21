@@ -2,39 +2,39 @@
     "views": {
         "onboarding": {
             "welcome": {
-                "title": "Welcome to",
+                "title": "Willkommen zu",
                 "subtitle": "A new journey awaits...",
                 "legalAction": "Confirm you've read and accept the",
-                "button": "Begin setup"
+                "button": "Starte Setup"
             },
             "networkSetup": {
                 "chooseNetwork": {
-                    "title": "Choose your network",
+                    "title": "Wähle dein Netzwerk",
                     "iota": {
                         "primary": "IOTA Mainnet",
                         "secondary": "Production network with stable features"
                     },
                     "shimmer": {
-                        "primary": "Shimmer",
-                        "secondary": "Experimental network with the latest features"
+                        "primary": "Schimmer",
+                        "secondary": "Experimentelles Netzwerk mit den neuesten Funktionen"
                     },
                     "testnet": {
-                        "primary": "Testnet",
-                        "secondary": "Test network using valueless tokens"
+                        "primary": "Testnetz",
+                        "secondary": "Testnetz mit wertlosen Token"
                     },
                     "custom": {
-                        "primary": "Advanced configuration",
+                        "primary": "Fortgeschrittene Konfiguration",
                         "secondary": "Connect to any network with custom settings"
                     }
                 },
                 "setupCustomNetwork": {
-                    "title": "Advanced configuration"
+                    "title": "Fortgeschrittene Konfiguration"
                 }
             },
             "chooseOnboardingFlow": {
                 "title": "Choose your setup type",
                 "new": {
-                    "primary": "New profile",
+                    "primary": "Neues Profil",
                     "secondary": "Create a new profile with a mnemonic or Ledger Nano"
                 },
                 "restore": {
@@ -476,10 +476,17 @@
                         "description": "Description",
                         "url": "URL",
                         "verifyUrl": "Verify URL",
-                        "disconnectTitle": "Disconnect",
-                        "disconnectDescription": "Do you want to disconnect from {dappName}",
+                        "disconnect": {
+                            "title": "Disconnect",
+                            "description": "Do you want to disconnect from {dappName}?"
+                        },
+                        "remove": {
+                            "title": "Remove",
+                            "description": "Do you want to disconnect from {dappName} and remove it from here?"
+                        },
                         "actions": {
-                            "disconnect": "Disconnect"
+                            "disconnect": "Disconnect",
+                            "remove": "Remove"
                         }
                     }
                 }
@@ -670,7 +677,7 @@
             "installedVersion": "Installierte Version",
             "newVersion": "New version",
             "stage": "Phase",
-            "prod": "Produktion",
+            "prod": "Early Access",
             "alpha": "Alpha",
             "beta": "Beta",
             "releasedAt": "Veröffentlicht am",
@@ -1352,6 +1359,7 @@
         "nft": "NFT",
         "type": "Typ",
         "immutableIssuer": "Unveränderlicher Aussteller",
+        "magicContract": "Magic Contract",
         "smartContract": "Smart Contract",
         "targetContract": "Zielvertrag",
         "contractFunction": "Vertragsfunktion",
@@ -1538,7 +1546,10 @@
             }
         },
         "disconnectDapp": {
-            "success": "Disconnected from dApp"
+            "success": "Disconnected from {dappName}"
+        },
+        "removeDapp": {
+            "success": "{dappName} removed"
         },
         "claimed": {
             "success": "Transaktion beansprucht",
@@ -1657,6 +1668,7 @@
             "insufficientFunds": "Diese Wallet hat unzureichendes Guthaben.",
             "insufficientFundsGasFee": "Insufficient funds to cover the gas fee.",
             "insufficientFundsStorageDeposit": "Unzureichendes Guthaben, um den Storage Deposit abzudecken.",
+            "insufficientFundsTransaction": "Insufficient funds to make a transaction.",
             "ongoingTransaction": "Wenn du laufende Transaktionen hast, warte bitte auf deren Bestätigung.",
             "cancelled": "Die Transaktion wurde abgebrochen.",
             "invalidExpirationDateTime": "Das gewählte Ablaufdatum bzw. die gewählte Ablaufzeit ist ungültig.",

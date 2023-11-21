@@ -192,8 +192,7 @@
                 "title": "Help"
             },
             "theme": {
-                "title": "Theme",
-                "advice": "If you change your system theme, you may need to restart Bloom to see the effects"
+                "title": "Theme"
             },
             "language": {
                 "title": "Language"
@@ -423,6 +422,8 @@
                 "contactBook": {
                     "contactList": {
                         "title": "Contact list",
+                        "emptyHeader": "No contacts found",
+                        "emptyBody": "Connect with your favorite people in Bloom.",
                         "addContact": "Add contact"
                     },
                     "contactInformation": {
@@ -431,11 +432,20 @@
                         "removeContact": "Remove contact",
                         "addNetworkAddress": "Add network address"
                     },
+                    "contactAddress": {
+                        "title": "Contact address",
+                        "viewQrCode": "Vew QR code"
+                    },
                     "addContact": {
-                        "title": "Add contact"
+                        "title": "Add contact",
+                        "identity": "Their identity",
+                        "address": "Their address",
+                        "color": "Contact color"
                     },
                     "editContact": {
-                        "title": "Edit contact"
+                        "title": "Edit contact",
+                        "identity": "Their identity",
+                        "color": "Contact color"
                     },
                     "removeContact": {
                         "title": "Remove contact",
@@ -458,7 +468,8 @@
                     "dappsList": {
                         "title": "Connected dApps",
                         "connectDapp": "Connect dApp",
-                        "hint": "WalletConnect allows you to connect Bloom with dApps directly or with a connection code."
+                        "emptyTitle": "No apps found",
+                        "emptySubtitle": "Connect Bloom with your favourite dApps"
                     },
                     "inputConnectionCode": {
                         "title": "Connect to a dApp",
@@ -466,11 +477,29 @@
                         "hint": "Add new dApps by adding a Wallet Connect code below.",
                         "deprecated": "The dApp you try to connect to uses a deprecated version of WalletConnect. Cannot establish connection"
                     },
-                    "confirmConnection": {
-                        "title": "Connect with an application",
+                    "connectionRequest": {
+                        "title": "Connection request",
                         "hint": "A third party service wants to connect with your wallet for the first time. You can choose if you wish to trust this connection.",
                         "insecure": "The URL for this dApp cannot be verified. Your connection to this application may not be secure.",
                         "acceptInsecureConnection": "I understand this dApp may be insecure and still want to connect."
+                    },
+                    "confirmConnection": {
+                        "title": "Connect with an application",
+                        "permissions": {
+                            "step": "Permission",
+                            "title": "This dApp will be abe to ask to:",
+                            "signData": "Request to sign data",
+                            "signTransaction": "Request to sign a transaction",
+                            "sendTransaction": "Request to send a transaction"
+                        },
+                        "networks": {
+                            "step": "Networks",
+                            "title": "Select networks"
+                        },
+                        "accounts": {
+                            "step": "Accounts",
+                            "title": "Select accounts"
+                        }
                     },
                     "details": {
                         "title": "Connection details",
@@ -479,10 +508,17 @@
                         "description": "Description",
                         "url": "URL",
                         "verifyUrl": "Verify URL",
-                        "disconnectTitle": "Disconnect",
-                        "disconnectDescription": "Do you want to disconnect from {dappName}",
+                        "disconnect": {
+                            "title": "Disconnect",
+                            "description": "Do you want to disconnect from {dappName}?"
+                        },
+                        "remove": {
+                            "title": "Remove",
+                            "description": "Do you want to disconnect from {dappName} and remove it from here?"
+                        },
                         "actions": {
-                            "disconnect": "Disconnect"
+                            "disconnect": "Disconnect",
+                            "remove": "Remove"
                         }
                     }
                 }
@@ -655,6 +691,10 @@
             },
             "minimizeStorageDepositButton": "Minimize storage deposit"
         },
+        "dappAccountSwitcher": {
+            "title": "Switch account",
+            "body": "The dApp requires you to switch to the following account. Do you want to continue?"
+        },
         "minimizeStorageDeposit": {
             "title": "Minimize storage deposit",
             "description": "Consolidate outputs to minimize your required storage deposit and increase your available balance.",
@@ -673,7 +713,7 @@
             "installedVersion": "Installed version",
             "newVersion": "New version",
             "stage": "Stage",
-            "prod": "Production",
+            "prod": "Early Access",
             "alpha": "Alpha",
             "beta": "Beta",
             "releasedAt": "Released at",
@@ -830,6 +870,10 @@
             "hint": "No balance will be sent to {dappName} in the process of signing this message.",
             "warning": "dApp cannot be determined. No balance will be sent in the process of signing this message.",
             "action": "Sign message"
+        },
+        "signTransaction": {
+            "title": "Sign transaction",
+            "action": "Sign transaction"
         },
         "activityDetails": {
             "title": {
@@ -1253,7 +1297,8 @@
         "address": "Address",
         "addressName": "Address name",
         "myAddress": "My address",
-        "viewOnExplorer": "View on Explorer",
+        "viewOnExplorer": "View on explorer",
+        "viewQrCode": "View QR code",
         "import": "Import",
         "stronghold": "Stronghold",
         "locked": "Locked",
@@ -1396,7 +1441,10 @@
         "message": "Message",
         "error": "Error",
         "warning": "Warning",
-        "failed": "failed"
+        "failed": "failed",
+        "required": "Required",
+        "yes": "Yes",
+        "no": "No"
     },
     "filters":{
         "title": "Filters",
@@ -1542,7 +1590,10 @@
             }
         },
         "disconnectDapp": {
-            "success": "Disconnected from dApp"
+            "success": "Disconnected from {dappName}"
+        },
+        "removeDapp": {
+            "success": "{dappName} removed"
         },
         "claimed": {
             "success": "Transaction claimed",
@@ -1575,6 +1626,9 @@
         },
         "signMessage": {
             "success": "Message successfully signed"
+        },
+        "signTransaction": {
+            "success": "Transaction successfully signed"
         },
         "findShimmerRewards": {
             "error": "An error occurred while searching for rewards"
@@ -1661,6 +1715,7 @@
             "insufficientFunds": "This wallet has insufficient funds.",
             "insufficientFundsGasFee": "Insufficient funds to cover the gas fee.",
             "insufficientFundsStorageDeposit": "Insufficient funds to cover the storage deposit.",
+            "insufficientFundsTransaction": "Insufficient funds to make a transaction.",
             "ongoingTransaction": "If you have ongoing transactions, please wait for their confirmation.",
             "cancelled": "The transaction was cancelled.",
             "invalidExpirationDateTime": "The chosen expiration date/time is invalid.",

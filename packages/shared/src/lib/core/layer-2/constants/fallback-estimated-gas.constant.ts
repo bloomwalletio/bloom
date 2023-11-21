@@ -7,9 +7,9 @@ import { SendFlowType } from '@core/wallet/enums'
  *      Native Token Transfer: < 24350 glow
  *      NFT Transfer: < 24700 glow */
 export const FALLBACK_ESTIMATED_GAS: { [key in SendFlowType]: number } = {
-    [SendFlowType.BaseCoinTransfer]: 24_200,
-    [SendFlowType.TokenTransfer]: 24_350,
-    [SendFlowType.NftTransfer]: 24_700,
+    [SendFlowType.BaseCoinTransfer]: 10_000,
+    [SendFlowType.TokenTransfer]: 10_000,
+    [SendFlowType.NftTransfer]: 50_000,
     [SendFlowType.TokenUnwrap]: 53_892,
     [SendFlowType.NftUnwrap]: 72_307,
 }

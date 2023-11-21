@@ -1,24 +1,26 @@
 <script lang="ts">
-    import { IconName, Button } from '@bloomwalletio/ui'
-    import { ContactCard, DrawerTemplate } from '@components'
+    import { Button, IconName } from '@bloomwalletio/ui'
+    import { DrawerTemplate, EmptyListPlaceholder } from '@components'
     import { ContactManager, IContact, clearSelectedContact, setSelectedContact } from '@core/contact'
     import { localize } from '@core/i18n'
     import { Router } from '@core/router'
     import features from '@features/features'
     import { onMount } from 'svelte'
     import { ContactBookRoute } from '../contact-book-route.enum'
+    import { ContactList } from './components'
 
     export let drawerRouter: Router<unknown>
 
     const contacts = ContactManager.listContacts()
+    $: hasContacts = contacts.length > 0
+
+    function onAddContactClick(): void {
+        drawerRouter.goTo(ContactBookRoute.AddContact)
+    }
 
     function onContactClick(contact: IContact): void {
         setSelectedContact(contact)
         drawerRouter.goTo(ContactBookRoute.ContactInformation)
-    }
-
-    function onAddContactClick(): void {
-        drawerRouter.goTo(ContactBookRoute.AddContact)
     }
 
     onMount(() => {
@@ -30,11 +32,19 @@
     title={localize(`views.dashboard.drawers.contactBook.${ContactBookRoute.ContactList}.title`)}
     {drawerRouter}
 >
-    <contact-list class="flex flex-col justify-between gap-4 mb-6">
-        {#each contacts as contact}
-            <ContactCard {contact} onCardClick={() => onContactClick(contact)} />
-        {/each}
-    </contact-list>
+    {#if hasContacts}
+        <div class="px-6">
+            <ContactList {contacts} {onContactClick} />
+        </div>
+    {:else}
+        <div class="w-full h-full flex items-center justify-center px-6">
+            <EmptyListPlaceholder
+                title={localize(`views.dashboard.drawers.contactBook.${ContactBookRoute.ContactList}.emptyHeader`)}
+                subtitle={localize(`views.dashboard.drawers.contactBook.${ContactBookRoute.ContactList}.emptyBody`)}
+                icon={IconName.Users}
+            />
+        </div>
+    {/if}
     <div slot="footer" class="flex justify-center">
         {#if features.contacts.addContact.enabled}
             <Button

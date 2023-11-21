@@ -19,7 +19,7 @@
 </script>
 
 <DrawerTemplate title={localize('views.dashboard.drawers.networkConfig.confirmLedgerEvmAddress.title')} {drawerRouter}>
-    <confirm-ledger-evm-address-drawer class="flex flex-col justify-between w-full h-full">
+    <confirm-ledger-evm-address-drawer class="flex flex-col justify-between w-full h-full px-6">
         <div class="flex flex-col gap-4">
             {#if address}
                 <Text type="body2" textColor="secondary">

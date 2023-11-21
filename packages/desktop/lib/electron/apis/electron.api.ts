@@ -10,6 +10,7 @@ import { bindMethodsAcrossContextBridge } from '../utils/context-bridge.utils'
 
 import type { IAppSettings } from '@core/app/interfaces'
 import type { IFeatureFlag } from '@lib/features/interfaces'
+import { AppTheme } from '@core/app/enums'
 
 let activeProfileId = null
 const eventListeners = {}
@@ -130,6 +131,9 @@ export default {
     checkForAppUpdate(): Promise<unknown> {
         return ipcRenderer.invoke('update-check')
     },
+    focusWindow(): Promise<unknown> {
+        return ipcRenderer.invoke('focus-window')
+    },
     getAppVersionDetails(): Promise<unknown> {
         return ipcRenderer.invoke('get-version-details')
     },
@@ -231,8 +235,14 @@ export default {
             ) as IFeatureFlag
         return feature?.enabled ?? false
     },
+    getTheme(): Promise<AppTheme> {
+        return ipcRenderer.invoke('get-theme')
+    },
     updateTheme(theme: string): Promise<void> {
         return ipcRenderer.invoke('update-theme', theme)
+    },
+    shouldBeDarkMode(): Promise<boolean> {
+        return ipcRenderer.invoke('should-be-dark-mode')
     },
     startLedgerProcess(): void {
         return ipcRenderer.send('start-ledger-process')

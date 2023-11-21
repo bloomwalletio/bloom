@@ -63,36 +63,36 @@ jobs:
             - name: Set up certificate (Windows)
               if: ${{ inputs.sign && inputs.os == 'windows-2022' }}
               run: |
-                echo "${{ secrets.SM_CLIENT_CERT_FILE_B64 }}" | base64 --decode > /d/Certificate_pkcs12.p12
-              shell: bash 
+                  echo "${{ secrets.SM_CLIENT_CERT_FILE_B64 }}" | base64 --decode > /d/Certificate_pkcs12.p12
+              shell: bash
 
             - name: Set variables for signing (Windows)
               if: ${{ inputs.sign && inputs.os == 'windows-2022' }}
               run: |
-                echo "SM_HOST=${{ secrets.SM_HOST }}" >> "$GITHUB_ENV"
-                echo "SM_API_KEY=${{ secrets.SM_API_KEY }}" >> "$GITHUB_ENV"
-                echo "SM_CLIENT_CERT_FILE=D:\\Certificate_pkcs12.p12" >> "$GITHUB_ENV"
-                echo "SM_CLIENT_CERT_PASSWORD=${{ secrets.SM_CLIENT_CERT_PASSWORD }}" >> "$GITHUB_ENV"
-                echo "C:\Program Files (x86)\Windows Kits\10\App Certification Kit" >> $GITHUB_PATH
-                echo "C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.8 Tools" >> $GITHUB_PATH
-                echo "C:\Program Files\DigiCert\DigiCert Keylocker Tools" >> $GITHUB_PATH
+                  echo "SM_HOST=${{ secrets.SM_HOST }}" >> "$GITHUB_ENV"
+                  echo "SM_API_KEY=${{ secrets.SM_API_KEY }}" >> "$GITHUB_ENV"
+                  echo "SM_CLIENT_CERT_FILE=D:\\Certificate_pkcs12.p12" >> "$GITHUB_ENV"
+                  echo "SM_CLIENT_CERT_PASSWORD=${{ secrets.SM_CLIENT_CERT_PASSWORD }}" >> "$GITHUB_ENV"
+                  echo "C:\Program Files (x86)\Windows Kits\10\App Certification Kit" >> $GITHUB_PATH
+                  echo "C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.8 Tools" >> $GITHUB_PATH
+                  echo "C:\Program Files\DigiCert\DigiCert Keylocker Tools" >> $GITHUB_PATH
               shell: bash
 
             - name: Install DigiCert KeyLocker KSP (Windows)
               if: ${{ inputs.sign && inputs.os == 'windows-2022' }}
               run: |
-                curl -X GET  "https://one.digicert.com/signingmanager/api-ui/v1/releases/Keylockertools-windows-x64.msi/download" -H "x-api-key:${{ secrets.SM_API_KEY }}" -o Keylockertools-windows-x64.msi
-                msiexec /i Keylockertools-windows-x64.msi /quiet /qn
-                smksp_registrar.exe list
-                smctl.exe keypair ls
-                C:\\Windows\\System32\\certutil.exe -csp "DigiCert Signing Manager KSP" -key -user
+                  curl -X GET  "https://one.digicert.com/signingmanager/api-ui/v1/releases/Keylockertools-windows-x64.msi/download" -H "x-api-key:${{ secrets.SM_API_KEY }}" -o Keylockertools-windows-x64.msi
+                  msiexec /i Keylockertools-windows-x64.msi /quiet /qn
+                  smksp_registrar.exe list
+                  smctl.exe keypair ls
+                  C:\\Windows\\System32\\certutil.exe -csp "DigiCert Signing Manager KSP" -key -user
               shell: cmd
 
             - name: Sync Certificates with KeyLocker KSP (Windows)
               if: ${{ inputs.sign && inputs.os == 'windows-2022' }}
               run: smctl windows certsync
               shell: cmd
-            
+
             - name: Set deployment target (MacOS)
               run: echo "MACOSX_DEPLOYMENT_TARGET=10.14" >> $GITHUB_ENV # TODO: set this to 10.12 once rocksDB issue is fixed
               if: inputs.os == 'macos-11'
@@ -146,7 +146,6 @@ jobs:
                   BLOOM_APPLE_ID: ${{ secrets.APPLE_ID }} # Requires prefix of BLOOM otherwise electron builder tries to notarize the app using the env variables
                   BLOOM_APPLE_ID_PASSWORD: ${{ secrets.APPLE_ID_PASSWORD }} # Requires prefix of BLOOM otherwise electron builder tries to notarize the app using the env variables
                   GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-                  PRIVATE_REPO_ACCESS_TOKEN: ${{ vars.PRIVATE_REPO_ACCESS_TOKEN }} # TODO: Remove following lines after we're open source
                   MACOS_SKIP_NOTARIZATION: false
               working-directory: packages/desktop
               if: ${{ inputs.sign && inputs.os == 'macos-11' }}
@@ -156,7 +155,6 @@ jobs:
               env:
                   GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
                   MACOS_SKIP_NOTARIZATION: true
-                  PRIVATE_REPO_ACCESS_TOKEN: ${{ vars.PRIVATE_REPO_ACCESS_TOKEN }} # TODO: Remove following lines after we're open source
               working-directory: packages/desktop
               if: ${{ ! inputs.sign && inputs.os == 'macos-11' }}
 
@@ -165,7 +163,6 @@ jobs:
               env:
                   CERTIFICATE_FINGERPRINT: ${{ secrets.SM_CODE_SIGNING_CERT_SHA1_HASH }}
                   GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-                  PRIVATE_REPO_ACCESS_TOKEN: ${{ vars.PRIVATE_REPO_ACCESS_TOKEN }} # TODO: Remove following lines after we're open source
                   SIGN: true
               working-directory: packages/desktop
               if: ${{ inputs.sign && inputs.os == 'windows-2022' }}
@@ -174,7 +171,6 @@ jobs:
               run: yarn compile:${env:STAGE}:win
               env:
                   GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-                  PRIVATE_REPO_ACCESS_TOKEN: ${{ vars.PRIVATE_REPO_ACCESS_TOKEN }} # TODO: Remove following lines after we're open source
                   SIGN: false
               working-directory: packages/desktop
               if: ${{ ! inputs.sign && inputs.os == 'windows-2022' }}
@@ -185,7 +181,6 @@ jobs:
               if: inputs.os == 'ubuntu-20.04'
               env:
                   GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-                  PRIVATE_REPO_ACCESS_TOKEN: ${{ vars.PRIVATE_REPO_ACCESS_TOKEN }} # TODO: Remove following lines after we're open source
             - name: Import GPG key (Linux)
               run: |
                   echo "$GPG_PRIVATE_KEY" | base64 -d > /tmp/private.key && \

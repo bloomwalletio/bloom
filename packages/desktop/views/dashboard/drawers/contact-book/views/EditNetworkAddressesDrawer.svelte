@@ -207,7 +207,7 @@
     title={localize(`views.dashboard.drawers.contactBook.${ContactBookRoute.EditNetworkAddresses}.title`)}
     {drawerRouter}
 >
-    <form on:submit|preventDefault={onSaveClick} id="edit-network-addresses-form" class="flex flex-col gap-6">
+    <form on:submit|preventDefault={onSaveClick} id="edit-network-addresses-form" class="flex flex-col gap-6 px-6">
         {#each [...savedAddresses, ...newAddresses] as address, index}
             <div
                 class="flex flex-col justify-between gap-3 p-4 bg-surface dark:bg-surface-dark
@@ -215,29 +215,29 @@
             >
                 {#if index < savedAddresses.length}
                     <TextInput
-                        bind:this={savedAddressNameInputs[index]}
-                        bind:value={savedAddresses[index].addressName}
-                        bind:error={validationErrors[index][NetworkAddressField.Name]}
-                        label={localize('general.addressName')}
-                    />
-                    <TextInput
                         bind:value={savedAddresses[index].address}
                         bind:error={validationErrors[index][NetworkAddressField.Address]}
                         disabled
                         label={localize('general.address')}
                     />
-                {:else}
                     <TextInput
-                        bind:this={newAddressNameInputs[index - savedAddresses.length]}
-                        bind:value={newAddresses[index - savedAddresses.length].addressName}
+                        bind:this={savedAddressNameInputs[index]}
+                        bind:value={savedAddresses[index].addressName}
                         bind:error={validationErrors[index][NetworkAddressField.Name]}
                         label={localize('general.addressName')}
                     />
+                {:else}
                     <TextInput
                         bind:this={newAddressInputs[index - savedAddresses.length]}
                         bind:value={newAddresses[index - savedAddresses.length].address}
                         bind:error={validationErrors[index][NetworkAddressField.Address]}
                         label={localize('general.address')}
+                    />
+                    <TextInput
+                        bind:this={newAddressNameInputs[index - savedAddresses.length]}
+                        bind:value={newAddresses[index - savedAddresses.length].addressName}
+                        bind:error={validationErrors[index][NetworkAddressField.Name]}
+                        label={localize('general.addressName')}
                     />
                 {/if}
                 <Button
