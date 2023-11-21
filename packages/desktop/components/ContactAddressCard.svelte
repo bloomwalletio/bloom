@@ -1,23 +1,36 @@
 <script lang="ts">
-    import { Copyable, IconButton, IconName, Text } from '@bloomwalletio/ui'
-    import { IContact, IContactAddressMap } from '@core/contact'
+    import { Copyable, IconButton, IconName, Text, Tile } from '@bloomwalletio/ui'
+    import { IContact, IContactAddress, IContactAddressMap, setSelectedContactNetworkAddress } from '@core/contact'
     import { localize } from '@core/i18n'
     import { resetLedgerPreparedOutput, resetShowInternalVerificationPopup } from '@core/ledger'
-    import { NetworkId, getNameFromNetworkId } from '@core/network'
+    import { ExplorerEndpoint, getDefaultExplorerUrl, getNameFromNetworkId, NetworkId } from '@core/network'
     import { Router } from '@core/router'
     import { truncateString } from '@core/utils'
-    import { SendFlowType, SubjectType, setSendFlowParameters } from '@core/wallet'
+    import { SendFlowType, setSendFlowParameters, SubjectType } from '@core/wallet'
     import { closeDrawer } from '@desktop/auxiliary/drawer'
-    import { PopupId, openPopup } from '@desktop/auxiliary/popup'
+    import { openPopup, PopupId } from '@desktop/auxiliary/popup'
     import features from '@features/features'
     import { NetworkAvatar } from '@ui'
     import { SendFlowRouter, sendFlowRouter } from '@views/dashboard/send-flow'
     import { ContactAddressMenu } from './menus'
+    import { ContactBookRoute } from '../views/dashboard/drawers'
+    import { openUrlInBrowser } from '@core/app'
 
-    export let drawerRouter: Router<unknown>
+    export let drawerRouter: Router<ContactBookRoute>
     export let networkId: NetworkId
     export let contact: IContact
     export let contactAddressMap: IContactAddressMap
+
+    const explorerUrl = getDefaultExplorerUrl(networkId, ExplorerEndpoint.Address)
+
+    function onExplorerClick(address: string): void {
+        openUrlInBrowser(`${explorerUrl}/${address}`)
+    }
+
+    function onQrCodeClick(contactAddress: IContactAddress): void {
+        setSelectedContactNetworkAddress(contactAddress)
+        drawerRouter.goTo(ContactBookRoute.ContactAddress)
+    }
 
     function onSendClick(address: string): void {
         setSendFlowParameters({
@@ -36,35 +49,51 @@
     }
 </script>
 
-<contact-address-card
-    class="flex flex-col justify-between bg-surface dark:bg-surface-dark p-4 gap-4 border border-solid border-stroke dark:border-stroke-dark rounded-xl"
->
-    <contact-address-head class="flex justify-between">
-        <div class="flex items-center gap-2">
-            <NetworkAvatar {networkId} />
-            <Text type="body2">{getNameFromNetworkId(networkId)}</Text>
-        </div>
-        <ContactAddressMenu {drawerRouter} {networkId} />
-    </contact-address-head>
-    {#each Object.values(contactAddressMap) as contactAddress}
-        <contact-address-item class="flex justify-between items-end gap-4">
-            <div class="flex flex-col">
-                <Text width="full" align="left" truncate>
-                    [{contactAddress.addressName}]
-                </Text>
-                <Copyable value={contactAddress.address}>
-                    <Text type="pre-md" textColor="secondary" fontWeight="medium">
-                        {truncateString(contactAddress.address, 9, 9)}
-                    </Text>
-                </Copyable>
+<Tile border>
+    <contact-address-card class="w-full flex flex-col justify-between gap-4 p-1">
+        <contact-address-head class="flex justify-between">
+            <div class="flex items-center gap-2">
+                <NetworkAvatar {networkId} />
+                <Text type="body1">{getNameFromNetworkId(networkId)}</Text>
             </div>
-            {#if features.contacts.sendTo.enabled}
-                <IconButton
-                    icon={IconName.Send}
-                    tooltip={localize('actions.send')}
-                    on:click={() => onSendClick(contactAddress.address)}
-                />
-            {/if}
-        </contact-address-item>
-    {/each}
-</contact-address-card>
+            <ContactAddressMenu {drawerRouter} {networkId} />
+        </contact-address-head>
+        {#each Object.values(contactAddressMap) as contactAddress}
+            <contact-address-item class="flex justify-between items-end gap-4">
+                <div class="flex flex-col">
+                    <Text width="full" align="left" truncate>
+                        {contactAddress.addressName}
+                    </Text>
+                    <Copyable value={contactAddress.address}>
+                        <Text type="pre-md" textColor="secondary" fontWeight="medium">
+                            {truncateString(contactAddress.address, 9, 9)}
+                        </Text>
+                    </Copyable>
+                </div>
+                <div class="flex flex-row space-x-1">
+                    {#if explorerUrl}
+                        <IconButton
+                            size="sm"
+                            icon={IconName.Globe}
+                            tooltip={localize('general.viewOnExplorer')}
+                            on:click={() => onExplorerClick(contactAddress.address)}
+                        />
+                    {/if}
+                    <IconButton
+                        size="sm"
+                        icon={IconName.QrCode}
+                        tooltip={localize('general.viewQrCode')}
+                        on:click={() => onQrCodeClick(contactAddress)}
+                    />
+                    {#if features.contacts.sendTo.enabled}
+                        <IconButton
+                            icon={IconName.Send}
+                            tooltip={localize('actions.send')}
+                            on:click={() => onSendClick(contactAddress.address)}
+                        />
+                    {/if}
+                </div>
+            </contact-address-item>
+        {/each}
+    </contact-address-card>
+</Tile>

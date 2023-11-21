@@ -28,7 +28,7 @@
     {drawerRouter}
 >
     {#key depositAddress}
-        <div class="w-full h-full flex items-center justify-center">
+        <div class="w-full h-full flex items-center justify-center px-6">
             <AddressBox address={depositAddress} showQr title={localize('general.myAddress')} />
         </div>
     {/key}

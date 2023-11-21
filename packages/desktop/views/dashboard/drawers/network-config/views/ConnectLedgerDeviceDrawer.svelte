@@ -33,7 +33,7 @@
 </script>
 
 <DrawerTemplate title={localize('views.dashboard.drawers.networkConfig.connectLedgerDevice.title')} {drawerRouter}>
-    <connect-ledger-device-drawer class="flex flex-col justify-between w-full h-full">
+    <connect-ledger-device-drawer class="flex flex-col justify-between w-full h-full px-6">
         <div class="mx-2 flex flex-col self-center">
             <Animation animation="ledger-disconnected-desktop" />
             <Text type={TextType.h4}>{localize(`${LOCALE_BASE_PATH}.header`)}</Text>
