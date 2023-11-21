@@ -1,15 +1,15 @@
 import { ITokenWithBalance } from '@core/token/interfaces'
 import { getMarketPriceForToken } from './getMarketPriceForToken'
 
-export function getFiatAmountFromTokenValue(tokenAmount: number, token: ITokenWithBalance): number | undefined {
+export function getTokenAmountFromFiatValue(fiatAmount: string, token: ITokenWithBalance): string | undefined {
     const marketPrice = getMarketPriceForToken(token)
     if (marketPrice === undefined || token?.metadata?.decimals === undefined) {
         return undefined
     }
 
     try {
-        const fiatAmount = (marketPrice * tokenAmount) / 10 ** token.metadata.decimals
-        return fiatAmount
+        const tokenAmount = (Number(fiatAmount) / marketPrice) * 10 ** token.metadata.decimals
+        return tokenAmount.toString()
     } catch {
         return undefined
     }
