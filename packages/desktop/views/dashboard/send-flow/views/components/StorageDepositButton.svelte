@@ -34,7 +34,7 @@
     {anchor}
     event={disabled ? undefined : 'click'}
     placement="top-end"
-    class="border border-solid border-purple-50 rounded-xl shadow-lg overflow-hidden"
+    class="border border-solid border-stroke dark:border-stroke-dark rounded-xl shadow-lg overflow-hidden"
 >
     <gift-storage-deposit-modal
         class="flex flex-row justify-between items-center p-4 gap-4"
