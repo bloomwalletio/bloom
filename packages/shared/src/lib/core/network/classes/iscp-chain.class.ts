@@ -119,7 +119,8 @@ export class IscpChain implements IChain {
     }
 
     async getBalanceOfAddress(address: string, standard = TokenStandard.Erc20): Promise<IErc20TokenWithBalance[]> {
-        const apiUrl = `${this.buildExplorerApiUrl()}/addresses/${address}/tokens?type=${standard}`
+        const tokenType = standard.replace('ERC', 'ERC-')
+        const apiUrl = `${this.buildExplorerApiUrl()}/addresses/${address}/tokens?type=${tokenType}`
         const requestInit: RequestInit = {
             method: 'GET',
             headers: {
@@ -127,24 +128,29 @@ export class IscpChain implements IChain {
                 'Content-Type': 'application/json',
             },
         }
-        const response = await fetch(apiUrl, requestInit)
-        const data: { items: { token: IErc20TokenWithBalance & { type: TokenStandard.Erc20 }; value: string }[] } =
-            await response.json()
+        try {
+            const response = await fetch(apiUrl, requestInit)
+            const data: { items: { token: IErc20TokenWithBalance & { type: TokenStandard.Erc20 }; value: string }[] } =
+                await response.json()
 
-        if (data.items) {
-            const result: IErc20TokenWithBalance[] = []
-            for (const { token, value } of data.items) {
-                result.push({
-                    address: token.address,
-                    value: BigInt(value),
-                    name: token.name,
-                    symbol: token.symbol,
-                    decimals: token.decimals,
-                    standard: token.type,
-                })
+            if (data.items) {
+                const result: IErc20TokenWithBalance[] = []
+                for (const { token, value } of data.items) {
+                    result.push({
+                        address: token.address,
+                        value: BigInt(value),
+                        name: token.name,
+                        symbol: token.symbol,
+                        decimals: token.decimals,
+                        standard: token.type,
+                    })
+                }
+                return result
+            } else {
+                return []
             }
-            return result
-        } else {
+        } catch (err) {
+            console.error(err)
             return []
         }
     }
