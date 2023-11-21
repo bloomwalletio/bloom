@@ -1,6 +1,6 @@
 <script lang="ts">
-    import { Button, Icon, IconName, Text } from '@bloomwalletio/ui'
-    import { DrawerTemplate } from '@components'
+    import { Button, IconName } from '@bloomwalletio/ui'
+    import { DrawerTemplate, EmptyListPlaceholder } from '@components'
     import { ContactManager, IContact, clearSelectedContact, setSelectedContact } from '@core/contact'
     import { localize } from '@core/i18n'
     import { Router } from '@core/router'
@@ -37,18 +37,12 @@
             <ContactList {contacts} {onContactClick} />
         </div>
     {:else}
-        <div class="w-full h-full flex flex-col items-center justify-center gap-6 px-6">
-            <empty-list-icon>
-                <Icon name={IconName.Users} size="md" customColor="primary-500" />
-            </empty-list-icon>
-            <div class="flex flex-col items-center justify-center px-20 gap-4">
-                <Text type="h6" align="center">
-                    {localize(`views.dashboard.drawers.contactBook.${ContactBookRoute.ContactList}.emptyHeader`)}
-                </Text>
-                <Text textColor="secondary" align="center">
-                    {localize(`views.dashboard.drawers.contactBook.${ContactBookRoute.ContactList}.emptyBody`)}
-                </Text>
-            </div>
+        <div class="w-full h-full flex items-center justify-center px-6">
+            <EmptyListPlaceholder
+                title={localize(`views.dashboard.drawers.contactBook.${ContactBookRoute.ContactList}.emptyHeader`)}
+                subtitle={localize(`views.dashboard.drawers.contactBook.${ContactBookRoute.ContactList}.emptyBody`)}
+                icon={IconName.Users}
+            />
         </div>
     {/if}
     <div slot="footer" class="flex justify-center">
@@ -62,11 +56,3 @@
         {/if}
     </div>
 </DrawerTemplate>
-
-<style lang="scss">
-    empty-list-icon {
-        @apply flex items-center justify-center text-center;
-        @apply h-24 w-24 rounded-full shadow-elevation-4;
-        @apply bg-surface dark:bg-surface-dark;
-    }
-</style>

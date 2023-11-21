@@ -1,7 +1,7 @@
 <script lang="ts">
     import { connectedDapps, setSelectedDapp } from '@auxiliary/wallet-connect/stores'
-    import { Alert, Button, IconName } from '@bloomwalletio/ui'
-    import { DrawerTemplate } from '@components'
+    import { Button, IconName } from '@bloomwalletio/ui'
+    import { DrawerTemplate, EmptyListPlaceholder } from '@components'
     import { localize } from '@core/i18n'
     import { Router } from '@core/router'
     import DappCard from '../components/DappCard.svelte'
@@ -30,7 +30,13 @@
             {/each}
         </connected-dapps>
     {:else}
-        <Alert variant="info" text={localize('views.dashboard.drawers.dapps.dappsList.hint')} />
+        <div class="w-full h-full flex flex-col items-center justify-center gap-6 px-6">
+            <EmptyListPlaceholder
+                title={localize('views.dashboard.drawers.dapps.dappsList.emptyTitle')}
+                subtitle={localize('views.dashboard.drawers.dapps.dappsList.emptySubtitle')}
+                icon={IconName.LinkBroken}
+            />
+        </div>
     {/if}
     <div slot="footer" class="flex justify-center">
         <Button
