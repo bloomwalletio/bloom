@@ -21,17 +21,7 @@ import { Converter } from '@core/utils/convert'
 import { ISC_MAGIC_CONTRACT_ADDRESS } from '../constants'
 import { evmAddressToAgentId, getAgentBalanceParameters, getSmartContractHexName } from '../helpers'
 import { setLayer2AccountBalanceForChain } from '../stores'
-import { addNewTrackedTokenToActiveProfile, isTrackedTokenAddress } from '@core/wallet'
-
-export async function checkForUntrackedTokens(evmAddress: string, chain: IChain): Promise<void> {
-    const tokens = await chain.getBalanceOfAddress(evmAddress, { withMetadata: true })
-    const networkId = chain.getConfiguration().id
-    const untrackedTokens = tokens.filter((token) => !isTrackedTokenAddress(networkId, token.address))
-    untrackedTokens.forEach((token) => {
-        const { address, standard, name, symbol, decimals } = token
-        addNewTrackedTokenToActiveProfile(networkId, address, { standard, name, symbol, decimals })
-    })
-}
+import { checkForUntrackedTokens } from './checkForUntrackedTokens'
 
 export function fetchL2BalanceForAccount(account: IAccountState): void {
     const { evmAddresses, index } = account
