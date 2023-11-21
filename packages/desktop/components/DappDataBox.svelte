@@ -17,7 +17,7 @@
                     alt={dapp.metadata.name}
                 />
                 <Text type="xs">
-                    {truncateString(dapp.metadata.name, 15)}
+                    {truncateString(dapp.metadata.name, 15, 0)}
                 </Text>
             </div>
         </div>
