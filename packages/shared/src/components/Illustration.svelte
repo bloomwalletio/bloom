@@ -1,14 +1,12 @@
 <script lang="ts">
-    import { appSettings } from '@core/app/stores'
+    import { darkMode } from '@core/app/stores'
 
     export let illustration: string | undefined = undefined
     export let width: number | undefined = undefined
     export let height: number | undefined = undefined
     export let classes = ''
 
-    $: darkModeEnabled = $appSettings.darkMode
-
-    $: selected = illustrations[illustration]?.[darkModeEnabled ? 'darkmode' : 'lightmode']
+    $: selected = illustrations[illustration]?.[$darkMode ? 'darkmode' : 'lightmode']
 
     const illustrations = {
         // Misc

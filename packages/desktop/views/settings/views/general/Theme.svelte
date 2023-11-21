@@ -1,12 +1,10 @@
 <script lang="ts">
-    import { Alert, IOption, RadioGroup } from '@bloomwalletio/ui'
-    import { AppTheme, shouldBeDarkMode } from '@core/app'
+    import { IOption, RadioGroup } from '@bloomwalletio/ui'
+    import { AppTheme } from '@core/app'
     import { appSettings, updateAppSettings } from '@core/app/stores'
     import { localize } from '@core/i18n'
     import features from '@features/features'
     import SettingsSection from '../SettingsSection.svelte'
-
-    $: $appSettings.darkMode = shouldBeDarkMode($appSettings.theme)
 
     const options: IOption[] = [
         ...(features.app.themes.light.enabled
@@ -30,9 +28,4 @@
 
 <SettingsSection title={localize('views.settings.theme.title')}>
     <RadioGroup bind:selected {options} />
-    {#if selected === AppTheme.System}
-        <div class="mt-6">
-            <Alert text={localize('views.settings.theme.advice')} />
-        </div>
-    {/if}
 </SettingsSection>

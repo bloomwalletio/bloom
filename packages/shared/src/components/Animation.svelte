@@ -1,6 +1,6 @@
 <script lang="ts">
     import lottie, { AnimationItem, AnimationSegment } from 'lottie-web'
-    import { appSettings } from '@core/app/stores'
+    import { darkMode } from '@core/app/stores'
     import { onDestroy } from 'svelte'
 
     export let animation: string | undefined = undefined
@@ -28,8 +28,7 @@
     let container: HTMLElement
     let lottieAnimation: AnimationItem
 
-    $: darkModeEnabled = $appSettings.darkMode
-    $: selected = animation ? animations[animation]?.[darkModeEnabled ? 'darkmode' : 'lightmode'] : null
+    $: selected = animation ? animations[animation]?.[$darkMode ? 'darkmode' : 'lightmode'] : null
 
     $: if (selected && container) {
         const options = {
