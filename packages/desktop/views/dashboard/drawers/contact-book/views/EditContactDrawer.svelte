@@ -74,9 +74,6 @@
         id="edit-contact-form"
         class="flex flex-col justify-between gap-4 px-6"
     >
-        <Text type="body1">
-            {localize(`views.dashboard.drawers.contactBook.${ContactBookRoute.EditContact}.identity`)}
-        </Text>
         <TextInput
             bind:this={nameInput}
             bind:value={contactName}
@@ -89,7 +86,8 @@
             bind:error={validationErrors[ContactField.Note]}
             label={localize('general.optionalField', { field: localize('general.note') })}
         />
-        <Text type="body1">
+        <hr />
+        <Text type="body2">
             {localize(`views.dashboard.drawers.contactBook.${ContactBookRoute.EditContact}.color`)}
         </Text>
         <ColorPicker bind:value={contactColor} />
