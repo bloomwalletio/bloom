@@ -134,7 +134,7 @@ export class IscpChain implements IChain {
                 await response.json()
 
             const result: IErc20TokenWithBalance[] = []
-            for (const { token, value } of data.items) {
+            for (const { token, value } of data?.items ?? []) {
                 result.push({
                     address: token.address,
                     value: BigInt(value),
