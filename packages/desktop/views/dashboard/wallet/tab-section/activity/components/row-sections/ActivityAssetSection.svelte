@@ -9,7 +9,7 @@
     import { getTokenFromActivity } from '@core/activity/utils/getTokenFromActivity'
     import AssetInfo from '../AssetInfo.svelte'
     import { IconName, Avatar } from '@bloomwalletio/ui'
-    import { appSettings } from '@core/app/stores'
+    import { darkMode } from '@core/app/stores'
     import { localize } from '@core/i18n'
     import { Activity, ActivityAsyncStatus, ActivityDirection } from '@core/activity'
     import { getTimeDifference } from '@core/utils/time'
@@ -112,7 +112,7 @@
                 icon={IconName.Alias}
                 size="lg"
                 textColor="brand"
-                backgroundColor={$appSettings.darkMode ? 'surface-2-dark' : 'surface-2'}
+                backgroundColor={$darkMode ? 'surface-2-dark' : 'surface-2'}
             />
         {/if}
     </AssetInfo>

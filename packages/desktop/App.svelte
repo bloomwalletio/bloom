@@ -3,7 +3,7 @@
     import { Popup } from '@components/popup'
     import TitleBar from '@components/TitleBar.svelte'
     import { IS_WINDOWS, Platform } from '@core/app'
-    import { registerAppEvents } from '@core/app/actions'
+    import { registerAppEvents, getAndUpdateDarkMode } from '@core/app/actions'
     import { appSettings, appVersionDetails, initAppSettings, setAppVersionDetails } from '@core/app/stores'
     import { isLocaleLoaded, localeDirection, setupI18n } from '@core/i18n'
     import { downloadNextNftInQueue } from '@core/nfts/actions'
@@ -45,8 +45,6 @@
 
     $: $nftDownloadQueue, downloadNextNftInQueue()
 
-    $: Platform.updateTheme($appSettings.theme)
-
     let splash = true
 
     void setupI18n({ fallbackLocale: 'en', initialLocale: $appSettings.language })
@@ -55,6 +53,11 @@
         if (features.analytics.appStart.enabled) {
             Platform.trackEvent('app-start')
         }
+
+        // Theme
+        Platform.onEvent('native-theme-updated', getAndUpdateDarkMode)
+        // Set dark mode initially in case the native theme is already in system
+        await getAndUpdateDarkMode()
 
         await checkAndMigrateProfiles()
         await cleanupEmptyProfiles()

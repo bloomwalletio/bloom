@@ -165,7 +165,7 @@
                         bind:this={inputElement}
                         {maxlength}
                         class="w-full text-{alignment}
-                            bg-white dark:bg-gray-800
+                            bg-surface dark:bg-surface-dark
                             {disabled
                             ? 'text-gray-400 dark:text-gray-700'
                             : 'text-gray-800 dark:text-white'} {inputClasses}"

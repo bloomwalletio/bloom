@@ -1,17 +1,12 @@
-import { IAccountState } from '@core/account'
+import { get } from 'svelte/store'
+import { IAccountState } from '@core/account/interfaces'
 import {
     calculateAndAddPersistedNftBalanceChange,
     calculateAndAddPersistedTokenBalanceChange,
 } from '@core/activity/actions'
 import { ContractType } from '@core/layer-2'
-import { IChain, getNetwork } from '@core/network'
-import { getActiveProfile } from '@core/profile/stores'
-import { getOrRequestTokenFromPersistedTokens } from '@core/token/actions'
-import { TOKEN_ID_BYTE_LENGTH } from '@core/token/constants'
-import { Converter } from '@core/utils/convert'
-import { ISC_MAGIC_CONTRACT_ADDRESS } from '../constants'
-import { evmAddressToAgentId, getAgentBalanceParameters, getSmartContractHexName } from '../helpers'
-import { setLayer2AccountBalanceForChain } from '../stores'
+import { IChain } from '@core/network/interfaces'
+import { getNetwork } from '@core/network/stores'
 import { getNftsFromNftIds } from '@core/nfts/utils'
 import {
     addNftsToDownloadQueue,
@@ -19,7 +14,13 @@ import {
     setNftInAllAccountNftsToUnspendable,
 } from '@core/nfts/actions'
 import { selectedAccountNfts } from '@core/nfts/stores'
-import { get } from 'svelte/store'
+import { getActiveProfile } from '@core/profile/stores'
+import { getOrRequestTokenFromPersistedTokens } from '@core/token/actions'
+import { TOKEN_ID_BYTE_LENGTH } from '@core/token/constants'
+import { Converter } from '@core/utils/convert'
+import { ISC_MAGIC_CONTRACT_ADDRESS } from '../constants'
+import { evmAddressToAgentId, getAgentBalanceParameters, getSmartContractHexName } from '../helpers'
+import { setLayer2AccountBalanceForChain } from '../stores'
 
 export function fetchL2BalanceForAccount(account: IAccountState): void {
     const { evmAddresses, index } = account

@@ -192,8 +192,7 @@
                 "title": "Help"
             },
             "theme": {
-                "title": "Theme",
-                "advice": "If you change your system theme, you may need to restart Bloom to see the effects"
+                "title": "Theme"
             },
             "language": {
                 "title": "Language"

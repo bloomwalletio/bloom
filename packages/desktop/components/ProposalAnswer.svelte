@@ -3,7 +3,7 @@
 
     import { Icon, Text } from '@ui'
 
-    import { appSettings } from '@core/app/stores'
+    import { darkMode } from '@core/app/stores'
 
     import { Icon as IconEnum } from '@auxiliary/icon'
     import { Indicator, TooltipIcon } from '@bloomwalletio/ui'
@@ -28,7 +28,6 @@
 
     $: selectedAnswerValue, votedAnswerValue, setIsSelected()
     $: isVotedFor = votedAnswerValue === answer?.value
-    $: dark = $appSettings.darkMode
 
     function onClick(): void {
         if (!disabled && !hidden && !isLoading) {
@@ -50,7 +49,7 @@
 <button
     type="button"
     class="proposal-answer"
-    class:dark
+    class:dark={$darkMode}
     class:disabled
     class:hidden={isSelected || isWinner ? false : hidden}
     class:voted={isVotedFor}
