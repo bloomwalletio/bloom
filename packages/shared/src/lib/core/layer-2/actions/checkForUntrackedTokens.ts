@@ -18,7 +18,7 @@ export function checkForUntrackedTokens(account: IAccountState): void {
         )
         untrackedTokensToTrack.forEach((token) => {
             const { address, standard, name, symbol, decimals } = token
-            addNewTrackedTokenToActiveProfile(networkId, address, { standard, name, symbol, decimals })
+            addNewTrackedTokenToActiveProfile(networkId, address.toLowerCase(), { standard, name, symbol, decimals })
         })
     })
 }

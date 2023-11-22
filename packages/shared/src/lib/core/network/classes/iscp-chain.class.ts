@@ -135,13 +135,14 @@ export class IscpChain implements IChain {
 
             const result: IErc20TokenWithBalance[] = []
             for (const { token, value } of data?.items ?? []) {
+                const standard = token.type.replace('-', '') as TokenStandard.Erc20
                 result.push({
                     address: token.address,
                     value: BigInt(value),
                     name: token.name,
                     symbol: token.symbol,
                     decimals: token.decimals,
-                    standard: token.type,
+                    standard,
                 })
             }
             return result
