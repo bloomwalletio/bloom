@@ -1,6 +1,7 @@
 import { getActiveProfile, updateActiveProfile } from '@core/profile/stores'
 import { NetworkId } from '@core/network/types'
 import { removePersistedToken } from '../stores'
+import { TokenTrackingStatus } from '../enums'
 
 export function removeTrackedTokenFromActiveProfile(tokenAddress: string, networkId: NetworkId): void {
     const profile = getActiveProfile()
@@ -9,18 +10,14 @@ export function removeTrackedTokenFromActiveProfile(tokenAddress: string, networ
     }
 
     const trackedTokens = profile.trackedTokens ?? {}
-    trackedTokens[networkId] = trackedTokens[networkId]?.filter(
-        (trackedTokenAddress) => tokenAddress !== trackedTokenAddress
-    )
-    profile.trackedTokens = trackedTokens
-
-    const untrackedTokens = profile.untrackedTokens ?? {}
-    if (networkId in untrackedTokens) {
-        untrackedTokens[networkId][tokenAddress] = true
-    } else {
-        untrackedTokens[networkId] = { [tokenAddress]: true }
+    const trackedTokensPerNetwork = trackedTokens[networkId] ?? {}
+    profile.trackedTokens = {
+        ...trackedTokens,
+        [networkId]: {
+            ...trackedTokensPerNetwork,
+            [tokenAddress]: TokenTrackingStatus.Untracked,
+        },
     }
-    profile.untrackedTokens = untrackedTokens
 
     updateActiveProfile(profile)
     removePersistedToken(tokenAddress)

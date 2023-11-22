@@ -1,5 +1,6 @@
 import { IAccountState } from '@core/account/interfaces'
 import { getNetwork } from '@core/network/stores'
+import { TokenTrackingStatus } from '@core/token'
 import { addNewTrackedTokenToActiveProfile, hasTokenBeenUntracked, isTrackedTokenAddress } from '@core/wallet/actions'
 
 export function checkForUntrackedTokens(account: IAccountState): void {
@@ -19,7 +20,12 @@ export function checkForUntrackedTokens(account: IAccountState): void {
         )
         untrackedTokensToTrack.forEach((token) => {
             const { address, standard, name, symbol, decimals } = token
-            addNewTrackedTokenToActiveProfile(networkId, address.toLowerCase(), { standard, name, symbol, decimals })
+            addNewTrackedTokenToActiveProfile(
+                networkId,
+                address.toLowerCase(),
+                { standard, name, symbol, decimals },
+                TokenTrackingStatus.AutomaticallyTracked
+            )
         })
     })
 }

@@ -1,5 +1,6 @@
-import { NetworkId } from '@core/network/types/network-id.type'
+import { NetworkId } from '@core/network/types'
+import { TokenTrackingStatus } from '../enums'
 
 export type TrackedTokens = {
-    [key in NetworkId]?: string[] | undefined
+    [key in NetworkId]?: Record<string, TokenTrackingStatus>
 }

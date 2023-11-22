@@ -21,7 +21,8 @@ import { Converter } from '@core/utils/convert'
 import { ISC_MAGIC_CONTRACT_ADDRESS } from '../constants'
 import { evmAddressToAgentId, getAgentBalanceParameters, getSmartContractHexName } from '../helpers'
 import { setLayer2AccountBalanceForChain } from '../stores'
-import { hasTokenBeenUntracked } from '@core/wallet'
+import { isTrackedTokenAddress } from '@core/wallet'
+import { TokenTrackingStatus } from '@core/token'
 
 export function fetchL2BalanceForAccount(account: IAccountState): void {
     const { evmAddresses, index } = account
@@ -45,7 +46,7 @@ export function fetchL2BalanceForAccount(account: IAccountState): void {
         for (const { balance, tokenId } of balances) {
             const adjustedBalance = Number.isNaN(balance) ? 0 : balance
             const isNativeToken = Converter.hexToBytes(tokenId).length === TOKEN_ID_BYTE_LENGTH
-            const isErc20TrackedToken = getActiveProfile()?.trackedTokens?.[networkId]?.includes(tokenId)
+            const isErc20TrackedToken = isTrackedTokenAddress(networkId, tokenId)
             if (isNativeToken || isErc20TrackedToken) {
                 await getOrRequestTokenFromPersistedTokens(tokenId, networkId)
             }
@@ -95,10 +96,14 @@ async function getLayer2Erc20BalancesForAddress(
     chain: IChain
 ): Promise<{ balance: number; tokenId: string }[]> {
     const networkId = chain.getConfiguration().id
-    const trackedTokens = getActiveProfile()?.trackedTokens?.[networkId] ?? []
+    const trackedTokens = getActiveProfile()?.trackedTokens?.[networkId] ?? {}
     const erc20TokenBalances = []
-    for (const erc20Address of trackedTokens.filter((token) => !hasTokenBeenUntracked(token, networkId))) {
+    for (const [erc20Address, trackingStatus] of Object.entries(trackedTokens)) {
         try {
+            if (trackingStatus === TokenTrackingStatus.Untracked) {
+                continue
+            }
+
             const contract = chain?.getContract(ContractType.Erc20, erc20Address)
             const coinType = chain?.getConfiguration().coinType
             if (!contract || !coinType) {

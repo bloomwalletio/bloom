@@ -5,7 +5,7 @@ import { StrongholdVersion } from '@core/stronghold/enums'
 import { ProfileType } from '../enums'
 import { IProfileSettings } from './profile-settings.interface'
 import { IContactMap, INetworkContactAddressMap } from '@core/contact/interfaces'
-import { TrackedTokens, UntrackedTokens } from '@core/token/types'
+import { TrackedTokens } from '@core/token/types'
 
 export interface IPersistedProfile {
     id: string
@@ -27,7 +27,6 @@ export interface IPersistedProfile {
     forceAssetRefresh: boolean
     strongholdVersion: StrongholdVersion
     trackedTokens: TrackedTokens
-    untrackedTokens: UntrackedTokens
     pfp?: INft
     color?: string
 }
