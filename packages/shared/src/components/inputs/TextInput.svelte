@@ -38,5 +38,4 @@
 >
     <slot name="left" slot="left" />
     <slot name="right" slot="right" />
-    <slot name="right-full-h" slot="right-full-h" />
 </Input>

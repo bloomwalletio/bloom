@@ -1,10 +1,10 @@
 <script lang="ts">
-    import { NumberInput, FontWeight } from '@ui'
+    import { FontWeight, TextInput } from '@ui'
     import { getDecimalSeparator } from '@core/i18n'
     import { activeProfile } from '@core/profile/stores'
 
     export let inputElement: HTMLInputElement | undefined = undefined
-    export let fontSize = 24
+    export let fontSize = '64'
     export let fontWeight = FontWeight.semibold
     export let disabled = false
     export let hasFocus = false
@@ -25,7 +25,7 @@
     }
 </script>
 
-<NumberInput
+<TextInput
     bind:inputElement
     bind:value={amount}
     bind:hasFocus
