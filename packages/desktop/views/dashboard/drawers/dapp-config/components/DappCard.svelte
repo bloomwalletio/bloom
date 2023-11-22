@@ -2,10 +2,15 @@
     import { IConnectedDapp } from '@auxiliary/wallet-connect/interface'
     import { ClickableTile, NetworkAvatar } from '@ui'
     import { Text } from '@bloomwalletio/ui'
-    import { SupportedNetworkId } from '@core/network'
+    import { NetworkId } from '@core/network'
+    import { getPersistedDappNamespacesForDapp } from '@auxiliary/wallet-connect/stores'
 
     export let dapp: IConnectedDapp
     export let onClick: (() => unknown) | undefined = undefined
+
+    $: networkIds = Object.values(getPersistedDappNamespacesForDapp(dapp.metadata?.url)).flatMap(
+        (namespace) => namespace.chains as NetworkId[]
+    )
 </script>
 
 <ClickableTile
@@ -26,6 +31,8 @@
                 {/if}
             </div>
         </div>
-        <NetworkAvatar networkId={SupportedNetworkId.ShimmerEvm} />
+        {#each networkIds as networkId}
+            <NetworkAvatar {networkId} />
+        {/each}
     </div>
 </ClickableTile>
