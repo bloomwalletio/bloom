@@ -1,8 +1,6 @@
 <script lang="ts">
-    import { IconButton, IconName } from '@bloomwalletio/ui'
     import { formatCurrency, getDecimalSeparator } from '@core/i18n'
     import { getFiatAmountFromTokenValue } from '@core/market/actions'
-    import { getTokenAmountFromFiatValue } from '@core/market/actions/getTokenAmountFromFiatValue'
     import { activeProfile } from '@core/profile/stores'
     import {
         ITokenWithBalance,
@@ -29,7 +27,6 @@
     let inputLength = 0
     let fontSize = '64'
     let maxLength = 0
-    let inputFiatAmount = false
 
     $: inputtedAmount,
         (error = ''),
@@ -37,13 +34,9 @@
         (fontSize = getFontSizeForInputLength()),
         (maxLength = getMaxAmountOfDigits())
     $: allowedDecimals = token?.metadata && unit ? getMaxDecimalsFromTokenMetadata(token.metadata, unit) : 0
-
-    $: bigAmount = getBigAmount(inputtedAmount)
+    $: bigAmount = inputtedAmount && token?.metadata ? convertToRawAmount(inputtedAmount, token.metadata, unit) : 0
     $: fiatAmount = token ? getFiatAmountFromTokenValue(bigAmount, token) : undefined
     $: rawAmount = bigAmount?.toString()
-
-    $: actualUnit = inputFiatAmount ? '$' : unit
-    $: showUnitOnLeft = (actualUnit?.length ?? 0) < 3
 
     function getInputLength(): number {
         const length = inputtedAmount?.length || 1
@@ -99,88 +92,36 @@
             return Promise.reject()
         }
     }
-
-    function getBigAmount(inputtedAmount: string | undefined): number {
-        if (!inputtedAmount || !token?.metadata) {
-            return 0
-        }
-
-        let tokenAmount = inputtedAmount
-        if (inputFiatAmount) {
-            tokenAmount = getTokenAmountFromFiatValue(inputtedAmount, token) ?? '0'
-        }
-        const rawAmount = convertToRawAmount(tokenAmount, token.metadata)?.toString()
-        return Number(rawAmount)
-    }
-
-    function onSwitchClick(): void {
-        if (!token) {
-            inputtedAmount = '0'
-        } else {
-            if (inputFiatAmount) {
-                const rawTokenAmount = getTokenAmountFromFiatValue(inputtedAmount ?? '0', token)
-                inputtedAmount = formatTokenAmountDefault(Number(rawTokenAmount), token.metadata)
-            } else {
-                inputtedAmount = getFiatAmountFromTokenValue(Number(rawAmount ?? '0'), token)?.toString()
-            }
-        }
-        inputFiatAmount = !inputFiatAmount
-    }
 </script>
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <div class="flex flex-col items-center w-full" on:click={() => amountInputElement?.focus()}>
     <InputContainer {error} clearBackground clearPadding clearBorder classes="w-full flex flex-col items-center">
-        <div
-            class="flex flex-row space-x-0.5 {showUnitOnLeft ? 'items-start' : 'items-end'}"
-            class:flex-reverse={showUnitOnLeft}
-        >
+        <div class="flex flex-row items-end space-x-0.5">
             <div class="flex flex-row w-full items-center">
-                {#if inputFiatAmount}
-                    <amount-wrapper style:--max-width={`${(inputLength * Number(fontSize) * 2) / 3}px`}>
-                        <AmountInput
-                            bind:inputElement={amountInputElement}
-                            bind:amount={inputtedAmount}
-                            maxDecimals={2}
-                            maxlength={maxLength}
-                            isInteger={allowedDecimals === 0}
-                            {fontSize}
-                            clearBackground
-                            clearPadding
-                            clearBorder
-                            autofocus
-                        />
-                    </amount-wrapper>
-                {:else}
-                    <amount-wrapper style:--max-width={`${(inputLength * Number(fontSize) * 2) / 3}px`}>
-                        <AmountInput
-                            bind:inputElement={amountInputElement}
-                            bind:amount={inputtedAmount}
-                            maxDecimals={allowedDecimals}
-                            maxlength={maxLength}
-                            isInteger={allowedDecimals === 0}
-                            {fontSize}
-                            clearBackground
-                            clearPadding
-                            clearBorder
-                            autofocus
-                        />
-                    </amount-wrapper>
-                {/if}
+                <amount-wrapper style:--max-width={`${(inputLength * Number(fontSize) * 2) / 3}px`}>
+                    <AmountInput
+                        bind:inputElement={amountInputElement}
+                        bind:amount={inputtedAmount}
+                        maxDecimals={allowedDecimals}
+                        maxlength={maxLength}
+                        isInteger={allowedDecimals === 0}
+                        {fontSize}
+                        clearBackground
+                        clearPadding
+                        clearBorder
+                        autofocus
+                    />
+                </amount-wrapper>
             </div>
             <Text fontWeight={FontWeight.semibold} classes={inputLength < 14 ? 'py-4' : 'py-2'}>
-                {actualUnit}
+                {unit}
             </Text>
         </div>
     </InputContainer>
-    <div class="flex flex-row items-center">
-        <Text fontWeight={FontWeight.semibold} color="gray-600" darkColor="gray-600">
-            {formatCurrency(fiatAmount) || '--'}
-        </Text>
-        {#if formatCurrency(fiatAmount)}
-            <IconButton icon={IconName.ArrowUpDown} textColor="secondary" size="xs" on:click={onSwitchClick} />
-        {/if}
-    </div>
+    <Text fontWeight={FontWeight.semibold} color="gray-600" darkColor="gray-600">
+        {formatCurrency(fiatAmount) || '--'}
+    </Text>
 </div>
 
 <style lang="postcss">
