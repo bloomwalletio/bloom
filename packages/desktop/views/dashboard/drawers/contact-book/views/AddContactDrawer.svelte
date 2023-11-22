@@ -115,9 +115,6 @@
     {drawerRouter}
 >
     <form on:submit|preventDefault={onSaveClick} id="add-contact-form" class="flex flex-col gap-4 px-6">
-        <Text type="body1">
-            {localize(`views.dashboard.drawers.contactBook.${ContactBookRoute.AddContact}.identity`)}
-        </Text>
         <TextInput
             bind:this={nameInput}
             bind:value={name}
@@ -130,9 +127,7 @@
             bind:error={validationErrors[ContactField.Note]}
             label={localize('general.optionalField', { field: localize('general.note') })}
         />
-        <Text type="body1">
-            {localize(`views.dashboard.drawers.contactBook.${ContactBookRoute.AddContact}.address`)}
-        </Text>
+        <hr />
         <NetworkInput
             bind:this={networkSelectionInput}
             bind:networkId={selectedNetworkId}
@@ -150,9 +145,8 @@
             bind:error={validationErrors[ContactField.AddressName]}
             label={localize('general.addressName')}
         />
-        <Text type="body1">
-            {localize(`views.dashboard.drawers.contactBook.${ContactBookRoute.AddContact}.color`)}
-        </Text>
+        <hr />
+        <Text type="body2">{localize(`views.dashboard.drawers.contactBook.${ContactBookRoute.AddContact}.color`)}</Text>
         <ColorPicker bind:value={color} />
     </form>
     <div slot="footer" class="flex gap-4">
