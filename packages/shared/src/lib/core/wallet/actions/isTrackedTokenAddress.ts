@@ -4,5 +4,8 @@ import { TokenTrackingStatus } from '@core/token/enums'
 
 export function isTrackedTokenAddress(networkId: NetworkId, address: string): boolean {
     const trackedTokens = getActiveProfile()?.trackedTokens?.[networkId] ?? {}
-    return trackedTokens[address] !== TokenTrackingStatus.Untracked
+    return (
+        trackedTokens[address] === TokenTrackingStatus.AutomaticallyTracked ||
+        trackedTokens[address] === TokenTrackingStatus.ManuallyTracked
+    )
 }
