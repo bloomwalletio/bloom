@@ -37,6 +37,7 @@ export async function generateActivitiesFromTokenBalanceChanges(
     const activities: Activity[] = []
     const tokenIds = tokenBalanceChanges ? Object.keys(tokenBalanceChanges) : []
     for (const tokenId of tokenIds) {
+        const _hasTokenBeenUntracked = hasTokenBeenUntracked(tokenId, networkId)
         for (const balanceChangeForToken of tokenBalanceChanges[tokenId]) {
             if (!balanceChangeForToken.hidden) {
                 const activity = await generateTokenBalanceChangeActivity(
@@ -44,7 +45,7 @@ export async function generateActivitiesFromTokenBalanceChanges(
                     tokenId,
                     balanceChangeForToken,
                     account,
-                    hasTokenBeenUntracked(tokenId, networkId)
+                    _hasTokenBeenUntracked
                 )
                 activities.push(activity)
             }
