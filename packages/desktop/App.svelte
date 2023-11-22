@@ -208,8 +208,7 @@
     hr {
         @apply border-t;
         @apply border-solid;
-        @apply border-gray-200;
-        @apply dark:border-gray-800;
+        @apply border-stroke dark:border-stroke-dark;
     }
 
     .windows {
