@@ -5,20 +5,21 @@ import { ITokenWithBalance } from '@core/token/interfaces'
 import Big from 'big.js'
 
 export function validateTokenAmount(
-    amount: string,
+    rawAmount: string,
     token: ITokenWithBalance,
     unit: string,
     allowZeroOrNull = false
 ): Promise<string> {
-    if (amount === undefined || token?.metadata === undefined) {
+    if (rawAmount === undefined || token?.metadata === undefined) {
         return Promise.reject()
     }
-    const amountAsFloat = parseCurrency(amount)
-    const isAmountZeroOrNull = !Number(amountAsFloat)
+    const isAmountZeroOrNull = !Number(rawAmount)
     const requiresRawAmount =
         (token.metadata.standard === TokenStandard.BaseToken && unit === token.metadata.subunit) ||
         token.metadata.decimals === 0
-    const bigAmount = convertToRawAmount(amount, token.metadata, unit)
+    console.log('rawAmount', rawAmount)
+    const bigAmount = new Big(rawAmount)
+    console.log('available', token?.balance.available)
 
     // Zero value transactions can still contain metadata/tags
     let error = ''
@@ -26,7 +27,7 @@ export function validateTokenAmount(
         return Promise.resolve(Big(0).toString())
     } else if (isAmountZeroOrNull) {
         error = localize('error.send.amountInvalidFormat')
-    } else if (requiresRawAmount && Number.parseInt(amount, 10).toString() !== amount) {
+    } else if (requiresRawAmount && Number.parseInt(rawAmount, 10).toString() !== rawAmount) {
         error = localize('error.send.amountNoFloat')
     } else if (bigAmount.gt(Big(token?.balance?.available ?? 0))) {
         error = localize('error.send.amountTooHigh')

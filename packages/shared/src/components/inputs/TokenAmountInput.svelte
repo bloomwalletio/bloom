@@ -18,12 +18,7 @@
         $visibleSelectedAccountTokens?.[$activeProfile?.network?.id]?.baseCoin
     export let rawAmount: string | undefined = undefined
     export let unit: string | undefined = undefined
-    export let availableBalance: number
-    export let inputtedAmount: string | undefined =
-        rawAmount && token?.metadata
-            ? formatTokenAmountDefault(Number(rawAmount), token.metadata, unit, false)
-            : undefined
-
+    
     let amountInputElement: HTMLInputElement | undefined
     let error: string | undefined
     let inputLength = 0
@@ -31,23 +26,97 @@
     let maxLength = 0
     let inputFiatAmount = false
 
-    $: inputtedAmount,
+    let primaryAmount = getPrimaryAmount()
+
+    $: allowedDecimals = token?.metadata && unit ? getMaxDecimalsFromTokenMetadata(token.metadata, unit) : 0
+    $: rawAmount = getBigAmount(primaryAmount).toString()
+
+    $: primaryAmount,
         (error = ''),
         (inputLength = getInputLength()),
         (fontSize = getFontSizeForInputLength()),
         (maxLength = getMaxAmountOfDigits())
-    $: allowedDecimals = token?.metadata && unit ? getMaxDecimalsFromTokenMetadata(token.metadata, unit) : 0
-
-    $: bigAmount = getBigAmount(inputtedAmount)
-    $: fiatAmount = token ? getFiatAmountFromTokenValue(bigAmount, token) : undefined
-    $: rawAmount = bigAmount?.toString()
-
+    $: secondaryAmount = getSecondaryAmount(primaryAmount ?? '0')
     $: actualUnit = inputFiatAmount ? '$' : unit
     $: showUnitOnLeft = (actualUnit?.length ?? 0) < 3
 
+    export async function validate(allowZeroOrNull = false): Promise<void> {
+        if (primaryAmount === undefined || token === undefined || unit === undefined) {
+            return Promise.reject()
+        }
+        try {
+            rawAmount = await validateTokenAmount(rawAmount ?? '0', token, unit, allowZeroOrNull)
+            return Promise.resolve()
+        } catch (err) {
+            error = err as string
+            console.error(error)
+            return Promise.reject()
+        }
+    }
+
+    export function setTo(tokenAmount: string): void {
+        if (inputFiatAmount && token) {
+            const rawAmount = token.metadata ? convertToRawAmount(tokenAmount, token.metadata) : tokenAmount
+            primaryAmount = getFiatAmountFromTokenValue(Number(rawAmount), token)?.toFixed(2)
+        } else {
+            primaryAmount = tokenAmount
+        }
+    }
+
+    function getBigAmount(inputtedAmount: string | undefined): number {
+        if (!inputtedAmount || !token?.metadata) {
+            return 0
+        }
+
+        let tokenAmount = inputtedAmount
+        if (inputFiatAmount) {
+            tokenAmount = getTokenAmountFromFiatValue(inputtedAmount, token)?.toString() ?? '0'
+        }
+        const rawAmount = convertToRawAmount(tokenAmount, token.metadata)?.toString()
+        return Number(rawAmount)
+    }
+
+    function getPrimaryAmount() {
+        return rawAmount && token?.metadata
+            ? formatTokenAmountDefault(Number(rawAmount), token.metadata, unit, false)
+            : undefined
+    }
+
+    function getSecondaryAmount(primaryAmount: string): string {
+        if (!token?.metadata) {
+            return ''
+        }
+
+        if (inputFiatAmount) {
+            const rawAmount = getTokenAmountFromFiatValue(primaryAmount ?? '0', token)
+            const tokenAmount = formatTokenAmountDefault(Number(rawAmount), token.metadata)
+            return `${tokenAmount} ${unit}`
+        } else {
+            const tokenAmountBig = getBigAmount(primaryAmount ?? '0')
+            const fiatAmount = getFiatAmountFromTokenValue(tokenAmountBig, token)?.toFixed(2)
+            return formatCurrency(Number(fiatAmount)) || '--'
+        }
+    }
+
+    function onSwitchClick(): void {
+        if (!token || !token.metadata) {
+            return
+        }
+        
+        if (inputFiatAmount) {
+            const rawAmount = getTokenAmountFromFiatValue(primaryAmount ?? '0', token)
+            primaryAmount = formatTokenAmountDefault(Number(rawAmount), token.metadata, unit, false)
+            console.log(0, rawAmount, primaryAmount)
+        } else {
+            primaryAmount = getFiatAmountFromTokenValue(Number(rawAmount ?? '0'), token)?.toFixed(2)
+            console.log(1, rawAmount, primaryAmount)
+        }
+        inputFiatAmount = !inputFiatAmount
+    }
+
     function getInputLength(): number {
-        const length = inputtedAmount?.length || 1
-        const isDecimal = inputtedAmount?.includes('.') || inputtedAmount?.includes(',')
+        const length = primaryAmount?.length || 1
+        const isDecimal = primaryAmount?.includes('.') || primaryAmount?.includes(',')
 
         return length - (isDecimal ? 0.5 : 0)
     }
@@ -60,11 +129,12 @@
 
         const decimalSeparator = getDecimalSeparator()
 
-        const decimalPlacesAmount = inputtedAmount?.includes(decimalSeparator)
-            ? inputtedAmount.split(decimalSeparator)[1].length || 1
+        const decimalPlacesAmount = primaryAmount?.includes(decimalSeparator)
+            ? primaryAmount.split(decimalSeparator)[1].length || 1
             : 0
         const allowedDecimalAmount = Math.min(decimalPlacesAmount, metadata.decimals)
 
+        const availableBalance = token?.balance?.available ?? 0
         const integerLengthOfBalance =
             formatTokenAmountDefault(availableBalance, metadata).split(decimalSeparator)?.[0]?.length ?? 0
 
@@ -72,7 +142,7 @@
             allowedDecimalAmount +
             integerLengthOfBalance +
             (metadata.decimals ? 1 : 0) +
-            (inputtedAmount?.includes(decimalSeparator) ? 1 : 0)
+            (primaryAmount?.includes(decimalSeparator) ? 1 : 0)
         )
     }
 
@@ -84,47 +154,6 @@
         } else {
             return '32'
         }
-    }
-
-    export async function validate(allowZeroOrNull = false): Promise<void> {
-        if (inputtedAmount === undefined || token === undefined || unit === undefined) {
-            return Promise.reject()
-        }
-        try {
-            rawAmount = await validateTokenAmount(inputtedAmount, token, unit, allowZeroOrNull)
-            return Promise.resolve()
-        } catch (err) {
-            error = err as string
-            console.error(error)
-            return Promise.reject()
-        }
-    }
-
-    function getBigAmount(inputtedAmount: string | undefined): number {
-        if (!inputtedAmount || !token?.metadata) {
-            return 0
-        }
-
-        let tokenAmount = inputtedAmount
-        if (inputFiatAmount) {
-            tokenAmount = getTokenAmountFromFiatValue(inputtedAmount, token) ?? '0'
-        }
-        const rawAmount = convertToRawAmount(tokenAmount, token.metadata)?.toString()
-        return Number(rawAmount)
-    }
-
-    function onSwitchClick(): void {
-        if (!token) {
-            inputtedAmount = '0'
-        } else {
-            if (inputFiatAmount) {
-                const rawTokenAmount = getTokenAmountFromFiatValue(inputtedAmount ?? '0', token)
-                inputtedAmount = formatTokenAmountDefault(Number(rawTokenAmount), token.metadata)
-            } else {
-                inputtedAmount = getFiatAmountFromTokenValue(Number(rawAmount ?? '0'), token)?.toString()
-            }
-        }
-        inputFiatAmount = !inputFiatAmount
     }
 </script>
 
@@ -140,9 +169,8 @@
                     <amount-wrapper style:--max-width={`${(inputLength * Number(fontSize) * 2) / 3}px`}>
                         <AmountInput
                             bind:inputElement={amountInputElement}
-                            bind:amount={inputtedAmount}
+                            bind:amount={primaryAmount}
                             maxDecimals={2}
-                            maxlength={maxLength}
                             isInteger={allowedDecimals === 0}
                             {fontSize}
                             clearBackground
@@ -155,9 +183,8 @@
                     <amount-wrapper style:--max-width={`${(inputLength * Number(fontSize) * 2) / 3}px`}>
                         <AmountInput
                             bind:inputElement={amountInputElement}
-                            bind:amount={inputtedAmount}
+                            bind:amount={primaryAmount}
                             maxDecimals={allowedDecimals}
-                            maxlength={maxLength}
                             isInteger={allowedDecimals === 0}
                             {fontSize}
                             clearBackground
@@ -175,9 +202,10 @@
     </InputContainer>
     <div class="flex flex-row items-center">
         <Text fontWeight={FontWeight.semibold} color="gray-600" darkColor="gray-600">
-            {formatCurrency(fiatAmount) || '--'}
+            <!-- TODO:  -->
+            {secondaryAmount}
         </Text>
-        {#if formatCurrency(fiatAmount)}
+        {#if secondaryAmount}
             <IconButton icon={IconName.ArrowUpDown} textColor="secondary" size="xs" on:click={onSwitchClick} />
         {/if}
     </div>

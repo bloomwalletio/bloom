@@ -13,7 +13,6 @@
     let tokenAmountInput: TokenAmountInput
     let token: ITokenWithBalance
     let rawAmount: string
-    let amount: string
     let unit: string
 
     const sendFlowType = $sendFlowParameters.type
@@ -34,11 +33,13 @@
             return
         }
         const available = token.id === BASE_TOKEN_ID ? token.balance.available - gasFee : token.balance.available
+        let amount: string
         if (token?.metadata?.decimals) {
             amount = formatTokenAmountDefault(available, token?.metadata, unit, false)
         } else {
             amount = available.toString() ?? '0'
         }
+        tokenAmountInput.setTo(amount)
     }
 
     async function onContinueClick(): Promise<void> {
@@ -100,7 +101,7 @@
         form: 'token-amount-form',
         text: localize('actions.continue'),
         onClick: onContinueClick,
-        disabled: !amount,
+        disabled: !rawAmount,
     }}
 >
     <form on:submit|preventDefault={onContinueClick} id="token-amount-form" class="flex flex-col gap-6">
@@ -108,9 +109,7 @@
             bind:this={tokenAmountInput}
             bind:token
             bind:rawAmount
-            bind:inputtedAmount={amount}
             {unit}
-            availableBalance={token?.balance?.available}
         />
     </form>
     <div class={fetchingGasFee ? 'animate-pulse' : ''}>
