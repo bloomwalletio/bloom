@@ -14,7 +14,8 @@ export function checkForUntrackedTokens(account: IAccountState): void {
         const networkId = chain.getConfiguration().id
         const untrackedTokensToTrack = tokens.filter(
             (token) =>
-                !isTrackedTokenAddress(networkId, token.address) && !hasTokenBeenUntracked(token.address, networkId)
+                !isTrackedTokenAddress(networkId, token.address.toLowerCase()) &&
+                !hasTokenBeenUntracked(token.address.toLowerCase(), networkId)
         )
         untrackedTokensToTrack.forEach((token) => {
             const { address, standard, name, symbol, decimals } = token

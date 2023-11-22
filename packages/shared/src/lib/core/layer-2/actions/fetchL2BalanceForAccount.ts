@@ -21,6 +21,7 @@ import { Converter } from '@core/utils/convert'
 import { ISC_MAGIC_CONTRACT_ADDRESS } from '../constants'
 import { evmAddressToAgentId, getAgentBalanceParameters, getSmartContractHexName } from '../helpers'
 import { setLayer2AccountBalanceForChain } from '../stores'
+import { hasTokenBeenUntracked } from '@core/wallet'
 
 export function fetchL2BalanceForAccount(account: IAccountState): void {
     const { evmAddresses, index } = account
@@ -96,7 +97,7 @@ async function getLayer2Erc20BalancesForAddress(
     const networkId = chain.getConfiguration().id
     const trackedTokens = getActiveProfile()?.trackedTokens?.[networkId] ?? []
     const erc20TokenBalances = []
-    for (const erc20Address of trackedTokens) {
+    for (const erc20Address of trackedTokens.filter((token) => !hasTokenBeenUntracked(token, networkId))) {
         try {
             const contract = chain?.getContract(ContractType.Erc20, erc20Address)
             const coinType = chain?.getConfiguration().coinType

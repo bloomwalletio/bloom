@@ -1,8 +1,9 @@
 import { addPersistedTokenBalanceChange, getBalanceChanges, addAccountActivity } from '../stores'
 import { generateTokenBalanceChangeActivity } from '../utils/evm'
 import { ITokenBalanceChange } from '../types'
-import { NetworkId } from '@core/network'
-import { IAccountState } from '@core/account'
+import { NetworkId } from '@core/network/types'
+import { IAccountState } from '@core/account/interfaces'
+import { hasTokenBeenUntracked } from '@core/wallet/actions'
 
 export async function calculateAndAddPersistedTokenBalanceChange(
     account: IAccountState,
@@ -28,7 +29,7 @@ export async function calculateAndAddPersistedTokenBalanceChange(
     }
 
     const hasZeroStartingBalance = newBalanceChange.newBalance === 0 && newBalanceChange.oldBalance === undefined
-    if (!hidden && !hasZeroStartingBalance) {
+    if (!hidden && !hasZeroStartingBalance && !hasTokenBeenUntracked(tokenId, networkId)) {
         const activity = await generateTokenBalanceChangeActivity(networkId, tokenId, newBalanceChange, account)
         addAccountActivity(account.index, activity)
     }

@@ -16,9 +16,9 @@ export function removeTrackedTokenFromActiveProfile(tokenAddress: string, networ
 
     const untrackedTokens = profile.untrackedTokens ?? {}
     if (networkId in untrackedTokens) {
-        untrackedTokens[networkId][tokenAddress] = undefined
+        untrackedTokens[networkId][tokenAddress] = true
     } else {
-        untrackedTokens[networkId] = { [tokenAddress]: undefined }
+        untrackedTokens[networkId] = { [tokenAddress]: true }
     }
     profile.untrackedTokens = untrackedTokens
 
