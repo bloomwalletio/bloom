@@ -51,7 +51,7 @@
             />
         </div>
     {/if}
-    <div slot="footer" class="flex justify-center">
+    <div slot="footer" class="flex justify-center p-3">
         <Button
             variant="text"
             icon={IconName.Plus}
