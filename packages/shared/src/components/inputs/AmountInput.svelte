@@ -29,6 +29,7 @@
     bind:inputElement
     bind:value={amount}
     bind:hasFocus
+    inputType="number"
     {disabled}
     placeholder="0"
     {fontSize}
