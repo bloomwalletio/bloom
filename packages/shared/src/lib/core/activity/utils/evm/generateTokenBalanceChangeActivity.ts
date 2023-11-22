@@ -11,8 +11,7 @@ export async function generateTokenBalanceChangeActivity(
     networkId: NetworkId,
     tokenId: string,
     balanceChange: ITokenBalanceChange,
-    account: IAccountState,
-    hidden?: boolean
+    account: IAccountState
 ): Promise<TransactionActivity> {
     const difference = balanceChange.newBalance - (balanceChange.oldBalance ?? 0)
     const direction = difference >= 0 ? ActivityDirection.Incoming : ActivityDirection.Outgoing
@@ -69,7 +68,5 @@ export async function generateTokenBalanceChangeActivity(
         // asset information
         baseTokenTransfer,
         tokenTransfer,
-
-        ...(hidden && { isHidden: hidden }),
     }
 }

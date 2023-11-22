@@ -4,7 +4,6 @@ import { getBalanceChanges } from '../stores'
 import { get } from 'svelte/store'
 import { NetworkId, network } from '@core/network'
 import { generateNftBalanceChangeActivity, generateTokenBalanceChangeActivity } from './evm'
-import { hasTokenBeenUntracked } from '@core/wallet/actions'
 
 export async function generateActivitiesFromBalanceChanges(account: IAccountState): Promise<Activity[]> {
     const activities: Activity[] = []
@@ -37,15 +36,13 @@ export async function generateActivitiesFromTokenBalanceChanges(
     const activities: Activity[] = []
     const tokenIds = tokenBalanceChanges ? Object.keys(tokenBalanceChanges) : []
     for (const tokenId of tokenIds) {
-        const _hasTokenBeenUntracked = hasTokenBeenUntracked(tokenId, networkId)
         for (const balanceChangeForToken of tokenBalanceChanges[tokenId]) {
             if (!balanceChangeForToken.hidden) {
                 const activity = await generateTokenBalanceChangeActivity(
                     networkId,
                     tokenId,
                     balanceChangeForToken,
-                    account,
-                    _hasTokenBeenUntracked
+                    account
                 )
                 activities.push(activity)
             }

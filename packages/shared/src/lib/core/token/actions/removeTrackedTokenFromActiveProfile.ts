@@ -1,6 +1,5 @@
 import { getActiveProfile, updateActiveProfile } from '@core/profile/stores'
 import { NetworkId } from '@core/network/types'
-import { removePersistedToken } from '../stores'
 import { TokenTrackingStatus } from '../enums'
 
 export function removeTrackedTokenFromActiveProfile(tokenAddress: string, networkId: NetworkId): void {
@@ -20,5 +19,4 @@ export function removeTrackedTokenFromActiveProfile(tokenAddress: string, networ
     }
 
     updateActiveProfile(profile)
-    removePersistedToken(tokenAddress)
 }
