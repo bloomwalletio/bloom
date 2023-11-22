@@ -27,9 +27,7 @@
         <div class="h-full flex flex-col gap-8 scrollable px-6">
             {#if connectedDappList.length}
                 <div class="flex flex-col items-start gap-3">
-                    <Pill color="success">
-                        {localize('general.connected')}
-                    </Pill>
+                    <Pill color="success">{localize('general.connected')}</Pill>
                     {#each connectedDappList as dapp}
                         <DappCard {dapp} onClick={() => onDappCardClick(dapp)} />
                     {/each}
@@ -37,9 +35,7 @@
             {/if}
             {#if disconnectedDappList.length}
                 <div class="flex flex-col items-start gap-3">
-                    <Pill color="danger">
-                        {localize('general.disconnected')}
-                    </Pill>
+                    <Pill color="danger">{localize('general.disconnected')}</Pill>
                     {#each disconnectedDappList as dapp}
                         <DappCard {dapp} onClick={() => onDappCardClick(dapp)} />
                     {/each}

@@ -8,9 +8,9 @@
     export let dapp: IConnectedDapp
     export let onClick: (() => unknown) | undefined = undefined
 
-    $: networkIds = Object.values(getPersistedDappNamespacesForDapp(dapp.metadata?.url)).flatMap(
-        (namespace) => namespace.chains as NetworkId[]
-    )
+    $: networkIds = Object.values(
+        dapp.session?.namespaces ?? getPersistedDappNamespacesForDapp(dapp.metadata?.url)
+    ).flatMap((namespace) => namespace.chains as NetworkId[])
 </script>
 
 <ClickableTile
