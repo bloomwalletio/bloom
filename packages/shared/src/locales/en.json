@@ -1231,7 +1231,8 @@
         "untrackToken": "Untrack token",
         "switchAccount": "Switch account",
         "syncAccounts": "Sync accounts",
-        "importErc20Token": "Import ERC20 token"
+        "importErc20Token": "Import ERC20 token",
+        "syncTokens": "Force sync tokens"
     },
     "general": {
         "recipient": "Recipient",
@@ -1648,6 +1649,9 @@
         },
         "updateNetworkAddresses": {
             "success": "Contact addresses successfully updated"
+        },
+        "syncTokens": {
+            "success": "Tokens successfully synced"
         }
     },
     "error": {
