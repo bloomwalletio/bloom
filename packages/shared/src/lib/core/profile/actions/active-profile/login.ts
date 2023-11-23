@@ -108,7 +108,6 @@ export async function login(loginOptions?: ILoginOptions): Promise<void> {
         updateActiveProfile({ forceAssetRefresh: false })
         await loadNftsForActiveProfile()
         checkAndRemoveProfilePicture()
-        fetchL2BalanceForAllAccounts()
 
         // Step 6: generate and store activities for all accounts
         incrementLoginProgress()
@@ -128,11 +127,12 @@ export async function login(loginOptions?: ILoginOptions): Promise<void> {
 
             const coinType = getNetwork()?.getChains()?.[0]?.getConfiguration()?.coinType
             if (coinType && strongholdUnlocked) {
-                void generateAndStoreEvmAddressForAccounts(type, coinType, ...loadedAccounts)
+                await generateAndStoreEvmAddressForAccounts(type, coinType, ...loadedAccounts)
             }
         } else {
             incrementLoginProgress(1)
         }
+        fetchL2BalanceForAllAccounts()
 
         // Step 8: start background sync
         incrementLoginProgress()
