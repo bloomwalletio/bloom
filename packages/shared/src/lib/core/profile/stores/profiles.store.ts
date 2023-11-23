@@ -21,9 +21,9 @@ export function addNewPersistedProfile(persistedProfile: IPersistedProfile): voi
  * @returns {void}
  */
 export function savePersistedProfile(persistedProfile: IPersistedProfile): void {
-    profiles.update((state) =>
-        state.map((profile) => (profile.id === persistedProfile.id ? persistedProfile : profile))
-    )
+    profiles.update((state) => {
+        return state.map((profile) => (profile.id === persistedProfile.id ? persistedProfile : profile))
+    })
 }
 
 /**

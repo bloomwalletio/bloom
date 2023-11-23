@@ -10,6 +10,7 @@
     import { closePopup } from '@desktop/auxiliary/popup'
     import { showNotification } from '@auxiliary/notification'
     import { addNewTrackedTokenToActiveProfile } from '@core/wallet'
+    import { TokenTrackingStatus } from '@core/token'
 
     let busy = false
 
@@ -30,7 +31,12 @@
             try {
                 const erc20TokenMetadata = await getErc20TokenMetadata(_tokenAddress, networkId, $network)
                 if (erc20TokenMetadata) {
-                    addNewTrackedTokenToActiveProfile(networkId, _tokenAddress, erc20TokenMetadata)
+                    addNewTrackedTokenToActiveProfile(
+                        networkId,
+                        _tokenAddress,
+                        erc20TokenMetadata,
+                        TokenTrackingStatus.ManuallyTracked
+                    )
                     showNotification({
                         variant: 'success',
                         text: localize('popups.importErc20Token.success', {

@@ -3,10 +3,10 @@
     import { hideActivitiesForHiddenTokens } from '@core/activity/actions'
     import { localize } from '@core/i18n'
     import { isStardustNetwork } from '@core/network'
-    import { activeProfile } from '@core/profile/stores'
     import { ITokenWithBalance, NotVerifiedStatus, VerifiedStatus } from '@core/token'
     import { removeTrackedTokenFromActiveProfile } from '@core/token/actions'
     import { hideToken, unhideToken, unverifyToken, verifyToken } from '@core/token/stores'
+    import { isTrackedTokenAddress } from '@core/wallet'
     import { PopupId, closePopup, openPopup, updatePopupProps } from '@desktop/auxiliary/popup'
     import features from '@features/features'
 
@@ -14,7 +14,7 @@
 
     let menu: Menu | undefined = undefined
 
-    $: isTrackedToken = $activeProfile?.trackedTokens?.[token.networkId]?.includes(token.id)
+    $: isTrackedToken = isTrackedTokenAddress(token.networkId, token.id)
 
     function onUntrackTokenClick(): void {
         removeTrackedTokenFromActiveProfile(token.id, token.networkId)
