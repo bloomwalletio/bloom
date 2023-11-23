@@ -108,7 +108,6 @@ export async function login(loginOptions?: ILoginOptions): Promise<void> {
         updateActiveProfile({ forceAssetRefresh: false })
         await loadNftsForActiveProfile()
         checkAndRemoveProfilePicture()
-        fetchL2BalanceForAllAccounts()
 
         // Step 6: generate and store activities for all accounts
         incrementLoginProgress()
@@ -133,6 +132,7 @@ export async function login(loginOptions?: ILoginOptions): Promise<void> {
         } else {
             incrementLoginProgress(1)
         }
+        fetchL2BalanceForAllAccounts()
 
         // Step 8: start background sync
         incrementLoginProgress()
