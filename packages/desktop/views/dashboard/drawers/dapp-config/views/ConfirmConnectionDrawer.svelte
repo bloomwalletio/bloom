@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { Button, Steps } from '@bloomwalletio/ui'
+    import { Button, SidebarToast, Steps } from '@bloomwalletio/ui'
     import { Spinner } from '@ui'
     import { localize } from '@core/i18n'
     import { Router } from '@core/router'
@@ -99,9 +99,16 @@
                         {persistedDappNamespace}
                     />
                 {:else}
+                    {@const tipLocale = currentStep === 0 ? 'permissions' : currentStep === 1 ? 'networks' : 'accounts'}
                     <div class="flex flex-col gap-8">
                         <Steps bind:currentStep {steps} />
 
+                        <SidebarToast
+                            color="green"
+                            header={localize('general.tip')}
+                            body={localize(`${localeKey}.${tipLocale}.tip`)}
+                            dismissable={false}
+                        />
                         <div class={currentStep === 0 ? 'visible' : 'hidden'}>
                             <PermissionSelection bind:checkedMethods />
                         </div>
