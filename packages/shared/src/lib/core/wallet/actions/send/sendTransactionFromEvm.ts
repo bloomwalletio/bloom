@@ -4,7 +4,7 @@ import { EvmTransactionData } from '@core/layer-2'
 import { LedgerAppName } from '@core/ledger'
 import { IChain } from '@core/network'
 import { checkActiveProfileAuth } from '@core/profile/actions'
-import { signAndSendEvmTransaction } from './signAndSendEvmTransaction'
+import { signEvmTransaction } from '../signEvmTransaction'
 import { generateActivityFromEvmTransaction } from '@core/activity/utils/generateActivityFromEvmTransaction'
 import {
     Activity,
@@ -15,26 +15,29 @@ import {
 } from '@core/activity'
 import { IAccountState, getAddressFromAccountForNetwork } from '@core/account'
 import { updateL2BalanceWithoutActivity } from '../updateL2BalanceWithoutActivity'
+import { sendSignedEvmTransaction } from '@core/wallet/actions/sendSignedEvmTransaction'
+import { CallbackParameters } from '@auxiliary/wallet-connect/types'
 
 export async function sendTransactionFromEvm(
     preparedTransaction: EvmTransactionData,
     chain: IChain,
-    callback?: () => void
+    signAndSend: boolean,
+    callback?: (params?: CallbackParameters) => void
 ): Promise<void> {
     const account = getSelectedAccount()
-    const provider = chain.getProvider()
 
     await checkActiveProfileAuth(
         async () => {
-            const chainId = chain.getConfiguration().chainId
-            const coinType = chain.getConfiguration().coinType
-            const transactionReceipt = await signAndSendEvmTransaction(
-                preparedTransaction,
-                chainId,
-                coinType,
-                provider,
-                account
-            )
+            const signedTransaction = await signEvmTransaction(preparedTransaction, chain, account)
+
+            if (!signAndSend || !signedTransaction) {
+                if (callback && typeof callback === 'function') {
+                    callback({ result: signedTransaction })
+                }
+                return signedTransaction
+            }
+
+            const transactionReceipt = await sendSignedEvmTransaction(chain, signedTransaction)
             if (!transactionReceipt) {
                 return
             }
@@ -49,13 +52,14 @@ export async function sendTransactionFromEvm(
             await persistEvmTransaction(evmTransaction, chain, account)
 
             if (callback && typeof callback === 'function') {
-                callback()
+                callback({ result: transactionReceipt })
             }
         },
         { stronghold: true, ledger: true, props: { preparedTransaction } },
         LedgerAppName.Ethereum
     )
 }
+
 async function persistEvmTransaction(
     evmTransaction: PersistedEvmTransaction,
     chain: IChain,

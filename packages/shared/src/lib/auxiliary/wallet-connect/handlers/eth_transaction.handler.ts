@@ -1,7 +1,6 @@
 import { PopupId, openPopup } from '../../../../../../desktop/lib/auxiliary/popup'
 import { IChain } from '@core/network'
 import { IConnectedDapp } from '@auxiliary/wallet-connect/interface'
-import { findActiveAccountWithAddress } from '@core/profile/actions'
 import { CallbackParameters } from '@auxiliary/wallet-connect/types'
 import { buildEvmTransactionData } from '@core/layer-2/actions'
 import { EvmTransactionData } from '@core/layer-2'
@@ -19,13 +18,6 @@ export async function handleEthTransaction(
         return
     }
 
-    const sender = from?.toString()
-    const account = findActiveAccountWithAddress(sender, chain.getConfiguration().id)
-    if (!account) {
-        responseCallback({ error: 'Could not find address!' })
-        return
-    }
-
     if (!data && !value) {
         responseCallback({ error: 'Invalid transaction: must contain data or value field!' })
         return
@@ -34,7 +26,7 @@ export async function handleEthTransaction(
     if (!nonce || !gasPrice || !gasLimit) {
         const { nonce, gasPrice, gasLimit } = await buildEvmTransactionData(
             chain,
-            sender,
+            from,
             to?.toString(),
             value?.toString() ?? '0',
             data?.toString()
@@ -47,10 +39,9 @@ export async function handleEthTransaction(
     openPopup({
         id: PopupId.EvmTransactionFromDapp,
         props: {
-            account,
             chain,
             dapp,
-            transaction: evmTransactionData,
+            preparedTransaction: evmTransactionData,
             signAndSend,
             callback: responseCallback,
         },

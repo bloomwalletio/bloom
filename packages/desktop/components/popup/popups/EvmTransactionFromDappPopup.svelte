@@ -1,18 +1,13 @@
 <script lang="ts">
     import { localize } from '@core/i18n'
-    import { closePopup } from '@desktop/auxiliary/popup'
     import { handleError } from '@core/error/handlers'
     import { IConnectedDapp } from '@auxiliary/wallet-connect/interface'
     import { CallbackParameters } from '@auxiliary/wallet-connect/types'
-    import { signEvmTransaction } from '@core/wallet/actions'
-    import { IAccountState } from '@core/account'
+    import { sendTransactionFromEvm } from '@core/wallet/actions'
     import { selectedAccount } from '@core/account/stores'
     import { IChain } from '@core/network'
     import { TransactionAssetSection } from '@ui'
-    import { checkActiveProfileAuth } from '@core/profile/actions'
-    import { LedgerAppName } from '@core/ledger'
     import PopupTemplate from '../PopupTemplate.svelte'
-    import { showNotification } from '@auxiliary/notification/actions'
     import { EvmTransactionData } from '@core/layer-2/types'
     import { EvmTransactionDetails } from '@views/dashboard/send-flow/views/components'
     import {
@@ -26,19 +21,18 @@
     import { INft } from '@core/nfts'
     import { getNftByIdFromAllAccountNfts } from '@core/nfts/actions'
     import DappDataBox from '@components/DappDataBox.svelte'
-    import { TransactionReceipt } from 'web3-core'
+    import { onMount } from 'svelte'
 
-    export let transaction: EvmTransactionData
-    export let account: IAccountState
+    export let preparedTransaction: EvmTransactionData
     export let chain: IChain
     export let dapp: IConnectedDapp | undefined
     export let signAndSend: boolean
     export let callback: (params: CallbackParameters) => void
 
-    const { chainId, id } = chain.getConfiguration()
-    const localeKey = signAndSend ? 'sendTransaction' : 'signTransaction'
+    export let _onMount: () => Promise<void> = async () => {}
 
-    let isBusy = false
+    const { id } = chain.getConfiguration()
+    const localeKey = signAndSend ? 'sendTransaction' : 'signTransaction'
 
     let nft: INft | undefined
     let tokenTransfer: TokenTransferData | undefined
@@ -46,7 +40,7 @@
 
     setTokenTransfer()
     function setTokenTransfer(): void {
-        const { asset } = getTransferInfoFromTransactionData(transaction, chain) ?? {}
+        const { asset } = getTransferInfoFromTransactionData(preparedTransaction, chain) ?? {}
         switch (asset?.type) {
             case AssetType.BaseCoin: {
                 baseCoinTransfer = {
@@ -73,37 +67,26 @@
     }
 
     async function onConfirmClick(): Promise<void> {
-        await checkActiveProfileAuth(sign, { stronghold: false, ledger: false }, LedgerAppName.Ethereum)
+        try {
+            await sendTransactionFromEvm(preparedTransaction, chain, signAndSend, callback)
+        } catch (err) {
+            callback({ error: err })
+            handleError(err)
+        }
     }
 
     function onCancelClick(): void {
         callback({ error: 'User rejected' })
-        closePopup()
     }
 
-    async function sign(): Promise<void> {
-        isBusy = true
+    // Required to trigger callback after profile authentication
+    onMount(async () => {
         try {
-            let result: string | TransactionReceipt = await signEvmTransaction(transaction, chainId, account)
-
-            if (signAndSend) {
-                const provider = chain.getProvider()
-                result = await provider?.eth.sendSignedTransaction(result)
-            }
-
-            showNotification({
-                variant: 'success',
-                text: localize(`notifications.${localeKey}.success`),
-            })
-            callback({ result })
+            await _onMount()
         } catch (err) {
-            callback({ error: err })
             handleError(err)
-        } finally {
-            isBusy = false
-            closePopup()
         }
-    }
+    })
 </script>
 
 <PopupTemplate
@@ -116,7 +99,7 @@
         text: localize(`popups.${localeKey}.action`),
         onClick: onConfirmClick,
     }}
-    busy={$selectedAccount?.isTransferring || isBusy}
+    busy={$selectedAccount?.isTransferring}
 >
     <div class="space-y-5">
         <DappDataBox {dapp}>
@@ -124,8 +107,8 @@
         </DappDataBox>
         <EvmTransactionDetails
             destinationNetworkId={id}
-            estimatedGasFee={calculateEstimatedGasFeeFromTransactionData(transaction)}
-            maxGasFee={calculateMaxGasFeeFromTransactionData(transaction)}
+            estimatedGasFee={calculateEstimatedGasFeeFromTransactionData(preparedTransaction)}
+            maxGasFee={calculateMaxGasFeeFromTransactionData(preparedTransaction)}
         />
     </div>
 </PopupTemplate>

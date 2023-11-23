@@ -7,6 +7,7 @@ import { getConnectedDappByOrigin, getWalletClient } from '../stores'
 import { NetworkId, getNetwork } from '@core/network'
 import { CallbackParameters } from '../types'
 import { Platform } from '@core/app'
+import { closePopup } from '../../../../../../desktop/lib/auxiliary/popup'
 
 export function onSessionRequest(event: Web3WalletTypes.SessionRequest): void {
     Platform.focusWindow()
@@ -38,6 +39,7 @@ export function onSessionRequest(event: Web3WalletTypes.SessionRequest): void {
         if (response) {
             void getWalletClient()?.respondSessionRequest({ topic, response })
         }
+        closePopup(true)
     }
 
     const chain = getNetwork()?.getChain(chainId as NetworkId)

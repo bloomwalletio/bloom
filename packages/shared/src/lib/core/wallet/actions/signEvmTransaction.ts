@@ -1,18 +1,17 @@
 import { IAccountState } from '@core/account'
 import { EvmTransactionData } from '@core/layer-2'
 import { Ledger } from '@core/ledger'
-import { EvmChainId } from '@core/network'
+import { IChain } from '@core/network'
 import { isSoftwareProfile, isActiveLedgerProfile } from '@core/profile/stores'
 import { signEvmTransactionWithStronghold } from '@core/stronghold'
-import { CoinType } from '@iota/sdk/out/types'
 import { get } from 'svelte/store'
 
 export async function signEvmTransaction(
     transaction: EvmTransactionData,
-    chainId: EvmChainId,
-    account: IAccountState,
-    coinType = CoinType.Ether
+    chain: IChain,
+    account: IAccountState
 ): Promise<string | undefined> {
+    const { chainId, coinType } = chain.getConfiguration() ?? {}
     const bip44Path = {
         coinType,
         account: 0,
@@ -21,14 +20,15 @@ export async function signEvmTransaction(
     }
     const { index } = account
 
+    const transactionCopy = { ...transaction }
     if (get(isSoftwareProfile)) {
         // Follow MetaMask's convention around incrementing address indices instead of account indices
         bip44Path.addressIndex = index
-        return await signEvmTransactionWithStronghold(transaction, chainId, bip44Path)
+        return await signEvmTransactionWithStronghold(transactionCopy, chainId, bip44Path)
     } else if (get(isActiveLedgerProfile)) {
         bip44Path.account = index
-        delete transaction?.estimatedGas
+        delete transactionCopy?.estimatedGas
 
-        return (await Ledger.signEvmTransaction(transaction, chainId, bip44Path)) as string
+        return (await Ledger.signEvmTransaction(transactionCopy, chainId, bip44Path)) as string
     }
 }
