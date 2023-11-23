@@ -53,12 +53,7 @@
                         items={[
                             {
                                 key: localize('general.description'),
-                                value:
-                                    metadata.description +
-                                    metadata.description +
-                                    metadata.description +
-                                    metadata.description +
-                                    metadata.description,
+                                value: metadata.description,
                             },
                         ]}
                         orientation="vertical"
