@@ -102,7 +102,7 @@
                     </div>
                 {:else}
                     {@const tipLocale = currentStep === 0 ? 'permissions' : currentStep === 1 ? 'networks' : 'accounts'}
-                    <div class="flex flex-col gap-8 overflow-hidden">
+                    <div class="h-full flex flex-col gap-8">
                         <Steps bind:currentStep {steps} />
 
                         <div class="flex-grow overflow-hidden">
