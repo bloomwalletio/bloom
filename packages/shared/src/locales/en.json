@@ -423,7 +423,7 @@
                     "contactList": {
                         "title": "Contact list",
                         "emptyHeader": "No contacts found",
-                        "emptyBody": "Connect with your favorite people in Bloom.",
+                        "emptyBody": "Connect with your favourite people in Bloom.",
                         "addContact": "Add contact"
                     },
                     "contactInformation": {
