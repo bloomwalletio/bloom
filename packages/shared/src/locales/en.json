@@ -479,7 +479,8 @@
                     },
                     "connectionRequest": {
                         "title": "Connection request",
-                        "hint": "A third party service wants to connect with your wallet for the first time. You can choose if you wish to trust this connection.",
+                        "firstTimeHint": "This dApp wishes to connect for the first time. Connect to sites you trust.",
+                        "reconnectHint": "You have previously connected with this dApp.",
                         "insecure": "The URL for this dApp cannot be verified. Your connection to this application may not be secure.",
                         "acceptInsecureConnection": "I understand this dApp may be insecure and still want to connect."
                     },

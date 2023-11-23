@@ -4,7 +4,7 @@
     import { localize } from '@core/i18n'
     import { Router } from '@core/router'
     import { DrawerTemplate } from '@components'
-    import { sessionProposal } from '@auxiliary/wallet-connect/stores'
+    import { getPersistedDappNamespacesForDapp, sessionProposal } from '@auxiliary/wallet-connect/stores'
     import { closeDrawer } from '@desktop/auxiliary/drawer'
     import { showNotification } from '@auxiliary/notification'
     import DappInformationCard from '../components/DappInformationCard.svelte'
@@ -20,6 +20,7 @@
     let acceptedInsecureConnection = false
     $: isInsecure =
         !$sessionProposal || $sessionProposal.verifyContext.verified.validation !== SessionVerification.Valid
+    $: alreadyConnected = !!getPersistedDappNamespacesForDapp($sessionProposal?.params.proposer.metadata.url)
 
     function onRejectClick(): void {
         $sessionProposal = undefined
@@ -41,7 +42,16 @@
         {#if $sessionProposal}
             <DappInformationCard metadata={$sessionProposal.params.proposer.metadata} />
 
-            <div class="px-6">
+            <div class="flex-grow px-6">
+                <Alert
+                    variant={alreadyConnected ? 'info' : 'warning'}
+                    text={localize(
+                        `views.dashboard.drawers.dapps.connectionRequest.${
+                            alreadyConnected ? 'firstTimeHint' : 'reconnectHint'
+                        }`
+                    )}
+                />
+
                 {#if isInsecure}
                     <div class="flex flex-col gap-8">
                         <Alert
@@ -53,8 +63,6 @@
                             bind:checked={acceptedInsecureConnection}
                         />
                     </div>
-                {:else}
-                    <Alert variant="warning" text={localize('views.dashboard.drawers.dapps.connectionRequest.hint')} />
                 {/if}
             </div>
         {:else}
