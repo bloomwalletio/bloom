@@ -1445,7 +1445,8 @@
         "failed": "failed",
         "required": "Required",
         "yes": "Yes",
-        "no": "No"
+        "no": "No",
+        "verified": "Verified"
     },
     "filters":{
         "title": "Filters",

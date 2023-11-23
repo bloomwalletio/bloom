@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { Alert, Button, Checkbox } from '@bloomwalletio/ui'
+    import { Alert, Button, Checkbox, Table, TableRow, Text } from '@bloomwalletio/ui'
     import { Spinner } from '@ui'
     import { localize } from '@core/i18n'
     import { Router } from '@core/router'
@@ -17,9 +17,9 @@
 
     export let drawerRouter: Router<unknown>
 
+    const localeKey = 'views.dashboard.drawers.dapps.connectionRequest'
     let acceptedInsecureConnection = false
-    $: isInsecure =
-        !$sessionProposal || $sessionProposal.verifyContext.verified.validation !== SessionVerification.Valid
+    $: isVerified = $sessionProposal?.verifyContext.verified.validation === SessionVerification.Valid
     $: alreadyConnected = !!getPersistedDappNamespacesForDapp($sessionProposal?.params.proposer.metadata.url)
 
     function onRejectClick(): void {
@@ -37,29 +37,46 @@
     }
 </script>
 
-<DrawerTemplate title={localize('views.dashboard.drawers.dapps.connectionRequest.title')} {drawerRouter}>
+<DrawerTemplate title={localize(`${localeKey}.title`)} {drawerRouter}>
     <div class="w-full h-full flex flex-col justify-between">
         {#if $sessionProposal}
-            <DappInformationCard metadata={$sessionProposal.params.proposer.metadata} />
+            {@const metadata = $sessionProposal.params.proposer.metadata}
+            <DappInformationCard {metadata} />
 
-            <div class="flex-grow px-6">
-                <Alert
-                    variant={alreadyConnected ? 'info' : 'warning'}
-                    text={localize(
-                        `views.dashboard.drawers.dapps.connectionRequest.${
-                            alreadyConnected ? 'firstTimeHint' : 'reconnectHint'
-                        }`
-                    )}
-                />
-
-                {#if isInsecure}
+            <div class="flex-grow overflow-hidden">
+                <div class="h-full overflow-scroll flex flex-col gap-5 p-6">
+                    <Alert
+                        variant={alreadyConnected ? 'info' : 'warning'}
+                        text={localize(`${localeKey}.${alreadyConnected ? 'firstTimeHint' : 'reconnectHint'}`)}
+                    />
+                    <Table
+                        items={[
+                            {
+                                key: localize('general.description'),
+                                value:
+                                    metadata.description +
+                                    metadata.description +
+                                    metadata.description +
+                                    metadata.description +
+                                    metadata.description,
+                            },
+                        ]}
+                        orientation="vertical"
+                    >
+                        <TableRow item={{ key: localize('general.verified') }} orientation="vertical">
+                            <div slot="boundValue">
+                                <Text textColor={isVerified ? 'success' : 'danger'}
+                                    >{localize(`general.${isVerified ? 'yes' : 'no'}`)}</Text
+                                >
+                            </div>
+                        </TableRow>
+                    </Table>
+                </div>
+                {#if !isVerified}
                     <div class="flex flex-col gap-8">
-                        <Alert
-                            variant="danger"
-                            text={localize('views.dashboard.drawers.dapps.connectionRequest.insecure')}
-                        />
+                        <Alert variant="danger" text={localize(`${localeKey}.insecure`)} />
                         <Checkbox
-                            label={localize('views.dashboard.drawers.dapps.connectionRequest.acceptInsecureConnection')}
+                            label={localize(`${localeKey}.acceptInsecureConnection`)}
                             bind:checked={acceptedInsecureConnection}
                         />
                     </div>
@@ -76,7 +93,7 @@
         <Button
             width="full"
             on:click={onContinueClick}
-            disabled={isInsecure && !acceptedInsecureConnection}
+            disabled={!isVerified && !acceptedInsecureConnection}
             text={localize('actions.continue')}
         />
     </div>
