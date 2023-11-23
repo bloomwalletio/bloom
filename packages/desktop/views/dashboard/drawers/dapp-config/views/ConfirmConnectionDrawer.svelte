@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { Button, Steps } from '@bloomwalletio/ui'
+    import { Button, SidebarToast, Steps } from '@bloomwalletio/ui'
     import { Spinner } from '@ui'
     import { localize } from '@core/i18n'
     import { Router } from '@core/router'
@@ -87,29 +87,41 @@
 </script>
 
 <DrawerTemplate title={localize(`${localeKey}.title`)} {drawerRouter}>
-    <div class="w-full h-full space-y-6">
+    <div class="w-full h-full flex flex-col space-y-6 overflow-hidden">
         {#if $sessionProposal}
             <DappInformationCard metadata={$sessionProposal.params.proposer.metadata} />
 
-            <div class="px-6">
+            <div class="px-6 flex-grow overflow-hidden">
                 {#if persistedDappNamespace}
-                    <ConnectionSummary
-                        requiredNamespaces={$sessionProposal.params.requiredNamespaces}
-                        optionalNamespaces={$sessionProposal.params.optionalNamespaces}
-                        {persistedDappNamespace}
-                    />
+                    <div class="h-full overflow-scroll">
+                        <ConnectionSummary
+                            requiredNamespaces={$sessionProposal.params.requiredNamespaces}
+                            {persistedDappNamespace}
+                        />
+                    </div>
                 {:else}
-                    <div class="flex flex-col gap-8">
+                    {@const tipLocale = currentStep === 0 ? 'permissions' : currentStep === 1 ? 'networks' : 'accounts'}
+                    <div class="h-full flex flex-col gap-8">
                         <Steps bind:currentStep {steps} />
 
-                        <div class={currentStep === 0 ? 'visible' : 'hidden'}>
-                            <PermissionSelection bind:checkedMethods />
-                        </div>
-                        <div class={currentStep === 1 ? 'visible' : 'hidden'}>
-                            <NetworkSelection bind:checkedNetworks />
-                        </div>
-                        <div class={currentStep === 2 ? 'visible' : 'hidden'}>
-                            <AccountSelection bind:checkedAccounts />
+                        <div class="flex-grow overflow-hidden">
+                            <div class="h-full flex flex-col gap-8 overflow-scroll">
+                                <SidebarToast
+                                    color="green"
+                                    header={localize('general.tip')}
+                                    body={localize(`${localeKey}.${tipLocale}.tip`)}
+                                    dismissable={false}
+                                />
+                                <div class={currentStep === 0 ? 'visible' : 'hidden'}>
+                                    <PermissionSelection bind:checkedMethods />
+                                </div>
+                                <div class={currentStep === 1 ? 'visible' : 'hidden'}>
+                                    <NetworkSelection bind:checkedNetworks />
+                                </div>
+                                <div class={currentStep === 2 ? 'visible' : 'hidden'}>
+                                    <AccountSelection bind:checkedAccounts />
+                                </div>
+                            </div>
                         </div>
                     </div>
                 {/if}

@@ -67,16 +67,16 @@
                         </TableRow>
                     </Table>
                 </div>
-                {#if !isVerified}
-                    <div class="flex flex-col gap-8">
-                        <Alert variant="danger" text={localize(`${localeKey}.insecure`)} />
-                        <Checkbox
-                            label={localize(`${localeKey}.acceptInsecureConnection`)}
-                            bind:checked={acceptedInsecureConnection}
-                        />
-                    </div>
-                {/if}
             </div>
+            {#if !isVerified}
+                <div class="flex flex-col gap-8 px-6">
+                    <Alert variant="danger" text={localize(`${localeKey}.insecure`)} />
+                    <Checkbox
+                        label={localize(`${localeKey}.acceptInsecureConnection`)}
+                        bind:checked={acceptedInsecureConnection}
+                    />
+                </div>
+            {/if}
         {:else}
             <div class="w-full h-full flex items-center justify-center">
                 <Spinner busy size={50} />

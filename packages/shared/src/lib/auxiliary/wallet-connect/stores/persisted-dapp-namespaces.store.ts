@@ -11,9 +11,9 @@ interface IPersistedNamespaces {
 
 export const persistedDappNamespaces: Writable<IPersistedNamespaces> = persistent('persistedDappNamespaces', {})
 
-export function getPersistedDappNamespacesForDapp(dappOriginUrl: string): SupportedNamespaces | undefined {
+export function getPersistedDappNamespacesForDapp(dappOriginUrl: string): SupportedNamespaces {
     const profileId = getActiveProfile()?.id
-    return get(persistedDappNamespaces)?.[profileId]?.[dappOriginUrl]
+    return get(persistedDappNamespaces)?.[profileId]?.[dappOriginUrl] ?? {}
 }
 
 export function persistDappNamespacesForDapp(dappOriginUrl: string, namespaces: SupportedNamespaces): void {
