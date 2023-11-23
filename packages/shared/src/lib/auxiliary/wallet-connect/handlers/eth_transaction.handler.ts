@@ -45,7 +45,7 @@ export async function handleEthTransaction(
     }
 
     openPopup({
-        id: PopupId.SignEvmTransaction,
+        id: PopupId.EvmTransactionFromDapp,
         props: {
             account,
             chain,
