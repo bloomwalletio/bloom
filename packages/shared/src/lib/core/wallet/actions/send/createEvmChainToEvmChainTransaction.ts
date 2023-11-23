@@ -71,7 +71,7 @@ export function createEvmChainToEvmChainTransaction(
         data = undefined
     }
 
-    return buildEvmTransactionData(provider, originAddress, destinationAddress, amount ?? '0', data)
+    return buildEvmTransactionData(chain, originAddress, destinationAddress, amount ?? '0', data)
 }
 
 function getDataForTransaction(
