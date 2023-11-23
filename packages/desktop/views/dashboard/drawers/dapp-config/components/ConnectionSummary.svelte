@@ -1,5 +1,4 @@
 <script lang="ts">
-    import { sessionProposal } from '@auxiliary/wallet-connect/stores'
     import { METHODS_FOR_PERMISSION } from '@auxiliary/wallet-connect/constants'
     import { DappPermission } from '@auxiliary/wallet-connect/enums'
     import { onMount } from 'svelte'
@@ -11,7 +10,6 @@
     import { IAccountState } from '@core/account'
 
     export let requiredNamespaces: Record<string, unknown>
-    export let optionalNamespaces: Record<string, unknown>
     export let persistedDappNamespace: SupportedNamespaces
 
     const localeKey = 'views.dashboard.drawers.dapps.confirmConnection'
@@ -21,7 +19,7 @@
     let permissionPreferences: PermissionPreference[] = []
     function setPermissionPreferences(): void {
         const permissions: PermissionPreference[] = []
-        const namespaces = Object.values($sessionProposal.params.requiredNamespaces)
+        const namespaces = Object.values(requiredNamespaces)
         const persistedNamespaces = Object.values(persistedDappNamespace)
 
         for (const permission of Object.values(DappPermission)) {

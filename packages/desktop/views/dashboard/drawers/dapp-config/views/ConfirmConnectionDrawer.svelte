@@ -95,7 +95,6 @@
                 {#if persistedDappNamespace}
                     <ConnectionSummary
                         requiredNamespaces={$sessionProposal.params.requiredNamespaces}
-                        optionalNamespaces={$sessionProposal.params.optionalNamespaces}
                         {persistedDappNamespace}
                     />
                 {:else}
