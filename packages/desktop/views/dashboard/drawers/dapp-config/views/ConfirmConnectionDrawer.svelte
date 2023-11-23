@@ -96,7 +96,6 @@
                     <div class="h-full overflow-scroll">
                         <ConnectionSummary
                             requiredNamespaces={$sessionProposal.params.requiredNamespaces}
-                            optionalNamespaces={$sessionProposal.params.optionalNamespaces}
                             {persistedDappNamespace}
                         />
                     </div>

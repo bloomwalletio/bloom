@@ -10,7 +10,6 @@
     import { IAccountState } from '@core/account'
 
     export let requiredNamespaces: Record<string, unknown>
-    export let optionalNamespaces: Record<string, unknown>
     export let persistedDappNamespace: SupportedNamespaces
 
     const localeKey = 'views.dashboard.drawers.dapps.confirmConnection'
