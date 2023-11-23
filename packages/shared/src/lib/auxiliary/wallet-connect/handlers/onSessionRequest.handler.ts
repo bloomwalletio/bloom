@@ -1,6 +1,5 @@
-import { handleEthSendTransaction } from './eth_sendTransaction.handler'
 import { handleSignMessage } from './sign_message.handler'
-import { handleEthSignTransaction } from './eth_signTransaction.handler'
+import { handleEthTransaction } from './eth_transaction.handler'
 import { handleEthSignTypedData } from './eth_signTypedData.handler'
 import { JsonRpcResponse } from '@walletconnect/jsonrpc-types'
 import { Web3WalletTypes } from '@walletconnect/web3wallet'
@@ -47,12 +46,12 @@ export function onSessionRequest(event: Web3WalletTypes.SessionRequest): void {
         return
     }
 
+    const signAndSend = method === 'eth_sendTransaction'
+
     switch (method) {
         case 'eth_sendTransaction':
-            handleEthSendTransaction(request.params, returnResponse)
-            break
         case 'eth_signTransaction':
-            handleEthSignTransaction(request.params[0], dapp, chain, returnResponse)
+            handleEthTransaction(request.params[0], dapp, chain, signAndSend, returnResponse)
             break
         case 'eth_sign':
         case 'personal_sign':

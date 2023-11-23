@@ -26,14 +26,17 @@
     import { INft } from '@core/nfts'
     import { getNftByIdFromAllAccountNfts } from '@core/nfts/actions'
     import DappDataBox from '@components/DappDataBox.svelte'
+    import { TransactionReceipt } from 'web3-core'
 
     export let transaction: EvmTransactionData
     export let account: IAccountState
     export let chain: IChain
     export let dapp: IConnectedDapp | undefined
+    export let signAndSend: boolean
     export let callback: (params: CallbackParameters) => void
 
     const { chainId, id } = chain.getConfiguration()
+    const localeKey = signAndSend ? 'sendTransaction' : 'signTransaction'
 
     let isBusy = false
 
@@ -81,11 +84,16 @@
     async function sign(): Promise<void> {
         isBusy = true
         try {
-            const result = await signEvmTransaction(transaction, chainId, account)
+            let result: string | TransactionReceipt = await signEvmTransaction(transaction, chainId, account)
+
+            if (signAndSend) {
+                const provider = chain.getProvider()
+                result = await provider?.eth.sendSignedTransaction(result)
+            }
 
             showNotification({
                 variant: 'success',
-                text: localize('notifications.signTransaction.success'),
+                text: localize(`notifications.${localeKey}.success`),
             })
             callback({ result })
         } catch (err) {
@@ -99,13 +107,13 @@
 </script>
 
 <PopupTemplate
-    title={localize('popups.signTransaction.title')}
+    title={localize(`popups.${localeKey}.title`)}
     backButton={{
         text: localize('actions.cancel'),
         onClick: onCancelClick,
     }}
     continueButton={{
-        text: localize('popups.signTransaction.action'),
+        text: localize(`popups.${localeKey}.action`),
         onClick: onConfirmClick,
     }}
     busy={$selectedAccount?.isTransferring || isBusy}
