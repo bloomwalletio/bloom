@@ -488,18 +488,21 @@
                         "title": "Connect with an application",
                         "permissions": {
                             "step": "Permission",
-                            "title": "This dApp will be abe to ask to:",
+                            "tip": "These are limited permissions for the dApp to send an interaction request for your approval. Only approve apps you know and trust.",
+                            "title": "Select permissions",
                             "signData": "Request to sign data",
                             "signTransaction": "Request to sign a transaction",
                             "sendTransaction": "Request to send a transaction"
                         },
                         "networks": {
                             "step": "Networks",
-                            "title": "Select networks"
+                            "title": "Select networks",
+                            "tip": "The required networks are pre-selected for you by the dApp and can also be reconfigured later."
                         },
                         "accounts": {
                             "step": "Accounts",
-                            "title": "Select accounts"
+                            "title": "Select accounts",
+                            "tip": "Connect with specific accounts to manage funds separately. You control what the dApp can access."
                         }
                     },
                     "details": {
@@ -1447,6 +1450,7 @@
         "required": "Required",
         "yes": "Yes",
         "no": "No",
+        "tip": "Tip",
         "verified": "Verified"
     },
     "filters":{
