@@ -128,7 +128,7 @@ export async function login(loginOptions?: ILoginOptions): Promise<void> {
 
             const coinType = getNetwork()?.getChains()?.[0]?.getConfiguration()?.coinType
             if (coinType && strongholdUnlocked) {
-                void generateAndStoreEvmAddressForAccounts(type, coinType, ...loadedAccounts)
+                await generateAndStoreEvmAddressForAccounts(type, coinType, ...loadedAccounts)
             }
         } else {
             incrementLoginProgress(1)
