@@ -1,5 +1,5 @@
 export * from './getAndUpdateMarketPrices'
+export * from './getAndUpdateShimmerEvmTokensImages'
 export * from './getMarketAmountFromTokenValue'
 export * from './getMarketPriceForToken'
-export * from './getMarketPrices'
 export * from './market-prices-polling'

@@ -2,12 +2,13 @@ import { DEFAULT_APPLICATION_JSON_REQUEST_OPTIONS } from '@core/utils'
 import { MARKET_API_BASE_URL } from '../constants'
 import { CoinGeckoApiEndpoint, MarketCoinId, MarketCurrency } from '../enums'
 import { MarketCoinPrices } from '../types'
+import { CoinGeckoCoin, CoinGeckoCoinShimmerEVM } from '../interfaces'
 
 export class CoinGeckoApi {
-    static async makeRequest<T>(endpoint: CoinGeckoApiEndpoint, queryParams?: string): Promise<T> {
+    static async makeRequest<T>(endpoint: string, queryParams?: string): Promise<T> {
         try {
             const response = await fetch(
-                `${MARKET_API_BASE_URL}/${endpoint}?${queryParams ?? ''}`,
+                `${MARKET_API_BASE_URL}${endpoint}?${queryParams ?? ''}`,
                 DEFAULT_APPLICATION_JSON_REQUEST_OPTIONS
             )
             const data = await response.json()
@@ -26,23 +27,22 @@ export class CoinGeckoApi {
         return this.makeRequest<MarketCoinPrices>(CoinGeckoApiEndpoint.SIMPLE_PRICE, queryParams)
     }
 
-    static async getCoinsList(include_platform: boolean): Promise<Record<string, unknown>[]> {
+    static async getCoinsList(include_platform: boolean): Promise<CoinGeckoCoin[]> {
         const queryParams = buildQueryParametersFromObject({
             include_platform,
         })
-        return this.makeRequest<Record<string, unknown>[]>(CoinGeckoApiEndpoint.COINS_LIST, queryParams)
+        return this.makeRequest<CoinGeckoCoin[]>(CoinGeckoApiEndpoint.COINS_LIST, queryParams)
     }
 
-    static async getFilteredCoinsList(): Promise<Record<string, unknown>[]> {
+    static async getFilteredCoinsList(): Promise<CoinGeckoCoinShimmerEVM[]> {
         const coinsList = await this.getCoinsList(true)
-        return coinsList.filter((coin) => Object.keys(coin.platforms ?? {}).includes('shimmer_evm'))
+        return coinsList.filter((coin) =>
+            Object.keys(coin.platforms).includes('shimmer_evm')
+        ) as CoinGeckoCoinShimmerEVM[]
     }
 
-    static async getCoinDetails(id: string): Promise<Record<string, unknown>> {
-        return this.makeRequest<Record<string, unknown>>(
-            CoinGeckoApiEndpoint.COIN_DETAILS,
-            buildQueryParametersFromObject({ id })
-        )
+    static async getCoinDetails(id: string): Promise<CoinGeckoCoin> {
+        return this.makeRequest<CoinGeckoCoin>(`${CoinGeckoApiEndpoint.COIN_DETAILS}/${id}`)
     }
 }
 

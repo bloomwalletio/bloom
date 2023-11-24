@@ -2,6 +2,8 @@
     import { DEFAULT_TOKEN_ICON } from '@auxiliary/icon'
     import { Avatar } from '@bloomwalletio/ui'
     import { getIconColorFromString } from '@core/account'
+    import { shimmerEvmTokensImages } from '@core/market/stores'
+    import { CoinGeckoCoinImage } from '@core/market/interfaces'
     import { SupportedNetworkId } from '@core/network'
     import { IToken, getTokenInitials } from '@core/token'
     import { BASE_TOKEN_ID } from '@core/token/constants'
@@ -41,6 +43,15 @@
         },
     }
 
+    const IMAGE_SIZES: Record<typeof size, keyof CoinGeckoCoinImage> = {
+        xxs: 'thumb',
+        xs: 'thumb',
+        sm: 'thumb',
+        base: 'small',
+        md: 'small',
+        lg: 'small',
+    }
+
     $: backgroundColor =
         AVATAR_BACKGROUND_COLOR[token.networkId]?.[token.id] ??
         getIconColorFromString(token.metadata?.name, {
@@ -49,11 +60,16 @@
         })
     $: textColor = AVATAR_TEXT_COLOR[token.networkId]?.[token.id]
     $: icon = DEFAULT_TOKEN_ICON[token.networkId as SupportedNetworkId]?.[token.id]
+    $: image = $shimmerEvmTokensImages[token.id]?.[IMAGE_SIZES[size]]
     $: text = getTokenInitials(token)
 </script>
 
 <div class="avatar">
-    <Avatar {size} {backgroundColor} {icon} customTextColor={textColor} text={icon ? '' : text} />
+    <Avatar {size} {backgroundColor} {icon} customTextColor={textColor} text={icon || image ? '' : text}>
+        {#if image}
+            <img src={image} alt={token.metadata?.name} class="w-full h-full object-cover" />
+        {/if}
+    </Avatar>
     {#if (size === 'base' || size === 'md' || size === 'lg') && !hideNetworkBadge}
         <span class="relative flex justify-center items-center bottom-0 right-0">
             <NetworkBadge size="xs" networkId={token.networkId} />
