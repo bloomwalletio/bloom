@@ -31,14 +31,16 @@ export async function sendTransactionFromEvm(
             const signedTransaction = await signEvmTransaction(preparedTransaction, chain, account)
 
             if (!signAndSend || !signedTransaction) {
-                if (callback && typeof callback === 'function') {
-                    callback({ result: signedTransaction })
-                }
-                return signedTransaction
+                const callbackObject = signedTransaction
+                    ? { result: signedTransaction }
+                    : { error: 'No signed transaction!' }
+                callback && callback(callbackObject)
+                return
             }
 
             const transactionReceipt = await sendSignedEvmTransaction(chain, signedTransaction)
             if (!transactionReceipt) {
+                callback && callback({ error: 'No Transaction Receipt' })
                 return
             }
 
@@ -50,10 +52,7 @@ export async function sendTransactionFromEvm(
                 timestamp: Date.now(),
             }
             await persistEvmTransaction(evmTransaction, chain, account)
-
-            if (callback && typeof callback === 'function') {
-                callback({ result: transactionReceipt })
-            }
+            callback && callback({ result: signedTransaction })
         },
         { stronghold: true, ledger: true, props: { preparedTransaction } },
         LedgerAppName.Ethereum
