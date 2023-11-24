@@ -1,5 +1,6 @@
 <script lang="ts">
     import { Link, Text } from '@bloomwalletio/ui'
+    import { openUrlInBrowser } from '@core/app/utils'
     import { CoreTypes } from '@walletconnect/types'
 
     export let metadata: CoreTypes.Metadata
@@ -11,7 +12,7 @@
         <Text type="body2">
             {metadata?.name}
         </Text>
-        <Link text={metadata?.url} />
+        <Link text={metadata?.url} on:click={() => openUrlInBrowser(metadata.url)} />
     </div>
 </dapp-information>
 
