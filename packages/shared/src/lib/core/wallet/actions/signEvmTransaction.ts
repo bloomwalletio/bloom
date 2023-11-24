@@ -20,7 +20,7 @@ export async function signEvmTransaction(
     }
     const { index } = account
 
-    const transactionCopy = { ...transaction }
+    const transactionCopy = structuredClone(transaction)
     if (get(isSoftwareProfile)) {
         // Follow MetaMask's convention around incrementing address indices instead of account indices
         bip44Path.addressIndex = index
