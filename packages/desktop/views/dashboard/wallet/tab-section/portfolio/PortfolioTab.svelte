@@ -1,11 +1,10 @@
 <script lang="ts">
-    import { getCurrencySymbol, localize } from '@core/i18n'
+    import { localize } from '@core/i18n'
     import { ITokenWithBalance } from '@core/token'
     import { isVisibleToken } from '@core/token/actions/isVisibleToken'
     import { selectedAccountTokens, tokenFilter, tokenSearchTerm } from '@core/token/stores'
     import VirtualList from '@sveltejs/svelte-virtual-list'
     import TokenListRow from './components/TokenListRow.svelte'
-    import { activeProfile } from '@core/profile/stores'
     import { Text } from '@bloomwalletio/ui'
 
     let filteredTokenList: ITokenWithBalance[]
@@ -15,7 +14,6 @@
     let isEmptyBecauseOfFilter: boolean = false
     $: $selectedAccountTokens,
         (isEmptyBecauseOfFilter = getSortedTokenForAllNetworks().length > 0 && filteredTokenList.length === 0)
-    $: currency = getCurrencySymbol($activeProfile?.settings?.marketCurrency)
 
     function getFilteredTokens(): ITokenWithBalance[] {
         const sortedTokens = getSortedTokenForAllNetworks()
