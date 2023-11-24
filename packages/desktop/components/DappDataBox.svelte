@@ -19,7 +19,7 @@
                     />
                 {/if}
                 <Text type="xs">
-                    {truncateString(dapp.metadata.name, 15, 0)}
+                    {truncateString(dapp.metadata.name, 25, 0)}
                 </Text>
             </div>
         </div>
