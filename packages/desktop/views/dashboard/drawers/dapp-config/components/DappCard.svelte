@@ -1,9 +1,10 @@
 <script lang="ts">
     import { IConnectedDapp } from '@auxiliary/wallet-connect/interface'
     import { ClickableTile, NetworkAvatar } from '@ui'
-    import { Text } from '@bloomwalletio/ui'
+    import { Avatar, IconName, Text } from '@bloomwalletio/ui'
     import { NetworkId } from '@core/network'
     import { getPersistedDappNamespacesForDapp } from '@auxiliary/wallet-connect/stores'
+    import { localize } from '@core/i18n'
 
     export let dapp: IConnectedDapp
     export let onClick: (() => unknown) | undefined = undefined
@@ -19,10 +20,14 @@
 >
     <div class="w-full flex flex-row justify-between items-center p-2 gap-3">
         <div class="flex flex-row gap-3 items-center overflow-hidden">
-            <img class="w-10 h-10 rounded-full" src={dapp.metadata?.icons?.[0]} alt={dapp.metadata?.name} />
+            {#if dapp.metadata?.icons?.[0]}
+                <img class="w-10 h-10 rounded-full" src={dapp.metadata.icons[0]} alt={dapp.metadata.name} />
+            {:else}
+                <Avatar icon={IconName.Link} size="lg" surface={2} />
+            {/if}
             <div class="flex flex-col overflow-hidden">
                 <Text type="body2" truncate>
-                    {dapp.metadata?.name ?? 'dApp'}
+                    {dapp.metadata?.name ?? localize('general.unknown')}
                 </Text>
                 {#if dapp.metadata?.url}
                     <Text type="sm" textColor="secondary" truncate>
