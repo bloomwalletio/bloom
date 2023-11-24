@@ -9,7 +9,7 @@
     export let onClick: (() => unknown) | undefined = undefined
 
     $: networkIds = Object.values(
-        dapp.session?.namespaces ?? getPersistedDappNamespacesForDapp(dapp.metadata?.url)
+        dapp.session?.namespaces ?? getPersistedDappNamespacesForDapp(dapp.metadata?.url) ?? {}
     ).flatMap((namespace) => namespace.chains as NetworkId[])
 </script>
 
