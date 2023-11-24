@@ -1,6 +1,6 @@
+import { CoinGeckoApi } from '../apis'
 import { MarketCoinId, MarketCurrency } from '../enums'
 import { updateMarketCoinPrices } from '../stores'
-import { CoinGeckoApi } from './getMarketPrices'
 
 export async function getAndUpdateMarketPrices(): Promise<void> {
     try {
