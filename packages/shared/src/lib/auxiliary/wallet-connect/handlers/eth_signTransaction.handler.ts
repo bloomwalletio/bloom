@@ -4,6 +4,7 @@ import { IChain } from '@core/network'
 import { IConnectedDapp } from '@auxiliary/wallet-connect/interface'
 import { findActiveAccountWithAddress } from '@core/profile/actions'
 import { CallbackParameters } from '@auxiliary/wallet-connect/types'
+import { getSdkError } from '@walletconnect/utils'
 
 export function handleEthSignTransaction(
     evmTransactionData: TransactionConfig,
@@ -17,7 +18,7 @@ export function handleEthSignTransaction(
 
     const account = findActiveAccountWithAddress(evmTransactionData.from?.toString(), chain.getConfiguration().id)
     if (!account) {
-        responseCallback({ error: 'Could not find address' })
+        responseCallback({ error: getSdkError('UNSUPPORTED_ACCOUNTS') })
         return
     }
 
@@ -29,6 +30,7 @@ export function handleEthSignTransaction(
             dapp,
             transaction: evmTransactionData,
             callback: responseCallback,
+            onCancel: () => responseCallback({ error: getSdkError('USER_REJECTED') }),
         },
     })
 }

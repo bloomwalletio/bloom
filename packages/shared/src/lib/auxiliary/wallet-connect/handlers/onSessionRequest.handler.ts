@@ -8,6 +8,7 @@ import { getConnectedDappByOrigin, getWalletClient } from '../stores'
 import { NetworkId, getNetwork } from '@core/network'
 import { CallbackParameters } from '../types'
 import { Platform } from '@core/app'
+import { getSdkError } from '@walletconnect/utils'
 
 export function onSessionRequest(event: Web3WalletTypes.SessionRequest): void {
     Platform.focusWindow()
@@ -28,10 +29,7 @@ export function onSessionRequest(event: Web3WalletTypes.SessionRequest): void {
             : error
             ? {
                   id,
-                  error: {
-                      code: 5000,
-                      message: error,
-                  },
+                  error,
                   jsonrpc: '2.0',
               }
             : undefined
@@ -43,7 +41,7 @@ export function onSessionRequest(event: Web3WalletTypes.SessionRequest): void {
 
     const chain = getNetwork()?.getChain(chainId as NetworkId)
     if (!chain) {
-        returnResponse({ error: 'Chain not supported' })
+        returnResponse({ error: getSdkError('UNSUPPORTED_CHAINS') })
         return
     }
 

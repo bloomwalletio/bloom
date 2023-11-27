@@ -31,6 +31,7 @@
     export let account: IAccountState
     export let chain: IChain
     export let dapp: IConnectedDapp | undefined
+    export let onCancel: () => void
     export let callback: (params: CallbackParameters) => void
 
     const { chainId, id } = chain.getConfiguration()
@@ -74,7 +75,7 @@
     }
 
     function onCancelClick(): void {
-        callback({ error: 'User rejected' })
+        onCancel?.()
         closePopup()
     }
 

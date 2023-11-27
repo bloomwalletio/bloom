@@ -5,6 +5,7 @@ import { findActiveAccountWithAddress } from '@core/profile/actions'
 import { IChain } from '@core/network'
 import { CallbackParameters } from '../types'
 import { getSelectedAccountIndex } from '@core/account/stores'
+import { getSdkError } from '@walletconnect/utils'
 
 export function handleSignMessage(
     params: unknown,
@@ -14,7 +15,7 @@ export function handleSignMessage(
     responseCallback: (params: CallbackParameters) => void
 ): void {
     if (!params || !Array.isArray(params)) {
-        responseCallback({ error: 'Unexpected format' })
+        responseCallback({ error: getSdkError('INVALID_METHOD') })
         return
     }
 
@@ -25,12 +26,12 @@ export function handleSignMessage(
 
     const account = findActiveAccountWithAddress(accountAddress?.toLowerCase(), chain.getConfiguration().id)
     if (!account) {
-        responseCallback({ error: 'Could not find address' })
+        responseCallback({ error: getSdkError('UNSUPPORTED_ACCOUNTS') })
         return
     }
 
     if (typeof hexMessage !== 'string') {
-        responseCallback({ error: 'Unexpected message' })
+        responseCallback({ error: getSdkError('INVALID_METHOD') })
         return
     }
     const message = Converter.hexToUtf8(hexMessage)
@@ -44,6 +45,7 @@ export function handleSignMessage(
                 account,
                 chain,
                 callback: responseCallback,
+                onCancel: () => responseCallback({ error: getSdkError('USER_REJECTED') }),
             },
         })
 
@@ -52,7 +54,7 @@ export function handleSignMessage(
             id: PopupId.DappAccountSwitcher,
             props: {
                 account,
-                onCancel: () => responseCallback({ error: 'Request rejected by Wallet' }),
+                onCancel: () => responseCallback({ error: getSdkError('USER_REJECTED') }),
                 onConfirm: openSignMessagePopup,
             },
         })
