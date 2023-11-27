@@ -23,7 +23,7 @@
             {#if dapp.metadata?.icons?.[0]}
                 <img class="w-10 h-10 rounded-full" src={dapp.metadata.icons[0]} alt={dapp.metadata.name} />
             {:else}
-                <Avatar icon={IconName.Link} size="lg" surface={2} />
+                <Avatar icon={IconName.Link} size="lg" surface={0} />
             {/if}
             <div class="flex flex-col overflow-hidden">
                 <Text type="body2" truncate>

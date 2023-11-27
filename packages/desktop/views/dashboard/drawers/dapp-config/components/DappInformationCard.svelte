@@ -10,7 +10,7 @@
     {#if metadata?.icons?.[0]}
         <img class="dapp-image" src={metadata?.icons?.[0]} alt={metadata?.name} />
     {:else}
-        <Avatar icon={IconName.Link} size="lg" surface={2} />
+        <Avatar icon={IconName.Link} size="lg" surface={0} />
     {/if}
     <div class="flex flex-col">
         <Text type="body2">
