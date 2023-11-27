@@ -1,33 +1,38 @@
 <script lang="ts">
     import { IConnectedDapp } from '@auxiliary/wallet-connect/interface'
-    import { ClickableTile, FontWeight, Text } from '@ui'
-    import DappStatusPill from './DappStatusPill.svelte'
+    import { ClickableTile, NetworkAvatar } from '@ui'
+    import { Text } from '@bloomwalletio/ui'
+    import { NetworkId } from '@core/network'
+    import { getPersistedDappNamespacesForDapp } from '@auxiliary/wallet-connect/stores'
 
-    export let connectedDapp: IConnectedDapp = undefined
+    export let dapp: IConnectedDapp
     export let onClick: (() => unknown) | undefined = undefined
+
+    $: networkIds = Object.values(
+        dapp.session?.namespaces ?? getPersistedDappNamespacesForDapp(dapp.metadata?.url) ?? {}
+    ).flatMap((namespace) => namespace.chains as NetworkId[])
 </script>
 
-<ClickableTile classes="bg-white border border-solid border-gray-200 dark:border-transparent" {onClick}>
-    <div class="w-full flex flex-row justify-between items-center p-2">
-        <div class="flex flex-row gap-4 items-center">
-            <img
-                class="connected-dapp-image"
-                src={connectedDapp.metadata?.icons?.[0]}
-                alt={connectedDapp.metadata?.name}
-            />
-            <Text fontSize="14" fontWeight={FontWeight.semibold}>
-                {connectedDapp.metadata?.name}
-            </Text>
+<ClickableTile
+    classes="bg-surface-0 dark:bg-surface-0-dark border border-solid border-stroke dark:border-stroke-dark"
+    {onClick}
+>
+    <div class="w-full flex flex-row justify-between items-center p-2 gap-3">
+        <div class="flex flex-row gap-3 items-center overflow-hidden">
+            <img class="w-10 h-10 rounded-full" src={dapp.metadata?.icons?.[0]} alt={dapp.metadata?.name} />
+            <div class="flex flex-col overflow-hidden">
+                <Text type="body2" truncate>
+                    {dapp.metadata?.name ?? 'dApp'}
+                </Text>
+                {#if dapp.metadata?.url}
+                    <Text type="sm" textColor="secondary" truncate>
+                        {dapp.metadata?.url}
+                    </Text>
+                {/if}
+            </div>
         </div>
-
-        <DappStatusPill active={!!connectedDapp.session} />
+        {#each networkIds as networkId}
+            <NetworkAvatar {networkId} />
+        {/each}
     </div>
 </ClickableTile>
-
-<style lang="scss">
-    .connected-dapp-image {
-        width: 30px;
-        height: 30px;
-        border-radius: 10px;
-    }
-</style>

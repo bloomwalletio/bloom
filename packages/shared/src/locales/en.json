@@ -423,7 +423,7 @@
                     "contactList": {
                         "title": "Contact list",
                         "emptyHeader": "No contacts found",
-                        "emptyBody": "Connect with your favorite people in Bloom.",
+                        "emptyBody": "Connect with your favourite people in Bloom.",
                         "addContact": "Add contact"
                     },
                     "contactInformation": {
@@ -479,7 +479,8 @@
                     },
                     "connectionRequest": {
                         "title": "Connection request",
-                        "hint": "A third party service wants to connect with your wallet for the first time. You can choose if you wish to trust this connection.",
+                        "firstTimeHint": "This dApp wishes to connect for the first time. Connect to sites you trust.",
+                        "reconnectHint": "You have previously connected with this dApp.",
                         "insecure": "The URL for this dApp cannot be verified. Your connection to this application may not be secure.",
                         "acceptInsecureConnection": "I understand this dApp may be insecure and still want to connect."
                     },
@@ -487,18 +488,21 @@
                         "title": "Connect with an application",
                         "permissions": {
                             "step": "Permission",
-                            "title": "This dApp will be abe to ask to:",
+                            "tip": "These are limited permissions for the dApp to send an interaction request for your approval. Only approve apps you know and trust.",
+                            "title": "Select permissions",
                             "signData": "Request to sign data",
                             "signTransaction": "Request to sign a transaction",
                             "sendTransaction": "Request to send a transaction"
                         },
                         "networks": {
                             "step": "Networks",
-                            "title": "Select networks"
+                            "title": "Select networks",
+                            "tip": "The required networks are pre-selected for you by the dApp and can also be reconfigured later."
                         },
                         "accounts": {
                             "step": "Accounts",
-                            "title": "Select accounts"
+                            "title": "Select accounts",
+                            "tip": "Connect with specific accounts to manage funds separately. You control what the dApp can access."
                         }
                     },
                     "details": {
@@ -1445,7 +1449,9 @@
         "failed": "failed",
         "required": "Required",
         "yes": "Yes",
-        "no": "No"
+        "no": "No",
+        "tip": "Tip",
+        "verified": "Verified"
     },
     "filters":{
         "title": "Filters",

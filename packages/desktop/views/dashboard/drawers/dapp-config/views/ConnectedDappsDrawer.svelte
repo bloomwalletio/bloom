@@ -1,6 +1,6 @@
 <script lang="ts">
     import { connectedDapps, setSelectedDapp } from '@auxiliary/wallet-connect/stores'
-    import { Button, IconName } from '@bloomwalletio/ui'
+    import { Button, IconName, Pill } from '@bloomwalletio/ui'
     import { DrawerTemplate, EmptyListPlaceholder } from '@components'
     import { localize } from '@core/i18n'
     import { Router } from '@core/router'
@@ -22,13 +22,26 @@
 
 <DrawerTemplate title={localize('views.dashboard.drawers.dapps.dappsList.title')} {drawerRouter}>
     {#if $connectedDapps.length}
-        <connected-dapps class="flex flex-col gap-4 scrollable px-6">
-            {#each $connectedDapps as connectedDapp}
-                {#if connectedDapp.metadata}
-                    <DappCard {connectedDapp} onClick={() => onDappCardClick(connectedDapp)} />
-                {/if}
-            {/each}
-        </connected-dapps>
+        {@const connectedDappList = $connectedDapps.filter((dapp) => !!dapp.session)}
+        {@const disconnectedDappList = $connectedDapps.filter((dapp) => !dapp.session)}
+        <div class="h-full flex flex-col gap-8 scrollable px-6">
+            {#if connectedDappList.length}
+                <div class="flex flex-col items-start gap-3">
+                    <Pill color="success">{localize('general.connected')}</Pill>
+                    {#each connectedDappList as dapp}
+                        <DappCard {dapp} onClick={() => onDappCardClick(dapp)} />
+                    {/each}
+                </div>
+            {/if}
+            {#if disconnectedDappList.length}
+                <div class="flex flex-col items-start gap-3">
+                    <Pill color="danger">{localize('general.disconnected')}</Pill>
+                    {#each disconnectedDappList as dapp}
+                        <DappCard {dapp} onClick={() => onDappCardClick(dapp)} />
+                    {/each}
+                </div>
+            {/if}
+        </div>
     {:else}
         <div class="w-full h-full flex flex-col items-center justify-center gap-6 px-6">
             <EmptyListPlaceholder
@@ -38,7 +51,7 @@
             />
         </div>
     {/if}
-    <div slot="footer" class="flex justify-center">
+    <div slot="footer" class="flex justify-center p-3">
         <Button
             variant="text"
             icon={IconName.Plus}
