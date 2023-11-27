@@ -187,7 +187,6 @@
                 </Text>
                 <slot name="right" />
             </div>
-            <slot name="right-full-h" />
         </InputContainer>
     </div>
     {#if capsLockWarning && hasFocus && capsLockOn}

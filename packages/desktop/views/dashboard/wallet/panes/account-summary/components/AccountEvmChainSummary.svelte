@@ -3,7 +3,7 @@
     import { getAddressFromAccountForNetwork, IAccountState } from '@core/account'
     import { formatTokenAmountBestMatch, ITokenWithBalance } from '@core/token'
     import { formatCurrency } from '@core/i18n'
-    import { getMarketAmountFromTokenValue } from '@core/market/actions'
+    import { getFiatAmountFromTokenValue } from '@core/market/actions'
     import { selectedAccountTokens } from '@core/token/stores'
     import AccountNetworkSummary from './AccountNetworkSummary.svelte'
     import type { IAccountNetworkSummaryProps } from '../interfaces'
@@ -28,8 +28,7 @@
          * for L2 tokens.
          */
         const fiatBalance =
-            formatCurrency(getMarketAmountFromTokenValue(evmChainBaseToken?.balance.total ?? 0, evmChainBaseToken)) ??
-            ''
+            formatCurrency(getFiatAmountFromTokenValue(evmChainBaseToken?.balance.total ?? 0, evmChainBaseToken)) ?? ''
 
         return {
             networkId,
