@@ -1,4 +1,4 @@
-import { getWalletClient, setConnectedDapps } from '../stores'
+import { getWalletClient, removeDappNamespacesForDapp, setConnectedDapps } from '../stores'
 import { getSdkError } from '@walletconnect/utils'
 import { IConnectedDapp } from '../interface'
 import { handleError } from '@core/error/handlers'
@@ -16,7 +16,9 @@ export async function removeDapp(dapp: IConnectedDapp): Promise<void> {
                 reason: getSdkError('USER_DISCONNECTED'),
             })
         }
-        await client.core.pairing.disconnect({ topic: dapp.topic })
+        if (dapp.metadata) {
+            removeDappNamespacesForDapp(dapp.metadata.url)
+        }
         setConnectedDapps()
     } catch (err) {
         handleError(err)

@@ -1,5 +1,4 @@
 import { getConnectedDapps, getWalletClient, setConnectedDapps } from '../stores'
-import { removeDapp } from './removeDapp'
 import { handleError } from '@core/error/handlers'
 
 export async function clearOldPairings(dappOrigin: string): Promise<void> {
@@ -11,7 +10,7 @@ export async function clearOldPairings(dappOrigin: string): Promise<void> {
     try {
         const duplicatedDapp = getConnectedDapps().filter((dapp) => dapp.metadata?.url === dappOrigin)
         for (const dapp of duplicatedDapp) {
-            await removeDapp(dapp)
+            await client.core.pairing.disconnect({ topic: dapp.topic })
         }
         setConnectedDapps()
     } catch (err) {
