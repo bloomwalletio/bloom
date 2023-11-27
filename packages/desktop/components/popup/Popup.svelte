@@ -29,6 +29,7 @@
     import DiagnosticsPopup from './popups/DiagnosticsPopup.svelte'
     import EnableLedgerBlindSigningPopup from './popups/EnableLedgerBlindSigningPopup.svelte'
     import ErrorLogPopup from './popups/ErrorLogPopup.svelte'
+    import EvmTransactionFromDappPopup from './popups/EvmTransactionFromDappPopup.svelte'
     import FaucetRequestPopup from './popups/FaucetRequestPopup.svelte'
     import ImportErc20TokenFormPopup from './popups/ImportErc20TokenFormPopup.svelte'
     import LegalUpdatePopup from './popups/LegalUpdatePopup.svelte'
@@ -43,7 +44,6 @@
     import RemoveProposalPopup from './popups/RemoveProposalPopup.svelte'
     import RevotePopup from './popups/RevotePopup.svelte'
     import SendFlowPopup from './popups/SendFlowPopup.svelte'
-    import SignEvmTransactionPopup from './popups/SignEvmTransactionPopup.svelte'
     import SignMessagePopup from './popups/SignMessagePopup.svelte'
     import StopVotingPopup from './popups/StopVotingPopup.svelte'
     import SyncAccountsPopup from './popups/SyncAccountsPopup.svelte'
@@ -103,6 +103,7 @@
         [PopupId.Diagnostics]: DiagnosticsPopup,
         [PopupId.EnableLedgerBlindSigning]: EnableLedgerBlindSigningPopup,
         [PopupId.ErrorLog]: ErrorLogPopup,
+        [PopupId.EvmTransactionFromDapp]: EvmTransactionFromDappPopup,
         [PopupId.FaucetRequest]: FaucetRequestPopup,
         [PopupId.ImportErc20Token]: ImportErc20TokenFormPopup,
         [PopupId.LegalUpdate]: LegalUpdatePopup,
@@ -118,7 +119,6 @@
         [PopupId.Revote]: RevotePopup,
         [PopupId.SendFlow]: SendFlowPopup,
         [PopupId.SignMessage]: SignMessagePopup,
-        [PopupId.SignEvmTransaction]: SignEvmTransactionPopup,
         [PopupId.StopVoting]: StopVotingPopup,
         [PopupId.SyncAccounts]: SyncAccountsPopup,
         [PopupId.TestDeepLinkForm]: TestDeepLinkFormPopup,

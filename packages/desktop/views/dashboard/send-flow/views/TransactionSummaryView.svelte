@@ -75,7 +75,7 @@
     async function onConfirmClick(): Promise<void> {
         try {
             if (isSourceNetworkLayer2) {
-                await sendTransactionFromEvm(preparedTransaction, chain, finish)
+                await sendTransactionFromEvm(preparedTransaction, chain, true, finish)
             } else {
                 await sendOutputFromStardust(preparedOutput, $selectedAccount, finish)
             }

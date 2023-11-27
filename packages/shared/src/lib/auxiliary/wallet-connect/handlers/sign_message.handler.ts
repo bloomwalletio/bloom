@@ -24,7 +24,7 @@ export function handleSignMessage(
     const hexMessage = method === 'personal_sign' ? params[0] : params[1]
     const accountAddress = method === 'personal_sign' ? params[1] : params[0]
 
-    const account = findActiveAccountWithAddress(accountAddress?.toLowerCase(), chain.getConfiguration().id)
+    const account = findActiveAccountWithAddress(accountAddress, chain.getConfiguration().id)
     if (!account) {
         responseCallback({ error: getSdkError('UNSUPPORTED_ACCOUNTS') })
         return
