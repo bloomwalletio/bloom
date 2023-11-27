@@ -15,7 +15,7 @@
     export let drawerRouter: Router<unknown>
 
     $: connectedDappsForProfile = $connectedDapps.filter(
-        (dapp) => !!getPersistedDappNamespacesForDapp(dapp.metadata.url)
+        (dapp) => !!getPersistedDappNamespacesForDapp(dapp.metadata?.url)
     )
 
     function onDappCardClick(connectedDapp: IConnectedDapp): void {
