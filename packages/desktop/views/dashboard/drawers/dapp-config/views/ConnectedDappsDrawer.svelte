@@ -1,5 +1,9 @@
 <script lang="ts">
-    import { connectedDapps, setSelectedDapp } from '@auxiliary/wallet-connect/stores'
+    import {
+        connectedDapps,
+        getPersistedDappNamespacesForDapp,
+        setSelectedDapp,
+    } from '@auxiliary/wallet-connect/stores'
     import { Button, IconName, Pill } from '@bloomwalletio/ui'
     import { DrawerTemplate, EmptyListPlaceholder } from '@components'
     import { localize } from '@core/i18n'
@@ -9,6 +13,10 @@
     import { IConnectedDapp } from '@auxiliary/wallet-connect/interface'
 
     export let drawerRouter: Router<unknown>
+
+    $: connectedDappsForProfile = $connectedDapps.filter(
+        (dapp) => !!getPersistedDappNamespacesForDapp(dapp.metadata.url)
+    )
 
     function onDappCardClick(connectedDapp: IConnectedDapp): void {
         setSelectedDapp(connectedDapp)
@@ -21,9 +29,9 @@
 </script>
 
 <DrawerTemplate title={localize('views.dashboard.drawers.dapps.dappsList.title')} {drawerRouter}>
-    {#if $connectedDapps.length}
-        {@const connectedDappList = $connectedDapps.filter((dapp) => !!dapp.session)}
-        {@const disconnectedDappList = $connectedDapps.filter((dapp) => !dapp.session)}
+    {#if connectedDappsForProfile.length}
+        {@const connectedDappList = connectedDappsForProfile.filter((dapp) => !!dapp.session)}
+        {@const disconnectedDappList = connectedDappsForProfile.filter((dapp) => !dapp.session)}
         <div class="h-full flex flex-col gap-8 scrollable px-6">
             {#if connectedDappList.length}
                 <div class="flex flex-col items-start gap-3">
