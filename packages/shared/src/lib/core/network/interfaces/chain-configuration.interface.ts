@@ -1,3 +1,4 @@
+import { CoinType } from '@iota/sdk/out/types'
 import { ChainType, EvmChainId, NetworkNamespace } from '../enums'
 import { NetworkId } from '../types'
 
@@ -18,7 +19,7 @@ export interface IBaseChainConfiguration {
     namespace: NetworkNamespace.Evm
     chainId: EvmChainId
     type: ChainType
-    coinType: number
+    coinType: CoinType
     name: string
     explorerUrl?: string
     rpcEndpoint: string

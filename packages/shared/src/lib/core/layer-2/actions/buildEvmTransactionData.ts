@@ -1,17 +1,23 @@
 import { Converter } from '@core/utils'
-import Web3 from 'web3'
 import { getEvmTransactionValueFromAmount } from '../helpers/getEvmTransactionValueFromAmount'
 import { GAS_LIMIT_MULTIPLIER } from '../constants'
 import { EvmTransactionData } from '../types'
+import { IChain } from '@core/network'
+import { localize } from '@core/i18n'
 
 export async function buildEvmTransactionData(
-    provider: Web3,
+    chain: IChain,
     originAddress: string,
     destinationAddress: string,
     amount: string,
     data: string | undefined
 ): Promise<EvmTransactionData> {
-    const nonce = provider.utils.toHex(await provider.eth.getTransactionCount(originAddress))
+    const provider = chain.getProvider()
+    if (!provider) {
+        throw new Error(localize('error.web3.unableToFindProvider'))
+    }
+
+    const nonce = await provider.eth.getTransactionCount(originAddress)
 
     // Specified in wei = 1_000_000_000_000
     const gasPrice = await provider.eth.getGasPrice()
