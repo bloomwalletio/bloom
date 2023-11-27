@@ -23,11 +23,6 @@ export function createEvmChainToEvmChainTransaction(
         throw new Error(localize('error.send.invalidSendParameters'))
     }
 
-    const provider = chain?.getProvider()
-    if (!provider) {
-        throw new Error(localize('error.web3.unableToFindProvider'))
-    }
-
     const recipientAddress = sendFlowParameters.recipient.address
 
     const { evmAddresses } = account
@@ -76,7 +71,7 @@ export function createEvmChainToEvmChainTransaction(
         data = undefined
     }
 
-    return buildEvmTransactionData(provider, originAddress, destinationAddress, amount ?? '0', data)
+    return buildEvmTransactionData(chain, originAddress, destinationAddress, amount ?? '0', data)
 }
 
 function getDataForTransaction(

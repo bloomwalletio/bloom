@@ -52,12 +52,14 @@
             out:fade|local={{ duration: DRAWER_ANIMATION_DURATION_MS }}
             on:click={onCloseClick}
             on:keydown={() => {}}
-            class="fixed h-full left-0 w-full z-0 bg-neutral-6/75"
+            class="fixed left-0 w-full z-0 bg-neutral-6/75"
+            style:height="calc(100% - var(--windows-navbar-height, 0px))"
         />
         <panel
             in:fly|local={{ ...direction, duration: DRAWER_ANIMATION_DURATION_MS }}
             out:fly|local={{ ...direction, duration: DRAWER_ANIMATION_DURATION_MS }}
             class="relative flex flex-col flex-auto overflow-hidden {position} {isVertical ? 'vertical' : 'horizontal'}"
+            style:height="calc(100% - var(--windows-navbar-height, 0px))"
         >
             <div class="flex flex-col h-full">
                 <slot name="contents" />
@@ -74,7 +76,6 @@
 <style lang="scss">
     panel {
         @apply fixed;
-        @apply h-full;
         @apply bg-surface-1 dark:bg-surface-1-dark;
         @apply shadow;
         @apply border border-solid border-stroke dark:border-stroke-dark;

@@ -430,7 +430,7 @@
                         "title": "Contact Information",
                         "editContact": "Edit contact",
                         "removeContact": "Remove contact",
-                        "addNetworkAddress": "Add network address"
+                        "addNetworkAddress": "Add address"
                     },
                     "contactAddress": {
                         "title": "Contact address",
@@ -873,11 +873,15 @@
             "title": "Sign message",
             "hint": "No balance will be sent to {dappName} in the process of signing this message.",
             "warning": "dApp cannot be determined. No balance will be sent in the process of signing this message.",
-            "action": "Sign message"
+            "action": "Sign"
         },
         "signTransaction": {
             "title": "Sign transaction",
-            "action": "Sign transaction"
+            "action": "Sign"
+        },
+        "sendTransaction": {
+            "title": "Send transaction",
+            "action": "Send"
         },
         "activityDetails": {
             "title": {
