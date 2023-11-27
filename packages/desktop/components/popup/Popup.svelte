@@ -137,8 +137,8 @@
 
     function tryClosePopup(): void {
         if (!preventClose) {
-            if ('function' === typeof props?.onCancelled) {
-                props?.onCancelled()
+            if ('function' === typeof props?.onCancel) {
+                props?.onCancel()
             }
             closePopup()
         }
@@ -146,8 +146,8 @@
 
     function tryClosePopupOnClickOutside(): void {
         if (!preventClose) {
-            if ('function' === typeof props?.onCancelled) {
-                props?.onCancelled()
+            if ('function' === typeof props?.onCancel) {
+                props?.onCancel()
             }
             if (confirmClickOutside) {
                 confirmationDialog?.openDialog()
