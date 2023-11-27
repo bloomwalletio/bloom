@@ -1,6 +1,6 @@
 <script lang="ts">
     import { formatCurrency } from '@core/i18n'
-    import { getMarketAmountFromTokenValue, getMarketPriceForToken } from '@core/market/actions'
+    import { getFiatAmountFromTokenValue, getMarketPriceForToken } from '@core/market/actions'
     import { SupportedNetworkId, TokenSupply, getActiveNetworkId, getNameFromNetworkId } from '@core/network'
     import { BASE_TOKEN_ID, ITokenWithBalance, formatTokenAmountBestMatch, getUnitFromTokenMetadata } from '@core/token'
     import { truncateString } from '@core/utils'
@@ -28,7 +28,7 @@
                 tokenSupply = 0
         }
 
-        const marketPrice = tokenSupply ? getMarketAmountFromTokenValue(Number(TokenSupply.Testnet), token) : undefined
+        const marketPrice = tokenSupply ? getFiatAmountFromTokenValue(Number(TokenSupply.Testnet), token) : undefined
         return marketPrice ? formatCurrency(marketPrice, $activeProfile.settings.marketCurrency, true) : '-'
     }
 
@@ -38,12 +38,12 @@
     }
 
     function getFormattedMarketPriceForTokenAvailable(token: ITokenWithBalance): string {
-        const marketPrice = getMarketAmountFromTokenValue(token.balance.available, token)
+        const marketPrice = getFiatAmountFromTokenValue(token.balance.available, token)
         return marketPrice || marketPrice === 0 ? formatCurrency(marketPrice) : '-'
     }
 
     function getFormattedMarketPriceForTokenTotal(token: ITokenWithBalance): string {
-        const marketPrice = getMarketAmountFromTokenValue(token.balance.total, token)
+        const marketPrice = getFiatAmountFromTokenValue(token.balance.total, token)
         return marketPrice || marketPrice === 0 ? formatCurrency(marketPrice) : '-'
     }
 
