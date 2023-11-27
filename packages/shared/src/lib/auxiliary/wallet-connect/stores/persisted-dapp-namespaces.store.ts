@@ -27,3 +27,15 @@ export function persistDappNamespacesForDapp(dappOriginUrl: string, namespaces: 
         return state
     })
 }
+
+export function removeDappNamespacesForDapp(dappOriginUrl: string): void {
+    const profileId = getActiveProfile()?.id
+
+    return persistedDappNamespaces.update((state) => {
+        if (!state[profileId]) {
+            return state
+        }
+        delete state[profileId][dappOriginUrl]
+        return state
+    })
+}
