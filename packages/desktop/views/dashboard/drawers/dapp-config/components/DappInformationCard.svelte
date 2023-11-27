@@ -1,17 +1,22 @@
 <script lang="ts">
-    import { Link, Text } from '@bloomwalletio/ui'
+    import { openUrlInBrowser } from '@core/app/utils'
+    import { Avatar, IconName, Link, Text } from '@bloomwalletio/ui'
     import { CoreTypes } from '@walletconnect/types'
 
     export let metadata: CoreTypes.Metadata
 </script>
 
 <dapp-information>
-    <img class="dapp-image" src={metadata?.icons?.[0]} alt={metadata?.name} />
+    {#if metadata?.icons?.[0]}
+        <img class="dapp-image" src={metadata?.icons?.[0]} alt={metadata?.name} />
+    {:else}
+        <Avatar icon={IconName.Link} size="lg" surface={0} />
+    {/if}
     <div class="flex flex-col">
         <Text type="body2">
             {metadata?.name}
         </Text>
-        <Link text={metadata?.url} />
+        <Link text={metadata?.url} on:click={() => openUrlInBrowser(metadata.url)} />
     </div>
 </dapp-information>
 

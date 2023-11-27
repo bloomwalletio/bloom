@@ -1,5 +1,3 @@
-import Web3 from 'web3'
-
 import { IAccountState } from '@core/account/interfaces'
 import { localize } from '@core/i18n'
 import { buildEvmTransactionData, buildUnwrapAssetParameters } from '@core/layer-2/actions'
@@ -58,9 +56,8 @@ export async function createEvmChainToStardustNetworkTransaction(
                 .send(targetAddress, assetAllowance, adjustMinimumStorageDeposit, sendMetadata, sendOptions)
                 .encodeABI()) ?? ''
 
-        const provider = chain?.getProvider() as Web3
         const originAddress = account?.evmAddresses?.[ETHEREUM_COIN_TYPE] ?? ''
-        return await buildEvmTransactionData(provider, originAddress, ISC_MAGIC_CONTRACT_ADDRESS, '0', data)
+        return await buildEvmTransactionData(chain, originAddress, ISC_MAGIC_CONTRACT_ADDRESS, '0', data)
     } catch (err) {
         if (err.message && err.message.includes(EvmErrorMessage.RequireMoreGas)) {
             throw new Error(localize('error.send.insufficientFundsGasFee'))

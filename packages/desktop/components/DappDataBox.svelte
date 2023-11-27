@@ -11,13 +11,15 @@
     {#if dapp?.metadata}
         <div class="absolute flex flex-row justify-between" style="top: -12px; left: 18px;">
             <div class="flex flex-row gap-2 bg-surface-0 dark:bg-surface-0-dark items-center px-2">
-                <img
-                    style="width: 24px; height: 24px; border-radius: 24px;"
-                    src={dapp.metadata.icons?.[0]}
-                    alt={dapp.metadata.name}
-                />
+                {#if dapp.metadata.icons?.[0]}
+                    <img
+                        style="width: 24px; height: 24px; border-radius: 24px;"
+                        src={dapp.metadata.icons?.[0]}
+                        alt={dapp.metadata.name}
+                    />
+                {/if}
                 <Text type="xs">
-                    {truncateString(dapp.metadata.name, 15, 0)}
+                    {truncateString(dapp.metadata.name, 25, 0)}
                 </Text>
             </div>
         </div>

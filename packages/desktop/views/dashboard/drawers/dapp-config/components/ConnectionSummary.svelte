@@ -8,8 +8,9 @@
     import { findActiveAccountWithAddress } from '@core/profile/actions'
     import { NetworkId } from '@core/network'
     import { IAccountState } from '@core/account'
+    import { ProposalTypes } from '@walletconnect/types'
 
-    export let requiredNamespaces: Record<string, unknown>
+    export let requiredNamespaces: ProposalTypes.RequiredNamespaces | undefined
     export let persistedDappNamespace: SupportedNamespaces
 
     const localeKey = 'views.dashboard.drawers.dapps.confirmConnection'
@@ -19,7 +20,7 @@
     let permissionPreferences: PermissionPreference[] = []
     function setPermissionPreferences(): void {
         const permissions: PermissionPreference[] = []
-        const namespaces = Object.values(requiredNamespaces)
+        const namespaces = Object.values(requiredNamespaces ?? {})
         const persistedNamespaces = Object.values(persistedDappNamespace)
 
         for (const permission of Object.values(DappPermission)) {

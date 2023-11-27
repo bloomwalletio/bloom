@@ -32,7 +32,9 @@
     <drawer-body class="flex-grow overflow-auto">
         <slot />
     </drawer-body>
-    <drawer-footer class="w-full self-end overflow-visible p-6">
-        <slot name="footer" />
-    </drawer-footer>
+    {#if $$slots.footer}
+        <drawer-footer class="w-full self-end overflow-visible p-6">
+            <slot name="footer" />
+        </drawer-footer>
+    {/if}
 </drawer-template>

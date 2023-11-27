@@ -11,9 +11,9 @@ interface IPersistedNamespaces {
 
 export const persistedDappNamespaces: Writable<IPersistedNamespaces> = persistent('persistedDappNamespaces', {})
 
-export function getPersistedDappNamespacesForDapp(dappOriginUrl: string): SupportedNamespaces {
+export function getPersistedDappNamespacesForDapp(dappOriginUrl: string): SupportedNamespaces | undefined {
     const profileId = getActiveProfile()?.id
-    return get(persistedDappNamespaces)?.[profileId]?.[dappOriginUrl] ?? {}
+    return get(persistedDappNamespaces)?.[profileId]?.[dappOriginUrl]
 }
 
 export function persistDappNamespacesForDapp(dappOriginUrl: string, namespaces: SupportedNamespaces): void {
@@ -24,6 +24,18 @@ export function persistDappNamespacesForDapp(dappOriginUrl: string, namespaces: 
             state[profileId] = {}
         }
         state[profileId][dappOriginUrl] = namespaces
+        return state
+    })
+}
+
+export function removeDappNamespacesForDapp(dappOriginUrl: string): void {
+    const profileId = getActiveProfile()?.id
+
+    return persistedDappNamespaces.update((state) => {
+        if (!state[profileId]) {
+            return state
+        }
+        delete state[profileId][dappOriginUrl]
         return state
     })
 }
