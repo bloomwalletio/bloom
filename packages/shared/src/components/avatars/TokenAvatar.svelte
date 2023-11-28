@@ -3,7 +3,7 @@
     import { Avatar } from '@bloomwalletio/ui'
     import { getIconColorFromString } from '@core/account'
     import { CoinGeckoCoinImage } from '@core/market/interfaces'
-    import { getImageFromToken } from '@core/market/utils/getImageFromToken'
+    import { getImageUrlFromToken } from '@core/market/utils/getImageUrlFromToken'
     import { SupportedNetworkId } from '@core/network'
     import { IToken, getTokenInitials } from '@core/token'
     import { BASE_TOKEN_ID } from '@core/token/constants'
@@ -62,7 +62,7 @@
         })
     $: textColor = AVATAR_TEXT_COLOR[token.networkId]?.[token.id]
     $: icon = DEFAULT_TOKEN_ICON[token.networkId as SupportedNetworkId]?.[token.id]
-    $: image = getImageFromToken(token, IMAGE_SIZES[size])
+    $: image = getImageUrlFromToken(token, IMAGE_SIZES[size])
     $: text = getTokenInitials(token)
 </script>
 
