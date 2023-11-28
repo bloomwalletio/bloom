@@ -25,7 +25,7 @@ export class EvmExplorerApi extends BaseApi implements IExplorerApi {
             `addresses/${address}/tokens?type=${tokenType}`
         )
         if (response) {
-            return response.items.map((asset) => ({
+            return (response?.items ?? []).map((asset) => ({
                 ...asset,
                 token: { ...asset.token, type: asset.token.type.replace('-', '') as TokenStandard },
             }))
