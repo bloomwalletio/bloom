@@ -22,10 +22,12 @@
     import { getNftByIdFromAllAccountNfts } from '@core/nfts/actions'
     import DappDataBox from '@components/DappDataBox.svelte'
     import { onMount } from 'svelte'
+    import { closePopup } from '@desktop/auxiliary/popup'
 
     export let preparedTransaction: EvmTransactionData
     export let chain: IChain
     export let dapp: IConnectedDapp | undefined
+    export let onCancel: () => void
     export let signAndSend: boolean
     export let callback: (params: CallbackParameters) => void
 
@@ -76,7 +78,8 @@
     }
 
     function onCancelClick(): void {
-        callback({ error: 'User rejected' })
+        onCancel?.()
+        closePopup()
     }
 
     // Required to trigger callback after profile authentication
