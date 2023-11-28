@@ -11,7 +11,7 @@ export async function getAndUpdateShimmerEvmTokensMetadata(): Promise<void> {
                 return
             }
             const tokenDetails = await CoinGeckoApi.getCoinDetails(token.id)
-            return { [token.platforms[CoinGeckoNetworkId.ShimmerEVM]]: tokenDetails ?? {} }
+            return { [token.symbol]: tokenDetails ?? {} }
         })
         const tokensMetadata = await Promise.all(tokenMetadataPromises)
         coinGeckoTokensMetadata.update((metadata) => {
