@@ -1,5 +1,18 @@
-import { persistent } from '@core/utils/store'
+import { derived, Readable } from 'svelte/store'
 import { CoinGeckoCoinImage } from '../interfaces'
-import { Writable } from 'svelte/store'
+import { coinGeckoTokensMetadata } from './coingecko-tokens-metadata'
 
-export const tokensImages: Writable<Record<string, CoinGeckoCoinImage>> = persistent('tokensImages', {})
+export const tokensImages: Readable<Record<string, CoinGeckoCoinImage>> = derived(
+    [coinGeckoTokensMetadata],
+    ([$coinGeckoTokensMetadata]) => {
+        return Object.values($coinGeckoTokensMetadata).reduce(
+            (images, token) => {
+                if (token?.image) {
+                    return { ...images, [token.id]: token.image }
+                }
+                return images
+            },
+            {} as Record<string, CoinGeckoCoinImage>
+        )
+    }
+)

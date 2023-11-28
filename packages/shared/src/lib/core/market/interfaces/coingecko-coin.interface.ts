@@ -1,5 +1,5 @@
 import { CoinGeckoNetworkId } from '../enums'
-import { CoinGeckoCoinImage } from './coin-gecko-coin-image.interface'
+import { CoinGeckoCoinImage } from './coingecko-coin-image.interface'
 
 export interface CoinGeckoCoin {
     id: string

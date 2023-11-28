@@ -28,7 +28,7 @@
     import { getLocalisedMenuItems, registerMenuButtons } from './lib/helpers'
     import { settingsState, openSettings } from '@contexts/settings/stores'
     import { _ } from '@core/i18n'
-    import { getAndUpdateShimmerEvmTokensImages } from '@core/market/actions'
+    import { getAndUpdateShimmerEvmTokensMetadata } from '@core/market/actions'
 
     $: $activeProfile, saveActiveProfile()
 
@@ -95,7 +95,7 @@
 
         registerMenuButtons()
 
-        await getAndUpdateShimmerEvmTokensImages()
+        await getAndUpdateShimmerEvmTokensMetadata()
     })
 
     onDestroy(() => {
