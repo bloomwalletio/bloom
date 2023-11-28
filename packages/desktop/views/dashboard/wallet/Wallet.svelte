@@ -1,8 +1,29 @@
 <script lang="ts">
+    import { onMount } from 'svelte'
     import { Pane } from '@ui'
-    import { AccountSummaryPane } from './panes'
     import { selectedAccount } from '@core/account/stores'
+    import { ETHEREUM_COIN_TYPE, EvmExplorerApi, getNetwork } from '@core/network'
+    import { TokenStandard } from '@core/token'
+    import { AccountSummaryPane } from './panes'
     import TabSection from './tab-section/TabSection.svelte'
+
+    async function helper(): Promise<void> {
+        try {
+            const address = $selectedAccount.evmAddresses[ETHEREUM_COIN_TYPE]
+            const networkId = getNetwork().getChains()[0].getConfiguration().id
+            const explorerApi = new EvmExplorerApi(networkId)
+            const idk = await explorerApi.getAssetsForAddress(address, [TokenStandard.Erc20])
+            /* eslint-disable no-console */
+            console.log('result: ', idk)
+        } catch (err) {
+            /* eslint-disable no-console */
+            console.log(err)
+        }
+    }
+
+    onMount(() => {
+        void helper()
+    })
 </script>
 
 {#if $selectedAccount}
