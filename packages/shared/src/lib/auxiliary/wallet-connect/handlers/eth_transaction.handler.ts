@@ -4,6 +4,7 @@ import { IConnectedDapp } from '@auxiliary/wallet-connect/interface'
 import { CallbackParameters } from '@auxiliary/wallet-connect/types'
 import { buildEvmTransactionData } from '@core/layer-2/actions'
 import { EvmTransactionData } from '@core/layer-2'
+import { switchToRequiredAccount } from '@auxiliary/wallet-connect/utils'
 
 export async function handleEthTransaction(
     evmTransactionData: EvmTransactionData & { from: string },
@@ -36,14 +37,20 @@ export async function handleEthTransaction(
         evmTransactionData.gasLimit = gasLimit
     }
 
-    openPopup({
-        id: PopupId.EvmTransactionFromDapp,
-        props: {
-            chain,
-            dapp,
-            preparedTransaction: evmTransactionData,
-            signAndSend,
-            callback: responseCallback,
-        },
-    })
+    try {
+        await switchToRequiredAccount(from, chain)
+        openPopup({
+            id: PopupId.EvmTransactionFromDapp,
+            props: {
+                chain,
+                dapp,
+                preparedTransaction: evmTransactionData,
+                signAndSend,
+                callback: responseCallback,
+            },
+        })
+    } catch (err) {
+        console.error(err)
+        responseCallback({ error: err })
+    }
 }

@@ -1,5 +1,6 @@
 export * from './approveSession'
 export * from './disconnectAllDapps'
 export * from './getAllEvmAddresses'
+export * from './switchToRequiredAccount'
 export * from './updateActiveSessionsToActiveProfile'
 export * from './validateConnectionCodeUri'

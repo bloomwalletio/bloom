@@ -1,11 +1,9 @@
 import { Converter } from '@iota/util.js'
 import { openPopup, PopupId } from '../../../../../../desktop/lib/auxiliary/popup'
 import { IConnectedDapp } from '../interface'
-import { findActiveAccountWithAddress } from '@core/profile/actions'
 import { IChain } from '@core/network'
 import { CallbackParameters } from '../types'
-import { getSelectedAccountIndex } from '@core/account/stores'
-import { IAccountState } from '@core/account'
+import { switchToRequiredAccount } from '../utils'
 
 export async function handleSignMessage(
     params: unknown,
@@ -24,12 +22,6 @@ export async function handleSignMessage(
     const hexMessage = method === 'personal_sign' ? params[0] : params[1]
     const accountAddress = method === 'personal_sign' ? params[1] : params[0]
 
-    const account = findActiveAccountWithAddress(accountAddress, chain.getConfiguration().id)
-    if (!account) {
-        responseCallback({ error: 'Could not find address' })
-        return
-    }
-
     if (typeof hexMessage !== 'string') {
         responseCallback({ error: 'Unexpected message' })
         return
@@ -37,7 +29,7 @@ export async function handleSignMessage(
     const message = Converter.hexToUtf8(hexMessage)
 
     try {
-        await switchToRequiredAccount(account)
+        const account = await switchToRequiredAccount(accountAddress, chain)
         openPopup({
             id: PopupId.SignMessage,
             props: {
@@ -49,24 +41,6 @@ export async function handleSignMessage(
             },
         })
     } catch (err) {
-        console.error(err)
         responseCallback({ error: err })
     }
-}
-
-function switchToRequiredAccount(account: IAccountState): Promise<void> {
-    return new Promise((resolve, reject) => {
-        if (account.index === getSelectedAccountIndex()) {
-            resolve()
-        } else {
-            openPopup({
-                id: PopupId.DappAccountSwitcher,
-                props: {
-                    account,
-                    onCancel: () => reject('Request rejected by Wallet'),
-                    onConfirm: resolve,
-                },
-            })
-        }
-    })
 }
