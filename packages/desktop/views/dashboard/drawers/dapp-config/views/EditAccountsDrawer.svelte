@@ -13,6 +13,7 @@
     import { DappInformationCard, AccountSelection } from '../components'
     import { IAccountState } from '@core/account'
     import { buildSupportedNamespacesFromSelections } from '@auxiliary/wallet-connect/actions'
+    import { updateSession } from '@auxiliary/wallet-connect/utils'
 
     export let drawerRouter: Router<unknown>
 
@@ -31,6 +32,9 @@
             persistedNamespaces
         )
         persistDappNamespacesForDapp(dappMetadata.url, updatedNamespace)
+        if ($selectedDapp?.session) {
+            updateSession($selectedDapp.session.topic, updatedNamespace)
+        }
         drawerRouter.previous()
     }
 
