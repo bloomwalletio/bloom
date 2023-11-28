@@ -8,7 +8,7 @@ export function switchToRequiredAccount(accountAddress: string, chain: IChain): 
     return new Promise((resolve, reject) => {
         const account = findActiveAccountWithAddress(accountAddress, chain.getConfiguration().id)
         if (!account) {
-            reject('Could not find address')
+            reject('UNSUPPORTED_ACCOUNTS')
             return
         }
 
@@ -19,7 +19,7 @@ export function switchToRequiredAccount(accountAddress: string, chain: IChain): 
                 id: PopupId.DappAccountSwitcher,
                 props: {
                     account,
-                    onCancel: () => reject('Request rejected by Wallet'),
+                    onCancel: () => reject('USER_REJECTED'),
                     onConfirm: () => resolve(account),
                 },
             })

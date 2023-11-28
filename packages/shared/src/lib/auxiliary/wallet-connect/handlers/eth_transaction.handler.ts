@@ -51,6 +51,6 @@ export async function handleEthTransaction(
             },
         })
     } catch (err) {
-        responseCallback({ error: getSdkError('USER_REJECTED') })
+        responseCallback({ error: getSdkError(err) })
     }
 }
