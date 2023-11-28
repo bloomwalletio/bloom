@@ -1,2 +1,2 @@
 export * from './market-coin-prices.store'
-export * from './shimmer-evm-tokens-images.store'
+export * from './tokens-images.store'

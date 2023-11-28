@@ -1,8 +1,8 @@
 import { DEFAULT_APPLICATION_JSON_REQUEST_OPTIONS } from '@core/utils'
 import { MARKET_API_BASE_URL } from '../constants'
-import { CoinGeckoApiEndpoint, MarketCoinId, MarketCurrency } from '../enums'
+import { CoinGeckoApiEndpoint, CoinGeckoNetworkId, MarketCoinId, MarketCurrency } from '../enums'
 import { MarketCoinPrices } from '../types'
-import { CoinGeckoCoin, CoinGeckoCoinShimmerEVM } from '../interfaces'
+import { CoinGeckoCoin } from '../interfaces'
 
 export class CoinGeckoApi {
     static async makeRequest<T>(endpoint: string, queryParams?: string): Promise<T> {
@@ -34,11 +34,9 @@ export class CoinGeckoApi {
         return this.makeRequest<CoinGeckoCoin[]>(CoinGeckoApiEndpoint.COINS_LIST, queryParams)
     }
 
-    static async getFilteredCoinsList(): Promise<CoinGeckoCoinShimmerEVM[]> {
+    static async getFilteredCoinsList(networkId: CoinGeckoNetworkId): Promise<CoinGeckoCoin[]> {
         const coinsList = await this.getCoinsList(true)
-        return coinsList.filter((coin) =>
-            Object.keys(coin.platforms).includes('shimmer_evm')
-        ) as CoinGeckoCoinShimmerEVM[]
+        return coinsList.filter((coin) => Object.keys(coin.platforms).includes(networkId))
     }
 
     static async getCoinDetails(id: string): Promise<CoinGeckoCoin> {
