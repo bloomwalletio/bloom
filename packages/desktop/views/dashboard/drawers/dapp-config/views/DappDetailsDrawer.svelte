@@ -12,7 +12,7 @@
 
     const localeKey = 'views.dashboard.drawers.dapps.details'
 
-    $: persistedDappNamespace = $selectedDapp?.metadata
+    $: persistedNamespaces = $selectedDapp?.metadata
         ? getPersistedDappNamespacesForDapp($selectedDapp.metadata.url)
         : undefined
     onMount(() => {
@@ -40,7 +40,7 @@
                 {/if}
                 <ConnectionSummary
                     requiredNamespaces={$selectedDapp.session?.requiredNamespaces}
-                    {persistedDappNamespace}
+                    {persistedNamespaces}
                 />
             </div>
         </div>
