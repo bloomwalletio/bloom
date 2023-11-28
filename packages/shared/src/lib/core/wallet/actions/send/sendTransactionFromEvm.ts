@@ -33,14 +33,14 @@ export async function sendTransactionFromEvm(
             if (!signAndSend || !signedTransaction) {
                 const callbackObject = signedTransaction
                     ? { result: signedTransaction }
-                    : { error: 'No signed transaction!' }
+                    : { error: { message: 'No signed transaction!', code: 500 } }
                 callback && callback(callbackObject)
                 return
             }
 
             const transactionReceipt = await sendSignedEvmTransaction(chain, signedTransaction)
             if (!transactionReceipt) {
-                callback && callback({ error: 'No Transaction Receipt' })
+                callback && callback({ error: { message: 'No transaction receipt!', code: 500 } })
                 return
             }
 

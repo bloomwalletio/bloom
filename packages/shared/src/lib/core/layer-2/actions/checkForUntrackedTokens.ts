@@ -1,6 +1,7 @@
 import { IAccountState } from '@core/account/interfaces'
+import { EvmExplorerApi } from '@core/network'
 import { getNetwork } from '@core/network/stores'
-import { TokenTrackingStatus } from '@core/token'
+import { TokenStandard, TokenTrackingStatus } from '@core/token'
 import { addNewTrackedTokenToActiveProfile, hasTokenBeenUntracked } from '@core/wallet/actions'
 
 export function checkForUntrackedTokens(account: IAccountState, addPreviouslyUntracked?: boolean): void {
@@ -11,17 +12,19 @@ export function checkForUntrackedTokens(account: IAccountState, addPreviouslyUnt
         if (!evmAddress) {
             return
         }
-        const tokens = await chain.getBalanceOfAddress(evmAddress)
         const networkId = chain.getConfiguration().id
+        const explorerApi = new EvmExplorerApi(networkId)
+
+        const tokens = await explorerApi.getAssetsForAddress(evmAddress)
         const untrackedTokensToTrack = tokens.filter(
-            (token) => addPreviouslyUntracked || !hasTokenBeenUntracked(token.address.toLowerCase(), networkId)
+            ({ token }) => addPreviouslyUntracked || !hasTokenBeenUntracked(token.address.toLowerCase(), networkId)
         )
-        untrackedTokensToTrack.forEach((token) => {
-            const { address, standard, name, symbol, decimals } = token
+        untrackedTokensToTrack.forEach(({ token }) => {
+            const { address, type, name, symbol, decimals } = token
             addNewTrackedTokenToActiveProfile(
                 networkId,
                 address.toLowerCase(),
-                { standard, name, symbol, decimals },
+                { standard: type as TokenStandard.Erc20, name, symbol, decimals },
                 TokenTrackingStatus.AutomaticallyTracked
             )
         })

@@ -22,6 +22,7 @@
     export let account: IAccountState
     export let chain: IChain
     export let dapp: IConnectedDapp | undefined
+    export let onCancel: () => void
     export let callback: (params: CallbackParameters) => void
 
     let isBusy = false
@@ -51,7 +52,7 @@
     }
 
     function onCancelClick(): void {
-        callback({ error: 'User rejected' })
+        onCancel?.()
         closePopup()
     }
 

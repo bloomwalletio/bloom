@@ -1,7 +1,7 @@
 <script lang="ts">
     import { Pane } from '@ui'
-    import { AccountSummaryPane } from './panes'
     import { selectedAccount } from '@core/account/stores'
+    import { AccountSummaryPane } from './panes'
     import TabSection from './tab-section/TabSection.svelte'
 </script>
 
