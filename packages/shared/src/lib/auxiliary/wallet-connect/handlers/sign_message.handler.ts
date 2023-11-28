@@ -5,14 +5,15 @@ import { findActiveAccountWithAddress } from '@core/profile/actions'
 import { IChain } from '@core/network'
 import { CallbackParameters } from '../types'
 import { getSelectedAccountIndex } from '@core/account/stores'
+import { IAccountState } from '@core/account'
 
-export function handleSignMessage(
+export async function handleSignMessage(
     params: unknown,
     dapp: IConnectedDapp | undefined,
     method: 'personal_sign' | 'eth_sign',
     chain: IChain,
     responseCallback: (params: CallbackParameters) => void
-): void {
+): Promise<void> {
     if (!params || !Array.isArray(params)) {
         responseCallback({ error: 'Unexpected format' })
         return
@@ -35,7 +36,8 @@ export function handleSignMessage(
     }
     const message = Converter.hexToUtf8(hexMessage)
 
-    const openSignMessagePopup: () => void = () =>
+    try {
+        await switchToRequiredAccount(account)
         openPopup({
             id: PopupId.SignMessage,
             props: {
@@ -46,17 +48,25 @@ export function handleSignMessage(
                 callback: responseCallback,
             },
         })
-
-    if (account.index !== getSelectedAccountIndex()) {
-        openPopup({
-            id: PopupId.DappAccountSwitcher,
-            props: {
-                account,
-                onCancel: () => responseCallback({ error: 'Request rejected by Wallet' }),
-                onConfirm: openSignMessagePopup,
-            },
-        })
-    } else {
-        openSignMessagePopup()
+    } catch (err) {
+        console.error(err)
+        responseCallback({ error: err })
     }
+}
+
+function switchToRequiredAccount(account: IAccountState): Promise<void> {
+    return new Promise((resolve, reject) => {
+        if (account.index === getSelectedAccountIndex()) {
+            resolve()
+        } else {
+            openPopup({
+                id: PopupId.DappAccountSwitcher,
+                props: {
+                    account,
+                    onCancel: () => reject('Request rejected by Wallet'),
+                    onConfirm: resolve,
+                },
+            })
+        }
+    })
 }
