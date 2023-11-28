@@ -1,5 +1,5 @@
 export * from './getAndUpdateMarketPrices'
-export * from './getMarketAmountFromTokenValue'
+export * from './getFiatAmountFromTokenValue'
 export * from './getMarketPriceForToken'
 export * from './getMarketPrices'
 export * from './market-prices-polling'

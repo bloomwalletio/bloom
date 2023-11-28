@@ -3,7 +3,7 @@
     import { AccountActionsMenu, AccountSwitcher, FormattedBalance } from '@components'
     import { formatCurrency, localize } from '@core/i18n'
     import { resetLedgerPreparedOutput, resetShowInternalVerificationPopup } from '@core/ledger'
-    import { getMarketAmountFromTokenValue } from '@core/market/actions'
+    import { getFiatAmountFromTokenValue } from '@core/market/actions'
     import { NetworkId } from '@core/network'
     import { ITokenWithBalance } from '@core/token'
     import { selectedAccountTokens } from '@core/token/stores'
@@ -21,7 +21,7 @@
         const stardustBaseToken: ITokenWithBalance = $selectedAccountTokens?.[stardustNetworkId]?.baseCoin
         const evmChainBaseToken: ITokenWithBalance = $selectedAccountTokens?.[evmChainNetworkId]?.baseCoin
         const availableBalance = (stardustBaseToken?.balance?.total ?? 0) + (evmChainBaseToken?.balance?.total ?? 0)
-        return formatCurrency(getMarketAmountFromTokenValue(availableBalance, stardustBaseToken))
+        return formatCurrency(getFiatAmountFromTokenValue(availableBalance, stardustBaseToken))
     }
 
     function onSendClick(): void {
