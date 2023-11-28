@@ -27,7 +27,8 @@
         const updatedNamespace = buildSupportedNamespacesFromSelections(
             { accounts: checkedAccounts },
             requiredNamespaces,
-            optionalNamespaces
+            optionalNamespaces,
+            persistedNamespaces
         )
         persistDappNamespacesForDapp(dappMetadata.url, updatedNamespace)
         drawerRouter.previous()

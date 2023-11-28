@@ -14,7 +14,7 @@
             <div class="w-full flex flex-row justify-between p-4">
                 <Text>{option.label}</Text>
                 {#if option.required}
-                    <Text textColor="success">{localize('general.requried')}</Text>
+                    <Text textColor="success">{localize('general.required')}</Text>
                 {:else}
                     <Checkbox bind:checked={option.checked} size="md" />
                 {/if}

@@ -24,11 +24,10 @@
 
     function onConfirmClick(): void {
         const updatedNamespace = buildSupportedNamespacesFromSelections(
-            {
-                chains: checkedMethods,
-            },
+            { methods: checkedMethods },
             requiredNamespaces,
-            optionalNamespaces
+            optionalNamespaces,
+            persistedNamespaces
         )
         persistDappNamespacesForDapp(dappMetadata.url, updatedNamespace)
         drawerRouter.previous()

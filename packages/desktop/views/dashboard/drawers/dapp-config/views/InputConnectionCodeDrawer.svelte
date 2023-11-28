@@ -51,6 +51,7 @@
             <TextInput
                 bind:value={walletConnectUri}
                 {error}
+                autofocus
                 label={localize('views.dashboard.drawers.dapps.inputConnectionCode.inputLabel')}
             />
         </div>

@@ -32,7 +32,7 @@
 
         <div class="px-6 flex-grow overflow-hidden">
             <div class="h-full space-y-6 overflow-scroll">
-                {#if $selectedDapp.metadata.description}
+                {#if $selectedDapp.metadata?.description}
                     <Table
                         items={[{ key: localize('general.description'), value: $selectedDapp.metadata.description }]}
                         orientation="vertical"

@@ -41,7 +41,7 @@
                 <div class="h-full overflow-scroll flex flex-col gap-5 p-6">
                     <Alert
                         variant={alreadyConnected ? 'info' : 'warning'}
-                        text={localize(`${localeKey}.${alreadyConnected ? 'firstTimeHint' : 'reconnectHint'}`)}
+                        text={localize(`${localeKey}.${alreadyConnected ? 'reconnectHint' : 'firstTimeHint'}`)}
                     />
                     <Table
                         items={[

@@ -15,7 +15,6 @@
     function setPermissionSelections(): void {
         const permissions: { label: string; value: string; checked: boolean; required: boolean }[] = []
         const namespaces = Object.values(requiredNamespaces)
-        const _persistedNamespaces = Object.values(persistedNamespaces)
 
         for (const permission of Object.values(DappPermission)) {
             const supportedMethods = METHODS_FOR_PERMISSION[permission] ?? []
@@ -24,10 +23,11 @@
                 return supportedMethods.some((method) => namespace.methods.includes(method))
             })
 
-            const isChecked =
-                _persistedNamespaces?.some((namespace) => {
-                    return supportedMethods.some((method) => namespace.methods.includes(method))
-                }) ?? true
+            const isChecked = persistedNamespaces
+                ? Object.values(persistedNamespaces).some((namespace) => {
+                      return supportedMethods.some((method) => namespace.methods.includes(method))
+                  })
+                : true
 
             permissions.push({ label: permission, value: permission, checked: isChecked, required: isRequired })
         }
