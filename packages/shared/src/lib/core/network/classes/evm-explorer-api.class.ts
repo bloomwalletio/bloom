@@ -15,14 +15,11 @@ export class EvmExplorerApi extends BaseApi implements IExplorerApi {
         return await this.get<IExplorerAssetMetadata>(`tokens/${assetAddress}`)
     }
 
-    async getAssetsForAddress(address: string, tokenStandards?: TokenStandard[]): Promise<IExplorerAsset[]> {
-        const queryString = `type=${(tokenStandards ?? [TokenStandard.Erc20])
-            .map((standard) => standard.replace('ERC', 'ERC-'))
-            .join(',')}`
+    async getAssetsForAddress(address: string, tokenStandard?: TokenStandard): Promise<IExplorerAsset[]> {
+        const tokenType = (tokenStandard ?? TokenStandard.Erc20).replace('ERC', 'ERC-')
         const response = await this.get<{ items: IExplorerAsset[]; next_page_params: unknown }>(
-            `addresses/${address}/tokens?${queryString}`
+            `addresses/${address}/tokens?type=${tokenType}`
         )
-
-        return response.items.map((asset) => ({ ...asset, type: asset.type.replace('-', '') as TokenStandard }))
+        return response.items.map((asset) => ({ ...asset, type: asset.token.type.replace('-', '') as TokenStandard }))
     }
 }

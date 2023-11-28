@@ -5,12 +5,12 @@ export abstract class BaseApi {
         this._baseUrl = baseUrl
     }
 
-    protected async get<T>(path: string): Promise<T> {
-        return await this.makeRequest<T>(path)
+    protected get<T>(path: string): Promise<T> {
+        return this.makeRequest<T>(path)
     }
 
-    protected async post<T>(path: string, body: string): Promise<T> {
-        return await this.makeRequest<T>(path, body)
+    protected ost<T>(path: string, body: string): Promise<T> {
+        return this.makeRequest<T>(path, body)
     }
 
     private async makeRequest<T>(path: string, body?: string): Promise<T> {
