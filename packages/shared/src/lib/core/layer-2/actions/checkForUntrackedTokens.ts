@@ -20,11 +20,11 @@ export function checkForUntrackedTokens(account: IAccountState, addPreviouslyUnt
             ({ token }) => addPreviouslyUntracked || !hasTokenBeenUntracked(token.address.toLowerCase(), networkId)
         )
         untrackedTokensToTrack.forEach(({ token }) => {
-            const { address, standard, name, symbol, decimals } = token
+            const { address, type, name, symbol, decimals } = token
             addNewTrackedTokenToActiveProfile(
                 networkId,
                 address.toLowerCase(),
-                { standard, name, symbol, decimals },
+                { standard: type, name, symbol, decimals },
                 TokenTrackingStatus.AutomaticallyTracked
             )
         })

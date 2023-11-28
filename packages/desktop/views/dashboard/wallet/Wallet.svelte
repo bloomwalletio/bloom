@@ -12,7 +12,7 @@
             const address = $selectedAccount.evmAddresses[ETHEREUM_COIN_TYPE]
             const networkId = getNetwork().getChains()[0].getConfiguration().id
             const explorerApi = new EvmExplorerApi(networkId)
-            const addressAssets = await explorerApi.getAssetsForAddress(address, TokenStandard.Erc721)
+            const addressAssets = await explorerApi.getAssetsForAddress(address, TokenStandard.Erc20)
             /* eslint-disable no-console */
             console.log('result: ', addressAssets)
             addressAssets.forEach(async (asset) => {

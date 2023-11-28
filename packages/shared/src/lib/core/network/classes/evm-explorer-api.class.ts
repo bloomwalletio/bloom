@@ -6,13 +6,17 @@ import { IExplorerApi, IExplorerAsset, IExplorerAssetMetadata } from '../interfa
 import { NetworkId } from '../types'
 
 export class EvmExplorerApi extends BaseApi implements IExplorerApi {
-    constructor(private readonly networkId: NetworkId) {
+    constructor(networkId: NetworkId) {
         const explorerUrl = DEFAULT_EXPLORER_URLS[networkId]
         super(`${explorerUrl}/api/v2`)
     }
 
-    async getAssetMetadata(assetAddress: string): Promise<IExplorerAssetMetadata> {
-        return await this.get<IExplorerAssetMetadata>(`tokens/${assetAddress}`)
+    async getAssetMetadata(assetAddress: string): Promise<IExplorerAssetMetadata | undefined> {
+        const response = await this.get<IExplorerAssetMetadata>(`tokens/${assetAddress}`)
+        if (response) {
+            response.type = response.type.replace('-', '') as TokenStandard
+            return response
+        }
     }
 
     async getAssetsForAddress(address: string, tokenStandard?: TokenStandard): Promise<IExplorerAsset[]> {
@@ -20,6 +24,13 @@ export class EvmExplorerApi extends BaseApi implements IExplorerApi {
         const response = await this.get<{ items: IExplorerAsset[]; next_page_params: unknown }>(
             `addresses/${address}/tokens?type=${tokenType}`
         )
-        return response.items.map((asset) => ({ ...asset, type: asset.token.type.replace('-', '') as TokenStandard }))
+        if (response) {
+            return response.items.map((asset) => ({
+                ...asset,
+                token: { ...asset.token, type: asset.token.type.replace('-', '') as TokenStandard },
+            }))
+        } else {
+            return []
+        }
     }
 }
