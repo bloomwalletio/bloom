@@ -41,6 +41,7 @@
                 <ConnectionSummary
                     requiredNamespaces={$selectedDapp.session?.requiredNamespaces}
                     {persistedNamespaces}
+                    {drawerRouter}
                 />
             </div>
         </div>
