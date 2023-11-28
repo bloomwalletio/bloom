@@ -475,7 +475,7 @@
                         "title": "Connect to a dApp",
                         "inputLabel": "Wallet Connect code",
                         "addDapp": "Add a dApp",
-                        "addDappDescription": "Connect in a few clicks by adding Bloom with WalletConnect directly on the dApp site. Or connect manually by adding the WalletConnect code below.",
+                        "addDappDescription": "Add new dApps by adding a Wallet Connect code below.",
                         "deprecated": "The dApp you try to connect to uses a deprecated version of WalletConnect. Cannot establish connection"
                     },
                     "connectionRequest": {
