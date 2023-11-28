@@ -30,8 +30,8 @@
     <div class="w-full h-full flex flex-col space-y-6 overflow-hidden">
         <DappInformationCard metadata={$selectedDapp.metadata} />
 
-        <div class="px-6 flex-grow overflow-hidden">
-            <div class="h-full space-y-6 overflow-scroll">
+        <div class="flex-grow overflow-hidden">
+            <div class="h-full space-y-6 overflow-scroll px-6 pb-4">
                 {#if $selectedDapp.metadata?.description}
                     <Table
                         items={[{ key: localize('general.description'), value: $selectedDapp.metadata.description }]}
@@ -41,6 +41,7 @@
                 {#if persistedNamespaces}
                     <ConnectionSummary
                         requiredNamespaces={$selectedDapp.session?.requiredNamespaces}
+                        editable={!!$selectedDapp.session}
                         {persistedNamespaces}
                         {drawerRouter}
                     />

@@ -13,6 +13,7 @@
     import { Router } from '@core/router/classes'
 
     export let requiredNamespaces: ProposalTypes.RequiredNamespaces | undefined
+    export let editable: boolean
     export let persistedNamespaces: SupportedNamespaces
     export let drawerRouter: Router<unknown>
 
@@ -81,7 +82,9 @@
 <selection-component class="flex flex-col gap-4">
     <div class="flex flex-row justify-between">
         <Text textColor="secondary">{localize(`${localeKey}.permissions.step`)}</Text>
-        <IconButton icon={IconName.SettingsSliders} size="xs" on:click={onEditPermissionsClick} />
+        {#if editable}
+            <IconButton icon={IconName.SettingsSliders} size="xs" on:click={onEditPermissionsClick} />
+        {/if}
     </div>
     <table>
         {#each permissionPreferences as permission}
@@ -96,7 +99,9 @@
 
     <div class="flex flex-row justify-between">
         <Text textColor="secondary">{localize(`${localeKey}.networks.step`)}</Text>
-        <IconButton icon={IconName.SettingsSliders} size="xs" on:click={onEditNetworksClick} />
+        {#if editable}
+            <IconButton icon={IconName.SettingsSliders} size="xs" on:click={onEditNetworksClick} />
+        {/if}
     </div>
     <table>
         {#each networkPreferences as network}
@@ -109,7 +114,9 @@
 
     <div class="flex flex-row justify-between">
         <Text textColor="secondary">{localize(`${localeKey}.accounts.step`)}</Text>
-        <IconButton icon={IconName.SettingsSliders} size="xs" on:click={onEditAccountsClick} />
+        {#if editable}
+            <IconButton icon={IconName.SettingsSliders} size="xs" on:click={onEditAccountsClick} />
+        {/if}
     </div>
     <table>
         {#each accountPreferences as account}

@@ -96,6 +96,7 @@
                     <div class="h-full overflow-scroll">
                         <ConnectionSummary
                             requiredNamespaces={$sessionProposal.params.requiredNamespaces}
+                            editable
                             {persistedNamespaces}
                             {drawerRouter}
                         />
