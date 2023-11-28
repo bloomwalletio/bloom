@@ -3,29 +3,33 @@
     import { DrawerTemplate } from '@components'
     import { localize } from '@core/i18n'
     import { Router } from '@core/router'
-    import { getPersistedDappNamespacesForDapp, selectedDapp, sessionProposal } from '@auxiliary/wallet-connect/stores'
+    import {
+        getPersistedDappNamespacesForDapp,
+        persistDappNamespacesForDapp,
+        selectedDapp,
+        sessionProposal,
+    } from '@auxiliary/wallet-connect/stores'
     import { onMount } from 'svelte'
     import { DappInformationCard, AccountSelection } from '../components'
     import { IAccountState } from '@core/account'
+    import { buildSupportedNamespacesFromSelections } from '@auxiliary/wallet-connect/actions'
 
     export let drawerRouter: Router<unknown>
 
     const dappMetadata = $selectedDapp?.metadata ?? $sessionProposal?.params.proposer.metadata
-    const persistedNamespaces = dappMetadata ? getPersistedDappNamespacesForDapp(dappMetadata?.url) : undefined
+    const persistedNamespaces = dappMetadata ? getPersistedDappNamespacesForDapp(dappMetadata.url) : undefined
+    const requiredNamespaces = $selectedDapp?.session?.requiredNamespaces ?? $sessionProposal?.params.requiredNamespaces
+    const optionalNamespaces = $selectedDapp?.session?.optionalNamespaces ?? $sessionProposal?.params.optionalNamespaces
 
     let checkedAccounts: IAccountState[] = []
 
     function onConfirmClick(): void {
-        // const updatedNamespace = buildSupportedNamespacesFromSelections(
-        //     {
-        //         chains: checkedNetworks,
-        //         methods: ,
-        //         accounts: checkedAccounts,
-        //     },
-        //     $sessionProposal.params.requiredNamespaces,
-        //     $sessionProposal.params.optionalNamespaces
-        // )
-        // persistDappNamespacesForDapp($sessionProposal.params.proposer.metadata.url, updatedNamespace)
+        const updatedNamespace = buildSupportedNamespacesFromSelections(
+            { accounts: checkedAccounts },
+            requiredNamespaces,
+            optionalNamespaces
+        )
+        persistDappNamespacesForDapp(dappMetadata.url, updatedNamespace)
         drawerRouter.previous()
     }
 
