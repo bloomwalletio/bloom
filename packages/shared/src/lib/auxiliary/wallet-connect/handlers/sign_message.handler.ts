@@ -4,6 +4,7 @@ import { IConnectedDapp } from '../interface'
 import { IChain } from '@core/network'
 import { CallbackParameters } from '../types'
 import { switchToRequiredAccount } from '../utils'
+import { getSdkError } from '@walletconnect/utils'
 
 export async function handleSignMessage(
     params: unknown,
@@ -13,7 +14,7 @@ export async function handleSignMessage(
     responseCallback: (params: CallbackParameters) => void
 ): Promise<void> {
     if (!params || !Array.isArray(params)) {
-        responseCallback({ error: 'Unexpected format' })
+        responseCallback({ error: getSdkError('INVALID_METHOD') })
         return
     }
 
@@ -23,7 +24,7 @@ export async function handleSignMessage(
     const accountAddress = method === 'personal_sign' ? params[1] : params[0]
 
     if (typeof hexMessage !== 'string') {
-        responseCallback({ error: 'Unexpected message' })
+        responseCallback({ error: getSdkError('INVALID_METHOD') })
         return
     }
     const message = Converter.hexToUtf8(hexMessage)
@@ -38,9 +39,10 @@ export async function handleSignMessage(
                 account,
                 chain,
                 callback: responseCallback,
+                onCancel: () => responseCallback({ error: getSdkError('USER_REJECTED') }),
             },
         })
     } catch (err) {
-        responseCallback({ error: err })
+        responseCallback({ error: getSdkError('USER_REJECTED') })
     }
 }

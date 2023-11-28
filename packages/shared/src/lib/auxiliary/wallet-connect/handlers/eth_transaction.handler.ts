@@ -5,6 +5,7 @@ import { CallbackParameters } from '@auxiliary/wallet-connect/types'
 import { buildEvmTransactionData } from '@core/layer-2/actions'
 import { EvmTransactionData } from '@core/layer-2'
 import { switchToRequiredAccount } from '@auxiliary/wallet-connect/utils'
+import { getSdkError } from '@walletconnect/utils'
 
 export async function handleEthTransaction(
     evmTransactionData: EvmTransactionData & { from: string },
@@ -15,12 +16,12 @@ export async function handleEthTransaction(
 ): Promise<void> {
     const { to, from, nonce, gasPrice, gasLimit, value, data } = evmTransactionData ?? {}
     if (!to || !from) {
-        responseCallback({ error: 'No sender or recipient specified!' })
+        responseCallback({ error: getSdkError('INVALID_METHOD') })
         return
     }
 
     if (!data && !value) {
-        responseCallback({ error: 'Invalid transaction: must contain data or value field!' })
+        responseCallback({ error: getSdkError('INVALID_METHOD') })
         return
     }
 
@@ -46,11 +47,10 @@ export async function handleEthTransaction(
                 dapp,
                 preparedTransaction: evmTransactionData,
                 signAndSend,
-                callback: responseCallback,
+                onCancel: () => responseCallback({ error: getSdkError('USER_REJECTED') }),
             },
         })
     } catch (err) {
-        console.error(err)
-        responseCallback({ error: err })
+        responseCallback({ error: getSdkError('USER_REJECTED') })
     }
 }
