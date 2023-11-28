@@ -38,11 +38,13 @@
                         orientation="vertical"
                     />
                 {/if}
-                <ConnectionSummary
-                    requiredNamespaces={$selectedDapp.session?.requiredNamespaces}
-                    {persistedNamespaces}
-                    {drawerRouter}
-                />
+                {#if persistedNamespaces}
+                    <ConnectionSummary
+                        requiredNamespaces={$selectedDapp.session?.requiredNamespaces}
+                        {persistedNamespaces}
+                        {drawerRouter}
+                    />
+                {/if}
             </div>
         </div>
     </div>
