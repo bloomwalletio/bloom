@@ -1,46 +1,29 @@
 import { TokenStandard } from '@core/token/enums'
+import { BaseApi } from '@core/utils/api'
 
 import { DEFAULT_EXPLORER_URLS } from '../constants'
 import { IExplorerApi } from '../interfaces'
 import { NetworkId } from '../types'
 
-export class EvmExplorerApi implements IExplorerApi {
-    constructor(private readonly networkId: NetworkId) {}
+export class EvmExplorerApi extends BaseApi implements IExplorerApi {
+    constructor(private readonly networkId: NetworkId) {
+        const explorerUrl = DEFAULT_EXPLORER_URLS[networkId]
+        super(`${explorerUrl}/api/v2`)
+    }
 
     async getAssetMetadata(assetAddress: string): Promise<IExplorerAssetMetadata> {
-        return await this.makeApiRequest<IExplorerAssetMetadata>(`${this.buildApiUrl()}/tokens/${assetAddress}`)
+        return await this.get<IExplorerAssetMetadata>(`tokens/${assetAddress}`)
     }
 
     async getAssetsForAddress(address: string, tokenStandards?: TokenStandard[]): Promise<IExplorerAsset[]> {
         const queryString = `type=${(tokenStandards ?? [TokenStandard.Erc20])
             .map((standard) => standard.replace('ERC', 'ERC-'))
             .join(',')}`
-        const response = await this.makeApiRequest<{ items: IExplorerAsset[]; next_page_params: unknown }>(
-            `${this.buildApiUrl()}/addresses/${address}/tokens?${queryString}`
+        const response = await this.get<{ items: IExplorerAsset[]; next_page_params: unknown }>(
+            `addresses/${address}/tokens?${queryString}`
         )
-        return response.items
-    }
 
-    private buildApiUrl(): string {
-        const explorerUrl = DEFAULT_EXPLORER_URLS[this.networkId]
-        if (!explorerUrl) {
-            throw new Error('Unable to create explorer API URL')
-        }
-
-        return `${explorerUrl}/api/v2`
-    }
-
-    private async makeApiRequest<T>(apiUrl: string): Promise<T> {
-        const requestInit: RequestInit = {
-            method: 'GET',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-            },
-        }
-
-        const response = await fetch(apiUrl, requestInit)
-        return (await response.json()) as T
+        return response.items.map((asset) => ({ ...asset, type: asset.type.replace('-', '') as TokenStandard }))
     }
 }
 
