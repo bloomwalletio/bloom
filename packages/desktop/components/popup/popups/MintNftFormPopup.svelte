@@ -13,7 +13,7 @@
     import { IMintNftDetails } from '@core/wallet'
     import { mintNftDetails, setMintNftDetails } from '@core/wallet/stores'
     import { PopupId, closePopup, openPopup } from '@desktop/auxiliary/popup'
-    import { OptionalInput } from '@ui'
+    import { AliasInput, OptionalInput } from '@ui'
     import { Error, TextInput } from '@bloomwalletio/ui'
     import { onMount } from 'svelte'
     import PopupTemplate from '../PopupTemplate.svelte'
@@ -27,12 +27,16 @@
         uri,
         quantity,
         name,
+        collectionId,
         collectionName,
         royalties,
         issuerName,
         description,
         attributes,
     } = $mintNftDetails || {}
+
+    let collectionIdInput: AliasInput
+    let collectionIdError: string
 
     interface IOptionalInputs {
         [key: string]: {
@@ -238,6 +242,7 @@
             version,
             issuerName: optionalInputs.issuerName?.value,
             description: optionalInputs.description?.value,
+            collectionId,
             collectionName: optionalInputs.collectionName?.value,
             quantity: optionalInputs.quantity?.value ? Number(optionalInputs.quantity.value) : 1,
             uri,
@@ -269,6 +274,7 @@
     }}
 >
     <popup-inputs class="block space-y-5 max-h-100 scrollable-y overflow-x-hidden flex-1">
+        <AliasInput bind:this={collectionIdInput} bind:alias={collectionId} bind:error={collectionIdError} />
         <TextInput bind:value={uri} bind:error={uriError} label={localize('general.uri')} />
         <TextInput bind:value={name} bind:error={nameError} label={localize('general.name')} />
         <optional-inputs class="flex flex-row flex-wrap gap-4">

@@ -15,7 +15,7 @@ import { DEFAULT_TRANSACTION_OPTIONS } from '../constants'
 import { resetMintNftDetails } from '../stores'
 import { getActiveNetworkId } from '@core/network'
 
-export async function mintNft(metadata: IIrc27Metadata, quantity: number): Promise<void> {
+export async function mintNft(metadata: IIrc27Metadata, quantity: number, collectionId?: string): Promise<void> {
     try {
         const account = getSelectedAccount()
         const networkId = getActiveNetworkId()
@@ -23,7 +23,8 @@ export async function mintNft(metadata: IIrc27Metadata, quantity: number): Promi
         updateSelectedAccount({ isTransferring: true })
 
         const mintNftParams: MintNftParams = {
-            issuer: account.depositAddress,
+            address: account.depositAddress,
+            issuer: collectionId,
             immutableMetadata: Converter.utf8ToHex(JSON.stringify(metadata)),
         }
         const allNftParams: MintNftParams[] = Array(quantity).fill(mintNftParams)

@@ -21,8 +21,19 @@
 
     let storageDeposit: number = 0
     let totalStorageDeposit: number = 0
-    const { standard, type, uri, name, collectionName, royalties, issuerName, description, attributes, quantity } =
-        $mintNftDetails || {}
+    const {
+        standard,
+        type,
+        uri,
+        name,
+        collectionName,
+        royalties,
+        issuerName,
+        description,
+        attributes,
+        quantity,
+        collectionId,
+    } = $mintNftDetails || {}
 
     $: irc27Metadata = {
         standard,
@@ -52,7 +63,7 @@
 
     async function mintAction(): Promise<void> {
         try {
-            await mintNft(irc27Metadata, Number(quantity))
+            await mintNft(irc27Metadata, Number(quantity), collectionId)
             closePopup()
         } catch (err) {
             handleError(err)
