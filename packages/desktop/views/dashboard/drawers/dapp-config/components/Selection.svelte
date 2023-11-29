@@ -1,5 +1,6 @@
 <script lang="ts">
     import { Checkbox, Text } from '@bloomwalletio/ui'
+    import { localize } from '@core/i18n'
 
     export let selectionOptions: { label: string; value: unknown; checked: boolean; required: boolean }[]
     export let title: string
@@ -13,9 +14,9 @@
             <div class="w-full flex flex-row justify-between p-4">
                 <Text>{option.label}</Text>
                 {#if option.required}
-                    <Text textColor="success">Required</Text>
+                    <Text textColor="success">{localize('general.required')}</Text>
                 {:else}
-                    <Checkbox bind:checked={option.checked} size="lg" />
+                    <Checkbox bind:checked={option.checked} size="md" />
                 {/if}
             </div>
         {/each}
