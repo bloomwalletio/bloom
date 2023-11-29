@@ -43,6 +43,6 @@ export async function handleSignMessage(
             },
         })
     } catch (err) {
-        responseCallback({ error: getSdkError('USER_REJECTED') })
+        responseCallback({ error: getSdkError(err) })
     }
 }
