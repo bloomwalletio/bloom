@@ -1,8 +1,12 @@
 import { get, writable } from 'svelte/store'
 import { IProfileManager } from '../interfaces'
 
-export const profileManager = writable<IProfileManager>(null)
+export const profileManager = writable<IProfileManager | null>(null)
 
 export function getProfileManager(): IProfileManager {
-    return get(profileManager)
+    const manager = get(profileManager)
+    if (!manager) {
+        throw new Error('Profile manager is undefined!')
+    }
+    return manager
 }

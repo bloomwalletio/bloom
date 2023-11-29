@@ -5,7 +5,7 @@ import { IProfileManager } from '../interfaces'
 import { profileManager } from '../stores'
 
 export async function destroyProfileManager(
-    _profileManager: Writable<IProfileManager> = profileManager
+    _profileManager: Writable<IProfileManager | null> = profileManager
 ): Promise<void> {
     const manager = get(_profileManager)
     if (!manager) {
