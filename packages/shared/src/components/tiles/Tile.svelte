@@ -13,7 +13,7 @@
         : 'bg-gray-50 dark:bg-gray-900'}
         {classes}
     "
-    on:click
+    on:click|stopPropagation
     {...$$restProps}
 >
     <slot />

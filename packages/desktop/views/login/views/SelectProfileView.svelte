@@ -1,22 +1,24 @@
 <script lang="ts">
-    import { PopupId, openPopup } from '@desktop/auxiliary/popup'
+    import { onMount } from 'svelte'
+    import { Button, IconName } from '@bloomwalletio/ui'
     import { initialiseOnboardingProfile, onboardingProfile } from '@contexts/onboarding'
     import {
         AppContext,
         isLatestStrongholdVersion,
-        IS_MOBILE,
         needsToAcceptLatestPrivacyPolicy,
         needsToAcceptLatestTermsOfService,
     } from '@core/app'
     import { localize } from '@core/i18n'
-    import { ProfileType, loadPersistedProfileIntoActiveProfile, profiles, removeProfileFolder } from '@core/profile'
+    import { IPersistedProfile, ProfileType, removeProfileFolder } from '@core/profile'
     import { destroyProfileManager } from '@core/profile-manager/actions'
+    import { loadPersistedProfileIntoActiveProfile, resetActiveProfile } from '@core/profile/actions'
+    import { profiles } from '@core/profile/stores'
     import { loginRouter, routerManager } from '@core/router'
+    import { PopupId, openPopup } from '@desktop/auxiliary/popup'
     import features from '@features/features'
-    import { Icon, Logo, Profile } from '@ui'
-    import { Icon as IconEnum } from '@auxiliary/icon'
+    import { LoggedOutLayout } from '@views/components'
     import { OnboardingRouter, onboardingRouter } from '@views/onboarding'
-    import { onMount } from 'svelte'
+    import { ProfileCard } from '../components'
 
     function onContinueClick(profileId: string): void {
         loadPersistedProfileIntoActiveProfile(profileId)
@@ -37,6 +39,14 @@
         })
     }
 
+    function updateRequiredForProfile(profile: IPersistedProfile): boolean {
+        return (
+            profile?.type === ProfileType.Software &&
+            !isLatestStrongholdVersion(profile?.strongholdVersion) &&
+            features.onboarding.strongholdVersionCheck.enabled
+        )
+    }
+
     onMount(async () => {
         // Clean up if user has navigated back to this view from onboarding
         if ($onboardingProfile) {
@@ -46,34 +56,36 @@
             }
             $onboardingProfile = undefined
         }
+
+        // Ensure there is no active profile set from previous app activity
+        resetActiveProfile()
     })
 </script>
 
-<section class="flex flex-col justify-center items-center h-full bg-white dark:bg-gray-900 px-40 pt-48 pb-20">
-    <Logo width="64px" logo="logo-firefly" classes="absolute top-20" />
-    <div
-        class="profiles-wrapper h-auto items-start justify-center w-full {!IS_MOBILE &&
-            'overlay-scrollbar'} flex flex-row flex-wrap"
-    >
+<LoggedOutLayout glass>
+    <Button
+        slot="button"
+        variant="outlined"
+        size="sm"
+        text={localize('general.addProfile')}
+        icon={IconName.Plus}
+        on:click={onAddProfileClick}
+    />
+    <profile-card-list class="">
         {#each $profiles as profile}
-            <div class="mx-7 mb-8">
-                <Profile
-                    {profile}
-                    onClick={onContinueClick}
-                    updateRequired={profile?.type === ProfileType.Software &&
-                        !isLatestStrongholdVersion(profile?.strongholdVersion) &&
-                        features.onboarding.strongholdVersionCheck.enabled}
-                />
-            </div>
+            <ProfileCard {profile} onClick={onContinueClick} updateRequired={updateRequiredForProfile(profile)} />
         {/each}
-        <div class="flex flex-col mx-7 mb-8 justify-between items-center space-y-3">
-            <button
-                on:click={onAddProfileClick}
-                name={localize('general.addProfile')}
-                class="w-18 h-18 border-solid border-2 border-gray-400 cursor-pointer rounded-full flex justify-center items-center"
-            >
-                <Icon height="15" width="15" icon={IconEnum.Plus} classes="text-blue-500" />
-            </button>
-        </div>
-    </div>
-</section>
+    </profile-card-list>
+</LoggedOutLayout>
+
+<style lang="scss">
+    :global(profile-card-list) {
+        --profile-card-width: 14rem;
+    }
+    profile-card-list {
+        @apply max-w-[80vw] max-h-full overflow-auto box-content;
+        @apply pl-24 pr-24 -mr-4 my-auto pt-[4.75rem] pb-16 gap-5 items-center;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(var(--profile-card-width, 1fr), 1fr));
+    }
+</style>

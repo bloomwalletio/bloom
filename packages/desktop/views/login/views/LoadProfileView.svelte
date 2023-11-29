@@ -1,13 +1,11 @@
 <script lang="ts">
+    import { LOGIN_STEPS } from '@core/profile'
+    import { loginProgress } from '@core/profile/stores'
     import { LoadingScreen } from '@ui'
-    import { localize } from '@core/i18n'
-    import { loginProgress, LOGIN_STEPS } from '@core/profile'
+    import LoggedOutLayout from '@views/components/LoggedOutLayout.svelte'
 
-    let percent = 0
+    let progress = 0
 
-    $: statusMessage = $loginProgress?.stepMessage
-        ? localize('views.loadProfile.loginSteps.' + $loginProgress?.stepMessage) + '...'
-        : ''
     $: $loginProgress?.stepMessage, calculatePercentage()
 
     function calculatePercentage(): void {
@@ -16,8 +14,10 @@
         const totalParts = (totalSteps * (totalSteps + 1)) / 2
         const percentageOfOnePart = 100 / totalParts
         const cumaltivePartsSoFar = (currentStep * (currentStep + 1)) / 2
-        percent = percentageOfOnePart * cumaltivePartsSoFar
+        progress = Math.floor(percentageOfOnePart * cumaltivePartsSoFar)
     }
 </script>
 
-<LoadingScreen showProgressBar {statusMessage} {percent} />
+<LoggedOutLayout>
+    <LoadingScreen slot="content" {progress} />
+</LoggedOutLayout>

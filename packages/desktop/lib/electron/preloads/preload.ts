@@ -9,8 +9,8 @@
 import fs from 'fs'
 import { ipcRenderer, contextBridge } from 'electron'
 
-import * as IotaWalletApi from '@iota/wallet'
-import type { LoggerConfig } from '@iota/wallet/types'
+import * as IotaSdk from '@iota/sdk'
+import type { ILoggerConfig } from '@iota/sdk/out/types'
 
 import ElectronApi from '../apis/electron.api'
 import LedgerApi from '../apis/ledger.api'
@@ -27,7 +27,7 @@ window.addEventListener('unhandledrejection', handleUnhandledRejectionEvent)
 // This is required in case the app wasn't open when the user clicks the deep link
 window.addEventListener('DOMContentLoaded', () => {
     setTimeout(() => {
-        ipcRenderer.send('ready-to-show')
+        ipcRenderer.send('dom-content-loaded')
     }, 200)
 })
 
@@ -47,6 +47,7 @@ try {
     // https://www.electronjs.org/docs/latest/api/context-bridge
     // This workaround exposes the classes through factory methods
     // The factory method also copies all the prototype methods to the object so that it gets passed through the bridge
+
     contextBridge.exposeInMainWorld('__WALLET__API__', WalletApi)
     contextBridge.exposeInMainWorld('__ELECTRON__', ElectronApi)
     contextBridge.exposeInMainWorld('__LEDGER__', LedgerApi)
@@ -84,13 +85,13 @@ function prepareLogDirectory(baseDir: string): string {
 async function getVersionAndInitLogger(logDir: string): Promise<void> {
     const versionDetails = await ipcRenderer.invoke('get-version-details')
     const today = new Date().toISOString().slice(0, 16).replace('T', '-').replace(':', '-')
-    const loggerOptions: LoggerConfig = {
+    const loggerOptions: ILoggerConfig = {
         colorEnabled: true,
         name: `${logDir}/wallet-v${versionDetails.currentVersion}-d${today}.log`,
         levelFilter: 'debug',
         targetExclusions: ['h2', 'hyper', 'rustls', 'message_handler'],
     }
-    IotaWalletApi.initLogger(loggerOptions)
+    IotaSdk.initLogger(loggerOptions)
 
     deleteOldLogs(logDir, versionDetails.currentVersion)
 }

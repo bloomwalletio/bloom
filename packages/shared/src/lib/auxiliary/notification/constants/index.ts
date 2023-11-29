@@ -1,2 +1,2 @@
-export * from './default-notification-timeout.constant'
-export * from './notification-timeout-never.constant'
+export * from './default-notification-duration.constant'
+export * from './notification-duration-none.constant'

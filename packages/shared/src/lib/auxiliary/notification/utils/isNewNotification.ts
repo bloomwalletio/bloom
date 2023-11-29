@@ -1,9 +1,8 @@
 import { get } from 'svelte/store'
+import { INotification } from '../interfaces'
+import { appNotifications } from '../stores'
+import { NotificationVariant } from '../types'
 
-import { INotificationData } from '../interfaces'
-import { notifications } from '../stores'
-import { NotificationType } from '../types'
-
-export function isNewNotification(type: NotificationType): boolean {
-    return get(notifications).filter((data: INotificationData) => data.type === type).length === 0
+export function isNewNotification(variant: NotificationVariant): boolean {
+    return get(appNotifications).filter((data: INotification) => data.variant === variant).length === 0
 }

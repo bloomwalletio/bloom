@@ -1,21 +1,17 @@
 <script lang="ts">
-    import { OnboardingLayout } from '@components'
+    import { TextInput } from '@bloomwalletio/ui'
     import { onboardingProfile, updateOnboardingProfile } from '@contexts/onboarding'
-    import { IS_MOBILE } from '@core/app'
     import { localize } from '@core/i18n'
-    import { getNetworkNameFromNetworkId } from '@core/network'
-    import { profiles, validateProfileName } from '@core/profile'
-    import { Animation, Button, Input, Text } from '@ui'
+    import { validateProfileName } from '@core/profile'
+    import { OnboardingLayout } from '@views/components'
     import { completeOnboardingRouter } from '../complete-onboarding-router'
 
     let error = ''
     let profileName = $onboardingProfile?.name ?? ''
 
-    $: isProfileNameValid = profileName && profileName.trim()
-    $: profileName, (error = '') // Error clears when profileName changes
-
     function onContinueClick(): void {
         try {
+            error = ''
             validateProfileName(profileName)
             updateOnboardingProfile({ name: profileName })
             $completeOnboardingRouter.next()
@@ -25,37 +21,24 @@
     }
 </script>
 
-<OnboardingLayout allowBack={false}>
-    <div slot="title">
-        <Text type="h2"
-            >{localize('views.onboarding.profileSetup.enterName.title', {
-                values: { network: getNetworkNameFromNetworkId($onboardingProfile?.network?.id) },
-            })}</Text
-        >
-    </div>
-    <div slot="leftpane__content">
-        <Text type="p" secondary classes="mb-4">{localize('views.onboarding.profileSetup.enterName.body1')}</Text>
-        <Text type="p" secondary classes={IS_MOBILE ? 'mb-4' : 'mb-10'}>
-            {localize(
-                `views.onboarding.profileSetup.enterName.body2.${$profiles?.length === 0 ? 'first' : 'nonFirst'}`
-            )}
-            {localize('views.onboarding.profileSetup.enterName.addMore')}
-        </Text>
-        <Input
-            {error}
+<OnboardingLayout
+    title={localize('views.onboarding.completeOnboarding.enterName.title', {
+        network: $onboardingProfile?.network?.name,
+    })}
+    description={localize('views.onboarding.completeOnboarding.enterName.description')}
+    continueButton={{
+        form: 'profile-name-form',
+        onClick: onContinueClick,
+        disabled: !profileName,
+    }}
+>
+    <form on:submit|preventDefault={onContinueClick} id="profile-name-form" slot="content">
+        <TextInput
+            bind:error
             bind:value={profileName}
-            placeholder={localize('views.onboarding.profileSetup.enterName.profileName')}
-            classes="w-full mb-6"
+            label={localize('general.name')}
             autofocus
-            submitHandler={onContinueClick}
+            on:submit={onContinueClick}
         />
-    </div>
-    <div slot="leftpane__action" class="flex flex-col">
-        <Button classes="w-full" disabled={!isProfileNameValid} onClick={onContinueClick}>
-            {localize('actions.continue')}
-        </Button>
-    </div>
-    <div slot="rightpane" class="w-full h-full flex justify-center {!IS_MOBILE && 'bg-pastel-green dark:bg-gray-900'}">
-        <Animation classes="setup-anim-aspect-ratio" animation="profile-desktop" />
-    </div>
+    </form>
 </OnboardingLayout>

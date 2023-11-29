@@ -58,16 +58,29 @@ export function getInitials(name: string | undefined, maxChars?: number): string
         return ''
     }
 
-    let initialsArray = name
-        .trim()
+    // Extract initial characters of each word, considering emojis and ignoring other symbols
+    const regexEmoji = /\p{Emoji}\uFE0F?(?:\u200D\p{Emoji}\uFE0F?)*/gu
+    const regexLetterOrNumber = /[\p{L}\p{N}]/gu
+    const initialsArray = name
         .split(' ')
-        .filter((n) => n)
-        .map((n) => n.match(/./gu)) // match characters for emoji compatibility
-        .filter((n): n is RegExpMatchArray => n !== null)
-        .map((n) => n[0])
+        .filter((word) => word)
+        .map((word) => {
+            if (regexEmoji.test(word) && !regexLetterOrNumber.test(word)) {
+                // Reset lastIndex because the global flag is set on the regex
+                regexEmoji.lastIndex = 0
+                const emojiMatch = word.match(regexEmoji)
+                return emojiMatch ? emojiMatch[0] : ''
+            } else {
+                // Get the first letter or number ignoring other symbols
+                const initialMatch = word.match(regexLetterOrNumber)
+                return initialMatch ? initialMatch[0] : ''
+            }
+        })
+        .filter(Boolean) // Filter out empty strings
 
+    // Limit the number of initials if maxChars is provided
     if (maxChars !== undefined) {
-        initialsArray = initialsArray.slice(0, maxChars)
+        return initialsArray.slice(0, maxChars).join('').toUpperCase()
     }
 
     return initialsArray.join('').toUpperCase()

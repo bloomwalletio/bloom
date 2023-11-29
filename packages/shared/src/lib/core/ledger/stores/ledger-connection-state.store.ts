@@ -1,9 +1,9 @@
 import { Readable, derived } from 'svelte/store'
-import { LedgerConnectionState } from '../interfaces'
+import { LedgerConnectionState } from '../enums'
 import { determineLedgerConnectionState } from '../utils'
-import { ledgerNanoStatus } from './ledger-nano-status.store'
+import { ledgerDeviceState } from './ledger-device-state.store'
 
 export const ledgerConnectionState: Readable<LedgerConnectionState> = derived(
-    [ledgerNanoStatus],
-    ([$ledgerNanoStatus]) => determineLedgerConnectionState($ledgerNanoStatus)
+    [ledgerDeviceState],
+    ([$ledgerNanoState]) => determineLedgerConnectionState($ledgerNanoState)
 )

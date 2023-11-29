@@ -7,7 +7,7 @@ export function convertOnboardingProfileToPersistedProfile(
     onboardingProfile: Partial<IOnboardingProfile>
 ): IPersistedProfile {
     return {
-        ...DEFAULT_PERSISTED_PROFILE_OBJECT,
+        ...structuredClone(DEFAULT_PERSISTED_PROFILE_OBJECT),
         ...(onboardingProfile?.id && { id: onboardingProfile.id }),
         ...(onboardingProfile?.name && { name: onboardingProfile.name }),
         ...(onboardingProfile?.type && { type: onboardingProfile.type }),
@@ -26,5 +26,7 @@ export function convertOnboardingProfileToPersistedProfile(
             lastUsedAccountIndex: onboardingProfile.lastUsedAccountIndex,
         }),
         ...(onboardingProfile?.clientOptions && { clientOptions: onboardingProfile.clientOptions }),
+        ...(onboardingProfile?.color && { color: onboardingProfile.color }),
+        ...(onboardingProfile?.version !== undefined && { version: onboardingProfile.version }),
     }
 }

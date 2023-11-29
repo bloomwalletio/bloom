@@ -1,43 +1,65 @@
 <script lang="ts">
-    import { selectedAccount, selectedAccountIndex } from '@core/account/stores'
-    import { ContactManager } from '@core/contact'
+    import { Alert } from '@bloomwalletio/ui'
+    import { selectedAccountIndex } from '@core/account/stores'
+    import { ContactManager } from '@core/contact/classes'
     import { localize } from '@core/i18n'
-    import { IChain, IIscpChainConfiguration, INetwork, network } from '@core/network'
-    import { visibleActiveAccounts } from '@core/profile'
+    import {
+        IChain,
+        IIscpChainConfiguration,
+        INetwork,
+        NetworkId,
+        getActiveNetworkId,
+        network,
+        isEvmChain,
+    } from '@core/network'
+    import { visibleActiveAccounts } from '@core/profile/stores'
     import {
         SendFlowType,
-        TokenStandard,
         sendFlowParameters,
         updateSendFlowParameters,
-        getChainIdFromSendFlowParameters,
         SubjectType,
         Subject,
+        getNetworkIdFromSendFlowParameters,
     } from '@core/wallet'
     import { closePopup } from '@desktop/auxiliary/popup'
     import features from '@features/features'
     import { INetworkRecipientSelectorOption, NetworkRecipientSelector } from '@ui'
     import { onMount } from 'svelte'
     import { sendFlowRouter } from '../send-flow.router'
-    import SendFlowTemplate from './SendFlowTemplate.svelte'
-    import { getAssetStandard } from '@core/wallet/actions/getTokenStandartFromSendFlowParameters'
+    import { PopupTemplate } from '@components'
+    import { getTokenStandardFromSendFlowParameters } from '@core/wallet/utils'
+    import { TokenStandard } from '@core/token'
+    import { canAccountMakeEvmTransaction } from '@core/layer-2/actions'
 
-    let networkAddress = $sendFlowParameters?.layer2Parameters?.networkAddress
+    let selector: NetworkRecipientSelector
     let selectorOptions: INetworkRecipientSelectorOption[] = []
     let selectedIndex = -1
 
     const assetName = getAssetName()
 
-    $: selectedOption = selectorOptions[selectedIndex]
-    $: isLayer2 = !!networkAddress
+    let selectedNetworkId: NetworkId
+    $: selectedNetworkId = selectorOptions[selectedIndex]?.networkId
+    $: selectedRecipient = selectorOptions[selectedIndex]?.selectedRecipient
 
-    $: networkAddress = selectedOption?.networkAddress ?? $sendFlowParameters?.layer2Parameters?.networkAddress
-    $: recipient = selectedOption?.selectedRecipient ?? $sendFlowParameters?.recipient
+    let hasNetworkRecipientError: boolean = false
+    $: {
+        const originNetworkId = getNetworkIdFromSendFlowParameters($sendFlowParameters)
+        if (isEvmChain(originNetworkId)) {
+            hasNetworkRecipientError = !canAccountMakeEvmTransaction(
+                $selectedAccountIndex,
+                originNetworkId,
+                $sendFlowParameters?.type
+            )
+        } else {
+            hasNetworkRecipientError = false
+        }
+    }
 
     function getAssetName(): string | undefined {
         if ($sendFlowParameters?.type === SendFlowType.BaseCoinTransfer) {
-            return $sendFlowParameters.baseCoinTransfer.asset?.metadata.name
+            return $sendFlowParameters.baseCoinTransfer.token?.metadata.name
         } else if ($sendFlowParameters?.type === SendFlowType.TokenTransfer) {
-            return $sendFlowParameters.tokenTransfer.asset?.metadata.name
+            return $sendFlowParameters.tokenTransfer.token?.metadata.name
         } else if ($sendFlowParameters?.type === SendFlowType.NftTransfer) {
             return $sendFlowParameters.nft.name
         } else {
@@ -47,23 +69,20 @@
 
     function buildNetworkRecipientOptions(): void {
         selectorOptions = getRecipientOptions()
-        selectedIndex =
-            networkAddress && selectorOptions.length
-                ? selectorOptions.findIndex((option) => option.networkAddress === networkAddress)
-                : 0
-
-        setInitialRecipient()
+        setInitialNetworkAndRecipient()
     }
 
-    function setInitialRecipient(): void {
-        selectorOptions = selectorOptions.map((option, index) =>
-            index === selectedIndex
-                ? {
-                      ...option,
-                      recipient: $sendFlowParameters?.recipient,
-                  }
-                : option
-        )
+    function setInitialNetworkAndRecipient(): void {
+        selectedIndex = $sendFlowParameters.destinationNetworkId
+            ? selectorOptions.findIndex((option) => option.networkId === $sendFlowParameters.destinationNetworkId)
+            : selectorOptions.findIndex(
+                  (option) => option.networkId === getNetworkIdFromSendFlowParameters($sendFlowParameters)
+              ) ?? 0
+
+        selectorOptions[selectedIndex] = {
+            ...selectorOptions[selectedIndex],
+            selectedRecipient: $sendFlowParameters?.recipient,
+        }
     }
 
     function getLayer1AccountRecipients(accountIndexToExclude?: number): Subject[] {
@@ -76,7 +95,7 @@
             }))
     }
 
-    function getContactRecipientsForNetwork(networkId: string): Subject[] {
+    function getContactRecipientsForNetwork(networkId: NetworkId): Subject[] {
         const recipients: Subject[] = ContactManager.listContactAddressesForNetwork(networkId).map((address) => {
             const contact = ContactManager.getContact(address.contactId)
             return {
@@ -92,11 +111,14 @@
         sourceNetwork: INetwork,
         accountIndexToExclude?: number
     ): INetworkRecipientSelectorOption {
-        const name = sourceNetwork.getMetadata().name
+        const metadata = sourceNetwork.getMetadata()
         return {
-            name,
-            networkAddress: '',
-            recipients: [...getLayer1AccountRecipients(accountIndexToExclude), ...getContactRecipientsForNetwork(name)],
+            networkId: metadata.id,
+            name: metadata.name,
+            recipients: [
+                ...getLayer1AccountRecipients(accountIndexToExclude),
+                ...getContactRecipientsForNetwork(metadata.id),
+            ],
         }
     }
 
@@ -118,13 +140,12 @@
     ): INetworkRecipientSelectorOption {
         const chainConfig = chain.getConfiguration() as IIscpChainConfiguration
         return {
-            chainId: chainConfig.chainId,
+            networkId: chainConfig.id,
             name: chainConfig.name,
-            networkAddress: chainConfig.aliasAddress,
             recipients: [
                 ...getLayer2AccountRecipients(chainConfig.coinType, accountIndexToExclude),
-                ...getContactRecipientsForNetwork(chainConfig.name),
-            ], // TODO: We use the name here, because we use that currently as the key for the network addresses. This should be updated
+                ...getContactRecipientsForNetwork(chainConfig.id),
+            ],
         }
     }
 
@@ -138,9 +159,9 @@
             return [layer1Network]
         }
 
-        const assetStandard = getAssetStandard($sendFlowParameters)
-        const sourceChainId = getChainIdFromSendFlowParameters($sendFlowParameters)
-        const sourceChain = $network.getChain(sourceChainId)
+        const assetStandard = getTokenStandardFromSendFlowParameters($sendFlowParameters)
+        const sourceNetworkId = getNetworkIdFromSendFlowParameters($sendFlowParameters)
+        const sourceChain = $network.getChain(sourceNetworkId)
 
         let networkRecipientOptions = []
 
@@ -148,7 +169,7 @@
             case TokenStandard.Irc27:
             case TokenStandard.Irc30:
             case TokenStandard.BaseToken:
-                if (!sourceChainId) {
+                if (sourceNetworkId === getActiveNetworkId()) {
                     // if we are on layer 1
                     networkRecipientOptions = [
                         layer1Network,
@@ -156,7 +177,10 @@
                     ]
                 } else if (sourceChain) {
                     // if we are on layer 2
-                    networkRecipientOptions = [getRecipientOptionFromChain(sourceChain, $selectedAccountIndex)]
+                    networkRecipientOptions = [
+                        ...(features.wallet.assets.unwrapToken.enabled && [getLayer1RecipientOption($network)]),
+                        getRecipientOptionFromChain(sourceChain, $selectedAccountIndex),
+                    ]
                 }
                 break
             case TokenStandard.Erc20:
@@ -170,26 +194,29 @@
     }
 
     function onContinueClick(): void {
-        const layer2Parameters = isLayer2
-            ? {
-                  chainId: selectedOption.chainId,
-                  networkAddress: selectedOption?.networkAddress,
-                  senderAddress: $selectedAccount.depositAddress,
-              }
-            : null
-        updateSendFlowParameters({
-            type: $sendFlowParameters?.type,
-            recipient,
-            layer2Parameters,
-        })
-        $sendFlowRouter.next()
+        if (validate()) {
+            updateSendFlowParameters({
+                type: $sendFlowParameters?.type,
+                destinationNetworkId: selectedNetworkId,
+                recipient: selectedRecipient,
+            })
+            $sendFlowRouter.next()
+        }
+    }
+
+    function validate(): boolean {
+        try {
+            selector?.validate()
+            return true
+        } catch (err) {
+            return false
+        }
     }
 
     function onBackClick(): void {
         updateSendFlowParameters({
             type: $sendFlowParameters?.type,
             recipient: undefined,
-            layer2Parameters: undefined,
         })
         if (!$sendFlowRouter.hasHistory()) {
             closePopup()
@@ -202,24 +229,30 @@
     })
 </script>
 
-<SendFlowTemplate
+<PopupTemplate
     title={localize('popups.transaction.selectRecipient', {
         values: { assetName },
     })}
-    leftButton={{
+    backButton={{
         text: localize($sendFlowRouter.hasHistory() ? 'actions.back' : 'actions.cancel'),
         onClick: onBackClick,
     }}
-    rightButton={{
+    continueButton={{
+        form: 'select-recipient-form',
         text: localize('actions.continue'),
         onClick: onContinueClick,
-        disabled:
-            networkAddress === undefined ||
-            !recipient ||
-            (recipient.type === SubjectType.Address && !recipient.address) ||
-            (recipient.type === SubjectType.Contact && !recipient.address && !recipient.contact) ||
-            (recipient.type === SubjectType.Account && !recipient.account),
+        disabled: !selectedNetworkId || !selectedRecipient?.address,
     }}
 >
-    <NetworkRecipientSelector bind:options={selectorOptions} bind:selectedIndex />
-</SendFlowTemplate>
+    <form on:submit|preventDefault={onContinueClick} id="select-recipient-form">
+        <NetworkRecipientSelector
+            hasError={hasNetworkRecipientError}
+            bind:this={selector}
+            bind:options={selectorOptions}
+            bind:selectedIndex
+        />
+    </form>
+    {#if hasNetworkRecipientError}
+        <Alert variant="danger" text={localize('error.send.insufficientFundsGasFee')} />
+    {/if}
+</PopupTemplate>

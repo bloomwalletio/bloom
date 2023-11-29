@@ -2,6 +2,6 @@
  * The interface for managing deep links.
  */
 export interface IDeepLinkManager {
-    checkDeepLinkRequestExists(): void
+    checkForDeepLinkRequest(): void
     clearDeepLinkRequest(): void
 }

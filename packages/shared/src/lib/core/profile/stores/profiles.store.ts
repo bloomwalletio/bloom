@@ -7,36 +7,36 @@ export const profiles = persistent<IPersistedProfile[]>('profiles', [])
 /**
  * Adds a new profile to persistent storage
  * @method addNewProfile
- * @param {IPersistedProfile} newProfile
+ * @param {IPersistedProfile} persistedProfile
  * @returns {void}
  */
-export function addNewProfile(newProfile: IPersistedProfile): void {
-    profiles.update((state) => [...state, newProfile])
+export function addNewPersistedProfile(persistedProfile: IPersistedProfile): void {
+    profiles.update((state) => [...state, persistedProfile])
 }
 
 /**
  * Saves profile in persistent storage
  * @method saveProfile
- * @param {IPersistedProfile} profileToPersist
+ * @param {IPersistedProfile} persistedProfile
  * @returns {void}
  */
-export function saveProfile(profileToPersist: IPersistedProfile): void {
-    profiles.update((state) =>
-        state.map((profile) => (profile.id === profileToPersist.id ? profileToPersist : profile))
-    )
+export function savePersistedProfile(persistedProfile: IPersistedProfile): void {
+    profiles.update((state) => {
+        return state.map((profile) => (profile.id === persistedProfile.id ? persistedProfile : profile))
+    })
 }
 
 /**
  * Updates profile in persistent storage
  * @method updateProfile
- * @param {IPersistedProfile} fieldsToUpdate
+ * @param {IPersistedProfile} partialPersistedProfile
  * @returns {void}
  */
-export function updateProfile(profileId: string, fieldsToUpdate: Partial<IPersistedProfile>): void {
+export function updatePersistedProfile(profileId: string, partialPersistedProfile: Partial<IPersistedProfile>): void {
     profiles.update((state) =>
         state.map((profile) => {
             if (profile.id === profileId) {
-                return { ...profile, ...fieldsToUpdate }
+                return { ...profile, ...partialPersistedProfile }
             } else {
                 return profile
             }
@@ -48,9 +48,9 @@ export function updateProfile(profileId: string, fieldsToUpdate: Partial<IPersis
  * Removes a profile from persistent storage
  *
  * @method removeProfile
- * @param {string} id
+ * @param {string} profileId
  * @returns {void}
  */
-export const removeProfile = (id: string): void => {
-    profiles.update((state) => state.filter((profile) => profile.id !== id))
+export const removePersistedProfile = (profileId: string): void => {
+    profiles.update((state) => state.filter((profile) => profile.id !== profileId))
 }

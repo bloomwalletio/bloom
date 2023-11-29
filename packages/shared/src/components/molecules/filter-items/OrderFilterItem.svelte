@@ -1,35 +1,35 @@
 <script lang="ts">
-    import { Dropdown } from '@ui'
+    import { IOption, SelectInput } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
-    import type { IDropdownItem } from '@core/utils'
     import { OrderFilterUnit } from '@core/utils/interfaces/filter'
     import { OrderOption } from '@core/utils/enums/filters'
 
     export let filterUnit: OrderFilterUnit
 
-    const choices: IDropdownItem<string>[] = filterUnit.choices.map((choice) => ({
+    const options: IOption[] = filterUnit.choices.map((choice) => ({
         label: localize(`${filterUnit.localeKey}.${choice}`),
         value: choice,
     }))
+    let selected = options.find((option) => option.value === filterUnit.selected)
 
-    const ascDescChoices: IDropdownItem<OrderOption>[] = [OrderOption.Asc, OrderOption.Desc].map((choice) => ({
+    const ascDescOptions: IOption[] = [OrderOption.Asc, OrderOption.Desc].map((choice) => ({
         label: localize(`filters.ascDesc.${choice}`),
         value: choice,
     }))
+    let selectedAscDesc = ascDescOptions.find((option) => option.value === filterUnit.selected)
 
-    $: value = localize(`${filterUnit.localeKey}.${filterUnit.selected}`)
-    $: ascDescvalue = localize(`filters.ascDesc.${filterUnit.ascDesc}`)
-
-    function onSelect(item: IDropdownItem<string>): void {
+    $: selected && onSelect(selected)
+    function onSelect(item: IOption): void {
         filterUnit.selected = item.value
     }
 
-    function onSelectAscDesc(item: IDropdownItem<OrderOption>): void {
-        filterUnit.ascDesc = item.value
+    $: selectedAscDesc && onSelectAscDesc(selectedAscDesc)
+    function onSelectAscDesc(item: IOption): void {
+        filterUnit.ascDesc = item.value as OrderOption
     }
 </script>
 
 <div class="flex flex-row justify-between space-x-2">
-    <Dropdown {value} items={choices} {onSelect} small />
-    <Dropdown value={ascDescvalue} items={ascDescChoices} onSelect={onSelectAscDesc} small />
+    <SelectInput bind:selected {options} hideValue />
+    <SelectInput bind:selected={selectedAscDesc} options={ascDescOptions} hideValue />
 </div>

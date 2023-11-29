@@ -1,6 +1,5 @@
 <script lang="ts">
-    import { closePopup } from '@desktop/auxiliary/popup'
-    import { OnboardingLayout } from '@components'
+    import { Button, IconName } from '@bloomwalletio/ui'
     import {
         ClaimShimmerRewardsError,
         FindShimmerRewardsError,
@@ -28,11 +27,13 @@
     import {
         checkOrConnectLedger,
         handleLedgerError,
-        pollLedgerNanoStatus,
-        stopPollingLedgerNanoStatus,
+        pollLedgerDeviceState,
+        stopPollingLedgerDeviceState,
     } from '@core/ledger'
     import { unsubscribeFromWalletApiEvents } from '@core/profile-manager'
-    import { Animation, Button, ShimmerClaimingAccountList, Text } from '@ui'
+    import { closePopup } from '@desktop/auxiliary/popup'
+    import { ShimmerClaimingAccountList } from '@ui'
+    import { OnboardingLayout } from '@views/components'
     import { onDestroy, onMount } from 'svelte'
     import { restoreProfileRouter } from '../restore-profile-router'
 
@@ -41,7 +42,6 @@
     let isSettingUp = false
     let isSearchingForRewards = false
     let hasSearchedForRewardsBefore = false
-
     let hasTriedClaimingRewards = false
 
     $: isClaimingRewards = shimmerClaimingAccounts.some(
@@ -63,14 +63,14 @@
     async function ledgerRaceConditionProtectionWrapper(_function: () => unknown): Promise<void> {
         try {
             if ($isOnboardingLedgerProfile) {
-                stopPollingLedgerNanoStatus()
+                stopPollingLedgerDeviceState()
             }
             await _function()
         } catch (err) {
             console.error('Error in ledgerRaceConditionProtectionWrapper')
         } finally {
             if ($isOnboardingLedgerProfile) {
-                pollLedgerNanoStatus()
+                pollLedgerDeviceState()
             }
         }
     }
@@ -184,46 +184,33 @@
     })
 </script>
 
-<OnboardingLayout allowBack={false}>
-    <div slot="title">
-        <Text type="h2">
-            {localize('views.onboarding.shimmerClaiming.claimRewards.title')}
-        </Text>
-    </div>
-    <div slot="leftpane__content" class="h-full flex flex-col">
-        <Text type="p" secondary classes="mb-5">
-            {localize('views.onboarding.shimmerClaiming.claimRewards.body')}
-        </Text>
+<OnboardingLayout
+    title={localize('views.onboarding.restoreProfile.claimFinder.title')}
+    description={localize('views.onboarding.restoreProfile.claimFinder.description')}
+    continueButton={{
+        text: localize(
+            `actions.${
+                shouldShowContinueButton ? 'continue' : hasTriedClaimingRewards ? 'rerunClaimProcess' : 'claimRewards'
+            }`
+        ),
+        disabled: shouldShowContinueButton ? isSearchingForRewards : !shouldClaimRewardsButtonBeEnabled,
+        onClick: shouldShowContinueButton ? onContinueClick : onClaimRewardsClick,
+    }}
+    backButton={undefined}
+    busy={shouldShowContinueButton ? undefined : isClaimingRewards}
+    busyText={shouldShowContinueButton ? '' : localize('actions.claiming')}
+>
+    <div slot="content" class="h-full flex flex-col gap-4">
         <ShimmerClaimingAccountList {shimmerClaimingAccounts} baseToken={$onboardingProfile?.network?.baseToken} />
-    </div>
-    <div slot="leftpane__action">
         <Button
-            classes="w-full mb-5"
+            on:click={onSearchForRewardsClick}
+            width="full"
             disabled={!shouldSearchForRewardsButtonBeEnabled}
-            outline
-            onClick={onSearchForRewardsClick}
-            isBusy={isSettingUp || isSearchingForRewards}
-            busyMessage={localize('actions.searching')}
-        >
-            {localize(`actions.${hasSearchedForRewardsBefore ? 'searchAgain' : 'searchForRewards'}`)}
-        </Button>
-        {#if shouldShowContinueButton}
-            <Button classes="w-full" disabled={isSearchingForRewards} onClick={onContinueClick}>
-                {localize('actions.continue')}
-            </Button>
-        {:else}
-            <Button
-                classes="w-full"
-                disabled={!shouldClaimRewardsButtonBeEnabled}
-                onClick={onClaimRewardsClick}
-                isBusy={isClaimingRewards}
-                busyMessage={localize('actions.claiming')}
-            >
-                {localize(`actions.${hasTriedClaimingRewards ? 'rerunClaimProcess' : 'claimRewards'}`)}
-            </Button>
-        {/if}
-    </div>
-    <div slot="rightpane" class="w-full h-full flex justify-center {true && 'bg-pastel-yellow dark:bg-gray-900'}">
-        <Animation classes="setup-anim-aspect-ratio" animation="import-desktop" />
+            variant="text"
+            icon={IconName.Refresh}
+            busy={isSettingUp || isSearchingForRewards}
+            busyText={localize('actions.searching')}
+            text={localize(`actions.${hasSearchedForRewardsBefore ? 'searchAgain' : 'useFinder'}`)}
+        />
     </div>
 </OnboardingLayout>

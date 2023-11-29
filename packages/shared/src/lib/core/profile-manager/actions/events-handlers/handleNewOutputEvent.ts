@@ -1,20 +1,18 @@
+import { Event, NewOutputWalletEvent, WalletEventType, OutputType, AliasOutput } from '@iota/sdk/out/types'
 import { syncBalance } from '@core/account/actions/syncBalance'
-import { addNftsToDownloadQueue, addOrUpdateNftInAllAccountNfts, buildNftFromNftOutput } from '@core/nfts'
+import { ActivityType } from '@core/activity/enums'
 import { checkAndRemoveProfilePicture } from '@core/profile/actions'
 import { activeAccounts } from '@core/profile/stores'
-import { IWrappedOutput, addPersistedAsset, getOrRequestAssetFromPersistedAssets } from '@core/wallet'
-import { OUTPUT_TYPE_ALIAS, OUTPUT_TYPE_NFT } from '@core/wallet/constants'
-import {
-    addActivitiesToAccountActivitiesInAllAccountActivities,
-    allAccountActivities,
-} from '@core/activity/stores/all-account-activities.store'
+import { IWrappedOutput } from '@core/wallet/interfaces'
+import { addAccountActivities, allAccountActivities } from '@core/activity/stores/all-account-activities.store'
+import { generateActivities } from '@core/activity/utils'
+import { preprocessGroupedOutputs } from '@core/activity/utils/outputs'
+import { getActiveNetworkId } from '@core/network'
+import { addNftsToDownloadQueue, addOrUpdateNftInAllAccountNfts, buildNftFromNftOutput } from '@core/nfts/actions'
+import { getOrRequestTokenFromPersistedTokens } from '@core/token/actions'
 import { getBech32AddressFromAddressTypes } from '@core/wallet/utils/getBech32AddressFromAddressTypes'
-import { Event, NewOutputWalletEvent, WalletEventType } from '@iota/wallet/out/types'
 import { get } from 'svelte/store'
 import { validateWalletApiEvent } from '../../utils'
-import { preprocessGroupedOutputs } from '@core/activity/utils/outputs'
-import { generateActivities } from '@core/activity/utils'
-import { ActivityType } from '@core/activity/enums'
 
 export function handleNewOutputEvent(error: Error, event: Event): void {
     const walletEvent = validateWalletApiEvent<NewOutputWalletEvent>(error, event, WalletEventType.NewOutput)
@@ -26,34 +24,39 @@ export async function handleNewOutputEventInternal(
     walletEvent: NewOutputWalletEvent
 ): Promise<void> {
     const account = get(activeAccounts)?.find((account) => account.index === accountIndex)
-    const output = walletEvent?.output
+    if (!account) {
+        return
+    }
 
-    if (!account || !output) return
+    const networkId = getActiveNetworkId()
+    const output = walletEvent.output
 
     const address = getBech32AddressFromAddressTypes(output?.address)
+    const outputData = output.output as AliasOutput
     const isNewAliasOutput =
-        output.output.type === OUTPUT_TYPE_ALIAS &&
-        output.output.stateIndex === 0 &&
+        outputData.type === OutputType.Alias &&
+        outputData.stateIndex === 0 &&
         !get(allAccountActivities)[accountIndex].find((_activity) => _activity.id === output.outputId)
-    const isNftOutput = output.output.type === OUTPUT_TYPE_NFT
+
+    const isNftOutput = outputData.type === OutputType.Nft
 
     if ((account?.depositAddress === address && !output?.remainder) || isNewAliasOutput) {
         await syncBalance(account.index)
 
         const processedOutput = preprocessGroupedOutputs([output], walletEvent?.transactionInputs ?? [], account)
 
-        const activities = generateActivities(processedOutput, account)
+        const activities = await generateActivities(processedOutput, account, networkId)
         for (const activity of activities) {
             if (activity.type === ActivityType.Basic || activity.type === ActivityType.Foundry) {
-                const asset = await getOrRequestAssetFromPersistedAssets(activity.assetId)
-                addPersistedAsset(asset)
+                const tokenId = activity.tokenTransfer?.tokenId ?? activity.baseTokenTransfer?.tokenId
+                getOrRequestTokenFromPersistedTokens(tokenId, activity.sourceNetworkId)
             }
         }
-        addActivitiesToAccountActivitiesInAllAccountActivities(account.index, activities)
+        addAccountActivities(account.index, activities)
     }
 
     if (isNftOutput) {
-        const nft = buildNftFromNftOutput(output as IWrappedOutput, account.depositAddress)
+        const nft = buildNftFromNftOutput(output as IWrappedOutput, networkId, account.depositAddress)
         addOrUpdateNftInAllAccountNfts(account.index, nft)
         void addNftsToDownloadQueue(accountIndex, [nft])
 

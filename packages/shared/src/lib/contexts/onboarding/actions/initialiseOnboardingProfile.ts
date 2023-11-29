@@ -1,5 +1,5 @@
 import { get } from 'svelte/store'
-import { stopPollingLedgerNanoStatus } from '@core/ledger'
+import { stopPollingLedgerDeviceState } from '@core/ledger'
 import { destroyProfileManager, profileManager } from '@core/profile-manager'
 import { waitForPreviousManagerToBeDestroyed } from '@core/profile/utils'
 import { buildInitialOnboardingProfile } from '../helpers'
@@ -13,7 +13,7 @@ export async function initialiseOnboardingProfile(): Promise<void> {
 
     if (get(profileManager)) {
         if (get(isOnboardingLedgerProfile)) {
-            stopPollingLedgerNanoStatus()
+            stopPollingLedgerDeviceState()
         }
         await destroyProfileManager()
     }

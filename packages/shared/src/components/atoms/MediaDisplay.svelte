@@ -2,7 +2,6 @@
     import { MimeType, ParentMimeType } from '@core/nfts'
     import { onMount } from 'svelte'
 
-    export let Media: HTMLImageElement | HTMLVideoElement | undefined = undefined
     export let src: string
     export let expectedType: MimeType
     export let alt: string = ''
@@ -13,26 +12,31 @@
     export let classes: string = ''
     export let isLoaded: boolean
 
-    let isMounted = false
+    const parentMimeType = getParentMimeType(expectedType)
+    let videoElement: HTMLVideoElement | undefined = undefined
+    let playPromise: Promise<void> | undefined = undefined
 
-    $: parentMimeType = getParentMimeType(expectedType)
     $: isLoaded && muteVideo()
 
     function muteVideo() {
-        if (muted && Media instanceof HTMLVideoElement) {
-            Media.muted = true
+        if (videoElement && muted) {
+            videoElement.muted = true
         }
     }
 
     function startPlaying() {
-        if (!autoplay && Media instanceof HTMLVideoElement) {
-            Media.play()
+        if (videoElement && !autoplay && videoElement.paused) {
+            playPromise = videoElement.play()
         }
     }
 
     function stopPlaying() {
-        if (!autoplay && Media instanceof HTMLVideoElement) {
-            Media.pause()
+        if (videoElement && !autoplay && !videoElement.paused) {
+            playPromise
+                ?.then(() => {
+                    videoElement?.pause()
+                })
+                .catch(() => {}) ?? videoElement.pause()
         }
     }
 
@@ -40,6 +44,7 @@
         return mimeType?.split('/', 1)?.[0]
     }
 
+    let isMounted = false
     onMount(() => {
         isMounted = true
     })
@@ -51,7 +56,7 @@
             <img {src} {alt} class={classes} />
         {:else if parentMimeType === ParentMimeType.Video}
             <video
-                bind:this={Media}
+                bind:this={videoElement}
                 {src}
                 class={classes}
                 autoplay={autoplay ? true : undefined}

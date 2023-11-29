@@ -1,22 +1,33 @@
 <script lang="ts">
-    import { ClickableTile, FontWeight, Icon, Text, TextType } from '@ui'
+    import { Icon, IconName, Text, Tile } from '@bloomwalletio/ui'
+    import { ContactAvatar } from '@ui'
     import { UiEventFunction } from '@core/utils'
     import { IContact } from '@core/contact'
-    import { Icon as IconEnum } from '@auxiliary/icon'
 
     export let contact: IContact | undefined = undefined
-    export let onCardClick: UiEventFunction
+    export let error = false
+    export let onCardClick: UiEventFunction | undefined = undefined
+
+    let showBreadcrumb = false
+
+    function toggleShowBreadcrumb(): void {
+        showBreadcrumb = !showBreadcrumb
+    }
 </script>
 
-<ClickableTile
-    classes="flex justify-between items-center bg-white border border-solid border-gray-200 dark:border-transparent"
-    onClick={onCardClick}
->
-    <div class="w-full flex gap-2">
-        <span class="h-5 w-5 rounded-full" style="background-color: {contact.color}" />
-        <Text type={TextType.h4} fontWeight={FontWeight.semibold} classes="truncate">
-            {contact.name}
-        </Text>
-    </div>
-    <Icon icon={IconEnum.ChevronRight} classes="text-gray-400 dark:text-gray-500" />
-</ClickableTile>
+<!-- TODO: simplify use of tile and surfaces? and support hover events for group -->
+<div on:mouseenter={toggleShowBreadcrumb} on:mouseleave={toggleShowBreadcrumb}>
+    <Tile border {error} onClick={onCardClick}>
+        <div class="flex w-full justify-between gap-2 items-center p-1">
+            <ContactAvatar {contact} />
+            <div class="flex w-full text-left overflow-hidden">
+                <Text type="base" truncate>
+                    {contact.name}
+                </Text>
+            </div>
+            {#if showBreadcrumb}
+                <Icon name={IconName.ChevronRight} textColor="secondary" />
+            {/if}
+        </div>
+    </Tile>
+</div>

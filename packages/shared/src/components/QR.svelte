@@ -1,12 +1,11 @@
 <script lang="ts">
     import { default as QrCode } from 'qrious'
-    import { appSettings } from '@core/app'
+    import { darkMode } from '@core/app/stores'
     import { onMount } from 'svelte'
 
     export let data: string
-    export let classes: string = ''
 
-    $: color = $appSettings.darkMode ? '#ffffff' : '#000000'
+    $: color = $darkMode ? '#ffffff' : '#000000'
 
     const QRcode = new QrCode()
     let image = ''
@@ -33,13 +32,13 @@
     })
 </script>
 
-<div class="flex justify-center {classes}">
-    <img src={image} alt={data} class="qrcode" />
+<div class="flex justify-center items-center">
+    <img src={image} alt={data} class="qr-code" />
 </div>
 
 <style lang="scss">
-    .qrcode {
-        width: 135px;
-        height: 135px;
+    .qr-code {
+        width: 96px;
+        height: 96px;
     }
 </style>

@@ -1,4 +1,4 @@
-import { TokenStandard } from '@core/wallet'
+import { TokenStandard } from '@core/token/enums'
 import { MimeType } from '../types'
 import { IIrc27Attribute } from './irc27-attribute.interface'
 import { ISoonaverseAttributes } from './soonaverse-attributes.interface'

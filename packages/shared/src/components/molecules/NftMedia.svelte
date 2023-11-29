@@ -1,9 +1,9 @@
 <script lang="ts">
-    import { INft, NFT_MEDIA_FILE_NAME, nftDownloadQueue } from '@core/nfts'
+    import { INft, NFT_MEDIA_FILE_NAME } from '@core/nfts'
     import { DEV_STORAGE_DIRECTORY } from '@core/profile/constants'
     import { getStorageDirectoryOfProfiles } from '@core/profile/utils'
     import features from '@features/features'
-    import { MediaDisplay, MediaPlaceholder } from '@ui'
+    import { MediaDisplay } from '@ui'
     import { onMount } from 'svelte'
 
     export let nft: INft
@@ -14,13 +14,9 @@
     export let classes: string = ''
     export let useCaching: boolean = true
 
-    const bgColor = 'gray-200'
-    const darkBgColor = 'gray-700'
-
     let hasMounted: boolean = false
     let basePath: string
 
-    $: isDownloading = $nftDownloadQueue.some((queueItem) => queueItem.nft.id === nft.id)
     $: src =
         features?.collectibles?.useCaching?.enabled && useCaching
             ? `${basePath}/${nft.filePath}/${NFT_MEDIA_FILE_NAME}`
@@ -49,7 +45,5 @@
         alt={`Media display for ${nft.name}`}
     />
 {:else}
-    <slot name="placeholder">
-        <MediaPlaceholder type={nft?.parsedMetadata?.type} {bgColor} {darkBgColor} {isDownloading} />
-    </slot>
+    <slot name="placeholder" />
 {/if}

@@ -4,21 +4,31 @@ on:
   workflow_dispatch:
     inputs:
       os:
-        description: 'Operating system'
+        description: 'OS'
         required: true
         type: choice
         options:
           - macos-11
           - ubuntu-20.04
-          - windows-2019
+          - windows-2022
       stage:
-        description: 'Environment to release the app for'
+        description: 'Stage'
         required: true
         type: choice
         options:
           - alpha
           - beta
           - prod
+      sign:
+        description: 'Sign code'
+        required: false
+        type: boolean
+        default: false
+      upload:
+        description: 'Upload artifacts'
+        required: false
+        type: boolean
+        default: false
 
 jobs:
   trigger-build:
@@ -28,4 +38,6 @@ jobs:
     with:
       os: ${{ inputs.os }}
       stage: ${{ inputs.stage }}
+      sign: ${{ inputs.sign }}
+      upload: ${{ inputs.upload }}
     secrets: inherit

@@ -1,24 +1,15 @@
-const colors = require('tailwindcss/colors')
+const BLOOM_UI_PRESET = require('@bloomwalletio/ui/tailwind-preset')
 
 /* Utilities */
 const pxToRem = (px, base = 16) => `${px / base}rem`
 
-const IS_DESKTOP = process.env.PLATFORM === 'desktop'
 const SHARED_CONTENT_ROUTES = ['../shared/**/*.svelte', '../shared/**/*.scss']
 const DESKTOP_CONTENT_ROUTES = ['../desktop/**/*.svelte']
-const MOBILE_CONTENT_ROUTES = ['../mobile/**/*.svelte']
-const NODE_MODULES_ROUTES = [
-    '../../node_modules/flowbite-svelte/**/*.{html,js,svelte,ts}',
-    '../../node_modules/@bloomwalletio/ui/**/*.{html,js,svelte,ts}',
-]
+const NODE_MODULES_ROUTES = ['../../node_modules/@bloomwalletio/ui/**/*.{html,js,svelte,ts}']
 
 module.exports = {
-    content: [
-        ...SHARED_CONTENT_ROUTES,
-        ...NODE_MODULES_ROUTES,
-        ...(IS_DESKTOP ? DESKTOP_CONTENT_ROUTES : MOBILE_CONTENT_ROUTES),
-    ],
-    presets: [require('@bloomwalletio/ui/tailwind-preset')],
+    content: [...SHARED_CONTENT_ROUTES, ...NODE_MODULES_ROUTES, ...DESKTOP_CONTENT_ROUTES],
+    presets: [BLOOM_UI_PRESET],
     safelist: [
         {
             pattern: /^from-/,
@@ -28,6 +19,7 @@ module.exports = {
         },
         {
             pattern: /^bg-/,
+            variants: ['dark'],
         },
         {
             pattern: /^border-/,
@@ -40,6 +32,7 @@ module.exports = {
         },
         {
             pattern: /^grid-cols-/,
+            variants: ['sm', 'md', 'lg', 'xl', '2xl'],
         },
         {
             pattern: /^rounded-/,
@@ -48,39 +41,24 @@ module.exports = {
             pattern: /^p-/,
         },
         {
+            pattern: /^px-/,
+        },
+        {
             pattern: /^divide-/,
         },
-    ],
+        {
+            pattern: /^shadow/,
+        },
+        {
+            pattern: /^sr-only/,
+        },
+        {
+            pattern: /^h-/,
+        },
+    ].concat(BLOOM_UI_PRESET?.safelist),
     theme: {
         extend: {
-            colors: {
-                current: 'currentColor',
-                gray: colors.slate,
-                transparent: 'transparent',
-                black: '#000',
-                white: '#fff',
-                pastel: {
-                    blue: '#EEFBFF',
-                    orange: '#FFF8EF',
-                    green: '#F7FFED',
-                    yellow: '#FFF9EF',
-                    pink: '#FFF3F8',
-                    purple: '#EFF0FE',
-                },
-                iota: {
-                    bg: '#FFFFFF',
-                    highlight: '#000000',
-                },
-                shimmer: {
-                    bg: '#020F26',
-                    highlight: '#17E1D5',
-                },
-                assembly: {
-                    bg: '#08080C',
-                    highlight: '#FF3FF2',
-                },
-                'verification-blue': '#3897F0',
-            },
+            ...BLOOM_UI_PRESET?.theme?.extend,
             fontSize: {
                 8: pxToRem(8),
                 9: pxToRem(9),
@@ -170,6 +148,7 @@ module.exports = {
             spacing: {
                 4.5: pxToRem('18'),
                 6.75: pxToRem('27'),
+                10: pxToRem('40'),
                 18: pxToRem('72'),
                 98: pxToRem('392'),
             },
@@ -196,7 +175,7 @@ module.exports = {
         },
         fontFamily: {
             'fira-mono': ['"Fira Mono"', 'monospace'],
-            inter: ['Inter'],
+            silka: ['Silka'],
         },
     },
 }

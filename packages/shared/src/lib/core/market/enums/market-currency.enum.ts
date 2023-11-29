@@ -7,7 +7,6 @@ export enum MarketCurrency {
     Eos = 'eos',
     Xrp = 'xrp',
     Xlm = 'xlm',
-    Link = 'link',
     Dot = 'dot',
     Yfi = 'yfi',
     Usd = 'usd',
@@ -58,6 +57,4 @@ export enum MarketCurrency {
     Xdr = 'xdr',
     Xag = 'xag',
     Xau = 'xau',
-    Bits = 'bits',
-    Sats = 'sats',
 }

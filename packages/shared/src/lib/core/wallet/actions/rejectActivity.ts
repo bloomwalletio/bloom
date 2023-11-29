@@ -1,12 +1,12 @@
-import { selectedAccount } from '@core/account'
-import { get } from 'svelte/store'
-import { localize } from '@core/i18n'
-import { showAppNotification } from '@auxiliary/notification'
-import { activeProfileId } from '@core/profile'
+import { showNotification } from '@auxiliary/notification'
+import { getSelectedAccount } from '@core/account/stores'
 import { hiddenActivities, updateAsyncDataByActivityId } from '@core/activity/stores'
+import { localize } from '@core/i18n'
+import { activeProfileId } from '@core/profile/stores'
+import { get } from 'svelte/store'
 
 export function rejectActivity(id: string): void {
-    const accountIndex = get(selectedAccount).index
+    const accountIndex = getSelectedAccount().index
     hiddenActivities.update((state) => {
         const profileId = get(activeProfileId)
         if (Array.isArray(state)) {
@@ -24,9 +24,8 @@ export function rejectActivity(id: string): void {
     })
 
     updateAsyncDataByActivityId(accountIndex, id, { isRejected: true })
-    showAppNotification({
-        type: 'success',
-        alert: true,
-        message: localize('notifications.hideActivity.success'),
+    showNotification({
+        variant: 'success',
+        text: localize('notifications.hideActivity.success'),
     })
 }

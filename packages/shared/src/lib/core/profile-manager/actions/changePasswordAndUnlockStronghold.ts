@@ -1,4 +1,4 @@
-import { activeProfile, setTimeStrongholdLastUnlocked } from '@core/profile'
+import { activeProfile, setTimeStrongholdLastUnlocked } from '@core/profile/stores'
 import { get } from 'svelte/store'
 import { changeStrongholdPassword, clearStrongholdPassword } from '../api'
 

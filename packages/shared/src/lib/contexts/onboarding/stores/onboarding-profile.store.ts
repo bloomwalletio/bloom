@@ -1,9 +1,7 @@
-import { derived, get, Readable, writable } from 'svelte/store'
-
 import { isLedgerProfile } from '@core/profile'
-
+import { IBaseToken } from '@core/token/interfaces'
+import { derived, get, Readable, writable } from 'svelte/store'
 import { IOnboardingProfile, IShimmerClaimingAccount } from '../interfaces'
-import { IBaseToken } from '@core/wallet/interfaces'
 
 export const onboardingProfile = writable<Partial<IOnboardingProfile>>(null)
 

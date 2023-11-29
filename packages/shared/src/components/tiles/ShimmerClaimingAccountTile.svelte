@@ -1,72 +1,60 @@
 <script lang="ts">
-    import { Icon, Text, Tile, FontWeight, TextType } from '@ui'
-    import { localize } from '@core/i18n'
-    import { formatTokenAmountBestMatch } from '@core/wallet/utils'
+    import { Icon, IconName, Spinner, Text, Tile } from '@bloomwalletio/ui'
     import { IShimmerClaimingAccount, ShimmerClaimingAccountState } from '@contexts/onboarding'
-    import { IBaseToken } from '@core/wallet/interfaces'
+    import { localize } from '@core/i18n'
+    import { IBaseToken, formatTokenAmountBestMatch } from '@core/token'
 
     export let shimmerClaimingAccount: IShimmerClaimingAccount
     export let baseToken: IBaseToken
 
     $: shouldDisplayFailedState = shimmerClaimingAccount?.state === ShimmerClaimingAccountState.Failed
-    $: shouldDisplayUnclaimedRewards = shimmerClaimingAccount?.state !== ShimmerClaimingAccountState.FullyClaimed
-    $: shouldDisplayClaimedRewards =
-        shimmerClaimingAccount?.state !== ShimmerClaimingAccountState.UnclaimedWithRewards &&
-        shimmerClaimingAccount?.state !== ShimmerClaimingAccountState.UnclaimedWithoutRewards
+    $: shouldDisplayClaimedState = shimmerClaimingAccount?.state === ShimmerClaimingAccountState.FullyClaimed
+    $: total = shimmerClaimingAccount?.unclaimedRewards + shimmerClaimingAccount?.claimedRewards
 </script>
 
 {#if shimmerClaimingAccount}
-    <Tile isGhost classes="rounded-xl">
-        <div class="w-full flex flex-row justify-between items-center space-x-4">
-            <div class="flex flex-row items-center text-left space-x-2">
-                <Icon icon="wallet" width={28} height={28} classes="text-blue-500" />
-                <Text type={TextType.p} fontWeight={FontWeight.medium}>
-                    {shimmerClaimingAccount?.getMetadata()?.alias}
+    <Tile border>
+        <container class="w-full flex flex-row justify-between items-center gap-4">
+            <div class="flex flex-row items-center text-left gap-3.5">
+                <Icon name={IconName.Wallet} textColor="brand" />
+                <Text type="body1">
+                    {localize('general.account')}
+                    {Number(shimmerClaimingAccount?.getMetadata()?.alias) + 1}
                 </Text>
             </div>
-            <div class="flex flex-col">
+            <div class="flex flex-col justify-end items-end">
+                <Text type="body1" align="right">
+                    {formatTokenAmountBestMatch(total, baseToken)}
+                </Text>
                 {#if shimmerClaimingAccount?.state === ShimmerClaimingAccountState.Claiming}
-                    <Text type={TextType.p} secondary fontWeight={FontWeight.semibold}>
-                        {`${localize('actions.claimingRewards')}...`}
-                    </Text>
-                {:else}
-                    {#if shouldDisplayUnclaimedRewards}
-                        <div class="flex flex-row justify-end items-center text-right space-x-2">
-                            {#if shouldDisplayFailedState}
-                                <Icon
-                                    width="16"
-                                    height="16"
-                                    icon="status-error"
-                                    classes="text-white bg-red-500 rounded-full"
-                                />
-                            {/if}
-                            <Text type={TextType.p} fontWeight={FontWeight.semibold}>
-                                {formatTokenAmountBestMatch(shimmerClaimingAccount?.unclaimedRewards, baseToken)}
-                            </Text>
-                        </div>
-                    {/if}
-                    {#if shouldDisplayClaimedRewards && !shouldDisplayFailedState}
-                        <div class="flex flex-row justify-end items-center text-right space-x-2">
-                            <Icon
-                                width="16"
-                                height="16"
-                                icon="success-check"
-                                classes="text-white bg-green-600 rounded-full"
-                            />
-                            <Text type={TextType.p} fontWeight={FontWeight.semibold} secondary classes="flex-grow">
-                                {localize('general.amountClaimed', {
-                                    values: {
-                                        amount: formatTokenAmountBestMatch(
-                                            shimmerClaimingAccount?.claimedRewards,
-                                            baseToken
-                                        ),
-                                    },
-                                })}
-                            </Text>
-                        </div>
-                    {/if}
+                    <div class="flex justify-end items-center gap-1">
+                        <Spinner size="xxs" textColor="warning" />
+                        <Text type="sm" textColor="warning">
+                            {localize('actions.claimingRewards').toLocaleLowerCase()}
+                        </Text>
+                    </div>
+                {:else if !shouldDisplayClaimedState && shouldDisplayFailedState}
+                    <div class="flex justify-end items-center gap-1">
+                        <Icon size="xxs" name={IconName.CrossClose} textColor="danger" />
+                        <Text type="sm" textColor="danger">
+                            {localize('general.failed')}
+                        </Text>
+                    </div>
+                {:else if shouldDisplayClaimedState && !shouldDisplayFailedState}
+                    <div class="flex justify-end items-center gap-1">
+                        <Icon size="xxs" name={IconName.Check} textColor="success" />
+                        <Text type="sm" textColor="success">
+                            {localize('general.claimed')}
+                        </Text>
+                    </div>
                 {/if}
             </div>
-        </div>
+        </container>
     </Tile>
 {/if}
+
+<style lang="scss">
+    container {
+        height: 44px;
+    }
+</style>

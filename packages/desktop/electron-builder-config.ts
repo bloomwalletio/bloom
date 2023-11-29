@@ -1,13 +1,12 @@
 import type { Configuration } from 'electron-builder'
 import path from 'path'
-import { notarize } from 'electron-notarize'
+import { notarize } from '@electron/notarize'
 
 const STAGE = process.env.STAGE || 'alpha'
 
 const APP_NAME = getAppName()
 const APP_ID = getAppId()
 const APP_PROTOCOL = getAppProtocol()
-const CHANNEL_NAME = getChannelName()
 
 /**
  * If stage = 'prod' -> 'Bloom'
@@ -24,39 +23,37 @@ function getAppProtocol(): string {
 }
 
 function getAppId(): string {
-    const defaultAppId = 'org.bloom-labs.bloom'
+    const defaultAppId = 'io.bloomwallet.bloom'
     if (STAGE === 'prod') {
         return defaultAppId
     }
     return `${defaultAppId}.${STAGE}`
 }
 
-function getChannelName(): string {
-    switch (STAGE) {
-        case 'alpha':
-            return 'alpha'
-        case 'beta':
-            return 'beta'
+function getIconPath(): string {
+    const PATH = './public/build/icons'
+    const NAME = 'icon'
+    const platform = getPlatform()
+    const extension = platform === 'win32' ? 'ico' : 'png'
+    return `${PATH}/${STAGE}/${platform}/${NAME}.${extension}`
+}
+
+function getPlatform(): string {
+    switch (process.platform) {
+        case 'win32':
+        case 'darwin':
+            return process.platform
         default:
-            return 'latest'
+            return 'linux'
     }
 }
-
-function getIconPath(): string {
-    const PATH = './public/assets/icons'
-    const NAME = 'icon1024x1024'
-    const EXTENSION = 'png'
-
-    return `${PATH}/${STAGE}/${NAME}.${EXTENSION}`
-}
-
 async function notarizeMacos(appBundleId, appName): Promise<void> {
-    if (process.platform !== 'darwin' || process.env.MACOS_SKIP_NOTARIZATION) {
+    if (process.platform !== 'darwin' || process.env.MACOS_SKIP_NOTARIZATION === 'true') {
         return
     }
 
-    const APPLE_ID = process.env.BLOOM_APPLE_ID
-    const APPLE_ID_PASSWORD = process.env.BLOOM_APPLE_ID_PASSWORD
+    const APPLE_ID = process.env.BLOOM_APPLE_ID // Requires prefix of BLOOM otherwise electron builder tries to notarize the app using the env variables
+    const APPLE_ID_PASSWORD = process.env.BLOOM_APPLE_ID_PASSWORD // Requires prefix of BLOOM otherwise electron builder tries to notarize the app using the env variables
 
     if (!APPLE_ID) {
         throw Error('Notarization failed: Environment variable "BLOOM_APPLE_ID" is not defined')
@@ -67,11 +64,11 @@ async function notarizeMacos(appBundleId, appName): Promise<void> {
     }
 
     await notarize({
-        appBundleId: appBundleId,
-        appPath: path.resolve(__dirname, `../out/mac/${appName}.app`),
+        tool: 'notarytool',
+        appPath: path.resolve(__dirname, `./out/mac/${appName}.app`),
         appleId: APPLE_ID,
         appleIdPassword: APPLE_ID_PASSWORD,
-        ascProvider: 'UG77RJKZHH',
+        teamId: 'C2FJNDH9G2',
     })
 }
 
@@ -80,7 +77,7 @@ const prodConfig: Configuration = {
     artifactName: 'bloom-desktop-${version}.${ext}',
     copyright: 'Bloom Labs Ltd',
     directories: { buildResources: './public', output: './out' },
-    files: ['public/', 'package.json', '!node_modules/@iota/wallet/target/*'],
+    files: ['public/', 'package.json', '!node_modules/@iota/sdk/target/*'],
     appId: APP_ID,
     afterSign: async () => {
         // eslint-disable-next-line no-useless-catch
@@ -115,6 +112,7 @@ const prodConfig: Configuration = {
         target: 'nsis',
         timeStampServer: 'http://timestamp.sectigo.com',
         rfc3161TimeStampServer: 'http://timestamp.sectigo.com',
+        sign: process.env.SIGN === 'true' ? './customSign.js' : null,
     },
     linux: {
         target: ['AppImage'],
@@ -133,6 +131,7 @@ const prodConfig: Configuration = {
         entitlementsInherit: './entitlements.mac.plist',
         hardenedRuntime: true,
         gatekeeperAssess: false,
+        notarize: false, // Disable notarize in electron builder as we use @electron/notarize instead
         asarUnpack: ['**/*.node'],
     },
     publish: {
@@ -140,10 +139,7 @@ const prodConfig: Configuration = {
         repo: 'bloom',
         owner: 'bloomwalletio',
         vPrefixedTagName: false,
-        // Following lines are required as long as we're closed source
-        // private: true,
-        // token: 'SOME_PRIVATE_GITHUB_ACCESS_TOKEN',
-        channel: CHANNEL_NAME,
+        channel: 'latest',
         publishAutoUpdate: true,
     },
 }

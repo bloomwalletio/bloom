@@ -1,6 +1,7 @@
-import { IEvmChainConfiguration } from '../interfaces'
-import { ChainConfiguration } from '../types'
+import { NetworkNamespace } from '../enums'
+import { NetworkId } from '../types'
+import { getSplitNetworkId } from './getSplitNetworkId'
 
-export function isEvmChain(configuration: ChainConfiguration): configuration is IEvmChainConfiguration {
-    return (configuration as IEvmChainConfiguration) !== undefined
+export function isEvmChain(networkId: NetworkId): boolean {
+    return getSplitNetworkId(networkId)?.namespace === NetworkNamespace.Evm
 }

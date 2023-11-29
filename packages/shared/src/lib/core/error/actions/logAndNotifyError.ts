@@ -1,5 +1,5 @@
 import { localize } from '@core/i18n'
-import { showAppNotification } from '@auxiliary/notification'
+import { showNotification } from '@auxiliary/notification'
 
 import { IErrorParameters } from '../interfaces'
 import { addError } from '../stores'
@@ -20,10 +20,9 @@ export function logAndNotifyError(errorParameters: IErrorParameters): void {
     }
 
     if (errorParameters?.showNotification) {
-        showAppNotification({
-            alert: true,
-            type: 'error',
-            message: localisedMessage,
+        showNotification({
+            variant: 'error',
+            text: localisedMessage,
         })
     }
 }

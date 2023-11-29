@@ -1,7 +1,10 @@
-import { isRecentDate, isValidDate } from './date'
 import type { UiEventFunction } from './types'
 
 import type { Action } from 'svelte/action'
+
+export function pxToRem(px: number, base: number = 16): number {
+    return px / base
+}
 
 /**
  * Debounce function to limit the rate at which a function can fire;
@@ -30,55 +33,13 @@ export const clickOutside: Action = function (node) {
         }
     }
 
-    document.addEventListener('click', onClick, true)
+    document.addEventListener('mousedown', onClick, true)
 
     return {
         destroy(): void {
-            document.removeEventListener('click', onClick, true)
+            document.removeEventListener('mousedown', onClick, true)
         },
     }
-}
-
-/**
- * Returns a boolean indicating if color is bright using YIQ conversion
- * @param color The color to be tested (can be HEX or RGB)
- * @returns Boolean true if color is bright
- */
-export function isBright(color: string): boolean {
-    if (color) {
-        if (color.includes('#') && color.length === 4) {
-            color = `#${color[1]}${color[1]}${color[2]}${color[2]}${color[3]}${color[3]}`
-        }
-        const rgb =
-            color.includes('#') && color.length === 7
-                ? color.match(/\w\w/g)?.map((x) => parseInt(x, 16))
-                : color.match(/[0-9]+/g)?.map((c) => parseInt(c, 10))
-        if (rgb) {
-            const yiq = (rgb[0] * 299 + rgb[1] * 587 + rgb[2] * 114) / 1000
-            return yiq >= 186
-        }
-    }
-    return false
-}
-
-/**
- * Returns warning text color for last Stronghold backup.
- *      Blue if less than a month.
- *      Yellow if between one and three months.
- *      Orange if three or more months.
- *      Red if never.
- * @param {Date} lastBackupDate
- */
-export function getBackupWarningColor(lastBackupDate: Date | null): string {
-    if (!isValidDate(lastBackupDate)) {
-        return 'red'
-    }
-    const { lessThanAMonth, lessThanThreeMonths } = isRecentDate(lastBackupDate) ?? {
-        lessThanAMonth: false,
-        lessThanThreeMonths: false,
-    }
-
-    return lessThanAMonth ? 'blue' : lessThanThreeMonths ? 'yellow' : 'orange'
 }
 
 /**

@@ -2,8 +2,8 @@ import { ipcRenderer } from 'electron'
 import type { IDeepLinkManager } from '@core/app'
 
 export default class DeepLinkManager implements IDeepLinkManager {
-    public checkDeepLinkRequestExists(): void {
-        ipcRenderer.send('check-deep-link-request-exists')
+    public checkForDeepLinkRequest(): void {
+        ipcRenderer.send('check-for-deep-link-request')
     }
 
     public clearDeepLinkRequest(): void {

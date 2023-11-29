@@ -1,51 +1,54 @@
 <script lang="ts">
     import { localize } from '@core/i18n'
-    import {
-        IAsset,
-        SendFlowType,
-        formatTokenAmountDefault,
-        getUnitFromTokenMetadata,
-        sendFlowParameters,
-        updateSendFlowParameters,
-    } from '@core/wallet'
+    import { BASE_TOKEN_ID, ITokenWithBalance, formatTokenAmountDefault, getUnitFromTokenMetadata } from '@core/token'
+    import { getTokenFromSelectedAccountTokens } from '@core/token/stores'
+    import { SendFlowParameters, SendFlowType, sendFlowParameters, updateSendFlowParameters } from '@core/wallet'
     import { TokenAmountInput, TokenAvailableBalanceTile } from '@ui'
     import { sendFlowRouter } from '../send-flow.router'
-    import SendFlowTemplate from './SendFlowTemplate.svelte'
+    import { PopupTemplate } from '@components'
+    import { onMount } from 'svelte'
+    import { selectedAccount } from '@core/account/stores'
+    import { setGasFee } from '@core/layer-2/actions'
 
-    let assetAmountInput: TokenAmountInput
-    let asset: IAsset
+    let tokenAmountInput: TokenAmountInput
+    let token: ITokenWithBalance
     let rawAmount: string
     let amount: string
     let unit: string
-    const assetKey = $sendFlowParameters.type === SendFlowType.TokenTransfer ? 'tokenTransfer' : 'baseCoinTransfer'
 
-    if (
-        $sendFlowParameters.type === SendFlowType.BaseCoinTransfer ||
-        $sendFlowParameters.type === SendFlowType.TokenTransfer
-    ) {
-        asset = $sendFlowParameters[assetKey].asset
-        rawAmount = $sendFlowParameters[assetKey].rawAmount
-        unit = $sendFlowParameters[assetKey].unit || getUnitFromTokenMetadata(asset?.metadata)
+    const sendFlowType = $sendFlowParameters.type
+    if (sendFlowType === SendFlowType.BaseCoinTransfer || sendFlowType === SendFlowType.TokenTransfer) {
+        token = getTokenFromSelectedAccountTokens(
+            $sendFlowParameters[sendFlowType].token?.id,
+            $sendFlowParameters[sendFlowType].token?.networkId
+        )
+        rawAmount = $sendFlowParameters[sendFlowType].rawAmount
+        unit = $sendFlowParameters[sendFlowType].unit || getUnitFromTokenMetadata(token?.metadata)
     }
 
-    $: availableBalance = asset?.balance?.available
+    $: gasFee = Number($sendFlowParameters.gasFee ?? 0)
+    $: available = token.balance.available - (token.id === BASE_TOKEN_ID ? gasFee : 0)
 
     function setToMax(): void {
-        if (asset?.metadata?.decimals) {
-            amount = formatTokenAmountDefault(availableBalance, asset?.metadata, unit, false)
+        if (fetchingGasFee) {
+            return
+        }
+        const available = token.id === BASE_TOKEN_ID ? token.balance.available - gasFee : token.balance.available
+        if (token?.metadata?.decimals) {
+            amount = formatTokenAmountDefault(available, token?.metadata, unit, false)
         } else {
-            amount = availableBalance.toString() ?? '0'
+            amount = available.toString() ?? '0'
         }
     }
 
     async function onContinueClick(): Promise<void> {
         try {
-            await assetAmountInput?.validate()
+            await tokenAmountInput?.validate()
 
             updateSendFlowParameters({
                 type: $sendFlowParameters.type,
-                [assetKey]: {
-                    asset,
+                [sendFlowType]: {
+                    token,
                     rawAmount,
                     unit,
                 },
@@ -59,30 +62,61 @@
     function onBackClick(): void {
         updateSendFlowParameters({
             type: $sendFlowParameters.type,
-            [assetKey]: {
-                asset,
+            [sendFlowType]: {
+                token,
                 rawAmount: undefined,
                 unit,
             },
+            gasFee: 0,
         })
         $sendFlowRouter.previous()
     }
+
+    let fetchingGasFee = true
+    async function _onMount(): Promise<void> {
+        const tempSendFlowParams: SendFlowParameters = {
+            ...$sendFlowParameters,
+            [sendFlowType]: {
+                token,
+                rawAmount: token.balance.available.toString(),
+                unit,
+            },
+        }
+        await setGasFee(tempSendFlowParams, $selectedAccount)
+        fetchingGasFee = false
+    }
+
+    onMount(() => {
+        void _onMount()
+    })
 </script>
 
-<SendFlowTemplate
+<PopupTemplate
     title={localize('popups.transaction.selectAmount', {
-        values: { tokenName: asset.metadata.name },
+        values: { tokenName: token.metadata.name },
     })}
-    leftButton={{ text: localize('actions.back'), onClick: onBackClick }}
-    rightButton={{ text: localize('actions.continue'), onClick: onContinueClick, disabled: !amount }}
+    backButton={{ text: localize('actions.back'), onClick: onBackClick }}
+    continueButton={{
+        form: 'token-amount-form',
+        text: localize('actions.continue'),
+        onClick: onContinueClick,
+        disabled: !amount,
+    }}
 >
-    <TokenAmountInput
-        bind:this={assetAmountInput}
-        bind:asset
-        bind:rawAmount
-        bind:inputtedAmount={amount}
-        {unit}
-        {availableBalance}
-    />
-    <TokenAvailableBalanceTile {asset} onMaxClick={setToMax} />
-</SendFlowTemplate>
+    <form on:submit|preventDefault={onContinueClick} id="token-amount-form" class="flex flex-col gap-6">
+        <TokenAmountInput
+            bind:this={tokenAmountInput}
+            bind:token
+            bind:rawAmount
+            bind:inputtedAmount={amount}
+            {unit}
+            availableBalance={token?.balance?.available}
+        />
+    </form>
+    <div class={fetchingGasFee ? 'animate-pulse' : ''}>
+        <TokenAvailableBalanceTile
+            token={{ ...token, balance: { ...token.balance, available } }}
+            onMaxClick={setToMax}
+        />
+    </div>
+</PopupTemplate>

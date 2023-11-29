@@ -1,8 +1,6 @@
 import { Writable, get } from 'svelte/store'
 import { addMessages, dictionary, getLocaleFromNavigator, init, _, getDateFormatter } from 'svelte-i18n'
 
-import { appSettings } from '@core/app/stores'
-
 import { DEFAULT_LOCALE_OPTIONS, SUPPORTED_LOCALES } from './constants'
 import { LocaleOptions } from './types'
 
@@ -45,15 +43,10 @@ export async function setupI18n(options: LocaleOptions = { fallbackLocale: 'en',
     // Attempt to auto-detect user's locale if not explicitly given
     const locale = verifySupportedLocale(options.initialLocale || reduceLocale(getLocaleFromNavigator() || 'en'))
 
-    init({ ...DEFAULT_LOCALE_OPTIONS, initialLocale: locale } as Parameters<typeof init>[0])
+    await init({ ...DEFAULT_LOCALE_OPTIONS, initialLocale: locale } as Parameters<typeof init>[0])
 
     if (!hasLoadedLocale(locale)) {
         await loadLocaleMessages(locale)
-
-        appSettings.set({
-            ...get(appSettings),
-            language: locale,
-        })
 
         // Load English locale dictionary as fallback for unsupported translations
         if (locale !== 'en' && !hasLoadedLocale('en')) {
@@ -81,20 +74,14 @@ export function localize(path: string, options?: unknown): string {
  * Sets the locale dictionary to a given language, resetting the dictionary
  * if already initialized.
  */
-export const setLanguage = (item: { value }): void => {
-    const locale = Object.keys(SUPPORTED_LOCALES).find((key) => SUPPORTED_LOCALES[key] === item.value)
-    appSettings.set({
-        ...get(appSettings),
-        language: locale,
-    })
-
-    void setupI18n({ fallbackLocale: 'en', initialLocale: locale })
+export function setLanguage(language: string): void {
+    void setupI18n({ fallbackLocale: 'en', initialLocale: language })
 }
 
 /**
  * Formats a given date according to the current locale options.
  */
-export const formatDate = (
+export function formatDate(
     date: Date,
     options: Intl.DateTimeFormatOptions & {
         format?: string
@@ -102,7 +89,9 @@ export const formatDate = (
         dateStyle?: 'full' | 'long' | 'medium' | 'short'
         timeStyle?: 'full' | 'long' | 'medium' | 'short'
     }
-): string => getDateFormatter({ locale: getLocaleFromNavigator(), ...options }).format(date)
+): string {
+    return getDateFormatter({ locale: getLocaleFromNavigator(), ...options }).format(date)
+}
 
 // We expose the svelte-i18n _ store so that our app has a single API for i18n
 export { _ }

@@ -1,7 +1,6 @@
 <script lang="ts">
     import { Platform } from '@core/app'
     import features from '@features/features'
-    import { Transition } from '@ui'
     import { CompleteOnboardingRoute } from './complete-onboarding-route.enum'
     import { completeOnboardingRoute } from './complete-onboarding-router'
     import EnterNameView from './views/EnterNameView.svelte'
@@ -14,15 +13,9 @@
 </script>
 
 {#if $completeOnboardingRoute === CompleteOnboardingRoute.EnterName}
-    <Transition>
-        <EnterNameView />
-    </Transition>
+    <EnterNameView />
 {:else if $completeOnboardingRoute === CompleteOnboardingRoute.EnterPin}
-    <Transition>
-        <EnterPinView />
-    </Transition>
+    <EnterPinView />
 {:else if $completeOnboardingRoute === CompleteOnboardingRoute.FinishOnboarding}
-    <Transition>
-        <FinishOnboardingView />
-    </Transition>
+    <FinishOnboardingView />
 {/if}

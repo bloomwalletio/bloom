@@ -1,13 +1,5 @@
 <script lang="ts">
-    import { onMount } from 'svelte'
-
-    import { Button, KeyValueBox, Text, ProposalsDetailsButton } from '@ui'
-    import { ButtonSize, FontWeight } from '@ui/enums'
-
-    import { selectedAccount } from '@core/account'
-    import { localize } from '@core/i18n'
-    import { activeProfileId } from '@core/profile'
-
+    import { Table } from '@bloomwalletio/ui'
     import { IProposalsDetails } from '@contexts/governance/interfaces'
     import {
         participationOverviewForSelectedAccount,
@@ -20,8 +12,15 @@
         getNumberOfVotedProposals,
         getNumberOfVotingProposals,
     } from '@contexts/governance/utils'
-
-    import { openPopup, PopupId } from '@desktop/auxiliary/popup'
+    import { selectedAccount } from '@core/account/stores'
+    import { localize } from '@core/i18n'
+    import { activeProfileId } from '@core/profile/stores'
+    import { PopupId, openPopup } from '@desktop/auxiliary/popup'
+    import { Text } from '@ui'
+    import { FontWeight } from '@ui/enums'
+    import { onMount } from 'svelte'
+    import { GovernanceDetailsMenu } from './menus'
+    import { Button } from '@bloomwalletio/ui'
 
     let details = <IProposalsDetails>{
         totalProposals: null,
@@ -66,20 +65,13 @@
         <Text fontSize="14" fontWeight={FontWeight.semibold}>
             {localize('views.governance.proposalsDetails.title')}
         </Text>
-        <ProposalsDetailsButton modalPosition={{ right: '0px', top: '34px' }} />
+        <GovernanceDetailsMenu />
     </header-container>
-    <ul class="space-y-2">
-        {#each Object.keys(details) as detailKey}
-            <li>
-                <KeyValueBox
-                    keyText={localize(`views.governance.proposalsDetails.${detailKey}`)}
-                    valueText={details[detailKey]?.toString() ?? '-'}
-                    isLoading={details[detailKey] === undefined}
-                />
-            </li>
-        {/each}
-    </ul>
-    <Button size={ButtonSize.Medium} outline onClick={onAddProposalClick} classes="w-full">
-        {localize('actions.addProposal')}
-    </Button>
+    <Table
+        items={Object.keys(details).map((key) => ({
+            key: localize(`views.governance.proposalsDetails.${key}`),
+            value: details[key] ?? 0,
+        }))}
+    />
+    <Button variant="outlined" on:click={onAddProposalClick} width="full" text={localize('actions.addProposal')} />
 </proposals-details>

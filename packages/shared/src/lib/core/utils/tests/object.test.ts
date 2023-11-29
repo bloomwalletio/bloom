@@ -1,5 +1,5 @@
 import '@mocks/i18n.mock'
-import { resolveObjectPath } from '@core/utils'
+import { resolveObjectPath } from '..'
 
 describe('Module: object', () => {
     describe('Function: resolveObjectPath', () => {

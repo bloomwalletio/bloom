@@ -173,19 +173,6 @@ fabric.properties
 # For more information about the recommended setup visit:
 # https://docs.fastlane.tools/best-practices/source-control/#source-control
 
-# fastlane specific
-mobile/**/fastlane/report.xml
-
-# deliver temporary files
-mobile/**/fastlane/Preview.html
-
-# snapshot generated screenshots
-mobile/**/fastlane/screenshots/**/*.png
-mobile/**/fastlane/screenshots/screenshots.html
-
-# scan temporary files
-mobile/**/fastlane/test_output
-
 ### Xcode ###
 # Xcode
 # gitignore contributors: remember to update Global/Xcode.gitignore, Objective-C.gitignore & Swift.gitignore

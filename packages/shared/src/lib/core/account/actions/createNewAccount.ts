@@ -1,13 +1,15 @@
+import { addEmptyAccountActivities } from '@core/activity/stores'
 import { localize } from '@core/i18n'
-import { activeAccounts, addAccountPersistedDataToActiveProfile, addAccountToActiveAccounts } from '@core/profile'
 import { createAccount } from '@core/profile-manager'
+import {
+    activeAccounts,
+    addAccountPersistedDataToActiveProfile,
+    addAccountToActiveAccounts,
+} from '@core/profile/stores'
 import { get } from 'svelte/store'
-
 import { DEFAULT_SYNC_OPTIONS } from '../constants'
 import { IAccountState } from '../interfaces'
-
 import { buildAccountStateAndPersistedData } from './buildAccountStateAndPersistedData'
-import { addEmptyAccountActivitiesToAllAccountActivities } from '@core/activity/stores'
 
 export async function createNewAccount(name?: string, color?: string): Promise<IAccountState> {
     const account = await createAccount({
@@ -20,7 +22,7 @@ export async function createNewAccount(name?: string, color?: string): Promise<I
     const accountIndex = newAccount.getMetadata().index
     addAccountToActiveAccounts(newAccount)
     addAccountPersistedDataToActiveProfile(accountIndex, accountPersistedData)
-    addEmptyAccountActivitiesToAllAccountActivities(accountIndex)
+    addEmptyAccountActivities(accountIndex)
 
     return newAccount
 }

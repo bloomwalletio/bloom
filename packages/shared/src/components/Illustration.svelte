@@ -1,14 +1,12 @@
 <script lang="ts">
-    import { appSettings } from '@core/app'
+    import { darkMode } from '@core/app/stores'
 
-    export let illustration = undefined
-    export let width = undefined
-    export let height = undefined
+    export let illustration: string | undefined = undefined
+    export let width: number | undefined = undefined
+    export let height: number | undefined = undefined
     export let classes = ''
 
-    $: darkModeEnabled = $appSettings.darkMode
-
-    $: selected = illustrations[illustration]?.[darkModeEnabled ? 'darkmode' : 'lightmode']
+    $: selected = illustrations[illustration]?.[$darkMode ? 'darkmode' : 'lightmode']
 
     const illustrations = {
         // Misc
@@ -20,31 +18,10 @@
             lightmode: 'onboarding/white-arrow.svg',
             darkmode: 'onboarding/white-arrow.svg',
         },
-
         // Ledger
         'ledger-install-new-app-desktop': {
             lightmode: 'onboarding/ledger-install-new-app-desktop.svg',
             darkmode: 'onboarding/ledger-install-new-app-desktop.svg',
-        },
-        'ledger-live-updated-desktop': {
-            lightmode: 'onboarding/ledger-live-updated-desktop.svg',
-            darkmode: 'onboarding/ledger-live-updated-desktop-darkmode.svg',
-        },
-        'ledger-connected-2-desktop': {
-            lightmode: 'onboarding/ledger-connected-2-desktop.svg',
-            darkmode: 'onboarding/ledger-connected-2-desktop.svg',
-        },
-        'ledger-search-apps-desktop': {
-            lightmode: 'onboarding/ledger-search-apps-desktop.svg',
-            darkmode: 'onboarding/ledger-search-apps-desktop.svg',
-        },
-        'ledger-install-apps-desktop': {
-            lightmode: 'onboarding/ledger-install-apps-desktop.svg',
-            darkmode: 'onboarding/ledger-install-apps-desktop.svg',
-        },
-        'ledger-close-live-desktop': {
-            lightmode: 'onboarding/ledger-close-live-desktop.svg',
-            darkmode: 'onboarding/ledger-close-live-desktop.svg',
         },
         'ledger-background-live-desktop': {
             lightmode: 'onboarding/ledger-background-live-desktop.svg',
@@ -62,23 +39,39 @@
             lightmode: 'onboarding/ledger-support.svg',
             darkmode: 'onboarding/ledger-support.svg',
         },
-        // Staking
-        'shimmer-info-bg': {
-            lightmode: 'staking/shimmer-info.png',
-            darkmode: 'staking/shimmer-info.png',
+
+        // Ledger Popup
+        'ledger-base': {
+            lightmode: 'ledger/ledger-base.svg',
+            darkmode: 'ledger/ledger-base.svg',
         },
-        'assembly-info-bg': {
-            lightmode: 'staking/assembly-info.png',
-            darkmode: 'staking/assembly-info.png',
+        'ledger-pin': {
+            lightmode: 'ledger/ledger-pin.svg',
+            darkmode: 'ledger/ledger-pin.svg',
         },
-        'staking-notification': {
-            lightmode: 'staking/staking-notification.svg',
-            darkmode: 'staking/staking-notification.svg',
+        'ledger-hash': {
+            lightmode: 'ledger/ledger-hash.svg',
+            darkmode: 'ledger/ledger-hash.svg',
         },
+
         // Wallet
         'empty-collectibles': {
             lightmode: 'wallet/empty-collectibles.svg',
             darkmode: 'wallet/empty-collectibles-darkmode.svg',
+        },
+
+        // Bloom
+        portal: {
+            lightmode: 'onboarding/portal.webp',
+            darkmode: 'onboarding/portal.webp',
+        },
+        landscape: {
+            lightmode: 'onboarding/landscape.webp',
+            darkmode: 'onboarding/landscape.webp',
+        },
+        balloon: {
+            lightmode: 'onboarding/balloon.webp',
+            darkmode: 'onboarding/balloon.webp',
         },
     }
 </script>

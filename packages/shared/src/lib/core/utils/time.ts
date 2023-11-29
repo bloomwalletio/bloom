@@ -1,6 +1,8 @@
 import { localize } from '@core/i18n'
 
+import { isValidDate } from './'
 import {
+    DAYS_PER_YEAR,
     HOURS_PER_DAY,
     MILLISECONDS_PER_SECOND,
     MINUTES_PER_HOUR,
@@ -8,16 +10,15 @@ import {
     SECONDS_PER_MINUTE,
 } from './constants'
 import { Duration } from './types'
-import { isValidDate } from './'
 
 /**
- * Returns true if a given expiration date/time is valid or
+ * Returns true if a given expiration or timelock condition date/time is valid or
  * has not yet expired.
  */
-export function isValidExpirationDateTime(expirationDateTime: Date): boolean {
-    if (isValidDate(expirationDateTime)) {
-        const nowDateTime = new Date(Date.now())
-        return expirationDateTime.getTime() > nowDateTime.getTime()
+export function isFutureDateTime(dateTime: Date): boolean {
+    if (isValidDate(dateTime)) {
+        const nowDateTime = Date.now()
+        return dateTime.getTime() > nowDateTime
     } else {
         return false
     }
@@ -57,22 +58,25 @@ export const getBestTimeDuration = (millis: number, noDurationUnit: Duration = '
     return zeroTime
 }
 
-export function getTimeDifference(lateDate: Date, earlyDate: Date): string | undefined {
+export function getTimeDifference(lateDate: Date, earlyDate: Date): string {
     const elapsedTime = lateDate.getTime() - earlyDate.getTime()
-    const days = Math.floor(elapsedTime / (MILLISECONDS_PER_SECOND * SECONDS_PER_DAY))
+    const years = Math.floor(elapsedTime / (MILLISECONDS_PER_SECOND * SECONDS_PER_DAY * DAYS_PER_YEAR))
+    const days = Math.floor(elapsedTime / (MILLISECONDS_PER_SECOND * SECONDS_PER_DAY)) % DAYS_PER_YEAR
     const hours = Math.floor(
         (elapsedTime / (MILLISECONDS_PER_SECOND * SECONDS_PER_MINUTE * MINUTES_PER_HOUR)) % HOURS_PER_DAY
     )
     const minutes = Math.floor((elapsedTime / (MILLISECONDS_PER_SECOND * SECONDS_PER_MINUTE)) % MINUTES_PER_HOUR)
     const seconds = Math.floor((elapsedTime / MILLISECONDS_PER_SECOND) % SECONDS_PER_MINUTE)
 
-    if (days > 0 || hours > 0) {
+    if (years > 0) {
+        return `${years}y ${days}d`
+    } else if (days > 0 || hours > 0) {
         return `${days}d ${hours}h`
     } else if (minutes > 0) {
         return `${minutes}min`
     } else if (seconds > 0) {
         return '<1min'
     } else {
-        return undefined
+        return ''
     }
 }

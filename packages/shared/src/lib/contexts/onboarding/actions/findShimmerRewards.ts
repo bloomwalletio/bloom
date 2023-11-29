@@ -1,19 +1,11 @@
-import { showAppNotification } from '@auxiliary/notification'
 import { IAccount } from '@core/account'
-import { localize } from '@core/i18n'
 import { AccountRecoveryProfileConfiguration, UnableToFindProfileTypeError } from '@core/profile'
 import { RecoverAccountsPayload, recoverAccounts } from '@core/profile-manager'
 import { zip } from '@core/utils'
-import { formatTokenAmountBestMatch } from '@core/wallet/utils'
 import { get } from 'svelte/store'
 import { SHIMMER_CLAIMING_ACCOUNT_RECOVERY_CONFIGURATION, SHIMMER_CLAIMING_ACCOUNT_SYNC_OPTIONS } from '../constants'
 import { getSortedRenamedBoundAccounts, prepareShimmerClaimingAccount } from '../helpers'
-import {
-    getOnboardingBaseToken,
-    onboardingProfile,
-    shimmerClaimingProfileManager,
-    updateShimmerClaimingAccount,
-} from '../stores'
+import { onboardingProfile, shimmerClaimingProfileManager, updateShimmerClaimingAccount } from '../stores'
 import { sumTotalUnclaimedRewards } from '../utils'
 
 const DEPTH_SEARCH_ACCOUNT_START_INDEX = 0
@@ -135,23 +127,10 @@ async function updateRecoveredAccounts(accounts: IAccount[]): Promise<void> {
             updateShimmerClaimingAccount(shimmerClaimingAccount)
         }
 
-        showRewardsFoundNotification(updatedTotalUnclaimedShimmerRewards)
         setTotalUnclaimedShimmerRewards(updatedTotalUnclaimedShimmerRewards)
     }
 }
 
 export function setTotalUnclaimedShimmerRewards(_totalUnclaimedShimmerRewards: number): void {
     totalUnclaimedShimmerRewards = _totalUnclaimedShimmerRewards
-}
-
-function showRewardsFoundNotification(updatedTotalUnclaimedShimmerRewards: number): void {
-    const foundRewardsAmount = updatedTotalUnclaimedShimmerRewards - totalUnclaimedShimmerRewards
-    const foundRewardsAmountFormatted = formatTokenAmountBestMatch(foundRewardsAmount, getOnboardingBaseToken())
-    showAppNotification({
-        type: 'success',
-        alert: true,
-        message: localize('views.onboarding.shimmerClaiming.success.successfullyFound', {
-            values: { amount: foundRewardsAmountFormatted },
-        }),
-    })
 }

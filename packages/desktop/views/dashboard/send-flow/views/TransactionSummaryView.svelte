@@ -1,59 +1,83 @@
 <script lang="ts">
-    import { closePopup } from '@desktop/auxiliary/popup'
-    import { getSelectedAccount, selectedAccount, selectedAccountIndex } from '@core/account'
+    import { Spinner } from '@bloomwalletio/ui'
+    import { PopupTemplate } from '@components'
+    import { selectedAccount } from '@core/account/stores'
     import { handleError } from '@core/error/handlers'
     import { localize } from '@core/i18n'
-    import { sendFlowParameters } from '@core/wallet/stores'
+    import { IChain, getNetwork, isEvmChain } from '@core/network'
+    import { truncateString } from '@core/utils'
+    import { SendFlowParameters, SubjectType } from '@core/wallet'
     import {
         createEvmTransactionFromSendFlowParameters,
         createStardustOutputFromSendFlowParameters,
         sendOutputFromStardust,
         sendTransactionFromEvm,
     } from '@core/wallet/actions'
-    import { sendFlowRouter } from '../send-flow.router'
-    import SendFlowTemplate from './SendFlowTemplate.svelte'
-    import { EvmTransactionSummary, StardustTransactionSummary } from './components'
-    import { truncateString } from '@core/utils'
-    import { Output, SubjectType, SendFlowParameters } from '@core/wallet'
-    import { IChain, getNetwork } from '@core/network'
-    import { EvmTransactionData } from '@core/layer-2'
+    import { sendFlowParameters } from '@core/wallet/stores'
+    import { getNetworkIdFromSendFlowParameters } from '@core/wallet/utils'
+    import { closePopup } from '@desktop/auxiliary/popup'
+    import { modifyPopupState } from '@desktop/auxiliary/popup/helpers'
     import { onMount } from 'svelte'
-    import { getChainIdFromSendFlowParameters } from '@core/wallet/actions/getChainIdFromSendFlowParameters'
+    import { sendFlowRouter } from '../send-flow.router'
+    import { EvmTransactionSummary, StardustToEvmTransactionSummary, StardustTransactionSummary } from './components'
+    import { TransactionSummaryProps } from './types'
+    import { setGasFee } from '@core/layer-2/actions'
 
-    export let _onMount: (..._: any[]) => Promise<void> = async () => {}
+    export let transactionSummaryProps: TransactionSummaryProps
+    let { _onMount, preparedOutput, preparedTransaction } = transactionSummaryProps ?? {}
 
-    $: void updateSendFlow($sendFlowParameters)
-    $: isAssetFromLayer2 = !!chain
-    $: isTransferring = !!$selectedAccount.isTransferring
+    $: void prepareTransactions($sendFlowParameters)
+    $: isSourceNetworkLayer2 = !!chain
+    $: isDestinationNetworkLayer2 = isEvmChain($sendFlowParameters.destinationNetworkId)
+    $: busy = !!$selectedAccount?.isTransferring || !hasMounted
+    $: isDisabled = isInvalid || busy || (!preparedTransaction && !preparedOutput)
 
+    let hasMounted = false
+    let isInvalid: boolean
     let recipientAddress: string
-    let preparedOutput: Output | undefined
-    let preparedTransaction: EvmTransactionData | undefined
     let chain: IChain | undefined
 
-    async function updateSendFlow(sendFlowParameters: SendFlowParameters): Promise<void> {
-        const { recipient } = sendFlowParameters
-
-        recipientAddress =
-            recipient.type === SubjectType.Account ? recipient.account.name : truncateString(recipient?.address, 6, 6)
-
-        const chainId = getChainIdFromSendFlowParameters(sendFlowParameters)
-        if (chainId) {
-            chain = getNetwork()?.getChain(chainId)
-            const account = getSelectedAccount()
-
-            preparedTransaction = await createEvmTransactionFromSendFlowParameters(sendFlowParameters, chain, account)
-        } else {
-            preparedOutput = await createStardustOutputFromSendFlowParameters(sendFlowParameters, $selectedAccountIndex)
+    async function prepareTransactions(sendFlowParameters: SendFlowParameters): Promise<void> {
+        if (_onMount) {
+            // The unlock stronghold/ledger flow passes the _onMount prop and the preparedTransactions
+            return
         }
+
+        try {
+            const { recipient } = sendFlowParameters
+
+            recipientAddress =
+                recipient.type === SubjectType.Account
+                    ? recipient.account.name
+                    : truncateString(recipient?.address, 6, 6)
+
+            const networkId = getNetworkIdFromSendFlowParameters(sendFlowParameters)
+            if (isEvmChain(networkId)) {
+                chain = getNetwork()?.getChain(networkId)
+                preparedTransaction = await createEvmTransactionFromSendFlowParameters(
+                    sendFlowParameters,
+                    chain,
+                    $selectedAccount
+                )
+            } else {
+                preparedOutput = await createStardustOutputFromSendFlowParameters(sendFlowParameters, $selectedAccount)
+            }
+        } catch (err) {
+            handleError(err)
+        }
+    }
+
+    function finish(): void {
+        modifyPopupState({ confirmClickOutside: false })
+        closePopup()
     }
 
     async function onConfirmClick(): Promise<void> {
         try {
-            if (isAssetFromLayer2) {
-                await sendTransactionFromEvm(preparedTransaction, chain, closePopup)
+            if (isSourceNetworkLayer2) {
+                await sendTransactionFromEvm(preparedTransaction, chain, true, finish)
             } else {
-                await sendOutputFromStardust(preparedOutput, $selectedAccount, closePopup)
+                await sendOutputFromStardust(preparedOutput, $selectedAccount, finish)
             }
         } catch (err) {
             handleError(err)
@@ -70,30 +94,48 @@
 
     onMount(async () => {
         try {
-            await _onMount()
+            if (_onMount) {
+                await _onMount()
+            } else {
+                await setGasFee($sendFlowParameters, $selectedAccount)
+            }
         } catch (err) {
             handleError(err)
+        } finally {
+            hasMounted = true
         }
     })
 </script>
 
-<SendFlowTemplate
+<PopupTemplate
     title={localize('popups.transaction.transactionSummary', { values: { recipient: recipientAddress } })}
-    leftButton={{
+    backButton={{
         text: localize($sendFlowRouter.hasHistory() ? 'actions.back' : 'actions.cancel'),
         onClick: onBackClick,
-        disabled: isTransferring,
+        disabled: busy,
     }}
-    rightButton={{
+    continueButton={{
         text: localize('actions.confirm'),
         onClick: onConfirmClick,
-        disabled: isTransferring,
-        isBusy: isTransferring,
+        disabled: isDisabled,
     }}
+    {busy}
 >
-    {#if isAssetFromLayer2 && preparedTransaction}
+    {#if isSourceNetworkLayer2 && preparedTransaction}
         <EvmTransactionSummary transaction={preparedTransaction} sendFlowParameters={$sendFlowParameters} />
-    {:else if !isAssetFromLayer2 && preparedOutput}
-        <StardustTransactionSummary output={preparedOutput} sendFlowParameters={$sendFlowParameters} />
+    {:else if !isSourceNetworkLayer2 && preparedOutput}
+        {#if isDestinationNetworkLayer2}
+            <StardustToEvmTransactionSummary output={preparedOutput} sendFlowParameters={$sendFlowParameters} />
+        {:else}
+            <StardustTransactionSummary
+                bind:isInvalid
+                output={preparedOutput}
+                sendFlowParameters={$sendFlowParameters}
+            />
+        {/if}
+    {:else}
+        <div class="flex justify-center">
+            <Spinner />
+        </div>
     {/if}
-</SendFlowTemplate>
+</PopupTemplate>

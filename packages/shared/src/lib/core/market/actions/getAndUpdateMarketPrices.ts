@@ -1,10 +1,17 @@
+import { get } from 'svelte/store'
+import { CoinGeckoApi } from '../apis'
 import { MarketCoinId, MarketCurrency } from '../enums'
-import { updateMarketCoinPrices } from '../stores'
-import { getMarketCoinPrices } from './getMarketPrices'
+import { coinGeckoTokensMetadata, updateMarketCoinPrices } from '../stores'
+import { SupportedNetworkId } from '@core/network'
 
 export async function getAndUpdateMarketPrices(): Promise<void> {
     try {
-        const marketPricesResponse = await getMarketCoinPrices([MarketCoinId.Shimmer], Object.values(MarketCurrency))
+        const shimmerEvmTokens = Object.values(get(coinGeckoTokensMetadata)?.[SupportedNetworkId.ShimmerEvm] ?? {})
+        const shimmerEvmTokensIds = shimmerEvmTokens.map((token) => token.id)
+        const marketPricesResponse = await CoinGeckoApi.getSimplePrices(
+            [MarketCoinId.Shimmer, ...shimmerEvmTokensIds],
+            Object.values(MarketCurrency)
+        )
         updateMarketCoinPrices(marketPricesResponse)
     } catch (err) {
         console.error(err)

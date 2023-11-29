@@ -1,7 +1,8 @@
-import { Platform } from '@core/app'
+import { Platform } from '@core/app/classes'
 import { get } from 'svelte/store'
 import { profiles } from '../../stores'
 import { getStorageDirectoryOfProfiles, removeProfileFolder } from '../../utils'
+import { removeAllProfileData } from './removeAllProfileData'
 
 /**
  * Cleanup profile listed that have nothing stored and stored profiles not in app.
@@ -10,16 +11,24 @@ import { getStorageDirectoryOfProfiles, removeProfileFolder } from '../../utils'
  */
 export async function cleanupEmptyProfiles(): Promise<void> {
     try {
+        const appDataProfileIds = get(profiles)?.map((_profile) => _profile?.id)
         const profileDataPath = await getStorageDirectoryOfProfiles()
-        const storedProfiles = await Platform.listProfileFolders(profileDataPath)
+        const storedProfileIds = await Platform.listProfileFolders(profileDataPath)
 
-        profiles.update((_profiles) => _profiles?.filter((_profile) => storedProfiles.includes(_profile?.id)))
+        const appDataProfileIdsToRemove = appDataProfileIds?.filter(
+            (_profileId) => !storedProfileIds.includes(_profileId)
+        )
+        const storedProfileIdsToRemove = storedProfileIds?.filter(
+            (_profileId) => !appDataProfileIds.includes(_profileId)
+        )
 
-        const appProfiles = get(profiles)?.map((_profile) => _profile?.id)
-        for (const storedProfile of storedProfiles) {
-            if (!appProfiles.includes(storedProfile)) {
-                await removeProfileFolder(storedProfile)
-            }
+        for (const profileId of appDataProfileIdsToRemove) {
+            removeAllProfileData(profileId)
+        }
+
+        for (const profileId of storedProfileIdsToRemove) {
+            removeAllProfileData(profileId)
+            await removeProfileFolder(profileId)
         }
     } catch (err) {
         // TODO: improve error handling?

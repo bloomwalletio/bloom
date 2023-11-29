@@ -1,9 +1,9 @@
 import { ActivityAsyncStatus, ActivityType, InclusionState } from '../enums'
 import { allAccountActivities } from '../stores'
-import { showAppNotification } from '@auxiliary/notification'
 import { localize } from '@core/i18n'
 import { updateActivityFromPartialActivity } from '../utils/helper'
 import { addClaimedActivity } from '@core/activity/stores'
+import { showNotification } from '@auxiliary/notification/actions'
 
 export function updateClaimingTransactionInclusion(
     transactionId: string,
@@ -32,10 +32,9 @@ export function updateClaimingTransactionInclusion(
                     claimedTimestamp: new Date().getTime(),
                 })
 
-                showAppNotification({
-                    type: 'success',
-                    alert: true,
-                    message: localize('notifications.claimed.success'),
+                showNotification({
+                    variant: 'success',
+                    text: localize('notifications.claimed.success'),
                 })
             } else if (inclusionState === InclusionState.Conflicting) {
                 updateActivityFromPartialActivity(activity, {
@@ -47,10 +46,9 @@ export function updateClaimingTransactionInclusion(
                         asyncStatus: ActivityAsyncStatus.Unclaimed,
                     },
                 })
-                showAppNotification({
-                    type: 'error',
-                    alert: true,
-                    message: localize('notifications.claimed.error'),
+                showNotification({
+                    variant: 'error',
+                    text: localize('notifications.claimed.error'),
                 })
             }
         }

@@ -1,8 +1,8 @@
 import { localize } from '@core/i18n'
-import { DestinationNetwork } from '@core/layer-2/enums'
+import { NetworkId } from '@core/network'
 
-export function validateContactNetworkSelection(networkId: string): void {
-    if (!networkId || !Object.values(DestinationNetwork).includes(networkId as DestinationNetwork)) {
+export function validateContactNetworkSelection(networkId: NetworkId | undefined): void {
+    if (!networkId) {
         throw new Error(localize('error.input.invalid', { field: localize('general.networkSelection') }))
     }
 }

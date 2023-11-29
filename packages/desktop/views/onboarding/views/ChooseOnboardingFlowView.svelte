@@ -1,19 +1,28 @@
 <script lang="ts">
-    import { OnboardingLayout } from '@components'
+    import { IconName } from '@bloomwalletio/ui'
     import { OnboardingType, onboardingProfile, updateOnboardingProfile } from '@contexts/onboarding'
-    import { IS_MOBILE } from '@core/app'
     import { localize } from '@core/i18n'
-    import { getNetworkNameFromNetworkId } from '@core/network'
-    import { profiles } from '@core/profile'
+    import { getOnboardingNetworkTypeFromNetworkId } from '@core/network'
     import features from '@features/features'
-    import { Animation, OnboardingButton, Text } from '@ui'
+    import { OnboardingLayout } from '@views/components'
     import { onMount } from 'svelte'
+    import { ButtonTile } from '../../components'
     import { onboardingRouter } from '../onboarding-router'
 
     const networkId = $onboardingProfile?.network?.id
+    const networkType = getOnboardingNetworkTypeFromNetworkId(networkId)
 
-    function onProfileSetupSelectionClick(onboardingType: OnboardingType): void {
-        updateOnboardingProfile({ onboardingType })
+    let selectedOnboardingType: OnboardingType | undefined = undefined
+    function onOnboardingTypeClick(onboardingType: OnboardingType): void {
+        if (selectedOnboardingType === onboardingType) {
+            onContinueClick()
+        } else {
+            selectedOnboardingType = onboardingType
+        }
+    }
+
+    function onContinueClick(): void {
+        updateOnboardingProfile({ onboardingType: selectedOnboardingType })
         $onboardingRouter.next()
     }
 
@@ -27,64 +36,45 @@
     })
 </script>
 
-<OnboardingLayout allowBack={$profiles.length > 0 || $onboardingProfile?.isDeveloperProfile} {onBackClick}>
-    <div slot="title">
-        <Text type="h2"
-            >{localize('views.onboarding.profileSetup.setup.title', {
-                values: {
-                    network: getNetworkNameFromNetworkId(networkId),
-                },
-            })}</Text
-        >
-    </div>
-    <div slot="leftpane__content">
-        <Text type="p" secondary classes="mb-8"
-            >{localize('views.onboarding.profileSetup.setup.body', {
-                values: {
-                    network: getNetworkNameFromNetworkId(networkId),
-                },
-            })}</Text
-        >
-    </div>
-    <div slot="leftpane__action" class="flex flex-col space-y-4">
-        <OnboardingButton
-            primaryText={localize('actions.createWallet', {
-                values: {
-                    network: getNetworkNameFromNetworkId(networkId),
-                },
-            })}
-            secondaryText={!IS_MOBILE
-                ? localize('actions.createWalletDescription', {
-                      values: { network: networkId },
-                  })
-                : ''}
-            icon="plus"
-            iconHeight="11"
-            iconWidth="11"
-            hidden={features?.onboarding?.[networkId]?.newProfile?.hidden}
-            disabled={!features?.onboarding?.[networkId]?.newProfile?.enabled}
-            onClick={() => onProfileSetupSelectionClick(OnboardingType.Create)}
+<OnboardingLayout
+    title={localize('views.onboarding.chooseOnboardingFlow.title')}
+    continueButton={{
+        onClick: onContinueClick,
+        disabled: !selectedOnboardingType,
+    }}
+    backButton={{
+        onClick: onBackClick,
+    }}
+>
+    <div slot="content" class="flex flex-col space-y-3">
+        <ButtonTile
+            primaryText={localize('views.onboarding.chooseOnboardingFlow.new.primary')}
+            secondaryText={localize('views.onboarding.chooseOnboardingFlow.new.secondary')}
+            icon={IconName.UserPlus}
+            hidden={features?.onboarding?.[networkType]?.newProfile?.hidden}
+            disabled={!features?.onboarding?.[networkType]?.newProfile?.enabled}
+            onClick={() => onOnboardingTypeClick(OnboardingType.Create)}
+            selected={selectedOnboardingType === OnboardingType.Create}
         />
-        <OnboardingButton
-            primaryText={localize(`actions.restoreWallet.${networkId}`)}
-            secondaryText={!IS_MOBILE ? localize(`actions.restoreWalletDescription.${networkId}`) : ''}
-            icon="transfer"
-            hidden={features?.onboarding?.[networkId]?.restoreProfile?.hidden}
-            disabled={!features?.onboarding?.[networkId]?.restoreProfile?.enabled}
-            onClick={() => onProfileSetupSelectionClick(OnboardingType.Restore)}
+        <ButtonTile
+            primaryText={localize('views.onboarding.chooseOnboardingFlow.restore.primary')}
+            secondaryText={localize('views.onboarding.chooseOnboardingFlow.restore.secondary')}
+            icon={IconName.Refresh2}
+            iconColor="orange"
+            hidden={features?.onboarding?.[networkType]?.restoreProfile?.hidden}
+            disabled={!features?.onboarding?.[networkType]?.restoreProfile?.enabled}
+            onClick={() => onOnboardingTypeClick(OnboardingType.Restore)}
+            selected={selectedOnboardingType === OnboardingType.Restore}
         />
-        <OnboardingButton
-            primaryText={localize('actions.claimShimmer')}
-            secondaryText={!IS_MOBILE ? localize('actions.claimShimmerDescription') : ''}
-            icon="tokens"
-            iconHeight="24"
-            iconWidth="24"
-            hidden={features?.onboarding?.[networkId]?.claimRewards?.hidden}
-            disabled={!features?.onboarding?.[networkId]?.claimRewards?.enabled}
-            onClick={() => onProfileSetupSelectionClick(OnboardingType.Claim)}
+        <ButtonTile
+            primaryText={localize('views.onboarding.chooseOnboardingFlow.claim.primary')}
+            secondaryText={localize('views.onboarding.chooseOnboardingFlow.claim.secondary')}
+            icon={IconName.CoinsHand}
+            iconColor="info"
+            hidden={features?.onboarding?.[networkType]?.claimRewards?.hidden}
+            disabled={!features?.onboarding?.[networkType]?.claimRewards?.enabled}
+            onClick={() => onOnboardingTypeClick(OnboardingType.Claim)}
+            selected={selectedOnboardingType === OnboardingType.Claim}
         />
-    </div>
-    <div slot="rightpane" class="w-full h-full flex justify-center {!IS_MOBILE && 'bg-pastel-green dark:bg-gray-900'}">
-        <Animation classes="setup-anim-aspect-ratio" animation="setup-desktop" />
     </div>
 </OnboardingLayout>

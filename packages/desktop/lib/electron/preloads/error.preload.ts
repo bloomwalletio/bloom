@@ -21,7 +21,7 @@ contextBridge.exposeInMainWorld('error', {
         const data = await ipcRenderer.invoke('error-data')
 
         const errorData: ErrorData = {
-            iconPath: './assets/logos/firefly_logo.svg',
+            iconPath: './assets/logos/darkmode/bloom_logo.svg',
             version,
             diagnostics: data.diagnostics
                 .map((d: DiagnosticData) => `${d.label.replace('popups.diagnostics.', '')}: ${d.value}`)
@@ -33,6 +33,6 @@ contextBridge.exposeInMainWorld('error', {
         return errorData
     },
     openUrl: async (url: string): Promise<void> => {
-        await ipcRenderer.invoke('open-url', url)
+        await ipcRenderer.invoke('open-external-url', url)
     },
 })

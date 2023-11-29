@@ -37,10 +37,6 @@ export function validateBech32Address(prefix: string, addr: string, addressType?
     }
 }
 
-export function isValidBech32AddressAndPrefix(address: string, expectedAddressPrefix: string): boolean {
-    return new RegExp(`^${expectedAddressPrefix}1[02-9ac-hj-np-z]{59}$`).test(address)
-}
-
 export function convertBech32AddressToEd25519Address(bech32Address: string, includeTypeByte: boolean = false): string {
     if (!bech32Address) {
         return ''

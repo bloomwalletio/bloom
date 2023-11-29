@@ -16,8 +16,6 @@
     export let lineHeight = '140'
 
     export function validate(): void {
-        /* eslint-disable @typescript-eslint/ban-ts-comment */
-        // @ts-ignore
         input?.validate()
     }
 
@@ -32,13 +30,12 @@
     bind:inputElement
     bind:value
     bind:hasFocus
-    bind:error
     type={inputType}
     {textProps}
     {alignment}
+    {error}
     {...$$restProps}
 >
     <slot name="left" slot="left" />
     <slot name="right" slot="right" />
-    <slot name="right-full-h" slot="right-full-h" />
 </Input>

@@ -1,7 +1,6 @@
 <script lang="ts">
     import { Platform } from '@core/app'
     import features from '@features/features'
-    import { Transition } from '@ui'
     import { OnboardingRoute } from './onboarding-route.enum'
     import { onboardingRoute } from './onboarding-router'
     import { ChooseOnboardingFlowView, CompleteOnboardingRouterView, WelcomeView } from './views'
@@ -15,27 +14,15 @@
 </script>
 
 {#if $onboardingRoute === OnboardingRoute.Welcome}
-    <Transition>
-        <WelcomeView />
-    </Transition>
+    <WelcomeView />
 {:else if $onboardingRoute === OnboardingRoute.NetworkSetup}
-    <Transition>
-        <NetworkSetupRouterView />
-    </Transition>
+    <NetworkSetupRouterView />
 {:else if $onboardingRoute === OnboardingRoute.ChooseOnboardingFlow}
-    <Transition>
-        <ChooseOnboardingFlowView />
-    </Transition>
+    <ChooseOnboardingFlowView />
 {:else if $onboardingRoute === OnboardingRoute.CreateProfile}
-    <Transition>
-        <CreateProfileRouterView />
-    </Transition>
+    <CreateProfileRouterView />
 {:else if $onboardingRoute === OnboardingRoute.RestoreProfile}
-    <Transition>
-        <RestoreProfileRouterView />
-    </Transition>
+    <RestoreProfileRouterView />
 {:else if $onboardingRoute === OnboardingRoute.CompleteOnboarding}
-    <Transition>
-        <CompleteOnboardingRouterView />
-    </Transition>
+    <CompleteOnboardingRouterView />
 {/if}

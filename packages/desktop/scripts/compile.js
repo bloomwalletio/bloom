@@ -3,8 +3,9 @@
 const { execSync } = require('child_process')
 
 // Get stage and OS flag from command line arguments
-const stage = process.argv[2]
-const osFlag = process.argv[3]
+const stage = process.argv[2] ?? 'alpha'
+const os = process.argv[3] ?? 'linux'
+const arch = process.argv[4] ?? 'x64'
 
 // Set environment variables
 process.env.STAGE = stage
@@ -14,7 +15,7 @@ try {
     execSync('tsc --esModuleInterop electron-builder-config.ts', { stdio: 'inherit' })
 
     // Build the command based on the stage and OS flag
-    const command = `cross-env STAGE=${stage} electron-builder --${osFlag} --x64 --config electron-builder-config.js`
+    const command = `cross-env STAGE=${stage} electron-builder --${os} --${arch} --config electron-builder-config.js`
 
     // Run the electron-builder command
     execSync(command, { stdio: 'inherit' })

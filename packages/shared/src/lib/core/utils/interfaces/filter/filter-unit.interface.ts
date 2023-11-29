@@ -5,7 +5,7 @@ import { NumberFilterInput } from './number-filter-input.interface'
 export type FilterUnit =
     | SelectionFilterUnit
     | NumberFilterUnit
-    | AssetFilterUnit
+    | TokenFilterUnit
     | DateFilterUnit
     | OrderFilterUnit
     | NetworkFilterUnit
@@ -55,8 +55,8 @@ export type NumberFilterUnit = {
     subunit: NumberFilterInput
 }
 
-export type AssetFilterUnit = {
-    type: 'asset'
+export type TokenFilterUnit = {
+    type: 'token'
     active: boolean
     labelKey?: string
     localeKey: string
@@ -68,5 +68,5 @@ export type NetworkFilterUnit = {
     active: boolean
     labelKey?: string
     localeKey: string
-    selected: number
+    selected: string
 }

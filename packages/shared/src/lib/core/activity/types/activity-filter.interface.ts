@@ -1,5 +1,5 @@
 import {
-    AssetFilterUnit,
+    TokenFilterUnit,
     DateFilterUnit,
     NumberFilterUnit,
     SelectionFilterUnit,
@@ -11,7 +11,7 @@ export interface ActivityFilter {
     type: SelectionFilterUnit
     direction: SelectionFilterUnit
     internalExternal: SelectionFilterUnit
-    asset: AssetFilterUnit
+    token: TokenFilterUnit
     date: DateFilterUnit
     showRejected: SelectionFilterUnit
     showHidden: SelectionFilterUnit

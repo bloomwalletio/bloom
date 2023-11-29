@@ -1,5 +1,5 @@
 import { localize } from '@core/i18n'
-import { COIN_TYPE, NetworkId } from '@core/network'
+import { DEFAULT_COIN_TYPE, NetworkId } from '@core/network'
 import { createAccount, getAccounts, IProfileManager } from '@core/profile-manager'
 import { get, Writable } from 'svelte/store'
 import { OnboardingType } from '../enums'
@@ -17,7 +17,7 @@ export async function validateStrongholdCoinType(
         accounts.push(account)
     }
 
-    if (accounts[0]?.getMetadata()?.coinType !== COIN_TYPE[networkId]) {
+    if (accounts[0]?.getMetadata()?.coinType !== DEFAULT_COIN_TYPE[networkId]) {
         const isClaiming = get(onboardingProfile)?.onboardingType === OnboardingType.Claim
         throw new CannotRestoreWithMismatchedCoinTypeError(isClaiming)
     }

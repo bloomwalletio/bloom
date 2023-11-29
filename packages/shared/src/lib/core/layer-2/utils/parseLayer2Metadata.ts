@@ -1,13 +1,20 @@
-import { Layer2Metadata } from '../types'
+import { SmartContract } from '../types'
 
-export function parseLayer2Metadata(metadata: string): Layer2Metadata {
-    const parsedData = JSON.parse(metadata)
-    validate(parsedData)
+export function parseLayer2Metadata(metadata: string | undefined): SmartContract | undefined {
+    if (!metadata) {
+        return undefined
+    }
+    try {
+        const parsedData = JSON.parse(metadata)
+        validate(parsedData)
 
-    return { ...parsedData }
+        return { ...parsedData }
+    } catch (error) {
+        return undefined
+    }
 }
 
-function validate(data: Layer2Metadata): void {
+function validate(data: SmartContract): void {
     if (!data) {
         throw new Error('Invalid Metadata')
     }
@@ -24,11 +31,11 @@ function validate(data: Layer2Metadata): void {
         throw new Error('Invalid contractFunction')
     }
 
-    if (data.gasBudget) {
+    if (data.gasLimit) {
         try {
-            parseInt(data.gasBudget, 10)
+            parseInt(data.gasLimit, 10)
         } catch (error) {
-            throw new Error('Invalid gasBudget')
+            throw new Error('Invalid gasLimit')
         }
     }
 

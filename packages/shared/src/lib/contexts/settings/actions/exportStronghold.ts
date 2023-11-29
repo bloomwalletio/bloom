@@ -1,6 +1,6 @@
-import { updateActiveProfile } from '@core/profile'
+import { Platform } from '@core/app/classes'
 import { backup } from '@core/profile-manager'
-import { Platform } from '@core/app'
+import { updateActiveProfile } from '@core/profile/stores'
 import { getDefaultStrongholdName } from '@core/stronghold'
 
 export async function exportStronghold(

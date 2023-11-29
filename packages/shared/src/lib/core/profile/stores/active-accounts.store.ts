@@ -1,5 +1,5 @@
-import type { IAccountState } from '@core/account'
 import { derived, Readable, writable } from 'svelte/store'
+import type { IAccountState } from '@core/account/interfaces'
 import { activeProfile } from './active-profile.store'
 
 export const activeAccounts = writable<IAccountState[]>([])

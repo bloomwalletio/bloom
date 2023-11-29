@@ -6,10 +6,11 @@ import { MENU_STATE } from '../menus/menu-state.constant'
 import DeepLinkManager from '../managers/deep-link.manager'
 import NotificationManager from '../managers/notification.manager'
 import PincodeManager from '../managers/pincode.manager'
-import { bindObjectAcrossContextBridge } from '../utils/context-bridge.utils'
+import { bindMethodsAcrossContextBridge } from '../utils/context-bridge.utils'
 
 import type { IAppSettings } from '@core/app/interfaces'
 import type { IFeatureFlag } from '@lib/features/interfaces'
+import { AppTheme } from '@core/app/enums'
 
 let activeProfileId = null
 const eventListeners = {}
@@ -35,20 +36,19 @@ export default {
             }
         })
     },
-    async removeProfileFolder(profilePath: fs.PathLike): Promise<unknown> {
-        return ipcRenderer.invoke('get-path', 'userData').then((userDataPath) => {
-            // Check that the removing profile path matches the user data path
-            // so that we don't try and remove things outside our scope
-            if ((profilePath as string).startsWith(userDataPath)) {
-                try {
-                    // Sometime the DB can still be locked while it is flushing
-                    // so retry if we receive a busy exception
-                    fs.rmdirSync(profilePath, { recursive: true, maxRetries: 30, retryDelay: 500 })
-                } catch (err) {
-                    console.error(err)
-                }
+    async removeProfileFolder(profilePath: fs.PathLike): Promise<void> {
+        const userDataPath = await ipcRenderer.invoke('get-path', 'userData')
+        // Check that the removing profile path matches the user data path
+        // so that we don't try and remove things outside our scope
+        if ((profilePath as string).startsWith(userDataPath)) {
+            try {
+                // Sometime the DB can still be locked while it is flushing
+                // so retry if we receive a busy exception
+                await fs.promises.rmdir(profilePath, { recursive: true, maxRetries: 30, retryDelay: 500 })
+            } catch (err) {
+                console.error(err)
             }
-        })
+        }
     },
     async listProfileFolders(profileStoragePath: fs.PathLike): Promise<unknown> {
         return ipcRenderer.invoke('get-path', 'userData').then((userDataPath) => {
@@ -68,9 +68,9 @@ export default {
             }
         })
     },
-    DeepLinkManager: bindObjectAcrossContextBridge(DeepLinkManager.prototype, new DeepLinkManager()),
-    NotificationManager: bindObjectAcrossContextBridge(NotificationManager.prototype, new NotificationManager()),
-    PincodeManager: bindObjectAcrossContextBridge(PincodeManager.prototype, new PincodeManager()),
+    DeepLinkManager: bindMethodsAcrossContextBridge(DeepLinkManager, new DeepLinkManager()),
+    NotificationManager: bindMethodsAcrossContextBridge(NotificationManager, new NotificationManager()),
+    PincodeManager: bindMethodsAcrossContextBridge(PincodeManager, new PincodeManager()),
     async getStrongholdBackupDestination(defaultPath: unknown): Promise<unknown> {
         return ipcRenderer
             .invoke('show-save-dialog', {
@@ -131,6 +131,9 @@ export default {
     checkForAppUpdate(): Promise<unknown> {
         return ipcRenderer.invoke('update-check')
     },
+    focusWindow(): Promise<unknown> {
+        return ipcRenderer.invoke('focus-window')
+    },
     getAppVersionDetails(): Promise<unknown> {
         return ipcRenderer.invoke('get-version-details')
     },
@@ -166,7 +169,7 @@ export default {
         return ipcRenderer.invoke('check-if-file-exists', filePath)
     },
     openUrl(url: unknown): Promise<unknown> {
-        return ipcRenderer.invoke('open-url', url)
+        return ipcRenderer.invoke('open-external-url', url)
     },
     copyFile(sourceFilePath: unknown, destinationFilePath: unknown): Promise<unknown> {
         return ipcRenderer.invoke('copy-file', sourceFilePath, destinationFilePath)
@@ -198,7 +201,7 @@ export default {
         return ipcRenderer
             .invoke('show-save-dialog', {
                 properties: ['createDirectory', 'showOverwriteConfirmation'],
-                defaultPath: 'firefly-recovery-kit.pdf',
+                defaultPath: 'bloom-recovery-kit.pdf',
                 filters: [
                     { name: 'Pdf Document', extensions: ['pdf'] },
                     { name: 'All Files', extensions: ['*'] },
@@ -216,8 +219,12 @@ export default {
                 }
             })
     },
-    trackEvent(eventName: string, eventProperties: unknown): Promise<unknown> {
-        return ipcRenderer.invoke('track-event', eventName, eventProperties)
+    trackEvent(eventName: string, eventProperties?: unknown): Promise<unknown | undefined> {
+        if (features.analytics.enabled) {
+            return ipcRenderer.invoke('track-event', eventName, eventProperties)
+        } else {
+            return undefined
+        }
     },
     isFeatureFlagEnabled(keyPath: string): boolean {
         const feature = keyPath
@@ -228,8 +235,14 @@ export default {
             ) as IFeatureFlag
         return feature?.enabled ?? false
     },
+    getTheme(): Promise<AppTheme> {
+        return ipcRenderer.invoke('get-theme')
+    },
     updateTheme(theme: string): Promise<void> {
         return ipcRenderer.invoke('update-theme', theme)
+    },
+    shouldBeDarkMode(): Promise<boolean> {
+        return ipcRenderer.invoke('should-be-dark-mode')
     },
     startLedgerProcess(): void {
         return ipcRenderer.send('start-ledger-process')

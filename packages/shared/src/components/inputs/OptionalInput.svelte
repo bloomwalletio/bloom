@@ -9,7 +9,7 @@
     export let value: string | undefined = undefined
     export let fontSize: number = 15
     export let error: string = ''
-    export let classes: string = null
+    export let classes: string = ''
     export let isOpen: boolean = false
     export let isTooltipVisible: boolean = false
     export let disabled: boolean = false
@@ -18,16 +18,6 @@
 
     export function open(): void {
         isOpen = true
-    }
-
-    export async function validate(promise: Promise<unknown>): Promise<void> {
-        error = ''
-        try {
-            await promise
-        } catch (err) {
-            error = err
-            throw err
-        }
     }
 
     function onMouseEnter(): void {
@@ -41,7 +31,6 @@
     $: if (!isOpen) {
         isTooltipVisible = false
     }
-    $: value, (error = '')
 
     onMount(() => {
         if (value) {
@@ -50,14 +39,12 @@
     })
 </script>
 
-<optional-input class={`${isOpen ? 'order-first' : 'order-last'} ${classes}`} class:w-full={isOpen}>
+<optional-input class="{isOpen ? 'w-full order-first' : 'order-last'} {classes}">
     <ClosableInput
-        bind:buttonElement
         bind:open={isOpen}
         bind:value
         bind:error
         {label}
-        placeholder={label}
         {fontSize}
         fontWeight={FontWeight.medium}
         {disabled}

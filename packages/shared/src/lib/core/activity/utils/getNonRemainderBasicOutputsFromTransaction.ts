@@ -1,3 +1,4 @@
+import { CommonOutput } from '@iota/sdk/out/types'
 import { IWrappedOutput } from '@core/wallet/interfaces'
 import { ActivityDirection } from '../enums'
 import { getRecipientAddressFromOutput } from './outputs'
@@ -7,10 +8,14 @@ export function getNonRemainderBasicOutputsFromTransaction(
     accountAddress: string,
     direction: ActivityDirection
 ): IWrappedOutput[] {
-    return wrappedOutputs.filter((outputData) => {
-        const recipientAddress = getRecipientAddressFromOutput(outputData.output)
+    if (direction === ActivityDirection.SelfTransaction) {
+        return [wrappedOutputs[0]]
+    }
 
-        if (direction === ActivityDirection.Incoming || direction === ActivityDirection.SelfTransaction) {
+    return wrappedOutputs.filter((outputData) => {
+        const recipientAddress = getRecipientAddressFromOutput(outputData.output as CommonOutput)
+
+        if (direction === ActivityDirection.Incoming) {
             return accountAddress === recipientAddress
         } else {
             return accountAddress !== recipientAddress

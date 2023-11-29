@@ -1,9 +1,8 @@
 /* eslint-disable no-bitwise */
 
-import { HEXADECIMAL_PREFIX, MILLISECONDS_PER_SECOND } from './constants'
+import { HEX_PREFIX, MILLISECONDS_PER_SECOND } from './constants'
 import { isValidDate } from './date'
 import { Base64 } from './encode'
-import { clamp } from './math'
 
 /**
  * Returns a UNIX timestamp from a given Date object.
@@ -30,7 +29,7 @@ export function convertUnixTimestampToDate(timestamp: number): Date {
 export function convertUInt16NumberToLittleEndianHex(num: number, withHexPrefix = true): string {
     const littleEndianNumber = ((num & 0xff) << 8) | ((num >> 8) & 0xff)
     const hex = ('0000' + littleEndianNumber.toString(16).toUpperCase()).slice(-4)
-    return withHexPrefix ? HEXADECIMAL_PREFIX + hex : hex
+    return withHexPrefix ? HEX_PREFIX + hex : hex
 }
 
 export function convertBytesToHexString(bytes: number[], withHexPrefix = true): string {
@@ -43,40 +42,7 @@ export function convertBytesToHexString(bytes: number[], withHexPrefix = true): 
     }
 
     const hex = bytes.map((byte) => ('0' + (byte & 0xff).toString(16)).slice(-2)).join('')
-    return withHexPrefix ? HEXADECIMAL_PREFIX + hex : hex
-}
-
-/**
- * Convert HEX color to RGBA
- * @param hexCode: hex color to convert
- * @param opacity: [0,100], default = 100
- */
-export function convertHexToRgba(hexCode: string, opacity: number = 100): string {
-    const clampedOpacity = clamp(opacity, 0, 100)
-
-    if (!hexCode) {
-        return `rgba(0,0,0,${clampedOpacity / 100})`
-    }
-
-    let hex = hexCode.replace('#', '')
-
-    if (hex.length === 3) {
-        hex = `${hex[0]}${hex[0]}${hex[1]}${hex[1]}${hex[2]}${hex[2]}`
-    }
-
-    const r = fixNaN(parseInt(hex.substring(0, 2), 16))
-    const g = fixNaN(parseInt(hex.substring(2, 4), 16))
-    const b = fixNaN(parseInt(hex.substring(4, 6), 16))
-
-    return `rgba(${r},${g},${b},${clampedOpacity / 100})`
-}
-
-function fixNaN(n: number): number {
-    if (Number.isNaN(n)) {
-        return 0
-    } else {
-        return n
-    }
+    return withHexPrefix ? HEX_PREFIX + hex : hex
 }
 
 // Copyright 2020 IOTA Stiftung
@@ -205,7 +171,7 @@ export class Converter {
                 }
             }
         }
-        return prefix ? '0x' + hex : hex
+        return prefix ? HEX_PREFIX + hex : hex
     }
 
     /**
@@ -215,7 +181,7 @@ export class Converter {
      * @returns The array.
      */
     public static hexToBytes(hex: string, reverse?: boolean): Uint8Array {
-        if (hex.startsWith('0x')) {
+        if (hex.startsWith(HEX_PREFIX)) {
             hex = hex.substring(2)
         }
 
@@ -263,11 +229,11 @@ export class Converter {
     }
 
     public static decimalToHex(number: number, prefix = true): string {
-        return prefix ? '0x' + number.toString(16) : number.toString(16)
+        return prefix ? HEX_PREFIX + number.toString(16) : number.toString(16)
     }
 
     public static bigIntToHex(bigInt: bigint, prefix = true): string {
-        return prefix ? '0x' + bigInt.toString(16) : bigInt.toString(16)
+        return prefix ? HEX_PREFIX + bigInt.toString(16) : bigInt.toString(16)
     }
 
     /**

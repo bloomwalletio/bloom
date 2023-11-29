@@ -1,16 +1,16 @@
-import { activeProfile } from '@core/profile'
+import { Platform } from '@core/app/classes'
+import { activeProfile } from '@core/profile/stores'
+import { BYTES_PER_MEGABYTE, HttpHeader } from '@core/utils'
+import features from '@features/features'
 import { get } from 'svelte/store'
 import { NFT_MEDIA_FILE_NAME } from '../constants'
 import { DownloadErrorType, DownloadWarningType } from '../enums'
-import { fetchWithTimeout } from './fetchWithTimeout'
-import { NftDownloadMetadata, INft, IPersistedNftData } from '../interfaces'
+import { INft, IPersistedNftData, NftDownloadMetadata } from '../interfaces'
 import { addPersistedNftData, persistedNftForActiveProfile } from '../stores'
-import { Platform } from '@core/app'
-import { BYTES_PER_MEGABYTE } from '@core/utils'
-import { HttpHeader } from '@core/utils'
-import features from '@features/features'
+import { fetchWithTimeout } from './fetchWithTimeout'
 
 const HEAD_FETCH_TIMEOUT_SECONDS = 3
+const UNREACHABLE_ERROR_MESSAGE = 'The user aborted a request.'
 
 export async function checkIfNftShouldBeDownloaded(
     nft: INft
@@ -48,7 +48,7 @@ export async function checkIfNftShouldBeDownloaded(
             }
         }
     } catch (err) {
-        if (err?.message === 'The user aborted a request.') {
+        if (err?.message === UNREACHABLE_ERROR_MESSAGE) {
             downloadMetadata.error = { type: DownloadErrorType.NotReachable }
         } else {
             downloadMetadata.error = { type: DownloadErrorType.Generic, message: err.message }
@@ -75,7 +75,7 @@ function validateFile(nft: INft, contentType: string, contentLength: string): Pa
 async function getNftData(nft: INft): Promise<IPersistedNftData> {
     const persistedNftData = get(persistedNftForActiveProfile)?.[nft.id]
 
-    if (persistedNftData) {
+    if (persistedNftData && persistedNftData.error?.message !== UNREACHABLE_ERROR_MESSAGE) {
         if (persistedNftData.error) {
             throw persistedNftData.error
         }
@@ -109,7 +109,7 @@ async function getNftData(nft: INft): Promise<IPersistedNftData> {
 async function getUrlAndHeadersFromOldSoonaverseStructure(
     nft: INft,
     headers: Headers
-): Promise<{ url: string; headers: Headers }> {
+): Promise<{ url: string; headers: Headers } | undefined> {
     const isContentTypeEqualNftType = headers.get(HttpHeader.ContentType) === nft.parsedMetadata?.type
     if (!isContentTypeEqualNftType) {
         const backupUrl = nft.composedUrl + '/' + encodeURIComponent(nft?.parsedMetadata?.name)

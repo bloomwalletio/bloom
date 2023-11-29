@@ -1,5 +1,6 @@
 import { IAppUpdateDownloadProgress, IAppVersionDetails, INFTDownloadState } from '.'
-import { IEvmAddress, IEvmTransactionSignature } from '@core/layer-2/interfaces'
+import { IEvmAddress, IEvmSignature } from '@core/layer-2/interfaces'
+import { ILedgerEthereumAppSettings } from '@core/ledger/interfaces'
 
 export interface IPlatformEventMap {
     'menu-logout': void
@@ -17,8 +18,11 @@ export interface IPlatformEventMap {
     'notification-activated': unknown
     'nft-download-done': INFTDownloadState
     'nft-download-interrupted': INFTDownloadState
+    'ethereum-app-settings': ILedgerEthereumAppSettings
     'evm-address': IEvmAddress
-    'evm-signed-transaction': IEvmTransactionSignature
+    'evm-signed-transaction': IEvmSignature
+    'signed-message': IEvmSignature
     'ledger-error': Error
     'lock-screen': void
+    'native-theme-updated': void
 }

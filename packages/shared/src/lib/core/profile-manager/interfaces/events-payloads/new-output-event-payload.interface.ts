@@ -1,8 +1,7 @@
-import { IOutputResponse, ITransactionPayload } from '@iota/types'
-import { OutputData } from '@iota/wallet/types/output'
+import type { IOutputsResponse, TransactionPayload, OutputData } from '@iota/sdk'
 
 export interface INewOutputEventPayload {
     output: OutputData
-    transaction: ITransactionPayload
-    transactionInputs: IOutputResponse[]
+    transaction: TransactionPayload
+    transactionInputs: IOutputsResponse[]
 }

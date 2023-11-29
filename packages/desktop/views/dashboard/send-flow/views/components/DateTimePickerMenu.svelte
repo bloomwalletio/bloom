@@ -1,27 +1,21 @@
 <script lang="ts">
     import { formatDate, localize } from '@core/i18n'
-    import { TimePeriod } from '@core/utils'
-    import { Modal, MenuItem, ExpirationDateTimePicker } from '@ui'
-    import { fade } from 'svelte/transition'
+    import { showNotification } from '@auxiliary/notification'
+    import { DateTimePicker, IconName, Menu, Popover, Text } from '@bloomwalletio/ui'
+    import { MILLISECONDS_PER_SECOND, SECONDS_PER_MINUTE, TimePeriod, isFutureDateTime } from '@core/utils'
 
     export let value: Date
     export let selected: TimePeriod = TimePeriod.None
-    export let anchor: HTMLElement = undefined
-
-    export function tryOpen(): void {
-        if (!canShowDateTimePicker) {
-            modal?.open()
-        } else {
-            canShowDateTimePicker = !canShowDateTimePicker
-        }
-    }
+    export let disabled: boolean = false
 
     const DATE_NOW = Date.now()
 
-    let previouslySelected: TimePeriod = selected
-    let customDate: Date
-    let canShowDateTimePicker = false
-    let modal: Modal
+    let previouslySelected = selected
+    let customDate = new Date(Date.now() + 5 * SECONDS_PER_MINUTE * MILLISECONDS_PER_SECOND)
+
+    let menu: Menu | undefined = undefined
+    let popover: Popover | undefined = undefined
+    let anchor: HTMLElement | undefined = undefined
 
     const dateIn1Hour = new Date(DATE_NOW)
     dateIn1Hour.setTime(dateIn1Hour.getTime() + 1 * 60 * 60 * 1000)
@@ -53,89 +47,113 @@
         }
     }
 
-    function onChooseExpirationTimeClick(_selected: TimePeriod): void {
+    function onChooseTimeClick(_selected: TimePeriod): void {
         if (_selected === TimePeriod.Custom) {
-            canShowDateTimePicker = !canShowDateTimePicker
+            popover?.show()
         } else {
             customDate = undefined
         }
-        modal?.close()
+        menu?.close()
         previouslySelected = selected
         selected = _selected
         setDate()
     }
 
-    function onCancelExpirationTimeClick(): void {
+    function onCancelClick(): void {
         if (!customDate) {
             selected = previouslySelected
             setDate()
         }
-        canShowDateTimePicker = false
+        popover?.hide()
     }
 
-    function onConfirmExpirationTimeClick(): void {
-        value = customDate
-        canShowDateTimePicker = false
+    function onConfirmClick(): void {
+        if (isFutureDateTime(customDate)) {
+            value = customDate
+            popover?.hide()
+        } else {
+            showNotification({
+                variant: 'warning',
+                text: localize('warning.transaction.invalidDateTime'),
+            })
+        }
     }
 </script>
 
-<Modal bind:this={modal} position={{ bottom: '120px', left: '400px' }} size="medium">
-    <expiration-time-picker-modal class="flex flex-col space-y-0 whitespace-nowrap" in:fade={{ duration: 100 }}>
-        <MenuItem
-            icon="calendar"
-            title={localize('menus.expirationTimePicker.none')}
-            onClick={() => onChooseExpirationTimeClick(TimePeriod.None)}
-            selected={selected === TimePeriod.None}
-        />
-        <hr />
-        <MenuItem
-            icon="calendar"
-            title={localize('menus.expirationTimePicker.1hour')}
-            subtitle={formatDate(dateIn1Hour, {
+<Menu
+    bind:this={menu}
+    {disabled}
+    compact={false}
+    placement="top-end"
+    button={{
+        text: localize('actions.remove'),
+        onClick: () => onChooseTimeClick(TimePeriod.None),
+    }}
+    items={[
+        {
+            icon: IconName.ClockPlus,
+            title: localize('menus.dateTimePicker.1hour'),
+            subtitle: formatDate(dateIn1Hour, {
                 dateStyle: 'medium',
                 timeStyle: 'medium',
-            })}
-            onClick={() => onChooseExpirationTimeClick(TimePeriod.OneHour)}
-            selected={selected === TimePeriod.OneHour}
-        />
-        <MenuItem
-            icon="calendar"
-            title={localize('menus.expirationTimePicker.1day')}
-            subtitle={formatDate(dateIn1Day, {
+            }),
+            selected: selected === TimePeriod.OneHour,
+            onClick: () => onChooseTimeClick(TimePeriod.OneHour),
+        },
+        {
+            icon: IconName.CalendarDate,
+            title: localize('menus.dateTimePicker.1day'),
+            subtitle: formatDate(dateIn1Day, {
                 dateStyle: 'medium',
                 timeStyle: 'medium',
-            })}
-            onClick={() => onChooseExpirationTimeClick(TimePeriod.OneDay)}
-            selected={selected === TimePeriod.OneDay}
-        />
-        <MenuItem
-            icon="calendar"
-            title={localize('menus.expirationTimePicker.1week')}
-            subtitle={formatDate(dateIn1Week, {
+            }),
+            selected: selected === TimePeriod.OneDay,
+            onClick: () => onChooseTimeClick(TimePeriod.OneDay),
+        },
+        {
+            icon: IconName.CalendarPlus,
+            title: localize('menus.dateTimePicker.1week'),
+            subtitle: formatDate(dateIn1Week, {
                 dateStyle: 'medium',
                 timeStyle: 'medium',
-            })}
-            onClick={() => onChooseExpirationTimeClick(TimePeriod.OneWeek)}
-            selected={selected === TimePeriod.OneWeek}
-        />
-        <hr />
-        <MenuItem
-            icon="calendar"
-            title={localize('menus.expirationTimePicker.customDate.title')}
-            subtitle={customDate
+            }),
+            selected: selected === TimePeriod.OneWeek,
+            onClick: () => onChooseTimeClick(TimePeriod.OneWeek),
+        },
+        {
+            icon: IconName.Calendar,
+            title: localize('menus.dateTimePicker.customDate.title'),
+            subtitle: customDate
                 ? formatDate(customDate, { dateStyle: 'medium', timeStyle: 'medium' })
-                : localize('menus.expirationTimePicker.customDate.subtitle')}
-            onClick={() => onChooseExpirationTimeClick(TimePeriod.Custom)}
-            selected={selected === TimePeriod.Custom}
-        />
-    </expiration-time-picker-modal>
-</Modal>
-{#if canShowDateTimePicker}
-    <ExpirationDateTimePicker
-        position="top"
-        {anchor}
+                : localize('menus.dateTimePicker.customDate.subtitle'),
+            selected: selected === TimePeriod.Custom,
+            onClick: () => onChooseTimeClick(TimePeriod.Custom),
+        },
+    ]}
+>
+    <button
+        bind:this={anchor}
+        slot="anchor"
+        class="flex items-center justify-center {disabled ? 'cursor-default' : 'cursor-pointer'}"
+        {disabled}
+    >
+        <div class="flex flex-row items-center">
+            <Text textColor={disabled ? 'secondary' : 'brand'} fontWeight="medium">
+                {value ? formatDate(value, { dateStyle: 'long', timeStyle: 'medium' }) : localize('general.none')}
+            </Text>
+        </div>
+    </button>
+</Menu>
+<Popover
+    bind:this={popover}
+    {anchor}
+    placement="top-end"
+    class="border border-solid border-stroke dark:border-stroke-dark rounded-xl shadow-lg overflow-hidden"
+>
+    <DateTimePicker
         bind:value={customDate}
-        on:cancel={onCancelExpirationTimeClick}
-        on:confirm={onConfirmExpirationTimeClick}
+        on:cancel={onCancelClick}
+        on:confirm={onConfirmClick}
+        startDate={new Date()}
     />
-{/if}
+</Popover>

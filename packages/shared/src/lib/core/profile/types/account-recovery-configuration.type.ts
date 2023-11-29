@@ -1,4 +1,4 @@
-import { ProfileType } from '@core/profile'
+import { ProfileType } from '../enums'
 
 export type AccountRecoveryProfileConfiguration = {
     initialAccountRange: number

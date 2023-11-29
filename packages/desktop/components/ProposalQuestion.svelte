@@ -1,12 +1,12 @@
 <script lang="ts">
-    import type { AnswerStatus, Question } from '@iota/wallet'
+    import { AnswerStatus, EventStatus, Question } from '@iota/sdk/out/types'
 
     import { ProposalAnswer } from '@components'
-    import { Icon, Text, TooltipIcon } from '@ui'
-    import { FontWeight, Position } from '@ui/enums'
+    import { Icon, Text } from '@ui'
+    import { FontWeight } from '@ui/enums'
+    import { TooltipIcon } from '@bloomwalletio/ui'
 
     import { ABSTAIN_VOTE_VALUE } from '@contexts/governance/constants'
-    import { ProposalStatus } from '@contexts/governance/enums'
     import { getPercentagesFromAnswerStatuses, IProposalAnswerPercentages } from '@contexts/governance'
     import { selectedProposal } from '@contexts/governance/stores'
 
@@ -29,8 +29,8 @@
     $: answers = [...(question?.answers ?? []), { value: 0, text: 'Abstain', additionalInfo: '' }]
     $: percentages = getPercentagesFromAnswerStatuses(answerStatuses)
     $: disabled =
-        $selectedProposal?.status === ProposalStatus.Upcoming ||
-        $selectedProposal?.status === ProposalStatus.Ended ||
+        $selectedProposal?.status === EventStatus.Upcoming ||
+        $selectedProposal?.status === EventStatus.Ended ||
         !!$selectedProposal?.error
     $: answerStatuses, setWinnerAnswerIndex()
     $: showMargin =
@@ -40,7 +40,7 @@
         winnerAnswerIndex !== undefined
 
     function setWinnerAnswerIndex(): void {
-        if ($selectedProposal?.status === ProposalStatus.Ended && answerStatuses?.length > 0) {
+        if ($selectedProposal?.status === EventStatus.Ended && answerStatuses?.length > 0) {
             const answersAccumulated = answerStatuses?.map((answer) => answer.accumulated)
             const maxAccumulated = Math.max(...answersAccumulated)
             winnerAnswerIndex = answersAccumulated?.indexOf(maxAccumulated)
@@ -69,13 +69,7 @@
                     {question.text}
                 </Text>
                 {#if question.additionalInfo}
-                    <TooltipIcon
-                        iconClasses="text-gray-600 dark:text-gray-500"
-                        text={question.additionalInfo}
-                        position={Position.Bottom}
-                        width={13}
-                        height={13}
-                    />
+                    <TooltipIcon tooltip={question.additionalInfo} placement="bottom" size="xxs" />
                 {/if}
             </div>
         </div>

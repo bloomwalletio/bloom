@@ -1,15 +1,16 @@
-import { getActiveNetworkId } from '@core/network/utils/getNetworkId'
+import { getActiveNetworkId } from '@core/network/actions'
 import { getNetworkHrp } from '@core/profile/actions'
-import { getByteLengthOfString, isStringTrue, isValidBech32AddressAndPrefix, validateAssetId } from '@core/utils'
+import { validateTokenId } from '@core/token'
+import { getTokenFromSelectedAccountTokens, selectedAccountTokens } from '@core/token/stores'
+import { getByteLengthOfString, isStringTrue, validateBech32Address } from '@core/utils'
 import {
+    MetadataLengthError,
     SendFlowParameters,
     SendFlowType,
-    TokenTransferData,
-    getAssetById,
-    getUnitFromTokenMetadata,
-    selectedAccountAssets,
     SubjectType,
+    TokenTransferData,
     setSendFlowParameters,
+    validateTag,
 } from '@core/wallet'
 import { get } from 'svelte/store'
 import { PopupId, openPopup } from '../../../../../../../../desktop/lib/auxiliary/popup'
@@ -18,20 +19,12 @@ import {
     SendFlowRouter,
     sendFlowRouter,
 } from '../../../../../../../../desktop/views/dashboard/send-flow/send-flow.router'
-import { SendOperationParameter } from '../../../enums'
-import {
-    InvalidAddressError,
-    MetadataLengthError,
-    NoAddressSpecifiedError,
-    SurplusNotANumberError,
-    SurplusNotSupportedError,
-    TagLengthError,
-    UnknownAssetError,
-} from '../../../errors'
+import { SendTransactionParameter } from '../../../enums'
+import { InvalidAddressError, NoAddressSpecifiedError, UnknownAssetError } from '../../../errors'
 import { getRawAmountFromSearchParam } from '../../../utils'
 
-export function handleDeepLinkSendConfirmationOperation(searchParams: URLSearchParams): void {
-    const sendFlowParameters = parseSendConfirmationOperation(searchParams)
+export function handleDeepLinkSendTransactionOperation(searchParams: URLSearchParams): void {
+    const sendFlowParameters = parseSendTransactionOperation(searchParams)
 
     if (sendFlowParameters) {
         setSendFlowParameters(sendFlowParameters)
@@ -49,85 +42,83 @@ export function handleDeepLinkSendConfirmationOperation(searchParams: URLSearchP
 /**
  * Parses a deep link for the send operation.
  *
- * @method parseSendConfirmationOperation
+ * @method parseSendTransactionOperation
  *
  * @param {URLSearchParams} searchParams The query parameters of the deep link URL.
  *
  * @return {SendFlowParameters} The formatted parameters for the send operation.
  */
-function parseSendConfirmationOperation(searchParams: URLSearchParams): SendFlowParameters {
+function parseSendTransactionOperation(searchParams: URLSearchParams): SendFlowParameters {
     const networkId = getActiveNetworkId()
-    if (!networkId) {
-        throw new Error('No active network')
-    }
-
-    const assetId = searchParams.get(SendOperationParameter.AssetId)
-    if (assetId) {
-        validateAssetId(assetId)
-    }
-
-    const type = assetId ? SendFlowType.TokenTransfer : SendFlowType.BaseCoinTransfer
-
-    const surplus = searchParams.get(SendOperationParameter.Surplus)
-    if (surplus && parseInt(surplus).toString() !== surplus) {
-        throw new SurplusNotANumberError(surplus)
-    } else if (surplus && type === SendFlowType.TokenTransfer) {
-        throw new SurplusNotSupportedError()
+    const baseCoin = get(selectedAccountTokens)?.[networkId]?.baseCoin
+    if (!baseCoin) {
+        throw new Error('No base coin')
     }
 
     let baseCoinTransfer: TokenTransferData | undefined
-    let tokenTransfer: TokenTransferData | undefined
-    if (type === SendFlowType.BaseCoinTransfer) {
+    const baseCoinAmount = getRawAmountFromSearchParam(searchParams, SendTransactionParameter.BaseCoinAmount)
+    if (baseCoinAmount) {
         baseCoinTransfer = {
-            asset: get(selectedAccountAssets)?.[networkId]?.baseCoin,
-            rawAmount: getRawAmountFromSearchParam(searchParams),
-            unit: searchParams.get(SendOperationParameter.Unit) ?? 'glow',
+            token: baseCoin,
+            rawAmount: baseCoinAmount,
         }
-    } else if (type === SendFlowType.TokenTransfer && assetId) {
-        const asset = getAssetById(assetId, networkId)
-        if (asset?.metadata) {
+    }
+
+    const tokenId = searchParams.get(SendTransactionParameter.TokenId)
+    if (tokenId) {
+        validateTokenId(tokenId)
+    }
+
+    let tokenTransfer: TokenTransferData | undefined
+    const tokenAmount = getRawAmountFromSearchParam(searchParams, SendTransactionParameter.TokenAmount)
+    if (tokenId && tokenAmount) {
+        const token = getTokenFromSelectedAccountTokens(tokenId, networkId)
+        if (token?.metadata) {
             tokenTransfer = {
-                asset,
-                rawAmount: getRawAmountFromSearchParam(searchParams),
-                unit: searchParams.get(SendOperationParameter.Unit) ?? getUnitFromTokenMetadata(asset.metadata),
-            }
-            if (surplus) {
-                baseCoinTransfer = {
-                    asset: get(selectedAccountAssets)?.[networkId]?.baseCoin,
-                    rawAmount: surplus,
-                    unit: 'glow',
-                }
+                token,
+                rawAmount: tokenAmount,
             }
         } else {
             throw new UnknownAssetError()
         }
     }
 
+    if (!baseCoinTransfer && !tokenTransfer) {
+        throw new Error('No transfer')
+    }
+
     // Check address exists and is valid this is not optional.
-    const address = searchParams.get(SendOperationParameter.Address)
+    const address = searchParams.get(SendTransactionParameter.Address)
     if (!address) {
         throw new NoAddressSpecifiedError()
     }
-    if (!isValidBech32AddressAndPrefix(address, getNetworkHrp())) {
+
+    try {
+        validateBech32Address(getNetworkHrp(), address)
+    } catch (error) {
         throw new InvalidAddressError()
     }
 
-    const metadata = searchParams.get(SendOperationParameter.Metadata)
+    const metadata = searchParams.get(SendTransactionParameter.Metadata)
     if (metadata && getByteLengthOfString(metadata) > 8192) {
         throw new MetadataLengthError()
     }
 
-    const tag = searchParams.get(SendOperationParameter.Tag)
-    if (tag && getByteLengthOfString(tag) > 64) {
-        throw new TagLengthError()
+    const tag = searchParams.get(SendTransactionParameter.Tag)
+    if (tag) {
+        validateTag(tag)
     }
 
-    const giftStorageDeposit = isStringTrue(searchParams.get(SendOperationParameter.GiftStorageDeposit) ?? '')
-    const disableToggleGift = isStringTrue(searchParams.get(SendOperationParameter.DisableToggleGift) ?? '')
-    const disableChangeExpiration = isStringTrue(searchParams.get(SendOperationParameter.DisableChangeExpiration) ?? '')
+    const giftStorageDeposit = isStringTrue(searchParams.get(SendTransactionParameter.GiftStorageDeposit) ?? '')
+    const disableToggleGift = isStringTrue(searchParams.get(SendTransactionParameter.DisableToggleGift) ?? '')
+    const disableChangeExpiration = isStringTrue(
+        searchParams.get(SendTransactionParameter.DisableChangeExpiration) ?? ''
+    )
+    const disableChangeTimelock = isStringTrue(searchParams.get(SendTransactionParameter.DisableChangeTimelock) ?? '')
 
     return {
-        type,
+        type: tokenTransfer ? SendFlowType.TokenTransfer : SendFlowType.BaseCoinTransfer,
+        destinationNetworkId: networkId,
         ...(baseCoinTransfer && { baseCoinTransfer }),
         ...(tokenTransfer && { tokenTransfer }),
         ...(address && { recipient: { type: SubjectType.Address, address } }),
@@ -136,5 +127,6 @@ function parseSendConfirmationOperation(searchParams: URLSearchParams): SendFlow
         ...(giftStorageDeposit && { giftStorageDeposit }),
         ...(disableToggleGift && { disableToggleGift }),
         ...(disableChangeExpiration && { disableChangeExpiration }),
+        ...(disableChangeTimelock && { disableChangeTimelock }),
     }
 }

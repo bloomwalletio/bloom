@@ -1,34 +1,61 @@
-import { handleEthSendTransaction } from './eth_sendTransaction.handler'
-import { handleEthSign } from './eth_sign.handler'
-import { handleEthSignTransaction } from './eth_signTransaction.handler'
+import { handleSignMessage } from './sign_message.handler'
+import { handleEthTransaction } from './eth_transaction.handler'
 import { handleEthSignTypedData } from './eth_signTypedData.handler'
-import { handlePersonalSign } from './personal_sign.handler'
 import { JsonRpcResponse } from '@walletconnect/jsonrpc-types'
 import { Web3WalletTypes } from '@walletconnect/web3wallet'
-import { getWalletClient } from '../stores'
+import { getConnectedDappByOrigin, getWalletClient } from '../stores'
+import { NetworkId, getNetwork } from '@core/network'
+import { CallbackParameters } from '../types'
+import { Platform } from '@core/app'
+import { getSdkError } from '@walletconnect/utils'
+import { closePopup } from '../../../../../../desktop/lib/auxiliary/popup'
 
 export function onSessionRequest(event: Web3WalletTypes.SessionRequest): void {
-    const { topic, params, id } = event
-    const { request } = params
-    // TODO: to access the chain for which we want to do the action: params.chainId
+    Platform.focusWindow()
+
+    const { topic, params, id, verifyContext } = event
+    const { request, chainId } = params
     const method = request.method
 
-    function returnResponse(response: JsonRpcResponse): void {
-        void getWalletClient()?.respondSessionRequest({ topic, response })
+    const dapp = getConnectedDappByOrigin(verifyContext.verified.origin)
+
+    function returnResponse({ result, error }: CallbackParameters): void {
+        const response: JsonRpcResponse | undefined = result
+            ? {
+                  id,
+                  result,
+                  jsonrpc: '2.0',
+              }
+            : error
+            ? {
+                  id,
+                  error,
+                  jsonrpc: '2.0',
+              }
+            : undefined
+
+        if (response) {
+            void getWalletClient()?.respondSessionRequest({ topic, response })
+        }
+        closePopup(true)
     }
+
+    const chain = getNetwork()?.getChain(chainId as NetworkId)
+    if (!chain) {
+        returnResponse({ error: getSdkError('UNSUPPORTED_CHAINS') })
+        return
+    }
+
+    const signAndSend = method === 'eth_sendTransaction'
 
     switch (method) {
         case 'eth_sendTransaction':
-            handleEthSendTransaction(id, request.params, returnResponse)
-            break
         case 'eth_signTransaction':
-            handleEthSignTransaction()
+            void handleEthTransaction(request.params[0], dapp, chain, signAndSend, returnResponse)
             break
         case 'eth_sign':
-            handleEthSign()
-            break
         case 'personal_sign':
-            handlePersonalSign(id, request.params, returnResponse)
+            void handleSignMessage(request.params, dapp, method, chain, returnResponse)
             break
         case 'eth_signTypedData':
             handleEthSignTypedData()

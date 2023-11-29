@@ -1,40 +1,47 @@
 <script lang="ts">
-    import { Icon, PingingBadge, Position, InformationTooltip } from '@ui'
-    import { dashboardRoute } from '@core/router'
-    import { ISidebarTab } from '@desktop/routers'
+    import { Icon, IconName, Indicator, Text } from '@bloomwalletio/ui'
+    import { IDashboardSidebarTab, ISettingsSidebarTab } from '@desktop/routers'
 
-    export let tab: ISidebarTab = undefined
+    export let tab: IDashboardSidebarTab | ISettingsSidebarTab = undefined
+    export let selected: boolean = false
+    export let expanded: boolean = true
 
-    let tooltipAnchor: HTMLButtonElement
-    let showTooltip = false
+    let hover = false
 
     function onClick(): void {
-        _showTooltip(false)
         tab?.onClick()
-    }
-
-    function _showTooltip(show: boolean): void {
-        showTooltip = show
     }
 </script>
 
-<button
-    on:mouseenter={() => _showTooltip(true)}
-    on:mouseleave={() => _showTooltip(false)}
-    bind:this={tooltipAnchor}
-    class="{$dashboardRoute === tab?.route ? 'text-blue-500' : 'text-gray-500'} relative"
-    on:click={onClick}
->
-    <Icon width="24" height="24" icon={tab?.icon} />
-    {#if tab?.notificationType}
-        <PingingBadge
-            innerColor={tab?.notificationType === 'warning' ? 'yellow-600' : 'red-500'}
-            outerColor={tab?.notificationType === 'warning' ? 'yellow-400' : 'red-300'}
-            classes="absolute -top-2 -left-2"
-        />
+<button class:selected on:click={onClick} on:mouseenter={() => (hover = true)} on:mouseleave={() => (hover = false)}>
+    <div class="flex flex-row items-center relative space-x-4 pr-3">
+        <Icon name={tab?.icon} textColor={selected ? 'brand' : 'primary'} />
+        {#if tab?.notificationType}
+            <Indicator
+                size="sm"
+                color={tab?.notificationType === 'warning' ? 'yellow' : 'red'}
+                ping
+                class="absolute top-0 right-0"
+            />
+        {/if}
+        {#if expanded}
+            <Text textColor={selected ? 'brand' : 'primary'}>{tab.label}</Text>
+        {/if}
+    </div>
+    {#if (selected || hover) && expanded}
+        <Icon name={IconName.ChevronRight} textColor={selected ? 'brand' : 'primary'} />
     {/if}
 </button>
 
-{#if showTooltip}
-    <InformationTooltip anchor={tooltipAnchor} position={Position.Right} size="small" body={tab?.label} />
-{/if}
+<style lang="postcss">
+    button {
+        @apply flex flex-row flex-grow justify-between;
+        @apply w-full;
+        @apply py-2.5 px-3 rounded-[10px];
+
+        &.selected,
+        &:hover {
+            @apply bg-surface-2 dark:bg-surface-2-dark;
+        }
+    }
+</style>

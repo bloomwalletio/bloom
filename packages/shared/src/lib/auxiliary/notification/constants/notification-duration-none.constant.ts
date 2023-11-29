@@ -1,0 +1,1 @@
+export const NOTIFICATION_DURATION_NONE = -1

@@ -1,15 +1,20 @@
 <script lang="ts">
+    import { OnboardingNetworkType } from '@contexts/onboarding'
     import { localize } from '@core/i18n'
-    import { IAuth, NetworkId } from '@core/network'
-    import { EMPTY_NODE } from '@core/network/constants'
-    import { IClientOptions, INode, INodeInfoResponse } from '@core/network/interfaces'
+    import { IAuth, INode } from '@iota/sdk/out/types'
+    import { DEFAULT_NETWORK_METADATA, EMPTY_NODE } from '@core/network/constants'
+    import { IClientOptions, INodeInfoResponse } from '@core/network/interfaces'
     import { nodeInfo } from '@core/network/stores'
-    import { checkNetworkId, checkNodeUrlValidity, getNetworkNameFromNetworkId } from '@core/network/utils'
-    import { activeProfile } from '@core/profile'
+    import {
+        checkIfOnSameNetwork,
+        checkNodeUrlValidity,
+        getOnboardingNetworkTypeFromNetworkId,
+    } from '@core/network/utils'
     import { getNodeInfo } from '@core/profile-manager'
-    import { IDropdownItem, cleanUrl } from '@core/utils'
+    import { activeProfile } from '@core/profile/stores'
+    import { cleanUrl } from '@core/utils'
     import features from '@features/features'
-    import { Dropdown, Error, NumberInput, PasswordInput, TextInput } from '@ui'
+    import { Error, IOption, NumberInput, PasswordInput, SelectInput, TextInput } from '@bloomwalletio/ui'
 
     interface INodeValidationOptions {
         checkNodeInfo: boolean
@@ -19,39 +24,22 @@
     }
 
     export let node: INode = structuredClone(EMPTY_NODE)
-    export let networkId: NetworkId | undefined
-    export let coinType: string | undefined
+    export let networkType: OnboardingNetworkType | undefined = undefined
+    export let coinType: string = ''
     export let isBusy = false
     export let formError = ''
     export let currentClientOptions: IClientOptions | undefined = undefined
     export let isDeveloperProfile: boolean = false
     export let onSubmit: () => void = () => {}
-    export let showNetworkFields: boolean = false
+    export let networkEditable: boolean = false
 
-    const networkItems: IDropdownItem<NetworkId>[] = [
-        {
-            label: getNetworkNameFromNetworkId(NetworkId.Iota),
-            value: NetworkId.Iota,
-        },
-        {
-            label: getNetworkNameFromNetworkId(NetworkId.Shimmer),
-            value: NetworkId.Shimmer,
-        },
-        {
-            label: getNetworkNameFromNetworkId(NetworkId.Testnet),
-            value: NetworkId.Testnet,
-        },
-        {
-            label: localize('general.custom'),
-            value: NetworkId.Custom,
-        },
-    ].filter((item) => features.onboarding?.[item.value]?.enabled)
+    const networkOptions: IOption[] = getNetworkTypeOptions()
 
     let [username, password] = node.auth?.basicAuthNamePwd ?? ['', '']
-    let jwt = node.auth?.jwt
+    let jwt = node.auth?.jwt ?? ''
 
-    $: networkId, (coinType = undefined)
-    $: networkId, coinType, node.url, (formError = '')
+    $: networkType, (coinType = '')
+    $: networkType, coinType, node.url, (formError = '')
     $: jwt,
         username,
         password,
@@ -59,6 +47,19 @@
             url: node.url,
             auth: getAuth(),
         })
+
+    function getNetworkTypeOptions(): IOption[] {
+        const options = Object.values(DEFAULT_NETWORK_METADATA).map((network) => ({
+            label: network?.name,
+            value: getOnboardingNetworkTypeFromNetworkId(network?.id),
+        }))
+        options.push({
+            label: localize('general.custom'),
+            value: OnboardingNetworkType.Custom,
+        })
+
+        return options.filter((item) => features.onboarding?.[item.value]?.enabled)
+    }
 
     function getAuth(): IAuth {
         const auth: IAuth = {}
@@ -75,12 +76,8 @@
         node.url = cleanUrl(node?.url)
     }
 
-    function onNetworkIdChanges(selected: IDropdownItem<NetworkId>): void {
-        networkId = selected.value
-    }
-
     export async function validate(options: INodeValidationOptions): Promise<void> {
-        if (networkId === NetworkId.Custom && !coinType) {
+        if (networkType === OnboardingNetworkType.Custom && !coinType) {
             formError = localize('error.node.noCoinType')
             return Promise.reject({ type: 'validationError', error: formError })
         }
@@ -119,9 +116,9 @@
         }
 
         if (options.validateClientOptions && currentClientOptions) {
-            const errorNetworkId = checkNetworkId(networkName, currentClientOptions.network, isDeveloperProfile)
-            if (errorNetworkId) {
-                formError = localize(errorNetworkId?.locale, errorNetworkId?.values) ?? ''
+            const errorNetworkName = checkIfOnSameNetwork(networkName, currentClientOptions.network, isDeveloperProfile)
+            if (errorNetworkName) {
+                formError = localize(errorNetworkName?.locale, errorNetworkName?.values) ?? ''
                 return Promise.reject({ type: 'validationError', error: formError })
             }
         }
@@ -129,50 +126,33 @@
 </script>
 
 <form id="node-configuration-form" class="w-full h-full flex-col space-y-3" on:submit|preventDefault={onSubmit}>
-    {#if showNetworkFields && networkId}
-        <Dropdown
+    {#if networkEditable}
+        <SelectInput
+            bind:value={networkType}
+            selected={networkOptions[0]}
             label={localize('general.network')}
-            placeholder={localize('general.network')}
-            value={networkId}
-            items={networkItems}
+            options={networkOptions}
             disabled={isBusy}
-            onSelect={onNetworkIdChanges}
+            hideValue
         />
-        {#if networkId === NetworkId.Custom && coinType}
-            <NumberInput
-                bind:value={coinType}
-                placeholder={localize('general.coinType')}
-                label={localize('general.coinType')}
-                disabled={isBusy}
-                isInteger
-            />
+        {#if networkType === OnboardingNetworkType.Custom}
+            <NumberInput bind:value={coinType} label={localize('general.coinType')} disabled={isBusy} isInteger />
         {/if}
     {/if}
 
     <TextInput
         bind:value={node.url}
-        placeholder={localize('popups.node.nodeAddress')}
         label={localize('popups.node.nodeAddress')}
         disabled={isBusy}
         on:change={cleanNodeUrl}
     />
-    <TextInput
-        bind:value={username}
-        placeholder={localize('popups.node.optionalUsername')}
-        label={localize('popups.node.optionalUsername')}
-        disabled={isBusy}
-    />
+    <TextInput bind:value={username} label={localize('popups.node.optionalUsername')} disabled={isBusy} />
     <PasswordInput
         bind:value={password}
         label={localize('popups.node.optionalPassword')}
-        placeholder={localize('popups.node.optionalPassword')}
+        required={!!username}
         disabled={isBusy}
     />
-    <PasswordInput
-        bind:value={jwt}
-        placeholder={localize('popups.node.optionalJwt')}
-        label={localize('popups.node.optionalJwt')}
-        disabled={isBusy}
-    />
-    <Error error={formError} />
+    <PasswordInput bind:value={jwt} label={localize('popups.node.optionalJwt')} required={false} disabled={isBusy} />
+    {#if formError}<Error error={formError} />{/if}
 </form>

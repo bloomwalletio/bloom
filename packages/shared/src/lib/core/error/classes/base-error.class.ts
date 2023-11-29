@@ -1,5 +1,5 @@
 import { localize } from '@core/i18n'
-import { showAppNotification } from '@auxiliary/notification'
+import { showNotification } from '@auxiliary/notification/actions'
 
 import { IErrorParameters } from '../interfaces'
 import { addError } from '../stores'
@@ -25,10 +25,9 @@ export class BaseError extends Error {
         }
 
         if (params?.showNotification) {
-            showAppNotification({
-                type: 'error',
-                message,
-                alert: true,
+            showNotification({
+                variant: 'error',
+                text: message,
             })
         }
 

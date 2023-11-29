@@ -1,78 +1,95 @@
 <script lang="typescript">
-    import { Text, FontWeight, NftMedia, TooltipIcon, Position, TooltipType } from '@ui'
-
-    import { time } from '@core/app'
+    import { MediaPlaceholder, NftMedia } from '@ui'
+    import { IconName, Pill, Text, Tooltip, TooltipIcon } from '@bloomwalletio/ui'
+    import { time } from '@core/app/stores'
     import { localize } from '@core/i18n'
-    import { INft } from '@core/nfts'
+    import { INft, NftDownloadMetadata } from '@core/nfts'
     import { selectedNftId } from '@core/nfts/stores'
     import { CollectiblesRoute, collectiblesRouter } from '@core/router'
-
-    import { Icon } from '@auxiliary/icon'
+    import { getTimeDifference } from '@core/utils'
 
     export let nft: INft
 
     let nftWrapperClientWidth: number
-    let tooltipIconProps: { icon?: Icon; iconClasses?: string; text?: string } = {}
+    let anchor: HTMLElement
 
-    $: isLocked = nft.timelockTime > $time.getTime()
+    $: isLocked = nft.timelockTime && nft.timelockTime > $time.getTime()
 
-    $: if (nft.downloadMetadata.error) {
-        tooltipIconProps = {
-            icon: Icon.ErrorFilled,
-            iconClasses: 'fill-current text-red-700',
-            text: getTooltipText(TooltipType.Error),
-        }
-    } else if (nft.downloadMetadata.warning) {
-        tooltipIconProps = {
-            icon: Icon.ExclamationFilled,
-            iconClasses: 'fill-current text-yellow-700',
-            text: getTooltipText(TooltipType.Warning),
-        }
-    }
-
-    function onClick(): void {
+    function onNftClick(): void {
         $selectedNftId = nft.id
         $collectiblesRouter.goTo(CollectiblesRoute.Details)
+        $collectiblesRouter.setBreadcrumb(nft?.name)
     }
 
-    function getTooltipText(key: TooltipType): string | undefined {
-        const { type, message } = nft?.downloadMetadata?.[key] ?? {}
-        return type === 'generic' ? message : localize(`error.nft.${type}.short`)
+    function getAlertText(downloadMetadata: NftDownloadMetadata): string {
+        const { error, warning } = downloadMetadata ?? {}
+        const errorOrWarning = error || warning
+
+        if (!errorOrWarning) {
+            return ''
+        }
+
+        const { type, message } = errorOrWarning
+        return type === 'generic' ? message ?? '' : localize(`error.nft.${type}.short`)
     }
 </script>
 
-<button type="button" on:click={onClick} class="flex flex-col items-center justify-center">
-    <div class="w-full rounded-2xl overflow-hidden flex flex-col shadow-elevation-1">
+<button type="button" on:click={onNftClick} class="nft-gallery-item">
+    <container>
         <div
-            class="w-full flex relative"
+            class="w-full flex relative bg-surface-2 dark:bg-surface-2-dark"
             bind:clientWidth={nftWrapperClientWidth}
             style="height: {nftWrapperClientWidth}px; "
         >
-            <NftMedia {nft} classes="bg-gray-200 dark:bg-gray-700 min-w-full min-h-full object-cover" loop muted />
-            {#if nft.downloadMetadata.error || nft.downloadMetadata.warning}
-                <div class="absolute right-3 top-3">
-                    <TooltipIcon
-                        height={24}
-                        width={24}
-                        size="small"
-                        primaryColor="white"
-                        position={Position.Left}
-                        {...tooltipIconProps}
-                    />
-                </div>
-            {/if}
+            <NftMedia {nft} classes="min-w-full min-h-full object-cover" loop muted>
+                <MediaPlaceholder {nft} size="md" slot="placeholder" />
+            </NftMedia>
+            <error-container bind:this={anchor}>
+                {#if nft.downloadMetadata.error || nft.downloadMetadata.warning}
+                    <Pill color={nft.downloadMetadata?.error ? 'danger' : 'warning'}>
+                        {localize('general.' + (nft.downloadMetadata?.error ? 'error' : 'warning'))}
+                    </Pill>
+                {/if}
+            </error-container>
+            <Tooltip {anchor} placement="bottom" event="hover" text={getAlertText(nft.downloadMetadata)} />
         </div>
-        <div class="w-full flex flex-row align-center justify-between p-3.5 bg-white dark:bg-gray-800">
-            <Text fontWeight={FontWeight.semibold} fontSize="12" classes="text-left truncate">{nft.name}</Text>
+        <nft-name class="w-full flex flex-row items-center justify-between p-3 gap-2">
+            <Text type="body2" truncate>{nft.name}</Text>
             {#if isLocked}
                 <TooltipIcon
-                    icon={Icon.Timelock}
-                    iconClasses="text-gray-600 dark:text-gray-200"
-                    title={localize('general.timelockDate')}
-                    text={localize('tooltips.transactionDetails.incoming.timelockDate')}
-                    position={Position.Top}
+                    icon={IconName.Locked}
+                    tooltip={localize('views.collectibles.gallery.timelocked', {
+                        timeDiff: getTimeDifference(new Date(nft.timelockTime), $time),
+                    })}
+                    placement="top"
                 />
             {/if}
-        </div>
-    </div>
+        </nft-name>
+    </container>
 </button>
+
+<style lang="scss">
+    .nft-gallery-item {
+        container {
+            @apply w-full overflow-hidden flex flex-col divide-y divide-solid divide-stroke dark:divide-stroke-dark;
+            @apply border border-solid border-stroke dark:border-stroke-dark;
+            @apply bg-surface-1 dark:bg-surface-1-dark;
+            @apply rounded-2xl;
+            @apply duration-300;
+            transition-property: background-color, border-color, box-shadow;
+        }
+
+        &:hover,
+        &:focus {
+            container {
+                @apply shadow-lg dark:shadow-violet-900/25;
+                @apply border-2 border-brand-500;
+                @apply bg-surface dark:bg-surface-dark;
+            }
+        }
+    }
+
+    error-container {
+        @apply absolute left-3 top-3;
+    }
+</style>

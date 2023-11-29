@@ -1,5 +1,5 @@
-import { ProposalStatus } from '../enums'
+import { EventStatus } from '@iota/sdk/out/types'
 
 export type ProposalPhaseOrdering = {
-    [key in ProposalStatus]: number
+    [key in EventStatus]: number
 }

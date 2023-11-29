@@ -32,6 +32,7 @@
     export let validationFunction: ((arg: string) => void) | undefined = undefined
 
     export function validate(): void {
+        error = ''
         if (validationFunction && typeof validationFunction === 'function') {
             try {
                 validationFunction(value)
@@ -46,8 +47,6 @@
     const decimalSeparator = getDecimalSeparator()
 
     let capsLockOn = false
-
-    $: value, (error = '')
 
     function handleInput(event: Event): void {
         value = (event.target as HTMLInputElement).value
@@ -166,7 +165,7 @@
                         bind:this={inputElement}
                         {maxlength}
                         class="w-full text-{alignment}
-                            bg-white dark:bg-gray-800
+                            bg-surface dark:bg-surface-dark
                             {disabled
                             ? 'text-gray-400 dark:text-gray-700'
                             : 'text-gray-800 dark:text-white'} {inputClasses}"
@@ -188,7 +187,6 @@
                 </Text>
                 <slot name="right" />
             </div>
-            <slot name="right-full-h" />
         </InputContainer>
     </div>
     {#if capsLockWarning && hasFocus && capsLockOn}

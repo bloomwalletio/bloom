@@ -1,3 +1,5 @@
 export * from './getAndUpdateMarketPrices'
-export * from './getMarketPrices'
+export * from './getAndUpdateShimmerEvmTokensMetadata'
+export * from './getFiatAmountFromTokenValue'
+export * from './getMarketPriceForToken'
 export * from './market-prices-polling'

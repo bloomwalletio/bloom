@@ -1,7 +1,8 @@
 <script lang="ts">
     import { onMount } from 'svelte'
-    import { Icon, Text, Error } from '@ui'
+    import { Icon, Text } from '@ui'
     import { IDropdownItem, clickOutside, isNumberLetterOrPunctuation } from '@core/utils'
+    import { Error } from '@bloomwalletio/ui'
 
     export let value: string
     export let label: string = ''

@@ -1,47 +1,42 @@
 <script lang="ts">
-    import { Button, Text, MeatballMenuButton, MenuItem, Modal, NetworkIcon } from '@ui'
-    import { ButtonSize, FontWeight, TextType } from '@ui/enums'
-
-    import features from '@features/features'
-
-    import { IContactAddressMap, setSelectedContactNetworkId } from '@core/contact'
-    import { NetworkId } from '@core/network'
-    import { setClipboard, truncateString } from '@core/utils'
-    import { Icon as IconEnum } from '@auxiliary/icon'
-    import { Router } from '@core/router'
+    import { Copyable, IconButton, IconName, Text, Tile } from '@bloomwalletio/ui'
+    import { IContact, IContactAddress, IContactAddressMap, setSelectedContactNetworkAddress } from '@core/contact'
+    import { localize } from '@core/i18n'
     import { resetLedgerPreparedOutput, resetShowInternalVerificationPopup } from '@core/ledger'
+    import { ExplorerEndpoint, getDefaultExplorerUrl, getNameFromNetworkId, NetworkId } from '@core/network'
+    import { Router } from '@core/router'
+    import { truncateString } from '@core/utils'
     import { SendFlowType, setSendFlowParameters, SubjectType } from '@core/wallet'
-
-    import { openPopup, PopupId } from '@desktop/auxiliary/popup'
     import { closeDrawer } from '@desktop/auxiliary/drawer'
-
-    import { ContactBookRoute } from '@views/dashboard/contact-book/contact-book-route.enum'
+    import { openPopup, PopupId } from '@desktop/auxiliary/popup'
+    import features from '@features/features'
+    import { NetworkAvatar } from '@ui'
     import { SendFlowRouter, sendFlowRouter } from '@views/dashboard/send-flow'
+    import { ContactAddressMenu } from './menus'
+    import { ContactBookRoute } from '../views/dashboard/drawers'
+    import { openUrlInBrowser } from '@core/app'
 
-    export let drawerRouter: Router<unknown>
-    export let networkId: string
+    export let drawerRouter: Router<ContactBookRoute>
+    export let networkId: NetworkId
+    export let contact: IContact
     export let contactAddressMap: IContactAddressMap
 
-    let modal: Modal
+    const explorerUrl = getDefaultExplorerUrl(networkId, ExplorerEndpoint.Address)
 
-    function onAddressClick(address: string): void {
-        setClipboard(address, true)
+    function onExplorerClick(address: string): void {
+        openUrlInBrowser(`${explorerUrl}/${address}`)
     }
 
-    function onEditNetworkAddressesClick(networkId: string): void {
-        setSelectedContactNetworkId(networkId)
-        drawerRouter.goTo(ContactBookRoute.EditNetworkAddresses)
-    }
-
-    function onRemoveNetworkClick(networkId: string): void {
-        setSelectedContactNetworkId(networkId)
-        drawerRouter.goTo(ContactBookRoute.RemoveNetworkAddresses)
+    function onQrCodeClick(contactAddress: IContactAddress): void {
+        setSelectedContactNetworkAddress(contactAddress)
+        drawerRouter.goTo(ContactBookRoute.ContactAddress)
     }
 
     function onSendClick(address: string): void {
         setSendFlowParameters({
             type: SendFlowType.BaseCoinTransfer,
-            recipient: { type: SubjectType.Address, address },
+            destinationNetworkId: networkId,
+            recipient: { type: SubjectType.Contact, contact, address },
         })
         resetLedgerPreparedOutput()
         resetShowInternalVerificationPopup()
@@ -54,55 +49,51 @@
     }
 </script>
 
-<contact-address-card
-    class="flex flex-col justify-between bg-gray-50 dark:bg-gray-900 p-6 gap-4 border border-solid border-gray-200 dark:border-transparent rounded-xl"
->
-    <contact-address-head class="flex justify-between">
-        <div class="flex items-center gap-2">
-            <NetworkIcon networkId={NetworkId.Testnet} />
-            <Text fontSize="text-16" fontWeight={FontWeight.semibold}>{networkId}</Text>
-        </div>
-        <contact-address-menu class="block relative">
-            <MeatballMenuButton onClick={modal?.toggle} classes="py-2" />
-            <Modal bind:this={modal} position={{ right: '0' }} classes="mt-1.5">
+<Tile border>
+    <contact-address-card class="w-full flex flex-col justify-between gap-4 p-1">
+        <contact-address-head class="flex justify-between">
+            <div class="flex items-center gap-2">
+                <NetworkAvatar {networkId} />
+                <Text type="body1">{getNameFromNetworkId(networkId)}</Text>
+            </div>
+            <ContactAddressMenu {drawerRouter} {networkId} />
+        </contact-address-head>
+        {#each Object.values(contactAddressMap) as contactAddress}
+            <contact-address-item class="flex justify-between items-end gap-4">
                 <div class="flex flex-col">
-                    {#if features.contacts.editNetworkAddresses.enabled}
-                        <MenuItem
-                            icon={IconEnum.Edit}
-                            iconProps={{ height: 18 }}
-                            title={'Edit network addresses'}
-                            onClick={() => onEditNetworkAddressesClick(networkId)}
+                    <Text width="full" align="left" truncate>
+                        {contactAddress.addressName}
+                    </Text>
+                    <Copyable value={contactAddress.address}>
+                        <Text type="pre-md" textColor="secondary" fontWeight="medium">
+                            {truncateString(contactAddress.address, 9, 9)}
+                        </Text>
+                    </Copyable>
+                </div>
+                <div class="flex flex-row space-x-1">
+                    {#if explorerUrl}
+                        <IconButton
+                            size="sm"
+                            icon={IconName.Globe}
+                            tooltip={localize('general.viewOnExplorer')}
+                            on:click={() => onExplorerClick(contactAddress.address)}
                         />
                     {/if}
-                    {#if features.contacts.removeNetwork.enabled}
-                        <MenuItem
-                            icon={IconEnum.Delete}
-                            title={'Remove network'}
-                            onClick={() => onRemoveNetworkClick(networkId)}
-                            variant="error"
+                    <IconButton
+                        size="sm"
+                        icon={IconName.QrCode}
+                        tooltip={localize('general.viewQrCode')}
+                        on:click={() => onQrCodeClick(contactAddress)}
+                    />
+                    {#if features.contacts.sendTo.enabled}
+                        <IconButton
+                            icon={IconName.Send}
+                            tooltip={localize('actions.send')}
+                            on:click={() => onSendClick(contactAddress.address)}
                         />
                     {/if}
                 </div>
-            </Modal>
-        </contact-address-menu>
-    </contact-address-head>
-    {#each Object.values(contactAddressMap) as contactAddress}
-        <contact-address-item class="flex justify-between items-center gap-4">
-            <button
-                type="button"
-                class="flex flex-col flex-1 min-w-0 truncate"
-                on:click={() => onAddressClick(contactAddress.address)}
-            >
-                <Text overrideColor classes="text-gray-600 text-left w-full truncate" fontWeight={FontWeight.medium}>
-                    {contactAddress.addressName}
-                </Text>
-                <Text fontSize="text-16" fontWeight={FontWeight.medium} type={TextType.pre}>
-                    {truncateString(contactAddress.address, 9, 9)}
-                </Text>
-            </button>
-            {#if features.contacts.sendTo.enabled}
-                <Button size={ButtonSize.Small} onClick={() => onSendClick(contactAddress.address)}>Send</Button>
-            {/if}
-        </contact-address-item>
-    {/each}
-</contact-address-card>
+            </contact-address-item>
+        {/each}
+    </contact-address-card>
+</Tile>

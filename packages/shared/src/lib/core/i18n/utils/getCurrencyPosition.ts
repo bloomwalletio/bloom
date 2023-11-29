@@ -1,6 +1,6 @@
 import { get } from 'svelte/store'
 
-import { appSettings } from '@core/app'
+import { appSettings } from '@core/app/stores'
 
 export function getCurrencyPosition(): 'left' | 'right' {
     const appLanguage = get(appSettings).language

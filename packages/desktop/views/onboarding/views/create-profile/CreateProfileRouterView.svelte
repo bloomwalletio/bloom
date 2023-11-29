@@ -1,11 +1,10 @@
 <script lang="ts">
     import { Platform } from '@core/app'
     import features from '@features/features'
-    import { Transition } from '@ui'
     import { CreateFromLedgerRouterView } from '../create-from-ledger'
     import { CreateFromMnemonicRouterView } from '../create-from-mnemonic'
     import { CreateProfileRoute } from './create-profile-route.enum'
-    import { createProfileRoute, createProfileRouter } from './create-profile-router'
+    import { createProfileRoute } from './create-profile-router'
     import { ChooseCreateProfileFlowView } from './views'
 
     $: if (features.analytics.onboardingRoute.enabled && $createProfileRoute) {
@@ -14,15 +13,9 @@
 </script>
 
 {#if $createProfileRoute === CreateProfileRoute.ChooseCreateProfileFlow}
-    <Transition>
-        <ChooseCreateProfileFlowView />
-    </Transition>
+    <ChooseCreateProfileFlowView />
 {:else if $createProfileRoute === CreateProfileRoute.CreateFromMnemonic}
-    <Transition>
-        <CreateFromMnemonicRouterView />
-    </Transition>
+    <CreateFromMnemonicRouterView />
 {:else if $createProfileRoute === CreateProfileRoute.CreateFromLedger}
-    <Transition>
-        <CreateFromLedgerRouterView router={$createProfileRouter} />
-    </Transition>
+    <CreateFromLedgerRouterView />
 {/if}

@@ -1,3 +1,3 @@
-import { IAliasOutput, IBasicOutput, IFoundryOutput, INftOutput } from '@iota/types'
+import { AliasOutput, BasicOutput, FoundryOutput, NftOutput } from '@iota/sdk'
 
-export type Output = IBasicOutput | INftOutput | IAliasOutput | IFoundryOutput
+export type Output = BasicOutput | NftOutput | AliasOutput | FoundryOutput

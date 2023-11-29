@@ -1,107 +1,97 @@
 <script lang="ts">
-    import { openPopup, PopupId } from '@desktop/auxiliary/popup'
+    import { Alert, Button, IconName, Table, Text, type IItem } from '@bloomwalletio/ui'
+    import { CollectibleDetailsMenu } from '@components'
     import { selectedAccountIndex } from '@core/account/stores'
-    import { time } from '@core/app'
+    import { time } from '@core/app/stores'
     import { openUrlInBrowser } from '@core/app/utils'
     import { localize } from '@core/i18n'
-    import { ExplorerEndpoint, getOfficialExplorerUrl } from '@core/network'
-    import {
-        INft,
-        NftDownloadMetadata,
-        allAccountNfts,
-        convertAndFormatNftMetadata,
-        getNftByIdFromAllAccountNfts,
-        selectedNftId,
-    } from '@core/nfts'
+    import { ExplorerEndpoint, getActiveNetworkId, getDefaultExplorerUrl } from '@core/network'
+    import { INft, NftDownloadMetadata } from '@core/nfts'
+    import { getNftByIdFromAllAccountNfts } from '@core/nfts/actions'
+    import { allAccountNfts, selectedNftId } from '@core/nfts/stores'
     import { getBaseToken } from '@core/profile/actions'
-    import { activeProfile } from '@core/profile/stores'
     import { collectiblesRouter } from '@core/router/routers'
-    import { getTimeDifference, truncateString } from '@core/utils'
-    import {
-        ADDRESS_TYPE_ALIAS,
-        ADDRESS_TYPE_ED25519,
-        ADDRESS_TYPE_NFT,
-        formatTokenAmountPrecise,
-        getBech32AddressFromAddressTypes,
-        getHexAddressFromAddressTypes,
-    } from '@core/wallet'
-    import { SendFlowType, setSendFlowParameters } from '@core/wallet/stores'
-    import {
-        Alert,
-        Button,
-        CollectibleDetailsMenu,
-        KeyValueBox,
-        MeatballMenuButton,
-        Modal,
-        NftMedia,
-        Pane,
-        Text,
-    } from '@ui'
-    import { FontWeight, TextType } from '@ui/enums'
+    import { formatTokenAmountPrecise } from '@core/token'
+    import { getTimeDifference } from '@core/utils'
+    import { SendFlowType, getBech32AddressFromAddressTypes, getHexAddressFromAddressTypes } from '@core/wallet'
+    import { setSendFlowParameters } from '@core/wallet/stores'
+    import { PopupId, openPopup } from '@desktop/auxiliary/popup'
+    import { AddressType } from '@iota/sdk/out/types'
+    import { MediaPlaceholder, NetworkLabel, NftMedia, Pane } from '@ui'
     import { SendFlowRoute, SendFlowRouter, sendFlowRouter } from '@views/dashboard/send-flow'
 
-    let modal: Modal
-
-    const explorerUrl = getOfficialExplorerUrl($activeProfile?.network?.id)
     const nft: INft = getNftByIdFromAllAccountNfts($selectedAccountIndex, $selectedNftId)
+    // We don't use `nft.networkId` on this one, as for IRC27 nfts we still want the L1 explorer
+    const explorerUrl = getDefaultExplorerUrl(getActiveNetworkId(), ExplorerEndpoint.Nft)
 
     const { id, name, issuer, address, metadata, downloadMetadata, storageDeposit } = nft ?? {}
-    const { standard, version, type, uri, description, issuerName, collectionName, attributes, soonaverseAttributes } =
+    const { standard, version, description, issuerName, collectionName, attributes, soonaverseAttributes } =
         nft?.parsedMetadata || {}
 
     const issuerAddress = getBech32AddressFromAddressTypes(issuer)
     const collectionId = getHexAddressFromAddressTypes(issuer)
 
-    let detailsList: {
-        [key in string]: {
-            data: string
-            copyValue?: string
-            isCopyable?: boolean
-            isPreText?: boolean
-            maxHeight?: number
-        }
-    }
-
-    $: formattedMetadata = convertAndFormatNftMetadata(metadata)
     $: returnIfNftWasSent($allAccountNfts[$selectedAccountIndex], $time)
     $: timeDiff = getTimeDifference(new Date(nft.timelockTime), $time)
     $: alertText = getAlertText(downloadMetadata)
-    $: detailsList = {
-        ...(id && {
-            nftId: { data: truncateString(id, 20, 20), copyValue: id, isCopyable: true },
-        }),
-        ...(address && {
-            address: { data: truncateString(address, 20, 20), copyValue: address, isCopyable: true },
-        }),
-        ...(storageDeposit && {
-            storageDeposit: { data: formatTokenAmountPrecise(storageDeposit, getBaseToken()) },
-        }),
-        ...(standard && {
-            standard: { data: version ? `${standard} - ${version}` : standard },
-        }),
-        ...(type && {
-            type: { data: type },
-        }),
-        ...(uri && {
-            uri: { data: uri, copyValue: uri, isCopyable: true },
-        }),
-        ...(issuerName && {
-            issuer: { data: issuerName },
-        }),
-        ...(issuer?.type === ADDRESS_TYPE_ED25519 && {
-            issuerAddress: { data: truncateString(issuerAddress, 20, 20), copyValue: issuerAddress, isCopyable: true },
-        }),
-        ...(collectionName && {
-            collection: { data: collectionName },
-        }),
-        ...((issuer?.type === ADDRESS_TYPE_NFT || issuer?.type === ADDRESS_TYPE_ALIAS) && {
-            collectionId: { data: truncateString(collectionId, 20, 20), copyValue: collectionId, isCopyable: true },
-        }),
-        ...(!nft?.parsedMetadata &&
-            formattedMetadata && {
-                metadata: { data: formattedMetadata, isCopyable: true, isPreText: true, maxHeight: 72 },
-            }),
-    }
+
+    let detailsList: IItem[] = []
+    $: detailsList = [
+        {
+            key: localize('general.network'),
+            slot: {
+                component: NetworkLabel,
+                props: {
+                    networkId: nft.networkId,
+                },
+            },
+        },
+        {
+            key: localize('general.nftId'),
+            value: id || undefined,
+            copyable: true,
+            truncate: { firstCharCount: 15, endCharCount: 15 },
+        },
+        {
+            key: localize('general.address'),
+            value: address || undefined,
+            copyable: true,
+            truncate: { firstCharCount: 15, endCharCount: 15 },
+        },
+        {
+            key: localize('general.storageDeposit'),
+            value: storageDeposit ? formatTokenAmountPrecise(storageDeposit, getBaseToken()) : undefined,
+        },
+        {
+            key: localize('general.standard'),
+            value: version ? `${standard} - ${version}` : standard,
+        },
+        {
+            key: localize('general.issuer'),
+            value: issuerName || undefined,
+        },
+        {
+            key: localize('general.issuerAddress'),
+            value: issuer?.type === AddressType.Ed25519 ? issuerAddress : undefined,
+            copyable: true,
+            truncate: { firstCharCount: 15, endCharCount: 15 },
+        },
+        {
+            key: localize('general.collection'),
+            value: collectionName || undefined,
+        },
+        {
+            key: localize('general.collectionId'),
+            value: issuer?.type === AddressType.Nft || issuer?.type === AddressType.Alias ? collectionId : undefined,
+            copyable: true,
+            truncate: { firstCharCount: 15, endCharCount: 15 },
+        },
+        {
+            key: localize('general.metadata'),
+            value: !nft?.parsedMetadata && metadata ? metadata : undefined,
+            copyable: true,
+        },
+    ]
 
     function returnIfNftWasSent(ownedNfts: INft[], currentTime: Date): void {
         const nft = ownedNfts.find((nft) => nft.id === id)
@@ -114,7 +104,7 @@
     }
 
     function onExplorerClick(): void {
-        openUrlInBrowser(`${explorerUrl}/${ExplorerEndpoint.Nft}/${id}`)
+        openUrlInBrowser(`${explorerUrl}/${id}`)
     }
 
     function onSendClick(): void {
@@ -143,99 +133,108 @@
     }
 </script>
 
-<collectibles-details-view class="flex flex-row w-full h-full space-x-4">
-    <div class="flex w-full h-auto items-center justify-center overflow-hidden">
-        <div class="relative h-auto flex rounded-2xl overflow-hidden">
-            <div class="rounded-2xl overflow-hidden flex-1 object-contain h-auto">
-                <NftMedia {nft} autoplay controls loop muted />
-            </div>
-            <div class="absolute right-6 bottom-6 w-auto">
-                {#if alertText}
-                    <Alert type={downloadMetadata?.error ? 'error' : 'warning'} message={alertText} />
-                {/if}
-            </div>
-        </div>
-    </div>
-    <Pane classes="flex flex-col p-6 space-y-3 w-full h-full max-w-lg">
-        <nft-title class="flex justify-between items-center">
-            <Text type={TextType.h3} fontWeight={FontWeight.semibold}>{name}</Text>
-            <MeatballMenuButton onClick={modal?.toggle} />
-            <CollectibleDetailsMenu bind:modal {nft} />
-        </nft-title>
-        {#if description}
-            <nft-description>
-                <Text type={TextType.h5} fontWeight={FontWeight.normal} color="gray-700">
-                    {description}
-                </Text>
-            </nft-description>
-        {/if}
-        <div class="overflow-y-scroll h-full flex flex-col space-y-4 pr-2 -mr-4">
-            <nft-details class="flex flex-col space-y-4">
-                <Text type={TextType.h5} fontWeight={FontWeight.semibold}>
-                    {localize('general.details')}
-                </Text>
-                <key-value-list class="flex flex-col space-y-2">
-                    {#each Object.entries(detailsList) as [key, value]}
-                        {#key value}
-                            <KeyValueBox
-                                keyText={localize('general.' + key)}
-                                copyValue={value.copyValue ?? value.data}
-                                isCopyable={value.isCopyable}
-                                valueText={value.data}
-                                isPreText={value.isPreText}
-                                maxHeight={value.maxHeight}
-                            />
-                        {/key}
-                    {/each}
-                </key-value-list>
-            </nft-details>
-            {#if attributes?.length > 0}
-                <nft-attributes class="flex flex-col space-y-4">
-                    <Text type={TextType.h5} fontWeight={FontWeight.semibold}>
-                        {localize('general.attributes')}
-                    </Text>
-                    <div class="flex flex-wrap gap-3">
-                        {#each Object.values(attributes) as attribute}
-                            <KeyValueBox keyText={attribute.trait_type} valueText={String(attribute.value)} shrink />
-                        {/each}
-                    </div>
-                </nft-attributes>
-            {:else}
-                {#if soonaverseAttributes?.props}
-                    <nft-attributes class="flex flex-col space-y-4">
-                        <Text type={TextType.h5} fontWeight={FontWeight.semibold}>
-                            {localize('general.properties')}
-                        </Text>
-                        <div class="flex flex-wrap gap-3">
-                            {#each Object.entries(soonaverseAttributes?.props) as [_key, { label, value }]}
-                                <KeyValueBox keyText={label} valueText={String(value)} shrink />
-                            {/each}
-                        </div>
-                    </nft-attributes>
-                {/if}
-                {#if soonaverseAttributes?.stats}
-                    <nft-attributes class="flex flex-col space-y-4">
-                        <Text type={TextType.h5} fontWeight={FontWeight.semibold}>
-                            {localize('general.statistics')}
-                        </Text>
-                        <div class="flex flex-wrap gap-3">
-                            {#each Object.entries(soonaverseAttributes?.stats) as [_key, { label, value }]}
-                                <KeyValueBox keyText={label} valueText={String(value)} shrink />
-                            {/each}
-                        </div>
-                    </nft-attributes>
-                {/if}
+<Pane classes="h-full">
+    <collectibles-details-view class="flex flex-row w-full h-full">
+        <media-container class="relative flex w-full items-center justify-center p-5 overflow-hidden">
+            <NftMedia {nft} autoplay controls loop muted>
+                <div class="w-full h-full" slot="placeholder">
+                    <MediaPlaceholder {nft} size="lg" />
+                </div>
+            </NftMedia>
+            {#if alertText}
+                <error-container>
+                    <Alert variant={downloadMetadata?.error ? 'danger' : 'warning'} text={alertText} border />
+                </error-container>
             {/if}
-        </div>
-        <buttons-container class="flex w-full space-x-4 self-end mt-auto pt-4">
-            <Button outline classes="flex-1" onClick={onExplorerClick} disabled={!explorerUrl}>
-                {localize('general.viewOnExplorer')}
-            </Button>
-            <Button classes="flex-1" onClick={onSendClick} disabled={!!timeDiff}>
-                {timeDiff
-                    ? localize('popups.balanceBreakdown.locked.title') + ' ' + String(timeDiff)
-                    : localize('actions.send')}
-            </Button>
-        </buttons-container>
-    </Pane>
-</collectibles-details-view>
+        </media-container>
+        <details-container class="flex flex-col px-6 py-8 space-y-3 w-full h-full max-w-sm">
+            <nft-title class="flex justify-between items-center gap-4">
+                <Text type="h4" truncate>{name}</Text>
+                <CollectibleDetailsMenu {nft} />
+            </nft-title>
+            {#if description}
+                <nft-description class="overflow-scroll">
+                    <Text type="body1">{localize('general.description')}</Text>
+                    <Text textColor="secondary">{description}</Text>
+                </nft-description>
+            {/if}
+            <div class="overflow-y-scroll h-full flex flex-col space-y-4 pr-2 -mr-4">
+                <details-list>
+                    <Table items={detailsList} />
+                </details-list>
+                {#if attributes?.length > 0}
+                    {@const items = attributes.map(({ trait_type, value }) => ({
+                        key: trait_type,
+                        value: String(value),
+                    }))}
+                    <nft-attributes class="flex flex-col space-y-4">
+                        <Text type="body1">{localize('general.attributes')}</Text>
+                        <Table {items} />
+                    </nft-attributes>
+                {:else}
+                    {#if soonaverseAttributes?.props}
+                        {@const items = Object.entries(soonaverseAttributes.props).map(([, { label, value }]) => ({
+                            key: label,
+                            value,
+                        }))}
+                        <nft-attributes class="flex flex-col space-y-4">
+                            <Text type="body1">{localize('general.properties')}</Text>
+                            <Table {items} />
+                        </nft-attributes>
+                    {/if}
+                    {#if soonaverseAttributes?.stats}
+                        {@const items = Object.entries(soonaverseAttributes.stats).map(([, { label, value }]) => ({
+                            key: label,
+                            value,
+                        }))}
+                        <nft-attributes class="flex flex-col space-y-4">
+                            <Text type="body1">{localize('general.statistics')}</Text>
+                            <Table {items} />
+                        </nft-attributes>
+                    {/if}
+                {/if}
+            </div>
+            <buttons-container class="flex w-full space-x-4 self-end mt-auto pt-4">
+                <Button
+                    text={localize('general.viewOnExplorer')}
+                    on:click={onExplorerClick}
+                    disabled={!explorerUrl}
+                    variant="outlined"
+                    width="half"
+                />
+                <Button
+                    text={timeDiff
+                        ? localize('views.collectibles.gallery.timelocked', { timeDiff })
+                        : localize('actions.send')}
+                    icon={IconName.Send}
+                    on:click={onSendClick}
+                    disabled={!!timeDiff}
+                    width="half"
+                    reverse
+                />
+            </buttons-container>
+        </details-container>
+    </collectibles-details-view>
+</Pane>
+
+<style lang="scss">
+    collectibles-details-view {
+        @apply divide-x divide-solid divide-stroke dark:divide-stroke-dark;
+    }
+
+    media-container {
+        :global(*) {
+            @apply rounded-xl;
+            @apply object-contain object-center;
+            @apply max-w-full max-h-full;
+        }
+    }
+
+    error-container {
+        @apply absolute left-8 top-8 w-100 overflow-hidden;
+    }
+
+    details-container {
+        @apply max-w-lg;
+    }
+</style>

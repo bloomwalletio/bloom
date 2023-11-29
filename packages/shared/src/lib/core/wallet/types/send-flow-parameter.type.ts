@@ -1,7 +1,8 @@
-import type { ILayer2Parameters } from '@core/layer-2'
+import { NetworkId } from '@core/network'
 import { INft } from '@core/nfts'
-import type { IAsset, Subject } from '@core/wallet'
-import { SendFlowType } from '@core/wallet/stores'
+import { IToken } from '@core/token/interfaces'
+import type { Subject } from '@core/wallet'
+import { SendFlowType } from '@core/wallet/enums'
 
 export type SendFlowParameters = TokenSendFlowParameters | NftSendFlowParameters | BaseSendFlowParameters
 
@@ -13,11 +14,13 @@ export interface BaseSendFlowParameters {
     expirationDate?: Date
     timelockDate?: Date
     giftStorageDeposit?: boolean
-    layer2Parameters?: ILayer2Parameters
+    destinationNetworkId?: NetworkId
     addSenderFeature?: boolean
     disableToggleGift?: boolean
     disableChangeExpiration?: boolean
+    disableChangeTimelock?: boolean
     baseCoinTransfer?: TokenTransferData
+    gasFee?: number
 }
 
 export interface TokenSendFlowParameters extends Omit<BaseSendFlowParameters, 'type'> {
@@ -30,8 +33,9 @@ export interface NftSendFlowParameters extends Omit<BaseSendFlowParameters, 'typ
     nft?: INft
 }
 
+// TODO move to own file and check optional params
 export type TokenTransferData = {
-    rawAmount?: string
-    asset?: IAsset
+    rawAmount: string
+    token: IToken
     unit?: string
 }

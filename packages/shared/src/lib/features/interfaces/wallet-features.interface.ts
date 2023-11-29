@@ -5,12 +5,15 @@ export interface IWalletFeatures extends IFeatureFlag {
     sendAndReceive: IFeatureFlag & {
         nft: IFeatureFlag
     }
-    walletConnect: IFeatureFlag
     assets: IFeatureFlag & {
-        burnAsset: IFeatureFlag
+        burnToken: IFeatureFlag
+        unwrapToken: IFeatureFlag
     }
     activityHistory: IFeatureFlag & {
         sync: IFeatureFlag
         search: IFeatureFlag
+    }
+    portfolio: {
+        filter: IFeatureFlag
     }
 }

@@ -8,6 +8,7 @@ import { Configuration as WebpackConfiguration } from 'webpack'
 import { Configuration as WebpackDevServerConfiguration } from 'webpack-dev-server'
 import assert from 'assert'
 import dotenv from 'dotenv'
+// import { transformSync } from 'esbuild'
 
 dotenv.config() // used to read env vars from an .env file
 
@@ -106,6 +107,12 @@ const rendererRules = [
                 preprocess: sveltePreprocess({
                     sourceMap: false,
                     postcss: true,
+                    // typescript({ content }) {
+                    //     const { code, map } = transformSync(content, {
+                    //         loader: 'ts',
+                    //     })
+                    //     return { code, map }
+                    // },
                 }),
             },
         },
@@ -140,6 +147,14 @@ const mainPlugins = [
         'process.env.STAGE': JSON.stringify(stage),
         'process.env.APP_PROTOCOL': JSON.stringify(appProtocol),
         'process.env.AMPLITUDE_API_KEY': JSON.stringify(process.env.AMPLITUDE_API_KEY),
+    }),
+    new CopyPlugin({
+        patterns: [
+            {
+                from: './public/assets/icons',
+                to: './build/icons',
+            },
+        ],
     }),
 ]
 
@@ -225,7 +240,7 @@ const webpackConfig: Configuration[] = [
             },
         },
         snapshot: {
-            managedPaths: [/^(.+?[\\/]node_modules[\\/](?!(@bloom-labs[\\/]ui))(@.+?[\\/])?.+?)[\\/]/],
+            managedPaths: [/^(.+?[\\/]node_modules[\\/](?!(@bloomwalletio[\\/]ui))(@.+?[\\/])?.+?)[\\/]/],
         },
     },
     {

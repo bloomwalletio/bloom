@@ -2,7 +2,7 @@ import { closePopup, openPopup, PopupId } from '../../../../../../desktop/lib/au
 import { localize } from '@core/i18n'
 import { Platform } from '../classes/platform.class'
 import { externalAllowedLinks } from '../constants'
-import { showAppNotification } from '@auxiliary/notification'
+import { showNotification } from '@auxiliary/notification'
 
 export function openUrlInBrowser(targetUrl: string): void {
     // If no protocol is specified, assume https
@@ -24,8 +24,6 @@ export function openUrlInBrowser(targetUrl: string): void {
             props: {
                 title: localize('popups.externalUrl.title'),
                 description: localize('popups.externalUrl.body', { values: { url: targetUrl } }),
-                hint: localize('popups.externalUrl.hint'),
-                warning: true,
                 confirmText: localize('popups.externalUrl.action'),
                 onConfirm: () => {
                     openHttpsUrlsOnly(url.protocol, targetUrl)
@@ -40,10 +38,9 @@ function openHttpsUrlsOnly(protocol: string, targetUrl: string): void {
     if (protocol === 'https:') {
         Platform.openUrl(targetUrl)
     } else {
-        showAppNotification({
-            alert: true,
-            type: 'error',
-            message: localize('popups.externalUrl.invalidProtocol'),
+        showNotification({
+            variant: 'error',
+            text: localize('popups.externalUrl.invalidProtocol'),
         })
     }
 }

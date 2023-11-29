@@ -1,16 +1,16 @@
 // Modules to control application life and create native browser window
 import {
     app,
+    BrowserWindow,
     dialog,
     ipcMain,
-    shell,
-    BrowserWindow,
-    session,
-    utilityProcess,
     nativeTheme,
     PopupOptions,
-    UtilityProcess,
     powerMonitor,
+    session,
+    shell,
+    utilityProcess,
+    UtilityProcess,
 } from 'electron'
 import { WebPreferences } from 'electron/main'
 import path from 'path'
@@ -27,7 +27,7 @@ import NftDownloadManager from '../managers/nft-download.manager'
 import { contextMenu } from '../menus/context.menu'
 import { initMenu } from '../menus/menu'
 import { initialiseAnalytics } from '../utils/analytics.utils'
-import { checkArgsForDeepLink, initialiseDeepLinks } from '../utils/deep-link.utils'
+import { checkWindowArgsForDeepLinkRequest, initialiseDeepLinks } from '../utils/deep-link.utils'
 import { getDiagnostics } from '../utils/diagnostics.utils'
 import { shouldReportError } from '../utils/error.utils'
 import { getMachineId } from '../utils/os.utils'
@@ -152,7 +152,7 @@ if (app.isPackaged) {
 /**
  * Handles url navigation events
  */
-function handleNavigation(e: Event, url: string): void {
+function tryOpenExternalUrl(e: Event, url: string): void {
     if (url === 'http://localhost:8080/') {
         // if localhost would be opened on the build versions, we need to block it to prevent errors
         if (app.isPackaged) {
@@ -170,7 +170,7 @@ function handleNavigation(e: Event, url: string): void {
     }
 }
 
-function createMainWindow(): BrowserWindow {
+export function createMainWindow(): BrowserWindow {
     const mainWindowState = windowStateKeeper('main', 'settings.json')
 
     // Create the browser window
@@ -178,13 +178,13 @@ function createMainWindow(): BrowserWindow {
         width: mainWindowState.width,
         height: mainWindowState.height,
         minWidth: 1280,
-        minHeight: 720,
+        minHeight: process.platform === 'win32' ? 720 + 28 : 720,
         titleBarStyle: process.platform === 'darwin' ? 'hiddenInset' : 'hidden',
         title: app.name,
         frame: process.platform === 'linux',
         icon:
             process.platform === 'linux'
-                ? path.join(__dirname, `../assets/icons/${process.env.STAGE}/icon1024x1024.png`)
+                ? path.join(__dirname, `./icons/${process.env.STAGE}/linux/icon.png`)
                 : undefined,
         webPreferences: {
             ...DEFAULT_WEB_PREFERENCES,
@@ -231,7 +231,7 @@ function createMainWindow(): BrowserWindow {
      *  The handler only allows navigation to an external browser.
      */
     windows.main.webContents.on('will-navigate', (a, b) => {
-        handleNavigation(a as unknown as Event, b)
+        tryOpenExternalUrl(a as unknown as Event, b)
     })
 
     windows.main.on('close', () => {
@@ -289,6 +289,7 @@ ipcMain.on('start-ledger-process', () => {
         // Handler for message from Ledger process
         ledgerProcess.on('message', (message: ILedgerProcessMessage) => {
             const { method, payload, error } = message
+
             if (error) {
                 windows.main.webContents.send('ledger-error', error)
             } else {
@@ -296,8 +297,14 @@ ipcMain.on('start-ledger-process', () => {
                     case LedgerApiMethod.GenerateEvmAddress:
                         windows.main.webContents.send('evm-address', payload)
                         break
+                    case LedgerApiMethod.GetEthereumAppSettings:
+                        windows.main.webContents.send('ethereum-app-settings', payload)
+                        break
                     case LedgerApiMethod.SignEvmTransaction:
                         windows.main.webContents.send('evm-signed-transaction', payload)
+                        break
+                    case LedgerApiMethod.SignMessage:
+                        windows.main.webContents.send('signed-message', payload)
                         break
                     default:
                         /* eslint-disable-next-line no-console */
@@ -317,11 +324,17 @@ ipcMain.on(LedgerApiMethod.GenerateEvmAddress, (_e, bip32Path, verify) => {
     ledgerProcess?.postMessage({ method: LedgerApiMethod.GenerateEvmAddress, payload: [bip32Path, verify] })
 })
 
+ipcMain.on(LedgerApiMethod.GetEthereumAppSettings, () => {
+    ledgerProcess?.postMessage({ method: LedgerApiMethod.GetEthereumAppSettings })
+})
+
 ipcMain.on(LedgerApiMethod.SignEvmTransaction, (_e, transactionHex, bip32Path) => {
     ledgerProcess?.postMessage({ method: LedgerApiMethod.SignEvmTransaction, payload: [transactionHex, bip32Path] })
 })
 
-export const getWindow = (windowName: string): BrowserWindow => windows[windowName]
+ipcMain.on(LedgerApiMethod.SignMessage, (_e, messageHex, bip32Path) => {
+    ledgerProcess?.postMessage({ method: LedgerApiMethod.SignMessage, payload: [messageHex, bip32Path] })
+})
 
 export function getOrInitWindow(windowName: string): BrowserWindow {
     if (!windows[windowName]) {
@@ -366,19 +379,19 @@ app.once('ready', () => {
 
 powerMonitor.on('suspend', () => {
     // MacOS, Windows and Linux
-    windows.main.webContents.send('lock-screen')
+    windows.main?.webContents?.send('lock-screen')
 })
 
 powerMonitor.on('lock-screen', () => {
     // MacOS and Windows
-    windows.main.webContents.send('lock-screen')
+    windows.main?.webContents?.send('lock-screen')
 })
 
 // IPC handlers for APIs exposed from main process
 
 // URLs
-ipcMain.handle('open-url', (_e, url) => {
-    handleNavigation(_e as unknown as Event, url)
+ipcMain.handle('open-external-url', (_e, url) => {
+    tryOpenExternalUrl(_e as unknown as Event, url)
 })
 
 // Keychain
@@ -400,6 +413,14 @@ ipcMain.handle('get-path', (_e, path) => {
     return app.getPath(path)
 })
 ipcMain.handle('get-version-details', () => versionDetails)
+ipcMain.handle('focus-window', () => {
+    if (windows.main) {
+        if (windows.main.isMinimized()) {
+            windows.main.restore()
+        }
+        windows.main.focus()
+    }
+})
 
 function ensureDirectoryExistence(filePath: string): void | boolean {
     const dirname = path.dirname(filePath)
@@ -444,13 +465,20 @@ ipcMain.handle('get-machine-id', () => getMachineId())
 
 // Settings
 ipcMain.handle('update-app-settings', (_e, settings) => updateSettings(settings))
+
+// Theme
+nativeTheme.on('updated', () => {
+    windows.main.webContents.send('native-theme-updated')
+})
+
+ipcMain.handle('get-theme', () => nativeTheme.themeSource)
 ipcMain.handle('update-theme', (_e, theme) => (nativeTheme.themeSource = theme))
+ipcMain.handle('should-be-dark-mode', () => nativeTheme.shouldUseDarkColors)
 
 /**
  * Create a single instance only
  */
 const isFirstInstance = app.requestSingleInstanceLock()
-
 if (!isFirstInstance) {
     app.quit()
 } else {
@@ -461,10 +489,7 @@ if (!isFirstInstance) {
             }
             windows.main.focus()
 
-            // Deep linking for when the app is already running (Windows, Linux)
-            if (process.platform === 'win32' || process.platform === 'linux') {
-                checkArgsForDeepLink(_e, argv)
-            }
+            checkWindowArgsForDeepLinkRequest(_e, argv)
         }
     })
 }
@@ -529,7 +554,6 @@ export function closeAboutWindow(): void {
 
 export function openErrorWindow(): BrowserWindow {
     if (windows.error !== null) {
-        windows.error.focus()
         return windows.error
     }
 
@@ -581,7 +605,7 @@ function windowStateKeeper(windowName: string, settingsFilename: string): IAppSt
             x: undefined,
             y: undefined,
             width: 1280,
-            height: 720,
+            height: process.platform === 'win32' ? 720 + 28 : 720,
         }
     }
 

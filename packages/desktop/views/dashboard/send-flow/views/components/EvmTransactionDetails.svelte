@@ -1,49 +1,35 @@
 <script lang="ts">
     import { localize } from '@core/i18n'
-    import { NetworkIcon, Text, TooltipIcon } from '@ui'
     import { NetworkId } from '@core/network'
-    import { getBaseToken } from '@core/profile'
-    import { formatTokenAmountBestMatch } from '@core/wallet'
+    import { getBaseToken } from '@core/profile/actions'
+    import { formatTokenAmountBestMatch } from '@core/token'
+    import { BigIntLike } from '@ethereumjs/util'
+    import { NetworkLabel } from '@ui'
+    import { Table } from '@bloomwalletio/ui'
 
-    export let destinationNetwork: string
-    export let gasBudget: number
+    export let destinationNetworkId: NetworkId | undefined = undefined
+    export let estimatedGasFee: number | undefined = undefined
+    export let maxGasFee: BigIntLike | undefined = undefined
 </script>
 
-<div class="border border-solid border-gray-200 dark:border-gray-700 rounded-lg">
-    {#if destinationNetwork}
-        <section class="key-value-box border-gray-200 dark:border-gray-700">
-            <Text>{localize('general.destinationNetwork')}</Text>
-            <div class="flex flex-row gap-2">
-                <!-- TODO: Add correct icon for L2 -->
-                <NetworkIcon networkId={NetworkId.Testnet} height={16} width={16} outlined={false} />
-                <Text color="gray-600">{destinationNetwork}</Text>
-            </div>
-        </section>
-    {/if}
-    {#if gasBudget}
-        <section class="key-value-box border-gray-200 dark:border-gray-700">
-            <div class="flex flex-row">
-                <Text>{localize('general.gasBudget')}</Text>
-                <TooltipIcon
-                    title={localize('general.gasBudget')}
-                    text={localize('tooltips.transactionDetails.outgoing.gasBudget')}
-                    width={15}
-                    height={15}
-                    classes="ml-1"
-                />
-            </div>
-            <Text color="gray-600">{formatTokenAmountBestMatch(gasBudget, getBaseToken())}</Text>
-        </section>
-    {/if}
-</div>
-
-<style lang="scss">
-    .key-value-box {
-        @apply flex flex-row justify-between p-4;
-        @apply border-b border-solid;
-
-        &:last-child {
-            @apply border-0;
-        }
-    }
-</style>
+<Table
+    items={[
+        {
+            key: localize('general.destinationNetwork'),
+            slot: {
+                component: NetworkLabel,
+                props: {
+                    networkId: destinationNetworkId,
+                },
+            },
+        },
+        {
+            key: localize('general.estimatedFee'),
+            value: estimatedGasFee ? formatTokenAmountBestMatch(Number(estimatedGasFee), getBaseToken()) : undefined,
+        },
+        {
+            key: localize('general.maxFees'),
+            value: maxGasFee ? formatTokenAmountBestMatch(Number(maxGasFee), getBaseToken()) : undefined,
+        },
+    ]}
+/>

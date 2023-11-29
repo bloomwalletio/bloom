@@ -1,114 +1,152 @@
 <script lang="ts">
-    import { Icon as IconEnum } from '@auxiliary/icon'
-    import { OnboardingLayout } from '@components'
+    import { Button, Icon, IconName, Text } from '@bloomwalletio/ui'
     import { Mnemonic, getWordChoices, onboardingProfile, updateOnboardingProfile } from '@contexts/onboarding'
     import { localize } from '@core/i18n'
-    import { Button, Icon, RecoveryPhrase, Text, TextType } from '@ui'
-    import { onMount } from 'svelte'
+    import { getOnboardingNetworkTypeFromNetworkId } from '@core/network'
+    import features from '@features/features'
+    import { RecoveryPhrase } from '@ui'
+    import { OnboardingLayout } from '@views/components'
     import { createFromMnemonicRouter } from '../create-from-mnemonic-router'
 
-    const verifyRecoveryPhrase: Mnemonic = []
-    const wordElements: HTMLButtonElement[] = []
+    const networkId = $onboardingProfile?.network?.id
+    const networkType = getOnboardingNetworkTypeFromNetworkId(networkId)
 
-    let wordChoices: string[] = ['', '', '']
-    let verifyIndex: number = 0
-    let isVerified: boolean = $onboardingProfile?.hasVerifiedMnemonic
+    const VERIFICATION_WORD_COUNT = 24
+    const LOCALE_KEY = 'views.onboarding.createFromMnemonic.verifyMnemonic'
 
-    function onChoiceClick(word: string): void {
-        verifyRecoveryPhrase[verifyIndex] = word
-        if ($onboardingProfile?.mnemonic[verifyIndex] === word) {
-            if (verifyIndex === $onboardingProfile?.mnemonic.length - 1) {
-                isVerified = true
-                updateOnboardingProfile({ hasVerifiedMnemonic: true })
-            } else {
-                verifyIndex++
-                wordChoices = getWordChoices(verifyRecoveryPhrase.length)
+    function generateVerificationIndexes(count: number, totalIndexes: number): number[] {
+        const randomNumbers: number[] = []
+
+        while (randomNumbers.length < count) {
+            const randomNumber = Math.floor(Math.random() * totalIndexes)
+            if (!randomNumbers.includes(randomNumber)) {
+                randomNumbers.push(randomNumber)
             }
+        }
+
+        return randomNumbers.sort((a, b) => a - b)
+    }
+
+    const recoveryPhrase = $onboardingProfile?.mnemonic
+    const verificationIndexes: number[] = generateVerificationIndexes(VERIFICATION_WORD_COUNT, recoveryPhrase.length)
+    let verifiedRecoveryPhrase: Mnemonic = recoveryPhrase.slice(
+        0,
+        verificationIndexes[0] > 0 ? verificationIndexes[0] : 0
+    )
+    let wordChoices: [string, string, string, string] = getWordChoices(verificationIndexes[0])
+    let choiceError: string = ''
+    let chosenWord: string = ''
+
+    function areArraysEqual(a: unknown[], b: unknown[]): boolean {
+        if (a.length !== b.length) return false
+        for (let i = 0; i < a.length; i++) {
+            if (a[i] !== b[i]) return false
+        }
+        return true
+    }
+
+    $: isComplete = verifiedRecoveryPhrase.length === recoveryPhrase.length
+    $: isVerified = areArraysEqual(recoveryPhrase, verifiedRecoveryPhrase)
+
+    let verifyCount = 0
+    let verifyIndex: number = verificationIndexes[0]
+    function onChoiceClick(word): void {
+        chosenWord = word
+        if (chosenWord !== recoveryPhrase[verifyIndex]) {
+            choiceError = chosenWord
+        } else {
+            choiceError = ''
+            const previousIndex = verifyIndex
+            const nextIndex = verificationIndexes[verifyCount + 1]
+            const wordsBefore = recoveryPhrase.slice(verifiedRecoveryPhrase.length, previousIndex)
+            const wordsAfter = recoveryPhrase.slice(previousIndex + 1, nextIndex)
+            verifiedRecoveryPhrase = [...verifiedRecoveryPhrase, ...wordsBefore, chosenWord, ...wordsAfter]
+            wordChoices = getWordChoices(nextIndex)
+            verifyIndex = nextIndex
+            verifyCount++
         }
     }
 
     function onContinueClick(): void {
+        updateOnboardingProfile({
+            hasVerifiedMnemonic:
+                features?.onboarding?.[networkType]?.newProfile?.softwareProfile?.skipVerification?.enabled ||
+                isVerified,
+        })
         $createFromMnemonicRouter.next()
     }
 
     function onBackClick(): void {
         $createFromMnemonicRouter.previous()
     }
-
-    function onKeyPress(event: KeyboardEvent): void {
-        if (!isVerified) {
-            switch (event.key) {
-                case '1':
-                    wordElements[0].click()
-                    break
-                case '2':
-                    wordElements[1].click()
-                    break
-                case '3':
-                    wordElements[2].click()
-                    break
-                default:
-                    break
-            }
-        }
-    }
-
-    onMount(() => {
-        wordChoices = getWordChoices(verifyRecoveryPhrase.length)
-    })
 </script>
 
-<svelte:window on:keypress={onKeyPress} />
-
-<OnboardingLayout {onBackClick}>
-    <title-container slot="title" class="block">
-        <Text type={TextType.h2} classes={isVerified && 'hidden'}>
-            {localize('views.onboarding.profileBackup.verifyMnemonic.title')}
-        </Text>
-    </title-container>
-    <leftpane-content slot="leftpane__content" class="block">
-        {#if !isVerified}
-            <Text secondary classes="'mb-10">
-                {localize('views.onboarding.profileBackup.verifyMnemonic.body')}
-            </Text>
-            <Text classes="mb-4">
-                {localize('views.onboarding.profileBackup.verifyMnemonic.word')} #{verifyIndex + 1}
-            </Text>
-            {#each wordChoices as word, i}
-                <button
-                    type="button"
-                    class="w-full flex flex-row p-4 mb-4 rounded-2xl border border-solid items-center justify-between
-                    border-gray-300 dark:border-gray-700 hover:border-gray-500 dark:hover:border-gray-700
-                    focus:border-gray-500 dark:focus:border-gray-700"
-                    on:click={() => onChoiceClick(word)}
-                    bind:this={wordElements[i]}
-                >
-                    <Text smaller classes="ml-3">{`${i + 1}. ${word}`}</Text>
-                    <Icon icon={IconEnum.ChevronRight} classes="text-gray-800 dark:text-white" />
-                </button>
-            {/each}
-        {:else}
-            <div class="flex flex-col items-center bg-gray-100 dark:bg-gray-900 rounded-2xl mt-10 p-5">
-                <icon-container class="block bg-green-500 rounded-2xl relative -top-10">
-                    <Icon icon={IconEnum.SuccessCheck} classes="text-white" />
-                </icon-container>
-                <Text type={TextType.h2} classes="mb-5 text-center">
-                    {localize('views.onboarding.profileBackup.verifyMnemonic.verified')}
-                </Text>
-                <Text secondary classes="mb-2">
-                    {localize('views.onboarding.profileBackup.verifyMnemonic.verifiedBody')}
-                </Text>
+<OnboardingLayout
+    title={localize(`${LOCALE_KEY}.title`)}
+    description={localize(`${LOCALE_KEY}.description`)}
+    continueButton={{
+        onClick: onContinueClick,
+        disabled: !isComplete,
+        text: localize('actions.continue'),
+    }}
+    backButton={{
+        onClick: onBackClick,
+    }}
+>
+    <content slot="content" class="flex flex-col gap-6">
+        <RecoveryPhrase {recoveryPhrase} {verifiedRecoveryPhrase} verification />
+        {#if !isComplete}
+            <div class="flex flex-col gap-4">
+                <div class="flex justify-between items-center">
+                    <Text textColor="secondary">
+                        {localize(`${LOCALE_KEY}.matchWord`, { number: verifyIndex + 1 })}
+                    </Text>
+                    {#if choiceError}
+                        <div class="flex justify-center items-center gap-2">
+                            <Icon name={IconName.InfoCircle} size="xs" textColor="danger" />
+                            <Text type="sm" fontWeight="medium" textColor="danger"
+                                >{localize(`${LOCALE_KEY}.noMatch`)}</Text
+                            >
+                        </div>
+                    {/if}
+                </div>
+                <div class="grid grid-cols-4 gap-2">
+                    {#each wordChoices as word, i}
+                        {@const error = choiceError === word && chosenWord === word}
+                        {@const selected = chosenWord === word}
+                        <button type="button" on:click={() => onChoiceClick(word)} class:error class:selected>
+                            <Text type="sm" fontWeight="medium" textColor="current" align="center">{word}</Text>
+                        </button>
+                    {/each}
+                </div>
             </div>
         {/if}
-    </leftpane-content>
-    <leftpane-action slot="leftpane__action" class="block">
-        {#if isVerified}
-            <Button classes="w-full" onClick={onContinueClick}>
-                {localize('actions.continue')}
-            </Button>
+        {#if features?.onboarding?.[networkType]?.newProfile?.softwareProfile?.skipVerification?.enabled}
+            <Button
+                variant="outlined"
+                color="warning"
+                width="full"
+                text={localize('actions.skip')}
+                on:click={onContinueClick}
+            />
         {/if}
-    </leftpane-action>
-    <rightpane-container slot="rightpane" class="w-full h-full flex flex-col items-center justify-center p-4">
-        <RecoveryPhrase recoveryPhrase={$onboardingProfile?.mnemonic} {verifyRecoveryPhrase} />
-    </rightpane-container>
+    </content>
 </OnboardingLayout>
+
+<style lang="postcss">
+    button {
+        @apply transition-colors;
+        @apply flex flex-row items-center justify-center w-full px-3 py-2 rounded-lg;
+        @apply text-primary dark:text-primary-dark active:text-neutral-1;
+        @apply bg-transparent hover:bg-surface-brand/10 focus-visible:bg-surface-brand/10 active:bg-surface-brand;
+        @apply border border-solid border-stroke dark:border-stroke-dark;
+
+        &.error {
+            @apply text-danger dark:text-danger border-danger/20;
+        }
+
+        &:not(.error).selected {
+            @apply bg-surface-brand border-surface-brand dark:border-surface-brand text-white dark:text-white;
+        }
+    }
+</style>

@@ -1,16 +1,17 @@
-import { get } from 'svelte/store'
-
+import { getDepositAddress } from '@core/account/utils/getDepositAddress'
+import { logAndNotifyError } from '@core/error/actions'
+import { handleLedgerError } from '@core/ledger/utils'
+import { DEFAULT_BASE_TOKEN, SupportedNetworkId } from '@core/network'
+import { BASE_TOKEN_ID, VerifiedStatus } from '@core/token'
 import {
     DEFAULT_TRANSACTION_OPTIONS,
+    SendFlowParameters,
+    SendFlowType,
+    SubjectType,
     getOutputParameters,
     setSendFlowParameters,
-    SendFlowType,
-    getAssetById,
-    SubjectType,
-    SendFlowParameters,
 } from '@core/wallet'
-import { logAndNotifyError } from '@core/error/actions'
-
+import { get } from 'svelte/store'
 import { ShimmerClaimingAccountState } from '../enums'
 import { IShimmerClaimingAccount } from '../interfaces'
 import {
@@ -19,9 +20,6 @@ import {
     persistShimmerClaimingTransaction,
     updateShimmerClaimingAccount,
 } from '../stores'
-import { handleLedgerError } from '@core/ledger/utils'
-import { getDepositAddress } from '@core/account/utils'
-import { getActiveNetworkId } from '@core/network/utils/getNetworkId'
 
 export async function claimShimmerRewards(): Promise<void> {
     const shimmerClaimingAccounts = get(onboardingProfile)?.shimmerClaimingAccounts
@@ -66,13 +64,6 @@ async function claimShimmerRewardsForShimmerClaimingAccount(
     const recipientAddress = await getDepositAddress(shimmerClaimingAccount?.twinAccount)
     const rawAmount = shimmerClaimingAccount?.unclaimedRewards
 
-    const networkId = getActiveNetworkId()
-    const coinType = String(get(onboardingProfile)?.network?.coinType)
-    const asset = networkId && coinType ? getAssetById(coinType, networkId) : undefined
-    if (!asset) {
-        return
-    }
-
     const sendFlowParameters: SendFlowParameters = {
         recipient: {
             type: SubjectType.Address,
@@ -80,14 +71,23 @@ async function claimShimmerRewardsForShimmerClaimingAccount(
         },
         type: SendFlowType.BaseCoinTransfer,
         baseCoinTransfer: {
-            asset,
+            token: {
+                id: BASE_TOKEN_ID,
+                ...DEFAULT_BASE_TOKEN[SupportedNetworkId.Shimmer],
+                networkId: SupportedNetworkId.Shimmer,
+                hidden: false,
+                verification: {
+                    status: VerifiedStatus.Official,
+                    verified: true,
+                },
+            },
             rawAmount: rawAmount.toString(),
-            unit: '',
         },
+        destinationNetworkId: SupportedNetworkId.Shimmer,
     }
     setSendFlowParameters(sendFlowParameters)
 
-    const outputParams = await getOutputParameters(sendFlowParameters)
+    const outputParams = getOutputParameters(sendFlowParameters)
     const preparedOutput = await shimmerClaimingAccount?.prepareOutput(outputParams, DEFAULT_TRANSACTION_OPTIONS)
 
     const claimingTransaction = await shimmerClaimingAccount?.sendOutputs([preparedOutput])

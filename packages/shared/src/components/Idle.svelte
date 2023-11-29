@@ -1,8 +1,10 @@
 <script lang="ts">
+    import { DEFAULT_PERSISTED_PROFILE_OBJECT } from '@core/profile'
+    import { logout } from '@core/profile/actions'
+    import { activeProfile } from '@core/profile/stores'
+    import { debounce, MILLISECONDS_PER_SECOND, SECONDS_PER_MINUTE } from '@core/utils'
     import { onDestroy } from 'svelte'
     import { get } from 'svelte/store'
-    import { activeProfile, DEFAULT_PERSISTED_PROFILE_OBJECT, logout } from '@core/profile'
-    import { debounce, MILLISECONDS_PER_SECOND, SECONDS_PER_MINUTE } from '@core/utils'
 
     let timeout
     let isDestroyed = false

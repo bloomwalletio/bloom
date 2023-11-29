@@ -54,13 +54,14 @@ jobs:
         needs: [setup]
         strategy:
             matrix:
-                os: [ubuntu-20.04]
+                os: [ubuntu-20.04, windows-2022, macos-11]
             fail-fast: true
         with:
             os: ${{ matrix.os }}
             version: ${{ needs.setup.outputs.version }}
             stage: ${{ inputs.stage || needs.setup.outputs.stage }}
-            release: true
+            sign: true
+            upload: true
         secrets: inherit
 
     trigger-release:

@@ -1,9 +1,9 @@
-import { ProposalStatus } from '../enums'
+import { EventStatus } from '@iota/sdk/out/types'
 import { ProposalPhaseOrdering } from '../types'
 
 export const PROPOSAL_PHASE_ORDERING: ProposalPhaseOrdering = {
-    [ProposalStatus.Upcoming]: 0,
-    [ProposalStatus.Commencing]: 1,
-    [ProposalStatus.Holding]: 2,
-    [ProposalStatus.Ended]: 3,
+    [EventStatus.Upcoming]: 0,
+    [EventStatus.Commencing]: 1,
+    [EventStatus.Holding]: 2,
+    [EventStatus.Ended]: 3,
 }

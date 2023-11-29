@@ -1,6 +1,6 @@
-import { showAppNotification } from '@auxiliary/notification'
+import { showNotification } from '@auxiliary/notification'
 import { localize } from '@core/i18n'
-import { Platform } from '@core/app'
+import { Platform } from '@core/app/classes'
 
 export function sleep(ms: number): Promise<number> {
     return new Promise((resolve) => setTimeout(resolve, ms))
@@ -27,7 +27,7 @@ export function setClipboard(input: string, shouldNotify: boolean = true): boole
         document.body.removeChild(textArea)
 
         if (shouldNotify) {
-            showAppNotification({ type: 'info', message: localize('notifications.copiedToClipboard') })
+            showNotification({ variant: 'success', text: localize('notifications.copiedToClipboard') })
         }
 
         return true

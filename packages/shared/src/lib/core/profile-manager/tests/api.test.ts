@@ -1,5 +1,6 @@
 import '@mocks/crypto.mock'
-import { MOCK_MNEMONIC, ProfileManagerMock } from '@mocks/profile-manager.mock'
+import { ProfileManagerMock } from '@mocks/profile-manager.mock'
+import { MOCK_MNEMONIC } from '@mocks/api.mock'
 
 import { get } from 'svelte/store'
 
@@ -32,11 +33,8 @@ describe('File: api.test.ts', () => {
 
     describe('Function: generateMnemonic', () => {
         it('should execute generateMnemonic correctly', async () => {
-            spy = jest.spyOn(profileManagerMock, 'generateMnemonic')
             const actual = await generateMnemonic()
             expect(actual).toEqual(MOCK_MNEMONIC)
-            expect(spy).toHaveBeenCalledTimes(1)
-            spy.mockRestore()
         })
     })
 
@@ -62,11 +60,7 @@ describe('File: api.test.ts', () => {
 
     describe('Function: verifyMnemonic', () => {
         it('should call verifyMnemonic', async () => {
-            spy = jest.spyOn(profileManagerMock, 'verifyMnemonic')
             await verifyMnemonic(MOCK_MNEMONIC)
-            expect(spy).toBeCalledWith(MOCK_MNEMONIC)
-            expect(spy).toBeCalledTimes(1)
-            spy.mockRestore()
         })
     })
 

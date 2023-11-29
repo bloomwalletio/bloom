@@ -1,18 +1,30 @@
 <script lang="ts">
     import { localize } from '@core/i18n'
-    import { nftSearchTerm, queriedNfts, ownedNfts } from '@core/nfts'
-    import { FontWeight, Illustration, NftGallery, Text, ReceiveButton, SearchInput } from '@ui'
+    import { nftSearchTerm, ownedNfts, queriedNfts } from '@core/nfts/stores'
+    import { NftGallery, SearchInput } from '@ui'
+    import { Button, IconName, Text, Pill } from '@bloomwalletio/ui'
+    import { PopupId, openPopup } from '@desktop/auxiliary/popup'
+    import { getActiveNetworkId } from '@core/network'
+    import { EmptyListPlaceholder } from '@components'
+
+    function onReceiveClick(): void {
+        openPopup({
+            id: PopupId.ReceiveAddress,
+            props: {
+                selectedNetworkId: getActiveNetworkId(),
+            },
+        })
+    }
 </script>
 
-<div class="flex flex-col w-full h-full space-y-4">
+<collectibles-gallery-view>
     {#if $ownedNfts.length}
         <div class="flex flex-row justify-between">
-            <div class="flex flex-row text-left space-x-1 items-center">
-                <Text fontSize="text-14" fontWeight={FontWeight.semibold}
-                    >{localize('views.collectibles.gallery.title')}</Text
-                >
-                <Text fontSize="text-14" fontWeight={FontWeight.semibold} color="gray-500">• {$queriedNfts.length}</Text
-                >
+            <div class="flex flex-row text-left gap-2 items-center">
+                <Text type="h6">{localize('views.collectibles.gallery.title')}</Text>
+                <Pill color="neutral">
+                    <Text textColor="secondary">{String($queriedNfts.length ?? '')}</Text>
+                </Pill>
             </div>
             <div class="flex items-center" style="height: 40px">
                 <SearchInput bind:value={$nftSearchTerm} />
@@ -22,27 +34,24 @@
         {#if $queriedNfts.length}
             <NftGallery nfts={$queriedNfts} />
         {:else}
-            <div class="w-full h-full flex flex-col items-center justify-center space-y-8">
-                <Illustration illustration="empty-collectibles" width="134" height="134" />
-                <Text fontSize="text-14" fontWeight={FontWeight.semibold} color="gray-500"
-                    >{localize('views.collectibles.gallery.noResults')}</Text
-                >
+            <div class="w-full h-full flex flex-col items-center justify-center">
+                <EmptyListPlaceholder title={localize('views.collectibles.gallery.noResults')} icon={IconName.Data} />
             </div>
         {/if}
     {:else}
-        <div class="w-full h-full flex items-center justify-center grow-1">
-            <div class="flex flex-col items-center space-y-8">
-                <Illustration illustration="empty-collectibles" width="134" height="134" />
-                <div class="flex flex-col items-center">
-                    <Text fontSize="text-14" fontWeight={FontWeight.semibold} color="gray-500"
-                        >{localize('views.collectibles.gallery.emptyTitle')}</Text
-                    >
-                    <Text fontSize="text-14" color="gray-500"
-                        >{localize('views.collectibles.gallery.emptyDescription')}</Text
-                    >
-                </div>
-                <ReceiveButton text={localize('actions.depositNft')} title={localize('actions.depositNft')} />
-            </div>
+        <div class="w-full h-full flex flex-col items-center justify-center grow-1 gap-6">
+            <EmptyListPlaceholder
+                title={localize('views.collectibles.gallery.emptyTitle')}
+                subtitle={localize('views.collectibles.gallery.emptyDescription')}
+                icon={IconName.Data}
+            />
+            <Button text={localize('actions.getStarted')} on:click={onReceiveClick} />
         </div>
     {/if}
-</div>
+</collectibles-gallery-view>
+
+<style lang="postcss">
+    collectibles-gallery-view {
+        @apply flex flex-col w-full h-full gap-4;
+    }
+</style>

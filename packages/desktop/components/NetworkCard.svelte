@@ -1,23 +1,28 @@
 <script lang="ts">
-    import { Icon as IconEnum } from '@auxiliary/icon'
-    import { selectedAccount } from '@core/account'
+    import { Button, Copyable, IconButton, IconName, Text, Tile } from '@bloomwalletio/ui'
+    import { selectedAccount } from '@core/account/stores'
+    import { openUrlInBrowser } from '@core/app'
     import { localize } from '@core/i18n'
-    import { generateAndStoreEvmAddressForAccount } from '@core/layer-2'
+    import { generateAndStoreEvmAddressForAccounts, pollL2BalanceForAccount } from '@core/layer-2/actions'
     import { LedgerAppName } from '@core/ledger'
     import {
+        ExplorerEndpoint,
         IChain,
         IIscpChainConfiguration,
         INetwork,
         NetworkHealth,
         NetworkId,
         chainStatuses,
+        getDefaultExplorerUrl,
         networkStatus,
         setSelectedChain,
     } from '@core/network'
-    import { ProfileType, activeProfile, checkActiveProfileAuth } from '@core/profile'
+    import { ProfileType } from '@core/profile'
+    import { checkActiveProfileAuth } from '@core/profile/actions'
+    import { activeProfile } from '@core/profile/stores'
     import { UiEventFunction, truncateString } from '@core/utils'
-    import { NetworkConfigRoute, networkConfigRouter } from '@desktop/routers'
-    import { ClickableTile, FontWeight, Icon, NetworkIcon, NetworkStatusPill, Text, TextType } from '@ui'
+    import { NetworkAvatar, NetworkStatusPill } from '@ui'
+    import { NetworkConfigRoute, networkConfigRouter } from '@views/dashboard/drawers'
     import { onMount } from 'svelte'
 
     export let network: INetwork = undefined
@@ -26,19 +31,27 @@
     export let onQrCodeIconClick: UiEventFunction
 
     let configuration: IIscpChainConfiguration = undefined
+    let networkId: NetworkId | undefined
     let name = ''
     let address = ''
     let status: NetworkHealth
 
     $: $networkStatus, $chainStatuses, $selectedAccount, setNetworkCardData()
+    $: explorerUrl = getDefaultExplorerUrl(networkId, ExplorerEndpoint.Address)
+
+    function onExplorerClick(address: string): void {
+        openUrlInBrowser(`${explorerUrl}/${address}`)
+    }
 
     function setNetworkCardData(): void {
         if (network) {
+            networkId = network.getMetadata().id
             name = network.getMetadata().name
             address = $selectedAccount.depositAddress
             status = $networkStatus.health
         } else if (chain) {
             configuration = chain.getConfiguration() as IIscpChainConfiguration
+            networkId = configuration.id
             name = configuration.name
             address = $selectedAccount.evmAddresses[configuration.coinType]
             status = chain.getStatus().health
@@ -50,11 +63,12 @@
         if (chain) {
             checkActiveProfileAuth(
                 async () => {
-                    await generateAndStoreEvmAddressForAccount(
+                    await generateAndStoreEvmAddressForAccounts(
                         $activeProfile.type,
-                        $selectedAccount,
-                        configuration.coinType
+                        configuration.coinType,
+                        $selectedAccount
                     )
+                    pollL2BalanceForAccount($selectedAccount)
                     if ($activeProfile.type === ProfileType.Ledger) {
                         $networkConfigRouter.goTo(NetworkConfigRoute.ConfirmLedgerEvmAddress)
                     }
@@ -70,41 +84,55 @@
     })
 </script>
 
-<ClickableTile classes="bg-white border border-solid border-gray-200 dark:border-transparent" onClick={onCardClick}>
-    <div class="w-full flex flex-col gap-5">
-        <div class="flex flex-row justify-between items-center">
+<Tile border onClick={onCardClick}>
+    <div class="w-full flex flex-col justify-between gap-4 p-1">
+        <network-header class="flex flex-row justify-between items-center gap-1">
             <div class="flex flex-row gap-2 items-center">
-                <NetworkIcon networkId={NetworkId.Testnet} />
-                <Text type={TextType.h4} fontWeight={FontWeight.semibold}>
-                    {name}
-                </Text>
+                {#if networkId}
+                    <NetworkAvatar {networkId} />
+                {/if}
+                <Text type="body1" truncate>{name}</Text>
             </div>
             {#key status}
                 <NetworkStatusPill {status} />
             {/key}
-        </div>
-        <div class="flex flex-row justify-between items-end">
+        </network-header>
+        <network-address class="flex flex-row justify-between items-end gap-4">
             <div class="flex flex-col">
-                <Text type={TextType.p} fontWeight={FontWeight.medium} color="gray-600">
-                    {localize('general.myAddress')}
-                </Text>
+                <Text>{localize('general.myAddress')}</Text>
                 {#if address}
-                    <Text type={TextType.pre} fontSize="16" fontWeight={FontWeight.medium}>
-                        {truncateString(address, 8, 8)}
-                    </Text>
-                {:else}
-                    <button on:click|stopPropagation={onGenerateAddressClick}>
-                        <Text type={TextType.p} fontWeight={FontWeight.medium} highlighted>
-                            {localize('actions.generateAddress')}
+                    <Copyable value={address}>
+                        <Text type="pre-md" textColor="secondary" fontWeight="medium">
+                            {truncateString(address, 9, 9)}
                         </Text>
-                    </button>
+                    </Copyable>
+                {:else}
+                    <Button
+                        variant="text"
+                        size="sm"
+                        text={localize('actions.generateAddress')}
+                        on:click={onGenerateAddressClick}
+                    />
                 {/if}
             </div>
-            {#if address}
-                <button on:click|stopPropagation={onQrCodeIconClick}>
-                    <Icon icon={IconEnum.Qr} classes="text-gray-500" />
-                </button>
-            {/if}
-        </div>
+            <div class="flex flex-row space-x-1">
+                {#if explorerUrl && address}
+                    <IconButton
+                        size="sm"
+                        icon={IconName.Globe}
+                        tooltip={localize('general.viewOnExplorer')}
+                        on:click={() => onExplorerClick(address)}
+                    />
+                {/if}
+                {#if address}
+                    <IconButton
+                        size="sm"
+                        icon={IconName.QrCode}
+                        tooltip={localize('general.viewQrCode')}
+                        on:click={onQrCodeIconClick}
+                    />
+                {/if}
+            </div>
+        </network-address>
     </div>
-</ClickableTile>
+</Tile>

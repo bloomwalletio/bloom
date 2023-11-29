@@ -1,11 +1,9 @@
-import { UNLOCK_CONDITION_STORAGE_DEPOSIT_RETURN } from '@core/wallet/constants'
-import { Output } from '@core/wallet/types'
-import { IStorageDepositReturnUnlockCondition } from '@iota/types'
+import { UnlockConditionType, CommonOutput, StorageDepositReturnUnlockCondition } from '@iota/sdk/out/types'
 
-export function getStorageDepositFromOutput(output: Output): number {
-    const storageDepositReturnUnlockCondition = <IStorageDepositReturnUnlockCondition>(
+export function getStorageDepositFromOutput(output: CommonOutput): number {
+    const storageDepositReturnUnlockCondition = <StorageDepositReturnUnlockCondition>(
         output?.unlockConditions?.find(
-            (unlockCondition) => unlockCondition?.type === UNLOCK_CONDITION_STORAGE_DEPOSIT_RETURN
+            (unlockCondition) => unlockCondition?.type === UnlockConditionType.StorageDepositReturn
         )
     )
 

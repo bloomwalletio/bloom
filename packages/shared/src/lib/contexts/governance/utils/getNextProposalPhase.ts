@@ -1,13 +1,13 @@
-import { ProposalStatus } from '../enums'
+import { EventStatus } from '@iota/sdk/out/types'
 
-export function getNextProposalPhase(status: string): ProposalStatus {
+export function getNextProposalPhase(status: EventStatus): EventStatus {
     switch (status) {
-        case ProposalStatus.Upcoming:
-            return ProposalStatus.Commencing
-        case ProposalStatus.Commencing:
-            return ProposalStatus.Holding
-        case ProposalStatus.Holding:
-        case ProposalStatus.Ended:
-            return ProposalStatus.Ended
+        case EventStatus.Upcoming:
+            return EventStatus.Commencing
+        case EventStatus.Commencing:
+            return EventStatus.Holding
+        case EventStatus.Holding:
+        case EventStatus.Ended:
+            return EventStatus.Ended
     }
 }

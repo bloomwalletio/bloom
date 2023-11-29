@@ -4,8 +4,15 @@
 
     export let options: INetworkRecipientSelectorOption[]
     export let selectedIndex = -1
+    export let hasError: boolean = false
 
-    function onItemClick(index: number) {
+    const reipientItems: Record<number, NetworkRecipientItem> = {}
+
+    export function validate(): void {
+        reipientItems[selectedIndex]?.validate()
+    }
+
+    function onItemClick(index: number): void {
         selectedIndex = index
     }
 </script>
@@ -15,6 +22,8 @@
     <network-recipient-selector class="w-full flex flex-col space-y-4">
         {#each options as item, index}
             <NetworkRecipientItem
+                hasError={selectedIndex === index && hasError}
+                bind:this={reipientItems[index]}
                 bind:item
                 selected={index === selectedIndex}
                 onChange={() => onItemClick(index)}

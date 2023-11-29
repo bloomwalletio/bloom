@@ -1,6 +1,6 @@
 import { get, writable } from 'svelte/store'
 
-import { profiles } from '@core/profile'
+import { profiles } from '@core/profile/stores'
 
 import { Router } from '../classes'
 import { AppRoute, LoginRoute } from '../enums'
@@ -17,8 +17,7 @@ export class AppRouter extends Router<AppRoute> {
     }
 
     public init(): void {
-        const hasCompletedOnboarding = get(profiles).length > 0
-        this.routeStore.set(hasCompletedOnboarding ? AppRoute.Login : AppRoute.Onboarding)
+        this.routeStore.set(get(profiles).length > 0 ? AppRoute.Login : AppRoute.Onboarding)
     }
 
     public reset(): void {

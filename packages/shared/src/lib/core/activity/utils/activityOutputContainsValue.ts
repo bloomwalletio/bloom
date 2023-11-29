@@ -1,17 +1,17 @@
 import { ActivityType } from '../enums'
-import { IBasicOutput } from '@iota/types'
+import { BasicOutput } from '@iota/sdk/out/types'
 import { IWrappedOutput } from '../../wallet/interfaces'
 import { getActivityTypeFromOutput, getAmountFromOutput, getStorageDepositFromOutput } from './helper'
 import { getNativeTokenFromOutput, isOutputAsync } from './outputs'
 
-export function activityOutputContainsValue(wrappedOutput: IWrappedOutput): boolean {
+export async function activityOutputContainsValue(wrappedOutput: IWrappedOutput): Promise<boolean> {
     const type = getActivityTypeFromOutput(wrappedOutput)
     const typesToCheck = [ActivityType.Basic]
-    if (typesToCheck.includes(type)) {
-        const output = wrappedOutput.output as IBasicOutput
+    if (type && typesToCheck.includes(type)) {
+        const output = wrappedOutput.output as BasicOutput
 
         const isAsync = isOutputAsync(output)
-        const nativeToken = getNativeTokenFromOutput(output)
+        const nativeToken = await getNativeTokenFromOutput(output)
 
         const storageDeposit = getStorageDepositFromOutput(output)
         const rawAmount = getAmountFromOutput(output) - storageDeposit

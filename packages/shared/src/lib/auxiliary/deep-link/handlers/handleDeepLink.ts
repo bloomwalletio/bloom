@@ -1,7 +1,7 @@
 import { get } from 'svelte/store'
 
 import { closePopup, openPopup, PopupId } from '../../../../../../desktop/lib/auxiliary/popup'
-import { getActiveProfile, visibleActiveAccounts } from '@core/profile/stores'
+import { isLoggedIn, visibleActiveAccounts } from '@core/profile/stores'
 import { dashboardRouter } from '@core/router/routers'
 import { DashboardRoute } from '@core/router/enums'
 
@@ -9,26 +9,27 @@ import { resetDeepLink } from '../actions'
 import { DeepLinkContext } from '../enums'
 import { isDeepLinkRequestActive } from '../stores'
 
+import { handleDeepLinkDappsContext } from './dapps/handleDeepLinkDappsContext'
 import { handleDeepLinkGovernanceContext } from './governance/handleDeepLinkGovernanceContext'
 import { handleDeepLinkWalletContext } from './wallet/handleDeepLinkWalletContext'
 import { handleError } from '@core/error/handlers'
-import { pairWithNewApp } from '@auxiliary/wallet-connect/utils'
-import { showAppNotification } from '@auxiliary/notification'
+import { showNotification } from '@auxiliary/notification'
 import { localize } from '@core/i18n'
+import { addError } from '@core/error/stores'
+import { URL_CLEANUP_REGEX } from '../constants'
+import { closeDrawer } from '../../../../../../desktop/lib/auxiliary/drawer'
 
 /**
- * Parses an IOTA deep link, i.e. a URL that begins with the app protocol i.e "firefly://".
+ * Parses an Bloom deep link, i.e. a URL that begins with the app protocol i.e "bloom://".
  * @method parseDeepLinkRequest
  * @param {string} input The URL that was opened by the user.
  * @returns {void}
  */
 export function handleDeepLink(input: string): void {
-    const { loggedIn } = getActiveProfile()
-
-    if (!get(loggedIn)) {
-        showAppNotification({
-            type: 'info',
-            message: localize('notifications.deepLinkingRequest.receivedWhileLoggedOut'),
+    if (!isLoggedIn()) {
+        showNotification({
+            variant: 'info',
+            text: localize('notifications.deepLinkingRequest.receivedWhileLoggedOut'),
         })
         return
     }
@@ -45,20 +46,10 @@ export function handleDeepLink(input: string): void {
             throw new Error(`Does not start with ${process.env.APP_PROTOCOL}://`)
         }
 
-        if (get(visibleActiveAccounts).length > 1) {
-            openPopup({
-                id: PopupId.AccountSwitcher,
-                overflow: true,
-                props: {
-                    onConfirm: () => {
-                        closePopup()
-                        handleDeepLinkForHostname(url)
-                    },
-                },
-            })
-        } else {
-            handleDeepLinkForHostname(url)
-        }
+        closePopup()
+        closeDrawer()
+
+        handleDeepLinkForHostname(url)
     } catch (err) {
         handleError(err)
     } finally {
@@ -67,29 +58,61 @@ export function handleDeepLink(input: string): void {
 }
 
 function handleDeepLinkForHostname(url: URL): void {
-    switch (url.hostname) {
-        case DeepLinkContext.Wallet:
-            get(dashboardRouter).goTo(DashboardRoute.Wallet)
-            handleDeepLinkWalletContext(url)
-            break
-        case DeepLinkContext.Governance:
-            get(dashboardRouter).goTo(DashboardRoute.Governance)
-            handleDeepLinkGovernanceContext(url)
-            break
-        case DeepLinkContext.Connect:
-            handleConnect(url)
-            break
-        default:
-            throw new Error(`Unrecognized context '${url.hostname}'`)
+    const pathnameParts = url.pathname.replace(URL_CLEANUP_REGEX, '').split('/')
+    try {
+        if (pathnameParts.length === 0 || !pathnameParts[0]) {
+            throw new Error('No operation specified in the URL')
+        }
+
+        switch (url.hostname) {
+            case DeepLinkContext.Wallet:
+                get(dashboardRouter).goTo(DashboardRoute.Wallet)
+                openAccountSwitcherFirst(() => handleDeepLinkWalletContext(pathnameParts, url.searchParams), url)
+                break
+            case DeepLinkContext.Governance:
+                get(dashboardRouter).goTo(DashboardRoute.Governance)
+                openAccountSwitcherFirst(() => handleDeepLinkGovernanceContext(pathnameParts, url.searchParams), url)
+                break
+            case DeepLinkContext.WalletConnect:
+                handleDeepLinkDappsContext(pathnameParts, url.search)
+                break
+            default:
+                throw new Error(`Unrecognized context '${url.hostname}'`)
+        }
+    } catch (err) {
+        openPopup({
+            id: PopupId.DeepLinkError,
+            props: { error: err, url },
+        })
+        addError({ time: Date.now(), type: 'deepLink', message: `Error handling deep link. ${err.message}` })
     }
 }
 
-function handleConnect(url: URL): void {
-    const walletConnectUri = url.pathname.split('/')[1] + url.search
-    if (walletConnectUri) {
+function openAccountSwitcherFirst(handler: () => void, url: URL): void {
+    if (get(visibleActiveAccounts).length > 1) {
         openPopup({
-            id: PopupId.Confirmation,
-            props: { title: walletConnectUri, onConfirm: () => pairWithNewApp(walletConnectUri) },
+            id: PopupId.AccountSwitcher,
+            overflow: true,
+            props: {
+                onConfirm: () => {
+                    try {
+                        closePopup()
+                        handler()
+                    } catch (err) {
+                        openPopup({
+                            id: PopupId.DeepLinkError,
+                            props: { error: err, url },
+                        })
+                        addError({
+                            time: Date.now(),
+                            type: 'deepLink',
+                            message: `Error handling deep link. ${err.message}`,
+                        })
+                    }
+                },
+            },
         })
+    } else {
+        handler()
     }
 }

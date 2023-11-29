@@ -1,25 +1,25 @@
 import { openPopup, PopupId, popupState } from '../../../../../../desktop/lib/auxiliary/popup'
 import { get } from 'svelte/store'
 import { handleError } from '@core/error/handlers/handleError'
-import { determineLedgerConnectionState, LedgerAppName, LedgerConnectionState, ledgerNanoStatus } from '..'
+import { LedgerAppName, LedgerConnectionState, ledgerConnectionState } from '..'
 
 export function checkOrConnectLedger(
     callback: () => Promise<unknown> = async (): Promise<void> => {},
     reopenPopup?: boolean,
-    ledgerAppName: LedgerAppName = LedgerAppName.Shimmer
+    ledgerAppName: LedgerAppName = LedgerAppName.Shimmer,
+    reopenProps: Record<string, unknown> = {}
 ): Promise<unknown> {
     const previousPopup = get(popupState)
     function _callback(): Promise<unknown> {
         if (reopenPopup) {
-            openPopup({ ...previousPopup, props: { ...previousPopup.props, _onMount: callback } })
+            openPopup({ ...previousPopup, props: { ...previousPopup.props, ...reopenProps, _onMount: callback } })
             return Promise.resolve()
         } else {
             return callback()
         }
     }
     try {
-        const ledgerConnectionState = determineLedgerConnectionState(get(ledgerNanoStatus), ledgerAppName)
-        const ledgerConnected = ledgerConnectionState === LedgerConnectionState.CorrectAppOpen
+        const ledgerConnected = get(ledgerConnectionState) === (ledgerAppName as unknown as LedgerConnectionState)
         if (ledgerConnected) {
             return callback()
         } else {

@@ -29,6 +29,9 @@ const Platform: IPlatform = {
     getAppVersionDetails(): Promise<IAppVersionDetails> {
         return Promise.resolve(undefined)
     },
+    focusWindow(): Promise<void> {
+        return Promise.resolve(undefined)
+    },
     isMaximized(): Promise<boolean> {
         return Promise.resolve(false)
     },
@@ -94,6 +97,12 @@ const Platform: IPlatform = {
         return Promise.resolve('')
     },
     updateTheme(): void {},
+    getTheme(): string {
+        return 'dark'
+    },
+    shouldBeDarkMode(): boolean {
+        return true
+    },
 }
 
 window['__CAPACITOR__'] = Platform

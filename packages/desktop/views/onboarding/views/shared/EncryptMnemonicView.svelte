@@ -1,14 +1,14 @@
 <script lang="ts">
-    import { showAppNotification } from '@auxiliary/notification'
-    import { OnboardingLayout } from '@components'
+    import { PasswordInput } from '@bloomwalletio/ui'
+    import { showNotification } from '@auxiliary/notification'
     import { updateOnboardingProfile, verifyAndStoreMnemonic } from '@contexts/onboarding'
-    import { IS_MOBILE } from '@core/app'
     import { localize } from '@core/i18n'
     import { MAX_STRONGHOLD_PASSWORD_LENGTH } from '@core/profile'
     import { setStrongholdPassword } from '@core/profile-manager'
     import { Subrouter } from '@core/router'
     import { PASSWORD_REASON_MAP } from '@core/stronghold'
-    import { Animation, Button, HTMLButtonType, PasswordInput, Text, TextType } from '@ui'
+    import { OnboardingLayout } from '@views/components'
+    import { StrengthMeter } from '@ui'
     import zxcvbn from 'zxcvbn'
 
     export let router: Subrouter<unknown>
@@ -50,9 +50,9 @@
                 router.next()
             } catch (err) {
                 console.error(err)
-                showAppNotification({
-                    type: 'error',
-                    message: localize(err?.error),
+                showNotification({
+                    variant: 'error',
+                    text: localize(err?.error),
                 })
             } finally {
                 busy = false
@@ -75,51 +75,35 @@
     } // zxcvbn lib recommends to not validate long passwords because of performance issues https://github.com/dropbox/zxcvbn#user-content-performance
 </script>
 
-<OnboardingLayout {onBackClick} {busy}>
-    <div slot="title">
-        <Text type={TextType.h2}>{localize('views.onboarding.strongholdSetup.setupStrongholdPassword.title')}</Text>
-    </div>
-    <div slot="leftpane__content">
-        <form on:submit|preventDefault={onContinueClick} id="password-form">
-            <Text type={TextType.p} classes="mb-4" secondary
-                >{localize('views.onboarding.strongholdSetup.setupStrongholdPassword.body1')}</Text
-            >
-            <Text type={TextType.p} classes="mb-10" secondary
-                >{localize('views.onboarding.strongholdSetup.setupStrongholdPassword.body2')}</Text
-            >
+<OnboardingLayout
+    title={localize('views.onboarding.shared.encryptMnemonic.title')}
+    description={localize('views.onboarding.shared.encryptMnemonic.description')}
+    continueButton={{
+        form: 'password-form',
+        onClick: onContinueClick,
+        disabled: !strongholdPassword || !confirmedStrongholdPassword,
+    }}
+    backButton={{
+        onClick: onBackClick,
+    }}
+    {busy}
+>
+    <form on:submit|preventDefault={onContinueClick} id="password-form" slot="content" class="flex flex-col space-y-5">
+        <StrengthMeter strength={passwordStrength?.score ?? 0} />
+        <div class="flex flex-col gap-4">
             <PasswordInput
-                {error}
-                classes="mb-4"
+                bind:error
                 bind:value={strongholdPassword}
-                strengthLevels={4}
-                showRevealToggle
-                showStrengthLevel
-                strength={passwordStrength?.score}
+                label={localize('general.password')}
                 autofocus
                 disabled={busy}
             />
             <PasswordInput
-                error={errorConfirm}
+                bind:error={errorConfirm}
                 bind:value={confirmedStrongholdPassword}
-                classes="mb-5"
-                placeholder={localize('general.confirmPassword')}
-                showRevealToggle
+                label={localize('general.confirmPassword')}
                 disabled={busy}
             />
-        </form>
-    </div>
-    <div slot="leftpane__action">
-        <Button
-            type={HTMLButtonType.Submit}
-            form="password-form"
-            classes="w-full"
-            disabled={!strongholdPassword || !confirmedStrongholdPassword || busy}
-            isBusy={busy}
-        >
-            {localize('actions.continue')}
-        </Button>
-    </div>
-    <div slot="rightpane" class="w-full h-full flex justify-center {!IS_MOBILE && 'bg-pastel-yellow dark:bg-gray-900'}">
-        <Animation classes="setup-anim-aspect-ratio" animation="password-desktop" />
-    </div>
+        </div>
+    </form>
 </OnboardingLayout>

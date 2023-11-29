@@ -1,13 +1,14 @@
 <h1 align="center">
   <br>
-  <a href=""><img src="header.png"></a>
+  <a href="https://bloomwallet.io">
+    <img src="https://github.com/bloomwalletio/bloom/assets/42754063/316c882c-6e1b-46fc-9527-2e9408598935" />
+  </a>
 </h1>
 
 <h2 align="center">Bloom</h2>
 
 <p align="center">
-  <a href="https://discord.bloomwallet.io" style="text-decoration:none;"><img src="https://img.shields.io/badge/Discord-9cf.svg?logo=discord" alt="Discord"></a>
-  <a href="https://iota.stackexchange.com/" style="text-decoration:none;"><img src="https://img.shields.io/badge/StackExchange-9cf.svg?logo=stackexchange" alt="StackExchange"></a>
+  <a href="https://discord.gg/RjX3jEc7K7" style="text-decoration:none;"><img src="https://img.shields.io/badge/Discord-9cf.svg?logo=discord" alt="Discord"></a>
 </p>
 
 <p align="center">
@@ -33,7 +34,7 @@ Bloom is a simple and secure wallet for managing your digital assets in the IOTA
 There are a few options to install Bloom:
 
 -   Download from [official Bloom website](https://bloomwallet.io)
--   Download from the latest [GitHub release](https://github.com/bloomwalletio/bloom/releases/tag/desktop-2.0.0)
+-   Download from the latest [GitHub release](https://github.com/bloomwalletio/bloom/releases)
 -   Build from the source code within this repository (see [here](https://github.com/bloomwalletio/bloom/blob/develop/packages/desktop/README.md))
 
 ## Contributing

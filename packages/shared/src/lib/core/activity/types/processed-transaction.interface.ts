@@ -1,6 +1,6 @@
-import { IWrappedOutput } from '@core/wallet/interfaces'
 import { ActivityDirection, InclusionState } from '../enums'
-import { IUTXOInput } from '@iota/types'
+import { UTXOInput } from '@iota/sdk/out/types'
+import { IWrappedOutput } from '@core/wallet/interfaces'
 
 export interface IProcessedTransaction {
     outputs: IWrappedOutput[]
@@ -8,7 +8,7 @@ export interface IProcessedTransaction {
     direction: ActivityDirection
     time: Date
     inclusionState: InclusionState
-    utxoInputs: IUTXOInput[]
+    utxoInputs: UTXOInput[]
     wrappedInputs: IWrappedOutput[]
     claimingData?: IClaimData
 }

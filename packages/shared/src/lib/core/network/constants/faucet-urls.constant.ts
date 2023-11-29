@@ -1,5 +1,6 @@
-import { NetworkId } from '../enums'
+import { SupportedNetworkId } from '../enums'
+import { NetworkId } from '../types'
 
-export const FAUCET_URLS: Readonly<{ [key in NetworkId]?: string }> = {
-    [NetworkId.Testnet]: 'https://faucet.testnet.shimmer.network/api/enqueue',
+export const FAUCET_URLS: Readonly<{ [id in NetworkId]?: string }> = {
+    [SupportedNetworkId.Testnet]: 'https://faucet.testnet.shimmer.network/api/enqueue',
 }

@@ -1,4 +1,4 @@
-import { addAccountPersistedDataToActiveProfile, getActiveProfilePersistedAccountData } from '@core/profile'
+import { addAccountPersistedDataToActiveProfile, getActiveProfilePersistedAccountData } from '@core/profile/stores'
 import { DEFAULT_SYNC_OPTIONS } from '../constants'
 import { IAccount, IAccountState } from '../interfaces'
 import { buildAccountState } from './buildAccountState'

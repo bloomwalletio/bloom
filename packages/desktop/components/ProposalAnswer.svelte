@@ -1,14 +1,13 @@
 <script lang="ts">
-    import type { Answer } from '@iota/wallet'
+    import { Answer, EventStatus } from '@iota/sdk/out/types'
 
-    import { Icon, PingingBadge, Text, TooltipIcon } from '@ui'
-    import { FontWeight, Position } from '@ui/enums'
+    import { Icon, Text } from '@ui'
 
-    import { appSettings } from '@core/app/stores'
-
-    import { ProposalStatus } from '@contexts/governance'
+    import { darkMode } from '@core/app/stores'
 
     import { Icon as IconEnum } from '@auxiliary/icon'
+    import { Indicator, TooltipIcon } from '@bloomwalletio/ui'
+    import { FontWeight } from '@ui/enums'
 
     export let onAnswerClick: () => void
 
@@ -20,7 +19,7 @@
     export let disabled = false
     export let hidden: boolean = null
     export let isWinner: boolean
-    export let proposalStatus: string
+    export let proposalStatus: EventStatus
     export let truncate = false
     export let isLoading = false
 
@@ -29,7 +28,6 @@
 
     $: selectedAnswerValue, votedAnswerValue, setIsSelected()
     $: isVotedFor = votedAnswerValue === answer?.value
-    $: dark = $appSettings.darkMode
 
     function onClick(): void {
         if (!disabled && !hidden && !isLoading) {
@@ -51,7 +49,7 @@
 <button
     type="button"
     class="proposal-answer"
-    class:dark
+    class:dark={$darkMode}
     class:disabled
     class:hidden={isSelected || isWinner ? false : hidden}
     class:voted={isVotedFor}
@@ -65,12 +63,12 @@
         {#if answerIndex !== undefined}
             {#if isVotedFor}
                 <status-icon class="flex justify-center items-center w-5 h-5">
-                    {#if proposalStatus === ProposalStatus.Ended}
+                    {#if proposalStatus === EventStatus.Ended}
                         <Icon icon={IconEnum.Voted} width={20} height={20} />
-                    {:else if proposalStatus === ProposalStatus.Commencing}
+                    {:else if proposalStatus === EventStatus.Commencing}
                         <Icon icon={IconEnum.History} width={20} height={20} />
-                    {:else if proposalStatus === ProposalStatus.Holding}
-                        <PingingBadge classes="relative" />
+                    {:else if proposalStatus === EventStatus.Holding}
+                        <Indicator size="sm" ping />
                     {/if}
                 </status-icon>
             {:else}
@@ -94,15 +92,9 @@
             </Text>
         {/if}
         {#if answer.additionalInfo}
-            <TooltipIcon
-                icon={IconEnum.Info}
-                classes="w-3 h-3"
-                iconClasses="text-gray-600 dark:text-gray-500"
-                text={answer.additionalInfo}
-                position={Position.Left}
-                width={12}
-                height={12}
-            />
+            <div class="w-3 h-3">
+                <TooltipIcon tooltip={answer.additionalInfo} placement="left" size="xxs" />
+            </div>
         {/if}
     </div>
 </button>

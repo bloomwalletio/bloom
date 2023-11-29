@@ -1,25 +1,17 @@
 <script lang="ts">
+    import { DrawerDirection, closeDrawer, drawerState } from '@desktop/auxiliary/drawer'
+    import { CloseButton } from '@bloomwalletio/ui'
     import { fade, fly } from 'svelte/transition'
-    import { NetworkConfigDrawerRouter } from '@components'
-    import { Router } from '@core/router'
-    import { closeDrawer, DrawerDirection, DrawerId, drawerState } from '@desktop/auxiliary/drawer'
-    import { DrawerRoute } from '@desktop/routers'
-    import { Icon as IconEnum } from '@auxiliary/icon'
-    import { Icon } from '@ui'
-    import { ContactBookRouterView } from '@views/dashboard/contact-book'
 
     export let onClose: () => unknown = () => {}
 
     const DRAWER_ANIMATION_DURATION_MS = 200
 
-    let drawerRoute: DrawerRoute
-    let drawerRouter: Router<DrawerRoute>
-
     let direction: { x: number; y: number }
     let position: string
     let isVertical: boolean
 
-    $: setDirection($drawerState.direction)
+    $: $drawerState && setDirection($drawerState.direction)
     function setDirection(drawerDirection: DrawerDirection): void {
         switch (drawerDirection) {
             case DrawerDirection.Bottom:
@@ -46,59 +38,47 @@
     }
 
     function onCloseClick(): void {
-        if (!$drawerState.preventClose) {
+        if (!$drawerState?.preventClose) {
             onClose && onClose()
             closeDrawer()
         }
     }
 </script>
 
-{#if $drawerState.active}
+{#if $drawerState?.active}
     <drawer class="absolute top-0 left-0 w-full h-full z-20">
         <overlay
             in:fade|local={{ duration: DRAWER_ANIMATION_DURATION_MS }}
             out:fade|local={{ duration: DRAWER_ANIMATION_DURATION_MS }}
             on:click={onCloseClick}
             on:keydown={() => {}}
-            class="fixed top-12 left-0 w-full z-0 bg-gray-700 dark:bg-gray-900 bg-opacity-60 dark:bg-opacity-60"
+            class="fixed left-0 w-full z-0 bg-neutral-6/75"
+            style:height="calc(100% - var(--windows-navbar-height, 0px))"
         />
         <panel
             in:fly|local={{ ...direction, duration: DRAWER_ANIMATION_DURATION_MS }}
             out:fly|local={{ ...direction, duration: DRAWER_ANIMATION_DURATION_MS }}
-            class="relative flex flex-col bg-gray-50 dark:bg-gray-800 {position} {isVertical
-                ? 'vertical'
-                : 'horizontal'}"
+            class="relative flex flex-col flex-auto overflow-hidden {position} {isVertical ? 'vertical' : 'horizontal'}"
+            style:height="calc(100% - var(--windows-navbar-height, 0px))"
         >
             <div class="flex flex-col h-full">
-                {#if $drawerState.id === DrawerId.NetworkConfig}
-                    <NetworkConfigDrawerRouter bind:drawerRoute bind:drawerRouter />
-                {:else if $drawerState.id === DrawerId.ContactBook}
-                    <ContactBookRouterView />
-                {/if}
+                <slot name="contents" />
             </div>
-
             {#if !$drawerState.hideClose}
-                <button on:click={onCloseClick} class="absolute top-7 right-7 focus:text-blue-500">
-                    <Icon
-                        icon={IconEnum.Close}
-                        classes="text-gray-500 dark:text-white hover:text-gray-600 dark:hover:text-gray-100"
-                    />
-                </button>
+                <div class="absolute top-6 right-6">
+                    <CloseButton size="sm" on:click={onCloseClick} />
+                </div>
             {/if}
         </panel>
     </drawer>
 {/if}
 
 <style lang="scss">
-    overlay,
-    panel {
-        height: calc(100% - 3rem);
-    }
-
     panel {
         @apply fixed;
-        @apply flex flex-col flex-auto overflow-hidden;
-        @apply py-7 px-5;
+        @apply bg-surface-1 dark:bg-surface-1-dark;
+        @apply shadow;
+        @apply border border-solid border-stroke dark:border-stroke-dark;
         transition: right 0.2s ease;
 
         &.vertical {
@@ -109,5 +89,9 @@
             height: 350px;
             width: 100%;
         }
+    }
+
+    overlay {
+        -webkit-app-region: none;
     }
 </style>

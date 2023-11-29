@@ -1,22 +1,24 @@
 <script lang="ts">
-    import { Dropdown, Icon, Text, NumberInput } from '@ui'
+    import { SelectInput, Icon, Text, NumberInput, IOption, IconName } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
-    import type { IDropdownItem } from '@core/utils'
     import { NumberFilterUnit } from '@core/utils/interfaces/filter'
     import { NumberFilterOption } from '@core/utils/enums/filters'
 
     export let filterUnit: NumberFilterUnit
 
-    const choices: IDropdownItem<NumberFilterOption>[] = filterUnit.choices.map((choice) => ({
+    const options: IOption[] = filterUnit.choices.map((choice) => ({
         label: localize(`${filterUnit.localeKey}.${choice}`),
         value: choice,
     }))
+    let selected = options.find((option) => option.value === filterUnit.selected)
 
-    $: value = localize(`${filterUnit.localeKey}.${filterUnit.selected}`)
+    $: selected && onSelect(selected)
+    function onSelect(item: IOption): void {
+        if (filterUnit.selected === item.value) {
+            return
+        }
 
-    function onSelect(item: IDropdownItem<NumberFilterOption>): void {
-        filterUnit.selected = item.value
-
+        filterUnit.selected = item.value as NumberFilterOption
         switch (filterUnit.selected) {
             case NumberFilterOption.Equal:
             case NumberFilterOption.Greater:
@@ -37,17 +39,17 @@
     }
 </script>
 
-<Dropdown {value} items={choices} {onSelect} small />
+<SelectInput bind:selected {options} hideValue />
 
 {#if filterUnit.selected}
     <div class="flex flex-row items-center space-x-2 mt-2">
-        <Icon height="24" width="20" icon="arrow-right" />
+        <Icon name={IconName.ArrowNarrowRight} size="sm" textColor="secondary" />
         {#if filterUnit.subunit.type === 'range'}
-            <NumberInput bind:value={filterUnit.subunit.start} autofocus placeholder="" />
-            <Text>{localize('general.and')}</Text>
-            <NumberInput bind:value={filterUnit.subunit.end} placeholder="" />
+            <NumberInput bind:value={filterUnit.subunit.start} autofocus />
+            <Text textColor="secondary">{localize('general.and')}</Text>
+            <NumberInput bind:value={filterUnit.subunit.end} />
         {:else}
-            <NumberInput bind:value={filterUnit.subunit.amount} autofocus placeholder="" />
+            <NumberInput bind:value={filterUnit.subunit.amount} autofocus />
         {/if}
     </div>
 {/if}

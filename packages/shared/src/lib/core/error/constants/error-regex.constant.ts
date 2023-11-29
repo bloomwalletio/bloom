@@ -1,4 +1,5 @@
-import { ClientError, IotaClientError } from '../enums'
+import { ClientError } from '../enums/client-error.enum'
+import { IotaClientError } from '../enums/iota-client-error.enum'
 
 export const CLIENT_ERROR_REGEXES = {
     [ClientError.InvalidStrongholdPassword]: /`invalid stronghold password`/,

@@ -1,45 +1,63 @@
 <script lang="ts">
-    import { AccountLabel, Icon, Modal } from '@ui'
-    import { AccountSwitcherModal } from '@components'
+    import { Icon, IconName, IMenuItem, Indicator, Menu, Text, Breadcrumb } from '@bloomwalletio/ui'
+    import { IAccountState } from '@core/account'
+    import { setSelectedAccount } from '@core/account/actions'
     import { selectedAccount } from '@core/account/stores'
-    import { Icon as IconEnum } from '@auxiliary/icon'
-    import { closeDrawer } from '@desktop/auxiliary/drawer'
+    import { formatCurrency, localize } from '@core/i18n'
+    import { getFiatAmountFromTokenValue } from '@core/market/actions'
+    import { activeProfile, visibleActiveAccounts } from '@core/profile/stores'
+    import { selectedAccountTokens } from '@core/token/stores'
+    import { openPopup, PopupId } from '@desktop/auxiliary/popup'
 
-    let modal: Modal
-    let isModalOpened: boolean = false
+    export let navbar: boolean = false
 
-    function onOutsideClick(): void {
-        isModalOpened = modal?.isOpened()
+    const menu: Menu | undefined = undefined
+
+    $: baseCoin = $selectedAccountTokens[$activeProfile?.network?.id]?.baseCoin
+
+    function onAccountClick(accountIndex: number): void {
+        setSelectedAccount(accountIndex)
+        menu?.close()
     }
 
-    function onButtonClick(): void {
-        closeDrawer()
-        modal?.toggle()
+    let items: IMenuItem[] = []
+    function setItems(accounts: IAccountState[], selectedIndex) {
+        items = accounts.map((account) => {
+            return {
+                title: account.name,
+                subtitle: formatCurrency(
+                    getFiatAmountFromTokenValue(Number(account.balances.baseCoin.total), baseCoin)
+                ),
+                selected: selectedIndex === account.index,
+                onClick: () => onAccountClick(account.index),
+            }
+        })
+    }
+    $: setItems($visibleActiveAccounts, $selectedAccount?.index)
+
+    function onCreateAccountClick(): void {
+        openPopup({ id: PopupId.CreateAccount })
+        menu?.close()
     }
 </script>
 
-<svelte:window on:click={onOutsideClick} />
-<account-switcher>
-    <button type="button" on:click={onButtonClick} class="flex flex-row justify-center items-center space-x-2">
-        <AccountLabel account={$selectedAccount} />
-        <icon-container class:rotate={isModalOpened}>
-            <Icon height="18" width="18" icon={IconEnum.ChevronDown} classes="text-gray-800 dark:text-white" />
-        </icon-container>
-    </button>
-    <AccountSwitcherModal bind:modal />
-</account-switcher>
-
-<style lang="scss">
-    account-switcher {
-        @apply block relative;
-        -webkit-app-region: none;
-    }
-
-    icon-container {
-        @apply block transform rotate-0;
-
-        &.rotate {
-            @apply rotate-180;
-        }
-    }
-</style>
+<Menu
+    {items}
+    compact={navbar}
+    {...!navbar && { button: { text: localize('general.newAccount'), onClick: onCreateAccountClick } }}
+    placement="bottom-start"
+>
+    <Breadcrumb slot="anchor" tooltip={navbar ? localize('actions.switchAccount') : undefined}>
+        <div class="flex flex-row justify-center items-center space-x-2">
+            {#if navbar}
+                <Indicator color={$selectedAccount?.color} size="sm" />
+            {/if}
+            <Text type={navbar ? 'base' : 'body1'}>
+                {$selectedAccount?.name}
+            </Text>
+            {#if !navbar}
+                <Icon name={IconName.ChevronSelectorVertical} size="sm" textColor="secondary" />
+            {/if}
+        </div>
+    </Breadcrumb>
+</Menu>

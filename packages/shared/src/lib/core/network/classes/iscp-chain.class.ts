@@ -2,32 +2,32 @@ import { get } from 'svelte/store'
 
 import Web3 from 'web3'
 
-import { ContractType } from '@core/layer-2/enums'
-import { getAbiForContractType } from '@core/layer-2/utils'
-import { Contract } from '@core/layer-2/types'
-
 import { NetworkHealth } from '../enums'
 import { IBlock, IChain, IChainStatus, IIscpChainConfiguration, IIscpChainMetadata } from '../interfaces'
 import { chainStatuses } from '../stores'
 import { ChainConfiguration, ChainMetadata, Web3Provider } from '../types'
+import { Contract } from '@core/layer-2/types'
+import { ContractType } from '@core/layer-2/enums'
+import { getAbiForContractType } from '@core/layer-2/utils'
 
 export class IscpChain implements IChain {
     private readonly _provider: Web3Provider
     private readonly _configuration: IIscpChainConfiguration
+    private readonly _chainApi: string
 
     private _metadata: IIscpChainMetadata | undefined
-
     constructor(payload: IIscpChainConfiguration) {
         try {
             /**
              * NOTE: We can assume that the data inside this payload has already
              * been validated.
              */
-            const { aliasAddress, iscpEndpoint } = payload
+            const { aliasAddress, rpcEndpoint, apiEndpoint } = payload
             const evmJsonRpcPath = this.buildEvmJsonRpcPath(aliasAddress)
 
-            this._provider = new Web3(`${iscpEndpoint}/${evmJsonRpcPath}`)
+            this._provider = new Web3(`${rpcEndpoint}/${evmJsonRpcPath}`)
             this._configuration = payload
+            this._chainApi = `${apiEndpoint}v1/chains/${aliasAddress}`
         } catch (err) {
             console.error(err)
             throw new Error('Failed to construct ISCP Chain!')
@@ -47,7 +47,7 @@ export class IscpChain implements IChain {
     }
 
     getStatus(): IChainStatus {
-        return get(chainStatuses)?.[this._configuration.chainId] ?? { health: NetworkHealth.Disconnected }
+        return get(chainStatuses)?.[this._configuration.id] ?? { health: NetworkHealth.Disconnected }
     }
 
     getContract(type: ContractType, address: string): Contract {
@@ -75,14 +75,40 @@ export class IscpChain implements IChain {
      * node URL). See here for more: https://github.com/iotaledger/wasp/issues/2385
      */
     private async fetchChainMetadata(): Promise<IIscpChainMetadata> {
-        const { aliasAddress, iscpEndpoint } = this._configuration
-        const chainMetadataUrl = `${iscpEndpoint}/v1/chains/${aliasAddress}`
-        const response = await fetch(chainMetadataUrl)
+        const response = await fetch(this._chainApi)
         return (await response.json()) as IIscpChainMetadata
     }
 
     async getLatestBlock(): Promise<IBlock> {
         const number = await this._provider.eth.getBlockNumber()
         return this._provider.eth.getBlock(number)
+    }
+
+    async getGasEstimate(hex: string): Promise<number> {
+        const URL = `${this._chainApi}/estimategas-onledger`
+        const body = JSON.stringify({ outputBytes: hex })
+
+        const requestInit: RequestInit = {
+            method: 'POST',
+            body,
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
+        }
+
+        const response = await fetch(URL, requestInit)
+        const data = await response.json()
+
+        if (response.status === 200) {
+            const gasEstimate = Number(data.gasFeeCharged ?? '0')
+            if (Number.isNaN(gasEstimate) || gasEstimate === 0) {
+                throw new Error(`Gas fee has an invalid value: ${gasEstimate}!`)
+            }
+
+            return gasEstimate
+        } else {
+            throw new Error(data)
+        }
     }
 }

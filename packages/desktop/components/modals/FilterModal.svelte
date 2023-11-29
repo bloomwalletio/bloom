@@ -1,5 +1,6 @@
 <script lang="ts">
-    import { Modal, Text, FontWeight, Button, ButtonSize } from '@ui'
+    import { Modal } from '@ui'
+    import { Text, Button } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
     import { Filter } from '@core/utils/types'
 
@@ -15,6 +16,7 @@
             filter[key].value = undefined
         }
         setFilters()
+        modal.close()
     }
 
     function onConfirmClick(): void {
@@ -28,20 +30,17 @@
     on:close={closeFilters}
     position={{ absolute: true, right: '0', top: '30px' }}
     classes="overflow-visible"
+    autoMaxHeight
 >
     <filter-modal>
         <filter-modal-header
             class="flex flex-row items-center justify-between bg-gray-50 dark:bg-transparent px-4 py-2 rounded-t-xl"
         >
-            <Button outline size={ButtonSize.Small} onClick={onClearClick}>
-                {localize('actions.clear')}
-            </Button>
-            <Text fontWeight={FontWeight.semibold} fontSize="14" classes="text-center flex grow-1">
+            <Button text={localize('actions.clear')} on:click={onClearClick} size="xs" variant="outlined" />
+            <Text align="center">
                 {localize('filters.title')}
             </Text>
-            <Button disabled={!isChanged} size={ButtonSize.Small} onClick={onConfirmClick}>
-                {localize('actions.apply')}
-            </Button>
+            <Button text={localize('actions.apply')} on:click={onConfirmClick} size="xs" disabled={!isChanged} />
         </filter-modal-header>
         <filter-modal-slot class="block">
             <slot />

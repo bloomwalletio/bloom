@@ -1,74 +1,91 @@
 <script lang="ts">
-    import { Modal, SelectorInput, IOption, ColoredCircle } from '@ui'
-    import { getAccountColorById, getRandomAccountColor } from '@core/account/utils'
+    import { getRandomAccountColor } from '@core/account/utils'
     import { localize } from '@core/i18n'
+    import { getNetworkHrp } from '@core/profile/actions'
+    import { visibleActiveAccounts } from '@core/profile/stores'
     import { validateBech32Address, validateEthereumAddress } from '@core/utils/crypto'
+    import { SubjectType } from '@core/wallet'
     import { Subject } from '@core/wallet/types'
     import { getSubjectFromAddress } from '@core/wallet/utils'
-    import { Layer1RecipientError } from '@core/layer-2/errors'
-    import { getNetworkHrp } from '@core/profile'
-    import { SubjectType } from '@core/wallet'
+    import { Indicator, IOption, SelectInput } from '@bloomwalletio/ui'
+    import { NetworkId } from '@core/network'
+    import { ContactManager } from '@core/contact/classes'
 
     export let recipient: Subject | undefined
     export let options: IOption[]
+    export let networkId: NetworkId
     export let disabled = false
-    export let isLayer2 = false
+    export let isEvmChain = false
 
-    let inputElement: HTMLInputElement | undefined = undefined
-    let modal: Modal | undefined = undefined
-
+    let value: any
     let error: string
-    let selected: IOption =
-        recipient?.type === SubjectType.Account
-            ? { key: recipient.account.name, value: recipient.account.depositAddress }
-            : { value: recipient?.address }
+    const selected: IOption = getSelectedRecipient(recipient)
 
-    $: isLayer2, (error = '')
-    $: recipient = getSubjectFromAddress(selected?.value)
+    $: isEvmChain, (error = '')
+    $: recipient = getSubjectFromAddress(value, networkId)
 
-    export function validate(): Promise<void> {
+    export function validate(): void {
         try {
-            if (recipient?.type === SubjectType.Address || recipient?.type === SubjectType.Contact) {
-                if (!recipient.address) {
-                    throw new Error(localize('error.send.recipientRequired'))
-                }
-
-                if (isLayer2) {
+            if (recipient && recipient.address) {
+                if (isEvmChain) {
                     validateEthereumAddress(recipient?.address)
                 } else {
                     validateBech32Address(getNetworkHrp(), recipient?.address)
                 }
-            } else if (recipient?.type === SubjectType.Account) {
-                if (isLayer2) {
-                    throw new Layer1RecipientError()
-                }
             } else {
                 throw new Error(localize('error.send.recipientRequired'))
             }
-
-            return Promise.resolve()
         } catch (err) {
             error = err?.message ?? err
-            return Promise.reject(error)
+            throw err
         }
     }
 
-    function getRecipientColor(option: IOption): string {
-        return option.color ?? getAccountColorById(option?.id) ?? getRandomAccountColor()
+    export function getAccountColor(name: string | undefined): string | undefined {
+        return $visibleActiveAccounts?.find((account) => account.name === name)?.color
+    }
+
+    function getSelectedRecipient(recipient: Subject | undefined): IOption {
+        if (recipient) {
+            switch (recipient.type) {
+                case SubjectType.Account: {
+                    const label = recipient.account.name
+                    return { label, value: recipient.address, color: getAccountColor(label) }
+                }
+                case SubjectType.Network:
+                case SubjectType.Address:
+                case SubjectType.SmartContract:
+                    return { value: recipient.address, color: getRandomAccountColor() }
+                case SubjectType.Contact: {
+                    const address = ContactManager.getNetworkContactAddressMapForContact(recipient.contact.id)?.[
+                        networkId
+                    ]?.[recipient.address]
+                    return {
+                        label: recipient.contact.name,
+                        value: recipient.address,
+                        color: recipient.contact.color,
+                        ...(address && { displayedValue: address.addressName }),
+                    }
+                }
+            }
+        } else {
+            return {
+                value: undefined,
+            }
+        }
     }
 </script>
 
-<SelectorInput
-    labelLocale="general.recipient"
-    bind:selected
-    bind:inputElement
-    bind:modal
+<SelectInput
+    label={localize('general.recipient')}
+    bind:value
     bind:error
+    {selected}
     {disabled}
     {options}
-    maxHeight="max-h-48"
     {...$$restProps}
-    let:option
+    customValue={true}
+    let:color
 >
-    <ColoredCircle color={getRecipientColor(option)} />
-</SelectorInput>
+    <Indicator {color} size="sm" />
+</SelectInput>

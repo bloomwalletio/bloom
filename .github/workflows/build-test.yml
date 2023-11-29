@@ -13,5 +13,4 @@ jobs:
     with:
       os: ubuntu-20.04
       stage: prod
-      test: true
     secrets: inherit

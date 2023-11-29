@@ -1,30 +1,17 @@
 <script lang="ts">
-    import { onDestroy, onMount } from 'svelte'
+    import { handleDeepLink } from '@auxiliary/deep-link/handlers/handleDeepLink'
+    import { Popup } from '@components/popup'
+    import TitleBar from '@components/TitleBar.svelte'
+    import { IS_WINDOWS, Platform } from '@core/app'
+    import { registerAppEvents, getAndUpdateDarkMode } from '@core/app/actions'
+    import { appSettings, appVersionDetails, initAppSettings, setAppVersionDetails } from '@core/app/stores'
     import { isLocaleLoaded, localeDirection, setupI18n } from '@core/i18n'
-    import { activeProfile, checkAndMigrateProfiles, cleanupEmptyProfiles, saveActiveProfile } from '@core/profile'
-    import {
-        AppRoute,
-        appRoute,
-        DashboardRoute,
-        dashboardRouter,
-        initialiseRouterManager,
-        routerManager,
-        RouterManagerExtensionName,
-    } from '@core/router'
-    import {
-        appSettings,
-        appVersionDetails,
-        initAppSettings,
-        IS_WINDOWS,
-        Platform,
-        registerAppEvents,
-        setAppVersionDetails,
-    } from '@core/app'
-    import { closePopup, openPopup, PopupId, popupState } from '@desktop/auxiliary/popup'
-    import { getLocalisedMenuItems } from './lib/helpers'
-    import { ToastContainer, Transition } from '@ui'
-    import { TitleBar, Popup } from '@components'
-    import { Dashboard, LoginRouter, Settings, Splash } from '@views'
+    import { downloadNextNftInQueue } from '@core/nfts/actions'
+    import { nftDownloadQueue } from '@core/nfts/stores'
+    import { checkAndMigrateProfiles, cleanupEmptyProfiles, saveActiveProfile } from '@core/profile/actions'
+    import { activeProfile } from '@core/profile/stores'
+    import { AppRoute, RouterManagerExtensionName, appRoute, initialiseRouterManager } from '@core/router'
+    import { PopupId, openPopup, popupState } from '@desktop/auxiliary/popup'
     import {
         getAppRouter,
         getRouterForAppContext,
@@ -32,20 +19,17 @@
         initialiseRouters,
         resetRouterForAppContext,
         resetRouters,
-        openSettings,
     } from '@desktop/routers'
-    import { downloadNextNftInQueue, nftDownloadQueue } from '@core/nfts'
-    import { closeDrawer } from '@desktop/auxiliary/drawer'
     import features from '@features/features'
+    import { ToastContainer } from '@ui'
+    import { Dashboard, LoginRouter, Settings, Splash } from '@views'
     import { OnboardingRouterView } from '@views/onboarding'
-    import { registerLedgerDeviceEventHandlers } from '@core/ledger'
-    import { handleDeepLink } from '@auxiliary/deep-link/handlers'
+    import { onDestroy, onMount } from 'svelte'
+    import { getLocalisedMenuItems, registerMenuButtons } from './lib/helpers'
+    import { settingsState, openSettings } from '@contexts/settings/stores'
+    import { _ } from '@core/i18n'
+    import { getAndUpdateShimmerEvmTokensMetadata } from '@core/market/actions'
 
-    const { loggedIn } = $activeProfile
-
-    $: if ($activeProfile && !$loggedIn) {
-        closePopup(true)
-    }
     $: $activeProfile, saveActiveProfile()
 
     async function handleCrashReporting(sendCrashReports: boolean): Promise<void> {
@@ -54,11 +38,7 @@
 
     $: void handleCrashReporting($appSettings.sendCrashReports)
 
-    $: {
-        if ($isLocaleLoaded) {
-            Platform.updateMenu('strings', getLocalisedMenuItems())
-        }
-    }
+    $: $_, Platform.updateMenu('strings', getLocalisedMenuItems())
 
     $: if (document.dir !== $localeDirection) {
         document.dir = $localeDirection
@@ -66,25 +46,32 @@
 
     $: $nftDownloadQueue, downloadNextNftInQueue()
 
-    $: Platform.updateTheme($appSettings.theme)
-
     let splash = true
-    let settings = false
 
     void setupI18n({ fallbackLocale: 'en', initialLocale: $appSettings.language })
 
     onMount(async () => {
-        features.analytics.appStart.enabled && Platform.trackEvent('app-start')
+        if (features.analytics.appStart.enabled) {
+            Platform.trackEvent('app-start')
+        }
+
+        // Theme
+        Platform.onEvent('native-theme-updated', getAndUpdateDarkMode)
+        // Set dark mode initially in case the native theme is already in system
+        await getAndUpdateDarkMode()
+
+        await checkAndMigrateProfiles()
         await cleanupEmptyProfiles()
-        checkAndMigrateProfiles()
+        Platform.onEvent('deep-link-request', handleDeepLink)
 
         setTimeout(() => {
             splash = false
-            initialiseRouters()
+            // check if deep link request was received while splash screen was active
+            Platform.DeepLinkManager.checkForDeepLinkRequest()
         }, 3000)
-
         initAppSettings.set($appSettings)
 
+        initialiseRouters()
         initialiseRouterManager({
             extensions: [
                 [RouterManagerExtensionName.GetAppRouter, getAppRouter],
@@ -97,50 +84,18 @@
             ],
         })
 
-        // await pollMarketData()
-
         // Used for auto updates
         registerAppEvents()
         if (process.env.NODE_ENV !== 'development') {
             await setAppVersionDetails()
             if ($appVersionDetails.upToDate === false) {
-                openPopup({ id: PopupId.CheckForUpdates })
+                openPopup({ id: PopupId.CheckForUpdates }, false, false)
             }
         }
 
-        Platform.onEvent('menu-navigate-wallet', () => {
-            $dashboardRouter.goTo(DashboardRoute.Wallet)
-        })
-        Platform.onEvent('menu-navigate-settings', () => {
-            if ($loggedIn) {
-                closePopup()
-                closeDrawer()
-                $routerManager.openSettings()
-            } else {
-                settings = true
-            }
-        })
-        Platform.onEvent('menu-check-for-update', () => {
-            closeDrawer()
-            openPopup({
-                id: PopupId.CheckForUpdates,
-                props: {
-                    currentVersion: $appVersionDetails.currentVersion,
-                },
-            })
-        })
-        Platform.onEvent('menu-error-log', () => {
-            closeDrawer()
-            openPopup({ id: PopupId.ErrorLog })
-        })
-        Platform.onEvent('menu-diagnostics', () => {
-            closeDrawer()
-            openPopup({ id: PopupId.Diagnostics })
-        })
+        registerMenuButtons()
 
-        Platform.onEvent('deep-link-request', handleDeepLink)
-
-        registerLedgerDeviceEventHandlers()
+        await getAndUpdateShimmerEvmTokensMetadata()
     })
 
     onDestroy(() => {
@@ -149,42 +104,43 @@
     })
 </script>
 
-<app-container class="block w-full h-full">
-    <TitleBar />
-    <app-body
-        class="block fixed left-0 right-0 bottom-0 z-50 top-0"
-        class:top-placement={IS_WINDOWS || $appRoute === AppRoute.Dashboard}
-    >
-        {#if !$isLocaleLoaded || splash}
-            <Splash />
-        {:else}
-            {#if $popupState.active}
-                <Popup
-                    id={$popupState.id}
-                    props={$popupState.props}
-                    hideClose={$popupState.hideClose}
-                    fullScreen={$popupState.fullScreen}
-                    transition={$popupState.transition}
-                    overflow={$popupState.overflow}
-                    relative={$popupState.relative}
-                />
-            {/if}
-            {#if $appRoute === AppRoute.Dashboard}
-                <Transition>
+<app class="w-full h-full flex flex-col">
+    {#if IS_WINDOWS}
+        <TitleBar />
+    {/if}
+    {#key $_}
+        <app-container class="relative w-screen h-full flex flex-col" class:windows={IS_WINDOWS}>
+            {#if !$isLocaleLoaded || splash}
+                <Splash />
+            {:else}
+                {#if $settingsState.open}
+                    <Settings />
+                {/if}
+                {#if $popupState.active}
+                    <Popup
+                        id={$popupState.id}
+                        props={$popupState.props}
+                        hideClose={$popupState.hideClose}
+                        transition={$popupState.transition}
+                        overflow={$popupState.overflow}
+                        relative={$popupState.relative}
+                        confirmClickOutside={$popupState.confirmClickOutside}
+                    />
+                {/if}
+                {#if $appRoute === AppRoute.Dashboard}
                     <Dashboard />
-                </Transition>
-            {:else if $appRoute === AppRoute.Login}
-                <LoginRouter />
-            {:else if $appRoute === AppRoute.Onboarding}
-                <OnboardingRouterView />
+                {:else if $appRoute === AppRoute.Login}
+                    <LoginRouter />
+                {:else if $appRoute === AppRoute.Onboarding}
+                    <OnboardingRouterView />
+                {/if}
+
+                <ToastContainer classes="absolute right-5 bottom-5 w-100" />
             {/if}
-            {#if settings}
-                <Settings handleClose={() => (settings = false)} />
-            {/if}
-            <ToastContainer classes="absolute right-5 bottom-5 w-100" />
-        {/if}
-    </app-body>
-</app-container>
+            <app-container />
+        </app-container>
+    {/key}
+</app>
 
 <style global lang="scss">
     @tailwind base;
@@ -193,7 +149,7 @@
     @import '../shared/src/style/style.scss';
     html,
     body {
-        @apply bg-white dark:bg-gray-900;
+        @apply bg-surface dark:bg-surface-dark;
         @apply select-none;
         -webkit-user-drag: none;
 
@@ -252,13 +208,13 @@
     img {
         -webkit-user-drag: none;
     }
-    app-body.top-placement {
-        @apply top-12;
-    }
     hr {
         @apply border-t;
         @apply border-solid;
-        @apply border-gray-200;
-        @apply dark:border-gray-800;
+        @apply border-stroke dark:border-stroke-dark;
+    }
+
+    .windows {
+        height: calc(100vh - 28px);
     }
 </style>
