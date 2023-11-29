@@ -8,6 +8,9 @@
     import { closeDrawer } from '@desktop/auxiliary/drawer'
     import { showNotification } from '@auxiliary/notification'
     import DappInformationCard from '../components/DappInformationCard.svelte'
+    import { getAllNetworkIds } from '@core/network'
+    import { METHODS_FOR_PERMISSION } from '@auxiliary/wallet-connect/constants'
+    import { ProposalTypes } from '@walletconnect/types'
 
     enum SessionVerification {
         Valid = 'VALID',
@@ -21,6 +24,20 @@
     let acceptedInsecureConnection = false
     $: isVerified = $sessionProposal?.verifyContext.verified.validation === SessionVerification.Valid
     $: alreadyConnected = !!getPersistedDappNamespacesForDapp($sessionProposal?.params.proposer.metadata.url)
+    $: fulfillsRequirements = $sessionProposal
+        ? isAbleToFulfillRequiredNamespaces($sessionProposal.params.requiredNamespaces)
+        : false
+
+    function isAbleToFulfillRequiredNamespaces(requiredNamespaces: ProposalTypes.RequiredNamespaces): boolean {
+        const supportedNetworks = getAllNetworkIds()
+        const supportedMethods = Object.values(METHODS_FOR_PERMISSION).flat()
+
+        return Object.values(requiredNamespaces).every((namespace) => {
+            const supportsAllChains = namespace.chains.every((chain) => supportedNetworks.includes(chain))
+            const supportsAllMethods = namespace.methods.every((method) => supportedMethods.includes(method))
+            return supportsAllChains && supportsAllMethods
+        })
+    }
 
     function onRejectClick(): void {
         $sessionProposal = undefined
