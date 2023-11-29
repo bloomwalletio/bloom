@@ -38,7 +38,7 @@
     let checkedAccounts: IAccountState[] = []
     let checkedNetworks: string[] = []
     let checkedMethods: string[] = []
-    const persistedDappNamespace = $sessionProposal
+    const persistedNamespaces = $sessionProposal
         ? getPersistedDappNamespacesForDapp($sessionProposal.params.proposer.metadata.url)
         : undefined
 
@@ -59,7 +59,7 @@
             loading = true
 
             const supportedNamespaces =
-                persistedDappNamespace ??
+                persistedNamespaces ??
                 buildSupportedNamespacesFromSelections(
                     {
                         chains: checkedNetworks,
@@ -92,11 +92,13 @@
             <DappInformationCard metadata={$sessionProposal.params.proposer.metadata} />
 
             <div class="px-6 flex-grow overflow-hidden">
-                {#if persistedDappNamespace}
+                {#if persistedNamespaces}
                     <div class="h-full overflow-scroll">
                         <ConnectionSummary
                             requiredNamespaces={$sessionProposal.params.requiredNamespaces}
-                            {persistedDappNamespace}
+                            editable
+                            {persistedNamespaces}
+                            {drawerRouter}
                         />
                     </div>
                 {:else}
@@ -113,13 +115,22 @@
                                     dismissable={false}
                                 />
                                 <div class={currentStep === 0 ? 'visible' : 'hidden'}>
-                                    <PermissionSelection bind:checkedMethods />
+                                    <PermissionSelection
+                                        bind:checkedMethods
+                                        requiredNamespaces={$sessionProposal.params.requiredNamespaces}
+                                        {persistedNamespaces}
+                                    />
                                 </div>
                                 <div class={currentStep === 1 ? 'visible' : 'hidden'}>
-                                    <NetworkSelection bind:checkedNetworks />
+                                    <NetworkSelection
+                                        bind:checkedNetworks
+                                        requiredNamespaces={$sessionProposal.params.requiredNamespaces}
+                                        optionalNamespaces={$sessionProposal.params.optionalNamespaces}
+                                        {persistedNamespaces}
+                                    />
                                 </div>
                                 <div class={currentStep === 2 ? 'visible' : 'hidden'}>
-                                    <AccountSelection bind:checkedAccounts />
+                                    <AccountSelection bind:checkedAccounts {persistedNamespaces} />
                                 </div>
                             </div>
                         </div>
@@ -140,7 +151,7 @@
             disabled={loading}
             text={localize('actions.back')}
         />
-        {@const isLastStep = persistedDappNamespace || currentStep === steps.length - 1}
+        {@const isLastStep = persistedNamespaces || currentStep === steps.length - 1}
         <Button
             width="full"
             on:click={isLastStep ? onConfirmClick : onNextClick}

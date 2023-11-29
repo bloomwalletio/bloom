@@ -6,7 +6,6 @@
     import { DrawerTemplate } from '@components'
     import { getPersistedDappNamespacesForDapp, sessionProposal } from '@auxiliary/wallet-connect/stores'
     import { closeDrawer } from '@desktop/auxiliary/drawer'
-    import { showNotification } from '@auxiliary/notification'
     import DappInformationCard from '../components/DappInformationCard.svelte'
 
     enum SessionVerification {
@@ -25,11 +24,6 @@
     function onRejectClick(): void {
         $sessionProposal = undefined
         closeDrawer()
-
-        showNotification({
-            variant: 'error',
-            text: localize('notifications.newDappConnection.rejected'),
-        })
     }
 
     function onContinueClick(): void {
@@ -47,7 +41,7 @@
                 <div class="h-full overflow-scroll flex flex-col gap-5 p-6">
                     <Alert
                         variant={alreadyConnected ? 'info' : 'warning'}
-                        text={localize(`${localeKey}.${alreadyConnected ? 'firstTimeHint' : 'reconnectHint'}`)}
+                        text={localize(`${localeKey}.${alreadyConnected ? 'reconnectHint' : 'firstTimeHint'}`)}
                     />
                     <Table
                         items={[

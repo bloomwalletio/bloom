@@ -485,6 +485,15 @@
                         "insecure": "The URL for this dApp cannot be verified. Your connection to this application may not be secure.",
                         "acceptInsecureConnection": "I understand this dApp may be insecure and still want to connect."
                     },
+                    "editPermissions": {
+                        "title": "Edit permissions"
+                    },
+                    "editNetworks": {
+                        "title": "Edit networks"
+                    },
+                    "editAccounts": {
+                        "title": "Edit accounts"
+                    },
                     "confirmConnection": {
                         "title": "Connect with an application",
                         "permissions": {
