@@ -2,6 +2,7 @@ import { derived, get, Readable } from 'svelte/store'
 
 import { activeProfile } from '@core/profile/stores'
 import { persistent } from '@core/utils/store'
+
 import { IPersistedNftMetadata, IPersistedNftStore } from '../interfaces'
 
 export const persistedNfts = persistent<IPersistedNftStore>('persistedNfts', {})

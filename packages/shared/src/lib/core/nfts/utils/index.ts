@@ -1,6 +1,7 @@
 export * from './checkIfNftShouldBeDownloaded'
 export * from './composeUrlFromNftUri'
 export * from './convertAndFormatNftMetadata'
+export * from './convertExplorerAssetToNftMetadata'
 export * from './getNftsFromNftIds'
 export * from './getSpendableStatusFromUnspentNftOutput'
 export * from './fetchWithTimeout'

@@ -3,6 +3,8 @@ import { EvmExplorerApi } from '@core/network/classes'
 import { getNetwork } from '@core/network/stores'
 
 import { NftStandard } from '../enums'
+import { buildNftFromNftMetadata } from '@core/nfts/actions/buildNftFromNftMetadata'
+import { convertExplorerAssetToNftMetadata } from '@core/nfts'
 
 export function checkForUntrackedNfts(account: IAccountState): Promise<void> {
     const chains = getNetwork()?.getChains() ?? []
@@ -18,5 +20,13 @@ export function checkForUntrackedNfts(account: IAccountState): Promise<void> {
         const nfts = await explorerApi.getAssetsForAddress(evmAddress, NftStandard.Erc721)
         /* eslint-disable no-console */
         console.log('nfts: ', nfts)
+        nfts.forEach((nft) => {
+            const metadata = convertExplorerAssetToNftMetadata(nft)
+            console.log('metadata: ', metadata)
+            if (metadata) {
+                const _nft = buildNftFromNftMetadata(metadata)
+                console.log('nft: ', _nft)
+            }
+        })
     })
 }
