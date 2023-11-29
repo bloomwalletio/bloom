@@ -24,19 +24,19 @@
     let acceptedInsecureConnection = false
     $: isVerified = $sessionProposal?.verifyContext.verified.validation === SessionVerification.Valid
     $: alreadyConnected = !!getPersistedDappNamespacesForDapp($sessionProposal?.params.proposer.metadata.url)
-    $: fulfillsRequirements = $sessionProposal
-        ? isAbleToFulfillRequiredNamespaces($sessionProposal.params.requiredNamespaces)
-        : false
+    $: unsupportedMethods = $sessionProposal ? getUnsupportedMethods($sessionProposal?.params.requiredNamespaces) : []
+    $: unsupportedNetworks = $sessionProposal ? getUnsupportedNetworks($sessionProposal?.params.requiredNamespaces) : []
 
-    function isAbleToFulfillRequiredNamespaces(requiredNamespaces: ProposalTypes.RequiredNamespaces): boolean {
+    function getUnsupportedNetworks(requiredNamespaces: ProposalTypes.RequiredNamespaces): string[] {
         const supportedNetworks = getAllNetworkIds()
-        const supportedMethods = Object.values(METHODS_FOR_PERMISSION).flat()
+        const requiredNetworks = Object.values(requiredNamespaces).flatMap((namespace) => namespace.chains)
+        return requiredNetworks.filter((network) => supportedNetworks.includes(network))
+    }
 
-        return Object.values(requiredNamespaces).every((namespace) => {
-            const supportsAllChains = namespace.chains.every((chain) => supportedNetworks.includes(chain))
-            const supportsAllMethods = namespace.methods.every((method) => supportedMethods.includes(method))
-            return supportsAllChains && supportsAllMethods
-        })
+    function getUnsupportedMethods(requiredNamespaces: ProposalTypes.RequiredNamespaces): string[] {
+        const supportedMethods = Object.values(METHODS_FOR_PERMISSION).flat()
+        const requiredMethods = Object.values(requiredNamespaces).flatMap((namespace) => namespace.methods)
+        return requiredMethods.filter((network) => supportedMethods.includes(network))
     }
 
     function onRejectClick(): void {
@@ -85,9 +85,17 @@
                     </Table>
                 </div>
             </div>
-            {#if !isVerified}
+            {#if unsupportedNetworks.length}
                 <div class="flex flex-col gap-8 px-6">
-                    <Alert variant="danger" text={localize(`${localeKey}.insecure`)} />
+                    <Alert variant="danger" text={localize(`${localeKey}.unsupportedNetworks`)} />
+                </div>
+            {:else if unsupportedMethods.length}
+                <div class="flex flex-col gap-8 px-6">
+                    <Alert variant="danger" text={localize(`${localeKey}.unsupportedMethods`)} />
+                </div>
+            {:else if !isVerified}
+                <div class="flex flex-col gap-8 px-6">
+                    <Alert variant="warning" text={localize(`${localeKey}.insecure`)} />
                     <Checkbox
                         label={localize(`${localeKey}.acceptInsecureConnection`)}
                         bind:checked={acceptedInsecureConnection}
@@ -101,12 +109,21 @@
         {/if}
     </div>
     <div class="flex flex-row gap-2" slot="footer">
-        <Button width="full" variant="outlined" on:click={onRejectClick} text={localize('actions.reject')} />
         <Button
             width="full"
-            on:click={onContinueClick}
-            disabled={!isVerified && !acceptedInsecureConnection}
-            text={localize('actions.continue')}
+            variant="outlined"
+            on:click={onRejectClick}
+            text={localize(
+                `actions.${unsupportedNetworks.length === 0 && unsupportedMethods.length === 0 ? 'reject' : 'cancel'}`
+            )}
         />
+        {#if unsupportedNetworks.length && unsupportedMethods.length}
+            <Button
+                width="full"
+                on:click={onContinueClick}
+                disabled={!isVerified && !acceptedInsecureConnection}
+                text={localize('actions.continue')}
+            />
+        {/if}
     </div>
 </DrawerTemplate>
