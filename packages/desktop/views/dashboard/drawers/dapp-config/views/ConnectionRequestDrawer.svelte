@@ -36,7 +36,7 @@
     }
 
     function areNetworksSupportedOnOtherProfiles(_unsupportedNetworks: string[]): boolean {
-        const allSupportedNetworks = Object.values(SupportedNetworkId)
+        const allSupportedNetworks: string[] = Object.values(SupportedNetworkId)
         return _unsupportedNetworks.every((network) => allSupportedNetworks.includes(network))
     }
 
