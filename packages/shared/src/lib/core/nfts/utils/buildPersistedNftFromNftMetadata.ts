@@ -1,10 +1,14 @@
 import { NftStandard } from '../enums'
-import { IPersistedNftMetadata } from '../interfaces'
+import { INftInstance, IPersistedNftMetadata } from '../interfaces'
 import { NftMetadata } from '../types'
 
-export function buildPersistedNftFromNftMetadata(metadata: NftMetadata): IPersistedNftMetadata {
+export function buildPersistedNftFromNftMetadata(
+    metadata: NftMetadata,
+    instances?: INftInstance[]
+): IPersistedNftMetadata {
     return {
-        standard: metadata.standard as NftStandard,
+        standard: metadata.standard as NftStandard.Irc27,
         metadata,
+        instances: instances ?? [],
     }
 }

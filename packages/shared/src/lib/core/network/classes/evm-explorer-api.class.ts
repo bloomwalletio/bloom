@@ -15,7 +15,7 @@ export class EvmExplorerApi extends BaseApi implements IExplorerApi {
     async getAssetMetadata(assetAddress: string): Promise<IExplorerAssetMetadata | undefined> {
         const response = await this.get<IExplorerAssetMetadata>(`tokens/${assetAddress}`)
         if (response) {
-            response.type = response.type.replace('-', '') as TokenStandard
+            response.type = response.type.replace('-', '')
             return response
         }
     }

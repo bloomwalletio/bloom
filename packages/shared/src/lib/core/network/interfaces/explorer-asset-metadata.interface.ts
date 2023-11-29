@@ -12,5 +12,5 @@ export interface IExplorerAssetMetadata {
     name: string
     symbol: string
     total_supply: string
-    type: TokenStandard | NftStandard
+    type: TokenStandard.Erc20 | NftStandard.Erc721
 }

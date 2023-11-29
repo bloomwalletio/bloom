@@ -3,12 +3,6 @@
     import { selectedAccount } from '@core/account/stores'
     import { AccountSummaryPane } from './panes'
     import TabSection from './tab-section/TabSection.svelte'
-    import { onMount } from 'svelte'
-    import { checkForUntrackedNfts } from 'shared/src/lib/core/nfts/actions'
-
-    onMount(() => {
-        checkForUntrackedNfts($selectedAccount)
-    })
 </script>
 
 {#if $selectedAccount}

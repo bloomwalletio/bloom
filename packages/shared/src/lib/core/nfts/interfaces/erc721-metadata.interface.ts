@@ -5,6 +5,7 @@ export interface IErc721Metadata {
     address: string
     name: string
     symbol: string
+    tokenId?: string
     tokenUri?: string
     extendedMetadata?: IErc721ExtendedMetadata
 }
