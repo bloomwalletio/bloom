@@ -488,6 +488,15 @@
                         "supportedOnOtherProfile": "This dApp runs on a supported network, but is not accessible with this profile. Please use a profile connected to the required network.",
                         "acceptInsecureConnection": "I understand this dApp may be insecure and still want to connect."
                     },
+                    "editPermissions": {
+                        "title": "Edit permissions"
+                    },
+                    "editNetworks": {
+                        "title": "Edit networks"
+                    },
+                    "editAccounts": {
+                        "title": "Edit accounts"
+                    },
                     "confirmConnection": {
                         "title": "Connect with an application",
                         "permissions": {

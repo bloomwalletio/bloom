@@ -10,6 +10,8 @@ import { ITokenWithBalance } from '../interfaces'
 import { AccountTokens, IAccountTokensPerNetwork } from '../interfaces/account-tokens.interface'
 import { getPersistedToken } from '../stores'
 import { isValidIrc30Token, isValidToken } from '../utils'
+import { shimmerEvmAddressToCoinGeckoIdMap } from '@core/market/stores'
+import { get } from 'svelte/store'
 
 export function getAccountTokensForSelectedAccount(marketCoinPrices: MarketCoinPrices): AccountTokens {
     try {
@@ -108,6 +110,7 @@ function getAccountAssetForChain(
                     ...persistedAsset,
                     balance: _balance,
                     networkId,
+                    marketPrices: marketCoinPrices?.[get(shimmerEvmAddressToCoinGeckoIdMap)?.[persistedAsset.id]],
                 })
             }
         }
