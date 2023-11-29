@@ -94,6 +94,7 @@
             openPopup({
                 id: PopupId.MintNftConfirmation,
                 overflow: true,
+                confirmClickOutside: true,
             })
         }
     }

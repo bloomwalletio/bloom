@@ -62,8 +62,9 @@
         if (valid) {
             setMintNftCollectionDetails(convertInputsToMetadataType())
             openPopup({
-                id: PopupId.MintNftConfirmation,
+                id: PopupId.MintNftCollectionConfirmation,
                 overflow: true,
+                confirmClickOutside: true,
             })
         }
     }

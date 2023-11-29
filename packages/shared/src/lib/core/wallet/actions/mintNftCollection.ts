@@ -15,7 +15,7 @@ import { DEFAULT_TRANSACTION_OPTIONS } from '../constants'
 import { resetMintNftDetails } from '../stores'
 import { getActiveNetworkId } from '@core/network'
 
-export async function mintNftCollection(metadata: IIrc27Metadata, quantity: number): Promise<void> {
+export async function mintNftCollection(metadata: IIrc27Metadata): Promise<void> {
     try {
         const account = getSelectedAccount()
         const networkId = getActiveNetworkId()
