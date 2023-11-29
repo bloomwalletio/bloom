@@ -9,7 +9,7 @@ export async function getAndUpdateMarketPrices(): Promise<void> {
         const shimmerEvmTokens = Object.values(get(coinGeckoTokensMetadata)?.[SupportedNetworkId.ShimmerEvm] ?? {})
         const shimmerEvmTokensIds = shimmerEvmTokens.map((token) => token.id)
         const marketPricesResponse = await CoinGeckoApi.getSimplePrices(
-            [MarketCoinId.Shimmer, ...shimmerEvmTokensIds],
+            [MarketCoinId.Iota, MarketCoinId.Shimmer, ...shimmerEvmTokensIds],
             Object.values(MarketCurrency)
         )
         updateMarketCoinPrices(marketPricesResponse)
