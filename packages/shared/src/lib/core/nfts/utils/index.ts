@@ -1,3 +1,4 @@
+export * from './buildPersistedNftFromNftMetadata'
 export * from './checkIfNftShouldBeDownloaded'
 export * from './composeUrlFromNftUri'
 export * from './convertAndFormatNftMetadata'
