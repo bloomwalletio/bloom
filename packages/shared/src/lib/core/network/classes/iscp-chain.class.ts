@@ -2,7 +2,6 @@ import { get } from 'svelte/store'
 
 import Web3 from 'web3'
 
-import { DEFAULT_EXPLORER_URLS } from '../constants'
 import { NetworkHealth } from '../enums'
 import { IBlock, IChain, IChainStatus, IIscpChainConfiguration, IIscpChainMetadata } from '../interfaces'
 import { chainStatuses } from '../stores'
@@ -10,7 +9,6 @@ import { ChainConfiguration, ChainMetadata, Web3Provider } from '../types'
 import { Contract } from '@core/layer-2/types'
 import { ContractType } from '@core/layer-2/enums'
 import { getAbiForContractType } from '@core/layer-2/utils'
-import { IErc20TokenWithBalance, TokenStandard } from '@core/token'
 
 export class IscpChain implements IChain {
     private readonly _provider: Web3Provider
@@ -42,10 +40,6 @@ export class IscpChain implements IChain {
          * which can be found here: https://editor.swagger.io/?url=https://raw.githubusercontent.com/iotaledger/wasp/develop/clients/apiclient/api/openapi.yaml.
          */
         return `v1/chains/${aliasAddress}/evm`
-    }
-
-    private buildExplorerApiUrl(): string {
-        return `${DEFAULT_EXPLORER_URLS[this._configuration.id]}/api/v2`
     }
 
     getConfiguration(): ChainConfiguration {
@@ -115,40 +109,6 @@ export class IscpChain implements IChain {
             return gasEstimate
         } else {
             throw new Error(data)
-        }
-    }
-
-    async getBalanceOfAddress(address: string, standard = TokenStandard.Erc20): Promise<IErc20TokenWithBalance[]> {
-        const tokenType = standard.replace('ERC', 'ERC-')
-        const apiUrl = `${this.buildExplorerApiUrl()}/addresses/${address}/tokens?type=${tokenType}`
-        const requestInit: RequestInit = {
-            method: 'GET',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-            },
-        }
-        try {
-            const response = await fetch(apiUrl, requestInit)
-            const data: { items: { token: IErc20TokenWithBalance & { type: TokenStandard.Erc20 }; value: string }[] } =
-                await response.json()
-
-            const result: IErc20TokenWithBalance[] = []
-            for (const { token, value } of data?.items ?? []) {
-                const standard = token.type.replace('-', '') as TokenStandard.Erc20
-                result.push({
-                    address: token.address,
-                    value: BigInt(value),
-                    name: token.name,
-                    symbol: token.symbol,
-                    decimals: token.decimals,
-                    standard,
-                })
-            }
-            return result
-        } catch (err) {
-            console.error(err)
-            return []
         }
     }
 }

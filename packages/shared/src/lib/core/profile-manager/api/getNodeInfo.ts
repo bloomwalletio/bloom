@@ -4,6 +4,6 @@ import { getProfileManager } from '../stores'
 import { api } from '../api'
 
 export function getNodeInfo(url?: string, auth?: IAuth): Promise<INodeInfoResponse> {
-    const manager = getProfileManager()
-    return api.getNodeInfo(manager.id, url, auth)
+    const { id } = getProfileManager()
+    return api.getNodeInfo(id, url, auth)
 }

@@ -50,9 +50,3 @@
         </div>
     </div>
 </DrawerTemplate>
-
-<style lang="scss">
-    .dapp-icon {
-        @apply w-10 h-10 rounded-full;
-    }
-</style>
