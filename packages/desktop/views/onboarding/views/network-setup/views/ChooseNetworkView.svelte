@@ -45,6 +45,8 @@
         networkType: OnboardingNetworkType
     ): StardustNetworkName | undefined {
         switch (networkType) {
+            case OnboardingNetworkType.Iota:
+                return StardustNetworkName.Iota
             case OnboardingNetworkType.Shimmer:
                 return StardustNetworkName.Shimmer
             case OnboardingNetworkType.Testnet:
@@ -81,6 +83,21 @@
     }}
 >
     <div slot="content" class="flex flex-col space-y-3">
+        <ButtonTile
+            primaryText={localize(`views.onboarding.networkSetup.chooseNetwork.${OnboardingNetworkType.Iota}.primary`)}
+            secondaryText={localize(
+                `views.onboarding.networkSetup.chooseNetwork.${OnboardingNetworkType.Iota}.secondary`
+            )}
+            icon={IconName.Iota}
+            iconSize="md"
+            iconColor="primary"
+            iconColorShade="900"
+            backgroundColor="white"
+            hidden={features?.onboarding?.[OnboardingNetworkType.Iota]?.hidden}
+            disabled={!features?.onboarding?.[OnboardingNetworkType.Iota]?.enabled}
+            onClick={() => onNetworkClick(OnboardingNetworkType.Iota)}
+            selected={selectedNetworkType === OnboardingNetworkType.Iota}
+        />
         <ButtonTile
             primaryText={localize(
                 `views.onboarding.networkSetup.chooseNetwork.${OnboardingNetworkType.Shimmer}.primary`

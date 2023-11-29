@@ -1,6 +1,47 @@
 import { IOnboardingFeaturesForNetwork } from '@lib/features/interfaces'
 import { OnboardingFeatures } from '@lib/features/types'
 
+const onboardingFeaturesForIota: IOnboardingFeaturesForNetwork = {
+    enabled: true,
+    newProfile: {
+        enabled: true,
+        softwareProfile: {
+            enabled: true,
+            skipVerification: {
+                enabled: false,
+            },
+        },
+        ledgerProfile: {
+            enabled: true,
+        },
+    },
+    restoreProfile: {
+        enabled: true,
+        recoveryPhrase: {
+            enabled: true,
+        },
+        strongholdBackup: {
+            enabled: true,
+        },
+        ledgerBackup: {
+            enabled: true,
+        },
+    },
+    claimRewards: {
+        enabled: true,
+        hidden: false,
+        recoveryPhrase: {
+            enabled: true,
+        },
+        strongholdBackup: {
+            enabled: true,
+        },
+        ledgerBackup: {
+            enabled: true,
+        },
+    },
+}
+
 const onboardingFeaturesForShimmer: IOnboardingFeaturesForNetwork = {
     enabled: true,
     newProfile: {
@@ -126,6 +167,7 @@ const onboardingFeaturesForCustom: IOnboardingFeaturesForNetwork = {
 
 const onboardingFeatures: OnboardingFeatures = {
     enabled: true,
+    iota: onboardingFeaturesForIota,
     shimmer: onboardingFeaturesForShimmer,
     testnet: onboardingFeaturesForTestnet,
     custom: onboardingFeaturesForCustom,
