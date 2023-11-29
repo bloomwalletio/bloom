@@ -2,17 +2,11 @@ import { ProposalTypes } from '@walletconnect/types'
 import { SUPPORTED_EVENTS } from '../constants'
 import { getAddressFromAccountForNetwork } from '@core/account/utils'
 import { NetworkId } from '@core/network/types'
-import { IAccountState } from '@core/account'
+import { ISelections } from '../interface'
 import { ISupportedNamespace, SupportedNamespaces } from '../types'
 
-interface Selections {
-    chains?: string[]
-    methods?: string[]
-    accounts?: IAccountState[]
-}
-
 export function buildSupportedNamespacesFromSelections(
-    selections: Selections,
+    selections: ISelections,
     requiredNamespaces: ProposalTypes.RequiredNamespaces,
     optionalNamespaces: ProposalTypes.OptionalNamespaces,
     persistedNamespaces?: SupportedNamespaces
@@ -34,7 +28,7 @@ export function buildSupportedNamespacesFromSelections(
 }
 
 function buildSupportedNamespace(
-    selections: Selections,
+    selections: ISelections,
     persistedNamespaces: ISupportedNamespace | undefined,
     requiredNamespace: ProposalTypes.RequiredNamespace | undefined,
     optionalNamespace: ProposalTypes.RequiredNamespace | undefined
