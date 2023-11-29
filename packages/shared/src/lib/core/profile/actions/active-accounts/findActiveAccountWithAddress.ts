@@ -12,5 +12,7 @@ import { NetworkId } from '@core/network'
 export function findActiveAccountWithAddress(address: string, networkId: NetworkId): IAccountState | undefined {
     const accounts = get(activeAccounts)
 
-    return accounts.find((account) => address?.toLowerCase() === getAddressFromAccountForNetwork(account, networkId))
+    return accounts.find(
+        (account) => address?.toLowerCase() === getAddressFromAccountForNetwork(account, networkId)?.toLowerCase()
+    )
 }
