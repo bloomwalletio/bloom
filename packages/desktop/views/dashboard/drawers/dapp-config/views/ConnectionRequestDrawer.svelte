@@ -8,7 +8,7 @@
     import { closeDrawer } from '@desktop/auxiliary/drawer'
     import { showNotification } from '@auxiliary/notification'
     import DappInformationCard from '../components/DappInformationCard.svelte'
-    import { getAllNetworkIds } from '@core/network'
+    import { SupportedNetworkId, getAllNetworkIds } from '@core/network'
     import { METHODS_FOR_PERMISSION } from '@auxiliary/wallet-connect/constants'
     import { ProposalTypes } from '@walletconnect/types'
 
@@ -26,12 +26,18 @@
     $: alreadyConnected = !!getPersistedDappNamespacesForDapp($sessionProposal?.params.proposer.metadata.url)
     $: unsupportedMethods = $sessionProposal ? getUnsupportedMethods($sessionProposal?.params.requiredNamespaces) : []
     $: unsupportedNetworks = $sessionProposal ? getUnsupportedNetworks($sessionProposal?.params.requiredNamespaces) : []
+    $: isSupportedOnOtherProfiles = $sessionProposal ? areNetworksSupportedOnOtherProfiles(unsupportedNetworks) : false
     $: fulfillsRequirements = unsupportedMethods.length === 0 && unsupportedNetworks.length === 0
 
     function getUnsupportedNetworks(requiredNamespaces: ProposalTypes.RequiredNamespaces): string[] {
         const supportedNetworks = getAllNetworkIds()
         const requiredNetworks = Object.values(requiredNamespaces).flatMap((namespace) => namespace.chains)
         return requiredNetworks.filter((network) => !supportedNetworks.includes(network))
+    }
+
+    function areNetworksSupportedOnOtherProfiles(_unsupportedNetworks: string[]): boolean {
+        const allSupportedNetworks = Object.values(SupportedNetworkId)
+        return _unsupportedNetworks.every((network) => allSupportedNetworks.includes(network))
     }
 
     function getUnsupportedMethods(requiredNamespaces: ProposalTypes.RequiredNamespaces): string[] {
@@ -88,7 +94,14 @@
             </div>
             {#if unsupportedNetworks.length}
                 <div class="flex flex-col gap-8 px-6">
-                    <Alert variant="danger" text={localize(`${localeKey}.unsupportedNetworks`)} />
+                    <Alert
+                        variant={isSupportedOnOtherProfiles ? 'warning' : 'danger'}
+                        text={localize(
+                            `${localeKey}.${
+                                isSupportedOnOtherProfiles ? 'supportedOnOtherProfile' : 'unsupportedNetworks'
+                            }`
+                        )}
+                    />
                 </div>
             {:else if unsupportedMethods.length}
                 <div class="flex flex-col gap-8 px-6">
