@@ -2,7 +2,7 @@ import { getNodeInfo } from '@core/profile-manager'
 import { INodeInfoResponse } from '../interfaces/node-info-response.interface'
 import { setNodeInfo } from '../stores/node-info.store'
 
-export async function getAndUpdateNodeInfo(forwardErrors = false): Promise<INodeInfoResponse> {
+export async function getAndUpdateNodeInfo(forwardErrors = false): Promise<INodeInfoResponse | undefined> {
     let nodeInfoResponse: INodeInfoResponse
     try {
         nodeInfoResponse = await getNodeInfo()

@@ -4,6 +4,7 @@ import { IConnectedDapp } from '@auxiliary/wallet-connect/interface'
 import { CallbackParameters } from '@auxiliary/wallet-connect/types'
 import { buildEvmTransactionData } from '@core/layer-2/actions'
 import { EvmTransactionData } from '@core/layer-2'
+import { switchToRequiredAccount } from '@auxiliary/wallet-connect/utils'
 import { getSdkError } from '@walletconnect/utils'
 
 export async function handleEthTransaction(
@@ -37,15 +38,19 @@ export async function handleEthTransaction(
         evmTransactionData.gasLimit = gasLimit
     }
 
-    openPopup({
-        id: PopupId.EvmTransactionFromDapp,
-        props: {
-            chain,
-            dapp,
-            preparedTransaction: evmTransactionData,
-            signAndSend,
-            callback: responseCallback,
-            onCancel: () => responseCallback({ error: getSdkError('USER_REJECTED') }),
-        },
-    })
+    try {
+        await switchToRequiredAccount(from, chain)
+        openPopup({
+            id: PopupId.EvmTransactionFromDapp,
+            props: {
+                chain,
+                dapp,
+                preparedTransaction: evmTransactionData,
+                signAndSend,
+                onCancel: () => responseCallback({ error: getSdkError('USER_REJECTED') }),
+            },
+        })
+    } catch (err) {
+        responseCallback({ error: getSdkError(err) })
+    }
 }

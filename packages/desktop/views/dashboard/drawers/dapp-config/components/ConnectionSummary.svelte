@@ -2,80 +2,90 @@
     import { METHODS_FOR_PERMISSION } from '@auxiliary/wallet-connect/constants'
     import { DappPermission } from '@auxiliary/wallet-connect/enums'
     import { onMount } from 'svelte'
-    import { Text } from '@bloomwalletio/ui'
+    import { IconButton, IconName, Text } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
     import { SupportedNamespaces } from '@auxiliary/wallet-connect/types'
     import { findActiveAccountWithAddress } from '@core/profile/actions'
     import { NetworkId } from '@core/network'
     import { IAccountState } from '@core/account'
     import { ProposalTypes } from '@walletconnect/types'
+    import { DappConfigRoute } from '../dapp-config-route.enum'
+    import { Router } from '@core/router/classes'
 
     export let requiredNamespaces: ProposalTypes.RequiredNamespaces | undefined
-    export let persistedDappNamespace: SupportedNamespaces
+    export let editable: boolean
+    export let persistedNamespaces: SupportedNamespaces
+    export let drawerRouter: Router<unknown>
 
     const localeKey = 'views.dashboard.drawers.dapps.confirmConnection'
 
     type PermissionPreference = { label: string; enabled: boolean; required: boolean }
 
     let permissionPreferences: PermissionPreference[] = []
-    function setPermissionPreferences(): void {
-        const permissions: PermissionPreference[] = []
-        const namespaces = Object.values(requiredNamespaces ?? {})
-        const persistedNamespaces = Object.values(persistedDappNamespace)
+    let networkPreferences: string[] = []
+    let accountPreferences: IAccountState[] = []
 
-        for (const permission of Object.values(DappPermission)) {
+    function getPermissionPreferences(): PermissionPreference[] {
+        const namespaces = Object.values(requiredNamespaces ?? {})
+        const _persistedNamespaces = Object.values(persistedNamespaces)
+
+        return Object.values(DappPermission).map((permission) => {
             const supportedMethods = METHODS_FOR_PERMISSION[permission] ?? []
 
-            const isRequired = namespaces.some((namespace) => {
-                const requiredMethods = namespace.methods
-                return supportedMethods.some((method) => requiredMethods.includes(method))
-            })
+            const isRequired = namespaces.some((namespace) =>
+                supportedMethods.some((method) => namespace.methods.includes(method))
+            )
 
-            const isEnabled = persistedNamespaces.some((namespace) => {
-                return supportedMethods.some((method) => namespace.methods.includes(method))
-            })
+            const isEnabled = _persistedNamespaces.some((namespace) =>
+                supportedMethods.some((method) => namespace.methods.includes(method))
+            )
 
-            permissions.push({ label: permission, enabled: isEnabled, required: isRequired })
-        }
-
-        permissionPreferences = permissions
+            return { label: permission, enabled: isEnabled, required: isRequired }
+        })
     }
 
-    let networkPreferences: string[] = []
-    function setNetworkPreferences(): void {
-        const networks = []
-        for (const namespace of Object.values(persistedDappNamespace)) {
-            for (const chain of namespace.chains) {
-                networks.push(chain)
-            }
-        }
-        networkPreferences = Object.values(networks)
+    function getNetworkPreferences(): string[] {
+        return Object.values(persistedNamespaces).flatMap((namespace) => namespace.chains)
     }
 
-    let accountPreferences: IAccountState[] = []
-    function setAccountPreferences(): void {
-        const accounts = {}
-        for (const namespace of Object.values(persistedDappNamespace)) {
-            for (const accountWithNetworkId of namespace.accounts) {
-                const [namespace, chainId, address] = accountWithNetworkId.split(':')
-                const account = findActiveAccountWithAddress(address, `${namespace}:${chainId}` as NetworkId)
-                if (account) {
-                    accounts[account.index] = account
-                }
-            }
-        }
-        accountPreferences = Object.values(accounts)
+    function getAccountPreferences(): IAccountState[] {
+        const accounts = Object.values(persistedNamespaces)
+            .flatMap((namespace) =>
+                namespace.accounts.map((accountWithNetworkId) => {
+                    const [namespace, chainId, address] = accountWithNetworkId.split(':')
+                    return findActiveAccountWithAddress(address, `${namespace}:${chainId}` as NetworkId)
+                })
+            )
+            .filter(Boolean)
+
+        const accountMap = accounts.reduce((acc, account) => ({ ...acc, [account.index]: account }), {})
+        return Object.values(accountMap)
+    }
+
+    function onEditPermissionsClick(): void {
+        drawerRouter.goTo(DappConfigRoute.EditPermissions)
+    }
+    function onEditNetworksClick(): void {
+        drawerRouter.goTo(DappConfigRoute.EditNetworks)
+    }
+    function onEditAccountsClick(): void {
+        drawerRouter.goTo(DappConfigRoute.EditAccounts)
     }
 
     onMount(() => {
-        setPermissionPreferences()
-        setNetworkPreferences()
-        setAccountPreferences()
+        permissionPreferences = getPermissionPreferences()
+        networkPreferences = getNetworkPreferences()
+        accountPreferences = getAccountPreferences()
     })
 </script>
 
 <selection-component class="flex flex-col gap-4">
-    <Text textColor="secondary">{localize(`${localeKey}.permissions.step`)}</Text>
+    <div class="flex flex-row justify-between">
+        <Text textColor="secondary">{localize(`${localeKey}.permissions.step`)}</Text>
+        {#if editable}
+            <IconButton icon={IconName.SettingsSliders} size="xs" on:click={onEditPermissionsClick} />
+        {/if}
+    </div>
     <table>
         {#each permissionPreferences as permission}
             <div class="w-full flex flex-row justify-between p-4">
@@ -87,7 +97,12 @@
         {/each}
     </table>
 
-    <Text textColor="secondary">{localize(`${localeKey}.networks.step`)}</Text>
+    <div class="flex flex-row justify-between">
+        <Text textColor="secondary">{localize(`${localeKey}.networks.step`)}</Text>
+        {#if editable}
+            <IconButton icon={IconName.SettingsSliders} size="xs" on:click={onEditNetworksClick} />
+        {/if}
+    </div>
     <table>
         {#each networkPreferences as network}
             <div class="w-full flex flex-row justify-between p-4">
@@ -97,7 +112,12 @@
         {/each}
     </table>
 
-    <Text textColor="secondary">{localize(`${localeKey}.accounts.step`)}</Text>
+    <div class="flex flex-row justify-between">
+        <Text textColor="secondary">{localize(`${localeKey}.accounts.step`)}</Text>
+        {#if editable}
+            <IconButton icon={IconName.SettingsSliders} size="xs" on:click={onEditAccountsClick} />
+        {/if}
+    </div>
     <table>
         {#each accountPreferences as account}
             <div class="w-full flex flex-row justify-between p-4">

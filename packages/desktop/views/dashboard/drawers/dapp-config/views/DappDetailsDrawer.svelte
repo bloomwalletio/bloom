@@ -12,7 +12,7 @@
 
     const localeKey = 'views.dashboard.drawers.dapps.details'
 
-    $: persistedDappNamespace = $selectedDapp?.metadata
+    $: persistedNamespaces = $selectedDapp?.metadata
         ? getPersistedDappNamespacesForDapp($selectedDapp.metadata.url)
         : undefined
     onMount(() => {
@@ -30,25 +30,23 @@
     <div class="w-full h-full flex flex-col space-y-6 overflow-hidden">
         <DappInformationCard metadata={$selectedDapp.metadata} />
 
-        <div class="px-6 flex-grow overflow-hidden">
-            <div class="h-full space-y-6 overflow-scroll">
-                {#if $selectedDapp.metadata.description}
+        <div class="flex-grow overflow-hidden">
+            <div class="h-full space-y-6 overflow-scroll px-6 pb-4">
+                {#if $selectedDapp.metadata?.description}
                     <Table
                         items={[{ key: localize('general.description'), value: $selectedDapp.metadata.description }]}
                         orientation="vertical"
                     />
                 {/if}
-                <ConnectionSummary
-                    requiredNamespaces={$selectedDapp.session?.requiredNamespaces}
-                    {persistedDappNamespace}
-                />
+                {#if persistedNamespaces}
+                    <ConnectionSummary
+                        requiredNamespaces={$selectedDapp.session?.requiredNamespaces}
+                        editable={!!$selectedDapp.session}
+                        {persistedNamespaces}
+                        {drawerRouter}
+                    />
+                {/if}
             </div>
         </div>
     </div>
 </DrawerTemplate>
-
-<style lang="scss">
-    .dapp-icon {
-        @apply w-10 h-10 rounded-full;
-    }
-</style>

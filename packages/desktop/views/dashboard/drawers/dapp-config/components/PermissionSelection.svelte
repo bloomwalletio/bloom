@@ -1,28 +1,35 @@
 <script lang="ts">
-    import { sessionProposal } from '@auxiliary/wallet-connect/stores'
+    import { ProposalTypes } from '@walletconnect/types'
     import { METHODS_FOR_PERMISSION } from '@auxiliary/wallet-connect/constants'
     import { DappPermission } from '@auxiliary/wallet-connect/enums'
     import { onMount } from 'svelte'
     import Selection from './Selection.svelte'
     import { localize } from '@core/i18n'
+    import { SupportedNamespaces } from '@auxiliary/wallet-connect/types'
 
     export let checkedMethods: string[]
+    export let requiredNamespaces: ProposalTypes.RequiredNamespaces
+    export let persistedNamespaces: SupportedNamespaces | undefined = undefined
 
     let permissionSelections: { label: string; value: string; checked: boolean; required: boolean }[] = []
     function setPermissionSelections(): void {
         const permissions: { label: string; value: string; checked: boolean; required: boolean }[] = []
-        const namespaces = Object.values($sessionProposal.params.requiredNamespaces)
+        const namespaces = Object.values(requiredNamespaces)
 
         for (const permission of Object.values(DappPermission)) {
-            const supportedMethods = METHODS_FOR_PERMISSION[permission]
+            const supportedMethods = METHODS_FOR_PERMISSION[permission] ?? []
 
             const isRequired = namespaces.some((namespace) => {
-                const requiredMethods = namespace.methods
-                const supportedMethodsForNamespace: string[] = supportedMethods ?? []
-                return supportedMethodsForNamespace.some((method) => requiredMethods.includes(method))
+                return supportedMethods.some((method) => namespace.methods.includes(method))
             })
 
-            permissions.push({ label: permission, value: permission, checked: true, required: isRequired })
+            const isChecked = persistedNamespaces
+                ? Object.values(persistedNamespaces).some((namespace) => {
+                      return supportedMethods.some((method) => namespace.methods.includes(method))
+                  })
+                : true
+
+            permissions.push({ label: permission, value: permission, checked: isChecked, required: isRequired })
         }
 
         permissionSelections = permissions
@@ -31,16 +38,9 @@
     $: permissionSelections, (checkedMethods = getMethodsFromCheckedPermissions())
 
     function getMethodsFromCheckedPermissions(): string[] {
-        const methods: string[] = []
-        const checkedPermissions = permissionSelections
+        return permissionSelections
             .filter((selection) => selection.checked)
-            .map((selection) => selection.value)
-
-        for (const permission of checkedPermissions) {
-            const supportedMethods = METHODS_FOR_PERMISSION[permission]
-            methods.push(...supportedMethods)
-        }
-        return methods
+            .flatMap((selection) => METHODS_FOR_PERMISSION[selection.value])
     }
 
     onMount(() => {
