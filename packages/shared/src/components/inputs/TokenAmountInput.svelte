@@ -1,6 +1,6 @@
 <script lang="ts">
     import { formatCurrency, getDecimalSeparator } from '@core/i18n'
-    import { getMarketAmountFromTokenValue } from '@core/market/actions'
+    import { getFiatAmountFromTokenValue } from '@core/market/actions'
     import { activeProfile } from '@core/profile/stores'
     import {
         ITokenWithBalance,
@@ -25,7 +25,7 @@
     let amountInputElement: HTMLInputElement | undefined
     let error: string | undefined
     let inputLength = 0
-    let fontSize = 64
+    let fontSize = '64'
     let maxLength = 0
 
     $: inputtedAmount,
@@ -35,7 +35,7 @@
         (maxLength = getMaxAmountOfDigits())
     $: allowedDecimals = token?.metadata && unit ? getMaxDecimalsFromTokenMetadata(token.metadata, unit) : 0
     $: bigAmount = inputtedAmount && token?.metadata ? convertToRawAmount(inputtedAmount, token.metadata, unit) : 0
-    $: marketAmount = token ? getMarketAmountFromTokenValue(bigAmount, token) : undefined
+    $: fiatAmount = token ? getFiatAmountFromTokenValue(bigAmount, token) : undefined
     $: rawAmount = bigAmount?.toString()
 
     function getInputLength(): number {
@@ -69,13 +69,13 @@
         )
     }
 
-    function getFontSizeForInputLength(): number {
+    function getFontSizeForInputLength(): string {
         if (inputLength < 10) {
-            return 64
+            return '64'
         } else if (inputLength < 14) {
-            return 48
+            return '48'
         } else {
-            return 32
+            return '32'
         }
     }
 
@@ -99,7 +99,7 @@
     <InputContainer {error} clearBackground clearPadding clearBorder classes="w-full flex flex-col items-center">
         <div class="flex flex-row items-end space-x-0.5">
             <div class="flex flex-row w-full items-center">
-                <amount-wrapper style:--max-width={`${(inputLength * fontSize * 2) / 3}px`}>
+                <amount-wrapper style:--max-width={`${(inputLength * Number(fontSize) * 2) / 3}px`}>
                     <AmountInput
                         bind:inputElement={amountInputElement}
                         bind:amount={inputtedAmount}
@@ -114,18 +114,17 @@
                     />
                 </amount-wrapper>
             </div>
-
             <Text fontWeight={FontWeight.semibold} classes={inputLength < 14 ? 'py-4' : 'py-2'}>
                 {unit}
             </Text>
         </div>
     </InputContainer>
     <Text fontWeight={FontWeight.semibold} color="gray-600" darkColor="gray-600">
-        {formatCurrency(marketAmount) || '--'}
+        {formatCurrency(fiatAmount) || '--'}
     </Text>
 </div>
 
-<style lang="scss">
+<style lang="postcss">
     amount-wrapper {
         max-width: var(--max-width);
         @apply flex;
