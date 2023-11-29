@@ -1,7 +1,6 @@
 export * from './account-tokens.interface'
 export * from './base-token.interface'
 export * from './erc20-metadata.interface'
-export * from './erc20-token-with-balance.interface'
 export * from './irc30-metadata.interface'
 export * from './persisted-token.interface'
 export * from './persisted-tokens.interface'
