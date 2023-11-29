@@ -31,9 +31,7 @@
 
     function onCancelClick(): void {
         closePopup()
-        if ('function' === typeof onCancel) {
-            onCancel()
-        }
+        onCancel?.()
     }
 </script>
 

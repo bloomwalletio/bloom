@@ -13,7 +13,7 @@ export function checkActiveProfileAuth(
     if (get(isSoftwareProfile)) {
         return checkOrUnlockStronghold(callback, reopenPopup?.stronghold, reopenPopup?.props, onCancel)
     } else if (get(isActiveLedgerProfile)) {
-        return checkOrConnectLedger(callback, reopenPopup?.ledger, ledgerAppName, reopenPopup?.props)
+        return checkOrConnectLedger(callback, reopenPopup?.ledger, ledgerAppName, reopenPopup?.props, onCancel)
     }
     return Promise.resolve()
 }

@@ -7,7 +7,8 @@ export function checkOrConnectLedger(
     callback: () => Promise<unknown> = async (): Promise<void> => {},
     reopenPopup?: boolean,
     ledgerAppName: LedgerAppName = LedgerAppName.Shimmer,
-    reopenProps: Record<string, unknown> = {}
+    reopenProps: Record<string, unknown> = {},
+    onCancel: () => void = (): void => {}
 ): Promise<unknown> {
     const previousPopup = get(popupState)
     function _callback(): Promise<unknown> {
@@ -29,6 +30,7 @@ export function checkOrConnectLedger(
                 props: {
                     ledgerAppName,
                     onContinue: _callback,
+                    onCancel,
                 },
             })
         }
