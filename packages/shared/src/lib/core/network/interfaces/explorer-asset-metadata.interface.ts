@@ -1,4 +1,5 @@
 import { TokenStandard } from '@core/token/enums'
+import { NftStandard } from '@core/nfts/enums'
 
 // snake_case returned by the API
 export interface IExplorerAssetMetadata {
@@ -11,5 +12,5 @@ export interface IExplorerAssetMetadata {
     name: string
     symbol: string
     total_supply: string
-    type: TokenStandard
+    type: TokenStandard | NftStandard
 }

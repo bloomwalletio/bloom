@@ -5,8 +5,8 @@ import features from '@features/features'
 import { get } from 'svelte/store'
 import { NFT_MEDIA_FILE_NAME } from '../constants'
 import { DownloadErrorType, DownloadWarningType } from '../enums'
-import { INft, IPersistedNftData, NftDownloadMetadata } from '../interfaces'
-import { addPersistedNftData, persistedNftForActiveProfile } from '../stores'
+import { INft, IPersistedNftMetadata, NftDownloadMetadata } from '../interfaces'
+import { addPersistedNft, persistedNftForActiveProfile } from '../stores'
 import { fetchWithTimeout } from './fetchWithTimeout'
 
 const HEAD_FETCH_TIMEOUT_SECONDS = 3
@@ -31,7 +31,7 @@ export async function checkIfNftShouldBeDownloaded(
             const nftData = await getNftData(nft)
 
             if (!get(persistedNftForActiveProfile)?.[nft.id]) {
-                addPersistedNftData(nft.id, nftData)
+                addPersistedNft(nft.id, nftData)
             }
 
             const { downloadUrl, contentType, contentLength } = nftData
@@ -54,7 +54,7 @@ export async function checkIfNftShouldBeDownloaded(
             downloadMetadata.error = { type: DownloadErrorType.Generic, message: err.message }
         }
 
-        addPersistedNftData(nft.id, { error: { message: err?.message } })
+        addPersistedNft(nft.id, { error: { message: err?.message } })
     }
 
     return { shouldDownload: false, downloadUrl: nft.composedUrl, downloadMetadata }
@@ -72,7 +72,7 @@ function validateFile(nft: INft, contentType: string, contentLength: string): Pa
     }
 }
 
-async function getNftData(nft: INft): Promise<IPersistedNftData> {
+async function getNftData(nft: INft): Promise<IPersistedNftMetadata> {
     const persistedNftData = get(persistedNftForActiveProfile)?.[nft.id]
 
     if (persistedNftData && persistedNftData.error?.message !== UNREACHABLE_ERROR_MESSAGE) {

@@ -1,4 +1,7 @@
-export interface IPersistedNftData {
+import { NftStandard } from '../enums'
+
+export interface IPersistedNftMetadata {
+    standard: NftStandard
     contentType?: string
     contentLength?: string
     responseCode?: number

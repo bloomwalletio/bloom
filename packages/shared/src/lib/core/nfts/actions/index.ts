@@ -1,6 +1,7 @@
 export * from './addNftsToDownloadQueue'
 export * from './addOrUpdateNftInAllAccountNfts'
 export * from './buildNftFromNftOutput'
+export * from './checkForUntrackedNfts'
 export * from './downloadNextNftInQueue'
 export * from './getNftByIdFromAllAccountNfts'
 export * from './interruptNftDownloadAfterTimeout'
