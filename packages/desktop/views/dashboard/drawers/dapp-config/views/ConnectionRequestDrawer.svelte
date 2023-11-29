@@ -26,17 +26,18 @@
     $: alreadyConnected = !!getPersistedDappNamespacesForDapp($sessionProposal?.params.proposer.metadata.url)
     $: unsupportedMethods = $sessionProposal ? getUnsupportedMethods($sessionProposal?.params.requiredNamespaces) : []
     $: unsupportedNetworks = $sessionProposal ? getUnsupportedNetworks($sessionProposal?.params.requiredNamespaces) : []
+    $: fulfillsRequirements = unsupportedMethods.length === 0 && unsupportedNetworks.length === 0
 
     function getUnsupportedNetworks(requiredNamespaces: ProposalTypes.RequiredNamespaces): string[] {
         const supportedNetworks = getAllNetworkIds()
         const requiredNetworks = Object.values(requiredNamespaces).flatMap((namespace) => namespace.chains)
-        return requiredNetworks.filter((network) => supportedNetworks.includes(network))
+        return requiredNetworks.filter((network) => !supportedNetworks.includes(network))
     }
 
     function getUnsupportedMethods(requiredNamespaces: ProposalTypes.RequiredNamespaces): string[] {
         const supportedMethods = Object.values(METHODS_FOR_PERMISSION).flat()
         const requiredMethods = Object.values(requiredNamespaces).flatMap((namespace) => namespace.methods)
-        return requiredMethods.filter((network) => supportedMethods.includes(network))
+        return requiredMethods.filter((network) => !supportedMethods.includes(network))
     }
 
     function onRejectClick(): void {
@@ -113,11 +114,9 @@
             width="full"
             variant="outlined"
             on:click={onRejectClick}
-            text={localize(
-                `actions.${unsupportedNetworks.length === 0 && unsupportedMethods.length === 0 ? 'reject' : 'cancel'}`
-            )}
+            text={localize(`actions.${fulfillsRequirements ? 'reject' : 'cancel'}`)}
         />
-        {#if unsupportedNetworks.length && unsupportedMethods.length}
+        {#if fulfillsRequirements}
             <Button
                 width="full"
                 on:click={onContinueClick}
