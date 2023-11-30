@@ -6,7 +6,8 @@ import { handleError } from '@core/error/handlers/handleError'
 export async function checkOrUnlockStronghold(
     callback: () => Promise<unknown> = async (): Promise<void> => {},
     reopenPopup?: boolean,
-    reopenProps: Record<string, unknown> = {}
+    reopenProps: Record<string, unknown> = {},
+    onCancel: () => void = (): void => {}
 ): Promise<unknown> {
     const previousPopup = get(popupState)
     function _callback(): Promise<unknown> {
@@ -27,6 +28,7 @@ export async function checkOrUnlockStronghold(
                 id: PopupId.UnlockStronghold,
                 props: {
                     onSuccess: _callback,
+                    onCancel,
                 },
             })
         }
