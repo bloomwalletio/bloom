@@ -11,6 +11,8 @@
     export let optionalNamespaces: ProposalTypes.RequiredNamespaces
     export let persistedNamespaces: SupportedNamespaces | undefined = undefined
 
+    const localeKey = 'views.dashboard.drawers.dapps.confirmConnection.networks'
+
     let networkSelections: { label: string; value: string; checked: boolean; required: boolean }[] = []
     function setNetworkSelections(): void {
         const networks = {}
@@ -41,5 +43,6 @@
 
 <Selection
     bind:selectionOptions={networkSelections}
-    title={localize('views.dashboard.drawers.dapps.confirmConnection.networks.title')}
+    title={localize(`${localeKey}.title`)}
+    error={checkedNetworks.length ? undefined : localize(`${localeKey}.empty`)}
 />

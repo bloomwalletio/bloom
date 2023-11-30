@@ -12,6 +12,8 @@
     export let persistedNamespaces: SupportedNamespaces | undefined = undefined
     export let chainIds: string[] | undefined = undefined
 
+    const localeKey = 'views.dashboard.drawers.dapps.confirmConnection.accounts'
+
     $: _chainIds = chainIds ?? Object.values(persistedNamespaces ?? {}).flatMap((p) => p.chains)
     $: _chainIds, setAccountSelections()
 
@@ -64,7 +66,8 @@
 {#if accountSelections.length}
     <Selection
         bind:selectionOptions={accountSelections}
-        title={localize('views.dashboard.drawers.dapps.confirmConnection.accounts.title')}
+        title={localize(`${localeKey}.title`)}
+        error={checkedAccounts.length ? undefined : localize(`${localeKey}.empty`)}
     />
 {:else}
     <Alert variant="danger" text="No valid accounts" />

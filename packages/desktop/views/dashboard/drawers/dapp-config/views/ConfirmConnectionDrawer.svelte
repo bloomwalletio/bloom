@@ -42,6 +42,12 @@
         ? getPersistedDappNamespacesForDapp($sessionProposal.params.proposer.metadata.url)
         : undefined
 
+    $: isButtonDisabled =
+        loading ||
+        (!persistedNamespaces && currentStep === 0 && checkedMethods.length === 0) ||
+        (currentStep === 1 && checkedNetworks.length === 0) ||
+        (currentStep === 2 && checkedAccounts.length === 0)
+
     function onBackClick(): void {
         if (currentStep === 0) {
             drawerRouter.previous()
@@ -159,7 +165,7 @@
         <Button
             width="full"
             on:click={isLastStep ? onConfirmClick : onNextClick}
-            disabled={loading}
+            disabled={isButtonDisabled}
             busy={loading}
             text={localize(`actions.${isLastStep ? 'confirm' : 'next'}`)}
         />
