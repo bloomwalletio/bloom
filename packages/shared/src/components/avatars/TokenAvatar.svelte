@@ -14,6 +14,9 @@
     export let hideNetworkBadge: boolean = false
 
     const AVATAR_BACKGROUND_COLOR: { [networkId: string]: { [tokenId: string]: string } } = {
+        [SupportedNetworkId.Iota]: {
+            [BASE_TOKEN_ID]: 'shimmer',
+        },
         [SupportedNetworkId.Shimmer]: {
             [BASE_TOKEN_ID]: 'shimmer',
         },
@@ -29,6 +32,9 @@
     }
 
     const AVATAR_TEXT_COLOR: { [networkId: string]: { [tokenId: string]: string } } = {
+        [SupportedNetworkId.Iota]: {
+            [BASE_TOKEN_ID]: 'shimmer-background',
+        },
         [SupportedNetworkId.Shimmer]: {
             [BASE_TOKEN_ID]: 'shimmer-background',
         },
