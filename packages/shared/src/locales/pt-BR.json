@@ -420,14 +420,14 @@
                     "contactList": {
                         "title": "Contact list",
                         "emptyHeader": "No contacts found",
-                        "emptyBody": "Connect with your favorite people in Bloom.",
+                        "emptyBody": "Connect with your favourite people in Bloom.",
                         "addContact": "Add contact"
                     },
                     "contactInformation": {
                         "title": "Contact Information",
                         "editContact": "Edit contact",
                         "removeContact": "Remove contact",
-                        "addNetworkAddress": "Add network address"
+                        "addNetworkAddress": "Add address"
                     },
                     "contactAddress": {
                         "title": "Contact address",
@@ -471,31 +471,48 @@
                     "inputConnectionCode": {
                         "title": "Connect to a dApp",
                         "inputLabel": "Wallet Connect code",
-                        "hint": "Add new dApps by adding a Wallet Connect code below.",
+                        "addDapp": "Add a dApp",
+                        "addDappDescription": "Add new dApps by adding a Wallet Connect code below.",
                         "deprecated": "The dApp you try to connect to uses a deprecated version of WalletConnect. Cannot establish connection"
                     },
                     "connectionRequest": {
                         "title": "Connection request",
-                        "hint": "A third party service wants to connect with your wallet for the first time. You can choose if you wish to trust this connection.",
+                        "firstTimeHint": "This dApp wishes to connect for the first time. Connect to sites you trust.",
+                        "reconnectHint": "You have previously connected with this dApp.",
                         "insecure": "The URL for this dApp cannot be verified. Your connection to this application may not be secure.",
+                        "unsupportedNetworks": "This dApp is not compatible with Bloom as it runs on an unsupported network.",
+                        "unsupportedMethods": "This dApp is not fully compatible with Bloom. Some methods or events are unsupported.",
+                        "supportedOnOtherProfile": "This dApp runs on a supported network, but is not accessible with this profile. Please use a profile connected to the required network.",
                         "acceptInsecureConnection": "I understand this dApp may be insecure and still want to connect."
+                    },
+                    "editPermissions": {
+                        "title": "Edit permissions"
+                    },
+                    "editNetworks": {
+                        "title": "Edit networks"
+                    },
+                    "editAccounts": {
+                        "title": "Edit accounts"
                     },
                     "confirmConnection": {
                         "title": "Connect with an application",
                         "permissions": {
                             "step": "Permission",
-                            "title": "This dApp will be abe to ask to:",
+                            "tip": "These are limited permissions for the dApp to send an interaction request for your approval. Only approve apps you know and trust.",
+                            "title": "Select permissions",
                             "signData": "Request to sign data",
                             "signTransaction": "Request to sign a transaction",
                             "sendTransaction": "Request to send a transaction"
                         },
                         "networks": {
                             "step": "Networks",
-                            "title": "Select networks"
+                            "title": "Select networks",
+                            "tip": "The required networks are pre-selected for you by the dApp and can also be reconfigured later."
                         },
                         "accounts": {
                             "step": "Accounts",
-                            "title": "Select accounts"
+                            "title": "Select accounts",
+                            "tip": "Connect with specific accounts to manage funds separately. You control what the dApp can access."
                         }
                     },
                     "details": {
@@ -866,11 +883,15 @@
             "title": "Sign message",
             "hint": "No balance will be sent to {dappName} in the process of signing this message.",
             "warning": "dApp cannot be determined. No balance will be sent in the process of signing this message.",
-            "action": "Sign message"
+            "action": "Sign"
         },
         "signTransaction": {
             "title": "Sign transaction",
-            "action": "Sign transaction"
+            "action": "Sign"
+        },
+        "sendTransaction": {
+            "title": "Send transaction",
+            "action": "Send"
         },
         "activityDetails": {
             "title": {
@@ -1228,7 +1249,8 @@
         "untrackToken": "Untrack token",
         "switchAccount": "Switch account",
         "syncAccounts": "Sync accounts",
-        "importErc20Token": "Import ERC20 token"
+        "importErc20Token": "Import ERC20 token",
+        "syncTokens": "Force sync tokens"
     },
     "general": {
         "recipient": "Recipient",
@@ -1441,7 +1463,9 @@
         "failed": "failed",
         "required": "Required",
         "yes": "Yes",
-        "no": "No"
+        "no": "No",
+        "tip": "Tip",
+        "verified": "Verified"
     },
     "filters": {
         "title": "Filters",
@@ -1645,6 +1669,9 @@
         },
         "updateNetworkAddresses": {
             "success": "Contact addresses successfully updated"
+        },
+        "syncTokens": {
+            "success": "Tokens successfully synced"
         }
     },
     "error": {
