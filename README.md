@@ -27,7 +27,7 @@
 
 ## About
 
-Bloom is a simple and secure wallet for managing your digital assets in the IOTA and Shimmer ecosystem.
+Bloom is a beautifully designed, user-centric wallet. Explore the best of Web3 in a safe, curated environment.
 
 ## Installation
 
