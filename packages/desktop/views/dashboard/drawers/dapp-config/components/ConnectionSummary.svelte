@@ -6,7 +6,7 @@
     import { localize } from '@core/i18n'
     import { SupportedNamespaces } from '@auxiliary/wallet-connect/types'
     import { findActiveAccountWithAddress } from '@core/profile/actions'
-    import { NetworkId } from '@core/network'
+    import { NetworkId, getChainConfiguration } from '@core/network'
     import { IAccountState } from '@core/account'
     import { ProposalTypes } from '@walletconnect/types'
     import { DappConfigRoute } from '../dapp-config-route.enum'
@@ -49,7 +49,12 @@
     }
 
     function getNetworkPreferences(): string[] {
-        return Object.values(persistedNamespaces).flatMap((namespace) => namespace.chains)
+        return Object.values(persistedNamespaces).flatMap((namespace) => {
+            return namespace.chains.map((chainId) => {
+                const chainConfig = getChainConfiguration(chainId as NetworkId)
+                return chainConfig?.name ?? chainId
+            })
+        })
     }
 
     function getAccountPreferences(): IAccountState[] {
