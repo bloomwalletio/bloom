@@ -11,6 +11,7 @@
     import DappCard from '../components/DappCard.svelte'
     import { DappConfigRoute } from '../dapp-config-route.enum'
     import { IConnectedDapp } from '@auxiliary/wallet-connect/interface'
+    import { updateDrawerProps } from '@desktop/auxiliary/drawer'
 
     export let drawerRouter: Router<unknown>
 
@@ -20,6 +21,7 @@
 
     function onDappCardClick(connectedDapp: IConnectedDapp): void {
         setSelectedDapp(connectedDapp)
+        updateDrawerProps({ onClose: () => setSelectedDapp(undefined) })
         drawerRouter.goTo(DappConfigRoute.DappDetails)
     }
 
