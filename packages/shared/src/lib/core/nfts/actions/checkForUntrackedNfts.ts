@@ -36,7 +36,7 @@ export function checkForUntrackedNfts(account: IAccountState): void {
 
             const instances: INftInstance[] = []
             if (isEnumerable) {
-                for (let idx = 0; idx < value; idx++) {
+                for (let idx = 0; idx < Number(value); idx++) {
                     const tokenId = await contract.methods.tokenOfOwnerByIndex(evmAddress, idx).call()
                     if (isNftPersisted(address, tokenId)) {
                         continue

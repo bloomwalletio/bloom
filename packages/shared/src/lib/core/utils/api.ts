@@ -5,11 +5,11 @@ export class BaseApi {
         this._baseUrl = baseUrl
     }
 
-    get<T>(path: string, options?: IApiRequestOptions): Promise<T | undefined> {
+    protected get<T>(path: string, options?: IApiRequestOptions): Promise<T | undefined> {
         return this.makeRequest<T>(path, '', options)
     }
 
-    post<T>(path: string, body: string, options?: IApiRequestOptions): Promise<T | undefined> {
+    protected post<T>(path: string, body: string, options?: IApiRequestOptions): Promise<T | undefined> {
         return this.makeRequest<T>(path, body, options)
     }
 

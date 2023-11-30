@@ -22,6 +22,20 @@ export function addPersistedNft(nftId: string, newPersistedNft: IPersistedNftMet
     })
 }
 
+export function updatePersistedNft(nftId: string, payload: Partial<IPersistedNftMetadata>): void {
+    persistedNfts.update((state) => {
+        if (!state[get(activeProfile)?.id]) {
+            state[get(activeProfile)?.id] = {}
+        }
+        const nftState = state[get(activeProfile)?.id][nftId]
+        state[get(activeProfile)?.id][nftId] = {
+            ...nftState,
+            ...payload,
+        }
+        return state
+    })
+}
+
 export function removePersistedNftsForProfile(profileId: string): void {
     persistedNfts.update((state) => {
         delete state[profileId]

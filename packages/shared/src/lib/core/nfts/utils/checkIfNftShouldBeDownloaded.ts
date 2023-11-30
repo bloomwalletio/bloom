@@ -6,7 +6,7 @@ import { get } from 'svelte/store'
 import { NFT_MEDIA_FILE_NAME } from '../constants'
 import { DownloadErrorType, DownloadWarningType } from '../enums'
 import { INft, IPersistedNftMetadata, NftDownloadMetadata } from '../interfaces'
-import { addPersistedNft, persistedNftForActiveProfile } from '../stores'
+import { persistedNftForActiveProfile, updatePersistedNft } from '../stores'
 import { fetchWithTimeout } from './fetchWithTimeout'
 
 const HEAD_FETCH_TIMEOUT_SECONDS = 3
@@ -28,10 +28,10 @@ export async function checkIfNftShouldBeDownloaded(
             downloadMetadata.isLoaded = true
             downloadMetadata.error = { type: DownloadErrorType.UnsupportedUrl }
         } else {
-            const nftData = await getNftData(nft)
+            const nftData = await getNftDownloadData(nft)
 
             if (!get(persistedNftForActiveProfile)?.[nft.id]) {
-                addPersistedNft(nft.id, nftData)
+                updatePersistedNft(nft.id, nftData)
             }
 
             const { downloadUrl, contentType, contentLength } = nftData
@@ -54,7 +54,7 @@ export async function checkIfNftShouldBeDownloaded(
             downloadMetadata.error = { type: DownloadErrorType.Generic, message: err.message }
         }
 
-        addPersistedNft(nft.id, { error: { message: err?.message } })
+        updatePersistedNft(nft.id, { error: { message: err?.message } })
     }
 
     return { shouldDownload: false, downloadUrl: nft.composedUrl, downloadMetadata }
@@ -72,7 +72,7 @@ function validateFile(nft: INft, contentType: string, contentLength: string): Pa
     }
 }
 
-async function getNftData(nft: INft): Promise<IPersistedNftMetadata> {
+async function getNftDownloadData(nft: INft): Promise<Partial<IPersistedNftMetadata>> {
     const persistedNftData = get(persistedNftForActiveProfile)?.[nft.id]
 
     if (persistedNftData && persistedNftData.error?.message !== UNREACHABLE_ERROR_MESSAGE) {
@@ -96,13 +96,12 @@ async function getNftData(nft: INft): Promise<IPersistedNftMetadata> {
             headers = newUrlAndHeaders?.headers ?? headers
         }
 
-        const nftData = {
+        return {
             downloadUrl,
             contentLength: headers.get(HttpHeader.ContentLength),
             contentType: headers.get(HttpHeader.ContentType),
             responseCode: response.status,
         }
-        return nftData
     }
 }
 
