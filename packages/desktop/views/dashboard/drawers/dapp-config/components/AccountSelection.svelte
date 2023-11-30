@@ -1,26 +1,43 @@
 <script lang="ts">
-    import { IAccountState } from '@core/account'
+    import { IAccountState, getAddressFromAccountForNetwork } from '@core/account'
     import { visibleActiveAccounts } from '@core/profile/stores'
-    import { onMount } from 'svelte'
     import Selection from './Selection.svelte'
     import { localize } from '@core/i18n'
     import { ISupportedNamespace, SupportedNamespaces } from '@auxiliary/wallet-connect/types'
     import { findActiveAccountWithAddress } from '@core/profile/actions'
     import { NetworkId } from '@core/network'
+    import { Alert } from '@bloomwalletio/ui'
 
     export let checkedAccounts: IAccountState[]
     export let persistedNamespaces: SupportedNamespaces | undefined = undefined
+    export let chainIds: string[] | undefined = undefined
+
+    $: _chainIds = chainIds ?? Object.values(persistedNamespaces ?? {}).flatMap((p) => p.chains)
+    $: _chainIds, setAccountSelections()
 
     let accountSelections: { label: string; value: IAccountState; checked: boolean; required: boolean }[] = []
     function setAccountSelections(): void {
-        const peristedAccountIndexes = persistedNamespaces
+        if (!_chainIds || _chainIds.length === 0) {
+            accountSelections = []
+            return
+        }
+
+        const persistedAccountIndexes = persistedNamespaces
             ? getAccountsFromPersistedNamespaces(Object.values(persistedNamespaces))
             : undefined
 
-        accountSelections = $visibleActiveAccounts.map((account) => {
-            const isChecked = peristedAccountIndexes?.includes(account.index) ?? true
-            return { label: account.name, value: account, checked: isChecked, required: false }
-        })
+        accountSelections = $visibleActiveAccounts
+            .filter((account) => {
+                return hasAddressForAllChains(account, _chainIds)
+            })
+            .map((account) => {
+                const isChecked = persistedAccountIndexes?.includes(account.index) ?? true
+                return { label: account.name, value: account, checked: isChecked, required: false }
+            })
+    }
+
+    function hasAddressForAllChains(account: IAccountState, chainIds: string[]): boolean {
+        return chainIds.every((chainId) => getAddressFromAccountForNetwork(account, chainId as NetworkId))
     }
 
     function getAccountsFromPersistedNamespaces(_persistedNamespaces: ISupportedNamespace[]): number[] {
@@ -42,13 +59,13 @@
     }
 
     $: checkedAccounts = accountSelections.filter((selection) => selection.checked).map((selection) => selection.value)
-
-    onMount(() => {
-        setAccountSelections()
-    })
 </script>
 
-<Selection
-    bind:selectionOptions={accountSelections}
-    title={localize('views.dashboard.drawers.dapps.confirmConnection.accounts.title')}
-/>
+{#if accountSelections.length}
+    <Selection
+        bind:selectionOptions={accountSelections}
+        title={localize('views.dashboard.drawers.dapps.confirmConnection.accounts.title')}
+    />
+{:else}
+    <Alert variant="danger" text="No valid accounts" />
+{/if}

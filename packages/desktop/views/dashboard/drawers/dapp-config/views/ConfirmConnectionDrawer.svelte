@@ -130,7 +130,11 @@
                                     />
                                 </div>
                                 <div class={currentStep === 2 ? 'visible' : 'hidden'}>
-                                    <AccountSelection bind:checkedAccounts {persistedNamespaces} />
+                                    <AccountSelection
+                                        bind:checkedAccounts
+                                        chainIds={checkedNetworks}
+                                        {persistedNamespaces}
+                                    />
                                 </div>
                             </div>
                         </div>
