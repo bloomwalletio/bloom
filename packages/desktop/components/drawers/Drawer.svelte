@@ -39,7 +39,7 @@
 
     function onCloseClick(): void {
         if (!$drawerState?.preventClose) {
-            onClose && onClose()
+            onClose?.()
             closeDrawer()
         }
     }
