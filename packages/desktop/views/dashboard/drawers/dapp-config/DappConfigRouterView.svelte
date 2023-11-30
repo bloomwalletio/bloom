@@ -6,6 +6,9 @@
         ConnectionRequestDrawer,
         DappDetailsDrawer,
         InputConnectionCodeDrawer,
+        EditAccountsDrawer,
+        EditNetworksDrawer,
+        EditPermissionsDrawer,
     } from './views'
     import { DappConfigRoute } from './dapp-config-route.enum'
     import { DappConfigRouter, dappConfigRoute, dappConfigRouter } from './dapp-config.router'
@@ -38,4 +41,10 @@
     <ConnectionRequestDrawer drawerRouter={$dappConfigRouter} {...props} />
 {:else if $dappConfigRoute === DappConfigRoute.DappDetails}
     <DappDetailsDrawer drawerRouter={$dappConfigRouter} {...props} />
+{:else if $dappConfigRoute === DappConfigRoute.EditAccounts}
+    <EditAccountsDrawer drawerRouter={$dappConfigRouter} {...props} />
+{:else if $dappConfigRoute === DappConfigRoute.EditNetworks}
+    <EditNetworksDrawer drawerRouter={$dappConfigRouter} {...props} />
+{:else if $dappConfigRoute === DappConfigRoute.EditPermissions}
+    <EditPermissionsDrawer drawerRouter={$dappConfigRouter} {...props} />
 {/if}

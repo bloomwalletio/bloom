@@ -483,7 +483,19 @@
                         "firstTimeHint": "This dApp wishes to connect for the first time. Connect to sites you trust.",
                         "reconnectHint": "You have previously connected with this dApp.",
                         "insecure": "The URL for this dApp cannot be verified. Your connection to this application may not be secure.",
+                        "unsupportedNetworks": "This dApp is not compatible with Bloom as it runs on an unsupported network.",
+                        "unsupportedMethods": "This dApp is not fully compatible with Bloom. Some methods or events are unsupported.",
+                        "supportedOnOtherProfile": "This dApp runs on a supported network, but is not accessible with this profile. Please use a profile connected to the required network.",
                         "acceptInsecureConnection": "I understand this dApp may be insecure and still want to connect."
+                    },
+                    "editPermissions": {
+                        "title": "Edit permissions"
+                    },
+                    "editNetworks": {
+                        "title": "Edit networks"
+                    },
+                    "editAccounts": {
+                        "title": "Edit accounts"
                     },
                     "confirmConnection": {
                         "title": "Connect with an application",

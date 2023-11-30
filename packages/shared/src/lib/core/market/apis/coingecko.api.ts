@@ -19,7 +19,10 @@ export class CoinGeckoApi {
         }
     }
 
-    static async getSimplePrices(ids: MarketCoinId[], vsCurrencies: MarketCurrency[]): Promise<MarketCoinPrices> {
+    static async getSimplePrices(
+        ids: (MarketCoinId | string)[],
+        vsCurrencies: MarketCurrency[]
+    ): Promise<MarketCoinPrices> {
         const queryParams = buildQueryParametersFromObject({
             ids: ids.join(','),
             vs_currencies: vsCurrencies.join(','),
