@@ -40,7 +40,11 @@
                 supportedMethods.some((method) => namespace.methods.includes(method))
             )
 
-            return { label: permission, enabled: isEnabled, required: isRequired }
+            return {
+                label: localize(`views.dashboard.drawers.dapps.confirmConnection.permissions.${String(permission)}`),
+                enabled: isEnabled,
+                required: isRequired,
+            }
         })
     }
 
