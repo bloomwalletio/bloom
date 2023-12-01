@@ -13,6 +13,7 @@
     titleLocale="dapps.editAccounts"
     selections={{ accounts: checkedAccounts }}
     let:persistedNamespaces
+    disableContinue={checkedAccounts.length === 0}
 >
     <AccountSelection bind:checkedAccounts {persistedNamespaces} />
 </EditSelectionDrawer>

@@ -45,7 +45,7 @@
     }
 </script>
 
-{#if $drawerState?.active}
+{#if $drawerState}
     <drawer class="absolute top-0 left-0 w-full h-full z-20">
         <overlay
             in:fade|local={{ duration: DRAWER_ANIMATION_DURATION_MS }}

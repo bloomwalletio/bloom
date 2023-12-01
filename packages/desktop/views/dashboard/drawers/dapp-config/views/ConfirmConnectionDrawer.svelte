@@ -42,6 +42,12 @@
         ? getPersistedDappNamespacesForDapp($sessionProposal.params.proposer.metadata.url)
         : undefined
 
+    $: isButtonDisabled =
+        loading ||
+        (!persistedNamespaces && currentStep === 0 && checkedMethods.length === 0) ||
+        (currentStep === 1 && checkedNetworks.length === 0) ||
+        (currentStep === 2 && checkedAccounts.length === 0)
+
     function onBackClick(): void {
         if (currentStep === 0) {
             drawerRouter.previous()
@@ -79,9 +85,8 @@
             })
             closeDrawer()
         } catch (error) {
-            handleError(error)
-        } finally {
             loading = false
+            handleError(error)
         }
     }
 </script>
@@ -118,7 +123,6 @@
                                     <PermissionSelection
                                         bind:checkedMethods
                                         requiredNamespaces={$sessionProposal.params.requiredNamespaces}
-                                        {persistedNamespaces}
                                     />
                                 </div>
                                 <div class={currentStep === 1 ? 'visible' : 'hidden'}>
@@ -126,11 +130,10 @@
                                         bind:checkedNetworks
                                         requiredNamespaces={$sessionProposal.params.requiredNamespaces}
                                         optionalNamespaces={$sessionProposal.params.optionalNamespaces}
-                                        {persistedNamespaces}
                                     />
                                 </div>
                                 <div class={currentStep === 2 ? 'visible' : 'hidden'}>
-                                    <AccountSelection bind:checkedAccounts {persistedNamespaces} />
+                                    <AccountSelection bind:checkedAccounts chainIds={checkedNetworks} />
                                 </div>
                             </div>
                         </div>
@@ -155,7 +158,7 @@
         <Button
             width="full"
             on:click={isLastStep ? onConfirmClick : onNextClick}
-            disabled={loading}
+            disabled={isButtonDisabled}
             busy={loading}
             text={localize(`actions.${isLastStep ? 'confirm' : 'next'}`)}
         />

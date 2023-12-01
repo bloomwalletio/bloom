@@ -1,9 +1,10 @@
 <script lang="ts">
-    import { Checkbox, Text } from '@bloomwalletio/ui'
+    import { Checkbox, Error, Text } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
 
     export let selectionOptions: { label: string; value: unknown; checked: boolean; required: boolean }[]
     export let title: string
+    export let error: string | undefined = undefined
 </script>
 
 <selection-component class="flex flex-col gap-4">
@@ -21,9 +22,12 @@
             </div>
         {/each}
     </selection-options>
+    {#if error}
+        <Error {error} />
+    {/if}
 </selection-component>
 
-<style lagn="scss">
+<style lang="postcss">
     selection-options {
         @apply bg-surface-0 dark:bg-surface-0-dark;
         @apply border border-solid border-stroke dark:border-stroke-dark;
