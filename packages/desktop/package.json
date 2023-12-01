@@ -37,7 +37,7 @@
         "@ledgerhq/evm-tools": "1.0.4",
         "@ledgerhq/hw-app-eth": "6.34.8",
         "@ledgerhq/hw-transport-node-hid": "6.27.21",
-        "@ledgerhq/logs": "6.10.1",
+        "@ledgerhq/logs": "6.12.0",
         "@types/webpack-dev-server": "4.7.2",
         "buffer": "6.0.3",
         "dotenv": "16.3.1",
