@@ -14,6 +14,7 @@
     let:persistedNamespaces
     let:requiredNamespaces
     let:optionalNamespaces
+    disableContinue={checkedNetworks.length === 0}
 >
     <NetworkSelection bind:checkedNetworks {requiredNamespaces} {optionalNamespaces} {persistedNamespaces} />
 </EditSelectionDrawer>
