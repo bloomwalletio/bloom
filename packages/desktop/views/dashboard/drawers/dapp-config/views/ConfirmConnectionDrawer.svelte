@@ -85,9 +85,8 @@
             })
             closeDrawer()
         } catch (error) {
-            handleError(error)
-        } finally {
             loading = false
+            handleError(error)
         }
     }
 </script>
@@ -124,7 +123,6 @@
                                     <PermissionSelection
                                         bind:checkedMethods
                                         requiredNamespaces={$sessionProposal.params.requiredNamespaces}
-                                        {persistedNamespaces}
                                     />
                                 </div>
                                 <div class={currentStep === 1 ? 'visible' : 'hidden'}>
@@ -132,15 +130,10 @@
                                         bind:checkedNetworks
                                         requiredNamespaces={$sessionProposal.params.requiredNamespaces}
                                         optionalNamespaces={$sessionProposal.params.optionalNamespaces}
-                                        {persistedNamespaces}
                                     />
                                 </div>
                                 <div class={currentStep === 2 ? 'visible' : 'hidden'}>
-                                    <AccountSelection
-                                        bind:checkedAccounts
-                                        chainIds={checkedNetworks}
-                                        {persistedNamespaces}
-                                    />
+                                    <AccountSelection bind:checkedAccounts chainIds={checkedNetworks} />
                                 </div>
                             </div>
                         </div>
