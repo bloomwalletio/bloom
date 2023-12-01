@@ -29,7 +29,12 @@
                   })
                 : true
 
-            permissions.push({ label: permission, value: permission, checked: isChecked, required: isRequired })
+            permissions.push({
+                label: localize(`views.dashboard.drawers.dapps.confirmConnection.permissions.${String(permission)}`),
+                value: permission,
+                checked: isChecked,
+                required: isRequired,
+            })
         }
 
         permissionSelections = permissions
