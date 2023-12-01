@@ -10,6 +10,7 @@
     import { SupportedNetworkId, getAllNetworkIds } from '@core/network'
     import { METHODS_FOR_PERMISSION } from '@auxiliary/wallet-connect/constants'
     import { ProposalTypes } from '@walletconnect/types'
+    import { rejectSession } from '@auxiliary/wallet-connect/utils'
 
     enum SessionVerification {
         Valid = 'VALID',
@@ -46,7 +47,7 @@
     }
 
     function onRejectClick(): void {
-        $sessionProposal = undefined
+        rejectSession()
         closeDrawer()
     }
 
@@ -55,7 +56,7 @@
     }
 </script>
 
-<DrawerTemplate title={localize(`${localeKey}.title`)} {drawerRouter}>
+<DrawerTemplate title={localize(`${localeKey}.title`)} {drawerRouter} onBack={() => rejectSession()}>
     <div class="w-full h-full flex flex-col justify-between">
         {#if $sessionProposal}
             {@const metadata = $sessionProposal.params.proposer.metadata}
