@@ -56,7 +56,7 @@
     }
 </script>
 
-<DrawerTemplate title={localize(`${localeKey}.title`)} {drawerRouter} onBack={() => rejectSession()}>
+<DrawerTemplate title={localize(`${localeKey}.title`)} {drawerRouter} onBack={rejectSession}>
     <div class="w-full h-full flex flex-col justify-between">
         {#if $sessionProposal}
             {@const metadata = $sessionProposal.params.proposer.metadata}
