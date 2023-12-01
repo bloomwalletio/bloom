@@ -22,7 +22,7 @@
     })
 </script>
 
-<DrawerTemplate {drawerRouter}>
+<DrawerTemplate {drawerRouter} onBack={() => ($selectedDapp = undefined)}>
     <div slot="header" class="flex flex-row items-center w-full justify-between">
         <Text type="h6">{localize(`${localeKey}.title`)}</Text>
         <DappActionsMenu {drawerRouter} {dapp} />
