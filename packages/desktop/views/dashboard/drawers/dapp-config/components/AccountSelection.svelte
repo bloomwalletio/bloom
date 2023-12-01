@@ -16,6 +16,7 @@
 
     $: _chainIds = chainIds ?? Object.values(persistedNamespaces ?? {}).flatMap((p) => p.chains)
     $: _chainIds, setAccountSelections()
+    $: checkedAccounts = accountSelections.filter((selection) => selection.checked).map((selection) => selection.value)
 
     let accountSelections: { label: string; value: IAccountState; checked: boolean; required: boolean }[] = []
     function setAccountSelections(): void {
@@ -59,8 +60,6 @@
             return accounts
         })
     }
-
-    $: checkedAccounts = accountSelections.filter((selection) => selection.checked).map((selection) => selection.value)
 </script>
 
 {#if accountSelections.length}
