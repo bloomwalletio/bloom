@@ -5,7 +5,7 @@
     import { DashboardDrawerRoute } from './'
 </script>
 
-<Drawer onClose={$drawerState.props?.onClose}>
+<Drawer onClose={$drawerState?.props?.onClose}>
     <div slot="contents" class="flex flex-col h-full">
         {#if $drawerState?.route === DrawerRoute.Dashboard}
             {#if $drawerState.id === DashboardDrawerRoute.NetworkConfig}
