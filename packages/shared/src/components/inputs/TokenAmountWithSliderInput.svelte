@@ -66,8 +66,10 @@
 </script>
 
 <InputContainer bind:this={inputElement} bind:inputElement={amountInputElement} col {isFocused} {error}>
-    <div class="flex flex-row w-full items-center space-x-0.5 relative">
+    <div class="w-fit mx-auto">
         <TokenLabel bind:token />
+    </div>
+    <div class="flex flex-row w-full items-center space-x-0.5 relative">
         <AmountInput
             bind:inputElement={amountInputElement}
             bind:amount
@@ -83,6 +85,7 @@
             <UnitInput bind:unit bind:isFocused {disabled} tokenMetadata={token?.metadata} />
         {/if}
     </div>
+
     <div class="flex flex-col mt-5">
         <SliderInput bind:value={amount} {max} decimals={allowedDecimals} {disabled} />
         <div class="flex flex-row justify-between">
