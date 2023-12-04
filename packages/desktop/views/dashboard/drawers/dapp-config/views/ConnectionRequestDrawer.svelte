@@ -11,6 +11,7 @@
     import { METHODS_FOR_PERMISSION } from '@auxiliary/wallet-connect/constants'
     import { ProposalTypes } from '@walletconnect/types'
     import { rejectSession } from '@auxiliary/wallet-connect/utils'
+    import { showNotification } from '@auxiliary/notification'
 
     enum SessionVerification {
         Valid = 'VALID',
@@ -28,6 +29,21 @@
     $: unsupportedNetworks = $sessionProposal ? getUnsupportedNetworks($sessionProposal?.params.requiredNamespaces) : []
     $: isSupportedOnOtherProfiles = $sessionProposal ? areNetworksSupportedOnOtherProfiles(unsupportedNetworks) : false
     $: fulfillsRequirements = unsupportedMethods.length === 0 && unsupportedNetworks.length === 0
+    let timeout
+
+    $: {
+        if ($sessionProposal) {
+            clearTimeout(timeout)
+        } else {
+            timeout = setTimeout(() => {
+                showNotification({
+                    variant: 'error',
+                    text: localize('notifications.newDappConnection.noProposal'),
+                })
+                closeDrawer()
+            }, 10000)
+        }
+    }
 
     function getUnsupportedNetworks(requiredNamespaces: ProposalTypes.RequiredNamespaces): string[] {
         const supportedNetworks = getAllNetworkIds()
