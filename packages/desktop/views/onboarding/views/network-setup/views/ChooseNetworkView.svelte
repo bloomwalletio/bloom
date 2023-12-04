@@ -21,7 +21,13 @@
     import { ButtonTile } from '../../../../components'
     import { networkSetupRouter } from '../network-setup-router'
 
-    let selectedNetworkType: OnboardingNetworkType = OnboardingNetworkType.Shimmer
+    let selectedNetworkType: OnboardingNetworkType = features.onboarding.iota.enabled
+        ? OnboardingNetworkType.Iota
+        : features.onboarding.shimmer.enabled
+        ? OnboardingNetworkType.Shimmer
+        : features.onboarding.testnet.enabled
+        ? OnboardingNetworkType.Testnet
+        : OnboardingNetworkType.Custom
     function onNetworkClick(networkType: OnboardingNetworkType): void {
         if (selectedNetworkType === networkType) {
             onContinueClick()
