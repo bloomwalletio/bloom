@@ -20,11 +20,11 @@ export class EvmExplorerApi extends BaseApi implements IExplorerApi {
         }
     }
 
-    async getAssetsForAddress(
+    async getAssetsForAddress<S extends TokenStandard.Erc20 | NftStandard.Erc721>(
         address: string,
-        tokenStandard?: TokenStandard.Erc20 | NftStandard.Erc721
+        standard?: S
     ): Promise<IExplorerAsset[]> {
-        const tokenType = (tokenStandard ?? TokenStandard.Erc20).replace('ERC', 'ERC-')
+        const tokenType = (standard ?? TokenStandard.Erc20).replace('ERC', 'ERC-')
         const response = await this.get<{ items: IExplorerAsset[]; next_page_params: unknown }>(
             `addresses/${address}/tokens?type=${tokenType}`
         )
@@ -33,7 +33,7 @@ export class EvmExplorerApi extends BaseApi implements IExplorerApi {
                 ...asset,
                 token: {
                     ...asset.token,
-                    type: asset.token.type.replace('-', '') ,
+                    type: asset.token.type.replace('-', '') as S,
                 },
             }))
         } else {

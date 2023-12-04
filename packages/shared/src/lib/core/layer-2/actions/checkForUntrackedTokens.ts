@@ -15,7 +15,7 @@ export function checkForUntrackedTokens(account: IAccountState, addPreviouslyUnt
         const networkId = chain.getConfiguration().id
         const explorerApi = new EvmExplorerApi(networkId)
 
-        const tokens = await explorerApi.getAssetsForAddress(evmAddress)
+        const tokens = await explorerApi.getAssetsForAddress<TokenStandard.Erc20>(evmAddress)
         const untrackedTokensToTrack = tokens.filter(
             ({ token }) => addPreviouslyUntracked || !hasTokenBeenUntracked(token.address.toLowerCase(), networkId)
         )
