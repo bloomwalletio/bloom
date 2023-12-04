@@ -15,7 +15,7 @@
 
     const AVATAR_BACKGROUND_COLOR: { [networkId: string]: { [tokenId: string]: string } } = {
         [SupportedNetworkId.Iota]: {
-            [BASE_TOKEN_ID]: 'shimmer',
+            [BASE_TOKEN_ID]: '#000000',
         },
         [SupportedNetworkId.Shimmer]: {
             [BASE_TOKEN_ID]: 'shimmer',
@@ -33,7 +33,7 @@
 
     const AVATAR_TEXT_COLOR: { [networkId: string]: { [tokenId: string]: string } } = {
         [SupportedNetworkId.Iota]: {
-            [BASE_TOKEN_ID]: 'shimmer-background',
+            [BASE_TOKEN_ID]: '#FFFFFF',
         },
         [SupportedNetworkId.Shimmer]: {
             [BASE_TOKEN_ID]: 'shimmer-background',

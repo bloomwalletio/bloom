@@ -90,9 +90,8 @@
             )}
             icon={IconName.Iota}
             iconSize="md"
-            iconColor="primary"
-            iconColorShade="900"
-            backgroundColor="white"
+            iconColor="#ffffff"
+            backgroundColor="black"
             hidden={features?.onboarding?.[OnboardingNetworkType.Iota]?.hidden}
             disabled={!features?.onboarding?.[OnboardingNetworkType.Iota]?.enabled}
             onClick={() => onNetworkClick(OnboardingNetworkType.Iota)}

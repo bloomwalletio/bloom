@@ -8,7 +8,7 @@
     export let shape: 'circle' | 'square' | 'squircle' = 'circle'
 
     const AVATAR_BACKGROUND_COLOR: { [id in SupportedNetworkId]: string } = {
-        [SupportedNetworkId.Iota]: 'surface-invert',
+        [SupportedNetworkId.Iota]: '#000000',
         [SupportedNetworkId.Shimmer]: 'shimmer-background',
         [SupportedNetworkId.Testnet]: 'shimmer-background',
         [SupportedNetworkId.ShimmerEvm]: 'shimmer-background',
@@ -16,7 +16,7 @@
     }
 
     const AVATAR_TEXT_COLOR: { [id in SupportedNetworkId]: string } = {
-        [SupportedNetworkId.Iota]: 'text-invert',
+        [SupportedNetworkId.Iota]: '#FFFFFF',
         [SupportedNetworkId.Shimmer]: 'shimmer',
         [SupportedNetworkId.Testnet]: 'text-secondary',
         [SupportedNetworkId.ShimmerEvm]: 'text-invert',
