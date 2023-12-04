@@ -6,11 +6,13 @@
 
     export let title: string = ''
     export let drawerRouter: Router<unknown>
+    export let onBack: () => void = () => {}
 
     $: showBackButton = drawerRouter?.hasHistory()
 
     function onBackClick(): void {
         if (drawerRouter) {
+            onBack()
             drawerRouter.previous()
         }
     }

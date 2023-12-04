@@ -78,6 +78,7 @@
             await clearOldPairings($sessionProposal.params.proposer.metadata.url)
             await approveSession($sessionProposal, supportedNamespaces)
             persistDappNamespacesForDapp($sessionProposal.params.proposer.metadata.url, supportedNamespaces)
+            $sessionProposal = undefined
 
             showNotification({
                 variant: 'success',
