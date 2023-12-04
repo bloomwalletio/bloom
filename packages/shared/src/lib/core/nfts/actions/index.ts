@@ -1,3 +1,4 @@
+export * from './addNewTrackedNftToActiveProfile'
 export * from './addNftsToDownloadQueue'
 export * from './addOrUpdateNftInAllAccountNfts'
 export * from './buildNftFromNftOutput'

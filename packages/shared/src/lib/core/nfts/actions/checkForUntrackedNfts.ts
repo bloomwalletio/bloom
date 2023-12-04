@@ -4,10 +4,12 @@ import { EvmExplorerApi } from '@core/network/classes'
 import { getNetwork } from '@core/network/stores'
 
 import { NftStandard } from '../enums'
-import { IErc721Metadata, INftInstance } from '../interfaces'
+import { IErc721ContractMetadata, INftInstance } from '../interfaces'
 import { addPersistedNft } from '../stores'
 import { buildPersistedNftFromNftMetadata, composeUrlFromNftUri } from '../utils'
 import { isNftPersisted } from './isNftPersisted'
+import { addNewTrackedNftToActiveProfile } from '@core/nfts/actions/addNewTrackedNftToActiveProfile'
+import { TokenTrackingStatus } from '@core/token'
 
 export function checkForUntrackedNfts(account: IAccountState): void {
     const chains = getNetwork()?.getChains() ?? []
@@ -24,13 +26,18 @@ export function checkForUntrackedNfts(account: IAccountState): void {
         for (const explorerNft of explorerNfts) {
             const { token, value } = explorerNft
             const { address, name, symbol } = token
-            const nftMetadata: IErc721Metadata = {
+            // 1. add tracking information to active profile
+            addNewTrackedNftToActiveProfile(networkId, address, TokenTrackingStatus.AutomaticallyTracked)
+
+            // 2. query for contract metadata
+            const nftMetadata: IErc721ContractMetadata = {
                 standard: NftStandard.Erc721,
                 address,
                 name,
                 symbol,
             }
 
+            // 3. build instances
             const contract = chain.getContract(ContractType.Erc721, address)
             const isEnumerable = await contract.methods.supportsInterface(Erc721InterfaceId.Enumerable).call()
 
