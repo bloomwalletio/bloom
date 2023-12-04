@@ -6,7 +6,7 @@ import { getNetwork } from '@core/network/stores'
 import { NftStandard } from '../enums'
 import { IErc721Metadata, INftInstance } from '../interfaces'
 import { addPersistedNft } from '../stores'
-import { buildPersistedNftFromNftMetadata } from '../utils'
+import { buildPersistedNftFromNftMetadata, composeUrlFromNftUri } from '../utils'
 import { isNftPersisted } from './isNftPersisted'
 
 export function checkForUntrackedNfts(account: IAccountState): void {
@@ -49,7 +49,9 @@ export function checkForUntrackedNfts(account: IAccountState): void {
                     const hasMetadata = await contract.methods.supportsInterface(Erc721InterfaceId.Metadata).call()
                     if (hasMetadata) {
                         const tokenUri = await contract.methods.tokenURI(tokenId).call()
-                        const response = await fetch(tokenUri)
+                        // TODO: Try catch around fetchs
+                        const requestUrl = composeUrlFromNftUri(tokenUri)
+                        const response = await fetch(requestUrl)
                         const metadata = await response.json()
                         if (metadata) {
                             instance.data = metadata
