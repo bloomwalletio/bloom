@@ -1607,7 +1607,7 @@
         "copiedToClipboard": "Copied to clipboard",
         "newDappConnection": {
             "success": "Connected to new dApp",
-            "rejected": "Connection rejected"
+            "noProposal": "No proposal from dApp received"
         },
         "deepLinkingRequest": {
             "receivedWhileLoggedOut": "Please login to initiate the deep link",
