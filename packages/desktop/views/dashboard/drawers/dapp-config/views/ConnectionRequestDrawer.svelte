@@ -12,6 +12,7 @@
     import { ProposalTypes } from '@walletconnect/types'
     import { rejectSession } from '@auxiliary/wallet-connect/utils'
     import { showNotification } from '@auxiliary/notification'
+    import { onDestroy } from 'svelte'
 
     enum SessionVerification {
         Valid = 'VALID',
@@ -29,8 +30,8 @@
     $: unsupportedNetworks = $sessionProposal ? getUnsupportedNetworks($sessionProposal?.params.requiredNamespaces) : []
     $: isSupportedOnOtherProfiles = $sessionProposal ? areNetworksSupportedOnOtherProfiles(unsupportedNetworks) : false
     $: fulfillsRequirements = unsupportedMethods.length === 0 && unsupportedNetworks.length === 0
-    let timeout
 
+    let timeout: ReturnType<typeof setTimeout> | undefined
     $: {
         if ($sessionProposal) {
             clearTimeout(timeout)
@@ -70,6 +71,10 @@
     function onContinueClick(): void {
         drawerRouter.next()
     }
+
+    onDestroy(() => {
+        clearTimeout(timeout)
+    })
 </script>
 
 <DrawerTemplate title={localize(`${localeKey}.title`)} {drawerRouter} onBack={rejectSession}>
