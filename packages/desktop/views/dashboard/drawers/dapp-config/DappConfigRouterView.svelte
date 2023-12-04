@@ -27,6 +27,7 @@
     })
 
     onDestroy(() => {
+        $dappConfigRoute = undefined
         $dappConfigRouter = null
     })
 </script>

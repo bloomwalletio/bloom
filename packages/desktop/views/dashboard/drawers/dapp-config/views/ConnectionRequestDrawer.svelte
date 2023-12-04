@@ -10,6 +10,9 @@
     import { SupportedNetworkId, getAllNetworkIds } from '@core/network'
     import { METHODS_FOR_PERMISSION } from '@auxiliary/wallet-connect/constants'
     import { ProposalTypes } from '@walletconnect/types'
+    import { rejectSession } from '@auxiliary/wallet-connect/utils'
+    import { showNotification } from '@auxiliary/notification'
+    import { onDestroy } from 'svelte'
 
     enum SessionVerification {
         Valid = 'VALID',
@@ -27,6 +30,21 @@
     $: unsupportedNetworks = $sessionProposal ? getUnsupportedNetworks($sessionProposal?.params.requiredNamespaces) : []
     $: isSupportedOnOtherProfiles = $sessionProposal ? areNetworksSupportedOnOtherProfiles(unsupportedNetworks) : false
     $: fulfillsRequirements = unsupportedMethods.length === 0 && unsupportedNetworks.length === 0
+
+    let timeout: ReturnType<typeof setTimeout> | undefined
+    $: {
+        if ($sessionProposal) {
+            clearTimeout(timeout)
+        } else {
+            timeout = setTimeout(() => {
+                showNotification({
+                    variant: 'error',
+                    text: localize('notifications.newDappConnection.noProposal'),
+                })
+                closeDrawer()
+            }, 10000)
+        }
+    }
 
     function getUnsupportedNetworks(requiredNamespaces: ProposalTypes.RequiredNamespaces): string[] {
         const supportedNetworks = getAllNetworkIds()
@@ -46,16 +64,20 @@
     }
 
     function onRejectClick(): void {
-        $sessionProposal = undefined
+        rejectSession()
         closeDrawer()
     }
 
     function onContinueClick(): void {
         drawerRouter.next()
     }
+
+    onDestroy(() => {
+        clearTimeout(timeout)
+    })
 </script>
 
-<DrawerTemplate title={localize(`${localeKey}.title`)} {drawerRouter}>
+<DrawerTemplate title={localize(`${localeKey}.title`)} {drawerRouter} onBack={rejectSession}>
     <div class="w-full h-full flex flex-col justify-between">
         {#if $sessionProposal}
             {@const metadata = $sessionProposal.params.proposer.metadata}
