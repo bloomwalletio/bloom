@@ -899,6 +899,11 @@
             "title": "Send transaction",
             "action": "Send"
         },
+        "smartContractCall": {
+            "title": "Smart contract call to {contractAddress}",
+            "unableToVerify": "Bloom is unable to verify the smart contract call. Only proceed with apps you trust.",
+            "action": "Confirm"
+        },
         "activityDetails": {
             "title": {
                 "fallback": "Activity details",
@@ -1471,7 +1476,8 @@
         "yes": "Yes",
         "no": "No",
         "tip": "Tip",
-        "verified": "Verified"
+        "verified": "Verified",
+        "data": "Data"
     },
     "filters":{
         "title": "Filters",
