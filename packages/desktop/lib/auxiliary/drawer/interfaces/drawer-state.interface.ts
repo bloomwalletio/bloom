@@ -7,7 +7,6 @@ import {
 } from '../../../../views/dashboard/drawers'
 
 interface IBaseDrawerState {
-    active: boolean
     hideClose?: boolean
     preventClose?: boolean
     direction?: DrawerDirection

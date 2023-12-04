@@ -5,18 +5,22 @@
     import Selection from './Selection.svelte'
     import { localize } from '@core/i18n'
     import { SupportedNamespaces } from '@auxiliary/wallet-connect/types'
+    import { NetworkId, getChainConfiguration } from '@core/network'
 
     export let checkedNetworks: string[]
     export let requiredNamespaces: ProposalTypes.RequiredNamespaces
     export let optionalNamespaces: ProposalTypes.RequiredNamespaces
     export let persistedNamespaces: SupportedNamespaces | undefined = undefined
 
+    const localeKey = 'views.dashboard.drawers.dapps.confirmConnection.networks'
+
     let networkSelections: { label: string; value: string; checked: boolean; required: boolean }[] = []
     function setNetworkSelections(): void {
         const networks = {}
         for (const namespace of Object.values(requiredNamespaces)) {
             for (const chain of namespace.chains) {
-                networks[chain] = { label: chain, value: chain, checked: true, required: true }
+                const chainName = getChainConfiguration(chain as NetworkId)?.name ?? chain
+                networks[chain] = { label: chainName, value: chain, checked: true, required: true }
             }
         }
         const supportedNetworks = getAllNetworkIds()
@@ -25,7 +29,8 @@
             for (const chain of namespace.chains) {
                 if (!networks[chain] && supportedNetworks.includes(chain)) {
                     const isChecked = persistedNamespace?.chains?.includes(chain) ?? true
-                    networks[chain] = { label: chain, value: chain, checked: isChecked, required: false }
+                    const chainName = getChainConfiguration(chain as NetworkId)?.name ?? chain
+                    networks[chain] = { label: chainName, value: chain, checked: isChecked, required: false }
                 }
             }
         }
@@ -41,5 +46,6 @@
 
 <Selection
     bind:selectionOptions={networkSelections}
-    title={localize('views.dashboard.drawers.dapps.confirmConnection.networks.title')}
+    title={localize(`${localeKey}.title`)}
+    error={checkedNetworks.length ? undefined : localize(`${localeKey}.empty`)}
 />

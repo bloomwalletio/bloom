@@ -17,6 +17,7 @@ import { IAccountState, getAddressFromAccountForNetwork } from '@core/account'
 import { updateL2BalanceWithoutActivity } from '../updateL2BalanceWithoutActivity'
 import { sendSignedEvmTransaction } from '@core/wallet/actions/sendSignedEvmTransaction'
 import { CallbackParameters } from '@auxiliary/wallet-connect/types'
+import { getSdkError } from '@walletconnect/utils'
 
 export async function sendTransactionFromEvm(
     preparedTransaction: EvmTransactionData,
@@ -52,10 +53,13 @@ export async function sendTransactionFromEvm(
                 timestamp: Date.now(),
             }
             await persistEvmTransaction(evmTransaction, chain, account)
-            callback && callback({ result: signedTransaction })
+            callback && callback({ result: transactionReceipt })
         },
         { stronghold: true, ledger: true, props: { preparedTransaction } },
-        LedgerAppName.Ethereum
+        LedgerAppName.Ethereum,
+        () => {
+            callback && callback({ error: getSdkError('USER_REJECTED') })
+        }
     )
 }
 

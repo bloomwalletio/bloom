@@ -47,6 +47,7 @@ export async function handleEthTransaction(
                 dapp,
                 preparedTransaction: evmTransactionData,
                 signAndSend,
+                callback: responseCallback,
                 onCancel: () => responseCallback({ error: getSdkError('USER_REJECTED') }),
             },
         })

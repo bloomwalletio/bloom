@@ -13,6 +13,7 @@
     selections={{ methods: checkedMethods }}
     let:persistedNamespaces
     let:requiredNamespaces
+    disableContinue={checkedMethods.length === 0}
 >
     <PermissionSelection bind:checkedMethods {requiredNamespaces} {persistedNamespaces} />
 </EditSelectionDrawer>

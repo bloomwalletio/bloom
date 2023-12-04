@@ -121,7 +121,7 @@ export class Ledger {
         openPopup({
             id: PopupId.VerifyLedgerTransaction,
             hideClose: true,
-            preventClose: false,
+            preventClose: true,
             props: {
                 rawMessage,
             },
