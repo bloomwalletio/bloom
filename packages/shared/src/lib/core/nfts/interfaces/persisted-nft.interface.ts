@@ -2,7 +2,7 @@ import { NftStandard } from '../enums'
 import { INftInstance } from '../interfaces'
 import { NftMetadata } from '../types'
 
-export interface IPersistedNftMetadata {
+export interface IPersistedNft {
     standard: NftStandard
     metadata: NftMetadata
     instances?: INftInstance[]
