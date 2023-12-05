@@ -10,14 +10,14 @@
     export let url: string | undefined
 
     const dapp = getConnectedDappByOrigin(url)
-
-    const closeButton = {
-        text: localize('actions.close'),
-        onClick: closePopup,
-    }
 </script>
 
-<PopupTemplate backButton={closeButton}>
+<PopupTemplate
+    backButton={{
+        text: localize('actions.close'),
+        onClick: closePopup,
+    }}
+>
     <DappDataBanner slot="banner" {dapp} />
     <div slot="description">
         <div class="flex flex-col items-center justify-between gap-3">
