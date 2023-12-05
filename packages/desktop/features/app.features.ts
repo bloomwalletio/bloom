@@ -16,6 +16,7 @@ const appFeatures: IAppFeatures = {
         languages: {
             en: true,
             de: false,
+            tr: true,
         },
     },
     particles: {
