@@ -2,11 +2,10 @@
     import { BaseError } from '@core/error/classes'
     import { handleError } from '@core/error/handlers/handleError'
     import { localize } from '@core/i18n'
-    import { composeUrlFromNftUri } from '@core/nfts'
+    import { composeUrlFromNftUri, NftStandard } from '@core/nfts'
     import { MimeType } from '@core/nfts/types'
     import { fetchWithTimeout } from '@core/nfts/utils/fetchWithTimeout'
     import { getNetworkHrp } from '@core/profile/actions'
-    import { TokenStandard } from '@core/token'
     import { HttpHeader } from '@core/utils'
     import { validateBech32Address } from '@core/utils/crypto'
     import { isValidUri } from '@core/utils/validation'
@@ -233,7 +232,7 @@
 
     function convertInputsToMetadataType(): IMintNftDetails {
         return {
-            standard: standard ?? TokenStandard.Irc27,
+            standard: standard ?? NftStandard.Irc27,
             version,
             issuerName: optionalInputs.issuerName?.value,
             description: optionalInputs.description?.value,

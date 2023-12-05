@@ -1,10 +1,10 @@
-import { TokenStandard } from '@core/token/enums'
+import { NftStandard } from '../enums'
 import { MimeType } from '../types'
 import { IIrc27Attribute } from './irc27-attribute.interface'
 import { ISoonaverseAttributes } from './soonaverse-attributes.interface'
 
 export interface IIrc27Metadata {
-    standard: TokenStandard.Irc27
+    standard: NftStandard.Irc27
     version: string
     type: MimeType
     uri: string
