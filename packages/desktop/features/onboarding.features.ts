@@ -13,7 +13,7 @@ const onboardingFeaturesForIota: IOnboardingFeaturesForNetwork = {
             },
         },
         ledgerProfile: {
-            enabled: true,
+            enabled: false,
         },
     },
     restoreProfile: {
@@ -25,7 +25,7 @@ const onboardingFeaturesForIota: IOnboardingFeaturesForNetwork = {
             enabled: true,
         },
         ledgerBackup: {
-            enabled: true,
+            enabled: false,
         },
     },
     claimRewards: {
