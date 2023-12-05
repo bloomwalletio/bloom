@@ -5,6 +5,7 @@ import { IChain } from '@core/network'
 import { CallbackParameters } from '../types'
 import { switchToRequiredAccount } from '../utils'
 import { getSdkError } from '@walletconnect/utils'
+import { Platform } from '@core/app'
 
 export async function handleSignMessage(
     params: unknown,
@@ -28,6 +29,7 @@ export async function handleSignMessage(
         return
     }
     const message = Converter.hexToUtf8(hexMessage)
+    Platform.focusWindow()
 
     try {
         const account = await switchToRequiredAccount(accountAddress, chain)
