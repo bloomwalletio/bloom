@@ -64,7 +64,7 @@ export async function checkIfNftShouldBeDownloaded(
 function validateFile(nft: INft, contentType: string, contentLength: string): Partial<NftDownloadMetadata> {
     const MAX_FILE_SIZE_IN_BYTES = (get(activeProfile)?.settings?.maxMediaSizeInMegaBytes ?? 0) * BYTES_PER_MEGABYTE
 
-    const isValidMediaType = contentType !== nft.parsedMetadata?.type
+    const isValidMediaType = contentType !== nft.metadata?.type
     const hasValidFileSize = MAX_FILE_SIZE_IN_BYTES > 0 && Number(contentLength) > MAX_FILE_SIZE_IN_BYTES
     if (isValidMediaType) {
         return { error: { type: DownloadErrorType.NotMatchingFileTypes } }
@@ -90,7 +90,7 @@ async function getNftDownloadData(nft: INft): Promise<Partial<PersistedNft>> {
         })
         let headers = response.headers
 
-        const isSoonaverse = nft.parsedMetadata?.issuerName === 'Soonaverse'
+        const isSoonaverse = nft.metadata?.issuerName === 'Soonaverse'
         if (isSoonaverse) {
             const newUrlAndHeaders = await getUrlAndHeadersFromOldSoonaverseStructure(nft, headers)
             downloadUrl = newUrlAndHeaders?.url ?? downloadUrl
@@ -110,9 +110,9 @@ async function getUrlAndHeadersFromOldSoonaverseStructure(
     nft: INft,
     headers: Headers
 ): Promise<{ url: string; headers: Headers } | undefined> {
-    const isContentTypeEqualNftType = headers.get(HttpHeader.ContentType) === nft.parsedMetadata?.type
+    const isContentTypeEqualNftType = headers.get(HttpHeader.ContentType) === nft.metadata?.type
     if (!isContentTypeEqualNftType) {
-        const backupUrl = nft.composedUrl + '/' + encodeURIComponent(nft?.parsedMetadata?.name)
+        const backupUrl = nft.composedUrl + '/' + encodeURIComponent(nft?.metadata?.name)
         const backupResponse = await fetchWithTimeout(backupUrl, HEAD_FETCH_TIMEOUT_SECONDS, {
             method: 'HEAD',
             cache: 'force-cache',

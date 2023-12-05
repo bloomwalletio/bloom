@@ -176,6 +176,6 @@ describe('File: buildNFtFromOutput.ts', () => {
             issuerName: undefined,
             royalties: undefined,
         }
-        expect(nft.parsedMetadata).toStrictEqual(expectedParsedMetadata)
+        expect(nft.metadata).toStrictEqual(expectedParsedMetadata)
     })
 })

@@ -45,7 +45,7 @@ export function buildNftFromNftOutput(
         isSpendable: isEvmChain(networkId) ? true : isSpendable,
         timelockTime: timeLockTime ? Number(timeLockTime) : undefined,
         rawMetadata,
-        parsedMetadata,
+        metadata: parsedMetadata,
         latestOutputId: wrappedOutput.outputId,
         composedUrl,
         downloadUrl: composedUrl,

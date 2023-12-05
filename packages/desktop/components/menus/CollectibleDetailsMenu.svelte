@@ -13,7 +13,7 @@
     export let menu: Menu = undefined
     export let nft: INft
 
-    $: url = nft?.parsedMetadata?.uri && composeUrl(nft.parsedMetadata.uri)
+    $: url = nft?.metadata?.uri && composeUrl(nft.metadata.uri)
     $: isLocked = nft.timelockTime > $time.getTime()
     $: isCurrentPfp = $activeProfile.pfp?.id === nft.id
 

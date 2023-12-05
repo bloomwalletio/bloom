@@ -9,8 +9,8 @@ export interface INft {
     address: string
     name: string
     rawMetadata?: string
+    metadata?: IIrc27Metadata
     issuer?: Address
-    parsedMetadata?: IIrc27Metadata
     isSpendable: boolean
     timelockTime?: number
     latestOutputId: string

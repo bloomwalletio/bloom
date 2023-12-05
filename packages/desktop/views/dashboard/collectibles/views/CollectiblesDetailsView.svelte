@@ -26,7 +26,7 @@
 
     const { id, name, issuer, address, metadata, downloadMetadata, storageDeposit } = nft ?? {}
     const { standard, version, description, issuerName, collectionName, attributes, soonaverseAttributes } =
-        nft?.parsedMetadata || {}
+        nft?.metadata || {}
 
     const issuerAddress = getBech32AddressFromAddressTypes(issuer)
     const collectionId = getHexAddressFromAddressTypes(issuer)
@@ -88,7 +88,7 @@
         },
         {
             key: localize('general.metadata'),
-            value: !nft?.parsedMetadata && metadata ? metadata : undefined,
+            value: !nft?.metadata && metadata ? metadata : undefined,
             copyable: true,
         },
     ]
