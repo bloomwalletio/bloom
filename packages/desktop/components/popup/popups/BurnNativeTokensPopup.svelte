@@ -37,6 +37,7 @@
     continueButton={{
         text: localize('actions.continue'),
         onClick: onContinueClick,
+        disabled: rawAmount === '' || rawAmount === '0' || rawAmount === undefined,
     }}
 >
     <div class="space-y-5">
