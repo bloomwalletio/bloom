@@ -15,7 +15,7 @@
     import { LedgerAppName } from '@core/ledger'
     import PopupTemplate from '../PopupTemplate.svelte'
     import { showNotification } from '@auxiliary/notification/actions'
-    import { DappDataBanner } from '@components'
+    import DappDataBanner from '@components/DappDataBanner.svelte'
 
     export let _onMount: (..._: any[]) => Promise<void> = async () => {}
     export let message: string
