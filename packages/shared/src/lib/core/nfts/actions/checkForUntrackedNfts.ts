@@ -23,7 +23,7 @@ export function checkForUntrackedNfts(account: IAccountState): void {
         const networkId = chain.getConfiguration().id
         const explorerApi = new EvmExplorerApi(networkId)
 
-        const explorerNfts = await explorerApi.getAssetsForAddress<NftStandard.Erc721>(evmAddress, NftStandard.Erc721)
+        const explorerNfts = await explorerApi.getAssetsForAddress(evmAddress, NftStandard.Erc721)
         for (const explorerNft of explorerNfts) {
             const { token, value } = explorerNft
             const { address, name, symbol } = token
