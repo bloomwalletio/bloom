@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { localize, parseCurrency } from '@core/i18n'
+    import { getDecimalSeparator, localize, parseCurrency } from '@core/i18n'
     import {
         ITokenWithBalance,
         TokenStandard,
@@ -26,6 +26,9 @@
 
     let amountInputElement: HTMLInputElement
     let error: string
+    let inputLength = 0
+    let fontSize = '64'
+    let maxLength = 0
 
     $: isFocused && (error = '')
     $: allowedDecimals = getMaxDecimalsFromTokenMetadata(token.metadata, unit)
@@ -33,6 +36,11 @@
     $: bigAmount = convertToRawAmount(amount, token?.metadata, unit)
     $: max = parseCurrency(formatTokenAmountDefault(availableBalance, token?.metadata, unit, false))
     $: rawAmount = bigAmount?.toString()
+    $: amount,
+        (error = ''),
+        (inputLength = getInputLength()),
+        (fontSize = getFontSizeForInputLength()),
+        (maxLength = getMaxAmountOfDigits())
 
     export function validate(allowZeroOrNull = false): Promise<void> {
         const amountAsFloat = parseCurrency(amount)
@@ -63,11 +71,54 @@
         }
         rawAmount = bigAmount.toString()
     }
+
+    function getInputLength(): number {
+        const length = rawAmount?.length || 1
+        const isDecimal = rawAmount?.includes('.') || rawAmount?.includes(',')
+
+        return length - (isDecimal ? 0.5 : 0)
+    }
+
+    function getFontSizeForInputLength(): string {
+        if (inputLength < 10) {
+            return '64'
+        } else if (inputLength < 14) {
+            return '48'
+        } else {
+            return '32'
+        }
+    }
+
+    function getMaxAmountOfDigits(): number {
+        const metadata = token?.metadata
+        if (!metadata) {
+            return 32
+        }
+
+        const decimalSeparator = getDecimalSeparator()
+
+        const decimalPlacesAmount = rawAmount?.includes(decimalSeparator)
+            ? rawAmount.split(decimalSeparator)[1].length || 1
+            : 0
+        const allowedDecimalAmount = Math.min(decimalPlacesAmount, metadata.decimals)
+
+        const integerLengthOfBalance =
+            formatTokenAmountDefault(availableBalance, metadata).split(decimalSeparator)?.[0]?.length ?? 0
+
+        return (
+            allowedDecimalAmount +
+            integerLengthOfBalance +
+            (metadata.decimals ? 1 : 0) +
+            (rawAmount?.includes(decimalSeparator) ? 1 : 0)
+        )
+    }
 </script>
 
 <InputContainer bind:this={inputElement} bind:inputElement={amountInputElement} col {isFocused} {error}>
-    <div class="flex flex-row w-full items-center space-x-0.5 relative">
+    <div class="w-fit mx-auto">
         <TokenLabel bind:token />
+    </div>
+    <div class="flex flex-row w-full items-center space-x-0.5 relative">
         <AmountInput
             bind:inputElement={amountInputElement}
             bind:amount
@@ -78,15 +129,17 @@
             clearPadding
             clearBorder
             {disabled}
+            {fontSize}
         />
         {#if getUnitFromTokenMetadata(token?.metadata)}
             <UnitInput bind:unit bind:isFocused {disabled} tokenMetadata={token?.metadata} />
         {/if}
     </div>
+
     <div class="flex flex-col mt-5">
         <SliderInput bind:value={amount} {max} decimals={allowedDecimals} {disabled} />
         <div class="flex flex-row justify-between">
-            <Text textColor="secondary" type="sm">{formatTokenAmountDefault(0, token?.metadata, unit)} {unit}</Text>
+            <Text textColor="secondary">{formatTokenAmountDefault(0, token?.metadata, unit)} {unit}</Text>
             <Text textColor="secondary" type="sm"
                 >{formatTokenAmountDefault(availableBalance, token?.metadata, unit)} {unit}</Text
             >
