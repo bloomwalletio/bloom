@@ -135,7 +135,7 @@
                     <OnboardingRouterView />
                 {/if}
 
-                <ToastContainer classes="absolute right-5 bottom-5 w-100" />
+                <ToastContainer classes="absolute right-5 bottom-5 w-[23.75rem]" />
             {/if}
             <app-container />
         </app-container>
