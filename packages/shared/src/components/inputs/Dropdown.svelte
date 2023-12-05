@@ -1,65 +1,63 @@
 <script lang="ts">
-    import { Icon as IconEnum } from '@auxiliary/icon'
+    import { onMount } from 'svelte'
+    import { Icon, Text } from '@ui'
     import { IDropdownItem, clickOutside, isNumberLetterOrPunctuation } from '@core/utils'
-    import { FontWeight, Icon, Text, TextPropTypes, TextType } from '@ui'
+    import { Error } from '@bloomwalletio/ui'
 
-    type T = $$Generic
-
-    export let value: T | undefined
+    export let value: string
     export let label: string = ''
     export let placeholder: string = ''
     export let disabled = false
-    export let items: IDropdownItem<T>[] = []
+    export let valueKey = 'label'
     export let sortItems = false
-    export let enableTyping = false
+    export let items: IDropdownItem<unknown>[] = []
     export let small = false
-    export let onSelect: ((..._: IDropdownItem<T>[]) => void) | undefined = undefined
+    export let contentWidth = false
+    export let error = ''
+    export let classes = ''
+    export let autofocus = false
+    export let valueTextType = 'p'
+    export let itemTextType = 'p'
+    export let showBorderWhenClosed = false
+    export let isFocused = false
+    export let hasFocus = false
+    export let enableTyping = false
 
-    const textProps: TextPropTypes = {
-        type: TextType.p,
-        fontSize: 'sm',
-        lineHeight: '140',
-        fontWeight: FontWeight.normal,
-    }
+    export let onSelect: (..._: any[]) => void
 
-    let dropdown: boolean = false
-    let isFocused: boolean = false
+    let dropdown = false
+    let navContainer
     let divContainer: HTMLElement
-    let navContainer: HTMLElement
-    let search: string = ''
+    let focusedItem: HTMLElement
+    let search = ''
+
+    items = sortItems ? items.sort((a, b) => (a.label > b.label ? 1 : -1)) : items
+
     let navWidth: string
-    let focusedItem: HTMLElement | null
-    let selectedItem: IDropdownItem<T> | undefined
-
-    $: placeholderColor = value ? '' : 'gray-500'
-    $: items = sortItems ? items.sort((a, b) => (a.label > b.label ? 1 : -1)) : items
-    $: value, (selectedItem = items.find((item) => item.value === value))
-
-    export function handleSelect(item: IDropdownItem<T>): void {
-        selectedItem = item
-        value = item.value
-        onSelect && onSelect(item)
-    }
 
     function onClickOutside(): void {
         dropdown = false
     }
 
     function toggleDropDown(): void {
+        if (items.length <= 1) {
+            return
+        }
         dropdown = !dropdown
         isFocused = !isFocused
+        hasFocus = !hasFocus
         if (dropdown) {
-            let elem = document.getElementById(String(value))
+            let elem = document.getElementById(value)
             if (!elem) {
-                elem = navContainer.firstChild as HTMLElement
+                elem = navContainer.firstChild
             }
             if (elem) {
-                navContainer.scrollTop = elem?.offsetTop
+                navContainer.scrollTop = elem.offsetTop
                 elem.focus()
             }
         } else {
             divContainer.focus()
-            focusedItem = null
+            focusedItem = undefined
             search = ''
         }
     }
@@ -68,7 +66,7 @@
         focusedItem = document.getElementById(itemId)
     }
 
-    function onKey(event: KeyboardEvent): void {
+    function handleKey(event: KeyboardEvent): void {
         if (!enableTyping) {
             return
         }
@@ -85,17 +83,16 @@
                 event.preventDefault()
             } else if (event.key === 'ArrowDown') {
                 if (focusedItem) {
-                    const children = Array.from(navContainer.children) as HTMLElement[]
+                    const children = [...navContainer.children]
                     const idx = children.indexOf(focusedItem)
                     if (idx < children.length - 1) {
-                        const element = children[idx + 1]
-                        element.focus()
+                        children[idx + 1].focus()
                         event.preventDefault()
                     }
                 }
             } else if (event.key === 'ArrowUp') {
                 if (focusedItem) {
-                    const children = Array.from(navContainer.children) as HTMLElement[]
+                    const children = [...navContainer.children]
                     const idx = children.indexOf(focusedItem)
                     if (idx > 0) {
                         children[idx - 1].focus()
@@ -103,7 +100,7 @@
                     }
                 }
             } else if (isNumberLetterOrPunctuation(event.key)) {
-                const children = Array.from(navContainer.children) as HTMLElement[]
+                const children = [...navContainer.children]
                 const itemsValues = items.map((item) => item.label.toLowerCase())
                 search += event.key
                 const idx = itemsValues.findIndex((item) => item.includes(search.toLowerCase()))
@@ -117,71 +114,84 @@
         }
     }
 
-    function handleDropdownClick(event: MouseEvent): void {
-        event.stopPropagation()
-        toggleDropDown()
-    }
+    onMount(() => {
+        if (contentWidth) {
+            // navWidth = `width: ${navContainer.clientWidth + 8}px`
+        }
+        if (autofocus) {
+            divContainer.focus()
+        }
+    })
 </script>
 
 <dropdown-input
-    class="relative hasBorder w-full"
-    on:click={handleDropdownClick}
+    class="relative {contentWidth ? '' : 'w-full'} {classes}"
+    on:click={(e) => {
+        e.stopPropagation()
+        toggleDropDown()
+    }}
     use:clickOutside
     on:clickOutside={onClickOutside}
-    on:keydown={onKey}
+    on:keydown={handleKey}
     class:active={dropdown}
     class:small
     class:floating-active={value && label}
     class:disabled
+    class:hasBorder={showBorderWhenClosed || dropdown}
     style={navWidth}
 >
     <button
         type="button"
-        class="
-            selection relative flex items-center w-full whitespace-nowrap cursor-pointer bg-white dark:bg-gray-800
+        class="selection relative flex flex-row space-x-0 pl-1 pb-1.5 items-end w-full whitespace-nowrap
+            bg-surface dark:bg-surface-dark
+            {hasFocus ? '-mr-1 pr-1' : 'pr-0'}
+            {items.length > 1 ? 'cursor-pointer' : ''}
             {dropdown
             ? 'border-blue-500'
-            : 'focus:border-blue-500 border-gray-300 dark:border-gray-700 hover:border-gray-500 dark:hover:border-gray-700'}
-        "
+            : showBorderWhenClosed
+            ? 'focus:border-blue-500 border-gray-300 dark:border-gray-700 hover:border-gray-500 dark:hover:border-gray-700'
+            : 'border-transparent'}"
         tabindex="0"
         bind:this={divContainer}
     >
-        <div class="flex w-full text-12 leading-140 text-gray-800 dark:text-white">
-            <Text {...textProps} color="{placeholderColor}," darkColor={placeholderColor} classes="overflow-hidden">
-                {search || selectedItem?.label || value || placeholder || ''}
+        <div class="text-gray-800 dark:text-white">
+            <Text fontSize="16" fontWeight="semibold" type={valueTextType} smaller>
+                {search || value || placeholder}
             </Text>
         </div>
-        <Icon
-            icon={small ? IconEnum.SmallChevronDown : IconEnum.ChevronDown}
-            width={small ? 16 : 24}
-            height={small ? 16 : 24}
-            classes="absolute text-gray-500 fill-current"
-        />
-        {#if label}
-            <floating-label class:floating-active={value && label} class="text-start">{label}</floating-label>
+        {#if items.length > 1}
+            <Icon
+                icon={'small-chevron-down'}
+                width={16}
+                height={16}
+                classes="text-gray-500 dark:text-white fill-current"
+            />
         {/if}
     </button>
+    {#if error}
+        <Error {error} />
+    {/if}
     <nav
         class:active={dropdown}
         class="absolute w-full overflow-hidden pointer-events-none opacity-0 z-10 text-left
         bg-white dark:bg-gray-800
             border border-solid border-blue-500 border-t-gray-500 dark:border-t-gray-700"
     >
-        <div class="inner overflow-y-auto" bind:this={navContainer}>
+        <div class="flex flex-col items-center inner overflow-y-auto" bind:this={navContainer}>
             {#each items as item}
                 <button
                     type="button"
-                    id={String(item.label)}
-                    class="relative flex items-center p-4 w-full whitespace-nowrap
-                        {item.value === value && 'bg-gray-100 dark:bg-gray-700 dark:bg-opacity-20'}
+                    class="relative flex items-center p-2 pl-1 w-full whitespace-nowrap
+                        {item[valueKey] === value && 'bg-gray-100 dark:bg-gray-700 dark:bg-opacity-20'}
                         hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:bg-opacity-20
                         focus:bg-gray-200 dark:focus:bg-gray-600 dark:focus:bg-opacity-20"
-                    class:active={item.value === value}
-                    on:click={() => handleSelect(item)}
-                    on:focus={() => focusItem(item.label)}
+                    id={item[valueKey]}
+                    on:click={() => onSelect(item)}
+                    on:focus={() => focusItem(item[valueKey])}
                     tabindex={dropdown ? 0 : -1}
+                    class:active={item[valueKey] === value}
                 >
-                    <Text {...textProps}>{item.label}</Text>
+                    <Text type={itemTextType} smaller>{item[valueKey]}</Text>
                 </button>
             {/each}
         </div>
@@ -196,15 +206,6 @@
             border-radius: 0.625rem; // TODO: add to tailwind
             @apply border-solid;
             @apply border;
-            @apply py-4;
-            @apply pl-3;
-            @apply pr-10;
-        }
-        &:not(.small) {
-            :global(svg) {
-                @apply right-3;
-                @apply top-3;
-            }
         }
         &.active {
             .selection {
@@ -231,9 +232,7 @@
         &.small {
             .selection {
                 min-height: 36px;
-                @apply py-2.5;
-                @apply pl-3;
-                @apply pr-8;
+
                 @apply rounded-lg;
             }
             nav {
@@ -241,9 +240,6 @@
                 @apply rounded-lg;
                 @apply rounded-tl-none;
                 @apply rounded-tr-none;
-            }
-            :global(svg) {
-                @apply right-2;
             }
             &.active {
                 .selection {
@@ -257,28 +253,6 @@
             .selection {
                 @apply pt-6;
                 @apply pb-2;
-            }
-        }
-
-        floating-label {
-            transform: translateY(3px);
-            transition: all 0.2s ease-out;
-            @apply block;
-            @apply text-gray-500;
-            @apply text-11;
-            @apply leading-120;
-            @apply overflow-hidden;
-            @apply opacity-0;
-            @apply pointer-events-none;
-            @apply absolute;
-            @apply left-3;
-            @apply select-none;
-            @apply whitespace-nowrap;
-            @apply w-full;
-            top: 8px;
-            &.floating-active {
-                @apply opacity-100;
-                transform: none;
             }
         }
     }

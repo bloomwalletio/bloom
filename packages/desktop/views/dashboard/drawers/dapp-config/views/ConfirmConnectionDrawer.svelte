@@ -20,8 +20,8 @@
     } from '../components'
     import { closeDrawer } from '@desktop/auxiliary/drawer'
     import { handleError } from '@core/error/handlers'
-    import { showNotification } from '@auxiliary/notification'
     import { IAccountState } from '@core/account'
+    import { PopupId, openPopup } from '@desktop/auxiliary/popup'
 
     export let drawerRouter: Router<unknown>
 
@@ -38,9 +38,9 @@
     let checkedAccounts: IAccountState[] = []
     let checkedNetworks: string[] = []
     let checkedMethods: string[] = []
-    const persistedNamespaces = $sessionProposal
-        ? getPersistedDappNamespacesForDapp($sessionProposal.params.proposer.metadata.url)
-        : undefined
+
+    const dappUrl = $sessionProposal?.params?.proposer?.metadata?.url ?? undefined
+    const persistedNamespaces = dappUrl ? getPersistedDappNamespacesForDapp(dappUrl) : undefined
 
     $: isButtonDisabled =
         loading ||
@@ -75,15 +75,12 @@
                     $sessionProposal.params.requiredNamespaces,
                     $sessionProposal.params.optionalNamespaces
                 )
-            await clearOldPairings($sessionProposal.params.proposer.metadata.url)
+            await clearOldPairings(dappUrl)
             await approveSession($sessionProposal, supportedNamespaces)
-            persistDappNamespacesForDapp($sessionProposal.params.proposer.metadata.url, supportedNamespaces)
+            persistDappNamespacesForDapp(dappUrl, supportedNamespaces)
             $sessionProposal = undefined
 
-            showNotification({
-                variant: 'success',
-                text: localize('notifications.newDappConnection.success'),
-            })
+            openPopup({ id: PopupId.SuccessfulDappConnection, props: { url: dappUrl } })
             closeDrawer()
         } catch (error) {
             loading = false
