@@ -1,6 +1,6 @@
 import { derived, get, Readable } from 'svelte/store'
 
-import { activeProfile } from '@core/profile/stores'
+import { activeProfile, getActiveProfile } from '@core/profile/stores'
 import { persistent } from '@core/utils/store'
 
 import { IPersistedNfts } from '../interfaces'
@@ -24,12 +24,13 @@ export function addPersistedNft(nftId: string, newPersistedNft: PersistedNft): v
 }
 
 export function updatePersistedNft(nftId: string, payload: Partial<PersistedNft>): void {
+    const profile = getActiveProfile()
     persistedNfts.update((state) => {
-        if (!state[get(activeProfile)?.id]) {
-            state[get(activeProfile)?.id] = {}
+        if (!state[profile?.id]) {
+            state[profile?.id] = {}
         }
-        const nftState = state[get(activeProfile)?.id][nftId]
-        state[get(activeProfile)?.id][nftId] = {
+        const nftState = state[profile?.id][nftId]
+        state[profile?.id][nftId] = {
             ...nftState,
             ...payload,
         } as PersistedNft

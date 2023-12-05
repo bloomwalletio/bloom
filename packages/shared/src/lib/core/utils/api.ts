@@ -1,3 +1,7 @@
+interface IApiRequestOptions {
+    disableCors?: boolean
+}
+
 export class BaseApi {
     private readonly _baseUrl: string
 
@@ -30,8 +34,4 @@ export class BaseApi {
             // Do nothing.
         }
     }
-}
-
-export interface IApiRequestOptions {
-    disableCors?: boolean
 }
