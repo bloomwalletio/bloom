@@ -3,34 +3,8 @@ import { NetworkId } from '@core/network/types'
 import { NftStandard } from '../enums'
 import { NftDownloadMetadata, IIrc27Metadata, IErc721ContractMetadata, IErc721TokenMetadata } from '../interfaces'
 
-export interface Nft {
-    id: string
-    networkId: NetworkId
-    address: string
-    name: string
-    rawMetadata?: string
-    metadata?: IIrc27Metadata
-    issuer?: Address
-    isSpendable: boolean
-    timelockTime?: number
-    latestOutputId: string
-    composedUrl: string
-    downloadUrl: string
-    storageDeposit: number
-    filePath: string
-    downloadMetadata: NftDownloadMetadata
-}
-
-interface IBaseNft {
-    id: string
-    networkId: NetworkId
-    address: string
-    name: string
-    composedUrl: string
-    downloadUrl: string
-    filePath: string
-    downloadMetadata: NftDownloadMetadata
-}
+// TODO: Rename to Nft since it's NOT an interface
+export type INft = IIrc27Nft | IErc721Nft
 
 export interface IIrc27Nft extends IBaseNft {
     standard: NftStandard.Irc27
@@ -52,5 +26,13 @@ export interface IErc721Nft extends IBaseNft {
     tokenId: string
 }
 
-// TODO: Rename to Nft
-export type INft = IIrc27Nft | IErc721Nft
+interface IBaseNft {
+    id: string
+    networkId: NetworkId
+    address: string
+    name: string
+    composedUrl: string
+    downloadUrl: string
+    filePath: string
+    downloadMetadata: NftDownloadMetadata
+}
