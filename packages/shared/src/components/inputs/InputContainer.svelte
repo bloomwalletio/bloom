@@ -43,7 +43,7 @@
                 ? 'border-brand'
                 : error
                 ? 'border-red-300 hover:border-red-500'
-                : 'border-stroke dark:border-stroke-dark hover:border-gray-500 dark:hover:border-gray-700 focus:border-blue-500 dark:focus:border-gray-600'}"
+                : 'border-stroke dark:border-stroke-dark'}"
             {...$$restProps}
         >
             <slot />
