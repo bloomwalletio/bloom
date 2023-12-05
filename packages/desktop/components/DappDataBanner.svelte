@@ -5,7 +5,7 @@
     export let dapp: IConnectedDapp | undefined
 </script>
 
-<dapp-information>
+<dapp-banner>
     {#if dapp?.metadata?.icons?.[0]}
         <img class="dapp-image" src={dapp.metadata.icons[0]} alt={dapp.metadata.name} />
     {:else}
@@ -22,10 +22,10 @@
             </Text>
         {/if}
     </div>
-</dapp-information>
+</dapp-banner>
 
 <style lang="scss">
-    dapp-information {
+    dapp-banner {
         @apply w-full p-6;
         @apply flex flex-row items-center justify-center gap-3;
         @apply bg-surface-1 dark:bg-surface-1-dark;
