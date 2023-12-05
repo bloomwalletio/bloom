@@ -1,7 +1,7 @@
-import { IPersistedNft } from './persisted-nft.interface'
+import { PersistedNft } from '../types'
 
 export interface IPersistedNfts {
     [profileId: string]: {
-        [nftId: string]: IPersistedNft
+        [nftId: string]: PersistedNft
     }
 }

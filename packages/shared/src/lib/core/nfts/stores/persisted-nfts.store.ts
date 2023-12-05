@@ -3,16 +3,17 @@ import { derived, get, Readable } from 'svelte/store'
 import { activeProfile } from '@core/profile/stores'
 import { persistent } from '@core/utils/store'
 
-import { IPersistedNft, IPersistedNfts } from '../interfaces'
+import { IPersistedNfts } from '../interfaces'
+import { PersistedNft } from '../types'
 
 export const persistedNfts = persistent<IPersistedNfts>('persistedNfts', {})
 
-export const persistedNftForActiveProfile: Readable<{ [nftId: string]: IPersistedNft }> = derived(
+export const persistedNftForActiveProfile: Readable<{ [nftId: string]: PersistedNft }> = derived(
     [persistedNfts, activeProfile],
     ([$persistedNfts, $activeProfile]) => $persistedNfts[$activeProfile?.id]
 )
 
-export function addPersistedNft(nftId: string, newPersistedNft: IPersistedNft): void {
+export function addPersistedNft(nftId: string, newPersistedNft: PersistedNft): void {
     persistedNfts.update((state) => {
         if (!state[get(activeProfile)?.id]) {
             state[get(activeProfile)?.id] = {}
@@ -22,7 +23,7 @@ export function addPersistedNft(nftId: string, newPersistedNft: IPersistedNft): 
     })
 }
 
-export function updatePersistedNft(nftId: string, payload: Partial<IPersistedNft>): void {
+export function updatePersistedNft(nftId: string, payload: Partial<PersistedNft>): void {
     persistedNfts.update((state) => {
         if (!state[get(activeProfile)?.id]) {
             state[get(activeProfile)?.id] = {}
@@ -31,7 +32,7 @@ export function updatePersistedNft(nftId: string, payload: Partial<IPersistedNft
         state[get(activeProfile)?.id][nftId] = {
             ...nftState,
             ...payload,
-        }
+        } as PersistedNft
         return state
     })
 }

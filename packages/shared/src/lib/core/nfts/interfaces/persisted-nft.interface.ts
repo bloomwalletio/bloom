@@ -1,14 +1,23 @@
 import { NftStandard } from '../enums'
-import { INftInstance } from '../interfaces'
-import { NftMetadata } from '../types'
+import { IErc721ContractMetadata, IErc721TokenMetadata } from '../interfaces'
 
-export interface IPersistedNft {
+export interface IBasePersistedNft {
     standard: NftStandard
-    metadata: NftMetadata
-    instances?: INftInstance[]
     contentType?: string
     contentLength?: string
     responseCode?: number
     downloadUrl?: string
     error?: { message: string }
+}
+
+export interface IPersistedIrc27Nft extends IBasePersistedNft {
+    standard: NftStandard.Irc27
+}
+
+export interface IPersistedErc721Nft extends IBasePersistedNft {
+    standard: NftStandard.Erc721
+    contractMetadata: IErc721ContractMetadata
+    tokenId: string
+    tokenUri?: string
+    tokenMetadata?: IErc721TokenMetadata
 }

@@ -5,11 +5,14 @@ import { getNetwork } from '@core/network/stores'
 import { TokenTrackingStatus } from '@core/token/enums'
 
 import { NftStandard } from '../enums'
-import { IErc721ContractMetadata, INftInstance } from '../interfaces'
-import { addPersistedNft } from '../stores'
-import { buildPersistedNftFromNftMetadata, composeUrlFromNftUri } from '../utils'
+import {
+    IErc721ContractMetadata,
+    IErc721TokenMetadata,
+    IErc721TokenMetadataAttribute,
+    IPersistedErc721Nft,
+} from '../interfaces'
+import { composeUrlFromNftUri } from '../utils'
 import { addNewTrackedNftToActiveProfile } from './addNewTrackedNftToActiveProfile'
-import { isNftPersisted } from './isNftPersisted'
 
 export function checkForUntrackedNfts(account: IAccountState): void {
     const chains = getNetwork()?.getChains() ?? []
@@ -29,64 +32,71 @@ export function checkForUntrackedNfts(account: IAccountState): void {
 
             addNewTrackedNftToActiveProfile(networkId, address, TokenTrackingStatus.AutomaticallyTracked)
 
-            const nftMetadata: IErc721ContractMetadata = {
+            const contractMetadata: IErc721ContractMetadata = {
                 standard: NftStandard.Erc721,
                 address,
                 name,
                 symbol,
             }
 
-            // 3. persist data for every instance
             const contract = chain.getContract(ContractType.Erc721, address)
             const isEnumerable = await contract.methods.supportsInterface(Erc721InterfaceId.Enumerable).call()
 
-            const instances: INftInstance[] = []
             if (isEnumerable) {
                 for (let idx = 0; idx < Number(value); idx++) {
                     const tokenId = await contract.methods.tokenOfOwnerByIndex(evmAddress, idx).call()
-                    if (isNftPersisted(address, tokenId)) {
-                        continue
+                    const persistedNft: IPersistedErc721Nft = {
+                        standard: NftStandard.Erc721,
+                        contractMetadata,
+                        tokenId,
                     }
 
-                    const instance = {
-                        tokenId,
-                    } as INftInstance
-
-                    const hasMetadata = await contract.methods.supportsInterface(Erc721InterfaceId.Metadata).call()
-                    if (hasMetadata) {
+                    const hasTokenMetadata = await contract.methods.supportsInterface(Erc721InterfaceId.Metadata).call()
+                    if (hasTokenMetadata) {
                         const tokenUri = await contract.methods.tokenURI(tokenId).call()
-                        // TODO: Try catch around fetchs
-                        const requestUrl = composeUrlFromNftUri(tokenUri)
-                        const response = await fetch(requestUrl)
-                        const metadata = await response.json()
+                        const composedTokenUri = composeUrlFromNftUri(tokenUri)
+                        persistedNft.tokenUri = composedTokenUri
+
+                        const response = await fetch(composedTokenUri)
+                        const metadata = (await response.json()) as IErc721TokenMetadata
                         if (metadata) {
-                            instance.data = metadata
+                            const attributes: IErc721TokenMetadataAttribute[] = metadata.attributes?.map(
+                                (attribute) => ({ traitType: attribute['trait_type'], value: attribute.value })
+                            )
+                            persistedNft.tokenMetadata = {
+                                ...metadata,
+                                image: composeUrlFromNftUri(metadata.image) ?? metadata.image,
+                                attributes,
+                            }
                         }
                     }
-                    instances.push(instance)
                 }
             } else {
-                const instance = {
-                    tokenId: '0',
-                } as INftInstance
+                const tokenId = '0'
+                const persistedNft: IPersistedErc721Nft = {
+                    standard: NftStandard.Erc721,
+                    contractMetadata,
+                    tokenId,
+                }
 
-                const hasMetadata = await contract.methods.supportsInterface(Erc721InterfaceId.Metadata).call()
-                if (hasMetadata) {
+                const hasTokenMetadata = await contract.methods.supportsInterface(Erc721InterfaceId.Metadata).call()
+                if (hasTokenMetadata) {
                     const tokenUri = await contract.methods.tokenURI('0').call()
+                    persistedNft.tokenUri = tokenUri
+
                     const response = await fetch(tokenUri)
-                    const metadata = await response.json()
+                    const metadata = (await response.json()) as IErc721TokenMetadata
                     if (metadata) {
-                        instance.data = metadata
+                        const attributes: IErc721TokenMetadataAttribute[] = metadata.attributes?.map((attribute) => ({
+                            traitType: attribute['trait_type'],
+                            value: attribute.value,
+                        }))
+                        persistedNft.tokenMetadata = {
+                            ...metadata,
+                            attributes,
+                        }
                     }
                 }
-                instances.push(instance)
-            }
-
-            if (!isNftPersisted(address)) {
-                addPersistedNft(address, {
-                    ...buildPersistedNftFromNftMetadata(nftMetadata),
-                    instances,
-                })
             }
         }
     })

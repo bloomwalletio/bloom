@@ -5,8 +5,9 @@ import features from '@features/features'
 import { get } from 'svelte/store'
 import { NFT_MEDIA_FILE_NAME } from '../constants'
 import { DownloadErrorType, DownloadWarningType } from '../enums'
-import { INft, IPersistedNft, NftDownloadMetadata } from '../interfaces'
+import { INft, NftDownloadMetadata } from '../interfaces'
 import { persistedNftForActiveProfile, updatePersistedNft } from '../stores'
+import { PersistedNft } from '../types'
 import { fetchWithTimeout } from './fetchWithTimeout'
 
 const HEAD_FETCH_TIMEOUT_SECONDS = 3
@@ -72,7 +73,7 @@ function validateFile(nft: INft, contentType: string, contentLength: string): Pa
     }
 }
 
-async function getNftDownloadData(nft: INft): Promise<Partial<IPersistedNft>> {
+async function getNftDownloadData(nft: INft): Promise<Partial<PersistedNft>> {
     const persistedNftData = get(persistedNftForActiveProfile)?.[nft.id]
 
     if (persistedNftData && persistedNftData.error?.message !== UNREACHABLE_ERROR_MESSAGE) {
