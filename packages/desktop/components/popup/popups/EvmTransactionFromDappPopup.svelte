@@ -121,7 +121,7 @@
     <div class="space-y-5">
         {#if isSmartContractCall}
             <div class="flex flex-col gap-3">
-                <Alert variant="warning" text={localize(`popups.${localeKey}.unableToVerify`)} />
+                <Alert variant="warning" text={localize('popups.smartContractCall.unableToVerify')} />
                 <Table
                     orientation="vertical"
                     items={[
