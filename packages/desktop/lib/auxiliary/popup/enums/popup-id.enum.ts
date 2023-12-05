@@ -35,6 +35,7 @@ export enum PopupId {
     SendFlow = 'sendFlow',
     SignMessage = 'signMessage',
     StopVoting = 'stopVoting',
+    SuccessfulDappConnection = 'successfulDappConnection',
     SyncAccounts = 'syncAccounts',
     TestDeepLinkForm = 'testDeepLinkForm',
     TokenInformation = 'tokenInformation',
