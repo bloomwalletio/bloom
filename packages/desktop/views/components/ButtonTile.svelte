@@ -8,7 +8,7 @@
     export let icon: IconName | undefined = undefined
     export let iconSize: IconSize = 'base'
     export let iconColor: keyof typeof colors = 'brand'
-    export let iconColorShade: string = 'DEFAULT'
+    export let iconColorShade: string | undefined = undefined
     export let backgroundColor: string | undefined = undefined
     export let disabled: boolean = false
     export let hidden: boolean = false
@@ -29,7 +29,11 @@
                             ? `bg-${backgroundColor}`
                             : `bg-${iconColor}/20`}"
                     >
-                        <Icon name={icon} customColor={colors[iconColor][iconColorShade]} size={iconSize} />
+                        <Icon
+                            name={icon}
+                            customColor={iconColorShade ? `${iconColor}-${iconColorShade}` : iconColor}
+                            size={iconSize}
+                        />
                     </icon-container>
                 {/if}
             </div>
