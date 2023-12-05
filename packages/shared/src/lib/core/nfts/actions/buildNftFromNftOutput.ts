@@ -31,8 +31,8 @@ export function buildNftFromNftOutput(
     const id = getNftId(nftOutput.nftId, wrappedOutput.outputId)
     const address = getBech32AddressFromAddressTypes({ type: AddressType.Nft, nftId: id } as unknown as Address)
     const issuer = getIssuerFromNftOutput(nftOutput)
-    const metadata = getMetadataFromNftOutput(nftOutput)
-    const parsedMetadata = parseNftMetadata(metadata)
+    const rawMetadata = getMetadataFromNftOutput(nftOutput)
+    const parsedMetadata = parseNftMetadata(rawMetadata)
     const composedUrl = composeUrlFromNftUri(parsedMetadata?.uri)
     const filePath = `${profileId}/nfts/${id}`
     const storageDeposit = Number(nftOutput.amount)
@@ -44,7 +44,7 @@ export function buildNftFromNftOutput(
         issuer,
         isSpendable: isEvmChain(networkId) ? true : isSpendable,
         timelockTime: timeLockTime ? Number(timeLockTime) : undefined,
-        metadata,
+        rawMetadata,
         parsedMetadata,
         latestOutputId: wrappedOutput.outputId,
         composedUrl,

@@ -1,5 +1,6 @@
 import { DownloadErrorType, DownloadWarningType } from '../enums'
 
+// TODO: -> NftDownloadStatus, and create INftDownloadMetadata
 export interface NftDownloadMetadata {
     isLoaded: boolean
     error?: {
