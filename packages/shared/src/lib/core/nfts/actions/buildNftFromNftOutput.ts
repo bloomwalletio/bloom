@@ -9,6 +9,7 @@ import { INft } from '../interfaces'
 import { composeUrlFromNftUri, getSpendableStatusFromUnspentNftOutput, parseNftMetadata } from '../utils'
 import { NetworkId } from '@core/network/types'
 import { isEvmChain } from '@core/network'
+import { NftStandard } from '@core/nfts'
 
 export function buildNftFromNftOutput(
     wrappedOutput: IWrappedOutput,
@@ -38,6 +39,7 @@ export function buildNftFromNftOutput(
     const storageDeposit = Number(nftOutput.amount)
 
     return {
+        standard: NftStandard.Irc27,
         id,
         address,
         name: parsedMetadata?.name ?? DEFAULT_NFT_NAME,

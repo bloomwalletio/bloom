@@ -3,7 +3,7 @@ import { NetworkId } from '@core/network/types'
 import { NftStandard } from '../enums'
 import { NftDownloadMetadata, IIrc27Metadata, IErc721ContractMetadata, IErc721TokenMetadata } from '../interfaces'
 
-export interface INft {
+export interface Nft {
     id: string
     networkId: NetworkId
     address: string
@@ -34,8 +34,8 @@ interface IBaseNft {
 
 export interface IIrc27Nft extends IBaseNft {
     standard: NftStandard.Irc27
-    metadata: string
-    parsedMetadata?: IIrc27Metadata
+    rawMetadata: string
+    metadata?: IIrc27Metadata
     issuer?: Address
     isSpendable: boolean
     timelockTime?: number
@@ -44,7 +44,7 @@ export interface IIrc27Nft extends IBaseNft {
 }
 
 export interface IErc721Nft extends IBaseNft {
-    standard: NftStandard.Irc27
+    standard: NftStandard.Erc721
     metadata: {
         contract: IErc721ContractMetadata
         token?: IErc721TokenMetadata
@@ -53,4 +53,4 @@ export interface IErc721Nft extends IBaseNft {
 }
 
 // TODO: Rename to Nft
-export type Nft = IIrc27Nft | IErc721Nft
+export type INft = IIrc27Nft | IErc721Nft
