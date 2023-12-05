@@ -231,7 +231,7 @@
 
 <style lang="postcss">
     :global(.popup) {
-        @apply w-full p-8;
+        @apply w-full p-0;
         @apply bg-surface dark:bg-surface-dark;
         @apply border border-solid border-stroke dark:border-stroke-dark;
         @apply shadow-elevation-4;
