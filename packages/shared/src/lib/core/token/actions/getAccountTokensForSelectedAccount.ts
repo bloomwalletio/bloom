@@ -49,7 +49,7 @@ function getAccountAssetForNetwork(
             total: Number(account?.balances?.baseCoin?.total),
             available: Number(account?.balances?.baseCoin?.available),
         },
-        marketPrices: marketCoinPrices?.shimmer,
+        marketPrices: marketCoinPrices?.[persistedBaseCoin.metadata?.name?.toLowerCase() ?? ''],
     }
 
     const nativeTokens: ITokenWithBalance[] = []
@@ -101,7 +101,7 @@ function getAccountAssetForChain(
                 ...persistedBaseCoin,
                 balance: _balance,
                 networkId,
-                marketPrices: marketCoinPrices?.shimmer,
+                marketPrices: marketCoinPrices?.[persistedBaseCoin.metadata?.name?.toLowerCase() ?? ''],
             }
         } else {
             const persistedAsset = getPersistedToken(tokenId)

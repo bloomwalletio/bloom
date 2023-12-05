@@ -18,6 +18,9 @@
 
         let tokenSupply: number | undefined
         switch (getActiveNetworkId()) {
+            case SupportedNetworkId.Iota:
+                tokenSupply = Number(TokenSupply.Iota)
+                break
             case SupportedNetworkId.Shimmer:
                 tokenSupply = Number(TokenSupply.Shimmer)
                 break
