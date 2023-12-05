@@ -27,23 +27,27 @@ export function checkForUntrackedNfts(account: IAccountState): void {
 
         const explorerNfts = await explorerApi.getAssetsForAddress(evmAddress, NftStandard.Erc721)
         for (const explorerNft of explorerNfts) {
-            const { token, value } = explorerNft
-            const { address } = token
-            const contract = chain.getContract(ContractType.Erc721, address)
+            try {
+                const { token, value } = explorerNft
+                const { address } = token
+                const contract = chain.getContract(ContractType.Erc721, address)
 
-            const isEnumerable = await contract.methods.supportsInterface(Erc721InterfaceId.Enumerable).call()
-            if (isEnumerable) {
-                await Promise.all(
-                    Array.from({ length: Number(value) }).map(async (_, idx) => {
-                        const tokenId = await contract.methods.tokenOfOwnerByIndex(evmAddress, idx).call()
-                        await persistNft(token, tokenId, contract)
-                    })
-                )
-            } else {
-                await persistNft(token, DEFAULT_NFT_TOKEN_ID, contract)
+                const isEnumerable = await contract.methods.supportsInterface(Erc721InterfaceId.Enumerable).call()
+                if (isEnumerable) {
+                    await Promise.all(
+                        Array.from({ length: Number(value) }).map(async (_, idx) => {
+                            const tokenId = await contract.methods.tokenOfOwnerByIndex(evmAddress, idx).call()
+                            await persistNft(token, tokenId, contract)
+                        })
+                    )
+                } else {
+                    await persistNft(token, DEFAULT_NFT_TOKEN_ID, contract)
+                }
+
+                addNewTrackedNftToActiveProfile(networkId, address, TokenTrackingStatus.AutomaticallyTracked)
+            } catch (err) {
+                throw new Error(`Unable to persist NFT with address ${explorerNft.token.address}`)
             }
-
-            addNewTrackedNftToActiveProfile(networkId, address, TokenTrackingStatus.AutomaticallyTracked)
         }
     })
 }
