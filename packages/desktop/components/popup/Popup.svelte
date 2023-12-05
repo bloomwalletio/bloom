@@ -46,6 +46,7 @@
     import SendFlowPopup from './popups/SendFlowPopup.svelte'
     import SignMessagePopup from './popups/SignMessagePopup.svelte'
     import StopVotingPopup from './popups/StopVotingPopup.svelte'
+    import SuccessfulDappConnection from './popups/SuccessfulDappConnection.svelte'
     import SyncAccountsPopup from './popups/SyncAccountsPopup.svelte'
     import TestDeepLinkFormPopup from './popups/TestDeepLinkFormPopup.svelte'
     import TokenInformationPopup from './popups/TokenInformationPopup.svelte'
@@ -120,6 +121,7 @@
         [PopupId.SendFlow]: SendFlowPopup,
         [PopupId.SignMessage]: SignMessagePopup,
         [PopupId.StopVoting]: StopVotingPopup,
+        [PopupId.SuccessfulDappConnection]: SuccessfulDappConnection,
         [PopupId.SyncAccounts]: SyncAccountsPopup,
         [PopupId.TestDeepLinkForm]: TestDeepLinkFormPopup,
         [PopupId.TokenInformation]: TokenInformationPopup,

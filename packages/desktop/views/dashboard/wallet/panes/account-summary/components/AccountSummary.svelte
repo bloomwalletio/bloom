@@ -30,7 +30,7 @@
         resetShowInternalVerificationPopup()
         sendFlowRouter.set(new SendFlowRouter(undefined))
         openPopup({
-            id: PopupId.SendFlow,
+            id: PopupId.SuccessfulDappConnection,
             overflow: true,
         })
     }
