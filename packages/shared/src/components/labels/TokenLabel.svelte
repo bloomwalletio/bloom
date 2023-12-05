@@ -8,7 +8,7 @@
 
 {#if token}
     <div class="flex flex-row items-center p-2 space-x-2 text-left bg-surface-1 dark:bg-surface-1-dark rounded-md">
-        <TokenAvatar size="sm" {token} />
+        <TokenAvatar {token} />
         <div class="w-full relative" style="max-width: 75px;">
             <Text type="body2" textColor="primary" truncate>
                 {token.metadata?.name ?? token.id}
