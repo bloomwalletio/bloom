@@ -22,22 +22,26 @@ export async function getPersistedErc721NftFromContract(
 
     const hasTokenMetadata = await contract.methods.supportsInterface(Erc721InterfaceId.Metadata).call()
     if (hasTokenMetadata) {
-        const tokenUri = await contract.methods.tokenURI(tokenId).call()
-        const composedTokenUri = composeUrlFromNftUri(tokenUri)
-        persistedNft.tokenUri = composedTokenUri
+        try {
+            const tokenUri = await contract.methods.tokenURI(tokenId).call()
+            const composedTokenUri = composeUrlFromNftUri(tokenUri)
+            persistedNft.tokenUri = composedTokenUri
 
-        const response = await fetch(composedTokenUri)
-        const metadata = (await response.json()) as IErc721TokenMetadata
-        if (metadata) {
-            const attributes: IErc721TokenMetadataAttribute[] = metadata.attributes?.map((attribute) => ({
-                traitType: attribute['trait_type'],
-                value: attribute.value,
-            }))
-            persistedNft.tokenMetadata = {
-                ...metadata,
-                image: composeUrlFromNftUri(metadata.image) ?? metadata.image,
-                attributes,
+            const response = await fetch(composedTokenUri)
+            const metadata = (await response.json()) as IErc721TokenMetadata
+            if (metadata) {
+                const attributes: IErc721TokenMetadataAttribute[] = metadata.attributes?.map((attribute) => ({
+                    traitType: attribute['trait_type'],
+                    value: attribute.value,
+                }))
+                persistedNft.tokenMetadata = {
+                    ...metadata,
+                    image: composeUrlFromNftUri(metadata.image) ?? metadata.image,
+                    attributes,
+                }
             }
+        } catch (err) {
+            throw new Error(`Unable to get metadata of token ${tokenId} from contract ${contractMetadata.address}`)
         }
     }
 
