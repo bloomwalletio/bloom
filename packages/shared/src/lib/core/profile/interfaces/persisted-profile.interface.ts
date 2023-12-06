@@ -27,6 +27,7 @@ export interface IPersistedProfile {
     forceAssetRefresh: boolean
     strongholdVersion: StrongholdVersion
     trackedTokens: TrackedTokens
+    trackedNfts: TrackedTokens
     pfp?: INft
     color?: string
 }

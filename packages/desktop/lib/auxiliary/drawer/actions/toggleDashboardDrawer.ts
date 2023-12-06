@@ -12,9 +12,9 @@ export function toggleDashboardDrawer({
     preventClose = false,
     overflow = false,
     props = undefined,
-}: Omit<DrawerState, 'active' | 'route'>): void {
+}: Omit<DrawerState, 'route'>): void {
     const $drawerState = get(drawerState)
-    if ($drawerState?.active && $drawerState.route === DrawerRoute.Dashboard && $drawerState.id === id) {
+    if ($drawerState && $drawerState.route === DrawerRoute.Dashboard && $drawerState.id === id) {
         closeDrawer()
     } else {
         openDrawer({

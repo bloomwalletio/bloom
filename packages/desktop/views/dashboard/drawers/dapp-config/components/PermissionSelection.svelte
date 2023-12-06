@@ -11,6 +11,8 @@
     export let requiredNamespaces: ProposalTypes.RequiredNamespaces
     export let persistedNamespaces: SupportedNamespaces | undefined = undefined
 
+    const localeKey = 'views.dashboard.drawers.dapps.confirmConnection.permissions'
+
     let permissionSelections: { label: string; value: string; checked: boolean; required: boolean }[] = []
     function setPermissionSelections(): void {
         const permissions: { label: string; value: string; checked: boolean; required: boolean }[] = []
@@ -29,7 +31,12 @@
                   })
                 : true
 
-            permissions.push({ label: permission, value: permission, checked: isChecked, required: isRequired })
+            permissions.push({
+                label: localize(`views.dashboard.drawers.dapps.confirmConnection.permissions.${String(permission)}`),
+                value: permission,
+                checked: isChecked,
+                required: isRequired,
+            })
         }
 
         permissionSelections = permissions
@@ -50,5 +57,6 @@
 
 <Selection
     bind:selectionOptions={permissionSelections}
-    title={localize('views.dashboard.drawers.dapps.confirmConnection.permissions.title')}
+    title={localize(`${localeKey}.title`)}
+    error={checkedMethods.length ? undefined : localize(`${localeKey}.empty`)}
 />

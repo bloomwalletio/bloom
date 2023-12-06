@@ -18,11 +18,12 @@
     export let drawerRouter: Router<unknown>
     export let selections: ISelections
     export let titleLocale: string
+    export let disableContinue: boolean
 
-    const dappMetadata = $selectedDapp?.metadata ?? $sessionProposal?.params.proposer.metadata
-    const persistedNamespaces = dappMetadata ? getPersistedDappNamespacesForDapp(dappMetadata.url) : undefined
-    const requiredNamespaces = $selectedDapp?.session?.requiredNamespaces ?? $sessionProposal?.params.requiredNamespaces
-    const optionalNamespaces = $selectedDapp?.session?.optionalNamespaces ?? $sessionProposal?.params.optionalNamespaces
+    $: dappMetadata = $selectedDapp?.metadata ?? $sessionProposal?.params.proposer.metadata
+    $: persistedNamespaces = dappMetadata ? getPersistedDappNamespacesForDapp(dappMetadata.url) : undefined
+    $: requiredNamespaces = $selectedDapp?.session?.requiredNamespaces ?? $sessionProposal?.params.requiredNamespaces
+    $: optionalNamespaces = $selectedDapp?.session?.optionalNamespaces ?? $sessionProposal?.params.optionalNamespaces
 
     function onConfirmClick(): void {
         const updatedNamespace = buildSupportedNamespacesFromSelections(
@@ -61,6 +62,6 @@
     </div>
     <div slot="footer" class="flex flex-row gap-2">
         <Button width="full" variant="outlined" on:click={onBackClick} text={localize('actions.back')} />
-        <Button width="full" on:click={onConfirmClick} text={localize('actions.confirm')} />
+        <Button width="full" on:click={onConfirmClick} disabled={disableContinue} text={localize('actions.confirm')} />
     </div>
 </DrawerTemplate>

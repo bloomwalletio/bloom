@@ -20,8 +20,8 @@
     } from '../components'
     import { closeDrawer } from '@desktop/auxiliary/drawer'
     import { handleError } from '@core/error/handlers'
-    import { showNotification } from '@auxiliary/notification'
     import { IAccountState } from '@core/account'
+    import { PopupId, openPopup } from '@desktop/auxiliary/popup'
 
     export let drawerRouter: Router<unknown>
 
@@ -38,9 +38,15 @@
     let checkedAccounts: IAccountState[] = []
     let checkedNetworks: string[] = []
     let checkedMethods: string[] = []
-    const persistedNamespaces = $sessionProposal
-        ? getPersistedDappNamespacesForDapp($sessionProposal.params.proposer.metadata.url)
-        : undefined
+
+    const dappUrl = $sessionProposal?.params?.proposer?.metadata?.url ?? undefined
+    const persistedNamespaces = dappUrl ? getPersistedDappNamespacesForDapp(dappUrl) : undefined
+
+    $: isButtonDisabled =
+        loading ||
+        (!persistedNamespaces && currentStep === 0 && checkedMethods.length === 0) ||
+        (currentStep === 1 && checkedNetworks.length === 0) ||
+        (currentStep === 2 && checkedAccounts.length === 0)
 
     function onBackClick(): void {
         if (currentStep === 0) {
@@ -69,19 +75,16 @@
                     $sessionProposal.params.requiredNamespaces,
                     $sessionProposal.params.optionalNamespaces
                 )
-            await clearOldPairings($sessionProposal.params.proposer.metadata.url)
+            await clearOldPairings(dappUrl)
             await approveSession($sessionProposal, supportedNamespaces)
-            persistDappNamespacesForDapp($sessionProposal.params.proposer.metadata.url, supportedNamespaces)
+            persistDappNamespacesForDapp(dappUrl, supportedNamespaces)
+            $sessionProposal = undefined
 
-            showNotification({
-                variant: 'success',
-                text: localize('notifications.newDappConnection.success'),
-            })
+            openPopup({ id: PopupId.SuccessfulDappConnection, props: { url: dappUrl } })
             closeDrawer()
         } catch (error) {
-            handleError(error)
-        } finally {
             loading = false
+            handleError(error)
         }
     }
 </script>
@@ -118,7 +121,6 @@
                                     <PermissionSelection
                                         bind:checkedMethods
                                         requiredNamespaces={$sessionProposal.params.requiredNamespaces}
-                                        {persistedNamespaces}
                                     />
                                 </div>
                                 <div class={currentStep === 1 ? 'visible' : 'hidden'}>
@@ -126,11 +128,10 @@
                                         bind:checkedNetworks
                                         requiredNamespaces={$sessionProposal.params.requiredNamespaces}
                                         optionalNamespaces={$sessionProposal.params.optionalNamespaces}
-                                        {persistedNamespaces}
                                     />
                                 </div>
                                 <div class={currentStep === 2 ? 'visible' : 'hidden'}>
-                                    <AccountSelection bind:checkedAccounts {persistedNamespaces} />
+                                    <AccountSelection bind:checkedAccounts chainIds={checkedNetworks} />
                                 </div>
                             </div>
                         </div>
@@ -155,7 +156,7 @@
         <Button
             width="full"
             on:click={isLastStep ? onConfirmClick : onNextClick}
-            disabled={loading}
+            disabled={isButtonDisabled}
             busy={loading}
             text={localize(`actions.${isLastStep ? 'confirm' : 'next'}`)}
         />

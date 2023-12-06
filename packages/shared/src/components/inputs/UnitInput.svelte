@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { Dropdown2 } from '@ui'
+    import { Dropdown } from '@ui'
     import { TokenMetadata, TokenStandard, getUnitFromTokenMetadata } from '@core/token'
     import { IotaUnit, IDropdownItem } from '@core/utils'
 
@@ -42,4 +42,4 @@
     }
 </script>
 
-<Dropdown2 bind:isFocused value={unit} {items} {onSelect} {disabled} contentWidth small />
+<Dropdown bind:isFocused value={unit} {items} {onSelect} {disabled} contentWidth small />

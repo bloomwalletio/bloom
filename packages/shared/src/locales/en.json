@@ -505,17 +505,20 @@
                             "title": "Select permissions",
                             "signData": "Request to sign data",
                             "signTransaction": "Request to sign a transaction",
-                            "sendTransaction": "Request to send a transaction"
+                            "sendTransaction": "Request to send a transaction",
+                            "empty": "You have to select at least one permission" 
                         },
                         "networks": {
                             "step": "Networks",
                             "title": "Select networks",
-                            "tip": "The required networks are pre-selected for you by the dApp and can also be reconfigured later."
+                            "tip": "The required networks are pre-selected for you by the dApp and can also be reconfigured later.",
+                            "empty": "You have to select at least one network" 
                         },
                         "accounts": {
                             "step": "Accounts",
                             "title": "Select accounts",
-                            "tip": "Connect with specific accounts to manage funds separately. You control what the dApp can access."
+                            "tip": "Connect with specific accounts to manage funds separately. You control what the dApp can access.",
+                            "empty": "You have to select at least one account"
                         }
                     },
                     "details": {
@@ -895,6 +898,14 @@
         "sendTransaction": {
             "title": "Send transaction",
             "action": "Send"
+        },
+        "smartContractCall": {
+            "title": "Smart contract call to {contractAddress}",
+            "unableToVerify": "Bloom is unable to verify the smart contract call. Only proceed with apps you trust.",
+            "action": "Confirm"
+        },
+        "successfulDappConnection": {
+            "alert": "You can close this screen and return to the dApp when you are ready."
         },
         "activityDetails": {
             "title": {
@@ -1468,7 +1479,8 @@
         "yes": "Yes",
         "no": "No",
         "tip": "Tip",
-        "verified": "Verified"
+        "verified": "Verified",
+        "data": "Data"
     },
     "filters":{
         "title": "Filters",
@@ -1597,8 +1609,7 @@
         "updateError": "Update failed, please try again",
         "copiedToClipboard": "Copied to clipboard",
         "newDappConnection": {
-            "success": "Connected to new dApp",
-            "rejected": "Connection rejected"
+            "noProposal": "No proposal from dApp received"
         },
         "deepLinkingRequest": {
             "receivedWhileLoggedOut": "Please login to initiate the deep link",

@@ -5,7 +5,7 @@
     import { CallbackParameters } from '@auxiliary/wallet-connect/types'
     import { sendTransactionFromEvm } from '@core/wallet/actions'
     import { selectedAccount } from '@core/account/stores'
-    import { IChain } from '@core/network'
+    import { ExplorerEndpoint, IChain, getDefaultExplorerUrl } from '@core/network'
     import { TransactionAssetSection } from '@ui'
     import PopupTemplate from '../PopupTemplate.svelte'
     import { EvmTransactionData } from '@core/layer-2/types'
@@ -20,9 +20,12 @@
     import { TokenTransferData } from '@core/wallet'
     import { INft } from '@core/nfts'
     import { getNftByIdFromAllAccountNfts } from '@core/nfts/actions'
-    import DappDataBox from '@components/DappDataBox.svelte'
+    import DappDataBanner from '@components/DappDataBanner.svelte'
     import { onMount } from 'svelte'
+    import { Alert, Table } from '@bloomwalletio/ui'
     import { closePopup } from '@desktop/auxiliary/popup'
+    import { truncateString } from '@core/utils'
+    import { openUrlInBrowser } from '@core/app'
 
     export let preparedTransaction: EvmTransactionData
     export let chain: IChain
@@ -34,11 +37,12 @@
     export let _onMount: () => Promise<void> = async () => {}
 
     const { id } = chain.getConfiguration()
-    const localeKey = signAndSend ? 'sendTransaction' : 'signTransaction'
+    $: localeKey = signAndSend ? (isSmartContractCall ? 'smartContractCall' : 'sendTransaction') : 'signTransaction'
 
     let nft: INft | undefined
     let tokenTransfer: TokenTransferData | undefined
     let baseCoinTransfer: TokenTransferData | undefined
+    let isSmartContractCall = false
 
     setTokenTransfer()
     function setTokenTransfer(): void {
@@ -63,6 +67,7 @@
                 break
             }
             default: {
+                isSmartContractCall = !!preparedTransaction.data
                 break
             }
         }
@@ -82,6 +87,11 @@
         closePopup()
     }
 
+    function onExplorerClick(contractAddress: string): void {
+        const explorerUrl = getDefaultExplorerUrl(id, ExplorerEndpoint.Address)
+        openUrlInBrowser(`${explorerUrl}/${contractAddress}`)
+    }
+
     // Required to trigger callback after profile authentication
     onMount(async () => {
         try {
@@ -93,7 +103,9 @@
 </script>
 
 <PopupTemplate
-    title={localize(`popups.${localeKey}.title`)}
+    title={localize(`popups.${localeKey}.title`, {
+        contractAddress: truncateString(String(preparedTransaction.to), 6, 6),
+    })}
     backButton={{
         text: localize('actions.cancel'),
         onClick: onCancelClick,
@@ -104,10 +116,27 @@
     }}
     busy={$selectedAccount?.isTransferring}
 >
+    <DappDataBanner slot="banner" {dapp} />
+
     <div class="space-y-5">
-        <DappDataBox {dapp}>
+        {#if isSmartContractCall}
+            <div class="flex flex-col gap-3">
+                <Alert variant="warning" text={localize('popups.smartContractCall.unableToVerify')} />
+                <Table
+                    orientation="vertical"
+                    items={[
+                        {
+                            key: localize('general.address'),
+                            value: truncateString(String(preparedTransaction.to), 16, 16),
+                            onClick: () => onExplorerClick(String(preparedTransaction.to)),
+                        },
+                        { key: localize('general.data'), value: String(preparedTransaction.data) },
+                    ]}
+                />
+            </div>
+        {:else}
             <TransactionAssetSection {baseCoinTransfer} {tokenTransfer} {nft} />
-        </DappDataBox>
+        {/if}
         <EvmTransactionDetails
             destinationNetworkId={id}
             estimatedGasFee={calculateEstimatedGasFeeFromTransactionData(preparedTransaction)}
