@@ -3,10 +3,12 @@
  * break the dependency flow. It MUST be exported first!
  */
 export * from './default-coin-type.constant'
+export * from './default-bech32-hrp.constant'
 export * from './chain-statuses-poll-interval.constant'
 export * from './default-base-token.constant'
 export * from './default-chain-configurations.constant'
 export * from './default-explorer-urls.constant'
+export * from './default-protocol.constant'
 export * from './default-network-metadata.constant'
 export * from './default-node-urls.constant'
 export * from './empty-node.constant'

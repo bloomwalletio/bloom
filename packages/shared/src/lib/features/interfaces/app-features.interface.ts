@@ -10,6 +10,7 @@ export interface IAppFeatures {
         languages: {
             en: boolean
             de: boolean
+            tr: boolean
         }
     }
     particles: IFeatureFlag
