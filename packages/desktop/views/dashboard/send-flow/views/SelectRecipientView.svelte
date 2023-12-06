@@ -30,6 +30,7 @@
     import { getTokenStandardFromSendFlowParameters } from '@core/wallet/utils'
     import { TokenStandard } from '@core/token'
     import { canAccountMakeEvmTransaction } from '@core/layer-2/actions'
+    import { NftStandard } from '@core/nfts'
 
     let selector: NetworkRecipientSelector
     let selectorOptions: INetworkRecipientSelectorOption[] = []
@@ -166,7 +167,7 @@
         let networkRecipientOptions = []
 
         switch (assetStandard) {
-            case TokenStandard.Irc27:
+            case NftStandard.Irc27:
             case TokenStandard.Irc30:
             case TokenStandard.BaseToken:
                 if (sourceNetworkId === getActiveNetworkId()) {

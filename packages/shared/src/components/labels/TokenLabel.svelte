@@ -1,22 +1,16 @@
 <script lang="ts">
     import { IToken } from '@core/token'
-    import { FontWeight, Text } from '@ui'
+    import { Text } from '@bloomwalletio/ui'
     import TokenAvatar from '@ui/avatars/TokenAvatar.svelte'
 
     export let token: IToken
 </script>
 
 {#if token}
-    <div class="flex flex-row items-center p-2 space-x-2 text-left bg-gray-100 dark:bg-gray-700 rounded-md">
-        <TokenAvatar size="sm" {token} />
+    <div class="flex flex-row items-center p-2 space-x-2 text-left bg-surface-1 dark:bg-surface-1-dark rounded-md">
+        <TokenAvatar {token} />
         <div class="w-full relative" style="max-width: 75px;">
-            <Text
-                color="gray-600"
-                darkColor="white"
-                fontWeight={FontWeight.semibold}
-                fontSize="15"
-                classes="overflow-hidden whitespace-nowrap text-ellipsis"
-            >
+            <Text type="body2" textColor="primary" truncate>
                 {token.metadata?.name ?? token.id}
             </Text>
         </div>

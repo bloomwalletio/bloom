@@ -418,7 +418,9 @@ ipcMain.handle('focus-window', () => {
         if (windows.main.isMinimized()) {
             windows.main.restore()
         }
-        windows.main.focus()
+        windows.main.show()
+        windows.main.setAlwaysOnTop(true)
+        windows.main.setAlwaysOnTop(false)
     }
 })
 

@@ -7,8 +7,8 @@
     export let isFocused: boolean = false
     export let error: string = ''
     export let classes: string = ''
-    export let backgroundColor = 'white'
-    export let darkBackgroundColor = 'gray-800'
+    export let backgroundColor = 'bg-surface'
+    export let darkBackgroundColor = 'bg-surface-dark'
     export let clearBackground = false
     export let clearPadding = false
     export let clearBorder = false
@@ -40,10 +40,10 @@
                 {!clearBorder ? 'border border-solid' : ''}
                 {classes}
                 {isFocused
-                ? 'border-blue-500'
+                ? 'border-brand'
                 : error
                 ? 'border-red-300 hover:border-red-500'
-                : 'border-gray-300 dark:border-gray-700 hover:border-gray-500 dark:hover:border-gray-700 focus:border-blue-500 dark:focus:border-gray-600'}"
+                : 'border-stroke dark:border-stroke-dark'}"
             {...$$restProps}
         >
             <slot />

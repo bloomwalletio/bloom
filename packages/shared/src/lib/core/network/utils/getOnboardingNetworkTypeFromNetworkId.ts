@@ -4,6 +4,7 @@ import { NetworkId } from '../types'
 
 export function getOnboardingNetworkTypeFromNetworkId(networkId: NetworkId | undefined): OnboardingNetworkType {
     const nameMap: { [id in NetworkId]?: OnboardingNetworkType } = {
+        [SupportedNetworkId.Iota]: OnboardingNetworkType.Iota,
         [SupportedNetworkId.Shimmer]: OnboardingNetworkType.Shimmer,
         [SupportedNetworkId.Testnet]: OnboardingNetworkType.Testnet,
     }

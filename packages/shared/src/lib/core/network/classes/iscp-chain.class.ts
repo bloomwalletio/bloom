@@ -2,13 +2,14 @@ import { get } from 'svelte/store'
 
 import Web3 from 'web3'
 
+import { EVM_CONTRACT_ABIS } from '@core/layer-2/constants'
+import { ContractType } from '@core/layer-2/enums'
+import { Contract } from '@core/layer-2/types'
+
 import { NetworkHealth } from '../enums'
 import { IBlock, IChain, IChainStatus, IIscpChainConfiguration, IIscpChainMetadata } from '../interfaces'
 import { chainStatuses } from '../stores'
 import { ChainConfiguration, ChainMetadata, Web3Provider } from '../types'
-import { Contract } from '@core/layer-2/types'
-import { ContractType } from '@core/layer-2/enums'
-import { getAbiForContractType } from '@core/layer-2/utils'
 
 export class IscpChain implements IChain {
     private readonly _provider: Web3Provider
@@ -51,7 +52,10 @@ export class IscpChain implements IChain {
     }
 
     getContract(type: ContractType, address: string): Contract {
-        const abi = getAbiForContractType(type)
+        const abi = EVM_CONTRACT_ABIS[type]
+        if (!abi) {
+            throw new Error(`Unable to determine contract type "${type}"`)
+        }
         return new this._provider.eth.Contract(abi, address)
     }
 

@@ -1,5 +1,3 @@
-import { TokenStandard } from '@core/token/enums'
-
 // snake_case returned by the API
 export interface IExplorerAssetMetadata {
     address: string
@@ -11,5 +9,5 @@ export interface IExplorerAssetMetadata {
     name: string
     symbol: string
     total_supply: string
-    type: TokenStandard
+    type: string
 }
