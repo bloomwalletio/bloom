@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { OnboardingLayout } from '@components'
+    import { Button, Icon, IconName, Text, Tile } from '@bloomwalletio/ui'
     import { onboardingProfile } from '@contexts/onboarding'
     import { IAccount } from '@core/account'
     import { DEFAULT_SYNC_OPTIONS } from '@core/account/constants'
@@ -9,8 +9,8 @@
     import { RecoverAccountsPayload, recoverAccounts } from '@core/profile-manager'
     import { DEFAULT_ACCOUNT_RECOVERY_CONFIGURATION } from '@core/profile/constants'
     import { checkOrUnlockStronghold } from '@core/stronghold/actions'
-    import { formatTokenAmountBestMatch } from '@core/wallet'
-    import { Animation, Button, FontWeight, Icon, Text, TextType, Tile } from '@ui'
+    import { formatTokenAmountBestMatch } from '@core/token'
+    import { OnboardingLayout } from '@views/components'
     import { onDestroy, onMount } from 'svelte'
     import { restoreProfileRouter } from '../restore-profile-router'
 
@@ -24,41 +24,75 @@
     let isBusy = false
 
     async function onFindBalancesClick(): Promise<void> {
-        await checkOnboardingProfileAuth(findBalances)
+        await checkOnboardingProfileAuth(async () => await findBalances(SearchMethod.SingleAddress))
     }
 
-    let accountsBalances: { alias: string; total: string }[] = []
+    let accountsBalances: { alias: string; total: bigint }[] = []
 
-    async function findBalances(): Promise<void> {
-        try {
-            error = ''
-            isBusy = true
-            const recoverAccountsPayload: RecoverAccountsPayload = {
-                accountStartIndex: 0,
-                accountGapLimit: currentAccountGapLimit,
-                addressGapLimit: currentAddressGapLimit,
-                syncOptions: DEFAULT_SYNC_OPTIONS,
+    interface ISearch {
+        accountStartIndex: number
+        accountGapLimit: number
+        accountEndIndex: number
+        addressStartIndex: number
+        addressGapLimit: number
+        addressEndIndex: number
+        searchSpace: number
+        estimatedTime: number
+        actualTime?: number
+    }
+    const searches: ISearch[] = []
+
+    enum SearchMethod {
+        SingleAddress = 'SingleAddress',
+        Address = 'MultiAddress',
+    }
+
+    async function findBalances(method: SearchMethod): Promise<void> {
+        if (method === SearchMethod.SingleAddress) {
+            try {
+                error = ''
+                isBusy = true
+                const recoverAccountsPayload: RecoverAccountsPayload = {
+                    accountStartIndex: 0,
+                    accountGapLimit: currentAccountGapLimit,
+                    addressGapLimit: currentAddressGapLimit,
+                    syncOptions: { ...DEFAULT_SYNC_OPTIONS, addressStartIndex: 0 },
+                }
+                const search: ISearch = {
+                    accountStartIndex: recoverAccountsPayload.accountStartIndex,
+                    accountGapLimit: recoverAccountsPayload.accountGapLimit,
+                    accountEndIndex: recoverAccountsPayload.accountGapLimit,
+                    addressStartIndex: recoverAccountsPayload.syncOptions.addressStartIndex,
+                    addressGapLimit: recoverAccountsPayload.addressGapLimit,
+                    addressEndIndex: recoverAccountsPayload.addressGapLimit,
+                    searchSpace: recoverAccountsPayload.accountGapLimit * recoverAccountsPayload.addressGapLimit,
+                    estimatedTime: 1 * recoverAccountsPayload.accountGapLimit * recoverAccountsPayload.addressGapLimit,
+                }
+
+                const startTime = new Date().getTime()
+                const accounts = await recoverAccounts(recoverAccountsPayload)
+                accountsBalances = await Promise.all(
+                    accounts.map(async (account: IAccount) => {
+                        return {
+                            alias: await account.getMetadata().alias,
+                            total: (await account.getBalance()).baseCoin.total,
+                        }
+                    })
+                )
+                const endTime = new Date().getTime()
+                search.actualTime = endTime - startTime
+                searches.push(search)
+
+                previousAccountGapLimit = currentAccountGapLimit
+                previousAddressGapLimit = currentAddressGapLimit
+                currentAccountGapLimit += initialAccountRange
+                currentAddressGapLimit += addressGapLimitIncrement
+            } catch (err) {
+                error = localize(err.error)
+                console.error(error)
+            } finally {
+                isBusy = false
             }
-
-            const accounts = await recoverAccounts(recoverAccountsPayload)
-            accountsBalances = await Promise.all(
-                accounts.map(async (account: IAccount) => {
-                    return {
-                        alias: await account.getMetadata().alias,
-                        total: (await account.getBalance()).baseCoin.total,
-                    }
-                })
-            )
-
-            previousAccountGapLimit = currentAccountGapLimit
-            previousAddressGapLimit = currentAddressGapLimit
-            currentAccountGapLimit += initialAccountRange
-            currentAddressGapLimit += addressGapLimitIncrement
-        } catch (err) {
-            error = localize(err.error)
-            console.error(error)
-        } finally {
-            isBusy = false
         }
     }
 
@@ -75,35 +109,37 @@
     }
 
     onMount(async () => {
-        await checkOnboardingProfileAuth(findBalances)
+        await checkOnboardingProfileAuth(async () => await findBalances(SearchMethod.SingleAddress))
     })
 
     onDestroy(() => {})
 </script>
 
-<OnboardingLayout allowBack={false}>
-    <div slot="title">
-        <Text type="h2">
-            {localize('views.onboarding.shimmerClaiming.claimRewards.title')}
-        </Text>
-    </div>
-    <div slot="leftpane__content" class="h-full flex flex-col">
-        <Text type="p" secondary classes="mb-5">
-            {localize('views.onboarding.shimmerClaiming.claimRewards.body')}
-        </Text>
-        <div class="flex-auto overflow-y-auto h-1 space-y-3 w-full scrollable-y">
+<OnboardingLayout
+    title={localize('views.onboarding.shimmerClaiming.claimRewards.title')}
+    description={localize('views.onboarding.shimmerClaiming.claimRewards.description')}
+    continueButton={{
+        text: localize('actions.continue'),
+        disabled: isBusy,
+        onClick: onContinueClick,
+    }}
+    backButton={undefined}
+    busy={isBusy}
+>
+    <div slot="content" class="h-full flex flex-col gap-4">
+        <div class="flex-auto overflow-y-auto max-h-64 space-y-3 w-full scrollable-y">
             {#each accountsBalances as account}
-                <Tile isGhost classes="rounded-xl">
+                <Tile border>
                     <div class="w-full flex flex-row justify-between items-center space-x-4">
                         <div class="flex flex-row items-center text-left space-x-2">
-                            <Icon icon="wallet" width={28} height={28} classes="text-blue-500" />
-                            <Text type={TextType.p} fontWeight={FontWeight.medium}>
+                            <Icon name={IconName.Wallet} />
+                            <Text type="base">
                                 {account?.alias}
                             </Text>
                         </div>
                         <div class="flex flex-col">
                             <div class="flex flex-row justify-end items-center text-right space-x-2">
-                                <Text type={TextType.p} fontWeight={FontWeight.semibold}>
+                                <Text type="base">
                                     {formatTokenAmountBestMatch(
                                         Number(account?.total),
                                         $onboardingProfile?.network?.baseToken
@@ -115,23 +151,14 @@
                 </Tile>
             {/each}
         </div>
-    </div>
-    <div slot="leftpane__action">
         <Button
-            classes="w-full mb-5"
-            disabled={isBusy}
-            outline
-            onClick={onFindBalancesClick}
-            {isBusy}
-            busyMessage={localize('actions.searching')}
-        >
-            {localize('actions.searchAgain')}
-        </Button>
-        <Button classes="w-full" disabled={isBusy} onClick={onContinueClick}>
-            {localize('actions.continue')}
-        </Button>
-    </div>
-    <div slot="rightpane" class="w-full h-full flex justify-center {true && 'bg-pastel-yellow dark:bg-gray-900'}">
-        <Animation classes="setup-anim-aspect-ratio" animation="import-desktop" />
+            on:click={onFindBalancesClick}
+            width="full"
+            variant="text"
+            icon={IconName.Refresh}
+            busy={isBusy}
+            busyText={localize('actions.searching')}
+            text={localize('actions.search')}
+        />
     </div>
 </OnboardingLayout>

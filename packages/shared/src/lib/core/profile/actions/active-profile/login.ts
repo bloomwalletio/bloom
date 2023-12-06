@@ -1,9 +1,7 @@
 import { initializeWalletConnect } from '@auxiliary/wallet-connect/actions'
 import { initializeRegisteredProposals, registerProposalsFromNodes } from '@contexts/governance/actions'
 import { cleanupOnboarding } from '@contexts/onboarding/actions'
-import { createNewAccount, setSelectedAccount } from '@core/account/actions'
-import { DEFAULT_SYNC_OPTIONS } from '@core/account/constants'
-import { IAccount } from '@core/account/interfaces'
+import { setSelectedAccount } from '@core/account/actions'
 import { generateAndStoreActivitiesForAllAccounts } from '@core/activity/actions'
 import { Platform } from '@core/app/classes'
 import { AppContext } from '@core/app/enums'
@@ -15,18 +13,14 @@ import { pollMarketPrices } from '@core/market/actions'
 import { getNetwork } from '@core/network'
 import { pollChainStatuses, pollNetworkStatus } from '@core/network/actions'
 import { loadNftsForActiveProfile } from '@core/nfts/actions'
-import { RecoverAccountsPayload } from '@core/profile-manager'
 import { initialiseProfileManager } from '@core/profile-manager/actions'
 import {
-    getAccounts,
     isStrongholdUnlocked,
-    recoverAccounts,
     setStrongholdPasswordClearInterval,
     startBackgroundSync,
 } from '@core/profile-manager/api'
 import { profileManager } from '@core/profile-manager/stores'
 import { buildProfileManagerOptionsFromProfileData } from '@core/profile-manager/utils'
-import { DEFAULT_ACCOUNT_RECOVERY_CONFIGURATION } from '@core/profile/constants'
 import { routerManager } from '@core/router/stores'
 import { refreshAccountTokensForActiveProfile } from '@core/token/actions'
 import { SECONDS_PER_MINUTE } from '@core/utils'
@@ -73,48 +67,24 @@ export async function login(loginOptions?: ILoginOptions): Promise<void> {
         await checkAndUpdateActiveProfileNetwork()
         void pollNetworkStatus()
         void pollChainStatuses()
-        void updateEvmChainGasPrices()
 
-        // Step 3: load and build all the profile data
-        incrementLoginProgress()
-        let accounts: IAccount[]
-        if (loginOptions?.isFromOnboardingFlow && loginOptions?.shouldRecoverAccounts) {
-            const { initialAccountRange, addressGapLimit } = DEFAULT_ACCOUNT_RECOVERY_CONFIGURATION[type]
-            const recoverAccountsPayload: RecoverAccountsPayload = {
-                accountStartIndex: 0,
-                accountGapLimit: initialAccountRange,
-                addressGapLimit,
-                syncOptions: DEFAULT_SYNC_OPTIONS,
-            }
-            accounts = await recoverAccounts(recoverAccountsPayload)
-        } else {
-            accounts = await getAccounts()
-        }
-        /**
-         * NOTE: In the case no accounts with funds were recovered, we must
-         * create one for the new profile.
-         */
-        if (accounts?.length === 0) {
-            await createNewAccount()
-        }
-
-        // Step 4: load accounts
+        // Step 3: load accounts
         incrementLoginProgress()
         const loadedAccounts = await loadAccounts()
 
-        // Step 5: load assets
+        // Step 4: load assets
         incrementLoginProgress()
         await refreshAccountTokensForActiveProfile(_activeProfile.forceAssetRefresh, _activeProfile.forceAssetRefresh)
         updateActiveProfile({ forceAssetRefresh: false })
         await loadNftsForActiveProfile()
         checkAndRemoveProfilePicture()
 
-        // Step 6: generate and store activities for all accounts
+        // Step 5: generate and store activities for all accounts
         incrementLoginProgress()
         await generateAndStoreActivitiesForAllAccounts()
 
         if (type === ProfileType.Software) {
-            // Step 7: set initial stronghold status
+            // Step 6: set initial stronghold status
             incrementLoginProgress()
             const strongholdUnlocked = await isStrongholdUnlocked()
             isStrongholdLocked.set(!strongholdUnlocked)
@@ -125,21 +95,22 @@ export async function login(loginOptions?: ILoginOptions): Promise<void> {
                 setTimeStrongholdLastUnlocked()
             }
 
+            // TODO: Should be in onboarding when an account is created...
             const coinType = getNetwork()?.getChains()?.[0]?.getConfiguration()?.coinType
             if (coinType && strongholdUnlocked) {
                 await generateAndStoreEvmAddressForAccounts(type, coinType, ...loadedAccounts)
             }
         } else {
-            incrementLoginProgress(1)
+            incrementLoginProgress()
         }
-        fetchL2BalanceForAllAccounts()
 
-        // Step 8: start background sync
+        // Step 7: start background sync and fetch balances
         incrementLoginProgress()
         subscribeToWalletApiEventsForActiveProfile()
         await startBackgroundSync({ syncIncomingTransactions: true })
+        fetchL2BalanceForAllAccounts()
 
-        // Step 9: finish login
+        // Step 8: finish login
         incrementLoginProgress()
         if (isLedgerProfile(type)) {
             pollLedgerDeviceState()
@@ -153,11 +124,13 @@ export async function login(loginOptions?: ILoginOptions): Promise<void> {
             resetLoginProgress()
         }, 500)
 
+        void updateEvmChainGasPrices()
         void pollMarketPrices()
         if (Platform.isFeatureFlagEnabled('governance')) {
             void initializeRegisteredProposals()
             void registerProposalsFromNodes(loadedAccounts)
         }
+        // TODO: can this be done at the end of the onboarding flow
         void cleanupOnboarding()
         void initializeWalletConnect()
     } catch (err) {
