@@ -3,7 +3,7 @@
     import { IconName, Pill, Text, Tooltip, TooltipIcon } from '@bloomwalletio/ui'
     import { time } from '@core/app/stores'
     import { localize } from '@core/i18n'
-    import { INft, NftDownloadMetadata } from '@core/nfts'
+    import { INft, NftDownloadMetadata, isNftLocked } from '@core/nfts'
     import { selectedNftId } from '@core/nfts/stores'
     import { CollectiblesRoute, collectiblesRouter } from '@core/router'
     import { getTimeDifference } from '@core/utils'
@@ -13,7 +13,7 @@
     let nftWrapperClientWidth: number
     let anchor: HTMLElement
 
-    $: isLocked = nft.timelockTime && nft.timelockTime > $time.getTime()
+    $: isLocked = isNftLocked(nft)
 
     function onNftClick(): void {
         $selectedNftId = nft.id
