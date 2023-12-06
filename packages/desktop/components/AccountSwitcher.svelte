@@ -1,13 +1,12 @@
 <script lang="ts">
-    import { Icon, IconName, IMenuItem, Indicator, Menu, Text, Breadcrumb } from '@bloomwalletio/ui'
+    import { Breadcrumb, IMenuItem, Icon, IconName, Indicator, Menu, Text } from '@bloomwalletio/ui'
     import { IAccountState } from '@core/account'
     import { setSelectedAccount } from '@core/account/actions'
     import { selectedAccount } from '@core/account/stores'
     import { formatCurrency, localize } from '@core/i18n'
-    import { getFiatAmountFromTokenValue } from '@core/market/actions'
     import { activeProfile, visibleActiveAccounts } from '@core/profile/stores'
-    import { selectedAccountTokens } from '@core/token/stores'
-    import { openPopup, PopupId } from '@desktop/auxiliary/popup'
+    import { allAccountFiatBalances, selectedAccountTokens } from '@core/token/stores'
+    import { PopupId, openPopup } from '@desktop/auxiliary/popup'
 
     export let navbar: boolean = false
 
@@ -25,9 +24,7 @@
         items = accounts.map((account) => {
             return {
                 title: account.name,
-                subtitle: formatCurrency(
-                    getFiatAmountFromTokenValue(Number(account.balances.baseCoin.total), baseCoin)
-                ),
+                subtitle: formatCurrency($allAccountFiatBalances[account.index]),
                 selected: selectedIndex === account.index,
                 onClick: () => onAccountClick(account.index),
             }

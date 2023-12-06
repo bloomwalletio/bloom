@@ -1,4 +1,4 @@
-export * from './getAccountTokensForSelectedAccount'
+export * from './getAccountTokensForAccount'
 export * from './getOrRequestTokenFromPersistedTokens'
 export * from './getTokenBalance'
 export * from './isVisibleToken'
