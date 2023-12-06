@@ -5,6 +5,8 @@
     import { OnboardingLayout } from '@views/components'
     import { onMount } from 'svelte'
     import { createFromLedgerRouter } from '../create-from-ledger-router'
+    import { onboardingProfile } from '@contexts/onboarding'
+    import { SupportedNetworkId } from '@core/network'
 
     function onContinueClick(): void {
         $createFromLedgerRouter.next()
@@ -31,10 +33,17 @@
     }}
 >
     <content slot="content">
-        <icon-container>
-            <Icon name={IconName.ShimmerLedger} size="lg" customColor="neutral-1" />
-        </icon-container>
-        <Text customColor="neutral-4/95">{LedgerAppName.Shimmer}</Text>
+        {#if $onboardingProfile?.network?.id === SupportedNetworkId.Iota}
+            <icon-container class="bg-black">
+                <Icon name={IconName.Iota} size="lg" textColor="invert" />
+            </icon-container>
+            <Text>{LedgerAppName.IOTA}</Text>
+        {:else}
+            <icon-container class="bg-neutral-4">
+                <Icon name={IconName.ShimmerLedger} size="lg" customColor="neutral-1" />
+            </icon-container>
+            <Text customColor="neutral-4/95">{LedgerAppName.Shimmer}</Text>
+        {/if}
     </content>
 </OnboardingLayout>
 
@@ -44,6 +53,6 @@
     }
 
     icon-container {
-        @apply p-4 bg-neutral-4 rounded-[20px] w-fit scale-[1.17];
+        @apply p-4 rounded-[20px] w-fit scale-[1.17];
     }
 </style>

@@ -2,11 +2,15 @@ import { openPopup, PopupId, popupState } from '../../../../../../desktop/lib/au
 import { get } from 'svelte/store'
 import { handleError } from '@core/error/handlers/handleError'
 import { LedgerAppName, LedgerConnectionState, ledgerConnectionState } from '..'
+import { activeProfile } from '@core/profile/stores'
+import { SupportedNetworkId } from '@core/network/enums'
 
 export function checkOrConnectLedger(
     callback: () => Promise<unknown> = async (): Promise<void> => {},
     reopenPopup?: boolean,
-    ledgerAppName: LedgerAppName = LedgerAppName.Shimmer,
+    ledgerAppName: LedgerAppName = get(activeProfile)?.network?.id === SupportedNetworkId.Iota
+        ? LedgerAppName.IOTA
+        : LedgerAppName.Shimmer,
     reopenProps: Record<string, unknown> = {},
     onCancel: () => void = (): void => {}
 ): Promise<unknown> {
