@@ -76,7 +76,7 @@ jest.mock('@core/token/stores/persisted-tokens.store', () => ({
     getAssetById: jest.fn((id) => (id === PERSISTED_ASSET_SHIMMER.id ? PERSISTED_ASSET_SHIMMER : nativeTokenAsset)),
 }))
 
-jest.mock('@core/token/actions/getAccountTokensForSelectedAccount', () => ({
+jest.mock('@core/token/actions/getAccountTokensForAccount', () => ({
     getAccountTokensForSelectedAccount: jest.fn((_) => {
         return {
             [SupportedNetworkId.Testnet]: {
