@@ -23,13 +23,15 @@ export interface IErc721Nft extends IBaseNft {
         contract: IErc721ContractMetadata
         token?: IErc721TokenMetadata
     }
-    tokenId: string
+    tokenId?: string
 }
 
 interface IBaseNft {
     id: string
     networkId: NetworkId
+    // TODO: Change to `nftAddress` since we now have ownerAddress
     address: string
+    ownerAddress: string
     name: string
     composedUrl: string
     downloadUrl: string

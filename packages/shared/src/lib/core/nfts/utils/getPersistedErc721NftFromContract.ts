@@ -1,5 +1,7 @@
 import { Erc721InterfaceId } from '@core/layer-2/enums'
 import { Contract } from '@core/layer-2/types'
+import { NetworkId } from '@core/network/types'
+
 import { NftStandard } from '../enums'
 import {
     IErc721ContractMetadata,
@@ -10,11 +12,15 @@ import {
 import { composeUrlFromNftUri } from '../utils'
 
 export async function getPersistedErc721NftFromContract(
+    ownerAddress: string,
+    networkId: NetworkId,
     tokenId: string,
     contract: Contract,
     contractMetadata: IErc721ContractMetadata
 ): Promise<IPersistedErc721Nft> {
     const persistedNft: IPersistedErc721Nft = {
+        ownerAddress,
+        networkId,
         standard: NftStandard.Erc721,
         contractMetadata,
         tokenId,
@@ -36,7 +42,6 @@ export async function getPersistedErc721NftFromContract(
                 }))
                 persistedNft.tokenMetadata = {
                     ...metadata,
-                    image: composeUrlFromNftUri(metadata.image) ?? metadata.image,
                     attributes,
                 }
             }

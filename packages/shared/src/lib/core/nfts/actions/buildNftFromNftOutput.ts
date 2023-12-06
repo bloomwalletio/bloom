@@ -44,6 +44,7 @@ export function buildNftFromNftOutput(
     return {
         standard: NftStandard.Irc27,
         id,
+        ownerAddress: accountAddress,
         address,
         name: parsedMetadata?.name ?? DEFAULT_NFT_NAME,
         issuer,
