@@ -53,7 +53,7 @@ export async function sendTransactionFromEvm(
                 timestamp: Date.now(),
             }
             await persistEvmTransaction(evmTransaction, chain, account)
-            callback && callback({ result: transactionReceipt })
+            callback && callback({ result: transactionReceipt.transactionHash })
         },
         { stronghold: true, ledger: true, props: { preparedTransaction } },
         LedgerAppName.Ethereum,
