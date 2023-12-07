@@ -9,8 +9,12 @@ export async function rejectSession(): Promise<void> {
     }
 
     sessionProposal.set(undefined)
-    await getWalletClient()?.rejectSession({
-        id: _sessionProposal.id,
-        reason: getSdkError('USER_REJECTED'),
-    })
+    try {
+        await getWalletClient()?.rejectSession({
+            id: _sessionProposal.id,
+            reason: getSdkError('USER_REJECTED'),
+        })
+    } catch (err) {
+        console.error(err)
+    }
 }
