@@ -23,7 +23,7 @@ export async function checkOrUnlockStronghold(
         if (strongholdUnlocked) {
             return callback()
         } else {
-            closePopup(true)
+            closePopup({ forceClose: true })
             openPopup({
                 id: PopupId.UnlockStronghold,
                 props: {

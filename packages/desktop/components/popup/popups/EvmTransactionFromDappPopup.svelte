@@ -30,7 +30,6 @@
     export let preparedTransaction: EvmTransactionData
     export let chain: IChain
     export let dapp: IConnectedDapp | undefined
-    export let onCancel: () => void
     export let signAndSend: boolean
     export let callback: (params: CallbackParameters) => void
 
@@ -83,8 +82,7 @@
     }
 
     function onCancelClick(): void {
-        onCancel?.()
-        closePopup()
+        closePopup({ callOnCancel: true })
     }
 
     function onExplorerClick(contractAddress: string): void {
@@ -123,14 +121,13 @@
             <div class="flex flex-col gap-3">
                 <Alert variant="warning" text={localize('popups.smartContractCall.unableToVerify')} />
                 <Table
-                    orientation="vertical"
                     items={[
                         {
                             key: localize('general.address'),
                             value: truncateString(String(preparedTransaction.to), 16, 16),
                             onClick: () => onExplorerClick(String(preparedTransaction.to)),
                         },
-                        { key: localize('general.data'), value: String(preparedTransaction.data) },
+                        { key: localize('general.data'), value: String(preparedTransaction.data), copyable: true },
                     ]}
                 />
             </div>
