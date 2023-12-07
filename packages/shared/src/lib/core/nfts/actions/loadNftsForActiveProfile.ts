@@ -49,7 +49,8 @@ async function loadNftsForAccount(account: IAccountState): Promise<void> {
         accountNfts.push(...nfts)
 
         // ERC721 NFTs
-        const erc721Nfts = getPersistedErc721Nfts()
+        const coinType = chain.getConfiguration().coinType
+        const erc721Nfts = getPersistedErc721Nfts(account.evmAddresses[coinType] as string)
         const convertedNfts: INft[] = erc721Nfts.map((persistedErc721Nft) =>
             buildNftFromPersistedErc721Nft(persistedErc721Nft)
         )
