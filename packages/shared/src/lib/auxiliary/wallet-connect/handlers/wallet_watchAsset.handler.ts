@@ -1,7 +1,7 @@
 import { PopupId, openPopup } from '../../../../../../desktop/lib/auxiliary/popup'
 import { IChain, NetworkId } from '@core/network'
 import { CallbackParameters } from '@auxiliary/wallet-connect/types'
-import { ContractType } from '@core/layer-2'
+import { ContractType, EvmAssetStandard } from '@core/layer-2'
 import { getSdkError } from '@walletconnect/utils'
 import { addNewTrackedTokenToActiveProfile } from '@core/wallet/actions'
 import { TokenStandard, TokenTrackingStatus } from '@core/token/enums'
@@ -9,7 +9,7 @@ import { IConnectedDapp } from '../interface'
 import { localize } from '@core/i18n'
 
 interface WatchAssetParams {
-    type: 'ERC20' | 'ERC721'
+    type: EvmAssetStandard
     options: {
         address: string
         name?: string
@@ -53,7 +53,7 @@ export async function handleWatchAsset(
 }
 
 async function getAssetInfo(
-    type: 'ERC20' | 'ERC721',
+    type: EvmAssetStandard,
     options: {
         address: string
         name?: string
@@ -81,7 +81,7 @@ async function getAssetInfo(
 }
 
 function trackAsset(
-    type: 'ERC20' | 'ERC721',
+    type: EvmAssetStandard,
     address: string,
     assetInfo: {
         name: string
