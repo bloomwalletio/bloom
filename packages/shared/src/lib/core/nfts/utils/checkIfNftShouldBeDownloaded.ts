@@ -21,7 +21,7 @@ export async function checkIfNftShouldBeDownloaded(
     try {
         // TODO: Remove guard later (added for easier type checking)
         if (nft.standard === NftStandard.Erc721) {
-            console.warn('Downloading ERC721 NFTs is not yet supported')
+            return { shouldDownload: false, downloadMetadata: nft.downloadMetadata, downloadUrl: nft.composedUrl }
         }
 
         const alreadyDownloaded = features?.collectibles?.useCaching?.enabled
@@ -34,7 +34,7 @@ export async function checkIfNftShouldBeDownloaded(
             downloadMetadata.isLoaded = true
             downloadMetadata.error = { type: DownloadErrorType.UnsupportedUrl }
         } else {
-            const nftData = await getNftDownloadData(nft as IIrc27Nft)
+            const nftData = await getNftDownloadData(nft)
 
             if (!get(persistedNftForActiveProfile)?.[nft.id]) {
                 updatePersistedNft(nft.id, nftData)
@@ -42,7 +42,7 @@ export async function checkIfNftShouldBeDownloaded(
 
             const { downloadUrl, contentType, contentLength } = nftData
 
-            const validation = validateFile(nft as IIrc27Nft, contentType, contentLength)
+            const validation = validateFile(nft, contentType, contentLength)
             if (validation?.error || validation?.warning) {
                 downloadMetadata = { ...downloadMetadata, ...validation }
             } else {
@@ -117,7 +117,7 @@ async function getUrlAndHeadersFromOldSoonaverseStructure(
 ): Promise<{ url: string; headers: Headers } | undefined> {
     const isContentTypeEqualNftType = headers.get(HttpHeader.ContentType) === nft.metadata?.type
     if (!isContentTypeEqualNftType) {
-        const backupUrl = nft.composedUrl + '/' + encodeURIComponent(nft?.metadata?.name )
+        const backupUrl = nft.composedUrl + '/' + encodeURIComponent(nft?.metadata?.name)
         const backupResponse = await fetchWithTimeout(backupUrl, HEAD_FETCH_TIMEOUT_SECONDS, {
             method: 'HEAD',
             cache: 'force-cache',

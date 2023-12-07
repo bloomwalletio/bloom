@@ -4,7 +4,7 @@ import { TokenTrackingStatus } from '@core/token/enums'
 
 export function addNewTrackedNftToActiveProfile(
     networkId: NetworkId,
-    nftAddress: string,
+    nftId: string,
     trackingStatus: TokenTrackingStatus
 ): void {
     const profile = getActiveProfile()
@@ -14,8 +14,8 @@ export function addNewTrackedNftToActiveProfile(
 
     const trackedNftsOnProfile = profile.trackedNfts ?? {}
     const trackedNftsPerNetwork = trackedNftsOnProfile[networkId] ?? {}
-    if (!(nftAddress in trackedNftsPerNetwork) || trackedNftsPerNetwork[nftAddress] === TokenTrackingStatus.Untracked) {
-        trackedNftsPerNetwork[nftAddress] = trackingStatus
+    if (!(nftId in trackedNftsPerNetwork) || trackedNftsPerNetwork[nftId] === TokenTrackingStatus.Untracked) {
+        trackedNftsPerNetwork[nftId] = trackingStatus
         profile.trackedNfts = { ...trackedNftsOnProfile, [networkId]: trackedNftsPerNetwork }
         updateActiveProfile(profile)
     }

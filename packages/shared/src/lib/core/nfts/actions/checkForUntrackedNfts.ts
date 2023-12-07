@@ -61,8 +61,6 @@ async function persistNftsFromExplorerAsset(evmAddress: string, asset: IExplorer
                 }
             })
         )
-
-        addNewTrackedNftToActiveProfile(chain.getConfiguration().id, address, TokenTrackingStatus.AutomaticallyTracked)
     } catch (err) {
         console.error(err)
         throw new Error(`Unable to persist NFT with address ${address}`)
@@ -77,11 +75,13 @@ async function persistNftWithContractMetadata(
     contract: Contract
 ): Promise<void> {
     const { address } = contractMetadata
-    if (!tokenId || isNftPersisted(address, tokenId)) {
+    const nftId = `${address}:${tokenId}`
+    if (isNftPersisted(nftId)) {
         return
     }
     addPersistedNft(
-        `${address}:${tokenId}`,
+        nftId,
         await getPersistedErc721NftFromContract(ownerAddress, networkId, tokenId, contract, contractMetadata)
     )
+    addNewTrackedNftToActiveProfile(networkId, nftId, TokenTrackingStatus.AutomaticallyTracked)
 }

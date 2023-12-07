@@ -1,4 +1,5 @@
-import { INft, IPersistedErc721Nft, NftDownloadMetadata } from '../interfaces'
+import { getActiveProfile } from '@core/profile/stores'
+import { INft, IPersistedErc721Nft } from '../interfaces'
 import { composeUrlFromNftUri, NftStandard } from '@core/nfts'
 
 export function buildNftFromPersistedErc721Nft(nft: IPersistedErc721Nft): INft {
@@ -8,8 +9,12 @@ export function buildNftFromPersistedErc721Nft(nft: IPersistedErc721Nft): INft {
     const id = tokenId ? `${address}:${tokenId}` : address
     const composedUrl = composeUrlFromNftUri(tokenMetadata?.image) ?? ''
     const downloadUrl = tokenMetadata?.image
-    const filePath = 'TODO'
-    const downloadMetadata = {} as NftDownloadMetadata
+    const filePath = `${getActiveProfile().id}/nfts/${id}`
+    const downloadMetadata = {
+        error: undefined,
+        warning: undefined,
+        isLoaded: false,
+    }
 
     return {
         id,
