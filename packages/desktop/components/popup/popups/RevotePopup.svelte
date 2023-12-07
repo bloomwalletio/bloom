@@ -14,7 +14,7 @@
     async function onSubmit(): Promise<void> {
         await checkActiveProfileAuth(async () => {
             await vote()
-            closePopup(true)
+            closePopup({ forceClose: true })
         })
     }
 </script>

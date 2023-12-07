@@ -15,7 +15,7 @@ export async function sendSignedEvmTransaction(
         return await provider?.eth.sendSignedTransaction(signedTransaction)
     } catch (err) {
         if (getIsActiveLedgerProfile()) {
-            closePopup(true)
+            closePopup({ forceClose: true })
         }
         handleError(err)
     } finally {

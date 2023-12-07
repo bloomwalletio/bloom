@@ -52,8 +52,7 @@
     }
 
     function onCancelClick(): void {
-        onCancel?.()
-        closePopup()
+        closePopup({ callOnCancel: true })
     }
 
     onMount(async () => {
