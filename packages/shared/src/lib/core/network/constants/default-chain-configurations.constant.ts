@@ -1,8 +1,8 @@
 import { DEFAULT_COIN_TYPE } from '../constants'
-import { EvmChainId, ChainType, SupportedNetworkId, NetworkNamespace } from '../enums'
-import { ChainConfiguration, NetworkId } from '../types'
+import { ChainType, EvmChainId, NetworkNamespace, StardustNetworkId, SupportedNetworkId } from '../enums'
+import { ChainConfiguration } from '../types'
 
-export const DEFAULT_CHAIN_CONFIGURATIONS: Readonly<{ [id in NetworkId]?: ChainConfiguration }> = {
+export const DEFAULT_CHAIN_CONFIGURATIONS: Readonly<{ [id in StardustNetworkId]?: ChainConfiguration }> = {
     [SupportedNetworkId.Shimmer]: {
         id: SupportedNetworkId.ShimmerEvm,
         type: ChainType.Iscp,

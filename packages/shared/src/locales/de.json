@@ -68,7 +68,7 @@
                     "title": "Verify your recovery phrase",
                     "description": "Let’s check you wrote down your phrase correctly. Please select the word with the corresponding number below.",
                     "matchWord": "Match word #{number}:",
-                    "noMatch": "Does not match"
+                    "noMatch": "Stimmt nicht überein"
                 },
                 "verifyMnemonicSuccess": {
                     "status": "Verification Success",
@@ -82,7 +82,7 @@
                     "description": "Use Ledger Live to find and install the required app on your Ledger Nano device."
                 },
                 "connectLedger": {
-                    "title": "Connect your Ledger to Bloom",
+                    "title": "Verbinde deinen Ledger mit Bloom",
                     "description": "Please ensure that the official Ledger Live application is closed and follow the steps below.",
                     "connect": "Connect your Ledger device",
                     "unlock": "Unlock your Ledger with its pin",
@@ -104,16 +104,16 @@
                 "chooseRestoreProfileFlow": {
                     "title": "Choose your recovery method",
                     "mnemonic": {
-                        "primary": "Recovery phrase",
-                        "secondary": "Restore keys with a 12 or 24 word recovery phrase"
+                        "primary": "Wiederherstellungsphrase",
+                        "secondary": "Schlüssel mit einer 12 oder 24 Wort-Wiederherstellungsphrase wiederherstellen"
                     },
                     "file": {
-                        "primary": "Backup file",
-                        "secondary": "Restore profile with a Stronghold backup file"
+                        "primary": "Sicherungsdatei",
+                        "secondary": "Profil mit einer Stronghold Sicherungsdatei wiederherstellen"
                     },
                     "hardware": {
                         "primary": "Hardware device",
-                        "secondary": "Restore profile with a Ledger Nano device"
+                        "secondary": "Profil mit einem Ledger Nano wiederherstellen"
                     }
                 },
                 "claimFinder": {
@@ -160,7 +160,7 @@
                 "finishOnboarding": {
                     "status": "Setup complete",
                     "appSetup": {
-                        "title": "Bloom is ready",
+                        "title": "Bloom ist bereit",
                         "action": "Enter Bloom"
                     },
                     "profileSetup": {
@@ -187,7 +187,7 @@
                 "title": "Fortgeschritten"
             },
             "help": {
-                "title": "Help"
+                "title": "Hilfe"
             },
             "theme": {
                 "title": "Erscheinungsbild"
@@ -335,14 +335,14 @@
             "portfolio": {
                 "tab": "Portfolio",
                 "asset": "Asset",
-                "network": "Network",
-                "marketCap": "Market cap",
-                "price": "Price",
+                "network": "Netzwerk",
+                "marketCap": "Marktkapitalisierung",
+                "price": "Preis",
                 "total": "Total",
-                "available": "Available"
+                "available": "Verfügbar"
             },
             "activity": {
-                "tab": "Activity",
+                "tab": "Aktivität",
                 "asset": "Asset",
                 "action": "Action",
                 "address": "Address",
@@ -352,7 +352,7 @@
             },
             "profileMenu": {
                 "allSettings": "All settings",
-                "logout": "Log out"
+                "logout": "Abmelden"
             },
             "drawers": {
                 "networkConfig": {
@@ -502,17 +502,20 @@
                             "title": "Select permissions",
                             "signData": "Request to sign data",
                             "signTransaction": "Request to sign a transaction",
-                            "sendTransaction": "Request to send a transaction"
+                            "sendTransaction": "Request to send a transaction",
+                            "empty": "You have to select at least one permission"
                         },
                         "networks": {
                             "step": "Networks",
                             "title": "Select networks",
-                            "tip": "The required networks are pre-selected for you by the dApp and can also be reconfigured later."
+                            "tip": "The required networks are pre-selected for you by the dApp and can also be reconfigured later.",
+                            "empty": "You have to select at least one network"
                         },
                         "accounts": {
                             "step": "Accounts",
                             "title": "Select accounts",
-                            "tip": "Connect with specific accounts to manage funds separately. You control what the dApp can access."
+                            "tip": "Connect with specific accounts to manage funds separately. You control what the dApp can access.",
+                            "empty": "You have to select at least one account"
                         }
                     },
                     "details": {
@@ -892,6 +895,14 @@
         "sendTransaction": {
             "title": "Send transaction",
             "action": "Send"
+        },
+        "smartContractCall": {
+            "title": "Smart contract call to {contractAddress}",
+            "unableToVerify": "Bloom is unable to verify the smart contract call. Only proceed with apps you trust.",
+            "action": "Confirm"
+        },
+        "successfulDappConnection": {
+            "alert": "You can close this screen and return to the dApp when you are ready."
         },
         "activityDetails": {
             "title": {
@@ -1307,9 +1318,9 @@
         "sendAssets": "Assets senden",
         "sendAssetToAddress": "Asset an eine Adresse senden",
         "manageAccount": "Manage account",
-        "account": "Account",
+        "account": "Benutzerkonto",
         "amount": "Betrag",
-        "addAddress": "Add address",
+        "addAddress": "Adresse hinzufügen",
         "to": "An",
         "and": "und",
         "receiveFunds": "Guthaben empfangen",
@@ -1320,8 +1331,8 @@
         "viewQrCode": "View QR code",
         "import": "Importieren",
         "stronghold": "Stronghold",
-        "locked": "Locked",
-        "unlocked": "Unlocked",
+        "locked": "Gesperrt",
+        "unlocked": "Entsperrt",
         "lightTheme": "Hell",
         "darkTheme": "Dunkel",
         "systemTheme": "System",
@@ -1444,7 +1455,7 @@
         "evmAddress": "EVM-Adresse",
         "optionalField": "{field} (optional)",
         "gifted": "Gifted",
-        "connected": "Connected",
+        "connected": "Verbunden",
         "estimatedFee": "Estimated fee",
         "maxFees": "Max fees",
         "contacts": "Contacts",
@@ -1454,18 +1465,19 @@
         "disconnected": "Disconnected",
         "balanceBreakdown": "Balance breakdown",
         "primary": "Primary",
-        "color": "Color",
-        "privacyPolicy": "Privacy Policy",
-        "termsOfService": "Terms of Service",
-        "message": "Message",
-        "error": "Error",
+        "color": "Farbe",
+        "privacyPolicy": "Datenschutzbestimmungen",
+        "termsOfService": "Nutzungsbedingungen",
+        "message": "Nachricht",
+        "error": "Fehler",
         "warning": "Warning",
         "failed": "failed",
         "required": "Required",
-        "yes": "Yes",
-        "no": "No",
+        "yes": "Ja",
+        "no": "Nein",
         "tip": "Tip",
-        "verified": "Verified"
+        "verified": "Verified",
+        "data": "Data"
     },
     "filters": {
         "title": "Filter",
@@ -1594,8 +1606,7 @@
         "updateError": "Während des Updates ist ein Fehler aufgetreten. Bitte versuche es erneut",
         "copiedToClipboard": "In die Zwischenablage kopiert",
         "newDappConnection": {
-            "success": "Connected to new dApp",
-            "rejected": "Connection rejected"
+            "noProposal": "No proposal from dApp received"
         },
         "deepLinkingRequest": {
             "receivedWhileLoggedOut": "Bitte melde dich an, um den Deep-Link zu initiieren",

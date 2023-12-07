@@ -14,7 +14,7 @@
 </script>
 
 <button class:selected on:click={onClick} on:mouseenter={() => (hover = true)} on:mouseleave={() => (hover = false)}>
-    <div class="flex flex-row items-center relative space-x-4 pr-3">
+    <div class="flex flex-row items-center relative space-x-4">
         <Icon name={tab?.icon} textColor={selected ? 'brand' : 'primary'} />
         {#if tab?.notificationType}
             <Indicator

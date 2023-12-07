@@ -15,7 +15,7 @@
     import { LedgerAppName } from '@core/ledger'
     import PopupTemplate from '../PopupTemplate.svelte'
     import { showNotification } from '@auxiliary/notification/actions'
-    import { DappDataBox } from '@components'
+    import DappDataBanner from '@components/DappDataBanner.svelte'
 
     export let _onMount: (..._: any[]) => Promise<void> = async () => {}
     export let message: string
@@ -52,8 +52,7 @@
     }
 
     function onCancelClick(): void {
-        onCancel?.()
-        closePopup()
+        closePopup({ callOnCancel: true })
     }
 
     onMount(async () => {
@@ -77,13 +76,13 @@
     }}
     busy={$selectedAccount?.isTransferring || isBusy}
 >
+    <DappDataBanner slot="banner" {dapp} />
+
     <div class="space-y-5">
-        <DappDataBox {dapp}>
-            <div>
-                <Text fontWeight="medium">{localize('general.message')}</Text>
-                <Text textColor="secondary" type="sm" fontWeight="medium">{message}</Text>
-            </div>
-        </DappDataBox>
+        <div>
+            <Text fontWeight="medium">{localize('general.message')}</Text>
+            <Text textColor="secondary" type="sm" fontWeight="medium">{message}</Text>
+        </div>
         <Table
             items={[
                 {

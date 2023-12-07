@@ -55,116 +55,116 @@
                     },
                     "hardware": {
                         "primary": "Hardware opslagruimte",
-                        "secondary": "Use the keys stored on your Ledger Nano device"
+                        "secondary": "Gebruik de sleutels die zijn opgeslagen op je Ledger Nano apparaat"
                     }
                 }
             },
             "createFromMnemonic": {
                 "viewMnemonic": {
-                    "title": "Record your recovery phrase",
-                    "description": "This recovery phrase is your most important secret. It is the master key to all your funds. Do not show this to anyone."
+                    "title": "Bewaar je herstel zin",
+                    "description": "Deze herstel zin is uw belangrijkste geheim. Het is de hoofdsleutel voor al uw tegoeden. Laat dit aan niemand zien."
                 },
                 "verifyMnemonic": {
-                    "title": "Verify your recovery phrase",
-                    "description": "Let’s check you wrote down your phrase correctly. Please select the word with the corresponding number below.",
-                    "matchWord": "Match word #{number}:",
-                    "noMatch": "Does not match"
+                    "title": "Verifieer uw herstel zin",
+                    "description": "Laten we controleren of je je zin goed opgeschreven hebt. Selecteer het woord met het bijbehorende nummer hieronder.",
+                    "matchWord": "Overeenkomende woord #{number}:",
+                    "noMatch": "Komt niet overeen"
                 },
                 "verifyMnemonicSuccess": {
-                    "status": "Verification Success",
-                    "title": "Recovery phrase matched",
-                    "description": "Remember to keep your copies private and secure"
+                    "status": "Verificatie Succesvol",
+                    "title": "Herstel zin komt overeen",
+                    "description": "Vergeet niet om uw kopieën privé en veilig te bewaren"
                 }
             },
             "createFromLedger": {
                 "installLedger": {
-                    "title": "Install the Ledger app",
-                    "description": "Use Ledger Live to find and install the required app on your Ledger Nano device."
+                    "title": "Installeer de Ledger app",
+                    "description": "Gebruik Ledger Live om de benodigde app te vinden en te installeren op je Ledger Nano apparaat."
                 },
                 "connectLedger": {
-                    "title": "Connect your Ledger to Bloom",
-                    "description": "Please ensure that the official Ledger Live application is closed and follow the steps below.",
-                    "connect": "Connect your Ledger device",
-                    "unlock": "Unlock your Ledger with its pin",
-                    "open": "Open the Shimmer app on your Ledger",
-                    "tip": "Tips if your Ledger isn't connecting"
+                    "title": "Verbind uw Ledger met Bloom",
+                    "description": "Zorg ervoor dat de officiële Ledger Live applicatie is gesloten en volg de onderstaande stappen.",
+                    "connect": "Verbind uw Ledger apparaat",
+                    "unlock": "Ontgrendel je Ledger met zijn pin",
+                    "open": "Open de Shimmer app op je Ledger",
+                    "tip": "Tips als uw Ledger geen verbinding kan maken"
                 },
                 "ledgerConnectionGuide": {
-                    "title": "Ledger isn't connecting?",
-                    "ledgerLiveNotOpen": "Ensure the Ledger Live app is not open on your computer",
-                    "ledgerDeviceUnlocked": "Ensure your Ledger device is unlocked with your PIN",
-                    "ledgerAppOpen": "Open the {appName} app on your Ledger device",
+                    "title": "Ledger maakt geen verbinding?",
+                    "ledgerLiveNotOpen": "Zorg ervoor dat Ledger Live niet open is op uw computer",
+                    "ledgerDeviceUnlocked": "Zorg ervoor dat je Ledger apparaat ontgrendeld is met je pincode",
+                    "ledgerAppOpen": "Open de {appName} app op uw Ledger apparaat",
                     "ledgerStillNotConnected": {
-                        "question": "Still not working?",
-                        "answer": "Try the official Ledger support"
+                        "question": "Werkt het nog steeds niet?",
+                        "answer": "Probeer de officiële Ledger support pagina"
                     }
                 }
             },
             "restoreProfile": {
                 "chooseRestoreProfileFlow": {
-                    "title": "Choose your recovery method",
+                    "title": "Kies uw herstelmethode",
                     "mnemonic": {
-                        "primary": "Recovery phrase",
-                        "secondary": "Restore keys with a 12 or 24 word recovery phrase"
+                        "primary": "Herstel zin",
+                        "secondary": "Herstel sleutels met een herstel zin van 12 of 24 woorden"
                     },
                     "file": {
-                        "primary": "Backup file",
-                        "secondary": "Restore profile with a Stronghold backup file"
+                        "primary": "Back-up bestand",
+                        "secondary": "Herstel profiel met een Stronghold back-up bestand"
                     },
                     "hardware": {
-                        "primary": "Hardware device",
-                        "secondary": "Restore profile with a Ledger Nano device"
+                        "primary": "Hardware apparaat",
+                        "secondary": "Herstel profiel met een Ledger Nano apparaat"
                     }
                 },
                 "claimFinder": {
-                    "title": "Claim your Shimmer rewards",
-                    "description": "Use the balance finder below, and check if your Shimmer staking rewards balance is correct before claiming.",
-                    "success": "Successfully found {amount}"
+                    "title": "Claim je Shimmer beloningen",
+                    "description": "Gebruik de onderstaande balanszoeker en controleer of je Shimmer staking beloningen saldo correct is voordat je claimt.",
+                    "success": "Succesvol {amount} gevonden"
                 }
             },
             "restoreFromMnemonic": {
                 "inputMnemonic": {
-                    "title": "Enter your recovery phrase",
-                    "description": "A recovery phrase is a 12 or 24 word master key to all your funds that you will have recorded when making an existing profile. Enter it below and separate each word with spaces.",
+                    "title": "Voer uw herstel zin in",
+                    "description": "Een herstel zin is een 12 of 24 woord hoofdsleutel voor al uw tegoeden die u hebt bewaard bij het maken van een bestaand profiel. Voer het hieronder in en scheid elk woord met spaties.",
                     "phraseDetected": {
-                        "12": "12 word recovery phrase detected",
-                        "24": "24 word recovery phrase detected"
+                        "12": "12 woord herstel zin gedetecteerd",
+                        "24": "24 woord herstel zin gedetecteerd"
                     }
                 }
             },
             "restoreFromStronghold": {
                 "importStronghold": {
-                    "title": "Import your backup file",
-                    "description": "Drop your Stronghold backup file or choose one from the file explorer to restore your profile."
+                    "title": "Importeer uw back-up bestand",
+                    "description": "Sleep uw Stronghold back-up bestand of kies er een uit de bestandsverkenner om uw profiel te herstellen."
                 },
                 "unlockBackup": {
-                    "title": "Unlock your backup",
-                    "description": "Please provide the password for the backup below to decrypt your keys."
+                    "title": "Ontgrendel je back-up",
+                    "description": "Geef het wachtwoord voor de onderstaande back-up op om uw sleutels te decoderen."
                 }
             },
             "shared": {
                 "encryptMnemonic": {
-                    "title": "Secure your profile",
-                    "description": "Make your password highly secure to encrypt your keys. This will be required to send tokens and assets."
+                    "title": "Beveilig je profiel",
+                    "description": "Maak je wachtwoord zeer veilig voor het versleutelen van je sleutels. Dit zal vereist zijn voor het verzenden van tokens en assets."
                 }
             },
             "completeOnboarding": {
                 "enterName": {
-                    "title": "Give your profile a name",
-                    "description": "Be as creative as you like! You can change this later."
+                    "title": "Geef je profiel een naam",
+                    "description": "Wees zo creatief als je wilt! Je kunt dit later veranderen."
                 },
                 "enterPin": {
-                    "title": "Add a PIN number",
-                    "description": "The 6-digit PIN gives you quick entry to your profile and helps prevent unwanted access."
+                    "title": "Pincode toevoegen",
+                    "description": "De 6-cijferige pincode geeft u snel toegang tot uw profiel en helpt ongewenste toegang te voorkomen."
                 },
                 "finishOnboarding": {
-                    "status": "Setup complete",
+                    "status": "Setup voltooid",
                     "appSetup": {
-                        "title": "Bloom is ready",
-                        "action": "Enter Bloom"
+                        "title": "Bloom is klaar",
+                        "action": "Ga Bloom binnen"
                     },
                     "profileSetup": {
-                        "title": "Profile is ready"
+                        "title": "Profiel is klaar"
                     }
                 }
             }
@@ -178,7 +178,7 @@
                 "title": "Profiel"
             },
             "collectibles": {
-                "title": "Collectibles"
+                "title": "Verzameling"
             },
             "security": {
                 "title": "Beveiliging"
@@ -208,26 +208,26 @@
                 "description": "Exporteren naar een Stronghold bestand - een complete versleutelde back-up van uw portemonnees en de nieuwste transactiegeschiedenis"
             },
             "autoLogout": {
-                "title": "Automatic logout",
-                "description": "Inactivity time before your wallets lock and you are logged out"
+                "title": "Automatisch uitloggen",
+                "description": "Inactiviteit tijd voordat uw portemonnees vergrendelen en u bent uitgelogd"
             },
             "strongholdTimeout": {
-                "title": "Stronghold timeout",
-                "description": "Length of time before your Stronghold password is required again"
+                "title": "Stronghold time-out",
+                "description": "Tijdsduur voordat je Stronghold wachtwoord opnieuw vereist is"
             },
             "maxMediaSize": {
-                "title": "Maximum media size",
-                "description": "NFT media with sizes greater than this limit will not be downloaded and a placeholder representing the media type will be displayed instead",
-                "input": "Media size"
+                "title": "Maximale mediagrootte",
+                "description": "NFT media met grootte groter dan deze limiet zal niet worden gedownload en in plaats daarvan zal een placeholder die het mediatype vertegenwoordigt worden weergegeven",
+                "input": "Media grootte"
             },
             "maxMediaDownloadTime": {
-                "title": "Maximum download time",
-                "description": "NFT media which take longer than this limit to download will be canceled and a placeholder representing the media type will be displayed instead",
-                "input": "Download time"
+                "title": "Maximale downloadtijd",
+                "description": "NFT media die langer duren dan deze limiet om te downloaden zullen worden geannuleerd en een placeholder die het mediatype vertegenwoordigt zal in plaats daarvan worden weergegeven",
+                "input": "Download tijd"
             },
             "refreshNftMedia": {
-                "title": "Refresh NFT media",
-                "description": "NFT media cached for this account will be deleted and then downloaded again"
+                "title": "NFT media vernieuwen",
+                "description": "NFT media gecached voor dit account wordt verwijderd en vervolgens opnieuw gedownload"
             },
             "changePassword": {
                 "title": "Wachtwoord wijzigen",
@@ -243,11 +243,11 @@
             },
             "changeProfileName": {
                 "title": "Verander profielnaam",
-                "description": "Change your Bloom profile name",
+                "description": "Verander je Bloom profielnaam",
                 "success": "Je hebt je profielnaam gewijzigd"
             },
             "hiddenAccounts": {
-                "title": "Hidden accounts",
+                "title": "Verborgen accounts",
                 "description": "Door deze optie te selecteren, worden portefeuilles die voorheen verborgen waren getoond"
             },
             "deleteProfile": {
@@ -256,7 +256,7 @@
             },
             "deepLinks": {
                 "title": "Diepe links",
-                "description": "Automatically fill transaction data in Bloom upon clicking a deep link starting with {appProtocol}://"
+                "description": "Automatisch transactiegegevens invullen in Bloom bij het klikken op een diepe link beginnend met {appProtocol}://"
             },
             "errorLog": {
                 "title": "Foutenlogboek",
@@ -264,9 +264,9 @@
             },
             "crashReporting": {
                 "title": "Crashrapporten",
-                "body": "Help the developers improve Bloom by automatically sending diagnostic data when an error or crash occurs",
+                "body": "Help de ontwikkelaars om Bloom te verbeteren door automatisch diagnostische gegevens te verzenden als er een fout of crash optreedt",
                 "checkbox": "Verstuur crashrapporten",
-                "advice": "Please restart the Bloom application to {sendCrashReports, select, true {start sharing crash reports} false {stop sharing crash reports} other {apply this change}}"
+                "advice": "Start de Bloom applicatie opnieuw op om {sendCrashReports, select, true {te beginnen met het delen van crashrapporten} false {te stoppen met het delen van crashrapporten} other {pas deze wijziging toe}}"
             },
             "diagnostics": {
                 "title": "Foutrapportages",
@@ -296,32 +296,32 @@
                 "description": "Meld een probleem aan de ontwikkelaars. Controleer eerst of deze niet al eerder gemeld is"
             },
             "developerToggle": {
-                "title": "Developer Mode",
-                "description": "Switch developer mode on to enable more features in experimental state"
+                "title": "Ontwikkelaar Modus",
+                "description": "Schakel de ontwikkelaarsmodus in om meer functies die experimenteel zijn in te schakelen"
             }
         },
         "login": {
-            "incorrectPin": "Incorrect PIN code",
-            "hintStronghold": "Your Stronghold's version is out of date. Please log in to update your Stronghold.",
+            "incorrectPin": "Onjuiste pincode",
+            "hintStronghold": "De versie van Stronghold is verouderd. Log in om uw Stronghold bij te werken.",
             "maxAttempts": {
-                "title": "Couldn't sign you in",
-                "body1": "You have entered an",
-                "body2": "incorrect PIN code {times, plural, one {# time} other {# times}}.",
-                "body3": "For security purposes, your profile has been temporarily locked. Please wait for",
-                "body4": "before attempting to login again."
+                "title": "Kan u niet aanmelden",
+                "body1": "Je betreedt een",
+                "body2": "onjuiste pincode {times, plural, one {# keer} other {# keer}}.",
+                "body3": "Om veiligheidsredenen is uw profiel tijdelijk vergrendeld. Wacht op",
+                "body4": "voordat u probeert opnieuw in te loggen."
             }
         },
         "loadProfile": {
             "loginSteps": {
-                "buildProfileManager": "Initialising profile manager",
-                "updateNodeInfo": "Checking node health",
-                "recoverAccounts": "Generating accounts",
-                "loadAccounts": "Syncing accounts",
-                "loadAssets": "Loading native assets",
-                "loadActivities": "Building activity history",
-                "setStrongholdStatus": "Securing stronghold",
-                "startBackgroundSync": "Starting background sync",
-                "loggingIn": "Loading dashboard"
+                "buildProfileManager": "Initialiseren profielbeheer",
+                "updateNodeInfo": "Controleren van knooppunt gezondheid",
+                "recoverAccounts": "Accounts genereren",
+                "loadAccounts": "Account synchroniseren",
+                "loadAssets": "Native assets laden",
+                "loadActivities": "Maken van activiteit geschiedenis",
+                "setStrongholdStatus": "Exporteren van Stronghold",
+                "startBackgroundSync": "Beginnen van achtergrondsynchronisatie",
+                "loggingIn": "Dashboard wordt geladen"
             }
         },
         "dashboard": {
@@ -329,190 +329,193 @@
                 "operational": "Netwerk Operationeel",
                 "degraded": "Netwerk gedegradeerd",
                 "down": "Netwerk Inactief",
-                "disconnected": "Verbinding met node verbroken",
+                "disconnected": "Verbinding verbroken met knooppunt",
                 "status": "Status"
             },
             "portfolio": {
-                "tab": "Portfolio",
-                "asset": "Asset",
-                "network": "Network",
-                "marketCap": "Market cap",
-                "price": "Price",
-                "total": "Total",
-                "available": "Available"
+                "tab": "Portefeuille",
+                "asset": "Bezit",
+                "network": "Netwerk",
+                "marketCap": "Marktkapitalisatie",
+                "price": "Prijs",
+                "total": "Totaal",
+                "available": "Beschikbaar"
             },
             "activity": {
-                "tab": "Activity",
-                "asset": "Asset",
-                "action": "Action",
-                "address": "Address",
-                "amount": "Amount",
-                "claimableTransactions": "You have {amount} {amount, select, 1 {transaction that requires} other {transactions that require}} claiming",
-                "consolidatedOutputs": "{amount} outputs consolidated"
+                "tab": "Activiteit",
+                "asset": "Bezit",
+                "action": "Actie",
+                "address": "Adres",
+                "amount": "Hoeveelheid",
+                "claimableTransactions": "Je hebt {amount} {amount, select, 1 {transactie die je nodig hebt} other {transacties die nodig zijn}}",
+                "consolidatedOutputs": "{amount} uitgangen geconsolideerd"
             },
             "profileMenu": {
-                "allSettings": "All settings",
-                "logout": "Log out"
+                "allSettings": "Alle instellingen",
+                "logout": "Uitloggen"
             },
             "drawers": {
                 "networkConfig": {
                     "addChain": {
-                        "title": "Add chain"
+                        "title": "Ketting toevoegen"
                     },
                     "chain": {
-                        "chainId": "Chain ID",
-                        "aliasAddress": "Alias Address",
-                        "rpcEndpoint": "RPC Endpoint",
-                        "explorerUrl": "Explorer URL (optional)",
+                        "chainId": "Ketting ID",
+                        "aliasAddress": "Alias Adres",
+                        "rpcEndpoint": "RPC Eindpunt",
+                        "explorerUrl": "Explorer URL (optioneel)",
                         "errors": {
-                            "cannotBeEmpty": "Name cannot be empty",
-                            "nameTooLong": "Name is too long",
-                            "aliasAddressWrongFormat": "Must be in either hex or Bech32 format",
-                            "aliasAddressAlreadyInUse": "Alias address already in use",
-                            "invalidUrl": "Invalid URL"
+                            "cannotBeEmpty": "Naam kan niet leeg zijn",
+                            "nameTooLong": "Naam is te lang",
+                            "aliasAddressWrongFormat": "Moet in hex of Bech32 formaat zijn",
+                            "aliasAddressAlreadyInUse": "Alias adres is al in gebruik",
+                            "invalidUrl": "Ongeldige URL"
                         }
                     },
                     "chainDepositAddress": {
-                        "title": "Chain deposit address",
-                        "networkTitle": "Network deposit address"
+                        "title": "Ketting stortingsadres",
+                        "networkTitle": "Netwerk stortingsadres"
                     },
                     "confirmLedgerEvmAddress": {
-                        "title": "Confirm EVM address",
-                        "header": "We have generated your EVM address"
+                        "title": "Bevestig EVM-adres",
+                        "header": "We hebben uw EVM-adres gegenereerd"
                     },
                     "connectedChains": {
-                        "title": "Connected chains"
+                        "title": "Verbonden kettingen"
                     },
                     "connectLedgerDevice": {
-                        "title": "Connect Ledger Device",
-                        "header": "Open the Ethereum app",
-                        "body": "For your Ledger device to be found by Bloom, please ensure that the official Ledger Live application is closed before following these steps.",
+                        "title": "Ledger Apparaat verbinden",
+                        "header": "Open de Ethereum app",
+                        "body": "Om uw Ledger apparaat te vinden door Bloom, zorg ervoor dat de officiële Ledger Live applicatie gesloten is voordat deze stappen worden gevolgd.",
                         "requirements": {
-                            "connect": "Connect and unlock your Ledger",
-                            "openApp": "Open the Ethereum app on your Ledger"
+                            "connect": "Verbind en ontgrendel je Ledger",
+                            "openApp": "Open de Ethereum app op uw Ledger"
                         }
                     },
                     "editChain": {
-                        "title": "Edit chain"
+                        "title": "Bewerk ketting"
                     },
                     "removeChain": {
-                        "title": "Remove chain"
+                        "title": "Verwijder ketting"
                     },
                     "networkSettings": {
                         "configureNodeList": {
-                            "title": "Node configuration",
-                            "description": "Manage the list of nodes you connect to",
-                            "excludeNode": "Exclude node",
-                            "includeNode": "Include node",
-                            "editDetails": "Edit details",
-                            "setAsPrimary": "Set primary node",
-                            "unsetAsPrimary": "Clear primary node",
-                            "removeNode": "Remove node",
-                            "noNodes": "There are no nodes, unable to connect to the network"
+                            "title": "Knooppunt configuratie",
+                            "description": "Beheer de lijst met knooppunten waarmee u verbinding maakt",
+                            "excludeNode": "Knooppunt uitsluiten",
+                            "includeNode": "Knooppunt toevoegen",
+                            "editDetails": "Bewerk details",
+                            "setAsPrimary": "Instellen primaire knooppunt",
+                            "unsetAsPrimary": "Wissen primaire knooppunt",
+                            "removeNode": "Verwijder knooppunt",
+                            "noNodes": "Er zijn geen knooppunten, niet mogelijk om verbinding te maken met het netwerk"
                         },
                         "localProofOfWork": {
-                            "title": "Proof of work",
-                            "description": "Complete proof of work locally on your device or outsource to the node"
+                            "title": "Bewijs van werk",
+                            "description": "Voltooi bewijs van werk lokaal op je apparaat of besteed uit aan het knooppunt"
                         }
                     }
                 },
                 "contactBook": {
                     "contactList": {
-                        "title": "Contact list",
-                        "emptyHeader": "No contacts found",
-                        "emptyBody": "Connect with your favourite people in Bloom.",
-                        "addContact": "Add contact"
+                        "title": "Contactlijst",
+                        "emptyHeader": "Geen contacten gevonden",
+                        "emptyBody": "Maak contact met je favoriete mensen in Bloom.",
+                        "addContact": "Contact toevoegen"
                     },
                     "contactInformation": {
-                        "title": "Contact Information",
-                        "editContact": "Edit contact",
-                        "removeContact": "Remove contact",
-                        "addNetworkAddress": "Add address"
+                        "title": "Contactinformatie",
+                        "editContact": "Contact bewerken",
+                        "removeContact": "Contact verwijderen",
+                        "addNetworkAddress": "Adres toevoegen"
                     },
                     "contactAddress": {
-                        "title": "Contact address",
-                        "viewQrCode": "Vew QR code"
+                        "title": "Contactadres",
+                        "viewQrCode": "Bekijk QR-code"
                     },
                     "addContact": {
-                        "title": "Add contact",
-                        "identity": "Their identity",
-                        "address": "Their address",
-                        "color": "Contact color"
+                        "title": "Contact toevoegen",
+                        "identity": "Hun identiteit",
+                        "address": "Hun adres",
+                        "color": "Kleur van contact"
                     },
                     "editContact": {
-                        "title": "Edit contact",
-                        "identity": "Their identity",
-                        "color": "Contact color"
+                        "title": "Contact bewerken",
+                        "identity": "Hun identiteit",
+                        "color": "Kleur van contact"
                     },
                     "removeContact": {
-                        "title": "Remove contact",
-                        "body": "Are you sure you want to remove this contact?",
-                        "hint": "Please note after removing a contact Bloom will show its actual addresses."
+                        "title": "Contact verwijderen",
+                        "body": "Weet u zeker dat u dit contact wilt verwijderen?",
+                        "hint": "Let op: na het verwijderen van een contactpersoon toont Bloom de werkelijke adressen."
                     },
                     "addNetworkAddress": {
-                        "title": "Add network address"
+                        "title": "Netwerkadres toevoegen"
                     },
                     "editNetworkAddresses": {
-                        "title": "Edit network addresses"
+                        "title": "Netwerkadressen bewerken"
                     },
                     "removeNetworkAddresses": {
-                        "title": "Remove network addresses",
-                        "body": "Are you sure you want to remove the contact’s {network} network addresses?",
-                        "hint": "Please note after removing a contact’s network addresses Bloom will no longer associate it with them in transactions or activities."
+                        "title": "Netwerk adressen verwijderen",
+                        "body": "Weet je zeker dat je het {network} netwerkadres van de contactpersoon wilt verwijderen?",
+                        "hint": "Let op, na het verwijderen van de netwerkadressen van een contactpersoon, zal Bloom deze niet langer koppelen aan transacties of activiteiten."
                     }
                 },
                 "dapps": {
                     "dappsList": {
-                        "title": "Connected dApps",
-                        "connectDapp": "Connect dApp",
-                        "emptyTitle": "No apps found",
-                        "emptySubtitle": "Connect Bloom with your favourite dApps"
+                        "title": "Verbonden dApps",
+                        "connectDapp": "Verbind dApp",
+                        "emptyTitle": "Geen apps gevonden",
+                        "emptySubtitle": "Verbind Bloom met uw favoriete dApps"
                     },
                     "inputConnectionCode": {
-                        "title": "Connect to a dApp",
-                        "inputLabel": "Wallet Connect code",
-                        "addDapp": "Add a dApp",
-                        "addDappDescription": "Add new dApps by adding a Wallet Connect code below.",
-                        "deprecated": "The dApp you try to connect to uses a deprecated version of WalletConnect. Cannot establish connection"
+                        "title": "Verbinding maken met een dApp",
+                        "inputLabel": "Portemonnee Connect code",
+                        "addDapp": "Voeg een dApp toe",
+                        "addDappDescription": "Voeg nieuwe dApps toe door een Wallet Connect code hieronder toe te voegen.",
+                        "deprecated": "De dApp waarmee u verbinding probeert te maken maakt gebruik van een verouderde versie van WalletConnect. Kan geen verbinding tot stand brengen"
                     },
                     "connectionRequest": {
-                        "title": "Connection request",
-                        "firstTimeHint": "This dApp wishes to connect for the first time. Connect to sites you trust.",
-                        "reconnectHint": "You have previously connected with this dApp.",
-                        "insecure": "The URL for this dApp cannot be verified. Your connection to this application may not be secure.",
-                        "unsupportedNetworks": "This dApp is not compatible with Bloom as it runs on an unsupported network.",
-                        "unsupportedMethods": "This dApp is not fully compatible with Bloom. Some methods or events are unsupported.",
-                        "supportedOnOtherProfile": "This dApp runs on a supported network, but is not accessible with this profile. Please use a profile connected to the required network.",
-                        "acceptInsecureConnection": "I understand this dApp may be insecure and still want to connect."
+                        "title": "Verbindingsverzoek",
+                        "firstTimeHint": "Deze dApp wil voor de eerste keer verbinding maken. Verbind met sites die u vertrouwt.",
+                        "reconnectHint": "U heeft eerder verbinding gemaakt met deze dApp.",
+                        "insecure": "De URL van deze dApp kan niet worden geverifieerd. Mogelijk is uw verbinding met deze app onveilig.",
+                        "unsupportedNetworks": "Deze dApp is niet compatibel met Bloom omdat het op een niet-ondersteund netwerk draait.",
+                        "unsupportedMethods": "Deze dApp is niet volledig compatibel met Bloom. Sommige methoden of gebeurtenissen worden niet ondersteund.",
+                        "supportedOnOtherProfile": "Deze dApp draait op een ondersteund netwerk, maar is niet toegankelijk met dit profiel. Gebruik een profiel verbonden met het vereiste netwerk.",
+                        "acceptInsecureConnection": "Ik begrijp dat deze dApp mogelijk onveilig is en nog steeds verbinding wil maken."
                     },
                     "editPermissions": {
-                        "title": "Edit permissions"
+                        "title": "Bewerk permissies"
                     },
                     "editNetworks": {
-                        "title": "Edit networks"
+                        "title": "Bewerk netwerken"
                     },
                     "editAccounts": {
-                        "title": "Edit accounts"
+                        "title": "Bewerk accounts"
                     },
                     "confirmConnection": {
-                        "title": "Connect with an application",
+                        "title": "Verbinding maken met een applicatie",
                         "permissions": {
-                            "step": "Permission",
+                            "step": "Permissie",
                             "tip": "These are limited permissions for the dApp to send an interaction request for your approval. Only approve apps you know and trust.",
                             "title": "Select permissions",
                             "signData": "Request to sign data",
                             "signTransaction": "Request to sign a transaction",
-                            "sendTransaction": "Request to send a transaction"
+                            "sendTransaction": "Request to send a transaction",
+                            "empty": "You have to select at least one permission"
                         },
                         "networks": {
                             "step": "Networks",
                             "title": "Select networks",
-                            "tip": "The required networks are pre-selected for you by the dApp and can also be reconfigured later."
+                            "tip": "The required networks are pre-selected for you by the dApp and can also be reconfigured later.",
+                            "empty": "You have to select at least one network"
                         },
                         "accounts": {
                             "step": "Accounts",
                             "title": "Select accounts",
-                            "tip": "Connect with specific accounts to manage funds separately. You control what the dApp can access."
+                            "tip": "Connect with specific accounts to manage funds separately. You control what the dApp can access.",
+                            "empty": "You have to select at least one account"
                         }
                     },
                     "details": {
@@ -620,7 +623,7 @@
                     "countingEnds": "Counting ends on",
                     "countingEnded": "Counting ended on",
                     "eventId": "Event ID",
-                    "nodeUrl": "Node URL"
+                    "nodeUrl": "Knooppunt URL"
                 },
                 "fetching": "Fetching proposal data",
                 "hintVote": "You can not vote on a proposal that is in the announcement phase, voting will open in {time}."
@@ -760,27 +763,27 @@
             "invalidProtocol": "Cannot open URL with invalid protocol"
         },
         "excludeNode": {
-            "title": "Exclude node",
-            "body": "Are you sure you want to exclude {url} from the available node pool?"
+            "title": "Uitsluiten knooppunt",
+            "body": "Weet u zeker dat u {url} wilt uitsluiten van de beschikbare knooppunt pool?"
         },
         "unsetAsPrimaryNode": {
-            "title": "Clear primary node",
-            "body": "Are you sure you want to clear {url} as the primary node?"
+            "title": "Wissen primaire knooppunt",
+            "body": "Weet u zeker dat u {url} wilt wissen als primaire knooppunt?"
         },
         "node": {
-            "titleAdd": "Node toevoegen",
-            "titleUpdate": "Een node bijwerken",
-            "titleRemove": "Verwijder node",
-            "titleRemoveAll": "Alle nodes verwijderen",
-            "titleInfo": "Node informatie",
-            "addingNode": "Toevoegen node",
-            "updatingNode": "Node bijwerken",
-            "loadingNodeInfo": "Laden van node info",
-            "nodeAddress": "Node adres",
+            "titleAdd": "Knooppunt toevoegen",
+            "titleUpdate": "Een knooppunt bijwerken",
+            "titleRemove": "Verwijder knooppunt",
+            "titleRemoveAll": "Alle knooppunten verwijderen",
+            "titleInfo": "Knooppunt informatie",
+            "addingNode": "Toevoegen knooppunt",
+            "updatingNode": "Knooppunt bijwerken",
+            "loadingNodeInfo": "Laden van knooppunt info",
+            "nodeAddress": "Knooppunt adres",
             "optionalUsername": "Gebruikersnaam (optioneel)",
             "optionalPassword": "Wachtwoord (optioneel)",
             "optionalJwt": "JSON webtoken (optioneel)",
-            "removeConfirmation": "Weet u zeker dat u deze node wilt verwijderen?",
+            "removeConfirmation": "Weet u zeker dat u dit knooppunt wilt verwijderen?",
             "info": {
                 "general": {
                     "tab": "Algemeen",
@@ -803,8 +806,8 @@
                     "network": "Netwerk",
                     "bech32Hrp": "Bech32 HRP",
                     "tokenSupply": "Token voorraad",
-                    "version": "Version",
-                    "minPowScore": "Min PoW Score"
+                    "version": "Versie",
+                    "minPowScore": "Minimale PoW Score"
                 },
                 "baseToken": {
                     "tab": "Basis token",
@@ -830,7 +833,7 @@
             "title": "Foutrapportages",
             "app": "App",
             "system": "System",
-            "node": "Node",
+            "node": "Knooppunt",
             "platform": "Platform",
             "platformVersion": "Platform Versie",
             "platformArchitecture": "Platform Architectuur",
@@ -892,6 +895,14 @@
         "sendTransaction": {
             "title": "Send transaction",
             "action": "Send"
+        },
+        "smartContractCall": {
+            "title": "Smart contract call to {contractAddress}",
+            "unableToVerify": "Bloom is unable to verify the smart contract call. Only proceed with apps you trust.",
+            "action": "Confirm"
+        },
+        "successfulDappConnection": {
+            "alert": "You can close this screen and return to the dApp when you are ready."
         },
         "activityDetails": {
             "title": {
@@ -1077,7 +1088,7 @@
         },
         "editProposal": {
             "title": "Edit proposal",
-            "body": "Please provide the new url for the node that contains this proposal."
+            "body": "Geef de nieuwe url voor het knooppunt dat dit voorstel bevat."
         },
         "voteForProposal": {
             "title": "Vote for proposal",
@@ -1102,8 +1113,8 @@
             "hint": "Please note that stopping voting during the counting period won't impact any votes that have already been counted."
         },
         "nodeAuthRequired": {
-            "title": "Authentication required",
-            "body": "This node requires additional authentication. Please fill in the appropriate information."
+            "title": "Verificatie vereist",
+            "body": "Dit knooppunt vereist extra verificatie. Vul de juiste informatie in."
         },
         "receiveAddress": {
             "title": "Receive",
@@ -1178,11 +1189,11 @@
         "hideAccount": "Hide account",
         "showAccount": "Unhide account",
         "deleteAccount": "Delete account",
-        "addNode": "Node toevoegen",
-        "addingNode": "Adding node",
-        "addOfficialNodes": "Add official nodes",
-        "updateNode": "Node bijwerken",
-        "removeNode": "Verwijder node",
+        "addNode": "Knooppunt toevoegen",
+        "addingNode": "Toevoegen knooppunt",
+        "addOfficialNodes": "Toevoegen officiële knooppunten",
+        "updateNode": "Knooppunt bijwerken",
+        "removeNode": "Verwijder knooppunt",
         "hide": "Verberg",
         "hideOthers": "Verberg Andere",
         "showAll": "Toon Alles",
@@ -1241,7 +1252,7 @@
         "vote": "Vote",
         "addProposal": "Add proposal",
         "removeProposal": "Remove proposal",
-        "changeNode": "Change node",
+        "changeNode": "Wijzig knooppunt",
         "stopVoting": "Stop voting",
         "revote": "Revote",
         "skipAndKeep": "Skip and keep old password",
@@ -1339,7 +1350,7 @@
         "network": "Netwerk",
         "networkSelection": "Network selection",
         "destinationNetwork": "Destination network",
-        "nodes": "Nodes",
+        "nodes": "Knooppunten",
         "wallet": "Portemonnee",
         "help": "Help",
         "confirmed": "Bevestigd",
@@ -1395,7 +1406,7 @@
         "name": "Name",
         "note": "Note",
         "tag": "Tag",
-        "nodeList": "Node list",
+        "nodeList": "Knooppunt lijst",
         "claimed": "claimed",
         "claimedIn": "Claimed in",
         "claimingIn": "Claiming in",
@@ -1465,7 +1476,8 @@
         "yes": "Yes",
         "no": "No",
         "tip": "Tip",
-        "verified": "Verified"
+        "verified": "Verified",
+        "data": "Data"
     },
     "filters": {
         "title": "Filters",
@@ -1594,8 +1606,7 @@
         "updateError": "Er is een fout opgetreden tijdens het updaten, probeer het opnieuw",
         "copiedToClipboard": "Gekopieerd naar het klembord",
         "newDappConnection": {
-            "success": "Connected to new dApp",
-            "rejected": "Connection rejected"
+            "noProposal": "No proposal from dApp received"
         },
         "deepLinkingRequest": {
             "receivedWhileLoggedOut": "Please login to initiate the deep link",
@@ -1758,21 +1769,21 @@
         },
         "node": {
             "invalid": "Voer een geldige URL in.",
-            "dns": "Unable to find DNS resolution for node",
-            "handshake": "Handshake met node kon niet worden voltooid.",
+            "dns": "Kan de DNS-resolutie voor knooppunt niet vinden",
+            "handshake": "Handshake met knooppunt kon niet worden voltooid.",
             "invalidCertificate": "Kan niet verbinden met ongeldig certificaat.",
             "https": "HTTPS is vereist; onveilige verbindingen over HTTP worden op dit moment niet ondersteund.",
-            "duplicate": "Deze node is reeds toegevoegd.",
-            "noSyncedNode": "No synced node is available.",
-            "timeNotSynced": "Device time is incorrect, unable to sync node.",
-            "unabledToConnect": "Unable to connect to the node",
-            "differentNetwork": "The node is located on a different network",
-            "duplicateNodes": "Unable to add duplicate node",
-            "noCoinType": "No coin type specified"
+            "duplicate": "Dit knooppunt is reeds toegevoegd.",
+            "noSyncedNode": "Geen gesynchroniseerde knooppunt beschikbaar.",
+            "timeNotSynced": "Apparaat tijd is onjuist, kan knooppunt niet synchroniseren.",
+            "unabledToConnect": "Kan niet verbinden met knooppunt",
+            "differentNetwork": "Het knooppunt bevindt zich op een ander netwerk",
+            "duplicateNodes": "Kan dubbel knooppunt niet toevoegen",
+            "noCoinType": "Geen munt type opgegeven"
         },
         "network": {
-            "mismatch": "De netwerk-ID voor deze node is \"{networkId}\", welke niet overeenkomt met het huidige netwerk.",
-            "notReachable": "Het netwerk-ID voor deze node kon niet worden opgehaald, kan node niet toevoegen."
+            "mismatch": "De netwerk ID voor dit knooppunt is \"{networkId}\", welke niet overeenkomt met het huidige netwerk.",
+            "notReachable": "Het netwerk ID voor dit knooppunt kon niet worden opgehaald, kan knooppunt niet toevoegen."
         },
         "global": {
             "generic": "Er ging iets mis."
@@ -1867,7 +1878,7 @@
         "governance": {
             "unableToAddProposal": {
                 "short": "Unable to add proposal",
-                "long": "Unable to find proposal {proposalId} on the specified node"
+                "long": "Kan voorstel {proposalId} op het opgegeven knooppunt niet vinden"
             }
         },
         "erc20Token": {
@@ -1943,12 +1954,12 @@
         "governance": {
             "removeProposalWarning": "You must stop voting for this proposal before removing it.",
             "outdatedNode": {
-                "title": "Outdated node URL",
-                "body": "The node URL for this proposal is outdated. Please update it to access the latest voting results."
+                "title": "Verouderde knooppunt URL",
+                "body": "Het knooppunt URL voor dit voorstel is verouderd. Alstublieft update het om toegang te krijgen tot de laatste stem resultaten."
             },
             "resultsNotAvailable": {
                 "title": "Results not available",
-                "body": "The results are no longer available on this proposal's corresponding node. Please update it to access the results."
+                "body": "De resultaten zijn niet langer beschikbaar op het corresponderende knooppunt van dit voorstel. Update het voor toegang tot de resultaten."
             }
         },
         "updateStronghold": {
@@ -1981,7 +1992,7 @@
                 "commencing": "Voting open",
                 "holding": "Counting",
                 "ended": "Closed",
-                "nodeOutdated": "Outdated node URL",
+                "nodeOutdated": "Verouderde knooppunt URL",
                 "resultsNotAvailable": "Results not available"
             }
         },

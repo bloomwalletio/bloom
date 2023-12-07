@@ -19,7 +19,7 @@
         shadow-lg
     "
 >
-    <AccountSummary {stardustNetworkId} {evmChainNetworkId} />
+    <AccountSummary />
     <AccountStardustNetworkSummary {account} networkId={stardustNetworkId} />
     {#if evmChainNetworkId}
         <AccountEvmChainSummary {account} networkId={evmChainNetworkId} />

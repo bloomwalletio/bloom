@@ -50,7 +50,7 @@ export function registerMenuButtons(): void {
         get(dashboardRouter).goTo(DashboardRoute.Wallet)
     })
     Platform.onEvent('menu-navigate-settings', () => {
-        closePopup()
+        closePopup({ callOnCancel: true })
         closeDrawer()
         openSettings()
     })

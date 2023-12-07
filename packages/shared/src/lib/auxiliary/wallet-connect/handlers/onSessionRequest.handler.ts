@@ -6,13 +6,10 @@ import { Web3WalletTypes } from '@walletconnect/web3wallet'
 import { getConnectedDappByOrigin, getWalletClient } from '../stores'
 import { NetworkId, getNetwork } from '@core/network'
 import { CallbackParameters } from '../types'
-import { Platform } from '@core/app'
 import { getSdkError } from '@walletconnect/utils'
 import { closePopup } from '../../../../../../desktop/lib/auxiliary/popup'
 
 export function onSessionRequest(event: Web3WalletTypes.SessionRequest): void {
-    Platform.focusWindow()
-
     const { topic, params, id, verifyContext } = event
     const { request, chainId } = params
     const method = request.method
@@ -37,7 +34,7 @@ export function onSessionRequest(event: Web3WalletTypes.SessionRequest): void {
         if (response) {
             void getWalletClient()?.respondSessionRequest({ topic, response })
         }
-        closePopup(true)
+        closePopup({ forceClose: true })
     }
 
     const chain = getNetwork()?.getChain(chainId as NetworkId)

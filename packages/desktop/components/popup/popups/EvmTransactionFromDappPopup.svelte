@@ -20,7 +20,7 @@
     import { TokenTransferData } from '@core/wallet'
     import { INft } from '@core/nfts'
     import { getNftByIdFromAllAccountNfts } from '@core/nfts/actions'
-    import DappDataBox from '@components/DappDataBox.svelte'
+    import DappDataBanner from '@components/DappDataBanner.svelte'
     import { onMount } from 'svelte'
     import { Alert, Table } from '@bloomwalletio/ui'
     import { closePopup } from '@desktop/auxiliary/popup'
@@ -30,7 +30,6 @@
     export let preparedTransaction: EvmTransactionData
     export let chain: IChain
     export let dapp: IConnectedDapp | undefined
-    export let onCancel: () => void
     export let signAndSend: boolean
     export let callback: (params: CallbackParameters) => void
 
@@ -83,8 +82,7 @@
     }
 
     function onCancelClick(): void {
-        onCancel?.()
-        closePopup()
+        closePopup({ callOnCancel: true })
     }
 
     function onExplorerClick(contractAddress: string): void {
@@ -116,27 +114,26 @@
     }}
     busy={$selectedAccount?.isTransferring}
 >
+    <DappDataBanner slot="banner" {dapp} />
+
     <div class="space-y-5">
-        <DappDataBox {dapp}>
-            {#if isSmartContractCall}
-                <div class="flex flex-col gap-3">
-                    <Alert variant="warning" text={localize(`popups.${localeKey}.unableToVerify`)} />
-                    <Table
-                        orientation="vertical"
-                        items={[
-                            {
-                                key: localize('general.address'),
-                                value: truncateString(String(preparedTransaction.to), 16, 16),
-                                onClick: () => onExplorerClick(String(preparedTransaction.to)),
-                            },
-                            { key: localize('general.data'), value: String(preparedTransaction.data) },
-                        ]}
-                    />
-                </div>
-            {:else}
-                <TransactionAssetSection {baseCoinTransfer} {tokenTransfer} {nft} />
-            {/if}
-        </DappDataBox>
+        {#if isSmartContractCall}
+            <div class="flex flex-col gap-3">
+                <Alert variant="warning" text={localize('popups.smartContractCall.unableToVerify')} />
+                <Table
+                    items={[
+                        {
+                            key: localize('general.address'),
+                            value: truncateString(String(preparedTransaction.to), 16, 16),
+                            onClick: () => onExplorerClick(String(preparedTransaction.to)),
+                        },
+                        { key: localize('general.data'), value: String(preparedTransaction.data), copyable: true },
+                    ]}
+                />
+            </div>
+        {:else}
+            <TransactionAssetSection {baseCoinTransfer} {tokenTransfer} {nft} />
+        {/if}
         <EvmTransactionDetails
             destinationNetworkId={id}
             estimatedGasFee={calculateEstimatedGasFeeFromTransactionData(preparedTransaction)}

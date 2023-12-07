@@ -1,4 +1,5 @@
 const BLOOM_UI_PRESET = require('@bloomwalletio/ui/tailwind-preset')
+const { exposeDarkModeStrategy } = require('@bloomwalletio/ui/darkmode')
 
 /* Utilities */
 const pxToRem = (px, base = 16) => `${px / base}rem`
@@ -10,6 +11,7 @@ const NODE_MODULES_ROUTES = ['../../node_modules/@bloomwalletio/ui/**/*.{html,js
 module.exports = {
     content: [...SHARED_CONTENT_ROUTES, ...NODE_MODULES_ROUTES, ...DESKTOP_CONTENT_ROUTES],
     presets: [BLOOM_UI_PRESET],
+    plugins: [exposeDarkModeStrategy],
     safelist: [
         {
             pattern: /^from-/,

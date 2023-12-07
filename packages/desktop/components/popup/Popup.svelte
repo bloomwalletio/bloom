@@ -46,6 +46,7 @@
     import SendFlowPopup from './popups/SendFlowPopup.svelte'
     import SignMessagePopup from './popups/SignMessagePopup.svelte'
     import StopVotingPopup from './popups/StopVotingPopup.svelte'
+    import SuccessfulDappConnection from './popups/SuccessfulDappConnection.svelte'
     import SyncAccountsPopup from './popups/SyncAccountsPopup.svelte'
     import TestDeepLinkFormPopup from './popups/TestDeepLinkFormPopup.svelte'
     import TokenInformationPopup from './popups/TokenInformationPopup.svelte'
@@ -120,6 +121,7 @@
         [PopupId.SendFlow]: SendFlowPopup,
         [PopupId.SignMessage]: SignMessagePopup,
         [PopupId.StopVoting]: StopVotingPopup,
+        [PopupId.SuccessfulDappConnection]: SuccessfulDappConnection,
         [PopupId.SyncAccounts]: SyncAccountsPopup,
         [PopupId.TestDeepLinkForm]: TestDeepLinkFormPopup,
         [PopupId.TokenInformation]: TokenInformationPopup,
@@ -137,22 +139,16 @@
 
     function tryClosePopup(): void {
         if (!preventClose) {
-            if ('function' === typeof props?.onCancel) {
-                props?.onCancel()
-            }
-            closePopup()
+            closePopup({ callOnCancel: true })
         }
     }
 
     function tryClosePopupOnClickOutside(): void {
         if (!preventClose) {
-            if ('function' === typeof props?.onCancel) {
-                props?.onCancel()
-            }
             if (confirmClickOutside) {
                 confirmationDialog?.openDialog()
             } else {
-                closePopup()
+                closePopup({ callOnCancel: true })
             }
         }
     }
@@ -229,7 +225,7 @@
 
 <style lang="postcss">
     :global(.popup) {
-        @apply w-full p-8;
+        @apply w-full p-0;
         @apply bg-surface dark:bg-surface-dark;
         @apply border border-solid border-stroke dark:border-stroke-dark;
         @apply shadow-elevation-4;

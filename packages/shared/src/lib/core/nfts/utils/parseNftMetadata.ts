@@ -3,9 +3,9 @@ import { Converter } from '@core/utils/convert'
 import { validateBech32Address } from '@core/utils/crypto'
 import { isValidUri } from '@core/utils/validation'
 import { Irc27Version } from '@core/wallet/enums'
+import { NftStandard } from '../enums'
 import { IIrc27Attribute, IIrc27Metadata, ISoonaverseAttribute, ISoonaverseAttributes } from '../interfaces'
 import { MimeType } from '../types'
-import { TokenStandard } from '@core/token/enums'
 
 export function parseNftMetadata(metadata: string): IIrc27Metadata | undefined {
     try {
@@ -34,7 +34,7 @@ export function parseNftMetadata(metadata: string): IIrc27Metadata | undefined {
 }
 
 function validateRequiredFieldsForIrc27(data: IIrc27Metadata): void {
-    if (!data?.standard || data?.standard !== TokenStandard.Irc27) {
+    if (!data?.standard || data?.standard !== NftStandard.Irc27) {
         throw 'Invalid standard, must be "IRC27"'
     }
 
