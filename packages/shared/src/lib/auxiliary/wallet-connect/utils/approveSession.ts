@@ -21,6 +21,10 @@ export async function approveSession(
         supportedNamespaces,
     })
 
-    await getWalletClient()?.approveSession({ id, namespaces: approvedNamespaces })
-    setConnectedDapps()
+    try {
+        await getWalletClient()?.approveSession({ id, namespaces: approvedNamespaces })
+        setConnectedDapps()
+    } catch (err) {
+        console.error(err)
+    }
 }
