@@ -29,7 +29,7 @@ export async function signMessage(
 
     if (!signedMessage) {
         if (get(isActiveLedgerProfile)) {
-            closePopup(true)
+            closePopup({ forceClose: true })
         }
         throw new Error('No signature provided')
     }

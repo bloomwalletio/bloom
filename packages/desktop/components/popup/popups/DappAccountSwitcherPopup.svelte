@@ -7,7 +7,7 @@
     import PopupTemplate from '../PopupTemplate.svelte'
     import { Table } from '@bloomwalletio/ui'
 
-    export let onCancel: () => void
+    export const onCancel: () => void = () => {}
     export let onConfirm: () => void
     export let account: IAccountState
 
@@ -17,8 +17,7 @@
     }
 
     function onCancelClick(): void {
-        onCancel()
-        closePopup()
+        closePopup({ callOnCancel: true })
     }
 </script>
 

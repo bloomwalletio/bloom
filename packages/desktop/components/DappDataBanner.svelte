@@ -26,7 +26,7 @@
 
 <style lang="scss">
     dapp-banner {
-        @apply w-full p-6;
+        @apply w-full p-6 pb-4;
         @apply flex flex-row items-center justify-center gap-3;
         @apply bg-surface-1 dark:bg-surface-1-dark;
     }
