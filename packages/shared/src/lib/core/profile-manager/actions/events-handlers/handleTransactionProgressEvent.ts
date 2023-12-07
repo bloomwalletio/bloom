@@ -60,7 +60,7 @@ function openPopupIfVerificationNeeded(progress: TransactionProgress): void {
             })
         } else if (type === TransactionProgressType.PreparedTransactionEssenceHash) {
             const appName =
-                get(activeProfile)?.network?.id === SupportedNetworkId.Iota ? LedgerAppName.IOTA : LedgerAppName.Shimmer
+                get(activeProfile)?.network?.id === SupportedNetworkId.Iota ? LedgerAppName.Iota : LedgerAppName.Shimmer
             if (get(ledgerDeviceState)?.settings?.[appName]?.blindSigningEnabled) {
                 openPopup({
                     id: PopupId.VerifyLedgerTransaction,

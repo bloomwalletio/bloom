@@ -42,7 +42,7 @@ export function handleLedgerError(error: IError, resetConfirmationPropsOnDenial 
         const hadToEnableBlindSinging = popupType === PopupId.EnableLedgerBlindSigning && wasDeniedByUser
         if (hadToEnableBlindSinging) {
             const appName =
-                get(activeProfile)?.network?.id === SupportedNetworkId.Iota ? LedgerAppName.IOTA : LedgerAppName.Shimmer
+                get(activeProfile)?.network?.id === SupportedNetworkId.Iota ? LedgerAppName.Iota : LedgerAppName.Shimmer
             openPopup({
                 id: PopupId.EnableLedgerBlindSigning,
                 props: {

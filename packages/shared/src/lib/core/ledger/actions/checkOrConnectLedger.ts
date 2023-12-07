@@ -9,7 +9,7 @@ export function checkOrConnectLedger(
     callback: () => Promise<unknown> = async (): Promise<void> => {},
     reopenPopup?: boolean,
     ledgerAppName: LedgerAppName = get(activeProfile)?.network?.id === SupportedNetworkId.Iota
-        ? LedgerAppName.IOTA
+        ? LedgerAppName.Iota
         : LedgerAppName.Shimmer,
     reopenProps: Record<string, unknown> = {},
     onCancel: () => void = (): void => {}

@@ -9,7 +9,7 @@ import { SupportedNetworkId } from '@core/network'
 
 export async function isLedgerDeviceMatchingActiveProfile(): Promise<boolean | undefined> {
     const appName =
-        get(activeProfile)?.network?.id === SupportedNetworkId.Iota ? LedgerAppName.IOTA : LedgerAppName.Shimmer
+        get(activeProfile)?.network?.id === SupportedNetworkId.Iota ? LedgerAppName.Iota : LedgerAppName.Shimmer
     if (isLedgerAppOpen(appName)) {
         try {
             const account = getSelectedAccount()

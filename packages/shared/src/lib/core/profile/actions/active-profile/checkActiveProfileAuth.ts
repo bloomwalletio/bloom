@@ -9,7 +9,7 @@ export function checkActiveProfileAuth(
     callback: () => Promise<unknown> = async () => {},
     reopenPopup?: { stronghold?: boolean; ledger?: boolean; props?: Record<string, unknown> },
     ledgerAppName: LedgerAppName = get(activeProfile)?.network?.id === SupportedNetworkId.Iota
-        ? LedgerAppName.IOTA
+        ? LedgerAppName.Iota
         : LedgerAppName.Shimmer,
     onCancel: () => void = (): void => {}
 ): Promise<unknown> {

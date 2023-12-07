@@ -11,7 +11,7 @@
     $: isDisconnected = $ledgerConnectionState === LedgerConnectionState.Disconnected
     $: isLocked = isDisconnected || $ledgerConnectionState === LedgerConnectionState.Locked
     $: appName =
-        $onboardingProfile?.network?.id === SupportedNetworkId.Iota ? LedgerAppName.IOTA : LedgerAppName.Shimmer
+        $onboardingProfile?.network?.id === SupportedNetworkId.Iota ? LedgerAppName.Iota : LedgerAppName.Shimmer
     $: isCorrectAppOpen =
         $onboardingProfile?.network?.id === SupportedNetworkId.Iota
             ? $ledgerConnectionState === LedgerConnectionState.IotaAppOpen

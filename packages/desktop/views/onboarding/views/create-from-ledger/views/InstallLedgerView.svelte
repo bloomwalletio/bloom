@@ -37,7 +37,7 @@
             <icon-container class="bg-black">
                 <Icon name={IconName.Iota} size="lg" textColor="invert" />
             </icon-container>
-            <Text>{LedgerAppName.IOTA}</Text>
+            <Text>{LedgerAppName.Iota}</Text>
         {:else}
             <icon-container class="bg-neutral-4">
                 <Icon name={IconName.ShimmerLedger} size="lg" customColor="neutral-1" />

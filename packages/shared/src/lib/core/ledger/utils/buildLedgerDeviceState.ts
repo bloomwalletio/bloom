@@ -22,8 +22,8 @@ export function buildLedgerDeviceState(
                     },
                 }),
             ...(app &&
-                (app?.name as LedgerAppName) === LedgerAppName.IOTA && {
-                    [LedgerAppName.IOTA]: {
+                (app?.name as LedgerAppName) === LedgerAppName.Iota && {
+                    [LedgerAppName.Iota]: {
                         version: app.version,
                         blindSigningEnabled: status?.blindSigningEnabled,
                     },

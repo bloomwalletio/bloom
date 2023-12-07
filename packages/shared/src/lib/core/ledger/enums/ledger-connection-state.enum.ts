@@ -4,7 +4,7 @@ export enum LedgerConnectionState {
     AppNotOpen = 'appNotOpen',
     Locked = 'locked',
     Disconnected = 'notConnected',
-    IotaAppOpen = LedgerAppName.IOTA,
+    IotaAppOpen = LedgerAppName.Iota,
     ShimmerAppOpen = LedgerAppName.Shimmer,
     EthereumAppOpen = LedgerAppName.Ethereum,
 }

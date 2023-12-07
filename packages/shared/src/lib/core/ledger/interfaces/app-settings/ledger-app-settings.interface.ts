@@ -3,7 +3,7 @@ import { ILedgerEthereumAppSettings } from './ledger-ethereum-app-settings.inter
 import { IBaseLedgerAppSettings } from './base-ledger-app-settings.interface'
 
 export interface ILedgerAppSettings {
-    [LedgerAppName.IOTA]?: IBaseLedgerAppSettings
+    [LedgerAppName.Iota]?: IBaseLedgerAppSettings
     [LedgerAppName.Shimmer]?: IBaseLedgerAppSettings
     [LedgerAppName.Ethereum]?: ILedgerEthereumAppSettings
 }

@@ -15,7 +15,7 @@
     const LOCALE_KEY = 'views.onboarding.completeOnboarding.finishOnboarding'
 
     $: appName =
-        $onboardingProfile?.network?.id === SupportedNetworkId.Iota ? LedgerAppName.IOTA : LedgerAppName.Shimmer
+        $onboardingProfile?.network?.id === SupportedNetworkId.Iota ? LedgerAppName.Iota : LedgerAppName.Shimmer
 
     function onContinueClick(): void {
         if ($isOnboardingLedgerProfile) {
