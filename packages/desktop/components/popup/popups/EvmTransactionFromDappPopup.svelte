@@ -123,7 +123,6 @@
             <div class="flex flex-col gap-3">
                 <Alert variant="warning" text={localize('popups.smartContractCall.unableToVerify')} />
                 <Table
-                    orientation="vertical"
                     items={[
                         {
                             key: localize('general.address'),
