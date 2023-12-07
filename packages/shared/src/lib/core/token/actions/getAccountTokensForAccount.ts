@@ -110,7 +110,10 @@ function getAccountAssetForChain(
     const tokens = Object.entries(balanceForNetworkId) ?? []
 
     for (const [tokenId, balance] of tokens) {
-        if (tokenId === BASE_TOKEN_ID) {
+        if (tokenId === '0x1074010000000000000000000000000000000000') {
+            // ignore erc20 interface of the base coin smr
+            continue
+        } else if (tokenId === BASE_TOKEN_ID) {
             const persistedBaseCoin = getPersistedToken(BASE_TOKEN_ID) // we use the L1 coin type for now because we assume that the basecoin for L2 is SMR
             const baseCoinMarketPrices = marketCoinPrices?.[persistedBaseCoin.metadata?.name?.toLowerCase() ?? '']
             const baseCoinMarketPrice = baseCoinMarketPrices?.[marketCurrency]

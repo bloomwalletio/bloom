@@ -21,12 +21,14 @@ export function checkForUntrackedTokens(account: IAccountState, addPreviouslyUnt
         )
         untrackedTokensToTrack.forEach(({ token }) => {
             const { address, type, name, symbol, decimals } = token
-            addNewTrackedTokenToActiveProfile(
-                networkId,
-                address.toLowerCase(),
-                { standard: type as TokenStandard.Erc20, name, symbol, decimals },
-                TokenTrackingStatus.AutomaticallyTracked
-            )
+            if (address !== '0x1074010000000000000000000000000000000000') {
+                addNewTrackedTokenToActiveProfile(
+                    networkId,
+                    address.toLowerCase(),
+                    { standard: type as TokenStandard.Erc20, name, symbol, decimals },
+                    TokenTrackingStatus.AutomaticallyTracked
+                )
+            }
         })
     })
 }
