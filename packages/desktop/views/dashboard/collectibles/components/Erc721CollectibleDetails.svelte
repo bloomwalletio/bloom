@@ -5,11 +5,12 @@
     import { localize } from '@core/i18n'
     import { IErc721Nft, INftDownloadStatus } from '@core/nfts'
     import { ExplorerEndpoint, getDefaultExplorerUrl } from '@core/network'
+    import { openUrlInBrowser } from '@core/app'
 
     export let nft: IErc721Nft
 
     const { standard, address, networkId, description, metadata, tokenId, downloadMetadata } = nft
-    const explorerUrl = getDefaultExplorerUrl(networkId, ExplorerEndpoint.Nft)
+    const explorerUrl = getDefaultExplorerUrl(networkId, ExplorerEndpoint.Token)
 
     $: alertText = getAlertText(downloadMetadata)
 
@@ -62,7 +63,7 @@
     }
 
     function onExplorerClick(): void {
-        // console.log('opening explorer')
+        openUrlInBrowser(`${explorerUrl}/${address}`)
     }
 
     function onSendClick(): void {}

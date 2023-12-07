@@ -18,10 +18,12 @@ export const EXPLORER_ENDPOINTS: Readonly<{ [key in SupportedNetworkId]: { [key 
     },
     [SupportedNetworkId.ShimmerEvm]: {
         [ExplorerEndpoint.Transaction]: 'tx',
+        [ExplorerEndpoint.Token]: ExplorerEndpoint.Token,
         [ExplorerEndpoint.Address]: ExplorerEndpoint.Address,
     },
     [SupportedNetworkId.TestnetEvm]: {
         [ExplorerEndpoint.Transaction]: 'tx',
+        [ExplorerEndpoint.Token]: ExplorerEndpoint.Token,
         [ExplorerEndpoint.Address]: ExplorerEndpoint.Address,
     },
 }
