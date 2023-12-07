@@ -27,7 +27,7 @@
             activity.type === ActivityType.Nft
                 ? getNftByIdFromAllAccountNfts($selectedAccountIndex, activity.nftId)
                 : undefined
-        hasMetadata = !!storedNft?.metadata
+        hasMetadata = !!storedNft?.rawMetadata
     }
 
     let tabs: KeyValue<string>[] = []
