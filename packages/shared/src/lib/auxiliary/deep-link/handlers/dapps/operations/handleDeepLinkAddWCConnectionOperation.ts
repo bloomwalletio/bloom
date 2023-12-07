@@ -4,10 +4,11 @@ import { toggleDashboardDrawer } from '../../../../../../../../desktop/lib/auxil
 import { DashboardDrawerRoute } from '../../../../../../../../desktop/views/dashboard/drawers/dashboard-drawer-route.enum'
 import { DappConfigRoute } from '../../../../../../../../desktop/views/dashboard/drawers/dapp-config/dapp-config-route.enum'
 
-export function handleDeepLinkAddWCConnectionOperation(pathnameParts: string[], searchString: string): void {
-    const walletConnectUri = pathnameParts[1] + searchString
+export function handleDeepLinkAddWCConnectionOperation(searchParams: URLSearchParams): void {
+    const walletConnectUri = searchParams.get('uri')
 
     try {
+        if (!walletConnectUri) throw new Error('No wallet connect URI provided')
         validateConnectionCodeUri(walletConnectUri)
 
         pairWithNewDapp(walletConnectUri)
