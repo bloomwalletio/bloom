@@ -32,10 +32,10 @@
     })
 </script>
 
-{#if hasMounted && nft && nft.composedUrl && nft.parsedMetadata && (!useCaching || nft.downloadMetadata?.isLoaded)}
+{#if hasMounted && nft && nft.composedUrl && nft.metadata && (!useCaching || nft.downloadMetadata?.isLoaded)}
     <MediaDisplay
         {src}
-        expectedType={nft.parsedMetadata.type}
+        expectedType={nft.metadata.type}
         isLoaded={nft.downloadMetadata.isLoaded}
         {autoplay}
         {controls}
