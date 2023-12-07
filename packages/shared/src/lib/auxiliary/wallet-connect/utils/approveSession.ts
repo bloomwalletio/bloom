@@ -1,6 +1,7 @@
 import { Web3WalletTypes } from '@walletconnect/web3wallet'
 import { buildApprovedNamespaces } from '@walletconnect/utils'
 import { getWalletClient, setConnectedDapps } from '../stores'
+import { handleError } from '@core/error/handlers'
 
 export async function approveSession(
     sessionProposal: Web3WalletTypes.SessionProposal,
@@ -25,6 +26,6 @@ export async function approveSession(
         await getWalletClient()?.approveSession({ id, namespaces: approvedNamespaces })
         setConnectedDapps()
     } catch (err) {
-        console.error(err)
+        handleError(err)
     }
 }

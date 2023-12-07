@@ -1,6 +1,7 @@
 import { getSdkError } from '@walletconnect/utils'
 import { getWalletClient, sessionProposal } from '../stores'
 import { get } from 'svelte/store'
+import { handleError } from '@core/error/handlers'
 
 export async function rejectSession(): Promise<void> {
     const _sessionProposal = get(sessionProposal)
@@ -15,6 +16,6 @@ export async function rejectSession(): Promise<void> {
             reason: getSdkError('USER_REJECTED'),
         })
     } catch (err) {
-        console.error(err)
+        handleError(err)
     }
 }
