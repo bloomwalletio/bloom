@@ -2,18 +2,27 @@
     import { Alert, Button, IconName, Table, Text, type IItem } from '@bloomwalletio/ui'
     import { CollectibleDetailsMenu } from '@components'
     import { MediaPlaceholder, NftMedia } from '@ui'
-    import { INft, INftAttribute, INftDownloadStatus } from '@core/nfts'
+    import { INft, INftAttribute, INftDownloadStatus, isIrc27Nft } from '@core/nfts'
     import { localize } from '@core/i18n'
     import { openUrlInBrowser } from '@core/app'
+    import { getTimeDifference } from '@core/utils'
+    import { time } from '@core/app/stores'
+    import { SendFlowType, setSendFlowParameters } from 'shared/src/lib/core/wallet'
+    import { SendFlowRoute, SendFlowRouter, sendFlowRouter } from '@views/dashboard/send-flow'
+    import { openPopup, PopupId } from '@desktop/auxiliary/popup'
 
     export let nft: INft
     export let details: IItem[] = []
     export let attributes: INftAttribute[] = []
     export let explorerEndpoint: string
 
-    const { name, description, downloadMetadata } = nft
+    const { name, description, downloadMetadata, timelockTime } = nft
 
+    $: timeDiff = timelockTime ? getTimeDifference(new Date(timelockTime), $time) : undefined
     $: alertText = getAlertText(downloadMetadata)
+
+    $: isExplorerButtonDisabled = !explorerEndpoint
+    $: isSendButtonDisabled = !!timeDiff || !isIrc27Nft(nft)
 
     function getAlertText(downloadStatus: INftDownloadStatus): string {
         const { error, warning } = downloadStatus ?? {}
@@ -31,7 +40,18 @@
         openUrlInBrowser(explorerEndpoint)
     }
 
-    function onSendClick(): void {}
+    function onSendClick(): void {
+        setSendFlowParameters({
+            type: SendFlowType.NftTransfer,
+            nft,
+            recipient: undefined,
+        })
+        sendFlowRouter.set(new SendFlowRouter(undefined, SendFlowRoute.SelectRecipient))
+        openPopup({
+            id: PopupId.SendFlow,
+            overflow: true,
+        })
+    }
 </script>
 
 <collectibles-details-view class="flex flex-row w-full h-full">
@@ -77,7 +97,7 @@
             <Button
                 text={localize('general.viewOnExplorer')}
                 on:click={onExplorerClick}
-                disabled={!explorerEndpoint}
+                disabled={isExplorerButtonDisabled}
                 variant="outlined"
                 width="half"
             />
@@ -85,7 +105,7 @@
                 text={localize('actions.send')}
                 icon={IconName.Send}
                 on:click={onSendClick}
-                disabled={true}
+                disabled={isSendButtonDisabled}
                 width="half"
                 reverse
             />
