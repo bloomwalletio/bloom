@@ -129,7 +129,7 @@
                             value: truncateString(String(preparedTransaction.to), 16, 16),
                             onClick: () => onExplorerClick(String(preparedTransaction.to)),
                         },
-                        { key: localize('general.data'), value: String(preparedTransaction.data) },
+                        { key: localize('general.data'), value: String(preparedTransaction.data), copyable: true },
                     ]}
                 />
             </div>
