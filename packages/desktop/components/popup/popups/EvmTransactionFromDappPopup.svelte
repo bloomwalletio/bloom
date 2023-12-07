@@ -30,7 +30,6 @@
     export let preparedTransaction: EvmTransactionData
     export let chain: IChain
     export let dapp: IConnectedDapp | undefined
-    export let onCancel: () => void
     export let signAndSend: boolean
     export let callback: (params: CallbackParameters) => void
 
@@ -83,8 +82,7 @@
     }
 
     function onCancelClick(): void {
-        onCancel?.()
-        closePopup()
+        closePopup({ callOnCancel: true })
     }
 
     function onExplorerClick(contractAddress: string): void {

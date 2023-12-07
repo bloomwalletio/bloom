@@ -34,7 +34,7 @@ export function onSessionRequest(event: Web3WalletTypes.SessionRequest): void {
         if (response) {
             void getWalletClient()?.respondSessionRequest({ topic, response })
         }
-        closePopup(true)
+        closePopup({ forceClose: true })
     }
 
     const chain = getNetwork()?.getChain(chainId as NetworkId)

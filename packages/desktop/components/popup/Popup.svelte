@@ -139,22 +139,16 @@
 
     function tryClosePopup(): void {
         if (!preventClose) {
-            if ('function' === typeof props?.onCancel) {
-                props?.onCancel()
-            }
-            closePopup()
+            closePopup({ callOnCancel: true })
         }
     }
 
     function tryClosePopupOnClickOutside(): void {
         if (!preventClose) {
-            if ('function' === typeof props?.onCancel) {
-                props?.onCancel()
-            }
             if (confirmClickOutside) {
                 confirmationDialog?.openDialog()
             } else {
-                closePopup()
+                closePopup({ callOnCancel: true })
             }
         }
     }

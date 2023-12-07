@@ -63,7 +63,7 @@ function handleGovernanceTransactionInclusionEvent(
         // we should think about making this consistent in the future
         updateActiveAccount(accountIndex, { isTransferring: false })
         // TODO: move this
-        closePopup(true)
+        closePopup({ forceClose: true })
 
         const account = get(activeAccounts)?.find((_account) => _account.index === accountIndex)
         if (!account) {
