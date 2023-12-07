@@ -3,7 +3,7 @@ import { getLayer2AccountBalance } from '@core/layer-2/stores'
 import { MarketCoinPrices, MarketCurrency } from '@core/market'
 import { shimmerEvmAddressToCoinGeckoIdMap } from '@core/market/stores'
 import { calculateFiatValueFromTokenValueAndMarketPrice } from '@core/market/utils'
-import { NetworkId, SupportedNetworkId, getNetwork } from '@core/network'
+import { NetworkId, EvmNetworkId, getNetwork } from '@core/network'
 import { getActiveNetworkId } from '@core/network/actions/getActiveNetworkId'
 import { sortTokens } from '@core/token/utils/sortTokens'
 import { get } from 'svelte/store'
@@ -111,7 +111,7 @@ function getAccountAssetForChain(
     const tokens = Object.entries(balanceForNetworkId) ?? []
 
     for (const [tokenId, balance] of tokens) {
-        if (tokenId === BASE_TOKEN_CONTRACT_ADDRESS[networkId as SupportedNetworkId]) {
+        if (tokenId === BASE_TOKEN_CONTRACT_ADDRESS?.[networkId as EvmNetworkId]) {
             // ignore erc20 interface of the base coin of the chain
             continue
         } else if (tokenId === BASE_TOKEN_ID) {

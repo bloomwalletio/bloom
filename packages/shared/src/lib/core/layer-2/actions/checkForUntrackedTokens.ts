@@ -1,5 +1,5 @@
 import { IAccountState } from '@core/account/interfaces'
-import { EvmExplorerApi, SupportedNetworkId } from '@core/network'
+import { EvmExplorerApi, EvmNetworkId } from '@core/network'
 import { getNetwork } from '@core/network/stores'
 import { TokenStandard, TokenTrackingStatus } from '@core/token'
 import { addNewTrackedTokenToActiveProfile, hasTokenBeenUntracked } from '@core/wallet/actions'
@@ -22,7 +22,7 @@ export function checkForUntrackedTokens(account: IAccountState, addPreviouslyUnt
         )
         untrackedTokensToTrack.forEach(({ token }) => {
             const { address, type, name, symbol, decimals } = token
-            if (address !== BASE_TOKEN_CONTRACT_ADDRESS[networkId as SupportedNetworkId]) {
+            if (address !== BASE_TOKEN_CONTRACT_ADDRESS?.[networkId as EvmNetworkId]) {
                 addNewTrackedTokenToActiveProfile(
                     networkId,
                     address.toLowerCase(),
