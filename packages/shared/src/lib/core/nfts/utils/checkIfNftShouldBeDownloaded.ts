@@ -5,7 +5,7 @@ import features from '@features/features'
 import { get } from 'svelte/store'
 import { NFT_MEDIA_FILE_NAME } from '../constants'
 import { DownloadErrorType, DownloadWarningType, NftStandard } from '../enums'
-import { IIrc27Nft, INft, NftDownloadMetadata } from '../interfaces'
+import { IIrc27Nft, INft, INftDownloadStatus } from '../interfaces'
 import { persistedNftForActiveProfile, updatePersistedNft } from '../stores'
 import { PersistedNft } from '../types'
 import { fetchWithTimeout } from './fetchWithTimeout'
@@ -15,8 +15,8 @@ const UNREACHABLE_ERROR_MESSAGE = 'The user aborted a request.'
 
 export async function checkIfNftShouldBeDownloaded(
     nft: INft
-): Promise<{ shouldDownload: boolean; downloadMetadata?: NftDownloadMetadata; downloadUrl?: string }> {
-    let downloadMetadata: NftDownloadMetadata = { isLoaded: false }
+): Promise<{ shouldDownload: boolean; downloadMetadata?: INftDownloadStatus; downloadUrl?: string }> {
+    let downloadMetadata: INftDownloadStatus = { isLoaded: false }
 
     try {
         // TODO: Remove guard later (added for easier type checking)
@@ -66,7 +66,11 @@ export async function checkIfNftShouldBeDownloaded(
     return { shouldDownload: false, downloadUrl: nft.composedUrl, downloadMetadata }
 }
 
-function validateFile(nft: IIrc27Nft, contentType: string, contentLength: string): Partial<NftDownloadMetadata> {
+function validateFile(
+    nft: IIrc27Nft,
+    contentType: string,
+    contentLength: string
+): Partial<INftDownloadStatus> | undefined {
     const MAX_FILE_SIZE_IN_BYTES = (get(activeProfile)?.settings?.maxMediaSizeInMegaBytes ?? 0) * BYTES_PER_MEGABYTE
 
     const isValidMediaType = contentType !== nft.metadata?.type

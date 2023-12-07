@@ -1,7 +1,7 @@
 import { Address } from '@iota/sdk/out/types'
 import { NetworkId } from '@core/network/types'
 import { NftStandard } from '../enums'
-import { NftDownloadMetadata, IIrc27Metadata, IErc721ContractMetadata, IErc721TokenMetadata } from '../interfaces'
+import { INftDownloadStatus, IIrc27Metadata, IErc721ContractMetadata, IErc721TokenMetadata } from '../interfaces'
 
 // TODO: Rename to Nft since it's NOT an interface
 export type INft = IIrc27Nft | IErc721Nft
@@ -36,5 +36,5 @@ interface IBaseNft {
     composedUrl: string
     downloadUrl: string
     filePath: string
-    downloadMetadata: NftDownloadMetadata
+    downloadMetadata: INftDownloadStatus
 }

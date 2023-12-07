@@ -6,7 +6,7 @@
     import { openUrlInBrowser } from '@core/app/utils'
     import { localize } from '@core/i18n'
     import { ExplorerEndpoint, getActiveNetworkId, getDefaultExplorerUrl } from '@core/network'
-    import { INft, NftDownloadMetadata } from '@core/nfts'
+    import { INft, INftDownloadStatus } from '@core/nfts'
     import { getNftByIdFromAllAccountNfts } from '@core/nfts/actions'
     import { allAccountNfts, selectedNftId } from '@core/nfts/stores'
     import { getBaseToken } from '@core/profile/actions'
@@ -120,8 +120,8 @@
         })
     }
 
-    function getAlertText(downloadMetadata: NftDownloadMetadata): string {
-        const { error, warning } = downloadMetadata ?? {}
+    function getAlertText(downloadStatus: INftDownloadStatus): string {
+        const { error, warning } = downloadStatus ?? {}
         const errorOrWarning = error || warning
 
         if (!errorOrWarning) {
