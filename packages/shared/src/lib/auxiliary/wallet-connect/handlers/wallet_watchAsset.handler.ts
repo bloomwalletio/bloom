@@ -1,11 +1,12 @@
 import { PopupId, openPopup } from '../../../../../../desktop/lib/auxiliary/popup'
-import { IChain } from '@core/network'
+import { IChain, NetworkId } from '@core/network'
 import { CallbackParameters } from '@auxiliary/wallet-connect/types'
 import { ContractType } from '@core/layer-2'
 import { getSdkError } from '@walletconnect/utils'
 import { addNewTrackedTokenToActiveProfile } from '@core/wallet/actions'
 import { TokenStandard, TokenTrackingStatus } from '@core/token/enums'
 import { IConnectedDapp } from '../interface'
+import { localize } from '@core/i18n'
 
 interface WatchAssetParams {
     type: 'ERC20' | 'ERC721'
@@ -17,13 +18,19 @@ interface WatchAssetParams {
     }
 }
 
-export function handleWatchAsset(
+export async function handleWatchAsset(
     params: WatchAssetParams,
     dapp: IConnectedDapp | undefined,
     chain: IChain,
     responseCallback: (params: CallbackParameters) => void
-): void {
+): Promise<void> {
     if (params.type !== 'ERC20' && params.type !== 'ERC721') {
+        responseCallback({ error: getSdkError('UNSUPPORTED_METHODS') })
+        return
+    }
+
+    const assetInfo = await getAssetInfo(params.type, params.options, chain)
+    if (!assetInfo) {
         responseCallback({ error: getSdkError('UNSUPPORTED_METHODS') })
         return
     }
@@ -31,10 +38,13 @@ export function handleWatchAsset(
     openPopup({
         id: PopupId.Confirmation,
         props: {
-            title: '',
-            description: '',
+            title: localize('popups.confirmAssetTracking.title'),
+            description: localize('popups.confirmAssetTracking.description', {
+                dappName: dapp?.metadata?.name,
+                assetName: assetInfo.name,
+            }),
             onConfirm: () => {
-                void trackAsset(params.type, params.options, chain)
+                void trackAsset(params.type, params.options.address, assetInfo, chain.getConfiguration().id)
                 responseCallback({ result: null })
             },
             onCancel: () => responseCallback({ error: getSdkError('USER_REJECTED') }),
@@ -42,7 +52,7 @@ export function handleWatchAsset(
     })
 }
 
-async function trackAsset(
+async function getAssetInfo(
     type: 'ERC20' | 'ERC721',
     options: {
         address: string
@@ -51,23 +61,44 @@ async function trackAsset(
         symbol?: string
     },
     chain: IChain
-): Promise<void> {
+): Promise<{ name: string; decimals: number; symbol: string } | undefined> {
     switch (type) {
         case 'ERC20': {
             const { address } = options
-            const contract = chain?.getContract(ContractType.Erc20, address)
+            const contract = chain.getContract(ContractType.Erc20, address)
             const name = options.name ? options.name : await contract?.methods.name().call()
             const decimals = options.decimals ? options.decimals : await contract?.methods.decimals().call()
             const symbol = options.symbol ? options.symbol : await contract?.methods.symbol().call()
 
+            return { name: name, decimals, symbol }
+        }
+        case 'ERC721':
+            // TODO
+            break
+        default:
+            break
+    }
+}
+
+function trackAsset(
+    type: 'ERC20' | 'ERC721',
+    address: string,
+    assetInfo: {
+        name: string
+        decimals: number
+        symbol: string
+    },
+    networkId: NetworkId
+): void {
+    switch (type) {
+        case 'ERC20':
             addNewTrackedTokenToActiveProfile(
-                chain.getConfiguration().id,
+                networkId,
                 address,
-                { name, symbol, decimals, standard: TokenStandard.Erc20 },
+                { ...assetInfo, standard: TokenStandard.Erc20 },
                 TokenTrackingStatus.ManuallyTracked
             )
             break
-        }
         case 'ERC721':
             // TODO
             break
