@@ -3,12 +3,7 @@ import { Contract } from '@core/layer-2/types'
 import { NetworkId } from '@core/network/types'
 
 import { NftStandard } from '../enums'
-import {
-    IErc721ContractMetadata,
-    IErc721TokenMetadata,
-    IErc721TokenMetadataAttribute,
-    IPersistedErc721Nft,
-} from '../interfaces'
+import { IErc721ContractMetadata, IErc721TokenMetadata, IPersistedErc721Nft } from '../interfaces'
 import { composeUrlFromNftUri } from '../utils'
 
 export async function getPersistedErc721NftFromContract(
@@ -36,14 +31,7 @@ export async function getPersistedErc721NftFromContract(
             const response = await fetch(composedTokenUri)
             const metadata = (await response.json()) as IErc721TokenMetadata
             if (metadata) {
-                const attributes: IErc721TokenMetadataAttribute[] = metadata.attributes?.map((attribute) => ({
-                    traitType: attribute['trait_type'],
-                    value: attribute.value,
-                }))
-                persistedNft.tokenMetadata = {
-                    ...metadata,
-                    attributes,
-                }
+                persistedNft.tokenMetadata = metadata
             }
         } catch (err) {
             throw new Error(`Unable to get metadata of token ${tokenId} from contract ${contractMetadata.address}`)
