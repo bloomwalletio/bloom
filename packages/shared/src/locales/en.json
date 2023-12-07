@@ -506,13 +506,13 @@
                             "signData": "Request to sign data",
                             "signTransaction": "Request to sign a transaction",
                             "sendTransaction": "Request to send a transaction",
-                            "empty": "You have to select at least one permission" 
+                            "empty": "You have to select at least one permission"
                         },
                         "networks": {
                             "step": "Networks",
                             "title": "Select networks",
                             "tip": "The required networks are pre-selected for you by the dApp and can also be reconfigured later.",
-                            "empty": "You have to select at least one network" 
+                            "empty": "You have to select at least one network"
                         },
                         "accounts": {
                             "step": "Accounts",
@@ -1404,6 +1404,7 @@
         "claimedTime": "Claimed at",
         "nftId": "NFT ID",
         "aliasId": "Alias ID",
+        "tokenId": "Token ID",
         "governorAddress": "Governor Address",
         "stateControllerAddress": "State Controller Address",
         "copiedToClipboard": "Copied to clipboard",
