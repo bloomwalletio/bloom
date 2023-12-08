@@ -6,7 +6,6 @@
     import { AccountInput } from '@ui'
     import PopupTemplate from '../PopupTemplate.svelte'
 
-    export let onCancel: () => void
     export let onConfirm: () => void
 
     let account: IAccountState
@@ -17,8 +16,7 @@
     }
 
     function onCancelClick(): void {
-        closePopup()
-        onCancel && onCancel()
+        closePopup({ callOnCancel: true })
     }
 </script>
 

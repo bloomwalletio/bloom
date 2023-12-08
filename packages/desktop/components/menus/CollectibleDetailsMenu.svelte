@@ -1,9 +1,8 @@
 <script lang="ts">
     import { IconName, Menu } from '@bloomwalletio/ui'
     import { openUrlInBrowser } from '@core/app'
-    import { time } from '@core/app/stores'
     import { localize } from '@core/i18n'
-    import { INft, rewriteIpfsUri } from '@core/nfts'
+    import { INft, isNftLocked, rewriteIpfsUri } from '@core/nfts'
     import { checkActiveProfileAuth } from '@core/profile/actions'
     import { activeProfile, updateActiveProfile } from '@core/profile/stores'
     import { CollectiblesRoute, collectiblesRouter } from '@core/router'
@@ -13,8 +12,8 @@
     export let menu: Menu = undefined
     export let nft: INft
 
-    $: url = nft?.parsedMetadata?.uri && composeUrl(nft.parsedMetadata.uri)
-    $: isLocked = nft.timelockTime > $time.getTime()
+    $: url = nft?.metadata?.uri && composeUrl(nft.metadata.uri)
+    $: isLocked = isNftLocked(nft)
     $: isCurrentPfp = $activeProfile.pfp?.id === nft.id
 
     function composeUrl(targetUrl: string): string | undefined {

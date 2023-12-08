@@ -1,8 +1,11 @@
 import { IAccountState } from '@core/account/interfaces'
 import { ContractType } from '@core/layer-2/enums'
+import { Contract } from '@core/layer-2/types'
 import { EvmExplorerApi } from '@core/network/classes'
 import { getNetwork } from '@core/network/stores'
 import { TokenTrackingStatus } from '@core/token/enums'
+import { IChain, IExplorerAsset } from '@core/network/interfaces'
+import { NetworkId } from '@core/network/types'
 
 import { NftStandard } from '../enums'
 import { IErc721ContractMetadata } from '../interfaces'
@@ -10,8 +13,6 @@ import { addPersistedNft } from '../stores'
 import { getPersistedErc721NftFromContract } from '../utils'
 import { addNewTrackedNftToActiveProfile } from './addNewTrackedNftToActiveProfile'
 import { isNftPersisted } from './isNftPersisted'
-import { Contract } from '@core/layer-2'
-import { IChain, IExplorerAsset } from '@core/network'
 
 export function checkForUntrackedNfts(account: IAccountState): void {
     const chains = getNetwork()?.getChains() ?? []
@@ -42,6 +43,8 @@ async function persistNftsFromExplorerAsset(evmAddress: string, asset: IExplorer
                 try {
                     const tokenId = await contract.methods.tokenOfOwnerByIndex(evmAddress, idx).call()
                     await persistNftWithContractMetadata(
+                        evmAddress,
+                        chain.getConfiguration().id,
                         {
                             standard: NftStandard.Erc721,
                             address,
@@ -58,8 +61,6 @@ async function persistNftsFromExplorerAsset(evmAddress: string, asset: IExplorer
                 }
             })
         )
-
-        addNewTrackedNftToActiveProfile(chain.getConfiguration().id, address, TokenTrackingStatus.AutomaticallyTracked)
     } catch (err) {
         console.error(err)
         throw new Error(`Unable to persist NFT with address ${address}`)
@@ -67,16 +68,20 @@ async function persistNftsFromExplorerAsset(evmAddress: string, asset: IExplorer
 }
 
 async function persistNftWithContractMetadata(
+    ownerAddress: string,
+    networkId: NetworkId,
     contractMetadata: IErc721ContractMetadata,
     tokenId: string,
     contract: Contract
 ): Promise<void> {
     const { address } = contractMetadata
-    if (!tokenId || isNftPersisted(address, tokenId)) {
+    const nftId = `${address}:${tokenId}`
+    if (isNftPersisted(nftId)) {
         return
     }
     addPersistedNft(
-        `${address}:${tokenId}`,
-        await getPersistedErc721NftFromContract(tokenId, contract, contractMetadata)
+        nftId,
+        await getPersistedErc721NftFromContract(ownerAddress, networkId, tokenId, contract, contractMetadata)
     )
+    addNewTrackedNftToActiveProfile(networkId, nftId, TokenTrackingStatus.AutomaticallyTracked)
 }

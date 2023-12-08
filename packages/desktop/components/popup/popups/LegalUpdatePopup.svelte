@@ -34,7 +34,7 @@
             lastAcceptedPrivacyPolicy.set(PRIVACY_POLICY_VERSION)
         }
 
-        closePopup(true)
+        closePopup({ forceClose: true })
     }
 
     function getTitleText(): string {

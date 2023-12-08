@@ -32,7 +32,7 @@ export function handleLedgerError(error: IError, resetConfirmationPropsOnDenial 
             resetMintNftDetails()
         }
 
-        closePopup(true)
+        closePopup({ forceClose: true })
 
         /**
          * NOTE: Because the device has a warning prompt about blind signing when trying it

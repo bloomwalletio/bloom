@@ -9,7 +9,6 @@
 
     export let ledgerAppName: LedgerAppName
     export let onContinue: () => void
-    export let onCancel: (..._: any[]) => void = () => {}
 
     $: isDisconnected = $ledgerConnectionState === LedgerConnectionState.Disconnected
     $: isLocked = $ledgerConnectionState === LedgerConnectionState.Locked
@@ -63,8 +62,7 @@
     }
 
     function onCancelClick(): void {
-        closePopup()
-        onCancel?.()
+        closePopup({ callOnCancel: true })
     }
 
     const backButton = {

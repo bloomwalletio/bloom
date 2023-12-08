@@ -37,7 +37,7 @@
             title = token.metadata.name ? truncateString(token.metadata.name, 13, 0) : truncateString(token.id, 6, 7)
             subtitle = getUnitFromTokenMetadata(token.metadata)
         } else if (_activity.type === ActivityType.Nft) {
-            title = nft?.parsedMetadata?.name ? truncateString(nft.parsedMetadata.name, 13, 0) : 'NFT'
+            title = nft?.metadata?.name ? truncateString(nft.metadata.name, 13, 0) : 'NFT'
             subtitle = nft ? truncateString(nft.id, 6, 7) : ''
         } else if (_activity.type === ActivityType.Alias) {
             title = 'Alias'
