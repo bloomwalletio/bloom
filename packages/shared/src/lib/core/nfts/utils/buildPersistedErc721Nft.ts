@@ -4,9 +4,9 @@ import { NetworkId } from '@core/network/types'
 
 import { NftStandard } from '../enums'
 import { IErc721ContractMetadata, IErc721TokenMetadata, IPersistedErc721Nft } from '../interfaces'
-import { composeUrlFromNftUri } from '../utils'
+import { composeUrlFromNftUri } from '.'
 
-export async function getPersistedErc721NftFromContract(
+export async function buildPersistedErc721Nft(
     ownerAddress: string,
     networkId: NetworkId,
     tokenId: string,
