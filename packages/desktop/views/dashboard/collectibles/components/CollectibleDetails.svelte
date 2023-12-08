@@ -14,14 +14,12 @@
     export let nft: INft
     export let details: IItem[] = []
     export let attributes: INftAttribute[] = []
-    export let explorerEndpoint: string
+    export let explorerEndpoint: string | undefined
 
     const { name, description, downloadMetadata, timelockTime } = nft
 
     $: timeDiff = timelockTime ? getTimeDifference(new Date(timelockTime), $time) : undefined
     $: alertText = getAlertText(downloadMetadata)
-
-    $: isExplorerButtonDisabled = !explorerEndpoint
     $: isSendButtonDisabled = !!timeDiff || !isIrc27Nft(nft)
 
     function getAlertText(downloadStatus: INftDownloadStatus): string {
@@ -97,7 +95,7 @@
             <Button
                 text={localize('general.viewOnExplorer')}
                 on:click={onExplorerClick}
-                disabled={isExplorerButtonDisabled}
+                disabled={!explorerEndpoint}
                 variant="outlined"
                 width="half"
             />
