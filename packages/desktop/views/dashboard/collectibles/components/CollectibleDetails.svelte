@@ -16,7 +16,8 @@
     export let attributes: INftAttribute[] = []
     export let explorerEndpoint: string | undefined
 
-    const { name, description, downloadMetadata, timelockTime } = nft
+    const { name, downloadMetadata, timelockTime } = nft
+    const description = isIrc27Nft(nft) ? nft.metadata.description : nft.metadata.token.description
 
     $: timeDiff = timelockTime ? getTimeDifference(new Date(timelockTime), $time) : undefined
     $: alertText = getAlertText(downloadMetadata)
