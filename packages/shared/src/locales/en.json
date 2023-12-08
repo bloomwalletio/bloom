@@ -773,6 +773,10 @@
             "title": "Clear primary node",
             "body": "Are you sure you want to clear {url} as the primary node?"
         },
+        "confirmAssetTracking": {
+            "title": "Add a new token",
+            "description": "\"{dappName}\" wants to add \"{assetName}\" to your wallet."
+        },
         "node": {
             "titleAdd": "Add a node",
             "titleUpdate": "Update a node",

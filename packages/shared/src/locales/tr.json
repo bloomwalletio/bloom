@@ -901,6 +901,9 @@
             "unableToVerify": "Bloom is unable to verify the smart contract call. Only proceed with apps you trust.",
             "action": "Confirm"
         },
+        "successfulDappConnection": {
+            "alert": "You can close this screen and return to the dApp when you are ready."
+        },
         "activityDetails": {
             "title": {
                 "fallback": "Etkinlik ayrıntıları",
@@ -1603,7 +1606,6 @@
         "updateError": "Davetiye gönderilirken bir hata oluştu, lütfen tekrar deneyin",
         "copiedToClipboard": "Panoya kopyalandı",
         "newDappConnection": {
-            "success": "Bir dApp'e bağlanın",
             "noProposal": "No proposal from dApp received"
         },
         "deepLinkingRequest": {

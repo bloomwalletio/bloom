@@ -8,6 +8,7 @@ import { NetworkId, getNetwork } from '@core/network'
 import { CallbackParameters } from '../types'
 import { getSdkError } from '@walletconnect/utils'
 import { closePopup } from '../../../../../../desktop/lib/auxiliary/popup'
+import { handleWatchAsset } from './wallet_watchAsset.handler'
 
 export function onSessionRequest(event: Web3WalletTypes.SessionRequest): void {
     const { topic, params, id, verifyContext } = event
@@ -34,7 +35,7 @@ export function onSessionRequest(event: Web3WalletTypes.SessionRequest): void {
         if (response) {
             void getWalletClient()?.respondSessionRequest({ topic, response })
         }
-        closePopup(true)
+        closePopup({ forceClose: true })
     }
 
     const chain = getNetwork()?.getChain(chainId as NetworkId)
@@ -56,6 +57,9 @@ export function onSessionRequest(event: Web3WalletTypes.SessionRequest): void {
             break
         case 'eth_signTypedData':
             handleEthSignTypedData()
+            break
+        case 'wallet_watchAsset':
+            void handleWatchAsset(request.params, dapp, chain, returnResponse)
             break
         default:
             break

@@ -12,7 +12,7 @@
 </script>
 
 {#if nft?.parsedMetadata}
-    {@const metadata = nft.parsedMetadata}
+    {@const metadata = nft.metadata}
     <Table
         items={[
             {

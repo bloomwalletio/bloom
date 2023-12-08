@@ -8,6 +8,6 @@ export function subscribeToWalletApiEvents(configuration: IWalletApiEventSubscri
     const manager = profileManager ?? get(_profileManager)
     Object.entries(eventMap).forEach(([event, callback]) => {
         const eventId = Number(event)
-        void manager.listen([eventId], callback)
+        void manager?.listen([eventId], callback)
     })
 }

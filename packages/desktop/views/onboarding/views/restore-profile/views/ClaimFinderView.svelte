@@ -112,7 +112,7 @@
             }
         } finally {
             if ($isOnboardingLedgerProfile) {
-                closePopup(true)
+                closePopup({ forceClose: true })
             }
             hasTriedClaimingRewards = true
         }
