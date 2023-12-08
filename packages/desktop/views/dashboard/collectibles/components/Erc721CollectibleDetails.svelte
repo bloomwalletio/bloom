@@ -32,7 +32,7 @@
             },
         },
         {
-            key: localize('general.address'),
+            key: localize('general.contractAddress'),
             value: address || undefined,
             copyable: true,
             truncate: { firstCharCount: 15, endCharCount: 15 },
