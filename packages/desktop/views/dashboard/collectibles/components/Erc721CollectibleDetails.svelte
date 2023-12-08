@@ -3,14 +3,22 @@
     import { type IItem } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
     import { IErc721Nft } from '@core/nfts'
-    import { ExplorerEndpoint, getDefaultExplorerUrl } from '@core/network'
+    import { ExplorerEndpoint, NetworkId, getDefaultExplorerUrl } from '@core/network'
     import CollectibleDetails from './CollectibleDetails.svelte'
 
     export let nft: IErc721Nft
 
     const { standard, address, networkId, metadata, tokenId } = nft
-    const explorerUrl = getDefaultExplorerUrl(networkId, ExplorerEndpoint.Token)
-    const explorerEndpoint = explorerUrl ? `${explorerUrl}/${address}` : ''
+    const explorerEndpoint = getExplorerEndpoint(networkId)
+
+    function getExplorerEndpoint(networkId: NetworkId): string | undefined {
+        const explorerUrl = getDefaultExplorerUrl(networkId, ExplorerEndpoint.Token)
+        if (!explorerUrl) {
+            return undefined
+        }
+        const contractUrl = `${explorerUrl}/${address}`
+        return tokenId ? `${contractUrl}/instance/${tokenId}` : contractUrl
+    }
 
     let details: IItem[] = []
     $: details = [
