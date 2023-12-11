@@ -7,7 +7,6 @@ import { EvmTransactionData } from '@core/layer-2'
 import { switchToRequiredAccount } from '@auxiliary/wallet-connect/utils'
 import { getSdkError } from '@walletconnect/utils'
 import { Platform } from '@core/app'
-import { sleep } from '@core/utils'
 
 export async function handleEthTransaction(
     evmTransactionData: EvmTransactionData & { from: string },
@@ -16,7 +15,6 @@ export async function handleEthTransaction(
     signAndSend: boolean,
     responseCallback: (params: CallbackParameters) => void
 ): Promise<void> {
-    sleep(1000)
     const { to, from, nonce, gasPrice, gasLimit, value, data } = evmTransactionData ?? {}
     if (!to || !from) {
         responseCallback({ error: getSdkError('INVALID_METHOD') })
@@ -41,7 +39,12 @@ export async function handleEthTransaction(
             evmTransactionData.gasPrice = gasPrice
             evmTransactionData.gasLimit = gasLimit
         } catch (err) {
-            responseCallback(getSdkError(err))
+            responseCallback({
+                error: {
+                    message: err.message,
+                    code: 1000,
+                },
+            })
             return
         }
     }
