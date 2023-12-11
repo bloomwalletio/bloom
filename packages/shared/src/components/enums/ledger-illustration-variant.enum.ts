@@ -2,7 +2,8 @@ export enum LedgerIllustrationVariant {
     NotConnected,
     Pin,
     Hash,
-    OpenEthereum,
+    OpenIota,
     OpenShimmer,
+    OpenEthereum,
     Warning,
 }
