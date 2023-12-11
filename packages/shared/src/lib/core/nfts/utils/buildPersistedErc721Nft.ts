@@ -32,9 +32,8 @@ export async function buildPersistedErc721Nft(
             const response = await fetch(composedTokenUri)
             const metadata = (await response.json()) as IErc721TokenMetadata
             if (metadata) {
-                persistedNft.downloadUrl = composeUrlFromNftUri(metadata.image)
                 persistedNft.tokenMetadata = metadata
-                persistedNft.tokenUri = composedTokenUri
+                persistedNft.downloadUrl = composeUrlFromNftUri(metadata.image)
             }
         } catch (err) {
             throw new Error(`Unable to get metadata of token ${tokenId} from contract ${contractMetadata.address}`)
