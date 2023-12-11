@@ -10,6 +10,7 @@
     import { onboardingRouter } from '@views/onboarding/onboarding-router'
     import LoggedOutLayout from '@views/components/LoggedOutLayout.svelte'
     import features from '@features/features'
+    import { login } from '@core/profile/actions'
     import { SupportedNetworkId } from '@core/network'
 
     const LOCALE_KEY = 'views.onboarding.completeOnboarding.finishOnboarding'
@@ -25,8 +26,9 @@
         }
     }
 
-    function _continue(): Promise<void> {
-        completeOnboardingProcess()
+    async function _continue(): Promise<void> {
+        await completeOnboardingProcess()
+        void login({ isFromOnboardingFlow: true })
         $onboardingRouter.next()
         return Promise.resolve()
     }
