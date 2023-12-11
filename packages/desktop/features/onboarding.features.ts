@@ -2,8 +2,8 @@ import { IOnboardingFeaturesForNetwork } from '@lib/features/interfaces'
 import { OnboardingFeatures } from '@lib/features/types'
 
 const onboardingFeaturesForIota: IOnboardingFeaturesForNetwork = {
-    enabled: false,
-    hidden: true,
+    enabled: true,
+    hidden: false,
     newProfile: {
         enabled: true,
         softwareProfile: {
@@ -13,7 +13,7 @@ const onboardingFeaturesForIota: IOnboardingFeaturesForNetwork = {
             },
         },
         ledgerProfile: {
-            enabled: false,
+            enabled: true,
         },
     },
     restoreProfile: {
@@ -25,7 +25,7 @@ const onboardingFeaturesForIota: IOnboardingFeaturesForNetwork = {
             enabled: true,
         },
         ledgerBackup: {
-            enabled: false,
+            enabled: true,
         },
     },
     claimRewards: {
