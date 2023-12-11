@@ -12,6 +12,7 @@ import { SendFlowType } from '../../enums'
 import { SendFlowParameters } from '../../types'
 import { getAmountAndTokenFromSendFlowParameters } from '../../utils'
 import { TokenStandard } from '@core/token/enums'
+import { IIrc27Nft } from '@core/nfts'
 
 export async function createEvmChainToStardustNetworkTransaction(
     sendFlowParameters: SendFlowParameters,
@@ -39,10 +40,10 @@ export async function createEvmChainToStardustNetworkTransaction(
             storageDepositRequired = L2_TO_L1_STORAGE_DEPOSIT_BUFFER[SendFlowType.TokenUnwrap] ?? 0
             transferredAsset = token && amount ? { type: assetType, token, amount } : undefined
         } else {
+            const nft = sendFlowParameters.nft as IIrc27Nft
             storageDepositRequired =
-                (sendFlowParameters.nft?.storageDeposit ?? 0) +
-                (L2_TO_L1_STORAGE_DEPOSIT_BUFFER[SendFlowType.NftUnwrap] ?? 0)
-            transferredAsset = sendFlowParameters.nft ? { type: AssetType.Nft, nft: sendFlowParameters.nft } : undefined
+                (nft?.storageDeposit ?? 0) + (L2_TO_L1_STORAGE_DEPOSIT_BUFFER[SendFlowType.NftUnwrap] ?? 0)
+            transferredAsset = nft ? { type: AssetType.Nft, nft } : undefined
         }
 
         if (!transferredAsset) {

@@ -4,8 +4,8 @@ import { BYTES_PER_MEGABYTE, HttpHeader } from '@core/utils'
 import features from '@features/features'
 import { get } from 'svelte/store'
 import { NFT_MEDIA_FILE_NAME } from '../constants'
-import { DownloadErrorType, DownloadWarningType } from '../enums'
-import { INft, NftDownloadMetadata } from '../interfaces'
+import { DownloadErrorType, DownloadWarningType, NftStandard } from '../enums'
+import { IIrc27Nft, INft, INftDownloadStatus } from '../interfaces'
 import { persistedNftForActiveProfile, updatePersistedNft } from '../stores'
 import { PersistedNft } from '../types'
 import { fetchWithTimeout } from './fetchWithTimeout'
@@ -15,10 +15,15 @@ const UNREACHABLE_ERROR_MESSAGE = 'The user aborted a request.'
 
 export async function checkIfNftShouldBeDownloaded(
     nft: INft
-): Promise<{ shouldDownload: boolean; downloadMetadata?: NftDownloadMetadata; downloadUrl?: string }> {
-    let downloadMetadata: NftDownloadMetadata = { isLoaded: false }
+): Promise<{ shouldDownload: boolean; downloadMetadata?: INftDownloadStatus; downloadUrl?: string }> {
+    let downloadMetadata: INftDownloadStatus = { isLoaded: false }
 
     try {
+        // TODO: Remove guard later (added for easier type checking)
+        if (nft.standard === NftStandard.Erc721) {
+            return { shouldDownload: false, downloadMetadata: nft.downloadMetadata, downloadUrl: nft.composedUrl }
+        }
+
         const alreadyDownloaded = features?.collectibles?.useCaching?.enabled
             ? await Platform.checkIfFileExists(`${nft.filePath}/${NFT_MEDIA_FILE_NAME}`)
             : false
@@ -61,10 +66,14 @@ export async function checkIfNftShouldBeDownloaded(
     return { shouldDownload: false, downloadUrl: nft.composedUrl, downloadMetadata }
 }
 
-function validateFile(nft: INft, contentType: string, contentLength: string): Partial<NftDownloadMetadata> {
+function validateFile(
+    nft: IIrc27Nft,
+    contentType: string,
+    contentLength: string
+): Partial<INftDownloadStatus> | undefined {
     const MAX_FILE_SIZE_IN_BYTES = (get(activeProfile)?.settings?.maxMediaSizeInMegaBytes ?? 0) * BYTES_PER_MEGABYTE
 
-    const isValidMediaType = contentType !== nft.parsedMetadata?.type
+    const isValidMediaType = contentType !== nft.metadata?.type
     const hasValidFileSize = MAX_FILE_SIZE_IN_BYTES > 0 && Number(contentLength) > MAX_FILE_SIZE_IN_BYTES
     if (isValidMediaType) {
         return { error: { type: DownloadErrorType.NotMatchingFileTypes } }
@@ -73,7 +82,7 @@ function validateFile(nft: INft, contentType: string, contentLength: string): Pa
     }
 }
 
-async function getNftDownloadData(nft: INft): Promise<Partial<PersistedNft>> {
+async function getNftDownloadData(nft: IIrc27Nft): Promise<Partial<PersistedNft>> {
     const persistedNftData = get(persistedNftForActiveProfile)?.[nft.id]
 
     if (persistedNftData && persistedNftData.error?.message !== UNREACHABLE_ERROR_MESSAGE) {
@@ -90,7 +99,7 @@ async function getNftDownloadData(nft: INft): Promise<Partial<PersistedNft>> {
         })
         let headers = response.headers
 
-        const isSoonaverse = nft.parsedMetadata?.issuerName === 'Soonaverse'
+        const isSoonaverse = nft.metadata?.issuerName === 'Soonaverse'
         if (isSoonaverse) {
             const newUrlAndHeaders = await getUrlAndHeadersFromOldSoonaverseStructure(nft, headers)
             downloadUrl = newUrlAndHeaders?.url ?? downloadUrl
@@ -107,12 +116,12 @@ async function getNftDownloadData(nft: INft): Promise<Partial<PersistedNft>> {
 }
 
 async function getUrlAndHeadersFromOldSoonaverseStructure(
-    nft: INft,
+    nft: IIrc27Nft,
     headers: Headers
 ): Promise<{ url: string; headers: Headers } | undefined> {
-    const isContentTypeEqualNftType = headers.get(HttpHeader.ContentType) === nft.parsedMetadata?.type
+    const isContentTypeEqualNftType = headers.get(HttpHeader.ContentType) === nft.metadata?.type
     if (!isContentTypeEqualNftType) {
-        const backupUrl = nft.composedUrl + '/' + encodeURIComponent(nft?.parsedMetadata?.name)
+        const backupUrl = nft.composedUrl + '/' + encodeURIComponent(nft?.metadata?.name)
         const backupResponse = await fetchWithTimeout(backupUrl, HEAD_FETCH_TIMEOUT_SECONDS, {
             method: 'HEAD',
             cache: 'force-cache',

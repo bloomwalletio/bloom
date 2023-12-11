@@ -1,5 +1,5 @@
 import { ProposalTypes } from '@walletconnect/types'
-import { SUPPORTED_EVENTS } from '../constants'
+import { GENERAL_SUPPORTED_METHODS, SUPPORTED_EVENTS } from '../constants'
 import { getAddressFromAccountForNetwork } from '@core/account/utils'
 import { NetworkId } from '@core/network/types'
 import { ISelections } from '../interface'
@@ -39,11 +39,10 @@ function buildSupportedNamespace(
           )
         : persistedNamespaces?.chains ?? []
 
-    const allowedMethods = selections.methods
-        ? selections.methods.filter(
-              (method) => requiredNamespace?.methods?.includes(method) || optionalNamespace?.methods?.includes(method)
-          )
-        : persistedNamespaces?.methods ?? []
+    const methods = selections.methods ?? persistedNamespaces?.methods ?? []
+    const allowedMethods = [...methods, ...GENERAL_SUPPORTED_METHODS].filter(
+        (method) => requiredNamespace?.methods?.includes(method) || optionalNamespace?.methods?.includes(method)
+    )
 
     let addresses: string[] = []
     if (selections.accounts) {

@@ -15,7 +15,7 @@
 
 <media-placeholder class="w-full h-full flex justify-center items-center bg-surface-2 dark:bg-surface-2-dark">
     <icon-container class={size}>
-        <MediaIcon type={nft?.parsedMetadata?.type} nftId={nft.id} textColor={placeHolderColor} {size} />
+        <MediaIcon type={nft?.metadata?.type} nftId={nft.id} textColor={placeHolderColor} {size} />
     </icon-container>
 </media-placeholder>
 
