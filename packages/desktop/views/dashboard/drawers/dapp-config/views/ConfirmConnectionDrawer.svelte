@@ -39,8 +39,8 @@
     let checkedNetworks: string[] = []
     let checkedMethods: string[] = []
 
-    const dappUrl = $sessionProposal?.params?.proposer?.metadata?.url ?? undefined
-    const persistedNamespaces = dappUrl ? getPersistedDappNamespacesForDapp(dappUrl) : undefined
+    $: dappUrl = $sessionProposal?.params?.proposer?.metadata?.url ?? undefined
+    $: persistedNamespaces = dappUrl ? getPersistedDappNamespacesForDapp(dappUrl) : undefined
 
     $: isButtonDisabled =
         loading ||

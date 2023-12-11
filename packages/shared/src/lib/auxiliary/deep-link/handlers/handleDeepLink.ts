@@ -74,7 +74,7 @@ function handleDeepLinkForHostname(url: URL): void {
                 openAccountSwitcherFirst(() => handleDeepLinkGovernanceContext(pathnameParts, url.searchParams), url)
                 break
             case DeepLinkContext.WalletConnect:
-                handleDeepLinkDappsContext(pathnameParts, url.search)
+                handleDeepLinkDappsContext(pathnameParts, url.searchParams)
                 break
             default:
                 throw new Error(`Unrecognized context '${url.hostname}'`)

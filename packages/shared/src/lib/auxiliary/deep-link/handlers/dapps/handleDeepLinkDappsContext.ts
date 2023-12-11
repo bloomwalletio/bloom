@@ -2,10 +2,10 @@ import { localize } from '@core/i18n'
 import { DappsOperation } from '../../enums'
 import { handleDeepLinkAddWCConnectionOperation } from './operations'
 
-export function handleDeepLinkDappsContext(pathnameParts: string[], searchString: string): void {
+export function handleDeepLinkDappsContext(pathnameParts: string[], searchParams: URLSearchParams): void {
     switch (pathnameParts[0]) {
         case DappsOperation.Connect:
-            handleDeepLinkAddWCConnectionOperation(pathnameParts, searchString)
+            handleDeepLinkAddWCConnectionOperation(searchParams)
             break
         default: {
             throw new Error(
