@@ -12,7 +12,7 @@ export const DEFAULT_NETWORK_METADATA: Readonly<{ [key in StardustNetworkId]: Ne
         namespace: NetworkNamespace.Stardust,
         coinType: DEFAULT_COIN_TYPE[SupportedNetworkId.Iota],
         protocol: DEFAULT_PROTOCOL[SupportedNetworkId.Iota],
-        baseToken: DEFAULT_BASE_TOKEN[SupportedNetworkId.Shimmer],
+        baseToken: DEFAULT_BASE_TOKEN[SupportedNetworkId.Iota],
     },
     [SupportedNetworkId.Shimmer]: <IStardustNetworkMetadata>{
         id: SupportedNetworkId.Shimmer,
