@@ -27,6 +27,7 @@ export function buildNftFromPersistedErc721Nft(nft: IPersistedErc721Nft): INft {
         metadata: {
             contract: nft.contractMetadata,
             ...(tokenMetadata && { token: tokenMetadata }),
+            type: 'image/png',
         },
         ...(tokenId && { tokenId }),
         composedUrl,
