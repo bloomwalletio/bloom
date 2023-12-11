@@ -40,16 +40,23 @@
                 showArrows = true
                 break
             }
-            case LedgerIllustrationVariant.OpenEthereum:
-                logo = LogoName.Ethereum
-                backgroundColor = 'ethereum'
-                pill = { localeKey: 'pills.ledgerStatus.appNotOpen', color: 'warning' }
-                shape = 'square'
-                break
             case LedgerIllustrationVariant.OpenShimmer:
                 icon = IconName.Shimmer
                 customTextColor = 'shimmer'
                 backgroundColor = 'shimmer-background'
+                pill = { localeKey: 'pills.ledgerStatus.appNotOpen', color: 'warning' }
+                shape = 'square'
+                break
+            case LedgerIllustrationVariant.OpenIota:
+                icon = IconName.Iota
+                customTextColor = 'iota'
+                backgroundColor = 'text-primary'
+                pill = { localeKey: 'pills.ledgerStatus.appNotOpen', color: 'warning' }
+                shape = 'square'
+                break
+            case LedgerIllustrationVariant.OpenEthereum:
+                logo = LogoName.Ethereum
+                backgroundColor = 'ethereum'
                 pill = { localeKey: 'pills.ledgerStatus.appNotOpen', color: 'warning' }
                 shape = 'square'
                 break
