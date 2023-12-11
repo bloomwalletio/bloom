@@ -4,5 +4,5 @@
 export enum DeepLinkContext {
     Governance = 'governance',
     Wallet = 'wallet',
-    WalletConnect = 'walletConnect',
+    WalletConnect = 'wallet-connect',
 }

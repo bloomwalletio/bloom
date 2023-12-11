@@ -21,6 +21,13 @@ export function buildLedgerDeviceState(
                         blindSigningEnabled: status?.blindSigningEnabled,
                     },
                 }),
+            ...(app &&
+                (app?.name as LedgerAppName) === LedgerAppName.Iota && {
+                    [LedgerAppName.Iota]: {
+                        version: app.version,
+                        blindSigningEnabled: status?.blindSigningEnabled,
+                    },
+                }),
             ...(ethereumAppSettings && { [LedgerAppName.Ethereum]: ethereumAppSettings }),
         },
     }

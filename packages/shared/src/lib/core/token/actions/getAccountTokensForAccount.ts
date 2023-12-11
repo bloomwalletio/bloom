@@ -3,7 +3,7 @@ import { getLayer2AccountBalance } from '@core/layer-2/stores'
 import { MarketCoinPrices, MarketCurrency } from '@core/market'
 import { shimmerEvmAddressToCoinGeckoIdMap } from '@core/market/stores'
 import { calculateFiatValueFromTokenValueAndMarketPrice } from '@core/market/utils'
-import { NetworkId, getNetwork } from '@core/network'
+import { NetworkId, EvmNetworkId, getNetwork } from '@core/network'
 import { getActiveNetworkId } from '@core/network/actions/getActiveNetworkId'
 import { sortTokens } from '@core/token/utils/sortTokens'
 import { get } from 'svelte/store'
@@ -12,6 +12,7 @@ import { ITokenWithBalance } from '../interfaces'
 import { AccountTokens, IAccountTokensPerNetwork } from '../interfaces/account-tokens.interface'
 import { getPersistedToken } from '../stores'
 import { isValidIrc30Token, isValidToken } from '../utils'
+import { BASE_TOKEN_CONTRACT_ADDRESS } from '@core/layer-2'
 
 export function getAccountTokensForAccount(
     account: IAccountState,
@@ -110,7 +111,10 @@ function getAccountAssetForChain(
     const tokens = Object.entries(balanceForNetworkId) ?? []
 
     for (const [tokenId, balance] of tokens) {
-        if (tokenId === BASE_TOKEN_ID) {
+        if (tokenId === BASE_TOKEN_CONTRACT_ADDRESS?.[networkId as EvmNetworkId]) {
+            // ignore erc20 interface of the base coin of the chain
+            continue
+        } else if (tokenId === BASE_TOKEN_ID) {
             const persistedBaseCoin = getPersistedToken(BASE_TOKEN_ID) // we use the L1 coin type for now because we assume that the basecoin for L2 is SMR
             const baseCoinMarketPrices = marketCoinPrices?.[persistedBaseCoin.metadata?.name?.toLowerCase() ?? '']
             const baseCoinMarketPrice = baseCoinMarketPrices?.[marketCurrency]

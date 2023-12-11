@@ -2,7 +2,7 @@
     import { METHODS_FOR_PERMISSION } from '@auxiliary/wallet-connect/constants'
     import { DappPermission } from '@auxiliary/wallet-connect/enums'
     import { onMount } from 'svelte'
-    import { IconButton, IconName, Text } from '@bloomwalletio/ui'
+    import { IconButton, IconName, Table, TableRow, Text } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
     import { SupportedNamespaces } from '@auxiliary/wallet-connect/types'
     import { findActiveAccountWithAddress } from '@core/profile/actions'
@@ -95,16 +95,15 @@
             <IconButton icon={IconName.SettingsSliders} size="xs" on:click={onEditPermissionsClick} />
         {/if}
     </div>
-    <table>
+    <Table>
         {#each permissionPreferences as permission}
-            <div class="w-full flex flex-row justify-between p-4">
-                <Text>{permission.label}</Text>
-                <Text textColor={permission.required || permission.enabled ? 'success' : 'warning'}>
+            <TableRow item={{ key: permission.label }}>
+                <Text textColor={permission.required || permission.enabled ? 'success' : 'warning'} slot="boundValue">
                     {localize(`general.${permission.required ? 'required' : permission.enabled ? 'yes' : 'no'}`)}
                 </Text>
-            </div>
+            </TableRow>
         {/each}
-    </table>
+    </Table>
 
     <div class="flex flex-row justify-between">
         <Text textColor="secondary">{localize(`${localeKey}.networks.step`)}</Text>
@@ -112,14 +111,13 @@
             <IconButton icon={IconName.SettingsSliders} size="xs" on:click={onEditNetworksClick} />
         {/if}
     </div>
-    <table>
+    <Table>
         {#each networkPreferences as network}
-            <div class="w-full flex flex-row justify-between p-4">
-                <Text>{network}</Text>
-                <Text textColor="success">{localize('general.connected')}</Text>
-            </div>
+            <TableRow item={{ key: network }}>
+                <Text textColor="success" slot="boundValue">{localize('general.connected')}</Text>
+            </TableRow>
         {/each}
-    </table>
+    </Table>
 
     <div class="flex flex-row justify-between">
         <Text textColor="secondary">{localize(`${localeKey}.accounts.step`)}</Text>
@@ -127,21 +125,5 @@
             <IconButton icon={IconName.SettingsSliders} size="xs" on:click={onEditAccountsClick} />
         {/if}
     </div>
-    <table>
-        {#each accountPreferences as account}
-            <div class="w-full flex flex-row justify-between p-4">
-                <Text>{account.name}</Text>
-                <div />
-            </div>
-        {/each}
-    </table>
+    <Table items={accountPreferences.map((account) => ({ key: account.name, value: '' }))} />
 </selection-component>
-
-<style lang="postcss">
-    table {
-        @apply bg-surface-0 dark:bg-surface-0-dark;
-        @apply border border-solid border-stroke dark:border-stroke-dark;
-        @apply divide-y divide-solid divide-stroke dark:divide-stroke-dark;
-        @apply rounded-xl;
-    }
-</style>
