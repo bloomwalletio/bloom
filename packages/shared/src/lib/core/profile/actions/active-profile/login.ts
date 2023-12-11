@@ -1,16 +1,14 @@
 import { initializeWalletConnect } from '@auxiliary/wallet-connect/actions'
 import { initializeRegisteredProposals, registerProposalsFromNodes } from '@contexts/governance/actions'
-import { cleanupOnboarding } from '@contexts/onboarding/actions'
 import { setSelectedAccount } from '@core/account/actions'
 import { generateAndStoreActivitiesForAllAccounts } from '@core/activity/actions'
 import { Platform } from '@core/app/classes'
 import { AppContext } from '@core/app/enums'
 import { handleError } from '@core/error/handlers'
-import { generateAndStoreEvmAddressForAccounts, updateEvmChainGasPrices } from '@core/layer-2/actions'
+import { updateEvmChainGasPrices } from '@core/layer-2/actions'
 import { fetchL2BalanceForAllAccounts } from '@core/layer-2/utils'
 import { pollLedgerDeviceState } from '@core/ledger/actions'
 import { pollMarketPrices } from '@core/market/actions'
-import { getNetwork } from '@core/network'
 import { pollChainStatuses, pollNetworkStatus } from '@core/network/actions'
 import { loadNftsForActiveProfile } from '@core/nfts/actions'
 import { initialiseProfileManager } from '@core/profile-manager/actions'
@@ -94,12 +92,6 @@ export async function login(loginOptions?: ILoginOptions): Promise<void> {
             if (strongholdUnlocked) {
                 setTimeStrongholdLastUnlocked()
             }
-
-            // TODO: Should be in onboarding when an account is created...
-            const coinType = getNetwork()?.getChains()?.[0]?.getConfiguration()?.coinType
-            if (coinType && strongholdUnlocked) {
-                await generateAndStoreEvmAddressForAccounts(type, coinType, ...loadedAccounts)
-            }
         } else {
             incrementLoginProgress()
         }
@@ -130,8 +122,6 @@ export async function login(loginOptions?: ILoginOptions): Promise<void> {
             void initializeRegisteredProposals()
             void registerProposalsFromNodes(loadedAccounts)
         }
-        // TODO: can this be done at the end of the onboarding flow
-        void cleanupOnboarding()
         void initializeWalletConnect()
     } catch (err) {
         handleError(err)
