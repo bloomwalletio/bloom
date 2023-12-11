@@ -44,7 +44,7 @@
     function getIllustrationVariant(appName: LedgerAppName): LedgerIllustrationVariant {
         switch (appName) {
             case LedgerAppName.Iota:
-                return LedgerIllustrationVariant.OpenIOTA
+                return LedgerIllustrationVariant.OpenIota
             case LedgerAppName.Shimmer:
                 return LedgerIllustrationVariant.OpenShimmer
             case LedgerAppName.Ethereum:

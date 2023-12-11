@@ -47,7 +47,7 @@
                 pill = { localeKey: 'pills.ledgerStatus.appNotOpen', color: 'warning' }
                 shape = 'square'
                 break
-            case LedgerIllustrationVariant.OpenIOTA:
+            case LedgerIllustrationVariant.OpenIota:
                 icon = IconName.Iota
                 customTextColor = 'iota'
                 backgroundColor = 'text-primary'
