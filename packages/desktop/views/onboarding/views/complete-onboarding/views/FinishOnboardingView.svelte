@@ -1,9 +1,9 @@
 <script lang="ts">
     import { Button, IconName, Text } from '@bloomwalletio/ui'
     import { Animation, Illustration } from '@ui'
-    import { completeOnboardingProcess, isOnboardingLedgerProfile } from '@contexts/onboarding'
+    import { completeOnboardingProcess, isOnboardingLedgerProfile, onboardingProfile } from '@contexts/onboarding'
     import { localize } from '@core/i18n'
-    import { checkOrConnectLedger } from '@core/ledger'
+    import { LedgerAppName, checkOrConnectLedger } from '@core/ledger'
     import { profiles } from '@core/profile/stores'
     import { OnboardingLayout } from '@views/components'
     import SuccessSvg from '@views/onboarding/components/SuccessSvg.svelte'
@@ -11,12 +11,16 @@
     import LoggedOutLayout from '@views/components/LoggedOutLayout.svelte'
     import features from '@features/features'
     import { login } from '@core/profile/actions'
+    import { SupportedNetworkId } from '@core/network'
 
     const LOCALE_KEY = 'views.onboarding.completeOnboarding.finishOnboarding'
 
+    $: appName =
+        $onboardingProfile?.network?.id === SupportedNetworkId.Iota ? LedgerAppName.Iota : LedgerAppName.Shimmer
+
     function onContinueClick(): void {
         if ($isOnboardingLedgerProfile) {
-            checkOrConnectLedger(_continue)
+            checkOrConnectLedger(_continue, false, appName)
         } else {
             void _continue()
         }

@@ -1,6 +1,6 @@
 import { NftStandard } from '@core/nfts/enums'
 import { MimeType } from '../types'
-import { IIrc27Attribute } from './irc27-attribute.interface'
+import { INftAttribute } from './nft-attribute.interface'
 import { ISoonaverseAttributes } from './soonaverse-attributes.interface'
 
 export interface IIrc27Metadata extends INftMetadata {
@@ -9,7 +9,7 @@ export interface IIrc27Metadata extends INftMetadata {
     royalties?: Record<string, number>
     issuerName?: string
     description?: string
-    attributes?: IIrc27Attribute[]
+    attributes?: INftAttribute[]
     soonaverseAttributes?: ISoonaverseAttributes
 }
 

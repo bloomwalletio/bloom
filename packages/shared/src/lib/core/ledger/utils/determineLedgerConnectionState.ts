@@ -8,6 +8,8 @@ export function determineLedgerConnectionState(status: ILedgerDeviceState): Ledg
             return LedgerConnectionState.Locked
         } else {
             switch (app) {
+                case LedgerAppName.Iota:
+                    return LedgerConnectionState.IotaAppOpen
                 case LedgerAppName.Shimmer:
                     return LedgerConnectionState.ShimmerAppOpen
                 case LedgerAppName.Ethereum:

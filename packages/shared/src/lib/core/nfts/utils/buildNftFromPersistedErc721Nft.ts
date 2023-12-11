@@ -23,6 +23,7 @@ export function buildNftFromPersistedErc721Nft(nft: IPersistedErc721Nft): INft {
         networkId,
         address: contractMetadata.address,
         name: tokenMetadata?.name ?? contractMetadata.name,
+        description: tokenMetadata?.description,
         metadata: {
             contract: nft.contractMetadata,
             ...(tokenMetadata && { token: tokenMetadata }),
