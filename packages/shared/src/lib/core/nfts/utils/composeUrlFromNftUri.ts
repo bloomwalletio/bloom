@@ -7,7 +7,7 @@ export function composeUrlFromNftUri(uri: string | undefined): string | undefine
     }
 
     const url = new URL(uri)
-    let newUrl
+    let newUrl: string
 
     switch (url.protocol) {
         case 'http:':

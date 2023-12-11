@@ -1,3 +1,5 @@
+import { INftAttribute } from './nft-attribute.interface'
+
 export interface IErc721TokenMetadata {
     name: string
     image: string
@@ -5,10 +7,5 @@ export interface IErc721TokenMetadata {
     date: number
     edition: number
     dna: string
-    attributes: IErc721TokenMetadataAttribute[]
-}
-
-export interface IErc721TokenMetadataAttribute {
-    traitType: string
-    value: number | string
+    attributes: INftAttribute[]
 }
