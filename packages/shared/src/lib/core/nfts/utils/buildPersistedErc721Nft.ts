@@ -26,12 +26,15 @@ export async function buildPersistedErc721Nft(
         try {
             const tokenUri = await contract.methods.tokenURI(tokenId).call()
             const composedTokenUri = composeUrlFromNftUri(tokenUri)
-            persistedNft.tokenUri = composedTokenUri
-
+            if (!composedTokenUri) {
+                throw new Error('Unable to create composed NFT URI!')
+            }
             const response = await fetch(composedTokenUri)
             const metadata = (await response.json()) as IErc721TokenMetadata
             if (metadata) {
+                persistedNft.downloadUrl = composeUrlFromNftUri(metadata.image)
                 persistedNft.tokenMetadata = metadata
+                persistedNft.tokenUri = composedTokenUri
             }
         } catch (err) {
             throw new Error(`Unable to get metadata of token ${tokenId} from contract ${contractMetadata.address}`)
