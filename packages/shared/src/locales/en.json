@@ -124,7 +124,7 @@
                 },
                 "balanceFinder": {
                     "title": "Find your recovered accounts",
-                    "description": "Use the balance finder below, and check if your account balances are correct before claiming."
+                    "description": "Use the balance finder below, and check if your account balances are correct before continuing."
                 }
             },
             "restoreFromMnemonic": {
