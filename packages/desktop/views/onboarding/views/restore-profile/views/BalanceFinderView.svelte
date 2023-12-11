@@ -3,16 +3,19 @@
     import { onboardingProfile } from '@contexts/onboarding'
     import { IAccount } from '@core/account'
     import { DEFAULT_SYNC_OPTIONS } from '@core/account/constants'
-    import { localize } from '@core/i18n'
+    import { formatCurrency, localize } from '@core/i18n'
     import { checkOrConnectLedger } from '@core/ledger'
     import { ProfileType } from '@core/profile'
     import { RecoverAccountsPayload, recoverAccounts } from '@core/profile-manager'
     import { DEFAULT_ACCOUNT_RECOVERY_CONFIGURATION } from '@core/profile/constants'
     import { checkOrUnlockStronghold } from '@core/stronghold/actions'
-    import { formatTokenAmountBestMatch } from '@core/token'
     import { OnboardingLayout } from '@views/components'
     import { onDestroy, onMount } from 'svelte'
     import { restoreProfileRouter } from '../restore-profile-router'
+    import { marketCoinPrices } from '@core/market/stores'
+    import { MarketCoinId, MarketCurrency } from '@core/market'
+    import { getAndUpdateMarketPrices } from '@core/market/actions'
+    import { calculateFiatValueFromTokenValueAndMarketPrice } from '@core/market/utils'
 
     const initialAccountRange = DEFAULT_ACCOUNT_RECOVERY_CONFIGURATION[$onboardingProfile.type].initialAccountRange
     const addressGapLimitIncrement = DEFAULT_ACCOUNT_RECOVERY_CONFIGURATION[$onboardingProfile.type].addressGapLimit
@@ -27,7 +30,7 @@
         await checkOnboardingProfileAuth(async () => await findBalances(SearchMethod.SingleAddress))
     }
 
-    let accountsBalances: { alias: string; total: bigint }[] = []
+    let accountsBalances: { alias: string; total: string }[] = []
 
     interface ISearch {
         accountStartIndex: number
@@ -73,9 +76,22 @@
                 const accounts = await recoverAccounts(recoverAccountsPayload)
                 accountsBalances = await Promise.all(
                     accounts.map(async (account: IAccount) => {
+                        await getAndUpdateMarketPrices()
+                        const alias = await account.getMetadata().alias
+                        const balance = await account.getBalance()
+                        const marketCoinId =
+                            $onboardingProfile?.network?.baseToken?.name === 'IOTA'
+                                ? MarketCoinId.Iota
+                                : MarketCoinId.Shimmer
+                        const fiatBalance = calculateFiatValueFromTokenValueAndMarketPrice(
+                            Number(balance.baseCoin.total),
+                            $onboardingProfile?.network?.baseToken.decimals,
+                            $marketCoinPrices?.[marketCoinId]?.[MarketCurrency.Usd]
+                        )
+                        const formattedBalance = formatCurrency(fiatBalance, MarketCurrency.Usd)
                         return {
-                            alias: await account.getMetadata().alias,
-                            total: (await account.getBalance()).baseCoin.total,
+                            alias,
+                            total: formattedBalance,
                         }
                     })
                 )
@@ -116,8 +132,8 @@
 </script>
 
 <OnboardingLayout
-    title={localize('views.onboarding.shimmerClaiming.claimRewards.title')}
-    description={localize('views.onboarding.shimmerClaiming.claimRewards.description')}
+    title={localize('views.onboarding.restoreProfile.balanceFinder.title')}
+    description={localize('views.onboarding.restoreProfile.balanceFinder.description')}
     continueButton={{
         text: localize('actions.continue'),
         disabled: isBusy,
@@ -130,24 +146,20 @@
         <div class="flex-auto overflow-y-auto max-h-64 space-y-3 w-full scrollable-y">
             {#each accountsBalances as account}
                 <Tile border>
-                    <div class="w-full flex flex-row justify-between items-center space-x-4">
-                        <div class="flex flex-row items-center text-left space-x-2">
-                            <Icon name={IconName.Wallet} />
-                            <Text type="base">
+                    <container class="w-full flex flex-row justify-between items-center gap-4">
+                        <div class="flex flex-row items-center text-left gap-3.5">
+                            <Icon name={IconName.Wallet} textColor="brand" />
+                            <Text type="body1">
+                                {localize('general.account')}
                                 {account?.alias}
                             </Text>
                         </div>
-                        <div class="flex flex-col">
-                            <div class="flex flex-row justify-end items-center text-right space-x-2">
-                                <Text type="base">
-                                    {formatTokenAmountBestMatch(
-                                        Number(account?.total),
-                                        $onboardingProfile?.network?.baseToken
-                                    )}
-                                </Text>
-                            </div>
+                        <div class="flex flex-col justify-end items-end">
+                            <Text type="body1" align="right">
+                                {account?.total}
+                            </Text>
                         </div>
-                    </div>
+                    </container>
                 </Tile>
             {/each}
         </div>
