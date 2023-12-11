@@ -3,7 +3,7 @@
     import { onboardingProfile } from '@contexts/onboarding'
     import { IAccount } from '@core/account'
     import { DEFAULT_SYNC_OPTIONS } from '@core/account/constants'
-    import { formatCurrency, localize } from '@core/i18n'
+    import { localize } from '@core/i18n'
     import { LedgerAppName, checkOrConnectLedger } from '@core/ledger'
     import { ProfileType } from '@core/profile'
     import { RecoverAccountsPayload, recoverAccounts } from '@core/profile-manager'
@@ -12,11 +12,8 @@
     import { OnboardingLayout } from '@views/components'
     import { onDestroy, onMount } from 'svelte'
     import { restoreProfileRouter } from '../restore-profile-router'
-    import { marketCoinPrices } from '@core/market/stores'
-    import { MarketCoinId, MarketCurrency } from '@core/market'
-    import { getAndUpdateMarketPrices } from '@core/market/actions'
-    import { calculateFiatValueFromTokenValueAndMarketPrice } from '@core/market/utils'
     import { SupportedNetworkId } from '@core/network'
+    import { formatTokenAmountBestMatch } from '@core/token'
 
     const initialAccountRange = DEFAULT_ACCOUNT_RECOVERY_CONFIGURATION[$onboardingProfile.type].initialAccountRange
     const addressGapLimitIncrement = DEFAULT_ACCOUNT_RECOVERY_CONFIGURATION[$onboardingProfile.type].addressGapLimit
@@ -77,19 +74,12 @@
                 const accounts = await recoverAccounts(recoverAccountsPayload)
                 accountsBalances = await Promise.all(
                     accounts.map(async (account: IAccount) => {
-                        await getAndUpdateMarketPrices()
                         const alias = await account.getMetadata().alias
                         const balance = await account.getBalance()
-                        const marketCoinId =
-                            $onboardingProfile?.network?.baseToken?.name === 'IOTA'
-                                ? MarketCoinId.Iota
-                                : MarketCoinId.Shimmer
-                        const fiatBalance = calculateFiatValueFromTokenValueAndMarketPrice(
-                            Number(balance.baseCoin.total),
-                            $onboardingProfile?.network?.baseToken.decimals,
-                            $marketCoinPrices?.[marketCoinId]?.[MarketCurrency.Usd]
+                        const formattedBalance = formatTokenAmountBestMatch(
+                            Number(balance?.baseCoin?.total ?? 0),
+                            $onboardingProfile?.network?.baseToken
                         )
-                        const formattedBalance = formatCurrency(fiatBalance, MarketCurrency.Usd)
                         return {
                             alias,
                             total: formattedBalance,
@@ -162,7 +152,7 @@
                             </Text>
                         </div>
                         <div class="flex flex-col justify-end items-end">
-                            <Text type="body1" align="right">
+                            <Text type="body1" align="right" textColor="secondary">
                                 {account?.total}
                             </Text>
                         </div>
