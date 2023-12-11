@@ -145,13 +145,15 @@
     <div slot="content" class="h-full flex flex-col gap-4">
         <div class="flex-auto overflow-y-auto max-h-64 space-y-3 w-full scrollable-y">
             {#each accountsBalances as account}
+                {@const alias = account?.alias.toLowerCase().includes(localize('general.account').toLowerCase())
+                    ? account?.alias
+                    : `${localize('general.account')} ${account?.alias}`}
                 <Tile border>
                     <container class="w-full flex flex-row justify-between items-center gap-4">
                         <div class="flex flex-row items-center text-left gap-3.5">
                             <Icon name={IconName.Wallet} textColor="brand" />
                             <Text type="body1">
-                                {localize('general.account')}
-                                {account?.alias}
+                                {alias}
                             </Text>
                         </div>
                         <div class="flex flex-col justify-end items-end">
