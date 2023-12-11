@@ -4,7 +4,7 @@
     import { IAccount } from '@core/account'
     import { DEFAULT_SYNC_OPTIONS } from '@core/account/constants'
     import { formatCurrency, localize } from '@core/i18n'
-    import { checkOrConnectLedger } from '@core/ledger'
+    import { LedgerAppName, checkOrConnectLedger } from '@core/ledger'
     import { ProfileType } from '@core/profile'
     import { RecoverAccountsPayload, recoverAccounts } from '@core/profile-manager'
     import { DEFAULT_ACCOUNT_RECOVERY_CONFIGURATION } from '@core/profile/constants'
@@ -16,6 +16,7 @@
     import { MarketCoinId, MarketCurrency } from '@core/market'
     import { getAndUpdateMarketPrices } from '@core/market/actions'
     import { calculateFiatValueFromTokenValueAndMarketPrice } from '@core/market/utils'
+    import { SupportedNetworkId } from '@core/network'
 
     const initialAccountRange = DEFAULT_ACCOUNT_RECOVERY_CONFIGURATION[$onboardingProfile.type].initialAccountRange
     const addressGapLimitIncrement = DEFAULT_ACCOUNT_RECOVERY_CONFIGURATION[$onboardingProfile.type].addressGapLimit
@@ -120,7 +121,11 @@
         if ($onboardingProfile.type === ProfileType.Software) {
             return checkOrUnlockStronghold(callback)
         } else {
-            return checkOrConnectLedger(callback)
+            return checkOrConnectLedger(
+                callback,
+                false,
+                $onboardingProfile?.network.id === SupportedNetworkId.Iota ? LedgerAppName.Iota : LedgerAppName.Shimmer
+            )
         }
     }
 
