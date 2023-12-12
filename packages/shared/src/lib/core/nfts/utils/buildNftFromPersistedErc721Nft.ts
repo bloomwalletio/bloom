@@ -1,6 +1,6 @@
 import { getActiveProfile } from '@core/profile/stores'
 import { INft, IPersistedErc721Nft } from '../interfaces'
-import { composeUrlFromNftUri, NftStandard } from '@core/nfts'
+import { composeUrlFromNftUri, MimeType, NftStandard } from '@core/nfts'
 
 export function buildNftFromPersistedErc721Nft(nft: IPersistedErc721Nft): INft {
     const { contractMetadata, networkId, ownerAddress, tokenId, tokenMetadata } = nft
@@ -27,6 +27,7 @@ export function buildNftFromPersistedErc721Nft(nft: IPersistedErc721Nft): INft {
         metadata: {
             contract: nft.contractMetadata,
             ...(tokenMetadata && { token: tokenMetadata }),
+            type: MimeType.ImagePng,
         },
         ...(tokenId && { tokenId }),
         composedUrl,
