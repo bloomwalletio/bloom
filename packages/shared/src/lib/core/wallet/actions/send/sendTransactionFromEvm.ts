@@ -28,13 +28,12 @@ export async function sendTransactionFromEvm(
         checkActiveProfileAuth(
             async () => {
                 const signedTransaction = await signEvmTransaction(preparedTransaction, chain, account)
-
-                if (!signAndSend || !signedTransaction) {
-                    if (signedTransaction) {
-                        resolve(signedTransaction)
-                    } else {
-                        reject({ message: 'No signed transaction!', code: 500 })
-                    }
+                if (!signedTransaction) {
+                    reject({ message: 'No signed transaction!', code: 500 })
+                    return
+                }
+                if (!signAndSend) {
+                    resolve(signedTransaction)
                     return
                 }
 
