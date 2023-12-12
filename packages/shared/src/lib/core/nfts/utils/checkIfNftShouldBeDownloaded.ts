@@ -4,7 +4,7 @@ import { BYTES_PER_MEGABYTE, HttpHeader } from '@core/utils'
 import features from '@features/features'
 import { get } from 'svelte/store'
 import { NFT_MEDIA_FILE_NAME } from '../constants'
-import { DownloadErrorType, DownloadWarningType } from '../enums'
+import { DownloadErrorType, DownloadWarningType, MimeType } from '../enums'
 import { IIrc27Nft, INft, INftDownloadStatus } from '../interfaces'
 import { persistedNftForActiveProfile, updatePersistedNft } from '../stores'
 import { PersistedNft } from '../types'
@@ -111,7 +111,7 @@ async function getUrlAndHeadersFromOldSoonaverseStructure(
     nft: IIrc27Nft,
     headers: Headers
 ): Promise<{ url: string; headers: Headers } | undefined> {
-    const isContentTypeEqualNftType = headers.get(HttpHeader.ContentType) === nft.metadata?.type
+    const isContentTypeEqualNftType = (headers.get(HttpHeader.ContentType) as MimeType) === nft.metadata?.type
     if (!isContentTypeEqualNftType) {
         const backupUrl = nft.composedUrl + '/' + encodeURIComponent(nft?.metadata?.name)
         const backupResponse = await fetchWithTimeout(backupUrl, HEAD_FETCH_TIMEOUT_SECONDS, {
