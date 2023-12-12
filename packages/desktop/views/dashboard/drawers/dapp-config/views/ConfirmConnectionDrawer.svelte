@@ -21,6 +21,7 @@
     import { handleError } from '@core/error/handlers'
     import { IAccountState } from '@core/account'
     import { DappConfigRoute } from '../dapp-config-route.enum'
+    import { closeDrawer } from '@desktop/auxiliary/drawer'
 
     export let drawerRouter: Router<unknown>
 
