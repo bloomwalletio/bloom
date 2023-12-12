@@ -23,7 +23,7 @@
     <div slot="description">
         <div class="flex flex-col items-center justify-between gap-3">
             <SuccessSvg />
-            <Text type="h5" textColor="success">{successMessage}</Text>
+            <Text type="h5" textColor="success" align="center">{successMessage}</Text>
         </div>
     </div>
     <Alert text={localize('popups.successfulDappInteraction.alert')} />
