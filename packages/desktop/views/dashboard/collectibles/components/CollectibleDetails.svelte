@@ -72,8 +72,8 @@
             <CollectibleDetailsMenu {nft} />
         </nft-title>
         {#if description}
-            <nft-description class="overflow-scroll">
-                <Text type="body1">{localize('general.description')}</Text>
+            <Text type="body1">{localize('general.description')}</Text>
+            <nft-description>
                 <Text textColor="secondary">{description}</Text>
             </nft-description>
         {/if}
@@ -131,5 +131,10 @@
 
     details-container {
         @apply max-w-lg;
+    }
+
+    nft-description {
+        @apply overflow-scroll shrink-0;
+        max-height: 8rem;
     }
 </style>
