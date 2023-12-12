@@ -18,10 +18,9 @@
         NetworkSelection,
         PermissionSelection,
     } from '../components'
-    import { closeDrawer } from '@desktop/auxiliary/drawer'
     import { handleError } from '@core/error/handlers'
     import { IAccountState } from '@core/account'
-    import { PopupId, openPopup } from '@desktop/auxiliary/popup'
+    import { DappConfigRoute } from '../dapp-config-route.enum'
 
     export let drawerRouter: Router<unknown>
 
@@ -85,8 +84,8 @@
             persistDappNamespacesForDapp(dappUrl, supportedNamespaces)
             $sessionProposal = undefined
 
-            openPopup({ id: PopupId.SuccessfulDappConnection, props: { url: dappUrl } })
-            closeDrawer()
+            drawerRouter.reset()
+            drawerRouter.goTo(DappConfigRoute.ConnectedDapps)
         } catch (error) {
             loading = false
             handleError(error)

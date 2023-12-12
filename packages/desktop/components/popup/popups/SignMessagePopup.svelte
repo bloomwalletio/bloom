@@ -1,6 +1,6 @@
 <script lang="ts">
     import { localize } from '@core/i18n'
-    import { closePopup } from '@desktop/auxiliary/popup'
+    import { PopupId, closePopup, openPopup } from '@desktop/auxiliary/popup'
     import { handleError } from '@core/error/handlers'
     import { IConnectedDapp } from '@auxiliary/wallet-connect/interface'
     import { CallbackParameters } from '@auxiliary/wallet-connect/types'
@@ -14,7 +14,6 @@
     import { checkActiveProfileAuth } from '@core/profile/actions'
     import { LedgerAppName } from '@core/ledger'
     import PopupTemplate from '../PopupTemplate.svelte'
-    import { showNotification } from '@auxiliary/notification/actions'
     import DappDataBanner from '@components/DappDataBanner.svelte'
 
     export let _onMount: (..._: any[]) => Promise<void> = async () => {}
@@ -37,10 +36,7 @@
             const { coinType } = chain.getConfiguration()
             const result = await signMessage(message, coinType, account)
 
-            showNotification({
-                variant: 'success',
-                text: localize('notifications.signMessage.success'),
-            })
+            openPopup({ id: PopupId.SuccessfulDappConnection, props: { url: dapp.metadata?.url } })
             callback({ result })
         } catch (err) {
             callback({ error: err })
