@@ -132,7 +132,7 @@
         {/if}
     {:else}
         <div class="flex justify-center">
-            <Spinner />
+            <Spinner textColor="primary" />
         </div>
     {/if}
 </PopupTemplate>
