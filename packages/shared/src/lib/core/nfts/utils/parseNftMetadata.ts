@@ -3,9 +3,8 @@ import { Converter } from '@core/utils/convert'
 import { validateBech32Address } from '@core/utils/crypto'
 import { isValidUri } from '@core/utils/validation'
 import { Irc27Version } from '@core/wallet/enums'
-import { NftStandard } from '../enums'
+import { MimeType, NftStandard } from '../enums'
 import { INftAttribute, IIrc27Metadata, ISoonaverseAttribute, ISoonaverseAttributes } from '../interfaces'
-import { MimeType } from '../types'
 
 export function parseNftMetadata(metadata: string): IIrc27Metadata | undefined {
     try {
