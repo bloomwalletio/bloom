@@ -1,4 +1,4 @@
-import { validateConnectionCodeUri } from '@auxiliary/wallet-connect/utils'
+import { rejectSession, validateConnectionCodeUri } from '@auxiliary/wallet-connect/utils'
 import { pairWithNewDapp } from '@auxiliary/wallet-connect/actions'
 import { toggleDashboardDrawer } from '../../../../../../../../desktop/lib/auxiliary/drawer'
 import { DashboardDrawerRoute } from '../../../../../../../../desktop/views/dashboard/drawers/dashboard-drawer-route.enum'
@@ -8,14 +8,17 @@ export function handleDeepLinkAddWCConnectionOperation(searchParams: URLSearchPa
     const walletConnectUri = searchParams.get('uri')
 
     try {
-        if (!walletConnectUri) throw new Error('No wallet connect URI provided')
+        if (!walletConnectUri) {
+            throw new Error('No wallet connect URI provided')
+        }
         validateConnectionCodeUri(walletConnectUri)
 
         pairWithNewDapp(walletConnectUri)
 
         toggleDashboardDrawer({
             id: DashboardDrawerRoute.DappConfig,
-            initialSubroute: DappConfigRoute.ConfirmConnection,
+            initialSubroute: DappConfigRoute.ConnectionRequest,
+            props: { onClose: rejectSession },
         })
     } catch (err) {
         toggleDashboardDrawer({
