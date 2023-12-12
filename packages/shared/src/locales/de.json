@@ -2,9 +2,9 @@
     "views": {
         "onboarding": {
             "welcome": {
-                "title": "Willkommen zu",
-                "subtitle": "A new journey awaits...",
-                "legalAction": "Confirm you've read and accept the",
+                "title": "Willkommen bei",
+                "subtitle": "Eine neue Reise wartet...",
+                "legalAction": "Bestätige, dass Du gelesen hast und einverstanden bist",
                 "button": "Starte Setup"
             },
             "networkSetup": {
@@ -12,10 +12,10 @@
                     "title": "Wähle dein Netzwerk",
                     "iota": {
                         "primary": "IOTA Mainnet",
-                        "secondary": "Production network with stable features"
+                        "secondary": "Produktionsnetzwerk mit stabilen Funktionen"
                     },
                     "shimmer": {
-                        "primary": "Schimmer",
+                        "primary": "Shimmer",
                         "secondary": "Experimentelles Netzwerk mit den neuesten Funktionen"
                     },
                     "testnet": {
@@ -24,7 +24,7 @@
                     },
                     "custom": {
                         "primary": "Fortgeschrittene Konfiguration",
-                        "secondary": "Connect to any network with custom settings"
+                        "secondary": "Verbinde dich mit jedem Netzwerk mit benutzerdefinierten Einstellungen"
                     }
                 },
                 "setupCustomNetwork": {
@@ -32,77 +32,77 @@
                 }
             },
             "chooseOnboardingFlow": {
-                "title": "Choose your setup type",
+                "title": "Wähle deine Einrichtungsart",
                 "new": {
                     "primary": "Neues Profil",
-                    "secondary": "Create a new profile with a mnemonic or Ledger Nano"
+                    "secondary": "Erstelle ein neues Profil mit einem mnemonic oder Ledger Nano"
                 },
                 "restore": {
-                    "primary": "Restore profile",
-                    "secondary": "Restore existing profile with a backup or Ledger Nano"
+                    "primary": "Profil wiederherstellen",
+                    "secondary": "Bestehendes Profil mit einem Backup oder Ledger Nano wiederherstellen"
                 },
                 "claim": {
-                    "primary": "Claim Shimmer rewards",
-                    "secondary": "Claim staking rewards using an IOTA backup"
+                    "primary": "Shimmer Rewards beanspruchen",
+                    "secondary": "Beanspruche Staking Rewards mit einem IOTA-Backup"
                 }
             },
             "createProfile": {
                 "chooseCreateProfileFlow": {
-                    "title": "Choose your key storage",
+                    "title": "Schlüsselspeicher auswählen",
                     "software": {
-                        "primary": "Software storage",
-                        "secondary": "Store keys in a Stronghold file with your recovery phrase"
+                        "primary": "Softwarespeicher",
+                        "secondary": "Speichere Schlüssel in einer Stronghold-Datei mit deiner Wiederherstellungsphrase"
                     },
                     "hardware": {
-                        "primary": "Hardware storage",
-                        "secondary": "Use the keys stored on your Ledger Nano device"
+                        "primary": "Hardwarespeicher",
+                        "secondary": "Verwende die auf deinem Ledger Nano gespeicherten Schlüssel"
                     }
                 }
             },
             "createFromMnemonic": {
                 "viewMnemonic": {
-                    "title": "Record your recovery phrase",
-                    "description": "This recovery phrase is your most important secret. It is the master key to all your funds. Do not show this to anyone."
+                    "title": "Speichere deine Wiederherstellungsphrase",
+                    "description": "Die Wiederherstellungsphrase ist dein wichtigstes Geheimnis. Sie ist der Hauptschlüssel für all dein Guthaben. Zeige sie niemandem."
                 },
                 "verifyMnemonic": {
-                    "title": "Verify your recovery phrase",
-                    "description": "Let’s check you wrote down your phrase correctly. Please select the word with the corresponding number below.",
-                    "matchWord": "Match word #{number}:",
+                    "title": "Wiederherstellungsphrase verifizieren",
+                    "description": "Lass uns überprüfen, ob du deine Phrase richtig abgeschrieben hast. Bitte wählen das Wort mit der entsprechenden Nummer unten.",
+                    "matchWord": "Passendes Wort #{number}:",
                     "noMatch": "Stimmt nicht überein"
                 },
                 "verifyMnemonicSuccess": {
-                    "status": "Verification Success",
-                    "title": "Recovery phrase matched",
-                    "description": "Remember to keep your copies private and secure"
+                    "status": "Verifizierung erfolgreich",
+                    "title": "Wiederherstellungsphrase verifiziert",
+                    "description": "Denke daran, deine Kopien geheim und sicher zu halten"
                 }
             },
             "createFromLedger": {
                 "installLedger": {
-                    "title": "Install the Ledger app",
-                    "description": "Use Ledger Live to find and install the required app on your Ledger Nano device."
+                    "title": "Ledger-App installieren",
+                    "description": "Benutzen Sie Ledger Live um die benötigte App auf Ihrem Ledger Nano zu finden und zu installieren."
                 },
                 "connectLedger": {
                     "title": "Verbinde deinen Ledger mit Bloom",
-                    "description": "Please ensure that the official Ledger Live application is closed and follow the steps below.",
-                    "connect": "Connect your Ledger device",
-                    "unlock": "Unlock your Ledger with its pin",
-                    "open": "Open the Shimmer app on your Ledger",
-                    "tip": "Tips if your Ledger isn't connecting"
+                    "description": "Bitte stelle sicher, dass die offizielle Ledger Live App geschlossen ist und folge den folgenden Schritten.",
+                    "connect": "Verbinde deinen Ledger",
+                    "unlock": "Entsperre deinen Ledger mit der PIN",
+                    "open": "Open the {appName} app on your Ledger",
+                    "tip": "Tipps, wenn sich dein Ledger nicht verbindet"
                 },
                 "ledgerConnectionGuide": {
-                    "title": "Ledger isn't connecting?",
-                    "ledgerLiveNotOpen": "Ensure the Ledger Live app is not open on your computer",
-                    "ledgerDeviceUnlocked": "Ensure your Ledger device is unlocked with your PIN",
-                    "ledgerAppOpen": "Open the {appName} app on your Ledger device",
+                    "title": "Ledger verbindet sich nicht?",
+                    "ledgerLiveNotOpen": "Stelle sicher, dass Ledger Live App auf deinem Computer nicht geöffnet ist",
+                    "ledgerDeviceUnlocked": "Stelle sicher, dass dein Ledger mit der PIN entsperrt ist",
+                    "ledgerAppOpen": "Öffnen Sie die {appName} App auf Ihrem Ledger",
                     "ledgerStillNotConnected": {
-                        "question": "Still not working?",
-                        "answer": "Try the official Ledger support"
+                        "question": "Funktioniert immer noch nicht?",
+                        "answer": "Besuche die offizielle Ledger Support-Seite"
                     }
                 }
             },
             "restoreProfile": {
                 "chooseRestoreProfileFlow": {
-                    "title": "Choose your recovery method",
+                    "title": "Wiederherstellungsmethode auswählen",
                     "mnemonic": {
                         "primary": "Wiederherstellungsphrase",
                         "secondary": "Schlüssel mit einer 12 oder 24 Wort-Wiederherstellungsphrase wiederherstellen"
@@ -112,59 +112,63 @@
                         "secondary": "Profil mit einer Stronghold Sicherungsdatei wiederherstellen"
                     },
                     "hardware": {
-                        "primary": "Hardware device",
+                        "primary": "Hardware-Gerät",
                         "secondary": "Profil mit einem Ledger Nano wiederherstellen"
                     }
                 },
                 "claimFinder": {
-                    "title": "Claim your Shimmer rewards",
-                    "description": "Use the balance finder below, and check if your Shimmer staking rewards balance is correct before claiming.",
-                    "success": "Successfully found {amount}"
+                    "title": "Beanspruche deine Shimmer-Rewards",
+                    "description": "Benutze den Bilanzfinder unten und überprüfe, ob deine Shimmer Staking-Rewards korrekt sind bevor du sie beanspruchst.",
+                    "success": "{amount} erfolgreich gefunden"
+                },
+                "balanceFinder": {
+                    "title": "Find your recovered accounts",
+                    "description": "Use the balance finder below, and check if your account balances are correct before continuing."
                 }
             },
             "restoreFromMnemonic": {
                 "inputMnemonic": {
-                    "title": "Enter your recovery phrase",
-                    "description": "A recovery phrase is a 12 or 24 word master key to all your funds that you will have recorded when making an existing profile. Enter it below and separate each word with spaces.",
+                    "title": "Gib deine Wiederherstellungsphrase ein",
+                    "description": "Eine Wiederherstellungsphrase ist ein 12 oder 24 Wort-Hauptschlüssel für all dein Guthaben, welches bei der Erstellung eines bestehenden Profils erfasst wird. Gib sie unten ein und trenne jedes Wort mit einem Leerzeichen.",
                     "phraseDetected": {
-                        "12": "12 word recovery phrase detected",
-                        "24": "24 word recovery phrase detected"
+                        "12": "12 Wörter Wiederherstellungsphrase erkannt",
+                        "24": "24 Wörter Wiederherstellungsphrase erkannt"
                     }
                 }
             },
             "restoreFromStronghold": {
                 "importStronghold": {
-                    "title": "Import your backup file",
-                    "description": "Drop your Stronghold backup file or choose one from the file explorer to restore your profile."
+                    "title": "Importiere deine Sicherungsdatei",
+                    "description": "Um dein Profil wiederherzustellen, leg deine Stronghold Backup-Datei ab oder wähle eine Datei im Datei-Explorer aus."
                 },
                 "unlockBackup": {
-                    "title": "Unlock your backup",
-                    "description": "Please provide the password for the backup below to decrypt your keys."
+                    "title": "Sicherung entsperren",
+                    "description": "Bitte gebe das Passwort für das Backup unten an, um deine Schlüssel zu entschlüsseln."
                 }
             },
             "shared": {
                 "encryptMnemonic": {
-                    "title": "Secure your profile",
-                    "description": "Make your password highly secure to encrypt your keys. This will be required to send tokens and assets."
+                    "title": "Sichere dein Profil",
+                    "description": "Wähle ein möglichst sicheres Passwort, um deine Schlüssel zu verschlüsseln. Das Passwort wird ebenfalls erforderlich sein, um Token und Assets zu senden."
                 }
             },
             "completeOnboarding": {
                 "enterName": {
-                    "title": "Give your profile a name",
-                    "description": "Be as creative as you like! You can change this later."
+                    "title": "Gib deinem Profil einen Namen",
+                    "description": "Sei so kreativ wie du möchtest! Du kannst es später wieder ändern."
                 },
                 "enterPin": {
-                    "title": "Add a PIN number",
-                    "description": "The 6-digit PIN gives you quick entry to your profile and helps prevent unwanted access."
+                    "title": "PIN Nummer hinzufügen",
+                    "description": "Die 6-stellige PIN ermöglicht dir einen schnellen Zugriff auf dein Profil und hilft unerwünschten Zugriff zu verhindern."
                 },
                 "finishOnboarding": {
-                    "status": "Setup complete",
+                    "status": "Einrichtung abgeschlossen",
                     "appSetup": {
                         "title": "Bloom ist bereit",
-                        "action": "Enter Bloom"
+                        "action": "Betrete Bloom"
                     },
                     "profileSetup": {
-                        "title": "Profile is ready"
+                        "title": "Profil ist bereit"
                     }
                 }
             }
@@ -208,22 +212,22 @@
                 "description": "In eine Stronghold-Datei exportieren - ein komplett verschlüsseltes Backup deiner Wallets und Transaktionsverläufe"
             },
             "autoLogout": {
-                "title": "Automatic logout",
-                "description": "Inactivity time before your wallets lock and you are logged out"
+                "title": "Automatische Abmeldung",
+                "description": "Zeit bei Inaktivität, bis die Wallet gesperrt und du ausgeloggt wirst"
             },
             "strongholdTimeout": {
-                "title": "Stronghold timeout",
-                "description": "Length of time before your Stronghold password is required again"
+                "title": "Stronghold Timeout",
+                "description": "Dauer der Zeit, bis dein Stronghold Passwort erneut benötigt wird"
             },
             "maxMediaSize": {
                 "title": "Maximale Dateigröße",
                 "description": "NFT-Medien mit Größen größer als dieses Limit werden nicht heruntergeladen und stattdessen ein Platzhalter angezeigt, der den Medientyp repräsentiert",
-                "input": "Media size"
+                "input": "Mediengröße"
             },
             "maxMediaDownloadTime": {
                 "title": "Maximale Downloadzeit",
                 "description": "NFT Medien, die länger als dieses Limit zum Download benötigen, werden abgebrochen und stattdessen wird ein Platzhalter angezeigt, der den Medientyp repräsentiert",
-                "input": "Download time"
+                "input": "Downloadzeit"
             },
             "refreshNftMedia": {
                 "title": "NFT Medien aktualisieren",
@@ -243,11 +247,11 @@
             },
             "changeProfileName": {
                 "title": "Profilname ändern",
-                "description": "Change your Bloom profile name",
+                "description": "Ändere deinen Bloom-Profilnamen",
                 "success": "Du hast deinen Profilnamen geändert"
             },
             "hiddenAccounts": {
-                "title": "Hidden accounts",
+                "title": "Ausgeblendete Konten",
                 "description": "Wähle diese Option um zuvor ausgeblendete Wallets wieder anzuzeigen"
             },
             "deleteProfile": {
@@ -256,7 +260,7 @@
             },
             "deepLinks": {
                 "title": "Deep-Links",
-                "description": "Automatically fill transaction data in Bloom upon clicking a deep link starting with {appProtocol}://"
+                "description": "Transaktionsdaten in Bloom durch das Anklicken eines Deep-Links, beginnend mit {appProtocol}://, automatisch ausfüllen"
             },
             "errorLog": {
                 "title": "Fehlerprotokoll",
@@ -264,9 +268,9 @@
             },
             "crashReporting": {
                 "title": "Fehler- und Absturzberichte",
-                "body": "Help the developers improve Bloom by automatically sending diagnostic data when an error or crash occurs",
+                "body": "Hilf den Entwicklern Bloom zu verbessern, indem Diagnosedaten automatisch versendet werden, wenn ein Fehler oder Absturz auftritt",
                 "checkbox": "Fehler- und Absturzberichte senden",
-                "advice": "Please restart the Bloom application to {sendCrashReports, select, true {start sharing crash reports} false {stop sharing crash reports} other {apply this change}}"
+                "advice": "Bitte führe einen Neustart von Bloom durch, um {sendCrashReports, select, true {das Teilen von Fehler- und Absturzberichten zu aktivieren} false {das Teilen von Fehler- und Absturzberichten zu deaktivieren} other {die Änderung wirksam zu machen}}"
             },
             "diagnostics": {
                 "title": "Diagnose",
@@ -301,14 +305,14 @@
             }
         },
         "login": {
-            "incorrectPin": "Incorrect PIN code",
+            "incorrectPin": "Falscher PIN-Code",
             "hintStronghold": "Deine Stronghold-Version ist veraltet. Bitte melde dich an, um deine Stronghold-Version zu aktualisieren.",
             "maxAttempts": {
-                "title": "Couldn't sign you in",
-                "body1": "You have entered an",
-                "body2": "incorrect PIN code {times, plural, one {# time} other {# times}}.",
-                "body3": "For security purposes, your profile has been temporarily locked. Please wait for",
-                "body4": "before attempting to login again."
+                "title": "Anmeldung fehlgeschlagen",
+                "body1": "Du hast",
+                "body2": "falscher PIN Code {times, plural, one {# Zeit} other {# mal}}.",
+                "body3": "Aus Sicherheitsgründen wurde dein Profil vorübergehend gesperrt. Bitte warte",
+                "body4": "bevor du dich erneut anmeldest."
             }
         },
         "loadProfile": {
@@ -338,20 +342,20 @@
                 "network": "Netzwerk",
                 "marketCap": "Marktkapitalisierung",
                 "price": "Preis",
-                "total": "Total",
+                "total": "Gesamt",
                 "available": "Verfügbar"
             },
             "activity": {
                 "tab": "Aktivität",
                 "asset": "Asset",
-                "action": "Action",
-                "address": "Address",
-                "amount": "Amount",
-                "claimableTransactions": "You have {amount} {amount, select, 1 {transaction that requires} other {transactions that require}} claiming",
-                "consolidatedOutputs": "{amount} outputs consolidated"
+                "action": "Aktion",
+                "address": "Adresse",
+                "amount": "Betrag",
+                "claimableTransactions": "Du hast {amount} {amount, select, 1 {Transaktion, die beansprucht} other {Transaktionen, die beanspruchen}} ",
+                "consolidatedOutputs": "{amount} Outputs zusammengefügt"
             },
             "profileMenu": {
-                "allSettings": "All settings",
+                "allSettings": "Alle Einstellungen",
                 "logout": "Abmelden"
             },
             "drawers": {
@@ -360,16 +364,16 @@
                         "title": "Blockchain hinzufügen"
                     },
                     "chain": {
-                        "chainId": "Chain ID",
-                        "aliasAddress": "Alias Address",
-                        "rpcEndpoint": "RPC Endpoint",
-                        "explorerUrl": "Explorer URL (optional)",
+                        "chainId": "Chain-ID",
+                        "aliasAddress": "Alias-Adresse",
+                        "rpcEndpoint": "RPC-Endpunkt",
+                        "explorerUrl": "Explorer-URL (optional)",
                         "errors": {
-                            "cannotBeEmpty": "Name cannot be empty",
-                            "nameTooLong": "Name is too long",
-                            "aliasAddressWrongFormat": "Must be in either hex or Bech32 format",
-                            "aliasAddressAlreadyInUse": "Alias address already in use",
-                            "invalidUrl": "Invalid URL"
+                            "cannotBeEmpty": "Name darf nicht leer sein",
+                            "nameTooLong": "Name ist zu lang",
+                            "aliasAddressWrongFormat": "Muss entweder im Hex- oder Bech32-Format sein",
+                            "aliasAddressAlreadyInUse": "Alias-Adresse wird bereits verwendet",
+                            "invalidUrl": "Ungültige URL"
                         }
                     },
                     "chainDepositAddress": {
@@ -386,7 +390,7 @@
                     "connectLedgerDevice": {
                         "title": "Verbinde deinen Ledger",
                         "header": "Öffne die Ethereum App",
-                        "body": "For your Ledger device to be found by Bloom, please ensure that the official Ledger Live application is closed before following these steps.",
+                        "body": "Damit dein Ledger von Bloom gefunden wird, stelle bitte sicher, dass die offizielle Ledger Live-Anwendung geschlossen ist, bevor du diesen Schritten folgst.",
                         "requirements": {
                             "connect": "Verbinde und entsperre deinen Ledger",
                             "openApp": "Öffne die Ethereum-App auf deinem Ledger"
@@ -400,160 +404,160 @@
                     },
                     "networkSettings": {
                         "configureNodeList": {
-                            "title": "Node configuration",
-                            "description": "Manage the list of nodes you connect to",
-                            "excludeNode": "Exclude node",
-                            "includeNode": "Include node",
-                            "editDetails": "Edit details",
-                            "setAsPrimary": "Set primary node",
-                            "unsetAsPrimary": "Clear primary node",
-                            "removeNode": "Remove node",
-                            "noNodes": "There are no nodes, unable to connect to the network"
+                            "title": "Node-Konfiguration",
+                            "description": "Verwalte die Liste der Nodes, mit denen du dich verbindest",
+                            "excludeNode": "Node ausschließen",
+                            "includeNode": "Node einbeziehen",
+                            "editDetails": "Bearbeiten",
+                            "setAsPrimary": "Als primären Node festlegen",
+                            "unsetAsPrimary": "Primären Node löschen",
+                            "removeNode": "Node entfernen",
+                            "noNodes": "Es sind keine Nodes vorhanden, Verbindung zum Netzwerk fehlgeschlagen"
                         },
                         "localProofOfWork": {
-                            "title": "Proof of work",
-                            "description": "Complete proof of work locally on your device or outsource to the node"
+                            "title": "Proof of Work",
+                            "description": "Proof of Work lokal auf deinem Gerät ausführen oder an den Node auslagern"
                         }
                     }
                 },
                 "contactBook": {
                     "contactList": {
-                        "title": "Contact list",
-                        "emptyHeader": "No contacts found",
-                        "emptyBody": "Connect with your favourite people in Bloom.",
-                        "addContact": "Add contact"
+                        "title": "Kontaktliste",
+                        "emptyHeader": "Keine Kontakte gefunden",
+                        "emptyBody": "Verbinde dich mit deinen Freunden in Bloom.",
+                        "addContact": "Kontakt hinzufügen"
                     },
                     "contactInformation": {
-                        "title": "Contact Information",
-                        "editContact": "Edit contact",
-                        "removeContact": "Remove contact",
-                        "addNetworkAddress": "Add address"
+                        "title": "Kontaktdaten",
+                        "editContact": "Kontakt bearbeiten",
+                        "removeContact": "Kontakt entfernen",
+                        "addNetworkAddress": "Adresse hinzufügen"
                     },
                     "contactAddress": {
-                        "title": "Contact address",
-                        "viewQrCode": "Vew QR code"
+                        "title": "Kontaktadresse",
+                        "viewQrCode": "QR-Code anzeigen"
                     },
                     "addContact": {
-                        "title": "Add contact",
-                        "identity": "Their identity",
-                        "address": "Their address",
-                        "color": "Contact color"
+                        "title": "Kontakt hinzufügen",
+                        "identity": "Deren Identität",
+                        "address": "Deren Adresse",
+                        "color": "Kontaktfarbe"
                     },
                     "editContact": {
-                        "title": "Edit contact",
-                        "identity": "Their identity",
-                        "color": "Contact color"
+                        "title": "Kontakt bearbeiten",
+                        "identity": "Deren Identität",
+                        "color": "Kontaktfarbe"
                     },
                     "removeContact": {
-                        "title": "Remove contact",
-                        "body": "Are you sure you want to remove this contact?",
-                        "hint": "Please note after removing a contact Bloom will show its actual addresses."
+                        "title": "Kontakt entfernen",
+                        "body": "Möchtest du diesen Kontakt wirklich löschen?",
+                        "hint": "Bitte beachte, dass nach dem Entfernen eines Kontaktes Bloom seine tatsächlichen Adressen anzeigt."
                     },
                     "addNetworkAddress": {
-                        "title": "Add network address"
+                        "title": "Netzwerkadresse hinzufügen"
                     },
                     "editNetworkAddresses": {
-                        "title": "Edit network addresses"
+                        "title": "Netzwerkadressen bearbeiten"
                     },
                     "removeNetworkAddresses": {
-                        "title": "Remove network addresses",
-                        "body": "Are you sure you want to remove the contact’s {network} network addresses?",
-                        "hint": "Please note after removing a contact’s network addresses Bloom will no longer associate it with them in transactions or activities."
+                        "title": "Netzwerkadressen entfernen",
+                        "body": "Bist du sicher, dass du die {network} Netzwerkadressen des Kontakts entfernen möchtest?",
+                        "hint": "Bitte beachte, dass Bloom nach dem Entfernen der Netzwerkadressen eines Kontakts diese nicht mehr in Transaktionen oder Aktivitäten mit ihm verknüpft."
                     }
                 },
                 "dapps": {
                     "dappsList": {
-                        "title": "Connected dApps",
-                        "connectDapp": "Connect dApp",
-                        "emptyTitle": "No apps found",
-                        "emptySubtitle": "Connect Bloom with your favourite dApps"
+                        "title": "Verbundene dApps",
+                        "connectDapp": "dApp verbinden",
+                        "emptyTitle": "Keine dApps gefunden",
+                        "emptySubtitle": "Verbinde Bloom mit deinen Lieblings-dApps"
                     },
                     "inputConnectionCode": {
-                        "title": "Connect to a dApp",
-                        "inputLabel": "Wallet Connect code",
-                        "addDapp": "Add a dApp",
-                        "addDappDescription": "Add new dApps by adding a Wallet Connect code below.",
-                        "deprecated": "The dApp you try to connect to uses a deprecated version of WalletConnect. Cannot establish connection"
+                        "title": "Mit einer dApp verbinden",
+                        "inputLabel": "WalletConnect-Code",
+                        "addDapp": "dApp hinzufügen",
+                        "addDappDescription": "Füge neue dApps mittels WalletConnect-Code hinzu.",
+                        "deprecated": "Die dApp, mit der du eine Verbindung herstellen möchten, verwendet eine veraltete Version von WalletConnect. Es kann keine Verbindung hergestellt werden"
                     },
                     "connectionRequest": {
-                        "title": "Connection request",
-                        "firstTimeHint": "This dApp wishes to connect for the first time. Connect to sites you trust.",
-                        "reconnectHint": "You have previously connected with this dApp.",
-                        "insecure": "The URL for this dApp cannot be verified. Your connection to this application may not be secure.",
-                        "unsupportedNetworks": "This dApp is not compatible with Bloom as it runs on an unsupported network.",
-                        "unsupportedMethods": "This dApp is not fully compatible with Bloom. Some methods or events are unsupported.",
-                        "supportedOnOtherProfile": "This dApp runs on a supported network, but is not accessible with this profile. Please use a profile connected to the required network.",
-                        "acceptInsecureConnection": "I understand this dApp may be insecure and still want to connect."
+                        "title": "Verbindungsanfrage",
+                        "firstTimeHint": "Diese dApp möchte zum ersten Mal eine Verbindung herstellen. Verbinde deine Wallet nur mit vertrauenswürdigen Seiten.",
+                        "reconnectHint": "Du hast dich bereits mit dieser dApp verbunden.",
+                        "insecure": "Die URL für diese dApp kann nicht verifiziert werden. Ihre Verbindung zu dieser Anwendung ist möglicherweise nicht sicher.",
+                        "unsupportedNetworks": "Diese dApp ist nicht kompatibel mit Bloom, da sie auf einem nicht unterstützten Netzwerk läuft.",
+                        "unsupportedMethods": "Diese dApp ist nicht vollständig mit Bloom kompatibel. Einige Methoden oder Events werden nicht unterstützt.",
+                        "supportedOnOtherProfile": "Diese dApp läuft in einem unterstützten Netzwerk, ist aber mit diesem Profil nicht zugänglich. Bitte verwenden Sie ein Profil, das mit dem benötigten Netzwerk verbunden ist.",
+                        "acceptInsecureConnection": "Ich verstehe, dass diese dApp möglicherweise unsicher ist und trotzdem eine Verbindung aufnehmen möchte."
                     },
                     "editPermissions": {
-                        "title": "Edit permissions"
+                        "title": "Berechtigungen bearbeiten"
                     },
                     "editNetworks": {
-                        "title": "Edit networks"
+                        "title": "Netzwerke bearbeiten"
                     },
                     "editAccounts": {
-                        "title": "Edit accounts"
+                        "title": "Konten bearbeiten"
                     },
                     "confirmConnection": {
-                        "title": "Connect with an application",
+                        "title": "Mit einer App verbinden",
                         "permissions": {
-                            "step": "Permission",
-                            "tip": "These are limited permissions for the dApp to send an interaction request for your approval. Only approve apps you know and trust.",
-                            "title": "Select permissions",
-                            "signData": "Request to sign data",
-                            "signTransaction": "Request to sign a transaction",
-                            "sendTransaction": "Request to send a transaction",
-                            "empty": "You have to select at least one permission"
+                            "step": "Berechtigung",
+                            "tip": "Dies sind begrenzte Berechtigungen für die dApp, eine Interaktionsanfrage für Ihre Genehmigung zu senden. Bestätige nur dApps die du kennst und denen du vertraust.",
+                            "title": "Berechtigungen auswählen",
+                            "signData": "Anfrage zur Signierung von Daten",
+                            "signTransaction": "Anfrage zur Signierung einer Transaktion",
+                            "sendTransaction": "Anfrage zum Senden einer Transaktion",
+                            "empty": "Mindestens eine Berechtigung muss ausgewählt sein"
                         },
                         "networks": {
-                            "step": "Networks",
-                            "title": "Select networks",
-                            "tip": "The required networks are pre-selected for you by the dApp and can also be reconfigured later.",
-                            "empty": "You have to select at least one network"
+                            "step": "Netzwerke",
+                            "title": "Netzwerke auswählen",
+                            "tip": "Die benötigten Netzwerke werden von der dApp vorausgewählt und können später auch neu konfiguriert werden.",
+                            "empty": "Es muss mindestens ein Netzwerk ausgewählt werden"
                         },
                         "accounts": {
-                            "step": "Accounts",
-                            "title": "Select accounts",
-                            "tip": "Connect with specific accounts to manage funds separately. You control what the dApp can access.",
-                            "empty": "You have to select at least one account"
+                            "step": "Konten",
+                            "title": "Konten auswählen",
+                            "tip": "Verbinde dich mit bestimmten Konten, um Guthaben separat zu verwalten. Du kontrollierst, worauf die dApp zugreifen kann.",
+                            "empty": "Es muss mindestens ein Konto ausgewählt werden"
                         }
                     },
                     "details": {
-                        "title": "Connection details",
+                        "title": "Verbindungsdetails",
                         "falbackName": "dApp",
                         "name": "Name",
-                        "description": "Description",
+                        "description": "Beschreibung",
                         "url": "URL",
-                        "verifyUrl": "Verify URL",
+                        "verifyUrl": "URL verifizieren",
                         "disconnect": {
-                            "title": "Disconnect",
-                            "description": "Do you want to disconnect from {dappName}?"
+                            "title": "Trennen",
+                            "description": "Möchten du die Verbindung von {dappName} trennen?"
                         },
                         "remove": {
-                            "title": "Remove",
-                            "description": "Do you want to disconnect from {dappName} and remove it from here?"
+                            "title": "Entfernen",
+                            "description": "Möchtest du die Verbindung von {dappName} trennen und sie von hier entfernen?"
                         },
                         "actions": {
-                            "disconnect": "Disconnect",
-                            "remove": "Remove"
+                            "disconnect": "Trennen",
+                            "remove": "Entfernen"
                         }
                     }
                 }
             },
             "toasts": {
                 "backup": {
-                    "header": "Backup Required",
-                    "body": "You have not backed up your profile yet! We highly recommend backing this up in case you lose access to this device.",
-                    "button": "Backup now"
+                    "header": "Backup erforderlich",
+                    "body": "Du hast dein Profil noch nicht gesichert! Wir empfehlen dringend, dies zu sichern, falls du den Zugriff auf dieses Gerät verlierst.",
+                    "button": "Backup erstellen"
                 },
                 "version": {
-                    "body": "You are currently using an early version of Bloom.",
-                    "button": "Find out more"
+                    "body": "Du verwendest derzeit eine veraltete Version von Bloom.",
+                    "button": "Weitere Informationen"
                 },
                 "update": {
-                    "header": "Update Required",
-                    "body": "A new Bloom update is available today.",
-                    "button": "Update now"
+                    "header": "Update erforderlich",
+                    "body": "Ein neues Bloom-Update ist verfügbar.",
+                    "button": "Jetzt aktualisieren"
                 }
             }
         },
@@ -566,17 +570,17 @@
         "collectibles": {
             "gallery": {
                 "title": "Sammlerstücke",
-                "emptyTitle": "No collectibles found",
-                "noResults": "No results found",
-                "timelocked": "Locked for {timeDiff}",
-                "emptyDescription": "Deposit or receive your first collectible!"
+                "emptyTitle": "Keine Sammlerstücke gefunden",
+                "noResults": "Keine Ergebnisse gefunden",
+                "timelocked": "Gesperrt für {timeDiff}",
+                "emptyDescription": "Empfange oder hinterlege dein erstes Sammlerstück jetzt!"
             },
             "details": {
                 "storageDepositDescription": "Eine rückzahlbare Kaution ist erforderlich, um dein NFT auf dem Tangle aufzubewahren.",
                 "menu": {
                     "download": "Herunterladen",
-                    "setPfp": "Set NFT profile pic",
-                    "unsetPfp": "Unset NFT profile pic",
+                    "setPfp": "NFT-Profilbild festlegen",
+                    "unsetPfp": "Als NFT-Profilbild zurückziehen",
                     "view": "Medien im Browser anzeigen",
                     "burn": "Lösche das NFT"
                 }
@@ -623,7 +627,7 @@
                     "countingEnds": "Auszählung endet am",
                     "countingEnded": "Zählung beendet am",
                     "eventId": "Event-ID",
-                    "nodeUrl": "Node URL"
+                    "nodeUrl": "Node-URL"
                 },
                 "fetching": "Abrufen der Abstimmungsdaten",
                 "hintVote": "Du kannst nicht über eine Abstimmung abstimmen, die sich noch in der Ankündigungsphase befindet. Die Abstimmung wird in {time} geöffnet."
@@ -631,51 +635,51 @@
         },
         "updateStronghold": {
             "update": {
-                "title": "Update your Stronghold",
+                "title": "Stronghold aktualisieren",
                 "loginBody": "Deine Stronghold-Version ist veraltet. Bitte melde dich an, um deine Stronghold-Version zu aktualisieren.",
                 "recoveryBody": "Die importierte Version von Stronghold ist veraltet, um fortzufahren, müssen wir Stronghold auf die neueste Version aktualisieren."
             },
             "updateBackup": {
-                "title": "Stronghold updated",
+                "title": "Stronghold aktualisiert",
                 "loginBody": "Es ist jetzt alles in Ordnung - du verwendest die neueste Stronghold Version",
                 "recoveryBody": "Du kannst nun mit der Einrichtung deiner Wallet fortfahren",
                 "hint": "Wir empfehlen dringend, alle vorherigen Stronghold-Backups zu löschen und ein neues zu speichern"
             },
             "changePassword": {
-                "title": "Change your password",
-                "hint": "Your Stronghold was out of date and has been updated. We recommend that you change your password."
+                "title": "Passwort ändern",
+                "hint": "Dein Stronghold war veraltet und wurde aktualisiert. Wir empfehlen dir, dein Stronghold-Passwort zu ändern."
             }
         }
     },
     "popups": {
         "enableLedgerBlindSigning": {
-            "title": "Blind-Signierung aktivieren",
-            "info": "You need to enable Blind Signing on your Ledger device to confirm this transaction.",
-            "step_1": "Connect and unlock your Ledger device",
-            "step_2": "Open the {appName} application",
-            "step_3": "Press the right button to navigate to Settings, then press both buttons to validate. Your Ledger device displays Blind Signing.",
+            "title": "Blindsignierung aktivieren",
+            "info": "Du musst Blindsignierung auf deinem Ledger aktivieren, um diese Transaktion zu bestätigen.",
+            "step_1": "Verbinde und entsperre deinen Ledger",
+            "step_2": "Öffne die {appName} App",
+            "step_3": "Drücke die rechte Taste, um zu den Einstellungen zu navigieren. Drücke dann beide Schaltflächen, um sie zu validieren. Dein Ledger zeigt Blindsignierung an.",
             "step_4": "Drücke beide Tasten, um die Transaktionsblindsignierung zu aktivieren. Das Gerät wird aktiviert. Du bist fertig."
         },
         "balanceBreakdown": {
-            "title": "Saldenaufteilung anzeigen",
+            "title": "Guthabenaufteilung",
             "available": {
                 "title": "Verfügbar",
-                "subtitle": "Für Ausgaben verfügbare Mittel"
+                "subtitle": "Für Ausgaben verfügbares Guthaben"
             },
             "unavailable": {
-                "title": "Unavailable",
-                "subtitle": "Locked or temporarily unavailable in transactions"
+                "title": "Nicht verfügbar",
+                "subtitle": "Gesperrt oder vorübergehend nicht in Transaktionen verfügbar"
             },
             "storageDeposit": {
                 "title": "Storage Deposit",
-                "subtitle": "Reserved for storing native assets."
+                "subtitle": "Reserviert für die Speicherung nativer Assets."
             },
             "totalBalance": {
                 "title": "Gesamtguthaben",
                 "subtitle": ""
             },
             "basicOutputs": {
-                "title": "Native tokens",
+                "title": "Native Token",
                 "subtitle": "Reserviert für das Speichern nativer Token"
             },
             "nftOutputs": {
@@ -695,11 +699,11 @@
                 "subtitle": "Vorübergehend gesperrt in nicht abgeholten Transaktionen"
             },
             "timelock": {
-                "title": "Timelocked",
+                "title": "Zeitsperre",
                 "subtitle": "Vorübergehend gesperrt in zeitgesperrten Transaktionen"
             },
             "storageDepositReturn": {
-                "title": "Storage deposit return",
+                "title": "Storage Deposit Rücksendung",
                 "subtitle": "Vorübergehend gesperrt in Storage Deposit Return"
             },
             "governance": {
@@ -709,8 +713,8 @@
             "minimizeStorageDepositButton": "Storage Deposit reduzieren"
         },
         "dappAccountSwitcher": {
-            "title": "Switch account",
-            "body": "The dApp requires you to switch to the following account. Do you want to continue?"
+            "title": "Konto wechseln",
+            "body": "Die dApp erfordert das Wechseln zum folgenden Konto. Fortfahren?"
         },
         "minimizeStorageDeposit": {
             "title": "Speichereinlage minimieren",
@@ -728,7 +732,7 @@
         "appUpdate": {
             "title": "Nach Updates suchen",
             "installedVersion": "Installierte Version",
-            "newVersion": "New version",
+            "newVersion": "Neue Version",
             "stage": "Phase",
             "prod": "Early Access",
             "alpha": "Alpha",
@@ -743,7 +747,7 @@
             "body": "Es ist wichtig, regelmäßig ein Backup deiner Wallet durchzuführen. Damit stellst du sicher, dass du eine Kopie deiner Wallets mit vollständigem Transaktionsverlauf besitzt. Wenn du dein Backup und deine Wiederherstellungsphrase verlierst, hast du keinen Zugriff mehr auf dein Guthaben."
         },
         "deeplinkAccountSwitch": {
-            "title": "Select an account",
+            "title": "Konto auswählen",
             "body": "Du hast einen Deep Link ausgeführt. Bitte wähle die Wallet, mit der du fortfahren möchtest."
         },
         "deeplinkError": {
@@ -752,7 +756,7 @@
         },
         "deleteAccount": {
             "title": "{name} löschen?",
-            "body": "Bist Du sicher, dass diese Wallet gelöscht werden soll?",
+            "body": "Bist du sicher, dass diese Wallet gelöscht werden soll?",
             "hint": "Hinweis: Wenn du die Wallet gelöscht hast, kannst du sie mit dem \"Wallet-Finder\" in den Einstellungen wiederherstellen.",
             "typePassword": "Gib dein Passwort zur Bestätigung ein."
         },
@@ -770,6 +774,10 @@
             "title": "Primäre Node löschen",
             "body": "Bist du sicher, dass du {url} als primäre Node löschen möchtest?"
         },
+        "confirmAssetTracking": {
+            "title": "Add a new token",
+            "description": "\"{dappName}\" wants to add \"{assetName}\" to your wallet."
+        },
         "node": {
             "titleAdd": "Node hinzufügen",
             "titleUpdate": "Node aktualisieren",
@@ -779,7 +787,7 @@
             "addingNode": "Node hinzufügen",
             "updatingNode": "Node aktualisieren",
             "loadingNodeInfo": "Lade Node-Informationen",
-            "nodeAddress": "Node Adresse",
+            "nodeAddress": "Node-Adresse",
             "optionalUsername": "Benutzername (optional)",
             "optionalPassword": "Passwort (optional)",
             "optionalJwt": "JSON-Web-Token (optional)",
@@ -798,8 +806,8 @@
                     "blocksPerSecond": "Blocks pro Sekunde",
                     "referencedBlocksPerSecond": "Bestätigte Blocks pro Sekunde",
                     "referencedRate": "Bestätigungsrate",
-                    "latestMilestone": "Letzter Milestone-Index",
-                    "confirmedMilestone": "Bestätigter Milestone-Index"
+                    "latestMilestone": "Letzter Meilenstein",
+                    "confirmedMilestone": "Bestätigter Meilenstein"
                 },
                 "protocol": {
                     "tab": "Protokoll",
@@ -847,26 +855,26 @@
             "selectAmount": "{tokenName} senden",
             "selectRecipient": "{assetName} senden an",
             "transactionSummary": "Transaktion an {recipient}",
-            "surplusIncluded": "Diese Transaktion enthält einen Überschuss. Bitte überprüfe, ob dies der Betrag ist, den du senden möchtest."
+            "surplusIncluded": "Diese Transaktion enthält eine überschüssige Betrag. Bitte überprüfe, ob dies der Betrag ist, den du senden möchtest."
         },
         "walletFinder": {
-            "title": "Sync accounts",
+            "title": "Konten synchronisieren",
             "body": "Führe eine erweiterte Suche nach Adressen durch, um fehlendes Guthaben und fehlende Wallets zu finden.",
-            "accountsSearched": "Accounts searched",
-            "accountsFound": "Accounts found",
+            "accountsSearched": "Konten durchsucht",
+            "accountsFound": "Konten gefunden",
             "totalWalletBalance": "Gesamtguthaben",
             "searchAgainHint": "Ist das angezeigte Guthaben oder die Anzahl der Wallets nicht korrekt? Dann suche erneut, bis dein gesamtes Guthaben angezeigt wird."
         },
         "ledgerNotConnected": {
             "title": "Verbinde deinen Ledger",
-            "notConnected": "Verbinde dein Ledger-Gerät, um fortzufahren.",
-            "locked": "Entsperre dein Ledger-Gerät, um fortzufahren.",
-            "appNotOpen": "Öffne die Shimmer App auf deinem Ledger-Gerät, um fortzufahren.",
+            "notConnected": "Verbinde dein Ledger, um fortzufahren.",
+            "locked": "Entsperre dein Ledger, um fortzufahren.",
+            "appNotOpen": "Öffne die {appName} auf deinem Ledger, um fortzufahren.",
             "correctAppOpen": "Ledger erfolgreich verbunden, bitte fortfahren."
         },
         "verifyLedgerTransaction": {
             "title": "Transaktion verifizieren",
-            "info": "Vergleiche und bestätige die Transaktionsinformationen, die auf deinem Ledger-Gerät angezeigt werden."
+            "info": "Vergleiche und bestätige die Transaktionsinformationen, die auf deinem Ledger angezeigt werden."
         },
         "verifyInternalLedgerTransaction": {
             "title": "Interne Transaktion verifizieren",
@@ -874,143 +882,143 @@
             "hint": "Alle Assets verbleiben beim Senden einer internen Transaktion in deiner Wallet."
         },
         "verifyMessageSigning": {
-            "title": "Verify message signing",
-            "info": "Please confirm the message signing on your ledger."
+            "title": "Nachrichtsignierung verifizieren",
+            "info": "Bitte bestätige die Nachrichtensignierung auf deinem Ledger."
         },
         "crashReporting": {
             "title": "Fehler- und Absturzberichte",
-            "body": "Help the developers improve Bloom by automatically sending diagnostic data when an error or crash occurs. If selected, this will take effect after restarting Bloom.",
+            "body": "Hilf den Entwicklern Bloom zu verbessern, indem Diagnosedaten automatisch gesendet werden, wenn ein Fehler oder ein Absturz auftritt. Nach Auswahl wird diese Option mit einem Neustart von Bloom wirksam.",
             "checkbox": "Fehler- und Absturzberichte an die IOTA Foundation senden"
         },
         "signMessage": {
-            "title": "Sign message",
-            "hint": "No balance will be sent to {dappName} in the process of signing this message.",
-            "warning": "dApp cannot be determined. No balance will be sent in the process of signing this message.",
-            "action": "Sign"
+            "title": "Nachricht signieren",
+            "hint": "Beim Signieren dieser Nachricht wird kein Guthaben an {dappName} gesendet.",
+            "warning": "dApp kann nicht ermittelt werden. Es wird kein Guthaben bei der Signierung dieser Nachricht gesendet.",
+            "action": "Signieren"
         },
         "signTransaction": {
-            "title": "Sign transaction",
-            "action": "Sign"
+            "title": "Transaktion signieren",
+            "action": "Signieren"
         },
         "sendTransaction": {
-            "title": "Send transaction",
-            "action": "Send"
+            "title": "Transaktion senden",
+            "action": "Senden"
         },
         "smartContractCall": {
-            "title": "Smart contract call to {contractAddress}",
-            "unableToVerify": "Bloom is unable to verify the smart contract call. Only proceed with apps you trust.",
-            "action": "Confirm"
+            "title": "Aufruf des Smart Contracts an {contractAddress}",
+            "unableToVerify": "Bloom kann den Smart Contract nicht verifizieren. Fahre nur mit Apps fort, denen du vertraust.",
+            "action": "Bestätigen"
         },
         "successfulDappConnection": {
-            "alert": "You can close this screen and return to the dApp when you are ready."
+            "alert": "Du kannst diesen Bildschirm schließen und zur dApp zurückkehren."
         },
         "activityDetails": {
             "title": {
-                "fallback": "Activity details",
+                "fallback": "Aktivitätsdetails",
                 "external": {
                     "incoming": {
-                        "Pending": "Receiving from {subject}",
-                        "Confirmed": "Received from {subject}",
-                        "Conflicting": "Failed to receive"
+                        "Pending": "Empfange von {subject}",
+                        "Confirmed": "Empfangen von {subject}",
+                        "Conflicting": "Empfangen fehlgeschlagen"
                     },
                     "outgoing": {
-                        "Pending": "Sending to {subject}",
-                        "Confirmed": "Sent to {subject}",
-                        "Conflicting": "Failed to send"
+                        "Pending": "Senden an {subject}",
+                        "Confirmed": "An {subject} gesendet",
+                        "Conflicting": "Senden fehlgeschlagen"
                     }
                 },
                 "internal": {
                     "incoming": {
-                        "Pending": "Transferring from {subject}",
-                        "Confirmed": "Transferred from {subject}",
-                        "Conflicting": "Failed to transfer"
+                        "Pending": "Übertrage von {subject}",
+                        "Confirmed": "Von {subject} übertragen",
+                        "Conflicting": "Übertragung fehlgeschlagen"
                     },
                     "outgoing": {
-                        "Pending": "Transferring to {subject}",
-                        "Confirmed": "Transferred to {subject}",
-                        "Conflicting": "Failed to transfer"
+                        "Pending": "Übertrage zu {subject}",
+                        "Confirmed": "An {subject} übertragen",
+                        "Conflicting": "Übertragung fehlgeschlagen"
                     },
                     "selfTransaction": {
-                        "Pending": "Transferring to {subject}",
-                        "Confirmed": "Transferred to {subject}",
-                        "Conflicting": "Failed to transfer"
+                        "Pending": "Übertrage zu {subject}",
+                        "Confirmed": "Zu {subject} übertragen",
+                        "Conflicting": "Übertragung fehlgeschlagen"
                     }
                 },
                 "mint": {
-                    "Pending": "Minting",
-                    "Confirmed": "Minted",
-                    "Conflicting": "Failed to mint"
+                    "Pending": "Minten",
+                    "Confirmed": "Gemintet",
+                    "Conflicting": "Minten fehlgeschlagen"
                 },
                 "burn": {
-                    "Pending": "Burning",
-                    "Confirmed": "Burned",
-                    "Conflicting": "Failed to burn"
+                    "Pending": "Verbrennen",
+                    "Confirmed": "Verbrannt",
+                    "Conflicting": "Verbrennen fehlgeschlagen"
                 },
                 "consolidation": {
-                    "Pending": "Consolidating",
-                    "Confirmed": "Consolidated",
-                    "Conflicting": "Failed to consolidate"
+                    "Pending": "Konsolidieren",
+                    "Confirmed": "Konsolidiert",
+                    "Conflicting": "Konsolidierung fehlgeschlagen"
                 },
                 "alias": {
                     "creation": {
-                        "Pending": "Creating alias",
-                        "Confirmed": "Alias created",
-                        "Failed": "Failed to create alias"
+                        "Pending": "Alias erstellen",
+                        "Confirmed": "Alias erstellt",
+                        "Failed": "Fehler beim Erstellen des Alias"
                     }
                 },
                 "governance": {
                     "increaseVotingPower": {
-                        "Pending": "Increasing voting power",
-                        "Confirmed": "Increased voting power",
+                        "Pending": "Erhöhe Stimmrecht",
+                        "Confirmed": "Stimmrecht erhöht",
                         "Conflicting": "Failed to increase voting power"
                     },
                     "decreaseVotingPower": {
-                        "Pending": "Decreasing voting power",
-                        "Confirmed": "Decreased voting power",
+                        "Pending": "Verringere Stimmrecht",
+                        "Confirmed": "Stimmrecht verringert",
                         "Conflicting": "Failed to decrease voting power"
                     },
                     "startVoting": {
-                        "Pending": "Voting for {proposalName}",
-                        "Confirmed": "Voted for {proposalName}",
-                        "Conflicting": "Failed to vote for"
+                        "Pending": "Stimmen für {proposalName}",
+                        "Confirmed": "Für {proposalName} abgestimmt",
+                        "Conflicting": "Abstimmung für    fehlgeschlagen"
                     },
                     "stopVoting": {
-                        "Pending": "Stopping voting for {proposalName}",
-                        "Confirmed": "Stopped voting for {proposalName}",
+                        "Pending": "Abstimmung für {proposalName} stoppen",
+                        "Confirmed": "Abstimmung für {proposalName} beendet",
                         "Conflicting": "Failed to stop voting for"
                     },
                     "changedVote": {
-                        "Pending": "Changing vote for {proposalName}",
-                        "Confirmed": "Changed vote for {proposalName}",
-                        "Conflicting": "Failed to change vote for"
+                        "Pending": "Änderung der Abstimmung für {proposalName}",
+                        "Confirmed": "Abstimmung für {proposalName} geändert",
+                        "Conflicting": "Fehler beim Ändern der Abstimmung für"
                     },
                     "revote": {
-                        "Pending": "Revoting",
-                        "Confirmed": "Revote",
-                        "Conflicting": "Failed to revote"
+                        "Pending": "Erneut abstimmen",
+                        "Confirmed": "Erneut abgestimmt",
+                        "Conflicting": "Fehler beim erneuten abstimmen"
                     }
                 }
             }
         },
         "legalUpdate": {
-            "tosAndPrivPolicyBody": "We have updated Bloom's Terms of Service and Privacy Policy.",
-            "tosBody": "We have updated Bloom's Terms of Service.",
-            "privPolicyBody": "We have updated Bloom's Privacy Policy.",
+            "tosAndPrivPolicyBody": "Wir haben die Nutzungsbedingungen und Datenschutzbestimmungen von Bloom aktualisiert.",
+            "tosBody": "Wir haben die Nutzungsbedingungen von Bloom aktualisiert.",
+            "privPolicyBody": "Wir haben die Datenschutzbestimmungen von Bloom aktualisiert.",
             "tosAndPrivPolicyCheckbox": "Ich habe die aktualisierten Nutzungsbedingungen und Datenschutzbestimmungen gelesen und akzeptiere diese",
             "tosCheckbox": "Ich habe die aktualisierten Nutzungsbedingungen gelesen und akzeptiere diese",
             "privPolicyCheckbox": "Ich habe die aktualisierten Datenschutzbestimmungen gelesen und akzeptiere diese"
         },
         "giftedStorageDeposit": {
-            "tooltipTitle": "Gift storage deposit",
-            "tooltipDescription": "Amount kept by the recipient"
+            "tooltipTitle": "Storage Deposit spenden",
+            "tooltipDescription": "Vom Empfänger einbehaltener Betrag"
         },
         "tokenInformation": {
             "verificationWarning": "Dieser Token ist nicht verifiziert. Vergleiche die Token-Metadaten mit denen der offiziellen Webseite des jeweiligen Entwicklerteams. Verifiziere nur Token, denen du vertraust.",
             "tokenMetadata": {
                 "standard": "Standard",
-                "tokenId": "Token ID",
+                "tokenId": "Token-ID",
                 "url": "URL",
-                "description": "Description"
+                "description": "Beschreibung"
             },
             "buttons": {
                 "verifyToken": "Ich verifiziere diesen Token"
@@ -1023,20 +1031,20 @@
                 "totalSupply": "Gesamtmenge",
                 "maximumSupply": "Maximale Menge",
                 "mintedTokens": "Gemintete Token",
-                "meltedTokens": "Geschmolzene Token",
-                "circulatingSupply": "Im Umlauf befindliche Menge",
+                "meltedTokens": "geburnte Token",
+                "circulatingSupply": "Umlaufmenge",
                 "aliasAddress": "Alias Controller Adresse",
                 "tokenName": "Name",
-                "storageDeposit": "Storage Deposit / Kaution",
+                "storageDeposit": "Storage Deposit",
                 "description": "Beschreibung",
                 "symbol": "Symbol",
                 "decimals": "Dezimalstellen",
-                "url": "URL Adresse",
-                "logoUrl": "Logo URL",
+                "url": "URL",
+                "logoUrl": "Logo-URL",
                 "logo": "Logo",
-                "unit": "Unit",
+                "unit": "Einheit",
                 "alias": "Alias",
-                "tokenId": "Token Id"
+                "tokenId": "Token-ID"
             }
         },
         "importErc20Token": {
@@ -1059,7 +1067,7 @@
                 "quantityTooLarge": "Menge muss kleiner als 64 sein",
                 "emptyName": "Name ist ein Pflichtfeld",
                 "invalidURI": "Ungültige URL, bitte gib eine gültige URL ein",
-                "notReachable": "URL nicht erreichbar, NFT Typ kann nicht überprüft werden",
+                "notReachable": "URI nicht erreichbar, NFT Typ kann nicht überprüft werden",
                 "royaltiesMustBeObject": "Lizenzgebühren müssen ein Objekt sein",
                 "royaltiesMustBeJSON": "Lizenzgebühren müssen ein gültiges JSON sein",
                 "invalidAddress": "Ungültige Adresse, muss eine gültige {networkHrp} Adresse sein, an die Lizenzgebühren gesendet werden",
@@ -1077,22 +1085,22 @@
         },
         "manageVotingPower": {
             "title": "Stimmrecht verwalten",
-            "body": "Definiere dein Stimmrecht, um über Abstimmungen abzustimmen.",
-            "hint": "Alle Guthaben, die du den Abstimmungen zuweist, sind gesperrt. Um sie wieder ausgeben zu können, musst du deine Stimmrechte verringern. Dies betrifft alle Abstimmungen mit aktivem Abstimmen.",
-            "amountZero": "Bitte beachte, dass die Einstellung deiner Stimmrechte auf Null das Abtimmen für alle Abstimmungen, an denen du teilnimmst, stoppt."
+            "body": "Definiere dein Stimmrecht, um über Vorschläge abzustimmen.",
+            "hint": "Alle Guthaben, die du den Abstimmungen zuweist, sind gesperrt. Um sie wieder ausgeben zu können, musst du deine Stimmrechte verringern. Dies betrifft alle Vorschläge mit aktiver Abstimmung.",
+            "amountZero": "Bitte beachte, dass das Einstellen deiner Stimmrechte auf Null das Abstimmen für alle Abstimmungen, an denen du teilnimmst, stoppt."
         },
         "addProposal": {
             "title": "Vorschlag hinzufügen",
             "body": "Bitte gib die unten aufgeführten Informationen an, um einen Vorschlag hinzuzufügen.",
-            "addToAllAccounts": "Abstimmung zu allen Konten hinzufügen"
+            "addToAllAccounts": "Vorschlag zu allen Konten hinzufügen"
         },
         "editProposal": {
             "title": "Vorschlag bearbeiten",
             "body": "Bitte gebe die neue URL für die Node an, die diesen Vorschlag enthält."
         },
         "voteForProposal": {
-            "title": "Für Abstimmung stimmen",
-            "body": "Du bist dabei für {proposal} Abstimmung zu stimmen.",
+            "title": "Für Vorschlag stimmen",
+            "body": "Du bist dabei für {proposal} Vorschlag zu stimmen.",
             "key": "Dein Stimmrecht",
             "hasAbstained": "Du enthältst dich bei der Beantwortung von {numberOfQuestions, plural, one {# Frage} other {# Fragen}}.",
             "noVotingPower": "Du hast kein Stimmrecht. Bitte erhöhe dein Stimmrecht über das Governance-Dashboard."
@@ -1100,16 +1108,16 @@
         "revote": {
             "title": "Über Vorschläge erneut abstimmen",
             "body": "Wenn du deine Stimmrechte änderst, werden deine Stimmen für alle Abstimmungen vorübergehend nicht mehr gezählt. Klicke einfach auf \"Wieder abstimmen\", um die Abstimmung fortzusetzen.",
-            "hint": "Bloom remembers all of the proposals and answer options you previously voted for."
+            "hint": "Bloom erinnert sich an alle Vorschläge und Antwort-Optionen, für die du zuvor gestimmt hast."
         },
         "removeProposal": {
-            "title": "Abstimmung entfernen",
-            "body": "Bist du sicher, dass du diese Abstimmung entfernen möchtest?",
+            "title": "Vorschlag entfernen",
+            "body": "Bist du sicher, dass du diesen Vorschlag entfernen möchtest?",
             "hint": "Bitte beachte, dass das Ändern deiner Stimme während des Zählzeitraums keine bereits gezählten Stimmen beeinflusst."
         },
         "stopVoting": {
             "title": "Abstimmen beenden",
-            "body": "Du bist dabei, nicht mehr für die Abstimmung {proposalName} zu stimmen.",
+            "body": "Du bist dabei, nicht mehr für den Vorschlag {proposalName} zu stimmen.",
             "hint": "Bitte beachte, dass das Stoppen des Abstimmens während des Zählzeitraums keine bereits gezählten Stimmen beeinflusst."
         },
         "nodeAuthRequired": {
@@ -1117,12 +1125,12 @@
             "body": "Diese Node erfordert zusätzliche Authentifizierung. Bitte gib die entsprechenden Informationen ein."
         },
         "receiveAddress": {
-            "title": "Receive",
-            "body": "Receive tokens, NFTs, and other digital assets to your account address shown below.",
-            "networkAddress": "{networkName} address"
+            "title": "Empfangen",
+            "body": "Erhalten Sie Token, NFTs und andere digitale Assets an Ihre unten angezeigte Konto-Adresse.",
+            "networkAddress": "{networkName} Adresse"
         },
         "createAccount": {
-            "title": "Create account"
+            "title": "Konto erstellen"
         }
     },
     "actions": {
@@ -1133,7 +1141,7 @@
         "next": "Weiter",
         "cancel": "Abbrechen",
         "close": "Schließen",
-        "claim": "Annehmen",
+        "claim": "Beanspruche",
         "claiming": "Beanspruche",
         "claimingRewards": "Rewards beanspruchen",
         "reject": "Ablehnen",
@@ -1143,18 +1151,18 @@
             "node": "Bitte beachte, dass die Ablehnung einer Transaktion diese nur vor deinem Aktivitätsfeed verbirgt"
         },
         "confirmTokenBurn": {
-            "title": "{assetName} löschen",
-            "hint": "Bitte beachte, dass das Verbrennen/Löschen eines Tokens die damit verbundene Speicherkaution freigeben kann und nicht rückgängig gemacht werden kann"
+            "title": "Verbrenne {assetName}",
+            "hint": "Bitte beachte, dass das Verbrennen eines Tokens die damit verbundene Speicherkaution freigeben kann und nicht rückgängig gemacht werden kann"
         },
         "confirmNftBurn": {
-            "title": "{nftName} löschen",
-            "description": "Bist du sicher, dass du dieses NFT löschen möchtest?",
-            "hint": "Bitte beachte, dass das Verbrennen/Löschen eines NFT's die damit verbundene Speicherkaution freigeben kann und nicht rückgängig gemacht werden kann."
+            "title": "Verbrenne {nftName}",
+            "description": "Bist du sicher, dass du dieses NFT verbrennen möchtest?",
+            "hint": "Bitte beachte, dass das Verbrennen eines NFT's die damit verbundene Speicherkaution freigeben kann und nicht rückgängig gemacht werden kann."
         },
         "save": "Speichern",
         "refreshNftMedia": {
-            "title": "NFT Medien aktualisieren",
-            "description": "Möchtest Du alle NFT Medien für dieses Konto löschen und erneut herunterladen?"
+            "title": "NFT-Medien aktualisieren",
+            "description": "Möchtest Du alle NFT-Medien für dieses Konto löschen und erneut herunterladen?"
         },
         "createAlias": "Alias erstellen",
         "createAliasDescription": "Alias-Output erstellen",
@@ -1167,10 +1175,10 @@
         "updateAndContinue": "Aktualisieren und fortfahren",
         "tryAgain": "Erneut versuchen",
         "visitDiscord": "Besuche uns auf Discord",
-        "importExtensions": ".stronghold file",
+        "importExtensions": ".stronghold Datei",
         "dropHere": "Datei hier ablegen",
-        "dropOrBrowse": "Drop here or browse your files",
-        "import": "Import",
+        "dropOrBrowse": "Hier ablegen oder Dateien durchstöbern",
+        "import": "Importieren",
         "importing": "Importiere",
         "export": "Exportieren",
         "exporting": "Wird exportiert",
@@ -1181,14 +1189,14 @@
         "exportTransactionHistory": "Transaktionsverlauf exportieren",
         "localProofOfWork": "Lokaler Proof-of-Work",
         "unlock": "Entsperren",
-        "updateBloom": "Update Bloom",
-        "restart": "Restart",
+        "updateBloom": "Aktualisiere Bloom",
+        "restart": "Neustart",
         "refresh": "Aktualisieren",
-        "saveBackup": "Save backup",
-        "customizeAccount": "Customise account",
-        "hideAccount": "Hide account",
-        "showAccount": "Unhide account",
-        "deleteAccount": "Delete account",
+        "saveBackup": "Backup speichern",
+        "customizeAccount": "Konto anpassen",
+        "hideAccount": "Konto ausblenden",
+        "showAccount": "Konto einblenden",
+        "deleteAccount": "Konto löschen",
         "addNode": "Node hinzufügen",
         "addingNode": "Node hinzufügen",
         "addOfficialNodes": "Offizielle Nodes hinzufügen",
@@ -1204,11 +1212,11 @@
         "redo": "Wiederholen",
         "cut": "Ausschneiden",
         "copy": "Kopieren",
-        "copyAddress": "Copy address",
+        "copyAddress": "Adresse kopieren",
         "copyAllInformation": "Alle Informationen kopieren",
         "paste": "Einfügen",
         "selectAll": "Alles auswählen",
-        "addAccount": "Add account",
+        "addAccount": "Konto hinzufügen",
         "checkForUpdates": "Suche nach Updates",
         "reportAnIssue": "Ein Problem melden",
         "clear": "Löschen",
@@ -1216,13 +1224,13 @@
         "no": "Nein",
         "skip": "Überspringen",
         "reset": "Zurücksetzen",
-        "downloadRecoveryKit": "Download recovery kit template",
+        "downloadRecoveryKit": "Recovery-Kit Vorlage herunterladen",
         "skipBackup": "Backup überspringen",
         "finishSetup": "Einrichtung abschließen",
         "readDocumentation": "Lese die Dokumentation",
         "visitFaq": "Gehe zu den FAQs",
         "viewDownloads": "Downloads anzeigen",
-        "showHiddenAccounts": "Show hidden accounts",
+        "showHiddenAccounts": "Ausgeblendete Konten anzeigen",
         "confirm": "Bestätigen",
         "hideNetworkStatistics": "Netzwerk Statistiken verbergen",
         "search": "Suchen",
@@ -1231,7 +1239,7 @@
         "generateAddress": "Adresse generieren",
         "claimRewards": "Rewards beanspruchen",
         "rerunClaimProcess": "Beanspruchsvorgang wiederholen",
-        "useFinder": "Use balance finder",
+        "useFinder": "Guthabensuche verwenden",
         "backup": "Backup",
         "mint": "Minten",
         "mintNativeToken": "Native Token minten",
@@ -1240,15 +1248,15 @@
         "unverifyToken": "Tokenverifizierung aufheben",
         "hideToken": "Token ausblenden",
         "unhideToken": "Token einblenden",
-        "burn": "Verbrennen/Löschen",
-        "burnToken": "Token burnen",
+        "burn": "Verbrennen",
+        "burnToken": "Token löschen",
         "faucetRequest": "{token} Token anfordern",
         "refreshTokenMetadata": "Token-Metadaten aktualisieren",
         "test": "Test",
         "testDeepLink": "Deep-Link testen",
         "delete": "Löschen",
         "remove": "Entfernen",
-        "getStarted": "Get started",
+        "getStarted": "Los geht's",
         "vote": "Abstimmen",
         "addProposal": "Vorschlag hinzufügen",
         "removeProposal": "Abstimmung entfernen",
@@ -1256,12 +1264,12 @@
         "stopVoting": "Abstimmen beenden",
         "revote": "Wiederabstimmen",
         "skipAndKeep": "Überspringen und altes Passwort behalten",
-        "addChain": "Add chain",
-        "untrackToken": "Untrack token",
-        "switchAccount": "Switch account",
-        "syncAccounts": "Sync accounts",
-        "importErc20Token": "Import ERC20 token",
-        "syncTokens": "Force sync tokens"
+        "addChain": "Chain hinzufügen",
+        "untrackToken": "Token entfolgen",
+        "switchAccount": "Konto wechseln",
+        "syncAccounts": "Konten synchronisieren",
+        "importErc20Token": "ERC20-Token importieren",
+        "syncTokens": "Token-Synchronisation erzwingen"
     },
     "general": {
         "recipient": "Empfänger",
@@ -1289,35 +1297,35 @@
         "unvoted": "Nicht abgestimmt",
         "unvoting": "Stimme zurücknehmen",
         "transferIn": "Transfer in",
-        "transferringIn": "Transferring in",
-        "transferOut": "Transfer out",
-        "transferringOut": "Transferring out",
+        "transferringIn": "Transferiere zu",
+        "transferOut": "Transfer aus",
+        "transferringOut": "Transferiere aus",
         "shimmerClaimed": "Beansprucht",
         "shimmerClaiming": "Beanspruche",
         "shimmerGenesis": "Shimmer Genesis",
-        "mintedalias": "Minted alias",
-        "mintingalias": "Minting alias",
-        "mintednft": "Minted NFT",
-        "mintingnft": "Minting NFT",
-        "mintedfoundry": "Minted token",
-        "mintingfoundry": "Minting token",
-        "burnedalias": "Burned alias",
-        "burningalias": "Burning alias",
-        "burnednft": "Burned NFT",
-        "burningnft": "Burning NFT",
-        "burnedfoundry": "Burned token",
-        "burningfoundry": "Burning token",
-        "burnedbasic": "Burned token",
-        "burningbasic": "Burning token",
-        "balanceDecreased": "Balance decreased",
-        "balanceIncreased": "Balance increased",
-        "initialBalance": "Initial balance",
-        "consolidated": "Consolidated",
-        "consolidating": "Consolidating",
+        "mintedalias": "geminteter Alias",
+        "mintingalias": "Alias minten",
+        "mintednft": "Gemintetes NFT",
+        "mintingnft": "Minte NFT",
+        "mintedfoundry": "Gemintete Token",
+        "mintingfoundry": "Minte Token",
+        "burnedalias": "Verbrannter Alias",
+        "burningalias": "Verbrenne Alias",
+        "burnednft": "Verbranntes NFT",
+        "burningnft": "Verbrenne NFT",
+        "burnedfoundry": "Verbrannte Token",
+        "burningfoundry": "Verbrenne Token",
+        "burnedbasic": "Verbrannte Token",
+        "burningbasic": "Token verbrennen",
+        "balanceDecreased": "Kontostand verringert",
+        "balanceIncreased": "Kontostand erhöht",
+        "initialBalance": "Anfangs-Kontostand",
+        "consolidated": "Konsolidiert",
+        "consolidating": "Konsolidieren",
         "sendTo": "Senden an",
         "sendAssets": "Assets senden",
         "sendAssetToAddress": "Asset an eine Adresse senden",
-        "manageAccount": "Manage account",
+        "manageAccount": "Konto verwalten",
         "account": "Benutzerkonto",
         "amount": "Betrag",
         "addAddress": "Adresse hinzufügen",
@@ -1325,10 +1333,10 @@
         "and": "und",
         "receiveFunds": "Guthaben empfangen",
         "address": "Adresse",
-        "addressName": "Address name",
+        "addressName": "Adressname",
         "myAddress": "Meine Adresse",
-        "viewOnExplorer": "View on explorer",
-        "viewQrCode": "View QR code",
+        "viewOnExplorer": "Im Explorer anzeigen",
+        "viewQrCode": "QR-Code anzeigen",
         "import": "Importieren",
         "stronghold": "Stronghold",
         "locked": "Gesperrt",
@@ -1343,12 +1351,12 @@
         "incoming": "Eingehend",
         "outgoing": "Ausgehend",
         "dev": "Entwickler",
-        "newAccount": "New account",
-        "accountName": "Account name",
+        "newAccount": "Neues Konto",
+        "accountName": "Kontoname",
         "activity": "Aktivität",
         "security": "Sicherheit",
         "network": "Netzwerk",
-        "networkSelection": "Network selection",
+        "networkSelection": "Netzwerkauswahl",
         "destinationNetwork": "Zielnetzwerk",
         "nodes": "Nodes",
         "wallet": "Wallet",
@@ -1361,7 +1369,7 @@
         "noAssets": "Keine Assets",
         "noFilteredAsset": "Keine passenden Assets",
         "thisMonth": "Aktueller Monat",
-        "search": "Search...",
+        "search": "Suchen...",
         "passwordUpdating": "Ändere Passwort...",
         "passwordSuccess": "Passwort erfolgreich geändert",
         "passwordFailed": "Passwortänderung fehlgeschlagen",
@@ -1372,7 +1380,7 @@
         "pinCodeFailed": "PIN konnte nicht geändert werden",
         "passwordStrength": "Passwortstärke",
         "passwordStrength0": "Unsicher",
-        "passwordStrength1": "Very weak",
+        "passwordStrength1": "Sehr schwach",
         "passwordStrength2": "Schwach",
         "passwordStrength3": "Durchschnittlich",
         "passwordStrength4": "Stark",
@@ -1385,18 +1393,19 @@
         "unknown": "Unbekannt",
         "unknownAddress": "Unbekannte Adresse",
         "none": "Keine",
-        "accountColor": "Account color",
+        "accountColor": "Kontofarbe",
         "transactionTime": "Transaktionszeit",
         "storageDeposit": "Storage Deposit",
-        "transactionFee": "Transaction fee",
+        "transactionFee": "Transaktionsgebühr",
         "storageDepositPerNft": "Storage Deposit pro NFT",
         "totalStorageDeposit": "Gesamter Storage Deposit",
         "expirationTime": "Ablaufzeit",
-        "expiration": "Expiration",
+        "expiration": "Ablauf",
         "timelockDate": "Zeitsperre",
         "claimedTime": "Beansprucht am",
         "nftId": "NFT ID",
         "aliasId": "Alias ID",
+        "tokenId": "Token ID",
         "governorAddress": "Governor Adresse",
         "stateControllerAddress": "State Controller Adresse",
         "copiedToClipboard": "In Zwischenablage kopiert",
@@ -1404,10 +1413,10 @@
         "metadata": "Metadaten",
         "amountConsolidatedInputs": "Zusammengeführte Outputs",
         "name": "Name",
-        "note": "Note",
+        "note": "Notiz",
         "tag": "Tag",
         "nodeList": "Node-Liste",
-        "claimed": "claimed",
+        "claimed": "beansprucht",
         "claimedIn": "Beansprucht in",
         "claimingIn": "Beanspruchen in",
         "assets": "Assets",
@@ -1418,7 +1427,7 @@
         "refreshTokenMetadataHint": "Dies wird all deine Token-Metadaten zurücksetzen, einschließlich des Verifizierungsstatus und alle ausgeblendeten Assets werden wieder angezeigt.",
         "excluded": "Ausgeschlossen",
         "developerTools": "Entwicklerwerkzeuge",
-        "testDeepLinkDescription": "Simulate a deep link request sent to Bloom",
+        "testDeepLinkDescription": "Simuliere eine Deep-Link Anfrage, die an Bloom gesendet wurde",
         "url": "URL",
         "hash": "Hash",
         "creating": "Erstelle",
@@ -1453,31 +1462,32 @@
         "coinType": "Cointyp",
         "custom": "Benutzerdefiniert",
         "evmAddress": "EVM-Adresse",
+        "contractAddress": "Contract Address",
         "optionalField": "{field} (optional)",
-        "gifted": "Gifted",
+        "gifted": "Geschenkt",
         "connected": "Verbunden",
-        "estimatedFee": "Estimated fee",
-        "maxFees": "Max fees",
-        "contacts": "Contacts",
+        "estimatedFee": "Geschätzte Gebühr",
+        "maxFees": "Max. Gebühr",
+        "contacts": "Kontakte",
         "apps": "Apps",
-        "networks": "Networks",
-        "ledgerDevice": "Ledger device",
-        "disconnected": "Disconnected",
-        "balanceBreakdown": "Balance breakdown",
-        "primary": "Primary",
+        "networks": "Netzwerke",
+        "ledgerDevice": "Ledger",
+        "disconnected": "Nicht verbunden",
+        "balanceBreakdown": "Guthaben Aufteilung",
+        "primary": "Primär",
         "color": "Farbe",
         "privacyPolicy": "Datenschutzbestimmungen",
         "termsOfService": "Nutzungsbedingungen",
         "message": "Nachricht",
         "error": "Fehler",
-        "warning": "Warning",
-        "failed": "failed",
-        "required": "Required",
+        "warning": "Warnung",
+        "failed": "fehlgeschlagen",
+        "required": "Erforderlich",
         "yes": "Ja",
         "no": "Nein",
-        "tip": "Tip",
-        "verified": "Verified",
-        "data": "Data"
+        "tip": "Tipp",
+        "verified": "Verifiziert",
+        "data": "Daten"
     },
     "filters": {
         "title": "Filter",
@@ -1548,10 +1558,10 @@
         },
         "type": {
             "label": "Typ",
-            "basic": "Basic",
+            "basic": "Einfach",
             "nft": "NFT",
             "alias": "Alias",
-            "foundry": "Foundry-Fabrik",
+            "foundry": "Foundry",
             "governance": "Governance",
             "consolidation": "Konsolidierung"
         },
@@ -1580,7 +1590,7 @@
             "phase": "Phase"
         },
         "network": {
-            "label": "Network"
+            "label": "Netzwerk"
         }
     },
     "dates": {
@@ -1606,7 +1616,7 @@
         "updateError": "Während des Updates ist ein Fehler aufgetreten. Bitte versuche es erneut",
         "copiedToClipboard": "In die Zwischenablage kopiert",
         "newDappConnection": {
-            "noProposal": "No proposal from dApp received"
+            "noProposal": "Kein Vorschlag von der dApp erhalten"
         },
         "deepLinkingRequest": {
             "receivedWhileLoggedOut": "Bitte melde dich an, um den Deep-Link zu initiieren",
@@ -1622,10 +1632,10 @@
             }
         },
         "disconnectDapp": {
-            "success": "Disconnected from {dappName}"
+            "success": "Verbindung zu {dappName} getrennt"
         },
         "removeDapp": {
-            "success": "{dappName} removed"
+            "success": "{dappName} entfernt"
         },
         "claimed": {
             "success": "Transaktion beansprucht",
@@ -1641,13 +1651,13 @@
             "success": "Native Token Mintingtransaktion gesendet"
         },
         "burnNativeToken": {
-            "success": "Native Token Lösch-Transaktion gesendet"
+            "success": "Native Token Verbrenn-Transaktion gesendet"
         },
         "mintNft": {
             "success": "NFT-Minting-Transaktion gesendet"
         },
         "burnNft": {
-            "success": "NFT-Lösch-Transaktion gesendet"
+            "success": "NFT-Verbrenn-Transaktion gesendet"
         },
         "refreshTokenMetadata": {
             "success": "Alle Token-Metadaten wurden zurückgesetzt und aktualisiert"
@@ -1657,10 +1667,10 @@
             "wrongProtocolForClaiming": "Du musst ein IOTA Stronghold-Backup verwenden, um Shimmer Rewards zu beanspruchen"
         },
         "signMessage": {
-            "success": "Message successfully signed"
+            "success": "Nachricht erfolgreich signiert"
         },
         "signTransaction": {
-            "success": "Transaction successfully signed"
+            "success": "Transaktion erfolgreich signiert"
         },
         "findShimmerRewards": {
             "error": "Bei der Suche nach den Rewards ist ein Fehler aufgetreten"
@@ -1676,13 +1686,13 @@
             "success": "Abstimmen erfolgreich beendet"
         },
         "updateContact": {
-            "success": "Contact successfully updated"
+            "success": "Kontakt erfolgreich aktualisiert"
         },
         "updateNetworkAddresses": {
-            "success": "Contact addresses successfully updated"
+            "success": "Kontaktadressen erfolgreich aktualisiert"
         },
         "syncTokens": {
-            "success": "Tokens successfully synced"
+            "success": "Token erfolgreich synchronisiert"
         }
     },
     "error": {
@@ -1716,9 +1726,9 @@
         },
         "address": {
             "wrongAddressType": "Falscher Adresstyp",
-            "invalidBech32Format": "Invalid Bech32 format",
-            "belongsToAccount": "Cannot belong to any of your accounts",
-            "checksum": "Address checksum is invalid"
+            "invalidBech32Format": "Ungültiges Bech32 Format",
+            "belongsToAccount": "Kann keinem deiner Konten angehören",
+            "checksum": "Adressen-Prüfsumme ist ungültig"
         },
         "account": {
             "length": "Der Name deiner Wallet darf nicht länger als {length, plural, one {1 Zeichen} other {# Zeichen}} sein.",
@@ -1748,21 +1758,21 @@
             "invalidTokenId": "Die Asset-Id ist nicht gültig.",
             "unknownAsset": "Das Asset ist diesem Konto nicht bekannt.",
             "insufficientFunds": "Diese Wallet hat unzureichendes Guthaben.",
-            "insufficientFundsGasFee": "Insufficient funds to cover the gas fee.",
+            "insufficientFundsGasFee": "Unzureichendes Guthaben, um die Gasgebühr zu decken.",
             "insufficientFundsStorageDeposit": "Unzureichendes Guthaben, um den Storage Deposit abzudecken.",
-            "insufficientFundsTransaction": "Insufficient funds to make a transaction.",
+            "insufficientFundsTransaction": "Unzureichendes Guthaben, um eine Transaktion durchzuführen.",
             "ongoingTransaction": "Wenn du laufende Transaktionen hast, warte bitte auf deren Bestätigung.",
             "cancelled": "Die Transaktion wurde abgebrochen.",
             "invalidExpirationDateTime": "Das gewählte Ablaufdatum bzw. die gewählte Ablaufzeit ist ungültig.",
-            "invalidTimelockDateTime": "The chosen timelock date/time is invalid.",
+            "invalidTimelockDateTime": "Das gewählte Ablaufdatum bzw. die gewählte Ablaufzeit ist ungültig.",
             "noInputs": "Keine Eingaben gefunden.",
             "notEnoughBalance": "Nicht genug Guthaben.",
             "missingTransactionId": "Die Transaktions-ID fehlt",
             "missingTransactionProgressEventPayload": "Die TransactionProgressEventPayload fehlt",
             "recipientRequired": "Empfänger ist erforderlich",
             "reservedTagKeyword": "Reserviertes Schlagwort kann nicht verwendet werden",
-            "invalidSendParameters": "Invalid send parameters.",
-            "unableToGetOriginAddress": "Unable to get the origin address."
+            "invalidSendParameters": "Ungültige Sendeparameter.",
+            "unableToGetOriginAddress": "Die Herkunftsadresse konnte nicht abgerufen werden."
         },
         "layer2": {
             "layer1Recipient": "Eine Layer-2-Transaktion kann nicht an ein Layer-1-Konto gesendet werden."
@@ -1789,28 +1799,28 @@
             "generic": "Ein Fehler ist aufgetreten."
         },
         "backup": {
-            "invalid": "The backup file was not recognized.",
+            "invalid": "Die Backup-Datei wurde nicht erkannt.",
             "destination": "Das Backup Ziel ist nicht gültig.",
             "migrationRequired": "Stronghold Migration ist erforderlich.",
-            "phraseWordCount": "Your recovery phrase consists of 12 or 24 words, currently there {length, plural, one {is #} other {are #}}.",
+            "phraseWordCount": "Deine Wiederherstellungsphrase besteht aus 12 oder 24 Wörtern, derzeit {length, plural, one {ist # Wort} other {sind # Wörter}} dort.",
             "phraseUnrecognizedWord": "Unbekanntes Wort \"{word}\" in deiner Wiederherstellungsphrase",
             "phraseCaseWord": "Das Wort \"{word}\" muss aus Kleinbuchstaben bestehen",
-            "unableToCopyFile": "Kopieren der Stronghold Sicherungsdatei nicht möglich",
+            "unableToCopyFile": "Kopieren der Stronghold-Backup-Datei nicht möglich",
             "unableToRestoreForProfileManager": "Stronghold Sicherung für Profilmanager konnte nicht wiederhergestellt werden"
         },
         "ledger": {
             "generic": "Beim Verbinden mit deinem Ledger ist ein Fehler aufgetreten.",
-            "legacyConnected": "Auf deinem Ledger-Gerät ist die falsche App geöffnet.",
-            "locked": "Bitte entsperre dein Ledger-Gerät durch Eingabe der PIN.",
-            "mnemonicMismatch": "Du hast das falsche Ledger-Gerät angeschlossen oder das Mnemonic hat sich geändert.",
-            "notConnected": "Kein Ledger-Gerät erkannt.",
-            "notFound": "Ledger-Gerät nicht gefunden.",
-            "otherConnected": "Auf deinem Ledger-Gerät ist die falsche App geöffnet.",
+            "legacyConnected": "Auf deinem Ledger ist die falsche App geöffnet.",
+            "locked": "Bitte entsperre dein Ledger durch Eingabe der PIN.",
+            "mnemonicMismatch": "Du hast das falsche Ledger angeschlossen oder das Mnemonic hat sich geändert.",
+            "notConnected": "Kein Ledger erkannt.",
+            "notFound": "Ledger nicht gefunden.",
+            "otherConnected": "Auf deinem Ledger ist die falsche App geöffnet.",
             "generateAddress": "Beim Generieren der Adresse ist ein Fehler aufgetreten.",
-            "timeout": "Das Ledger-Gerät hat das Zeitlimit überschritten.",
-            "disconnected": "Die Verbindung zu deinem Ledger-Gerät wurde getrennt.",
+            "timeout": "Das Ledger hat das Zeitlimit überschritten.",
+            "disconnected": "Die Verbindung zu deinem Ledger wurde getrennt.",
             "noStronghold": "Stronghold kann mit einem Ledger-Profil nicht verwendet werden.",
-            "rejected": "Action was rejected on the Ledger device"
+            "rejected": "Aktion wurde auf dem Ledger abgelehnt"
         },
         "popup": {
             "preventClose": "Dieses Popup kann nicht geschlossen werden."
@@ -1886,30 +1896,30 @@
             "invalidAddressLength": "Länge ist ungültig"
         },
         "input": {
-            "invalid": "{field} input is invalid",
-            "required": "{field} is required",
-            "alreadyUsed": "{field} is already being used",
-            "tooLong": "{field} must be {numCharacters} or less characters"
+            "invalid": "{field} Eingabe ist ungültig",
+            "required": "{field} ist erforderlich",
+            "alreadyUsed": "{field} wird bereits verwendet",
+            "tooLong": "{field} muss {numCharacters} oder weniger Zeichen haben"
         },
         "walletConnect": {
-            "invalidUri": "Invalid URI",
-            "invalidProtocol": "Invalid protocol, must start with 'wc'.",
-            "deprecatedVersion": "dApp uses a deprecated wallet connect version.",
-            "invalidV2UriFormat": "The link doesn't adhere to the WalletConnect V2 specification."
+            "invalidUri": "Ungültige URI",
+            "invalidProtocol": "Ungültiges Protokoll, muss mit 'wc' beginnen.",
+            "deprecatedVersion": "dApp verwendet eine veraltete WalletConnect-Version.",
+            "invalidV2UriFormat": "Der Link entspricht nicht der WalletConnect V2 Spezifikation."
         },
         "web3": {
-            "unableToGetProvider": "Unable to get web3 provider.",
-            "unableToFormSmartContractData": "Unable to form smart contract data."
+            "unableToGetProvider": "Web3-Anbieter konnte nicht geladen werden.",
+            "unableToFormSmartContractData": "Konnte keine Smart Contract Daten bilden."
         },
         "token": {
-            "missingMetadata": "The token metadata is missing."
+            "missingMetadata": "Die Token-Metadaten fehlen."
         }
     },
     "warning": {
         "transaction": {
-            "invalidDateTime": "The chosen date must be in the future."
+            "invalidDateTime": "Das ausgewählte Datum muss in der Zukunft liegen."
         },
-        "closePopup": "Are you sure about closing the popup? Your current progress will be lost."
+        "closePopup": "Bist du sicher, dass du das Popup schließen möchtest? Dein aktueller Fortschritt geht verloren."
     },
     "tooltips": {
         "optionalInput": "Dieser optionale Zusatz ist öffentlich im Explorer und für alle sichtbar.",
@@ -1917,19 +1927,19 @@
             "incoming": {
                 "storageDeposit": "Eine rückerstattbare Token Einzahlung, die benötigt wird, um Ihre Transaktion auf dem Tangle zu speichern.",
                 "giftedStorageDeposit": "Der Storage Deposit für diese Transaktion wurde dir geschenkt. Du musst ihn nicht zurückzahlen.",
-                "expirationTime": "Beanspruche diese Guthaben vor der Verfallszeit. Anderenfalls werden sie an den Absender zurückerstattet.",
+                "expirationTime": "Beanspruche dieses Guthaben vor der Verfallszeit. Anderenfalls wird es an den Absender zurückerstattet.",
                 "timelockDate": "Der Absender hat eine Zeitsperre für diese Guthaben definiert. Du kannst sie ausgeben sobald die Sperre verfällt.",
                 "metadata": "Ein optionales Datenfeld zur dauerhaften Speicherung von Daten auf dem Tangle.",
-                "tag": "Ein kurzes optionales Datenfeld. Tag Gruppen von Transaktionen können die Suche erleichtern."
+                "tag": "Ein kurzes optionales Datenfeld. Tag-Gruppen von Transaktionen können die Suche erleichtern."
             },
             "outgoing": {
-                "storageDeposit": "Ein Storage Deposit ist eine rückerstattbare Token Einzahlung, die benötigt wird, um Ihre Transaktion auf dem Tangle zu speichern.",
+                "storageDeposit": "Ein Storage Deposit ist eine rückerstattbare Einzahlung, die benötigt wird, um Ihre Transaktion auf dem Tangle zu speichern.",
                 "giftedStorageDeposit": "Der Empfänger muss den Storage Deposit nicht zurückerstatten.",
                 "expirationTime": "Wenn der Empfänger die Token nicht rechtzeitig beansprucht, werden Ihre Token an dich zurückgeschickt.",
                 "timelockDate": "Du hast eine Zeitsperre definiert. Der Empfänger ist nicht in der Lage die Guthaben auszugeben, bevor die Zeitsperre verfällt.",
                 "metadata": "Ein optionales Datenfeld zur dauerhaften Speicherung von Daten auf dem Tangle.",
-                "tag": "Ein kurzes optionales Datenfeld. Tag Gruppen von Transaktionen können die Suche erleichtern.",
-                "transactionFee": "The transaction fee contains the gas fee for the code execution and the storage deposit fee."
+                "tag": "Ein kurzes optionales Datenfeld. Tag-Gruppen von Transaktionen können die Suche erleichtern.",
+                "transactionFee": "Die Transaktionsgebühr enthält die Gasgebühr für die Ausführung sowie das Storage Deposit."
             },
             "nftMetadata": {
                 "type": "Der MimeType des NFT, z.B. image/png.",
@@ -1949,13 +1959,13 @@
             "description": "Optionaler Parameter: Eine Beschreibung des NFT",
             "attributes": "Optionaler Parameter: Eine Reihe von Merkmalen und Werten, die Attribute der NFT definieren",
             "uri": "Um eine URI mittels benutzerdefinierter Medien zu erstellen, laden Sie zuerst Ihre Datei über einen Speicherdienst auf IPFS hoch (z.B. https://nft.storage/)",
-            "quantity": "Optionaler Parameter: Die Anzahl der mit diesen Metadaten geprägten Kopien."
+            "quantity": "Optionaler Parameter: Die Anzahl der mit diesen Metadaten gemintete Kopien."
         },
         "governance": {
-            "removeProposalWarning": "Du musst das Abstimmen für diese Abstimmung stoppen, bevor du sie entfernen kannst.",
+            "removeProposalWarning": "Du musst das Abstimmen für diesen Vorschlag stoppen, bevor du sie entfernen kannst.",
             "outdatedNode": {
-                "title": "Veraltete Node URL",
-                "body": "Die Node URL für diesen Vorschlag ist veraltet. Bitte aktualisiere sie, um auf die neuesten Abstimmungsergebnisse zuzugreifen."
+                "title": "Veraltete Node-URL",
+                "body": "Die Node-URL für diesen Vorschlag ist veraltet. Bitte aktualisiere sie, um auf die neuesten Abstimmungsergebnisse zuzugreifen."
             },
             "resultsNotAvailable": {
                 "title": "Ergebnisse nicht verfügbar",
@@ -1966,25 +1976,25 @@
             "profileBadge": "Dein Stronghold ist veraltet. Melde dich an, um Stronghold zu aktualisieren."
         },
         "tokenIsNotVerified": {
-            "title": "Token is not verified",
-            "text": "Compare the token metadata against the relevant team’s official website. Only verify tokens that you trust."
+            "title": "Token ist nicht verifiziert",
+            "text": "Dieser Token ist nicht verifiziert. Vergleiche die Token-Metadaten mit denen der offiziellen Webseite des jeweiligen Entwicklerteams. Verifiziere nur Token, denen du vertraust."
         }
     },
     "tabs": {
         "wallet": "Wallet",
         "collectibles": "Sammlerstücke",
         "governance": "Governance",
-        "developer": "Entwickler*in",
+        "developer": "Entwickler",
         "tokens": "Token",
-        "settings": "Settings"
+        "settings": "Einstellungen"
     },
     "pills": {
         "asyncStatus": {
-            "claim": "Claim {timeDiff, select, undefined {} other { {timeDiff} }}",
-            "unclaimed": "Unclaimed {timeDiff, select, undefined {} other { {timeDiff}}}",
-            "claimed": "Claimed",
-            "expired": "Expired",
-            "timelocked": "Locked {timeDiff, select, undefined {} other { {timeDiff}}}"
+            "claim": "Beanspruche {timeDiff, select, undefined {} other { {timeDiff} }}",
+            "unclaimed": "Unbeansprucht {timeDiff, select, undefined {} other { {timeDiff}}}",
+            "claimed": "Beansprucht",
+            "expired": "Abgelaufen",
+            "timelocked": "Gesperrt {timeDiff, select, undefined {} other { {timeDiff}}}"
         },
         "governance": {
             "proposalStatus": {
@@ -2003,19 +2013,19 @@
             "disconnected": "Nicht verbunden"
         },
         "ledgerStatus": {
-            "notConnected": "Not connected",
-            "locked": "Device locked",
-            "appNotOpen": "App not open"
+            "notConnected": "Nicht verbunden",
+            "locked": "Gerät gesperrt",
+            "appNotOpen": "App nicht geöffnet"
         }
     },
     "menus": {
         "dateTimePicker": {
-            "1hour": "In 1 hour",
-            "1day": "In 1 day",
-            "1week": "In 1 week",
+            "1hour": "In 1 Stunde",
+            "1day": "In 1 Tag",
+            "1week": "In 1 Woche",
             "customDate": {
-                "title": "Custom date",
-                "subtitle": "Set custom date"
+                "title": "Benutzerdefiniertes Datum",
+                "subtitle": "Eigenes Datum festlegen"
             }
         }
     }
