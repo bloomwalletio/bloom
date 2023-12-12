@@ -86,7 +86,7 @@
                     "description": "Lütfen resmi Ledger Live uygulamasının kapalı olduğundan emin olun ve aşağıdaki adımları takip edin.",
                     "connect": "Ledger cihazınızı bağlayın",
                     "unlock": "Ledger'ınızın kilidini pin ile açın",
-                    "open": "Ledger'ınızda Shimmer uygulamasını açın",
+                    "open": "Open the {appName} app on your Ledger",
                     "tip": "Ledger'ınız bağlanmaması durumundaki ipuçları"
                 },
                 "ledgerConnectionGuide": {
@@ -120,6 +120,10 @@
                     "title": "Shimmer ödüllerini talep edin",
                     "description": "Aşağıdaki bakiye bulucuyu kullanın ve talepte bulunmadan önce Shimmer staking ödülleri bakiyenizin doğru olup olmadığını kontrol edin.",
                     "success": "Başarıyla {amount} bulundu"
+                },
+                "balanceFinder": {
+                    "title": "Find your recovered accounts",
+                    "description": "Use the balance finder below, and check if your account balances are correct before continuing."
                 }
             },
             "restoreFromMnemonic": {
@@ -503,19 +507,19 @@
                             "signData": "Veri imzalama isteği",
                             "signTransaction": "Bir işlemi imzalama isteği",
                             "sendTransaction": "İşlem gönderme isteği",
-                            "empty": "You have to select at least one permission"
+                            "empty": "En az bir izin seçmeniz gerekiyor"
                         },
                         "networks": {
                             "step": "Ağlar",
                             "title": "Ağ seç",
                             "tip": "Gerekli ağlar sizin için dApp tarafından önceden seçilir ve daha sonra yeniden yapılandırılabilir.",
-                            "empty": "You have to select at least one network"
+                            "empty": "En az bir ağ seçmeniz gerekiyor"
                         },
                         "accounts": {
                             "step": "Hesaplar",
                             "title": "Hesapları seçin",
                             "tip": "Fonları ayrı ayrı yönetmek için belirli hesaplara bağlanın. dApp'in neye erişebileceğini siz kontrol edersiniz.",
-                            "empty": "You have to select at least one account"
+                            "empty": "En az bir hesap seçmeniz gerekiyor"
                         }
                     },
                     "details": {
@@ -770,6 +774,10 @@
             "title": "Birincil düğümü temizle",
             "body": "{url}'yi birincil düğüm olarak temizlemek istediğinizden emin misiniz?"
         },
+        "confirmAssetTracking": {
+            "title": "Add a new token",
+            "description": "\"{dappName}\" wants to add \"{assetName}\" to your wallet."
+        },
         "node": {
             "titleAdd": "Bir düğüm (node) ekle",
             "titleUpdate": "Bir düğümü güncelleyin",
@@ -897,12 +905,12 @@
             "action": "Gönder"
         },
         "smartContractCall": {
-            "title": "Smart contract call to {contractAddress}",
-            "unableToVerify": "Bloom is unable to verify the smart contract call. Only proceed with apps you trust.",
-            "action": "Confirm"
+            "title": "{contractAddress} adresine akıllı sözleşme çağrısı",
+            "unableToVerify": "Bloom akıllı sözleşme çağrısını doğrulayamıyor. Yalnızca güvendiğiniz uygulamalarla devam edin.",
+            "action": "Onayla"
         },
         "successfulDappConnection": {
-            "alert": "You can close this screen and return to the dApp when you are ready."
+            "alert": "Hazır olduğunuzda bu ekranı kapatabilir ve dApp'e dönebilirsiniz."
         },
         "activityDetails": {
             "title": {
@@ -962,12 +970,12 @@
                     "increaseVotingPower": {
                         "Pending": "Oy kullanma gücünün artırılması",
                         "Confirmed": "Artan oy kullanma gücü",
-                        "Conflicting": "Oy kullanma gücü artırılamadı"
+                        "Conflicting": "Failed to increase voting power"
                     },
                     "decreaseVotingPower": {
                         "Pending": "Oy kullanma gücünün azaltılması",
                         "Confirmed": "Azalan oy gücü",
-                        "Conflicting": "Oylama gücü azaltılamadı"
+                        "Conflicting": "Failed to decrease voting power"
                     },
                     "startVoting": {
                         "Pending": "{proposalName} için oylama",
@@ -977,7 +985,7 @@
                     "stopVoting": {
                         "Pending": "{proposalName} için oylama durduruluyor",
                         "Confirmed": "{proposalName} için oylama durduruldu",
-                        "Conflicting": "Oy verme işlemi durdurulamadı"
+                        "Conflicting": "Failed to stop voting for"
                     },
                     "changedVote": {
                         "Pending": "{proposalName} için verilen oy değiştiriliyor",
@@ -1397,6 +1405,7 @@
         "claimedTime": "Talep edilen tarih",
         "nftId": "NFT ID",
         "aliasId": "Takma Ad ID (Kimliği)",
+        "tokenId": "Token ID",
         "governorAddress": "Yönetici Adresi",
         "stateControllerAddress": "Durum Denetleyicisinin Adresi",
         "copiedToClipboard": "Panoya kopyalandı",
@@ -1453,6 +1462,7 @@
         "coinType": "Para tipi",
         "custom": "Standart",
         "evmAddress": "EVM Adresi",
+        "contractAddress": "Contract Address",
         "optionalField": "{field} (isteğe bağlı)",
         "gifted": "Hediye başarıyla verildi",
         "connected": "Bağlı",
@@ -1477,7 +1487,7 @@
         "no": "Hayır",
         "tip": "Bahşiş",
         "verified": "Doğrulandı",
-        "data": "Data"
+        "data": "Veri"
     },
     "filters": {
         "title": "Filtreler",
@@ -1601,18 +1611,18 @@
         "year": "{time, plural, one {# yıl} other {# yıllar}}\n"
     },
     "notifications": {
-        "downloadingUpdate": "Güncelleme indiriliyor",
-        "updateReady": "Güncelleme hazır",
-        "updateError": "Davetiye gönderilirken bir hata oluştu, lütfen tekrar deneyin",
+        "downloadingUpdate": "Uygulama güncellemesi indiriliyor",
+        "updateReady": "Güncelleme kuruluma hazır",
+        "updateError": "Güncelleme başarısız oldu, lütfen tekrar deneyin",
         "copiedToClipboard": "Panoya kopyalandı",
         "newDappConnection": {
-            "noProposal": "No proposal from dApp received"
+            "noProposal": "dApp'ten teklif alınmadı"
         },
         "deepLinkingRequest": {
             "receivedWhileLoggedOut": "Derin bağlantıyı başlatmak için lütfen giriş yapın",
             "invalidFormat": "Takip ettiğiniz derin bağlantı geçersiz",
             "invalidAmount": "Derin bağlantıdaki miktar bir tam sayı değil {amount}",
-            "invalidSurplus": "Derin bağlantıdaki fazlalık bir sayı değildir {surplus}",
+            "invalidSurplus": "Derin bağlantıdaki fazlalık bir sayı değil{surplus}",
             "surplusNotSupported": "Fazlalık yalnızca yerel tokenlar için desteklenir",
             "governance": {
                 "unrecognizedOperation": "Tanınmayan Yönetişim işlemi: {operation}"
@@ -1694,25 +1704,25 @@
         "password": {
             "doNotMatch": "Parolalar eşleşmiyor.",
             "tooWeak": "Yeni şifreniz çok zayıf.",
-            "row": "Düz tuş satırlarının tahmin edilmesi kolaydır.",
+            "row": "Düz tuş satırlarının tahmin edilmesi çok kolaydır.",
             "pattern": "Kısa klavye kalıplarının tahmin edilmesi kolaydır.",
             "names": "Yaygın adların ve soyadların tahmin edilmesi kolaydır.",
-            "repeats": "Aaa gibi tekrarların tahmin edilmesi kolaydır.",
+            "repeats": "'aaa' gibi tekrarların tahmin edilmesi kolaydır.",
             "repeats2": "'abcabcabc' gibi tekrarların tahmin edilmesi kolaydır.",
-            "sequence": "Karakter dizilerinin tahmin edilmesi kolaydır.",
+            "sequence": "Karakter dizilerinin tahmin edilmesi çok kolaydır.",
             "years": "Yakın tarihleri tahmin etmek daha kolaydır.",
-            "dates": "Tarihlerin tahmin edilmesi kolaydır.",
-            "common": "Bu çok yaygın bir parola.",
-            "similar": "Bu, yaygın olarak kullanılan bir parolaya benziyor.",
-            "word": "Tek bir kelimenin tahmin edilmesi kolaydır.",
-            "incorrect": "Şifreniz doğru değil.",
+            "dates": "Tarihleri tahmin edilmesi kolaydır.",
+            "common": "Bu çok yaygın bir şifredir.",
+            "similar": "Bu, yaygın olarak kullanılan bir şifreye benziyor.",
+            "word": "Tek bir kelimeyi tahmin etmek kolaydır.",
+            "incorrect": "Şifreniz yanlış.",
             "length": "Şifreniz şundan uzun olamaz {length, plural, one {# karakter} other {# karakterler}}.\n",
             "sameAsOld": "Yeni parolanız eski parolanızdan farklı olmalıdır."
         },
         "pincode": {
             "length": "PIN'iniz {length, plural, one {# rakam} other {# rakamlar}} uzunluğunda olmalıdır.",
             "match": "PIN'ler eşleşmiyor.",
-            "incorrect": "Mevcut şifreniz yanlış."
+            "incorrect": "Mevcut PIN'iniz yanlış."
         },
         "address": {
             "wrongAddressType": "Yanlış adres türü",
