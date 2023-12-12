@@ -22,8 +22,8 @@
     <div slot="description">
         <div class="flex flex-col items-center justify-between gap-3">
             <SuccessSvg />
-            <Text type="h5" textColor="success">{dapp?.metadata?.name} {localize('general.connected')}</Text>
+            <Text type="h5" textColor="success">{localize('general.success')}</Text>
         </div>
     </div>
-    <Alert text={localize('popups.successfulDappConnection.alert')} />
+    <Alert text={localize('popups.successfulDappInteraction.alert')} />
 </PopupTemplate>

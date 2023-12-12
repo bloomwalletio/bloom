@@ -903,7 +903,7 @@
             "unableToVerify": "Bloom is unable to verify the smart contract call. Only proceed with apps you trust.",
             "action": "Confirm"
         },
-        "successfulDappConnection": {
+        "successfulDappInteraction": {
             "alert": "You can close this screen and return to the dApp when you are ready."
         },
         "activityDetails": {
@@ -1479,7 +1479,8 @@
         "no": "No",
         "tip": "Tip",
         "verified": "Verified",
-        "data": "Data"
+        "data": "Data",
+        "success": "Success"
     },
     "filters":{
         "title": "Filters",

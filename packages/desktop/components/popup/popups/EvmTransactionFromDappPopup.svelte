@@ -75,7 +75,7 @@
     async function onConfirmClick(): Promise<void> {
         try {
             await sendTransactionFromEvm(preparedTransaction, chain, signAndSend, callback)
-            openPopup({ id: PopupId.SuccessfulDappConnection, props: { url: dapp.metadata?.url } })
+            openPopup({ id: PopupId.SuccessfulDappInteraction, props: { url: dapp.metadata?.url } })
         } catch (err) {
             callback({ error: err })
             handleError(err)
