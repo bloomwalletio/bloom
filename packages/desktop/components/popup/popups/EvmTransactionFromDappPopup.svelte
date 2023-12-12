@@ -74,12 +74,26 @@
 
     async function onConfirmClick(): Promise<void> {
         try {
-            await sendTransactionFromEvm(preparedTransaction, chain, signAndSend, callback)
-            openPopup({ id: PopupId.SuccessfulDappInteraction, props: { url: dapp.metadata?.url } })
+            const response = await sendTransactionFromEvm(preparedTransaction, chain, signAndSend)
+            callback({ result: response })
+            openPopup({
+                id: PopupId.SuccessfulDappInteraction,
+                props: {
+                    successMessage: getSuccessMessage(),
+                    url: dapp.metadata?.url,
+                },
+            })
         } catch (err) {
             callback({ error: err })
             handleError(err)
         }
+    }
+
+    function getSuccessMessage(): string {
+        const recipient = truncateString(String(preparedTransaction.to), 6, 6)
+        const assetName =
+            tokenTransfer?.token?.metadata?.name ?? baseCoinTransfer?.token?.metadata?.name ?? nft?.name ?? ''
+        return localize(`popups.${localeKey}.success`, { recipient, assetName })
     }
 
     function onCancelClick(): void {

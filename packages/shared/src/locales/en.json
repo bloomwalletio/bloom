@@ -905,7 +905,7 @@
             "title": "Smart contract call to {contractAddress}",
             "unableToVerify": "Bloom is unable to verify the smart contract call. Only proceed with apps you trust.",
             "action": "Confirm",
-            "success": "Called smart contract"
+            "success": "Smart contract call to {recipient}"
         },
         "successfulDappInteraction": {
             "alert": "You can close this screen and return to the dApp when you are ready."

@@ -28,7 +28,7 @@
 
     $: void prepareTransactions($sendFlowParameters)
     $: isSourceNetworkLayer2 = !!chain
-    $: isDestinationNetworkLayer2 = isEvmChain($sendFlowParameters.destinationNetworkId)
+    $: isDestinationNetworkLayer2 = isEvmChain($sendFlowParameters?.destinationNetworkId)
     $: busy = !!$selectedAccount?.isTransferring || !hasMounted
     $: isDisabled = isInvalid || busy || (!preparedTransaction && !preparedOutput)
 
@@ -67,18 +67,15 @@
         }
     }
 
-    function finish(): void {
-        modifyPopupState({ confirmClickOutside: false })
-        closePopup()
-    }
-
     async function onConfirmClick(): Promise<void> {
         try {
             if (isSourceNetworkLayer2) {
-                await sendTransactionFromEvm(preparedTransaction, chain, true, finish)
+                await sendTransactionFromEvm(preparedTransaction, chain, true)
             } else {
-                await sendOutputFromStardust(preparedOutput, $selectedAccount, finish)
+                await sendOutputFromStardust(preparedOutput, $selectedAccount)
             }
+            modifyPopupState({ confirmClickOutside: false })
+            closePopup()
         } catch (err) {
             handleError(err)
         }
