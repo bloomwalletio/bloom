@@ -1,4 +1,3 @@
-import { initializeWalletConnect } from '@auxiliary/wallet-connect/actions'
 import { initializeRegisteredProposals, registerProposalsFromNodes } from '@contexts/governance/actions'
 import { cleanupOnboarding } from '@contexts/onboarding/actions'
 import { createNewAccount, setSelectedAccount } from '@core/account/actions'
@@ -42,6 +41,7 @@ import { checkAndUpdateActiveProfileNetwork } from './checkAndUpdateActiveProfil
 import { loadAccounts } from './loadAccounts'
 import { logout } from './logout'
 import { subscribeToWalletApiEventsForActiveProfile } from './subscribeToWalletApiEventsForActiveProfile'
+import { updateSessionForConnectedDapps } from '@auxiliary/wallet-connect/utils'
 import { refreshAccountTokensForActiveProfile } from '@core/token/actions'
 import { generateAndStoreEvmAddressForAccounts, updateEvmChainGasPrices } from '@core/layer-2/actions'
 import { getNetwork } from '@core/network'
@@ -159,7 +159,7 @@ export async function login(loginOptions?: ILoginOptions): Promise<void> {
             void registerProposalsFromNodes(loadedAccounts)
         }
         void cleanupOnboarding()
-        void initializeWalletConnect()
+        void updateSessionForConnectedDapps()
     } catch (err) {
         handleError(err)
         if (!loginOptions?.isFromOnboardingFlow) {
