@@ -10,7 +10,7 @@
         persistDappNamespacesForDapp,
         sessionProposal,
     } from '@auxiliary/wallet-connect/stores'
-    import { approveSession } from '@auxiliary/wallet-connect/utils'
+    import { approveSession, rejectSession } from '@auxiliary/wallet-connect/utils'
     import {
         AccountSelection,
         ConnectionSummary,
@@ -50,7 +50,12 @@
 
     function onBackClick(): void {
         if (currentStep === 0) {
-            drawerRouter.previous()
+            if (drawerRouter.hasHistory()) {
+                drawerRouter.previous()
+            } else {
+                rejectSession()
+                closeDrawer()
+            }
         } else {
             currentStep--
         }
@@ -150,7 +155,7 @@
             width="full"
             on:click={onBackClick}
             disabled={loading}
-            text={localize('actions.back')}
+            text={localize(!drawerRouter.hasHistory() && currentStep === 0 ? 'actions.cancel' : 'actions.back')}
         />
         {@const isLastStep = persistedNamespaces || currentStep === steps.length - 1}
         <Button

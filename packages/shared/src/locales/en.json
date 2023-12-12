@@ -523,7 +523,6 @@
                     },
                     "details": {
                         "title": "Connection details",
-                        "falbackName": "dApp",
                         "name": "Name",
                         "description": "Description",
                         "url": "URL",
