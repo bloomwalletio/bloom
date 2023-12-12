@@ -36,7 +36,13 @@
             const { coinType } = chain.getConfiguration()
             const result = await signMessage(message, coinType, account)
 
-            openPopup({ id: PopupId.SuccessfulDappInteraction, props: { url: dapp.metadata?.url } })
+            openPopup({
+                id: PopupId.SuccessfulDappInteraction,
+                props: {
+                    successMessage: localize('popups.signMessage.success'),
+                    url: dapp.metadata?.url,
+                },
+            })
             callback({ result })
         } catch (err) {
             callback({ error: err })

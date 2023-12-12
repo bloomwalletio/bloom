@@ -8,6 +8,7 @@
     import DappDataBanner from '@components/DappDataBanner.svelte'
 
     export let url: string | undefined
+    export let successMessage: string
 
     const dapp = getConnectedDappByOrigin(url)
 </script>
@@ -22,7 +23,7 @@
     <div slot="description">
         <div class="flex flex-col items-center justify-between gap-3">
             <SuccessSvg />
-            <Text type="h5" textColor="success">{localize('general.success')}</Text>
+            <Text type="h5" textColor="success">{successMessage}</Text>
         </div>
     </div>
     <Alert text={localize('popups.successfulDappInteraction.alert')} />

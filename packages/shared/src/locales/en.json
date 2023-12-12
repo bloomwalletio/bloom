@@ -888,20 +888,24 @@
             "title": "Sign message",
             "hint": "No balance will be sent to {dappName} in the process of signing this message.",
             "warning": "dApp cannot be determined. No balance will be sent in the process of signing this message.",
-            "action": "Sign"
+            "action": "Sign",
+            "success": "Signed message"
         },
         "signTransaction": {
             "title": "Sign transaction",
-            "action": "Sign"
+            "action": "Sign",
+            "success": "Signed transaction"
         },
         "sendTransaction": {
             "title": "Send transaction",
-            "action": "Send"
+            "action": "Send",
+            "success": "Sent {assetName} to {recipient}"
         },
         "smartContractCall": {
             "title": "Smart contract call to {contractAddress}",
             "unableToVerify": "Bloom is unable to verify the smart contract call. Only proceed with apps you trust.",
-            "action": "Confirm"
+            "action": "Confirm",
+            "success": "Called smart contract"
         },
         "successfulDappInteraction": {
             "alert": "You can close this screen and return to the dApp when you are ready."
@@ -1658,9 +1662,6 @@
         "restoreFromStrongholdBackup": {
             "wrongProtocol": "Protocol doesn't match coin type found in Stronghold backup",
             "wrongProtocolForClaiming": "You must use an IOTA-based Stronghold backup to claim Shimmer rewards"
-        },
-        "signMessage": {
-            "success": "Message successfully signed"
         },
         "signTransaction": {
             "success": "Transaction successfully signed"
