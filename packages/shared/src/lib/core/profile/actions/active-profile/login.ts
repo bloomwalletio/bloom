@@ -1,4 +1,3 @@
-import { initializeWalletConnect } from '@auxiliary/wallet-connect/actions'
 import { initializeRegisteredProposals, registerProposalsFromNodes } from '@contexts/governance/actions'
 import { cleanupOnboarding } from '@contexts/onboarding/actions'
 import { createNewAccount, setSelectedAccount } from '@core/account/actions'
@@ -31,7 +30,9 @@ import { ProfileType } from '../../enums'
 import { ILoginOptions } from '../../interfaces'
 import {
     activeProfile,
+    getLastLoggedInProfileId,
     incrementLoginProgress,
+    lastLoggedInProfileId,
     resetLoginProgress,
     setTimeStrongholdLastUnlocked,
     updateActiveProfile,
@@ -42,6 +43,7 @@ import { checkAndUpdateActiveProfileNetwork } from './checkAndUpdateActiveProfil
 import { loadAccounts } from './loadAccounts'
 import { logout } from './logout'
 import { subscribeToWalletApiEventsForActiveProfile } from './subscribeToWalletApiEventsForActiveProfile'
+import { disconnectAllDapps } from '@auxiliary/wallet-connect/utils'
 import { refreshAccountTokensForActiveProfile } from '@core/token/actions'
 import { generateAndStoreEvmAddressForAccounts, updateEvmChainGasPrices } from '@core/layer-2/actions'
 import { getNetwork } from '@core/network'
@@ -145,7 +147,12 @@ export async function login(loginOptions?: ILoginOptions): Promise<void> {
             pollLedgerDeviceState()
         }
 
+        if (getLastLoggedInProfileId() !== _activeProfile.id) {
+            void disconnectAllDapps()
+        }
+
         setSelectedAccount(lastUsedAccountIndex ?? loadedAccounts?.[0]?.index)
+        lastLoggedInProfileId.set(_activeProfile.id)
         lastActiveAt.set(new Date())
         loggedIn.set(true)
         setTimeout(() => {
@@ -159,7 +166,6 @@ export async function login(loginOptions?: ILoginOptions): Promise<void> {
             void registerProposalsFromNodes(loadedAccounts)
         }
         void cleanupOnboarding()
-        void initializeWalletConnect()
     } catch (err) {
         handleError(err)
         if (!loginOptions?.isFromOnboardingFlow) {
