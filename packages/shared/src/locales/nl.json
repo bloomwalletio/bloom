@@ -86,7 +86,7 @@
                     "description": "Zorg ervoor dat de officiële Ledger Live applicatie is gesloten en volg de onderstaande stappen.",
                     "connect": "Verbind jouw Ledger apparaat",
                     "unlock": "Ontgrendel je Ledger met zijn pin",
-                    "open": "Open the {appName} app on your Ledger",
+                    "open": "Open de {appName} app op je Ledger",
                     "tip": "Tips voor als jouw Ledger geen verbinding kan maken"
                 },
                 "ledgerConnectionGuide": {
@@ -122,8 +122,8 @@
                     "success": "Succesvol {amount} gevonden"
                 },
                 "balanceFinder": {
-                    "title": "Find your recovered accounts",
-                    "description": "Use the balance finder below, and check if your account balances are correct before continuing."
+                    "title": "Vind je herstelde accounts",
+                    "description": "Gebruik de onderstaande balanszoeker en controleer of uw account saldi correct zijn voordat u verder gaat."
                 }
             },
             "restoreFromMnemonic": {
@@ -252,7 +252,7 @@
             },
             "hiddenAccounts": {
                 "title": "Verborgen accounts",
-                "description": "Door deze optie te selecteren, worden wallets die voorheen verborgen waren getoond"
+                "description": "Selecting this option will show wallets that were previously hidden"
             },
             "deleteProfile": {
                 "title": "Profiel verwijderen",
@@ -576,7 +576,7 @@
                 "emptyDescription": "Stort of ontvang je eerste verzameling!"
             },
             "details": {
-                "storageDepositDescription": "Een terugvorderbare-storting is nodig om jouw NFT op de Tangle op te slaan.",
+                "storageDepositDescription": "A refundable deposit is required to store your NFT on the Tangle.",
                 "menu": {
                     "download": "Download",
                     "setPfp": "Stel NFT-profiel plaatje in",
@@ -775,8 +775,8 @@
             "body": "Weet u zeker dat u {url} wilt wissen als primaire knooppunt?"
         },
         "confirmAssetTracking": {
-            "title": "Add a new token",
-            "description": "\"{dappName}\" wants to add \"{assetName}\" to your wallet."
+            "title": "Voeg een nieuw token toe",
+            "description": "\"{dappName}\" wil \"{assetName}\" aan uw wallet toevoegen."
         },
         "node": {
             "titleAdd": "Knooppunt toevoegen",
@@ -970,12 +970,12 @@
                     "increaseVotingPower": {
                         "Pending": "Stemkracht vergroten",
                         "Confirmed": "Stemkracht vergroot",
-                        "Conflicting": "Failed to increase voting power"
+                        "Conflicting": "Stemkracht vergroten mislukt"
                     },
                     "decreaseVotingPower": {
                         "Pending": "Stemkracht verminderen",
                         "Confirmed": "Stemkracht verminderd",
-                        "Conflicting": "Failed to decrease voting power"
+                        "Conflicting": "Stemkracht verminderen mislukt"
                     },
                     "startVoting": {
                         "Pending": "Stemmen voor {proposalName}",
@@ -985,7 +985,7 @@
                     "stopVoting": {
                         "Pending": "Stemmen voor {proposalName} wordt gestopt",
                         "Confirmed": "Stemmen voor {proposalName} gestopt",
-                        "Conflicting": "Failed to stop voting for"
+                        "Conflicting": "Niet gelukt om te stoppen met stemmen voor"
                     },
                     "changedVote": {
                         "Pending": "Stem wijzigen voor {proposalName}",
@@ -1462,7 +1462,7 @@
         "coinType": "Munt type",
         "custom": "Aangepast",
         "evmAddress": "EVM adres",
-        "contractAddress": "Contract Address",
+        "contractAddress": "Contract Adres",
         "optionalField": "{field} (optioneel)",
         "gifted": "Geschonken",
         "connected": "Verbonden",

@@ -252,7 +252,7 @@
             },
             "hiddenAccounts": {
                 "title": "Ukryte konta",
-                "description": "Wybranie tej opcji pokaże portfele, które były wcześniej ukryte"
+                "description": "Selecting this option will show wallets that were previously hidden"
             },
             "deleteProfile": {
                 "title": "Usuwanie profilu",
@@ -576,7 +576,7 @@
                 "emptyDescription": "Prześlij lub odbierz swoją pierwszą kolekcję już teraz!"
             },
             "details": {
-                "storageDepositDescription": "Zwrotny depozyt, wymagany do przechowywania Twojego NFT w sieci Tangle.",
+                "storageDepositDescription": "A refundable deposit is required to store your NFT on the Tangle.",
                 "menu": {
                     "download": "Pobierz",
                     "setPfp": "Ustaw NFT jako obrazek profilowy",
