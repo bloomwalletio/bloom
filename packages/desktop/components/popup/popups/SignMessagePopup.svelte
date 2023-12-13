@@ -28,21 +28,25 @@
 
     async function unlockAndSign(): Promise<string> {
         return new Promise((resolve, reject) => {
-            checkActiveProfileAuth(async () => {
-                try {
-                    const { coinType } = chain.getConfiguration()
-                    const result = await signMessage(message, coinType, account)
-                    resolve(result)
-                    return
-                } catch (error) {
-                    reject(error)
-                }
-            }),
+            checkActiveProfileAuth(
+                async () => {
+                    try {
+                        const { coinType } = chain.getConfiguration()
+                        const result = await signMessage(message, coinType, account)
+                        closePopup({ forceClose: true })
+                        resolve(result)
+                        return
+                    } catch (error) {
+                        closePopup({ forceClose: true })
+                        reject(error)
+                    }
+                },
                 { stronghold: true, ledger: true },
                 LedgerAppName.Ethereum,
                 () => {
                     reject(getSdkError('USER_REJECTED'))
                 }
+            )
         })
     }
 
