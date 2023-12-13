@@ -16,51 +16,50 @@ import {
 import { IAccountState, getAddressFromAccountForNetwork } from '@core/account'
 import { updateL2BalanceWithoutActivity } from '../updateL2BalanceWithoutActivity'
 import { sendSignedEvmTransaction } from '@core/wallet/actions/sendSignedEvmTransaction'
-import { CallbackParameters } from '@auxiliary/wallet-connect/types'
 import { getSdkError } from '@walletconnect/utils'
 
 export async function sendTransactionFromEvm(
     preparedTransaction: EvmTransactionData,
     chain: IChain,
-    signAndSend: boolean,
-    callback?: (params?: CallbackParameters) => void
-): Promise<void> {
+    signAndSend: boolean
+): Promise<unknown> {
     const account = getSelectedAccount()
+    return new Promise((resolve, reject) => {
+        checkActiveProfileAuth(
+            async () => {
+                const signedTransaction = await signEvmTransaction(preparedTransaction, chain, account)
+                if (!signedTransaction) {
+                    reject({ message: 'No signed transaction!', code: 500 })
+                    return
+                }
+                if (!signAndSend) {
+                    resolve(signedTransaction)
+                    return
+                }
 
-    await checkActiveProfileAuth(
-        async () => {
-            const signedTransaction = await signEvmTransaction(preparedTransaction, chain, account)
+                const transactionReceipt = await sendSignedEvmTransaction(chain, signedTransaction)
+                if (!transactionReceipt) {
+                    reject({ message: 'No transaction receipt!', code: 500 })
+                    return
+                }
 
-            if (!signAndSend || !signedTransaction) {
-                const callbackObject = signedTransaction
-                    ? { result: signedTransaction }
-                    : { error: { message: 'No signed transaction!', code: 500 } }
-                callback && callback(callbackObject)
-                return
+                // We manually add a timestamp to mitigate balance change activities
+                // taking precedence over send/receive activities
+                const evmTransaction: PersistedEvmTransaction = {
+                    ...preparedTransaction,
+                    ...transactionReceipt,
+                    timestamp: Date.now(),
+                }
+                await persistEvmTransaction(evmTransaction, chain, account)
+                resolve(transactionReceipt.transactionHash)
+            },
+            { stronghold: true, ledger: true, props: { preparedTransaction } },
+            LedgerAppName.Ethereum,
+            () => {
+                reject(getSdkError('USER_REJECTED'))
             }
-
-            const transactionReceipt = await sendSignedEvmTransaction(chain, signedTransaction)
-            if (!transactionReceipt) {
-                callback && callback({ error: { message: 'No transaction receipt!', code: 500 } })
-                return
-            }
-
-            // We manually add a timestamp to mitigate balance change activities
-            // taking precedence over send/receive activities
-            const evmTransaction: PersistedEvmTransaction = {
-                ...preparedTransaction,
-                ...transactionReceipt,
-                timestamp: Date.now(),
-            }
-            await persistEvmTransaction(evmTransaction, chain, account)
-            callback && callback({ result: transactionReceipt.transactionHash })
-        },
-        { stronghold: true, ledger: true, props: { preparedTransaction } },
-        LedgerAppName.Ethereum,
-        () => {
-            callback && callback({ error: getSdkError('USER_REJECTED') })
-        }
-    )
+        )
+    })
 }
 
 async function persistEvmTransaction(
