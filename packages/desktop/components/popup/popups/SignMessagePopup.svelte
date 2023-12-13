@@ -49,7 +49,6 @@
             handleError(err)
         } finally {
             isBusy = false
-            closePopup()
         }
     }
 
