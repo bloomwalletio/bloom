@@ -963,7 +963,7 @@
                 "tokenId": "Id Актива"
             }
         },
-        "importErc20Token": {
+        "importToken": {
             "title": "Import ERC20 token",
             "property": {
                 "tokenAddress": "Token address"

@@ -963,7 +963,7 @@
                 "tokenId": "Token Id"
             }
         },
-        "importErc20Token": {
+        "importToken": {
             "title": "Importér ERC20-token",
             "property": {
                 "tokenAddress": "Tokenadresse"

@@ -39,7 +39,7 @@
                 )
                 showNotification({
                     variant: 'success',
-                    text: localize('popups.importErc20Token.success', {
+                    text: localize('popups.importToken.success', {
                         values: { tokenSymbol: erc20TokenMetadata.symbol },
                     }),
                 })
@@ -53,7 +53,7 @@
 </script>
 
 <PopupTemplate
-    title={localize('popups.importErc20Token.title')}
+    title={localize('popups.importToken.title', { values: { type: 'ERC-20' } })}
     {busy}
     backButton={{
         text: localize('actions.cancel'),
@@ -70,7 +70,7 @@
         <NetworkInput bind:networkId showLayer1={false} />
         <TextInput
             bind:value={tokenAddress}
-            label={localize('popups.importErc20Token.property.tokenAddress')}
+            label={localize('popups.importToken.property.tokenAddress')}
             error={tokenAddressError}
         />
     </form>

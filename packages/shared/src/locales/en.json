@@ -1049,13 +1049,13 @@
                 "tokenId": "Token Id"
             }
         },
-        "importErc20Token": {
-            "title": "Import ERC20 token",
+        "importToken": {
+            "title": "Import {type} token",
             "property": {
                 "tokenAddress": "Token address"
             },
             "success": "Imported {tokenSymbol} token",
-            "error": "Unable to import ERC20 token"
+            "error": "Unable to import {type}token"
         },
         "noAlias": {
             "title": "Unable to mint",
