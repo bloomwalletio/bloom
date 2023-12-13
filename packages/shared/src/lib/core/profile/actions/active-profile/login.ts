@@ -30,6 +30,7 @@ import { ProfileType } from '../../enums'
 import { ILoginOptions } from '../../interfaces'
 import {
     activeProfile,
+    getLastLoggedInProfileId,
     incrementLoginProgress,
     lastLoggedInProfileId,
     resetLoginProgress,
@@ -146,7 +147,7 @@ export async function login(loginOptions?: ILoginOptions): Promise<void> {
             pollLedgerDeviceState()
         }
 
-        if (get(lastLoggedInProfileId) !== _activeProfile.id) {
+        if (getLastLoggedInProfileId() !== _activeProfile.id) {
             void disconnectAllDapps()
         }
 
