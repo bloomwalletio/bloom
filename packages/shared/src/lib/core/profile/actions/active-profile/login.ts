@@ -31,6 +31,7 @@ import { ILoginOptions } from '../../interfaces'
 import {
     activeProfile,
     incrementLoginProgress,
+    lastLoggedInProfileId,
     resetLoginProgress,
     setTimeStrongholdLastUnlocked,
     updateActiveProfile,
@@ -146,6 +147,7 @@ export async function login(loginOptions?: ILoginOptions): Promise<void> {
         }
 
         setSelectedAccount(lastUsedAccountIndex ?? loadedAccounts?.[0]?.index)
+        lastLoggedInProfileId.set(_activeProfile.id)
         lastActiveAt.set(new Date())
         loggedIn.set(true)
         setTimeout(() => {
