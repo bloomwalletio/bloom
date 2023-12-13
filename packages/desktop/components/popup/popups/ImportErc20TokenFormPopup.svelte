@@ -3,14 +3,14 @@
     import { NetworkInput } from '@ui'
     import { localize } from '@core/i18n'
     import { ETHEREUM_ADDRESS_LENGTH } from '@core/layer-2'
-    import { getErc20TokenMetadata } from '@core/layer-2/utils'
-    import { NetworkId, network } from '@core/network'
+    import { getEvmTokenMetadata } from '@core/layer-2/utils'
+    import { NetworkId } from '@core/network'
     import { HEX_PREFIX, HEXADECIMAL_REGEXP } from '@core/utils'
     import PopupTemplate from '../PopupTemplate.svelte'
     import { closePopup } from '@desktop/auxiliary/popup'
     import { showNotification } from '@auxiliary/notification'
     import { addNewTrackedTokenToActiveProfile } from '@core/wallet'
-    import { TokenTrackingStatus } from '@core/token'
+    import { IErc20Metadata, TokenTrackingStatus } from '@core/token'
 
     let busy = false
 
@@ -29,7 +29,7 @@
         const _tokenAddress = tokenAddress.toLowerCase()
         if (validate(_tokenAddress)) {
             try {
-                const erc20TokenMetadata = await getErc20TokenMetadata(_tokenAddress, networkId, $network)
+                const erc20TokenMetadata = (await getEvmTokenMetadata(_tokenAddress, networkId)) as IErc20Metadata
                 if (erc20TokenMetadata) {
                     addNewTrackedTokenToActiveProfile(
                         networkId,
