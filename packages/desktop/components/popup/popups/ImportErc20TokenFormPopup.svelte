@@ -10,7 +10,6 @@
     import { showNotification } from '@auxiliary/notification'
     import { addNewTrackedTokenToActiveProfile } from '@core/wallet'
     import { IErc20Metadata, TokenTrackingStatus } from '@core/token'
-    import { handleError } from '@core/error/handlers'
 
     let busy = false
 
@@ -47,7 +46,7 @@
                 closePopup()
             }
         } catch (err) {
-            handleError(err)
+            tokenAddressError = err
         }
         busy = false
     }
@@ -67,7 +66,7 @@
         disabled: !networkId || !tokenAddress,
     }}
 >
-    <form on:submit|preventDefault={onImportClick} id="import-erc20-token-form" class="space-y-4 max-h-100 flex-1">
+    <form on:submit|preventDefault id="import-erc20-token-form" class="space-y-4 max-h-100 flex-1">
         <NetworkInput bind:networkId showLayer1={false} />
         <TextInput
             bind:value={tokenAddress}
