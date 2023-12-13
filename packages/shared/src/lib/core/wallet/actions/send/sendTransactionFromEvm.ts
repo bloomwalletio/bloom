@@ -17,6 +17,7 @@ import { IAccountState, getAddressFromAccountForNetwork } from '@core/account'
 import { updateL2BalanceWithoutActivity } from '../updateL2BalanceWithoutActivity'
 import { sendSignedEvmTransaction } from '@core/wallet/actions/sendSignedEvmTransaction'
 import { getSdkError } from '@walletconnect/utils'
+import { modifyPopupState } from '../../../../../../../desktop/lib/auxiliary/popup/helpers'
 
 export async function sendTransactionFromEvm(
     preparedTransaction: EvmTransactionData,
@@ -27,6 +28,7 @@ export async function sendTransactionFromEvm(
     return new Promise((resolve, reject) => {
         checkActiveProfileAuth(
             async () => {
+                modifyPopupState({ preventClose: true })
                 const signedTransaction = await signEvmTransaction(preparedTransaction, chain, account)
                 if (!signedTransaction) {
                     reject({ message: 'No signed transaction!', code: 500 })

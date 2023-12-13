@@ -125,6 +125,7 @@
                         transition={$popupState.transition}
                         overflow={$popupState.overflow}
                         relative={$popupState.relative}
+                        preventClose={$popupState.preventClose}
                         confirmClickOutside={$popupState.confirmClickOutside}
                     />
                 {/if}
