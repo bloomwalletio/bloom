@@ -42,7 +42,7 @@ import { checkAndUpdateActiveProfileNetwork } from './checkAndUpdateActiveProfil
 import { loadAccounts } from './loadAccounts'
 import { logout } from './logout'
 import { subscribeToWalletApiEventsForActiveProfile } from './subscribeToWalletApiEventsForActiveProfile'
-import { updateSessionForConnectedDapps } from '@auxiliary/wallet-connect/utils'
+import { disconnectAllDapps } from '@auxiliary/wallet-connect/utils'
 import { refreshAccountTokensForActiveProfile } from '@core/token/actions'
 import { generateAndStoreEvmAddressForAccounts, updateEvmChainGasPrices } from '@core/layer-2/actions'
 import { getNetwork } from '@core/network'
@@ -146,6 +146,10 @@ export async function login(loginOptions?: ILoginOptions): Promise<void> {
             pollLedgerDeviceState()
         }
 
+        if (get(lastLoggedInProfileId) !== _activeProfile.id) {
+            void disconnectAllDapps()
+        }
+
         setSelectedAccount(lastUsedAccountIndex ?? loadedAccounts?.[0]?.index)
         lastLoggedInProfileId.set(_activeProfile.id)
         lastActiveAt.set(new Date())
@@ -161,7 +165,6 @@ export async function login(loginOptions?: ILoginOptions): Promise<void> {
             void registerProposalsFromNodes(loadedAccounts)
         }
         void cleanupOnboarding()
-        void updateSessionForConnectedDapps()
     } catch (err) {
         handleError(err)
         if (!loginOptions?.isFromOnboardingFlow) {
