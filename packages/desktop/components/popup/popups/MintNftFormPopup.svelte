@@ -3,7 +3,7 @@
     import { handleError } from '@core/error/handlers/handleError'
     import { localize } from '@core/i18n'
     import { composeUrlFromNftUri, NftStandard } from '@core/nfts'
-    import { MimeType } from '@core/nfts/types'
+    import { MimeType } from '@core/nfts/enums'
     import { fetchWithTimeout } from '@core/nfts/utils/fetchWithTimeout'
     import { getNetworkHrp } from '@core/profile/actions'
     import { HttpHeader } from '@core/utils'
@@ -117,7 +117,7 @@
             try {
                 const response = await fetchWithTimeout(composeUrlFromNftUri(uri), 1, { method: 'HEAD' })
                 if (response.status === 200 || response.status === 304) {
-                    type = response.headers.get(HttpHeader.ContentType)
+                    type = response.headers.get(HttpHeader.ContentType) as MimeType
                 } else {
                     uriError = localize('popups.mintNftForm.errors.notReachable')
                 }
@@ -242,7 +242,7 @@
             name,
             royalties: optionalInputs.royalties?.value ? JSON.parse(optionalInputs.royalties.value) : undefined,
             attributes: optionalInputs.attributes?.value ? JSON.parse(optionalInputs.attributes.value) : undefined,
-            type: type as MimeType,
+            type,
         }
     }
 

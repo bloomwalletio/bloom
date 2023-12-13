@@ -6,7 +6,7 @@
     import { localize } from '@core/i18n'
     import { LedgerAppName, checkOrConnectLedger } from '@core/ledger'
     import { ProfileType } from '@core/profile'
-    import { RecoverAccountsPayload, recoverAccounts } from '@core/profile-manager'
+    import { RecoverAccountsPayload, createAccount, recoverAccounts } from '@core/profile-manager'
     import { DEFAULT_ACCOUNT_RECOVERY_CONFIGURATION } from '@core/profile/constants'
     import { checkOrUnlockStronghold } from '@core/stronghold/actions'
     import { OnboardingLayout } from '@views/components'
@@ -71,7 +71,14 @@
                 }
 
                 const startTime = new Date().getTime()
-                const accounts = await recoverAccounts(recoverAccountsPayload)
+
+                let accounts: IAccount[] = []
+                accounts = [...accounts, ...(await recoverAccounts(recoverAccountsPayload))]
+
+                if (accountsBalances.length === 0 && accounts.length === 0) {
+                    accounts = [await createAccount({ alias: `${localize('general.account')} 1` })]
+                }
+
                 accountsBalances = await Promise.all(
                     accounts.map(async (account: IAccount) => {
                         const alias = await account.getMetadata().alias
@@ -86,6 +93,7 @@
                         }
                     })
                 )
+
                 const endTime = new Date().getTime()
                 search.actualTime = endTime - startTime
                 searches.push(search)

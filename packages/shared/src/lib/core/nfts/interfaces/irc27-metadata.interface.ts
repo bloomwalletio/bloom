@@ -1,5 +1,4 @@
-import { NftStandard } from '@core/nfts/enums'
-import { MimeType } from '../types'
+import { MimeType, NftStandard } from '../enums'
 import { INftAttribute } from './nft-attribute.interface'
 import { ISoonaverseAttributes } from './soonaverse-attributes.interface'
 

@@ -249,7 +249,7 @@
             },
             "hiddenAccounts": {
                 "title": "Hidden accounts",
-                "description": "Selecting this options will show wallets that were previously hidden"
+                "description": "Selecting this option will show wallets that were previously hidden"
             },
             "deleteProfile": {
                 "title": "Profîlê jêbibe",
@@ -516,7 +516,7 @@
                 "emptyDescription": "Deposit or receive your first collectible!"
             },
             "details": {
-                "storageDepositDescription": "A refundable deposit required to store your NFT on the Tangle.",
+                "storageDepositDescription": "A refundable deposit is required to store your NFT on the Tangle.",
                 "menu": {
                     "download": "Download",
                     "setPfp": "Set NFT profile pic",
