@@ -22,7 +22,7 @@ export async function loadNftsForActiveProfile(): Promise<void> {
     }
 }
 
-async function loadNftsForAccount(account: IAccountState): Promise<void> {
+export async function loadNftsForAccount(account: IAccountState): Promise<void> {
     const accountNfts: INft[] = []
     const unspentOutputs = await account.unspentOutputs()
     const networkId = getActiveNetworkId()

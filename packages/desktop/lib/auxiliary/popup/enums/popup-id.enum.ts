@@ -20,6 +20,7 @@ export enum PopupId {
     EvmTransactionFromDapp = 'EvmTransactionFromDapp',
     FaucetRequest = 'faucetRequest',
     ImportErc20Token = 'importErc20Token',
+    ImportErc721Token = 'importErc721Token',
     LegalUpdate = 'legalUpdate',
     CustomiseAccount = 'manageAccount',
     ManageVotingPower = 'manageVotingPower',
