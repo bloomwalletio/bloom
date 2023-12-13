@@ -3,13 +3,14 @@ import { handleEthTransaction } from './eth_transaction.handler'
 import { handleEthSignTypedData } from './eth_signTypedData.handler'
 import { JsonRpcResponse } from '@walletconnect/jsonrpc-types'
 import { Web3WalletTypes } from '@walletconnect/web3wallet'
-import { getConnectedDappByOrigin, getWalletClient } from '../stores'
+import { getConnectedDappByOrigin, getWalletClient, setConnectedDapps } from '../stores'
 import { NetworkId, getNetwork } from '@core/network'
 import { CallbackParameters } from '../types'
 import { getSdkError } from '@walletconnect/utils'
-import { closePopup } from '../../../../../../desktop/lib/auxiliary/popup'
 
 export function onSessionRequest(event: Web3WalletTypes.SessionRequest): void {
+    // We need to call this here, because if the dapp requests too fast after approval, we won't have the dapp in the store yet
+    setConnectedDapps()
     const { topic, params, id, verifyContext } = event
     const { request, chainId } = params
     const method = request.method
@@ -34,7 +35,6 @@ export function onSessionRequest(event: Web3WalletTypes.SessionRequest): void {
         if (response) {
             void getWalletClient()?.respondSessionRequest({ topic, response })
         }
-        closePopup({ forceClose: true })
     }
 
     const chain = getNetwork()?.getChain(chainId as NetworkId)

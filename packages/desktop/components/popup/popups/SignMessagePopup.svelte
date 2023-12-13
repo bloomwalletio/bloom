@@ -27,7 +27,7 @@
     let isBusy = false
 
     async function onConfirmClick(): Promise<void> {
-        await checkActiveProfileAuth(sign, { stronghold: false, ledger: false }, LedgerAppName.Ethereum, onCancel)
+        await checkActiveProfileAuth(sign, { stronghold: true, ledger: true }, LedgerAppName.Ethereum, onCancel)
     }
 
     async function sign(): Promise<void> {
