@@ -15,10 +15,10 @@
     let networkId: NetworkId
 
     let tokenAddress: string
-    let tokenAddressError = ''
-    $: tokenAddress, (tokenAddressError = '')
 
     let tokenId: string
+    let tokenIdError = ''
+    $: tokenId, tokenAddress, (tokenIdError = '')
 
     function onCancelClick(): void {
         closePopup()
@@ -30,7 +30,7 @@
             validateEthereumAddress(tokenAddress)
             const persistedErc721Nft = await persistErc721Nft(tokenAddress, tokenId, networkId)
             if (!persistedErc721Nft) {
-                throw new Error('Already added')
+                throw new Error(localize('popups.importTokens.errors.alreadyAdded'))
             }
             await loadNftsForAccount($selectedAccount)
             showNotification({
@@ -41,9 +41,10 @@
             })
             closePopup()
         } catch (err) {
-            tokenAddressError = err
+            tokenIdError = err
+        } finally {
+            busy = false
         }
-        busy = false
     }
 </script>
 
@@ -63,11 +64,7 @@
 >
     <form on:submit|preventDefault class="space-y-4 max-h-100 flex-1">
         <NetworkInput bind:networkId showLayer1={false} />
-        <TextInput
-            bind:value={tokenAddress}
-            label={localize('popups.importToken.property.tokenAddress')}
-            error={tokenAddressError}
-        />
-        <TextInput bind:value={tokenId} label={localize('popups.nativeToken.tokenId')} error={tokenAddressError} />
+        <TextInput bind:value={tokenAddress} label={localize('popups.importToken.property.tokenAddress')} />
+        <TextInput bind:value={tokenId} label={localize('popups.nativeToken.tokenId')} error={tokenIdError} />
     </form>
 </PopupTemplate>
