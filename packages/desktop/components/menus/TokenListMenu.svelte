@@ -25,6 +25,14 @@
         menu?.close()
     }
 
+    function onImportErc721TokenClick(): void {
+        openPopup({
+            id: PopupId.ImportErc721Token,
+            overflow: true,
+        })
+        menu?.close()
+    }
+
     function refreshTokenMetadata(): void {
         refreshAccountTokensForActiveProfile(true)
         showNotification({
@@ -62,6 +70,11 @@
                 icon: IconName.Import,
                 title: localize('actions.importErc20Token'),
                 onClick: onImportErc20TokenClick,
+            },
+            {
+                icon: IconName.ArrowDown,
+                title: localize('actions.importErc721Token'),
+                onClick: onImportErc721TokenClick,
             },
             {
                 icon: IconName.Refresh2,
