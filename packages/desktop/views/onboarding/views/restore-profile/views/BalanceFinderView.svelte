@@ -22,10 +22,13 @@
 
     const { network, type } = $onboardingProfile
 
-    const initialAccountRange = DEFAULT_ACCOUNT_RECOVERY_CONFIGURATION[type].initialAccountRange
+    const DEFAULT_CONFIG = DEFAULT_ACCOUNT_RECOVERY_CONFIGURATION[type]
 
     let accountStartIndex = 0
-    const accountGapLimit = initialAccountRange
+    let accountGapLimit = DEFAULT_CONFIG.initialAccountRange
+
+    let addressStartIndex = 0
+    const addressGapLimit = DEFAULT_CONFIG.addressGapLimit
 
     let error = ''
     let isBusy = false
@@ -33,6 +36,7 @@
     let accountsBalances: IAccountBalance[] = []
 
     const networkSearchMethod: { [key in StardustNetworkId]?: () => Promise<void> } = {
+        [StardustNetworkId.Iota]: multiAddressSearch,
         [StardustNetworkId.Shimmer]: singleAddressSearch,
         [StardustNetworkId.Testnet]: singleAddressSearch,
     }
@@ -49,6 +53,48 @@
         const numberOfAccountsFound = Math.max(0, accountsBalances.length - accountStartIndex)
 
         accountStartIndex = accountStartIndex + accountGapLimit + numberOfAccountsFound
+    }
+
+    let searchCount = 0
+    let depthSearchCount = 0
+    let breadthSearchCountSinceLastDepthSearch = 0
+    let depthSearch = false
+    // Please don't modify this algorithm without consulting with the team
+    async function multiAddressSearch(): Promise<void> {
+        let recoverAccountsPayload: RecoverAccountsPayload
+
+        if (
+            !depthSearch &&
+            breadthSearchCountSinceLastDepthSearch &&
+            breadthSearchCountSinceLastDepthSearch % accountGapLimit === 0
+        ) {
+            // Depth search
+            depthSearch = true
+            recoverAccountsPayload = {
+                accountStartIndex: accountGapLimit,
+                accountGapLimit: 1,
+                addressGapLimit: (searchCount - depthSearchCount) * addressGapLimit,
+                syncOptions: { ...DEFAULT_SYNC_OPTIONS, addressStartIndex: 0 },
+            }
+            breadthSearchCountSinceLastDepthSearch = 0
+            depthSearchCount++
+            accountGapLimit++
+        } else {
+            // Breadth search
+            depthSearch = false
+            recoverAccountsPayload = {
+                accountStartIndex,
+                accountGapLimit,
+                addressGapLimit: addressGapLimit,
+                syncOptions: { ...DEFAULT_SYNC_OPTIONS, addressStartIndex },
+            }
+            breadthSearchCountSinceLastDepthSearch++
+            addressStartIndex += addressGapLimit
+        }
+
+        accountsBalances = await recoverAndGetBalances(recoverAccountsPayload)
+
+        searchCount++
     }
 
     async function findBalances(): Promise<void> {
