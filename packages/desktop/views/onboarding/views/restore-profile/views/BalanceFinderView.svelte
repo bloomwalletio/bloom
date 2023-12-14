@@ -15,99 +15,97 @@
     import { SupportedNetworkId } from '@core/network'
     import { formatTokenAmountBestMatch } from '@core/token'
 
-    const initialAccountRange = DEFAULT_ACCOUNT_RECOVERY_CONFIGURATION[$onboardingProfile.type].initialAccountRange
-    const addressGapLimitIncrement = DEFAULT_ACCOUNT_RECOVERY_CONFIGURATION[$onboardingProfile.type].addressGapLimit
+    interface IAccountBalance {
+        alias: string
+        total: string
+    }
+
+    enum SearchMethod {
+        SingleAddress = 'SingleAddress',
+        MultiAddress = 'MultiAddress',
+    }
+
+    const { network, type } = $onboardingProfile
+
+    const initialAccountRange = DEFAULT_ACCOUNT_RECOVERY_CONFIGURATION[type].initialAccountRange
+    const addressGapLimitIncrement = DEFAULT_ACCOUNT_RECOVERY_CONFIGURATION[type].addressGapLimit
+
     let previousAccountGapLimit = 0
     let previousAddressGapLimit = 0
     let currentAccountGapLimit = initialAccountRange
     let currentAddressGapLimit = addressGapLimitIncrement
+
     let error = ''
     let isBusy = false
 
-    async function onFindBalancesClick(): Promise<void> {
-        await checkOnboardingProfileAuth(async () => await findBalances(SearchMethod.SingleAddress))
-    }
-
-    let accountsBalances: { alias: string; total: string }[] = []
-
-    interface ISearch {
-        accountStartIndex: number
-        accountGapLimit: number
-        accountEndIndex: number
-        addressStartIndex: number
-        addressGapLimit: number
-        addressEndIndex: number
-        searchSpace: number
-        estimatedTime: number
-        actualTime?: number
-    }
-    const searches: ISearch[] = []
-
-    enum SearchMethod {
-        SingleAddress = 'SingleAddress',
-        Address = 'MultiAddress',
-    }
+    let accountsBalances: IAccountBalance[] = []
 
     async function findBalances(method: SearchMethod): Promise<void> {
-        if (method === SearchMethod.SingleAddress) {
-            try {
-                error = ''
-                isBusy = true
-                const recoverAccountsPayload: RecoverAccountsPayload = {
-                    accountStartIndex: 0,
-                    accountGapLimit: currentAccountGapLimit,
-                    addressGapLimit: currentAddressGapLimit,
-                    syncOptions: { ...DEFAULT_SYNC_OPTIONS, addressStartIndex: 0 },
+        try {
+            error = ''
+            isBusy = true
+
+            switch (method) {
+                case SearchMethod.SingleAddress: {
+                    const recoverAccountsPayload: RecoverAccountsPayload = {
+                        accountStartIndex: 0,
+                        accountGapLimit: currentAccountGapLimit,
+                        addressGapLimit: currentAddressGapLimit,
+                        syncOptions: { ...DEFAULT_SYNC_OPTIONS, addressStartIndex: 0 },
+                    }
+
+                    accountsBalances = await recoverAndGetBalances(recoverAccountsPayload)
+
+                    previousAccountGapLimit = currentAccountGapLimit
+                    previousAddressGapLimit = currentAddressGapLimit
+                    currentAccountGapLimit += initialAccountRange
+                    currentAddressGapLimit += addressGapLimitIncrement
+
+                    break
                 }
-                const search: ISearch = {
-                    accountStartIndex: recoverAccountsPayload.accountStartIndex,
-                    accountGapLimit: recoverAccountsPayload.accountGapLimit,
-                    accountEndIndex: recoverAccountsPayload.accountGapLimit,
-                    addressStartIndex: recoverAccountsPayload.syncOptions.addressStartIndex,
-                    addressGapLimit: recoverAccountsPayload.addressGapLimit,
-                    addressEndIndex: recoverAccountsPayload.addressGapLimit,
-                    searchSpace: recoverAccountsPayload.accountGapLimit * recoverAccountsPayload.addressGapLimit,
-                    estimatedTime: 1 * recoverAccountsPayload.accountGapLimit * recoverAccountsPayload.addressGapLimit,
-                }
-
-                const startTime = new Date().getTime()
-
-                let accounts: IAccount[] = []
-                accounts = [...accounts, ...(await recoverAccounts(recoverAccountsPayload))]
-
-                if (accountsBalances.length === 0 && accounts.length === 0) {
-                    accounts = [await createAccount({ alias: `${localize('general.account')} 1` })]
-                }
-
-                accountsBalances = await Promise.all(
-                    accounts.map(async (account: IAccount) => {
-                        const alias = await account.getMetadata().alias
-                        const balance = await account.getBalance()
-                        const formattedBalance = formatTokenAmountBestMatch(
-                            Number(balance?.baseCoin?.total ?? 0),
-                            $onboardingProfile?.network?.baseToken
-                        )
-                        return {
-                            alias,
-                            total: formattedBalance,
-                        }
-                    })
-                )
-
-                const endTime = new Date().getTime()
-                search.actualTime = endTime - startTime
-                searches.push(search)
-
-                previousAccountGapLimit = currentAccountGapLimit
-                previousAddressGapLimit = currentAddressGapLimit
-                currentAccountGapLimit += initialAccountRange
-                currentAddressGapLimit += addressGapLimitIncrement
-            } catch (err) {
-                error = localize(err.error)
-                console.error(error)
-            } finally {
-                isBusy = false
+                case SearchMethod.MultiAddress:
+                    // TODO: implement multi address search
+                    break
             }
+        } catch (err) {
+            error = localize(err.error)
+            console.error(error)
+        } finally {
+            isBusy = false
+        }
+    }
+
+    async function recoverAndGetBalances(payload: RecoverAccountsPayload): Promise<IAccountBalance[]> {
+        let accounts: IAccount[] = []
+        accounts = [...accounts, ...(await recoverAccounts(payload))]
+
+        if (accountsBalances.length === 0 && accounts.length === 0) {
+            accounts = [await createAccount({ alias: `${localize('general.account')} 1` })]
+        }
+
+        return await Promise.all(accounts.map(getAccountBalanceFromAccount))
+    }
+
+    async function getAccountBalanceFromAccount(account: IAccount): Promise<IAccountBalance> {
+        const alias = (await account.getMetadata())?.alias
+
+        const balance = await account.getBalance()
+        const baseToken = network.baseToken
+        const baseCoinBalance = Number(balance?.baseCoin?.total) ?? 0
+        const total = formatTokenAmountBestMatch(baseCoinBalance, baseToken)
+
+        return { alias, total }
+    }
+
+    function checkOnboardingProfileAuth(callback) {
+        if (type === ProfileType.Software) {
+            return checkOrUnlockStronghold(callback)
+        } else {
+            return checkOrConnectLedger(
+                callback,
+                false,
+                network.id === SupportedNetworkId.Iota ? LedgerAppName.Iota : LedgerAppName.Shimmer
+            )
         }
     }
 
@@ -115,20 +113,22 @@
         $restoreProfileRouter.next()
     }
 
-    function checkOnboardingProfileAuth(callback) {
-        if ($onboardingProfile.type === ProfileType.Software) {
-            return checkOrUnlockStronghold(callback)
-        } else {
-            return checkOrConnectLedger(
-                callback,
-                false,
-                $onboardingProfile?.network.id === SupportedNetworkId.Iota ? LedgerAppName.Iota : LedgerAppName.Shimmer
-            )
-        }
+    async function onFindBalancesClick(): Promise<void> {
+        await checkOnboardingProfileAuth(
+            async () =>
+                await findBalances(
+                    network.id === SupportedNetworkId.Iota ? SearchMethod.MultiAddress : SearchMethod.SingleAddress
+                )
+        )
     }
 
     onMount(async () => {
-        await checkOnboardingProfileAuth(async () => await findBalances(SearchMethod.SingleAddress))
+        await checkOnboardingProfileAuth(
+            async () =>
+                await findBalances(
+                    network.id === SupportedNetworkId.Iota ? SearchMethod.MultiAddress : SearchMethod.SingleAddress
+                )
+        )
     })
 
     onDestroy(() => {})
