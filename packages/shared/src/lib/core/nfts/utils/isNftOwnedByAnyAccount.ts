@@ -6,10 +6,9 @@ export function isNftOwnedByAnyAccount(nftId: string): boolean {
     for (const accountNfts of get(allAccountNfts) ?? []) {
         const nft = accountNfts.find((nft) => nft.id === nftId)
         switch (nft?.standard) {
+            case NftStandard.Erc721:
             case NftStandard.Irc27:
                 return nft.isSpendable
-            case NftStandard.Erc721:
-                return true
             default:
                 break
         }

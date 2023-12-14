@@ -21,12 +21,11 @@ export const selectedAccountNfts: Readable<INft[]> = derived(
 export const ownedNfts: Readable<INft[]> = derived([selectedAccountNfts, time], ([$selectedAccountNfts, $time]) =>
     $selectedAccountNfts.filter((nft) => {
         switch (nft.standard) {
+            case NftStandard.Erc721:
             case NftStandard.Irc27: {
                 const { isSpendable, timelockTime } = nft as IIrc27Nft
                 return isSpendable || timelockTime > $time.getTime()
             }
-            case NftStandard.Erc721:
-                return true
             default:
                 return false
         }
