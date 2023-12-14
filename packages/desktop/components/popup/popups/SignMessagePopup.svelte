@@ -15,27 +15,46 @@
     import { LedgerAppName } from '@core/ledger'
     import PopupTemplate from '../PopupTemplate.svelte'
     import DappDataBanner from '@components/DappDataBanner.svelte'
+    import { getSdkError } from '@walletconnect/utils'
 
     export let _onMount: (..._: any[]) => Promise<void> = async () => {}
     export let message: string
     export let account: IAccountState
     export let chain: IChain
     export let dapp: IConnectedDapp | undefined
-    export let onCancel: () => void
     export let callback: (params: CallbackParameters) => void
 
     let isBusy = false
 
-    async function onConfirmClick(): Promise<void> {
-        await checkActiveProfileAuth(sign, { stronghold: false, ledger: false }, LedgerAppName.Ethereum, onCancel)
+    async function unlockAndSign(): Promise<string> {
+        return new Promise((resolve, reject) => {
+            checkActiveProfileAuth(
+                async () => {
+                    try {
+                        const { coinType } = chain.getConfiguration()
+                        const result = await signMessage(message, coinType, account)
+                        closePopup({ forceClose: true })
+                        resolve(result)
+                        return
+                    } catch (error) {
+                        closePopup({ forceClose: true })
+                        reject(error)
+                    }
+                },
+                { stronghold: true, ledger: true },
+                LedgerAppName.Ethereum,
+                () => {
+                    reject(getSdkError('USER_REJECTED'))
+                }
+            )
+        })
     }
 
-    async function sign(): Promise<void> {
+    async function onConfirmClick(): Promise<void> {
         isBusy = true
         try {
-            const { coinType } = chain.getConfiguration()
-            const result = await signMessage(message, coinType, account)
-
+            const result = await unlockAndSign()
+            callback({ result })
             openPopup({
                 id: PopupId.SuccessfulDappInteraction,
                 props: {
@@ -43,13 +62,11 @@
                     url: dapp.metadata?.url,
                 },
             })
-            callback({ result })
         } catch (err) {
             callback({ error: err })
             handleError(err)
         } finally {
             isBusy = false
-            closePopup()
         }
     }
 

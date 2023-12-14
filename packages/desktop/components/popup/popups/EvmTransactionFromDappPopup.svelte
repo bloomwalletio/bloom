@@ -26,6 +26,7 @@
     import { PopupId, closePopup, openPopup } from '@desktop/auxiliary/popup'
     import { truncateString } from '@core/utils'
     import { openUrlInBrowser } from '@core/app'
+    import { modifyPopupState } from '@desktop/auxiliary/popup/helpers'
 
     export let preparedTransaction: EvmTransactionData
     export let chain: IChain
@@ -75,6 +76,7 @@
     async function onConfirmClick(): Promise<void> {
         try {
             const response = await sendTransactionFromEvm(preparedTransaction, chain, signAndSend)
+            modifyPopupState({ preventClose: false }, true)
             callback({ result: response })
             openPopup({
                 id: PopupId.SuccessfulDappInteraction,
