@@ -1047,7 +1047,7 @@
                 "tokenId": "资产 Id"
             }
         },
-        "importErc20Token": {
+        "importToken": {
             "title": "Import ERC20 token",
             "property": {
                 "tokenAddress": "Token address"
@@ -1268,7 +1268,7 @@
         "untrackToken": "Untrack token",
         "switchAccount": "Switch account",
         "syncAccounts": "Sync accounts",
-        "importErc20Token": "Import ERC20 token",
+        "importToken": "Import {type} token",
         "syncTokens": "Force sync tokens"
     },
     "general": {

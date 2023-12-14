@@ -1,10 +1,8 @@
 import { get } from 'svelte/store'
 
 import { getIrc30MetadataFromFoundryOutput } from '@core/wallet/utils/getIrc30MetadataFromFoundryOutput'
-import { getErc20TokenMetadata } from '@core/layer-2/utils/getErc20TokenMetadata'
+import { getEvmTokenMetadata } from '@core/layer-2/utils'
 import { activeAccounts } from '@core/profile/stores'
-import { network } from '@core/network/stores'
-import type { INetwork } from '@core/network/interfaces'
 
 import { OFFICIAL_TOKEN_IDS } from '../constants'
 import { NotVerifiedStatus, VerifiedStatus } from '../enums'
@@ -25,8 +23,7 @@ export async function requestPersistedToken(
     if (networkId && isEvmChain(networkId)) {
         try {
             if (isValidEthereumAddress(tokenId)) {
-                /* eslint-disable @typescript-eslint/no-unnecessary-type-assertion */
-                tokenMetadata = await getErc20TokenMetadata(tokenId, networkId, get(network) as INetwork)
+                tokenMetadata = (await getEvmTokenMetadata(tokenId, networkId)) as IErc20Metadata
             } else {
                 const account = get(selectedAccount)
                 if (account) {
