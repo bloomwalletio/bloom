@@ -15,39 +15,60 @@
     import { closePopup } from '@desktop/auxiliary/popup'
     import { onDestroy, onMount } from 'svelte'
     import PopupTemplate from '../PopupTemplate.svelte'
+    import { SupportedNetworkId } from '@core/network/enums'
 
     export let searchForBalancesOnLoad = false
 
-    const { type } = $activeProfile
+    enum SearchMethod {
+        SingleAddress = 'SingleAddress',
+        MultiAddress = 'MultiAddress',
+    }
+
+    const { network, type } = $activeProfile
 
     const initialAccountRange = DEFAULT_ACCOUNT_RECOVERY_CONFIGURATION[type].initialAccountRange
     const addressGapLimitIncrement = DEFAULT_ACCOUNT_RECOVERY_CONFIGURATION[type].addressGapLimit
+
     let previousAccountGapLimit = 0
     let previousAddressGapLimit = 0
     let currentAccountGapLimit = initialAccountRange
     let currentAddressGapLimit = addressGapLimitIncrement
+
     let error = ''
     let isBusy = false
     let hasUsedWalletFinder = false
 
     $: totalBalance = sumBalanceForAccounts($visibleActiveAccounts)
 
-    async function searchForBalance(): Promise<void> {
+    async function searchForBalance(method: SearchMethod): Promise<void> {
         try {
             error = ''
             isBusy = true
-            const recoverAccountsPayload: RecoverAccountsPayload = {
-                accountStartIndex: 0,
-                accountGapLimit: currentAccountGapLimit,
-                addressGapLimit: currentAddressGapLimit,
-                syncOptions: DEFAULT_SYNC_OPTIONS,
+
+            switch (method) {
+                case SearchMethod.SingleAddress: {
+                    const recoverAccountsPayload: RecoverAccountsPayload = {
+                        accountStartIndex: 0,
+                        accountGapLimit: currentAccountGapLimit,
+                        addressGapLimit: currentAddressGapLimit,
+                        syncOptions: DEFAULT_SYNC_OPTIONS,
+                    }
+
+                    await recoverAccounts(recoverAccountsPayload)
+                    await loadAccounts()
+
+                    previousAccountGapLimit = currentAccountGapLimit
+                    previousAddressGapLimit = currentAddressGapLimit
+                    currentAccountGapLimit += initialAccountRange
+                    currentAddressGapLimit += addressGapLimitIncrement
+
+                    break
+                }
+                case SearchMethod.MultiAddress:
+                    // TODO: implement multi address search
+                    break
             }
-            await recoverAccounts(recoverAccountsPayload)
-            await loadAccounts()
-            previousAccountGapLimit = currentAccountGapLimit
-            previousAddressGapLimit = currentAddressGapLimit
-            currentAccountGapLimit += initialAccountRange
-            currentAddressGapLimit += addressGapLimitIncrement
+
             hasUsedWalletFinder = true
         } catch (err) {
             error = localize(err.error)
@@ -61,11 +82,17 @@
     }
 
     async function onFindBalancesClick(): Promise<void> {
-        await checkActiveProfileAuth(searchForBalance, {
-            stronghold: true,
-            ledger: true,
-            props: { searchForBalancesOnLoad: true },
-        })
+        await checkActiveProfileAuth(
+            () =>
+                searchForBalance(
+                    network.id === SupportedNetworkId.Iota ? SearchMethod.MultiAddress : SearchMethod.SingleAddress
+                ),
+            {
+                stronghold: true,
+                ledger: true,
+                props: { searchForBalancesOnLoad: true },
+            }
+        )
     }
 
     function onCancelClick(): void {
@@ -73,7 +100,10 @@
     }
 
     onMount(() => {
-        searchForBalancesOnLoad && void searchForBalance()
+        searchForBalancesOnLoad &&
+            void searchForBalance(
+                network.id === SupportedNetworkId.Iota ? SearchMethod.MultiAddress : SearchMethod.SingleAddress
+            )
     })
 
     onDestroy(async () => {
