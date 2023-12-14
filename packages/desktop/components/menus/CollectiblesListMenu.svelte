@@ -20,7 +20,7 @@
         items={[
             {
                 icon: IconName.Import,
-                title: localize('actions.importErc721Token'),
+                title: localize('actions.importToken', { values: { type: 'ERC-721' } }),
                 onClick: onImportErc721TokenClick,
             },
         ]}
