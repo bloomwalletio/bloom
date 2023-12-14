@@ -11,7 +11,7 @@ import {
 import { Converter, MILLISECONDS_PER_SECOND, sleep } from '@core/utils'
 import { TxData } from '@ethereumjs/tx'
 import type { Bip44 } from '@iota/sdk/out/types'
-import { PopupId, openPopup } from '../../../../../../desktop/lib/auxiliary/popup'
+import { PopupId, closePopup, openPopup } from '../../../../../../desktop/lib/auxiliary/popup'
 import { DEFAULT_LEDGER_API_REQUEST_OPTIONS } from '../constants'
 import { LedgerApiMethod, LedgerAppName } from '../enums'
 import { ILedgerApiBridge } from '../interfaces'
@@ -105,6 +105,7 @@ export class Ledger {
             if (r && v && s) {
                 return prepareEvmTransaction(transactionData, chainId, { r, v, s })
             } else {
+                closePopup({ forceClose: true })
                 throw new Error(localize('error.ledger.rejected'))
             }
         }
