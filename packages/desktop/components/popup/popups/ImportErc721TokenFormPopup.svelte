@@ -7,8 +7,7 @@
     import PopupTemplate from '../PopupTemplate.svelte'
     import { closePopup } from '@desktop/auxiliary/popup'
     import { showNotification } from '@auxiliary/notification'
-    import { persistErc721Nft } from '@core/layer-2/utils/persistErc721Nft'
-    import { loadNftsForAccount } from '@core/nfts/actions'
+    import { loadNftsForAccount, persistErc721Nft } from '@core/nfts/actions'
     import { selectedAccount } from '@core/account/stores'
 
     let busy = false

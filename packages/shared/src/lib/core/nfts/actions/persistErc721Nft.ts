@@ -1,7 +1,7 @@
 import { getEvmTokenMetadata } from '@core/layer-2/utils'
-import { ContractType } from '../enums'
+import { ContractType } from '../../layer-2/enums'
 import { NetworkId } from '@core/network/types'
-import { persistNftWithContractMetadata } from '@core/nfts/actions'
+import { persistNftWithContractMetadata } from './persistNftWithContractMetadata'
 import { IErc721ContractMetadata, IPersistedErc721Nft } from '@core/nfts'
 import { getNetwork } from '@core/network'
 
@@ -18,7 +18,7 @@ export async function persistErc721Nft(
             tokenAddress,
             networkId,
             ContractType.Erc721
-        )) as unknown as IErc721ContractMetadata
+        )) as IErc721ContractMetadata
         const owner: string = await contract.methods.ownerOf(tokenId).call()
         return persistNftWithContractMetadata(owner.toLowerCase(), networkId, metadata, tokenId, contract)
     }
