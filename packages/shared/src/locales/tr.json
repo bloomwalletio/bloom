@@ -252,7 +252,7 @@
             },
             "hiddenAccounts": {
                 "title": "Gizli hesaplar",
-                "description": "Bu seçeneğin seçilmesi, önceden gizlenmiş cüzdanları gösterecektir"
+                "description": "Selecting this option will show wallets that were previously hidden"
             },
             "deleteProfile": {
                 "title": "Profili sil",
@@ -576,7 +576,7 @@
                 "emptyDescription": "İlk koleksiyonunuzu yatırın veya alın!"
             },
             "details": {
-                "storageDepositDescription": "NFT'nizi Tangle'da saklamak için iade edilebilir bir depozito gereklidir.",
+                "storageDepositDescription": "A refundable deposit is required to store your NFT on the Tangle.",
                 "menu": {
                     "download": "İndir",
                     "setPfp": "{timeDiff} için kilitlendi",

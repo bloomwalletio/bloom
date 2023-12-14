@@ -252,7 +252,7 @@
             },
             "hiddenAccounts": {
                 "title": "Ausgeblendete Konten",
-                "description": "Wähle diese Option um zuvor ausgeblendete Wallets wieder anzuzeigen"
+                "description": "Selecting this option will show wallets that were previously hidden"
             },
             "deleteProfile": {
                 "title": "Profil löschen",
@@ -576,7 +576,7 @@
                 "emptyDescription": "Empfange oder hinterlege dein erstes Sammlerstück jetzt!"
             },
             "details": {
-                "storageDepositDescription": "Eine rückzahlbare Kaution ist erforderlich, um dein NFT auf dem Tangle aufzubewahren.",
+                "storageDepositDescription": "A refundable deposit is required to store your NFT on the Tangle.",
                 "menu": {
                     "download": "Herunterladen",
                     "setPfp": "NFT-Profilbild festlegen",

@@ -252,7 +252,7 @@
             },
             "hiddenAccounts": {
                 "title": "Hidden accounts",
-                "description": "La sélection de ces options affichera les comptes qui étaient précédemment cachés"
+                "description": "Selecting this option will show wallets that were previously hidden"
             },
             "deleteProfile": {
                 "title": "Supprimer le profil",
