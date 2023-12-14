@@ -32,6 +32,7 @@
     import EvmTransactionFromDappPopup from './popups/EvmTransactionFromDappPopup.svelte'
     import FaucetRequestPopup from './popups/FaucetRequestPopup.svelte'
     import ImportErc20TokenFormPopup from './popups/ImportErc20TokenFormPopup.svelte'
+    import ImportErc721TokenFormPopup from './popups/ImportErc721TokenFormPopup.svelte'
     import LegalUpdatePopup from './popups/LegalUpdatePopup.svelte'
     import ManageVotingPowerPopup from './popups/ManageVotingPowerPopup.svelte'
     import MintNativeTokenConfirmationPopup from './popups/MintNativeTokenConfirmationPopup.svelte'
@@ -107,6 +108,7 @@
         [PopupId.EvmTransactionFromDapp]: EvmTransactionFromDappPopup,
         [PopupId.FaucetRequest]: FaucetRequestPopup,
         [PopupId.ImportErc20Token]: ImportErc20TokenFormPopup,
+        [PopupId.ImportErc721Token]: ImportErc721TokenFormPopup,
         [PopupId.LegalUpdate]: LegalUpdatePopup,
         [PopupId.ManageVotingPower]: ManageVotingPowerPopup,
         [PopupId.MintNativeTokenConfirmation]: MintNativeTokenConfirmationPopup,

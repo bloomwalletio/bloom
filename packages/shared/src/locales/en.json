@@ -1049,13 +1049,16 @@
                 "tokenId": "Token Id"
             }
         },
-        "importErc20Token": {
-            "title": "Import ERC20 token",
+        "importToken": {
+            "title": "Import {type} token",
             "property": {
                 "tokenAddress": "Token address"
             },
             "success": "Imported {tokenSymbol} token",
-            "error": "Unable to import ERC20 token"
+            "errors": {
+                "otherOwner": "You're not the owner of the NFT!",
+                "alreadyAdded": "You already have this NFT in your portfolio"
+            }
         },
         "noAlias": {
             "title": "Unable to mint",
@@ -1270,7 +1273,7 @@
         "untrackToken": "Untrack token",
         "switchAccount": "Switch account",
         "syncAccounts": "Sync accounts",
-        "importErc20Token": "Import ERC20 token",
+        "importToken": "Import {type} token",
         "syncTokens": "Force sync tokens"
     },
     "general": {
