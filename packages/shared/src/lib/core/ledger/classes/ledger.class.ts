@@ -100,13 +100,6 @@ export class Ledger {
             'evm-signed-transaction'
         )
 
-        openPopup(
-            {
-                id: PopupId.SendFlow,
-            },
-            true
-        )
-
         if (transactionSignature) {
             const { r, v, s } = transactionSignature
             if (r && v && s) {
