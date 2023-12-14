@@ -74,8 +74,8 @@
             } else {
                 await sendOutputFromStardust(preparedOutput, $selectedAccount)
             }
-            modifyPopupState({ confirmClickOutside: false })
-            closePopup()
+            modifyPopupState({ confirmClickOutside: false, preventClose: false })
+            closePopup({ forceClose: true })
         } catch (err) {
             handleError(err)
         }

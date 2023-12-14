@@ -28,8 +28,8 @@ export async function sendTransactionFromEvm(
     return new Promise((resolve, reject) => {
         checkActiveProfileAuth(
             async () => {
-                modifyPopupState({ preventClose: true })
                 const signedTransaction = await signEvmTransaction(preparedTransaction, chain, account)
+                modifyPopupState({ preventClose: true })
                 if (!signedTransaction) {
                     reject({ message: 'No signed transaction!', code: 500 })
                     return
