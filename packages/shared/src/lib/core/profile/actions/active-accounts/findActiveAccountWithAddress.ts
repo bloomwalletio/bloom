@@ -13,6 +13,8 @@ export function findActiveAccountWithAddress(address: string, networkId: Network
     const accounts = get(activeAccounts)
 
     return accounts.find(
-        (account) => address?.toLowerCase() === getAddressFromAccountForNetwork(account, networkId)?.toLowerCase()
+        (account) =>
+            account.otherAddresses.find((otherAddress) => otherAddress.toLowerCase() === address?.toLowerCase()) ??
+            address?.toLowerCase() === getAddressFromAccountForNetwork(account, networkId)?.toLowerCase()
     )
 }
