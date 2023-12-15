@@ -65,6 +65,6 @@
     <form on:submit|preventDefault class="space-y-4 max-h-100 flex-1">
         <NetworkInput bind:networkId showLayer1={false} />
         <TextInput bind:value={tokenAddress} label={localize('popups.importToken.property.tokenAddress')} />
-        <TextInput bind:value={tokenId} label={localize('popups.nativeToken.tokenId')} error={tokenIdError} />
+        <TextInput bind:value={tokenId} label={localize('popups.nativeToken.property.tokenId')} error={tokenIdError} />
     </form>
 </PopupTemplate>
