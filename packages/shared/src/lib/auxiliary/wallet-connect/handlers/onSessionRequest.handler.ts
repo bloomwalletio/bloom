@@ -1,12 +1,13 @@
-import { handleSignMessage } from './sign_message.handler'
-import { handleEthTransaction } from './eth_transaction.handler'
-import { handleEthSignTypedData } from './eth_signTypedData.handler'
+import { handleError } from '@core/error/handlers'
+import { NetworkId, getNetwork } from '@core/network'
 import { JsonRpcResponse } from '@walletconnect/jsonrpc-types'
+import { getSdkError } from '@walletconnect/utils'
 import { Web3WalletTypes } from '@walletconnect/web3wallet'
 import { getConnectedDappByOrigin, getWalletClient, setConnectedDapps } from '../stores'
-import { NetworkId, getNetwork } from '@core/network'
 import { CallbackParameters } from '../types'
-import { getSdkError } from '@walletconnect/utils'
+import { handleEthSignTypedData } from './eth_signTypedData.handler'
+import { handleEthTransaction } from './eth_transaction.handler'
+import { handleSignMessage } from './sign_message.handler'
 
 export function onSessionRequest(event: Web3WalletTypes.SessionRequest): void {
     // We need to call this here, because if the dapp requests too fast after approval, we won't have the dapp in the store yet
@@ -33,7 +34,11 @@ export function onSessionRequest(event: Web3WalletTypes.SessionRequest): void {
             : undefined
 
         if (response) {
-            void getWalletClient()?.respondSessionRequest({ topic, response })
+            try {
+                void getWalletClient()?.respondSessionRequest({ topic, response })
+            } catch (err) {
+                handleError(err)
+            }
         }
     }
 
@@ -56,8 +61,10 @@ export function onSessionRequest(event: Web3WalletTypes.SessionRequest): void {
             break
         case 'eth_signTypedData':
             handleEthSignTypedData()
+            returnResponse({ error: getSdkError('INVALID_METHOD') })
             break
         default:
+            returnResponse({ error: getSdkError('INVALID_METHOD') })
             break
     }
 }

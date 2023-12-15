@@ -1,11 +1,14 @@
-import { rejectSession, validateConnectionCodeUri } from '@auxiliary/wallet-connect/utils'
 import { pairWithNewDapp } from '@auxiliary/wallet-connect/actions'
-import { toggleDashboardDrawer } from '../../../../../../../../desktop/lib/auxiliary/drawer'
-import { DashboardDrawerRoute } from '../../../../../../../../desktop/views/dashboard/drawers/dashboard-drawer-route.enum'
+import { rejectSession, validateConnectionCodeUri } from '@auxiliary/wallet-connect/utils'
+import { get } from 'svelte/store'
+import { DrawerRoute, openDrawer } from '../../../../../../../../desktop/lib/auxiliary/drawer'
+import { dappConfigRouter } from '../../../../../../../../desktop/views/dashboard/drawers/dapp-config/dapp-config.router'
 import { DappConfigRoute } from '../../../../../../../../desktop/views/dashboard/drawers/dapp-config/dapp-config-route.enum'
+import { DashboardDrawerRoute } from '../../../../../../../../desktop/views/dashboard/drawers/dashboard-drawer-route.enum'
 
 export function handleDeepLinkAddWCConnectionOperation(searchParams: URLSearchParams): void {
     const walletConnectUri = searchParams.get('uri')
+    const $dappConfigRouter = get(dappConfigRouter)
 
     try {
         if (!walletConnectUri) {
@@ -15,13 +18,19 @@ export function handleDeepLinkAddWCConnectionOperation(searchParams: URLSearchPa
 
         pairWithNewDapp(walletConnectUri)
 
-        toggleDashboardDrawer({
+        $dappConfigRouter?.reset()
+        $dappConfigRouter?.goTo(DappConfigRoute.ConnectionRequest)
+        openDrawer({
+            route: DrawerRoute.Dashboard,
             id: DashboardDrawerRoute.DappConfig,
             initialSubroute: DappConfigRoute.ConnectionRequest,
             props: { onClose: rejectSession },
         })
     } catch (err) {
-        toggleDashboardDrawer({
+        $dappConfigRouter?.reset()
+        $dappConfigRouter?.goTo(DappConfigRoute.InputCode)
+        openDrawer({
+            route: DrawerRoute.Dashboard,
             id: DashboardDrawerRoute.DappConfig,
             initialSubroute: DappConfigRoute.InputCode,
             props: { initialWalletConnectUri: walletConnectUri },
