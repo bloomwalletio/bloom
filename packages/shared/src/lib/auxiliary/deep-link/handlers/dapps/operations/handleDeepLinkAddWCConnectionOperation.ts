@@ -2,7 +2,7 @@ import { pairWithNewDapp } from '@auxiliary/wallet-connect/actions'
 import { rejectSession, validateConnectionCodeUri } from '@auxiliary/wallet-connect/utils'
 import { get } from 'svelte/store'
 import { DrawerRoute, openDrawer } from '../../../../../../../../desktop/lib/auxiliary/drawer'
-import { dappConfigRouter } from '../../../../../../../../desktop/views/dashboard/drawers'
+import { dappConfigRouter } from '../../../../../../../../desktop/views/dashboard/drawers/dapp-config/dapp-config.router'
 import { DappConfigRoute } from '../../../../../../../../desktop/views/dashboard/drawers/dapp-config/dapp-config-route.enum'
 import { DashboardDrawerRoute } from '../../../../../../../../desktop/views/dashboard/drawers/dashboard-drawer-route.enum'
 
