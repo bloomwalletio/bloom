@@ -12,6 +12,7 @@ import {
     addNftsToDownloadQueue,
     addOrUpdateNftInAllAccountNfts,
     setNftInAllAccountNftsToUnspendable,
+    updateErc721NftsOwnership,
 } from '@core/nfts/actions'
 import { selectedAccountNfts } from '@core/nfts/stores'
 import { getActiveProfile } from '@core/profile/stores'
@@ -35,6 +36,7 @@ export function fetchL2BalanceForAccount(account: IAccountState): void {
         }
 
         await fetchLayer2Nfts(evmAddress, chain, account)
+        updateErc721NftsOwnership(account)
 
         const balances = await getLayer2BalanceForAddress(evmAddress, chain)
         if (!balances) {
