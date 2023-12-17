@@ -1,3 +1,4 @@
+import { ensureDirectoryExistence } from '@desktop/electron/utils/file-system.utils'
 import { getOrInitWindow } from '../processes/main.process'
 import { app, ipcMain, IpcMainInvokeEvent } from 'electron'
 import { download } from 'electron-dl'
@@ -29,10 +30,12 @@ export default class NftDownloadManager {
         accountIndex: number
     ): Promise<void> {
         const userPath = app.getPath('userData')
-        const directory = app.isPackaged ? userPath : __dirname
+        const parentDirectory = app.isPackaged ? userPath : __dirname
+        const directory = `${parentDirectory}/__storage__/${destination}`
+        ensureDirectoryExistence(directory)
 
         await download(getOrInitWindow('main'), url, {
-            directory: `${directory}/__storage__/${destination}`,
+            directory,
             filename: 'original',
             saveAs: false,
             showBadge: true,

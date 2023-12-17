@@ -86,7 +86,7 @@
                     "description": "Por favor, certifique-se de que a aplicação oficial do Ledger Live está fechada e siga as etapas abaixo.",
                     "connect": "Conecte sua Ledger",
                     "unlock": "Desbloqueie sua Ledger com o pin",
-                    "open": "Abra o aplicativo Shimmer em sua Ledger",
+                    "open": "Open the {appName} app on your Ledger",
                     "tip": "Dicas caso sua Ledger não esteja conectando"
                 },
                 "ledgerConnectionGuide": {
@@ -120,6 +120,10 @@
                     "title": "Resgatar recompensas Shimmer",
                     "description": "Use o buscador de saldo abaixo, e verifique se seu saldo de recompensas de staking está correto antes de resgatar.",
                     "success": "{amount} encontrado com sucesso"
+                },
+                "balanceFinder": {
+                    "title": "Find your recovered accounts",
+                    "description": "Use the balance finder below, and check if your account balances are correct before continuing."
                 }
             },
             "restoreFromMnemonic": {
@@ -248,7 +252,7 @@
             },
             "hiddenAccounts": {
                 "title": "Contas ocultas",
-                "description": "Selecionar estas opções exibirá carteiras que foram previamente ocultas"
+                "description": "Selecting this option will show wallets that were previously hidden"
             },
             "deleteProfile": {
                 "title": "Excluir perfil",
@@ -572,7 +576,7 @@
                 "emptyDescription": "Deposit or receive your first collectible!"
             },
             "details": {
-                "storageDepositDescription": "Um depósito em tokens reembolsável necessário para armazenar seu NFT no Tangle.",
+                "storageDepositDescription": "A refundable deposit is required to store your NFT on the Tangle.",
                 "menu": {
                     "download": "Download",
                     "setPfp": "Set NFT profile pic",
@@ -770,6 +774,10 @@
             "title": "Clear primary node",
             "body": "Are you sure you want to clear {url} as the primary node?"
         },
+        "confirmAssetTracking": {
+            "title": "Add a new token",
+            "description": "\"{dappName}\" wants to add \"{assetName}\" to your wallet."
+        },
         "node": {
             "titleAdd": "Adicionar um nó de rede",
             "titleUpdate": "Atualizar um nó de rede",
@@ -962,12 +970,12 @@
                     "increaseVotingPower": {
                         "Pending": "Increasing voting power",
                         "Confirmed": "Increased voting power",
-                        "Conflicting": "Failed to increased voting power"
+                        "Conflicting": "Failed to increase voting power"
                     },
                     "decreaseVotingPower": {
                         "Pending": "Decreasing voting power",
                         "Confirmed": "Decreased voting power",
-                        "Conflicting": "Failed to decreased voting power"
+                        "Conflicting": "Failed to decrease voting power"
                     },
                     "startVoting": {
                         "Pending": "Voting for {proposalName}",
@@ -977,7 +985,7 @@
                     "stopVoting": {
                         "Pending": "Stopping voting for {proposalName}",
                         "Confirmed": "Stopped voting for {proposalName}",
-                        "Conflicting": "Failed to stopped voting for"
+                        "Conflicting": "Failed to stop voting for"
                     },
                     "changedVote": {
                         "Pending": "Changing vote for {proposalName}",
@@ -1039,7 +1047,7 @@
                 "tokenId": "ID do token"
             }
         },
-        "importErc20Token": {
+        "importToken": {
             "title": "Importar token ERC20",
             "property": {
                 "tokenAddress": "Endereço do token"
@@ -1397,6 +1405,7 @@
         "claimedTime": "Resgatado em",
         "nftId": "ID do NFT",
         "aliasId": "Alias ID",
+        "tokenId": "Token ID",
         "governorAddress": "Governor Address",
         "stateControllerAddress": "State Controller Address",
         "copiedToClipboard": "Copied to clipboard",
@@ -1453,6 +1462,7 @@
         "coinType": "Tipo de moeda",
         "custom": "Personalizado",
         "evmAddress": "Endereço EVM",
+        "contractAddress": "Contract Address",
         "optionalField": "{field} (optional)",
         "gifted": "Gifted",
         "connected": "Conectado",

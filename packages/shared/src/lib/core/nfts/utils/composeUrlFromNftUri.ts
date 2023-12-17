@@ -1,13 +1,13 @@
 import { cleanUrl } from '@core/utils'
 import { rewriteIpfsUri } from './rewriteIpfsUri'
 
-export function composeUrlFromNftUri(uri: string): string {
+export function composeUrlFromNftUri(uri: string | undefined): string | undefined {
     if (!uri) {
-        return undefined
+        return
     }
 
     const url = new URL(uri)
-    let newUrl
+    let newUrl: string
 
     switch (url.protocol) {
         case 'http:':
@@ -20,7 +20,7 @@ export function composeUrlFromNftUri(uri: string): string {
             newUrl = rewriteIpfsUri(uri)
             break
         default:
-            return undefined
+            return
     }
 
     return cleanUrl(newUrl)

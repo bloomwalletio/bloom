@@ -2,6 +2,7 @@
     import { default as QrCode } from 'qrious'
     import { darkMode } from '@core/app/stores'
     import { onMount } from 'svelte'
+    import { MimeType } from '@core/nfts'
 
     export let data: string
 
@@ -20,7 +21,7 @@
             value: data,
         })
 
-        image = QRcode.toDataURL('image/png')
+        image = QRcode.toDataURL(MimeType.ImagePng)
     }
 
     $: if (data) {

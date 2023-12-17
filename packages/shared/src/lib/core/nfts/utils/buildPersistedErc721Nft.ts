@@ -1,20 +1,21 @@
 import { Erc721InterfaceId } from '@core/layer-2/enums'
 import { Contract } from '@core/layer-2/types'
-import { NftStandard } from '../enums'
-import {
-    IErc721ContractMetadata,
-    IErc721TokenMetadata,
-    IErc721TokenMetadataAttribute,
-    IPersistedErc721Nft,
-} from '../interfaces'
-import { composeUrlFromNftUri } from '../utils'
+import { NetworkId } from '@core/network/types'
 
-export async function getPersistedErc721NftFromContract(
+import { NftStandard } from '../enums'
+import { IErc721ContractMetadata, IErc721TokenMetadata, IPersistedErc721Nft } from '../interfaces'
+import { composeUrlFromNftUri } from '.'
+
+export async function buildPersistedErc721Nft(
+    ownerAddress: string,
+    networkId: NetworkId,
     tokenId: string,
     contract: Contract,
     contractMetadata: IErc721ContractMetadata
 ): Promise<IPersistedErc721Nft> {
     const persistedNft: IPersistedErc721Nft = {
+        ownerAddress,
+        networkId,
         standard: NftStandard.Erc721,
         contractMetadata,
         tokenId,
@@ -25,20 +26,14 @@ export async function getPersistedErc721NftFromContract(
         try {
             const tokenUri = await contract.methods.tokenURI(tokenId).call()
             const composedTokenUri = composeUrlFromNftUri(tokenUri)
-            persistedNft.tokenUri = composedTokenUri
-
+            if (!composedTokenUri) {
+                throw new Error('Unable to create composed NFT URI!')
+            }
             const response = await fetch(composedTokenUri)
             const metadata = (await response.json()) as IErc721TokenMetadata
             if (metadata) {
-                const attributes: IErc721TokenMetadataAttribute[] = metadata.attributes?.map((attribute) => ({
-                    traitType: attribute['trait_type'],
-                    value: attribute.value,
-                }))
-                persistedNft.tokenMetadata = {
-                    ...metadata,
-                    image: composeUrlFromNftUri(metadata.image) ?? metadata.image,
-                    attributes,
-                }
+                persistedNft.tokenMetadata = metadata
+                persistedNft.downloadUrl = composeUrlFromNftUri(metadata.image)
             }
         } catch (err) {
             throw new Error(`Unable to get metadata of token ${tokenId} from contract ${contractMetadata.address}`)

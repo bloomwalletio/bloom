@@ -8,6 +8,7 @@ import { CallbackParameters } from '../types'
 import { handleEthSignTypedData } from './eth_signTypedData.handler'
 import { handleEthTransaction } from './eth_transaction.handler'
 import { handleSignMessage } from './sign_message.handler'
+import { handleWatchAsset } from '@auxiliary/wallet-connect/handlers'
 
 export function onSessionRequest(event: Web3WalletTypes.SessionRequest): void {
     // We need to call this here, because if the dapp requests too fast after approval, we won't have the dapp in the store yet
@@ -62,6 +63,9 @@ export function onSessionRequest(event: Web3WalletTypes.SessionRequest): void {
         case 'eth_signTypedData':
             handleEthSignTypedData()
             returnResponse({ error: getSdkError('INVALID_METHOD') })
+            break
+        case 'wallet_watchAsset':
+            void handleWatchAsset(request.params, dapp, chain, returnResponse)
             break
         default:
             returnResponse({ error: getSdkError('INVALID_METHOD') })

@@ -3,9 +3,8 @@ import { Converter } from '@core/utils/convert'
 import { validateBech32Address } from '@core/utils/crypto'
 import { isValidUri } from '@core/utils/validation'
 import { Irc27Version } from '@core/wallet/enums'
-import { NftStandard } from '../enums'
-import { IIrc27Attribute, IIrc27Metadata, ISoonaverseAttribute, ISoonaverseAttributes } from '../interfaces'
-import { MimeType } from '../types'
+import { MimeType, NftStandard } from '../enums'
+import { INftAttribute, IIrc27Metadata, ISoonaverseAttribute, ISoonaverseAttributes } from '../interfaces'
 
 export function parseNftMetadata(metadata: string): IIrc27Metadata | undefined {
     try {
@@ -57,7 +56,7 @@ function validateRequiredFieldsForIrc27(data: IIrc27Metadata): void {
     }
 }
 
-function getValidIrc27Attributes(attributes: unknown): IIrc27Attribute[] | undefined {
+function getValidIrc27Attributes(attributes: unknown): INftAttribute[] | undefined {
     if (!Array.isArray(attributes)) {
         return undefined
     }
@@ -88,7 +87,7 @@ function getValidIrc27Attributes(attributes: unknown): IIrc27Attribute[] | undef
         return undefined
     }
 
-    return attributes as IIrc27Attribute[]
+    return attributes as INftAttribute[]
 }
 
 function getValidSoonaverseAttributes(attributes: unknown): ISoonaverseAttributes | undefined {

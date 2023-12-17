@@ -32,6 +32,7 @@ import { getDiagnostics } from '../utils/diagnostics.utils'
 import { shouldReportError } from '../utils/error.utils'
 import { getMachineId } from '../utils/os.utils'
 import type { ILedgerProcessMessage } from '../interfaces/ledger-process-message.interface'
+import { ensureDirectoryExistence } from '../utils/file-system.utils'
 
 initialiseAnalytics()
 initialiseDeepLinks()
@@ -423,15 +424,6 @@ ipcMain.handle('focus-window', () => {
         windows.main.setAlwaysOnTop(false)
     }
 })
-
-function ensureDirectoryExistence(filePath: string): void | boolean {
-    const dirname = path.dirname(filePath)
-    if (fs.existsSync(dirname)) {
-        return true
-    }
-    ensureDirectoryExistence(dirname)
-    fs.mkdirSync(dirname)
-}
 
 ipcMain.handle('copy-file', (_e, sourceFilePath, destinationFilePath) => {
     const src = path.resolve(sourceFilePath)

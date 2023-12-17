@@ -2,9 +2,10 @@ import { derived, Readable, Writable, writable } from 'svelte/store'
 
 import { selectedAccount } from '@core/account/stores'
 
-import { INft } from '../interfaces'
+import { IIrc27Nft, INft } from '../interfaces'
 import { allAccountNfts } from './all-account-nfts.store'
 import { time } from '@core/app/stores/time.store'
+import { NftStandard } from '@core/nfts'
 
 export const selectedAccountNfts: Readable<INft[]> = derived(
     [selectedAccount, allAccountNfts],
@@ -18,7 +19,17 @@ export const selectedAccountNfts: Readable<INft[]> = derived(
 )
 
 export const ownedNfts: Readable<INft[]> = derived([selectedAccountNfts, time], ([$selectedAccountNfts, $time]) =>
-    $selectedAccountNfts.filter((nft) => nft.isSpendable || nft.timelockTime > $time.getTime())
+    $selectedAccountNfts.filter((nft) => {
+        switch (nft.standard) {
+            case NftStandard.Erc721:
+            case NftStandard.Irc27: {
+                const { isSpendable, timelockTime } = nft as IIrc27Nft
+                return isSpendable || timelockTime > $time.getTime()
+            }
+            default:
+                return false
+        }
+    })
 )
 
 export const nftSearchTerm: Writable<string> = writable('')

@@ -86,7 +86,7 @@
                     "description": "Please ensure that the official Ledger Live application is closed and follow the steps below.",
                     "connect": "Connect your Ledger device",
                     "unlock": "Unlock your Ledger with its pin",
-                    "open": "Open the Shimmer app on your Ledger",
+                    "open": "Open the {appName} app on your Ledger",
                     "tip": "Tips if your Ledger isn't connecting"
                 },
                 "ledgerConnectionGuide": {
@@ -120,6 +120,10 @@
                     "title": "Claim your Shimmer rewards",
                     "description": "Use the balance finder below, and check if your Shimmer staking rewards balance is correct before claiming.",
                     "success": "Successfully found {amount}"
+                },
+                "balanceFinder": {
+                    "title": "Find your recovered accounts",
+                    "description": "Use the balance finder below, and check if your account balances are correct before continuing."
                 }
             },
             "restoreFromMnemonic": {
@@ -248,7 +252,7 @@
             },
             "hiddenAccounts": {
                 "title": "Hidden accounts",
-                "description": "选择此选项将显示以前隐藏的钱包"
+                "description": "Selecting this option will show wallets that were previously hidden"
             },
             "deleteProfile": {
                 "title": "删除个人档案",
@@ -572,7 +576,7 @@
                 "emptyDescription": "Deposit or receive your first collectible!"
             },
             "details": {
-                "storageDepositDescription": "一个可退还的押金，用于将你的NFT易存储在Tangle上。",
+                "storageDepositDescription": "A refundable deposit is required to store your NFT on the Tangle.",
                 "menu": {
                     "download": "下载",
                     "setPfp": "Set NFT profile pic",
@@ -770,6 +774,10 @@
             "title": "清除主节点",
             "body": "您确定要清除 {url} 作为主节点吗？"
         },
+        "confirmAssetTracking": {
+            "title": "Add a new token",
+            "description": "\"{dappName}\" wants to add \"{assetName}\" to your wallet."
+        },
         "node": {
             "titleAdd": "添加节点",
             "titleUpdate": "更新节点",
@@ -962,12 +970,12 @@
                     "increaseVotingPower": {
                         "Pending": "Increasing voting power",
                         "Confirmed": "Increased voting power",
-                        "Conflicting": "Failed to increased voting power"
+                        "Conflicting": "Failed to increase voting power"
                     },
                     "decreaseVotingPower": {
                         "Pending": "Decreasing voting power",
                         "Confirmed": "Decreased voting power",
-                        "Conflicting": "Failed to decreased voting power"
+                        "Conflicting": "Failed to decrease voting power"
                     },
                     "startVoting": {
                         "Pending": "Voting for {proposalName}",
@@ -977,7 +985,7 @@
                     "stopVoting": {
                         "Pending": "Stopping voting for {proposalName}",
                         "Confirmed": "Stopped voting for {proposalName}",
-                        "Conflicting": "Failed to stopped voting for"
+                        "Conflicting": "Failed to stop voting for"
                     },
                     "changedVote": {
                         "Pending": "Changing vote for {proposalName}",
@@ -1039,7 +1047,7 @@
                 "tokenId": "资产 Id"
             }
         },
-        "importErc20Token": {
+        "importToken": {
             "title": "Import ERC20 token",
             "property": {
                 "tokenAddress": "Token address"
@@ -1260,7 +1268,7 @@
         "untrackToken": "Untrack token",
         "switchAccount": "Switch account",
         "syncAccounts": "Sync accounts",
-        "importErc20Token": "Import ERC20 token",
+        "importToken": "Import {type} token",
         "syncTokens": "Force sync tokens"
     },
     "general": {
@@ -1397,6 +1405,7 @@
         "claimedTime": "认领于",
         "nftId": "NFT ID",
         "aliasId": "別名 ID",
+        "tokenId": "Token ID",
         "governorAddress": "治理者地址",
         "stateControllerAddress": "状态控制器地址",
         "copiedToClipboard": "复制到剪贴板",
@@ -1453,6 +1462,7 @@
         "coinType": "Coin type",
         "custom": "Custom",
         "evmAddress": "EVM address",
+        "contractAddress": "Contract Address",
         "optionalField": "{field} (optional)",
         "gifted": "Gifted",
         "connected": "Connected",

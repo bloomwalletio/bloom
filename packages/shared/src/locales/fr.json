@@ -86,7 +86,7 @@
                     "description": "Please ensure that the official Ledger Live application is closed and follow the steps below.",
                     "connect": "Connect your Ledger device",
                     "unlock": "Unlock your Ledger with its pin",
-                    "open": "Open the Shimmer app on your Ledger",
+                    "open": "Open the {appName} app on your Ledger",
                     "tip": "Tips if your Ledger isn't connecting"
                 },
                 "ledgerConnectionGuide": {
@@ -120,6 +120,10 @@
                     "title": "Claim your Shimmer rewards",
                     "description": "Use the balance finder below, and check if your Shimmer staking rewards balance is correct before claiming.",
                     "success": "Successfully found {amount}"
+                },
+                "balanceFinder": {
+                    "title": "Find your recovered accounts",
+                    "description": "Use the balance finder below, and check if your account balances are correct before continuing."
                 }
             },
             "restoreFromMnemonic": {
@@ -248,7 +252,7 @@
             },
             "hiddenAccounts": {
                 "title": "Hidden accounts",
-                "description": "La sélection de ces options affichera les comptes qui étaient précédemment cachés"
+                "description": "Selecting this option will show wallets that were previously hidden"
             },
             "deleteProfile": {
                 "title": "Supprimer le profil",
@@ -572,7 +576,7 @@
                 "emptyDescription": "Deposit or receive your first collectible!"
             },
             "details": {
-                "storageDepositDescription": "A refundable deposit required to store your NFT on the Tangle.",
+                "storageDepositDescription": "A refundable deposit is required to store your NFT on the Tangle.",
                 "menu": {
                     "download": "Download",
                     "setPfp": "Définir une photo de profil NFT",
@@ -770,6 +774,10 @@
             "title": "Clear primary node",
             "body": "Are you sure you want to clear {url} as the primary node?"
         },
+        "confirmAssetTracking": {
+            "title": "Add a new token",
+            "description": "\"{dappName}\" wants to add \"{assetName}\" to your wallet."
+        },
         "node": {
             "titleAdd": "Ajouter un nœud",
             "titleUpdate": "Mettre à jour un noeud",
@@ -962,12 +970,12 @@
                     "increaseVotingPower": {
                         "Pending": "Increasing voting power",
                         "Confirmed": "Increased voting power",
-                        "Conflicting": "Failed to increased voting power"
+                        "Conflicting": "Failed to increase voting power"
                     },
                     "decreaseVotingPower": {
                         "Pending": "Decreasing voting power",
                         "Confirmed": "Decreased voting power",
-                        "Conflicting": "Failed to decreased voting power"
+                        "Conflicting": "Failed to decrease voting power"
                     },
                     "startVoting": {
                         "Pending": "Voting for {proposalName}",
@@ -977,7 +985,7 @@
                     "stopVoting": {
                         "Pending": "Stopping voting for {proposalName}",
                         "Confirmed": "Stopped voting for {proposalName}",
-                        "Conflicting": "Failed to stopped voting for"
+                        "Conflicting": "Failed to stop voting for"
                     },
                     "changedVote": {
                         "Pending": "Changing vote for {proposalName}",
@@ -1039,7 +1047,7 @@
                 "tokenId": "Token Id"
             }
         },
-        "importErc20Token": {
+        "importToken": {
             "title": "Importer un jeton ERC20",
             "property": {
                 "tokenAddress": "Adresse du jeton"
@@ -1260,7 +1268,7 @@
         "untrackToken": "Untrack token",
         "switchAccount": "Switch account",
         "syncAccounts": "Sync accounts",
-        "importErc20Token": "Import ERC20 token",
+        "importToken": "Import {type} token",
         "syncTokens": "Force sync tokens"
     },
     "general": {
@@ -1397,6 +1405,7 @@
         "claimedTime": "Réclamé à",
         "nftId": "NFT ID",
         "aliasId": "Alias ID",
+        "tokenId": "Token ID",
         "governorAddress": "Governor Address",
         "stateControllerAddress": "State Controller Address",
         "copiedToClipboard": "Copié dans le presse-papier",
@@ -1453,6 +1462,7 @@
         "coinType": "Type de token",
         "custom": "Personnalisé",
         "evmAddress": "Adresse EVM",
+        "contractAddress": "Contract Address",
         "optionalField": "{field} (optional)",
         "gifted": "Gifted",
         "connected": "Connected",

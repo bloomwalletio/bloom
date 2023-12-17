@@ -42,8 +42,7 @@ export class RestoreProfileRouter extends Subrouter<RestoreProfileRoute> {
                 if (_onboardingProfile.onboardingType === OnboardingType.Claim) {
                     nextRoute = RestoreProfileRoute.ClaimFinder
                 } else {
-                    this.parentRouter.next()
-                    return
+                    nextRoute = RestoreProfileRoute.BalanceFinder
                 }
                 break
             case RestoreProfileRoute.BalanceFinder:

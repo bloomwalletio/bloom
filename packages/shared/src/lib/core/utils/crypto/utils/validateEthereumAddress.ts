@@ -5,7 +5,7 @@ import { KECCAK_HASH_SIZE } from '../constants'
 
 export function validateEthereumAddress(address: string): void {
     // 1. Check prefix
-    if (!/^(0x)*/i.test(address)) {
+    if (!/^(0x)/i.test(address)) {
         throw new Error(localize('error.send.wrongAddressPrefix', { prefix: HEX_PREFIX }))
         // 2. Check hex format
     } else if (!/^(0x)?[0-9a-f]*/i.test(address)) {
