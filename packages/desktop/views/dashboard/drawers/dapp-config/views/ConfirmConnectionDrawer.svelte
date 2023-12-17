@@ -10,7 +10,7 @@
         persistDappNamespacesForDapp,
         sessionProposal,
     } from '@auxiliary/wallet-connect/stores'
-    import { approveSession } from '@auxiliary/wallet-connect/utils'
+    import { approveSession, rejectSession } from '@auxiliary/wallet-connect/utils'
     import {
         AccountSelection,
         ConnectionSummary,
@@ -18,10 +18,10 @@
         NetworkSelection,
         PermissionSelection,
     } from '../components'
-    import { closeDrawer } from '@desktop/auxiliary/drawer'
     import { handleError } from '@core/error/handlers'
     import { IAccountState } from '@core/account'
-    import { PopupId, openPopup } from '@desktop/auxiliary/popup'
+    import { DappConfigRoute } from '../dapp-config-route.enum'
+    import { closeDrawer } from '@desktop/auxiliary/drawer'
 
     export let drawerRouter: Router<unknown>
 
@@ -50,7 +50,12 @@
 
     function onBackClick(): void {
         if (currentStep === 0) {
-            drawerRouter.previous()
+            if (drawerRouter.hasHistory()) {
+                drawerRouter.previous()
+            } else {
+                rejectSession()
+                closeDrawer()
+            }
         } else {
             currentStep--
         }
@@ -80,8 +85,8 @@
             persistDappNamespacesForDapp(dappUrl, supportedNamespaces)
             $sessionProposal = undefined
 
-            openPopup({ id: PopupId.SuccessfulDappConnection, props: { url: dappUrl } })
-            closeDrawer()
+            drawerRouter.reset()
+            drawerRouter.goTo(DappConfigRoute.ConnectedDapps)
         } catch (error) {
             loading = false
             handleError(error)
@@ -150,7 +155,7 @@
             width="full"
             on:click={onBackClick}
             disabled={loading}
-            text={localize('actions.back')}
+            text={localize(!drawerRouter.hasHistory() && currentStep === 0 ? 'actions.cancel' : 'actions.back')}
         />
         {@const isLastStep = persistedNamespaces || currentStep === steps.length - 1}
         <Button

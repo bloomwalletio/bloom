@@ -16,11 +16,12 @@ export async function removeDapp(dapp: IConnectedDapp): Promise<void> {
                 reason: getSdkError('USER_DISCONNECTED'),
             })
         }
+    } catch (err) {
+        handleError(err)
+    } finally {
         if (dapp.metadata) {
             removeDappNamespacesForDapp(dapp.metadata.url)
         }
         setConnectedDapps()
-    } catch (err) {
-        handleError(err)
     }
 }

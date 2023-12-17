@@ -22,7 +22,12 @@ export async function buildEvmTransactionData(
     // Specified in wei = 1_000_000_000_000
     const gasPrice = await provider.eth.getGasPrice()
     const hexGasPrice = Converter.decimalToHex(Number(gasPrice), true)
-    const estimatedGas = await provider.eth.estimateGas({ from: originAddress, to: destinationAddress, data })
+    const estimatedGas = await provider.eth.estimateGas({
+        from: originAddress,
+        to: destinationAddress,
+        data,
+        value: amount,
+    })
     const gasLimit = Math.floor(estimatedGas * GAS_LIMIT_MULTIPLIER)
 
     const to = destinationAddress

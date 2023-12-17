@@ -23,9 +23,10 @@
     import DappDataBanner from '@components/DappDataBanner.svelte'
     import { onMount } from 'svelte'
     import { Alert, Table } from '@bloomwalletio/ui'
-    import { closePopup } from '@desktop/auxiliary/popup'
+    import { PopupId, closePopup, openPopup } from '@desktop/auxiliary/popup'
     import { truncateString } from '@core/utils'
     import { openUrlInBrowser } from '@core/app'
+    import { modifyPopupState } from '@desktop/auxiliary/popup/helpers'
 
     export let preparedTransaction: EvmTransactionData
     export let chain: IChain
@@ -74,11 +75,27 @@
 
     async function onConfirmClick(): Promise<void> {
         try {
-            await sendTransactionFromEvm(preparedTransaction, chain, signAndSend, callback)
+            const response = await sendTransactionFromEvm(preparedTransaction, chain, signAndSend)
+            modifyPopupState({ preventClose: false }, true)
+            callback({ result: response })
+            openPopup({
+                id: PopupId.SuccessfulDappInteraction,
+                props: {
+                    successMessage: getSuccessMessage(),
+                    url: dapp.metadata?.url,
+                },
+            })
         } catch (err) {
             callback({ error: err })
             handleError(err)
         }
+    }
+
+    function getSuccessMessage(): string {
+        const recipient = truncateString(String(preparedTransaction.to), 6, 6)
+        const assetName =
+            tokenTransfer?.token?.metadata?.name ?? baseCoinTransfer?.token?.metadata?.name ?? nft?.name ?? ''
+        return localize(`popups.${localeKey}.success`, { recipient, assetName })
     }
 
     function onCancelClick(): void {

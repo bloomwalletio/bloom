@@ -1,4 +1,3 @@
-import { initializeWalletConnect } from '@auxiliary/wallet-connect/actions'
 import { initializeRegisteredProposals, registerProposalsFromNodes } from '@contexts/governance/actions'
 import { setSelectedAccount } from '@core/account/actions'
 import { generateAndStoreActivitiesForAllAccounts } from '@core/activity/actions'
@@ -27,7 +26,9 @@ import { ProfileType } from '../../enums'
 import { ILoginOptions } from '../../interfaces'
 import {
     activeProfile,
+    getLastLoggedInProfileId,
     incrementLoginProgress,
+    lastLoggedInProfileId,
     resetLoginProgress,
     setTimeStrongholdLastUnlocked,
     updateActiveProfile,
@@ -38,6 +39,9 @@ import { checkAndUpdateActiveProfileNetwork } from './checkAndUpdateActiveProfil
 import { loadAccounts } from './loadAccounts'
 import { logout } from './logout'
 import { subscribeToWalletApiEventsForActiveProfile } from './subscribeToWalletApiEventsForActiveProfile'
+import { disconnectAllDapps } from '@auxiliary/wallet-connect/utils'
+import { initializeWalletConnect } from '@auxiliary/wallet-connect/actions'
+import { cleanupOnboarding } from '@contexts/onboarding'
 
 export async function login(loginOptions?: ILoginOptions): Promise<void> {
     const loginRouter = get(routerManager).getRouterForAppContext(AppContext.Login)
@@ -108,7 +112,12 @@ export async function login(loginOptions?: ILoginOptions): Promise<void> {
             pollLedgerDeviceState()
         }
 
+        if (getLastLoggedInProfileId() !== _activeProfile.id) {
+            void disconnectAllDapps()
+        }
+
         setSelectedAccount(lastUsedAccountIndex ?? loadedAccounts?.[0]?.index)
+        lastLoggedInProfileId.set(_activeProfile.id)
         lastActiveAt.set(new Date())
         loggedIn.set(true)
         setTimeout(() => {
@@ -122,6 +131,7 @@ export async function login(loginOptions?: ILoginOptions): Promise<void> {
             void initializeRegisteredProposals()
             void registerProposalsFromNodes(loadedAccounts)
         }
+        void cleanupOnboarding()
         void initializeWalletConnect()
     } catch (err) {
         handleError(err)

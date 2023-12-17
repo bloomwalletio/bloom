@@ -42,7 +42,7 @@
                     text: localize('notifications.newDappConnection.noProposal'),
                 })
                 closeDrawer()
-            }, 10000)
+            }, 5_000)
         }
     }
 
