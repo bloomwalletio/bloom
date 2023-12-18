@@ -1561,6 +1561,7 @@
         "status": {
             "label": "Status",
             "confirmed": "confirmed",
+            "timelocked": "Timelocked",
             "pending": "pending",
             "claimed": "claimed",
             "unclaimed": "unclaimed"
