@@ -65,7 +65,7 @@ export async function checkIfNftShouldBeDownloaded(
 function validateFile(nft: INft, contentType: string, contentLength: string): Partial<INftDownloadStatus> | undefined {
     const MAX_FILE_SIZE_IN_BYTES = (get(activeProfile)?.settings?.maxMediaSizeInMegaBytes ?? 0) * BYTES_PER_MEGABYTE
 
-    const isValidMediaType = isIrc27Nft(nft) ? contentType === nft.metadata?.type : true
+    const isValidMediaType = isIrc27Nft(nft) ? contentType === String(nft.metadata?.type) : true
     const isTooLarge = MAX_FILE_SIZE_IN_BYTES > 0 && Number(contentLength) > MAX_FILE_SIZE_IN_BYTES
     if (!isValidMediaType) {
         return { error: { type: DownloadErrorType.NotMatchingFileTypes } }
