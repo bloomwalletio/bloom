@@ -34,6 +34,8 @@
     let isBusy = false
     let hasUsedWalletFinder = false
 
+    let previousAccountsLength = $visibleActiveAccounts.length
+
     $: totalBalance = sumBalanceForAccounts($visibleActiveAccounts)
 
     async function searchForBalance(): Promise<void> {
@@ -42,6 +44,7 @@
             isBusy = true
             await (networkSearchMethod[network.id] ?? singleAddressSearch)()
             await loadAccounts()
+            previousAccountsLength = $visibleActiveAccounts.length
             previousAccountGapLimit = accountGapLimit
             hasUsedWalletFinder = true
         } catch (err) {
@@ -71,7 +74,8 @@
 
         await recoverAccounts(recoverAccountsPayload)
 
-        accountStartIndex += accountGapLimit
+        const numberOfAccountsFound = Math.max(0, $visibleActiveAccounts.length - previousAccountsLength)
+        accountStartIndex = accountStartIndex + accountGapLimit + numberOfAccountsFound
     }
 
     let searchCount = 0
