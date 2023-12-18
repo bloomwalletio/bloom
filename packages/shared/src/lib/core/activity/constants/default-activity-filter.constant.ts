@@ -34,6 +34,7 @@ export const DEFAULT_ACTIVITY_FILTER: ActivityFilter = {
         choices: [
             StatusFilterOption.Confirmed,
             StatusFilterOption.Pending,
+            StatusFilterOption.Timelocked,
             StatusFilterOption.Claimed,
             StatusFilterOption.Unclaimed,
         ],
