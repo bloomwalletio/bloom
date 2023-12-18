@@ -34,7 +34,7 @@
     let isBusy = false
     let hasUsedWalletFinder = false
 
-    let previousAccountsLength = $visibleActiveAccounts.length
+    let previousAccountsLength = 0
 
     $: totalBalance = sumBalanceForAccounts($visibleActiveAccounts)
 
