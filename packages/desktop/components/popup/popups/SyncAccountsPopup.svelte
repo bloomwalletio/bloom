@@ -71,7 +71,7 @@
 
         await recoverAccounts(recoverAccountsPayload)
 
-        accountStartIndex++
+        accountStartIndex += accountGapLimit
     }
 
     let searchCount = 0
