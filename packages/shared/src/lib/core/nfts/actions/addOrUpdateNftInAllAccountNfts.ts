@@ -18,7 +18,7 @@ export function addOrUpdateNftInAllAccountNfts(accountIndex: number, ...newNfts:
     })
 }
 
-export function addOrUpdateNftInAllAccountNftsForAllAccounts(...newNfts: INft[]): void {
+export function addOrUpdateAllAccountNfts(...newNfts: INft[]): void {
     allAccountNfts.update((state) => {
         for (const accountNfts of Object.values(state)) {
             for (const newNft of newNfts) {
