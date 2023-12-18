@@ -7,8 +7,8 @@ export async function buildNftFromPersistedErc721Nft(nft: IPersistedErc721Nft): 
     const { address } = contractMetadata
 
     const id = tokenId ? `${address}:${tokenId}` : address
-    const composedUrl = composeUrlFromNftUri(metadata?.image) ?? ''
-    const downloadUrl = metadata?.image
+    const composedUrl = composeUrlFromNftUri(metadata?.uri) ?? ''
+    const downloadUrl = composeUrlFromNftUri(metadata?.uri) ?? ''
     const filePath = `${getActiveProfile().id}/nfts/${id}`
     const downloadMetadata = {
         error: undefined,
