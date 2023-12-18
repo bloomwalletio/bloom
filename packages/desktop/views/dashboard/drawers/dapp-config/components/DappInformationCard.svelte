@@ -2,6 +2,7 @@
     import { openUrlInBrowser } from '@core/app/utils'
     import { Avatar, IconName, Link, Text } from '@bloomwalletio/ui'
     import { CoreTypes } from '@walletconnect/types'
+    import { localize } from '@core/i18n'
 
     export let metadata: CoreTypes.Metadata
 </script>
@@ -14,7 +15,7 @@
     {/if}
     <div class="flex flex-col">
         <Text type="body2">
-            {metadata?.name}
+            {metadata?.name ?? localize('general.unknown')}
         </Text>
         <Link text={metadata?.url} on:click={() => openUrlInBrowser(metadata.url)} />
     </div>
