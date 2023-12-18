@@ -7,7 +7,7 @@
     import PopupTemplate from '../PopupTemplate.svelte'
     import { closePopup } from '@desktop/auxiliary/popup'
     import { showNotification } from '@auxiliary/notification'
-    import { addOrUpdateAllAccountNfts, persistErc721Nft } from '@core/nfts/actions'
+    import { updateAllAccountNfts, persistErc721Nft } from '@core/nfts/actions'
     import { buildNftFromPersistedErc721Nft } from '@core/nfts/utils'
 
     let busy = false
@@ -34,7 +34,7 @@
             }
             const nft = await buildNftFromPersistedErc721Nft(persistedErc721Nft)
 
-            addOrUpdateAllAccountNfts(nft)
+            updateAllAccountNfts(nft)
             showNotification({
                 variant: 'success',
                 text: localize('popups.importToken.success', {

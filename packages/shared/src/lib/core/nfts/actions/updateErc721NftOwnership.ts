@@ -1,5 +1,5 @@
 import { IAccountState } from '@core/account'
-import { addOrUpdateNftInAllAccountNfts } from './addOrUpdateNftInAllAccountNfts'
+import { updateAllAccountNftsForAccount } from './updateAllAccountNfts'
 import { NftStandard } from '../enums'
 import { IErc721Nft } from '../interfaces'
 import { getAllAccountNfts } from '../stores'
@@ -14,7 +14,7 @@ export async function updateErc721NftsOwnership(account: IAccountState): Promise
     async function check(nft: IErc721Nft): Promise<void> {
         const isSpendable = await isErc721NftSpendable(nft)
         if (nft.isSpendable !== isSpendable) {
-            addOrUpdateNftInAllAccountNfts(account.index, { ...nft, isSpendable })
+            updateAllAccountNftsForAccount(account.index, { ...nft, isSpendable })
         }
     }
 

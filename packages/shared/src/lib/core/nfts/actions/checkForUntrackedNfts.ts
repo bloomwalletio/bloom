@@ -6,7 +6,7 @@ import { IChain, IExplorerAsset } from '@core/network/interfaces'
 
 import { NftStandard } from '../enums'
 import { persistNftWithContractMetadata } from './persistNftWithContractMetadata'
-import { addOrUpdateAllAccountNfts } from './addOrUpdateNftInAllAccountNfts'
+import { updateAllAccountNfts } from './updateAllAccountNfts'
 import { buildNftFromPersistedErc721Nft } from '../utils'
 import { INft } from '../interfaces'
 
@@ -62,7 +62,7 @@ async function persistNftsFromExplorerAsset(evmAddress: string, asset: IExplorer
         })
 
         const nfts: INft[] = (await Promise.all(nftPromises)).filter(Boolean) as unknown as INft[]
-        addOrUpdateAllAccountNfts(...nfts)
+        updateAllAccountNfts(...nfts)
     } catch (err) {
         console.error(err)
         throw new Error(`Unable to persist NFT with address ${address}`)
