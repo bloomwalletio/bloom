@@ -17,7 +17,7 @@
     export let explorerEndpoint: string | undefined
 
     const { name, downloadMetadata, timelockTime } = nft
-    const description = isIrc27Nft(nft) ? nft.metadata.description : nft.tokenMetadata.description
+    const description = nft.metadata?.description
 
     $: timeDiff = timelockTime ? getTimeDifference(new Date(timelockTime), $time) : undefined
     $: alertText = getAlertText(downloadMetadata)

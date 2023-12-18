@@ -21,5 +21,5 @@ export interface IPersistedErc721Nft extends IBasePersistedNft {
     networkId: NetworkId
     contractMetadata: IErc721ContractMetadata
     tokenId?: string
-    tokenMetadata?: IErc721TokenMetadata
+    metadata?: IErc721TokenMetadata
 }

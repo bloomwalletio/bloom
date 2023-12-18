@@ -3,12 +3,12 @@ import { INft, IPersistedErc721Nft } from '../interfaces'
 import { composeUrlFromNftUri, isErc721NftSpendable, MimeType, NftStandard } from '@core/nfts'
 
 export async function buildNftFromPersistedErc721Nft(nft: IPersistedErc721Nft): Promise<INft> {
-    const { contractMetadata, networkId, ownerAddress, tokenId, tokenMetadata } = nft
+    const { contractMetadata, networkId, ownerAddress, tokenId, metadata } = nft
     const { address } = contractMetadata
 
     const id = tokenId ? `${address}:${tokenId}` : address
-    const composedUrl = composeUrlFromNftUri(tokenMetadata?.image) ?? ''
-    const downloadUrl = tokenMetadata?.image
+    const composedUrl = composeUrlFromNftUri(metadata?.image) ?? ''
+    const downloadUrl = metadata?.image
     const filePath = `${getActiveProfile().id}/nfts/${id}`
     const downloadMetadata = {
         error: undefined,
@@ -24,10 +24,10 @@ export async function buildNftFromPersistedErc721Nft(nft: IPersistedErc721Nft): 
         networkId,
         isSpendable,
         address: contractMetadata.address,
-        name: tokenMetadata?.name ?? contractMetadata.name,
-        description: tokenMetadata?.description,
+        name: metadata?.name ?? contractMetadata.name,
+        description: metadata?.description,
         contractMetadata: nft.contractMetadata,
-        ...(tokenMetadata && { tokenMetadata }),
+        ...(metadata && { metadata }),
         type: MimeType.ImagePng,
         ...(tokenId && { tokenId }),
         composedUrl,

@@ -2,7 +2,7 @@ import { Erc721InterfaceId } from '@core/layer-2/enums'
 import { Contract } from '@core/layer-2/types'
 import { NetworkId } from '@core/network/types'
 
-import { NftStandard } from '../enums'
+import { MimeType, NftStandard } from '../enums'
 import { IErc721ContractMetadata, IErc721TokenMetadata, IPersistedErc721Nft } from '../interfaces'
 import { composeUrlFromNftUri } from '.'
 
@@ -32,7 +32,7 @@ export async function buildPersistedErc721Nft(
             const response = await fetch(composedTokenUri)
             const metadata = (await response.json()) as IErc721TokenMetadata
             if (metadata) {
-                persistedNft.tokenMetadata = metadata
+                persistedNft.metadata = { ...metadata, type: 'image/png' as MimeType }
                 persistedNft.downloadUrl = composeUrlFromNftUri(metadata.image)
             }
         } catch (err) {
