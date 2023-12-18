@@ -5,109 +5,136 @@
     import { DEFAULT_SYNC_OPTIONS } from '@core/account/constants'
     import { localize } from '@core/i18n'
     import { LedgerAppName, checkOrConnectLedger } from '@core/ledger'
+    import { StardustNetworkId, SupportedNetworkId } from '@core/network'
     import { ProfileType } from '@core/profile'
     import { RecoverAccountsPayload, createAccount, recoverAccounts } from '@core/profile-manager'
     import { DEFAULT_ACCOUNT_RECOVERY_CONFIGURATION } from '@core/profile/constants'
     import { checkOrUnlockStronghold } from '@core/stronghold/actions'
+    import { formatTokenAmountBestMatch } from '@core/token'
     import { OnboardingLayout } from '@views/components'
     import { onDestroy, onMount } from 'svelte'
     import { restoreProfileRouter } from '../restore-profile-router'
-    import { SupportedNetworkId } from '@core/network'
-    import { formatTokenAmountBestMatch } from '@core/token'
 
-    const initialAccountRange = DEFAULT_ACCOUNT_RECOVERY_CONFIGURATION[$onboardingProfile.type].initialAccountRange
-    const addressGapLimitIncrement = DEFAULT_ACCOUNT_RECOVERY_CONFIGURATION[$onboardingProfile.type].addressGapLimit
-    let previousAccountGapLimit = 0
-    let previousAddressGapLimit = 0
-    let currentAccountGapLimit = initialAccountRange
-    let currentAddressGapLimit = addressGapLimitIncrement
+    interface IAccountBalance {
+        alias: string
+        total: string
+    }
+
+    const { network, type } = $onboardingProfile
+
+    const DEFAULT_CONFIG = DEFAULT_ACCOUNT_RECOVERY_CONFIGURATION[type]
+
+    let accountStartIndex = 0
+    let accountGapLimit = DEFAULT_CONFIG.initialAccountRange
+
+    let addressStartIndex = 0
+    const addressGapLimit = DEFAULT_CONFIG.addressGapLimit
+
     let error = ''
     let isBusy = false
 
-    async function onFindBalancesClick(): Promise<void> {
-        await checkOnboardingProfileAuth(async () => await findBalances(SearchMethod.SingleAddress))
+    let accountsBalances: IAccountBalance[] = []
+
+    const networkSearchMethod: { [key in StardustNetworkId]?: () => Promise<void> } = {
+        [StardustNetworkId.Iota]: multiAddressSearch,
+        [StardustNetworkId.Shimmer]: singleAddressSearch,
+        [StardustNetworkId.Testnet]: singleAddressSearch,
     }
 
-    let accountsBalances: { alias: string; total: string }[] = []
+    async function singleAddressSearch(): Promise<void> {
+        const recoverAccountsPayload: RecoverAccountsPayload = {
+            accountStartIndex,
+            accountGapLimit,
+            addressGapLimit: 1,
+            syncOptions: { ...DEFAULT_SYNC_OPTIONS, addressStartIndex: 0 },
+        }
 
-    interface ISearch {
-        accountStartIndex: number
-        accountGapLimit: number
-        accountEndIndex: number
-        addressStartIndex: number
-        addressGapLimit: number
-        addressEndIndex: number
-        searchSpace: number
-        estimatedTime: number
-        actualTime?: number
-    }
-    const searches: ISearch[] = []
+        accountsBalances = await recoverAndGetBalances(recoverAccountsPayload)
+        const numberOfAccountsFound = Math.max(0, accountsBalances.length - accountStartIndex)
 
-    enum SearchMethod {
-        SingleAddress = 'SingleAddress',
-        Address = 'MultiAddress',
+        accountStartIndex = accountStartIndex + accountGapLimit + numberOfAccountsFound
     }
 
-    async function findBalances(method: SearchMethod): Promise<void> {
-        if (method === SearchMethod.SingleAddress) {
-            try {
-                error = ''
-                isBusy = true
-                const recoverAccountsPayload: RecoverAccountsPayload = {
-                    accountStartIndex: 0,
-                    accountGapLimit: currentAccountGapLimit,
-                    addressGapLimit: currentAddressGapLimit,
-                    syncOptions: { ...DEFAULT_SYNC_OPTIONS, addressStartIndex: 0 },
-                }
-                const search: ISearch = {
-                    accountStartIndex: recoverAccountsPayload.accountStartIndex,
-                    accountGapLimit: recoverAccountsPayload.accountGapLimit,
-                    accountEndIndex: recoverAccountsPayload.accountGapLimit,
-                    addressStartIndex: recoverAccountsPayload.syncOptions.addressStartIndex,
-                    addressGapLimit: recoverAccountsPayload.addressGapLimit,
-                    addressEndIndex: recoverAccountsPayload.addressGapLimit,
-                    searchSpace: recoverAccountsPayload.accountGapLimit * recoverAccountsPayload.addressGapLimit,
-                    estimatedTime: 1 * recoverAccountsPayload.accountGapLimit * recoverAccountsPayload.addressGapLimit,
-                }
+    let searchCount = 0
+    let depthSearchCount = 0
+    let breadthSearchCountSinceLastDepthSearch = 0
+    let depthSearch = false
+    // Please don't modify this algorithm without consulting with the team
+    async function multiAddressSearch(): Promise<void> {
+        let recoverAccountsPayload: RecoverAccountsPayload
 
-                const startTime = new Date().getTime()
-
-                let accounts: IAccount[] = []
-                accounts = [...accounts, ...(await recoverAccounts(recoverAccountsPayload))]
-
-                if (accountsBalances.length === 0 && accounts.length === 0) {
-                    accounts = [await createAccount({ alias: `${localize('general.account')} 1` })]
-                }
-
-                accountsBalances = await Promise.all(
-                    accounts.map(async (account: IAccount) => {
-                        const alias = await account.getMetadata().alias
-                        const balance = await account.getBalance()
-                        const formattedBalance = formatTokenAmountBestMatch(
-                            Number(balance?.baseCoin?.total ?? 0),
-                            $onboardingProfile?.network?.baseToken
-                        )
-                        return {
-                            alias,
-                            total: formattedBalance,
-                        }
-                    })
-                )
-
-                const endTime = new Date().getTime()
-                search.actualTime = endTime - startTime
-                searches.push(search)
-
-                previousAccountGapLimit = currentAccountGapLimit
-                previousAddressGapLimit = currentAddressGapLimit
-                currentAccountGapLimit += initialAccountRange
-                currentAddressGapLimit += addressGapLimitIncrement
-            } catch (err) {
-                error = localize(err.error)
-                console.error(error)
-            } finally {
-                isBusy = false
+        if (
+            !depthSearch &&
+            breadthSearchCountSinceLastDepthSearch &&
+            breadthSearchCountSinceLastDepthSearch % accountGapLimit === 0
+        ) {
+            // Depth search
+            depthSearch = true
+            recoverAccountsPayload = {
+                accountStartIndex: accountGapLimit,
+                accountGapLimit: 1,
+                addressGapLimit: (searchCount - depthSearchCount) * addressGapLimit,
+                syncOptions: { ...DEFAULT_SYNC_OPTIONS, addressStartIndex: 0 },
             }
+            breadthSearchCountSinceLastDepthSearch = 0
+            depthSearchCount++
+            accountGapLimit++
+        } else {
+            // Breadth search
+            depthSearch = false
+            recoverAccountsPayload = {
+                accountStartIndex,
+                accountGapLimit,
+                addressGapLimit: addressGapLimit,
+                syncOptions: { ...DEFAULT_SYNC_OPTIONS, addressStartIndex },
+            }
+            breadthSearchCountSinceLastDepthSearch++
+            addressStartIndex += addressGapLimit
+        }
+
+        accountsBalances = await recoverAndGetBalances(recoverAccountsPayload)
+
+        searchCount++
+    }
+
+    async function findBalances(): Promise<void> {
+        try {
+            error = ''
+            isBusy = true
+            await (networkSearchMethod[network.id] ?? singleAddressSearch)()
+        } catch (err) {
+            error = localize(err.error)
+            console.error(error)
+        } finally {
+            isBusy = false
+        }
+    }
+
+    async function recoverAndGetBalances(payload: RecoverAccountsPayload): Promise<IAccountBalance[]> {
+        const accounts = await recoverAccounts(payload)
+        return await Promise.all(accounts.map(getAccountBalanceFromAccount))
+    }
+
+    async function getAccountBalanceFromAccount(account: IAccount): Promise<IAccountBalance> {
+        const alias = (await account.getMetadata())?.alias
+
+        const balance = await account.getBalance()
+        const baseToken = network.baseToken
+        const baseCoinBalance = Number(balance?.baseCoin?.total) ?? 0
+        const total = formatTokenAmountBestMatch(baseCoinBalance, baseToken)
+
+        return { alias, total }
+    }
+
+    function checkOnboardingProfileAuth(callback) {
+        if (type === ProfileType.Software) {
+            return checkOrUnlockStronghold(callback)
+        } else {
+            return checkOrConnectLedger(
+                callback,
+                false,
+                network.id === SupportedNetworkId.Iota ? LedgerAppName.Iota : LedgerAppName.Shimmer
+            )
         }
     }
 
@@ -115,20 +142,16 @@
         $restoreProfileRouter.next()
     }
 
-    function checkOnboardingProfileAuth(callback) {
-        if ($onboardingProfile.type === ProfileType.Software) {
-            return checkOrUnlockStronghold(callback)
-        } else {
-            return checkOrConnectLedger(
-                callback,
-                false,
-                $onboardingProfile?.network.id === SupportedNetworkId.Iota ? LedgerAppName.Iota : LedgerAppName.Shimmer
-            )
-        }
+    async function onFindBalancesClick(): Promise<void> {
+        await checkOnboardingProfileAuth(async () => await findBalances())
     }
 
     onMount(async () => {
-        await checkOnboardingProfileAuth(async () => await findBalances(SearchMethod.SingleAddress))
+        await onFindBalancesClick()
+        if (accountsBalances.length === 0) {
+            const account = await createAccount({ alias: `${localize('general.account')} 1` })
+            accountsBalances = [await getAccountBalanceFromAccount(account)]
+        }
     })
 
     onDestroy(() => {})
